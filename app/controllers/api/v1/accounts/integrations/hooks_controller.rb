@@ -1,6 +1,8 @@
-class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Integrations::BaseController
   before_action :fetch_hook, except: [:create]
   before_action :check_authorization
+  before_action :ensure_shopify_enabled, if: :shopify_hook?
+  before_action :reject_stripe_hook
 
   def create
     @hook = Current.account.hooks.create!(permitted_params)
@@ -31,15 +33,27 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
 
   private
 
+  def reject_stripe_hook
+    app_id = action_name == 'create' ? permitted_params[:app_id] : @hook.app_id
+    return unless app_id == 'stripe'
+
+    # Stripe credentials and connection changes are managed by its OAuth and disconnect endpoints.
+    head :not_found
+  end
+
   def fetch_hook
     @hook = Current.account.hooks.find(params[:id])
   end
 
-  def check_authorization
-    authorize(:hook)
-  end
-
   def permitted_params
     params.require(:hook).permit(:app_id, :inbox_id, :status, settings: {})
+  end
+
+  def shopify_hook?
+    action_name == 'create' ? permitted_params[:app_id] == 'shopify' : @hook.app_id == 'shopify'
+  end
+
+  def ensure_shopify_enabled
+    head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
   end
 end

@@ -44,6 +44,35 @@
         "TITLE": "หมายเลขบัญชี",
         "NOTE": "โปรดระบุหมายเลขบัญชีหากคุณต้องการเชื่อมต่อกับ API"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Translate",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "เชื่อมต่อ",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Upgrade"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
         "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
@@ -51,7 +80,7 @@
           "LABEL": "Inactivity duration",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Auto resolve settings updated successfully",
             "ERROR": "Failed to update auto resolve settings"
@@ -104,6 +133,14 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Chatwoot เวอร์ชั่น {latestChatwootVersion} พร้อมสำหรับการอัปเดต กรุณาอัปเดตเวอร์ชั่นของคุณ",
     "LEARN_MORE": "เรียนรู้เพิ่มเติม",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
@@ -137,37 +175,6 @@
       "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "เลือก",
       "SELECT": "เลือก"
-    }
-  },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "การแจ้งเตือน",
-    "MARK_ALL_DONE": "ทำเครื่องหมายว่าเสร็จแล้วทั้งหมด",
-    "DELETE_TITLE": "ลบ",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "การแจ้งเตือนที่ยังไม่ได้อ่าน",
-      "ALL_NOTIFICATIONS": "ดูการแจ้งเตือนทั้งหมด",
-      "LOADING_UNREAD_MESSAGE": "กำลังโหลดการแจ้งเตือนที่ยังไม่ได้อ่าน",
-      "EMPTY_MESSAGE": "ไม่มีการแจ้งเตือนที่ยังไม่ได้อ่าน"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "กำลังโหลดการแจ้งเตือน",
-      "404": "ไม่มีการแจ้งเตือน",
-      "TABLE_HEADER": [
-        "ชื่อ",
-        "หมายเลขโทรศัพท์",
-        "การสนทนา",
-        "ติดต่อครั้งสุดท้าย"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "สร้างการสนทนาใหม่",
-      "conversation_assignment": "การสนทนาที่ถูกมอบหมาย",
-      "assigned_conversation_new_message": "ข้อความใหม่",
-      "participating_conversation_new_message": "ข้อความใหม่",
-      "conversation_mention": "กล่าวถึง",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -192,6 +199,7 @@
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "เปลี่ยนทีม",
       "SNOOZE_CONVERSATION": "พักการสนทนา",
+      "EXECUTE_MACRO": "Execute Macro",
       "ADD_LABEL": "เพิ่มป้ายกำกับให้การสนทนา",
       "REMOVE_LABEL": "ลบป้ายกำกับออกจากการสนทนา",
       "SETTINGS": "ตั้งค่า",
@@ -200,28 +208,44 @@
       "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
+      "GO_TO_MY_INBOX": "Go to My Inbox",
       "GO_TO_CONVERSATION_DASHBOARD": "ไปยังแดชบอร์ดการสนทนา",
       "GO_TO_CONTACTS_DASHBOARD": "ไปยังแดชบอร์ดรายชื่อผู้ติดต่อ",
+      "GO_TO_CAPTAIN": "Go to Captain",
+      "GO_TO_CALLS_DASHBOARD": "Go to Calls Dashboard",
+      "GO_TO_CAMPAIGNS": "Go to Campaigns",
+      "GO_TO_HELP_CENTER": "Go to Help Center",
       "GO_TO_REPORTS_OVERVIEW": "ไปยังภาพรวมรายงาน",
       "GO_TO_CONVERSATION_REPORTS": "ไปที่หน้ารายงานการสนทนา",
       "GO_TO_AGENT_REPORTS": "ไปที่หน้ารายงานพนักงาน",
       "GO_TO_LABEL_REPORTS": "ไปที่หน้ารายงานป้ายกำกับ",
       "GO_TO_INBOX_REPORTS": "ไปที่หน้ารายงานกล่องข้อความ",
       "GO_TO_TEAM_REPORTS": "ไปที่หน้ารายงานทีม",
+      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
+      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
+      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
       "GO_TO_SETTINGS_AGENTS": "ไปที่หน้าจัดการพนักงาน",
       "GO_TO_SETTINGS_TEAMS": "ไปที่หน้าจัดการทีม",
       "GO_TO_SETTINGS_INBOXES": "ไปที่หน้าจัดการกล่องข้อความ",
+      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
       "GO_TO_SETTINGS_LABELS": "ไปที่หน้าจัดการป้ายกำกับ",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
+      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "ไปที่หน้าจัดการข้อความลัด",
+      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
       "GO_TO_SETTINGS_APPLICATIONS": "ไปที่หน้าตั้งค่าโปรแกรม",
+      "GO_TO_SETTINGS_DATA": "Go to Data",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "ไปที่หน้าตั้งค่าบัญชี",
       "GO_TO_SETTINGS_PROFILE": "ไปที่หน้าตั้งค่าข้อมูลส่วนตัว",
-      "GO_TO_NOTIFICATIONS": "ไปที่หน้าการแจ้งเตือน",
       "ADD_LABELS_TO_CONVERSATION": "เพิ่มป้ายกำกับให้บทสนทนา",
       "ASSIGN_AN_AGENT": "กำหนดพนักงาน",
       "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "กำหนดทีม",
+      "EXECUTE_A_MACRO": "Execute a macro",
       "MUTE_CONVERSATION": "ปิดการแจ้งเตือน",
       "UNMUTE_CONVERSATION": "เปิดการแจ้งเตือน",
       "REMOVE_LABEL_FROM_CONVERSATION": "ลบป้ายกำกับออกจากการสนทนา",

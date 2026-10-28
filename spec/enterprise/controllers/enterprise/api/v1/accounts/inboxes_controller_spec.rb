@@ -4,6 +4,37 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 
+  describe 'GET /api/v1/accounts/:account_id/inboxes' do
+    it 'preloads announcement attachments and blobs for the inbox list' do
+      channels = create_list(:channel_twilio_sms, 2, account: account)
+      channels.each do |channel|
+        channel.inbox.out_of_hours_call_audio.attach(io: StringIO.new('audio'), filename: 'announcement.mp3', content_type: 'audio/mpeg')
+      end
+      create(:channel_twilio_sms, account: account)
+      headers = admin.create_new_auth_token
+      attachment_queries = []
+      blob_queries = []
+      subscriber = lambda do |*args|
+        payload = args.last
+        blob_queries << payload if payload[:name] == 'ActiveStorage::Blob Load'
+        next unless payload[:name] == 'ActiveStorage::Attachment Load'
+        next unless payload[:binds].any? { |bind| bind.value_for_database == 'out_of_hours_call_audio' }
+
+        attachment_queries << payload
+      end
+
+      ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record') do
+        get "/api/v1/accounts/#{account.id}/inboxes", headers: headers, as: :json
+      end
+
+      expect(response).to have_http_status(:ok)
+      expect(attachment_queries.size).to eq(1)
+      expect(blob_queries.size).to eq(1)
+      announcements = response.parsed_body.fetch('payload').filter_map { |inbox| inbox['out_of_hours_call_audio_url'] }
+      expect(announcements.size).to eq(2)
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/inboxes' do
     let(:inbox) { create(:inbox, account: account) }
 
@@ -31,7 +62,6 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
                      headers: { 'Content-Type' => 'application/json' })
         allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService,
                                                                                             perform: "AP#{SecureRandom.hex(16)}"))
-
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
              params: { name: 'Voice Inbox',
@@ -45,6 +75,30 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Voice Inbox')
         expect(response.body).to include('+15551234567')
+        # the number must also receive SMS, not just calls
+        expect(Channels::Twilio::WebhookSetupJob).to have_been_enqueued
+      end
+
+      it 'leaves the twilio number untouched when the inbox fails to save' do
+        account.enable_features('channel_voice')
+        account.save!
+        stub_request(:get, %r{api\.twilio\.com/2010-04-01/Accounts/.*/IncomingPhoneNumbers\.json})
+          .to_return(status: 200, body: { incoming_phone_numbers: [{ capabilities: { 'voice' => true } }] }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+        allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService,
+                                                                                            perform: "AP#{SecureRandom.hex(16)}"))
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { channel: { type: 'voice', phone_number: '+15551234567',
+                                  provider_config: { account_sid: "AC#{SecureRandom.hex(16)}",
+                                                     auth_token: SecureRandom.hex(16),
+                                                     api_key_sid: SecureRandom.hex(8),
+                                                     api_key_secret: SecureRandom.hex(16) } } },
+             as: :json
+
+        expect(response).not_to have_http_status(:success)
+        # the rollback discarded the channel, so the number must not be left pointing at us
+        expect(Channels::Twilio::WebhookSetupJob).not_to have_been_enqueued
       end
     end
   end
@@ -98,6 +152,57 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
         expect(channel.reload.inbound_calls_enabled?).to be true
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/set_call_recording' do
+    before do
+      allow(Twilio::VoiceWebhookSetupService).to receive(:new)
+        .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
+    end
+
+    context 'when administrator' do
+      it 'turns recording and transcription off on a Twilio voice inbox' do
+        channel = create(:channel_twilio_sms, :with_voice, account: account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/set_call_recording",
+             headers: admin.create_new_auth_token,
+             params: { recording_enabled: false, transcription_enabled: false },
+             as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(channel.reload).to have_attributes(recording_enabled?: false, transcription_enabled?: false)
+      end
+    end
+
+    context 'when the inbox has no calling' do
+      it 'is rejected' do
+        inbox = create(:inbox, account: account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_call_recording",
+             headers: admin.create_new_auth_token,
+             params: { recording_enabled: false, transcription_enabled: false },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Inbox does not support calling')
+      end
+    end
+
+    context 'when agent' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'is forbidden' do
+        channel = create(:channel_twilio_sms, :with_voice, account: account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/set_call_recording",
+             headers: agent.create_new_auth_token,
+             params: { recording_enabled: false, transcription_enabled: false },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(channel.reload.recording_enabled?).to be true
       end
     end
   end

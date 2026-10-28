@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useReportMetrics } from 'dashboard/composables/useReportMetrics';
-import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
+import { GROUP_BY_FILTER } from './constants';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { formatTime } from '@chatwoot/utils';
@@ -9,6 +9,24 @@ import { useAlert } from 'dashboard/composables';
 import ChartStats from './components/ChartElements/ChartStats.vue';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import ReportDrilldownDrawer from './components/ReportDrilldownDrawer.vue';
+
+const DURATION_UNITS_IN_SECONDS = [
+  1,
+  60,
+  60 * 60,
+  24 * 60 * 60,
+  7 * 24 * 60 * 60,
+  30 * 24 * 60 * 60,
+  365 * 24 * 60 * 60,
+];
+const DURATION_STEP_MULTIPLIERS = [1, 2, 3, 5, 6, 10, 12, 15, 30];
+const DURATION_STEP_SIZES = [
+  ...new Set(
+    DURATION_UNITS_IN_SECONDS.flatMap(unit =>
+      DURATION_STEP_MULTIPLIERS.map(multiplier => unit * multiplier)
+    )
+  ),
+].sort((first, second) => first - second);
 
 export default {
   components: { ChartStats, BarChart, ReportDrilldownDrawer },
@@ -98,18 +116,17 @@ export default {
         KEY: this.reportKeys[key],
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
         INFO_TEXT: infoText[key],
-        TOOLTIP_TEXT: `REPORT.METRICS.${key}.TOOLTIP_TEXT`,
         trend: this.calculateTrend(this.reportKeys[key]),
       }));
     },
   },
   methods: {
-    getCollection(metric) {
+    getChartData(metric) {
       if (!this.accountReport.data[metric.KEY]) {
-        return {};
+        return { categories: [], series: [] };
       }
       const data = this.accountReport.data[metric.KEY];
-      const labels = data.map(element => {
+      const categories = data.map(element => {
         if (this.groupBy?.period === GROUP_BY_FILTER[2].period) {
           let week_date = new Date(fromUnixTime(element.timestamp));
           const first_day = week_date.getDate() - week_date.getDay();
@@ -129,54 +146,72 @@ export default {
         }
         return format(fromUnixTime(element.timestamp), 'dd-MMM');
       });
-      const datasets = METRIC_CHART[metric.KEY].datasets.map(dataset => {
-        switch (dataset.type) {
-          case 'bar':
-            return {
-              ...dataset,
-              yAxisID: 'y',
-              label: metric.NAME,
-              data: data.map(element => element.value),
-            };
-          case 'line':
-            return {
-              ...dataset,
-              yAxisID: 'y',
-              label: this.metrics[0].NAME,
-              data: data.map(element => element.count),
-            };
-          default:
-            return dataset;
-        }
-      });
+
       return {
-        labels,
-        datasets,
+        categories,
+        series: [
+          {
+            id: metric.KEY,
+            label:
+              metric.KEY === 'reply_time'
+                ? this.$t('REPORT.METRICS.REPLY_TIME.TOOLTIP_LABEL')
+                : metric.NAME,
+            color: 'rgb(var(--blue-9))',
+            data,
+          },
+        ],
       };
     },
-    getChartOptions(metric) {
-      const options = {
-        scales: METRIC_CHART[metric.KEY].scales,
+    getChartAriaLabel(metric) {
+      const groupingLabels = {
+        day: this.$t('REPORT.GROUPING_OPTIONS.DAY'),
+        week: this.$t('REPORT.GROUPING_OPTIONS.WEEK'),
+        month: this.$t('REPORT.GROUPING_OPTIONS.MONTH'),
+        year: this.$t('REPORT.GROUPING_OPTIONS.YEAR'),
       };
-
-      // Only add tooltip configuration for time-based metrics
-      if (this.isAverageMetricType(metric.KEY)) {
-        options.plugins = {
-          tooltip: {
-            callbacks: {
-              label: ({ raw, dataIndex }) => {
-                return this.$t(metric.TOOLTIP_TEXT, {
-                  metricValue: formatTime(raw || 0),
-                  conversationCount:
-                    this.accountReport.data[metric.KEY][dataIndex]?.count || 0,
-                });
-              },
-            },
-          },
-        };
+      return `${metric.NAME}, ${groupingLabels[this.groupBy.period]}`;
+    },
+    getValueFormatter(metric) {
+      if (!this.isAverageMetricType(metric.KEY)) {
+        return value => Number(value).toLocaleString();
       }
 
-      return options;
+      return (value, dataPoint) => {
+        if (!dataPoint && value === 0) return '0';
+
+        return formatTime(value || 0);
+      };
+    },
+    getPointDescription(metric) {
+      if (metric.KEY === 'avg_first_response_time') {
+        return dataPoint =>
+          this.$t('REPORT.METRICS.FIRST_RESPONSE_TIME.TOOLTIP_DESCRIPTION', {
+            count: dataPoint.count || 0,
+          });
+      }
+
+      if (metric.KEY === 'avg_resolution_time') {
+        return dataPoint =>
+          this.$t('REPORT.METRICS.RESOLUTION_TIME.TOOLTIP_DESCRIPTION', {
+            count: dataPoint.count || 0,
+          });
+      }
+
+      if (metric.KEY !== 'reply_time') return undefined;
+
+      return dataPoint =>
+        this.$t('REPORT.METRICS.REPLY_TIME.TOOLTIP_DESCRIPTION', {
+          count: dataPoint.count || 0,
+        });
+    },
+    getDurationStepSize({ min, max, tickCount }) {
+      const targetStep = (max - min) / Math.max(tickCount - 1, 1);
+
+      return DURATION_STEP_SIZES.reduce((closestStep, step) => {
+        return Math.abs(step - targetStep) < Math.abs(closestStep - targetStep)
+          ? step
+          : closestStep;
+      });
     },
     isDrilldownEnabled() {
       return !!(this.from && this.to);
@@ -184,27 +219,27 @@ export default {
     onChartElementClick(metric, event) {
       if (!this.isDrilldownEnabled()) return;
 
-      const dataPoint = this.accountReport.data[metric.KEY]?.[event.dataIndex];
+      const dataPoint = event.item;
       if (!this.canOpenDrilldown(metric, dataPoint)) return;
       if (!this.isAdmin) {
         useAlert(this.$t('REPORT.DRILLDOWN.ADMIN_ONLY'));
         return;
       }
 
-      this.openDrilldownAt(metric, event.dataIndex);
+      this.openDrilldownAt(metric, event.pointIndex);
     },
     openDrilldownAt(metric, dataIndex) {
       const dataPoint = this.accountReport.data[metric.KEY]?.[dataIndex];
       if (!this.canOpenDrilldown(metric, dataPoint)) return;
 
-      const labels = this.getCollection(metric).labels || [];
+      const categories = this.getChartData(metric).categories;
 
       this.drilldownMetric = metric;
       this.drilldownIndex = dataIndex;
       this.drilldownRequest = {
         metric: metric.KEY,
         metricName: metric.NAME,
-        bucketLabel: labels[dataIndex],
+        bucketLabel: categories[dataIndex],
         bucketTimestamp: dataPoint.timestamp,
         bucketValue: dataPoint.value,
         isAverageMetric: this.isAverageMetricType(metric.KEY),
@@ -265,12 +300,13 @@ export default {
     <div
       v-for="metric in metrics"
       :key="metric.KEY"
-      class="p-4 mb-3 rounded-md"
+      class="py-4 mb-3 rounded-md"
     >
       <ChartStats
         :metric="metric"
         :account-summary-key="accountSummaryKey"
         :summary-fetching-key="summaryFetchingKey"
+        class="px-4"
       />
       <div class="mt-4 h-72">
         <woot-loading-state
@@ -278,13 +314,20 @@ export default {
           class="text-xs"
           :message="$t('REPORT.LOADING_CHART')"
         />
-        <div v-else class="flex items-center justify-center h-72">
+        <div v-else class="flex items-center justify-center min-w-0 h-72">
           <BarChart
             v-if="accountReport.data[metric.KEY].length"
-            :collection="getCollection(metric)"
-            :chart-options="getChartOptions(metric)"
+            :data="getChartData(metric)"
+            :aria-label="getChartAriaLabel(metric)"
+            :format-value="getValueFormatter(metric)"
+            :point-description="getPointDescription(metric)"
+            :y-step-size="
+              isAverageMetricType(metric.KEY) ? getDurationStepSize : undefined
+            "
+            :height="288"
+            timeseries
             :clickable="isDrilldownEnabled()"
-            @element-click="onChartElementClick(metric, $event)"
+            @item-click="onChartElementClick(metric, $event)"
           />
           <span v-else class="text-sm text-n-slate-10">
             {{ $t('REPORT.NO_ENOUGH_DATA') }}

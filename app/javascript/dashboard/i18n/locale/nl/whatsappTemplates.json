@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Variabelen",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Taal",
       "CATEGORY": "Categorie",
       "VARIABLE_PLACEHOLDER": "Voer {variable} waarde in",

@@ -35,4 +35,19 @@ RSpec.describe Channel::FacebookPage do
   it 'has a valid name' do
     expect(channel.name).to eq('Facebook')
   end
+
+  describe '#subscribe' do
+    let(:channel) { build(:channel_facebook_page) }
+
+    it 'subscribes to messaging postbacks' do
+      expect(Facebook::Messenger::Subscriptions).to receive(:subscribe).with(
+        hash_including(
+          access_token: channel.page_access_token,
+          subscribed_fields: include('messaging_postbacks')
+        )
+      )
+
+      channel.subscribe
+    end
+  end
 end

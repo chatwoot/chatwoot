@@ -44,6 +44,35 @@
         "TITLE": "帳戶 ID",
         "NOTE": "如果您正在建立基於 API 的整合，將需要此 ID"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google 翻譯",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "連接",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "升級"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "自動解決對話",
         "NOTE": "此設定可讓您在一段時間無活動後自動解決對話。",
@@ -51,7 +80,7 @@
           "LABEL": "無活動持續時間",
           "HELP": "對話在無活動多久後自動解決",
           "PLACEHOLDER": "30",
-          "ERROR": "自動解決時間應介於 10 分鐘至 999 天之間",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "已成功更新自動解決設定",
             "ERROR": "無法更新自動解決設定"
@@ -104,6 +133,14 @@
           "ERROR": "無法更新語音轉文字設定"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "無活動自動解決時間",
         "HELP": "對話在無活動多久後應自動解決",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Chatwoot 有新版本 {latestChatwootVersion} 可供更新，請更新您的執行個體。",
     "LEARN_MORE": "瞭解更多",
-    "PAYMENT_PENDING": "您的付款尚未完成，請更新付款資訊以繼續使用 Chatwoot",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "升級以繼續使用 Chatwoot",
     "LIMITS_UPGRADE": "您的帳戶已超過使用量上限，請升級方案以繼續使用 Chatwoot",
     "OPEN_BILLING": "開啟帳單"
@@ -137,37 +175,6 @@
       "NO_OPTIONS": "清單為空",
       "SELECT_ONE": "選擇其中一項",
       "SELECT": "選擇"
-    }
-  },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "通知",
-    "MARK_ALL_DONE": "全部標記完成",
-    "DELETE_TITLE": "已刪除",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "未讀通知",
-      "ALL_NOTIFICATIONS": "查看所有通知",
-      "LOADING_UNREAD_MESSAGE": "正在載入未讀通知...",
-      "EMPTY_MESSAGE": "您沒有未讀通知"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "正在載入通知...",
-      "404": "沒有通知",
-      "TABLE_HEADER": [
-        "姓名",
-        "電話號碼",
-        "對話",
-        "最後聯絡"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "新對話",
-      "conversation_assignment": "對話已指派",
-      "assigned_conversation_new_message": "新訊息",
-      "participating_conversation_new_message": "新訊息",
-      "conversation_mention": "被提及",
-      "sla_missed_first_response": "SLA 未達標",
-      "sla_missed_next_response": "SLA 未達標",
-      "sla_missed_resolution": "SLA 未達標"
     }
   },
   "NETWORK": {
@@ -192,6 +199,7 @@
       "CHANGE_PRIORITY": "變更優先順序",
       "CHANGE_TEAM": "變更團隊",
       "SNOOZE_CONVERSATION": "延後對話",
+      "EXECUTE_MACRO": "Execute Macro",
       "ADD_LABEL": "為對話新增標籤",
       "REMOVE_LABEL": "從對話移除標籤",
       "SETTINGS": "設定",
@@ -200,28 +208,44 @@
       "SNOOZE_NOTIFICATION": "延後通知"
     },
     "COMMANDS": {
+      "GO_TO_MY_INBOX": "Go to My Inbox",
       "GO_TO_CONVERSATION_DASHBOARD": "前往對話儀表板",
       "GO_TO_CONTACTS_DASHBOARD": "前往聯絡人儀表板",
+      "GO_TO_CAPTAIN": "Go to Captain",
+      "GO_TO_CALLS_DASHBOARD": "Go to Calls Dashboard",
+      "GO_TO_CAMPAIGNS": "Go to Campaigns",
+      "GO_TO_HELP_CENTER": "Go to Help Center",
       "GO_TO_REPORTS_OVERVIEW": "前往報表總覽",
       "GO_TO_CONVERSATION_REPORTS": "前往對話報表",
       "GO_TO_AGENT_REPORTS": "前往客服人員報表",
       "GO_TO_LABEL_REPORTS": "前往標籤報表",
       "GO_TO_INBOX_REPORTS": "前往收件匣報表",
       "GO_TO_TEAM_REPORTS": "前往團隊報表",
+      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
+      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
+      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
       "GO_TO_SETTINGS_AGENTS": "前往客服人員設定",
       "GO_TO_SETTINGS_TEAMS": "前往團隊設定",
       "GO_TO_SETTINGS_INBOXES": "前往收件匣設定",
+      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
       "GO_TO_SETTINGS_LABELS": "前往標籤設定",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
+      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "前往預設回覆設定",
+      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
       "GO_TO_SETTINGS_APPLICATIONS": "前往應用程式設定",
+      "GO_TO_SETTINGS_DATA": "Go to Data",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "前往帳戶設定",
       "GO_TO_SETTINGS_PROFILE": "前往個人資料設定",
-      "GO_TO_NOTIFICATIONS": "前往通知",
       "ADD_LABELS_TO_CONVERSATION": "為對話新增標籤",
       "ASSIGN_AN_AGENT": "指派客服人員",
       "AI_ASSIST": "AI 助手",
       "ASSIGN_PRIORITY": "指派優先順序",
       "ASSIGN_A_TEAM": "指派團隊",
+      "EXECUTE_A_MACRO": "Execute a macro",
       "MUTE_CONVERSATION": "將對話靜音",
       "UNMUTE_CONVERSATION": "取消對話靜音",
       "REMOVE_LABEL_FROM_CONVERSATION": "從對話移除標籤",

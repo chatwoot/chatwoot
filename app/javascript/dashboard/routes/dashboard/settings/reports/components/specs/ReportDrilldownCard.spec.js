@@ -26,6 +26,7 @@ vi.mock('vue-i18n', () => ({
       }
       return key;
     },
+    locale: { value: 'en' },
   }),
 }));
 
@@ -46,6 +47,7 @@ vi.mock('shared/helpers/timeHelper', () => ({
     return timestamps[time] || 'now';
   },
   dateFormat: timestamp => `date-${timestamp}`,
+  exactTimestamp: timestamp => `exact-${timestamp}`,
 }));
 
 describe('ReportDrilldownCard.vue', () => {

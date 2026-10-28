@@ -17,12 +17,13 @@ RSpec.describe Captain::Tools::AddLabelToConversationTool, type: :model do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'returns the correct parameters' do
-      expect(tool.parameters).to have_key(:label_name)
-      expect(tool.parameters[:label_name].name).to eq(:label_name)
-      expect(tool.parameters[:label_name].type).to eq('string')
-      expect(tool.parameters[:label_name].description).to eq('The name of the label to add')
+      properties = tool.parameters_schema.fetch('properties')
+
+      expect(properties).to have_key('label_name')
+      expect(properties['label_name']['type']).to eq('string')
+      expect(properties['label_name']['description']).to eq('The name of the label to add')
     end
   end
 
@@ -113,6 +114,18 @@ RSpec.describe Captain::Tools::AddLabelToConversationTool, type: :model do
       it 'returns error message' do
         result = tool.perform(tool_context, label_name: 'urgent')
         expect(result).to eq('Conversation not found')
+      end
+    end
+
+    context 'when a playground call cannot add a label' do
+      let(:tool_context) do
+        Struct.new(:state).new({ source: 'playground', conversation: { id: conversation.id } })
+      end
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, label_name: 'missing')
+
+        expect(result).to eq('ERROR: Label not found')
       end
     end
   end

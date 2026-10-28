@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
-import { evaluateSLAStatus } from 'dashboard/helper/slaHelper';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useSlaStatus } from 'dashboard/composables/useSlaStatus';
 
 const props = defineProps({
   conversation: {
@@ -9,67 +10,31 @@ const props = defineProps({
   },
 });
 
-const REFRESH_INTERVAL = 60000;
+const { t } = useI18n();
 
-const timer = ref(null);
-const slaStatus = ref({
-  threshold: null,
-  isSlaMissed: false,
-  type: null,
-  icon: null,
+const conversation = computed(() => props.conversation);
+const appliedSLA = computed(() => conversation.value?.appliedSla);
+const slaEvents = computed(() => conversation.value?.slaEvents);
+const { slaStatus } = useSlaStatus({
+  appliedSla: appliedSLA,
+  chat: conversation,
+  slaEvents,
 });
-
-const appliedSLA = computed(() => props.conversation?.appliedSla);
-const slaEvents = computed(() => props.conversation?.slaEvents);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 
 const hasSlaThreshold = computed(() => {
-  return slaStatus.value?.threshold && appliedSLA.value?.id;
+  return slaStatus.value?.type && appliedSLA.value?.id;
 });
 
 const slaStatusText = computed(() => {
   return slaStatus.value?.type?.toUpperCase();
 });
+const slaValueText = computed(
+  () => slaStatus.value?.threshold || t('CONVERSATION.HEADER.SLA_STATUS.MISSED')
+);
 
-const updateSlaStatus = () => {
-  slaStatus.value = evaluateSLAStatus({
-    appliedSla: appliedSLA.value || {},
-    chat: props.conversation,
-    slaEvents: slaEvents.value || [],
-  });
-};
-
-const createTimer = () => {
-  timer.value = setTimeout(() => {
-    updateSlaStatus();
-    createTimer();
-  }, REFRESH_INTERVAL);
-};
-
-onMounted(() => {
-  updateSlaStatus();
-  createTimer();
-});
-
-onUnmounted(() => {
-  if (timer.value) {
-    clearTimeout(timer.value);
-  }
-});
-
-watch(() => props.conversation, updateSlaStatus);
-
-// This expose is to provide context to the parent component, so that it can decided weather
-// a new row has to be added to the conversation card or not
+// Expose whether the parent conversation card needs an SLA row.
 // SLACardLabel > CardMessagePreviewWithMeta > ConversationCard
-//
-// We need to do this becuase each SLA card has it's own SLA timer
-// and it's just convenient to have this logic in the SLACardLabel component
-// However this is a bit hacky, and we should change this in the future
-//
-// TODO: A better implementation would be to have the timer as a shared composable, just like the provider pattern
-// we use across the next components. Have the calculation be done on the top ConversationCard component
-// and then the value be injected to the SLACardLabel component
 defineExpose({
   hasSlaThreshold,
 });
@@ -96,7 +61,7 @@ defineExpose({
       class="text-sm truncate"
       :class="isSlaMissed ? 'text-n-ruby-11' : 'text-n-slate-11'"
     >
-      {{ `${slaStatusText}: ${slaStatus.threshold}` }}
+      {{ `${slaStatusText}: ${slaValueText}` }}
     </span>
   </div>
 </template>

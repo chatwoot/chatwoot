@@ -5,6 +5,8 @@
 #  id                    :bigint           not null, primary key
 #  content               :text
 #  description           :text
+#  draft_content         :text
+#  draft_title           :string
 #  locale                :string           default("en"), not null
 #  meta                  :jsonb
 #  position              :integer
@@ -26,6 +28,7 @@
 #  index_articles_on_account_id             (account_id)
 #  index_articles_on_associated_article_id  (associated_article_id)
 #  index_articles_on_author_id              (author_id)
+#  index_articles_on_category_id            (category_id)
 #  index_articles_on_portal_id              (portal_id)
 #  index_articles_on_slug                   (slug) UNIQUE
 #  index_articles_on_status                 (status)
@@ -57,12 +60,15 @@ class Article < ApplicationRecord
 
   # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
   RESERVED_SLUGS = %w[search articles categories].freeze
+  SLUG_RANDOM_BYTES = 4
 
   validates :account_id, presence: true
   validates :author_id, presence: true
   validates :title, presence: true
   validates :content, presence: true, if: :published?
   validates :slug, exclusion: { in: RESERVED_SLUGS }
+  validates :slug, uniqueness: true, format: { with: /\A[a-zA-Z0-9_-]+\z/ }, if: :will_save_change_to_slug?
+  validate :noindex_must_be_boolean
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
@@ -126,6 +132,21 @@ class Article < ApplicationRecord
     article.associated_article_id || article.id
   end
 
+  def noindex?
+    meta['noindex'] == true
+  end
+
+  def translation_family
+    root_id = associated_article_id || id
+    articles = portal.articles
+
+    articles.where(id: root_id).or(articles.where(associated_article_id: root_id))
+  end
+
+  def public_locale
+    category.present? ? category.locale : locale
+  end
+
   def draft!
     update(status: :draft)
   end
@@ -174,6 +195,12 @@ class Article < ApplicationRecord
 
   private
 
+  def noindex_must_be_boolean
+    return if [nil, true, false].include?(meta['noindex'])
+
+    errors.add(:meta, I18n.t('errors.articles.meta.noindex_not_boolean'))
+  end
+
   def category_id_changed_action
     # We need to update the position of the article in the new category
     return unless persisted?
@@ -221,7 +248,13 @@ class Article < ApplicationRecord
   end
 
   def ensure_article_slug
-    self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
+    return if slug.present? || title.blank?
+
+    timestamp = Time.current.to_i.to_s
+    random_suffix = SecureRandom.hex(SLUG_RANDOM_BYTES)
+    max_title_length = MAX_STRING_COLUMN_LENGTH - timestamp.length - random_suffix.length - 2
+    parameterized_title = title.underscore.parameterize(separator: '-').first(max_title_length)
+    self.slug = "#{timestamp}-#{parameterized_title}-#{random_suffix}"
   end
 end
 Article.include_mod_with('Concerns::Article')

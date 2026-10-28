@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "tag"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "Új",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "DISMISS_HINT": "{key} billentyűvel zárja be",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Bezárás"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Tudj meg többet",
     "WATCH_VIDEO": "Watch video"
@@ -64,6 +73,20 @@
     "BULLET_LIST": "Bullet List",
     "ORDERED_LIST": "Ordered List",
     "TABLE": "Table",
-    "IMAGE": "Image"
+    "IMAGE": "Kép",
+    "VIDEO": "Videó",
+    "DIVIDER": "Elválasztó"
+  },
+  "VIDEO_EMBED": {
+    "TAB_EMBED": "Hivatkozás beágyazása",
+    "TAB_UPLOAD": "Feltöltés",
+    "PLACEHOLDER": "Illesszen be videóhivatkozást",
+    "HINT": "Működik YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen és GuideJar hivatkozásokkal, valamint mp4 linkekkel",
+    "ERROR": "Ez nem tűnik támogatott videóhivatkozásnak",
+    "UPLOAD_LABEL": "Válasszon videófájlt",
+    "UPLOAD_HINT": "MP4 · legfeljebb {size} MB · vagy dobja ide",
+    "UPLOAD_ERROR": "Csak MP4-fájlok tölthetők fel",
+    "ADD": "Beágyazás",
+    "CANCEL": "Mégse"
   }
 }

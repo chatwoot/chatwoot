@@ -7,7 +7,7 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
   before_action :set_portal_layout
   before_action :set_view_variant
   before_action :ensure_portal_feature_enabled
-  before_action :load_home_data, only: [:show], if: -> { @portal_layout == 'documentation' }
+  before_action :load_home_data, only: [:show], unless: -> { @is_plain_layout_enabled }
   layout 'portal'
 
   def show
@@ -15,6 +15,7 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
   end
 
   def sitemap
+    @articles = @portal.search_indexable_articles
     @help_center_url = @portal.custom_domain || ChatwootApp.help_center_root
     # if help_center_url does not contain a protocol, prepend it with https
     @help_center_url = "https://#{@help_center_url}" unless @help_center_url.include?('://')

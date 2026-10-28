@@ -32,6 +32,14 @@ class Messages::MarkdownRenderers::TelegramRenderer < Messages::MarkdownRenderer
     out('<pre>', node.string_content, '</pre>')
   end
 
+  def html(node)
+    out(CGI.escapeHTML(node.string_content))
+  end
+
+  def inline_html(node)
+    out(CGI.escapeHTML(node.string_content))
+  end
+
   def list(node)
     @list_type = node.list_type
     @list_item_number = @list_type == :ordered_list ? node.list_start : 0

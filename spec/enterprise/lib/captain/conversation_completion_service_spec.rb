@@ -9,23 +9,99 @@ RSpec.describe Captain::ConversationCompletionService do
   let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:with_schema).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_thinking).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_model).and_return(mock_chat)
     allow(account).to receive(:feature_enabled?).and_call_original
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
     allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
   end
 
+  describe 'request protocol' do
+    let(:context) { RubyLLM.context { |config| config.openai_api_key = 'test-key' } }
+    let(:messages) { [{ role: 'system', content: 'Evaluate the conversation.' }, { role: 'user', content: 'Customer: Thanks!' }] }
+
+    %w[gpt-5-mini gpt-5.2].each do |model|
+      it "renders a Responses schema request for #{model} without specifying effort" do
+        chat = service.send(:build_chat, context, model: model, messages: messages, schema: described_class::RESPONSE_SCHEMA)
+        chat.add_message(role: :user, content: messages.last[:content])
+
+        payload = chat.render
+
+        expect(payload).to include(model: model, input: an_instance_of(Array), text: include(format: include(type: 'json_schema')))
+        expect(payload).not_to have_key(:messages)
+        expect(payload).not_to have_key(:reasoning)
+        expect(service.send(:build_instrumentation_params, model, messages)[:metadata]).to include(api_protocol: 'responses')
+      end
+    end
+
+    it 'retains Chat Completions for a custom OpenAI endpoint' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
+      context.config.openai_protocol = :chat_completions
+      chat = service.send(:build_chat, context, model: 'gpt-6-luna', messages: messages, schema: described_class::RESPONSE_SCHEMA)
+      chat.add_message(role: :user, content: messages.last[:content])
+
+      expect(chat.render).to include(messages: an_instance_of(Array), response_format: include(type: 'json_schema'))
+      expect(chat.render).not_to have_key(:input)
+      expect(service.send(:build_instrumentation_params, 'gpt-6-luna', messages)[:metadata]).to include(api_protocol: 'chat_completions')
+    end
+  end
+
   describe '#perform' do
+    describe 'model routing' do
+      let(:mock_response) do
+        instance_double(RubyLLM::Message, parsed: { 'complete' => true, 'reason' => 'Done' }, tokens: RubyLLM::Tokens.new(input: 10, output: 5))
+      end
+
+      before do
+        create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+      end
+
+      it 'uses the internal GPT-6 Luna route on Chatwoot Cloud' do
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(false)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+        account.enable_features!('captain_integration')
+        allow(mock_context).to receive(:chat).with(model: 'gpt-6-luna').and_return(mock_chat)
+
+        expect(service.perform).to include(complete: true)
+      end
+
+      it 'uses the installation model on self-hosted Enterprise' do
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+        allow(mock_context).to receive(:chat).with(model: 'gpt-5.1').and_return(mock_chat)
+
+        expect(service.perform).to include(complete: true)
+      end
+
+      it 'uses the account override ahead of the installation model on self-hosted Enterprise' do
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+        account.update!(captain_models: { 'conversation_completion' => 'gpt-5.2' })
+        allow(mock_context).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
+
+        expect(service.perform).to include(complete: true)
+      end
+
+      it 'falls back to the internal GPT-6 Luna route when the self-hosted installation model is blank' do
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: '')
+        allow(mock_context).to receive(:chat).with(model: 'gpt-6-luna').and_return(mock_chat)
+
+        expect(service.perform).to include(complete: true)
+      end
+    end
+
     context 'when conversation is complete' do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
-          input_tokens: 100,
-          output_tokens: 20
+          parsed: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
 
@@ -48,9 +124,8 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => false, 'reason' => 'Assistant asked for order number but customer did not respond' },
-          input_tokens: 100,
-          output_tokens: 20
+          parsed: { 'complete' => false, 'reason' => 'Assistant asked for order number but customer did not respond' },
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
 
@@ -68,6 +143,109 @@ RSpec.describe Captain::ConversationCompletionService do
       end
     end
 
+    context 'when building evaluation context' do
+      let(:captain_assistant) { create(:captain_assistant, account: account) }
+      let(:mock_response) do
+        instance_double(
+          RubyLLM::Message,
+          parsed: { 'complete' => false, 'reason' => 'Human follow-up is still pending' },
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
+        )
+      end
+
+      it 'includes conversation status and speaker labels' do
+        conversation.update!(status: :pending, waiting_since: 2.hours.ago)
+        create(:message, conversation: conversation, inbox: inbox, account: account, message_type: :incoming, content: 'I need help with a refund')
+        create(
+          :message,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :outgoing,
+          sender: captain_assistant,
+          content: 'I will transfer this to support for review.'
+        )
+
+        expect(mock_chat).to receive(:ask) do |content|
+          expect(content).to include(
+            'Conversation status: pending',
+            'Conversation transcript:',
+            'Customer: I need help with a refund',
+            'Captain: I will transfer this to support for review.'
+          )
+
+          mock_response
+        end
+
+        result = service.perform
+
+        expect(result[:complete]).to be false
+      end
+
+      it 'includes pending captain handoff evidence in the transcript' do
+        conversation.update!(status: :pending)
+        create(:message, conversation: conversation, inbox: inbox, account: account, message_type: :incoming, content: 'Please cancel my order')
+        create(
+          :message,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :outgoing,
+          sender: captain_assistant,
+          content: 'I will transfer this to a specialist and they will follow up here.'
+        )
+
+        expect(mock_chat).to receive(:ask) do |content|
+          expect(content).to include(
+            'Conversation status: pending',
+            'Captain: I will transfer this to a specialist and they will follow up here.'
+          )
+
+          mock_response
+        end
+
+        result = service.perform
+
+        expect(result[:complete]).to be false
+      end
+
+      it 'reuses computed message content while formatting the transcript' do
+        content_for_llm_calls_by_message_id = Hash.new(0)
+        allow_any_instance_of(Message).to receive(:content_for_llm).and_wrap_original do |method, *args| # rubocop:disable RSpec/AnyInstance
+          content_for_llm_calls_by_message_id[method.receiver.id] += 1
+          method.call(*args)
+        end
+
+        incoming_message = create(
+          :message,
+          :with_attachment,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :incoming,
+          content: nil
+        )
+        outgoing_message = create(
+          :message,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :outgoing,
+          sender: captain_assistant,
+          content: 'What do you need help with?'
+        )
+
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+        service.perform
+
+        expect(content_for_llm_calls_by_message_id).to include(
+          incoming_message.id => 1,
+          outgoing_message.id => 1
+        )
+      end
+    end
+
     context 'when conversation has no messages' do
       it 'returns incomplete with appropriate reason' do
         result = service.perform
@@ -81,9 +259,8 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: 'unexpected string response',
-          input_tokens: 100,
-          output_tokens: 20
+          parsed: 'unexpected string response',
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
 
@@ -136,7 +313,7 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'uses the system API key instead of the account hook key' do
         expect(Llm::Config).to receive(:with_api_key).with('test-key', api_base: anything).and_yield(mock_context)
         allow(mock_chat).to receive(:ask).and_return(
-          instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
+          instance_double(RubyLLM::Message, parsed: { 'complete' => true, 'reason' => 'Done' }, tokens: RubyLLM::Tokens.new(input: 10, output: 5))
         )
 
         service.perform
@@ -158,17 +335,20 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
-          input_tokens: 100,
-          output_tokens: 20
+          parsed: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
 
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        allow(account).to receive(:usage_limits).and_return({
-                                                              captain: { responses: { current_available: 0 } }
-                                                            })
+        allow(account).to receive(:usage_limits).and_return(
+          {
+            agents: ChatwootApp.max_limit,
+            inboxes: ChatwootApp.max_limit,
+            captain: { responses: { current_available: 0 } }
+          }
+        )
         create(:message, conversation: conversation, message_type: :incoming, content: 'What are your hours?')
         create(:message, conversation: conversation, message_type: :outgoing, content: 'We are open 9-5 Monday to Friday.')
         allow(mock_chat).to receive(:ask).and_return(mock_response)

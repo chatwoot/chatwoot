@@ -5,7 +5,9 @@ const NON_PREVIEWABLE_EMBEDS = new Set(['github_gist']);
 
 export const embeds = Object.entries(config)
   .filter(([key]) => !NON_PREVIEWABLE_EMBEDS.has(key))
-  .map(([, { regex, template }]) => ({
+  .map(([key, { regex, template, hide_source: hideSource }]) => ({
+    key,
     regex: new RegExp(regex),
     template,
+    hideSource: Boolean(hideSource),
   }));

@@ -28,6 +28,56 @@
           "PLACEHOLDER": "Kérlek, válassz egyet",
           "ERROR": "Esemény megadása kötezelő"
         },
+        "MONITOR": {
+          "LABEL": "Figyelő",
+          "PLACEHOLDER": "Válasszon egy aktív figyelőt",
+          "ERROR": "Válasszon egy aktív figyelőt",
+          "FETCH_FAILED": "A figyelők betöltése nem sikerült. Próbálja újra később.",
+          "API_UNAVAILABLE": "Ez a figyelő már nem érhető el. Válasszon egy aktív figyelőt, majd próbálja újra.",
+          "EMPTY": "Még nincsenek aktív figyelők. Az esemény használatához hozzon létre vagy folytasson egy figyelőt.",
+          "GO_TO_MONITORS": "Ugrás a figyelőkhöz",
+          "RETRY": "Újra",
+          "UNAVAILABLE": "Nem elérhető figyelő",
+          "UNAVAILABLE_HELP": "Ez a figyelő nem használható automatizáláshoz. A szabály aktiválásához válasszon aktív figyelőt.",
+          "HELP": "A szabály egyszer fut le, amikor a figyelő új élő tevékenység alapján először illeszkedik egy beszélgetésre. A korábbi adatok átvizsgálása nem indít műveleteket."
+        },
+        "RUN_TYPE": {
+          "LABEL": "Mikor fusson le ez a szabály?",
+          "OPTIONS": {
+            "INSTANT": {
+              "LABEL": "Azonnali futtatás",
+              "DESCRIPTION": "Az esemény bekövetkezésekor azonnal lefut, ha a feltételek teljesülnek."
+            },
+            "WAIT": {
+              "LABEL": "Futtatás várakozás után",
+              "DESCRIPTION": "A megadott ideig vár, és csak akkor fut le, ha közben semmi sem változik. Ellenkező esetben a szabály kimarad."
+            }
+          }
+        },
+        "WAIT": {
+          "LABEL": "Várakozási feltétel",
+          "WHEN_LABEL": "Mikor",
+          "STATUS_LABEL": "Az állapot",
+          "FOR_LABEL": "Ennyi ideig",
+          "INBOX_LABEL": "Fiók",
+          "ERROR": "A várakozásnak 10 perc és 30 nap közé kell esnie",
+          "OPTIONS": {
+            "CONVERSATION_STATUS": "A beszélgetés adott állapotban marad",
+            "CUSTOMER_UNRESPONSIVE": "Az ügyfél nem válaszolt",
+            "AGENT_UNRESPONSIVE": "Egy csapattag sem válaszolt"
+          },
+          "DURATION": {
+            "MINUTES": "{count} perc | {count} perc",
+            "HOURS": "{count} óra | {count} óra",
+            "DAYS": "{count} nap | {count} nap"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_STATUS": "Az időmérés akkor kezdődik, amikor a beszélgetés ebbe az állapotba kerül. Ha {duration} múlva is ebben az állapotban van, az alábbi műveletek lefutnak. Ha előtte megváltozik az állapota, nem történik semmi.",
+            "CUSTOMER_UNRESPONSIVE": "Az időmérés akkor kezdődik, amikor egy csapattag válaszol. Ha az ügyfél {duration} múlva sem válaszolt, az alábbi műveletek lefutnak. Ha közben válaszol, nem történik semmi, és a következő csapattagi válasz újraindítja az időmérést.",
+            "AGENT_UNRESPONSIVE": "Az időmérés akkor kezdődik, amikor az ügyfél üzenetet küld. Ha egy csapattag sem válaszol {duration} múlva, az alábbi műveletek lefutnak. Ha valaki előbb válaszol, nem történik semmi."
+          },
+          "FOOTNOTE": "Az időmérést csak az új tevékenység indítja el. Az ebben az állapotban már korábban lévő beszélgetések csak a következő eseménynél kerülnek feldolgozásra."
+        },
         "CONDITIONS": {
           "LABEL": "Feltételek"
         },
@@ -46,10 +96,19 @@
       "TABLE_HEADER": {
         "NAME": "Név",
         "ACTIVE": "Aktív",
-        "CREATED_ON": "Létrehozva",
-        "ACTIONS": "Műveletek"
+        "CREATED_ON": "Létrehozva"
       },
-      "404": "Nem található automatizált szabály"
+      "404": "Nem található automatizált szabály",
+      "404_DELAYED": "Még egy szabály sem futott le várakozás után",
+      "TABS": {
+        "INSTANT": "Azonnal fut",
+        "DELAYED": "Várakozás után fut"
+      },
+      "DELAY_BADGE": "{delay} múlva fut",
+      "MONITOR_PAUSED": "A figyelő szünetel",
+      "MONITOR_DELETED": "A figyelőt törölték",
+      "MONITOR_UNAVAILABLE": "A figyelő funkció nem érhető el",
+      "DELAY_DISABLED_BANNER": "A fiókban ki van kapcsolva a késleltetett végrehajtás, ezért az alábbi, várakozás után futó szabályok szünetelnek, amíg újra be nem kapcsolja."
     },
     "DELETE": {
       "TITLE": "Automatizált szabály törlése",
@@ -92,14 +151,18 @@
     "CONDITION": {
       "DELETE_MESSAGE": "Legalább egy feltételt meg kell adnod a mentéshez",
       "CONTACT_CUSTOM_ATTR_LABEL": "Kapcsolat az egyéni tulajdonságokkal",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Beszélgetés az egyéni tulajdonságokkal\n"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Beszélgetés az egyéni tulajdonságokkal\n",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Adja meg, mit keressen, például: az ügyfél le szeretné mondani"
+      }
     },
     "ACTION": {
       "DELETE_MESSAGE": "Legalább egy tevékenység szükséges a mentéshez",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Írd be az üzeneted ide",
       "TEAM_DROPDOWN_PLACEHOLDER": "Csapatok kiválasztása",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "URL_INPUT_PLACEHOLDER": "Enter URL",
+      "INSERT_CONTACT_EMAIL": "A kapcsolat e-mail címének használata"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Automatizált szabályok aktivizálása",
@@ -130,13 +193,14 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Nincs",
-    "LAST_RESPONDING_AGENT": "Last Responding Agent",
+    "LAST_RESPONDING_AGENT": "Utoljára válaszoló ügynök",
     "EVENTS": {
       "CONVERSATION_CREATED": "Beszélgetés létrehozva",
       "CONVERSATION_UPDATED": "Beszélgetés frissítve",
       "MESSAGE_CREATED": "Message Created",
       "CONVERSATION_RESOLVED": "Conversation Resolved",
-      "CONVERSATION_OPENED": "Conversation Opened"
+      "CONVERSATION_OPENED": "Conversation Opened",
+      "MONITOR_MATCHED": "A figyelő egyezést talált"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Assign to Agent",
@@ -173,7 +237,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
       "PRIVATE_NOTE": "Privát üzenet",
-      "MESSAGE_CONTAINS": "Message Contains",
+      "MESSAGE_CONTAINS": "Üzenet tartalma",
       "EMAIL": "E-mail",
       "INBOX": "Fiók",
       "CONVERSATION_LANGUAGE": "Conversation Language",
@@ -187,7 +251,8 @@
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Csapat",
       "PRIORITY": "Prioritás",
-      "LABELS": "Cimkék"
+      "LABELS": "Cimkék",
+      "CAPTAIN": "Captain"
     }
   }
 }

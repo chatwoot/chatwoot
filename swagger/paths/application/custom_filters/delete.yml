@@ -3,6 +3,7 @@ tags:
 operationId: delete-a-custom-filter
 summary: Delete a custom filter
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Delete a custom filter from the account
 responses:

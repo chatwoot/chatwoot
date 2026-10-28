@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { emitter } from 'shared/helpers/mitt';
 import { useTrack } from 'dashboard/composables';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 
@@ -19,18 +19,25 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  conversationInboxType: {
-    type: String,
-    required: true,
+  canUseReply: {
+    type: Boolean,
+    default: true,
   },
 });
+
+const CONVERSATION_PATH_PATTERN =
+  /^\/app\/accounts\/(\d+)\/conversations\/(\d+)$/;
+
+const route = useRoute();
+const router = useRouter();
 const hasEmptyMessageContent = computed(() => !props.message?.content);
 
 const showUseButton = computed(() => {
   return (
     !hasEmptyMessageContent.value &&
     props.message.reply_suggestion &&
-    props.isLastMessage
+    props.isLastMessage &&
+    props.canUseReply
   );
 });
 
@@ -39,18 +46,31 @@ const messageContent = computed(() => {
   return formatter.formattedMessage;
 });
 
-const insertIntoRichEditor = computed(() => {
-  return [INBOX_TYPES.WEB, INBOX_TYPES.EMAIL].includes(
-    props.conversationInboxType
-  );
-});
+const openConversation = event => {
+  if (
+    event.button ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey ||
+    event.altKey
+  )
+    return;
+
+  const href = event.target.closest('a')?.getAttribute('href');
+  const conversation = href?.match(CONVERSATION_PATH_PATTERN);
+  if (!conversation || conversation[1] !== String(route.params.accountId))
+    return;
+
+  event.preventDefault();
+  router.push(href);
+};
 
 const useCopilotResponse = () => {
-  if (insertIntoRichEditor.value) {
-    emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, props.message?.content);
-  } else {
-    emitter.emit(BUS_EVENTS.INSERT_INTO_NORMAL_EDITOR, props.message?.content);
-  }
+  // Always insert through the rich editor so the markdown is parsed into proper
+  // paragraph/hard_break nodes. The plain-text path inserts the reply as a single
+  // text node with raw newlines, which the editor collapses into one paragraph as
+  // soon as the agent edits the draft.
+  emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, props.message?.content);
   useTrack(COPILOT_EVENTS.USE_CAPTAIN_RESPONSE);
 };
 </script>
@@ -64,7 +84,8 @@ const useCopilotResponse = () => {
     <div
       v-else
       v-dompurify-html="messageContent"
-      class="prose-sm break-words"
+      class="prose prose-bubble !max-w-none break-words prose-a:text-n-blue-11 prose-a:underline"
+      @click="openConversation"
     />
     <div class="flex flex-row mt-1">
       <Button

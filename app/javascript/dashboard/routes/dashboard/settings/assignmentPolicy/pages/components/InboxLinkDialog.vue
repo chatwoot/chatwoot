@@ -29,7 +29,8 @@ const inboxIcon = computed(() => {
   return getInboxIconByType(
     props.inbox.channelType,
     props.inbox.medium,
-    'line'
+    'line',
+    props.inbox.voiceEnabled
   );
 });
 

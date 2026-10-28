@@ -8,6 +8,8 @@ describe ActionService do
     let(:conversation) { create(:conversation, account: account) }
     let(:action_service) { described_class.new(conversation) }
 
+    before { account.enable_features!('sla') }
+
     context 'when sla_policy_id is present' do
       it 'adds the sla policy to the conversation and create applied_sla entry' do
         action_service.add_sla([sla_policy.id])

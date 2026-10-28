@@ -68,4 +68,33 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
       expect(account.internal_attributes).not_to include('marketing_attribution')
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}' do
+    let(:account) { create(:account) }
+    let(:admin) { create(:user, account: account, role: :administrator) }
+
+    before do
+      Redis::Alfred.set(Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.16.1')
+    end
+
+    it 'hides the latest chatwoot version on cloud' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+
+      get "/api/v1/accounts/#{account.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response.parsed_body['latest_chatwoot_version']).to be_nil
+    end
+
+    it 'exposes the latest chatwoot version on self-hosted enterprise' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+
+      get "/api/v1/accounts/#{account.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response.parsed_body['latest_chatwoot_version']).to eq('4.16.1')
+    end
+  end
 end

@@ -6,6 +6,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   before_action :set_global_config
   around_action :set_locale
   after_action :allow_iframe_requests
+  after_action :disallow_search_indexing
 
   PORTAL_LAYOUTS = %w[classic documentation].freeze
 
@@ -24,7 +25,11 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def set_view_variant
-    request.variant = :documentation if @portal_layout == 'documentation' && !@is_plain_layout_enabled
+    request.variant = if @is_plain_layout_enabled
+                        :plain
+                      elsif @portal_layout == 'documentation'
+                        :documentation
+                      end
   end
 
   def portal
@@ -63,8 +68,14 @@ class Public::Api::V1::Portals::BaseController < PublicController
     response.headers.delete('X-Frame-Options') if @is_plain_layout_enabled
   end
 
+  def disallow_search_indexing
+    response.headers['X-Robots-Tag'] = 'noindex' if @portal&.search_indexing_disabled? || @article&.noindex?
+  end
+
   def render_404
     portal
+    # set_locale can render_404 before the child's set_view_variant runs; set it here so plain 404s stay chrome-less
+    set_view_variant
     render 'public/api/v1/portals/error/404', status: :not_found
   end
 

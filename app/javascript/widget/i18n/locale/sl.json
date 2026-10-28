@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Poganja Chatwoot",
   "EMAIL_PLACEHOLDER": "Prosimo, vnesite svoj e-poštni naslov",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Vnesite svoje sporočilo",
   "TODAY": "Danes",
   "YESTERDAY": "Včeraj",
@@ -105,6 +108,11 @@
     "PLACEHOLDER": "Poišči emoji",
     "NOT_FOUND": "Noben emoji ne ustreza vašemu iskanju",
     "ARIA_LABEL": "Iskalnik emoji-jev"
+  },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Search emoji…",
+    "FREQUENTLY_USED": "Frequently used",
+    "NO_EMOJI": "Z vašim iskanjem se ne ujema noben emoji"
   },
   "CSAT": {
     "TITLE": "Ocenite svoj pogovor",

@@ -428,6 +428,51 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
     end
   end
 
+  describe 'attachment authorization' do
+    let(:blob) { get_blob_for('spec/assets/avatar.png', 'image/png') }
+    let(:new_blob) { get_blob_for('spec/assets/avatar.png', 'image/png') }
+    let(:foreign_message) { create(:message, :with_attachment) }
+    let(:foreign_blob) { foreign_message.attachments.first.file.blob }
+    let(:automation_rule) do
+      create(:automation_rule, account: account, actions: [{ action_name: 'send_attachment', action_params: [blob.id] }])
+    end
+
+    before { automation_rule.files.attach(blob) }
+
+    it 'rejects a foreign raw blob id after an existing attachment without changing the rule' do
+      patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+            params: { actions: [{ action_name: 'send_attachment', action_params: [blob.id, foreign_blob.id] }] },
+            headers: administrator.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.attachments.invalid'))
+      expect(automation_rule.reload.actions.first['action_params']).to eq([blob.id])
+      expect(automation_rule.files.blobs.pluck(:id)).to eq([blob.id])
+    end
+
+    it 'rejects a foreign raw blob id after a signed upload when creating a rule' do
+      expect do
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             params: { name: 'Attachments', event_name: 'conversation_created', conditions: [],
+                       actions: [{ action_name: 'send_attachment', action_params: [new_blob.signed_id, foreign_blob.id] }] },
+             headers: administrator.create_new_auth_token, as: :json
+      end.not_to change(AutomationRule, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.attachments.invalid'))
+    end
+
+    it 'retains existing attachments and attaches every signed upload in an action' do
+      patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+            params: { actions: [{ action_name: 'send_attachment', action_params: [blob.id, new_blob.signed_id] }] },
+            headers: administrator.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(automation_rule.reload.actions.first['action_params']).to eq([blob.id, new_blob.id])
+      expect(automation_rule.files.blobs.pluck(:id)).to contain_exactly(blob.id, new_blob.id)
+    end
+  end
+
   describe 'DELETE /api/v1/accounts/{account.id}/automation_rules/{automation_rule.id}' do
     let!(:automation_rule) { create(:automation_rule, account: account, name: 'Test Automation Rule') }
 
@@ -448,6 +493,138 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.automation_rules.count).to eq(0)
+      end
+    end
+  end
+
+  describe 'execution_delay handling' do
+    let(:delayed_rule_params) do
+      {
+        name: 'Delayed rule',
+        event_name: 'conversation_updated',
+        execution_delay: 240,
+        conditions: [{ attribute_key: 'status', filter_operator: 'equal_to', values: ['pending'], query_operator: nil }],
+        actions: [{ action_name: 'add_label', action_params: ['stale'] }]
+      }
+    end
+
+    context 'when the delayed_automations feature is enabled' do
+      before { account.enable_features!('delayed_automations') }
+
+      it 'persists and serializes execution_delay' do
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:execution_delay]).to eq(240)
+        expect(account.automation_rules.last.execution_delay).to eq(240)
+      end
+
+      it 'persists and serializes a delayed customer follow-up with a pending status condition' do
+        conditions = [
+          { attribute_key: 'message_type', filter_operator: 'equal_to', values: ['outgoing'], query_operator: 'and' },
+          { attribute_key: 'private_note', filter_operator: 'equal_to', values: [false], query_operator: 'and' },
+          { attribute_key: 'inbox_id', filter_operator: 'equal_to', values: [inbox.id], query_operator: 'and' },
+          { attribute_key: 'status', filter_operator: 'equal_to', values: ['pending'], query_operator: nil }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params.merge(event_name: 'message_created', conditions: conditions),
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:conditions]).to eq(conditions)
+        expect(account.automation_rules.last.conditions.map(&:deep_symbolize_keys)).to eq(conditions)
+      end
+
+      it 'persists a delayed message rule with label conditions' do
+        conditions = [
+          { attribute_key: 'message_type', filter_operator: 'equal_to', values: ['outgoing'], query_operator: 'and' },
+          { attribute_key: 'labels', filter_operator: 'equal_to', values: ['feature'], query_operator: nil }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params.merge(event_name: 'message_created', conditions: conditions),
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.last.conditions.map(&:deep_symbolize_keys)).to eq(conditions)
+      end
+
+      it 'can deactivate an existing delayed message rule with label conditions' do
+        automation_rule = create(
+          :automation_rule,
+          account: account,
+          event_name: 'message_created',
+          execution_delay: 240,
+          conditions: [
+            { 'attribute_key' => 'message_type', 'filter_operator' => 'equal_to', 'values' => ['outgoing'],
+              'query_operator' => 'and' },
+            { 'attribute_key' => 'labels', 'filter_operator' => 'equal_to', 'values' => ['feature'], 'query_operator' => nil }
+          ]
+        )
+
+        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
+              headers: administrator.create_new_auth_token,
+              params: { active: false }
+
+        expect(response).to have_http_status(:success)
+        expect(automation_rule.reload).not_to be_active
+      end
+
+      it 'copies execution_delay on clone' do
+        automation_rule = create(:automation_rule, account: account, execution_delay: 240)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
+             headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.last.execution_delay).to eq(240)
+      end
+    end
+
+    context 'when the delayed_automations feature is disabled' do
+      it 'rejects a payload carrying execution_delay with 422' do
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.automation_rules.count).to eq(0)
+      end
+
+      it 'still accepts payloads without execution_delay' do
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params.except(:execution_delay)
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.last.execution_delay).to be_nil
+      end
+
+      it 'rejects cloning an existing delayed rule instead of turning it into an instant one' do
+        automation_rule = create(:automation_rule, account: account, execution_delay: 240)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
+             headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.automation_rules.count).to eq(1)
+      end
+
+      it 'still clones a rule that carries no delay' do
+        automation_rule = create(:automation_rule, account: account)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
+             headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.count).to eq(2)
       end
     end
   end

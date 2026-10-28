@@ -86,9 +86,21 @@
         "NOTE": "계정의 추가 보안 기능을 관리합니다.",
         "MFA_BUTTON": "2단계 인증 관리"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "액세스 토큰",
         "NOTE": "API 기반 통합을 구축하는 경우 이 토큰을 사용할 수 있습니다",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "복사",
         "RESET": "재설정",
         "CONFIRM_RESET": "정말로 진행하시겠습니까?",
@@ -145,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "참여 중인 대화에서 새 메시지가 생성될 때 이메일 알림 보내기",
         "SLA_MISSED_FIRST_RESPONSE": "대화가 첫 응답 SLA를 놓쳤을 때 이메일 알림 보내기",
         "SLA_MISSED_NEXT_RESPONSE": "대화가 다음 응답 SLA를 놓쳤을 때 이메일 알림 보내기",
-        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 이메일 알림 보내기"
+        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 이메일 알림 보내기",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "알림 기본 설정",
@@ -160,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "참여 중인 대화에서 새 메시지가 생성됨",
           "SLA_MISSED_FIRST_RESPONSE": "대화가 첫 응답 SLA를 놓침",
           "SLA_MISSED_NEXT_RESPONSE": "대화가 다음 응답 SLA를 놓침",
-          "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓침"
+          "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓침",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "브라우저의 푸시 알림을 활성화하여 알림을 받을 수 있도록 하십시오"
       },
@@ -180,7 +194,8 @@
         "REQUEST_PUSH": "푸시 알림 활성화",
         "SLA_MISSED_FIRST_RESPONSE": "대화가 첫 응답 SLA를 놓쳤을 때 푸시 알림 보내기",
         "SLA_MISSED_NEXT_RESPONSE": "대화가 다음 응답 SLA를 놓쳤을 때 푸시 알림 보내기",
-        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 푸시 알림 보내기"
+        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 푸시 알림 보내기",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "프로필 이미지"
@@ -250,9 +265,14 @@
     "EMAIL_VERIFICATION_PENDING": "아직 이메일 주소를 인증하지 않은 것 같습니다. 받은 편지함에서 인증 이메일을 확인하십시오.",
     "RESEND_VERIFICATION_MAIL": "인증 이메일 다시 보내기",
     "EMAIL_VERIFICATION_SENT": "인증 이메일이 전송되었습니다. 받은 편지함을 확인하십시오.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "계정 정지됨",
-      "MESSAGE": "계정이 정지되었습니다. 자세한 정보는 지원팀에 문의하십시오."
+      "MESSAGE": "계정이 정지되었습니다. 자세한 정보는 지원팀에 문의하십시오.",
+      "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
       "TITLE": "계정을 찾을 수 없습니다",
@@ -265,7 +285,8 @@
     "CODE": {
       "BUTTON_TEXT": "복사",
       "CODEPEN": "CodePen에서 열기",
-      "COPY_SUCCESSFUL": "클립보드에 복사되었습니다"
+      "COPY_SUCCESSFUL": "클립보드에 복사되었습니다",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "더 보기",
@@ -312,7 +333,9 @@
     "COMPANIES": "회사",
     "ALL_COMPANIES": "모든 회사",
     "CAPTAIN": "Captain",
+    "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "어시스턴트",
+    "CAPTAIN_OVERVIEW": "개요",
     "CAPTAIN_DOCUMENTS": "문서",
     "CAPTAIN_RESPONSES": "FAQ",
     "CAPTAIN_TOOLS": "도구",
@@ -325,9 +348,11 @@
     "AGENT_BOTS": "봇",
     "AUDIT_LOGS": "감사 로그",
     "INBOXES": "받은 메시지함",
+    "WHATSAPP_TEMPLATES": "Templates",
     "NOTIFICATIONS": "알림",
     "CANNED_RESPONSES": "미리 준비된 답변",
     "INTEGRATIONS": "통합",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "프로필 설정",
     "ACCOUNT_SETTINGS": "계정 설정",
     "APPLICATIONS": "애플리케이션",
@@ -379,10 +404,136 @@
       "INFO_TEXT": "앱이나 대시보드를 사용하지 않을 때 시스템이 자동으로 오프라인으로 표시합니다.",
       "INFO_SHORT": "앱을 사용하지 않을 때 자동으로 오프라인으로 표시합니다."
     },
+    "SORT_TOOLTIP": "정렬",
+    "SORT_BY": "정렬",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "문서 읽기",
     "SECURITY": "보안",
     "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "대화 워크플로"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "DEFAULT_IMPORT_NAMES": {
+      "INTERCOM": "Intercom import",
+      "FRESHDESK": "Freshdesk import"
+    },
+    "TABS": {
+      "IMPORT": "가져오기",
+      "EXPORT": "내보내기"
+    },
+    "TYPES": {
+      "CONTACTS": "연락처",
+      "CONVERSATIONS": "대화",
+      "MESSAGES": "메시지"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July support migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "INTERCOM_ACCESS_KEY": "Intercom access key",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "FRESHDESK_API_KEY": "Freshdesk API key",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
+      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "취소",
+      "IMPORT": "가져오기"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "곧 출시 예정"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "가져오기",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "이름",
+      "TYPE": "유형",
+      "STATUS": "상태",
+      "IMPORTED": "Imported",
+      "CREATED": "생성일",
+      "RETRY": "재시도",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "생성일",
+      "DURATION": "기간",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "모두",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "메시지"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Last updated {time}",
+      "REFRESH": "새로고침",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "완료됨",
+        "completed_with_errors": "Completed with errors",
+        "failed": "실패",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Import has started.",
+      "IMPORT_RETRIED": "Import has been queued to resume.",
+      "IMPORT_RETRY_FAILED": "Could not retry the import.",
+      "IMPORT_ABANDONED": "Import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the import."
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain 설정",
@@ -414,17 +565,13 @@
       "DESCRIPTION": "AI 기반 기능을 활성화하거나 비활성화합니다.",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "오디오 전사",
-        "DESCRIPTION": "음성 메시지와 통화 녹음을 검색 가능한 텍스트로 자동 변환합니다."
+        "DESCRIPTION": "음성 메시지와 통화 녹음을 검색 가능한 텍스트로 자동 변환합니다.",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "도움말 센터 검색 인덱싱",
         "DESCRIPTION": "도움말 센터 게시물 내에서 맥락 인식 검색을 위해 AI를 사용합니다."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "라벨 제안",
-        "DESCRIPTION": "콘텐츠 분석 및 맥락에 기반하여 대화에 대한 관련 라벨과 태그를 자동으로 제안합니다.",
-        "MODEL_TITLE": "라벨 제안 모델",
-        "MODEL_DESCRIPTION": "대화 분석 및 적절한 라벨 제안에 사용할 AI 모델을 선택합니다"
       }
     },
     "API": {
@@ -433,13 +580,29 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "청구",
     "DESCRIPTION": "여기에서 구독을 관리하고, 플랜을 업그레이드하여 팀에 더 많은 기능을 제공하십시오.",
     "CURRENT_PLAN": {
       "TITLE": "현재 플랜",
       "PLAN_NOTE": "현재 **{quantity}**개의 라이선스로 **{plan}** 플랜에 구독 중입니다",
       "SEAT_COUNT": "시트 수",
-      "RENEWS_ON": "갱신일"
+      "RENEWS_ON": "갱신일",
+      "CANCELS_ON": "Cancels on",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "가격 보기",
     "MANAGE_SUBSCRIPTION": {
@@ -462,6 +625,38 @@
       "BUTTON_TXT": "채팅하기"
     },
     "NO_BILLING_USER": "청구 계정이 구성 중입니다. 페이지를 새로고침하고 다시 시도하십시오.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "상태",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "갱신일",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "보류 중",
+        "ACTIVE": "활성",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "크레딧 추가 구매",
       "MODAL_TITLE": "AI 크레딧 구매",
@@ -475,6 +670,7 @@
       "PURCHASE": "크레딧 구매",
       "LOADING": "옵션 로딩 중...",
       "FETCH_ERROR": "크레딧 옵션을 로드하지 못했습니다. 다시 시도하십시오.",
+      "RETRY": "재시도",
       "PURCHASE_ERROR": "구매 처리에 실패했습니다. 다시 시도하십시오.",
       "PURCHASE_SUCCESS": "{credits} 크레딧이 계정에 성공적으로 추가되었습니다",
       "CONFIRM": {
@@ -491,6 +687,7 @@
     "DESCRIPTION": "계정 보안 설정을 관리합니다.",
     "LINK_TEXT": "SAML SSO에 대해 자세히 알아보기",
     "SAML_DISABLED_MESSAGE": "SAML SSO가 현재 비활성화되어 있습니다. 이 기능을 활성화하려면 관리자에게 문의하십시오.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "계정에 대한 SAML 싱글 사인온을 구성합니다. 사용자는 이메일/비밀번호 대신 ID 공급자를 통해 인증합니다.",
@@ -775,6 +972,10 @@
           "DESCRIPTION": "에이전트 과부하를 방지하기 위해 시간 창 내에서 에이전트당 배정할 수 있는 최대 대화 수를 설정합니다. 이 필수 필드의 기본값은 시간당 100개 대화입니다.",
           "INPUT_MAX": "최대 배정",
           "DURATION": "에이전트당 대화 수"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "추가된 받은 메시지함",

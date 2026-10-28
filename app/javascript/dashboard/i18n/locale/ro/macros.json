@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Executa",
       "PREVIEW": "Previzualizarea macrocomenzii",
-      "EXECUTED_SUCCESSFULLY": "Macrocomandă executată cu succes"
+      "EXECUTED_SUCCESSFULLY": "Macrocomandă executată cu succes",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
@@ -104,6 +105,7 @@
       "MUTE_CONVERSATION": "Silențios conversația",
       "SNOOZE_CONVERSATION": "Snooze conversație",
       "RESOLVE_CONVERSATION": "Detalii conversație",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Modificarea priorității",

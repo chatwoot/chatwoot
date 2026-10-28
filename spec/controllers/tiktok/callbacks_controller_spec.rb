@@ -54,7 +54,7 @@ RSpec.describe 'TikTok Callbacks', type: :request do
       .to_return(status: 200, body: business_response, headers: { 'Content-Type' => 'application/json' })
   end
 
-  it 'creates channel and inbox and redirects to agents step for new connections' do
+  it 'creates channel and inbox and redirects to agents step for new connections', :aggregate_failures do
     expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(instance_of(Inbox), 'https://www.example.com/avatar.png')
 
     with_modified_env TIKTOK_APP_ID: client_id, TIKTOK_APP_SECRET: client_secret do
@@ -69,6 +69,8 @@ RSpec.describe 'TikTok Callbacks', type: :request do
     expect(channel.business_id).to eq(tiktok_business_id)
     expect(channel.access_token).to eq(tiktok_access_token)
     expect(channel.refresh_token).to eq(tiktok_refresh_token)
+    expect(channel.provider_name).to eq('tiktok_user')
+    expect(inbox.name).to eq('TikTok Display Name')
 
     expect(response).to redirect_to(app_tiktok_inbox_agents_url(account_id: account.id, inbox_id: inbox.id))
   end
@@ -96,7 +98,8 @@ RSpec.describe 'TikTok Callbacks', type: :request do
 
     expect(existing_channel.access_token).to eq(tiktok_access_token)
     expect(existing_channel.refresh_token).to eq(tiktok_refresh_token)
-    expect(inbox.name).to eq('TikTok Display Name')
+    expect(existing_channel.provider_name).to eq('tiktok_user')
+    expect(inbox.name).to eq('Old Name')
 
     expect(response).to redirect_to(app_tiktok_inbox_settings_url(account_id: account.id, inbox_id: inbox.id))
   end

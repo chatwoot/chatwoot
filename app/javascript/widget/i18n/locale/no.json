@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Drevet av Chatwoot",
   "EMAIL_PLACEHOLDER": "Skriv inn din e-post",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Skriv inn meldingen",
   "TODAY": "I dag",
   "YESTERDAY": "I går",
@@ -105,6 +108,11 @@
     "PLACEHOLDER": "Søk emojier",
     "NOT_FOUND": "Ingen emojier samsvarer søket ditt",
     "ARIA_LABEL": "Emoji velger"
+  },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Search emoji…",
+    "FREQUENTLY_USED": "Frequently used",
+    "NO_EMOJI": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Vurder samtalen din",

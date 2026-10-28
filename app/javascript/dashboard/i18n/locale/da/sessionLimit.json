@@ -1,0 +1,12 @@
+{
+  "SESSION_LIMIT": {
+    "TITLE": "Grænsen for aktiv sessioner er nået",
+    "DESCRIPTION": "Du har nået din grænse for aktive sessioner. Afslut en session, før du logger ind.",
+    "END": "Afslut",
+    "END_ALL": "Afslut alle sessioner",
+    "LOG_IN": "Log ind",
+    "CANCEL": "Tilbage til login",
+    "UNKNOWN_DEVICE": "Ukendt enhed",
+    "STARTED": "Startede"
+  }
+}

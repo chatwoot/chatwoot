@@ -1,8 +1,17 @@
 class Webhooks::ShopifyController < ActionController::API
+  COMPLIANCE_TOPICS = %w[customers/data_request customers/redact shop/redact].freeze
+  MANDATORY_CLEANUP_TOPICS = (COMPLIANCE_TOPICS + %w[app/uninstalled]).freeze
+  class CleanupIncomplete < StandardError; end
+
+  before_action :ensure_shopify_enabled, unless: :mandatory_cleanup_event?
   before_action :verify_hmac!
+  before_action :verify_custom_app_shop!
+  around_action :with_installation_transaction, only: :events
 
   def events
     case request.headers['X-Shopify-Topic']
+    when 'app/uninstalled'
+      handle_app_uninstalled
     when 'shop/redact'
       handle_shop_redact
     end
@@ -12,8 +21,20 @@ class Webhooks::ShopifyController < ActionController::API
 
   private
 
+  def with_installation_transaction(&)
+    ActiveRecord::Base.transaction(&)
+  end
+
+  def ensure_shopify_enabled
+    head :not_found unless Shopify::FeatureGate.enabled?
+  end
+
+  def mandatory_cleanup_event?
+    MANDATORY_CLEANUP_TOPICS.include?(request.headers['X-Shopify-Topic'])
+  end
+
   def verify_hmac!
-    secret = GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil)
+    secret = custom_app ? custom_app.client_secret : GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil)
     return head :unauthorized if secret.blank?
 
     data = request.body.read
@@ -26,10 +47,54 @@ class Webhooks::ShopifyController < ActionController::API
     return head :unauthorized unless ActiveSupport::SecurityUtils.secure_compare(computed, hmac_header)
   end
 
-  def handle_shop_redact
-    shop_domain = params[:shop_domain]
-    return if shop_domain.blank?
+  def verify_custom_app_shop!
+    return unless custom_app
 
-    Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain).destroy_all
+    shop = params[:shop_domain] || params[:myshopify_domain] || request.headers['X-Shopify-Shop-Domain']
+    head :unauthorized unless Shopify::ShopDomain.normalize(shop) == custom_app.shop_domain
+  end
+
+  def handle_shop_redact
+    custom_app&.invalidate_authorizations!
+    Shopify::PendingInstallation.invalidate_shop!(shop: params[:shop_domain]) unless custom_app
+    hooks = shopify_hooks(params[:shop_domain])
+    hooks.find_each do |hook|
+      Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at, delete_hook: true).perform
+    end
+    raise CleanupIncomplete, 'Shopify shop redaction is incomplete' if hooks.any? { |hook| redaction_required?(hook) }
+  end
+
+  def handle_app_uninstalled
+    custom_app&.invalidate_authorizations!
+    Shopify::PendingInstallation.invalidate_shop!(shop: params[:myshopify_domain]) unless custom_app
+    shopify_hooks(params[:myshopify_domain]).find_each do |hook|
+      Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at).perform
+    end
+  end
+
+  def webhook_triggered_at
+    @webhook_triggered_at ||= Time.iso8601(request.headers.fetch('X-Shopify-Triggered-At'))
+  end
+
+  def redaction_required?(hook)
+    connected_at = hook.settings['connected_at']
+    connected_at.blank? || Time.iso8601(connected_at) <= webhook_triggered_at
+  end
+
+  def custom_app
+    account_id = request.path_parameters[:account_id]
+    return if account_id.blank?
+
+    @custom_app ||= Shopify::CustomApp.find_by!(account_id: account_id)
+  end
+
+  def shopify_hooks(shop_domain)
+    normalized_domain = Shopify::ShopDomain.normalize(shop_domain)
+    return Integrations::Hook.none unless Shopify::ShopDomain.valid?(normalized_domain)
+
+    hooks = Integrations::Hook.where(app_id: 'shopify', reference_id: normalized_domain)
+    return hooks.where(account_id: custom_app.account_id).with_shopify_custom_app_id(custom_app.id) if custom_app
+
+    hooks.with_shopify_custom_app_id(nil)
   end
 end

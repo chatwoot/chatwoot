@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "参数",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "语言",
       "CATEGORY": "类别",
       "VARIABLE_PLACEHOLDER": "请填写 {variable}",

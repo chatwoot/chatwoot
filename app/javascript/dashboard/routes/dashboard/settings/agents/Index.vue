@@ -3,7 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useI18n } from 'vue-i18n';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import {
   useStoreGetters,
   useStore,

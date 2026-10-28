@@ -33,6 +33,22 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.post(`${this.url}/${inboxId}/sync_templates`);
   }
 
+  getMessageTemplates(inboxId, params = {}, config = {}) {
+    return axios.get(`${this.url}/${inboxId}/message_templates`, {
+      ...config,
+      params,
+    });
+  }
+
+  updateWhatsappBusinessManagementToken(inboxId, businessManagementToken) {
+    return axios.put(
+      `${this.url}/${inboxId}/whatsapp_business_management_token`,
+      {
+        business_management_token: businessManagementToken,
+      }
+    );
+  }
+
   createCSATTemplate(inboxId, template) {
     return axios.post(`${this.url}/${inboxId}/csat_template`, {
       template,
@@ -53,6 +69,10 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.post(`${this.url}/${inboxId}/reset_secret`);
   }
 
+  rotateHmacToken(inboxId) {
+    return axios.post(`${this.url}/${inboxId}/rotate_hmac_token`);
+  }
+
   enableWhatsappCalling(inboxId) {
     return axios.post(`${this.url}/${inboxId}/enable_whatsapp_calling`);
   }
@@ -64,6 +84,22 @@ class Inboxes extends CacheEnabledApiClient {
   setInboundCalls(inboxId, enabled) {
     return axios.post(`${this.url}/${inboxId}/set_inbound_calls`, {
       inbound_calls_enabled: enabled,
+    });
+  }
+
+  setCallRecording(inboxId, { recordingEnabled, transcriptionEnabled }) {
+    return axios.post(`${this.url}/${inboxId}/set_call_recording`, {
+      recording_enabled: recordingEnabled,
+      transcription_enabled: transcriptionEnabled,
+    });
+  }
+
+  // kind: 'out_of_hours' | 'greeting' | 'unanswered'; only 'unanswered' carries a ring time
+  setCallAnnouncement(inboxId, kind, { enabled, message, timeoutSeconds }) {
+    return axios.patch(`${this.url}/${inboxId}/call_announcements/${kind}`, {
+      enabled,
+      message,
+      timeout_seconds: timeoutSeconds,
     });
   }
 }

@@ -1,0 +1,46 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "Chiamate",
+    "ALL_CALLS": "Tutte le chiamate",
+    "ALL_CALLS_COUNT": "Tutte le chiamate ({count})",
+    "EMPTY_STATE": "Nessuna chiamata trovata",
+    "SETUP": {
+      "TITLE": "Fai e ricevi chiamate in un unico posto",
+      "SUBTITLE": "Configura un canale voce per iniziare a gestire le chiamate con il tuo team. Ogni chiamata, con la sua registrazione, comparirà qui.",
+      "ACTION": "Configura il canale voce"
+    },
+    "FILTERS": {
+      "MISSED": "Perse",
+      "NO_REPLY": "Senza risposta",
+      "OTHER_ACTIVITY": "Altra attività",
+      "INCOMING": "In arrivo",
+      "OUTGOING": "In uscita",
+      "IN_PROGRESS": "In corso",
+      "ASSIGNEE": "Assegnatario",
+      "ALL_ASSIGNEES": "Tutti gli assegnatari",
+      "MORE_FILTERS": "Altri filtri",
+      "INBOX": "Inbox",
+      "ALL_INBOXES": "Tutte le caselle di posta"
+    },
+    "STATUS": {
+      "ONGOING": "In corso",
+      "INCOMING": "In arrivo",
+      "OUTGOING": "In uscita",
+      "MISSED": "Persa",
+      "NO_REPLY": "Senza risposta",
+      "FAILED": "Non Riuscito"
+    },
+    "ROW": {
+      "PICKED_BY": "Risposta da",
+      "DIALED_BY": "Composta da",
+      "ANSWERED": "Risposta",
+      "RINGING": "Squilla",
+      "IN_PROGRESS": "In corso",
+      "NO_AGENT": "Nessun agente ha risposto a questa chiamata",
+      "NO_CONTACT_ANSWER": "Il contatto non ha risposto",
+      "FAILED": "Impossibile collegare questa chiamata",
+      "YESTERDAY": "Ieri",
+      "DELETED_CONTACT": "Contatto eliminato"
+    }
+  }
+}

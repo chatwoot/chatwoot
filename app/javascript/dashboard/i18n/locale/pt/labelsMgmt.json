@@ -43,20 +43,6 @@
       "DELETE": "Excluir",
       "CANCEL": "Cancelar"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Adicionar etiqueta à conversa",
-        "MULTIPLE_SUGGESTION": "Selecionar esta etiqueta",
-        "DESELECT": "Desmarcar etiqueta",
-        "DISMISS": "Descartar sugestão"
-      },
-      "POWERED_BY": "Chatwoot IA",
-      "DISMISS": "Descartar",
-      "ADD_SELECTED_LABELS": "Adicionar etiquetas selecionadas",
-      "ADD_SELECTED_LABEL": "Adicionar etiqueta selecionada",
-      "ADD_ALL_LABELS": "Adicionar todas as etiquetas",
-      "SUGGESTED_LABELS": "Etiquetas sugeridas"
-    },
     "ADD": {
       "TITLE": "Adicionar etiqueta",
       "DESC": "As etiquetas permitem agrupar conversas.",

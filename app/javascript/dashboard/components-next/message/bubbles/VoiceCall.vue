@@ -170,6 +170,9 @@ const subtext = computed(() => {
     if (isOutbound.value) {
       return t('CONVERSATION.VOICE_CALL.NO_ANSWER_OUTBOUND_SUBTEXT');
     }
+    if (endReason.value === VOICE_CALL_END_REASON.OUTSIDE_WORKING_HOURS) {
+      return t('CONVERSATION.VOICE_CALL.MISSED_CALL_OUTSIDE_HOURS');
+    }
     if (wasDeclinedByAgent.value && displayAgentName.value) {
       return t('CONVERSATION.VOICE_CALL.MISSED_CALL_DECLINED_BY', {
         agentName: displayAgentName.value,
@@ -243,6 +246,16 @@ const handleJoinCall = async () => {
     });
   }
 
+  // The store skips calls that rang while the agent was away or were dismissed; register it so joinCall picks the right provider.
+  callsStore.addCall({
+    callSid: callSid.value,
+    callId: call.value?.id,
+    provider: call.value?.provider,
+    conversationId: conversationId.value,
+    inboxId: inboxId.value,
+    callDirection: VOICE_CALL_DIRECTION.INBOUND,
+  });
+
   await joinCall({
     conversationId: conversationId.value,
     inboxId: inboxId.value,
@@ -253,6 +266,7 @@ const handleJoinCall = async () => {
 const canCallBack = computed(
   () =>
     isMissedInbound.value &&
+    (isWhatsapp.value || !!sender.value?.phoneNumber) &&
     !!inboxId.value &&
     !!conversationId.value &&
     !hasActiveCall.value &&
@@ -263,9 +277,9 @@ const handleCallBack = async () => {
   if (!canCallBack.value || isInitiatingCall.value) return;
   try {
     if (isWhatsapp.value) {
-      const response = await whatsappCallSession.initiateOutboundCall(
-        conversationId.value
-      );
+      const response = await whatsappCallSession.initiateOutboundCall({
+        conversationId: conversationId.value,
+      });
       if (response?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED) return;
       // Permission template path returns no call id — show banner, no widget yet.
       if (!response?.id) {

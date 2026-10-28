@@ -1,0 +1,46 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "Opkald",
+    "ALL_CALLS": "Alle Opkald",
+    "ALL_CALLS_COUNT": "Alle Opkald ({count})",
+    "EMPTY_STATE": "Ingen opkald fundet",
+    "SETUP": {
+      "TITLE": "Foretag og modtag opkald på ét sted",
+      "SUBTITLE": "Konfigurer en stemmekanal for at begynde at håndtere opkald med dit team. Hvert opkald vil sammen med dets optagelse blive vist her.",
+      "ACTION": "Konfigurer stemmekanal"
+    },
+    "FILTERS": {
+      "MISSED": "Ubesvarede",
+      "NO_REPLY": "Intet svar",
+      "OTHER_ACTIVITY": "Anden aktivitet",
+      "INCOMING": "Indgående",
+      "OUTGOING": "Udgående",
+      "IN_PROGRESS": "Igangværende",
+      "ASSIGNEE": "Ansvarlig",
+      "ALL_ASSIGNEES": "Alle ansvarlige",
+      "MORE_FILTERS": "Flere filtre",
+      "INBOX": "Indbakke",
+      "ALL_INBOXES": "Alle indbakker"
+    },
+    "STATUS": {
+      "ONGOING": "Igangværende",
+      "INCOMING": "Indgående",
+      "OUTGOING": "Udgående",
+      "MISSED": "Ubesvarede",
+      "NO_REPLY": "Intet svar",
+      "FAILED": "Failed"
+    },
+    "ROW": {
+      "PICKED_BY": "Håndteres af",
+      "DIALED_BY": "Opringet af",
+      "ANSWERED": "Besvaret",
+      "RINGING": "Ringer",
+      "IN_PROGRESS": "Igangværende",
+      "NO_AGENT": "Ingen agent besvarede dette opkald",
+      "NO_CONTACT_ANSWER": "Kontakten svarede ikke",
+      "FAILED": "Dette opkald kunne ikke forbindes",
+      "YESTERDAY": "I går",
+      "DELETED_CONTACT": "Slettet kontakt"
+    }
+  }
+}

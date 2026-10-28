@@ -2,41 +2,59 @@
 #
 # Table name: automation_rules
 #
-#  id          :bigint           not null, primary key
-#  actions     :jsonb            not null
-#  active      :boolean          default(TRUE), not null
-#  conditions  :jsonb            not null
-#  description :text
-#  event_name  :string           not null
-#  name        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :bigint           not null
+#  id                         :bigint           not null, primary key
+#  actions                    :jsonb            not null
+#  active                     :boolean          default(TRUE), not null
+#  conditions                 :jsonb            not null
+#  description                :text
+#  event_name                 :string           not null
+#  execution_delay            :integer
+#  monitor_event_activated_at :datetime
+#  name                       :string           not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  account_id                 :bigint           not null
+#  monitor_id                 :bigint
 #
 # Indexes
 #
 #  index_automation_rules_on_account_id  (account_id)
+#  index_automation_rules_on_monitor_id  (monitor_id)
 #
 class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Reauthorizable
 
+  EXECUTION_DELAY_RANGE = (10..43_200) # minutes: 10 min to 30 days
+  # Conversation-level delayed rules key their episode on status; only status and attributes
+  # that never change after the delay (inbox) are safe to also filter on.
+  DELAYED_CONVERSATION_ATTRIBUTES = %w[status inbox_id].freeze
+
   belongs_to :account
+  has_many :pending_executions, class_name: 'AutomationRulePendingExecution', dependent: :delete_all
   has_many_attached :files
 
   validate :json_conditions_format
+  validate :captain_conditions_feature
+  validate :captain_conditions_operator
+  validate :captain_conditions_description
   validate :json_actions_format
   validate :query_operator_presence
   validate :query_operator_value
   validates :account_id, presence: true
+  validates :execution_delay, numericality: { only_integer: true, in: EXECUTION_DELAY_RANGE }, allow_nil: true
+  validate :execution_delay_supported_conditions
+  validate :execution_delay_supported_event
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
+  # Discard rows armed under the old definition; they re-arm on the next matching event.
+  after_update :discard_stale_pending_executions, if: :execution_config_changed?
 
   scope :active, -> { where(active: true) }
 
   def conditions_attributes
     %w[content email country_code status message_type browser_language assignee_id team_id referer city company_name inbox_id
-       mail_subject phone_number priority conversation_language labels private_note]
+       mail_subject phone_number priority conversation_language labels private_note captain_condition]
   end
 
   def actions_attributes
@@ -71,6 +89,47 @@ class AutomationRule < ApplicationRecord
     errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
   end
 
+  def captain_conditions(rule_conditions = conditions)
+    rule_conditions.select { |obj| obj['attribute_key'] == Captain::AutomationConditionService::ATTRIBUTE_KEY }
+  end
+
+  def captain_judgments(rule_conditions)
+    captain_conditions(rule_conditions).map { |obj| [obj['filter_operator'], obj['values']] }
+  end
+
+  # Only adding or changing a Captain condition needs the feature, so a rule saved before the
+  # feature was revoked can still be deactivated, edited or cleaned up.
+  def captain_conditions_feature
+    return if account.feature_enabled?(Captain::AutomationConditionService::FEATURE)
+
+    saved = new_record? ? {} : captain_judgments(conditions_was).tally
+    return if captain_judgments(conditions).tally.all? { |judgment, count| count <= saved.fetch(judgment, 0) }
+
+    errors.add(:conditions, 'Captain conditions require the Captain Classifier feature.')
+  end
+
+  def captain_conditions_operator
+    return if captain_conditions.all? { |obj| Captain::AutomationConditionService::OPERATORS.include?(obj['filter_operator']) }
+
+    errors.add(:conditions, 'Captain conditions support only the detects and does_not_detect operators.')
+  end
+
+  def captain_conditions_description
+    values = captain_conditions.pluck('values')
+    limit = Captain::AutomationConditionService::MAX_DESCRIPTION_LENGTH
+
+    unless values.all? { |value| captain_description?(value) }
+      return errors.add(:conditions, 'Captain conditions need exactly one description of what to detect.')
+    end
+    return if values.all? { |value| value.first.length <= limit }
+
+    errors.add(:conditions, "Captain condition descriptions can have at most #{limit} characters.")
+  end
+
+  def captain_description?(value)
+    value.is_a?(Array) && value.size == 1 && value.first.is_a?(String) && value.first.present?
+  end
+
   def json_actions_format
     return if actions.blank?
 
@@ -93,6 +152,37 @@ class AutomationRule < ApplicationRecord
     conditions.each do |obj|
       validate_single_condition(obj)
     end
+  end
+
+  # The fire-time re-check cannot reconstruct changed_attributes, so delayed rules
+  # cannot use attribute_changed conditions.
+  def execution_delay_supported_conditions
+    return if execution_delay.blank? || conditions.blank?
+    return if conditions.none? { |obj| obj['filter_operator'] == 'attribute_changed' }
+
+    errors.add(:execution_delay, 'cannot be used with attribute_changed conditions.')
+  end
+
+  # Conversation-level episodes key on status_changed_at alone. Mutable attributes would collapse
+  # distinct periods into one episode, so only status and immutable filters (inbox) are allowed.
+  def execution_delay_supported_event
+    return if execution_delay.blank? || conditions.blank? || event_name == 'message_created'
+    return if conditions.all? { |obj| DELAYED_CONVERSATION_ATTRIBUTES.include?(obj['attribute_key']) }
+
+    errors.add(:execution_delay, 'only supports status and inbox conditions for conversation-level events.')
+  end
+
+  # Deactivating counts: without it a rule turned off and back on before its due time would still
+  # run the actions the admin turned it off to stop.
+  def execution_config_changed?
+    saved_change_to_active? || saved_change_to_execution_delay? || saved_change_to_event_name? ||
+      saved_change_to_conditions? || saved_change_to_actions?
+  end
+
+  def discard_stale_pending_executions
+    # armed = pending + processing, the rows the sweep would otherwise still run. Rows already
+    # executing are left alone: their actions are in flight and cannot be called back.
+    pending_executions.armed.delete_all
   end
 
   def validate_single_condition(condition)

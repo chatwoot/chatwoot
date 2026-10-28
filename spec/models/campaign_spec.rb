@@ -3,9 +3,46 @@
 require 'rails_helper'
 
 RSpec.describe Campaign do
+  let(:store) { Conversations::UnreadCounts::FilteredCountStore }
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:inbox) }
+  end
+
+  describe '#destroy' do
+    let(:account) { create(:account) }
+    let(:campaign) { create(:campaign, account: account) }
+
+    before do
+      campaign
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    after do
+      Redis::Alfred.delete(store.conversation_version_key(account.id))
+    end
+
+    it 'invalidates and refreshes filtered counts when conversations are detached from a deleted campaign' do
+      account.enable_features!(:unread_count_for_filters)
+
+      expect do
+        campaign.destroy!
+      end.to change { store.conversation_version(account.id) }.by(1)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
+    end
+
+    it 'does not notify filtered count refreshes when the feature is disabled' do
+      campaign.destroy!
+
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+    end
   end
 
   describe '.before_create' do
@@ -69,6 +106,8 @@ RSpec.describe Campaign do
       let!(:twilio_inbox) { create(:inbox, channel: twilio_sms, account: account) }
       let(:campaign) { build(:campaign, account: account, inbox: twilio_inbox) }
 
+      before { account.enable_features!(:campaigns) }
+
       it 'only saves campaign type as oneoff and wont leave scheduled_at empty' do
         campaign.campaign_type = 'ongoing'
         campaign.save!
@@ -105,6 +144,28 @@ RSpec.describe Campaign do
         campaign.trigger!
       end
 
+      it 'rechecks a deferred schedule under the lock before starting a queued campaign' do
+        campaign.save!
+        described_class.find(campaign.id).update!(scheduled_at: 1.hour.from_now)
+        expect(Twilio::OneoffSmsCampaignService).not_to receive(:new)
+
+        Campaigns::TriggerOneoffCampaignJob.perform_now(campaign)
+
+        expect(campaign.reload).to be_active
+        expect(campaign.started_at).to be_nil
+      end
+
+      it 'starts a rescheduled campaign when its new due time arrives' do
+        campaign.save!
+        campaign.update!(scheduled_at: 1.hour.from_now)
+        sms_service = instance_double(Twilio::OneoffSmsCampaignService, perform: nil)
+        expect(Twilio::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+
+        travel_to(campaign.scheduled_at + 1.second) { campaign.trigger! }
+
+        expect(campaign.reload).to be_processing
+      end
+
       it 'keeps the campaign processing when triggering fails' do
         campaign.save!
         sms_service = double
@@ -122,6 +183,8 @@ RSpec.describe Campaign do
       let!(:sms_channel) { create(:channel_sms, account: account) }
       let!(:sms_inbox) { create(:inbox, channel: sms_channel, account: account) }
       let(:campaign) { build(:campaign, account: account, inbox: sms_inbox) }
+
+      before { account.enable_features!(:campaigns) }
 
       it 'only saves campaign type as oneoff and wont leave scheduled_at empty' do
         campaign.campaign_type = 'ongoing'

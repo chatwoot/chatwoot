@@ -9,6 +9,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 const props = defineProps({
   record: {
@@ -19,6 +20,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 const route = useRoute();
+const { getPlainText } = useMessageFormatter();
 
 const conversation = computed(() => props.record.conversation || {});
 const message = computed(() => props.record.message || {});
@@ -227,30 +229,32 @@ const openRecord = () => {
       <div
         class="ms-2 flex shrink-0 items-center justify-end gap-1 text-end text-xs leading-4 text-n-slate-10"
       >
-        <span
-          v-if="isMessageRecord"
-          v-tooltip.left="messageCreatedTooltip"
-          :aria-label="messageCreatedTooltip"
-          class="whitespace-nowrap"
-        >
-          {{ compactTimestamp(message.created_at) }}
-        </span>
-        <TimeAgo
-          v-else
-          :is-auto-refresh-enabled="false"
-          :conversation-id="conversation.id"
-          :last-activity-timestamp="conversation.last_activity_at"
-          :created-at-timestamp="conversation.created_at"
-          class="font-440 !text-xs !text-n-slate-10"
-        />
-        <span
-          v-if="isEventBackedConversationRecord"
-          v-tooltip.left="eventOccurredTooltip"
-          :aria-label="eventOccurredTooltip"
-          class="whitespace-nowrap rounded bg-n-alpha-2 px-1 py-0.5 text-[11px] leading-4 text-n-slate-10"
-        >
-          {{ compactTimestamp(record.occurred_at) }}
-        </span>
+        <slot name="timestamp">
+          <span
+            v-if="isMessageRecord"
+            v-tooltip.left="messageCreatedTooltip"
+            :aria-label="messageCreatedTooltip"
+            class="whitespace-nowrap"
+          >
+            {{ compactTimestamp(message.created_at) }}
+          </span>
+          <TimeAgo
+            v-else
+            :is-auto-refresh-enabled="false"
+            :conversation-id="conversation.id"
+            :last-activity-timestamp="conversation.last_activity_at"
+            :created-at-timestamp="conversation.created_at"
+            class="font-440 !text-xs !text-n-slate-10"
+          />
+          <span
+            v-if="isEventBackedConversationRecord"
+            v-tooltip.left="eventOccurredTooltip"
+            :aria-label="eventOccurredTooltip"
+            class="whitespace-nowrap rounded bg-n-alpha-2 px-1 py-0.5 text-[11px] leading-4 text-n-slate-10"
+          >
+            {{ compactTimestamp(record.occurred_at) }}
+          </span>
+        </slot>
       </div>
     </div>
 
@@ -258,7 +262,7 @@ const openRecord = () => {
       v-if="showPreview"
       class="mt-2 line-clamp-1 text-sm leading-5 text-n-slate-12"
     >
-      {{ previewText }}
+      {{ getPlainText(previewText || '') }}
     </p>
 
     <div class="mt-2 grid grid-cols-3 gap-2">

@@ -5,6 +5,13 @@ RSpec.describe Captain::BaseTaskService, type: :model do
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:perform_result) { { message: 'Test response' } }
+  let(:exhausted_usage_limits) do
+    {
+      agents: ChatwootApp.max_limit,
+      inboxes: ChatwootApp.max_limit,
+      captain: { responses: { current_available: 0 } }
+    }
+  end
 
   # Create a concrete test service class with enterprise module prepended
   let(:test_service_class) do
@@ -30,6 +37,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
   describe '#perform with enterprise usage tracking' do
     # Ensure captain is enabled by default for tests unless explicitly testing disabled state
     before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       allow(account).to receive(:feature_enabled?).and_call_original
       allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
@@ -38,9 +46,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
     context 'when usage limit is exceeded' do
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        allow(account).to receive(:usage_limits).and_return({
-                                                              captain: { responses: { current_available: 0 } }
-                                                            })
+        allow(account).to receive(:usage_limits).and_return(exhausted_usage_limits)
       end
 
       it 'returns usage limit exceeded error' do
@@ -125,9 +131,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       context 'when the captain_responses quota is exhausted on Cloud' do
         before do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-          allow(account).to receive(:usage_limits).and_return({
-                                                                captain: { responses: { current_available: 0 } }
-                                                              })
+          allow(account).to receive(:usage_limits).and_return(exhausted_usage_limits)
         end
 
         it 'returns usage limit exceeded error for services that do not opt into BYOK' do
@@ -162,9 +166,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       context 'when the captain_responses quota is exhausted on Cloud' do
         before do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-          allow(account).to receive(:usage_limits).and_return({
-                                                                captain: { responses: { current_available: 0 } }
-                                                              })
+          allow(account).to receive(:usage_limits).and_return(exhausted_usage_limits)
         end
 
         it 'bypasses the 429 gate and returns the underlying result' do
@@ -249,9 +251,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       context 'when the captain_responses quota is exhausted on Cloud' do
         before do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-          allow(account).to receive(:usage_limits).and_return({
-                                                                captain: { responses: { current_available: 0 } }
-                                                              })
+          allow(account).to receive(:usage_limits).and_return(exhausted_usage_limits)
         end
 
         it 'bypasses the 429 gate and returns the underlying result' do

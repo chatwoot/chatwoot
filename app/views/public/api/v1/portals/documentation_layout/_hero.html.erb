@@ -1,4 +1,4 @@
-<%# locals: (portal:, popular_topics: []) %>
+<%# locals: (portal:, popular_topics: [], recommended: false) %>
 <section class="relative border-b border-solid border-n-weak bg-n-slate-1 dark:bg-n-slate-2 min-h-[50vh] flex items-center">
   <div class="absolute inset-0 pointer-events-none text-n-portal-faint [background-image:linear-gradient(to_right,currentColor_1px,transparent_1px),linear-gradient(to_bottom,currentColor_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_50%_30%,black_35%,transparent_80%)] [-webkit-mask-image:radial-gradient(ellipse_at_50%_30%,black_35%,transparent_80%)]" aria-hidden="true"></div>
 
@@ -17,7 +17,7 @@
 
       <% if popular_topics.any? %>
         <div class="mt-5 flex items-center gap-2 flex-wrap text-sm">
-          <span class="text-n-slate-10"><%= I18n.t('public_portal.sidebar.popular_label') %></span>
+          <span class="text-n-slate-10"><%= I18n.t("public_portal.sidebar.#{recommended ? 'recommended_label' : 'popular_label'}") %></span>
           <% popular_topics.each do |category| %>
             <a href="<%= public_portal_category_path(portal.slug, category.locale, category.slug) %>"
                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/60 dark:bg-n-slate-1/60 backdrop-blur border border-solid border-n-weak text-n-slate-11 hover:text-n-portal hover:border-n-portal transition">

@@ -44,6 +44,12 @@ RSpec.describe Voice::OutboundCallBuilder do
       end
     end
 
+    it 'reads the provider status once the call is committed' do
+      call = described_class.perform!(account: account, inbox: inbox, user: user, contact: contact)
+
+      expect(Voice::SyncProviderStatusJob).to have_been_enqueued.with(call.id)
+    end
+
     it 'assigns the conversation to the agent placing the call' do
       call = described_class.perform!(
         account: account,
@@ -90,6 +96,15 @@ RSpec.describe Voice::OutboundCallBuilder do
       described_class.perform!(account: account, inbox: inbox, user: user, contact: contact, conversation: conversation)
 
       expect(conversation.reload.assignee_id).to eq(other_agent.id)
+    end
+
+    it 'keeps the AgentBot owner when a reused conversation is already assigned' do
+      agent_bot = create(:agent_bot, account: account)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, ai_assignee: agent_bot).reload
+
+      described_class.perform!(account: account, inbox: inbox, user: user, contact: contact, conversation: conversation)
+
+      expect(conversation.reload.assigned_entity).to eq(agent_bot)
     end
 
     it 'does not set conversation.identifier or write call state to additional_attributes' do
