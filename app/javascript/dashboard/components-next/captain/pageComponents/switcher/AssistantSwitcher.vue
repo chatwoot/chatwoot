@@ -122,10 +122,10 @@ const openCreateAssistantDialog = () => {
         </span>
         <Avatar
           v-if="assistant"
+          :src="assistant.avatar_url"
           :name="assistant.name"
           :size="20"
-          icon-name="i-lucide-bot"
-          rounded-full
+          icon-name="i-woot-captain"
         />
       </Button>
     </div>
