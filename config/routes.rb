@@ -84,6 +84,7 @@ Rails.application.routes.draw do
             resource :preferences, only: [:show, :update]
             resources :assistants do
               member do
+                delete :avatar
                 post :playground
                 get :metrics
                 get :faq_stats
@@ -116,6 +117,10 @@ Rails.application.routes.draw do
             resources :copilot_threads, only: [:index, :create] do
               resources :copilot_messages, only: [:index, :create]
             end
+            resources :copilot_runs, only: [] do
+              post :approve, on: :member
+              post :reject, on: :member
+            end
             resources :custom_tools do
               post :test, on: :collection
             end
@@ -135,7 +140,9 @@ Rails.application.routes.draw do
               post :follow_up
             end
           end
-          resource :saml_settings, only: [:show, :create, :update, :destroy]
+          resource :saml_settings, only: [:show, :create, :update, :destroy] do
+            post :refresh
+          end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -347,6 +354,7 @@ Rails.application.routes.draw do
               post :disable_whatsapp_calling, on: :member
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
+              resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
@@ -449,6 +457,7 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            resource :shopify_custom_app, controller: 'shopify_custom_apps', only: [:show, :create, :update, :destroy]
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
                 post :auth
@@ -515,6 +524,7 @@ Rails.application.routes.draw do
         member do
           post :availability
           post :auto_offline
+          post :work_preferences
           put :set_active_account
           post :resend_confirmation
           post :reset_access_token
@@ -720,6 +730,7 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
+  post 'webhooks/shopify/accounts/:account_id', to: 'webhooks/shopify#events'
   post 'webhooks/stripe_app', to: 'webhooks/stripe_app#events'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
 
@@ -735,6 +746,7 @@ Rails.application.routes.draw do
   end
 
   namespace :shopify do
+    get 'accounts/:account_id/callback', to: 'custom_callbacks#show'
     resource :callback, only: [:show]
   end
 
@@ -744,6 +756,7 @@ Rails.application.routes.draw do
 
     if ChatwootApp.enterprise?
       post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
+      get 'voice/wait/:phone', to: 'voice#wait_twiml', as: :voice_wait
       post 'voice/status/:phone', to: 'voice#status', as: :voice_status
       post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
       post 'voice/recording_status/:phone', to: 'voice#recording_status', as: :voice_recording_status
