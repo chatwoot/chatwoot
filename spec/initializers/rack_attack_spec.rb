@@ -79,6 +79,25 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'super_admin_login/email' do
+    def super_admin_env(params)
+      form_env(params, '/super_admin/sign_in')
+    end
+
+    it 'keys password sign-ins by the normalized super admin email' do
+      key = throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => { 'email' => ' Admin@Example.COM ', 'password' => 'x' } }))
+      expect(key).to eq('admin@example.com')
+    end
+
+    it 'skips code submissions instead of sharing a blank key' do
+      expect(throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => { 'otp_code' => '123456' } }))).to be_nil
+    end
+
+    it 'skips a non-hash super_admin param' do
+      expect(throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => 'email' }))).to be_nil
+    end
+  end
+
   describe 'malformed query strings' do
     it 'falls back to the per-ip throttle instead of raising on an over-nested query' do
       env = build_env('/auth/sign_in', '{}', 'application/json')

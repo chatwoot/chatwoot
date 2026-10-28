@@ -873,6 +873,11 @@ en:
       password: 'Password'
       password_placeholder: 'Password'
       submit: 'Login'
+      mfa_code: 'Authentication code'
+      mfa_code_placeholder: '6-digit code or backup code'
+      mfa_submit: 'Verify'
+      mfa_invalid: 'Invalid code. Please try again.'
+      mfa_expired: 'Your sign-in attempt expired. Please sign in again.'
     navigation:
       label: 'Super Admin'
       suffix: 'Super Admin console'
