@@ -14,8 +14,12 @@ RSpec.describe Captain::ResponsesConfig do
 
   let(:context) { RubyLLM.context { |config| config.openai_api_key = 'test-key' } }
 
-  efforts = { 'gpt-5.1' => 'none', 'gpt-5.2' => 'none' }
-  %w[assistant copilot].each do |feature|
+  feature_efforts = {
+    'assistant' => { 'gpt-5.1' => 'none', 'gpt-5.2' => 'none' },
+    'copilot' => { 'gpt-5.1' => 'none', 'gpt-5.2' => 'none' },
+    'copilot_workflows' => { 'gpt-5.1' => 'none', 'gpt-5.2' => 'none' }
+  }
+  feature_efforts.each do |feature, efforts|
     efforts.each do |model, effort|
       it "renders #{feature} tool requests for #{model} with #{effort} reasoning" do
         options = described_class.options(model: model, temperature: 0.7, feature: feature)

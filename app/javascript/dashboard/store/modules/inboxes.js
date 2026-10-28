@@ -262,10 +262,14 @@ export const actions = {
       throwErrorMessage(error);
     }
   },
-  updateCallBusinessHours: async ({ commit }, { id, enabled, message }) => {
-    const response = await InboxesAPI.setCallBusinessHours(id, {
+  updateCallAnnouncement: async (
+    { commit },
+    { id, kind, enabled, message, timeoutSeconds }
+  ) => {
+    const response = await InboxesAPI.setCallAnnouncement(id, kind, {
       enabled,
       message,
+      timeoutSeconds,
     });
     commit(types.default.EDIT_INBOXES, response.data);
   },
