@@ -841,6 +841,9 @@
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta tags",
         "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -986,6 +989,14 @@
         },
         "SAVE": "Save changes"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Integrations",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1061,7 @@
         "GENERAL": "General",
         "DOMAIN": "Domain",
         "APPEARANCE": "Appearance",
+        "SEO": "SEO",
         "INTEGRATIONS": "Integrations"
       },
       "API": {

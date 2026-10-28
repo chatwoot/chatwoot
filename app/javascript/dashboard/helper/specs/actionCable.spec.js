@@ -129,6 +129,30 @@ describe('ActionCableConnector - Copilot Tests', () => {
     });
   });
 
+  describe('presence.update', () => {
+    it('updates the work preferences of the current user', () => {
+      const workPreferences = {
+        accepts_conversations: true,
+        accepts_calls: false,
+      };
+
+      actionCable.onReceived({
+        event: 'presence.update',
+        data: {
+          account_id: 1,
+          users: { 1: 'online' },
+          contacts: {},
+          work_preferences: workPreferences,
+        },
+      });
+
+      expect(mockDispatch).toHaveBeenCalledWith(
+        'setCurrentUserWorkPreferences',
+        workPreferences
+      );
+    });
+  });
+
   describe('conversation unread count event handlers', () => {
     it('should register the conversation.unread_count_changed event handler', () => {
       expect(Object.keys(actionCable.events)).toContain(

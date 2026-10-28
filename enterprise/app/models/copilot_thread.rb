@@ -21,6 +21,7 @@ class CopilotThread < ApplicationRecord
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :copilot_messages, dependent: :destroy_async
+  has_many :copilot_runs, dependent: :destroy_async
 
   validates :title, presence: true
 
@@ -32,6 +33,11 @@ class CopilotThread < ApplicationRecord
       user: user.push_event_data,
       account_id: account_id
     }
+  end
+
+  # A collection or review saved in this thread, which a Copilot tool call can read from.
+  def saved_set(id, types: [CopilotRun::Collection, CopilotRun::Review])
+    copilot_runs.where(account: account, user: user, type: types.map(&:sti_name)).find(id)
   end
 
   def previous_history

@@ -88,6 +88,7 @@ module Redis::RedisKeys
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
   WHATSAPP_MESSAGE_MUTEX = 'WHATSAPP_MESSAGE_CREATE_LOCK::%<inbox_id>s::%<sender_id>s'.freeze
+  WHATSAPP_CAMPAIGN_MUTEX = 'WHATSAPP_CAMPAIGN_LOCK::%<campaign_id>s'.freeze
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
   CAPTAIN_DOCUMENT_SYNC_MUTEX = 'CAPTAIN_DOCUMENT_SYNC_LOCK::%<document_id>s'.freeze
   CAPTAIN_CONVERSATION_FAQ_MUTEX = 'CAPTAIN_CONVERSATION_FAQ_LOCK::%<assistant_id>s::%<language>s'.freeze
@@ -112,4 +113,16 @@ module Redis::RedisKeys
   DEVICE_VERIFICATION_ATTEMPTS = 'DEVICE_VERIFICATION::ATTEMPTS::%<user_id>d::%<jti>s'.freeze
   # Rolling per-user challenge issuance budget
   DEVICE_VERIFICATION_ISSUANCE = 'DEVICE_VERIFICATION::ISSUANCE::%<user_id>d'.freeze
+
+  ## Captain email verification (one-time code typed by the customer in a conversation)
+  # Email address the active code was sent to, with the HMAC digest of the code, consumed atomically on verification
+  CAPTAIN_EMAIL_VERIFICATION_CODE = 'CAPTAIN::EMAIL_VERIFICATION::CODE::%<conversation_id>d'.freeze
+  # Wrong-code counter for the active code
+  CAPTAIN_EMAIL_VERIFICATION_ATTEMPTS = 'CAPTAIN::EMAIL_VERIFICATION::ATTEMPTS::%<conversation_id>d'.freeze
+  # Hourly budget of codes sent from one contact inbox, counted from the first send
+  CAPTAIN_EMAIL_VERIFICATION_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::SENDS::%<contact_inbox_id>d'.freeze
+  # Hourly budget of codes sent to one email address across contact inboxes, counted from the first send
+  CAPTAIN_EMAIL_VERIFICATION_EMAIL_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::EMAIL_SENDS::%<email_digest>s'.freeze
+  # Email address verified in the conversation
+  CAPTAIN_EMAIL_VERIFICATION_VERIFIED = 'CAPTAIN::EMAIL_VERIFICATION::VERIFIED::%<conversation_id>d'.freeze
 end

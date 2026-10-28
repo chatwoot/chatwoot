@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "यस सम्पर्कसँग सम्बन्धित कुनै अघिल्लो कुराकानीहरू छैनन्।",
-      "TITLE": "अघिल्लो कुराकानीहरू"
+      "TITLE": "अघिल्लो कुराकानीहरू",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

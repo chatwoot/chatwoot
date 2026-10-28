@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "Vartotojas",
         "TIME": "Action",
-        "IP_ADDRESS": "IP Adresas"
+        "IP_ADDRESS": "IP Adresas",
+        "LOCATION": "Vieta"
       }
     },
     "API": {

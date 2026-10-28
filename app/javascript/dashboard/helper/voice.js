@@ -75,13 +75,13 @@ const shouldShowCall = ({
   return !isAssignedToAnotherAgent(assigneeId, currentUserId);
 };
 
-// Offline/busy agents shouldn't get a ringing popup for inbound calls, but
-// outbound calls always belong to the initiator regardless of their status,
-// and existing (already-surfaced) calls keep going so a status change
-// mid-call doesn't yank away an active widget.
-const shouldRingInbound = (callDirection, currentUserAvailability) => {
+// Agents who are not online or have turned calls off get no ringing popup for
+// inbound calls, but outbound calls always belong to the initiator, and existing
+// (already-surfaced) calls keep going so a status change mid-call doesn't yank
+// away an active widget.
+const shouldRingInbound = (callDirection, receivesCalls) => {
   if (callDirection === 'outbound') return true;
-  return currentUserAvailability === 'online';
+  return receivesCalls;
 };
 
 function extractCallerSnapshot(message) {
@@ -118,11 +118,7 @@ function extractCallData(message) {
   };
 }
 
-export function handleVoiceCallCreated(
-  message,
-  currentUserId,
-  currentUserAvailability
-) {
+export function handleVoiceCallCreated(message, currentUserId, receivesCalls) {
   if (!isVoiceCallMessage(message)) return;
 
   const {
@@ -155,7 +151,7 @@ export function handleVoiceCallCreated(
     return;
   }
 
-  if (!shouldRingInbound(callDirection, currentUserAvailability)) return;
+  if (!shouldRingInbound(callDirection, receivesCalls)) return;
 
   const callsStore = useCallsStore();
   callsStore.addCall({
@@ -174,7 +170,7 @@ export function handleVoiceCallUpdated(
   commit,
   message,
   currentUserId,
-  currentUserAvailability
+  receivesCalls
 ) {
   if (!isVoiceCallMessage(message)) return;
 
@@ -217,7 +213,7 @@ export function handleVoiceCallUpdated(
   }
 
   if (status === 'ringing') {
-    if (!shouldRingInbound(callDirection, currentUserAvailability)) return;
+    if (!shouldRingInbound(callDirection, receivesCalls)) return;
 
     callsStore.addCall({
       callSid,

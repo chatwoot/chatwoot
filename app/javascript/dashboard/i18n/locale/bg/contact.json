@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Няма предишни разговори асоцирани с този контакт.",
-      "TITLE": "Предишни разговори"
+      "TITLE": "Предишни разговори",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

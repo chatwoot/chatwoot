@@ -1,11 +1,13 @@
 import axios from 'axios';
+import { emitter } from 'shared/helpers/mitt';
 import { createStore } from 'vuex';
-import { mutations } from '../../conversations';
+import types from '../../../mutation-types';
 import conversationMetadata from '../../conversationMetadata';
+import { mutations } from '../../conversations';
 import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
-import types from '../../../mutation-types';
+import { dataReceived } from './testConversationResponse';
 const dataToSend = {
   page: 1,
   queryData: {
@@ -19,7 +21,6 @@ const dataToSend = {
     ],
   },
 };
-import { dataReceived } from './testConversationResponse';
 
 const commit = vi.fn();
 const dispatch = vi.fn();
@@ -75,6 +76,7 @@ describe('#actions', () => {
           allConversations: [conversationA, conversationB],
           selectedChatId: null,
         },
+        getters: { getAutoTranslate: () => ({ enabled: false }) },
         actions,
         mutations,
         modules: {
@@ -228,6 +230,7 @@ describe('#actions', () => {
         [types.UPDATE_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
+        ['autoTranslateMessages', 1],
         [
           'conversationLabels/setConversationLabel',
           { id: 1, data: ['support'] },
@@ -392,7 +395,7 @@ describe('#actions', () => {
         message_type: 0,
         conversation_id: 1,
       };
-      actions.addMessage({ commit }, message);
+      actions.addMessage({ commit, dispatch }, message);
       expect(commit.mock.calls).toEqual([
         [types.ADD_MESSAGE, message],
         [
@@ -401,6 +404,7 @@ describe('#actions', () => {
         ],
         [types.ADD_CONVERSATION_ATTACHMENTS, message],
       ]);
+      expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
     });
     it('sends correct mutations if message is not an incoming message', () => {
       const message = {
@@ -910,6 +914,7 @@ describe('#addMentions', () => {
       },
       { conversationId: 1 }
     );
+    expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
     expect(commit.mock.calls).toEqual([
       [
         'conversationMetadata/SET_CONVERSATION_METADATA',
@@ -1081,6 +1086,217 @@ describe('#addMentions', () => {
           { id: 1, name: 'Assistant', description: 'Assistant description' },
         ],
       ]);
+    });
+  });
+
+  describe('#updateConversation', () => {
+    it('re-checks translation once the conversation language may have changed', () => {
+      const localDispatch = vi.fn();
+
+      actions.updateConversation(
+        { commit: vi.fn(), dispatch: localDispatch, rootGetters: {} },
+        {
+          id: 7,
+          labels: [],
+          additional_attributes: { conversation_language: 'fr' },
+        }
+      );
+
+      expect(localDispatch).toHaveBeenCalledWith('autoTranslateMessages', 7);
+    });
+  });
+
+  describe('#autoTranslateMessages', () => {
+    const messages = [
+      {
+        id: 1,
+        message_type: 0,
+        content_type: 'text',
+        content: 'Bonjour',
+        content_attributes: {},
+      },
+      {
+        id: 2,
+        message_type: 0,
+        content_type: 'text',
+        content: 'Hello',
+        content_attributes: { translations: { en: 'Hello' } },
+      },
+      {
+        id: 3,
+        message_type: 1,
+        content_type: 'text',
+        content: 'Hi',
+        content_attributes: {},
+      },
+      {
+        id: 4,
+        message_type: 0,
+        content_type: 'text',
+        content: 'Merci',
+        content_attributes: {},
+      },
+    ];
+    const getters = {
+      getAutoTranslate: { enabled: true, locale: 'en', sameLanguage: false },
+      getSelectedChat: { id: 7, messages },
+    };
+    const state = { selectedChatId: 7, autoTranslating: { en: { 4: false } } };
+
+    it('queues the incoming messages that have no translation yet and keeps them pending', async () => {
+      const localCommit = vi.fn();
+      axios.post.mockResolvedValue({});
+
+      await actions.autoTranslateMessages(
+        { state, commit: localCommit, getters },
+        7
+      );
+
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7/messages/auto_translate'),
+        { message_ids: [1] }
+      );
+      expect(localCommit.mock.calls).toEqual([
+        [
+          types.SET_AUTO_TRANSLATING,
+          { locale: 'en', messageIds: [1], translating: true },
+        ],
+      ]);
+    });
+
+    it('requests bot replies, which are written in the contact language, but not agent replies', async () => {
+      axios.post.mockResolvedValue({});
+      const botMessages = [
+        {
+          id: 5,
+          message_type: 1,
+          content_type: 'text',
+          content: 'Bonjour',
+          sender: { type: 'captain_assistant' },
+          content_attributes: {},
+        },
+        {
+          id: 8,
+          message_type: 1,
+          content_type: 'text',
+          content: 'Bonjour',
+          sender: { type: 'user' },
+          content_attributes: {},
+        },
+      ];
+
+      await actions.autoTranslateMessages(
+        {
+          state: { selectedChatId: 7, autoTranslating: {} },
+          commit,
+          getters: {
+            ...getters,
+            getSelectedChat: { id: 7, messages: botMessages },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7/messages/auto_translate'),
+        { message_ids: [5] }
+      );
+    });
+
+    it('skips call bubbles and other non-text messages', async () => {
+      axios.post.mockResolvedValue({});
+      const chatMessages = [
+        {
+          id: 5,
+          message_type: 0,
+          content_type: 'text',
+          content: 'Bonjour',
+          content_attributes: {},
+        },
+        {
+          id: 6,
+          message_type: 0,
+          content_type: 'voice_call',
+          content: 'WhatsApp Call',
+          content_attributes: {},
+        },
+      ];
+
+      await actions.autoTranslateMessages(
+        {
+          state: { selectedChatId: 7, autoTranslating: {} },
+          commit,
+          getters: {
+            ...getters,
+            getSelectedChat: { id: 7, messages: chatMessages },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7/messages/auto_translate'),
+        { message_ids: [5] }
+      );
+    });
+
+    it('does nothing for another conversation or a disabled flag', async () => {
+      await actions.autoTranslateMessages({ state, commit, getters }, 8);
+      await actions.autoTranslateMessages(
+        {
+          state,
+          commit,
+          getters: {
+            getAutoTranslate: { ...getters.getAutoTranslate, enabled: false },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).not.toHaveBeenCalled();
+    });
+
+    it('alerts and leaves the messages retryable when the request fails', async () => {
+      const localCommit = vi.fn();
+      const emit = vi.spyOn(emitter, 'emit');
+      axios.post.mockRejectedValue({
+        response: {
+          status: 422,
+          data: { error: 'You are out of Copilot credits.' },
+        },
+      });
+
+      await actions.autoTranslateMessages(
+        { state, commit: localCommit, getters },
+        7
+      );
+
+      expect(localCommit).toHaveBeenLastCalledWith(types.SET_AUTO_TRANSLATING, {
+        locale: 'en',
+        messageIds: [1],
+        translating: undefined,
+      });
+      expect(emit).toHaveBeenCalledWith('newToastMessage', {
+        message: 'You are out of Copilot credits.',
+        action: null,
+      });
+    });
+
+    it('stays quiet when the feature is off for the account', async () => {
+      const emit = vi.spyOn(emitter, 'emit');
+      axios.post.mockRejectedValue({
+        response: { status: 403, data: { error: 'Auto translate is off.' } },
+      });
+
+      await actions.autoTranslateMessages(
+        { state, commit: vi.fn(), getters },
+        7
+      );
+
+      expect(emit).not.toHaveBeenCalledWith(
+        'newToastMessage',
+        expect.anything()
+      );
     });
   });
 });
