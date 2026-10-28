@@ -242,7 +242,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def send_interactive_message(phone_number, message)
     response = HTTParty.post(
-      "#{phone_id_path('v24.0')}/messages",
+      "#{phone_id_path(cta_url_message?(message) ? 'v24.0' : 'v13.0')}/messages",
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',

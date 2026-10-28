@@ -191,7 +191,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                        { title: 'Sushi', value: 'Sushi' }
                                      ]
                                    })
-        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
               messaging_product: 'whatsapp', context: nil, to: '+123456789',
@@ -228,7 +228,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
               messaging_product: 'whatsapp', context: nil, to: '+123456789',
@@ -266,7 +266,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
               messaging_product: 'whatsapp', context: nil, to: '+123456789',
@@ -451,7 +451,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
       interactive_message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
                                              content_type: 'input_select',
                                              content_attributes: { items: [{ title: 'Burito', value: 'Burito' }] })
-      stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
         .with(body: hash_including({ messaging_product: 'whatsapp', recipient_type: 'individual', recipient: bsuid, type: 'interactive' }))
         .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
 
