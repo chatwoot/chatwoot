@@ -2,7 +2,9 @@
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
 import { useI18n, I18nT } from 'vue-i18n';
 import { useScroll, useSwipe } from '@vueuse/core';
+import { differenceInDays } from 'date-fns';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { embeds } from 'dashboard/helper/markdownEmbeds';
 import MessageFormatter from 'shared/helpers/MessageFormatter';
@@ -13,9 +15,12 @@ const YOUTUBE_THUMBNAIL_URL =
   'https://i.ytimg.com/vi/%{video_id}/mqdefault.jpg';
 const STRIP_SCROLL_RATIO = 0.8;
 const MAX_PAGER_DOTS = 7;
+// Everything is new to a fresh signup, so announcements wait until the account has settled in.
+const NEW_ACCOUNT_DAYS = 3;
 
 const { t } = useI18n();
 const globalConfig = useMapGetter('globalConfig/get');
+const { currentAccount } = useAccount();
 const isRTL = useMapGetter('accounts/isRTL');
 const { uiSettings, updateUISettings } = useUISettings();
 
@@ -46,7 +51,17 @@ const withVideo = item => {
   };
 };
 
+// The account loads after this mounts; until then created_at is missing and nothing shows.
+const isAccountSettled = computed(() => {
+  const { created_at: createdAt } = currentAccount.value;
+  if (!createdAt) return false;
+
+  return differenceInDays(new Date(), new Date(createdAt)) >= NEW_ACCOUNT_DAYS;
+});
+
 const playlist = computed(() => {
+  if (!isAccountSettled.value) return [];
+
   const dismissedKeys = uiSettings.value.dismissed_feature_announcements || [];
 
   return announcements.value
