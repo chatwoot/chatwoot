@@ -186,6 +186,30 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
                                  )
   end
 
+  it 'queries the latest agent_last_seen_at from database to avoid stale in-memory race condition' do
+    conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title])
+    Conversations::UnreadCounts::Builder.new(account).build_base!
+
+    # Stale in-memory conversation has old agent_last_seen_at
+    stale_conversation = Conversation.find(conversation.id)
+    conversation.update_columns(agent_last_seen_at: 1.minute.from_now)
+
+    expect(described_class.new(stale_conversation).perform).to be(true)
+    expect(store.counts_for_keys(base_keys).values).to all(eq(0))
+  end
+
+  it 'queries the latest status from database to avoid stale in-memory race condition' do
+    conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title])
+    Conversations::UnreadCounts::Builder.new(account).build_base!
+
+    # Stale in-memory conversation is open, but database record was resolved
+    stale_conversation = Conversation.find(conversation.id)
+    conversation.update_columns(status: Conversation.statuses[:resolved])
+
+    expect(described_class.new(stale_conversation).perform).to be(true)
+    expect(store.counts_for_keys(base_keys).values).to all(eq(0))
+  end
+
   def base_keys
     [
       store.inbox_key(account.id, inbox.id),
