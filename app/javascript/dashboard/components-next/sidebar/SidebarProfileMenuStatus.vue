@@ -195,13 +195,9 @@ function changeAvailabilityStatus(availability) {
         </div>
         <div
           v-else
-          class="flex gap-2 items-start px-2.5 py-2 mb-0.5 text-sm rounded-lg bg-n-amber-3 text-n-amber-11"
+          class="px-3 py-2.5 mx-2 mb-1 text-sm rounded-lg border border-dashed border-n-slate-5 text-n-slate-11"
         >
-          <Icon
-            icon="i-lucide-circle-pause"
-            class="flex-shrink-0 mt-0.5 size-4"
-          />
-          <span>{{ $t('SIDEBAR.WORK_PAUSED') }}</span>
+          {{ $t('SIDEBAR.WORK_PAUSED') }}
         </div>
       </template>
       <DropdownSeparator class="my-1" />
