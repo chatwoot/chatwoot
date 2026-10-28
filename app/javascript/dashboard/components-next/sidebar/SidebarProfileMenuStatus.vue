@@ -126,7 +126,10 @@ function changeAvailabilityStatus(availability) {
     <div class="grid gap-0">
       <DropdownItem preserve-open class="gap-1">
         <div class="flex flex-grow gap-3 items-center min-w-0">
-          <Icon icon="i-lucide-user-check" class="flex-shrink-0 size-4" />
+          <Icon
+            icon="i-lucide-user-check"
+            class="flex-shrink-0 size-4 text-n-slate-11"
+          />
           {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
         </div>
         <DropdownContainer class="shrink-0">
@@ -203,7 +206,10 @@ function changeAvailabilityStatus(availability) {
       <DropdownSeparator class="my-1" />
       <DropdownItem preserve-open>
         <div class="flex flex-grow gap-3 items-center min-w-0">
-          <Icon icon="i-lucide-timer-off" class="flex-shrink-0 size-4" />
+          <Icon
+            icon="i-lucide-timer-off"
+            class="flex-shrink-0 size-4 text-n-slate-11"
+          />
           {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
           <Icon
             v-tooltip.top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_SHORT')"
