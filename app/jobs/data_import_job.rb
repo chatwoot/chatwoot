@@ -130,7 +130,7 @@ class DataImportJob < ApplicationJob
 
   def imported_contact(contact)
     return @data_import.account.contacts.find_by(identifier: contact.identifier) if contact.identifier.present?
-    return @data_import.account.contacts.from_email(contact.email) if contact.email.present?
+    return @data_import.account.contacts.from_email_and_phone_number(contact.email, contact.phone_number) if contact.email.present?
 
     @data_import.account.contacts.find_by(phone_number: contact.phone_number) if contact.phone_number.present?
   end

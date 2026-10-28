@@ -76,6 +76,17 @@ RSpec.describe DataImportJob do
         expect(invalid_data_import.reload.processed_records).to eq(csv_length)
       end
 
+      it 'creates a separate contact instead of overwriting the phone of an existing contact with the same email' do
+        csv = generate_csv_file([%w[email phone_number], ['cuzzell0@mozilla.org', '+918484848485']])
+        import = create(:data_import, import_file: csv)
+        existing = create(:contact, account: import.account, email: 'cuzzell0@mozilla.org', phone_number: '+918484848484')
+
+        described_class.perform_now(import)
+
+        expect(import.account.contacts.where(email: 'cuzzell0@mozilla.org').count).to eq 2
+        expect(existing.reload.phone_number).to eq '+918484848484'
+      end
+
       it 'will preserve emojis' do
         data_import = create(:data_import,
                              import_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/data_import/with_emoji.csv'),

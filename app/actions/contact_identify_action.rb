@@ -103,13 +103,24 @@ class ContactIdentifyAction
   # submit one (e.g. the widget's email-collection prompt only sends email+name): a contact
   # that already has a phone number shouldn't lose it to a merge just because this particular
   # request happened not to repeat it.
+  #
+  # Keeping the visitor separate only works if they can actually keep that phone number. When
+  # it already belongs to another contact under a different email, mergable_phone_contact?
+  # will drop it, and a phone-less copy of this email can't be saved next to contact 1, so
+  # merge into contact 1 as before.
   def mergable_email_contact?
     return true if existing_email_contact.blank?
 
     phone_number = params[:phone_number].presence || @contact.phone_number
     return true if phone_number.blank?
+    return true if existing_email_contact.phone_number.blank? || existing_email_contact.phone_number == phone_number
 
-    existing_email_contact.phone_number.blank? || existing_email_contact.phone_number == phone_number
+    phone_number_owned_by_other_email?
+  end
+
+  def phone_number_owned_by_other_email?
+    existing_phone_number_contact.present? && existing_phone_number_contact.id != @contact.id &&
+      existing_phone_number_contact.email.present? && existing_phone_number_contact.email != params[:email]
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789

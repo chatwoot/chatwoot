@@ -189,6 +189,15 @@ class Contact < ApplicationRecord
     find_by(email: email&.downcase)
   end
 
+  # Email alone no longer identifies a contact once a phone number is known (see
+  # validate_email_uniqueness): only a same-email contact with that phone, or with none, is a match.
+  def self.from_email_and_phone_number(email, phone_number)
+    return from_email(email) if phone_number.blank?
+
+    contacts = where(email: email&.downcase)
+    contacts.find_by(phone_number: phone_number) || contacts.find_by(phone_number: [nil, ''])
+  end
+
   private
 
   # Email is unique per account, unless this contact has a phone number: two contacts may then

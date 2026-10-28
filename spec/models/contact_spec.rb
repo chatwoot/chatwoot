@@ -129,6 +129,31 @@ RSpec.describe Contact do
     end
   end
 
+  describe '.from_email_and_phone_number' do
+    let(:account) { create(:account) }
+
+    it 'prefers the contact with the same phone number over one without a phone number' do
+      create(:contact, account: account, email: 'shared@test.com', phone_number: '+12312312321')
+      same_phone = create(:contact, account: account, email: 'shared@test.com', phone_number: '+19999999999')
+      expect(account.contacts.from_email_and_phone_number('shared@test.com', '+19999999999')).to eq same_phone
+    end
+
+    it 'matches a same-email contact that has no phone number' do
+      no_phone = create(:contact, account: account, email: 'shared@test.com')
+      expect(account.contacts.from_email_and_phone_number('Shared@test.com', '+19999999999')).to eq no_phone
+    end
+
+    it 'does not match a same-email contact with a different phone number' do
+      create(:contact, account: account, email: 'shared@test.com', phone_number: '+12312312321')
+      expect(account.contacts.from_email_and_phone_number('shared@test.com', '+19999999999')).to be_nil
+    end
+
+    it 'matches on email alone when no phone number is given' do
+      contact = create(:contact, account: account, email: 'shared@test.com', phone_number: '+12312312321')
+      expect(account.contacts.from_email_and_phone_number('shared@test.com', nil)).to eq contact
+    end
+  end
+
   context 'when city and country code passed in additional attributes' do
     it 'updates location and country code' do
       contact = create(:contact, additional_attributes: { city: 'New York', country: 'US' })

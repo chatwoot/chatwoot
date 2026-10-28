@@ -338,7 +338,7 @@ class DataImports::Importer
     end
 
     if email.present?
-      contact = @account.contacts.from_email(email)
+      contact = @account.contacts.from_email_and_phone_number(email, phone_number)
       return contact if contact.present?
     end
     return @account.contacts.find_by(phone_number: phone_number) if phone_number.present?
