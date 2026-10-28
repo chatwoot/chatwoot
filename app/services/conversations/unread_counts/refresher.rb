@@ -106,17 +106,14 @@ class Conversations::UnreadCounts::Refresher
     return false unless open_status?(status)
 
     incoming_messages = conversation.messages.incoming.where(account_id: account.id)
-    if agent_last_seen_at
-      incoming_messages = incoming_messages.where(Message.arel_table[:created_at].gt(agent_last_seen_at))
-    end
+    incoming_messages = incoming_messages.where(Message.arel_table[:created_at].gt(agent_last_seen_at)) if agent_last_seen_at
     incoming_messages.exists?
   end
 
   def current_status_and_last_seen
     @current_status_and_last_seen ||= begin
-      record = Conversation.where(id: conversation.id).pluck(:status, :agent_last_seen_at).first if conversation.respond_to?(:id) && conversation.id.present?
-      if record
-        [record[0], record[1]]
+      if conversation.try(:id).present?
+        Conversation.where(id: conversation.id).pick(:status, :agent_last_seen_at) || [conversation.status, conversation.agent_last_seen_at]
       else
         [conversation.status, conversation.agent_last_seen_at]
       end
