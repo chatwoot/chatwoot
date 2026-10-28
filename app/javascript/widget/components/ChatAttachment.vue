@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import FileUpload from 'vue-upload-component';
 import { DirectUpload } from 'activestorage';
@@ -216,9 +216,12 @@ onMounted(() => {
   document.addEventListener('paste', handleClipboardPaste);
 });
 
-onUnmounted(() => {
+// The parent hides this control as soon as the visitor starts typing, so send
+// files still waiting for the batch delay instead of dropping them.
+onBeforeUnmount(() => {
   document.removeEventListener('paste', handleClipboardPaste);
   clearTimeout(uploadBatchTimer);
+  flushUploadBatch();
 });
 </script>
 
