@@ -35,6 +35,7 @@ class ContactIdentifyAction
 
   def merge_if_existing_email_contact
     return unless merge_contacts?(existing_email_contact, :email)
+    return unless mergable_email_contact?
 
     process_contact_merge(existing_email_contact)
   end
@@ -84,6 +85,17 @@ class ContactIdentifyAction
     end
 
     true
+  end
+
+  # case: contact 1: email: a@test.com, phone: 111
+  # params: email: a@test.com, phone: 222
+  # a different, non-blank phone number submitted alongside an email that already belongs to
+  # another contact means this is a different person sharing that email (a shared family or
+  # company inbox, say). Keep them as separate contacts instead of merging into contact 1.
+  def mergable_email_contact?
+    return true if params[:phone_number].blank?
+
+    existing_email_contact.phone_number.blank? || existing_email_contact.phone_number == params[:phone_number]
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789

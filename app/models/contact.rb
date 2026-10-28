@@ -35,7 +35,7 @@
 #  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
 #  index_resolved_contact_account_id                     (account_id) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
-#  uniq_email_per_account_contact                        (email,account_id) UNIQUE
+#  uniq_email_phone_per_account_contact                  (account_id,email,COALESCE(phone_number, ''::character varying)) UNIQUE
 #  uniq_identifier_per_account_contact                   (identifier,account_id) UNIQUE
 #
 
@@ -48,8 +48,8 @@ class Contact < ApplicationRecord
   include LlmFormattable
 
   validates :account_id, presence: true
-  validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
-                    format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
+  validates :email, allow_blank: true, format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
+  validate :validate_email_uniqueness
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
@@ -189,6 +189,17 @@ class Contact < ApplicationRecord
   end
 
   private
+
+  # Email is unique per account, unless this contact has a phone number: two contacts may then
+  # share an email as long as their phone numbers differ (see ContactIdentifyAction, which decides
+  # when a widget visitor sharing an existing email should be kept as a separate contact).
+  def validate_email_uniqueness
+    return if email.blank?
+
+    duplicates = account.contacts.where(email: email).where.not(id: id)
+    duplicates = duplicates.where(phone_number: [nil, '', phone_number]) if phone_number.present?
+    errors.add(:email, :taken) if duplicates.exists?
+  end
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')
