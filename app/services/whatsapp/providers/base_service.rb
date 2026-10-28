@@ -133,7 +133,11 @@ class Whatsapp::Providers::BaseService
   end
 
   def cta_url_message?(message)
-    message.content_attributes['whatsapp_cta_url'].is_a?(Hash)
+    message.content_attributes['whatsapp_cta_url'].present?
+  end
+
+  def create_interactive_payload(message)
+    cta_url_message?(message) ? create_cta_url_payload(message) : create_payload_based_on_items(message)
   end
 
   def create_cta_url_payload(message)

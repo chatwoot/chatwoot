@@ -16,6 +16,27 @@ RSpec.describe Message do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  describe 'whatsapp_cta_url validations' do
+    let(:message) { build(:message) }
+
+    it 'is valid with display_text and url' do
+      message.content_attributes = { whatsapp_cta_url: { display_text: 'See menu', url: 'https://example.com/menu' } }
+      expect(message).to be_valid
+    end
+
+    it 'is invalid when display_text or url is missing' do
+      message.content_attributes = { whatsapp_cta_url: { display_text: 'See menu' } }
+      expect(message).not_to be_valid
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is missing url')
+    end
+
+    it 'is invalid when it is not a hash' do
+      message.content_attributes = { whatsapp_cta_url: 'https://example.com/menu' }
+      expect(message).not_to be_valid
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url should be a hash.')
+    end
+  end
+
   describe 'length validations' do
     let!(:message) { create(:message) }
 

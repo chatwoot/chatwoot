@@ -241,15 +241,14 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def send_interactive_message(phone_number, message)
-    payload = cta_url_message?(message) ? create_cta_url_payload(message) : create_payload_based_on_items(message)
-
     response = HTTParty.post(
-      "#{phone_id_path}/messages",
+      "#{phone_id_path('v24.0')}/messages",
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
+        context: whatsapp_reply_context(message),
         **recipient_params(phone_number),
-        interactive: payload,
+        interactive: create_interactive_payload(message),
         type: 'interactive'
       }.to_json
     )

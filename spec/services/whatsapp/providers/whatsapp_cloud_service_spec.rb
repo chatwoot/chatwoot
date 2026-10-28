@@ -191,10 +191,10 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                        { title: 'Sushi', value: 'Sushi' }
                                      ]
                                    })
-        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', to: '+123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'button',
                 body: {
@@ -228,10 +228,10 @@ describe Whatsapp::Providers::WhatsappCloudService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', to: '+123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'list',
                 body: {
@@ -266,10 +266,10 @@ describe Whatsapp::Providers::WhatsappCloudService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', to: '+123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'list',
                 body: {
@@ -298,10 +298,10 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                        footer: 'Open until 10pm'
                                      }
                                    })
-        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', to: '+123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'cta_url',
                 body: { text: 'Check out our menu' },
@@ -320,10 +320,10 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                    content_attributes: {
                                      whatsapp_cta_url: { display_text: 'See menu', url: 'https://example.com/menu', header: 'Menu' }
                                    })
-        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', to: '+123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'cta_url',
                 body: { text: 'test' },
@@ -334,6 +334,27 @@ describe Whatsapp::Providers::WhatsappCloudService do
             }.to_json
           ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+
+      it 'calls message endpoints with reply context for a cta_url reply' do
+        cta_reply = create(:message, conversation: conversation, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
+                                     content_attributes: {
+                                       in_reply_to: message.id,
+                                       whatsapp_cta_url: { display_text: 'See menu', url: 'https://example.com/menu' }
+                                     })
+        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
+          .with(
+            body: {
+              messaging_product: 'whatsapp', context: { message_id: 'external_id' }, to: '+123456789',
+              interactive: {
+                type: 'cta_url',
+                body: { text: 'test' },
+                action: { name: 'cta_url', parameters: { display_text: 'See menu', url: 'https://example.com/menu' } }
+              },
+              type: 'interactive'
+            }.to_json
+          ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', cta_reply)).to eq 'message_id'
       end
     end
   end
@@ -430,7 +451,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
       interactive_message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
                                              content_type: 'input_select',
                                              content_attributes: { items: [{ title: 'Burito', value: 'Burito' }] })
-      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+      stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
         .with(body: hash_including({ messaging_product: 'whatsapp', recipient_type: 'individual', recipient: bsuid, type: 'interactive' }))
         .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
 

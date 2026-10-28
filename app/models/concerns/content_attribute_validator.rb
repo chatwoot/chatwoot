@@ -4,8 +4,11 @@ class ContentAttributeValidator < ActiveModel::Validator
   ALLOWED_CARD_ITEM_ACTION_KEYS = [:text, :type, :payload, :uri].freeze
   ALLOWED_FORM_ITEM_KEYS = [:type, :placeholder, :label, :name, :options, :default, :required, :pattern, :title, :pattern_error].freeze
   ALLOWED_ARTICLE_KEYS = [:title, :description, :link].freeze
+  REQUIRED_CTA_URL_KEYS = %w[display_text url].freeze
 
   def validate(record)
+    validate_cta_url!(record) if record.content_attributes.key?('whatsapp_cta_url')
+
     case record.content_type
     when 'input_select'
       validate_items!(record)
@@ -24,6 +27,14 @@ class ContentAttributeValidator < ActiveModel::Validator
   end
 
   private
+
+  def validate_cta_url!(record)
+    cta = record.content_attributes['whatsapp_cta_url']
+    return record.errors.add(:content_attributes, 'whatsapp_cta_url should be a hash.') unless cta.is_a?(Hash)
+
+    missing_keys = REQUIRED_CTA_URL_KEYS.select { |key| cta.with_indifferent_access[key].blank? }
+    record.errors.add(:content_attributes, "whatsapp_cta_url is missing #{missing_keys.join(', ')}") if missing_keys.present?
+  end
 
   def validate_items!(record)
     record.errors.add(:content_attributes, 'At least one item is required.') if record.items.blank?
