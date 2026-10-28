@@ -198,9 +198,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         IFrameHelper.events.toggleBubble();
       }
 
-      const { baseDomain } = window.$chatwoot;
-      removeCookieWithDomain('cw_conversation', { baseDomain });
-      removeCookieWithDomain(getUserCookieName(), { baseDomain });
+      removeCookieWithDomain('cw_conversation', {
+        baseDomain: window.$chatwoot.baseDomain,
+      });
+      removeCookieWithDomain(getUserCookieName(), {
+        baseDomain: window.$chatwoot.baseDomain,
+      });
 
       const iframe = IFrameHelper.getAppFrame();
       iframe.src = IFrameHelper.getUrl({
