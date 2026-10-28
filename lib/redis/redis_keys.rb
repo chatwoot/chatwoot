@@ -125,4 +125,8 @@ module Redis::RedisKeys
   CAPTAIN_EMAIL_VERIFICATION_EMAIL_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::EMAIL_SENDS::%<email_digest>s'.freeze
   # Email address verified in the conversation
   CAPTAIN_EMAIL_VERIFICATION_VERIFIED = 'CAPTAIN::EMAIL_VERIFICATION::VERIFIED::%<conversation_id>d'.freeze
+
+  ## Captain MCP servers
+  # MCP server an OAuth sign-in started for, keyed by the OAuth state, so the callback finds the server
+  CAPTAIN_MCP_OAUTH_STATE = 'CAPTAIN::MCP::OAUTH_STATE::%<state>s'.freeze
 end

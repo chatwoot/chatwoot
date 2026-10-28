@@ -1,0 +1,102 @@
+# Talks to the MCP server of a Captain::McpServer through the RubyLLM MCP client.
+# Every MCP and OAuth request goes through the SafeFetch address checks.
+class Captain::Mcp::Connection
+  TIMEOUT = 30
+  # Matches how long RubyLLM keeps a pending OAuth sign-in
+  OAUTH_STATE_TTL = 10.minutes
+
+  def self.oauth_redirect_uri
+    "#{ENV.fetch('FRONTEND_URL', '')}/captain/mcp/callback"
+  end
+
+  # Returns the server an OAuth sign-in with this state started for, once
+  def self.server_for_oauth_state(state)
+    key = format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state.to_s)
+    server_id = ::Redis::Alfred.get(key)
+    ::Redis::Alfred.delete(key)
+    Captain::McpServer.find_by(id: server_id) if server_id
+  end
+
+  ERRORS = [RubyLLM::Error, SafeFetch::Error, Faraday::Error].freeze
+
+  def initialize(server)
+    @server = server
+  end
+
+  # Runs a request and records the result on the server.
+  # The status is written with update_columns, not save, for two reasons:
+  # - The update action calls this after it assigns the admin's edit and before it validates it. A save here would store
+  #   that edit early, without the checks the action runs after the call.
+  # - Agent runs, the OAuth callback and the hourly check record the status too. A validation on an unrelated column must
+  #   not stop Chatwoot from recording that a server is down or needs sign-in.
+  def track_status
+    result = yield
+    @server.update_columns(status: :active, last_error: nil) # rubocop:disable Rails/SkipsModelValidations
+    result
+  rescue *ERRORS => e
+    status = e.is_a?(RubyLLM::UnauthorizedError) ? :needs_sign_in : :error
+    @server.update_columns(status: status, last_error: e.message) # rubocop:disable Rails/SkipsModelValidations
+    raise
+  end
+
+  # Tools the server offers to models, as the definitions Captain approves and compares
+  def tool_definitions
+    mcp.tools.select { |tool| tool.visibility.include?(:model) }.map do |tool|
+      {
+        'name' => tool.server_name,
+        'description' => tool.description,
+        'input_schema' => tool.parameters_schema,
+        'read_only' => tool.read_only?
+      }
+    end
+  end
+
+  # RubyLLM exposes the server's name only through its private server info
+  def server_name
+    mcp.send(:server_info)['name']
+  end
+
+  def call(server_tool_name, arguments)
+    mcp.call(server_tool_name, **arguments)
+  end
+
+  def authorization_url
+    url = mcp.authorization_url(redirect_uri: self.class.oauth_redirect_uri)
+    state = Rack::Utils.parse_query(URI(url).query)['state']
+    ::Redis::Alfred.setex(format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state), @server.id, OAUTH_STATE_TTL)
+    url
+  end
+
+  def authorize(params)
+    mcp.authorize(params)
+  end
+
+  def mcp
+    @mcp ||= context.mcp(url: @server.url, name: "#{Captain::McpServer::TOOL_NAME_PREFIX}_#{@server.id}",
+                         timeout: TIMEOUT, **auth_settings)
+  end
+
+  private
+
+  # Each server has its own context, because RubyLLM reads the credential store from the context config
+  def context
+    RubyLLM.context do |config|
+      config.faraday_adapter = Captain::Mcp::SafeFaradayAdapter
+      config.mcp_credential_store = Captain::Mcp::CredentialStore.new(@server)
+      config.mcp_client_name = GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
+    end
+  end
+
+  def auth_settings
+    case @server.auth_type
+    when 'oauth' then { oauth: { owner: @server } }
+    when 'token' then token_settings
+    else {}
+    end
+  end
+
+  def token_settings
+    token = @server.auth_config['token']
+    @server.auth_header ? { headers: { @server.auth_header => token } } : { bearer_token: token }
+  end
+end

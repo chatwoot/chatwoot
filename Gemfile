@@ -200,9 +200,9 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '~> 0.13.0'
+gem 'ai-agents', github: 'chatwoot/ai-agents', branch: 'chore/ruby-llm-2-1'
 
-gem 'ruby_llm', '~> 2.0.0'
+gem 'ruby_llm', '~> 2.1.1'
 
 gem 'cld3', '~> 3.7'
 

@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/chatwoot/ai-agents.git
+  revision: b1fae79313c049a981cddffbbfa53c67b2d78d89
+  branch: chore/ruby-llm-2-1
+  specs:
+    ai-agents (0.13.0)
+      ruby_llm (>= 2.0, < 2.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -98,8 +106,6 @@ GEM
       jbuilder (~> 2)
       rails (>= 4.2, < 8.0)
       selectize-rails (~> 0.6)
-    ai-agents (0.13.0)
-      ruby_llm (~> 2.0.0)
     annotaterb (4.20.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -853,14 +859,13 @@ GEM
     ruby2ruby (2.5.0)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.6)
-    ruby_llm (2.0.0)
+    ruby_llm (2.1.1)
       base64
-      event_stream_parser (~> 1)
-      faraday (>= 1.10.0)
+      faraday (>= 1.10.0, != 2.0.0)
       faraday-multipart (>= 1)
       faraday-net_http (>= 1)
       faraday-retry (>= 1)
-      json (< 3)
+      json (< 4)
       marcel (>= 1.0, < 3)
       schematist (~> 1.1)
       zeitwerk (~> 2)
@@ -1061,7 +1066,7 @@ DEPENDENCIES
   administrate (>= 0.20.1)
   administrate-field-active_storage (>= 1.0.3)
   administrate-field-belongs_to_search (>= 0.10.0)
-  ai-agents (~> 0.13.0)
+  ai-agents!
   annotaterb
   apnotic (~> 1.8)
   attr_extras
@@ -1168,7 +1173,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   ruby-openai
-  ruby_llm (~> 2.0.0)
+  ruby_llm (~> 2.1.1)
   scout_apm
   scss_lint
   searchkick

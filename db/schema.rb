@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_27_115208) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -535,6 +535,42 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.index ["captain_assistant_id", "inbox_id"], name: "index_captain_inboxes_on_captain_assistant_id_and_inbox_id", unique: true
     t.index ["captain_assistant_id"], name: "index_captain_inboxes_on_captain_assistant_id"
     t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
+  end
+
+  create_table "captain_mcp_servers", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.text "url", null: false
+    t.string "name", null: false
+    t.string "auth_type", default: "none", null: false
+    t.string "auth_header"
+    t.jsonb "auth_config", default: {}
+    t.jsonb "oauth_credentials", default: {}
+    t.string "status", default: "active", null: false
+    t.text "last_error"
+    t.datetime "tools_changed_at"
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_mcp_servers_on_account_id"
+    t.index ["assistant_id", "url"], name: "index_captain_mcp_servers_on_assistant_id_and_url", unique: true
+  end
+
+  create_table "captain_mcp_tools", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "mcp_server_id", null: false
+    t.string "name", null: false
+    t.string "captain_name", null: false
+    t.jsonb "approved_definition", default: {}, null: false
+    t.string "approved_digest", null: false
+    t.jsonb "param_sources", default: {}, null: false
+    t.jsonb "settings", default: {}, null: false
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_mcp_tools_on_account_id"
+    t.index ["captain_name"], name: "index_captain_mcp_tools_on_captain_name", unique: true
+    t.index ["mcp_server_id", "name"], name: "index_captain_mcp_tools_on_mcp_server_id_and_name", unique: true
   end
 
   create_table "captain_message_reports", force: :cascade do |t|

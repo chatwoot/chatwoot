@@ -584,6 +584,19 @@ en:
         invalid: 'must be an object'
         unknown: 'has unknown settings: %{names}'
         not_boolean: 'values must be true or false'
+    mcp_server:
+      disabled: 'MCP servers are not enabled for this account'
+      token_rejected: 'The server rejected the token. Check the token and the header name.'
+      not_oauth: 'This server does not use OAuth sign-in'
+      tools:
+        duplicate: 'cannot list the same tool twice'
+        invalid_selection: 'Each tool selection must be an object with the tool name, and its param_sources and settings must be objects'
+        not_read_only: '%{tool} is not a read tool. Captain can only use read tools.'
+        missing: 'The server no longer offers %{tool}.'
+        name_clash: 'Captain cannot tell these tools apart: %{names}. Select only one of them.'
+        unknown_param: '%{tool} has no parameters named %{names}'
+        one_verified_email: '%{tool} can have one verified email parameter only'
+        verified_email_type: '%{tool} parameter %{name} must be a string to take the verified email'
     tools_manifest:
       invalid_source: 'Enter a toolset from the Captain tools catalog as chatwoot/tools/folder'
       invalid_configuration: 'Invalid configuration'
