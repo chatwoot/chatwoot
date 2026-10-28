@@ -114,10 +114,11 @@ class CopilotRun::Review < CopilotRun
 
   private
 
-  # Counts only the current turn's work, so every card's bar starts empty and ends full.
+  # Counts only the current turn's work, so every card's bar starts empty and ends full. Reviews started before the
+  # progress card saved no matched or failed baseline, and their first turn started at 0.
   def turn_progress
     progress = summary
     { finished: finished?, done: progress[:processed] - turn_start, total: [turn_limit, progress[:selected]].min - turn_start,
-      matched: progress[:matched] - turn_start_matched, failed: progress[:failed] - turn_start_failed }
+      matched: progress[:matched] - turn_start_matched.to_i, failed: progress[:failed] - turn_start_failed.to_i }
   end
 end
