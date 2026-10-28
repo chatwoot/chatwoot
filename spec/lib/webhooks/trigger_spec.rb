@@ -94,7 +94,7 @@ describe Webhooks::Trigger do
     end
 
     it 'updates message status to failed when message has legacy nil status' do
-      message.update_column(:status, nil)
+      message.update_column(:status, nil) # rubocop:disable Rails/SkipsModelValidations
       payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
 
       expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))

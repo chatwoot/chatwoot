@@ -164,7 +164,7 @@ describe WebhookListener do
       end
 
       it 'triggers webhook event when other content_attributes change' do
-        webhook = create(:webhook, inbox: inbox, account: account)
+        create(:webhook, inbox: inbox, account: account)
         event = Events::Base.new(
           event_name,
           Time.zone.now,

@@ -139,14 +139,15 @@ class WebhookListener < BaseListener
 
     changed_keys = previous_changes.keys.map(&:to_s) - ['updated_at']
     return true if changed_keys == ['external_error']
-
-    if changed_keys == ['content_attributes']
-      before_attrs, after_attrs = previous_changes['content_attributes'] || previous_changes[:content_attributes]
-      before_attrs ||= {}
-      after_attrs ||= {}
-      return before_attrs.except('external_error', :external_error) == after_attrs.except('external_error', :external_error)
-    end
+    return content_attributes_only_error_changed?(previous_changes) if changed_keys == ['content_attributes']
 
     false
+  end
+
+  def content_attributes_only_error_changed?(previous_changes)
+    before_attrs, after_attrs = previous_changes['content_attributes'] || previous_changes[:content_attributes]
+    before = before_attrs || {}
+    after = after_attrs || {}
+    before.except('external_error', :external_error) == after.except('external_error', :external_error)
   end
 end
