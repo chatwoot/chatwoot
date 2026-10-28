@@ -65,10 +65,8 @@ class ContactInboxWithContactBuilder
   end
 
   def find_contact
-    # phone_number is checked before email: email is no longer guaranteed unique per
-    # account (two contacts may share an email as long as their phone numbers differ,
-    # see Contact#validate_email_uniqueness), so an exact phone match is the more
-    # reliable signal whenever both are present.
+    # Email isn't unique per account once phone numbers differ (see ContactEmailIdentity), so an
+    # exact phone match wins, and the email fallback skips contacts with a conflicting phone.
     contact = find_contact_by_identifier(contact_attributes[:identifier])
     contact ||= find_contact_by_phone_numbers
     contact ||= find_contact_by_email(contact_attributes[:email])
@@ -108,7 +106,7 @@ class ContactInboxWithContactBuilder
   def find_contact_by_email(email)
     return if email.blank?
 
-    account.contacts.from_email(email)
+    account.contacts.from_email_and_phone_number(email, contact_attributes[:phone_number])
   end
 
   def find_contact_by_phone_numbers

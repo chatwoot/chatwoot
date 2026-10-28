@@ -303,7 +303,7 @@ class DataImports::Importer
     attrs = contact_attributes(contact_payload)
     updates = {}
     updates[:name] = attrs[:name] if contact.name.blank? && attrs[:name].present?
-    updates[:email] = attrs[:email] if contact_email_available?(contact, attrs[:email])
+    updates[:email] = attrs[:email] if contact_email_available?(contact, attrs)
     updates[:phone_number] = attrs[:phone_number] if contact_phone_number_available?(contact, attrs[:phone_number])
     updates[:identifier] = attrs[:identifier] if contact.identifier.blank? && attrs[:identifier].present?
     updates[:last_activity_at] = attrs[:last_activity_at] if contact.last_activity_at.blank? && attrs[:last_activity_at].present?
@@ -315,10 +315,14 @@ class DataImports::Importer
     contact.reload
   end
 
-  def contact_email_available?(contact, email)
-    return false if contact.email.present? || email.blank?
+  # Checked against the phone number the contact will end up with, since another contact having
+  # this email only conflicts when the phone numbers don't tell them apart.
+  def contact_email_available?(contact, attrs)
+    return false if contact.email.present? || attrs[:email].blank?
 
-    @account.contacts.where.not(id: contact.id).where('LOWER(email) = ?', email.downcase).empty?
+    phone_number = contact.phone_number.presence
+    phone_number ||= attrs[:phone_number] if contact_phone_number_available?(contact, attrs[:phone_number])
+    !@account.contacts.email_taken?(attrs[:email], phone_number, except_id: contact.id)
   end
 
   def contact_phone_number_available?(contact, phone_number)

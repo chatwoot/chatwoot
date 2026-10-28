@@ -6,7 +6,7 @@
 # The single old index is replaced by two partial ones: contacts with no phone number still
 # enforce the original one-contact-per-email rule among themselves, and contacts with a phone
 # number are unique per (email, phone_number), so only a differing phone number lets an email
-# repeat. See Contact#validate_email_uniqueness for the matching model-level rule.
+# repeat. See ContactEmailIdentity for the matching model-level rule.
 class RelaxContactEmailUniquenessForPhoneNumber < ActiveRecord::Migration[7.2]
   disable_ddl_transaction!
 
@@ -28,14 +28,9 @@ class RelaxContactEmailUniquenessForPhoneNumber < ActiveRecord::Migration[7.2]
     remove_index :contacts, name: 'uniq_email_per_account_contact', algorithm: :concurrently, if_exists: true
   end
 
+  # Once contacts share an email under different phone numbers, the old email-only unique index
+  # can't be rebuilt without deciding which of them to merge or delete.
   def down
-    add_index :contacts, [:email, :account_id],
-              unique: true,
-              name: 'uniq_email_per_account_contact',
-              algorithm: :concurrently,
-              if_not_exists: true
-
-    remove_index :contacts, name: 'uniq_email_phone_per_account_contact', algorithm: :concurrently, if_exists: true
-    remove_index :contacts, name: 'uniq_email_per_account_contact_without_phone', algorithm: :concurrently, if_exists: true
+    raise ActiveRecord::IrreversibleMigration
   end
 end

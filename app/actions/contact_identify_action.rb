@@ -65,7 +65,9 @@ class ContactIdentifyAction
   def existing_email_contact
     return if params[:email].blank?
 
-    @existing_email_contact ||= account.contacts.from_email(params[:email])
+    # Prefer the same-email contact whose phone matches, so a shared email resolves to the right one
+    @existing_email_contact ||= account.contacts.from_email_and_phone_number(params[:email], params[:phone_number]) ||
+                                account.contacts.from_email(params[:email])
   end
 
   def existing_phone_number_contact
@@ -105,9 +107,9 @@ class ContactIdentifyAction
   # request happened not to repeat it.
   #
   # Keeping the visitor separate only works if they can actually keep that phone number. When
-  # it already belongs to another contact under a different email, mergable_phone_contact?
-  # will drop it, and a phone-less copy of this email can't be saved next to contact 1, so
-  # merge into contact 1 as before.
+  # another contact owns it under a different email, or under an identifier this request doesn't
+  # match, the phone path below will drop it, and a phone-less copy of this email can't be saved
+  # next to contact 1, so merge into contact 1 as before.
   def mergable_email_contact?
     return true if existing_email_contact.blank?
 
@@ -115,12 +117,15 @@ class ContactIdentifyAction
     return true if phone_number.blank?
     return true if existing_email_contact.phone_number.blank? || existing_email_contact.phone_number == phone_number
 
-    phone_number_owned_by_other_email?
+    phone_number_unavailable?
   end
 
-  def phone_number_owned_by_other_email?
-    existing_phone_number_contact.present? && existing_phone_number_contact.id != @contact.id &&
-      existing_phone_number_contact.email.present? && existing_phone_number_contact.email != params[:email]
+  def phone_number_unavailable?
+    owner = existing_phone_number_contact
+    return false if owner.blank? || owner.id == @contact.id
+
+    (owner.email.present? && owner.email != params[:email]) ||
+      (owner.identifier.present? && owner.identifier != params[:identifier])
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789

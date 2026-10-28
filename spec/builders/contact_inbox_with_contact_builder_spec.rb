@@ -75,7 +75,6 @@ describe ContactInboxWithContactBuilder do
         inbox: inbox,
         contact_attributes: {
           name: 'Contact',
-          phone_number: '+1234567890',
           email: contact.email
         }
       ).perform
@@ -89,12 +88,26 @@ describe ContactInboxWithContactBuilder do
         inbox: inbox,
         contact_attributes: {
           name: 'Contact',
-          phone_number: '+1234567890',
           email: contact.email.upcase
         }
       ).perform
 
       expect(contact_inbox.contact.id).to be(contact.id)
+    end
+
+    it 'creates a new contact when the email belongs to a contact with a different phone number' do
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Contact',
+          phone_number: '+1234567890',
+          email: contact.email
+        }
+      ).perform
+
+      expect(contact_inbox.contact.id).not_to eq(contact.id)
+      expect(contact_inbox.contact).to have_attributes(email: contact.email, phone_number: '+1234567890')
     end
 
     it 'doesnot create contact if it already exist with phone number' do

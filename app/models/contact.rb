@@ -47,10 +47,10 @@ class Contact < ApplicationRecord
   include AvailabilityStatusable
   include Labelable
   include LlmFormattable
+  include ContactEmailIdentity
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
-  validate :validate_email_uniqueness
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
@@ -189,34 +189,7 @@ class Contact < ApplicationRecord
     find_by(email: email&.downcase)
   end
 
-  # Email alone no longer identifies a contact once a phone number is known (see
-  # validate_email_uniqueness): only a same-email contact with that phone, or with none, is a match.
-  def self.from_email_and_phone_number(email, phone_number)
-    return from_email(email) if phone_number.blank?
-
-    contacts = where(email: email&.downcase)
-    contacts.find_by(phone_number: phone_number) || contacts.find_by(phone_number: [nil, ''])
-  end
-
   private
-
-  # Email is unique per account, unless this contact has a phone number: two contacts may then
-  # share an email as long as their phone numbers differ (see ContactIdentifyAction, which decides
-  # when a widget visitor sharing an existing email should be kept as a separate contact).
-  #
-  # The two partial indexes backing this (see the migration) can't express "a blank phone number
-  # conflicts with every other phone number for the same email" the way this check does, so two
-  # inserts racing to create the same brand-new email - one with a phone number, one without -
-  # aren't serialized by the database the way a same-group duplicate is. ContactIdentifyAction,
-  # the flow this exists for, isn't exposed to that gap for an *existing* email: it merges into
-  # the existing contact rather than inserting a new row whenever that contact has no phone.
-  def validate_email_uniqueness
-    return if email.blank?
-
-    duplicates = account.contacts.where(email: email).where.not(id: id)
-    duplicates = duplicates.where(phone_number: [nil, '', phone_number]) if phone_number.present?
-    errors.add(:email, :taken) if duplicates.exists?
-  end
 
   def ip_lookup
     return unless account.feature_enabled?('ip_lookup')
