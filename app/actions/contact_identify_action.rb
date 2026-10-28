@@ -113,11 +113,20 @@ class ContactIdentifyAction
   def mergable_email_contact?
     return true if existing_email_contact.blank?
 
-    phone_number = params[:phone_number].presence || @contact.phone_number
+    phone_number = submitted_phone_number || @contact.phone_number
     return true if phone_number.blank?
     return true if existing_email_contact.phone_number.blank? || existing_email_contact.phone_number == phone_number
 
     phone_number_unavailable?
+  end
+
+  # With discard_invalid_attrs, update_contact drops a malformed phone before saving, so it can't
+  # be what tells this visitor apart from the email contact either
+  def submitted_phone_number
+    phone_number = params[:phone_number].presence
+    return phone_number unless discard_invalid_attrs && phone_number
+
+    phone_number if phone_number.match?(Contact::PHONE_NUMBER_FORMAT)
   end
 
   def phone_number_unavailable?

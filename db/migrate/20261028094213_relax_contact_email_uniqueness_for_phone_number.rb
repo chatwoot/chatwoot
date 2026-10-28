@@ -11,6 +11,11 @@ class RelaxContactEmailUniquenessForPhoneNumber < ActiveRecord::Migration[7.2]
   disable_ddl_transaction!
 
   def up
+    # Empty or whitespace-only phone numbers become NULL first, matching how Contact now saves them,
+    # so the indexes below and the model rule both treat them as "no phone number"
+    blank_phone = Contact.arel_table[:phone_number].matches_regexp('^\s*$')
+    Contact.where(blank_phone).in_batches(of: 1000).update_all(phone_number: nil) # rubocop:disable Rails/SkipsModelValidations
+
     add_index :contacts, [:account_id, :email],
               unique: true,
               where: "phone_number IS NULL OR phone_number = ''",

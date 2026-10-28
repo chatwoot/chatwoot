@@ -10,6 +10,8 @@ module ContactEmailIdentity
   extend ActiveSupport::Concern
 
   included do
+    # A whitespace-only phone would otherwise count as a real one, both here and in the indexes
+    before_validation { self.phone_number = phone_number.presence }
     validate :validate_email_uniqueness
   end
 

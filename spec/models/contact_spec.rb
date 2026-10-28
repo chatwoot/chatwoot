@@ -115,6 +115,14 @@ RSpec.describe Contact do
       expect(contact.errors[:email]).to be_present
     end
 
+    it 'treats a whitespace-only phone number as no phone number' do
+      account = create(:account)
+      existing = create(:contact, account: account, email: 'shared@test.com', phone_number: '  ')
+      contact = build(:contact, account: account, email: 'shared@test.com', phone_number: '+12312312321')
+      expect(existing.phone_number).to be_nil
+      expect(contact).not_to be_valid
+    end
+
     it 'allows two contacts in the same account to share an email when their phone numbers differ' do
       account = create(:account)
       create(:contact, account: account, email: 'shared@test.com', phone_number: '+12312312321')

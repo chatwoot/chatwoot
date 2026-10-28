@@ -128,6 +128,14 @@ describe ContactIdentifyAction do
         expect(result.phone_number).to eq '+10000000001'
       end
 
+      it 'merges into the email contact when the submitted phone is malformed and gets discarded' do
+        email_contact = create(:contact, account: account, email: 'shared@test.com', phone_number: '+10000000001')
+        params = { name: 'new name', email: 'shared@test.com', phone_number: 'not a phone' }
+        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true, discard_invalid_attrs: true).perform
+        expect(result.id).to eq email_contact.id
+        expect(result.phone_number).to eq '+10000000001'
+      end
+
       it 'still merges when the email contact has no phone number on file' do
         existing_email_contact = create(:contact, account: account, email: 'shared@test.com', name: 'old name')
         params = { name: 'new name', email: 'shared@test.com', phone_number: '+12312312321' }
