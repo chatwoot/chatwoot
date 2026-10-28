@@ -41,7 +41,6 @@ class ContactIdentifyAction
 
   def merge_if_existing_phone_number_contact
     return unless merge_contacts?(existing_phone_number_contact, :phone_number)
-    return unless mergable_phone_contact?
 
     process_contact_merge(existing_phone_number_contact)
   end
@@ -72,29 +71,12 @@ class ContactIdentifyAction
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
 
-    return true if params[:identifier].blank?
+    return true if existing_contact.id == @contact.id || key == :identifier
 
-    # we want to prevent merging contacts with different identifiers
-    if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
-      # we will remove attribute from update list
-      @attributes_to_update.delete(key)
-      return false
-    end
-
-    true
-  end
-
-  # case: contact 1: email: 1@test.com, phone: 123456789
-  # params: email: 2@test.com, phone: 123456789
-  # we don't want to overwrite 1@test.com since email parameter takes higer priority
-  def mergable_phone_contact?
-    return true if params[:email].blank?
-
-    if existing_phone_number_contact.email.present? && existing_phone_number_contact.email != params[:email]
-      @attributes_to_update.delete(:phone_number)
-      return false
-    end
-    true
+    # Visitor-supplied email and phone numbers do not prove ownership of another
+    # contact. Keep the current identity and avoid assigning a duplicate value.
+    @attributes_to_update.delete(key)
+    false
   end
 
   def update_contact

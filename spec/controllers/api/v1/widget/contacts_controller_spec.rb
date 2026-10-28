@@ -188,6 +188,53 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
     end
   end
 
+  describe 'PATCH /api/v1/widget/contact with another contact email or phone number' do
+    let(:web_widget) { create(:channel_widget, account: account, hmac_mandatory: true) }
+    let!(:victim) do
+      create(:contact, account: account, identifier: 'victim-id', email: 'victim@test.com', phone_number: '+14155550123', name: 'Victim')
+    end
+    let!(:victim_session) { create(:contact_inbox, contact: victim, inbox: web_widget.inbox, hmac_verified: true) }
+    let!(:victim_conversation) do
+      create(:conversation, account: account, inbox: web_widget.inbox, contact: victim, contact_inbox: victim_session)
+    end
+    let!(:victim_message) do
+      create(:message, account: account, inbox: web_widget.inbox, conversation: victim_conversation, content: 'Victim private support message')
+    end
+
+    identity_keys = [:email, :phone_number]
+    [false, true].each do |verified|
+      context "when the visitor verification is #{verified}" do
+        before do
+          contact.update!(identifier: 'visitor-id') if verified
+          contact_inbox.update!(hmac_verified: verified)
+        end
+
+        identity_keys.each do |key|
+          it "does not rebind the session or reveal victim messages through #{key}" do
+            patch '/api/v1/widget/contact',
+                  params: { website_token: web_widget.website_token, name: 'Visitor' }.merge(key => victim.public_send(key)),
+                  headers: { 'X-Auth-Token' => token },
+                  as: :json
+
+            expect(response).to have_http_status(:success)
+            expect(response.parsed_body['id']).to eq(contact.id)
+            expect(contact_inbox.reload.contact_id).to eq(contact.id)
+            expect(contact_inbox.hmac_verified?).to eq(verified)
+            expect(victim.reload.name).to eq('Victim')
+
+            get '/api/v1/widget/messages',
+                params: { website_token: web_widget.website_token },
+                headers: { 'X-Auth-Token' => token },
+                as: :json
+
+            expect(response).to have_http_status(:success)
+            expect(response.parsed_body['payload'].pluck('id')).not_to include(victim_message.id)
+          end
+        end
+      end
+    end
+  end
+
   describe 'PATCH /api/v1/widget/contact/set_user' do
     let(:params) { { website_token: web_widget.website_token, identifier: 'test' } }
     let(:web_widget) { create(:channel_widget, account: account, hmac_mandatory: true) }

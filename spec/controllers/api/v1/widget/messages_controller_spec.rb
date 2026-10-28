@@ -298,7 +298,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
     end
 
     context 'when put request is made with existing email' do
-      it 'updates message in conversation and deletes the current contact' do
+      it 'records the submitted email without merging the visitor into another contact' do
         message = create(:message, account: account, content_type: 'input_email', inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
         existing_contact = create(:contact, account: account, email: email, name: 'John Doe')
@@ -310,11 +310,13 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(response).to have_http_status(:success)
         message.reload
+        expect(message.submitted_email).to eq(email)
         expect(existing_contact.reload.name).to eq('John Doe')
-        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(contact.reload.email).to be_nil
+        expect(contact_inbox.reload.contact_id).to eq(contact.id)
       end
 
-      it 'ignores the casing of email, updates message in conversation and deletes the current contact' do
+      it 'does not merge the visitor when the submitted email differs only in casing' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
         create(:contact, account: account, email: email)
@@ -326,7 +328,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(response).to have_http_status(:success)
         message.reload
-        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(contact.reload.email).to be_nil
+        expect(contact_inbox.reload.contact_id).to eq(contact.id)
       end
     end
   end
