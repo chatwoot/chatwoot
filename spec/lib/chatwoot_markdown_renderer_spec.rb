@@ -4,11 +4,11 @@ RSpec.describe ChatwootMarkdownRenderer do
   let(:markdown_content) { 'This is a *test* content with ^markdown^' }
   let(:doc) { instance_double(CommonMarker::Node) }
   let(:renderer) { described_class.new(markdown_content) }
-  let(:markdown_renderer) { instance_double(CustomMarkdownRenderer) }
+  let(:markdown_renderer) { instance_double(PortalArticleMarkdownRenderer) }
   let(:html_content) { '<p>This is a <em>test</em> content with <sup>markdown</sup></p>' }
 
   before do
-    allow(CustomMarkdownRenderer).to receive(:new).and_return(markdown_renderer)
+    allow(PortalArticleMarkdownRenderer).to receive(:new).and_return(markdown_renderer)
     allow(markdown_renderer).to receive(:render).with(doc).and_return(html_content)
   end
 
@@ -48,7 +48,7 @@ RSpec.describe ChatwootMarkdownRenderer do
 
       before do
         allow(CommonMarker).to receive(:render_doc).and_call_original
-        allow(CustomMarkdownRenderer).to receive(:new).and_call_original
+        allow(PortalArticleMarkdownRenderer).to receive(:new).and_call_original
       end
 
       around do |example|
@@ -122,7 +122,7 @@ RSpec.describe ChatwootMarkdownRenderer do
 
       before do
         allow(CommonMarker).to receive(:render_doc).and_call_original
-        allow(CustomMarkdownRenderer).to receive(:new).and_call_original
+        allow(PortalArticleMarkdownRenderer).to receive(:new).and_call_original
       end
 
       it 'preserves embed and table markup' do

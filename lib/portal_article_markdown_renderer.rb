@@ -1,4 +1,4 @@
-class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
+class PortalArticleMarkdownRenderer < CommonMarker::HtmlRenderer
   include MarkdownRendererUrlSanitizer
   include PortalImageHelper
 
