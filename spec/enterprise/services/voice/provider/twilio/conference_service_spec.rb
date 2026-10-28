@@ -174,16 +174,19 @@ describe Voice::Provider::Twilio::ConferenceService do
       allow(conference_context).to receive(:participants).with(call.provider_call_id).and_return(participant)
     end
 
-    it 'holds the contact leg in the conference' do
+    it 'plays the default playlist to the contact alone, so the agent still hears them' do
       service.hold_contact(true)
 
-      expect(participant).to have_received(:update).with(hold: true)
+      expect(participant).to have_received(:update)
+        .with(announce_url: 'https://s3.amazonaws.com/com.twilio.sounds.music/index.xml', announce_method: 'GET')
     end
 
-    it 'resumes the contact leg' do
+    it 'ends the music with an empty announcement' do
       service.hold_contact(false)
 
-      expect(participant).to have_received(:update).with(hold: false)
+      digits = channel.phone_number.delete_prefix('+')
+      expect(participant).to have_received(:update)
+        .with(announce_url: "http://localhost:3000/twilio/voice/resume/#{digits}", announce_method: 'GET')
     end
 
     it 'raises a call error when Twilio refuses, so no hold is shown' do

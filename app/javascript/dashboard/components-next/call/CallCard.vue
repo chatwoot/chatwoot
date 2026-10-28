@@ -60,7 +60,7 @@ const isOutgoing = computed(
 const isWhatsapp = computed(
   () => props.call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
-// Muting a Twilio call holds the caller in the conference, where they hear hold music
+// A muted Twilio call plays hold music to the caller, who the agent still hears
 const isOnHold = computed(() => isOngoing.value && !!props.call?.onHold);
 // A Twilio caller can be held only once connected; an outbound call still rings before that
 const canMute = computed(
@@ -194,7 +194,7 @@ const channelIcon = computed(() =>
 
         <!-- Actions -->
         <div class="flex items-center gap-2 shrink-0">
-          <!-- Mute toggle: WhatsApp mutes the mic, Twilio holds the caller with music -->
+          <!-- Mute toggle: WhatsApp mutes the mic, Twilio also plays hold music to the caller -->
           <NextButton
             v-if="canMute"
             v-tooltip.top="

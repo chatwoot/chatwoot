@@ -30,8 +30,8 @@ const {
   formattedCallDuration,
 } = useCallSession();
 
-// Mute routes by provider: WhatsApp toggles the local mic track, Twilio holds
-// the caller in the conference so they hear hold music. Both surface the same button.
+// Mute routes by provider: WhatsApp toggles the local mic track, Twilio also plays
+// hold music to the caller while the agent keeps hearing them. Both surface the same button.
 const isWhatsappMuted = ref(false);
 const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP

@@ -230,10 +230,11 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     callsStore.dismissCall(callSid);
   };
 
-  // Twilio's mute: the caller is held in the conference and hears hold music
+  // Twilio's mute: the caller hears hold music while the agent still hears them
   const holdCall = async ({ conversationId, inboxId, callSid, hold }) => {
     try {
       await VoiceAPI.setHold({ inboxId, conversationId, callSid, hold });
+      TwilioVoiceClient.setMuted(hold);
       callsStore.setCallOnHold(callSid, hold);
     } catch (error) {
       // Keep the shown state: the request sets the hold rather than toggling it, so a retry is safe

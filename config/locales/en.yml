@@ -123,7 +123,7 @@ en:
       call_already_accepted: '%{agent_name} is already handling the call.'
       announcement_audio_mismatch: 'Generated audio did not match the announcement text. Your saved announcement has not changed. Please try again.'
       call_timed_out: 'The call timed out before you could join.'
-      invalid_hold: 'Provide a boolean for hold'
+      invalid_hold: "Couldn't update the call. Please try again."
       not_handling_agent: 'Only the agent on the call can hold or resume it.'
       hold_failed: 'Could not update the hold. Please try again.'
     assignment_policy:
