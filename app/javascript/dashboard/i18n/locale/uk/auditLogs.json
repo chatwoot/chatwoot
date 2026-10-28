@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "Користувач",
         "TIME": "Дія",
-        "IP_ADDRESS": "IP-адреса"
+        "IP_ADDRESS": "IP-адреса",
+        "LOCATION": "Місцезнаходження"
       }
     },
     "API": {

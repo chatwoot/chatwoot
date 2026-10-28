@@ -7837,14 +7837,15 @@
         "required": true,
         "description": "The source id of contact obtained on contact create"
       },
-      "portal_id": {
+      "portal_slug": {
         "in": "path",
-        "name": "id",
+        "name": "portal_slug",
         "schema": {
           "type": "string"
         },
         "required": true,
-        "description": "The slug identifier of the portal"
+        "description": "The slug of the portal. The numeric portal ID is not accepted.",
+        "example": "handbook"
       }
     },
     "securitySchemes": {

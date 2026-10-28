@@ -18,7 +18,8 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",
       "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address.",
+      "SHOPIFY_INSTALLATION_FAILED": "We couldn't complete your Shopify installation. Please restart installation from Shopify."
     },
     "FORGOT_PASSWORD": "Forgot your password?",
     "CREATE_NEW_ACCOUNT": "Create a new account",
