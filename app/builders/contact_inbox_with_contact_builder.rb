@@ -65,9 +65,13 @@ class ContactInboxWithContactBuilder
   end
 
   def find_contact
+    # phone_number is checked before email: email is no longer guaranteed unique per
+    # account (two contacts may share an email as long as their phone numbers differ,
+    # see Contact#validate_email_uniqueness), so an exact phone match is the more
+    # reliable signal whenever both are present.
     contact = find_contact_by_identifier(contact_attributes[:identifier])
-    contact ||= find_contact_by_email(contact_attributes[:email])
     contact ||= find_contact_by_phone_numbers
+    contact ||= find_contact_by_email(contact_attributes[:email])
     contact ||= find_contact_by_instagram_source_id(source_id) if instagram_channel?
 
     contact

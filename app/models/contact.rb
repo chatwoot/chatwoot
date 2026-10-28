@@ -35,7 +35,8 @@
 #  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
 #  index_resolved_contact_account_id                     (account_id) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
-#  uniq_email_phone_per_account_contact                  (account_id,email,COALESCE(phone_number, ''::character varying)) UNIQUE
+#  uniq_email_per_account_contact_without_phone          (account_id,email) UNIQUE WHERE ((phone_number IS NULL) OR ((phone_number)::text = ''::text))
+#  uniq_email_phone_per_account_contact                  (account_id,email,phone_number) UNIQUE WHERE (((phone_number)::text IS NOT NULL) AND ((phone_number)::text <> ''::text))
 #  uniq_identifier_per_account_contact                   (identifier,account_id) UNIQUE
 #
 
@@ -193,6 +194,13 @@ class Contact < ApplicationRecord
   # Email is unique per account, unless this contact has a phone number: two contacts may then
   # share an email as long as their phone numbers differ (see ContactIdentifyAction, which decides
   # when a widget visitor sharing an existing email should be kept as a separate contact).
+  #
+  # The two partial indexes backing this (see the migration) can't express "a blank phone number
+  # conflicts with every other phone number for the same email" the way this check does, so two
+  # inserts racing to create the same brand-new email - one with a phone number, one without -
+  # aren't serialized by the database the way a same-group duplicate is. ContactIdentifyAction,
+  # the flow this exists for, isn't exposed to that gap for an *existing* email: it merges into
+  # the existing contact rather than inserting a new row whenever that contact has no phone.
   def validate_email_uniqueness
     return if email.blank?
 

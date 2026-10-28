@@ -818,10 +818,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_28_094213) do
     t.string "country_code", default: ""
     t.boolean "blocked", default: false, null: false
     t.bigint "company_id"
-    t.index "account_id, email, COALESCE(phone_number, ''::character varying)", name: "uniq_email_phone_per_account_contact", unique: true
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "contact_type"], name: "index_contacts_on_account_id_and_contact_type"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
+    t.index ["account_id", "email", "phone_number"], name: "uniq_email_phone_per_account_contact", unique: true, where: "(((phone_number)::text IS NOT NULL) AND ((phone_number)::text <> ''::text))"
+    t.index ["account_id", "email"], name: "uniq_email_per_account_contact_without_phone", unique: true, where: "((phone_number IS NULL) OR ((phone_number)::text = ''::text))"
     t.index ["account_id", "last_activity_at"], name: "index_contacts_on_account_id_and_last_activity_at", order: { last_activity_at: "DESC NULLS LAST" }
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["account_id"], name: "index_resolved_contact_account_id", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"

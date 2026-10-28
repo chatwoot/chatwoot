@@ -111,6 +111,22 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).to be(contact.id)
     end
 
+    it 'prefers an exact phone match over an email shared with a different contact' do
+      other_contact = create(:contact, account: account, email: contact.email, phone_number: '+19999999999')
+
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Contact',
+          phone_number: other_contact.phone_number,
+          email: contact.email
+        }
+      ).perform
+
+      expect(contact_inbox.contact.id).to be(other_contact.id)
+    end
+
     it 'reuses contact if it exists with the same source_id in a Facebook inbox when creating for Instagram inbox' do
       instagram_source_id = '123456789'
 
