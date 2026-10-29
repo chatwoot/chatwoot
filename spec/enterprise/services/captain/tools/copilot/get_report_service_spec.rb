@@ -121,6 +121,14 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(result[:without_activity]).to eq(1)
     end
 
+    it 'counts a label without activity instead of listing it with zero times' do
+      create(:label, account: account, title: 'unused')
+
+      result = service.execute(by: 'label', metrics: %w[conversations_count], **week)
+
+      expect(result).to include(rows: [], without_activity: 1)
+    end
+
     it 'says why no chart was drawn when every value is zero' do
       result = service.execute(by: 'agent', metrics: %w[resolutions_count], chart: true, **week)
 

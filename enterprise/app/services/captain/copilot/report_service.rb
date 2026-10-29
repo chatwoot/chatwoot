@@ -9,6 +9,8 @@ class Captain::Copilot::ReportService
     'team' => V2::Reports::TeamSummaryBuilder, 'label' => V2::Reports::LabelSummaryBuilder
   }.freeze
   AVERAGES = %w[avg_first_response_time avg_resolution_time reply_time avg_reply_time].freeze
+  # The label summary gives 0 for an average with no events, so a label's zero average is read as missing.
+  LABEL_TIMES = %i[avg_first_response_time avg_resolution_time avg_reply_time].freeze
   # A breakdown runs one report for each agent, inbox, team or label it checks, so it checks the MAX_CHECKED with the most
   # conversations and lists the MAX_EACH with the most of the metric.
   MAX_CHECKED = 50
@@ -125,6 +127,7 @@ class Captain::Copilot::ReportService
     end
     names = dimension_names(dimension)
     rows = builder.new(account: @account, params: params.merge(type: dimension.to_sym)).build
+    rows = rows.map { |row| row.merge(row.slice(*LABEL_TIMES).transform_values(&:nonzero?)) } if dimension == 'label'
     rows.sort_by { |row| -row[:conversations_count] }.map { |row| summary_row(row, names) }
   end
 
@@ -134,13 +137,10 @@ class Captain::Copilot::ReportService
     rows.select { |row| row[:conversations].positive? || row[:resolved].positive? || row[:avg_first_response_time] || row[:avg_reply_time] }
   end
 
-  def params
-    { since: @since, until: @before, business_hours: @business_hours, timezone: @time_zone, timezone_offset: offset }
-  end
-
   # The time series builders bucket periods in the zone name; the offset is for builders that take only an offset.
-  def offset
-    ActiveSupport::TimeZone[@time_zone].now.utc_offset / 3600.0
+  def params
+    offset = ActiveSupport::TimeZone[@time_zone].now.utc_offset / 3600.0
+    { since: @since, until: @before, business_hours: @business_hours, timezone: @time_zone, timezone_offset: offset }
   end
 
   def report_kind(by, filters)
