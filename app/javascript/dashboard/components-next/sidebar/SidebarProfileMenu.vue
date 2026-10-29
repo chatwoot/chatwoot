@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
 
 import {
   DropdownContainer,
@@ -29,11 +30,14 @@ const { t } = useI18n();
 
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
+const inboxes = useMapGetter('inboxes/getInboxes');
 const accountId = useMapGetter('getCurrentAccountId');
 const globalConfig = useMapGetter('globalConfig/get');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+
+const hasVoiceInbox = computed(() => inboxes.value.some(isVoiceCallEnabled));
 
 const showChatSupport = computed(() => {
   return (
@@ -161,7 +165,7 @@ const allowedMenuItems = computed(() => {
       </button>
     </template>
     <DropdownBody class="bottom-12 z-50 mb-2 w-80 ltr:left-0 rtl:right-0">
-      <SidebarProfileMenuStatus />
+      <SidebarProfileMenuStatus :has-voice-inbox="hasVoiceInbox" />
       <DropdownSeparator />
       <template v-for="item in allowedMenuItems" :key="item.label">
         <CustomBrandPolicyWrapper

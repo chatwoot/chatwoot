@@ -33,6 +33,15 @@ class Api::V1::ProfilesController < Api::BaseController
     @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
   end
 
+  def work_preferences
+    preferences = work_preferences_params.except(:account_id)
+    unless preferences.values.all? { |value| [true, false].include?(value) }
+      return render_could_not_create_error(I18n.t('errors.account_user.invalid_work_preference'))
+    end
+
+    @user.account_users.find_by!(account_id: work_preferences_params[:account_id]).update!(preferences)
+  end
+
   def set_active_account
     @user.account_users.find_by(account_id: profile_params[:account_id]).update(active_at: Time.now.utc)
     head :ok
@@ -60,6 +69,10 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def auto_offline_params
     params.require(:profile).permit(:account_id, :auto_offline)
+  end
+
+  def work_preferences_params
+    params.require(:profile).permit(:account_id, :accepts_conversations, :accepts_calls)
   end
 
   def profile_params

@@ -44,6 +44,35 @@
         "TITLE": "ID аккаунта",
         "NOTE": "Этот ID требуется для построения интеграции, основанной на API"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Перевод",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "Подключить",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Обновить"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Автоматически завершать диалоги",
         "NOTE": "Эта опция позволит вам завершать диалоги после определенного периода бездействия.",
@@ -51,7 +80,7 @@
           "LABEL": "Время бездействия",
           "HELP": "Время бездействия, после которого диалог будет завершен",
           "PLACEHOLDER": "30",
-          "ERROR": "Время автозавершения должно быть между 10 минутами и 999 днями",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Настройки автозавершения успешно обновлены",
             "ERROR": "Не удалось обновить настройки автозавершения"
@@ -104,6 +133,14 @@
           "ERROR": "Не удалось обновить настройки расшифровки аудио сообщений"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Длительность бездействия для автозавершения",
         "HELP": "Длительность бездействия для автозавершения, если не было активности",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Доступно обновление {latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
     "LEARN_MORE": "Узнайте больше",
-    "PAYMENT_PENDING": "Ваш платеж в ожидании. Пожалуйста, обновите платежную информацию, чтобы продолжить использовать Chatwoot",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "Обновитесь, чтобы продолжить использовать Chatwoot",
     "LIMITS_UPGRADE": "Превышен лимит использования вашего тарифного плана, пожалуйста, обновите тарифный план, чтобы продолжить использовать Chatwoot",
     "OPEN_BILLING": "Открыть платеж"
