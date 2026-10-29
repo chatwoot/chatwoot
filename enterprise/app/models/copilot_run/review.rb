@@ -45,6 +45,7 @@ class CopilotRun::Review < CopilotRun
 
   validates :status, inclusion: { in: STATUSES }
   validates :source_run_id, :criteria, :turn_start, :turn_limit, presence: true
+  validate :text_within_limits
 
   # A review reads the selection saved on the collection it reviews instead of keeping its own copy.
   delegate :selected_ids, :as_of, :filters, :selection_truncated?, to: :source_run
@@ -117,5 +118,16 @@ class CopilotRun::Review < CopilotRun
     progress = summary
     { finished: finished?, done: progress[:processed] - turn_start, total: [turn_limit, progress[:selected]].min - turn_start,
       matched: progress[:matched] - turn_start_matched.to_i, failed: progress[:failed] - turn_start_failed.to_i }
+  end
+
+  # The text the turn writes for the reviewer. question and reference may be left out, but text that is given must be a
+  # nonempty string within its limit.
+  def text_within_limits
+    { criteria: 4000, question: 500, reference: 20_000 }.each do |name, limit|
+      value = public_send(name)
+      next if value.nil? || (value.is_a?(String) && value.present? && value.size <= limit)
+
+      errors.add(name, "must be a nonempty string of at most #{limit} characters")
+    end
   end
 end

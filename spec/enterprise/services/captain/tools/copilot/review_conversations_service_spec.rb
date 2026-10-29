@@ -24,6 +24,6 @@ RSpec.describe Captain::Tools::Copilot::ReviewConversationsService do
 
   it 'rejects an empty reference' do
     expect { tool.execute(collection_id: collection.id, criteria: 'Is the question answered by an article?', reference: '') }
-      .to raise_error(ArgumentError, /Reference must be a nonempty string/)
+      .to raise_error(ActiveRecord::RecordInvalid, /Reference must be a nonempty string/)
   end
 end

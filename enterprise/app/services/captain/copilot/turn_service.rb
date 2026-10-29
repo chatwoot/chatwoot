@@ -229,7 +229,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     hide_chart_data(started_run_result(instrument_tool_call(@tool_call.name, arguments) { original.call(tool_call: tool_call, **arguments) }))
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::BackgroundRunPending
     raise
-  rescue ArgumentError, ActiveRecord::RecordNotFound => e
+  rescue ArgumentError, ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid => e
     { error: e.message }
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @account).capture_exception

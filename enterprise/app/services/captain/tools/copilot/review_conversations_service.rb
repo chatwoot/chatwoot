@@ -14,10 +14,10 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
   parameter :reference, type: :string, required: false,
                         description: 'Material each conversation is judged against, taken from earlier tool results'
 
+  # CopilotRun::Review checks criteria, question and reference when it is saved.
   def execute(collection_id:, criteria:, question: nil, reference: nil)
-    validate_text!(criteria, 'Criteria', 4000)
-    validate_question!(question) if question
-    validate_text!(reference, 'Reference', 20_000) if reference
+    raise ArgumentError, 'Screening is unavailable. Retry without question.' if question && !Captain::Copilot::ScreeningService.available?
+
     review = create_review(review_source(collection_id), criteria, question, reference)
     Captain::Copilot::ReviewJob.perform_later(review.id)
     review.summary
@@ -43,16 +43,5 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
     return collection if collection.resource == 'conversations'
 
     raise ArgumentError, "Reviews read conversations. Call get_data with resource conversations and from #{collection.id} first."
-  end
-
-  def validate_question!(question)
-    validate_text!(question, 'Question', 500)
-    raise ArgumentError, 'Screening is unavailable. Retry without question.' unless Captain::Copilot::ScreeningService.available?
-  end
-
-  def validate_text!(value, label, limit)
-    return if value.is_a?(String) && value.present? && value.size <= limit
-
-    raise ArgumentError, "#{label} must be a nonempty string of at most #{limit} characters"
   end
 end
