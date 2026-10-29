@@ -77,7 +77,7 @@ class Portal < ApplicationRecord
 
   # TODO: 'website_token' is an unused reserved key; remove with a migration that scrubs it from existing portals' config
   CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout
-                        locale_translations popular_content analytics visibility].freeze
+                        locale_translations popular_content analytics visibility disable_search_indexing].freeze
 
   def analytics
     value = config_value('analytics')
@@ -87,6 +87,16 @@ class Portal < ApplicationRecord
   # Reader per analytics id (e.g. portal.ga4_measurement_id) so the snippet partials stay simple.
   ANALYTICS_CONFIG_FORMATS.each_key do |key|
     define_method(key) { analytics[key].presence }
+  end
+
+  def search_indexing_disabled?
+    config_value('disable_search_indexing') == true
+  end
+
+  def search_indexable_articles
+    return [] if search_indexing_disabled?
+
+    articles.published.reject(&:noindex?)
   end
 
   # Max number of recommended categories/articles shown per locale.

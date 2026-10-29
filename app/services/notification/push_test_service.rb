@@ -35,6 +35,8 @@ class Notification::PushTestService
       test_browser_push(subscription)
     elsif subscription.fcm?
       test_fcm(subscription)
+    elsif subscription.apns_voip?
+      result(subscription, 'apns_voip', :skipped, 'VoIP tokens only ring calls; a test would show an incoming call on the device')
     else
       result(subscription, subscription.subscription_type.to_s, :skipped, 'Unknown subscription type')
     end

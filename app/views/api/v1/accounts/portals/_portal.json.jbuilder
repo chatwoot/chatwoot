@@ -22,6 +22,7 @@ json.config do
   json.locale_translations portal.config['locale_translations'] || {}
   json.popular_content portal.config['popular_content'] || {}
   json.analytics portal.analytics
+  json.disable_search_indexing portal.search_indexing_disabled?
 end
 
 if portal.channel_web_widget

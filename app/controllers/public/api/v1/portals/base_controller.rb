@@ -8,6 +8,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   before_action :ensure_portal_access
   around_action :set_locale
   after_action :allow_iframe_requests
+  after_action :disallow_search_indexing
 
   PORTAL_LAYOUTS = %w[classic documentation].freeze
 
@@ -67,6 +68,10 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   def allow_iframe_requests
     response.headers.delete('X-Frame-Options') if @is_plain_layout_enabled
+  end
+
+  def disallow_search_indexing
+    response.headers['X-Robots-Tag'] = 'noindex' if @portal&.search_indexing_disabled? || @article&.noindex?
   end
 
   def render_404
