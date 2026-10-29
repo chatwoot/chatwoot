@@ -89,6 +89,24 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(result[:rows]).to contain_exactly(include(id: agent.id, total_or_average: 3))
     end
 
+    it 'picks the breakdown rows by the metric, so an agent who only replied to older conversations is listed' do
+      replier = create(:user, account: account)
+      older = create(:conversation, account: account, inbox: inbox, assignee: replier, created_at: Time.zone.parse('2026-08-03 10:00'))
+      create(:message, account: account, inbox: inbox, conversation: older, sender: replier, message_type: :outgoing,
+                       created_at: Time.zone.parse('2026-09-10 10:00'))
+
+      result = service.execute(by: 'day', metrics: %w[outgoing_messages_count], each: 'agent', **week)
+
+      expect(result[:rows]).to contain_exactly(include(id: replier.id, total_or_average: 1))
+    end
+
+    it 'keeps the year in chart labels when the dates span years' do
+      result = service.execute(by: 'year', metrics: %w[conversations_count], chart: true, since: '2025-01-01T00:00:00Z',
+                               before: '2027-01-01T00:00:00Z')
+
+      expect(result[:chart_data].first[:categories]).to eq(['1 Jan 2025', '1 Jan 2026'])
+    end
+
     it 'reports an argument the tool does not take instead of ignoring it' do
       result = service.call(by: 'day', metrics: %w[conversations_count], metric: 'conversations_count', **week)
 

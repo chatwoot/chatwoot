@@ -34,7 +34,7 @@ module Captain::Copilot::Chart
   end
 
   # The panel cuts each label to its bar's width, so dates within one month read as the day of the month, with the month
-  # in the title.
+  # in the title. Dates in more than one year keep the year, so each bar of a yearly chart is told apart.
   def self.labels(title, categories)
     dates = categories.map { |category| category.to_s[DATE_AT_END] }
     dates.all? ? date_labels(title, dates.map { |date| Date.iso8601(date) }) : [title, categories.map(&:to_s)]
@@ -42,8 +42,9 @@ module Captain::Copilot::Chart
 
   def self.date_labels(title, dates)
     months = dates.map { |date| date.strftime('%b %Y') }.uniq
-    return [title, dates.map { |date| date.strftime('%-d %b') }] unless months.one?
+    return [title.include?(months.first) ? title : "#{title}, #{months.first}", dates.map { |date| date.strftime('%-d') }] if months.one?
 
-    [title.include?(months.first) ? title : "#{title}, #{months.first}", dates.map { |date| date.strftime('%-d') }]
+    format = dates.min.year == dates.max.year ? '%-d %b' : '%-d %b %Y'
+    [title, dates.map { |date| date.strftime(format) }]
   end
 end
