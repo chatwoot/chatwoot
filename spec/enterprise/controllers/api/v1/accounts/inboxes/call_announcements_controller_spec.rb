@@ -74,13 +74,14 @@ RSpec.describe 'Call announcements API', type: :request do
     allow(Llm::TextToSpeechService).to receive(:available_for?).and_return(true)
     generator = instance_double(Llm::TextToSpeechService)
     allow(Llm::TextToSpeechService).to receive(:new).and_return(generator)
-    allow(generator).to receive(:perform).and_raise(Faraday::ServerError, 'Generation failed')
+    allow(generator).to receive(:perform).and_raise(Faraday::UnauthorizedError, 'Incorrect API key')
     inbox.out_of_hours_call_audio.attach(io: StringIO.new('active'), filename: 'active.mp3', content_type: 'audio/mpeg')
     active = inbox.out_of_hours_call_audio.blob
 
     patch url, headers: admin.create_new_auth_token, params: params, as: :json
 
-    expect(response).to have_http_status(:internal_server_error)
+    expect(response).to have_http_status(:bad_gateway)
+    expect(response.parsed_body['error']).to eq(I18n.t('errors.voice.announcement_generation_failed'))
     expect(inbox.reload.out_of_hours_call_audio.blob).to eq(active)
   end
 
