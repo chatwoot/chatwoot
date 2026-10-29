@@ -4,7 +4,6 @@ import Icon from '../icon/Icon.vue';
 import Spinner from '../spinner/Spinner.vue';
 import CopilotProgressBar from './CopilotProgressBar.vue';
 
-// The review job updates this line in place. It counts only the current turn's conversations.
 defineProps({
   progress: { type: Object, required: true },
 });
@@ -20,7 +19,6 @@ const { t } = useI18n();
         :size="16"
         class="flex-shrink-0 text-n-slate-9"
       />
-      <!-- A review stopped by errors or credits finishes before it reaches every conversation in this turn. -->
       <Icon
         v-else-if="progress.done < progress.total"
         icon="i-lucide-triangle-alert"

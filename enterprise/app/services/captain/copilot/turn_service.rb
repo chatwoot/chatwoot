@@ -16,7 +16,6 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   WORKFLOW_TOOLS = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
                     Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService,
                     Captain::Tools::Copilot::ActService].freeze
-  # These tools show their own review or approval card in the panel, so the turn writes no step line for them.
   TOOLS_WITH_CARD = %w[review_conversations continue_review act].freeze
 
   def initialize(run, token)

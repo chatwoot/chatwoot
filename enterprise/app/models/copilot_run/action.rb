@@ -109,7 +109,6 @@ class CopilotRun::Action < CopilotRun
     copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
   end
 
-  # The approval card shows the approved change's progress. Skips an update that changes nothing.
   def publish_progress
     progress = card_progress.as_json
     card = approval_card
