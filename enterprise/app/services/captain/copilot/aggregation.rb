@@ -1,6 +1,4 @@
-# Measures a selection in the database, so the model never tallies rows: a count, or the sum, average, median, minimum
-# or maximum of a numeric column or of the time between two date columns, for the whole selection or grouped by up to
-# two fields. get_data's group_by is a count grouped by one field, so every group Copilot reports comes from here.
+# Measures a selection in the database, so the model never tallies rows. get_data's group_by and aggregate both use it.
 #
 # A field is one of:
 #   day, week, month or year   a period of the selection's date field
@@ -21,13 +19,12 @@ class Captain::Copilot::Aggregation
   WEEK_PARTS = %w[week day_of_week].freeze
   AGGREGATES = { 'count' => Arel::Nodes::Count, 'sum' => Arel::Nodes::Sum, 'average' => Arel::Nodes::Avg,
                  'minimum' => Arel::Nodes::Min, 'maximum' => Arel::Nodes::Max }.freeze
-  # Enough for every weekday and hour pair. Groups by a value beyond this keep the largest ones.
+  # Enough for every weekday and hour pair.
   MAX_GROUPS = 200
-  # A median needs every value, so it reads at most this many records.
   MEDIAN_ROWS = 100_000
 
-  # expression is what the database groups by. A date field has a column and a part instead. names is the model whose
-  # records the values are IDs of, and join is set when the field needs the labels joined.
+  # A date field has a column and a part instead of an expression. names is the model the values are IDs of, and join
+  # is set when the labels must be joined.
   Field = Struct.new(:expression, :column, :part, :names, :join, keyword_init: true) do
     def date?
       part.present?
@@ -98,13 +95,11 @@ class Captain::Copilot::Aggregation
     Field.new(column: column, part: part)
   end
 
-  # An association's name stands for its column, such as inbox for inbox_id.
   def column_for(name)
     link = @model.reflect_on_association(name.to_sym)
     link&.belongs_to? && !link.polymorphic? ? link.foreign_key.to_s : name
   end
 
-  # count needs no column; the other measures need a numeric column or two date columns.
   def value_expression(measure, column, duration)
     return if measure == 'count'
     raise ArgumentError, "#{measure} needs a numeric column or a duration" if column.nil? == duration.nil?
@@ -128,9 +123,8 @@ class Captain::Copilot::Aggregation
     measure == 'count' ? relation.count : relation.public_send(measure, value)
   end
 
-  # Periods and date parts are cut in the account's reporting time zone, and weeks start on Sunday, as on the reports
-  # pages. Labels live in their own table, so grouping by label joins it; a record without labels has no label.
-  # Groupdate also filters the grouped column by range, so periods of another date column do not take it.
+  # Periods are cut in the account's reporting time zone and weeks start on Sunday, as on the reports pages. Groupdate
+  # also filters the grouped column by range, so periods of another date column do not take it.
   def grouped(fields)
     fields.reduce(joined(fields)) do |scope, field|
       next scope.group(field.expression) unless field.date?
@@ -141,7 +135,6 @@ class Captain::Copilot::Aggregation
     end
   end
 
-  # Groups by value come largest first, cut at MAX_GROUPS. Periods stay whole and in order.
   def ranked(relation, fields, measure, value)
     return relation if fields.empty? || fields.any?(&:date?)
 
@@ -152,8 +145,7 @@ class Captain::Copilot::Aggregation
     fields.any?(&:join) ? @relation.left_joins(:labels) : @relation
   end
 
-  # Medians are computed in Ruby from the values, because the database has no median through ActiveRecord. They are
-  # ordered as the database orders the other measures.
+  # Medians are computed in Ruby, because ActiveRecord has no median.
   def medians(fields, value)
     rows = median_rows(fields, value)
     return median(rows.map(&:last)) if fields.empty?
@@ -168,7 +160,6 @@ class Captain::Copilot::Aggregation
     medians.sort_by { |key, _| Array(key).map { |part| part.is_a?(Integer) ? format('%012d', part) : part.to_s } }.to_h
   end
 
-  # Rows of the field values followed by the measured value, leaving out records without that value.
   def median_rows(fields, value)
     rows = joined(fields).where(value.not_eq(nil)).limit(MEDIAN_ROWS + 1).pluck(*fields.map(&:selected), value)
     raise ArgumentError, "A median reads at most #{MEDIAN_ROWS} records. Narrow the filters." if rows.size > MEDIAN_ROWS
@@ -195,7 +186,6 @@ class Captain::Copilot::Aggregation
     sorted.size.odd? ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2.0
   end
 
-  # With one field, records without a value are reported apart in without_value, so they are never ranked as a value.
   def formatted(results, fields, duration)
     return { value: display_value(results, duration) } if fields.empty?
 
@@ -216,7 +206,6 @@ class Captain::Copilot::Aggregation
     { groups: valued, without_value: without.first&.dig(:value), cut: cut }
   end
 
-  # Each result's key as one label per field, with the records a column points to named.
   def labeled(results, fields)
     keys = results.keys.map { |key| fields.one? ? [key] : key }
     names = fields.each_with_index.map { |field, index| record_names(field, keys.map { |key| key[index] }) }
@@ -229,7 +218,7 @@ class Captain::Copilot::Aggregation
     field.names ? @resource.record_names(field.names, ids.compact.uniq) : {}
   end
 
-  # One field keeps nil, which formatted reports as without_value; with two fields it reads as None.
+  # One field keeps nil, which one_field reports as without_value.
   def label(value, field, names, single)
     return (single ? nil : 'None') if value.nil?
     return DATE_PARTS.fetch(field.part).call(value) if field.date?

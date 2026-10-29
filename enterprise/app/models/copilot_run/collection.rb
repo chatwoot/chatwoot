@@ -59,19 +59,15 @@ class CopilotRun::Collection < CopilotRun
     context.fetch('filters', {})
   end
 
-  # Display, reviews and actions page through the saved IDs, which stop at MAX_SELECTION. A later get_data step rebuilds
-  # a cut-off collection from its filters instead (Captain::Copilot::Resources.records).
   def selection_truncated?
     context['selection_truncated'] == true
   end
 
-  # A collection of the records its filters match can be rebuilt as a query. newest and sample pick particular records,
-  # so those collections are their saved IDs.
+  # newest and sample pick particular records, so rebuilding from the filters would select different ones.
   def query?
     filters['newest'].nil? && filters['sample'].nil?
   end
 
-  # The saved set whose linked records this collection left out, from get_data's exclude_from.
   def excluded_run
     copilot_thread.saved_set(context['excluded_run_id']) if context['excluded_run_id']
   end

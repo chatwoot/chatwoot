@@ -15,7 +15,6 @@ module Captain::Copilot::Resources
     end
   end
 
-  # The resources this user may read, for get_data's description.
   def self.readable(account:, user:)
     all.select { |resource| resource.new(account: account, user: user).readable? }
   end
@@ -27,11 +26,9 @@ module Captain::Copilot::Resources
     resource.new(account: account, user: user)
   end
 
-  # The records of a saved set, as a relation. A set is its saved IDs, so a step starts from the records the agent was
-  # shown. A collection cut off at MAX_SELECTION is rebuilt from its filters instead, so a step that starts from it sees
-  # every match, without the records created after it was taken. A collection that picked particular records, with
-  # newest or sample, stays its IDs. Callers nest the relation as a subquery that selects one column, so the columns a
-  # filter selected, such as tagged_with's, are dropped.
+  # A set is its saved IDs, so a step starts from the records the agent was shown. A collection cut off at
+  # MAX_SELECTION is rebuilt from its filters instead, without records created after it, so a step sees every match.
+  # Callers nest the relation as a one-column subquery, so the columns a filter selected, such as tagged_with's, are dropped.
   def self.records(set)
     resource = build(set.resource, account: set.account, user: set.user)
     model = resource.class::MODEL

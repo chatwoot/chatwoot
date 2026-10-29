@@ -1,6 +1,4 @@
-# The columns of a table listed in enterprise/config/copilot_tables.yml that Copilot may read: every column of a type
-# it can read, except the ones excluded there and the ones excluded for every table. A key inside a JSON column is a
-# field too, written column.key, such as additional_attributes.country.
+# The readable columns of the tables in enterprise/config/copilot_tables.yml, and the filters every resource takes on them.
 module Captain::Copilot::Resources::Columns
   TABLES = YAML.load_file(Rails.root.join('enterprise/config/copilot_tables.yml')).freeze
   SCALAR_TYPES = %i[integer float decimal string text boolean datetime date].freeze
@@ -13,7 +11,6 @@ module Captain::Copilot::Resources::Columns
   KEY_SAMPLE = 1000
   MAX_KEYS = 40
 
-  # The scalar columns Copilot may read, in the table's own order. JSON columns are in json.
   def self.readable(model)
     allowed(model, SCALAR_TYPES)
   end
@@ -27,8 +24,6 @@ module Captain::Copilot::Resources::Columns
     model.columns.select { |column| types.include?(column.type) && excluded.exclude?(column.name) }
   end
 
-  # account_id; polymorphic keys and their type columns, because the same value names records in different tables;
-  # encrypted columns; and the table's own exclusions.
   def self.excluded(model)
     polymorphic = model.reflect_on_all_associations(:belongs_to).select(&:polymorphic?).flat_map { |link| [link.foreign_key, link.foreign_type] }
     ['account_id', *polymorphic.map(&:to_s), *Array(model.encrypted_attributes).map(&:to_s), *TABLES.fetch(model.table_name).fetch('exclude', [])]
@@ -48,9 +43,7 @@ module Captain::Copilot::Resources::Columns
     names(model, DATE_TYPES).sort_by { |name| name == 'created_at' ? 0 : 1 }
   end
 
-  # Filters every resource takes on its own fields: which must have no value or a value, bounds on numbers, and the
-  # value of a key inside a JSON column. empty and not_empty take columns, keys inside JSON columns, and the names of the
-  # resources that point at the model, given as links.
+  # links are the names of the resources that point at the model, which empty and not_empty also take.
   def self.operators(model, links = [])
     bounds = { type: 'object', propertyNames: { enum: numbers(model) }, additionalProperties: { type: 'number' } }
     operators = { empty: fields(model, links), not_empty: fields(model, links), at_least: bounds, at_most: bounds }
@@ -69,7 +62,6 @@ module Captain::Copilot::Resources::Columns
     { pattern: "^(#{json(model).join('|')})\\.[^.]+$" }
   end
 
-  # Equality filters by value. Text is not filtered by value, and dates use since and before.
   def self.filters(model)
     readable(model).filter_map do |column|
       next if column.type == :text || DATE_TYPES.include?(column.type) || column.name == 'id'
@@ -88,12 +80,11 @@ module Captain::Copilot::Resources::Columns
     end
   end
 
-  # The column filters every resource shares. Links in empty and not_empty are the resource's to apply.
   def self.apply(relation, filters, equality)
     apply_values(apply_presence(relation.where(filters.slice(*equality)), filters), filters)
   end
 
-  # Each field is its own condition. A JSON key is empty when the record does not have it or it is null.
+  # A JSON key is empty when the record does not have it or it is null.
   def self.apply_presence(relation, filters)
     empty = Array(filters['empty']).filter_map { |name| presence_field(relation.klass, name) }
     not_empty = Array(filters['not_empty']).filter_map { |name| presence_field(relation.klass, name) }
@@ -101,8 +92,7 @@ module Captain::Copilot::Resources::Columns
     not_empty.reduce(relation) { |scope, field| scope.where(field.not_eq(nil)) }
   end
 
-  # The fields the filters rely on that no record in relation has a value for, such as a date column nobody fills or a
-  # JSON key no record uses, so the agent does not read an empty or full selection as an answer.
+  # The fields no record has a value for, so the agent does not read an empty or full selection as an answer.
   def self.unused(relation, filters)
     fields = Array(filters['empty']) + Array(filters['not_empty']) + filters.fetch('attributes', {}).keys
     fields << filters['date_field'] if filters['since'] || filters['before']
@@ -116,7 +106,7 @@ module Captain::Copilot::Resources::Columns
     end
   end
 
-  # Bounds on numbers, and a JSON key, which compares as text, the way the database returns it.
+  # A JSON key compares as text, the way ->> returns it.
   def self.apply_values(relation, filters)
     table = relation.klass.arel_table
     relation = filters.fetch('at_least', {}).reduce(relation) { |scope, (column, value)| scope.where(table[column].gteq(value)) }
@@ -124,7 +114,6 @@ module Captain::Copilot::Resources::Columns
     filters.fetch('attributes', {}).reduce(relation) { |scope, (path, value)| scope.where(json_field(relation.klass, path).eq(value&.to_s)) }
   end
 
-  # A key inside a JSON column, written column.key, as a database expression.
   def self.json_field(model, path)
     column, key = path.split('.', 2)
     readable = json(model).include?(column) && key.present? && !key.match?(SECRET_KEY)
@@ -133,7 +122,6 @@ module Captain::Copilot::Resources::Columns
     Arel::Nodes::InfixOperation.new('->>', model.arel_table[column], Arel::Nodes.build_quoted(key))
   end
 
-  # The top-level keys the records use in a JSON column, so the model can discover fields no one listed.
   def self.json_keys(relation, column)
     function = relation.klass.columns_hash[column].type == :jsonb ? 'jsonb' : 'json'
     value = relation.klass.arel_table[column]

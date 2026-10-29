@@ -43,7 +43,6 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
     relation.where(Message.arel_table[:content].matches("%#{Message.sanitize_sql_like(filters['contains'])}%"))
   end
 
-  # sender is the sender's role, and agent the agent who sent a message, named; other senders have no agent.
   def group_field(name)
     sender_type = Message.arel_table[:sender_type]
     case name
