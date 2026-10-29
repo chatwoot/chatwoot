@@ -128,9 +128,10 @@ class Captain::Copilot::ReportService
     rows.sort_by { |row| -row[:conversations_count] }.map { |row| summary_row(row, names) }
   end
 
-  # The rows with conversations or resolutions in the range.
+  # The rows with conversations, resolutions or response times in the range. Times come from replies sent in the range,
+  # so an agent who only replied to older conversations has them without either count.
   def active(rows)
-    rows.select { |row| row[:conversations].positive? || row[:resolved].positive? }
+    rows.select { |row| row[:conversations].positive? || row[:resolved].positive? || row[:avg_first_response_time] || row[:avg_reply_time] }
   end
 
   def params
