@@ -76,6 +76,18 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(result[:chart_data].first[:series].first[:data]).to eq([3])
     end
 
+    it 'lists an agent in the summary who only replied to older conversations' do
+      replier = create(:user, account: account)
+      older = create(:conversation, account: account, inbox: inbox, assignee: replier, created_at: Time.zone.parse('2026-08-03 10:00'))
+      create(:reporting_event, name: 'reply_time', value: 600, account: account, inbox: inbox, user: replier, conversation: older,
+                               created_at: Time.zone.parse('2026-09-10 10:00'))
+
+      result = service.execute(by: 'agent', metrics: %w[reply_time], **week)
+
+      expect(result[:rows]).to include(include(id: replier.id, conversations: 0, avg_reply_time: '10 minutes'))
+      expect(result[:without_activity]).to eq(1)
+    end
+
     it 'says why no chart was drawn when every value is zero' do
       result = service.execute(by: 'agent', metrics: %w[resolutions_count], chart: true, **week)
 
