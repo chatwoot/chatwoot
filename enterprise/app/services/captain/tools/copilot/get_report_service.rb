@@ -38,7 +38,8 @@ class Captain::Tools::Copilot::GetReportService < Captain::Tools::BaseTool
                team_id: { type: 'integer', minimum: 1 },
                label: { type: 'string', description: 'Label name' },
                each: { type: 'string', enum: Captain::Copilot::ReportService::SUMMARY_BUILDERS.keys,
-                       description: 'With a period, the metric per period for each agent, inbox, team or label with activity' },
+                       description: 'With a period, the metric per period for each agent, inbox, team or label with any of it, out of ' \
+                                    "the #{Captain::Copilot::ReportService::MAX_CHECKED} with the most conversations" },
                business_hours: { type: 'boolean', description: 'Count times only within business hours' },
                chart: { type: 'boolean', description: 'Only when the agent asks for a graph or chart' }
              }
