@@ -13,7 +13,7 @@ RSpec.describe MessageTemplates::HookExecutionService do
   end
 
   context 'when captain assistant is configured' do
-    it 'hands off a pending Captain conversation when the entitlement is disabled' do
+    it 'hands off a pending Captain conversation when the feature is disabled' do
       conversation.update!(ai_assignee: assistant)
       account.disable_features!('captain_integration')
 

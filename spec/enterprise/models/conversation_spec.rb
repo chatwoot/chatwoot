@@ -14,13 +14,13 @@ RSpec.describe Conversation, type: :model do
       create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
     end
 
-    it 'does not assign Captain when the entitlement is disabled' do
+    it 'does not assign Captain when the feature is disabled' do
       conversation = create(:conversation, account: account, inbox: inbox)
 
       expect(conversation).to have_attributes(status: 'open', ai_assignee: nil)
     end
 
-    it 'assigns Captain when the entitlement is enabled' do
+    it 'assigns Captain when the feature is enabled' do
       account.enable_features!('captain_integration')
       conversation = create(:conversation, account: account, inbox: inbox)
 
