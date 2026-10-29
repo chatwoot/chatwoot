@@ -100,6 +100,15 @@ RSpec.describe Captain::Copilot::Aggregation do
       .to include(groups: [{ group: "Muhsin (ID #{busier.id})", value: 3 }], without_value: 1, cut: be_present)
   end
 
+  it 'ranks groups with nothing to measure after the measured groups' do
+    stub_const("#{described_class}::MAX_GROUPS", 1)
+    create(:conversation, account: account, inbox: inbox, assignee: create(:user, account: account), created_at: Time.utc(2023, 9, 8))
+
+    result = aggregation.call(measure: 'average', duration: %w[created_at first_reply_created_at], group_by: ['assignee'])
+
+    expect(result[:groups]).to contain_exactly(include(group: "Sojan (ID #{agent.id})"))
+  end
+
   it 'takes the two date columns of a duration in any order' do
     expect(aggregation.call(measure: 'average', duration: %w[first_reply_created_at last_activity_at]))
       .to include(of: 'time from first_reply_created_at to last_activity_at', unit: 'hours')

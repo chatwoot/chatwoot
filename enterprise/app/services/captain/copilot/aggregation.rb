@@ -139,7 +139,7 @@ class Captain::Copilot::Aggregation
   def ranked(relation, fields, measure, value)
     return relation if fields.empty? || fields.any?(&:date?)
 
-    largest = AGGREGATES.fetch(measure).new([value || Arel.star]).desc
+    largest = AGGREGATES.fetch(measure).new([value || Arel.star]).desc.nulls_last
     return relation.order(largest).limit(MAX_GROUPS + 1) unless fields.one?
 
     relation.order(fields.first.expression.eq(nil).desc, largest).limit(MAX_GROUPS + 2)
