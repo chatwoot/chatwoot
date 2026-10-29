@@ -15,7 +15,6 @@ module Captain::Copilot::Resources
     end
   end
 
-  # The resources this user may read, for get_data's description.
   def self.readable(account:, user:)
     all.select { |resource| resource.new(account: account, user: user).readable? }
   end
@@ -27,15 +26,13 @@ module Captain::Copilot::Resources
     resource.new(account: account, user: user)
   end
 
-  # The records of a saved set, as a relation. A collection is rebuilt from its filters, so a step that starts from it
-  # sees every matching record, not only the IDs it saved, and a chain of steps is one database query. Records created
-  # after the collection was taken stay out, so a chain reads the data as it was then. A collection that picked
-  # particular records, with newest or sample, and the matches of a review are lists of IDs. Callers nest the relation
-  # as a subquery that selects one column, so the columns a filter selected, such as tagged_with's, are dropped.
+  # A set is its saved IDs, so a step starts from the records the agent was shown. A collection cut off at
+  # MAX_SELECTION is rebuilt from its filters instead, without records created after it, so a step sees every match.
+  # Callers nest the relation as a one-column subquery, so the columns a filter selected, such as tagged_with's, are dropped.
   def self.records(set)
     resource = build(set.resource, account: set.account, user: set.user)
     model = resource.class::MODEL
-    return model.where(id: set.record_ids) unless set.is_a?(CopilotRun::Collection) && set.query?
+    return model.where(id: set.record_ids) unless set.is_a?(CopilotRun::Collection) && set.query? && set.selection_truncated?
 
     relation = resource.matching(set.filters, as_of: set.as_of, source: set.source_run, excluded: set.excluded_run)
     relation.where(model.arel_table[:created_at].lteq(set.as_of)).unscope(:select)

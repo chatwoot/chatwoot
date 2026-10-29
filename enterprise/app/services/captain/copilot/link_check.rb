@@ -1,7 +1,5 @@
 # Removes the links in a draft answer that no known text contains, so every link Copilot shows comes from a tool result,
-# a message or the instructions, the way Captain's citations take their URLs from the documents a reply used. A markdown
-# link with an unknown target keeps its text, and an unknown bare URL is removed. A chart marker written as a link keeps
-# its brackets, so its chart is still attached.
+# a message or the instructions. A chart marker written as a link keeps its brackets, so its chart is still attached.
 class Captain::Copilot::LinkCheck
   # A markdown link, or a bare URL without its closing punctuation.
   LINK = %r{\[([^\]]*)\]\(([^)\s]+)\)|(https?://[^\s<>()\[\]]*[^\s<>()\[\].,;:!?'"])}
@@ -15,7 +13,8 @@ class Captain::Copilot::LinkCheck
     removed = []
     content = draft.gsub(LINK) do |link|
       text, target, url = Regexp.last_match.captures
-      next link if @known.include?(target || url)
+      # A known link must end where this one ends, so conversations/12 does not pass because conversations/123 is known.
+      next link if @known.match?(/#{Regexp.escape(target || url)}(?![\w-])/)
 
       removed << (target || url)
       url ? '' : unlinked(text)

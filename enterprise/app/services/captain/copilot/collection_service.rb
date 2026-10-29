@@ -1,4 +1,3 @@
-# Saves the records get_data selects as a collection, one per tool call.
 class Captain::Copilot::CollectionService
   # A sample is spread across at most this many matching records.
   SAMPLE_POOL = 100_000
@@ -9,8 +8,7 @@ class Captain::Copilot::CollectionService
     @token = token
   end
 
-  # total is the exact number of matching records, while the saved IDs stop at MAX_SELECTION. counting holds group_by,
-  # aggregate and chart, which cover the same records as total.
+  # counting holds group_by, aggregate and chart.
   def create(resource:, filters:, from: nil, exclude_from: nil, **counting)
     raise ArgumentError, 'filters must be an object' unless filters.is_a?(Hash)
 
@@ -39,8 +37,7 @@ class Captain::Copilot::CollectionService
     step <= 1 ? ids : Array.new(@filters['sample']) { |index| ids[(index * step).floor] }
   end
 
-  # group_by is a count by one field, so both go through Captain::Copilot::Aggregation. Periods and date parts are cut
-  # in the account's reporting time zone, which the result names, so the model never supplies one.
+  # The result names the reporting time zone, so the model never supplies one.
   def measured(counted, group_by: nil, aggregate: nil, chart: false)
     spec = measure_spec(group_by, aggregate)
     return {} unless spec
@@ -68,8 +65,6 @@ class Captain::Copilot::CollectionService
     @run.account.reporting_timezone.presence || 'UTC'
   end
 
-  # The resource's note, such as a date range it chose because none was given, goes to the model with the total. The first
-  # and last dates of the matching records show where the data starts and ends.
   def collection_result(collection, counted)
     total = counted.count
     result = collection.summary.merge(collection_id: collection.id, resource: collection.resource, as_of: collection.as_of.iso8601, total: total)
@@ -77,8 +72,7 @@ class Captain::Copilot::CollectionService
     @selector.note ? result.merge(note: @selector.note) : result
   end
 
-  # The saved IDs stop at MAX_SELECTION. A selection made from a review of a cut-off collection is cut off too, because the
-  # review never read the rest.
+  # A selection made from a review of a cut-off collection is cut off too, because the review never read the rest.
   def persist_collection(resource, ids, source, excluded)
     truncated = ids.size > CopilotRun::MAX_SELECTION || (source.is_a?(CopilotRun::Review) && source.selection_truncated?)
     context = { resource: resource, filters: @filters, selected_ids: ids.first(CopilotRun::MAX_SELECTION), as_of: @as_of.iso8601(6),

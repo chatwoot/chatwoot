@@ -19,7 +19,23 @@ RSpec.describe Captain::Copilot::NumberCheck do
 
   it 'does not check questions back to the agent' do
     expect(check.unsupported('Should I list the top 4,321 or the top 9,876?')).to eq([])
-    expect(check.unsupported('I will list the top 4,321.')).to eq([{ number: '4321', sentence: 'I will list the top 4,321.' }])
+    expect(check.unsupported('I will list the top 4,321.')).to eq([{ number: '4,321', sentence: 'I will list the top 4,321.' }])
+  end
+
+  it 'reads the number formats other languages use, and still flags a wrong one' do
+    check = described_class.new([{ total: 1899, contacts: 123_456, share: 63.35 }.to_json])
+
+    expect(check.unsupported("Es gab 1.899 Gespräche. Il y en a eu 1 899. Das sind 63,35 %. Es waren 1'899. We have 1,23,456 contacts."))
+      .to eq([])
+    expect(check.unsupported('Es gab 1.900 Gespräche.').pluck(:number)).to eq(['1.900'])
+  end
+
+  it 'does not combine the IDs and dates of an earlier table, so they cannot support a made-up share' do
+    rows = (1201..1300).map { |id| "| [##{id}](/app/accounts/7/conversations/#{id}) | open | 2026-09-#{format('%02d', (id % 28) + 1)} |" }
+    check = described_class.new([{ content: rows.join("\n") }.to_json, { total: 340, refunds: 5 }.to_json])
+
+    expect(check.unsupported('5 of the 340 were refunds, 1.47% of them.')).to eq([])
+    expect(check.unsupported('5 of the 340 were refunds, 6.8% of them.').pluck(:number)).to eq(['6.8'])
   end
 
   it 'leaves out dates, links, conversation references and list markers' do

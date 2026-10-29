@@ -1,5 +1,4 @@
 <script setup>
-// A native progress bar needs no inline width, and it shows an empty bar when total is 0.
 defineProps({
   done: { type: Number, required: true },
   total: { type: Number, required: true },

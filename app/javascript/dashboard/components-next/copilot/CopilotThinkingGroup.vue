@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n';
 import Icon from '../icon/Icon.vue';
 import Spinner from '../spinner/Spinner.vue';
 
-// isActive means Copilot is still working on the newest step. That step then shows on one line under the earlier ones.
 const props = defineProps({
   messages: { type: Array, required: true },
   isActive: { type: Boolean, default: false },
@@ -65,7 +64,6 @@ const listedSteps = computed(() =>
         :key="step.key"
         class="flex items-center gap-2"
       >
-        <!-- Only Copilot workflows saves a run ID on its steps, so the old Copilot's steps get no status. -->
         <Icon
           v-if="!step.run_id"
           icon="i-lucide-sparkles"

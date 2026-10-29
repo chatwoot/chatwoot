@@ -59,14 +59,11 @@ class CopilotRun::Collection < CopilotRun
     context.fetch('filters', {})
   end
 
-  # Display, reviews and actions page through the saved IDs, which stop at MAX_SELECTION. A later get_data step rebuilds
-  # the collection from its filters instead, so it is never cut off.
   def selection_truncated?
     context['selection_truncated'] == true
   end
 
-  # A collection of the records its filters match can be rebuilt as a query. newest and sample pick particular records,
-  # so those collections are their saved IDs.
+  # newest and sample pick particular records, so rebuilding from the filters would select different ones.
   def query?
     filters['newest'].nil? && filters['sample'].nil?
   end
@@ -77,12 +74,13 @@ class CopilotRun::Collection < CopilotRun
     own = "#{resource} with filters #{filters.to_json}"
     case source_run
     when CopilotRun::Collection then "#{source_run.selection}, then the #{own} linked to them"
-    when CopilotRun::Review then "the conversations an earlier review matched (#{source_run.question || source_run.criteria}), then #{own}"
+    when CopilotRun::Review
+      review = "the conversations a review of them matched (#{source_run.question || source_run.criteria})"
+      "#{source_run.source_run.selection}, then #{review}, then #{own}"
     else own
     end
   end
 
-  # The saved set whose linked records this collection left out, from get_data's exclude_from.
   def excluded_run
     copilot_thread.saved_set(context['excluded_run_id']) if context['excluded_run_id']
   end

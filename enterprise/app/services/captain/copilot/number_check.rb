@@ -1,13 +1,14 @@
 # Finds the numbers in a draft answer that no tool result supports. A number is supported when it appears in the known
-# texts (tool results, the agent's messages, earlier answers), or follows from known numbers by a sum, difference, ratio,
-# percentage, percentage change or a conversion from seconds, after rounding to the precision the draft shows. A number
-# the draft supports joins the known ones, so an answer can show its working, such as a sum and then its share.
+# texts, or follows from known numbers by a sum, difference, ratio, percentage, percentage change or a conversion from
+# seconds, at the precision the draft shows. A supported number joins the known ones, so an answer can show its working.
 #
 # Dates, times, links, conversation references and list markers are not checked, because they are not counts or
 # measures. Questions back to the agent make no claim, so sentences that end with a question mark are not checked.
 class Captain::Copilot::NumberCheck
   NUMBER = /(?<![\w.])\d{1,3}(?:,\d{3})+(?:\.\d+)?(?![\w])|(?<![\w.])\d+(?:\.\d+)?(?![\w])/
-  # Removed from the draft before numbers are read.
+  # The draft is in the account's language, so its digit groups may be joined by a dot, comma, apostrophe or space, as in
+  # 1.899, 1 899,50 or 1,23,456. Tool results are machine output, so they are read with NUMBER.
+  DRAFT_NUMBER = /(?<![\w.,'’])(?:\d{1,3}(?:\p{Zs}\d{3})+(?:[.,]\d+)?|\d+(?:[.,'’]\d+)*)(?![\w])/
   NOT_MEASURES = [
     /\]\([^)]*\)/,                                      # link targets
     /\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?/, # dates and times
@@ -22,20 +23,23 @@ class Captain::Copilot::NumberCheck
   # Pairs grow with the square of the known numbers, so sums and ratios use at most this many of them.
   MAX_PAIRED = 200
 
+  # Link targets, dates and references are known as themselves but never combined, so the IDs and dates of an earlier
+  # table do not make most made-up shares match something.
   def initialize(known_texts)
-    known = (known_texts.flat_map { |text| numbers_in(text.to_s) }.map(&:to_f) + UNITS).uniq
-    @paired = known.first(MAX_PAIRED)
-    @candidates = Set.new
-    known.each { |value| add_single(value) }
+    texts = known_texts.map(&:to_s)
+    measures = (numbers_in(texts.map { |text| strip(text) }) + UNITS).uniq
+    @paired = measures.first(MAX_PAIRED)
+    @candidates = Set.new(numbers_in(texts))
+    measures.each { |value| add_single(value) }
     @paired.combination(2).each { |first, second| add_pair(first, second) }
   end
 
-  # Each unsupported number with the sentence it is in.
   def unsupported(draft)
     gaps = []
     sentences(draft).each do |sentence|
-      numbers_in(strip(sentence)).each do |number|
-        supported?(number) ? learn(number.to_f) : gaps << { number: number, sentence: sentence.strip }
+      strip(sentence).scan(DRAFT_NUMBER).each do |number|
+        value = readings(number).find { |reading| supported?(reading) }
+        value ? learn(value.to_f) : gaps << { number: number, sentence: sentence.strip }
       end
     end
     gaps.uniq { |gap| gap[:number] }
@@ -51,17 +55,26 @@ class Captain::Copilot::NumberCheck
     NOT_MEASURES.reduce(text) { |stripped, pattern| stripped.gsub(pattern, ' ') }
   end
 
-  def numbers_in(text)
-    text.scan(NUMBER).map { |match| match.delete(',') }
+  def numbers_in(texts)
+    texts.flat_map { |text| text.scan(NUMBER) }.map { |match| match.delete(',').to_f }
   end
 
-  # A candidate matches when it rounds to the number at the precision the draft shows.
+  # A draft number with its last separator as the decimal point, and also as a whole number when the separators could
+  # group thousands, as in 1.899 or 1,23,456.
+  def readings(token)
+    *groups, last = token.split(/\D/)
+    return [last] if groups.empty?
+
+    decimal = "#{groups.join}.#{last}"
+    thousands = last.size == 3 && groups.first.match?(/\A[1-9]\d{0,2}\z/) && groups.drop(1).all? { |group| group.size.between?(2, 3) }
+    thousands ? [groups.join + last, decimal] : [decimal]
+  end
+
   def supported?(shown)
     precision = shown.include?('.') ? shown.split('.').last.size : 0
     @candidates.any? { |candidate| (candidate.round(precision) - shown.to_f).abs < 1e-9 }
   end
 
-  # A supported number from the draft, combined with the known numbers, supports the numbers after it.
   def learn(value)
     add_single(value)
     @paired.each { |other| add_pair(value, other) }
@@ -73,7 +86,6 @@ class Captain::Copilot::NumberCheck
     CONVERSIONS.each { |unit| @candidates << (value / unit) }
   end
 
-  # Sums, differences, ratios, percentages and percentage changes of two numbers, either way round.
   def add_pair(first, second)
     @candidates << (first + second) << (first - second).abs
     [[first, second], [second, first]].each do |part, whole|

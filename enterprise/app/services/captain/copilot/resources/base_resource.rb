@@ -11,9 +11,7 @@
 # every user may read it, filter(relation, filters) for its own FILTERS, and group_field(name) for groups that are not
 # a column.
 #
-# The listed columns give the rest, so a column added to copilot_tables.yml needs no code: an equality filter on every
-# column, every date column as a date_field, the column operators, groups, and a path from every resource linked to
-# this one by an association in either direction.
+# The listed columns give the column filters, date fields, groups and links to other resources without code.
 class Captain::Copilot::Resources::BaseResource
   include Captain::Copilot::ConversationAccess
 
@@ -25,7 +23,6 @@ class Captain::Copilot::Resources::BaseResource
     oldest_first: { type: 'boolean', description: 'Select and review the oldest records by date_field first' },
     sample: { type: 'integer', minimum: 1, maximum: CopilotRun::MAX_SELECTION, description: 'Select this many records spread evenly by date_field' }
   }.freeze
-  # Filters every resource takes on its own columns. get_data's description explains them once for all resources.
   COLUMN_OPERATORS = %w[empty not_empty at_least at_most attributes].freeze
   GROUPS = [].freeze
 
@@ -42,12 +39,10 @@ class Captain::Copilot::Resources::BaseResource
     @owners ||= Captain::Copilot::Resources::Links.owners(self::MODEL)
   end
 
-  # The hand-written date fields first, so the default stays the same, then every other date column.
   def self.date_fields
     (self::DATE_FIELDS + Captain::Copilot::Resources::Columns.dates(self::MODEL)).uniq
   end
 
-  # Equality filters on the listed columns the resource does not filter by hand.
   def self.column_filters
     Captain::Copilot::Resources::Columns.filters(self::MODEL).except(*self::FILTERS.keys)
   end
@@ -68,8 +63,7 @@ class Captain::Copilot::Resources::BaseResource
     self::NAME
   end
 
-  # Column names, and the allowed values of the resource's own filters, so the model does not have to guess them. The
-  # common filters and the column operators are the same for every resource, so get_data describes them once.
+  # The common filters and the column operators are the same for every resource, so get_data describes them once.
   def self.filters_help
     column_filters.keys.join(', ') + self::FILTERS.map do |name, property|
       allowed = property[:enum] || property.dig(:items, :enum)
@@ -78,7 +72,6 @@ class Captain::Copilot::Resources::BaseResource
     end.join
   end
 
-  # Every filter, for the error that names the ones allowed.
   def self.all_filters_help
     "#{(COMMON_FILTERS.keys.map(&:to_s) + COLUMN_OPERATORS).join(', ')}, date_field (#{date_fields.join(' or ')}), #{filters_help}"
   end
@@ -95,8 +88,6 @@ class Captain::Copilot::Resources::BaseResource
     true
   end
 
-  # Everything get_data accepts for this resource, for when the short help is not enough, including the allowed values
-  # of each filter and the keys the user's records use inside JSON columns.
   def describe
     columns = Captain::Copilot::Resources::Columns
     keys = columns.json(self.class::MODEL).index_with { |column| columns.json_keys(scope, column) }
@@ -118,9 +109,6 @@ class Captain::Copilot::Resources::BaseResource
     filters
   end
 
-  # The visible records that match the filters, linked to the records of a source set when one is given, and not linked
-  # to the records of an excluded set, such as inboxes without members. Saved sets are queries, so the whole chain is
-  # one database query.
   def matching(filters, as_of:, source: nil, excluded: nil)
     relation = scope
     relation = relation.where(id: linked(source).select(:id)) if source
@@ -130,8 +118,7 @@ class Captain::Copilot::Resources::BaseResource
     filter(relation, filters).reorder(nil)
   end
 
-  # Newest first by the date field, or oldest first, because reviews work through a selection in order. With newest,
-  # that many records; otherwise up to one more than MAX_SELECTION, so the caller can tell when the selection was cut.
+  # One more than MAX_SELECTION, so the caller can tell when the selection was cut.
   def selected_ids(relation, filters, limit: nil)
     table = relation.klass.arel_table
     field = table[filters['date_field']]
@@ -139,23 +126,20 @@ class Captain::Copilot::Resources::BaseResource
     relation.reorder(*order).limit(limit || filters['newest'] || (CopilotRun::MAX_SELECTION + 1)).pluck(:id)
   end
 
-  # The first and last dates of the records, so the agent hears when the data starts after or ends before the period
-  # asked about.
+  # So the agent hears when the data starts after or ends before the period asked about.
   def date_span(relation, field)
     column = relation.klass.arel_table[field]
     first, last = relation.pick(column.minimum, column.maximum)
     { date_field: field, first: first.iso8601, last: last.iso8601 } if first
   end
 
-  # Names for the records a column points to, such as an inbox's name for inbox_id. Contact names follow the contacts
-  # permission, as on the contacts page.
+  # Contact names follow the contacts permission, as on the contacts page.
   def record_names(klass, ids)
     return {} if klass == Contact && !permitted?('contact_manage')
 
     klass.where(id: ids).to_h { |record| [record.id, "#{record.try(:name) || record.try(:title) || klass.model_name.human} (ID #{record.id})"] }
   end
 
-  # A resource without filters of its own uses only the column filters.
   def filter(relation, _filters)
     relation
   end

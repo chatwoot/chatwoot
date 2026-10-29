@@ -1,20 +1,15 @@
-# A resource for each table in enterprise/config/copilot_tables.yml that has no class of its own, so listing a table
-# makes it readable. BaseResource gives the dates, filters and links from the listed columns; this class adds the
-# scope, the groups and the display. Only administrators read these tables, as most of them are settings pages.
+# A resource for each table in enterprise/config/copilot_tables.yml without a class of its own. Only administrators
+# read these tables, because most of them are settings pages.
 class Captain::Copilot::Resources::Table < Captain::Copilot::Resources::BaseResource
   ROW_VALUES = 10
   EXCERPT_LENGTH = 120
-  # Long enough for settings such as a macro's actions; a longer value says where it was cut.
+  # Long enough for settings such as a macro's actions.
   JSON_EXCERPT_LENGTH = 4000
-  # Settings shown whole, such as an automation rule's actions, drop keys with these names as a last check.
-  SECRET_KEY = /(\A|_)(token|secret|password|key|credential|otp|salt|digest|certificate)s?(_|\z)/
-  # Rows the dashboard shows only to some administrators.
+  # Rows the dashboard shows only to some administrators, as on the macros page.
   VISIBLE = {
-    # The macros page lists the global macros and the user's own personal ones.
     'macros' => ->(macros, user) { macros.global.or(macros.personal.where(created_by_id: user.id)) }
   }.freeze
 
-  # One resource per listed table that no other resource class covers.
   def self.generated(written)
     # Development loads models on first use, so they are loaded to find each listed table's model.
     Rails.autoloaders.main.eager_load_dir(Rails.root.join('app/models').to_s)
@@ -40,8 +35,8 @@ class Captain::Copilot::Resources::Table < Captain::Copilot::Resources::BaseReso
     end
   end
 
-  # JSON columns are shown too, so the model can read values such as an automation rule's conditions. A row that belongs
-  # to a record with a time zone, such as an inbox's working hours, shows that zone, so the model never supplies one.
+  # A row that belongs to a record with a time zone, such as an inbox's working hours, shows that zone, so the model
+  # never supplies one.
   def self.define_display(model)
     shown = shown_columns(model)
     zones = zone_links(model, shown)
@@ -51,7 +46,7 @@ class Captain::Copilot::Resources::Table < Captain::Copilot::Resources::BaseReso
     const_set(:PRELOAD, zones.map(&:name))
   end
 
-  # The name or title is the row's label and long text is left out, so the row shows the short columns and JSON.
+  # The name or title is the row's label, so it is not repeated.
   def self.shown_columns(model)
     columns = Captain::Copilot::Resources::Columns.readable(model)
     short = columns.reject { |column| column.type == :text || %w[id name title].include?(column.name) }.map(&:name)
@@ -89,8 +84,6 @@ class Captain::Copilot::Resources::Table < Captain::Copilot::Resources::BaseReso
 
   private
 
-  # A row belongs to the account through its own account_id, or through the record it belongs to, such as an inbox
-  # member through its inbox.
   def account_rows
     model = self.class::MODEL
     through = self.class::THROUGH
@@ -107,8 +100,9 @@ class Captain::Copilot::Resources::Table < Captain::Copilot::Resources::BaseReso
   end
 
   def without_secrets(value)
+    secret = Captain::Copilot::Resources::Columns::SECRET_KEY
     case value
-    when Hash then value.reject { |key, _| key.to_s.match?(SECRET_KEY) }.transform_values { |item| without_secrets(item) }
+    when Hash then value.reject { |key, _| key.to_s.match?(secret) }.transform_values { |item| without_secrets(item) }
     when Array then value.map { |item| without_secrets(item) }
     else value
     end

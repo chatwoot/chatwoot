@@ -24,7 +24,8 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
     return filters if source || filters['contains'].blank? || filters.key?('since') || filters.key?('before')
 
     since = Limits.search_time_range_limit_days.days.ago
-    @note = "Only messages sent since #{since.to_date.iso8601} were searched, because no dates were given. Earlier messages were not checked."
+    window = "Only messages sent since #{since.to_date.iso8601} were searched, because no dates were given. Earlier messages were not checked."
+    @note = [@note, window].compact.join(' ')
     filters.merge('since' => since.iso8601)
   end
 
@@ -42,7 +43,6 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
     relation.where(Message.arel_table[:content].matches("%#{Message.sanitize_sql_like(filters['contains'])}%"))
   end
 
-  # sender is the sender's role, and agent the agent who sent a message, named; other senders have no agent.
   def group_field(name)
     sender_type = Message.arel_table[:sender_type]
     case name

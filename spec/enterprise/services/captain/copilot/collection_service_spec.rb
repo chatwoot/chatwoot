@@ -40,6 +40,23 @@ RSpec.describe Captain::Copilot::CollectionService do
     expect(linked[:total]).to eq(10)
   end
 
+  it 'starts from the records a set under the limit saved, not the ones its filters match now' do
+    conversations.each { |conversation| create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming) }
+    open = collect(resource: 'conversations', filters: { 'status' => 'open' })
+    conversations.first(3).each(&:resolved!)
+
+    messages = collect('data-2', resource: 'messages', filters: {}, from: open[:collection_id])
+
+    expect(open[:total]).to eq(10)
+    expect(messages[:total]).to eq(10)
+  end
+
+  it 'keeps the conversations without labels' do
+    conversations.first(2).each { |conversation| conversation.update!(label_list: ['billing']) }
+
+    expect(collect(resource: 'conversations', filters: { 'empty' => ['labels'] })[:total]).to eq(8)
+  end
+
   it 'starts from a set filtered by label' do
     conversations.first(2).each { |conversation| conversation.update!(label_list: ['billing']) }
     create(:message, conversation: conversations.first, account: account, inbox: inbox, message_type: :incoming)

@@ -17,7 +17,6 @@ class Captain::Copilot::Resources::Csat < Captain::Copilot::Resources::BaseResou
     account_user.present? && CsatSurveyResponsePolicy.new({ user: @user, account: @account, account_user: account_user }, CsatSurveyResponse).index?
   end
 
-  # Limited to responses in conversations the user can open.
   def scope
     raise ArgumentError, 'You do not have permission to view CSAT responses' unless readable?
 
