@@ -74,12 +74,12 @@ class Captain::Copilot::ReportService
   end
 
   # data_from and data_to name the first and last periods with any activity, so the agent hears when the data starts
-  # after or ends before the range asked about.
+  # after or ends before the range asked about. An average is active by its events, since a measured average can be zero.
   def metric_series(metric, period, type, id)
     builder = V2::Reports::Conversations::ReportBuilder.new(@account, params.merge(type: type, id: id, metric: metric, group_by: period))
     points = builder.timeseries.map { |point| timeseries_point(point, period, metric) }
-    active = points.select { |point| point[:value].to_f.positive? }
-    { metric: metric, points: points, total_or_average: overall(builder, metric, points),
+    active = points.select { |point| point.fetch(:events, point[:value]).to_f.positive? }
+    { metric: metric, points: points, total_or_average: overall(builder, metric),
       data_from: active.first&.dig(:period), data_to: active.last&.dig(:period) }
   end
 
@@ -169,7 +169,7 @@ class Captain::Copilot::ReportService
     label = period_label(Time.zone.at(point[:timestamp]).in_time_zone(@time_zone), period)
     return label.merge(value: point[:value]) unless AVERAGES.include?(metric)
 
-    label.merge(value: point[:value]&.to_f&.round, duration: duration(point[:value]), events: point[:count])
+    label.merge(value: point[:value]&.to_f&.round, duration: (duration(point[:value]) if point[:count].positive?), events: point[:count])
   end
 
   # A day is its date. A longer period is its first and last day within since and before, and partial when they cut it.
@@ -183,10 +183,11 @@ class Captain::Copilot::ReportService
     first > start.to_date || last < (finish - 1.second).to_date ? label.merge(partial: true) : label
   end
 
-  def overall(builder, metric, points)
-    return points.sum { |point| point[:value] } unless AVERAGES.include?(metric)
-
-    duration(builder.aggregate_value)
+  # The total the reports pages show. Adding up the periods would count a conversation twice when a metric counts each
+  # conversation once, such as bot handoffs.
+  def overall(builder, metric)
+    value = builder.aggregate_value
+    AVERAGES.include?(metric) ? duration(value) : value
   end
 
   def summary_row(row, names)
@@ -231,9 +232,9 @@ class Captain::Copilot::ReportService
   end
 
   # The two largest units, such as "2 days and 1 hour", so the answer reads like the reports pages instead of counting
-  # seconds of an average.
+  # seconds of an average. Zero is a measured time, such as a reply outside business hours; nil means nothing was measured.
   def duration(seconds)
-    return unless seconds.to_f.positive?
+    return if seconds.nil?
 
     ActiveSupport::Duration.build(seconds.to_f.round).parts.first(2).sum { |unit, count| count.public_send(unit) }.inspect
   end
