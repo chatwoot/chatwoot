@@ -84,6 +84,13 @@ RSpec.describe 'Super Admin', type: :request do
       expect(signed_in?).to be(false)
     end
 
+    it 'treats a blank code as an invalid code' do
+      submit_password
+      submit_code('')
+
+      expect(flash[:error]).to eq(I18n.t('super_admin.login.mfa_invalid'))
+    end
+
     it 'stops accepting codes for the admin after five wrong attempts' do
       submit_password
       5.times { submit_code('000000') }

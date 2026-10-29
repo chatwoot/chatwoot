@@ -11,7 +11,7 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
   end
 
   def create
-    return verify_mfa_code if params.dig(:super_admin, :otp_code).present?
+    return verify_mfa_code unless params.dig(:super_admin, :otp_code).nil?
 
     redirect_to(super_admin_session_path, flash: { error: @error_message }) && return unless valid_credentials?
     return start_mfa_challenge if @super_admin.mfa_enabled?
