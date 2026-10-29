@@ -1,6 +1,8 @@
 # Reviews one conversation of a review's batch. Captain::Copilot::ReviewJob queues one of these per conversation, so
 # Sidekiq reviews them side by side, and the last one to finish queues ReviewJob again for the next batch.
 class Captain::Copilot::ReviewConversationJob < ApplicationJob
+  include Captain::Copilot::ConversationAccess
+
   queue_as :low
 
   def perform(run_id, conversation_id)
@@ -21,7 +23,10 @@ class Captain::Copilot::ReviewConversationJob < ApplicationJob
   # A failed review is recorded on its conversation, so the rest of the batch goes on. Running out of credits or the
   # review being switched off leaves the conversation for ReviewJob, which ends the review on its next batch.
   def review(run, conversation_id)
-    conversation = run.account.conversations.find(conversation_id)
+    # Access is checked again, because the job may wait in the queue after ReviewJob checked it.
+    conversation = accessible_conversations(account: run.account, user: run.user).find_by(id: conversation_id)
+    return { error: 'Conversation is no longer accessible' } unless conversation
+
     deep = run.findings.needs_more_history.exists?(conversation_id: conversation_id)
     finding = Captain::Copilot::ReviewService.new(run).review(conversation, deep: deep)
     return { finding: finding } unless finding[:status] == :needs_more_history && deep

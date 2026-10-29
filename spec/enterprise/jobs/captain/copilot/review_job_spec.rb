@@ -51,6 +51,17 @@ RSpec.describe Captain::Copilot::ReviewJob do
     expect(described_class).to have_been_enqueued.with(review.id)
   end
 
+  it 'completes a review that finished every conversation, even when workflows were switched off during the last batch' do
+    allow(service).to receive(:review).and_return(verdict)
+    described_class.perform_now(review.id)
+    conversations.each { |conversation| Captain::Copilot::ReviewConversationJob.perform_now(review.id, conversation.id) }
+    account.disable_features!('copilot_workflows')
+
+    described_class.perform_now(review.id)
+
+    expect(review.reload).to have_attributes(status: 'completed', error: nil)
+  end
+
   it 'saves nothing from a repeated job' do
     allow(service).to receive(:review).and_return(verdict)
     described_class.perform_now(review.id)
@@ -62,12 +73,36 @@ RSpec.describe Captain::Copilot::ReviewJob do
     expect(review.reload.pending_ids).to match_array(conversations.drop(1).map(&:id))
   end
 
-  it 'takes back a batch whose jobs stopped coming back, so its conversations go into the next batch' do
+  it 'reviews a few conversations at once, and the rest of the screened batch in the next round' do
+    stub_const("#{described_class}::PARALLEL_REVIEWS", 2)
+    allow(service).to receive(:review).and_return(verdict)
+
+    described_class.perform_now(review.id)
+    expect(review.reload.pending_ids).to eq(conversations.first(2).map(&:id))
+    review.pending_ids.each { |id| Captain::Copilot::ReviewConversationJob.perform_now(review.id, id) }
+    described_class.perform_now(review.id)
+
+    expect(review.reload.pending_ids).to eq([conversations.last.id])
+  end
+
+  it 'records a conversation deleted while its job waited, without failing the review' do
+    allow(service).to receive(:review).and_return(verdict)
+    described_class.perform_now(review.id)
+    conversations.first.destroy!
+
+    Captain::Copilot::ReviewConversationJob.perform_now(review.id, conversations.first.id)
+
+    expect(review.findings.find_by(conversation_id: conversations.first.id)).to have_attributes(error: 'Conversation is no longer accessible')
+  end
+
+  it 'takes back a batch whose jobs stopped coming back, but not one whose jobs may still be waiting in the queue' do
     allow(service).to receive(:review).and_return(verdict)
     described_class.perform_now(review.id)
 
     travel(10.minutes) { Captain::Copilot::RecoverRunsJob.perform_now }
+    expect(review.reload).to be_reviewing
 
+    travel(31.minutes) { Captain::Copilot::RecoverRunsJob.perform_now }
     expect(review.reload).to have_attributes(status: 'queued', pending_ids: [])
     expect(described_class).to have_been_enqueued.with(review.id)
   end

@@ -7,24 +7,29 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   queue_as :low
 
   RUN_CLASS = CopilotRun::Review
+  # One review reviews at most this many conversations at once, so it cannot take every Sidekiq worker or a small provider
+  # plan's rate limit. The rest of the batch is already screened and waits for the next round.
+  PARALLEL_REVIEWS = 5
 
   private
 
-  # Screens a batch, then hands each conversation that passed to a Captain::Copilot::ReviewConversationJob, so Sidekiq
-  # reviews them side by side. The last of those jobs queues this one again for the next batch. The card shows up before
-  # screening, which is the longest wait here.
+  # Screens a batch, then hands up to PARALLEL_REVIEWS of the conversations that passed to their own
+  # Captain::Copilot::ReviewConversationJob, so Sidekiq reviews them side by side. The last of those jobs queues this one
+  # again for the next round. The card shows up before screening, which is the longest wait here.
   def process_batch(run, token)
-    # Checked before each batch, so a review that runs out of credits or is switched off ends instead of looping.
-    run.ensure_can_continue!
     # A review stops at its turn limit; continue_review raises it when the agent asks for the next batch.
     return finalize(run, token) if run.left_this_turn <= 0 || run.remaining_ids.empty?
+
+    # Checked before each batch with work left, so a review that runs out of credits or is switched off ends instead of
+    # looping, and one that finished every conversation still completes.
+    run.ensure_can_continue!
 
     run.with_lease(token) { run.publish_progress }
     conversations = Captain::Copilot::ScreeningService.new(run, token).screen(accessible_batch(run, token))
     run.with_lease(token) { run.publish_progress }
     return continue_or_finalize(run, token) if conversations.empty?
 
-    start_reviews(run, token, conversations.map(&:id))
+    start_reviews(run, token, conversations.first(PARALLEL_REVIEWS).map(&:id))
   end
 
   def accessible_batch(run, token)
