@@ -112,7 +112,7 @@ class Captain::Copilot::Aggregation
   # The seconds from the first date column to the second.
   def duration_expression(duration)
     from, to = duration
-    raise ArgumentError, "duration takes two date columns: #{@dates.join(', ')}" unless duration.size == 2 && (@dates & duration) == duration.uniq
+    raise ArgumentError, "duration takes two date columns: #{@dates.join(', ')}" unless duration.size == 2 && (duration - @dates).empty?
 
     table = @model.arel_table
     Arel::Nodes::Extract.new(table[to] - table[from], :epoch)
@@ -135,10 +135,14 @@ class Captain::Copilot::Aggregation
     end
   end
 
+  # With one field, the group with no value comes first and takes one more row, so the limit never drops it.
   def ranked(relation, fields, measure, value)
     return relation if fields.empty? || fields.any?(&:date?)
 
-    relation.order(AGGREGATES.fetch(measure).new([value || Arel.star]).desc).limit(MAX_GROUPS + 1)
+    largest = AGGREGATES.fetch(measure).new([value || Arel.star]).desc
+    return relation.order(largest).limit(MAX_GROUPS + 1) unless fields.one?
+
+    relation.order(fields.first.expression.eq(nil).desc, largest).limit(MAX_GROUPS + 2)
   end
 
   def joined(fields)
@@ -186,13 +190,17 @@ class Captain::Copilot::Aggregation
     sorted.size.odd? ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2.0
   end
 
+  # One field reports its group with no value as without_value, taken out before the largest groups are cut.
   def formatted(results, fields, duration)
     return { value: display_value(results, duration) } if fields.empty?
 
     check_periods(results, fields)
-    rows = labeled(results.first(MAX_GROUPS).to_h, fields).map { |labels, value| { group: labels, value: display_value(value, duration) } }
+    without = results.delete(nil) if fields.one?
+    rows = labeled(results.first(MAX_GROUPS).to_h, fields).map do |labels, value|
+      { group: fields.one? ? labels.first : labels, value: display_value(value, duration) }
+    end
     cut = "Showing the #{MAX_GROUPS} largest groups; there are more." if results.size > MAX_GROUPS
-    fields.one? ? one_field(rows, cut) : { groups: rows, cut: cut }
+    { groups: rows, without_value: display_value(without, duration), cut: cut }
   end
 
   def check_periods(results, fields)
@@ -201,16 +209,11 @@ class Captain::Copilot::Aggregation
     raise ArgumentError, "These fields give #{results.size} periods. Use a larger period or narrower filters."
   end
 
-  def one_field(rows, cut)
-    without, valued = rows.map { |row| row.merge(group: row[:group].first) }.partition { |row| row[:group].nil? }
-    { groups: valued, without_value: without.first&.dig(:value), cut: cut }
-  end
-
   def labeled(results, fields)
     keys = results.keys.map { |key| fields.one? ? [key] : key }
     names = fields.each_with_index.map { |field, index| record_names(field, keys.map { |key| key[index] }) }
     keys.zip(results.values).map do |key, value|
-      [key.each_with_index.map { |part, index| label(part, fields[index], names[index], fields.one?) }, value]
+      [key.each_with_index.map { |part, index| label(part, fields[index], names[index]) }, value]
     end
   end
 
@@ -218,9 +221,9 @@ class Captain::Copilot::Aggregation
     field.names ? @resource.record_names(field.names, ids.compact.uniq) : {}
   end
 
-  # One field keeps nil, which one_field reports as without_value.
-  def label(value, field, names, single)
-    return (single ? nil : 'None') if value.nil?
+  # Only two fields reach here with a missing value; one field reports it as without_value.
+  def label(value, field, names)
+    return 'None' if value.nil?
     return DATE_PARTS.fetch(field.part).call(value) if field.date?
 
     names.fetch(value) { value.to_s }

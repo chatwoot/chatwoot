@@ -50,18 +50,27 @@ class Captain::Copilot::ResultTable
   end
 
   def review_page(page, matched_only)
-    visible = accessible_conversations(account: @run.account, user: @run.user)
-    findings = visible_findings(visible, matched_only).page(page).per(REVIEW_PAGE_SIZE)
-    conversations = visible.where(id: findings.map(&:conversation_id)).includes(:assignee).index_by(&:id)
+    findings = visible_findings(matched_only).page(page).per(REVIEW_PAGE_SIZE)
+    conversations = visible_conversations.where(id: findings.map(&:conversation_id)).includes(:assignee).index_by(&:id)
     total = findings.total_count
     { run: @run.summary, type: 'table', page: page, total: total, has_more: page * REVIEW_PAGE_SIZE < total,
       content: markdown(findings, conversations, page, total, matched_only) }
   end
 
+  # The findings, categories and dates come only from the conversations the user can still see, so a conversation the
+  # user lost access to after the review shows nothing of what it was about.
+  def visible_conversations
+    @visible_conversations ||= accessible_conversations(account: @run.account, user: @run.user)
+  end
+
+  def accessible_findings
+    @run.findings.where(conversation_id: visible_conversations.select(:id))
+  end
+
   # Matched findings come first, then the rest in the order the review picked them, newest first. The review creates
   # findings in that order, so their IDs follow it.
-  def visible_findings(visible, matched_only)
-    scope = @run.findings.where(conversation_id: visible.select(:id)).where.not(status: %i[awaiting_review screened_out])
+  def visible_findings(matched_only)
+    scope = accessible_findings.where.not(status: %i[awaiting_review screened_out])
     scope = scope.where(matched: true) if matched_only
     scope.order(matched: :desc, id: :asc)
   end
@@ -117,14 +126,14 @@ class Captain::Copilot::ResultTable
   def covered_dates
     field = @run.filters['date_field'] || 'last_activity_at'
     column = Conversation.arel_table[field]
-    first, last = Conversation.where(id: @run.findings.select(:conversation_id)).pick(column.minimum, column.maximum)
+    first, last = visible_conversations.where(id: @run.findings.select(:conversation_id)).pick(column.minimum, column.maximum)
     first ? ["Processed conversations span #{field} #{first.to_date.iso8601} to #{last.to_date.iso8601}."] : []
   end
 
-  # Counted by the database over every reviewed conversation, so the most common categories never depend on the model
-  # tallying findings.
+  # Counted by the database over every reviewed conversation the user can see, so the most common categories never
+  # depend on the model tallying findings.
   def category_counts
-    counts = @run.findings.reviewed.group(:category).order(Arel.star.count.desc).limit(CATEGORY_COUNTS).count
+    counts = accessible_findings.ranked_categories.limit(CATEGORY_COUNTS).count
     return [] if counts.empty?
 
     ["Categories of reviewed conversations: #{counts.map { |category, count| "#{escape(category)} (#{count})" }.join(', ')}."]

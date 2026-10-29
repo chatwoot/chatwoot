@@ -39,7 +39,7 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   # Each conversation is reviewed alone, so the categories earlier ones got are passed on to keep the wording the same and
   # make the counts per category meaningful.
   def known_categories
-    @run.findings.reviewed.group(:category).order(Arel.star.count.desc).limit(KNOWN_CATEGORIES).pluck(:category).presence
+    @run.findings.ranked_categories.limit(KNOWN_CATEGORIES).pluck(:category).presence
   end
 
   def trace_params(conversation)

@@ -9,7 +9,9 @@ class Captain::Copilot::ReportService
     'team' => V2::Reports::TeamSummaryBuilder, 'label' => V2::Reports::LabelSummaryBuilder
   }.freeze
   AVERAGES = %w[avg_first_response_time avg_resolution_time reply_time avg_reply_time].freeze
-  # A breakdown for each agent, inbox, team or label runs one report each, so it covers the busiest ones.
+  # A breakdown runs one report for each agent, inbox, team or label it checks, so it checks the MAX_CHECKED with the most
+  # conversations and lists the MAX_EACH with the most of the metric.
+  MAX_CHECKED = 50
   MAX_EACH = 20
   SUMMARY_COUNTS = { 'conversations_count' => :conversations, 'resolutions_count' => :resolved }.freeze
   SUMMARY_METRICS = SUMMARY_COUNTS.keys + %w[avg_first_response_time avg_resolution_time reply_time]
@@ -81,16 +83,19 @@ class Captain::Copilot::ReportService
       data_from: active.first&.dig(:period), data_to: active.last&.dig(:period) }
   end
 
-  # One row per agent, inbox, team or label with activity in the range, each with the metric per period.
+  # One row per agent, inbox, team or label with the metric in the range, each with the metric per period. Rows are picked
+  # by the metric itself, so an agent who only replied to older conversations is listed for the messages sent.
   def breakdown(metrics, period, dimension)
     raise ArgumentError, 'each takes one metric' if metrics.size > 1
 
-    active = active(summary_rows(dimension))
-    rows = active.first(MAX_EACH).map do |row|
-      { name: row[:name], id: row[:id], **metric_series(metrics.first, period, dimension, row[:id]).except(:metric) }
+    rows = summary_rows(dimension).first(MAX_CHECKED).filter_map do |row|
+      series = metric_series(metrics.first, period, dimension, row[:id]).except(:metric)
+      { name: row[:name], id: row[:id], **series } if series[:data_from]
     end
-    result = { metric: metrics.first, by: period, each: dimension, rows: rows, time_zone: @time_zone }
-    active.size > MAX_EACH ? result.merge(note: "Showing the #{MAX_EACH} busiest of #{active.size}.") : result
+    # Averages rank by how many events they average.
+    rows = rows.sort_by { |row| -row[:points].sum { |point| point.fetch(:events, point[:value]) } }
+    result = { metric: metrics.first, by: period, each: dimension, rows: rows.first(MAX_EACH), time_zone: @time_zone }
+    rows.size > MAX_EACH ? result.merge(note: "Showing the #{MAX_EACH} busiest of #{rows.size}.") : result
   end
 
   # The summary lists counts and average times; it can chart its two counts. The agents, inboxes, teams or labels with no
