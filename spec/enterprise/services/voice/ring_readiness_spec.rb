@@ -33,6 +33,13 @@ RSpec.describe Voice::RingReadiness do
     expect(readiness.blocker(readiness.memberships.first)).to eq('not_online')
   end
 
+  it 'does not ring an agent who has turned calls off' do
+    account_user.update!(accepts_calls: false)
+
+    expect(readiness.rings?(readiness.memberships.first)).to be(false)
+    expect(readiness.blocker(readiness.memberships.first)).to eq('calls_off')
+  end
+
   it 'does not ring an agent outside every voice inbox' do
     InboxMember.where(user: user).destroy_all
 
