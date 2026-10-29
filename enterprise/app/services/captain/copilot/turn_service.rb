@@ -63,7 +63,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   # them the model treats status and priority as content. The current time is the turn's own, so a retried or resumed turn
   # reads the same dates.
   def system_message
-    tools = @tools.map { |tool| "- #{tool.class.name}: #{tool.class.description}" }.join("\n")
+    tools = @tools.map { |tool| "- #{tool.class.name}: #{tool.description}" }.join("\n")
     base = Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], tools, @assistant.config)
     instructions = Captain::PromptRenderer.render('copilot_workflows', conversations_per_turn: CopilotRun::CONVERSATIONS_PER_TURN,
                                                                        user_name: @user.name, user_id: @user.id,

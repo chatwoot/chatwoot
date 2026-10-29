@@ -38,7 +38,12 @@ class Captain::Copilot::ResultTable
 
   def collection_rows_table(resource, rows)
     header = [@run.resource.singularize.capitalize, *resource.class::COLUMNS]
-    markdown_table(header, rows.map { |row| ["[#{escape(row[:label])}](#{row[:url]})", *row[:values].map { |value| escape(value) }] })
+    markdown_table(header, rows.map { |row| [row_label(row), *row[:values].map { |value| escape(value) }] })
+  end
+
+  # Records of generated table resources have no dashboard page, so their label is plain text.
+  def row_label(row)
+    row[:url] ? "[#{escape(row[:label])}](#{row[:url]})" : escape(row[:label])
   end
 
   def review_page(page, matched_only)

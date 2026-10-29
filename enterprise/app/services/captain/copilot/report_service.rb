@@ -2,7 +2,7 @@
 # A period (day, week, month or year) gives metrics over time for the account or one agent, inbox, team or label. A
 # dimension (agent, inbox, team or label) gives the summary the reports pages list for each of them.
 class Captain::Copilot::ReportService
-  PERIODS = Captain::Copilot::Resources::BaseResource::PERIODS
+  PERIODS = Captain::Copilot::Aggregation::PERIODS
   DIMENSION_FILTERS = { 'agent' => 'agent_id', 'inbox' => 'inbox_id', 'team' => 'team_id', 'label' => 'label' }.freeze
   SUMMARY_BUILDERS = {
     'agent' => V2::Reports::AgentSummaryBuilder, 'inbox' => V2::Reports::InboxSummaryBuilder,
@@ -123,7 +123,7 @@ class Captain::Copilot::ReportService
   # Every agent, inbox, team or label the builder lists, busiest first.
   def summary_rows(dimension)
     builder = SUMMARY_BUILDERS.fetch(dimension) do
-      raise ArgumentError, "by must be one of: #{([RANGE] + PERIODS.keys + SUMMARY_BUILDERS.keys).join(', ')}"
+      raise ArgumentError, "by must be one of: #{([RANGE] + PERIODS + SUMMARY_BUILDERS.keys).join(', ')}"
     end
     names = dimension_names(dimension)
     rows = builder.new(account: @account, params: params.merge(type: dimension.to_sym)).build
@@ -145,7 +145,7 @@ class Captain::Copilot::ReportService
 
   def report_kind(by, filters)
     return :range if by == RANGE
-    return :summary unless PERIODS.key?(by)
+    return :summary unless PERIODS.include?(by)
 
     filters['each'] ? :breakdown : :timeseries
   end

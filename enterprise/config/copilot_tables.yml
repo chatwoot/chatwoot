@@ -1,0 +1,76 @@
+# The account tables Copilot may read. A table that is not listed here stays hidden, including any a later migration
+# adds, because new tables are where per-user rows and credentials live. Within a listed table every column is
+# readable, including ones a later migration adds, except:
+#   - account_id, and polymorphic foreign keys and their type columns, such as messages.sender_id, because the same
+#     value names records in different tables
+#   - columns Rails encrypts
+#   - the columns in exclude, for secrets that are not always encrypted, such as on installs without encryption keys
+#
+# Each table may set:
+#   exclude  columns Copilot must not read
+#   through  for a table without account_id, the belongs_to association that leads to a record with one
+#
+# Tables the dashboard shows each user only for themselves, such as notifications and custom filters, are left out.
+# conversations, contacts, messages, csat_survey_responses and articles have their own resource classes with their own
+# permission rules. Every other table here is read by administrators only, through Captain::Copilot::Resources::Table.
+
+conversations: {}
+contacts: {}
+messages: {}
+csat_survey_responses: {}
+articles: {}
+
+account_users: {}
+agent_bot_inboxes: {}
+agent_bots:
+  # The webhook URL can carry a token, the config can hold provider keys, and the secret signs webhooks.
+  exclude: [outgoing_url, bot_config, secret]
+agent_capacity_policies: {}
+applied_slas: {}
+assignment_policies: {}
+attachments:
+  # Media links from channels can be signed, temporary URLs.
+  exclude: [external_url]
+automation_rules: {}
+calls: {}
+campaign_recipients: {}
+campaigns: {}
+canned_responses: {}
+captain_assistant_responses: {}
+captain_assistants: {}
+captain_documents: {}
+captain_faq_suggestions: {}
+captain_inboxes:
+  through: captain_assistant
+captain_scenarios: {}
+categories: {}
+companies: {}
+conversation_outcomes: {}
+conversation_participants: {}
+custom_attribute_definitions: {}
+custom_roles: {}
+email_templates: {}
+folders: {}
+inbox_assignment_policies:
+  through: inbox
+inbox_capacity_limits:
+  through: agent_capacity_policy
+inbox_members:
+  through: inbox
+inboxes: {}
+labels: {}
+macros: {}
+mentions: {}
+notes: {}
+portals:
+  # Certificate data for the custom domain.
+  exclude: [ssl_settings]
+related_categories:
+  through: category
+reporting_events: {}
+sla_events: {}
+sla_policies: {}
+team_members:
+  through: team
+teams: {}
+working_hours: {}

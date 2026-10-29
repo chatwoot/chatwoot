@@ -63,6 +63,15 @@ class CopilotRun::Collection < CopilotRun
     context['selection_truncated'] == true
   end
 
+  # newest and sample pick particular records, so rebuilding from the filters would select different ones.
+  def query?
+    filters['newest'].nil? && filters['sample'].nil?
+  end
+
+  def excluded_run
+    copilot_thread.saved_set(context['excluded_run_id']) if context['excluded_run_id']
+  end
+
   # A collection is a saved selection, so it has no review counts.
   def summary
     super.merge(resource: resource, filters: filters, selected: selected_ids.size, selection_truncated: selection_truncated?)
