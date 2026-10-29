@@ -7,12 +7,12 @@ Make the smallest change that solves the problem in the task. A small change is 
 ### Decide the scope before you write code
 
 - **Build what was asked, for the cases that happen.** Do not design for rare or future cases nobody asked about. Cover the states a user will see in normal use, such as an empty list, a loading state, a missing permission, or a channel that is not connected. When a feature has a reasonable default, ship the default and wait for someone to ask for a choice.
-- **Prefer a constant to a setting.** Add a setting only when the task or issue asks for one. For example, the out of office message is skipped when an agent replied in the last 5 minutes, and that limit is a constant (#11073).
+- **Prefer a constant to a setting.** Add a setting only when the task or issue asks for one. Every setting is UI, validation, and a code path someone has to keep working.
 - **When a setting is needed, put it in the place that already exists.** Use a new key in an existing JSONB column or an installation config read through `GlobalConfig`, not a new table or an environment variable. Show the setting only where it applies, e.g., only on Chatwoot Cloud.
-- **Do not build an abstraction for a second case that does not exist.** For example, a reviewer removed a provider option from the first voice PR because Chatwoot supported only one provider (#11775).
-- **Reuse before you add.** Look for an existing concern, service, component, store, or composable that does most of the job, and extend it. For example, a reviewer asked for the existing `Reauthorizable` concern instead of a new one (#9017).
-- **Write down what you left out, and say it in the PR.** A short "Not included" list in the PR description is enough. Do not assume a later cleanup will happen. The IMAP disconnect logic that was turned off "for now" in 2024 stayed off until 2026.
-- **Delete the old path when the replacement lands,** in the same PR or the next one, e.g., the old UI was removed once the new UI was the default (#11720).
+- **Do not build an abstraction for a second case that does not exist.** Write the concrete case. When a second case arrives, its real shape tells you what to share.
+- **Reuse before you add.** Look for an existing concern, service, component, store, or composable that does most of the job, and extend it. Two ways of doing the same thing doubles what reviewers and future changes have to understand.
+- **Write down what you left out, and say it in the PR.** A short "Not included" list in the PR description is enough. Unnamed follow-ups get forgotten, so name each one.
+- **Delete the old path when the replacement lands,** in the same PR or the next one. Code nobody uses still has to be read, migrated, and kept passing.
 
 ### Name things for the reader
 
@@ -24,12 +24,12 @@ Make the smallest change that solves the problem in the task. A small change is 
 
 ### Ship in small, reversible steps
 
-- **Keep each PR to one change.** In 2024 and 2025, half of all fixes changed fewer than 20 lines, and the median feature changed between 90 and 230 lines. PRs over 1,000 lines were nearly always migrations, renames, translations, or deleted code. If a feature looks larger, propose a split into stacked PRs, e.g., model, then API, then UI, before you write it. Do not reformat or rename code that the change does not need.
-- **Ship unfinished features dark.** New features and channels start behind a flag in `config/features.yml` with `enabled: false`. The team uses the feature internally first, and releasing it is a separate, often one line PR (#11323). Use one flag for one product change, not one flag per screen.
-- **Fix the reported problem at its source.** A fix should change the code that produced the symptom, not every place that looks similar. When a fix that changed 13 files broke something, the team reverted it within hours and shipped a 2 file fix the same day (#10108, #10120).
+- **Keep each PR to one change.** Most fixes need only a few lines. If a feature looks larger than a few hundred lines, propose a split into stacked PRs, e.g., model, then API, then UI, before you write it. Do not reformat or rename code that the change does not need.
+- **Ship unfinished features dark.** New features and channels start behind a flag in `config/features.yml` with `enabled: false`, so they can be used internally before release. Releasing is a separate PR. Use one flag for one product change, not one flag per screen.
+- **Fix the reported problem at its source.** A fix should change the code that produced the symptom, not every place that looks similar. A wide fix touches code nobody reported as broken, and it is more likely to break something.
 - **If a change breaks production, revert it and re-land a smaller one.** Do not stack fixes on a broken change.
-- **When you replace a code path, carry its checks over.** List the guards, permissions, and limits on the old path before you replace it. The new Copilot endpoint skipped the old endpoint's usage limit for six weeks (#11489, #11845).
-- **A small change still has to work.** Run the code path you changed before you call it done. The 31 line domain blocklist never applied its list until a fix three days later (#10016, #10046).
+- **When you replace a code path, carry its checks over.** List the guards, permissions, and limits on the old path before you replace it, because a new path that skips them reopens problems the old path had already fixed.
+- **A small change still has to work.** Run the code path you changed before you call it done.
 
 ### Check your own work
 
@@ -127,7 +127,7 @@ Reviewers, human and AI, often flag problems that are possible in theory and alm
   - For a failed send, mark the message failed with `Messages::StatusUpdateService`.
   - For an unknown error, report it with `ChatwootExceptionTracker`.
   - Log the error class, code, and request ID. Do not log response bodies, credentials, or customer data.
-- **Add retries only after production shows the need.** Keep them narrow, with a short fixed limit. The Twilio media retry first shipped as a new download service with its own redirect handling, broke normal downloads, and was reverted. It came back the next day built on the existing `SafeFetch` (#15499, #15502, #15504).
+- **Add retries only after production shows the need.** Keep them narrow, with a short fixed limit, and build them on existing helpers such as `SafeFetch` instead of a new HTTP client.
 
 ## Frontend
 
