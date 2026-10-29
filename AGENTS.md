@@ -199,6 +199,5 @@ Practical checklist for any change impacting core logic or public APIs
 - Add a `Closes` section with relevant issue links (GitHub, Linear, etc.).
 - For feature PRs, add `How to test` from a product/UX standpoint.
 - For bugfix PRs, use `How to reproduce` when helpful.
-- Add a short `Not included` list when the PR leaves out part of the feature on purpose.
 - Optionally add a `What changed` section for implementation highlights.
 - Do not add a `How this was tested` section listing specs/commands.
