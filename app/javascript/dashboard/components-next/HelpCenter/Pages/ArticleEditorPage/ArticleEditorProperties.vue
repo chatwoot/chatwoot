@@ -4,8 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useDebounceFn } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
-import { debounce } from '@chatwoot/utils';
-import camelcaseKeys from 'camelcase-keys';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 
 import articlesAPI from 'dashboard/api/helpCenter/articles';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
@@ -31,14 +30,15 @@ const emit = defineEmits([
   'close',
 ]);
 
-const saveArticle = debounce(value => emit('saveArticle', value), 400, false);
+const saveArticle = useDebounceFn(value => emit('saveArticle', value), 400);
 
 const { t } = useI18n();
 const route = useRoute();
 
 const articleOptions = ref([]);
+const articleQuery = ref('');
 const associationSelectionKey = ref(0);
-let articleSearchId = 0;
+const { run: runArticleRequest } = useAbortableRequest();
 
 const articleLabel = article => {
   const locale = article.locale ? ` (${article.locale})` : '';
@@ -54,7 +54,11 @@ const selectableArticleOptions = computed(() => {
   const options = [...articleOptions.value];
   const rootArticle = props.article.rootArticle;
 
-  if (rootArticle && !options.some(option => option.value === rootArticle.id)) {
+  if (
+    !articleQuery.value &&
+    rootArticle &&
+    !options.some(option => option.value === rootArticle.id)
+  ) {
     options.unshift({
       label: articleLabel(rootArticle),
       value: rootArticle.id,
@@ -64,32 +68,28 @@ const selectableArticleOptions = computed(() => {
   return options;
 });
 
-const fetchArticles = async query => {
-  articleSearchId += 1;
-  const searchId = articleSearchId;
+const fetchArticles = async (query = '') => {
+  articleQuery.value = query;
 
   try {
-    const {
-      data: { payload },
-    } = await articlesAPI.searchArticles({
-      portalSlug: route.params.portalSlug,
-      query,
+    await runArticleRequest(async signal => {
+      const {
+        data: { payload },
+      } = await articlesAPI.getArticles({
+        portalSlug: route.params.portalSlug,
+        query,
+        signal,
+      });
+
+      articleOptions.value = payload
+        .filter(article => article.id !== props.article.id)
+        .map(article => ({
+          label: articleLabel(article),
+          value: article.id,
+        }));
     });
-
-    const options = camelcaseKeys(payload || [])
-      .filter(article => article.id !== props.article.id)
-      .map(article => ({
-        label: articleLabel(article),
-        value: article.id,
-      }));
-
-    if (searchId === articleSearchId) {
-      articleOptions.value = options;
-    }
   } catch {
-    if (searchId === articleSearchId) {
-      articleOptions.value = [];
-    }
+    articleOptions.value = [];
   }
 };
 

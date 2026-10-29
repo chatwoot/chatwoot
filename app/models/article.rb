@@ -70,6 +70,8 @@ class Article < ApplicationRecord
   validates :slug, exclusion: { in: RESERVED_SLUGS }
   validates :slug, uniqueness: true, format: { with: /\A[a-zA-Z0-9_-]+\z/ }, if: :will_save_change_to_slug?
   validate :noindex_must_be_boolean
+  validate :cannot_reassociate_with_translations, if: :will_save_change_to_associated_article_id?
+  validate :unique_published_locale_in_family, if: :published?
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
@@ -192,6 +194,18 @@ class Article < ApplicationRecord
     linked_article = portal.articles.find(associated_article_id)
     root_article_id = self.class.find_root_article_id(linked_article)
     self.associated_article_id = root_article_id == id ? nil : root_article_id
+  end
+
+  def cannot_reassociate_with_translations
+    return if associated_article_id.blank?
+
+    errors.add(:associated_article_id, :invalid) if associated_articles.exists?
+  end
+
+  def unique_published_locale_in_family
+    return if new_record? && associated_article_id.blank?
+
+    errors.add(:locale, :taken) if translation_family.published.where(locale: locale).where.not(id: id).exists?
   end
 
   def noindex_must_be_boolean
