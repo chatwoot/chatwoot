@@ -205,6 +205,60 @@ describe('CallAnnouncementSettings', () => {
     expect(dispatch).not.toHaveBeenCalled();
   });
 
+  it('preserves unsaved draft when toggling the announcement', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent({ enabled: true, message: 'Original' });
+    wrapper
+      .findComponent(TextArea)
+      .vm.$emit('update:modelValue', 'Unsaved announcement');
+    await wrapper.vm.$nextTick();
+
+    wrapper
+      .findComponent(SettingsToggleSection)
+      .vm.$emit('update:modelValue', false);
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
+      id: 387,
+      kind: 'out_of_hours',
+      enabled: false,
+      message: 'Original',
+      timeoutSeconds: undefined,
+    });
+
+    await wrapper.setProps({ enabled: false });
+    await wrapper.vm.$nextTick();
+
+    wrapper
+      .findComponent(SettingsToggleSection)
+      .vm.$emit('update:modelValue', true);
+    await flushPromises();
+
+    expect(wrapper.findComponent(TextArea).props('modelValue')).toBe(
+      'Unsaved announcement'
+    );
+  });
+
+  it('does not send a network request when unchecking an announcement that was never enabled on the server', async () => {
+    const wrapper = mountComponent({
+      enabled: false,
+      message: '',
+      audioUrl: null,
+    });
+
+    wrapper
+      .findComponent(SettingsToggleSection)
+      .vm.$emit('update:modelValue', true);
+    await flushPromises();
+    expect(dispatch).not.toHaveBeenCalled();
+
+    wrapper
+      .findComponent(SettingsToggleSection)
+      .vm.$emit('update:modelValue', false);
+    await flushPromises();
+    expect(dispatch).not.toHaveBeenCalled();
+  });
+
   it('allows saving unchanged text while its audio is missing', async () => {
     dispatch.mockResolvedValue();
     const wrapper = mountComponent({ audioUrl: '' });

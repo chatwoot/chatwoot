@@ -39,9 +39,7 @@ class CopilotRun::Review < CopilotRun
 
   has_many :findings, class_name: 'CopilotReviewFinding', dependent: :delete_all, inverse_of: :copilot_run
   # request: the agent's message the review follows. turn_start and turn_limit: where the current turn took the review,
-  # and how far it may go. turn_start_matched and turn_start_failed: the counts when the turn took it.
-  # progress_message_id: the current turn's progress card. reference: the material every conversation is judged against,
-  # when the turn gave it.
+  # and how far it may go. reference: the material every conversation is judged against, when the turn gave it.
   store_accessor :context, :request, :criteria, :question, :turn_start, :turn_limit, :turn_start_matched, :turn_start_failed,
                  :progress_message_id, :reference
 
@@ -81,7 +79,6 @@ class CopilotRun::Review < CopilotRun
     end
   end
 
-  # Creates the turn's progress card, then updates it in place. Skips an update that changes nothing.
   def publish_progress
     progress = turn_progress.as_json
     card = copilot_thread.copilot_messages.find_by(id: progress_message_id)
@@ -115,10 +112,10 @@ class CopilotRun::Review < CopilotRun
 
   private
 
-  # Counts only the current turn's work, so every card's bar starts empty and ends full.
+  # Reviews started before the progress card saved no matched or failed baseline, and their first turn started at 0.
   def turn_progress
     progress = summary
     { finished: finished?, done: progress[:processed] - turn_start, total: [turn_limit, progress[:selected]].min - turn_start,
-      matched: progress[:matched] - turn_start_matched, failed: progress[:failed] - turn_start_failed }
+      matched: progress[:matched] - turn_start_matched.to_i, failed: progress[:failed] - turn_start_failed.to_i }
   end
 end
