@@ -54,8 +54,10 @@ class CopilotRun < ApplicationRecord
   # Each kind allows only some of these. Its STATUSES constant lists them.
   # awaiting_background_run: a turn parked until a background run started by one of its tool calls finishes.
   # awaiting_approval: an action run that writes nothing until the agent approves it.
+  # reviewing: a review whose conversations are being reviewed by one job each, with no job holding the run's lease.
   enum :status, { queued: 'queued', running: 'running', awaiting_background_run: 'awaiting_background_run', awaiting_approval: 'awaiting_approval',
-                  completed: 'completed', incomplete: 'incomplete', failed: 'failed', rejected: 'rejected', expired: 'expired' }, validate: true
+                  reviewing: 'reviewing', completed: 'completed', incomplete: 'incomplete', failed: 'failed', rejected: 'rejected',
+                  expired: 'expired' }, validate: true
 
   # Runs a job may pick up: waiting for a worker, or held by one whose lease may have expired.
   scope :claimable, -> { where(status: %i[queued running]) }
@@ -68,7 +70,7 @@ class CopilotRun < ApplicationRecord
 
   def claim
     with_lock do
-      return if finished? || awaiting_background_run? || awaiting_approval? || lease_until&.future?
+      return if finished? || awaiting_background_run? || awaiting_approval? || reviewing? || lease_until&.future?
 
       @taken_over = running?
       update!(status: :running, lease_until: Time.current + LEASE_DURATION, lease_token: SecureRandom.uuid)

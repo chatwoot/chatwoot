@@ -2,69 +2,51 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   include Captain::Copilot::BackgroundRunJob
   include Captain::Copilot::ConversationAccess
 
-  # A batch makes up to 50 model calls in a row, so it runs on low with Captain's other long jobs instead of holding the
+  # Screening makes up to 25 model calls in a row, so it runs on low with Captain's other long jobs instead of holding the
   # workers that handle incoming messages.
   queue_as :low
 
   RUN_CLASS = CopilotRun::Review
-  MAX_ATTEMPTS = 2
+  # One review reviews at most this many conversations at once, so it cannot take every Sidekiq worker or a small provider
+  # plan's rate limit. The rest of the batch is already screened and waits for the next round.
+  PARALLEL_REVIEWS = 5
 
   private
 
-  # The card shows up before screening, which is the longest wait, and then moves after every step.
+  # Screens a batch, then hands up to PARALLEL_REVIEWS of the conversations that passed to their own
+  # Captain::Copilot::ReviewConversationJob, so Sidekiq reviews them side by side. The last of those jobs queues this one
+  # again for the next round. The card shows up before screening, which is the longest wait here.
   def process_batch(run, token)
+    # A review stops at its turn limit; continue_review raises it when the agent asks for the next batch.
+    return finalize(run, token) if run.left_this_turn <= 0 || run.remaining_ids.empty?
+
+    # Checked before each batch with work left, so a review that runs out of credits or is switched off ends instead of
+    # looping, and one that finished every conversation still completes.
+    run.ensure_can_continue!
+
     run.with_lease(token) { run.publish_progress }
     conversations = Captain::Copilot::ScreeningService.new(run, token).screen(accessible_batch(run, token))
     run.with_lease(token) { run.publish_progress }
-    service = Captain::Copilot::ReviewService.new(run)
-    conversations.each do |conversation|
-      run.renew_lease(token)
-      review(run, token, service, conversation)
-      run.with_lease(token) { run.publish_progress }
-    end
-    # A review stops at its turn limit; continue_review raises it when the agent asks for the next batch.
-    return finalize(run, token) if run.left_this_turn <= 0
+    return continue_or_finalize(run, token) if conversations.empty?
 
-    continue_or_finalize(run, token)
+    start_reviews(run, token, conversations.first(PARALLEL_REVIEWS).map(&:id))
   end
 
   def accessible_batch(run, token)
     ids = run.remaining_ids.first([BATCH_SIZE, run.left_this_turn].min)
     found = accessible_conversations(account: run.account, user: run.user).where(id: ids).index_by(&:id)
-    run.with_lease(token) { (ids - found.keys).each { |id| record_error(run, id, 'Conversation is no longer accessible') } }
+    run.with_lease(token) { (ids - found.keys).each { |id| run.record_failure(id, 'Conversation is no longer accessible') } }
     # In the saved order, newest first, so a run that stops partway has reviewed the newest conversations.
     ids.filter_map { |id| found[id] }
   end
 
-  def review(run, token, service, conversation)
-    deep = run.findings.needs_more_history.exists?(conversation_id: conversation.id)
-    attributes = service.review(conversation, deep: deep)
-    if attributes[:status] == :needs_more_history && deep
-      attributes = attributes.merge(status: :failed,
-                                    error: 'The 50 messages read were insufficient')
+  # The run is released before the jobs are queued, so the first one to finish finds it reviewing.
+  def start_reviews(run, token, conversation_ids)
+    run.with_lease(token) do
+      run.update!(pending_ids: conversation_ids)
+      run.release!(:reviewing)
     end
-    run.with_lease(token) { save_result(run, conversation.id, attributes) }
-  rescue Captain::Copilot::LeaseLostError, Captain::Copilot::LimitExceededError
-    raise
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: run.account).capture_exception
-    error = e.is_a?(ArgumentError) ? e.message : "Review failed (#{e.class.name})"
-    run.with_lease(token) { record_error(run, conversation.id, error) }
-  end
-
-  def save_result(run, id, attributes)
-    finding = run.findings.find_or_initialize_by(conversation_id: id)
-    return if finding.reviewed?
-
-    finding.update!(error: nil, **attributes, attempts: finding.attempts + 1)
-  end
-
-  def record_error(run, id, error)
-    finding = run.findings.find_or_initialize_by(conversation_id: id)
-    return if finding.reviewed?
-
-    attempts = finding.attempts + 1
-    finding.update!(status: attempts >= MAX_ATTEMPTS ? :failed : :awaiting_retry, error: error, attempts: attempts)
+    conversation_ids.each { |conversation_id| Captain::Copilot::ReviewConversationJob.perform_later(run.id, conversation_id) }
   end
 
   def incomplete?(run)
