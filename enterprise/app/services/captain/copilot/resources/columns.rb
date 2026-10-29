@@ -66,7 +66,8 @@ module Captain::Copilot::Resources::Columns
     readable(model).filter_map do |column|
       next if column.type == :text || DATE_TYPES.include?(column.type) || column.name == 'id'
 
-      [column.name.to_sym, schema_for(model, column)]
+      value = schema_for(model, column)
+      [column.name.to_sym, { anyOf: [value, { type: 'array', minItems: 1, items: value }] }]
     end.to_h
   end
 

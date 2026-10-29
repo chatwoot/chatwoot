@@ -109,22 +109,30 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   def parse_result(row, evidence, deep)
     reviewed_ids = evidence[:messages].pluck(:id)
     evidence_ids = row['evidence_message_ids']
-    validate_result!(row, evidence_ids, reviewed_ids)
-    # The reviewer sometimes rules a conversation out on text it never saw, so a first-pass no on a cut message goes to
-    # the deep pass, which has room for more of it.
-    more = row['needs_more_history'] || (!deep && !row['matched'] && evidence[:messages].any? { |message| message[:content_truncated] })
+    more = more_history?(row, evidence, deep)
+    validate_result!(row, evidence_ids, reviewed_ids, more)
     { status: more ? :needs_more_history : :reviewed, matched: more ? false : row['matched'],
       category: row['category'].to_s.first(80), reason: row['reason'].to_s.first(500), evidence_message_ids: evidence_ids,
       reviewed_message_ids: reviewed_ids, history_truncated: evidence[:history_truncated] }
   end
 
-  def validate_result!(row, evidence_ids, reviewed_ids)
+  # More history helps only when messages or text were left out, so a reviewer that saw the whole conversation keeps its
+  # result. The reviewer sometimes rules a conversation out on text it never saw, so a first-pass no on a cut message goes
+  # to the deep pass, which has room for more of it.
+  def more_history?(row, evidence, deep)
+    cut = evidence[:messages].any? { |message| message[:content_truncated] }
+    return false unless evidence[:history_truncated] || cut
+
+    row['needs_more_history'] || (!deep && !row['matched'] && cut)
+  end
+
+  def validate_result!(row, evidence_ids, reviewed_ids, more)
     unless row.values_at('matched', 'needs_more_history').all? { |value| [true, false].include?(value) }
       raise ArgumentError, 'Review verdicts must be booleans'
     end
 
     validate_evidence!(evidence_ids, reviewed_ids)
-    return if row['needs_more_history']
+    return if more
 
     validate_explanation!(row, evidence_ids)
   end
