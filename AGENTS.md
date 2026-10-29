@@ -51,7 +51,7 @@ These rules apply to whoever writes a review and whoever receives it.
 - **No custom SQL**: Write queries and data migrations in Ruby with ActiveRecord (`where`, `find_each`, `update!`). Do not use `execute`, SQL heredocs or raw SQL strings.
 - **Database foreign keys**: Prefer Rails associations and callbacks over database foreign-key constraints. Add a database foreign key only when there is a clear need and after checking deletion behavior and production migration/locking risks. Existing foreign keys alone are not a reason to add new ones.
 - **Models**: Validate presence/uniqueness and add proper indexes. Keep relationships, association traversal, and reusable queries in models or scopes, and return an ActiveRecord relation when callers need to filter or order the result.
-- **Controllers**: Coordinate the request and prepare the response. Use strong params, named route helpers, and model methods instead of dense controller chains or manually assembled paths.
+- **Controllers**: Coordinate the request and prepare the response. Use strong params, named route helpers, and model methods instead of dense controller chains or manually assembled paths. Keep request-specific URL generation and presentation logic in controllers or view helpers. Before finalizing controller changes, check that relationship and traversal logic lives in the model layer.
 - **Services**: Put logic for a new feature in its own service, not in a shared model such as `Conversation`. Name classes by what they act on and what they do, e.g., `Messages::StatusUpdateService`.
 - **Settings**: Add a key to an existing JSONB column, or an installation config read through `GlobalConfig` and edited in Super Admin. Do not add environment variables for operator settings.
 - **Errors**: Use custom exceptions from `lib/custom_exceptions/`. When an impossible or misconfigured state would indicate a setup/deployment bug, let it fail loudly. For locked/internal configs that must exist in production, use direct reads (`find`, `find_by!`, required hash keys), not silent fallbacks.
@@ -59,11 +59,11 @@ These rules apply to whoever writes a review and whoever receives it.
   - If the value is saved to the database (a column or a key in a JSON/JSONB column), validate it in the model with validations or the existing schema validator. This covers every write path, and `ActiveRecord::RecordInvalid` already returns `422`. Do not repeat the same check in the controller.
   - If the value is only used to process the request together with other params (filters, lookups, service arguments) and is not stored as-is, validate it at the controller or request boundary, reusing existing errors, before it reaches services or queries.
 - Accept only the documented type, shape, and value. Do not add compatibility coercions for malformed client values; fix official clients instead.
-- Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes.
+- Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes unless a proven independent path bypasses that point.
 - Do not add validation or response checks unless the code uses the result or the check changes behavior.
 - Prefer existing repo dependencies/client libraries over hand-rolled protocol code for auth, signing, parsing, or API plumbing.
-- Avoid one-use private helpers unless they hide real complexity.
-- In specs, prefer `let` values and direct per-example setup over custom helper methods, use `with_modified_env` instead of stubbing `ENV`, and compare `error.class.name` instead of constant classes when asserting raised errors.
+- Avoid one-use private helpers unless they hide real complexity or make the main flow meaningfully easier to read.
+- In specs, prefer `let` values and direct per-example setup over custom helper methods; only add a helper when it removes meaningful repeated complexity. Use `with_modified_env` instead of stubbing `ENV`, and compare `error.class.name` instead of constant classes when asserting raised errors.
 
 ## Channels and integrations
 
@@ -105,8 +105,9 @@ These rules apply to whoever writes a review and whoever receives it.
 
 - Before you change core functionality, search both trees (e.g., `rg -n "FooService|ControllerName|ModelName" app enterprise`) and keep behavior compatible.
 - To change OSS behavior for Enterprise, add an Enterprise module with `prepend_mod_with`/`include_mod_with` instead of editing the OSS file, especially for policies, controllers, and services. Put Enterprise-only features directly under `enterprise/`.
+- If adding new endpoints, services, or models, consider whether Enterprise needs an override (e.g., `enterprise/app/...`) or an extension point (e.g., `prepend_mod_with`, hooks, configuration) to avoid hard forks.
 - Do not hardcode instance- or plan-specific behavior in OSS; use configuration, feature flags, or extension points.
-- Keep request/response contracts the same across OSS and Enterprise, and mirror renames or moves of shared code in `enterprise/`.
+- Keep request/response contracts the same across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs, and mirror renames or moves of shared code in `enterprise/`.
 - Put Enterprise specs under `spec/enterprise`, mirroring the OSS layout.
 - Practices: https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38
 
@@ -114,7 +115,7 @@ These rules apply to whoever writes a review and whoever receives it.
 
 - For product and source-string changes, only update `en.yml` (backend) and `en.json` (frontend). Other languages come through Crowdin.
 - Preserve product and brand names, OAuth scopes, API values, and other machine-readable identifiers unless an official localized form exists. Add new ones to the Crowdin glossary as non-translatable.
-- Before adding or changing an OpenAI model, check https://developers.openai.com/api/docs/deprecations and do not use a model with a shutdown date. Pick models through `config/llm.yml` and `Llm::FeatureRouter`, not hard-coded names.
+- Before adding or changing an OpenAI model, check https://developers.openai.com/api/docs/deprecations and do not use a model with a shutdown date; use the replacement the page recommends. Pick models through `config/llm.yml` and `Llm::FeatureRouter`, not hard-coded names.
 - For user-facing strings that contain "Chatwoot" and should adapt to branded or self-hosted installs, apply `replaceInstallationName` from `shared/composables/useBranding` in the UI layer.
 
 ## Worktrees
