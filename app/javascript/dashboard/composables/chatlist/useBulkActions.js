@@ -80,7 +80,7 @@ export function useBulkActions() {
         useAlert(t('BULK_ACTION.ASSIGN_SUCCESFUL'));
       }
     } catch (err) {
-      useAlert(t('BULK_ACTION.ASSIGN_FAILED'));
+      useAlert(err?.response?.data?.error || t('BULK_ACTION.ASSIGN_FAILED'));
     }
   }
 

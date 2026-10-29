@@ -24,7 +24,10 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def update
     @agent.update!(agent_params.slice(:name).compact)
-    @agent.current_account_user.update!(agent_params.slice(*account_user_attributes).compact)
+    account_user_params = agent_params.slice(*account_user_attributes).compact
+    # Blank clears the limit, so it can't go through compact
+    account_user_params[:max_open_conversations] = agent_params[:max_open_conversations].presence if agent_params.key?(:max_open_conversations)
+    @agent.current_account_user.update!(account_user_params)
   end
 
   def destroy
@@ -60,7 +63,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def allowed_agent_params
-    [:name, :email, :role, :availability, :auto_offline]
+    [:name, :email, :role, :availability, :auto_offline, :max_open_conversations]
   end
 
   def agent_params

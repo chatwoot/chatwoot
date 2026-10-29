@@ -1,0 +1,25 @@
+# Enforces manual assignment rules for agents:
+# - an agent can't hold more open conversations than their account user's max_open_conversations
+class Conversations::AssignmentRulesService
+  def initialize(account:, assignee:, conversations:)
+    @account = account
+    @assignee = assignee
+    @conversations = conversations.to_a
+  end
+
+  def validate!
+    limit = account.account_users.find_by!(user_id: assignee.id).max_open_conversations
+    return if limit.blank?
+
+    incoming = conversations.count { |conversation| conversation.assignee_id != assignee.id && conversation.open? }
+    return if incoming.zero?
+    return if account.conversations.open.where(assignee_id: assignee.id).count + incoming <= limit
+
+    raise CustomExceptions::Conversation::AssignmentNotAllowed,
+          { message: I18n.t('errors.conversations.assignment.limit_reached', agent_name: assignee.available_name, limit: limit) }
+  end
+
+  private
+
+  attr_reader :account, :assignee, :conversations
+end

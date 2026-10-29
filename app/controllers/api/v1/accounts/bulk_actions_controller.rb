@@ -4,6 +4,7 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
   def create
     case normalized_type
     when 'Conversation'
+      validate_conversation_assignment!
       enqueue_conversation_job
       head :ok
     when 'Contact'
@@ -13,9 +14,23 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
     else
       render json: { success: false }, status: :unprocessable_entity
     end
+  rescue CustomExceptions::Conversation::AssignmentNotAllowed => e
+    render_could_not_create_error(e.message)
   end
 
   private
+
+  def validate_conversation_assignment!
+    assignee = Current.account.users.find_by(id: params.dig(:fields, :assignee_id))
+    return if assignee.blank?
+
+    conversations = Current.account.conversations.where(display_id: params[:ids])
+    Conversations::AssignmentRulesService.new(
+      account: Current.account,
+      assignee: assignee,
+      conversations: Conversations::PermissionFilterService.new(conversations, current_user, Current.account).perform
+    ).validate!
+  end
 
   def normalized_type
     params[:type].to_s.camelize
