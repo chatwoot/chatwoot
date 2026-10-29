@@ -3,14 +3,12 @@
 module Captain::Copilot::NumberChecking
   private
 
-  # The loop runs again only when the check sent numbers back.
   def complete_with_number_check(llm)
     outcome = complete_loop(llm)
     outcome == :complete && revise_numbers?(llm) ? complete_loop(llm) : outcome
   end
 
-  # Numbers no tool result supports go back to the model as one note, while it still has model calls. The flag is saved
-  # first, so a resumed turn never checks twice.
+  # The flag is saved before the note is added, so a resumed turn never checks twice.
   def revise_numbers?(llm)
     return false if @run.context['numbers_checked']
 

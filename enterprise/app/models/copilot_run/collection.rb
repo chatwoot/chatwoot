@@ -74,7 +74,9 @@ class CopilotRun::Collection < CopilotRun
     own = "#{resource} with filters #{filters.to_json}"
     case source_run
     when CopilotRun::Collection then "#{source_run.selection}, then the #{own} linked to them"
-    when CopilotRun::Review then "the conversations an earlier review matched (#{source_run.question || source_run.criteria}), then #{own}"
+    when CopilotRun::Review
+      review = "the conversations a review of them matched (#{source_run.question || source_run.criteria})"
+      "#{source_run.source_run.selection}, then #{review}, then #{own}"
     else own
     end
   end

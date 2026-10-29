@@ -66,8 +66,7 @@ class Captain::Copilot::ResultTable
     scope.order(matched: :desc, id: :asc)
   end
 
-  # The table is the only copy of the findings the model gets. A table of every finding says which ones matched. The
-  # assignee is shown so the agent can see who handled each finding without opening the conversations.
+  # The table is the only copy of the findings the model gets. A table of every finding says which ones matched.
   def markdown(findings, conversations, page, total, matched_only)
     lines = summary_lines
     return (lines + ['No saved findings on this page.']).join("\n\n") if findings.empty?
