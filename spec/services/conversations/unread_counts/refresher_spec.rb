@@ -216,11 +216,16 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
 
   it 'removes Redis membership if a concurrent read update marks the conversation as read during perform' do
     conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title])
+    Conversations::UnreadCounts::Builder.new(account).build_base!
     refresher = described_class.new(conversation)
 
+    call_count = 0
     allow(refresher).to receive(:fetch_current_status_and_last_seen).and_wrap_original do |method|
+      call_count += 1
+      # The read lands only AFTER the first evaluation, i.e. once the membership
+      # has already been added to Redis.
       # rubocop:disable Rails/SkipsModelValidations
-      conversation.update_columns(agent_last_seen_at: 1.minute.from_now)
+      conversation.update_columns(agent_last_seen_at: 1.minute.from_now) if call_count > 1
       # rubocop:enable Rails/SkipsModelValidations
       method.call
     end
