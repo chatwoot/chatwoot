@@ -84,6 +84,15 @@ RSpec.describe 'Super Admin', type: :request do
       expect(signed_in?).to be(false)
     end
 
+    it 'stops accepting codes for the admin after five wrong attempts' do
+      submit_password
+      5.times { submit_code('000000') }
+
+      submit_password
+      submit_code(super_admin.reload.current_otp)
+      expect(signed_in?).to be(false)
+    end
+
     it 'does not sign in when the code arrives after the challenge expires' do
       submit_password
 

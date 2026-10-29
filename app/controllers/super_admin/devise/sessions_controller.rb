@@ -2,6 +2,8 @@
 
 class SuperAdmin::Devise::SessionsController < Devise::SessionsController
   MFA_CHALLENGE_EXPIRY = 5.minutes
+  MFA_MAX_FAILED_ATTEMPTS = 5
+  MFA_FAILED_ATTEMPTS_WINDOW = 15.minutes
 
   def new
     @mfa_challenge = pending_mfa_super_admin.present?
@@ -44,10 +46,31 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
   def verify_mfa_code
     super_admin = pending_mfa_super_admin
     return redirect_to(super_admin_session_path, flash: { error: I18n.t('super_admin.login.mfa_expired') }) unless super_admin
-    return redirect_to(super_admin_session_path, flash: { error: I18n.t('super_admin.login.mfa_invalid') }) unless valid_mfa_code?(super_admin)
+    return end_mfa_challenge if mfa_attempts_exhausted?(super_admin)
+    return reject_mfa_code(super_admin) unless valid_mfa_code?(super_admin)
 
+    Redis::Alfred.delete(mfa_failed_attempts_key(super_admin))
     session.delete(:super_admin_mfa)
     complete_sign_in(super_admin)
+  end
+
+  def reject_mfa_code(super_admin)
+    key = mfa_failed_attempts_key(super_admin)
+    Redis::Alfred.expire(key, MFA_FAILED_ATTEMPTS_WINDOW) if Redis::Alfred.incr(key) == 1
+    redirect_to(super_admin_session_path, flash: { error: I18n.t('super_admin.login.mfa_invalid') })
+  end
+
+  def end_mfa_challenge
+    session.delete(:super_admin_mfa)
+    redirect_to(super_admin_session_path, flash: { error: I18n.t('super_admin.login.mfa_attempts_exhausted') })
+  end
+
+  def mfa_attempts_exhausted?(super_admin)
+    Redis::Alfred.get(mfa_failed_attempts_key(super_admin)).to_i >= MFA_MAX_FAILED_ATTEMPTS
+  end
+
+  def mfa_failed_attempts_key(super_admin)
+    format(Redis::RedisKeys::SUPER_ADMIN_MFA_FAILED_ATTEMPTS, user_id: super_admin.id)
   end
 
   def valid_mfa_code?(super_admin)
