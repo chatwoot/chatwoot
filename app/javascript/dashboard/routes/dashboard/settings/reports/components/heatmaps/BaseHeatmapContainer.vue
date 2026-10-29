@@ -17,6 +17,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useI18n } from 'vue-i18n';
 import { downloadCsvFile } from 'dashboard/helper/downloadHelper';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   metric: {
@@ -96,7 +97,7 @@ const inboxMenuItems = computed(() => {
       action: 'select_inbox',
     },
     ...inboxes.value.map(inbox => ({
-      label: inbox.name,
+      label: getInboxDisplayName(inbox),
       value: inbox.id,
       action: 'select_inbox',
     })),

@@ -1,11 +1,15 @@
 import {
+  IDENTIFIER_SEPARATOR,
   INBOX_TYPES,
   VOICE_CALL_PROVIDERS,
+  getInboxChannelName,
   getInboxClassByType,
+  getInboxDisplayName,
   getInboxIconByType,
   getInboxIdentifier,
   getInboxVoiceIcon,
   getInboxWarningIconClass,
+  getReadableInboxByType,
   getVoiceCallIcon,
   searchInboxes,
 } from '../inbox';
@@ -57,6 +61,51 @@ describe('#Inbox Helpers', () => {
         getInboxIdentifier({
           channel_type: INBOX_TYPES.TELEGRAM,
           bot_name: '@support_bot',
+        })
+      ).toBe('@support_bot');
+    });
+
+    it('resolves identifiers from camelCase properties', () => {
+      expect(
+        getInboxIdentifier({
+          channelType: INBOX_TYPES.WEB,
+          websiteUrl: 'https://example.com',
+        })
+      ).toBe('https://example.com');
+      expect(
+        getInboxIdentifier({
+          channelType: INBOX_TYPES.WHATSAPP,
+          phoneNumber: '+15555550100',
+        })
+      ).toBe('+15555550100');
+      expect(
+        getInboxIdentifier({
+          channelType: INBOX_TYPES.SMS,
+          phoneNumber: '+15555550101',
+        })
+      ).toBe('+15555550101');
+      expect(
+        getInboxIdentifier({
+          channelType: INBOX_TYPES.LINE,
+          lineChannelId: 'line-123',
+        })
+      ).toBe('line-123');
+      expect(
+        getInboxIdentifier({
+          channelType: INBOX_TYPES.API,
+          inboxIdentifier: 'api-123',
+        })
+      ).toBe('api-123');
+      expect(
+        getInboxIdentifier({
+          channelType: INBOX_TYPES.TWILIO,
+          messagingServiceSid: 'MG123',
+        })
+      ).toBe('MG123');
+      expect(
+        getInboxIdentifier({
+          channelType: INBOX_TYPES.TELEGRAM,
+          botName: 'support_bot',
         })
       ).toBe('@support_bot');
     });
@@ -336,6 +385,143 @@ describe('#Inbox Helpers', () => {
       expect(
         getInboxIconByType(INBOX_TYPES.WHATSAPP, undefined, 'line', false)
       ).toBe('i-woot-whatsapp');
+    });
+  });
+  describe('getInboxChannelName', () => {
+    it.each([
+      [INBOX_TYPES.WEB, {}, 'Website'],
+      [INBOX_TYPES.FB, {}, 'Messenger'],
+      [INBOX_TYPES.TWITTER, {}, 'Twitter'],
+      [INBOX_TYPES.WHATSAPP, {}, 'WhatsApp'],
+      [INBOX_TYPES.SMS, {}, 'SMS'],
+      [INBOX_TYPES.EMAIL, {}, 'Email'],
+      [INBOX_TYPES.TELEGRAM, {}, 'Telegram'],
+      [INBOX_TYPES.LINE, {}, 'Line'],
+      [INBOX_TYPES.API, {}, 'API'],
+      [INBOX_TYPES.INSTAGRAM, {}, 'Instagram'],
+      [INBOX_TYPES.TIKTOK, {}, 'TikTok'],
+      [INBOX_TYPES.TWILIO, { medium: 'sms' }, 'Twilio SMS'],
+      [INBOX_TYPES.TWILIO, { medium: 'whatsapp' }, 'WhatsApp'],
+    ])('returns readable channel name for %s', (channelType, attrs, expected) => {
+      expect(getInboxChannelName({ channel_type: channelType, ...attrs })).toBe(expected);
+    });
+
+    it('returns empty string for missing or unknown channel types', () => {
+      expect(getInboxChannelName(null)).toBe('');
+      expect(getInboxChannelName({})).toBe('');
+      expect(getInboxChannelName({ channel_type: 'Unknown' })).toBe('');
+    });
+  });
+
+  describe('getInboxDisplayName', () => {
+    it('returns name combined with identifier when identifier exists', () => {
+      expect(
+        getInboxDisplayName({
+          name: 'Sales',
+          channel_type: INBOX_TYPES.EMAIL,
+          email: 'sales@example.com',
+        })
+      ).toBe(`Sales ${IDENTIFIER_SEPARATOR} sales@example.com`);
+
+      expect(
+        getInboxDisplayName({
+          name: 'Support',
+          channel_type: INBOX_TYPES.WHATSAPP,
+          phone_number: '+15555550100',
+        })
+      ).toBe(`Support ${IDENTIFIER_SEPARATOR} +15555550100`);
+
+      expect(
+        getInboxDisplayName({
+          name: 'Live Chat',
+          channel_type: INBOX_TYPES.WEB,
+          website_url: 'https://example.com',
+        })
+      ).toBe(`Live Chat ${IDENTIFIER_SEPARATOR} https://example.com`);
+    });
+
+    it('works with camelCase inbox properties', () => {
+      expect(
+        getInboxDisplayName({
+          name: 'Billing',
+          channelType: INBOX_TYPES.EMAIL,
+          email: 'billing@example.com',
+        })
+      ).toBe(`Billing ${IDENTIFIER_SEPARATOR} billing@example.com`);
+
+      expect(
+        getInboxDisplayName({
+          name: 'WhatsApp Desk',
+          channelType: INBOX_TYPES.WHATSAPP,
+          phoneNumber: '+15555550100',
+        })
+      ).toBe(`WhatsApp Desk ${IDENTIFIER_SEPARATOR} +15555550100`);
+    });
+
+    it('falls back to channel name when identifier is not available', () => {
+      expect(
+        getInboxDisplayName({
+          name: 'Sales',
+          channel_type: INBOX_TYPES.FB,
+        })
+      ).toBe(`Sales ${IDENTIFIER_SEPARATOR} Messenger`);
+
+      expect(
+        getInboxDisplayName({
+          name: 'Sales',
+          channel_type: INBOX_TYPES.INSTAGRAM,
+        })
+      ).toBe(`Sales ${IDENTIFIER_SEPARATOR} Instagram`);
+
+      expect(
+        getInboxDisplayName({
+          name: 'Sales',
+          channel_type: INBOX_TYPES.TIKTOK,
+        })
+      ).toBe(`Sales ${IDENTIFIER_SEPARATOR} TikTok`);
+    });
+
+    it('does not duplicate channel name if inbox name already matches channel name', () => {
+      expect(
+        getInboxDisplayName({
+          name: 'Messenger',
+          channel_type: INBOX_TYPES.FB,
+        })
+      ).toBe('Messenger');
+
+      expect(
+        getInboxDisplayName({
+          name: 'Instagram',
+          channel_type: INBOX_TYPES.INSTAGRAM,
+        })
+      ).toBe('Instagram');
+    });
+
+    it('allows a custom separator', () => {
+      expect(
+        getInboxDisplayName(
+          {
+            name: 'Support',
+            channel_type: INBOX_TYPES.EMAIL,
+            email: 'help@example.com',
+          },
+          ' - '
+        )
+      ).toBe('Support - help@example.com');
+    });
+
+    it('handles empty, null, or nameless inboxes gracefully', () => {
+      expect(getInboxDisplayName(null)).toBe('');
+      expect(getInboxDisplayName(undefined)).toBe('');
+      expect(getInboxDisplayName({})).toBe('');
+      expect(getInboxDisplayName({ name: '' })).toBe('');
+    });
+  });
+
+  describe('getReadableInboxByType', () => {
+    it('returns instagram and tiktok types', () => {
+      expect(getReadableInboxByType(INBOX_TYPES.INSTAGRAM)).toBe('instagram');
+      expect(getReadableInboxByType(INBOX_TYPES.TIKTOK)).toBe('tiktok');
     });
   });
 });

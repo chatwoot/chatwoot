@@ -111,34 +111,115 @@ const INBOX_ICON_MAP_LINE = {
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
 
+export const IDENTIFIER_SEPARATOR = '·';
+
 // Facebook, Instagram, TikTok, and X initialize the editable inbox name from
 // the provider account name; their opaque routing IDs should not be displayed.
 const INBOX_IDENTIFIER_RESOLVERS = {
-  [INBOX_TYPES.WEB]: inbox => inbox.website_url,
-  [INBOX_TYPES.EMAIL]: inbox => inbox.email,
-  [INBOX_TYPES.WHATSAPP]: inbox => inbox.phone_number,
-  [INBOX_TYPES.SMS]: inbox => inbox.phone_number,
-  [INBOX_TYPES.LINE]: inbox => inbox.line_channel_id,
-  [INBOX_TYPES.API]: inbox => inbox.inbox_identifier,
-  [INBOX_TYPES.TWILIO]: inbox =>
-    inbox.phone_number?.replace(/^whatsapp:/, '') ||
-    inbox.messaging_service_sid ||
-    '',
+  [INBOX_TYPES.WEB]: inbox => inbox.website_url || inbox.websiteUrl || '',
+  [INBOX_TYPES.EMAIL]: inbox => inbox.email || '',
+  [INBOX_TYPES.WHATSAPP]: inbox =>
+    inbox.phone_number || inbox.phoneNumber || '',
+  [INBOX_TYPES.SMS]: inbox => inbox.phone_number || inbox.phoneNumber || '',
+  [INBOX_TYPES.LINE]: inbox =>
+    inbox.line_channel_id || inbox.lineChannelId || '',
+  [INBOX_TYPES.API]: inbox =>
+    inbox.inbox_identifier || inbox.inboxIdentifier || '',
+  [INBOX_TYPES.TWILIO]: inbox => {
+    const phone = inbox.phone_number || inbox.phoneNumber;
+    return (
+      phone?.replace(/^whatsapp:/, '') ||
+      inbox.messaging_service_sid ||
+      inbox.messagingServiceSid ||
+      ''
+    );
+  },
   [INBOX_TYPES.TELEGRAM]: inbox => {
-    if (!inbox.bot_name) return '';
-    return inbox.bot_name.startsWith('@')
-      ? inbox.bot_name
-      : `@${inbox.bot_name}`;
+    const bot = inbox.bot_name || inbox.botName;
+    if (!bot) return '';
+    return bot.startsWith('@') ? bot : `@${bot}`;
   },
 };
 
-export const getInboxIdentifier = inbox =>
-  INBOX_IDENTIFIER_RESOLVERS[inbox?.channel_type]?.(inbox) || '';
+export const getInboxIdentifier = inbox => {
+  if (!inbox) return '';
+  const channelType = inbox.channel_type || inbox.channelType;
+  return INBOX_IDENTIFIER_RESOLVERS[channelType]?.(inbox) || '';
+};
+
+export const getInboxChannelName = inbox => {
+  const channelType = inbox?.channel_type || inbox?.channelType;
+  switch (channelType) {
+    case INBOX_TYPES.WEB:
+      return 'Website';
+    case INBOX_TYPES.FB:
+      return 'Messenger';
+    case INBOX_TYPES.TWITTER:
+      return 'Twitter';
+    case INBOX_TYPES.TWILIO: {
+      const medium = inbox?.medium;
+      const phone = inbox?.phone_number || inbox?.phoneNumber;
+      return medium === 'whatsapp' || phone?.startsWith('whatsapp')
+        ? 'WhatsApp'
+        : 'Twilio SMS';
+    }
+    case INBOX_TYPES.WHATSAPP:
+      return 'WhatsApp';
+    case INBOX_TYPES.SMS:
+      return 'SMS';
+    case INBOX_TYPES.EMAIL:
+      return 'Email';
+    case INBOX_TYPES.TELEGRAM:
+      return 'Telegram';
+    case INBOX_TYPES.LINE:
+      return 'Line';
+    case INBOX_TYPES.API:
+      return 'API';
+    case INBOX_TYPES.INSTAGRAM:
+      return 'Instagram';
+    case INBOX_TYPES.TIKTOK:
+      return 'TikTok';
+    default:
+      return '';
+  }
+};
+
+export const getInboxDisplayName = (
+  inbox,
+  separator = IDENTIFIER_SEPARATOR
+) => {
+  if (!inbox) return '';
+  const name = inbox.name || '';
+  if (!name) return '';
+
+  const identifier = getInboxIdentifier(inbox);
+  if (identifier) {
+    return `${name} ${separator} ${identifier}`;
+  }
+
+  const channelName = getInboxChannelName(inbox);
+  if (channelName && name.toLowerCase() !== channelName.toLowerCase()) {
+    return `${name} ${separator} ${channelName}`;
+  }
+
+  return name;
+};
 
 export const searchInboxes = (inboxes, query) => {
-  const primaryMatches = picoSearch(inboxes, query, ['name', 'channel_type']);
+  const inboxesWithIdentifier = (inboxes || []).map(inbox => {
+    if (inbox.channel_identifier) return inbox;
+    const identifier = getInboxIdentifier(inbox);
+    return identifier ? { ...inbox, channel_identifier: identifier } : inbox;
+  });
+
+  const primaryMatches = picoSearch(inboxesWithIdentifier, query, [
+    'name',
+    'channel_type',
+  ]);
   const primaryMatchIds = new Set(primaryMatches.map(inbox => inbox.id));
-  const identifierMatches = picoSearch(inboxes, query, ['channel_identifier']);
+  const identifierMatches = picoSearch(inboxesWithIdentifier, query, [
+    'channel_identifier',
+  ]);
 
   return [
     ...primaryMatches,
@@ -174,6 +255,12 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'line';
+
+    case INBOX_TYPES.INSTAGRAM:
+      return 'instagram';
+
+    case INBOX_TYPES.TIKTOK:
+      return 'tiktok';
 
     default:
       return 'chat';
