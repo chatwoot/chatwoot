@@ -70,6 +70,17 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(result[:metrics].first[:total_or_average]).to eq('2 days and 1 hour')
     end
 
+    it 'gives a measured zero average as zero time, and no time for a period without events' do
+      create(:reporting_event, account: account, inbox: inbox, name: 'first_response', value: 600, value_in_business_hours: 0,
+                               created_at: Time.zone.parse('2026-09-08 10:00'))
+
+      series = service.execute(by: 'day', metrics: %w[avg_first_response_time], business_hours: true, **week)[:metrics].first
+
+      expect(series).to include(total_or_average: '0 seconds', data_from: '2026-09-08', data_to: '2026-09-08')
+      expect(series[:points].first(2)).to eq([{ period: '2026-09-07', value: 0, duration: nil, events: 0 },
+                                              { period: '2026-09-08', value: 0, duration: '0 seconds', events: 1 }])
+    end
+
     it 'counts a conversation with bot handoffs on two days once in the total, as the reports pages do' do
       conversation = create(:conversation, account: account, inbox: inbox, created_at: Time.zone.parse('2026-09-08 09:00'))
       %w[2026-09-08 2026-09-10].each do |day|
