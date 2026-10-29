@@ -62,6 +62,15 @@ RSpec.describe CopilotRun do
     end
   end
 
+  describe '#claim' do
+    it 'leaves a review alone while its conversations are being reviewed' do
+      review.update!(status: :reviewing)
+
+      expect(review.claim).to be_nil
+      expect(review.reload).to be_reviewing
+    end
+  end
+
   describe 'review progress' do
     let(:next_turn) do
       CopilotRun::Turn.create!(account: account, user: user, copilot_thread: thread,

@@ -70,7 +70,7 @@ class CopilotRun < ApplicationRecord
 
   def claim
     with_lock do
-      return if finished? || awaiting_background_run? || awaiting_approval? || lease_until&.future?
+      return if finished? || awaiting_background_run? || awaiting_approval? || reviewing? || lease_until&.future?
 
       @taken_over = running?
       update!(status: :running, lease_until: Time.current + LEASE_DURATION, lease_token: SecureRandom.uuid)
