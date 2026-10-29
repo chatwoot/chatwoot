@@ -84,12 +84,18 @@ RSpec.describe Captain::Copilot::Aggregation do
     expect(result).to include(groups: [{ group: 'India', value: 1 }], without_value: account.contacts.count - 1)
   end
 
-  it 'keeps the largest groups when there are too many' do
+  it 'keeps the largest groups and the records without a value when there are too many groups' do
     stub_const("#{described_class}::MAX_GROUPS", 1)
+    busier = create(:user, account: account, name: 'Muhsin')
+    create_list(:conversation, 3, account: account, inbox: inbox, assignee: busier, created_at: Time.utc(2023, 9, 8))
 
-    expect(aggregation.call(measure: 'count',
-                            group_by: ['assignee'])).to include(groups: [{ group: "Sojan (ID #{agent.id})", value: 2 }],
-                                                                cut: be_present)
+    expect(aggregation.call(measure: 'count', group_by: ['assignee']))
+      .to include(groups: [{ group: "Muhsin (ID #{busier.id})", value: 3 }], without_value: 1, cut: be_present)
+  end
+
+  it 'takes the two date columns of a duration in any order' do
+    expect(aggregation.call(measure: 'average', duration: %w[first_reply_created_at last_activity_at]))
+      .to include(of: 'time from first_reply_created_at to last_activity_at', unit: 'hours')
   end
 
   it 'rejects a date column without a part and a column that is not numeric' do
