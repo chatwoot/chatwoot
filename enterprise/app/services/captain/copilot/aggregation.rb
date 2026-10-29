@@ -73,7 +73,7 @@ class Captain::Copilot::Aggregation
   def named_field(name)
     return Field.new(column: @date_field, part: name) if PERIODS.include?(name)
     return Field.new(expression: ActsAsTaggableOn::Tag.arel_table[:name], join: true) if name == 'label' && @model.reflect_on_association(:labels)
-    return Field.new(expression: Captain::Copilot::Resources::Columns.json_field(@model, name)) if name.include?('.')
+    return Field.new(expression: @resource.json_group_field(name, @relation)) if name.include?('.')
 
     custom = @resource.group_field(name)
     Field.new(**custom) if custom
