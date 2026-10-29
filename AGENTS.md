@@ -2,7 +2,7 @@
 
 ## How we build
 
-Chatwoot is never finished. We ship a small version that people can use, we watch what happens in production and in support conversations, and then we fix the problems people actually hit. The rules in this section describe how the team has worked in practice, based on the commit and review history from 2024 and 2025. Read them before you decide what a change should include.
+Make the smallest change that solves the problem in the task. A small change is faster to review, test, and revert, and users tell us what to build next once they use it.
 
 ### Decide the scope before you write code
 
