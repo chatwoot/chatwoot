@@ -89,6 +89,16 @@ describe 'Rack::Attack auth throttles' do
       expect(key).to eq('admin@example.com')
     end
 
+    it 'keys JSON password sign-ins by the normalized super admin email' do
+      env = json_env({ super_admin: { email: ' Admin@Example.COM ', password: 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/email', env)).to eq('admin@example.com')
+    end
+
+    it 'skips malformed JSON bodies without raising' do
+      env = build_env('/super_admin/sign_in', '{"super_admin": broken', 'application/json')
+      expect(throttle_key('super_admin_login/email', env)).to be_nil
+    end
+
     it 'skips code submissions instead of sharing a blank key' do
       expect(throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => { 'otp_code' => '123456' } }))).to be_nil
     end
