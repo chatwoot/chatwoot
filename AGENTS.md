@@ -1,191 +1,126 @@
 # Chatwoot Development Guidelines
 
-## How we build
+Chatwoot is a Rails API with a Vue 3 dashboard and widget. Enterprise code lives under `enterprise/` and extends the open source code in `app/`.
 
-Make the smallest change that solves the problem in the task. A small change is faster to review, test, and revert, and users tell us what to build next once they use it.
-
-### Decide the scope before you write code
-
-- **Build what was asked, for the cases that happen.** Do not design for rare or future cases nobody asked about. Cover the states a user will see in normal use, such as an empty list, a loading state, a missing permission, or a channel that is not connected. When a feature has a reasonable default, ship the default and wait for someone to ask for a choice.
-- **Prefer a constant to a setting.** Add a setting only when the task or issue asks for one. Every setting is UI, validation, and a code path someone has to keep working.
-- **When a setting is needed, put it in the place that already exists.** Use a new key in an existing JSONB column or an installation config read through `GlobalConfig`, not a new table or an environment variable. Show the setting only where it applies, e.g., only on Chatwoot Cloud.
-- **Do not build an abstraction for a second case that does not exist.** Write the concrete case. When a second case arrives, its real shape tells you what to share.
-- **Reuse before you add.** Look for an existing concern, service, component, store, or composable that does most of the job, and extend it. Two ways of doing the same thing doubles what reviewers and future changes have to understand.
-- **Write down what you left out, and say it in the PR.** A short "Not included" list in the PR description is enough. Unnamed follow-ups get forgotten, so name each one.
-- **Delete the old path when the replacement lands,** in the same PR or the next one. Code nobody uses still has to be read, migrated, and kept passing.
-
-### Name things for the reader
-
-- A name should tell the reader what the thing is or what it does, without opening the file. Spell the concept out, e.g., `first_reply_created_at`, not `frca`. Use only the abbreviations the product already uses, such as CSAT and SLA.
-- Use one name for one concept across the model, the API, the store, and the UI copy. Two names for the same thing make every reader check whether they are different.
-- Keep the Rails suffix that says which layer the class belongs to, such as `Service`, `Builder`, `Listener`, or `Job`. The rest of the name should say which record it works on and what it does, e.g., `Messages::StatusUpdateService`.
-- A label, caption, or tooltip on screen has to make sense by itself, because the user can't open it to read more. If a label needs help text to be understood, change the label.
-- If you can't find a clear name for a class or method, the design is probably not clear yet. Settle what the code does before you write it.
-
-### Ship in small, reversible steps
-
-- **Keep each PR to one change.** Most fixes need only a few lines. If a feature looks larger than a few hundred lines, propose a split into stacked PRs, e.g., model, then API, then UI, before you write it. Do not reformat or rename code that the change does not need.
-- **Ship unfinished features dark.** New features and channels start behind a flag in `config/features.yml` with `enabled: false`, so they can be used internally before release. Releasing is a separate PR. Use one flag for one product change, not one flag per screen.
-- **Fix the reported problem at its source.** A fix should change the code that produced the symptom, not every place that looks similar. A wide fix touches code nobody reported as broken, and it is more likely to break something.
-- **If a change breaks production, revert it and re-land a smaller one.** Do not stack fixes on a broken change.
-- **When you replace a code path, carry its checks over.** List the guards, permissions, and limits on the old path before you replace it, because a new path that skips them reopens problems the old path had already fixed.
-- **A small change still has to work.** Run the code path you changed before you call it done.
-
-### Check your own work
-
-You have the tools to check a change yourself, so use them instead of asking someone to test it for you.
-
-- Run the specs closest to the change with `bundle exec rspec spec/path/to/file_spec.rb` and `pnpm test`.
-- For a UI change, run the app (`pnpm dev`), sign in as a user created by `db/seeds.rb`, and use the changed screen in a browser. Check both what the API saved and what the screen shows.
-- If you can't open a browser, say in your summary that the UI change is unverified. Do not describe a screen you did not see.
-- End to end tests live in `tests/playwright`.
-
-### Review findings by likelihood and impact
-
-Reviewers, human and AI, often flag problems that are possible in theory and almost never happen. Fixing each one makes the code longer and starts another review round. These rules apply to the person or agent writing a review and to the person or agent receiving it.
-
-- For each finding, rate how likely it is in normal use from 1 to 5, and how bad it would be from 1 to 5. Write both scores next to the finding.
-- If the two scores multiplied are 6 or more, fix it in the PR.
-- If the product is below 6, leave the code alone and list the finding in the PR description or a follow-up issue.
-- When you receive a finding, score it yourself before you change any code. If your product is below 6, reply with your scores and leave the code as it is.
-- Always fix a security problem that a user or an outside caller can reach, and any data loss or wrong billing, whatever the score.
-- Code that handles cases nobody asked for is also a finding. Flag it the same way you would flag a bug.
-
-## Build / Test / Lint
+## Commands
 
 - **Setup**: `bundle install && pnpm install`
 - **Run Dev**: `pnpm dev` or `overmind start -f ./Procfile.dev`
 - **Seed Local Test Data**: `bundle exec rails db:seed` (quickly populates minimal data for standard feature verification)
 - **Seed Search Test Data**: `bundle exec rails search:setup_test_data` (bulk fixture generation for search/performance/manual load scenarios)
-- **Seed Account Sample Data (richer test data)**: `Seeders::AccountSeeder` is available as an internal utility and is exposed through Super Admin `Accounts#seed`, but can be used directly in dev workflows too:
-  - UI path: Super Admin → Accounts → Seed (enqueues `Internal::SeedAccountJob`).
-  - CLI path: `bundle exec rails runner "Internal::SeedAccountJob.perform_now(Account.find(<id>))"` (or call `Seeders::AccountSeeder.new(account: Account.find(<id>)).perform!` directly).
+- **Seed Account Sample Data (richer test data)**: `bundle exec rails runner "Internal::SeedAccountJob.perform_now(Account.find(<id>))"`, or Super Admin → Accounts → Seed
 - **Lint JS/Vue**: `pnpm eslint` / `pnpm eslint:fix`
 - **Lint Ruby**: `bundle exec rubocop -a`
 - **Test JS**: `pnpm test` or `pnpm test:watch`
 - **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
 - **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
-- **Ruby Version**: Manage Ruby via `rbenv` and install the version listed in `.ruby-version` (e.g., `rbenv install $(cat .ruby-version)`)
-- **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
-- Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
+- **End to end tests**: `tests/playwright`
+- **Ruby**: install the version in `.ruby-version` with `rbenv`, and run `eval "$(rbenv init -)"` before any `bundle` or `rspec` command. Always prefer `bundle exec` for Ruby CLI tasks.
 
-## Code Style
+## Working agreements
 
-- **Ruby**: Follow RuboCop rules (150 character max line length). Use compact `module/class` definitions; avoid nested styles.
-- **Vue/JS**: Use ESLint (Airbnb base + Vue 3 recommended)
-- **Vue Components**: Use PascalCase
-- **Events**: Use camelCase
-- **I18n**: No bare strings in templates; use i18n
-- **Error Handling**: Use custom exceptions (`lib/custom_exceptions/`)
-- **Models**: Validate presence/uniqueness, add proper indexes
-- **Type Safety**: Use PropTypes in Vue, strong params in Rails
-- **Naming**: Use consistent casing. See "Name things for the reader" above.
+- Make the smallest production-ready change that solves the task. Small changes are faster to review, test, and revert.
+- Build for the cases users hit in normal use, such as an empty list, a loading state, a missing permission, or a disconnected channel. Do not add guards, fallbacks, retries, or settings unless the task asks for them, a caller can actually hit the case, or production has shown it is needed.
+- Use a constant until the task asks for a setting. Do not add an abstraction until a second real case exists.
+- Reuse an existing concern, service, component, store, or composable before writing a new one. Don't write multiple versions or backups of the same logic.
+- Change only what the task needs. Do not reformat or rename unrelated code.
+- Remove dead, unreachable, or replaced code in the same PR or the next one.
+- If a change looks larger than a few hundred lines, propose a split into stacked PRs, e.g., model, then API, then UI, before you write it.
+- Ship unfinished features behind a flag in `config/features.yml` with `enabled: false`, and release in a separate PR.
+- Fix a reported problem at its source, not in every place that looks similar.
+- When you replace a code path, carry over its guards, permissions, and limits.
+- List anything you left out on purpose in the PR description.
+- Avoid writing specs unless explicitly asked.
+- Before you call a change done, run the specs closest to it. For a UI change, run the app, sign in as a user from `db/seeds.rb`, and use the changed screen. If you can't open a browser, say the UI change is unverified.
+
+## Code Review Rules
+
+These rules apply to whoever writes a review and whoever receives it.
+
+- Score each finding from 1 to 5 for how likely it is in normal use and from 1 to 5 for how bad it would be. Write both scores next to the finding.
+- Fix findings whose scores multiply to 6 or more. List the rest in the PR description or a follow-up issue, and leave the code alone.
+- When you receive a finding, score it yourself before changing code. If the product is below 6, reply with your scores.
+- Always fix a security problem a user or outside caller can reach, data loss, and wrong billing, whatever the score.
+- Flag code that handles cases nobody asked for.
+- Do not flag non-English locale changes in Crowdin translation sync PRs. Do check that protected terms are unchanged.
 
 ## Backend
 
-- **Database foreign keys**: Prefer Rails associations and callbacks over database foreign-key constraints. Add a database foreign key only when there is a clear need and after checking deletion behavior and production migration/locking risks. Existing foreign keys alone are not a reason to add new ones.
+- Follow RuboCop (150 character lines). Use compact `module/class` definitions, not nested ones.
 - **Migrations**: Create migrations with `bundle exec rails g migration <Name>` so the version is a real timestamp. Never hand-write or round the version (e.g. `20260925000000`); rounded versions collide across branches and break `db:migrate`.
 - **No custom SQL**: Write queries and data migrations in Ruby with ActiveRecord (`where`, `find_each`, `update!`). Do not use `execute`, SQL heredocs or raw SQL strings.
-- Build for the expected production path first. Do not add speculative guards, fallbacks, retries, or edge-case handling unless the caller can actually hit that case or production has proven it necessary.
-- Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes unless a proven independent path bypasses that point.
+- **Database foreign keys**: Prefer Rails associations and callbacks over database foreign-key constraints. Add a database foreign key only when there is a clear need and after checking deletion behavior and production migration/locking risks. Existing foreign keys alone are not a reason to add new ones.
+- **Models**: Validate presence/uniqueness and add proper indexes. Keep relationships, association traversal, and reusable queries in models or scopes, and return an ActiveRecord relation when callers need to filter or order the result.
+- **Controllers**: Coordinate the request and prepare the response. Use strong params, named route helpers, and model methods instead of dense controller chains or manually assembled paths.
+- **Services**: Put logic for a new feature in its own service, not in a shared model such as `Conversation`. Name classes by what they act on and what they do, e.g., `Messages::StatusUpdateService`.
+- **Settings**: Add a key to an existing JSONB column, or an installation config read through `GlobalConfig` and edited in Super Admin. Do not add environment variables for operator settings.
+- **Errors**: Use custom exceptions from `lib/custom_exceptions/`. When an impossible or misconfigured state would indicate a setup/deployment bug, let it fail loudly. For locked/internal configs that must exist in production, use direct reads (`find`, `find_by!`, required hash keys), not silent fallbacks.
 - Validate input where it is used, so invalid input returns `422 Unprocessable Entity` instead of reaching Sentry:
   - If the value is saved to the database (a column or a key in a JSON/JSONB column), validate it in the model with validations or the existing schema validator. This covers every write path, and `ActiveRecord::RecordInvalid` already returns `422`. Do not repeat the same check in the controller.
   - If the value is only used to process the request together with other params (filters, lookups, service arguments) and is not stored as-is, validate it at the controller or request boundary, reusing existing errors, before it reaches services or queries.
 - Accept only the documented type, shape, and value. Do not add compatibility coercions for malformed client values; fix official clients instead.
-- When an impossible or misconfigured state would indicate a setup/deployment bug, let it fail loudly instead of silently skipping behavior.
-- For locked/internal configs that must exist in production, prefer direct reads (`find`, `find_by!`, required hash keys) over silent fallbacks.
-- Operator settings belong in installation configs read through `GlobalConfig` and edited in Super Admin, not in environment variables.
-- Do not add validation or response checks unless the code uses the result or the check changes behavior meaningfully.
+- Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes.
+- Do not add validation or response checks unless the code uses the result or the check changes behavior.
 - Prefer existing repo dependencies/client libraries over hand-rolled protocol code for auth, signing, parsing, or API plumbing.
-- Avoid one-use private helpers unless they hide real complexity or make the main flow meaningfully easier to read.
-- Optimize for human-readable, idiomatic Rails code. Prefer clear model methods, associations, scopes, and named route helpers over dense controller chains or manually assembled paths.
-- Keep record relationships, association traversal, and reusable database queries in models or model scopes. Return an ActiveRecord relation when callers need to filter or order the result.
-- Controllers should coordinate requests and prepare responses. Keep request-specific URL generation and presentation logic in controllers or view helpers. Before finalizing controller changes, check that relationship and traversal logic lives in the model layer.
-- Put logic for a new feature in its own service instead of adding it to a shared model such as `Conversation`.
-- Prefer the smallest production-ready change that solves the current problem.
-- Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
-- Break down complex tasks into small, testable units
-- Iterate after confirmation
-- Avoid writing specs unless explicitly asked
-- Remove dead/unreachable/unused code
-- Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
-- In specs, avoid custom helper methods for setup/data. Prefer `let` values and direct per-example setup; only add a helper when it removes meaningful repeated complexity.
-- Prefer `with_modified_env` (from spec helpers) over stubbing `ENV` directly in specs
-- Specs in parallel/reloading environments: prefer comparing `error.class.name` over constant class equality when asserting raised errors
+- Avoid one-use private helpers unless they hide real complexity.
+- In specs, prefer `let` values and direct per-example setup over custom helper methods, use `with_modified_env` instead of stubbing `ENV`, and compare `error.class.name` instead of constant classes when asserting raised errors.
 
 ## Channels and integrations
 
-- **Start with the main flow.** The first PR for a channel or integration supports the main message types and events and lists the rest as not included. Handle webhook events from an explicit list, e.g., `SUPPORTED_EVENTS` in `Webhooks::InstagramEventsJob`, and acknowledge the rest without doing work.
-- **Reuse the existing building blocks**:
-  - Outgoing messages go through `Base::SendOnChannelService`.
-  - Webhooks go through `app/controllers/webhooks/<provider>_controller.rb` and a job in `app/jobs/webhooks/`, with incoming payloads built in `app/builders/messages/`.
-  - Integrations are an `Integrations::Hook` with an entry in `config/integration/apps.yml`, and their logic lives in `lib/integrations/<provider>/`.
-  - Use the provider's Ruby gem when one exists.
-- **Handle each provider error on purpose.** Do not wrap the call in a bare `rescue`.
-  - For an authorization error, call `authorization_error!` or `prompt_reauthorization!` from `Reauthorizable` so the user is asked to reconnect.
-  - For a known, harmless error, log it and link the provider's documentation in a comment.
-  - For a failed send, mark the message failed with `Messages::StatusUpdateService`.
-  - For an unknown error, report it with `ChatwootExceptionTracker`.
-  - Log the error class, code, and request ID. Do not log response bodies, credentials, or customer data.
-- **Add retries only after production shows the need.** Keep them narrow, with a short fixed limit, and build them on existing helpers such as `SafeFetch` instead of a new HTTP client.
+- Outgoing messages go through `Base::SendOnChannelService`.
+- Webhooks go through `app/controllers/webhooks/<provider>_controller.rb` and a job in `app/jobs/webhooks/`. Incoming payloads are built in `app/builders/messages/`. Handle events from an explicit list, e.g., `SUPPORTED_EVENTS` in `Webhooks::InstagramEventsJob`, and acknowledge the rest without doing work.
+- Integrations are an `Integrations::Hook` with an entry in `config/integration/apps.yml`, and their logic lives in `lib/integrations/<provider>/`. Use the provider's Ruby gem when one exists.
+- Handle each provider error on purpose, not with a bare `rescue`:
+  - Authorization error: call `authorization_error!` or `prompt_reauthorization!` from `Reauthorizable` so the user is asked to reconnect.
+  - Known, harmless error: log it and link the provider's documentation in a comment.
+  - Failed send: mark the message failed with `Messages::StatusUpdateService`.
+  - Unknown error: report it with `ChatwootExceptionTracker`.
+- Log the error class, code, and request ID. Do not log response bodies, credentials, or customer data.
+- Add retries only after production shows the need, with a short fixed limit, built on existing helpers such as `SafeFetch`.
 
 ## Frontend
 
-- **Use `components-next/` for all new UI.** Build from `Button`, `Dialog`, `DropdownMenu`, `EmptyStateLayout`, `TeleportWithDirection`, and the other components in `app/javascript/dashboard/components-next/`. Do not use `woot-button` or `woot-modal`. Use `components-next/` for message bubbles; the old bubbles are being removed.
-- **Copy the nearest sibling.** When you add a component, find the most similar existing one and follow it, e.g., `BulkMacroActions.vue` follows `BulkTeamActions`. Do not invent a new visual style or layout.
-- **Prefer existing design-system utilities and shared composables**, such as `useStore`, `useMapGetter`, `useAlert`, `useAccount`, `usePolicy`, `useUISettings`, and `useAbortableRequest` from `dashboard/composables/`, and VueUse. Use shared request-cancellation utilities instead of local `AbortController` logic.
-- **Handle errors simply.** A failed request usually shows one `useAlert` toast. Add a separate error or empty view only when the screen needs it.
-- **Vue API**: Write new components with the Composition API and `<script setup>`. When you edit an existing Options API component, add the composable you need through `setup()` instead of converting the whole file.
-- **Migrate in small slices.** Move one mixin, one page, or one component per PR, and delete the old version when nothing uses it.
-- Use typography utilities instead of manually recreating font styles.
-- Use logical Tailwind utilities (`ms`, `me`, `ps`, `pe`, `start`, `end`, `border-s`) for direction-aware layouts. Use `ltr:` and `rtl:` only for utilities that have no logical form, such as `rotate` or `divide-x-reverse`.
-- Use `rem` for arbitrary CSS dimensions; preserve native numeric values required by chart/SVG APIs.
+- Use ESLint (Airbnb base + Vue 3 recommended). Name components in PascalCase and events in camelCase.
+- Write new components with the Composition API and `<script setup>` at the top. Use PropTypes. No bare strings in templates; use i18n.
+- Build new UI from `app/javascript/dashboard/components-next/`, including message bubbles. Follow the most similar existing component, and do not invent a new visual style.
+- Use the shared composables in `dashboard/composables/` and VueUse. Use shared request-cancellation utilities instead of local `AbortController` logic.
+- Show a failed request with one `useAlert` toast. Add a separate error or empty view only when the screen needs it.
 - Extract repeated or domain-specific strings, thresholds, colors, and durations into named constants.
+- **Styling**: Use Tailwind utility classes only. No custom CSS, scoped CSS, or static inline styles; a `:style` binding is fine for a value computed at runtime. Use the `n-*` color tokens and typography utilities from `tailwind.config.js`, and add new animations there.
+- Use logical Tailwind utilities (`ms`, `me`, `ps`, `pe`, `start`, `end`, `border-s`). Use `ltr:` and `rtl:` only for utilities with no logical form, such as `rotate`.
+- Use `rem` for arbitrary CSS dimensions; keep native numeric values required by chart/SVG APIs.
 
-## Styling
+## Old patterns not to copy
 
-- **Tailwind Only**:
-  - Do not write custom CSS
-  - Do not use scoped CSS
-  - Do not use static inline styles. A `:style` binding is fine for a value computed at runtime.
-  - Always use Tailwind utility classes
-- **Colors**: Use the `n-*` design tokens, e.g., `text-n-slate-11` and `border-n-weak`. Refer to `tailwind.config.js` for color definitions.
-- Add new animations and keyframes to `tailwind.config.js`, not to a `<style>` block.
+- Options API components and mixins still exist. When you edit one, add the composable you need through `setup()`; do not convert the whole file or copy the pattern into new code.
+- `woot-button`, `woot-modal`, and the old message bubbles are being replaced by `components-next/`. Do not use them in new code.
+- Many templates still use `ltr:`/`rtl:` pairs and pixel values. New code uses logical utilities and `rem`.
 
-## Enterprise Edition Notes
+## Gotchas
 
-- Chatwoot has an Enterprise overlay under `enterprise/` that extends/overrides OSS code.
-- When you add or modify core functionality, always check for corresponding files in `enterprise/` and keep behavior compatible.
-- Follow the Enterprise development practices documented here:
-  - https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38
+- The `feature_flags` column is full. New flags in `config/features.yml` must set `column: feature_flags_ext_1` and be appended at the end. Never reorder or remove existing entries, because bit positions are stored per account.
+- `CLAUDE.md` and `.windsurf/rules/chatwoot.md` are links to this file. Edit `AGENTS.md`.
 
-Practical checklist for any change impacting core logic or public APIs
-- Search for related files in both trees before editing (e.g., `rg -n "FooService|ControllerName|ModelName" app enterprise`).
-- If adding new endpoints, services, or models, consider whether Enterprise needs:
-  - An override (e.g., `enterprise/app/...`), or
-  - An extension point (e.g., `prepend_mod_with`, hooks, configuration) to avoid hard forks.
-- Avoid hardcoding instance- or plan-specific behavior in OSS; prefer configuration, feature flags, or extension points consumed by Enterprise.
-- Keep request/response contracts stable across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs.
-- When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
-- Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
-- When modifying existing OSS features for Enterprise-only behavior, add an Enterprise module (via `prepend_mod_with`/`include_mod_with`) instead of editing OSS files directly—especially for policies, controllers, and services. For Enterprise-exclusive features, place code directly under `enterprise/`.
+## Enterprise Edition
 
-## Project-Specific
+- Before you change core functionality, search both trees (e.g., `rg -n "FooService|ControllerName|ModelName" app enterprise`) and keep behavior compatible.
+- To change OSS behavior for Enterprise, add an Enterprise module with `prepend_mod_with`/`include_mod_with` instead of editing the OSS file, especially for policies, controllers, and services. Put Enterprise-only features directly under `enterprise/`.
+- Do not hardcode instance- or plan-specific behavior in OSS; use configuration, feature flags, or extension points.
+- Keep request/response contracts the same across OSS and Enterprise, and mirror renames or moves of shared code in `enterprise/`.
+- Put Enterprise specs under `spec/enterprise`, mirroring the OSS layout.
+- Practices: https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38
 
-- **Translations**:
-  - For product and source-string changes, only update `en.yml` and `en.json`; other languages are handled through Crowdin and the community
-  - Crowdin-generated translation sync PRs may update non-English locale files; do not flag those changes solely for modifying translated locale files
-  - Preserve product and brand names, OAuth scopes, API values, and other machine-readable identifiers unless an official localized form exists
-  - When reviewing Crowdin syncs, verify protected terms remain unchanged. Add newly introduced product names, brand names, and machine-readable identifiers to the Crowdin glossary as non-translatable, and keep the glossary current
-  - Backend i18n → `en.yml`, Frontend i18n → `en.json`
-- **AI models**: Before adding or changing an OpenAI model in `config/llm.yml` or code, check the deprecations page (https://developers.openai.com/api/docs/deprecations). Do not use a model that has a shutdown date; use the replacement the page recommends. Pick models through `config/llm.yml` and `Llm::FeatureRouter`, not hard-coded names.
-- **Branding / white-labeling**: For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+## Translations, AI models, and branding
 
-## Worktree Workflow
+- For product and source-string changes, only update `en.yml` (backend) and `en.json` (frontend). Other languages come through Crowdin.
+- Preserve product and brand names, OAuth scopes, API values, and other machine-readable identifiers unless an official localized form exists. Add new ones to the Crowdin glossary as non-translatable.
+- Before adding or changing an OpenAI model, check https://developers.openai.com/api/docs/deprecations and do not use a model with a shutdown date. Pick models through `config/llm.yml` and `Llm::FeatureRouter`, not hard-coded names.
+- For user-facing strings that contain "Chatwoot" and should adapt to branded or self-hosted installs, apply `replaceInstallationName` from `shared/composables/useBranding` in the UI layer.
 
-- Use a separate git worktree + branch per task to keep changes isolated.
-- Give each worktree its own database, Rails and Vite ports, Redis DB index, and Overmind socket/title so multiple instances can run at the same time.
-- Codex users can generate these values with a local setup script in `.codex/environments/environment.toml` and a `Procfile.worktree`. Git ignores both.
+## Worktrees
+
+- Use a separate git worktree and branch per task.
+- Give each worktree its own database, Rails and Vite ports, Redis DB index, and Overmind socket/title so several can run at once.
 
 ## Commit Messages
 
