@@ -510,6 +510,20 @@ describe('#Inbox Helpers', () => {
       ).toBe('Support - help@example.com');
     });
 
+    it('translates channel name fallback when a translation function is provided', () => {
+      const mockT = key =>
+        key === 'INBOX_MGMT.CHANNELS.TWITTER_PROFILE' ? 'تويتر' : key;
+      expect(
+        getInboxDisplayName(
+          {
+            name: 'Sales',
+            channel_type: INBOX_TYPES.TWITTER,
+          },
+          mockT
+        )
+      ).toBe(`Sales ${IDENTIFIER_SEPARATOR} تويتر`);
+    });
+
     it('handles empty, null, or nameless inboxes gracefully', () => {
       expect(getInboxDisplayName(null)).toBe('');
       expect(getInboxDisplayName(undefined)).toBe('');

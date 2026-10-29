@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
 import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
@@ -10,7 +11,8 @@ const props = defineProps({
   },
 });
 
-const displayName = computed(() => getInboxDisplayName(props.inbox));
+const { t } = useI18n();
+const displayName = computed(() => getInboxDisplayName(props.inbox, t));
 </script>
 
 <template>

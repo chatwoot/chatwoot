@@ -113,6 +113,21 @@ const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
 
 export const IDENTIFIER_SEPARATOR = '·';
 
+export const INBOX_CHANNEL_I18N_KEYS = {
+  [INBOX_TYPES.WEB]: 'INBOX_MGMT.CHANNELS.WEB_WIDGET',
+  [INBOX_TYPES.FB]: 'INBOX_MGMT.CHANNELS.MESSENGER',
+  [INBOX_TYPES.TWITTER]: 'INBOX_MGMT.CHANNELS.TWITTER_PROFILE',
+  [INBOX_TYPES.TWILIO]: 'INBOX_MGMT.CHANNELS.TWILIO_SMS',
+  [INBOX_TYPES.WHATSAPP]: 'INBOX_MGMT.CHANNELS.WHATSAPP',
+  [INBOX_TYPES.SMS]: 'INBOX_MGMT.CHANNELS.SMS',
+  [INBOX_TYPES.EMAIL]: 'INBOX_MGMT.CHANNELS.EMAIL',
+  [INBOX_TYPES.TELEGRAM]: 'INBOX_MGMT.CHANNELS.TELEGRAM',
+  [INBOX_TYPES.LINE]: 'INBOX_MGMT.CHANNELS.LINE',
+  [INBOX_TYPES.API]: 'INBOX_MGMT.CHANNELS.API',
+  [INBOX_TYPES.INSTAGRAM]: 'INBOX_MGMT.CHANNELS.INSTAGRAM',
+  [INBOX_TYPES.TIKTOK]: 'INBOX_MGMT.CHANNELS.TIKTOK',
+};
+
 // Facebook, Instagram, TikTok, and X initialize the editable inbox name from
 // the provider account name; their opaque routing IDs should not be displayed.
 const INBOX_IDENTIFIER_RESOLVERS = {
@@ -147,8 +162,30 @@ export const getInboxIdentifier = inbox => {
   return INBOX_IDENTIFIER_RESOLVERS[channelType]?.(inbox) || '';
 };
 
-export const getInboxChannelName = inbox => {
+export const getInboxChannelName = (inbox, t) => {
   const channelType = inbox?.channel_type || inbox?.channelType;
+  if (!channelType) return '';
+
+  const medium = inbox?.medium;
+  const phone = inbox?.phone_number || inbox?.phoneNumber;
+  const isTwilioWhatsApp =
+    channelType === INBOX_TYPES.TWILIO &&
+    (medium === 'whatsapp' || phone?.startsWith('whatsapp'));
+
+  if (typeof t === 'function') {
+    if (isTwilioWhatsApp) {
+      return t('INBOX_MGMT.CHANNELS.WHATSAPP');
+    }
+    const key = INBOX_CHANNEL_I18N_KEYS[channelType];
+    if (key) {
+      const translated = t(key);
+      if (translated && translated !== key) {
+        return translated;
+      }
+    }
+  }
+
+  if (isTwilioWhatsApp) return 'WhatsApp';
   switch (channelType) {
     case INBOX_TYPES.WEB:
       return 'Website';
@@ -156,13 +193,8 @@ export const getInboxChannelName = inbox => {
       return 'Messenger';
     case INBOX_TYPES.TWITTER:
       return 'Twitter';
-    case INBOX_TYPES.TWILIO: {
-      const medium = inbox?.medium;
-      const phone = inbox?.phone_number || inbox?.phoneNumber;
-      return medium === 'whatsapp' || phone?.startsWith('whatsapp')
-        ? 'WhatsApp'
-        : 'Twilio SMS';
-    }
+    case INBOX_TYPES.TWILIO:
+      return 'Twilio SMS';
     case INBOX_TYPES.WHATSAPP:
       return 'WhatsApp';
     case INBOX_TYPES.SMS:
@@ -186,20 +218,34 @@ export const getInboxChannelName = inbox => {
 
 export const getInboxDisplayName = (
   inbox,
-  separator = IDENTIFIER_SEPARATOR
+  separator = IDENTIFIER_SEPARATOR,
+  t
 ) => {
   if (!inbox) return '';
   const name = inbox.name || '';
   if (!name) return '';
 
-  const identifier = getInboxIdentifier(inbox);
-  if (identifier) {
-    return `${name} ${separator} ${identifier}`;
+  let sep = separator;
+  let translateFn = t;
+  if (typeof separator === 'function') {
+    translateFn = separator;
+    sep = IDENTIFIER_SEPARATOR;
   }
 
-  const channelName = getInboxChannelName(inbox);
+  const trimmedSep = typeof sep === 'string' ? sep : IDENTIFIER_SEPARATOR;
+  const delimiter =
+    trimmedSep.startsWith(' ') || trimmedSep.endsWith(' ')
+      ? trimmedSep
+      : ` ${trimmedSep} `;
+
+  const identifier = getInboxIdentifier(inbox);
+  if (identifier) {
+    return `${name}${delimiter}${identifier}`;
+  }
+
+  const channelName = getInboxChannelName(inbox, translateFn);
   if (channelName && name.toLowerCase() !== channelName.toLowerCase()) {
-    return `${name} ${separator} ${channelName}`;
+    return `${name}${delimiter}${channelName}`;
   }
 
   return name;
