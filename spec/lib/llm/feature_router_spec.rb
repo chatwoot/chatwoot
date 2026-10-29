@@ -16,20 +16,20 @@ RSpec.describe Llm::FeatureRouter do
       expect(resolved).to eq(
         feature: 'editor',
         provider: 'openai',
-        model: 'gpt-4.1-mini',
+        model: 'gpt-6-luna',
         source: :default
       )
     end
 
     it 'uses a valid account model override' do
-      account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+      account.update!(captain_models: { 'editor' => 'gpt-5.1' })
 
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
         feature: 'editor',
         provider: 'openai',
-        model: 'gpt-4.1',
+        model: 'gpt-5.1',
         source: :account_override
       )
     end
@@ -119,7 +119,7 @@ RSpec.describe Llm::FeatureRouter do
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
-        model: 'gpt-4.1-mini',
+        model: 'gpt-6-luna',
         source: :default
       )
     end
@@ -130,7 +130,7 @@ RSpec.describe Llm::FeatureRouter do
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
-        model: 'gpt-4.1-mini',
+        model: 'gpt-6-luna',
         source: :default
       )
     end

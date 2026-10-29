@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useAlert } from 'dashboard/composables';
+import { useEmitter } from 'dashboard/composables/emitter';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -12,6 +13,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import wootConstants from 'dashboard/constants/globals';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import CopilotThreadsAPI from 'dashboard/api/captain/copilotThreads';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
@@ -35,6 +37,12 @@ const isSmallScreen = computed(
 
 const selectedCopilotThreadId = ref(null);
 const isLoadingSelectedThread = ref(false);
+// The conversation the open thread last answered about. A workflow thread stays open across conversations, so its
+// suggested reply can only be used in the conversation it was written for.
+const threadConversationId = ref(null);
+const canUseReply = computed(
+  () => threadConversationId.value === currentChat.value?.id
+);
 const threads = ref([]);
 const historyPage = ref(0);
 const hasMoreThreads = ref(false);
@@ -113,13 +121,36 @@ const shouldShowCopilotPanel = computed(() => {
   );
 });
 
+const isWorkflowsEnabled = computed(() =>
+  isFeatureEnabledonAccount.value(
+    currentAccountId.value,
+    FEATURE_FLAGS.COPILOT_WORKFLOWS
+  )
+);
+
 const handleReset = () => {
   selectionVersion += 1;
   selectedCopilotThreadId.value = null;
+  threadConversationId.value = null;
   isLoadingSelectedThread.value = false;
 };
 
-watch(() => currentChat.value?.id, handleReset);
+// A workflow thread works across conversations, and its answers and approval cards link to them, so opening one
+// keeps the thread. Otherwise a thread is about the conversation it was started in.
+watch(
+  () => currentChat.value?.id,
+  () => {
+    if (!isWorkflowsEnabled.value) handleReset();
+  }
+);
+
+// Events sent while the cable was down are lost, so the open thread is read again from the server.
+useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, () => {
+  if (!selectedCopilotThreadId.value) return;
+  store.dispatch('copilotMessages/fetchThread', {
+    threadId: selectedCopilotThreadId.value,
+  });
+});
 
 const loadThreads = async (page = 1) => {
   const version = accountVersion;
@@ -166,7 +197,9 @@ const selectThread = async thread => {
   const version = selectionVersion;
   const currentVersion = accountVersion;
   const previousThreadId = selectedCopilotThreadId.value;
+  const previousConversationId = threadConversationId.value;
   selectedCopilotThreadId.value = thread.id;
+  threadConversationId.value = currentChat.value?.id;
   isLoadingSelectedThread.value = true;
 
   try {
@@ -176,6 +209,7 @@ const selectThread = async thread => {
   } catch (error) {
     if (selectionVersion === version && accountVersion === currentVersion) {
       selectedCopilotThreadId.value = previousThreadId;
+      threadConversationId.value = previousConversationId;
       useAlert(error.message);
     }
   } finally {
@@ -210,12 +244,14 @@ const sendMessage = async payload => {
 
   try {
     if (selectedCopilotThreadId.value) {
+      const conversationId = currentChat.value?.id;
       await store.dispatch('copilotMessages/create', {
         assistant_id: activeAssistant.value.id,
-        conversation_id: currentChat.value?.id,
+        conversation_id: conversationId,
         threadId: selectedCopilotThreadId.value,
         message,
       });
+      threadConversationId.value = conversationId;
     } else {
       const currentVersion = accountVersion;
       const accountId = currentAccountId.value;
@@ -232,8 +268,12 @@ const sendMessage = async payload => {
       ) {
         return true;
       }
-      if (currentChat.value?.id === conversationId) {
+      if (
+        isWorkflowsEnabled.value ||
+        currentChat.value?.id === conversationId
+      ) {
         selectedCopilotThreadId.value = response.id;
+        threadConversationId.value = conversationId;
       }
       if (!threads.value.some(thread => thread.id === response.id)) {
         threads.value.unshift(response);
@@ -276,6 +316,7 @@ onMounted(() => {
       :is-loading-threads="isLoadingThreads"
       :is-loading-selected-thread="isLoadingSelectedThread"
       :can-suggest-reply="canSuggestReply"
+      :can-use-reply="canUseReply"
       :on-send-message="sendMessage"
       @set-assistant="setAssistant"
       @select-thread="selectThread"

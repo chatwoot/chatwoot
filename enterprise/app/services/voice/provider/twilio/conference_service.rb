@@ -81,6 +81,10 @@ class Voice::Provider::Twilio::ConferenceService
   # The agent's connection is on its way from here, before Twilio asks for its instructions
   def claim_call!(user, attempt)
     call.with_lock do
+      # The ring time is up and the caller is being told so; a join now would find nobody. The mark is checked on
+      # its own, since the move's webhooks can end the call before the timeout records it as unanswered.
+      raise Voice::CallErrors::CallAlreadyEnded, I18n.t('errors.voice.call_timed_out') if call.ring_timeout_in_progress?
+
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
       next if attempt.blank?

@@ -20,7 +20,6 @@ gem 'kaminari'
 gem 'responders', '>= 3.1.1'
 gem 'rest-client'
 gem 'telephone_number'
-gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
 gem 'email-provider-info'
@@ -265,7 +264,6 @@ group :development, :test do
   gem 'climate_control'
   gem 'debug', '~> 1.8'
   gem 'factory_bot_rails', '>= 6.4.3'
-  gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
@@ -279,6 +277,4 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'simplecov', '>= 0.21', require: false
   gem 'skooma'
-  gem 'spring'
-  gem 'spring-watcher-listen'
 end
