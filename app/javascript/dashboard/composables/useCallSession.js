@@ -234,6 +234,8 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
   const holdCall = async ({ conversationId, inboxId, callSid, hold }) => {
     try {
       await VoiceAPI.setHold({ inboxId, conversationId, callSid, hold });
+      // The mic now belongs to whichever call is active, so a late reply for an ended call leaves it alone
+      if (callsStore.activeCall?.callSid !== callSid) return;
       TwilioVoiceClient.setMuted(hold);
       callsStore.setCallOnHold(callSid, hold);
     } catch (error) {
