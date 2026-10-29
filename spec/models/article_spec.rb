@@ -232,4 +232,33 @@ RSpec.describe Article do
       expect(positions).to be_empty
     end
   end
+
+  describe '#noindex?' do
+    let(:article) { build(:article, portal: portal_1, category: category_1, author: user, account: account) }
+
+    it 'is true only when meta noindex is true' do
+      expect(article.noindex?).to be(false)
+
+      article.meta = { 'noindex' => true }
+      expect(article.noindex?).to be(true)
+    end
+  end
+
+  describe 'noindex validation' do
+    let(:article) { build(:article, portal: portal_1, category: category_1, author: user, account: account) }
+
+    it 'accepts a boolean or a missing value' do
+      [true, false, nil].each do |value|
+        article.meta = { 'noindex' => value }
+        expect(article).to be_valid
+      end
+    end
+
+    it 'rejects non-boolean values' do
+      article.meta = { 'noindex' => 'true' }
+
+      expect(article).not_to be_valid
+      expect(article.errors[:meta]).to include('noindex must be true or false')
+    end
+  end
 end

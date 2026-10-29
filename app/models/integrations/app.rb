@@ -140,8 +140,8 @@ class Integrations::App
   end
 
   def shopify_enabled?(account)
-    Shopify::FeatureGate.enabled?(account: account) &&
-      GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
+    Shopify::FeatureGate.custom_apps_enabled?(account: account) ||
+      (Shopify::FeatureGate.enabled?(account: account) && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?)
   end
 
   def notion_enabled?(account)
