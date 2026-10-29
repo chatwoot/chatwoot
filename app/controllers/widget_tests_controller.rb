@@ -5,8 +5,15 @@ class WidgetTestsController < ActionController::Base
   before_action :ensure_widget_style
   before_action :ensure_dark_mode
 
+  DISPLAY_PARAMS = %i[position type widget_style dark_mode].freeze
+
   def index
     render
+  end
+
+  def update
+    @web_widget.update!(hmac_mandatory: ActiveModel::Type::Boolean.new.cast(params[:hmac_mandatory]))
+    redirect_to widget_tests_path(params.permit(*DISPLAY_PARAMS).merge(inbox_id: @inbox.id))
   end
 
   private
@@ -28,7 +35,7 @@ class WidgetTestsController < ActionController::Base
   end
 
   def inbox_id
-    @inbox_id ||= params[:inbox_id] || Channel::WebWidget.first.inbox.id
+    @inbox_id ||= params[:inbox_id] || params[:id] || Channel::WebWidget.first.inbox.id
   end
 
   def ensure_web_widget

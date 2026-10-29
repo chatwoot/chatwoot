@@ -3,175 +3,384 @@
   <%# Tools column for testing the widget. Add a new <section class="tool"> for each tool. %>
   <style>
     body { margin: 0; background: #f6f7f8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; color: #1f2933; }
-    .tools-column { position: fixed; top: 0; bottom: 0; <%= @widget_position == 'right' ? 'left' : 'right' %>: 0; width: 22rem; box-sizing: border-box; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.8125rem; }
+    .tools-column { position: fixed; top: 0; bottom: 0; <%= @widget_position == 'right' ? 'left' : 'right' %>: 0; width: 24rem; box-sizing: border-box; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.8125rem; }
     .tool { padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; }
+    .tool h2 { margin: 0 0 0.625rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #6b7280; }
+    .tool h3 { margin: 0.875rem 0 0.5rem; font-size: 0.75rem; font-weight: 600; color: #374151; }
     .tool label { display: block; margin-bottom: 0.5rem; color: #6b7280; }
-    .tool label:last-child { margin-bottom: 0; }
-    .tool input { display: block; width: 100%; box-sizing: border-box; margin-top: 0.25rem; padding: 0.375rem 0.5rem; font: inherit; color: #1f2933; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; }
-    .tool button { width: 100%; padding: 0.375rem 0.5rem; font: inherit; color: #1f2933; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; cursor: pointer; }
+    .tool input, .tool select { display: block; width: 100%; box-sizing: border-box; margin-top: 0.25rem; padding: 0.375rem 0.5rem; font: inherit; color: #1f2933; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; }
+    .tool button { width: 100%; padding: 0.375rem 0.5rem; font: inherit; color: #1f2933; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; cursor: pointer; text-align: center; }
     .tool button:hover { background: #f9fafb; }
     .tool button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .tool button code { font-size: 0.6875rem; color: #6b7280; }
     .tool .row { display: flex; gap: 0.5rem; }
-    .tool .note, .tool .status { margin: 0 0 0.625rem; color: #6b7280; }
-    .tool .status.verified { color: #15803d; }
-    .tool .status.failed { color: #b91c1c; }
-    .tool .segmented { display: flex; margin: 0.75rem 0 0.625rem; border: 1px solid #d1d5db; border-radius: 0.375rem; overflow: hidden; }
+    .tool .row > * { flex: 1; min-width: 0; }
+    .tool .stack { display: flex; flex-direction: column; gap: 0.375rem; }
+    .tool .inbox-line { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin: 0 0 0.625rem; }
+    .tool .badge { padding: 0 0.375rem; border-radius: 0.25rem; font-size: 0.6875rem; background: #f3f4f6; color: #374151; }
+    .tool .badge.on { background: #dcfce7; color: #15803d; }
+    .tool .read-output { margin: 0.625rem 0 0; padding: 0.5rem; max-height: 16rem; overflow: auto; background: #f9fafb; border-radius: 0.375rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; white-space: pre-wrap; word-break: break-word; }
+    .tool .note { margin: 0 0 0.625rem; color: #6b7280; }
+    .tool .hash { margin: 0 0 0.625rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.625rem; color: #9ca3af; word-break: break-all; }
+    .tool .segmented { display: flex; margin: 0.25rem 0 0.375rem; border: 1px solid #d1d5db; border-radius: 0.375rem; overflow: hidden; }
     .tool .segmented label { flex: 1; margin: 0; cursor: pointer; }
     .tool .segmented label + label { border-left: 1px solid #d1d5db; }
     .tool .segmented input { position: absolute; width: auto; margin: 0; opacity: 0; }
     .tool .segmented span { display: block; padding: 0.375rem 0.5rem; text-align: center; }
     .tool .segmented input:checked + span { color: #1f2933; background: #f3f4f6; font-weight: 600; }
     .tool .segmented input:focus-visible + span { outline: 2px solid #2781f6; outline-offset: -2px; }
-    .tool.fill { flex: 1; min-height: 12rem; display: flex; flex-direction: column; }
+    .tool.fill { flex: 1; min-height: 14rem; display: flex; flex-direction: column; }
     .tool .log { flex: 1; min-height: 0; margin: 0 0 0.625rem; padding: 0; overflow-y: auto; list-style: none; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; }
     .tool .log li { padding: 0.25rem 0; border-bottom: 1px solid #f3f4f6; word-break: break-word; }
     .tool .log time { color: #9ca3af; }
-    .tool .log .detail { color: #6b7280; }
+    .tool .log .ok { color: #15803d; }
+    .tool .log .err { color: #b91c1c; }
+    .tool .log .step { color: #7c3aed; }
+    .tool .log details { margin-top: 0.125rem; }
+    .tool .log summary { cursor: pointer; color: #6b7280; }
+    .tool .log pre { margin: 0.25rem 0 0; padding: 0.375rem; max-height: 12rem; overflow: auto; background: #f9fafb; border-radius: 0.25rem; white-space: pre-wrap; }
     .tool .log:empty::after { content: "No events yet"; color: #9ca3af; }
   </style>
   <aside class="tools-column">
     <section class="tool">
-      <form method="get" onsubmit="return beforeIdentify(this)">
-        <input type="hidden" name="inbox_id" value="<%= @inbox.id %>" />
-        <% %w[position type widget_style dark_mode].each do |key| %>
-          <% if params[key].present? %><input type="hidden" name="<%= key %>" value="<%= params[key] %>" /><% end %>
-        <% end %>
-        <% invalid_hash = params[:hash] == 'invalid' %>
-        <% if params[:identifier].blank? %>
-          <p class="status" id="hmac-status">Anonymous visitor, not verified</p>
-        <% elsif invalid_hash %>
-          <p class="status" id="hmac-status">Sending an invalid hash for <code><%= params[:identifier] %></code>…</p>
-        <% else %>
-          <p class="status verified" id="hmac-status">Verified as <code><%= params[:identifier] %></code></p>
-        <% end %>
-        <label>Identifier <input name="identifier" value="<%= params[:identifier] %>" placeholder="user-123" required /></label>
-        <label>Email <input name="email" type="email" value="<%= params[:email] %>" placeholder="jane@example.com" /></label>
-        <label>Name <input name="name" value="<%= params[:name] %>" placeholder="Jane Doe" /></label>
+      <h2>Inbox</h2>
+      <p class="inbox-line">
+        <span><%= @inbox.name %> (#<%= @inbox.id %>)</span>
+        <span class="badge <%= 'on' if @web_widget.hmac_mandatory %>">HMAC mandatory <%= @web_widget.hmac_mandatory ? 'on' : 'off' %></span>
+      </p>
+      <%= button_to "Turn HMAC mandatory #{@web_widget.hmac_mandatory ? 'off' : 'on'}",
+                    widget_test_path(@inbox),
+                    method: :patch,
+                    params: params.permit(*WidgetTestsController::DISPLAY_PARAMS).to_h.merge(hmac_mandatory: !@web_widget.hmac_mandatory) %>
+    </section>
+
+    <section class="tool">
+      <h2>Identity</h2>
+      <form id="identity" onsubmit="return false" oninput="updateHashPreview()">
+        <label>Identifier <input name="identifier" placeholder="user-123" /></label>
+        <label>Email <input name="email" type="email" placeholder="jane@example.com" /></label>
+        <label>Name <input name="name" placeholder="Jane Doe" /></label>
+        <label>Phone <input name="phone_number" placeholder="+15555550100" /></label>
         <div class="segmented" role="radiogroup" aria-label="Hash to send">
-          <label><input type="radio" name="hash" value="valid" <%= 'checked' unless invalid_hash %> onchange="updateHashChoice(this.form)" /><span>Valid hash</span></label>
-          <label><input type="radio" name="hash" value="invalid" <%= 'checked' if invalid_hash %> onchange="updateHashChoice(this.form)" /><span>Invalid hash</span></label>
+          <label><input type="radio" name="hash" value="valid" checked onchange="updateHashPreview()" /><span>Valid hash</span></label>
+          <label><input type="radio" name="hash" value="invalid" onchange="updateHashPreview()" /><span>Invalid hash</span></label>
+          <label><input type="radio" name="hash" value="none" onchange="updateHashPreview()" /><span>No hash</span></label>
         </div>
-        <p class="note" id="hash-hint" <%= 'hidden' unless invalid_hash %>>Starts a fresh session, then signs the identifier with a wrong key. The server should reject it.</p>
-        <div class="row">
-          <button type="button" onclick="randomizeContact(this.form)">Randomize</button>
-          <button type="submit" id="hmac-submit"><%= invalid_hash ? 'Send invalid hash' : 'Verify contact' %></button>
-        </div>
+        <p class="hash" id="hash-preview">No identifier, no hash</p>
+        <button type="button" onclick="randomizeContact(document.getElementById('identity'))">Randomize</button>
       </form>
     </section>
 
     <section class="tool">
-      <p class="note">Runs <code>$chatwoot.reset()</code> and reloads as an anonymous visitor.</p>
-      <button type="button" id="reset-session" onclick="resetSession()" disabled>Reset session</button>
+      <h2>Actions</h2>
+      <p class="note">Actions use the identity above and the current widget session.</p>
+
+      <h3>Through the SDK</h3>
+      <div class="row">
+        <button type="button" onclick="sdkSetUser()">setUser</button>
+        <button type="button" id="reset-session" onclick="resetSession()" disabled>reset</button>
+      </div>
+
+      <h3>Direct API</h3>
+      <div class="stack">
+        <button type="button" onclick="apiSetUser()">Set user <code>PATCH /contact/set_user</code></button>
+        <button type="button" onclick="apiUpdateContact()">Update contact <code>PATCH /contact</code></button>
+        <input id="prechat-message" placeholder="First message" value="Hello from the prechat form" />
+        <button type="button" onclick="apiCreateConversation()">Prechat <code>POST /conversations</code></button>
+        <button type="button" onclick="apiSubmitCollectedEmail()">Email collect <code>PATCH /messages/:id</code></button>
+      </div>
+    </section>
+
+    <section class="tool">
+      <h2>Read as this session</h2>
+      <p class="note">Shows what the widget session can read. The widget only reads its latest conversation.</p>
+      <div class="stack">
+        <div class="row">
+          <button type="button" onclick="readContact()">Contact <code>GET /contact</code></button>
+          <button type="button" onclick="readConfig()">Config <code>POST /config</code></button>
+        </div>
+        <div class="row">
+          <button type="button" onclick="readConversation()">Conversation <code>GET /conversations</code></button>
+          <button type="button" onclick="readMessages()">Messages <code>GET /messages</code></button>
+        </div>
+      </div>
+      <pre class="read-output" id="read-output" hidden></pre>
     </section>
 
     <section class="tool fill">
+      <h2>Log</h2>
       <ul class="log" id="event-log"></ul>
-      <button type="button" onclick="document.getElementById('event-log').replaceChildren()">Clear event log</button>
+      <button type="button" onclick="document.getElementById('event-log').replaceChildren()">Clear log</button>
     </section>
   </aside>
 </body>
 
-<%
-  user_id = 1
-  user_hash = OpenSSL::HMAC.hexdigest(
-    'sha256',
-    @web_widget.hmac_token,
-    user_id.to_s
-  )
-
-
-  # Identity from the form above, signed with this inbox HMAC token
-  verified_user = if params[:identifier].present?
-    {
-      identifier: params[:identifier],
-      # an invalid hash has the right length but is signed with the wrong key
-      identifier_hash: OpenSSL::HMAC.hexdigest('sha256', params[:hash] == 'invalid' ? 'wrong-key' : @web_widget.hmac_token, params[:identifier]),
-      email: params[:email].presence,
-      name: params[:name].presence
-    }.compact
-  end
-%>
 <script>
+var WEBSITE_TOKEN = '<%= @web_widget.website_token %>';
+// Dev only page, the route is off in production
+var HMAC_TOKEN = '<%= @web_widget.hmac_token %>';
+var INVALID_HMAC_KEY = 'wrong-key';
+var API_BASE = '/api/v1/widget';
+var AUTH_COOKIE = 'cw_conversation';
+var USER_COOKIE = 'cw_user_' + WEBSITE_TOKEN;
+var COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60;
+var LOG_PREVIEW_LENGTH = 200;
 
-// Fills the HMAC tool with a random contact
+// Cookies
+
+function readCookie(name) {
+  var match = document.cookie.split('; ').find(function(row) { return row.indexOf(name + '=') === 0; });
+  return match ? decodeURIComponent(match.slice(name.length + 1)) : null;
+}
+
+function writeCookie(name, value) {
+  document.cookie = name + '=' + encodeURIComponent(value) + '; path=/; max-age=' + COOKIE_MAX_AGE_SECONDS + '; SameSite=Lax';
+}
+
+function deleteCookie(name) {
+  document.cookie = name + '=; path=/; max-age=0';
+}
+
+function widgetToken() {
+  return readCookie(AUTH_COOKIE);
+}
+
+// Points the widget at another session and reloads it
+function adoptToken(token) {
+  writeCookie(AUTH_COOKIE, token);
+  deleteCookie(USER_COOKIE);
+  window.location.reload();
+}
+
+// Identity and HMAC
+
+function identity() {
+  var form = document.getElementById('identity');
+  var values = {};
+  ['identifier', 'email', 'name', 'phone_number'].forEach(function(key) {
+    var value = form[key].value.trim();
+    if (value) values[key] = value;
+  });
+  values.hashMode = form.hash.value;
+  return values;
+}
+
+async function hmacHex(key, message) {
+  var encoder = new TextEncoder();
+  var cryptoKey = await crypto.subtle.importKey('raw', encoder.encode(key), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  var signature = await crypto.subtle.sign('HMAC', cryptoKey, encoder.encode(message));
+  return Array.from(new Uint8Array(signature)).map(function(byte) { return byte.toString(16).padStart(2, '0'); }).join('');
+}
+
+// An invalid hash has the right length but is signed with the wrong key
+async function identifierHash(identifier, hashMode) {
+  if (!identifier || hashMode === 'none') return null;
+  return hmacHex(hashMode === 'invalid' ? INVALID_HMAC_KEY : HMAC_TOKEN, identifier);
+}
+
+async function updateHashPreview() {
+  var current = identity();
+  var preview = document.getElementById('hash-preview');
+  if (!current.identifier) { preview.textContent = 'No identifier, no hash'; return; }
+  if (current.hashMode === 'none') { preview.textContent = 'Sends the identifier without a hash'; return; }
+  preview.textContent = (current.hashMode === 'invalid' ? 'invalid ' : '') + (await identifierHash(current.identifier, current.hashMode));
+}
+
+// Fills the identity form with a random contact
 function randomizeContact(form) {
   var firstNames = ['Ada', 'Grace', 'Linus', 'Margaret', 'Alan', 'Katherine', 'Dennis', 'Barbara'];
   var lastNames = ['Lovelace', 'Hopper', 'Torvalds', 'Hamilton', 'Turing', 'Johnson', 'Ritchie', 'Liskov'];
-  var pick = function(list) { return list[Math.floor(Math.random() * list.length)]; };
   var first = pick(firstNames);
   var last = pick(lastNames);
-  var suffix = Math.random().toString(36).slice(2, 8);
+  var suffix = randomSuffix();
   form.identifier.value = 'user-' + suffix;
   form.email.value = (first + '.' + last + '.' + suffix + '@example.com').toLowerCase();
   form.name.value = first + ' ' + last;
+  updateHashPreview();
 }
 
-// Clears the widget session and the identity fields, keeps the display settings
+function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+function randomSuffix() { return Math.random().toString(36).slice(2, 8); }
+
+// Widget API
+
+async function api(method, path, body, token) {
+  var separator = path.indexOf('?') === -1 ? '?' : '&';
+  var headers = { 'Content-Type': 'application/json' };
+  if (token) headers['X-Auth-Token'] = token;
+  var response = await fetch(API_BASE + path + separator + 'website_token=' + WEBSITE_TOKEN, {
+    method: method,
+    headers: headers,
+    body: body ? JSON.stringify(body) : undefined
+  });
+  var data = await response.json().catch(function() { return null; });
+  logRequest(method, path, response.status, body, data);
+  return { ok: response.ok, status: response.status, data: data };
+}
+
+async function contactBody(current) {
+  var body = {};
+  ['identifier', 'email', 'name', 'phone_number'].forEach(function(key) { if (current[key]) body[key] = current[key]; });
+  var hash = await identifierHash(current.identifier, current.hashMode);
+  if (hash) body.identifier_hash = hash;
+  return body;
+}
+
+function requireSession() {
+  var token = widgetToken();
+  if (!token) logLine('No widget session yet. Wait for the widget to load.', 'err');
+  return token;
+}
+
+// Clears the widget session and starts over as an anonymous visitor
 function resetSession() {
   window.$chatwoot.reset();
-  var query = new URLSearchParams(window.location.search);
-  ['identifier', 'email', 'name', 'hash'].forEach(function(key) { query.delete(key); });
-  window.location = window.location.pathname + '?' + query.toString();
+  window.location.reload();
 }
 
-// Keeps the hint and the submit label in step with the chosen hash
-function updateHashChoice(form) {
-  var invalid = form.hash.value === 'invalid';
-  document.getElementById('hash-hint').hidden = !invalid;
-  document.getElementById('hmac-submit').textContent = invalid ? 'Send invalid hash' : 'Verify contact';
+// SDK actions
+
+async function sdkSetUser() {
+  var current = identity();
+  if (!current.identifier) { logLine('setUser needs an identifier', 'err'); return; }
+  if (!current.email && !current.name) { logLine('setUser needs an email or a name. The SDK rejects it otherwise.', 'err'); return; }
+  var user = await contactBody(current);
+  delete user.identifier;
+  // The SDK skips a setUser identical to the last one, so forget the last one
+  deleteCookie(USER_COOKIE);
+  window.$chatwoot.setUser(current.identifier, user);
+  logLine('SDK setUser ' + current.identifier + ' (' + current.hashMode + ' hash)', 'step');
 }
 
-// An invalid hash is only a real test on a fresh session, and the SDK skips a repeated identical setUser
-function beforeIdentify(form) {
-  // The SDK throws on setUser without an email, a name or an avatar
-  if (!form.email.value.trim() && !form.name.value.trim()) {
-    setHmacStatus('Add an email or a name. The SDK rejects setUser without one.', 'failed');
-    return false;
+// Direct API actions
+
+async function apiSetUser() {
+  var token = requireSession();
+  if (!token) return;
+  var current = identity();
+  if (!current.identifier) { logLine('set_user needs an identifier', 'err'); return; }
+  var result = await api('PATCH', '/contact/set_user', await contactBody(current), token);
+  // set_user moves the visitor to a new session when the identifier belongs to another contact
+  if (result.ok && result.data && result.data.widget_auth_token) {
+    logLine('set_user returned a new session. Loading it into the widget.', 'step');
+    adoptToken(result.data.widget_auth_token);
+    return;
   }
-  if (form.hash.value === 'invalid' && window.$chatwoot) window.$chatwoot.reset();
-  return true;
 }
 
-// Shows the outcome of the invalid hash test in the status line
-var REJECTION_WAIT_MS = 6000;
-var rejectionTimer = null;
-function setHmacStatus(text, className) {
-  var status = document.getElementById('hmac-status');
-  status.textContent = text;
-  status.className = 'status' + (className ? ' ' + className : '');
-}
-function watchForRejection(identifier) {
-  rejectionTimer = setTimeout(function() {
-    rejectionTimer = null;
-    setHmacStatus('Not rejected. The server reported no error for the invalid hash of ' + identifier + '.', 'failed');
-  }, REJECTION_WAIT_MS);
-}
-function onWidgetError(detail) {
-  if (!rejectionTimer) return;
-  clearTimeout(rejectionTimer);
-  rejectionTimer = null;
-  var reason = detail && (detail.error || detail.message) || JSON.stringify(detail);
-  setHmacStatus('Rejected as expected: ' + reason, 'verified');
+async function apiUpdateContact() {
+  var token = requireSession();
+  if (!token) return;
+  await api('PATCH', '/contact', await contactBody(identity()), token);
 }
 
-// Lists widget events in the event log card, newest first
-function logEvent(name, detail) {
+function prechatBody(contact, content) {
+  return {
+    contact: contact,
+    message: { content: content, timestamp: new Date().toString(), referer_url: window.location.href }
+  };
+}
+
+async function apiCreateConversation() {
+  var token = requireSession();
+  if (!token) return;
+  var current = identity();
+  var contact = {};
+  ['name', 'email', 'phone_number'].forEach(function(key) { if (current[key]) contact[key] = current[key]; });
+  await api('POST', '/conversations', prechatBody(contact, document.getElementById('prechat-message').value), token);
+}
+
+// Answers the latest email-collect message in the visitor's conversation
+async function apiSubmitCollectedEmail() {
+  var token = requireSession();
+  if (!token) return;
+  var current = identity();
+  if (!current.email) { logLine('Email collect needs an email', 'err'); return; }
+  var messages = await api('GET', '/messages', null, token);
+  var payload = (messages.data && messages.data.payload) || [];
+  var prompt = payload.filter(function(message) { return message.content_type === 'input_email'; }).pop();
+  if (!prompt) { logLine('No email-collect message in the current conversation', 'err'); return; }
+  await api('PATCH', '/messages/' + prompt.id, { contact: { email: current.email, name: current.name } }, token);
+}
+
+// Read as this session
+
+var MESSAGE_TYPES = ['incoming', 'outgoing', 'activity', 'template'];
+
+function showRead(text) {
+  var output = document.getElementById('read-output');
+  output.textContent = text;
+  output.hidden = false;
+}
+
+async function readJson(method, path) {
+  var token = requireSession();
+  if (!token) return;
+  var result = await api(method, path, null, token);
+  showRead(method + ' ' + path + ' ' + result.status + '\n' + JSON.stringify(result.data, null, 2));
+}
+
+function readContact() { readJson('GET', '/contact'); }
+function readConfig() { readJson('POST', '/config'); }
+function readConversation() { readJson('GET', '/conversations'); }
+
+// Lists the messages one per line, so another contact's message stands out
+async function readMessages() {
+  var token = requireSession();
+  if (!token) return;
+  var result = await api('GET', '/messages', null, token);
+  var messages = (result.data && result.data.payload) || [];
+  var lines = messages.map(function(message) {
+    var type = MESSAGE_TYPES.at(message.message_type) || message.message_type;
+    return '#' + message.id + ' conv ' + message.conversation_id + ' ' + type + ' ' + message.content_type + ': ' + (message.content || '');
+  });
+  showRead('GET /messages ' + result.status + ', ' + messages.length + ' message(s)\n' + lines.join('\n'));
+}
+
+// Log, newest first
+
+function logEntry() {
   var list = document.getElementById('event-log');
-  if (!list) return;
   var item = document.createElement('li');
   var time = document.createElement('time');
   time.textContent = new Date().toLocaleTimeString() + ' ';
   item.appendChild(time);
-  item.appendChild(document.createTextNode(name));
-  if (detail !== undefined) {
-    var text;
-    try { text = JSON.stringify(detail); } catch (error) { text = String(detail); }
-    var span = document.createElement('span');
-    span.className = 'detail';
-    span.textContent = ' ' + (text.length > 200 ? text.slice(0, 200) + '…' : text);
-    item.appendChild(span);
-  }
   list.prepend(item);
+  return item;
+}
+
+function logLine(text, className) {
+  var item = logEntry();
+  var span = document.createElement('span');
+  if (className) span.className = className;
+  span.textContent = text;
+  item.appendChild(span);
+}
+
+function logRequest(method, path, status, body, data) {
+  var item = logEntry();
+  var line = document.createElement('span');
+  line.className = status < 400 ? 'ok' : 'err';
+  line.textContent = method + ' ' + path + ' ' + status;
+  item.appendChild(line);
+  var details = document.createElement('details');
+  var summary = document.createElement('summary');
+  summary.textContent = 'request and response';
+  var pre = document.createElement('pre');
+  pre.textContent = 'request ' + JSON.stringify(body, null, 2) + '\n\nresponse ' + JSON.stringify(data, null, 2);
+  details.appendChild(summary);
+  details.appendChild(pre);
+  item.appendChild(details);
+}
+
+function logEvent(name, detail) {
+  var text = name;
+  if (detail !== undefined) {
+    var serialized;
+    try { serialized = JSON.stringify(detail); } catch (error) { serialized = String(detail); }
+    text += ' ' + (serialized.length > LOG_PREVIEW_LENGTH ? serialized.slice(0, LOG_PREVIEW_LENGTH) + '…' : serialized);
+  }
+  logLine(text);
 }
 
 window.chatwootSettings = {
@@ -195,69 +404,24 @@ window.chatwootSettings = {
   s.parentNode.insertBefore(g,s);
   g.onload=function(){
     window.chatwootSDK.run({
-      websiteToken: '<%= @web_widget.website_token %>',
+      websiteToken: WEBSITE_TOKEN,
       baseUrl: BASE_URL
     })
   }
 })(document,"script");
 
 window.addEventListener('chatwoot:ready', function() {
-  console.log('chatwoot:ready', window.$chatwoot);
   logEvent('chatwoot:ready');
   // Reset needs the SDK, so the button stays disabled until here
   document.getElementById('reset-session').disabled = false;
-  // Open the widget on load
   window.$chatwoot.toggle('open');
-  // Identify with the HMAC-signed details from the form
-  var verifiedUser = <%= raw json_escape(verified_user.to_json) %>;
-  var expectsRejection = <%= params[:hash] == 'invalid' && params[:identifier].present? %>;
-  if (verifiedUser) {
-    var identifier = verifiedUser.identifier;
-    delete verifiedUser.identifier;
-    window.$chatwoot.setUser(identifier, verifiedUser);
-    console.log('setUser with HMAC', identifier, verifiedUser);
-    logEvent(expectsRejection ? 'setUser with invalid HMAC' : 'setUser with HMAC', { identifier: identifier });
-    if (expectsRejection) watchForRejection(identifier);
-  }
-  if (new URLSearchParams(window.location.search).has('setUser')) {
-    window.$chatwoot.setUser('<%= user_id %>', {
-      identifier_hash: '<%= user_hash %>',
-      email: 'jane@example.com',
-      name: 'Jane Doe',
-      phone_number: ''
-    });
-  }
-})
+});
 
 window.addEventListener('chatwoot:error', function(e) {
-  console.log('chatwoot:error', e.detail)
-  logEvent('chatwoot:error', e.detail)
-  onWidgetError(e.detail)
-})
+  logEvent('chatwoot:error', e.detail);
+});
 
-
-window.addEventListener('chatwoot:on-message', function(e) {
-  console.log('chatwoot:on-message', e.detail)
-  logEvent('chatwoot:on-message', e.detail)
-})
-
-window.addEventListener('chatwoot:postback', function(e) {
-  console.log('chatwoot:postback', e.detail)
-  logEvent('chatwoot:postback', e.detail)
-})
-
-window.addEventListener('chatwoot:opened', function() {
-  console.log('chatwoot:opened')
-  logEvent('chatwoot:opened')
-})
-
-window.addEventListener('chatwoot:closed', function() {
-  console.log('chatwoot:closed')
-  logEvent('chatwoot:closed')
-})
-
-window.addEventListener('chatwoot:on-start-conversation', function(e) {
-  console.log('chatwoot:on-start-conversation', e.detail)
-  logEvent('chatwoot:on-start-conversation', e.detail)
-})
+['chatwoot:on-message', 'chatwoot:postback', 'chatwoot:opened', 'chatwoot:closed', 'chatwoot:on-start-conversation'].forEach(function(name) {
+  window.addEventListener(name, function(e) { logEvent(name, e.detail); });
+});
 </script>
