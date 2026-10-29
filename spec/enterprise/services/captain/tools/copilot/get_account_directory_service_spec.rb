@@ -19,6 +19,15 @@ RSpec.describe Captain::Tools::Copilot::GetAccountDirectoryService do
     expect(result['campaigns'].size).to eq(1)
   end
 
+  it 'names a section cut at its limit, and finds the rest by name' do
+    stub_const("#{described_class}::MAX_PER_SECTION", 1)
+    other_inbox.update!(name: 'Escalations desk')
+    tool = described_class.new(assistant, user: create(:user, :administrator, account: account))
+
+    expect(tool.execute(sections: %w[inboxes])).to include('note' => 'inboxes list the first 1. Pass name to find others.')
+    expect(tool.execute(sections: %w[inboxes], name: 'escalation')['inboxes'].pluck(:id)).to eq([other_inbox.id])
+  end
+
   it 'lists only an agent\'s own inboxes and no campaigns' do
     result = described_class.new(assistant, user: agent).execute(sections: %w[inboxes campaigns])
 
