@@ -257,8 +257,7 @@ class Voice::Conference::Manager
   end
 
   def release_failed_claim(user_id)
-    call.update!(accepted_by_agent_id: nil) if user_id && call.accepted_by_agent_id == user_id
-    call.merge_meta!('agent_client' => nil) if call.accepted_by_agent_id.nil?
+    conference_service.release_claim!(user_id)
     :release
   end
 

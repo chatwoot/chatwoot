@@ -97,7 +97,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
              headers: agent.create_new_auth_token,
              params: { conversation_id: conversation.display_id, call_sid: 'CALL123', attempt_id: '1760000000-abc123' }
 
-        expect(conference_service).to have_received(:mark_agent_joined).with(user: agent, client: 'web', attempt: '1760000000-abc123')
+        expect(conference_service).to have_received(:mark_agent_joined).with(user: agent, agent_client: 'web', attempt: '1760000000-abc123')
       end
 
       it 'refuses an attempt id that is not a short token' do

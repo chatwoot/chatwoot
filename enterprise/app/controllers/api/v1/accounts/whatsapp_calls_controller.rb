@@ -50,7 +50,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def call_service
     @call_service ||= Whatsapp::CallService.new(
-      call: @call, agent: Current.user, sdp_answer: params[:sdp_answer], client: RequestDeviceInfo.new(request).client_platform
+      call: @call, agent: Current.user, sdp_answer: params[:sdp_answer], agent_client: RequestDeviceInfo.new(request).client_platform
     )
   end
 
