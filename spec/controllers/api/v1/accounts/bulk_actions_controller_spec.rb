@@ -84,6 +84,19 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
+      it 'Rejects a bulk reopen that takes the current assignee over the open conversation limit' do
+        agent_1.account_users.find_by(account: account).update!(max_open_conversations: 1)
+        Conversation.find_each { |conversation| conversation.update!(assignee: agent_1, status: :resolved) }
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: { type: 'Conversation', fields: { status: 'open' }, ids: Conversation.first(2).pluck(:display_id) }
+        end.not_to have_enqueued_job(BulkActionsJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'Rejects bulk assignment to a team outside the account' do
         other_team = create(:team, account: create(:account))
 

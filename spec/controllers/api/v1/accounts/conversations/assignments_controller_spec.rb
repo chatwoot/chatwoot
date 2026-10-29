@@ -112,6 +112,16 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(conversation.reload.assignee).not_to eq(agent)
       end
 
+      it 'applies the limit to human assignments with an unrecognized assignee type' do
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: agent.id, assignee_type: 'user' },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(conversation.reload.assignee).not_to eq(agent)
+      end
+
       it 'counts an AI-owned pending conversation that opens on assignment' do
         conversation.update!(status: :pending, ai_assignee: create(:agent_bot, account: account))
 

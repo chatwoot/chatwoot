@@ -217,7 +217,9 @@ export function useBulkActions() {
         useAlert(t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
       }
     } catch (err) {
-      useAlert(t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
+      useAlert(
+        err?.response?.data?.error || t('BULK_ACTION.UPDATE.UPDATE_FAILED')
+      );
     }
   }
 

@@ -26,8 +26,9 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     render_could_not_create_error(e.message)
   end
 
+  # Conversations::AssignmentService assigns a human for every type other than these AI assignees
   def human_assignee
-    return unless params[:assignee_type].blank? || params[:assignee_type] == 'User'
+    return if %w[AgentBot Captain::Assistant].include?(params[:assignee_type].to_s)
 
     Current.account.users.find_by(id: params[:assignee_id])
   end
