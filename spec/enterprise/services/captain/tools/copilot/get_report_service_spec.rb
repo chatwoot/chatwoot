@@ -70,6 +70,19 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(result[:metrics].first[:total_or_average]).to eq('2 days and 1 hour')
     end
 
+    it 'counts a conversation with bot handoffs on two days once in the total, as the reports pages do' do
+      conversation = create(:conversation, account: account, inbox: inbox, created_at: Time.zone.parse('2026-09-08 09:00'))
+      %w[2026-09-08 2026-09-10].each do |day|
+        create(:reporting_event, account: account, inbox: inbox, conversation: conversation, name: 'conversation_bot_handoff',
+                                 created_at: Time.zone.parse("#{day} 10:00"))
+      end
+
+      series = service.execute(by: 'day', metrics: %w[bot_handoffs_count], **week)[:metrics].first
+
+      expect(series[:points].sum { |point| point[:value] }).to eq(2)
+      expect(series[:total_or_average]).to eq(1)
+    end
+
     it 'marks weeks cut by since or before as partial' do
       result = service.execute(by: 'week', metrics: %w[conversations_count], **week)
 

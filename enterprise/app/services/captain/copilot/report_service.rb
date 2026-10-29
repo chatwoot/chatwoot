@@ -79,7 +79,7 @@ class Captain::Copilot::ReportService
     builder = V2::Reports::Conversations::ReportBuilder.new(@account, params.merge(type: type, id: id, metric: metric, group_by: period))
     points = builder.timeseries.map { |point| timeseries_point(point, period, metric) }
     active = points.select { |point| point[:value].to_f.positive? }
-    { metric: metric, points: points, total_or_average: overall(builder, metric, points),
+    { metric: metric, points: points, total_or_average: overall(builder, metric),
       data_from: active.first&.dig(:period), data_to: active.last&.dig(:period) }
   end
 
@@ -183,10 +183,11 @@ class Captain::Copilot::ReportService
     first > start.to_date || last < (finish - 1.second).to_date ? label.merge(partial: true) : label
   end
 
-  def overall(builder, metric, points)
-    return points.sum { |point| point[:value] } unless AVERAGES.include?(metric)
-
-    duration(builder.aggregate_value)
+  # The total the reports pages show. Adding up the periods would count a conversation twice when a metric counts each
+  # conversation once, such as bot handoffs.
+  def overall(builder, metric)
+    value = builder.aggregate_value
+    AVERAGES.include?(metric) ? duration(value) : value
   end
 
   def summary_row(row, names)
