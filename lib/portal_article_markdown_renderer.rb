@@ -1,5 +1,6 @@
-class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
+class PortalArticleMarkdownRenderer < CommonMarker::HtmlRenderer
   include MarkdownRendererUrlSanitizer
+  include PortalImageHelper
 
   CONFIG_PATH = Rails.root.join('config/markdown_embeds.yml')
 
@@ -59,7 +60,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def image(node)
-    src = sanitized_href(node.url)
+    src = sanitized_href(portal_image_src(node.url))
     width = extract_image_width(src)
     plain do
       out(%(<img src="#{src}"))

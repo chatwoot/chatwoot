@@ -460,7 +460,7 @@ const actions = {
     handleVoiceCallCreated(
       message,
       rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
+      rootGetters?.getCurrentUserReceivesCalls
     );
   },
 
@@ -487,7 +487,7 @@ const actions = {
       commit,
       message,
       rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
+      rootGetters?.getCurrentUserReceivesCalls
     );
   },
 
