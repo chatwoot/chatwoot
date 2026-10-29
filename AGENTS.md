@@ -67,9 +67,7 @@ These rules apply to whoever writes a review and whoever receives it.
 
 ## Channels and integrations
 
-- Outgoing messages go through `Base::SendOnChannelService`.
-- Webhooks go through `app/controllers/webhooks/<provider>_controller.rb` and a job in `app/jobs/webhooks/`. Incoming payloads are built in `app/builders/messages/`. Handle events from an explicit list, e.g., `SUPPORTED_EVENTS` in `Webhooks::InstagramEventsJob`, and acknowledge the rest without doing work.
-- Integrations are an `Integrations::Hook` with an entry in `config/integration/apps.yml`, and their logic lives in `lib/integrations/<provider>/`. Use the provider's Ruby gem when one exists.
+- Handle webhook events from an explicit list, e.g., `SUPPORTED_EVENTS` in `Webhooks::InstagramEventsJob`, and acknowledge the rest without doing work.
 - Handle each provider error on purpose, not with a bare `rescue`:
   - Authorization error: call `authorization_error!` or `prompt_reauthorization!` from `Reauthorizable` so the user is asked to reconnect.
   - Known, harmless error: log it and link the provider's documentation in a comment.
@@ -80,12 +78,9 @@ These rules apply to whoever writes a review and whoever receives it.
 
 ## Frontend
 
-- Use ESLint (Airbnb base + Vue 3 recommended). Name components in PascalCase and events in camelCase.
 - Write new components with the Composition API and `<script setup>` at the top. Use PropTypes. No bare strings in templates; use i18n.
-- Build new UI from `app/javascript/dashboard/components-next/`, including message bubbles. Follow the most similar existing component, and do not invent a new visual style.
-- Use the shared composables in `dashboard/composables/` and VueUse. Use shared request-cancellation utilities instead of local `AbortController` logic.
-- Show a failed request with one `useAlert` toast. Add a separate error or empty view only when the screen needs it.
-- Extract repeated or domain-specific strings, thresholds, colors, and durations into named constants.
+- Build new UI from `app/javascript/dashboard/components-next/`, including message bubbles. Do not invent a new visual style.
+- Use shared request-cancellation utilities instead of local `AbortController` logic.
 - **Styling**: Use Tailwind utility classes only. No custom CSS, scoped CSS, or static inline styles; a `:style` binding is fine for a value computed at runtime. Use the `n-*` color tokens and typography utilities from `tailwind.config.js`, and add new animations there.
 - Use logical Tailwind utilities (`ms`, `me`, `ps`, `pe`, `start`, `end`, `border-s`). Use `ltr:` and `rtl:` only for utilities with no logical form, such as `rotate`.
 - Use `rem` for arbitrary CSS dimensions; keep native numeric values required by chart/SVG APIs.
@@ -93,7 +88,7 @@ These rules apply to whoever writes a review and whoever receives it.
 ## Old patterns not to copy
 
 - Options API components and mixins still exist. When you edit one, add the composable you need through `setup()`; do not convert the whole file or copy the pattern into new code.
-- `woot-button`, `woot-modal`, and the old message bubbles are being replaced by `components-next/`. Do not use them in new code.
+- `woot-modal` and the old message bubbles are being replaced by `components-next/`. Do not use them in new code.
 - Many templates still use `ltr:`/`rtl:` pairs and pixel values. New code uses logical utilities and `rem`.
 
 ## Gotchas
