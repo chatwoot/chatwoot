@@ -23,6 +23,13 @@ RSpec.describe Captain::Copilot::CollectionService do
     expect(result).to include(total: 10, selected: 3, dates: include(first: '2023-09-01T10:00:00Z', last: '2023-09-10T10:00:00Z'))
   end
 
+  it 'matches any of a list of values for a column' do
+    conversations.first(2).each(&:resolved!)
+    conversations.third.pending!
+
+    expect(collect(resource: 'conversations', filters: { 'status' => %w[open pending] })[:total]).to eq(8)
+  end
+
   it 'refuses newest and sample together' do
     expect { collect(resource: 'conversations', filters: { 'newest' => 5, 'sample' => 3 }) }.to raise_error(ArgumentError, /not both/)
   end

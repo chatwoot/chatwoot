@@ -230,7 +230,11 @@ class Captain::Copilot::ReportService
     records ? records.pluck(:id, :name).to_h : {}
   end
 
+  # The two largest units, such as "2 days and 1 hour", so the answer reads like the reports pages instead of counting
+  # seconds of an average.
   def duration(seconds)
-    seconds.to_f.positive? ? ActiveSupport::Duration.build(seconds.to_f.round).inspect : nil
+    return unless seconds.to_f.positive?
+
+    ActiveSupport::Duration.build(seconds.to_f.round).parts.first(2).sum { |unit, count| count.public_send(unit) }.inspect
   end
 end

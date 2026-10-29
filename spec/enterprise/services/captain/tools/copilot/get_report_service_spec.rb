@@ -61,6 +61,15 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(result[:metrics]).to eq([{ metric: 'conversations_count', total_or_average: 1, data_from: '2026-09-08', data_to: '2026-09-08' }])
     end
 
+    it 'gives an average time in its two largest units' do
+      create(:reporting_event, account: account, inbox: inbox, name: 'first_response', value: 178_813,
+                               created_at: Time.zone.parse('2026-09-08 10:00'))
+
+      result = service.execute(by: 'range', metrics: %w[avg_first_response_time], **week)
+
+      expect(result[:metrics].first[:total_or_average]).to eq('2 days and 1 hour')
+    end
+
     it 'marks weeks cut by since or before as partial' do
       result = service.execute(by: 'week', metrics: %w[conversations_count], **week)
 

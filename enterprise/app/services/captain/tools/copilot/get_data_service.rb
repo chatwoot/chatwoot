@@ -7,7 +7,8 @@ class Captain::Tools::Copilot::GetDataService < Captain::Tools::Copilot::Workflo
               'Pass from to select the records linked to an earlier collection or to the matched conversations of a finished review, ' \
               'and exclude_from to keep only the records not linked to one; any two linked resources can be chained this way. ' \
               'Inside filters, every resource takes since and before, date_field (any of its date columns), newest, oldest_first, ' \
-              'sample (that many records spread evenly across the matching set), a column name for its value (null for no value), ' \
+              'sample (that many records spread evenly across the matching set), a column name for its value or a list of values ' \
+              '(null for no value), ' \
               'empty and not_empty (lists of columns, keys inside JSON columns, resources that point at this one, or labels, ' \
               'that must have no value or a value), at_least and at_most (bounds on numeric columns), and attributes (values of ' \
               "keys inside JSON columns, written column.key). Pass describe for one resource's allowed values, the keys its records " \
