@@ -304,7 +304,7 @@ onMounted(() => {
   <div
     v-if="shouldShowCopilotPanel"
     v-on-click-outside="() => closeCopilotPanel()"
-    class="bg-n-surface-2 h-full overflow-hidden flex-col fixed top-0 ltr:right-0 rtl:left-0 z-40 w-full max-w-sm transition-transform duration-300 ease-in-out ltr:border-l rtl:border-r border-n-weak shadow-lg md:shadow-none"
+    class="bg-n-surface-2 h-full overflow-hidden flex-col fixed top-0 end-0 z-40 w-full max-w-sm transition-transform duration-300 ease-in-out border-s border-n-weak shadow-lg md:shadow-none"
     :class="[
       {
         'md:flex': shouldShowCopilotPanel,
@@ -312,7 +312,7 @@ onMounted(() => {
       },
       isExpanded
         ? 'md:absolute md:inset-0 md:max-w-none md:z-30'
-        : 'md:static md:w-[320px] md:min-w-[320px] 2xl:min-w-[360px] 2xl:w-[360px]',
+        : 'md:static md:w-80 md:min-w-80 2xl:w-[22.5rem] 2xl:min-w-[22.5rem]',
     ]"
   >
     <Copilot
