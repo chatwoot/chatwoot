@@ -149,6 +149,18 @@ class Captain::Copilot::Resources::BaseResource
     nil
   end
 
+  # A key inside a JSON column to group the relation by. ->> returns an object or a list whole, with nested keys the
+  # secret check never sees, so the key must hold plain values in the relation.
+  def json_group_field(name, relation)
+    field = Captain::Copilot::Resources::Columns.json_field(self.class::MODEL, name)
+    value = Arel::Nodes::InfixOperation.new('->', field.left, field.right)
+    type = Arel::Nodes::NamedFunction.new('jsonb_typeof', [Arel::Nodes::NamedFunction.new('to_jsonb', [value])])
+    nested = relation.where(type.in(%w[object array])).exists?
+    raise ArgumentError, "#{name} holds objects or lists; group by a key with plain values" if nested
+
+    field
+  end
+
   # Display rows for records the user can still see, in the order of ids.
   def rows(ids)
     found = scope.where(id: ids).includes(self.class::PRELOAD).index_by(&:id)

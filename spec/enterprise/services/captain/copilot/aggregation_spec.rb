@@ -74,6 +74,13 @@ RSpec.describe Captain::Copilot::Aggregation do
       .to include(groups: [{ group: 'es', value: 1 }], without_value: 2)
   end
 
+  it 'refuses to group by a JSON key that holds objects, so their nested values never reach the labels' do
+    account.conversations.first.update!(additional_attributes: { 'browser' => { 'name' => 'Firefox' } })
+
+    expect { aggregation.call(measure: 'count', group_by: ['additional_attributes.browser']) }
+      .to raise_error(ArgumentError, 'additional_attributes.browser holds objects or lists; group by a key with plain values')
+  end
+
   it 'groups by a field the resource adds, such as the country of contacts, with contacts without one apart' do
     create(:contact, account: account, additional_attributes: { 'country' => 'India' })
     create(:contact, account: account)
