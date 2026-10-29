@@ -6,47 +6,49 @@ Chatwoot is never finished. We ship a small version that people can use, we watc
 
 ### Decide the scope before you write code
 
-- **Build what was asked, for the cases that happen.** Do not design for rare or future cases nobody asked about. Cover the states a user will see in normal use, such as an empty list, a loading state, a missing permission, or a channel that is not connected. Do not add handling for states the code already prevents. When a feature has a reasonable default, ship the default and wait for someone to ask for a choice.
-- **Prefer a constant to a setting.** Add a setting only when a customer or the product owner has asked for one. Examples from the history include the 5 minute out of office guard (#11073), the 30 day stale contact rule (#11186), and the 1,000 chat threshold for skipping the meta request (#10518). Citations shipped as a prompt change and got a toggle months later, when people asked for it (#10958, #12052).
+- **Build what was asked, for the cases that happen.** Do not design for rare or future cases nobody asked about. Cover the states a user will see in normal use, such as an empty list, a loading state, a missing permission, or a channel that is not connected. When a feature has a reasonable default, ship the default and wait for someone to ask for a choice.
+- **Prefer a constant to a setting.** Add a setting only when the task or issue asks for one. For example, the out of office message is skipped when an agent replied in the last 5 minutes, and that limit is a constant (#11073).
 - **When a setting is needed, put it in the place that already exists.** Use a new key in an existing JSONB column or an installation config read through `GlobalConfig`, not a new table or an environment variable. Show the setting only where it applies, e.g., only on Chatwoot Cloud.
-- **Do not build an abstraction for a second case that does not exist.** A reviewer removed a provider option from the first voice PR because Chatwoot supported only one provider (#11775). The multi language Captain PR first built a language detection service, then removed it and shipped one prompt line (#11068).
-- **Reuse before you add.** Look for an existing concern, service, component, store, or composable that does most of the job, and extend it. Reviewers ask for this often, e.g., `Reauthorizable` instead of a new concern (#9017), the existing `draftMessages` store (#8018), and one shared `OAuthChannel.vue` for Google and Microsoft.
-- **Write down what you left out, and say it in the PR.** A short "Not included" list in the PR description is enough, e.g., refunds and webhooks were listed as out of scope in the first Stripe PR (#15765). Do not assume a later cleanup will happen. The IMAP disconnect logic that was turned off "for now" in 2024 stayed off until 2026, so name the follow-up so someone can pick it up.
-- **Delete what nobody uses.** When a replacement lands, remove the old path in the same PR or the next one. The team deleted the unused sentiment feature (#9304) and 9,360 lines of the old UI once the new UI was the default (#11720).
+- **Do not build an abstraction for a second case that does not exist.** For example, a reviewer removed a provider option from the first voice PR because Chatwoot supported only one provider (#11775).
+- **Reuse before you add.** Look for an existing concern, service, component, store, or composable that does most of the job, and extend it. For example, a reviewer asked for the existing `Reauthorizable` concern instead of a new one (#9017).
+- **Write down what you left out, and say it in the PR.** A short "Not included" list in the PR description is enough. Do not assume a later cleanup will happen. The IMAP disconnect logic that was turned off "for now" in 2024 stayed off until 2026.
+- **Delete the old path when the replacement lands,** in the same PR or the next one, e.g., the old UI was removed once the new UI was the default (#11720).
 
 ### Name things for the reader
 
 - A name should tell the reader what the thing is or what it does, without opening the file. Spell the concept out, e.g., `first_reply_created_at`, not `frca`. Use only the abbreviations the product already uses, such as CSAT and SLA.
 - Use one name for one concept across the model, the API, the store, and the UI copy. Two names for the same thing make every reader check whether they are different.
-- Keep the Rails suffix that says which layer the class belongs to, such as `Service`, `Builder`, `Listener`, or `Job`, and make the rest of the name say the domain action, e.g., `Messages::StatusUpdateService`. Do not use a generic name such as `Handler`, `Manager`, or `Helper` with nothing more specific in front of it.
+- Keep the Rails suffix that says which layer the class belongs to, such as `Service`, `Builder`, `Listener`, or `Job`. The rest of the name should say which record it works on and what it does, e.g., `Messages::StatusUpdateService`.
 - A label, caption, or tooltip on screen has to make sense by itself, because the user can't open it to read more. If a label needs help text to be understood, change the label.
 - If you can't find a clear name for a class or method, the design is probably not clear yet. Settle what the code does before you write it.
 
 ### Ship in small, reversible steps
 
-- **Keep each PR to one change.** In 2024 and 2025, half of all fixes changed fewer than 20 lines, and the median feature changed between 90 and 230 lines. PRs over 1,000 lines were nearly always migrations, renames, translations, or deleted code. If a feature is larger, split it into stacked PRs by layer, e.g., model, then API, then UI. Do not reformat or rename code that the change does not need.
-- **Ship unfinished features dark.** New features and channels start behind a flag in `config/features.yml` with `enabled: false`. The team uses the feature internally first, and releasing it is a separate PR that is often one line, e.g., Instagram went to everyone by deleting one line (#11323). Use one flag for one product change, not one flag per screen.
-- **Fix the reported problem at its source.** A fix should change the code that produced the symptom, not every place that looks similar. When a broad fix in #10108 changed 13 files and broke something, the team reverted it within hours and shipped a 2 file fix the same day (#10120).
-- **If a change breaks production, revert it and re-land a smaller one.** Do not stack fixes on a broken change. The bubble polish PR (#10759, 18 files) was reverted and came back as a 3 file change (#11348).
-- **When you replace a code path, carry its checks over.** The new Copilot endpoint skipped the usage limit that the old endpoint enforced, and the gap stayed open for six weeks (#11489, #11845). List the guards, permissions, and limits on the old path before you replace it.
-- **A small change still has to work.** The 31 line domain blocklist (#10016) never applied the list, so it blocked nothing until a fix three days later (#10046). Run the code path you changed before you call it done.
+- **Keep each PR to one change.** In 2024 and 2025, half of all fixes changed fewer than 20 lines, and the median feature changed between 90 and 230 lines. PRs over 1,000 lines were nearly always migrations, renames, translations, or deleted code. If a feature looks larger, propose a split into stacked PRs, e.g., model, then API, then UI, before you write it. Do not reformat or rename code that the change does not need.
+- **Ship unfinished features dark.** New features and channels start behind a flag in `config/features.yml` with `enabled: false`. The team uses the feature internally first, and releasing it is a separate, often one line PR (#11323). Use one flag for one product change, not one flag per screen.
+- **Fix the reported problem at its source.** A fix should change the code that produced the symptom, not every place that looks similar. When a fix that changed 13 files broke something, the team reverted it within hours and shipped a 2 file fix the same day (#10108, #10120).
+- **If a change breaks production, revert it and re-land a smaller one.** Do not stack fixes on a broken change.
+- **When you replace a code path, carry its checks over.** List the guards, permissions, and limits on the old path before you replace it. The new Copilot endpoint skipped the old endpoint's usage limit for six weeks (#11489, #11845).
+- **A small change still has to work.** Run the code path you changed before you call it done. The 31 line domain blocklist never applied its list until a fix three days later (#10016, #10046).
 
 ### Check your own work
 
 You have the tools to check a change yourself, so use them instead of asking someone to test it for you.
 
 - Run the specs closest to the change with `bundle exec rspec spec/path/to/file_spec.rb` and `pnpm test`.
-- For a UI change, run the app (`pnpm dev`), sign in with the seeded data, and use the changed screen in a browser. Check both what the API saved and what the screen shows.
+- For a UI change, run the app (`pnpm dev`), sign in as a user created by `db/seeds.rb`, and use the changed screen in a browser. Check both what the API saved and what the screen shows.
+- If you can't open a browser, say in your summary that the UI change is unverified. Do not describe a screen you did not see.
 - End to end tests live in `tests/playwright`.
 
 ### Review findings by likelihood and impact
 
-Reviewers, human and AI, often flag problems that are possible in theory and almost never happen. Fixing each one makes the code longer and starts another review round.
+Reviewers, human and AI, often flag problems that are possible in theory and almost never happen. Fixing each one makes the code longer and starts another review round. These rules apply to the person or agent writing a review and to the person or agent receiving it.
 
-- For each finding, rate how likely it is in normal use from 1 to 5, and how bad it would be from 1 to 5.
+- For each finding, rate how likely it is in normal use from 1 to 5, and how bad it would be from 1 to 5. Write both scores next to the finding.
 - If the two scores multiplied are 6 or more, fix it in the PR.
 - If the product is below 6, leave the code alone and list the finding in the PR description or a follow-up issue.
-- Always fix security problems, data loss, and wrong billing, whatever the score.
+- When you receive a finding, score it yourself before you change any code. If your product is below 6, reply with your scores and leave the code as it is.
+- Always fix a security problem that a user or an outside caller can reach, and any data loss or wrong billing, whatever the score.
 - Code that handles cases nobody asked for is also a finding. Flag it the same way you would flag a bug.
 
 ## Build / Test / Lint
@@ -131,11 +133,10 @@ Reviewers, human and AI, often flag problems that are possible in theory and alm
 
 - **Use `components-next/` for all new UI.** Build from `Button`, `Dialog`, `DropdownMenu`, `EmptyStateLayout`, `TeleportWithDirection`, and the other components in `app/javascript/dashboard/components-next/`. Do not use `woot-button` or `woot-modal`. Use `components-next/` for message bubbles; the old bubbles are being removed.
 - **Copy the nearest sibling.** When you add a component, find the most similar existing one and follow it, e.g., `BulkMacroActions.vue` follows `BulkTeamActions`. Do not invent a new visual style or layout.
-- **Use the existing composables** from `dashboard/composables/`, such as `useStore`, `useMapGetter`, `useAlert`, `useAccount`, `usePolicy`, `useUISettings`, and `useAbortableRequest`, and from VueUse. Use shared request-cancellation utilities instead of local `AbortController` logic.
+- **Prefer existing design-system utilities and shared composables**, such as `useStore`, `useMapGetter`, `useAlert`, `useAccount`, `usePolicy`, `useUISettings`, and `useAbortableRequest` from `dashboard/composables/`, and VueUse. Use shared request-cancellation utilities instead of local `AbortController` logic.
 - **Handle errors simply.** A failed request usually shows one `useAlert` toast. Add a separate error or empty view only when the screen needs it.
 - **Vue API**: Write new components with the Composition API and `<script setup>`. When you edit an existing Options API component, add the composable you need through `setup()` instead of converting the whole file.
 - **Migrate in small slices.** Move one mixin, one page, or one component per PR, and delete the old version when nothing uses it.
-- Prefer existing design-system utilities and shared composables.
 - Use typography utilities instead of manually recreating font styles.
 - Use logical Tailwind utilities (`ms`, `me`, `ps`, `pe`, `start`, `end`, `border-s`) for direction-aware layouts. Use `ltr:` and `rtl:` only for utilities that have no logical form, such as `rotate` or `divide-x-reverse`.
 - Use `rem` for arbitrary CSS dimensions; preserve native numeric values required by chart/SVG APIs.
@@ -180,18 +181,17 @@ Practical checklist for any change impacting core logic or public APIs
 - **AI models**: Before adding or changing an OpenAI model in `config/llm.yml` or code, check the deprecations page (https://developers.openai.com/api/docs/deprecations). Do not use a model that has a shutdown date; use the replacement the page recommends. Pick models through `config/llm.yml` and `Llm::FeatureRouter`, not hard-coded names.
 - **Branding / white-labeling**: For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
 
-## Codex Worktree Workflow
+## Worktree Workflow
 
 - Use a separate git worktree + branch per task to keep changes isolated.
-- Keep Codex-specific local setup under `.codex/` and use `Procfile.worktree` for worktree process orchestration.
-- The setup workflow in `.codex/environments/environment.toml` should dynamically generate per-worktree DB/port values (Rails, Vite, Redis DB index) to avoid collisions.
-- Start each worktree with its own Overmind socket/title so multiple instances can run at the same time.
+- Give each worktree its own database, Rails and Vite ports, Redis DB index, and Overmind socket/title so multiple instances can run at the same time.
+- Codex users can generate these values with a local setup script in `.codex/environments/environment.toml` and a `Procfile.worktree`. Git ignores both.
 
 ## Commit Messages
 
 - Prefer Conventional Commits: `type(scope): subject` (scope optional)
 - Example: `feat(auth): add user authentication`
-- Don't reference Claude in commit messages
+- Don't reference Claude, Codex, or other AI tools in commit messages
 
 ## PR Description Format
 
