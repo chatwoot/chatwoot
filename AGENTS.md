@@ -14,6 +14,14 @@ Chatwoot is never finished. We ship a small version that people can use, we watc
 - **Write down what you left out, and say it in the PR.** A short "Not included" list in the PR description is enough, e.g., refunds and webhooks were listed as out of scope in the first Stripe PR (#15765). Do not assume a later cleanup will happen. The IMAP disconnect logic that was turned off "for now" in 2024 stayed off until 2026, so name the follow-up so someone can pick it up.
 - **Delete what nobody uses.** When a replacement lands, remove the old path in the same PR or the next one. The team deleted the unused sentiment feature (#9304) and 9,360 lines of the old UI once the new UI was the default (#11720).
 
+### Name things for the reader
+
+- A name should tell the reader what the thing is or what it does, without opening the file. Spell the concept out, e.g., `first_reply_created_at`, not `frca`. Use only the abbreviations the product already uses, such as CSAT and SLA.
+- Use one name for one concept across the model, the API, the store, and the UI copy. Two names for the same thing make every reader check whether they are different.
+- Keep the Rails suffix that says which layer the class belongs to, such as `Service`, `Builder`, `Listener`, or `Job`, and make the rest of the name say the domain action, e.g., `Messages::StatusUpdateService`. Do not use a generic name such as `Handler`, `Manager`, or `Helper` with nothing more specific in front of it.
+- A label, caption, or tooltip on screen has to make sense by itself, because the user can't open it to read more. If a label needs help text to be understood, change the label.
+- If you can't find a clear name for a class or method, the design is probably not clear yet. Settle what the code does before you write it.
+
 ### Ship in small, reversible steps
 
 - **Keep each PR to one change.** In 2024 and 2025, half of all fixes changed fewer than 20 lines, and the median feature changed between 90 and 230 lines. PRs over 1,000 lines were nearly always migrations, renames, translations, or deleted code. If a feature is larger, split it into stacked PRs by layer, e.g., model, then API, then UI. Do not reformat or rename code that the change does not need.
@@ -72,7 +80,7 @@ Reviewers, human and AI, often flag problems that are possible in theory and alm
 - **Error Handling**: Use custom exceptions (`lib/custom_exceptions/`)
 - **Models**: Validate presence/uniqueness, add proper indexes
 - **Type Safety**: Use PropTypes in Vue, strong params in Rails
-- **Naming**: Use clear, descriptive names with consistent casing
+- **Naming**: Use consistent casing. See "Name things for the reader" above.
 
 ## Backend
 
