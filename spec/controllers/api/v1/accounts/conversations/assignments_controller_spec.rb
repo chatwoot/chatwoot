@@ -92,6 +92,27 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       end
     end
 
+    context 'when the assignee reached the open conversation limit' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        agent.account_users.find_by(account: account).update!(max_open_conversations: 1)
+        create(:conversation, account: account, assignee: agent, status: :open)
+      end
+
+      it 'rejects the assignment with the reason' do
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { assignee_id: agent.id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq("#{agent.available_name} has reached the limit of 1 open assigned conversations")
+        expect(conversation.reload.assignee).not_to eq(agent)
+      end
+    end
+
     context 'when it is an authenticated bot with access to the inbox' do
       let(:agent_bot) { create(:agent_bot, account: account) }
       let(:agent) { create(:user, account: account, role: :agent) }

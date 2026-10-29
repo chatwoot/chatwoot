@@ -140,6 +140,33 @@ RSpec.describe 'Agents API', type: :request do
         expect(response_data['auto_offline']).to be(false)
         expect(other_agent.account_users.first.role).to eq('administrator')
       end
+
+      it 'sets and clears the max open conversations limit' do
+        put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+            params: { max_open_conversations: 5 },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['max_open_conversations']).to eq(5)
+
+        put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+            params: { max_open_conversations: '' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(other_agent.account_users.first.max_open_conversations).to be_nil
+      end
+
+      it 'rejects a max open conversations limit below one' do
+        put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+            params: { max_open_conversations: 0 },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
 
