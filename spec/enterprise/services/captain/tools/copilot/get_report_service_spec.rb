@@ -99,5 +99,14 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect { service.execute(by: 'day', metrics: %w[conversations_count], agent_id: agent.id, inbox_id: inbox.id, **week) }
         .to raise_error(ArgumentError, /at most one/)
     end
+
+    it 'rejects an option the chosen report would leave out instead of answering without it' do
+      expect { service.execute(by: 'agent', metrics: %w[resolutions_count], inbox_id: inbox.id, **week) }
+        .to raise_error(ArgumentError, 'by agent does not take inbox_id')
+      expect { service.execute(by: 'range', metrics: %w[conversations_count], chart: true, **week) }
+        .to raise_error(ArgumentError, 'by range does not take chart')
+      expect { service.execute(by: 'agent', metrics: %w[avg_first_response_time], chart: true, **week) }
+        .to raise_error(ArgumentError, /needs conversations_count or resolutions_count/)
+    end
   end
 end
