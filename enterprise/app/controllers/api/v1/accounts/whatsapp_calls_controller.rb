@@ -173,7 +173,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
       provider_call_id: provider_call_id, direction: :outgoing, status: 'ringing',
       accepted_by_agent_id: Current.user.id,
       meta: { 'sdp_offer' => params[:sdp_offer], 'ice_servers' => Call.default_ice_servers,
-              'agent_client' => RequestDeviceInfo.new(request).client_platform }
+              'agent_client' => RequestDeviceInfo.new(request).client_platform }.compact
     )
   rescue ActiveRecord::RecordNotUnique
     # A webhook inserted the row between the find_by above and this create; reconcile to it.

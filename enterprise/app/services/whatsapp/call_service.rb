@@ -56,7 +56,7 @@ class Whatsapp::CallService
 
     forward_answer_to_meta!
     call.update!(status: 'in_progress', accepted_by_agent_id: agent.id, started_at: Time.current,
-                 meta: (call.meta || {}).merge('sdp_answer' => sdp_answer, 'agent_client' => client))
+                 meta: (call.meta || {}).merge({ 'sdp_answer' => sdp_answer, 'agent_client' => client }.compact))
   end
 
   def forward_answer_to_meta!

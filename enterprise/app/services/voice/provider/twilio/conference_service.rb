@@ -87,7 +87,7 @@ class Voice::Provider::Twilio::ConferenceService
 
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
-      call.merge_meta!('agent_client' => client)
+      call.merge_meta!('agent_client' => client) if client
       next if attempt.blank?
 
       # A newer attempt replaces older ones, which may never have reached Twilio

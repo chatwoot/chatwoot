@@ -9,6 +9,9 @@ class RequestDeviceInfo
   ].freeze
   private_constant :LEGACY_MOBILE_UAS
 
+  MOBILE_PLATFORMS = %w[ios android].freeze
+  private_constant :MOBILE_PLATFORMS
+
   def initialize(request)
     @request = request
   end
@@ -22,11 +25,12 @@ class RequestDeviceInfo
     to_h[:browser_name]
   end
 
-  # web, or the platform the Chatwoot mobile app reports (ios or android)
+  # web, the platform the Chatwoot mobile app reports (ios or android), or nil for any other platform
   def client_platform
     return 'web' if @request.headers['X-Chatwoot-Client-Name'].blank?
 
-    @request.headers['X-Chatwoot-Platform']
+    platform = @request.headers['X-Chatwoot-Platform']
+    platform if MOBILE_PLATFORMS.include?(platform)
   end
 
   # A clean "on X" label: the device for mobile clients, the OS for desktop browsers.
