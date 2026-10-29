@@ -14,7 +14,7 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
     else
       render json: { success: false }, status: :unprocessable_entity
     end
-  rescue CustomExceptions::Conversation::AssignmentNotAllowed => e
+  rescue CustomExceptions::ConversationAssignmentNotAllowed => e
     render_could_not_create_error(e.message)
   end
 

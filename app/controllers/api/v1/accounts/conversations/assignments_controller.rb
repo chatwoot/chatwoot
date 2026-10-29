@@ -21,7 +21,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     ).perform
 
     render_agent(resource)
-  rescue CustomExceptions::Conversation::AssignmentNotAllowed => e
+  rescue CustomExceptions::ConversationAssignmentNotAllowed => e
     render_could_not_create_error(e.message)
   end
 
