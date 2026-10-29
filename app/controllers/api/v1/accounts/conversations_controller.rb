@@ -4,6 +4,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include HmacConcern
   include ConversationCustomAttributesConcern
   include ConversationAssignmentTargetsConcern
+  include ConversationAssignmentLimitConcern
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :validate_assignment_targets, :inbox, :contact, :contact_inbox, only: [:create]
@@ -39,7 +40,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def show; end
 
   def create
-    ActiveRecord::Base.transaction do
+    enforce_assignment_limit(requested_assignee) do
       @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
       Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
     end
@@ -82,15 +83,17 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def toggle_status
     # FIXME: move this logic into a service object
-    if bot_handoff?
-      @conversation.bot_handoff!
-    elsif params[:status].present?
-      set_conversation_status
-      @status = @conversation.save!
-    else
-      @status = @conversation.toggle_status
+    enforce_assignment_limit(reopening_assignee) do
+      if bot_handoff?
+        @conversation.bot_handoff!
+      elsif params[:status].present?
+        set_conversation_status
+        @status = @conversation.save!
+      else
+        @status = @conversation.toggle_status
+      end
+      handle_human_open if @conversation.open? && Current.user.is_a?(User)
     end
-    handle_human_open if @conversation.open? && Current.user.is_a?(User)
   end
 
   def bot_handoff?
@@ -176,14 +179,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def set_conversation_status
     @conversation.status = params[:status]
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
-  end
-
-  def handle_human_open
-    @conversation.with_lock do
-      @conversation.ai_assignee = nil
-      @conversation.assignee = Current.user if Current.user.agent?
-      @conversation.save!
-    end
   end
 
   def conversation

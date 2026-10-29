@@ -1,6 +1,7 @@
 class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   before_action :fetch_agent, except: [:create, :index, :bulk_create]
   before_action :check_authorization
+  before_action :validate_max_open_conversations, only: :update
 
   def index
     @agents = agents
@@ -25,8 +26,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   def update
     @agent.update!(agent_params.slice(:name).compact)
     account_user_params = agent_params.slice(*account_user_attributes).compact
-    # Blank clears the limit, so it can't go through compact
-    account_user_params[:max_open_conversations] = agent_params[:max_open_conversations].presence if agent_params.key?(:max_open_conversations)
+    # null clears the limit, so it can't go through compact
+    account_user_params[:max_open_conversations] = agent_params[:max_open_conversations] if agent_params.key?(:max_open_conversations)
     @agent.current_account_user.update!(account_user_params)
   end
 
@@ -60,6 +61,13 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def account_user_attributes
     [:role, :availability, :auto_offline]
+  end
+
+  def validate_max_open_conversations
+    value = agent_params[:max_open_conversations]
+    return if value.nil? || value.is_a?(Integer)
+
+    render_could_not_create_error('max_open_conversations must be an integer or null')
   end
 
   def allowed_agent_params

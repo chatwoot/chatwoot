@@ -396,8 +396,12 @@ const actions = {
         status: updatedStatus,
         snoozedUntil: updatedSnoozedUntil,
       });
+      return true;
     } catch (error) {
-      // Handle error
+      // Assignment rules reject reopening into an agent over their open conversation limit
+      const message = error?.response?.data?.error;
+      if (message) useAlert(message);
+      return false;
     }
   },
 

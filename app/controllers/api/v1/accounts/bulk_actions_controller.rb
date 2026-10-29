@@ -21,15 +21,14 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
   private
 
   def validate_conversation_assignment!
-    assignee = Current.account.users.find_by(id: params.dig(:fields, :assignee_id))
+    fields = conversation_params[:fields] || {}
+    assignee = Current.account.users.find_by(id: fields[:assignee_id])
     return if assignee.blank?
 
-    conversations = Current.account.conversations.where(display_id: params[:ids])
-    Conversations::AssignmentRulesService.new(
-      account: Current.account,
-      assignee: assignee,
-      conversations: Conversations::PermissionFilterService.new(conversations, current_user, Current.account).perform
-    ).validate!
+    conversations = Conversations::PermissionFilterService.new(
+      Current.account.conversations.where(display_id: params[:ids]), current_user, Current.account
+    ).perform
+    Conversations::AssignmentRulesService.new(account: Current.account, assignee: assignee).validate!(conversations, status: fields[:status].presence)
   end
 
   def normalized_type

@@ -39,3 +39,8 @@ properties:
       - integer
       - 'null'
     description: The custom role id of the agent
+  max_open_conversations:
+    type:
+      - integer
+      - 'null'
+    description: Maximum number of open conversations that can be manually assigned to the agent. Null means no limit.

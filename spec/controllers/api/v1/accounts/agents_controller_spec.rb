@@ -151,7 +151,7 @@ RSpec.describe 'Agents API', type: :request do
         expect(response.parsed_body['max_open_conversations']).to eq(5)
 
         put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
-            params: { max_open_conversations: '' },
+            params: { max_open_conversations: nil },
             headers: admin.create_new_auth_token,
             as: :json
 
@@ -166,6 +166,20 @@ RSpec.describe 'Agents API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'rejects max open conversations values that are not a positive integer' do
+        other_agent.account_users.first.update!(max_open_conversations: 5)
+
+        [false, 2**31].each do |value|
+          put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+              params: { max_open_conversations: value },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+        expect(other_agent.account_users.first.max_open_conversations).to eq(5)
       end
     end
   end

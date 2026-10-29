@@ -13,25 +13,23 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   private
 
   def set_agent
-    validate_agent_assignment!
-    resource = Conversations::AssignmentService.new(
-      conversation: @conversation,
-      assignee_id: params[:assignee_id],
-      assignee_type: params[:assignee_type]
-    ).perform
+    resource = Conversations::AssignmentRulesService.new(account: Current.account, assignee: human_assignee).enforce! do
+      Conversations::AssignmentService.new(
+        conversation: @conversation,
+        assignee_id: params[:assignee_id],
+        assignee_type: params[:assignee_type]
+      ).perform
+    end
 
     render_agent(resource)
   rescue CustomExceptions::ConversationAssignmentNotAllowed => e
     render_could_not_create_error(e.message)
   end
 
-  def validate_agent_assignment!
-    return if agent_bot_assignment?
+  def human_assignee
+    return unless params[:assignee_type].blank? || params[:assignee_type] == 'User'
 
-    assignee = Current.account.users.find_by(id: params[:assignee_id])
-    return if assignee.blank?
-
-    Conversations::AssignmentRulesService.new(account: Current.account, assignee: assignee, conversations: [@conversation]).validate!
+    Current.account.users.find_by(id: params[:assignee_id])
   end
 
   def render_agent(resource)

@@ -71,6 +71,19 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         expect(response.parsed_body['error']).to eq("#{agent_1.available_name} has reached the limit of 1 open assigned conversations")
       end
 
+      it 'Rejects bulk assignment that reopens conversations over the open conversation limit' do
+        agent_1.account_users.find_by(account: account).update!(max_open_conversations: 1)
+        Conversation.update_all(status: :resolved) # rubocop:disable Rails/SkipsModelValidations
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: { type: 'Conversation', fields: { assignee_id: agent_1.id, status: 'open' }, ids: Conversation.first(2).pluck(:display_id) }
+        end.not_to have_enqueued_job(BulkActionsJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'Rejects bulk assignment to a team outside the account' do
         other_team = create(:team, account: create(:account))
 

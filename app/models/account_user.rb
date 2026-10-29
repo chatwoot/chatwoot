@@ -47,7 +47,7 @@ class AccountUser < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: :account_id }
   validate :accepts_conversations_or_calls
-  validates :max_open_conversations, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
+  validates :max_open_conversations, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 2_147_483_647 }, allow_nil: true
 
   def create_notification_setting
     setting = user.notification_settings.new(account_id: account.id)
