@@ -30,6 +30,16 @@ RSpec.describe Captain::Copilot::Resources::Table do
     expect(columns.names(Message)).not_to include('sender_id', 'sender_type')
   end
 
+  it 'never reads or lists a secret key inside a JSON column' do
+    create(:conversation, account: account, additional_attributes: { 'browser_language' => 'es', 'api_token' => 'abc' })
+    columns = Captain::Copilot::Resources::Columns
+
+    keys = columns.json_keys(account.conversations, 'additional_attributes')
+    expect(keys).to include('browser_language')
+    expect(keys).not_to include('api_token')
+    expect { columns.json_field(Conversation, 'additional_attributes.api_token') }.to raise_error(ArgumentError, /not a key of a readable/)
+  end
+
   it 'reads tables that belong to the account through another record, such as inbox members' do
     inbox = create(:inbox, account: account)
     create(:inbox_member, inbox: inbox, user: admin)

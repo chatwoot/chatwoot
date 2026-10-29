@@ -7,6 +7,8 @@ module Captain::Copilot::Resources::Columns
   JSON_TYPES = %i[json jsonb].freeze
   DATE_TYPES = %i[datetime date].freeze
   NUMBER_TYPES = %i[integer float decimal].freeze
+  # Keys with these names inside JSON columns are never read, listed or shown, as a last check after the exclusions.
+  SECRET_KEY = /(\A|_)(token|secret|password|key|credential|otp|salt|digest|certificate)s?(_|\z)/
   # describe lists the keys found in at most this many JSON values, and at most MAX_KEYS of them.
   KEY_SAMPLE = 1000
   MAX_KEYS = 40
@@ -125,7 +127,8 @@ module Captain::Copilot::Resources::Columns
   # A key inside a JSON column, written column.key, as a database expression.
   def self.json_field(model, path)
     column, key = path.split('.', 2)
-    raise ArgumentError, "#{path} is not a key of a readable JSON column" unless json(model).include?(column) && key.present?
+    readable = json(model).include?(column) && key.present? && !key.match?(SECRET_KEY)
+    raise ArgumentError, "#{path} is not a key of a readable JSON column" unless readable
 
     Arel::Nodes::InfixOperation.new('->>', model.arel_table[column], Arel::Nodes.build_quoted(key))
   end
@@ -135,6 +138,7 @@ module Captain::Copilot::Resources::Columns
     function = relation.klass.columns_hash[column].type == :jsonb ? 'jsonb' : 'json'
     value = relation.klass.arel_table[column]
     objects = relation.where(Arel::Nodes::NamedFunction.new("#{function}_typeof", [value]).eq('object'))
-    objects.limit(KEY_SAMPLE).pluck(Arel::Nodes::NamedFunction.new("#{function}_object_keys", [value])).uniq.first(MAX_KEYS)
+    keys = objects.limit(KEY_SAMPLE).pluck(Arel::Nodes::NamedFunction.new("#{function}_object_keys", [value])).uniq
+    keys.grep_v(SECRET_KEY).first(MAX_KEYS)
   end
 end

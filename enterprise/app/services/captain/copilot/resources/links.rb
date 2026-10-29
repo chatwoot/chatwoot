@@ -25,7 +25,10 @@ module Captain::Copilot::Resources::Links
     end
     return owners unless model.reflect_on_association(:label_taggings)
 
-    owners.merge('labels' => ->(*) { ActsAsTaggableOn::Tagging.where(taggable_type: model.polymorphic_name, context: 'labels').select(:taggable_id) })
+    owners.merge('labels' => lambda do |account, _user|
+      ActsAsTaggableOn::Tagging.where(taggable_type: model.polymorphic_name, taggable_id: model.where(account_id: account.id).select(:id),
+                                      context: 'labels').select(:taggable_id)
+    end)
   end
 
   # A resource in empty keeps the records it points at none of, and in not_empty the records it points at at least once.

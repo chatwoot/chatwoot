@@ -24,7 +24,8 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
     return filters if source || filters['contains'].blank? || filters.key?('since') || filters.key?('before')
 
     since = Limits.search_time_range_limit_days.days.ago
-    @note = "Only messages sent since #{since.to_date.iso8601} were searched, because no dates were given. Earlier messages were not checked."
+    window = "Only messages sent since #{since.to_date.iso8601} were searched, because no dates were given. Earlier messages were not checked."
+    @note = [@note, window].compact.join(' ')
     filters.merge('since' => since.iso8601)
   end
 

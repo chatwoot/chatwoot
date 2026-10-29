@@ -60,7 +60,7 @@ class CopilotRun::Collection < CopilotRun
   end
 
   # Display, reviews and actions page through the saved IDs, which stop at MAX_SELECTION. A later get_data step rebuilds
-  # the collection from its filters instead, so it is never cut off.
+  # a cut-off collection from its filters instead (Captain::Copilot::Resources.records).
   def selection_truncated?
     context['selection_truncated'] == true
   end

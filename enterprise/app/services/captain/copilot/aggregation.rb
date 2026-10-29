@@ -38,7 +38,7 @@ class Captain::Copilot::Aggregation
     end
   end
 
-  # range bounds the periods, so periods without records inside since and before are listed with nothing.
+  # range is since to before on date_field, so periods without records inside it are listed with nothing.
   def initialize(resource, relation, time_zone:, date_field:, range: nil)
     @resource = resource
     @model = resource.class::MODEL
@@ -130,11 +130,12 @@ class Captain::Copilot::Aggregation
 
   # Periods and date parts are cut in the account's reporting time zone, and weeks start on Sunday, as on the reports
   # pages. Labels live in their own table, so grouping by label joins it; a record without labels has no label.
+  # Groupdate also filters the grouped column by range, so periods of another date column do not take it.
   def grouped(fields)
     fields.reduce(joined(fields)) do |scope, field|
       next scope.group(field.expression) unless field.date?
 
-      options = { time_zone: @time_zone, series: fields.one?, range: (@range if fields.one?) }
+      options = { time_zone: @time_zone, series: fields.one?, range: (@range if fields.one? && field.column == @date_field) }
       options[:week_start] = :sunday if WEEK_PARTS.include?(field.part)
       scope.group_by_period(field.part.to_sym, field.column, **options)
     end
@@ -160,10 +161,11 @@ class Captain::Copilot::Aggregation
     in_order(rows.group_by { |row| median_key(row, fields) }.transform_values { |group| median(group.map(&:last)) }, fields)
   end
 
+  # Whole numbers, such as hours, are padded so they sort as text with the other keys.
   def in_order(medians, fields)
-    return medians.sort_by { |key, _| Array(key).map(&:to_s) }.to_h if fields.any?(&:date?)
+    return medians.sort_by { |_, median| -median.to_f }.to_h unless fields.any?(&:date?)
 
-    medians.sort_by { |_, median| -median.to_f }.to_h
+    medians.sort_by { |key, _| Array(key).map { |part| part.is_a?(Integer) ? format('%012d', part) : part.to_s } }.to_h
   end
 
   # Rows of the field values followed by the measured value, leaving out records without that value.

@@ -31,6 +31,21 @@ RSpec.describe Captain::Copilot::Aggregation do
     expect(result[:groups]).to eq([{ group: '2023-09-06', value: 2 }, { group: '2023-09-07', value: 1 }])
   end
 
+  it 'groups by another date column without dropping records whose value falls outside the dates of date_field' do
+    range = Time.utc(2023, 9, 6)...Time.utc(2023, 9, 6, 14)
+
+    result = described_class.new(conversations, relation.where(created_at: range), time_zone: 'UTC', date_field: 'created_at', range: range)
+                            .call(measure: 'count', group_by: ['first_reply_created_at:day'])
+
+    expect(result[:groups]).to eq([{ group: '2023-09-06', value: 2 }])
+  end
+
+  it 'orders medians by hour as numbers' do
+    result = aggregation.call(measure: 'median', duration: %w[created_at first_reply_created_at], group_by: ['created_at:hour_of_day'])
+
+    expect(result[:groups].pluck(:group)).to eq(%w[09:00 12:00])
+  end
+
   it 'measures the time between two date columns per agent, named, with unassigned ones apart' do
     average = aggregation.call(measure: 'average', duration: %w[created_at first_reply_created_at], group_by: ['assignee'])
     median = aggregation.call(measure: 'median', duration: %w[created_at first_reply_created_at], group_by: ['assignee'])

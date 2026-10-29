@@ -40,10 +40,13 @@ class Captain::Tools::Copilot::GetDataService < Captain::Tools::Copilot::Workflo
                describe: { type: 'boolean', description: "Return the resource's filters, JSON keys and sources instead of selecting" }
              }
 
-  # The resources this user may read, so the description lists no table the user cannot open.
+  # The resources this user may read, so the description lists no table the user cannot open. RubyLLM reads it on
+  # every model call, and the tool is built for each turn.
   def description
-    resources = Captain::Copilot::Resources.readable(account: run.account, user: run.user)
-    "#{self.class.description} Resources:\n#{resources.map(&:help).join("\n")}"
+    @description ||= begin
+      resources = Captain::Copilot::Resources.readable(account: run.account, user: run.user)
+      "#{self.class.description} Resources:\n#{resources.map(&:help).join("\n")}"
+    end
   end
 
   # options holds exclude_from, group_by, aggregate, chart and describe.
