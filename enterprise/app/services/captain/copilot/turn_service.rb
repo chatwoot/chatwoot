@@ -5,6 +5,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   include Captain::ChatHelper
   include Captain::Copilot::ConversationAccess
   include Captain::Copilot::Tracing
+  include Captain::Copilot::NumberChecking
 
   MAX_MODEL_CALLS = 20
   # Copilot's tools without search_conversation, which dumps full transcripts into context; get_data and review_conversations replace it.
@@ -43,7 +44,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     params = instrumentation_params
     with_copilot_trace(params[:span_name], params, turn: @run, input: @run.copilot_message.message['content']) do |span|
       save_trace_carrier
-      outcome = complete_loop(llm)
+      outcome = complete_with_number_check(llm)
       next wait_for_background_run if outcome == :awaiting_background_run
 
       # Langfuse takes a trace's output from its first span. A turn that waited on a background run finishes in a later span.
@@ -108,7 +109,6 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   def complete_loop(llm)
     until llm.complete?
       @run.renew_lease(@token)
-      model_calls = @run.transcript.fetch('messages', []).count { |message| message['role'] == 'assistant' }
       raise Captain::Copilot::LimitExceededError, 'The turn reached its model-call limit' if model_calls > MAX_MODEL_CALLS
 
       llm.with_tool_options(choice: :none) if model_calls == MAX_MODEL_CALLS
@@ -186,7 +186,8 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   def finish(llm)
     @run.with_lease(@token) do
       response = parse_json_response(llm.messages.last.content).slice('content', 'reply_suggestion')
-      response['content'] = response['content'].to_s
+      # The instructions count as known, because an assistant's own instructions may give links to share.
+      response['content'] = Captain::Copilot::LinkCheck.new(known_texts + @messages.pluck(:content), run_id: @run.id).strip(response['content'].to_s)
       persist_message(Captain::Copilot::Chart.attach(response, @run.copilot_thread_id))
       @account.increment_response_usage
       @run.release!(:completed, error: nil)
@@ -228,7 +229,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     hide_chart_data(started_run_result(instrument_tool_call(@tool_call.name, arguments) { original.call(tool_call: tool_call, **arguments) }))
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::BackgroundRunPending
     raise
-  rescue ArgumentError, ActiveRecord::RecordNotFound => e
+  rescue ArgumentError, ActiveRecord::RecordNotFound, ActiveRecord::RecordInvalid => e
     { error: e.message }
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @account).capture_exception

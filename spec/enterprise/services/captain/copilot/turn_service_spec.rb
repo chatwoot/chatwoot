@@ -26,6 +26,30 @@ RSpec.describe Captain::Copilot::TurnService do
                          { 'content' => "Couldn't finish this step", 'status' => 'failed' }])
   end
 
+  it 'sends numbers no tool result supports back to the model once, as its own check' do
+    run.tool_calls.create!(call_id: 'call-1', name: 'get_data', status: :completed, result: { groups: [{ value: 10 }, { value: 20 }] })
+    draft = RubyLLM::Message.new(role: :assistant, content: { content: 'Email takes 10 hours, chat 20, and 15 on average.' }.to_json)
+    llm = instance_double(RubyLLM::Chat, messages: [draft], add_message: nil)
+    service.instance_variable_set(:@transcript, instance_double(Captain::Copilot::TurnTranscript, save: nil))
+
+    expect(service.send(:revise_numbers?, llm)).to be(true)
+    expect(llm).to have_received(:add_message).with(role: :user, content: include('- 15 in: Email takes 10 hours, chat 20, and 15 on average.'))
+    expect(service.send(:revise_numbers?, llm)).to be(false)
+  end
+
+  it 'keeps the links a tool returned and removes the links it made up' do
+    guide = 'https://help.example.com/hc/docs/articles/refunds?lang=en&ref=copilot'
+    run.tool_calls.create!(call_id: 'call-1', name: 'get_data', status: :completed,
+                           result: { rows: [{ url: '/app/accounts/1/conversations/5' }], article: guide })
+    answer = "See [#5](/app/accounts/1/conversations/5), [the guide](#{guide}) and [pricing](https://example.com/pricing)."
+    llm = instance_double(RubyLLM::Chat, messages: [RubyLLM::Message.new(role: :assistant, content: { content: answer }.to_json)])
+
+    service.send(:finish, llm)
+
+    expect(thread.copilot_messages.assistant.last.message['content'])
+      .to eq("See [#5](/app/accounts/1/conversations/5), [the guide](#{guide}) and pricing.")
+  end
+
   it 'writes no line for a review, which shows its own card, or while the turn waits for it' do
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'review_conversations', arguments: {}))
     service.send(:wait_for_background_run)
