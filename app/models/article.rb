@@ -71,7 +71,7 @@ class Article < ApplicationRecord
   validates :slug, uniqueness: true, format: { with: /\A[a-zA-Z0-9_-]+\z/ }, if: :will_save_change_to_slug?
   validate :noindex_must_be_boolean
   validate :cannot_reassociate_with_translations, if: :will_save_change_to_associated_article_id?
-  validate :unique_published_locale_in_family, if: :published?
+  validate :unique_locale_in_family
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
@@ -202,10 +202,10 @@ class Article < ApplicationRecord
     errors.add(:associated_article_id, :invalid) if associated_articles.exists?
   end
 
-  def unique_published_locale_in_family
+  def unique_locale_in_family
     return if new_record? && associated_article_id.blank?
 
-    errors.add(:locale, :taken) if translation_family.published.where(locale: locale).where.not(id: id).exists?
+    errors.add(:locale, :taken) if translation_family.where(locale: locale).where.not(id: id).exists?
   end
 
   def noindex_must_be_boolean
