@@ -38,8 +38,6 @@ You have the tools to check a change yourself, so use them instead of asking som
 - Run the specs closest to the change with `bundle exec rspec spec/path/to/file_spec.rb` and `pnpm test`.
 - For a UI change, run the app (`pnpm dev`), sign in with the seeded data, and use the changed screen in a browser. Check both what the API saved and what the screen shows.
 - End to end tests live in `tests/playwright`.
-- Write specs for the behavior that matters most, such as a bug that reached production or a rule that is easy to break. Do not write one spec per method or specs that restate hardcoded values.
-- Before you open a PR, run `git diff --stat origin/develop...HEAD` and remove any file that the change does not need.
 
 ### Review findings by likelihood and impact
 
@@ -68,7 +66,6 @@ Reviewers, human and AI, often flag problems that are possible in theory and alm
 - **Ruby Version**: Manage Ruby via `rbenv` and install the version listed in `.ruby-version` (e.g., `rbenv install $(cat .ruby-version)`)
 - **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
 - Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
-- Fix lint errors in the code. Do not disable or suppress a RuboCop or ESLint rule.
 
 ## Code Style
 
@@ -86,7 +83,6 @@ Reviewers, human and AI, often flag problems that are possible in theory and alm
 
 - **Database foreign keys**: Prefer Rails associations and callbacks over database foreign-key constraints. Add a database foreign key only when there is a clear need and after checking deletion behavior and production migration/locking risks. Existing foreign keys alone are not a reason to add new ones.
 - **Migrations**: Create migrations with `bundle exec rails g migration <Name>` so the version is a real timestamp. Never hand-write or round the version (e.g. `20260925000000`); rounded versions collide across branches and break `db:migrate`.
-- **One-off backfills**: Put them in `app/jobs/migration/` with `queue_as :async_database_migration`.
 - **No custom SQL**: Write queries and data migrations in Ruby with ActiveRecord (`where`, `find_each`, `update!`). Do not use `execute`, SQL heredocs or raw SQL strings.
 - Build for the expected production path first. Do not add speculative guards, fallbacks, retries, or edge-case handling unless the caller can actually hit that case or production has proven it necessary.
 - Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes unless a proven independent path bypasses that point.
@@ -103,7 +99,12 @@ Reviewers, human and AI, often flag problems that are possible in theory and alm
 - Optimize for human-readable, idiomatic Rails code. Prefer clear model methods, associations, scopes, and named route helpers over dense controller chains or manually assembled paths.
 - Keep record relationships, association traversal, and reusable database queries in models or model scopes. Return an ActiveRecord relation when callers need to filter or order the result.
 - Controllers should coordinate requests and prepare responses. Keep request-specific URL generation and presentation logic in controllers or view helpers. Before finalizing controller changes, check that relationship and traversal logic lives in the model layer.
-- Put logic for a new feature in its own service instead of adding it to a shared model such as `Conversation`. Pass the account and user into services; do not read `Current.account` or `Current.user` inside them.
+- Put logic for a new feature in its own service instead of adding it to a shared model such as `Conversation`.
+- Prefer the smallest production-ready change that solves the current problem.
+- Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
+- Break down complex tasks into small, testable units
+- Iterate after confirmation
+- Avoid writing specs unless explicitly asked
 - Remove dead/unreachable/unused code
 - Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
 - In specs, avoid custom helper methods for setup/data. Prefer `let` values and direct per-example setup; only add a helper when it removes meaningful repeated complexity.
@@ -119,13 +120,12 @@ Reviewers, human and AI, often flag problems that are possible in theory and alm
   - Integrations are an `Integrations::Hook` with an entry in `config/integration/apps.yml`, and their logic lives in `lib/integrations/<provider>/`.
   - Use the provider's Ruby gem when one exists.
 - **Handle each provider error on purpose.** Do not wrap the call in a bare `rescue`.
-  - For an authorization error, call `authorization_error!` or `prompt_reauthorization!` from `Reauthorizable` so the user is asked to reconnect. Do not `destroy!` the channel or hook.
+  - For an authorization error, call `authorization_error!` or `prompt_reauthorization!` from `Reauthorizable` so the user is asked to reconnect.
   - For a known, harmless error, log it and link the provider's documentation in a comment.
   - For a failed send, mark the message failed with `Messages::StatusUpdateService`.
   - For an unknown error, report it with `ChatwootExceptionTracker`.
   - Log the error class, code, and request ID. Do not log response bodies, credentials, or customer data.
 - **Add retries only after production shows the need.** Keep them narrow, with a short fixed limit. The Twilio media retry first shipped as a new download service with its own redirect handling, broke normal downloads, and was reverted. It came back the next day built on the existing `SafeFetch` (#15499, #15502, #15504).
-- Scope network validations to the attribute that changed, e.g., `if: :api_key_changed?`.
 
 ## Frontend
 
@@ -137,7 +137,7 @@ Reviewers, human and AI, often flag problems that are possible in theory and alm
 - **Migrate in small slices.** Move one mixin, one page, or one component per PR, and delete the old version when nothing uses it.
 - Prefer existing design-system utilities and shared composables.
 - Use typography utilities instead of manually recreating font styles.
-- Use logical Tailwind utilities (`ms`, `me`, `ps`, `pe`, `start`, `end`, `border-s`) for direction-aware layouts. Use `ltr:` and `rtl:` only for utilities that have no logical form, such as `rotate` or `divide-x-reverse`. Update old `ltr:` and `rtl:` pairs on the lines you touch.
+- Use logical Tailwind utilities (`ms`, `me`, `ps`, `pe`, `start`, `end`, `border-s`) for direction-aware layouts. Use `ltr:` and `rtl:` only for utilities that have no logical form, such as `rotate` or `divide-x-reverse`.
 - Use `rem` for arbitrary CSS dimensions; preserve native numeric values required by chart/SVG APIs.
 - Extract repeated or domain-specific strings, thresholds, colors, and durations into named constants.
 
