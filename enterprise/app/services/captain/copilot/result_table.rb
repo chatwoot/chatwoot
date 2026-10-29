@@ -126,7 +126,7 @@ class Captain::Copilot::ResultTable
   def covered_dates
     field = @run.filters['date_field'] || 'last_activity_at'
     column = Conversation.arel_table[field]
-    first, last = visible_conversations.where(id: @run.findings.select(:conversation_id)).pick(column.minimum, column.maximum)
+    first, last = visible_conversations.where(id: @run.findings.finished.select(:conversation_id)).pick(column.minimum, column.maximum)
     first ? ["Processed conversations span #{field} #{first.to_date.iso8601} to #{last.to_date.iso8601}."] : []
   end
 
