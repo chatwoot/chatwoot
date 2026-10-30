@@ -49,9 +49,25 @@ class CopilotRun::Turn < CopilotRun
     self
   end
 
-  # Turns run in order; a message sent while an earlier turn waits on its review is answered after that turn.
+  # Turns run in order. The server refuses a message while Copilot works, but two messages sent at once can both pass that
+  # check, so the later turn waits for the earlier one.
   def behind_earlier_turn?
     CopilotRun::Turn.unfinished.exists?(copilot_thread_id: copilot_thread_id, copilot_message_id: ...copilot_message_id)
+  end
+
+  # Ends the turn without another answer and stops the review or change it started. The job working on the turn finds its
+  # lease gone at its next step, so it saves nothing more. The turn stays incomplete, so later turns read it as an outline.
+  def stop
+    stopped = with_lock do
+      next false if finished?
+
+      release!(:incomplete, error: I18n.t('captain.copilot.stopped'))
+    end
+    return false unless stopped
+
+    CopilotRun.unfinished.where(copilot_tool_call: tool_calls).find_each(&:stop)
+    copilot_thread.copilot_messages.create!(message_type: :assistant, message: { run_id: id, content: I18n.t('captain.copilot.stopped_message') })
+    true
   end
 
   # Called when a background run finishes. This run may not have parked yet; it checks the tool call under this same lock

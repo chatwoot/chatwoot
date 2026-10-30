@@ -55,6 +55,19 @@ describe('Copilot', () => {
     ).toEqual(['History', 'New chat', 'GENERAL.CLOSE']);
   });
 
+  it('offers Stop while Copilot works on a message, but not in a new chat', () => {
+    const assistants = [{ id: 7, name: 'Support' }];
+    const working = mountComponent({
+      assistants,
+      canStop: true,
+      messages: [{ id: 1, message_type: 'user', message: { content: 'Hi' } }],
+    });
+    const empty = mountComponent({ assistants, canStop: true, messages: [] });
+
+    expect(working.findComponent(CopilotInput).props('isWorking')).toBe(true);
+    expect(empty.findComponent(CopilotInput).props('isWorking')).toBe(false);
+  });
+
   it('opens a past chat and starts a new one', async () => {
     const thread = { id: 42, title: 'Older question' };
     const wrapper = mountComponent({ threads: [thread] });

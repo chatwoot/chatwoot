@@ -96,6 +96,11 @@ class CopilotRun::Action < CopilotRun
     close(:expired, I18n.t('captain.copilot.approval_expired', minutes: APPROVAL_TTL.in_minutes.to_i))
   end
 
+  # A change still awaiting approval is rejected, so approving its card later changes nothing.
+  def stop
+    reject(I18n.t('captain.copilot.stopped')) || super
+  end
+
   # The approval card's status: awaiting_approval until the agent decides, then approved, rejected or expired.
   def approval_status
     awaiting_approval? || rejected? || expired? ? status : 'approved'
@@ -127,8 +132,9 @@ class CopilotRun::Action < CopilotRun
   # change never reached count with the failed ones, so the card's numbers add up to what the agent approved.
   def card_progress
     progress = summary
-    { finished: finished?, done: progress.values_at(:applied, :skipped, :failed).sum, total: progress[:targets],
-      applied: progress[:applied] + progress[:skipped], not_changed: progress[:failed] + progress[:not_processed].to_i }
+    { finished: finished?, stopped: context['stopped'].present?, done: progress.values_at(:applied, :skipped, :failed).sum,
+      total: progress[:targets], applied: progress[:applied] + progress[:skipped],
+      not_changed: progress[:failed] + progress[:not_processed].to_i }
   end
 
   # Targets an approved change never reached, such as when workflows were turned off partway through.

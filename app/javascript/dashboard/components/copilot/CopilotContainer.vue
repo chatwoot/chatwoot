@@ -286,6 +286,14 @@ const sendMessage = async payload => {
   }
 };
 
+const stopCopilot = async () => {
+  try {
+    await CopilotThreadsAPI.stop(selectedCopilotThreadId.value);
+  } catch (error) {
+    useAlert(error.message);
+  }
+};
+
 onMounted(() => {
   if (isEnterprise) {
     store.dispatch('captainAssistants/get');
@@ -318,6 +326,8 @@ onMounted(() => {
       :can-suggest-reply="canSuggestReply"
       :can-use-reply="canUseReply"
       :on-send-message="sendMessage"
+      :can-stop="isWorkflowsEnabled"
+      :on-stop="stopCopilot"
       @set-assistant="setAssistant"
       @select-thread="selectThread"
       @load-more-threads="loadThreads(historyPage + 1)"

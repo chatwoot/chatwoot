@@ -3,10 +3,10 @@ import CopilotInput from '../CopilotInput.vue';
 
 const wrappers = [];
 
-const mountCopilotInput = onSend => {
+const mountCopilotInput = (onSend, props = {}) => {
   const wrapper = mount(CopilotInput, {
     attachTo: document.body,
-    props: { onSend },
+    props: { onSend, ...props },
     global: {
       mocks: { $t: key => key },
     },
@@ -101,6 +101,23 @@ describe('CopilotInput', () => {
     expect(button.attributes('disabled')).toBeUndefined();
     expect(textarea.element.value).toBe('Keep this message');
     expect(document.activeElement).toBe(textarea.element);
+  });
+
+  it('stops Copilot instead of sending while it works, and keeps the draft', async () => {
+    const onSend = vi.fn();
+    const onStop = vi.fn().mockResolvedValue();
+    const wrapper = mountCopilotInput(onSend, { isWorking: true, onStop });
+    const textarea = wrapper.find('textarea');
+
+    await textarea.setValue('And the unassigned ones?');
+    await textarea.trigger('keydown.enter');
+    await wrapper.find('form').trigger('submit');
+    await wrapper.find('button').trigger('click');
+    await flushPromises();
+
+    expect(onSend).not.toHaveBeenCalled();
+    expect(onStop).toHaveBeenCalledTimes(1);
+    expect(textarea.element.value).toBe('And the unassigned ones?');
   });
 
   it('allows vertical scrolling when the input reaches its max height', () => {

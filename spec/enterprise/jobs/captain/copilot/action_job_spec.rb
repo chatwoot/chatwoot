@@ -33,7 +33,7 @@ RSpec.describe Captain::Copilot::ActionJob do
     expect(unlabeled.reload.label_list).to eq(['billing'])
     expect(card.reload.message['approval']).to include(
       'status' => 'approved',
-      'progress' => { 'finished' => true, 'done' => 2, 'total' => 2, 'applied' => 2, 'not_changed' => 0 }
+      'progress' => { 'finished' => true, 'stopped' => false, 'done' => 2, 'total' => 2, 'applied' => 2, 'not_changed' => 0 }
     )
   end
 
@@ -43,5 +43,40 @@ RSpec.describe Captain::Copilot::ActionJob do
     described_class.perform_now(action_run.id)
 
     expect(card.reload.message.dig('approval', 'progress')).to include('finished' => true, 'applied' => 0, 'not_changed' => 2)
+  end
+
+  describe 'stopping the change' do
+    it 'changes nothing when the agent stops it before the job runs' do
+      expect(action_run.stop).to be(true)
+
+      described_class.perform_now(action_run.id)
+
+      expect(unlabeled.reload.label_list).to be_empty
+      expect(action_run.reload).to be_incomplete
+      expect(action_run.copilot_tool_call.reload.result).to include('error' => I18n.t('captain.copilot.stopped'))
+      expect(card.reload.message.dig('approval', 'progress')).to include('finished' => true, 'stopped' => true, 'not_changed' => 2)
+    end
+
+    it 'keeps the records already changed and changes none after the stop' do
+      action = action_run.action
+      allow(Captain::Copilot::Actions).to receive(:build).and_return(action)
+      allow(action).to receive(:perform).and_wrap_original do |original, record|
+        CopilotRun::Action.find(action_run.id).stop if record.id == labeled.id
+        original.call(record)
+      end
+
+      described_class.perform_now(action_run.id)
+
+      expect(action_run.action_items.pluck(:record_id)).to eq([labeled.id])
+      expect(unlabeled.reload.label_list).to be_empty
+      expect(action_run.reload.summary).to include(status: 'incomplete', skipped: 1, not_processed: 1)
+    end
+
+    it 'refuses to stop a change that already finished' do
+      described_class.perform_now(action_run.id)
+
+      expect(action_run.reload.stop).to be(false)
+      expect(action_run.reload).to be_completed
+    end
   end
 end

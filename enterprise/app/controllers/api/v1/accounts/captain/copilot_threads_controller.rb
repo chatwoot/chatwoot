@@ -30,6 +30,12 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     end
   end
 
+  # Stops what Copilot is working on in the thread. The panel shows the stop through the thread's messages.
+  def stop
+    Current.account.copilot_threads.find_by!(id: params[:id], user: Current.user).stop
+    head :ok
+  end
+
   private
 
   def build_copilot_response(copilot_message)

@@ -61,6 +61,15 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  // The old Copilot answers each message on its own and cannot be stopped.
+  canStop: {
+    type: Boolean,
+    default: false,
+  },
+  onStop: {
+    type: Function,
+    default: () => {},
+  },
 });
 
 const emit = defineEmits([
@@ -139,6 +148,12 @@ const hasLiveStep = (item, index) =>
   isCopilotWorking.value &&
   index === groupedMessages.value.length - 1 &&
   Boolean(item.messages.at(-1).message.run_id);
+
+// Copilot answers one message at a time, so while it works the agent can stop it but not send another message. A new
+// chat has no messages, so there is nothing to stop.
+const isStoppable = computed(
+  () => props.canStop && props.messages.length > 0 && isCopilotWorking.value
+);
 
 const showLoader = computed(() => {
   if (!isCopilotWorking.value) return false;
@@ -317,6 +332,8 @@ watch(
         v-show="!isLoadingSelectedThread"
         class="mb-1 w-full"
         :on-send="sendMessage"
+        :is-working="isStoppable"
+        :on-stop="onStop"
       />
     </div>
   </div>
