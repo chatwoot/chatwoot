@@ -134,7 +134,7 @@ class Voice::InboundCallBuilder
       inbox_id: inbox.id,
       contact_id: contact.id,
       status: :open,
-      call_ringing: provider == :twilio && !inbox.closed_for_calls?
+      call_ringing: provider == :twilio && !closed_for_calls?
     )
   end
 
@@ -174,8 +174,14 @@ class Voice::InboundCallBuilder
   def initial_state
     now = Time.zone.now.to_i
     meta = { 'initiated_at' => now }.merge(extra_meta.stringify_keys)
-    return { status: 'ringing', meta: meta } unless provider == :twilio && inbox.closed_for_calls?
+    return { status: 'ringing', meta: meta } unless provider == :twilio && closed_for_calls?
 
     { status: 'no_answer', end_reason: Call::OUTSIDE_WORKING_HOURS, meta: meta.merge('ended_at' => now) }
+  end
+
+  # Read once, so a call that crosses a working-hours boundary is not held for a ring it never gets
+  def closed_for_calls?
+    @closed_for_calls = inbox.closed_for_calls? unless defined?(@closed_for_calls)
+    @closed_for_calls
   end
 end

@@ -168,6 +168,18 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(call.conversation.reload.assignee).to eq(agent)
     end
 
+    it 'skips a conversation a bulk run picked up before the call started ringing' do
+      account.enable_features!('assignment_v2')
+      contact_inbox = create(:contact_inbox, inbox: inbox, source_id: from_number)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact_inbox.contact, contact_inbox: contact_inbox)
+      service = AutoAssignment::AssignmentService.new(inbox: inbox.reload)
+      allow(service).to receive(:unassigned_conversations).and_return([conversation])
+
+      expect(perform_builder.conversation).to eq(conversation)
+      expect(service.perform_bulk_assignment).to eq(0)
+      expect(conversation.reload.assignee).to be_nil
+    end
+
     it 'leaves a reopened conversation unassigned while the call rings' do
       first = perform_builder
       Call.find(first.id).update!(status: 'no_answer')
@@ -196,6 +208,14 @@ RSpec.describe Voice::InboundCallBuilder do
       allow(inbox).to receive(:closed_for_calls?).and_return(true)
 
       expect(perform_builder.conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'rings a call that reaches the inbox as it closes for calls, holding its assignment' do
+      allow(inbox).to receive(:closed_for_calls?).and_return(false, true)
+
+      call = perform_builder
+      expect(call.status).to eq('ringing')
+      expect(call.conversation.reload.assignee).to be_nil
     end
   end
 

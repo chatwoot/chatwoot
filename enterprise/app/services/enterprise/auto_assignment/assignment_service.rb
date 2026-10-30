@@ -13,6 +13,11 @@ module Enterprise::AutoAssignment::AssignmentService
     }.compact
   end
 
+  # A run's batch can predate the call, so a conversation is rechecked before it is claimed
+  def assignable?(conversation)
+    super && !conversation.calls.exists?(provider: :twilio, direction: :incoming, status: 'ringing')
+  end
+
   # Extend agent finding to add capacity checks
   def find_available_agent(conversation = nil)
     agents = filter_agents_by_team(inbox.available_agents, conversation)
