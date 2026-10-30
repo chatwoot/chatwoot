@@ -3,7 +3,10 @@ module Captain::Copilot::Actions
   def self.all
     [Captain::Copilot::Actions::AddLabels, Captain::Copilot::Actions::RemoveLabels, Captain::Copilot::Actions::AssignAgent,
      Captain::Copilot::Actions::AssignTeam, Captain::Copilot::Actions::SetStatus, Captain::Copilot::Actions::SetPriority,
-     Captain::Copilot::Actions::AddPrivateNote, Captain::Copilot::Actions::SendReply]
+     Captain::Copilot::Actions::AddPrivateNote, Captain::Copilot::Actions::SendReply, Captain::Copilot::Actions::SetCustomAttributes,
+     Captain::Copilot::Actions::RemoveCustomAttributes, Captain::Copilot::Actions::AddParticipants,
+     Captain::Copilot::Actions::RemoveParticipants, Captain::Copilot::Actions::ApplySla, Captain::Copilot::Actions::Mute,
+     Captain::Copilot::Actions::Unmute]
   end
 
   def self.build(name, account:, user:, arguments:, proposal_values: {})
