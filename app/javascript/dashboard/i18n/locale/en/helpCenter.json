@@ -554,10 +554,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "All articles",
-          "MINE": "Mine",
           "DRAFT": "Draft",
           "PUBLISHED": "Published",
           "ARCHIVED": "Archived"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Me",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "All categories"
@@ -574,9 +580,9 @@
           "SUBTITLE": "Write a rich article, let’s get started!",
           "BUTTON_LABEL": "New article"
         },
-        "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "There are no articles in drafts",

@@ -49,9 +49,8 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   private
 
   def set_article_count
-    # Search the params without status and author_id, use this to
-    # compute mine count published draft etc
-    base_search_params = list_params.except(:status, :author_id)
+    # Keep tab counts independent of status while honoring the selected author.
+    base_search_params = list_params.except(:status)
     @articles = @portal_articles.search(base_search_params)
 
     @articles_count = @articles.count
