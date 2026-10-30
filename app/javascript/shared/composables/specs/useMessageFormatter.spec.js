@@ -87,5 +87,36 @@ describe('useMessageFormatter', () => {
         'This <span class="highlight">(message)</span> contains [special] characters'
       );
     });
+
+    it('should ignore accents and keep the original spelling', () => {
+      const result = messageFormatter.highlightContent(
+        'Olá, tudo bem? OLA',
+        'ola',
+        'highlight'
+      );
+      expect(result.trim()).toBe(
+        '<span class="highlight">Olá</span>, tudo bem? <span class="highlight">OLA</span>'
+      );
+    });
+
+    it('should highlight the right characters when accents are decomposed', () => {
+      const result = messageFormatter.highlightContent(
+        'Cafe\u0301 Ola',
+        'ola',
+        'highlight'
+      );
+      expect(result.trim()).toBe(
+        'Caf\u00e9 <span class="highlight">Ola</span>'
+      );
+    });
+
+    it('should skip highlighting when an accent has no combined form', () => {
+      const result = messageFormatter.highlightContent(
+        'g\u0303 ola',
+        'ola',
+        'highlight'
+      );
+      expect(result.trim()).toBe('g\u0303 ola');
+    });
   });
 });

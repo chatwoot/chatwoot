@@ -52,6 +52,19 @@ export const useMessageFormatter = () => {
   };
 
   /**
+   * Lowercases text and strips accents. NFC input keeps its length, so indexes carry over.
+   *
+   * @param {string} text - The text to normalize.
+   * @returns {string} - The normalized text.
+   */
+  const normalizeForSearch = text =>
+    text
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .normalize('NFC')
+      .toLowerCase();
+
+  /**
    * Highlights occurrences of a search term within given content.
    *
    * @param {string} [content=''] - The content in which to search.
@@ -64,21 +77,29 @@ export const useMessageFormatter = () => {
     searchTerm = '',
     highlightClass = ''
   ) => {
-    const plainTextContent = getPlainText(content);
+    const plainTextContent = getPlainText(content).normalize('NFC');
+    const term = normalizeForSearch(searchTerm);
+    const normalizedContent = normalizeForSearch(plainTextContent);
+    // Accents NFC can't combine (like "g\u0303") shorten the text, so its indexes would be off
+    if (!term || normalizedContent.length !== plainTextContent.length) {
+      return plainTextContent;
+    }
 
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
-    const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const matches = normalizedContent.matchAll(new RegExp(escapedTerm, 'g'));
 
-    return plainTextContent.replace(
-      new RegExp(`(${escapedSearchTerm})`, 'ig'),
-      `<span class="${highlightClass}">$1</span>`
-    );
+    return [...matches].reduceRight((text, { index }) => {
+      const end = index + term.length;
+      return `${text.slice(0, index)}<span class="${highlightClass}">${text.slice(index, end)}</span>${text.slice(end)}`;
+    }, plainTextContent);
   };
 
   return {
     formatMessage,
     getPlainText,
     truncateMessage,
+    normalizeForSearch,
     highlightContent,
   };
 };
