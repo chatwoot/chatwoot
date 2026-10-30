@@ -91,6 +91,22 @@ describe('voice call ringing', () => {
     expect(callsStore.removeCall).toHaveBeenCalledWith('CA3');
   });
 
+  it('keeps a card dismissed in another tab closed when the original ring arrives late', () => {
+    handleVoiceCallUpdated(
+      vi.fn(),
+      callMessage({ sid: 'CA9', ringUserIds: [TEAMMATE] }),
+      ME,
+      true
+    );
+    handleVoiceCallCreated(
+      callMessage({ sid: 'CA9', ringUserIds: [ME, TEAMMATE] }),
+      ME,
+      true
+    );
+
+    expect(callsStore.addCall).not.toHaveBeenCalled();
+  });
+
   it('keeps a card this agent dismissed closed when the ring reaches another agent', () => {
     markCallDismissed('CA4');
 
