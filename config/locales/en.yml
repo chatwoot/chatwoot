@@ -542,6 +542,17 @@ en:
       tool_not_available: 'Tool not available'
       reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
       reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
+      step_failed: "Couldn't finish this step"
+      steps:
+        search_documentation: 'Searching the knowledge base'
+        search_articles: 'Searching help center articles'
+        get_article: 'Reading an article'
+        search_contacts: 'Searching contacts'
+        get_contact: 'Looking up a contact'
+        get_conversation: 'Reading a conversation'
+        search_linear_issues: 'Searching Linear issues'
+        get_data: 'Finding matching records'
+        display: 'Preparing the results'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'

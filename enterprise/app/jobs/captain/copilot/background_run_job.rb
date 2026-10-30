@@ -43,6 +43,8 @@ module Captain::Copilot::BackgroundRunJob
     end
     tool_call = run.copilot_tool_call
     tool_call.copilot_run.resume_with(tool_call, summary)
+    # After the turn resumes, so a failed card update cannot leave the turn waiting.
+    run.publish_progress
   end
 
   def handle_failure(run, token, exception)
