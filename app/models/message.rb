@@ -44,6 +44,7 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+  BOT_SENDER_TYPES = %w[AgentBot Captain::Assistant].freeze
 
   TEMPLATE_PARAMS_SCHEMA = {
     'type': 'object',
@@ -233,7 +234,7 @@ class Message < ApplicationRecord
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
     return false if conversation.messages.outgoing
-                                .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
+                                .where.not(sender_type: BOT_SENDER_TYPES)
                                 .where.not(private: true)
                                 .not_forwarded
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
@@ -383,7 +384,7 @@ class Message < ApplicationRecord
 
   def bot_response?
     # Check if this is a response from AgentBot or Captain::Assistant
-    outgoing? && sender_type.in?(['AgentBot', 'Captain::Assistant'])
+    outgoing? && sender_type.in?(BOT_SENDER_TYPES)
   end
 
   def dispatch_create_events
