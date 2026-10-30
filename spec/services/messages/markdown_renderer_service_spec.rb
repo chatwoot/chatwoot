@@ -338,6 +338,30 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include('<blockquote>')
         expect(result).to include('quoted text')
       end
+
+      it 'renders every item of a list that follows a paragraph and a blank line' do
+        content = "Please pick one:\n\n- alpha\n- beta\n- gamma"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("Please pick one:\n\n• alpha\n• beta\n• gamma")
+      end
+
+      it 'keeps a list that follows a heading and a blank line out of the heading' do
+        content = "## Options\n\n- alpha\n- beta"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("<strong>Options</strong>\n\n• alpha\n• beta")
+      end
+
+      it 'keeps a paragraph that follows a heading and a blank line out of the heading' do
+        content = "## Options\n\nPick one"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("<strong>Options</strong>\n\nPick one")
+      end
+
+      it 'starts a new list after a blank line that follows another list' do
+        content = "1. one\n2. two\n\n- alpha\n- beta"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("1. one\n2. two\n\n• alpha\n• beta")
+      end
     end
 
     context 'when channel is Channel::Email' do
@@ -523,6 +547,18 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include('1. first')
         expect(result).to include('2. second')
         expect(result).to include('3. third')
+      end
+
+      it 'renders a list that follows a paragraph and a blank line' do
+        content = "Steps:\n\n1. first\n2. second"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("Steps:\n\n1. first\n2. second")
+      end
+
+      it 'keeps a thematic break between paragraphs' do
+        content = "Hi\n\n---\n\nbye"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("Hi\n\n---\n\nbye")
       end
     end
 
