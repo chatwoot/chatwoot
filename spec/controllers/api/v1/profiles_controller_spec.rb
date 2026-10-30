@@ -110,6 +110,34 @@ RSpec.describe 'Profile API', type: :request do
         expect(response).to have_http_status(:success)
       end
     end
+
+    context 'when the user is the sole user of a deleted account' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:mailer) { instance_double(ActionMailer::MessageDelivery, deliver_later: nil) }
+
+      before do
+        allow(DeleteObjectJob).to receive(:perform_later)
+        allow(AdministratorNotifications::AccountComplianceMailer).to receive(:with).and_return(
+          instance_double(AdministratorNotifications::AccountComplianceMailer, account_deleted: mailer)
+        )
+      end
+
+      it 'rejects the pre-deletion api access token after the account is deleted' do
+        pre_deletion_token = agent.access_token.token
+
+        get '/api/v1/profile',
+            headers: { api_access_token: pre_deletion_token },
+            as: :json
+        expect(response).to have_http_status(:success)
+
+        AccountDeletionService.new(account: account).perform
+
+        get '/api/v1/profile',
+            headers: { api_access_token: pre_deletion_token },
+            as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
   end
 
   describe 'PUT /api/v1/profile' do
