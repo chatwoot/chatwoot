@@ -41,6 +41,25 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       expect(data['content']).to eq('hello')
     end
 
+    it 'creates a reply to a message in the conversation' do
+      parent = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
+
+      post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{conversation.display_id}/messages",
+           params: { content: 'reply', content_attributes: { in_reply_to: parent.id } }
+
+      expect(response).to have_http_status(:success)
+      expect(conversation.messages.last.content_attributes['in_reply_to']).to eq(parent.id)
+    end
+
+    it 'rejects a reply to a message from another conversation' do
+      other_message = create(:message, account: conversation.account)
+
+      post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{conversation.display_id}/messages",
+           params: { content: 'reply', content_attributes: { in_reply_to: other_message.id } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
     it 'does not create the message' do
       content = "#{'h' * 150 * 1000}a"
       post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{conversation.display_id}/messages",
