@@ -471,6 +471,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_105045) do
     t.jsonb "headers", default: {}, null: false
     t.jsonb "source_metadata"
     t.jsonb "settings", default: {}, null: false
+    t.jsonb "stores", default: {}, null: false
     t.index ["account_id"], name: "index_captain_custom_tools_on_account_id"
     t.index ["assistant_id", "slug"], name: "index_captain_custom_tools_on_assistant_id_and_slug", unique: true
   end

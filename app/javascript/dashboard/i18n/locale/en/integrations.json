@@ -1646,6 +1646,8 @@
         "VERIFIED_VALUES": {
           "ADD": "Add verified email",
           "EMAIL": "Contact email",
+          "STORED": "Stored {name}",
+          "STORED_HELP": "Filled by Chatwoot from a value an earlier tool found for this contact. Captain can only pick one of those values.",
           "EMAIL_DESCRIPTION": "The contact's verified email address",
           "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations."
         },

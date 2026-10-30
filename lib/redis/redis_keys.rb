@@ -125,4 +125,6 @@ module Redis::RedisKeys
   CAPTAIN_EMAIL_VERIFICATION_EMAIL_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::EMAIL_SENDS::%<email_digest>s'.freeze
   # Email address verified in the conversation
   CAPTAIN_EMAIL_VERIFICATION_VERIFIED = 'CAPTAIN::EMAIL_VERIFICATION::VERIFIED::%<conversation_id>d'.freeze
+  # Values a toolset's tools found for the verified customer of a conversation, with the email they were found for
+  CAPTAIN_TOOL_STORE = 'CAPTAIN::TOOL_STORE::%<conversation_id>d::%<namespace>s::%<name>s'.freeze
 end

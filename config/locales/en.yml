@@ -584,6 +584,10 @@ en:
         invalid_value: 'value for %{name} must be fixed text up to 1 KiB, without placeholders or control characters'
       param_schema:
         invalid: 'must list parameters with known fields and plain values'
+      stores:
+        manifest_only: 'can only be used by tools installed from the Captain tools catalog'
+        unbound: 'can only be set on a tool whose parameters all come from verified or stored values'
+        invalid: 'must map lowercase names to valid JMESPath expressions'
       settings:
         invalid: 'must be an object'
         unknown: 'has unknown settings: %{names}'
