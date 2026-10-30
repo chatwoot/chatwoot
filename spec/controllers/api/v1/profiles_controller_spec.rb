@@ -330,6 +330,52 @@ RSpec.describe 'Profile API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/profile/work_preferences' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/work_preferences'
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+
+      it 'updates the work preferences' do
+        post '/api/v1/profile/work_preferences',
+             params: { profile: { accepts_calls: false, account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['accounts'].first).to include('accepts_conversations' => true, 'accepts_calls' => false)
+      end
+
+      it 'rejects turning off the last preference' do
+        agent.account_users.find_by(account: account).update!(accepts_calls: false)
+
+        post '/api/v1/profile/work_preferences',
+             params: { profile: { accepts_conversations: false, account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agent.account_users.find_by(account: account).accepts_conversations).to be(true)
+      end
+
+      it 'rejects a value that is not a boolean' do
+        post '/api/v1/profile/work_preferences',
+             params: { profile: { accepts_calls: 'no', account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agent.account_users.find_by(account: account).accepts_calls).to be(true)
+      end
+    end
+  end
+
   describe 'PUT /api/v1/profile/set_active_account' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
