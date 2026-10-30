@@ -42,7 +42,7 @@ class CallFinder
 
     @calls.where(status: 'ringing', accepted_by_agent_id: nil, direction: :incoming)
           .where("calls.ring_state -> 'ring_recipient_ids' @> ?::jsonb", [@current_user.id].to_json)
-          .where.not('calls.ring_state @> ?::jsonb', { dismissed_user_ids: [@current_user.id] }.to_json)
+          .where.not(Call.arel_table[:ring_state].contains('dismissed_user_ids' => [@current_user.id]))
           .where(conversation_id: permitted_conversations.select(:id))
   end
 

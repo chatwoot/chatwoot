@@ -73,7 +73,13 @@ RSpec.describe Voice::RingNextAgentJob do
     expect { described_class.perform_now(call.id, 1) }.not_to have_enqueued_job(described_class)
   end
 
-  it 'stops stepping once the call has rung for the longest ring time an inbox can set' do
+  it 'keeps stepping a call that rings past five minutes without a ring timeout' do
+    call.update!(created_at: 301.seconds.ago)
+
+    expect { described_class.perform_now(call.id, 1) }.to have_enqueued_job(described_class).with(call.id, 2)
+  end
+
+  it 'stops stepping once Twilio would have ended the call' do
     call.update!(created_at: (described_class::MAX_RING_SECONDS + 1).seconds.ago)
 
     expect { described_class.perform_now(call.id, 1) }.not_to have_enqueued_job(described_class)
