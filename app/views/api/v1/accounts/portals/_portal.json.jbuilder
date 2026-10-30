@@ -17,6 +17,7 @@ json.config do
   end
   json.default_locale portal.default_locale
   json.layout portal.layout
+  json.visibility portal.visibility
   json.social_profiles portal.social_profiles
   json.locale_translations portal.config['locale_translations'] || {}
   json.popular_content portal.config['popular_content'] || {}

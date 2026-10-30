@@ -66,6 +66,7 @@ class DashboardController < ActionController::Base
 
     @portal = Portal.find_by(custom_domain: domain)
     return unless @portal
+    return redirect_to("/hc/#{@portal.slug}") if @portal.password_protected?
 
     @locale = @portal.default_locale
     request.variant = :documentation if @portal.layout == 'documentation'

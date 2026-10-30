@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import VerticalTabs from 'dashboard/components-next/vertical-tabs/VerticalTabs.vue';
@@ -10,6 +11,7 @@ import PortalGeneralSettings from './PortalGeneralSettings.vue';
 import PortalConfigurationSettings from './PortalConfigurationSettings.vue';
 import PortalLayoutContentSettings from './PortalLayoutContentSettings.vue';
 import PortalIntegrationsSettings from './PortalIntegrationsSettings.vue';
+import PortalAccessSettings from './PortalAccessSettings.vue';
 import PortalSeoSettings from './PortalSeoSettings.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
@@ -34,6 +36,7 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 const route = useRoute();
+const { isAdmin } = useAdmin();
 
 const activeTab = ref('general');
 
@@ -63,6 +66,15 @@ const settingsTabs = computed(() => [
     label: t('HELP_CENTER.PORTAL_SETTINGS.NAV.INTEGRATIONS'),
     icon: 'i-lucide-blocks',
   },
+  ...(isAdmin.value
+    ? [
+        {
+          id: 'access',
+          label: t('HELP_CENTER.PORTAL_SETTINGS.NAV.ACCESS'),
+          icon: 'i-lucide-lock',
+        },
+      ]
+    : []),
 ]);
 
 const currentPortalSlug = computed(() => route.params.portalSlug);
@@ -153,6 +165,14 @@ const handleDeletePortal = portal => {
 
         <template #integrations>
           <PortalIntegrationsSettings
+            :active-portal="activePortal"
+            :is-fetching="isFetching"
+            @update-portal-configuration="handleUpdatePortalConfiguration"
+          />
+        </template>
+
+        <template #access>
+          <PortalAccessSettings
             :active-portal="activePortal"
             :is-fetching="isFetching"
             @update-portal-configuration="handleUpdatePortalConfiguration"
