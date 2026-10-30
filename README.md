@@ -42,7 +42,7 @@ Supercharge your support with Captain, Chatwoot’s AI agent. Captain helps auto
 
 ### 💬 Omnichannel Support Desk
 
-Chatwoot centralizes all customer conversations into one powerful inbox, no matter where your customers reach out from. It supports live chat on your website, email, Facebook, Instagram, Twitter, WhatsApp, Telegram, Line, SMS etc.
+Chatwoot centralizes all customer conversations into one powerful inbox, no matter where your customers reach out from. It supports live chat on your website, email, Facebook, Instagram, X (formerly Twitter), WhatsApp, Telegram, Line, SMS etc.
 
 ### 📚 Help center portal
 
