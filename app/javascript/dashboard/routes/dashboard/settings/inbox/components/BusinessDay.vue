@@ -123,7 +123,11 @@ export default {
       return parseTime(this.toTime);
     },
     totalHours() {
-      if (this.timeSlot.openAllDay) return '24h';
+      if (this.timeSlot.openAllDay) {
+        return this.$t('INBOX_MGMT.BUSINESS_HOURS.DURATION.HOURS', {
+          count: 24,
+        });
+      }
 
       const totalMinutes = differenceInMinutes(this.toDate, this.fromDate);
       const [h, m] = [Math.floor(totalMinutes / 60), totalMinutes % 60];

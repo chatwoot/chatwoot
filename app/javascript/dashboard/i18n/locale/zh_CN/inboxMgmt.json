@@ -74,6 +74,7 @@
         "NORTH_AMERICA_WARNING": "TikTok 北美账户的连接功能暂时不可用，我们正在等待 TikTok 团队的更新。"
       },
       "TWITTER": {
+        "SIGN_IN": "使用 Twitter 登录",
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
         "ERROR_MESSAGE": "连接 Twitter 时出现错误，请重试",
         "TWEETS": {
@@ -420,6 +421,8 @@
           "UNSUPPORTED_COMPLETION": "The Meta setup finished without a WhatsApp phone number that can be connected. Please run the setup again and add a phone number.",
           "SIGNUP_ERROR": "注册时发生错误",
           "AUTH_NOT_COMPLETED": "身份验证未完成，请重新开始流程。",
+          "APP_ID_REQUIRED": "WhatsApp 应用 ID 为必填项",
+          "CONFIGURATION_ID_REQUIRED": "WhatsApp 配置 ID 为必填项",
           "SUCCESS_FALLBACK": "WhatsApp Business 账户已成功配置",
           "MANUAL_FALLBACK": "如果您的号码已连接到 WhatsApp Business Platform（API），或者您是接入自有号码的技术提供商，请使用{link}",
           "MANUAL_LINK_TEXT": "手动设置流程",
@@ -1448,7 +1451,24 @@
         "ENABLE": "启用当天的工作时间",
         "UNAVAILABLE": "不可用",
         "VALIDATION_ERROR": "起始时间应在结束时间之前。",
-        "CHOOSE": "选择"
+        "CHOOSE": "选择",
+        "NAMES": {
+          "SUNDAY": "星期日",
+          "MONDAY": "星期一",
+          "TUESDAY": "星期二",
+          "WEDNESDAY": "星期三",
+          "THURSDAY": "星期四",
+          "FRIDAY": "星期五",
+          "SATURDAY": "星期六"
+        }
+      },
+      "PERIOD": {
+        "AM": "上午",
+        "PM": "下午"
+      },
+      "DURATION": {
+        "HOURS": "{count} 小时",
+        "MINUTES": "{count} 分钟"
       },
       "ALL_DAY": "全天"
     },
