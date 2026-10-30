@@ -84,6 +84,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
           subscription_status: 'active',
           subscription_ends_on: subscription_ends_on,
           subscription_cancels_on: nil,
+          trial_ends_at: nil,
           billing_currency: 'usd'
         }.with_indifferent_access
       )
@@ -114,6 +115,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
           subscription_status: 'active',
           subscription_ends_on: subscription_ends_on,
           subscription_cancels_on: nil,
+          trial_ends_at: nil,
           billing_currency: 'usd'
         }.with_indifferent_access
       )
@@ -179,11 +181,7 @@ describe Enterprise::Billing::CreateStripeCustomerService do
 
           expect(Stripe::Subscription).not_to have_received(:create)
           expect(Stripe::Subscription).to have_received(:list).with(
-            {
-              customer: stripe_customer_id,
-              status: 'active',
-              limit: 1
-            }
+            { customer: stripe_customer_id, limit: 1 }
           )
         end
       end

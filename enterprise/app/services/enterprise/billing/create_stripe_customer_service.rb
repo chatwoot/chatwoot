@@ -1,6 +1,8 @@
 class Enterprise::Billing::CreateStripeCustomerService
   include BillingHelper
 
+  # A trial is created when the account's first administrator claimed one (trial_pending, kept until setup succeeds so a
+  # retry still gets it). Otherwise this sets up the free plan.
   pattr_initialize [:account!]
 
   DEFAULT_QUANTITY = 2
@@ -10,9 +12,10 @@ class Enterprise::Billing::CreateStripeCustomerService
     return false if active_sub && !default_plan_subscription?(active_sub)
 
     customer_id = prepare_customer_id
-    subscription = active_sub || Stripe::Subscription.create(customer: customer_id, items: [{ price: price_id, quantity: default_quantity }])
+    subscription = active_sub || create_subscription(customer_id)
     custom_attributes = build_custom_attributes(customer_id, subscription)
-    custom_attributes.except!('is_creating_customer')
+    custom_attributes['trial_started_at'] ||= Time.current if trial_end && active_sub.nil?
+    custom_attributes.except!('is_creating_customer', 'trial_pending')
 
     account.update!(custom_attributes: custom_attributes)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
@@ -20,6 +23,16 @@ class Enterprise::Billing::CreateStripeCustomerService
   end
 
   private
+
+  def trial_end
+    @trial_end ||= (Enterprise::Billing::TrialService::TRIAL_DAYS.days.from_now.to_i if account.custom_attributes['trial_pending'])
+  end
+
+  def create_subscription(customer_id)
+    params = { customer: customer_id, items: [{ price: price_id, quantity: default_quantity }] }
+    params[:trial_end] = trial_end if trial_end
+    Stripe::Subscription.create(params)
+  end
 
   def prepare_customer_id
     customer_id = account.custom_attributes['stripe_customer_id']
@@ -55,17 +68,12 @@ class Enterprise::Billing::CreateStripeCustomerService
     Enterprise::Billing::PlanConfiguration.price_id_for(default_plan, account.billing_currency)
   end
 
+  # Without a status filter Stripe lists every subscription that isn't cancelled, so a trialing one is found too.
   def active_subscription
     stripe_customer_id = account.custom_attributes['stripe_customer_id']
     return nil if stripe_customer_id.blank?
 
-    Stripe::Subscription.list(
-      {
-        customer: stripe_customer_id,
-        status: 'active',
-        limit: 1
-      }
-    ).data.first
+    Stripe::Subscription.list({ customer: stripe_customer_id, limit: 1 }).data.first
   end
 
   def default_plan_subscription?(subscription)
@@ -82,6 +90,7 @@ class Enterprise::Billing::CreateStripeCustomerService
       'subscription_status' => subscription['status'],
       'subscription_ends_on' => subscription_ends_on(subscription),
       'subscription_cancels_on' => subscription_cancels_on(subscription),
+      'trial_ends_at' => subscription['trial_end'] && Time.zone.at(subscription['trial_end']),
       'billing_currency' => billing_currency_for(subscription)
     )
   end

@@ -35,21 +35,24 @@ RSpec.describe Enterprise::Billing::CancelCloudSubscriptionsService do
       let(:period_end) { 1_790_845_600 }
       let(:base) { { cancel_at: nil, cancel_at_period_end: false, items: { data: [{ current_period_end: period_end }] } } }
       let(:subscription_response) { Struct.new(:data).new([sub_1, sub_2, sub_3]) }
+      let(:trialing_response) { Struct.new(:data).new([sub_4]) }
+      let(:sub_4) { Stripe::Subscription.construct_from(base.merge(id: 'sub_4')) }
       let(:sub_1) { Stripe::Subscription.construct_from(base.merge(id: 'sub_1')) }
       # Flexible billing schedules the cancellation on cancel_at, classic billing on cancel_at_period_end.
       let(:sub_2) { Stripe::Subscription.construct_from(base.merge(id: 'sub_2', cancel_at: period_end)) }
       let(:sub_3) { Stripe::Subscription.construct_from(base.merge(id: 'sub_3', cancel_at_period_end: true)) }
 
-      it 'schedules cancellation at the period end, skipping the ones already cancelling' do
+      it 'schedules cancellation at the period end for active and trialing subscriptions, skipping the ones already cancelling' do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        allow(Stripe::Subscription).to receive(:list).and_return(subscription_response)
+        allow(Stripe::Subscription).to receive(:list).with(customer: 'cus_123', status: 'active', limit: 100).and_return(subscription_response)
+        allow(Stripe::Subscription).to receive(:list).with(customer: 'cus_123', status: 'trialing', limit: 100).and_return(trialing_response)
         allow(Stripe::Subscription).to receive(:update)
 
         service.perform
 
-        expect(Stripe::Subscription).to have_received(:list).with(customer: 'cus_123', status: 'active', limit: 100)
         expect(Stripe::Subscription).to have_received(:update).with('sub_1', cancel_at: period_end).once
-        expect(Stripe::Subscription).to have_received(:update).once
+        expect(Stripe::Subscription).to have_received(:update).with('sub_4', cancel_at: period_end).once
+        expect(Stripe::Subscription).to have_received(:update).twice
       end
     end
   end

@@ -35,11 +35,18 @@ class Enterprise::Billing::HandleStripeEventService
     return if plan.blank? || !stripe_billed_account?
 
     previous_usage = capture_previous_usage
-    update_account_attributes(subscription, plan)
-    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    sync_account_plan(plan)
     sync_subscription_credits(plan, previous_usage)
-    track_marketing_plan_activation(previous_plan_name, plan['name']) if plan_changed?
+    track_marketing_plan_activation(activation_previous_plan_name, plan['name']) if plan_activated?
     broadcast_billing_updated
+  end
+
+  def sync_account_plan(plan)
+    update_account_attributes(subscription, plan)
+    # A converted trial is a paid plan now, so a later move back to the free plan must not read as an ended trial.
+    account.update!(custom_attributes: account.custom_attributes.except('trial_started_at')) if trial_converted?
+    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    Enterprise::Billing::TrialService.new(account: account).reset_seats(subscription)
   end
 
   def sync_subscription_credits(plan, previous_usage)
@@ -75,14 +82,19 @@ class Enterprise::Billing::HandleStripeEventService
         'subscription_status' => subscription['status'],
         'subscription_ends_on' => subscription_ends_on(subscription),
         'subscription_cancels_on' => subscription_cancels_on(subscription),
+        'trial_ends_at' => subscription['trial_end'].present? ? Time.zone.at(subscription['trial_end']) : nil,
         'billing_currency' => billing_currency_for(subscription, plan)
       )
     )
   end
 
+  def default_plan_name?(plan_name)
+    plan_name == Enterprise::Billing::PlanConfiguration.default_plan&.dig('name')
+  end
+
   # Paid subscriptions define the currency; the free/default plan keeps the stored preference.
   def billing_currency_for(subscription, plan)
-    return account.billing_currency if plan['name'] == Enterprise::Billing::PlanConfiguration.default_plan&.dig('name')
+    return account.billing_currency if default_plan_name?(plan['name'])
 
     Enterprise::Billing::Currencies.to_supported(subscription['plan']['currency'])
   end
@@ -169,10 +181,22 @@ class Enterprise::Billing::HandleStripeEventService
   def plan_changed?
     return false if previous_attributes['plan'].blank?
 
-    previous_plan_id = previous_attributes.dig('plan', 'id')
-    current_plan_id = subscription['plan']['id']
+    previous_attributes.dig('plan', 'id') != subscription['plan']['id']
+  end
 
-    previous_plan_id != current_plan_id
+  # A trial unlocks the plan without a payment, so the activation is tracked when it converts instead.
+  def plan_activated?
+    return false if subscription['status'] == 'trialing'
+
+    plan_changed? || trial_converted?
+  end
+
+  def trial_converted?
+    previous_attributes['status'] == 'trialing' && subscription['status'] == 'active' && !default_plan_name?(account.custom_attributes['plan_name'])
+  end
+
+  def activation_previous_plan_name
+    trial_converted? ? Enterprise::Billing::PlanConfiguration.default_plan&.dig('name') : previous_plan_name
   end
 
   def billing_period_renewed?
