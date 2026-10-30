@@ -1,71 +1,71 @@
 {
   "SNOOZE_PARSER": {
     "UNITS": {
-      "MINUTE": "minute",
+      "MINUTE": "分钟",
       "MINUTES": "分钟",
-      "HOUR": "hour",
+      "HOUR": "小时",
       "HOURS": "小时",
       "DAY": "天",
       "DAYS": "天",
       "WEEK": "周",
-      "WEEKS": "weeks",
+      "WEEKS": "周",
       "MONTH": "月",
-      "MONTHS": "months",
+      "MONTHS": "月",
       "YEAR": "年",
-      "YEARS": "years"
+      "YEARS": "年"
     },
-    "HALF": "half",
-    "NEXT": "next",
-    "THIS": "this",
-    "AT": "at",
-    "IN": "in",
-    "FROM_NOW": "from now",
-    "NEXT_YEAR": "next year",
+    "HALF": "半",
+    "NEXT": "下",
+    "THIS": "本",
+    "AT": "在",
+    "IN": "在",
+    "FROM_NOW": "之后",
+    "NEXT_YEAR": "明年",
     "MERIDIEM": {
-      "AM": "am",
-      "PM": "pm"
+      "AM": "上午",
+      "PM": "下午"
     },
     "RELATIVE": {
       "TOMORROW": "明天",
-      "DAY_AFTER_TOMORROW": "day after tomorrow",
+      "DAY_AFTER_TOMORROW": "后天",
       "NEXT_WEEK": "下周",
-      "NEXT_MONTH": "next month",
-      "THIS_WEEKEND": "this weekend",
-      "NEXT_WEEKEND": "next weekend"
+      "NEXT_MONTH": "下个月",
+      "THIS_WEEKEND": "本周末",
+      "NEXT_WEEKEND": "下个周末"
     },
     "TIME_OF_DAY": {
-      "MORNING": "morning",
-      "AFTERNOON": "afternoon",
-      "EVENING": "evening",
-      "NIGHT": "night",
-      "NOON": "noon",
-      "MIDNIGHT": "midnight"
+      "MORNING": "上午",
+      "AFTERNOON": "下午",
+      "EVENING": "傍晚",
+      "NIGHT": "晚上",
+      "NOON": "中午",
+      "MIDNIGHT": "午夜"
     },
     "WORD_NUMBERS": {
-      "ONE": "one",
-      "TWO": "two",
-      "THREE": "three",
-      "FOUR": "four",
-      "FIVE": "five",
-      "SIX": "six",
-      "SEVEN": "seven",
-      "EIGHT": "eight",
-      "NINE": "nine",
-      "TEN": "ten",
-      "TWELVE": "twelve",
-      "FIFTEEN": "fifteen",
-      "TWENTY": "twenty",
-      "THIRTY": "thirty"
+      "ONE": "一",
+      "TWO": "二",
+      "THREE": "三",
+      "FOUR": "四",
+      "FIVE": "五",
+      "SIX": "六",
+      "SEVEN": "七",
+      "EIGHT": "八",
+      "NINE": "九",
+      "TEN": "十",
+      "TWELVE": "十二",
+      "FIFTEEN": "十五",
+      "TWENTY": "二十",
+      "THIRTY": "三十"
     },
     "ORDINALS": {
-      "FIRST": "first",
-      "SECOND": "second",
-      "THIRD": "third",
-      "FOURTH": "fourth",
-      "FIFTH": "fifth"
+      "FIRST": "第一",
+      "SECOND": "第二",
+      "THIRD": "第三",
+      "FOURTH": "第四",
+      "FIFTH": "第五"
     },
     "OF": "的",
-    "AFTER": "after",
+    "AFTER": "之后",
     "WEEK": "周",
     "DAY": "天"
   }
