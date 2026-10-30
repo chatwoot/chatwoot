@@ -13,6 +13,11 @@ module Enterprise::AutoAssignment::AssignmentService
     }.compact
   end
 
+  # A run's batch can predate the call, so a conversation is rechecked before it is claimed
+  def assignable?(conversation)
+    super && !conversation.calls.exists?(provider: :twilio, direction: :incoming, status: 'ringing')
+  end
+
   # Extend agent finding to add capacity checks
   def find_available_agent(conversation = nil)
     agents = filter_agents_by_team(inbox.available_agents, conversation)
@@ -64,6 +69,9 @@ module Enterprise::AutoAssignment::AssignmentService
 
     # Then apply the capacity policy's exclusion rules (labels and age)
     scope = apply_exclusion_rules(scope)
+
+    # A conversation whose inbound Twilio call is ringing waits for the agent who answers
+    scope = scope.where.not(id: inbox.calls.where(provider: :twilio, direction: :incoming, status: 'ringing').select(:conversation_id))
 
     # Apply conversation priority using enum methods if policy exists
     scope = if policy&.longest_waiting?

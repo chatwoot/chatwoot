@@ -68,6 +68,8 @@ class Call < ApplicationRecord
 
   # Phones that were rung learn the ring is over; see Voice::VoipPushService
   after_update_commit :cancel_phone_ring, if: :ring_just_ended?
+  # A ringing inbound Twilio call holds off auto-assignment; see Enterprise::Conversation#call_ringing?
+  after_update_commit -> { conversation.auto_assign_after_call }, if: -> { twilio? && incoming? && terminal? && status_before_last_save == 'ringing' }
   # On create too: a call whose end arrived before its start is created and ended in one transaction
   after_commit :notify_missed_call, on: %i[create update], if: :missed_just_now?
   validates :status, presence: true, inclusion: { in: STATUSES }
