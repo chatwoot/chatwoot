@@ -160,7 +160,39 @@ describe('getActionOptions', () => {
   });
 });
 
+describe('generateInboxOptions', () => {
+  it('formats inbox options with distinguishable display names', () => {
+    const inboxes = [
+      { id: 1, name: 'Sales', channel_type: 'Channel::Email', email: 'sales@example.com' },
+      { id: 2, name: 'Sales', channel_type: 'Channel::Whatsapp', phone_number: '+15555550100' },
+      { id: 3, name: 'Sales', channel_type: 'Channel::FacebookPage' },
+    ];
+    const options = helpers.generateInboxOptions(inboxes);
+    expect(options).toEqual([
+      { ...inboxes[0], id: 1, name: 'Sales · sales@example.com' },
+      { ...inboxes[1], id: 2, name: 'Sales · +15555550100' },
+      { ...inboxes[2], id: 3, name: 'Sales · Messenger' },
+    ]);
+  });
+});
+
 describe('getConditionOptions', () => {
+  it('returns distinguishable inbox options for inbox_id condition', () => {
+    const inboxes = [
+      { id: 10, name: 'Support', channel_type: 'Channel::Email', email: 'support@example.com' },
+      { id: 11, name: 'Support', channel_type: 'Channel::Whatsapp', phone_number: '+15555550101' },
+    ];
+    const result = helpers.getConditionOptions({
+      customAttributes: [],
+      inboxes,
+      type: 'inbox_id',
+    });
+    expect(result).toEqual([
+      { ...inboxes[0], id: 10, name: 'Support · support@example.com' },
+      { ...inboxes[1], id: 11, name: 'Support · +15555550101' },
+    ]);
+  });
+
   it('returns expected conditions options', () => {
     const testOptions = [
       { id: 'open', name: 'Open' },

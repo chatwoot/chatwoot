@@ -12,6 +12,7 @@ import {
 import { CAPTAIN_CONDITION } from 'dashboard/routes/dashboard/settings/automation/constants';
 import actionQueryGenerator from './actionQueryGenerator';
 import filterQueryGenerator from './filterQueryGenerator';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
@@ -145,6 +146,13 @@ export const generateLabelOptions = labels =>
     color: label.color,
   }));
 
+export const generateInboxOptions = inboxes =>
+  (inboxes || []).map(inbox => ({
+    ...inbox,
+    id: inbox.id,
+    name: getInboxDisplayName(inbox),
+  }));
+
 export const getActionOptions = ({
   agents,
   teams,
@@ -196,7 +204,7 @@ export const getConditionOptions = ({
     status: statusFilterOptions,
     assignee_id: agents,
     contact: contacts,
-    inbox_id: inboxes,
+    inbox_id: generateInboxOptions(inboxes),
     team_id: generateTeamOptions(teams),
     campaigns: generateConditionOptions(campaigns),
     browser_language: languages,

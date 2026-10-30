@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -25,7 +26,10 @@ const inboxId = defineModel('inboxId', {
 const { t } = useI18n();
 
 const inboxOptions = computed(() =>
-  props.inboxes.map(inbox => ({ value: inbox.id, label: inbox.name }))
+  props.inboxes.map(inbox => ({
+    value: inbox.id,
+    label: getInboxDisplayName(inbox),
+  }))
 );
 </script>
 

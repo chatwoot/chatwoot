@@ -7,6 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   assistantId: {
@@ -42,7 +43,7 @@ const inboxList = computed(() => {
     .filter(inbox => !captainInboxIds.includes(inbox.id))
     .map(inbox => ({
       value: inbox.id,
-      label: inbox.name,
+      label: getInboxDisplayName(inbox),
     }));
 });
 

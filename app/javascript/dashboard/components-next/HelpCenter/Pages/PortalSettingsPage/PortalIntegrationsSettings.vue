@@ -9,6 +9,7 @@ import IntegrationCard from 'dashboard/components-next/integration-card/Integrat
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   activePortal: { type: Object, required: true },
@@ -82,7 +83,7 @@ const isUpdatingPortal = computed(() => {
 const liveChatWidgets = computed(() => {
   const widgetOptions = store.getters['inboxes/getInboxes']
     .filter(inbox => inbox.channel_type === 'Channel::WebWidget')
-    .map(inbox => ({ value: inbox.id, label: inbox.name }));
+    .map(inbox => ({ value: inbox.id, label: getInboxDisplayName(inbox) }));
 
   return [
     {
