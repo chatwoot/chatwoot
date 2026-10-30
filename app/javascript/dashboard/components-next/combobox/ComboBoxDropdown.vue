@@ -89,7 +89,7 @@ defineExpose({
       />
     </div>
     <ul
-      class="py-1 mb-0 overflow-auto max-h-60"
+      class="py-1 mb-0 overflow-auto h-60 max-h-[40dvh]"
       role="listbox"
       :aria-multiselectable="multiple"
     >
