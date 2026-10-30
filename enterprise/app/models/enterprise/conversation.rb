@@ -52,8 +52,9 @@ module Enterprise::Conversation
     @call_ringing || calls.exists?(provider: :twilio, direction: :incoming, status: 'ringing')
   end
 
+  # A V2 rebalance on resolve or snooze frees capacity rather than assigning this conversation, so it still runs
   def should_run_auto_assignment?
-    super && !call_ringing?
+    super && (conversation_status_changed_to_resolved_or_snoozed? || !call_ringing?)
   end
 
   def find_assignee_from_team

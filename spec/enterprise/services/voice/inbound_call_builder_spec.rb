@@ -168,6 +168,13 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(call.conversation.reload.assignee).to eq(agent)
     end
 
+    it 'still rebalances V2 assignments when a conversation is resolved while its call rings' do
+      account.enable_features!('assignment_v2')
+      conversation = perform_builder.conversation.reload
+
+      expect { conversation.update!(status: :resolved) }.to have_enqueued_job(AutoAssignment::AssignmentJob)
+    end
+
     it 'skips a conversation a bulk run picked up before the call started ringing' do
       account.enable_features!('assignment_v2')
       contact_inbox = create(:contact_inbox, inbox: inbox, source_id: from_number)
