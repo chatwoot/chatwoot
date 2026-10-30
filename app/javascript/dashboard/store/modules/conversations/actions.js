@@ -115,6 +115,7 @@ const actions = {
       } catch (error) {
         if (!signal.aborted) {
           commit(types.CLEAR_LIST_LOADING_STATUS);
+          commit(types.SET_LIST_FETCH_ERROR, true);
         }
       }
     });
@@ -156,6 +157,7 @@ const actions = {
         if (signal.aborted) return;
 
         commit(types.CLEAR_LIST_LOADING_STATUS);
+        commit(types.SET_LIST_FETCH_ERROR, true);
         throw error;
       }
     });

@@ -17,6 +17,8 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -96,6 +98,7 @@ const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
 const participatingChatsList = useMapGetter('getParticipatingChats');
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
+const chatListError = useMapGetter('getChatListErrorStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
 const appliedFilters = useMapGetter('getAppliedConversationFiltersV2');
@@ -353,6 +356,15 @@ const conversationList = computed(() => {
   return localConversationList;
 });
 
+// Keep the initial loader mounted after a failed request. Automatic reconnects
+// can toggle the request flag repeatedly; latching the empty-list loader to the
+// error state prevents the spinner from flashing between those attempts.
+const showConversationListLoading = computed(
+  () =>
+    chatListLoading.value ||
+    (chatListError.value && !conversationList.value.length)
+);
+
 const showEndOfListMessage = computed(() => {
   return !!(
     conversationList.value.length &&
@@ -587,6 +599,18 @@ function onToggleAdvanceFiltersModal() {
 function fetchConversations() {
   store.dispatch('updateChatListFilters', conversationFilters.value);
   store.dispatch('fetchAllConversations').then(emitConversationLoaded);
+}
+
+function retryConversations() {
+  if (chatListLoading.value) return;
+
+  if (hasActiveFolders.value) {
+    fetchSavedFilteredConversations(activeFolder.value.query);
+  } else if (hasAppliedFilters.value) {
+    fetchFilteredConversations(appliedFilters.value);
+  } else {
+    fetchConversations();
+  }
 }
 
 function resetAndFetchData() {
@@ -920,7 +944,7 @@ watch(appliedFilters, () => resetBulkActions());
       :active-status="activeStatus"
       :is-on-expanded-layout="isOnExpandedLayout"
       :conversation-stats="conversationStats"
-      :is-list-loading="chatListLoading && !conversationList.length"
+      :is-list-loading="showConversationListLoading && !conversationList.length"
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
@@ -957,8 +981,29 @@ watch(appliedFilters, () => resetBulkActions());
       @chat-tab-change="updateAssigneeTab"
     />
 
+    <div
+      v-if="showConversationListLoading && !conversationList.length"
+      role="status"
+      aria-live="polite"
+      class="flex items-center justify-center gap-2 min-h-14 text-sm text-n-slate-11"
+    >
+      <Spinner :size="16" class="text-n-brand" />
+      <span>{{ $t('CHAT_LIST.LOADING') }}</span>
+    </div>
+
+    <Banner
+      v-if="chatListError"
+      role="alert"
+      color="ruby"
+      class="m-3"
+      :action-label="$t('CHAT_LIST.RETRY')"
+      @action="retryConversations"
+    >
+      {{ $t('CHAT_LIST.FETCH_ERROR') }}
+    </Banner>
+
     <p
-      v-if="!chatListLoading && !conversationList.length"
+      v-if="!chatListLoading && !chatListError && !conversationList.length"
       class="flex overflow-auto justify-center items-center p-4"
     >
       {{ $t('CHAT_LIST.LIST.404') }}
@@ -975,7 +1020,7 @@ watch(appliedFilters, () => resetBulkActions());
     />
     <ConversationList
       :conversation-list="conversationList"
-      :is-loading="chatListLoading"
+      :is-loading="chatListLoading && !!conversationList.length"
       :show-end-of-list-message="showEndOfListMessage"
       :label="label"
       :team-id="teamId"
