@@ -270,6 +270,8 @@ export function handleVoiceCallUpdated(
       ringUserIds,
     })
   ) {
+    // The ring only grows, so leaving it means a dismiss, perhaps from another tab
+    if (isRoutedCall(provider, callDirection)) markCallDismissed(callSid);
     callsStore.removeCall(callSid);
     return;
   }
