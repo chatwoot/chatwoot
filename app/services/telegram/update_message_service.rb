@@ -21,7 +21,11 @@ class Telegram::UpdateMessageService
   end
 
   def find_conversation
-    @conversation = @contact_inbox.conversations.last
+    edited_message = params[:edited_message]
+    connection_id = edited_message[:business_connection_id].presence
+    @conversation = @contact_inbox.conversations
+                                  .where("additional_attributes ->> 'business_connection_id' IS NOT DISTINCT FROM ?", connection_id)
+                                  .last
   end
 
   def find_message
