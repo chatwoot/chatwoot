@@ -1988,4 +1988,94 @@ describe('filterHelpers', () => {
       ).toBe(false);
     });
   });
+
+  describe('status unread filters', () => {
+    it('matches unread conversations when status equal_to unread', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: ['unread'],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters({ status: 'open', unread_count: 2 }, filters)).toBe(
+        true
+      );
+      expect(matchesFilters({ status: 'open', unread_count: 0 }, filters)).toBe(
+        false
+      );
+    });
+
+    it('matches read conversations when status not_equal_to unread', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'not_equal_to',
+          values: ['unread'],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters({ status: 'open', unread_count: 2 }, filters)).toBe(
+        false
+      );
+      expect(matchesFilters({ status: 'open', unread_count: 0 }, filters)).toBe(
+        true
+      );
+    });
+
+    it('matches when status equal_to [open, unread]', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: ['open', 'unread'],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters({ status: 'open', unread_count: 0 }, filters)).toBe(
+        true
+      );
+      expect(
+        matchesFilters({ status: 'resolved', unread_count: 3 }, filters)
+      ).toBe(true);
+      expect(
+        matchesFilters({ status: 'resolved', unread_count: 0 }, filters)
+      ).toBe(false);
+    });
+
+    it('matches when status equal_to [all, unread]', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: ['all', 'unread'],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters({ status: 'open', unread_count: 0 }, filters)).toBe(
+        true
+      );
+      expect(
+        matchesFilters({ status: 'resolved', unread_count: 0 }, filters)
+      ).toBe(true);
+    });
+
+    it('does not match when status not_equal_to [all, unread]', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'not_equal_to',
+          values: ['all', 'unread'],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters({ status: 'open', unread_count: 0 }, filters)).toBe(
+        false
+      );
+      expect(matchesFilters({ status: 'open', unread_count: 2 }, filters)).toBe(
+        false
+      );
+    });
+  });
 });

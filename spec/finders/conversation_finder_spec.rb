@@ -100,6 +100,28 @@ describe ConversationFinder do
       end
     end
 
+    context 'with status unread' do
+      let(:params) { { status: 'unread' } }
+
+      it 'returns only conversations with unread messages' do
+        unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                    agent_last_seen_at: 1.hour.ago)
+        read_conversation = create(:conversation, account: account, inbox: inbox,
+                                                  agent_last_seen_at: 1.minute.from_now)
+
+        [unread_conversation, read_conversation].each do |conversation|
+          create(:message, account: account, inbox: inbox, conversation: conversation,
+                           message_type: :incoming, created_at: 5.minutes.ago)
+        end
+
+        result = conversation_finder.perform
+        conversation_ids = result[:conversations].map(&:id)
+
+        expect(conversation_ids).to include(unread_conversation.id)
+        expect(conversation_ids).not_to include(read_conversation.id)
+      end
+    end
+
     context 'with unread sort' do
       let(:params) { { status: 'open', sort_by: 'unread' } }
 
