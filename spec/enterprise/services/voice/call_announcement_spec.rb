@@ -90,9 +90,8 @@ RSpec.describe Voice::CallAnnouncement do
       )
     end
 
-    it 'saves a greeting as text only, in its own settings' do
+    it 'saves a greeting in its own settings when Captain is unavailable' do
       greeting = described_class.new(inbox, :greeting)
-      allow(Llm::TextToSpeechService).to receive(:available_for?).and_return(true)
       expect(Llm::TextToSpeechService).not_to receive(:new)
 
       greeting.save!(enabled: true, message: 'Welcome')
