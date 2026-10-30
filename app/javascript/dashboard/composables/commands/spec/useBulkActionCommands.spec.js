@@ -1,4 +1,4 @@
-import { useBulkActionsHotKeys } from '../useBulkActionsHotKeys';
+import { useBulkActionCommands } from '../useBulkActionCommands';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import wootConstants from 'dashboard/constants/globals';
@@ -8,7 +8,7 @@ vi.mock('dashboard/composables/store');
 vi.mock('vue-i18n');
 vi.mock('shared/helpers/mitt');
 
-describe('useBulkActionsHotKeys', () => {
+describe('useBulkActionCommands', () => {
   let store;
 
   beforeEach(() => {
@@ -29,24 +29,24 @@ describe('useBulkActionsHotKeys', () => {
 
   it('should return bulk actions when conversations are selected', () => {
     store.getters['bulkActions/getSelectedConversationIds'] = [1, 2, 3];
-    const { bulkActionsHotKeys } = useBulkActionsHotKeys();
+    const { bulkActionCommands } = useBulkActionCommands();
 
-    expect(bulkActionsHotKeys.value.length).toBeGreaterThan(0);
-    expect(bulkActionsHotKeys.value).toContainEqual(
+    expect(bulkActionCommands.value.length).toBeGreaterThan(0);
+    expect(bulkActionCommands.value).toContainEqual(
       expect.objectContaining({
         id: 'bulk_action_snooze_conversation',
         title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
         section: 'COMMAND_BAR.SECTIONS.BULK_ACTIONS',
       })
     );
-    expect(bulkActionsHotKeys.value).toContainEqual(
+    expect(bulkActionCommands.value).toContainEqual(
       expect.objectContaining({
         id: 'bulk_action_reopen_conversation',
         title: 'COMMAND_BAR.COMMANDS.REOPEN_CONVERSATION',
         section: 'COMMAND_BAR.SECTIONS.BULK_ACTIONS',
       })
     );
-    expect(bulkActionsHotKeys.value).toContainEqual(
+    expect(bulkActionCommands.value).toContainEqual(
       expect.objectContaining({
         id: 'bulk_action_resolve_conversation',
         title: 'COMMAND_BAR.COMMANDS.RESOLVE_CONVERSATION',
@@ -57,37 +57,39 @@ describe('useBulkActionsHotKeys', () => {
 
   it('should include snooze options in bulk actions', () => {
     store.getters['bulkActions/getSelectedConversationIds'] = [1, 2, 3];
-    const { bulkActionsHotKeys } = useBulkActionsHotKeys();
+    const { bulkActionCommands } = useBulkActionCommands();
 
-    const snoozeAction = bulkActionsHotKeys.value.find(
+    const snoozeAction = bulkActionCommands.value.find(
       action => action.id === 'bulk_action_snooze_conversation'
     );
-    expect(snoozeAction).toBeDefined();
-    expect(snoozeAction.children).toEqual(
-      Object.values(wootConstants.SNOOZE_OPTIONS)
+    expect(snoozeAction.page).toBe(true);
+    const options = bulkActionCommands.value
+      .filter(action => action.parent === 'bulk_action_snooze_conversation')
+      .map(action => action.id);
+    expect(options).toEqual(
+      Object.values(wootConstants.SNOOZE_OPTIONS).map(
+        option => `bulk_action_snooze_conversation-${option}`
+      )
     );
   });
 
-  it('should create handlers for reopen and resolve actions', () => {
+  it('should emit the bus event when reopen and resolve run', () => {
     store.getters['bulkActions/getSelectedConversationIds'] = [1, 2, 3];
-    const { bulkActionsHotKeys } = useBulkActionsHotKeys();
+    const { bulkActionCommands } = useBulkActionCommands();
 
-    const reopenAction = bulkActionsHotKeys.value.find(
+    const reopenAction = bulkActionCommands.value.find(
       action => action.id === 'bulk_action_reopen_conversation'
     );
-    const resolveAction = bulkActionsHotKeys.value.find(
+    const resolveAction = bulkActionCommands.value.find(
       action => action.id === 'bulk_action_resolve_conversation'
     );
 
-    expect(reopenAction.handler).toBeDefined();
-    expect(resolveAction.handler).toBeDefined();
-
-    reopenAction.handler();
+    reopenAction.run();
     expect(emitter.emit).toHaveBeenCalledWith(
       'CMD_BULK_ACTION_REOPEN_CONVERSATION'
     );
 
-    resolveAction.handler();
+    resolveAction.run();
     expect(emitter.emit).toHaveBeenCalledWith(
       'CMD_BULK_ACTION_RESOLVE_CONVERSATION'
     );
@@ -95,8 +97,8 @@ describe('useBulkActionsHotKeys', () => {
 
   it('should return an empty array when no conversations are selected', () => {
     store.getters['bulkActions/getSelectedConversationIds'] = [];
-    const { bulkActionsHotKeys } = useBulkActionsHotKeys();
+    const { bulkActionCommands } = useBulkActionCommands();
 
-    expect(bulkActionsHotKeys.value).toEqual([]);
+    expect(bulkActionCommands.value).toEqual([]);
   });
 });
