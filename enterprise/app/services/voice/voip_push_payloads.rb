@@ -1,5 +1,5 @@
-# The data sent with VoIP pushes: the ring as APNs carries it, and the ring and the
-# cancel as FCM data messages
+# The data sent with VoIP pushes: the ring as APNs carries it, the ring and the cancel as FCM
+# data messages, and both as the call's fields for the Chatwoot Hub voice relay
 class Voice::VoipPushPayloads
   pattr_initialize [:call!]
 
@@ -19,8 +19,12 @@ class Voice::VoipPushPayloads
     data
   end
 
+  def cancel
+    base_payload.merge(type: 'voice_call.cancel', reason: call.status)
+  end
+
   def cancel_data
-    base_payload.merge(type: 'voice_call.cancel', reason: call.status).transform_keys(&:to_s).transform_values(&:to_s)
+    cancel.transform_keys(&:to_s).transform_values(&:to_s)
   end
 
   private

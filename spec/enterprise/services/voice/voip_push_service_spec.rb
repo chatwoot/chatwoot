@@ -704,4 +704,101 @@ RSpec.describe Voice::VoipPushService do
       expect(call.reload.ring_state).not_to have_key('rung_devices')
     end
   end
+
+  describe 'through the Chatwoot Hub voice relay' do
+    let(:relay_url) { "#{ChatwootHub.base_url}/voice_relay/pushes" }
+    let!(:relay) { stub_request(:post, relay_url).to_return { |request| { body: relay_results(request, 'sent').to_json } } }
+
+    around { |example| with_modified_env(CHATWOOT_VOICE_RELAY_SECRET: 'relay-secret') { example.run } }
+
+    before do
+      config.except!('APNS_VOIP_KEY', 'APNS_VOIP_KEY_ID', 'APNS_VOIP_TEAM_ID', 'FIREBASE_PROJECT_ID', 'FIREBASE_CREDENTIALS')
+    end
+
+    def relay_results(request, status)
+      { results: JSON.parse(request.body)['tokens'].index_with { { status: status } } }
+    end
+
+    def relayed(request) = JSON.parse(request.body)
+
+    it 'rings Android phones with the call fields, authenticated with the relay secret' do
+      subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(Notification::FcmService).not_to have_received(:new)
+      expect(relay.with(headers: { 'Authorization' => 'Bearer relay-secret' }) do |request|
+        body = relayed(request)
+        body.values_at('platform', 'event', 'tokens') == ['android', 'ring', ['android-1']] && body['call']['id'] == call.id &&
+          body['call']['caller'].is_a?(Hash) && body['expires_at'].between?(Time.now.to_i + 40, Time.now.to_i + 45)
+      end).to have_been_made.once
+      expect(call.reload.ring_state['rung_devices']).to eq('apns_voip' => [], 'fcm' => ['android-1'])
+      expect(described_class.new(call: call).ringable_user_ids).to eq([agent.id])
+    end
+
+    it 'sends the Android cancel through the relay' do
+      call.update!(status: 'no_answer', ring_state: { 'rung_devices' => { 'apns_voip' => [], 'fcm' => ['android-1'] } })
+
+      described_class.new(call: call).perform('cancel')
+
+      expect(relay.with { |request| relayed(request)['event'] == 'cancel' && relayed(request)['call']['reason'] == 'no_answer' })
+        .to have_been_made.once
+    end
+
+    it 'rings iPhones through the relay a batch at a time' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(other_agent, 'apns_voip', 'apple-2')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(Apnotic::Connection).not_to have_received(:new)
+      expect(relay.with do |request|
+        relayed(request)['platform'] == 'apple' && relayed(request)['tokens'].sort == %w[apple-1 apple-2]
+      end).to have_been_made.once
+      expect(described_class.new(call: call).ringable_user_ids).to contain_exactly(agent.id, other_agent.id)
+    end
+
+    it 'removes phones the platform reports gone and treats the rest as not reached' do
+      subscribe(agent, 'apns_voip', 'apple-gone')
+      subscribe(other_agent, 'apns_voip', 'apple-unregistered')
+      stub_request(:post, relay_url)
+        .to_return(body: { results: { 'apple-gone' => { status: 'gone' }, 'apple-unregistered' => { status: 'unregistered' } } }.to_json)
+
+      expect { described_class.new(call: call).perform('ring') }.to change(NotificationSubscription, :count).by(-1)
+      expect(call.reload.ring_state['unreached_user_ids']).to contain_exactly(agent.id, other_agent.id)
+    end
+
+    it 'treats every phone as not reached when the relay refuses the request' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      stub_request(:post, relay_url).to_return(status: 429)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+      expect(NotificationSubscription.where(user: agent)).to exist
+    end
+
+    it 'does not use the relay without a secret' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+
+      with_modified_env(CHATWOOT_VOICE_RELAY_SECRET: nil) do
+        described_class.new(call: call).perform('ring')
+        expect(described_class.new(call: call).ringable_user_ids).to be_empty
+      end
+
+      expect(relay).not_to have_been_made
+    end
+
+    it 'rings nothing when the relay is off' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+
+      with_modified_env(ENABLE_PUSH_RELAY_SERVER: 'false') do
+        described_class.new(call: call).perform('ring')
+        expect(described_class.new(call: call).ringable_user_ids).to be_empty
+      end
+
+      expect(relay).not_to have_been_made
+    end
+  end
 end

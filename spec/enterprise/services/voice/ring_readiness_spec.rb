@@ -87,9 +87,40 @@ RSpec.describe Voice::RingReadiness do
   it 'does not ring when the installation cannot push to any registered device' do
     config.delete('APNS_VOIP_KEY')
 
-    expect(readiness.apple).to have_attributes(configured: false, problem: 'credentials')
-    expect(readiness.rings?(readiness.memberships.first)).to be(false)
-    expect(readiness.blocker(readiness.memberships.first)).to eq('push_unavailable')
+    with_modified_env(ENABLE_PUSH_RELAY_SERVER: 'false') do
+      expect(readiness.apple).to have_attributes(configured: false, problem: 'credentials')
+      expect(readiness.rings?(readiness.memberships.first)).to be(false)
+      expect(readiness.blocker(readiness.memberships.first)).to eq('push_unavailable')
+    end
+  end
+
+  it 'rings iPhones through the hub voice relay with its secret set' do
+    config.delete('APNS_VOIP_KEY')
+
+    Voice::RelayDeviceSync.record_state('apple', 'voip-1', 1, 'registered')
+
+    with_modified_env(CHATWOOT_VOICE_RELAY_SECRET: 'relay-secret') do
+      expect(readiness.apple).to have_attributes(configured: true, relayed: true, problem: nil, relay_states: { 'registered' => 1 })
+      expect(readiness.rings?(readiness.memberships.first)).to be(true)
+    end
+  end
+
+  it 'does not count a phone the hub has not registered as ringing' do
+    config.delete('APNS_VOIP_KEY')
+    Voice::RelayDeviceSync.record_state('apple', 'voip-1', 1, 'conflict')
+
+    with_modified_env(CHATWOOT_VOICE_RELAY_SECRET: 'relay-secret') do
+      expect(readiness.apple).to have_attributes(configured: true, relay_states: { 'conflict' => 1 })
+      expect(readiness.blocker(readiness.memberships.first)).to eq('push_unavailable')
+    end
+  end
+
+  it 'reports the missing relay secret when phones would go through the hub' do
+    config.delete('APNS_VOIP_KEY')
+    config.delete('FIREBASE_CREDENTIALS')
+
+    expect(readiness.apple).to have_attributes(configured: false, problem: 'relay_secret')
+    expect(readiness.android).to have_attributes(configured: false, problem: 'relay_secret')
   end
 
   it 'does not ring an Android phone while the APNs environment would stop the ring' do
@@ -116,6 +147,14 @@ RSpec.describe Voice::RingReadiness do
     user.notification_subscriptions.create!(subscription_type: 'fcm', identifier: 'ios-1',
                                             subscription_attributes: { 'push_token' => 'i1', 'devicePlatform' => 'iOS' })
 
-    expect(readiness.android).to have_attributes(configured: true, devices: 1)
+    expect(readiness.android).to have_attributes(configured: true, relayed: false, devices: 1)
+  end
+
+  it 'counts Android as configured through the hub voice relay without Firebase credentials' do
+    config.delete('FIREBASE_CREDENTIALS')
+
+    with_modified_env(CHATWOOT_VOICE_RELAY_SECRET: 'relay-secret') do
+      expect(readiness.android).to have_attributes(configured: true, relayed: true, problem: nil)
+    end
   end
 end

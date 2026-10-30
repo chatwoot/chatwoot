@@ -28,3 +28,4 @@ class NotificationSubscription < ApplicationRecord
 
   enum subscription_type: SUBSCRIPTION_TYPES
 end
+NotificationSubscription.include_mod_with('Concerns::NotificationSubscription')
