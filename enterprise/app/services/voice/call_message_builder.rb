@@ -21,6 +21,15 @@ class Voice::CallMessageBuilder
     message
   end
 
+  # Every client learns when the ring reaches another agent or one dismisses it. Read fresh,
+  # so a status written meanwhile stays.
+  def update_ring!
+    message = call.message&.reload
+    return if message.nil? || !call.reload.ringing?
+
+    message.update!(content_attributes: message.content_attributes.deep_merge('data' => { 'ring_user_ids' => ring_user_ids }))
+  end
+
   private
 
   attr_reader :call
@@ -46,7 +55,11 @@ class Voice::CallMessageBuilder
       'call_sid' => call.provider_call_id,
       'call_source' => call.provider,
       'call_direction' => call.direction_label,
-      'status' => call.display_status
-    }
+      'status' => call.display_status,
+      'ring_user_ids' => (ring_user_ids if call.twilio? && call.incoming?)
+    }.compact
   end
+
+  # The agents whose ringing card shows an inbound Twilio call: those it rang who have not dismissed it
+  def ring_user_ids = call.ring_state.fetch('ring_recipient_ids', []) - call.dismissed_user_ids
 end

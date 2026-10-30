@@ -349,6 +349,7 @@ Rails.application.routes.draw do
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
+                post :dismiss, on: :member
                 patch :hold, on: :member
               end
               post :enable_whatsapp_calling, on: :member

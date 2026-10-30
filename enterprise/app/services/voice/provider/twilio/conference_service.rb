@@ -15,6 +15,17 @@ class Voice::Provider::Twilio::ConferenceService
     assign_conversation!(user)
   end
 
+  # Stops the ring for one agent only; the call keeps ringing for the others. A dismiss by an
+  # agent the call does not ring, or a repeated one, changes nothing.
+  def dismiss(user)
+    call.with_lock do
+      next unless call.ringing? && rings_for?(user)
+
+      call.update!(ring_state: call.ring_state.merge('dismissed_user_ids' => call.dismissed_user_ids | [user.id]))
+      Voice::CallMessageBuilder.new(call).update_ring!
+    end
+  end
+
   def end_conference
     return if call.conference_sid.blank?
 
@@ -73,6 +84,8 @@ class Voice::Provider::Twilio::ConferenceService
   end
 
   private
+
+  def rings_for?(user) = call.ring_state.fetch('ring_recipient_ids', []).include?(user.id) && call.dismissed_user_ids.exclude?(user.id)
 
   def client
     @client ||= call.inbox.channel.client

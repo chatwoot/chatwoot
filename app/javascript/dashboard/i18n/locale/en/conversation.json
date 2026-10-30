@@ -152,7 +152,8 @@
       "JOIN_CALL": "Join call",
       "CALL_BACK": "Call back",
       "TRANSCRIPT_SHOW_MORE": "Show more",
-      "TRANSCRIPT_SHOW_LESS": "Show less"
+      "TRANSCRIPT_SHOW_LESS": "Show less",
+      "DISMISS_FAILED": "Couldn't stop the call ringing on your other devices"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",

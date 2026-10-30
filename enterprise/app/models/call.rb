@@ -236,6 +236,8 @@ class Call < ApplicationRecord
     status.to_s.tr('_', '-')
   end
 
+  def dismissed_user_ids = ring_state.fetch('dismissed_user_ids', [])
+
   # Payload shape matches Whatsapp::CallService#broadcast so the frontend's
   # onVoiceCallAccepted/onVoiceCallEnded handlers can treat both providers uniformly.
   def broadcast_voice_call_event(event, **extra)
@@ -298,7 +300,7 @@ class Call < ApplicationRecord
   # Only a call that rang phones has a missed-call notice: the agents rung were recorded
   # as its ring started
   def missed_just_now?
-    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && missed?
+    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && ring_state['rings_phones'] != false && missed?
   end
 
   def notify_missed_call
