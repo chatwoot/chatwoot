@@ -350,6 +350,71 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
     end
   end
 
+  describe 'DELETE /api/v1/accounts/{account.id}/portals/{portal.slug}/remove_locale' do
+    let!(:portal) { create(:portal, slug: 'portal-locales', account_id: account.id, config: { allowed_locales: %w[en es], default_locale: 'en' }) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/remove_locale", params: { locale: 'es' }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'throws error if agent' do
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/remove_locale",
+               params: { locale: 'es' },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'removes the locale with its articles and categories' do
+        es_category = create(:category, portal: portal, locale: 'es', slug: 'es-category')
+        es_article = create(:article, portal: portal, account: account, category: es_category, locale: 'es')
+        es_uncategorized_article = create(:article, portal: portal, account: account, locale: 'es')
+        en_article = create(:article, portal: portal, account: account, locale: 'en')
+
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/remove_locale",
+               params: { locale: 'es' },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['config']['allowed_locales'].pluck('code')).to eq(%w[en])
+        expect(portal.reload.allowed_locale_codes).to eq(%w[en])
+        expect(Article.where(id: [es_article.id, es_uncategorized_article.id])).to be_empty
+        expect(Category.where(id: es_category.id)).to be_empty
+        expect(portal.articles).to contain_exactly(en_article)
+      end
+
+      it 'does not remove the default locale' do
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/remove_locale",
+               params: { locale: 'en' },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(portal.reload.allowed_locale_codes).to eq(%w[en es])
+      end
+
+      it 'rejects a list of locales' do
+        en_article = create(:article, portal: portal, account: account, locale: 'en')
+        es_article = create(:article, portal: portal, account: account, locale: 'es')
+
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/remove_locale",
+               params: { locale: %w[en es] },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(portal.articles).to contain_exactly(en_article, es_article)
+      end
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/send_instructions' do
     let(:portal_with_domain) { create(:portal, slug: 'portal-with-domain', account_id: account.id, custom_domain: 'docs.example.com') }
 
