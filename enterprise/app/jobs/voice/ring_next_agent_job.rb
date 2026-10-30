@@ -1,7 +1,7 @@
 # Widens the ring of a Twilio call every step while it rings, so an agent who comes online
 # meanwhile is reached too, as is a call that found nobody to ring. A call that rings in turn
 # adds the next agent; one that rings everyone at once adds the team, which an assignee
-# ringing alone leads to. A dismiss runs the next step at once, and a job for a step it
+# ringing alone leads to, and then the agents it held back. A dismiss runs the next step at once, and a job for a step it
 # already moved past does nothing. A call an agent is picking up adds nobody, and rings on
 # should their connection fail.
 class Voice::RingNextAgentJob < ApplicationJob
@@ -22,8 +22,9 @@ class Voice::RingNextAgentJob < ApplicationJob
     end
     return if added.nil?
 
-    Voice::AddedRingPushService.new(call: call, users: added).perform if added.any? && call.ring_state['rings_phones'] != false
+    # Queued first, so a push that fails does not stop the ring widening
     queue_next_step(call, step)
+    Voice::AddedRingPushService.new(call: call, users: added).perform if added.any? && call.ring_state['rings_phones'] != false
   end
 
   private
@@ -44,7 +45,7 @@ class Voice::RingNextAgentJob < ApplicationJob
     recipients = Voice::RingRecipients.new(inbox: call.inbox, conversation: call.conversation, dismissed_user_ids: call.dismissed_user_ids)
     return [recipients.next_agent(rung)].compact if call.inbox.channel.sequential_ringing?
 
-    recipients.team.reject { |user| rung.include?(user.id) }
+    recipients.next_group(rung)
   end
 
   def queue_next_step(call, step)

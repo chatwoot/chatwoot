@@ -304,7 +304,7 @@ class Call < ApplicationRecord
   # Only a call that rang phones has a missed-call notice: the agents rung were recorded
   # as its ring started
   def missed_just_now?
-    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && missed?
+    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && ring_state['rings_phones'] != false && missed?
   end
 
   def notify_missed_call

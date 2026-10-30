@@ -6,11 +6,14 @@
 # the assignee when they are not on a call, then longest idle first, with agents in cooldown,
 # and on a call when the inbox prefers free agents, after the others. It starts with the
 # assignee alone when first, otherwise with the team or, when the inbox rings in turn, the
-# first agent; every step then adds the team, or the next agent.
+# first agent; every step then adds the team, then the agents held back, or the next agent.
 # A WhatsApp call rings the assignee if they can be assigned the inbox, otherwise everyone
 # who could be.
 class Voice::RingRecipients
   pattr_initialize [:inbox!, :conversation!, :dismissed_user_ids]
+
+  # How far back routing looks for each agent's last call
+  IDLE_WINDOW = 1.day
 
   # The agents the ring starts with
   def agents
@@ -24,6 +27,13 @@ class Voice::RingRecipients
   # The agents a ring for everyone at once reaches: the free ones outside cooldown, or every
   # eligible agent when there are none
   def team = eligible.reject { |user| deprioritized?(user) }.presence || eligible
+
+  # The agents a ring for everyone at once adds next: the team it has not rung, and once it
+  # rings the whole team, the agents it held back
+  def next_group(rung_ids)
+    unrung = ->(users) { users.reject { |user| rung_ids.include?(user.id) } }
+    unrung.call(team).presence || unrung.call(eligible)
+  end
 
   # The agent a ring in turn adds next: the first in routing order it has not rung
   def next_agent(rung_ids)
@@ -72,14 +82,14 @@ class Voice::RingRecipients
                          .distinct.pluck(:accepted_by_agent_id)
   end
 
-  # Each eligible agent's latest answered call that has ended
+  # Each eligible agent's latest answered call that has ended, within the day: an agent with
+  # none since is idle longer than anyone who has one
   def last_calls
-    @last_calls ||= Call.where(account_id: inbox.account_id, status: 'completed', accepted_by_agent_id: eligible.map(&:id))
+    @last_calls ||= Call.where(account_id: inbox.account_id, status: 'completed', accepted_by_agent_id: eligible.map(&:id),
+                               created_at: IDLE_WINDOW.ago..)
                         .where.not(started_at: nil)
-                        .select('DISTINCT ON (accepted_by_agent_id) calls.*')
-                        .order(:accepted_by_agent_id, Arel.sql("(meta->>'ended_at')::bigint DESC NULLS LAST"))
-                        .includes(:conversation)
-                        .index_by(&:accepted_by_agent_id)
+                        .group_by(&:accepted_by_agent_id)
+                        .transform_values { |calls| calls.max_by { |call| call.ended_at.to_i } }
   end
 
   def openers(users)

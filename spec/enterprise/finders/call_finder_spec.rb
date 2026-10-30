@@ -137,6 +137,13 @@ describe CallFinder do
       expect(perform(agent, status: 'ringing')[:calls]).to be_empty
     end
 
+    it 'hides a ringing call from an agent who turned calls off' do
+      ringing_call(conversation)
+      account.account_users.find_by(user_id: agent.id).update!(accepts_calls: false)
+
+      expect(perform(agent, status: 'ringing')[:calls]).to be_empty
+    end
+
     it 'hides a ringing call another agent has already claimed' do
       call = ringing_call(conversation)
       call.update!(accepted_by_agent: other_agent)

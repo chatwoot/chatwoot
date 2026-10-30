@@ -89,6 +89,19 @@ RSpec.describe Voice::RingNextAgentJob do
       expect(call.reload.ring_state['ring_recipient_ids']).to eq([alice.id, bob.id])
     end
 
+    it 'rings an agent it held back one step after the rest of the team' do
+      channel.update!(provider_config: channel.provider_config.merge('prefer_free_agents' => true))
+      create(:call, account: account, inbox: inbox, conversation: create(:conversation, account: account, inbox: inbox),
+                    contact: conversation.contact, provider_call_id: 'CA-ON-CALL', status: 'in_progress', accepted_by_agent: bob)
+      call.update!(ring_state: call.ring_state.merge('ring_recipient_ids' => []))
+
+      described_class.perform_now(call.id, 1)
+      expect(call.reload.ring_state['ring_recipient_ids']).to eq([alice.id])
+
+      described_class.perform_now(call.id, 2)
+      expect(call.reload.ring_state['ring_recipient_ids']).to eq([alice.id, bob.id])
+    end
+
     it 'rings the team once the assignee it rang alone dismissed it' do
       conversation.update!(assignee: alice)
       call.update!(ring_state: call.ring_state.merge('dismissed_user_ids' => [alice.id]))
@@ -97,6 +110,14 @@ RSpec.describe Voice::RingNextAgentJob do
 
       expect(message.reload.content_attributes.dig('data', 'ring_user_ids')).to eq([bob.id])
     end
+  end
+
+  it 'queues the next step even when ringing the added phones fails' do
+    call.update!(ring_state: call.ring_state.merge('rings_phones' => true))
+    allow(Voice::AddedRingPushService).to receive(:new).and_raise(ArgumentError)
+
+    expect { described_class.perform_now(call.id, 1) }.to raise_error(ArgumentError)
+    expect(described_class).to have_been_enqueued.with(call.id, 2)
   end
 
   it "rings the added agent's phones only when the call rings phones" do

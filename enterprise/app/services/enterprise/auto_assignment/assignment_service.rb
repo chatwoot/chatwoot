@@ -1,10 +1,6 @@
 module Enterprise::AutoAssignment::AssignmentService
   private
 
-  def assignable?(conversation)
-    super && !conversation.call_ringing?
-  end
-
   # Override assignment config to use policy if available
   def assignment_config
     return super unless policy
@@ -68,6 +64,9 @@ module Enterprise::AutoAssignment::AssignmentService
 
     # Then apply the capacity policy's exclusion rules (labels and age)
     scope = apply_exclusion_rules(scope)
+
+    # A conversation whose inbound Twilio call is ringing waits for the agent who answers
+    scope = scope.where.not(id: Call.where(inbox_id: inbox.id, provider: :twilio, direction: :incoming, status: 'ringing').select(:conversation_id))
 
     # Apply conversation priority using enum methods if policy exists
     scope = if policy&.longest_waiting?
