@@ -7,6 +7,7 @@ import {
 describe('importSources', () => {
   it('exposes Freshdesk as a domain-based integration source', () => {
     expect(IMPORT_SOURCES.map(source => source.value)).toEqual([
+      'csv',
       'intercom',
       'freshdesk',
     ]);
