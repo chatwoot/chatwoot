@@ -93,6 +93,8 @@ export default {
     return {
       MENU,
       labelSearchQuery: '',
+      activeLabelIndex: 0,
+      isLabelSubmenuHovered: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
       readOption: {
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_READ'),
@@ -231,8 +233,22 @@ export default {
       return [...labels].sort((a, b) => isAssigned(b) - isAssigned(a));
     },
   },
+  watch: {
+    labelSearchQuery() {
+      this.activeLabelIndex = 0;
+    },
+    filteredLabels(newLabels) {
+      if (this.activeLabelIndex >= newLabels.length) {
+        this.activeLabelIndex = 0;
+      }
+    },
+  },
   mounted() {
     this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
+    window.addEventListener('keydown', this.handleGlobalKeyDown);
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.handleGlobalKeyDown);
   },
   methods: {
     isAllowed(keys) {
@@ -289,13 +305,122 @@ export default {
         ...(type === 'team' && { label: option.name }),
       };
     },
+    getInputElement() {
+      return (
+        this.$refs.labelSearchInput?.$el?.querySelector('input') ||
+        this.$el?.querySelector("input[type='search']")
+      );
+    },
+    handleSubmenuLeave() {
+      const input = this.getInputElement();
+      if (input && document.activeElement === input) {
+        this.$el?.focus();
+      }
+    },
+    focusLabelSearchInput() {
+      const input = this.getInputElement();
+      if (input) {
+        input.focus();
+      }
+    },
+    toggleLabel(label) {
+      if (!label) return;
+      if (this.conversationLabels.includes(label.title)) {
+        this.$emit('removeLabel', label);
+      } else {
+        this.$emit('assignLabel', label);
+      }
+    },
+    selectActiveLabel() {
+      const label = this.filteredLabels[this.activeLabelIndex];
+      if (label) {
+        this.toggleLabel(label);
+      }
+    },
+    moveActiveLabel(direction) {
+      const total = this.filteredLabels.length;
+      if (!total) return;
+      let newIndex = this.activeLabelIndex + direction;
+      if (newIndex < 0) {
+        newIndex = total - 1;
+      } else if (newIndex >= total) {
+        newIndex = 0;
+      }
+      this.activeLabelIndex = newIndex;
+      this.$nextTick(() => {
+        this.scrollToActiveLabel();
+      });
+    },
+    scrollToActiveLabel() {
+      const container = this.$refs.labelListContainer;
+      const activeEl = container?.children?.[this.activeLabelIndex];
+      if (activeEl && container) {
+        activeEl?.scrollIntoView?.({ block: 'nearest' });
+      }
+    },
+    handleInputKeyDown(e) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.moveActiveLabel(1);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.moveActiveLabel(-1);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.selectActiveLabel();
+      } else if (e.key === 'Escape') {
+        // Let escape pass through
+      } else {
+        e.stopPropagation();
+      }
+    },
+    handleGlobalKeyDown(e) {
+      if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === 'Escape' || e.key === 'Tab') return;
+
+      if (!this.isAllowed([MENU.LABEL])) return;
+
+      if (this.isLabelSubmenuHovered) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          this.focusLabelSearchInput();
+          this.moveActiveLabel(1);
+          return;
+        }
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          this.focusLabelSearchInput();
+          this.moveActiveLabel(-1);
+          return;
+        }
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          this.selectActiveLabel();
+          return;
+        }
+        if (e.key.length === 1) {
+          this.focusLabelSearchInput();
+          const input = this.getInputElement();
+          if (input && document.activeElement !== input) {
+            this.labelSearchQuery = (this.labelSearchQuery || '') + e.key;
+            this.activeLabelIndex = 0;
+            e.preventDefault();
+          }
+        }
+      }
+    },
   },
 };
 </script>
 
 <template>
   <div
-    class="p-1 rounded-md shadow-xl bg-n-alpha-3/50 backdrop-blur-[100px] outline-1 outline outline-n-weak/50"
+    tabindex="-1"
+    class="p-1 rounded-md shadow-xl bg-n-alpha-3/50 backdrop-blur-[100px] outline-1 outline outline-n-weak/50 focus:outline-none"
   >
     <template v-if="isAllowed([MENU.MARK_AS_READ, MENU.MARK_AS_UNREAD])">
       <MenuItem
@@ -348,9 +473,16 @@ export default {
         v-if="isAllowed([MENU.LABEL])"
         :option="labelMenuConfig"
         :sub-menu-available="!!labels.length"
+        :scrollable="false"
+        @mouseenter="isLabelSubmenuHovered = true"
+        @mouseleave="
+          isLabelSubmenuHovered = false;
+          handleSubmenuLeave();
+        "
       >
-        <div class="pb-1 w-[12.5rem]">
+        <div class="pb-1 w-[12.5rem] flex-shrink-0">
           <NextInput
+            ref="labelSearchInput"
             v-model="labelSearchQuery"
             type="search"
             size="sm"
@@ -358,7 +490,7 @@ export default {
             custom-input-class="!ps-8 !text-xs"
             :placeholder="$t('CONVERSATION.CARD_CONTEXT_MENU.SEARCH_LABELS')"
             @click.stop
-            @keydown.stop
+            @keydown="handleInputKeyDown"
           >
             <template #prefix>
               <Icon
@@ -368,9 +500,12 @@ export default {
             </template>
           </NextInput>
         </div>
-        <div class="overflow-x-hidden overflow-y-auto max-h-[12.5rem]">
+        <div
+          ref="labelListContainer"
+          class="overflow-x-hidden overflow-y-auto max-h-[12.5rem] flex-1"
+        >
           <MenuItem
-            v-for="label in filteredLabels"
+            v-for="(label, index) in filteredLabels"
             :key="label.id"
             :option="generateMenuLabelConfig(label, 'label')"
             :variant="
@@ -378,12 +513,10 @@ export default {
                 ? 'label-assigned'
                 : 'label'
             "
+            :is-active="index === activeLabelIndex"
+            @mouseenter="activeLabelIndex = index"
             @mousedown.prevent
-            @click.stop="
-              conversationLabels.includes(label.title)
-                ? $emit('removeLabel', label)
-                : $emit('assignLabel', label)
-            "
+            @click.stop="toggleLabel(label)"
           />
           <p
             v-if="!filteredLabels.length"
