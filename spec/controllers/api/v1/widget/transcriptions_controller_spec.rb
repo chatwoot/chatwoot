@@ -67,6 +67,14 @@ RSpec.describe '/api/v1/widget/transcription', type: :request do
         expect(response.parsed_body['error']).to eq('No audio provided')
       end
 
+      it 'rejects uploads that are not a supported audio format without calling the service' do
+        post_transcription(audio: fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'text/plain'))
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Unsupported audio format')
+        expect(Messages::WidgetAudioTranscriptionService).not_to have_received(:new)
+      end
+
       it 'returns the transcription when the service succeeds' do
         allow(transcription_service).to receive(:perform).and_return({ success: true, transcription: 'Hello world' })
 

@@ -1,9 +1,15 @@
 class Api::V1::Widget::TranscriptionsController < Api::V1::Widget::BaseController
+  # Formats the widget recorder produces, plus mp3/wav; all accepted by OpenAI transcription.
+  SUPPORTED_AUDIO_TYPES = %w[audio/webm audio/ogg audio/mp4 audio/mpeg audio/wav].freeze
+
   def create
     return render_unavailable unless @web_widget.audio_transcription_enabled?
-    return render_error('No audio provided', :unprocessable_entity) unless params[:audio].is_a?(ActionDispatch::Http::UploadedFile)
 
-    result = Messages::WidgetAudioTranscriptionService.new(params[:audio], account: @web_widget.account).perform
+    audio = params[:audio]
+    return render_error('No audio provided', :unprocessable_entity) unless audio.is_a?(ActionDispatch::Http::UploadedFile)
+    return render_error('Unsupported audio format', :unprocessable_entity) unless supported_audio_type?(audio)
+
+    result = Messages::WidgetAudioTranscriptionService.new(audio, account: @web_widget.account).perform
 
     if result[:success]
       render json: { transcription: result[:transcription] }
@@ -16,6 +22,11 @@ class Api::V1::Widget::TranscriptionsController < Api::V1::Widget::BaseControlle
   end
 
   private
+
+  # Compares the media type only, ignoring parameters such as "; codecs=opus".
+  def supported_audio_type?(audio)
+    SUPPORTED_AUDIO_TYPES.include?(Rack::MediaType.type(audio.content_type))
+  end
 
   def render_unavailable
     render_error('Audio transcription is not enabled', :forbidden)
