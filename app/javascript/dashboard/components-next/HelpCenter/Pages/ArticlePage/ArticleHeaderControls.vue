@@ -193,8 +193,8 @@ const handleTabChange = value => {
       :initial-active-tab="activeTabIndex"
       @tab-changed="handleTabChange"
     />
-    <div class="flex items-start justify-between w-full gap-2">
-      <div class="flex flex-wrap items-center gap-2">
+    <div class="flex items-start justify-between w-full min-w-0 gap-2">
+      <div class="flex items-center min-w-0 gap-2">
         <div class="relative group">
           <OnClickOutside @trigger="isLocaleMenuOpen = false">
             <Button
@@ -215,14 +215,17 @@ const handleTabChange = value => {
             />
           </OnClickOutside>
         </div>
-        <div v-if="hasCategoryMenuItems" class="relative group">
+        <div
+          v-if="hasCategoryMenuItems"
+          class="relative min-w-0 group max-w-48"
+        >
           <OnClickOutside @trigger="isCategoryMenuOpen = false">
             <Button
               icon="i-lucide-chevron-down"
               size="sm"
               color="slate"
               trailing-icon
-              class="max-w-48"
+              class="max-w-full"
               @click="isCategoryMenuOpen = !isCategoryMenuOpen"
             >
               <span class="flex items-center gap-1.5 min-w-0">
@@ -245,7 +248,7 @@ const handleTabChange = value => {
             />
           </OnClickOutside>
         </div>
-        <div class="relative group">
+        <div class="relative min-w-0 group max-w-48">
           <OnClickOutside @trigger="isAuthorMenuOpen = false">
             <Button
               :label="activeAuthorName"
@@ -259,7 +262,7 @@ const handleTabChange = value => {
               icon="i-lucide-chevron-down"
               color="slate"
               trailing-icon
-              class="max-w-48"
+              class="max-w-full"
               @click="isAuthorMenuOpen = !isAuthorMenuOpen"
             />
             <DropdownMenu
@@ -281,6 +284,7 @@ const handleTabChange = value => {
         :label="t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.NEW_ARTICLE')"
         icon="i-lucide-plus"
         size="sm"
+        class="flex-shrink-0"
         @click="handleNewArticle"
       />
     </div>
