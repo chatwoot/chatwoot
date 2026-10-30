@@ -138,6 +138,43 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
+  context 'when the inbox auto-assigns conversations' do
+    let(:agent) { create(:user, account: account, role: :agent) }
+
+    before do
+      account.enable_features!('channel_voice')
+      create(:inbox_member, inbox: inbox, user: agent)
+      inbox.update!(enable_auto_assignment: true)
+      OnlineStatusTracker.update_presence(account.id, 'User', agent.id)
+      OnlineStatusTracker.set_status(account.id, agent.id, 'online')
+    end
+
+    it 'leaves a new caller unassigned while the call rings and assigns them once it goes unanswered' do
+      call = perform_builder
+      expect(call.conversation.reload.assignee).to be_nil
+
+      Call.find(call.id).update!(status: 'no_answer')
+      expect(call.conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'keeps a conversation with a ringing call out of a bulk assignment run' do
+      account.enable_features!('assignment_v2')
+      call = perform_builder
+      service = AutoAssignment::AssignmentService.new(inbox: inbox.reload)
+
+      expect(service.perform_bulk_assignment).to eq(0)
+      Call.find(call.id).update!(status: 'no_answer')
+      expect(service.perform_bulk_assignment).to eq(1)
+      expect(call.conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'assigns a call to an inbox closed for calls as it arrives' do
+      allow(inbox).to receive(:closed_for_calls?).and_return(true)
+
+      expect(perform_builder.conversation.reload.assignee).to eq(agent)
+    end
+  end
+
   context 'when routing the ring' do
     let(:alice) { create(:user, account: account, role: :agent) }
     let(:bob) { create(:user, account: account, role: :agent) }

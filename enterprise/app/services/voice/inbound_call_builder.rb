@@ -131,7 +131,8 @@ class Voice::InboundCallBuilder
       contact_inbox_id: contact_inbox.id,
       inbox_id: inbox.id,
       contact_id: contact.id,
-      status: :open
+      status: :open,
+      call_ringing: provider == :twilio && !inbox.closed_for_calls?
     )
   end
 
