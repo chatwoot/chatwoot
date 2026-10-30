@@ -7,6 +7,9 @@ import { useDarkMode } from 'widget/composables/useDarkMode';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { mapActions, mapGetters } from 'vuex';
 
+// Distance from the bottom, in px, still treated as "scrolled to the bottom".
+const SCROLL_BOTTOM_THRESHOLD = 10;
+
 export default {
   name: 'ConversationWrap',
   components: {
@@ -29,6 +32,7 @@ export default {
     return {
       previousScrollHeight: 0,
       previousConversationSize: 0,
+      isScrolledToBottom: true,
     };
   },
   computed: {
@@ -62,6 +66,7 @@ export default {
   },
   mounted() {
     this.$el.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('resize', this.handleResize);
     this.scrollToBottom();
   },
   updated() {
@@ -72,6 +77,7 @@ export default {
   },
   unmounted() {
     this.$el.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
   },
   methods: {
     ...mapActions('conversation', ['fetchOldConversations']),
@@ -81,6 +87,10 @@ export default {
       this.previousScrollHeight = 0;
     },
     handleScroll() {
+      const { scrollTop, scrollHeight, clientHeight } = this.$el;
+      this.isScrolledToBottom =
+        scrollHeight - scrollTop - clientHeight <= SCROLL_BOTTOM_THRESHOLD;
+
       if (
         this.isFetchingList ||
         this.allMessagesLoaded ||
@@ -92,6 +102,13 @@ export default {
       if (this.$el.scrollTop < 100) {
         this.fetchOldConversations({ before: this.earliestMessage.id });
         this.previousScrollHeight = this.$el.scrollHeight;
+      }
+    },
+    handleResize() {
+      // The iframe shrinks when the mobile keyboard opens. Keep the latest
+      // message in view if the visitor was already reading the end.
+      if (this.isScrolledToBottom) {
+        this.$el.scrollTop = this.$el.scrollHeight;
       }
     },
   },
