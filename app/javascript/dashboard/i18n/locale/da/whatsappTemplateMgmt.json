@@ -22,13 +22,13 @@
       "UNSUBMITTED": "Not submitted for WhatsApp approval"
     },
     "FILTERS": {
-      "ALL_INBOXES": "All inboxes",
+      "ALL_INBOXES": "Alle indbakker",
       "ALL_LANGUAGES": "All languages",
       "ALL_TYPES": "All types"
     },
     "TYPES": {
       "TEXT": "Tekst",
-      "IMAGE": "Image",
+      "IMAGE": "Billede",
       "VIDEO": "Video",
       "DOCUMENT": "Document",
       "MEDIA": "Media",

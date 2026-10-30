@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "K tomuto kontaktu nie sú priradené žiadne predchádzajúce konverzácie.",
-      "TITLE": "Prechádzajúce konverzácie"
+      "TITLE": "Prechádzajúce konverzácie",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

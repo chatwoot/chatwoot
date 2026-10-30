@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Otsi sõnumeid vestlustest",
     "VIEW_ORIGINAL": "Vaata originaali",
     "VIEW_TRANSLATED": "Vaata tõlgitud",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "käskluste menüü avamiseks",
       "KEYBOARD_SHORTCUTS": "kiirklahvide vaatamiseks"
@@ -34,6 +40,15 @@
     },
     "UNREAD_MESSAGES": "Lugemata sõnumid",
     "UNREAD_MESSAGE": "Lugemata sõnum",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "Klõpsake siia",
     "LOADING_INBOXES": "Laaditakse postkaste",
     "LOADING_CONVERSATIONS": "Laaditakse vestlusi",
@@ -44,7 +59,7 @@
     "NOT_ASSIGNED_TO_YOU": "See vestlus ei ole sulle määratud. Kas soovid selle vestluse endale määrata?",
     "ASSIGN_TO_ME": "Määra mulle",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "Märgi vestlus avatuks",
     "BOT_HANDOFF_SUCCESS": "Vestlus on teile üle antud",
@@ -72,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "See sõnum ei ole toetatud. Sa saad seda vaadata Facebook Messenger rakenduses.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "See sõnum ei ole toetatud. Sa saad seda vaadata Instagram rakenduses.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "See sõnum ei ole toetatud. Sa saad seda vaadata TikTok rakenduses.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -80,6 +98,15 @@
     "SUCCESS_DELETE_MESSAGE": "Sõnum kustutati edukalt",
     "FAIL_DELETE_MESSSAGE": "Sõnumit ei õnnestunud kustutada! Proovi uuesti",
     "NO_RESPONSE": "Vastust pole",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Vastus",
     "RATING_TITLE": "Hinnang",
     "FEEDBACK_TITLE": "Tagasiside",
@@ -199,6 +226,16 @@
       "APPLY": "Vaigista",
       "CANCEL": "Tühista"
     },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Dismiss",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
+    },
     "PRIORITY": {
       "TITLE": "Prioriteet",
       "OPTIONS": {
@@ -296,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "Peata heli salvestamine",
       "COPILOT_THINKING": "Copilot mõtleb",
       "EMAIL_HEAD": {
-        "TO": "SAJALE",
-        "ADD_BCC": "Add bcc",
+        "TO": "Saaja",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Koopia",
           "PLACEHOLDER": "E-posti aadressid, eraldatud komadega",
           "ERROR": "Palun sisestage kehtivad e-posti aadressid"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Pime koopia",
           "PLACEHOLDER": "E-kirjad, eraldatud komadega",
           "ERROR": "Palun sisestage kehtivad e-posti aadressid"
+        },
+        "SUBJECT": {
+          "LABEL": "Teema",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
@@ -318,11 +358,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Lisa tsitaat e-kirja vestlusest",
-        "DISABLE_TOOLTIP": "Ära lisa tsitaati e-kirja vestlusest",
-        "REMOVE_PREVIEW": "Eemalda tsitaat e-kirja vestlusest",
-        "COLLAPSE": "Eelvaate kokkupakkimine",
-        "EXPAND": "Eelvaate laiendamine"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "Privaatne märkus: nähtav ainult teile ja teie meeskonnale",
@@ -352,6 +390,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopeeri",
       "REPLY_TO": "Vasta sellele sõnumile",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "Kustuta",
       "CREATE_A_CANNED_RESPONSE": "Lisa eelseadistatud vastustesse",
       "TRANSLATE": "Tõlgi",
@@ -529,7 +568,16 @@
     "BCC": "Pime koopia",
     "CC": "Koopia",
     "SUBJECT": "Teema",
+    "DATE": "Date",
     "EXPAND": "Laienda e-kiri"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "Saaja:",
+    "TO_PLACEHOLDER": "Sisesta vähemalt 2 märki, et otsida e-posti aadressi järgi",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Osalejad",

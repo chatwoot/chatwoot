@@ -11,6 +11,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   assistantId: {
@@ -19,7 +20,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['installed']);
+const emit = defineEmits(['installed', 'close']);
 
 const { t } = useI18n();
 
@@ -27,20 +28,15 @@ const SHORT_REVISION_LENGTH = 7;
 const INPUT_TYPES = { password: 'password', number: 'number' };
 
 const dialogRef = ref(null);
+// Sent to install exactly as opened; preview returns a lowercase identity, but GitHub folder names are case-sensitive
 const source = ref('');
 const preview = ref(null);
-// The source exactly as previewed; preview returns a lowercase identity, but GitHub folder names are case-sensitive
-const previewedSource = ref('');
 // Prototype-free, so field names like "constructor" don't read inherited values and look already filled
 const emptyValues = () => Object.create(null);
 const values = reactive({ inputs: emptyValues(), secrets: emptyValues() });
 const isInstalling = ref(false);
 // A slow preview must not land in a dialog that was closed or reopened for another source
-const {
-  run: runPreview,
-  abort: abortPreview,
-  isPending: isLoadingPreview,
-} = useAbortableRequest();
+const { run: runPreview, abort: abortPreview } = useAbortableRequest();
 
 const isInstalled = computed(() => !!preview.value?.up_to_date);
 // Installed at this commit but some tools were deleted; reinstalling adds them back
@@ -93,22 +89,13 @@ const selectOptions = field =>
   (field.options || []).map(option => ({ value: option, label: option }));
 
 const reset = () => {
-  source.value = '';
   preview.value = null;
-  previewedSource.value = '';
   values.inputs = emptyValues();
   values.secrets = emptyValues();
 };
 
-// Bumped on every open, so an install finishing after the dialog was reopened doesn't act on the new session
+// Bumped on every open and close, so an install finishing after the dialog was dismissed or reopened is ignored
 let session = 0;
-
-const open = () => {
-  session += 1;
-  abortPreview();
-  reset();
-  dialogRef.value.open();
-};
 
 const close = () => dialogRef.value.close();
 
@@ -123,19 +110,14 @@ watch(
 );
 
 const loadPreview = async () => {
-  const requestedSource = source.value.trim();
-  if (!requestedSource) return;
-
   try {
     const response = await runPreview(signal =>
       ToolsManifestAPI.preview(
-        { assistantId: props.assistantId, source: requestedSource },
+        { assistantId: props.assistantId, source: source.value },
         { signal }
       )
     );
     if (!response) return;
-
-    previewedSource.value = requestedSource;
 
     const { data } = response;
     values.inputs = emptyValues();
@@ -151,7 +133,21 @@ const loadPreview = async () => {
       parseAPIErrorResponse(error) ||
         t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.PREVIEW_ERROR')
     );
+    // There is nothing to show without a preview
+    close();
   }
+};
+
+// The catalog and install links open the dialog with a source, which goes straight to its preview
+const open = toolsetSource => {
+  session += 1;
+  abortPreview();
+  reset();
+  // A request from before a reopen must not keep the new dialog locked
+  isInstalling.value = false;
+  source.value = toolsetSource;
+  dialogRef.value.open();
+  loadPreview();
 };
 
 const install = async () => {
@@ -160,14 +156,14 @@ const install = async () => {
   try {
     await ToolsManifestAPI.install({
       assistantId: props.assistantId,
-      source: previewedSource.value,
+      source: source.value,
       // Pin to the previewed commit so a newer push can't install tools that were never reviewed
       revision: preview.value.revision,
       configuration: values,
     });
-    emit('installed');
     if (installSession !== session) return;
 
+    emit('installed');
     useAlert(t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.SUCCESS_MESSAGE'));
     close();
   } catch (error) {
@@ -178,21 +174,14 @@ const install = async () => {
         t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.ERROR_MESSAGE')
     );
   } finally {
-    isInstalling.value = false;
+    if (installSession === session) isInstalling.value = false;
   }
 };
 
-const goBack = () => {
-  if (preview.value) {
-    preview.value = null;
-  } else {
-    close();
-  }
-};
-
-// The dialog is a form, so Enter in the source field submits it
-const onEnter = () => {
-  if (!preview.value) loadPreview();
+const onClose = () => {
+  session += 1;
+  abortPreview();
+  emit('close');
 };
 
 defineExpose({ open });
@@ -206,20 +195,10 @@ defineExpose({ open });
     :description="t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.DESCRIPTION')"
     :show-cancel-button="false"
     :show-confirm-button="false"
-    @confirm="onEnter"
-    @close="abortPreview"
+    @close="onClose"
   >
-    <div v-if="!preview" class="flex flex-col gap-2">
-      <Input
-        v-model="source"
-        :label="t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.SOURCE_LABEL')"
-        :placeholder="
-          t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.SOURCE_PLACEHOLDER')
-        "
-        :message="t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.SOURCE_HELP')"
-        class="[&_input]:font-mono"
-        autofocus
-      />
+    <div v-if="!preview" class="flex justify-center py-8">
+      <Spinner />
     </div>
 
     <div
@@ -260,11 +239,7 @@ defineExpose({ open });
             :key="tool.id"
             class="flex items-center gap-2 text-sm text-n-slate-12"
           >
-            <span
-              class="px-1.5 py-0.5 text-xs font-mono rounded bg-n-alpha-2 text-n-slate-11 w-16 text-center shrink-0"
-            >
-              {{ tool.http_method }}
-            </span>
+            <i class="i-lucide-wrench size-3.5 shrink-0 text-n-slate-10" />
             <span class="truncate">{{ tool.title }}</span>
           </li>
         </ul>
@@ -316,31 +291,19 @@ defineExpose({ open });
           type="button"
           faded
           slate
-          :label="
-            preview
-              ? t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.BACK')
-              : t('CAPTAIN.FORM.CANCEL')
-          "
+          :label="t('CAPTAIN.FORM.CANCEL')"
           class="w-full"
           :disabled="isInstalling"
-          @click="goBack"
+          @click="close"
         />
         <Button
-          v-if="!preview"
-          type="button"
-          :label="t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.CONTINUE')"
-          class="w-full"
-          :is-loading="isLoadingPreview"
-          :disabled="!source.trim() || isLoadingPreview"
-          @click="loadPreview"
-        />
-        <Button
-          v-else
           type="button"
           :label="installLabel"
           class="w-full"
           :is-loading="isInstalling"
-          :disabled="isInstalled || hasMissingRequiredValues || isInstalling"
+          :disabled="
+            !preview || isInstalled || hasMissingRequiredValues || isInstalling
+          "
           @click="install"
         />
       </div>

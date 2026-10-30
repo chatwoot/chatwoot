@@ -43,20 +43,6 @@
       "DELETE": "Padamkan",
       "CANCEL": "Batalkan"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Tambah label ke perbualan",
-        "MULTIPLE_SUGGESTION": "Pilih label ini",
-        "DESELECT": "Nyahpilih label",
-        "DISMISS": "Tolak cadangan"
-      },
-      "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Tolak",
-      "ADD_SELECTED_LABELS": "Tambah label yang dipilih",
-      "ADD_SELECTED_LABEL": "Tambah label yang dipilih",
-      "ADD_ALL_LABELS": "Tambah semua label",
-      "SUGGESTED_LABELS": "Label yang dicadangkan"
-    },
     "ADD": {
       "TITLE": "Tambah label",
       "DESC": "Label membolehkan anda mengelompokkan perbualan bersama-sama.",

@@ -4,23 +4,40 @@ class Voice::Provider::Twilio::ConferenceService
   def ensure_conference_sid
     return call.conference_sid if call.conference_sid.present?
 
-    call.update!(conference_sid: call.default_conference_sid)
+    call.merge_meta!('conference_sid' => call.default_conference_sid)
     call.conference_sid
   end
 
-  def mark_agent_joined(user:)
-    claim_call!(user)
+  # `attempt` identifies the connection the agent is about to open, which passes the same id
+  # to Twilio; a client that sends none holds no place for it
+  def mark_agent_joined(user:, attempt: nil)
+    claim_call!(user, attempt)
     assign_conversation!(user)
   end
 
   def end_conference
     return if call.conference_sid.blank?
 
-    client = call.inbox.channel.client
-    client
-      .conferences
-      .list(friendly_name: call.conference_sid, status: 'in-progress')
-      .each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+    in_progress_conferences.each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+  end
+
+  # Whether an agent leg other than the one leaving is still on the conference. Legs are
+  # told apart by call SID: an agent who reconnected carries the same label as the leg
+  # that left.
+  def agents_remain?(leaving_call_sid:)
+    return false if call.conference_sid.blank?
+
+    in_progress_conferences.any? { |conf| other_agent_present?(conf.sid, leaving_call_sid) }
+  end
+
+  # Plays hold music to the contact alone, or stops it; unlike a participant hold, the agent still hears them.
+  # A refusal propagates, so the dashboard never shows a hold Twilio did not make.
+  def hold_contact(on_hold)
+    announce_url = on_hold ? Voice::Provider::Twilio::TwimlBuilder::DEFAULT_WAIT_URL : url_helpers.twilio_voice_resume_url(phone: phone_digits)
+    client.conferences(call.twilio_conference_sid).participants(call.provider_call_id).update(announce_url: announce_url, announce_method: 'GET')
+  rescue Twilio::REST::RestError => e
+    Rails.logger.error("[VOICE] call #{call.id}: hold=#{on_hold} failed: #{e.class}: #{e.message}")
+    raise Voice::CallErrors::CallFailed, I18n.t('errors.voice.hold_failed')
   end
 
   # Hangs up legs that never joined the conference (e.g. a PSTN leg still ringing). `completed` ends
@@ -32,12 +49,67 @@ class Voice::Provider::Twilio::ConferenceService
     end
   end
 
+  # The conversation was assigned by this claim, so a leg Twilio then fails to add can
+  # give it back
+  def remember_claim_assignment(user_id)
+    Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', { 'assigned_by_claim' => user_id }.to_json]) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  # Completes the call once no agent connection is still on its way in, under the row lock
+  # that opening a connection takes, so a connection either counts here or finds the call
+  # over and is hung up. A connection that joined since the participants were looked up
+  # (`since`) is on the call. Returns 0 for a connection on the call, the seconds to wait
+  # for the connections still joining, or nil once the call is completed.
+  def complete_unless_agent_joining(leaving_call_sid:, since:)
+    call.with_lock do
+      next 0 if call.agent_leg_joined?(except: leaving_call_sid, since: since)
+
+      wait = call.agent_leg_join_wait(except: leaving_call_sid)
+      next wait if wait
+
+      Voice::CallStatus::Manager.new(call: call).process_status_update('completed', timestamp: Time.zone.now.to_i) unless call.terminal?
+      nil
+    end
+  end
+
   private
 
-  def claim_call!(user)
+  def client
+    @client ||= call.inbox.channel.client
+  end
+
+  def phone_digits
+    call.inbox.channel.phone_number.delete_prefix('+')
+  end
+
+  def url_helpers
+    Rails.application.routes.url_helpers
+  end
+
+  def in_progress_conferences
+    client.conferences.list(friendly_name: call.conference_sid, status: 'in-progress')
+  end
+
+  def other_agent_present?(conference_sid, leaving_call_sid)
+    client.conferences(conference_sid).participants.list.any? do |participant|
+      participant.label.to_s.start_with?('agent-') && participant.call_sid != leaving_call_sid
+    end
+  end
+
+  # The agent's connection is on its way from here, before Twilio asks for its instructions
+  def claim_call!(user, attempt)
     call.with_lock do
+      # The ring time is up and the caller is being told so; a join now would find nobody. The mark is checked on
+      # its own, since the move's webhooks can end the call before the timeout records it as unanswered.
+      raise Voice::CallErrors::CallAlreadyEnded, I18n.t('errors.voice.call_timed_out') if call.ring_timeout_in_progress?
+
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
+      next if attempt.blank?
+
+      # A newer attempt replaces older ones, which may never have reached Twilio
+      call.retire_pending_agent_legs!
+      call.record_agent_leg!(Call.pending_agent_leg(attempt), 'joining')
     end
   end
 
@@ -56,5 +128,6 @@ class Voice::Provider::Twilio::ConferenceService
     return if conversation.assigned_entity.present?
 
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: user.id).perform
+    remember_claim_assignment(user.id)
   end
 end

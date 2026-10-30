@@ -44,6 +44,35 @@
         "TITLE": "Konto SID",
         "NOTE": "Dette ID er påkrævet, hvis du bygger en API-baseret integration"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Translate",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "Tilslut",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Opgrader"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
         "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
@@ -51,7 +80,7 @@
           "LABEL": "Inactivity duration",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Auto resolve settings updated successfully",
             "ERROR": "Failed to update auto resolve settings"
@@ -104,6 +133,14 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Påkræv to-faktor autentificering",
+        "NOTE": "Kræv hvert medlem af denne konto for at oprette to-faktor godkendelse. Medlemmer uden det vil blive bedt om at sætte det op ved deres næste adgangskode login. Loginerne via Google eller SAML er undtaget. API-adgangstokens for medlemmer, der ikke har oprettet to-faktor autentificering stopper med at fungere for denne konto, indtil de indleder.",
+        "API": {
+          "SUCCESS": "To-faktor autentificering håndhævelse opdateret",
+          "ERROR": "Kunne ikke opdatere to-faktor autentificering håndhævelse"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "En opdatering {latestChatwootVersion} til Chatwoot er tilgængelig. Opdater venligst din instans.",
     "LEARN_MORE": "Lær mere",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "PAYMENT_PENDING": "Din kontobetaling er forfalden. Opdater venligst dine betalingsoplysninger for at undgå annullering af abonnement.",
+    "PAYMENT_PENDING_AGENT": "Din kontobetaling er forfalden. Kontakt venligst din administrator for at løse den.",
     "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
@@ -161,7 +199,7 @@
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Skift Team",
       "SNOOZE_CONVERSATION": "Udsæt Samtale",
-      "EXECUTE_MACRO": "Execute Macro",
+      "EXECUTE_MACRO": "Kør Makro",
       "ADD_LABEL": "Tilføj etiket til samtalen",
       "REMOVE_LABEL": "Fjern etiket fra samtalen",
       "SETTINGS": "Indstillinger",
@@ -170,36 +208,36 @@
       "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
-      "GO_TO_MY_INBOX": "Go to My Inbox",
+      "GO_TO_MY_INBOX": "Gå til Min indbakke",
       "GO_TO_CONVERSATION_DASHBOARD": "Gå til Konversationspanel",
       "GO_TO_CONTACTS_DASHBOARD": "Gå til Contacts Dashboard",
-      "GO_TO_CAPTAIN": "Go to Captain",
-      "GO_TO_CALLS_DASHBOARD": "Go to Calls Dashboard",
-      "GO_TO_CAMPAIGNS": "Go to Campaigns",
-      "GO_TO_HELP_CENTER": "Go to Help Center",
+      "GO_TO_CAPTAIN": "Gå til Captain",
+      "GO_TO_CALLS_DASHBOARD": "Gå til Opkald Dashboard",
+      "GO_TO_CAMPAIGNS": "Gå til Kampagner",
+      "GO_TO_HELP_CENTER": "Gå til Hjælpecenter",
       "GO_TO_REPORTS_OVERVIEW": "Gå til Oversigt over rapporter",
       "GO_TO_CONVERSATION_REPORTS": "Gå til Konversationsrapporter",
       "GO_TO_AGENT_REPORTS": "Gå til Agent rapporter",
       "GO_TO_LABEL_REPORTS": "Gå til Label rapporter",
       "GO_TO_INBOX_REPORTS": "Gå til Indbakke Rapporter",
       "GO_TO_TEAM_REPORTS": "Gå til holdrapporter",
-      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
-      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
-      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
+      "GO_TO_CSAT_REPORTS": "Gå til CSAT rapporter",
+      "GO_TO_BOT_REPORTS": "Gå til Bot rapporter",
+      "GO_TO_SLA_REPORTS": "Gå til SLA-rapporter",
       "GO_TO_SETTINGS_AGENTS": "Gå til Agent indstillinger",
       "GO_TO_SETTINGS_TEAMS": "Gå til teamindstillinger",
       "GO_TO_SETTINGS_INBOXES": "Gå til Indbakkeindstillinger",
-      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
+      "GO_TO_SETTINGS_TEMPLATES": "Gå til skabeloner",
       "GO_TO_SETTINGS_LABELS": "Gå til Label indstillinger",
-      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
-      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
-      "GO_TO_SETTINGS_MACROS": "Go to Macros",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Gå til brugerdefinerede attributter",
+      "GO_TO_SETTINGS_AUTOMATION": "Gå til Automatisering",
+      "GO_TO_SETTINGS_MACROS": "Gå til makroer",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Gå til Indstillinger for scannede svar",
-      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
+      "GO_TO_SETTINGS_SLA": "Gå til SLA indstillinger",
       "GO_TO_SETTINGS_APPLICATIONS": "Gå til programindstillinger",
-      "GO_TO_SETTINGS_DATA": "Go to Data",
-      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
-      "GO_TO_SETTINGS_BILLING": "Go to Billing",
+      "GO_TO_SETTINGS_DATA": "Gå til data",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Gå til audit-logs",
+      "GO_TO_SETTINGS_BILLING": "Gå til fakturering",
       "GO_TO_SETTINGS_ACCOUNT": "Gå til kontoindstillinger",
       "GO_TO_SETTINGS_PROFILE": "Gå til profilindstillinger",
       "ADD_LABELS_TO_CONVERSATION": "Tilføj etiket til samtalen",
@@ -207,7 +245,7 @@
       "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Tildel et team",
-      "EXECUTE_A_MACRO": "Execute a macro",
+      "EXECUTE_A_MACRO": "Udfør en makro",
       "MUTE_CONVERSATION": "Gør samtale lydløs",
       "UNMUTE_CONVERSATION": "Fjern samtale",
       "REMOVE_LABEL_FROM_CONVERSATION": "Fjern etiket fra samtalen",
