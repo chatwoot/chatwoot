@@ -226,6 +226,24 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.count).to eq(1)
       end
 
+      it 'releases dedup lock when message processing raises an error, allowing subsequent retries' do
+        service = described_class.new(inbox: whatsapp_channel.inbox, params: params)
+        allow(service).to receive(:create_messages).and_raise(ActiveRecord::ConnectionFailed.new('Connection lost'))
+
+        expect do
+          service.perform
+        end.to raise_error(ActiveRecord::ConnectionFailed)
+
+        expect(whatsapp_channel.inbox.messages.count).to eq(0)
+
+        # Retry should now be able to acquire the lock and create the message
+        retry_service = described_class.new(inbox: whatsapp_channel.inbox, params: params)
+        expect { retry_service.perform }.not_to raise_error
+
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
+      end
+
       it 'creates a contact and conversation when only BSUID is present' do
         params = {
           'contacts' => [{

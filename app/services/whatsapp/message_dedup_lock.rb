@@ -16,4 +16,8 @@ class Whatsapp::MessageDedupLock
   def acquire!
     ::Redis::Alfred.set(@key, true, nx: true, ex: @ttl)
   end
+
+  def release!
+    ::Redis::Alfred.delete(@key)
+  end
 end

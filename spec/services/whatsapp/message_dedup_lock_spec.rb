@@ -40,4 +40,15 @@ describe Whatsapp::MessageDedupLock do
       expect(wins).to eq(1), "Expected exactly 1 winner but got #{wins}. Results: #{results.inspect}"
     end
   end
+
+  describe '#release!' do
+    it 'deletes the lock from redis allowing re-acquisition' do
+      expect(lock.acquire!).to be_truthy
+      expect(described_class.new(source_id).acquire!).to be_falsy
+
+      lock.release!
+
+      expect(described_class.new(source_id).acquire!).to be_truthy
+    end
+  end
 end

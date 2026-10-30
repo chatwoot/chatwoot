@@ -26,6 +26,20 @@ class Whatsapp::IncomingMessageBaseService
 
   private
 
+  def process_incoming_message
+    set_contact
+    unless @contact
+      release_message_source_id!
+      return
+    end
+    return if @contact.blocked? && !outgoing_echo
+
+    ActiveRecord::Base.transaction do
+      set_conversation
+      create_messages
+    end
+  end
+
   def process_messages
     # We don't support reactions & ephemeral message now, we need to skip processing the message
     # if the webhook event is a reaction or an ephermal message or an unsupported message.
@@ -38,14 +52,10 @@ class Whatsapp::IncomingMessageBaseService
     return if find_message_by_source_id(messages_data.first[:id])
     return unless lock_message_source_id!
 
-    set_contact
-    return unless @contact
-    return if @contact.blocked? && !outgoing_echo
-
-    ActiveRecord::Base.transaction do
-      set_conversation
-      create_messages
-    end
+    process_incoming_message
+  rescue StandardError
+    release_message_source_id!
+    raise
   end
 
   def process_statuses
