@@ -171,9 +171,11 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     greeting = Voice::CallAnnouncement.new(resource, :greeting)
     json.call_greeting_enabled greeting.enabled?
     json.call_greeting_message greeting.message
+    json.call_greeting_audio_url greeting.audio.attached? ? url_for(greeting.audio) : nil
     unanswered = Voice::CallAnnouncement.new(resource, :unanswered)
     json.unanswered_calls_enabled unanswered.enabled?
     json.unanswered_call_message unanswered.message
+    json.unanswered_call_audio_url unanswered.audio.attached? ? url_for(unanswered.audio) : nil
     json.unanswered_call_timeout_seconds resource.channel.unanswered_call_timeout_seconds
     json.ring_strategy resource.channel.sequential_ringing? ? 'sequential' : 'simultaneous'
     json.ring_step_seconds resource.channel.ring_step_seconds

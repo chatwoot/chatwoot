@@ -1,5 +1,5 @@
-# The agents a call rings, keeping only agents whose status is online and who may open the
-# conversation. Socket presence is not consulted: a locked phone is offline on the socket and
+# The agents a call rings, keeping only agents whose status is online, who take calls and who
+# may open the conversation. Socket presence is not consulted: a locked phone is offline on the socket and
 # is exactly the device a ring push exists for.
 #
 # A Twilio call rings the eligible agents, those who have not dismissed it, in routing order:
@@ -83,7 +83,8 @@ class Voice::RingRecipients
   end
 
   def openers(users)
-    online = AccountUser.where(account_id: inbox.account_id, user_id: users.map(&:id), availability: :online).index_by(&:user_id)
+    online = AccountUser.where(account_id: inbox.account_id, user_id: users.map(&:id), availability: :online, accepts_calls: true)
+                        .index_by(&:user_id)
     users.select { |user| online[user.id] && can_open_conversation?(user, online[user.id]) }
   end
 

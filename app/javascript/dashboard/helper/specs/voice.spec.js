@@ -56,12 +56,12 @@ describe('voice call ringing', () => {
     handleVoiceCallCreated(
       callMessage({ sid: 'CA1', ringUserIds: [ME], assigneeId: TEAMMATE }),
       ME,
-      'online'
+      true
     );
     handleVoiceCallCreated(
       callMessage({ sid: 'CA2', ringUserIds: [TEAMMATE], assigneeId: ME }),
       ME,
-      'online'
+      true
     );
 
     expect(callsStore.addCall).toHaveBeenCalledTimes(1);
@@ -76,7 +76,7 @@ describe('voice call ringing', () => {
       commit,
       callMessage({ sid: 'CA3', ringUserIds: [TEAMMATE, ME] }),
       ME,
-      'online'
+      true
     );
     expect(callsStore.addCall).toHaveBeenCalledWith(
       expect.objectContaining({ callSid: 'CA3' })
@@ -86,7 +86,7 @@ describe('voice call ringing', () => {
       commit,
       callMessage({ sid: 'CA3', ringUserIds: [TEAMMATE] }),
       ME,
-      'online'
+      true
     );
     expect(callsStore.removeCall).toHaveBeenCalledWith('CA3');
   });
@@ -98,7 +98,7 @@ describe('voice call ringing', () => {
       vi.fn(),
       callMessage({ sid: 'CA4', ringUserIds: [ME, TEAMMATE] }),
       ME,
-      'online'
+      true
     );
 
     expect(callsStore.addCall).not.toHaveBeenCalled();
@@ -109,7 +109,7 @@ describe('voice call ringing', () => {
       vi.fn(),
       callMessage({ sid: 'CA5', status: 'in-progress', ringUserIds: [] }),
       ME,
-      'online'
+      true
     );
 
     expect(callsStore.removeCall).not.toHaveBeenCalled();
@@ -134,7 +134,7 @@ describe('voice call ringing', () => {
     handleVoiceCallCreated(
       callMessage({ sid: 'WA1', provider: 'whatsapp', assigneeId: TEAMMATE }),
       ME,
-      'online'
+      true
     );
 
     expect(callsStore.addCall).not.toHaveBeenCalled();

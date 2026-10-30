@@ -85,6 +85,20 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(call.reload.ring_state['ring_recipient_ids']).to include(agent.id)
     end
 
+    it 'does not record an agent who has turned calls off' do
+      account.enable_features!('channel_voice', 'mobile_voice_push')
+      agent = create(:user, account: account, role: :agent)
+      calls_off_agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: inbox, user: agent)
+      create(:inbox_member, inbox: inbox, user: calls_off_agent)
+      calls_off_agent.account_users.find_by(account: account).update!(accepts_calls: false)
+
+      call = perform_builder
+
+      expect(call.reload.ring_state['ring_recipient_ids']).to include(agent.id)
+      expect(call.ring_state['ring_recipient_ids']).not_to include(calls_off_agent.id)
+    end
+
     it 'records the agents it rings in the transaction that creates the call' do
       account.enable_features!('channel_voice', 'mobile_voice_push')
       outer = ActiveRecord::Base.connection.open_transactions

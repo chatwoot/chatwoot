@@ -193,7 +193,8 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
             'social_profiles' => {},
             'locale_translations' => {},
             'popular_content' => {},
-            'analytics' => {}
+            'analytics' => {},
+            'disable_search_indexing' => false
           }
         )
       end
@@ -418,6 +419,27 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(PortalInstructionsMailer).to have_received(:send_cname_instructions)
           .with(portal: portal_with_domain, recipient_email: 'dev@example.com')
       end
+    end
+  end
+
+  describe 'config.disable_search_indexing' do
+    let(:portal_url) { "/api/v1/accounts/#{account.id}/portals/#{portal.slug}" }
+
+    it 'hides the portal from search engines' do
+      put portal_url, params: { portal: { config: { disable_search_indexing: true } } },
+                      headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body.dig('config', 'disable_search_indexing')).to be(true)
+      expect(portal.reload.search_indexing_disabled?).to be(true)
+    end
+
+    it 'rejects a non-boolean value' do
+      put portal_url, params: { portal: { config: { disable_search_indexing: 'true' } } },
+                      headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(portal.reload.search_indexing_disabled?).to be(false)
     end
   end
 end

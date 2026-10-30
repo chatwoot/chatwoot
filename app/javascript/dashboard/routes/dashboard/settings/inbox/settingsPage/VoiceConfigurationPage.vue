@@ -271,6 +271,7 @@ export default {
       i18n-key="GREETING"
       :enabled="!!inbox.call_greeting_enabled"
       :message="inbox.call_greeting_message || ''"
+      :audio-url="inbox.call_greeting_audio_url || ''"
     />
 
     <CallAnnouncementSettings
@@ -280,6 +281,7 @@ export default {
       i18n-key="UNANSWERED"
       :enabled="!!inbox.unanswered_calls_enabled"
       :message="inbox.unanswered_call_message || ''"
+      :audio-url="inbox.unanswered_call_audio_url || ''"
       :timeout-seconds="inbox.unanswered_call_timeout_seconds"
     />
 

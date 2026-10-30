@@ -84,6 +84,7 @@ Rails.application.routes.draw do
             resource :preferences, only: [:show, :update]
             resources :assistants do
               member do
+                delete :avatar
                 post :playground
                 get :metrics
                 get :faq_stats
@@ -349,6 +350,7 @@ Rails.application.routes.draw do
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
                 post :dismiss, on: :member
+                patch :hold, on: :member
               end
               post :enable_whatsapp_calling, on: :member
               post :disable_whatsapp_calling, on: :member
@@ -525,6 +527,7 @@ Rails.application.routes.draw do
         member do
           post :availability
           post :auto_offline
+          post :work_preferences
           put :set_active_account
           post :resend_confirmation
           post :reset_access_token
@@ -757,6 +760,7 @@ Rails.application.routes.draw do
     if ChatwootApp.enterprise?
       post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
       get 'voice/wait/:phone', to: 'voice#wait_twiml', as: :voice_wait
+      get 'voice/resume/:phone', to: 'voice#resume_twiml', as: :voice_resume
       post 'voice/status/:phone', to: 'voice#status', as: :voice_status
       post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
       post 'voice/recording_status/:phone', to: 'voice#recording_status', as: :voice_recording_status

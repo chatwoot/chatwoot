@@ -56,6 +56,11 @@ module Enterprise::Conversation
     super && !call_ringing?
   end
 
+  def clear_invalid_ai_assignee
+    super
+    self.ai_assignee = nil if status_changed? && open? && ai_assignee_type == 'Captain::Assistant'
+  end
+
   def determine_conversation_status
     super
     return unless pending?
