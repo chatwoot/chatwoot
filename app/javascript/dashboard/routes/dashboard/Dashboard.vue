@@ -1,6 +1,5 @@
 <script>
-import { defineAsyncComponent, ref, computed, watch } from 'vue';
-import { useStore } from 'vuex';
+import { defineAsyncComponent, ref, computed } from 'vue';
 
 import NextSidebar from 'next/sidebar/Sidebar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
@@ -9,12 +8,11 @@ import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useRingingCallsOnLoad } from 'dashboard/composables/useRingingCallsOnLoad';
 import { useWindowSize } from '@vueuse/core';
 
 import wootConstants from 'dashboard/constants/globals';
 import { isUpgradePageBypassRoute } from 'dashboard/helper/routeHelpers';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { loadRingingCalls } from 'dashboard/helper/voice';
 
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
@@ -48,22 +46,7 @@ export default {
     const { accountId } = useAccount();
     const { width: windowWidth } = useWindowSize();
     const callsStore = useCallsStore();
-    const store = useStore();
-
-    const isVoiceEnabled = computed(() =>
-      store.getters['accounts/isFeatureEnabledonAccount'](
-        accountId.value,
-        FEATURE_FLAGS.CHANNEL_VOICE
-      )
-    );
-    // A call ringing as the page loads; a failed load waits for the call's next update
-    watch(
-      isVoiceEnabled,
-      enabled => {
-        if (enabled) loadRingingCalls().catch(() => {});
-      },
-      { immediate: true }
-    );
+    useRingingCallsOnLoad();
 
     return {
       uiSettings,
