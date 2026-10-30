@@ -4,6 +4,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { useEventListener } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useAlert, useTrack } from 'dashboard/composables';
+import { useEmitter } from 'dashboard/composables/emitter';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import {
   buildPortalArticleURL,
@@ -157,7 +159,9 @@ const checkForNewerVersion = async () => {
   const { data } = await ArticlesAPI.getArticle({
     id: articleSlug,
     portalSlug,
-  });
+  }).catch(() => ({}));
+  // A failed check (e.g. still offline on wake) runs again on reconnect.
+  if (!data) return;
   const { title, content, draft_title, draft_content, updated_at } =
     data.payload;
   const current = article.value;
@@ -186,6 +190,7 @@ const loadLatestVersion = async () => {
 };
 
 useEventListener(document, 'visibilitychange', checkForNewerVersion);
+useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, checkForNewerVersion);
 
 const previewArticle = () => {
   window.open(articleLink.value, '_blank');

@@ -193,6 +193,12 @@ const previewArticle = () => {
   emit('previewArticle');
 };
 
+// Drop the queued save first, or it can land during the fetch and overwrite the newer version being loaded.
+const reloadArticle = () => {
+  cancelSave();
+  emit('reloadArticle');
+};
+
 const handleCreateArticle = event => {
   if (!isNewArticle.value) return;
   const title = event?.target?.value || '';
@@ -224,7 +230,7 @@ defineExpose({ syncLocalState });
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
         @show-diff="diffPanelRef?.open()"
-        @reload-article="emit('reloadArticle')"
+        @reload-article="reloadArticle"
       />
       <ArticleDiffPanel ref="diffPanelRef" :article="article" />
     </template>
