@@ -25,6 +25,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  direction: {
+    type: String,
+    default: 'down',
+    validator: value => ['up', 'down'].includes(value),
+  },
   selectedValues: {
     type: [String, Number, Array],
     default: () => [],
@@ -66,7 +71,8 @@ defineExpose({
 <template>
   <div
     v-show="open"
-    class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
+    class="absolute z-50 w-full transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
+    :class="direction === 'up' ? 'bottom-full mb-1' : 'mt-1'"
   >
     <div class="relative border-b border-n-strong">
       <Spinner
@@ -104,13 +110,20 @@ defineExpose({
         :aria-selected="isSelected(option)"
         @click.stop="emit('select', option)"
       >
-        <span
-          :class="{
-            'font-medium': isSelected(option),
-          }"
-          class="text-n-slate-12"
-        >
-          {{ option.label }}
+        <span class="flex items-center min-w-0 gap-2">
+          <Icon
+            v-if="option.icon"
+            :icon="option.icon"
+            class="shrink-0 size-4 text-n-slate-11"
+          />
+          <span
+            :class="{
+              'font-medium': isSelected(option),
+            }"
+            class="text-n-slate-12"
+          >
+            {{ option.label }}
+          </span>
         </span>
         <span
           v-if="isSelected(option)"
