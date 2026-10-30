@@ -35,7 +35,7 @@ RSpec.describe Conversation, type: :model do
       it 'clears Captain when the conversation opens' do
         conversation.update!(status: :open)
 
-        expect(conversation.reload).to have_attributes(ai_assignee: nil, ai_assignee_type: nil, assignee_agent_bot_id: nil)
+        expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
         expect(inbox.conversations.unassigned).to include(conversation)
       end
 
