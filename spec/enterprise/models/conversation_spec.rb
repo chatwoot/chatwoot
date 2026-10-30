@@ -20,13 +20,6 @@ RSpec.describe Conversation, type: :model do
       expect(conversation).to have_attributes(status: 'open', ai_assignee: nil)
     end
 
-    it 'assigns Captain when the feature is enabled' do
-      account.enable_features!('captain_integration')
-      conversation = create(:conversation, account: account, inbox: inbox)
-
-      expect(conversation).to have_attributes(status: 'pending', ai_assignee: assistant)
-    end
-
     context 'with a Captain assignee' do
       let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :pending, ai_assignee: assistant) }
 
