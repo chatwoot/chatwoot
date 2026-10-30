@@ -1,6 +1,7 @@
 # Variables
 APP_NAME := chatwoot
 RAILS_ENV ?= development
+GIT_SHA ?= $(shell git rev-parse HEAD 2>/dev/null || echo unknown)
 
 # Targets
 setup:
@@ -61,6 +62,6 @@ debug_worker:
 	overmind connect worker
 
 docker: 
-	docker build -t $(APP_NAME) -f ./docker/Dockerfile .
+	docker build --build-arg GIT_SHA=$(GIT_SHA) -t $(APP_NAME) -f ./docker/Dockerfile .
 
 .PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run force_run_tunnel debug debug_worker
