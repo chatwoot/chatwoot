@@ -31,7 +31,7 @@ module Enterprise::Conversation
 
   private
 
-  def clear_ai_assignee
+  def clear_invalid_ai_assignee
     super
     self.ai_assignee = nil if status_changed? && open? && ai_assignee_type == 'Captain::Assistant'
   end
