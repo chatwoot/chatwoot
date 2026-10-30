@@ -94,6 +94,14 @@ class Rack::Attack
       email = get_header('HTTP_EMAIL').presence if email.nil? && include_header
       email&.downcase&.gsub(/\s+/, '')
     end
+
+    def normalized_super_admin_email
+      scoped_params = params['super_admin'].presence || ActionDispatch::Request.new(env).params['super_admin']
+      email = scoped_params['email'] if scoped_params.is_a?(Hash)
+      email.downcase.gsub(/\s+/, '') if email.is_a?(String) && email.present?
+    rescue StandardError
+      nil
+    end
   end
 
   ### Safelist IPs from Environment Variable ###
@@ -141,8 +149,7 @@ class Rack::Attack
       # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
       # Hence placed in the if block
       # ref: https://github.com/rack/rack-attack/issues/399
-      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-      email.to_s.downcase.gsub(/\s+/, '')
+      req.normalized_super_admin_email
     end
   end
 
