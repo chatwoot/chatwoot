@@ -4,6 +4,7 @@ import { frontendURL } from 'dashboard/helper/URLHelper';
 import countries from 'shared/constants/countries';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
+import { formatPhoneNumber } from 'shared/helpers/PhoneNumberHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -45,6 +46,7 @@ const props = defineProps({
 });
 
 const exactTimestamp = useExactTimestamp();
+const formattedPhoneNumber = computed(() => formatPhoneNumber(props.phone));
 
 const navigateTo = computed(() => {
   return frontendURL(`accounts/${props.accountId}/contacts/${props.id}`);
@@ -135,7 +137,7 @@ const formattedLocation = computed(() => {
             :title="phone"
             class="truncate text-n-slate-11 min-w-0"
           >
-            {{ phone }}
+            {{ formattedPhoneNumber }}
           </span>
 
           <div

@@ -10,6 +10,7 @@ import Flag from 'dashboard/components-next/flag/Flag.vue';
 import ContactDeleteSection from 'dashboard/components-next/Contacts/ContactsCard/ContactDeleteSection.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import countries from 'shared/constants/countries';
+import { formatPhoneNumber } from 'shared/helpers/PhoneNumberHelper';
 
 const props = defineProps({
   id: { type: Number, required: true },
@@ -54,6 +55,9 @@ watch(
   () => Object.assign(contactData.value, getInitialContactData())
 );
 
+const formattedPhoneNumber = computed(() =>
+  formatPhoneNumber(props.phoneNumber)
+);
 const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
 
 const countriesMap = computed(() => {
@@ -177,7 +181,7 @@ const handleAvatarHover = isHovered => {
             </div>
             <div v-if="email" class="w-px h-3 truncate bg-n-slate-6" />
             <span v-if="phoneNumber" class="text-sm truncate text-n-slate-11">
-              {{ phoneNumber }}
+              {{ formattedPhoneNumber }}
             </span>
             <div v-if="phoneNumber" class="w-px h-3 truncate bg-n-slate-6" />
             <span
