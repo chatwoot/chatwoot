@@ -3,6 +3,8 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
     return unless validate_translate_params?
 
     duplicates = find_existing_translations
+    return render_could_not_create_error(I18n.t('portals.articles.cannot_overwrite_original')) if duplicates.exists?(associated_article_id: nil)
+
     if duplicates.any? && !ActiveModel::Type::Boolean.new.cast(permitted_params[:force])
       return render json: {
         duplicate_articles: duplicates.map { |a| { id: a.id, title: a.title } }

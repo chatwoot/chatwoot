@@ -40,10 +40,7 @@ const articleQuery = ref('');
 const associationSelectionKey = ref(0);
 const { run: runArticleRequest } = useAbortableRequest();
 
-const articleLabel = article => {
-  const locale = article.locale ? ` (${article.locale})` : '';
-  return `${article.title}${locale}`;
-};
+const articleLabel = article => `${article.title} (${article.locale})`;
 
 const rootArticleId = computed(() => props.article.associatedArticleId || '');
 const rootArticleTitle = computed(() =>
@@ -98,7 +95,7 @@ const handleArticleSearch = useDebounceFn(query => {
 }, 300);
 
 const handleAssociationChange = articleId => {
-  emit('saveAssociation', articleId ? Number(articleId) : null);
+  emit('saveAssociation', articleId || null);
   associationSelectionKey.value += 1;
 };
 

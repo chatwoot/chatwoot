@@ -718,6 +718,7 @@ en:
       invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: 'Translation requires Captain to be enabled for this account'
+      cannot_overwrite_original: "Can't translate into the original article's language. Edit the original directly."
       locale_not_available: 'Locale not available in this portal'
       category_not_found: 'Category not found in this portal'
       no_articles_found: 'No articles found to process'
