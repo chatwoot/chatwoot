@@ -29,7 +29,7 @@ const status = computed(() => getArticleStatus(route.params.tab));
 const author = computed(() => {
   // Preserve existing links to the Mine tab.
   if (route.params.tab === 'mine') return String(currentUserId.value);
-  return typeof route.query.author_id === 'string' ? route.query.author_id : '';
+  return route.query.author_id || '';
 });
 
 const activeLocale = computed(() => route.params.locale);
@@ -98,7 +98,6 @@ const fetchPortalAndItsCategories = async locale => {
 };
 
 watch([() => route.params, author, searchQuery], () => fetchArticles(), {
-  deep: true,
   immediate: true,
 });
 </script>

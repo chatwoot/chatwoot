@@ -554,7 +554,6 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "All articles",
-          "MINE": "Mine",
           "DRAFT": "Draft",
           "PUBLISHED": "Published",
           "ARCHIVED": "Archived"
@@ -584,10 +583,6 @@
         "AUTHOR": {
           "TITLE": "No matching articles",
           "SUBTITLE": "Try another author or change the selected filters."
-        },
-        "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
         },
         "DRAFT": {
           "TITLE": "There are no articles in drafts",

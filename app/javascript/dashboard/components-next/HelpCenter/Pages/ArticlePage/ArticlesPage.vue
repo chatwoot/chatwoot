@@ -156,9 +156,7 @@ const articlesCount = computed(() => {
   const { meta } = props;
   const countMap = {
     '': meta.articlesCount,
-    mine: meta.mineArticlesCount,
     draft: meta.draftArticlesCount,
-    published: meta.publishedCount,
     archived: meta.archivedArticlesCount,
   };
   return Number(countMap[tab] ?? countMap[''] ?? 0);
