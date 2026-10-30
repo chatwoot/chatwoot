@@ -34,7 +34,7 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
 
   def find_existing_translations
     root_ids = @articles.map { |a| Article.find_root_article_id(a) }
-    @portal.articles.where(associated_article_id: root_ids, locale: @locale)
+    @portal.articles.in_translation_families(root_ids).where(locale: @locale)
   end
 
   def captain_available?

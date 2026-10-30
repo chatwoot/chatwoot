@@ -173,6 +173,27 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
 
           expect(response).to have_http_status(:ok)
         end
+
+        it 'requires overwrite confirmation when translating into the original locale' do
+          expect do
+            post translate_url,
+                 headers: admin.create_new_auth_token,
+                 params: { ids: [existing_translation.id], locale: 'en', category_id: category_en.id },
+                 as: :json
+          end.not_to have_enqueued_job(Captain::Articles::TranslateJob)
+
+          expect(response).to have_http_status(:conflict)
+          expect(response.parsed_body['duplicate_articles']).to eq([{ 'id' => article_one.id, 'title' => article_one.title }])
+
+          expect do
+            post translate_url,
+                 headers: admin.create_new_auth_token,
+                 params: { ids: [existing_translation.id], locale: 'en', category_id: category_en.id, force: true },
+                 as: :json
+          end.to have_enqueued_job(Captain::Articles::TranslateJob).with(account, existing_translation.id, 'en', category_en.id, admin)
+
+          expect(response).to have_http_status(:ok)
+        end
       end
     end
   end

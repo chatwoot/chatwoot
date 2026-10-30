@@ -79,6 +79,7 @@ class Article < ApplicationRecord
 
   enum status: { draft: 0, published: 1, archived: 2 }
 
+  scope :in_translation_families, ->(root_ids) { where(id: root_ids).or(where(associated_article_id: root_ids)) }
   scope :search_by_category_slug, ->(category_slug) { where(categories: { slug: category_slug }) if category_slug.present? }
   scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
@@ -130,10 +131,7 @@ class Article < ApplicationRecord
   end
 
   def translation_family
-    root_id = associated_article_id || id
-    articles = portal.articles
-
-    articles.where(id: root_id).or(articles.where(associated_article_id: root_id))
+    portal.articles.in_translation_families(associated_article_id || id)
   end
 
   def public_locale

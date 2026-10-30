@@ -112,6 +112,22 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
         description: article.description
       )
     end
+
+    it 'updates the original when translating back into its locale' do
+      allow(title_service).to receive(:perform).and_return(message: 'Updated English title')
+      allow(content_service).to receive(:perform).and_return(message: 'Updated English content')
+      original_slug = article.slug
+
+      expect do
+        described_class.perform_now(account, existing_translation.id, 'en', category_en.id, user)
+      end.not_to change(Article, :count)
+
+      expect(article.reload).to have_attributes(
+        title: 'Updated English title', content: 'Updated English content', locale: 'en',
+        slug: original_slug, associated_article_id: nil
+      )
+      expect(existing_translation.reload.associated_article_id).to eq(article.id)
+    end
   end
 
   context 'when the source article has blank content' do
