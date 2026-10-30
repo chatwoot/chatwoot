@@ -37,7 +37,6 @@ import '@chatwoot/viz/style.css';
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
   locale: 'en',
-  fallbackLocale: 'en',
   messages: i18nMessages,
 });
 

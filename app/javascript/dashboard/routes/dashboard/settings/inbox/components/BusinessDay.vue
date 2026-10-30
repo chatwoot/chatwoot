@@ -6,24 +6,14 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextSelect from 'dashboard/components-next/select/Select.vue';
 
 const timeSlots = generateTimeSlots(30);
-const timeReferenceDate = new Date(2000, 0, 1);
-const parseTime = time => parse(time, 'hh:mm a', timeReferenceDate);
 
-const formatTime = (time, locale) => {
-  const date = parseTime(time);
-  return new Intl.DateTimeFormat(locale.replace(/_/g, '-'), {
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(date);
-};
-
-const groupByPeriod = (slots, locale, translate) =>
+const groupByPeriod = slots =>
   ['AM', 'PM']
     .map(period => ({
-      label: translate(`INBOX_MGMT.BUSINESS_HOURS.PERIOD.${period}`),
+      label: period,
       options: slots
         .filter(s => s.endsWith(period))
-        .map(s => ({ value: s, label: formatTime(s, locale) })),
+        .map(s => ({ value: s, label: s })),
     }))
     .filter(g => g.options.length);
 
@@ -48,14 +38,10 @@ export default {
   emits: ['update'],
   computed: {
     fromTimeSlots() {
-      return groupByPeriod(timeSlots, this.$i18n.locale, this.$t);
+      return groupByPeriod(timeSlots);
     },
     toTimeSlots() {
-      return groupByPeriod(
-        timeSlots.filter(slot => slot !== '12:00 AM'),
-        this.$i18n.locale,
-        this.$t
-      );
+      return groupByPeriod(timeSlots.filter(slot => slot !== '12:00 AM'));
     },
     isDayEnabled: {
       get() {
@@ -85,7 +71,7 @@ export default {
         return this.timeSlot.from;
       },
       set(value) {
-        const fromDate = parseTime(value);
+        const fromDate = parse(value, 'hh:mm a', new Date());
         const valid = differenceInMinutes(this.toDate, fromDate) / 60 > 0;
         this.$emit('update', {
           ...this.timeSlot,
@@ -99,7 +85,7 @@ export default {
         return this.timeSlot.to;
       },
       set(value) {
-        const toDate = parseTime(value);
+        const toDate = parse(value, 'hh:mm a', new Date());
         if (value === '12:00 AM') {
           this.$emit('update', {
             ...this.timeSlot,
@@ -117,38 +103,18 @@ export default {
       },
     },
     fromDate() {
-      return parseTime(this.fromTime);
+      return parse(this.fromTime, 'hh:mm a', new Date());
     },
     toDate() {
-      return parseTime(this.toTime);
+      return parse(this.toTime, 'hh:mm a', new Date());
     },
     totalHours() {
-      if (this.timeSlot.openAllDay) {
-        return this.$t('INBOX_MGMT.BUSINESS_HOURS.DURATION.HOURS', {
-          count: 24,
-        });
-      }
+      if (this.timeSlot.openAllDay) return '24h';
 
       const totalMinutes = differenceInMinutes(this.toDate, this.fromDate);
       const [h, m] = [Math.floor(totalMinutes / 60), totalMinutes % 60];
 
-      return (
-        [
-          h &&
-            this.$t('INBOX_MGMT.BUSINESS_HOURS.DURATION.HOURS', {
-              count: h,
-            }),
-          m &&
-            this.$t('INBOX_MGMT.BUSINESS_HOURS.DURATION.MINUTES', {
-              count: m,
-            }),
-        ]
-          .filter(Boolean)
-          .join(' ') ||
-        this.$t('INBOX_MGMT.BUSINESS_HOURS.DURATION.MINUTES', {
-          count: 0,
-        })
-      );
+      return [h && `${h}h`, m && `${m}m`].filter(Boolean).join(' ') || '0m';
     },
     hasError() {
       return !this.timeSlot.valid;

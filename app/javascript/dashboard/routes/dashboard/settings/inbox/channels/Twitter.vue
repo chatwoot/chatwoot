@@ -36,7 +36,7 @@ export default {
         <NextButton
           type="submit"
           icon="i-ri-twitter-x-fill"
-          :label="$t('INBOX_MGMT.ADD.TWITTER.SIGN_IN')"
+          label="Sign in with Twitter"
           :is-loading="isRequestingAuthorization"
         />
       </form>
