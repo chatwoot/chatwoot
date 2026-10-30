@@ -13,6 +13,13 @@ RSpec.describe Widget::AudioTranscriptionConfig do
     end
   end
 
+  it 'does not send the Captain key to a widget-specific endpoint' do
+    with_modified_env(WIDGET_TRANSCRIPTION_OPENAI_API_KEY: nil, WIDGET_TRANSCRIPTION_OPENAI_ENDPOINT: 'https://transcribe.example.com') do
+      expect(described_class.api_key).to be_nil
+      expect(described_class).not_to be_configured
+    end
+  end
+
   it 'uses the default endpoint with a widget-specific key' do
     with_modified_env(WIDGET_TRANSCRIPTION_OPENAI_API_KEY: 'widget-api-key', WIDGET_TRANSCRIPTION_OPENAI_ENDPOINT: nil) do
       expect(described_class.endpoint).to eq(described_class::DEFAULT_ENDPOINT)

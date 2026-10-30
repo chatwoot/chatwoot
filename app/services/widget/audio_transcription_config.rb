@@ -13,7 +13,13 @@ module Widget::AudioTranscriptionConfig
   end
 
   def api_key
-    ENV['WIDGET_TRANSCRIPTION_OPENAI_API_KEY'].presence || InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+    widget_key = ENV['WIDGET_TRANSCRIPTION_OPENAI_API_KEY'].presence
+    return widget_key if widget_key
+    # The Captain key belongs to the Captain endpoint, so never send it to a
+    # widget-specific host; that setup also needs its own widget key.
+    return if ENV['WIDGET_TRANSCRIPTION_OPENAI_ENDPOINT'].present?
+
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
   end
 
   # An explicit model wins, e.g. for a self-hosted OpenAI-compatible server;
