@@ -298,6 +298,12 @@ RSpec.describe Voice::InboundCallBuilder do
       expect { perform_builder }.to have_enqueued_job(Voice::VoipPushJob).with(existing_call.id, 'ring')
     end
 
+    it 'queues the widening again at the step the call is on' do
+      existing_call.update!(status: 'ringing', ring_state: { 'ring_recipient_ids' => [1], 'ring_step' => 3 })
+
+      expect { perform_builder }.to have_enqueued_job(Voice::RingNextAgentJob).with(existing_call.id, 3)
+    end
+
     it 'queues the ring time again, from when the call began, when the inbox ends unanswered calls' do
       channel.update!(provider_config: channel.provider_config.merge('unanswered_calls_enabled' => true, 'unanswered_call_timeout_seconds' => 45))
       existing_call.update!(status: 'ringing', created_at: 10.seconds.ago)

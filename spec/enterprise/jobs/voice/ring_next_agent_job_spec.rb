@@ -49,6 +49,13 @@ RSpec.describe Voice::RingNextAgentJob do
     expect(call.reload.ring_state).to include('ring_recipient_ids' => [alice.id], 'ring_step' => 2)
   end
 
+  it 'adds nobody while the ring timeout ends the call, and keeps stepping in case it fails' do
+    call.update!(ring_state: call.ring_state.merge('timing_out_at' => Time.zone.now.to_i))
+
+    expect { described_class.perform_now(call.id, 1) }.to have_enqueued_job(described_class).with(call.id, 2)
+    expect(call.reload.ring_state['ring_recipient_ids']).to eq([alice.id])
+  end
+
   it 'reaches an agent who comes online after the call found nobody to ring' do
     call.update!(ring_state: call.ring_state.merge('ring_recipient_ids' => []))
     [alice, bob].each { |user| AccountUser.find_by(user: user, account: account).update!(availability: :offline) }
