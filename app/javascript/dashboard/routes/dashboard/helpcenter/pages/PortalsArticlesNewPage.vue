@@ -51,25 +51,44 @@ const setCategoryId = newCategoryId => {
 const saveArticle = values => Object.assign(article.value, values);
 
 const currentArticle = () => ({
+  ...article.value,
   title: article.value.title,
   content: article.value.content,
-  author_id: selectedAuthorId.value || currentUserId.value,
-  category_id: selectedCategoryId.value || categoryId.value,
+  author_id:
+    selectedAuthorId.value || article.value.author_id || currentUserId.value,
+  category_id:
+    selectedCategoryId.value || article.value.category_id || categoryId.value,
 });
+
+const isEquivalent = (a, b) => {
+  if (a === b) return true;
+  if (
+    typeof a === 'object' &&
+    a !== null &&
+    typeof b === 'object' &&
+    b !== null
+  ) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+  return false;
+};
 
 // Save what changed while the create request ran, since the edit page opens
 // with the stored article.
 const saveEditsMadeWhileCreating = async (articleId, saved) => {
   const latest = currentArticle();
-  if (Object.keys(latest).every(key => latest[key] === saved[key])) return;
+  const allKeys = Array.from(
+    new Set([...Object.keys(latest), ...Object.keys(saved)])
+  );
+  if (allKeys.every(key => isEquivalent(latest[key], saved[key]))) return;
 
   await store.dispatch('articles/update', { portalSlug, articleId, ...latest });
   await saveEditsMadeWhileCreating(articleId, latest);
 };
 
 const createNewArticle = async ({ title, content }) => {
-  if (title) article.value.title = title;
-  if (content) article.value.content = content;
+  if (title !== undefined) article.value.title = title;
+  if (content !== undefined) article.value.content = content;
 
   if (!article.value.title || isUpdating.value) return;
 
@@ -88,9 +107,16 @@ const createNewArticle = async ({ title, content }) => {
 
     useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
 
+    const initialSaved = {
+      title: created.title,
+      content: created.content,
+      author_id: created.author_id,
+      category_id: created.category_id,
+    };
+
     // The article exists now, so open it even if saving the later edits fails;
     // staying here would create it again on the next title blur.
-    await saveEditsMadeWhileCreating(articleId, created).catch(error =>
+    await saveEditsMadeWhileCreating(articleId, initialSaved).catch(error =>
       useAlert(error?.message || t('HELP_CENTER.EDIT_ARTICLE_PAGE.API.ERROR'))
     );
 
