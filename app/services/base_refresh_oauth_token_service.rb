@@ -5,8 +5,7 @@ class BaseRefreshOauthTokenService
   def access_token
     return provider_config[:access_token] unless access_token_expired?
 
-    refreshed_tokens = refresh_tokens
-    refreshed_tokens[:access_token]
+    refresh_tokens[:access_token]
   end
 
   def access_token_expired?
@@ -22,6 +21,8 @@ class BaseRefreshOauthTokenService
 
   # Refresh the access tokens using the refresh token
   # Refer: https://github.com/microsoftgraph/msgraph-sample-rubyrailsapp/tree/b4a6869fe4a438cde42b161196484a929f1bee46
+  # Returns the issued tokens, not the reloaded provider_config: that is a string-keyed jsonb hash, so reading
+  # [:access_token] from it gave the caller nil and the run that refreshed authenticated with an empty bearer.
   def refresh_tokens
     raise 'A refresh_token is not available' if provider_config[:refresh_token].blank?
 
@@ -31,7 +32,8 @@ class BaseRefreshOauthTokenService
     new_tokens = token_service.refresh!.to_hash.slice(:access_token, :refresh_token, :expires_at)
 
     update_channel_provider_config(new_tokens)
-    channel.reload.provider_config
+    channel.reload
+    new_tokens
   end
 
   def update_channel_provider_config(new_tokens)
