@@ -2,6 +2,10 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
   include Captain::ChatHelper
   include Captain::Copilot::ConversationAccess
 
+  MAX_TOOL_CALLS = 20
+
+  class ToolCallLimitReachedError < StandardError; end
+
   attr_reader :assistant, :account, :user, :copilot_thread, :previous_history, :messages
 
   def initialize(assistant, config)
@@ -30,12 +34,37 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
     Rails.logger.info(
       "#{self.class.name} Assistant: #{@assistant.id}, Incrementing response usage for account #{@account.id}"
     )
-    @account.increment_response_usage
+    @account.increment_response_usage unless @tool_call_limit_reached
 
     response
   end
 
   private
+
+  def handle_tool_call(tool_call)
+    @tool_call_count = @tool_call_count.to_i + 1
+    raise ToolCallLimitReachedError, "Copilot stopped after #{MAX_TOOL_CALLS} tool calls without an answer" if @tool_call_count > MAX_TOOL_CALLS
+
+    super
+  end
+
+  # Rescued inside the session block: instrument_agent_session re-runs its block when an error escapes it.
+  def with_agent_session(&)
+    super do
+      yield
+    rescue ToolCallLimitReachedError => e
+      tool_call_limit_response(e)
+    end
+  end
+
+  def tool_call_limit_response(error)
+    ChatwootExceptionTracker.new(error, user: @user, account: @account).capture_exception
+    @tool_call_limit_reached = true
+    locale = @user&.ui_settings&.dig('locale').presence || @account.locale
+    response = { 'content' => I18n.t('captain.copilot.tool_call_limit_reached', count: MAX_TOOL_CALLS, locale: locale) }
+    persist_message(response, 'assistant')
+    response
+  end
 
   def setup_user(config)
     @user = @account.users.find_by(id: config[:user_id]) if config[:user_id].present?
