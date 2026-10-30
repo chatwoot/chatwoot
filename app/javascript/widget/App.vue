@@ -285,7 +285,7 @@ export default {
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
-          const { referrerURL, referrerHost } = message;
+          const { referrerURL, referrerHost, pageContext } = message;
           this.initCampaigns({
             currentURL: referrerURL,
             websiteToken,
@@ -293,6 +293,9 @@ export default {
           });
           window.referrerURL = referrerURL;
           this.setReferrerHost(referrerHost);
+          if (pageContext) {
+            this.$store.dispatch('conversation/updateCurrentPage', pageContext);
+          }
         } else if (message.event === 'toggle-close-button') {
           this.isMobile = message.isMobile;
         } else if (message.event === 'push-event') {

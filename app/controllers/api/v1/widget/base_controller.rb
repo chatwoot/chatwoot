@@ -39,9 +39,16 @@ class Api::V1::Widget::BaseController < ApplicationController
         browser: browser_params,
         initiated_at: timestamp_params,
         referer: permitted_params[:message][:referer_url]
-      },
+      }.merge(current_page_attributes),
       custom_attributes: permitted_params[:custom_attributes].presence || {}
     }
+  end
+
+  def current_page_attributes
+    current_page = permitted_params[:current_page]
+    return {} if current_page.nil?
+
+    { current_page: Widget::PageContext.normalize(current_page) }
   end
 
   def contact_email

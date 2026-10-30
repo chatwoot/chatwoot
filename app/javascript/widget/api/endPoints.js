@@ -1,27 +1,75 @@
 import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
 import { generateEventParams } from './events';
 
-const createConversation = params => {
-  const referrerURL = window.referrerURL || '';
-  const search = buildSearchParamsWithLocale(window.location.search);
+const PAGE_TITLE_MAX_LENGTH = 256;
+const TAB_ID_MAX_LENGTH = 64;
+
+const serializeCurrentPage = currentPage => {
+  if (!currentPage || typeof currentPage !== 'object') return null;
+
+  let url;
+  try {
+    const pageURL = new URL(currentPage.url);
+    if (!['http:', 'https:'].includes(pageURL.protocol)) return null;
+    if (pageURL.username || pageURL.password) return null;
+    pageURL.search = '';
+    pageURL.hash = '';
+    url = pageURL.toString();
+  } catch (error) {
+    return null;
+  }
+
+  const rawTabId = currentPage.tabId ?? currentPage.tab_id;
+  const tabId =
+    typeof rawTabId === 'string' ? rawTabId.slice(0, TAB_ID_MAX_LENGTH) : '';
+  const title = String(currentPage.title || '').slice(0, PAGE_TITLE_MAX_LENGTH);
+  const sequence =
+    Number.isSafeInteger(currentPage.sequence) && currentPage.sequence >= 0
+      ? currentPage.sequence
+      : 0;
+
   return {
-    url: `/api/v1/widget/conversations${search}`,
-    params: {
-      contact: {
-        name: params.fullName,
-        email: params.emailAddress,
-        phone_number: params.phoneNumber,
-        custom_attributes: params.contactCustomAttributes,
-      },
-      message: {
-        content: params.message,
-        timestamp: new Date().toString(),
-        referer_url: referrerURL,
-      },
-      custom_attributes: params.customAttributes,
-    },
+    url,
+    title,
+    tab_id: tabId,
+    sequence,
   };
 };
+
+const createConversation = (params, pageContext) => {
+  const referrerURL = window.referrerURL || '';
+  const search = buildSearchParamsWithLocale(window.location.search);
+  const currentPage = serializeCurrentPage(
+    pageContext || params.currentPage || params.current_page
+  );
+  const conversationParams = {
+    contact: {
+      name: params.fullName,
+      email: params.emailAddress,
+      phone_number: params.phoneNumber,
+      custom_attributes: params.contactCustomAttributes,
+    },
+    message: {
+      content: params.message,
+      timestamp: new Date().toString(),
+      referer_url: referrerURL,
+    },
+    custom_attributes: params.customAttributes,
+  };
+  if (currentPage) conversationParams.current_page = currentPage;
+
+  return {
+    url: `/api/v1/widget/conversations${search}`,
+    params: conversationParams,
+  };
+};
+
+const updateCurrentPage = pageContext => ({
+  url: `/api/v1/widget/conversations/update_current_page${window.location.search}`,
+  params: {
+    current_page: serializeCurrentPage(pageContext),
+  },
+});
 
 const sendMessage = (content, replyTo, { customAttributes, labels } = {}) => {
   const referrerURL = window.referrerURL || '';
@@ -127,6 +175,7 @@ const getMostReadArticles = (slug, locale) => ({
 
 export default {
   createConversation,
+  updateCurrentPage,
   sendMessage,
   sendAttachment,
   getConversation,
