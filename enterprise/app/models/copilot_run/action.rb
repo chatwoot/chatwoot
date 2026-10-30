@@ -45,7 +45,8 @@ class CopilotRun::Action < CopilotRun
   validate :action_name_present
 
   def action
-    Captain::Copilot::Actions.build(context.fetch('action'), account: account, user: user, arguments: context.fetch('arguments'))
+    Captain::Copilot::Actions.build(context.fetch('action'), account: account, user: user, arguments: context.fetch('arguments'),
+                                                             proposal_values: context.fetch('proposal_values', {}))
   end
 
   def target_ids
@@ -56,10 +57,12 @@ class CopilotRun::Action < CopilotRun
     target_ids - action_items.finished.pluck(:record_id)
   end
 
+  # failure_reasons counts the failed records by error, so the model can tell the agent why, e.g. that reply windows had closed.
   def summary
     counts = action_items.group(:status).count
     super.merge({ action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
-                  skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, not_processed: not_processed(counts),
+                  skipped: counts['skipped'].to_i, failed: counts['failed'].to_i,
+                  failure_reasons: action_items.failed.group(:error).count.presence, not_processed: not_processed(counts),
                   decision_reason: context['decision_reason'] }.compact)
   end
 

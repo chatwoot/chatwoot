@@ -792,9 +792,30 @@
         "STOPPED": "Stopped",
         "ERROR": "Could not save your decision. Please try again.",
         "MORE_TARGETS": "and {count} more",
+        "PARTIAL_REVIEW": "Only {reviewed} of {total} conversations were reviewed. The other {remaining} are not part of this change.",
         "ACTIONS": {
           "ADD_LABELS": "Add {labels} to {count} conversation | Add {labels} to {count} conversations",
-          "OTHER": "Run {action} on {count} conversation | Run {action} on {count} conversations"
+          "REMOVE_LABELS": "Remove {labels} from {count} conversation | Remove {labels} from {count} conversations",
+          "ASSIGN_AGENT": "Assign {count} conversation to {agents} | Assign {count} conversations to {agents}",
+          "UNASSIGN_AGENT": "Remove the assigned agent from {count} conversation | Remove the assigned agent from {count} conversations",
+          "ASSIGN_TEAM": "Assign {count} conversation to the {team} team | Assign {count} conversations to the {team} team",
+          "REMOVE_TEAM": "Remove the team from {count} conversation | Remove the team from {count} conversations",
+          "SET_STATUS_OPEN": "Reopen {count} conversation | Reopen {count} conversations",
+          "SET_STATUS_RESOLVED": "Resolve {count} conversation | Resolve {count} conversations",
+          "SET_STATUS_PENDING": "Mark {count} conversation as pending | Mark {count} conversations as pending",
+          "SET_STATUS_SNOOZED": "Snooze {count} conversation until the next reply | Snooze {count} conversations until the next reply",
+          "SET_STATUS_SNOOZED_UNTIL": "Snooze {count} conversation until {time} | Snooze {count} conversations until {time}",
+          "SET_PRIORITY_URGENT": "Set the priority of {count} conversation to urgent | Set the priority of {count} conversations to urgent",
+          "SET_PRIORITY_HIGH": "Set the priority of {count} conversation to high | Set the priority of {count} conversations to high",
+          "SET_PRIORITY_MEDIUM": "Set the priority of {count} conversation to medium | Set the priority of {count} conversations to medium",
+          "SET_PRIORITY_LOW": "Set the priority of {count} conversation to low | Set the priority of {count} conversations to low",
+          "REMOVE_PRIORITY": "Remove the priority from {count} conversation | Remove the priority from {count} conversations",
+          "ADD_PRIVATE_NOTE": "Add this private note to {count} conversation: | Add this private note to {count} conversations:",
+          "SEND_REPLY": "Send this reply to {count} conversation: | Send this reply to {count} conversations:"
+        },
+        "WARNINGS": {
+          "SEND_REPLY": "The customer gets this reply, and it can't be unsent. | {count} customers get this reply, and it can't be unsent.",
+          "CSAT_SURVEY": "Customers in inboxes with CSAT surveys turned on may get a survey."
         },
         "STATUS": {
           "REJECTED": "Rejected",

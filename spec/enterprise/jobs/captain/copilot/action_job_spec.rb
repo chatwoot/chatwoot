@@ -45,6 +45,71 @@ RSpec.describe Captain::Copilot::ActionJob do
     expect(card.reload.message.dig('approval', 'progress')).to include('finished' => true, 'applied' => 0, 'not_changed' => 2)
   end
 
+  describe 'sending a reply' do
+    let(:reply) { 'We are looking into the sign-in problem.' }
+    let(:reply_run) do
+      CopilotRun::Action.create!(
+        account: account, user: user, copilot_thread: thread, status: :queued,
+        copilot_tool_call: turn.tool_calls.create!(call_id: 'act-2', name: 'act'),
+        context: { action: 'send_reply', arguments: { content: reply }, target_ids: [labeled.id, unlabeled.id], approval_message_id: card.id,
+                   proposal_values: { labeled.id.to_s => 'open', unlabeled.id.to_s => 'open' } }
+      )
+    end
+
+    it 'does not reply to a conversation whose status changed after the proposal, and says why' do
+      unlabeled.update!(status: :resolved)
+
+      described_class.perform_now(reply_run.id)
+
+      expect(labeled.messages.outgoing.pluck(:content)).to eq([reply])
+      expect(unlabeled.messages.outgoing).to be_empty
+      expect(reply_run.reload.summary).to include(
+        applied: 1, failed: 1,
+        failure_reasons: { 'The conversation was open when the reply was proposed and is now resolved, so the reply was not sent' => 1 }
+      )
+    end
+
+    it 'keeps a saved reply applied when queueing its delivery fails, so it is never sent twice' do
+      allow(SendReplyJob).to receive(:perform_later).and_raise(RuntimeError)
+
+      described_class.perform_now(reply_run.id)
+
+      expect(labeled.messages.outgoing.count).to eq(1)
+      expect(reply_run.reload.action_items.pluck(:status)).to all(eq('applied'))
+      expect(reply_run.reload).to be_completed
+    end
+  end
+
+  describe 'splitting conversations across agents' do
+    let(:agents) { create_list(:user, 2, account: account, role: :agent) }
+    let(:other_inbox) { create(:inbox, account: account) }
+    let(:targets) do
+      [labeled, unlabeled, create(:conversation, account: account, inbox: inbox), create(:conversation, account: account, inbox: other_inbox)]
+    end
+    let(:split_run) do
+      arguments = { agent_ids: agents.map(&:id) }
+      ids = targets.map(&:id)
+      split = Captain::Copilot::Actions::AssignAgent.new(account: account, user: user, arguments: arguments).proposal_values(ids)
+      CopilotRun::Action.create!(
+        account: account, user: user, copilot_thread: thread, status: :queued,
+        copilot_tool_call: turn.tool_calls.create!(call_id: 'act-3', name: 'act'),
+        context: { action: 'assign_agent', arguments: arguments, target_ids: ids, approval_message_id: card.id, proposal_values: split }
+      )
+    end
+
+    before do
+      agents.each { |agent| create(:inbox_member, user: agent, inbox: inbox) }
+      create(:inbox_member, user: agents.first, inbox: other_inbox)
+    end
+
+    it 'takes turns between the agents and skips an agent who is not a member of the inbox' do
+      described_class.perform_now(split_run.id)
+
+      expect(targets.map { |conversation| conversation.reload.assignee_id }).to eq([agents.first.id, agents.second.id, agents.first.id, nil])
+      expect(split_run.reload.summary).to include(applied: 3, failed: 1)
+    end
+  end
+
   describe 'stopping the change' do
     it 'changes nothing when the agent stops it before the job runs' do
       expect(action_run.stop).to be(true)
