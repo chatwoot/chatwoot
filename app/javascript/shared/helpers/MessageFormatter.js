@@ -5,7 +5,14 @@ import mentionPlugin from './markdownIt/link';
 const setImageSizing = inlineToken => {
   const imgSrc = inlineToken.attrGet('src');
   if (!imgSrc) return;
-  const url = new URL(imgSrc);
+  let url;
+  try {
+    // Resolve against the page so relative image paths parse too
+    url = new URL(imgSrc, window.location.href);
+  } catch (error) {
+    // Malformed src (e.g. "http://"), nothing to size
+    return;
+  }
   const width = url.searchParams.get('cw_image_width');
   if (width) {
     inlineToken.attrSet(
