@@ -43,6 +43,7 @@ RSpec.describe 'Call routing API', type: :request do
       patch url, headers: admin.create_new_auth_token, params: params.merge(invalid), as: :json
 
       expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to include('a ring interval of 10 to 60 seconds')
       expect(channel.reload.sequential_ringing?).to be(false)
     end
   end

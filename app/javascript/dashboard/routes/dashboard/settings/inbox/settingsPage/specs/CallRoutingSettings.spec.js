@@ -66,7 +66,7 @@ describe('CallRoutingSettings', () => {
 
   it("shows the server's error when the settings are refused", async () => {
     InboxesAPI.setCallRouting.mockRejectedValue({
-      response: { data: { error: 'Choose a step of 5 to 60 seconds' } },
+      response: { data: { message: 'Choose a step of 5 to 60 seconds' } },
     });
     const wrapper = mountComponent();
 

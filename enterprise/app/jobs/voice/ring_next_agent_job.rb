@@ -4,9 +4,10 @@
 class Voice::RingNextAgentJob < ApplicationJob
   queue_as :critical
 
-  # Steps stop after the longest ring time an inbox can set, so a call whose end was never
-  # reported does not step forever
-  MAX_RING_SECONDS = 300
+  # An inbox without a ring timeout rings until the caller hangs up, so steps go on until
+  # Twilio ends the caller's dial (its default four-hour limit), never forever for a call whose
+  # end was never reported
+  MAX_RING_SECONDS = 4.hours.to_i
 
   def perform(call_id, step)
     call = Call.find_by(id: call_id)

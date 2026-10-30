@@ -81,7 +81,7 @@ const save = async () => {
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(
-      error?.response?.data?.error || t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+      error?.response?.data?.message || t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
     );
   } finally {
     isSaving.value = false;
