@@ -146,7 +146,8 @@ const submitTranslation = async (force = false) => {
       return;
     }
     useAlert(
-      error?.message ||
+      error?.response?.data?.error ||
+        error?.message ||
         t('HELP_CENTER.ARTICLES_PAGE.BULK_TRANSLATE.API.ERROR_MESSAGE')
     );
   } finally {

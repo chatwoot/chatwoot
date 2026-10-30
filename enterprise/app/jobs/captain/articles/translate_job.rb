@@ -35,8 +35,7 @@ class Captain::Articles::TranslateJob < ApplicationJob
   end
 
   def find_existing_translation(target_locale)
-    root_id = Article.find_root_article_id(@source_article)
-    @source_article.portal.articles.find_by(associated_article_id: root_id, locale: target_locale)
+    @source_article.translation_family.find_by(locale: target_locale)
   end
 
   def create_translated_article(translated_title, translated_content, target_locale, target_category_id, user)

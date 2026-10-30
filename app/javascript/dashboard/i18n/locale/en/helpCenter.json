@@ -841,6 +841,10 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Search articles...",
+        "ORIGINAL_ARTICLE_EMPTY": "No articles found",
         "META_DESCRIPTION": "Meta description",
         "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
         "META_TITLE": "Meta title",

@@ -173,6 +173,44 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
 
           expect(response).to have_http_status(:ok)
         end
+
+        it 'rejects translating into the original locale' do
+          expect do
+            post translate_url,
+                 headers: admin.create_new_auth_token,
+                 params: { ids: [existing_translation.id], locale: 'en', category_id: category_en.id },
+                 as: :json
+          end.not_to have_enqueued_job(Captain::Articles::TranslateJob)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq(I18n.t('portals.articles.cannot_overwrite_original'))
+        end
+
+        it 'rejects translating into the original locale even with force' do
+          expect do
+            post translate_url,
+                 headers: admin.create_new_auth_token,
+                 params: { ids: [existing_translation.id], locale: 'en', category_id: category_en.id, force: true },
+                 as: :json
+          end.not_to have_enqueued_job(Captain::Articles::TranslateJob)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq(I18n.t('portals.articles.cannot_overwrite_original'))
+        end
+
+        it 'rejects the whole batch when any target is an original' do
+          french_article = create(:article, portal: portal, account: account, author: admin, locale: 'fr')
+
+          expect do
+            post translate_url,
+                 headers: admin.create_new_auth_token,
+                 params: { ids: [french_article.id, existing_translation.id], locale: 'en', force: true },
+                 as: :json
+          end.not_to have_enqueued_job(Captain::Articles::TranslateJob)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq(I18n.t('portals.articles.cannot_overwrite_original'))
+        end
       end
     end
   end

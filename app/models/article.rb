@@ -57,6 +57,7 @@ class Article < ApplicationRecord
   before_validation :ensure_account_id
   before_validation :ensure_article_slug
   before_validation :ensure_locale_in_article
+  before_validation :associate_with_root_article, if: :will_save_change_to_associated_article_id?
 
   # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
   RESERVED_SLUGS = %w[search articles categories].freeze
@@ -69,6 +70,8 @@ class Article < ApplicationRecord
   validates :slug, exclusion: { in: RESERVED_SLUGS }
   validates :slug, uniqueness: true, format: { with: /\A[a-zA-Z0-9_-]+\z/ }, if: :will_save_change_to_slug?
   validate :noindex_must_be_boolean
+  validate :cannot_reassociate_with_translations, if: :will_save_change_to_associated_article_id?
+  validate :unique_locale_in_family
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
@@ -76,6 +79,7 @@ class Article < ApplicationRecord
 
   enum status: { draft: 0, published: 1, archived: 2 }
 
+  scope :in_translation_families, ->(root_ids) { where(id: root_ids).or(where(associated_article_id: root_ids)) }
   scope :search_by_category_slug, ->(category_slug) { where(categories: { slug: category_slug }) if category_slug.present? }
   scope :search_by_category_locale, ->(locale) { where(categories: { locale: locale }) if locale.present? }
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
@@ -117,16 +121,6 @@ class Article < ApplicationRecord
     records
   end
 
-  def associate_root_article(associated_article_id)
-    article = portal.articles.find(associated_article_id) if associated_article_id.present?
-
-    return if article.nil?
-
-    root_article_id = self.class.find_root_article_id(article)
-
-    update(associated_article_id: root_article_id) if root_article_id.present?
-  end
-
   # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
   def self.find_root_article_id(article)
     article.associated_article_id || article.id
@@ -137,10 +131,7 @@ class Article < ApplicationRecord
   end
 
   def translation_family
-    root_id = associated_article_id || id
-    articles = portal.articles
-
-    articles.where(id: root_id).or(articles.where(associated_article_id: root_id))
+    portal.articles.in_translation_families(associated_article_id || id)
   end
 
   def public_locale
@@ -194,6 +185,26 @@ class Article < ApplicationRecord
   private_class_method :rebalance_positions, :resequence_category
 
   private
+
+  def associate_with_root_article
+    return if associated_article_id.blank?
+
+    linked_article = portal.articles.find(associated_article_id)
+    root_article_id = self.class.find_root_article_id(linked_article)
+    self.associated_article_id = root_article_id == id ? nil : root_article_id
+  end
+
+  def cannot_reassociate_with_translations
+    return if associated_article_id.blank?
+
+    errors.add(:associated_article_id, :invalid) if associated_articles.exists?
+  end
+
+  def unique_locale_in_family
+    return if new_record? && associated_article_id.blank?
+
+    errors.add(:locale, :taken) if translation_family.where(locale: locale).where.not(id: id).exists?
+  end
 
   def noindex_must_be_boolean
     return if [nil, true, false].include?(meta['noindex'])
