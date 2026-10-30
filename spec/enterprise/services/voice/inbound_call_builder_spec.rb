@@ -124,6 +124,99 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
+  context 'when the inbox auto-assigns conversations' do
+    let(:agent) { create(:user, account: account, role: :agent) }
+
+    before do
+      account.enable_features!('channel_voice')
+      create(:inbox_member, inbox: inbox, user: agent)
+      inbox.update!(enable_auto_assignment: true)
+      OnlineStatusTracker.update_presence(account.id, 'User', agent.id)
+      OnlineStatusTracker.set_status(account.id, agent.id, 'online')
+    end
+
+    it 'leaves a new caller unassigned while the call rings and assigns them once it goes unanswered' do
+      call = perform_builder
+      expect(call.conversation.reload.assignee).to be_nil
+
+      Call.find(call.id).update!(status: 'no_answer')
+      expect(call.conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'keeps a conversation with a ringing call out of a bulk assignment run' do
+      account.enable_features!('assignment_v2')
+      call = perform_builder
+      service = AutoAssignment::AssignmentService.new(inbox: inbox.reload)
+
+      expect(service.perform_bulk_assignment).to eq(0)
+      Call.find(call.id).update!(status: 'no_answer')
+      expect(service.perform_bulk_assignment).to eq(1)
+      expect(call.conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'assigns a call to an inbox closed for calls as it arrives' do
+      allow(inbox).to receive(:closed_for_calls?).and_return(true)
+
+      expect(perform_builder.conversation.reload.assignee).to eq(agent)
+    end
+  end
+
+  context 'when routing the ring' do
+    let(:alice) { create(:user, account: account, role: :agent) }
+    let(:bob) { create(:user, account: account, role: :agent) }
+
+    before do
+      account.enable_features!('channel_voice')
+      [alice, bob].each { |agent| create(:inbox_member, inbox: inbox, user: agent) }
+    end
+
+    it 'names the agents it rings on the call message, without ringing phones when the account does not' do
+      call = nil
+      expect { call = perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
+
+      expect(call.reload.ring_state).to include('ring_recipient_ids' => contain_exactly(alice.id, bob.id), 'rings_phones' => false)
+      expect(call.message.content_attributes.dig('data', 'ring_user_ids')).to contain_exactly(alice.id, bob.id)
+    end
+
+    it 'names the agents it rings in the message created event the web rings from' do
+      events = []
+      allow(Rails.configuration.dispatcher).to receive(:dispatch).and_wrap_original do |original, name, *args, **kwargs|
+        events << [name, kwargs[:message]&.content_attributes&.dig('data', 'ring_user_ids')] if name.to_s.start_with?('message.')
+        original.call(name, *args, **kwargs)
+      end
+
+      perform_builder
+
+      expect(events).to contain_exactly(['message.created', contain_exactly(alice.id, bob.id)])
+    end
+
+    it 'rings the teammates of a returning caller whose agent is busy' do
+      returning = perform_builder.tap { |first| first.update!(status: 'completed') }
+      returning.conversation.update!(assignee: alice)
+      AccountUser.find_by(user: alice, account: account).update!(availability: :busy)
+
+      call = described_class.perform!(inbox: inbox, call_sid: 'CA_RETURNING',
+                                      caller: { source_ids: [from_number], contact_attributes: { phone_number: from_number } })
+
+      expect(call.conversation).to eq(returning.conversation)
+      expect(call.message.content_attributes.dig('data', 'ring_user_ids')).to eq([bob.id])
+    end
+
+    it 'rings one agent and queues the next step when the inbox rings in turn' do
+      channel.update!(provider_config: channel.provider_config.merge('ring_strategy' => 'sequential', 'ring_step_seconds' => 15))
+
+      call = nil
+      expect { call = perform_builder }
+        .to have_enqueued_job(Voice::RingNextAgentJob).with(kind_of(Integer), 1).at(a_value_within(2.seconds).of(15.seconds.from_now))
+      expect(call.message.content_attributes.dig('data', 'ring_user_ids').size).to eq(1)
+    end
+
+    it 'queues the first step after the default interval when the inbox rings everyone at once' do
+      expect { perform_builder }
+        .to have_enqueued_job(Voice::RingNextAgentJob).with(kind_of(Integer), 1).at(a_value_within(2.seconds).of(20.seconds.from_now))
+    end
+  end
+
   context 'when the inbox ends unanswered calls' do
     before do
       channel.update!(provider_config: channel.provider_config.merge(
@@ -131,15 +224,15 @@ RSpec.describe Voice::InboundCallBuilder do
       ))
     end
 
-    it 'ends the call as it starts when no agent is online to ring' do
-      account.enable_features!('channel_voice', 'mobile_voice_push')
+    it 'keeps a call no agent is online for waiting for one until the ring time is up' do
+      account.enable_features!('channel_voice')
 
       call = nil
-      expect { call = perform_builder }.not_to have_enqueued_job(Voice::EndUnansweredCallJob)
+      expect { call = perform_builder }
+        .to have_enqueued_job(Voice::EndUnansweredCallJob).and have_enqueued_job(Voice::RingNextAgentJob).with(kind_of(Integer), 1)
 
-      expect(call).to have_attributes(status: 'no_answer', end_reason: 'no_agents_available', ring_state: {})
-      expect(call.ended_at).to be_present
-      expect(Voice::VoipPushJob).not_to have_been_enqueued
+      expect(call).to be_ringing
+      expect(call.ring_state['ring_recipient_ids']).to eq([])
     end
 
     it 'rings, and ends the call after the ring time, when an online agent can be rung' do

@@ -1,6 +1,10 @@
 module Enterprise::AutoAssignment::AssignmentService
   private
 
+  def assignable?(conversation)
+    super && !conversation.call_ringing?
+  end
+
   # Override assignment config to use policy if available
   def assignment_config
     return super unless policy

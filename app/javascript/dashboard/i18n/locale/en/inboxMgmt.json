@@ -790,6 +790,27 @@
         "LABEL": "Record calls",
         "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
       },
+      "ROUTING": {
+        "TITLE": "Incoming call routing",
+        "DESCRIPTION": "Calls ring agents who are online and can open the conversation. The conversation's assignee rings first when they aren't on another call.",
+        "STRATEGY": {
+          "LABEL": "Ringing order",
+          "SIMULTANEOUS": "Ring everyone at once",
+          "SEQUENTIAL": "Ring one more agent at a time, longest idle first"
+        },
+        "STEP": {
+          "LABEL": "Ring interval",
+          "HELP_SIMULTANEOUS": "Every interval, agents who become available start ringing too. A free assignee rings alone for the first interval.",
+          "HELP_SEQUENTIAL": "Every interval, one more agent starts ringing. The agents already ringing keep ringing."
+        },
+        "UNIT": "seconds",
+        "PREFER_FREE": "Ring agents who aren't on a call first",
+        "COOLDOWN": {
+          "LABEL": "Cooldown after a call",
+          "HELP": "After answering a call, an agent rings after the others for this long, or until they resolve that conversation. Set to 0 to turn it off."
+        },
+        "SAVE": "Save"
+      },
       "TRANSCRIPTION": {
         "LABEL": "Transcribe recordings",
         "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
@@ -812,7 +833,7 @@
       },
       "UNANSWERED": {
         "LABEL": "Play a message when unanswered",
-        "DESCRIPTION": "Plays if no one answers in time or no agent is online, then the call ends as missed.",
+        "DESCRIPTION": "Plays if no one answers within the ring time, then the call ends as missed. Until then, the call rings any agent who becomes available.",
         "PLACEHOLDER": "Sorry, nobody is available to take your call right now. Please try again later.",
         "TIMEOUT": {
           "LABEL": "Ring time",

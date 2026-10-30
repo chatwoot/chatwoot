@@ -16,7 +16,8 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       ensure_conference_sid: 'CF123',
       mark_agent_joined: true,
       terminate_call: true,
-      end_conference: true
+      end_conference: true,
+      dismiss: nil
     )
   end
 
@@ -161,6 +162,34 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
 
         expect(response).to have_http_status(:not_found)
       end
+    end
+  end
+
+  describe 'POST /conference/dismiss' do
+    before { create(:inbox_member, inbox: voice_inbox, user: agent) }
+
+    it 'stops the ring for the agent only' do
+      call = create(:call, account: account, inbox: voice_inbox, conversation: conversation, contact: conversation.contact,
+                           provider_call_id: 'CALL123')
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/dismiss",
+           headers: agent.create_new_auth_token, params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(Voice::Provider::Twilio::ConferenceService).to have_received(:new).with(call: call)
+      expect(conference_service).to have_received(:dismiss).with(agent)
+    end
+
+    it 'does not find a call the agent cannot open' do
+      other_conversation = create(:conversation, account: account, inbox: create(:inbox, account: account))
+      create(:call, account: account, inbox: other_conversation.inbox, conversation: other_conversation, contact: other_conversation.contact,
+                    provider_call_id: 'OTHER123')
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/dismiss",
+           headers: agent.create_new_auth_token, params: { conversation_id: other_conversation.display_id, call_sid: 'OTHER123' }, as: :json
+
+      expect(response).to have_http_status(:not_found)
+      expect(conference_service).not_to have_received(:dismiss)
     end
   end
 

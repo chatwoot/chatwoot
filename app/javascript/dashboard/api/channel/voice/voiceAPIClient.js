@@ -30,6 +30,17 @@ class VoiceAPI extends ApiClient {
       .then(r => r.data);
   }
 
+  // Stops the ring for this agent only; the caller keeps waiting for the others
+  dismissRing({ inboxId, conversationId, callSid }) {
+    return axios.post(
+      `${this.baseUrl()}/inboxes/${inboxId}/conference/dismiss`,
+      {
+        conversation_id: conversationId,
+        call_sid: callSid,
+      }
+    );
+  }
+
   getToken(inboxId) {
     if (!inboxId) return Promise.reject(new Error('Inbox ID is required'));
     return axios
