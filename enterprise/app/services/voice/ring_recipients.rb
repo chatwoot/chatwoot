@@ -74,17 +74,17 @@ class Voice::RingRecipients
     @resolved_conversation_ids ||= Conversation.where(id: last_calls.values.map(&:conversation_id)).resolved.pluck(:id)
   end
 
-  # Bounded like last_calls, so a call whose end was never reported stops counting after a day
+  # On a call, picking one up or dialing out. Bounded like last_calls, so a call whose end was
+  # never reported stops counting after a day.
   def on_call_ids
-    @on_call_ids ||= Call.where(account_id: inbox.account_id, status: 'in_progress', accepted_by_agent_id: eligible.map(&:id),
-                                created_at: IDLE_WINDOW.ago..)
+    @on_call_ids ||= Call.active.where(account_id: inbox.account_id, accepted_by_agent_id: eligible.map(&:id), created_at: IDLE_WINDOW.ago..)
                          .distinct.pluck(:accepted_by_agent_id)
   end
 
-  # Each eligible agent's latest answered call that has ended, within the day: an agent with
-  # none since is idle longer than anyone who has one
+  # Each eligible agent's latest answered call that has ended, however it ended, within the
+  # day: an agent with none since is idle longer than anyone who has one
   def last_calls
-    @last_calls ||= Call.where(account_id: inbox.account_id, status: 'completed', accepted_by_agent_id: eligible.map(&:id),
+    @last_calls ||= Call.where(account_id: inbox.account_id, status: Call::TERMINAL_STATUSES, accepted_by_agent_id: eligible.map(&:id),
                                created_at: IDLE_WINDOW.ago..)
                         .where.not(started_at: nil)
                         .select(:accepted_by_agent_id, :conversation_id, :meta)
