@@ -1912,6 +1912,11 @@
                           },
                           "description": "array of the attribute values to filter"
                         },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
+                        },
                         "query_operator": {
                           "type": "string",
                           "description": "query operator name",
@@ -3442,6 +3447,11 @@
                             "type": "string"
                           },
                           "description": "array of the attribute values to filter"
+                        },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
                         },
                         "query_operator": {
                           "type": "string",
@@ -10133,6 +10143,13 @@
               "null"
             ],
             "description": "The custom role id of the agent"
+          },
+          "max_open_conversations": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Maximum number of open conversations that can be manually assigned to the agent. Null means no limit."
           }
         }
       },
@@ -11964,6 +11981,15 @@
             "type": "boolean",
             "description": "Whether the agent is automatically marked offline when they are away.",
             "example": true
+          },
+          "max_open_conversations": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "description": "Maximum number of open conversations that can be manually assigned to the agent. Send null to remove the limit.",
+            "example": 10
           }
         }
       },

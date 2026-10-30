@@ -4,6 +4,7 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
   def create
     case normalized_type
     when 'Conversation'
+      validate_conversation_assignment!
       enqueue_conversation_job
       head :ok
     when 'Contact'
@@ -13,9 +14,29 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
     else
       render json: { success: false }, status: :unprocessable_entity
     end
+  rescue CustomExceptions::ConversationAssignmentNotAllowed => e
+    render_could_not_create_error(e.message)
   end
 
   private
+
+  # Checks every agent that ends up holding the conversations, including current assignees on a status-only reopen
+  def validate_conversation_assignment!
+    fields = conversation_params[:fields] || {}
+    status = fields[:status].presence
+    return unless fields[:assignee_id].present? || status == 'open'
+
+    assignee = Current.account.users.find_by(id: fields[:assignee_id])
+    bulk_conversations.group_by { |conversation| fields.key?(:assignee_id) ? assignee : conversation.assignee }.each do |holder, held|
+      Conversations::AssignmentRulesService.new(account: Current.account, assignee: holder).validate!(held, status: status)
+    end
+  end
+
+  def bulk_conversations
+    Conversations::PermissionFilterService.new(
+      Current.account.conversations.where(display_id: params[:ids]).includes(:assignee), current_user, Current.account
+    ).perform
+  end
 
   def normalized_type
     params[:type].to_s.camelize

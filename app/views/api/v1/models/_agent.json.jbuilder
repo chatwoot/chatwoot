@@ -8,6 +8,7 @@ json.email resource.email
 json.provider resource.provider
 json.available_name resource.available_name
 json.custom_attributes resource.custom_attributes if resource.custom_attributes.present?
+json.max_open_conversations resource.current_account_user&.max_open_conversations
 json.name resource.name
 json.role resource.role
 json.thumbnail resource.avatar_url

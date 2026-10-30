@@ -82,6 +82,11 @@
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
+        "MAX_OPEN_CONVERSATIONS": {
+          "LABEL": "Maximum open assigned conversations",
+          "PLACEHOLDER": "No limit",
+          "ERROR": "Enter a whole number greater than zero"
+        },
         "SUBMIT": "Edit Agent"
       },
       "BUTTON_TEXT": "Edit",

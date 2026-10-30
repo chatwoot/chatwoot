@@ -538,6 +538,21 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response_data[:meta][:team][:name]).to eq(team.name)
         end
 
+        it 'does not create a conversation that takes the assignee over the open conversation limit' do
+          agent.account_users.find_by(account: account).update!(max_open_conversations: 1)
+          create(:conversation, account: account, assignee: agent, status: :open)
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, contact_id: contact.id, inbox_id: inbox.id, assignee_id: agent.id },
+                 as: :json
+          end.not_to change(contact.conversations, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq("#{agent.available_name} has reached the limit of 1 open assigned conversations")
+        end
+
         it 'does not create a conversation with an assignee from another account' do
           other_user = create(:user, account: create(:account))
 
@@ -669,6 +684,20 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('open')
         expect(conversation.reload.assignee_id).not_to eq(administrator.id)
         expect(conversation.reload.ai_assignee).to be_nil
+      end
+
+      it 'does not reopen a conversation into an agent over the open conversation limit' do
+        agent.account_users.find_by(account: account).update!(max_open_conversations: 1)
+        create(:conversation, account: account, assignee: agent, status: :open)
+        conversation.update!(status: :resolved, assignee: agent)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: agent.create_new_auth_token,
+             params: { status: 'open' },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(conversation.reload.status).to eq('resolved')
       end
 
       it 'toggles the conversation status to specific status when parameter is passed' do
