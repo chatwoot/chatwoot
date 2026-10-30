@@ -21,11 +21,11 @@ class Voice::CallMessageBuilder
     message
   end
 
-  # Every client learns when the ring reaches another agent or one dismisses it. Read fresh,
-  # so a status written meanwhile stays.
+  # Every client learns when an agent dismisses the ring. Called under the call's row lock, which
+  # a status change also takes, so the status on the message stays current.
   def update_ring!
-    message = call.message&.reload
-    return if message.nil? || !call.reload.ringing?
+    message = call.message
+    return if message.nil?
 
     message.update!(content_attributes: message.content_attributes.deep_merge('data' => { 'ring_user_ids' => ring_user_ids }))
   end

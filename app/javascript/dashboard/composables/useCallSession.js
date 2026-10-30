@@ -225,8 +225,8 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     }
   };
 
-  // Hidden here at once; an inbound Twilio call also stops ringing this agent's other
-  // devices, while it keeps ringing everyone else
+  // Hidden here at once; an inbound Twilio call is also dismissed on the server, which closes
+  // this agent's other tabs while the call keeps ringing everyone else
   const dismissCall = async callSid => {
     const call = findCall(callSid);
     markCallDismissed(callSid);
