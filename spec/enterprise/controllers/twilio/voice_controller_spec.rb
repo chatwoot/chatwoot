@@ -463,6 +463,15 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     end
   end
 
+  describe 'GET /twilio/voice/resume/:phone' do
+    it 'answers with an empty document that ends the hold music' do
+      get_twilio_webhook("/twilio/voice/resume/#{digits}")
+
+      expect(response).to have_http_status(:ok)
+      expect(Nokogiri::XML(response.body).at_xpath('/Response').elements).to be_empty
+    end
+  end
+
   describe 'GET /twilio/voice/wait/:phone' do
     def elements = Nokogiri::XML(response.body).at_xpath('/Response').elements
 
