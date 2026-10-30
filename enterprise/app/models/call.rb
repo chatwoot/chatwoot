@@ -35,10 +35,9 @@ class Call < ApplicationRecord
   STATUSES = %w[ringing in_progress completed no_answer failed rejected].freeze
   TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
   OUTSIDE_WORKING_HOURS = 'outside_working_hours'.freeze
-  NO_AGENTS_AVAILABLE = 'no_agents_available'.freeze
   RING_TIMEOUT = 'ring_timeout'.freeze
   # Calls ended before anyone was rung, and the announcement that tells the caller why
-  ANNOUNCED_END_REASONS = { OUTSIDE_WORKING_HOURS => :out_of_hours, NO_AGENTS_AVAILABLE => :unanswered }.freeze
+  ANNOUNCED_END_REASONS = { OUTSIDE_WORKING_HOURS => :out_of_hours }.freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
                  :accepted_broadcast_at, :recording_enabled, :provider_status
@@ -237,6 +236,9 @@ class Call < ApplicationRecord
   end
 
   def dismissed_user_ids = ring_state.fetch('dismissed_user_ids', [])
+
+  # The step a ring in turn is on; a dismiss moves it on, so the step queued before is dropped
+  def ring_step = ring_state.fetch('ring_step', 1)
 
   # Payload shape matches Whatsapp::CallService#broadcast so the frontend's
   # onVoiceCallAccepted/onVoiceCallEnded handlers can treat both providers uniformly.

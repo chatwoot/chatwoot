@@ -357,6 +357,7 @@ Rails.application.routes.draw do
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
               resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
+              resource :call_routing, only: [:update], controller: 'inboxes/call_routings'
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do

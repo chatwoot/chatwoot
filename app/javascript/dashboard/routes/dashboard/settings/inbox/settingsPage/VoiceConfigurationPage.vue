@@ -8,6 +8,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CallRecordingSettings from './CallRecordingSettings.vue';
 import CallAnnouncementSettings from './CallAnnouncementSettings.vue';
+import CallRoutingSettings from './CallRoutingSettings.vue';
 import SettingsCheckboxOption from './SettingsCheckboxOption.vue';
 
 export default {
@@ -18,6 +19,7 @@ export default {
     Spinner,
     CallRecordingSettings,
     CallAnnouncementSettings,
+    CallRoutingSettings,
     SettingsCheckboxOption,
   },
   props: {
@@ -259,6 +261,8 @@ export default {
         </template>
       </SettingsToggleSection>
     </div>
+
+    <CallRoutingSettings v-if="inbox.voice_enabled" :inbox="inbox" />
 
     <CallAnnouncementSettings
       v-if="inbox.voice_enabled"

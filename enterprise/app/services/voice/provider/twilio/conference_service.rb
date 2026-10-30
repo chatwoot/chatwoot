@@ -15,15 +15,20 @@ class Voice::Provider::Twilio::ConferenceService
     assign_conversation!(user)
   end
 
-  # Stops the ring for one agent only; the call keeps ringing for the others. A dismiss by an
-  # agent the call does not ring, or a repeated one, changes nothing.
+  # Stops the ring for one agent only; the call keeps ringing for the others. The ring then
+  # widens at once, past the step the dismiss moved on from: a ring in turn adds the next agent,
+  # and one that rang only this agent rings the team. A dismiss by an agent the call does not
+  # ring, or a repeated one, changes nothing.
   def dismiss(user)
-    call.with_lock do
+    step = call.with_lock do
       next unless call.ringing? && rings_for?(user)
 
-      call.update!(ring_state: call.ring_state.merge('dismissed_user_ids' => call.dismissed_user_ids | [user.id]))
+      next_step = call.ring_step + 1
+      call.update!(ring_state: call.ring_state.merge('dismissed_user_ids' => call.dismissed_user_ids | [user.id], 'ring_step' => next_step))
       Voice::CallMessageBuilder.new(call).update_ring!
+      next_step
     end
+    Voice::RingNextAgentJob.perform_later(call.id, step) if step
   end
 
   def end_conference
