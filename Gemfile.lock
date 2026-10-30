@@ -184,7 +184,7 @@ GEM
     crack (1.0.0)
       bigdecimal
       rexml
-    crass (1.0.7)
+    crass (1.0.8)
     cronex (0.15.0)
       tzinfo
       unicode (>= 0.4.4.5)
@@ -197,14 +197,14 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    datadog (2.38.0)
+    datadog (2.47.0)
       cgi
-      datadog-ruby_core_source (~> 3.5, >= 3.5.3)
-      libdatadog (~> 36.0.0.1.0)
-      libddwaf (~> 1.30.0.0.0)
+      datadog-ruby_core_source (~> 3.5, >= 3.5.6)
+      libdatadog (~> 46.1.0.1.1)
+      libddwaf (~> 1.30.0.1.0)
       logger
       msgpack
-    datadog-ruby_core_source (3.5.3)
+    datadog-ruby_core_source (3.5.6)
     date (3.5.1)
     debug (1.11.1)
       irb (~> 1.10)
@@ -512,23 +512,20 @@ GEM
       logger (~> 1.6)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
-    libdatadog (36.0.0.1.0)
-    libdatadog (36.0.0.1.0-arm64-darwin)
-    libdatadog (36.0.0.1.0-x86_64-linux)
-    libddwaf (1.30.0.0.2)
+    libdatadog (46.1.0.1.1)
+    libdatadog (46.1.0.1.1-arm64-darwin)
+    libdatadog (46.1.0.1.1-x86_64-linux)
+    libddwaf (1.30.0.1.0)
       ffi (~> 1.0)
-    libddwaf (1.30.0.0.2-arm64-darwin)
+    libddwaf (1.30.0.1.0-arm64-darwin)
       ffi (~> 1.0)
-    libddwaf (1.30.0.0.2-x86_64-darwin)
+    libddwaf (1.30.0.1.0-x86_64-darwin)
       ffi (~> 1.0)
-    libddwaf (1.30.0.0.2-x86_64-linux)
+    libddwaf (1.30.0.1.0-x86_64-linux)
       ffi (~> 1.0)
     line-bot-api (1.28.0)
     lint_roller (1.1.0)
     liquid (5.4.0)
-    listen (3.8.0)
-      rb-fsevent (~> 0.10, >= 0.10.3)
-      rb-inotify (~> 0.9, >= 0.9.10)
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
@@ -960,10 +957,6 @@ GEM
     sorbet-runtime (0.5.11934)
     speedshop-cloudwatch (0.2.1)
       aws-sdk-cloudwatch (>= 1.81.0)
-    spring (4.1.1)
-    spring-watcher-listen (2.1.0)
-      listen (>= 2.7, < 4.0)
-      spring (>= 4)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -1133,7 +1126,6 @@ DEPENDENCIES
   letter_opener
   line-bot-api
   liquid
-  listen
   lograge (~> 0.14.0)
   maxminddb
   meta_request (>= 0.8.3)
@@ -1194,8 +1186,6 @@ DEPENDENCIES
   skooma
   slack-ruby-client (~> 2.7.0)
   speedshop-cloudwatch (~> 0.2.1)
-  spring
-  spring-watcher-listen
   squasher
   ssrf_filter (~> 1.5)
   stackprof

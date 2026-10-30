@@ -11,11 +11,17 @@ RSpec.describe 'Public Articles API', type: :request do
                      content: 'This is a *test* content with ^markdown^', views: 0)
   end
 
+  let!(:translated_article) do
+    create(:article, category: category_2, portal: portal, author: agent, associated_article_id: article.id, views: 5)
+  end
+
+  around do |example|
+    with_modified_env(HELPCENTER_URL: ENV.fetch('FRONTEND_URL', nil)) { example.run }
+  end
+
   before do
-    ENV['HELPCENTER_URL'] = ENV.fetch('FRONTEND_URL', nil)
     create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 15)
-    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 1)
-    create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 5)
+    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 1)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, views: 4)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, status: :draft)
   end
@@ -148,6 +154,163 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include('lang="es"')
     end
+
+    it 'links to the matching published translation from the locale switcher' do
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(%(value="/hc/#{portal.slug}/articles/#{translated_article.slug}"))
+    end
+
+    %i[draft archived].each do |status|
+      it "falls back to the locale home for a #{status} translation" do
+        translated_article.update!(status: status)
+
+        get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(%(value="/hc/#{portal.slug}/es"))
+        expect(response.body).not_to include("/hc/#{portal.slug}/articles/#{translated_article.slug}")
+      end
+    end
+
+    it 'links to the original article and sibling translations from a translated article' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
+      french_article = create(:article, locale: 'fr', portal: portal, author: agent, associated_article_id: article.id)
+
+      get "/hc/#{portal.slug}/articles/#{french_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(
+        %(value="/hc/#{portal.slug}/articles/#{article.slug}"),
+        %(value="/hc/#{portal.slug}/articles/#{translated_article.slug}"),
+        %(value="/hc/#{portal.slug}/articles/#{french_article.slug}")
+      )
+    end
+
+    it 'returns not found for an article in another portal' do
+      foreign_article = create(:article)
+
+      get "/hc/#{portal.slug}/articles/#{foreign_article.slug}"
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'excludes translations from other portals' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
+      foreign_portal = create(:portal, config: { allowed_locales: ['fr'] })
+      foreign_article = create(:article, portal: foreign_portal, locale: 'fr', associated_article_id: article.id)
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(%(value="/hc/#{portal.slug}/fr"))
+      expect(response.body).not_to include(foreign_article.slug)
+    end
+
+    it 'links to the matching article in the documentation layout' do
+      portal.update!(config: portal.config.merge('layout' => 'documentation'))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      links = Nokogiri::HTML(response.body).css('header details a').map { |link| link['href'] }
+      expect(links).to include("/hc/#{portal.slug}/articles/#{translated_article.slug}")
+    end
+
+    it 'uses the category locale after a translated category changes language' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
+      admin = create(:user, account: portal.account, role: :administrator)
+
+      put "/api/v1/accounts/#{portal.account_id}/portals/#{portal.slug}/categories/#{category_2.id}",
+          params: { category: { locale: 'fr' } }, headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+      expect([category_2.reload.locale, translated_article.reload.locale]).to eq(%w[fr es])
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      switchers = Nokogiri::HTML(response.body).css('select.locale-switcher')
+      expect(switchers.size).to eq(2)
+      switchers.each do |switcher|
+        options = switcher.css('option').to_h { |option| [option.text, option['value']] }
+        expect(options).to include('Spanish (es)' => "/hc/#{portal.slug}/es",
+                                   'French (fr)' => "/hc/#{portal.slug}/articles/#{translated_article.slug}")
+      end
+    end
+  end
+
+  describe 'image URLs' do
+    let(:blob) { get_blob_for(Rails.root.join('spec/assets/sample.png'), 'image/png') }
+    let(:image_path) { Rails.application.routes.url_helpers.rails_blob_path(blob, only_path: true) }
+    let(:content) { "![article image](http://localhost:3000#{image_path})" }
+    let(:article_path) { "/hc/#{portal.slug}/articles/#{article.slug}" }
+
+    around do |example|
+      with_modified_env(FRONTEND_URL: 'http://localhost:3000', HELPCENTER_URL: 'http://help.example.test') { example.run }
+    end
+
+    before { article.update!(content: content) }
+
+    it 'uses relative author avatars in classic article lists and documentation pages' do
+      agent.avatar.attach(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
+      { 'classic' => "/hc/#{portal.slug}/en/categories/#{category.slug}/articles", 'documentation' => article_path }.each do |layout, path|
+        portal.update!(config: portal.config.merge('layout' => layout))
+        get path
+
+        expect(response).to have_http_status(:success)
+        expect(Nokogiri::HTML5(response.body).css('img').map { |image| image['src'] }).to include(URI.parse(agent.avatar_url).request_uri)
+      end
+    end
+
+    it 'keeps images relative across domain changes and removal without changing saved content' do
+      [
+        ['www.example.com', 'www.example.com', 'http://help.example.test'],
+        ['docs.example.test', 'docs.example.test', 'http://help.example.test'],
+        [nil, 'help.example.test', 'http://help.example.test'],
+        [nil, 'localhost:3000', nil]
+      ].each do |domain, host, help_center_url|
+        portal.update!(custom_domain: domain)
+        with_modified_env(HELPCENTER_URL: help_center_url) do
+          host! host
+          get article_path
+
+          expect(response).to have_http_status(:success)
+          expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq(image_path)
+        end
+      end
+      expect(article.reload.content).to eq(content)
+    end
+
+    it 'renders relative images in the plain dashboard preview' do
+      get article_path, params: { show_plain_layout: true }
+
+      expect(response).to have_http_status(:success)
+      expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq(image_path)
+    end
+
+    it 'serves the rendered signed image through the Help Center origin' do
+      get article_path
+      get Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']
+
+      expect(response).to have_http_status(:redirect)
+      expect(URI.parse(response.location).host).to eq(portal.custom_domain)
+      follow_redirect!
+      expect(response).to have_http_status(:success)
+      expect(response.media_type).to eq('image/png')
+      expect(response.body).to eq(blob.download)
+    end
+
+    it 'preserves saved content and absolute avatar URLs in exports' do
+      agent.avatar.attach(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
+      get "#{article_path}.json"
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['content']).to eq(content)
+      expect(response.parsed_body.dig('author', 'thumbnail')).to eq(agent.avatar_url)
+      get "#{article_path}.md"
+      expect(response).to have_http_status(:success)
+      expect(response.body).to eq(content)
+    end
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.md (markdown)' do
@@ -235,6 +398,32 @@ RSpec.describe 'Public Articles API', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include('Sibling In Sidebar')
+    end
+  end
+
+  describe 'search engine visibility' do
+    it 'does not send a noindex header for a visible article' do
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['X-Robots-Tag']).to be_nil
+    end
+
+    it 'sends a noindex header for an article hidden from search' do
+      article.update!(meta: { 'noindex' => true })
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+    end
+
+    it 'sends a noindex header for every article when the portal is hidden' do
+      portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
     end
   end
 end

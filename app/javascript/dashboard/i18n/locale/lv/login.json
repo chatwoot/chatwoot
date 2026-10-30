@@ -18,7 +18,8 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "Pieslēgties, izmantojot Google",
       "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
-      "NO_ACCOUNT_FOUND": "Mēs nevarējām atrast Jūsu e-pasta adreses kontu."
+      "NO_ACCOUNT_FOUND": "Mēs nevarējām atrast Jūsu e-pasta adreses kontu.",
+      "SHOPIFY_INSTALLATION_FAILED": "We couldn't complete your Shopify installation. Please restart installation from Shopify."
     },
     "FORGOT_PASSWORD": "Aizmirsāt savu paroli?",
     "CREATE_NEW_ACCOUNT": "Izveidot jaunu kontu",

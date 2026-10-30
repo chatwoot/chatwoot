@@ -13,7 +13,11 @@ module Enterprise::Inbox
   end
 
   def captain_active?
-    captain_assistant.present? && more_responses?
+    account.feature_enabled?('captain_integration') && captain_assistant.present? && more_responses?
+  end
+
+  def conflicting_bot_provider(provider)
+    super || ('Captain' if provider != :captain && CaptainInbox.joins(:captain_assistant).exists?(inbox_id: id))
   end
 
   private

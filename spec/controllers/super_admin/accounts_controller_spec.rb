@@ -28,7 +28,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
   describe 'GET /super_admin/accounts/{account_id}' do
     context 'when it is an authenticated user' do
       it 'shows effective Captain model routing', if: ChatwootApp.enterprise? do
-        account.update!(captain_models: { 'editor' => 'gpt-4.1', 'conversation_completion' => 'gpt-5.2' })
+        account.update!(captain_models: { 'editor' => 'gpt-5.1', 'conversation_completion' => 'gpt-5.2' })
         sign_in(super_admin, scope: :super_admin)
 
         get "/super_admin/accounts/#{account.id}"
@@ -43,7 +43,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(summaries).not_to include('All features', 'Captain models')
         expect(routing_panel.text.squish).to include('Customer features', 'Internal features')
         expect(completion_card.text.squish).to include('Inactive conversation completion evaluator', 'GPT-5.2', 'Account override')
-        expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-4.1', 'Help center query translation', 'Default')
+        expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-5.1', 'Help center query translation', 'Default')
       end
 
       it 'shows the installation model for internal routing on self-hosted Enterprise', if: ChatwootApp.enterprise? do
@@ -71,7 +71,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
       it 'renders separate Captain model selectors for customer and internal AI features', if: ChatwootApp.enterprise? do
         allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
-        account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+        account.update!(captain_models: { 'editor' => 'gpt-5.1' })
         sign_in(super_admin, scope: :super_admin)
 
         get "/super_admin/accounts/#{account.id}/edit"
@@ -126,7 +126,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
     context 'when it is an authenticated user' do
       it 'updates Captain model overrides without changing unrelated settings' do
         account.update!(
-          captain_models: { 'editor' => 'gpt-4.1' },
+          captain_models: { 'editor' => 'gpt-5.1' },
           keep_pending_on_bot_failure: true
         )
         sign_in(super_admin, scope: :super_admin)

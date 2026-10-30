@@ -230,7 +230,24 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     callsStore.dismissCall(callSid);
   };
 
-  return { endCall, joinCall, rejectIncomingCall, dismissCall };
+  // Twilio's mute: the caller hears hold music while the agent still hears them
+  const holdCall = async ({ conversationId, inboxId, callSid, hold }) => {
+    try {
+      await VoiceAPI.setHold({ inboxId, conversationId, callSid, hold });
+      // The mic now belongs to whichever call is active, so a late reply for an ended call leaves it alone
+      if (callsStore.activeCall?.callSid !== callSid) return;
+      TwilioVoiceClient.setMuted(hold);
+      callsStore.setCallOnHold(callSid, hold);
+    } catch (error) {
+      // Keep the shown state: the request sets the hold rather than toggling it, so a retry is safe
+      useAlert(
+        error?.response?.data?.error ||
+          t('CONVERSATION.VOICE_WIDGET.HOLD_FAILED')
+      );
+    }
+  };
+
+  return { endCall, joinCall, rejectIncomingCall, dismissCall, holdCall };
 };
 
 const buildReactiveSurface = callsStore => {
@@ -272,12 +289,12 @@ export function useCallSession() {
   const seedCallsFromHydratedMessages = () => {
     const conversations = store.getters.getAllConversations || [];
     const currentUserId = store.getters.getCurrentUserID;
-    const currentUserAvailability = store.getters.getCurrentUserAvailability;
+    const receivesCalls = store.getters.getCurrentUserReceivesCalls;
     conversations.forEach(conv => {
       (conv.messages || []).forEach(msg => {
         if (msg.content_type !== CONTENT_TYPES.VOICE_CALL) return;
         if (msg.call?.status !== VOICE_CALL_STATUS.RINGING) return;
-        handleVoiceCallCreated(msg, currentUserId, currentUserAvailability);
+        handleVoiceCallCreated(msg, currentUserId, receivesCalls);
       });
     });
   };

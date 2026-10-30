@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "תג"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "סגור"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "למד עוד",
     "WATCH_VIDEO": "צפה בסרטון"

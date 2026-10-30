@@ -8,10 +8,20 @@ RSpec.describe MessageTemplates::HookExecutionService do
   let(:assistant) { create(:captain_assistant, account: account) }
 
   before do
+    account.enable_features!('captain_integration')
     create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
   end
 
   context 'when captain assistant is configured' do
+    it 'hands off a pending Captain conversation when the feature is disabled' do
+      conversation.update!(ai_assignee: assistant)
+      account.disable_features!('captain_integration')
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
+    end
+
     context 'when within business hours' do
       before do
         inbox.update!(working_hours_enabled: true)
@@ -191,11 +201,14 @@ RSpec.describe MessageTemplates::HookExecutionService do
 
   it 'does not schedule Captain for inbox bot integrations' do
     expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
-    agent_bot_inbox = create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account))
+    agent_bot_inbox = create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account), status: :inactive)
+    # Keep coverage for existing duplicate connections until they are eliminated.
+    agent_bot_inbox.update_column(:status, AgentBotInbox.statuses[:active]) # rubocop:disable Rails/SkipsModelValidations
     create(:message, conversation: conversation, message_type: :incoming, account: account)
 
     agent_bot_inbox.destroy!
-    create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
+    hook = create(:integrations_hook, :dialogflow, inbox: inbox, account: account, status: :disabled)
+    hook.update_column(:status, Integrations::Hook.statuses[:enabled]) # rubocop:disable Rails/SkipsModelValidations
     create(:message, conversation: conversation, message_type: :incoming, account: account)
   end
 

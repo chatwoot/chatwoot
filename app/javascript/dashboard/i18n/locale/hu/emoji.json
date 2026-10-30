@@ -6,30 +6,30 @@
   },
   "EMOJI_ICON_PICKER": {
     "TABS": {
-      "ICONS": "Icons",
-      "EMOJIS": "Emojis"
+      "ICONS": "Ikonok",
+      "EMOJIS": "Emojik"
     },
-    "SEARCH_EMOJI": "Search emoji…",
-    "SEARCH_ICON": "Search icons…",
-    "FREQUENTLY_USED": "Frequently used",
+    "SEARCH_EMOJI": "Emojik keresése…",
+    "SEARCH_ICON": "Ikonok keresése…",
+    "FREQUENTLY_USED": "Gyakran használt",
     "NO_EMOJI": "Nem található emoji",
-    "NO_ICON": "No icons match your search",
+    "NO_ICON": "Nem található a keresésnek megfelelő ikon",
     "REMOVE": "Eltávolítás",
     "STYLE": {
-      "OUTLINE": "Outline icons",
-      "FILLED": "Filled icons"
+      "OUTLINE": "Körvonalas ikonok",
+      "FILLED": "Kitöltött ikonok"
     },
     "COLORS": {
-      "SLATE": "Slate",
-      "RED": "Red",
-      "ORANGE": "Orange",
-      "AMBER": "Amber",
-      "GREEN": "Green",
-      "TEAL": "Teal",
-      "BLUE": "Blue",
-      "INDIGO": "Indigo",
-      "VIOLET": "Violet",
-      "PINK": "Pink"
+      "SLATE": "Palaszürke",
+      "RED": "Piros",
+      "ORANGE": "Narancssárga",
+      "AMBER": "Borostyán",
+      "GREEN": "Zöld",
+      "TEAL": "Kékeszöld",
+      "BLUE": "Kék",
+      "INDIGO": "Indigókék",
+      "VIOLET": "Ibolya",
+      "PINK": "Rózsaszín"
     }
   }
 }

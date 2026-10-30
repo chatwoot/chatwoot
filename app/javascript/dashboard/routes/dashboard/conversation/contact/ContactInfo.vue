@@ -19,6 +19,7 @@ import ComposeConversation from 'dashboard/components-next/NewConversation/Compo
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
+import Flag from 'dashboard/components-next/flag/Flag.vue';
 
 export default {
   components: {
@@ -33,6 +34,7 @@ export default {
     ContactDeleteModal,
     VoiceCallButton,
     InlineInput,
+    Flag,
   },
   props: {
     contact: {
@@ -83,17 +85,19 @@ export default {
       return this.contact.additional_attributes || {};
     },
     location() {
-      const {
-        country = '',
-        city = '',
-        country_code: countryCode,
-      } = this.additionalAttributes;
+      const { country = '', city = '' } = this.additionalAttributes;
       const cityAndCountry = [city, country].filter(item => !!item).join(', ');
 
       if (!cityAndCountry) {
         return '';
       }
-      return this.findCountryFlag(countryCode, cityAndCountry);
+      return this.countryCode ? cityAndCountry : `${cityAndCountry} 🌎`;
+    },
+    countryCode() {
+      const { country_code: countryCode } = this.additionalAttributes;
+      const isValid =
+        typeof countryCode === 'string' && /^[a-z]{2}$/i.test(countryCode);
+      return isValid ? countryCode : '';
     },
     socialProfiles() {
       const {
@@ -134,18 +138,6 @@ export default {
   methods: {
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
-    },
-    findCountryFlag(countryCode, cityAndCountry) {
-      try {
-        if (!countryCode) {
-          return `${cityAndCountry} 🌎`;
-        }
-
-        const code = countryCode?.toLowerCase();
-        return `${cityAndCountry} <span class="fi fi-${code} size-3.5"></span>`;
-      } catch (error) {
-        return '';
-      }
     },
     startEditingName() {
       this.editName = this.contact.name || '';
@@ -336,7 +328,13 @@ export default {
             icon="map"
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
-          />
+          >
+            <Flag
+              v-if="location && countryCode"
+              :country="countryCode"
+              class="size-3.5"
+            />
+          </ContactInfoRow>
           <SocialProfileLinks :profiles="socialProfiles" class="my-2" />
         </div>
       </div>

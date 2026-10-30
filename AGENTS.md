@@ -49,7 +49,9 @@
 - Prefer the smallest production-ready change that solves the current problem.
 - Build for the expected production path first. Do not add speculative guards, fallbacks, retries, or edge-case handling unless the caller can actually hit that case or production has proven it necessary.
 - Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes unless a proven independent path bypasses that point.
-- Validate request parameters at the controller or request boundary, reusing existing errors so invalid input returns `422 Unprocessable Entity` instead of reaching models or Sentry.
+- Validate input where it is used, so invalid input returns `422 Unprocessable Entity` instead of reaching Sentry:
+  - If the value is saved to the database (a column or a key in a JSON/JSONB column), validate it in the model with validations or the existing schema validator. This covers every write path, and `ActiveRecord::RecordInvalid` already returns `422`. Do not repeat the same check in the controller.
+  - If the value is only used to process the request together with other params (filters, lookups, service arguments) and is not stored as-is, validate it at the controller or request boundary, reusing existing errors, before it reaches services or queries.
 - Accept only the documented type, shape, and value. Do not add compatibility coercions for malformed client values; fix official clients instead.
 - When an impossible or misconfigured state would indicate a setup/deployment bug, let it fail loudly instead of silently skipping behavior.
 - For locked/internal configs that must exist in production, prefer direct reads (`find`, `find_by!`, required hash keys) over silent fallbacks.
@@ -57,6 +59,9 @@
 - Prefer existing repo dependencies/client libraries over hand-rolled protocol code for auth, signing, parsing, or API plumbing.
 - Avoid one-use private helpers unless they hide real complexity or make the main flow meaningfully easier to read.
 - Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
+- Optimize for human-readable, idiomatic Rails code. Prefer clear model methods, associations, scopes, and named route helpers over dense controller chains or manually assembled paths.
+- Keep record relationships, association traversal, and reusable database queries in models or model scopes. Return an ActiveRecord relation when callers need to filter or order the result.
+- Controllers should coordinate requests and prepare responses. Keep request-specific URL generation and presentation logic in controllers or view helpers. Before finalizing controller changes, check that relationship and traversal logic lives in the model layer.
 - Break down complex tasks into small, testable units
 - Iterate after confirmation
 - Avoid writing specs unless explicitly asked
@@ -98,6 +103,7 @@
   - Backend i18n → `en.yml`, Frontend i18n → `en.json`
 - **Frontend**:
   - Use `components-next/` for message bubbles (the rest is being deprecated)
+- **AI models**: Before adding or changing an OpenAI model in `config/llm.yml` or code, check the deprecations page (https://developers.openai.com/api/docs/deprecations). Do not use a model that has a shutdown date; use the replacement the page recommends. Pick models through `config/llm.yml` and `Llm::FeatureRouter`, not hard-coded names.
 
 ## Ruby Best Practices
 
