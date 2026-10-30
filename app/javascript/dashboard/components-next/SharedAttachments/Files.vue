@@ -5,7 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import { formatBytes } from 'shared/helpers/FileHelper';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
-import { downloadFile } from '@chatwoot/utils';
+import { useFileDownload } from 'dashboard/composables/useFileDownload';
 import {
   MEDIA_TYPES,
   NON_FILE_TYPES,
@@ -70,11 +70,13 @@ const displayTime = attachment => {
 
 const onActivate = attachment => emit('select', attachment);
 
+const { download } = useFileDownload();
+
 const onDownloadFile = async attachment => {
   const { id, file_type: type, data_url: url, extension } = attachment;
   try {
     downloadingId.value = id;
-    await downloadFile({ url, type, extension });
+    await download({ url, type, extension });
   } catch (error) {
     useAlert(t('CONVERSATION_SIDEBAR.SHARED_FILES.DOWNLOAD_ERROR'));
   } finally {
