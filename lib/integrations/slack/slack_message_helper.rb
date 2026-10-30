@@ -71,12 +71,17 @@ module Integrations::Slack::SlackMessageHelper
 
   def file_type(attachment)
     return if attachment[:mimetype] == 'text/plain'
+    # Audio must be typed as audio, not file: Instagram and WhatsApp render an
+    # audio attachment as a voice note and reject or degrade a generic file.
+    return :audio if attachment[:mimetype].to_s.start_with?('audio/')
 
     case attachment[:filetype]
     when 'png', 'jpeg', 'gif', 'bmp', 'tiff', 'jpg'
       :image
     when 'mp4', 'avi', 'mov', 'wmv', 'flv', 'webm'
       :video
+    when 'mp3', 'm4a', 'wav', 'ogg'
+      :audio
     else
       :file
     end
