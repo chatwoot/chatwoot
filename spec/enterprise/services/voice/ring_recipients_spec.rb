@@ -57,6 +57,14 @@ RSpec.describe Voice::RingRecipients do
       expect(recipients.agents).to contain_exactly(alice, cara)
     end
 
+    it 'counts an agent dialing out as on a call' do
+      dialing = create(:conversation, account: account, inbox: inbox)
+      create(:call, account: account, inbox: inbox, conversation: dialing, contact: dialing.contact, direction: :outgoing,
+                    status: 'ringing', accepted_by_agent: cara)
+
+      expect(recipients.agents).to eq([alice])
+    end
+
     it 'rings everyone when every agent is on a call' do
       [alice, cara].each do |agent|
         busy = create(:conversation, account: account, inbox: inbox)
@@ -84,9 +92,9 @@ RSpec.describe Voice::RingRecipients do
     end
 
     it 'rings an agent in cooldown after the others, and one who resolved that call by idle time' do
-      [[cara, 40, :open], [bob, 30, :resolved]].each do |agent, ended_ago, status|
+      [[cara, 40, :open, 'failed'], [bob, 30, :resolved, 'completed']].each do |agent, ended_ago, status, call_status|
         recent = create(:conversation, account: account, inbox: inbox, status: status)
-        create(:call, account: account, inbox: inbox, conversation: recent, contact: recent.contact, status: 'completed',
+        create(:call, account: account, inbox: inbox, conversation: recent, contact: recent.contact, status: call_status,
                       accepted_by_agent: agent, started_at: 2.minutes.ago, meta: { 'ended_at' => ended_ago.seconds.ago.to_i })
       end
 
