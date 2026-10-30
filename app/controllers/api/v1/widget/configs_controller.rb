@@ -14,6 +14,7 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
       'BRAND_NAME',
       'WIDGET_BRAND_URL',
       'MAXIMUM_FILE_UPLOAD_SIZE',
+      'ENABLE_FILE_TYPE_VALIDATION',
       'INSTALLATION_NAME'
     )
   end
