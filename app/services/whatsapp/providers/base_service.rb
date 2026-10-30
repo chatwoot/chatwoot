@@ -68,6 +68,15 @@ class Whatsapp::Providers::BaseService
     end
   end
 
+  def whatsapp_reply_context(message)
+    reply_to = message.content_attributes[:in_reply_to_external_id]
+    return nil if reply_to.blank?
+
+    {
+      message_id: reply_to
+    }
+  end
+
   def create_buttons(items)
     buttons = []
     items.each do |item|
