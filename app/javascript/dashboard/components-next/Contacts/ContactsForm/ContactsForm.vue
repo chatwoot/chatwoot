@@ -39,7 +39,7 @@ const FORM_CONFIG = {
   EMAIL_ADDRESS: { field: 'email' },
   PHONE_NUMBER: { field: 'phoneNumber' },
   CITY: { field: 'additionalAttributes.city' },
-  COUNTRY: { field: 'additionalAttributes.countryCode' },
+  COUNTRY: { field: 'countryCode' },
   BIO: { field: 'additionalAttributes.description' },
   COMPANY_NAME: { field: 'additionalAttributes.companyName' },
 };
@@ -63,11 +63,10 @@ const defaultState = {
   firstName: '',
   lastName: '',
   phoneNumber: '',
+  countryCode: '',
   additionalAttributes: {
     description: '',
     companyName: '',
-    countryCode: '',
-    country: '',
     city: '',
     socialProfiles: {
       facebook: '',
@@ -116,6 +115,7 @@ const prepareStateBasedOnProps = () => {
     name = '',
     email: emailAddress,
     phoneNumber,
+    countryCode = '',
     companyId = '',
     additionalAttributes = {},
   } = props.contactData || {};
@@ -123,8 +123,6 @@ const prepareStateBasedOnProps = () => {
   const {
     description = '',
     companyName = '',
-    countryCode = '',
-    country = '',
     city = '',
     socialTelegramUserName = '',
     socialWhatsappUserName = '',
@@ -145,11 +143,10 @@ const prepareStateBasedOnProps = () => {
     lastName,
     email: emailAddress,
     phoneNumber,
+    countryCode,
     additionalAttributes: {
       description,
       companyName,
-      countryCode,
-      country,
       city,
       socialProfiles: {
         ...socialProfiles,
@@ -238,12 +235,6 @@ const getMessageType = key => {
     : 'info';
 };
 
-const handleCountrySelection = value => {
-  const selectedCountry = countries.find(option => option.id === value);
-  state.additionalAttributes.country = selectedCountry?.name || '';
-  emit('update', state);
-};
-
 const handleCompanySelection = async ({ id, name }) => {
   state.companyId = id || '';
   state.additionalAttributes.companyName = name || '';
@@ -295,7 +286,7 @@ defineExpose({
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"
-            v-model="state.additionalAttributes.countryCode"
+            v-model="state.countryCode"
             :options="countryOptions"
             :placeholder="item.placeholder"
             class="[&>div>button]:h-8"
@@ -304,7 +295,7 @@ defineExpose({
                 !isDetailsView,
               '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
             }"
-            @update:model-value="handleCountrySelection"
+            @update:model-value="emit('update', state)"
           />
           <PhoneNumberInput
             v-else-if="item.key === 'PHONE_NUMBER'"

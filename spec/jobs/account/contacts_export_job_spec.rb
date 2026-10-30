@@ -112,6 +112,44 @@ RSpec.describe Account::ContactsExportJob do
       expect(row['labels']).to eq('vip')
     end
 
+    it 'exports canonical country codes from legacy country data' do
+      legacy_country_contact = create(:contact, account: account, email: 'legacy-country@example.com',
+                                                additional_attributes: { country: 'United States' })
+
+      described_class.perform_now(account.id, user.id, %w[email country_code], {})
+
+      csv_content = account.contacts_export.download.force_encoding('UTF-8').delete_prefix("\xEF\xBB\xBF")
+      csv_data = CSV.parse(csv_content, headers: true)
+      row = csv_data.find { |record| record['email'] == legacy_country_contact.email }
+
+      expect(row['country_code']).to eq('US')
+    end
+
+    it 'includes legacy aliases in filtered exports with canonical country codes' do
+      legacy_contact = create(:contact, :with_email, account: account)
+      legacy_contact.update_columns(country_code: nil, additional_attributes: { country_code: 'uk' }) # rubocop:disable Rails/SkipsModelValidations
+      canonical_contact = create(:contact, :with_email, account: account, additional_attributes: { country_code: 'GB' })
+      filters = { payload: [{ attribute_key: 'country_code', filter_operator: 'equal_to', values: ['GB'], query_operator: nil }] }
+
+      described_class.perform_now(account.id, user.id, %w[email country_code], filters.with_indifferent_access)
+
+      csv_content = account.contacts_export.download.force_encoding('UTF-8').delete_prefix("\xEF\xBB\xBF")
+      csv_data = CSV.parse(csv_content, headers: true)
+      expect(csv_data.pluck('email')).to contain_exactly(legacy_contact.email, canonical_contact.email)
+      expect(csv_data.pluck('country_code')).to eq(%w[GB GB])
+      expect(legacy_contact.reload.additional_attributes['country_code']).to eq('uk')
+    end
+
+    it 'exports the historical country code emitted by the selector' do
+      contact = create(:contact, :with_email, account: account, additional_attributes: { country_code: 'AN', country: 'Netherlands Antilles' })
+
+      described_class.perform_now(account.id, user.id, %w[email country_code], {})
+
+      csv_content = account.contacts_export.download.force_encoding('UTF-8').delete_prefix("\xEF\xBB\xBF")
+      csv_data = CSV.parse(csv_content, headers: true)
+      expect(csv_data.find { |row| row['email'] == contact.email }['country_code']).to eq('AN')
+    end
+
     it 'bulk loads labels while exporting contacts' do
       create(:label, account: account, title: 'vip')
       create(:label, account: account, title: 'support')
