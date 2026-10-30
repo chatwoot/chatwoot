@@ -98,7 +98,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   def fetch_customers
     query = []
     query << "email:#{contact.email}" if contact.email.present?
-    query << "phone:#{contact.phone_number}" if contact.phone_number.present?
+    query.concat(customer_phone_search_queries) if contact.phone_number.present?
 
     shopify_client.get(
       path: 'customers/search.json',
@@ -107,6 +107,11 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
         fields: 'id,email,phone'
       }
     ).body['customers'] || []
+  end
+
+  def customer_phone_search_queries
+    candidates = Whatsapp::PhoneNumberNormalizationService.phone_number_candidates(contact.phone_number)
+    candidates.map { |phone| "phone:#{phone}" }
   end
 
   def fetch_orders(customer_id)

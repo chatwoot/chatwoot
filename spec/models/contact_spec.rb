@@ -75,6 +75,21 @@ RSpec.describe Contact do
       expect(contact.update!(phone_number: '+12312312321')).to be true
       expect(contact.phone_number).to eq '+12312312321'
     end
+
+    it 'normalizes Brazil mobile number without 9th digit to include the 9th digit' do
+      contact = create(:contact, phone_number: '+551188887777')
+      expect(contact.phone_number).to eq '+5511988887777'
+    end
+
+    it 'preserves Brazil mobile number that already includes the 9th digit' do
+      contact = create(:contact, phone_number: '+5511988887777')
+      expect(contact.phone_number).to eq '+5511988887777'
+    end
+
+    it 'does not add 9th digit to Brazil landline numbers' do
+      contact = create(:contact, phone_number: '+551132345678')
+      expect(contact.phone_number).to eq '+551132345678'
+    end
   end
 
   context 'when email format' do
