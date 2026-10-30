@@ -163,9 +163,33 @@ RSpec.describe Voice::InboundCallBuilder do
       service = AutoAssignment::AssignmentService.new(inbox: inbox.reload)
 
       expect(service.perform_bulk_assignment).to eq(0)
-      Call.find(call.id).update!(status: 'no_answer')
+      expect { Call.find(call.id).update!(status: 'no_answer') }.to have_enqueued_job(AutoAssignment::AssignmentJob)
       expect(service.perform_bulk_assignment).to eq(1)
       expect(call.conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'leaves a reopened conversation unassigned while the call rings' do
+      first = perform_builder
+      Call.find(first.id).update!(status: 'no_answer')
+      first.conversation.reload.update!(assignee: nil, status: :snoozed)
+
+      call = described_class.perform!(inbox: inbox, call_sid: 'CA_AGAIN',
+                                      caller: { source_ids: [from_number], contact_attributes: { phone_number: from_number } })
+
+      expect(call.conversation).to eq(first.conversation)
+      expect(call.conversation.reload).to have_attributes(status: 'open', assignee: nil)
+      Call.find(call.id).update!(status: 'no_answer')
+      expect(call.conversation.reload.assignee).to eq(agent)
+    end
+
+    it "holds off a team's auto-assignment while the call rings" do
+      team = create(:team, account: account, allow_auto_assign: true)
+      create(:team_member, team: team, user: agent)
+      call = perform_builder
+
+      call.conversation.reload.update!(team: team)
+
+      expect(call.conversation.reload.assignee).to be_nil
     end
 
     it 'assigns a call to an inbox closed for calls as it arrives' do
