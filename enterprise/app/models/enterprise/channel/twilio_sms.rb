@@ -5,6 +5,9 @@ module Enterprise::Channel::TwilioSms
 
   # The ring time offered before an inbox saves its own
   DEFAULT_RING_TIMEOUT_SECONDS = 60
+  # Incoming calls ring every eligible agent at once, or one more agent every step
+  RING_STRATEGIES = %w[simultaneous sequential].freeze
+  DEFAULT_RING_STEP_SECONDS = 20
 
   def self.prepended(base)
     base.class_eval do
@@ -29,6 +32,16 @@ module Enterprise::Channel::TwilioSms
   def unanswered_call_timeout_seconds
     provider_config.fetch('unanswered_call_timeout_seconds', DEFAULT_RING_TIMEOUT_SECONDS)
   end
+
+  def sequential_ringing? = provider_config['ring_strategy'] == 'sequential'
+
+  def ring_step_seconds = provider_config.fetch('ring_step_seconds', DEFAULT_RING_STEP_SECONDS)
+
+  # Agents on a call ring after the free ones
+  def prefer_free_agents? = provider_config['prefer_free_agents'] == true
+
+  # How long after an answered call an agent rings after the others
+  def call_cooldown_seconds = provider_config.fetch('call_cooldown_seconds', 0)
 
   def account_auth_token_configured?
     provider_config['account_auth_token_configured'] == true

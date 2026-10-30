@@ -177,6 +177,10 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     json.unanswered_call_message unanswered.message
     json.unanswered_call_audio_url unanswered.audio.attached? ? url_for(unanswered.audio) : nil
     json.unanswered_call_timeout_seconds resource.channel.unanswered_call_timeout_seconds
+    json.ring_strategy resource.channel.sequential_ringing? ? 'sequential' : 'simultaneous'
+    json.ring_step_seconds resource.channel.ring_step_seconds
+    json.prefer_free_agents resource.channel.prefer_free_agents?
+    json.call_cooldown_seconds resource.channel.call_cooldown_seconds
   end
   json.account_auth_token_configured resource.channel.try(:account_auth_token_configured?) == true
   json.voice_configured resource.channel.try(:twiml_app_sid).present?

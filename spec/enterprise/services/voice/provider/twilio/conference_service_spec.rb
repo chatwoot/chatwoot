@@ -50,20 +50,23 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(message.reload.content_attributes.dig('data', 'ring_user_ids')).to eq([teammate.id])
     end
 
+    it 'moves a ring in turn on to its next step at once' do
+      expect { service.dismiss(agent) }.to have_enqueued_job(Voice::RingNextAgentJob).with(call.id, 2)
+    end
+
     it 'changes nothing for an agent the call does not ring, or a repeated dismiss' do
       outsider = create(:user, account: account)
       service.dismiss(agent)
-      service.dismiss(agent)
-      service.dismiss(outsider)
 
-      expect(call.reload.dismissed_user_ids).to eq([agent.id])
+      expect { service.dismiss(agent) }.not_to have_enqueued_job(Voice::RingNextAgentJob)
+      expect { service.dismiss(outsider) }.not_to have_enqueued_job(Voice::RingNextAgentJob)
+      expect(call.reload).to have_attributes(dismissed_user_ids: [agent.id], ring_step: 2)
     end
 
     it 'leaves a call that is no longer ringing alone' do
       call.update!(status: 'in_progress')
 
-      service.dismiss(agent)
-
+      expect { service.dismiss(agent) }.not_to have_enqueued_job(Voice::RingNextAgentJob)
       expect(call.reload.dismissed_user_ids).to be_empty
     end
   end
