@@ -67,7 +67,8 @@ const isAssignedToAnotherAgent = (assigneeId, currentUserId) => {
 // The server picks the agents an inbound Twilio call rings and names them on the
 // call's message, so its assignee no longer decides who sees the ringing card.
 const isRoutedCall = (provider, callDirection) =>
-  provider === VOICE_CALL_PROVIDERS.TWILIO && callDirection === 'inbound';
+  provider === VOICE_CALL_PROVIDERS.TWILIO &&
+  callDirection === VOICE_CALL_DIRECTION.INBOUND;
 
 const shouldShowCall = ({
   callDirection,
