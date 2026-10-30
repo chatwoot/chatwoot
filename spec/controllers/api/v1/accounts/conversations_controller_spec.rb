@@ -1097,6 +1097,27 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.agent_last_seen_at).to be_within(1.second).of(initial_agent_last_seen)
         expect(conversation.reload.assignee_last_seen_at).to be_within(1.second).of(initial_assignee_last_seen)
       end
+
+      it 'reconciles stale unread counts when update_last_seen is throttled' do
+        conversation.update!(assignee_id: agent.id, agent_last_seen_at: 30.minutes.ago, assignee_last_seen_at: 30.minutes.ago)
+        # rubocop:disable Rails/SkipsModelValidations
+        conversation.messages.update_all(created_at: 1.hour.ago)
+        # rubocop:enable Rails/SkipsModelValidations
+
+        notifier = instance_double(Conversations::UnreadCounts::Notifier)
+        invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator)
+
+        allow(Conversations::UnreadCounts::Notifier).to receive(:new).with(conversation).and_return(notifier)
+        allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+        expect(notifier).to receive(:perform).with(reconcile_only: true).and_return(true)
+        expect(invalidator).to receive(:conversation_changed!).and_return(true)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 

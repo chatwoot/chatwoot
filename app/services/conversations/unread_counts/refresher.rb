@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Conversations::UnreadCounts::Refresher
   attr_reader :conversation, :changed_attributes
 
@@ -12,6 +13,7 @@ class Conversations::UnreadCounts::Refresher
     before_memberships = store.memberships_for_keys(affected_cache_keys, conversation.id)
     refresh_base_membership if base_ready?
     refresh_assignment_membership if assignment_ready?
+    verify_and_reconcile_concurrent_updates
     after_memberships = store.memberships_for_keys(affected_cache_keys, conversation.id)
 
     before_memberships != after_memberships
@@ -59,6 +61,21 @@ class Conversations::UnreadCounts::Refresher
   end
 
   def refresh_base_membership
+    remove_base_membership
+    return unless unread?
+
+    add_base_membership
+  end
+
+  def refresh_assignment_membership
+    remove_assignment_membership
+    return unless unread?
+    return if conversation.assignee_agent_bot_id
+
+    add_assignment_membership
+  end
+
+  def remove_base_membership
     store.remove_base_membership(
       account_id: account.id,
       inbox_ids: affected_inbox_ids,
@@ -66,8 +83,9 @@ class Conversations::UnreadCounts::Refresher
       team_ids: affected_team_ids,
       conversation_id: conversation.id
     )
-    return unless unread?
+  end
 
+  def add_base_membership
     store.add_base_membership(
       account_id: account.id,
       inbox_id: conversation.inbox_id,
@@ -77,38 +95,68 @@ class Conversations::UnreadCounts::Refresher
     )
   end
 
-  def refresh_assignment_membership
-    conversation_id = conversation.id
+  def remove_assignment_membership
     store.remove_assignment_membership(
       account_id: account.id,
       inbox_ids: affected_inbox_ids,
       label_ids: affected_label_ids,
       assignee_ids: affected_assignee_ids,
       team_ids: affected_team_ids,
-      conversation_id: conversation_id
+      conversation_id: conversation.id
     )
-    return unless unread?
-    return if conversation.assignee_agent_bot_id
+  end
 
+  def add_assignment_membership
     store.add_assignment_membership(
       account_id: account.id,
       inbox_id: conversation.inbox_id,
       label_ids: current_label_ids,
       assignee_id: conversation.assignee_id,
       team_id: conversation.team_id,
-      conversation_id: conversation_id
+      conversation_id: conversation.id
     )
   end
 
+  def verify_and_reconcile_concurrent_updates
+    return if conversation.try(:id).blank?
+
+    latest_status, latest_last_seen_at = fetch_current_status_and_last_seen
+    initial_status, initial_last_seen_at = current_status_and_last_seen
+
+    return if latest_status == initial_status && latest_last_seen_at == initial_last_seen_at
+    return if unread_for_state?(latest_status, latest_last_seen_at)
+
+    remove_base_membership if base_ready?
+    remove_assignment_membership if assignment_ready?
+  end
+
   def unread?
-    # Sidebar unread counts intentionally track only open conversations.
-    return false unless conversation.open?
+    status, agent_last_seen_at = current_status_and_last_seen
+    unread_for_state?(status, agent_last_seen_at)
+  end
+
+  def unread_for_state?(status, agent_last_seen_at)
+    return false unless open_status?(status)
 
     incoming_messages = conversation.messages.incoming.where(account_id: account.id)
-    if conversation.agent_last_seen_at
-      incoming_messages = incoming_messages.where(Message.arel_table[:created_at].gt(conversation.agent_last_seen_at))
-    end
+    incoming_messages = incoming_messages.where(Message.arel_table[:created_at].gt(agent_last_seen_at)) if agent_last_seen_at
     incoming_messages.exists?
+  end
+
+  def current_status_and_last_seen
+    @current_status_and_last_seen ||= fetch_current_status_and_last_seen
+  end
+
+  def fetch_current_status_and_last_seen
+    if conversation.try(:id).present?
+      Conversation.where(id: conversation.id).pick(:status, :agent_last_seen_at) || [conversation.status, conversation.agent_last_seen_at]
+    else
+      [conversation.status, conversation.agent_last_seen_at]
+    end
+  end
+
+  def open_status?(status)
+    status == Conversation.statuses[:open] || status.to_s == 'open'
   end
 
   def affected_inbox_ids
@@ -178,3 +226,4 @@ class Conversations::UnreadCounts::Refresher
     ::Conversations::UnreadCounts::Store
   end
 end
+# rubocop:enable Metrics/ClassLength
