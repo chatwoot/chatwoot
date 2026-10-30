@@ -103,14 +103,25 @@ const trackUpload = async upload => {
   }
 };
 
-const attachFiles = async attachments => {
+const attachFiles = async (attachments, replyTo) => {
   try {
-    await props.onAttach(attachments);
+    return await props.onAttach(attachments, replyTo);
   } catch (error) {
     emitter.emit(BUS_EVENTS.SHOW_ALERT, {
       message: error?.message || error,
     });
+    return replyTo;
   }
+};
+
+// One file selection can be sent as several messages. The parent returns the
+// reply target it used, so pass it back to keep every message of the selection
+// replying to the same message after the reply preview has been cleared.
+const createSelectionSender = () => {
+  let replyTo;
+  return async attachments => {
+    replyTo = await attachFiles(attachments, replyTo);
+  };
 };
 
 const uploadFileDirectly = file => {
@@ -141,6 +152,7 @@ const onDirectFileUpload = async files => {
   const validFiles = getUploadableFiles(files);
   if (!validFiles.length) return;
 
+  const sendBatch = createSelectionSender();
   await trackUpload(() =>
     processBatchesSequentially(
       splitIntoUploadBatches(validFiles),
@@ -151,7 +163,7 @@ const onDirectFileUpload = async files => {
         const successfulAttachments = attachments.filter(Boolean);
 
         if (successfulAttachments.length) {
-          await attachFiles(successfulAttachments);
+          await sendBatch(successfulAttachments);
         }
       }
     )
@@ -162,11 +174,12 @@ const onIndirectFileUpload = async files => {
   const validFiles = getUploadableFiles(files);
   if (!validFiles.length) return;
 
+  const sendBatch = createSelectionSender();
   await trackUpload(() =>
     processBatchesSequentially(
       splitIntoUploadBatches(validFiles),
       uploadBatch =>
-        attachFiles(
+        sendBatch(
           uploadBatch.map(file => ({
             file: file.file,
             ...getLocalFileAttributes(file),

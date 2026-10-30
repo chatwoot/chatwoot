@@ -66,7 +66,7 @@ describe('ChatAttachment', () => {
     ]);
 
     await vi.waitFor(() => expect(onAttach).toHaveBeenCalledTimes(1));
-    expect(onAttach).toHaveBeenCalledWith([
+    expect(onAttach.mock.calls[0][0]).toEqual([
       expect.objectContaining({ file: validFile.file }),
     ]);
     expect(emitter.emit).toHaveBeenCalledWith(BUS_EVENTS.SHOW_ALERT, {
@@ -93,6 +93,24 @@ describe('ChatAttachment', () => {
       files.slice(15, 30).map(({ file }) => file.name),
       files.slice(30).map(({ file }) => file.name),
     ]);
+  });
+
+  it('keeps the reply target for every message of one selection', async () => {
+    const { onAttach, addFiles } = mountAttachment();
+    // Mirrors ChatFooter: use the passed reply target (or the current one) and return it.
+    onAttach.mockImplementation((_attachments, replyTo = 'reply-1') =>
+      Promise.resolve(replyTo)
+    );
+
+    addFiles(
+      Array.from({ length: 17 }, (_, index) =>
+        createUpload({ name: `${index}.png` })
+      )
+    );
+
+    await vi.waitFor(() => expect(onAttach).toHaveBeenCalledTimes(2));
+    expect(onAttach.mock.calls[0][1]).toBeUndefined();
+    expect(onAttach.mock.calls[1][1]).toBe('reply-1');
   });
 
   it('uploads directly and sends overflow files in additional messages', async () => {
