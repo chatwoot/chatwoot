@@ -6,7 +6,20 @@ class Sms::IncomingMessageService
   def perform
     set_contact
     set_conversation
-    @message = @conversation.messages.create!(
+    @message = find_or_initialize_message
+    attach_files
+    @message.save!
+  end
+
+  private
+
+  def find_or_initialize_message
+    if params[:id].present?
+      existing_message = @conversation.messages.find_by(source_id: params[:id])
+      return existing_message if existing_message
+    end
+
+    @conversation.messages.build(
       content: params[:text],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -14,11 +27,7 @@ class Sms::IncomingMessageService
       sender: @contact,
       source_id: params[:id]
     )
-    attach_files
-    @message.save!
   end
-
-  private
 
   def account
     @account ||= @inbox.account
@@ -78,6 +87,7 @@ class Sms::IncomingMessageService
 
   def attach_files
     return if params[:media].blank?
+    return if @message.persisted? && @message.attachments.exists?
 
     params[:media].each do |media_url|
       # we don't need to process this files since chatwoot doesn't support it
