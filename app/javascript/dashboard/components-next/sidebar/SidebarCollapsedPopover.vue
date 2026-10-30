@@ -7,6 +7,7 @@ import Icon from 'next/icon/Icon.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import SidebarUnreadBadge from './SidebarUnreadBadge.vue';
 import SidebarSortMenu from './SidebarSortMenu.vue';
+import SidebarChannelGroup from './SidebarChannelGroup.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
@@ -79,7 +80,11 @@ onMounted(async () => {
   // Auto-expand subgroup if active child is inside it
   if (props.activeChild) {
     const parentGroup = props.children.find(child =>
-      child.children?.some(subChild => subChild.name === props.activeChild.name)
+      child.children?.some(
+        subChild =>
+          subChild.name === props.activeChild.name ||
+          subChild.children?.some(item => item.name === props.activeChild.name)
+      )
     );
     if (parentGroup) {
       expandedSubGroup.value = parentGroup.name;
@@ -126,7 +131,7 @@ onMounted(async () => {
           {{ label }}
         </div>
         <ul
-          class="m-0 p-0 list-none max-h-[400px] overflow-y-auto no-scrollbar"
+          class="m-0 p-0 list-none max-h-[min(25rem,calc(100dvh-6rem))] overflow-y-auto no-scrollbar"
         >
           <template v-for="child in accessibleChildren" :key="child.name">
             <!-- SubGroup with children -->
@@ -173,45 +178,52 @@ onMounted(async () => {
                   v-if="expandedSubGroup === child.name"
                   class="m-0 p-0 list-none ltr:pl-4 rtl:pr-4 mt-1 overflow-hidden"
                 >
-                  <li
+                  <template
                     v-for="subChild in getAccessibleSubChildren(child.children)"
                     :key="subChild.name"
-                    class="py-0.5"
                   >
-                    <router-link
-                      :to="subChild.to"
-                      class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-sm text-left rtl:text-right transition-colors duration-150 ease-out"
-                      :class="{
-                        'text-n-slate-12 bg-n-alpha-2': isActive(subChild),
-                        'text-n-slate-11 hover:bg-n-alpha-2':
-                          !isActive(subChild),
-                      }"
-                      @click="emit('close')"
-                    >
-                      <component
-                        :is="subChild.component"
-                        v-if="shouldRenderComponent(subChild)"
-                        v-bind="{
-                          label: subChild.label,
-                          icon: subChild.icon,
-                          active: isActive(subChild),
-                          badgeCount: subChild.badgeCount,
+                    <SidebarChannelGroup
+                      v-if="subChild.children"
+                      v-bind="subChild"
+                      :active-child="activeChild"
+                      @navigate="emit('close')"
+                    />
+                    <li v-else class="py-0.5">
+                      <router-link
+                        :to="subChild.to"
+                        class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-sm text-left rtl:text-right transition-colors duration-150 ease-out"
+                        :class="{
+                          'text-n-slate-12 bg-n-alpha-2': isActive(subChild),
+                          'text-n-slate-11 hover:bg-n-alpha-2':
+                            !isActive(subChild),
                         }"
-                      />
-                      <template v-else>
+                        @click="emit('close')"
+                      >
                         <component
-                          :is="renderIcon(subChild.icon).component"
-                          v-if="subChild.icon"
-                          v-bind="renderIcon(subChild.icon).props"
-                          class="size-4 flex-shrink-0"
+                          :is="subChild.component"
+                          v-if="shouldRenderComponent(subChild)"
+                          v-bind="{
+                            label: subChild.label,
+                            icon: subChild.icon,
+                            active: isActive(subChild),
+                            badgeCount: subChild.badgeCount,
+                          }"
                         />
-                        <span class="flex-1 truncate">
-                          {{ subChild.label }}
-                        </span>
-                        <SidebarUnreadBadge :count="subChild.badgeCount" />
-                      </template>
-                    </router-link>
-                  </li>
+                        <template v-else>
+                          <component
+                            :is="renderIcon(subChild.icon).component"
+                            v-if="subChild.icon"
+                            v-bind="renderIcon(subChild.icon).props"
+                            class="size-4 flex-shrink-0"
+                          />
+                          <span class="flex-1 truncate">
+                            {{ subChild.label }}
+                          </span>
+                          <SidebarUnreadBadge :count="subChild.badgeCount" />
+                        </template>
+                      </router-link>
+                    </li>
+                  </template>
                 </ul>
               </Transition>
             </li>

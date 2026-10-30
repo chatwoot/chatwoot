@@ -26,6 +26,14 @@ describe('useConversationRoutePath', () => {
       );
     });
 
+    it('keeps the channel group context', () => {
+      mockRoute.params = { accountId: '1', channelGroupId: '9' };
+      const { buildConversationPath } = useConversationRoutePath();
+      expect(buildConversationPath(5)).toBe(
+        '/app/accounts/1/channel-groups/9/conversations/5'
+      );
+    });
+
     it('keeps the label context', () => {
       mockRoute.params = { accountId: '1', label: 'bug' };
       const { buildConversationPath } = useConversationRoutePath();
@@ -95,6 +103,14 @@ describe('useConversationRoutePath', () => {
       mockRoute.params = { accountId: '1', inbox_id: '3' };
       const { buildConversationListPath } = useConversationRoutePath();
       expect(buildConversationListPath()).toBe('/app/accounts/1/inbox/3');
+    });
+
+    it('keeps the channel group context', () => {
+      mockRoute.params = { accountId: '1', channelGroupId: '9' };
+      const { buildConversationListPath } = useConversationRoutePath();
+      expect(buildConversationListPath()).toBe(
+        '/app/accounts/1/channel-groups/9'
+      );
     });
 
     it('keeps the label context', () => {

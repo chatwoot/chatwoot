@@ -57,6 +57,7 @@ class Inbox < ApplicationRecord
   validate :ensure_valid_max_assignment_limit
 
   belongs_to :account
+  belongs_to :channel_group, optional: true
   belongs_to :portal, optional: true
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
