@@ -556,7 +556,7 @@
         "DESCRIPTION": "处理自动回复、对话摘要和智能回复建议，用于客户交互。"
       },
       "COPILOT": {
-        "TITLE": "副驾驶",
+        "TITLE": "Copilot",
         "DESCRIPTION": "在对话中提供实时上下文建议、知识库推荐和主动洞察。"
       }
     },
@@ -616,7 +616,7 @@
       "BUTTON_TXT": "购买更多积分",
       "DOCUMENTS": "文档",
       "RESPONSES": "常见问题",
-      "UPGRADE": "Captain 在免费计划中不可用，立即升级以获取助手、副驾驶等更多功能。",
+      "UPGRADE": "Captain 在免费计划中不可用，立即升级以获取助手、Copilot 等更多功能。",
       "REFRESH_CREDITS": "刷新"
     },
     "CHAT_WITH_US": {

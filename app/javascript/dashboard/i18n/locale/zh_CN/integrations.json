@@ -541,11 +541,11 @@
         },
         "AUTO_RESOLUTION": {
           "LABEL": "自动解决率",
-          "HINT": "已处理对话中 Captain 无需团队协助便解决的比例。"
+          "HINT": "已处理对话中 Captain 无需团队协助便解决的比例。数值越高，表示 Captain 独立解决的对话越多。"
         },
         "HANDOFF": {
           "LABEL": "转人工率",
-          "HINT": "已处理对话中转交人工客服的比例。"
+          "HINT": "已处理对话中 Captain 转交给团队的比例。数值越低，表示需要人工客服介入的对话越少。"
         },
         "HOURS_SAVED": {
           "LABEL": "节省时间",
@@ -559,7 +559,7 @@
         },
         "DEPTH": {
           "LABEL": "每个对话的回复数",
-          "HINT": "助手在每个对话中发送的平均回复数。",
+          "HINT": "Captain 在其处理的每个对话中发送的平均回复数。",
           "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
         }
       },
