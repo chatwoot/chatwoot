@@ -15,8 +15,11 @@ RSpec.describe 'Public Articles API', type: :request do
     create(:article, category: category_2, portal: portal, author: agent, associated_article_id: article.id, views: 5)
   end
 
+  around do |example|
+    with_modified_env(HELPCENTER_URL: ENV.fetch('FRONTEND_URL', nil)) { example.run }
+  end
+
   before do
-    ENV['HELPCENTER_URL'] = ENV.fetch('FRONTEND_URL', nil)
     create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 15)
     create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 1)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, views: 4)
@@ -233,6 +236,80 @@ RSpec.describe 'Public Articles API', type: :request do
         expect(options).to include('Spanish (es)' => "/hc/#{portal.slug}/es",
                                    'French (fr)' => "/hc/#{portal.slug}/articles/#{translated_article.slug}")
       end
+    end
+  end
+
+  describe 'image URLs' do
+    let(:blob) { get_blob_for(Rails.root.join('spec/assets/sample.png'), 'image/png') }
+    let(:image_path) { Rails.application.routes.url_helpers.rails_blob_path(blob, only_path: true) }
+    let(:content) { "![article image](http://localhost:3000#{image_path})" }
+    let(:article_path) { "/hc/#{portal.slug}/articles/#{article.slug}" }
+
+    around do |example|
+      with_modified_env(FRONTEND_URL: 'http://localhost:3000', HELPCENTER_URL: 'http://help.example.test') { example.run }
+    end
+
+    before { article.update!(content: content) }
+
+    it 'uses relative author avatars in classic article lists and documentation pages' do
+      agent.avatar.attach(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
+      { 'classic' => "/hc/#{portal.slug}/en/categories/#{category.slug}/articles", 'documentation' => article_path }.each do |layout, path|
+        portal.update!(config: portal.config.merge('layout' => layout))
+        get path
+
+        expect(response).to have_http_status(:success)
+        expect(Nokogiri::HTML5(response.body).css('img').map { |image| image['src'] }).to include(URI.parse(agent.avatar_url).request_uri)
+      end
+    end
+
+    it 'keeps images relative across domain changes and removal without changing saved content' do
+      [
+        ['www.example.com', 'www.example.com', 'http://help.example.test'],
+        ['docs.example.test', 'docs.example.test', 'http://help.example.test'],
+        [nil, 'help.example.test', 'http://help.example.test'],
+        [nil, 'localhost:3000', nil]
+      ].each do |domain, host, help_center_url|
+        portal.update!(custom_domain: domain)
+        with_modified_env(HELPCENTER_URL: help_center_url) do
+          host! host
+          get article_path
+
+          expect(response).to have_http_status(:success)
+          expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq(image_path)
+        end
+      end
+      expect(article.reload.content).to eq(content)
+    end
+
+    it 'renders relative images in the plain dashboard preview' do
+      get article_path, params: { show_plain_layout: true }
+
+      expect(response).to have_http_status(:success)
+      expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq(image_path)
+    end
+
+    it 'serves the rendered signed image through the Help Center origin' do
+      get article_path
+      get Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']
+
+      expect(response).to have_http_status(:redirect)
+      expect(URI.parse(response.location).host).to eq(portal.custom_domain)
+      follow_redirect!
+      expect(response).to have_http_status(:success)
+      expect(response.media_type).to eq('image/png')
+      expect(response.body).to eq(blob.download)
+    end
+
+    it 'preserves saved content and absolute avatar URLs in exports' do
+      agent.avatar.attach(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
+      get "#{article_path}.json"
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['content']).to eq(content)
+      expect(response.parsed_body.dig('author', 'thumbnail')).to eq(agent.avatar_url)
+      get "#{article_path}.md"
+      expect(response).to have_http_status(:success)
+      expect(response.body).to eq(content)
     end
   end
 

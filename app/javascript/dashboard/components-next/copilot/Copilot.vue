@@ -56,6 +56,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isExpanded: {
+    type: Boolean,
+    default: false,
+  },
   onSendMessage: {
     type: Function,
     required: true,
@@ -67,6 +71,7 @@ const emit = defineEmits([
   'setAssistant',
   'selectThread',
   'loadMoreThreads',
+  'toggleExpand',
 ]);
 
 const { t } = useI18n();
@@ -149,11 +154,14 @@ const handleSidebarAction = action => {
     showHistory.value = false;
   } else if (action === 'history') {
     showHistory.value = !showHistory.value;
+  } else if (action === 'expand') {
+    emit('toggleExpand');
   }
 };
 
 const hasAssistants = computed(() => props.assistants.length > 0);
 const hasMessages = computed(() => props.messages.length > 0);
+// The panel already fills the screen below md, so the toggle only shows on wider screens.
 const copilotButtons = computed(() => [
   {
     key: 'history',
@@ -164,6 +172,14 @@ const copilotButtons = computed(() => [
     key: 'new',
     icon: 'i-lucide-square-pen',
     tooltip: t('CAPTAIN.COPILOT.NEW_CHAT'),
+  },
+  {
+    key: 'expand',
+    icon: props.isExpanded ? 'i-lucide-minimize-2' : 'i-lucide-maximize-2',
+    tooltip: props.isExpanded
+      ? t('CAPTAIN.COPILOT.SHRINK')
+      : t('CAPTAIN.COPILOT.EXPAND'),
+    class: 'hidden md:inline-flex',
   },
 ]);
 const openThread = thread => {
@@ -188,61 +204,67 @@ watch(
       @close="closeCopilotPanel"
     />
     <div v-if="showHistory" class="flex-1 overflow-y-auto px-3 py-3">
-      <div class="mb-3 flex items-center justify-between">
-        <h3 class="text-sm font-medium text-n-slate-12">
-          {{ t('CAPTAIN.COPILOT.HISTORY') }}
-        </h3>
-        <button
-          type="button"
-          class="text-xs text-n-blue-11 hover:underline"
-          @click="handleSidebarAction('new')"
+      <div class="w-full max-w-3xl mx-auto">
+        <div class="mb-3 flex items-center justify-between">
+          <h3 class="text-sm font-medium text-n-slate-12">
+            {{ t('CAPTAIN.COPILOT.HISTORY') }}
+          </h3>
+          <button
+            type="button"
+            class="text-xs text-n-blue-11 hover:underline"
+            @click="handleSidebarAction('new')"
+          >
+            {{ t('CAPTAIN.COPILOT.NEW_CHAT') }}
+          </button>
+        </div>
+        <p
+          v-if="isLoadingThreads && !threads.length"
+          role="status"
+          class="text-xs text-n-slate-11"
         >
-          {{ t('CAPTAIN.COPILOT.NEW_CHAT') }}
+          {{ t('CAPTAIN.COPILOT.LOADING_HISTORY') }}
+        </p>
+        <p v-else-if="!threads.length" class="text-xs text-n-slate-11">
+          {{ t('CAPTAIN.COPILOT.NO_HISTORY') }}
+        </p>
+        <button
+          v-for="thread in threads"
+          :key="thread.id"
+          type="button"
+          class="mb-1 w-full rounded-lg px-3 py-2 text-left hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-blue-11"
+          :class="{ 'bg-n-alpha-2': thread.id === selectedThreadId }"
+          @click="openThread(thread)"
+        >
+          <span class="block truncate text-sm text-n-slate-12">
+            {{ thread.title }}
+          </span>
+        </button>
+        <button
+          v-if="hasMoreThreads"
+          type="button"
+          class="mt-2 w-full rounded-lg px-3 py-2 text-xs text-n-blue-11 hover:bg-n-alpha-2 disabled:cursor-wait disabled:opacity-60"
+          :disabled="isLoadingThreads"
+          @click="emit('loadMoreThreads')"
+        >
+          {{ t('CAPTAIN.COPILOT.LOAD_MORE') }}
         </button>
       </div>
-      <p
-        v-if="isLoadingThreads && !threads.length"
-        role="status"
-        class="text-xs text-n-slate-11"
-      >
-        {{ t('CAPTAIN.COPILOT.LOADING_HISTORY') }}
-      </p>
-      <p v-else-if="!threads.length" class="text-xs text-n-slate-11">
-        {{ t('CAPTAIN.COPILOT.NO_HISTORY') }}
-      </p>
-      <button
-        v-for="thread in threads"
-        :key="thread.id"
-        type="button"
-        class="mb-1 w-full rounded-lg px-3 py-2 text-left hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-blue-11"
-        :class="{ 'bg-n-alpha-2': thread.id === selectedThreadId }"
-        @click="openThread(thread)"
-      >
-        <span class="block truncate text-sm text-n-slate-12">
-          {{ thread.title }}
-        </span>
-      </button>
-      <button
-        v-if="hasMoreThreads"
-        type="button"
-        class="mt-2 w-full rounded-lg px-3 py-2 text-xs text-n-blue-11 hover:bg-n-alpha-2 disabled:cursor-wait disabled:opacity-60"
-        :disabled="isLoadingThreads"
-        @click="emit('loadMoreThreads')"
-      >
-        {{ t('CAPTAIN.COPILOT.LOAD_MORE') }}
-      </button>
     </div>
     <div
       v-else
       ref="chatContainer"
       class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
     >
-      <p v-if="isLoadingSelectedThread" role="status" class="text-n-slate-11">
+      <p
+        v-if="isLoadingSelectedThread"
+        role="status"
+        class="w-full max-w-3xl mx-auto text-n-slate-11"
+      >
         {{ t('CAPTAIN.COPILOT.LOADING_CHAT') }}
       </p>
       <div
         v-else-if="hasMessages"
-        class="space-y-6 flex-1 flex flex-col w-full"
+        class="space-y-6 flex-1 flex flex-col w-full max-w-3xl mx-auto"
       >
         <template v-for="(item, index) in groupedMessages" :key="item.id">
           <CopilotAgentMessage
@@ -270,6 +292,7 @@ watch(
       </div>
       <CopilotEmptyState
         v-else
+        class="max-w-3xl mx-auto"
         :has-assistants="hasAssistants"
         :can-suggest-reply="canSuggestReply"
         @use-suggestion="sendMessage"
@@ -277,7 +300,9 @@ watch(
     </div>
 
     <div v-show="!showHistory" class="mx-3 mt-px mb-2">
-      <div class="flex items-center gap-2 justify-between w-full mb-1">
+      <div
+        class="flex items-center gap-2 justify-between w-full max-w-3xl mx-auto mb-1"
+      >
         <ToggleCopilotAssistant
           v-if="assistants.length > 1 && !selectedThreadId"
           :assistants="assistants"
@@ -289,7 +314,7 @@ watch(
       <CopilotInput
         v-if="hasAssistants"
         v-show="!isLoadingSelectedThread"
-        class="mb-1 w-full"
+        class="mb-1 w-full max-w-3xl mx-auto"
         :on-send="sendMessage"
       />
     </div>

@@ -101,6 +101,9 @@ en:
         not_metadata: did not return SAML identity provider metadata
     notification_subscription:
       voip_attributes_required: A VoIP push subscription needs a device_id and a push_token
+    account_user:
+      no_work_preference: Receive conversations or Receive voice calls must stay on
+      invalid_work_preference: Receive conversations and Receive voice calls must be true or false
     account:
       not_authorized: You are not authorized to access this account
       email_limit_exceeded: The daily email limit for this account has been reached
@@ -124,6 +127,9 @@ en:
       announcement_audio_mismatch: 'Generated audio did not match the announcement text. Your saved announcement has not changed. Please try again.'
       announcement_generation_failed: "Couldn't generate announcement audio. Check your Captain AI configuration and try again. Your saved announcement has not changed."
       call_timed_out: 'The call timed out before you could join.'
+      invalid_hold: "Couldn't update the call. Please try again."
+      not_handling_agent: 'Only the agent on the call can hold or resume it.'
+      hold_failed: 'Could not update the hold. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -980,7 +986,7 @@ en:
           other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
       calls:
         heading: 'Incoming calls'
-        description: 'Whether a call rings this user on their phone while the app is in the background or closed. With the app open, calls ring over its live connection.'
+        description: "Whether this user's phone rings for incoming calls when the app is closed or in the background. With the app open, eligible calls ring over its live connection."
         accounts_heading: 'Accounts'
         setup:
           heading: 'Push setup'
@@ -1016,6 +1022,7 @@ en:
           ringing_off: 'No, Calls on mobile is off'
           no_inboxes: 'No, no voice inboxes'
           not_online: 'No, not online'
+          calls_off: 'No, Receive voice calls is off'
           no_device: 'No, no phone registered'
           push_unavailable: 'Only with the app open'
         assigned_only: 'Calls assigned to them'
