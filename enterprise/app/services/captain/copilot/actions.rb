@@ -6,7 +6,9 @@ module Captain::Copilot::Actions
      Captain::Copilot::Actions::AddPrivateNote, Captain::Copilot::Actions::SendReply, Captain::Copilot::Actions::SetCustomAttributes,
      Captain::Copilot::Actions::RemoveCustomAttributes, Captain::Copilot::Actions::AddParticipants,
      Captain::Copilot::Actions::RemoveParticipants, Captain::Copilot::Actions::ApplySla, Captain::Copilot::Actions::Mute,
-     Captain::Copilot::Actions::Unmute]
+     Captain::Copilot::Actions::Unmute, Captain::Copilot::Actions::AddContactLabels, Captain::Copilot::Actions::RemoveContactLabels,
+     Captain::Copilot::Actions::SetContactAttributes, Captain::Copilot::Actions::RemoveContactAttributes,
+     Captain::Copilot::Actions::BlockContacts, Captain::Copilot::Actions::UnblockContacts, Captain::Copilot::Actions::AddContactNote]
   end
 
   def self.build(name, account:, user:, arguments:, proposal_values: {})

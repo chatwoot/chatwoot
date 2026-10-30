@@ -40,4 +40,18 @@ RSpec.describe Captain::Copilot::Actions do
     expect(conversation.contact.reload).to be_blocked
     expect(action.perform(conversation)).to eq(:skipped)
   end
+
+  it 'labels and notes contacts with the conversation label rules' do
+    create(:label, account: account, title: 'vip')
+    contact = conversation.contact
+
+    expect(described_class.build('add_contact_labels', account: account, user: admin, arguments: { labels: ['vip'] }).perform(contact))
+      .to eq(:applied)
+    described_class.build('add_contact_note', account: account, user: admin, arguments: { content: 'Asked for a refund' }).perform(contact)
+
+    expect(contact.reload.label_list).to eq(['vip'])
+    expect(contact.notes.pluck(:content, :user_id)).to eq([['Asked for a refund', admin.id]])
+    expect { described_class.build('add_contact_labels', account: account, user: admin, arguments: { labels: ['gold'] }) }
+      .to raise_error(ArgumentError, /Unknown labels: gold/)
+  end
 end

@@ -818,12 +818,20 @@
           "REMOVE_PARTICIPANTS": "Remove {agents} from the participants of {count} conversation | Remove {agents} from the participants of {count} conversations",
           "APPLY_SLA": "Apply the {sla} SLA to {count} conversation | Apply the {sla} SLA to {count} conversations",
           "MUTE": "Mute {count} conversation | Mute {count} conversations",
-          "UNMUTE": "Unmute {count} conversation | Unmute {count} conversations"
+          "UNMUTE": "Unmute {count} conversation | Unmute {count} conversations",
+          "ADD_CONTACT_LABELS": "Add {labels} to {count} contact | Add {labels} to {count} contacts",
+          "REMOVE_CONTACT_LABELS": "Remove {labels} from {count} contact | Remove {labels} from {count} contacts",
+          "SET_CONTACT_ATTRIBUTES": "Set {attributes} on {count} contact | Set {attributes} on {count} contacts",
+          "REMOVE_CONTACT_ATTRIBUTES": "Remove {attributes} from {count} contact | Remove {attributes} from {count} contacts",
+          "BLOCK_CONTACTS": "Block {count} contact | Block {count} contacts",
+          "UNBLOCK_CONTACTS": "Unblock {count} contact | Unblock {count} contacts",
+          "ADD_CONTACT_NOTE": "Add this note to {count} contact: | Add this note to {count} contacts:"
         },
         "WARNINGS": {
           "SEND_REPLY": "The customer gets this reply, and it can't be unsent. | {count} customers get this reply, and it can't be unsent.",
           "CSAT_SURVEY": "Customers in inboxes with CSAT surveys turned on may get a survey.",
-          "MUTE": "Muting resolves these conversations and blocks each contact. A blocked contact's new messages don't notify your team or reopen their conversations."
+          "MUTE": "Muting resolves these conversations and blocks each contact. A blocked contact's new messages don't notify your team or reopen their conversations.",
+          "BLOCK_CONTACTS": "A blocked contact's new messages don't notify your team or reopen their conversations."
         },
         "STATUS": {
           "REJECTED": "Rejected",
