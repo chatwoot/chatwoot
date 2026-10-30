@@ -102,12 +102,17 @@ const save = async () => {
         {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.DESCRIPTION') }}
       </span>
     </div>
-    <Select
-      v-model="form.ringStrategy"
-      :options="strategyOptions"
-      :aria-label="t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STRATEGY.LABEL')"
-      :disabled="isSaving"
-    />
+    <div class="flex flex-col gap-1">
+      <span class="text-body-main text-n-slate-12">
+        {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STRATEGY.LABEL') }}
+      </span>
+      <Select
+        v-model="form.ringStrategy"
+        :options="strategyOptions"
+        :aria-label="t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STRATEGY.LABEL')"
+        :disabled="isSaving"
+      />
+    </div>
     <div class="flex flex-col gap-1">
       <label
         :for="`call-routing-step-${inbox.id}`"

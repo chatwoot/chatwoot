@@ -59,9 +59,11 @@ class Voice::InboundCallBuilder
   end
 
   # A retry of the inbound event queues the ring again if the call recorded who it rings
-  # but its ring never went out, and its ring time again in case that job was lost too
+  # but its ring never went out, and its widening and ring time again in case those jobs were
+  # lost too; a duplicate widening step does nothing
   def requeue(call)
     self.class.queue_ring(call)
+    widen_ring_in_steps(call)
     end_unanswered_in_time(call)
     call
   end
@@ -82,7 +84,7 @@ class Voice::InboundCallBuilder
 
   # A Twilio call widens its ring every step; see Voice::RingNextAgentJob
   def widen_ring_in_steps(call)
-    return unless call.twilio? && call.ring_state.key?('ring_recipient_ids')
+    return unless call.twilio? && call.ringing?
 
     ActiveRecord.after_all_transactions_commit do
       Voice::RingNextAgentJob.set(wait: inbox.channel.ring_step_seconds.seconds).perform_later(call.id, call.ring_step)

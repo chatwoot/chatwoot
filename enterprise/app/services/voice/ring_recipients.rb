@@ -1,14 +1,7 @@
-# The agents a call rings, keeping only agents whose status is online, who take calls and who
-# may open the conversation. Socket presence is not consulted: a locked phone is offline on the socket and
-# is exactly the device a ring push exists for.
-#
-# A Twilio call rings the eligible agents, those who have not dismissed it, in routing order:
-# the assignee when they are not on a call, then longest idle first, with agents in cooldown,
-# and on a call when the inbox prefers free agents, after the others. It starts with the
-# assignee alone when first, otherwise with the team or, when the inbox rings in turn, the
-# first agent; every step then adds the team, then the agents held back, or the next agent.
-# A WhatsApp call rings the assignee if they can be assigned the inbox, otherwise everyone
-# who could be.
+# The agents a call rings: those online, taking calls and able to open the conversation.
+# Socket presence is not consulted, since a locked phone is exactly what a ring push is for.
+# A Twilio call orders them for routing (free assignee, then longest idle, with agents in
+# cooldown or on a call held back); a WhatsApp call rings the assignee or everyone.
 class Voice::RingRecipients
   pattr_initialize [:inbox!, :conversation!, :dismissed_user_ids]
 
@@ -17,7 +10,7 @@ class Voice::RingRecipients
 
   # The agents the ring starts with
   def agents
-    return legacy_agents unless inbox.channel.is_a?(Channel::TwilioSms)
+    return whatsapp_agents unless inbox.channel.is_a?(Channel::TwilioSms)
     return ordered.first(1) if inbox.channel.sequential_ringing?
     return [assignee] if assignee_first?
 
@@ -46,7 +39,7 @@ class Voice::RingRecipients
 
   def assignable = (@assignable ||= inbox.assignable_agents.to_a)
 
-  def legacy_agents
+  def whatsapp_agents
     openers(assignable.include?(assignee) ? [assignee] : assignable)
   end
 
@@ -74,11 +67,17 @@ class Voice::RingRecipients
     return false unless cooldown.positive?
 
     last = last_calls[user.id]
-    last.present? && last.ended_at.to_i > cooldown.seconds.ago.to_i && !last.conversation.resolved?
+    last.present? && last.ended_at.to_i > cooldown.seconds.ago.to_i && resolved_conversation_ids.exclude?(last.conversation_id)
   end
 
+  def resolved_conversation_ids
+    @resolved_conversation_ids ||= Conversation.where(id: last_calls.values.map(&:conversation_id)).resolved.pluck(:id)
+  end
+
+  # Bounded like last_calls, so a call whose end was never reported stops counting after a day
   def on_call_ids
-    @on_call_ids ||= Call.where(account_id: inbox.account_id, status: 'in_progress', accepted_by_agent_id: eligible.map(&:id))
+    @on_call_ids ||= Call.where(account_id: inbox.account_id, status: 'in_progress', accepted_by_agent_id: eligible.map(&:id),
+                                created_at: IDLE_WINDOW.ago..)
                          .distinct.pluck(:accepted_by_agent_id)
   end
 
@@ -88,6 +87,7 @@ class Voice::RingRecipients
     @last_calls ||= Call.where(account_id: inbox.account_id, status: 'completed', accepted_by_agent_id: eligible.map(&:id),
                                created_at: IDLE_WINDOW.ago..)
                         .where.not(started_at: nil)
+                        .select(:accepted_by_agent_id, :conversation_id, :meta)
                         .group_by(&:accepted_by_agent_id)
                         .transform_values { |calls| calls.max_by { |call| call.ended_at.to_i } }
   end

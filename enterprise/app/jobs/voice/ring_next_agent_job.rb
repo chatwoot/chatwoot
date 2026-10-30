@@ -1,9 +1,6 @@
-# Widens the ring of a Twilio call every step while it rings, so an agent who comes online
-# meanwhile is reached too, as is a call that found nobody to ring. A call that rings in turn
-# adds the next agent; one that rings everyone at once adds the team, which an assignee
-# ringing alone leads to, and then the agents it held back. A dismiss runs the next step at once, and a job for a step it
-# already moved past does nothing. A call an agent is picking up adds nobody, and rings on
-# should their connection fail.
+# Widens the ring of a Twilio call every interval, so agents who come online meanwhile are
+# reached. Each run carries the step it was queued for; a dismiss moves the step on, so a job
+# for a step already passed does nothing.
 class Voice::RingNextAgentJob < ApplicationJob
   queue_as :critical
 
@@ -39,8 +36,10 @@ class Voice::RingNextAgentJob < ApplicationJob
     added
   end
 
+  # A call an agent is picking up, or the ring timeout is ending, rings no one new but keeps
+  # stepping, in case that connection or the timeout fails and the call rings on
   def agents_to_add(call, rung)
-    return [] if call.accepted_by_agent_id.present?
+    return [] if call.accepted_by_agent_id.present? || call.ring_timeout_in_progress?
 
     recipients = Voice::RingRecipients.new(inbox: call.inbox, conversation: call.conversation, dismissed_user_ids: call.dismissed_user_ids)
     return [recipients.next_agent(rung)].compact if call.inbox.channel.sequential_ringing?
