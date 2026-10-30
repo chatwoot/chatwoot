@@ -398,6 +398,19 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(portal.reload.allowed_locale_codes).to eq(%w[en es])
       end
+
+      it 'rejects a list of locales' do
+        en_article = create(:article, portal: portal, account: account, locale: 'en')
+        es_article = create(:article, portal: portal, account: account, locale: 'es')
+
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/remove_locale",
+               params: { locale: %w[en es] },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(portal.articles).to contain_exactly(en_article, es_article)
+      end
     end
   end
 

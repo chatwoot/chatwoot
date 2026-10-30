@@ -51,7 +51,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def remove_locale
-    locale = params.require(:locale)
+    locale = params.permit(:locale).require(:locale)
     return render_could_not_create_error(I18n.t('portals.remove_locale.default_locale')) if locale == @portal.default_locale
 
     @portal.remove_locale!(locale)
