@@ -141,6 +141,7 @@
       "MISSED_CALL": "Missed call",
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
+      "MISSED_CALL_OUTSIDE_HOURS": "Outside business hours",
       "CALL_ENDED": "Call ended",
       "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",

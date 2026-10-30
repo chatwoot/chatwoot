@@ -11,7 +11,7 @@ class ChatwootMarkdownRenderer
   end
 
   def render_article
-    markdown_renderer = CustomMarkdownRenderer.new
+    markdown_renderer = PortalArticleMarkdownRenderer.new
     doc = CommonMarker.render_doc(@content, :DEFAULT, [:table])
     html = markdown_renderer.render(doc)
 

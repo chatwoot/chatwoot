@@ -19,10 +19,16 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       expect(response).to redirect_to("/hc/#{portal.slug}/#{portal.default_locale}")
     end
 
-    it 'Show portal and categories belonging to the portal' do
-      get "/hc/#{portal.slug}/en"
+    it 'shows portal categories with relative author avatars' do
+      category = create(:category, portal: portal, account: account, locale: 'en')
+      portal.articles.published.first.update!(category: category)
+      agent.avatar.attach(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
+      with_modified_env(FRONTEND_URL: 'http://localhost:3000', HELPCENTER_URL: 'http://help.example.test') do
+        get "/hc/#{portal.slug}/en"
 
-      expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:success)
+        expect(Nokogiri::HTML5(response.body).css('img').map { |image| image['src'] }).to include(URI.parse(agent.avatar_url).request_uri)
+      end
     end
 
     it 'does not set the session cookie' do
@@ -238,6 +244,39 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
           match(%r{\Ahttps://www\.example\.com/hc/#{Regexp.escape(portal.slug)}/articles/\d+})
         )
       end
+    end
+  end
+
+  describe 'search engine visibility' do
+    it 'leaves articles hidden from search out of the sitemap' do
+      portal.articles.published.first.update!(meta: { 'noindex' => true })
+
+      get "/hc/#{portal.slug}/sitemap.xml"
+
+      doc = Nokogiri::XML(response.body)
+      doc.remove_namespaces!
+      expect(doc.xpath('//url/loc').length).to eq(2)
+    end
+
+    it 'returns an empty sitemap and a noindex header when the portal is hidden' do
+      portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+      get "/hc/#{portal.slug}/sitemap.xml"
+
+      doc = Nokogiri::XML(response.body)
+      doc.remove_namespaces!
+      expect(doc.xpath('//url')).to be_empty
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+    end
+
+    it 'sends a noindex header on portal pages only when the portal is hidden' do
+      get "/hc/#{portal.slug}/en"
+      expect(response.headers['X-Robots-Tag']).to be_nil
+
+      portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+      get "/hc/#{portal.slug}/en"
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
     end
   end
 end

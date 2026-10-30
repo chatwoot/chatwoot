@@ -57,6 +57,27 @@ describe('#mutations', () => {
       );
     });
   });
+  describe('#SET_CURRENT_USER_WORK_PREFERENCES', () => {
+    it('sets work preferences for the current account', () => {
+      const state = {
+        currentUser: {
+          id: 1,
+          accounts: [
+            { id: 1, accepts_conversations: true, accepts_calls: true },
+            { id: 2, accepts_conversations: true, accepts_calls: true },
+          ],
+          account_id: 1,
+        },
+      };
+      mutations[types.SET_CURRENT_USER_WORK_PREFERENCES](state, {
+        accepts_calls: false,
+      });
+      expect(state.currentUser.accounts).toEqual([
+        { id: 1, accepts_conversations: true, accepts_calls: false },
+        { id: 2, accepts_conversations: true, accepts_calls: true },
+      ]);
+    });
+  });
   describe('#RESET_ONBOARDING', () => {
     it('removes onboarding_step from the targeted account', () => {
       const state = {
