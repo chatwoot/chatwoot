@@ -48,9 +48,18 @@ const props = defineProps({
     type: Function,
     default: () => false,
   },
+  hasNewerVersion: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['goBack', 'previewArticle', 'showDiff']);
+const emit = defineEmits([
+  'goBack',
+  'previewArticle',
+  'showDiff',
+  'reloadArticle',
+]);
 
 const { t } = useI18n();
 const store = useStore();
@@ -259,26 +268,40 @@ const onDraftFailed = error => {
 </script>
 
 <template>
-  <div class="flex items-center justify-between h-20">
+  <div class="flex items-center justify-between gap-4 h-20">
     <Button
       :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.BACK_TO_ARTICLES')"
       icon="i-lucide-chevron-left"
       variant="link"
       color="slate"
       size="sm"
-      class="ltr:pl-3 rtl:pr-3"
+      class="ps-3 shrink-0"
       @click="onClickGoBack"
     />
-    <div class="flex items-center gap-4">
+    <div class="flex items-center min-w-0 gap-4">
+      <button
+        v-if="hasNewerVersion"
+        type="button"
+        :title="t('HELP_CENTER.EDIT_ARTICLE_PAGE.NEWER_VERSION.TOOLTIP')"
+        class="flex items-center min-w-0 gap-1.5 px-2 py-1 text-xs font-medium transition-colors rounded-lg cursor-pointer text-n-blue-11 bg-n-blue-3 outline outline-1 outline-n-blue-5 hover:bg-n-blue-4"
+        @click="emit('reloadArticle')"
+      >
+        <span class="i-lucide-refresh-cw size-3 shrink-0" />
+        <span class="truncate">
+          {{ t('HELP_CENTER.EDIT_ARTICLE_PAGE.NEWER_VERSION.LABEL') }}
+        </span>
+      </button>
       <button
         v-if="hasPendingChanges"
         type="button"
         :title="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.VIEW_CHANGES')"
-        class="flex items-center gap-1.5 px-2 py-1 text-xs font-medium transition-colors rounded-lg cursor-pointer text-n-amber-11 bg-n-amber-3 outline outline-1 outline-n-amber-5 hover:bg-n-amber-4"
+        class="flex items-center min-w-0 gap-1.5 px-2 py-1 text-xs font-medium transition-colors rounded-lg cursor-pointer text-n-amber-11 bg-n-amber-3 outline outline-1 outline-n-amber-5 hover:bg-n-amber-4"
         @click="emit('showDiff')"
       >
         <span class="rounded-full size-1.5 bg-n-amber-9 shrink-0" />
-        {{ t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PENDING_CHANGES') }}
+        <span class="truncate">
+          {{ t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PENDING_CHANGES') }}
+        </span>
       </button>
       <span
         v-if="isUpdating || isSaved"
@@ -286,7 +309,7 @@ const onDraftFailed = error => {
       >
         {{ statusText }}
       </span>
-      <div class="relative flex items-center gap-2">
+      <div class="relative flex items-center gap-2 shrink-0">
         <Button
           :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW')"
           color="slate"

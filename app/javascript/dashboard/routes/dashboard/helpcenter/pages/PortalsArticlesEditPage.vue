@@ -1,8 +1,11 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useEventListener } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useAlert, useTrack } from 'dashboard/composables';
+import { useEmitter } from 'dashboard/composables/emitter';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import {
   buildPortalArticleURL,
@@ -10,6 +13,7 @@ import {
 } from 'dashboard/helper/portalHelper';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { rendersIdentically } from 'dashboard/helper/articleDiffHelper';
+import ArticlesAPI from 'dashboard/api/helpCenter/articles';
 
 import ArticleEditor from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditor.vue';
 
@@ -30,6 +34,8 @@ const portal = computed(() => portalBySlug.value(portalSlug));
 
 const isUpdating = ref(false);
 const isSaved = ref(false);
+const hasNewerVersion = ref(false);
+const articleEditorRef = ref(null);
 
 const articleLink = computed(() => {
   const { slug: categorySlug, locale: categoryLocale } = article.value.category;
@@ -144,6 +150,48 @@ const fetchArticleDetails = () => {
   });
 };
 
+// Compare without touching the store, which can reseed the editor early.
+// updated_at has second precision and skips draft autosaves, hence the text
+// fields. Skip while our own save settles, or it would read as a remote edit.
+const checkForNewerVersion = async () => {
+  if (document.visibilityState !== 'visible') return;
+  if (!article.value?.id || isUpdating.value) return;
+  const { data } = await ArticlesAPI.getArticle({
+    id: articleSlug,
+    portalSlug,
+  }).catch(() => ({}));
+  // A failed check (e.g. still offline on wake) runs again on reconnect.
+  if (!data) return;
+  const { title, content, draft_title, draft_content, updated_at } =
+    data.payload;
+  const current = article.value;
+  if (
+    title !== current.title ||
+    content !== current.content ||
+    draft_title !== current.draftTitle ||
+    draft_content !== current.draftContent ||
+    updated_at !== current.updatedAt
+  ) {
+    hasNewerVersion.value = true;
+  }
+};
+
+const loadLatestVersion = async () => {
+  const articleId = await store.dispatch('articles/show', {
+    id: articleSlug,
+    portalSlug,
+  });
+  if (!articleId) {
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.NEWER_VERSION.LOAD_ERROR'));
+    return;
+  }
+  articleEditorRef.value.syncLocalState();
+  hasNewerVersion.value = false;
+};
+
+useEventListener(document, 'visibilitychange', checkForNewerVersion);
+useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, checkForNewerVersion);
+
 const previewArticle = () => {
   window.open(articleLink.value, '_blank');
   useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
@@ -156,11 +204,14 @@ onMounted(fetchArticleDetails);
 
 <template>
   <ArticleEditor
+    ref="articleEditorRef"
+    :has-newer-version="hasNewerVersion"
     :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"
     @save-article="saveArticle"
     @preview-article="previewArticle"
     @go-back="goBackToArticles"
+    @reload-article="loadLatestVersion"
   />
 </template>
