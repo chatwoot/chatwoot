@@ -92,6 +92,11 @@
         "NO": "Cancel"
       }
     },
+    "REORDER": {
+      "API": {
+        "ERROR_MESSAGE": "Could not reorder the custom attributes. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Update",
