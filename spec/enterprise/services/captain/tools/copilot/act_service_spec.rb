@@ -41,4 +41,15 @@ RSpec.describe Captain::Tools::Copilot::ActService do
 
     expect(card).to include('count' => 1, 'coverage' => { 'reviewed' => 1, 'total' => 3 })
   end
+
+  it 'gives the card the label titles to show as chips and the time the approval expires' do
+    create(:label, account: account, title: 'sign-in')
+
+    freeze_time do
+      tool.execute(saved_set_id: collection.id, action: 'add_labels', arguments: { labels: ['sign-in'] })
+
+      expect(card).to include('values' => { 'labels' => ['sign-in'] }, 'expires_at' => 5.minutes.from_now.to_i)
+      expect(card['targets'].size).to eq(3)
+    end
+  end
 end

@@ -787,7 +787,16 @@
       },
       "APPROVAL": {
         "TITLE": "Approve this change?",
+        "TITLES": {
+          "SEND_REPLY": "Send this reply?",
+          "ADD_NOTE": "Add this note?"
+        },
         "APPROVE": "Approve",
+        "CONFIRM": {
+          "SEND_REPLY": "Send reply",
+          "ADD_NOTE": "Add note"
+        },
+        "EXPIRES_IN": "Expires in {time}",
         "REJECT": "Reject",
         "STOPPED": "Stopped",
         "ERROR": "Could not save your decision. Please try again.",

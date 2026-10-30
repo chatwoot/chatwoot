@@ -1,7 +1,5 @@
 class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowTool
   MAX_TARGETS = 500
-  # The approval card links this many targets and counts the rest.
-  PREVIEW_TARGETS = 10
   ACTIONS_HELP = Captain::Copilot::Actions.all.map { |action| "- #{action::NAME}: #{action::DESCRIPTION}" }.join("\n")
 
   def self.name
@@ -59,13 +57,9 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
   def approval_card(action_run, proposed, source)
     ids = action_run.target_ids
     approval = { status: 'awaiting_approval', action: proposed.class::NAME, arguments: action_run.context['arguments'], count: ids.size,
-                 targets: preview_links(proposed, ids), coverage: review_coverage(source) }.merge(proposed.card(ids))
+                 targets: action_run.target_links(ids), coverage: review_coverage(source),
+                 expires_at: (action_run.created_at + CopilotRun::Action::APPROVAL_TTL).to_i }.merge(proposed.card(ids))
     run.copilot_thread.copilot_messages.create!(message_type: :assistant_approval, message: { run_id: action_run.id, approval: approval.compact })
-  end
-
-  def preview_links(proposed, ids)
-    resource = Captain::Copilot::Resources.build(proposed.class::RESOURCE, account: run.account, user: run.user)
-    resource.rows(ids.first(PREVIEW_TARGETS)).map { |row| row.slice(:label, :url) }
   end
 
   # A review that stopped at its turn limit, or could not review some conversations, covers only part of its selection. The
