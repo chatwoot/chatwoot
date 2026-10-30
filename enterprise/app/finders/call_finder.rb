@@ -34,14 +34,15 @@ class CallFinder
   end
 
   # An unanswered inbound call is visible to the agents it rang, as recorded when its ring
-  # started, within the conversations the agent's role lets them see, and only while the
-  # agent is online. A phone that lost its socket asks for these on launch and on return
-  # to the foreground.
+  # started or reached them, less those who dismissed it, within the conversations the
+  # agent's role lets them see, and only while the agent is online and takes calls. A phone
+  # that lost its socket, and a web page as it loads, ask for these.
   def ringing_for_current_user
-    return @calls.none unless Current.account_user&.online?
+    return @calls.none unless Current.account_user&.online? && Current.account_user.accepts_calls
 
     @calls.where(status: 'ringing', accepted_by_agent_id: nil, direction: :incoming)
           .where("calls.ring_state -> 'ring_recipient_ids' @> ?::jsonb", [@current_user.id].to_json)
+          .where.not(Call.arel_table[:ring_state].contains('dismissed_user_ids' => [@current_user.id]))
           .where(conversation_id: permitted_conversations.select(:id))
   end
 

@@ -35,6 +35,39 @@ describe Voice::Provider::Twilio::ConferenceService do
     end
   end
 
+  describe '#dismiss' do
+    let(:agent) { create(:user, account: account) }
+    let(:teammate) { create(:user, account: account) }
+    let(:message) { create(:message, account: account, inbox: channel.inbox, conversation: conversation, content_type: 'voice_call') }
+
+    before { call.update!(message: message, ring_state: { 'ring_recipient_ids' => [agent.id, teammate.id] }) }
+
+    it 'stops the ring for the agent only and names who still rings on the message' do
+      service.dismiss(agent)
+
+      expect(call.reload).to be_ringing
+      expect(call.dismissed_user_ids).to eq([agent.id])
+      expect(message.reload.content_attributes.dig('data', 'ring_user_ids')).to eq([teammate.id])
+    end
+
+    it 'changes nothing for an agent the call does not ring, or a repeated dismiss' do
+      outsider = create(:user, account: account)
+      service.dismiss(agent)
+      service.dismiss(agent)
+      service.dismiss(outsider)
+
+      expect(call.reload.dismissed_user_ids).to eq([agent.id])
+    end
+
+    it 'leaves a call that is no longer ringing alone' do
+      call.update!(status: 'in_progress')
+
+      service.dismiss(agent)
+
+      expect(call.reload.dismissed_user_ids).to be_empty
+    end
+  end
+
   describe '#mark_agent_joined' do
     it 'sets accepted_by_agent on the Call' do
       agent = create(:user, account: account)

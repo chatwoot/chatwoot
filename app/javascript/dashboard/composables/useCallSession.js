@@ -225,9 +225,27 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     }
   };
 
-  const dismissCall = callSid => {
+  // Hidden here at once; an inbound Twilio call is also dismissed on the server, which closes
+  // this agent's other tabs while the call keeps ringing everyone else
+  const dismissCall = async callSid => {
+    const call = findCall(callSid);
     markCallDismissed(callSid);
     callsStore.dismissCall(callSid);
+    if (
+      isWhatsappCall(call) ||
+      call?.callDirection !== VOICE_CALL_DIRECTION.INBOUND
+    )
+      return;
+
+    try {
+      await VoiceAPI.dismissRing({
+        inboxId: call.inboxId,
+        conversationId: call.conversationId,
+        callSid,
+      });
+    } catch (_) {
+      useAlert(t('CONVERSATION.VOICE_CALL.DISMISS_FAILED'));
+    }
   };
 
   // Twilio's mute: the caller hears hold music while the agent still hears them

@@ -31,6 +31,12 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     }
   end
 
+  # Stops the ring for this agent only; the caller keeps waiting for the others
+  def dismiss
+    Voice::Provider::Twilio::ConferenceService.new(call: resolve_call!).dismiss(Current.user)
+    head :ok
+  end
+
   def destroy
     call = resolve_call!
     # Teardown holds the row lock so the status callbacks it triggers can't finalize the call first;
