@@ -95,6 +95,42 @@ RSpec.describe WorkingHour do
     end
   end
 
+  context 'when the day closes at 11:59 PM' do
+    let(:inbox) { create(:inbox) }
+    let(:working_hour) { inbox.working_hours.find_by(day_of_week: 1) }
+
+    before do
+      Time.zone = 'UTC'
+      working_hour.update(open_hour: 9, open_minutes: 0, close_hour: 23, close_minutes: 59)
+    end
+
+    it 'is considered open for the whole of the closing minute' do
+      expect(working_hour.open_at?('26.10.2020 23:59:30'.to_datetime)).to be true
+      expect(working_hour.open_at?('26.10.2020 23:59:59'.to_datetime)).to be true
+    end
+
+    it 'is considered closed at midnight' do
+      expect(working_hour.open_at?('27.10.2020 00:00:00'.to_datetime)).to be false
+    end
+  end
+
+  context 'when the day closes at 5 PM' do
+    before do
+      Time.zone = 'UTC'
+      create(:working_hour)
+    end
+
+    it 'is considered open until the end of the closing minute' do
+      travel_to '26.10.2020 17:00:59'.to_datetime
+      expect(described_class.today.open_now?).to be true
+    end
+
+    it 'is considered closed once the closing minute has passed' do
+      travel_to '26.10.2020 17:01:00'.to_datetime
+      expect(described_class.today.closed_now?).to be true
+    end
+  end
+
   context 'when on monday 9am in Sydney timezone' do
     let(:inbox) { create(:inbox) }
 
