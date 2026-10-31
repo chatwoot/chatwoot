@@ -320,6 +320,7 @@ class Message < ApplicationRecord
 
   def new_user_identifier
     return unless inbox&.user_identifier_enabled?
+    return if conversation&.user_identifier_enabled == false
     return unless identifiable_reply?
     return if automated_identifier_message?
 

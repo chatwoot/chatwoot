@@ -65,13 +65,16 @@ class Conversation < ApplicationRecord
   include PushDataHelper
   include ConversationMuteHelpers
 
-  CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
+  CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language user_identifier_enabled].freeze
   FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
   FILTERED_UNREAD_COUNT_UPDATE_KEYS = %w[
     cached_label_list campaign_id custom_attributes first_reply_created_at label_list last_activity_at priority snoozed_until waiting_since
   ].freeze
   private_constant :CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS, :FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS,
                    :FILTERED_UNREAD_COUNT_UPDATE_KEYS
+
+  store_accessor :additional_attributes, :user_identifier_enabled
+  validates :user_identifier_enabled, inclusion: { in: [true, false] }, allow_nil: true
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true

@@ -1,5 +1,11 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "ON": "Identifier: on",
+      "OFF": "Identifier: off",
+      "HELP": "Include your name above replies in this conversation",
+      "ERROR": "Could not update the identifier setting. Please try again."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",
