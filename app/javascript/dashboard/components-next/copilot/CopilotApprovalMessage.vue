@@ -202,7 +202,8 @@ const decide = async choice => {
     >
       {{ approval.content }}
     </p>
-    <div v-if="linkRow" class="flex flex-wrap gap-x-2 gap-y-1">
+    <!-- Links get a shorter line height from the global link style, so the row lines up text by its baseline. -->
+    <div v-if="linkRow" class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
       <span v-if="linkRow.notChanged" class="text-n-amber-11">
         {{
           t('CAPTAIN.COPILOT.APPROVAL.NOT_CHANGED', { count: linkRow.total })

@@ -23,7 +23,8 @@ const values = computed(() => {
   return params;
 });
 
-// Labels show as the chips agents know from conversations, in the label's own color.
+// Labels show as the chips agents know from conversations, in the label's own color. Their text is smaller than the
+// sentence, so the template lifts them 1px to center them on the line.
 const labels = computed(() =>
   (values.value.labels || []).map(
     title => accountLabels.value.find(label => label.title === title) || title
@@ -44,7 +45,7 @@ const labels = computed(() =>
       <span
         v-if="name === 'labels'"
         :key="name"
-        class="inline-flex flex-wrap gap-1 align-middle"
+        class="inline-flex flex-wrap gap-1 align-middle -translate-y-px"
       >
         <Label
           v-for="label in labels"
