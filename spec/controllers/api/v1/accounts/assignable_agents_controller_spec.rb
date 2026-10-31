@@ -63,6 +63,26 @@ RSpec.describe 'Assignable Agents API', type: :request do
         expect(response_data.pluck(:role)).to include('agent', 'administrator')
       end
 
+      it 'does not run additional queries per agent' do
+        request_query_count = lambda do
+          count = 0
+          counter = ->(*, payload) { count += 1 unless %w[SCHEMA TRANSACTION].include?(payload[:name]) || payload[:cached] }
+          ActiveSupport::Notifications.subscribed(counter, 'sql.active_record') do
+            get "/api/v1/accounts/#{account.id}/assignable_agents",
+                params: { inbox_ids: [inbox1.id] },
+                headers: agent1.create_new_auth_token,
+                as: :json
+          end
+          count
+        end
+
+        request_query_count.call
+        baseline = request_query_count.call
+        create_list(:user, 3, account: account, role: :agent).each { |user| create(:inbox_member, user: user, inbox: inbox1) }
+
+        expect(request_query_count.call).to eq(baseline)
+      end
+
       context 'with Agent Bots' do
         let!(:account_bot) { create(:agent_bot, account: account, name: 'Account bot') }
         let!(:global_bot) { create(:agent_bot, account: nil, name: 'Global bot') }
