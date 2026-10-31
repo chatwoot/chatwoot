@@ -1,7 +1,7 @@
 import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
-import { findPendingMessageIndex } from './helpers';
+import { findPendingMessageIndex, resolveMessageStatus } from './helpers';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
@@ -209,8 +209,13 @@ export const mutations = {
 
   [types.ADD_CONVERSATION_ATTACHMENTS](_state, message) {
     // early return if the message has not been sent, or has no attachments
+    const allowedStatuses = [
+      MESSAGE_STATUS.SENT,
+      MESSAGE_STATUS.DELIVERED,
+      MESSAGE_STATUS.READ,
+    ];
     if (
-      message.status !== MESSAGE_STATUS.SENT ||
+      !allowedStatuses.includes(message.status) ||
       !message.attachments?.length
     ) {
       return;
@@ -232,7 +237,12 @@ export const mutations = {
   },
 
   [types.DELETE_CONVERSATION_ATTACHMENTS](_state, message) {
-    if (message.status !== MESSAGE_STATUS.SENT) return;
+    const allowedStatuses = [
+      MESSAGE_STATUS.SENT,
+      MESSAGE_STATUS.DELIVERED,
+      MESSAGE_STATUS.READ,
+    ];
+    if (!allowedStatuses.includes(message.status)) return;
 
     const { conversation_id: id } = message;
     const existingAttachments = _state.attachments[id] || [];
@@ -253,7 +263,16 @@ export const mutations = {
 
     const pendingMessageIndex = findPendingMessageIndex(chat, message);
     if (pendingMessageIndex !== -1) {
-      chat.messages[pendingMessageIndex] = message;
+      const existingMessage = chat.messages[pendingMessageIndex];
+      const mergedStatus = resolveMessageStatus(
+        existingMessage.status,
+        message.status
+      );
+      chat.messages[pendingMessageIndex] = {
+        ...existingMessage,
+        ...message,
+        status: mergedStatus,
+      };
     } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
