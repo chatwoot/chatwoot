@@ -167,37 +167,40 @@ const decide = async choice => {
   <div
     class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1 text-n-slate-12"
   >
-    <!-- While the agent decides, the first line is the change itself. After the decision, it is the outcome. -->
-    <div class="flex flex-wrap items-center gap-x-2 gap-y-1" role="status">
-      <CopilotApprovalSummary
-        v-if="isAwaitingApproval"
-        :approval="approval"
-        emphasis
-      />
-      <template v-else-if="isApplying">
-        <Spinner :size="16" class="flex-shrink-0 text-n-slate-9" />
-        <span class="tabular-nums">
-          {{
-            t('CAPTAIN.COPILOT.APPROVAL.PROGRESS', {
-              done: progress.done,
-              total: progress.total,
-            })
-          }}
-        </span>
-      </template>
-      <template v-else>
-        <Icon
-          :icon="outcome.icon"
-          class="flex-shrink-0 size-4"
-          :class="outcome.color"
+    <!-- While the agent decides, the first line is the change itself. After the decision, it is the outcome, with the change
+    under it as one unit. -->
+    <div class="flex flex-col gap-1">
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-1" role="status">
+        <CopilotApprovalSummary
+          v-if="isAwaitingApproval"
+          :approval="approval"
+          emphasis
         />
-        <span class="font-medium">{{ outcome.label }}</span>
-        <span v-if="outcome.detail" class="text-n-slate-11">
-          {{ outcome.detail }}
-        </span>
-      </template>
+        <template v-else-if="isApplying">
+          <Spinner :size="16" class="flex-shrink-0 text-n-slate-9" />
+          <span class="tabular-nums">
+            {{
+              t('CAPTAIN.COPILOT.APPROVAL.PROGRESS', {
+                done: progress.done,
+                total: progress.total,
+              })
+            }}
+          </span>
+        </template>
+        <template v-else>
+          <Icon
+            :icon="outcome.icon"
+            class="flex-shrink-0 size-4"
+            :class="outcome.color"
+          />
+          <span class="font-medium">{{ outcome.label }}</span>
+          <span v-if="outcome.detail" class="text-n-slate-11">
+            {{ outcome.detail }}
+          </span>
+        </template>
+      </div>
+      <CopilotApprovalSummary v-if="!isAwaitingApproval" :approval="approval" />
     </div>
-    <CopilotApprovalSummary v-if="!isAwaitingApproval" :approval="approval" />
     <p
       v-if="approval.content"
       class="self-end max-w-[90%] px-3 py-2 m-0 rounded-xl rounded-ee-sm whitespace-pre-wrap break-words"
