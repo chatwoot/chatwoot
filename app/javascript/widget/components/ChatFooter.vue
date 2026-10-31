@@ -80,12 +80,15 @@ export default {
         this.getAttributes();
       }
     },
-    async handleSendAttachment(attachment) {
-      await this.sendAttachment({
-        attachment,
-        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
-      });
+    // A large file selection is sent as several messages; the later ones pass
+    // back the reply target returned here, since the preview clears after one.
+    async handleSendAttachment(
+      attachment,
+      replyTo = this.inReplyTo ? this.inReplyTo.id : null
+    ) {
+      await this.sendAttachment({ attachment, replyTo });
       this.inReplyTo = null;
+      return replyTo;
     },
     startNewConversation() {
       this.router.replace({ name: 'prechat-form' });

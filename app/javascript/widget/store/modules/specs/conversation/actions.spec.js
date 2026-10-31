@@ -157,7 +157,9 @@ describe('#actions', () => {
   describe('#sendAttachment', () => {
     it('sends correct mutations', () => {
       const mockDate = new Date(1466424490000);
-      getUuid.mockImplementationOnce(() => '1111');
+      getUuid
+        .mockImplementationOnce(() => '2222')
+        .mockImplementationOnce(() => '1111');
       const spy = vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
       const thumbUrl = '';
       const attachment = { thumbUrl, fileType: 'file' };
@@ -177,8 +179,53 @@ describe('#actions', () => {
         replyTo: 135,
         attachments: [
           {
+            id: '2222',
             thumb_url: '',
             data_url: '',
+            file_type: 'file',
+            status: 'in_progress',
+          },
+        ],
+      });
+    });
+
+    it('sends correct mutations for multiple attachments', () => {
+      const mockDate = new Date(1466424490000);
+      getUuid
+        .mockImplementationOnce(() => 'att-1')
+        .mockImplementationOnce(() => 'att-2')
+        .mockImplementationOnce(() => 'msg-1');
+      const spy = vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      const attachment = [
+        { thumbUrl: 'a', fileType: 'image' },
+        { thumbUrl: 'b', fileType: 'file' },
+      ];
+      const state = { pendingCustomAttributes: {}, pendingLabels: [] };
+
+      actions.sendAttachment(
+        { commit, dispatch, state },
+        { attachment, replyTo: 135 }
+      );
+      spy.mockRestore();
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 'msg-1',
+        content: undefined,
+        status: 'in_progress',
+        created_at: 1466424490,
+        message_type: 0,
+        replyTo: 135,
+        attachments: [
+          {
+            id: 'att-1',
+            thumb_url: 'a',
+            data_url: 'a',
+            file_type: 'image',
+            status: 'in_progress',
+          },
+          {
+            id: 'att-2',
+            thumb_url: 'b',
+            data_url: 'b',
             file_type: 'file',
             status: 'in_progress',
           },
