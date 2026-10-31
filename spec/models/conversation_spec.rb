@@ -286,7 +286,8 @@ RSpec.describe Conversation do
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, a_hash_including(message_type: :activity, content: "Conversation was marked resolved by #{old_assignee.name}",
-                                             content_attributes: { activity: a_hash_including(type: 'conversation_status_changed', status: 'resolved') })))
+                                             content_attributes: { activity: a_hash_including(type: 'conversation_status_changed',
+                                                                                              status: 'resolved') })))
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, a_hash_including(message_type: :activity, content: "Assigned to #{new_assignee.name} by #{old_assignee.name}")))
@@ -308,7 +309,8 @@ RSpec.describe Conversation do
       expect { conversation2.update(status: :resolved) }
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation2, a_hash_including(message_type: :activity, content: system_resolved_message,
-                                              content_attributes: { activity: a_hash_including(type: 'conversation_status_changed', status: 'resolved') }))
+                                              content_attributes: { activity: a_hash_including(type: 'conversation_status_changed',
+                                                                                               status: 'resolved') }))
     end
   end
 

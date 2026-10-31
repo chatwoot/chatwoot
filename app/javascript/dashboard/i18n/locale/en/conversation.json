@@ -238,6 +238,56 @@
       "ERROR": "Could not load suggestions. Please try again.",
       "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
+    "ACTIVITY": {
+      "ACTORS": {
+        "AUTOMATION": "Automation System",
+        "ASSIGNMENT_POLICY": "Automation System via {policyName}",
+        "DEFAULT_POLICY": "Default Policy"
+      },
+      "CAPTAIN": {
+        "RESOLVED": "Conversation was marked resolved by {userName} due to inactivity",
+        "RESOLVED_WITH_REASON": "Conversation was marked resolved by {userName} ({reason})",
+        "RESOLVED_BY_TOOL": "Conversation was marked resolved by {userName}: {reason}",
+        "OPEN": "Conversation was marked open by {userName}",
+        "OPEN_WITH_REASON": "Conversation was marked open by {userName} ({reason})"
+      },
+      "STATUS": {
+        "RESOLVED": "Conversation was marked resolved by {userName}",
+        "CONTACT_RESOLVED": "Conversation was resolved by {contactName}",
+        "OPEN": "Conversation was reopened by {userName}",
+        "PENDING": "Conversation was marked as pending by {userName}",
+        "SNOOZED": "Conversation was snoozed by {userName}",
+        "AUTO_RESOLVED_DAYS": "Conversation was marked resolved by system due to {count} day of inactivity | Conversation was marked resolved by system due to {count} days of inactivity",
+        "AUTO_RESOLVED_HOURS": "Conversation was marked resolved by system due to {count} hour of inactivity | Conversation was marked resolved by system due to {count} hours of inactivity",
+        "AUTO_RESOLVED_MINUTES": "Conversation was marked resolved by system due to {count} minute of inactivity | Conversation was marked resolved by system due to {count} minutes of inactivity",
+        "SYSTEM_AUTO_OPEN": "System reopened the conversation due to a new incoming message."
+      },
+      "PRIORITY": {
+        "ADDED": "{userName} set the priority to {newPriority}",
+        "UPDATED": "{userName} changed the priority from {oldPriority} to {newPriority}",
+        "REMOVED": "{userName} removed the priority"
+      },
+      "ASSIGNEE": {
+        "SELF_ASSIGNED": "{userName} self-assigned this conversation",
+        "ASSIGNED": "Assigned to {assigneeName} by {userName}",
+        "REMOVED": "Conversation unassigned by {userName}"
+      },
+      "TEAM": {
+        "ASSIGNED": "Assigned to {teamName} by {userName}",
+        "ASSIGNED_WITH_ASSIGNEE": "Assigned to {assigneeName} via {teamName} by {userName}",
+        "REMOVED": "Unassigned from {teamName} by {userName}"
+      },
+      "LABELS": {
+        "ADDED": "{userName} added {labels}",
+        "REMOVED": "{userName} removed {labels}"
+      },
+      "SLA": {
+        "ADDED": "{userName} added SLA policy {slaName}",
+        "REMOVED": "{userName} removed SLA policy {slaName}"
+      },
+      "MUTED": "{userName} has muted the conversation",
+      "UNMUTED": "{userName} has unmuted the conversation"
+    },
     "PRIORITY": {
       "TITLE": "Priority",
       "OPTIONS": {
