@@ -17,6 +17,7 @@ RSpec.describe User do
     it { is_expected.to have_many(:assigned_conversations).dependent(:nullify) }
     it { is_expected.to have_many(:inbox_members).dependent(:destroy_async) }
     it { is_expected.to have_many(:notification_settings).dependent(:destroy_async) }
+    it { is_expected.to have_many(:platform_app_permissibles).dependent(:destroy) }
     it { is_expected.to have_many(:messages) }
     it { is_expected.to have_many(:reporting_events) }
     it { is_expected.to have_many(:teams) }
@@ -25,6 +26,14 @@ RSpec.describe User do
   describe 'concerns' do
     it_behaves_like 'access_tokenable'
     it_behaves_like 'avatarable'
+  end
+
+  describe 'platform app permissibles' do
+    it 'destroys associated platform_app_permissibles' do
+      create(:platform_app_permissible, platform_app: create(:platform_app), permissible: user)
+
+      expect { user.destroy! }.to change(PlatformAppPermissible, :count).by(-1)
+    end
   end
 
   describe 'pubsub_token' do
