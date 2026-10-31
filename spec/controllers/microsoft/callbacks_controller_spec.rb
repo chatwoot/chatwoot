@@ -20,7 +20,8 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
     it 'creates inboxes if authentication is successful' do
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
         .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
-                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
+                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback",
+                      'scope' => 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All openid profile email' })
         .to_return(status: 200, body: response_body_success.to_json, headers: { 'Content-Type' => 'application/json' })
 
       get microsoft_callback_url, params: { code: code, state: state }
@@ -43,7 +44,8 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
       }
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
         .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
-                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
+                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback",
+                      'scope' => 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All openid profile email' })
         .to_return(status: 200, body: response_body.to_json, headers: { 'Content-Type' => 'application/json' })
 
       get microsoft_callback_url, params: { code: code, state: state }
@@ -59,7 +61,8 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
 
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
         .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
-                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
+                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback",
+                      'scope' => 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All openid profile email' })
         .to_return(status: 200, body: response_body_success.to_json, headers: { 'Content-Type' => 'application/json' })
 
       get microsoft_callback_url, params: { code: code, state: state }
@@ -74,7 +77,8 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
     it 'creates inboxes with fallback_name when account name is not present in id_token' do
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
         .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
-                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
+                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback",
+                      'scope' => 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All openid profile email' })
         .to_return(status: 200, body: response_body_success_without_name.to_json, headers: { 'Content-Type' => 'application/json' })
 
       get microsoft_callback_url, params: { code: code, state: state }
@@ -88,7 +92,8 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
     it 'redirects to microsoft app in case of error' do
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
         .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
-                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
+                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback",
+                      'scope' => 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All openid profile email' })
         .to_return(status: 401)
 
       get microsoft_callback_url, params: { code: code, state: state }
