@@ -1668,6 +1668,10 @@
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voice"
+    },
+    "USER_IDENTIFIER": {
+      "LABEL": "User identifier",
+      "DESCRIPTION": "Automatically identify agents in bold above their messages. Enabled by default for each conversation. Agents can toggle it in the reply composer to send exact commands to bots. Personal signatures remain separate below the message."
     }
   }
 }

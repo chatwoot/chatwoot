@@ -16,6 +16,7 @@ import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/componen
 import CopilotEditorSection from './CopilotEditorSection.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import ReplyBoxBanner from './ReplyBoxBanner.vue';
+import UserIdentifierToggle from './UserIdentifierToggle.vue';
 import QuotedEmailPreview from './QuotedEmailPreview.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -71,6 +72,7 @@ export default {
     AttachmentPreview,
     AudioRecorder,
     ReplyBoxBanner,
+    UserIdentifierToggle,
     EmojiIconPicker,
     MessageSignatureMissingAlert,
     ReplyBottomPanel,
@@ -1416,6 +1418,12 @@ export default {
           @record-error="onRecordError"
           @play="recordingAudioState = 'playing'"
           @pause="recordingAudioState = 'paused'"
+        />
+        <UserIdentifierToggle
+          v-if="inbox.user_identifier_enabled && !isPrivate"
+          :key="currentChat.id"
+          :conversation="currentChat"
+          :name="currentUser.display_name || currentUser.name"
         />
         <CopilotEditorSection
           v-if="copilot.isActive.value && !showAudioRecorderEditor"
