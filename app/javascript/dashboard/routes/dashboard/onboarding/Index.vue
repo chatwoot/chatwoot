@@ -299,6 +299,7 @@ const handleSubmit = async () => {
               <NextButton
                 type="button"
                 icon="i-lucide-pencil"
+                :aria-label="t('ONBOARDING_NEXT.EDIT_WEBSITE')"
                 slate
                 xs
                 ghost
