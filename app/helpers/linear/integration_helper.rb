@@ -1,4 +1,6 @@
 module Linear::IntegrationHelper
+  include OauthStateTokenHelper
+
   # Generates a signed JWT token for Linear integration
   #
   # @param account_id [Integer] The account ID to encode in the token
@@ -6,10 +8,7 @@ module Linear::IntegrationHelper
   def generate_linear_token(account_id)
     return if client_secret.blank?
 
-    JWT.encode(token_payload(account_id), client_secret, 'HS256')
-  rescue StandardError => e
-    Rails.logger.error("Failed to generate Linear token: #{e.message}")
-    nil
+    generate_oauth_state_token('Linear', client_secret, token_payload(account_id))
   end
 
   def token_payload(account_id)
@@ -26,22 +25,12 @@ module Linear::IntegrationHelper
   def verify_linear_token(token)
     return if token.blank? || client_secret.blank?
 
-    decode_token(token, client_secret)
+    decode_oauth_state_token('Linear', token, client_secret)&.dig('sub')
   end
 
   private
 
   def client_secret
     @client_secret ||= GlobalConfigService.load('LINEAR_CLIENT_SECRET', nil)
-  end
-
-  def decode_token(token, secret)
-    JWT.decode(token, secret, true, {
-                 algorithm: 'HS256',
-                 verify_expiration: true
-               }).first['sub']
-  rescue StandardError => e
-    Rails.logger.error("Unexpected error verifying Linear token: #{e.message}")
-    nil
   end
 end
