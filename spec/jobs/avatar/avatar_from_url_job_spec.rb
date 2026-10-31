@@ -103,7 +103,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
       expect(avatarable.additional_attributes['last_avatar_sync_at']).to be_present
       expect(Time.zone.parse(avatarable.additional_attributes['last_avatar_sync_at']))
         .to be > Time.zone.parse(ts)
-      expect(avatarable.additional_attributes['avatar_url_hash']).to eq(Digest::SHA256.hexdigest(valid_url))
+      expect(avatarable.additional_attributes['avatar_url_hash']).to be_nil
       expect(WebMock).not_to have_requested(:get, valid_url)
     end
 
@@ -125,16 +125,16 @@ RSpec.describe Avatar::AvatarFromUrlJob do
       expect(WebMock).not_to have_requested(:get, valid_url)
     end
 
-    it 'updates sync attributes even when URL is invalid' do
+    it 'updates the sync timestamp but not the URL hash when URL is invalid' do
       invalid_url = 'invalid_url'
       described_class.perform_now(avatarable, invalid_url)
       avatarable.reload
       expect(avatarable.avatar).not_to be_attached
       expect(avatarable.additional_attributes['last_avatar_sync_at']).to be_present
-      expect(avatarable.additional_attributes['avatar_url_hash']).to eq(Digest::SHA256.hexdigest(invalid_url))
+      expect(avatarable.additional_attributes['avatar_url_hash']).to be_nil
     end
 
-    it 'updates sync attributes when file download is valid but content type is unsupported' do
+    it 'updates the sync timestamp but not the URL hash when content type is unsupported' do
       stub_request(:get, valid_url)
         .to_return(
           status: 200,
@@ -147,10 +147,72 @@ RSpec.describe Avatar::AvatarFromUrlJob do
 
       expect(avatarable.avatar).not_to be_attached
       expect(avatarable.additional_attributes['last_avatar_sync_at']).to be_present
-      expect(avatarable.additional_attributes['avatar_url_hash']).to eq(Digest::SHA256.hexdigest(valid_url))
+      expect(avatarable.additional_attributes['avatar_url_hash']).to be_nil
     end
 
-    it 'updates sync attributes when the avatar URL is blocked by SSRF protection' do
+    # ref: https://github.com/chatwoot/chatwoot/issues/16004
+    context 'when the server responds with application/octet-stream' do
+      let(:telegram_url) { 'https://example.com/file/bot123:abc/photos/file_1.jpg' }
+
+      it 'sniffs the real image type and attaches the avatar' do
+        stub_request(:get, telegram_url)
+          .to_return(
+            status: 200,
+            body: File.binread(Rails.root.join('spec/assets/avatar.png')),
+            headers: { 'Content-Type' => 'application/octet-stream' }
+          )
+
+        described_class.perform_now(avatarable, telegram_url)
+        avatarable.reload
+
+        expect(avatarable.avatar).to be_attached
+        expect(avatarable.avatar.blob.content_type).to eq('image/png')
+        expect(avatarable.additional_attributes['avatar_url_hash']).to eq(Digest::SHA256.hexdigest(telegram_url))
+      end
+
+      it 'rejects a non-image payload and does not store the URL hash' do
+        stub_request(:get, telegram_url)
+          .to_return(
+            status: 200,
+            body: '<html><body>not an image</body></html>',
+            headers: { 'Content-Type' => 'application/octet-stream' }
+          )
+
+        described_class.perform_now(avatarable, telegram_url)
+        avatarable.reload
+
+        expect(avatarable.avatar).not_to be_attached
+        expect(avatarable.additional_attributes['last_avatar_sync_at']).to be_present
+        expect(avatarable.additional_attributes['avatar_url_hash']).to be_nil
+      end
+    end
+
+    it 'retries the same URL on a later sync after a failed download' do
+      stub_request(:get, valid_url)
+        .to_return(status: 500, body: '')
+        .then
+        .to_return(
+          status: 200,
+          body: File.binread(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+      described_class.perform_now(avatarable, valid_url)
+      avatarable.reload
+      expect(avatarable.avatar).not_to be_attached
+      expect(avatarable.additional_attributes['avatar_url_hash']).to be_nil
+
+      travel_to(2.minutes.from_now) do
+        described_class.perform_now(avatarable, valid_url)
+      end
+      avatarable.reload
+
+      expect(avatarable.avatar).to be_attached
+      expect(avatarable.additional_attributes['avatar_url_hash']).to eq(Digest::SHA256.hexdigest(valid_url))
+      expect(WebMock).to have_requested(:get, valid_url).twice
+    end
+
+    it 'updates the sync timestamp when the avatar URL is blocked by SSRF protection' do
       blocked_url = 'http://127.0.0.1/avatar.png'
 
       expect do
@@ -160,7 +222,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
       avatarable.reload
       expect(avatarable.avatar).not_to be_attached
       expect(avatarable.additional_attributes['last_avatar_sync_at']).to be_present
-      expect(avatarable.additional_attributes['avatar_url_hash']).to eq(Digest::SHA256.hexdigest(blocked_url))
+      expect(avatarable.additional_attributes['avatar_url_hash']).to be_nil
     end
   end
 
@@ -190,7 +252,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
         valid_url,
         max_bytes: Avatar::AvatarFromUrlJob::MAX_DOWNLOAD_SIZE,
         allowed_content_type_prefixes: [],
-        allowed_content_types: Avatar::AvatarFromUrlJob::ALLOWED_CONTENT_TYPES
+        allowed_content_types: Avatar::AvatarFromUrlJob::ALLOWED_CONTENT_TYPES + ['application/octet-stream']
       ).and_yield(
         SafeFetch::Result.new(
           tempfile: invalid_file,
