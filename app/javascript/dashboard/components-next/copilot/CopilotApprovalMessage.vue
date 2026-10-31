@@ -27,19 +27,7 @@ const { t } = useI18n();
 const isSubmitting = ref(false);
 
 const approval = computed(() => props.message.approval);
-
-// The server expires the change on its own and then sends the expired card. The card shows the change as expired as
-// soon as the countdown reaches zero, so the agent can't approve a change the server will refuse.
-const { now, pause } = useNow({ interval: 1000, controls: true });
-const secondsLeft = computed(
-  () => approval.value.expires_at - Math.floor(now.value / 1000)
-);
-const status = computed(() => {
-  const { status: savedStatus } = approval.value;
-  return savedStatus === 'awaiting_approval' && secondsLeft.value <= 0
-    ? 'expired'
-    : savedStatus;
-});
+const status = computed(() => approval.value.status);
 const isAwaitingApproval = computed(() => status.value === 'awaiting_approval');
 const isDeclined = computed(() =>
   ['rejected', 'expired'].includes(status.value)
@@ -66,6 +54,8 @@ const bubbleClass = computed(() => {
     : 'bg-n-solid-amber text-n-amber-12';
 });
 
+// The approval expires on the server. The countdown only tells the agent how long they have.
+const { now, pause } = useNow({ interval: 1000, controls: true });
 watch(
   isAwaitingApproval,
   awaiting => {
@@ -73,7 +63,11 @@ watch(
   },
   { immediate: true }
 );
-const timeLeft = computed(() => formatDuration(secondsLeft.value));
+const timeLeft = computed(() =>
+  formatDuration(
+    Math.max(0, approval.value.expires_at - Math.floor(now.value / 1000))
+  )
+);
 
 const outcome = computed(() => {
   if (status.value === 'rejected') {
@@ -170,7 +164,7 @@ const decide = async choice => {
     <!-- While the agent decides, the first line is the change itself. After the decision, it is the outcome, with the change
     under it as one unit. -->
     <div class="flex flex-col gap-1">
-      <div class="flex flex-wrap items-center gap-x-2 gap-y-1" role="status">
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
         <CopilotApprovalSummary
           v-if="isAwaitingApproval"
           :approval="approval"
@@ -284,12 +278,6 @@ const decide = async choice => {
       v-else-if="isApplying"
       :done="progress.done"
       :total="progress.total"
-      :aria-label="
-        t('CAPTAIN.COPILOT.APPROVAL.PROGRESS', {
-          done: progress.done,
-          total: progress.total,
-        })
-      "
     />
   </div>
 </template>

@@ -83,19 +83,4 @@ describe('CopilotApprovalMessage', () => {
     ).toEqual(targets.map(target => target.url));
     expect(wrapper.find('button').exists()).toBe(false);
   });
-
-  it('shows the change as expired once the countdown runs out', () => {
-    const wrapper = mountCard({
-      status: 'awaiting_approval',
-      action: 'add_labels',
-      summary: 'ADD_LABELS',
-      values: { labels: ['sign-in'] },
-      count: 2,
-      targets,
-      expires_at: Math.floor(Date.now() / 1000) - 1,
-    });
-
-    expect(wrapper.text()).toContain('Expired');
-    expect(wrapper.find('button').exists()).toBe(false);
-  });
 });

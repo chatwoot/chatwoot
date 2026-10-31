@@ -44,8 +44,7 @@ RSpec.describe Captain::Copilot::ActionJob do
 
     progress = card.reload.message.dig('approval', 'progress')
     expect(progress).to include('finished' => true, 'applied' => 0, 'not_changed' => 2)
-    expect(progress['not_changed_targets'].pluck('label')).to eq(["#{labeled.contact.name} ##{labeled.display_id}",
-                                                                  "#{unlabeled.contact.name} ##{unlabeled.display_id}"])
+    expect(progress['not_changed_targets'].pluck('label')).to eq(["##{labeled.display_id}", "##{unlabeled.display_id}"])
   end
 
   describe 'sending a reply' do

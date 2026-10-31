@@ -272,7 +272,7 @@ watch(
     <div
       v-else
       ref="chatContainer"
-      class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
+      class="flex-1 flex px-4 py-4 overflow-y-auto no-scrollbar items-start"
     >
       <p v-if="isLoadingSelectedThread" role="status" class="text-n-slate-11">
         {{ t('CAPTAIN.COPILOT.LOADING_CHAT') }}
@@ -317,7 +317,7 @@ watch(
       />
     </div>
 
-    <div v-show="!showHistory" class="mx-3 mt-px mb-2">
+    <div v-show="!showHistory" class="mx-4 mt-px mb-2">
       <div class="flex items-center gap-2 justify-between w-full mb-1">
         <ToggleCopilotAssistant
           v-if="assistants.length > 1 && !selectedThreadId"

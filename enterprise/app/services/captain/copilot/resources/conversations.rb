@@ -5,7 +5,7 @@ class Captain::Copilot::Resources::Conversations < Captain::Copilot::Resources::
   FILTERS = { labels: { type: 'array', minItems: 1, items: { type: 'string' }, description: 'Conversations with any of these labels' } }.freeze
   SOURCES = {}.freeze
   COLUMNS = ['Status', 'Assignee', 'Labels', 'Last activity'].freeze
-  PRELOAD = [:assignee, :contact].freeze
+  PRELOAD = [:assignee].freeze
   GROUPS = %w[label].freeze
 
   def scope
@@ -17,7 +17,7 @@ class Captain::Copilot::Resources::Conversations < Captain::Copilot::Resources::
   end
 
   def row(conversation)
-    { label: "##{conversation.display_id}", url: url("conversations/#{conversation.display_id}"), contact: conversation.contact.name,
+    { label: "##{conversation.display_id}", url: url("conversations/#{conversation.display_id}"),
       values: [conversation.status, conversation.assignee&.name || 'Unassigned', conversation.cached_label_list_array.join(', '),
                conversation.last_activity_at&.to_date] }
   end
