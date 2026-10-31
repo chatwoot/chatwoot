@@ -203,6 +203,58 @@ describe('useAttachments', () => {
     });
   });
 
+  describe('canTranscribeAudio', () => {
+    const originalMediaRecorder = window.MediaRecorder;
+    const originalMediaDevices = navigator.mediaDevices;
+
+    const enableRecordingSupport = () => {
+      window.MediaRecorder = function MediaRecorder() {};
+      Object.defineProperty(navigator, 'mediaDevices', {
+        value: { getUserMedia: vi.fn() },
+        configurable: true,
+      });
+    };
+
+    afterEach(() => {
+      window.MediaRecorder = originalMediaRecorder;
+      Object.defineProperty(navigator, 'mediaDevices', {
+        value: originalMediaDevices,
+        configurable: true,
+      });
+    });
+
+    it('returns true when the server enables it and the browser supports recording', () => {
+      enableRecordingSupport();
+      window.chatwootWebChannel = { audioTranscriptionEnabled: true };
+
+      const { canTranscribeAudio } = useAttachments();
+
+      expect(canTranscribeAudio.value).toBe(true);
+    });
+
+    it('returns false when the server flag is off (feature off or key missing)', () => {
+      enableRecordingSupport();
+      window.chatwootWebChannel = { audioTranscriptionEnabled: false };
+
+      const { canTranscribeAudio } = useAttachments();
+
+      expect(canTranscribeAudio.value).toBe(false);
+    });
+
+    it('returns false when the browser cannot record', () => {
+      window.MediaRecorder = undefined;
+      Object.defineProperty(navigator, 'mediaDevices', {
+        value: undefined,
+        configurable: true,
+      });
+      window.chatwootWebChannel = { audioTranscriptionEnabled: true };
+
+      const { canTranscribeAudio } = useAttachments();
+
+      expect(canTranscribeAudio.value).toBe(false);
+    });
+  });
+
   describe('integration test', () => {
     it('returns all expected properties', () => {
       mockGetters['appConfig/getShouldShowFilePicker'] = undefined;
@@ -218,7 +270,8 @@ describe('useAttachments', () => {
       expect(result).toHaveProperty('hasAttachmentsEnabled');
       expect(result).toHaveProperty('hasEmojiPickerEnabled');
       expect(result).toHaveProperty('canHandleAttachments');
-      expect(Object.keys(result)).toHaveLength(5);
+      expect(result).toHaveProperty('canTranscribeAudio');
+      expect(Object.keys(result)).toHaveLength(6);
     });
   });
 });
