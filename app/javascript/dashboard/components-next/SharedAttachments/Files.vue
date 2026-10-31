@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { formatBytes } from 'shared/helpers/FileHelper';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useLocale } from 'shared/composables/useLocale';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { downloadFile } from '@chatwoot/utils';
 import {
@@ -25,6 +26,7 @@ const emit = defineEmits(['select', 'jumpToMessage']);
 const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
+const { resolvedLocale } = useLocale();
 
 const fileAttachments = computed(() =>
   [...props.attachments]
@@ -65,7 +67,11 @@ const displaySize = attachment => {
 
 const displayTime = attachment => {
   if (!attachment.created_at) return '';
-  return shortTimestamp(dynamicTime(attachment.created_at), true);
+  return shortTimestamp(
+    dynamicTime(attachment.created_at),
+    true,
+    resolvedLocale.value
+  );
 };
 
 const onActivate = attachment => emit('select', attachment);
