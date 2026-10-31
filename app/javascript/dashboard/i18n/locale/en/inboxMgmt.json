@@ -1668,6 +1668,10 @@
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voice"
+    },
+    "USER_IDENTIFIER": {
+      "LABEL": "User identifier",
+      "DESCRIPTION": "Automatically identify agents in bold above their messages. Agents cannot remove this identifier. Personal signatures remain separate below the message."
     }
   }
 }

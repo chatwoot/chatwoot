@@ -638,7 +638,9 @@ provideMessageContext({
           'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
           'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
           'flex-col items-start gap-2':
-            shouldShowWhatsappReferral || isForwardedEmail,
+            shouldShowWhatsappReferral ||
+            isForwardedEmail ||
+            contentAttributes.userIdentifier,
         }"
         @contextmenu="openContextMenu($event)"
       >
@@ -647,6 +649,12 @@ provideMessageContext({
           :referral="contentAttributes.referral"
         />
         <ForwardedEmailBanner v-if="isForwardedEmail" />
+        <strong
+          v-if="contentAttributes.userIdentifier"
+          class="text-sm font-bold text-n-slate-12"
+        >
+          {{ contentAttributes.userIdentifier }}
+        </strong>
         <Component :is="componentToRender" />
       </div>
       <MessageError

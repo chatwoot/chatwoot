@@ -65,6 +65,7 @@ class Message < ApplicationRecord
 
   before_validation :ensure_content_type
   before_validation :prevent_message_flooding
+  before_validation :ensure_user_identifier
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
 
@@ -201,6 +202,10 @@ class Message < ApplicationRecord
     data
   end
 
+  def user_identifier
+    content_attributes['user_identifier']
+  end
+
   # Method to get content with survey URL for outgoing channel delivery
   def outgoing_content
     MessageContentPresenter.new(self).outgoing_content
@@ -304,6 +309,19 @@ class Message < ApplicationRecord
       Rails.logger.error "Too many message: Account Id - #{account_id} : Conversation id - #{conversation_id}"
       errors.add(:base, 'Too many messages')
     end
+  end
+
+  def ensure_user_identifier
+    attributes = (content_attributes || {}).except('user_identifier')
+    name = if persisted?
+             content_attributes_in_database&.dig('user_identifier')
+           elsif inbox.user_identifier_enabled? && outgoing? && !private? && sender.is_a?(User) &&
+                 !voice_call? && source_id.blank? && attributes['automation_rule_id'].blank? &&
+                 additional_attributes['campaign_id'].blank? && additional_attributes['template_params'].blank?
+             sender.available_name
+           end
+    attributes['user_identifier'] = name if name.present?
+    self.content_attributes = attributes
   end
 
   def ensure_processed_message_content

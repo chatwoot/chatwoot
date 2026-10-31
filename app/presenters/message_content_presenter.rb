@@ -1,17 +1,25 @@
 class MessageContentPresenter < SimpleDelegator
   def outgoing_content
     Messages::MarkdownRendererService.new(
-      content_with_survey_link,
+      content_with_identifier,
       conversation.inbox.channel_type,
       conversation.inbox.channel
     ).render
   end
 
   def webhook_content
-    Messages::WebhookContentNormalizer.normalize(content_with_survey_link)
+    Messages::WebhookContentNormalizer.normalize(content_with_identifier)
   end
 
   private
+
+  def content_with_identifier
+    body = content_with_survey_link
+    return body if user_identifier.blank? || body.blank?
+
+    name = user_identifier.gsub(/[\r\n]+/, ' ').gsub(/([\\`*_{}\[\]()<>#!|])/) { |character| "\\#{character}" }
+    "**#{name}**\n\n#{body}"
+  end
 
   def content_with_survey_link
     if should_append_survey_link?

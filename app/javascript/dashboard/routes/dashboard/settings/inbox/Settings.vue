@@ -104,6 +104,7 @@ export default {
       emailCollectEnabled: false,
       senderNameType: 'friendly',
       businessName: '',
+      userIdentifierEnabled: false,
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
@@ -561,6 +562,7 @@ export default {
       this.emailCollectEnabled = this.inbox.enable_email_collect;
       this.senderNameType = this.inbox.sender_name_type;
       this.businessName = this.inbox.business_name;
+      this.userIdentifierEnabled = this.inbox.user_identifier_enabled || false;
       this.allowMessagesAfterResolved =
         this.inbox.allow_messages_after_resolved;
       this.continuityViaEmail = this.inbox.continuity_via_email;
@@ -703,6 +705,7 @@ export default {
           lock_to_single_conversation: this.locktoSingleConversation,
           sender_name_type: this.senderNameType,
           business_name: this.businessName || null,
+          user_identifier_enabled: this.userIdentifierEnabled,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
@@ -984,6 +987,13 @@ export default {
                 disabled
                 class="!mb-0"
               />
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
+              :label="$t('INBOX_MGMT.USER_IDENTIFIER.LABEL')"
+              :description="$t('INBOX_MGMT.USER_IDENTIFIER.DESCRIPTION')"
+            >
+              <input v-model="userIdentifierEnabled" type="checkbox" />
             </SettingsFieldSection>
 
             <SettingsFieldSection

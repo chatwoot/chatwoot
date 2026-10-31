@@ -1417,6 +1417,12 @@ export default {
           @play="recordingAudioState = 'playing'"
           @pause="recordingAudioState = 'paused'"
         />
+        <div
+          v-if="inbox.user_identifier_enabled && !isPrivate"
+          class="px-4 pt-3 text-sm font-bold text-n-slate-12"
+        >
+          {{ currentUser.display_name || currentUser.name }}
+        </div>
         <CopilotEditorSection
           v-if="copilot.isActive.value && !showAudioRecorderEditor"
           :show-copilot-editor="copilot.showEditor.value"

@@ -1,5 +1,8 @@
 <% @messages.each do |message| %>
   <p style="font-family: Roboto,"Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
+    <% if message.user_identifier.present? %>
+      <strong><%= message.user_identifier %></strong><br />
+    <% end %>
     <% if message.content %>
       <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
     <% end %>
