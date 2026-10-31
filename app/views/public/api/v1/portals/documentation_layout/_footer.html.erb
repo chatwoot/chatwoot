@@ -28,7 +28,7 @@
         <%= I18n.t('public_portal.footer.made_with') %>
         <span class="inline-flex items-center gap-1.5 font-medium text-n-slate-11">
           <% if global_config['LOGO_THUMBNAIL'].present? %>
-            <img class="w-3.5 h-3.5 rounded-sm" alt="<%= global_config['BRAND_NAME'] %>" src="<%= global_config['LOGO_THUMBNAIL'] %>">
+            <img class="w-3.5 h-3.5 rounded-sm" alt="<%= global_config['BRAND_NAME'] %>" src="<%= Cdn.asset_url(global_config['LOGO_THUMBNAIL']) %>">
           <% end %>
           <%= global_config['INSTALLATION_NAME'] %>
         </span>

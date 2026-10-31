@@ -61,24 +61,26 @@ class Channel::WebWidget < ApplicationRecord
     'Website'
   end
 
+  # The snippet is pasted into third-party sites, so it must not bake in
+  # ASSET_CDN_HOST: rotating the CDN would break every installed widget.
   def web_widget_script
-    "
-    <script>
-      (function(d,t) {
-        var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
-        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=BASE_URL+\"/packs/js/sdk.js\";
-        g.async = true;
-        s.parentNode.insertBefore(g,s);
-        g.onload=function(){
-          window.chatwootSDK.run({
-            websiteToken: '#{website_token}',
-            baseUrl: BASE_URL
-          })
-        }
-      })(document,\"script\");
-    </script>
-    "
+    <<~SCRIPT
+      <script>
+        (function(d,t) {
+          var BASE_URL=#{ENV.fetch('FRONTEND_URL', '').to_json};
+          var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+          g.src=BASE_URL+"/packs/js/sdk.js";
+          g.async = true;
+          s.parentNode.insertBefore(g,s);
+          g.onload=function(){
+            window.chatwootSDK.run({
+              websiteToken: #{website_token.to_json},
+              baseUrl: BASE_URL
+            })
+          }
+        })(document,"script");
+      </script>
+    SCRIPT
   end
 
   def validate_pre_chat_options
