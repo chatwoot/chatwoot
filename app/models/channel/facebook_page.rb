@@ -55,14 +55,14 @@ class Channel::FacebookPage < ApplicationRecord
       ]
     )
   rescue StandardError => e
-    Rails.logger.debug { "Rescued: #{e.inspect}" }
+    Rails.logger.error("[Channel::FacebookPage] Failed to subscribe page #{page_id} to webhooks: #{e.inspect}")
     true
   end
 
   def unsubscribe
     Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
   rescue StandardError => e
-    Rails.logger.debug { "Rescued: #{e.inspect}" }
+    Rails.logger.error("[Channel::FacebookPage] Failed to unsubscribe page #{page_id} from webhooks: #{e.inspect}")
     true
   end
 end
