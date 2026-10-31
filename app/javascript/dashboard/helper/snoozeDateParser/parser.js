@@ -495,7 +495,7 @@ const matchTimeOfDay = (text, now) => {
       if (!time) return null;
       if (range) {
         const h = time.hours === 0 ? 24 : time.hours;
-        if (h < range[0] || h >= range[1]) return null;
+        if (h < range[0] || h > range[1]) return null;
       }
     } else {
       const parts = rawTime.split(':');
