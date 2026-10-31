@@ -19,7 +19,7 @@ const props = defineProps({
   },
 });
 
-// Replies and notes show their text in the conversation's own bubble colors, and the card names what approving does.
+// Replies and notes show their text in the conversation's own bubble colors, and the button names what approving does.
 const NOTE_ACTIONS = ['add_private_note', 'add_contact_note'];
 
 const store = useStore();
@@ -27,7 +27,19 @@ const { t } = useI18n();
 const isSubmitting = ref(false);
 
 const approval = computed(() => props.message.approval);
-const status = computed(() => approval.value.status);
+
+// The server expires the change on its own and then sends the expired card. The card shows the change as expired as
+// soon as the countdown reaches zero, so the agent can't approve a change the server will refuse.
+const { now, pause } = useNow({ interval: 1000, controls: true });
+const secondsLeft = computed(
+  () => approval.value.expires_at - Math.floor(now.value / 1000)
+);
+const status = computed(() => {
+  const { status: savedStatus } = approval.value;
+  return savedStatus === 'awaiting_approval' && secondsLeft.value <= 0
+    ? 'expired'
+    : savedStatus;
+});
 const isAwaitingApproval = computed(() => status.value === 'awaiting_approval');
 const isDeclined = computed(() =>
   ['rejected', 'expired'].includes(status.value)
@@ -42,11 +54,6 @@ const isApplying = computed(
 
 const isReply = computed(() => approval.value.action === 'send_reply');
 const isNote = computed(() => NOTE_ACTIONS.includes(approval.value.action));
-const title = computed(() => {
-  if (isReply.value) return t('CAPTAIN.COPILOT.APPROVAL.TITLES.SEND_REPLY');
-  if (isNote.value) return t('CAPTAIN.COPILOT.APPROVAL.TITLES.ADD_NOTE');
-  return t('CAPTAIN.COPILOT.APPROVAL.TITLE');
-});
 const approveLabel = computed(() => {
   if (isReply.value) return t('CAPTAIN.COPILOT.APPROVAL.CONFIRM.SEND_REPLY');
   if (isNote.value) return t('CAPTAIN.COPILOT.APPROVAL.CONFIRM.ADD_NOTE');
@@ -59,8 +66,6 @@ const bubbleClass = computed(() => {
     : 'bg-n-solid-amber text-n-amber-12';
 });
 
-// The approval expires on the server. The countdown only tells the agent how long they have.
-const { now, pause } = useNow({ interval: 1000, controls: true });
 watch(
   isAwaitingApproval,
   awaiting => {
@@ -68,11 +73,7 @@ watch(
   },
   { immediate: true }
 );
-const timeLeft = computed(() =>
-  formatDuration(
-    Math.max(0, approval.value.expires_at - Math.floor(now.value / 1000))
-  )
-);
+const timeLeft = computed(() => formatDuration(secondsLeft.value));
 
 const outcome = computed(() => {
   if (status.value === 'rejected') {
@@ -87,11 +88,21 @@ const outcome = computed(() => {
       icon: 'i-lucide-timer-off',
       color: 'text-n-slate-11',
       label: t('CAPTAIN.COPILOT.APPROVAL.STATUS.EXPIRED'),
+      detail: t('CAPTAIN.COPILOT.APPROVAL.EXPIRED_HINT'),
     };
   }
-  const applied = t('CAPTAIN.COPILOT.APPROVAL.APPLIED', {
-    count: progress.value.applied,
-  });
+  const {
+    applied: appliedCount,
+    total,
+    not_changed: notChanged,
+  } = progress.value;
+  const applied =
+    notChanged > 0
+      ? t('CAPTAIN.COPILOT.APPROVAL.APPLIED_OF', {
+          applied: appliedCount,
+          total,
+        })
+      : t('CAPTAIN.COPILOT.APPROVAL.APPLIED', { count: appliedCount });
   if (progress.value.stopped) {
     return {
       icon: 'i-lucide-circle-stop',
@@ -100,7 +111,7 @@ const outcome = computed(() => {
       detail: applied,
     };
   }
-  if (progress.value.not_changed > 0) {
+  if (notChanged > 0) {
     return {
       icon: 'i-lucide-triangle-alert',
       color: 'text-n-amber-11',
@@ -156,20 +167,13 @@ const decide = async choice => {
   <div
     class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1 text-n-slate-12"
   >
-    <div
-      class="flex items-center gap-x-2 gap-y-1"
-      :class="{ 'flex-wrap': isAwaitingApproval }"
-    >
-      <template v-if="isAwaitingApproval">
-        <span class="font-medium">{{ title }}</span>
-        <span
-          v-if="approval.expires_at"
-          class="flex items-center flex-shrink-0 gap-1 text-xs ms-auto text-n-slate-11 tabular-nums"
-        >
-          <Icon icon="i-lucide-clock" class="size-3.5" />
-          {{ t('CAPTAIN.COPILOT.APPROVAL.EXPIRES_IN', { time: timeLeft }) }}
-        </span>
-      </template>
+    <!-- While the agent decides, the first line is the change itself. After the decision, it is the outcome. -->
+    <div class="flex flex-wrap items-center gap-x-2 gap-y-1" role="status">
+      <CopilotApprovalSummary
+        v-if="isAwaitingApproval"
+        :approval="approval"
+        emphasis
+      />
       <template v-else-if="isApplying">
         <Spinner :size="16" class="flex-shrink-0 text-n-slate-9" />
         <span class="tabular-nums">
@@ -193,7 +197,7 @@ const decide = async choice => {
         </span>
       </template>
     </div>
-    <CopilotApprovalSummary :approval="approval" />
+    <CopilotApprovalSummary v-if="!isAwaitingApproval" :approval="approval" />
     <p
       v-if="approval.content"
       class="self-end max-w-[90%] px-3 py-2 m-0 rounded-xl rounded-ee-sm whitespace-pre-wrap break-words"
@@ -201,28 +205,6 @@ const decide = async choice => {
     >
       {{ approval.content }}
     </p>
-    <template v-if="isAwaitingApproval">
-      <p v-if="warning" class="flex gap-1.5 m-0 text-n-amber-11">
-        <Icon
-          icon="i-lucide-triangle-alert"
-          class="flex-shrink-0 size-4 mt-0.5"
-        />
-        {{ warning }}
-      </p>
-      <p v-if="coverage" class="flex gap-1.5 m-0 text-n-amber-11">
-        <Icon
-          icon="i-lucide-triangle-alert"
-          class="flex-shrink-0 size-4 mt-0.5"
-        />
-        {{
-          t('CAPTAIN.COPILOT.APPROVAL.PARTIAL_REVIEW', {
-            reviewed: coverage.reviewed,
-            total: coverage.total,
-            remaining: coverage.total - coverage.reviewed,
-          })
-        }}
-      </p>
-    </template>
     <div v-if="linkRow" class="flex flex-wrap gap-x-2 gap-y-1">
       <span v-if="linkRow.notChanged" class="text-n-amber-11">
         {{
@@ -248,28 +230,63 @@ const decide = async choice => {
         }}
       </span>
     </div>
-    <div v-if="isAwaitingApproval" class="flex flex-row gap-2">
-      <Button
-        :label="approveLabel"
-        :icon="isReply ? 'i-lucide-send' : ''"
-        size="sm"
-        :is-loading="isSubmitting"
-        :disabled="isSubmitting"
-        @click="decide('approve')"
-      />
-      <Button
-        :label="t('CAPTAIN.COPILOT.APPROVAL.REJECT')"
-        size="sm"
-        color="slate"
-        variant="faded"
-        :disabled="isSubmitting"
-        @click="decide('reject')"
-      />
-    </div>
+    <template v-if="isAwaitingApproval">
+      <p v-if="warning" class="flex gap-1.5 m-0 text-n-amber-11">
+        <Icon
+          icon="i-lucide-triangle-alert"
+          class="flex-shrink-0 size-4 mt-0.5"
+        />
+        {{ warning }}
+      </p>
+      <p v-if="coverage" class="flex gap-1.5 m-0 text-n-amber-11">
+        <Icon
+          icon="i-lucide-triangle-alert"
+          class="flex-shrink-0 size-4 mt-0.5"
+        />
+        {{
+          t('CAPTAIN.COPILOT.APPROVAL.PARTIAL_REVIEW', {
+            reviewed: coverage.reviewed,
+            total: coverage.total,
+            remaining: coverage.total - coverage.reviewed,
+          })
+        }}
+      </p>
+      <div class="flex flex-wrap items-center gap-2">
+        <Button
+          :label="approveLabel"
+          :icon="isReply ? 'i-lucide-send' : ''"
+          size="sm"
+          :is-loading="isSubmitting"
+          :disabled="isSubmitting"
+          @click="decide('approve')"
+        />
+        <Button
+          :label="t('CAPTAIN.COPILOT.APPROVAL.REJECT')"
+          size="sm"
+          color="slate"
+          variant="faded"
+          :disabled="isSubmitting"
+          @click="decide('reject')"
+        />
+        <span
+          v-if="approval.expires_at"
+          class="flex items-center gap-1 text-xs ms-auto text-n-slate-11 tabular-nums"
+        >
+          <Icon icon="i-lucide-clock" class="size-3.5" />
+          {{ t('CAPTAIN.COPILOT.APPROVAL.EXPIRES_IN', { time: timeLeft }) }}
+        </span>
+      </div>
+    </template>
     <CopilotProgressBar
       v-else-if="isApplying"
       :done="progress.done"
       :total="progress.total"
+      :aria-label="
+        t('CAPTAIN.COPILOT.APPROVAL.PROGRESS', {
+          done: progress.done,
+          total: progress.total,
+        })
+      "
     />
   </div>
 </template>

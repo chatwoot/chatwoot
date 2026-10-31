@@ -786,11 +786,6 @@
         }
       },
       "APPROVAL": {
-        "TITLE": "Approve this change?",
-        "TITLES": {
-          "SEND_REPLY": "Send this reply?",
-          "ADD_NOTE": "Add this note?"
-        },
         "APPROVE": "Approve",
         "CONFIRM": {
           "SEND_REPLY": "Send reply",
@@ -844,10 +839,12 @@
         },
         "STATUS": {
           "REJECTED": "Rejected",
-          "EXPIRED": "Expired. Ask Copilot to propose it again."
+          "EXPIRED": "Expired"
         },
+        "EXPIRED_HINT": "Ask Copilot to propose it again.",
         "PROGRESS": "Applying {done} of {total}",
         "APPLIED": "Applied to {count}",
+        "APPLIED_OF": "Applied to {applied} of {total}",
         "NOT_CHANGED": "{count} not changed"
       },
       "REVIEW": {

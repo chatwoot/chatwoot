@@ -38,7 +38,7 @@ class CopilotRun::Action < CopilotRun
   # The approval card shows a fixed set of conversations. After this long that set may be stale, so the agent has to ask again.
   APPROVAL_TTL = 5.minutes
   # The approval card links this many records and counts the rest.
-  PREVIEW_TARGETS = 10
+  PREVIEW_TARGETS = 5
 
   has_many :action_items, class_name: 'CopilotActionItem', dependent: :delete_all, inverse_of: :copilot_run
 
@@ -119,11 +119,14 @@ class CopilotRun::Action < CopilotRun
     copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
   end
 
-  # Links to the first of these records for the approval card. Records the agent can no longer open are left out.
+  # Links to the first of these records for the approval card. Records the agent can no longer open are left out. A
+  # conversation link names its contact, so the agent can see who a reply reaches without opening each conversation.
   def target_links(ids)
     resource = Captain::Copilot::Resources.build(Captain::Copilot::Actions.find(context.fetch('action'))::RESOURCE,
                                                  account: account, user: user)
-    resource.rows(ids.first(PREVIEW_TARGETS)).map { |row| row.slice(:label, :url) }
+    resource.rows(ids.first(PREVIEW_TARGETS)).map do |row|
+      { label: [row[:contact], row[:label]].compact_blank.join(' '), url: row[:url] }
+    end
   end
 
   def publish_progress

@@ -7,6 +7,8 @@ import Label from 'dashboard/components-next/label/Label.vue';
 
 const props = defineProps({
   approval: { type: Object, required: true },
+  // The waiting card leads with this sentence, so it shows in full contrast there.
+  emphasis: { type: Boolean, default: false },
 });
 
 const accountLabels = useMapGetter('labels/getLabels');
@@ -35,7 +37,8 @@ const labels = computed(() =>
     :plural="approval.count"
     scope="global"
     tag="p"
-    class="m-0 break-words text-n-slate-11"
+    class="m-0 leading-6 break-words"
+    :class="emphasis ? 'text-n-slate-12' : 'text-n-slate-11'"
   >
     <template v-for="(value, name) in values" #[name]>
       <span
