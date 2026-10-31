@@ -18,7 +18,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       messaging_product: 'whatsapp',
       recipient_type: 'individual', # Only individual messages supported (not group messages)
       # BSUID -> `recipient`; phone number -> `to` (see recipient_params in the base provider).
-      **recipient_params(phone_number),
+      **recipient_params(phone_number), **messaging_account_params,
       type: 'template',
       template: template_body
     }
@@ -132,7 +132,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         messaging_product: 'whatsapp',
         context: whatsapp_reply_context(message),
-        **recipient_params(phone_number),
+        **recipient_params(phone_number), **messaging_account_params,
         text: { body: message.outgoing_content },
         type: 'text'
       }.to_json
@@ -152,7 +152,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         :messaging_product => 'whatsapp',
         :context => whatsapp_reply_context(message),
-        **recipient_params(phone_number),
+        **recipient_params(phone_number), **messaging_account_params,
         'type' => type,
         type.to_s => type_content
       }.to_json
@@ -248,7 +248,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
-        **recipient_params(phone_number),
+        **recipient_params(phone_number), **messaging_account_params,
         interactive: payload,
         type: 'interactive'
       }.to_json
