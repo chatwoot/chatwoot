@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikator",
+      "HELP": "Prikažite svoje ime iznad odgovora u ovom razgovoru",
+      "ERROR": "Nije moguće ažurirati postavku identifikatora. Pokušajte ponovo."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

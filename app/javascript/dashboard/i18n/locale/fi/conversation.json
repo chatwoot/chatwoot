@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Tunniste",
+      "HELP": "Näytä nimesi vastausten yläpuolella tässä keskustelussa",
+      "ERROR": "Tunnisteen asetusta ei voitu päivittää. Yritä uudelleen."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

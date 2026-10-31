@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "شناسه",
+      "HELP": "نام شما بالای پاسخ‌ها در این گفتگو نمایش داده شود",
+      "ERROR": "تنظیمات شناسه به‌روزرسانی نشد. دوباره تلاش کنید."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "पहचान",
+      "HELP": "इस बातचीत में जवाबों के ऊपर अपना नाम दिखाएँ",
+      "ERROR": "पहचान की सेटिंग अपडेट नहीं हो सकी। फिर से कोशिश करें।"
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

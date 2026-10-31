@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikatorius",
+      "HELP": "Rodyti jūsų vardą virš atsakymų šiame pokalbyje",
+      "ERROR": "Nepavyko atnaujinti identifikatoriaus nuostatos. Bandykite dar kartą."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

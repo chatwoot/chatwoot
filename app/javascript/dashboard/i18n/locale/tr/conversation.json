@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Kimlik",
+      "HELP": "Bu konuşmada yanıtların üzerinde adınızı gösterin",
+      "ERROR": "Kimlik ayarı güncellenemedi. Lütfen tekrar deneyin."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

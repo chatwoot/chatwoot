@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikuesi",
+      "HELP": "Shfaqni emrin tuaj sipër përgjigjeve në këtë bisedë",
+      "ERROR": "Cilësimi i identifikuesit nuk mund të përditësohej. Provoni përsëri."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

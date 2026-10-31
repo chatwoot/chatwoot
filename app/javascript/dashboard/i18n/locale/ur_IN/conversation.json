@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "شناخت",
+      "HELP": "اس گفتگو میں جوابات کے اوپر اپنا نام دکھائیں",
+      "ERROR": "شناخت کی ترتیب اپ ڈیٹ نہیں ہو سکی۔ دوبارہ کوشش کریں۔"
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

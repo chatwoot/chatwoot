@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Azonosító",
+      "HELP": "Nevének megjelenítése a válaszok felett ebben a beszélgetésben",
+      "ERROR": "Nem sikerült frissíteni az azonosító beállítását. Próbálja újra."
+    },
     "REFERRAL": {
       "AD_LABEL": "Hirdetés",
       "POST_LABEL": "Bejegyzés",

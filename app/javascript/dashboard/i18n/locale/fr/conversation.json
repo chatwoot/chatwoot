@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifiant",
+      "HELP": "Afficher votre nom au-dessus des réponses dans cette conversation",
+      "ERROR": "Impossible de modifier le réglage de l’identifiant. Veuillez réessayer."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

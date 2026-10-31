@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "식별 이름",
+      "HELP": "이 대화에서 답변 위에 내 이름 표시",
+      "ERROR": "식별 이름 설정을 업데이트하지 못했습니다. 다시 시도해 주세요."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

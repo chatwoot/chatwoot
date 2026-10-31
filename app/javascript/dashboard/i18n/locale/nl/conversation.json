@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identificatie",
+      "HELP": "Toon je naam boven antwoorden in dit gesprek",
+      "ERROR": "De identificatie-instelling kon niet worden bijgewerkt. Probeer het opnieuw."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

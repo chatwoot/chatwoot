@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identificador",
+      "HELP": "Mostra el teu nom damunt de les respostes en aquesta conversa",
+      "ERROR": "No s'ha pogut actualitzar la configuració de l'identificador. Torna-ho a provar."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikation",
+      "HELP": "Vis dit navn over svarene i denne samtale",
+      "ERROR": "Indstillingen for identifikation kunne ikke opdateres. Prøv igen."
+    },
     "REFERRAL": {
       "AD_LABEL": "Annonce",
       "POST_LABEL": "Indlæg",

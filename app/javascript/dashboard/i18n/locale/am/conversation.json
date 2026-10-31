@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "መለያ",
+      "HELP": "በዚህ ውይይት ውስጥ ከምላሾችዎ በላይ ስምዎን ያካትቱ",
+      "ERROR": "የመለያ ቅንብሩን ማዘመን አልተቻለም። እንደገና ይሞክሩ።"
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",
