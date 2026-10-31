@@ -8,15 +8,10 @@ module AssigneeActivityMessageHandler
 
     return unless user_name
 
-    content = generate_assignee_change_activity_content(user_name)
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
-  def generate_assignee_change_activity_content(user_name)
-    params = { assignee_name: assignee&.name || '', user_name: user_name }
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id
-    I18n.t("conversations.activity.assignee.#{key}", **params)
+    params = activity_message_params("assignee.#{key}", assignee_name: assignee&.name || '', user_name: user_name, **activity_actor_params)
+    ::Conversations::ActivityMessageJob.perform_later(self, params)
   end
 
   def activity_message_owner(user_name)
@@ -31,5 +26,15 @@ module AssigneeActivityMessageHandler
                   end
     end
     user_name
+  end
+
+  # Lets clients translate system actors (automation, auto-assignment) in the viewer's locale.
+  def activity_actor_params
+    case Current.executed_by
+    when AssignmentPolicy then { actor_type: 'assignment_policy', policy_name: Current.executed_by.name }
+    when Inbox then { actor_type: 'default_policy' }
+    when nil then {}
+    else { actor_type: 'automation' }
+    end
   end
 end

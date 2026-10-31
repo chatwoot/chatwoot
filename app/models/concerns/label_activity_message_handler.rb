@@ -14,7 +14,7 @@ module LabelActivityMessageHandler
   def create_label_change_activity(change_type, user_name, labels = [])
     return unless labels.size.positive?
 
-    content = I18n.t("conversations.activity.labels.#{change_type}", user_name: user_name, labels: labels.join(', '))
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    params = activity_message_params("labels.#{change_type}", user_name: user_name, labels: labels.join(', '), **activity_actor_params)
+    ::Conversations::ActivityMessageJob.perform_later(self, params)
   end
 end

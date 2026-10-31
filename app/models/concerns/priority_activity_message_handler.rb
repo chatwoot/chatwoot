@@ -8,19 +8,20 @@ module PriorityActivityMessageHandler
     return unless priority_change?(old_priority, new_priority)
 
     user = Current.executed_by.instance_of?(AutomationRule) ? I18n.t('automation.system_name') : user_name
-    content = build_priority_change_content(user, old_priority, new_priority)
+    params = build_priority_change_params(user, old_priority, new_priority)
 
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    ::Conversations::ActivityMessageJob.perform_later(self, params) if params
   end
 
   def priority_change?(old_priority, new_priority)
     old_priority.present? || new_priority.present?
   end
 
-  def build_priority_change_content(user_name, old_priority = nil, new_priority = nil)
+  def build_priority_change_params(user_name, old_priority = nil, new_priority = nil)
     change_type = get_priority_change_type(old_priority, new_priority)
 
-    I18n.t("conversations.activity.priority.#{change_type}", user_name: user_name, new_priority: new_priority, old_priority: old_priority)
+    activity_message_params("priority.#{change_type}", user_name: user_name, new_priority: new_priority, old_priority: old_priority,
+                                                       **activity_actor_params)
   end
 
   def get_priority_change_type(old_priority, new_priority)
