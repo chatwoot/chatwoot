@@ -417,6 +417,53 @@ describe('#actions', () => {
     });
   });
 
+  describe('#sendMessageWithData', () => {
+    it('commits ADD_MESSAGE with progress and response status', async () => {
+      const localCommit = vi.fn();
+      axios.post.mockResolvedValue({
+        data: { id: 1, conversation_id: 10, status: 'sent', content: 'test' },
+      });
+      await actions.sendMessageWithData(
+        { commit: localCommit },
+        { id: 'echo-1', conversation_id: 10, content: 'test' }
+      );
+      expect(localCommit).toHaveBeenCalledWith(types.ADD_MESSAGE, {
+        id: 'echo-1',
+        conversation_id: 10,
+        content: 'test',
+        status: 'progress',
+      });
+      expect(localCommit).toHaveBeenCalledWith(types.ADD_MESSAGE, {
+        id: 1,
+        conversation_id: 10,
+        content: 'test',
+        status: 'sent',
+      });
+    });
+
+    it('preserves response status if already delivered when create resolves', async () => {
+      const localCommit = vi.fn();
+      axios.post.mockResolvedValue({
+        data: {
+          id: 1,
+          conversation_id: 10,
+          status: 'delivered',
+          content: 'test',
+        },
+      });
+      await actions.sendMessageWithData(
+        { commit: localCommit },
+        { id: 'echo-1', conversation_id: 10, content: 'test' }
+      );
+      expect(localCommit).toHaveBeenCalledWith(types.ADD_MESSAGE, {
+        id: 1,
+        conversation_id: 10,
+        content: 'test',
+        status: 'delivered',
+      });
+    });
+  });
+
   describe('#updateMessage', () => {
     it('refreshes loaded conversations sharing the same contact inbox source after terminal contact info updates', () => {
       const localCommit = vi.fn();

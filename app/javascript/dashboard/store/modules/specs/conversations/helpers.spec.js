@@ -1,5 +1,6 @@
 import {
   findPendingMessageIndex,
+  resolveMessageStatus,
   applyPageFilters,
   filterByInbox,
   filterByTeam,
@@ -53,6 +54,48 @@ describe('#findPendingMessageIndex', () => {
     };
     const message = { echo_id: 2 };
     expect(findPendingMessageIndex(chat, message)).toEqual(-1);
+  });
+});
+
+describe('#resolveMessageStatus', () => {
+  it('returns incoming status when current status is empty', () => {
+    expect(resolveMessageStatus(null, 'sent')).toEqual('sent');
+    expect(resolveMessageStatus(undefined, 'delivered')).toEqual('delivered');
+  });
+
+  it('returns current status when incoming status is empty', () => {
+    expect(resolveMessageStatus('delivered', null)).toEqual('delivered');
+    expect(resolveMessageStatus('read', undefined)).toEqual('read');
+  });
+
+  it('advances status from progress to sent, delivered, and read', () => {
+    expect(resolveMessageStatus('progress', 'sent')).toEqual('sent');
+    expect(resolveMessageStatus('sent', 'delivered')).toEqual('delivered');
+    expect(resolveMessageStatus('delivered', 'read')).toEqual('read');
+  });
+
+  it('prevents downgrading delivered status to sent on race condition', () => {
+    expect(resolveMessageStatus('delivered', 'sent')).toEqual('delivered');
+  });
+
+  it('prevents downgrading read status to delivered or sent', () => {
+    expect(resolveMessageStatus('read', 'delivered')).toEqual('read');
+    expect(resolveMessageStatus('read', 'sent')).toEqual('read');
+  });
+
+  it('transitions progress or sent to failed on failure', () => {
+    expect(resolveMessageStatus('progress', 'failed')).toEqual('failed');
+    expect(resolveMessageStatus('sent', 'failed')).toEqual('failed');
+  });
+
+  it('does not downgrade confirmed delivered or read messages to failed', () => {
+    expect(resolveMessageStatus('delivered', 'failed')).toEqual('delivered');
+    expect(resolveMessageStatus('read', 'failed')).toEqual('read');
+  });
+
+  it('allows transition from failed to progress or sent on retry', () => {
+    expect(resolveMessageStatus('failed', 'progress')).toEqual('progress');
+    expect(resolveMessageStatus('failed', 'sent')).toEqual('sent');
   });
 });
 
