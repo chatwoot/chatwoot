@@ -90,13 +90,13 @@ export const actions = {
     }
   },
 
-  deleteLogo: async ({ commit }, { portalSlug }) => {
+  deleteLogo: async ({ commit }, { portalSlug, isDarkLogo = false }) => {
     commit(types.SET_HELP_PORTAL_UI_FLAG, {
       uiFlags: { isUpdating: true },
       portalSlug,
     });
     try {
-      await portalAPIs.deleteLogo(portalSlug);
+      await portalAPIs.deleteLogo(portalSlug, isDarkLogo);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
