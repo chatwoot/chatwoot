@@ -313,15 +313,26 @@ class Message < ApplicationRecord
 
   def ensure_user_identifier
     attributes = (content_attributes || {}).except('user_identifier')
-    name = if persisted?
-             content_attributes_in_database&.dig('user_identifier')
-           elsif inbox.user_identifier_enabled? && outgoing? && !private? && sender.is_a?(User) &&
-                 !voice_call? && source_id.blank? && attributes['automation_rule_id'].blank? &&
-                 additional_attributes['campaign_id'].blank? && additional_attributes['template_params'].blank?
-             sender.available_name
-           end
+    name = persisted? ? content_attributes_in_database&.dig('user_identifier') : new_user_identifier
     attributes['user_identifier'] = name if name.present?
     self.content_attributes = attributes
+  end
+
+  def new_user_identifier
+    return unless inbox&.user_identifier_enabled?
+    return unless identifiable_reply?
+    return if automated_identifier_message?
+
+    sender.available_name
+  end
+
+  def identifiable_reply?
+    outgoing? && sender.is_a?(User) && !private? && !voice_call? && source_id.blank?
+  end
+
+  def automated_identifier_message?
+    content_attributes['automation_rule_id'].present? ||
+      additional_attributes['campaign_id'].present? || additional_attributes['template_params'].present?
   end
 
   def ensure_processed_message_content
