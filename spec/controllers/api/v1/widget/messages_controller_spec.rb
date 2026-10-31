@@ -132,6 +132,30 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(new_conversation.label_list).not_to include('nonexistent')
       end
 
+      it 'creates only one conversation and reuses it if a concurrent request creates one under lock' do
+        conversation.destroy!
+        first_conversation = nil
+
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(ContactInbox).to receive(:with_lock).and_wrap_original do |original_method, &block|
+          original_method.call do
+            first_conversation ||= create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox)
+            block.call
+          end
+        end
+        # rubocop:enable RSpec/AnyInstance
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: { content: 'hello world' } },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['content']).to eq('hello world')
+        expect(contact.conversations.count).to eq(1)
+        expect(first_conversation.reload.messages.incoming.last.content).to eq('hello world')
+      end
+
       it 'does not apply labels or custom_attributes when conversation already exists' do
         create(:label, title: 'vip', account: account)
         message_params = { content: 'hello world', timestamp: Time.current }

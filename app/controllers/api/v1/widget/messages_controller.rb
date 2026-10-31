@@ -55,8 +55,13 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def set_conversation
     return if conversation.present?
 
-    @conversation = create_conversation
-    apply_labels if permitted_params[:labels].present?
+    @contact_inbox.with_lock do
+      @conversation = conversations.last
+      return if @conversation.present?
+
+      @conversation = create_conversation
+      apply_labels if permitted_params[:labels].present?
+    end
   end
 
   def apply_labels
