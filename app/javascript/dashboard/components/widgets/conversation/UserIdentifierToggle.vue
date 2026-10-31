@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import ConversationApi from 'dashboard/api/conversations';
-import Button from 'dashboard/components-next/button/Button.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
   conversation: { type: Object, required: true },
@@ -36,24 +36,28 @@ const toggleIdentifier = async () => {
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center justify-between gap-2 px-4 pt-3">
-    <strong v-if="enabled" class="text-sm font-bold text-n-slate-12">
+  <div class="flex items-center gap-3 px-4 pt-3">
+    <strong
+      class="min-w-0 flex-1 truncate text-sm font-bold text-n-slate-12"
+      :class="{ invisible: !enabled }"
+      :aria-hidden="!enabled"
+    >
       {{ name }}
     </strong>
-    <Button
+    <div
       v-tooltip="$t('CONVERSATION.USER_IDENTIFIER.HELP')"
-      size="sm"
-      variant="ghost"
-      :color="enabled ? 'blue' : 'slate'"
-      :label="
-        enabled
-          ? $t('CONVERSATION.USER_IDENTIFIER.ON')
-          : $t('CONVERSATION.USER_IDENTIFIER.OFF')
-      "
-      :aria-pressed="enabled"
-      :disabled="isSaving"
-      :is-loading="isSaving"
-      @click="toggleIdentifier"
-    />
+      class="ms-auto flex shrink-0 items-center gap-2"
+    >
+      <span class="text-sm text-n-slate-11">
+        {{ $t('CONVERSATION.USER_IDENTIFIER.LABEL') }}
+      </span>
+      <Switch
+        :model-value="enabled"
+        :aria-label="$t('CONVERSATION.USER_IDENTIFIER.HELP')"
+        :aria-busy="isSaving"
+        :disabled="isSaving"
+        @update:model-value="toggleIdentifier"
+      />
+    </div>
   </div>
 </template>

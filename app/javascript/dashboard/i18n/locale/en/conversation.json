@@ -1,8 +1,7 @@
 {
   "CONVERSATION": {
     "USER_IDENTIFIER": {
-      "ON": "Identifier: on",
-      "OFF": "Identifier: off",
+      "LABEL": "Identifier",
       "HELP": "Include your name above replies in this conversation",
       "ERROR": "Could not update the identifier setting. Please try again."
     },
