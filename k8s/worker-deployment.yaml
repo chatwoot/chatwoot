@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatwoot-worker
+  namespace: staging
+  labels:
+    app: chatwoot-worker
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: chatwoot-worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: chatwoot-worker
+    spec:
+      imagePullSecrets:
+        - name: acr-pull-secret
+      containers:
+        - name: chatwoot-worker
+          image: IMAGE_PLACEHOLDER
+          imagePullPolicy: Always
+          args:
+            - bundle
+            - exec
+            - sidekiq
+            - -C
+            - config/sidekiq.yml
+          envFrom:
+            - configMapRef:
+                name: chatwoot-config
+            - secretRef:
+                name: chatwoot-env
+          volumeMounts:
+            - name: chatwoot-storage
+              mountPath: /app/storage
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+      volumes:
+        - name: chatwoot-storage
+          persistentVolumeClaim:
+            claimName: chatwoot-storage
