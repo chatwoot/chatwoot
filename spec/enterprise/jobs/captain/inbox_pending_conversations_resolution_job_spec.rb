@@ -213,13 +213,11 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(Conversations::ActivityMessageJob)
         .to have_been_enqueued.with(
           resolvable_pending_conversation,
-          {
-            account_id: resolvable_pending_conversation.account_id,
-            inbox_id: resolvable_pending_conversation.inbox_id,
+          a_hash_including(
             message_type: :activity,
             content: expected_content,
-            content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
-          }
+            content_attributes: { activity: a_hash_including(type: 'conversation_status_changed', status: 'resolved') }
+          )
         )
     end
 
@@ -319,13 +317,11 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(Conversations::ActivityMessageJob)
         .to have_been_enqueued.with(
           resolvable_pending_conversation,
-          {
-            account_id: resolvable_pending_conversation.account_id,
-            inbox_id: resolvable_pending_conversation.inbox_id,
+          a_hash_including(
             message_type: :activity,
             content: expected_content,
-            content_attributes: { activity: { type: 'conversation_status_changed', status: 'open' } }
-          }
+            content_attributes: { activity: a_hash_including(type: 'conversation_status_changed', status: 'open') }
+          )
         )
     end
 

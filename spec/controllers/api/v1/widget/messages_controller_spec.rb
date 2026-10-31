@@ -231,13 +231,11 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(Conversations::ActivityMessageJob).not_to have_been_enqueued.at_least(:once).with(
           conversation,
-          {
-            account_id: conversation.account_id,
-            inbox_id: conversation.inbox_id,
+          a_hash_including(
             message_type: :activity,
             content: "Conversation was resolved by #{contact.name}",
-            content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
-          }
+            content_attributes: { activity: a_hash_including(type: 'conversation_status_changed', status: 'resolved') }
+          )
         )
         expect(response).to have_http_status(:success)
         expect(conversation.reload.open?).to be(true)

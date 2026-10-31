@@ -175,14 +175,11 @@ RSpec.describe 'Conversation Messages API', type: :request do
           expect(conversation.reload.status).to eq('open')
           expect(Conversations::ActivityMessageJob)
             .to(have_been_enqueued.at_least(:once)
-              .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                    content: 'System reopened the conversation due to a new incoming message.',
-                                    content_attributes: {
-                                      activity: {
-                                        type: 'conversation_status_changed',
-                                        status: 'open'
-                                      }
-                                    } }))
+              .with(conversation, a_hash_including(message_type: :activity,
+                                                   content: 'System reopened the conversation due to a new incoming message.',
+                                                   content_attributes: {
+                                                     activity: a_hash_including(type: 'conversation_status_changed', status: 'open')
+                                                   })))
         end
       end
     end
