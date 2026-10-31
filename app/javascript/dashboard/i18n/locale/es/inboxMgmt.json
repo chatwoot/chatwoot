@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identificador de usuario",
+      "DESCRIPTION": "Muestra automáticamente el nombre del agente en negrita encima de sus mensajes. Se activa por defecto en cada conversación y puede desactivarse en el editor de respuestas para enviar comandos exactos a los bots. La firma personal permanece separada debajo del mensaje."
+    },
     "HEADER": "Entradas",
     "DESCRIPTION": "Un canal es el modo de comunicación que tu cliente elige para interactuar contigo. Una bandeja de entrada es donde administras interacciones para un canal específico. Puede incluir comunicaciones de diversas fuentes como correo electrónico, chat en vivo y redes sociales.",
     "LEARN_MORE": "Aprende más sobre las entradas",

@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identificator utilizator",
+      "DESCRIPTION": "Afișează automat numele agentului cu caractere aldine deasupra mesajelor sale. Este activat implicit pentru fiecare conversație și poate fi dezactivat în editorul de răspunsuri pentru a trimite comenzi exacte către boți. Semnătura personală rămâne separată sub mesaj."
+    },
     "HEADER": "Căsuțe",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",

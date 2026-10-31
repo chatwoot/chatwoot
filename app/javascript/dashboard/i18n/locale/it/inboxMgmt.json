@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identificativo utente",
+      "DESCRIPTION": "Mostra automaticamente il nome dell'operatore in grassetto sopra i suoi messaggi. È attivo per impostazione predefinita in ogni conversazione e può essere disattivato nell'editor delle risposte per inviare comandi esatti ai bot. La firma personale rimane separata sotto il messaggio."
+    },
     "HEADER": "Inbox",
     "DESCRIPTION": "Un canale è il mezzo di comunicazione che il cliente usa per interagire con te. Una Inbox è lo spazio in cui gestisci le interazioni di uno specifico canale. Può includere comunicazioni provenienti da diverse fonti, come email, live chat e social media.",
     "LEARN_MORE": "Scopri di più sulle Inbox",

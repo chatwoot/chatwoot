@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "ตัวระบุผู้ใช้",
+      "DESCRIPTION": "แสดงชื่อเจ้าหน้าที่เป็นตัวหนาเหนือข้อความโดยอัตโนมัติ เปิดใช้งานโดยค่าเริ่มต้นสำหรับแต่ละการสนทนา และปิดได้ในช่องเขียนคำตอบเพื่อส่งคำสั่งที่ตรงตามรูปแบบให้บอต ลายเซ็นส่วนตัวยังคงแยกอยู่ใต้ข้อความ"
+    },
     "HEADER": "กล่องข้อความ",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",

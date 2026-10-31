@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikator uporabnika",
+      "DESCRIPTION": "Samodejno prikaže ime agenta krepko nad njegovimi sporočili. Privzeto je omogočen za vsak pogovor in ga je mogoče izklopiti v urejevalniku odgovorov za pošiljanje natančnih ukazov botom. Osebni podpis ostane ločen pod sporočilom."
+    },
     "HEADER": "Prejemniki",
     "DESCRIPTION": "Kanal je način komunikacije, ki ga vaša stranka izbere za interakcijo z vami. Nabiralnik je mesto, kjer upravljate interakcije za določen kanal. Vključuje lahko komunikacijo iz različnih virov, kot so e-pošta, klepet v živo in družbena omrežja.",
     "LEARN_MORE": "Izvedite več o prejemnikih",

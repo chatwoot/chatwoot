@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Kullanıcı tanımlayıcısı",
+      "DESCRIPTION": "Temsilcinin adını mesajlarının üzerinde otomatik olarak kalın yazıyla gösterir. Her konuşmada varsayılan olarak etkindir ve botlara tam komutlar göndermek için yanıt düzenleyicisinde kapatılabilir. Kişisel imza mesajın altında ayrı kalır."
+    },
     "HEADER": "Gelen kutuları",
     "DESCRIPTION": "Kanal, müşterinizin sizinle iletişim kurmak için seçtiği yöntemdir. Gelen kutusu (inbox) ise belirli bir kanal üzerinden gerçekleşen etkileşimleri yönettiğiniz yerdir. Gelen kutusu; e-posta, canlı sohbet ve sosyal medya gibi farklı kaynaklardan gelen iletişimleri içerebilir.",
     "LEARN_MORE": "Gelen kutuları hakkında daha fazla bilgi edinin",

@@ -991,7 +991,7 @@ export default {
 
             <SettingsFieldSection
               :label="$t('INBOX_MGMT.USER_IDENTIFIER.LABEL')"
-              :description="$t('INBOX_MGMT.USER_IDENTIFIER.DESCRIPTION')"
+              :help-text="$t('INBOX_MGMT.USER_IDENTIFIER.DESCRIPTION')"
             >
               <input v-model="userIdentifierEnabled" type="checkbox" />
             </SettingsFieldSection>

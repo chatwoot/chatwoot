@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identyfikator użytkownika",
+      "DESCRIPTION": "Automatycznie wyświetla nazwę agenta pogrubioną czcionką nad jego wiadomościami. Domyślnie włączony w każdej rozmowie. Można go wyłączyć w edytorze odpowiedzi, aby wysyłać dokładne polecenia do botów. Osobisty podpis pozostaje oddzielnie pod wiadomością."
+    },
     "HEADER": "Zarządzanie skrzynkami",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",

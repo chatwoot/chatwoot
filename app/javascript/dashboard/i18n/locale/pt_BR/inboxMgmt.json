@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identificador de usuário",
+      "DESCRIPTION": "Identifica automaticamente os atendentes em negrito acima das mensagens. Ativado por padrão em cada conversa. O atendente pode desativá-lo no editor para enviar comandos exatos a outros bots. A assinatura pessoal permanece separada, abaixo da mensagem."
+    },
     "HEADER": "Caixas de Entrada",
     "DESCRIPTION": "Um canal é o modo de comunicação que seu cliente escolhe para interagir com você. Uma caixa de entrada é onde você gerencia interações para um canal específico. Pode incluir comunicações de várias fontes, como e-mail, chat ao vivo e mídia social.",
     "LEARN_MORE": "Saiba mais sobre as caixas de entrada",

@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikátor používateľa",
+      "DESCRIPTION": "Automaticky zobrazuje meno operátora tučným písmom nad jeho správami. Predvolene je zapnutý pre každú konverzáciu a možno ho vypnúť v editore odpovedí na odosielanie presných príkazov botom. Osobný podpis zostáva oddelene pod správou."
+    },
     "HEADER": "Inboxes",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",

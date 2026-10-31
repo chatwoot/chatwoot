@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifiant utilisateur",
+      "DESCRIPTION": "Affiche automatiquement le nom de l’agent en gras au-dessus de ses messages. Activé par défaut pour chaque conversation, il peut être désactivé dans l’éditeur de réponse pour envoyer des commandes exactes aux bots. La signature personnelle reste séparée sous le message."
+    },
     "HEADER": "Boîtes de réception",
     "DESCRIPTION": "Un canal est le mode de communication que votre client choisit pour interagir avec vous. Une boîte de réception est l'endroit où vous gérez les interactions pour un canal spécifique. Il peut inclure des communications provenant de diverses sources telles que les e-mails, le chat en direct et les réseaux sociaux.",
     "LEARN_MORE": "En savoir plus sur les boîtes de réception",

@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Идентификатор на потребителя",
+      "DESCRIPTION": "Автоматично показва името на служителя с удебелен шрифт над съобщенията му. Активиран е по подразбиране за всеки разговор и може да бъде изключен в редактора за отговори за изпращане на точни команди към ботове. Личният подпис остава отделно под съобщението."
+    },
     "HEADER": "Inboxes",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
