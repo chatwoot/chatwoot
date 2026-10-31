@@ -11,6 +11,11 @@ class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::Conver
   # In these cases, we use a conversation-level identifier instead of a message-level one.
   FALLBACK_PATTERN = %r{account/(\d+)/conversation/([a-zA-Z0-9-]+)@}
 
+  # Replies delivered in quick succession can be processed before the parent message is committed by a parallel job.
+  # Wait briefly for the parent so the reply doesn't open a separate conversation.
+  PARENT_LOOKUP_ATTEMPTS = 3
+  PARENT_LOOKUP_INTERVAL = 0.5.seconds
+
   def find
     return nil if mail.in_reply_to.blank?
 
@@ -36,8 +41,19 @@ class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::Conver
 
   # Replies to a forwarded email start a new conversation with the forward recipient
   def conversation_from_source_id(message_id)
-    message = Message.find_by(source_id: message_id)
+    message = find_parent_message(message_id)
     message&.conversation unless message&.forwarded?
+  end
+
+  def find_parent_message(message_id)
+    PARENT_LOOKUP_ATTEMPTS.times do |attempt|
+      message = Message.find_by(source_id: message_id)
+      return message if message
+
+      sleep PARENT_LOOKUP_INTERVAL unless attempt == PARENT_LOOKUP_ATTEMPTS - 1
+    end
+
+    nil
   end
 
   def extract_uuid_from_patterns(message_id)
