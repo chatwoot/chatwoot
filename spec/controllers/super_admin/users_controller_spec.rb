@@ -97,6 +97,38 @@ RSpec.describe 'Super Admin Users API', type: :request do
     end
   end
 
+  describe 'GET /super_admin/users/:id/edit' do
+    let!(:target_user) { create(:super_admin) }
+
+    it 'renders the type select with labeled empty option for demoting to regular user' do
+      sign_in(super_admin, scope: :super_admin)
+
+      get "/super_admin/users/#{target_user.id}/edit"
+
+      expect(response).to have_http_status(:success)
+      doc = Nokogiri::HTML(response.body)
+      type_select = doc.at_css('select#user_type')
+
+      expect(type_select).to be_present
+      options = type_select.css('option').map { |opt| [opt.text.strip, opt['value']] }
+      expect(options).to include(['User', ''])
+      expect(options).to include(['Super Admin', 'SuperAdmin'])
+    end
+  end
+
+  describe 'PATCH /super_admin/users/:id' do
+    let!(:target_admin) { create(:super_admin) }
+
+    it 'demotes super admin to regular user when type is cleared' do
+      sign_in(super_admin, scope: :super_admin)
+
+      patch "/super_admin/users/#{target_admin.id}", params: { user: { type: '' } }
+
+      expect(response).to redirect_to("http://www.example.com/super_admin/users/#{target_admin.id}")
+      expect(User.find(target_admin.id).type).to be_nil
+    end
+  end
+
   describe 'DELETE /super_admin/users/:id/avatar' do
     let!(:user) { create(:user, :with_avatar) }
 

@@ -24,7 +24,7 @@
 }
 
 .selectize-dropdown {
-  @apply mt-1 overflow-hidden rounded-lg border border-n-weak bg-n-solid-2 text-body-main text-n-slate-12 shadow-lg;
+  @apply z-20 mt-1 overflow-hidden rounded-lg border border-n-weak bg-n-solid-2 text-body-main text-n-slate-12 shadow-lg;
 
   .option {
     @apply px-3 py-2;

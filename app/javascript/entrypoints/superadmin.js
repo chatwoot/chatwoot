@@ -2,6 +2,10 @@ import { initializeCommandBar } from '../superadmin/commandBar';
 
 // This module is deferred, so the document is already parsed when it runs.
 
+if (window.jQuery?.fn?.selectize) {
+  window.jQuery.fn.selectize.defaults.allowEmptyOption = true;
+}
+
 const swapIcons = button =>
   button.querySelectorAll('span').forEach(icon => {
     icon.classList.toggle('hidden');
