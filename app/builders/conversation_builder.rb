@@ -2,6 +2,7 @@ class ConversationBuilder
   pattr_initialize [:params!, :contact_inbox!]
 
   def perform
+    validate_labels
     existing_conversation = look_up_exising_conversation
     return create_new_conversation unless existing_conversation
 
@@ -10,6 +11,12 @@ class ConversationBuilder
   end
 
   private
+
+  def validate_labels
+    return if params[:labels].nil? || (params[:labels].is_a?(Array) && params[:labels].all?(String))
+
+    raise ActionController::ParameterMissing, :labels
+  end
 
   def look_up_exising_conversation
     return unless @contact_inbox.inbox.lock_to_single_conversation?
