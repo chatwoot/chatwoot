@@ -420,6 +420,9 @@ describe('#actions', () => {
   describe('#sendMessageWithData', () => {
     it('commits ADD_MESSAGE with progress and response status', async () => {
       const localCommit = vi.fn();
+      axios.mockResolvedValue({
+        data: { id: 1, conversation_id: 10, status: 'sent', content: 'test' },
+      });
       axios.post.mockResolvedValue({
         data: { id: 1, conversation_id: 10, status: 'sent', content: 'test' },
       });
@@ -443,6 +446,14 @@ describe('#actions', () => {
 
     it('preserves response status if already delivered when create resolves', async () => {
       const localCommit = vi.fn();
+      axios.mockResolvedValue({
+        data: {
+          id: 1,
+          conversation_id: 10,
+          status: 'delivered',
+          content: 'test',
+        },
+      });
       axios.post.mockResolvedValue({
         data: {
           id: 1,
