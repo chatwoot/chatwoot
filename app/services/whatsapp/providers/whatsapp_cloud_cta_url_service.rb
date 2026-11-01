@@ -3,6 +3,16 @@ class Whatsapp::Providers::WhatsappCloudCtaUrlService < Whatsapp::Providers::Bas
     new(whatsapp_channel: whatsapp_channel).perform(phone_number, message)
   end
 
+  def self.cta_url?(message)
+    return false unless message.content_attributes.is_a?(Hash)
+
+    cta_params = message.content_attributes['whatsapp_cta_url'] || message.content_attributes[:whatsapp_cta_url]
+    return false unless cta_params.is_a?(Hash)
+
+    (cta_params[:display_text] || cta_params['display_text']).present? &&
+      (cta_params[:url] || cta_params['url']).present?
+  end
+
   def perform(phone_number, message)
     payload = create_cta_url_payload(message)
 

@@ -6,8 +6,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
       send_interactive_text_message(phone_number, message)
-    elsif whatsapp_cta_url?(message)
-      send_cta_url_message(phone_number, message)
+    elsif Whatsapp::Providers::WhatsappCloudCtaUrlService.cta_url?(message)
+      Whatsapp::Providers::WhatsappCloudCtaUrlService.perform(whatsapp_channel, phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -257,19 +257,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
-  end
-
-  def send_cta_url_message(phone_number, message)
-    Whatsapp::Providers::WhatsappCloudCtaUrlService.perform(whatsapp_channel, phone_number, message)
-  end
-
-  def whatsapp_cta_url?(message)
-    cta_params = (message.content_attributes || {})['whatsapp_cta_url'] || (message.content_attributes || {})[:whatsapp_cta_url]
-    return false unless cta_params.is_a?(Hash)
-
-    cta_params = cta_params.with_indifferent_access
-    cta_params[:display_text].is_a?(String) && cta_params[:display_text].present? &&
-      cta_params[:url].is_a?(String) && cta_params[:url].present?
   end
 end
 

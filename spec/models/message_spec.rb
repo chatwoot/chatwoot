@@ -63,6 +63,17 @@ RSpec.describe Message do
       expect(message.valid?).to be false
       expect(message.errors[:content_attributes].any? { |e| e.include?('contains invalid keys for whatsapp_cta_url') }).to be true
     end
+
+    it 'adds error when both whatsapp_cta_url body and message content are blank' do
+      message = build(:message, conversation: conversation, content: nil, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body or message content is required for whatsapp_cta_url')
+    end
   end
 
   describe 'length validations' do
