@@ -116,19 +116,6 @@ RSpec.describe 'Super Admin Users API', type: :request do
     end
   end
 
-  describe 'PATCH /super_admin/users/:id' do
-    let!(:target_admin) { create(:super_admin) }
-
-    it 'demotes super admin to regular user when type is cleared' do
-      sign_in(super_admin, scope: :super_admin)
-
-      patch "/super_admin/users/#{target_admin.id}", params: { user: { type: '' } }
-
-      expect(response).to redirect_to("http://www.example.com/super_admin/users/#{target_admin.id}")
-      expect(User.find(target_admin.id).type).to be_nil
-    end
-  end
-
   describe 'DELETE /super_admin/users/:id/avatar' do
     let!(:user) { create(:user, :with_avatar) }
 
@@ -181,6 +168,15 @@ RSpec.describe 'Super Admin Users API', type: :request do
         job[:job].to_s == 'ActionMailer::MailDeliveryJob'
       end
       expect(mail_jobs.count).to be >= 1
+    end
+
+    it 'demotes super admin to regular user when type is cleared' do
+      target_admin = create(:super_admin)
+
+      patch "/super_admin/users/#{target_admin.id}", params: { user: { type: '' } }
+
+      expect(response).to redirect_to("http://www.example.com/super_admin/users/#{target_admin.id}")
+      expect(User.find(target_admin.id).type).to be_nil
     end
   end
 
