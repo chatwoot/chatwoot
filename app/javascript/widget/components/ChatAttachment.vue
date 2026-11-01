@@ -11,6 +11,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
 import { emitter } from 'shared/helpers/mitt';
+import { computed } from 'vue';
 import { useAttachments } from '../composables/useAttachments';
 
 export default {
@@ -23,7 +24,15 @@ export default {
   },
   setup() {
     const { canHandleAttachments } = useAttachments();
-    return { canHandleAttachments };
+    const allowedFileTypes = computed(() => {
+      const validationEnabled =
+        window.globalConfig?.ENABLE_FILE_TYPE_VALIDATION;
+      if (validationEnabled === false) {
+        return '*/*';
+      }
+      return ALLOWED_FILE_TYPES;
+    });
+    return { canHandleAttachments, allowedFileTypes };
   },
   data() {
     return { isUploading: false };
@@ -36,9 +45,6 @@ export default {
       return resolveMaximumFileUploadSize(
         this.globalConfig.maximumFileUploadSize
       );
-    },
-    allowedFileTypes() {
-      return ALLOWED_FILE_TYPES;
     },
   },
   mounted() {
