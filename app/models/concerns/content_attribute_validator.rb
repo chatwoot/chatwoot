@@ -70,9 +70,17 @@ class ContentAttributeValidator < ActiveModel::Validator
   def validate_whatsapp_cta_url_attributes!(record, cta_params)
     invalid_keys = cta_params.keys.map(&:to_sym) - ALLOWED_WHATSAPP_CTA_URL_KEYS
     record.errors.add(:content_attributes, "contains invalid keys for whatsapp_cta_url : #{invalid_keys}") if invalid_keys.present?
+    validate_cta_required_fields!(record, cta_params)
+  end
+
+  def validate_cta_required_fields!(record, cta_params)
     record.errors.add(:content_attributes, 'display_text is required for whatsapp_cta_url') if invalid_cta_param?(cta_params[:display_text])
     record.errors.add(:content_attributes, 'url is required for whatsapp_cta_url') if invalid_cta_param?(cta_params[:url])
-    record.errors.add(:content_attributes, 'body or message content is required for whatsapp_cta_url') if cta_params[:body].blank? && record.content.blank?
+    record.errors.add(:content_attributes, 'body or message content is required for whatsapp_cta_url') if missing_cta_body?(record, cta_params)
+  end
+
+  def missing_cta_body?(record, cta_params)
+    cta_params[:body].blank? && record.content.blank?
   end
 
   def invalid_cta_param?(value)
