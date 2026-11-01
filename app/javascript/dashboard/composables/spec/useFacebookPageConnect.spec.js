@@ -71,7 +71,7 @@ describe('useFacebookPageConnect', () => {
     );
     expect(window.FB.login).toHaveBeenCalledWith(expect.any(Function), {
       scope:
-        'pages_manage_metadata,business_management,pages_messaging,pages_show_list,pages_read_engagement',
+        'pages_manage_metadata,business_management,pages_messaging,pages_show_list',
     });
   });
 
