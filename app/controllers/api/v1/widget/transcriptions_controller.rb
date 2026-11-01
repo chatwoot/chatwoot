@@ -7,7 +7,7 @@ class Api::V1::Widget::TranscriptionsController < Api::V1::Widget::BaseControlle
 
     audio = params[:audio]
     return render_error('No audio provided', :unprocessable_entity) unless audio.is_a?(ActionDispatch::Http::UploadedFile)
-    return render_error('No audio provided', :unprocessable_entity) if audio.size.zero?
+    return render_error('No audio provided', :unprocessable_entity) unless audio.size.positive?
     return render_error('Unsupported audio format', :unprocessable_entity) unless supported_audio_type?(audio)
 
     result = Messages::WidgetAudioTranscriptionService.new(audio, account: @web_widget.account).perform
