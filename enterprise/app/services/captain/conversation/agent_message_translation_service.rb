@@ -31,11 +31,10 @@ class Captain::Conversation::AgentMessageTranslationService
   end
 
   def apply_translation(translated, translated_cta, need_reply, need_cta)
-    if over_whatsapp_cta_limit?(translated, translated_cta)
-      message.translation_failed = true
-    elsif usable_translation?(translated, translated_cta, need_reply, need_cta)
+    over_limit = over_whatsapp_cta_limit?(translated, translated_cta)
+    if !over_limit && usable_translation?(translated, translated_cta, need_reply, need_cta)
       use_translation(translated, translated_cta, need_reply)
-    elsif translation_error?(translated, translated_cta, need_reply, need_cta)
+    elsif over_limit || translation_error?(translated, translated_cta, need_reply, need_cta)
       message.translation_failed = true
     end
   end
@@ -64,6 +63,10 @@ class Captain::Conversation::AgentMessageTranslationService
     message.source_language = conversation.language
     message.translation_provider = translator.provider
     message.content = with_quoted_history(translated) if need_reply
+    sync_translated_channel_attributes(translated_cta)
+  end
+
+  def sync_translated_channel_attributes(translated_cta)
     message.content_attributes['email'] = email_content(message.content) if email_reply?
     update_whatsapp_cta_body(translated_cta) if translated_cta.present?
   end
