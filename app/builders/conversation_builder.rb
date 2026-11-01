@@ -2,7 +2,11 @@ class ConversationBuilder
   pattr_initialize [:params!, :contact_inbox!]
 
   def perform
-    look_up_exising_conversation || create_new_conversation
+    existing_conversation = look_up_exising_conversation
+    return create_new_conversation unless existing_conversation
+
+    existing_conversation.add_labels(params[:labels])
+    existing_conversation
   end
 
   private
