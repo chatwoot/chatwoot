@@ -1912,6 +1912,11 @@
                           },
                           "description": "array of the attribute values to filter"
                         },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
+                        },
                         "query_operator": {
                           "type": "string",
                           "description": "query operator name",
@@ -3442,6 +3447,11 @@
                             "type": "string"
                           },
                           "description": "array of the attribute values to filter"
+                        },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
                         },
                         "query_operator": {
                           "type": "string",
@@ -12139,6 +12149,17 @@
             "type": "integer",
             "description": "Team Id for assigning a conversation to a team\\",
             "example": 1
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Label titles to add to the conversation on creation",
+            "example": [
+              "support",
+              "billing"
+            ]
           },
           "snoozed_until": {
             "type": "string",
