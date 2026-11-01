@@ -1,6 +1,13 @@
 class Captain::Conversation::AgentMessageTranslationService
   include EmailHelper
 
+  TRANSLATABLE_CTA_FIELDS = %w[body display_text header footer].freeze
+  CTA_FIELD_MAX_LENGTHS = {
+    'display_text' => ContentAttributeValidator::WHATSAPP_CTA_DISPLAY_TEXT_MAX_LENGTH,
+    'header' => ContentAttributeValidator::WHATSAPP_CTA_HEADER_FOOTER_MAX_LENGTH,
+    'footer' => ContentAttributeValidator::WHATSAPP_CTA_HEADER_FOOTER_MAX_LENGTH
+  }.freeze
+
   pattr_initialize [:message!]
 
   def perform
@@ -21,54 +28,70 @@ class Captain::Conversation::AgentMessageTranslationService
   end
 
   def translate_reply
-    need_reply = !same_conversation_language?(reply_language)
-    need_cta = distinct_cta_body? && !same_conversation_language?(cta_body_language)
-    return unless need_reply || need_cta
-
-    translated = need_reply ? translate : reply
-    translated_cta = translated_cta_body_for(translated, need_cta)
-    apply_translation(translated, translated_cta, need_reply, need_cta)
+    reply_result = evaluate_segment(reply)
+    cta_results = evaluate_whatsapp_cta_segments
+    apply_translation(reply_result, cta_results)
   end
 
-  def apply_translation(translated, translated_cta, need_reply, need_cta)
-    over_limit = over_whatsapp_cta_limit?(translated, translated_cta)
-    if !over_limit && usable_translation?(translated, translated_cta, need_reply, need_cta)
-      use_translation(translated, translated_cta, need_reply)
-    elsif over_limit || translation_error?(translated, translated_cta, need_reply, need_cta)
+  def apply_translation(reply_result, cta_results)
+    all_results = [reply_result, *cta_results.values]
+    if translation_failed_or_over_limit?(reply_result, cta_results, all_results)
       message.translation_failed = true
+    elsif all_results.any? { |res| res[:status] == :translated }
+      use_translation(reply_result, cta_results, all_results)
     end
   end
 
-  def usable_translation?(translated, translated_cta, need_reply, need_cta)
-    reply_ready = !need_reply || valid_segment_translation?(translated, reply)
-    cta_ready = !need_cta || valid_segment_translation?(translated_cta, whatsapp_cta_body)
-    reply_ready && cta_ready
+  def translation_failed_or_over_limit?(reply_result, cta_results, all_results)
+    return true if all_results.any? { |res| res[:status] == :failed }
+    return false unless all_results.any? { |res| res[:status] == :translated }
+
+    over_whatsapp_cta_limit?(reply_result, cta_results)
   end
 
-  def valid_segment_translation?(candidate, source)
-    candidate.present? && candidate != source
+  def evaluate_segment(text)
+    return { status: :unchanged, text: text, lang: nil } if text.blank?
+
+    lang = detected_language_for(text)
+    return { status: :unchanged, text: text, lang: lang } if same_conversation_language?(lang)
+
+    candidate = translated_text_for(text)
+    status = segment_status(text, candidate, lang)
+    { status: status, text: status == :translated ? candidate : text, lang: lang }
   end
 
-  def translation_error?(translated, translated_cta, need_reply, need_cta)
-    segment_failed?(need_reply, translated, reply_language) || segment_failed?(need_cta, translated_cta, cta_body_language)
+  def segment_status(source, candidate, lang)
+    return :failed if candidate.blank?
+    return :translated if candidate != source
+
+    lang.present? ? :failed : :unchanged
   end
 
-  def segment_failed?(needed, candidate, detected_lang)
-    needed && (candidate.blank? || detected_lang.present?)
+  def evaluate_whatsapp_cta_segments
+    return {} unless whatsapp_cta_reply?
+
+    TRANSLATABLE_CTA_FIELDS.each_with_object({}) do |field, results|
+      value = whatsapp_cta_field(field)
+      results[field] = evaluate_segment(value) if value.present?
+    end
   end
 
-  def use_translation(translated, translated_cta, need_reply)
-    detected = need_reply ? reply_language : cta_body_language
+  def use_translation(reply_result, cta_results, all_results)
+    detected = translated_source_language(all_results)
     message.translations = { original_language(detected) => original_text }
     message.source_language = conversation.language
     message.translation_provider = translator.provider
-    message.content = with_quoted_history(translated) if need_reply
-    sync_translated_channel_attributes(translated_cta)
+    message.content = with_quoted_history(reply_result[:text]) if reply_result[:status] == :translated
+    sync_translated_channel_attributes(cta_results)
   end
 
-  def sync_translated_channel_attributes(translated_cta)
+  def translated_source_language(all_results)
+    all_results.find { |res| res[:status] == :translated && res[:lang].present? }&.dig(:lang)
+  end
+
+  def sync_translated_channel_attributes(cta_results)
     message.content_attributes['email'] = email_content(message.content) if email_reply?
-    update_whatsapp_cta_body(translated_cta) if translated_cta.present?
+    update_whatsapp_cta_fields(cta_results) if cta_results.present?
   end
 
   def same_conversation_language?(lang)
@@ -84,53 +107,61 @@ class Captain::Conversation::AgentMessageTranslationService
     whatsapp_cta_params.present?
   end
 
-  def whatsapp_cta_body
+  def whatsapp_cta_field(field)
     params = whatsapp_cta_params
-    body = params && (params['body'] || params[:body])
-    body if body.is_a?(String) && body.present?
+    value = params && (params[field] || params[field.to_sym])
+    value if value.is_a?(String) && value.present?
   end
 
-  def distinct_cta_body?
-    whatsapp_cta_body.present? && whatsapp_cta_body != reply
-  end
-
-  def cta_body_language
-    return @cta_body_language if defined?(@cta_body_language)
-
-    @cta_body_language = detect(whatsapp_cta_body)
-  end
-
-  def translated_cta_body_for(translated_reply, need_cta)
-    return if whatsapp_cta_body.blank?
-    return translator.translate(whatsapp_cta_body, conversation.language) if need_cta
-
-    distinct_cta_body? ? whatsapp_cta_body : translated_reply
-  end
-
-  def over_whatsapp_cta_limit?(translated, translated_cta)
+  def over_whatsapp_cta_limit?(reply_result, cta_results)
     return false unless whatsapp_cta_reply?
+    return true if over_cta_metadata_limits?(cta_results)
 
-    effective_body = translated_cta.presence || with_quoted_history(translated.to_s)
-    effective_body.length > ContentAttributeValidator::WHATSAPP_CTA_BODY_MAX_LENGTH
+    effective_cta_body(reply_result, cta_results).length > ContentAttributeValidator::WHATSAPP_CTA_BODY_MAX_LENGTH
   end
 
-  def update_whatsapp_cta_body(translated_cta)
+  def over_cta_metadata_limits?(cta_results)
+    CTA_FIELD_MAX_LENGTHS.any? do |field, max_len|
+      text = cta_results.dig(field, :text) || whatsapp_cta_field(field)
+      text.present? && text.length > max_len
+    end
+  end
+
+  def effective_cta_body(reply_result, cta_results)
+    explicit_body = cta_results.dig('body', :text) || whatsapp_cta_field('body')
+    return explicit_body if explicit_body.present?
+
+    next_content = reply_result[:status] == :translated ? with_quoted_history(reply_result[:text]) : message.content
+    ContentAttributeValidator.rendered_whatsapp_body(next_content.to_s, inbox.channel)
+  end
+
+  def update_whatsapp_cta_fields(cta_results)
+    translated_fields = cta_results.each_with_object({}) do |(field, res), acc|
+      acc[field] = res[:text] if res[:status] == :translated
+    end
+    return if translated_fields.empty?
+
     cta_key = message.content_attributes.key?(:whatsapp_cta_url) ? :whatsapp_cta_url : 'whatsapp_cta_url'
-    message.content_attributes[cta_key] = whatsapp_cta_params.except(:body, 'body').merge('body' => translated_cta)
+    keys_to_replace = translated_fields.keys.flat_map { |k| [k, k.to_sym] }
+    message.content_attributes[cta_key] = whatsapp_cta_params.except(*keys_to_replace).merge(translated_fields)
   end
 
-  def translate
-    translator.translate(reply, conversation.language)
+  def detected_language_for(text)
+    @detected_languages ||= {}
+    return @detected_languages[text] if @detected_languages.key?(text)
+
+    @detected_languages[text] = detect(text)
+  end
+
+  def translated_text_for(text)
+    @translated_texts ||= {}
+    return @translated_texts[text] if @translated_texts.key?(text)
+
+    @translated_texts[text] = translator.translate(text, conversation.language)
   end
 
   def original_language(detected_lang)
     detected_lang || agent_locale || account.locale
-  end
-
-  def reply_language
-    return @reply_language if defined?(@reply_language)
-
-    @reply_language = detect(reply)
   end
 
   def detect(text)

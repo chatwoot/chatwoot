@@ -9,6 +9,12 @@ class ContentAttributeValidator < ActiveModel::Validator
   WHATSAPP_CTA_BODY_MAX_LENGTH = 1024
   WHATSAPP_CTA_HEADER_FOOTER_MAX_LENGTH = 60
 
+  def self.rendered_whatsapp_body(content, channel = nil)
+    return content unless content.is_a?(String) && content.present?
+
+    Messages::MarkdownRendererService.new(content, 'Channel::Whatsapp', channel).render.presence || content
+  end
+
   def validate(record)
     case record.content_type
     when 'input_select'
@@ -125,7 +131,7 @@ class ContentAttributeValidator < ActiveModel::Validator
   def validate_cta_body_field!(record, cta_params)
     if !cta_params[:body].nil? && !cta_params[:body].is_a?(String)
       record.errors.add(:content_attributes, 'body must be a string for whatsapp_cta_url')
-    elsif cta_params[:body].blank? && record.content.blank?
+    elsif effective_cta_body(record, cta_params).blank?
       record.errors.add(:content_attributes, 'body or message content is required for whatsapp_cta_url')
     end
   end
@@ -150,9 +156,21 @@ class ContentAttributeValidator < ActiveModel::Validator
 
   def validate_cta_field_lengths!(record, cta_params)
     validate_cta_max_length!(record, :display_text, cta_params[:display_text], WHATSAPP_CTA_DISPLAY_TEXT_MAX_LENGTH)
-    validate_cta_max_length!(record, :body, cta_params[:body].presence || record.content, WHATSAPP_CTA_BODY_MAX_LENGTH)
+    validate_cta_max_length!(record, :body, effective_cta_body(record, cta_params), WHATSAPP_CTA_BODY_MAX_LENGTH)
     validate_cta_max_length!(record, :header, cta_params[:header], WHATSAPP_CTA_HEADER_FOOTER_MAX_LENGTH)
     validate_cta_max_length!(record, :footer, cta_params[:footer], WHATSAPP_CTA_HEADER_FOOTER_MAX_LENGTH)
+  end
+
+  def effective_cta_body(record, cta_params)
+    explicit_body = cta_params[:body]
+    return explicit_body if explicit_body.is_a?(String) && explicit_body.present?
+    return rendered_outgoing_body(record) if record.conversation&.inbox.present? && record.respond_to?(:outgoing_content)
+
+    self.class.rendered_whatsapp_body(record.content, (record.inbox || record.conversation&.inbox)&.channel)
+  end
+
+  def rendered_outgoing_body(record)
+    record.outgoing_content.presence || record.content
   end
 
   def validate_cta_max_length!(record, field, value, max_length)

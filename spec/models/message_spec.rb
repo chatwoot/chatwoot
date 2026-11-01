@@ -216,6 +216,20 @@ RSpec.describe Message do
       expect(message.valid?).to be false
       expect(message.errors[:content_attributes]).to include('body must be at most 1024 characters for whatsapp_cta_url')
     end
+
+    it 'adds error when rendered WhatsApp outgoing_content expands past 1024 characters' do
+      expanding_markdown = "[u]: https://example.com/#{'a' * 100}\n\n#{'[u] ' * 15}"
+      expect(expanding_markdown.length).to be <= 1024
+
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: expanding_markdown, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body must be at most 1024 characters for whatsapp_cta_url')
+    end
   end
 
   describe 'length validations' do
