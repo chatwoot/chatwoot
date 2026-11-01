@@ -4,7 +4,7 @@
              else
                field.selectable_options.map do |value|
                  label = if value.blank?
-                           field.attribute == :type ? I18n.t('super_admin.users.type.regular_user', default: 'User') : '-'
+                           field.attribute == :type ? t('super_admin.users.type.regular_user') : '-'
                          else
                            value.to_s.titleize
                          end
