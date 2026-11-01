@@ -224,6 +224,38 @@ describe('ChatFooter', () => {
     }
   );
 
+  it('keeps a reply picked while an overflow batch is still sending', async () => {
+    const sendAttachment = wrapper
+      .findComponent(ChatInputWrap)
+      .props('onSendAttachment');
+    emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, {
+      id: 42,
+      content: 'Original message',
+    });
+    const replyTo = await sendAttachment(['first batch']);
+
+    let finishSend;
+    dispatch.mockReturnValueOnce(
+      new Promise(resolve => {
+        finishSend = resolve;
+      })
+    );
+    const sending = sendAttachment(['later batch'], replyTo);
+    const newerReply = { id: 43, content: 'Newer message' };
+    emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, newerReply);
+    finishSend();
+    await sending;
+    await nextTick();
+
+    expect(dispatch).toHaveBeenLastCalledWith('conversation/sendAttachment', {
+      attachment: ['later batch'],
+      replyTo: 42,
+    });
+    expect(wrapper.findComponent(FooterReplyTo).props('inReplyTo')).toEqual(
+      newerReply
+    );
+  });
+
   it('reacts to conversation status, widget style, and contact changes in Vuex', async () => {
     expect(wrapper.find('footer').classes()).toContain('rounded-lg');
     store.state.isWidgetStyleFlat = true;

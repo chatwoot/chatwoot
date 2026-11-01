@@ -65,12 +65,13 @@ const handleSendMessage = async content => {
 
 // A large file selection is sent as several messages; the later ones pass
 // back the reply target returned here, since the preview clears after one.
+// A reply picked while a later batch is still uploading stays in the preview.
 const handleSendAttachment = async (
   attachment,
   replyTo = inReplyTo.value ? inReplyTo.value.id : null
 ) => {
   await store.dispatch('conversation/sendAttachment', { attachment, replyTo });
-  inReplyTo.value = null;
+  if (inReplyTo.value?.id === replyTo) inReplyTo.value = null;
   return replyTo;
 };
 
