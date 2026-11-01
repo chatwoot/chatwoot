@@ -268,9 +268,13 @@ export const mutations = {
         existingMessage.status,
         message.status
       );
+      const isDeleted = Boolean(message.content_attributes?.deleted);
       chat.messages[pendingMessageIndex] = {
         ...existingMessage,
         ...message,
+        attachments: isDeleted
+          ? []
+          : (message.attachments ?? existingMessage.attachments),
         status: mergedStatus,
       };
     } else {

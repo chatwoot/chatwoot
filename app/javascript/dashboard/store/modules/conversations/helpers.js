@@ -49,23 +49,14 @@ export const resolveMessageStatus = (currentStatus, incomingStatus) => {
   if (!incomingStatus) return currentStatus;
   if (!currentStatus) return incomingStatus;
 
-  // Once confirmed delivered or read by the recipient, do not revert to failed
-  if (
-    incomingStatus === MESSAGE_STATUS.FAILED &&
-    (currentStatus === MESSAGE_STATUS.DELIVERED ||
-      currentStatus === MESSAGE_STATUS.READ)
-  ) {
-    return currentStatus;
+  // Authoritative server failure always wins so retry controls and error banners are enabled
+  if (incomingStatus === MESSAGE_STATUS.FAILED) {
+    return MESSAGE_STATUS.FAILED;
   }
 
   // If currently failed and retry is initiated (progress) or succeeded (sent/delivered/read)
   if (currentStatus === MESSAGE_STATUS.FAILED) {
     return incomingStatus;
-  }
-
-  // If incoming is failed from progress or sent
-  if (incomingStatus === MESSAGE_STATUS.FAILED) {
-    return MESSAGE_STATUS.FAILED;
   }
 
   const currentPrecedence = MESSAGE_STATUS_PRECEDENCE[currentStatus];

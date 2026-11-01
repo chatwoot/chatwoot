@@ -88,9 +88,9 @@ describe('#resolveMessageStatus', () => {
     expect(resolveMessageStatus('sent', 'failed')).toEqual('failed');
   });
 
-  it('does not downgrade confirmed delivered or read messages to failed', () => {
-    expect(resolveMessageStatus('delivered', 'failed')).toEqual('delivered');
-    expect(resolveMessageStatus('read', 'failed')).toEqual('read');
+  it('transitions delivered or read to failed on server failure event', () => {
+    expect(resolveMessageStatus('delivered', 'failed')).toEqual('failed');
+    expect(resolveMessageStatus('read', 'failed')).toEqual('failed');
   });
 
   it('allows transition from failed to progress or sent on retry', () => {

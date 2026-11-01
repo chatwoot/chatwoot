@@ -270,6 +270,35 @@ describe('#mutations', () => {
       });
       expect(state.allConversations[0].messages[0].status).toEqual('read');
     });
+
+    it('clears attachments when message is updated as deleted', () => {
+      global.bus = { $emit: vi.fn() };
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            messages: [
+              {
+                id: 102,
+                conversation_id: 1,
+                content: 'Photo message',
+                attachments: [{ id: 1, file_type: 'image' }],
+                status: 'delivered',
+              },
+            ],
+          },
+        ],
+        selectedChatId: 1,
+      };
+      mutations[types.ADD_MESSAGE](state, {
+        id: 102,
+        conversation_id: 1,
+        content: 'This message was deleted',
+        content_attributes: { deleted: true },
+        status: 'delivered',
+      });
+      expect(state.allConversations[0].messages[0].attachments).toEqual([]);
+    });
   });
 
   describe('#CHANGE_CONVERSATION_STATUS', () => {
