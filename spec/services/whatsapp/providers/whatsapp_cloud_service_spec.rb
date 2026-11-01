@@ -362,6 +362,46 @@ describe Whatsapp::Providers::WhatsappCloudService do
       expect(service.send_message('+123456789', message_without_body)).to eq 'message_id'
     end
 
+    it 'sends transformed message content for body-only whatsapp_cta_url messages' do
+      conversation.contact.update!(name: 'Alice')
+      body_only_cta = create(:message, conversation: conversation, message_type: :outgoing, content: nil,
+                                       inbox: whatsapp_channel.inbox,
+                                       content_attributes: {
+                                         whatsapp_cta_url: {
+                                           display_text: 'See menu',
+                                           url: 'https://example.com/menu',
+                                           body: 'Hello {{contact.name}}'
+                                         }
+                                       })
+
+      expect(body_only_cta.content).to eq('Hello Alice')
+
+      stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            context: nil,
+            to: '+123456789',
+            interactive: {
+              type: 'cta_url',
+              body: {
+                text: 'Hello Alice'
+              },
+              action: {
+                name: 'cta_url',
+                parameters: {
+                  display_text: 'See menu',
+                  url: 'https://example.com/menu'
+                }
+              }
+            },
+            type: 'interactive'
+          }.to_json
+        ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message('+123456789', body_only_cta)).to eq 'message_id'
+    end
+
     it 'calls message endpoints with image header and footer when provided' do
       cta_with_header_and_footer = create(:message, message_type: :outgoing, content: 'Check out our menu',
                                                     inbox: whatsapp_channel.inbox,

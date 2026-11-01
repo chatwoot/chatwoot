@@ -45,6 +45,32 @@ RSpec.describe Message do
                       })
       expect(message.valid?).to be true
       expect(message.content).to eq('Check out our menu')
+      expect(message.content_attributes[:whatsapp_cta_url].with_indifferent_access).not_to have_key(:body)
+    end
+
+    it 'rejects whatsapp_cta_url when fallback Liquid content renders blank' do
+      conversation.contact.update!(email: nil)
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: '{{contact.email}}', content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body or message content is required for whatsapp_cta_url')
+    end
+
+    it 'rejects body-only whatsapp_cta_url when Liquid body renders blank' do
+      conversation.contact.update!(email: nil)
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: nil, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: '{{contact.email}}'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body or message content is required for whatsapp_cta_url')
     end
 
     it 'rejects whatsapp_cta_url on non-WhatsApp Cloud inboxes' do

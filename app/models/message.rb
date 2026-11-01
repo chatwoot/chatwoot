@@ -65,6 +65,7 @@ class Message < ApplicationRecord
 
   before_validation :ensure_content_type
   before_validation :sync_whatsapp_cta_content
+  before_validation :process_whatsapp_cta_liquid, on: :create
   before_validation :prevent_message_flooding
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
@@ -332,15 +333,51 @@ class Message < ApplicationRecord
   end
 
   def sync_whatsapp_cta_content
-    return if content.present? || !content_attributes.is_a?(Hash)
+    return if content.present?
 
-    cta_body = whatsapp_cta_body_text
-    self.content = cta_body if cta_body.present?
+    cta_key, cta_params = whatsapp_cta_url_entry
+    body = whatsapp_cta_string_body(cta_params)
+    return if body.blank?
+
+    self.content = body
+    self.content_attributes = content_attributes.merge(cta_key => cta_params.except('body', :body))
   end
 
-  def whatsapp_cta_body_text
-    cta_params = content_attributes['whatsapp_cta_url'] || content_attributes[:whatsapp_cta_url]
-    return unless cta_params.is_a?(Hash)
+  def process_whatsapp_cta_liquid
+    cta_key, cta_params = whatsapp_cta_url_entry
+    return unless cta_params && conversation.present?
+
+    process_liquid_in_content unless liquid_content_processed?
+    process_liquid_in_cta_body(cta_key, cta_params)
+  end
+
+  def process_liquid_in_cta_body(cta_key, cta_params)
+    return if @liquid_cta_body_processed || !liquid_processable_template_params?
+
+    body = whatsapp_cta_string_body(cta_params)
+    return if body.nil?
+
+    body_key = cta_params.key?('body') ? 'body' : :body
+    self.content_attributes = content_attributes.merge(cta_key => cta_params.merge(body_key => render_whatsapp_cta_liquid(body)))
+    @liquid_cta_body_processed = true
+  end
+
+  def render_whatsapp_cta_liquid(text)
+    Liquid::Template.parse(modified_liquid_content(text)).render(message_drops)
+  rescue Liquid::Error
+    text
+  end
+
+  def whatsapp_cta_url_entry
+    return unless content_attributes.is_a?(Hash)
+
+    key = content_attributes.key?('whatsapp_cta_url') ? 'whatsapp_cta_url' : :whatsapp_cta_url
+    params = content_attributes[key]
+    [key, params] if params.is_a?(Hash)
+  end
+
+  def whatsapp_cta_string_body(cta_params)
+    return unless cta_params
 
     body = cta_params['body'] || cta_params[:body]
     body if body.is_a?(String)
