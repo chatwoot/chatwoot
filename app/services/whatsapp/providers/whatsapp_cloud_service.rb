@@ -6,6 +6,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
       send_interactive_text_message(phone_number, message)
+    elsif whatsapp_cta_url?(message)
+      send_cta_url_message(phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -255,6 +257,76 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
+  end
+
+  def send_cta_url_message(phone_number, message)
+    payload = create_cta_url_payload(message)
+
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        context: whatsapp_reply_context(message),
+        **recipient_params(phone_number),
+        interactive: payload,
+        type: 'interactive'
+      }.to_json
+    )
+
+    process_response(response, message)
+  end
+
+  def whatsapp_cta_url?(message)
+    cta_url_params(message).present?
+  end
+
+  def cta_url_params(message)
+    return unless message.content_attributes.is_a?(Hash)
+
+    params = message.content_attributes['whatsapp_cta_url'] || message.content_attributes[:whatsapp_cta_url]
+    params.is_a?(Hash) ? params.with_indifferent_access : nil
+  end
+
+  def create_cta_url_payload(message)
+    params = cta_url_params(message)
+    body_text = params[:body].presence || (message.respond_to?(:outgoing_content) ? message.outgoing_content.presence : nil) || message.content
+
+    interactive = {
+      type: 'cta_url',
+      body: { text: body_text },
+      action: {
+        name: 'cta_url',
+        parameters: {
+          display_text: params[:display_text] || params[:button_label] || params[:button],
+          url: params[:url] || params[:link]
+        }
+      }
+    }
+    attach_cta_header(interactive, params)
+    attach_cta_footer(interactive, params)
+    interactive
+  end
+
+  def attach_cta_header(interactive, params)
+    if params[:header_image].present? || params[:image_url].present?
+      interactive[:header] = {
+        type: 'image',
+        image: { link: params[:header_image] || params[:image_url] }
+      }
+    elsif params[:header].present? || params[:header_text].present?
+      interactive[:header] = {
+        type: 'text',
+        text: params[:header] || params[:header_text]
+      }
+    end
+  end
+
+  def attach_cta_footer(interactive, params)
+    footer_text = params[:footer] || params[:footer_text]
+    return if footer_text.blank?
+
+    interactive[:footer] = { text: footer_text }
   end
 end
 

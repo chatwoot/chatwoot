@@ -285,6 +285,247 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
+  describe '#send_cta_url message' do
+    let(:cta_params) do
+      {
+        display_text: 'See menu',
+        url: 'https://example.com/menu',
+        body: 'Check out our menu'
+      }
+    end
+    let(:cta_message) do
+      create(:message, message_type: :outgoing, content: 'Check out our menu',
+                       inbox: whatsapp_channel.inbox,
+                       content_attributes: { whatsapp_cta_url: cta_params })
+    end
+
+    it 'calls message endpoints with basic cta_url payload' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            context: nil,
+            to: '+123456789',
+            interactive: {
+              type: 'cta_url',
+              body: {
+                text: 'Check out our menu'
+              },
+              action: {
+                name: 'cta_url',
+                parameters: {
+                  display_text: 'See menu',
+                  url: 'https://example.com/menu'
+                }
+              }
+            },
+            type: 'interactive'
+          }.to_json
+        ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message('+123456789', cta_message)).to eq 'message_id'
+    end
+
+    it 'falls back to message content when body is not provided in whatsapp_cta_url' do
+      message_without_body = create(:message, message_type: :outgoing, content: 'Default message text',
+                                              inbox: whatsapp_channel.inbox,
+                                              content_attributes: {
+                                                whatsapp_cta_url: {
+                                                  display_text: 'See menu',
+                                                  url: 'https://example.com/menu'
+                                                }
+                                              })
+
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            context: nil,
+            to: '+123456789',
+            interactive: {
+              type: 'cta_url',
+              body: {
+                text: 'Default message text'
+              },
+              action: {
+                name: 'cta_url',
+                parameters: {
+                  display_text: 'See menu',
+                  url: 'https://example.com/menu'
+                }
+              }
+            },
+            type: 'interactive'
+          }.to_json
+        ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message('+123456789', message_without_body)).to eq 'message_id'
+    end
+
+    it 'calls message endpoints with image header and footer when provided' do
+      cta_with_header_and_footer = create(:message, message_type: :outgoing, content: 'Check out our menu',
+                                                    inbox: whatsapp_channel.inbox,
+                                                    content_attributes: {
+                                                      whatsapp_cta_url: {
+                                                        body: 'Check out our menu',
+                                                        display_text: 'See menu',
+                                                        url: 'https://example.com/menu',
+                                                        header_image: 'https://example.com/menu.jpg',
+                                                        footer: 'Open until 10pm'
+                                                      }
+                                                    })
+
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            context: nil,
+            to: '+123456789',
+            interactive: {
+              type: 'cta_url',
+              body: {
+                text: 'Check out our menu'
+              },
+              action: {
+                name: 'cta_url',
+                parameters: {
+                  display_text: 'See menu',
+                  url: 'https://example.com/menu'
+                }
+              },
+              header: {
+                type: 'image',
+                image: {
+                  link: 'https://example.com/menu.jpg'
+                }
+              },
+              footer: {
+                text: 'Open until 10pm'
+              }
+            },
+            type: 'interactive'
+          }.to_json
+        ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message('+123456789', cta_with_header_and_footer)).to eq 'message_id'
+    end
+
+    it 'calls message endpoints with text header when header is provided without header_image' do
+      cta_with_text_header = create(:message, message_type: :outgoing, content: 'Check out our menu',
+                                              inbox: whatsapp_channel.inbox,
+                                              content_attributes: {
+                                                whatsapp_cta_url: {
+                                                  body: 'Check out our menu',
+                                                  display_text: 'See menu',
+                                                  url: 'https://example.com/menu',
+                                                  header: 'Our Special Menu'
+                                                }
+                                              })
+
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            context: nil,
+            to: '+123456789',
+            interactive: {
+              type: 'cta_url',
+              body: {
+                text: 'Check out our menu'
+              },
+              action: {
+                name: 'cta_url',
+                parameters: {
+                  display_text: 'See menu',
+                  url: 'https://example.com/menu'
+                }
+              },
+              header: {
+                type: 'text',
+                text: 'Our Special Menu'
+              }
+            },
+            type: 'interactive'
+          }.to_json
+        ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message('+123456789', cta_with_text_header)).to eq 'message_id'
+    end
+
+    it 'calls message endpoints for a reply to messages with cta_url' do
+      reply_cta = create(:message, conversation: conversation, message_type: :outgoing, content: 'reply with button',
+                                   inbox: whatsapp_channel.inbox,
+                                   content_attributes: {
+                                     in_reply_to: message.id,
+                                     whatsapp_cta_url: cta_params
+                                   })
+
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            context: {
+              message_id: message.source_id
+            },
+            to: '+123456789',
+            interactive: {
+              type: 'cta_url',
+              body: {
+                text: 'Check out our menu'
+              },
+              action: {
+                name: 'cta_url',
+                parameters: {
+                  display_text: 'See menu',
+                  url: 'https://example.com/menu'
+                }
+              }
+            },
+            type: 'interactive'
+          }.to_json
+        ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message('+123456789', reply_cta)).to eq 'message_id'
+    end
+
+    it 'handles bsuid recipient identifier properly' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            context: nil,
+            recipient_type: 'individual',
+            recipient: 'BR.123456789',
+            interactive: {
+              type: 'cta_url',
+              body: {
+                text: 'Check out our menu'
+              },
+              action: {
+                name: 'cta_url',
+                parameters: {
+                  display_text: 'See menu',
+                  url: 'https://example.com/menu'
+                }
+              }
+            },
+            type: 'interactive'
+          }.to_json
+        ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message('BR.123456789', cta_message)).to eq 'message_id'
+    end
+
+    it 'handles error responses from WhatsApp API' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .to_return(status: 400, body: { error: { message: 'Invalid URL parameter' } }.to_json, headers: response_headers)
+
+      expect(service.send_message('+123456789', cta_message)).to be_nil
+      expect(cta_message.reload.status).to eq 'failed'
+      expect(cta_message.external_error).to eq 'Invalid URL parameter'
+    end
+  end
+
   describe '#send_template' do
     let(:template_info) do
       {
