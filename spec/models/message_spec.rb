@@ -74,6 +74,52 @@ RSpec.describe Message do
       expect(message.valid?).to be false
       expect(message.errors[:content_attributes]).to include('body or message content is required for whatsapp_cta_url')
     end
+
+    it 'accepts display_text and body at the Meta length limits' do
+      message = build(:message, conversation: conversation, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'a' * 20,
+                          url: 'https://example.com/menu',
+                          body: 'b' * 1024
+                        }
+                      })
+      expect(message.valid?).to be true
+    end
+
+    it 'adds error when display_text exceeds 20 characters' do
+      message = build(:message, conversation: conversation, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'a' * 21,
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('display_text must be at most 20 characters for whatsapp_cta_url')
+    end
+
+    it 'adds error when body exceeds 1024 characters' do
+      message = build(:message, conversation: conversation, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'b' * 1025
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body must be at most 1024 characters for whatsapp_cta_url')
+    end
+
+    it 'adds error when fallback message content exceeds 1024 characters' do
+      message = build(:message, conversation: conversation, content: 'c' * 1025, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body must be at most 1024 characters for whatsapp_cta_url')
+    end
   end
 
   describe 'length validations' do

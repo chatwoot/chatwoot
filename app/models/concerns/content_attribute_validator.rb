@@ -5,6 +5,8 @@ class ContentAttributeValidator < ActiveModel::Validator
   ALLOWED_FORM_ITEM_KEYS = [:type, :placeholder, :label, :name, :options, :default, :required, :pattern, :title, :pattern_error].freeze
   ALLOWED_ARTICLE_KEYS = [:title, :description, :link].freeze
   ALLOWED_WHATSAPP_CTA_URL_KEYS = [:display_text, :url, :body, :header, :header_image, :footer].freeze
+  WHATSAPP_CTA_DISPLAY_TEXT_MAX_LENGTH = 20
+  WHATSAPP_CTA_BODY_MAX_LENGTH = 1024
 
   def validate(record)
     case record.content_type
@@ -77,6 +79,18 @@ class ContentAttributeValidator < ActiveModel::Validator
     record.errors.add(:content_attributes, 'display_text is required for whatsapp_cta_url') if invalid_cta_param?(cta_params[:display_text])
     record.errors.add(:content_attributes, 'url is required for whatsapp_cta_url') if invalid_cta_param?(cta_params[:url])
     record.errors.add(:content_attributes, 'body or message content is required for whatsapp_cta_url') if missing_cta_body?(record, cta_params)
+    validate_cta_field_lengths!(record, cta_params)
+  end
+
+  def validate_cta_field_lengths!(record, cta_params)
+    if cta_params[:display_text].is_a?(String) && cta_params[:display_text].length > WHATSAPP_CTA_DISPLAY_TEXT_MAX_LENGTH
+      record.errors.add(:content_attributes, "display_text must be at most #{WHATSAPP_CTA_DISPLAY_TEXT_MAX_LENGTH} characters for whatsapp_cta_url")
+    end
+
+    body = cta_params[:body].presence || record.content
+    return unless body.is_a?(String) && body.length > WHATSAPP_CTA_BODY_MAX_LENGTH
+
+    record.errors.add(:content_attributes, "body must be at most #{WHATSAPP_CTA_BODY_MAX_LENGTH} characters for whatsapp_cta_url")
   end
 
   def missing_cta_body?(record, cta_params)
