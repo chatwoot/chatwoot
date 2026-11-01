@@ -64,6 +64,7 @@ class Message < ApplicationRecord
   }.to_json.freeze
 
   before_validation :ensure_content_type
+  before_validation :sync_whatsapp_cta_content
   before_validation :prevent_message_flooding
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
@@ -328,6 +329,16 @@ class Message < ApplicationRecord
 
   def ensure_content_type
     self.content_type ||= Message.content_types[:text]
+  end
+
+  def sync_whatsapp_cta_content
+    return if content.present? || !content_attributes.is_a?(Hash)
+
+    cta_params = content_attributes['whatsapp_cta_url'] || content_attributes[:whatsapp_cta_url]
+    return unless cta_params.is_a?(Hash)
+
+    cta_body = cta_params['body'] || cta_params[:body]
+    self.content = cta_body if cta_body.is_a?(String) && cta_body.present?
   end
 
   def execute_after_create_commit_callbacks

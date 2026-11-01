@@ -17,10 +17,13 @@ RSpec.describe Message do
   end
 
   context 'when validating whatsapp_cta_url' do
-    let(:conversation) { create(:conversation) }
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+    end
+    let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox, account: whatsapp_channel.account) }
 
     it 'is valid with valid whatsapp_cta_url parameters' do
-      message = build(:message, conversation: conversation, content_attributes: {
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
                         whatsapp_cta_url: {
                           display_text: 'See menu',
                           url: 'https://example.com/menu',
@@ -32,8 +35,48 @@ RSpec.describe Message do
       expect(message.valid?).to be true
     end
 
+    it 'populates message content from whatsapp_cta_url body when top-level content is omitted' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: nil, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be true
+      expect(message.content).to eq('Check out our menu')
+    end
+
+    it 'rejects whatsapp_cta_url on non-WhatsApp Cloud inboxes' do
+      default_whatsapp = create(:channel_whatsapp, provider: 'default', sync_templates: false, validate_provider_config: false)
+      default_conversation = create(:conversation, inbox: default_whatsapp.inbox, account: default_whatsapp.account)
+      message = build(:message, conversation: default_conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is only supported for WhatsApp Cloud inboxes')
+    end
+
+    it 'rejects whatsapp_cta_url on competing content types such as input_select' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_type: 'input_select',
+                                content_attributes: {
+                                  items: [{ title: 'Option 1', value: 'opt_1' }],
+                                  whatsapp_cta_url: {
+                                    display_text: 'See menu',
+                                    url: 'https://example.com/menu',
+                                    body: 'Check out our menu'
+                                  }
+                                })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is only supported on outgoing non-private text messages')
+    end
+
     it 'adds error when whatsapp_cta_url is not a hash' do
-      message = build(:message, conversation: conversation, content_attributes: {
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
                         whatsapp_cta_url: 'invalid_string'
                       })
       expect(message.valid?).to be false
@@ -41,7 +84,7 @@ RSpec.describe Message do
     end
 
     it 'adds error when missing required display_text or url' do
-      message = build(:message, conversation: conversation, content_attributes: {
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
                         whatsapp_cta_url: {
                           body: 'Check out our menu'
                         }
@@ -51,8 +94,35 @@ RSpec.describe Message do
       expect(message.errors[:content_attributes]).to include('url is required for whatsapp_cta_url')
     end
 
+    it 'adds error when url is not a valid HTTP or HTTPS URL' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'not-a-url',
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('url must be a valid HTTP(S) URL for whatsapp_cta_url')
+    end
+
+    it 'adds error when header_image is malformed or combined with header text' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu',
+                          header: 'Menu',
+                          header_image: 'ftp://example.com/menu.jpg'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('header_image must be a valid HTTP(S) URL for whatsapp_cta_url')
+      expect(message.errors[:content_attributes]).to include('cannot specify both header and header_image for whatsapp_cta_url')
+    end
+
     it 'adds error when whatsapp_cta_url contains non-canonical keys' do
-      message = build(:message, conversation: conversation, content_attributes: {
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
                         whatsapp_cta_url: {
                           display_text: 'See menu',
                           url: 'https://example.com/menu',
@@ -65,7 +135,7 @@ RSpec.describe Message do
     end
 
     it 'adds error when both whatsapp_cta_url body and message content are blank' do
-      message = build(:message, conversation: conversation, content: nil, content_attributes: {
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: nil, content_attributes: {
                         whatsapp_cta_url: {
                           display_text: 'See menu',
                           url: 'https://example.com/menu'
@@ -76,7 +146,7 @@ RSpec.describe Message do
     end
 
     it 'accepts display_text and body at the Meta length limits' do
-      message = build(:message, conversation: conversation, content_attributes: {
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
                         whatsapp_cta_url: {
                           display_text: 'a' * 20,
                           url: 'https://example.com/menu',
@@ -87,7 +157,7 @@ RSpec.describe Message do
     end
 
     it 'adds error when display_text exceeds 20 characters' do
-      message = build(:message, conversation: conversation, content_attributes: {
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
                         whatsapp_cta_url: {
                           display_text: 'a' * 21,
                           url: 'https://example.com/menu',
@@ -99,7 +169,7 @@ RSpec.describe Message do
     end
 
     it 'adds error when body exceeds 1024 characters' do
-      message = build(:message, conversation: conversation, content_attributes: {
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
                         whatsapp_cta_url: {
                           display_text: 'See menu',
                           url: 'https://example.com/menu',
@@ -111,7 +181,7 @@ RSpec.describe Message do
     end
 
     it 'adds error when fallback message content exceeds 1024 characters' do
-      message = build(:message, conversation: conversation, content: 'c' * 1025, content_attributes: {
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: 'c' * 1025, content_attributes: {
                         whatsapp_cta_url: {
                           display_text: 'See menu',
                           url: 'https://example.com/menu'
