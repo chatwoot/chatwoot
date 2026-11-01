@@ -48,8 +48,8 @@ RSpec.describe Messages::WidgetAudioTranscriptionService, type: :service do
     context 'when OpenAI rejects the request' do
       before { allow(audio_api).to receive(:transcribe).and_raise(Faraday::UnauthorizedError) }
 
-      it 'returns a friendly error' do
-        expect(service.perform).to eq({ error: 'Transcription service is unavailable' })
+      it 'raises so the controller reports the service as unavailable' do
+        expect { service.perform }.to(raise_error { |error| expect(error.class.name).to eq('Faraday::UnauthorizedError') })
       end
     end
   end

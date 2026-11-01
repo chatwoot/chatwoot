@@ -16,9 +16,6 @@ class Messages::WidgetAudioTranscriptionService
     return { error: 'Audio too large for transcription' } if audio_too_large?
 
     { success: true, transcription: transcribe_audio }
-  rescue Faraday::UnauthorizedError
-    Rails.logger.warn('Skipping widget audio transcription: OpenAI configuration is invalid or disabled (401).')
-    { error: 'Transcription service is unavailable' }
   end
 
   private

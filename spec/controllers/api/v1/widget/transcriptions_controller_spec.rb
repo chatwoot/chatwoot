@@ -94,6 +94,15 @@ RSpec.describe '/api/v1/widget/transcription', type: :request do
         expect(response.parsed_body['transcription']).to eq('Hello world')
       end
 
+      it 'returns service unavailable when the provider rejects the credentials' do
+        allow(transcription_service).to receive(:perform).and_raise(Faraday::UnauthorizedError)
+
+        post_transcription(audio: audio_file)
+
+        expect(response).to have_http_status(:service_unavailable)
+        expect(response.parsed_body['error']).to eq('Transcription service is unavailable')
+      end
+
       it 'returns an error when the service fails' do
         allow(transcription_service).to receive(:perform).and_return({ error: 'Audio too large for transcription' })
 
