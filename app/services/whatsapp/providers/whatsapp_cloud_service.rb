@@ -265,7 +265,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def whatsapp_cta_url?(message)
     cta_params = (message.content_attributes || {})['whatsapp_cta_url'] || (message.content_attributes || {})[:whatsapp_cta_url]
-    cta_params.is_a?(Hash) && cta_params.present?
+    return false unless cta_params.is_a?(Hash)
+
+    cta_params = cta_params.with_indifferent_access
+    cta_params[:display_text].is_a?(String) && cta_params[:display_text].present? &&
+      cta_params[:url].is_a?(String) && cta_params[:url].present?
   end
 end
 

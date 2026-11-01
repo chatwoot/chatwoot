@@ -189,7 +189,7 @@ describe Whatsapp::SendOnWhatsappService do
                                          }
                                        })
 
-        stub_request(:post, "https://graph.facebook.com/v13.0/#{whatsapp_cloud_channel.provider_config['phone_number_id']}/messages")
+        stub_request(:post, "https://graph.facebook.com/v22.0/#{whatsapp_cloud_channel.provider_config['phone_number_id']}/messages")
           .with(
             headers: {
               'Authorization' => "Bearer #{whatsapp_cloud_channel.provider_config['api_key']}",

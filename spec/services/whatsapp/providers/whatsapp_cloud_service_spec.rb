@@ -300,7 +300,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
 
     it 'calls message endpoints with basic cta_url payload' do
-      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+      stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
         .with(
           body: {
             messaging_product: 'whatsapp',
@@ -336,7 +336,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                                 }
                                               })
 
-      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+      stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
         .with(
           body: {
             messaging_product: 'whatsapp',
@@ -375,7 +375,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                                       }
                                                     })
 
-      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+      stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
         .with(
           body: {
             messaging_product: 'whatsapp',
@@ -422,7 +422,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                                 }
                                               })
 
-      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+      stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
         .with(
           body: {
             messaging_product: 'whatsapp',
@@ -460,7 +460,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                      whatsapp_cta_url: cta_params
                                    })
 
-      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+      stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
         .with(
           body: {
             messaging_product: 'whatsapp',
@@ -489,7 +489,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
 
     it 'handles bsuid recipient identifier properly' do
-      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+      stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
         .with(
           body: {
             messaging_product: 'whatsapp',
@@ -517,7 +517,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
 
     it 'handles error responses from WhatsApp API' do
-      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+      stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
         .to_return(status: 400, body: { error: { message: 'Invalid URL parameter' } }.to_json, headers: response_headers)
 
       expect(service.send_message('+123456789', cta_message)).to be_nil

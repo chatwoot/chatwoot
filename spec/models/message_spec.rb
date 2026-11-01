@@ -16,6 +16,55 @@ RSpec.describe Message do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  context 'when validating whatsapp_cta_url' do
+    let(:conversation) { create(:conversation) }
+
+    it 'is valid with valid whatsapp_cta_url parameters' do
+      message = build(:message, conversation: conversation, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu',
+                          header: 'Our Special Menu',
+                          footer: 'Open until 10pm'
+                        }
+                      })
+      expect(message.valid?).to be true
+    end
+
+    it 'adds error when whatsapp_cta_url is not a hash' do
+      message = build(:message, conversation: conversation, content_attributes: {
+                        whatsapp_cta_url: 'invalid_string'
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url should be a hash.')
+    end
+
+    it 'adds error when missing required display_text or url' do
+      message = build(:message, conversation: conversation, content_attributes: {
+                        whatsapp_cta_url: {
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('display_text is required for whatsapp_cta_url')
+      expect(message.errors[:content_attributes]).to include('url is required for whatsapp_cta_url')
+    end
+
+    it 'adds error when whatsapp_cta_url contains non-canonical keys' do
+      message = build(:message, conversation: conversation, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          button_label: 'See menu',
+                          link: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes].any? { |e| e.include?('contains invalid keys for whatsapp_cta_url') }).to be true
+    end
+  end
+
   describe 'length validations' do
     let!(:message) { create(:message) }
 

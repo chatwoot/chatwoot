@@ -23,9 +23,10 @@ class Whatsapp::Providers::WhatsappCloudCtaUrlService < Whatsapp::Providers::Bas
 
   private
 
-  def phone_id_path(version = 'v13.0')
+  def phone_id_path
+    api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
     base_url = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
-    "#{base_url}/#{version}/#{whatsapp_channel.provider_config['phone_number_id']}"
+    "#{base_url}/#{api_version}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def api_headers
@@ -62,8 +63,8 @@ class Whatsapp::Providers::WhatsappCloudCtaUrlService < Whatsapp::Providers::Bas
       action: {
         name: 'cta_url',
         parameters: {
-          display_text: params[:display_text] || params[:button_label] || params[:button],
-          url: params[:url] || params[:link]
+          display_text: params[:display_text],
+          url: params[:url]
         }
       }
     }
@@ -73,24 +74,23 @@ class Whatsapp::Providers::WhatsappCloudCtaUrlService < Whatsapp::Providers::Bas
   end
 
   def attach_cta_header(interactive, params)
-    if params[:header_image].present? || params[:image_url].present?
+    if params[:header_image].present?
       interactive[:header] = {
         type: 'image',
-        image: { link: params[:header_image] || params[:image_url] }
+        image: { link: params[:header_image] }
       }
-    elsif params[:header].present? || params[:header_text].present?
+    elsif params[:header].present?
       interactive[:header] = {
         type: 'text',
-        text: params[:header] || params[:header_text]
+        text: params[:header]
       }
     end
   end
 
   def attach_cta_footer(interactive, params)
-    footer_text = params[:footer] || params[:footer_text]
-    return if footer_text.blank?
+    return if params[:footer].blank?
 
-    interactive[:footer] = { text: footer_text }
+    interactive[:footer] = { text: params[:footer] }
   end
 end
 
