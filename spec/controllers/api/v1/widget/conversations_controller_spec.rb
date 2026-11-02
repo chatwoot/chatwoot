@@ -71,9 +71,8 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(response).to have_http_status(:success)
       json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
-      expect(json_response['contact']['email']).to eq 'contact-email@chatwoot.com'
-      expect(json_response['contact']['phone_number']).to eq '+919745313456'
-      expect(json_response['contact']['name']).to eq 'contact-name'
+      expect(json_response).not_to have_key('contact')
+      expect(contact.reload).to have_attributes(email: 'contact-email@chatwoot.com', phone_number: '+919745313456', name: 'contact-name')
     end
 
     it 'creates a conversation with correct message and custom attributes' do
@@ -106,8 +105,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(response).to have_http_status(:success)
       json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
-      expect(json_response['contact']['email']).to be_nil
-      expect(json_response['contact']['name']).to eq 'alphy'
+      expect(contact.reload).to have_attributes(email: nil, name: 'alphy')
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
 
@@ -133,9 +131,9 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(response).to have_http_status(:success)
       json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
-      expect(json_response['contact']['email']).to eq existing_contact.email
-      expect(json_response['contact']['name']).not_to eq 'contact-name'
-      expect(json_response['contact']['phone_number']).to eq '+919745313456'
+      expect(contact_inbox.reload.contact_id).to eq existing_contact.id
+      expect(existing_contact.reload.name).not_to eq 'contact-name'
+      expect(existing_contact.phone_number).to eq '+919745313456'
       expect(json_response['custom_attributes']['order_id']).to eq '12345'
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
@@ -204,8 +202,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
-      json_response = response.parsed_body
-      expect(json_response['contact']['phone_number']).to be_nil
+      expect(contact_inbox.reload.contact.phone_number).to be_nil
     end
   end
 
