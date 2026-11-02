@@ -20,7 +20,7 @@ class CopilotMessage < ApplicationRecord
   belongs_to :account
   has_one :copilot_run, class_name: 'CopilotRun::Turn', dependent: :destroy
 
-  enum message_type: { user: 0, assistant: 1, assistant_thinking: 2, assistant_approval: 3 }
+  enum message_type: { user: 0, assistant: 1, assistant_thinking: 2, assistant_approval: 3, assistant_progress: 4 }
 
   validates :message_type, presence: true
   validates :message, presence: true
@@ -85,7 +85,7 @@ class CopilotMessage < ApplicationRecord
   def validate_message_attributes
     return if message.blank?
 
-    allowed_keys = %w[content reasoning function_name reply_suggestion tool progress run_id approval]
+    allowed_keys = %w[content reasoning function_name reply_suggestion tool progress run_id approval status]
     invalid_keys = message.keys - allowed_keys
 
     errors.add(:message, "contains invalid attributes: #{invalid_keys.join(', ')}") if invalid_keys.any?

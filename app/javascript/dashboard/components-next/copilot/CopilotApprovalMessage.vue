@@ -5,6 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import CopilotRunsAPI from 'dashboard/api/captain/copilotRuns';
 import Button from 'dashboard/components-next/button/Button.vue';
+import CopilotProgressBar from './CopilotProgressBar.vue';
 
 const props = defineProps({
   message: {
@@ -20,10 +21,11 @@ const isSubmitting = ref(false);
 const approval = computed(() => props.message.approval);
 const status = computed(() => approval.value.status);
 const isAwaitingApproval = computed(() => status.value === 'awaiting_approval');
+// The change job writes its progress after each batch, so a just approved change starts at 0.
+const progress = computed(
+  () => approval.value.progress || { done: 0, total: approval.value.count }
+);
 const statusLabel = computed(() => {
-  if (status.value === 'approved') {
-    return t('CAPTAIN.COPILOT.APPROVAL.STATUS.APPROVED');
-  }
   if (status.value === 'expired') {
     return t('CAPTAIN.COPILOT.APPROVAL.STATUS.EXPIRED');
   }
@@ -108,6 +110,33 @@ const decide = async choice => {
         @click="decide('reject')"
       />
     </div>
+    <template v-else-if="status === 'approved'">
+      <div v-if="progress.finished" class="flex flex-col">
+        <span class="text-n-slate-11">
+          {{
+            t('CAPTAIN.COPILOT.APPROVAL.APPLIED', { count: progress.applied })
+          }}
+        </span>
+        <span v-if="progress.not_changed > 0" class="text-n-amber-11">
+          {{
+            t('CAPTAIN.COPILOT.APPROVAL.NOT_CHANGED', {
+              count: progress.not_changed,
+            })
+          }}
+        </span>
+      </div>
+      <div v-else class="flex flex-col gap-2">
+        <CopilotProgressBar :done="progress.done" :total="progress.total" />
+        <span class="text-n-slate-11 tabular-nums">
+          {{
+            t('CAPTAIN.COPILOT.APPROVAL.PROGRESS', {
+              done: progress.done,
+              total: progress.total,
+            })
+          }}
+        </span>
+      </div>
+    </template>
     <span v-else class="text-n-slate-11">
       {{ statusLabel }}
     </span>
