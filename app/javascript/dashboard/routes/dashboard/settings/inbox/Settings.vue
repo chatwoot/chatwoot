@@ -170,7 +170,7 @@ export default {
       return this.isAWhatsAppCloudChannel;
     },
     shouldShowTwilioHealth() {
-      return this.isATwilioChannel && this.inbox.medium === 'sms';
+      return this.isATwilioChannel;
     },
     whatsAppAPIProviderName() {
       if (this.isAWhatsAppCloudChannel) {
