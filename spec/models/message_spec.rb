@@ -218,7 +218,7 @@ RSpec.describe Message do
     end
 
     it 'adds error when rendered WhatsApp outgoing_content expands past 1024 characters' do
-      expanding_markdown = "[u]: https://example.com/#{'a' * 100}\n\n#{'[u] ' * 15}"
+      expanding_markdown = "100000. a\n#{'1. a\n' * 170}"
       expect(expanding_markdown.length).to be <= 1024
 
       message = build(:message, conversation: conversation, message_type: :outgoing, content: expanding_markdown, content_attributes: {

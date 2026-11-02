@@ -49,22 +49,22 @@ class Captain::Conversation::AgentMessageTranslationService
     over_whatsapp_cta_limit?(reply_result, cta_results)
   end
 
-  def evaluate_segment(text)
+  def evaluate_segment(text, strict_unchanged: true)
     return { status: :unchanged, text: text, lang: nil } if text.blank?
 
     lang = detected_language_for(text)
     return { status: :unchanged, text: text, lang: lang } if same_conversation_language?(lang)
 
     candidate = translated_text_for(text)
-    status = segment_status(text, candidate, lang)
+    status = segment_status(text, candidate, lang, strict_unchanged)
     { status: status, text: status == :translated ? candidate : text, lang: lang }
   end
 
-  def segment_status(source, candidate, lang)
+  def segment_status(source, candidate, lang, strict_unchanged)
     return :failed if candidate.blank?
     return :translated if candidate != source
 
-    lang.present? ? :failed : :unchanged
+    strict_unchanged && lang.present? ? :failed : :unchanged
   end
 
   def evaluate_whatsapp_cta_segments
@@ -72,7 +72,7 @@ class Captain::Conversation::AgentMessageTranslationService
 
     TRANSLATABLE_CTA_FIELDS.each_with_object({}) do |field, results|
       value = whatsapp_cta_field(field)
-      results[field] = evaluate_segment(value) if value.present?
+      results[field] = evaluate_segment(value, strict_unchanged: field == 'body') if value.present?
     end
   end
 
@@ -124,10 +124,12 @@ class Captain::Conversation::AgentMessageTranslationService
 
   def effective_cta_body(reply_result, cta_results)
     explicit_body = cta_results.dig('body', :text) || whatsapp_cta_field('body')
-    return explicit_body if explicit_body.present?
+    raw_body = explicit_body.presence || next_reply_content(reply_result)
+    ContentAttributeValidator.rendered_whatsapp_body(raw_body.to_s, inbox.channel)
+  end
 
-    next_content = reply_result[:status] == :translated ? with_quoted_history(reply_result[:text]) : message.content
-    ContentAttributeValidator.rendered_whatsapp_body(next_content.to_s, inbox.channel)
+  def next_reply_content(reply_result)
+    reply_result[:status] == :translated ? with_quoted_history(reply_result[:text]) : message.content
   end
 
   def update_whatsapp_cta_fields(cta_results)

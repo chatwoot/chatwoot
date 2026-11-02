@@ -269,5 +269,25 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
       expect(cta_msg.source_language).to be_nil
       expect(cta_msg.content_attributes['whatsapp_cta_url']).to include('body' => 'Decouvrez notre menu', 'display_text' => 'Voir menu')
     end
+
+    it 'preserves reply translation when an invariant CTA label like Menu returns unchanged' do
+      cta_msg = create(:message, account: account, inbox: whatsapp_channel.inbox, conversation: whatsapp_conversation,
+                                 message_type: :outgoing, sender: user, content: 'Check out our menu',
+                                 content_attributes: {
+                                   translation_pending: true,
+                                   whatsapp_cta_url: {
+                                     display_text: 'Menu',
+                                     url: 'https://example.com/menu'
+                                   }
+                                 })
+      allow(detection).to receive(:language).and_return('en', 'en')
+      allow(llm_service).to receive(:perform).and_return({ message: 'Decouvrez notre menu' }, { message: 'Menu' })
+
+      described_class.new(message: cta_msg).perform
+
+      expect(cta_msg.reload.content).to eq('Decouvrez notre menu')
+      expect(cta_msg.content_attributes.dig('whatsapp_cta_url', 'display_text')).to eq('Menu')
+      expect(cta_msg.content_attributes['translation_failed']).to be_nil
+    end
   end
 end

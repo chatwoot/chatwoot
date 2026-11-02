@@ -162,7 +162,9 @@ class ContentAttributeValidator < ActiveModel::Validator
   end
 
   def effective_cta_body(record, cta_params)
-    cta_params[:body].presence || rendered_outgoing_body(record)
+    return self.class.rendered_whatsapp_body(cta_params[:body]) if cta_params[:body].present?
+
+    rendered_outgoing_body(record)
   end
 
   def rendered_outgoing_body(record)

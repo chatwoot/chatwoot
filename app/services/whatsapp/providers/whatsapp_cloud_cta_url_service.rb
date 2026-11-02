@@ -65,7 +65,7 @@ class Whatsapp::Providers::WhatsappCloudCtaUrlService < Whatsapp::Providers::Bas
 
   def create_cta_url_payload(message)
     params = cta_url_params(message)
-    body_text = params[:body].presence || (message.respond_to?(:outgoing_content) ? message.outgoing_content.presence : nil) || message.content
+    body_text = resolve_cta_body_text(message, params)
 
     interactive = {
       type: 'cta_url',
@@ -81,6 +81,12 @@ class Whatsapp::Providers::WhatsappCloudCtaUrlService < Whatsapp::Providers::Bas
     attach_cta_header(interactive, params)
     attach_cta_footer(interactive, params)
     interactive
+  end
+
+  def resolve_cta_body_text(message, params)
+    return ContentAttributeValidator.rendered_whatsapp_body(params[:body], whatsapp_channel) if params[:body].present?
+
+    (message.respond_to?(:outgoing_content) ? message.outgoing_content.presence : nil) || message.content
   end
 
   def attach_cta_header(interactive, params)
