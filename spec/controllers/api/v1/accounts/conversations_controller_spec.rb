@@ -52,6 +52,22 @@ RSpec.describe 'Conversations API', type: :request do
         expect(payload[assigned.display_id][:meta][:assignee_type]).to eq('User')
       end
 
+      it 'lists a conversation whose contact no longer exists with an empty sender' do
+        with_contact = create(:conversation, account: account, inbox: conversation.inbox)
+        Contact.where(id: conversation.contact_id).delete_all
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            params: { assignee_type: 'all' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        payload = JSON.parse(response.body, symbolize_names: true)[:data][:payload].index_by { |item| item[:id] }
+        expect(payload.keys).to contain_exactly(conversation.display_id, with_contact.display_id)
+        expect(payload[conversation.display_id][:meta][:sender]).to eq({})
+        expect(payload[with_contact.display_id][:meta][:sender][:id]).to eq(with_contact.contact_id)
+      end
+
       it 'returns conversations with empty messages array for conversations with out messages' do
         get "/api/v1/accounts/#{account.id}/conversations",
             headers: agent.create_new_auth_token,

@@ -43,6 +43,11 @@ class Twilio::VoiceController < ApplicationController
     render xml: twiml.wait
   end
 
+  # Announced to a held caller to end the hold music the mute started
+  def resume_twiml
+    render xml: Twilio::TwiML::VoiceResponse.new.to_s
+  end
+
   def conference_status
     event = mapped_conference_event
     if event.nil?
