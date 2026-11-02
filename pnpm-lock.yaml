@@ -21,9 +21,9 @@ importers:
       '@breezystack/lamejs':
         specifier: ^1.2.7
         version: 1.2.7
-      '@bysivin/jumpbar':
-        specifier: ^0.2.1
-        version: 0.2.1(vue@3.5.12(typescript@5.6.2))
+      '@chatwoot/jumpbar':
+        specifier: ^0.1.0
+        version: 0.1.0(vue@3.5.12(typescript@5.6.2))
       '@chatwoot/pico-search':
         specifier: 0.6.2
         version: 0.6.2
@@ -446,8 +446,8 @@ packages:
   '@breezystack/lamejs@1.2.7':
     resolution: {integrity: sha512-6wc7ck65ctA75Hq7FYHTtTvGnYs6msgdxiSUICQ+A01nVOWg6rqouZB8IdyteRlfpYYiFovkf67dIeOgWIUzTA==}
 
-  '@bysivin/jumpbar@0.2.1':
-    resolution: {integrity: sha512-7xkatZGpd1tF8VMF2IgrO2TsvPoI231PHRaxjSRaN+Bvu1TYIyI01c9NQMjYIBIEv7C3QL5fvupee2B3sdtymg==}
+  '@chatwoot/jumpbar@0.1.0':
+    resolution: {integrity: sha512-gEaxAdrAwa24FsNXxq7LfI70dG7vU/6bvt+Wy8asXOeQ7K9apW29KezkC5++fkSlheb+z6ZjaM/RsFW/OjsxEA==}
     peerDependencies:
       vue: ^3.4.0
     peerDependenciesMeta:
@@ -5165,7 +5165,7 @@ snapshots:
 
   '@breezystack/lamejs@1.2.7': {}
 
-  '@bysivin/jumpbar@0.2.1(vue@3.5.12(typescript@5.6.2))':
+  '@chatwoot/jumpbar@0.1.0(vue@3.5.12(typescript@5.6.2))':
     optionalDependencies:
       vue: 3.5.12(typescript@5.6.2)
 

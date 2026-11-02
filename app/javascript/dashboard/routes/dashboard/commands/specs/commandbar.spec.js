@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import { flushPromises, mount } from '@vue/test-utils';
 import { useRoute } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useCommandBar } from '@bysivin/jumpbar';
+import { useCommandBar } from '@chatwoot/jumpbar';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import CommandBar from '../commandbar.vue';
 
@@ -18,7 +18,7 @@ vi.mock('dashboard/composables', () => ({
 vi.mock('dashboard/composables/useKeyboardEvents', () => ({
   useKeyboardEvents: vi.fn(),
 }));
-vi.mock('@bysivin/jumpbar', async importOriginal => ({
+vi.mock('@chatwoot/jumpbar', async importOriginal => ({
   ...(await importOriginal()),
   CommandBar: { template: '<div />' },
 }));

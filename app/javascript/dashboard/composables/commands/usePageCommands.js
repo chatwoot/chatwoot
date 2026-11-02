@@ -5,7 +5,7 @@ import {
   onDeactivated,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useCommandBar } from '@bysivin/jumpbar';
+import { useCommandBar } from '@chatwoot/jumpbar';
 
 const SCOPES = ['page'];
 

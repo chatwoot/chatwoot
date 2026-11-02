@@ -19,7 +19,7 @@ import {
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
-import { useCommandBar } from '@bysivin/jumpbar';
+import { useCommandBar } from '@chatwoot/jumpbar';
 
 const store = useStore();
 const getters = useStoreGetters();

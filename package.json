@@ -36,7 +36,7 @@
   "dependencies": {
     "@amplitude/analytics-browser": "^2.11.10",
     "@breezystack/lamejs": "^1.2.7",
-    "@bysivin/jumpbar": "^0.2.1",
+    "@chatwoot/jumpbar": "^0.1.0",
     "@chatwoot/pico-search": "0.6.2",
     "@chatwoot/prosemirror-schema": "1.4.6",
     "@chatwoot/utils": "^0.0.57",

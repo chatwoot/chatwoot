@@ -11,7 +11,7 @@ import {
   PORTAL_PERMISSIONS,
 } from 'dashboard/constants/permissions';
 import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
-import { fuzzyScore } from '@bysivin/jumpbar';
+import { fuzzyScore } from '@chatwoot/jumpbar';
 
 const LIMIT = 6;
 
@@ -122,7 +122,13 @@ export function useSearchCommands() {
   };
 
   const searchEverything = ({ text }) => {
-    if (!canSearchConversations() && !canSearchContacts()) return [];
+    if (
+      !canSearchConversations() &&
+      !canSearchContacts() &&
+      !canSearchArticles()
+    ) {
+      return [];
+    }
 
     return [
       {

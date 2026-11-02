@@ -1,5 +1,5 @@
 import { flushPromises, mount } from '@vue/test-utils';
-import { useCommandBar } from '@bysivin/jumpbar';
+import { useCommandBar } from '@chatwoot/jumpbar';
 import { KeepAlive, defineComponent, h, nextTick, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { recordCommands, usePageCommands } from '../usePageCommands';

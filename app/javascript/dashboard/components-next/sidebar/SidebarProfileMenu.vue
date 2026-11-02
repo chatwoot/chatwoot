@@ -15,7 +15,7 @@ import {
   DropdownItem,
 } from 'next/dropdown-menu/base';
 import CustomBrandPolicyWrapper from '../../components/CustomBrandPolicyWrapper.vue';
-import { useCommandBar } from '@bysivin/jumpbar';
+import { useCommandBar } from '@chatwoot/jumpbar';
 
 defineProps({
   isCollapsed: { type: Boolean, default: false },

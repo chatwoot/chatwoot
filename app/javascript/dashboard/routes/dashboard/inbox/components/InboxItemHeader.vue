@@ -11,7 +11,7 @@ import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 import { emitter } from 'shared/helpers/mitt';
 import BackButton from 'dashboard/components/widgets/BackButton.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import { useCommandBar } from '@bysivin/jumpbar';
+import { useCommandBar } from '@chatwoot/jumpbar';
 
 export default {
   components: {

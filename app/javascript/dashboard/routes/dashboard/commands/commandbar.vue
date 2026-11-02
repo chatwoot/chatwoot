@@ -5,10 +5,11 @@ import { useRoute } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useTrack } from 'dashboard/composables';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { CommandBar, createFrecency, useCommandBar } from '@bysivin/jumpbar';
+import { CommandBar, createFrecency, useCommandBar } from '@chatwoot/jumpbar';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { pathScopes } from 'dashboard/helper/commandbar/scopes';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
@@ -31,7 +32,6 @@ const props = defineProps({
 });
 
 const PREFIXES = ['@', '#', '/', '?'];
-const PATH_SCOPES = { reports: '/reports', settings: '/settings' };
 const atRoot = ({ page }) => !page;
 
 const store = useStore();
@@ -79,10 +79,7 @@ const scopes = computed(() => {
   }
   if (isAInboxViewRoute(route.name)) list.push('inbox_view');
   if (selectedConversationIds.value.length) list.push('bulk');
-  Object.entries(PATH_SCOPES).forEach(([scope, path]) => {
-    if (route.path?.includes(path)) list.push(scope);
-  });
-  return list;
+  return [...list, ...pathScopes(route.path)];
 });
 
 const scopeLabel = computed(() => {

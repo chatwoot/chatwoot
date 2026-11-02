@@ -3,7 +3,7 @@ import { colors } from './theme/colors';
 import { icons } from './theme/icons';
 const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
-const jumpbar = require('@bysivin/jumpbar/tailwind');
+const jumpbar = require('@chatwoot/jumpbar/tailwind');
 const {
   iconsPlugin,
   getIconCollections,
@@ -37,7 +37,7 @@ const tailwindConfig = {
     './app/javascript/dashboard/composables/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
-    './node_modules/@bysivin/jumpbar/dist/*.js',
+    './node_modules/@chatwoot/jumpbar/dist/*.js',
     './app/views/**/*.erb',
   ],
   theme: {
