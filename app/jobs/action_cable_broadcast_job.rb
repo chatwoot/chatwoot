@@ -10,14 +10,29 @@ class ActionCableBroadcastJob < ApplicationJob
     CONVERSATION_STATUS_CHANGED
   ].freeze
 
-  def perform(members, event_name, data)
+  # contact_session: true replaces every contact in the event with its type
+  def perform(members, event_name, data, contact_session: false)
     return if members.blank?
 
     broadcast_data = prepare_broadcast_data(event_name, data)
+    broadcast_data = without_contact_details(broadcast_data) if contact_session
     broadcast_to_members(members, event_name, broadcast_data)
   end
 
   private
+
+  def without_contact_details(value)
+    case value
+    when Hash
+      return { type: 'contact' } if value.with_indifferent_access[:type] == 'contact'
+
+      value.transform_values { |nested| without_contact_details(nested) }
+    when Array
+      value.map { |nested| without_contact_details(nested) }
+    else
+      value
+    end
+  end
 
   # Ensures that only the latest available data is sent to prevent UI issues
   # caused by out-of-order events during high-traffic periods. This prevents
