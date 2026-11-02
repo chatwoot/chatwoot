@@ -7,6 +7,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def create
+    reject_blank_incoming_content!
     ActiveRecord::Base.transaction do
       process_update_contact
       @conversation = create_conversation
