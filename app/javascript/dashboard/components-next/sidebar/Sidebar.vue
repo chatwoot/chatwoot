@@ -4,6 +4,7 @@ import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
+import { useCommandBar } from '@chatwoot/jumpbar';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -54,6 +55,7 @@ const isCallsAvailable = computed(
   () => isOnChatwootCloud.value || isEnterprise
 );
 const searchShortcut = useKbd([`$mod`, 'k']);
+const commandBar = useCommandBar();
 const { t } = useI18n();
 
 const isACustomBrandedInstance = useMapGetter(
@@ -1024,21 +1026,30 @@ const menuItems = computed(() => {
         class="flex gap-2"
         :class="isEffectivelyCollapsed ? 'flex-col items-center' : 'px-2'"
       >
-        <RouterLink
+        <div
           v-if="!isEffectivelyCollapsed"
-          :to="{ name: 'search' }"
-          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
+          class="flex items-center w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
         >
-          <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10" />
-          <span class="flex-grow text-start text-n-slate-10">
-            {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
-          </span>
-          <span
-            class="hidden tracking-wide pointer-events-none select-none text-n-slate-10"
+          <RouterLink
+            :to="{ name: 'search' }"
+            class="flex flex-grow gap-2 items-center px-2 py-1 h-7"
+          >
+            <span
+              class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10"
+            />
+            <span class="flex-grow text-start text-n-slate-10">
+              {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
+            </span>
+          </RouterLink>
+          <button
+            type="button"
+            class="px-2 h-full text-xs tracking-wide rounded-e-lg text-n-slate-10 hover:text-n-slate-12 hover:bg-n-alpha-2 dark:hover:bg-n-slate-9/30"
+            :title="t('COMMAND_BAR.SEARCH_PLACEHOLDER')"
+            @click="commandBar.open()"
           >
             {{ searchShortcut }}
-          </span>
-        </RouterLink>
+          </button>
+        </div>
         <RouterLink
           v-else
           :to="{ name: 'search' }"

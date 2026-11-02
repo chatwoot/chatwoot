@@ -190,6 +190,14 @@
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Search or jump to",
     "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
+    "EMPTY": "No matches for \"{query}\"",
+    "SELECTED_COUNT": "{count} selected",
+    "HINTS": {
+      "NAVIGATE": "navigate",
+      "SELECT": "select",
+      "BACK": "back",
+      "CLOSE": "close"
+    },
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Reports",
@@ -231,12 +239,16 @@
       "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
       "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
       "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_AGENT_BOTS": "Go to Agent Bots",
       "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
       "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_CONVERSATION_WORKFLOW": "Go to Conversation Workflow",
+      "GO_TO_SETTINGS_INTEGRATIONS": "Go to Integration Settings",
       "GO_TO_SETTINGS_DATA": "Go to Data",
       "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_CUSTOM_ROLES": "Go to Custom Roles",
+      "GO_TO_SETTINGS_SECURITY": "Go to Security Settings",
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
       "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",

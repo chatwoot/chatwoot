@@ -36,7 +36,7 @@
   "dependencies": {
     "@amplitude/analytics-browser": "^2.11.10",
     "@breezystack/lamejs": "^1.2.7",
-    "@chatwoot/ninja-keys": "1.2.3",
+    "@chatwoot/jumpbar": "^0.1.1",
     "@chatwoot/prosemirror-schema": "1.4.6",
     "@chatwoot/utils": "^0.0.57",
     "@chatwoot/viz": "^0.1.6",
