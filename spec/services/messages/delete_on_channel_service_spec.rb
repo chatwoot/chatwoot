@@ -4,7 +4,7 @@ describe Messages::DeleteOnChannelService do
   let(:message) { create(:message) }
   let(:channel_service_class) do
     Class.new do
-      self::DELETE_WINDOW = 1.hour
+      const_set(:DELETE_WINDOW, 1.hour)
 
       pattr_initialize [:message!]
 
