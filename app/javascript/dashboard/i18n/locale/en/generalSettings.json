@@ -303,6 +303,7 @@
       "DELETE_AGENT": "Delete agent",
       "DELETE_LABEL": "Delete label",
       "DELETE_CANNED_RESPONSE": "Delete canned response",
+      "DELETE_CUSTOM_ATTRIBUTE": "Delete custom attribute",
       "BACK_TO": "Back to {page}"
     }
   },
