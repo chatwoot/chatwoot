@@ -247,5 +247,27 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
       expect(cta_msg.content_attributes['translation_failed']).to be(true)
       expect(cta_msg.content_attributes).not_to have_key('translation_pending')
     end
+
+    it 'leaves message-level translation metadata untouched when only CTA fields needed translation' do
+      cta_msg = create(:message, account: account, inbox: whatsapp_channel.inbox, conversation: whatsapp_conversation,
+                                 message_type: :outgoing, sender: user, content: 'Voir le menu',
+                                 content_attributes: {
+                                   translation_pending: true,
+                                   whatsapp_cta_url: {
+                                     display_text: 'Open menu',
+                                     url: 'https://example.com/menu',
+                                     body: 'Check out our menu'
+                                   }
+                                 })
+      allow(detection).to receive(:language).and_return('fr', 'en', 'en')
+      allow(llm_service).to receive(:perform).and_return({ message: 'Decouvrez notre menu' }, { message: 'Voir menu' })
+
+      described_class.new(message: cta_msg).perform
+
+      expect(cta_msg.reload.content).to eq('Voir le menu')
+      expect(cta_msg.translations).to be_nil
+      expect(cta_msg.source_language).to be_nil
+      expect(cta_msg.content_attributes['whatsapp_cta_url']).to include('body' => 'Decouvrez notre menu', 'display_text' => 'Voir menu')
+    end
   end
 end

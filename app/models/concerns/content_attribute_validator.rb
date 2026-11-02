@@ -162,15 +162,17 @@ class ContentAttributeValidator < ActiveModel::Validator
   end
 
   def effective_cta_body(record, cta_params)
-    explicit_body = cta_params[:body]
-    return explicit_body if explicit_body.is_a?(String) && explicit_body.present?
-    return rendered_outgoing_body(record) if record.conversation&.inbox.present? && record.respond_to?(:outgoing_content)
-
-    self.class.rendered_whatsapp_body(record.content, (record.inbox || record.conversation&.inbox)&.channel)
+    cta_params[:body].presence || rendered_outgoing_body(record)
   end
 
   def rendered_outgoing_body(record)
-    record.outgoing_content.presence || record.content
+    return record.outgoing_content.presence || record.content if outgoing_content_available?(record)
+
+    self.class.rendered_whatsapp_body(record.content)
+  end
+
+  def outgoing_content_available?(record)
+    record.respond_to?(:outgoing_content) && record.conversation&.inbox.present?
   end
 
   def validate_cta_max_length!(record, field, value, max_length)

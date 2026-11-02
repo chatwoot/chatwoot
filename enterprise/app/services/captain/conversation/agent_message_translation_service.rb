@@ -38,7 +38,7 @@ class Captain::Conversation::AgentMessageTranslationService
     if translation_failed_or_over_limit?(reply_result, cta_results, all_results)
       message.translation_failed = true
     elsif all_results.any? { |res| res[:status] == :translated }
-      use_translation(reply_result, cta_results, all_results)
+      use_translation(reply_result, cta_results)
     end
   end
 
@@ -76,22 +76,17 @@ class Captain::Conversation::AgentMessageTranslationService
     end
   end
 
-  def use_translation(reply_result, cta_results, all_results)
-    detected = translated_source_language(all_results)
-    message.translations = { original_language(detected) => original_text }
+  def use_translation(reply_result, cta_results)
+    apply_reply_translation(reply_result) if reply_result[:status] == :translated
+    update_whatsapp_cta_fields(cta_results) if cta_results.present?
+  end
+
+  def apply_reply_translation(reply_result)
+    message.translations = { original_language(reply_result[:lang]) => original_text }
     message.source_language = conversation.language
     message.translation_provider = translator.provider
-    message.content = with_quoted_history(reply_result[:text]) if reply_result[:status] == :translated
-    sync_translated_channel_attributes(cta_results)
-  end
-
-  def translated_source_language(all_results)
-    all_results.find { |res| res[:status] == :translated && res[:lang].present? }&.dig(:lang)
-  end
-
-  def sync_translated_channel_attributes(cta_results)
+    message.content = with_quoted_history(reply_result[:text])
     message.content_attributes['email'] = email_content(message.content) if email_reply?
-    update_whatsapp_cta_fields(cta_results) if cta_results.present?
   end
 
   def same_conversation_language?(lang)
