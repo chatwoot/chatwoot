@@ -42,6 +42,7 @@ const isVoiceCallInbox = computed(
     voiceCallProvider.value !== null &&
     isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_VOICE)
 );
+const isAnonymousCaller = computed(() => !!props.chat.anonymous_caller);
 const isWhatsappVoiceInbox = computed(
   () => voiceCallProvider.value === VOICE_CALL_PROVIDERS.WHATSAPP
 );
@@ -118,7 +119,11 @@ const startTwilioCall = async () => {
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
     });
   } catch (error) {
-    useAlert(error?.message || t('CONVERSATION.HEADER.VOICE_CALL_FAILED'));
+    useAlert(
+      error?.data ||
+        error?.message ||
+        t('CONVERSATION.HEADER.VOICE_CALL_FAILED')
+    );
   }
 };
 
@@ -130,7 +135,7 @@ const startCall = () => {
 
 <template>
   <NextButton
-    v-if="isVoiceCallInbox"
+    v-if="isVoiceCallInbox && !isAnonymousCaller"
     v-tooltip.bottom="callButtonTooltip"
     sm
     ghost

@@ -173,8 +173,7 @@ const startCall = async (inboxId, conversationIdHint = null) => {
     useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
     navigateToConversation(response?.conversation_id);
   } catch (error) {
-    const apiError = error?.message;
-    useAlert(apiError || t('CONTACT_PANEL.CALL_FAILED'));
+    useAlert(error?.data || error?.message || t('CONTACT_PANEL.CALL_FAILED'));
   }
 };
 
