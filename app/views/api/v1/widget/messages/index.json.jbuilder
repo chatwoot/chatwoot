@@ -8,7 +8,7 @@ json.payload do
     json.created_at message.created_at.to_i
     json.conversation_id message.conversation.display_id
     json.attachments message.attachments.map(&:push_event_data) if message.attachments.present?
-    json.sender message.sender.push_event_data if message.sender
+    json.sender { json.partial! 'api/v1/models/widget_sender', sender: message.sender } if message.sender
   end
 end
 json.meta do
