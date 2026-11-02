@@ -382,4 +382,40 @@ describe ActionCableListener do
       listener.conversation_unread_count_changed(event)
     end
   end
+
+  describe 'contact events for a Client API inbox' do
+    let(:api_inbox) { create(:channel_api, account: account).inbox }
+    let(:api_conversation) { create(:conversation, account: account, inbox: api_inbox) }
+    let(:api_token) { api_conversation.contact_inbox.pubsub_token }
+
+    before { allow(ActionCableBroadcastJob).to receive(:perform_later) }
+
+    it 'keeps contact details on message events' do
+      message = create(:message, account: account, inbox: api_inbox, conversation: api_conversation, message_type: :incoming,
+                                 sender: api_conversation.contact)
+
+      listener.message_created(Events::Base.new(:'message.created', Time.zone.now, message: message))
+
+      expect(ActionCableBroadcastJob).to have_received(:perform_later).with(
+        [api_token], 'message.created', message.push_event_data.merge(account_id: account.id)
+      ).at_least(:once)
+    end
+
+    it 'keeps contact details on conversation events' do
+      listener.conversation_updated(Events::Base.new(:'conversation.updated', Time.zone.now, conversation: api_conversation))
+
+      expect(ActionCableBroadcastJob).to have_received(:perform_later).with(
+        [api_token], 'conversation.updated', api_conversation.push_event_data.merge(account_id: account.id)
+      )
+    end
+
+    it 'keeps contact details on typing events' do
+      listener.conversation_typing_on(Events::Base.new(:'conversation.typing_on', Time.zone.now, conversation: api_conversation, user: agent))
+
+      expect(ActionCableBroadcastJob).to have_received(:perform_later).with(
+        [api_token], 'conversation.typing_on',
+        { conversation: api_conversation.push_event_data, user: agent.push_event_data, is_private: false, account_id: account.id }
+      )
+    end
+  end
 end

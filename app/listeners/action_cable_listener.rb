@@ -43,7 +43,7 @@ class ActionCableListener < BaseListener
     conversation = message.conversation
     data = message.push_event_data
     broadcast(account, user_tokens(account, conversation.inbox.members), MESSAGE_CREATED, data)
-    broadcast_to_contact(account, contact_tokens(conversation.contact_inbox, message), MESSAGE_CREATED, data)
+    broadcast_to_contact(conversation, contact_tokens(conversation.contact_inbox, message), MESSAGE_CREATED, data)
   end
 
   def message_updated(event)
@@ -51,7 +51,7 @@ class ActionCableListener < BaseListener
     conversation = message.conversation
     data = message.push_event_data.merge(previous_changes: event.data[:previous_changes])
     broadcast(account, user_tokens(account, conversation.inbox.members), MESSAGE_UPDATED, data)
-    broadcast_to_contact(account, contact_tokens(conversation.contact_inbox, message), MESSAGE_UPDATED, data)
+    broadcast_to_contact(conversation, contact_tokens(conversation.contact_inbox, message), MESSAGE_UPDATED, data)
   end
 
   def first_reply_created(event)
@@ -163,7 +163,7 @@ class ActionCableListener < BaseListener
     data = conversation.push_event_data
 
     broadcast(account, user_tokens(account, conversation.inbox.members), event_name, data)
-    broadcast_to_contact(account, contact_inbox_tokens(conversation.contact_inbox), event_name, data)
+    broadcast_to_contact(conversation, contact_inbox_tokens(conversation.contact_inbox), event_name, data)
   end
 
   def broadcast_typing_event(event, event_name)
@@ -172,7 +172,7 @@ class ActionCableListener < BaseListener
     user = event.data[:user]
     data = { conversation: conversation.push_event_data, user: user.push_event_data, is_private: event.data[:is_private] || false }
     broadcast(account, typing_event_user_tokens(account, conversation, user), event_name, data)
-    broadcast_to_contact(account, typing_event_contact_tokens(conversation, user), event_name, data)
+    broadcast_to_contact(conversation, typing_event_contact_tokens(conversation, user), event_name, data)
   end
 
   def typing_event_user_tokens(account, conversation, user)
@@ -205,9 +205,11 @@ class ActionCableListener < BaseListener
     contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
   end
 
-  # The job strips contact details for contact sessions, after it refreshes conversation payloads
-  def broadcast_to_contact(account, tokens, event_name, data)
-    broadcast(account, tokens, event_name, data, contact_session: true)
+  # The job strips contact details for widget sessions, after it refreshes conversation payloads.
+  # Client API sessions keep the documented payload, which clients and the official SDKs read.
+  def broadcast_to_contact(conversation, tokens, event_name, data)
+    options = conversation.inbox.web_widget? ? { contact_session: true } : {}
+    broadcast(conversation.account, tokens, event_name, data, **options)
   end
 
   def broadcast(account, tokens, event_name, data, **)
