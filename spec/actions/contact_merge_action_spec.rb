@@ -40,6 +40,18 @@ describe ContactMergeAction do
       expect(base_contact.custom_attributes['val_empty_new']).to eq('')
     end
 
+    context 'when keep_base_attributes is true' do
+      it 'moves the conversations without copying attributes from the mergee contact' do
+        described_class.new(account: account, base_contact: base_contact, mergee_contact: mergee_contact, keep_base_attributes: true).perform
+
+        base_contact.reload
+        expect(base_contact.conversations.count).to eq 4
+        expect(base_contact.phone_number).to be_blank
+        expect(base_contact.custom_attributes).to eq({ 'val_test' => 'old', 'val_empty_old' => '' })
+        expect { mergee_contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
     context 'when base contact and merge contact are same' do
       it 'does not delete contact' do
         mergee_contact = base_contact

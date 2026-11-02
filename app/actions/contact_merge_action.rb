@@ -1,6 +1,7 @@
 class ContactMergeAction
   include Events::Types
-  pattr_initialize [:account!, :base_contact!, :mergee_contact!]
+  # keep_base_attributes: true moves the mergee's chats and sessions without copying its attributes onto the base contact
+  pattr_initialize [:account!, :base_contact!, :mergee_contact!, { keep_base_attributes: false }]
 
   def perform
     # This case happens when an agent updates a contact email in dashboard,
@@ -62,7 +63,7 @@ class ContactMergeAction
 
     @mergee_contact.reload.destroy!
     Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact)
-    @base_contact.update!(merged_attributes)
+    @base_contact.update!(merged_attributes) unless keep_base_attributes
   end
 
   def higher_contact_type
