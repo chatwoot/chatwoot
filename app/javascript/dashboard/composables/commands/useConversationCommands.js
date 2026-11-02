@@ -299,7 +299,7 @@ export function useConversationCommands() {
       accountId: currentAccountId.value,
       id: conversationId.value,
     });
-    return `${window.location.origin}${frontendURL(path)}`;
+    return `${window.chatwootConfig.hostURL}${frontendURL(path)}`;
   };
 
   const copyConversationLink = async () => {
