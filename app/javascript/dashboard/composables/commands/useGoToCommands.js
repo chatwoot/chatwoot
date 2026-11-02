@@ -1,11 +1,10 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
-import { shortcutKeys } from 'dashboard/helper/commandbar/shortcuts';
-import { pathScopes } from 'dashboard/helper/commandbar/scopes';
+import { pathScopes, shortcutKeys } from 'dashboard/helper/commandbar/actions';
 import { isUpgradePageBypassRoute } from 'dashboard/helper/routeHelpers';
 
 const SECTION_GENERAL = 'COMMAND_BAR.SECTIONS.GENERAL';
@@ -351,6 +350,7 @@ const TARGET_PAGES = [
 export function useGoToCommands(isPaywalled = ref(false)) {
   const { t } = useI18n();
   const router = useRouter();
+  const currentRoute = useRoute();
   const { checkPermissions, checkInstallationType, isFeatureFlagEnabled } =
     usePolicy();
 
@@ -378,7 +378,7 @@ export function useGoToCommands(isPaywalled = ref(false)) {
   const pageCommands = computed(() =>
     [...GO_TO_COMMANDS, ...CREATE_COMMANDS].flatMap(command => {
       const route = resolveRoute(command);
-      if (!isAvailable(route)) return [];
+      if (!isAvailable(route) || route.name === currentRoute.name) return [];
 
       const section = t(command.section);
       return {

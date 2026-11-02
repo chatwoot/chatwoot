@@ -1,13 +1,15 @@
+import { useKbd } from 'dashboard/composables/utils/useKbd';
 import wootConstants from 'dashboard/constants/globals';
 import { emitter } from 'shared/helpers/mitt';
-import { shortcutKeys } from 'dashboard/helper/commandbar/shortcuts';
 
 import {
+  CMD_BULK_ACTION_SNOOZE_CONVERSATION,
   CMD_MUTE_CONVERSATION,
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
   CMD_SNOOZE_CONVERSATION,
+  CMD_SNOOZE_NOTIFICATION,
   CMD_UNMUTE_CONVERSATION,
 } from 'dashboard/helper/commandbar/events';
 
@@ -15,6 +17,27 @@ const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 const SECTION_CONVERSATION = 'COMMAND_BAR.SECTIONS.CONVERSATION';
 
 export const ICON_SNOOZE = 'i-lucide-alarm-clock';
+
+const KEY_LABELS = {
+  Slash: '/',
+  ArrowUp: '↑',
+  ArrowDown: '↓',
+  Enter: '↵',
+  Escape: 'esc',
+  Backspace: '⌫',
+};
+
+export const shortcutKeys = binding =>
+  useKbd(
+    binding.split('+').map(key => KEY_LABELS[key] ?? key.replace(/^Key/, ''))
+  ).value.split(' ');
+
+const PATH_SCOPES = { reports: '/reports', settings: '/settings' };
+
+// The dashboard area a path belongs to. Used for the current page and for the
+// destination of a navigation command, so both sides agree.
+export const pathScopes = path =>
+  Object.keys(PATH_SCOPES).filter(scope => path?.includes(PATH_SCOPES[scope]));
 
 export const localizeActions = (actions, t) =>
   actions.map(action => ({
@@ -25,20 +48,42 @@ export const localizeActions = (actions, t) =>
     shortcut: action.shortcut && shortcutKeys(action.shortcut),
   }));
 
-export const createSnoozeOptions = (
-  busEventName,
-  parentId,
-  section,
-  options = Object.values(SNOOZE_OPTIONS)
-) =>
-  options.map(option => ({
-    id: `${parentId}-${option}`,
+// Every page a snooze can be picked from. A notification is snoozed until a
+// time, so it skips "until next reply".
+export const SNOOZE_PAGES = {
+  snooze_conversation: {
+    event: CMD_SNOOZE_CONVERSATION,
+    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
+  },
+  snooze_notification: {
+    event: CMD_SNOOZE_NOTIFICATION,
+    section: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
+    options: Object.values(SNOOZE_OPTIONS).filter(
+      option => option !== SNOOZE_OPTIONS.UNTIL_NEXT_REPLY
+    ),
+  },
+  bulk_action_snooze_conversation: {
+    event: CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+    section: 'COMMAND_BAR.SECTIONS.BULK_ACTIONS',
+  },
+};
+
+export const createSnoozeOptions = pageId => {
+  const {
+    event,
+    section,
+    options = Object.values(SNOOZE_OPTIONS),
+  } = SNOOZE_PAGES[pageId];
+
+  return options.map(option => ({
+    id: `${pageId}-${option}`,
     title: `COMMAND_BAR.COMMANDS.${option.toUpperCase()}`,
-    parent: parentId,
+    parent: pageId,
     section,
     icon: ICON_SNOOZE,
-    run: () => emitter.emit(busEventName, option),
+    run: () => emitter.emit(event, option),
   }));
+};
 
 export const OPEN_CONVERSATION_ACTIONS = [
   {
@@ -61,11 +106,7 @@ export const SNOOZE_CONVERSATION_ACTIONS = [
     page: true,
     placeholder: 'COMMAND_BAR.SNOOZE_PLACEHOLDER',
   },
-  ...createSnoozeOptions(
-    CMD_SNOOZE_CONVERSATION,
-    'snooze_conversation',
-    'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION'
-  ),
+  ...createSnoozeOptions('snooze_conversation'),
 ];
 
 export const RESOLVED_CONVERSATION_ACTIONS = [

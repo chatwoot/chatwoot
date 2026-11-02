@@ -4,7 +4,6 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { emitter } from 'shared/helpers/mitt';
 
 import {
-  CMD_BULK_ACTION_SNOOZE_CONVERSATION,
   CMD_BULK_ACTION_REOPEN_CONVERSATION,
   CMD_BULK_ACTION_RESOLVE_CONVERSATION,
 } from 'dashboard/helper/commandbar/events';
@@ -27,11 +26,7 @@ const BULK_ACTIONS = [
     page: true,
     placeholder: 'COMMAND_BAR.SNOOZE_PLACEHOLDER',
   },
-  ...createSnoozeOptions(
-    CMD_BULK_ACTION_SNOOZE_CONVERSATION,
-    'bulk_action_snooze_conversation',
-    SECTION
-  ),
+  ...createSnoozeOptions('bulk_action_snooze_conversation'),
   {
     id: 'bulk_action_reopen_conversation',
     title: 'COMMAND_BAR.COMMANDS.REOPEN_CONVERSATION',

@@ -2,14 +2,9 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { SHORTCUT_KEYS } from 'dashboard/components/widgets/modal/constants';
-import { shortcutKeys } from 'dashboard/helper/commandbar/shortcuts';
+import { shortcutKeys } from 'dashboard/helper/commandbar/actions';
 
 const DOCS_URL = 'https://www.chatwoot.com/hc/user-guide/en';
-
-const joinBindings = bindings =>
-  bindings.flatMap((binding, index) =>
-    index ? ['/', ...shortcutKeys(binding)] : shortcutKeys(binding)
-  );
 
 export function useHelpCommands() {
   const { t } = useI18n();
@@ -44,7 +39,7 @@ export function useHelpCommands() {
         section,
         prefix: '?',
         searchFromRoot: false,
-        shortcut: joinBindings(shortcut.keySet),
+        shortcut: shortcut.keySet.map(shortcutKeys),
       })),
     ];
   });

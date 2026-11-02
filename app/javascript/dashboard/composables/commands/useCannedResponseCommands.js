@@ -50,7 +50,7 @@ export function useCannedResponseCommands() {
 
   const variables = computed(() => {
     const chat = currentChat.value;
-    if (!chat) return {};
+    if (!chat.id) return {};
     return getReplyVariables({
       conversation: chat,
       contact: getContact.value(chat.meta.sender.id),

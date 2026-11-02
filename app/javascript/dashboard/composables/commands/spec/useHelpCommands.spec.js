@@ -43,6 +43,6 @@ describe('useHelpCommands', () => {
         title: 'KEYBOARD_SHORTCUTS.TITLE.OPEN_CONVERSATION',
       })
     );
-    expect(shortcuts[0].shortcut.length).toBeGreaterThan(1);
+    expect(shortcuts[0].shortcut.map(keys => keys.at(-1))).toEqual(['J', 'K']);
   });
 });

@@ -53,6 +53,16 @@ describe('useCannedResponseCommands', () => {
     );
   });
 
+  it('lists the responses while the conversation is still loading', () => {
+    store.getters.getSelectedChat = {};
+    const { cannedResponseCommands } = useCannedResponseCommands();
+
+    expect(cannedResponseCommands.value.map(command => command.id)).toEqual([
+      'insert_canned_response',
+      'canned-4',
+    ]);
+  });
+
   it('previews and searches the response with its variables resolved', () => {
     store.getters.getCannedResponses = [
       {

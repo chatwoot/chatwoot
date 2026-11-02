@@ -2,7 +2,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useGoToCommands } from '../useGoToCommands';
 import { MOCK_FEATURE_FLAGS } from './fixtures';
 
@@ -109,6 +109,7 @@ describe('useGoToCommands', () => {
     }));
 
     useI18n.mockReturnValue({ t: vi.fn(key => key) });
+    useRoute.mockReturnValue({ name: 'settings_home' });
     useRouter.mockReturnValue({
       push: vi.fn(),
       resolve: vi.fn(({ name, params }) => ({
@@ -135,6 +136,15 @@ describe('useGoToCommands', () => {
     const { goToCommands } = useGoToCommands();
     expect(goToCommands.value).toBeDefined();
     expect(goToCommands.value.length).toBeGreaterThan(0);
+  });
+
+  it('should hide the page the user is already on', () => {
+    useRoute.mockReturnValue({ name: 'automation_list' });
+    const { goToCommands } = useGoToCommands();
+
+    const ids = goToCommands.value.map(cmd => cmd.id);
+    expect(ids).not.toContain('open_automation_settings');
+    expect(ids).toContain('open_agent_settings');
   });
 
   it('should filter commands based on feature flags', () => {

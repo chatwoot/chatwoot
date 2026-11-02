@@ -298,13 +298,10 @@ export function useConversationCommands() {
     useAlert(t('COMMAND_BAR.LINK_COPIED'));
   };
 
-  // Same roles as the contact routes; anyone else would only hit the route guard.
-  const canViewContact = () =>
-    checkPermissions([...ROLES, CONTACT_PERMISSIONS]);
-
   const contactCommands = computed(() => {
     const commands = [];
-    if (canViewContact()) {
+    // Same roles as the contact routes; anyone else would only hit the route guard.
+    if (checkPermissions([...ROLES, CONTACT_PERMISSIONS])) {
       commands.push({
         id: 'view_contact',
         title: t('COMMAND_BAR.COMMANDS.VIEW_CONTACT'),

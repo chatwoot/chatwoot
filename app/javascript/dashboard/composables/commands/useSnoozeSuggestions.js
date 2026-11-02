@@ -7,27 +7,7 @@ import { useTrack } from 'dashboard/composables';
 import wootConstants from 'dashboard/constants/globals';
 import { generateSnoozeSuggestions } from 'dashboard/helper/snoozeHelpers';
 import { SNOOZE_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { ICON_SNOOZE } from 'dashboard/helper/commandbar/actions';
-import {
-  CMD_BULK_ACTION_SNOOZE_CONVERSATION,
-  CMD_SNOOZE_CONVERSATION,
-  CMD_SNOOZE_NOTIFICATION,
-} from 'dashboard/helper/commandbar/events';
-
-const SNOOZE_PAGES = {
-  snooze_conversation: {
-    event: CMD_SNOOZE_CONVERSATION,
-    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
-  },
-  snooze_notification: {
-    event: CMD_SNOOZE_NOTIFICATION,
-    section: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
-  },
-  bulk_action_snooze_conversation: {
-    event: CMD_BULK_ACTION_SNOOZE_CONVERSATION,
-    section: 'COMMAND_BAR.SECTIONS.BULK_ACTIONS',
-  },
-};
+import { ICON_SNOOZE, SNOOZE_PAGES } from 'dashboard/helper/commandbar/actions';
 
 const ROOT_PAGE = 'snooze_conversation';
 

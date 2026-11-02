@@ -9,7 +9,7 @@ import { CommandBar, createFrecency, useCommandBar } from '@chatwoot/jumpbar';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { pathScopes } from 'dashboard/helper/commandbar/scopes';
+import { pathScopes } from 'dashboard/helper/commandbar/actions';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
