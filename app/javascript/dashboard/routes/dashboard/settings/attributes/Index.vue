@@ -17,7 +17,10 @@ import {
   useMapGetter,
 } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { usePageCommands } from 'dashboard/composables/commands/usePageCommands';
+import {
+  usePageCommands,
+  recordCommands,
+} from 'dashboard/composables/commands/usePageCommands';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { t } = useI18n();
@@ -175,6 +178,22 @@ usePageCommands(() => [
     title: t('ATTRIBUTES_MGMT.HEADER_BTN_TXT'),
     run: openAddPopup,
   },
+  ...recordCommands({
+    id: 'edit_custom_attribute',
+    title: t('ATTRIBUTES_MGMT.EDIT.TITLE'),
+    icon: 'i-lucide-pencil',
+    records: attributes.value,
+    label: attribute => attribute.attribute_display_name,
+    run: handleEditAttribute,
+  }),
+  ...recordCommands({
+    id: 'delete_custom_attribute',
+    title: t('COMMAND_BAR.COMMANDS.DELETE_CUSTOM_ATTRIBUTE'),
+    icon: 'i-lucide-trash-2',
+    records: attributes.value,
+    label: attribute => attribute.attribute_display_name,
+    run: handleDeleteAttribute,
+  }),
 ]);
 </script>
 
