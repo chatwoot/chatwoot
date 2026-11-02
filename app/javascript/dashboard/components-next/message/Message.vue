@@ -401,7 +401,7 @@ const isMessageDeleted = computed(() => {
 });
 
 const canDeleteForCustomer = computed(() =>
-  canDeleteMessageOnChannel(inbox.value.channel_type, {
+  canDeleteMessageOnChannel(inbox.value, {
     messageType: props.messageType,
     private: props.private,
     sourceId: props.sourceId,
