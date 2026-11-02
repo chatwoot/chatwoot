@@ -7,9 +7,11 @@ import { useTrack } from 'dashboard/composables';
 import wootConstants from 'dashboard/constants/globals';
 import { generateSnoozeSuggestions } from 'dashboard/helper/snoozeHelpers';
 import { SNOOZE_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { ICON_SNOOZE, SNOOZE_PAGES } from 'dashboard/helper/commandbar/actions';
-
-const ROOT_PAGE = 'snooze_conversation';
+import {
+  ICON_SNOOZE,
+  SNOOZE_CONVERSATION_PAGE,
+  SNOOZE_PAGES,
+} from 'dashboard/helper/commandbar/actions';
 
 export function useSnoozeSuggestions() {
   const { t, tm } = useI18n();
@@ -54,7 +56,7 @@ export function useSnoozeSuggestions() {
     if (page || !text || !context.scopes?.includes('conversation')) return [];
     if (currentChat.value?.status !== wootConstants.STATUS_TYPE.OPEN) return [];
 
-    return suggestionsFor(ROOT_PAGE, text).map(item => ({
+    return suggestionsFor(SNOOZE_CONVERSATION_PAGE, text).map(item => ({
       ...item,
       keywords: [text],
       scopes: ['conversation'],

@@ -38,7 +38,7 @@ const sources = {
   conversationCommands: [
     command('conversation'),
     command('snooze_conversation', { page: true, placeholder: 'Type a time' }),
-    command('until_custom_time', {
+    command('until_tomorrow', {
       parent: 'snooze_conversation',
       run: vi.fn(),
     }),
@@ -197,7 +197,7 @@ describe('commandbar', () => {
     await mountCommandBar();
     bar.open({ page: 'snooze_conversation' });
     await vi.advanceTimersByTimeAsync(200);
-    expect(ids()).toEqual(['until_custom_time']);
+    expect(ids()).toEqual(['until_tomorrow']);
 
     bar.setQuery('tomorrow');
     await vi.advanceTimersByTimeAsync(200);
@@ -242,7 +242,7 @@ describe('commandbar', () => {
     expect(dispatch).toHaveBeenCalledWith('setContextMenuChatId', null);
   });
 
-  it('keeps the context menu conversation for a custom snooze', async () => {
+  it('keeps the right-clicked conversation while a snooze option runs', async () => {
     await mountCommandBar();
     bar.open({ page: 'snooze_conversation' });
     await flushPromises();
