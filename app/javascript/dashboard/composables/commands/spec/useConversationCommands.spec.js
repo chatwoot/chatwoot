@@ -1,4 +1,5 @@
 import { useConversationCommands } from '../useConversationCommands';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
@@ -23,6 +24,8 @@ vi.mock('dashboard/composables/useConversationLabels');
 vi.mock('dashboard/composables/useCaptain');
 vi.mock('dashboard/composables/useAgentsList');
 vi.mock('dashboard/composables/usePolicy');
+vi.mock('shared/helpers/clipboard');
+vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
 
 describe('useConversationCommands', () => {
   let store;
@@ -125,6 +128,18 @@ describe('useConversationCommands', () => {
     viewContact.run();
     expect(useRouter().push).toHaveBeenCalledWith(
       `/app/accounts/1/contacts/${mockCurrentChat.meta.sender.id}`
+    );
+  });
+
+  it('copies the conversation link on the configured host', async () => {
+    window.chatwootConfig = { hostURL: 'https://support.example.com' };
+    const { conversationCommands } = useConversationCommands();
+    await conversationCommands.value
+      .find(action => action.id === 'copy_conversation_link')
+      .run();
+
+    expect(copyTextToClipboard).toHaveBeenCalledWith(
+      `https://support.example.com/app/accounts/1/conversations/${mockCurrentChat.id}`
     );
   });
 

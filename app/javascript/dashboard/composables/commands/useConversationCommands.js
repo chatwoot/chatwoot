@@ -294,7 +294,9 @@ export function useConversationCommands() {
       accountId: currentAccountId.value,
       id: conversationId.value,
     });
-    await copyTextToClipboard(`${window.location.origin}${frontendURL(path)}`);
+    await copyTextToClipboard(
+      `${window.chatwootConfig.hostURL}${frontendURL(path)}`
+    );
     useAlert(t('COMMAND_BAR.LINK_COPIED'));
   };
 
