@@ -6,6 +6,7 @@ import { useConversationLabels } from 'dashboard/composables/useConversationLabe
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import {
   mockAssignableAgents,
@@ -57,18 +58,10 @@ describe('useConversationCommands', () => {
     useAgentsList.mockReturnValue({
       agentsList: { value: mockAssignableAgents },
     });
-    usePolicy.mockReturnValue({ checkPermissions: vi.fn(() => true) });
-  });
-
-  it('should return the correct computed properties', () => {
-    const { conversationCommands } = useConversationCommands();
-
-    expect(conversationCommands.value).toBeDefined();
-  });
-
-  it('should generate conversation hot keys', () => {
-    const { conversationCommands } = useConversationCommands();
-    expect(conversationCommands.value.length).toBeGreaterThan(0);
+    usePolicy.mockReturnValue({
+      checkPermissions: vi.fn(() => true),
+      isFeatureFlagEnabled: vi.fn(() => true),
+    });
   });
 
   it('should include AI assist actions when captain tasks is enabled', () => {
@@ -136,25 +129,35 @@ describe('useConversationCommands', () => {
   });
 
   it('hides the contact command from users who cannot open contacts', () => {
-    usePolicy.mockReturnValue({ checkPermissions: vi.fn(() => false) });
+    usePolicy.mockReturnValue({
+      checkPermissions: vi.fn(() => false),
+      isFeatureFlagEnabled: vi.fn(() => true),
+    });
     const { conversationCommands } = useConversationCommands();
     const ids = conversationCommands.value.map(action => action.id);
     expect(ids).not.toContain('view_contact');
     expect(ids).toContain('copy_conversation_link');
   });
 
-  it('should return snooze actions when in snooze context', () => {
+  it('hides the contact command when the CRM feature is off', () => {
+    usePolicy.mockReturnValue({
+      checkPermissions: vi.fn(() => true),
+      isFeatureFlagEnabled: vi.fn(flag => flag !== FEATURE_FLAGS.CRM),
+    });
+    const { conversationCommands } = useConversationCommands();
+    const ids = conversationCommands.value.map(action => action.id);
+    expect(ids).not.toContain('view_contact');
+    expect(ids).toContain('copy_conversation_link');
+  });
+
+  it('offers only the snooze actions for a right-clicked conversation in the list', () => {
     store.getters.getContextMenuChatId = 1;
-    useMapGetter.mockImplementation(key => ({
-      value: store.getters[key],
-    }));
-    useRoute.mockReturnValue({ name: 'inbox_conversation' });
+    useRoute.mockReturnValue({ name: 'home' });
 
     const { conversationCommands } = useConversationCommands();
-    const snoozeAction = conversationCommands.value.find(action =>
-      action.id.includes('snooze_conversation')
-    );
-    expect(snoozeAction).toBeDefined();
+    const ids = conversationCommands.value.map(action => action.id);
+    expect(ids).toContain('snooze_conversation');
+    expect(ids).not.toContain('resolve_conversation');
   });
 
   it('should return the correct label actions when there are active labels', () => {

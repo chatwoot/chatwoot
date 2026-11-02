@@ -9,6 +9,7 @@ import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { ROLES, CONTACT_PERMISSIONS } from 'dashboard/constants/permissions';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
@@ -121,7 +122,7 @@ export function useConversationCommands() {
   } = useConversationLabels();
   const { captainTasksEnabled } = useCaptain();
   const { agentsList } = useAgentsList();
-  const { checkPermissions } = usePolicy();
+  const { checkPermissions, isFeatureFlagEnabled } = usePolicy();
 
   const currentChat = useMapGetter('getSelectedChat');
   const currentAccountId = useMapGetter('getCurrentAccountId');
@@ -300,8 +301,11 @@ export function useConversationCommands() {
 
   const contactCommands = computed(() => {
     const commands = [];
-    // Same roles as the contact routes; anyone else would only hit the route guard.
-    if (checkPermissions([...ROLES, CONTACT_PERMISSIONS])) {
+    // Same flag and roles as the contact routes; anyone else would only hit the route guard.
+    if (
+      isFeatureFlagEnabled(FEATURE_FLAGS.CRM) &&
+      checkPermissions([...ROLES, CONTACT_PERMISSIONS])
+    ) {
       commands.push({
         id: 'view_contact',
         title: t('COMMAND_BAR.COMMANDS.VIEW_CONTACT'),

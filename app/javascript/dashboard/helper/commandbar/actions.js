@@ -18,14 +18,7 @@ const SECTION_CONVERSATION = 'COMMAND_BAR.SECTIONS.CONVERSATION';
 
 export const ICON_SNOOZE = 'i-lucide-alarm-clock';
 
-const KEY_LABELS = {
-  Slash: '/',
-  ArrowUp: '↑',
-  ArrowDown: '↓',
-  Enter: '↵',
-  Escape: 'esc',
-  Backspace: '⌫',
-};
+const KEY_LABELS = { Slash: '/', ArrowUp: '↑', ArrowDown: '↓' };
 
 export const shortcutKeys = binding =>
   useKbd(

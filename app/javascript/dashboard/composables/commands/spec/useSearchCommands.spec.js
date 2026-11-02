@@ -2,6 +2,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import SearchAPI from 'dashboard/api/search';
 import { useSearchCommands } from '../useSearchCommands';
 
@@ -22,6 +23,8 @@ describe('useSearchCommands', () => {
   let getters;
   let userPermissions;
 
+  let disabledFeatures;
+
   beforeEach(() => {
     userPermissions = ['administrator'];
     getters = {
@@ -32,10 +35,11 @@ describe('useSearchCommands', () => {
     useI18n.mockReturnValue({ t: key => key });
     useRouter.mockReturnValue({ push: vi.fn() });
     useMapGetter.mockImplementation(key => ({ value: getters[key] }));
+    disabledFeatures = [];
     usePolicy.mockReturnValue({
       checkPermissions: required =>
         required.some(permission => userPermissions.includes(permission)),
-      isFeatureFlagEnabled: () => true,
+      isFeatureFlagEnabled: flag => !disabledFeatures.includes(flag),
     });
     SearchAPI.conversations.mockResolvedValue({
       data: {
@@ -140,6 +144,14 @@ describe('useSearchCommands', () => {
     const { searchLoadedConversations, searchContacts } = useSearchCommands();
 
     expect(searchLoadedConversations({ text: 'sar' })).toEqual([]);
+    expect(await searchContacts({ text: 'sar' })).toEqual([]);
+    expect(SearchAPI.contacts).not.toHaveBeenCalled();
+  });
+
+  it('leaves contacts alone when the CRM feature is off', async () => {
+    disabledFeatures = [FEATURE_FLAGS.CRM];
+    const { searchContacts } = useSearchCommands();
+
     expect(await searchContacts({ text: 'sar' })).toEqual([]);
     expect(SearchAPI.contacts).not.toHaveBeenCalled();
   });

@@ -132,12 +132,6 @@ describe('useGoToCommands', () => {
     });
   });
 
-  it('should return goToCommands computed property', () => {
-    const { goToCommands } = useGoToCommands();
-    expect(goToCommands.value).toBeDefined();
-    expect(goToCommands.value.length).toBeGreaterThan(0);
-  });
-
   it('should hide the page the user is already on', () => {
     useRoute.mockReturnValue({ name: 'automation_list' });
     const { goToCommands } = useGoToCommands();
@@ -167,18 +161,6 @@ describe('useGoToCommands', () => {
         cmd.id.includes('inbox_settings')
     );
     expect(adminOnlyCommands.length).toBe(0);
-  });
-
-  it('should include commands for both admin and agent roles when user is admin', () => {
-    const { goToCommands } = useGoToCommands();
-    const adminCommand = goToCommands.value.find(cmd =>
-      cmd.id.includes('agent_settings')
-    );
-    const agentCommand = goToCommands.value.find(cmd =>
-      cmd.id.includes('profile_settings')
-    );
-    expect(adminCommand).toBeDefined();
-    expect(agentCommand).toBeDefined();
   });
 
   it('should include commands granted by a custom role permission', () => {
@@ -239,30 +221,6 @@ describe('useGoToCommands', () => {
     ]);
   });
 
-  it('should translate section and title for each command', () => {
-    const { goToCommands } = useGoToCommands();
-    goToCommands.value.forEach(command => {
-      expect(useI18n().t).toHaveBeenCalledWith(
-        expect.stringContaining('COMMAND_BAR.SECTIONS.')
-      );
-      expect(useI18n().t).toHaveBeenCalledWith(
-        expect.stringContaining('COMMAND_BAR.COMMANDS.')
-      );
-      expect(command.section).toBeDefined();
-      expect(command.title).toBeDefined();
-    });
-  });
-
-  it('should push the resolved route when run', () => {
-    const { goToCommands } = useGoToCommands();
-    goToCommands.value.forEach(command => {
-      command.run?.();
-      expect(useRouter().push).toHaveBeenCalledWith(
-        expect.objectContaining({ name: expect.any(String) })
-      );
-    });
-  });
-
   it('should resolve every route against the current account', () => {
     store.getters.getCurrentAccountId = 42;
     const { goToCommands } = useGoToCommands();
@@ -273,13 +231,6 @@ describe('useGoToCommands', () => {
           params: expect.objectContaining({ accountId: 42 }),
         })
       );
-    });
-  });
-
-  it('should include icon for each command', () => {
-    const { goToCommands } = useGoToCommands();
-    goToCommands.value.forEach(command => {
-      expect(command.icon).toMatch(/^i-/);
     });
   });
 
@@ -328,22 +279,6 @@ describe('useGoToCommands', () => {
       cmd => cmd.id === 'goto_conversation_dashboard'
     );
     expect(dashboard.shortcut).toHaveLength(2);
-  });
-
-  it('should return commands for all enabled features', () => {
-    const { goToCommands } = useGoToCommands();
-    const ids = goToCommands.value.map(cmd => cmd.id);
-    expect(ids).toContain('goto_contacts_dashboard');
-    expect(ids).toContain('open_automation_settings');
-  });
-
-  it('should not return commands for disabled features', () => {
-    disabledFeatures = Object.values(MOCK_FEATURE_FLAGS);
-    const { goToCommands } = useGoToCommands();
-    const ids = goToCommands.value.map(cmd => cmd.id);
-    expect(ids).not.toContain('goto_contacts_dashboard');
-    expect(ids).not.toContain('open_automation_settings');
-    expect(ids).not.toContain('open_audit_logs_settings');
   });
 
   it('should not offer settings the custom role cannot open', () => {

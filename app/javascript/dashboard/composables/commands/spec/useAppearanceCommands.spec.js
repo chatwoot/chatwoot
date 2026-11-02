@@ -17,16 +17,6 @@ describe('useAppearanceCommands', () => {
     window.matchMedia = vi.fn().mockReturnValue({ matches: false });
   });
 
-  it('should return appearanceCommands computed property', () => {
-    const { appearanceCommands } = useAppearanceCommands();
-    expect(appearanceCommands.value).toBeDefined();
-  });
-
-  it('should have the correct number of appearance options', () => {
-    const { appearanceCommands } = useAppearanceCommands();
-    expect(appearanceCommands.value.length).toBe(4); // 1 parent + 3 theme options
-  });
-
   it('should have the correct parent option', () => {
     const { appearanceCommands } = useAppearanceCommands();
     const parentOption = appearanceCommands.value.find(

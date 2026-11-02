@@ -27,6 +27,7 @@ export function useSearchCommands() {
   const canSearchConversations = () =>
     checkPermissions([...ROLES, ...CONVERSATION_PERMISSIONS]);
   const canSearchContacts = () =>
+    isFeatureFlagEnabled(FEATURE_FLAGS.CRM) &&
     checkPermissions([...ROLES, CONTACT_PERMISSIONS]);
   const canSearchArticles = () =>
     isFeatureFlagEnabled(FEATURE_FLAGS.HELP_CENTER) &&
