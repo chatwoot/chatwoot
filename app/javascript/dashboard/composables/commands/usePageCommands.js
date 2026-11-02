@@ -37,13 +37,17 @@ export function usePageCommands(commands) {
   onBeforeUnmount(unregister);
 }
 
-export const recordCommands = ({ id, title, icon, records, label, run }) => [
-  { id, title, icon, page: true },
-  ...records.map(record => ({
-    id: `${id}-${record.id}`,
-    title: label(record),
-    parent: id,
-    icon,
-    run: () => run(record),
-  })),
-];
+export const recordCommands = ({ id, title, icon, records, label, run }) => {
+  if (!records.length) return [];
+
+  return [
+    { id, title, icon, page: true },
+    ...records.map(record => ({
+      id: `${id}-${record.id}`,
+      title: label(record),
+      parent: id,
+      icon,
+      run: () => run(record),
+    })),
+  ];
+};
