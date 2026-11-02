@@ -13,6 +13,7 @@ import {
   VOICE_CALL_OUTBOUND_INIT_STATUS,
 } from 'dashboard/components-next/message/constants';
 import { useAlert } from 'dashboard/composables';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { useCallsStore } from 'dashboard/stores/calls';
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
@@ -173,7 +174,11 @@ const startCall = async (inboxId, conversationIdHint = null) => {
     useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
     navigateToConversation(response?.conversation_id);
   } catch (error) {
-    useAlert(error?.data || error?.message || t('CONTACT_PANEL.CALL_FAILED'));
+    useAlert(
+      error instanceof ExceptionWithMessage
+        ? error.data
+        : t('CONTACT_PANEL.CALL_FAILED')
+    );
   }
 };
 

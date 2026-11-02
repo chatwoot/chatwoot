@@ -18,6 +18,7 @@ import { useCallsStore } from 'dashboard/stores/calls';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { formatDuration } from 'shared/helpers/timeHelper';
 import { useAlert } from 'dashboard/composables';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
@@ -313,7 +314,11 @@ const handleCallBack = async () => {
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
     });
   } catch (error) {
-    useAlert(error?.data || error?.message || t('CONTACT_PANEL.CALL_FAILED'));
+    useAlert(
+      error instanceof ExceptionWithMessage
+        ? error.data
+        : error?.message || t('CONTACT_PANEL.CALL_FAILED')
+    );
   }
 };
 </script>

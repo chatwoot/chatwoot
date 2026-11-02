@@ -16,6 +16,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAlert } from 'dashboard/composables';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -120,9 +121,9 @@ const startTwilioCall = async () => {
     });
   } catch (error) {
     useAlert(
-      error?.data ||
-        error?.message ||
-        t('CONVERSATION.HEADER.VOICE_CALL_FAILED')
+      error instanceof ExceptionWithMessage
+        ? error.data
+        : t('CONVERSATION.HEADER.VOICE_CALL_FAILED')
     );
   }
 };
