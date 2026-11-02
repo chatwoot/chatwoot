@@ -56,14 +56,23 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
                       "imap_enabled: #{channel.imap_enabled?}, reauthorization_required: #{channel.reauthorization_required?}"
   end
 
+  def fetch_emails(channel, interval)
+    fetch_service_for(channel).new(channel: channel, interval: interval).perform
+  end
+
+  # A channel keeps its `provider` value after being switched back to
+  # password-based IMAP, so only route it to the OAuth fetcher while it
+  # still holds OAuth credentials. Without a refresh token those services
+  # can only raise "A refresh_token is not available" on every run.
+  def fetch_service_for(channel)
+    return Imap::MicrosoftFetchEmailService if channel.microsoft? && oauth_configured?(channel)
+    return Imap::GoogleFetchEmailService if channel.google? && oauth_configured?(channel)
+
+    Imap::FetchEmailService
+  end
+
   def process_email_for_channel(channel, interval)
-    inbound_emails = if channel.microsoft?
-                       Imap::MicrosoftFetchEmailService.new(channel: channel, interval: interval).perform
-                     elsif channel.google?
-                       Imap::GoogleFetchEmailService.new(channel: channel, interval: interval).perform
-                     else
-                       Imap::FetchEmailService.new(channel: channel, interval: interval).perform
-                     end
+    inbound_emails = fetch_emails(channel, interval)
 
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetched #{inbound_emails.length} new emails for inbox #{channel.inbox.id}"
 
@@ -77,6 +86,10 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] OAuth error for inbox #{channel.inbox.id} : #{e.message}"
     channel.authorization_error!
     false
+  end
+
+  def oauth_configured?(channel)
+    channel.provider_config.to_h['refresh_token'].present?
   end
 
   def should_skip_email?(message_id)
