@@ -7,6 +7,8 @@ import { useAlert } from 'dashboard/composables';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
+import { usePolicy } from 'dashboard/composables/usePolicy';
+import { ROLES, CONTACT_PERMISSIONS } from 'dashboard/constants/permissions';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
@@ -119,6 +121,7 @@ export function useConversationCommands() {
   } = useConversationLabels();
   const { captainTasksEnabled } = useCaptain();
   const { agentsList } = useAgentsList();
+  const { checkPermissions } = usePolicy();
 
   const currentChat = useMapGetter('getSelectedChat');
   const currentAccountId = useMapGetter('getCurrentAccountId');
@@ -295,27 +298,35 @@ export function useConversationCommands() {
     useAlert(t('COMMAND_BAR.LINK_COPIED'));
   };
 
-  const contactCommands = computed(() => [
-    {
-      id: 'view_contact',
-      title: t('COMMAND_BAR.COMMANDS.VIEW_CONTACT'),
-      section: section('CONVERSATION'),
-      icon: 'i-lucide-contact-round',
-      run: () =>
-        router.push(
-          frontendURL(
-            `accounts/${currentAccountId.value}/contacts/${currentChat.value.meta.sender.id}`
-          )
-        ),
-    },
-    {
+  // Same roles as the contact routes; anyone else would only hit the route guard.
+  const canViewContact = () =>
+    checkPermissions([...ROLES, CONTACT_PERMISSIONS]);
+
+  const contactCommands = computed(() => {
+    const commands = [];
+    if (canViewContact()) {
+      commands.push({
+        id: 'view_contact',
+        title: t('COMMAND_BAR.COMMANDS.VIEW_CONTACT'),
+        section: section('CONVERSATION'),
+        icon: 'i-lucide-contact-round',
+        run: () =>
+          router.push(
+            frontendURL(
+              `accounts/${currentAccountId.value}/contacts/${currentChat.value.meta.sender.id}`
+            )
+          ),
+      });
+    }
+    commands.push({
       id: 'copy_conversation_link',
       title: t('COMMAND_BAR.COMMANDS.COPY_CONVERSATION_LINK'),
       section: section('CONVERSATION'),
       icon: 'i-lucide-link',
       run: copyConversationLink,
-    },
-  ]);
+    });
+    return commands;
+  });
 
   const defaultCommands = computed(() => [
     ...localizeActions(

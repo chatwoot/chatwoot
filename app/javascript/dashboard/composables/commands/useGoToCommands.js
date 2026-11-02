@@ -5,18 +5,13 @@ import { useRouter } from 'vue-router';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { shortcutKeys } from 'dashboard/helper/commandbar/shortcuts';
+import { pathScopes } from 'dashboard/helper/commandbar/scopes';
 import { isUpgradePageBypassRoute } from 'dashboard/helper/routeHelpers';
 
 const SECTION_GENERAL = 'COMMAND_BAR.SECTIONS.GENERAL';
 const SECTION_REPORTS = 'COMMAND_BAR.SECTIONS.REPORTS';
 const SECTION_SETTINGS = 'COMMAND_BAR.SECTIONS.SETTINGS';
 const SECTION_CREATE = 'COMMAND_BAR.SECTIONS.CREATE';
-
-const SECTION_SCOPES = {
-  [SECTION_REPORTS]: ['reports'],
-  [SECTION_SETTINGS]: ['settings'],
-  [SECTION_CREATE]: ['settings'],
-};
 
 const GO_TO_COMMANDS = [
   {
@@ -392,7 +387,7 @@ export function useGoToCommands(isPaywalled = ref(false)) {
         title: t(command.title),
         keywords: [section],
         icon: command.icon,
-        scopes: SECTION_SCOPES[command.section],
+        scopes: pathScopes(route.path),
         shortcut: command.shortcut && shortcutKeys(command.shortcut),
         run: () => router.push(route),
       };

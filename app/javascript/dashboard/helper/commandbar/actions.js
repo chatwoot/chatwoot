@@ -25,8 +25,13 @@ export const localizeActions = (actions, t) =>
     shortcut: action.shortcut && shortcutKeys(action.shortcut),
   }));
 
-export const createSnoozeOptions = (busEventName, parentId, section) =>
-  Object.values(SNOOZE_OPTIONS).map(option => ({
+export const createSnoozeOptions = (
+  busEventName,
+  parentId,
+  section,
+  options = Object.values(SNOOZE_OPTIONS)
+) =>
+  options.map(option => ({
     id: `${parentId}-${option}`,
     title: `COMMAND_BAR.COMMANDS.${option.toUpperCase()}`,
     parent: parentId,

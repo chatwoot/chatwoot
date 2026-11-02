@@ -20,10 +20,10 @@ const conversation = {
 
 describe('useSearchCommands', () => {
   let getters;
-  let permitted;
+  let userPermissions;
 
   beforeEach(() => {
-    permitted = true;
+    userPermissions = ['administrator'];
     getters = {
       getCurrentAccountId: 1,
       getAllConversations: [conversation],
@@ -33,7 +33,8 @@ describe('useSearchCommands', () => {
     useRouter.mockReturnValue({ push: vi.fn() });
     useMapGetter.mockImplementation(key => ({ value: getters[key] }));
     usePolicy.mockReturnValue({
-      checkPermissions: () => permitted,
+      checkPermissions: required =>
+        required.some(permission => userPermissions.includes(permission)),
       isFeatureFlagEnabled: () => true,
     });
     SearchAPI.conversations.mockResolvedValue({
@@ -135,7 +136,7 @@ describe('useSearchCommands', () => {
   });
 
   it('returns nothing when the user may not search that record', async () => {
-    permitted = false;
+    userPermissions = [];
     const { searchLoadedConversations, searchContacts } = useSearchCommands();
 
     expect(searchLoadedConversations({ text: 'sar' })).toEqual([]);
@@ -152,5 +153,11 @@ describe('useSearchCommands', () => {
       name: 'search',
       query: { q: 'sarah' },
     });
+  });
+
+  it('offers the full search page to users who can only search articles', () => {
+    userPermissions = ['knowledge_base_manage'];
+    const { searchEverything } = useSearchCommands();
+    expect(searchEverything({ text: 'sarah' })).toHaveLength(1);
   });
 });

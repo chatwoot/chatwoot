@@ -77,6 +77,11 @@ const ROUTE_META = {
 
 const DEFAULT_META = { permissions: ['administrator', 'agent'] };
 
+const ROUTE_PATHS = {
+  settings_inbox_new: '/app/accounts/1/settings/inboxes/new',
+  campaigns_whatsapp_new: '/app/accounts/1/campaigns/whatsapp/new',
+};
+
 describe('useGoToCommands', () => {
   let store;
   let userPermissions;
@@ -109,6 +114,7 @@ describe('useGoToCommands', () => {
       resolve: vi.fn(({ name, params }) => ({
         name,
         params,
+        path: ROUTE_PATHS[name] ?? '',
         meta: ROUTE_META[name] || DEFAULT_META,
       })),
     });
@@ -296,6 +302,10 @@ describe('useGoToCommands', () => {
     const newInbox = goToCommands.value.find(cmd => cmd.id === 'new_inbox');
 
     expect(newInbox.scopes).toEqual(['settings']);
+    const newCampaign = goToCommands.value.find(
+      cmd => cmd.id === 'new_campaign'
+    );
+    expect(newCampaign.scopes).toEqual([]);
     newInbox.run();
     expect(useRouter().push).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'settings_inbox_new' })

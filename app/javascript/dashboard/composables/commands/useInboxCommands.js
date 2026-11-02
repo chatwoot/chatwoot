@@ -8,8 +8,14 @@ import {
   localizeActions,
 } from 'dashboard/helper/commandbar/actions';
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';
+import wootConstants from 'dashboard/constants/globals';
 
 const SECTION = 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION';
+
+// A notification is snoozed until a time, so "until next reply" does not apply.
+const NOTIFICATION_SNOOZE_OPTIONS = Object.values(
+  wootConstants.SNOOZE_OPTIONS
+).filter(option => option !== wootConstants.SNOOZE_OPTIONS.UNTIL_NEXT_REPLY);
 
 const SNOOZE_NOTIFICATION_ACTIONS = [
   {
@@ -24,7 +30,8 @@ const SNOOZE_NOTIFICATION_ACTIONS = [
   ...createSnoozeOptions(
     CMD_SNOOZE_NOTIFICATION,
     'snooze_notification',
-    SECTION
+    SECTION,
+    NOTIFICATION_SNOOZE_OPTIONS
   ),
 ];
 

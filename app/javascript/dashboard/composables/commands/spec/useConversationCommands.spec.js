@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import {
   mockAssignableAgents,
@@ -20,6 +21,7 @@ vi.mock('vue-router');
 vi.mock('dashboard/composables/useConversationLabels');
 vi.mock('dashboard/composables/useCaptain');
 vi.mock('dashboard/composables/useAgentsList');
+vi.mock('dashboard/composables/usePolicy');
 
 describe('useConversationCommands', () => {
   let store;
@@ -55,6 +57,7 @@ describe('useConversationCommands', () => {
     useAgentsList.mockReturnValue({
       agentsList: { value: mockAssignableAgents },
     });
+    usePolicy.mockReturnValue({ checkPermissions: vi.fn(() => true) });
   });
 
   it('should return the correct computed properties', () => {
@@ -130,6 +133,14 @@ describe('useConversationCommands', () => {
     expect(useRouter().push).toHaveBeenCalledWith(
       `/app/accounts/1/contacts/${mockCurrentChat.meta.sender.id}`
     );
+  });
+
+  it('hides the contact command from users who cannot open contacts', () => {
+    usePolicy.mockReturnValue({ checkPermissions: vi.fn(() => false) });
+    const { conversationCommands } = useConversationCommands();
+    const ids = conversationCommands.value.map(action => action.id);
+    expect(ids).not.toContain('view_contact');
+    expect(ids).toContain('copy_conversation_link');
   });
 
   it('should return snooze actions when in snooze context', () => {

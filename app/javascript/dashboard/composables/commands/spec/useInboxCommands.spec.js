@@ -37,4 +37,11 @@ describe('useInboxCommands', () => {
       'COMMAND_BAR.SNOOZE_PLACEHOLDER'
     );
   });
+
+  it('does not offer "until next reply", which only applies to conversations', () => {
+    const { inboxCommands } = useInboxCommands();
+    const ids = inboxCommands.value.map(action => action.id);
+    expect(ids).toContain('snooze_notification-until_tomorrow');
+    expect(ids).not.toContain('snooze_notification-until_next_reply');
+  });
 });
