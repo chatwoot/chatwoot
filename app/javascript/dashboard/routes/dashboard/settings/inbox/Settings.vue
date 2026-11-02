@@ -787,6 +787,23 @@ export default {
       :header-title="inboxName"
       :header-identifier="inboxIdentifier"
     >
+      <template #actions>
+        <router-link
+          :to="{
+            name: 'inbox_dashboard',
+            params: { inbox_id: inbox.id },
+          }"
+          class="shrink-0"
+        >
+          <NextButton
+            :label="$t('INBOX_MGMT.VIEW_CONVERSATIONS')"
+            icon="i-lucide-messages-square"
+            slate
+            faded
+            sm
+          />
+        </router-link>
+      </template>
       <woot-tabs
         class="[&_ul]:p-0 top-px relative"
         :index="selectedTabIndex"

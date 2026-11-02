@@ -182,6 +182,19 @@ const openDelete = inbox => {
           <div class="flex gap-3 justify-end shrink-0">
             <router-link
               :to="{
+                name: 'inbox_dashboard',
+                params: { inbox_id: inbox.id },
+              }"
+            >
+              <Button
+                v-tooltip.top="$t('INBOX_MGMT.VIEW_CONVERSATIONS')"
+                icon="i-lucide-messages-square"
+                slate
+                sm
+              />
+            </router-link>
+            <router-link
+              :to="{
                 name: 'settings_inbox_show',
                 params: { inboxId: inbox.id },
               }"
