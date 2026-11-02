@@ -188,7 +188,7 @@ const openDelete = inbox => {
             >
               <Button
                 v-tooltip.top="$t('INBOX_MGMT.VIEW_CONVERSATIONS')"
-                icon="i-lucide-messages-square"
+                icon="i-woot-messages"
                 slate
                 sm
               />

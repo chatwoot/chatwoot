@@ -37,6 +37,7 @@ import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue'
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SpinnerLoader from 'dashboard/components-next/spinner/Spinner.vue';
+import ChannelName from './components/ChannelName.vue';
 import {
   getInboxIconByType,
   getInboxIdentifier,
@@ -56,6 +57,7 @@ export default {
   components: {
     Banner,
     BotConfiguration,
+    ChannelName,
     CollaboratorsPage,
     ConfigurationPage,
     VoiceConfigurationPage,
@@ -785,8 +787,21 @@ export default {
     <SettingIntroBanner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
-      :header-identifier="inboxIdentifier"
     >
+      <template #meta>
+        <ChannelName
+          :channel-type="inbox.channel_type"
+          :medium="inbox.medium"
+          :voice-enabled="inbox.voice_enabled"
+          class="shrink-0"
+        />
+        <template v-if="inboxIdentifier">
+          <span aria-hidden="true">·</span>
+          <bdi dir="auto" :title="inboxIdentifier" class="truncate">
+            {{ inboxIdentifier }}
+          </bdi>
+        </template>
+      </template>
       <template #actions>
         <router-link
           :to="{
@@ -797,9 +812,8 @@ export default {
         >
           <NextButton
             :label="$t('INBOX_MGMT.VIEW_CONVERSATIONS')"
-            icon="i-lucide-messages-square"
+            icon="i-woot-messages"
             slate
-            faded
             sm
           />
         </router-link>
