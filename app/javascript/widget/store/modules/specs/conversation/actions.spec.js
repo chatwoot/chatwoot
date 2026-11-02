@@ -1,4 +1,5 @@
 import { actions } from '../../conversation/actions';
+import { mutations } from '../../conversation/mutations';
 import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
 
@@ -507,6 +508,123 @@ describe('#actions', () => {
       await actions.syncLatestMessages({ state, commit }, {});
 
       expect(commit.mock.calls).toEqual([]);
+    });
+  });
+});
+
+describe('#current page actions', () => {
+  const pageContext = {
+    url: 'https://example.com/pricing',
+    title: 'Pricing',
+    tabId: 'tab-123',
+    sequence: 3,
+  };
+
+  it('queues the latest page context before a conversation exists', async () => {
+    const commitMock = vi.fn();
+    await actions.updateCurrentPage(
+      {
+        commit: commitMock,
+        rootGetters: {
+          'conversationAttributes/getConversationParams': { id: '' },
+        },
+      },
+      pageContext
+    );
+
+    expect(commitMock).toHaveBeenCalledWith(
+      'setPendingPageContext',
+      pageContext
+    );
+  });
+
+  it('updates the current page for an existing conversation', async () => {
+    API.post.mockClear();
+    API.post.mockResolvedValue({ data: {} });
+
+    const commitMock = vi.fn();
+    await actions.updateCurrentPage(
+      {
+        commit: commitMock,
+        rootGetters: {
+          'conversationAttributes/getConversationParams': { id: 123 },
+        },
+      },
+      pageContext
+    );
+
+    expect(commitMock).toHaveBeenCalledWith(
+      'setPendingPageContext',
+      pageContext
+    );
+    expect(API.post).toHaveBeenCalledWith(
+      '/api/v1/widget/conversations/update_current_page',
+      {
+        current_page: {
+          url: pageContext.url,
+          title: pageContext.title,
+          tab_id: pageContext.tabId,
+          sequence: pageContext.sequence,
+        },
+      }
+    );
+  });
+
+  it('includes the queued page context in the first conversation payload', async () => {
+    API.post.mockClear();
+    API.post.mockResolvedValue({
+      data: {
+        messages: [{ id: 1, content: 'hello' }],
+      },
+    });
+    window.WOOT_WIDGET = {
+      $root: { $i18n: { locale: 'en' } },
+    };
+    const commitMock = vi.fn();
+
+    await actions.createConversation(
+      {
+        commit: commitMock,
+        dispatch: vi.fn(),
+        state: { pendingPageContext: pageContext },
+      },
+      { fullName: 'John', emailAddress: 'john@example.com', message: 'hello' }
+    );
+    expect(API.post).toHaveBeenCalledWith(
+      expect.stringContaining('/api/v1/widget/conversations'),
+      expect.objectContaining({
+        current_page: {
+          url: pageContext.url,
+          title: pageContext.title,
+          tab_id: pageContext.tabId,
+          sequence: pageContext.sequence,
+        },
+      })
+    );
+  });
+});
+
+describe('#clearConversations', () => {
+  it('keeps the pending page context for pre-chat submission', () => {
+    const state = {
+      conversations: { 1: { id: 1 } },
+      pendingCustomAttributes: { plan: 'enterprise' },
+      pendingLabels: ['vip'],
+      pendingPageContext: {
+        url: 'https://example.com/pricing',
+        title: 'Pricing',
+        tabId: 'tab-123',
+        sequence: 1,
+      },
+    };
+
+    mutations.clearConversations(state);
+
+    expect(state.pendingPageContext).toEqual({
+      url: 'https://example.com/pricing',
+      title: 'Pricing',
+      tabId: 'tab-123',
+      sequence: 1,
     });
   });
 });

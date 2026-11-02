@@ -1,8 +1,13 @@
 import endPoints from 'widget/api/endPoints';
 import { API } from 'widget/helpers/axios';
 
-const createConversationAPI = async content => {
-  const urlData = endPoints.createConversation(content);
+const createConversationAPI = async (content, pageContext) => {
+  const urlData = endPoints.createConversation(content, pageContext);
+  return API.post(urlData.url, urlData.params);
+};
+
+const updateCurrentPageAPI = async pageContext => {
+  const urlData = endPoints.updateCurrentPage(pageContext);
   return API.post(urlData.url, urlData.params);
 };
 
@@ -82,6 +87,7 @@ const deleteCustomAttribute = async customAttribute => {
 
 export {
   createConversationAPI,
+  updateCurrentPageAPI,
   sendMessageAPI,
   getConversationAPI,
   getMessagesAPI,
