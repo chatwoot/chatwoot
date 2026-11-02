@@ -90,6 +90,9 @@ vi.mock('dashboard/composables/commands/useSnoozeSuggestions', () => ({
         : [],
   }),
 }));
+vi.mock('dashboard/composables/commands/useBackCommands', () => ({
+  useBackCommands: () => ({ backCommands: ref([]) }),
+}));
 vi.mock('dashboard/composables/commands/useSearchCommands', () => ({
   useSearchCommands: () => ({
     searchLoadedConversations: () => [],

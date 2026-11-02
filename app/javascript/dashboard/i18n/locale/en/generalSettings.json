@@ -217,6 +217,7 @@
       "CONVERSATIONS": "Conversations",
       "CONTACTS": "Contacts",
       "ARTICLES": "Articles",
+      "PAGE": "This page",
       "CREATE": "Create"
     },
     "COMMANDS": {
@@ -287,7 +288,12 @@
       "NEW_INBOX": "New inbox",
       "NEW_TEAM": "New team",
       "NEW_MACRO": "New macro",
-      "NEW_CAMPAIGN": "New campaign"
+      "NEW_CAMPAIGN": "New campaign",
+      "PAGE_DOCS": "{title} documentation",
+      "DELETE_AGENT": "Delete agent",
+      "DELETE_LABEL": "Delete label",
+      "DELETE_CANNED_RESPONSE": "Delete canned response",
+      "BACK_TO": "Back to {page}"
     }
   },
   "DASHBOARD_APPS": {

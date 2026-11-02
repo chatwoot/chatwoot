@@ -1,7 +1,15 @@
 <script setup>
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { computed, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useBranding } from 'shared/composables/useBranding';
+import { useAccount } from 'dashboard/composables/useAccount';
+import {
+  usePageCommands,
+  recordCommands,
+} from 'dashboard/composables/commands/usePageCommands';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 import { picoSearch } from '@chatwoot/pico-search';
 import IntegrationItem from './IntegrationItem.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -27,6 +35,26 @@ const filteredIntegrationList = computed(() => {
 onMounted(() => {
   store.dispatch('integrations/get');
 });
+
+const { t } = useI18n();
+const router = useRouter();
+const { accountId } = useAccount();
+
+usePageCommands(() =>
+  recordCommands({
+    id: 'configure_integration',
+    title: t('INTEGRATION_APPS.CONFIGURE'),
+    icon: 'i-lucide-settings-2',
+    records: integrationList.value,
+    label: integration => integration.name,
+    run: integration =>
+      router.push(
+        frontendURL(
+          `accounts/${accountId.value}/settings/integrations/${integration.id}`
+        )
+      ),
+  })
+);
 </script>
 
 <template>
