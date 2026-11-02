@@ -266,6 +266,22 @@ RSpec.describe Message do
       expect(message.valid?).to be false
       expect(message.errors[:content_attributes]).to include('display_text must be at most 20 characters for whatsapp_cta_url')
     end
+
+    it 'promotes rendered whatsapp_cta_url body into content when Liquid content renders blank' do
+      conversation.contact.update!(name: 'Ada')
+      message = create(:message, conversation: conversation, message_type: :outgoing,
+                                 content: '{{contact.custom_attributes.missing_field}}',
+                                 content_attributes: {
+                                   whatsapp_cta_url: {
+                                     display_text: 'See menu',
+                                     url: 'https://example.com/menu',
+                                     body: 'Welcome {{contact.name}}'
+                                   }
+                                 })
+
+      expect(message.content).to eq('Welcome Ada')
+      expect(message.content_attributes[:whatsapp_cta_url].with_indifferent_access).not_to have_key(:body)
+    end
   end
 
   describe 'length validations' do

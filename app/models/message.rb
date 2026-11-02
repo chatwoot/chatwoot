@@ -350,6 +350,7 @@ class Message < ApplicationRecord
 
     process_liquid_in_content unless liquid_content_processed?
     process_liquid_in_cta_fields(cta_key, cta_params)
+    sync_whatsapp_cta_content
   end
 
   def process_liquid_in_cta_fields(cta_key, cta_params)
