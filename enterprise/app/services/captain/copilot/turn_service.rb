@@ -62,13 +62,13 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
 
   # Copilot's base prompt and tool list, then the workflow instructions. They explain Chatwoot's fields, because without
   # them the model treats status and priority as content. The current time is the turn's own, so a retried or resumed turn
-  # reads the same dates.
+  # reads the same dates. It is in the reporting time zone, where reports cut their days, so today is the account's date.
   def system_message
     tools = @tools.map { |tool| "- #{tool.class.name}: #{tool.description}" }.join("\n")
     base = Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], tools, @assistant.config)
     instructions = Captain::PromptRenderer.render('copilot_workflows', conversations_per_turn: CopilotRun::CONVERSATIONS_PER_TURN,
                                                                        user_name: @user.name, user_id: @user.id,
-                                                                       current_time: @run.created_at.iso8601)
+                                                                       current_time: @run.created_at.in_time_zone(@account.report_time_zone).iso8601)
     { role: 'system', content: "#{base}\n\n#{instructions}" }
   end
 

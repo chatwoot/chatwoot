@@ -1,12 +1,12 @@
 # What callers hear in one situation: out of hours, as a greeting, or when nobody answers. The
-# text lives in the channel's provider_config and Twilio reads it in the account's language. The
-# out-of-hours text is also recorded as audio on the inbox by Captain when it is available.
+# text lives in the channel's provider_config and Captain records it when available.
+# Twilio reads the text in the account's language when no saved audio exists.
 class Voice::CallAnnouncement
   MESSAGE_MAX_LENGTH = 1000
   KINDS = {
     'out_of_hours' => { enabled: 'business_hours_calls_enabled', message: 'out_of_hours_call_message', audio: :out_of_hours_call_audio },
-    'greeting' => { enabled: 'call_greeting_enabled', message: 'call_greeting_message' },
-    'unanswered' => { enabled: 'unanswered_calls_enabled', message: 'unanswered_call_message' }
+    'greeting' => { enabled: 'call_greeting_enabled', message: 'call_greeting_message', audio: :call_greeting_audio },
+    'unanswered' => { enabled: 'unanswered_calls_enabled', message: 'unanswered_call_message', audio: :unanswered_call_audio }
   }.freeze
   # Languages supported by Twilio's basic voices. Other account languages retain the English default.
   LANGUAGES = {
@@ -83,5 +83,7 @@ class Voice::CallAnnouncement
     return unless changed || !audio.attached?
 
     Llm::TextToSpeechService.new(text: message, account: inbox.account).perform
+  rescue Faraday::Error
+    raise CustomExceptions::AnnouncementGenerationFailed.new({})
   end
 end

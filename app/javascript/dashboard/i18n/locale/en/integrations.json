@@ -756,6 +756,8 @@
       "RESET": "Reset",
       "NEW_CHAT": "New chat",
       "HISTORY": "Past chats",
+      "EXPAND": "Expand",
+      "SHRINK": "Shrink",
       "NO_HISTORY": "Your past Copilot chats will appear here.",
       "LOAD_MORE": "Load more chats",
       "LOADING_CHAT": "Loading chat...",
