@@ -82,8 +82,8 @@ class ContactIdentifyAction
   end
 
   def mergeable?(existing_contact, key)
-    # An email or phone from an unverified session never moves a contact with a verified session
-    return false if key != :identifier && unverified_session_on?(@contact)
+    # An unverified session never moves a contact with a verified session
+    return false if unverified_session_on?(@contact)
 
     # Never merge into a contact that already owns an identifier unless the request
     # supplies the matching one. This also covers the blank-identifier case: an
@@ -92,8 +92,8 @@ class ContactIdentifyAction
     # (anonymous dedup) are still allowed.
     return true if existing_contact.identifier.blank? || existing_contact.identifier == params[:identifier]
 
-    # A widget session links to a contact with a verified session by email or phone, and stays unverified
-    key != :identifier && contact_inbox.present? && existing_contact.verified_session?
+    # An unverified widget session links to a contact with a verified session by email or phone, and stays unverified
+    key != :identifier && unverified_session_on?(existing_contact)
   end
 
   def unverified_session_on?(contact)

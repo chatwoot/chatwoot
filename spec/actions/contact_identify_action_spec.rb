@@ -166,6 +166,26 @@ describe ContactIdentifyAction do
         expect(verified_contact.reload.email).to eq 'verified@test.com'
       end
 
+      it 'does not let the linked session merge the verified contact into another contact by identifier' do
+        session.update!(contact: verified_contact)
+        other_contact = create(:contact, account: account, identifier: 'other_id')
+        result = described_class.new(contact: verified_contact, params: { identifier: 'other_id' }, contact_inbox: session).perform
+
+        expect(result.id).to eq verified_contact.id
+        expect(other_contact.reload.identifier).to eq 'other_id'
+        expect(verified_contact.reload.identifier).to eq 'verified_id'
+      end
+
+      it 'does not link a verified session to another contact with a verified session' do
+        other_contact = create(:contact, account: account, identifier: 'other_id', name: 'Other')
+        other_session = create(:contact_inbox, contact: other_contact, inbox: inbox, hmac_verified: true)
+        result = described_class.new(contact: other_contact, params: { email: 'verified@test.com' }, contact_inbox: other_session).perform
+
+        expect(result.id).to eq other_contact.id
+        expect(other_session.reload.contact_id).to eq other_contact.id
+        expect(verified_contact.reload.name).to eq 'Verified'
+      end
+
       it 'lets the verified session change the contact' do
         verified_session = verified_contact.contact_inboxes.first
         described_class.new(contact: verified_contact, params: { name: 'New name' }, contact_inbox: verified_session).perform
