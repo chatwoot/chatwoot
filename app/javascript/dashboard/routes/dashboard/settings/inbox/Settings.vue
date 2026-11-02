@@ -791,7 +791,7 @@ export default {
         <router-link
           :to="{
             name: 'inbox_dashboard',
-            params: { inbox_id: inbox.id },
+            params: { inbox_id: currentInboxId },
           }"
           class="shrink-0"
         >
