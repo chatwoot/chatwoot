@@ -796,7 +796,7 @@
       },
       "ANNOUNCEMENT": {
         "TWILIO_HELP": "Saving generates the spoken announcement using one Captain response credit. You can listen to the saved audio below.",
-        "READ_BY_TWILIO": "Captain isn't available. You can save the text for Twilio to read.",
+        "READ_BY_TWILIO": "Without saved audio, Twilio reads the announcement text aloud.",
         "ACTIVE": "Current announcement",
         "SAVE": "Save announcement"
       },
