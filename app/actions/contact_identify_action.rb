@@ -4,10 +4,13 @@
 #
 # But, In case of contact merge during prechat form contact update.
 # We don't want to update the name of the identified original contact.
+#
+# contact_inbox: the widget session that sent the request.
+# An unverified session can link to a contact with a verified session by email or phone, but can't change that contact.
 
 class ContactIdentifyAction
   include UrlHelper
-  pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
+  pattr_initialize [:contact!, :params!, { contact_inbox: nil, retain_original_contact_name: false, discard_invalid_attrs: false }]
 
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
@@ -16,7 +19,7 @@ class ContactIdentifyAction
       merge_if_existing_identified_contact
       merge_if_existing_email_contact
       merge_if_existing_phone_number_contact
-      update_contact
+      update_contact unless unverified_session_on?(@contact)
     end
     @contact
   end
@@ -71,19 +74,30 @@ class ContactIdentifyAction
 
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
+    return true if mergeable?(existing_contact, key)
+
+    # we will remove attribute from update list
+    @attributes_to_update.delete(key)
+    false
+  end
+
+  def mergeable?(existing_contact, key)
+    # An email or phone from an unverified session never moves a contact with a verified session
+    return false if key != :identifier && unverified_session_on?(@contact)
 
     # Never merge into a contact that already owns an identifier unless the request
     # supplies the matching one. This also covers the blank-identifier case: an
     # unverified/anonymous request must not take over an identified contact just by
     # matching its email or phone_number. Merges into non-identified contacts
     # (anonymous dedup) are still allowed.
-    if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
-      # we will remove attribute from update list
-      @attributes_to_update.delete(key)
-      return false
-    end
+    return true if existing_contact.identifier.blank? || existing_contact.identifier == params[:identifier]
 
-    true
+    # A widget session links to a contact with a verified session by email or phone, and stays unverified
+    key != :identifier && contact_inbox.present? && existing_contact.verified_session?
+  end
+
+  def unverified_session_on?(contact)
+    contact_inbox.present? && !contact_inbox.hmac_verified? && contact.verified_session?
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789
@@ -123,7 +137,8 @@ class ContactIdentifyAction
     ContactMergeAction.new(
       account: account,
       base_contact: base_contact,
-      mergee_contact: merge_contact
+      mergee_contact: merge_contact,
+      keep_base_attributes: unverified_session_on?(base_contact)
     ).perform
   end
 

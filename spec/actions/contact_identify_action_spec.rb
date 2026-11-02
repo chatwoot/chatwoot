@@ -125,6 +125,55 @@ describe ContactIdentifyAction do
       end
     end
 
+    context 'when a widget session sends the email of a contact with a verified session' do
+      let(:inbox) { create(:inbox, account: account) }
+      let!(:verified_contact) do
+        create(:contact, account: account, identifier: 'verified_id', email: 'verified@test.com', name: 'Verified',
+                         custom_attributes: { plan: 'pro' })
+      end
+      let!(:session) { create(:contact_inbox, contact: contact, inbox: inbox) }
+
+      before { create(:contact_inbox, contact: verified_contact, inbox: inbox, hmac_verified: true) }
+
+      it 'links the session to the verified contact without changing it' do
+        params = { email: 'verified@test.com', name: 'Visitor', phone_number: '+919999888877', custom_attributes: { plan: 'free' } }
+        result = described_class.new(contact: contact, params: params, contact_inbox: session).perform
+
+        expect(result.id).to eq verified_contact.id
+        expect(session.reload.contact_id).to eq verified_contact.id
+        expect(session.hmac_verified).to be false
+        expect(verified_contact.reload.name).to eq 'Verified'
+        expect(verified_contact.phone_number).to be_blank
+        expect(verified_contact.custom_attributes).to eq({ 'plan' => 'pro' })
+      end
+
+      it 'does not let the linked session change the verified contact later' do
+        session.update!(contact: verified_contact)
+        params = { name: 'Visitor', custom_attributes: { plan: 'free' } }
+        described_class.new(contact: verified_contact, params: params, contact_inbox: session).perform
+
+        expect(verified_contact.reload.name).to eq 'Verified'
+        expect(verified_contact.custom_attributes).to eq({ 'plan' => 'pro' })
+      end
+
+      it 'does not let the linked session merge the verified contact into another contact' do
+        session.update!(contact: verified_contact)
+        other_contact = create(:contact, account: account, email: 'other@test.com')
+        result = described_class.new(contact: verified_contact, params: { email: 'other@test.com' }, contact_inbox: session).perform
+
+        expect(result.id).to eq verified_contact.id
+        expect(other_contact.reload.email).to eq 'other@test.com'
+        expect(verified_contact.reload.email).to eq 'verified@test.com'
+      end
+
+      it 'lets the verified session change the contact' do
+        verified_session = verified_contact.contact_inboxes.first
+        described_class.new(contact: verified_contact, params: { name: 'New name' }, contact_inbox: verified_session).perform
+
+        expect(verified_contact.reload.name).to eq 'New name'
+      end
+    end
+
     context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do
       it 'updates the attributes of contact passed in to identify action' do
         create(:contact, account: account, identifier: '')

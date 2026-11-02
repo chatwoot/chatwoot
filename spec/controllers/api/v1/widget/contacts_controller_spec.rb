@@ -33,7 +33,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        expected_params = { contact: contact, params: params, discard_invalid_attrs: true }
+        expected_params = { contact: contact, params: params, contact_inbox: contact_inbox, discard_invalid_attrs: true }
         expect(ContactIdentifyAction).to have_received(:new).with(expected_params)
         expect(identify_action).to have_received(:perform)
       end
@@ -275,6 +275,19 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
              headers: { 'X-Auth-Token' => token },
              as: :json
         expect(contact.reload.custom_attributes).to eq({})
+      end
+
+      it 'does not change a contact with a verified session from an unverified session' do
+        contact.update!(custom_attributes: { test: 'test' })
+        create(:contact_inbox, contact: contact, inbox: web_widget.inbox, hmac_verified: true)
+
+        post '/api/v1/widget/contact/destroy_custom_attributes',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.custom_attributes).to eq({ 'test' => 'test' })
       end
     end
   end

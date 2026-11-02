@@ -138,6 +138,11 @@ class Contact < ApplicationRecord
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
 
+  # A session proved this contact's identifier with an identifier_hash
+  def verified_session?
+    contact_inboxes.exists?(hmac_verified: true)
+  end
+
   def push_event_data
     data = {
       additional_attributes: additional_attributes,

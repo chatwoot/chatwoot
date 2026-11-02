@@ -19,6 +19,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
       ContactIdentifyAction.new(
         contact: @contact,
         params: { email: contact_email, name: contact_name },
+        contact_inbox: @contact_inbox,
         retain_original_contact_name: true
       ).perform
     else

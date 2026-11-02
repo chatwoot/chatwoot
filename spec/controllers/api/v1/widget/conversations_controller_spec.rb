@@ -76,6 +76,22 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['contact']['name']).to eq 'contact-name'
     end
 
+    it 'links the conversation to a contact with a verified session as an unverified session' do
+      verified_contact = create(:contact, account: account, identifier: 'verified_id', email: 'contact-email@chatwoot.com', name: 'Verified')
+      create(:contact_inbox, contact: verified_contact, inbox: web_widget.inbox, hmac_verified: true)
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: conversation_params,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      created = Conversation.find_by!(display_id: response.parsed_body['id'])
+      expect(created.contact_id).to eq verified_contact.id
+      expect(contact_inbox.reload).to have_attributes(contact_id: verified_contact.id, hmac_verified: false)
+      expect(verified_contact.reload).to have_attributes(name: 'Verified', phone_number: nil)
+    end
+
     it 'creates a conversation with correct message and custom attributes' do
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },
