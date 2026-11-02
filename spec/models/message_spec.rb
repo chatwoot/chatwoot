@@ -218,7 +218,7 @@ RSpec.describe Message do
     end
 
     it 'adds error when rendered WhatsApp outgoing_content expands past 1024 characters' do
-      expanding_markdown = "100000. a\n#{'1. a\n' * 170}"
+      expanding_markdown = "100000. a\n#{Array.new(140, '1. a').join("\n")}"
       expect(expanding_markdown.length).to be <= 1024
 
       message = build(:message, conversation: conversation, message_type: :outgoing, content: expanding_markdown, content_attributes: {
@@ -229,6 +229,42 @@ RSpec.describe Message do
                       })
       expect(message.valid?).to be false
       expect(message.errors[:content_attributes]).to include('body must be at most 1024 characters for whatsapp_cta_url')
+    end
+
+    it 'renders Liquid variables across all textual whatsapp_cta_url fields before validation' do
+      conversation.contact.update!(name: 'Ada')
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: 'Summary', content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'Hi {{contact.name}}',
+                          url: 'https://example.com/menu',
+                          body: 'Welcome {{contact.name}}',
+                          header: 'Hello {{contact.name}}',
+                          footer: 'Thanks {{contact.name}}'
+                        }
+                      })
+
+      expect(message.valid?).to be true
+      cta = message.content_attributes[:whatsapp_cta_url].with_indifferent_access
+      expect(cta).to include(
+        display_text: 'Hi Ada',
+        body: 'Welcome Ada',
+        header: 'Hello Ada',
+        footer: 'Thanks Ada',
+        url: 'https://example.com/menu'
+      )
+    end
+
+    it 'adds error when Liquid expansion pushes display_text past 20 characters' do
+      conversation.contact.update!(name: 'Alexandria Montgomery')
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: 'Summary', content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'Hi {{contact.name}}',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('display_text must be at most 20 characters for whatsapp_cta_url')
     end
   end
 

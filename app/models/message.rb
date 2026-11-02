@@ -44,6 +44,7 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+  WHATSAPP_CTA_LIQUID_FIELDS = %w[body display_text header footer].freeze
 
   TEMPLATE_PARAMS_SCHEMA = {
     'type': 'object',
@@ -348,18 +349,30 @@ class Message < ApplicationRecord
     return unless cta_params && conversation.present?
 
     process_liquid_in_content unless liquid_content_processed?
-    process_liquid_in_cta_body(cta_key, cta_params)
+    process_liquid_in_cta_fields(cta_key, cta_params)
   end
 
-  def process_liquid_in_cta_body(cta_key, cta_params)
-    return if @liquid_cta_body_processed || !liquid_processable_template_params?
+  def process_liquid_in_cta_fields(cta_key, cta_params)
+    return if @liquid_cta_fields_processed || !liquid_processable_template_params?
 
-    body = whatsapp_cta_string_body(cta_params)
-    return if body.nil?
+    updated_params = render_whatsapp_cta_fields(cta_params)
+    self.content_attributes = content_attributes.merge(cta_key => updated_params) if updated_params != cta_params
+    @liquid_cta_fields_processed = true
+  end
 
-    body_key = cta_params.key?('body') ? 'body' : :body
-    self.content_attributes = content_attributes.merge(cta_key => cta_params.merge(body_key => render_whatsapp_cta_liquid(body)))
-    @liquid_cta_body_processed = true
+  def render_whatsapp_cta_fields(cta_params)
+    WHATSAPP_CTA_LIQUID_FIELDS.each_with_object(cta_params.dup) do |field, acc|
+      key = cta_field_key(acc, field)
+      value = key ? acc[key] : nil
+      acc[key] = render_whatsapp_cta_liquid(value) if value.is_a?(String)
+    end
+  end
+
+  def cta_field_key(cta_params, field)
+    return field if cta_params.key?(field)
+
+    sym_field = field.to_sym
+    sym_field if cta_params.key?(sym_field)
   end
 
   def render_whatsapp_cta_liquid(text)
