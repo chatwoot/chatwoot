@@ -17,6 +17,7 @@ const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 const SECTION_CONVERSATION = 'COMMAND_BAR.SECTIONS.CONVERSATION';
 
 export const ICON_SNOOZE = 'i-lucide-alarm-clock';
+export const SNOOZE_CONVERSATION_PAGE = 'snooze_conversation';
 
 const KEY_LABELS = { Slash: '/', ArrowUp: '↑', ArrowDown: '↓' };
 
@@ -46,7 +47,7 @@ export const localizeActions = (actions, t) =>
 
 // A notification is snoozed until a time, so it skips "until next reply".
 export const SNOOZE_PAGES = {
-  snooze_conversation: {
+  [SNOOZE_CONVERSATION_PAGE]: {
     event: CMD_SNOOZE_CONVERSATION,
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
   },
@@ -93,7 +94,7 @@ export const OPEN_CONVERSATION_ACTIONS = [
 
 export const SNOOZE_CONVERSATION_ACTIONS = [
   {
-    id: 'snooze_conversation',
+    id: SNOOZE_CONVERSATION_PAGE,
     title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
     section: SECTION_CONVERSATION,
     icon: ICON_SNOOZE,
@@ -101,7 +102,7 @@ export const SNOOZE_CONVERSATION_ACTIONS = [
     page: true,
     placeholder: 'COMMAND_BAR.SNOOZE_PLACEHOLDER',
   },
-  ...createSnoozeOptions('snooze_conversation'),
+  ...createSnoozeOptions(SNOOZE_CONVERSATION_PAGE),
 ];
 
 export const RESOLVED_CONVERSATION_ACTIONS = [
