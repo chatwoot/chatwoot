@@ -1,11 +1,17 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { emitter } from 'shared/helpers/mitt';
+import { useAlert } from 'dashboard/composables';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
+import { usePolicy } from 'dashboard/composables/usePolicy';
+import { ROLES, CONTACT_PERMISSIONS } from 'dashboard/constants/permissions';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import wootConstants from 'dashboard/constants/globals';
@@ -107,6 +113,7 @@ export function useConversationCommands() {
   const { t } = useI18n();
   const store = useStore();
   const route = useRoute();
+  const router = useRouter();
 
   const {
     activeLabels,
@@ -116,8 +123,10 @@ export function useConversationCommands() {
   } = useConversationLabels();
   const { captainTasksEnabled } = useCaptain();
   const { agentsList } = useAgentsList();
+  const { checkPermissions, isFeatureFlagEnabled } = usePolicy();
 
   const currentChat = useMapGetter('getSelectedChat');
+  const currentAccountId = useMapGetter('getCurrentAccountId');
   const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
   const contextMenuChatId = useMapGetter('getContextMenuChatId');
   const teams = useMapGetter('teams/getTeams');
@@ -280,6 +289,45 @@ export function useConversationCommands() {
     );
   });
 
+  const copyConversationLink = async () => {
+    const path = conversationUrl({
+      accountId: currentAccountId.value,
+      id: conversationId.value,
+    });
+    await copyTextToClipboard(`${window.location.origin}${frontendURL(path)}`);
+    useAlert(t('COMMAND_BAR.LINK_COPIED'));
+  };
+
+  const contactCommands = computed(() => {
+    const commands = [];
+    if (
+      currentChat.value?.meta?.sender?.id &&
+      isFeatureFlagEnabled(FEATURE_FLAGS.CRM) &&
+      checkPermissions([...ROLES, CONTACT_PERMISSIONS])
+    ) {
+      commands.push({
+        id: 'view_contact',
+        title: t('COMMAND_BAR.COMMANDS.VIEW_CONTACT'),
+        section: section('CONVERSATION'),
+        icon: 'i-lucide-contact-round',
+        run: () =>
+          router.push(
+            frontendURL(
+              `accounts/${currentAccountId.value}/contacts/${currentChat.value.meta.sender.id}`
+            )
+          ),
+      });
+    }
+    commands.push({
+      id: 'copy_conversation_link',
+      title: t('COMMAND_BAR.COMMANDS.COPY_CONVERSATION_LINK'),
+      section: section('CONVERSATION'),
+      icon: 'i-lucide-link',
+      run: copyConversationLink,
+    });
+    return commands;
+  });
+
   const defaultCommands = computed(() => [
     ...localizeActions(
       [
@@ -293,6 +341,7 @@ export function useConversationCommands() {
     ...assignTeamCommands.value,
     ...labelCommands.value,
     ...assignPriorityCommands.value,
+    ...contactCommands.value,
     ...(captainTasksEnabled.value ? aiAssistCommands.value : []),
   ]);
 

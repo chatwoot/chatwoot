@@ -20,6 +20,9 @@ import { useInboxCommands } from 'dashboard/composables/commands/useInboxCommand
 import { useBulkActionCommands } from 'dashboard/composables/commands/useBulkActionCommands';
 import { useConversationCommands } from 'dashboard/composables/commands/useConversationCommands';
 import { useMacroCommands } from 'dashboard/composables/commands/useMacroCommands';
+import { useCannedResponseCommands } from 'dashboard/composables/commands/useCannedResponseCommands';
+import { useAccountCommands } from 'dashboard/composables/commands/useAccountCommands';
+import { useHelpCommands } from 'dashboard/composables/commands/useHelpCommands';
 import { useSnoozeSuggestions } from 'dashboard/composables/commands/useSnoozeSuggestions';
 import { useSearchCommands } from 'dashboard/composables/commands/useSearchCommands';
 import { useBackCommands } from 'dashboard/composables/commands/useBackCommands';
@@ -28,7 +31,7 @@ const props = defineProps({
   isPaywalled: { type: Boolean, default: false },
 });
 
-const PREFIXES = ['@', '#'];
+const PREFIXES = ['@', '#', '/', '?'];
 const atRoot = ({ page }) => !page;
 
 const store = useStore();
@@ -48,6 +51,9 @@ const { appearanceCommands } = useAppearanceCommands();
 const { inboxCommands } = useInboxCommands();
 const { bulkActionCommands } = useBulkActionCommands();
 const { conversationCommands } = useConversationCommands();
+const { cannedResponseCommands } = useCannedResponseCommands();
+const { accountCommands } = useAccountCommands();
+const { helpCommands } = useHelpCommands();
 const { backCommands } = useBackCommands();
 const { searchSnoozeSuggestions, snoozeCommands } = useSnoozeSuggestions();
 const {
@@ -106,7 +112,10 @@ const sources = computed(() => {
     { id: 'bulk', commands: () => bulkActionCommands.value },
     { id: 'inbox', commands: () => inboxCommands.value },
     { id: 'macros', commands: () => macroCommands.value },
+    { id: 'canned', commands: () => cannedResponseCommands.value },
     ...general,
+    { id: 'account', commands: () => accountCommands.value },
+    { id: 'help', commands: () => helpCommands.value },
     { id: 'snooze_suggestions', search: searchSnoozeSuggestions },
     ...[
       {

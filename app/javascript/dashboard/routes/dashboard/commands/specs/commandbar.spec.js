@@ -44,6 +44,9 @@ const sources = {
     }),
   ],
   macroCommands: [command('macro')],
+  cannedResponseCommands: [command('canned')],
+  accountCommands: [command('account')],
+  helpCommands: [command('help')],
 };
 
 const pendingAttributes = ref(null);
@@ -80,6 +83,17 @@ vi.mock('dashboard/composables/commands/useMacroCommands', () => ({
     submitPendingAttributes: vi.fn(),
     dismissPendingAttributes: vi.fn(),
   }),
+}));
+vi.mock('dashboard/composables/commands/useCannedResponseCommands', () => ({
+  useCannedResponseCommands: () => ({
+    cannedResponseCommands: ref(sources.cannedResponseCommands),
+  }),
+}));
+vi.mock('dashboard/composables/commands/useAccountCommands', () => ({
+  useAccountCommands: () => ({ accountCommands: ref(sources.accountCommands) }),
+}));
+vi.mock('dashboard/composables/commands/useHelpCommands', () => ({
+  useHelpCommands: () => ({ helpCommands: ref(sources.helpCommands) }),
 }));
 vi.mock('dashboard/composables/commands/useSnoozeSuggestions', () => ({
   useSnoozeSuggestions: () => ({
@@ -151,6 +165,9 @@ describe('commandbar', () => {
         'bulk',
         'conversation',
         'macro',
+        'canned',
+        'account',
+        'help',
       ])
     );
   });
