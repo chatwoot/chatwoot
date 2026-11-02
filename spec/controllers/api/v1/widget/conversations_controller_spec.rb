@@ -72,6 +72,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
       expect(json_response).not_to have_key('contact')
+      expect(json_response['messages'].first['sender']).to eq('type' => 'contact')
       expect(contact.reload).to have_attributes(email: 'contact-email@chatwoot.com', phone_number: '+919745313456', name: 'contact-name')
     end
 

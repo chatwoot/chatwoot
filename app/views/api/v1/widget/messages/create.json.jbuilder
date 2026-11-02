@@ -8,4 +8,4 @@ json.private @message.private
 json.source_id @message.source_id
 json.content_attributes @message.content_attributes
 json.attachments @message.attachments.map(&:push_event_data) if @message.attachments.present?
-json.sender @message.sender.push_event_data if @message.sender
+json.sender { json.partial! 'api/v1/models/widget_sender', sender: @message.sender } if @message.sender

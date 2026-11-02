@@ -28,6 +28,34 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(json_response['meta']).not_to be_empty
       end
 
+      it 'returns only the type for a contact sender' do
+        contact.update!(email: 'stored@example.com', phone_number: '+15555550100')
+        create(:message, account: account, inbox: web_widget.inbox, conversation: conversation, message_type: :incoming, sender: contact)
+
+        get api_v1_widget_messages_url,
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        senders = response.parsed_body['payload'].pluck('sender').compact
+        contact_senders = senders.select { |sender| sender['type'] == 'contact' }
+        expect(contact_senders).to be_present
+        expect(contact_senders).to all(eq('type' => 'contact'))
+      end
+
+      it 'keeps the agent details for an agent sender' do
+        agent = create(:user, account: account)
+        create(:message, account: account, inbox: web_widget.inbox, conversation: conversation, message_type: :outgoing, sender: agent)
+
+        get api_v1_widget_messages_url,
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        senders = response.parsed_body['payload'].pluck('sender').compact
+        expect(senders).to include(hash_including('id' => agent.id, 'name' => agent.name, 'type' => 'user'))
+      end
+
       it 'returns empty messages', :skip_before do
         get api_v1_widget_messages_url,
             params: { website_token: web_widget.website_token },
@@ -241,6 +269,20 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         )
         expect(response).to have_http_status(:success)
         expect(conversation.reload.open?).to be(true)
+      end
+    end
+
+    context 'when the sender is the contact' do
+      it 'returns only the type' do
+        contact.update!(email: 'stored@example.com', phone_number: '+15555550100')
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: { content: 'hello world', timestamp: Time.current } },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['sender']).to eq('type' => 'contact')
       end
     end
   end
