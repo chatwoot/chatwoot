@@ -79,6 +79,66 @@ describe('#getters', () => {
     });
   });
 
+  describe('#getCurrentUserAcceptsConversations', () => {
+    it('returns the conversations preference of the current account', () => {
+      expect(
+        getters.getCurrentUserAcceptsConversations(
+          {},
+          { getCurrentAccount: { id: 1, accepts_conversations: false } }
+        )
+      ).toEqual(false);
+    });
+  });
+
+  describe('#getCurrentUserAcceptsCalls', () => {
+    it('returns the calls preference of the current account', () => {
+      expect(
+        getters.getCurrentUserAcceptsCalls(
+          {},
+          { getCurrentAccount: { id: 1, accepts_calls: false } }
+        )
+      ).toEqual(false);
+    });
+  });
+
+  describe('#getCurrentUserReceivesCalls', () => {
+    it('returns true when the user is online and takes calls', () => {
+      expect(
+        getters.getCurrentUserReceivesCalls(
+          {},
+          {
+            getCurrentUserAvailability: 'online',
+            getCurrentUserAcceptsCalls: true,
+          }
+        )
+      ).toEqual(true);
+    });
+
+    it('returns false when the user is not online', () => {
+      expect(
+        getters.getCurrentUserReceivesCalls(
+          {},
+          {
+            getCurrentUserAvailability: 'busy',
+            getCurrentUserAcceptsCalls: true,
+          }
+        )
+      ).toEqual(false);
+    });
+
+    it('returns false when the user has turned calls off', () => {
+      expect(
+        getters.getCurrentUserReceivesCalls(
+          {},
+          {
+            getCurrentUserAvailability: 'online',
+            getCurrentUserAcceptsCalls: false,
+          }
+        )
+      ).toEqual(false);
+    });
+  });
+
   describe('#getUISettings', () => {
     it('return correct UI Settings', () => {
       expect(

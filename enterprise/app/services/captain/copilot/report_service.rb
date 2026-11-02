@@ -12,7 +12,7 @@ class Captain::Copilot::ReportService
   # The label summary gives 0 for an average with no events, so a label's zero average is read as missing.
   LABEL_TIMES = %i[avg_first_response_time avg_resolution_time avg_reply_time].freeze
   # A breakdown runs one report for each agent, inbox, team or label it checks, so it checks the MAX_CHECKED with the most
-  # conversations and lists the MAX_EACH with the most of the metric.
+  # messages sent for that metric, or else with the most conversations, and lists the MAX_EACH with the most of the metric.
   MAX_CHECKED = 50
   MAX_EACH = 20
   SUMMARY_COUNTS = { 'conversations_count' => :conversations, 'resolutions_count' => :resolved }.freeze
@@ -30,22 +30,18 @@ class Captain::Copilot::ReportService
   IGNORED_OPTIONS = { summary: ['each', *DIMENSION_FILTERS.values], range: %w[each chart],
                       breakdown: [*DIMENSION_FILTERS.values, 'chart'] }.freeze
 
-  def self.permitted?(account:, user:)
-    account_user = account.account_users.find_by(user_id: user.id)
-    account_user.present? && ReportPolicy.new({ user: user, account: account, account_user: account_user }, :report).view?
-  end
-
   def initialize(account:, tool_call:, business_hours: false, chart: false)
     @account = account
     @tool_call = tool_call
     @business_hours = business_hours
     @chart = chart
-    @time_zone = account.reporting_timezone.presence || 'UTC'
+    @time_zone = account.report_time_zone
   end
 
+  # since and before are dates, so each starts at midnight in the reporting time zone with that date's own offset.
   def call(by:, since:, before:, metrics: [], filters: {})
-    @since = Time.iso8601(since).in_time_zone(@time_zone)
-    @before = Time.iso8601(before).in_time_zone(@time_zone)
+    @since = Date.iso8601(since).in_time_zone(@time_zone)
+    @before = Date.iso8601(before).in_time_zone(@time_zone)
     raise ArgumentError, 'since must be earlier than before' if @since >= @before
 
     kind = report_kind(by, filters)
@@ -85,19 +81,37 @@ class Captain::Copilot::ReportService
       data_from: active.first&.dig(:period), data_to: active.last&.dig(:period) }
   end
 
-  # One row per agent, inbox, team or label with the metric in the range, each with the metric per period. Rows are picked
-  # by the metric itself, so an agent who only replied to older conversations is listed for the messages sent.
+  # One row per agent, inbox, team or label with the metric in the range, each with the metric per period. A row is kept
+  # when it has the metric, so an agent who only replied to older conversations is listed for the messages sent. The note
+  # says when rows were left unchecked or unlisted, so the answer can state its coverage.
   def breakdown(metrics, period, dimension)
     raise ArgumentError, 'each takes one metric' if metrics.size > 1
 
-    rows = summary_rows(dimension).first(MAX_CHECKED).filter_map do |row|
-      series = metric_series(metrics.first, period, dimension, row[:id]).except(:metric)
+    metric = metrics.first
+    candidates = breakdown_candidates(metric, dimension)
+    rows = candidates.first(MAX_CHECKED).filter_map do |row|
+      series = metric_series(metric, period, dimension, row[:id]).except(:metric)
       { name: row[:name], id: row[:id], **series } if series[:data_from]
     end
     # Averages rank by how many events they average.
     rows = rows.sort_by { |row| -row[:points].sum { |point| point.fetch(:events, point[:value]) } }
-    result = { metric: metrics.first, by: period, each: dimension, rows: rows.first(MAX_EACH), time_zone: @time_zone }
-    rows.size > MAX_EACH ? result.merge(note: "Showing the #{MAX_EACH} busiest of #{rows.size}.") : result
+    { metric: metric, by: period, each: dimension, rows: rows.first(MAX_EACH),
+      note: coverage_note(candidates.size, rows.size, dimension), time_zone: @time_zone }.compact
+  end
+
+  # Messages sent are ranked by each one's messages sent, because an agent can send many replies on few conversations.
+  # Other metrics are ranked by conversations, as the summary lists them.
+  def breakdown_candidates(metric, dimension)
+    return summary_rows(dimension) unless metric == 'outgoing_messages_count'
+
+    rows = V2::Reports::OutgoingMessagesCountBuilder.new(@account, params.merge(group_by: dimension)).build
+    rows.select { |row| row[:id] }.sort_by { |row| -row[:outgoing_messages_count] }
+  end
+
+  def coverage_note(checkable, listed, dimension)
+    notes = [("Checked the #{MAX_CHECKED} busiest of #{checkable} #{dimension.pluralize}." if checkable > MAX_CHECKED),
+             ("Showing the #{MAX_EACH} busiest of #{listed}." if listed > MAX_EACH)]
+    notes.compact.join(' ').presence
   end
 
   # The summary lists counts and average times; it can chart its two counts. The agents, inboxes, teams or labels with no
@@ -200,30 +214,19 @@ class Captain::Copilot::ReportService
   def timeseries_chart(entry, period, subject)
     name = METRIC_NAMES.fetch(entry[:metric])
     values = entry[:points].map { |point| AVERAGES.include?(entry[:metric]) ? (point[:value].to_f / 60).round(1) : point[:value] }
-    { title: "#{name}#{" for #{subject}" if subject} by #{period}, #{range_text}", label: name,
+    { title: "#{name}#{" for #{subject}" if subject} by #{period}, #{Captain::Copilot::Chart.range_text(@since, @before)}", label: name,
       points: entry[:points].map { |point| point[:period].first(10) }.zip(values) }
   end
 
   def summary_chart(dimension, metric, rows)
     name = METRIC_NAMES.fetch(metric)
-    { title: "#{name} by #{dimension}, #{range_text}", label: name, points: rows.map { |row| [row[:name], row[SUMMARY_COUNTS[metric]]] } }
+    { title: "#{name} by #{dimension}, #{Captain::Copilot::Chart.range_text(@since, @before)}", label: name,
+      points: rows.map { |row| [row[:name], row[SUMMARY_COUNTS[metric]]] } }
   end
 
   def subject_name(type, id)
     records = { 'agent' => @account.users, 'inbox' => @account.inboxes, 'team' => @account.teams, 'label' => @account.labels }[type]
     records&.find_by(id: id)&.then { |record| record.try(:name) || record.try(:title) }
-  end
-
-  # The requested dates in plain words, such as 4 to 10 Sep 2023, for chart titles.
-  def range_text
-    first = @since.to_date
-    last = (@before - 1.second).to_date
-    format = if first.year != last.year then '%-d %b %Y'
-             elsif first.month != last.month then '%-d %b'
-             else
-               '%-d'
-             end
-    "#{first.strftime(format)} to #{last.strftime('%-d %b %Y')}"
   end
 
   def dimension_names(dimension)

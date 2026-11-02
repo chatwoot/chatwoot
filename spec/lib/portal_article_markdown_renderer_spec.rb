@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CustomMarkdownRenderer do
+describe PortalArticleMarkdownRenderer do
   let(:renderer) { described_class.new }
 
   def render_markdown(markdown)

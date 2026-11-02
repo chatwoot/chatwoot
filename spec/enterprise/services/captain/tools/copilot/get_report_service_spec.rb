@@ -7,7 +7,7 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
   let(:agent) { create(:user, account: account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:service) { described_class.new(assistant, user: admin).tap { |tool| tool.tool_call = instance_double(CopilotToolCall, id: 7) } }
-  let(:week) { { since: '2026-09-07T00:00:00Z', before: '2026-09-14T00:00:00Z' } }
+  let(:week) { { since: '2026-09-07', before: '2026-09-14' } }
 
   describe '#active?' do
     it 'is offered to administrators' do
@@ -55,8 +55,22 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(points[4]).to eq(period: '2026-09-11', value: 0)
     end
 
+    it 'starts each day at midnight in the reporting time zone, with that date\'s own offset' do
+      account.update!(reporting_timezone: 'America/New_York')
+      [Time.utc(2026, 10, 25, 2), Time.utc(2026, 11, 1, 3, 30), Time.utc(2026, 11, 8, 4, 30)].each do |created_at|
+        create(:conversation, account: account, inbox: inbox, created_at: created_at)
+      end
+
+      series = service.execute(by: 'day', metrics: %w[conversations_count], since: '2026-10-25', before: '2026-11-08')[:metrics].first
+
+      expect(series[:points].first).to eq(period: '2026-10-25', value: 0)
+      expect(series[:points]).to include({ period: '2026-10-31', value: 1 })
+      expect(series[:points].last).to eq(period: '2026-11-07', value: 1)
+      expect(series[:total_or_average]).to eq(2)
+    end
+
     it 'totals each metric over exactly the dates given' do
-      result = service.execute(by: 'range', metrics: %w[conversations_count], since: '2026-09-08T00:00:00Z', before: '2026-09-09T00:00:00Z')
+      result = service.execute(by: 'range', metrics: %w[conversations_count], since: '2026-09-08', before: '2026-09-09')
 
       expect(result[:metrics]).to eq([{ metric: 'conversations_count', total_or_average: 1, data_from: '2026-09-08', data_to: '2026-09-08' }])
     end
@@ -153,9 +167,23 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(result[:rows]).to contain_exactly(include(id: replier.id, total_or_average: 1))
     end
 
+    it 'checks the agents with the most messages sent for messages sent, and says how many it left out' do
+      stub_const('Captain::Copilot::ReportService::MAX_CHECKED', 1)
+      replier = create(:user, account: account)
+      older = create(:conversation, account: account, inbox: inbox, created_at: Time.zone.parse('2026-08-03 10:00'))
+      [agent, replier, replier].each do |sender|
+        create(:message, account: account, inbox: inbox, conversation: older, sender: sender, message_type: :outgoing,
+                         created_at: Time.zone.parse('2026-09-10 10:00'))
+      end
+
+      result = service.execute(by: 'day', metrics: %w[outgoing_messages_count], each: 'agent', **week)
+
+      expect(result[:rows]).to contain_exactly(include(id: replier.id, total_or_average: 2))
+      expect(result[:note]).to eq('Checked the 1 busiest of 2 agents.')
+    end
+
     it 'keeps the year in chart labels when the dates span years' do
-      result = service.execute(by: 'year', metrics: %w[conversations_count], chart: true, since: '2025-01-01T00:00:00Z',
-                               before: '2027-01-01T00:00:00Z')
+      result = service.execute(by: 'year', metrics: %w[conversations_count], chart: true, since: '2025-01-01', before: '2027-01-01')
 
       expect(result[:chart_data].first[:categories]).to eq(['1 Jan 2025', '1 Jan 2026'])
     end
