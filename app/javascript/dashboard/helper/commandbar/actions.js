@@ -27,8 +27,6 @@ export const shortcutKeys = binding =>
 
 const PATH_SCOPES = { reports: '/reports', settings: '/settings' };
 
-// The dashboard area a path belongs to. Used for the current page and for the
-// destination of a navigation command, so both sides agree.
 export const pathScopes = path =>
   Object.keys(PATH_SCOPES).filter(scope => path?.includes(PATH_SCOPES[scope]));
 
@@ -41,8 +39,7 @@ export const localizeActions = (actions, t) =>
     shortcut: action.shortcut && shortcutKeys(action.shortcut),
   }));
 
-// Every page a snooze can be picked from. A notification is snoozed until a
-// time, so it skips "until next reply".
+// A notification is snoozed until a time, so it skips "until next reply".
 export const SNOOZE_PAGES = {
   snooze_conversation: {
     event: CMD_SNOOZE_CONVERSATION,

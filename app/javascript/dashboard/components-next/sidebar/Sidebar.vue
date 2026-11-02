@@ -1026,31 +1026,38 @@ const menuItems = computed(() => {
         class="flex gap-2"
         :class="isEffectivelyCollapsed ? 'flex-col items-center' : 'px-2'"
       >
-        <button
+        <div
           v-if="!isEffectivelyCollapsed"
-          type="button"
-          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out hover:bg-n-alpha-2 dark:hover:bg-n-slate-9/30"
-          @click="commandBar.open()"
+          class="flex items-center w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
         >
-          <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10" />
-          <span class="flex-grow text-start text-n-slate-10">
-            {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
-          </span>
-          <span
-            class="text-xs tracking-wide pointer-events-none select-none text-n-slate-10"
+          <RouterLink
+            :to="{ name: 'search' }"
+            class="flex flex-grow gap-2 items-center px-2 py-1 h-7"
+          >
+            <span
+              class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10"
+            />
+            <span class="flex-grow text-start text-n-slate-10">
+              {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
+            </span>
+          </RouterLink>
+          <button
+            type="button"
+            class="px-2 h-full text-xs tracking-wide rounded-e-lg text-n-slate-10 hover:text-n-slate-12 hover:bg-n-alpha-2 dark:hover:bg-n-slate-9/30"
+            :title="t('COMMAND_BAR.SEARCH_PLACEHOLDER')"
+            @click="commandBar.open()"
           >
             {{ searchShortcut }}
-          </span>
-        </button>
-        <button
+          </button>
+        </div>
+        <RouterLink
           v-else
-          type="button"
+          :to="{ name: 'search' }"
           class="flex items-center justify-center size-8 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out hover:bg-n-alpha-2 dark:hover:bg-n-slate-9/30"
           :title="t('COMBOBOX.SEARCH_PLACEHOLDER')"
-          @click="commandBar.open()"
         >
           <span class="i-lucide-search size-4 text-n-slate-11" />
-        </button>
+        </RouterLink>
         <ComposeConversation align="start">
           <template #trigger="{ isOpen }">
             <Button

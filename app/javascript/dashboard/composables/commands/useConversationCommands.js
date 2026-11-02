@@ -301,7 +301,6 @@ export function useConversationCommands() {
 
   const contactCommands = computed(() => {
     const commands = [];
-    // Same flag and roles as the contact routes; anyone else would only hit the route guard.
     if (
       isFeatureFlagEnabled(FEATURE_FLAGS.CRM) &&
       checkPermissions([...ROLES, CONTACT_PERMISSIONS])
