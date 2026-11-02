@@ -284,6 +284,21 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
     end
 
+    context 'when put request is made for a contact with stored details' do
+      it 'returns presence flags instead of the stored contact details' do
+        contact.update!(phone_number: '+15555550100', custom_attributes: { plan: 'pro' })
+        message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
+
+        put api_v1_widget_message_url(message.id),
+            params: { website_token: web_widget.website_token, contact: { email: Faker::Internet.email } },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['contact']).to eq('has_email' => true, 'has_name' => true, 'has_phone_number' => true)
+      end
+    end
+
     context 'when put request is made with invalid email' do
       it 'rescues the error' do
         message = create(:message, account: account, content_type: 'input_email', inbox: web_widget.inbox, conversation: conversation)
