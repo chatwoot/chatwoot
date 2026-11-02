@@ -27,6 +27,7 @@ describe('useListCommands', () => {
       getChatStatusFilter: 'open',
       getChatSortFilter: 'last_activity_at_desc',
       getAppliedConversationFilters: [],
+      'customViews/getActiveFolderContactId': undefined,
     };
     useI18n.mockReturnValue({ t: key => key });
     useRoute.mockReturnValue({ name: 'home' });
@@ -95,6 +96,12 @@ describe('useListCommands', () => {
       CMD_SWITCH_SORT,
       'created_at_desc'
     );
+  });
+
+  it('offers nothing inside a contact-scoped folder', () => {
+    getters.getAppliedConversationFilters = [{ attribute_key: 'contact_id' }];
+    getters['customViews/getActiveFolderContactId'] = 42;
+    expect(useListCommands().listCommands.value).toEqual([]);
   });
 
   it('is empty away from the conversation list', () => {

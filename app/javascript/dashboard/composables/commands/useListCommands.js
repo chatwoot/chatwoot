@@ -35,6 +35,7 @@ export function useListCommands() {
   const status = useMapGetter('getChatStatusFilter');
   const sortBy = useMapGetter('getChatSortFilter');
   const appliedFilters = useMapGetter('getAppliedConversationFilters');
+  const folderContactId = useMapGetter('customViews/getActiveFolderContactId');
 
   // The list hides its tabs and status filter while advanced filters or a folder drive it.
   const hasFilters = computed(
@@ -115,7 +116,9 @@ export function useListCommands() {
   );
 
   const listCommands = computed(() => {
-    if (!isAConversationRoute(route.name, true)) return [];
+    if (!isAConversationRoute(route.name, true) || folderContactId.value) {
+      return [];
+    }
     const commands = hasFilters.value
       ? sortCommands.value
       : [...tabCommands.value, ...statusCommands.value, ...sortCommands.value];
