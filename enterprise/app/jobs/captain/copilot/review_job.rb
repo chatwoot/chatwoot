@@ -11,15 +11,17 @@ class Captain::Copilot::ReviewJob < ApplicationJob
 
   private
 
+  # The card shows up before screening, which is the longest wait, and then moves after every step.
   def process_batch(run, token)
+    run.with_lease(token) { run.publish_progress }
     conversations = Captain::Copilot::ScreeningService.new(run, token).screen(accessible_batch(run, token))
+    run.with_lease(token) { run.publish_progress }
     service = Captain::Copilot::ReviewService.new(run)
     conversations.each do |conversation|
       run.renew_lease(token)
       review(run, token, service, conversation)
+      run.with_lease(token) { run.publish_progress }
     end
-    # One update per batch, after screening and review, so the counts move in even steps.
-    run.with_lease(token) { run.publish_progress }
     # A review stops at its turn limit; continue_review raises it when the agent asks for the next batch.
     return finalize(run, token) if run.left_this_turn <= 0
 

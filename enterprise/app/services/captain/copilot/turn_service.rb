@@ -15,6 +15,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   WORKFLOW_TOOLS = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
                     Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService,
                     Captain::Tools::Copilot::ActService].freeze
+  TOOLS_WITH_CARD = %w[review_conversations continue_review act].freeze
 
   def initialize(run, token)
     # Workflows have their own model setting, so the copilot_workflows flag leaves Copilot unchanged for other accounts.
@@ -117,6 +118,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   end
 
   def start_tool_call(call)
+    @step_message = nil
     @run.with_lease(@token) do
       @tool_call = @run.tool_calls.find_or_create_by!(call_id: call.id) do |record|
         record.assign_attributes(name: call.name, arguments: call.arguments)
@@ -124,7 +126,10 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
       next if @tool_call.completed?
 
       @tool_call.update!(status: :running, attempts: @tool_call.attempts + 1)
-      persist_message({ content: "Using #{call.name}", function_name: call.name }, 'assistant_thinking')
+      # RubyLLM also calls this for a tool the turn does not have, then answers it with an error.
+      next if TOOLS_WITH_CARD.include?(call.name) || @tools.none? { |tool| tool.name == call.name }
+
+      @step_message = persist_message({ content: I18n.t("captain.copilot.steps.#{call.name}"), function_name: call.name }, 'assistant_thinking')
     end
   end
 
@@ -134,8 +139,15 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
       # The result keeps the whole error for the model; the column holds a summary within the string limit.
       @tool_call.update!(status: failure ? :failed : :completed, result: result,
                          error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
-      # The result is already on the tool call; the panel shows only the step.
-      persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@tool_call.name}", function_name: @tool_call.name }, 'assistant_thinking')
+      next unless failure
+
+      # The panel marks a step done once anything follows it, so only a failure changes the step. A tool without a step
+      # line gets a line of its own.
+      if @step_message
+        @step_message.update!(message: @step_message.message.merge('status' => 'failed'))
+      else
+        persist_message({ content: I18n.t('captain.copilot.step_failed'), function_name: @tool_call.name, status: 'failed' }, 'assistant_thinking')
+      end
     end
   end
 
@@ -161,7 +173,6 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     finished = @run.with_lease(@token) do
       done = @tool_call.reload.completed?
       @run.release!(done ? :queued : :awaiting_background_run)
-      persist_message({ content: "Waiting for #{@tool_call.name} to finish" }, 'assistant_thinking') unless done
       done
     end
     Captain::Copilot::TurnJob.perform_later(@run.id) if finished
