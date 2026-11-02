@@ -21,12 +21,14 @@ import { useBulkActionCommands } from 'dashboard/composables/commands/useBulkAct
 import { useConversationCommands } from 'dashboard/composables/commands/useConversationCommands';
 import { useMacroCommands } from 'dashboard/composables/commands/useMacroCommands';
 import { useSnoozeSuggestions } from 'dashboard/composables/commands/useSnoozeSuggestions';
+import { useSearchCommands } from 'dashboard/composables/commands/useSearchCommands';
 
 const props = defineProps({
   isPaywalled: { type: Boolean, default: false },
 });
 
 const PREFIXES = ['@', '#'];
+const atRoot = ({ page }) => !page;
 
 const store = useStore();
 const route = useRoute();
@@ -46,6 +48,13 @@ const { inboxCommands } = useInboxCommands();
 const { bulkActionCommands } = useBulkActionCommands();
 const { conversationCommands } = useConversationCommands();
 const { searchSnoozeSuggestions, snoozeCommands } = useSnoozeSuggestions();
+const {
+  searchLoadedConversations,
+  searchConversations,
+  searchContacts,
+  searchArticles,
+  searchEverything,
+} = useSearchCommands();
 const {
   macroCommands,
   pendingAttributes,
@@ -97,6 +106,22 @@ const sources = computed(() => {
     { id: 'macros', commands: () => macroCommands.value },
     ...general,
     { id: 'snooze_suggestions', search: searchSnoozeSuggestions },
+    ...[
+      {
+        id: 'loaded_conversations',
+        minQuery: 1,
+        search: searchLoadedConversations,
+      },
+      {
+        id: 'conversations',
+        minQuery: 3,
+        debounce: 300,
+        search: searchConversations,
+      },
+      { id: 'contacts', minQuery: 3, debounce: 300, search: searchContacts },
+      { id: 'articles', minQuery: 3, debounce: 300, search: searchArticles },
+      { id: 'everything', minQuery: 3, search: searchEverything },
+    ].map(source => ({ ...source, when: atRoot })),
   ];
 });
 
