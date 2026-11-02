@@ -183,11 +183,12 @@ watch(contactId, fetchContact);
             v-if="activeTab === 'attributes'"
             :selected-contact="selectedContact"
           />
-          <ContactNotes v-if="activeTab === 'notes'" />
-          <ContactHistory v-if="activeTab === 'history'" />
-          <ContactMedia v-if="activeTab === 'media'" />
+          <ContactNotes v-if="activeTab === 'notes'" :key="contactId" />
+          <ContactHistory v-if="activeTab === 'history'" :key="contactId" />
+          <ContactMedia v-if="activeTab === 'media'" :key="contactId" />
           <ContactMerge
             v-if="activeTab === 'merge'"
+            :key="contactId"
             ref="contactMergeRef"
             :selected-contact="selectedContact"
             @go-to-contacts-list="goToContactsList"
