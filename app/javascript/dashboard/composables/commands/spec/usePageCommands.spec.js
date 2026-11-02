@@ -72,6 +72,19 @@ describe('usePageCommands', () => {
     wrapper.unmount();
   });
 
+  it('builds no page when there are no records', () => {
+    expect(
+      recordCommands({
+        id: 'edit_agent',
+        title: 'Edit agent',
+        icon: 'i-lucide-pencil',
+        records: [],
+        label: agent => agent.name,
+        run: vi.fn(),
+      })
+    ).toEqual([]);
+  });
+
   it('builds a page of per-record actions', () => {
     const edit = vi.fn();
     const [page, child] = recordCommands({
