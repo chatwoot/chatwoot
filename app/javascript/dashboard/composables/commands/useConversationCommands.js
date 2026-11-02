@@ -7,12 +7,16 @@ import { useAlert } from 'dashboard/composables';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { ROLES, CONTACT_PERMISSIONS } from 'dashboard/constants/permissions';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
-import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
+import {
+  CMD_AI_ASSIST,
+  CMD_MARK_UNREAD,
+} from 'dashboard/helper/commandbar/events';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import wootConstants from 'dashboard/constants/globals';
 import {
@@ -22,6 +26,7 @@ import {
   SEND_TRANSCRIPT_ACTION,
   UNMUTE_ACTION,
   MUTE_ACTION,
+  commandPage,
   localizeActions,
 } from 'dashboard/helper/commandbar/actions';
 import {
@@ -123,6 +128,7 @@ export function useConversationCommands() {
   const { captainTasksEnabled } = useCaptain();
   const { agentsList } = useAgentsList();
   const { checkPermissions, isFeatureFlagEnabled } = usePolicy();
+  const { uiSettings, updateUISettings } = useUISettings();
 
   const currentChat = useMapGetter('getSelectedChat');
   const currentAccountId = useMapGetter('getCurrentAccountId');
@@ -138,16 +144,14 @@ export function useConversationCommands() {
 
   const section = key => t(`COMMAND_BAR.SECTIONS.${key}`);
 
-  const page = (id, titleKey, icon, children) => [
-    {
+  const page = (id, titleKey, icon, children) =>
+    commandPage({
       id,
       title: t(`COMMAND_BAR.COMMANDS.${titleKey}`),
       section: section('CONVERSATION'),
       icon,
-      page: true,
-    },
-    ...children.map(child => ({ ...child, parent: id })),
-  ];
+      children,
+    });
 
   const statusCommands = computed(() => {
     const { status } = currentChat.value ?? {};
@@ -200,7 +204,7 @@ export function useConversationCommands() {
       'ASSIGN_A_TEAM',
       'i-lucide-users',
       options.map(team => ({
-        id: `team-${team.id}`,
+        id: `assign-team-${team.id}`,
         title: team.name,
         section: section('CHANGE_TEAM'),
         icon: team.id ? 'i-lucide-users' : 'i-lucide-circle-slash',
@@ -290,18 +294,60 @@ export function useConversationCommands() {
     );
   });
 
-  const copyConversationLink = async () => {
+  const conversationLink = () => {
     const path = conversationUrl({
       accountId: currentAccountId.value,
       id: conversationId.value,
     });
-    await copyTextToClipboard(`${window.location.origin}${frontendURL(path)}`);
+    return `${window.location.origin}${frontendURL(path)}`;
+  };
+
+  const copyConversationLink = async () => {
+    await copyTextToClipboard(conversationLink());
     useAlert(t('COMMAND_BAR.LINK_COPIED'));
   };
+
+  const viewCommands = computed(() => {
+    if (!isAConversationRoute(route.name)) return [];
+    const isContactPanelOpen = uiSettings.value.is_contact_sidebar_open;
+    return [
+      ...(currentChat.value?.unread_count
+        ? []
+        : [
+            {
+              id: 'mark_unread',
+              title: t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_UNREAD'),
+              section: section('CONVERSATION'),
+              icon: 'i-lucide-mail',
+              run: () => emitter.emit(CMD_MARK_UNREAD, conversationId.value),
+            },
+          ]),
+      {
+        id: 'toggle_contact_panel',
+        title: t(
+          isContactPanelOpen
+            ? 'COMMAND_BAR.COMMANDS.HIDE_CONTACT_PANEL'
+            : 'COMMAND_BAR.COMMANDS.SHOW_CONTACT_PANEL'
+        ),
+        section: section('CONVERSATION'),
+        icon: 'i-lucide-panel-right',
+        run: () =>
+          updateUISettings({ is_contact_sidebar_open: !isContactPanelOpen }),
+      },
+      {
+        id: 'open_in_new_tab',
+        title: t('CONVERSATION.CARD_CONTEXT_MENU.OPEN_IN_NEW_TAB'),
+        section: section('CONVERSATION'),
+        icon: 'i-lucide-external-link',
+        run: () => window.open(conversationLink(), '_blank', 'noopener'),
+      },
+    ];
+  });
 
   const contactCommands = computed(() => {
     const commands = [];
     if (
+      currentChat.value?.meta?.sender?.id &&
       isFeatureFlagEnabled(FEATURE_FLAGS.CRM) &&
       checkPermissions([...ROLES, CONTACT_PERMISSIONS])
     ) {
@@ -342,6 +388,7 @@ export function useConversationCommands() {
     ...labelCommands.value,
     ...assignPriorityCommands.value,
     ...contactCommands.value,
+    ...viewCommands.value,
     ...(captainTasksEnabled.value ? aiAssistCommands.value : []),
   ]);
 
