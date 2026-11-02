@@ -34,6 +34,7 @@ const sources = {
   goToCommands: [command('goto'), command('goto_billing')],
   appearanceCommands: [command('appearance')],
   inboxCommands: [command('inbox')],
+  listCommands: [command('list')],
   bulkActionCommands: [command('bulk')],
   conversationCommands: [
     command('conversation'),
@@ -65,6 +66,9 @@ vi.mock('dashboard/composables/commands/useAppearanceCommands', () => ({
 }));
 vi.mock('dashboard/composables/commands/useInboxCommands', () => ({
   useInboxCommands: () => ({ inboxCommands: ref(sources.inboxCommands) }),
+}));
+vi.mock('dashboard/composables/commands/useListCommands', () => ({
+  useListCommands: () => ({ listCommands: ref(sources.listCommands) }),
 }));
 vi.mock('dashboard/composables/commands/useBulkActionCommands', () => ({
   useBulkActionCommands: () => ({
@@ -162,6 +166,7 @@ describe('commandbar', () => {
         'goto',
         'appearance',
         'inbox',
+        'list',
         'bulk',
         'conversation',
         'macro',

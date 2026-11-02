@@ -17,6 +17,7 @@ import {
 import { useGoToCommands } from 'dashboard/composables/commands/useGoToCommands';
 import { useAppearanceCommands } from 'dashboard/composables/commands/useAppearanceCommands';
 import { useInboxCommands } from 'dashboard/composables/commands/useInboxCommands';
+import { useListCommands } from 'dashboard/composables/commands/useListCommands';
 import { useBulkActionCommands } from 'dashboard/composables/commands/useBulkActionCommands';
 import { useConversationCommands } from 'dashboard/composables/commands/useConversationCommands';
 import { useMacroCommands } from 'dashboard/composables/commands/useMacroCommands';
@@ -49,6 +50,7 @@ const isRTL = useMapGetter('accounts/isRTL');
 const { goToCommands } = useGoToCommands(toRef(props, 'isPaywalled'));
 const { appearanceCommands } = useAppearanceCommands();
 const { inboxCommands } = useInboxCommands();
+const { listCommands } = useListCommands();
 const { bulkActionCommands } = useBulkActionCommands();
 const { conversationCommands } = useConversationCommands();
 const { cannedResponseCommands } = useCannedResponseCommands();
@@ -78,6 +80,7 @@ const scopes = computed(() => {
     list.push('conversation');
   }
   if (isAInboxViewRoute(route.name)) list.push('inbox_view');
+  if (isAConversationRoute(route.name, true)) list.push('list');
   if (selectedConversationIds.value.length) list.push('bulk');
   return [...list, ...pathScopes(route.path)];
 });
@@ -111,6 +114,7 @@ const sources = computed(() => {
     { id: 'snooze', commands: snoozeCommands },
     { id: 'bulk', commands: () => bulkActionCommands.value },
     { id: 'inbox', commands: () => inboxCommands.value },
+    { id: 'list', commands: () => listCommands.value },
     { id: 'macros', commands: () => macroCommands.value },
     { id: 'canned', commands: () => cannedResponseCommands.value },
     ...general,

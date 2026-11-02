@@ -222,7 +222,8 @@
       "ACCOUNT": "Account",
       "HELP": "Help",
       "PAGE": "This page",
-      "CREATE": "Create"
+      "CREATE": "Create",
+      "LIST": "Conversation list"
     },
     "COMMANDS": {
       "GO_TO_MY_INBOX": "Go to My Inbox",
@@ -303,7 +304,12 @@
       "DELETE_AGENT": "Delete agent",
       "DELETE_LABEL": "Delete label",
       "DELETE_CANNED_RESPONSE": "Delete canned response",
-      "BACK_TO": "Back to {page}"
+      "BACK_TO": "Back to {page}",
+      "SWITCH_TAB": "Switch tab",
+      "FILTER_BY_STATUS": "Filter by status",
+      "SORT_BY": "Sort by",
+      "SHOW_CONTACT_PANEL": "Show contact panel",
+      "HIDE_CONTACT_PANEL": "Hide contact panel"
     }
   },
   "DASHBOARD_APPS": {

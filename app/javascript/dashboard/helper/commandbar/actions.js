@@ -30,6 +30,11 @@ const PATH_SCOPES = { reports: '/reports', settings: '/settings' };
 export const pathScopes = path =>
   Object.keys(PATH_SCOPES).filter(scope => path?.includes(PATH_SCOPES[scope]));
 
+export const commandPage = ({ id, title, section, icon, children }) => [
+  { id, title, section, icon, page: true },
+  ...children.map(child => ({ ...child, parent: id })),
+];
+
 export const localizeActions = (actions, t) =>
   actions.map(action => ({
     ...action,
