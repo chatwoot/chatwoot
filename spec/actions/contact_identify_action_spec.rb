@@ -147,6 +147,15 @@ describe ContactIdentifyAction do
         expect(verified_contact.custom_attributes).to eq({ 'plan' => 'pro' })
       end
 
+      it 'does not link a session whose contact holds other sessions' do
+        create(:contact_inbox, contact: contact, inbox: create(:inbox, account: account))
+        result = described_class.new(contact: contact, params: { email: 'verified@test.com' }, contact_inbox: session).perform
+
+        expect(result.id).to eq contact.id
+        expect(contact.reload.contact_inboxes.count).to eq 2
+        expect(verified_contact.reload.contact_inboxes.count).to eq 1
+      end
+
       it 'does not let the linked session change the verified contact later' do
         session.update!(contact: verified_contact)
         params = { name: 'Visitor', custom_attributes: { plan: 'free' } }

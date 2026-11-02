@@ -93,7 +93,12 @@ class ContactIdentifyAction
     return true if existing_contact.identifier.blank? || existing_contact.identifier == params[:identifier]
 
     # An unverified widget session links to a contact with a verified session by email or phone, and stays unverified
-    key != :identifier && unverified_session_on?(existing_contact)
+    key != :identifier && unverified_session_on?(existing_contact) && session_only_contact?
+  end
+
+  # Only a contact that holds nothing but this session moves, so linking never carries other history with it
+  def session_only_contact?
+    @contact.identifier.blank? && @contact.contact_inboxes.one?
   end
 
   def unverified_session_on?(contact)
