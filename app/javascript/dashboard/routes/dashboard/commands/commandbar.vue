@@ -7,9 +7,11 @@ import { useTrack } from 'dashboard/composables';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { CommandBar, createFrecency, useCommandBar } from '@chatwoot/jumpbar';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
-import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { pathScopes } from 'dashboard/helper/commandbar/actions';
+import {
+  SNOOZE_CONVERSATION_PAGE,
+  pathScopes,
+} from 'dashboard/helper/commandbar/actions';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
@@ -146,9 +148,8 @@ bar.configure({
   prefixes: PREFIXES,
   context: () => ({ scopes: scopes.value }),
   onSelect: item => {
-    keepContextMenuChat = item.id.endsWith(
-      wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME
-    );
+    // The snooze handler clears the right-clicked conversation itself once done.
+    keepContextMenuChat = item.parent === SNOOZE_CONVERSATION_PAGE;
     useTrack(GENERAL_EVENTS.COMMAND_BAR, {
       section: item.section,
       action: item.title,
