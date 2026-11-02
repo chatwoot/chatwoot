@@ -173,6 +173,53 @@ describe Whatsapp::SendOnWhatsappService do
         expect(message.reload.source_id).to eq('123456789')
       end
 
+      it 'sends an interactive cta_url message when whatsapp_cta_url content attribute is present on whatsapp_cloud' do
+        whatsapp_cloud_channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+        cloud_contact_inbox = create(:contact_inbox, inbox: whatsapp_cloud_channel.inbox, source_id: '123456789')
+        cloud_conversation = create(:conversation, contact_inbox: cloud_contact_inbox, inbox: whatsapp_cloud_channel.inbox)
+
+        create(:message, message_type: :incoming, content: 'hi', conversation: cloud_conversation, account: cloud_conversation.account)
+
+        cta_message = create(:message, message_type: :outgoing, content: 'Check our menu',
+                                       conversation: cloud_conversation, account: cloud_conversation.account,
+                                       content_attributes: {
+                                         whatsapp_cta_url: {
+                                           display_text: 'See menu',
+                                           url: 'https://example.com/menu'
+                                         }
+                                       })
+
+        stub_request(:post, "https://graph.facebook.com/v22.0/#{whatsapp_cloud_channel.provider_config['phone_number_id']}/messages")
+          .with(
+            headers: {
+              'Authorization' => "Bearer #{whatsapp_cloud_channel.provider_config['api_key']}",
+              'Content-Type' => 'application/json'
+            },
+            body: {
+              messaging_product: 'whatsapp',
+              context: nil,
+              to: '123456789',
+              interactive: {
+                type: 'cta_url',
+                body: { text: 'Check our menu' },
+                action: {
+                  name: 'cta_url',
+                  parameters: {
+                    display_text: 'See menu',
+                    url: 'https://example.com/menu'
+                  }
+                }
+              },
+              type: 'interactive'
+            }.to_json
+          )
+          .to_return(status: 200, body: { messages: [{ id: 'cloud_msg_123' }] }.to_json, headers: { 'content-type' => 'application/json' })
+
+        described_class.new(message: cta_message).perform
+
+        expect(cta_message.reload.source_id).to eq('cloud_msg_123')
+      end
+
       it 'calls channel.send_template when template has regexp characters' do
         regexp_template_params = build_template_params('customer_yes_no', '2342384942_32423423_23423fdsdaf23', 'ar', {})
         arabic_content = 'عميلنا العزيز الرجاء الرد على هذه الرسالة بكلمة *نعم* للرد على إستفساركم من قبل خدمة العملاء.'

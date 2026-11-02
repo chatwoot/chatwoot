@@ -6,6 +6,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
       send_interactive_text_message(phone_number, message)
+    elsif Whatsapp::Providers::WhatsappCloudCtaUrlService.cta_url?(message)
+      Whatsapp::Providers::WhatsappCloudCtaUrlService.perform(whatsapp_channel, phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -84,8 +86,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def delete_csat_template(template_name = nil)
-    template_name ||= CsatTemplateNameService.csat_template_name(whatsapp_channel.inbox.id)
-    csat_template_service.delete_template(template_name)
+    csat_template_service.delete_template(template_name || CsatTemplateNameService.csat_template_name(whatsapp_channel.inbox.id))
   end
 
   def get_template_status(template_name)
@@ -235,9 +236,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     reply_to = message.content_attributes[:in_reply_to_external_id]
     return nil if reply_to.blank?
 
-    {
-      message_id: reply_to
-    }
+    { message_id: reply_to }
   end
 
   def send_interactive_text_message(phone_number, message)

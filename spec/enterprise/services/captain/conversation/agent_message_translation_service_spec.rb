@@ -163,4 +163,131 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
 
     expect(message.reload.content_attributes).to eq('translation_failed' => true)
   end
+
+  context 'when translating WhatsApp CTA URL messages' do
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:whatsapp_conversation) do
+      create(:conversation, account: account, inbox: whatsapp_channel.inbox, additional_attributes: { 'conversation_language' => 'fr' })
+    end
+
+    it 'translates content and all user-visible whatsapp_cta_url fields while preserving url' do
+      cta_msg = create(:message, account: account, inbox: whatsapp_channel.inbox, conversation: whatsapp_conversation,
+                                 message_type: :outgoing, sender: user, content: 'See menu',
+                                 content_attributes: {
+                                   translation_pending: true,
+                                   whatsapp_cta_url: {
+                                     display_text: 'Open menu',
+                                     url: 'https://example.com/menu',
+                                     body: 'Check out our menu',
+                                     header: 'Special Offers',
+                                     footer: 'Limited time'
+                                   }
+                                 })
+      translations_map = {
+        'See menu' => 'Voir le menu',
+        'Check out our menu' => 'Decouvrez notre menu',
+        'Open menu' => 'Voir menu',
+        'Special Offers' => 'Offres speciales',
+        'Limited time' => 'Duree limitee'
+      }
+      allow(Captain::Llm::MessageTranslationService).to receive(:new) do |args|
+        instance_double(Captain::Llm::MessageTranslationService, perform: { message: translations_map.fetch(args[:text]) })
+      end
+
+      described_class.new(message: cta_msg).perform
+
+      expect(cta_msg.reload.content).to eq('Voir le menu')
+      expect(cta_msg.content_attributes['whatsapp_cta_url']).to eq(
+        'display_text' => 'Voir menu',
+        'url' => 'https://example.com/menu',
+        'body' => 'Decouvrez notre menu',
+        'header' => 'Offres speciales',
+        'footer' => 'Duree limitee'
+      )
+      expect(cta_msg.content_attributes).not_to have_key('translation_pending')
+    end
+
+    it 'marks translation_failed and clears translation_pending when translated CTA body exceeds 1024 characters' do
+      cta_msg = create(:message, account: account, inbox: whatsapp_channel.inbox, conversation: whatsapp_conversation,
+                                 message_type: :outgoing, sender: user, content: 'Short CTA text',
+                                 content_attributes: {
+                                   translation_pending: true,
+                                   whatsapp_cta_url: {
+                                     display_text: 'Menu',
+                                     url: 'https://example.com/menu'
+                                   }
+                                 })
+      allow(llm_service).to receive(:perform).and_return({ message: 'x' * 1025 }, { message: 'Menu' })
+
+      described_class.new(message: cta_msg).perform
+
+      expect(cta_msg.reload.content).to eq('Short CTA text')
+      expect(cta_msg.content_attributes['translation_failed']).to be(true)
+      expect(cta_msg.content_attributes).not_to have_key('translation_pending')
+    end
+
+    it 'marks translation_failed when translated display_text exceeds 20 characters' do
+      cta_msg = create(:message, account: account, inbox: whatsapp_channel.inbox, conversation: whatsapp_conversation,
+                                 message_type: :outgoing, sender: user, content: 'Short CTA text',
+                                 content_attributes: {
+                                   translation_pending: true,
+                                   whatsapp_cta_url: {
+                                     display_text: 'Open shop',
+                                     url: 'https://example.com/shop'
+                                   }
+                                 })
+      allow(llm_service).to receive(:perform).and_return({ message: 'Texte court' }, { message: 'Ouvrir toute la boutique' })
+
+      described_class.new(message: cta_msg).perform
+
+      expect(cta_msg.reload.content).to eq('Short CTA text')
+      expect(cta_msg.content_attributes.dig('whatsapp_cta_url', 'display_text')).to eq('Open shop')
+      expect(cta_msg.content_attributes['translation_failed']).to be(true)
+      expect(cta_msg.content_attributes).not_to have_key('translation_pending')
+    end
+
+    it 'leaves message-level translation metadata untouched when only CTA fields needed translation' do
+      cta_msg = create(:message, account: account, inbox: whatsapp_channel.inbox, conversation: whatsapp_conversation,
+                                 message_type: :outgoing, sender: user, content: 'Voir le menu',
+                                 content_attributes: {
+                                   translation_pending: true,
+                                   whatsapp_cta_url: {
+                                     display_text: 'Open menu',
+                                     url: 'https://example.com/menu',
+                                     body: 'Check out our menu'
+                                   }
+                                 })
+      allow(detection).to receive(:language).and_return('fr', 'en', 'en')
+      allow(llm_service).to receive(:perform).and_return({ message: 'Decouvrez notre menu' }, { message: 'Voir menu' })
+
+      described_class.new(message: cta_msg).perform
+
+      expect(cta_msg.reload.content).to eq('Voir le menu')
+      expect(cta_msg.translations).to be_nil
+      expect(cta_msg.source_language).to be_nil
+      expect(cta_msg.content_attributes['whatsapp_cta_url']).to include('body' => 'Decouvrez notre menu', 'display_text' => 'Voir menu')
+    end
+
+    it 'preserves reply translation when an invariant CTA label like Menu returns unchanged' do
+      cta_msg = create(:message, account: account, inbox: whatsapp_channel.inbox, conversation: whatsapp_conversation,
+                                 message_type: :outgoing, sender: user, content: 'Check out our menu',
+                                 content_attributes: {
+                                   translation_pending: true,
+                                   whatsapp_cta_url: {
+                                     display_text: 'Menu',
+                                     url: 'https://example.com/menu'
+                                   }
+                                 })
+      allow(detection).to receive(:language).and_return('en', 'en')
+      allow(llm_service).to receive(:perform).and_return({ message: 'Decouvrez notre menu' }, { message: 'Menu' })
+
+      described_class.new(message: cta_msg).perform
+
+      expect(cta_msg.reload.content).to eq('Decouvrez notre menu')
+      expect(cta_msg.content_attributes.dig('whatsapp_cta_url', 'display_text')).to eq('Menu')
+      expect(cta_msg.content_attributes['translation_failed']).to be_nil
+    end
+  end
 end

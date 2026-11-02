@@ -16,6 +16,274 @@ RSpec.describe Message do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  context 'when validating whatsapp_cta_url' do
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+    end
+    let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox, account: whatsapp_channel.account) }
+
+    it 'is valid with valid whatsapp_cta_url parameters' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu',
+                          header: 'Our Special Menu',
+                          footer: 'Open until 10pm'
+                        }
+                      })
+      expect(message.valid?).to be true
+    end
+
+    it 'populates message content from whatsapp_cta_url body when top-level content is omitted' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: nil, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be true
+      expect(message.content).to eq('Check out our menu')
+      expect(message.content_attributes[:whatsapp_cta_url].with_indifferent_access).not_to have_key(:body)
+    end
+
+    it 'rejects whatsapp_cta_url when fallback Liquid content renders blank' do
+      conversation.contact.update!(email: nil)
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: '{{contact.email}}', content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body or message content is required for whatsapp_cta_url')
+    end
+
+    it 'rejects body-only whatsapp_cta_url when Liquid body renders blank' do
+      conversation.contact.update!(email: nil)
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: nil, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: '{{contact.email}}'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body or message content is required for whatsapp_cta_url')
+    end
+
+    it 'rejects whatsapp_cta_url on non-WhatsApp Cloud inboxes' do
+      default_whatsapp = create(:channel_whatsapp, provider: 'default', sync_templates: false, validate_provider_config: false)
+      default_conversation = create(:conversation, inbox: default_whatsapp.inbox, account: default_whatsapp.account)
+      message = build(:message, conversation: default_conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is only supported for WhatsApp Cloud inboxes')
+    end
+
+    it 'rejects whatsapp_cta_url on competing content types such as input_select' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_type: 'input_select',
+                                content_attributes: {
+                                  items: [{ title: 'Option 1', value: 'opt_1' }],
+                                  whatsapp_cta_url: {
+                                    display_text: 'See menu',
+                                    url: 'https://example.com/menu',
+                                    body: 'Check out our menu'
+                                  }
+                                })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is only supported on outgoing non-private text messages')
+    end
+
+    it 'adds error when whatsapp_cta_url is not a hash' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: 'invalid_string'
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url should be a hash.')
+    end
+
+    it 'adds error when missing required display_text or url' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('display_text is required for whatsapp_cta_url')
+      expect(message.errors[:content_attributes]).to include('url is required for whatsapp_cta_url')
+    end
+
+    it 'adds error when url is not a valid HTTP or HTTPS URL' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'not-a-url',
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('url must be a valid HTTP(S) URL for whatsapp_cta_url')
+    end
+
+    it 'adds error when header_image is malformed or combined with header text' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu',
+                          header: 'Menu',
+                          header_image: 'ftp://example.com/menu.jpg'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('header_image must be a valid HTTP(S) URL for whatsapp_cta_url')
+      expect(message.errors[:content_attributes]).to include('cannot specify both header and header_image for whatsapp_cta_url')
+    end
+
+    it 'adds error when whatsapp_cta_url contains non-canonical keys' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          button_label: 'See menu',
+                          link: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes].any? { |e| e.include?('contains invalid keys for whatsapp_cta_url') }).to be true
+    end
+
+    it 'adds error when both whatsapp_cta_url body and message content are blank' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: nil, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body or message content is required for whatsapp_cta_url')
+    end
+
+    it 'accepts display_text and body at the Meta length limits' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'a' * 20,
+                          url: 'https://example.com/menu',
+                          body: 'b' * 1024
+                        }
+                      })
+      expect(message.valid?).to be true
+    end
+
+    it 'adds error when display_text exceeds 20 characters' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'a' * 21,
+                          url: 'https://example.com/menu',
+                          body: 'Check out our menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('display_text must be at most 20 characters for whatsapp_cta_url')
+    end
+
+    it 'adds error when body exceeds 1024 characters' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu',
+                          body: 'b' * 1025
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body must be at most 1024 characters for whatsapp_cta_url')
+    end
+
+    it 'adds error when fallback message content exceeds 1024 characters' do
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: 'c' * 1025, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body must be at most 1024 characters for whatsapp_cta_url')
+    end
+
+    it 'adds error when rendered WhatsApp outgoing_content expands past 1024 characters' do
+      expanding_markdown = "100000. a\n#{Array.new(140, '1. a').join("\n")}"
+      expect(expanding_markdown.length).to be <= 1024
+
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: expanding_markdown, content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'See menu',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('body must be at most 1024 characters for whatsapp_cta_url')
+    end
+
+    it 'renders Liquid variables across all textual whatsapp_cta_url fields before validation' do
+      conversation.contact.update!(name: 'Ada')
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: 'Summary', content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'Hi {{contact.name}}',
+                          url: 'https://example.com/menu',
+                          body: 'Welcome {{contact.name}}',
+                          header: 'Hello {{contact.name}}',
+                          footer: 'Thanks {{contact.name}}'
+                        }
+                      })
+
+      expect(message.valid?).to be true
+      cta = message.content_attributes[:whatsapp_cta_url].with_indifferent_access
+      expect(cta).to include(
+        display_text: 'Hi Ada',
+        body: 'Welcome Ada',
+        header: 'Hello Ada',
+        footer: 'Thanks Ada',
+        url: 'https://example.com/menu'
+      )
+    end
+
+    it 'adds error when Liquid expansion pushes display_text past 20 characters' do
+      conversation.contact.update!(name: 'Alexandria Montgomery')
+      message = build(:message, conversation: conversation, message_type: :outgoing, content: 'Summary', content_attributes: {
+                        whatsapp_cta_url: {
+                          display_text: 'Hi {{contact.name}}',
+                          url: 'https://example.com/menu'
+                        }
+                      })
+
+      expect(message.valid?).to be false
+      expect(message.errors[:content_attributes]).to include('display_text must be at most 20 characters for whatsapp_cta_url')
+    end
+
+    it 'promotes rendered whatsapp_cta_url body into content when Liquid content renders blank' do
+      conversation.contact.update!(name: 'Ada')
+      message = create(:message, conversation: conversation, message_type: :outgoing,
+                                 content: '{{contact.custom_attributes.missing_field}}',
+                                 content_attributes: {
+                                   whatsapp_cta_url: {
+                                     display_text: 'See menu',
+                                     url: 'https://example.com/menu',
+                                     body: 'Welcome {{contact.name}}'
+                                   }
+                                 })
+
+      expect(message.content).to eq('Welcome Ada')
+      expect(message.content_attributes[:whatsapp_cta_url].with_indifferent_access).not_to have_key(:body)
+    end
+  end
+
   describe 'length validations' do
     let!(:message) { create(:message) }
 
