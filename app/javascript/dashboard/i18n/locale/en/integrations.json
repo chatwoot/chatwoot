@@ -545,7 +545,6 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
     "OVERVIEW": {
       "HEADER": "Overview",
@@ -752,7 +751,7 @@
       "SEND_MESSAGE": "Send message...",
       "STOP": "Stop Copilot",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "LOADER": "Copilot is thinking",
       "YOU": "You",
       "USE": "Use this",
       "RESET": "Reset",
@@ -802,7 +801,6 @@
         "PARTIAL_REVIEW": "Only {reviewed} of {total} conversations were reviewed. The other {remaining} are not part of this change.",
         "ACTIONS": {
           "ADD_LABELS": "Add {labels} to {count} conversation | Add {labels} to {count} conversations",
-          "REMOVE_LABELS": "Remove {labels} from {count} conversation | Remove {labels} from {count} conversations",
           "ASSIGN_AGENT": "Assign {count} conversation to {agents} | Assign {count} conversations to {agents}",
           "UNASSIGN_AGENT": "Remove the assigned agent from {count} conversation | Remove the assigned agent from {count} conversations",
           "ASSIGN_TEAM": "Assign {count} conversation to the {team} team | Assign {count} conversations to the {team} team",
@@ -820,16 +818,12 @@
           "ADD_PRIVATE_NOTE": "Add this private note to {count} conversation: | Add this private note to {count} conversations:",
           "SEND_REPLY": "Send this reply to {count} conversation: | Send this reply to {count} conversations:",
           "SET_CUSTOM_ATTRIBUTES": "Set {attributes} on {count} conversation | Set {attributes} on {count} conversations",
-          "REMOVE_CUSTOM_ATTRIBUTES": "Remove {attributes} from {count} conversation | Remove {attributes} from {count} conversations",
           "ADD_PARTICIPANTS": "Add {agents} to the participants of {count} conversation | Add {agents} to the participants of {count} conversations",
-          "REMOVE_PARTICIPANTS": "Remove {agents} from the participants of {count} conversation | Remove {agents} from the participants of {count} conversations",
           "APPLY_SLA": "Apply the {sla} SLA to {count} conversation | Apply the {sla} SLA to {count} conversations",
           "MUTE": "Mute {count} conversation | Mute {count} conversations",
           "UNMUTE": "Unmute {count} conversation | Unmute {count} conversations",
           "ADD_CONTACT_LABELS": "Add {labels} to {count} contact | Add {labels} to {count} contacts",
-          "REMOVE_CONTACT_LABELS": "Remove {labels} from {count} contact | Remove {labels} from {count} contacts",
           "SET_CONTACT_ATTRIBUTES": "Set {attributes} on {count} contact | Set {attributes} on {count} contacts",
-          "REMOVE_CONTACT_ATTRIBUTES": "Remove {attributes} from {count} contact | Remove {attributes} from {count} contacts",
           "BLOCK_CONTACTS": "Block {count} contact | Block {count} contacts",
           "UNBLOCK_CONTACTS": "Unblock {count} contact | Unblock {count} contacts",
           "ADD_CONTACT_NOTE": "Add this note to {count} contact: | Add this note to {count} contacts:"
