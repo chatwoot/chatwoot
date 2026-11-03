@@ -27,6 +27,7 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
 
   # The agent's own message is saved with the model's question and criteria, so the reviewer can follow the agent's words.
   # The selection stays on the collection, which the review reads as its source run. A replayed call finds its review.
+  # The review's text limits check the model's input, so a failed check goes back to the model as an ArgumentError.
   def create_review(collection, criteria, question, reference)
     context = { 'request' => run.copilot_message.message['content'], 'criteria' => criteria, 'question' => question,
                 'reference' => reference }.compact
@@ -36,6 +37,8 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
         context: context.merge('turn_start' => 0, 'turn_start_matched' => 0, 'turn_start_failed' => 0, 'turn_limit' => run.review_budget!)
       )
     end
+  rescue ActiveRecord::RecordInvalid => e
+    raise ArgumentError, e.message
   end
 
   def review_source(collection_id)
