@@ -52,13 +52,13 @@ const handleLogoUpload = async (payload, key) => {
 };
 
 const handleLogoDelete = async key => {
+  setLogo(key, { url: '', blobId: '' });
+  if (key === 'dark') isAddingDarkLogo.value = false;
   try {
     await store.dispatch('portals/deleteLogo', {
       portalSlug: props.portalSlug,
       isDarkLogo: key === 'dark',
     });
-    setLogo(key, { url: '', blobId: '' });
-    if (key === 'dark') isAddingDarkLogo.value = false;
     useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_DELETE_SUCCESS'));
   } catch (error) {
     useAlert(
@@ -106,7 +106,7 @@ const handleLogoDelete = async key => {
         </span>
       </div>
       <Button
-        v-else
+        v-else-if="logos.light?.url"
         :label="t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.ADD_DARK_MODE')"
         icon="i-lucide-plus"
         color="slate"
