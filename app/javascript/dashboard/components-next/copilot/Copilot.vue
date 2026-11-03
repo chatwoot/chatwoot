@@ -127,22 +127,41 @@ const showAvatar = computed(
   () => props.canShowAvatar && isAvatarSupported.value
 );
 
-const sendMessage = async message => {
-  if (props.isLoadingSelectedThread) return false;
-
-  const isSuccess = await props.onSendMessage(message);
-  useTrack(COPILOT_EVENTS.SEND_MESSAGE);
-  return isSuccess;
-};
-
 const draft = ref('');
 const chatContainer = ref(null);
+const copilotInput = ref(null);
+// A paste only lands in a focused field, so actions that move focus off the input hand it back.
+const focusInput = () => nextTick(() => copilotInput.value?.focus());
+// Within this distance of the end, the agent is following the chat and new messages keep it in view.
+const FOLLOW_DISTANCE_PX = 80;
 
 const scrollToBottom = async () => {
   await nextTick();
   if (chatContainer.value) {
     chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
   }
+};
+
+const isFollowingChat = () => {
+  const container = chatContainer.value;
+  if (!container) return true;
+
+  const { scrollHeight, scrollTop, clientHeight } = container;
+  return scrollHeight - scrollTop - clientHeight <= FOLLOW_DISTANCE_PX;
+};
+
+const sendMessage = async message => {
+  if (props.isLoadingSelectedThread) return false;
+
+  const isSuccess = await props.onSendMessage(message);
+  useTrack(COPILOT_EVENTS.SEND_MESSAGE);
+  if (isSuccess) scrollToBottom();
+  return isSuccess;
+};
+
+const sendSuggestion = suggestion => {
+  focusInput();
+  return sendMessage(suggestion);
 };
 
 const groupedMessages = computed(() => {
@@ -248,6 +267,9 @@ const handleSidebarAction = action => {
   } else if (action === 'expand') {
     emit('toggleExpand');
   }
+  // A click on a header button leaves the text selection where it was, often in the reply box, so a paste would land
+  // there unless the input takes focus back.
+  if (!showHistory.value) focusInput();
 };
 
 const hasAssistants = computed(() => props.assistants.length > 0);
@@ -370,12 +392,24 @@ const openThread = thread => {
   emit('selectThread', thread);
   showHistory.value = false;
 };
+// The store refreshes the message list for every thread's update, so only a new last message in this chat counts.
+// Watchers run before the DOM updates, so the position checked is the one the agent was reading.
 watch(
-  [() => props.messages],
+  () => props.messages[props.messages.length - 1]?.id,
   () => {
+    if (isFollowingChat()) scrollToBottom();
+  }
+);
+
+// An opened chat starts at its latest message.
+watch(
+  () => [props.selectedThreadId, props.isLoadingSelectedThread],
+  ([threadId, isLoading], [, wasLoading]) => {
+    if (isLoading) return;
     scrollToBottom();
-  },
-  { deep: true }
+    // The input is hidden while a chat loads, which drops focus.
+    if (wasLoading && threadId) focusInput();
+  }
 );
 </script>
 
@@ -415,7 +449,7 @@ watch(
           v-for="thread in threads"
           :key="thread.id"
           type="button"
-          class="mb-1 w-full rounded-lg px-3 py-2 text-left hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-blue-11"
+          class="mb-1 w-full rounded-lg px-3 py-2 text-start hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-blue-11"
           :class="{ 'bg-n-alpha-2': thread.id === selectedThreadId }"
           @click="openThread(thread)"
         >
@@ -483,7 +517,7 @@ watch(
         class="max-w-3xl mx-auto"
         :has-assistants="hasAssistants"
         :can-suggest-reply="canSuggestReply"
-        @use-suggestion="sendMessage"
+        @use-suggestion="sendSuggestion"
       >
         <template v-if="showAvatar" #logo>
           <CopilotAvatar
@@ -530,6 +564,7 @@ watch(
       <CopilotInput
         v-if="hasAssistants"
         v-show="!isLoadingSelectedThread"
+        ref="copilotInput"
         v-model="draft"
         class="mb-1 w-full max-w-3xl mx-auto"
         :on-send="sendMessage"
