@@ -116,6 +116,32 @@ RSpec.describe Captain::Copilot::ActionJob do
     end
   end
 
+  describe 'applying an SLA policy' do
+    let(:sla_policy) { create(:sla_policy, account: account) }
+    let(:sla_run) do
+      CopilotRun::Action.create!(
+        account: account, user: user, copilot_thread: thread, status: :queued,
+        copilot_tool_call: turn.tool_calls.create!(call_id: 'act-4', name: 'act'),
+        context: { action: 'apply_sla', arguments: { sla_policy_id: sla_policy.id }, target_ids: [labeled.id, unlabeled.id],
+                   approval_message_id: card.id }
+      )
+    end
+
+    it 'fails a conversation that already has another SLA with the reason, without a retry' do
+      account.enable_features!('sla')
+      unlabeled.update!(sla_policy: create(:sla_policy, account: account, name: 'Premium'))
+      allow(ChatwootExceptionTracker).to receive(:new).and_call_original
+
+      described_class.perform_now(sla_run.id)
+
+      expect(labeled.reload.sla_policy).to eq(sla_policy)
+      expect(sla_run.reload).to be_incomplete
+      expect(sla_run.summary).to include(applied: 1, failed: 1,
+                                         failure_reasons: { 'Sla policy conversation already has a different sla' => 1 })
+      expect(ChatwootExceptionTracker).not_to have_received(:new)
+    end
+  end
+
   describe 'stopping the change' do
     it 'changes nothing when the agent stops it before the job runs' do
       expect(action_run.stop).to be(true)
