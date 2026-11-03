@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import LocaleCard from 'dashboard/components-next/HelpCenter/LocaleCard/LocaleCard.vue';
 import LocaleContentDialog from 'dashboard/components-next/HelpCenter/Pages/LocalePage/LocaleContentDialog.vue';
 import PopularContentDialog from 'dashboard/components-next/HelpCenter/Pages/LocalePage/PopularContentDialog.vue';
@@ -122,6 +122,11 @@ const openDeleteDialog = localeCode => {
   );
   deleteDialogRef.value.open();
 };
+
+watch(
+  () => props.portal.slug,
+  () => deleteDialogRef.value?.close()
+);
 
 const updateDraftLocales = async ({ localeCode, shouldDraft, messageKey }) => {
   const newAllowedLocales = props.locales.map(locale => locale.code);
