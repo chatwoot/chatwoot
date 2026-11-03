@@ -3,6 +3,10 @@
 class Conversations::UnverifiedContactNoteService
   pattr_initialize [:conversation!, :matches!]
 
+  # Visitors control these values. Removing these characters stops them from adding Markdown links,
+  # mention:// URLs that MentionService acts on, or Liquid tags, and keeps them inside their code span.
+  UNSAFE_CHARACTERS = '`()[]{}'.freeze
+
   def perform
     return if matches.empty?
 
@@ -22,8 +26,8 @@ class Conversations::UnverifiedContactNoteService
     contact = match[:contact]
     I18n.t(
       "conversations.unverified_contact_match.#{match[:key]}",
-      value: match[:value],
-      contact_name: contact.name.presence || contact.email.presence || contact.phone_number.presence || contact.identifier,
+      value: match[:value].delete(UNSAFE_CHARACTERS),
+      contact_name: [contact.name, contact.email, contact.phone_number, contact.identifier].compact_blank.first.delete(UNSAFE_CHARACTERS),
       contact_url: "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{contact.account_id}/contacts/#{contact.id}"
     )
   end

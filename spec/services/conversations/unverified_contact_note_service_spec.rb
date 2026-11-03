@@ -21,10 +21,10 @@ describe Conversations::UnverifiedContactNoteService do
     expect(note).to be_outgoing
     expect(note.sender).to be_nil
     expect(note.content).to include(
-      "- Email: jane@acme.com, matches [Jane Doe](https://app.chatwoot.com/app/accounts/#{account.id}/contacts/#{email_contact.id})"
+      "- Email: `jane@acme.com`, matches [`Jane Doe`](https://app.chatwoot.com/app/accounts/#{account.id}/contacts/#{email_contact.id})"
     )
     expect(note.content).to include(
-      "- Phone: +14155550123, matches [john@acme.com](https://app.chatwoot.com/app/accounts/#{account.id}/contacts/#{phone_contact.id})"
+      "- Phone: `+14155550123`, matches [`john@acme.com`](https://app.chatwoot.com/app/accounts/#{account.id}/contacts/#{phone_contact.id})"
     )
   end
 
@@ -34,7 +34,22 @@ describe Conversations::UnverifiedContactNoteService do
 
     described_class.new(conversation: conversation, matches: matches).perform
 
-    expect(conversation.messages.last.content).to include('matches [+14155550123](')
+    expect(conversation.messages.last.content).to include('matches [`+14155550123`](')
+  end
+
+  it 'does not let visitor-controlled details add mentions, links or Liquid to the note' do
+    agent = create(:user, account: account)
+    create(:inbox_member, user: agent, inbox: conversation.inbox)
+    contact = create(:contact, account: account, name: "Jane](https://evil.example) [Agent](mention://user/#{agent.id}/Agent) {{contact.email}}")
+    matches = [{ key: :email, value: "x{{7}}(mention://user/#{agent.id}/A)@acme.com", contact: contact }]
+
+    described_class.new(conversation: conversation, matches: matches).perform
+    note = conversation.messages.last
+    Messages::MentionService.new(message: note).perform
+
+    expect(note.content).to include("- Email: `x7mention://user/#{agent.id}/A@acme.com`")
+    expect(note.content).to include("matches [`Janehttps://evil.example Agentmention://user/#{agent.id}/Agent contact.email`](")
+    expect(conversation.conversation_participants.map(&:user_id)).not_to include(agent.id)
   end
 
   it 'writes the note in the account locale, not the request locale' do
@@ -44,7 +59,7 @@ describe Conversations::UnverifiedContactNoteService do
     I18n.with_locale(:de) { described_class.new(conversation: conversation, matches: matches).perform }
 
     expect(conversation.messages.last.content).to start_with('This visitor entered contact details')
-    expect(conversation.messages.last.content).to include('- Email: jane@acme.com')
+    expect(conversation.messages.last.content).to include('- Email: `jane@acme.com`')
   end
 
   it 'adds nothing when there are no matches' do

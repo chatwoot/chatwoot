@@ -379,8 +379,8 @@ en:
         %{matches}
 
         If you confirm this visitor is the same person, merge the contacts from the contact panel.
-      email: '- Email: %{value}, matches [%{contact_name}](%{contact_url})'
-      phone_number: '- Phone: %{value}, matches [%{contact_name}](%{contact_url})'
+      email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
+      phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
