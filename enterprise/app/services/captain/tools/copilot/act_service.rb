@@ -9,7 +9,8 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
   end
 
   description 'Propose one change to every record in a saved collection or finished review. Nothing changes until the agent ' \
-              "approves it. Returns what was applied, skipped or failed after the agent decides. Actions:\n#{ACTIONS_HELP}"
+              'approves it. Returns what was applied, already applied or failed after the agent decides. Already applied records ' \
+              "had the change before and were left as they were. Actions:\n#{ACTIONS_HELP}"
   parameters type: 'object', required: %w[saved_set_id action arguments], additionalProperties: false,
              properties: {
                saved_set_id: { type: 'integer',
