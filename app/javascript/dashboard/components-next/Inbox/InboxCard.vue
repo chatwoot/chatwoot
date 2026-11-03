@@ -89,7 +89,8 @@ const messageParts = computed(() => {
     return { senderLabel: '', message: body.slice(2) };
   }
 
-  const [senderLabel = ''] = body.match(/^[^:]+:/) || [];
+  const match = body.match(/^[^:]+:/);
+  const senderLabel = match ? match[0] : '';
   return { senderLabel, message: body.slice(senderLabel.length) };
 });
 

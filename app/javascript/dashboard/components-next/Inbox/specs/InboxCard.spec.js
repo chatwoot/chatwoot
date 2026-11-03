@@ -1,6 +1,4 @@
 import { shallowMount } from '@vue/test-utils';
-import VueDOMPurifyHTML from 'vue-dompurify-html';
-import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer';
 import InboxCard from '../InboxCard.vue';
 
 const UNREAD_DOT = 'p .bg-n-iris-10';
@@ -18,7 +16,6 @@ const mountCard = (inboxItem = {}) =>
       },
       stateInbox: { name: 'Support', channelType: 'Channel::WebWidget' },
     },
-    global: { plugins: [[VueDOMPurifyHTML, domPurifyConfig]] },
   });
 
 const messageText = wrapper => wrapper.get('p').text();
