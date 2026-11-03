@@ -46,4 +46,16 @@ module Captain::Copilot::Chart
     format = dates.min.year == dates.max.year ? '%-d %b' : '%-d %b %Y'
     [title, dates.map { |date| date.strftime(format) }]
   end
+
+  # The dates from since up to before in plain words, such as 4 to 10 Sep 2023, for chart titles.
+  def self.range_text(since, before)
+    first = since.to_date
+    last = (before - 1.second).to_date
+    format = if first.year != last.year then '%-d %b %Y'
+             elsif first.month != last.month then '%-d %b'
+             else
+               '%-d'
+             end
+    "#{first.strftime(format)} to #{last.strftime('%-d %b %Y')}"
+  end
 end
