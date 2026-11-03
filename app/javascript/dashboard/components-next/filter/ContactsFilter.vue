@@ -7,10 +7,12 @@ import { vOnClickOutside } from '@vueuse/components';
 import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useContactFilterContext } from './contactProvider.js';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useFilterRecommendations } from './useFilterRecommendations';
 
 import Button from 'next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ConditionRow from './ConditionRow.vue';
+import FilterDescribeStatus from './FilterDescribeStatus.vue';
 
 const props = defineProps({
   isSegmentView: { type: Boolean, default: false },
@@ -23,12 +25,14 @@ const emit = defineEmits([
   'close',
   'clearFilters',
 ]);
-const { attributeFilterTypes } = useContactFilterContext();
+const { filterTypes, attributeFilterTypes } = useContactFilterContext();
 
 const filters = defineModel({
   type: Array,
   default: [],
 });
+const { canDescribeFilters, describeStatus, describeFilters } =
+  useFilterRecommendations('contact', filterTypes, filters);
 const segmentNameLocal = ref(props.segmentName);
 
 const DEFAULT_FILTER = {
@@ -129,6 +133,8 @@ const outsideClickHandler = [
           v-model:values="filter.values"
           :filter-types="attributeFilterTypes"
           :show-query-operator="false"
+          :describable="canDescribeFilters"
+          @describe="query => describeFilters(index, query)"
           @remove="removeFilter(index)"
         />
         <ConditionRow
@@ -141,10 +147,13 @@ const outsideClickHandler = [
           v-model:values="filter.values"
           show-query-operator
           :filter-types="attributeFilterTypes"
+          :describable="canDescribeFilters"
+          @describe="query => describeFilters(index, query)"
           @remove="removeFilter(index)"
         />
       </template>
     </ul>
+    <FilterDescribeStatus v-if="describeStatus" :status="describeStatus" />
     <div class="flex justify-between gap-2">
       <Button sm ghost blue class="flex-shrink-0" @click="addFilter">
         {{ $t('CONTACTS_LAYOUT.FILTER.BUTTONS.ADD_FILTER') }}

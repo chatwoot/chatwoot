@@ -1,4 +1,4 @@
-module Enterprise::Captain::ConversationFilterRecommendationService
+module Enterprise::Captain::FilterRecommendationService
   def perform
     super
   rescue CustomExceptions::JevQuotaError

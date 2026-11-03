@@ -1,7 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Captain::ConversationFilterRecommendationService do
-  subject(:service) { described_class.new(account: account, user: admin, query: query) }
+RSpec.describe Captain::FilterRecommendationService do
+  subject(:service) { described_class.new(account: account, field_set: field_set, query: query) }
+
+  let(:field_set) { Captain::ConversationFilterFields.new(account: account, user: admin) }
 
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
@@ -116,24 +118,54 @@ RSpec.describe Captain::ConversationFilterRecommendationService do
   context 'when the description asks for conversations older than a number of days' do
     let(:query) { 'conversations created more than 3 days ago' }
     let(:answers) do
-      { "relevant_#{index[:created_at]}" => noul(0.9), "operator_#{index[:created_at]}" => choice('days_before', 0.99) }
+      { "relevant_#{index[:created_at]}" => noul(0.9), "preset_#{index[:created_at]}" => choice('older_than_n_days', 0.95) }
     end
 
-    it 'uses that number as the days_before value' do
-      expect(service.perform).to eq([{ attribute_key: 'created_at', filter_operator: 'days_before', values: [3] }])
+    it 'returns the preset with the number of days from the description' do
+      expect(service.perform).to eq([{ attribute_key: 'created_at', date_preset: 'older_than_n_days', days: 3 }])
     end
   end
 
-  context 'when the description asks for conversations from the last number of days' do
-    let(:query) { 'Created in last 3 days' }
+  context 'when the description writes the number of days as a word' do
+    let(:query) { 'created in the last three days' }
     let(:answers) do
-      { "relevant_#{index[:created_at]}" => noul(0.96), "operator_#{index[:created_at]}" => choice('is_greater_than', 1.0) }
+      {
+        "relevant_#{index[:created_at]}" => noul(0.9),
+        "preset_#{index[:created_at]}" => choice('last_n_days', 0.9),
+        'day_count' => choice('days_3', 0.92)
+      }
     end
 
-    it 'compares against the date that many days ago' do
-      travel_to Time.zone.parse('2026-11-03 10:00') do
-        expect(service.perform).to eq([{ attribute_key: 'created_at', filter_operator: 'is_greater_than', values: ['2026-10-31'] }])
-      end
+    it 'takes the number of days from the day count answer' do
+      expect(service.perform).to eq([{ attribute_key: 'created_at', date_preset: 'last_n_days', days: 3 }])
+    end
+  end
+
+  context 'when the description names a calendar period' do
+    let(:query) { 'created last week' }
+    let(:answers) { { "relevant_#{index[:created_at]}" => noul(0.9), "preset_#{index[:created_at]}" => choice('last_week', 0.97) } }
+
+    it 'returns the preset without a number of days' do
+      expect(service.perform).to eq([{ attribute_key: 'created_at', date_preset: 'last_week' }])
+    end
+  end
+
+  context 'when the description says older than a month' do
+    let(:query) { 'contacts older than a month' }
+    let(:answers) do
+      { "relevant_#{index[:created_at]}" => noul(0.9), "preset_#{index[:created_at]}" => choice('older_than_month', 0.9) }
+    end
+
+    it 'counts a month as 30 days' do
+      expect(service.perform).to eq([{ attribute_key: 'created_at', date_preset: 'older_than_n_days', days: 30 }])
+    end
+  end
+
+  context 'when a date field is relevant but Jev names no preset' do
+    let(:answers) { { "relevant_#{index[:created_at]}" => noul(0.9), "preset_#{index[:created_at]}" => choice('none', 0.9) } }
+
+    it 'leaves an empty date row to fill in' do
+      expect(service.perform).to eq([{ attribute_key: 'created_at', filter_operator: 'is_greater_than', values: [] }])
     end
   end
 
@@ -175,6 +207,46 @@ RSpec.describe Captain::ConversationFilterRecommendationService do
 
     it 'returns only the most relevant ones' do
       expect(service.perform.pluck(:attribute_key)).to eq(%w[status priority assignee_id inbox_id])
+    end
+  end
+
+  context 'with contact fields' do
+    let(:field_set) { Captain::ContactFilterFields.new(account: account, user: admin) }
+    let(:query) { 'blocked contacts' }
+    # Field order from Captain::ContactFilterFields: labels, blocked, created_at, last_activity_at.
+    let(:answers) do
+      {
+        'relevant_1' => noul(0.9),
+        'value_1' => { type: 'choice', choice: 'option_0', probabilities: { 'none' => 0.05, 'option_0' => 0.93, 'option_1' => 0.02 } }
+      }
+    end
+
+    it 'recommends contact conditions and asks about contacts' do
+      expect(service.perform).to eq([{ attribute_key: 'blocked', filter_operator: 'equal_to', values: ['true'] }])
+      expect(WebMock).to(have_requested(:post, endpoint).with do |request|
+        JSON.parse(request.body).dig('questions', 'relevant_0', 'instructions').include?('Would the contacts described')
+      end)
+    end
+  end
+
+  context 'with a contact text field' do
+    let(:field_set) { Captain::ContactFilterFields.new(account: account, user: admin) }
+    let(:query) { 'Email from chatwoot.com' }
+    # Field order from Captain::ContactFilterFields: labels, blocked, created_at, last_activity_at, name, email.
+    let(:answers) do
+      {
+        'relevant_5' => noul(0.85),
+        'operator_5' => choice('contains', 0.98),
+        'start_5' => choice('2', 0.9),
+        'end_5' => choice('2', 0.95)
+      }
+    end
+
+    it 'fills in the words of the description Jev points at' do
+      expect(service.perform).to eq([{ attribute_key: 'email', filter_operator: 'contains', values: ['chatwoot.com'] }])
+      expect(WebMock).to(have_requested(:post, endpoint).with do |request|
+        JSON.parse(request.body).dig('state', 'words') == "0|Email\n1|from\n2|chatwoot.com"
+      end)
     end
   end
 

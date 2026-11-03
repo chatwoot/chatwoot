@@ -1,3 +1,5 @@
+import { buildDatePresetConditions } from './datePresets';
+
 /**
  * Number of options a filter dropdown can hold before it renders a search field.
  * Shared so the attribute and value dropdowns never disagree on when to show one.
@@ -115,32 +117,55 @@ const recommendedValues = (filterType, filterOperator, values) => {
   return values[0]?.toString() ?? '';
 };
 
+const recommendedConditions = (recommendation, filterType, today) => {
+  if (recommendation.date_preset) {
+    return buildDatePresetConditions(
+      recommendation.date_preset,
+      recommendation.days,
+      today
+    );
+  }
+
+  return [
+    {
+      filterOperator: recommendation.filter_operator,
+      values: recommendedValues(
+        filterType,
+        recommendation.filter_operator,
+        recommendation.values
+      ),
+    },
+  ];
+};
+
 /**
  * Turns recommended conditions from the API into filter rows for the filter form.
  * A condition on an attribute the form does not offer is dropped.
- * @param {Array<{attribute_key: string, filter_operator: string, values: Array}>} recommendations
+ * A date condition names a preset, which becomes one or two date rows.
+ * @param {Array<{attribute_key: string, filter_operator?: string, values?: Array, date_preset?: string, days?: number}>} recommendations
  * @param {Array} filterTypes - The filter types from the filter context
+ * @param {Date} [today] - The reference date for date presets
  * @returns {Array} Filter rows
  */
-export const buildFiltersFromRecommendations = (recommendations, filterTypes) =>
+export const buildFiltersFromRecommendations = (
+  recommendations,
+  filterTypes,
+  today = new Date()
+) =>
   recommendations.flatMap(recommendation => {
     const filterType = filterTypes.find(
       type => type.attributeKey === recommendation.attribute_key
     );
     if (!filterType) return [];
 
-    return [
-      {
+    return recommendedConditions(recommendation, filterType, today).map(
+      condition => ({
         attributeKey: recommendation.attribute_key,
-        filterOperator: recommendation.filter_operator,
-        values: recommendedValues(
-          filterType,
-          recommendation.filter_operator,
-          recommendation.values
-        ),
+        attributeModel: filterType.attributeModel,
         queryOperator: 'and',
-      },
-    ];
+        ...condition,
+      })
+    );
   });
 
 /**

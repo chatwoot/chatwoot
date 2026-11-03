@@ -194,7 +194,6 @@ Rails.application.routes.draw do
               get :search
               get :unread_counts, to: 'conversations/unread_counts#index'
               post :filter
-              post :filter_recommendations, to: 'conversations/filter_recommendations#create'
             end
             scope module: :conversations do
               resources :campaign_history, only: [:index] if ChatwootApp.enterprise?
@@ -333,6 +332,7 @@ Rails.application.routes.draw do
 
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
+          resources :filter_recommendations, only: [:create]
           resource :branded_email_layout, only: [:show, :update]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member

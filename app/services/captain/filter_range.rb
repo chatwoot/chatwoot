@@ -2,7 +2,7 @@
 # Jev's per-level answers miss levels that "or higher" only implies, and adding the order to those
 # questions makes Jev include neighbouring levels the description does not ask for. So Jev answers
 # which kind of range is meant and which level it starts from, and the option order decides the rest.
-class Captain::ConversationFilterRange
+class Captain::FilterRange
   MIN_PROBABILITY = 0.5
   RANGE_CRITERIA = {
     'only' => 'Only the levels `description` names',
@@ -31,8 +31,8 @@ class Captain::ConversationFilterRange
 
   # The option values in the range, or nil when `description` lists levels rather than a range.
   def values(answers)
-    range = confident_choice(answers["range_#{index}"])
-    anchor = confident_choice(answers["anchor_#{index}"])&.delete_prefix('option_')&.to_i
+    range = Captain::JevAnswers.confident_choice(answers["range_#{index}"], MIN_PROBABILITY)
+    anchor = Captain::JevAnswers.confident_choice(answers["anchor_#{index}"], MIN_PROBABILITY)&.delete_prefix('option_')&.to_i
     return if range.nil? || range == 'only' || anchor.nil?
 
     options_in_range(range, anchor).pluck(:value)
@@ -48,13 +48,5 @@ class Captain::ConversationFilterRange
     when 'at_or_below' then options[..anchor]
     when 'below' then options[...anchor]
     end
-  end
-
-  def confident_choice(answer)
-    return unless answer.is_a?(Hash)
-
-    choice = answer['choice']
-    probability = answer.dig('probabilities', choice) if choice.is_a?(String)
-    choice if probability.is_a?(Numeric) && probability >= MIN_PROBABILITY
   end
 end

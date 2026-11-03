@@ -1,4 +1,4 @@
-module Enterprise::Api::V1::Accounts::Conversations::FilterRecommendationsController
+module Enterprise::Api::V1::Accounts::FilterRecommendationsController
   include BillingHelper
 
   private

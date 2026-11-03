@@ -25,14 +25,6 @@ class ConversationApi extends ApiClient {
     return axios.get(`${this.url}/${conversationID}/suggestions/${type}`);
   }
 
-  getFilterRecommendations(query, { signal } = {}) {
-    return axios.post(
-      `${this.url}/filter_recommendations`,
-      { query },
-      { signal }
-    );
-  }
-
   getUnreadCounts() {
     return axios.get(`${this.url}/unread_counts`);
   }

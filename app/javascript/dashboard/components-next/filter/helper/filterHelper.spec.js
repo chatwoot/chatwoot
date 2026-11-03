@@ -112,6 +112,42 @@ describe('filterHelper', () => {
       ).toEqual([[], []]);
     });
 
+    it('expands a date preset into date rows for the field', () => {
+      const dateFilterTypes = [
+        {
+          attributeKey: 'created_at',
+          inputType: 'date',
+          attributeModel: 'standard',
+        },
+      ];
+      const recommendations = [
+        { attribute_key: 'created_at', date_preset: 'yesterday' },
+      ];
+
+      expect(
+        buildFiltersFromRecommendations(
+          recommendations,
+          dateFilterTypes,
+          new Date(2026, 10, 4)
+        )
+      ).toEqual([
+        {
+          attributeKey: 'created_at',
+          attributeModel: 'standard',
+          filterOperator: 'is_greater_than',
+          values: '2026-11-02',
+          queryOperator: 'and',
+        },
+        {
+          attributeKey: 'created_at',
+          attributeModel: 'standard',
+          filterOperator: 'is_less_than',
+          values: '2026-11-04',
+          queryOperator: 'and',
+        },
+      ]);
+    });
+
     it('drops attributes the filter form does not offer', () => {
       const recommendations = [
         { attribute_key: 'unknown', filter_operator: 'equal_to', values: [] },
