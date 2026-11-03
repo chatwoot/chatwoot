@@ -226,7 +226,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
     end
     let(:stop_path) { "/api/v1/accounts/#{account.id}/captain/copilot_threads/#{copilot_thread.id}/stop" }
 
-    it 'ends the turn and its review, keeps the conversations already reviewed, and saves nothing that finishes later' do
+    it 'ends the turn and its review without a reply, keeps the conversations already reviewed, and saves nothing that finishes later' do
       review = CopilotRun::Review.create!(
         account: account, user: admin, copilot_thread: copilot_thread, source_run: collection, status: :reviewing,
         copilot_tool_call: turn.tool_calls.create!(call_id: 'review-1', name: 'review_conversations'),
@@ -241,9 +241,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
       expect(response).to have_http_status(:ok)
       expect(turn.reload).to be_incomplete
       expect(review.reload).to have_attributes(status: 'incomplete', error: I18n.t('captain.copilot.stopped'))
-      expect(copilot_thread.copilot_messages.order(:id).last).to have_attributes(
-        message_type: 'assistant', message: { 'run_id' => turn.id, 'content' => I18n.t('captain.copilot.stopped_message') }
-      )
+      expect(message.reload.message).to include('status' => 'stopped')
+      expect(copilot_thread.copilot_messages.assistant).to be_empty
 
       Captain::Copilot::ReviewConversationJob.perform_now(review.id, conversations.second.id)
       expect(Captain::Copilot::ReviewService).not_to have_received(:new)
@@ -265,6 +264,17 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
       expect(action.reload).to be_rejected
       expect(action.approve).to be(false)
       expect(card.reload.message.dig('approval', 'status')).to eq('rejected')
+    end
+
+    it 'accepts the agent\'s next message once stopped' do
+      turn
+
+      post stop_path, headers: admin.create_new_auth_token, as: :json
+      post "/api/v1/accounts/#{account.id}/captain/copilot_threads/#{copilot_thread.id}/copilot_messages",
+           params: { message: 'Only the open ones' }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(copilot_thread.copilot_messages.order(:id).last.message).to eq('content' => 'Only the open ones')
     end
 
     it 'does not stop another agent\'s thread' do

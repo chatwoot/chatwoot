@@ -55,8 +55,9 @@ class CopilotRun::Turn < CopilotRun
     CopilotRun::Turn.unfinished.exists?(copilot_thread_id: copilot_thread_id, copilot_message_id: ...copilot_message_id)
   end
 
-  # Ends the turn without another answer and stops the review or change it started. The job working on the turn finds its
-  # lease gone at its next step, so it saves nothing more. The turn stays incomplete, so later turns read it as an outline.
+  # Ends the turn without an answer and stops the review or change it started. The job working on the turn finds its lease
+  # gone at its next step, so it saves nothing more. Marking the agent's message stopped tells the panel Copilot is done,
+  # without posting a reply. The turn stays incomplete, so later turns read it as an outline.
   def stop
     stopped = with_lock do
       next false if finished?
@@ -66,7 +67,7 @@ class CopilotRun::Turn < CopilotRun
     return false unless stopped
 
     CopilotRun.unfinished.where(copilot_tool_call: tool_calls).find_each(&:stop)
-    copilot_thread.copilot_messages.create!(message_type: :assistant, message: { run_id: id, content: I18n.t('captain.copilot.stopped_message') })
+    copilot_message.update!(message: copilot_message.message.merge('status' => 'stopped'))
     true
   end
 
