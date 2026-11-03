@@ -20,7 +20,7 @@ class Conversations::UnverifiedContactNoteService
     I18n.t(
       "conversations.unverified_contact_match.#{match[:key]}",
       value: match[:value],
-      contact_name: contact.name.presence || contact.email,
+      contact_name: contact.name.presence || contact.email.presence || contact.phone_number.presence || contact.identifier,
       contact_url: "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{contact.account_id}/contacts/#{contact.id}"
     )
   end

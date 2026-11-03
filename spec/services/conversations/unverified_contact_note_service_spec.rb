@@ -28,6 +28,15 @@ describe Conversations::UnverifiedContactNoteService do
     )
   end
 
+  it 'labels the link with the phone number when the contact has no name or email' do
+    contact = create(:contact, account: account, name: '', identifier: 'customer-1', phone_number: '+14155550123')
+    matches = [{ key: :phone_number, value: '+14155550123', contact: contact }]
+
+    described_class.new(conversation: conversation, matches: matches).perform
+
+    expect(conversation.messages.last.content).to include('matches [+14155550123](')
+  end
+
   it 'adds nothing when there are no matches' do
     expect { described_class.new(conversation: conversation, matches: []).perform }.not_to(change { conversation.messages.count })
   end
