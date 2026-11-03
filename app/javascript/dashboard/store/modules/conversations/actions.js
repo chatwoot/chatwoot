@@ -495,15 +495,11 @@ const actions = {
     { commit },
     { conversationId, messageId, deleteOnChannel }
   ) {
-    try {
-      const { data } = await MessageApi.delete(conversationId, messageId, {
-        deleteOnChannel,
-      });
-      commit(types.ADD_MESSAGE, data);
-      commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
-    } catch (error) {
-      throw new Error(error);
-    }
+    const { data } = await MessageApi.delete(conversationId, messageId, {
+      deleteOnChannel,
+    });
+    commit(types.ADD_MESSAGE, data);
+    commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
   },
 
   deleteConversation: async ({ commit, dispatch }, conversationId) => {
