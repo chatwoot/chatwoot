@@ -13,10 +13,8 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
       }
     end
 
-    # Generate actual token using the helper
     let(:valid_token) do
-      token_base = "#{api_key.value[-4..]}#{assistant.id}#{assistant.account_id}"
-      Digest::SHA256.hexdigest(token_base)
+      OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "firecrawl:#{assistant.id}:#{assistant.account_id}")
     end
 
     context 'with valid token' do
@@ -80,6 +78,44 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
       end
+
+      it 'returns unauthorized status when the token is missing' do
+        expect(Captain::Tools::FirecrawlParserJob).not_to receive(:perform_later)
+
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}",
+             params: invalid_params,
+             as: :json)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns unauthorized status for a non-string token' do
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}",
+             params: invalid_params.merge(token: 123),
+             as: :json)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns unauthorized status for a token derived from the API key' do
+        legacy_token = Digest::SHA256.hexdigest("#{api_key.value[-4..]}#{assistant.id}#{assistant.account_id}")
+
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{legacy_token}",
+             params: invalid_params,
+             as: :json)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns unauthorized status for a token issued to another assistant' do
+        other_assistant = create(:captain_assistant, account: account)
+
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{other_assistant.id}&token=#{valid_token}",
+             params: invalid_params,
+             as: :json)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
 
     context 'with invalid assistant_id' do
@@ -111,6 +147,16 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
 
       it 'returns unauthorized status' do
         post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
+             params: { type: 'crawl.page', data: [payload_data] },
+             as: :json)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns unauthorized status when the token is missing' do
+        expect(Captain::Tools::FirecrawlParserJob).not_to receive(:perform_later)
+
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}",
              params: { type: 'crawl.page', data: [payload_data] },
              as: :json)
 
