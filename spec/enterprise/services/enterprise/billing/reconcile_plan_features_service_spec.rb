@@ -13,6 +13,42 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
   end
 
   describe '#perform' do
+    context 'with data import' do
+      it 'keeps data import enabled after downgrading to the free plan' do
+        account.enable_features!('data_import')
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+        described_class.new(account: account).perform
+
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('data_import')
+        expect(account).not_to be_feature_enabled('campaign_analytics')
+      end
+
+      it 'keeps an operator-disabled data import flag off on a paid plan' do
+        account.disable_features!('data_import')
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('data_import')
+        expect(account).to be_feature_enabled('campaign_analytics')
+      end
+
+      it 'does not restore a flag disabled after the billing worker loaded the account' do
+        account.enable_features!('data_import')
+        account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+        stale_account = Account.find(account.id)
+        account.disable_features!('data_import')
+
+        described_class.new(account: stale_account).perform
+
+        expect(account.reload).not_to be_feature_enabled('data_import')
+        expect(account).to be_feature_enabled('api_and_webhooks')
+      end
+    end
+
     context 'with campaigns and analytics' do
       %w[Business Enterprise].each do |plan|
         it "enables campaigns and analytics for #{plan}" do
@@ -177,6 +213,46 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         allow(GlobalConfigService).to receive(:load).and_call_original
         InstallationConfig.find_or_initialize_by(name: 'ENABLE_SHOPIFY_INTEGRATION').update!(value: true)
         account.enable_features!('shopify_integration')
+      end
+
+      it 'ignores data import in legacy catalogs and stored entitlement lists' do
+        shopify_config.update!(value: [shopify_plans.first.merge('features' => %w[audit_logs data_import])])
+        account.update!(internal_attributes: account.internal_attributes.merge(
+          'shopify_managed_features' => %w[data_import],
+          'manually_managed_features' => %w[data_import]
+        ))
+        account.disable_features!('data_import')
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('data_import')
+        expect(account).to be_feature_enabled('audit_logs')
+        expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
+      end
+
+      it 'keeps data import enabled after a Shopify downgrade' do
+        account.enable_features!('data_import')
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
+        described_class.new(account: account).perform
+
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Basic' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('data_import')
+        expect(account).not_to be_feature_enabled('saml')
+      end
+
+      it 'keeps data import enabled during subscription cancellation cleanup' do
+        account.enable_features!('data_import', 'audit_logs')
+        account.disable_features!('shopify_integration')
+        account.update!(custom_attributes: { 'plan_name' => nil }, internal_attributes: account.internal_attributes.merge(
+          'shopify_managed_features' => %w[data_import audit_logs]
+        ))
+
+        described_class.new(account: account, shopify_lifecycle_cleanup: true).perform
+
+        expect(account.reload).to be_feature_enabled('data_import')
+        expect(account).not_to be_feature_enabled('audit_logs')
       end
 
       it 'enables catalog features and Captain Classifier, but not monitors, on Shopify Basic' do
