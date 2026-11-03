@@ -4,7 +4,7 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:custom_tool) { create(:captain_custom_tool, account: account) }
-  let(:tool) { described_class.new(assistant, custom_tool) }
+  let(:tool) { Captain::Tools::PublicHttpTool.new(assistant, custom_tool) }
   let(:tool_context) { Struct.new(:state).new({}) }
 
   describe '#active?' do
@@ -453,6 +453,43 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
           endpoint_url: 'https://example.com/api/data',
           response_template: nil
         )
+      end
+
+      it 'sends the email the customer verified with a one-time code, next to the contact email' do
+        allow(Captain::EmailVerification).to receive(:new).with(conversation)
+                                                          .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
+        stub_request(:get, 'https://example.com/api/data').to_return(status: 200, body: '{}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to(have_requested(:get, 'https://example.com/api/data').with do |request|
+          request.headers['X-Chatwoot-Verified-Email'] == 'jane@example.com' && request.headers['X-Chatwoot-Contact-Email'] == contact.email
+        end)
+      end
+
+      it 'strips the contact and verified email headers on cross-origin redirects' do
+        contact.update!(email: 'jane@example.com', phone_number: '+14155550100')
+        tool_context_with_state.state[:contact].merge!(email: contact.email, phone_number: contact.phone_number)
+        allow(Captain::EmailVerification).to receive(:new).with(conversation)
+                                                          .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
+        redirected_headers = nil
+        stub_request(:get, 'https://example.com/api/data').to_return(status: 302, headers: { 'Location' => 'http://example.com/data' })
+        stub_request(:get, 'http://example.com/data').with do |request|
+          redirected_headers = request.headers.transform_keys(&:downcase)
+          true
+        end
+
+        tool.perform(tool_context_with_state)
+
+        expect(redirected_headers.keys).not_to include('x-chatwoot-verified-email', 'x-chatwoot-contact-email', 'x-chatwoot-contact-phone')
+      end
+
+      it 'leaves out the verified email header when the customer has not verified an email' do
+        stub_request(:get, 'https://example.com/api/data').to_return(status: 200, body: '{}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to(have_requested(:get, 'https://example.com/api/data').with { |request| !request.headers.key?('X-Chatwoot-Verified-Email') })
       end
 
       it 'includes metadata headers in GET request' do

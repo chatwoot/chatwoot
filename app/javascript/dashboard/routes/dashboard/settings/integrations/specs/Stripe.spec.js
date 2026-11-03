@@ -11,6 +11,17 @@ const mocks = vi.hoisted(() => ({
   installationName: undefined,
 }));
 
+vi.mock('@vueuse/core', async importOriginal => {
+  const original = await importOriginal();
+  const { onUnmounted } = await import('vue');
+  return {
+    ...original,
+    useEventListener: (target, event, listener) => {
+      target.addEventListener(event, listener);
+      onUnmounted(() => target.removeEventListener(event, listener));
+    },
+  };
+});
 vi.mock('vue-router', () => ({ useRoute: () => ({ query: mocks.query }) }));
 vi.mock(
   'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue',
@@ -108,6 +119,9 @@ describe('Stripe integration settings', () => {
 
   it('does not request account details when disconnected', async () => {
     mocks.enabled = false;
+    IntegrationsAPI.get.mockResolvedValue({
+      data: { payload: [{ id: 'stripe', enabled: false }] },
+    });
     wrapper = mount(Stripe, { global });
     await flushPromises();
     expect(StripeAPI.get).not.toHaveBeenCalled();
@@ -219,4 +233,51 @@ describe('Stripe integration settings', () => {
     expect(wrapper.text()).toContain('acct_test');
     expect(wrapper.get('[role="alert"]').exists()).toBe(true);
   });
+
+  it.each(['list', 'details', 'error'])(
+    'ignores an older focus refresh after disconnect: %s',
+    async stage => {
+      wrapper = mount(Stripe, { global });
+      await flushPromises();
+      let resolveRefresh;
+      let rejectRefresh;
+      const pending = new Promise((resolve, reject) => {
+        resolveRefresh = resolve;
+        rejectRefresh = reject;
+      });
+      if (stage === 'list') {
+        IntegrationsAPI.get.mockReturnValueOnce(pending);
+      } else {
+        StripeAPI.get.mockReturnValueOnce(pending);
+      }
+      await wrapper.vm.$nextTick();
+      window.dispatchEvent(new Event('focus'));
+      await flushPromises();
+
+      expect(IntegrationsAPI.get).toHaveBeenCalledTimes(2);
+      StripeAPI.disconnect.mockResolvedValue({});
+      IntegrationsAPI.get.mockResolvedValue({
+        data: { payload: [{ id: 'stripe', enabled: false }] },
+      });
+      await wrapper.get('button').trigger('click');
+      await flushPromises();
+      mocks.commit.mockClear();
+
+      if (stage === 'error') {
+        rejectRefresh(new Error('outdated request failed'));
+      } else {
+        resolveRefresh({
+          data:
+            stage === 'list'
+              ? { payload: [{ id: 'stripe', enabled: true }] }
+              : { account_id: 'acct_test', mode: 'sandbox' },
+        });
+      }
+      await flushPromises();
+      expect(mocks.commit).not.toHaveBeenCalled();
+      expect(wrapper.text()).not.toContain('acct_test');
+      expect(wrapper.get('button').text()).toBe('STRIPE_INTEGRATION.CONNECT');
+      expect(wrapper.find('[role="alert"]').exists()).toBe(false);
+    }
+  );
 });

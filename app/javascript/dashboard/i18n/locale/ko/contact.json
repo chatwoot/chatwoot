@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "이 연락처와 관련된 이전 대화가 없습니다.",
-      "TITLE": "이전 대화"
+      "TITLE": "이전 대화",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

@@ -60,7 +60,10 @@ class AutoAssignment::AgentAssignmentService
 
   def online_agent_ids
     online_agents = OnlineStatusTracker.get_available_users(conversation.account_id)
-    online_agents.select { |_key, value| value.eql?('online') }.keys if online_agents.present?
+    return if online_agents.blank?
+
+    online_ids = online_agents.select { |_key, value| value.eql?('online') }.keys
+    conversation.account.account_users.where(user_id: online_ids, accepts_conversations: true).pluck(:user_id).map(&:to_s)
   end
 
   def allowed_online_agent_ids

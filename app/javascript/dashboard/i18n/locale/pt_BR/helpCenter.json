@@ -807,6 +807,7 @@
         "PUBLISH_CHANGES_ERROR": "Não foi possível publicar as alterações",
         "SAVE_IN_PROGRESS": "Ainda estamos salvando suas alterações mais recentes. Por favor, tente novamente em instantes.",
         "UPLOAD_IN_PROGRESS": "Há um upload de arquivo não concluído. Aguarde a conclusão ou remova-o primeiro.",
+        "CREATE_IN_PROGRESS": "O artigo ainda está sendo criado. Adicione os arquivos novamente em instantes.",
         "DISCARD_CHANGES": "Descartar alterações",
         "DISCARD_CHANGES_SUCCESS": "Alterações descartadas",
         "DISCARD_CHANGES_ERROR": "Não foi possível descartar as alterações",
@@ -839,7 +840,14 @@
         "META_TITLE": "Meta título",
         "META_TITLE_PLACEHOLDER": "Adicionar meta título",
         "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Adicionar meta tags"
+        "META_TAGS_PLACEHOLDER": "Adicionar meta tags",
+        "SLUG": "Slug",
+        "SLUG_PLACEHOLDER": "Adicionar slug",
+        "SLUG_USE_TITLE": "Usar título como slug",
+        "SLUG_WARNING": "A URL atual deixará de funcionar, e os links existentes para ela deixarão de funcionar.",
+        "SLUG_UPDATE": "Atualizar",
+        "SLUG_UPDATED": "Slug atualizado. O artigo agora está disponível na nova URL.",
+        "SLUG_OPEN": "Abrir URL"
       },
       "API": {
         "ERROR": "Erro ao salvar artigo"

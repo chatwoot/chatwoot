@@ -7,35 +7,35 @@
     "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Nincs megfelelő elem",
     "SIDEBAR_TXT": "<p><b>Auditnaplók</b> </p><p> Az auditnaplók a Chatwoot rendszer eseményeinek és műveleteinek nyomvonalai. </p>",
-    "COUNT": "{n} event | {n} events",
+    "COUNT": "{n} esemény | {n} esemény",
     "FILTERS": {
-      "SEARCH_PLACEHOLDER": "Search by name or email",
-      "ALL_EVENTS": "All events",
-      "DATE_RANGE": "Date range",
+      "SEARCH_PLACEHOLDER": "Keresés név vagy e-mail alapján",
+      "ALL_EVENTS": "Összes esemény",
+      "DATE_RANGE": "Dátumtartomány",
       "CLEAR_ALL": "Szűrők törlése",
       "EVENT_TYPE_GROUPS": {
-        "ACCESS": "Access",
-        "AGENTS_TEAMS": "Agents & teams",
+        "ACCESS": "Hozzáférés",
+        "AGENTS_TEAMS": "Ügynökök és csapatok",
         "CONFIGURATION": "Beállítások",
         "CONVERSATIONS": "Beszélgetések"
       },
       "EVENT_TYPES": {
-        "SIGN_IN_OUT": "Sign in / sign out",
+        "SIGN_IN_OUT": "Bejelentkezés / kijelentkezés",
         "AGENTS": "Ügynökök",
         "TEAMS": "Csapatok",
-        "TEAM_MEMBERS": "Team members",
-        "INBOX_MEMBERS": "Inbox collaborators",
+        "TEAM_MEMBERS": "Csapattagok",
+        "INBOX_MEMBERS": "Beérkező postaláda közreműködői",
         "ACCOUNT": "Fiókbeállítások",
         "INBOXES": "Fiókok",
         "WEBHOOKS": "Webhook",
-        "AUTOMATION_RULES": "Automation rules",
+        "AUTOMATION_RULES": "Automatizálási szabályok",
         "MACROS": "Makrók",
-        "CONVERSATION_DELETIONS": "Conversation deletions",
-        "MESSAGE_DELETIONS": "Message deletions"
+        "CONVERSATION_DELETIONS": "Beszélgetések törlése",
+        "MESSAGE_DELETIONS": "Üzenettörlések"
       },
       "SORT": {
-        "NEWEST": "Newest first",
-        "OLDEST": "Oldest first"
+        "NEWEST": "Legújabb elöl",
+        "OLDEST": "Legrégebbi elöl"
       }
     },
     "LIST": {
@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "User",
         "TIME": "Action",
-        "IP_ADDRESS": "IP cím"
+        "IP_ADDRESS": "IP cím",
+        "LOCATION": "Hely"
       }
     },
     "API": {
@@ -105,7 +106,7 @@
       "DELETE": "{agentName} deleted conversation #{id}"
     },
     "MESSAGE": {
-      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
+      "DELETE": "#{conversationId} azonosítójú beszélgetésben {agentName} törölt egy üzenetet"
     }
   }
 }

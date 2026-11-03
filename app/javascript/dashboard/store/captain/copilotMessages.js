@@ -1,6 +1,9 @@
 import CopilotMessagesAPI from 'dashboard/api/captain/copilotMessages';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
-import { createStore } from '../storeFactory';
+import { setSingleRecord } from 'shared/helpers/vuex/mutationHelpers';
+import { createStore, generateMutationTypes } from '../storeFactory';
+
+const { UPSERT } = generateMutationTypes('CopilotMessages');
 
 export default createStore({
   name: 'CopilotMessages',
@@ -12,7 +15,18 @@ export default createStore({
         .sort((a, b) => a.id - b.id);
     },
   },
+  mutations: {
+    // A thread read that started before an approval can answer after it. Like conversations, a copy older than the
+    // one held is ignored, so a decided card doesn't show Approve and Reject again.
+    [UPSERT](state, message) {
+      const held = state.records.find(record => record.id === message.id);
+      if (held && message.updated_at < held.updated_at) return;
+      setSingleRecord(state, message);
+    },
+  },
   actions: mutationTypes => ({
+    // Merges by ID, so a saved approval status and any message the panel missed replace what it holds, and other
+    // threads stay as they are.
     async fetchThread({ commit }, { threadId }) {
       try {
         const messages = [];

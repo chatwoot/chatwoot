@@ -179,20 +179,20 @@ RSpec.describe Concerns::Agentable do
     end
 
     it 'returns account override model when present' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
       account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
 
       expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')
     end
 
     it 'returns the installation model when account override is absent' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-nano')
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-5-mini')
     end
 
     it 'returns the Captain V2 default when Captain V2 is enabled' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
       account.enable_features!('captain_integration')
 
       expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')

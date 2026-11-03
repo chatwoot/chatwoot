@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu kişiyle ilişkilendirilmiş önceki görüşme yok.",
-      "TITLE": "Önceki Sohbetler"
+      "TITLE": "Önceki Sohbetler",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

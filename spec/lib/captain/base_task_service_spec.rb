@@ -113,7 +113,7 @@ RSpec.describe Captain::BaseTaskService do
   end
 
   describe '#make_api_call' do
-    let(:model) { 'gpt-4' }
+    let(:model) { 'gpt-5.2' }
     let(:messages) { [{ role: 'system', content: 'Test' }, { role: 'user', content: 'Hello' }] }
     let(:mock_chat) { instance_double(RubyLLM::Chat) }
     let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
@@ -122,6 +122,7 @@ RSpec.describe Captain::BaseTaskService do
     before do
       allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
       allow(mock_chat).to receive(:with_instructions)
+      allow(mock_chat).to receive(:with_thinking).and_return(mock_chat)
       allow(mock_chat).to receive(:ask).and_return(mock_response)
     end
 
@@ -169,11 +170,11 @@ RSpec.describe Captain::BaseTaskService do
     end
 
     it 'uses the resolved feature model for the request and instrumentation' do
-      account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+      account.update!(captain_models: { 'editor' => 'gpt-5.1' })
 
-      expect(mock_context).to receive(:chat).with(model: 'gpt-4.1', protocol: :responses).and_return(mock_chat)
+      expect(mock_context).to receive(:chat).with(model: 'gpt-5.1', protocol: :responses).and_return(mock_chat)
       expect(service).to receive(:instrument_llm_call).with(
-        hash_including(model: 'gpt-4.1', feature_name: 'test_event')
+        hash_including(model: 'gpt-5.1', feature_name: 'test_event')
       ).and_call_original
 
       service.send(:make_api_call, feature: 'editor', messages: messages)
@@ -192,9 +193,9 @@ RSpec.describe Captain::BaseTaskService do
     end
 
     it 'prefers account overrides over supplied feature fallback models' do
-      account.update!(captain_models: { 'help_center_article_generation' => 'gpt-4.1' })
+      account.update!(captain_models: { 'help_center_article_generation' => 'gpt-5.1' })
 
-      expect(mock_context).to receive(:chat).with(model: 'gpt-4.1', protocol: :responses).and_return(mock_chat)
+      expect(mock_context).to receive(:chat).with(model: 'gpt-5.1', protocol: :responses).and_return(mock_chat)
 
       service.send(:make_api_call, feature: 'help_center_article_generation', model: 'gpt-5.2', messages: messages)
     end
@@ -228,7 +229,7 @@ RSpec.describe Captain::BaseTaskService do
   end
 
   describe 'chat setup' do
-    let(:model) { 'gpt-4' }
+    let(:model) { 'gpt-5.2' }
     let(:mock_chat) { instance_double(RubyLLM::Chat) }
     let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
     let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', tokens: RubyLLM::Tokens.new(input: 10, output: 20)) }
@@ -282,7 +283,7 @@ RSpec.describe Captain::BaseTaskService do
   end
 
   describe 'error handling' do
-    let(:model) { 'gpt-4' }
+    let(:model) { 'gpt-5.2' }
     let(:messages) { [{ role: 'user', content: 'Hello' }] }
     let(:error) { StandardError.new('API Error') }
     let(:exception_tracker) { instance_double(ChatwootExceptionTracker) }
