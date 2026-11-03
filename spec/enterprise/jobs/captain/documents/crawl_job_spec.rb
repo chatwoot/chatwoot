@@ -10,7 +10,7 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
       let(:firecrawl_service) { instance_double(Captain::Tools::FirecrawlService) }
       let(:account) { document.account }
       let(:token) do
-        OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "firecrawl:#{document.assistant_id}:#{document.account_id}")
+        OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "firecrawl:test-key:#{document.assistant_id}:#{document.account_id}")
       end
 
       before do

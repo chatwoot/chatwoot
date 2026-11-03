@@ -14,7 +14,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
     end
 
     let(:valid_token) do
-      OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "firecrawl:#{assistant.id}:#{assistant.account_id}")
+      OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "firecrawl:#{api_key.value}:#{assistant.id}:#{assistant.account_id}")
     end
 
     context 'with valid token' do
@@ -101,6 +101,17 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
         legacy_token = Digest::SHA256.hexdigest("#{api_key.value[-4..]}#{assistant.id}#{assistant.account_id}")
 
         post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{legacy_token}",
+             params: invalid_params,
+             as: :json)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns unauthorized status for a token issued before the API key changed' do
+        token = valid_token
+        api_key.update!(value: 'rotated_api_key_456')
+
+        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{token}",
              params: invalid_params,
              as: :json)
 
