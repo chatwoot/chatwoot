@@ -9,8 +9,12 @@ class ContactIdentifyAction
   include UrlHelper
   pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
 
+  # Details the request sent that matched another identified contact, so they were not saved
+  attr_reader :unverified_matches
+
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
+    @unverified_matches = []
 
     ActiveRecord::Base.transaction do
       merge_if_existing_identified_contact
@@ -80,6 +84,7 @@ class ContactIdentifyAction
     if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
       # we will remove attribute from update list
       @attributes_to_update.delete(key)
+      @unverified_matches << { key: key, value: params[key], contact: existing_contact } unless existing_contact == @contact
       return false
     end
 

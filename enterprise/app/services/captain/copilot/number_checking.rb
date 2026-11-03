@@ -16,10 +16,14 @@ module Captain::Copilot::NumberChecking
 
   # Every tool result in the thread, and the thread's messages, since an answer may repeat a number an earlier turn found.
   # JSON.generate keeps characters such as & as they are, where to_json escapes them, so links match their tool results.
+  # Loaded once per turn by the number check, after the loop's last tool call and before the run's lock, and reused by
+  # the link check in TurnService#finish.
   def known_texts
-    results = CopilotToolCall.of_thread(@run.copilot_thread_id).pluck(:result)
-    messages = @run.copilot_thread.copilot_messages.where(message_type: %w[user assistant]).pluck(:message)
-    (results + messages).map { |value| JSON.generate(value) }
+    @known_texts ||= begin
+      results = CopilotToolCall.of_thread(@run.copilot_thread_id).pluck(:result)
+      messages = @run.copilot_thread.copilot_messages.where(message_type: %w[user assistant]).pluck(:message)
+      (results + messages).map { |value| JSON.generate(value) }
+    end
   end
 
   def model_calls

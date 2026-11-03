@@ -30,7 +30,8 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     end
   end
 
-  # Stops what Copilot is working on in the thread. The panel shows the stop through the thread's messages.
+  # Stops what Copilot is working on in the thread. The panel learns of the stop from the agent's message, which the stop
+  # marks.
   def stop
     Current.account.copilot_threads.find_by!(id: params[:id], user: Current.user).stop
     head :ok

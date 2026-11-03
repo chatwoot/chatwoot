@@ -138,6 +138,14 @@ const isLastMessageFromAssistant = computed(() => {
   );
 });
 
+// Stopping marks the agent's message instead of answering it.
+const isLastRequestStopped = computed(() => {
+  const lastRequest = props.messages.findLast(
+    message => message.message_type === 'user'
+  );
+  return lastRequest?.message.status === 'stopped';
+});
+
 // An approval card waits on the agent, not on Copilot, so the loader stays hidden until they decide.
 const isCopilotWorking = computed(() => {
   const hasApprovalAwaitingDecision = props.messages.some(
@@ -145,7 +153,11 @@ const isCopilotWorking = computed(() => {
       message.message_type === 'assistant_approval' &&
       message.message.approval.status === 'awaiting_approval'
   );
-  return !isLastMessageFromAssistant.value && !hasApprovalAwaitingDecision;
+  return (
+    !isLastMessageFromAssistant.value &&
+    !hasApprovalAwaitingDecision &&
+    !isLastRequestStopped.value
+  );
 });
 
 // Only workflow steps save a run ID, so the old Copilot's steps keep the loader.
