@@ -1,5 +1,6 @@
 import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useBulkActions } from 'dashboard/composables/chatlist/useBulkActions';
 import { useOrderedMacros } from 'dashboard/composables/useOrderedMacros';
@@ -17,6 +18,7 @@ import {
   createSnoozeOptions,
   localizeActions,
 } from 'dashboard/helper/commandbar/actions';
+import { isAConversationRoute } from 'dashboard/helper/routeHelpers';
 
 const SECTION = 'COMMAND_BAR.SECTIONS.BULK_ACTIONS';
 const SCOPES = ['bulk'];
@@ -54,6 +56,7 @@ const BULK_ACTIONS = [
 
 export function useBulkActionCommands() {
   const { t } = useI18n();
+  const route = useRoute();
   const store = useStore();
   const { isFeatureFlagEnabled } = usePolicy();
   const { orderedMacros } = useOrderedMacros();
@@ -199,7 +202,9 @@ export function useBulkActionCommands() {
   );
 
   const bulkActionCommands = computed(() => {
+    // The selection outlives the list when the user navigates away from it.
     if (!selectedConversations.value.length) return [];
+    if (!isAConversationRoute(route.name, true)) return [];
 
     return [
       ...localizeActions(BULK_ACTIONS, t),

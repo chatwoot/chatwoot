@@ -83,13 +83,21 @@ const scopes = computed(() => {
   }
   if (isAInboxViewRoute(route.name)) list.push('inbox_view');
   if (isAConversationRoute(route.name, true)) list.push('list');
-  if (selectedConversationIds.value.length) list.push('bulk');
+  if (
+    selectedConversationIds.value.length &&
+    isAConversationRoute(route.name, true)
+  ) {
+    list.push('bulk');
+  }
   return [...list, ...pathScopes(route.path)];
 });
 
 const scopeLabel = computed(() => {
-  const count = selectedConversationIds.value.length;
-  if (count) return t('COMMAND_BAR.SELECTED_COUNT', { count });
+  if (scopes.value.includes('bulk')) {
+    return t('COMMAND_BAR.SELECTED_COUNT', {
+      count: selectedConversationIds.value.length,
+    });
+  }
   if (scopes.value.includes('conversation')) {
     return currentChat.value?.meta?.sender?.name ?? '';
   }

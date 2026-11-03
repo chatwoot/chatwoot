@@ -191,11 +191,15 @@ describe('commandbar', () => {
     expect(wrapper.vm.scopeLabel).toBe('Sarah');
   });
 
-  it('counts the bulk selection in the scope chip', async () => {
+  it('counts the bulk selection in the scope chip on the conversation list only', async () => {
     getters['bulkActions/getSelectedConversationIds'] = [1, 2, 3];
     await mountCommandBar();
-
     expect(wrapper.vm.scopeLabel).toBe('COMMAND_BAR.SELECTED_COUNT');
+
+    wrapper.unmount();
+    useRoute.mockReturnValue({ name: 'agent_list' });
+    await mountCommandBar();
+    expect(wrapper.vm.scopeLabel).toBe('');
   });
 
   it('replaces the snooze presets with parsed dates while typing', async () => {

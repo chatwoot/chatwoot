@@ -5,6 +5,7 @@ import { useOrderedMacros } from 'dashboard/composables/useOrderedMacros';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import wootConstants from 'dashboard/constants/globals';
 import { emitter } from 'shared/helpers/mitt';
 
@@ -13,6 +14,7 @@ vi.mock('dashboard/composables/chatlist/useBulkActions');
 vi.mock('dashboard/composables/useOrderedMacros');
 vi.mock('dashboard/composables/usePolicy');
 vi.mock('vue-i18n');
+vi.mock('vue-router');
 vi.mock('shared/helpers/mitt');
 
 const conversations = {
@@ -65,6 +67,7 @@ describe('useBulkActionCommands', () => {
       isFeatureFlagEnabled: flag => !disabledFeatures.includes(flag),
     });
     useI18n.mockReturnValue({ t: vi.fn(key => key) });
+    useRoute.mockReturnValue({ name: 'home' });
     emitter.emit = vi.fn();
   });
 
@@ -200,6 +203,13 @@ describe('useBulkActionCommands', () => {
     expect(
       useBulkActionCommands().bulkActionCommands.value.map(a => a.id)
     ).not.toContain('bulk_execute_macro');
+  });
+
+  it('offers nothing once the user has left the conversation list', () => {
+    select([1, 2]);
+    useRoute.mockReturnValue({ name: 'agent_list' });
+
+    expect(useBulkActionCommands().bulkActionCommands.value).toEqual([]);
   });
 
   it('should return an empty array when no conversations are selected', () => {
