@@ -11,8 +11,11 @@ class Conversations::UnverifiedContactNoteService
 
   private
 
+  # Widget requests run in the visitor's locale, but agents read this note
   def content
-    I18n.t('conversations.unverified_contact_match.note', matches: matches.map { |match| match_line(match) }.join("\n"))
+    I18n.with_locale(conversation.account.locale) do
+      I18n.t('conversations.unverified_contact_match.note', matches: matches.map { |match| match_line(match) }.join("\n"))
+    end
   end
 
   def match_line(match)

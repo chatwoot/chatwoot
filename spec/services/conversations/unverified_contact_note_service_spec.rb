@@ -37,6 +37,16 @@ describe Conversations::UnverifiedContactNoteService do
     expect(conversation.messages.last.content).to include('matches [+14155550123](')
   end
 
+  it 'writes the note in the account locale, not the request locale' do
+    account.update!(locale: 'en')
+    matches = [{ key: :email, value: 'jane@acme.com', contact: email_contact }]
+
+    I18n.with_locale(:de) { described_class.new(conversation: conversation, matches: matches).perform }
+
+    expect(conversation.messages.last.content).to start_with('This visitor entered contact details')
+    expect(conversation.messages.last.content).to include('- Email: jane@acme.com')
+  end
+
   it 'adds nothing when there are no matches' do
     expect { described_class.new(conversation: conversation, matches: []).perform }.not_to(change { conversation.messages.count })
   end
