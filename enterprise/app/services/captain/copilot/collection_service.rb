@@ -72,11 +72,12 @@ class Captain::Copilot::CollectionService
     @selector.note ? result.merge(note: @selector.note) : result
   end
 
-  # A selection made from a review of a cut-off collection is cut off too, because the review never read the rest.
+  # A set cut off at MAX_SELECTION and never rebuilt, such as a review of a cut-off collection, covers only part of its
+  # records, so every selection made from it or without it is incomplete too.
   def persist_collection(resource, ids, source, excluded)
-    truncated = ids.size > CopilotRun::MAX_SELECTION || (source.is_a?(CopilotRun::Review) && source.selection_truncated?)
+    incomplete = [source, excluded].compact.any? { |set| set.source_incomplete? || (set.selection_truncated? && !set.rebuilt?) }
     context = { resource: resource, filters: @filters, selected_ids: ids.first(CopilotRun::MAX_SELECTION), as_of: @as_of.iso8601(6),
-                selection_truncated: truncated, excluded_run_id: excluded&.id }.compact
+                selection_truncated: ids.size > CopilotRun::MAX_SELECTION, source_incomplete: incomplete, excluded_run_id: excluded&.id }.compact
     @run.with_lease(@token) do
       CopilotRun::Collection.create_or_find_by!(copilot_tool_call: @tool_call) do |record|
         record.assign_attributes(copilot_thread: @run.copilot_thread, account: @run.account, user: @run.user, source_run: source,
