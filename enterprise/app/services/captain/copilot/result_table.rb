@@ -129,7 +129,10 @@ class Captain::Copilot::ResultTable
     field = @run.filters['date_field'] || 'last_activity_at'
     column = Conversation.arel_table[field]
     first, last = visible_conversations.where(id: @run.findings.finished.select(:conversation_id)).pick(column.minimum, column.maximum)
-    first ? ["Processed conversations span #{field} #{first.to_date.iso8601} to #{last.to_date.iso8601}."] : []
+    return [] unless first
+
+    zone = @run.account.report_time_zone
+    ["Processed conversations span #{field} #{first.in_time_zone(zone).to_date.iso8601} to #{last.in_time_zone(zone).to_date.iso8601}."]
   end
 
   # Counted by the database over every reviewed conversation the user can see, so the most common categories never

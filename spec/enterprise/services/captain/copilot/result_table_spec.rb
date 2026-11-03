@@ -34,13 +34,14 @@ RSpec.describe Captain::Copilot::ResultTable do
     expect(content).not_to include('refund')
   end
 
-  it 'gives the dates only of the conversations it processed' do
-    visible.update!(last_activity_at: Time.zone.parse('2026-09-10 10:00'))
+  it 'gives the dates only of the conversations it processed, in the account time zone' do
+    account.update!(reporting_timezone: 'Asia/Tokyo')
+    visible.update!(last_activity_at: Time.zone.parse('2026-09-10 20:00'))
     waiting = create(:conversation, account: account, inbox: member_inbox, last_activity_at: Time.zone.parse('2026-08-01 10:00'))
     review.findings.create!(conversation_id: waiting.id, status: :awaiting_review)
 
     content = described_class.new(review).page(1)[:content]
 
-    expect(content).to include('Processed conversations span last_activity_at 2026-09-10 to 2026-09-10.')
+    expect(content).to include('Processed conversations span last_activity_at 2026-09-11 to 2026-09-11.')
   end
 end
