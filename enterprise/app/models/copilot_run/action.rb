@@ -60,10 +60,11 @@ class CopilotRun::Action < CopilotRun
   end
 
   # failure_reasons counts the failed records by error, so the model can tell the agent why, e.g. that reply windows had closed.
+  # Skipped records already had the change. They are named already_applied, so the model does not read them as failures.
   def summary
     counts = action_items.group(:status).count
     super.merge({ action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
-                  skipped: counts['skipped'].to_i, failed: counts['failed'].to_i,
+                  already_applied: counts['skipped'].to_i, failed: counts['failed'].to_i,
                   failure_reasons: action_items.failed.group(:error).count.presence, not_processed: not_processed(counts),
                   decision_reason: context['decision_reason'] }.compact)
   end
@@ -146,8 +147,8 @@ class CopilotRun::Action < CopilotRun
   def card_progress
     progress = summary
     not_changed = progress[:failed] + progress[:not_processed].to_i
-    { finished: finished?, stopped: context['stopped'].present?, done: progress.values_at(:applied, :skipped, :failed).sum,
-      total: progress[:targets], applied: progress[:applied] + progress[:skipped], not_changed: not_changed,
+    { finished: finished?, stopped: context['stopped'].present?, done: progress.values_at(:applied, :already_applied, :failed).sum,
+      total: progress[:targets], applied: progress[:applied] + progress[:already_applied], not_changed: not_changed,
       not_changed_targets: (not_changed_links if finished? && not_changed.positive?) }.compact
   end
 

@@ -37,6 +37,12 @@ RSpec.describe Captain::Copilot::ActionJob do
     )
   end
 
+  it 'tells the model which records already had the change, so it does not report them as failures' do
+    described_class.perform_now(action_run.id)
+
+    expect(action_run.reload.summary).to include(applied: 1, already_applied: 1, failed: 0)
+  end
+
   it 'counts the records a stopped change never reached as not changed' do
     account.labels.find_by!(title: 'billing').destroy!
 
@@ -136,7 +142,7 @@ RSpec.describe Captain::Copilot::ActionJob do
 
       expect(action_run.action_items.pluck(:record_id)).to eq([labeled.id])
       expect(unlabeled.reload.label_list).to be_empty
-      expect(action_run.reload.summary).to include(status: 'incomplete', skipped: 1, not_processed: 1)
+      expect(action_run.reload.summary).to include(status: 'incomplete', already_applied: 1, not_processed: 1)
     end
 
     it 'refuses to stop a change that already finished' do

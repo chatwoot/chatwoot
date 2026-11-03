@@ -26,13 +26,14 @@ module Captain::Copilot::Resources
     resource.new(account: account, user: user)
   end
 
-  # A set is its saved IDs, so a step starts from the records the agent was shown. A collection cut off at
-  # MAX_SELECTION is rebuilt from its filters instead, without records created after it, so a step sees every match.
-  # Callers nest the relation as a one-column subquery, so the columns a filter selected, such as tagged_with's, are dropped.
+  # A set is its saved IDs that the user can still see, so a step starts from the records the agent was shown. A
+  # collection cut off at MAX_SELECTION is rebuilt from its filters instead, without records created after it, so a step
+  # sees every match. Callers nest the relation as a one-column subquery, so the columns a filter selected, such as
+  # tagged_with's, are dropped.
   def self.records(set)
     resource = build(set.resource, account: set.account, user: set.user)
     model = resource.class::MODEL
-    return model.where(id: set.record_ids) unless set.is_a?(CopilotRun::Collection) && set.query? && set.selection_truncated?
+    return resource.scope.where(id: set.record_ids) unless set.rebuilt?
 
     relation = resource.matching(set.filters, as_of: set.as_of, source: set.source_run, excluded: set.excluded_run)
     relation.where(model.arel_table[:created_at].lteq(set.as_of)).unscope(:select)
