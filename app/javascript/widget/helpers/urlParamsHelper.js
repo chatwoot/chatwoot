@@ -24,3 +24,14 @@ export const buildPopoutURL = ({
 
   return popoutUrl.toString();
 };
+
+export const getArticleViewerURL = (link, origin = window.location.origin) => {
+  if (!link || typeof link !== 'string') return '';
+  try {
+    const url = new URL(link, origin);
+    if (url.origin !== origin || !url.pathname.startsWith('/hc/')) return '';
+    return url.href;
+  } catch (e) {
+    return '';
+  }
+};
