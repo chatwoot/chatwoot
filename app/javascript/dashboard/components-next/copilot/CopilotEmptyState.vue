@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import Icon from '../icon/Icon.vue';
+import Button from '../button/Button.vue';
 
 const props = defineProps({
   hasAssistants: {
@@ -73,8 +74,12 @@ const handleSuggestion = opt => {
 </script>
 
 <template>
-  <div class="flex-1 flex flex-col gap-6 px-2">
-    <div class="flex flex-col space-y-4 py-4">
+  <div class="flex-1 self-stretch flex flex-col gap-6 px-2">
+    <!-- The avatar fills the logo slot, so the title and description center under it. -->
+    <div
+      class="flex flex-col space-y-4 py-4"
+      :class="{ 'items-center text-center': $slots.logo }"
+    >
       <slot name="logo">
         <Icon icon="i-woot-captain" class="text-n-slate-9 text-4xl" />
       </slot>
@@ -103,21 +108,17 @@ const handleSuggestion = opt => {
         {{ $t('CAPTAIN.ASSISTANTS.ADD_NEW') }}
       </router-link>
     </div>
-    <div v-else class="w-full space-y-2">
-      <span class="text-xs text-n-slate-10 block">
-        {{ $t('CAPTAIN.COPILOT.TRY_THESE_PROMPTS') }}
-      </span>
-      <div class="space-y-1">
-        <button
-          v-for="prompt in promptOptions"
-          :key="prompt.label"
-          class="w-full px-3 py-2 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center justify-between hover:bg-n-slate-3 transition-colors"
-          @click="handleSuggestion(prompt)"
-        >
-          <span>{{ t(prompt.label) }}</span>
-          <Icon icon="i-lucide-chevron-right" />
-        </button>
-      </div>
+    <div v-else class="flex flex-wrap gap-2 mt-auto">
+      <Button
+        v-for="prompt in promptOptions"
+        :key="prompt.label"
+        :label="t(prompt.label)"
+        faded
+        slate
+        sm
+        class="!rounded-full"
+        @click="handleSuggestion(prompt)"
+      />
     </div>
   </div>
 </template>

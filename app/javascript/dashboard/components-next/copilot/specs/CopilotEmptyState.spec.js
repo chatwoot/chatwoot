@@ -15,7 +15,7 @@ const mountComponent = (props = {}) =>
     props: { hasAssistants: true, ...props },
     global: {
       mocks: { $t: key => key },
-      stubs: { RouterLink: true },
+      stubs: { RouterLink: true, Button: false },
     },
   });
 
