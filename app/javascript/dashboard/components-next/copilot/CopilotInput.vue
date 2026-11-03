@@ -7,7 +7,7 @@ const props = defineProps({
     required: true,
   },
 });
-const message = ref('');
+const message = defineModel({ type: String, default: '' });
 const textareaRef = ref(null);
 const isSending = ref(false);
 
