@@ -59,9 +59,12 @@ const promptOptions = computed(() => {
   const currentRoute = getCurrentRoute();
   const prompts = routePromptMap[currentRoute] || routePromptMap.conversations;
 
-  return prompts.filter(
-    prompt => prompt.requestType !== 'reply_suggestion' || props.canSuggestReply
-  );
+  return prompts
+    .filter(
+      prompt =>
+        prompt.requestType !== 'reply_suggestion' || props.canSuggestReply
+    )
+    .map(prompt => ({ ...prompt, label: t(prompt.label) }));
 });
 
 const handleSuggestion = opt => {
@@ -108,17 +111,34 @@ const handleSuggestion = opt => {
         {{ $t('CAPTAIN.ASSISTANTS.ADD_NEW') }}
       </router-link>
     </div>
-    <div v-else class="flex flex-wrap gap-2 mt-auto">
+    <!-- Next to the avatar the prompts sit above the input as pills. Without it, Copilot keeps the list. -->
+    <div v-else-if="$slots.logo" class="flex flex-wrap gap-2 mt-auto">
       <Button
         v-for="prompt in promptOptions"
         :key="prompt.label"
-        :label="t(prompt.label)"
+        :label="prompt.label"
         faded
         slate
         sm
         class="!rounded-full"
         @click="handleSuggestion(prompt)"
       />
+    </div>
+    <div v-else class="w-full space-y-2">
+      <span class="text-xs text-n-slate-10 block">
+        {{ $t('CAPTAIN.COPILOT.TRY_THESE_PROMPTS') }}
+      </span>
+      <div class="space-y-1">
+        <button
+          v-for="prompt in promptOptions"
+          :key="prompt.label"
+          class="w-full px-3 py-2 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center justify-between hover:bg-n-slate-3 transition-colors"
+          @click="handleSuggestion(prompt)"
+        >
+          <span>{{ prompt.label }}</span>
+          <Icon icon="i-lucide-chevron-right" />
+        </button>
+      </div>
     </div>
   </div>
 </template>

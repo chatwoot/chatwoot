@@ -93,6 +93,8 @@ const EMPTY_STATE_AVATAR_SIZE = 96;
 // Below 64px the avatar drops to low detail, so the dock stays at 64px.
 const DOCK_AVATAR_SIZE = 64;
 const HAPPY_DURATION = 1000;
+// Long enough for one full head shake.
+const ERROR_DURATION = 2400;
 const SLEEP_AFTER = 2 * 60 * 1000;
 const SEARCH_STEP_PREFIXES = ['search_', 'get_'];
 
@@ -249,25 +251,27 @@ const turnAvatarState = computed(() => {
   return showLoader.value ? 'thinking' : 'working';
 });
 
-const isCelebrating = ref(false);
-const { start: startCelebrating } = useTimeoutFn(
+const reaction = ref(null);
+const { start: startReaction } = useTimeoutFn(
   () => {
-    isCelebrating.value = false;
+    reaction.value = null;
   },
-  HAPPY_DURATION,
+  () => (reaction.value === 'error' ? ERROR_DURATION : HAPPY_DURATION),
   { immediate: false }
 );
-// A turn that ends with a reply shows the happy face. Opening a past chat does not, because no turn was running.
+// A turn that ends with a reply shows the happy face for a moment, and one that ends with a failed reply shows the
+// error face. Opening a past chat shows neither, because no turn was running.
 watch(turnAvatarState, (state, previousState) => {
   if (previousState && !state && isLastMessageFromAssistant.value) {
-    isCelebrating.value = true;
-    startCelebrating();
+    const hasFailed = props.messages.at(-1).message.status === 'failed';
+    reaction.value = hasFailed ? 'error' : 'happy';
+    startReaction();
   }
 });
 
 const awakeAvatarState = computed(() => {
   if (turnAvatarState.value) return turnAvatarState.value;
-  if (isCelebrating.value) return 'happy';
+  if (reaction.value) return reaction.value;
   return draft.value.trim() ? 'typing' : 'idle';
 });
 
@@ -299,14 +303,12 @@ const avatarStatus = computed(() => {
 });
 const showAvatarDock = computed(() => showAvatar.value && hasMessages.value);
 
-// In the sidebar, the empty state avatar holds the idle pose until a chat starts. The dock avatar always animates.
 // Full screen opens with Captain putting on the headset. The empty state avatar plays it when it mounts in full screen,
 // and switching to full screen replays it on whichever avatar is on screen.
 const emptyStateAvatar = useTemplateRef('emptyStateAvatar');
 const dockAvatar = useTemplateRef('dockAvatar');
 // Neither avatar is on screen without the flag, without WebGL2, or before the chunk loads.
 const shownAvatar = () => emptyStateAvatar.value ?? dockAvatar.value;
-// A paused avatar skips the entrance, so this runs after the avatar has received paused: false.
 watch(
   () => props.isExpanded,
   isExpanded => {
@@ -459,10 +461,9 @@ watch(
         <template v-if="showAvatar" #logo>
           <CopilotAvatar
             ref="emptyStateAvatar"
-            :state="isExpanded ? avatarState : 'idle'"
+            :state="avatarState"
             :size="EMPTY_STATE_AVATAR_SIZE"
             :entrance="isExpanded"
-            :paused="!isExpanded"
             :label="t('CAPTAIN.COPILOT.AVATAR_LABEL')"
             @unsupported="isAvatarSupported = false"
             @poke="wakeAvatar"
