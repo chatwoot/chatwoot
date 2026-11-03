@@ -22,8 +22,8 @@ importers:
         specifier: ^1.2.7
         version: 1.2.7
       '@chatwoot/captain-avatar':
-        specifier: 0.1.0
-        version: 0.1.0(vue@3.5.12(typescript@5.6.2))
+        specifier: 0.2.0
+        version: 0.2.0(vue@3.5.12(typescript@5.6.2))
       '@chatwoot/ninja-keys':
         specifier: 1.2.3
         version: 1.2.3
@@ -449,8 +449,8 @@ packages:
   '@breezystack/lamejs@1.2.7':
     resolution: {integrity: sha512-6wc7ck65ctA75Hq7FYHTtTvGnYs6msgdxiSUICQ+A01nVOWg6rqouZB8IdyteRlfpYYiFovkf67dIeOgWIUzTA==}
 
-  '@chatwoot/captain-avatar@0.1.0':
-    resolution: {integrity: sha512-sdo5eEFfrCwkJPFr8uMqYS1LIqK0LDHNjJHbdhpA+3eNXbYffxEMrt8gOZEsRMMnXYQ2I38VMcUF39CQgu0qMA==}
+  '@chatwoot/captain-avatar@0.2.0':
+    resolution: {integrity: sha512-ZFvsZFkQ9aO0zPidtvnx0G67vp9HPv8RkkvjZyMmibXe9tTUdxtXHbPvmY4GBkl2+m37kBtehk+oqfqILc7p2g==}
     peerDependencies:
       vue: '>=3.3.0'
     peerDependenciesMeta:
@@ -5193,7 +5193,7 @@ snapshots:
 
   '@breezystack/lamejs@1.2.7': {}
 
-  '@chatwoot/captain-avatar@0.1.0(vue@3.5.12(typescript@5.6.2))':
+  '@chatwoot/captain-avatar@0.2.0(vue@3.5.12(typescript@5.6.2))':
     optionalDependencies:
       vue: 3.5.12(typescript@5.6.2)
 

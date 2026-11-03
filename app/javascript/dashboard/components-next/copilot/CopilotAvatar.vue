@@ -5,10 +5,10 @@ import { CaptainAvatar } from '@chatwoot/captain-avatar/vue';
 import {
   error,
   happy,
-  listening,
   searching,
   sleeping,
   thinking,
+  typing,
   working,
 } from '@chatwoot/captain-avatar';
 
@@ -22,18 +22,13 @@ defineProps({
 
 const emit = defineEmits(['unsupported', 'poke']);
 
-const STATES = [
-  thinking,
-  searching,
-  working,
-  listening,
-  happy,
-  error,
-  sleeping,
-];
+const STATES = [thinking, searching, working, typing, happy, error, sleeping];
 
 const avatar = useTemplateRef('avatar');
-defineExpose({ enter: () => avatar.value.enter() });
+defineExpose({
+  enter: () => avatar.value.enter(),
+  keyStroke: () => avatar.value.keyStroke(),
+});
 </script>
 
 <template>

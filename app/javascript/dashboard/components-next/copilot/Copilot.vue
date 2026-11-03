@@ -268,7 +268,7 @@ watch(turnAvatarState, (state, previousState) => {
 const awakeAvatarState = computed(() => {
   if (turnAvatarState.value) return turnAvatarState.value;
   if (isCelebrating.value) return 'happy';
-  return draft.value.trim() ? 'listening' : 'idle';
+  return draft.value.trim() ? 'typing' : 'idle';
 });
 
 // Captain falls asleep after a while in idle. Any other state, focusing the input or clicking the avatar wakes it.
@@ -299,19 +299,23 @@ const avatarStatus = computed(() => {
 });
 const showAvatarDock = computed(() => showAvatar.value && hasMessages.value);
 
-// In the sidebar, the empty state avatar holds its still pose until a chat starts. The dock avatar always animates.
+// In the sidebar, the empty state avatar holds the idle pose until a chat starts. The dock avatar always animates.
 // Full screen opens with Captain putting on the headset. The empty state avatar plays it when it mounts in full screen,
 // and switching to full screen replays it on whichever avatar is on screen.
 const emptyStateAvatar = useTemplateRef('emptyStateAvatar');
 const dockAvatar = useTemplateRef('dockAvatar');
+// Neither avatar is on screen without the flag, without WebGL2, or before the chunk loads.
+const shownAvatar = () => emptyStateAvatar.value ?? dockAvatar.value;
 // A paused avatar skips the entrance, so this runs after the avatar has received paused: false.
 watch(
   () => props.isExpanded,
   isExpanded => {
-    if (isExpanded) (emptyStateAvatar.value ?? dockAvatar.value)?.enter();
+    if (isExpanded) shownAvatar()?.enter();
   },
   { flush: 'post' }
 );
+// The typing face reads along with each keystroke.
+const onDraftInput = () => shownAvatar()?.keyStroke();
 // The panel already fills the screen below md, so the toggle only shows on wider screens.
 const copilotButtons = computed(() => [
   {
@@ -455,7 +459,7 @@ watch(
         <template v-if="showAvatar" #logo>
           <CopilotAvatar
             ref="emptyStateAvatar"
-            :state="avatarState"
+            :state="isExpanded ? avatarState : 'idle'"
             :size="EMPTY_STATE_AVATAR_SIZE"
             :entrance="isExpanded"
             :paused="!isExpanded"
@@ -502,6 +506,7 @@ watch(
         class="mb-1 w-full max-w-3xl mx-auto"
         :on-send="sendMessage"
         @focusin="wakeAvatar"
+        @input="onDraftInput"
       />
     </div>
   </div>
