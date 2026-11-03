@@ -3,6 +3,14 @@
 class Captain::Copilot::ReviewConversationJob < ApplicationJob
   include Captain::Copilot::ConversationAccess
 
+  # finding: the attributes saved on the conversation's finding. error: why the review failed, so a later batch retries it.
+  # Neither: the review ran out of credits or was switched off, so the conversation is left for ReviewJob.
+  Result = Data.define(:finding, :error) do
+    def initialize(finding: nil, error: nil)
+      super
+    end
+  end
+
   queue_as :low
 
   def perform(run_id, conversation_id)
@@ -12,8 +20,8 @@ class Captain::Copilot::ReviewConversationJob < ApplicationJob
 
     result = review(run, conversation_id)
     last = run.finish_pending(conversation_id) do
-      run.record_failure(conversation_id, result[:error]) if result[:error]
-      run.save_finding(conversation_id, result[:finding]) if result[:finding]
+      run.record_failure(conversation_id, result.error) if result.error
+      run.save_finding(conversation_id, result.finding) if result.finding
     end
     Captain::Copilot::ReviewJob.perform_later(run.id) if last
   end
@@ -25,17 +33,17 @@ class Captain::Copilot::ReviewConversationJob < ApplicationJob
   def review(run, conversation_id)
     # Access is checked again, because the job may wait in the queue after ReviewJob checked it.
     conversation = accessible_conversations(account: run.account, user: run.user).find_by(id: conversation_id)
-    return { error: 'Conversation is no longer accessible' } unless conversation
+    return Result.new(error: 'Conversation is no longer accessible') unless conversation
 
     deep = run.findings.needs_more_history.exists?(conversation_id: conversation_id)
     finding = Captain::Copilot::ReviewService.new(run).review(conversation, deep: deep)
-    return { finding: finding } unless finding[:status] == :needs_more_history && deep
+    return Result.new(finding: finding) unless finding[:status] == :needs_more_history && deep
 
-    { finding: finding.merge(status: :failed, error: 'The 50 messages read were insufficient') }
+    Result.new(finding: finding.merge(status: :failed, error: 'The 50 messages read were insufficient'))
   rescue Captain::Copilot::LimitExceededError
-    {}
+    Result.new
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: run.account).capture_exception
-    { error: e.is_a?(ArgumentError) ? e.message : "Review failed (#{e.class.name})" }
+    Result.new(error: e.is_a?(ArgumentError) ? e.message : "Review failed (#{e.class.name})")
   end
 end

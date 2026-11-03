@@ -28,12 +28,11 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
   # The agent's own message is saved with the model's question and criteria, so the reviewer can follow the agent's words.
   # The selection stays on the collection, which the review reads as its source run. A replayed call finds its review.
   def create_review(collection, criteria, question, reference)
-    context = { 'request' => run.copilot_message.message['content'], 'criteria' => criteria, 'question' => question,
-                'reference' => reference }.compact
     run.with_lease(lease_token) do
       tool_call.background_run || CopilotRun::Review.create!(
         copilot_thread: run.copilot_thread, copilot_tool_call: tool_call, account: run.account, user: run.user, source_run: collection,
-        context: context.merge('turn_start' => 0, 'turn_start_matched' => 0, 'turn_start_failed' => 0, 'turn_limit' => run.review_budget!)
+        request: run.copilot_message.message['content'], criteria: criteria, question: question, reference: reference,
+        turn_start: 0, turn_start_matched: 0, turn_start_failed: 0, turn_limit: run.review_budget!
       )
     end
   end
