@@ -35,16 +35,20 @@
 # CONVERSATIONS_PER_TURN of them, and the agent asks to continue for the rest.
 class CopilotRun::Review < CopilotRun
   # A review that hits errors still hands its findings to the turn, so it ends incomplete rather than failed.
-  STATUSES = %w[queued running completed incomplete].freeze
+  STATUSES = %w[queued running reviewing completed incomplete].freeze
+  # A conversation whose review fails this many times is marked failed instead of retried.
+  MAX_ATTEMPTS = 2
 
   has_many :findings, class_name: 'CopilotReviewFinding', dependent: :delete_all, inverse_of: :copilot_run
   # request: the agent's message the review follows. turn_start and turn_limit: where the current turn took the review,
-  # and how far it may go.
+  # and how far it may go. reference: the material every conversation is judged against, when the turn gave it.
+  # pending_ids: while reviewing, the conversations whose jobs have not finished.
   store_accessor :context, :request, :criteria, :question, :turn_start, :turn_limit, :turn_start_matched, :turn_start_failed,
-                 :progress_message_id
+                 :progress_message_id, :reference, :pending_ids
 
   validates :status, inclusion: { in: STATUSES }
   validates :source_run_id, :criteria, :turn_start, :turn_limit, presence: true
+  validate :text_within_limits
 
   # A review reads the selection saved on the collection it reviews instead of keeping its own copy.
   delegate :selected_ids, :as_of, :filters, :selection_truncated?, :source_incomplete?, to: :source_run
@@ -94,6 +98,48 @@ class CopilotRun::Review < CopilotRun
     update!(progress_message_id: card.id)
   end
 
+  def pending?(conversation_id)
+    reviewing? && pending_ids.to_a.include?(conversation_id)
+  end
+
+  # Runs the block that saves a conversation's result, under the run's lock and only while the conversation is pending,
+  # then takes it off the list. Returns true for the last one, which hands the run back to Captain::Copilot::ReviewJob. A
+  # repeated job, or one that ends after recovery took the batch back, saves nothing.
+  def finish_pending(conversation_id)
+    with_lock do
+      next false unless pending?(conversation_id)
+
+      yield
+      remaining = pending_ids - [conversation_id]
+      update!(pending_ids: remaining, status: remaining.empty? ? :queued : :reviewing)
+      publish_progress
+      remaining.empty?
+    end
+  end
+
+  # For a review whose conversation jobs stopped coming back, such as after a worker crashed. The conversations not
+  # reviewed yet go into the next batch.
+  def take_back_reviews!
+    with_lock { update!(pending_ids: [], status: :queued) if reviewing? }
+  end
+
+  # Saves a conversation's review. A conversation already reviewed keeps its first result.
+  def save_finding(conversation_id, attributes)
+    finding = findings.find_or_initialize_by(conversation_id: conversation_id)
+    return if finding.reviewed?
+
+    finding.update!(error: nil, **attributes, attempts: finding.attempts + 1)
+  end
+
+  # A failed review is retried in a later batch, until it has failed MAX_ATTEMPTS times.
+  def record_failure(conversation_id, error)
+    finding = findings.find_or_initialize_by(conversation_id: conversation_id)
+    return if finding.reviewed?
+
+    attempts = finding.attempts + 1
+    finding.update!(status: attempts >= MAX_ATTEMPTS ? :failed : :awaiting_retry, error: error, attempts: attempts)
+  end
+
   def left_this_turn
     turn_limit - processed_count
   end
@@ -122,5 +168,16 @@ class CopilotRun::Review < CopilotRun
     progress = summary
     { finished: finished?, done: progress[:processed] - turn_start, total: [turn_limit, progress[:selected]].min - turn_start,
       matched: progress[:matched] - turn_start_matched.to_i, failed: progress[:failed] - turn_start_failed.to_i }
+  end
+
+  # The text the turn writes for the reviewer. question and reference may be left out, but text that is given must be a
+  # nonempty string within its limit.
+  def text_within_limits
+    { criteria: 4000, question: 500, reference: 20_000 }.each do |name, limit|
+      value = public_send(name)
+      next if value.nil? || (value.is_a?(String) && value.present? && value.size <= limit)
+
+      errors.add(name, "must be a nonempty string of at most #{limit} characters")
+    end
   end
 end

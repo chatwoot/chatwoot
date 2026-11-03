@@ -90,7 +90,7 @@ describe('Copilot', () => {
   const step = (id, content) => ({
     id,
     message_type: 'assistant_thinking',
-    message: { content, run_id: 9 },
+    message: { content, function_name: 'get_data', run_id: 9 },
   });
 
   it('splits the steps around a review and shows only the newest step live', () => {
