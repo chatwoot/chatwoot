@@ -6,8 +6,16 @@ const testState = vi.hoisted(() => ({
   dispatch: vi.fn(),
   getThreads: vi.fn(),
   refs: {},
+  route: {},
 }));
 
+vi.mock('vue-router', async () => {
+  const { reactive } = await import('vue');
+  const route = reactive({ path: '/app/accounts/1/conversations/1' });
+  testState.route = route;
+
+  return { useRoute: () => route };
+});
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
 vi.mock('dashboard/api/captain/copilotThreads', () => ({
   default: { get: testState.getThreads },
@@ -70,8 +78,15 @@ const mountComponent = () =>
             'hasMoreThreads',
             'isLoadingThreads',
             'isLoadingSelectedThread',
+            'isExpanded',
           ],
-          emits: ['reset', 'setAssistant', 'selectThread', 'loadMoreThreads'],
+          emits: [
+            'reset',
+            'setAssistant',
+            'selectThread',
+            'loadMoreThreads',
+            'toggleExpand',
+          ],
           template: '<div />',
         },
       },
@@ -86,6 +101,7 @@ describe('CopilotContainer', () => {
     testState.getThreads.mockResolvedValue({
       data: { payload: [], meta: { total_count: 0, page: 1 } },
     });
+    testState.route.path = '/app/accounts/1/conversations/1';
     testState.refs.getSelectedChat.value = { id: 1 };
     testState.refs.getCurrentAccountId.value = 1;
     testState.refs['accounts/isFeatureEnabledonAccount'].value = (
@@ -101,6 +117,21 @@ describe('CopilotContainer', () => {
     await flushPromises();
 
     expect(testState.getThreads).not.toHaveBeenCalled();
+  });
+
+  it('returns an expanded panel to its normal width when another page opens', async () => {
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    copilot.vm.$emit('toggleExpand');
+    await nextTick();
+    expect(copilot.props('isExpanded')).toBe(true);
+
+    testState.route.path = '/app/accounts/1/conversations/2';
+    await nextTick();
+
+    expect(copilot.props('isExpanded')).toBe(false);
   });
 
   it('lists and opens a past chat', async () => {
