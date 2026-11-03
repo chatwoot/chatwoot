@@ -33,9 +33,25 @@ export const state = {
 // the walk; the remainder of a record is small and flat, so converting per call stays cheap.
 export const toCamelCasedInbox = record => {
   if (!record || typeof record !== 'object') return record;
-  const { message_templates: messageTemplates, ...rest } = record;
+  const {
+    message_templates: messageTemplates,
+    additional_attributes: additionalAttributes,
+    ...rest
+  } = record;
   const converted = camelcaseKeys(rest, { deep: true });
   if (messageTemplates) converted.messageTemplates = messageTemplates;
+
+  if (additionalAttributes && typeof additionalAttributes === 'object') {
+    // API-channel inboxes keep the same catalogue one level down
+    // (`getWhatsAppTemplates` falls back to `additional_attributes.message_templates`),
+    // so lift it out before the deep pass as well.
+    const { message_templates: apiTemplates, ...otherAttributes } =
+      additionalAttributes;
+    const convertedAttributes = camelcaseKeys(otherAttributes, { deep: true });
+    if (apiTemplates) convertedAttributes.messageTemplates = apiTemplates;
+    converted.additionalAttributes = convertedAttributes;
+  }
+
   return converted;
 };
 

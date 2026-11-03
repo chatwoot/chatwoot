@@ -429,6 +429,32 @@ describe('#getters', () => {
       expect(converted.channelType).toEqual('Channel::Whatsapp');
     });
 
+    it('leaves an API inbox template catalogue out of the deep conversion', () => {
+      // `getWhatsAppTemplates` falls back to `additional_attributes.message_templates`
+      // for API-channel inboxes, so that catalogue needs the same treatment.
+      const apiTemplates = [
+        { name: 'api_template', language: 'en', status: 'APPROVED' },
+      ];
+      const record = {
+        id: 10,
+        name: 'API',
+        channel_type: 'Channel::Api',
+        additional_attributes: {
+          message_templates: apiTemplates,
+          auto_assignment_config: { enabled: true },
+        },
+      };
+      const converted = getters.getInboxById({ records: [record] })(10);
+      // same reference: lifted out of the walk, not copied
+      expect(converted.additionalAttributes.messageTemplates).toBe(
+        apiTemplates
+      );
+      // the rest of additional_attributes is still camelCased
+      expect(converted.additionalAttributes.autoAssignmentConfig).toEqual({
+        enabled: true,
+      });
+    });
+
     it('reflects in-place changes to the record', () => {
       // `Settings.vue` binds the raw record with v-model, so an inbox can be mutated without
       // being replaced; the getter must not serve a cached copy.
