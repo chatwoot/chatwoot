@@ -30,7 +30,7 @@ class Captain::Copilot::ResultTable
 
   def collection_markdown(resource, rows, page, total)
     lines = ["Collection ##{@run.id}: #{total} #{@run.resource}.", "Filters: #{escape(@run.filters.to_json)}."]
-    lines << 'The selection limit was reached. Narrow the filters to cover the rest.' if @run.selection_truncated?
+    lines << 'The selection limit was reached. Narrow the filters to cover the rest.' if @run.selection_truncated? || @run.source_incomplete?
     return (lines + ['No records on this page.']).join("\n\n") if rows.empty?
 
     (lines + [collection_rows_table(resource, rows), "Page #{page} of #{total} #{@run.resource}. Ask for another page to see more."]).join("\n\n")
@@ -38,7 +38,12 @@ class Captain::Copilot::ResultTable
 
   def collection_rows_table(resource, rows)
     header = [@run.resource.singularize.capitalize, *resource.class::COLUMNS]
-    markdown_table(header, rows.map { |row| ["[#{escape(row[:label])}](#{row[:url]})", *row[:values].map { |value| escape(value) }] })
+    markdown_table(header, rows.map { |row| [row_label(row), *row[:values].map { |value| escape(value) }] })
+  end
+
+  # Records of generated table resources have no dashboard page, so their label is plain text.
+  def row_label(row)
+    row[:url] ? "[#{escape(row[:label])}](#{row[:url]})" : escape(row[:label])
   end
 
   def review_page(page, matched_only)
@@ -105,7 +110,7 @@ class Captain::Copilot::ResultTable
 
   def coverage_gaps(summary)
     gaps = []
-    gaps << 'The selection limit was reached. Narrow the filters to cover the rest.' if summary[:selection_truncated]
+    gaps << 'The selection limit was reached. Narrow the filters to cover the rest.' if summary[:selection_truncated] || summary[:source_incomplete]
     if @run.finished? && summary[:remaining].positive?
       gaps << "#{summary[:remaining]} conversations are not reviewed yet. Ask to continue the review."
     end
