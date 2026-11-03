@@ -50,6 +50,6 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   end
 
   def incomplete?(run)
-    run.findings.failed.exists? || run.selection_truncated?
+    run.findings.failed.exists? || run.selection_truncated? || run.source_incomplete?
   end
 end
