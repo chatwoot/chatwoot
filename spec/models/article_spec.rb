@@ -240,6 +240,8 @@ RSpec.describe Article do
   end
 
   describe '#to_llm_text' do
+    around { |example| with_modified_env(FRONTEND_URL: 'https://app.example.com') { example.run } }
+
     it 'returns formatted article text' do
       category = create(:category, name: 'Test Category', slug: 'test_category', portal_id: portal_1.id)
       article = create(:article, title: 'Test Article', category_id: category.id, content: 'This is the content', portal_id: portal_1.id,
@@ -248,6 +250,7 @@ RSpec.describe Article do
         Title: #{article.title}
         ID: #{article.id}
         Status: #{article.status}
+        Public URL: https://app.example.com/hc/#{portal_1.slug}/articles/#{article.slug}
         Category: #{category.name}
         Author: #{user.name}
         Views: #{article.views}

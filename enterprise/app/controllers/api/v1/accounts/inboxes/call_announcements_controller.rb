@@ -7,7 +7,7 @@ class Api::V1::Accounts::Inboxes::CallAnnouncementsController < Api::V1::Account
   before_action :validate_settings
   before_action :validate_timeout, if: -> { @announcement.kind == 'unanswered' }
 
-  rescue_from CustomExceptions::InvalidAnnouncementAudio do |error|
+  rescue_from CustomExceptions::InvalidAnnouncementAudio, CustomExceptions::AnnouncementGenerationFailed do |error|
     render json: { error: error.message }, status: error.http_status
   end
 
