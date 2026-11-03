@@ -1117,6 +1117,7 @@
       }
     },
     "SETTINGS": "Settings",
+    "VIEW_CONVERSATIONS": "View conversations",
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",

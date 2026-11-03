@@ -164,6 +164,38 @@ describe Voice::Provider::Twilio::ConferenceService do
     end
   end
 
+  describe '#hold_contact' do
+    let(:participant) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::ParticipantContext, update: true) }
+    let(:conference_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext) }
+
+    before do
+      call.update!(twilio_conference_sid: 'CF_TWILIO')
+      allow(twilio_client).to receive(:conferences).with('CF_TWILIO').and_return(conference_context)
+      allow(conference_context).to receive(:participants).with(call.provider_call_id).and_return(participant)
+    end
+
+    it 'plays the default playlist to the contact alone, so the agent still hears them' do
+      service.hold_contact(true)
+
+      expect(participant).to have_received(:update)
+        .with(announce_url: 'https://s3.amazonaws.com/com.twilio.sounds.music/index.xml', announce_method: 'GET')
+    end
+
+    it 'ends the music with an empty announcement' do
+      service.hold_contact(false)
+
+      digits = channel.phone_number.delete_prefix('+')
+      expect(participant).to have_received(:update)
+        .with(announce_url: "http://localhost:3000/twilio/voice/resume/#{digits}", announce_method: 'GET')
+    end
+
+    it 'raises a call error when Twilio refuses, so no hold is shown' do
+      allow(participant).to receive(:update).and_raise(Twilio::REST::RestError.new('not found', Twilio::Response.new(404, '{}')))
+
+      expect { service.hold_contact(true) }.to raise_error(Voice::CallErrors::CallFailed, 'Could not update the hold. Please try again.')
+    end
+  end
+
   describe '#terminate_call' do
     let(:call_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext, update: true) }
 
