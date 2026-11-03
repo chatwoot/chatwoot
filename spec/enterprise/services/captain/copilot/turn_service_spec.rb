@@ -26,6 +26,29 @@ RSpec.describe Captain::Copilot::TurnService do
                          { 'content' => "Couldn't finish this step", 'status' => 'failed' }])
   end
 
+  it 'logs the numbers no tool result supports without asking the model again' do
+    run.tool_calls.create!(call_id: 'call-1', name: 'get_data', status: :completed, result: { groups: [{ value: 10 }, { value: 20 }] })
+    draft = RubyLLM::Message.new(role: :assistant, content: { content: 'Email takes 10 hours, chat 20, and 15 on average.' }.to_json)
+    llm = instance_double(RubyLLM::Chat, messages: [draft], complete?: true)
+    allow(Rails.logger).to receive(:info)
+
+    expect(service.send(:complete_with_number_check, llm)).to eq(:complete)
+    expect(Rails.logger).to have_received(:info).with("[Copilot] run #{run.id} number check found 1 unsupported numbers: 15")
+  end
+
+  it 'keeps the links a tool returned and removes the links it made up' do
+    guide = 'https://help.example.com/hc/docs/articles/refunds?lang=en&ref=copilot'
+    run.tool_calls.create!(call_id: 'call-1', name: 'get_data', status: :completed,
+                           result: { rows: [{ url: '/app/accounts/1/conversations/5' }], article: guide })
+    answer = "See [#5](/app/accounts/1/conversations/5), [the guide](#{guide}) and [pricing](https://example.com/pricing)."
+    llm = instance_double(RubyLLM::Chat, messages: [RubyLLM::Message.new(role: :assistant, content: { content: answer }.to_json)])
+
+    service.send(:finish, llm)
+
+    expect(thread.copilot_messages.assistant.last.message['content'])
+      .to eq("See [#5](/app/accounts/1/conversations/5), [the guide](#{guide}) and pricing.")
+  end
+
   it 'writes no line for a review, which shows its own card, or while the turn waits for it' do
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'review_conversations', arguments: {}))
     service.send(:wait_for_background_run)
