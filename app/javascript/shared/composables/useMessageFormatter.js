@@ -1,4 +1,5 @@
 import MessageFormatter from '../helpers/MessageFormatter';
+import { escapeHtml } from '../helpers/HTMLSanitizer';
 
 /**
  * A composable providing utility functions for message formatting.
@@ -82,17 +83,28 @@ export const useMessageFormatter = () => {
     const normalizedContent = normalizeForSearch(plainTextContent);
     // Accents NFC can't combine (like "g\u0303") shorten the text, so its indexes would be off
     if (!term || normalizedContent.length !== plainTextContent.length) {
-      return plainTextContent;
+      return escapeHtml(plainTextContent);
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
     const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const matches = normalizedContent.matchAll(new RegExp(escapedTerm, 'g'));
+    // Cut the original text where the accent-free copy matched; odd parts are the matches
+    const cuts = [...matches].flatMap(({ index }) => [
+      index,
+      index + term.length,
+    ]);
 
-    return [...matches].reduceRight((text, { index }) => {
-      const end = index + term.length;
-      return `${text.slice(0, index)}<span class="${highlightClass}">${text.slice(index, end)}</span>${text.slice(end)}`;
-    }, plainTextContent);
+    return [0, ...cuts]
+      .map((start, index, starts) => {
+        const part = escapeHtml(
+          plainTextContent.slice(start, starts[index + 1])
+        );
+        return index % 2
+          ? `<span class="${highlightClass}">${part}</span>`
+          : part;
+      })
+      .join('');
   };
 
   return {

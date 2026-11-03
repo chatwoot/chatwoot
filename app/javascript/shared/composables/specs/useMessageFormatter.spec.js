@@ -118,5 +118,16 @@ describe('useMessageFormatter', () => {
       );
       expect(result.trim()).toBe('g\u0303 ola');
     });
+
+    it('should escape markup in content and search term', () => {
+      const result = messageFormatter.highlightContent(
+        'Jane &lt;img src=x&gt; & Co',
+        '& Co',
+        'highlight'
+      );
+      expect(result.trim()).toBe(
+        'Jane &lt;img src=x&gt; <span class="highlight">&amp; Co</span>'
+      );
+    });
   });
 });
