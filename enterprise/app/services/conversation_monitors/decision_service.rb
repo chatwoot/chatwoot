@@ -13,13 +13,14 @@ class ConversationMonitors::DecisionService
     body = request_body(state, monitors)
     raise CustomExceptions::MonitorEvaluationError, 'context_limit' if body.bytesize > ConversationMonitors::Configuration::MAX_REQUEST_BYTES
 
-    ConversationMonitors::Usage.new(@account_id).reserve!
     started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     data = request_decision(body)
     instrument(data, started, monitors.size)
     data
   rescue Captain::JevClient::HTTPError => e
     raise monitor_error(e)
+  rescue CustomExceptions::JevQuotaError => e
+    raise CustomExceptions::MonitorEvaluationError.new(e.code, retry_after: e.retry_after)
   rescue JSON::ParserError
     raise CustomExceptions::MonitorEvaluationError, 'invalid_response'
   rescue Faraday::Error

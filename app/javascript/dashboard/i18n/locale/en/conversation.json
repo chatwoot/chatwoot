@@ -141,6 +141,7 @@
       "MISSED_CALL": "Missed call",
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
+      "MISSED_CALL_OUTSIDE_HOURS": "Outside business hours",
       "CALL_ENDED": "Call ended",
       "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
@@ -439,6 +440,8 @@
       "END_CALL": "End call",
       "MUTE": "Mute mic",
       "UNMUTE": "Unmute mic",
+      "ON_HOLD": "On hold",
+      "HOLD_FAILED": "Couldn't update the hold. Please try again.",
       "VIEW_CHAT_HISTORY": "View chat history",
       "GO_TO_CONVERSATION": "Go to conversation thread"
     }

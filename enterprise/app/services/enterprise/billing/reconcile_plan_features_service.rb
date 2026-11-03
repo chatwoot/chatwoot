@@ -24,6 +24,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     whatsapp_embedded_signup_inbox_creation
     api_and_webhooks
     companies
+    auto_translate
   ] + PAID_PLAN_FEATURES).freeze
 
   BUSINESS_PLAN_FEATURES = %w[

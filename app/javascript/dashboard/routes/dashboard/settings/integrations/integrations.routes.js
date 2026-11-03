@@ -20,9 +20,11 @@ export const redirectShopifyIfUnavailable = async (to, _from, next) => {
     await store.dispatch('accounts/get', { accountId, silent: true });
   }
 
-  const isShopifyEnabled = store.getters['accounts/isFeatureEnabledonAccount'](
-    accountId,
-    FEATURE_FLAGS.SHOPIFY
+  const isShopifyEnabled = [
+    FEATURE_FLAGS.SHOPIFY,
+    FEATURE_FLAGS.SHOPIFY_CUSTOM_APPS,
+  ].some(feature =>
+    store.getters['accounts/isFeatureEnabledonAccount'](accountId, feature)
   );
 
   next(
@@ -125,7 +127,6 @@ export default {
           name: 'settings_integrations_shopify',
           component: Shopify,
           meta: {
-            featureFlag: FEATURE_FLAGS.SHOPIFY,
             permissions: ['administrator'],
           },
           beforeEnter: redirectShopifyIfUnavailable,

@@ -64,10 +64,25 @@ RSpec.describe Captain::Copilot::ChatService do
       expect(messages.second[:role]).to eq('system')
       expect(messages.second[:content]).to include(account.id.to_s)
     end
+
+    it 'uses the account model ahead of the Copilot default and installation model' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-6-luna')
+      account.update!(captain_models: { 'copilot' => 'gpt-5-mini' })
+
+      expect(described_class.new(assistant, config).model).to eq('gpt-5-mini')
+    end
   end
 
   describe '#generate_response' do
     let(:service) { described_class.new(assistant, config) }
+
+    it 'uses the Copilot default ahead of the installation model' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-6-luna')
+
+      expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2', protocol: :responses).and_return(mock_chat)
+
+      service.generate_response('Hello')
+    end
 
     it 'uses the copilot feature model' do
       account.update!(captain_models: { 'copilot' => 'gpt-5.2' })
@@ -112,6 +127,12 @@ RSpec.describe Captain::Copilot::ChatService do
     context 'when self-hosted' do
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+      end
+
+      it 'uses the Copilot default ahead of the installation model' do
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-6-luna')
+
+        expect(service.model).to eq('gpt-5.2')
       end
 
       it 'does not increment response usage' do

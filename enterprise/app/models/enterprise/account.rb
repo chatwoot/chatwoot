@@ -72,6 +72,11 @@ module Enterprise::Account
     translation_provider.presence || 'captain'
   end
 
+  # The zone Copilot cuts report days in. An account without a reporting time zone reports in UTC.
+  def report_time_zone
+    reporting_timezone.presence || 'UTC'
+  end
+
   def google_translate_hook
     hooks.find_by(app_id: 'google_translate')
   end

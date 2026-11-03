@@ -27,14 +27,21 @@ RSpec.describe Llm::Models do
     end
 
     it 'routes each FAQ operation independently' do
-      expect(described_class.default_model_for('document_faq_generation')).to eq('gpt-4.1-mini')
+      expect(described_class.default_model_for('document_faq_generation')).to eq('gpt-6-luna')
       expect(described_class.default_model_for('conversation_faq_generation')).to eq('gpt-5.2')
-      expect(described_class.default_model_for('conversation_faq_matching')).to eq('gpt-4.1-mini')
+      expect(described_class.default_model_for('conversation_faq_matching')).to eq('gpt-6-luna')
+    end
+
+    it 'uses GPT-5.2 for Copilot workflows' do
+      expect(described_class.default_model_for('copilot')).to eq('gpt-5.2')
+      expect(described_class.default_model_for('copilot_workflows')).to eq('gpt-5.2')
+      expect(described_class.features.dig('copilot_workflows', 'reasoning_effort')).to eq('none')
+      expect(described_class.internal_feature?('copilot_workflows')).to be(true)
     end
 
     it 'offers only supported OpenAI models for conversation completion' do
       expect(described_class.models_for('conversation_completion')).to eq(
-        %w[gpt-4.1-mini gpt-5-mini gpt-4.1 gpt-5.1 gpt-5.2]
+        %w[gpt-6-luna gpt-5-mini gpt-5.1 gpt-5.2]
       )
     end
   end
@@ -56,10 +63,10 @@ RSpec.describe Llm::Models do
     it 'returns model metadata for a feature' do
       config = described_class.feature_config('editor')
 
-      expect(config[:default]).to eq('gpt-4.1-mini')
+      expect(config[:default]).to eq('gpt-6-luna')
       expect(config[:models].first).to include(
-        id: 'gpt-4.1-mini',
-        display_name: 'GPT-4.1 Mini',
+        id: 'gpt-6-luna',
+        display_name: 'GPT-6 Luna',
         provider: 'openai',
         credit_multiplier: 1
       )
