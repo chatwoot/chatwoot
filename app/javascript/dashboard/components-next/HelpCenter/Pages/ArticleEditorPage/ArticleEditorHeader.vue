@@ -135,6 +135,11 @@ const onClickGoBack = () => emit('goBack');
 
 const previewArticle = () => emit('previewArticle');
 
+const reloadArticle = () => {
+  if (blockedByUploads()) return;
+  emit('reloadArticle');
+};
+
 const getStatusMessage = (status, isSuccess) => {
   const messageType = isSuccess ? 'SUCCESS' : 'ERROR';
   const statusMap = {
@@ -284,7 +289,7 @@ const onDraftFailed = error => {
         type="button"
         :title="t('HELP_CENTER.EDIT_ARTICLE_PAGE.NEWER_VERSION.TOOLTIP')"
         class="flex items-center min-w-0 gap-1.5 px-2 py-1 text-xs font-medium transition-colors rounded-lg cursor-pointer text-n-blue-11 bg-n-blue-3 outline outline-1 outline-n-blue-5 hover:bg-n-blue-4"
-        @click="emit('reloadArticle')"
+        @click="reloadArticle"
       >
         <span class="i-lucide-refresh-cw size-3 shrink-0" />
         <span class="truncate">

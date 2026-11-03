@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useEventListener } from '@vueuse/core';
+import { useEventListener, until } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useEmitter } from 'dashboard/composables/emitter';
@@ -152,10 +152,11 @@ const fetchArticleDetails = () => {
 
 // Compare without touching the store, which can reseed the editor early.
 // updated_at has second precision and skips draft autosaves, hence the text
-// fields. Skip while our own save settles, or it would read as a remote edit.
+// fields. Wait for our own save to settle, or it would read as a remote edit.
 const checkForNewerVersion = async () => {
   if (document.visibilityState !== 'visible') return;
-  if (!article.value?.id || isUpdating.value) return;
+  if (!article.value?.id) return;
+  await until(isUpdating).toBe(false);
   const { data } = await ArticlesAPI.getArticle({
     id: articleSlug,
     portalSlug,
