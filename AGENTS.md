@@ -17,11 +17,17 @@
 
 - Prefer the smallest production-ready change that solves the current problem. Build for supported callers and realistic production workloads; do not add speculative abstractions, guards, fallbacks, retries, or one-in-a-million edge cases.
 - Optimize for understanding on the first read. Use descriptive names, explicit control flow, and ordinary multiline methods/functions. Avoid Ruby endless methods (`def value = expression`), semicolon-packed bodies, and compressed JavaScript functions; do not shorten code merely to fit line or class limits.
-- Use existing dependencies, client libraries, and shared utilities before implementing protocol, auth, signing, parsing, or request plumbing yourself.
 - Extract helpers or split files/classes when they clarify responsibilities or remove meaningful complexity. Avoid one-use helpers that only rename an obvious expression.
 - Follow RuboCop and ESLint. Refactor responsibilities when size/complexity limits expose a problem; do not disable cops or exclude files to avoid that work. Any unavoidable suppression must be narrowly scoped and explain why the compliant approach is unsuitable.
 - Do not introduce `Thread.new` or monotonic-clock APIs such as `Process.clock_gettime(Process::CLOCK_MONOTONIC)` unless necessary and explicitly approved by the user. Prefer existing job/concurrency patterns.
 - Remove dead code and superseded implementations; do not keep alternate versions or commented-out logic.
+
+## Dependencies
+
+- Add an npm package, Ruby gem, or other dependency only when necessary. Reuse existing maintained dependencies, standard-library capabilities, or shared utilities first; explain why they or a small, maintainable implementation cannot reasonably meet the requirement.
+- Before adding a dependency, verify current upstream maintenance, release activity, community/support health, and security advisories and patch responsiveness. Do not introduce abandoned or unmaintained packages. Prefer a small, readable implementation for behavior we can reasonably own; continue to use maintained, proven libraries for protocol, authentication, and signing rather than hand-rolling them.
+- Before upgrading, read release notes, changelogs, and migration guides across the full version jump. Audit every call site, wrapper, configuration, and indirect integration, including framework usage and affected OSS/Enterprise paths, for changed APIs, defaults, error behavior, and deprecations. Update affected code and tests together.
+- Verify runtime/framework, peer, and transitive dependency compatibility; inspect manifest and lockfile changes for unintended upgrades. Run focused behavior and integration checks across all affected surfaces to establish compatibility. A successful install or a minor/patch version label is not sufficient evidence that an upgrade is safe.
 
 ## Rails, Validation, and Database Queries
 
