@@ -59,6 +59,14 @@ describe('useMessageFormatter', () => {
     });
   });
 
+  describe('normalizeForSearch', () => {
+    it('should strip accents and keep the case', () => {
+      expect(messageFormatter.normalizeForSearch('Olá olaMundo')).toBe(
+        'Ola olaMundo'
+      );
+    });
+  });
+
   describe('highlightContent', () => {
     it('should highlight search term in content', () => {
       const content = 'This is a test message';
@@ -88,35 +96,21 @@ describe('useMessageFormatter', () => {
       );
     });
 
-    it('should ignore accents and keep the original spelling', () => {
-      const result = messageFormatter.highlightContent(
+    it.each([
+      [
         'Olá, tudo bem? OLA',
-        'ola',
-        'highlight'
-      );
-      expect(result.trim()).toBe(
-        '<span class="highlight">Olá</span>, tudo bem? <span class="highlight">OLA</span>'
-      );
-    });
-
-    it('should highlight the right characters when accents are decomposed', () => {
+        '<span class="highlight">Olá</span>, tudo bem? <span class="highlight">OLA</span>',
+      ],
+      ['Cafe\u0301 Ola', 'Caf\u00e9 <span class="highlight">Ola</span>'],
+      // An accent with no combined form shifts the indexes, so nothing is highlighted
+      ['g\u0303 ola', 'g\u0303 ola'],
+    ])('should ignore accents in "%s"', (content, expected) => {
       const result = messageFormatter.highlightContent(
-        'Cafe\u0301 Ola',
+        content,
         'ola',
         'highlight'
       );
-      expect(result.trim()).toBe(
-        'Caf\u00e9 <span class="highlight">Ola</span>'
-      );
-    });
-
-    it('should skip highlighting when an accent has no combined form', () => {
-      const result = messageFormatter.highlightContent(
-        'g\u0303 ola',
-        'ola',
-        'highlight'
-      );
-      expect(result.trim()).toBe('g\u0303 ola');
+      expect(result.trim()).toBe(expected);
     });
 
     it('should escape markup in content and search term', () => {

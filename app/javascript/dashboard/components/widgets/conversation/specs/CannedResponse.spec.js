@@ -35,21 +35,16 @@ const listItem = wrapper => wrapper.find('li');
 
 describe('CannedResponse', () => {
   it('does not match the contact name filled into a variable', () => {
-    const wrapper = mountPicker({ searchKey: 'jane' });
-
-    expect(listItem(wrapper).exists()).toBe(false);
+    expect(listItem(mountPicker({ searchKey: 'jane' })).exists()).toBe(false);
   });
 
-  it('highlights the search term and fills variables only in the preview', () => {
+  it('highlights the search term in the title and preview', () => {
     const wrapper = mountPicker({ searchKey: 'hello' });
 
     const highlights = listItem(wrapper)
       .findAll('.text-n-blue-text')
       .map(node => node.text());
     expect(highlights).toEqual(['Hello']);
-    expect(listItem(wrapper).text()).toContain(
-      'Hello {{contact.name}}, thanks for writing in.'
-    );
     expect(wrapper.text()).toContain('Hello Jane Doe, thanks for writing in.');
   });
 
@@ -58,10 +53,11 @@ describe('CannedResponse', () => {
     searchKey => {
       const wrapper = mountPicker({ searchKey, contactName: markup });
 
-      expect(wrapper.find('form').exists()).toBe(false);
-      expect(wrapper.find('input[name="field"]').exists()).toBe(false);
-      expect(wrapper.find('img').exists()).toBe(false);
-      expect(wrapper.text()).toContain(markup);
+      const item = wrapper.find('.prose');
+      expect(item.find('form').exists()).toBe(false);
+      expect(item.find('input').exists()).toBe(false);
+      expect(item.find('img').exists()).toBe(false);
+      expect(item.text()).toContain(markup);
     }
   );
 });

@@ -8,6 +8,7 @@ import {
   stripUnsupportedFormatting,
 } from 'dashboard/helper/editorHelper';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { escapeHtml } from 'shared/helpers/HTMLSanitizer';
 import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
 
 const props = defineProps({
@@ -48,12 +49,19 @@ const searchQuery = ref(props.searchKey);
 const searchTerm = computed(() => searchQuery.value.trim());
 const normalizedTerm = computed(() => normalizeForSearch(searchTerm.value));
 
+// An empty term makes `highlightContent`'s regex match at every position, wrapping the
+// whole string in empty spans
+const highlightMatches = text =>
+  searchTerm.value
+    ? highlightContent(text, searchTerm.value, HIGHLIGHT_CLASS)
+    : escapeHtml(text);
+
 const buildSnippet = text => {
-  const normalizedText = normalizeForSearch(text);
-  const index = normalizedText.indexOf(normalizedTerm.value);
-  if (index <= SNIPPET_LEAD || normalizedText.length !== text.length) {
-    return text;
-  }
+  const normalizedText = normalizeForSearch(text).toLowerCase();
+  if (normalizedText.length !== text.length) return text;
+
+  const index = normalizedText.indexOf(normalizedTerm.value.toLowerCase());
+  if (index <= SNIPPET_LEAD) return text;
 
   return `…${text.slice(index - SNIPPET_LEAD)}`;
 };
@@ -86,7 +94,7 @@ const records = computed(() =>
 );
 
 const filteredRecords = computed(() => {
-  if (!normalizedTerm.value) return records.value;
+  if (!searchTerm.value) return records.value;
 
   return picoSearch(records.value, normalizedTerm.value, [
     { name: 'searchShortCode', weight: 1 },
@@ -99,16 +107,8 @@ const items = computed(() =>
     id: record.id,
     content: record.content,
     label: `/${record.shortCode}`,
-    title: highlightContent(
-      `/${record.shortCode}`,
-      searchTerm.value,
-      HIGHLIGHT_CLASS
-    ),
-    subtitle: highlightContent(
-      buildSnippet(record.plainText),
-      searchTerm.value,
-      HIGHLIGHT_CLASS
-    ),
+    title: highlightMatches(`/${record.shortCode}`),
+    subtitle: highlightMatches(buildSnippet(record.plainText)),
   }))
 );
 
@@ -135,9 +135,7 @@ onMounted(() => store.dispatch('getCannedResponse'));
   >
     <template #preview="{ item }">
       <div
-        v-dompurify-html="
-          formatMessage(item ? resolveContent(item.content) : '')
-        "
+        v-dompurify-html="formatMessage(resolveContent(item?.content || ''))"
         class="px-4 py-3 prose prose-bubble !max-w-none prose-a:text-n-brand"
       />
     </template>

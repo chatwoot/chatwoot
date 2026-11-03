@@ -53,7 +53,8 @@ export const useMessageFormatter = () => {
   };
 
   /**
-   * Lowercases text and strips accents. NFC input keeps its length, so indexes carry over.
+   * Strips accents but keeps the case, which Pico Search uses to find word starts.
+   * NFC input keeps its length, so indexes carry over.
    *
    * @param {string} text - The text to normalize.
    * @returns {string} - The normalized text.
@@ -62,8 +63,7 @@ export const useMessageFormatter = () => {
     text
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
-      .normalize('NFC')
-      .toLowerCase();
+      .normalize('NFC');
 
   /**
    * Highlights occurrences of a search term within given content.
@@ -79,27 +79,25 @@ export const useMessageFormatter = () => {
     highlightClass = ''
   ) => {
     const plainTextContent = getPlainText(content).normalize('NFC');
-    const term = normalizeForSearch(searchTerm);
     const normalizedContent = normalizeForSearch(plainTextContent);
     // Accents NFC can't combine (like "g\u0303") shorten the text, so its indexes would be off
-    if (!term || normalizedContent.length !== plainTextContent.length) {
+    if (normalizedContent.length !== plainTextContent.length) {
       return escapeHtml(plainTextContent);
     }
 
+    const term = normalizeForSearch(searchTerm);
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
     const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const matches = normalizedContent.matchAll(new RegExp(escapedTerm, 'g'));
-    // Cut the original text where the accent-free copy matched; odd parts are the matches
-    const cuts = [...matches].flatMap(({ index }) => [
+    const regex = new RegExp(escapedTerm, 'gi');
+    const cuts = [...normalizedContent.matchAll(regex)].flatMap(({ index }) => [
       index,
       index + term.length,
     ]);
 
+    // Odd parts are the matches, sliced from the original so they keep their accents
     return [0, ...cuts]
-      .map((start, index, starts) => {
-        const part = escapeHtml(
-          plainTextContent.slice(start, starts[index + 1])
-        );
+      .map((start, index) => {
+        const part = escapeHtml(plainTextContent.slice(start, cuts[index]));
         return index % 2
           ? `<span class="${highlightClass}">${part}</span>`
           : part;
