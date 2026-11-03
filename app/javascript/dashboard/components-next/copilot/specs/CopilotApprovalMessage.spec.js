@@ -57,6 +57,31 @@ describe('CopilotApprovalMessage', () => {
     expect(wrapper.text()).toContain('Add sign-in to 2 conversations');
   });
 
+  it('keeps linking the records after a change applies to all of them', () => {
+    const wrapper = mountCard({
+      status: 'approved',
+      action: 'add_labels',
+      summary: 'ADD_LABELS',
+      values: { labels: ['sign-in'] },
+      count: 17,
+      targets,
+      progress: {
+        finished: true,
+        stopped: false,
+        done: 17,
+        total: 17,
+        applied: 17,
+        not_changed: 0,
+      },
+    });
+
+    expect(wrapper.text()).toContain('Applied to 17');
+    expect(
+      wrapper.findAllComponents(RouterLinkStub).map(link => link.props('to'))
+    ).toEqual(targets.map(target => target.url));
+    expect(wrapper.text()).toContain('and 15 more');
+  });
+
   it('links the records a finished change could not change', () => {
     const wrapper = mountCard({
       status: 'approved',
@@ -70,17 +95,17 @@ describe('CopilotApprovalMessage', () => {
         stopped: false,
         done: 60,
         total: 60,
-        applied: 58,
-        not_changed: 2,
-        not_changed_targets: targets,
+        applied: 59,
+        not_changed: 1,
+        not_changed_targets: [targets[1]],
       },
     });
 
-    expect(wrapper.text()).toContain('Applied to 58 of 60');
-    expect(wrapper.text()).toContain('2 not changed');
+    expect(wrapper.text()).toContain('Applied to 59 of 60');
+    expect(wrapper.text()).toContain('1 not changed');
     expect(
       wrapper.findAllComponents(RouterLinkStub).map(link => link.props('to'))
-    ).toEqual(targets.map(target => target.url));
+    ).toEqual([targets[1].url]);
     expect(wrapper.find('button').exists()).toBe(false);
   });
 });

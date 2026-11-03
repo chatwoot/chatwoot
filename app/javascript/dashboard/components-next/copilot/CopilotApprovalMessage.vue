@@ -115,12 +115,9 @@ const outcome = computed(() => {
   return { icon: 'i-lucide-check', color: 'text-n-teal-10', label: applied };
 });
 
-// Before the decision the card links the first records the change will touch. After a change that left some records
-// unchanged, it links the first of those instead.
+// The card links the first records the change touches, so the agent can open them. After a change that left some
+// records unchanged, it links the first of those instead.
 const linkRow = computed(() => {
-  if (isAwaitingApproval.value) {
-    return { links: approval.value.targets || [], total: approval.value.count };
-  }
   if (progress.value.finished && progress.value.not_changed > 0) {
     return {
       links: progress.value.not_changed_targets || [],
@@ -128,7 +125,7 @@ const linkRow = computed(() => {
       notChanged: true,
     };
   }
-  return null;
+  return { links: approval.value.targets || [], total: approval.value.count };
 });
 
 const warning = computed(() => {
@@ -203,7 +200,7 @@ const decide = async choice => {
       {{ approval.content }}
     </p>
     <!-- Links get a shorter line height from the global link style, so the row lines up text by its baseline. -->
-    <div v-if="linkRow" class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+    <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
       <span v-if="linkRow.notChanged" class="text-n-amber-11">
         {{
           t('CAPTAIN.COPILOT.APPROVAL.NOT_CHANGED', { count: linkRow.total })
