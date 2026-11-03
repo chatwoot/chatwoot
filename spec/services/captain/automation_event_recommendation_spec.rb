@@ -13,7 +13,8 @@ RSpec.describe Captain::AutomationEventRecommendation do
     allow(GlobalConfigService).to receive(:load).with('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT', nil).and_return(nil)
     allow(GlobalConfigService).to receive(:load).with('CAPTAIN_OPENROUTER_API_KEY', nil).and_return('test-key')
     stub_request(:post, endpoint).to_return(
-      status: 200, body: { model: 'jev-latest', answers: { event: event_answer } }.to_json, headers: { 'Content-Type' => 'application/json' }
+      status: 200, headers: { 'Content-Type' => 'application/json' },
+      body: { model: 'perplexity/pplx-decider-v1.2', answers: { event: event_answer } }.to_json
     )
   end
 

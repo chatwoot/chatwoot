@@ -22,7 +22,7 @@ RSpec.describe Captain::FilterRecommendationService do
     allow(GlobalConfigService).to receive(:load).with('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT', nil).and_return(nil)
     allow(GlobalConfigService).to receive(:load).with('CAPTAIN_OPENROUTER_API_KEY', nil).and_return('test-key')
     stub_request(:post, endpoint).to_return(
-      status: 200, body: { model: 'jev-latest', answers: answers }.to_json, headers: { 'Content-Type' => 'application/json' }
+      status: 200, body: { model: 'perplexity/pplx-decider-v1.2', answers: answers }.to_json, headers: { 'Content-Type' => 'application/json' }
     )
   end
 
@@ -280,6 +280,12 @@ RSpec.describe Captain::FilterRecommendationService do
         JSON.parse(request.body)['questions'].keys.grep(/\Arelevant_/).size == 3
       end)
     end
+  end
+
+  it 'asks the decision model' do
+    service.perform
+
+    expect(WebMock).to(have_requested(:post, endpoint).with { |request| JSON.parse(request.body)['model'] == 'perplexity/pplx-decider-v1.2' })
   end
 
   it 'returns nil when Jev fails' do

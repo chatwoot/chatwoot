@@ -2,7 +2,9 @@
 # Jev only picks from the account's real fields and values, so every recommendation is a filter that exists.
 # Whether it is the right one is for the person to decide before applying it.
 class Captain::FilterRecommendationService
-  MODEL = 'jev-latest'.freeze
+  # Perplexity's decision model takes the same requests as Jev through OpenRouter. On sampled production
+  # automation rules and a synthetic filter benchmark it gave more right recommendations and fewer wrong ones.
+  MODEL = 'perplexity/pplx-decider-v1.2'.freeze
 
   # How sure Jev must be that a field helps describe the records.
   MIN_RELEVANCE = 0.6
