@@ -1,6 +1,7 @@
 class Platform::Api::V1::AgentBotsController < PlatformController
   before_action :set_resource, except: [:index, :create]
   before_action :validate_platform_app_permissible, except: [:index, :create]
+  before_action :validate_account_permissible, only: [:create, :update]
 
   def index
     @resources = @platform_app.platform_app_permissibles.where(permissible_type: 'AgentBot').includes(:permissible)
@@ -34,6 +35,13 @@ class Platform::Api::V1::AgentBotsController < PlatformController
 
   def set_resource
     @resource = AgentBot.find(params[:id])
+  end
+
+  def validate_account_permissible
+    return if params[:account_id].blank?
+    return if @platform_app.platform_app_permissibles.exists?(permissible_type: 'Account', permissible_id: params[:account_id])
+
+    render json: { error: 'Non permissible resource' }, status: :unauthorized
   end
 
   def agent_bot_params
