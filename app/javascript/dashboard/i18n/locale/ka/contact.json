@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ამ კონტაქტთან დაკავშირებული წინა საუბრები არ მოიძებნა.",
-      "TITLE": "წინა საუბრები"
+      "TITLE": "წინა საუბრები",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

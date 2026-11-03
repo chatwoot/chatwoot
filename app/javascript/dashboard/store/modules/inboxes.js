@@ -262,6 +262,17 @@ export const actions = {
       throwErrorMessage(error);
     }
   },
+  updateCallAnnouncement: async (
+    { commit },
+    { id, kind, enabled, message, timeoutSeconds }
+  ) => {
+    const response = await InboxesAPI.setCallAnnouncement(id, kind, {
+      enabled,
+      message,
+      timeoutSeconds,
+    });
+    commit(types.default.EDIT_INBOXES, response.data);
+  },
   updateInboxIMAP: async ({ commit }, { id, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: true });
     try {

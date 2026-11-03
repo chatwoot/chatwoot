@@ -4286,13 +4286,13 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/portals/{id}": {
+    "/api/v1/accounts/{account_id}/portals/{portal_slug}": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
         },
         {
-          "$ref": "#/components/parameters/portal_id"
+          "$ref": "#/components/parameters/portal_slug"
         }
       ],
       "get": {
@@ -4315,7 +4315,7 @@
             "$ref": "#/components/parameters/account_id"
           },
           {
-            "$ref": "#/components/parameters/portal_id"
+            "$ref": "#/components/parameters/portal_slug"
           }
         ],
         "responses": {
@@ -4397,7 +4397,7 @@
             }
           },
           "404": {
-            "description": "The given portal ID does not exist in the account",
+            "description": "The given portal slug does not exist in the account",
             "content": {
               "application/json": {
                 "schema": {
@@ -4428,7 +4428,7 @@
             "$ref": "#/components/parameters/account_id"
           },
           {
-            "$ref": "#/components/parameters/portal_id"
+            "$ref": "#/components/parameters/portal_slug"
           }
         ],
         "requestBody": {
@@ -4534,13 +4534,13 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/portals/{id}/categories": {
+    "/api/v1/accounts/{account_id}/portals/{portal_slug}/categories": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
         },
         {
-          "$ref": "#/components/parameters/portal_id"
+          "$ref": "#/components/parameters/portal_slug"
         }
       ],
       "post": {
@@ -4592,13 +4592,13 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/portals/{id}/articles": {
+    "/api/v1/accounts/{account_id}/portals/{portal_slug}/articles": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
         },
         {
-          "$ref": "#/components/parameters/portal_id"
+          "$ref": "#/components/parameters/portal_slug"
         }
       ],
       "post": {
@@ -17894,14 +17894,15 @@
         "required": true,
         "description": "The source id of contact obtained on contact create"
       },
-      "portal_id": {
+      "portal_slug": {
         "in": "path",
-        "name": "id",
+        "name": "portal_slug",
         "schema": {
           "type": "string"
         },
         "required": true,
-        "description": "The slug identifier of the portal"
+        "description": "The slug of the portal. The numeric portal ID is not accepted.",
+        "example": "handbook"
       }
     },
     "securitySchemes": {

@@ -255,13 +255,6 @@ const getters = {
         (message.status === MESSAGE_STATUS.PROGRESS &&
           !message.private &&
           !attributes.forwarded_message_id);
-    // The own text stored as the translation marks a message already in the agent language; once a translated
-    // thread switched to the agent language, its untranslated messages are in it too.
-    const alreadyInAgentLanguage = translation
-      ? translation === message.content
-      : sameLanguage &&
-        messages.some(item => item.content_attributes?.translations);
-
     return {
       pending:
         enabled &&
@@ -270,8 +263,9 @@ const getters = {
         !attributes.translation_failed &&
         waiting,
       failed: enabled && !!attributes.translation_failed,
+      // A message already in the agent language is stored with its own text as the translation.
       sameLanguage:
-        enabled && translatable && !foreign && alreadyInAgentLanguage,
+        enabled && translatable && !foreign && translation === message.content,
       sourceLanguage: attributes.source_language
         ? languageName(attributes.source_language)
         : language,

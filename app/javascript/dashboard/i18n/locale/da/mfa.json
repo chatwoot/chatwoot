@@ -47,12 +47,14 @@
       "REGENERATE": "Regenerate Backup Codes",
       "DISABLE_MFA": "Disable 2FA",
       "DISABLE_MFA_DESC": "Remove two-factor authentication from your account",
-      "DISABLE_BUTTON": "Disable Two-Factor Authentication"
+      "DISABLE_BUTTON": "Disable Two-Factor Authentication",
+      "ENFORCED_TITLE": "Påkrævet af din konto",
+      "ENFORCED_NOTE": "Din konto kræver to-faktor godkendelse, så den kan ikke deaktiveres her. Kontakt din administrator, hvis du har brug for hjælp."
     },
     "LOW_BACKUP_CODES": {
-      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
-      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
-      "ACTION": "Generate codes"
+      "MESSAGE": "Du har {n} backup kode tilbage. Generer nye koder for at undgå at blive låst ude, hvis du mister adgang til din authenticator. | Du har {n} backup koder tilbage. Generer nye koder for at undgå at blive låst ude, hvis du mister adgang til din authenticator.",
+      "NONE_LEFT": "Du har ingen backup koder tilbage. Generer nye koder nu for at undgå at blive låst ude, hvis du mister adgang til din authenticator.",
+      "ACTION": "Generér koder"
     },
     "DISABLE": {
       "TITLE": "Disable Two-Factor Authentication",
@@ -60,10 +62,10 @@
       "PASSWORD": "Adgangskode",
       "OTP_CODE": "Verification Code",
       "OTP_CODE_PLACEHOLDER": "000000",
-      "BACKUP_CODE": "Backup Code",
-      "BACKUP_CODE_PLACEHOLDER": "Enter one of your backup codes",
-      "USE_BACKUP_CODE": "Lost access to your authenticator? Use a backup code instead",
-      "USE_OTP_CODE": "Use a verification code from your authenticator app",
+      "BACKUP_CODE": "Backup Kode",
+      "BACKUP_CODE_PLACEHOLDER": "Indtast en af dine backup koder",
+      "USE_BACKUP_CODE": "Mistet adgang til din authenticator? Brug en backup kode i stedet",
+      "USE_OTP_CODE": "Brug en bekræftelseskode fra din autentificeringsapp",
       "CONFIRM": "Disable 2FA",
       "CANCEL": "Annuller",
       "SUCCESS": "Two-factor authentication has been disabled",
@@ -90,6 +92,9 @@
   "MFA_VERIFICATION": {
     "TITLE": "Two-Factor Authentication",
     "DESCRIPTION": "Enter your verification code to continue",
+    "EMAIL_TITLE": "Tjek din e-mail",
+    "EMAIL_DESCRIPTION": "Du logger ind fra en ny enhed.",
+    "ENTER_EMAIL_CODE": "Indtast den 6-cifrede kode fra din e-mail",
     "AUTHENTICATOR_APP": "Authenticator App",
     "BACKUP_CODE": "Backup Code",
     "ENTER_OTP_CODE": "Enter 6-digit code from your authenticator app",
@@ -110,6 +115,11 @@
       "CONTACT_DESC_CLOUD": "If you've lost access to both your authenticator app and backup codes, please reach out to Chatwoot support for assistance.",
       "CONTACT_DESC_SELF_HOSTED": "If you've lost access to both your authenticator app and backup codes, please contact your administrator for assistance."
     },
-    "VERIFICATION_FAILED": "Verification failed. Please try again."
+    "VERIFICATION_FAILED": "Verification failed. Please try again.",
+    "REMEMBER_DEVICE": "Spørg ikke igen på denne enhed i 30 dage"
+  },
+  "MFA_ENFORCED_SETUP": {
+    "TITLE": "Konfigurer to-faktor godkendelse",
+    "DESCRIPTION": "Din konto kræver to-faktor godkendelse. Scan QR-koden med din autentificerings-app og indtast koden for at fortsætte."
   }
 }

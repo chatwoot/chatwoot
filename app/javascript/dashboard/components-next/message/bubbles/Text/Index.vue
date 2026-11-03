@@ -12,7 +12,7 @@ import { useMessageContext } from '../../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
 const TEXT_SHIMMER_CLASS =
-  'bg-clip-text bg-gradient-to-r from-n-slate-11 from-35% via-n-iris-10 to-n-slate-11 to-65% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none [&_*]:!text-transparent [&_*]:!bg-transparent';
+  'bg-clip-text bg-gradient-to-r from-n-iris-9 from-25% via-n-iris-12 to-n-iris-9 to-75% dark:from-n-slate-12 dark:from-35% dark:via-n-iris-10 dark:to-n-slate-12 dark:to-65% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none [&_*]:!text-transparent [&_*]:!bg-transparent';
 const HEIGHT_MORPH = {
   duration: 300,
   easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',

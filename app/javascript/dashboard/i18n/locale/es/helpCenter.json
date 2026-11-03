@@ -807,6 +807,7 @@
         "PUBLISH_CHANGES_ERROR": "No se pudo publicar los cambios",
         "SAVE_IN_PROGRESS": "Aún guardando tus últimos cambios. Por favor, inténtalo de nuevo en un momento.",
         "UPLOAD_IN_PROGRESS": "La subida de un archivo no ha finalizado. Espere a que termine o elimine primero.",
+        "CREATE_IN_PROGRESS": "The article is still being created. Add files again in a moment.",
         "DISCARD_CHANGES": "Descartar cambios",
         "DISCARD_CHANGES_SUCCESS": "Cambios descartados",
         "DISCARD_CHANGES_ERROR": "No se pudo descartar los cambios",
@@ -839,7 +840,14 @@
         "META_TITLE": "Título Meta",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta etiquetas",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SLUG": "Slug",
+        "SLUG_PLACEHOLDER": "Add slug",
+        "SLUG_USE_TITLE": "Use title as slug",
+        "SLUG_WARNING": "The current URL will stop working, and existing links to it will break.",
+        "SLUG_UPDATE": "Actualizar",
+        "SLUG_UPDATED": "Slug updated. The article is now available at the new URL.",
+        "SLUG_OPEN": "Open URL"
       },
       "API": {
         "ERROR": "Error al guardar el artículo"

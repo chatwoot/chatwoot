@@ -33,6 +33,8 @@
       "is_less_than": "Manje je od",
       "days_before": "Je x dana prije",
       "starts_with": "Počinje s",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Jednako",
       "notEqualTo": "Nije jednako",
       "contains": "Sadrži",

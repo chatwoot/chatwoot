@@ -36,7 +36,7 @@ class Captain::Conversation::AgentMessageTranslationService
     message.source_language = conversation.language
     message.translation_provider = translator.provider
     message.content = with_quoted_history(translated)
-    message.content_attributes['email'] = email_content(message.content) if inbox.email?
+    message.content_attributes['email'] = email_content(message.content) if email_reply?
   end
 
   def translate
@@ -81,7 +81,12 @@ class Captain::Conversation::AgentMessageTranslationService
 
   # Kept as html like the sent mail, so the quoted thread stays collapsed in the dashboard.
   def original_text
-    inbox.email? ? String.new(render_email_html(normalize_email_body(message.content))) : message.content
+    email_reply? ? String.new(render_email_html(normalize_email_body(message.content))) : message.content
+  end
+
+  # Only replies built by the message builder carry the email; templates like greeting and CSAT are mailed from their content.
+  def email_reply?
+    inbox.email? && message.content_attributes['email'].present?
   end
 
   # The mailer sends the stored html, so it is rendered again from the translated text.

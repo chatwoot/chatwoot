@@ -83,14 +83,14 @@
           <div class="flex items-center gap-1 px-1 py-2 cursor-pointer">
             <%= render partial: 'icons/globe' %>
             <select
-              data-portal-slug="<%= @portal.slug %>"
               class="w-24 overflow-hidden text-sm font-medium leading-tight bg-white appearance-none cursor-pointer dark:bg-slate-900 text-ellipsis whitespace-nowrap focus:outline-none focus:shadow-outline locale-switcher"
             >
               <% if @portal.draft_locale?(@locale) %>
                 <option selected disabled value="<%= @locale %>"><%= "#{language_name(@locale)} (#{@locale})" %></option>
               <% end %>
               <% @portal.public_locale_codes.each do |locale| %>
-                <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
+                <% switch_url = @locale_switch_urls&.[](locale) || generate_home_link(@portal.slug, locale, @theme_from_params, @is_plain_layout_enabled) %>
+                <option <%= locale == @locale ? 'selected': '' %> value="<%= switch_url %>"><%= "#{language_name(locale)} (#{locale})" %></option>
               <% end %>
             </select>
             <%= render partial: 'icons/chevron-down' %>

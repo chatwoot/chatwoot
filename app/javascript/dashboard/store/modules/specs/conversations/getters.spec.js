@@ -1084,42 +1084,6 @@ describe('#getters', () => {
       });
     });
 
-    it('treats untranslated messages of a translated thread that switched to the agent language as already in it', () => {
-      const messages = [
-        {
-          id: 1,
-          message_type: 0,
-          content_type: 'text',
-          content: 'ok thanks',
-          content_attributes: {},
-        },
-        {
-          id: 2,
-          message_type: 0,
-          content_type: 'text',
-          content: 'Bonjour',
-          content_attributes: { translations: { en: 'Hello' } },
-        },
-      ];
-      const translationState = getters.getMessageTranslationState(
-        { autoTranslating: {} },
-        {
-          getAutoTranslate: {
-            enabled: true,
-            locale: 'en',
-            language: 'English',
-            sameLanguage: true,
-          },
-          getSelectedChat: { messages },
-        }
-      );
-
-      expect(translationState(1)).toMatchObject({
-        pending: false,
-        sameLanguage: true,
-      });
-    });
-
     it('reports a reply the backend could not translate', () => {
       const translationState = stateFor([
         {
