@@ -2,6 +2,8 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
   include AuthHelper
   include MfaAuthenticationHelper
 
+  INVITATION_RESET_PASSWORD_WITHIN = 7.days
+
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
 
@@ -20,7 +22,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
     original_token = params[:reset_password_token]
     reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
     @recoverable = User.find_by(reset_password_token: reset_password_token)
-    if @recoverable && reset_password_and_confirmation(@recoverable)
+    if @recoverable && reset_password_token_active?(@recoverable) && reset_password_and_confirmation(@recoverable)
       return render_mfa_sign_in_required if mfa_sign_in_required?(@recoverable)
 
       send_auth_headers(@recoverable)
@@ -32,13 +34,21 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
 
   private
 
+  # Agent invitations link here with a reset token, so unconfirmed users get a longer window.
+  def reset_password_token_active?(recoverable)
+    return recoverable.reset_password_period_valid? if recoverable.confirmed?
+
+    recoverable.reset_password_sent_at.present? && recoverable.reset_password_sent_at >= INVITATION_RESET_PASSWORD_WITHIN.ago
+  end
+
   def reset_password_and_confirmation(recoverable)
-    recoverable.confirm unless recoverable.confirmed? # confirm if user resets password without confirming anytime before
     recoverable.reset_password(params[:password], params[:password_confirmation])
     recoverable.reset_password_token = nil
     recoverable.confirmation_token = nil
     recoverable.reset_password_sent_at = nil
     recoverable.save!
+    recoverable.confirm unless recoverable.confirmed? # confirm if user resets password without confirming anytime before
+    true
   end
 
   def build_response(message, status)
