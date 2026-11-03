@@ -33,4 +33,6 @@ class CopilotReviewFinding < ApplicationRecord
                   awaiting_retry: 'awaiting_retry', reviewed: 'reviewed', failed: 'failed' }, validate: true
 
   scope :finished, -> { where(status: FINISHED_STATUSES) }
+  # The categories of reviewed conversations, the most common first.
+  scope :ranked_categories, -> { reviewed.group(:category).order(Arel.star.count.desc) }
 end
