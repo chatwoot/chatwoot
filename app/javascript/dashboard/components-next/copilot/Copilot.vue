@@ -9,6 +9,7 @@ import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotApprovalMessage from './CopilotApprovalMessage.vue';
+import CopilotReviewProgress from './CopilotReviewProgress.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import CopilotEmptyState from './CopilotEmptyState.vue';
@@ -136,6 +137,27 @@ const isCopilotWorking = computed(() => {
       message.message.approval.status === 'awaiting_approval'
   );
   return !isLastMessageFromAssistant.value && !hasApprovalAwaitingDecision;
+});
+
+// Only workflow steps save a run ID, so the old Copilot's steps keep the loader.
+const hasLiveStep = (item, index) =>
+  isCopilotWorking.value &&
+  index === groupedMessages.value.length - 1 &&
+  Boolean(item.messages.at(-1).message.run_id);
+
+const showLoader = computed(() => {
+  if (!isCopilotWorking.value) return false;
+  const index = groupedMessages.value.length - 1;
+  const item = groupedMessages.value[index];
+  if (item.message_type === 'thinking_group') return !hasLiveStep(item, index);
+  if (item.message_type === 'assistant_progress') {
+    return item.message.progress.finished;
+  }
+  const { approval } = item.message;
+  if (approval?.status === 'approved') {
+    return Boolean(approval.progress?.finished);
+  }
+  return true;
 });
 
 const { updateUISettings } = useUISettings();
@@ -281,14 +303,18 @@ watch(
             v-else-if="item.message_type === 'assistant_approval'"
             :message="item.message"
           />
+          <CopilotReviewProgress
+            v-else-if="item.message_type === 'assistant_progress'"
+            :progress="item.message.progress"
+          />
           <CopilotThinkingGroup
             v-else
             :messages="item.messages"
-            :default-collapsed="isLastMessageFromAssistant"
+            :is-active="hasLiveStep(item, index)"
           />
         </template>
 
-        <CopilotLoader v-if="isCopilotWorking" />
+        <CopilotLoader v-if="showLoader" />
       </div>
       <CopilotEmptyState
         v-else

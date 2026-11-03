@@ -372,6 +372,15 @@ en:
   conversations:
     captain:
       handoff: 'Transferring to another agent for further assistance.'
+    unverified_contact_match:
+      note: |-
+        This visitor entered contact details that belong to an existing contact. We couldn't verify the visitor's identity, so we didn't link this conversation to that contact or save these details.
+
+        %{matches}
+
+        If you confirm this visitor is the same person, merge the contacts from the contact panel.
+      email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
+      phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
@@ -542,6 +551,19 @@ en:
       tool_not_available: 'Tool not available'
       reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
       reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
+      step_failed: "Couldn't finish this step"
+      steps:
+        search_documentation: 'Searching the knowledge base'
+        search_articles: 'Searching help center articles'
+        get_article: 'Reading an article'
+        search_contacts: 'Searching contacts'
+        get_contact: 'Looking up a contact'
+        get_conversation: 'Reading a conversation'
+        search_linear_issues: 'Searching Linear issues'
+        get_data: 'Finding matching records'
+        display: 'Preparing the results'
+        get_report: 'Reading the reports'
+        get_account_directory: 'Looking up agents, inboxes and teams'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
