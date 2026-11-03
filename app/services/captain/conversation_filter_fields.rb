@@ -2,6 +2,7 @@
 # Free-text fields are left out because Jev can only pick from options.
 class Captain::ConversationFilterFields
   include Captain::FilterFieldBuilder
+  include Captain::FilterWording
 
   SUBJECT = 'support conversations'.freeze
 

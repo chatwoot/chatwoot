@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, nextTick, useTemplateRef } from 'vue';
 import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import {
@@ -40,9 +40,29 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  // [{ key, label }] actions recommended from the rule's name and description.
+  recommendations: {
+    type: Array,
+    default: () => [],
+  },
+  // Applies a recommendation to a row and returns whether more remain.
+  applyRecommendation: {
+    type: Function,
+    default: () => false,
+  },
 });
 
 const actions = defineModel({ type: Array, required: true });
+
+const actionInputsRef = useTemplateRef('actionInputsRef');
+
+// Replaces the row with the recommendation. While more remain, a new row opens its picker on them.
+const onRecommend = async (rowIndex, key) => {
+  if (!props.applyRecommendation(rowIndex, key)) return;
+  props.appendNewAction();
+  await nextTick();
+  actionInputsRef.value?.at(-1)?.openActionPicker();
+};
 
 const hasActionErrors = computed(() =>
   Object.keys(props.errors).some(key => key.startsWith('action_'))
@@ -65,6 +85,7 @@ const hasActionErrors = computed(() =>
       <AutomationActionInput
         v-for="(action, i) in actions"
         :key="i"
+        ref="actionInputsRef"
         v-model="actions[i]"
         :action-types="actionTypes"
         :dropdown-values="getActionDropdownValues(action.action_name)"
@@ -75,8 +96,10 @@ const hasActionErrors = computed(() =>
             : ''
         "
         :initial-file-name="showFileName ? getFileName(action, files) : ''"
+        :recommendations="recommendations"
         @reset-action="resetAction(i)"
         @remove-action="removeAction(i)"
+        @recommend="key => onRecommend(i, key)"
       />
       <div class="pt-2">
         <NextButton

@@ -48,6 +48,14 @@ RSpec.describe Captain::FilterTextSpan do
     expect(span.values(answers)).to eq(['Smith'])
   end
 
+  it 'counts the copies of a repeated word together' do
+    repeated = described_class.new(field: { key: 'content', label: 'Content' }, index: 3, query: 'Add bug label. Tag bug messages')
+    split = { 'choice' => '1', 'probabilities' => { '1' => 0.3, '4' => 0.35, 'none' => 0.35 } }
+    none = choice('none', 0.8)
+
+    expect(repeated.values(readings(split, split, none, none))).to eq(['bug'])
+  end
+
   it 'returns no value when Jev finds none, the ends are reversed, or the readings share no words' do
     expect(span.values(readings(*Array.new(4) { choice('none', 0.8) }))).to eq([])
     expect(span.values(readings(choice('3', 0.9), choice('2', 0.9), choice('none', 0.8), choice('none', 0.8)))).to eq([])

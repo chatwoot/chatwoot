@@ -139,16 +139,38 @@ const recommendedConditions = (recommendation, filterType, today) => {
   ];
 };
 
+const describeValues = values => {
+  if (Array.isArray(values)) {
+    return values.map(value => value?.name ?? value).join(', ');
+  }
+  if (values && typeof values === 'object') return values.name ?? '';
+  return values ?? '';
+};
+
+// A readable summary of a recommendation's rows, such as "Priority Equal to Urgent".
+const describeRecommendation = (rows, filterType) =>
+  rows
+    .map(row => {
+      const operatorLabel =
+        filterType.filterOperators?.find(
+          operator => operator.value === row.filterOperator
+        )?.label ?? row.filterOperator;
+      return [filterType.label, operatorLabel, describeValues(row.values)]
+        .filter(Boolean)
+        .join(' ');
+    })
+    .join(', ');
+
 /**
- * Turns recommended conditions from the API into filter rows for the filter form.
+ * Turns recommended conditions from the API into groups of filter rows, one group per recommendation.
  * A condition on an attribute the form does not offer is dropped.
  * A date condition names a preset, which becomes one or two date rows.
  * @param {Array<{attribute_key: string, filter_operator?: string, values?: Array, date_preset?: string, days?: number}>} recommendations
  * @param {Array} filterTypes - The filter types from the filter context
  * @param {Date} [today] - The reference date for date presets
- * @returns {Array} Filter rows
+ * @returns {Array<{attributeKey: string, label: string, icon: any, rows: Array}>}
  */
-export const buildFiltersFromRecommendations = (
+export const buildRecommendationGroups = (
   recommendations,
   filterTypes,
   today = new Date()
@@ -159,7 +181,7 @@ export const buildFiltersFromRecommendations = (
     );
     if (!filterType) return [];
 
-    return recommendedConditions(recommendation, filterType, today).map(
+    const rows = recommendedConditions(recommendation, filterType, today).map(
       condition => ({
         attributeKey: recommendation.attribute_key,
         attributeModel: filterType.attributeModel,
@@ -167,7 +189,31 @@ export const buildFiltersFromRecommendations = (
         ...condition,
       })
     );
+    return [
+      {
+        attributeKey: recommendation.attribute_key,
+        label: describeRecommendation(rows, filterType),
+        icon: filterType.icon,
+        rows,
+      },
+    ];
   });
+
+/**
+ * Turns recommended conditions from the API into filter rows for the filter form.
+ * @param {Array} recommendations - Conditions from the filter recommendations API
+ * @param {Array} filterTypes - The filter types from the filter context
+ * @param {Date} [today] - The reference date for date presets
+ * @returns {Array} Filter rows
+ */
+export const buildFiltersFromRecommendations = (
+  recommendations,
+  filterTypes,
+  today = new Date()
+) =>
+  buildRecommendationGroups(recommendations, filterTypes, today).flatMap(
+    group => group.rows
+  );
 
 /**
  * Replaces underscores with spaces in a string

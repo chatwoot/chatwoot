@@ -6,7 +6,7 @@ module Captain::FilterFieldBuilder
   PRESENCE_OPERATORS = %w[equal_to not_equal_to is_present is_not_present].freeze
   # Contains comes first, because a typed fragment such as a domain is more often part of a value than all of it.
   CONTAINMENT_OPERATORS = %w[contains does_not_contain equal_to not_equal_to].freeze
-  TRAITS = { multiple: false, ordered: false, date: false, text: false }.freeze
+  TRAITS = { multiple: false, ordered: false, date: false, text: false, action: false }.freeze
 
   private
 
@@ -35,6 +35,7 @@ module Captain::FilterFieldBuilder
   # `ordered` marks fields whose options run from lowest to highest, such as priority.
   # `date` marks timestamp fields, which Jev answers with a date preset.
   # `text` marks free-text fields, whose value Jev points at in the description.
+  # `action` marks automation actions, which the service returns in the action shape.
   def field(key, label, operators, values, **traits)
     {
       key: key, label: label, operators: operators,

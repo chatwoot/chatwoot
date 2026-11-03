@@ -8,6 +8,9 @@ class Captain::FilterTextSpan
   WORD_PATTERN = /[^\s"“”‘’,;:!?()\[\]{}<>]+/
   TRAILING_PUNCTUATION = /[.']+\z/
   LEADING_PUNCTUATION = /\A'+/
+  # A value never runs across a sentence. A rule's name and description are two sentences,
+  # and a span that crossed them read "refund requests. Label incoming messages".
+  SENTENCE_BREAK = /[.!?]\s/
 
   # Two readings of the same value. The broad reading alone took all of "incoming messages that mention refund",
   # and the strict reading alone kept "acme.com" in "acme.com asking for a demo". Their mistakes did not overlap,
@@ -45,10 +48,11 @@ class Captain::FilterTextSpan
   end
 
   # The value `description` gives for the field, or no values when Jev is unsure or finds none.
-  # When only one reading finds a value, that value is used. When both do but they share no words, there is no value.
+  # When only one reading finds a value, that value is used. When both do, the value is the words they share,
+  # or the text both found at different places in `description`. Otherwise there is no value.
   def values(answers)
     broad, strict = READINGS.keys.map { |reading| reading_range(answers, reading) }
-    range = broad && strict ? overlap(broad, strict) : broad || strict
+    range = broad && strict ? overlap(broad, strict) || same_text(broad, strict) : broad || strict
     range ? [query[range.first...range.last]] : []
   end
 
@@ -62,7 +66,17 @@ class Captain::FilterTextSpan
     last = word_at(answers["end_#{reading}_#{index}"])
     first ||= last
     last ||= first
-    [first[:start], last[:end]] if first && first[:start] <= last[:start]
+    return unless first && first[:start] <= last[:start]
+    # A word repeated in `description`, such as "bug" in "Add bug label. Add label bug, if a message contains bug",
+    # was picked at its first place as the start and its last place as the end. Both picks mean that one word.
+    return [last[:start], last[:end]] if first[:text].casecmp?(last[:text])
+    return if query[first[:start]...last[:end]].match?(SENTENCE_BREAK)
+
+    [first[:start], last[:end]]
+  end
+
+  def same_text(range, other)
+    range if query[range.first...range.last].casecmp?(query[other.first...other.last])
   end
 
   def overlap(range, other)
@@ -87,8 +101,26 @@ class Captain::FilterTextSpan
     )
   end
 
+  # The word Jev is confident of. A word repeated in `description` splits Jev's probability between its copies,
+  # such as "bug" at 0.4, 0.1 and 0.4, so the copies of one word count together and the likeliest copy is used.
   def word_at(answer)
-    choice = Captain::JevAnswers.confident_choice(answer, MIN_PROBABILITY)
-    self.class.words(query)[Integer(choice, 10)] if choice&.match?(/\A\d+\z/)
+    copies = likeliest_word_copies(answer)
+    copies.max_by(&:last).first if copies.sum(&:last) >= MIN_PROBABILITY
+  end
+
+  # The [word, probability] pairs of the word whose copies together have the highest probability.
+  def likeliest_word_copies(answer)
+    copies_by_word = word_probabilities(answer).group_by { |word, _| word[:text].downcase }.values
+    copies_by_word.max_by { |copies| copies.sum(&:last) } || []
+  end
+
+  # [word, probability] for each word Jev gave a probability. The "none" answer is left out.
+  def word_probabilities(answer)
+    probabilities = answer.is_a?(Hash) && answer['probabilities'].is_a?(Hash) ? answer['probabilities'] : {}
+    words = self.class.words(query)
+    probabilities.filter_map do |choice, probability|
+      word = words[choice.to_i] if choice.match?(/\A\d+\z/)
+      [word, probability] if word && probability.is_a?(Numeric)
+    end
   end
 end

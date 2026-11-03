@@ -3,6 +3,7 @@
 # Text field operators follow what the contact filter form offers for each field.
 class Captain::ContactFilterFields
   include Captain::FilterFieldBuilder
+  include Captain::FilterWording
 
   SUBJECT = 'contacts'.freeze
   BLOCKED_OPTIONS = [%w[true Blocked], ['false', 'Not blocked']].freeze

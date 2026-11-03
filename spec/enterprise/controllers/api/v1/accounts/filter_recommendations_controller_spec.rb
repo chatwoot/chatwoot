@@ -50,6 +50,51 @@ RSpec.describe 'Conversation filter recommendations API', type: :request do
         .with(account: account, field_set: an_instance_of(Captain::AutomationFilterFields), query: 'refund messages')
     end
 
+    it 'picks an event for a rule without one and recommends conditions from its keys' do
+      event_recommendation = instance_double(Captain::AutomationEventRecommendation, perform: 'message_created')
+      allow(Captain::AutomationEventRecommendation).to receive(:new).and_return(event_recommendation)
+      allow(Captain::AutomationFilterFields).to receive(:new).and_call_original
+
+      post url, params: { query: 'Tag refund requests', filter_type: 'automation',
+                          events: { conversation_created: %w[status], message_created: %w[content message_type] } },
+                headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['event_name']).to eq('message_created')
+      expect(Captain::AutomationEventRecommendation).to have_received(:new)
+        .with(account: account, query: 'Tag refund requests', events: %w[conversation_created message_created])
+      expect(Captain::AutomationFilterFields).to have_received(:new).with(account: account, user: agent, attribute_keys: %w[content message_type])
+    end
+
+    it 'returns no conditions when no event is picked' do
+      allow(Captain::AutomationEventRecommendation).to receive(:new).and_return(instance_double(Captain::AutomationEventRecommendation, perform: nil))
+
+      post url, params: { query: 'Do something', filter_type: 'automation', events: { message_created: %w[content] } },
+                headers: agent.create_new_auth_token, as: :json
+
+      expect(response.parsed_body).to eq('payload' => nil, 'event_name' => nil, 'actions' => nil)
+      expect(Captain::FilterRecommendationService).not_to have_received(:new)
+    end
+
+    it 'recommends actions from the ones the form offers' do
+      allow(Captain::AutomationActionFields).to receive(:new).and_call_original
+
+      post url, params: { query: 'Add bug label', filter_type: 'automation', attribute_keys: %w[content], action_names: %w[add_label] },
+                headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(Captain::AutomationActionFields).to have_received(:new).with(account: account, user: agent, action_names: %w[add_label])
+      expect(Captain::FilterRecommendationService).to have_received(:new)
+        .with(account: account, field_set: an_instance_of(Captain::AutomationActionFields), query: 'Add bug label')
+    end
+
+    it 'rejects events that do not map to condition keys' do
+      post url, params: { query: 'Tag refund requests', filter_type: 'automation', events: { message_created: 'content' } },
+                headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
     it 'rejects an automation request without condition keys' do
       post url, params: { query: 'refund messages', filter_type: 'automation' }, headers: agent.create_new_auth_token, as: :json
 

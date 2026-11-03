@@ -8,6 +8,7 @@ import {
   buildAttributesFilterTypes,
   replaceUnderscoreWithSpace,
   buildFiltersFromRecommendations,
+  buildRecommendationGroups,
 } from './filterHelper';
 
 vi.mock('dashboard/api/contacts', () => ({
@@ -162,6 +163,52 @@ describe('filterHelper', () => {
           { attributeKey: 'content', inputType: 'multiText' },
         ])[0].values
       ).toEqual(['refund']);
+    });
+
+    it('groups the rows of each recommendation with a readable label', () => {
+      const recommendations = [
+        {
+          attribute_key: 'priority',
+          filter_operator: 'equal_to',
+          values: ['urgent'],
+        },
+        { attribute_key: 'created_at', date_preset: 'yesterday' },
+      ];
+      const groupFilterTypes = [
+        {
+          attributeKey: 'priority',
+          label: 'Priority',
+          icon: 'i-priority',
+          inputType: 'multiSelect',
+          options: [{ id: 'urgent', name: 'Urgent' }],
+          filterOperators: [{ value: 'equal_to', label: 'Equal to' }],
+        },
+        {
+          attributeKey: 'created_at',
+          label: 'Created at',
+          inputType: 'date',
+          filterOperators: [
+            { value: 'is_greater_than', label: 'Is greater than' },
+            { value: 'is_less_than', label: 'Is less than' },
+          ],
+        },
+      ];
+
+      const groups = buildRecommendationGroups(
+        recommendations,
+        groupFilterTypes,
+        new Date(2026, 10, 4)
+      );
+
+      expect(groups.map(({ label, icon }) => ({ label, icon }))).toEqual([
+        { label: 'Priority Equal to Urgent', icon: 'i-priority' },
+        {
+          label:
+            'Created at Is greater than 2026-11-02, Created at Is less than 2026-11-04',
+          icon: undefined,
+        },
+      ]);
+      expect(groups[1].rows).toHaveLength(2);
     });
 
     it('drops attributes the filter form does not offer', () => {

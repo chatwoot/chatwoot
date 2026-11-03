@@ -37,20 +37,16 @@ class Captain::FilterRecommendationService
     'detects' => 'AI should find what `description` describes in the messages',
     'does_not_detect' => '`description` asks for messages where it is absent'
   }.freeze
-  RELEVANCE_CRITERIA = {
-    'true' => 'The description clearly implies a condition on this field',
-    'false' => 'The description says nothing about this field'
-  }.freeze
-
   class Error < StandardError; end
 
-  # `field_set` lists the fields to consider and names the records they filter,
-  # such as Captain::ConversationFilterFields or Captain::ContactFilterFields.
+  # `field_set` lists the fields to consider and words the questions about them, such as
+  # Captain::ConversationFilterFields or Captain::AutomationActionFields.
   pattr_initialize [:account!, :field_set!, :query!]
 
   # Returns at most MAX_RECOMMENDATIONS conditions, or nil when Jev is not configured or cannot answer.
   # A condition has the filter payload shape, except a date condition, which names a `date_preset`
-  # (and `days` when the preset counts days) for the dashboard to turn into dates.
+  # (and `days` when the preset counts days) for the dashboard to turn into dates, and an action,
+  # which has the automation action shape.
   def perform
     return if Captain::JevClient.api_key.blank?
 
@@ -83,10 +79,6 @@ class Captain::FilterRecommendationService
 
   def fields
     @fields ||= field_set.all
-  end
-
-  def subject
-    field_set.subject
   end
 
   def questions
@@ -124,16 +116,15 @@ class Captain::FilterRecommendationService
   def relevance_question(field)
     {
       type: 'noul',
-      instructions: "Would the #{subject} described by `description` be found by filtering on \"#{field[:label]}\"?",
-      criteria: RELEVANCE_CRITERIA
+      instructions: field_set.relevance_question_text(field),
+      criteria: field_set.relevance_criteria
     }
   end
 
   def operator_question(field)
     {
       type: 'choice',
-      instructions: "If the #{subject} described by `description` are filtered on \"#{field[:label]}\", " \
-                    'which comparison does `description` imply?',
+      instructions: field_set.operator_question_text(field),
       criteria: (field[:text] ? TEXT_OPERATOR_CRITERIA : OPERATOR_CRITERIA).slice(*field[:operators])
     }
   end
@@ -144,8 +135,7 @@ class Captain::FilterRecommendationService
 
     {
       type: 'choice',
-      instructions: "If the #{subject} described by `description` are filtered on \"#{field[:label]}\", " \
-                    'which value does `description` imply?',
+      instructions: field_set.value_question_text(field),
       criteria: criteria
     }
   end
@@ -153,7 +143,7 @@ class Captain::FilterRecommendationService
   def option_question(field, option)
     {
       type: 'noul',
-      instructions: "Does `description` ask for #{subject} whose \"#{field[:label]}\" is \"#{option[:label]}\"?",
+      instructions: field_set.option_question_text(field, option),
       criteria: {
         'true' => "`description` names \"#{option[:label]}\" or clearly means it",
         'false' => "`description` does not mention \"#{option[:label]}\", or excludes it"
@@ -167,7 +157,11 @@ class Captain::FilterRecommendationService
       relevance = [Captain::JevAnswers.probability(answers["relevant_#{index}"], 'noul'), decisive_value_probability(value_probabilities)].max
       next if relevance < MIN_RELEVANCE
 
-      { relevance: relevance, condition: condition(field, index, answers, value_probabilities) }
+      condition = condition(field, index, answers, value_probabilities)
+      # A text condition without its text gives the person nothing to review.
+      next if field[:text] && (condition[:values] || condition[:action_params]).empty?
+
+      { relevance: relevance, condition: condition }
     end
 
     scored.max_by(MAX_RECOMMENDATIONS) { |entry| entry[:relevance] }.pluck(:condition)
@@ -175,7 +169,12 @@ class Captain::FilterRecommendationService
 
   def condition(field, index, answers, value_probabilities)
     return date_preset(field, index).condition(answers) if field[:date]
+    return { action_name: field[:key], action_params: action_params(field, index, answers, value_probabilities) } if field[:action]
 
+    filter_condition(field, index, answers, value_probabilities)
+  end
+
+  def filter_condition(field, index, answers, value_probabilities)
     range = Captain::FilterRange.new(field: field, index: index).values(answers) if field[:ordered]
     # A range already says which levels to keep. Jev reads "below" as an exclusion, so its operator is ignored.
     operator = range ? 'equal_to' : implied_operator(field, answers["operator_#{index}"])
@@ -187,6 +186,10 @@ class Captain::FilterRecommendationService
                range || implied_values(field, value_probabilities)
              end
     { attribute_key: field[:key], filter_operator: operator, values: values }
+  end
+
+  def action_params(field, index, answers, value_probabilities)
+    field[:text] ? text_span(field, index).values(answers) : implied_values(field, value_probabilities)
   end
 
   def text_span(field, index)

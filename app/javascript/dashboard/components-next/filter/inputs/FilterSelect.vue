@@ -12,6 +12,7 @@ import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
+import RecommendedDropdownItems from './RecommendedDropdownItems.vue';
 
 import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -44,9 +45,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // [{ key, label }] shown above the options while the search field is empty.
+  recommendations: {
+    type: Array,
+    default: () => [],
+  },
 });
 
-const emit = defineEmits(['describe']);
+const emit = defineEmits(['describe', 'recommend']);
 
 const { t } = useI18n();
 const selected = defineModel({
@@ -57,6 +63,7 @@ const selected = defineModel({
 const vFocus = { mounted: el => el.focus() };
 
 const triggerRef = ref(null);
+const containerRef = ref(null);
 const dropdownRef = ref(null);
 const searchTerm = ref('');
 // The dropdown's toggle, kept so pressing Enter can close it.
@@ -67,6 +74,9 @@ const showSearch = computed(
 );
 
 const describeQuery = computed(() => searchTerm.value.trim());
+const visibleRecommendations = computed(() =>
+  describeQuery.value ? [] : props.recommendations
+);
 const canDescribe = computed(
   () =>
     props.describable &&
@@ -120,6 +130,13 @@ const describe = () => {
   emit('describe', describeQuery.value);
 };
 
+const open = () => {
+  searchTerm.value = '';
+  containerRef.value?.open();
+};
+
+defineExpose({ open });
+
 const describeOnEnter = () => {
   if (!canDescribe.value) return;
   describe();
@@ -128,7 +145,7 @@ const describeOnEnter = () => {
 </script>
 
 <template>
-  <DropdownContainer>
+  <DropdownContainer ref="containerRef">
     <template #trigger="{ toggle }">
       <slot name="trigger" :toggle="() => toggleDropdown(toggle)">
         <Button
@@ -174,6 +191,12 @@ const describeOnEnter = () => {
             <Icon class="size-4 text-n-blue-11" icon="i-ph-sparkle" />
           </template>
         </DropdownItem>
+        <RecommendedDropdownItems
+          v-if="visibleRecommendations.length"
+          :recommendations="visibleRecommendations"
+          :options-label="t('FILTER.ALL_FILTERS')"
+          @select="key => emit('recommend', key)"
+        />
         <template v-for="option in searchResults" :key="option.value">
           <li
             v-if="option.disabled"

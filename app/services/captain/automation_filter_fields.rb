@@ -3,11 +3,13 @@
 # Languages and country are left out because their options exceed MAX_OPTIONS.
 class Captain::AutomationFilterFields
   include Captain::FilterFieldBuilder
+  include Captain::FilterWording
 
   SUBJECT = 'support conversations, or the messages in them, that an automation rule should act on'.freeze
   MESSAGE_TYPE_OPTIONS = [['incoming', 'Incoming, sent by the customer'], ['outgoing', 'Outgoing, sent by an agent']].freeze
   PRIVATE_NOTE_OPTIONS = [[true, 'A private note'], [false, 'Not a private note']].freeze
   CAPTAIN_OPERATORS = %w[detects does_not_detect].freeze
+  IGNORE_ACTIONS = 'Ignore what the rule does when it runs, such as adding a label, assigning or replying.'.freeze
 
   # `attribute_keys` lists the condition keys the rule's event offers, from the automation form.
   pattr_initialize [:account!, :user!, :attribute_keys!]
@@ -18,6 +20,18 @@ class Captain::AutomationFilterFields
 
   def all
     catalog.select { |field| attribute_keys.include?(field[:key]) }.first(MAX_FIELDS)
+  end
+
+  # A rule's description also says what the rule does. The filter wording read "Add label bug" as
+  # "conversations whose label is bug", so these questions ask what the rule checks before it runs.
+  def relevance_question_text(field)
+    "Does the automation rule described by `description` only run when a condition on \"#{field[:label]}\" holds? " \
+      "#{IGNORE_ACTIONS}"
+  end
+
+  def option_question_text(field, option)
+    "Does the automation rule described by `description` only run when \"#{field[:label]}\" is \"#{option[:label]}\"? " \
+      "#{IGNORE_ACTIONS}"
   end
 
   private
@@ -66,6 +80,7 @@ class Captain::AutomationFilterFields
   # Captain judges this condition from the messages when the rule runs, so its value is the part of the
   # description that no other field can express, such as a topic or the customer's tone.
   def captain_condition_field
-    text_field('captain_condition', 'Captain condition, a topic, intent or tone that AI judges from the messages', CAPTAIN_OPERATORS)
+    text_field('captain_condition', 'Captain condition, a topic, intent or tone that AI judges from the messages, ' \
+                                    'without what the rule does, such as tag, label, assign or escalate', CAPTAIN_OPERATORS)
   end
 end

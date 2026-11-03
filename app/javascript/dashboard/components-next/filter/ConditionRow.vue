@@ -19,9 +19,12 @@ const { filterTypes } = defineProps({
   filterTypes: { type: Array, required: true },
   // Lets the attribute picker build filters from a typed description.
   describable: { type: Boolean, default: false },
+  // [{ key, label }] recommended conditions for the attribute picker.
+  recommendations: { type: Array, default: () => [] },
 });
 
-const emit = defineEmits(['remove', 'describe']);
+const emit = defineEmits(['remove', 'describe', 'recommend']);
+const attributePickerRef = ref(null);
 const { t } = useI18n();
 const showErrors = ref(false);
 
@@ -182,7 +185,10 @@ const resetValidation = () => {
   showErrors.value = false;
 };
 
-defineExpose({ validate, resetValidation });
+// Opens the attribute picker, such as on a row added for the next recommendation.
+const openAttributePicker = () => attributePickerRef.value?.open();
+
+defineExpose({ validate, resetValidation, openAttributePicker });
 </script>
 
 <template>
@@ -204,13 +210,16 @@ defineExpose({ validate, resetValidation });
         :options="queryOperatorOptions"
       />
       <FilterSelect
+        ref="attributePickerRef"
         v-model="attributeKey"
         variant="faded"
         class="shrink-0"
         :options="filterTypes"
         :describable="describable"
+        :recommendations="recommendations"
         @update:model-value="resetModelOnAttributeKeyChange"
         @describe="query => emit('describe', query)"
+        @recommend="key => emit('recommend', key)"
       />
       <FilterSelect
         v-model="filterOperator"
