@@ -87,7 +87,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       external_url: attachment['url'],
       coordinates_lat: lat,
       coordinates_long: long,
-      fallback_title: attachment['title']
+      fallback_title: attachment['title']&.truncate(FALLBACK_TITLE_LIMIT)
     }
   end
 
