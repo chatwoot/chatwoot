@@ -58,6 +58,34 @@ RSpec.describe Captain::Copilot::CollectionService do
     expect(messages[:total]).to eq(10)
   end
 
+  it 'starts from the saved IDs of a set built from a review of a cut-off collection, while and after the review continues' do
+    stub_const('CopilotRun::MAX_SELECTION', 3)
+    all = CopilotRun::Collection.find(collect(resource: 'conversations', filters: {})[:collection_id])
+    review = CopilotRun::Review.create!(account: account, user: admin, copilot_thread: thread, source_run: all, status: :completed,
+                                        context: { criteria: 'Is this about billing?', turn_start: 0, turn_limit: 1 })
+    review.findings.create!(conversation_id: all.selected_ids.first, status: :reviewed, matched: true)
+    matched = collect('data-2', resource: 'conversations', filters: {}, from: review.id)
+    review.update!(status: :queued)
+
+    while_running = collect('data-3', resource: 'conversations', filters: {}, from: matched[:collection_id])
+    review.findings.create!(conversation_id: all.selected_ids.second, status: :reviewed, matched: true)
+    review.update!(status: :completed)
+    after_more_matches = collect('data-4', resource: 'conversations', filters: {}, from: matched[:collection_id])
+
+    expect(matched).to include(selected: 1, selection_truncated: false, source_incomplete: true)
+    expect(while_running).to include(total: 1, selection_truncated: false, source_incomplete: true)
+    expect(after_more_matches[:total]).to eq(1)
+  end
+
+  it 'refuses to start from a saved set the user can no longer read' do
+    conversations.first.update!(campaign: create(:campaign, account: account))
+    campaigns = collect(resource: 'campaigns', filters: {})
+    admin.account_users.find_by(account: account).update!(role: :agent)
+
+    expect { collect('data-2', resource: 'conversations', filters: {}, from: campaigns[:collection_id]) }
+      .to raise_error(ArgumentError, 'Only administrators can read campaigns')
+  end
+
   it 'keeps the conversations without labels' do
     conversations.first(2).each { |conversation| conversation.update!(label_list: ['billing']) }
 
