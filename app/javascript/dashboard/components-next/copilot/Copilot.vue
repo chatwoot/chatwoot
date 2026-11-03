@@ -1,5 +1,13 @@
 <script setup>
-import { nextTick, ref, watch, computed } from 'vue';
+import {
+  defineAsyncComponent,
+  nextTick,
+  ref,
+  watch,
+  computed,
+  useTemplateRef,
+} from 'vue';
+import { useTimeoutFn } from '@vueuse/core';
 import { useTrack } from 'dashboard/composables';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -61,6 +69,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  canShowAvatar: {
+    type: Boolean,
+    default: false,
+  },
   onSendMessage: {
     type: Function,
     required: true,
@@ -77,6 +89,35 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
+const EMPTY_STATE_AVATAR_SIZE = 96;
+// Below 64px the avatar drops to low detail, so the dock stays at 64px.
+const DOCK_AVATAR_SIZE = 64;
+const HAPPY_DURATION = 1000;
+// Long enough for one full head shake.
+const ERROR_DURATION = 2400;
+const SLEEP_AFTER = 2 * 60 * 1000;
+const SEARCH_STEP_PREFIXES = ['search_', 'get_'];
+
+// The avatar needs WebGL2 on real graphics hardware. Checking first avoids downloading it where it can't render.
+const supportsCaptainAvatar = () => {
+  try {
+    const gl = document.createElement('canvas').getContext('webgl2', {
+      failIfMajorPerformanceCaveat: true,
+    });
+    gl?.getExtension('WEBGL_lose_context')?.loseContext();
+    return !!gl;
+  } catch {
+    return false;
+  }
+};
+
+const CopilotAvatar = defineAsyncComponent(() => import('./CopilotAvatar.vue'));
+// The avatar emits unsupported when its graphics context is lost for good, so the logo comes back.
+const isAvatarSupported = ref(supportsCaptainAvatar());
+const showAvatar = computed(
+  () => props.canShowAvatar && isAvatarSupported.value
+);
+
 const sendMessage = async message => {
   if (props.isLoadingSelectedThread) return false;
 
@@ -85,6 +126,7 @@ const sendMessage = async message => {
   return isSuccess;
 };
 
+const draft = ref('');
 const chatContainer = ref(null);
 
 const scrollToBottom = async () => {
@@ -183,6 +225,99 @@ const handleSidebarAction = action => {
 
 const hasAssistants = computed(() => props.assistants.length > 0);
 const hasMessages = computed(() => props.messages.length > 0);
+
+const liveStep = computed(() => {
+  if (!hasMessages.value) return null;
+  const index = groupedMessages.value.length - 1;
+  const item = groupedMessages.value[index];
+  if (item.message_type !== 'thinking_group' || !hasLiveStep(item, index)) {
+    return null;
+  }
+  return item.messages.at(-1).message;
+});
+
+// What Copilot is doing in the current turn, or null when the turn is over or waits on the agent.
+const turnAvatarState = computed(() => {
+  if (!hasMessages.value || !isCopilotWorking.value) return null;
+  const step = liveStep.value;
+  if (step) {
+    if (step.status === 'failed') return 'error';
+    const isSearch = SEARCH_STEP_PREFIXES.some(prefix =>
+      step.function_name.startsWith(prefix)
+    );
+    return isSearch ? 'searching' : 'working';
+  }
+  // Without a live step, the loader shows while Copilot thinks. Otherwise a review or an approved action is running.
+  return showLoader.value ? 'thinking' : 'working';
+});
+
+const reaction = ref(null);
+const { start: startReaction } = useTimeoutFn(
+  () => {
+    reaction.value = null;
+  },
+  () => (reaction.value === 'error' ? ERROR_DURATION : HAPPY_DURATION),
+  { immediate: false }
+);
+// A turn that ends with a reply shows the happy face for a moment, and one that ends with a failed reply shows the
+// error face. Opening a past chat shows neither, because no turn was running.
+watch(turnAvatarState, (state, previousState) => {
+  if (previousState && !state && isLastMessageFromAssistant.value) {
+    const hasFailed = props.messages.at(-1).message.status === 'failed';
+    reaction.value = hasFailed ? 'error' : 'happy';
+    startReaction();
+  }
+});
+
+const awakeAvatarState = computed(() => {
+  if (turnAvatarState.value) return turnAvatarState.value;
+  if (reaction.value) return reaction.value;
+  return draft.value.trim() ? 'typing' : 'idle';
+});
+
+// Captain falls asleep after a while in idle. Any other state, focusing the input or clicking the avatar wakes it.
+const isSleeping = ref(false);
+const { start: startSleepTimer, stop: stopSleepTimer } = useTimeoutFn(
+  () => {
+    isSleeping.value = true;
+  },
+  SLEEP_AFTER,
+  { immediate: false }
+);
+const wakeAvatar = () => {
+  isSleeping.value = false;
+  if (awakeAvatarState.value === 'idle') startSleepTimer();
+  else stopSleepTimer();
+};
+watch(awakeAvatarState, wakeAvatar, { immediate: true });
+
+const avatarState = computed(() =>
+  isSleeping.value ? 'sleeping' : awakeAvatarState.value
+);
+
+// The dock takes over from the loader and the live step row, so it repeats their text.
+const avatarStatus = computed(() => {
+  if (liveStep.value) return liveStep.value.content;
+  if (avatarState.value === 'thinking') return t('CAPTAIN.COPILOT.LOADER');
+  return '';
+});
+const showAvatarDock = computed(() => showAvatar.value && hasMessages.value);
+
+// Full screen opens with Captain putting on the headset. The empty state avatar plays it when it mounts in full screen,
+// and switching to full screen replays it on whichever avatar is on screen.
+const emptyStateAvatar = useTemplateRef('emptyStateAvatar');
+const dockAvatar = useTemplateRef('dockAvatar');
+// Neither avatar is on screen without the flag, without WebGL2, or before the chunk loads.
+const shownAvatar = () => emptyStateAvatar.value ?? dockAvatar.value;
+watch(
+  () => props.isExpanded,
+  isExpanded => {
+    if (isExpanded) shownAvatar()?.enter();
+  },
+  { flush: 'post' }
+);
+// The typing face reads along with each keystroke.
+const onDraftInput = () => shownAvatar()?.keyStroke();
 // The panel already fills the screen below md, so the toggle only shows on wider screens.
 const copilotButtons = computed(() => [
   {
@@ -310,11 +445,11 @@ watch(
           <CopilotThinkingGroup
             v-else
             :messages="item.messages"
-            :is-active="hasLiveStep(item, index)"
+            :is-active="hasLiveStep(item, index) && !showAvatarDock"
           />
         </template>
 
-        <CopilotLoader v-if="showLoader" />
+        <CopilotLoader v-if="showLoader && !showAvatarDock" />
       </div>
       <CopilotEmptyState
         v-else
@@ -322,10 +457,38 @@ watch(
         :has-assistants="hasAssistants"
         :can-suggest-reply="canSuggestReply"
         @use-suggestion="sendMessage"
-      />
+      >
+        <template v-if="showAvatar" #logo>
+          <CopilotAvatar
+            ref="emptyStateAvatar"
+            :state="avatarState"
+            :size="EMPTY_STATE_AVATAR_SIZE"
+            :entrance="isExpanded"
+            :label="t('CAPTAIN.COPILOT.AVATAR_LABEL')"
+            @unsupported="isAvatarSupported = false"
+            @poke="wakeAvatar"
+          />
+        </template>
+      </CopilotEmptyState>
     </div>
 
     <div v-show="!showHistory" class="mx-3 mt-px mb-2">
+      <div
+        v-if="showAvatarDock"
+        class="flex items-center gap-3 w-full max-w-3xl mx-auto mb-2 px-1"
+      >
+        <CopilotAvatar
+          ref="dockAvatar"
+          :state="avatarState"
+          :size="DOCK_AVATAR_SIZE"
+          :label="t('CAPTAIN.COPILOT.AVATAR_LABEL')"
+          @unsupported="isAvatarSupported = false"
+          @poke="wakeAvatar"
+        />
+        <span role="status" class="min-w-0 truncate text-sm text-n-slate-11">
+          {{ avatarStatus }}
+        </span>
+      </div>
       <div
         class="flex items-center gap-2 justify-between w-full max-w-3xl mx-auto mb-1"
       >
@@ -340,8 +503,11 @@ watch(
       <CopilotInput
         v-if="hasAssistants"
         v-show="!isLoadingSelectedThread"
+        v-model="draft"
         class="mb-1 w-full max-w-3xl mx-auto"
         :on-send="sendMessage"
+        @focusin="wakeAvatar"
+        @input="onDraftInput"
       />
     </div>
   </div>
