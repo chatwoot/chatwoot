@@ -47,11 +47,16 @@ class CopilotRun::Review < CopilotRun
   validates :source_run_id, :criteria, :turn_start, :turn_limit, presence: true
 
   # A review reads the selection saved on the collection it reviews instead of keeping its own copy.
-  delegate :selected_ids, :as_of, :filters, :selection_truncated?, to: :source_run
+  delegate :selected_ids, :as_of, :filters, :selection_truncated?, :source_incomplete?, to: :source_run
 
   # A review's records are always conversations.
   def resource
     'conversations'
+  end
+
+  # A step from a review starts from the conversations it matched so far, never from its collection's filters.
+  def rebuilt?
+    false
   end
 
   # The matched conversations, or every conversation it decided on, including those screened out.
@@ -107,7 +112,7 @@ class CopilotRun::Review < CopilotRun
     processed = counts.values_at(*CopilotReviewFinding::FINISHED_STATUSES).sum(&:to_i)
     super.merge(filters: filters, question: question, selected: selected, processed: processed, remaining: selected - processed,
                 screened_out: counts['screened_out'].to_i, reviewed: counts['reviewed'].to_i, matched: findings.where(matched: true).count,
-                failed: counts['failed'].to_i, selection_truncated: selection_truncated?)
+                failed: counts['failed'].to_i, selection_truncated: selection_truncated?, source_incomplete: source_incomplete?)
   end
 
   private
