@@ -311,6 +311,7 @@ describe('useConversationCommands', () => {
     toggle.run();
     expect(useUISettings().updateUISettings).toHaveBeenCalledWith({
       is_contact_sidebar_open: false,
+      is_copilot_panel_open: false,
     });
   });
 

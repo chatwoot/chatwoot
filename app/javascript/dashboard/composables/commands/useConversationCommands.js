@@ -332,7 +332,10 @@ export function useConversationCommands() {
         section: section('CONVERSATION'),
         icon: 'i-lucide-panel-right',
         run: () =>
-          updateUISettings({ is_contact_sidebar_open: !isContactPanelOpen }),
+          updateUISettings({
+            is_contact_sidebar_open: !isContactPanelOpen,
+            is_copilot_panel_open: false,
+          }),
       },
       {
         id: 'open_in_new_tab',
