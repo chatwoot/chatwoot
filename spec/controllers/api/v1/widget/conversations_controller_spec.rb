@@ -126,6 +126,20 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(response.parsed_body['messages'].pluck('content')).not_to include(note.content)
     end
 
+    it 'still sends the greeting when it adds the private note' do
+      web_widget.inbox.update!(greeting_enabled: true, greeting_message: 'Hello from the team')
+      create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com')
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: conversation_params,
+           as: :json
+
+      messages = account.conversations.find_by(display_id: response.parsed_body['id']).messages
+      expect(messages.where(private: true).count).to eq 1
+      expect(messages.pluck(:content)).to include('Hello from the team')
+    end
+
     it 'does not update the name if the contact already exist' do
       existing_contact = create(:contact, account: account, email: 'contact-email@chatwoot.com')
 
