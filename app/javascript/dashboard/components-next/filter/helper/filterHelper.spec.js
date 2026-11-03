@@ -7,6 +7,7 @@ import {
   getCustomAttributeInputType,
   buildAttributesFilterTypes,
   replaceUnderscoreWithSpace,
+  buildFiltersFromRecommendations,
 } from './filterHelper';
 
 vi.mock('dashboard/api/contacts', () => ({
@@ -33,6 +34,95 @@ vi.mock('vue-i18n', () => ({
 }));
 
 describe('filterHelper', () => {
+  describe('buildFiltersFromRecommendations', () => {
+    const filterTypes = [
+      {
+        attributeKey: 'priority',
+        inputType: 'multiSelect',
+        options: [
+          { id: 'high', name: 'High' },
+          { id: 'urgent', name: 'Urgent' },
+        ],
+      },
+      {
+        attributeKey: 'assignee_id',
+        inputType: 'searchSelect',
+        options: [{ id: 7, name: 'Priya' }],
+      },
+      { attributeKey: 'created_at', inputType: 'date' },
+    ];
+
+    it('maps recommended values to the options the filter rows use', () => {
+      const recommendations = [
+        {
+          attribute_key: 'priority',
+          filter_operator: 'equal_to',
+          values: ['urgent'],
+        },
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'not_equal_to',
+          values: [7],
+        },
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'days_before',
+          values: [3],
+        },
+      ];
+
+      expect(
+        buildFiltersFromRecommendations(recommendations, filterTypes)
+      ).toEqual([
+        {
+          attributeKey: 'priority',
+          filterOperator: 'equal_to',
+          values: [{ id: 'urgent', name: 'Urgent' }],
+          queryOperator: 'and',
+        },
+        {
+          attributeKey: 'assignee_id',
+          filterOperator: 'not_equal_to',
+          values: { id: 7, name: 'Priya' },
+          queryOperator: 'and',
+        },
+        {
+          attributeKey: 'created_at',
+          filterOperator: 'days_before',
+          values: '3',
+          queryOperator: 'and',
+        },
+      ]);
+    });
+
+    it('leaves values empty when the recommendation has none or needs none', () => {
+      const recommendations = [
+        { attribute_key: 'priority', filter_operator: 'equal_to', values: [] },
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'is_not_present',
+          values: [],
+        },
+      ];
+
+      expect(
+        buildFiltersFromRecommendations(recommendations, filterTypes).map(
+          filter => filter.values
+        )
+      ).toEqual([[], []]);
+    });
+
+    it('drops attributes the filter form does not offer', () => {
+      const recommendations = [
+        { attribute_key: 'unknown', filter_operator: 'equal_to', values: [] },
+      ];
+
+      expect(
+        buildFiltersFromRecommendations(recommendations, filterTypes)
+      ).toEqual([]);
+    });
+  });
+
   describe('getCustomAttributeInputType', () => {
     it('returns number for number type', () => {
       expect(getCustomAttributeInputType('number')).toBe('number');

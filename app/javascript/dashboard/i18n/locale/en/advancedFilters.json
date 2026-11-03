@@ -19,6 +19,10 @@
       "OR": "OR"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "DESCRIBE_PLACEHOLDER": "Ask or describe...",
+    "BUILD_FILTERS": "Build filters for “{query}”",
+    "BUILDING_FILTERS": "Building filters for “{query}”...",
+    "NO_FILTERS_BUILT": "Could not build filters for “{query}”",
     "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
     "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
     "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",

@@ -17,9 +17,11 @@ import { validateSingleFilter } from 'dashboard/helper/validations.js';
 const { filterTypes } = defineProps({
   showQueryOperator: { type: Boolean, default: false },
   filterTypes: { type: Array, required: true },
+  // Lets the attribute picker build filters from a typed description.
+  describable: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['remove']);
+const emit = defineEmits(['remove', 'describe']);
 const { t } = useI18n();
 const showErrors = ref(false);
 
@@ -206,7 +208,9 @@ defineExpose({ validate, resetValidation });
         variant="faded"
         class="shrink-0"
         :options="filterTypes"
+        :describable="describable"
         @update:model-value="resetModelOnAttributeKeyChange"
+        @describe="query => emit('describe', query)"
       />
       <FilterSelect
         v-model="filterOperator"

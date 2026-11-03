@@ -7,9 +7,14 @@ import { vOnClickOutside } from '@vueuse/components';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useConversationFilterContext } from './provider.js';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
+import { useTranslationPlan } from 'dashboard/composables/useTranslationPlan';
+import ConversationApi from 'dashboard/api/conversations';
+import { buildFiltersFromRecommendations } from './helper/filterHelper';
 
 import Button from 'next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ConditionRow from './ConditionRow.vue';
 
 const props = defineProps({
@@ -24,7 +29,18 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['applyFilter', 'updateFolder', 'close']);
-const { attributeFilterTypes } = useConversationFilterContext();
+const { filterTypes, attributeFilterTypes } = useConversationFilterContext();
+
+const DESCRIBE_STATE = {
+  PENDING: 'pending',
+  EMPTY: 'empty',
+};
+
+// Building filters from a description follows the same paid-plan rule as translation.
+const { isAvailable: canDescribeFilters } = useTranslationPlan();
+const { run: runRecommendation } = useAbortableRequest();
+// The description being built and its state, shown under the rows. Null when idle.
+const describeStatus = ref(null);
 
 const filters = defineModel({
   type: Array,
@@ -56,6 +72,33 @@ const removeFilter = index => {
 
 const addFilter = () => {
   filters.value.push({ ...DEFAULT_FILTER });
+};
+
+// Replaces the row the description was typed in with the rows Jev builds.
+// The other rows stay. A failure or an empty result leaves every row as it was.
+const describeFilters = async (index, query) => {
+  describeStatus.value = { query, state: DESCRIBE_STATE.PENDING };
+  try {
+    const response = await runRecommendation(signal =>
+      ConversationApi.getFilterRecommendations(query, { signal })
+    );
+    // A newer description superseded this one and owns the status now.
+    if (response === undefined) return;
+
+    const recommendedFilters = buildFiltersFromRecommendations(
+      response.data.payload ?? [],
+      filterTypes.value
+    );
+    if (!recommendedFilters.length) {
+      describeStatus.value = { query, state: DESCRIBE_STATE.EMPTY };
+      return;
+    }
+
+    filters.value.splice(index, 1, ...recommendedFilters);
+    describeStatus.value = null;
+  } catch {
+    describeStatus.value = { query, state: DESCRIBE_STATE.EMPTY };
+  }
 };
 
 const conditionsRef = useTemplateRef('conditionsRef');
@@ -130,6 +173,8 @@ const outsideClickHandler = [
           v-model:values="filter.values"
           :filter-types="attributeFilterTypes"
           :show-query-operator="false"
+          :describable="canDescribeFilters"
+          @describe="query => describeFilters(index, query)"
           @remove="removeFilter(index)"
         />
         <ConditionRow
@@ -142,10 +187,26 @@ const outsideClickHandler = [
           v-model:values="filter.values"
           show-query-operator
           :filter-types="attributeFilterTypes"
+          :describable="canDescribeFilters"
+          @describe="query => describeFilters(index, query)"
           @remove="removeFilter(index)"
         />
       </template>
     </ul>
+    <p
+      v-if="describeStatus"
+      class="flex items-center gap-2 text-sm text-n-slate-11 -mt-2"
+    >
+      <Spinner
+        v-if="describeStatus.state === DESCRIBE_STATE.PENDING"
+        :size="16"
+      />
+      {{
+        describeStatus.state === DESCRIBE_STATE.PENDING
+          ? t('FILTER.BUILDING_FILTERS', { query: describeStatus.query })
+          : t('FILTER.NO_FILTERS_BUILT', { query: describeStatus.query })
+      }}
+    </p>
     <div class="flex gap-2 justify-between">
       <Button sm ghost blue @click="addFilter">
         {{ $t('FILTER.ADD_NEW_FILTER') }}

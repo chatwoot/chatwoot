@@ -5,6 +5,12 @@
 export const DROPDOWN_SEARCH_THRESHOLD = 8;
 
 /**
+ * Length limits for a description sent to build filters. The API rejects anything outside them.
+ */
+export const DESCRIBE_QUERY_MIN_LENGTH = 3;
+export const DESCRIBE_QUERY_MAX_LENGTH = 200;
+
+/**
  * Standard attributes of the conversation model
  */
 export const CONVERSATION_ATTRIBUTES = {
@@ -95,6 +101,47 @@ export const buildAttributesFilterTypes = (
       attributeModel: 'customAttributes',
     }));
 };
+
+const VALUELESS_OPERATORS = ['is_present', 'is_not_present'];
+
+const recommendedValues = (filterType, filterOperator, values) => {
+  if (VALUELESS_OPERATORS.includes(filterOperator)) return [];
+  if (filterType.inputType === 'multiSelect') {
+    return filterType.options.filter(option => values.includes(option.id));
+  }
+  if (filterType.inputType === 'searchSelect') {
+    return filterType.options.find(option => option.id === values[0]) ?? {};
+  }
+  return values[0]?.toString() ?? '';
+};
+
+/**
+ * Turns recommended conditions from the API into filter rows for the filter form.
+ * A condition on an attribute the form does not offer is dropped.
+ * @param {Array<{attribute_key: string, filter_operator: string, values: Array}>} recommendations
+ * @param {Array} filterTypes - The filter types from the filter context
+ * @returns {Array} Filter rows
+ */
+export const buildFiltersFromRecommendations = (recommendations, filterTypes) =>
+  recommendations.flatMap(recommendation => {
+    const filterType = filterTypes.find(
+      type => type.attributeKey === recommendation.attribute_key
+    );
+    if (!filterType) return [];
+
+    return [
+      {
+        attributeKey: recommendation.attribute_key,
+        filterOperator: recommendation.filter_operator,
+        values: recommendedValues(
+          filterType,
+          recommendation.filter_operator,
+          recommendation.values
+        ),
+        queryOperator: 'and',
+      },
+    ];
+  });
 
 /**
  * Replaces underscores with spaces in a string
