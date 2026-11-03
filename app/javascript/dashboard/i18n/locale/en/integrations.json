@@ -545,7 +545,6 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
     "OVERVIEW": {
       "HEADER": "Overview",
@@ -752,7 +751,7 @@
       "SEND_MESSAGE": "Send message...",
       "STOP": "Stop Copilot",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "LOADER": "Copilot is thinking",
       "YOU": "You",
       "USE": "Use this",
       "RESET": "Reset",
