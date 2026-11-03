@@ -9,6 +9,15 @@ class Captain::FilterTextSpan
   TRAILING_PUNCTUATION = /[.']+\z/
   LEADING_PUNCTUATION = /\A'+/
 
+  # Two readings of the same value. The broad reading alone took all of "incoming messages that mention refund",
+  # and the strict reading alone kept "acme.com" in "acme.com asking for a demo". Their mistakes did not overlap,
+  # so the value is the words both readings agree on.
+  READINGS = {
+    'broad' => 'Never pick the field\'s own name.',
+    'strict' => 'The value leaves out words that only describe the records, the field or the comparison, ' \
+                'such as messages, customers, mention, contains, from or with.'
+  }.freeze
+
   pattr_initialize [:field!, :index!, :query!]
 
   # The words of the query with their character offsets.
@@ -29,33 +38,45 @@ class Captain::FilterTextSpan
   end
 
   def questions
-    {
-      "start_#{index}" => span_question('FIRST'),
-      "end_#{index}" => span_question('LAST')
-    }
+    READINGS.each_with_object({}) do |(reading, rule), questions|
+      questions["start_#{reading}_#{index}"] = span_question('FIRST', rule)
+      questions["end_#{reading}_#{index}"] = span_question('LAST', rule)
+    end
   end
 
   # The value `description` gives for the field, or no values when Jev is unsure or finds none.
-  # When Jev is sure of only one end, the value is that one word. For "Email has chatwoot" Jev was
-  # sure "chatwoot" ends the value but not that it starts it, because one word does not look like an email.
+  # When only one reading finds a value, that value is used. When both do but they share no words, there is no value.
   def values(answers)
-    first = word_at(answers["start_#{index}"])
-    last = word_at(answers["end_#{index}"])
-    first ||= last
-    last ||= first
-    return [] if first.nil? || first[:start] > last[:start]
-
-    [query[first[:start]...last[:end]]]
+    broad, strict = READINGS.keys.map { |reading| reading_range(answers, reading) }
+    range = broad && strict ? overlap(broad, strict) : broad || strict
+    range ? [query[range.first...range.last]] : []
   end
 
   private
 
-  def span_question(position)
+  # The character range of one reading. When Jev is sure of only one end, the range is that one word.
+  # For "Email has chatwoot" Jev was sure "chatwoot" ends the value but not that it starts it,
+  # because one word does not look like an email.
+  def reading_range(answers, reading)
+    first = word_at(answers["start_#{reading}_#{index}"])
+    last = word_at(answers["end_#{reading}_#{index}"])
+    first ||= last
+    last ||= first
+    [first[:start], last[:end]] if first && first[:start] <= last[:start]
+  end
+
+  def overlap(range, other)
+    start = [range.first, other.first].max
+    finish = [range.last, other.last].min
+    [start, finish] if start < finish
+  end
+
+  def span_question(position, rule)
     {
       type: 'choice',
       instructions: "`words` numbers the words of `description`. Which word is the #{position} word of the " \
-                    "\"#{field[:label]}\" value that `description` gives, such as a name, a domain or a number? " \
-                    "Pick none when `description` gives no \"#{field[:label]}\" value. Never pick the field's own name.",
+                    "\"#{field[:label]}\" value that `description` gives, such as a word, a phrase, a name, a domain or a number? " \
+                    "Pick none when `description` gives no \"#{field[:label]}\" value. #{rule}",
       criteria: criteria
     }
   end

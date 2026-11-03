@@ -33,7 +33,9 @@ class Captain::FilterRecommendationService
     'contains' => 'Part of the value, such as a domain, a word or a fragment, as in "email from example.com" or "email has acme"',
     'does_not_contain' => '`description` excludes values containing the text, as in "not from gmail.com"',
     'equal_to' => 'The whole value exactly, such as a full email address or a full name',
-    'not_equal_to' => '`description` excludes one exact whole value'
+    'not_equal_to' => '`description` excludes one exact whole value',
+    'detects' => 'AI should find what `description` describes in the messages',
+    'does_not_detect' => '`description` asks for messages where it is absent'
   }.freeze
   RELEVANCE_CRITERIA = {
     'true' => 'The description clearly implies a condition on this field',
@@ -213,8 +215,11 @@ class Captain::FilterRecommendationService
   end
 
   # Every option Jev is confident of for a multi-value field, or the most likely one for a single-value field.
+  # Ordered levels need more confidence, because Jev also says yes to neighbours of the level named.
+  # For "urgent open conversations" it gave urgent 0.96 and high 0.64.
   def implied_values(field, value_probabilities)
-    confident = field[:options].zip(value_probabilities).select { |_, value_probability| value_probability >= MIN_VALUE_PROBABILITY }
+    minimum = field[:ordered] ? MIN_DECISIVE_VALUE_PROBABILITY : MIN_VALUE_PROBABILITY
+    confident = field[:options].zip(value_probabilities).select { |_, value_probability| value_probability >= minimum }
     confident = confident.max_by(1) { |_, value_probability| value_probability } unless field[:multiple]
     confident.map { |option, _| option[:value] }
   end

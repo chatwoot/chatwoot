@@ -211,6 +211,20 @@ export const getConditionOptions = ({
   return conditionFilterMaps[type];
 };
 
+/**
+ * Converts a filter row built from a description into an automation condition.
+ * @param {Object} row - A row from buildFiltersFromRecommendations
+ * @returns {Object} The condition in the automation form's shape
+ */
+export const toAutomationCondition = row => ({
+  attribute_key: row.attributeKey,
+  filter_operator: row.filterOperator,
+  values: row.values,
+  query_operator: row.queryOperator,
+  custom_attribute_type:
+    row.attributeModel === 'standard' ? '' : row.attributeModel || '',
+});
+
 export const getFileName = (action, files = []) => {
   const blobId = action.action_params[0];
   if (!blobId) return '';

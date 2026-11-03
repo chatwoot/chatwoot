@@ -8,6 +8,11 @@ import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import AutomationWaitCondition from './AutomationWaitCondition.vue';
 
+// Building conditions from a description reads the account plan from the store, which these specs do not mount.
+vi.mock('dashboard/composables/useTranslationPlan', async () => {
+  const { ref } = await import('vue');
+  return { useTranslationPlan: () => ({ isAvailable: ref(false) }) };
+});
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
     t: (key, { count } = {}) => (count === undefined ? key : `${key}:${count}`),

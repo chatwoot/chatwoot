@@ -2,6 +2,9 @@
 import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ConditionRow from 'dashboard/components-next/filter/ConditionRow.vue';
+import FilterDescribeStatus from 'dashboard/components-next/filter/FilterDescribeStatus.vue';
+import { useFilterRecommendations } from 'dashboard/components-next/filter/useFilterRecommendations';
+import { toAutomationCondition } from 'dashboard/helper/automationHelper';
 import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
 import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue';
 import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
@@ -78,6 +81,12 @@ const additionalFilterTypes = computed(() => {
 
 const isAdditionalCondition = condition =>
   !managedAttributeKeys.value.has(condition.attribute_key);
+
+// A described row is replaced by conditions from the fields left after the wait controls.
+const { canDescribeFilters, describeStatus, describeFilters } =
+  useFilterRecommendations('automation', additionalFilterTypes, conditions, {
+    toRow: toAutomationCondition,
+  });
 
 const additionalConditionIndexes = computed(() =>
   conditions.value.flatMap((condition, index) =>
@@ -454,9 +463,12 @@ defineExpose({ validate, resetValidation });
             v-model:values="conditions[conditionIndex].values"
             class="w-full min-w-0"
             :filter-types="additionalFilterTypes"
+            :describable="canDescribeFilters"
+            @describe="query => describeFilters(conditionIndex, query)"
             @remove="removeFilter(conditionIndex)"
           />
         </ul>
+        <FilterDescribeStatus v-if="describeStatus" :status="describeStatus" />
       </div>
       <div v-if="additionalFilterTypes.length">
         <NextButton

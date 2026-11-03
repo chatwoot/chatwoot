@@ -114,6 +114,7 @@ const recommendedValues = (filterType, filterOperator, values) => {
   if (filterType.inputType === 'searchSelect') {
     return filterType.options.find(option => option.id === values[0]) ?? {};
   }
+  if (filterType.inputType === 'multiText') return values;
   return values[0]?.toString() ?? '';
 };
 

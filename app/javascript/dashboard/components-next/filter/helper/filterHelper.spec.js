@@ -148,6 +148,22 @@ describe('filterHelper', () => {
       ]);
     });
 
+    it('keeps the list of texts for a multi-text input', () => {
+      const recommendations = [
+        {
+          attribute_key: 'content',
+          filter_operator: 'contains',
+          values: ['refund'],
+        },
+      ];
+
+      expect(
+        buildFiltersFromRecommendations(recommendations, [
+          { attributeKey: 'content', inputType: 'multiText' },
+        ])[0].values
+      ).toEqual(['refund']);
+    });
+
     it('drops attributes the filter form does not offer', () => {
       const recommendations = [
         { attribute_key: 'unknown', filter_operator: 'equal_to', values: [] },

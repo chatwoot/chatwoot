@@ -596,3 +596,35 @@ describe('getCaptainConditionUsage', () => {
     });
   });
 });
+
+describe('toAutomationCondition', () => {
+  it('converts a built filter row into an automation condition', () => {
+    expect(
+      helpers.toAutomationCondition({
+        attributeKey: 'content',
+        attributeModel: 'standard',
+        filterOperator: 'contains',
+        values: ['refund'],
+        queryOperator: 'and',
+      })
+    ).toEqual({
+      attribute_key: 'content',
+      filter_operator: 'contains',
+      values: ['refund'],
+      query_operator: 'and',
+      custom_attribute_type: '',
+    });
+  });
+
+  it('keeps the custom attribute type of a custom attribute row', () => {
+    expect(
+      helpers.toAutomationCondition({
+        attributeKey: 'plan',
+        attributeModel: 'contact_attribute',
+        filterOperator: 'equal_to',
+        values: { id: 'pro', name: 'pro' },
+        queryOperator: 'and',
+      }).custom_attribute_type
+    ).toBe('contact_attribute');
+  });
+});

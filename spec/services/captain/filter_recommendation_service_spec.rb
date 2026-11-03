@@ -237,8 +237,10 @@ RSpec.describe Captain::FilterRecommendationService do
       {
         'relevant_5' => noul(0.85),
         'operator_5' => choice('contains', 0.98),
-        'start_5' => choice('2', 0.9),
-        'end_5' => choice('2', 0.95)
+        'start_broad_5' => choice('2', 0.9),
+        'end_broad_5' => choice('2', 0.95),
+        'start_strict_5' => choice('2', 0.9),
+        'end_strict_5' => choice('2', 0.9)
       }
     end
 
@@ -246,6 +248,36 @@ RSpec.describe Captain::FilterRecommendationService do
       expect(service.perform).to eq([{ attribute_key: 'email', filter_operator: 'contains', values: ['chatwoot.com'] }])
       expect(WebMock).to(have_requested(:post, endpoint).with do |request|
         JSON.parse(request.body).dig('state', 'words') == "0|Email\n1|from\n2|chatwoot.com"
+      end)
+    end
+  end
+
+  context 'with automation fields' do
+    let(:field_set) do
+      Captain::AutomationFilterFields.new(account: account, user: admin, attribute_keys: %w[message_type content captain_condition])
+    end
+    let(:query) { 'incoming messages that mention refund' }
+    # Field order follows the automation catalog: message_type, content, captain_condition.
+    let(:answers) do
+      {
+        'relevant_0' => noul(0.8),
+        'value_0' => { type: 'choice', choice: 'option_0', probabilities: { 'none' => 0.1, 'option_0' => 0.88 } },
+        'relevant_1' => noul(0.9),
+        'operator_1' => choice('contains', 0.99),
+        'start_broad_1' => choice('0', 0.6), 'end_broad_1' => choice('4', 0.7),
+        'start_strict_1' => choice('4', 0.9), 'end_strict_1' => choice('4', 0.9)
+      }
+    end
+
+    it 'only considers the condition keys the event offers' do
+      expect(service.perform).to eq(
+        [
+          { attribute_key: 'content', filter_operator: 'contains', values: ['refund'] },
+          { attribute_key: 'message_type', filter_operator: 'equal_to', values: ['incoming'] }
+        ]
+      )
+      expect(WebMock).to(have_requested(:post, endpoint).with do |request|
+        JSON.parse(request.body)['questions'].keys.grep(/\Arelevant_/).size == 3
       end)
     end
   end

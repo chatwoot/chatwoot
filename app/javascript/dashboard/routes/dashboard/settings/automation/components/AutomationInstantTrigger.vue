@@ -1,7 +1,10 @@
 <script setup>
 import { computed, useTemplateRef } from 'vue';
 import ConditionRow from 'dashboard/components-next/filter/ConditionRow.vue';
+import FilterDescribeStatus from 'dashboard/components-next/filter/FilterDescribeStatus.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { useFilterRecommendations } from 'dashboard/components-next/filter/useFilterRecommendations';
+import { toAutomationCondition } from 'dashboard/helper/automationHelper';
 
 const props = defineProps({
   events: {
@@ -36,6 +39,14 @@ const props = defineProps({
 
 const eventName = defineModel('eventName', { type: String, required: true });
 const conditions = defineModel('conditions', { type: Array, required: true });
+
+const { canDescribeFilters, describeStatus, describeFilters } =
+  useFilterRecommendations(
+    'automation',
+    computed(() => props.filterTypes),
+    conditions,
+    { toRow: toAutomationCondition }
+  );
 
 const conditionsRef = useTemplateRef('conditionsRef');
 
@@ -105,6 +116,8 @@ defineExpose({ validate, resetValidation });
             v-model:values="conditions[i].values"
             :filter-types="filterTypes"
             :show-query-operator="false"
+            :describable="canDescribeFilters"
+            @describe="query => describeFilters(i, query)"
             @remove="removeFilter(i)"
           />
           <ConditionRow
@@ -116,6 +129,8 @@ defineExpose({ validate, resetValidation });
             v-model:values="conditions[i].values"
             :filter-types="filterTypes"
             show-query-operator
+            :describable="canDescribeFilters"
+            @describe="query => describeFilters(i, query)"
             @remove="removeFilter(i)"
           />
         </template>
@@ -130,6 +145,11 @@ defineExpose({ validate, resetValidation });
           />
         </div>
       </ul>
+      <FilterDescribeStatus
+        v-if="describeStatus"
+        :status="describeStatus"
+        class="mt-3"
+      />
     </section>
   </div>
 </template>

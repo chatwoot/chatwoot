@@ -41,6 +41,21 @@ RSpec.describe 'Conversation filter recommendations API', type: :request do
         .with(account: account, field_set: an_instance_of(Captain::ContactFilterFields), query: 'blocked contacts')
     end
 
+    it 'builds automation recommendations from the condition keys the event offers' do
+      post url, params: { query: 'refund messages', filter_type: 'automation', attribute_keys: %w[content message_type] },
+                headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(Captain::FilterRecommendationService).to have_received(:new)
+        .with(account: account, field_set: an_instance_of(Captain::AutomationFilterFields), query: 'refund messages')
+    end
+
+    it 'rejects an automation request without condition keys' do
+      post url, params: { query: 'refund messages', filter_type: 'automation' }, headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
     it 'rejects an unknown filter type' do
       post url, params: { query: 'open chats', filter_type: 'report' }, headers: agent.create_new_auth_token, as: :json
 
