@@ -35,7 +35,7 @@ module Enterprise::Api::V1::Accounts::Articles::BulkActionsController
   end
 
   def find_existing_translations
-    root_ids = @articles.map { |a| Article.find_root_article_id(a) }
+    root_ids = @articles.map(&:root_id)
     @portal.articles.in_translation_families(root_ids).where(locale: @locale)
   end
 

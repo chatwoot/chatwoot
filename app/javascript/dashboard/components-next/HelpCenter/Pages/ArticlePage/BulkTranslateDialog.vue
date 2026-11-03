@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import categoriesAPI from 'dashboard/api/helpCenter/categories.js';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -145,10 +146,12 @@ const submitTranslation = async (force = false) => {
       duplicateArticles.value = error.response.data.duplicate_articles;
       return;
     }
+    const message = parseAPIErrorResponse(error);
     useAlert(
-      error?.response?.data?.error ||
-        error?.message ||
-        t('HELP_CENTER.ARTICLES_PAGE.BULK_TRANSLATE.API.ERROR_MESSAGE')
+      typeof message === 'string'
+        ? message
+        : error?.message ||
+            t('HELP_CENTER.ARTICLES_PAGE.BULK_TRANSLATE.API.ERROR_MESSAGE')
     );
   } finally {
     isSubmitting.value = false;

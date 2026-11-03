@@ -22,15 +22,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-  'saveArticle',
-  'saveSlug',
-  'saveAssociation',
-  'previewArticle',
-  'close',
-]);
+const emit = defineEmits(['saveArticle', 'previewArticle', 'close']);
 
-const saveArticle = useDebounceFn(value => emit('saveArticle', value), 400);
+const saveMeta = useDebounceFn(meta => emit('saveArticle', { meta }), 400);
 
 const { t } = useI18n();
 const route = useRoute();
@@ -95,7 +89,7 @@ const handleArticleSearch = useDebounceFn(query => {
 }, 300);
 
 const handleAssociationChange = articleId => {
-  emit('saveAssociation', articleId || null);
+  emit('saveArticle', { associated_article_id: articleId || null });
   associationSelectionKey.value += 1;
 };
 
@@ -125,7 +119,7 @@ const updateState = () => {
 watch(
   state,
   newState => {
-    saveArticle({
+    saveMeta({
       title: newState.title,
       description: newState.description,
       tags: newState.tags,
@@ -165,7 +159,7 @@ onMounted(() => {
       <div>
         <ArticleSlugField
           :article="article"
-          @save-slug="slug => emit('saveSlug', slug)"
+          @save-slug="slug => emit('saveArticle', { slug })"
           @preview-article="emit('previewArticle')"
         />
         <div class="flex items-center w-full gap-3 py-2">

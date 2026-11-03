@@ -47,7 +47,7 @@ class Captain::Articles::TranslateJob < ApplicationJob
       locale: target_locale,
       author_id: user.id,
       status: :draft,
-      associated_article_id: Article.find_root_article_id(@source_article)
+      associated_article_id: @source_article.root_id
     )
   end
 

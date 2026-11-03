@@ -121,9 +121,8 @@ class Article < ApplicationRecord
     records
   end
 
-  # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
-  def self.find_root_article_id(article)
-    article.associated_article_id || article.id
+  def root_id
+    associated_article_id || id
   end
 
   def noindex?
@@ -131,7 +130,7 @@ class Article < ApplicationRecord
   end
 
   def translation_family
-    portal.articles.in_translation_families(associated_article_id || id)
+    portal.articles.in_translation_families(root_id)
   end
 
   def public_locale
@@ -190,7 +189,7 @@ class Article < ApplicationRecord
     return if associated_article_id.blank?
 
     linked_article = portal.articles.find(associated_article_id)
-    root_article_id = self.class.find_root_article_id(linked_article)
+    root_article_id = linked_article.root_id
     self.associated_article_id = root_article_id == id ? nil : root_article_id
   end
 
