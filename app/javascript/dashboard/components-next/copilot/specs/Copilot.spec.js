@@ -1,3 +1,4 @@
+import { nextTick } from 'vue';
 import { mount, shallowMount } from '@vue/test-utils';
 
 import Copilot from '../Copilot.vue';
@@ -264,5 +265,39 @@ describe('Copilot', () => {
     expect(
       wrapper.findComponent(CopilotInput).find('textarea').element.value
     ).toBe('Keep this draft');
+  });
+
+  it('gives the input focus back after a header action that keeps the chat on screen', async () => {
+    const wrapper = mount(Copilot, {
+      attachTo: document.body,
+      props: {
+        onSendMessage: vi.fn(),
+        assistants: [{ id: 7, name: 'Support' }],
+      },
+      global: {
+        mocks: { $t: key => key },
+        stubs: {
+          SidebarActionsHeader: true,
+          CopilotEmptyState: true,
+        },
+      },
+    });
+    const header = wrapper.findComponent(SidebarActionsHeader);
+    const textarea = wrapper.findComponent(CopilotInput).find('textarea');
+
+    await header.vm.$emit('click', 'expand');
+    await nextTick();
+    expect(document.activeElement).toBe(textarea.element);
+
+    textarea.element.blur();
+    await header.vm.$emit('click', 'history');
+    await nextTick();
+    expect(document.activeElement).not.toBe(textarea.element);
+
+    await header.vm.$emit('click', 'history');
+    await nextTick();
+    expect(document.activeElement).toBe(textarea.element);
+
+    wrapper.unmount();
   });
 });

@@ -193,12 +193,14 @@ const handleSidebarAction = action => {
   if (action === 'new') {
     emit('reset');
     showHistory.value = false;
-    focusInput();
   } else if (action === 'history') {
     showHistory.value = !showHistory.value;
   } else if (action === 'expand') {
     emit('toggleExpand');
   }
+  // A click on a header button leaves the text selection where it was, often in the reply box, so a paste would land
+  // there unless the input takes focus back.
+  if (!showHistory.value) focusInput();
 };
 
 const hasAssistants = computed(() => props.assistants.length > 0);
