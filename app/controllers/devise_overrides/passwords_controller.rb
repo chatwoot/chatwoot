@@ -34,11 +34,14 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
 
   private
 
-  # Agent invitations link here with a reset token, so unconfirmed users get a longer window.
   def reset_password_token_active?(recoverable)
-    return recoverable.reset_password_period_valid? if recoverable.confirmed?
+    return recoverable.reset_password_period_valid? unless pending_invitation?(recoverable)
 
     recoverable.reset_password_sent_at.present? && recoverable.reset_password_sent_at >= INVITATION_RESET_PASSWORD_WITHIN.ago
+  end
+
+  def pending_invitation?(recoverable)
+    !recoverable.confirmed? && recoverable.account_users.where.not(inviter_id: nil).exists?
   end
 
   def reset_password_and_confirmation(recoverable)

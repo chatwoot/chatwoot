@@ -26,8 +26,21 @@ RSpec.describe 'Passwords API', type: :request do
       expect(user.reload.valid_password?('Test@123456')).to be true
     end
 
-    context 'when the user has not confirmed their email' do
+    context 'when the user signed up and has not confirmed their email' do
       let!(:user) { create(:user, password: 'Test@123456', account: account, skip_confirmation: false) }
+
+      it 'rejects a token sent before the reset window' do
+        reset_password(reset_token_for(user, sent_at: 7.hours.ago))
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(user.reload).not_to be_confirmed
+      end
+    end
+
+    context 'when the user was invited and has not accepted yet' do
+      let!(:user) do
+        create(:user, password: 'Test@123456', account: account, inviter: create(:user, account: account), skip_confirmation: false)
+      end
 
       it 'accepts an invitation token for days after it was sent' do
         reset_password(reset_token_for(user, sent_at: 2.days.ago))
