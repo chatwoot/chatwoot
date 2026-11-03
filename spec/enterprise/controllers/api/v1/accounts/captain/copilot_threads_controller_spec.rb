@@ -278,6 +278,15 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
       expect(copilot_thread.copilot_messages.order(:id).last.message).to eq('content' => 'Only the open ones')
     end
 
+    it 'marks a message the old Copilot never answered as stopped, so the agent can write again' do
+      message
+
+      post stop_path, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(message.reload.message).to include('status' => 'stopped')
+    end
+
     it 'does not stop another agent\'s thread' do
       turn
 

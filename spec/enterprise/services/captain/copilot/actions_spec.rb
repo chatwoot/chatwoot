@@ -41,6 +41,16 @@ RSpec.describe Captain::Copilot::Actions do
     expect(action.perform(conversation)).to eq(:skipped)
   end
 
+  it 'resolves every conversation of a contact the change has already blocked' do
+    action = described_class.build('mute', account: account, user: admin, arguments: {})
+    other_conversation = create(:conversation, account: account, inbox: inbox, contact: conversation.contact)
+
+    action.perform(conversation)
+
+    expect(action.perform(other_conversation.reload)).to eq(:applied)
+    expect(other_conversation.reload).to be_resolved
+  end
+
   it 'labels and notes contacts with the conversation label rules' do
     create(:label, account: account, title: 'vip')
     contact = conversation.contact

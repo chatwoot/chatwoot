@@ -7,12 +7,16 @@ class Captain::Copilot::Actions::ApplySla < Captain::Copilot::Actions::BaseActio
     properties: { sla_policy_id: { type: 'integer', minimum: 1 } }
   }.deep_stringify_keys.freeze
 
-  # The same write as the dashboard's SLA menu. Saving the policy starts its timers on the conversation.
+  # The same write as the dashboard's SLA menu. Saving the policy starts its timers on the conversation. The conversation
+  # refuses a second SLA, or any SLA while its contact is blocked. A retry cannot change that, so the record fails with
+  # the validation's reason.
   def perform(conversation)
     return :skipped if conversation.sla_policy_id == sla_policy.id
 
     conversation.update!(sla_policy: sla_policy)
     :applied
+  rescue ActiveRecord::RecordInvalid => e
+    raise Captain::Copilot::ActionNotApplicableError, e.record.errors.full_messages.to_sentence
   end
 
   def card(_ids)
