@@ -1,6 +1,6 @@
 # Chatwoot Development Guidelines
 
-`CLAUDE.md` is a symlink to this file. Keep shared instructions here.
+`CLAUDE.md` is a symlink to this file. Keep shared, repository-wide instructions here and detailed procedures in linked docs. Add nested `AGENTS.md` files only for subtree-specific differences; avoid duplicating root rules.
 
 ## Build, Test, and Lint
 
@@ -48,8 +48,9 @@
 - Use `with_modified_env` rather than stubbing `ENV`. In parallel/reloading specs, prefer comparing `error.class.name` over constant class equality when asserting raised errors.
 - Keep review-only work read-only unless changes are requested. Use existing specs or temporary probes and report missing regression coverage.
 
-## Implementation and Review Safety
+## Code Review Rules
 
+- Apply these checks during implementation and PR review. Report concrete regressions on supported paths, with the trigger, impact, and evidence; distinguish intended behavior from defects. Leave formatting and lint-only findings to CI.
 - Name the affected behavior and trace entry points, source of truth, side effects, and consumers across APIs, jobs, supported clients, and Enterprise overlays.
 - Inspect unchanged helpers reached by new callers or defaults. Treat valid `false` configuration distinctly from missing values; check repeated reads, cache invalidation, and disabled-feature work.
 - Bound database/Redis work, fanout, retries, scheduled jobs, and lock/connection hold time at representative production scale. Green unit tests or the existence of an index do not establish capacity.
