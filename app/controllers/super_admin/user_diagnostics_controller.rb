@@ -92,3 +92,5 @@ class SuperAdmin::UserDiagnosticsController < SuperAdmin::ApplicationController
     Array(params[:subscription_ids]).reject(&:blank?).map(&:to_i)
   end
 end
+
+SuperAdmin::UserDiagnosticsController.prepend_mod_with('SuperAdmin::UserDiagnosticsController')

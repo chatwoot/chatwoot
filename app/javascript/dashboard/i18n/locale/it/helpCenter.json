@@ -45,14 +45,14 @@
         "TITLE": "Carica immagine",
         "UPLOADING": "Caricamento...",
         "SUCCESS": "Immagine caricata correttamente",
-        "UPLOAD_FAILED": "Upload failed",
-        "RATE_LIMITED": "Upload limit reached. Try again in a few minutes.",
+        "UPLOAD_FAILED": "Caricamento non riuscito",
+        "RATE_LIMITED": "Limite di caricamenti raggiunto. Riprova tra qualche minuto.",
         "RETRY": "Riprova",
         "REMOVE": "Rimuovi",
-        "CANCEL": "Cancel upload",
+        "CANCEL": "Annulla il caricamento",
         "ERROR_FILE_SIZE": "La dimensione dell'immagine deve essere inferiore a {size}MB",
-        "ERROR_ATTACHMENT_FILE_SIZE": "File size should be less than {size}MB",
-        "ERROR_UNSUPPORTED_TYPE": "This file type is not supported",
+        "ERROR_ATTACHMENT_FILE_SIZE": "Il file deve essere più piccolo di {size}MB",
+        "ERROR_UNSUPPORTED_TYPE": "Questo tipo di file non è supportato",
         "ERROR_FILE_FORMAT": "Il formato immagine deve essere jpg, jpeg o png",
         "ERROR_FILE_DIMENSIONS": "Le dimensioni dell'immagine dovrebbero essere inferiori a 2000 x 2000"
       }
@@ -544,8 +544,8 @@
             "PUBLISHED": "Pubblicato",
             "ARCHIVED": "Archiviato"
           },
-          "PENDING_EDITS": "Unpublished edits",
-          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
+          "PENDING_EDITS": "Modifiche non pubblicate",
+          "PENDING_EDITS_TOOLTIP": "Questo articolo pubblicato ha modifiche non pubblicate",
           "CATEGORY": {
             "UNCATEGORISED": "Senza categoria"
           }
@@ -595,8 +595,8 @@
           "SUBTITLE": "Gli articoli in questa categoria appariranno qui"
         },
         "SEARCH": {
-          "TITLE": "No matching articles",
-          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
+          "TITLE": "Nessun articolo corrispondente",
+          "SUBTITLE": "Non abbiamo trovato articoli corrispondenti alla ricerca. Prova con un altro termine."
         }
       },
       "BULK_TRANSLATE": {
@@ -629,8 +629,8 @@
         "DELETE": "Elimina",
         "STATUS_SUCCESS": "Articoli aggiornati correttamente",
         "STATUS_ERROR": "Impossibile aggiornare gli articoli",
-        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
-        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
+        "STATUS_SKIPPED": "1 articolo con modifiche non pubblicate è stato saltato — aprilo per pubblicarle o scartarle. | {count} articoli con modifiche non pubblicate sono stati saltati — aprili per pubblicarle o scartarle.",
+        "STATUS_SKIPPED_ALL": "Questi articoli hanno modifiche non pubblicate — aprili uno per uno per pubblicarle o scartarle.",
         "CATEGORY_SUCCESS": "Articoli spostati correttamente",
         "CATEGORY_ERROR": "Impossibile spostare gli articoli",
         "DELETE_CONFIRM_TITLE": "Elimina articolo | Elimina {count} articoli",
@@ -644,7 +644,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Nuova categoria",
         "EDIT_CATEGORY": "Modifica categoria",
-        "SEARCH_PLACEHOLDER": "Search categories...",
+        "SEARCH_PLACEHOLDER": "Cerca categorie...",
         "CATEGORIES_COUNT": "{n} categoria | {n} categorie",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Categorie ({localeCode})",
@@ -656,8 +656,8 @@
         "SUBTITLE": "Le categorie appariranno qui. Puoi aggiungere una categoria cliccando sul pulsante 'Nuova Categoria'."
       },
       "SEARCH_EMPTY_STATE": {
-        "TITLE": "No matching categories",
-        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
+        "TITLE": "Nessuna categoria corrispondente",
+        "SUBTITLE": "Non abbiamo trovato categorie corrispondenti alla ricerca. Prova con un altro termine."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} articolo | {count} articoli"
@@ -716,10 +716,10 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "Nessuna lingua disponibile | {n} lingua | {n} lingue",
       "NEW_LOCALE_BUTTON_TEXT": "Nuova lingua",
-      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_PLACEHOLDER": "Cerca lingue...",
       "SEARCH_EMPTY_STATE": {
-        "TITLE": "No matching locales",
-        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+        "TITLE": "Nessuna lingua corrispondente",
+        "SUBTITLE": "Non abbiamo trovato lingue corrispondenti alla ricerca. Prova con un altro termine."
       },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} articolo | {count} articoli",
@@ -731,31 +731,31 @@
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
           "CUSTOMIZE_CONTENT": "Localizza/traduci il contenuto",
-          "SELECT_POPULAR_CONTENT": "Select recommended content",
+          "SELECT_POPULAR_CONTENT": "Seleziona i contenuti consigliati",
           "DELETE": "Elimina"
         }
       },
       "POPULAR_CONTENT_DIALOG": {
-        "TITLE": "Recommended content",
-        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
+        "TITLE": "Contenuti consigliati",
+        "DESCRIPTION": "Scegli fino a 3 categorie e 6 articoli da mettere in evidenza nella home del centro assistenza di questa lingua. Trascinali nell'ordine in cui vuoi che li vedano i visitatori.",
         "SEARCH": "Cerca...",
-        "EMPTY": "No matching results",
-        "ADD_ANOTHER": "Add another...",
-        "SLOTS_LEFT": "{count} slots left",
-        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
-        "CONFIRM": "Save recommendations",
+        "EMPTY": "Nessun risultato corrispondente",
+        "ADD_ANOTHER": "Aggiungi un altro...",
+        "SLOTS_LEFT": "{count} posti liberi",
+        "OVERRIDING_DEFAULTS": "Impostazioni predefinite sostituite per questa lingua",
+        "CONFIRM": "Salva i consigli",
         "CATEGORIES": {
-          "LABEL": "Recommended categories",
-          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+          "LABEL": "Categorie consigliate",
+          "ARTICLES_COUNT": "Nessun articolo | {count} articolo | {count} articoli"
         },
         "ARTICLES": {
-          "LABEL": "Recommended articles",
+          "LABEL": "Articoli consigliati",
           "IN_CATEGORY": "in {category}",
           "UNCATEGORIZED": "Senza categoria"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Recommended content updated successfully",
-          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+          "SUCCESS_MESSAGE": "Contenuti consigliati aggiornati",
+          "ERROR_MESSAGE": "Impossibile aggiornare i contenuti consigliati. Riprova."
         }
       },
       "CONTENT_DIALOG": {
@@ -802,29 +802,30 @@
         },
         "PREVIEW": "Anteprima",
         "PUBLISH": "Pubblica",
-        "PUBLISH_CHANGES": "Publish changes",
-        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
-        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
-        "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
-        "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
-        "DISCARD_CHANGES": "Discard changes",
-        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
-        "DISCARD_CHANGES_ERROR": "Could not discard changes",
-        "PENDING_CHANGES": "Pending changes",
-        "VIEW_CHANGES": "View unpublished changes",
+        "PUBLISH_CHANGES": "Pubblica le modifiche",
+        "PUBLISH_CHANGES_SUCCESS": "Modifiche pubblicate",
+        "PUBLISH_CHANGES_ERROR": "Impossibile pubblicare le modifiche",
+        "SAVE_IN_PROGRESS": "Sto ancora salvando le ultime modifiche. Riprova tra un momento.",
+        "UPLOAD_IN_PROGRESS": "Un caricamento di file non è finito. Aspetta che finisca o rimuovilo prima.",
+        "CREATE_IN_PROGRESS": "L'articolo è ancora in fase di creazione. Aggiungi di nuovo i file tra un momento.",
+        "DISCARD_CHANGES": "Scarta le modifiche",
+        "DISCARD_CHANGES_SUCCESS": "Modifiche scartate",
+        "DISCARD_CHANGES_ERROR": "Impossibile scartare le modifiche",
+        "PENDING_CHANGES": "Modifiche in sospeso",
+        "VIEW_CHANGES": "Vedi le modifiche non pubblicate",
         "DRAFT": "Bozza",
         "ARCHIVE": "Archivia",
         "BACK_TO_ARTICLES": "Torna agli articoli"
       },
       "PENDING_CHANGES_POPOVER": {
-        "TITLE": "Unpublished changes",
-        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
-        "APPLY": "Apply changes",
-        "DISCARD": "Discard changes"
+        "TITLE": "Modifiche non pubblicate",
+        "DESCRIPTION": "Questo articolo ha modifiche in bozza non ancora pubblicate. Vuoi applicarle prima di cambiare lo stato, o scartarle?",
+        "APPLY": "Applica le modifiche",
+        "DISCARD": "Scarta le modifiche"
       },
       "DIFF_DIALOG": {
-        "TITLE": "Unpublished changes",
-        "DESCRIPTION": "Compare your draft against the version that's currently live.",
+        "TITLE": "Modifiche non pubblicate",
+        "DESCRIPTION": "Confronta la bozza con la versione attualmente pubblicata.",
         "TITLE_LABEL": "Titolo"
       },
       "EDIT_ARTICLE": {
@@ -839,7 +840,14 @@
         "META_TITLE": "Titolo meta",
         "META_TITLE_PLACEHOLDER": "Aggiungi titolo meta",
         "META_TAGS": "Tag meta",
-        "META_TAGS_PLACEHOLDER": "Aggiungi tag meta"
+        "META_TAGS_PLACEHOLDER": "Aggiungi tag meta",
+        "SLUG": "Slug",
+        "SLUG_PLACEHOLDER": "Aggiungi lo slug",
+        "SLUG_USE_TITLE": "Usa il titolo come slug",
+        "SLUG_WARNING": "L'URL attuale smetterà di funzionare e i link esistenti non andranno più.",
+        "SLUG_UPDATE": "Aggiorna",
+        "SLUG_UPDATED": "Slug aggiornato. L'articolo ora è disponibile al nuovo URL.",
+        "SLUG_OPEN": "Apri l'URL"
       },
       "API": {
         "ERROR": "Errore durante il salvataggio dell'articolo"
@@ -980,61 +988,61 @@
       },
       "INTEGRATIONS": {
         "HEADER": "Integrazioni",
-        "DESCRIPTION": "Connect tools that extend what your help center can do.",
+        "DESCRIPTION": "Collega strumenti che estendono le funzioni del tuo centro assistenza.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
-          "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
+          "TITLE": "Chat dal vivo con Chatwoot",
+          "DESCRIPTION": "Mostra un widget di chat dal vivo nel centro assistenza, così i visitatori possono contattarti mentre leggono.",
           "PLACEHOLDER": "Seleziona widget live chat",
           "NONE_OPTION": "Nessun widget"
         },
         "GTM": {
           "TITLE": "Google Tag Manager",
-          "DESCRIPTION": "Add analytics and marketing tags by connecting your Tag Manager container.",
+          "DESCRIPTION": "Aggiungi tag di analisi e marketing collegando il tuo container di Tag Manager.",
           "PLACEHOLDER": "GTM-XXXXXXX",
-          "HELP": "Find this in your Google Tag Manager workspace. Leave empty to disable.",
-          "INVALID": "Enter a valid container ID, for example GTM-XXXXXXX."
+          "HELP": "Lo trovi nel tuo spazio di lavoro di Google Tag Manager. Lascia vuoto per disattivare.",
+          "INVALID": "Inserisci un ID container valido, ad esempio GTM-XXXXXXX."
         },
         "GA4": {
           "TITLE": "Google Analytics 4",
-          "DESCRIPTION": "Measure traffic and visitor behavior on your help center with Google Analytics.",
+          "DESCRIPTION": "Misura il traffico e il comportamento dei visitatori del centro assistenza con Google Analytics.",
           "PLACEHOLDER": "G-XXXXXXXXXX",
-          "HELP": "Find the measurement ID under Admin → Data streams in Google Analytics. Leave empty to disable.",
-          "INVALID": "Enter a valid measurement ID, for example G-XXXXXXXXXX."
+          "HELP": "Trovi l'ID di misurazione in Amministrazione → Stream di dati di Google Analytics. Lascia vuoto per disattivare.",
+          "INVALID": "Inserisci un ID di misurazione valido, ad esempio G-XXXXXXXXXX."
         },
         "HOTJAR": {
           "TITLE": "Hotjar",
-          "DESCRIPTION": "Understand how visitors use your help center with heatmaps and session recordings.",
+          "DESCRIPTION": "Capisci come i visitatori usano il centro assistenza con mappe di calore e registrazioni delle sessioni.",
           "PLACEHOLDER": "1234567",
-          "HELP": "Find your site ID under Sites & organizations in Hotjar. Leave empty to disable.",
-          "INVALID": "Enter a numeric Hotjar site ID."
+          "HELP": "Trovi l'ID del sito in Sites & organizations su Hotjar. Lascia vuoto per disattivare.",
+          "INVALID": "Inserisci un ID sito Hotjar numerico."
         },
         "PLAUSIBLE": {
           "TITLE": "Plausible",
-          "DESCRIPTION": "Track help center traffic with privacy-friendly Plausible Analytics.",
+          "DESCRIPTION": "Monitora il traffico del centro assistenza con Plausible Analytics, rispettoso della privacy.",
           "PLACEHOLDER": "example.com",
-          "HELP": "Enter the domain configured in your Plausible site settings. Leave empty to disable.",
-          "INVALID": "Enter a valid domain, for example example.com."
+          "HELP": "Inserisci il dominio configurato nelle impostazioni del sito su Plausible. Lascia vuoto per disattivare.",
+          "INVALID": "Inserisci un dominio valido, ad esempio example.com."
         },
         "AMPLITUDE": {
           "TITLE": "Amplitude",
-          "DESCRIPTION": "Analyze visitor behavior on your help center with Amplitude.",
+          "DESCRIPTION": "Analizza il comportamento dei visitatori del centro assistenza con Amplitude.",
           "PLACEHOLDER": "0123456789abcdef0123456789abcdef",
-          "HELP": "Find the API key in your Amplitude project settings. Leave empty to disable.",
-          "INVALID": "Enter a valid Amplitude API key."
+          "HELP": "Trovi la chiave API nelle impostazioni del progetto Amplitude. Lascia vuoto per disattivare.",
+          "INVALID": "Inserisci una chiave API Amplitude valida."
         },
         "CLARITY": {
           "TITLE": "Microsoft Clarity",
-          "DESCRIPTION": "Capture heatmaps and session recordings with Microsoft Clarity.",
+          "DESCRIPTION": "Registra mappe di calore e sessioni con Microsoft Clarity.",
           "PLACEHOLDER": "abcd1234ef",
-          "HELP": "Find the project ID in your Clarity project settings. Leave empty to disable.",
-          "INVALID": "Enter a valid Clarity project ID."
+          "HELP": "Trovi l'ID del progetto nelle impostazioni del progetto Clarity. Lascia vuoto per disattivare.",
+          "INVALID": "Inserisci un ID progetto Clarity valido."
         },
         "META_PIXEL": {
           "TITLE": "Meta Pixel",
-          "DESCRIPTION": "Measure ad conversions and build audiences from help center visits with Meta Pixel.",
+          "DESCRIPTION": "Misura le conversioni degli annunci e crea segmenti di pubblico dalle visite al centro assistenza con Meta Pixel.",
           "PLACEHOLDER": "123456789012345",
-          "HELP": "Find the pixel ID in Meta Events Manager. Leave empty to disable.",
-          "INVALID": "Enter a numeric pixel ID."
+          "HELP": "Trovi l'ID del pixel in Meta Events Manager. Lascia vuoto per disattivare.",
+          "INVALID": "Inserisci un ID pixel numerico."
         },
         "SAVE": "Salva modifiche"
       },

@@ -31,6 +31,7 @@ const mountBubble = contentAttributes => {
         }),
         attachments: ref([]),
         messageType: ref(MESSAGE_TYPES.OUTGOING),
+        showingOriginal: ref(false),
       });
     },
     template: '<EmailBubble />',

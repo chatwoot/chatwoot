@@ -1,134 +1,107 @@
 # Chatwoot Development Guidelines
 
-## Build / Test / Lint
+`CLAUDE.md` is a symlink to this file. Keep shared, repository-wide instructions here and detailed procedures in linked docs. Add nested `AGENTS.md` files only for subtree-specific differences; avoid duplicating root rules.
 
-- **Setup**: `bundle install && pnpm install`
-- **Run Dev**: `pnpm dev` or `overmind start -f ./Procfile.dev`
-- **Seed Local Test Data**: `bundle exec rails db:seed` (quickly populates minimal data for standard feature verification)
-- **Seed Search Test Data**: `bundle exec rails search:setup_test_data` (bulk fixture generation for search/performance/manual load scenarios)
-- **Seed Account Sample Data (richer test data)**: `Seeders::AccountSeeder` is available as an internal utility and is exposed through Super Admin `Accounts#seed`, but can be used directly in dev workflows too:
-  - UI path: Super Admin → Accounts → Seed (enqueues `Internal::SeedAccountJob`).
-  - CLI path: `bundle exec rails runner "Internal::SeedAccountJob.perform_now(Account.find(<id>))"` (or call `Seeders::AccountSeeder.new(account: Account.find(<id>)).perform!` directly).
-- **Lint JS/Vue**: `pnpm eslint` / `pnpm eslint:fix`
-- **Lint Ruby**: `bundle exec rubocop -a`
-- **Test JS**: `pnpm test` or `pnpm test:watch`
-- **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
-- **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
-- **Run Project**: `overmind start -f Procfile.dev`
-- **Ruby Version**: Manage Ruby via `rbenv` and install the version listed in `.ruby-version` (e.g., `rbenv install $(cat .ruby-version)`)
-- **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
-- Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
+## Build, Test, and Lint
 
-## Code Style
+- **Ruby setup**: Use the version in `.ruby-version` through `rbenv`. Before Ruby commands, run `eval "$(rbenv init -)"`; use `bundle exec` for Rails, RSpec, and RuboCop.
+- **Install dependencies**: `bundle install && pnpm install`
+- **Run development**: `pnpm dev` or `overmind start -f Procfile.dev`
+- **Lint Ruby**: `bundle exec rubocop <changed Ruby files>`; use autocorrection only when intended and inspect its diff.
+- **Lint JS/Vue**: `pnpm exec eslint <changed JS/Vue files>`; `pnpm eslint` checks the full frontend.
+- **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb` (append `:LINE_NUMBER` for one example).
+- **Test JS**: `pnpm test <test path>` or `pnpm test:watch`.
+- **Seed data**: `bundle exec rails db:seed` for minimal data; `bundle exec rails search:setup_test_data` for search/load scenarios. For richer account data, Super Admin → Accounts → Seed enqueues `Internal::SeedAccountJob`, which uses `Seeders::AccountSeeder`.
 
-- **Ruby**: Follow RuboCop rules (150 character max line length)
-- **Vue/JS**: Use ESLint (Airbnb base + Vue 3 recommended)
-- **Vue Components**: Use PascalCase
-- **Events**: Use camelCase
-- **I18n**: No bare strings in templates; use i18n
-- **Error Handling**: Use custom exceptions (`lib/custom_exceptions/`)
-- **Models**: Validate presence/uniqueness, add proper indexes
-- **Type Safety**: Use PropTypes in Vue, strong params in Rails
-- **Naming**: Use clear, descriptive names with consistent casing
-- **Vue API**: Always use Composition API with `<script setup>` at the top
+## Readability and Scope
 
-## Styling
+- Prefer the smallest production-ready change that solves the current problem. Build for supported callers and realistic production workloads; do not add speculative abstractions, guards, fallbacks, retries, or one-in-a-million edge cases.
+- Optimize for understanding on the first read. Use descriptive names, explicit control flow, and ordinary multiline methods/functions. Avoid Ruby endless methods (`def value = expression`), semicolon-packed bodies, and compressed JavaScript functions; do not shorten code merely to fit line or class limits.
+- Extract helpers or split files/classes when they clarify responsibilities or remove meaningful complexity. Avoid one-use helpers that only rename an obvious expression.
+- Follow RuboCop and ESLint. Refactor responsibilities when size/complexity limits expose a problem; do not disable cops or exclude files to avoid that work. Any unavoidable suppression must be narrowly scoped and explain why the compliant approach is unsuitable.
+- Do not introduce `Thread.new` or monotonic-clock APIs such as `Process.clock_gettime(Process::CLOCK_MONOTONIC)` unless necessary and explicitly approved by the user. Prefer existing job/concurrency patterns.
+- Remove dead code and superseded implementations; do not keep alternate versions or commented-out logic.
 
-- **Tailwind Only**:  
-  - Do not write custom CSS  
-  - Do not use scoped CSS  
-  - Do not use inline styles  
-  - Always use Tailwind utility classes  
-- **Colors**: Refer to `tailwind.config.js` for color definitions
+## Dependencies
 
-## General Guidelines
+- Add an npm package, Ruby gem, or other dependency only when necessary. Reuse existing maintained dependencies, standard-library capabilities, or shared utilities first; explain why they or a small, maintainable implementation cannot reasonably meet the requirement.
+- Before adding a dependency, verify current upstream maintenance, release activity, community/support health, and security advisories and patch responsiveness. Do not introduce abandoned or unmaintained packages. Prefer a small, readable implementation for behavior we can reasonably own; continue to use maintained, proven libraries for protocol, authentication, and signing rather than hand-rolling them.
+- Before upgrading, read release notes, changelogs, and migration guides across the full version jump. Audit every call site, wrapper, configuration, and indirect integration, including framework usage and affected OSS/Enterprise paths, for changed APIs, defaults, error behavior, and deprecations. Update affected code and tests together.
+- Verify runtime/framework, peer, and transitive dependency compatibility; inspect manifest and lockfile changes for unintended upgrades. Run focused behavior and integration checks across all affected surfaces to establish compatibility. A successful install or a minor/patch version label is not sufficient evidence that an upgrade is safe.
 
-- **Database foreign keys**: Prefer Rails associations and callbacks over database foreign-key constraints. Add a database foreign key only when there is a clear need and after checking deletion behavior and production migration/locking risks. Existing foreign keys alone are not a reason to add new ones.
-- **Migrations**: Create migrations with `bundle exec rails g migration <Name>` so the version is a real timestamp. Never hand-write or round the version (e.g. `20260925000000`); rounded versions collide across branches and break `db:migrate`.
-- Prefer the smallest production-ready change that solves the current problem.
-- Build for the expected production path first. Do not add speculative guards, fallbacks, retries, or edge-case handling unless the caller can actually hit that case or production has proven it necessary.
-- Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes unless a proven independent path bypasses that point.
-- Validate request parameters at the controller or request boundary, reusing existing errors so invalid input returns `422 Unprocessable Entity` instead of reaching models or Sentry.
-- Accept only the documented type, shape, and value. Do not add compatibility coercions for malformed client values; fix official clients instead.
-- When an impossible or misconfigured state would indicate a setup/deployment bug, let it fail loudly instead of silently skipping behavior.
-- For locked/internal configs that must exist in production, prefer direct reads (`find`, `find_by!`, required hash keys) over silent fallbacks.
-- Do not add validation or response checks unless the code uses the result or the check changes behavior meaningfully.
-- Prefer existing repo dependencies/client libraries over hand-rolled protocol code for auth, signing, parsing, or API plumbing.
-- Avoid one-use private helpers unless they hide real complexity or make the main flow meaningfully easier to read.
-- Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
-- Break down complex tasks into small, testable units
-- Iterate after confirmation
-- Avoid writing specs unless explicitly asked
-- In specs, avoid custom helper methods for setup/data. Prefer `let` values and direct per-example setup; only add a helper when it removes meaningful repeated complexity.
-- Remove dead/unreachable/unused code
-- Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
-- Prefer `with_modified_env` (from spec helpers) over stubbing `ENV` directly in specs
-- Specs in parallel/reloading environments: prefer comparing `error.class.name` over constant class equality when asserting raised errors
+## Rails, Validation, and Database Queries
 
-## Codex Worktree Workflow
+- Follow RuboCop (including the 150-character line limit). Use compact namespace declarations such as `class Foo::Bar`, while keeping method bodies multiline.
+- Use idiomatic model methods, associations, scopes, and named route helpers. Keep reusable queries and relationship traversal in models/scopes; return an ActiveRecord relation when callers need further filtering or ordering.
+- Controllers coordinate requests and responses. Keep request-specific URL generation and presentation in controllers or view helpers.
+- Enforce stored-value rules in model validations or existing JSON/JSONB schema validators so all ordinary write paths share them. Do not duplicate the same check in controllers. Validate transient filters, lookups, and service arguments at the request boundary before queries/services use them. Use strong params and existing errors so invalid input returns `422 Unprocessable Entity`.
+- Accept only documented input types, shapes, and values. Fix malformed official clients instead of adding compatibility coercions.
+- Prefer model-level constraints, associations, and callbacks over new database constraints. Add a database constraint only for a demonstrated integrity need that code-level enforcement cannot adequately cover. For foreign keys, check deletion behavior and production migration/locking risks; existing constraints are not a reason to add more.
+- Write application queries, joins, and data migrations with ActiveRecord and Arel. Do not add raw SQL strings, SQL heredocs, `execute`, or raw SQL hidden inside `Arel.sql` to production paths. Keep raw SQL confined to temporary diagnostic or operational scripts; use Rails migration APIs for schema changes.
+- Design queries and joins for production scale: use tenant-scoped predicates, appropriate indexes and column order, bounded results/batches, and preloading where needed. Check join cardinality, duplicate rows, N+1 queries, and costly counts/sorts. For material query changes, inspect generated SQL and representative query plans; a small fixture database is not performance evidence.
+- Generate migrations with `bundle exec rails g migration <Name>` so their versions are real timestamps. Do not hand-write or round migration versions.
+- Enforce eligibility/exclusivity at the earliest shared entry point. Add another guard only for a real independent path that bypasses it.
+- Fail visibly for invalid required configuration or impossible setup states. Use required reads (`find`, `find_by!`, required hash keys) for locked/internal configuration; do not silently skip behavior. Add checks only when they meaningfully change behavior, and use existing custom exceptions in `lib/custom_exceptions/` where appropriate.
 
-- Use a separate git worktree + branch per task to keep changes isolated.
-- Keep Codex-specific local setup under `.codex/` and use `Procfile.worktree` for worktree process orchestration.
-- The setup workflow in `.codex/environments/environment.toml` should dynamically generate per-worktree DB/port values (Rails, Vite, Redis DB index) to avoid collisions.
-- Start each worktree with its own Overmind socket/title so multiple instances can run at the same time.
+## Tests and Validation
 
-## Commit Messages
+- Add or update meaningful tests for customer-facing behavior and underlying model, service, job, API, or state changes. Cover the intended success path and relevant failures, permissions, and lifecycle transitions; use enough coverage to establish the behavior, not just the implementation shape.
+- For new or changed functionality, map and test every affected surface and consumer, including dashboard, widget/SDKs, APIs, jobs, integrations, real-time events, and OSS/Enterprise paths where relevant. Include shared behavior outside the edited files. Explicitly check whether Super Admin screens, configuration, permissions, or management actions need corresponding changes, and implement and test them when required.
+- For a bug fix, add a focused regression that fails for the original behavior and passes with the fix. For core/Enterprise changes, cover the affected edition paths.
+- Avoid tests that merely repeat migration declarations, configuration, formatting, or other mechanical changes. Test migration/backfill transformations when they carry meaningful data behavior, and verify operational migration safety separately.
+- Run focused specs and linters after code changes. For documentation-only changes, check formatting, links, and the diff. Report checks actually run and any remaining validation gaps.
+- Prefer `let` values and direct per-example setup; introduce custom spec helpers only when they remove meaningful repetition or complexity.
+- Use `with_modified_env` rather than stubbing `ENV`. In parallel/reloading specs, prefer comparing `error.class.name` over constant class equality when asserting raised errors.
+- Keep review-only work read-only unless changes are requested. Use existing specs or temporary probes and report missing regression coverage.
 
-- Prefer Conventional Commits: `type(scope): subject` (scope optional)
-- Example: `feat(auth): add user authentication`
-- Don't reference Claude in commit messages
+## Code Review Rules
 
-## PR Description Format
+- Apply these checks during implementation and PR review. Report concrete regressions on supported paths, with the trigger, impact, and evidence; distinguish intended behavior from defects. Leave formatting and lint-only findings to CI.
+- Name the affected behavior and trace entry points, source of truth, side effects, and consumers across APIs, jobs, supported clients, and Enterprise overlays.
+- Inspect unchanged helpers reached by new callers or defaults. Treat valid `false` configuration distinctly from missing values; check repeated reads, cache invalidation, and disabled-feature work.
+- Bound database/Redis work, fanout, retries, scheduled jobs, and lock/connection hold time at representative production scale. Green unit tests or the existence of an index do not establish capacity.
+- Exercise relevant sequences such as failure → success → failure, new events while quota-held, clock boundaries, and rollback with existing state. Assert exact required values, not merely that something changed.
+- Carry deferred concerns through stacked PRs and review the assembled feature when activated. Include scheduled jobs, cached values, and persisted state in rollback/recovery reasoning.
+- Review the exact PR head and complete relevant discussion; recheck affected findings if the head changes. A resolved thread is not proof that the failure was fixed.
+- Give material findings a failure scenario, disposition, and evidence. Keep the approval/verdict consistent with open blockers. An accepted risk needs an explicit owner, rationale, mitigation, and follow-up or activation condition.
+- Read the relevant sections of [Production Reliability](docs/production-reliability.md) when changes affect hot paths, queries, caches, fanout, quotas/retries, recovery, middleware/provider boundaries, or rollout state. Apply checks to actual risks; small changes do not need every protocol.
 
-- Start with a short, user-facing paragraph describing the product change.
-- Add a `Closes` section with relevant issue links (GitHub, Linear, etc.).
-- For feature PRs, add `How to test` from a product/UX standpoint.
-- For bugfix PRs, use `How to reproduce` when helpful.
-- Optionally add a `What changed` section for implementation highlights.
-- Do not add a `How this was tested` section listing specs/commands.
+## Frontend and Styling
 
-## Project-Specific
+- Use Vue Composition API with `<script setup>` at the top, PascalCase component names, camelCase events, and `defineProps` declarations with appropriate types/validation.
+- Use existing design-system utilities and shared composables. Use `components-next/` for message bubbles; older message-bubble components are being deprecated.
+- Use Tailwind utilities; do not introduce custom/scoped CSS or inline styles. Refer to `tailwind.config.js` for colors and use existing typography utilities.
+- Use logical utilities (`ms`, `me`, `start`, `end`) for direction-aware layouts. Use `rem` for arbitrary CSS dimensions, preserving native numeric values required by chart/SVG APIs.
+- Extract repeated or domain-specific strings, thresholds, colors, and durations into named constants. Use shared request-cancellation utilities instead of local `AbortController` logic.
 
-- **Translations**:
-  - For product and source-string changes, only update `en.yml` and `en.json`; other languages are handled through Crowdin and the community
-  - Crowdin-generated translation sync PRs may update non-English locale files; do not flag those changes solely for modifying translated locale files
-  - Preserve product and brand names, OAuth scopes, API values, and other machine-readable identifiers unless an official localized form exists
-  - When reviewing Crowdin syncs, verify protected terms remain unchanged. Add newly introduced product names, brand names, and machine-readable identifiers to the Crowdin glossary as non-translatable, and keep the glossary current
-  - Backend i18n → `en.yml`, Frontend i18n → `en.json`
-- **Frontend**:
-  - Use `components-next/` for message bubbles (the rest is being deprecated)
+## Translations and Branding
 
-## Ruby Best Practices
+- Use i18n for user-facing strings; no bare strings in templates. For product/source-string changes, update only backend `en.yml` and frontend `en.json`; Crowdin and the community handle other locales.
+- Crowdin-generated sync PRs may update non-English files; do not flag that alone. Verify that product/brand names, OAuth scopes, API values, and other machine-readable identifiers remain unchanged unless an official localized form exists. Keep newly introduced protected terms in the Crowdin glossary as non-translatable.
+- For UI strings that should adapt to branded/self-hosted installations, use `replaceInstallationName` from `shared/composables/useBranding` instead of hardcoded Chatwoot copy.
 
-- Use compact `module/class` definitions; avoid nested styles
+## Enterprise Compatibility
 
-## Frontend Conventions
+- Before changing core logic or public APIs, search both `app/` and `enterprise/` for related implementations. Keep request/response contracts compatible and mirror shared-code renames/moves where needed.
+- Extend existing OSS functionality for Enterprise through modules (`prepend_mod_with` / `include_mod_with`), hooks, flags, or configuration instead of hardcoding plan/instance-specific behavior in OSS. Put Enterprise-exclusive functionality under `enterprise/`.
+- For new endpoints, services, and models, consider the extension points Enterprise needs to avoid hard forks. Put Enterprise specs under `spec/enterprise`, mirroring OSS layout where applicable.
+- Follow the [Enterprise development handbook](https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38).
 
-- Prefer existing design-system utilities and shared composables.
-- Use typography utilities instead of manually recreating font styles.
-- Use logical Tailwind utilities (`ms`, `me`, `start`, `end`) for direction-aware layouts.
-- Use `rem` for arbitrary CSS dimensions; preserve native numeric values required by chart/SVG APIs.
-- Extract repeated or domain-specific strings, thresholds, colors, and durations into named constants.
-- Use shared request-cancellation utilities instead of local `AbortController` logic.
+## AI Models
 
-## Enterprise Edition Notes
+- Before adding/changing an OpenAI model, check the [deprecations page](https://developers.openai.com/api/docs/deprecations). Do not choose a model with a shutdown date; use its recommended replacement. Select models through `config/llm.yml` and `Llm::FeatureRouter`, not hardcoded names.
 
-- Chatwoot has an Enterprise overlay under `enterprise/` that extends/overrides OSS code.
-- When you add or modify core functionality, always check for corresponding files in `enterprise/` and keep behavior compatible.
-- Follow the Enterprise development practices documented here:
-  - https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38
+## Worktrees
 
-Practical checklist for any change impacting core logic or public APIs
-- Search for related files in both trees before editing (e.g., `rg -n "FooService|ControllerName|ModelName" app enterprise`).
-- If adding new endpoints, services, or models, consider whether Enterprise needs:
-  - An override (e.g., `enterprise/app/...`), or
-  - An extension point (e.g., `prepend_mod_with`, hooks, configuration) to avoid hard forks.
-- Avoid hardcoding instance- or plan-specific behavior in OSS; prefer configuration, feature flags, or extension points consumed by Enterprise.
-- Keep request/response contracts stable across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs.
-- When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
-- Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
-- When modifying existing OSS features for Enterprise-only behavior, add an Enterprise module (via `prepend_mod_with`/`include_mod_with`) instead of editing OSS files directly—especially for policies, controllers, and services. For Enterprise-exclusive features, place code directly under `enterprise/`.
+- Use a separate worktree and branch per task; reuse the task's existing worktree when available.
+- Keep Codex-specific local setup under `.codex/` and use `Procfile.worktree` for process orchestration.
+- The setup in `.codex/environments/environment.toml` should generate per-worktree database names, ports, and Redis DB indexes. Use a distinct Overmind socket/title for each worktree.
 
-## Branding / White-labeling note
+## Commits and Pull Requests
 
-- For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+- Prefer Conventional Commits: `type(scope): subject` (scope optional). Do not reference Claude in commit messages.
+- Every PR must link an associated Linear ticket. Confirm an existing ticket or create the appropriate ticket before opening the PR; do not invent issue references.
+- For medium/large features (for example, a new workflow or a change spanning several layers), link the design/PRD/implementation artifact in both the Linear ticket and the PR. Keep those links and the description aligned with the final scope.
+- Start the PR description with a short, user-facing explanation of the change. Add a `Closes` section with the Linear ticket and any relevant GitHub issues.
+- Follow applicable repository-template sections. For features, include product/UX `How to test` steps; for bug fixes, include `How to reproduce` when useful. Add `What changed` only when it helps review.
+- Do not add a `How this was tested` section listing specs/commands; report automated validation in the task handoff instead.

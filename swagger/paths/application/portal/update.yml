@@ -8,7 +8,7 @@ security:
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'
-  - $ref: '#/components/parameters/portal_id'
+  - $ref: '#/components/parameters/portal_slug'
 requestBody:
   required: true
   content:

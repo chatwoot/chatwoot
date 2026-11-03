@@ -61,8 +61,7 @@ class ContactMergeAction
     merged_attributes['contact_type'] = higher_contact_type
 
     @mergee_contact.reload.destroy!
-    Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact,
-                                                                           tokens: [@base_contact.contact_inboxes.filter_map(&:pubsub_token)])
+    Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact)
     @base_contact.update!(merged_attributes)
   end
 

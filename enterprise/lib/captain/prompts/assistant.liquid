@@ -38,6 +38,10 @@ Here's the metadata we have about the current conversation and the contact assoc
 {% render 'contact', contact: contact %}
 {% endif -%}
 
+{% if can_verify_email or verified_email -%}
+{% render 'customer_identity', contact: contact, verified_email: verified_email %}
+{% endif -%}
+
 {% if campaign.id -%}
 {% render 'campaign', campaign: campaign %}
 {% endif -%}

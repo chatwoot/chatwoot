@@ -6,12 +6,13 @@ class Voice::CallStatus::Manager
 
     # Guards run on the locked row, not the caller's copy, so a callback racing an agent hangup can't overwrite its outcome.
     call.with_lock do
-      next if call.status == status
-      # Don't overwrite a terminal status — Twilio's late `completed` events would
-      # otherwise clobber an agent-rejection reason.
-      next if Call::TERMINAL_STATUSES.include?(call.status)
+      if late_answer?(status)
+        record_late_answer!(timestamp)
+      else
+        next if keep_current_status?(status)
 
-      apply_call_updates!(status, duration: duration, timestamp: timestamp)
+        apply_call_updates!(status, duration: duration, timestamp: timestamp)
+      end
       call.conversation.update!(last_activity_at: Time.zone.now)
       # Bump updated_at so the message.updated dispatcher rebroadcasts with the fresh Call embedded.
       call.message&.touch # rubocop:disable Rails/SkipsModelValidations
@@ -19,6 +20,27 @@ class Voice::CallStatus::Manager
   end
 
   private
+
+  # A call ended unanswered because the agent's leg could not be added, whose contact had
+  # in fact answered: the answer reported after it records the call as failed, with when it
+  # was answered, instead of unanswered
+  def late_answer?(status) = status == 'in_progress' && call.unanswered_by_failed_join?
+
+  def record_late_answer!(timestamp)
+    started = timestamp || now_seconds
+    ended = call.ended_at&.to_i
+    call.update!(status: 'failed', started_at: Time.zone.at(started), duration_seconds: ended && [ended - started, 0].max)
+  end
+
+  def keep_current_status?(status)
+    call.status == status ||
+      # Don't overwrite a terminal status — Twilio's late `completed` events would
+      # otherwise clobber an agent-rejection reason.
+      Call::TERMINAL_STATUSES.include?(call.status) ||
+      # A call that was answered does not ring again; a late or replayed ringing status
+      # would otherwise undo the answer
+      (status == 'ringing' && call.in_progress?)
+  end
 
   def apply_call_updates!(status, duration:, timestamp:)
     attrs = { status: status }

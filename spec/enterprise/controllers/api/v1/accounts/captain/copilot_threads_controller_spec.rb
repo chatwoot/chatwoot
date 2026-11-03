@@ -33,8 +33,22 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response[:payload].length).to eq(3)
+        expect(json_response[:meta]).to eq(total_count: 3, page: 1)
 
         expect(json_response[:payload].map { |thread| thread[:user][:id] }.uniq).to eq([agent.id])
+      end
+
+      it 'paginates older threads' do
+        threads = create_list(:captain_copilot_thread, 21, account: account, user: agent)
+
+        get "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+            params: { page: 2 },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:payload].pluck(:id)).to eq([threads.first.id])
+        expect(json_response[:meta]).to eq(total_count: 21, page: 2)
       end
 
       it 'returns threads in descending order of creation' do

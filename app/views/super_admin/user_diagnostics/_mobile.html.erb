@@ -65,3 +65,5 @@
     </p>
   <% end %>
 <% end %>
+
+<%= render "calls", scope: scope, readiness: @ring_readiness if @ring_readiness %>

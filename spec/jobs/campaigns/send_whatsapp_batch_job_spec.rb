@@ -47,6 +47,8 @@ RSpec.describe Campaigns::SendWhatsappBatchJob do
     campaign.processing!
     service = Whatsapp::OneoffCampaignService.new(campaign: campaign)
     allow(Whatsapp::OneoffCampaignService).to receive(:new).and_return(service)
+    expect(service).to receive(:process_contacts).with(contacts.first(2))
+    described_class.perform_now(campaign)
     expect(service).to receive(:process_contacts).with([])
 
     described_class.perform_now(campaign, contacts.second.id)
@@ -94,5 +96,45 @@ RSpec.describe Campaigns::SendWhatsappBatchJob do
     expect(campaign.reload).to be_completed
     expect { Whatsapp::OneoffCampaignService.new(campaign: create(:campaign, account: account, inbox: channel.inbox)).perform }
       .to raise_error('WhatsApp campaigns feature not enabled')
+  end
+
+  it 'does not process a campaign while another worker holds its Redis lock' do
+    campaign.processing!
+    manager = Redis::LockManager.new
+    key = format(Redis::Alfred::WHATSAPP_CAMPAIGN_MUTEX, campaign_id: campaign.id)
+    expect(manager.lock(key, described_class::LOCK_TIMEOUT)).to be(true)
+    expect(Whatsapp::OneoffCampaignService).not_to receive(:new)
+
+    described_class.perform_now(campaign)
+    expect(manager.locked?(key)).to be(true)
+  ensure
+    manager.unlock(key)
+  end
+
+  it 'releases the lock after a batch fails so another execution can continue' do
+    campaign.processing!
+    allow(Whatsapp::OneoffCampaignService).to receive(:new).and_return(sender)
+    allow(sender).to receive(:perform_batch).and_raise(StandardError, 'interrupted')
+    expect { described_class.perform_now(campaign) }.to raise_error(StandardError, 'interrupted')
+
+    key = format(Redis::Alfred::WHATSAPP_CAMPAIGN_MUTEX, campaign_id: campaign.id)
+    expect(Redis::LockManager.new.locked?(key)).to be(false)
+    allow(sender).to receive(:perform_batch).and_return(nil)
+    described_class.perform_now(campaign)
+
+    expect(campaign.reload).to be_completed
+  end
+
+  it 'allows another execution after an abandoned worker lease expires' do
+    campaign.processing!
+    key = format(Redis::Alfred::WHATSAPP_CAMPAIGN_MUTEX, campaign_id: campaign.id)
+    manager = Redis::LockManager.new
+    manager.lock(key, described_class::LOCK_TIMEOUT)
+    Redis::Alfred.expire(key, 0)
+
+    described_class.perform_now(campaign)
+
+    expect(campaign.reload).to be_completed
+    expect(manager.locked?(key)).to be(false)
   end
 end

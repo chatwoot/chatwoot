@@ -94,3 +94,5 @@ class Captain::AutomationConditionService
     message ? state.merge(latest_message: latest_message) : state
   end
 end
+
+Captain::AutomationConditionService.prepend_mod_with('Captain::AutomationConditionService')

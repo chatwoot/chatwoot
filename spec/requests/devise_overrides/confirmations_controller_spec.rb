@@ -12,11 +12,17 @@ RSpec.describe 'Confirmations API', type: :request do
     end
 
     it 'issues session tokens on successful confirmation' do
+      account.enable_features!(:api_and_webhooks)
       confirm_user(user)
 
       expect(response).to have_http_status(:success)
       expect(response.headers['access-token']).to be_present
       expect(user.reload.confirmed?).to be true
+      expect(response.parsed_body.fetch('data')).to include(
+        'access_token' => user.access_token.token,
+        'pubsub_token' => user.pubsub_token
+      )
+      expect(Current.user).to be_nil
     end
 
     context 'when account enforces MFA' do

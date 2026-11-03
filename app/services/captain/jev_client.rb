@@ -103,3 +103,5 @@ class Captain::JevClient
     end
   end
 end
+
+Captain::JevClient.prepend_mod_with('Captain::JevClient')

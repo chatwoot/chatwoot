@@ -8,9 +8,9 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     @copilot_threads = Current.account.copilot_threads
                               .where(user_id: Current.user.id)
                               .includes(:user, :assistant)
-                              .order(created_at: :desc)
+                              .order(created_at: :desc, id: :desc)
                               .page(permitted_params[:page] || 1)
-                              .per(5)
+                              .per(20)
   end
 
   def create

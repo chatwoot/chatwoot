@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "S tem stikom ni povezanih nobenih prejšnjih pogovorov.",
-      "TITLE": "Prejšnji pogovori"
+      "TITLE": "Prejšnji pogovori",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
