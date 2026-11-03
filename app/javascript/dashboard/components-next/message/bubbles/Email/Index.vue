@@ -229,6 +229,15 @@ const handleSeeOriginal = () => {
   }
 }
 
+// Emails often hardcode text colors (e.g. <font color="black">) that become
+// unreadable on the dark bubble background, so inherit the bubble's color instead.
+body.dark .letter-render {
+  font[color],
+  [style*='color'] {
+    color: inherit !important;
+  }
+}
+
 // Email clients (Gmail, Outlook) hardcode dir="ltr" on wrapper elements.
 // In RTL apps this forces email content LTR regardless of actual text.
 [dir='rtl'] .letter-render [dir='ltr'] {
