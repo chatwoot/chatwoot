@@ -40,6 +40,7 @@
 ## Tests and Validation
 
 - Add or update meaningful tests for customer-facing behavior and underlying model, service, job, API, or state changes. Cover the intended success path and relevant failures, permissions, and lifecycle transitions; use enough coverage to establish the behavior, not just the implementation shape.
+- For new or changed functionality, map and test every affected surface and consumer, including dashboard, widget/SDKs, APIs, jobs, integrations, real-time events, and OSS/Enterprise paths where relevant. Include shared behavior outside the edited files. Explicitly check whether Super Admin screens, configuration, permissions, or management actions need corresponding changes, and implement and test them when required.
 - For a bug fix, add a focused regression that fails for the original behavior and passes with the fix. For core/Enterprise changes, cover the affected edition paths.
 - Avoid tests that merely repeat migration declarations, configuration, formatting, or other mechanical changes. Test migration/backfill transformations when they carry meaningful data behavior, and verify operational migration safety separately.
 - Run focused specs and linters after code changes. For documentation-only changes, check formatting, links, and the diff. Report checks actually run and any remaining validation gaps.
