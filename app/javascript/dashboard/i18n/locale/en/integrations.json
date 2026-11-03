@@ -797,10 +797,19 @@
           "OTHER": "Run {action} on {count} conversation | Run {action} on {count} conversations"
         },
         "STATUS": {
-          "APPROVED": "Approved",
           "REJECTED": "Rejected",
           "EXPIRED": "Expired. Ask Copilot to propose it again."
-        }
+        },
+        "PROGRESS": "Applying {done} of {total}",
+        "APPLIED": "Applied to {count}",
+        "NOT_CHANGED": "{count} not changed"
+      },
+      "REVIEW": {
+        "RUNNING": "Reviewing conversations",
+        "FINISHED": "Reviewed {count} conversation | Reviewed {count} conversations",
+        "PROGRESS": "{done} of {total}",
+        "MATCHED": "{count} matched",
+        "FAILED": "{count} couldn't be reviewed"
       }
     },
     "PLAYGROUND": {
