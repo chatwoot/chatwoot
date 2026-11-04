@@ -25,7 +25,13 @@ module TwilioMessagingSignatureVerification
   end
 
   def signed_by_twilio?(channel)
-    [request.original_url, twilio_webhook_url].uniq.any? { |url| valid_twilio_signature?(channel.auth_token, url) }
+    twilio_signature_urls.any? { |url| valid_twilio_signature?(channel.auth_token, url) }
+  end
+
+  def twilio_signature_urls
+    registered_url = URI(twilio_webhook_url)
+    registered_url.query = request.query_string.presence
+    [request.original_url, registered_url.to_s].uniq
   end
 
   def twilio_signature_enforced?(channel)

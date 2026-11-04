@@ -81,6 +81,15 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
         end.to have_enqueued_job(Webhooks::TwilioEventsJob).with(params)
       end
 
+      it 'rejects unsigned query parameters added to a signed request' do
+        channel.update!(provider_config: { 'callback_signature_enforced' => true })
+
+        expect do
+          post '/twilio/callback?Body=Tampered', params: params, headers: { 'X-Twilio-Signature' => signature_for(channel.auth_token) }
+        end.not_to have_enqueued_job(Webhooks::TwilioEventsJob)
+        expect(response).to have_http_status(:forbidden)
+      end
+
       it 'verifies numbers in a messaging service pool against the phone number channel' do
         channel.update!(provider_config: { 'callback_signature_enforced' => true })
         params['MessagingServiceSid'] = "MG#{SecureRandom.hex(16)}"
