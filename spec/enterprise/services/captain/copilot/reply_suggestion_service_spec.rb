@@ -212,7 +212,8 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     message = copilot_thread.copilot_messages.last
     expect(message).to be_assistant
     expect(message.message).to eq(
-      'content' => "Copilot couldn't generate a reply. Please try again."
+      'content' => "Copilot couldn't generate a reply. Please try again.",
+      'status' => 'failed'
     )
   end
 
@@ -236,7 +237,8 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
 
     expect(runner).not_to have_received(:generate_response)
     expect(copilot_thread.copilot_messages.last.message).to eq(
-      'content' => "Copilot couldn't generate a reply. Please try again."
+      'content' => "Copilot couldn't generate a reply. Please try again.",
+      'status' => 'failed'
     )
   end
 
@@ -251,7 +253,8 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     end.not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
 
     expect(copilot_thread.copilot_messages.last.message).to eq(
-      'content' => "Copilot couldn't generate a reply. Please try again."
+      'content' => "Copilot couldn't generate a reply. Please try again.",
+      'status' => 'failed'
     )
   end
 
