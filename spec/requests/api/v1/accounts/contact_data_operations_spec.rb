@@ -41,6 +41,27 @@ RSpec.describe 'Contact data operations API', type: :request do
     expect(response.parsed_body).to include('can_create_import' => false, 'integration_imports_enabled' => false)
   end
 
+  it 'bounds export history and continues from the oldest displayed ID when new exports arrive' do
+    options = { name: 'Export', export_options: { column_names: ['name'] } }
+    exports = Array.new(26) { account.data_exports.create!(options) }
+    create(:account).data_exports.create!(options)
+
+    get "#{base_url}/data_exports", headers: headers
+    first_page = response.parsed_body
+    expect(first_page['payload'].pluck('id')).to eq(exports.last(25).reverse.map(&:id))
+    expect(first_page['has_more']).to be(true)
+
+    account.data_exports.create!(options)
+    get "#{base_url}/data_exports", params: { before_id: first_page['payload'].last['id'] }, headers: headers
+    expect(response.parsed_body['payload'].pluck('id')).to eq([exports.first.id])
+    expect(response.parsed_body['has_more']).to be(false)
+  end
+
+  it 'rejects an invalid export history cursor' do
+    get "#{base_url}/data_exports", params: { before_id: 'all' }, headers: headers
+    expect(response).to have_http_status(:unprocessable_entity)
+  end
+
   it 'creates a tracked export and returns its selection' do
     expect do
       post "#{base_url}/data_exports", headers: headers, params: { column_names: %w[email name], scope_name: 'All contacts' }, as: :json
