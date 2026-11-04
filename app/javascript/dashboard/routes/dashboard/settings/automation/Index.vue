@@ -1,6 +1,7 @@
 <script setup>
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { AUTOMATION_QUERY } from 'dashboard/composables/useAutomationRoute';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { getCaptainConditionUsage } from 'dashboard/helper/automationHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
@@ -161,29 +162,19 @@ onMounted(() => {
   store.dispatch('automations/get');
 });
 
-const openAddPopup = (monitorId = null) => {
-  creationSourceMonitorId.value = monitorId;
-  const startsWithWait =
-    !monitorId &&
-    isDelayedAutomationsEnabled.value &&
-    activeTab.value === 'delayed';
-  addDialogRef.value?.open(
-    startsWithWait ? DEFAULT_DELAY_MINUTES : null,
-    monitorId
-  );
+const ensureOptionsLoaded = async () => {
+  if (!isSLAEnabled.value) return;
+  slaFetchPromise ||= store.dispatch('sla/get');
+  await slaFetchPromise;
 };
 
-watch(
-  () => route.query.monitor_id,
-  async monitorId => {
-    if (typeof monitorId !== 'string' || !/^\d+$/.test(monitorId)) return;
-    activeTab.value = 'instant';
-    await nextTick();
-    openAddPopup(Number(monitorId));
-    router.replace({ query: { ...route.query, monitor_id: undefined } });
-  },
-  { immediate: true }
-);
+const openAddPopup = async (seed = null) => {
+  creationSourceMonitorId.value = seed?.monitor_id ?? null;
+  await ensureOptionsLoaded();
+  const startsWithWait =
+    !seed && isDelayedAutomationsEnabled.value && activeTab.value === 'delayed';
+  addDialogRef.value?.open(startsWithWait ? DEFAULT_DELAY_MINUTES : null, seed);
+};
 
 const hideAddPopup = () => {
   addDialogRef.value?.close();
@@ -192,25 +183,61 @@ const hideAddPopup = () => {
 const openEditPopup = async response => {
   selectedAutomation.value = { ...response };
   await until(() => accountUiFlags.value.isFetchingItem).toBe(false);
-  if (isSLAEnabled.value) {
-    slaFetchPromise ||= store.dispatch('sla/get');
-    await slaFetchPromise;
-  }
+  await ensureOptionsLoaded();
   editDialogRef.value?.open(response);
 };
 const hideEditPopup = () => {
   editDialogRef.value?.close();
 };
 
+const parseId = value =>
+  typeof value === 'string' && /^\d+$/.test(value) ? Number(value) : null;
+
+const clearQuery = keys =>
+  router.replace({
+    query: {
+      ...route.query,
+      ...Object.fromEntries(keys.map(key => [key, undefined])),
+    },
+  });
+
 watch(
-  [() => route.query.edit_id, records],
-  async ([editId, rules]) => {
-    if (typeof editId !== 'string') return;
-    const rule = rules.find(item => String(item.id) === editId);
+  () => [
+    route.query[AUTOMATION_QUERY.MONITOR_ID],
+    route.query[AUTOMATION_QUERY.SLA_POLICY_ID],
+  ],
+  async ([rawMonitorId, rawSlaPolicyId]) => {
+    const monitorId = parseId(rawMonitorId);
+    const slaPolicyId = parseId(rawSlaPolicyId);
+    if (!monitorId && !slaPolicyId) return;
+    activeTab.value = 'instant';
+    await nextTick();
+    openAddPopup(
+      monitorId
+        ? {
+            event_name: 'monitor_matched',
+            monitor_id: monitorId,
+            conditions: [],
+          }
+        : {
+            actions: [{ action_name: 'add_sla', action_params: [slaPolicyId] }],
+          }
+    );
+    clearQuery([AUTOMATION_QUERY.MONITOR_ID, AUTOMATION_QUERY.SLA_POLICY_ID]);
+  },
+  { immediate: true }
+);
+
+// Rules may load after the route, so retry when they change.
+watch(
+  [() => route.query[AUTOMATION_QUERY.EDIT_ID], records],
+  async ([rawRuleId, rules]) => {
+    const ruleId = parseId(rawRuleId);
+    const rule = ruleId && rules.find(item => item.id === ruleId);
     if (!rule) return;
     await nextTick();
     openEditPopup(rule);
-    router.replace({ query: { ...route.query, edit_id: undefined } });
+    clearQuery([AUTOMATION_QUERY.EDIT_ID]);
   },
   { immediate: true }
 );

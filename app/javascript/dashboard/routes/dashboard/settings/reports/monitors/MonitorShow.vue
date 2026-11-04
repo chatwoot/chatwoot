@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useAutomationRoute } from 'dashboard/composables/useAutomationRoute';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useLocale } from 'shared/composables/useLocale';
@@ -86,12 +87,7 @@ const fetchLinkedRules = async () => {
   }
 };
 
-const createAutomation = () =>
-  router.push(
-    accountScopedRoute('automation_list', {}, { monitor_id: monitorId.value })
-  );
-const editAutomation = rule =>
-  router.push(accountScopedRoute('automation_list', {}, { edit_id: rule.id }));
+const { createAutomation, editAutomation } = useAutomationRoute();
 
 const monitor = computed(() => result.value?.monitor);
 const timezone = computed(
@@ -480,7 +476,7 @@ const duplicate = () =>
           icon="i-lucide-plus"
           size="sm"
           :label="t('MONITORS.AUTOMATIONS.CREATE')"
-          @click="createAutomation"
+          @click="createAutomation({ monitorId })"
         />
       </div>
       <p v-if="linkedRulesError" role="alert" class="mt-4 text-n-ruby-11">
@@ -498,13 +494,13 @@ const duplicate = () =>
           <button
             type="button"
             class="min-w-0 truncate rounded-md p-0 text-start text-body-main text-n-slate-12 hover:text-n-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
-            @click="editAutomation(rule)"
+            @click="editAutomation(rule.id)"
           >
             {{ rule.name }}
           </button>
           <HoverActions
             :actions="linkedRuleActions"
-            @action="editAutomation(rule)"
+            @action="editAutomation(rule.id)"
           >
             <Label
               compact
