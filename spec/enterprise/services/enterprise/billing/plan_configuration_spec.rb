@@ -115,6 +115,16 @@ RSpec.describe Enterprise::Billing::PlanConfiguration do
     end.to raise_error(described_class::InvalidConfiguration, /features cannot manage shopify_integration/)
   end
 
+  it 'rejects data import as a Shopify plan entitlement' do
+    shopify_plans.first['features'] = %w[data_import help_center]
+    InstallationConfig.find_by!(name: 'CHATWOOT_SHOPIFY_PLANS').update!(value: shopify_plans)
+
+    expect { described_class.plans(provider: 'shopify') }.to raise_error do |error|
+      expect(error.class.name).to eq('Enterprise::Billing::PlanConfiguration::InvalidConfiguration')
+      expect(error.message).to include('features cannot manage data_import')
+    end
+  end
+
   it 'rejects duplicate Shopify handles' do
     shopify_plans << shopify_plans.first.merge('name' => 'Shopify Pro')
     InstallationConfig.find_by!(name: 'CHATWOOT_SHOPIFY_PLANS').update!(value: shopify_plans)

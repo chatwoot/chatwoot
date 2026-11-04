@@ -48,8 +48,9 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     account.with_lock do
       next if shopify_billing? && !shopify_lifecycle_cleanup && !Shopify::FeatureGate.enabled?(account: account)
 
-      account.disable_features(*managed_plan_features.without('data_import'))
-      account.enable_features(*(current_plan_features + manually_managed_features).without('data_import'))
+      account.disable_features(*managed_plan_features)
+      account.enable_features(*current_plan_features)
+      account.enable_features(*manually_managed_features)
       update_shopify_managed_features
       account.save!
     end
@@ -103,7 +104,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   def update_shopify_managed_features
     return unless shopify_billing?
 
-    account.internal_attributes[SHOPIFY_MANAGED_FEATURES] = current_shopify_catalog_features.without('data_import')
+    account.internal_attributes[SHOPIFY_MANAGED_FEATURES] = current_shopify_catalog_features
   end
 
   def shopify_billing?

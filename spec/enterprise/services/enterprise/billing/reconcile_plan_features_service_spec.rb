@@ -1,4 +1,5 @@
 require 'rails_helper'
+require Rails.root.join('db/migrate/20261103142055_enable_data_import_for_all_accounts')
 
 describe Enterprise::Billing::ReconcilePlanFeaturesService do
   let(:account) { create(:account) }
@@ -215,19 +216,21 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         account.enable_features!('shopify_integration')
       end
 
-      it 'ignores data import in legacy catalogs and stored entitlement lists' do
-        shopify_config.update!(value: [shopify_plans.first.merge('features' => %w[audit_logs data_import])])
+      it 'preserves manual flag control after migrating legacy billing references' do
+        shopify_config.update!(value: [shopify_plans.first.merge('features' => %w[data_import audit_logs])])
         account.update!(internal_attributes: account.internal_attributes.merge(
-          'shopify_managed_features' => %w[data_import],
-          'manually_managed_features' => %w[data_import]
+          'shopify_managed_features' => %w[data_import audit_logs],
+          'manually_managed_features' => %w[data_import custom_tools]
         ))
-        account.disable_features!('data_import')
 
+        EnableDataImportForAllAccounts.new.up
+        account.reload.disable_features!('data_import')
         described_class.new(account: account).perform
 
         expect(account.reload).not_to be_feature_enabled('data_import')
         expect(account).to be_feature_enabled('audit_logs')
-        expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
+        expect(account).to be_feature_enabled('custom_tools')
+        expect(account.internal_attributes['shopify_managed_features']).to eq(%w[audit_logs])
       end
 
       it 'keeps data import enabled after a Shopify downgrade' do
@@ -246,7 +249,7 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         account.enable_features!('data_import', 'audit_logs')
         account.disable_features!('shopify_integration')
         account.update!(custom_attributes: { 'plan_name' => nil }, internal_attributes: account.internal_attributes.merge(
-          'shopify_managed_features' => %w[data_import audit_logs]
+          'shopify_managed_features' => %w[audit_logs]
         ))
 
         described_class.new(account: account, shopify_lifecycle_cleanup: true).perform

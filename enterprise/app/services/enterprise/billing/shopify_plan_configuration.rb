@@ -42,9 +42,9 @@ module Enterprise::Billing::ShopifyPlanConfiguration
     invalid_features = features.reject { |feature| feature.is_a?(String) && known_features.include?(feature) }
     raise_invalid!("#{prefix}.features contains unknown features") if invalid_features.present?
 
-    return unless features.include?(Shopify::FeatureGate::ACCOUNT_FEATURE)
-
-    raise_invalid!("#{prefix}.features cannot manage #{Shopify::FeatureGate::ACCOUNT_FEATURE}")
+    [Shopify::FeatureGate::ACCOUNT_FEATURE, 'data_import'].each do |feature|
+      raise_invalid!("#{prefix}.features cannot manage #{feature}") if features.include?(feature)
+    end
   end
 
   def validate_limits!(limits, prefix)
