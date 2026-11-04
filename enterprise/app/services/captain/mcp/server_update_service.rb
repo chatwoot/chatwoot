@@ -25,7 +25,12 @@ class Captain::Mcp::ServerUpdateService
 
   private
 
-  # A new token is not saved yet, so a listing that uses it says nothing about the saved credentials
+  # A new token is not saved yet, so a listing that uses it says nothing about the saved credentials.
+  #
+  # Known limit: a newly selected tool is pinned to this listing, not to the one the admin reviewed in live_tools. If the
+  # server answers the two listings differently, the admin approves a definition they did not see. A change after the
+  # save is caught, because the digest no longer matches. Closing this gap needs the selection to carry the digest the
+  # admin reviewed.
   def fetch_live_definitions
     connection = Captain::Mcp::Connection.new(@server)
     definitions = @server.will_save_change_to_auth_config? ? connection.tool_definitions : connection.track_status { connection.tool_definitions }
