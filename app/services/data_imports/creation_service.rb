@@ -9,12 +9,12 @@ class DataImports::CreationService
   end
 
   def perform
-    ensure_import_slot!
+    return if active_import?
 
     totals = validate_source
     blob = upload_file if @provider == 'csv'
     data_import = @account.with_lock do
-      ensure_import_slot!
+      next if active_import?
 
       @account.data_imports.new(attributes(totals)).tap do |record|
         record.assign_active_import_run_id
@@ -22,6 +22,8 @@ class DataImports::CreationService
         record.save!
       end
     end
+    return unless data_import
+
     @source_class.import_job_class.perform_later(data_import, data_import.active_import_run_id)
     data_import
   ensure
@@ -74,7 +76,7 @@ class DataImports::CreationService
     end
   end
 
-  def ensure_import_slot!
-    raise ArgumentError, 'Another data import is already in progress.' if @account.data_imports.active_imports.exists?
+  def active_import?
+    @account.data_imports.active_imports.exists?
   end
 end
