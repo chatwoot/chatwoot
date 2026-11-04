@@ -1,0 +1,26 @@
+type: object
+description: A translation of an article. It carries identifying fields only. Fetch the article to read its content.
+properties:
+  id:
+    type: integer
+  category_id:
+    type:
+      - integer
+      - 'null'
+  title:
+    type: string
+  description:
+    type:
+      - string
+      - 'null'
+  status:
+    type: string
+    enum: ['draft', 'published', 'archived']
+  locale:
+    type: string
+  account_id:
+    type: integer
+  views:
+    type:
+      - integer
+      - 'null'

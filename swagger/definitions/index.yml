@@ -34,6 +34,10 @@ category:
   $ref: ./resource/category.yml
 article:
   $ref: ./resource/article.yml
+associated_article:
+  $ref: ./resource/associated_article.yml
+article_list_response:
+  $ref: ./resource/article_list_response.yml
 contact:
   $ref: ./resource/contact.yml
 conversation:

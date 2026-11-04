@@ -1,0 +1,54 @@
+tags:
+  - Help Center
+operationId: list-all-articles
+summary: List all articles
+description: List the articles in a portal with pagination (Page size = 25)
+security:
+  - userBearerAuth: []
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/page'
+  - in: query
+    name: locale
+    schema:
+      type: string
+    required: false
+    description: Filter articles by locale
+  - in: query
+    name: category_slug
+    schema:
+      type: string
+    required: false
+    description: Filter articles by category slug. Results are ordered by position when set.
+  - in: query
+    name: status
+    schema:
+      type: string
+      enum: ['draft', 'published', 'archived']
+    required: false
+    description: Filter articles by status
+  - in: query
+    name: author_id
+    schema:
+      type: integer
+    required: false
+    description: Filter articles by author
+  - in: query
+    name: query
+    schema:
+      type: string
+    required: false
+    description: Search text in the article title, description and content
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/article_list_response'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
