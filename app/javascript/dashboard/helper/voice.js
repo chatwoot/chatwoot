@@ -190,16 +190,30 @@ export function handleVoiceCallCreated(message, currentUserId, receivesCalls) {
   });
 }
 
+// Pages of 25 the ring recovery reads at most, well past the calls one agent can have ringing
+const MAX_RINGING_CALL_PAGES = 4;
+
 // A routed call rings agents whose conversation list may not hold its conversation, and the
 // call widget mounts only once a call is in the store, so a page load asks the server for the
 // calls ringing for this agent
 export async function loadRingingCalls() {
-  const { data } = await CallsAPI.get({
-    status: VOICE_CALL_STATUS.RINGING,
-    direction: VOICE_CALL_DIRECTION.INBOUND,
-  });
+  const calls = [];
+  let page = 1;
+  let totalPages;
+  do {
+    // eslint-disable-next-line no-await-in-loop
+    const { data } = await CallsAPI.get({
+      status: VOICE_CALL_STATUS.RINGING,
+      direction: VOICE_CALL_DIRECTION.INBOUND,
+      page,
+    });
+    calls.push(...data.payload);
+    totalPages = data.meta.total_pages;
+    page += 1;
+  } while (page <= Math.min(totalPages, MAX_RINGING_CALL_PAGES));
+
   const callsStore = useCallsStore();
-  data.payload
+  calls
     .filter(
       call =>
         isRoutedCall(call.provider, call.direction) &&

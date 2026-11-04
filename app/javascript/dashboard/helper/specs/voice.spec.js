@@ -168,23 +168,33 @@ describe('voice call ringing', () => {
       contact: { name: 'Caller', phone_number: '+15550100', avatar: '' },
       ...extra,
     });
-    CallsAPI.get.mockResolvedValue({
-      data: {
-        payload: [
-          ringing('CA7'),
-          ringing('CA8', { agent: { id: TEAMMATE } }),
-          ringing('WA2', { provider: 'whatsapp' }),
-        ],
-      },
-    });
+    CallsAPI.get
+      .mockResolvedValueOnce({
+        data: {
+          meta: { total_pages: 2 },
+          payload: [
+            ringing('CA7'),
+            ringing('CA8', { agent: { id: TEAMMATE } }),
+            ringing('WA2', { provider: 'whatsapp' }),
+          ],
+        },
+      })
+      .mockResolvedValueOnce({
+        data: { meta: { total_pages: 2 }, payload: [ringing('CA10')] },
+      });
 
     await loadRingingCalls();
 
+    expect(CallsAPI.get).toHaveBeenCalledTimes(2);
     expect(CallsAPI.get).toHaveBeenCalledWith({
       status: 'ringing',
       direction: 'inbound',
+      page: 2,
     });
-    expect(callsStore.addCall).toHaveBeenCalledTimes(1);
+    expect(callsStore.addCall).toHaveBeenCalledTimes(2);
+    expect(callsStore.addCall).toHaveBeenCalledWith(
+      expect.objectContaining({ callSid: 'CA10' })
+    );
     expect(callsStore.addCall).toHaveBeenCalledWith(
       expect.objectContaining({
         callSid: 'CA7',
