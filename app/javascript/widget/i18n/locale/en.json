@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
     "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
     "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
   },
   "ATTACHMENTS": {

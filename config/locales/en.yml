@@ -44,6 +44,13 @@ en:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+    voice_settings:
+      unsupported_inbox: 'This setting requires a Twilio voice inbox'
+    call_announcements:
+      invalid_settings: 'Provide a boolean for enabled and text for the announcement'
+      message_required: 'Add the message callers hear'
+      message_too_long: 'The announcement must be 1000 characters or fewer'
+      invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
   auth:
     saml:
       invalid_email: 'Please enter a valid email address'
@@ -94,6 +101,9 @@ en:
         not_metadata: did not return SAML identity provider metadata
     notification_subscription:
       voip_attributes_required: A VoIP push subscription needs a device_id and a push_token
+    account_user:
+      no_work_preference: Receive conversations or Receive voice calls must stay on
+      invalid_work_preference: Receive conversations and Receive voice calls must be true or false
     account:
       not_authorized: You are not authorized to access this account
       email_limit_exceeded: The daily email limit for this account has been reached
@@ -114,6 +124,12 @@ en:
       failed: Signup failed
     voice:
       call_already_accepted: '%{agent_name} is already handling the call.'
+      announcement_audio_mismatch: 'Generated audio did not match the announcement text. Your saved announcement has not changed. Please try again.'
+      announcement_generation_failed: "Couldn't generate announcement audio. Check your Captain AI configuration and try again. Your saved announcement has not changed."
+      call_timed_out: 'The call timed out before you could join.'
+      invalid_hold: "Couldn't update the call. Please try again."
+      not_handling_agent: 'Only the agent on the call can hold or resume it.'
+      hold_failed: 'Could not update the hold. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -167,6 +183,9 @@ en:
     categories:
       locale:
         unique: should be unique in the category and portal
+    articles:
+      meta:
+        noindex_not_boolean: noindex must be true or false
     dyte:
       invalid_message_type: 'Invalid message type. Action not permitted'
       realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
@@ -213,6 +232,7 @@ en:
     openai:
       invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
+      bot_provider_conflict: 'Disconnect %{current_provider} before connecting %{requested_provider}'
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
         no_response_error: Please check the IMAP credentials and try again.
@@ -352,6 +372,15 @@ en:
   conversations:
     captain:
       handoff: 'Transferring to another agent for further assistance.'
+    unverified_contact_match:
+      note: |-
+        This visitor entered contact details that belong to an existing contact. We couldn't verify the visitor's identity, so we didn't link this conversation to that contact or save these details.
+
+        %{matches}
+
+        If you confirm this visitor is the same person, merge the contacts from the contact panel.
+      email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
+      phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
@@ -506,16 +535,35 @@ en:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
     upgrade: 'Upgrade your plan to enable Captain AI'
     disabled: 'Captain AI is disabled for this account.'
     api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'Using tool %{function_name}'
+      approval_superseded: 'The agent sent a new message instead of approving this change.'
+      approval_rejected: 'The agent rejected this change.'
+      approval_already_decided: 'This change has already been approved or rejected.'
+      approval_expired: 'The agent did not approve this change within %{minutes} minutes.'
+      approval_expired_notice: 'This change expired. Ask Copilot to propose it again.'
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'
       reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
       reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
+      step_failed: "Couldn't finish this step"
+      steps:
+        search_documentation: 'Searching the knowledge base'
+        search_articles: 'Searching help center articles'
+        get_article: 'Reading an article'
+        search_contacts: 'Searching contacts'
+        get_contact: 'Looking up a contact'
+        get_conversation: 'Reading a conversation'
+        search_linear_issues: 'Searching Linear issues'
+        get_data: 'Finding matching records'
+        display: 'Preparing the results'
+        get_report: 'Reading the reports'
+        get_account_directory: 'Looking up agents, inboxes and teams'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -699,6 +747,7 @@ en:
       invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: 'Translation requires Captain to be enabled for this account'
+      cannot_overwrite_original: "Can't translate into the original article's language. Edit the original directly."
       locale_not_available: 'Locale not available in this portal'
       category_not_found: 'Category not found in this portal'
       no_articles_found: 'No articles found to process'
@@ -789,6 +838,7 @@ en:
         editor: 'Editor'
         assistant: 'Assistant'
         copilot: 'Copilot'
+        copilot_workflows: 'Copilot workflows'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'
@@ -849,6 +899,12 @@ en:
       password: 'Password'
       password_placeholder: 'Password'
       submit: 'Login'
+      mfa_code: 'Authentication code'
+      mfa_code_placeholder: '6-digit code or backup code'
+      mfa_submit: 'Verify'
+      mfa_invalid: 'Invalid code. Please try again.'
+      mfa_expired: 'Your sign-in attempt expired. Please sign in again.'
+      mfa_attempts_exhausted: 'Too many invalid codes. Please try again in a few minutes.'
     navigation:
       label: 'Super Admin'
       suffix: 'Super Admin console'
@@ -959,7 +1015,7 @@ en:
           other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
       calls:
         heading: 'Incoming calls'
-        description: 'Whether a call rings this user on their phone while the app is in the background or closed. With the app open, calls ring over its live connection.'
+        description: "Whether this user's phone rings for incoming calls when the app is closed or in the background. With the app open, eligible calls ring over its live connection."
         accounts_heading: 'Accounts'
         setup:
           heading: 'Push setup'
@@ -995,6 +1051,7 @@ en:
           ringing_off: 'No, Calls on mobile is off'
           no_inboxes: 'No, no voice inboxes'
           not_online: 'No, not online'
+          calls_off: 'No, Receive voice calls is off'
           no_device: 'No, no phone registered'
           push_unavailable: 'Only with the app open'
         assigned_only: 'Calls assigned to them'
