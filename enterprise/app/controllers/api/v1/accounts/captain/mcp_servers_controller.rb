@@ -1,6 +1,4 @@
 class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::BaseController
-  SELECTION_FIELDS = %w[param_sources settings enabled].freeze
-
   before_action :ensure_mcp_servers_enabled
   before_action -> { check_authorization(Captain::McpServer) }
   before_action :set_mcp_server, only: [:show, :update, :destroy, :live_tools, :authorization_url]
@@ -24,16 +22,11 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   end
 
   def create
-    @mcp_server = assistant_mcp_servers.create!(
-      server_params.merge(account: Current.account, status: server_params[:auth_type] == 'oauth' ? :needs_sign_in : :active)
-    )
+    @mcp_server = assistant_mcp_servers.create!(server_params.merge(account: Current.account))
   end
 
   def update
-    Captain::McpServer.transaction do
-      @mcp_server.update!(update_params)
-      sync_tools(tool_selections) if params[:mcp_server].key?(:tools)
-    end
+    Captain::Mcp::ServerUpdateService.new(@mcp_server, update_params, params[:mcp_server][:tools]).perform
   end
 
   def destroy
@@ -76,62 +69,9 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
     params.require(:mcp_server).permit(:url, :name, :auth_type, :auth_header, :enabled, auth_config: [:token])
   end
 
-  # The API never returns the token, so an edit without a new token keeps the stored one. A new token clears the
-  # error the old token caused, the same way a new server starts as active.
+  # The API never returns the token, so an edit without a new token keeps the stored one
   def update_params
     attributes = server_params.except(:url, :auth_type)
-    return attributes.except(:auth_config) if attributes[:auth_config].to_h['token'].blank?
-
-    attributes.merge(status: :active, last_error: nil)
-  end
-
-  # Makes the approved tools match the selection. A tool that is already approved keeps its approved definition, so
-  # editing its parameters never approves a change the server made, and fields the selection leaves out keep their
-  # values. A newly selected tool is pinned to its live definition, which must be read-only.
-  def sync_tools(selections)
-    approved = @mcp_server.tools.index_by(&:name)
-    @mcp_server.tools.where.not(name: selections.keys).delete_all
-    live_tools = nil
-    selections.each do |name, fields|
-      tool = approved[name] || begin
-        live_tools ||= connection.track_status { connection.tool_definitions }.index_by { |definition| definition['name'] }
-        new_tool(name, live_tools[name])
-      end
-      tool.update!(fields)
-    end
-    # The loaded list still holds the deleted tools, and the response renders it
-    @mcp_server.tools.reset
-  end
-
-  def new_tool(name, definition)
-    raise ActiveRecord::RecordInvalid, invalid_tool(name, :missing) unless definition
-    raise ActiveRecord::RecordInvalid, invalid_tool(name, :not_read_only) unless definition['read_only']
-
-    @mcp_server.tools.new(account: @mcp_server.account, name: name).tap { |tool| tool.approve(definition) }
-  end
-
-  # The tool model validates every field against a strict schema, so the selections are read as sent instead of
-  # through permit, which drops unknown or nested values without an error. Returns the fields of each tool by name.
-  def tool_selections
-    selections = Array(params[:mcp_server][:tools]).map do |selection|
-      selection = selection.to_unsafe_h if selection.respond_to?(:to_unsafe_h)
-      raise ActiveRecord::RecordInvalid, invalid_tool(nil, :invalid_selection) unless valid_selection?(selection)
-
-      selection
-    end
-    names = selections.pluck('name')
-    raise ActiveRecord::RecordInvalid, invalid_tool(nil, :duplicate) if names.uniq.size != names.size
-
-    selections.to_h { |selection| [selection['name'], selection.slice(*SELECTION_FIELDS)] }
-  end
-
-  # JsonSchemaValidator cannot name the attribute when a whole value has the wrong type, so the request rejects it here
-  def valid_selection?(selection)
-    selection.is_a?(Hash) && selection['name'].present? && selection.slice('param_sources', 'settings').values.all?(Hash)
-  end
-
-  def invalid_tool(name, reason)
-    @mcp_server.errors.add(:tools, I18n.t("captain.mcp_server.tools.#{reason}", tool: name))
-    @mcp_server
+    attributes[:auth_config].to_h['token'].blank? ? attributes.except(:auth_config) : attributes
   end
 end

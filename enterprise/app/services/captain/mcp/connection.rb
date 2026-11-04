@@ -25,8 +25,8 @@ class Captain::Mcp::Connection
 
   # Runs a request and records the result on the server.
   # The status is written with update_columns, not save, for two reasons:
-  # - The update action calls this after it assigns the admin's edit and before it validates it. A save here would store
-  #   that edit early, without the checks the action runs after the call.
+  # - ServerUpdateService calls this after it assigns the admin's edit and before it saves it. A save here would store
+  #   that edit before the service saves the tool selection in the same transaction.
   # - Agent runs, the OAuth callback and the hourly check record the status too. A validation on an unrelated column must
   #   not stop Chatwoot from recording that a server is down or needs sign-in.
   def track_status

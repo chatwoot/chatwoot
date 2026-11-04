@@ -54,6 +54,11 @@ class Captain::McpServer < ApplicationRecord
   validate :validate_auth_header
   validate :validate_token
 
+  # An OAuth server cannot be used until an admin signs in
+  before_create { self.status = :needs_sign_in if auth_oauth? }
+  # A new token clears the error the old token caused, the same way a new server starts as active
+  before_update :reset_status, if: :will_save_change_to_auth_config?
+
   scope :enabled, -> { where(enabled: true) }
 
   # The name Captain sees. The server ID keeps names apart across servers, and the double underscore
@@ -67,7 +72,47 @@ class Captain::McpServer < ApplicationRecord
     enabled? ? tools.where(enabled: true) : Captain::McpTool.none
   end
 
+  # Selected tool names that have no approved tool yet. Only these need the server's live definitions.
+  def new_tool_names(names)
+    names - tools.pluck(:name)
+  end
+
+  # Makes the approved tools match the selections, a hash of fields by tool name. A tool that is already approved keeps
+  # its approved definition, so editing its parameters never approves a change the server made, and fields the
+  # selection leaves out keep their values. A newly selected tool is pinned to its definition in live_definitions,
+  # which must be read-only.
+  def sync_tools(selections, live_definitions)
+    transaction do
+      approved = tools.index_by(&:name)
+      tools.where.not(name: selections.keys).delete_all
+      selections.each do |name, fields|
+        tool = approved[name] || approved_tool(name, live_definitions[name])
+        tool.update!(fields)
+      end
+    end
+    # The loaded list still holds the deleted tools
+    tools.reset
+  end
+
+  # Adds the error to the server and raises, so the API answers 422 with the reason
+  def invalid_tool!(name, reason)
+    errors.add(:tools, I18n.t("captain.mcp_server.tools.#{reason}", tool: name))
+    raise ActiveRecord::RecordInvalid, self
+  end
+
   private
+
+  def reset_status
+    self.status = :active
+    self.last_error = nil
+  end
+
+  def approved_tool(name, definition)
+    invalid_tool!(name, :missing) unless definition
+    invalid_tool!(name, :not_read_only) unless definition['read_only']
+
+    tools.new(account: account, name: name).tap { |tool| tool.approve(definition) }
+  end
 
   # The shared endpoint check accepts Liquid templates for custom tools, but RubyLLM connects to the URL as written.
   # It refuses a URL with a username or password, so neither may reach it.
