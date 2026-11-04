@@ -616,6 +616,7 @@ en:
     mcp_server:
       disabled: 'MCP servers are not enabled for this account'
       token_rejected: 'The server rejected the token. Check the token and the header name.'
+      token_required: 'The server now asks for a token. Remove it and connect it again with a token.'
       not_oauth: 'This server does not use OAuth sign-in'
       tools:
         duplicate: 'cannot list the same tool twice'

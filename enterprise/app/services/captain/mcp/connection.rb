@@ -34,8 +34,7 @@ class Captain::Mcp::Connection
     @server.update_columns(status: :active, last_error: nil) # rubocop:disable Rails/SkipsModelValidations
     result
   rescue *ERRORS => e
-    status = e.is_a?(RubyLLM::UnauthorizedError) ? :needs_sign_in : :error
-    @server.update_columns(status: status, last_error: e.message) # rubocop:disable Rails/SkipsModelValidations
+    @server.update_columns(**failed_status(e)) # rubocop:disable Rails/SkipsModelValidations
     raise
   end
 
@@ -77,6 +76,15 @@ class Captain::Mcp::Connection
   end
 
   private
+
+  # Only an OAuth server can sign in again. A token server needs a new token, and a server without sign-in must be
+  # connected again with a token, because the sign-in type cannot change.
+  def failed_status(error)
+    return { status: :error, last_error: error.message } unless error.is_a?(RubyLLM::UnauthorizedError)
+    return { status: :needs_sign_in, last_error: error.message } if @server.auth_oauth?
+
+    { status: :error, last_error: I18n.t(@server.auth_token? ? 'captain.mcp_server.token_rejected' : 'captain.mcp_server.token_required') }
+  end
 
   # Each server has its own context, because RubyLLM reads the credential store from the context config
   def context

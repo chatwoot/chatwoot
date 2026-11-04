@@ -76,10 +76,13 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
     params.require(:mcp_server).permit(:url, :name, :auth_type, :auth_header, :enabled, auth_config: [:token])
   end
 
-  # The API never returns the token, so an edit without a new token keeps the stored one
+  # The API never returns the token, so an edit without a new token keeps the stored one. A new token clears the
+  # error the old token caused, the same way a new server starts as active.
   def update_params
     attributes = server_params.except(:url, :auth_type)
-    attributes[:auth_config].to_h['token'].blank? ? attributes.except(:auth_config) : attributes
+    return attributes.except(:auth_config) if attributes[:auth_config].to_h['token'].blank?
+
+    attributes.merge(status: :active, last_error: nil)
   end
 
   # Makes the approved tools match the selection. A tool that is already approved keeps its approved definition, so
