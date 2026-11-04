@@ -42,6 +42,16 @@ RSpec.describe 'Auto translate messages API', type: :request do
     expect(response).to have_http_status(:accepted)
   end
 
+  it 'still translates incoming messages with an outgoing translation opt-out' do
+    message.update!(content_attributes: { skip_translation: true })
+
+    expect do
+      post url, params: { message_ids: [message.id] }, headers: agent.create_new_auth_token, as: :json
+    end.to have_enqueued_job(Captain::Conversation::ContactMessageTranslationJob).with(message, 'en')
+
+    expect(response).to have_http_status(:accepted)
+  end
+
   it 'refuses when auto translate is not enabled for the account' do
     account.disable_features(:auto_translate)
     account.save!

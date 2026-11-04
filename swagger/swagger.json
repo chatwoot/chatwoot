@@ -13863,7 +13863,14 @@
           },
           "content_attributes": {
             "type": "object",
-            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n",
+            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\nSet `skip_translation` to `true` to send an outgoing message as written,\nbypassing account-wide auto translation. This does not affect incoming message translation.\n",
+            "properties": {
+              "skip_translation": {
+                "type": "boolean",
+                "default": false,
+                "description": "Skip automatic translation of this outgoing message before delivery."
+              }
+            },
             "example": {
               "items": [
                 {

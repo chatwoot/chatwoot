@@ -26,6 +26,13 @@ properties:
       Attributes based on the content type. For `input_select`, provide an `items` array with
       `title`, `value`, and optional `description`. WhatsApp list messages use `description`
       as the row subtitle when present.
+      Set `skip_translation` to `true` to send an outgoing message as written,
+      bypassing account-wide auto translation. This does not affect incoming message translation.
+    properties:
+      skip_translation:
+        type: boolean
+        default: false
+        description: Skip automatic translation of this outgoing message before delivery.
     example:
       items:
         - title: 'Option 1'
