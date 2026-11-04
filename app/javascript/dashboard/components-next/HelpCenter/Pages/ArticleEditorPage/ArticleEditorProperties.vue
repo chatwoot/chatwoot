@@ -193,7 +193,7 @@ onMounted(() => {
               )
             "
             use-api-results
-            class="flex-1 [&>div>button]:!h-6 [&>div>button]:!px-0 [&>div>button]:!py-0 [&>div>button:not(.focused)]:!outline-transparent [&>div>div_ul]:max-h-56"
+            class="flex-1 -ms-1.5 [&>div>button]:!h-6 [&>div>button]:!px-1.5 [&>div>button]:!py-0 [&>div>button:not(.focused)]:!outline-transparent [&>div>div_ul]:max-h-56"
             @open="fetchArticles('')"
             @search="handleArticleSearch"
             @update:model-value="handleAssociationChange"
