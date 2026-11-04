@@ -18,6 +18,14 @@ RSpec.describe 'Super Admin', type: :request do
       expect(response).to redirect_to(super_admin_root_path)
     end
 
+    it 'returns to the super admin page that required the login' do
+      get '/super_admin/settings'
+      expect(response).to redirect_to(new_super_admin_session_path)
+
+      post '/super_admin/sign_in', params: { super_admin: { email: super_admin.email, password: 'Password1!' } }
+      expect(response).to redirect_to('/super_admin/settings')
+    end
+
     it 'redirects back to the login page on invalid credentials' do
       post '/super_admin/sign_in', params: { super_admin: { email: super_admin.email, password: 'wrong' } }
       expect(response).to redirect_to(super_admin_session_path)
