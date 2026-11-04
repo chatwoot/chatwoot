@@ -437,39 +437,19 @@ defineExpose({ open });
             v-for="tool in liveTools"
             :key="tool.name"
             class="flex flex-col gap-2 p-3 rounded-lg border border-n-weak"
-            :class="{ 'opacity-60': !tool.read_only }"
           >
             <span class="flex items-center justify-between gap-3">
               <span class="flex items-center gap-2 min-w-0">
-                <Checkbox
-                  v-model="selections[tool.name].selected"
-                  :disabled="!tool.read_only"
-                />
+                <Checkbox v-model="selections[tool.name].selected" />
                 <code class="text-sm text-n-slate-12 truncate">
                   {{ tool.name }}
                 </code>
               </span>
-              <span class="flex items-center gap-1.5 shrink-0">
-                <span
-                  v-if="tool.changed"
-                  class="text-xs px-2 py-0.5 rounded-full bg-n-amber-3 text-n-amber-11"
-                >
-                  {{ t('CAPTAIN.MCP_SERVERS.DIALOG.CHANGED') }}
-                </span>
-                <span
-                  class="text-xs px-2 py-0.5 rounded-full"
-                  :class="
-                    tool.read_only
-                      ? 'bg-n-alpha-2 text-n-slate-11'
-                      : 'bg-n-amber-3 text-n-amber-11'
-                  "
-                >
-                  {{
-                    tool.read_only
-                      ? t('CAPTAIN.MCP_SERVERS.DIALOG.READ')
-                      : t('CAPTAIN.MCP_SERVERS.DIALOG.WRITE')
-                  }}
-                </span>
+              <span
+                v-if="tool.changed"
+                class="text-xs px-2 py-0.5 rounded-full bg-n-amber-3 text-n-amber-11 shrink-0"
+              >
+                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.CHANGED') }}
               </span>
             </span>
             <span
@@ -479,9 +459,6 @@ defineExpose({ open });
                 {{ t('CAPTAIN.MCP_SERVERS.DIALOG.WRITTEN_BY_SERVER') }}
               </span>
               {{ tool.description }}
-            </span>
-            <span v-if="!tool.read_only" class="text-xs text-n-amber-11">
-              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.WRITE_BLOCKED') }}
             </span>
           </label>
         </template>

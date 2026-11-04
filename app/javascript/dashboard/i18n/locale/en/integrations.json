@@ -1677,7 +1677,7 @@
       "CONNECT": "Connect server",
       "EMPTY_STATE": {
         "TITLE": "No MCP servers yet",
-        "SUBTITLE": "Connect an MCP server and choose which of its read tools Captain can use in conversations."
+        "SUBTITLE": "Connect an MCP server and choose which of its tools Captain can use in conversations."
       },
       "LOAD_ERROR": "Could not load the MCP servers.",
       "STATUS": {
@@ -1747,9 +1747,6 @@
         "TOOLS_TITLE": "Choose the tools Captain can use",
         "TOOLS_DESCRIPTION": "Captain can use only the tools you select. Chatwoot saves a fingerprint of each tool. If the server changes a tool later, Captain stops using it until you approve the change.",
         "WRITTEN_BY_SERVER": "Written by the server",
-        "READ": "Read",
-        "WRITE": "Write",
-        "WRITE_BLOCKED": "Captain can use read tools only.",
         "CHANGED": "Changed by the server",
         "NO_LIVE_TOOLS": "The server lists no tools.",
         "PARAMS_TITLE": "Decide who fills each parameter",
