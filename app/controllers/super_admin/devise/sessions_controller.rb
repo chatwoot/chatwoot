@@ -39,7 +39,11 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
   end
 
   def start_mfa_challenge
-    session[:super_admin_mfa] = { 'id' => @super_admin.id, 'expires_at' => MFA_CHALLENGE_EXPIRY.from_now.to_i }
+    session[:super_admin_mfa] = {
+      'id' => @super_admin.id,
+      'salt' => @super_admin.authenticatable_salt,
+      'expires_at' => MFA_CHALLENGE_EXPIRY.from_now.to_i
+    }
     redirect_to super_admin_session_path
   end
 
@@ -79,12 +83,11 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
     challenge = session[:super_admin_mfa]
     return if challenge.blank?
 
-    if challenge['expires_at'].to_i < Time.current.to_i
-      session.delete(:super_admin_mfa)
-      return
-    end
+    super_admin = SuperAdmin.find_by(id: challenge['id']) if challenge['expires_at'].to_i >= Time.current.to_i
+    return super_admin if super_admin && ActiveSupport::SecurityUtils.secure_compare(super_admin.authenticatable_salt.to_s, challenge['salt'].to_s)
 
-    SuperAdmin.find_by(id: challenge['id'])
+    session.delete(:super_admin_mfa)
+    nil
   end
 
   def complete_sign_in(super_admin)

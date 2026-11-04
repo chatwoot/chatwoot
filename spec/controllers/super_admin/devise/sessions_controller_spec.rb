@@ -100,6 +100,14 @@ RSpec.describe 'Super Admin', type: :request do
       expect(signed_in?).to be(false)
     end
 
+    it 'does not sign in when the password changes during the challenge' do
+      submit_password
+      super_admin.update!(password: 'NewPassword1!', password_confirmation: 'NewPassword1!')
+      submit_code(super_admin.reload.current_otp)
+
+      expect(signed_in?).to be(false)
+    end
+
     it 'does not sign in when the code arrives after the challenge expires' do
       submit_password
 
