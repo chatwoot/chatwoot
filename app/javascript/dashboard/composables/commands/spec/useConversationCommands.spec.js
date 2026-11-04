@@ -328,6 +328,18 @@ describe('useConversationCommands', () => {
     );
   });
 
+  it('offers the panel and new-tab actions in the Inbox, not mark unread', () => {
+    useRoute.mockReturnValue({ name: 'inbox_view_conversation' });
+    const ids = useConversationCommands().conversationCommands.value.map(
+      action => action.id
+    );
+
+    expect(ids).toEqual(
+      expect.arrayContaining(['toggle_contact_panel', 'open_in_new_tab'])
+    );
+    expect(ids).not.toContain('mark_unread');
+  });
+
   it('offers nothing while the conversation is still loading', () => {
     store.getters.getSelectedChat = {};
     const { conversationCommands } = useConversationCommands();

@@ -308,12 +308,16 @@ export function useConversationCommands() {
   };
 
   const viewCommands = computed(() => {
-    if (!isAConversationRoute(route.name)) return [];
+    if (!isAConversationRoute(route.name) && !isAInboxViewRoute(route.name)) {
+      return [];
+    }
     const isContactPanelOpen = uiSettings.value.is_contact_sidebar_open;
+    // Only the conversation list listens for this; the Inbox marks its notification unread instead.
+    const canMarkUnread =
+      isAConversationRoute(route.name) && !currentChat.value?.unread_count;
     return [
-      ...(currentChat.value?.unread_count
-        ? []
-        : [
+      ...(canMarkUnread
+        ? [
             {
               id: 'mark_unread',
               title: t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_UNREAD'),
@@ -321,7 +325,8 @@ export function useConversationCommands() {
               icon: 'i-lucide-mail',
               run: () => emitter.emit(CMD_MARK_UNREAD, conversationId.value),
             },
-          ]),
+          ]
+        : []),
       {
         id: 'toggle_contact_panel',
         title: t(
