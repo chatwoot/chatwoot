@@ -46,6 +46,7 @@ import {
   removeSignature,
   getEffectiveChannelType,
   getReplyVariables,
+  stripUnsupportedMarkdown,
 } from 'dashboard/helper/editorHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 import { useMacroExecution } from 'dashboard/composables/useMacroExecution';
@@ -1346,13 +1347,22 @@ export default {
     onInsertWhileCopilotActive(content) {
       if (!this.copilot.isActive.value) return;
       this.copilot.reset();
+      const channelType = getEffectiveChannelType(
+        this.channelType,
+        this.inbox?.medium || ''
+      );
+      const insert = stripUnsupportedMarkdown(
+        content,
+        this.isPrivate ? 'Context::PrivateNote' : channelType,
+        false
+      );
       const body = removeSignature(
         this.message,
         this.messageSignature,
-        getEffectiveChannelType(this.channelType, this.inbox?.medium || '')
+        channelType
       );
       this.message = this.toggleSignatureForDraft(
-        body.trim() ? `${body.trimEnd()}\n${content}` : content
+        body.trim() ? `${body.trimEnd()}\n${insert}` : insert
       );
     },
   },

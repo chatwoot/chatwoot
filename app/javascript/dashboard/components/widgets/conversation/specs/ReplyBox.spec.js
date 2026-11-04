@@ -528,6 +528,26 @@ describe('ReplyBox', () => {
       wrapper.unmount();
     });
 
+    it('strips formatting the channel cannot carry', async () => {
+      const { wrapper } = mountWith({
+        chat: REPLIABLE,
+        inbox: { channel_type: 'Channel::Api' },
+      });
+      await flushPromises();
+      wrapper.vm.copilot.showEditor.value = true;
+
+      emitter.emit(
+        BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+        'See [the docs](https://example.com) for `details`'
+      );
+      await nextTick();
+
+      expect(wrapper.vm.message).toBe(
+        'See the docs: https://example.com for details'
+      );
+      wrapper.unmount();
+    });
+
     it('leaves the reply alone when the editor is showing', async () => {
       const { wrapper } = mountWith({ chat: REPLIABLE });
       await flushPromises();
