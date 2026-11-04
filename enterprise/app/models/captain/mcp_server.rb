@@ -32,6 +32,8 @@ class Captain::McpServer < ApplicationRecord
   self.table_name = 'captain_mcp_servers'
 
   FEATURE_FLAG = 'captain_mcp_servers'.freeze
+  # Matches how long RubyLLM keeps a pending OAuth sign-in
+  OAUTH_STATE_TTL = 10.minutes
 
   # Starts the name of the RubyLLM client and of every tool Captain sees from a server
   TOOL_NAME_PREFIX = 'mcp'.freeze
@@ -65,6 +67,20 @@ class Captain::McpServer < ApplicationRecord
   validate :validate_token
 
   scope :enabled, -> { where(enabled: true) }
+
+  # Returns the server an OAuth sign-in with this state started for, once. Every server shares one callback URL, so the
+  # state is the only way to find the server, and a used state is deleted so a repeated callback finds nothing.
+  def self.for_oauth_state(state)
+    key = format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state.to_s)
+    server_id = ::Redis::Alfred.get(key)
+    ::Redis::Alfred.delete(key)
+    find_by(id: server_id) if server_id
+  end
+
+  # Remembers which server an OAuth sign-in started for, so the callback can find it
+  def remember_oauth_state(state)
+    ::Redis::Alfred.setex(format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state), id, OAUTH_STATE_TTL)
+  end
 
   # Approved tools Captain may use. A caller must still compare each digest with the live definition.
   def available_tools

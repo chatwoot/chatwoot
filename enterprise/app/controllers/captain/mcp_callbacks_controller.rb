@@ -4,7 +4,7 @@ class Captain::McpCallbacksController < ApplicationController
   CALLBACK_PARAMS = %w[code state iss error error_description].freeze
 
   def show
-    server = Captain::Mcp::Connection.server_for_oauth_state(params[:state])
+    server = Captain::McpServer.for_oauth_state(params[:state])
     # The callback can arrive on another host than FRONTEND_URL, such as localhost behind a tunnel
     unless server&.account&.feature_enabled?(Captain::McpServer::FEATURE_FLAG)
       return redirect_to("#{ENV.fetch('FRONTEND_URL', '')}/app", allow_other_host: true)

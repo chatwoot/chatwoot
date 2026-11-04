@@ -2,22 +2,12 @@
 # Every MCP and OAuth request goes through the SafeFetch address checks.
 class Captain::Mcp::Connection
   TIMEOUT = 30
-  # Matches how long RubyLLM keeps a pending OAuth sign-in
-  OAUTH_STATE_TTL = 10.minutes
   # The server or the network failed: a bad answer, a refused address or a lost connection. Callers handle these as
   # expected failures, and anything else is a bug that should reach Sentry.
   ERRORS = [RubyLLM::Error, SafeFetch::Error, Faraday::Error].freeze
 
   def self.oauth_redirect_uri
     "#{ENV.fetch('FRONTEND_URL', '')}/captain/mcp/callback"
-  end
-
-  # Returns the server an OAuth sign-in with this state started for, once
-  def self.server_for_oauth_state(state)
-    key = format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state.to_s)
-    server_id = ::Redis::Alfred.get(key)
-    ::Redis::Alfred.delete(key)
-    Captain::McpServer.find_by(id: server_id) if server_id
   end
 
   def initialize(server)
@@ -57,8 +47,7 @@ class Captain::Mcp::Connection
 
   def authorization_url
     url = mcp.authorization_url(redirect_uri: self.class.oauth_redirect_uri)
-    state = Rack::Utils.parse_query(URI(url).query)['state']
-    ::Redis::Alfred.setex(format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state), @server.id, OAUTH_STATE_TTL)
+    @server.remember_oauth_state(Rack::Utils.parse_query(URI(url).query)['state'])
     url
   end
 
