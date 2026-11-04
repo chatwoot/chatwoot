@@ -2,8 +2,6 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
   SHOPIFY_MANAGED_FEATURES = 'shopify_managed_features'.freeze
   PAID_PLAN_FEATURES = %w[captain_classifier].freeze
-  # Older Shopify catalogs and stored entitlement lists may still include these account-controlled flags.
-  LEGACY_SHOPIFY_PLAN_FEATURES = %w[data_import].freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
   # Each higher tier includes all features from the lower tiers
@@ -50,24 +48,14 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     account.with_lock do
       next if shopify_billing? && !shopify_lifecycle_cleanup && !Shopify::FeatureGate.enabled?(account: account)
 
-      feature_sets = plan_feature_sets
-
-      account.disable_features(*feature_sets[:managed])
-      account.enable_features(*feature_sets[:enabled])
-      account.internal_attributes[SHOPIFY_MANAGED_FEATURES] = feature_sets[:shopify_catalog] if shopify_billing?
+      account.disable_features(*managed_plan_features.without('data_import'))
+      account.enable_features(*(current_plan_features + manually_managed_features).without('data_import'))
+      update_shopify_managed_features
       account.save!
     end
   end
 
   private
-
-  def plan_feature_sets
-    {
-      managed: managed_plan_features,
-      enabled: current_plan_features + manually_managed_features,
-      shopify_catalog: shopify_billing? ? current_shopify_catalog_features : []
-    }.transform_values { |features| features - LEGACY_SHOPIFY_PLAN_FEATURES }
-  end
 
   def current_plan_features
     return [] if default_plan?
@@ -110,6 +98,12 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
     plans = Enterprise::Billing::PlanConfiguration.plans_for(account)
     @current_shopify_catalog_features = plans.flat_map { |plan| plan.fetch('features') }.uniq
+  end
+
+  def update_shopify_managed_features
+    return unless shopify_billing?
+
+    account.internal_attributes[SHOPIFY_MANAGED_FEATURES] = current_shopify_catalog_features.without('data_import')
   end
 
   def shopify_billing?
