@@ -1502,7 +1502,7 @@
         "DESCRIPTION": "Tools you define yourself. Each one calls an API endpoint you configure."
       },
       "MCP_SERVERS": {
-        "DESCRIPTION": "MCP servers connected to this assistant, and the read tools Captain can use from each."
+        "DESCRIPTION": "MCP servers connected to this assistant, and the tools Captain can use from each."
       }
     },
     "CUSTOM_TOOLS": {
@@ -1743,7 +1743,7 @@
       "CONNECT": "Connect server",
       "EMPTY_STATE": {
         "TITLE": "No MCP servers yet",
-        "SUBTITLE": "Connect an MCP server and choose which of its read tools Captain can use in conversations."
+        "SUBTITLE": "Connect an MCP server and choose which of its tools Captain can use in conversations."
       },
       "LOAD_ERROR": "Could not load the MCP servers.",
       "STATUS": {
@@ -1799,7 +1799,6 @@
           "REVIEW": "Review"
         },
         "TOKEN_LABEL": "Access token",
-        "WRITE": "Changes data",
         "CHANGED": "Changed by the server",
         "NO_LIVE_TOOLS": "The server lists no tools.",
         "PARAMS_TITLE": "Decide who fills each parameter",
@@ -1863,7 +1862,7 @@
           "TITLE": "Choose tools",
           "DESCRIPTION": "Captain uses only the tools you pick. Each one is pinned to the definition you see here. Descriptions come from the server.",
           "SELECTED": "{selected} of {total} selected",
-          "SELECT_ALL_READ": "Select all read tools",
+          "SELECT_ALL": "Select all tools",
           "CLEAR": "Clear selection",
           "SEARCH": "Search tools"
         },
