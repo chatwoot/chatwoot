@@ -1,0 +1,46 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "Hívások",
+    "ALL_CALLS": "Összes hívás",
+    "ALL_CALLS_COUNT": "Összes hívás ({count})",
+    "EMPTY_STATE": "Nem található hívás",
+    "SETUP": {
+      "TITLE": "Hívások indítása és fogadása egy helyen",
+      "SUBTITLE": "Állítson be hangcsatornát, hogy csapatával kezelhesse a hívásokat. Minden hívás és annak felvétele itt jelenik meg.",
+      "ACTION": "Hangcsatorna beállítása"
+    },
+    "FILTERS": {
+      "MISSED": "Nem fogadott",
+      "NO_REPLY": "Nem válaszolt",
+      "OTHER_ACTIVITY": "Egyéb tevékenység",
+      "INCOMING": "Bejövő",
+      "OUTGOING": "Kimenő",
+      "IN_PROGRESS": "Folyamatban",
+      "ASSIGNEE": "Assignee",
+      "ALL_ASSIGNEES": "Összes felelős",
+      "MORE_FILTERS": "További szűrők",
+      "INBOX": "Fiók",
+      "ALL_INBOXES": "Összes bejövő"
+    },
+    "STATUS": {
+      "ONGOING": "Folyamatban",
+      "INCOMING": "Bejövő",
+      "OUTGOING": "Kimenő",
+      "MISSED": "Nem fogadott",
+      "NO_REPLY": "Nem válaszolt",
+      "FAILED": "Failed"
+    },
+    "ROW": {
+      "PICKED_BY": "Felvette:",
+      "DIALED_BY": "Tárcsázta:",
+      "ANSWERED": "Fogadott",
+      "RINGING": "Csörög",
+      "IN_PROGRESS": "Folyamatban",
+      "NO_AGENT": "Egyik ügynök sem fogadta ezt a hívást",
+      "NO_CONTACT_ANSWER": "A hívott fél nem válaszolt",
+      "FAILED": "Nem sikerült kapcsolni ezt a hívást",
+      "YESTERDAY": "Tegnap",
+      "DELETED_CONTACT": "Törölt kontakt"
+    }
+  }
+}

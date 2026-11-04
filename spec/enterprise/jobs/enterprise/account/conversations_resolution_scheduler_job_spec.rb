@@ -46,10 +46,29 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
+    context 'when account uses legacy disabled settings key' do
+      let!(:regular_inbox) { create(:inbox, account: account) }
+
+      before do
+        create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
+        assistant.update!(config: assistant.config.except('auto_resolve_mode'))
+        account.update!(settings: account.settings.merge('captain_disable_auto_resolve' => true))
+      end
+
+      it 'does not enqueue resolution jobs' do
+        expect do
+          described_class.perform_now
+        end.not_to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
+          .with(regular_inbox)
+      end
+    end
+
     it 'does not enqueue resolution jobs for inboxes with an external bot' do
       regular_inbox = create(:inbox, account: account)
       create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
-      create(:agent_bot_inbox, inbox: regular_inbox, agent_bot: create(:agent_bot, account: account))
+      connection = create(:agent_bot_inbox, inbox: regular_inbox, agent_bot: create(:agent_bot, account: account), status: :inactive)
+      # Keep coverage for existing duplicate connections until they are eliminated.
+      connection.update_column(:status, AgentBotInbox.statuses[:active]) # rubocop:disable Rails/SkipsModelValidations
 
       expect do
         described_class.perform_now

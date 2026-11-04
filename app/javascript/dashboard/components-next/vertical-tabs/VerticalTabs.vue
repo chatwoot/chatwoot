@@ -26,7 +26,7 @@ const activeTab = defineModel({ type: String, required: true });
         v-for="tab in tabs"
         :key="tab.id"
         type="button"
-        class="flex items-center h-9 gap-2 px-2.5 text-sm transition-colors rounded-lg shrink-0 md:w-full"
+        class="flex items-center gap-2 px-2.5 py-2 text-sm text-start transition-colors rounded-lg shrink-0 min-h-9 md:w-full"
         :class="
           activeTab === tab.id
             ? 'bg-n-alpha-2 text-n-slate-12 font-medium'
@@ -36,7 +36,9 @@ const activeTab = defineModel({ type: String, required: true });
         @click="activeTab = tab.id"
       >
         <Icon v-if="tab.icon" :icon="tab.icon" class="shrink-0 size-4" />
-        {{ tab.label }}
+        <span class="min-w-0 whitespace-nowrap md:whitespace-normal">
+          {{ tab.label }}
+        </span>
       </button>
     </nav>
 

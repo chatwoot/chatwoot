@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Niedostępne",
     "EMAIL_ADDRESS": "Adres e-mail",
     "PHONE_NUMBER": "Numer telefonu",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identyfikator",
     "COPY_SUCCESSFUL": "Skopiowano pomyślnie",
     "COMPANY": "Firma",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Brak wcześniejszych rozmów z tym kontaktem.",
-      "TITLE": "Poprzednie rozmowy"
+      "TITLE": "Poprzednie rozmowy",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -461,6 +463,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
           },
@@ -611,6 +616,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Widok",

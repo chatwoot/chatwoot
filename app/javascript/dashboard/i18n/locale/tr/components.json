@@ -4,7 +4,7 @@
     "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
+    "PLACEHOLDER": "Bir seçenek seçin...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Sonuç bulunamadı.",
     "SEARCH_PLACEHOLDER": "Ara...",
@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "tag"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Önceki",
+    "NEXT": "Sonraki",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Kapat"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Daha Fazla",
     "WATCH_VIDEO": "Watch video"
@@ -54,16 +63,30 @@
     "COMING_SOON": "Çok yakında!"
   },
   "SLASH_COMMANDS": {
-    "HEADING_1": "Heading 1",
-    "HEADING_2": "Heading 2",
-    "HEADING_3": "Heading 3",
-    "BOLD": "Bold",
-    "ITALIC": "Italic",
-    "STRIKETHROUGH": "Strikethrough",
+    "HEADING_1": "Başlık 1",
+    "HEADING_2": "Başlık 2",
+    "HEADING_3": "Başlık 3",
+    "BOLD": "Kalın",
+    "ITALIC": "İtalik",
+    "STRIKETHROUGH": "Üstü çizili",
     "CODE": "Code",
-    "BULLET_LIST": "Bullet List",
-    "ORDERED_LIST": "Ordered List",
-    "TABLE": "Table",
-    "IMAGE": "Image"
+    "BULLET_LIST": "Maddeli Liste",
+    "ORDERED_LIST": "Sıralı Liste",
+    "TABLE": "Tablo",
+    "IMAGE": "Resim",
+    "VIDEO": "Video",
+    "DIVIDER": "Divider"
+  },
+  "VIDEO_EMBED": {
+    "TAB_EMBED": "Embed link",
+    "TAB_UPLOAD": "Upload",
+    "PLACEHOLDER": "Paste a video link",
+    "HINT": "Works with YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar and mp4 links",
+    "ERROR": "That doesn't look like a supported video link",
+    "UPLOAD_LABEL": "Choose a video file",
+    "UPLOAD_HINT": "MP4 · up to {size}MB · or drop it here",
+    "UPLOAD_ERROR": "Only MP4 files can be uploaded",
+    "ADD": "Embed",
+    "CANCEL": "İptal Et"
   }
 }

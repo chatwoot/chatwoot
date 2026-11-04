@@ -209,7 +209,7 @@ describe('getDefaultConditions', () => {
       {
         attribute_key: 'message_type',
         filter_operator: 'equal_to',
-        values: '',
+        values: {},
         query_operator: 'and',
         custom_attribute_type: '',
       },
@@ -287,6 +287,19 @@ describe('getStandardAttributeInputType', () => {
 });
 
 describe('generateAutomationPayload', () => {
+  it('keeps an empty condition list for a monitor trigger', () => {
+    const payload = {
+      name: 'Route refunds',
+      description: 'Match refunds',
+      event_name: 'monitor_matched',
+      monitor_id: 7,
+      conditions: [],
+      actions: [{ action_name: 'resolve_conversation', action_params: [] }],
+    };
+
+    expect(helpers.generateAutomationPayload(payload)).toEqual(payload);
+  });
+
   it('returns the resp default action model', () => {
     const testPayload = {
       name: 'Test',
@@ -328,6 +341,85 @@ describe('generateAutomationPayload', () => {
     expect(helpers.generateAutomationPayload(testPayload)).toEqual(
       expectedPayload
     );
+  });
+
+  it('serializes every AND condition in a delayed customer follow-up', () => {
+    const testPayload = {
+      name: 'Pending follow-up',
+      description: 'Follow up with pending conversations',
+      event_name: 'message_created',
+      execution_delay: 240,
+      conditions: [
+        {
+          attribute_key: 'message_type',
+          filter_operator: 'equal_to',
+          values: 'outgoing',
+          query_operator: 'and',
+        },
+        {
+          attribute_key: 'private_note',
+          filter_operator: 'equal_to',
+          values: [false],
+          query_operator: 'and',
+        },
+        {
+          attribute_key: 'inbox_id',
+          filter_operator: 'equal_to',
+          values: [{ id: 7, name: 'Support' }],
+          query_operator: 'and',
+        },
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'pending', name: 'Pending' }],
+          query_operator: 'and',
+        },
+      ],
+      actions: [
+        {
+          action_name: 'send_message',
+          action_params: ['Are you still there?'],
+        },
+      ],
+    };
+
+    expect(helpers.generateAutomationPayload(testPayload)).toEqual({
+      name: 'Pending follow-up',
+      description: 'Follow up with pending conversations',
+      event_name: 'message_created',
+      execution_delay: 240,
+      conditions: [
+        {
+          attribute_key: 'message_type',
+          filter_operator: 'equal_to',
+          values: ['outgoing'],
+          query_operator: 'and',
+        },
+        {
+          attribute_key: 'private_note',
+          filter_operator: 'equal_to',
+          values: [false],
+          query_operator: 'and',
+        },
+        {
+          attribute_key: 'inbox_id',
+          filter_operator: 'equal_to',
+          values: [7],
+          query_operator: 'and',
+        },
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: ['pending'],
+        },
+      ],
+      actions: [
+        {
+          action_name: 'send_message',
+          action_params: ['Are you still there?'],
+        },
+      ],
+    });
   });
 });
 
@@ -466,5 +558,41 @@ describe('showActionInput', () => {
   it('returns false if the action does not have an input type', () => {
     const mockActionTypes = [{ key: 'some_action', inputType: null }];
     expect(helpers.showActionInput(mockActionTypes, 'some_action')).toBe(false);
+  });
+});
+
+describe('getCaptainConditionUsage', () => {
+  const captain = operator => ({
+    attribute_key: 'captain_condition',
+    filter_operator: operator,
+    values: ['the customer wants a refund'],
+  });
+  const status = {
+    attribute_key: 'status',
+    filter_operator: 'equal_to',
+    values: ['open'],
+  };
+
+  it('returns null when the rule has no Captain condition', () => {
+    expect(
+      helpers.getCaptainConditionUsage({
+        event_name: 'message_created',
+        conditions: [status],
+      })
+    ).toBeNull();
+  });
+
+  it('summarises the Captain conditions of the rule', () => {
+    expect(
+      helpers.getCaptainConditionUsage({
+        event_name: 'message_created',
+        conditions: [status, captain('detects'), captain('does_not_detect')],
+      })
+    ).toEqual({
+      eventName: 'message_created',
+      captainConditions: 2,
+      totalConditions: 3,
+      operators: ['detects', 'does_not_detect'],
+    });
   });
 });

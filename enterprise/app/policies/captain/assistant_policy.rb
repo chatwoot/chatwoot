@@ -24,7 +24,7 @@ class Captain::AssistantPolicy < ApplicationPolicy
   end
 
   def tools?
-    @account_user.administrator?
+    @account_user.administrator? || account.feature_enabled?('captain_integration')
   end
 
   def create?
@@ -33,6 +33,10 @@ class Captain::AssistantPolicy < ApplicationPolicy
 
   def update?
     @account_user.administrator?
+  end
+
+  def avatar?
+    update?
   end
 
   def approve?

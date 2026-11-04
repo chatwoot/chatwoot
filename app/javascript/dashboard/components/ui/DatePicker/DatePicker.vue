@@ -34,7 +34,14 @@ import CalendarMonth from './components/CalendarMonth.vue';
 import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
-const emit = defineEmits(['dateRangeChanged']);
+const props = defineProps({
+  hasAppliedRange: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const emit = defineEmits(['dateRangeChanged', 'close']);
 const { t } = useI18n();
 
 const dateRange = defineModel('dateRange', {
@@ -50,7 +57,7 @@ const { LAST_7_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
 const { START_CALENDAR, END_CALENDAR } = CALENDAR_TYPES;
 const { WEEK, MONTH, YEAR } = CALENDAR_PERIODS;
 
-const showDatePicker = ref(false);
+const showDatePicker = ref(!props.hasAppliedRange);
 const calendarViews = ref({ start: WEEK, end: WEEK });
 const currentDate = ref(new Date());
 
@@ -343,15 +350,24 @@ const initializeCalendarMonths = () => {
 
 const toggleDatePicker = () => {
   showDatePicker.value = !showDatePicker.value;
-  if (showDatePicker.value) initializeCalendarMonths();
+  if (showDatePicker.value) {
+    initializeCalendarMonths();
+  } else {
+    emit('close');
+  }
 };
 
 const closeDatePicker = () => {
-  if (isValid(selectedStartDate.value) && isValid(selectedEndDate.value)) {
+  const canApply =
+    props.hasAppliedRange &&
+    isValid(selectedStartDate.value) &&
+    isValid(selectedEndDate.value);
+  if (canApply) {
     emitDateRange();
-  } else {
-    showDatePicker.value = false;
+    return;
   }
+  showDatePicker.value = false;
+  emit('close');
 };
 </script>
 

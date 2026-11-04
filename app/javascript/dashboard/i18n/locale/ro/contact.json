@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Nu este disponibil",
     "EMAIL_ADDRESS": "Adresa Email",
     "PHONE_NUMBER": "Număr de telefon",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identificator",
     "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes",
     "COMPANY": "Companie",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nu există conversații anterioare asociate cu acest contact.",
-      "TITLE": "Conversații anterioare"
+      "TITLE": "Conversații anterioare",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -461,6 +463,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
           },
@@ -611,6 +616,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Vizualizare",

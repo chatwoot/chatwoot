@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "বাম পাশ থেকে একটি কনভার্সেশন নির্বাচন করুন",
     "CSAT_REPLY_MESSAGE": "অনুগ্রহ করে কথোপকথনের মূল্যায়ন করুন",
     "404": "দুঃখিত, আমরা কনভার্সেশনটি খুঁজে পাচ্ছি না। আবার চেষ্টা করুন",
@@ -14,6 +21,12 @@
     "SEARCH_MESSAGES": "কথোপকথনে বার্তা অনুসন্ধান করুন",
     "VIEW_ORIGINAL": "মূল দেখুন",
     "VIEW_TRANSLATED": "অনুবাদ দেখুন",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "কমান্ড মেনু খুলতে",
       "KEYBOARD_SHORTCUTS": "কীবোর্ড শর্টকাট দেখতে"
@@ -27,6 +40,15 @@
     },
     "UNREAD_MESSAGES": "অপঠিত বার্তা",
     "UNREAD_MESSAGE": "অপঠিত বার্তা",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "এখানে ক্লিক করুন",
     "LOADING_INBOXES": "ইনবক্স লোড হচ্ছে",
     "LOADING_CONVERSATIONS": "কথোপকথন লোড হচ্ছে",
@@ -36,16 +58,17 @@
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "এই কথোপকথনটি আপনার কাছে বরাদ্দ নয়। আপনি কি এটি নিজের কাছে বরাদ্দ করতে চান?",
     "ASSIGN_TO_ME": "নিজের কাছে বরাদ্দ করুন",
-    "BOT_HANDOFF_MESSAGE": "আপনি এমন একটি কথোপকথনে উত্তর দিচ্ছেন যা বর্তমানে সহকারী বা বট দ্বারা পরিচালিত হচ্ছে।",
-    "BOT_HANDOFF_ACTION": "ওপেন করুন এবং নিজের কাছে অ্যাসাইন করুন",
+    "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
+    "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "কথোপকথন ওপেন করুন",
     "BOT_HANDOFF_SUCCESS": "কথোপকথনটি আপনার কাছে হস্তান্তর করা হয়েছে",
     "BOT_HANDOFF_ERROR": "কথোপকথনটি নেওয়া যায়নি। আবার চেষ্টা করুন।",
     "TWILIO_WHATSAPP_CAN_REPLY": "আপনি শুধুমাত্র টেমপ্লেট বার্তা ব্যবহার করে এই আলাপে উত্তর দিতে পারবেন কারণ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "২৪ ঘণ্টার বার্তা সীমাবদ্ধতা",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "এই Instagram অ্যাকাউন্টটি নতুন Instagram চ্যানেল ইনবক্সে স্থানান্তরিত হয়েছে। সব নতুন বার্তা সেখানে দেখা যাবে। আপনি আর এই কথোপকথন থেকে বার্তা পাঠাতে পারবেন না।",
-    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
-    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status updates",
     "REPLYING_TO": "আপনি যাকে উত্তর দিচ্ছেন:",
     "REMOVE_SELECTION": "নির্বাচন সরান",
     "DOWNLOAD": "ডাউনলোড",
@@ -64,14 +87,44 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "এই বার্তাটি সমর্থিত নয়। আপনি Facebook Messenger অ্যাপে এই বার্তাটি দেখতে পারেন।",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "এই বার্তাটি সমর্থিত নয়। আপনি Instagram অ্যাপে এই বার্তাটি দেখতে পারেন।",
     "UNSUPPORTED_MESSAGE_TIKTOK": "এই বার্তাটি সমর্থিত নয়। TikTok অ্যাপে এই বার্তাটি দেখতে পারেন।",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
+    "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "বার্তা সফলভাবে মুছে ফেলা হয়েছে",
     "FAIL_DELETE_MESSSAGE": "বার্তা মুছে ফেলা যায়নি! আবার চেষ্টা করুন",
     "NO_RESPONSE": "কোনো উত্তর নেই",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "উত্তর",
     "RATING_TITLE": "রেটিং",
     "FEEDBACK_TITLE": "মতামত",
     "REPLY_MESSAGE_NOT_FOUND": "বার্তাটি পাওয়া যায়নি",
+    "CAPTAIN_GENERATION": {
+      "TITLE": "How was this reply generated?",
+      "GENERATED_BY": "Generated by Captain",
+      "LOADING": "Loading details…",
+      "EMPTY": "No generation details available for this message.",
+      "TIMELINE": "Generation steps",
+      "STEP_TOOL": "Called {name}",
+      "STEP_HANDOFF": "Handed off to {name}",
+      "REASONING": "Reasoning",
+      "SOURCES": "Knowledge base",
+      "SOURCES_SUMMARY": "{count} result | {count} results",
+      "MODEL": "Generated with {model}",
+      "CREDITS": "Credits: {credits}"
+    },
     "CARD": {
       "SHOW_LABELS": "লেবেল দেখান",
       "HIDE_LABELS": "লেবেল লুকান",
@@ -140,10 +193,48 @@
       "AGENTS": "এজেন্টরা",
       "TEAMS": "টিমসমূহ"
     },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Description",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Search emojis",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "All"
+        },
+        "AVAILABILITY": "উপলব্ধতা",
+        "ROLE": "ভূমিকা",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "সক্রিয়",
+        "DISABLED": "নিষ্ক্রিয়",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "স্নুজ করা হবে পর্যন্ত",
       "APPLY": "স্নুজ",
       "CANCEL": "বাতিল"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Dismiss",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "অগ্রাধিকার",
@@ -181,6 +272,8 @@
       },
       "ASSIGN_AGENT": "এজেন্ট নির্ধারণ করুন",
       "ASSIGN_LABEL": "লেবেল নির্ধারণ করুন",
+      "SEARCH_LABELS": "লেবেল অনুসন্ধান করুন",
+      "NO_LABELS_FOUND": "কোন লেবেল পাওয়া যায়নি",
       "AGENTS_LOADING": "এজেন্ট লোড হচ্ছে...",
       "ASSIGN_TEAM": "টিম নির্ধারণ করুন",
       "DELETE": "কথোপকথন মুছে ফেলুন",
@@ -240,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "অডিও রেকর্ডিং বন্ধ করুন",
       "COPILOT_THINKING": "Copilot ভাবছে",
       "EMAIL_HEAD": {
-        "TO": "TO",
-        "ADD_BCC": "বিসিসি যোগ করুন",
+        "TO": "প্রাপক",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "সিসি",
           "PLACEHOLDER": "কমা দিয়ে আলাদা ইমেইল",
           "ERROR": "সঠিক ইমেইল ঠিকানা দিন"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "বিসিসি",
           "PLACEHOLDER": "কমা দিয়ে আলাদা ইমেইল",
           "ERROR": "বৈধ ইমেইল ঠিকানা দিন"
+        },
+        "SUBJECT": {
+          "LABEL": "বিষয়",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
@@ -262,11 +358,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "উদ্ধৃত ইমেইল থ্রেড যুক্ত করুন",
-        "DISABLE_TOOLTIP": "উদ্ধৃত ইমেইল থ্রেড যুক্ত করবেন না",
-        "REMOVE_PREVIEW": "উদ্ধৃত ইমেইল থ্রেড সরান",
-        "COLLAPSE": "প্রিভিউ সংকুচিত করুন",
-        "EXPAND": "প্রিভিউ বড় করুন"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "ব্যক্তিগত নোট: শুধু আপনি ও আপনার টিম দেখতে পারবেন",
@@ -296,6 +390,7 @@
     "CONTEXT_MENU": {
       "COPY": "কপি করুন",
       "REPLY_TO": "এই বার্তায় উত্তর দিন",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "মুছুন",
       "CREATE_A_CANNED_RESPONSE": "ক্যানড রেসপন্সে যোগ করুন",
       "TRANSLATE": "অনুবাদ করুন",
@@ -473,7 +568,16 @@
     "BCC": "বিসিসি",
     "CC": "সিসি",
     "SUBJECT": "বিষয়",
+    "DATE": "Date",
     "EXPAND": "ইমেইল প্রসারিত করুন"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "To:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "অংশগ্রহণকারী",
@@ -484,7 +588,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
     "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
     "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!",
     "WATCH_CONVERSATION": "আলাপচারিতায় যোগ দিন",
     "YOU_ARE_WATCHING": "আপনি অংশগ্রহণ করছেন",
     "API": {

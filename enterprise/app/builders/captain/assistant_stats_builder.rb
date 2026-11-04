@@ -38,10 +38,14 @@ class Captain::AssistantStatsBuilder
     build_metrics(current, previous)
   end
 
-  # Approved FAQ, open suggestion, and document counts in a single round trip.
+  # Approved knowledge entry, standalone FAQ, open suggestion, and document counts in a single round trip.
   def faq_stats
-    approved, suggestions, documents = Captain::AssistantResponse.by_assistant(assistant.id).reorder(nil).pick(
-      Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['approved']})"),
+    approved_status = Captain::AssistantResponse.statuses['approved']
+    approved, faqs, suggestions, documents = Captain::AssistantResponse.by_assistant(assistant.id).reorder(nil).pick(
+      Arel.sql("COUNT(*) FILTER (WHERE status = #{approved_status})"),
+      Arel.sql(
+        "COUNT(*) FILTER (WHERE status = #{approved_status} AND documentable_type IS DISTINCT FROM 'Captain::Document')"
+      ),
       Arel.sql("(#{open_suggestion_count_sql})"),
       Arel.sql("(SELECT COUNT(*) FROM captain_documents WHERE assistant_id = #{assistant.id.to_i})")
     )
@@ -49,6 +53,7 @@ class Captain::AssistantStatsBuilder
 
     {
       approved: approved,
+      faqs: faqs,
       suggestions: suggestions,
       documents: documents,
       coverage: total.zero? ? 0 : (approved.to_f / total * 100).round

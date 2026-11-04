@@ -7,6 +7,7 @@
       "404": "このグループには有効な会話データがありません"
     },
     "FAILED_TO_SEND": "送信に失敗しました",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "会話データ",
     "MENTION_HEADING": "メンション",
     "UNATTENDED_HEADING": "未対応",
@@ -44,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "作成",
         "OLDEST": "作成日時:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "最終アクティビティ:",
-        "ACTIVE": "最終アクティビティ"
+        "NOT_ACTIVE": "最終アクティビティ:"
       }
     },
     "SORT_ORDER_ITEMS": {

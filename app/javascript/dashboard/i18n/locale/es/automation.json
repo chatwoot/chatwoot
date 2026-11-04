@@ -28,6 +28,56 @@
           "PLACEHOLDER": "Por favor, seleccione uno",
           "ERROR": "El evento es requerido"
         },
+        "MONITOR": {
+          "LABEL": "Monitor",
+          "PLACEHOLDER": "Select a live monitor",
+          "ERROR": "Select a live monitor",
+          "FETCH_FAILED": "Could not load monitors. Try again later.",
+          "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
+          "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
+          "GO_TO_MONITORS": "Go to monitors",
+          "RETRY": "Reintentar",
+          "UNAVAILABLE": "Unavailable monitor",
+          "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
+          "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
+        },
+        "RUN_TYPE": {
+          "LABEL": "¿Cuándo debe ejecutarse esta regla?",
+          "OPTIONS": {
+            "INSTANT": {
+              "LABEL": "Ejecutar al instante",
+              "DESCRIPTION": "Se ejecuta en el momento en que ocurre un evento, siempre que se cumplan las condiciones."
+            },
+            "WAIT": {
+              "LABEL": "Ejecutar después de una espera",
+              "DESCRIPTION": "Espera durante un periodo definido y se ejecuta solo si todo sigue igual. Si algo cambia, la regla se omite."
+            }
+          }
+        },
+        "WAIT": {
+          "LABEL": "Condición de espera",
+          "WHEN_LABEL": "Cuando",
+          "STATUS_LABEL": "El estado es",
+          "FOR_LABEL": "Durante",
+          "INBOX_LABEL": "Bandeja de entrada",
+          "ERROR": "La espera debe ser de entre 10 minutos y 30 días",
+          "OPTIONS": {
+            "CONVERSATION_STATUS": "La conversación permanece en un estado",
+            "CUSTOMER_UNRESPONSIVE": "El cliente no ha respondido",
+            "AGENT_UNRESPONSIVE": "Ningún miembro del equipo ha respondido"
+          },
+          "DURATION": {
+            "MINUTES": "{count} minuto | {count} minutos",
+            "HOURS": "{count} hora | {count} horas",
+            "DAYS": "{count} día | {count} días"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_STATUS": "El contador comienza cuando una conversación pasa a este estado. Si continúa en él {duration} después, se ejecutan las acciones siguientes. Si el estado cambia antes, no ocurre nada.",
+            "CUSTOMER_UNRESPONSIVE": "El contador comienza cuando responde un miembro del equipo. Si el cliente no ha vuelto a escribir {duration} después, se ejecutan las acciones siguientes. Si responde, no ocurre nada y la siguiente respuesta del equipo vuelve a iniciar el contador.",
+            "AGENT_UNRESPONSIVE": "El contador comienza cuando un cliente envía un mensaje. Si ningún miembro del equipo ha respondido {duration} después, se ejecutan las acciones siguientes. Si alguien responde antes, no ocurre nada."
+          },
+          "FOOTNOTE": "Solo la actividad nueva inicia un contador. Las conversaciones que ya se encuentren en este estado se procesarán la próxima vez que ocurra algo en ellas."
+        },
         "CONDITIONS": {
           "LABEL": "Condiciones"
         },
@@ -46,10 +96,19 @@
       "TABLE_HEADER": {
         "NAME": "Nombre",
         "ACTIVE": "Activo",
-        "CREATED_ON": "Creado el",
-        "ACTIONS": "Acciones"
+        "CREATED_ON": "Creado el"
       },
-      "404": "No se encontraron reglas de automatización"
+      "404": "No se encontraron reglas de automatización",
+      "404_DELAYED": "Aún no hay reglas que se ejecuten después de una espera",
+      "TABS": {
+        "INSTANT": "Se ejecutan al instante",
+        "DELAYED": "Se ejecutan después de una espera"
+      },
+      "DELAY_BADGE": "Se ejecuta después de {delay}",
+      "MONITOR_PAUSED": "Monitor paused",
+      "MONITOR_DELETED": "Monitor deleted",
+      "MONITOR_UNAVAILABLE": "Monitor feature unavailable",
+      "DELAY_DISABLED_BANNER": "La ejecución diferida está desactivada para esta cuenta, por lo que las reglas siguientes que se ejecutan después de una espera permanecerán en pausa hasta que vuelva a activarse."
     },
     "DELETE": {
       "TITLE": "Eliminar regla de automatización",
@@ -92,14 +151,18 @@
     "CONDITION": {
       "DELETE_MESSAGE": "Necesitas tener al menos una condición para guardar",
       "CONTACT_CUSTOM_ATTR_LABEL": "Atributos personalizados del contacto",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos personalizados de la conversación"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos personalizados de la conversación",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Describe what to look for, e.g. customer wants to cancel"
+      }
     },
     "ACTION": {
       "DELETE_MESSAGE": "Necesitas tener al menos una acción para guardar",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduzca su mensaje aquí",
       "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos",
       "EMAIL_INPUT_PLACEHOLDER": "Introducir email",
-      "URL_INPUT_PLACEHOLDER": "Introducir URL"
+      "URL_INPUT_PLACEHOLDER": "Introducir URL",
+      "INSERT_CONTACT_EMAIL": "Usar correo electrónico del contacto"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activar regla de automatización",
@@ -136,7 +199,8 @@
       "CONVERSATION_UPDATED": "Conversación actualizada",
       "MESSAGE_CREATED": "Mensaje creado",
       "CONVERSATION_RESOLVED": "Conversación Resuelta",
-      "CONVERSATION_OPENED": "Conversación abierta"
+      "CONVERSATION_OPENED": "Conversación abierta",
+      "MONITOR_MATCHED": "Monitor Matched"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Asignar al agente",
@@ -173,7 +237,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo de mensaje",
       "PRIVATE_NOTE": "Nota privada",
-      "MESSAGE_CONTAINS": "El mensaje contiene",
+      "MESSAGE_CONTAINS": "Contenido del mensaje",
       "EMAIL": "E-mail",
       "INBOX": "Bandeja de entrada",
       "CONVERSATION_LANGUAGE": "Idioma de la conversación",
@@ -187,7 +251,8 @@
       "ASSIGNEE_NAME": "Asignado a",
       "TEAM_NAME": "Equipo",
       "PRIORITY": "Prioridad",
-      "LABELS": "Etiquetas"
+      "LABELS": "Etiquetas",
+      "CAPTAIN": "Captain"
     }
   }
 }

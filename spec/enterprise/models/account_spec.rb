@@ -30,6 +30,51 @@ RSpec.describe Account, type: :model do
       expect(account).not_to be_feature_assignment_v2
       expect(account).not_to be_feature_advanced_assignment
     end
+
+    it 'uses Shopify plan features when preserving advanced assignment' do
+      create(
+        :installation_config,
+        name: 'CHATWOOT_SHOPIFY_PLANS',
+        value: [
+          {
+            'name' => 'Shopify Pro',
+            'handle' => 'shopify-pro',
+            'features' => %w[advanced_assignment],
+            'limits' => { 'agents' => 10, 'inboxes' => 20 }
+          }
+        ],
+        locked: true
+      )
+      account = build(
+        :account,
+        internal_attributes: { 'billing_provider' => 'shopify' },
+        custom_attributes: { 'plan_name' => 'Shopify Pro' }
+      )
+
+      account.selected_feature_flags = [:feature_assignment_v2]
+
+      expect(account).to be_feature_assignment_v2
+      expect(account).to be_feature_advanced_assignment
+    end
+  end
+
+  describe '#auto_translate_enabled?' do
+    it 'needs both the auto translate flag and Captain tasks' do
+      account = create(:account, settings: { auto_translate: true })
+      account.enable_features('auto_translate')
+      account.disable_features('captain_tasks')
+
+      expect(account).not_to be_auto_translate_enabled
+      account.enable_features('captain_tasks')
+      expect(account).to be_auto_translate_enabled
+    end
+
+    it 'stays off until the account switches it on' do
+      account = create(:account)
+      account.enable_features('auto_translate', 'captain_tasks')
+
+      expect(account).not_to be_auto_translate_enabled
+    end
   end
 
   describe '#api_and_webhooks_enabled?' do
@@ -51,6 +96,63 @@ RSpec.describe Account, type: :model do
       account.enable_features!('api_and_webhooks')
 
       expect(account.api_and_webhooks_enabled?).to be true
+    end
+  end
+
+  describe 'billing identity' do
+    it 'defaults existing accounts to Stripe and Chatwoot signup' do
+      account = create(:account)
+
+      expect(account.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
+    end
+
+    it 'stores Shopify identity at account creation' do
+      account = create(
+        :account,
+        internal_attributes: {
+          'billing_provider' => 'shopify',
+          'signup_source' => 'shopify'
+        }
+      )
+
+      expect(account.billing_provider).to eq('shopify')
+      expect(account.signup_source).to eq('shopify')
+    end
+
+    it 'rejects unsupported billing providers and signup sources' do
+      account = build(:account)
+      account.billing_provider = 'unsupported'
+      account.signup_source = 'unsupported'
+
+      expect(account).not_to be_valid
+      expect(account.errors[:billing_provider]).to be_present
+      expect(account.errors[:signup_source]).to be_present
+    end
+
+    it 'does not allow billing identity to change after account creation' do
+      account = create(:account)
+
+      account.billing_provider = 'shopify'
+      account.signup_source = 'shopify'
+
+      expect(account.save).to be(false)
+      expect(account.errors[:billing_provider]).to include('cannot be changed after account creation')
+      expect(account.errors[:signup_source]).to include('cannot be changed after account creation')
+      expect(account.reload.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
+    end
+
+    it 'does not allow billing identity to change through symbol-keyed internal attributes' do
+      account = create(:account)
+
+      account.internal_attributes = account.internal_attributes.merge(billing_provider: 'shopify', signup_source: 'shopify')
+
+      expect(account.save).to be(false)
+      expect(account.errors[:billing_provider]).to include('cannot be changed after account creation')
+      expect(account.errors[:signup_source]).to include('cannot be changed after account creation')
+      expect(account.reload.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
     end
   end
 
@@ -82,6 +184,7 @@ RSpec.describe Account, type: :model do
     let(:assistant) { create(:captain_assistant, account: account) }
 
     before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       create(:installation_config, name: 'ACCOUNT_AGENTS_LIMIT', value: 20)
     end
 
@@ -224,6 +327,178 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe 'Captain response usage alerts' do
+    let(:mailer) { double }
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
+    let(:account) do
+      create(
+        :account,
+        limits: { 'captain_responses' => 300 },
+        custom_attributes: { 'captain_responses_usage' => 239 }
+      )
+    end
+
+    before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      allow(ActiveRecord).to receive(:after_all_transactions_commit).and_yield
+      account.enable_features!('captain_integration')
+      allow(AdministratorNotifications::CaptainNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
+      allow(mailer).to receive(:response_usage_alert).and_return(message_delivery)
+    end
+
+    it 'queues one alert after usage exceeds 80 percent of the persisted account limit' do
+      account.increment_response_usage
+      expect(message_delivery).not_to have_received(:deliver_later)
+
+      account.increment_response_usage
+      3.times { account.increment_response_usage }
+
+      expect(mailer).to have_received(:response_usage_alert).with(consumed: 241, remaining: 59).once
+      expect(message_delivery).to have_received(:deliver_later).once
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 244,
+        'captain_responses_usage_alerted' => true
+      )
+    end
+
+    it 'does not queue an alert when Captain is disabled' do
+      account.disable_features!('captain_integration')
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
+
+      account.increment_response_usage
+
+      expect(message_delivery).not_to have_received(:deliver_later)
+    end
+
+    it 'does not count or queue response usage outside Chatwoot Cloud' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+
+      account.increment_response_usage
+
+      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(239)
+      expect(message_delivery).not_to have_received(:deliver_later)
+    end
+
+    it 'does not queue an alert for a zero response limit' do
+      account.update!(limits: { 'captain_responses' => 0 })
+
+      account.increment_response_usage
+
+      expect(message_delivery).not_to have_received(:deliver_later)
+    end
+
+    it 'waits for the surrounding transaction to commit before queueing the alert' do
+      after_commit = nil
+      allow(ActiveRecord).to receive(:after_all_transactions_commit) { |&block| after_commit = block }
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
+
+      account.increment_response_usage
+
+      expect(message_delivery).not_to have_received(:deliver_later)
+      after_commit.call
+      expect(message_delivery).to have_received(:deliver_later).once
+    end
+
+    it 'keeps the response successful when the alert cannot be queued' do
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
+      allow(message_delivery).to receive(:deliver_later).and_raise(StandardError, 'queue unavailable')
+      allow(Rails.logger).to receive(:error)
+
+      expect { account.increment_response_usage }.not_to raise_error
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 241,
+        'captain_responses_usage_alerted' => true
+      )
+
+      account.increment_response_usage
+
+      expect(mailer).to have_received(:response_usage_alert).once
+      expect(Rails.logger).to have_received(:error).with(
+        "Captain response usage alert enqueue failed for account #{account.id}: StandardError - queue unavailable"
+      )
+    end
+
+    it 'rearms the alert and preserves other custom attributes when usage resets' do
+      account.update!(custom_attributes: account.custom_attributes.merge(
+        'captain_responses_usage_alerted' => true,
+        'unrelated_key' => 'preserved'
+      ))
+
+      account.reset_response_usage
+
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 0,
+        'captain_responses_usage_alerted' => false,
+        'unrelated_key' => 'preserved'
+      )
+    end
+  end
+
+  context 'with Shopify plan entitlements' do
+    let(:account) do
+      create(
+        :account,
+        internal_attributes: { 'billing_provider' => 'shopify' },
+        custom_attributes: {
+          'plan_name' => 'Shopify Basic',
+          'subscribed_quantity' => 100,
+          'captain_documents_usage' => 5,
+          'captain_responses_usage' => 10
+        }
+      )
+    end
+    let(:shopify_plan) do
+      {
+        'name' => 'Shopify Basic',
+        'handle' => 'shopify-basic',
+        'features' => %w[help_center campaigns],
+        'limits' => {
+          'agents' => 5,
+          'inboxes' => 10,
+          'emails' => 500,
+          'captain_documents' => 25,
+          'captain_responses' => 100
+        }
+      }
+    end
+
+    before do
+      create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: [shopify_plan], locked: true)
+    end
+
+    it 'uses fixed Shopify limits instead of Stripe subscription quantity or global limits' do
+      usage_limits = account.usage_limits
+
+      expect(usage_limits[:agents]).to eq(5)
+      expect(usage_limits[:inboxes]).to eq(10)
+      expect(usage_limits.dig(:captain, :documents)).to eq(
+        total_count: 25,
+        current_available: 20,
+        consumed: 5
+      )
+      expect(usage_limits.dig(:captain, :responses)).to eq(
+        total_count: 100,
+        current_available: 90,
+        consumed: 10
+      )
+      expect(account.email_rate_limit).to eq(500)
+    end
+
+    it 'reads subscribed features from the Shopify plan catalog' do
+      expect(account.subscribed_features).to eq(%w[help_center campaigns])
+      expect(account.email_transcript_enabled?).to be(true)
+    end
+
+    it 'fails closed when the stored Shopify plan is unknown' do
+      account.update!(custom_attributes: { 'plan_name' => 'Unknown' })
+
+      expect(account.usage_limits[:agents]).to eq(0)
+      expect(account.usage_limits[:inboxes]).to eq(0)
+      expect(account.subscribed_features).to eq([])
+      expect(account.email_transcript_enabled?).to be(false)
+    end
+  end
+
   describe 'subscribed_features' do
     let(:account) { create(:account) }
     let(:plan_features) do
@@ -273,26 +548,14 @@ RSpec.describe Account, type: :model do
       )
     end
 
-    it 'enables Captain V2 for new self-hosted enterprise accounts' do
-      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+    it 'enables Captain V2 for new paid self-hosted accounts' do
+      allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
 
       account = create(:account)
 
       expect(account).to be_feature_enabled('captain_integration')
-      expect(account).to be_feature_enabled('captain_integration_v2')
       expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
       expect(account.captain_models).to be_nil
-    end
-
-    it 'marks new cloud accounts as eligible for the Captain V2 paid-plan default' do
-      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
-      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-
-      account = create(:account)
-
-      expect(account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE]).to be true
-      expect(account).not_to be_feature_enabled('captain_integration')
-      expect(account).not_to be_feature_enabled('captain_integration_v2')
     end
   end
 
@@ -322,8 +585,8 @@ RSpec.describe Account, type: :model do
       expect(account.captain_document_sync_interval).to eq(1.day)
     end
 
-    it 'uses the enterprise cadence for self-hosted enterprise installs without a plan_name' do
-      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+    it 'uses the enterprise cadence for paid self-hosted installs without a plan_name' do
+      allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
       create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { enterprise: 6 }.to_json)
       account.update!(custom_attributes: {})
 

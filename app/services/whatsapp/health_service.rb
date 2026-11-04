@@ -47,12 +47,12 @@ class Whatsapp::HealthService
     @api_version = "v#{[configured_api_version, MINIMUM_HEALTH_API_VERSION].max}"
   end
 
-  def fetch_health_status = fetch_health_status_with_error.first
+  def fetch_health_status(include_business_profile: false) = fetch_health_status_with_error(include_business_profile: include_business_profile).first
 
-  def sync_health_status!
+  def sync_health_status!(include_business_profile: false)
     attempted_at = Time.current
     previous_health = @channel.phone_number_health
-    health_status, error = fetch_health_status_with_error
+    health_status, error = fetch_health_status_with_error(include_business_profile: include_business_profile)
     health_status = previous_health.symbolize_keys.slice(*BUSINESS_HEALTH_FIELDS).merge(health_status) if error
 
     log_risky_transition(previous_health, health_status) if persist_health_status(health_status, attempted_at, error)
@@ -65,12 +65,13 @@ class Whatsapp::HealthService
 
   private
 
-  def fetch_health_status_with_error
+  def fetch_health_status_with_error(include_business_profile:)
     validate_channel!
 
     phone_health = format_phone_health_response(fetch_graph_data(@channel.provider_config['phone_number_id'], phone_health_fields))
     business_health = format_business_account_response(fetch_graph_data(@channel.provider_config['business_account_id'], business_account_fields))
-    [phone_health.merge(business_health), nil]
+    profile_health = { business_profile: Whatsapp::BusinessProfileService.new(@channel, api_version: @api_version).fetch } if include_business_profile
+    [phone_health.merge(business_health, profile_health || {}), nil]
   rescue StandardError => e
     return [phone_health, e] if phone_health
 

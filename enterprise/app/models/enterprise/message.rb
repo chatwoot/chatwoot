@@ -3,6 +3,8 @@ module Enterprise::Message
     base.class_eval do
       has_one :call, class_name: 'Call', foreign_key: :message_id, dependent: :nullify, inverse_of: :message
 
+      validate :validate_anonymous_caller_reply, on: :create
+
       scope :with_call, -> { includes(call: [:contact, { inbox: :channel }]) }
       # Scheduling and freshness checks must share this scope so an email auto reply cannot cancel a pending response.
       scope :captain_response_triggering, lambda {
@@ -29,6 +31,22 @@ module Enterprise::Message
 
   private
 
+  def validate_anonymous_caller_reply
+    return if private? || voice_call? || (!outgoing? && !template?)
+    return unless conversation.contact_inbox.anonymous_caller?
+
+    errors.add(:base, I18n.t('errors.conversations.anonymous_caller_reply'))
+  end
+
+  def reopen_resolved_conversation
+    assistant = conversation.inbox.captain_assistant
+
+    return super if assistant.blank? || conversation.inbox.external_bot_active?
+    return conversation.open! unless assistant.engages?(conversation.contact, conversation)
+
+    super
+  end
+
   def mark_pending_conversation_as_open_for_human_response
     return unless captain_pending_conversation?
     return unless human_response?
@@ -41,6 +59,7 @@ module Enterprise::Message
     Current.executed_by = nil
 
     begin
+      conversation.ai_assignee = nil if conversation.ai_assignee_type == 'Captain::Assistant'
       conversation.open!
       return unless conversation.saved_change_to_status?
 

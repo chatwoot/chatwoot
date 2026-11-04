@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Non Disponibile",
     "EMAIL_ADDRESS": "Indirizzo Email",
     "PHONE_NUMBER": "Numero di telefono",
+    "WHATSAPP_USERNAME": "Nome utente WhatsApp",
     "IDENTIFIER": "Identificatore",
     "COPY_SUCCESSFUL": "Copiato negli appunti",
     "COMPANY": "Azienda",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Non ci sono precedenti conversazioni associate a questo contatto.",
-      "TITLE": "Conversazioni Precedenti"
+      "TITLE": "Conversazioni Precedenti",
+      "VIEW_ALL": "Vedi tutte le conversazioni"
     },
     "LABELS": {
       "CONTACT": {
@@ -461,6 +463,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Aggiungi Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Aggiungi WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Aggiungi Telegram"
           },
@@ -611,6 +616,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Non siamo riusciti a completare la ricerca. Riprova."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "Non è stato possibile creare il contatto. Riprova."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Visualizza",

@@ -21,6 +21,7 @@ export default {
           path: 'list',
           name: 'auditlogs_list',
           meta: {
+            reuseOnQueryChange: true,
             featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
             installationTypes: [
               INSTALLATION_TYPES.CLOUD,

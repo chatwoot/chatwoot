@@ -34,9 +34,13 @@ else
 end
 
 contact = call.contact
-json.contact do
-  json.id contact.id
-  json.name contact.name
-  json.phone_number contact.phone_number
-  json.avatar contact.avatar_url
+if contact
+  json.contact do
+    json.id contact.id
+    json.name contact.name
+    json.phone_number contact.phone_number
+    json.avatar contact.avatar_url
+  end
+else
+  json.contact nil
 end

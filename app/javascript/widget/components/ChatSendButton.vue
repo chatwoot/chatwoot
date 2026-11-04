@@ -28,9 +28,14 @@ export default {
   <button
     type="submit"
     :disabled="disabled"
-    class="min-h-8 min-w-8 flex items-center justify-center ml-1"
+    class="min-h-8 min-w-8 flex items-center justify-center ms-1"
   >
-    <FluentIcon v-if="!loading" icon="send" :style="`color: ${color}`" />
+    <FluentIcon
+      v-if="!loading"
+      icon="send"
+      class="rtl:-scale-x-100"
+      :style="`color: ${color}`"
+    />
     <Spinner v-else size="small" />
   </button>
 </template>

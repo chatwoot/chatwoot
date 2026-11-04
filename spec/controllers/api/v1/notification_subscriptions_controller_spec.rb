@@ -123,4 +123,45 @@ RSpec.describe 'Notifications Subscriptions API', type: :request do
       end
     end
   end
+
+  describe 'MFA enforcement over api_access_token' do
+    let(:agent) { create(:user, account: account, role: :agent) }
+
+    before do
+      skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+      account.update!(enforce_mfa: true)
+    end
+
+    it 'blocks non-enrolled users from registering a push recipient' do
+      post '/api/v1/notification_subscriptions',
+           params: {
+             notification_subscription: {
+               subscription_type: 'fcm',
+               subscription_attributes: { push_token: 'blocked-token', device_id: 'device-1' }
+             }
+           },
+           headers: { api_access_token: agent.access_token.token },
+           as: :json
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+    end
+
+    it 'allows enrolled users' do
+      agent.enable_two_factor!
+      agent.update!(otp_required_for_login: true)
+
+      post '/api/v1/notification_subscriptions',
+           params: {
+             notification_subscription: {
+               subscription_type: 'fcm',
+               subscription_attributes: { push_token: 'enrolled-token', device_id: 'device-1' }
+             }
+           },
+           headers: { api_access_token: agent.access_token.token },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+    end
+  end
 end

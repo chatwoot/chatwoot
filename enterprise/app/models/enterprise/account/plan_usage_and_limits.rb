@@ -2,7 +2,9 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
+  CAPTAIN_RESPONSES_USAGE_ALERTED = 'captain_responses_usage_alerted'.freeze
   CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
+  CAPTAIN_RESPONSES_USAGE_ALERT_THRESHOLD = 0.8
 
   def usage_limits
     {
@@ -16,11 +18,37 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def increment_response_usage
-    increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
+    return unless ChatwootApp.chatwoot_cloud?
+
+    alert_usage = with_lock do
+      increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
+      next unless captain_response_usage_alert_required?
+
+      update_custom_attribute(CAPTAIN_RESPONSES_USAGE_ALERTED, true)
+      response_limits = usage_limits[:captain][:responses]
+      { consumed: response_limits[:consumed], remaining: response_limits[:current_available] }
+    end
+
+    return if alert_usage.blank?
+
+    ActiveRecord.after_all_transactions_commit { enqueue_captain_response_usage_alert(alert_usage) }
   end
 
   def reset_response_usage
-    update_custom_attribute(CAPTAIN_RESPONSES_USAGE, 0)
+    # rubocop:disable Rails/SkipsModelValidations
+    Account.where(id: id).update_all([
+                                       "custom_attributes = jsonb_set(jsonb_set(COALESCE(custom_attributes, '{}'), " \
+                                       'ARRAY[:usage_key], :usage::jsonb), ARRAY[:alert_key], :alerted::jsonb)',
+                                       {
+                                         usage_key: CAPTAIN_RESPONSES_USAGE,
+                                         usage: 0.to_json,
+                                         alert_key: CAPTAIN_RESPONSES_USAGE_ALERTED,
+                                         alerted: false.to_json
+                                       }
+                                     ])
+    # rubocop:enable Rails/SkipsModelValidations
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = 0
+    custom_attributes[CAPTAIN_RESPONSES_USAGE_ALERTED] = false
   end
 
   def update_document_usage
@@ -28,6 +56,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def email_transcript_enabled?
+    return current_billing_plan.present? if shopify_billing?
+
     default_plan = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value&.first
     return true if default_plan.blank?
 
@@ -39,6 +69,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def subscribed_features
+    return current_billing_plan&.fetch('features', []) || [] if shopify_billing?
+
     plan_features = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLAN_FEATURES')&.value
     return [] if plan_features.blank?
 
@@ -55,6 +87,24 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   private
+
+  def captain_response_usage_alert_required?
+    return false if custom_attributes[CAPTAIN_RESPONSES_USAGE_ALERTED]
+    return false unless feature_enabled?('captain_integration')
+
+    response_limits = usage_limits[:captain][:responses]
+    response_limits[:total_count].positive? &&
+      response_limits[:consumed].fdiv(response_limits[:total_count]) > CAPTAIN_RESPONSES_USAGE_ALERT_THRESHOLD
+  end
+
+  def enqueue_captain_response_usage_alert(usage)
+    AdministratorNotifications::CaptainNotificationMailer
+      .with(account: self)
+      .response_usage_alert(**usage)
+      .deliver_later
+  rescue StandardError => e
+    Rails.logger.error("Captain response usage alert enqueue failed for account #{id}: #{e.class} - #{e.message}")
+  end
 
   def get_captain_limits(type)
     total_count = captain_monthly_limit[type.to_s].to_i
@@ -75,6 +125,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def plan_email_limit
+    return shopify_plan_limits.fetch('emails', 0) if shopify_billing?
+
     base_limit = plan_base_email_limit
     return nil if base_limit.nil?
     return base_limit if free_plan?
@@ -93,11 +145,17 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def free_plan?
+    return false if shopify_billing?
+
     default_plan = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value&.first
     default_plan.present? && plan_name&.downcase == default_plan['name']&.downcase
   end
 
   def default_captain_limits
+    shopify_billing? ? shopify_captain_limits : stripe_captain_limits
+  end
+
+  def stripe_captain_limits
     max_limits = { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
     zero_limits = { documents: 0, responses: 0 }.with_indifferent_access
     plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
@@ -120,22 +178,42 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     end
   end
 
+  def shopify_captain_limits
+    {
+      documents: shopify_plan_limits.fetch('captain_documents', 0),
+      responses: shopify_plan_limits.fetch('captain_responses', 0)
+    }.with_indifferent_access
+  end
+
   def plan_name
     custom_attributes['plan_name']
   end
 
   def agent_limits
-    subscribed_quantity = custom_attributes['subscribed_quantity']
+    subscribed_quantity = custom_attributes['subscribed_quantity'] unless shopify_billing?
     subscribed_quantity || get_limits(:agents)
   end
 
   def get_limits(limit_name)
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
+    return shopify_plan_limits.fetch(limit_name.to_s, 0) if shopify_billing?
 
     return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
     ChatwootApp.max_limit
+  end
+
+  def shopify_billing?
+    billing_provider == 'shopify'
+  end
+
+  def current_billing_plan
+    Enterprise::Billing::PlanConfiguration.current_plan(self)
+  end
+
+  def shopify_plan_limits
+    current_billing_plan&.fetch('limits', {}) || {}
   end
 
   # Atomic jsonb_set to avoid clobbering concurrent writes to other custom_attributes keys.
@@ -147,6 +225,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                                        { key: key, value: value.to_json }
                                      ])
     custom_attributes[key] = value
+    clear_attribute_changes([:custom_attributes])
   end
 
   def increment_custom_attribute(key)
@@ -156,7 +235,9 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                                        { key: key }
                                      ])
     custom_attributes[key] = custom_attributes[key].to_i + 1
+    clear_attribute_changes([:custom_attributes])
   end
+
   # rubocop:enable Rails/SkipsModelValidations
 
   def validate_limit_keys

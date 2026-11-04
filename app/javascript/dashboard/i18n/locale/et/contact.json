@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Pole saadaval",
     "EMAIL_ADDRESS": "E-posti aadress",
     "PHONE_NUMBER": "Telefoninumber",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifikaator",
     "COPY_SUCCESSFUL": "Kopeerimine lõikelauale õnnestus",
     "COMPANY": "Ettevõte",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Selle kontaktiga seotud varasemaid vestlusi ei leitud.",
-      "TITLE": "Varasemad vestlused"
+      "TITLE": "Varasemad vestlused",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -461,6 +463,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Lisa Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Lisa Telegram"
           },
@@ -611,6 +616,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Otsingut ei õnnestunud lõpule viia. Palun proovi uuesti."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Vaata",

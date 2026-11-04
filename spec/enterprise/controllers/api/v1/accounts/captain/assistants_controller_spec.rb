@@ -254,6 +254,73 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(response).to have_http_status(:success)
         expect(assistant.reload.config).to include('product_name' => 'Chatwoot', 'auto_resolve_mode' => 'disabled')
       end
+
+      it 'updates inactive conversation settings for Captain v2' do
+        account.enable_features!('captain_integration')
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    auto_resolve_mode: 'evaluated',
+                    auto_resolve_after: 61,
+                    send_inactivity_resolution_message: false,
+                    resolution_message: 'Saved closing message'
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:config]).to include(
+          auto_resolve_mode: 'evaluated',
+          auto_resolve_after: 60,
+          send_inactivity_resolution_message: false,
+          resolution_message: 'Saved closing message'
+        )
+      end
+
+      it 'persists the nested audience condition tree' do
+        create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                             attribute_display_type: :text, attribute_key: 'plan_tier')
+        audience = {
+          operator: 'and',
+          conditions: [
+            { attribute_key: 'country_code', filter_operator: 'equal_to', values: ['US'] },
+            { operator: 'or', conditions: [
+              { attribute_key: 'plan_tier', filter_operator: 'equal_to', values: ['paid'] }
+            ] }
+          ]
+        }
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { audience: audience } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        stored = assistant.reload.config['audience']
+        expect(stored['operator']).to eq('and')
+        expect(stored['conditions'].first['attribute_key']).to eq('country_code')
+        expect(stored['conditions'].last['conditions'].first['values']).to eq(['paid'])
+      end
+
+      it 'rejects invalid audience attributes and operators' do
+        invalid_audiences = [
+          { attribute_key: 'missing_attribute', filter_operator: 'not_equal_to', values: ['known'] },
+          { attribute_key: 'blocked', filter_operator: 'is_not_present', values: [] }
+        ]
+
+        invalid_audiences.each do |audience|
+          patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+                params: { assistant: { config: { audience: audience } } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:unprocessable_content)
+        end
+      end
     end
   end
 
@@ -290,6 +357,57 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     end
   end
 
+  describe 'avatar upload and removal' do
+    let(:assistant) { create(:captain_assistant, account: account) }
+    let(:avatar_file) { fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png') }
+
+    it 'lets an admin upload an avatar that replies then show' do
+      patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+            params: { assistant: { avatar: avatar_file } },
+            headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+      expect(assistant.reload.avatar).to be_attached
+      expect(json_response[:avatar_url]).to be_present
+      expect(assistant.push_event_data[:avatar_url]).to eq(assistant.avatar_url)
+    end
+
+    it 'rejects a file type the avatar does not support' do
+      pdf_file = fixture_file_upload(Rails.root.join('spec/assets/sample.pdf'), 'application/pdf')
+
+      patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+            params: { assistant: { avatar: pdf_file } },
+            headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(assistant.reload.avatar).not_to be_attached
+    end
+
+    it 'lets an admin remove the avatar and restores the default one' do
+      assistant.avatar.attach(avatar_file)
+
+      delete "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/avatar",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(assistant.reload.avatar).not_to be_attached
+      expect(json_response[:avatar_url]).to be_blank
+      expect(assistant.push_event_data[:avatar_url]).to end_with('/assets/images/dashboard/captain/logo.svg')
+    end
+
+    it 'does not let an agent remove the avatar' do
+      assistant.avatar.attach(avatar_file)
+
+      delete "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/avatar",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(assistant.reload.avatar).to be_attached
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/faq_stats' do
     let(:assistant) { create(:captain_assistant, account: account) }
 
@@ -303,7 +421,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
+      expect(json_response).to eq(approved: 3, faqs: 3, suggestions: 1, documents: 2, coverage: 75)
     end
 
     it 'returns zero coverage when there are no FAQs or suggestions' do
@@ -312,7 +430,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response).to include(approved: 0, suggestions: 0, coverage: 0)
+      expect(json_response).to include(approved: 0, faqs: 0, suggestions: 0, coverage: 0)
     end
 
     it 'counts only suggestions backed by conversations the agent can access' do
@@ -403,6 +521,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     let(:assistant) { create(:captain_assistant, account: account) }
     let(:valid_params) do
       {
+        request_id: 'playground-request-1',
         message_content: 'Hello assistant',
         message_history: [
           { role: 'user', content: 'Previous message' },
@@ -410,8 +529,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         ]
       }
     end
-    let(:chat_service) { instance_double(Captain::Llm::AssistantChatService) }
-    let(:agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
 
     context 'when it is an un-authenticated user' do
       it 'returns unauthorized' do
@@ -423,100 +540,63 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
     end
 
-    context 'when captain v2 is disabled' do
-      it 'generates a response with the legacy assistant chat service' do
-        allow(Captain::Llm::AssistantChatService).to receive(:new).with(
+    context 'when it is an authenticated user' do
+      it 'queues the playground response and returns immediately' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+               params: valid_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_job(Captain::Playground::ResponseJob).with(
           assistant: assistant,
-          source: 'playground'
-        ).and_return(chat_service)
-        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
-        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
-
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(chat_service).to have_received(:generate_response).with(
-          additional_message: valid_params[:message_content],
-          message_history: valid_params[:message_history]
-        )
-        expect(json_response[:content]).to eq('Assistant response')
-      end
-
-      it 'uses empty array as default' do
-        params_without_history = { message_content: 'Hello assistant' }
-        allow(Captain::Llm::AssistantChatService).to receive(:new).with(
-          assistant: assistant,
-          source: 'playground'
-        ).and_return(chat_service)
-        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
-        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
-
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: params_without_history,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(chat_service).to have_received(:generate_response).with(
-          additional_message: params_without_history[:message_content],
-          message_history: []
-        )
-      end
-    end
-
-    context 'when captain v2 is enabled' do
-      before do
-        account.enable_features('captain_integration_v2')
-      end
-
-      it 'generates a response with the agent runner service' do
-        allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
-          assistant: assistant,
-          source: 'playground'
-        ).and_return(agent_runner_service)
-        allow(agent_runner_service).to receive(:generate_response).and_return(
-          {
-            response: 'Assistant response',
-            response_parts: [{ text: 'Assistant response', citation_indexes: [] }]
+          user: agent,
+          request_id: valid_params[:request_id],
+          request: {
+            message_content: valid_params[:message_content],
+            message_history: valid_params[:message_history],
+            playground_config: nil,
+            playground_config_supplied: false
           }
         )
-        expect(Captain::Llm::AssistantChatService).not_to receive(:new)
 
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(agent_runner_service).to have_received(:generate_response).with(
-          message_history: valid_params[:message_history] + [{ role: 'user', content: valid_params[:message_content] }]
-        )
-        expect(json_response[:response]).to eq('Assistant response')
-        expect(json_response[:response_parts]).to eq([{ text: 'Assistant response', citation_indexes: [] }])
+        expect(response).to have_http_status(:accepted)
+        expect(json_response[:request_id]).to eq(valid_params[:request_id])
       end
 
-      it 'does not duplicate the latest user message if it is already in history' do
-        params_with_latest_message = {
-          message_content: 'Hello assistant',
-          message_history: [{ role: 'user', content: 'Hello assistant' }]
-        }
-        allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
-          assistant: assistant,
-          source: 'playground'
-        ).and_return(agent_runner_service)
-        allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
-
+      it 'generates a request id when the client does not provide one' do
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: params_with_latest_message,
+             params: valid_params.except(:request_id),
              headers: agent.create_new_auth_token,
              as: :json
 
-        expect(response).to have_http_status(:success)
-        expect(agent_runner_service).to have_received(:generate_response).with(
-          message_history: params_with_latest_message[:message_history]
+        expect(response).to have_http_status(:accepted)
+        expect(json_response[:request_id]).to be_present
+      end
+
+      it 'passes the ephemeral playground configuration to the job' do
+        enhanced_params = valid_params.merge(
+          playground_config: {
+            scenario_ids: [],
+            temporary_scenarios: [],
+            response_guidelines: ['Be concise'],
+            guardrails: [],
+            knowledge_text: 'Refunds take five days.',
+            ignored: 'do not enqueue'
+          }
+        )
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+               params: enhanced_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_job(Captain::Playground::ResponseJob).with(
+          hash_including(
+            request: hash_including(
+              playground_config: enhanced_params[:playground_config].except(:ignored).stringify_keys,
+              playground_config_supplied: true
+            )
+          )
         )
       end
     end

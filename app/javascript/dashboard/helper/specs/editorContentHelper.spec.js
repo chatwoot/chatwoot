@@ -2,14 +2,9 @@
 // the mock of chatwoot/prosemirror-schema is getting conflicted with other specs
 import { getContentNode } from '../editorHelper';
 import { MessageMarkdownTransformer } from '@chatwoot/prosemirror-schema';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
 
 vi.mock('@chatwoot/prosemirror-schema', () => ({
   MessageMarkdownTransformer: vi.fn(),
-}));
-
-vi.mock('@chatwoot/utils', () => ({
-  replaceVariablesInMessage: vi.fn(),
 }));
 
 describe('getContentNode', () => {
@@ -61,8 +56,6 @@ describe('getContentNode', () => {
       // Mock the node that will be returned by parse
       const mockNode = { textContent: updatedMessage };
 
-      replaceVariablesInMessage.mockReturnValue(updatedMessage);
-
       // Mock MessageMarkdownTransformer instance with parse method
       const mockTransformer = {
         parse: vi.fn().mockReturnValue(mockNode),
@@ -77,10 +70,6 @@ describe('getContentNode', () => {
         variables
       );
 
-      expect(replaceVariablesInMessage).toHaveBeenCalledWith({
-        message: content,
-        variables,
-      });
       expect(MessageMarkdownTransformer).toHaveBeenCalledWith(
         editorView.state.schema
       );
@@ -90,6 +79,38 @@ describe('getContentNode', () => {
       // When textContent matches updatedMessage, from should remain unchanged
       expect(result.from).toBe(from);
       expect(result.to).toBe(to);
+    });
+
+    it('should keep the placeholder for variables that have no value', () => {
+      const mockTransformer = { parse: vi.fn().mockReturnValue({}) };
+      MessageMarkdownTransformer.mockImplementation(() => mockTransformer);
+
+      getContentNode(
+        editorView,
+        'cannedResponse',
+        'Hi {{contact.name}}, your plan is {{contact.custom_attribute.plan}}',
+        { from: 0, to: 10 },
+        { 'contact.name': 'John' }
+      );
+
+      expect(mockTransformer.parse).toHaveBeenCalledWith(
+        'Hi John, your plan is {{contact.custom_attribute.plan}}'
+      );
+    });
+
+    it('should keep every placeholder when no variables are available', () => {
+      const mockTransformer = { parse: vi.fn().mockReturnValue({}) };
+      MessageMarkdownTransformer.mockImplementation(() => mockTransformer);
+
+      getContentNode(
+        editorView,
+        'cannedResponse',
+        'Hi {{contact.name}}',
+        { from: 0, to: 10 },
+        {}
+      );
+
+      expect(mockTransformer.parse).toHaveBeenCalledWith('Hi {{contact.name}}');
     });
   });
 

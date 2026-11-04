@@ -64,6 +64,7 @@ class DataImport < ApplicationRecord
   has_one_attached :import_file
   has_one_attached :failed_records
 
+  before_validation :set_default_name, on: :create
   after_create_commit :process_data_import
 
   def legacy_contacts_csv_import?
@@ -123,6 +124,12 @@ class DataImport < ApplicationRecord
   end
 
   private
+
+  def set_default_name
+    return if name.present? || data_type.blank?
+
+    self.name = "#{data_type.titleize} - #{Date.current.iso8601}"
+  end
 
   def process_data_import
     return unless legacy_contacts_csv_import?

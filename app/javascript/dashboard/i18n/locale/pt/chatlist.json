@@ -7,6 +7,7 @@
       "404": "Não há conversas ativas neste grupo."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Conversas",
     "MENTION_HEADING": "Menções",
     "UNATTENDED_HEADING": "Por responder",
@@ -44,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Criado",
         "OLDEST": "Criada em:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Última atividade:",
-        "ACTIVE": "Última atividade"
+        "NOT_ACTIVE": "Última atividade:"
       }
     },
     "SORT_ORDER_ITEMS": {

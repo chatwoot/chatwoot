@@ -16,6 +16,7 @@ class Twilio::CallbackController < ApplicationController
       :ToZip,
       :AccountSid,
       :MessageSid,
+      :OriginalRepliedMessageSid,
       :FromCountry,
       :ToCity,
       :FromCity,

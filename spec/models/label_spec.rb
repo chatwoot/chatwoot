@@ -26,6 +26,13 @@ RSpec.describe Label do
       expect(label.valid?).to be true
     end
 
+    it 'would not let you use a title with a trailing newline' do
+      # Regression test: the format validator used to anchor on \Z instead of \z, and \Z tolerates
+      # a single trailing newline, so 'hello_world' + "\n" incorrectly passed validation.
+      label = FactoryBot.build(:label, title: "hello_world\n")
+      expect(label.valid?).to be false
+    end
+
     it 'converts uppercase letters to lowercase' do
       label = FactoryBot.build(:label, title: 'Hello_World')
       expect(label.valid?).to be true

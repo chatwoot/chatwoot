@@ -1,0 +1,6 @@
+type: object
+required: [campaign]
+properties:
+  campaign:
+    allOf:
+      - $ref: '#/components/schemas/campaign_fields'

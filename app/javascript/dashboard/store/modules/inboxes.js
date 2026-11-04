@@ -226,7 +226,7 @@ export const actions = {
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw new Error(error);
+      throw error;
     }
   },
   createWhatsAppEmbeddedSignup: async ({ commit }, params) => {
@@ -261,6 +261,17 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: false });
       throwErrorMessage(error);
     }
+  },
+  updateCallAnnouncement: async (
+    { commit },
+    { id, kind, enabled, message, timeoutSeconds }
+  ) => {
+    const response = await InboxesAPI.setCallAnnouncement(id, kind, {
+      enabled,
+      message,
+      timeoutSeconds,
+    });
+    commit(types.default.EDIT_INBOXES, response.data);
   },
   updateInboxIMAP: async ({ commit }, { id, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: true });
@@ -340,6 +351,15 @@ export const actions = {
     } catch (error) {
       throwErrorMessage(error);
       return null;
+    }
+  },
+  rotateHmacToken: async ({ commit }, inboxId) => {
+    try {
+      const response = await InboxesAPI.rotateHmacToken(inboxId);
+      commit(types.default.EDIT_INBOXES, response.data);
+      return response.data;
+    } catch (error) {
+      return throwErrorMessage(error);
     }
   },
 };

@@ -85,7 +85,7 @@
         "SUBMIT": "Agent bearbeiten"
       },
       "BUTTON_TEXT": "Bearbeiten",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "API": {
         "SUCCESS_MESSAGE": "Agent erfolgreich aktualisiert",
         "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"

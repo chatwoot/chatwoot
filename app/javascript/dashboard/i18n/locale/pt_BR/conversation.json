@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Anúncio",
+      "POST_LABEL": "Postagem",
+      "VIEW_AD": "Ver anúncio",
+      "WELCOME_MESSAGE_LABEL": "Mensagem pré-preenchida: ",
+      "REPLIED_BELOW": "O cliente respondeu abaixo"
+    },
     "SELECT_A_CONVERSATION": "Por favor, selecione uma conversa no painel da esquerda",
     "CSAT_REPLY_MESSAGE": "Por favor, classifique a conversa",
     "404": "Desculpe, não conseguimos encontrar a conversa. Por favor, tente novamente",
@@ -14,6 +21,12 @@
     "SEARCH_MESSAGES": "Pesquisar por mensagens nas conversas",
     "VIEW_ORIGINAL": "Ver original",
     "VIEW_TRANSLATED": "Ver traduzido",
+    "TRANSLATING": "Traduzindo…",
+    "TRANSLATING_TO": "Traduzindo para {language}…",
+    "VIEW_ORIGINAL_IN": "Ver original ({language})",
+    "VIEW_TRANSLATED_IN": "Ver tradução ({language})",
+    "TRANSLATION_FAILED": "Não foi possível traduzir; foi enviada como digitada",
+    "CONTACT_TRANSLATION_FAILED": "Não foi possível traduzir",
     "EMPTY_STATE": {
       "CMD_BAR": "para abrir o menu de comando",
       "KEYBOARD_SHORTCUTS": "para ver os atalhos de teclado"
@@ -27,6 +40,15 @@
     },
     "UNREAD_MESSAGES": "Mensagens não lidas",
     "UNREAD_MESSAGE": "Mensagem não lida",
+    "CONTACT_HISTORY": {
+      "OLDER": "Conversa anterior",
+      "NEWER": "Próxima conversa",
+      "OLDER_WITH": "Conversa anterior com {name} · {time}",
+      "NEWER_WITH": "Próxima conversa com {name} · {time}",
+      "CUSTOMER": "este cliente",
+      "REPLY_TO_OLDER": "Responder a esta conversa antiga",
+      "GO_TO_LATEST": "Ir para a última conversa"
+    },
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
     "LOADING_CONVERSATIONS": "Carregando conversas",
@@ -36,16 +58,17 @@
     "API_HOURS_WINDOW": "Você só pode responder a esta conversa em {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a você. Gostaria de atribuir esta conversa a você mesmo?",
     "ASSIGN_TO_ME": "Atribuir a mim",
-    "BOT_HANDOFF_MESSAGE": "Você está respondendo a uma conversa que é atualmente tratada por um assistente ou um robô.",
-    "BOT_HANDOFF_ACTION": "Marcar como aberta e atribuir a você",
+    "BOT_HANDOFF_MESSAGE": "Esta conversa está sendo atendida por {assigneeName}.",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "um agente de IA",
+    "BOT_HANDOFF_ACTION": "Assumir atendimento",
     "BOT_HANDOFF_REOPEN_ACTION": "Marcar conversa como aberta",
     "BOT_HANDOFF_SUCCESS": "Uma conversa foi atribuída a você",
     "BOT_HANDOFF_ERROR": "Falha ao resolver conversas. Por favor, tente novamente.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal do Instagram. Todas as novas mensagens serão mostradas lá. Você não poderá mais enviar mensagens desta conversa.",
-    "INSTAGRAM_RESTRICTION_BANNER": "O Instagram está com restrições no momento. Algumas mensagens ou ações podem sofrer atrasos ou/e ficar indisponíveis enquanto restauramos o funcionamento completo.",
-    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Ver atualização de status",
+    "INSTAGRAM_RESTRICTION_BANNER": "As mensagens do Instagram estão sendo afetadas por um problema na API da Meta, e não por uma falha no Chatwoot. Algumas mensagens ou ações podem sofrer atrasos ou ficar temporariamente indisponíveis. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Ver atualizações de status",
     "REPLYING_TO": "Você está respondendo a:",
     "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "Baixar",
@@ -64,14 +87,44 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo do Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Esta mensagem não é compatível. Você pode visualizá-la no aplicativo do TikTok.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "Esta mensagem não é suportada. Você pode visualizar esta mensagem no aplicativo do WhatsApp.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Conteúdo da mensagem indisponível",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "Não foi possível exibir esta mensagem porque a Meta não forneceu seu conteúdo. Isso pode acontecer em configurações de Coexistência do WhatsApp. Para visualizar a mensagem, por favor verifique-a no aplicativo WhatsApp Business.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "Para mais detalhes, consulte {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Documentação da Meta",
+    "WHATSAPP_FLOW_RESPONSE": "Enviou uma resposta de um Flow",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Anúncio"
+    },
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Peça ao cliente para compartilhar seu número de telefone do WhatsApp",
+      "PENDING_ACTION": "Solicitação de informações de contato pendente",
+      "STATES": {
+        "PENDING": "Aguardando informações de contato",
+        "SHARED": "Número de telefone compartilhado",
+        "IDENTITY_CONFLICT": "O número de telefone precisa ser revisado"
+      }
+    },
     "RESPONSE": "Resposta",
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Mensagem não disponível",
+    "CAPTAIN_GENERATION": {
+      "TITLE": "Como esta resposta foi gerada?",
+      "GENERATED_BY": "Gerado pelo Captain",
+      "LOADING": "Carregando detalhes…",
+      "EMPTY": "Não há detalhes de geração disponíveis para esta mensagem.",
+      "TIMELINE": "Etapas da geração",
+      "STEP_TOOL": "Chamou {name}",
+      "STEP_HANDOFF": "Transferido para {name}",
+      "REASONING": "Raciocínio",
+      "SOURCES": "Base de conhecimento",
+      "SOURCES_SUMMARY": "{count} resultado | {count} resultados",
+      "MODEL": "Gerado com {model}",
+      "CREDITS": "Créditos: {credits}"
+    },
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar as etiquetas",
@@ -140,10 +193,48 @@
       "AGENTS": "Agentes",
       "TEAMS": "Times"
     },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Pesquisar variáveis",
+        "DESCRIPTION": "Descrição",
+        "VALUE": "Valor",
+        "NO_VALUE": "Nenhum valor para esta conversa"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Pesquisar emojis",
+        "EMPTY_STATE": "Digite para pesquisar emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Pesquisar macros",
+        "ACTION_COUNT": "1 ação | {count} ações"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Pesquisar agentes e times",
+        "FILTER": {
+          "ALL": "Todos"
+        },
+        "AVAILABILITY": "Disponibilidade",
+        "ROLE": "Função",
+        "AUTO_ASSIGN": "Atribuição automática",
+        "ENABLED": "Ativado",
+        "DISABLED": "Desativado",
+        "YOU_ARE_A_MEMBER": "Você faz parte deste time"
+      }
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Adiar até",
       "APPLY": "Adiar",
       "CANCEL": "Cancelar"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Sugerir com o Captain",
+      "EMPTY": "Nenhuma nova sugestão",
+      "ACCEPT": "Aceitar",
+      "APPLY_HINT": "Clique para aplicar",
+      "REJECT": "Recusar",
+      "ACCEPT_ALL": "Aceitar todos",
+      "ERROR": "Não foi possível carregar as sugestões. Por favor, tente novamente.",
+      "APPLY_ERROR": "Não foi possível aplicar as etiquetas sugeridas. Por favor, tente novamente."
     },
     "PRIORITY": {
       "TITLE": "Prioridade",
@@ -181,6 +272,8 @@
       },
       "ASSIGN_AGENT": "Atribuir Agente",
       "ASSIGN_LABEL": "Atribuir etiqueta",
+      "SEARCH_LABELS": "Pesquisar etiquetas",
+      "NO_LABELS_FOUND": "Nenhuma etiqueta encontrada",
       "AGENTS_LOADING": "Carregando agentes...",
       "ASSIGN_TEAM": "Atribuir time",
       "DELETE": "Excluir conversa",
@@ -216,7 +309,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "Você só pode responder usando uma mensagem de modelo devido à restrição da janela de 24 horas",
       "MESSAGING_RESTRICTED_API": "Você só pode responder usando uma mensagem de template devido à restrição da janela de mensagens",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
-      "COPILOT_MSG_INPUT": "Forneça instruções adicionais ao Copiloto ou pergunte algo mais... Pressione Enter para enviar",
+      "COPILOT_MSG_INPUT": "Forneça instruções adicionais ao Copilot ou pergunte algo mais... Pressione Enter para enviar",
       "CLICK_HERE": "Clique aqui para atualizar",
       "WHATSAPP_TEMPLATES": "Modelos do Whatsapp"
     },
@@ -238,19 +331,22 @@
       "IMAGE_UPLOAD_SUCCESS": "Imagem enviada com sucesso",
       "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
       "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
-      "COPILOT_THINKING": "O Copiloto está pensando",
+      "COPILOT_THINKING": "O Copilot está pensando",
       "EMAIL_HEAD": {
         "TO": "Para",
-        "ADD_BCC": "Adicionar cco",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "E-mails separados por vírgulas",
           "ERROR": "Por favor, insira endereços de e-mail válidos"
         },
         "BCC": {
-          "LABEL": "Cco",
+          "LABEL": "CCO",
           "PLACEHOLDER": "E-mails separados por vírgulas",
           "ERROR": "Por favor, insira endereços de e-mail válidos"
+        },
+        "SUBJECT": {
+          "LABEL": "Assunto",
+          "PLACEHOLDER": "Insira um assunto"
         }
       },
       "UNDEFINED_VARIABLES": {
@@ -262,11 +358,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Incluir o encadeamento de e-mails citado",
-        "DISABLE_TOOLTIP": "Não incluir o encadeamento de e-mails citado",
-        "REMOVE_PREVIEW": "Remover o encadeamento de e-mails citado",
-        "COLLAPSE": "Recolher a prévia",
-        "EXPAND": "Expandir a prévia"
+        "SHOW_TOOLTIP": "Mostrar conteúdo cortado",
+        "HIDE_TOOLTIP": "Ocultar conteúdo cortado",
+        "REMOVE": "Remover citação"
       }
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e seu time",
@@ -296,6 +390,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copiar",
       "REPLY_TO": "Responder mensagem",
+      "FORWARD_EMAIL": "Encaminhar e-mail",
       "DELETE": "Excluir",
       "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas",
       "TRANSLATE": "Traduzir",
@@ -309,8 +404,8 @@
       },
       "REPORT_MESSAGE": {
         "LABEL": "Reportar mensagem",
-        "TITLE": "Reportar mensagem do Capitão",
-        "DESCRIPTION": "Encontrou algum problema com esta resposta da IA? Conte-nos o que deu errado e nossa equipe irá analisar para ajudar a melhorar a precisão do Capitão.",
+        "TITLE": "Reportar mensagem do Captain",
+        "DESCRIPTION": "Encontrou algum problema com esta resposta da IA? Conte-nos o que deu errado e nossa equipe irá analisar para ajudar a melhorar a precisão do Captain.",
         "PROBLEM_TYPE": "Tipo de problema",
         "PROBLEM_TYPE_PLACEHOLDER": "Selecione um tipo de problema",
         "DESCRIPTION_LABEL": "Descrição",
@@ -329,7 +424,7 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contatos",
-      "COPILOT": "Copiloto"
+      "COPILOT": "Copilot"
     },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Chamada recebida",
@@ -473,7 +568,16 @@
     "BCC": "CCO",
     "CC": "Cc",
     "SUBJECT": "Assunto",
+    "DATE": "Data",
     "EXPAND": "Expandir e-mail"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Mensagem encaminhada ---------",
+    "TO_LABEL": "Para:",
+    "TO_PLACEHOLDER": "Digite pelo menos 2 caracteres para pesquisar por e-mail",
+    "MESSAGE_PLACEHOLDER": "Adicionar uma mensagem (opcional)",
+    "FORWARDED_TO": "Encaminhado para {emails}",
+    "CONTACT_CANNOT_SEE": "{name} não pode ver isto"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participantes",

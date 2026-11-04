@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
 import {
-  formatTemplateDate,
   formatTemplateLabel,
   formatTemplateLanguage,
   templateStatusClasses,
@@ -19,9 +19,15 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['preview']);
+const { t } = useI18n();
 
 const showStatus = computed(
   () => props.template.status?.toLowerCase() !== 'approved'
+);
+const statusLabel = computed(() =>
+  props.template.status?.toLowerCase() === 'unsubmitted'
+    ? t('WHATSAPP_TEMPLATE_MGMT.STATUSES.UNSUBMITTED')
+    : formatTemplateLabel(props.template.status)
 );
 </script>
 
@@ -53,7 +59,7 @@ const showStatus = computed(
             class="inline-flex shrink-0 px-2 py-0.5 text-xs font-medium rounded-md"
             :class="templateStatusClasses(template.status)"
           >
-            {{ formatTemplateLabel(template.status) }}
+            {{ statusLabel }}
           </span>
         </div>
         <div
@@ -68,14 +74,6 @@ const showStatus = computed(
           <span>{{ formatTemplateLanguage(template.language) }}</span>
           <div class="w-px h-3 rounded-lg bg-n-strong" />
           <span class="truncate">{{ template.inboxNames }}</span>
-          <div class="w-px h-3 rounded-lg bg-n-strong" />
-          <span class="whitespace-nowrap">
-            {{
-              $t('WHATSAPP_TEMPLATE_MGMT.LAST_SYNC_ATTEMPT', {
-                date: formatTemplateDate(template.lastUpdatedAt),
-              })
-            }}
-          </span>
         </div>
       </div>
     </div>

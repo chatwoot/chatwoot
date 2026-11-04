@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Mövcud deyil",
     "EMAIL_ADDRESS": "Email Address",
     "PHONE_NUMBER": "Telefon nömrəsi",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Şirkət",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu əlaqə ilə bağlı əvvəlki söhbətlər yoxdur.",
-      "TITLE": "Əvvəlki Söhbətlər"
+      "TITLE": "Əvvəlki Söhbətlər",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -461,6 +463,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
           },
@@ -611,6 +616,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Bax",

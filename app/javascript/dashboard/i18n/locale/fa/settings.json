@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "هنگامی که یک پیام جدید در یک مکالمه شرکت کننده ایجاد می شود، اعلان های ایمیل ارسال کنید",
         "SLA_MISSED_FIRST_RESPONSE": "هر وقت گفتگویی سیاست SLA مربوط به اولین زمان پاسخ را نقض کرد ایمیل ارسال کن",
         "SLA_MISSED_NEXT_RESPONSE": "هر وقت گفتگویی سیاست SLA مربوط به زمان پاسخ بعدی را نقض کرد ایمیل ارسال کن",
-        "SLA_MISSED_RESOLUTION": "هر وقت گفتگویی سیاست SLA مربوط به زمان حل موضوع را نقض کرد ایمیل ارسال کن"
+        "SLA_MISSED_RESOLUTION": "هر وقت گفتگویی سیاست SLA مربوط به زمان حل موضوع را نقض کرد ایمیل ارسال کن",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "تنظیمات آگاه‌سازی",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
           "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "فعال کردن پوش نوتیفیکیشن",
         "SLA_MISSED_FIRST_RESPONSE": "هر وقت گفتگویی سیاست SLA مربوط به اولین زمان پاسخ را نقض کرد پوش ارسال کن",
         "SLA_MISSED_NEXT_RESPONSE": "هر وقت گفتگویی سیاست SLA مربوط به زمان پاسخ بعدی را نقض کرد پوش ارسال کن",
-        "SLA_MISSED_RESOLUTION": "هر وقت گفتگویی سیاست SLA مربوط به زمان حل موضوع را نقض کرد پوش ارسال کن"
+        "SLA_MISSED_RESOLUTION": "هر وقت گفتگویی سیاست SLA مربوط به زمان حل موضوع را نقض کرد پوش ارسال کن",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "عکس پروفایل"
@@ -262,9 +265,14 @@
     "EMAIL_VERIFICATION_PENDING": "ظاهرا هنوز ایمیل خود را تایید نکرده اید. لطفا ایمیل خود را برای تایید بررسی کنید.",
     "RESEND_VERIFICATION_MAIL": "ارسال مجدد ایمیل تایید",
     "EMAIL_VERIFICATION_SENT": "ایمیل تایید ارسال شد. لطفا ایمیل خود را بررسی کنید.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "حساب‌کاربری معلق شده است",
-      "MESSAGE": "حساب‌کاربری شما به حالت تعلیق درآمده. لطفا برای اطلاعات بیشتر با تیم پشتیبانی تماس بگیرید."
+      "MESSAGE": "حساب‌کاربری شما به حالت تعلیق درآمده. لطفا برای اطلاعات بیشتر با تیم پشتیبانی تماس بگیرید.",
+      "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -277,7 +285,8 @@
     "CODE": {
       "BUTTON_TEXT": "کپی",
       "CODEPEN": "در CodePen باز کنید",
-      "COPY_SUCCESSFUL": "کد به حافظه کپی شد"
+      "COPY_SUCCESSFUL": "کد به حافظه کپی شد",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "نمایش بیشتر",
@@ -324,6 +333,7 @@
     "COMPANIES": "شرکت ها",
     "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
+    "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_OVERVIEW": "بررسی اجمالی",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -338,6 +348,7 @@
     "AGENT_BOTS": "ربات‌ها",
     "AUDIT_LOGS": "بررسی لاگ هاگزارش های حسابرسی",
     "INBOXES": "صندوق‌های ورودی",
+    "WHATSAPP_TEMPLATES": "Templates",
     "NOTIFICATIONS": "اعلان ها",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
@@ -418,6 +429,10 @@
     "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
     "LOADING": "Fetching imports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
+    "DEFAULT_IMPORT_NAMES": {
+      "INTERCOM": "Intercom import",
+      "FRESHDESK": "Freshdesk import"
+    },
     "TABS": {
       "IMPORT": "تزریق کردن",
       "EXPORT": "خروجی گرفتن"
@@ -431,9 +446,15 @@
       "TITLE": "New import",
       "SOURCE": "Source",
       "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July Intercom migration",
+      "NAME_PLACEHOLDER": "July support migration",
       "ACCESS_KEY": "Intercom access key",
       "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "INTERCOM_ACCESS_KEY": "Intercom access key",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "FRESHDESK_API_KEY": "Freshdesk API key",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
+      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
       "DATA_TYPES": "Data to import",
       "VALIDATING": "Validating access key...",
       "VALID_KEY": "Access key validated.",
@@ -461,6 +482,7 @@
       "STATUS": "وضعیت",
       "IMPORTED": "Imported",
       "CREATED": "ایجاد شده",
+      "RETRY": "Retry",
       "ABANDON": "Abandon"
     },
     "DETAIL": {
@@ -506,9 +528,11 @@
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Intercom import has started.",
-      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the Intercom import."
+      "IMPORT_STARTED": "Import has started.",
+      "IMPORT_RETRIED": "Import has been queued to resume.",
+      "IMPORT_RETRY_FAILED": "Could not retry the import.",
+      "IMPORT_ABANDONED": "Import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the import."
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -548,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
@@ -562,6 +580,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "صورتحساب",
     "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
@@ -569,6 +591,7 @@
       "PLAN_NOTE": "شما در حال حاضر مشترک طرح **{plan}** با مجوز **{quantity}** هستید",
       "SEAT_COUNT": "Number of seats",
       "RENEWS_ON": "Renews on",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -602,6 +625,38 @@
       "BUTTON_TXT": "با ما گفتگو کنید"
     },
     "NO_BILLING_USER": "صورتحساب حساب شما در حال پیکربندی است. لطفا صفحه را مجددا بارگزاری کرده و دوباره تلاش کنید.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "وضعیت",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Renews on",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "در انتظار",
+        "ACTIVE": "فعال",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Buy more credits",
       "MODAL_TITLE": "Buy AI Credits",
@@ -632,6 +687,7 @@
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

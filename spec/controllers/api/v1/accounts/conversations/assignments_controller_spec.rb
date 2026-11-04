@@ -70,7 +70,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['name']).to eq(agent_bot.name)
         conversation.reload
-        expect(conversation.assignee_agent_bot).to eq(agent_bot)
+        expect(conversation.ai_assignee).to eq(agent_bot)
         expect(conversation.assignee).to be_nil
       end
 

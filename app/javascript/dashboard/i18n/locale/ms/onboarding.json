@@ -39,6 +39,10 @@
     "ERROR": "Something went wrong. Please try again.",
     "WHATSAPP_CONNECTED": "WhatsApp connected successfully",
     "FACEBOOK_CONNECTED": "Facebook connected successfully",
+    "META_RESTRICTION": {
+      "MESSAGE": "Inbox setup for Facebook, Instagram, and WhatsApp is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+      "STATUS_LINK": "View status updates"
+    },
     "CREATED_FOR_YOU": {
       "TITLE": "We've created the following for you",
       "LIVE_CHAT": "Live Chat widget",

@@ -111,3 +111,14 @@ export const OPERATOR_TYPES_6 = [
     label: 'Starts With',
   },
 ];
+
+export const CAPTAIN_OPERATOR_TYPES = [
+  {
+    value: 'detects',
+    label: 'Detects',
+  },
+  {
+    value: 'does_not_detect',
+    label: 'Does not detect',
+  },
+];

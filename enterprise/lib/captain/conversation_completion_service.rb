@@ -16,7 +16,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
     return default_incomplete_response('No messages found') if content.blank?
 
     response = make_api_call(
-      model: InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || GPT_MODEL,
+      feature: 'conversation_completion',
       messages: [
         { role: 'system', content: prompt_from_file('conversation_completion') },
         { role: 'user', content: content }
@@ -52,6 +52,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
     conversation.messages
                 .where(message_type: [:incoming, :outgoing])
                 .where(private: false)
+                .not_forwarded
                 .reorder('id desc')
                 .each do |message|
       content = message.content_for_llm

@@ -23,104 +23,151 @@
     "UNNAMED": "Unbenanntes Unternehmen",
     "CONTACTS_COUNT": "{n} Kontakt | {n} Kontakte",
     "ACTIONS": {
-      "CREATE": "Add company"
+      "CREATE": "Unternehmen hinzufügen"
     },
     "SELECTOR": {
-      "PLACEHOLDER": "Select company",
-      "CREATE_OPTION": "Add \"{name}\""
+      "PLACEHOLDER": "Unternehmen auswählen",
+      "CREATE_OPTION": "\"{name}\" hinzufügen"
     },
     "CREATE": {
-      "TITLE": "Add company details",
+      "TITLE": "Unternehmensdetails hinzufügen",
       "ACTIONS": {
-        "SAVE": "Add company"
+        "SAVE": "Unternehmen hinzufügen"
       },
       "MESSAGES": {
-        "SUCCESS": "Company created.",
-        "ERROR": "Could not create the company."
+        "SUCCESS": "Unternehmen erstellt.",
+        "ERROR": "Unternehmen konnte nicht erstellt werden."
       }
     },
     "DETAIL": {
-      "LOADING": "Loading company details...",
       "EMPTY_STATE": {
-        "TITLE": "Company not found",
-        "SUBTITLE": "This company may have been removed or is no longer available in this account."
+        "TITLE": "Unternehmen nicht gefunden",
+        "SUBTITLE": "Dieses Unternehmen wurde möglicherweise entfernt oder ist in diesem Konto nicht mehr verfügbar."
       },
-      "SIDEBAR": {
-        "TABS": {
-          "ATTRIBUTES": "Attribute",
-          "CONTACTS": "Kontakte",
-          "HISTORY": "Verlauf",
-          "NOTES": "Notizen"
+      "HEADER": {
+        "EDIT": "Bearbeiten",
+        "MORE": "Mehr anzeigen",
+        "LESS": "Weniger anzeigen",
+        "OPEN_COUNT": "{count} open | {count} open",
+        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+      },
+      "FACTS": {
+        "INDUSTRY": "Branche",
+        "SIZE": "Employees",
+        "LOCATION": "Based in",
+        "ADDED": "Added",
+        "UNKNOWN": "Unknown",
+        "YES": "Ja",
+        "NO": "Nein"
+      },
+      "PEOPLE": {
+        "ADD": "Hinzufügen",
+        "SEARCH": "Search people",
+        "EMPTY": "No one from this company yet.",
+        "NO_MATCHES": "No people match your search.",
+        "DIALOG_TITLE": "Add people to {name}"
+      },
+      "TABS": {
+        "CONVERSATIONS": "Gespräche",
+        "NOTES": "Notizen",
+        "PEOPLE": "People"
+      },
+      "ACTIVITY": {
+        "TODAY": "Heute",
+        "YESTERDAY": "Gestern",
+        "SYSTEM_AUTHOR": "System",
+        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
+        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
+        "LOAD_MORE": "Load more",
+        "SEARCH_NOTES": "Search notes",
+        "NO_MATCHING_NOTES": "No notes match your search.",
+        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+      },
+      "EDIT": {
+        "TITLE": "Edit company",
+        "SAVE": "Änderungen speichern",
+        "DESCRIPTION": "Beschreibung",
+        "DETAILS": "Details",
+        "CITY": "Stadt",
+        "COUNTRY": "Land",
+        "PHONE": "Telefon",
+        "SOCIAL": {
+          "TITLE": "Social profiles",
+          "LINKEDIN": "LinkedIn",
+          "X": "X",
+          "FACEBOOK": "Facebook",
+          "INSTAGRAM": "Instagram",
+          "GITHUB": "GitHub",
+          "YOUTUBE": "YouTube"
+        },
+        "PLACEHOLDERS": {
+          "DOMAIN": "acme.com",
+          "INDUSTRY": "Software",
+          "EMPLOYEES": "51 to 200",
+          "USERNAME": "username"
         }
-      },
-      "HISTORY": {
-        "EMPTY": "No conversations found for this company's contacts yet."
-      },
-      "NOTES": {
-        "EMPTY": "No notes found for this company's contacts yet."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Attribut suchen...",
-        "EMPTY_STATE": "There are no company custom attributes configured yet.",
-        "NO_ATTRIBUTES": "No matching attributes found.",
-        "UNUSED_ATTRIBUTES": "{count} unused attribute | {count} unused attributes",
+        "EMPTY_STATE": "Es sind noch keine benutzerdefinierten Unternehmensattribute konfiguriert.",
+        "NO_ATTRIBUTES": "Keine passenden Attribute gefunden.",
+        "UNUSED_ATTRIBUTES": "{count} ungenutztes Attribut | {count} ungenutzte Attribute",
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company attribute updated.",
-          "UPDATE_ERROR": "Could not update company attribute.",
-          "DELETE_SUCCESS": "Company attribute removed.",
-          "DELETE_ERROR": "Could not remove company attribute."
-        }
+          "UPDATE_SUCCESS": "Unternehmensattribut aktualisiert.",
+          "UPDATE_ERROR": "Unternehmensattribut konnte nicht aktualisiert werden.",
+          "DELETE_SUCCESS": "Unternehmensattribut entfernt.",
+          "DELETE_ERROR": "Unternehmensattribut konnte nicht entfernt werden."
+        },
+        "TITLE": "Benutzerdefinierte Attribute"
       },
       "CONTACTS": {
         "LOADING": "Kontakte werden geladen...",
-        "EMPTY": "No contacts are linked to this company yet.",
-        "UNNAMED_CONTACT": "Unnamed contact",
+        "UNNAMED_CONTACT": "Unbenannter Kontakt",
         "ACTIONS": {
           "ADD": "Kontakt hinzufügen",
-          "REMOVE": "Remove contact"
+          "REMOVE": "Kontakt entfernen"
         },
         "DIALOGS": {
           "ADD": {
-            "DESCRIPTION": "Search for an existing contact and link it to this company.",
+            "DESCRIPTION": "Suche nach einem vorhandenen Kontakt und verknüpfe ihn mit diesem Unternehmen.",
             "SEARCH_PLACEHOLDER": "Kontakte suchen...",
-            "INITIAL": "Start typing to search contacts.",
+            "INITIAL": "Beginne mit der Eingabe, um Kontakte zu suchen.",
             "EMPTY": "Keine Kontakte gefunden.",
-            "CONFIRM_TITLE": "Link contact",
-            "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
+            "CONFIRM_TITLE": "Kontakt verknüpfen",
+            "CONFIRM_DESCRIPTION": "Prüfe das Unternehmen und den Kontakt, bevor du sie verknüpfst.",
             "COMPANY_LABEL": "Firma",
             "CONTACT_LABEL": "Kontakt",
-            "CURRENT_COMPANY": "Currently linked to {companyName}",
-            "ADD": "Link contact",
+            "CURRENT_COMPANY": "Derzeit mit {companyName} verknüpft",
+            "ADD": "Kontakt verknüpfen",
             "CANCEL": "Stornieren"
           }
         },
         "MESSAGES": {
-          "ADD_SUCCESS": "Contact linked to company.",
-          "ADD_ERROR": "Could not link contact to company.",
-          "REASSIGN_SUCCESS": "Contact reassigned to company.",
-          "REASSIGN_ERROR": "Could not reassign contact to company.",
-          "REMOVE_SUCCESS": "Contact removed from company.",
-          "REMOVE_ERROR": "Could not remove contact from company."
+          "ADD_SUCCESS": "Kontakt mit Unternehmen verknüpft.",
+          "ADD_ERROR": "Kontakt konnte nicht mit dem Unternehmen verknüpft werden.",
+          "REASSIGN_SUCCESS": "Kontakt einem anderen Unternehmen zugewiesen.",
+          "REASSIGN_ERROR": "Kontakt konnte keinem anderen Unternehmen zugewiesen werden.",
+          "REMOVE_SUCCESS": "Kontakt aus dem Unternehmen entfernt.",
+          "REMOVE_ERROR": "Kontakt konnte nicht aus dem Unternehmen entfernt werden."
         }
       },
       "AVATAR": {
-        "UPDATING": "Updating company avatar...",
-        "UPLOAD_SUCCESS": "Company avatar updated.",
-        "UPLOAD_ERROR": "Could not update the company avatar.",
-        "DELETE_SUCCESS": "Company avatar removed.",
-        "DELETE_ERROR": "Could not remove the company avatar."
+        "UPDATING": "Unternehmensavatar wird aktualisiert ...",
+        "UPLOAD_SUCCESS": "Unternehmensavatar aktualisiert.",
+        "UPLOAD_ERROR": "Unternehmensavatar konnte nicht aktualisiert werden.",
+        "DELETE_SUCCESS": "Unternehmensavatar entfernt.",
+        "DELETE_ERROR": "Unternehmensavatar konnte nicht entfernt werden."
       },
       "PROFILE": {
-        "TITLE": "Edit company details",
-        "CREATED_AT": "Erstellt am {date}",
-        "LAST_ACTIVE": "Zuletzt aktiv {date}",
-        "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
+        "DESCRIPTION_PLACEHOLDER": "Füge eine kurze Beschreibung dieses Unternehmens hinzu",
         "ACTIONS": {
-          "SAVE": "Update company"
+          "REFRESH": "Refresh profile"
         },
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company."
+          "UPDATE_SUCCESS": "Unternehmen aktualisiert.",
+          "UPDATE_ERROR": "Unternehmen konnte nicht aktualisiert werden.",
+          "REFRESH_SUCCESS": "Company profile refreshed.",
+          "REFRESH_ERROR": "Could not refresh the company profile."
         },
         "FIELDS": {
           "NAME": "Name",
@@ -128,21 +175,39 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Danger zone",
-        "SECTION_DESCRIPTION": "Delete this company and unlink its contacts. The contacts will remain in the account.",
-        "BUTTON": "Delete company",
-        "TITLE": "Delete company?",
-        "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
-        "DESCRIPTION_WITH_NAME": "This will remove {companyName} and unlink all associated contacts. Contacts themselves will be preserved.",
-        "CONFIRM": "Delete company",
+        "BUTTON": "Unternehmen löschen",
+        "TITLE": "Unternehmen löschen?",
+        "DESCRIPTION": "Dadurch wird das Unternehmen entfernt und die Verknüpfung aller zugehörigen Kontakte aufgehoben. Die Kontakte selbst bleiben erhalten.",
+        "DESCRIPTION_WITH_NAME": "Dadurch wird {companyName} entfernt und die Verknüpfung aller zugehörigen Kontakte aufgehoben. Die Kontakte selbst bleiben erhalten.",
+        "CONFIRM": "Unternehmen löschen",
         "MESSAGES": {
-          "SUCCESS": "Company deleted.",
-          "ERROR": "Could not delete the company."
+          "SUCCESS": "Unternehmen gelöscht.",
+          "ERROR": "Unternehmen konnte nicht gelöscht werden."
         }
+      },
+      "CONVERSATION_FILTERS": {
+        "BUTTON": "Filter",
+        "BUTTON_WITH_COUNT": "Filter ({count})",
+        "ANY": "Any"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enrich company profiles on the Business plan",
+        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
+        "UPGRADE": "See plans"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "Keine Unternehmen gefunden"
+    },
+    "CARD": {
+      "EMPLOYEES": "{count} employees"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Companies",
+      "AVAILABLE_ON": "Companies is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     }
   },
   "COMPANIES_LAYOUT": {

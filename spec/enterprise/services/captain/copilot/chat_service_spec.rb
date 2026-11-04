@@ -26,20 +26,21 @@ RSpec.describe Captain::Copilot::ChatService do
   end
 
   before do
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     InstallationConfig.find_or_create_by(name: 'CAPTAIN_OPEN_AI_API_KEY') do |c|
       c.value = 'test-key'
     end
 
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
-    allow(mock_chat).to receive(:with_params).and_return(mock_chat)
-    allow(mock_chat).to receive(:with_tool).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_thinking).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_provider_options).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_tools).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
     allow(mock_chat).to receive(:add_message).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_new_message).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_end_message).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_tool_call).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_tool_result).and_return(mock_chat)
+    allow(mock_chat).to receive(:after_message).and_return(mock_chat)
+    allow(mock_chat).to receive(:before_tool_call).and_return(mock_chat)
+    allow(mock_chat).to receive(:after_tool_result).and_return(mock_chat)
     allow(mock_chat).to receive(:messages).and_return([])
     allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
@@ -63,15 +64,34 @@ RSpec.describe Captain::Copilot::ChatService do
       expect(messages.second[:role]).to eq('system')
       expect(messages.second[:content]).to include(account.id.to_s)
     end
+
+    it 'uses the account model ahead of the Copilot default and installation model' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-6-luna')
+      account.update!(captain_models: { 'copilot' => 'gpt-5-mini' })
+
+      expect(described_class.new(assistant, config).model).to eq('gpt-5-mini')
+    end
   end
 
   describe '#generate_response' do
     let(:service) { described_class.new(assistant, config) }
 
+    it 'uses the Copilot default ahead of the installation model' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-6-luna')
+
+      expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2', protocol: :responses).and_return(mock_chat)
+
+      service.generate_response('Hello')
+    end
+
     it 'uses the copilot feature model' do
       account.update!(captain_models: { 'copilot' => 'gpt-5.2' })
 
-      expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
+      expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2', protocol: :responses).and_return(mock_chat)
+      expect(mock_chat).to receive(:with_thinking).with(effort: :none).and_return(mock_chat)
+      expect(mock_chat).to receive(:with_provider_options).with(
+        text: { format: { type: 'json_schema', name: 'copilot_response', schema: { type: 'object', additionalProperties: true }, strict: false } }
+      ).and_return(mock_chat)
 
       described_class.new(assistant, config).generate_response('Hello')
     end
@@ -102,6 +122,24 @@ RSpec.describe Captain::Copilot::ChatService do
       expect do
         service.generate_response('Hello')
       end.to(change { account.reload.custom_attributes['captain_responses_usage'].to_i }.by(1))
+    end
+
+    context 'when self-hosted' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+      end
+
+      it 'uses the Copilot default ahead of the installation model' do
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-6-luna')
+
+        expect(service.model).to eq('gpt-5.2')
+      end
+
+      it 'does not increment response usage' do
+        expect do
+          service.generate_response('Hello')
+        end.not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
+      end
     end
   end
 
@@ -165,13 +203,68 @@ RSpec.describe Captain::Copilot::ChatService do
     end
 
     it 'includes current viewing history when conversation_id is present' do
-      service = described_class.new(assistant, { conversation_id: conversation.display_id })
+      create(:inbox_member, user: user, inbox: inbox)
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
       messages = service.messages
 
       viewing_history = messages.find { |m| m[:content].include?('You are currently viewing the conversation') }
       expect(viewing_history).not_to be_nil
       expect(viewing_history[:content]).to include(conversation.display_id.to_s)
       expect(viewing_history[:content]).to include(contact.id.to_s)
+    end
+
+    it 'omits current viewing history when the user cannot access the conversation' do
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+      messages = service.messages
+
+      expect(messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
+
+    it 'omits current viewing history when no user is set' do
+      service = described_class.new(assistant, { conversation_id: conversation.display_id })
+      messages = service.messages
+
+      expect(messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
+
+    it 'omits current viewing history for a conversation in another account' do
+      other_account = create(:account)
+      other_conversation = create(:conversation, account: other_account)
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: other_conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
+
+    it 'omits current viewing history when an administrator has a limited custom role' do
+      create(:inbox_member, user: user, inbox: inbox)
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+      AccountUser.find_by(user: user, account: account).update!(role: :administrator, custom_role: custom_role)
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
+
+    it 'omits current viewing history for an agent bot conversation when the user can only manage unassigned conversations' do
+      create(:inbox_member, user: user, inbox: inbox)
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_unassigned_manage'])
+      AccountUser.find_by!(user: user, account: account).update!(role: :agent, custom_role: custom_role)
+      conversation.update!(ai_assignee: create(:agent_bot, account: account))
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
+
+    it 'includes current viewing history when the user has team access' do
+      team = create(:team, account: account)
+      create(:team_member, team: team, user: user)
+      conversation.update!(team: team)
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be true
     end
   end
 

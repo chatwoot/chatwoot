@@ -1,4 +1,54 @@
 {
+  "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "Stripe is unavailable for this account. Contact your administrator to check the integration configuration.",
+    "TITLE": "Stripe",
+    "DESCRIPTION": "View customer details, subscriptions, and invoices alongside your conversations.",
+    "CONNECT": "இணைக்கவும்",
+    "DISCONNECT": "Disconnect from Chatwoot",
+    "DISCONNECT_NOTE": "Disconnecting removes the saved credentials from Chatwoot. Uninstall the app in Stripe to revoke its access there.",
+    "CONNECTED": "Connected",
+    "RECONNECT": "Reconnect Stripe",
+    "REAUTHORIZATION_REQUIRED": "Reconnect required",
+    "ACCOUNT": "Connected account",
+    "ACCOUNT_ID": "Account ID",
+    "ENVIRONMENT": "Environment",
+    "SANDBOX": "Sandbox",
+    "LIVE": "Live",
+    "CONNECTED_ON": "Connected on",
+    "OPEN_STRIPE": "Open Stripe dashboard",
+    "ERROR": "Unable to load Stripe. Please try again or reconnect the integration.",
+    "EMPTY": "No Stripe customer matches this contact's email.",
+    "NO_EMAIL": "Add an email to this contact to look up Stripe customers.",
+    "SELECT": "Select a matching customer",
+    "CUSTOMER_OPTION": "{name} — {id}",
+    "MORE": "Showing the first 100 matching customers. Refine the contact email if the customer is not listed.",
+    "SUBSCRIPTIONS": "Latest five subscriptions",
+    "SUBSCRIPTION": "Subscription",
+    "VIEW_SUBSCRIPTION": "View {name} subscription details",
+    "COPY_ID": "Copy ID",
+    "COPIED": "Copied",
+    "QUANTITY": "Quantity: {count}",
+    "PRICE_INTERVAL": "{amount} / {interval}",
+    "INTERVAL": {
+      "day": "day | {count} days",
+      "week": "week | {count} weeks",
+      "month": "month | {count} months",
+      "year": "year | {count} years"
+    },
+    "VARIABLE_PRICE": "Usage-based or tiered pricing",
+    "RENEWS": "Renews {date}",
+    "PERIOD_START": "Period starts {date}",
+    "PERIOD_END": "Period ends {date}",
+    "TRIAL_ENDS": "Trial ends {date}",
+    "CANCELS": "Cancels {date}",
+    "CANCELS_AT_PERIOD_END": "Cancels at the end of the billing period",
+    "CANCELED_ON": "Canceled {date}",
+    "MORE_ITEMS": "Additional subscription items are not shown.",
+    "PRICE_NOTE": "Prices are per unit, before discounts and taxes. They are not an estimate of the next invoice.",
+    "INVOICES": "Recent invoices",
+    "NO_SUBSCRIPTIONS": "No subscriptions found.",
+    "NO_INVOICES": "No invoices found."
+  },
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "ஷாப்பிபை",
@@ -11,10 +61,24 @@
         "LABEL": "கடை URL",
         "PLACEHOLDER": "your-store.myshopify.com",
         "HELP": "உங்கள் Shopify கடையின் myshopify.com URL ஐ உள்ளிடவும்",
+        "INVALID_URL": "Please enter a valid Shopify store URL (e.g., your-store.myshopify.com)",
         "CANCEL": "ரத்துசெய்",
         "SUBMIT": "கடை இணைக்கவும்"
       },
-      "ERROR": "Shopify-க்கு இணைக்கும்போது பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சிக்கவும் அல்லது பிரச்சினை தொடர்ந்தால் ஆதரவுடன் தொடர்பு கொள்ளவும்."
+      "HELP_TEXT": {
+        "TITLE": "How to use the Shopify Integration?",
+        "BODY": "With this integration, your Shopify store ***{storeDomain}*** is connected to your Chatwoot workspace. Here's what you can do:\n\n**Track orders in conversations:** When you open a conversation, the Shopify sidebar will automatically display recent orders for the customer based on their email address. This gives your support team instant context without switching tabs.\n\n**Access order details:** View order status, fulfillment status, and total amount directly within the conversation panel."
+      },
+      "ERROR": "Shopify-க்கு இணைக்கும்போது பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சிக்கவும் அல்லது பிரச்சினை தொடர்ந்தால் ஆதரவுடன் தொடர்பு கொள்ளவும்.",
+      "PENDING_INSTALL": {
+        "SUCCESS": "Shopify store connected successfully.",
+        "ERROR": "Unable to complete the Shopify installation. Please try again."
+      },
+      "SELECT_ACCOUNT": {
+        "TITLE": "Choose a workspace",
+        "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
+        "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+      }
     },
     "HEADER": "சேர்ப்புகள்",
     "DESCRIPTION": "Chatwoot பல கருவிகள் மற்றும் சேவைகளுடன் ஒருங்கிணைக்கிறது, உங்கள் குழுவின் திறனை மேம்படுத்த. உங்கள் விருப்ப செயலிகளை அமைக்க கீழே உள்ள பட்டியலை ஆராயவும்.",
@@ -135,7 +199,23 @@
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
         "BODY": "இந்த ஒருங்கிணைப்புடன், உங்களுக்குள் வரும் அனைத்து உரையாடல்களும் உங்கள் Slack பணிமிடத்தில் உள்ள ***{selectedChannelName}*** சேனலுடன் ஒத்திசைக்கப்படும். அந்த சேனலுக்குள்ளேயே உங்கள் அனைத்து வாடிக்கையாளர் உரையாடல்களையும் நிர்வகிக்கலாம்; இதனால் எந்தச் செய்தியையும் தவறவிடமாட்டீர்கள்.\n\nஇந்த ஒருங்கிணைப்பின் முக்கிய அம்சங்கள் இவை:\n\n**Slack-இலிருந்தே உரையாடல்களுக்கு பதிலளிக்கவும்:** ***{selectedChannelName}*** Slack சேனலில் உள்ள ஒரு உரையாடலுக்கு பதிலளிக்க, உங்கள் செய்தியைத் தட்டச்சு செய்து அதை thread ஆக அனுப்பினால் போதும். இதனால் Chatwoot வழியாக வாடிக்கையாளருக்கு ஒரு பதில் உருவாகும். அவ்வளவுதான்!\n\n **தனிப்பட்ட குறிப்புகளை உருவாக்கவும்:** பதில்களுக்கு பதிலாக தனிப்பட்ட குறிப்புகளை உருவாக்க விரும்பினால், உங்கள் செய்தியை ***`note:`*** என்று தொடங்குங்கள். இதனால் உங்கள் செய்தி தனிப்பட்டதாகவே இருக்கும், மேலும் அது வாடிக்கையாளருக்குப் புலப்படாது.\n\n**ஒரு முகவர் சுயவிவரத்தை இணைக்கவும்:** Slack-இல் பதிலளித்த நபருக்கு, அதே மின்னஞ்சலுடன் Chatwoot-இல் ஒரு முகவர் சுயவிவரம் இருந்தால், அந்த பதில்கள் தானாகவே அந்த முகவர் சுயவிவரத்துடன் இணைக்கப்படும். இதன் மூலம் யார் என்ன, எப்போது சொன்னார் என்பதை எளிதாகக் கண்காணிக்கலாம். மறுபுறம், பதிலளிப்பவருக்கு தொடர்புடைய முகவர் சுயவிவரம் இல்லையெனில், வாடிக்கையாளருக்கு அந்த பதில்கள் bot சுயவிவரத்திலிருந்து வந்ததுபோல் தோன்றும்.",
+        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
         "SELECTED": "தேர்ந்தெடுக்கப்பட்டது"
+      },
+      "MESSAGE_MODE": {
+        "TITLE": "Slack thread behaviour",
+        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "OPTIONS": {
+          "TWO_WAY": {
+            "LABEL": "Two-way sync",
+            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+          },
+          "ALERT": {
+            "LABEL": "Alerts only",
+            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+          }
+        },
+        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "ஒரு சேனலைத் தேர்ந்தெடுக்கவும்",
@@ -386,6 +466,37 @@
         "BUTTON_TEXT": "Linear வேலைப்பகுதியை இணைக்கவும்"
       }
     },
+    "GOOGLE_TRANSLATE": {
+      "HEADER": "Google Translate",
+      "DELETE_MESSAGE": "Agents won't be able to translate messages with Google Translate anymore. If Google Translate is your translation service, auto-translate stops until you pick another one.",
+      "SETUP": {
+        "TITLE": "Set up Google Translate",
+        "DESCRIPTION": "You'll need a Google Cloud project. It takes about five minutes.",
+        "STEPS": {
+          "ENABLE_API": {
+            "TITLE": "Turn on the Cloud Translation API",
+            "DESCRIPTION": "Pick a project in the Google Cloud console and enable the Cloud Translation API. Note the project ID.",
+            "LINK": "Open Cloud Translation API"
+          },
+          "CREATE_KEY": {
+            "TITLE": "Create a service account key",
+            "DESCRIPTION": "Create a service account with the Cloud Translation API User role. Then open it, go to Keys, and add a JSON key.",
+            "LINK": "Open service accounts"
+          },
+          "CONNECT": {
+            "TITLE": "Connect it here",
+            "DESCRIPTION": "Click Connect, enter the project ID and paste the key file. We check it with Google before saving."
+          }
+        }
+      },
+      "DETAILS": {
+        "PROJECT": "Google Cloud project",
+        "SERVICE": "Translation service",
+        "SERVICE_GOOGLE": "Google Translate handles all translation in your conversations. When auto-translate is on, it translates incoming messages into each agent's language and sends replies in the customer's language. Agents also use it when they translate a message from its menu.",
+        "SERVICE_OTHER": "Captain is selected as your translation service, so Google Translate isn't used right now. Auto-translate and the Translate action on messages both go through Captain. Switch the service to Google Translate to use this integration instead.",
+        "CHANGE": "மாற்ற"
+      }
+    },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
@@ -411,11 +522,14 @@
         "DISMISS": "Dismiss"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
         "DISMISS": "Dismiss"
       },
       "RANGES": {
+        "INSUFFICIENT_HISTORY": "Not enough reporting history yet",
+        "THIS_WEEK": "This week",
+        "LAST_WEEK": "Last week",
         "LAST_DAYS": "Last {count} days",
         "THIS_MONTH": "This month",
         "LAST_MONTH": "Last month"
@@ -423,31 +537,33 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Conversations handled",
-          "HINT": "Distinct conversations this assistant replied in."
+          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations closed without a human reply."
+          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
         },
         "HANDOFF": {
           "LABEL": "Handoff rate",
-          "HINT": "Share of handled conversations escalated to a human agent."
+          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
         },
         "HOURS_SAVED": {
           "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "HINT": "An estimate of how much agent reply time Captain saved.",
+          "NOTE": "Based on two minutes saved for each public Captain reply."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
-          "HINT": "Auto-resolved conversations that were reopened afterwards."
+          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
+          "NOTE": "Lower means more resolutions stayed resolved."
         },
         "DEPTH": {
           "LABEL": "Messages / conversation",
-          "HINT": "Average replies the assistant sends per conversation."
+          "HINT": "The average number of replies Captain sent in each conversation it handled.",
+          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Load more",
@@ -457,7 +573,7 @@
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
-        "PENDING": "நிலுவையில் உள்ள அடிக்கடி கேட்கப்படும் கேள்விகள்",
+        "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "ஆவணங்கள்"
       },
       "LINKS": {
@@ -472,6 +588,115 @@
         "BILLING": {
           "TITLE": "Billing",
           "DESCRIPTION": "Manage credits and plan"
+        }
+      },
+      "V2": {
+        "DRILLDOWN": {
+          "HANDLED": "Episodes where Captain participated during the selected period.",
+          "RESOLVED": "Episodes resolved by Captain without a handoff or human reply before resolution.",
+          "HANDED_OFF": "Episodes handed off after Captain participated.",
+          "REOPENED": "Captain-resolved episodes that subsequently reopened.",
+          "DURABLE": "Captain-resolved episodes that remained closed for at least seven days.",
+          "CLOSED_WITH_TEAM": "Episodes where Captain participated but neither resolved autonomously nor handed off.",
+          "REOPENED_WITHIN_7_DAYS": "Captain-resolved episodes that reopened within seven days.",
+          "STAYED_CLOSED": "Captain-resolved episodes with no reopen recorded within seven days. Recent resolutions are included.",
+          "HANDOFF_REASON": "Episodes handed off for this reason: {reason}.",
+          "COUNT": "No episodes | 1 episode | {count} episodes",
+          "EPISODES_HINT": "A conversation can appear more than once if Captain handled it in separate episodes. Episodes are grouped by when they started.",
+          "STARTED_AT": "Episode started {time}",
+          "RETRY": "Try again"
+        },
+        "EMPTY": "No data available for this period.",
+        "SUMMARY": {
+          "GREETING": "Hello, {name}!",
+          "DEFAULT_NAME": "there",
+          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
+          "PREVIOUS": "Previous summary point",
+          "NEXT": "Next summary point"
+        },
+        "UNITS": {
+          "DAYS": "{value}d",
+          "HOURS": "{value}h",
+          "MINUTES": "{value} min"
+        },
+        "METRICS": {
+          "TIME_SAVED": {
+            "LABEL": "Saved in agent effort and time"
+          },
+          "DURABLE": {
+            "LABEL": "Captain resolutions remained closed",
+            "NOT_APPLICABLE_HINT": "No resolutions in this period have seven days of follow-up yet. Durability is unavailable.",
+            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
+            "NOTE": "Only resolutions old enough to observe for seven days are included."
+          },
+          "MEDIAN_RESOLUTION": {
+            "LABEL": "Median resolution time",
+            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
+            "NOTE": "Lower means customers generally got resolved sooner."
+          },
+          "DEPTH": {
+            "LABEL": "Messages per conversation"
+          },
+          "OF_TOTAL": "of {total}"
+        },
+        "RESOLUTION_FLOW": {
+          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "NODES": {
+            "HANDLED": "Handled",
+            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
+            "HANDED_OFF": "Handed off",
+            "CLOSED_WITH_TEAM": "Closed with team",
+            "REOPENED": "Reopened in 7d",
+            "STAYED_CLOSED": "Stayed closed",
+            "OTHER_REASONS": "Other reasons"
+          }
+        },
+        "HANDOFF_REASONS": {
+          "TITLE": "Handoff reasons",
+          "CUSTOMER_REQUEST": "Customer requested",
+          "MISSING_KNOWLEDGE": "Missing knowledge",
+          "UNSUPPORTED_REQUEST": "Unsupported request",
+          "POLICY_RESTRICTION": "Policy restriction",
+          "TOOL_FAILURE": "Tool failure",
+          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PERCENTAGE": "({value}%)",
+          "USAGE_LIMIT": "Usage limit",
+          "UNCLASSIFIED": "Unclassified"
+        },
+        "RESOLUTION_TREND": {
+          "TITLE": "Resolution trend",
+          "COMPARISON_LABEL": "Weekday-aligned comparison",
+          "COMPARISON_HINT": "Compare resolution rates on matching weekdays, such as Monday with Monday.",
+          "COMPARISON_NOTE": "Today is compared up to the same time of day.",
+          "CONVERSATION_COUNT": "Conversation count",
+          "RESOLUTION_RATE": "Resolution rate",
+          "CURRENT_PERIOD": "Current period",
+          "PREVIOUS_PERIOD": "Previous period",
+          "HANDLED": "Handled",
+          "RESOLVED": "Resolved by Captain",
+          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
+          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+        },
+        "CSAT": {
+          "TITLE": "Captain CSAT",
+          "AUTONOMOUS": "Captain-resolved conversations",
+          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
+          "ASSISTED": "Captain-assisted conversations",
+          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
+          "VS_HUMANS": "{value} vs humans"
+        },
+        "USAGE": {
+          "TITLE": "Usage",
+          "CREDITS": "Credits",
+          "DOCUMENTS": "ஆவணங்கள்",
+          "USED": "({percentage}% used)",
+          "VALUE": "{used}/{total}",
+          "REFRESH": "Refresh usage",
+          "BUY_MORE": "Buy more credits"
+        },
+        "KNOWLEDGE": {
+          "SUGGESTED": "Suggested FAQs",
+          "REVIEW": "Review FAQs"
         }
       }
     },
@@ -492,6 +717,12 @@
       "YOU": "நீங்கள்",
       "USE": "இதைப் பயன்படுத்தவும்",
       "RESET": "மீட்டமைக்கவும்",
+      "NEW_CHAT": "New chat",
+      "HISTORY": "Past chats",
+      "NO_HISTORY": "Your past Copilot chats will appear here.",
+      "LOAD_MORE": "Load more chats",
+      "LOADING_CHAT": "Loading chat...",
+      "LOADING_HISTORY": "Loading past chats...",
       "SHOW_STEPS": "சரண்களை காட்டு",
       "SELECT_ASSISTANT": "உதவியாளரை தேர்வு செய்க",
       "PROMPTS": {
@@ -521,9 +752,93 @@
       "USER": "நீங்கள்",
       "ASSISTANT": "உதவியாளர்",
       "MESSAGE_PLACEHOLDER": "உங்கள் செய்தியை தட்டச்சு செய்யவும்...",
+      "SEND_MESSAGE": "Send message",
       "HEADER": "விளையாட்டு மைதானம்",
       "DESCRIPTION": "உங்கள் உதவியாளருக்கு செய்திகள் அனுப்பவும், அது துல்லியமாக, விரைவாக மற்றும் எதிர்பார்க்கும் தொனியில் பதிலளிக்கிறதா என சரிபார்க்க இந்த மைதானத்தை பயன்படுத்தவும்.",
-      "CREDIT_NOTE": "இங்கே அனுப்பப்படும் செய்திகள் உங்கள் Captain கிரெடிட்களுக்கு சேர்க்கப்படும்."
+      "CREDIT_NOTE": "இங்கே அனுப்பப்படும் செய்திகள் உங்கள் Captain கிரெடிட்களுக்கு சேர்க்கப்படும்.",
+      "CLEAR_CONVERSATION": "Clear conversation",
+      "RESPONSE_ERROR": "Captain could not complete this test run. Review the setup and try again.",
+      "SETUP": {
+        "TITLE": "Test setup",
+        "DESCRIPTION": "Changes here apply only to this playground session unless you explicitly save an item.",
+        "TOGGLE": "Toggle test setup",
+        "CLOSE": "Close test setup",
+        "RESET": "Reset test setup",
+        "TEMPORARY": "Temporary",
+        "SESSION_ONLY": "Session only",
+        "INCLUDE_IN_TEST": "Include in this test",
+        "ADD_TO_TEST": "Add to test (↵)",
+        "LOAD_ERROR": "The saved assistant setup could not be loaded.",
+        "INVALID_CONFIGURATION": "Complete or remove the included temporary scenarios before sending a message.",
+        "SAVE_SCENARIO_SUCCESS": "The scenario was saved and remains included in this test.",
+        "SAVE_SCENARIO_ERROR": "The scenario could not be saved.",
+        "SAVE_RULE_SUCCESS": "The rule was saved and remains included in this test.",
+        "SAVE_RULE_ERROR": "The rule could not be saved.",
+        "RULE_ALREADY_SAVED": "That exact rule is already saved, so no duplicate was created.",
+        "SCENARIOS": {
+          "TAB_TITLE": "நிகழ்வுகள்",
+          "CREATE_TITLE": "Add a temporary scenario",
+          "CREATE_HINT": "Try a new behavior without changing the assistant configuration.",
+          "SAVED_SUMMARY": "Existing scenarios ({count})",
+          "ADD_PERMANENTLY": "Add scenario permanently",
+          "DISABLED": "முடக்கப்பட்டது",
+          "EMPTY": "This assistant has no saved scenarios.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary scenario title...",
+          "COLLAPSE": "Collapse temporary scenario",
+          "EXPAND": "Expand temporary scenario",
+          "REMOVE": "Remove temporary scenario"
+        },
+        "GUIDELINES": {
+          "TAB_TITLE": "Guidelines",
+          "CREATE_TITLE": "Add a temporary guideline",
+          "CREATE_HINT": "Test a response preference before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guidelines ({count})",
+          "ADD_PERMANENTLY": "Add guideline permanently",
+          "EMPTY": "This assistant has no saved response guidelines.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guideline...",
+          "PLACEHOLDER": "ஒரு பதில் வழிகாட்டுதலைச் சேர்க்கவும்",
+          "REMOVE": "Remove temporary response guideline"
+        },
+        "GUARDRAILS": {
+          "TAB_TITLE": "பாதுகாப்பு கட்டுப்பாடுகள்",
+          "CREATE_TITLE": "Add a temporary guardrail",
+          "CREATE_HINT": "Test a safety boundary before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guardrails ({count})",
+          "ADD_PERMANENTLY": "Add guardrail permanently",
+          "EMPTY": "This assistant has no saved guardrails.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guardrail...",
+          "PLACEHOLDER": "ஒரு பாதுகாப்பு வரம்பைச் சேர்க்கவும்",
+          "REMOVE": "Remove temporary guardrail"
+        },
+        "KNOWLEDGE": {
+          "TAB_TITLE": "Knowledge",
+          "AVAILABLE_TITLE": "Knowledge available to Captain",
+          "AVAILABLE_DESCRIPTION": "Saved sources are summarized here and managed outside the playground.",
+          "DOCUMENTS": "ஆவணங்கள்",
+          "FAQS": "FAQs",
+          "TEMPORARY_TITLE": "Temporary knowledge",
+          "ADD_PERMANENTLY": "Add document permanently",
+          "LABEL": "Reference text",
+          "PLACEHOLDER": "Paste or write new knowledge for this test",
+          "HINT": "This text is attached only to playground requests unless you add it as a document."
+        },
+        "SAVE_KNOWLEDGE_SUCCESS": "Knowledge added as a document.",
+        "SAVE_KNOWLEDGE_ERROR": "Unable to add knowledge as a document."
+      },
+      "RUN_DETAILS": {
+        "SUMMARY": "Run details · {duration}ms",
+        "HANDLER_VALUE": "Handled by: {handler}",
+        "SCENARIOS": "No scenarios | One scenario | {count} scenarios",
+        "RULES": "{count} rules",
+        "KNOWLEDGE_ATTACHED": "Temporary knowledge was attached to this run.",
+        "NO_EVENTS": "No tool calls or scenario handoffs were recorded.",
+        "HANDOFF": "{from} → {to}",
+        "STATUS": {
+          "RUNNING": "Running",
+          "COMPLETED": "Completed",
+          "FAILED": "Failed"
+        }
+      }
     },
     "PAYWALL": {
       "TITLE": "Captain AI ஐ பயன்படுத்த மேம்படுத்தவும்",
@@ -552,7 +867,7 @@
       "ADD_NEW": "புதிய உதவியாளரை உருவாக்கவும்",
       "DELETE": {
         "TITLE": "உதவியாளரை நீக்க விரும்புகிறீர்களா?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
         "CONFIRM": "ஆம், நீக்கு",
         "SUCCESS_MESSAGE": "உதவியாளர் வெற்றிகரமாக நீக்கப்பட்டது",
         "ERROR_MESSAGE": "உதவியாளரை நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
@@ -592,12 +907,43 @@
           "PLACEHOLDER": "வரவேற்பு செய்தியை உள்ளிடவும்"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "கையளிக்கும் செய்தி",
+          "LABEL": "Handoff message",
           "PLACEHOLDER": "ஹேண்ட்ஓப் செய்தியை உள்ளிடவும்"
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "Resolution Message",
           "PLACEHOLDER": "Enter resolution message"
+        },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "When customers stop replying",
+          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "MODE_LABEL": "Action when the customer stops replying",
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
+          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
         },
         "INSTRUCTIONS": {
           "LABEL": "வழிமுறைகள்",
@@ -609,6 +955,48 @@
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
           "ALLOW_CITATIONS": "Include source citations in responses",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "Everyone",
+            "DESC": "Captain responds to every conversation in connected inboxes."
+          },
+          "SPECIFIC": {
+            "LABEL": "Specific audience",
+            "DESC": "Captain responds only to customers who match the conditions below."
+          },
+          "ADD_CONDITION": "Add condition",
+          "ADD_GROUP": "Add condition group",
+          "EMPTY_TITLE": "No conditions yet",
+          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "MATCH_PREFIX": "Match",
+          "MATCH_SUFFIX": "of the following",
+          "MATCH_ALL": "எல்லாம்",
+          "MATCH_ANY": "any",
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "Conversation",
+          "GROUP_CUSTOM": "Custom attributes",
+          "BROWSER_LANGUAGE": "Browser language",
+          "CONVERSATION_LANGUAGE": "First message language",
+          "LOGGED_IN": "Logged-in user",
+          "LOGGED_IN_TRUE": "ஆம்",
+          "LOGGED_IN_FALSE": "இல்லை"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "Anytime",
+            "DESC": "Captain responds to every conversation, regardless of time."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESC": "Captain responds only within each inbox's business hours."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESC": "Captain responds only when each inbox is closed."
+          },
+          "HINT": "Inboxes without business hours configured are always covered."
         }
       },
       "EDIT": {
@@ -625,7 +1013,16 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "கணினி அமைப்புகள்",
-          "DESCRIPTION": "ஒரு உரையாடலை முடிக்கும்போது அல்லது மனிதருக்கு மாற்றும்போது உதவியாளர் என்ன கூற வேண்டும் என்பதை தனிப்பயனாக்கவும்."
+          "DESCRIPTION": "ஒரு உரையாடலை முடிக்கும்போது அல்லது மனிதருக்கு மாற்றும்போது உதவியாளர் என்ன கூற வேண்டும் என்பதை தனிப்பயனாக்கவும்.",
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+        },
+        "AUDIENCE": {
+          "TITLE": "Audience",
+          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+        },
+        "SCHEDULE": {
+          "TITLE": "Schedule",
+          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "விளையாட்டு விஷயங்கள்",
@@ -643,7 +1040,7 @@
         },
         "DELETE": {
           "TITLE": "உதவியாளரை நீக்கு",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
           "BUTTON_TEXT": "{assistantName} ஐ நீக்கு"
         }
       },
@@ -794,6 +1191,11 @@
           "CANCEL": "ரத்துசெய்",
           "UPDATE": "Update changes"
         },
+        "STATUS": {
+          "ENABLED": "இயக்கப்பட்டது",
+          "DISABLED": "முடக்கப்பட்டது",
+          "TOGGLE": "Toggle {title}"
+        },
         "LIST": {
           "SEARCH_PLACEHOLDER": "தேடுக..."
         },
@@ -808,6 +1210,11 @@
             "SUCCESS": "Scenarios updated successfully",
             "ERROR": "காட்சிகள் புதுப்பிப்பதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           },
+          "TOGGLE": {
+            "ENABLED": "Scenario enabled successfully",
+            "DISABLED": "Scenario disabled successfully",
+            "ERROR": "There was an error updating the scenario status, please try again."
+          },
           "DELETE": {
             "SUCCESS": "காட்சிகள் வெற்றிகரமாக நீக்கப்பட்டன",
             "ERROR": "சூழல்களை நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
@@ -819,6 +1226,8 @@
       "HEADER": "ஆவணங்கள்",
       "ADD_NEW": "புதிய ஆவணத்தை உருவாக்கவும்",
       "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
+      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
       "SELECTED": "{count} தேர்ந்தெடுக்கப்பட்டது",
       "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடு ({count})",
       "UNSELECT_ALL": "அனைத்தையும் தேர்விலிருந்து நீக்கு ({count})",
@@ -856,7 +1265,8 @@
         },
         "SORT": {
           "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "Most used in conversations"
         },
         "SEARCH_PLACEHOLDER": "Search..."
       },
@@ -884,6 +1294,7 @@
         "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
         "SOURCE": "Source",
         "GENERATED_FAQS": "Generated FAQs",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
         "LAST_UPDATED": "Last updated",
         "NOT_AVAILABLE": "Not available",
         "CONTENT_TAB": "Crawled content",
@@ -957,6 +1368,56 @@
     "CUSTOM_TOOLS": {
       "HEADER": "கருவிகள்",
       "ADD_NEW": "புதிய கருவியை உருவாக்கவும்",
+      "CATALOG": {
+        "BUTTON": "Tools Catalog",
+        "HEADER": "Tools Catalog",
+        "DESCRIPTION": "Browse toolsets from the Captain tools catalog and install them on this assistant.",
+        "ALL": "எல்லாம்",
+        "EMPTY": "No toolsets in this category yet.",
+        "LOAD_ERROR": "Could not load the tools catalog. Check the catalog URL in the Captain settings.",
+        "TOOL_COUNT": "{n} tool | {n} tools",
+        "VERSION": "v{version}",
+        "UPDATED": "Updated {time}",
+        "REPOSITORY": "Repository",
+        "MANIFEST": "Manifest",
+        "CONFIGURATION": "கட்டமைப்பு",
+        "REQUIRED": "தேவை",
+        "DETAILS_ERROR": "Could not load the toolset details.",
+        "INSTALLED": "Installed",
+        "UPDATE_AVAILABLE": "Update available"
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Choose an assistant",
+        "DESCRIPTION": "Pick the assistant to install this toolset on.",
+        "PLACEHOLDER": "Select an assistant",
+        "LOAD_ERROR": "Could not load your assistants. Reload the page to try again."
+      },
+      "INSTALL_MANIFEST": {
+        "TITLE": "Install a toolset",
+        "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
+        "TOOLS_LABEL": "கருவிகள்",
+        "CONFIGURATION_LABEL": "கட்டமைப்பு",
+        "CONTINUE": "Continue",
+        "INSTALL": "Install",
+        "UPDATE": "புதுப்பிப்பு",
+        "REINSTALL": "Reinstall",
+        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
+        "ALREADY_INSTALLED": "Already installed",
+        "SUCCESS_MESSAGE": "Toolset installed",
+        "ERROR_MESSAGE": "Could not install the toolset",
+        "PREVIEW_ERROR": "Could not load the toolset"
+      },
+      "ASSISTANT_TOOLS_BANNER": {
+        "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
+        "LEARN_MORE": "Learn more",
+        "DISMISS": "Dismiss announcement",
+        "MODAL_TITLE": "Your assistants now have their own tools",
+        "MODAL_DESCRIPTION": "Each assistant now has a separate list of custom tools. We copied your existing tools to every assistant, so nothing is missing.",
+        "MODAL_INSTRUCTIONS": "When you add, edit, turn off, or delete a tool, the change applies only to the assistant you're currently viewing. Switch assistants at the top of the page to review or customize their tools.",
+        "ACKNOWLEDGE": "Got it"
+      },
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "தனிப்பயன் கருவிகள் இல்லை",
@@ -969,12 +1430,34 @@
       "FORM_DESCRIPTION": "உங்கள் தனிப்பயன் கருவியை வெளிப்புற API-களுடன் இணைக்க அமைக்கவும்",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
+        "VIEW_TOOL": "View tool",
         "DELETE_TOOL": "கருவியை நீக்கு"
+      },
+      "STATUS": {
+        "ENABLED": "இயக்கப்பட்டது",
+        "DISABLED": "முடக்கப்பட்டது",
+        "TOGGLE": "Toggle {title}"
+      },
+      "TOGGLE": {
+        "ENABLED": "Tool enabled successfully",
+        "DISABLED": "Tool disabled successfully",
+        "ERROR": "Failed to update tool status"
+      },
+      "DISABLE_CONFIRMATION": {
+        "TITLE": "Disable {title}?",
+        "DESCRIPTION_ONE": "This tool is used by {count} enabled scenario. Disabling it may cause that scenario to stop working as expected.",
+        "DESCRIPTION_OTHER": "This tool is used by {count} enabled scenarios. Disabling it may cause those scenarios to stop working as expected.",
+        "CONFIRM": "Disable tool"
       },
       "CREATE": {
         "TITLE": "தனிப்பயன் கருவி உருவாக்கவும்",
         "SUCCESS_MESSAGE": "தனிப்பயன் கருவி வெற்றிகரமாக உருவாக்கப்பட்டது",
         "ERROR_MESSAGE": "தனிப்பயன் கருவி உருவாக்க முடியவில்லை"
+      },
+      "VIEW": {
+        "TITLE": "Custom Tool Details",
+        "REQUEST": "Request and response",
+        "INSTALLED_NOTE": "This tool is read-only because it was installed from the Tools Catalog."
       },
       "EDIT": {
         "TITLE": "தனிப்பயன் கருவியைத் திருத்து",
@@ -1028,6 +1511,11 @@
         "AUTH_TYPE": {
           "LABEL": "அங்கீகார வகை"
         },
+        "EMAIL_VERIFICATION": {
+          "LABEL": "Require email verification",
+          "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code.",
+          "IMPLIED": "A parameter takes the customer's verified email, so email verification is always required."
+        },
         "AUTH_TYPES": {
           "NONE": "எதுவும் இல்லை",
           "BEARER": "Bearer டோக்கன்",
@@ -1045,6 +1533,19 @@
           "API_KEY_PLACEHOLDER": "X-API-கீ",
           "API_VALUE": "தலைப்பு மதிப்பு",
           "API_VALUE_PLACEHOLDER": "API விசை மதிப்பை உள்ளிடவும்"
+        },
+        "SECTIONS": {
+          "TEMPLATES": "Templates",
+          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Headers",
+          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
+          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
+          "VALUE_PLACEHOLDER": "Header value",
+          "NAME_REQUIRED": "Header name is required",
+          "NAME_DUPLICATE": "Header names must be unique",
+          "ADD": "Add Header"
         },
         "PARAMETERS": {
           "LABEL": "பரிமாணங்கள்",
@@ -1070,6 +1571,21 @@
         "PARAM_REQUIRED": {
           "LABEL": "தேவை"
         },
+        "RISK": {
+          "MEDIUM": "This tool may return customer data. Consider requiring email verification.",
+          "HIGH": "This tool looks like it reads or changes customer data. Require email verification so only a verified customer can use it.",
+          "TITLE": "Save without email verification?",
+          "GO_BACK": "Go back",
+          "SAVE_ANYWAY": "Save anyway",
+          "EMAIL_PARAM": "This email is not verified. A customer could type someone else's.",
+          "USE_VERIFIED_EMAIL": "Use verified email"
+        },
+        "VERIFIED_VALUES": {
+          "ADD": "Add verified email",
+          "EMAIL": "Contact email",
+          "EMAIL_DESCRIPTION": "The contact's verified email address",
+          "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations."
+        },
         "REQUEST_TEMPLATE": {
           "LABEL": "கோரிக்கை உடல் வார்ப்புரு (விருப்பமானது)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
@@ -1085,8 +1601,8 @@
     },
     "RESPONSES": {
       "HEADER": "அடிக்கடி கேட்கப்படும் கேள்விகள்",
-      "PENDING_FAQS": "நிலுவையில் உள்ள அடிக்கடி கேட்கப்படும் கேள்விகள்",
       "ADD_NEW": "புதிய FAQ உருவாக்கவும்",
+      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "உரையாடல் #{id}"
       },
@@ -1094,12 +1610,10 @@
       "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடு ({count})",
       "UNSELECT_ALL": "அனைத்தையும் தேர்விலிருந்து நீக்கு ({count})",
       "SEARCH_PLACEHOLDER": "அடிக்கடி கேட்கப்படும் கேள்விகள் தேடவும்...",
-      "BULK_APPROVE_BUTTON": "அங்கீகாரம் செய்யவும்",
-      "BULK_DELETE_BUTTON": "அழிக்கவும்",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "அடிக்கடி கேட்கப்படும் கேள்விகள் வெற்றிகரமாக அங்கீகாரம் செய்யப்பட்டது",
-        "ERROR_MESSAGE": "அடிக்கடி கேட்கப்படும் கேள்விகளை அங்கீகாரம் செய்யும்போது பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "அழிக்கவும்",
       "BULK_DELETE": {
         "TITLE": "அடிக்கடி கேட்கப்படும் கேள்விகளை நீக்கவா?",
         "DESCRIPTION": "தேர்ந்தெடுக்கப்பட்ட அடிக்கடி கேட்கப்படும் கேள்விகளை நீக்க விரும்புகிறீர்களா? இந்த நடவடிக்கை மீட்க முடியாது.",
@@ -1114,20 +1628,9 @@
         "SUCCESS_MESSAGE": "FAQ வெற்றிகரமாக நீக்கப்பட்டது",
         "ERROR_MESSAGE": "FAQ-ஐ நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
       },
-      "FILTER": {
-        "ASSISTANT": "உதவியாளர்: {selected}",
-        "STATUS": "நிலை: {selected}",
-        "ALL_ASSISTANTS": "எல்லாம்"
-      },
-      "STATUS": {
-        "TITLE": "நிலை",
-        "PENDING": "நிலுவையில் உள்ளது",
-        "APPROVED": "அங்கீகாரம் பெற்றது",
-        "ALL": "எல்லாம்"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "உங்கள் வாடிக்கையாளர்கள் தேடிய சில அடிக்கடி கேட்கப்படும் கேள்விகளை Captain கண்டுபிடித்துள்ளது.",
-        "ACTION": "சரிபார்க்க இங்கே கிளிக் செய்யவும்"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "ஒரு கேள்வி மற்றும் அதற்கான பதிலை அறிவுத்தளத்தில் சேர்க்கவும் மற்றும் அது தொடர்புபடுத்த வேண்டிய உதவியாளரை தேர்ந்தெடுக்கவும்.",
       "CREATE": {
@@ -1160,13 +1663,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "ஏதுமில்லை கேள்விகள்",
-        "NO_PENDING_TITLE": "பரிசீலிக்க வேண்டிய மேலதிக கேள்விகள் இல்லை",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
         "CLEAR_SEARCH": "செயலில் உள்ள வடிகட்டிகளை அழிக்கவும்",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain அடிக்கடி கேட்கப்படும் கேள்விகள்",
           "NOTE": "Captain FAQs பொதுவான வாடிக்கையாளர் கேள்விகளை கண்டறிந்து அவை உங்கள் அறிவுத்தளத்தில் இல்லையெனில் அல்லது அடிக்கடி கேட்கப்படும் தொடர்புடைய FAQs உருவாக்கி ஆதரவை மேம்படுத்துகிறது. ஒவ்வொரு பரிந்துரையையும் நீங்கள் மதிப்பாய்வு செய்து ஒப்புதல் அல்லது நிராகரிப்பு செய்ய முடியும்."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "அங்கீகரிக்கவும்",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Save changes",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

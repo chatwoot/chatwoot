@@ -1,4 +1,54 @@
 {
+  "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "Stripe is unavailable for this account. Contact your administrator to check the integration configuration.",
+    "TITLE": "Stripe",
+    "DESCRIPTION": "View customer details, subscriptions, and invoices alongside your conversations.",
+    "CONNECT": "ബന്ധിപ്പിക്കുക",
+    "DISCONNECT": "Disconnect from Chatwoot",
+    "DISCONNECT_NOTE": "Disconnecting removes the saved credentials from Chatwoot. Uninstall the app in Stripe to revoke its access there.",
+    "CONNECTED": "Connected",
+    "RECONNECT": "Reconnect Stripe",
+    "REAUTHORIZATION_REQUIRED": "Reconnect required",
+    "ACCOUNT": "Connected account",
+    "ACCOUNT_ID": "Account ID",
+    "ENVIRONMENT": "Environment",
+    "SANDBOX": "സാൻഡ്‌ബോക്സ്",
+    "LIVE": "Live",
+    "CONNECTED_ON": "Connected on",
+    "OPEN_STRIPE": "Open Stripe dashboard",
+    "ERROR": "Unable to load Stripe. Please try again or reconnect the integration.",
+    "EMPTY": "No Stripe customer matches this contact's email.",
+    "NO_EMAIL": "Add an email to this contact to look up Stripe customers.",
+    "SELECT": "Select a matching customer",
+    "CUSTOMER_OPTION": "{name} — {id}",
+    "MORE": "Showing the first 100 matching customers. Refine the contact email if the customer is not listed.",
+    "SUBSCRIPTIONS": "Latest five subscriptions",
+    "SUBSCRIPTION": "Subscription",
+    "VIEW_SUBSCRIPTION": "View {name} subscription details",
+    "COPY_ID": "Copy ID",
+    "COPIED": "Copied",
+    "QUANTITY": "Quantity: {count}",
+    "PRICE_INTERVAL": "{amount} / {interval}",
+    "INTERVAL": {
+      "day": "day | {count} days",
+      "week": "week | {count} weeks",
+      "month": "month | {count} months",
+      "year": "year | {count} years"
+    },
+    "VARIABLE_PRICE": "Usage-based or tiered pricing",
+    "RENEWS": "Renews {date}",
+    "PERIOD_START": "Period starts {date}",
+    "PERIOD_END": "Period ends {date}",
+    "TRIAL_ENDS": "Trial ends {date}",
+    "CANCELS": "Cancels {date}",
+    "CANCELS_AT_PERIOD_END": "Cancels at the end of the billing period",
+    "CANCELED_ON": "Canceled {date}",
+    "MORE_ITEMS": "Additional subscription items are not shown.",
+    "PRICE_NOTE": "Prices are per unit, before discounts and taxes. They are not an estimate of the next invoice.",
+    "INVOICES": "Recent invoices",
+    "NO_SUBSCRIPTIONS": "No subscriptions found.",
+    "NO_INVOICES": "No invoices found."
+  },
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "ഷോപ്പിഫൈ",
@@ -11,10 +61,24 @@
         "LABEL": "സ്റ്റോർ URL",
         "PLACEHOLDER": "your-store.myshopify.com",
         "HELP": "നിങ്ങളുടെ Shopify സ്റ്റോറിന്റെ myshopify.com URL നൽകുക",
+        "INVALID_URL": "Please enter a valid Shopify store URL (e.g., your-store.myshopify.com)",
         "CANCEL": "റദ്ദാക്കുക",
         "SUBMIT": "സ്റ്റോർ കണക്റ്റ് ചെയ്യുക"
       },
-      "ERROR": "Shopify-യുമായി ബന്ധപ്പെടുന്നതിൽ പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക അല്ലെങ്കിൽ പ്രശ്നം തുടരുകയാണെങ്കിൽ പിന്തുണയെ ബന്ധപ്പെടുക."
+      "HELP_TEXT": {
+        "TITLE": "How to use the Shopify Integration?",
+        "BODY": "With this integration, your Shopify store ***{storeDomain}*** is connected to your Chatwoot workspace. Here's what you can do:\n\n**Track orders in conversations:** When you open a conversation, the Shopify sidebar will automatically display recent orders for the customer based on their email address. This gives your support team instant context without switching tabs.\n\n**Access order details:** View order status, fulfillment status, and total amount directly within the conversation panel."
+      },
+      "ERROR": "Shopify-യുമായി ബന്ധപ്പെടുന്നതിൽ പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക അല്ലെങ്കിൽ പ്രശ്നം തുടരുകയാണെങ്കിൽ പിന്തുണയെ ബന്ധപ്പെടുക.",
+      "PENDING_INSTALL": {
+        "SUCCESS": "Shopify store connected successfully.",
+        "ERROR": "Unable to complete the Shopify installation. Please try again."
+      },
+      "SELECT_ACCOUNT": {
+        "TITLE": "Choose a workspace",
+        "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
+        "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+      }
     },
     "HEADER": "സംയോജനങ്ങൾ",
     "DESCRIPTION": "Chatwoot നിങ്ങളുടെ ടീമിന്റെ കാര്യക്ഷമത മെച്ചപ്പെടുത്താൻ നിരവധി ടൂളുകളും സേവനങ്ങളും സംയോജിപ്പിക്കുന്നു. നിങ്ങളുടെ പ്രിയപ്പെട്ട ആപ്പുകൾ ക്രമീകരിക്കാൻ താഴെ നൽകിയ പട്ടിക പരിശോധിക്കുക.",
@@ -135,7 +199,23 @@
       "HELP_TEXT": {
         "TITLE": "സ്ലാക്ക് ഇന്റഗ്രേഷൻ ഉപയോഗിക്കുന്നു",
         "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
         "SELECTED": "തിരഞ്ഞെടുത്തത്"
+      },
+      "MESSAGE_MODE": {
+        "TITLE": "Slack thread behaviour",
+        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "OPTIONS": {
+          "TWO_WAY": {
+            "LABEL": "Two-way sync",
+            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+          },
+          "ALERT": {
+            "LABEL": "Alerts only",
+            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+          }
+        },
+        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "ഒരു ചാനൽ തിരഞ്ഞെടുക്കുക",
@@ -386,6 +466,37 @@
         "BUTTON_TEXT": "Linear വർക്‌സ്പേസ് ബന്ധിപ്പിക്കുക"
       }
     },
+    "GOOGLE_TRANSLATE": {
+      "HEADER": "Google Translate",
+      "DELETE_MESSAGE": "Agents won't be able to translate messages with Google Translate anymore. If Google Translate is your translation service, auto-translate stops until you pick another one.",
+      "SETUP": {
+        "TITLE": "Set up Google Translate",
+        "DESCRIPTION": "You'll need a Google Cloud project. It takes about five minutes.",
+        "STEPS": {
+          "ENABLE_API": {
+            "TITLE": "Turn on the Cloud Translation API",
+            "DESCRIPTION": "Pick a project in the Google Cloud console and enable the Cloud Translation API. Note the project ID.",
+            "LINK": "Open Cloud Translation API"
+          },
+          "CREATE_KEY": {
+            "TITLE": "Create a service account key",
+            "DESCRIPTION": "Create a service account with the Cloud Translation API User role. Then open it, go to Keys, and add a JSON key.",
+            "LINK": "Open service accounts"
+          },
+          "CONNECT": {
+            "TITLE": "Connect it here",
+            "DESCRIPTION": "Click Connect, enter the project ID and paste the key file. We check it with Google before saving."
+          }
+        }
+      },
+      "DETAILS": {
+        "PROJECT": "Google Cloud project",
+        "SERVICE": "Translation service",
+        "SERVICE_GOOGLE": "Google Translate handles all translation in your conversations. When auto-translate is on, it translates incoming messages into each agent's language and sends replies in the customer's language. Agents also use it when they translate a message from its menu.",
+        "SERVICE_OTHER": "Captain is selected as your translation service, so Google Translate isn't used right now. Auto-translate and the Translate action on messages both go through Captain. Switch the service to Google Translate to use this integration instead.",
+        "CHANGE": "മാറ്റം വരുത്തുക"
+      }
+    },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
@@ -411,11 +522,14 @@
         "DISMISS": "Dismiss"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
         "DISMISS": "Dismiss"
       },
       "RANGES": {
+        "INSUFFICIENT_HISTORY": "Not enough reporting history yet",
+        "THIS_WEEK": "This week",
+        "LAST_WEEK": "Last week",
         "LAST_DAYS": "Last {count} days",
         "THIS_MONTH": "This month",
         "LAST_MONTH": "Last month"
@@ -423,31 +537,33 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Conversations handled",
-          "HINT": "Distinct conversations this assistant replied in."
+          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations closed without a human reply."
+          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
         },
         "HANDOFF": {
           "LABEL": "Handoff rate",
-          "HINT": "Share of handled conversations escalated to a human agent."
+          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
         },
         "HOURS_SAVED": {
           "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "HINT": "An estimate of how much agent reply time Captain saved.",
+          "NOTE": "Based on two minutes saved for each public Captain reply."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
-          "HINT": "Auto-resolved conversations that were reopened afterwards."
+          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
+          "NOTE": "Lower means more resolutions stayed resolved."
         },
         "DEPTH": {
           "LABEL": "Messages / conversation",
-          "HINT": "Average replies the assistant sends per conversation."
+          "HINT": "The average number of replies Captain sent in each conversation it handled.",
+          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Load more",
@@ -457,7 +573,7 @@
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
-        "PENDING": "പെൻഡിംഗ് എഫ്എക്യുസുകൾ",
+        "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "ഡോക്യുമെന്റുകൾ"
       },
       "LINKS": {
@@ -472,6 +588,115 @@
         "BILLING": {
           "TITLE": "ബില്ലിംഗ്",
           "DESCRIPTION": "Manage credits and plan"
+        }
+      },
+      "V2": {
+        "DRILLDOWN": {
+          "HANDLED": "Episodes where Captain participated during the selected period.",
+          "RESOLVED": "Episodes resolved by Captain without a handoff or human reply before resolution.",
+          "HANDED_OFF": "Episodes handed off after Captain participated.",
+          "REOPENED": "Captain-resolved episodes that subsequently reopened.",
+          "DURABLE": "Captain-resolved episodes that remained closed for at least seven days.",
+          "CLOSED_WITH_TEAM": "Episodes where Captain participated but neither resolved autonomously nor handed off.",
+          "REOPENED_WITHIN_7_DAYS": "Captain-resolved episodes that reopened within seven days.",
+          "STAYED_CLOSED": "Captain-resolved episodes with no reopen recorded within seven days. Recent resolutions are included.",
+          "HANDOFF_REASON": "Episodes handed off for this reason: {reason}.",
+          "COUNT": "No episodes | 1 episode | {count} episodes",
+          "EPISODES_HINT": "A conversation can appear more than once if Captain handled it in separate episodes. Episodes are grouped by when they started.",
+          "STARTED_AT": "Episode started {time}",
+          "RETRY": "Try again"
+        },
+        "EMPTY": "No data available for this period.",
+        "SUMMARY": {
+          "GREETING": "Hello, {name}!",
+          "DEFAULT_NAME": "there",
+          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
+          "PREVIOUS": "Previous summary point",
+          "NEXT": "Next summary point"
+        },
+        "UNITS": {
+          "DAYS": "{value}d",
+          "HOURS": "{value}h",
+          "MINUTES": "{value} min"
+        },
+        "METRICS": {
+          "TIME_SAVED": {
+            "LABEL": "Saved in agent effort and time"
+          },
+          "DURABLE": {
+            "LABEL": "Captain resolutions remained closed",
+            "NOT_APPLICABLE_HINT": "No resolutions in this period have seven days of follow-up yet. Durability is unavailable.",
+            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
+            "NOTE": "Only resolutions old enough to observe for seven days are included."
+          },
+          "MEDIAN_RESOLUTION": {
+            "LABEL": "Median resolution time",
+            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
+            "NOTE": "Lower means customers generally got resolved sooner."
+          },
+          "DEPTH": {
+            "LABEL": "Messages per conversation"
+          },
+          "OF_TOTAL": "of {total}"
+        },
+        "RESOLUTION_FLOW": {
+          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "NODES": {
+            "HANDLED": "Handled",
+            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
+            "HANDED_OFF": "Handed off",
+            "CLOSED_WITH_TEAM": "Closed with team",
+            "REOPENED": "Reopened in 7d",
+            "STAYED_CLOSED": "Stayed closed",
+            "OTHER_REASONS": "Other reasons"
+          }
+        },
+        "HANDOFF_REASONS": {
+          "TITLE": "Handoff reasons",
+          "CUSTOMER_REQUEST": "Customer requested",
+          "MISSING_KNOWLEDGE": "Missing knowledge",
+          "UNSUPPORTED_REQUEST": "Unsupported request",
+          "POLICY_RESTRICTION": "Policy restriction",
+          "TOOL_FAILURE": "Tool failure",
+          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PERCENTAGE": "({value}%)",
+          "USAGE_LIMIT": "Usage limit",
+          "UNCLASSIFIED": "Unclassified"
+        },
+        "RESOLUTION_TREND": {
+          "TITLE": "Resolution trend",
+          "COMPARISON_LABEL": "Weekday-aligned comparison",
+          "COMPARISON_HINT": "Compare resolution rates on matching weekdays, such as Monday with Monday.",
+          "COMPARISON_NOTE": "Today is compared up to the same time of day.",
+          "CONVERSATION_COUNT": "Conversation count",
+          "RESOLUTION_RATE": "Resolution rate",
+          "CURRENT_PERIOD": "Current period",
+          "PREVIOUS_PERIOD": "Previous period",
+          "HANDLED": "Handled",
+          "RESOLVED": "Resolved by Captain",
+          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
+          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+        },
+        "CSAT": {
+          "TITLE": "Captain CSAT",
+          "AUTONOMOUS": "Captain-resolved conversations",
+          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
+          "ASSISTED": "Captain-assisted conversations",
+          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
+          "VS_HUMANS": "{value} vs humans"
+        },
+        "USAGE": {
+          "TITLE": "Usage",
+          "CREDITS": "Credits",
+          "DOCUMENTS": "ഡോക്യുമെന്റുകൾ",
+          "USED": "({percentage}% used)",
+          "VALUE": "{used}/{total}",
+          "REFRESH": "Refresh usage",
+          "BUY_MORE": "കൂടുതൽ ക്രെഡിറ്റുകൾ വാങ്ങുക"
+        },
+        "KNOWLEDGE": {
+          "SUGGESTED": "Suggested FAQs",
+          "REVIEW": "Review FAQs"
         }
       }
     },
@@ -492,6 +717,12 @@
       "YOU": "നിങ്ങൾ",
       "USE": "ഇത് ഉപയോഗിക്കുക",
       "RESET": "പുനഃസജ്ജമാക്കുക",
+      "NEW_CHAT": "New chat",
+      "HISTORY": "Past chats",
+      "NO_HISTORY": "Your past Copilot chats will appear here.",
+      "LOAD_MORE": "Load more chats",
+      "LOADING_CHAT": "Loading chat...",
+      "LOADING_HISTORY": "Loading past chats...",
       "SHOW_STEPS": "പടികൾ കാണിക്കുക",
       "SELECT_ASSISTANT": "സഹായി തിരഞ്ഞെടുക്കുക",
       "PROMPTS": {
@@ -521,9 +752,93 @@
       "USER": "നിങ്ങൾ",
       "ASSISTANT": "സഹായി",
       "MESSAGE_PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ടൈപ്പുചെയ്യുക...",
+      "SEND_MESSAGE": "സന്ദേശം അയയ്ക്കുക",
       "HEADER": "പ്ലേഗ്രൗണ്ട്",
       "DESCRIPTION": "നിങ്ങളുടെ അസിസ്റ്റന്റിന് സന്ദേശങ്ങൾ അയയ്ക്കാനും അത് ശരിയായി, വേഗത്തിൽ, നിങ്ങൾ പ്രതീക്ഷിക്കുന്ന ശൈലിയിൽ പ്രതികരിക്കുന്നുണ്ടോ എന്ന് പരിശോധിക്കാനും ഈ പ്ലേഗ്രൗണ്ട് ഉപയോഗിക്കുക.",
-      "CREDIT_NOTE": "ഇവിടെ അയച്ച സന്ദേശങ്ങൾ നിങ്ങളുടെ Captain ക്രെഡിറ്റുകളിൽ ഉൾപ്പെടും."
+      "CREDIT_NOTE": "ഇവിടെ അയച്ച സന്ദേശങ്ങൾ നിങ്ങളുടെ Captain ക്രെഡിറ്റുകളിൽ ഉൾപ്പെടും.",
+      "CLEAR_CONVERSATION": "Clear conversation",
+      "RESPONSE_ERROR": "Captain could not complete this test run. Review the setup and try again.",
+      "SETUP": {
+        "TITLE": "Test setup",
+        "DESCRIPTION": "Changes here apply only to this playground session unless you explicitly save an item.",
+        "TOGGLE": "Toggle test setup",
+        "CLOSE": "Close test setup",
+        "RESET": "Reset test setup",
+        "TEMPORARY": "Temporary",
+        "SESSION_ONLY": "Session only",
+        "INCLUDE_IN_TEST": "Include in this test",
+        "ADD_TO_TEST": "Add to test (↵)",
+        "LOAD_ERROR": "The saved assistant setup could not be loaded.",
+        "INVALID_CONFIGURATION": "Complete or remove the included temporary scenarios before sending a message.",
+        "SAVE_SCENARIO_SUCCESS": "The scenario was saved and remains included in this test.",
+        "SAVE_SCENARIO_ERROR": "The scenario could not be saved.",
+        "SAVE_RULE_SUCCESS": "The rule was saved and remains included in this test.",
+        "SAVE_RULE_ERROR": "The rule could not be saved.",
+        "RULE_ALREADY_SAVED": "That exact rule is already saved, so no duplicate was created.",
+        "SCENARIOS": {
+          "TAB_TITLE": "സന്നിവേശങ്ങൾ",
+          "CREATE_TITLE": "Add a temporary scenario",
+          "CREATE_HINT": "Try a new behavior without changing the assistant configuration.",
+          "SAVED_SUMMARY": "Existing scenarios ({count})",
+          "ADD_PERMANENTLY": "Add scenario permanently",
+          "DISABLED": "പ്രവർത്തനരഹിതമാക്കി",
+          "EMPTY": "This assistant has no saved scenarios.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary scenario title...",
+          "COLLAPSE": "Collapse temporary scenario",
+          "EXPAND": "Expand temporary scenario",
+          "REMOVE": "Remove temporary scenario"
+        },
+        "GUIDELINES": {
+          "TAB_TITLE": "Guidelines",
+          "CREATE_TITLE": "Add a temporary guideline",
+          "CREATE_HINT": "Test a response preference before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guidelines ({count})",
+          "ADD_PERMANENTLY": "Add guideline permanently",
+          "EMPTY": "This assistant has no saved response guidelines.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guideline...",
+          "PLACEHOLDER": "ഒരു പ്രതികരണ മാർഗരേഖ ചേർക്കുക",
+          "REMOVE": "Remove temporary response guideline"
+        },
+        "GUARDRAILS": {
+          "TAB_TITLE": "ഗാർഡ്‌റെയിൽസ്",
+          "CREATE_TITLE": "Add a temporary guardrail",
+          "CREATE_HINT": "Test a safety boundary before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guardrails ({count})",
+          "ADD_PERMANENTLY": "Add guardrail permanently",
+          "EMPTY": "This assistant has no saved guardrails.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guardrail...",
+          "PLACEHOLDER": "ഒരു ഗാർഡ്രെയിൽ ചേർക്കുക",
+          "REMOVE": "Remove temporary guardrail"
+        },
+        "KNOWLEDGE": {
+          "TAB_TITLE": "Knowledge",
+          "AVAILABLE_TITLE": "Knowledge available to Captain",
+          "AVAILABLE_DESCRIPTION": "Saved sources are summarized here and managed outside the playground.",
+          "DOCUMENTS": "ഡോക്യുമെന്റുകൾ",
+          "FAQS": "അടിക്കുറിപ്പുകൾ",
+          "TEMPORARY_TITLE": "Temporary knowledge",
+          "ADD_PERMANENTLY": "Add document permanently",
+          "LABEL": "Reference text",
+          "PLACEHOLDER": "Paste or write new knowledge for this test",
+          "HINT": "This text is attached only to playground requests unless you add it as a document."
+        },
+        "SAVE_KNOWLEDGE_SUCCESS": "Knowledge added as a document.",
+        "SAVE_KNOWLEDGE_ERROR": "Unable to add knowledge as a document."
+      },
+      "RUN_DETAILS": {
+        "SUMMARY": "Run details · {duration}ms",
+        "HANDLER_VALUE": "Handled by: {handler}",
+        "SCENARIOS": "No scenarios | One scenario | {count} scenarios",
+        "RULES": "{count} rules",
+        "KNOWLEDGE_ATTACHED": "Temporary knowledge was attached to this run.",
+        "NO_EVENTS": "No tool calls or scenario handoffs were recorded.",
+        "HANDOFF": "{from} → {to}",
+        "STATUS": {
+          "RUNNING": "Running",
+          "COMPLETED": "പൂർത്തിയാക്കി",
+          "FAILED": "Failed"
+        }
+      }
     },
     "PAYWALL": {
       "TITLE": "Captain AI ഉപയോഗിക്കാൻ അപ്ഗ്രേഡ് ചെയ്യുക",
@@ -552,7 +867,7 @@
       "ADD_NEW": "ഒരു പുതിയ അസിസ്റ്റന്റ് സൃഷ്‌ടിക്കുക",
       "DELETE": {
         "TITLE": "അസിസ്റ്റന്റ് ഇല്ലാതാക്കാൻ നിങ്ങൾ ഉറപ്പാണോ?",
-        "DESCRIPTION": "ഈ പ്രവർത്തനം സ്ഥിരമാണ്. ഈ അസിസ്റ്റന്റിനെ ഇല്ലാതാക്കുന്നത് എല്ലാ ബന്ധിപ്പിച്ച ഇൻബോക്സുകളിൽ നിന്നും അത് നീക്കം ചെയ്യുകയും സൃഷ്ടിച്ച എല്ലാ അറിവുകളും സ്ഥിരമായി മായ്ച്ചു കളയുകയും ചെയ്യും.",
+        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
         "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
         "SUCCESS_MESSAGE": "അസിസ്റ്റന്റ് വിജയകരമായി ഇല്ലാതാക്കി",
         "ERROR_MESSAGE": "അസിസ്റ്റന്റ് ഇല്ലാതാക്കുന്നതിൽ പിഴവ് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
@@ -592,12 +907,43 @@
           "PLACEHOLDER": "സ്വാഗത സന്ദേശം നൽകുക"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "ഹാൻഡ്ഓഫ് സന്ദേശം",
+          "LABEL": "Handoff message",
           "PLACEHOLDER": "ഹാൻഡ്ഓഫ് സന്ദേശം നൽകുക"
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "പരിഹാര സന്ദേശം",
           "PLACEHOLDER": "പരിഹാര സന്ദേശം നൽകുക"
+        },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "When customers stop replying",
+          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "MODE_LABEL": "Action when the customer stops replying",
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
+          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
         },
         "INSTRUCTIONS": {
           "LABEL": "നിർദ്ദേശങ്ങൾ",
@@ -609,6 +955,48 @@
           "ALLOW_MEMORIES": "ഉപഭോക്തൃ ഇടപെടലുകളിൽ നിന്നുള്ള പ്രധാന വിവരങ്ങൾ ഓർമ്മകളായി പിടിക്കുക.",
           "ALLOW_CITATIONS": "പ്രതികരണങ്ങളിൽ ഉറവിട ഉദ്ധരണികൾ ഉൾപ്പെടുത്തുക",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "Everyone",
+            "DESC": "Captain responds to every conversation in connected inboxes."
+          },
+          "SPECIFIC": {
+            "LABEL": "Specific audience",
+            "DESC": "Captain responds only to customers who match the conditions below."
+          },
+          "ADD_CONDITION": "Add condition",
+          "ADD_GROUP": "Add condition group",
+          "EMPTY_TITLE": "No conditions yet",
+          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "MATCH_PREFIX": "Match",
+          "MATCH_SUFFIX": "of the following",
+          "MATCH_ALL": "എല്ലാം",
+          "MATCH_ANY": "any",
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "സംഭാഷണം",
+          "GROUP_CUSTOM": "Custom attributes",
+          "BROWSER_LANGUAGE": "Browser language",
+          "CONVERSATION_LANGUAGE": "First message language",
+          "LOGGED_IN": "Logged-in user",
+          "LOGGED_IN_TRUE": "അതെ",
+          "LOGGED_IN_FALSE": "ഇല്ല"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "Anytime",
+            "DESC": "Captain responds to every conversation, regardless of time."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESC": "Captain responds only within each inbox's business hours."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESC": "Captain responds only when each inbox is closed."
+          },
+          "HINT": "Inboxes without business hours configured are always covered."
         }
       },
       "EDIT": {
@@ -625,7 +1013,16 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "സിസ്റ്റം ക്രമീകരണങ്ങൾ",
-          "DESCRIPTION": "സംവാദം അവസാനിപ്പിക്കുമ്പോഴും മനുഷ്യനിലേക്ക് കൈമാറുമ്പോഴും അസിസ്റ്റന്റ് പറയുന്നതു ഇഷ്ടാനുസൃതമാക്കുക."
+          "DESCRIPTION": "സംവാദം അവസാനിപ്പിക്കുമ്പോഴും മനുഷ്യനിലേക്ക് കൈമാറുമ്പോഴും അസിസ്റ്റന്റ് പറയുന്നതു ഇഷ്ടാനുസൃതമാക്കുക.",
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+        },
+        "AUDIENCE": {
+          "TITLE": "പ്രേക്ഷകർ",
+          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+        },
+        "SCHEDULE": {
+          "TITLE": "Schedule",
+          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "വിനോദകരമായ കാര്യങ്ങൾ",
@@ -643,7 +1040,7 @@
         },
         "DELETE": {
           "TITLE": "അസിസ്റ്റന്റ് ഇല്ലാതാക്കുക",
-          "DESCRIPTION": "ഈ പ്രവർത്തനം സ്ഥിരമാണ്. ഈ അസിസ്റ്റന്റ് ഇല്ലാതാക്കുന്നത് എല്ലാ ബന്ധിപ്പിച്ച ഇൻബോക്സുകളിൽ നിന്നും അത് നീക്കംചെയ്യുകയും സൃഷ്ടിച്ച എല്ലാ അറിവുകളും സ്ഥിരമായി മായ്ക്കുകയും ചെയ്യും.",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
           "BUTTON_TEXT": "{assistantName} ഇല്ലാതാക്കുക"
         }
       },
@@ -794,6 +1191,11 @@
           "CANCEL": "റദ്ദാക്കുക",
           "UPDATE": "മാറ്റങ്ങൾ അപ്ഡേറ്റ് ചെയ്യുക"
         },
+        "STATUS": {
+          "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+          "DISABLED": "പ്രവർത്തനരഹിതമാക്കി",
+          "TOGGLE": "Toggle {title}"
+        },
         "LIST": {
           "SEARCH_PLACEHOLDER": "തിരയുക..."
         },
@@ -808,6 +1210,11 @@
             "SUCCESS": "സീനാരിയോകൾ വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു",
             "ERROR": "സീനാരിയോകൾ അപ്ഡേറ്റ് ചെയ്യുമ്പോൾ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
           },
+          "TOGGLE": {
+            "ENABLED": "Scenario enabled successfully",
+            "DISABLED": "Scenario disabled successfully",
+            "ERROR": "There was an error updating the scenario status, please try again."
+          },
           "DELETE": {
             "SUCCESS": "സീനാരിയോകൾ വിജയകരമായി ഇല്ലാതാക്കി",
             "ERROR": "സീനാരിയോകൾ ഇല്ലാതാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
@@ -819,6 +1226,8 @@
       "HEADER": "ഡോക്യുമെന്റുകൾ",
       "ADD_NEW": "ഒരു പുതിയ ഡോക്യുമെന്റ് സൃഷ്ടിക്കുക",
       "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
+      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
       "SELECTED": "{count} തിരഞ്ഞെടുക്കപ്പെട്ടത്",
       "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക ({count})",
       "UNSELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കൽ ഒഴിവാക്കുക ({count})",
@@ -856,7 +1265,8 @@
         },
         "SORT": {
           "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "Most used in conversations"
         },
         "SEARCH_PLACEHOLDER": "Search..."
       },
@@ -884,6 +1294,7 @@
         "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
         "SOURCE": "Source",
         "GENERATED_FAQS": "Generated FAQs",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
         "LAST_UPDATED": "Last updated",
         "NOT_AVAILABLE": "Not available",
         "CONTENT_TAB": "Crawled content",
@@ -957,6 +1368,56 @@
     "CUSTOM_TOOLS": {
       "HEADER": "ഉപകരണങ്ങൾ",
       "ADD_NEW": "പുതിയ ഉപകരണം സൃഷ്ടിക്കുക",
+      "CATALOG": {
+        "BUTTON": "Tools Catalog",
+        "HEADER": "Tools Catalog",
+        "DESCRIPTION": "Browse toolsets from the Captain tools catalog and install them on this assistant.",
+        "ALL": "എല്ലാം",
+        "EMPTY": "No toolsets in this category yet.",
+        "LOAD_ERROR": "Could not load the tools catalog. Check the catalog URL in the Captain settings.",
+        "TOOL_COUNT": "{n} tool | {n} tools",
+        "VERSION": "v{version}",
+        "UPDATED": "Updated {time}",
+        "REPOSITORY": "Repository",
+        "MANIFEST": "Manifest",
+        "CONFIGURATION": "ക്രമീകരണം",
+        "REQUIRED": "ആവശ്യമാണ്",
+        "DETAILS_ERROR": "Could not load the toolset details.",
+        "INSTALLED": "Installed",
+        "UPDATE_AVAILABLE": "Update available"
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Choose an assistant",
+        "DESCRIPTION": "Pick the assistant to install this toolset on.",
+        "PLACEHOLDER": "Select an assistant",
+        "LOAD_ERROR": "Could not load your assistants. Reload the page to try again."
+      },
+      "INSTALL_MANIFEST": {
+        "TITLE": "Install a toolset",
+        "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
+        "TOOLS_LABEL": "ഉപകരണങ്ങൾ",
+        "CONFIGURATION_LABEL": "ക്രമീകരണം",
+        "CONTINUE": "തുടരുക",
+        "INSTALL": "Install",
+        "UPDATE": "അപ്‌ഡേറ്റ്",
+        "REINSTALL": "Reinstall",
+        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
+        "ALREADY_INSTALLED": "Already installed",
+        "SUCCESS_MESSAGE": "Toolset installed",
+        "ERROR_MESSAGE": "Could not install the toolset",
+        "PREVIEW_ERROR": "Could not load the toolset"
+      },
+      "ASSISTANT_TOOLS_BANNER": {
+        "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
+        "LEARN_MORE": "Learn more",
+        "DISMISS": "Dismiss announcement",
+        "MODAL_TITLE": "Your assistants now have their own tools",
+        "MODAL_DESCRIPTION": "Each assistant now has a separate list of custom tools. We copied your existing tools to every assistant, so nothing is missing.",
+        "MODAL_INSTRUCTIONS": "When you add, edit, turn off, or delete a tool, the change applies only to the assistant you're currently viewing. Switch assistants at the top of the page to review or customize their tools.",
+        "ACKNOWLEDGE": "Got it"
+      },
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "ഇവിടെ ഇഷ്ടാനുസൃത ഉപകരണങ്ങൾ ലഭ്യമല്ല",
@@ -969,12 +1430,34 @@
       "FORM_DESCRIPTION": "ബാഹ്യ API-കളുമായി ബന്ധിപ്പിക്കാൻ നിങ്ങളുടെ കസ്റ്റം ടൂൾ ക്രമീകരിക്കുക",
       "OPTIONS": {
         "EDIT_TOOL": "ടൂൾ എഡിറ്റ് ചെയ്യുക",
+        "VIEW_TOOL": "View tool",
         "DELETE_TOOL": "ടൂൾ ഇല്ലാതാക്കുക"
+      },
+      "STATUS": {
+        "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+        "DISABLED": "പ്രവർത്തനരഹിതമാക്കി",
+        "TOGGLE": "Toggle {title}"
+      },
+      "TOGGLE": {
+        "ENABLED": "Tool enabled successfully",
+        "DISABLED": "Tool disabled successfully",
+        "ERROR": "Failed to update tool status"
+      },
+      "DISABLE_CONFIRMATION": {
+        "TITLE": "Disable {title}?",
+        "DESCRIPTION_ONE": "This tool is used by {count} enabled scenario. Disabling it may cause that scenario to stop working as expected.",
+        "DESCRIPTION_OTHER": "This tool is used by {count} enabled scenarios. Disabling it may cause those scenarios to stop working as expected.",
+        "CONFIRM": "Disable tool"
       },
       "CREATE": {
         "TITLE": "കസ്റ്റം ടൂൾ സൃഷ്ടിക്കുക",
         "SUCCESS_MESSAGE": "കസ്റ്റം ടൂൾ വിജയകരമായി സൃഷ്ടിച്ചു",
         "ERROR_MESSAGE": "കസ്റ്റം ടൂൾ സൃഷ്ടിക്കാൻ പരാജയപ്പെട്ടു"
+      },
+      "VIEW": {
+        "TITLE": "Custom Tool Details",
+        "REQUEST": "Request and response",
+        "INSTALLED_NOTE": "This tool is read-only because it was installed from the Tools Catalog."
       },
       "EDIT": {
         "TITLE": "കസ്റ്റം ടൂൾ എഡിറ്റ് ചെയ്യുക",
@@ -1028,6 +1511,11 @@
         "AUTH_TYPE": {
           "LABEL": "പ്രാമാണീകരണ തരം"
         },
+        "EMAIL_VERIFICATION": {
+          "LABEL": "Require email verification",
+          "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code.",
+          "IMPLIED": "A parameter takes the customer's verified email, so email verification is always required."
+        },
         "AUTH_TYPES": {
           "NONE": "ഒന്നുമില്ല",
           "BEARER": "ബിയറർ ടോക്കൺ",
@@ -1045,6 +1533,19 @@
           "API_KEY_PLACEHOLDER": "X-API-Key",
           "API_VALUE": "ഹെഡർ മൂല്യം",
           "API_VALUE_PLACEHOLDER": "API കീ മൂല്യം നൽകുക"
+        },
+        "SECTIONS": {
+          "TEMPLATES": "Templates",
+          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Headers",
+          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
+          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
+          "VALUE_PLACEHOLDER": "Header value",
+          "NAME_REQUIRED": "Header name is required",
+          "NAME_DUPLICATE": "Header names must be unique",
+          "ADD": "Add Header"
         },
         "PARAMETERS": {
           "LABEL": "പരാമീറ്ററുകൾ",
@@ -1070,6 +1571,21 @@
         "PARAM_REQUIRED": {
           "LABEL": "ആവശ്യമാണ്"
         },
+        "RISK": {
+          "MEDIUM": "This tool may return customer data. Consider requiring email verification.",
+          "HIGH": "This tool looks like it reads or changes customer data. Require email verification so only a verified customer can use it.",
+          "TITLE": "Save without email verification?",
+          "GO_BACK": "Go back",
+          "SAVE_ANYWAY": "Save anyway",
+          "EMAIL_PARAM": "This email is not verified. A customer could type someone else's.",
+          "USE_VERIFIED_EMAIL": "Use verified email"
+        },
+        "VERIFIED_VALUES": {
+          "ADD": "Add verified email",
+          "EMAIL": "Contact email",
+          "EMAIL_DESCRIPTION": "The contact's verified email address",
+          "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations."
+        },
         "REQUEST_TEMPLATE": {
           "LABEL": "അഭ്യർത്ഥന ബോഡി ടെംപ്ലേറ്റ് (ഐച്ഛികം)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
@@ -1085,8 +1601,8 @@
     },
     "RESPONSES": {
       "HEADER": "അടിക്കുറിപ്പുകൾ",
-      "PENDING_FAQS": "പെൻഡിംഗ് എഫ്എക്യുസുകൾ",
       "ADD_NEW": "പുതിയ FAQ സൃഷ്ടിക്കുക",
+      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "സംഭാഷണം #{id}"
       },
@@ -1094,12 +1610,10 @@
       "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക ({count})",
       "UNSELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കൽ ഒഴിവാക്കുക ({count})",
       "SEARCH_PLACEHOLDER": "FAQകൾ തിരയുക...",
-      "BULK_APPROVE_BUTTON": "അംഗീകാരം നൽകുക",
-      "BULK_DELETE_BUTTON": "ഇല്ലാതാക്കുക",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs വിജയകരമായി അംഗീകരിച്ചു",
-        "ERROR_MESSAGE": "FAQs അംഗീകരിക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "ഇല്ലാതാക്കുക",
       "BULK_DELETE": {
         "TITLE": "FAQകൾ ഇല്ലാതാക്കണോ?",
         "DESCRIPTION": "തിരഞ്ഞെടുത്ത FAQകൾ ഇല്ലാതാക്കാൻ നിങ്ങൾക്ക് ഉറപ്പാണോ? ഈ പ്രവർത്തനം തിരുത്താനാകില്ല.",
@@ -1114,20 +1628,9 @@
         "SUCCESS_MESSAGE": "FAQ വിജയകരമായി ഇല്ലാതാക്കി",
         "ERROR_MESSAGE": "FAQ ഇല്ലാതാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
-      "FILTER": {
-        "ASSISTANT": "സഹായി: {selected}",
-        "STATUS": "സ്ഥിതി: {selected}",
-        "ALL_ASSISTANTS": "എല്ലാം"
-      },
-      "STATUS": {
-        "TITLE": "സ്റ്റാറ്റസ്",
-        "PENDING": "കെട്ടിക്കിടക്കുന്നു",
-        "APPROVED": "അംഗീകൃതം",
-        "ALL": "എല്ലാം"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "ക്യാപ്റ്റൻ നിങ്ങളുടെ ഉപഭോക്താക്കൾ അന്വേഷിച്ച ചില സാധാരണ ചോദിച്ച ചോദ്യങ്ങൾ കണ്ടെത്തി.",
-        "ACTION": "പരിശോധിക്കാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "ഒരു ചോദ്യം അതിന്റെ അനുയോജ്യമായ ഉത്തരം അറിവ് അടിസ്ഥാനത്തിലേക്ക് ചേർക്കുക, കൂടാതെ അത് ബന്ധപ്പെട്ടിരിക്കേണ്ട അസിസ്റ്റന്റിനെ തിരഞ്ഞെടുക്കുക.",
       "CREATE": {
@@ -1160,13 +1663,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "ഏതെങ്കിലും FAQ കണ്ടെത്തിയില്ല",
-        "NO_PENDING_TITLE": "പരിശോധിക്കാനുള്ള കൂടുതൽ പendente FAQകൾ ഇല്ല",
         "SUBTITLE": "FAQകൾ നിങ്ങളുടെ അസിസ്റ്റന്റിന് നിങ്ങളുടെ ഉപഭോക്താക്കളിൽ നിന്നുള്ള ചോദ്യങ്ങൾക്ക് വേഗവും കൃത്യവുമായ ഉത്തരങ്ങൾ നൽകാൻ സഹായിക്കുന്നു. അവ നിങ്ങളുടെ ഉള്ളടക്കത്തിൽ നിന്ന് സ്വയം സൃഷ്ടിക്കപ്പെടാം അല്ലെങ്കിൽ കൈമാറി ചേർക്കാം.",
         "CLEAR_SEARCH": "സജീവമായ ഫിൽട്ടറുകൾ മായ്ക്കുക",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "ക്യാപ്റ്റൻ എഫ്എക്യു",
           "NOTE": "Captain FAQs സാധാരണ ഉപഭോക്തൃ ചോദ്യങ്ങൾ കണ്ടെത്തുന്നു—നിങ്ങളുടെ നോളജ് ബേസിൽ ഇല്ലാത്തതോ അല്ലെങ്കിൽ പലപ്പോഴും ചോദിക്കപ്പെടുന്നതോ ആയ ചോദ്യങ്ങൾ—മറ്റുള്ളവയ്ക്ക് അനുയോജ്യമായ FAQs സൃഷ്ടിച്ച് പിന്തുണ മെച്ചപ്പെടുത്തുന്നു. ഓരോ നിർദ്ദേശവും നിങ്ങൾ പരിശോധിച്ച് അംഗീകരിക്കാമോ നിരസിക്കാമോ എന്ന് തീരുമാനിക്കാം."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "അംഗീകരിക്കുക",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "Save changes",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

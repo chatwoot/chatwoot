@@ -184,6 +184,11 @@ has been assigned to you"
                                                                  'id' => notification.primary_actor.display_id
                                                                })
     end
+
+    it 'includes the account id so the mobile app can open the conversation in the right account' do
+      notification = create(:notification, notification_type: 'conversation_creation')
+      expect(notification.fcm_push_data[:account_id]).to eq(notification.account_id)
+    end
   end
 
   context 'when primary actor is deleted' do

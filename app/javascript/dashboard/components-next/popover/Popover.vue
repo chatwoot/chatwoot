@@ -32,6 +32,8 @@ const props = defineProps({
 
 const emit = defineEmits(['show', 'hide']);
 
+defineOptions({ inheritAttrs: false });
+
 const isActive = ref(false);
 const triggerRef = ref(null);
 const popoverRef = ref(null);
@@ -107,9 +109,23 @@ const clickOutsideIgnore = [
   '[data-popover-content]',
 ];
 
+// An overlay opened from inside the popover teleports out of it, so its own Escape handler
+// registers after this one and cannot stop it. Leave Escape to whichever overlay the key
+// was pressed in; closing the popover out from under it would discard the work in progress.
+const isNestedOverlay = event => {
+  const overlay = event.target?.closest?.(clickOutsideIgnore.join(','));
+  return Boolean(
+    overlay &&
+      overlay !== popoverRef.value &&
+      overlay !== mobileContentRef.value
+  );
+};
+
 useKeyboardEvents({
   Escape: {
-    action: () => isActive.value && hide(),
+    action: event => {
+      if (isActive.value && !isNestedOverlay(event)) hide();
+    },
     allowOnFocusedInput: true,
   },
 });
@@ -118,7 +134,7 @@ defineExpose({ show, hide, toggle });
 </script>
 
 <template>
-  <span ref="triggerRef" class="inline-flex" @click="toggle">
+  <span ref="triggerRef" v-bind="$attrs" class="inline-flex" @click="toggle">
     <slot :is-open="isActive" />
   </span>
 

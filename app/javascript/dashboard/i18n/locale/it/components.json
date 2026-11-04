@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "tag"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "Novità",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Precedente",
+    "NEXT": "Successivo",
+    "DISMISS_HINT": "Premi {key} per chiudere",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Chiudi"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Scopri di più",
     "WATCH_VIDEO": "Guarda video"
@@ -64,6 +73,20 @@
     "BULLET_LIST": "Bullet List",
     "ORDERED_LIST": "Ordered List",
     "TABLE": "Table",
-    "IMAGE": "Immagine"
+    "IMAGE": "Immagine",
+    "VIDEO": "Video",
+    "DIVIDER": "Divisore"
+  },
+  "VIDEO_EMBED": {
+    "TAB_EMBED": "Link da incorporare",
+    "TAB_UPLOAD": "Carica",
+    "PLACEHOLDER": "Incolla il link di un video",
+    "HINT": "Funziona con i link di YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar e mp4",
+    "ERROR": "Non sembra un link video supportato",
+    "UPLOAD_LABEL": "Scegli un file video",
+    "UPLOAD_HINT": "MP4 · fino a {size}MB · o trascinalo qui",
+    "UPLOAD_ERROR": "Si possono caricare solo file MP4",
+    "ADD": "Incorpora",
+    "CANCEL": "Annulla"
   }
 }

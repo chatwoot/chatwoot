@@ -19,11 +19,31 @@ class CaptainAssistant extends ApiClient {
     });
   }
 
-  playground({ assistantId, messageContent, messageHistory }) {
-    return axios.post(`${this.url}/${assistantId}/playground`, {
+  uploadAvatar(id, file) {
+    const formData = new FormData();
+    formData.append('assistant[avatar]', file);
+    return this.update(id, formData);
+  }
+
+  deleteAvatar(id) {
+    return axios.delete(`${this.url}/${id}/avatar`);
+  }
+
+  playground({
+    assistantId,
+    messageContent,
+    messageHistory,
+    playgroundConfig,
+    requestId,
+  }) {
+    const payload = {
       message_content: messageContent,
       message_history: messageHistory,
-    });
+      request_id: requestId,
+    };
+    if (playgroundConfig) payload.playground_config = playgroundConfig;
+
+    return axios.post(`${this.url}/${assistantId}/playground`, payload);
   }
 
   getMetrics({ assistantId, range, signal }) {
