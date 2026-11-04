@@ -37,22 +37,20 @@ RSpec.describe Internal::CheckNewVersionsJob do
       InstallationConfig.create!(name: 'INSTALLATION_SUBSCRIPTION_STATUS', value: 'active', locked: true)
     end
 
-    it 'stores the new status and notifies every account' do
+    it 'stores the new status and notifies every account with its own account id' do
       allow(ChatwootHub).to receive(:sync_with_hub).and_return({ 'version' => '1.2.3', 'subscription_status' => 'past_due' })
+      first, second = accounts
 
-      job
-
-      streams = accounts.map { |account| "account_#{account.id}" }
+      expect { job }
+        .to have_broadcasted_to("account_#{first.id}").with(event: 'account.billing_updated', data: { account_id: first.id })
+        .and have_broadcasted_to("account_#{second.id}").with(event: 'account.billing_updated', data: { account_id: second.id })
       expect(ChatwootHub.subscription_status).to eq 'past_due'
-      expect(ActionCableBroadcastJob).to have_been_enqueued.once.with(match_array(streams), 'account.billing_updated', {})
     end
 
     it 'does not notify accounts when the status is unchanged' do
       allow(ChatwootHub).to receive(:sync_with_hub).and_return({ 'version' => '1.2.3', 'subscription_status' => 'active' })
 
-      job
-
-      expect(ActionCableBroadcastJob).not_to have_been_enqueued
+      expect { job }.not_to have_broadcasted_to("account_#{accounts.first.id}")
     end
 
     it 'keeps the last known status when an older hub omits it' do
