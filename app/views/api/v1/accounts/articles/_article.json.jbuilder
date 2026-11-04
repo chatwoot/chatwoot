@@ -12,7 +12,6 @@ json.updated_at article.updated_at.to_i
 json.meta article.meta
 json.locale article.public_locale
 json.associated_article_id article.associated_article_id
-json.preview_token article.preview_token
 
 if article.root_article.present?
   json.root_article do

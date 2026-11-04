@@ -169,11 +169,11 @@ RSpec.describe 'Public Articles API', type: :request do
       end
     end
 
-    it 'returns not found when the preview token belongs to another article' do
+    it 'returns not found for a preview token of an article in another portal' do
       draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
-      other_draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      foreign_article = create(:article, status: :draft)
 
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: other_draft_article.preview_token }
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: foreign_article.preview_token }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -198,6 +198,18 @@ RSpec.describe 'Public Articles API', type: :request do
 
       get "/hc/#{portal.slug}/articles/#{article.slug}"
       expect(response.body).to include('G-TEST123')
+    end
+
+    it 'skips the web widget on a preview of an unpublished article' do
+      web_widget = create(:channel_widget, account: account)
+      portal.update!(channel_web_widget: web_widget)
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: draft_article.preview_token }
+      expect(response.body).not_to include(web_widget.website_token)
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.body).to include(web_widget.website_token)
     end
 
     it 'hides the article actions menu on a preview of an unpublished article' do

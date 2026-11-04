@@ -37,21 +37,19 @@ const isUpdating = ref(false);
 const isSaved = ref(false);
 const hasNewerVersion = ref(false);
 const articleEditorRef = ref(null);
+const isLoadingPreview = ref(false);
 
 const articleLink = computed(() => {
   const { slug: categorySlug, locale: categoryLocale } = article.value.category;
-  const { slug: articleSlugValue, status, previewToken } = article.value;
+  const { slug: articleSlugValue } = article.value;
   const portalCustomDomain = portal.value?.custom_domain;
-  const publicUrl = buildPortalArticleURL(
+  return buildPortalArticleURL(
     portalSlug.value,
     categorySlug,
     categoryLocale,
     articleSlugValue,
     portalCustomDomain
   );
-  if (status === ARTICLE_STATUSES.PUBLISHED) return publicUrl;
-
-  return `${publicUrl}?preview=${encodeURIComponent(previewToken)}`;
 });
 
 // On a published article, title/content edits stage into draft_* columns (kept
@@ -197,11 +195,30 @@ const loadLatestVersion = async () => {
 useEventListener(document, 'visibilitychange', checkForNewerVersion);
 useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, checkForNewerVersion);
 
-const previewArticle = () => {
-  window.open(articleLink.value, '_blank');
+const previewArticle = async () => {
   useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
     status: article.value?.status,
   });
+  if (article.value.status === ARTICLE_STATUSES.PUBLISHED) {
+    window.open(articleLink.value, '_blank');
+    return;
+  }
+
+  isLoadingPreview.value = true;
+  try {
+    const { data } = await ArticlesAPI.getPreviewToken({
+      id: article.value.id,
+      portalSlug: portalSlug.value,
+    });
+    window.open(
+      `${articleLink.value}?preview=${encodeURIComponent(data.preview_token)}`,
+      '_blank'
+    );
+  } catch {
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW_ERROR'));
+  } finally {
+    isLoadingPreview.value = false;
+  }
 };
 
 watch(articleSlug, fetchArticleDetails, { immediate: true });
@@ -214,6 +231,7 @@ watch(articleSlug, fetchArticleDetails, { immediate: true });
     :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"
+    :is-loading-preview="isLoadingPreview"
     @save-article="saveArticle"
     @preview-article="previewArticle"
     @go-back="goBackToArticles"

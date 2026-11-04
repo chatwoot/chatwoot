@@ -47,6 +47,10 @@ class ArticlesAPI extends PortalsAPI {
     return axios.get(`${this.url}/${portalSlug}/articles/${id}`);
   }
 
+  getPreviewToken({ id, portalSlug }) {
+    return axios.get(`${this.url}/${portalSlug}/articles/${id}/preview_token`);
+  }
+
   updateArticle({ portalSlug, articleId, articleObj }) {
     return axios.patch(
       `${this.url}/${portalSlug}/articles/${articleId}`,

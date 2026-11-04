@@ -22,6 +22,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def show
+    @is_internal_preview = !@article.published?
     set_locale_switch_urls
     @og_image_url = helpers.set_og_image_url(@portal.name, @article.title)
     @parsed_content = render_article_content(@article.content.to_s)
@@ -71,13 +72,9 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def set_article
-    @article = @portal.articles.published.find_by(slug: permitted_params[:article_slug]) || previewed_article
+    @article = @portal.articles.published.find_by(slug: permitted_params[:article_slug]) ||
+               @portal.articles.find_signed(permitted_params[:preview], purpose: :preview)
     render_404 if @article.blank?
-  end
-
-  def previewed_article
-    article = @portal.articles.find_signed(permitted_params[:preview], purpose: :preview)
-    article if article&.slug == permitted_params[:article_slug]
   end
 
   def set_locale_switch_urls

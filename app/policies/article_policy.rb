@@ -26,6 +26,10 @@ class ArticlePolicy < ApplicationPolicy
   def reorder?
     @account_user.administrator?
   end
+
+  def preview_token?
+    show?
+  end
 end
 
 ArticlePolicy.prepend_mod_with('ArticlePolicy')

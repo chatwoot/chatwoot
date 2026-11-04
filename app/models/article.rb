@@ -62,7 +62,7 @@ class Article < ApplicationRecord
   # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
   RESERVED_SLUGS = %w[search articles categories].freeze
   SLUG_RANDOM_BYTES = 4
-  PREVIEW_TOKEN_EXPIRY = 1.day
+  PREVIEW_TOKEN_EXPIRY = 1.hour
 
   validates :account_id, presence: true
   validates :author_id, presence: true

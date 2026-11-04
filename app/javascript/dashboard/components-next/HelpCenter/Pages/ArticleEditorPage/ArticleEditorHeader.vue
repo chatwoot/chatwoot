@@ -28,6 +28,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isLoadingPreview: {
+    type: Boolean,
+    default: false,
+  },
   status: {
     type: String,
     default: '',
@@ -319,7 +323,8 @@ const onDraftFailed = error => {
           :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW')"
           color="slate"
           size="sm"
-          :disabled="!articleId"
+          :is-loading="isLoadingPreview"
+          :disabled="!articleId || isLoadingPreview"
           @click="previewArticle"
         />
         <ButtonGroup class="flex items-center">
