@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { emitter } from 'shared/helpers/mitt';
+import { useTrack } from 'dashboard/composables';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -86,7 +88,10 @@ export function useCannedResponseCommands() {
           icon: ICON,
           prefix: '/',
           scopes: SCOPES,
-          run: () => emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content),
+          run: () => {
+            emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content);
+            useTrack(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
+          },
         };
       }),
     ];
