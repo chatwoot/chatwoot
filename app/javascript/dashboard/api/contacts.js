@@ -6,7 +6,7 @@ export const buildContactParams = (page, sortAttr, label, search) => ({
   page,
   sort: sortAttr,
   ...(search ? { q: search } : {}),
-  ...(label ? { labels: [label] } : {}),
+  ...(label ? { labels: [label].flat() } : {}),
 });
 
 class ContactAPI extends ApiClient {
@@ -14,9 +14,10 @@ class ContactAPI extends ApiClient {
     super('contacts', { accountScoped: true });
   }
 
-  get(page, sortAttr = 'name', label = '') {
+  get(page, sortAttr = 'name', label = '', options = {}) {
     return axios.get(this.url, {
       params: buildContactParams(page, sortAttr, label, ''),
+      signal: options.signal,
     });
   }
 
@@ -74,9 +75,10 @@ class ContactAPI extends ApiClient {
   }
 
   // eslint-disable-next-line default-param-last
-  filter(page = 1, sortAttr = 'name', queryPayload) {
+  filter(page = 1, sortAttr = 'name', queryPayload, options = {}) {
     return axios.post(`${this.url}/filter`, queryPayload, {
       params: buildContactParams(page, sortAttr),
+      signal: options.signal,
     });
   }
 

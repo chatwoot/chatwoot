@@ -118,8 +118,16 @@ watch(
   }
 );
 
+// A new article has no id to save to yet, so hand every edit to the page right
+// away; a debounced save would die with this editor when the create redirects.
 const scheduleSave = () => {
-  if (isNewArticle.value) return;
+  if (isNewArticle.value) {
+    emit('saveArticle', {
+      title: localTitle.value,
+      content: localContent.value,
+    });
+    return;
+  }
   debouncedSave();
 };
 
@@ -228,6 +236,7 @@ const handleCreateArticle = event => {
           @save-article="values => emit('saveArticle', values)"
           @set-author="setAuthorId"
           @set-category="setCategoryId"
+          @preview-article="previewArticle"
         />
       </div>
       <FullEditor

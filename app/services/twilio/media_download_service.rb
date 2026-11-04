@@ -7,12 +7,7 @@ class Twilio::MediaDownloadService
 
   pattr_initialize [:channel!, :media_url!, :message_sid!, :media_index!, { retry_delays: RETRY_DELAYS }] do
     @account_sid = channel.account_sid
-    @auth_credentials = if channel.api_key_sid.present?
-                          # Voice channels keep the secret in api_key_secret; SMS channels store it in auth_token.
-                          [channel.api_key_sid, channel.api_key_secret.presence || channel.auth_token]
-                        else
-                          [account_sid, channel.auth_token]
-                        end
+    @auth_credentials = channel.basic_auth_credentials
   end
 
   attr_private :account_sid, :auth_credentials

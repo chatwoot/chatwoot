@@ -2,14 +2,13 @@ require 'rails_helper'
 
 RSpec.describe ChatwootMarkdownRenderer do
   let(:markdown_content) { 'This is a *test* content with ^markdown^' }
-  let(:plain_text_content) { 'This is a test content with markdown' }
   let(:doc) { instance_double(CommonMarker::Node) }
   let(:renderer) { described_class.new(markdown_content) }
-  let(:markdown_renderer) { instance_double(CustomMarkdownRenderer) }
+  let(:markdown_renderer) { instance_double(PortalArticleMarkdownRenderer) }
   let(:html_content) { '<p>This is a <em>test</em> content with <sup>markdown</sup></p>' }
 
   before do
-    allow(CustomMarkdownRenderer).to receive(:new).and_return(markdown_renderer)
+    allow(PortalArticleMarkdownRenderer).to receive(:new).and_return(markdown_renderer)
     allow(markdown_renderer).to receive(:render).with(doc).and_return(html_content)
   end
 
@@ -26,6 +25,51 @@ RSpec.describe ChatwootMarkdownRenderer do
 
     it 'returns an html safe string' do
       expect(rendered_content).to be_html_safe
+    end
+
+    context 'with installation image URLs' do
+      let(:local_url) { 'https://app.example.test/rails/active_storage/blobs/redirect/id/image.png?cw_image_width=320px' }
+      let(:external_url) { 'https://external.example.test/rails/active_storage/blobs/redirect/id/image.png' }
+      let(:image_path) { '/rails/active_storage/blobs/redirect/id/image.png?cw_image_width=320px' }
+      let(:markdown_content) do
+        <<~MARKDOWN
+          ![local](#{local_url})
+          ![external](#{external_url})
+
+          [download](#{local_url})
+
+          `#{local_url}`
+
+          ```html
+          <img src="#{local_url}">
+          ```
+        MARKDOWN
+      end
+
+      before do
+        allow(CommonMarker).to receive(:render_doc).and_call_original
+        allow(PortalArticleMarkdownRenderer).to receive(:new).and_call_original
+      end
+
+      around do |example|
+        with_modified_env(FRONTEND_URL: 'https://app.example.test', HELPCENTER_URL: 'https://help.example.test') { example.run }
+      end
+
+      it 'resolves only image sources and preserves sizing, links, code and external images' do
+        html = renderer.render_article
+        document = Nokogiri::HTML5.fragment(html)
+
+        expect(document.css('img').map { |image| image['src'] }).to eq([image_path, external_url])
+        expect(document.at_css('img')['style']).to include('width: 320px;')
+        expect(document.at_css('a')['href']).to eq(local_url)
+        expect(document.css('code').map(&:text)).to eq([local_url, "<img src=\"#{local_url}\">\n"])
+      end
+
+      it 'sanitizes unsafe image sources before rendering' do
+        html = described_class.new('![unsafe](javascript:alert(1))').render_article
+
+        expect(Nokogiri::HTML5.fragment(html).at_css('img')['src']).to eq('')
+      end
     end
 
     context 'when tables in markdown' do
@@ -78,7 +122,7 @@ RSpec.describe ChatwootMarkdownRenderer do
 
       before do
         allow(CommonMarker).to receive(:render_doc).and_call_original
-        allow(CustomMarkdownRenderer).to receive(:new).and_call_original
+        allow(PortalArticleMarkdownRenderer).to receive(:new).and_call_original
       end
 
       it 'preserves embed and table markup' do
@@ -121,12 +165,19 @@ RSpec.describe ChatwootMarkdownRenderer do
     let(:rendered_content) { renderer.render_markdown_to_plain_text }
 
     before do
-      allow(CommonMarker).to receive(:render_doc).with(markdown_content, :DEFAULT).and_return(doc)
-      allow(doc).to receive(:to_plaintext).and_return(plain_text_content)
+      allow(CommonMarker).to receive(:render_doc).and_call_original
     end
 
     it 'renders the markdown content to plain text' do
-      expect(rendered_content).to eq(plain_text_content)
+      expect(rendered_content).to eq("This is a test content with ^markdown^\n")
+    end
+
+    context 'with a table' do
+      let(:markdown_content) { "Intro\n\n| Feature | Use |\n| --- | --- |\n| Captain | `replies` |\n\nOutro" }
+
+      it 'keeps the cell text without the table syntax' do
+        expect(rendered_content).to eq("Intro\n\nFeature Use Captain replies\n\nOutro\n")
+      end
     end
   end
 end
