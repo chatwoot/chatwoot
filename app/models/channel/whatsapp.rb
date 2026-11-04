@@ -157,7 +157,14 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def ensure_webhook_token
-    provider_config['webhook_token'] ||= SecureRandom.hex(16) if provider == 'default'
+    return unless provider == 'default'
+
+    # Derived for existing channels so concurrent saves register the same token with 360dialog.
+    provider_config['webhook_token'] ||= if new_record?
+                                           SecureRandom.hex(16)
+                                         else
+                                           OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "whatsapp_webhook_token:#{id}")
+                                         end
   end
 
   def validate_provider_config

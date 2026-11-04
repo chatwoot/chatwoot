@@ -175,6 +175,18 @@ RSpec.describe Channel::Whatsapp do
       expect(a_request(:post, webhook_url).with { |req| JSON.parse(req.body)['url'].end_with?("?webhook_token=#{token}") }).to have_been_made
     end
 
+    it 'registers the same webhook token from overlapping saves' do
+      registered_urls = []
+      stub_request(:post, webhook_url).with { |req| registered_urls << JSON.parse(req.body)['url'] }
+      stale_channel = described_class.find(channel.id)
+
+      channel.update!(message_templates: [])
+      stale_channel.update!(message_templates: [])
+
+      token = channel.reload.provider_config['webhook_token']
+      expect(registered_urls.map { |url| url.split('?webhook_token=').last }).to eq([token, token])
+    end
+
     it 'does not store the webhook token when the webhook url is not accepted' do
       stub_request(:post, webhook_url).to_return(status: 401)
 
