@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikaator",
+      "HELP": "Näita selles vestluses vastuste kohal oma nime",
+      "ERROR": "Identifikaatori seadet ei saanud uuendada. Proovige uuesti."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

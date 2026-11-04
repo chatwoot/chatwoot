@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Pengenal pengguna",
+      "DESCRIPTION": "Memaparkan nama ejen secara automatik dalam huruf tebal di atas mesej mereka. Diaktifkan secara lalai untuk setiap perbualan dan boleh dimatikan dalam editor balasan untuk menghantar arahan tepat kepada bot. Tandatangan peribadi kekal berasingan di bawah mesej."
+    },
     "HEADER": "Peti Masuk",
     "DESCRIPTION": "Saluran adalah cara komunikasi yang dipilih pelanggan anda untuk berinteraksi dengan anda. Peti masuk adalah tempat anda menguruskan interaksi untuk saluran tertentu. Ia boleh merangkumi komunikasi dari pelbagai sumber seperti emel, sembang langsung, dan media sosial.",
     "LEARN_MORE": "Ketahui lebih lanjut tentang peti masuk",

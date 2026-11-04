@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Naudotojo identifikatorius",
+      "DESCRIPTION": "Automatiškai rodo konsultanto vardą paryškintu šriftu virš jo žinučių. Pagal numatytuosius nustatymus įjungtas kiekviename pokalbyje ir gali būti išjungtas atsakymo redaktoriuje, norint siųsti tikslias komandas robotams. Asmeninis parašas lieka atskirai po žinute."
+    },
     "HEADER": "Gautų laiškų aplankai",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",

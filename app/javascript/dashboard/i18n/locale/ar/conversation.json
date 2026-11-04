@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "المعرّف",
+      "HELP": "إظهار اسمك أعلى الردود في هذه المحادثة",
+      "ERROR": "تعذر تحديث إعداد المعرّف. حاول مرة أخرى."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

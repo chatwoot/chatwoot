@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Auðkenni",
+      "HELP": "Birta nafnið þitt fyrir ofan svör í þessu samtali",
+      "ERROR": "Ekki tókst að uppfæra auðkennisstillinguna. Reyndu aftur."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

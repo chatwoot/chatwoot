@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identificador d'usuari",
+      "DESCRIPTION": "Mostra automàticament el nom de l'agent en negreta damunt dels seus missatges. S'activa per defecte a cada conversa i es pot desactivar a l'editor de respostes per enviar ordres exactes als bots. La signatura personal es manté separada sota el missatge."
+    },
     "HEADER": "Safates d'entrada",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",

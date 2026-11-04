@@ -191,6 +191,12 @@ export default {
         </div>
       </div>
       <div class="message-wrap">
+        <strong
+          v-if="message.content_attributes?.user_identifier"
+          class="block mb-2 text-sm font-bold text-n-slate-12"
+        >
+          {{ message.content_attributes.user_identifier }}
+        </strong>
         <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
           <ReplyToChip :reply-to="replyTo" />
         </div>
@@ -256,7 +262,10 @@ export default {
           </div>
         </div>
         <p
-          v-if="message.showAvatar || hasRecordedResponse"
+          v-if="
+            !message.content_attributes?.user_identifier &&
+            (message.showAvatar || hasRecordedResponse)
+          "
           class="agent-name text-n-slate-11"
         >
           {{ agentName }}

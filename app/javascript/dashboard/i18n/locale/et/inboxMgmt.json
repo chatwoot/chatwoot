@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Kasutaja identifikaator",
+      "DESCRIPTION": "Näitab automaatselt teenindaja nime paksus kirjas tema sõnumite kohal. See on vaikimisi igas vestluses lubatud ja selle saab vastuseredaktoris välja lülitada, et saata botidele täpseid käske. Isiklik allkiri jääb eraldi sõnumi alla."
+    },
     "HEADER": "Postkastid",
     "DESCRIPTION": "Kanal on suhtlusviis, mille teie klient valib teiega suhtlemiseks. Postkast on koht, kus haldate konkreetse kanali suhtlusi. See võib sisaldada suhtlust eri allikatest, nagu e-post, reaalajas vestlus ja sotsiaalmeedia.",
     "LEARN_MORE": "Lisateave postkastide kohta",

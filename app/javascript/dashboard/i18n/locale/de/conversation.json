@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Kennzeichnung",
+      "HELP": "Deinen Namen über Antworten in dieser Unterhaltung anzeigen",
+      "ERROR": "Die Einstellung zur Kennzeichnung konnte nicht aktualisiert werden. Bitte versuche es erneut."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

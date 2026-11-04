@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "識別名稱",
+      "HELP": "在此對話的回覆上方顯示您的姓名",
+      "ERROR": "無法更新識別名稱設定。請再試一次。"
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

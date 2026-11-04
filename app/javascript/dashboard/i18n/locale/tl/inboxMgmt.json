@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Pagkakakilanlan ng user",
+      "DESCRIPTION": "Awtomatikong ipinapakita nang naka-bold ang pangalan ng ahente sa itaas ng mga mensahe. Naka-on bilang default sa bawat pag-uusap at maaaring i-off sa editor ng sagot upang magpadala ng eksaktong mga utos sa mga bot. Nananatiling hiwalay sa ibaba ng mensahe ang personal na lagda."
+    },
     "HEADER": "Mga Inbox",
     "DESCRIPTION": "Ang channel ay ang paraan ng komunikasyon na pinipili ng iyong customer upang makipag-ugnayan sa iyo. Ang inbox ay kung saan mo pinamamahalaan ang mga interaksyon para sa isang partikular na channel. Maaari itong magsama ng komunikasyon mula sa iba't ibang mga pinagmulan tulad ng email, live chat, at social media.",
     "LEARN_MORE": "Matuto nang higit pa tungkol sa mga inbox",

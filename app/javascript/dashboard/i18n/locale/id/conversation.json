@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identitas",
+      "HELP": "Tampilkan nama Anda di atas balasan dalam percakapan ini",
+      "ERROR": "Tidak dapat memperbarui pengaturan identitas. Silakan coba lagi."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

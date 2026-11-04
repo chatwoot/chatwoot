@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Lietotāja identifikators",
+      "DESCRIPTION": "Automātiski parāda aģenta vārdu treknrakstā virs viņa ziņojumiem. Pēc noklusējuma ieslēgts katrā sarunā, un to var izslēgt atbildes redaktorā, lai nosūtītu precīzas komandas robotiem. Personiskais paraksts paliek atsevišķi zem ziņojuma."
+    },
     "HEADER": "Iesūtnes",
     "DESCRIPTION": "Kanāls ir saziņas veids, ko klients izvēlas saziņai ar jums. Iesūtne ir vieta, kur pārvaldāt mijiedarbības ar noteiktu kanālu. Tas var ietvert saziņu no dažādiem avotiem, piemēram, e-pasta, tiešsaistes tērzēšanas un sociālajiem medijiem.",
     "LEARN_MORE": "Uzzināt vairāk par iesūtnēm",

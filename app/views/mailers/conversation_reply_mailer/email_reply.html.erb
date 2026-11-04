@@ -1,4 +1,7 @@
 <% if @message.content_attributes.dig('email', 'html_content', 'reply').present? %>
+<% if @message.user_identifier.present? %>
+<p><strong><%= @message.user_identifier %></strong></p>
+<% end %>
 <%= @message.content_attributes.dig('email', 'html_content', 'reply').html_safe %>
 <% elsif @message.content %>
 <%= @message.outgoing_content.html_safe %>

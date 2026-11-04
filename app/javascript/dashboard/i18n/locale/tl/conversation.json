@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Pagkakakilanlan",
+      "HELP": "Ipakita ang iyong pangalan sa itaas ng mga sagot sa pag-uusap na ito",
+      "ERROR": "Hindi ma-update ang setting ng pagkakakilanlan. Pakisubukang muli."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

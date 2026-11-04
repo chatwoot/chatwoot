@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Định danh",
+      "HELP": "Hiển thị tên của bạn phía trên câu trả lời trong cuộc trò chuyện này",
+      "ERROR": "Không thể cập nhật cài đặt định danh. Vui lòng thử lại."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

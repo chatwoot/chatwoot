@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikators",
+      "HELP": "Rādīt jūsu vārdu virs atbildēm šajā sarunā",
+      "ERROR": "Neizdevās atjaunināt identifikatora iestatījumu. Mēģiniet vēlreiz."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

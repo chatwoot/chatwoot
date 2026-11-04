@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Pengecam",
+      "HELP": "Paparkan nama anda di atas balasan dalam perbualan ini",
+      "ERROR": "Tetapan pengecam tidak dapat dikemas kini. Sila cuba lagi."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

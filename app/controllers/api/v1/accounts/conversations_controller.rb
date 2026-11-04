@@ -143,7 +143,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # TODO: Move the other conversation attributes to this method and remove specific endpoints for each attribute
     raise ActionController::ParameterMissing, :priority unless params[:priority].nil? || Conversation.priorities.key?(params[:priority])
 
-    params.permit(:priority)
+    params.permit(:priority, :user_identifier_enabled)
   end
 
   def attachment_params

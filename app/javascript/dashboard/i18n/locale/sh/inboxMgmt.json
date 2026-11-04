@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikator korisnika",
+      "DESCRIPTION": "Automatski prikazuje ime agenta podebljano iznad njegovih poruka. Podrazumevano je uključen za svaki razgovor i može se isključiti u uređivaču odgovora radi slanja tačnih komandi botovima. Lični potpis ostaje odvojen ispod poruke."
+    },
     "HEADER": "Ulazne pošte",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Saznajte više o pristigloj pošti",

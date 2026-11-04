@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "İstifadəçi identifikatoru",
+      "DESCRIPTION": "Əməkdaşın adını mesajlarının üstündə avtomatik olaraq qalın şriftlə göstərir. Hər söhbət üçün standart olaraq aktivdir və botlara dəqiq əmrlər göndərmək üçün cavab redaktorunda söndürülə bilər. Şəxsi imza mesajın altında ayrıca qalır."
+    },
     "HEADER": "Gələn qutuları",
     "DESCRIPTION": "Kanal müştərinizin sizinlə əlaqə qurmaq üçün seçdiyi ünsiyyət vasitəsidir. Poçt qutusu müəyyən bir kanal üçün qarşılıqlı əlaqələri idarə etdiyiniz yerdir. Bu, e-poçt, canlı çat və sosial media kimi müxtəlif mənbələrdən olan ünsiyyətləri əhatə edə bilər.",
     "LEARN_MORE": "Poçt qutuları haqqında daha çox öyrənin",

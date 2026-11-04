@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identitas pengguna",
+      "DESCRIPTION": "Secara otomatis menampilkan nama agen dengan huruf tebal di atas pesannya. Aktif secara default untuk setiap percakapan dan dapat dinonaktifkan di editor balasan untuk mengirim perintah yang tepat ke bot. Tanda tangan pribadi tetap terpisah di bawah pesan."
+    },
     "HEADER": "Kotak masuk",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",

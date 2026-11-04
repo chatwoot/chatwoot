@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identyfikator",
+      "HELP": "Wyświetlaj swoje imię nad odpowiedziami w tej rozmowie",
+      "ERROR": "Nie udało się zaktualizować ustawienia identyfikatora. Spróbuj ponownie."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Identifikátor",
+      "HELP": "Zobrazovať vaše meno nad odpoveďami v tejto konverzácii",
+      "ERROR": "Nastavenie identifikátora sa nepodarilo aktualizovať. Skúste to znova."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

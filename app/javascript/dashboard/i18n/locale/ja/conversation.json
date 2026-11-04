@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "識別名",
+      "HELP": "この会話の返信の上に自分の名前を表示する",
+      "ERROR": "識別名の設定を更新できませんでした。もう一度お試しください。"
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

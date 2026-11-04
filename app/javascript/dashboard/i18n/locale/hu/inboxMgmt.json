@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Felhasználóazonosító",
+      "DESCRIPTION": "Automatikusan félkövéren jeleníti meg az ügyintéző nevét az üzenetei felett. Alapértelmezés szerint minden beszélgetésben engedélyezett, és a válaszszerkesztőben kikapcsolható, hogy pontos parancsokat küldhessen a botoknak. A személyes aláírás külön marad az üzenet alatt."
+    },
     "HEADER": "Fiókok",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",

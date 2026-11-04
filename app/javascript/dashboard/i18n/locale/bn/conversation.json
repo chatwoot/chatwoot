@@ -1,5 +1,10 @@
 {
   "CONVERSATION": {
+    "USER_IDENTIFIER": {
+      "LABEL": "পরিচয়",
+      "HELP": "এই কথোপকথনে উত্তরের উপরে আপনার নাম দেখান",
+      "ERROR": "পরিচয়ের সেটিং আপডেট করা যায়নি। আবার চেষ্টা করুন।"
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

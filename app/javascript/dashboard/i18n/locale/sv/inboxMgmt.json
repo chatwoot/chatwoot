@@ -1,5 +1,9 @@
 {
   "INBOX_MGMT": {
+    "USER_IDENTIFIER": {
+      "LABEL": "Användaridentifierare",
+      "DESCRIPTION": "Visar automatiskt medarbetarens namn i fetstil ovanför meddelandena. Aktiverad som standard för varje konversation och kan stängas av i svarsredigeraren för att skicka exakta kommandon till botar. Den personliga signaturen förblir separat under meddelandet."
+    },
     "HEADER": "Inkorgar",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
