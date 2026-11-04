@@ -31,6 +31,59 @@ RSpec.describe Article do
     end
   end
 
+  describe 'translation families' do
+    let(:original) { create(:article, portal: portal_1, author: user, locale: 'en') }
+    let(:translation) { create(:article, portal: portal_1, author: user, locale: 'es', status: :draft, associated_article_id: original.id) }
+
+    %i[draft published].each do |status|
+      it "rejects a #{status} article in the original's locale" do
+        duplicate = build(:article, portal: portal_1, author: user, locale: 'en', status: status, associated_article_id: original.id)
+
+        expect(duplicate).not_to be_valid
+        expect(duplicate.errors[:locale]).to include('has already been taken')
+      end
+
+      it "rejects a #{status} article in an existing draft translation's locale" do
+        translation
+        duplicate = build(:article, portal: portal_1, author: user, locale: 'es', status: status, associated_article_id: original.id)
+
+        expect(duplicate).not_to be_valid
+        expect(duplicate.errors[:locale]).to include('has already been taken')
+      end
+    end
+
+    it 'rejects linking an original with translations to another family' do
+      translation
+      other_original = create(:article, portal: portal_1, author: user, locale: 'es')
+
+      expect(original.update(associated_article_id: other_original.id)).to be false
+      expect(original.errors[:associated_article_id]).to include('is invalid')
+      expect(original.reload.associated_article_id).to be_nil
+      expect(translation.reload.associated_article_id).to eq(original.id)
+    end
+
+    it 'rejects changing a translation to a category whose locale is already in the family' do
+      expect(translation.update(category: category_1)).to be false
+      expect(translation.errors[:locale]).to include('has already been taken')
+      expect(translation.reload.locale).to eq('es')
+    end
+
+    it 'allows unrelated originals in the same locale' do
+      original
+      other_original = build(:article, portal: portal_1, author: user, locale: 'en', status: :draft)
+
+      expect(other_original).to be_valid
+    end
+
+    it 'allows editing and publishing an existing translation' do
+      translation.update!(title: 'Updated translation', content: 'Updated content', status: :published)
+      translation.update!(draft_title: 'Unpublished title', draft_content: 'Unpublished content')
+
+      expect(translation.reload).to have_attributes(title: 'Updated translation', status: 'published',
+                                                    draft_title: 'Unpublished title', draft_content: 'Unpublished content')
+    end
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:author) }
