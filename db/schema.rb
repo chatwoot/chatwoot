@@ -1223,7 +1223,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_04_085633) do
     t.datetime "artifacts_expired_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "created_at"], name: "index_data_exports_on_account_id_and_created_at"
+    t.index ["account_id", "id"], name: "index_data_exports_on_account_id_and_id"
     t.index ["account_id"], name: "index_data_exports_on_account_id"
     t.index ["completed_at"], name: "index_data_exports_on_unexpired_completion", where: "(artifacts_expired_at IS NULL)"
     t.index ["initiated_by_id"], name: "index_data_exports_on_initiated_by_id"

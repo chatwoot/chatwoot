@@ -6,6 +6,10 @@ class DataExportsAPI extends ApiClient {
     super('data_exports', { accountScoped: true });
   }
 
+  get({ beforeId } = {}) {
+    return axios.get(this.url, { params: { before_id: beforeId } });
+  }
+
   download(id) {
     return axios.get(`${this.url}/${id}/download`);
   }

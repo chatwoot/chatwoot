@@ -31,7 +31,13 @@ const router = useRouter();
 const route = useRoute();
 
 const dataImports = ref([]);
-const dataExports = ref([]);
+const recentExports = ref([]);
+const olderExports = ref([]);
+const dataExports = computed(() =>
+  recentExports.value.concat(olderExports.value)
+);
+const hasMoreExports = ref(false);
+const loadingOlderExports = ref(false);
 const canCreateImport = ref(false);
 const integrationEnabled = ref(false);
 const initialSource = ref('');
@@ -68,8 +74,47 @@ const activeTabIndex = computed(() =>
 const hasActiveOperation = computed(
   () =>
     dataImports.value.some(isActiveImport) ||
-    dataExports.value.some(isActiveImport)
+    recentExports.value.some(isActiveImport)
 );
+
+const updateRecentExports = ({ payload, has_more: hasMore }) => {
+  const boundary = recentExports.value.findIndex(
+    item => item.id === payload.at(-1)?.id
+  );
+  if (
+    hasMore &&
+    boundary >= 0 &&
+    (olderExports.value.length || loadingOlderExports.value)
+  ) {
+    // Keep rows displaced from the first page while someone is browsing older exports.
+    olderExports.value = recentExports.value
+      .slice(boundary + 1)
+      .concat(olderExports.value);
+  } else {
+    olderExports.value = [];
+    hasMoreExports.value = hasMore;
+  }
+  recentExports.value = payload;
+};
+
+const loadOlderExports = async () => {
+  if (loadingOlderExports.value || !hasMoreExports.value) return;
+  const beforeId = dataExports.value.at(-1).id;
+  const version = requestVersion;
+  loadingOlderExports.value = true;
+  try {
+    const { data } = await DataExportsAPI.get({ beforeId });
+    if (version !== requestVersion || beforeId !== dataExports.value.at(-1)?.id)
+      return;
+    olderExports.value = olderExports.value.concat(data.payload);
+    hasMoreExports.value = data.has_more;
+  } catch {
+    if (version === requestVersion)
+      useAlert(t('DATA_EXPORTS.LOAD_OLDER_ERROR'));
+  } finally {
+    loadingOlderExports.value = false;
+  }
+};
 
 const fetchHistory = async () => {
   const version = requestVersion;
@@ -81,7 +126,7 @@ const fetchHistory = async () => {
   dataImports.value = response.data.payload || [];
   canCreateImport.value = response.data.can_create_import;
   integrationEnabled.value = response.data.integration_imports_enabled;
-  dataExports.value = exportsResponse.data.payload || [];
+  updateRecentExports(exportsResponse.data);
   loadError.value = '';
 };
 
@@ -362,6 +407,16 @@ onBeforeUnmount(() => {
         :type="activeTab"
         @open="isExport ? openExport($event) : openImport($event)"
       />
+      <div v-if="isExport && hasMoreExports" class="mt-4 flex justify-center">
+        <Button
+          slate
+          outline
+          size="sm"
+          :label="$t('DATA_EXPORTS.LOAD_OLDER')"
+          :is-loading="loadingOlderExports"
+          @click="loadOlderExports"
+        />
+      </div>
     </template>
   </SettingsLayout>
 
