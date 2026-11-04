@@ -189,6 +189,28 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:not_found)
     end
 
+    it 'skips portal analytics on a preview of an unpublished article' do
+      portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: draft_article.preview_token }
+      expect(response.body).not_to include('G-TEST123')
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.body).to include('G-TEST123')
+    end
+
+    it 'hides the article actions menu on a preview of an unpublished article' do
+      portal.update!(config: portal.config.merge('layout' => 'documentation'))
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: draft_article.preview_token }
+      expect(response.body).not_to include(I18n.t('public_portal.article_actions.view_markdown'))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.body).to include(I18n.t('public_portal.article_actions.view_markdown'))
+    end
+
     it 'returns the article with the id with a different locale' do
       article_in_locale = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id)
       get "/hc/#{portal.slug}/articles/#{article_in_locale.slug}"
