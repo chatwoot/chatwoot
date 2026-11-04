@@ -6,12 +6,9 @@ class EnableDataImportForAllAccounts < ActiveRecord::Migration[7.2]
   def up
     enable_default
 
-    column, mapping = Account.flag_mapping.find { |_column, flags| flags.key?(:feature_data_import) }
-    flags = Account.arel_table[column]
-    bit = mapping.fetch(:feature_data_import)
     Account.not_feature_data_import.in_batches(of: 1000) do |batch|
-      # Update only this bit in each batch, preserving concurrent flag changes without running account callbacks.
-      batch.update_all(column => (flags | bit)) # rubocop:disable Rails/SkipsModelValidations
+      # FlagShihTzu preserves unrelated flags; bulk updates avoid per-account validations and callbacks.
+      batch.update_all(Account.set_flag_sql(:feature_data_import, true)) # rubocop:disable Rails/SkipsModelValidations
     end
   end
 
