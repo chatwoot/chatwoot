@@ -34,6 +34,7 @@ class Captain::CustomTool < ApplicationRecord
 
   include Concerns::Toolable
   include Concerns::SafeEndpointValidatable
+  include Concerns::VerifiedEmailSourceable
 
   self.table_name = 'captain_custom_tools'
 
@@ -54,7 +55,7 @@ class Captain::CustomTool < ApplicationRecord
   # Any name starting with x-chatwoot, dash or not, is reserved for headers Chatwoot sets
   RESERVED_HEADER_PREFIX = 'x-chatwoot'.freeze
   # Values Chatwoot fills into a parameter from what the customer verified: an email by one-time code
-  VERIFIED_SOURCES = %w[verified.email].freeze
+  VERIFIED_SOURCES = [VERIFIED_EMAIL_SOURCE].freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -139,22 +140,15 @@ class Captain::CustomTool < ApplicationRecord
     }
   end
 
-  # The tool only runs for a customer who verified an email with a one-time code.
-  # A tool with a parameter that takes the verified email cannot run without one, so it needs no setting.
-  def requires_email_verification?
-    settings['requires_email_verification'] == true || param_schema.any? { |param_def| param_def['source'] == 'verified.email' }
-  end
-
-  # The name of the parameter Chatwoot fills with the verified email, if the tool has one
-  def verified_email_param
-    param_schema.find { |param_def| param_def['source'] == 'verified.email' }&.dig('name')
-  end
-
   def enabled_scenarios_count
     assistant.scenarios.enabled.where('tools @> ?', [slug].to_json).count
   end
 
   private
+
+  def sources_by_param
+    param_schema.to_h { |param_def| [param_def['name'], param_def['source']] }
+  end
 
   def validate_headers
     return errors.add(:headers, I18n.t('captain.custom_tool.headers.invalid')) unless headers.is_a?(Hash)

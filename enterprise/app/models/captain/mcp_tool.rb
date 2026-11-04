@@ -24,9 +24,10 @@
 # A tool on an MCP server that an admin approved for Captain, pinned to the definition the admin reviewed.
 # Captain uses it only while the server's live definition still matches approved_digest.
 class Captain::McpTool < ApplicationRecord
+  include Concerns::VerifiedEmailSourceable
+
   self.table_name = 'captain_mcp_tools'
 
-  PARAM_SOURCE_VERIFIED_EMAIL = 'verified.email'.freeze
   PARAM_SOURCE_FIXED = 'fixed'.freeze
   PARAM_SOURCES_VALIDATION = {
     'type': 'object',
@@ -34,7 +35,7 @@ class Captain::McpTool < ApplicationRecord
       'oneOf': [
         {
           'type': 'object',
-          'properties': { 'source': { 'const': PARAM_SOURCE_VERIFIED_EMAIL } },
+          'properties': { 'source': { 'const': VERIFIED_EMAIL_SOURCE } },
           'required': %w[source],
           'additionalProperties': false
         },
@@ -97,15 +98,11 @@ class Captain::McpTool < ApplicationRecord
     approved_definition['input_schema']
   end
 
-  def requires_email_verification?
-    settings['requires_email_verification'] == true || verified_email_param.present?
-  end
-
-  def verified_email_param
-    param_sources.find { |_name, source| source['source'] == PARAM_SOURCE_VERIFIED_EMAIL }&.first
-  end
-
   private
+
+  def sources_by_param
+    param_sources.transform_values { |source| source['source'] }
+  end
 
   def assign_captain_name
     self.captain_name ||= mcp_server&.captain_tool_name(name.to_s)
@@ -130,7 +127,7 @@ class Captain::McpTool < ApplicationRecord
   end
 
   def validate_verified_email_param(properties)
-    verified = param_sources.select { |_name, source| source['source'] == PARAM_SOURCE_VERIFIED_EMAIL }.keys
+    verified = param_sources.select { |_name, source| source['source'] == VERIFIED_EMAIL_SOURCE }.keys
     return errors.add(:param_sources, I18n.t('captain.mcp_server.tools.one_verified_email', tool: name)) if verified.size > 1
     # Verified values are text, so a parameter that takes one must be a string
     return if verified.none? || properties.dig(verified.first, 'type') == 'string'
