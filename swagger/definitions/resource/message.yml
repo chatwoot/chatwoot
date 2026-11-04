@@ -41,6 +41,13 @@ properties:
       - string
       - 'null'
     description: The source ID of the message
+  client_message_id:
+    type:
+      - string
+      - 'null'
+    description: |
+      The durable identity supplied by the client on creation. Present only when the
+      client sent one. Unique within the conversation.
   content_type:
     type:
       - string
