@@ -878,6 +878,22 @@
         "VOICE_CALLING": {
           "LABEL": "Voice calling",
           "TOOLTIP": "Whether calling is turned on for this inbox"
+        },
+        "SENDER_STATUS": {
+          "LABEL": "WhatsApp sender status",
+          "TOOLTIP": "The sender must be online to send and receive WhatsApp messages"
+        },
+        "DISPLAY_NAME": {
+          "LABEL": "WhatsApp display name",
+          "TOOLTIP": "The business name shown to customers on WhatsApp"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Quality rating",
+          "TOOLTIP": "The WhatsApp sender quality rating reported by Twilio"
+        },
+        "MESSAGING_LIMIT": {
+          "LABEL": "Messaging limit",
+          "TOOLTIP": "The WhatsApp messaging limit reported by Twilio"
         }
       },
       "VALUES": {
@@ -896,10 +912,25 @@
         },
         "SENDER_TYPES": {
           "PHONE_NUMBER": "Phone number",
-          "MESSAGING_SERVICE": "Messaging service"
+          "MESSAGING_SERVICE": "Messaging service",
+          "WHATSAPP_SENDER": "WhatsApp sender"
         },
         "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "DISABLED": "Disabled",
+        "SENDER_STATUSES": {
+          "ONLINE": "Online",
+          "OFFLINE": "Offline",
+          "CREATING": "Creating",
+          "VERIFYING": "Verifying",
+          "UPDATING": "Updating",
+          "DELETING": "Deleting",
+          "UNKNOWN": "Unknown"
+        },
+        "QUALITY_RATINGS": {
+          "HIGH": "High",
+          "MEDIUM": "Medium",
+          "LOW": "Low"
+        }
       },
       "WEBHOOKS": {
         "TITLE": "Webhooks",
@@ -1117,6 +1148,7 @@
       }
     },
     "SETTINGS": "Settings",
+    "VIEW_CONVERSATIONS": "View conversations",
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
