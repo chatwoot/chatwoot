@@ -16,6 +16,9 @@ json.started_at data_import.started_at
 json.completed_at data_import.completed_at
 json.abandoned_at data_import.abandoned_at
 json.initiated_by data_import.initiated_by&.slice(:id, :name, :email)
+json.allowed_actions do
+  json.abandon data_import.abandonable?
+end
 if @import_errors_counts
   json.import_errors_count @import_errors_counts.fetch(data_import.id, 0)
   json.skip_logs_count (@skip_logs_counts || {}).fetch(data_import.id, 0)
