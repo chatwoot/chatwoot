@@ -1683,7 +1683,9 @@
       "STATUS": {
         "ACTIVE": "Active",
         "NEEDS_SIGN_IN": "Needs sign-in",
-        "ERROR": "Error",
+        "TOKEN_REJECTED": "Token rejected",
+        "NEEDS_TOKEN": "Needs a token",
+        "LAST_REQUEST_FAILED": "Last request failed",
         "TOGGLE": "Turn {name} on or off"
       },
       "AUTH_TYPES": {

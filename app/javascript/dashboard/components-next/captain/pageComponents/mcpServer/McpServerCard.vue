@@ -20,10 +20,16 @@ const emit = defineEmits(['action', 'toggle']);
 const { t } = useI18n();
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
+const NEEDS_CREDENTIALS = 'needs_credentials';
 const STATUS_CLASSES = {
   active: 'bg-n-teal-3 text-n-teal-11',
-  needs_sign_in: 'bg-n-amber-3 text-n-amber-11',
-  error: 'bg-n-ruby-3 text-n-ruby-11',
+  [NEEDS_CREDENTIALS]: 'bg-n-amber-3 text-n-amber-11',
+};
+// The server rejected the saved credentials. The sign-in type decides what the admin does about it.
+const NEEDS_CREDENTIALS_LABELS = {
+  oauth: 'CAPTAIN.MCP_SERVERS.STATUS.NEEDS_SIGN_IN',
+  token: 'CAPTAIN.MCP_SERVERS.STATUS.TOKEN_REJECTED',
+  none: 'CAPTAIN.MCP_SERVERS.STATUS.NEEDS_TOKEN',
 };
 
 const enabledState = computed({
@@ -32,7 +38,9 @@ const enabledState = computed({
 });
 
 const statusLabel = computed(() =>
-  t(`CAPTAIN.MCP_SERVERS.STATUS.${props.server.status.toUpperCase()}`)
+  props.server.status === NEEDS_CREDENTIALS
+    ? t(NEEDS_CREDENTIALS_LABELS[props.server.auth_type])
+    : t('CAPTAIN.MCP_SERVERS.STATUS.ACTIVE')
 );
 
 const authLabel = computed(() =>
@@ -83,7 +91,13 @@ const handleAction = ({ action }) => {
       </div>
       <div class="flex items-center gap-2 shrink-0">
         <span
-          v-tooltip.top="server.last_error || ''"
+          v-if="server.last_error"
+          v-tooltip.top="server.last_error"
+          class="text-xs font-medium px-2 py-0.5 rounded-full bg-n-ruby-3 text-n-ruby-11"
+        >
+          {{ t('CAPTAIN.MCP_SERVERS.STATUS.LAST_REQUEST_FAILED') }}
+        </span>
+        <span
           class="text-xs font-medium px-2 py-0.5 rounded-full"
           :class="STATUS_CLASSES[server.status]"
         >
