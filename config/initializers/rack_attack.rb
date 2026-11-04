@@ -96,9 +96,17 @@ class Rack::Attack
     end
 
     def normalized_super_admin_email
-      scoped_params = params['super_admin'].presence || ActionDispatch::Request.new(env).params['super_admin']
-      email = scoped_params['email'] if scoped_params.is_a?(Hash)
+      email = super_admin_params&.dig('email')
       email.downcase.gsub(/\s+/, '') if email.is_a?(String) && email.present?
+    end
+
+    def super_admin_mfa_submission?
+      !super_admin_params&.dig('otp_code').nil?
+    end
+
+    def super_admin_params
+      scoped_params = params['super_admin'].presence || ActionDispatch::Request.new(env).params['super_admin']
+      scoped_params if scoped_params.is_a?(Hash)
     rescue StandardError
       nil
     end
@@ -141,7 +149,11 @@ class Rack::Attack
 
   ### Prevent Brute-Force Super Admin Login Attacks ###
   throttle('super_admin_login/ip', limit: 5, period: 5.minutes) do |req|
-    req.ip if req.path_without_extensions == '/super_admin/sign_in' && req.post?
+    req.ip if req.path_without_extensions == '/super_admin/sign_in' && req.post? && !req.super_admin_mfa_submission?
+  end
+
+  throttle('super_admin_mfa/ip', limit: 10, period: 1.minute) do |req|
+    req.ip if req.path_without_extensions == '/super_admin/sign_in' && req.post? && req.super_admin_mfa_submission?
   end
 
   throttle('super_admin_login/email', limit: 5, period: 15.minutes) do |req|

@@ -79,6 +79,35 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'super_admin_login/ip' do
+    it 'counts password sign-ins by ip' do
+      env = form_env({ 'super_admin' => { 'email' => 'a@b.com', 'password' => 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to eq(ip)
+    end
+
+    it 'skips code submissions' do
+      env = form_env({ 'super_admin' => { 'otp_code' => '123456' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to be_nil
+    end
+
+    it 'counts a JSON sign-in with a null code as a password sign-in' do
+      env = json_env({ super_admin: { email: 'a@b.com', password: 'x', otp_code: nil } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to eq(ip)
+    end
+  end
+
+  describe 'super_admin_mfa/ip' do
+    it 'counts code submissions by ip' do
+      env = form_env({ 'super_admin' => { 'otp_code' => '123456' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_mfa/ip', env)).to eq(ip)
+    end
+
+    it 'skips password sign-ins' do
+      env = form_env({ 'super_admin' => { 'email' => 'a@b.com', 'password' => 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_mfa/ip', env)).to be_nil
+    end
+  end
+
   describe 'super_admin_login/email' do
     def super_admin_env(params)
       form_env(params, '/super_admin/sign_in')
