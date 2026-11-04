@@ -9,7 +9,7 @@ RSpec.describe DataImports::Csv::NotificationJob do
     allow(AdministratorNotifications::AccountNotificationMailer).to receive(:delivery_method).and_return(:test)
   end
 
-  it 'sends the CSV completion notification once and links back to Contacts' do
+  it 'sends the CSV completion notification once and links to the import page' do
     account = create(:account)
     create(:user, account: account, role: :administrator)
     record = create(:data_import, account: account, source_provider: 'csv', source_type: 'file', import_types: ['contacts'],
@@ -17,6 +17,6 @@ RSpec.describe DataImports::Csv::NotificationJob do
     expect do
       2.times { described_class.perform_now(record) }
     end.to change { ActionMailer::Base.deliveries.size }.by(1)
-    expect(ActionMailer::Base.deliveries.last.body.encoded).to include("accounts/#{account.id}/contacts")
+    expect(ActionMailer::Base.deliveries.last.body.encoded).to include("settings/data/#{record.id}")
   end
 end
