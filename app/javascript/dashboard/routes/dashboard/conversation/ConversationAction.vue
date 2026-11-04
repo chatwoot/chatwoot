@@ -115,8 +115,8 @@ const assignedAgent = computed({
         agentId,
         assigneeType,
       })
-      .then(() => {
-        useAlert(t('CONVERSATION.CHANGE_AGENT'));
+      .then(assigned => {
+        if (assigned) useAlert(t('CONVERSATION.CHANGE_AGENT'));
       });
   },
 });

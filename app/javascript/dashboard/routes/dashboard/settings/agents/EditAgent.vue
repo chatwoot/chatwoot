@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from '@vuelidate/validators';
+import { required, minLength, minValue, integer } from '@vuelidate/validators';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -38,6 +38,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  maxOpenConversations: {
+    type: Number,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -51,17 +55,20 @@ const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
 const agentCredentials = ref({ email: props.email });
+const maxOpenConversations = ref(props.maxOpenConversations ?? '');
 
 const rules = {
   agentName: { required, minLength: minLength(1) },
   selectedRoleId: { required },
   agentAvailability: { required },
+  maxOpenConversations: { integer, minValue: minValue(1) },
 };
 
 const v$ = useVuelidate(rules, {
   agentName,
   selectedRoleId,
   agentAvailability,
+  maxOpenConversations,
 });
 
 const pageTitle = computed(
@@ -126,6 +133,7 @@ const editAgent = async () => {
       id: props.id,
       name: agentName.value,
       availability: agentAvailability.value,
+      max_open_conversations: maxOpenConversations.value || null,
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -200,6 +208,25 @@ const resetPassword = async () => {
           </select>
           <span v-if="v$.agentAvailability.$error" class="message">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
+          </span>
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label :class="{ error: v$.maxOpenConversations.$error }">
+          {{ $t('AGENT_MGMT.EDIT.FORM.MAX_OPEN_CONVERSATIONS.LABEL') }}
+          <input
+            v-model="maxOpenConversations"
+            type="number"
+            min="1"
+            step="1"
+            :placeholder="
+              $t('AGENT_MGMT.EDIT.FORM.MAX_OPEN_CONVERSATIONS.PLACEHOLDER')
+            "
+            @input="v$.maxOpenConversations.$touch"
+          />
+          <span v-if="v$.maxOpenConversations.$error" class="message">
+            {{ $t('AGENT_MGMT.EDIT.FORM.MAX_OPEN_CONVERSATIONS.ERROR') }}
           </span>
         </label>
       </div>

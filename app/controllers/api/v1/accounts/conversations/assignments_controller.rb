@@ -13,13 +13,24 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   private
 
   def set_agent
-    resource = Conversations::AssignmentService.new(
-      conversation: @conversation,
-      assignee_id: params[:assignee_id],
-      assignee_type: params[:assignee_type]
-    ).perform
+    resource = Conversations::AssignmentRulesService.new(account: Current.account, assignee: human_assignee).enforce! do
+      Conversations::AssignmentService.new(
+        conversation: @conversation,
+        assignee_id: params[:assignee_id],
+        assignee_type: params[:assignee_type]
+      ).perform
+    end
 
     render_agent(resource)
+  rescue CustomExceptions::ConversationAssignmentNotAllowed => e
+    render_could_not_create_error(e.message)
+  end
+
+  # Conversations::AssignmentService assigns a human for every type other than these AI assignees
+  def human_assignee
+    return if %w[AgentBot Captain::Assistant].include?(params[:assignee_type].to_s)
+
+    Current.account.users.find_by(id: params[:assignee_id])
   end
 
   def render_agent(resource)

@@ -82,10 +82,25 @@ const foldersQuery = useMapGetter('getAppliedConversationFiltersQuery');
 const showAddFoldersModal = ref(false);
 const showDeleteFoldersModal = ref(false);
 const appliedFilter = ref([]);
+const filterAttributeNames = {
+  ASSIGNEE_NAME: t('FILTER.ATTRIBUTES.ASSIGNEE_NAME'),
+  BROWSER_LANGUAGE: t('FILTER.ATTRIBUTES.BROWSER_LANGUAGE'),
+  CAMPAIGN_NAME: t('FILTER.ATTRIBUTES.CAMPAIGN_NAME'),
+  CONTACT: t('FILTER.ATTRIBUTES.CONTACT'),
+  CONVERSATION_IDENTIFIER: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
+  CREATED_AT: t('FILTER.ATTRIBUTES.CREATED_AT'),
+  INBOX_NAME: t('FILTER.ATTRIBUTES.INBOX_NAME'),
+  LABELS: t('FILTER.ATTRIBUTES.LABELS'),
+  LAST_ACTIVITY: t('FILTER.ATTRIBUTES.LAST_ACTIVITY'),
+  PRIORITY: t('FILTER.ATTRIBUTES.PRIORITY'),
+  REFERER_LINK: t('FILTER.ATTRIBUTES.REFERER_LINK'),
+  STATUS: t('FILTER.ATTRIBUTES.STATUS'),
+  TEAM_NAME: t('FILTER.ATTRIBUTES.TEAM_NAME'),
+};
 const advancedFilterTypes = ref(
   advancedFilterOptions.map(filter => ({
     ...filter,
-    attributeName: t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
+    attributeName: filterAttributeNames[filter.attributeI18nKey],
   }))
 );
 
@@ -175,6 +190,12 @@ const userPermissions = computed(() => {
   return getUserPermissions(currentUser.value, currentAccountId.value);
 });
 
+const assigneeTabNames = computed(() => ({
+  me: t('CHAT_LIST.ASSIGNEE_TYPE_TABS.me'),
+  unassigned: t('CHAT_LIST.ASSIGNEE_TYPE_TABS.unassigned'),
+  all: t('CHAT_LIST.ASSIGNEE_TYPE_TABS.all'),
+}));
+
 const assigneeTabItems = computed(() => {
   return filterItemsByPermission(
     ASSIGNEE_TYPE_TAB_PERMISSIONS,
@@ -182,7 +203,7 @@ const assigneeTabItems = computed(() => {
     item => item.permissions
   ).map(({ key, count: countKey }) => ({
     key,
-    name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+    name: assigneeTabNames.value[key],
     count: conversationStats.value[countKey] || 0,
   }));
 });
@@ -763,8 +784,8 @@ function toggleConversationStatus(
     payload.customAttributes = customAttributes;
   }
 
-  store.dispatch('toggleStatus', payload).then(() => {
-    useAlert(t('CONVERSATION.CHANGE_STATUS'));
+  store.dispatch('toggleStatus', payload).then(changed => {
+    if (changed) useAlert(t('CONVERSATION.CHANGE_STATUS'));
   });
 }
 

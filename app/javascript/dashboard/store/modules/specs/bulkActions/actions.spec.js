@@ -18,7 +18,9 @@ describe('#actions', () => {
     });
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.process({ commit })).rejects.toThrow(Error);
+      await expect(actions.process({ commit })).rejects.toEqual({
+        message: 'Incorrect header',
+      });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_BULK_ACTIONS_FLAG, { isUpdating: true }],
         [types.default.SET_BULK_ACTIONS_FLAG, { isUpdating: false }],

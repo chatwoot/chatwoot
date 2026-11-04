@@ -17,6 +17,7 @@ import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import * as Sentry from '@sentry/vue';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
+import { useAlert } from 'dashboard/composables';
 import {
   handleVoiceCallCreated,
   handleVoiceCallUpdated,
@@ -326,8 +327,15 @@ const actions = {
         assignee: response.data,
         assigneeType,
       });
+      return true;
     } catch (error) {
-      // Handle error
+      // Assignment rules (e.g. the agent's open conversation limit) reject with a message; undo the optimistic update
+      const message = error?.response?.data?.error;
+      if (message) {
+        useAlert(message);
+        dispatch('getConversation', conversationId);
+      }
+      return false;
     }
   },
 
@@ -388,8 +396,12 @@ const actions = {
         status: updatedStatus,
         snoozedUntil: updatedSnoozedUntil,
       });
+      return true;
     } catch (error) {
-      // Handle error
+      // Assignment rules reject reopening into an agent over their open conversation limit
+      const message = error?.response?.data?.error;
+      if (message) useAlert(message);
+      return false;
     }
   },
 

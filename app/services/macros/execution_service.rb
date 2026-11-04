@@ -24,7 +24,19 @@ class Macros::ExecutionService < ActionService
 
   def assign_agent(agent_ids)
     agent_ids = agent_ids.map { |id| id == 'self' ? @user.id : id }
-    super(agent_ids)
+    agent_ids = [last_responding_agent_id] if agent_ids[0] == 'last_responding_agent'
+    with_assignment_limit(@account.users.find_by(id: agent_ids)) { super(agent_ids) }
+  end
+
+  def change_status(status)
+    with_assignment_limit(@conversation.assignee) { super }
+  end
+
+  # Macros run on behalf of a user, so an action that would take the assignee over their open conversation limit is skipped
+  def with_assignment_limit(assignee, &)
+    Conversations::AssignmentRulesService.new(account: @account, assignee: assignee).enforce!(&)
+  rescue CustomExceptions::ConversationAssignmentNotAllowed => e
+    Rails.logger.info("Macro #{@macro.id} skipped an action on conversation #{@conversation.id}: #{e.message}")
   end
 
   def add_private_note(message)

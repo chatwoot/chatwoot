@@ -89,6 +89,29 @@ RSpec.describe Macros::ExecutionService, type: :service do
         expect(conversation.reload.assignee).to be_nil
       end
     end
+
+    context 'when the agent reached the open conversation limit' do
+      before do
+        user.account_users.find_by(account: account).update!(max_open_conversations: 1)
+        create(:conversation, account: account, assignee: user, status: :open)
+      end
+
+      it 'skips the assignment' do
+        service.send(:assign_agent, ['self'])
+        expect(conversation.reload.assignee).to be_nil
+      end
+    end
+  end
+
+  describe '#change_status' do
+    it 'skips reopening a conversation into an assignee over the open conversation limit' do
+      user.account_users.find_by(account: account).update!(max_open_conversations: 1)
+      create(:conversation, account: account, assignee: user, status: :open)
+      conversation.update!(assignee: user, status: :resolved)
+
+      service.send(:change_status, ['open'])
+      expect(conversation.reload).to be_resolved
+    end
   end
 
   describe '#add_private_note' do

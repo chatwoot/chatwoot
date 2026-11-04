@@ -1709,6 +1709,13 @@
               "null"
             ],
             "description": "The custom role id of the agent"
+          },
+          "max_open_conversations": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Maximum number of open conversations that can be manually assigned to the agent. Null means no limit."
           }
         }
       },
@@ -3540,6 +3547,15 @@
             "type": "boolean",
             "description": "Whether the agent is automatically marked offline when they are away.",
             "example": true
+          },
+          "max_open_conversations": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "description": "Maximum number of open conversations that can be manually assigned to the agent. Send null to remove the limit.",
+            "example": 10
           }
         }
       },
