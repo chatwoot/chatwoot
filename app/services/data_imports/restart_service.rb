@@ -8,29 +8,24 @@ class DataImports::RestartService
 
   def perform
     @account.with_lock do
-      @data_import.reload
-      next :render_show unless @data_import.integration_import?
-      next :render_show unless @data_import.restartable?
-
-      if (active_import = find_active_import)
-        @data_import = active_import
-        next :render_show
-      end
-
-      next :access_token_missing if @data_import.access_token.blank?
-
-      @data_import.assign_active_import_run_id
-      retained_skip_logs = @data_import.import_errors.where("details ->> 'kind' = ?", 'skipped')
-      @data_import.import_errors.where.not(id: retained_skip_logs.select(:id)).delete_all
-      @data_import.update!(restart_attributes(retained_skip_logs))
-      :enqueue
+      @data_import.with_lock { restart_locked }
     end
   end
 
   private
 
-  def find_active_import
-    @account.data_imports.active_integrations.first
+  def restart_locked
+    return :render_show unless @data_import.integration_import?
+    return :render_show unless @data_import.restartable?
+
+    return :active_import_exists if @account.data_imports.active_imports.exists?
+    return :access_token_missing if @data_import.access_token.blank?
+
+    @data_import.assign_active_import_run_id
+    retained_skip_logs = @data_import.import_errors.where("details ->> 'kind' = ?", 'skipped')
+    @data_import.import_errors.where.not(id: retained_skip_logs.select(:id)).delete_all
+    @data_import.update!(restart_attributes(retained_skip_logs))
+    :enqueue
   end
 
   def restart_attributes(retained_skip_logs)

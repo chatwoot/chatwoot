@@ -60,6 +60,10 @@ class DataImport < ApplicationRecord
   scope :active_integrations, lambda {
     where(data_type: INTEGRATION_DATA_TYPES, status: [:pending, :processing]).where('source_provider = data_type')
   }
+  scope :active_imports, lambda {
+    active_integrations
+      .or(where(data_type: 'contacts', source_provider: [nil, ''], status: [:pending, :processing]))
+  }
 
   has_one_attached :import_file
   has_one_attached :failed_records
@@ -92,15 +96,11 @@ class DataImport < ApplicationRecord
   end
 
   def abandonable?
-    integration_import? && (pending? || processing?)
+    (pending? || processing?) && (integration_import? || (legacy_contacts_csv_import? && updated_at <= IMPORT_STALLED_AFTER.ago))
   end
 
   def abandon!
-    self.class.transaction do
-      active_imports = self.class.lock.where(id: id, data_type: INTEGRATION_DATA_TYPES, status: [:pending, :processing])
-      abandonable_import = active_imports.where('source_provider = data_type').first
-      abandonable_import&.update!(status: :abandoned, abandoned_at: Time.current)
-    end
+    with_lock { update!(status: :abandoned, abandoned_at: Time.current) if abandonable? }
     reload
   end
 
