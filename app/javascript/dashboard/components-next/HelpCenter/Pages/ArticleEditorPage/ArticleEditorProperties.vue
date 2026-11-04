@@ -30,38 +30,21 @@ const { t } = useI18n();
 const route = useRoute();
 
 const articleOptions = ref([]);
-const articleQuery = ref('');
 const associationSelectionKey = ref(0);
-const { run: runArticleRequest } = useAbortableRequest();
+const { run: runArticleRequest, isPending: isFetchingArticles } =
+  useAbortableRequest();
 
-const articleLabel = article => `${article.title} (${article.locale})`;
+const toArticleOption = article => ({
+  label: `${article.title} (${article.locale})`,
+  value: article.id,
+});
 
-const rootArticleId = computed(() => props.article.associatedArticleId || '');
-const rootArticleTitle = computed(() =>
-  props.article.rootArticle ? articleLabel(props.article.rootArticle) : ''
-);
-
-const selectableArticleOptions = computed(() => {
-  const options = [...articleOptions.value];
-  const rootArticle = props.article.rootArticle;
-
-  if (
-    !articleQuery.value &&
-    rootArticle &&
-    !options.some(option => option.value === rootArticle.id)
-  ) {
-    options.unshift({
-      label: articleLabel(rootArticle),
-      value: rootArticle.id,
-    });
-  }
-
-  return options;
+const rootOption = computed(() => {
+  const { rootArticle } = props.article;
+  return rootArticle ? toArticleOption(rootArticle) : null;
 });
 
 const fetchArticles = async (query = '') => {
-  articleQuery.value = query;
-
   try {
     await runArticleRequest(async signal => {
       const {
@@ -74,10 +57,7 @@ const fetchArticles = async (query = '') => {
 
       articleOptions.value = payload
         .filter(article => article.id !== props.article.id)
-        .map(article => ({
-          label: articleLabel(article),
-          value: article.id,
-        }));
+        .map(toArticleOption);
     });
   } catch {
     articleOptions.value = [];
@@ -174,9 +154,10 @@ onMounted(() => {
           </label>
           <ComboBox
             :key="associationSelectionKey"
-            :model-value="rootArticleId"
-            :options="selectableArticleOptions"
-            :display-label="rootArticleTitle"
+            :model-value="rootOption?.value ?? ''"
+            :options="articleOptions"
+            :display-label="rootOption?.label ?? ''"
+            :loading="isFetchingArticles"
             :placeholder="
               t(
                 'HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.ORIGINAL_ARTICLE_PLACEHOLDER'
