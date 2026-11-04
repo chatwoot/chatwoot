@@ -24,6 +24,17 @@ module Concerns::McpToolApprovable
     tools.reset
   end
 
+  # Compares the server's live tools with the approved ones. Each live tool says whether it is approved and whether
+  # it changed since, and missing lists the approved tools the server no longer offers.
+  def compare_live_tools(live_definitions)
+    approved = tools.index_by(&:name)
+    compared = live_definitions.map do |definition|
+      tool = approved[definition['name']]
+      { definition: definition, approved: tool.present?, changed: tool.present? && !tool.approval_current?(definition) }
+    end
+    { tools: compared, missing: approved.keys - live_definitions.pluck('name') }
+  end
+
   # Adds the error to the server and raises, so the API answers 422 with the reason
   def invalid_tool!(name, reason)
     errors.add(:tools, I18n.t("captain.mcp_server.tools.#{reason}", tool: name))
