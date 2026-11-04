@@ -1,7 +1,12 @@
 class Captain::Conversation::MessageLanguageService
-  # The conversation follows the language most of the contact's recent messages are in, so one short message
-  # such as a city name or a typo cannot switch the replies on its own.
-  VOTING_MESSAGES = 5
+  # Detection is unreliable on a word or two, such as a city name or a typo. So the conversation follows the contact's
+  # newest message that has a few words, or that is in the same language as the message before it.
+  RECENT_MESSAGES = 5
+  MIN_WORDS = 3
+  # Scripts written without spaces between words count each character as a word. Elsewhere a word needs a letter,
+  # so numbers, emoji and punctuation do not make a short message look long.
+  NO_SPACE_SCRIPTS = '\p{Han}\p{Hiragana}\p{Katakana}\p{Thai}\p{Lao}\p{Khmer}\p{Myanmar}'.freeze
+  WORD = /[#{NO_SPACE_SCRIPTS}]|[^\s#{NO_SPACE_SCRIPTS}]*\p{L}[^\s#{NO_SPACE_SCRIPTS}]*/
 
   pattr_initialize [:conversation!, :message!]
 
@@ -18,25 +23,34 @@ class Captain::Conversation::MessageLanguageService
 
   private
 
+  # Any recent message can change the result, because the dashboard detects messages in parallel and the newest
+  # one may finish before the older ones.
   def update_conversation_language(language)
-    return if language == conversation.language || message.auto_reply_email?
-    return unless message.id == contact_text_messages.maximum(:id)
+    return if language == conversation.language
 
-    majority = majority_language
-    return if majority == conversation.language
+    detected = recent_detected_messages
+    return unless detected.include?(message)
 
-    Rails.logger.info("[AutoTranslate] conversation #{conversation.id} language #{conversation.language.inspect} -> #{majority}")
-    conversation.update!(additional_attributes: conversation.additional_attributes.merge('conversation_language' => majority))
+    new_language = recent_language(detected)
+    return if new_language.nil? || new_language == conversation.language
+
+    Rails.logger.info("[AutoTranslate] conversation #{conversation.id} language #{conversation.language.inspect} -> #{new_language}")
+    conversation.update!(additional_attributes: conversation.additional_attributes.merge('conversation_language' => new_language))
   end
 
-  # Messages without a detected language are skipped. Newest first, so a tie goes to the most recent language.
-  def majority_language
-    languages = contact_text_messages.reorder(id: :desc).limit(VOTING_MESSAGES).filter_map(&:source_language)
-    counts = languages.tally
-    languages.find { |language| counts[language] == counts.values.max }
+  # Newest first. When no recent message is reliable, the current language stays, or the newest message
+  # sets it when the conversation has none yet.
+  def recent_language(detected)
+    detected.each_with_index do |recent_message, index|
+      language = recent_message.source_language
+      return language if recent_message.content.scan(WORD).size >= MIN_WORDS || language == detected[index + 1]&.source_language
+    end
+    detected.first.source_language if conversation.language.blank?
   end
 
-  def contact_text_messages
-    conversation.messages.incoming.where(content_type: %w[text incoming_email]).where.not(content: [nil, ''])
+  # Email auto replies are left out, so out-of-office messages cannot pick the reply language.
+  def recent_detected_messages
+    conversation.messages.captain_response_triggering.where(content_type: %w[text incoming_email]).where.not(content: [nil, ''])
+                .reorder(id: :desc).limit(RECENT_MESSAGES).select { |recent_message| recent_message.source_language.present? }
   end
 end
