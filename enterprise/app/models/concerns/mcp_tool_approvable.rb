@@ -10,8 +10,7 @@ module Concerns::McpToolApprovable
 
   # Makes the approved tools match the selections, a hash of fields by tool name. A tool that is already approved keeps
   # its approved definition, so editing its parameters never approves a change the server made, and fields the
-  # selection leaves out keep their values. A newly selected tool is pinned to its definition in live_definitions,
-  # which must be read-only.
+  # selection leaves out keep their values. A newly selected tool is pinned to its definition in live_definitions.
   def sync_tools(selections, live_definitions)
     transaction do
       approved = tools.index_by(&:name)
@@ -35,7 +34,6 @@ module Concerns::McpToolApprovable
 
   def approved_tool(name, definition)
     invalid_tool!(name, :missing) unless definition
-    invalid_tool!(name, :not_read_only) unless definition['read_only']
 
     tools.new(account: account, name: name).tap { |tool| tool.approve(definition) }
   end

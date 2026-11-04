@@ -33,8 +33,7 @@ class Captain::McpTool < ApplicationRecord
     'properties': {
       'description': { 'type': %w[string null] },
       'input_schema': { 'type': 'object' },
-      # Captain uses read tools only, so a write tool can never be approved
-      'read_only': { 'const': true }
+      'read_only': { 'type': 'boolean' }
     },
     'required': %w[input_schema read_only],
     'additionalProperties': false

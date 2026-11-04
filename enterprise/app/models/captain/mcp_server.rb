@@ -24,7 +24,7 @@
 #  index_captain_mcp_servers_on_assistant_id_and_url  (assistant_id,url) UNIQUE
 #
 # An MCP server connected to an assistant, with the tools an admin approved.
-# Captain uses only approved read tools, and only while the live definition still matches the approved digest.
+# Captain uses only approved tools, and only while the live definition still matches the approved digest.
 class Captain::McpServer < ApplicationRecord
   include Concerns::SafeEndpointValidatable
   include Concerns::McpToolApprovable
