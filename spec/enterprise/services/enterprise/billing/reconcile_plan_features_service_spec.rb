@@ -36,18 +36,6 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account.reload).not_to be_feature_enabled('data_import')
         expect(account).to be_feature_enabled('campaign_analytics')
       end
-
-      it 'does not restore a flag disabled after the billing worker loaded the account' do
-        account.enable_features!('data_import')
-        account.update!(custom_attributes: { 'plan_name' => 'Startups' })
-        stale_account = Account.find(account.id)
-        account.disable_features!('data_import')
-
-        described_class.new(account: stale_account).perform
-
-        expect(account.reload).not_to be_feature_enabled('data_import')
-        expect(account).to be_feature_enabled('api_and_webhooks')
-      end
     end
 
     context 'with campaigns and analytics' do

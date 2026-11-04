@@ -44,16 +44,13 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   pattr_initialize [:account!, { shopify_lifecycle_cleanup: false }]
 
   def perform
-    # Reload the flags under a lock so a stale account cannot restore an independently disabled feature.
-    account.with_lock do
-      next if shopify_billing? && !shopify_lifecycle_cleanup && !Shopify::FeatureGate.enabled?(account: account)
+    return if shopify_billing? && !shopify_lifecycle_cleanup && !Shopify::FeatureGate.enabled?(account: account)
 
-      account.disable_features(*managed_plan_features)
-      account.enable_features(*current_plan_features)
-      account.enable_features(*manually_managed_features)
-      update_shopify_managed_features
-      account.save!
-    end
+    account.disable_features(*managed_plan_features)
+    account.enable_features(*current_plan_features)
+    account.enable_features(*manually_managed_features)
+    update_shopify_managed_features
+    account.save!
   end
 
   private
