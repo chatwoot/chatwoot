@@ -60,7 +60,7 @@ module Enterprise::AutoAssignment::AssignmentService
     scope = inbox.conversations.unassigned.open
 
     # First apply the assignment policy's age exclusion (defaults to 7 days)
-    scope = apply_age_exclusions(scope, policy&.exclude_older_than_hours)
+    scope = apply_age_exclusions(scope, age_exclusion_hours(policy))
 
     # Then apply the capacity policy's exclusion rules (labels and age)
     scope = apply_exclusion_rules(scope)

@@ -12,7 +12,7 @@ on:
 jobs:
   # Separate linting jobs for faster feedback
   lint-backend:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
@@ -21,14 +21,32 @@ jobs:
       - name: Run Rubocop
         run: bundle exec rubocop --parallel
 
+  security-scan:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Run Brakeman
+        # Non-blocking for now: Brakeman surfaces 35 pre-existing findings
+        # (13 High confidence) that need security-team triage before this
+        # can be turned into a hard gate.
+        continue-on-error: true
+        run: bundle exec brakeman -q --no-pager
+      - name: Run bundle-audit
+        run: |
+          bundle exec bundle-audit update
+          bundle exec bundle-audit check
+
   lint-frontend:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: 'pnpm'
       - name: Install pnpm dependencies
         run: pnpm i
@@ -37,13 +55,13 @@ jobs:
 
   # Frontend tests run in parallel with backend
   frontend-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: 'pnpm'
       - name: Install pnpm dependencies
         run: pnpm i
@@ -52,7 +70,7 @@ jobs:
 
   # Backend tests with parallelization
   backend-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -94,7 +112,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: 'pnpm'
 
       - name: Install pnpm dependencies

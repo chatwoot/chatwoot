@@ -1,10 +1,10 @@
-<%# locals: (input_class:) %>
+<%# locals: (input_class:, plain: false) %>
 <form class="w-full my-4" action="<%= request.path %>" method="GET" data-search-form>
   <input type="hidden" name="locale" value="<%= params[:locale] %>">
   <% if @theme_from_params.present? %>
     <input type="hidden" name="theme" value="<%= @theme_from_params %>">
   <% end %>
-  <% if @is_plain_layout_enabled %>
+  <% if plain %>
     <input type="hidden" name="show_plain_layout" value="true">
   <% end %>
   <input type="text"

@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Izpildīt",
       "PREVIEW": "Priekšskatīt Makro",
-      "EXECUTED_SUCCESSFULLY": "Makro ir veiksmīgi izpildīts"
+      "EXECUTED_SUCCESSFULLY": "Makro ir veiksmīgi izpildīts",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Nepieciešama atribūta atslēga",
@@ -104,6 +105,7 @@
       "MUTE_CONVERSATION": "Izslēgt Sarunu",
       "SNOOZE_CONVERSATION": "Atlikt Sarunu",
       "RESOLVE_CONVERSATION": "Atrisināt Sarunu",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Sūtīt Pielikumu",
       "SEND_MESSAGE": "Nosūtīt Ziņojumu",
       "CHANGE_PRIORITY": "Mainīt prioritāti",

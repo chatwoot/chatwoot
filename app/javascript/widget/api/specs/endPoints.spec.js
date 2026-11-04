@@ -32,6 +32,50 @@ describe('#sendMessage', () => {
   });
 });
 
+describe('#createConversation', () => {
+  it('includes contact custom attributes in the payload', () => {
+    const spy = vi.spyOn(global, 'Date').mockImplementation(() => ({
+      toString: () => 'mock date',
+    }));
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      ...window.location,
+      search: '?param=1',
+    });
+
+    window.WOOT_WIDGET = {
+      $root: { $i18n: { locale: 'ar' } },
+    };
+
+    const result = endPoints.createConversation({
+      fullName: 'John',
+      emailAddress: 'john@example.com',
+      phoneNumber: '+919745313456',
+      message: 'hey',
+      customAttributes: { order_id: '12345' },
+      contactCustomAttributes: { cpf: '123.456.789-09' },
+    });
+
+    expect(result).toEqual({
+      url: `/api/v1/widget/conversations?param=1&locale=ar`,
+      params: {
+        contact: {
+          name: 'John',
+          email: 'john@example.com',
+          phone_number: '+919745313456',
+          custom_attributes: { cpf: '123.456.789-09' },
+        },
+        message: {
+          content: 'hey',
+          timestamp: 'mock date',
+          referer_url: '',
+        },
+        custom_attributes: { order_id: '12345' },
+      },
+    });
+    spy.mockRestore();
+  });
+});
+
 describe('#sendMessage with pending metadata', () => {
   it('includes custom_attributes and labels in payload', () => {
     const spy = vi.spyOn(global, 'Date').mockImplementation(() => ({

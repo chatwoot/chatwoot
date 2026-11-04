@@ -1,0 +1,11 @@
+<% content_for :head do %>
+  <%= render 'public/api/v1/portals/articles/meta_head',
+             article: @article, portal: @portal, locale: @locale, og_image_url: @og_image_url %>
+<% end %>
+
+<div class="max-w-5xl mx-auto space-y-4 w-full px-4 md:px-8 py-4">
+  <%= render "public/api/v1/portals/articles/article_header", article: @article, plain: true %>
+</div>
+
+<%= render "public/api/v1/portals/articles/article_body",
+           parsed_content: @parsed_content, content_padding: 'py-4' %>

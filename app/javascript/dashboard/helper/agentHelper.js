@@ -7,7 +7,7 @@
 export const getAgentsByAvailability = (agents, availability) => {
   return agents
     .filter(agent => agent.availability_status === availability)
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 };
 
 /**
@@ -22,6 +22,9 @@ export const getSortedAgentsByAvailability = agents => {
   const filteredAgents = [...onlineAgents, ...busyAgents, ...offlineAgents];
   return filteredAgents;
 };
+
+export const isAIAssigneeType = assigneeType =>
+  Boolean(assigneeType && assigneeType !== 'User');
 
 /**
  * Updates the availability status of the current user based on the current account

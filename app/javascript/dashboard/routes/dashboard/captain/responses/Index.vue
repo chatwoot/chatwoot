@@ -1,11 +1,14 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, onUnmounted, ref, nextTick, watch } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
+import CaptainResponseAPI from 'dashboard/api/captain/response';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -19,6 +22,7 @@ import CreateResponseDialog from 'dashboard/components-next/captain/pageComponen
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
+import ConversationUsageDrawer from 'dashboard/components-next/captain/pageComponents/ConversationUsageDrawer.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -30,6 +34,8 @@ const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 
 const selectedResponse = ref(null);
+const usageResponse = ref(null);
+const showResponseUsage = ref(false);
 const deleteDialog = ref(null);
 const bulkDeleteDialog = ref(null);
 
@@ -41,7 +47,7 @@ const createDialog = ref(null);
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
 
-const pendingCount = useMapGetter('captainResponses/getPendingCount');
+const suggestionCount = useMapGetter('captainFaqSuggestions/getOpenCount');
 
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
@@ -83,6 +89,19 @@ const handleCreateClose = () => {
   selectedResponse.value = null;
 };
 
+const handleShowResponseUsage = id => {
+  usageResponse.value =
+    responses.value.find(response => response.id === id) || null;
+  showResponseUsage.value = Boolean(usageResponse.value);
+};
+
+const handleResponseUsageClose = () => {
+  showResponseUsage.value = false;
+};
+
+const fetchResponseUsage = ({ resourceId, ...params }) =>
+  CaptainResponseAPI.getDrilldown({ responseId: resourceId, ...params });
+
 const updateURLWithFilters = (page, search) => {
   const query = {
     page: page || 1,
@@ -95,8 +114,10 @@ const updateURLWithFilters = (page, search) => {
   router.replace({ query });
 };
 
-const fetchResponses = (page = 1) => {
-  const filterParams = { page, status: 'approved' };
+const { run: runListRequest, abort: abortListRequest } = useAbortableRequest();
+
+const fetchResponses = async (page = 1) => {
+  const filterParams = { page };
 
   if (selectedAssistantId.value) {
     filterParams.assistantId = selectedAssistantId.value;
@@ -108,7 +129,24 @@ const fetchResponses = (page = 1) => {
   // Update URL with current filters
   updateURLWithFilters(page, searchQuery.value);
 
-  store.dispatch('captainResponses/get', filterParams);
+  store.dispatch('captainResponses/setFetchingList', true);
+
+  try {
+    const response = await runListRequest(signal =>
+      CaptainResponseAPI.get({ ...filterParams, signal })
+    );
+
+    if (!response) return;
+
+    store.dispatch('captainResponses/setRecords', {
+      records: response.data.payload,
+      meta: response.data.meta,
+    });
+    store.dispatch('captainResponses/setFetchingList', false);
+  } catch (error) {
+    useAlert(error?.message || t('CAPTAIN.RESPONSES.ERRORS.LOAD'));
+    store.dispatch('captainResponses/setFetchingList', false);
+  }
 };
 
 // Bulk action
@@ -160,6 +198,9 @@ const fetchResponseAfterBulkAction = () => {
 const onPageChange = page => {
   const hadSelection = bulkSelectedIds.value.size > 0;
 
+  showResponseUsage.value = false;
+  usageResponse.value = null;
+
   fetchResponses(page);
 
   if (hadSelection) {
@@ -181,24 +222,49 @@ const debouncedSearch = debounce(async () => {
   fetchResponses(1);
 }, 500);
 
+const handleSearchInput = () => {
+  abortListRequest();
+  debouncedSearch();
+};
+
 const initializeFromURL = () => {
-  if (route.query.search) {
-    searchQuery.value = route.query.search;
-  }
+  searchQuery.value = route.query.search || '';
   const pageFromURL = parseInt(route.query.page, 10) || 1;
   fetchResponses(pageFromURL);
 };
 
-const navigateToPendingFAQs = () => {
-  router.push({ name: 'captain_assistants_responses_pending' });
+const navigateToFaqSuggestions = () => {
+  router.push({
+    name: 'captain_assistants_faq_suggestions',
+    params: {
+      accountId: route.params.accountId,
+      assistantId: selectedAssistantId.value,
+    },
+  });
 };
 
-onMounted(() => {
-  initializeFromURL();
-  store.dispatch(
-    'captainResponses/fetchPendingCount',
-    selectedAssistantId.value
-  );
+watch(
+  selectedAssistantId,
+  () => {
+    selectedResponse.value = null;
+    usageResponse.value = null;
+    showResponseUsage.value = false;
+    bulkSelectedIds.value = new Set();
+    store.dispatch('captainResponses/setRecords', {
+      records: [],
+      meta: { page: 1, total_count: 0 },
+    });
+    initializeFromURL();
+    store.dispatch(
+      'captainFaqSuggestions/fetchOpenCount',
+      selectedAssistantId.value
+    );
+  },
+  { immediate: true }
+);
+
+onUnmounted(() => {
+  store.dispatch('captainResponses/setFetchingList', false);
 });
 </script>
 
@@ -240,7 +306,7 @@ onMounted(() => {
           size="sm"
           type="search"
           autofocus
-          @input="debouncedSearch"
+          @input="handleSearchInput"
         />
       </div>
     </template>
@@ -271,13 +337,13 @@ onMounted(() => {
     <template #body>
       <LimitBanner class="mb-5" />
       <Banner
-        v-if="pendingCount > 0"
+        v-if="suggestionCount > 0"
         color="blue"
         class="mb-4 -mt-3"
-        :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
-        @action="navigateToPendingFAQs"
+        :action-label="$t('CAPTAIN.RESPONSES.SUGGESTIONS_BANNER.ACTION')"
+        @action="navigateToFaqSuggestions"
       >
-        {{ $t('CAPTAIN.RESPONSES.PENDING_BANNER.TITLE') }}
+        {{ $t('CAPTAIN.RESPONSES.SUGGESTIONS_BANNER.TITLE') }}
       </Banner>
 
       <div class="flex flex-col gap-4">
@@ -292,6 +358,7 @@ onMounted(() => {
           :status="response.status"
           :created-at="response.created_at"
           :updated-at="response.updated_at"
+          :used-in-conversations-count="response.used_in_conversations_count"
           :is-selected="bulkSelectedIds.has(response.id)"
           :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
           :show-menu="!bulkSelectedIds.has(response.id)"
@@ -300,9 +367,20 @@ onMounted(() => {
           @navigate="handleNavigationAction"
           @select="handleCardSelect"
           @hover="isHovered => handleCardHover(isHovered, response.id)"
+          @view-conversations="handleShowResponseUsage"
         />
       </div>
     </template>
+
+    <ConversationUsageDrawer
+      :open="showResponseUsage"
+      :resource-id="usageResponse?.id"
+      :title="usageResponse?.question || ''"
+      :conversation-count="usageResponse?.used_in_conversations_count || 0"
+      :fetcher="fetchResponseUsage"
+      empty-state-key="CAPTAIN.RESPONSES.NO_USED_CONVERSATIONS"
+      @close="handleResponseUsageClose"
+    />
 
     <DeleteDialog
       v-if="selectedResponse"

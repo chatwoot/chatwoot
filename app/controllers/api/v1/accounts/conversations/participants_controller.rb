@@ -1,6 +1,8 @@
 class Api::V1::Accounts::Conversations::ParticipantsController < Api::V1::Accounts::Conversations::BaseController
   include Events::Types
 
+  before_action :validate_participant_ids, only: [:create, :update]
+
   def show
     @participants = @conversation.conversation_participants
   end
@@ -9,7 +11,7 @@ class Api::V1::Accounts::Conversations::ParticipantsController < Api::V1::Accoun
     participant_ids_to_add = participants_to_be_added_ids
 
     ActiveRecord::Base.transaction do
-      @participants = participant_ids_to_add.map { |user_id| @conversation.conversation_participants.find_or_create_by(user_id: user_id) }
+      @participants = participant_ids_to_add.map { |user_id| @conversation.conversation_participants.find_or_create_by!(user_id: user_id) }
     end
     notify_unread_count_change if participant_ids_to_add.any?
   end
@@ -20,11 +22,11 @@ class Api::V1::Accounts::Conversations::ParticipantsController < Api::V1::Accoun
     changed_participant_ids = participant_ids_to_add + participant_ids_to_remove
 
     ActiveRecord::Base.transaction do
-      participant_ids_to_add.each { |user_id| @conversation.conversation_participants.find_or_create_by(user_id: user_id) }
+      participant_ids_to_add.each { |user_id| @conversation.conversation_participants.find_or_create_by!(user_id: user_id) }
       participant_ids_to_remove.each { |user_id| @conversation.conversation_participants.find_by(user_id: user_id)&.destroy }
     end
     notify_unread_count_change if changed_participant_ids.any?
-    @participants = @conversation.conversation_participants
+    @participants = @conversation.conversation_participants.reload
     render action: 'show'
   end
 
@@ -41,15 +43,26 @@ class Api::V1::Accounts::Conversations::ParticipantsController < Api::V1::Accoun
   private
 
   def participants_to_be_added_ids
-    params[:user_ids] - current_participant_ids
+    participant_ids - current_participant_ids
   end
 
   def participants_to_be_removed_ids
-    current_participant_ids - params[:user_ids]
+    current_participant_ids - participant_ids
   end
 
   def current_participant_ids
     @current_participant_ids ||= @conversation.conversation_participants.pluck(:user_id)
+  end
+
+  def participant_ids
+    @participant_ids ||= params[:user_ids].map(&:to_i)
+  end
+
+  def validate_participant_ids
+    invalid_ids = participants_to_be_added_ids - @conversation.inbox.assignable_agents.map(&:id)
+    return if invalid_ids.empty?
+
+    render json: { error: 'Invalid participant IDs' }, status: :unprocessable_entity
   end
 
   def notify_unread_count_change

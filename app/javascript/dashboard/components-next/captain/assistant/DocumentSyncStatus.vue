@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -34,6 +35,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['retry']);
+
+const exactTimestamp = useExactTimestamp();
+
 const { t } = useI18n();
 
 const SECONDS_PER_HOUR = 3600;
@@ -103,7 +107,7 @@ const fullLabel = computed(() => {
     });
   if (hasBeenSynced.value)
     return t('CAPTAIN.DOCUMENTS.SYNC_STATUS.SYNCED', {
-      time: dynamicTime(props.lastSyncedAt),
+      time: exactTimestamp(props.lastSyncedAt),
     });
   return t('CAPTAIN.DOCUMENTS.SYNC_STATUS.NEVER_SYNCED');
 });
@@ -132,9 +136,9 @@ const statusIcon = computed(() => {
 
 <template>
   <span
+    v-tooltip.top="{ content: fullLabel, delay: { show: 500, hide: 0 } }"
     class="flex gap-1.5 items-center text-sm truncate shrink-0 tabular-nums"
     :class="textClass"
-    :title="fullLabel"
   >
     <Spinner v-if="isSyncing" class="text-n-amber-11 size-3" />
     <Icon v-else :icon="statusIcon" class="shrink-0 size-3.5" />

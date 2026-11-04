@@ -1,22 +1,22 @@
-import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useI18n } from 'vue-i18n';
 import {
   getAgentsByUpdatedPresence,
   getSortedAgentsByAvailability,
 } from 'dashboard/helper/agentHelper';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 /**
  * A composable function that provides a list of agents for assignment.
  *
  * @param {boolean} [includeNoneAgent=true] - Whether to include a 'None' agent option.
  * @param {Object} [options] - Options for the assignable agents list.
- * @param {boolean} [options.includeAgentBots=false] - Whether to include AgentBot assignees. Only pass this from surfaces that thread `assignee_type` through the assignment request.
+ * @param {boolean} [options.includeAIAssignees=false] - Whether to include Agent Bots and the connected Captain assistant.
  * @returns {Object} An object containing the agents list and assignable agents.
  */
 export function useAgentsList(
   includeNoneAgent = true,
-  { includeAgentBots = false } = {}
+  { includeAIAssignees = false } = {}
 ) {
   const { t } = useI18n();
   const currentUser = useMapGetter('getCurrentUser');
@@ -45,7 +45,9 @@ export function useAgentsList(
    */
   const assignableAgents = computed(() => {
     return inboxId.value
-      ? assignable.value(inboxId.value, { includeAgentBots })
+      ? assignable.value(inboxId.value, {
+          includeAIAssignees,
+        })
       : [];
   });
 
@@ -53,7 +55,11 @@ export function useAgentsList(
    * @type {import('vue').ComputedRef<Array>}
    */
   const agentsList = computed(() => {
-    const agents = assignableAgents.value || [];
+    const agents = (assignableAgents.value || []).map(agent =>
+      !agent.name && agent.assignee_type === 'AgentBot'
+        ? { ...agent, name: '-' }
+        : agent
+    );
     const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
       agents,
       currentUser.value,

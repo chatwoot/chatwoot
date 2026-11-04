@@ -5,6 +5,63 @@ RSpec.describe Conversation, type: :model do
     it { is_expected.to belong_to(:sla_policy).optional }
   end
 
+  describe 'Captain assignment' do
+    let(:account) { create(:account, limits: { 'captain_responses' => 10 }) }
+    let(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+
+    before do
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+    end
+
+    it 'does not assign Captain when the feature is disabled' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+
+      expect(conversation).to have_attributes(status: 'open', ai_assignee: nil)
+    end
+
+    context 'with a Captain assignee' do
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :pending, ai_assignee: assistant) }
+
+      before { account.enable_features!('captain_integration') }
+
+      it 'clears Captain when the conversation opens' do
+        conversation.update!(status: :open)
+
+        expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
+        expect(inbox.conversations.unassigned).to include(conversation)
+      end
+
+      it 'keeps Captain on unrelated updates while pending' do
+        conversation.update!(priority: :high)
+
+        expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: assistant)
+      end
+
+      it 'clears Captain when the snooze expires' do
+        conversation.update!(status: :snoozed, snoozed_until: 1.minute.ago)
+
+        Conversations::ReopenSnoozedConversationsJob.perform_now
+
+        expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
+        expect(inbox.conversations.unassigned).to include(conversation)
+      end
+
+      it 'clears Captain before legacy auto-assignment runs on snooze expiry' do
+        account.disable_features!('assignment_v2')
+        agent = create(:user, account: account, auto_offline: false)
+        create(:inbox_member, inbox: inbox, user: agent)
+        OnlineStatusTracker.set_status(account.id, agent.id, 'online')
+        conversation.update!(status: :snoozed, snoozed_until: 1.minute.ago)
+        inbox.update!(enable_auto_assignment: true)
+
+        Conversations::ReopenSnoozedConversationsJob.perform_now
+
+        expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil, assignee: agent)
+      end
+    end
+  end
+
   describe 'SLA policy updates' do
     let(:conversation) { create(:conversation) }
     let!(:sla_policy) { create(:sla_policy, account: conversation.account) }
@@ -39,6 +96,49 @@ RSpec.describe Conversation, type: :model do
     #   expect(activity_message.message_type).to eq('activity')
     #   expect(activity_message.content).to include('removed SLA policy')
     # end
+  end
+
+  describe 'SLA completion' do
+    let(:applied_sla) { create(:applied_sla) }
+    let(:conversation) { applied_sla.conversation }
+
+    it 'records the completion time when the conversation is resolved' do
+      completion_time = Time.zone.parse('2026-07-15 10:00:00')
+
+      travel_to(completion_time) { conversation.update!(status: :resolved) }
+
+      expect(applied_sla.reload.completed_at).to eq(completion_time)
+    end
+
+    it 'records the completion time when SLA evaluation finishes during resolution' do
+      completion_time = Time.zone.parse('2026-07-15 10:00:00')
+      allow(conversation).to receive(:update_applied_sla_completion).and_wrap_original do |method|
+        applied_sla.update!(sla_status: :missed)
+        method.call
+      end
+
+      travel_to(completion_time) { conversation.update!(status: :resolved) }
+
+      expect(applied_sla.reload).to have_attributes(sla_status: 'missed', completed_at: completion_time)
+    end
+
+    it 'clears the completion time when a nonterminal SLA is reopened' do
+      conversation.update!(status: :resolved)
+
+      conversation.update!(status: :open)
+
+      expect(applied_sla.reload.completed_at).to be_nil
+    end
+
+    it 'preserves the completion time when a terminal SLA is reopened' do
+      conversation.update!(status: :resolved)
+      completed_at = applied_sla.reload.completed_at
+      applied_sla.update!(sla_status: :missed)
+
+      conversation.update!(status: :open)
+
+      expect(applied_sla.reload.completed_at).to eq(completed_at)
+    end
   end
 
   describe 'sla_policy' do

@@ -1,5 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
+import { withFullI18n } from 'test-i18n';
 import MacroProperties from '../MacroProperties.vue';
+
+withFullI18n();
 
 const mountComponent = props =>
   shallowMount(MacroProperties, {

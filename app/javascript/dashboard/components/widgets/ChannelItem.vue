@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
+import { useAccount } from 'dashboard/composables/useAccount';
 import ChannelSelector from '../ChannelSelector.vue';
-import { IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED } from 'dashboard/constants/globals';
 
 const props = defineProps({
   channel: {
@@ -15,16 +15,14 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['channelItemClick']);
+const { isOnChatwootCloud } = useAccount();
 
 const hasFbConfigured = computed(() => {
   return window.chatwootConfig?.fbAppId;
 });
 
 const hasInstagramConfigured = computed(() => {
-  return (
-    !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
-    window.chatwootConfig?.instagramAppId
-  );
+  return window.chatwootConfig?.instagramAppId;
 });
 
 const hasTiktokConfigured = computed(() => {
@@ -56,17 +54,8 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
   }
 
-  if (key === 'voice') {
+  if (key === 'voice' || key === 'whatsapp_call') {
     return props.enabledFeatures.channel_voice;
-  }
-
-  if (key === 'whatsapp_call') {
-    return (
-      !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
-      props.enabledFeatures.channel_voice &&
-      !!window.chatwootConfig?.whatsappAppId &&
-      window.chatwootConfig.whatsappAppId !== 'none'
-    );
   }
 
   return [
@@ -94,6 +83,16 @@ const isBeta = computed(() => {
   return ['tiktok', 'voice', 'whatsapp_call'].includes(props.channel.key);
 });
 
+const canRequestTiktokAccess = computed(() => {
+  return (
+    props.channel.key === 'tiktok' &&
+    isOnChatwootCloud.value &&
+    hasTiktokConfigured.value &&
+    Object.keys(props.enabledFeatures).length > 0 &&
+    !props.enabledFeatures.channel_tiktok
+  );
+});
+
 const hasVoiceBadge = computed(() => {
   return (
     ['voice', 'whatsapp_call'].includes(props.channel.key) &&
@@ -102,6 +101,11 @@ const hasVoiceBadge = computed(() => {
 });
 
 const onItemClick = () => {
+  if (canRequestTiktokAccess.value) {
+    window.$chatwoot?.toggle();
+    return;
+  }
+
   if (isActive.value) {
     emit('channelItemClick', props.channel.key);
   }
@@ -116,7 +120,7 @@ const onItemClick = () => {
     :is-coming-soon="isComingSoon"
     :is-beta="isBeta"
     :has-voice-badge="hasVoiceBadge"
-    :disabled="!isActive"
+    :disabled="!isActive && !canRequestTiktokAccess"
     @click="onItemClick"
   />
 </template>

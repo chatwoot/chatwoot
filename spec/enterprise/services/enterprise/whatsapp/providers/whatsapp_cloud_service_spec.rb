@@ -37,6 +37,16 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
       expect(service.send_call_permission_request('15551234567')).to eq('messages' => [{ 'id' => 'wamid' }])
     end
+
+    it 'uses recipient for a BSUID' do
+      stub_request(:post, messages_url)
+        .with(body: hash_including(messaging_product: 'whatsapp', recipient: 'IN.2081978709342942', type: 'interactive'))
+        .to_return(status: 200, body: { messages: [{ id: 'wamid' }] }.to_json, headers: headers)
+
+      service.send_call_permission_request('IN.2081978709342942')
+
+      expect(a_request(:post, messages_url).with { |request| JSON.parse(request.body).exclude?('to') }).to have_been_made
+    end
   end
 
   describe '#initiate_call' do
@@ -47,6 +57,15 @@ describe Whatsapp::Providers::WhatsappCloudService do
         .to_return(status: 200, body: { messages: [{ id: 'wacall_1' }] }.to_json, headers: headers)
 
       expect(service.initiate_call('15551234567', 'sdp_offer')).to eq('messages' => [{ 'id' => 'wacall_1' }])
+    end
+
+    it 'uses recipient for a BSUID' do
+      stub_request(:post, calls_url)
+        .with(body: { messaging_product: 'whatsapp', recipient: 'IN.2081978709342942', action: 'connect',
+                      session: { sdp: 'sdp_offer', sdp_type: 'offer' } }.to_json)
+        .to_return(status: 200, body: { calls: [{ id: 'wacall_bsuid' }] }.to_json, headers: headers)
+
+      expect(service.initiate_call('IN.2081978709342942', 'sdp_offer')).to eq('calls' => [{ 'id' => 'wacall_bsuid' }])
     end
 
     it 'raises Voice::CallErrors::NoCallPermission when Meta returns error code 138006' do

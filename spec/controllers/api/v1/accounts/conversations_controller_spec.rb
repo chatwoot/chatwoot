@@ -35,6 +35,39 @@ RSpec.describe 'Conversations API', type: :request do
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
       end
 
+      it 'lists a conversation whose assignee no longer exists as unassigned' do
+        assigned = create(:conversation, account: account, inbox: conversation.inbox, assignee: agent)
+        conversation.update_column(:assignee_id, User.maximum(:id) + 1000) # rubocop:disable Rails/SkipsModelValidations
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            params: { assignee_type: 'all' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        payload = JSON.parse(response.body, symbolize_names: true)[:data][:payload].index_by { |item| item[:id] }
+        expect(payload.keys).to contain_exactly(conversation.display_id, assigned.display_id)
+        expect(payload[conversation.display_id][:meta]).not_to include(:assignee, :assignee_type)
+        expect(payload[assigned.display_id][:meta][:assignee][:id]).to eq(agent.id)
+        expect(payload[assigned.display_id][:meta][:assignee_type]).to eq('User')
+      end
+
+      it 'lists a conversation whose contact no longer exists with an empty sender' do
+        with_contact = create(:conversation, account: account, inbox: conversation.inbox)
+        Contact.where(id: conversation.contact_id).delete_all
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            params: { assignee_type: 'all' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        payload = JSON.parse(response.body, symbolize_names: true)[:data][:payload].index_by { |item| item[:id] }
+        expect(payload.keys).to contain_exactly(conversation.display_id, with_contact.display_id)
+        expect(payload[conversation.display_id][:meta][:sender]).to eq({})
+        expect(payload[with_contact.display_id][:meta][:sender][:id]).to eq(with_contact.contact_id)
+      end
+
       it 'returns conversations with empty messages array for conversations with out messages' do
         get "/api/v1/accounts/#{account.id}/conversations",
             headers: agent.create_new_auth_token,
@@ -343,6 +376,22 @@ RSpec.describe 'Conversations API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
       end
     end
+
+    context 'when it is an authenticated bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:team) { create(:team, account: account) }
+
+      it 'shows a team-assigned conversation' do
+        conversation.update!(team: team)
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: { api_access_token: agent_bot.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.dig('meta', 'team', 'is_member')).to be(false)
+      end
+    end
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/conversations/:id' do
@@ -504,6 +553,66 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response_data[:meta][:assignee][:name]).to eq(agent.name)
           expect(response_data[:meta][:team][:name]).to eq(team.name)
         end
+
+        it 'does not create a conversation with an assignee from another account' do
+          other_user = create(:user, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, assignee_id: other_user.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not create a conversation with a team from another account' do
+          other_team = create(:team, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, team_id: other_team.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+
+    context 'when it is an authenticated bot' do
+      let(:bot) { create(:agent_bot, account: account) }
+      let(:other_account) { create(:account) }
+      let(:other_inbox) { create(:inbox, account: other_account) }
+      let(:other_contact) { create(:contact, account: other_account) }
+      let!(:other_contact_inbox) do
+        create(:contact_inbox, contact: other_contact, inbox: other_inbox)
+      end
+
+      before { allow(Rails.configuration.dispatcher).to receive(:dispatch) }
+
+      it 'does not create a conversation in another account from its source_id' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: { api_access_token: bot.access_token.token },
+               params: { source_id: other_contact_inbox.source_id, message: { content: 'hi' } },
+               as: :json
+        end.not_to change(other_account.conversations, :count)
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'creates a conversation for a source_id in its own account' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: { api_access_token: bot.access_token.token },
+               params: { source_id: contact_inbox.source_id },
+               as: :json
+        end.to change(account.conversations, :count).by(1)
+
+        expect(response).to have_http_status(:success)
       end
     end
   end
@@ -565,15 +674,17 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.assignee_id).to eq(agent.id)
       end
 
-      it 'disbale self assign if admin changes the conversation status to open' do
-        conversation.update!(status: 'pending')
-        conversation.update!(assignee_id: nil)
+      it 'does not self assign and clears the agent bot owner if admin changes the conversation status to open' do
+        conversation.update!(status: 'pending', assignee: nil, ai_assignee: agent_bot)
+
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: administrator.create_new_auth_token,
              as: :json
+
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('open')
         expect(conversation.reload.assignee_id).not_to eq(administrator.id)
+        expect(conversation.reload.ai_assignee).to be_nil
       end
 
       it 'toggles the conversation status to specific status when parameter is passed' do
@@ -661,7 +772,7 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'toggles the conversation priority to nil if no value is passed' do
+      it 'updates the conversation priority' do
         expect(conversation.priority).to be_nil
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
@@ -673,10 +784,8 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.priority).to eq('low')
       end
 
-      it 'toggles the conversation priority' do
-        conversation.priority = 'low'
-        conversation.save!
-        expect(conversation.reload.priority).to eq('low')
+      it 'clears the conversation priority when priority is missing' do
+        conversation.update!(priority: 'low')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
              headers: agent.create_new_auth_token,
@@ -684,6 +793,32 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.priority).to be_nil
+      end
+
+      it 'clears the conversation priority when priority is nil' do
+        conversation.priority = 'low'
+        conversation.save!
+        expect(conversation.reload.priority).to eq('low')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
+             headers: agent.create_new_auth_token,
+             params: { priority: nil },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.priority).to be_nil
+      end
+
+      it 'returns unprocessable entity for invalid priority values' do
+        ['none', '', false].each do |invalid_priority|
+          post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
+               headers: agent.create_new_auth_token,
+               params: { priority: invalid_priority },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to include('priority')
+        end
       end
     end
 
@@ -1210,6 +1345,30 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.custom_attributes).not_to be_nil
         expect(conversation.reload.custom_attributes.count).to eq 3
       end
+
+      it 'merges custom attributes when merge is enabled' do
+        conversation.update!(custom_attributes: { existing_key: 'keep', user_id: 1 })
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
+             headers: agent.create_new_auth_token,
+             params: { custom_attributes: { user_id: 1001 }, merge: true },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.custom_attributes).to eq({ 'existing_key' => 'keep', 'user_id' => 1001 })
+      end
+
+      it 'replaces custom attributes by default' do
+        conversation.update!(custom_attributes: { existing_key: 'gone' })
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
+             headers: agent.create_new_auth_token,
+             params: { custom_attributes: { user_id: 1001 } },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.custom_attributes).to eq({ 'user_id' => 1001 })
+      end
     end
 
     context 'when it is a bot' do
@@ -1230,6 +1389,37 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.custom_attributes).not_to be_nil
         expect(conversation.reload.custom_attributes.count).to eq 3
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/destroy_custom_attributes' do
+    let(:conversation) { create(:conversation, account: account, custom_attributes: { test: 'test', test1: 'test1' }) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/destroy_custom_attributes"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'deletes the given custom attribute' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/destroy_custom_attributes",
+             headers: agent.create_new_auth_token,
+             params: { custom_attributes: ['test'] },
+             as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(conversation.reload.custom_attributes).to eq({ 'test1' => 'test1' })
+        expect(response.parsed_body['custom_attributes']).to eq({ 'test1' => 'test1' })
       end
     end
   end

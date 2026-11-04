@@ -27,11 +27,16 @@ const getters = {
   },
 };
 
-const actions = {
-  async fetch({ commit }, { page } = {}) {
+let activeFetchId = 0;
+
+export const actions = {
+  async fetch({ commit }, filters = {}) {
+    activeFetchId += 1;
+    const fetchId = activeFetchId;
     commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: true });
     try {
-      const response = await AuditLogsAPI.get({ page });
+      const response = await AuditLogsAPI.get(filters);
+      if (fetchId !== activeFetchId) return null;
       const { audit_logs: logs = [] } = response.data;
       const {
         total_entries: totalEntries,
@@ -47,6 +52,13 @@ const actions = {
       commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false });
       return logs;
     } catch (error) {
+      if (fetchId !== activeFetchId) return null;
+      commit(types.default.SET_AUDIT_LOGS, []);
+      commit(types.default.SET_AUDIT_LOGS_META, {
+        totalEntries: 0,
+        perPage: 25,
+        currentPage: 1,
+      });
       commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false });
       return throwErrorMessage(error);
     }

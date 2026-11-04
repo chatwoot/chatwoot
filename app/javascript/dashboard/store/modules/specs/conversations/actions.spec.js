@@ -1,19 +1,26 @@
 import axios from 'axios';
+import { emitter } from 'shared/helpers/mitt';
+import { createStore } from 'vuex';
+import types from '../../../mutation-types';
+import conversationMetadata from '../../conversationMetadata';
+import { mutations } from '../../conversations';
 import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
-import types from '../../../mutation-types';
-const dataToSend = {
-  payload: [
-    {
-      attribute_key: 'status',
-      filter_operator: 'equal_to',
-      values: ['open'],
-      query_operator: null,
-    },
-  ],
-};
 import { dataReceived } from './testConversationResponse';
+const dataToSend = {
+  page: 1,
+  queryData: {
+    payload: [
+      {
+        attribute_key: 'status',
+        filter_operator: 'equal_to',
+        values: ['open'],
+        query_operator: null,
+      },
+    ],
+  },
+};
 
 const commit = vi.fn();
 const dispatch = vi.fn();
@@ -56,19 +63,137 @@ describe('#hasMessageFailedWithExternalError', () => {
 });
 
 describe('#actions', () => {
+  describe('conversation history loading', () => {
+    let store;
+    let conversationA;
+    let conversationB;
+
+    beforeEach(() => {
+      conversationA = { id: 42, messages: [{ id: 100 }] };
+      conversationB = { id: 43, messages: [{ id: 200 }] };
+      store = createStore({
+        state: {
+          allConversations: [conversationA, conversationB],
+          selectedChatId: null,
+        },
+        getters: { getAutoTranslate: () => ({ enabled: false }) },
+        actions,
+        mutations,
+        modules: {
+          conversationMetadata: {
+            ...conversationMetadata,
+            state: { records: {} },
+          },
+        },
+      });
+    });
+
+    it('shares pending history when switching A to B to A and keeps responses in their own conversations', async () => {
+      let resolveA;
+      let resolveB;
+      axios.get
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              resolveA = resolve;
+            })
+        )
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              resolveB = resolve;
+            })
+        );
+
+      const firstA = store.dispatch('setActiveChat', { data: conversationA });
+      const firstB = store.dispatch('setActiveChat', { data: conversationB });
+      const secondA = store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(conversationA.dataFetched).toBeUndefined();
+
+      resolveB({ data: { meta: {}, payload: [{ id: 199 }] } });
+      await firstB;
+      expect(store.state.selectedChatId).toBe(42);
+      expect(conversationA.messages).toEqual([{ id: 100 }]);
+      expect(conversationB.messages).toEqual([{ id: 199 }, { id: 200 }]);
+
+      resolveA({ data: { meta: {}, payload: [{ id: 99 }] } });
+      await Promise.all([firstA, secondA]);
+      expect(conversationA.messages).toEqual([{ id: 99 }, { id: 100 }]);
+      expect(conversationA.dataFetched).toBe(true);
+      expect(conversationB.dataFetched).toBe(true);
+    });
+
+    it('leaves failed history unfetched and retries when the conversation is reopened', async () => {
+      axios.get.mockRejectedValueOnce(new Error('Network error'));
+
+      await store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(conversationA.dataFetched).toBeUndefined();
+      expect(conversationA.messages).toEqual([{ id: 100 }]);
+      expect(conversationA.allMessagesLoaded).toBe(false);
+
+      axios.get.mockResolvedValueOnce({
+        data: { meta: {}, payload: [{ id: 99 }] },
+      });
+      await store.dispatch('setActiveChat', { data: conversationA });
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(conversationA.messages).toEqual([{ id: 99 }, { id: 100 }]);
+      expect(conversationA.dataFetched).toBe(true);
+    });
+
+    it.each(['before', 'after'])(
+      'loads distinct %s cursors independently and allows a completed request again',
+      async cursor => {
+        let resolveHistory;
+        const response = new Promise(resolve => {
+          resolveHistory = resolve;
+        });
+        axios.get.mockReturnValue(response);
+        const firstParams = { conversationId: 42, [cursor]: 90 };
+        const secondParams = { conversationId: 42, [cursor]: 80 };
+
+        const first = store.dispatch('fetchPreviousMessages', firstParams);
+        const second = store.dispatch('fetchPreviousMessages', secondParams);
+        expect(axios.get).toHaveBeenCalledTimes(2);
+
+        resolveHistory({ data: { meta: {}, payload: [] } });
+        await Promise.all([first, second]);
+        await store.dispatch('fetchPreviousMessages', firstParams);
+        expect(axios.get).toHaveBeenCalledTimes(3);
+      }
+    );
+  });
+
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
-        data: { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
+        data: {
+          id: 1,
+          labels: ['support'],
+          meta: { sender: { id: 1, name: 'Contact 1' } },
+        },
       });
-      await actions.getConversation({ commit }, 1);
+      await actions.getConversation({ commit, dispatch }, 1);
       expect(commit.mock.calls).toEqual([
         [
-          types.UPDATE_CONVERSATION,
-          { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
+          types.SET_ALL_CONVERSATION,
+          [
+            {
+              id: 1,
+              labels: ['support'],
+              meta: { sender: { id: 1, name: 'Contact 1' } },
+            },
+          ],
         ],
         ['contacts/SET_CONTACT_ITEM', { id: 1, name: 'Contact 1' }],
       ]);
+      expect(dispatch).toHaveBeenCalledWith(
+        'conversationLabels/setConversationLabel',
+        { id: 1, data: ['support'] }
+      );
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
@@ -105,6 +230,7 @@ describe('#actions', () => {
         [types.UPDATE_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
+        ['autoTranslateMessages', 1],
         [
           'conversationLabels/setConversationLabel',
           { id: 1, data: ['support'] },
@@ -269,7 +395,7 @@ describe('#actions', () => {
         message_type: 0,
         conversation_id: 1,
       };
-      actions.addMessage({ commit }, message);
+      actions.addMessage({ commit, dispatch }, message);
       expect(commit.mock.calls).toEqual([
         [types.ADD_MESSAGE, message],
         [
@@ -278,6 +404,7 @@ describe('#actions', () => {
         ],
         [types.ADD_CONVERSATION_ATTACHMENTS, message],
       ]);
+      expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
     });
     it('sends correct mutations if message is not an incoming message', () => {
       const message = {
@@ -287,6 +414,68 @@ describe('#actions', () => {
       };
       actions.addMessage({ commit }, message);
       expect(commit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
+    });
+  });
+
+  describe('#updateMessage', () => {
+    it('refreshes loaded conversations sharing the same contact inbox source after terminal contact info updates', () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn();
+      const message = {
+        id: 1,
+        conversation_id: 10,
+        status: 'sent',
+        content_attributes: {
+          whatsapp_contact_info: {
+            type: 'request',
+            state: 'identity_conflict',
+          },
+        },
+        conversation: {
+          contact_inbox: { source_id: 'IN.2081978709342942' },
+        },
+      };
+      const state = {
+        allConversations: [
+          { id: 10, messages: [message] },
+          {
+            id: 20,
+            messages: [
+              {
+                conversation: {
+                  contact_inbox: { source_id: 'IN.2081978709342942' },
+                },
+              },
+            ],
+          },
+          {
+            id: 30,
+            messages: [
+              {
+                conversation: {
+                  contact_inbox: { source_id: 'IN.3109889333218546' },
+                },
+              },
+            ],
+          },
+        ],
+      };
+
+      actions.updateMessage(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          rootGetters: {},
+          state,
+        },
+        message
+      );
+
+      expect(localCommit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
+      expect(localDispatch.mock.calls).toEqual([
+        ['getConversation', 10],
+        ['getConversation', 20],
+      ]);
     });
   });
 
@@ -433,15 +622,118 @@ describe('#actions', () => {
   });
 
   describe('#fetchFilteredConversations', () => {
+    it('ignores an older open-list response after applying an all-status filter', async () => {
+      let resolveOpenResponse;
+      axios.get.mockReturnValue(
+        new Promise(resolve => {
+          resolveOpenResponse = resolve;
+        })
+      );
+      const openRequest = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: { status: 'open', assigneeType: 'all' } },
+      });
+      const filteredResponse = {
+        payload: [],
+        meta: { all_count: 10757 },
+      };
+      axios.post.mockResolvedValue({ data: filteredResponse });
+
+      await actions.fetchFilteredConversations(
+        {
+          commit,
+          dispatch,
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
+        },
+        {
+          queryData: {
+            payload: [
+              {
+                attribute_key: 'status',
+                filter_operator: 'equal_to',
+                values: ['all'],
+              },
+            ],
+          },
+          page: 1,
+        }
+      );
+      resolveOpenResponse({
+        data: { data: { payload: [], meta: { all_count: 30 } } },
+      });
+      await openRequest;
+
+      expect(
+        dispatch.mock.calls.filter(
+          ([action]) => action === 'conversationStats/set'
+        )
+      ).toEqual([
+        [
+          'conversationStats/set',
+          { meta: filteredResponse.meta, request: undefined },
+        ],
+      ]);
+    });
+
     it('fetches filtered conversations with a mock commit', async () => {
       axios.post.mockResolvedValue({
         data: dataReceived,
       });
-      await actions.fetchFilteredConversations({ commit }, dataToSend);
-      expect(commit).toHaveBeenCalledTimes(2);
+      await actions.fetchFilteredConversations(
+        {
+          commit,
+          dispatch,
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
+        },
+        dataToSend
+      );
+      expect(commit).toHaveBeenCalledTimes(4);
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
         ['SET_ALL_CONVERSATION', dataReceived.payload],
+        ['CLEAR_LIST_LOADING_STATUS'],
+        [
+          `contacts/${types.SET_CONTACTS}`,
+          dataReceived.payload.map(chat => chat.meta.sender),
+        ],
+      ]);
+      expect(axios.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/filter',
+        dataToSend.queryData,
+        expect.objectContaining({
+          params: {
+            page: dataToSend.page,
+            sort_by: 'last_activity_at_desc',
+          },
+        })
+      );
+    });
+
+    it('clears the loading state and rethrows if the request fails', async () => {
+      axios.post.mockRejectedValue(new Error('Request failed'));
+      await expect(
+        actions.fetchFilteredConversations(
+          {
+            commit,
+            dispatch,
+            state: {
+              appliedFiltersSortBy: null,
+              chatSortFilter: 'last_activity_at_desc',
+            },
+          },
+          dataToSend
+        )
+      ).rejects.toThrow('Request failed');
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['CLEAR_LIST_LOADING_STATUS'],
       ]);
     });
   });
@@ -526,9 +818,7 @@ describe('#deleteMessage', () => {
       });
       await actions.deleteConversation({ commit, dispatch }, 1);
       expect(commit.mock.calls).toEqual([[types.DELETE_CONVERSATION, 1]]);
-      expect(dispatch.mock.calls).toEqual([
-        ['conversationStats/get', {}, { root: true }],
-      ]);
+      expect(dispatch.mock.calls).toEqual([['conversationStats/get']]);
     });
 
     it('send no actions if API is error', async () => {
@@ -624,6 +914,7 @@ describe('#addMentions', () => {
       },
       { conversationId: 1 }
     );
+    expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
     expect(commit.mock.calls).toEqual([
       [
         'conversationMetadata/SET_CONVERSATION_METADATA',
@@ -757,7 +1048,6 @@ describe('#addMentions', () => {
 
       expect(localCommit.mock.calls).toEqual([
         [types.SET_CURRENT_CHAT_WINDOW, data],
-        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
       ]);
       expect(localDispatch).not.toHaveBeenCalled();
     });
@@ -796,6 +1086,217 @@ describe('#addMentions', () => {
           { id: 1, name: 'Assistant', description: 'Assistant description' },
         ],
       ]);
+    });
+  });
+
+  describe('#updateConversation', () => {
+    it('re-checks translation once the conversation language may have changed', () => {
+      const localDispatch = vi.fn();
+
+      actions.updateConversation(
+        { commit: vi.fn(), dispatch: localDispatch, rootGetters: {} },
+        {
+          id: 7,
+          labels: [],
+          additional_attributes: { conversation_language: 'fr' },
+        }
+      );
+
+      expect(localDispatch).toHaveBeenCalledWith('autoTranslateMessages', 7);
+    });
+  });
+
+  describe('#autoTranslateMessages', () => {
+    const messages = [
+      {
+        id: 1,
+        message_type: 0,
+        content_type: 'text',
+        content: 'Bonjour',
+        content_attributes: {},
+      },
+      {
+        id: 2,
+        message_type: 0,
+        content_type: 'text',
+        content: 'Hello',
+        content_attributes: { translations: { en: 'Hello' } },
+      },
+      {
+        id: 3,
+        message_type: 1,
+        content_type: 'text',
+        content: 'Hi',
+        content_attributes: {},
+      },
+      {
+        id: 4,
+        message_type: 0,
+        content_type: 'text',
+        content: 'Merci',
+        content_attributes: {},
+      },
+    ];
+    const getters = {
+      getAutoTranslate: { enabled: true, locale: 'en', sameLanguage: false },
+      getSelectedChat: { id: 7, messages },
+    };
+    const state = { selectedChatId: 7, autoTranslating: { en: { 4: false } } };
+
+    it('queues the incoming messages that have no translation yet and keeps them pending', async () => {
+      const localCommit = vi.fn();
+      axios.post.mockResolvedValue({});
+
+      await actions.autoTranslateMessages(
+        { state, commit: localCommit, getters },
+        7
+      );
+
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7/messages/auto_translate'),
+        { message_ids: [1] }
+      );
+      expect(localCommit.mock.calls).toEqual([
+        [
+          types.SET_AUTO_TRANSLATING,
+          { locale: 'en', messageIds: [1], translating: true },
+        ],
+      ]);
+    });
+
+    it('requests bot replies, which are written in the contact language, but not agent replies', async () => {
+      axios.post.mockResolvedValue({});
+      const botMessages = [
+        {
+          id: 5,
+          message_type: 1,
+          content_type: 'text',
+          content: 'Bonjour',
+          sender: { type: 'captain_assistant' },
+          content_attributes: {},
+        },
+        {
+          id: 8,
+          message_type: 1,
+          content_type: 'text',
+          content: 'Bonjour',
+          sender: { type: 'user' },
+          content_attributes: {},
+        },
+      ];
+
+      await actions.autoTranslateMessages(
+        {
+          state: { selectedChatId: 7, autoTranslating: {} },
+          commit,
+          getters: {
+            ...getters,
+            getSelectedChat: { id: 7, messages: botMessages },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7/messages/auto_translate'),
+        { message_ids: [5] }
+      );
+    });
+
+    it('skips call bubbles and other non-text messages', async () => {
+      axios.post.mockResolvedValue({});
+      const chatMessages = [
+        {
+          id: 5,
+          message_type: 0,
+          content_type: 'text',
+          content: 'Bonjour',
+          content_attributes: {},
+        },
+        {
+          id: 6,
+          message_type: 0,
+          content_type: 'voice_call',
+          content: 'WhatsApp Call',
+          content_attributes: {},
+        },
+      ];
+
+      await actions.autoTranslateMessages(
+        {
+          state: { selectedChatId: 7, autoTranslating: {} },
+          commit,
+          getters: {
+            ...getters,
+            getSelectedChat: { id: 7, messages: chatMessages },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7/messages/auto_translate'),
+        { message_ids: [5] }
+      );
+    });
+
+    it('does nothing for another conversation or a disabled flag', async () => {
+      await actions.autoTranslateMessages({ state, commit, getters }, 8);
+      await actions.autoTranslateMessages(
+        {
+          state,
+          commit,
+          getters: {
+            getAutoTranslate: { ...getters.getAutoTranslate, enabled: false },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).not.toHaveBeenCalled();
+    });
+
+    it('alerts and leaves the messages retryable when the request fails', async () => {
+      const localCommit = vi.fn();
+      const emit = vi.spyOn(emitter, 'emit');
+      axios.post.mockRejectedValue({
+        response: {
+          status: 422,
+          data: { error: 'You are out of Copilot credits.' },
+        },
+      });
+
+      await actions.autoTranslateMessages(
+        { state, commit: localCommit, getters },
+        7
+      );
+
+      expect(localCommit).toHaveBeenLastCalledWith(types.SET_AUTO_TRANSLATING, {
+        locale: 'en',
+        messageIds: [1],
+        translating: undefined,
+      });
+      expect(emit).toHaveBeenCalledWith('newToastMessage', {
+        message: 'You are out of Copilot credits.',
+        action: null,
+      });
+    });
+
+    it('stays quiet when the feature is off for the account', async () => {
+      const emit = vi.spyOn(emitter, 'emit');
+      axios.post.mockRejectedValue({
+        response: { status: 403, data: { error: 'Auto translate is off.' } },
+      });
+
+      await actions.autoTranslateMessages(
+        { state, commit: vi.fn(), getters },
+        7
+      );
+
+      expect(emit).not.toHaveBeenCalledWith(
+        'newToastMessage',
+        expect.anything()
+      );
     });
   });
 });

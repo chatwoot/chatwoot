@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "متغیرها",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "زبان",
       "CATEGORY": "دسته‌بندی",
       "VARIABLE_PLACEHOLDER": "مقدار {variable} را وارد کنید",

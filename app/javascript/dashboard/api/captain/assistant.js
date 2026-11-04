@@ -19,23 +19,67 @@ class CaptainAssistant extends ApiClient {
     });
   }
 
-  playground({ assistantId, messageContent, messageHistory }) {
-    return axios.post(`${this.url}/${assistantId}/playground`, {
+  uploadAvatar(id, file) {
+    const formData = new FormData();
+    formData.append('assistant[avatar]', file);
+    return this.update(id, formData);
+  }
+
+  deleteAvatar(id) {
+    return axios.delete(`${this.url}/${id}/avatar`);
+  }
+
+  playground({
+    assistantId,
+    messageContent,
+    messageHistory,
+    playgroundConfig,
+    requestId,
+  }) {
+    const payload = {
       message_content: messageContent,
       message_history: messageHistory,
-    });
+      request_id: requestId,
+    };
+    if (playgroundConfig) payload.playground_config = playgroundConfig;
+
+    return axios.post(`${this.url}/${assistantId}/playground`, payload);
   }
 
-  getStats({ assistantId, range }) {
-    return axios.get(`${this.url}/${assistantId}/stats`, {
+  getMetrics({ assistantId, range, signal }) {
+    const requestConfig = {
       params: { range, timezone_offset: getTimezoneOffset() },
-    });
+    };
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/metrics`, requestConfig);
   }
 
-  getSummary({ assistantId, range }) {
+  getFaqStats({ assistantId, signal }) {
+    const requestConfig = {};
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/faq_stats`, requestConfig);
+  }
+
+  getSummary({ assistantId, range, stats }) {
     return axios.get(`${this.url}/${assistantId}/summary`, {
-      params: { range, timezone_offset: getTimezoneOffset() },
+      params: { range, timezone_offset: getTimezoneOffset(), stats },
     });
+  }
+
+  getDrilldown({ assistantId, metric, range, page, signal }) {
+    const requestConfig = {
+      params: {
+        metric,
+        range,
+        timezone_offset: getTimezoneOffset(),
+        page,
+      },
+    };
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/drilldown`, requestConfig);
   }
 }
 

@@ -1,0 +1,12 @@
+{
+  "SESSION_LIMIT": {
+    "TITLE": "Limite de session active atteinte",
+    "DESCRIPTION": "Vous avez atteint votre limite de sessions actives. Veuillez terminer une session avant de vous connecter.",
+    "END": "Mettre fin",
+    "END_ALL": "Mettre fin à toutes les sessions",
+    "LOG_IN": "Se connecter",
+    "CANCEL": "Retour à la connexion",
+    "UNKNOWN_DEVICE": "Périphérique inconnu",
+    "STARTED": "Démarré"
+  }
+}

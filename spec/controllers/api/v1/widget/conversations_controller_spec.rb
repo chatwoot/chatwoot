@@ -111,6 +111,35 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
 
+    it 'adds a private note when the email matches an identified contact' do
+      identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com')
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: conversation_params,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      note = account.conversations.find_by(display_id: response.parsed_body['id']).messages.find_by(private: true)
+      expect(note.content).to include('contact-email@chatwoot.com')
+      expect(note.content).to include("/contacts/#{identified_contact.id}")
+      expect(response.parsed_body['messages'].pluck('content')).not_to include(note.content)
+    end
+
+    it 'still sends the greeting when it adds the private note' do
+      web_widget.inbox.update!(greeting_enabled: true, greeting_message: 'Hello from the team')
+      create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com')
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: conversation_params,
+           as: :json
+
+      messages = account.conversations.find_by(display_id: response.parsed_body['id']).messages
+      expect(messages.where(private: true).count).to eq 1
+      expect(messages.pluck(:content)).to include('Hello from the team')
+    end
+
     it 'does not update the name if the contact already exist' do
       existing_contact = create(:contact, account: account, email: 'contact-email@chatwoot.com')
 
@@ -138,6 +167,51 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['contact']['phone_number']).to eq '+919745313456'
       expect(json_response['custom_attributes']['order_id']).to eq '12345'
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
+    end
+
+    it 'saves contact custom attributes on the widget contact' do
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: {
+             website_token: web_widget.website_token,
+             contact: {
+               name: 'contact-name',
+               email: 'contact-email@chatwoot.com',
+               custom_attributes: { cpf: '123.456.789-09' }
+             },
+             message: {
+               content: 'This is a test message'
+             }
+           },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(contact.reload.custom_attributes['cpf']).to eq('123.456.789-09')
+    end
+
+    it 'saves contact custom attributes on the surviving contact when merged into an existing contact' do
+      existing_contact = create(:contact, account: account, email: 'contact-email@chatwoot.com', custom_attributes: { 'cpf' => 'old-value' })
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: {
+             website_token: web_widget.website_token,
+             contact: {
+               name: 'contact-name',
+               email: existing_contact.email,
+               custom_attributes: { cpf: '123.456.789-09' }
+             },
+             message: {
+               content: 'This is a test message'
+             }
+           },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      # the widget contact is merged into the existing contact; the freshly
+      # submitted value must land on the surviving contact and win over stale data
+      expect(Contact.exists?(contact.id)).to be(false)
+      expect(existing_contact.reload.custom_attributes['cpf']).to eq('123.456.789-09')
     end
 
     it 'doesnt not add phone number if the invalid phone number is provided' do
@@ -240,7 +314,8 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
             account_id: conversation.account_id,
             inbox_id: conversation.inbox_id,
             message_type: :activity,
-            content: "Conversation was resolved by #{contact.name}"
+            content: "Conversation was resolved by #{contact.name}",
+            content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
           }
         )
       end

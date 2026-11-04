@@ -10,6 +10,10 @@ vi.mock('dashboard/api/reports', () => ({
   },
 }));
 
+vi.mock('vue-router', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
     t: (key, params = {}) => {
@@ -73,9 +77,11 @@ describe('ReportDrilldownDrawer.vue', () => {
     },
   ];
 
-  const mountDrawer = options =>
-    mount(ReportDrilldownDrawer, {
-      props: { open: true, ...request, ...options?.props },
+  // The panel opens imperatively from a watch on `open`, so mount closed (as
+  // the parents do) and open via setProps.
+  const mountDrawer = async options => {
+    const wrapper = mount(ReportDrilldownDrawer, {
+      props: { ...request, ...options?.props, open: false },
       attachTo: options?.attachTo,
       global: {
         stubs: {
@@ -101,6 +107,9 @@ describe('ReportDrilldownDrawer.vue', () => {
         },
       },
     });
+    await wrapper.setProps({ open: true });
+    return wrapper;
+  };
 
   beforeEach(() => {
     ReportsAPI.getDrilldown.mockResolvedValue({
@@ -122,7 +131,7 @@ describe('ReportDrilldownDrawer.vue', () => {
   });
 
   it('loads and renders drilldown cards for the request', async () => {
-    const wrapper = mountDrawer();
+    const wrapper = await mountDrawer();
     await flushPromises();
 
     expect(ReportsAPI.getDrilldown).toHaveBeenCalledWith(
@@ -138,7 +147,7 @@ describe('ReportDrilldownDrawer.vue', () => {
   });
 
   it('shows the bucket aggregate value for average metrics', async () => {
-    const wrapper = mountDrawer({
+    const wrapper = await mountDrawer({
       props: {
         metric: 'avg_first_response_time',
         metricName: 'First response time',
@@ -163,7 +172,7 @@ describe('ReportDrilldownDrawer.vue', () => {
         payload,
       },
     });
-    const wrapper = mountDrawer({
+    const wrapper = await mountDrawer({
       props: {
         metric: 'reply_time',
         isAverageMetric: true,
@@ -188,7 +197,7 @@ describe('ReportDrilldownDrawer.vue', () => {
         payload,
       },
     });
-    const wrapper = mountDrawer({
+    const wrapper = await mountDrawer({
       props: {
         metric: 'avg_first_response_time',
         isAverageMetric: true,
@@ -202,7 +211,7 @@ describe('ReportDrilldownDrawer.vue', () => {
   });
 
   it('shows the plain count as the bucket value for count metrics', async () => {
-    const wrapper = mountDrawer({ props: { bucketValue: 128 } });
+    const wrapper = await mountDrawer({ props: { bucketValue: 128 } });
     await flushPromises();
 
     expect(wrapper.text()).toContain('128');
@@ -221,7 +230,7 @@ describe('ReportDrilldownDrawer.vue', () => {
         payload,
       },
     });
-    const wrapper = mountDrawer({
+    const wrapper = await mountDrawer({
       props: { metric: 'conversations_count', bucketValue: 5 },
     });
     await flushPromises();
@@ -242,7 +251,7 @@ describe('ReportDrilldownDrawer.vue', () => {
         payload,
       },
     });
-    const wrapper = mountDrawer({
+    const wrapper = await mountDrawer({
       props: { metric: 'resolutions_count', bucketValue: 8 },
     });
     await flushPromises();
@@ -251,16 +260,18 @@ describe('ReportDrilldownDrawer.vue', () => {
   });
 
   it('anchors the drawer to the inline-end edge so it flips in RTL', async () => {
-    const wrapper = mountDrawer();
+    const wrapper = await mountDrawer();
     await flushPromises();
 
     const drawer = wrapper.get('[role="dialog"]');
-    expect(drawer.classes()).toContain('end-0');
-    expect(drawer.classes()).not.toContain('right-0');
+    expect(drawer.classes()).toContain('end-3');
+    expect(drawer.classes()).not.toContain('right-3');
   });
 
   it('flips the navigation caret icons in RTL', async () => {
-    const wrapper = mountDrawer({ props: { canPrev: true, canNext: true } });
+    const wrapper = await mountDrawer({
+      props: { canPrev: true, canNext: true },
+    });
     await flushPromises();
 
     expect(
@@ -272,16 +283,16 @@ describe('ReportDrilldownDrawer.vue', () => {
   });
 
   it('emits close when the drawer close button is clicked', async () => {
-    const wrapper = mountDrawer();
+    const wrapper = await mountDrawer();
     await flushPromises();
 
-    await wrapper.get('[aria-label="REPORT.DRILLDOWN.CLOSE"]').trigger('click');
+    await wrapper.get('[aria-label="GENERAL.CLOSE"]').trigger('click');
 
     expect(wrapper.emitted('close')).toBeTruthy();
   });
 
   it('emits navigate when the next button is clicked', async () => {
-    const wrapper = mountDrawer({ props: { canNext: true } });
+    const wrapper = await mountDrawer({ props: { canNext: true } });
     await flushPromises();
 
     await wrapper
@@ -292,7 +303,7 @@ describe('ReportDrilldownDrawer.vue', () => {
   });
 
   it('does not emit navigate past the available range', async () => {
-    const wrapper = mountDrawer({ props: { canPrev: false } });
+    const wrapper = await mountDrawer({ props: { canPrev: false } });
     await flushPromises();
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
@@ -303,13 +314,16 @@ describe('ReportDrilldownDrawer.vue', () => {
   it('moves focus into the drawer when opened', async () => {
     const target = document.createElement('div');
     document.body.appendChild(target);
-    const wrapper = mountDrawer({ attachTo: target });
+    const wrapper = await mountDrawer({ attachTo: target });
     await flushPromises();
-    await nextTick();
 
-    expect(document.activeElement).toBe(
-      wrapper.find('[role="dialog"]').element
-    );
+    // The panel focuses itself once the enter transition settles (after-enter
+    // resolves on animation frames), so poll instead of awaiting microtasks.
+    await vi.waitFor(() => {
+      expect(document.activeElement).toBe(
+        wrapper.find('[role="dialog"]').element
+      );
+    });
 
     wrapper.unmount();
     target.remove();
@@ -318,11 +332,14 @@ describe('ReportDrilldownDrawer.vue', () => {
   it('closes on Escape even when focus is outside the drawer', async () => {
     const target = document.createElement('div');
     document.body.appendChild(target);
-    const wrapper = mountDrawer({ attachTo: target });
+    const wrapper = await mountDrawer({ attachTo: target });
     await flushPromises();
 
     document.body.focus();
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    // Bubbles like a real key press so it reaches the panel's window listener.
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
+    );
 
     expect(wrapper.emitted('close')).toBeTruthy();
 
@@ -337,11 +354,13 @@ describe('ReportDrilldownDrawer.vue', () => {
     document.body.appendChild(target);
     opener.focus();
 
-    const wrapper = mountDrawer({ attachTo: target });
+    const wrapper = await mountDrawer({ attachTo: target });
     await flushPromises();
     await nextTick();
 
-    await wrapper.get('[aria-label="REPORT.DRILLDOWN.CLOSE"]').trigger('click');
+    await wrapper.get('[aria-label="GENERAL.CLOSE"]').trigger('click');
+    await wrapper.setProps({ open: false });
+    await nextTick();
 
     expect(document.activeElement).toBe(opener);
 

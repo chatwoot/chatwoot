@@ -96,7 +96,14 @@ RSpec.describe Conversations::UnreadCounts::FilteredCountStore do
 
       described_class.bump_built_in_filter_version!(account_id: account_id, user_id: user_id)
       expect(described_class.built_in_filter_counts_state(account_id: account_id, user_id: user_id, now: built_at + 2.minutes)).to be_stale
-      expect(described_class.built_in_filter_counts_state(account_id: account_id, user_id: user_id, now: built_at + 36.minutes)).to be_expired
+      expect(
+        described_class.built_in_filter_counts_state(
+          account_id: account_id,
+          user_id: user_id,
+          now: built_at + Conversations::UnreadCounts::FILTERED_COUNT_FRESH_TTL +
+            Conversations::UnreadCounts::FILTERED_COUNT_STALE_WINDOW + 1.second
+        )
+      ).to be_expired
 
       Redis::Alfred.delete(described_class.built_in_filter_counts_key(account_id, user_id))
       expect(described_class.built_in_filter_counts_state(account_id: account_id, user_id: user_id)).to be_missing
@@ -202,8 +209,18 @@ RSpec.describe Conversations::UnreadCounts::FilteredCountStore do
       )
 
       snapshot = described_class.built_in_filter_counts(account_id: account_id, user_id: user_id)
-      expect(described_class.refresh_due?(snapshot, now: built_at + 10.seconds)).to be(false)
-      expect(described_class.refresh_due?(snapshot, now: built_at + 31.seconds)).to be(true)
+      expect(
+        described_class.refresh_due?(
+          snapshot,
+          now: built_at + Conversations::UnreadCounts::FILTERED_COUNT_MIN_REFRESH_INTERVAL - 1.second
+        )
+      ).to be(false)
+      expect(
+        described_class.refresh_due?(
+          snapshot,
+          now: built_at + Conversations::UnreadCounts::FILTERED_COUNT_MIN_REFRESH_INTERVAL + 1.second
+        )
+      ).to be(true)
 
       expect(described_class.claim_built_in_filter_refresh!(account_id: account_id, user_id: user_id)).to be(true)
       expect(described_class.claim_built_in_filter_refresh!(account_id: account_id, user_id: user_id)).to be(false)

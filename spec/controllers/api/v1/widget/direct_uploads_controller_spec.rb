@@ -11,13 +11,21 @@ RSpec.describe '/api/v1/widget/direct_uploads', type: :request do
 
   describe 'POST /api/v1/widget/direct_uploads' do
     context 'when post request is made' do
+      around do |example|
+        original = ActionController::Base.allow_forgery_protection
+        ActionController::Base.allow_forgery_protection = true
+        example.run
+      ensure
+        ActionController::Base.allow_forgery_protection = original
+      end
+
       before do
         token
         contact
         payload
       end
 
-      it 'creates attachment message in conversation' do
+      it 'creates a blob with a valid widget token and no CSRF token' do
         post api_v1_widget_direct_uploads_url,
              params: {
                website_token: web_widget.website_token,

@@ -19,7 +19,7 @@ class Voice::OutboundCallBuilder
 
     # Claim for the caller if a reused conversation is unassigned at trigger time; wins over auto-assignment.
     # New conversations set the assignee at creation instead (see create_conversation!).
-    claim_for_caller = @existing_conversation && @existing_conversation.assignee_id.nil?
+    claim_for_caller = @existing_conversation && @existing_conversation.assigned_entity.nil?
 
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
@@ -33,6 +33,8 @@ class Voice::OutboundCallBuilder
       call = create_call!(conversation, call_sid)
       message = Voice::CallMessageBuilder.new(call).perform!
       call.update!(message_id: message.id)
+      # Status callbacks that arrived before this commit found no call to update
+      ActiveRecord.after_all_transactions_commit { Voice::SyncProviderStatusJob.perform_later(call.id) }
       call
     end
   end

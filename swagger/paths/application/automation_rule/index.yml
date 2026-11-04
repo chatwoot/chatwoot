@@ -7,6 +7,7 @@ parameters:
   - $ref: '#/components/parameters/page'
 description: Get details of automation rules in an Account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 responses:
   '200':

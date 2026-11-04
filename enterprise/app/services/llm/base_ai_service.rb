@@ -18,11 +18,33 @@ class Llm::BaseAiService
     setup_temperature
   end
 
-  def chat(model: @model, temperature: @temperature)
-    RubyLLM.chat(model: model).with_temperature(temperature)
+  def chat(model: @model, temperature: @temperature, thinking: nil, feature: @llm_feature, **)
+    options = Captain::ResponsesConfig.options(model: model, temperature: temperature, feature: feature)
+    thinking ||= options[:thinking]
+    llm_chat = RubyLLM.chat(model: model, **options.slice(:protocol), **)
+    llm_chat.with_thinking(**thinking) if thinking
+    return llm_chat if options[:temperature].nil? || (thinking && thinking[:effort] != :none)
+
+    llm_chat.with_temperature(options[:temperature])
+  end
+
+  def json_chat(model: @model, feature: @llm_feature, temperature: @temperature)
+    llm_chat = chat(model: model, feature: feature, temperature: temperature)
+    options = Captain::ResponsesConfig.options(model: model, temperature: temperature, feature: feature)
+    format = { type: 'json_object' }
+    # Responses JSON mode requires a JSON instruction in input, even when instructions already specify the output format.
+    llm_chat.add_message(role: :user, content: 'Respond with valid JSON.') if options[:protocol] == :responses
+    llm_chat.with_provider_options(Captain::ResponsesConfig.json_format_options(protocol: options[:protocol], format: format))
   end
 
   private
+
+  def llm_instrumentation_params(params)
+    feature = params[:llm_feature] || @llm_feature
+    options = Captain::ResponsesConfig.options(model: params[:model], temperature: params[:temperature], feature: feature)
+    metadata = Captain::ResponsesConfig.request_metadata(model: params[:model], feature: feature)
+    params.merge(temperature: options[:temperature], metadata: params[:metadata].to_h.merge(metadata))
+  end
 
   # Strips markdown code fences (```json ... ``` or ``` ... ```) that some
   # LLM providers/gateways wrap around JSON responses despite response_format hints.
@@ -34,7 +56,7 @@ class Llm::BaseAiService
 
   def setup_model
     route = feature_route
-    return @model = route[:model] if account_override_route?(route) || captain_v2_assistant?
+    return @model = route[:model] if account_override_route?(route) || captain_assistant?
 
     @model = @fallback_model.presence || installation_model.presence || route&.dig(:model) || DEFAULT_MODEL
   end
@@ -49,8 +71,8 @@ class Llm::BaseAiService
     route&.dig(:source) == :account_override
   end
 
-  def captain_v2_assistant?
-    @llm_feature.to_s == 'assistant' && @llm_account&.feature_enabled?('captain_integration_v2')
+  def captain_assistant?
+    @llm_feature.to_s == 'assistant' && @llm_account&.feature_enabled?('captain_integration')
   end
 
   def installation_model

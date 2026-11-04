@@ -1,4 +1,12 @@
 class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
+  include MarkdownRendererUrlSanitizer
+
+  # Email clients drop stylesheets, so tables carry inline styles. Translucent grays suit any
+  # background (white email, blue bubble, dark mode); the solid border is Outlook's fallback.
+  TABLE_STYLE = 'border-collapse: collapse; margin: 12px 0;'.freeze
+  TABLE_CELL_STYLE = 'border: 1px solid #d1d5db; border-color: rgba(127, 127, 127, 0.35); padding: 6px 12px; vertical-align: top;'.freeze
+  TABLE_HEADER_STYLE = "#{TABLE_CELL_STYLE} background-color: rgba(127, 127, 127, 0.12); font-weight: 600;".freeze
+
   def image(node)
     src, title = extract_img_attributes(node)
     sizing_style = extract_image_sizing_style(src)
@@ -6,11 +14,31 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
     render_img_tag(src, title, sizing_style)
   end
 
+  # CommonMarker's table rendering plus inline styles; the ivars are the gem's table state.
+  def table(node)
+    @alignments = node.table_alignments
+    @needs_close_tbody = false
+    out(%(<table style="#{TABLE_STYLE}">\n), :children)
+    out("</tbody>\n") if @needs_close_tbody
+    out("</table>\n")
+  end
+
+  # Unaligned cells follow the text direction (browsers center <th>); an empty cell
+  # gets an nbsp because clients collapse it to zero height.
+  def table_cell(node)
+    tag = @in_header ? 'th' : 'td'
+    style = @in_header ? TABLE_HEADER_STYLE : TABLE_CELL_STYLE
+    text_align = @alignments[@column_index] || 'inherit'
+    content = node.first_child ? :children : '&nbsp;'
+    out(%(<#{tag} style="#{style} text-align: #{text_align};">), content, "</#{tag}>\n")
+    @column_index += 1
+  end
+
   private
 
   def extract_img_attributes(node)
     [
-      escape_href(node.url),
+      sanitized_href(node.url),
       escape_html(node.title)
     ]
   end

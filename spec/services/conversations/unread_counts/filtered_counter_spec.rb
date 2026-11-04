@@ -48,10 +48,22 @@ RSpec.describe Conversations::UnreadCounts::FilteredCounter do
     create(:mention, account: account, conversation: second_mention, user: agent)
     store.bump_conversation_version!(account.id)
 
-    expect(described_class.new(account: account, user: agent, now: now + 10.seconds).perform[:mentions_count]).to eq(1)
+    expect(
+      described_class.new(
+        account: account,
+        user: agent,
+        now: now + Conversations::UnreadCounts::FILTERED_COUNT_MIN_REFRESH_INTERVAL - 1.second
+      ).perform[:mentions_count]
+    ).to eq(1)
 
     Redis::Alfred.delete(store.built_in_filter_refresh_throttle_key(account.id, agent.id))
-    expect(described_class.new(account: account, user: agent, now: now + 31.seconds).perform[:mentions_count]).to eq(2)
+    expect(
+      described_class.new(
+        account: account,
+        user: agent,
+        now: now + Conversations::UnreadCounts::FILTERED_COUNT_MIN_REFRESH_INTERVAL + 1.second
+      ).perform[:mentions_count]
+    ).to eq(2)
   end
 
   it 'returns stale built-in counts when a refresh build hits a database error' do
@@ -62,7 +74,11 @@ RSpec.describe Conversations::UnreadCounts::FilteredCounter do
 
     store.bump_conversation_version!(account.id)
     Redis::Alfred.delete(store.built_in_filter_refresh_throttle_key(account.id, agent.id))
-    failing_counter = described_class.new(account: account, user: agent, now: now + 31.seconds)
+    failing_counter = described_class.new(
+      account: account,
+      user: agent,
+      now: now + Conversations::UnreadCounts::FILTERED_COUNT_MIN_REFRESH_INTERVAL + 1.second
+    )
     allow(failing_counter).to receive(:built_in_counts_from_database).and_raise(ActiveRecord::StatementInvalid.new('statement timeout'))
 
     expect(failing_counter.perform[:mentions_count]).to eq(1)

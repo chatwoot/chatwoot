@@ -33,7 +33,8 @@ class AccountDashboard < Administrate::BaseDashboard
     users: CountField,
     conversations: CountField,
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
-    status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
+    status: AccountStatusField.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
+    suspension_history: SuspensionHistoryField,
     account_users: Field::HasMany,
     custom_attributes: Field::String
   }.merge(enterprise_attribute_types).freeze
@@ -70,6 +71,7 @@ class AccountDashboard < Administrate::BaseDashboard
     updated_at
     locale
     status
+    suspension_history
     conversations
     account_users
   ] + enterprise_show_page_attributes).freeze
@@ -121,6 +123,7 @@ class AccountDashboard < Administrate::BaseDashboard
   # Reference: https://github.com/thoughtbot/administrate/pull/2356/files#diff-4e220b661b88f9a19ac527c50d6f1577ef6ab7b0bed2bfdf048e22e6bfa74a05R204
   def permitted_attributes(action)
     attrs = super + [limits: {}, captain_models: {}]
+    attrs += %i[suspension_category suspension_reason] if action == 'update'
 
     # Add manually_managed_features to permitted attributes only for Chatwoot Cloud
     attrs << { manually_managed_features: [] } if ChatwootApp.chatwoot_cloud?

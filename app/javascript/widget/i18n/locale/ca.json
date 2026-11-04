@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Desenvolupat per Chatwoot",
   "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Escriu el missatge",
   "TODAY": "Avui",
   "YESTERDAY": "Ahir",
@@ -105,6 +108,11 @@
     "PLACEHOLDER": "Cerca emojis",
     "NOT_FOUND": "Cap emoji coincideix amb la teva cerca",
     "ARIA_LABEL": "Emoji picker"
+  },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Search emoji…",
+    "FREQUENTLY_USED": "Frequently used",
+    "NO_EMOJI": "Cap emoji coincideix amb la teva cerca"
   },
   "CSAT": {
     "TITLE": "Valora la teva conversa",

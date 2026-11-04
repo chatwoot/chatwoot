@@ -150,16 +150,16 @@ class Telegram::IncomingMessageService
       return
     end
 
-    attachment_file = Down.download(
-      inbox.channel.get_telegram_file_path(file[:file_id])
-    )
+    attachment_file = Down.download(file_download_path)
 
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type,
       file: {
         io: attachment_file,
-        filename: attachment_file.original_filename,
+        # Telegram's download URL uses an internal storage path, so Down derives a generic name from it.
+        # Prefer the original filename from the payload (present for document/audio/video) when available.
+        filename: file[:file_name].presence || attachment_file.original_filename,
         content_type: attachment_file.content_type
       }
     )

@@ -3,6 +3,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   before_action :fetch_portal, except: [:index, :create]
   before_action :check_authorization
+  before_action :validate_analytics_params, only: [:create, :update]
   before_action :set_current_page, only: [:index]
 
   def index
@@ -18,14 +19,17 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal = Current.account.portals.build(portal_params.merge(live_chat_widget_params))
     @portal.custom_domain = parsed_custom_domain
     @portal.save!
-    process_attached_logo if params[:blob_id].present?
+    process_attached_logos
   end
 
   def update
     ActiveRecord::Base.transaction do
+      # Lock the row so concurrent saves merge onto the latest committed config
+      # instead of a stale snapshot, which would drop the other save's keys.
+      @portal.lock!
       @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
-      process_attached_logo if params[:blob_id].present?
+      process_attached_logos
     rescue ActiveRecord::RecordInvalid => e
       render_record_invalid(e)
     end
@@ -42,7 +46,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def logo
-    @portal.logo.purge if @portal.logo.attached?
+    logo = ActiveModel::Type::Boolean.new.cast(params[:dark]) ? @portal.dark_logo : @portal.logo
+    logo.purge if logo.attached?
     head :ok
   end
 
@@ -60,33 +65,63 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     render json: { message: I18n.t('portals.send_instructions.instructions_sent_successfully') }, status: :ok
   end
 
-  def process_attached_logo
-    blob = ActiveStorage::Blob.find_signed(params[:blob_id].to_s)
-    @portal.logo.attach(blob) if blob
+  def process_attached_logos
+    attach_blob(@portal.logo, params[:blob_id]) if params[:blob_id].present?
+    attach_blob(@portal.dark_logo, params[:dark_logo_blob_id]) if params[:dark_logo_blob_id].present?
   end
 
   private
 
+  def attach_blob(attachment, blob_id)
+    blob = ActiveStorage::Blob.find_signed(blob_id.to_s)
+    attachment.attach(blob) if blob
+  end
+
   def fetch_portal
-    @portal = Current.account.portals.find_by(slug: permitted_params[:id])
+    @portal = Current.account.portals.find_by!(slug: permitted_params[:id])
   end
 
   def permitted_params
     params.permit(:id, :email)
   end
 
+  def validate_analytics_params
+    analytics = params.dig(:portal, :config, :analytics)
+    return if analytics.blank?
+
+    valid = analytics.respond_to?(:each_pair) &&
+            analytics.keys.all? { |key| Portal::ANALYTICS_CONFIG_FORMATS.key?(key.to_s) } &&
+            analytics.values.all?(String)
+    return if valid
+
+    render json: { error: I18n.t('portals.analytics.invalid_configuration') }, status: :unprocessable_entity
+  end
+
   def portal_params
     params.require(:portal).permit(
       :id, :color, :custom_domain, :header_text, :homepage_link,
       :name, :page_title, :slug, :archived,
-      { config: [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
-                 { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
-                 { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } }] }
+      { config: config_param_keys }
     )
+  end
+
+  def config_param_keys
+    keys = [:default_locale, :layout, :disable_search_indexing, { allowed_locales: [] }, { draft_locales: [] },
+            { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
+            { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } },
+            { popular_content: popular_content_keys.index_with { { category_ids: [], article_ids: [] } } }]
+    # Analytics injects tracking scripts into every public page, so keep it admin-only even though
+    # Enterprise lets knowledge_base_manage roles edit other portal settings.
+    keys << { analytics: Portal::ANALYTICS_CONFIG_FORMATS.keys.map(&:to_sym) } if Current.account_user&.administrator?
+    keys
   end
 
   def locale_translation_keys
     params.dig(:portal, :config, :locale_translations)&.keys || []
+  end
+
+  def popular_content_keys
+    params.dig(:portal, :config, :popular_content)&.keys || []
   end
 
   def live_chat_widget_params

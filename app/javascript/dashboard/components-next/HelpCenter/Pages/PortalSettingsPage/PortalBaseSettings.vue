@@ -2,19 +2,15 @@
 import { reactive, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
-import { useAlert } from 'dashboard/composables';
-import { useStore, useStoreGetters } from 'dashboard/composables/store';
-import { uploadFile } from 'dashboard/helper/uploadHelper';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { useStoreGetters } from 'dashboard/composables/store';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, helpers, url } from '@vuelidate/validators';
 import { isValidSlug } from 'shared/helpers/Validators';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
-import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
+import PortalLogoSettings from './PortalLogoSettings.vue';
 
 const props = defineProps({
   activePortal: {
@@ -30,10 +26,7 @@ const props = defineProps({
 const emit = defineEmits(['updatePortal']);
 
 const { t } = useI18n();
-const store = useStore();
 const getters = useStoreGetters();
-
-const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 
 const state = reactive({
   name: '',
@@ -42,30 +35,13 @@ const state = reactive({
   slug: '',
   widgetColor: '',
   homePageLink: '',
-  liveChatWidgetInboxId: '',
-  logoUrl: '',
-  avatarBlobId: '',
+  logos: {
+    light: { url: '', blobId: '' },
+    dark: { url: '', blobId: '' },
+  },
 });
 
 const originalState = reactive({ ...state });
-
-const liveChatWidgets = computed(() => {
-  const inboxes = store.getters['inboxes/getInboxes'];
-  const widgetOptions = inboxes
-    .filter(inbox => inbox.channel_type === 'Channel::WebWidget')
-    .map(inbox => ({
-      value: inbox.id,
-      label: inbox.name,
-    }));
-
-  return [
-    {
-      value: '',
-      label: t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.NONE_OPTION'),
-    },
-    ...widgetOptions,
-  ];
-});
 
 const rules = {
   name: { required, minLength: minLength(2) },
@@ -116,18 +92,11 @@ watch(
         widgetColor: newVal.color,
         homePageLink: newVal.homepage_link,
         slug: newVal.slug,
-        liveChatWidgetInboxId: newVal.inbox?.id || '',
+        logos: {
+          light: { url: newVal.logo?.file_url || '', blobId: '' },
+          dark: { url: newVal.dark_logo?.file_url || '', blobId: '' },
+        },
       });
-      if (newVal.logo) {
-        const {
-          logo: { file_url: logoURL, blob_id: blobId },
-        } = newVal;
-        state.logoUrl = logoURL;
-        state.avatarBlobId = blobId;
-      } else {
-        state.logoUrl = '';
-        state.avatarBlobId = '';
-      }
       Object.assign(originalState, state);
     }
   },
@@ -147,73 +116,20 @@ const handleUpdatePortal = () => {
     page_title: state.pageTitle,
     header_text: state.headerText,
     homepage_link: state.homePageLink,
-    blob_id: state.avatarBlobId,
-    inbox_id: state.liveChatWidgetInboxId,
+    blob_id: state.logos.light.blobId,
+    dark_logo_blob_id: state.logos.dark.blobId,
   };
   emit('updatePortal', portal);
-};
-
-async function uploadLogoToStorage({ file }) {
-  try {
-    const { fileUrl, blobId } = await uploadFile(file);
-    if (fileUrl) {
-      state.logoUrl = fileUrl;
-      state.avatarBlobId = blobId;
-    }
-    useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_SUCCESS'));
-  } catch (error) {
-    useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_ERROR'));
-  }
-}
-
-async function deleteLogo() {
-  try {
-    const portalSlug = props.activePortal?.slug;
-    await store.dispatch('portals/deleteLogo', {
-      portalSlug,
-    });
-    useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_DELETE_SUCCESS'));
-  } catch (error) {
-    useAlert(
-      error?.message ||
-        t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_DELETE_ERROR')
-    );
-  }
-}
-
-const handleAvatarUpload = file => {
-  if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-    uploadLogoToStorage(file);
-  } else {
-    const errorKey =
-      'HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_SIZE_ERROR';
-    useAlert(t(errorKey, { size: MAXIMUM_FILE_UPLOAD_SIZE }));
-  }
-};
-
-const handleAvatarDelete = () => {
-  state.logoUrl = '';
-  state.avatarBlobId = '';
-  deleteLogo();
 };
 </script>
 
 <template>
   <div class="flex flex-col w-full gap-4">
-    <div class="flex flex-col w-full gap-2">
-      <label class="mb-0.5 text-sm font-medium text-gray-900 dark:text-gray-50">
-        {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.LABEL') }}
-      </label>
-      <Avatar
-        :src="state.logoUrl"
-        :name="state.name"
-        :size="72"
-        allow-upload
-        icon-name="i-lucide-building-2"
-        @upload="handleAvatarUpload"
-        @delete="handleAvatarDelete"
-      />
-    </div>
+    <PortalLogoSettings
+      v-model="state.logos"
+      :portal-slug="activePortal.slug"
+      :portal-name="state.name"
+    />
     <div class="flex flex-col w-full gap-4">
       <div
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
@@ -301,26 +217,6 @@ const handleAvatarDelete = () => {
           custom-input-class="!bg-transparent dark:!bg-transparent"
           @input="v$.slug.$touch()"
           @blur="v$.slug.$touch()"
-        />
-      </div>
-      <div
-        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
-      >
-        <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
-        >
-          {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.LABEL') }}
-        </label>
-        <ComboBox
-          v-model="state.liveChatWidgetInboxId"
-          :options="liveChatWidgets"
-          :placeholder="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.PLACEHOLDER')
-          "
-          :message="
-            t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.HELP_TEXT')
-          "
-          class="[&>div>button:not(.focused)]:!outline-n-weak"
         />
       </div>
       <div

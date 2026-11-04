@@ -27,13 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assegna etichette",
-      "REMOVE_LABELS": "Remove labels",
+      "REMOVE_LABELS": "Rimuovi etichette",
       "ASSIGN_SELECTED_LABELS": "Assegna etichette selezeionate",
-      "REMOVE_SELECTED_LABELS": "Remove selected labels",
+      "REMOVE_SELECTED_LABELS": "Rimuovi etichette selezionate",
       "ASSIGN_SUCCESFUL": "Etichette assegnate correttamente.",
       "ASSIGN_FAILED": "Impossibile assegnare le etichette. Riprova.",
-      "REMOVE_SUCCESFUL": "Labels removed successfully.",
-      "REMOVE_FAILED": "Failed to remove labels. Please try again."
+      "REMOVE_SUCCESFUL": "Etichette rimosse correttamente.",
+      "REMOVE_FAILED": "Impossibile rimuovere le etichette. Riprova."
     },
     "TEAMS": {
       "NONE": "Nessuno",
@@ -41,6 +41,12 @@
       "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Sei sicuro di voler disassegnare {n} conversazione? | Sei sicuro di voler disassegnare {n} conversazioni?",
       "ASSIGN_SUCCESFUL": "Team assegnati con successo.",
       "ASSIGN_FAILED": "Impossibile assegnare il team. Riprova."
+    },
+    "MACROS": {
+      "EXECUTE_MACRO": "Esegui macro",
+      "EXECUTE_CONFIRMATION_LABEL": "Vuoi davvero eseguire {macroName} su {n} conversazione? | Vuoi davvero eseguire {macroName} su {n} conversazioni?",
+      "QUEUED": "Macro in coda per {count} conversazione. | Macro in coda per {count} conversazioni.",
+      "QUEUED_WITH_MISSING_ATTRIBUTES": "Macro in coda per {count} conversazione. Al momento mancano attributi obbligatori e potrebbe restare aperta. | Macro in coda per {count} conversazioni. Almeno una al momento non ha gli attributi obbligatori e potrebbe restare aperta."
     }
   }
 }

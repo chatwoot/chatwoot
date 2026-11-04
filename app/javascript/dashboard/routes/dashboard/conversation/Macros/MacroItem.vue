@@ -1,46 +1,23 @@
 <script setup>
 import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useAlert } from 'dashboard/composables';
-import { useStore } from 'dashboard/composables/store';
-import { CONVERSATION_EVENTS } from '../../../../helper/AnalyticsHelper/events';
-import { useTrack } from 'dashboard/composables';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MacroPreview from './MacroPreview.vue';
 
-const props = defineProps({
+defineProps({
   macro: {
     type: Object,
     required: true,
   },
-  conversationId: {
-    type: [Number, String],
-    required: true,
+  isExecuting: {
+    type: Boolean,
+    default: false,
   },
 });
 
-const store = useStore();
-const { t } = useI18n();
+defineEmits(['execute']);
 
-const isExecuting = ref(false);
 const showPreview = ref(false);
-
-const executeMacro = async macro => {
-  try {
-    isExecuting.value = true;
-    await store.dispatch('macros/execute', {
-      macroId: macro.id,
-      conversationIds: [props.conversationId],
-    });
-    useTrack(CONVERSATION_EVENTS.EXECUTED_A_MACRO);
-    useAlert(t('MACROS.EXECUTE.EXECUTED_SUCCESSFULLY'));
-  } catch (error) {
-    useAlert(t('MACROS.ERROR'));
-  } finally {
-    isExecuting.value = false;
-  }
-};
 
 const toggleMacroPreview = () => {
   showPreview.value = !showPreview.value;
@@ -77,7 +54,8 @@ const closeMacroPreview = () => {
         faded
         xs
         :is-loading="isExecuting"
-        @click="executeMacro(macro)"
+        :disabled="isExecuting"
+        @click="$emit('execute')"
       />
     </div>
     <transition name="menu-slide">

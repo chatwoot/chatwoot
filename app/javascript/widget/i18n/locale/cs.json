@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Prosím, zadejte svůj e-mail",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Zde začněte psát",
   "TODAY": "Dnes",
   "YESTERDAY": "Včera",
@@ -105,6 +108,11 @@
     "PLACEHOLDER": "Hledat emoji",
     "NOT_FOUND": "Žádné emoji neodpovídají vašemu hledání",
     "ARIA_LABEL": "Výběr emoji"
+  },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Search emoji…",
+    "FREQUENTLY_USED": "Frequently used",
+    "NO_EMOJI": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Ohodnoťte svou konverzaci",

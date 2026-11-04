@@ -40,7 +40,7 @@ RSpec.describe CaptainFeaturable do
 
       it 'returns false for disabled features' do
         expect(account.captain_copilot_enabled?).to be false
-        expect(account.captain_label_suggestion_enabled?).to be false
+        expect(account.captain_help_center_query_translation_enabled?).to be false
       end
     end
 
@@ -61,16 +61,16 @@ RSpec.describe CaptainFeaturable do
     context 'when models are explicitly configured' do
       before do
         account.update!(captain_models: {
-                          'editor' => 'gpt-4.1-mini',
+                          'editor' => 'gpt-5-mini',
                           'assistant' => 'gpt-5.1',
-                          'label_suggestion' => 'gpt-4.1-nano'
+                          'help_center_query_translation' => 'gpt-5-mini'
                         })
       end
 
       it 'returns configured models for configured features' do
-        expect(account.captain_editor_model).to eq('gpt-4.1-mini')
+        expect(account.captain_editor_model).to eq('gpt-5-mini')
         expect(account.captain_assistant_model).to eq('gpt-5.1')
-        expect(account.captain_label_suggestion_model).to eq('gpt-4.1-nano')
+        expect(account.captain_help_center_query_translation_model).to eq('gpt-5-mini')
       end
 
       it 'returns default models for unconfigured features' do
@@ -86,6 +86,13 @@ RSpec.describe CaptainFeaturable do
 
       it 'falls back to default model' do
         expect(account.captain_editor_model).to eq(Llm::Models.default_model_for('editor'))
+      end
+
+      it 'rejects the change but still saves other attributes once stored' do
+        expect(account).not_to be_valid
+
+        account.save(validate: false)
+        expect(account.reload.update(name: 'Renamed')).to be(true)
       end
     end
 
@@ -114,7 +121,7 @@ RSpec.describe CaptainFeaturable do
     end
 
     it 'model methods use the same logic as captain_preferences[:models]' do
-      account.update!(captain_models: { 'editor' => 'gpt-4.1-mini', 'assistant' => 'gpt-5.2' })
+      account.update!(captain_models: { 'editor' => 'gpt-5-mini', 'assistant' => 'gpt-5.2' })
       prefs = account.captain_preferences
 
       Llm::Models.feature_keys.each do |feature_key|

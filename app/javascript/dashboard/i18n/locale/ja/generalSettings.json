@@ -44,6 +44,35 @@
         "TITLE": "アカウントID",
         "NOTE": "APIベースの統合を構築する場合に必要なIDです"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Translate",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "接続",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "アップグレード"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
         "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
@@ -51,7 +80,7 @@
           "LABEL": "Inactivity duration",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Auto resolve settings updated successfully",
             "ERROR": "Failed to update auto resolve settings"
@@ -104,6 +133,14 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Chatwootのアップデート {latestChatwootVersion} が利用可能です。インスタンスを更新してください。",
     "LEARN_MORE": "詳細を見る",
-    "PAYMENT_PENDING": "お支払いが保留中です。支払い情報を更新してChatwootの利用を継続してください。",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "アカウントの使用制限を超えました。プランをアップグレードして利用を続けてください。",
     "OPEN_BILLING": "請求情報を開く"
@@ -137,37 +175,6 @@
       "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "1つを選択",
       "SELECT": "選択"
-    }
-  },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "通知",
-    "MARK_ALL_DONE": "すべて完了としてマーク",
-    "DELETE_TITLE": "削除済み",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "未読通知",
-      "ALL_NOTIFICATIONS": "すべての通知を見る",
-      "LOADING_UNREAD_MESSAGE": "未読通知を読み込み中...",
-      "EMPTY_MESSAGE": "未読通知はありません"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "通知を読み込み中...",
-      "404": "通知なし",
-      "TABLE_HEADER": [
-        "名前",
-        "電話番号",
-        "会話データ",
-        "最終連絡日"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "新しい会話",
-      "conversation_assignment": "会話の割り当て",
-      "assigned_conversation_new_message": "新しいメッセージ",
-      "participating_conversation_new_message": "新しいメッセージ",
-      "conversation_mention": "メンション",
-      "sla_missed_first_response": "SLA未達",
-      "sla_missed_next_response": "SLA未達",
-      "sla_missed_resolution": "SLA未達"
     }
   },
   "NETWORK": {
@@ -192,6 +199,7 @@
       "CHANGE_PRIORITY": "優先度を変更",
       "CHANGE_TEAM": "チームを変更",
       "SNOOZE_CONVERSATION": "会話をスヌーズ",
+      "EXECUTE_MACRO": "Execute Macro",
       "ADD_LABEL": "会話にラベルを追加",
       "REMOVE_LABEL": "会話からラベルを削除",
       "SETTINGS": "設定",
@@ -200,28 +208,44 @@
       "SNOOZE_NOTIFICATION": "通知をスヌーズ"
     },
     "COMMANDS": {
+      "GO_TO_MY_INBOX": "Go to My Inbox",
       "GO_TO_CONVERSATION_DASHBOARD": "会話ダッシュボードに移動",
       "GO_TO_CONTACTS_DASHBOARD": "連絡先ダッシュボードに移動",
+      "GO_TO_CAPTAIN": "Go to Captain",
+      "GO_TO_CALLS_DASHBOARD": "Go to Calls Dashboard",
+      "GO_TO_CAMPAIGNS": "Go to Campaigns",
+      "GO_TO_HELP_CENTER": "Go to Help Center",
       "GO_TO_REPORTS_OVERVIEW": "レポート概要に移動",
       "GO_TO_CONVERSATION_REPORTS": "会話レポートに移動",
       "GO_TO_AGENT_REPORTS": "担当者レポートに移動",
       "GO_TO_LABEL_REPORTS": "ラベルレポートに移動",
       "GO_TO_INBOX_REPORTS": "受信トレイレポートに移動",
       "GO_TO_TEAM_REPORTS": "チームレポートに移動",
+      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
+      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
+      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
       "GO_TO_SETTINGS_AGENTS": "担当者設定に移動",
       "GO_TO_SETTINGS_TEAMS": "チーム設定に移動",
       "GO_TO_SETTINGS_INBOXES": "受信トレイ設定に移動",
+      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
       "GO_TO_SETTINGS_LABELS": "ラベル設定に移動",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
+      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "定型文設定に移動",
+      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
       "GO_TO_SETTINGS_APPLICATIONS": "アプリ設定に移動",
+      "GO_TO_SETTINGS_DATA": "Go to Data",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "アカウント設定に移動",
       "GO_TO_SETTINGS_PROFILE": "プロフィール設定に移動",
-      "GO_TO_NOTIFICATIONS": "通知に移動",
       "ADD_LABELS_TO_CONVERSATION": "会話にラベルを追加",
       "ASSIGN_AN_AGENT": "担当者を割り当て",
       "AI_ASSIST": "AIアシスト",
       "ASSIGN_PRIORITY": "優先度を割り当て",
       "ASSIGN_A_TEAM": "チームを割り当て",
+      "EXECUTE_A_MACRO": "Execute a macro",
       "MUTE_CONVERSATION": "会話をミュート",
       "UNMUTE_CONVERSATION": "会話のミュートを解除",
       "REMOVE_LABEL_FROM_CONVERSATION": "会話からラベルを削除",

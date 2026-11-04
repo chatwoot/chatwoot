@@ -43,13 +43,16 @@ RSpec.describe Concerns::Agentable do
   end
 
   describe '#agent' do
-    it 'creates an Agents::Agent with correct parameters' do
+    it 'omits unsupported temperature for the account model override' do
+      account.update!(captain_models: { 'assistant' => 'gpt-5-mini' })
+
       expect(Agents::Agent).to receive(:new).with(
         name: 'Test Agent',
         instructions: instance_of(Proc),
         tools: [],
-        model: Llm::Models.default_model_for('assistant'),
-        temperature: 0.8,
+        model: 'gpt-5-mini',
+        temperature: nil,
+        protocol: :responses,
         response_schema: Captain::ResponseSchema
       )
 
@@ -147,6 +150,15 @@ RSpec.describe Concerns::Agentable do
 
       dummy_instance.agent_instructions(context_double)
     end
+
+    it 'can render a caller-specific prompt without changing the default prompt' do
+      expect(Captain::PromptRenderer).to receive(:render).with(
+        'copilot_reply_suggestion',
+        hash_including(base_key: 'base_value')
+      )
+
+      dummy_instance.agent_instructions(nil, prompt_template: 'copilot_reply_suggestion')
+    end
   end
 
   describe '#template_name' do
@@ -167,21 +179,21 @@ RSpec.describe Concerns::Agentable do
     end
 
     it 'returns account override model when present' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
       account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
 
       expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')
     end
 
     it 'returns the installation model when account override is absent' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-nano')
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-5-mini')
     end
 
     it 'returns the Captain V2 default when Captain V2 is enabled' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
-      account.enable_features!('captain_integration_v2')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
+      account.enable_features!('captain_integration')
 
       expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')
       expect(account.reload.captain_models).to be_nil
@@ -197,6 +209,20 @@ RSpec.describe Concerns::Agentable do
   describe '#agent_response_schema' do
     it 'returns Captain::ResponseSchema' do
       expect(dummy_instance.send(:agent_response_schema)).to eq(Captain::ResponseSchema)
+    end
+
+    it 'defines complete structured response parts with nested citation indexes' do
+      schema = Captain::ResponseSchema.new.to_json_schema
+      response_parts = schema.dig('properties', 'response_parts')
+      response_part = response_parts.dig('items', 'properties')
+
+      expect(schema['required']).to contain_exactly('response_parts', 'reasoning')
+      expect(schema['properties'].keys).to eq(%w[reasoning response_parts])
+      expect(response_parts).to include('type' => 'array', 'minItems' => 1)
+      expect(response_part.dig('text', 'type')).to eq('string')
+      expect(response_part.dig('citation_indexes', 'items', 'type')).to eq('integer')
+      expect(response_part.dig('citation_indexes', 'items', 'minimum')).to eq(1)
+      expect(schema['properties']).not_to have_key('response')
     end
   end
 

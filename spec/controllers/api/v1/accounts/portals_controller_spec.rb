@@ -68,6 +68,23 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(json_response['meta']['all_articles_count']).to eq 2
         expect(json_response['meta']['mine_articles_count']).to eq 1
       end
+
+      it 'returns not found for a slug that does not exist' do
+        get "/api/v1/accounts/#{account.id}/portals/nonexistent-slug",
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.parsed_body['error']).to eq 'Resource could not be found'
+      end
+
+      it 'returns not found for a slug that belongs to another account' do
+        other_portal = create(:portal)
+
+        get "/api/v1/accounts/#{account.id}/portals/#{other_portal.slug}",
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 
@@ -174,9 +191,21 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
             'default_locale' => 'en',
             'layout' => 'classic',
             'social_profiles' => {},
-            'locale_translations' => {}
+            'locale_translations' => {},
+            'popular_content' => {},
+            'analytics' => {},
+            'disable_search_indexing' => false
           }
         )
+      end
+
+      it 'allows administrators to set analytics config' do
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { config: { analytics: { ga4_measurement_id: 'G-ADMIN12345' } } } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(portal.reload.config['analytics']).to eq('ga4_measurement_id' => 'G-ADMIN12345')
       end
 
       it 'preserves drafted locales when draft_locales is omitted' do
@@ -229,6 +258,19 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['name']).to eq('updated_name')
         expect(portal.reload.logo).to be_attached
+      end
+
+      it 'attaches the dark mode logo from dark_logo_blob_id' do
+        blob = ActiveStorage::Blob.create_and_upload!(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png',
+                                                      content_type: 'image/png')
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { name: portal.name }, dark_logo_blob_id: blob.signed_id },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['dark_logo']['blob_id']).to eq(blob.signed_id)
+        expect(portal.reload.logo).not_to be_attached
       end
 
       it 'does not allow associating an inbox from another account' do
@@ -318,6 +360,19 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect { portal.logo.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response).to have_http_status(:success)
       end
+
+      it 'deletes only the dark mode logo when dark is true' do
+        portal.dark_logo.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/logo",
+               params: { dark: true },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(portal.reload.dark_logo).not_to be_attached
+        expect(portal.logo).to be_attached
+      end
     end
   end
 
@@ -390,6 +445,27 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(PortalInstructionsMailer).to have_received(:send_cname_instructions)
           .with(portal: portal_with_domain, recipient_email: 'dev@example.com')
       end
+    end
+  end
+
+  describe 'config.disable_search_indexing' do
+    let(:portal_url) { "/api/v1/accounts/#{account.id}/portals/#{portal.slug}" }
+
+    it 'hides the portal from search engines' do
+      put portal_url, params: { portal: { config: { disable_search_indexing: true } } },
+                      headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body.dig('config', 'disable_search_indexing')).to be(true)
+      expect(portal.reload.search_indexing_disabled?).to be(true)
+    end
+
+    it 'rejects a non-boolean value' do
+      put portal_url, params: { portal: { config: { disable_search_indexing: 'true' } } },
+                      headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(portal.reload.search_indexing_disabled?).to be(false)
     end
   end
 end

@@ -1,0 +1,114 @@
+You are migrating a Captain V1 assistant into Captain V2.
+
+The original custom instructions remain stored unchanged. Your job is only to derive the V2 fields below:
+
+1. Business/Product Context
+2. Response Guidelines
+3. Guardrails
+4. Scenario Candidates with flattened Response Guidelines
+5. Conversation Messages
+6. FAQ Candidates
+7. Needs Review Notes
+
+## Core Rules
+
+- Preserve every customer-facing behavior from the custom instructions. Do not invent, reverse, weaken, or silently omit requirements.
+- Treat words such as always, immediately, never, only, before, after, unless, and except as mandatory.
+- Preserve exact triggers, exceptions, ordering, verification steps, allowlists, escalation conditions, and outcomes.
+- Schema limits are ceilings, not targets. Consolidate related requirements into complete standalone items.
+- Prefer fewer complete items over one item per source sentence. Combine related tone, style, formatting, source, and escalation rules.
+  If response_guidelines or guardrails would reach its maximum item count, consolidate them and recheck that no source behavior was displaced.
+- The custom instructions define behavior. The existing description, config messages, feature settings, and tools are runtime context.
+- Do not copy existing config values into generated fields or create review work merely because an existing config field is present or absent.
+- Use only information in the input. Return clean values without source labels, reviewer comments, confidence labels, or citations to the source prompt.
+- Avoid duplicating content across fields, except for the minimal condition, threshold, or exception required to keep mandatory behavior active
+  while its supporting factual explanation is stored in a FAQ candidate. Scenario response guidelines are flattened automatically, so do not
+  also copy them into response_guidelines.
+
+## Business/Product Context
+
+- Return exactly one coherent description of at most 500 characters.
+- Preserve the existing description and enrich it only with identity, product scope, mission, and high-level business context.
+- Do not put workflows, policies, response rules, factual inventories, or message copy in the description.
+- Finish cleanly; never truncate a word, clause, or sentence.
+
+## Response Guidelines and Guardrails
+
+- Response Guidelines are active behavior: tone, customer language, formatting, clarification, verification, information collection,
+  escalation actions, and any minimal factual condition required to perform them correctly.
+- Guardrails are active boundaries: prohibitions, source restrictions, safety limits, refusal rules, mandatory transfer triggers,
+  and things the assistant must not do.
+- A source rule that says to ask, collect, verify, compare, refuse, route, escalate, transfer, or follow steps must stay active
+  in Response Guidelines, Guardrails, or a flattened Scenario Guideline. A FAQ cannot implicitly preserve an action.
+- Preserve exact behavioral trigger values when they control an action. For example, an error code that requires immediate
+  transfer belongs in an active guideline or guardrail.
+- Do not emit contradictory language rules. An explicit instruction to reply in the customer's language overrides a descriptive
+  language label in the assistant description.
+- Put query-dependent facts in FAQ candidates. Prices, limits, locations, feature availability, product capabilities, links,
+  policy answers, setup steps, and troubleshooting knowledge remain facts when phrased as "tell", "inform", "explain", or "send".
+- Mandatory prohibitions are not FAQ-only. When a factual policy includes required or forbidden behavior, keep the prohibition active
+  with every condition, threshold, and exception needed to enforce it, and put the supporting policy explanation in a FAQ candidate.
+  For example, "never promise refunds after 30 days" remains an active guardrail with the 30-day threshold, while the refund policy
+  becomes a FAQ. Likewise, "never recommend cooking the product" remains an active guardrail while preparation guidance becomes a FAQ.
+- Treat explicit policy boundaries such as "not guaranteed", "not allowed", "only available", or "only eligible" as behavioral
+  constraints even when the source states them as facts. Create an active guardrail that forbids promising or claiming an outcome
+  outside the stated condition, window, or exception, while keeping the complete policy in a FAQ candidate.
+- Final test: move an item exclusively to FAQ candidates only when it answers a product question without requiring, forbidding,
+  or constraining assistant behavior.
+- Factual values are allowed in active behavior when they select or constrain a required action or prohibition, such as error 5215
+  requiring immediate transfer or a 30-day threshold after which the assistant must not promise a refund.
+- When an action needs supporting facts, keep the action active and place the supporting facts in a FAQ candidate.
+  For example, actively require specialist-name verification and put the specialist roster in a FAQ candidate.
+- Mandatory verification example: if the source provides a specialist roster and says to verify a name supplied by
+  the customer, output both (a) an active guideline requiring the name check and (b) a pending FAQ containing the roster.
+  The roster FAQ alone is incomplete because it does not tell the assistant to perform the check.
+- When clarification depends on a fact, keep only the clarification/action in the guideline. Example: "clarify whether
+  they mean the legacy card or card deposits; transfer for deposit access" is active behavior, while the card's
+  discontinued status is FAQ knowledge.
+
+## Scenario Candidates
+
+- Create a scenario candidate only for a distinct multi-step workflow that would genuinely benefit from a separate named specialist agent,
+  such as intake, qualification, troubleshooting, booking, recommendation, lead capture, or fulfillment.
+- Do not create scenarios for tone, formatting, generic escalation, a simple handoff trigger, missing information, or a one-step factual answer.
+- Do not create overlapping scenarios for the same intent, and do not create a scenario for a workflow the root assistant can handle with
+  one guideline plus FAQ lookup.
+- Every scenario candidate must include a response_guideline in the source language. It must preserve the trigger, customer-visible
+  steps, information to collect, and escalation or completion outcome while omitting tool syntax and internal operations.
+- Use a short, complete scenario title well below the schema limit; never truncate a word or phrase to make it fit.
+- Scenario candidates remain pending metadata for later scenario creation. Their response_guideline is active immediately after apply.
+- Use only tool IDs provided in available_agent_tools. Never invent or substitute a tool.
+
+## Conversation Messages
+
+- Extract only exact, globally reusable welcome, handoff, or resolution copy found in the custom instructions.
+- Leave conditional, scenario-specific, placeholder-based, or merely suggested wording out of conversation_messages.
+- Existing config messages remain active and are preserved. If source wording has the same intent, keep the existing config message.
+- Migration applies extracted copy only when the corresponding existing config field is blank.
+
+## FAQ Candidates
+
+- Convert reusable query-dependent facts into natural customer questions with self-contained answers.
+- Use only facts stated in the custom instructions. Preserve exact prices, limits, dates, links, conditions, exceptions, and product names.
+- Keep related conditions together; split unrelated facts. Do not duplicate a full FAQ answer in active guidelines or guardrails;
+  repeat only the minimal condition, threshold, or exception required to enforce mandatory behavior.
+- FAQ questions must be about the product or business, not about what the assistant should do.
+- FAQ answers must not contain tool use, internal workflows, routing, escalation, or message-copy instructions.
+- If facts conflict without a clear specific or later override, omit the unsafe FAQ rather than inventing a resolution.
+
+## Classification Order
+
+1. Extract query-dependent knowledge and supporting policy explanations into FAQ candidates first, without removing mandatory behavior.
+2. Create guidelines and guardrails from the required behavior, including the minimal condition, threshold, or exception needed to enforce it;
+   do not repeat the rest of a FAQ answer.
+3. Create scenario candidates only from remaining distinct specialist workflows; do not repeat their flattened behavior elsewhere.
+4. Check once more that active fields contain no standalone product answers and that every mandatory action and prohibition remains active.
+
+## Needs Review Notes
+
+- Use needs_review only for a concrete source conflict or a source-defined behavior or workflow that requires an unavailable capability.
+- Do not require mandatory wording before preserving an unavailable customer-facing workflow for review.
+- Do not use it for wording cleanup, duplicated instructions, missing fixed message copy, existing config values, or general uncertainty.
+- needs_review is informational metadata only; it is not an approval status or apply gate.
+
+Return data matching the provided schema.

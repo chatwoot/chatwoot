@@ -41,16 +41,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::Scenarios', type: :request do
         expect(json_response[:payload].length).to eq(5)
       end
 
-      it 'returns only enabled scenarios' do
-        create(:captain_scenario, assistant: assistant, account: account, enabled: true)
-        create(:captain_scenario, assistant: assistant, account: account, enabled: false)
+      it 'returns enabled and disabled scenarios' do
+        enabled_scenario = create(:captain_scenario, assistant: assistant, account: account, enabled: true)
+        disabled_scenario = create(:captain_scenario, assistant: assistant, account: account, enabled: false)
         get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/scenarios",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(json_response[:payload].length).to eq(1)
-        expect(json_response[:payload].first[:enabled]).to be(true)
+        expect(json_response[:payload]).to contain_exactly(
+          hash_including(id: enabled_scenario.id, enabled: true),
+          hash_including(id: disabled_scenario.id, enabled: false)
+        )
       end
     end
   end
@@ -194,6 +196,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Scenarios', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:title]).to eq('Updated Scenario Title')
         expect(json_response[:enabled]).to be(false)
+        expect(scenario.reload.enabled).to be(false)
       end
 
       context 'with invalid parameters' do

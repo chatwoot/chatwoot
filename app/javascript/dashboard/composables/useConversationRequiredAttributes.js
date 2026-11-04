@@ -72,9 +72,10 @@ export function useConversationRequiredAttributes() {
     const missing = requiredAttributes.value.filter(attribute => {
       const value = conversationCustomAttributes[attribute.value];
 
-      // For checkbox/boolean attributes, only check if the key exists
+      // A checkbox is filled once true or false is picked. An explicit null is
+      // an unanswered prompt, which is how the modal and the backend read it.
       if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
-        return !(attribute.value in conversationCustomAttributes);
+        return value == null;
       }
 
       // For other attribute types, only consider null, undefined, empty string, or whitespace-only as missing

@@ -13,9 +13,11 @@ class Twilio::DeliveryStatusService
   private
 
   def process_statuses
-    @message.status = status
-    @message.external_error = external_error if error_occurred?
-    @message.save!
+    Messages::StatusUpdateService.new(
+      @message,
+      status,
+      error_occurred? ? external_error : nil
+    ).perform
   end
 
   def supported_status?

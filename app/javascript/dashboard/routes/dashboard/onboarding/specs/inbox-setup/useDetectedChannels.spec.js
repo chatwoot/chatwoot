@@ -6,28 +6,40 @@ import { useDetectedChannels } from '../../inbox-setup/useDetectedChannels';
 
 vi.mock('vue-router');
 
-// Neutralize the temporary Instagram/WhatsApp kill switch so these specs keep
-// covering the credential-based gating it currently short-circuits.
-vi.mock('dashboard/constants/globals', async importOriginal => ({
-  ...(await importOriginal()),
-  IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED: false,
-}));
-
 // Mounts the composable against a real store and the real useAccount (only
 // useRoute and the underlying getters are faked), so a change to how useAccount
 // resolves the current account is exercised here too. The real ./constants are
 // used, so assertions validate against the actual channel identity (label keys,
 // channel_type, social ordering) derived from CHANNEL_LIST.
-const mountComposable = ({ brandInfo, inboxes = [] } = {}) => {
+const mountComposable = ({
+  brandInfo,
+  features = { channel_instagram: true, channel_tiktok: true },
+  inboxes = [],
+  isOnChatwootCloud = false,
+  disableMetaInboxCreation = false,
+} = {}) => {
   const store = createStore({
     modules: {
+      globalConfig: {
+        namespaced: true,
+        getters: {
+          get: () => ({}),
+          isOnChatwootCloud: () => isOnChatwootCloud,
+          isMetaInboxCreationDisabled: () =>
+            isOnChatwootCloud && disableMetaInboxCreation,
+          isMetaMessageSendingDisabled: () => false,
+        },
+      },
       accounts: {
         namespaced: true,
         getters: {
           getAccount: () => () => ({
             id: 1,
+            features,
             custom_attributes: { brand_info: brandInfo },
           }),
+          isFeatureEnabledonAccount: () => (_accountId, feature) =>
+            Boolean(features[feature]),
         },
       },
       inboxes: {
@@ -201,6 +213,81 @@ describe('useDetectedChannels', () => {
       expect(displayedChannels.value.map(channel => channel.type)).toEqual([
         'line',
       ]);
+    });
+
+    it('hides Meta channels on Chatwoot Cloud during the Meta restriction', () => {
+      const { displayedChannels } = mountComposable({
+        features: {
+          channel_instagram: true,
+          channel_tiktok: true,
+          whatsapp_embedded_signup_inbox_creation: true,
+        },
+        isOnChatwootCloud: true,
+        disableMetaInboxCreation: true,
+        brandInfo: {
+          socials: [
+            { type: 'whatsapp', url: 'https://wa.me/14155552671' },
+            { type: 'facebook', url: 'https://facebook.com/acme' },
+            { type: 'instagram', url: 'https://instagram.com/acme' },
+            { type: 'tiktok', url: 'https://tiktok.com/@acme' },
+          ],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toEqual([
+        'tiktok',
+      ]);
+    });
+
+    it('hides Instagram when disabled for the account', () => {
+      const { displayedChannels } = mountComposable({
+        features: { channel_instagram: false, channel_tiktok: true },
+        isOnChatwootCloud: true,
+        brandInfo: {
+          socials: [
+            { type: 'instagram', url: 'https://instagram.com/acme' },
+            { type: 'tiktok', url: 'https://tiktok.com/@acme' },
+          ],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toEqual([
+        'tiktok',
+      ]);
+    });
+
+    it('keeps disabled TikTok in the secondary channel catalog on Chatwoot Cloud', () => {
+      const { displayedChannels, remainingChannels } = mountComposable({
+        features: { channel_instagram: true, channel_tiktok: false },
+        isOnChatwootCloud: true,
+        brandInfo: {
+          socials: [{ type: 'tiktok', url: 'https://tiktok.com/@acme' }],
+        },
+      });
+
+      expect(
+        displayedChannels.value.map(channel => channel.type)
+      ).not.toContain('tiktok');
+      expect(remainingChannels.value.map(channel => channel.type)).toContain(
+        'tiktok'
+      );
+    });
+
+    it('shows configured TikTok on self-hosted installations even when the Cloud feature is disabled', () => {
+      const { displayedChannels, remainingChannels } = mountComposable({
+        features: { channel_tiktok: false },
+        isOnChatwootCloud: false,
+        brandInfo: {
+          socials: [{ type: 'tiktok', url: 'https://tiktok.com/@acme' }],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toContain(
+        'tiktok'
+      );
+      expect(
+        remainingChannels.value.map(channel => channel.type)
+      ).not.toContain('tiktok');
     });
   });
 

@@ -35,7 +35,6 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
-import addHours from 'date-fns/addHours';
 
 const updateAuthCookie = (cookieContent, baseDomain = '') =>
   setCookieWithDomain('cw_conversation', cookieContent, {
@@ -43,7 +42,7 @@ const updateAuthCookie = (cookieContent, baseDomain = '') =>
   });
 
 const updateCampaignReadStatus = baseDomain => {
-  const expireBy = addHours(new Date(), 1);
+  const expireBy = new Date(Date.now() + 60 * 60 * 1000);
   setCookieWithDomain('cw_snooze_campaigns_till', Number(expireBy), {
     expires: expireBy,
     baseDomain,
