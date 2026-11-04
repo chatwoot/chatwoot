@@ -2,8 +2,9 @@
 import { ref, computed, unref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
+import { saveExportDraft } from 'dashboard/routes/dashboard/settings/data/exportDraft';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import contactFilterItems from 'dashboard/routes/dashboard/contacts/contactFilterItems';
 import {
@@ -19,7 +20,6 @@ import {
 
 import ContactsHeader from 'dashboard/components-next/Contacts/ContactsHeader/ContactHeader.vue';
 import CreateNewContactDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateNewContactDialog.vue';
-import ContactExportDialog from 'dashboard/components-next/Contacts/ContactsForm/ContactExportDialog.vue';
 import CreateSegmentDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateSegmentDialog.vue';
 import DeleteSegmentDialog from 'dashboard/components-next/Contacts/ContactsForm/DeleteSegmentDialog.vue';
 import ContactsFilter from 'dashboard/components-next/filter/ContactsFilter.vue';
@@ -47,10 +47,10 @@ const emit = defineEmits([
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 const accountId = useMapGetter('getCurrentAccountId');
 
 const createNewContactDialogRef = ref(null);
-const contactExportDialogRef = ref(null);
 const createSegmentDialogRef = ref(null);
 const deleteSegmentDialogRef = ref(null);
 
@@ -75,8 +75,34 @@ const openContactImportDialog = () =>
     params: { accountId: accountId.value },
     query: { tab: 'import', action: 'import', source: 'csv' },
   });
-const openContactExportDialog = () =>
-  contactExportDialogRef.value?.dialogRef.open();
+const openContactExportDialog = () => {
+  try {
+    if (props.segmentsId && !props.activeSegment) {
+      throw new Error('Unavailable segment');
+    }
+    const query =
+      props.activeSegment?.query ||
+      (props.hasAppliedFilters
+        ? filterQueryGenerator(useSnakeCase(appliedFilters.value))
+        : { payload: [] });
+    const draft = saveExportDraft(accountId.value, {
+      ...query,
+      label: route.params.label || '',
+      scope_name:
+        props.activeSegment?.name ||
+        (props.hasAppliedFilters
+          ? t('DATA_EXPORTS.FILTERED_CONTACTS')
+          : route.params.label || t('DATA_EXPORTS.ALL_CONTACTS')),
+    });
+    router.push({
+      name: 'settings_data_imports',
+      params: { accountId: accountId.value },
+      query: { tab: 'export', action: 'export', draft },
+    });
+  } catch {
+    useAlert(t('DATA_EXPORTS.DRAFT_UNAVAILABLE'));
+  }
+};
 const openCreateSegmentDialog = () =>
   createSegmentDialogRef.value?.dialogRef.open();
 const openDeleteSegmentDialog = () =>
@@ -102,20 +128,6 @@ const onCreate = async contact => {
     } else {
       useAlert(t(`${i18nPrefix}.ERROR_MESSAGE`));
     }
-  }
-};
-
-const onExport = async query => {
-  try {
-    await store.dispatch('contacts/export', query);
-    useAlert(
-      t('CONTACTS_LAYOUT.HEADER.ACTIONS.EXPORT_CONTACT.SUCCESS_MESSAGE')
-    );
-  } catch (error) {
-    useAlert(
-      error.message ||
-        t('CONTACTS_LAYOUT.HEADER.ACTIONS.EXPORT_CONTACT.ERROR_MESSAGE')
-    );
   }
 };
 
@@ -296,7 +308,6 @@ defineExpose({
   </ContactsHeader>
 
   <CreateNewContactDialog ref="createNewContactDialogRef" @create="onCreate" />
-  <ContactExportDialog ref="contactExportDialogRef" @export="onExport" />
   <CreateSegmentDialog ref="createSegmentDialogRef" @create="onCreateSegment" />
   <DeleteSegmentDialog ref="deleteSegmentDialogRef" @delete="onDeleteSegment" />
 </template>

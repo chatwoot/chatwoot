@@ -1,10 +1,15 @@
 import { flushPromises, mount } from '@vue/test-utils';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import DataImportsAPI from 'dashboard/api/dataImports';
+import DataExportsAPI from 'dashboard/api/dataExports';
 import dataRoutes from '../data.routes';
 import NewImportDialog from '../NewImportDialog.vue';
+import NewExportDialog from '../NewExportDialog.vue';
+import DataOperationList from '../components/DataOperationList.vue';
+import { saveExportDraft } from '../exportDraft';
 
 vi.mock('dashboard/api/dataImports', () => ({ default: { get: vi.fn() } }));
+vi.mock('dashboard/api/dataExports', () => ({ default: { get: vi.fn() } }));
 vi.mock('dashboard/composables/store', () => ({
   useStoreGetters: () => ({ getCurrentAccountId: { value: 1 } }),
 }));
@@ -21,8 +26,9 @@ describe('data operation navigation', () => {
   beforeEach(() => {
     sessionStorage.clear();
     DataImportsAPI.get.mockResolvedValue({
-      data: { payload: [], can_create_import: true },
+      data: { payload: [{ id: 1 }], can_create_import: true },
     });
+    DataExportsAPI.get.mockResolvedValue({ data: { payload: [{ id: 2 }] } });
     router = createRouter({
       history: createMemoryHistory(),
       routes: dataRoutes.routes,
@@ -52,6 +58,8 @@ describe('data operation navigation', () => {
             Button: true,
             Icon: true,
             NewImportDialog: true,
+            NewExportDialog: true,
+            DataOperationList: true,
           },
           mocks: { $t: key => key },
         },
@@ -65,6 +73,34 @@ describe('data operation navigation', () => {
 
     expect(router.currentRoute.value.query).toEqual({ tab: 'import' });
     expect(wrapper.findComponent(NewImportDialog).props('show')).toBe(true);
+    expect(DataImportsAPI.get).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the selected export scope after consuming its draft', async () => {
+    const draft = saveExportDraft(1, { label: 'vip', scope_name: 'VIP' });
+    await openPage({ tab: 'export', action: 'export', draft });
+
+    expect(router.currentRoute.value.query).toEqual({ tab: 'export' });
+    expect(wrapper.findComponent(NewExportDialog).props()).toMatchObject({
+      show: true,
+      selection: { label: 'vip', scope_name: 'VIP' },
+    });
+    expect(DataImportsAPI.get).toHaveBeenCalledTimes(1);
+  });
+
+  it('follows tab changes in browser navigation without reloading history', async () => {
+    await openPage({ tab: 'import' });
+    await router.push({ query: { tab: 'export' } });
+    await flushPromises();
+    expect(wrapper.getComponent(DataOperationList).props('type')).toBe(
+      'export'
+    );
+
+    router.back();
+    await flushPromises();
+    expect(wrapper.getComponent(DataOperationList).props('type')).toBe(
+      'import'
+    );
     expect(DataImportsAPI.get).toHaveBeenCalledTimes(1);
   });
 });
