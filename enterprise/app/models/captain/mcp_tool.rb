@@ -78,6 +78,10 @@ class Captain::McpTool < ApplicationRecord
     approved_definition['input_schema']
   end
 
+  def read_only?
+    approved_definition['read_only']
+  end
+
   # The admin set the tool to run only for a customer who verified an email with a one-time code
   def requires_email_verification?
     settings['requires_email_verification'] == true

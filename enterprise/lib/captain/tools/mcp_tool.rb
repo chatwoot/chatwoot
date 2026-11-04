@@ -1,4 +1,4 @@
-# A read tool on an MCP server that an admin approved. Captain::Mcp::AgentTools builds one class per tool from the
+# A tool on an MCP server that an admin approved. Captain::Mcp::AgentTools builds one class per tool from the
 # approved definition, so the model sees only the description and schema the admin approved.
 class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
   attr_reader :mcp_server, :mcp_tool, :connection
@@ -25,14 +25,13 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
   end
 
   def available_in_reply_suggestion?
-    true
+    @mcp_tool.read_only?
   end
 
   private
 
-  # Captain uses read tools only, so a newer customer message is no reason to skip one
   def safe_to_run_after_new_customer_message?
-    true
+    @mcp_tool.read_only?
   end
 
   def fixed_arguments

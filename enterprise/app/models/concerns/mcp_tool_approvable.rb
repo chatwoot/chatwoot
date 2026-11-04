@@ -58,7 +58,6 @@ module Concerns::McpToolApprovable
     definition = live_definitions.find { |live| live['name'] == name }
     tool = tools.find_by(name: name)
     invalid_tool!(name, :missing) unless definition && tool
-    invalid_tool!(name, :not_read_only) unless definition['read_only']
 
     tool.approve(definition)
     tool.save!
