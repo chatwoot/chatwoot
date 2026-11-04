@@ -44,6 +44,7 @@ const sources = {
     }),
   ],
   macroCommands: [command('macro')],
+  backCommands: [command('back')],
 };
 
 const pendingAttributes = ref(null);
@@ -91,7 +92,7 @@ vi.mock('dashboard/composables/commands/useSnoozeSuggestions', () => ({
   }),
 }));
 vi.mock('dashboard/composables/commands/useBackCommands', () => ({
-  useBackCommands: () => ({ backCommands: ref([]) }),
+  useBackCommands: () => ({ backCommands: ref(sources.backCommands) }),
 }));
 vi.mock('dashboard/composables/commands/useSearchCommands', () => ({
   useSearchCommands: () => ({
@@ -151,6 +152,7 @@ describe('commandbar', () => {
         'bulk',
         'conversation',
         'macro',
+        'back',
       ])
     );
   });

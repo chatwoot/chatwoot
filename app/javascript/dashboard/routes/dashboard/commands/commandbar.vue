@@ -179,7 +179,7 @@ watch(
     unregisterBack();
     unregisterBack = bar.register({
       id: 'back',
-      commands: () => backCommands.value,
+      commands: () => (props.isPaywalled ? [] : backCommands.value),
     });
   },
   { immediate: true, flush: 'post' }
