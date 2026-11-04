@@ -372,6 +372,15 @@ en:
   conversations:
     captain:
       handoff: 'Transferring to another agent for further assistance.'
+    unverified_contact_match:
+      note: |-
+        This visitor entered contact details that belong to an existing contact. We couldn't verify the visitor's identity, so we didn't link this conversation to that contact or save these details.
+
+        %{matches}
+
+        If you confirm this visitor is the same person, merge the contacts from the contact panel.
+      email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
+      phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
