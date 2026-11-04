@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "Usuário",
         "TIME": "Ação",
-        "IP_ADDRESS": "Endereço IP"
+        "IP_ADDRESS": "Endereço IP",
+        "LOCATION": "Localização"
       }
     },
     "API": {

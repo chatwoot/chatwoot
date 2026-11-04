@@ -5,7 +5,8 @@ module CaptainFeaturable
 
   included do
     before_validation :normalize_captain_models
-    validate :validate_captain_models
+    # A model removed from config/llm.yml stays saved until the account is remapped, so only check changed choices.
+    validate :validate_captain_models, if: :captain_models_changed?
 
     # Dynamically define accessor methods for each captain feature
     Llm::Models.feature_keys.each do |feature_key|

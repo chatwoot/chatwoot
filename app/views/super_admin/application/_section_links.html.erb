@@ -1,0 +1,13 @@
+<%# locals: (items:) -%>
+<div class="space-y-5">
+  <% items.group_by { |item| item[:group] }.each do |group, group_items| %>
+    <div>
+      <% if group %>
+        <p class="text-xs font-medium uppercase tracking-wider text-n-slate-10 mb-1.5 px-2.5"><%= group %></p>
+      <% end %>
+      <ul class="space-y-0.5">
+        <%= render partial: "nav_item", collection: group_items, as: :item %>
+      </ul>
+    </div>
+  <% end %>
+</div>

@@ -126,11 +126,13 @@ const goBackToArticles = () => {
     router.push({
       name: 'portals_categories_articles_index',
       params: { categorySlug, locale },
+      query: route.query,
     });
   } else {
     router.push({
       name: 'portals_articles_index',
       params: { tab, categorySlug, locale },
+      query: route.query,
     });
   }
 };

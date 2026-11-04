@@ -157,6 +157,111 @@ RSpec.describe Inbox do
     end
   end
 
+  describe 'bot provider exclusivity' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:agent_bot) { create(:agent_bot, account: account) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+
+    context 'when an Agent Bot is connected' do
+      let!(:connection) { create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot) }
+
+      it 'rejects Captain and Dialogflow' do
+        captain_connection = build(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+        dialogflow_hook = build(:integrations_hook, :dialogflow, inbox: inbox, account: account)
+
+        expect(captain_connection).not_to be_valid
+        expect(captain_connection.errors[:base]).to include('Disconnect Agent Bot before connecting Captain')
+        expect(dialogflow_hook).not_to be_valid
+        expect(dialogflow_hook.errors[:base]).to include('Disconnect Agent Bot before connecting Dialogflow')
+      end
+
+      it 'allows Captain after the Agent Bot is disabled' do
+        connection.inactive!
+
+        expect(build(:captain_inbox, inbox: inbox, captain_assistant: assistant)).to be_valid
+      end
+
+      it 'ignores an Agent Bot connection whose bot was deleted' do
+        agent_bot.destroy!
+
+        expect(AgentBotInbox.exists?(inbox_id: inbox.id)).to be(true)
+        expect(inbox.reload.external_bot_active?).to be(false)
+        expect(build(:captain_inbox, inbox: inbox, captain_assistant: assistant)).to be_valid
+      end
+    end
+
+    context 'when Captain is connected' do
+      let!(:connection) { create(:captain_inbox, inbox: inbox, captain_assistant: assistant) }
+
+      it 'rejects Agent Bot and Dialogflow' do
+        agent_bot_connection = build(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        dialogflow_hook = build(:integrations_hook, :dialogflow, inbox: inbox, account: account)
+
+        expect(agent_bot_connection).not_to be_valid
+        expect(agent_bot_connection.errors[:base]).to include('Disconnect Captain before connecting Agent Bot')
+        expect(dialogflow_hook).not_to be_valid
+        expect(dialogflow_hook.errors[:base]).to include('Disconnect Captain before connecting Dialogflow')
+      end
+
+      it 'allows Dialogflow after Captain is disconnected' do
+        connection.destroy!
+
+        expect(build(:integrations_hook, :dialogflow, inbox: inbox, account: account)).to be_valid
+      end
+    end
+
+    context 'when Dialogflow is enabled' do
+      let!(:hook) { create(:integrations_hook, :dialogflow, inbox: inbox, account: account) }
+
+      it 'rejects Agent Bot and Captain' do
+        agent_bot_connection = build(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        captain_connection = build(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+
+        expect(agent_bot_connection).not_to be_valid
+        expect(agent_bot_connection.errors[:base]).to include('Disconnect Dialogflow before connecting Agent Bot')
+        expect(captain_connection).not_to be_valid
+        expect(captain_connection.errors[:base]).to include('Disconnect Dialogflow before connecting Captain')
+      end
+
+      it 'allows Agent Bot after Dialogflow is disabled' do
+        hook.disabled!
+
+        expect(build(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)).to be_valid
+      end
+    end
+
+    it 'rejects enabling an inactive Agent Bot while Captain is connected' do
+      connection = create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot, status: :inactive)
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+
+      expect { connection.active! }.to raise_error(ActiveRecord::RecordInvalid, /Disconnect Captain before connecting Agent Bot/)
+    end
+
+    it 'ignores a Captain connection whose assistant was deleted' do
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+      assistant.destroy!
+
+      expect(build(:agent_bot_inbox, inbox: inbox.reload, agent_bot: agent_bot)).to be_valid
+    end
+
+    it 'rejects enabling a disabled Dialogflow hook while Captain is connected' do
+      hook = create(:integrations_hook, :dialogflow, inbox: inbox, account: account, status: :disabled)
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+
+      expect { hook.enabled! }.to raise_error(ActiveRecord::RecordInvalid, /Disconnect Captain before connecting Dialogflow/)
+    end
+
+    it 'allows manual Agent Bot assignment on a Captain-connected inbox' do
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+      conversation = create(:conversation, account: account, inbox: inbox).reload
+
+      Conversations::AssignmentService.new(conversation: conversation, assignee_id: agent_bot.id, assignee_type: 'AgentBot').perform
+
+      expect(conversation.reload.ai_assignee).to eq(agent_bot)
+    end
+  end
+
   describe 'audit log' do
     context 'when inbox is created' do
       it 'has associated audit log created' do
@@ -182,6 +287,16 @@ RSpec.describe Inbox do
         # Check for the specific widget_color update in the audit log
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
                                     audited_changes: { 'widget_color' => [previous_color, new_color] }).count).to eq(1)
+      end
+    end
+
+    context 'when channel hmac token is updated along with other attributes' do
+      it 'does not include hmac token in the audit log' do
+        inbox.channel.update(hmac_token: 'new-hmac-token', widget_color: '#00ff00')
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes).to have_key('widget_color')
+        expect(audit.audited_changes).not_to have_key('hmac_token')
       end
     end
   end
@@ -214,6 +329,14 @@ RSpec.describe Inbox do
         # Check for the specific webhook_update update in the audit log
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
                                     audited_changes: { 'webhook_url' => [previous_webhook, new_webhook] }).count).to eq(1)
+      end
+    end
+
+    context 'when channel hmac token is rotated' do
+      it 'has no associated audit log created' do
+        inbox.channel.regenerate_hmac_token
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
       end
     end
   end
@@ -265,6 +388,86 @@ RSpec.describe Inbox do
       it 'has no associated audit log created' do
         channel.sync_templates
         # check if template sync does not create an audit log
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
+      end
+    end
+
+    context 'when a provider config call setting is toggled' do
+      it 'audits only the allow-listed settings' do
+        channel.update(provider_config: channel.provider_config.merge('recording_enabled' => false))
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes['provider_config']).to eq([{}, { 'recording_enabled' => false }])
+      end
+    end
+
+    context 'when only provider config credentials change' do
+      it 'has no associated audit log created' do
+        channel.update(provider_config: channel.provider_config.merge('api_key' => 'rotated_key'))
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
+      end
+    end
+
+    context 'when provider config credentials and a call setting change together' do
+      it 'audits only the call setting' do
+        channel.update(provider_config: channel.provider_config.merge('api_key' => 'rotated_key', 'calling_enabled' => true))
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes['provider_config']).to eq([{}, { 'calling_enabled' => true }])
+      end
+    end
+
+    context 'when an allow-listed provider config key holds a non boolean value' do
+      it 'has no associated audit log created' do
+        channel.update(provider_config: channel.provider_config.merge('recording_enabled' => { 'x' => 'secret' }))
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
+      end
+    end
+
+    context 'when provider config is set for the first time' do
+      it 'audits the call settings present after the change' do
+        channel.update_column(:provider_config, nil) # rubocop:disable Rails/SkipsModelValidations
+        channel.update(provider_config: { 'calling_enabled' => true, 'api_key' => 'test_key' })
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes['provider_config']).to eq([{}, { 'calling_enabled' => true }])
+      end
+    end
+  end
+
+  describe 'audit log with email channel' do
+    let!(:channel) { create(:channel_email, :imap_email) }
+
+    context 'when channel provider config is updated' do
+      it 'does not include provider config in the audit log' do
+        channel.update(imap_address: 'imap.updated.com', provider_config: { access_token: 'super-secret-token' })
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes).to have_key('imap_address')
+        expect(audit.audited_changes).not_to have_key('provider_config')
+      end
+    end
+
+    context 'when channel passwords are updated' do
+      it 'does not include credential attributes in the audit log' do
+        channel.update(imap_login: 'updated@example.com', imap_password: 'new-imap-password', smtp_password: 'new-smtp-password')
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes).to have_key('imap_login')
+        expect(audit.audited_changes.keys).not_to include('imap_password', 'smtp_password')
+      end
+    end
+  end
+
+  describe 'audit log with telegram channel' do
+    let!(:channel) { create(:channel_telegram) }
+
+    context 'when channel bot token is updated' do
+      it 'does not include credential attributes in the audit log' do
+        channel.update(bot_token: 'updated-bot-token')
+
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
       end
     end

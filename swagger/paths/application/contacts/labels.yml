@@ -14,6 +14,7 @@ get:
   summary: List Labels
   description: Lists all the labels of a contact
   security:
+    - userBearerAuth: []
     - userApiKey: []
   responses:
     '200':
@@ -42,6 +43,7 @@ post:
   summary: Add Labels
   description: Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.
   security:
+    - userBearerAuth: []
     - userApiKey: []
   requestBody:
     required: true

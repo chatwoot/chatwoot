@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "タグ"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "閉じる"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "詳細を見る",
     "WATCH_VIDEO": "Watch video"

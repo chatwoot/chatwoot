@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "etiqueta"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Anterior",
+    "NEXT": "Siguiente",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Cerrar"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Más información",
     "WATCH_VIDEO": "Watch video"

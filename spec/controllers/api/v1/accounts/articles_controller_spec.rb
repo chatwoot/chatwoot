@@ -421,4 +421,22 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
       end
     end
   end
+
+  describe 'meta.noindex' do
+    let(:article_url) { "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}" }
+
+    it 'hides the article from search engines' do
+      put article_url, params: { article: { meta: { noindex: true } } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(article.reload.noindex?).to be(true)
+    end
+
+    it 'rejects a non-boolean value' do
+      put article_url, params: { article: { meta: { noindex: 'true' } } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(article.reload.meta['noindex']).to be_nil
+    end
+  end
 end

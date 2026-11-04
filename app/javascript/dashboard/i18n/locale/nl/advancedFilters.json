@@ -33,6 +33,8 @@
       "is_less_than": "Is lager dan",
       "days_before": "Is x dagen vóór",
       "starts_with": "Begint met",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Gelijk aan",
       "notEqualTo": "Niet gelijk aan",
       "contains": "Bevat",

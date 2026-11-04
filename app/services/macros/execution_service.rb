@@ -50,9 +50,7 @@ class Macros::ExecutionService < ActionService
   def send_attachment(blob_ids)
     return if conversation_a_tweet?
 
-    return unless @macro.files.attached?
-
-    blobs = ActiveStorage::Blob.where(id: blob_ids)
+    blobs = @macro.files.blobs.where(id: blob_ids)
 
     return if blobs.blank?
 

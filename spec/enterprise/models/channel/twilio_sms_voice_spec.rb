@@ -67,6 +67,23 @@ RSpec.describe Channel::TwilioSms do
     end
   end
 
+  describe '#basic_auth_credentials' do
+    it 'uses the API key pair when api_key_sid and api_key_secret are present' do
+      channel = build(:channel_twilio_sms, :with_voice, account: account)
+      expect(channel.basic_auth_credentials).to eq([channel.api_key_sid, channel.api_key_secret])
+    end
+
+    it 'pairs api_key_sid with auth_token when api_key_secret is blank' do
+      channel = build(:channel_twilio_sms, account: account, api_key_sid: 'SK123', auth_token: 'api_key_secret_in_auth_token')
+      expect(channel.basic_auth_credentials).to eq(%w[SK123 api_key_secret_in_auth_token])
+    end
+
+    it 'falls back to account_sid and auth_token without an API key' do
+      channel = build(:channel_twilio_sms, account: account, account_sid: 'AC123', auth_token: 'auth_token_value')
+      expect(channel.basic_auth_credentials).to eq(%w[AC123 auth_token_value])
+    end
+  end
+
   describe 'provisioning on create' do
     it 'stores twiml_app_sid from the webhook setup service' do
       stub_request(:get, %r{api\.twilio\.com/2010-04-01/Accounts/.*/IncomingPhoneNumbers\.json})

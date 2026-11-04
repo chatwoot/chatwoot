@@ -33,6 +33,8 @@
       "is_less_than": "Ir mazāks par",
       "days_before": "Ir x dienas pirms",
       "starts_with": "Sākas ar",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Vienāds ar",
       "notEqualTo": "Nav vienāds ar",
       "contains": "Satur",

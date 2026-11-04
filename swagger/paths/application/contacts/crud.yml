@@ -13,6 +13,7 @@ get:
   operationId: contactDetails
   summary: Show Contact
   security:
+    - userBearerAuth: []
     - userApiKey: []
   description: Get a contact belonging to the account using ID
   responses:
@@ -41,6 +42,7 @@ put:
   operationId: contactUpdate
   summary: Update Contact
   security:
+    - userBearerAuth: []
     - userApiKey: []
   description: Update a contact belonging to the account using ID
   requestBody:
@@ -75,6 +77,7 @@ delete:
   operationId: contactDelete
   summary: Delete Contact
   security:
+    - userBearerAuth: []
     - userApiKey: []
   description: Delete a contact belonging to the account using ID
   responses:

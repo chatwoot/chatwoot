@@ -87,6 +87,24 @@ After`;
     });
   });
 
+  describe('user mentions', () => {
+    it('should render the mention label inside a mention node', () => {
+      const message = 'Hey [@Pranav](mention://user/1/Pranav)';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Hey <span class="prosemirror-mention-node">@Pranav</span></p>'
+      );
+    });
+
+    it('should escape HTML in the mention label', () => {
+      const message = '[<img src=x onerror="alert(1)">](mention://user/1/x)';
+      const html = new MessageFormatter(message).formattedMessage;
+      expect(html).not.toContain('<img');
+      expect(html).toMatch(
+        '<p><span class="prosemirror-mention-node">&lt;img src=x onerror=&quot;alert(1)&quot;&gt;</span></p>'
+      );
+    });
+  });
+
   describe('tweets', () => {
     it('should return the same string if not tags or @mentions', () => {
       const message = 'Chatwoot is an opensource tool';

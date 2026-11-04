@@ -98,4 +98,31 @@ RSpec.describe 'Profile Sessions API', type: :request do
       expect(response).to have_http_status(:unauthorized)
     end
   end
+
+  describe 'MFA enforcement over api_access_token' do
+    before do
+      skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+      account.update!(enforce_mfa: true)
+    end
+
+    it 'blocks non-enrolled users from reading and revoking sessions' do
+      get '/api/v1/profile/sessions',
+          headers: { api_access_token: user.access_token.token },
+          as: :json
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+    end
+
+    it 'allows enrolled users' do
+      user.enable_two_factor!
+      user.update!(otp_required_for_login: true)
+
+      get '/api/v1/profile/sessions',
+          headers: { api_access_token: user.access_token.token },
+          as: :json
+
+      expect(response).to have_http_status(:success)
+    end
+  end
 end
