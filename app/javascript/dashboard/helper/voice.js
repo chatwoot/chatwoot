@@ -295,7 +295,13 @@ export function handleVoiceCallUpdated(
   }
 }
 
-export function syncConversationCallVisibility(conversation, currentUserId) {
+// `canOpenConversation` turns false once the agent's role no longer reaches the conversation,
+// which also blocks joining or dismissing a call that still rings for them
+export function syncConversationCallVisibility(
+  conversation,
+  currentUserId,
+  canOpenConversation = () => true
+) {
   const assigneeId = extractAssigneeId(conversation);
   if (!isAssignedToAnotherAgent(assigneeId, currentUserId)) return;
 
@@ -307,13 +313,19 @@ export function syncConversationCallVisibility(conversation, currentUserId) {
   const callsToRemove = callsStore.calls.filter(
     call =>
       call.conversationId === conversation.id &&
-      !isRoutedCall(call.provider, call.callDirection) &&
-      !shouldShowCall({
-        callDirection: call.callDirection,
-        senderId: call.senderId,
-        assigneeId,
-        currentUserId,
-      })
+      (isRoutedCall(call.provider, call.callDirection)
+        ? !canOpenConversation()
+        : !shouldShowCall({
+            callDirection: call.callDirection,
+            senderId: call.senderId,
+            assigneeId,
+            currentUserId,
+          }))
   );
-  callsToRemove.forEach(call => callsStore.removeCall(call.callSid));
+  callsToRemove.forEach(call => {
+    // A later re-send of the ring would otherwise bring back a card the agent cannot act on
+    if (isRoutedCall(call.provider, call.callDirection))
+      markCallDismissed(call.callSid);
+    callsStore.removeCall(call.callSid);
+  });
 }

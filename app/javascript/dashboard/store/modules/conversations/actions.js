@@ -22,6 +22,11 @@ import {
   handleVoiceCallUpdated,
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
+import { applyRoleFilter } from './helpers';
+import {
+  getUserPermissions,
+  getUserRole,
+} from 'dashboard/helper/permissionsHelper';
 
 // Page size MessageFinder uses when walking backwards through a conversation.
 const MESSAGES_PER_PAGE = 20;
@@ -552,7 +557,20 @@ const actions = {
     const sender = conversation.meta?.sender;
 
     commit(types.UPDATE_CONVERSATION, conversation);
-    syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
+    syncConversationCallVisibility(
+      conversation,
+      rootGetters?.getCurrentUserID,
+      () => {
+        const currentUser = rootGetters.getCurrentUser;
+        const accountId = rootGetters.getCurrentAccountId;
+        return applyRoleFilter(
+          conversation,
+          getUserRole(currentUser, accountId),
+          getUserPermissions(currentUser, accountId),
+          rootGetters.getCurrentUserID
+        );
+      }
+    );
     // The contact language can change after a message arrived; the action skips anything already handled.
     dispatch('autoTranslateMessages', conversation.id);
 
