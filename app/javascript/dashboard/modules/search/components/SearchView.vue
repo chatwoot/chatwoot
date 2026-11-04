@@ -368,6 +368,13 @@ watch(
   { immediate: true }
 );
 
+watch(
+  () => route.query.q,
+  q => {
+    if (q && q !== query.value.trim()) onSearch(q);
+  }
+);
+
 onUnmounted(() => {
   query.value = '';
   store.dispatch('conversationSearch/clearSearchResults');
