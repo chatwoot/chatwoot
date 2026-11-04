@@ -11,7 +11,7 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
   end
 
   def create
-    return verify_mfa_code unless params.dig(:super_admin, :otp_code).nil?
+    return verify_mfa_code if mfa_code_submission?
 
     redirect_to(super_admin_session_path, flash: { error: @error_message }) && return unless valid_credentials?
     return start_mfa_challenge if @super_admin.mfa_enabled?
@@ -36,6 +36,11 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
     Rails.logger.error e.message
     @error_message = 'Invalid credentials. Please try again.'
     false
+  end
+
+  def mfa_code_submission?
+    scoped_params = params[:super_admin]
+    scoped_params.respond_to?(:key?) && !scoped_params[:otp_code].nil?
   end
 
   def start_mfa_challenge

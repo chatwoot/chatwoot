@@ -22,6 +22,11 @@ RSpec.describe 'Super Admin', type: :request do
       post '/super_admin/sign_in', params: { super_admin: { email: super_admin.email, password: 'wrong' } }
       expect(response).to redirect_to(super_admin_session_path)
     end
+
+    it 'redirects back to the login page on a malformed super_admin param' do
+      post '/super_admin/sign_in', params: { super_admin: 'email' }
+      expect(response).to redirect_to(super_admin_session_path)
+    end
   end
 
   describe 'POST /super_admin/sign_in with two-factor authentication enabled' do
