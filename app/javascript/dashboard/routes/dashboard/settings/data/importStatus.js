@@ -20,7 +20,7 @@ export const isActiveIntegrationImport = dataImport =>
   isIntegrationImport(dataImport) && isActiveImport(dataImport);
 
 export const isAbandonableImport = dataImport =>
-  isActiveIntegrationImport(dataImport);
+  dataImport?.allowed_actions?.abandon ?? isActiveIntegrationImport(dataImport);
 
 export const importedCount = dataImport => {
   if (!isIntegrationImport(dataImport)) {
