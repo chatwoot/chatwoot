@@ -49,9 +49,7 @@ const getAudioExtension = mimeType => {
   if (!mimeType) return 'mp3';
   const cleanMimeType = mimeType.split(';')[0].trim();
   return (
-    AUDIO_EXTENSION_MAP[cleanMimeType] ||
-    AUDIO_EXTENSION_MAP[mimeType] ||
-    'mp3'
+    AUDIO_EXTENSION_MAP[cleanMimeType] || AUDIO_EXTENSION_MAP[mimeType] || 'mp3'
   );
 };
 
