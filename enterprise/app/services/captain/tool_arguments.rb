@@ -1,14 +1,15 @@
-# The arguments a custom tool runs with. Parameters with a source take the value Chatwoot reads from what
+# The arguments a Captain tool runs with. Parameters with a source take the value Chatwoot reads from what
 # the customer proved. Those values are set last, so a value from the model can never replace them.
+# The tool is any record that answers requires_email_verification? and param_sources, such as a custom tool.
 class Captain::ToolArguments
-  def initialize(custom_tool, conversation)
-    @custom_tool = custom_tool
+  def initialize(tool, conversation)
+    @tool = tool
     @conversation = conversation
   end
 
   # Raises Captain::ParamSources::Unavailable when a value cannot be read
   def fill(params)
-    require_verified_email! if @custom_tool.requires_email_verification?
+    require_verified_email! if @tool.requires_email_verification?
     params.merge(sourced_values)
   end
 
@@ -27,6 +28,6 @@ class Captain::ToolArguments
   end
 
   def sourced_values
-    @sourced_values ||= @custom_tool.param_sources.to_h { |name, source| [name.to_sym, source.resolve(@conversation)] }
+    @sourced_values ||= @tool.param_sources.to_h { |name, source| [name.to_sym, source.resolve(@conversation)] }
   end
 end
