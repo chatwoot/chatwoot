@@ -1,4 +1,6 @@
+import { useTrack } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -8,6 +10,7 @@ import { useCannedResponseCommands } from '../useCannedResponseCommands';
 
 vi.mock('vue-i18n');
 vi.mock('vue-router');
+vi.mock('dashboard/composables');
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables/usePolicy');
 vi.mock('shared/helpers/mitt');
@@ -78,13 +81,16 @@ describe('useCannedResponseCommands', () => {
     );
   });
 
-  it('inserts the response with its variables resolved', () => {
+  it('inserts the response with its variables resolved and tracks it', () => {
     const { cannedResponseCommands } = useCannedResponseCommands();
     cannedResponseCommands.value[1].run();
 
     expect(emitter.emit).toHaveBeenCalledWith(
       BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
       'Hi Sarah'
+    );
+    expect(useTrack).toHaveBeenCalledWith(
+      CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE
     );
   });
 
