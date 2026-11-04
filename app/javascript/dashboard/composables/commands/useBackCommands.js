@@ -20,11 +20,13 @@ const AREA_LABELS = {
   profile: 'SIDEBAR.SETTINGS',
   captain: 'SIDEBAR.CAPTAIN',
   campaigns: 'SIDEBAR.CAMPAIGNS',
+  calls: 'SIDEBAR.CALLS',
+  portals: 'SIDEBAR.HELP_CENTER.TITLE',
 };
 
 const AREA_PATTERN = /^\/app\/accounts\/\d+\/([^/?#]+)/;
 
-const areaOf = path => path.match(AREA_PATTERN)?.[1];
+const areaOf = path => AREA_LABELS[path.match(AREA_PATTERN)?.[1]];
 
 export function useBackCommands() {
   const { t } = useI18n();
@@ -36,13 +38,13 @@ export function useBackCommands() {
     () => route.fullPath,
     (path, oldPath) => {
       if (!oldPath || areaOf(path) === areaOf(oldPath)) return;
-      previous.value = { path: oldPath, area: areaOf(oldPath) };
+      previous.value = { path: oldPath, label: areaOf(oldPath) };
     }
   );
 
   const backCommands = computed(() => {
-    const label = AREA_LABELS[previous.value?.area];
-    if (!label || previous.value.area === areaOf(route.fullPath)) return [];
+    const label = previous.value?.label;
+    if (!label || label === areaOf(route.fullPath)) return [];
 
     return [
       {
