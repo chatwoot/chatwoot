@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Public Inbox Contacts API', type: :request do
   let!(:api_channel) { create(:channel_api) }
-  let!(:contact) { create(:contact, account: api_channel.account, identifier: 'victim-identifier') }
+  let!(:contact) { create(:contact, account: api_channel.account, identifier: 'existing-identifier') }
   let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: api_channel.inbox) }
 
   describe 'POST /public/api/v1/inboxes/{identifier}/contact' do
@@ -48,12 +48,12 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
     end
 
     it 'does not verify a contact inbox with a hash for a different identifier' do
-      attacker_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, 'attacker-identifier')
+      other_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, 'other-identifier')
 
       get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",
-          params: { identifier: 'attacker-identifier', identifier_hash: attacker_hash }
+          params: { identifier: 'other-identifier', identifier_hash: other_hash }
 
-      expect(response).to have_http_status(:internal_server_error)
+      expect(response).to have_http_status(:unauthorized)
       expect(contact_inbox.reload.hmac_verified).to be(false)
     end
   end
@@ -78,6 +78,17 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       data = response.parsed_body
       expect(data.keys).to include('email', 'id', 'name', 'phone_number', 'pubsub_token', 'source_id')
       expect(data.keys).not_to include('account_id', 'identifier', 'custom_attributes', 'additional_attributes', 'company_id')
+    end
+
+    it 'does not update a contact with a hash for a different identifier' do
+      other_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, 'other-identifier')
+
+      patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",
+            params: { name: 'John Smith', identifier: 'other-identifier', identifier_hash: other_hash }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(contact.reload.name).not_to eq 'John Smith'
+      expect(contact_inbox.reload.hmac_verified).to be(false)
     end
   end
 end
