@@ -11,4 +11,10 @@ RSpec.describe Internal::CheckNewVersionsJob do
     expect(ChatwootHub).to have_received(:sync_with_hub)
     expect(Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)).to eq data['version']
   end
+
+  it 'does not fail when chatwoot hub is unreachable' do
+    allow(Rails.env).to receive(:production?).and_return(true)
+    allow(ChatwootHub).to receive(:sync_with_hub).and_return(nil)
+    expect { job }.not_to raise_error
+  end
 end

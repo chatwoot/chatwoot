@@ -42,8 +42,9 @@ const openBilling = () => {
 // Only the recovery direction needs a focus check: the admin returns from the
 // billing portal before the webhook lands, and isPastDue stays true until we
 // refetch. Becoming past due arrives over the cable, or on reconnect.
+// Self-hosted status only changes on a Hub sync, which broadcasts to every account.
 useEventListener(window, 'focus', () => {
-  if (!isPastDue.value || !accountId.value) return;
+  if (!isOnChatwootCloud.value || !isPastDue.value || !accountId.value) return;
 
   store.dispatch('accounts/get', {
     accountId: accountId.value,

@@ -29,4 +29,48 @@ RSpec.describe Internal::CheckNewVersionsJob do
     job
     expect(reconsile_premium_config_service).to have_received(:perform)
   end
+
+  context 'when hub reports the installation subscription status' do
+    let!(:accounts) { create_list(:account, 2) }
+
+    before do
+      InstallationConfig.create!(name: 'INSTALLATION_SUBSCRIPTION_STATUS', value: 'active', locked: true)
+    end
+
+    it 'stores the new status and notifies every account' do
+      allow(ChatwootHub).to receive(:sync_with_hub).and_return({ 'version' => '1.2.3', 'subscription_status' => 'past_due' })
+
+      job
+
+      expect(ChatwootHub.subscription_status).to eq 'past_due'
+      accounts.each do |account|
+        expect(ActionCableBroadcastJob).to have_been_enqueued
+          .with(["account_#{account.id}"], 'account.billing_updated', { account_id: account.id })
+      end
+    end
+
+    it 'does not notify accounts when the status is unchanged' do
+      allow(ChatwootHub).to receive(:sync_with_hub).and_return({ 'version' => '1.2.3', 'subscription_status' => 'active' })
+
+      job
+
+      expect(ActionCableBroadcastJob).not_to have_been_enqueued
+    end
+
+    it 'keeps the last known status when an older hub omits it' do
+      allow(ChatwootHub).to receive(:sync_with_hub).and_return({ 'version' => '1.2.3' })
+
+      job
+
+      expect(ChatwootHub.subscription_status).to eq 'active'
+    end
+
+    it 'clears the status when hub returns null' do
+      allow(ChatwootHub).to receive(:sync_with_hub).and_return({ 'version' => '1.2.3', 'subscription_status' => nil })
+
+      job
+
+      expect(ChatwootHub.subscription_status).to be_nil
+    end
+  end
 end
