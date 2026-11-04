@@ -596,6 +596,8 @@
     "EXPIRED": "This download has expired. Run the export again to create a new file.",
     "RETENTION": "Export files are available for 30 days after completion.",
     "ERROR": "Could not load or start this export. Please try again.",
+    "LOAD_OLDER": "Load older exports",
+    "LOAD_OLDER_ERROR": "Could not load older exports. Try again.",
     "DOWNLOAD_ERROR": "This file is no longer available. Refresh the page to see its current status.",
     "DRAFT_UNAVAILABLE": "The export selection is unavailable or expired. Return to Contacts and choose Export again. No export has been started.",
     "EMPTY_DESCRIPTION": "Export your contacts to a CSV file. Your export history and downloads will appear here.",
@@ -607,7 +609,7 @@
     "IN_PROGRESS": "Preparing your CSV. You can leave this page while the export runs.",
     "TABLE": {
       "EXPORTED": "Exported",
-      "COUNT": "{count} exports"
+      "COUNT": "Showing {count} exports"
     }
   },
   "CAPTAIN_SETTINGS": {

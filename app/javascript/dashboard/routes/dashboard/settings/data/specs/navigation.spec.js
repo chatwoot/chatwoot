@@ -55,7 +55,10 @@ describe('data operation navigation', () => {
           plugins: [router],
           stubs: {
             SettingsLayout: { template: '<main><slot name="body" /></main>' },
-            Button: true,
+            Button: {
+              props: ['label'],
+              template: '<button>{{ label }}</button>',
+            },
             Icon: true,
             NewImportDialog: true,
             NewExportDialog: true,
@@ -86,6 +89,45 @@ describe('data operation navigation', () => {
       selection: { label: 'vip', scope_name: 'VIP' },
     });
     expect(DataImportsAPI.get).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps older rows when a new export arrives during a load-more request', async () => {
+    vi.useFakeTimers();
+    const page = (ids, hasMore) => ({
+      data: {
+        payload: ids.map(id => ({ id, status: 'processing' })),
+        has_more: hasMore,
+      },
+    });
+    let finishOlder;
+    DataExportsAPI.get
+      .mockResolvedValueOnce(page([10, 9], true))
+      .mockImplementationOnce(
+        () =>
+          new Promise(resolve => {
+            finishOlder = resolve;
+          })
+      )
+      .mockResolvedValueOnce(page([11, 10], true));
+    try {
+      await openPage({ tab: 'export' });
+      const findLoadOlder = () =>
+        wrapper
+          .findAll('button')
+          .find(button => button.text() === 'DATA_EXPORTS.LOAD_OLDER');
+      await findLoadOlder().trigger('click');
+      expect(DataExportsAPI.get).toHaveBeenNthCalledWith(2, { beforeId: 9 });
+
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(DataExportsAPI.get).toHaveBeenNthCalledWith(3);
+      finishOlder(page([8, 7], false));
+      await flushPromises();
+      const rows = wrapper.getComponent(DataOperationList).props('items');
+      expect(rows.map(row => row.id)).toEqual([11, 10, 9, 8, 7]);
+      expect(findLoadOlder()).toBeUndefined();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('follows tab changes in browser navigation without reloading history', async () => {
