@@ -55,9 +55,15 @@ const fetchArticles = async (query = '') => {
         signal,
       });
 
-      articleOptions.value = payload
+      const options = payload
         .filter(article => article.id !== props.article.id)
         .map(toArticleOption);
+      const root = rootOption.value;
+
+      articleOptions.value =
+        query || !root
+          ? options
+          : [root, ...options.filter(option => option.value !== root.value)];
     });
   } catch {
     articleOptions.value = [];
