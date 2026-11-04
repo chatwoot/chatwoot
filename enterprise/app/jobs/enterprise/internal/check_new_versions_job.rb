@@ -26,8 +26,9 @@ module Enterprise::Internal::CheckNewVersionsJob
     update_installation_config(key: 'INSTALLATION_SUBSCRIPTION_STATUS', value: @instance_info['subscription_status'])
     return if ChatwootApp.chatwoot_cloud? || previous_status == @instance_info['subscription_status']
 
-    Account.find_each do |account|
-      ActionCableBroadcastJob.perform_later(["account_#{account.id}"], 'account.billing_updated', { account_id: account.id })
+    # No account_id: each dashboard refetches the account it is viewing.
+    Account.in_batches(of: 1000) do |accounts|
+      ActionCableBroadcastJob.perform_later(accounts.pluck(:id).map { |id| "account_#{id}" }, 'account.billing_updated', {})
     end
   end
 

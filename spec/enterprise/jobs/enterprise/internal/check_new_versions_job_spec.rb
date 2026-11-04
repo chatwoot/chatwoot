@@ -43,10 +43,10 @@ RSpec.describe Internal::CheckNewVersionsJob do
       job
 
       expect(ChatwootHub.subscription_status).to eq 'past_due'
-      accounts.each do |account|
-        expect(ActionCableBroadcastJob).to have_been_enqueued
-          .with(["account_#{account.id}"], 'account.billing_updated', { account_id: account.id })
-      end
+      expect(ActionCableBroadcastJob).to have_been_enqueued.once
+                                                           .with(match_array(accounts.map { |account|
+                                                                   "account_#{account.id}"
+                                                                 }), 'account.billing_updated', {})
     end
 
     it 'does not notify accounts when the status is unchanged' do
