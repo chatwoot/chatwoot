@@ -38,6 +38,12 @@ RSpec.describe CopilotRun do
       expect(action_without_change).not_to be_valid
       expect(action_without_change.errors.attribute_names).to contain_exactly(:action, :target_ids)
     end
+
+    it 'refuses review text that is not a string, is blank or is too long, and allows leaving out question and reference' do
+      expect(review).to be_valid
+      expect(review.update(context: review.context.merge('criteria' => 42, 'question' => ' ', 'reference' => 'a' * 20_001))).to be false
+      expect(review.errors.attribute_names).to contain_exactly(:criteria, :question, :reference)
+    end
   end
 
   describe '#review_budget!' do
@@ -59,6 +65,15 @@ RSpec.describe CopilotRun do
       [1, 2, 3].each { |id| review.findings.create!(conversation_id: id, status: :screened_out) }
 
       expect(turn.review_budget!).to eq(2)
+    end
+  end
+
+  describe '#claim' do
+    it 'leaves a review alone while its conversations are being reviewed' do
+      review.update!(status: :reviewing)
+
+      expect(review.claim).to be_nil
+      expect(review.reload).to be_reviewing
     end
   end
 

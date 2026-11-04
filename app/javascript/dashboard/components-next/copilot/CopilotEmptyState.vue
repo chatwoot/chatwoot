@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import Icon from '../icon/Icon.vue';
+import Button from '../button/Button.vue';
 
 const props = defineProps({
   hasAssistants: {
@@ -58,9 +59,12 @@ const promptOptions = computed(() => {
   const currentRoute = getCurrentRoute();
   const prompts = routePromptMap[currentRoute] || routePromptMap.conversations;
 
-  return prompts.filter(
-    prompt => prompt.requestType !== 'reply_suggestion' || props.canSuggestReply
-  );
+  return prompts
+    .filter(
+      prompt =>
+        prompt.requestType !== 'reply_suggestion' || props.canSuggestReply
+    )
+    .map(prompt => ({ ...prompt, label: t(prompt.label) }));
 });
 
 const handleSuggestion = opt => {
@@ -73,9 +77,15 @@ const handleSuggestion = opt => {
 </script>
 
 <template>
-  <div class="flex-1 flex flex-col gap-6 px-2">
-    <div class="flex flex-col space-y-4 py-4">
-      <Icon icon="i-woot-captain" class="text-n-slate-9 text-4xl" />
+  <div class="flex-1 self-stretch flex flex-col gap-6 px-2">
+    <!-- The avatar fills the logo slot, so the title and description center under it. -->
+    <div
+      class="flex flex-col space-y-4 py-4"
+      :class="{ 'items-center text-center': $slots.logo }"
+    >
+      <slot name="logo">
+        <Icon icon="i-woot-captain" class="text-n-slate-9 text-4xl" />
+      </slot>
       <div class="space-y-1">
         <h3 class="text-base font-medium text-n-slate-12 leading-8">
           {{ $t('CAPTAIN.COPILOT.PANEL_TITLE') }}
@@ -101,6 +111,19 @@ const handleSuggestion = opt => {
         {{ $t('CAPTAIN.ASSISTANTS.ADD_NEW') }}
       </router-link>
     </div>
+    <!-- Next to the avatar the prompts sit above the input as pills. Without it, Copilot keeps the list. -->
+    <div v-else-if="$slots.logo" class="flex flex-wrap gap-2 mt-auto">
+      <Button
+        v-for="prompt in promptOptions"
+        :key="prompt.label"
+        :label="prompt.label"
+        faded
+        slate
+        sm
+        class="!rounded-full"
+        @click="handleSuggestion(prompt)"
+      />
+    </div>
     <div v-else class="w-full space-y-2">
       <span class="text-xs text-n-slate-10 block">
         {{ $t('CAPTAIN.COPILOT.TRY_THESE_PROMPTS') }}
@@ -112,7 +135,7 @@ const handleSuggestion = opt => {
           class="w-full px-3 py-2 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center justify-between hover:bg-n-slate-3 transition-colors"
           @click="handleSuggestion(prompt)"
         >
-          <span>{{ t(prompt.label) }}</span>
+          <span>{{ prompt.label }}</span>
           <Icon icon="i-lucide-chevron-right" />
         </button>
       </div>

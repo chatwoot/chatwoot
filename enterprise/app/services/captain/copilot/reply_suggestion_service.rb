@@ -131,7 +131,7 @@ class Captain::Copilot::ReplySuggestionService
     response = failure_response
     @copilot_thread.copilot_messages.create!(
       message_type: :assistant,
-      message: { content: response['response'] }
+      message: { content: response['response'], status: 'failed' }
     )
 
     response
