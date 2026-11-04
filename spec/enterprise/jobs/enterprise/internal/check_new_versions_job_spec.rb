@@ -30,6 +30,14 @@ RSpec.describe Internal::CheckNewVersionsJob do
     expect(reconsile_premium_config_service).to have_received(:perform)
   end
 
+  it 'reports whether hub was reached' do
+    allow(ChatwootHub).to receive(:sync_with_hub).and_return({ 'version' => '1.2.3' })
+    expect(described_class.perform_now).to be(true)
+
+    allow(ChatwootHub).to receive(:sync_with_hub).and_return(nil)
+    expect(described_class.perform_now).to be(false)
+  end
+
   context 'when hub reports the installation subscription status' do
     let!(:accounts) { create_list(:account, 2) }
 

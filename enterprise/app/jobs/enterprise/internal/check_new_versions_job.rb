@@ -1,8 +1,9 @@
 module Enterprise::Internal::CheckNewVersionsJob
   def perform(refresh_billing: false)
-    super(refresh_billing: refresh_billing)
+    synced = super(refresh_billing: refresh_billing)
     update_plan_info
     reconcile_premium_config_and_features
+    synced
   end
 
   private

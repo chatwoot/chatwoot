@@ -6,6 +6,7 @@ class Internal::CheckNewVersionsJob < ApplicationJob
 
     @instance_info = ChatwootHub.sync_with_hub(refresh_billing: refresh_billing)
     update_version_info
+    @instance_info.present?
   end
 
   private
