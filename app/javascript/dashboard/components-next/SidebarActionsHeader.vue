@@ -31,6 +31,7 @@ const handleButtonClick = button => {
           v-tooltip="button.tooltip"
           :aria-label="button.tooltip"
           :icon="button.icon"
+          :class="button.class"
           ghost
           sm
           @click="handleButtonClick(button)"

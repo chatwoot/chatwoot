@@ -9,6 +9,7 @@ RSpec.describe Conversation, type: :model do
     let(:ca_contact) { create(:contact, account: account, additional_attributes: { 'country_code' => 'CA' }) }
 
     before do
+      account.enable_features!('captain_integration')
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
       assistant.update!(config: assistant.config.merge('audience' => {
                                                          'attribute_key' => 'country_code', 'filter_operator' => 'equal_to', 'values' => ['US']

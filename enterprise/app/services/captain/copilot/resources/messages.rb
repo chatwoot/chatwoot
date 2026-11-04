@@ -1,19 +1,19 @@
 class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseResource
   NAME = 'messages'.freeze
+  MODEL = Message
   DATE_FIELDS = %w[created_at].freeze
   # contains uses the trigram index on messages.content, so exact text such as an order number or error code stays fast.
+  # A message's sender is polymorphic, so the sender is filtered by role, and agents by agent_id.
   FILTERS = {
     contains: { type: 'string', minLength: 3,
                 description: "Text to find. Without since, before or from, searches the last #{Limits.search_time_range_limit_days} days" },
-    sender: { type: 'string', enum: %w[customer agent bot system] }, private: { type: 'boolean' }
+    sender: { type: 'string', enum: %w[customer agent bot system] },
+    agent_id: { type: 'integer', minimum: 1, description: 'Messages this agent sent' }
   }.freeze
-  SOURCES = {
-    'conversations' => ->(ids) { Message.where(conversation_id: ids) },
-    'messages' => ->(ids) { Message.where(id: ids) }
-  }.freeze
+  SOURCES = {}.freeze
   COLUMNS = %w[Sender Sent Excerpt].freeze
   PRELOAD = [:conversation].freeze
-  GROUPS = %w[sender private].freeze
+  GROUPS = %w[sender agent].freeze
   EXCERPT_LENGTH = 160
 
   # Searching the text of every message an account has is slow when the text is common, so contains covers the same
@@ -24,7 +24,8 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
     return filters if source || filters['contains'].blank? || filters.key?('since') || filters.key?('before')
 
     since = Limits.search_time_range_limit_days.days.ago
-    @note = "Only messages sent since #{since.to_date.iso8601} were searched, because no dates were given. Earlier messages were not checked."
+    window = "Only messages sent since #{since.to_date.iso8601} were searched, because no dates were given. Earlier messages were not checked."
+    @note = [@note, window].compact.join(' ')
     filters.merge('since' => since.iso8601)
   end
 
@@ -36,17 +37,22 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
 
   def filter(relation, filters)
     relation = Captain::Copilot::ReadableMessages.with_role(relation, filters['sender']) if filters['sender']
-    relation = relation.where(private: filters['private']) unless filters['private'].nil?
+    relation = relation.where(sender_type: 'User', sender_id: filters['agent_id']) if filters['agent_id']
     return relation if filters['contains'].blank?
 
-    relation.where('messages.content ILIKE ?', "%#{Message.sanitize_sql_like(filters['contains'])}%")
+    relation.where(Message.arel_table[:content].matches("%#{Message.sanitize_sql_like(filters['contains'])}%"))
   end
 
-  def counts_by(relation, group)
-    return column_counts(relation, :private) if group == 'private'
-
-    relation.group(:sender_type).count.each_with_object(Hash.new(0)) do |(type, count), counts|
-      counts[Captain::Copilot::ReadableMessages.role_for(type)] += count
+  def group_field(name)
+    sender_type = Message.arel_table[:sender_type]
+    case name
+    when 'sender'
+      roles = Captain::Copilot::ReadableMessages::ROLES.reduce(Arel::Nodes::Case.new) do |node, (type, role)|
+        node.when(sender_type.eq(type)).then(role)
+      end
+      { expression: roles.when(sender_type.eq(nil)).then('system').else('bot') }
+    when 'agent'
+      { expression: Arel::Nodes::Case.new.when(sender_type.eq('User')).then(Message.arel_table[:sender_id]), names: User }
     end
   end
 
