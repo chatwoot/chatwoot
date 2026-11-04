@@ -28,8 +28,7 @@ module Captain::Copilot::Chart
     ids = response['content'].scan(MARKER).flatten
     return response if ids.empty?
 
-    charts = CopilotToolCall.joins(:copilot_run).where(id: ids, copilot_runs: { copilot_thread_id: thread_id })
-                            .to_h { |call| [call.id.to_s, call.result&.dig('chart_data')] }.compact
+    charts = CopilotToolCall.of_thread(thread_id).where(id: ids).to_h { |call| [call.id.to_s, call.result&.dig('chart_data')] }.compact
     charts.any? ? response.merge('charts' => charts) : response
   end
 

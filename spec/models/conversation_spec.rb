@@ -719,6 +719,7 @@ RSpec.describe Conversation do
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,
         timestamp: conversation.last_activity_at.to_i,
+        anonymous_caller: false,
         can_reply: true,
         channel: 'Channel::WebWidget',
         snoozed_until: conversation.snoozed_until,

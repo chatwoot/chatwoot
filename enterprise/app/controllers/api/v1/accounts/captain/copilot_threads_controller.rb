@@ -38,7 +38,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     else
       copilot_message.copilot_thread.copilot_messages.create!(
         message_type: :assistant,
-        message: { content: I18n.t('captain.copilot_limit') }
+        message: { content: I18n.t('captain.copilot_limit'), status: 'failed' }
       )
     end
   end

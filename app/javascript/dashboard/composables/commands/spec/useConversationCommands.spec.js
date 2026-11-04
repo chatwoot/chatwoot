@@ -208,6 +208,13 @@ describe('useConversationCommands', () => {
     expect(unmuteAction).toBeDefined();
   });
 
+  it('offers nothing while the conversation is still loading', () => {
+    store.getters.getSelectedChat = {};
+    const { conversationCommands } = useConversationCommands();
+
+    expect(conversationCommands.value).toEqual([]);
+  });
+
   it('should not return conversation hot keys when not in conversation or inbox route', () => {
     useRoute.mockReturnValue({ name: 'some_other_route' });
     const { conversationCommands } = useConversationCommands();
