@@ -564,7 +564,8 @@ const actions = {
         const currentUser = rootGetters.getCurrentUser;
         const accountId = rootGetters.getCurrentAccountId;
         const permissions = getUserPermissions(currentUser, accountId);
-        // Participants keep access once assigned away, and the client does not know who they are
+        // Participants keep access once assigned away, and the client does not know who they
+        // are, so the card stays; joining or dismissing it drops it if the server refuses
         return (
           permissions.includes('conversation_participating_manage') ||
           applyRoleFilter(
