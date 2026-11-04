@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatwoot-web
+  namespace: staging
+  labels:
+    app: chatwoot-web
+spec:
+  type: ClusterIP
+  selector:
+    app: chatwoot-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP

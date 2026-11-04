@@ -1,0 +1,274 @@
+name: Deploy Chatwoot to AKS Staging
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "GitHub deployment environment"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chatwoot-staging-deployment
+  cancel-in-progress: false
+
+env:
+  RESOURCE_GROUP: TRPL-DEMOGROUP
+  AKS_CLUSTER_NAME: TRPL-Demo-Cluster
+  KUBERNETES_NAMESPACE: staging
+  CHATWOOT_VERSION: v4.19.0
+
+jobs:
+  build-and-push:
+    name: Mirror Chatwoot Image to ACR
+    runs-on: ubuntu-latest
+
+    outputs:
+      image: ${{ steps.image.outputs.image }}
+
+    steps:
+      - name: Set image name
+        id: image
+        shell: bash
+        env:
+          ACR_NAME: ${{ vars.ACR_NAME }}
+        run: |
+          set -euo pipefail
+          test -n "$ACR_NAME"
+
+          IMAGE="${ACR_NAME}.azurecr.io/chatwoot/chatwoot:${GITHUB_SHA}"
+          echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v2
+        with:
+          login-server: ${{ vars.ACR_NAME }}.azurecr.io
+          username: ${{ vars.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Pull official Chatwoot image
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker pull "chatwoot/chatwoot:${CHATWOOT_VERSION}"
+
+      - name: Tag image for ACR
+        shell: bash
+        env:
+          TARGET_IMAGE: ${{ steps.image.outputs.image }}
+        run: |
+          set -euo pipefail
+          docker tag \
+            "chatwoot/chatwoot:${CHATWOOT_VERSION}" \
+            "$TARGET_IMAGE"
+
+      - name: Push image to ACR
+        shell: bash
+        env:
+          TARGET_IMAGE: ${{ steps.image.outputs.image }}
+        run: |
+          set -euo pipefail
+          docker push "$TARGET_IMAGE"
+
+  deploy:
+    name: Deploy to AKS Staging
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    environment: ${{ inputs.environment }}
+
+    env:
+      IMAGE: ${{ needs.build-and-push.outputs.image }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Download staging environment file
+        shell: bash
+        env:
+          STORAGE_ACCOUNT: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
+          STORAGE_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+        run: |
+          set -euo pipefail
+
+          test -n "$STORAGE_ACCOUNT"
+          test -n "$STORAGE_KEY"
+
+          az storage blob download \
+            --account-name "$STORAGE_ACCOUNT" \
+            --account-key "$STORAGE_KEY" \
+            --container-name "chatwoot" \
+            --name "(staging).env" \
+            --file "$RUNNER_TEMP/(staging).env" \
+            --overwrite true \
+            --only-show-errors
+
+          cp "$RUNNER_TEMP/(staging).env" \
+             "$RUNNER_TEMP/chatwoot.env"
+
+          chmod 600 "$RUNNER_TEMP/chatwoot.env"
+          test -s "$RUNNER_TEMP/chatwoot.env"
+
+      - name: Get AKS credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          az aks get-credentials \
+            --resource-group "$RESOURCE_GROUP" \
+            --name "$AKS_CLUSTER_NAME" \
+            --overwrite-existing
+
+          kubectl get namespace "$KUBERNETES_NAMESPACE"
+
+      - name: Create or update ACR pull secret
+        shell: bash
+        env:
+          ACR_NAME: ${{ vars.ACR_NAME }}
+          ACR_USERNAME: ${{ vars.ACR_USERNAME }}
+          ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          test -n "$ACR_NAME"
+          test -n "$ACR_USERNAME"
+          test -n "$ACR_PASSWORD"
+
+          kubectl create secret docker-registry acr-pull-secret \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --docker-server="${ACR_NAME}.azurecr.io" \
+            --docker-username="$ACR_USERNAME" \
+            --docker-password="$ACR_PASSWORD" \
+            --dry-run=client \
+            -o yaml | kubectl apply -f -
+
+      - name: Create or update Chatwoot environment Secret
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          kubectl create secret generic chatwoot-env \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --from-env-file="$RUNNER_TEMP/chatwoot.env" \
+            --dry-run=client \
+            -o yaml | kubectl apply -f -
+
+      - name: Apply ConfigMap and persistent storage
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/storage.yaml
+
+          kubectl wait \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --for=jsonpath='{.status.phase}'=Bound \
+            pvc/chatwoot-storage \
+            --timeout=5m
+
+      - name: Run Chatwoot database preparation
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          kubectl delete job chatwoot-migrate \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --ignore-not-found \
+            --wait=true
+
+          sed "s|IMAGE_PLACEHOLDER|${IMAGE}|g" \
+            k8s/migrate-job.yaml |
+            kubectl apply -f -
+
+          if ! kubectl wait \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --for=condition=complete \
+            job/chatwoot-migrate \
+            --timeout=15m; then
+
+            kubectl describe job chatwoot-migrate \
+              --namespace "$KUBERNETES_NAMESPACE" || true
+
+            kubectl logs job/chatwoot-migrate \
+              --namespace "$KUBERNETES_NAMESPACE" \
+              --all-containers=true || true
+
+            exit 1
+          fi
+
+      - name: Deploy Chatwoot web and worker
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          sed "s|IMAGE_PLACEHOLDER|${IMAGE}|g" \
+            k8s/web-deployment.yaml |
+            kubectl apply -f -
+
+          sed "s|IMAGE_PLACEHOLDER|${IMAGE}|g" \
+            k8s/worker-deployment.yaml |
+            kubectl apply -f -
+
+          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/ingress.yaml
+
+      - name: Wait for deployments
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          kubectl rollout status deployment/chatwoot-web \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --timeout=10m
+
+          kubectl rollout status deployment/chatwoot-worker \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --timeout=10m
+
+      - name: Verify deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          kubectl get deployments,pods,svc,ingress,pvc \
+            --namespace "$KUBERNETES_NAMESPACE"
+
+      - name: Show diagnostics on failure
+        if: failure()
+        shell: bash
+        run: |
+          kubectl get pods \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            -o wide || true
+
+          kubectl get events \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --sort-by=.lastTimestamp || true
+
+          kubectl logs deployment/chatwoot-web \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --all-containers=true \
+            --tail=100 || true
+
+          kubectl logs deployment/chatwoot-worker \
+            --namespace "$KUBERNETES_NAMESPACE" \
+            --all-containers=true \
+            --tail=100 || true
+
+      - name: Clean up downloaded environment files
+        if: always()
+        shell: bash
+        run: |
+          rm -f \
+            "$RUNNER_TEMP/(staging).env" \
+            "$RUNNER_TEMP/chatwoot.env"
