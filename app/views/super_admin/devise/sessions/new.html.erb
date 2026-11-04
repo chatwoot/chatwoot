@@ -1,13 +1,21 @@
 <%= render "super_admin/application/standalone", heading: t("super_admin.login.heading") do %>
   <%= form_for(resource, as: resource_name, url: '/super_admin/sign_in', html: { class: 'space-y-4' }) do |f| %>
-    <div>
-      <%= f.label :email, t("super_admin.login.email"), class: "text-label" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: t("super_admin.login.email_placeholder"), class: ui(:input, "mt-1 min-h-10") %>
-    </div>
-    <div>
-      <%= f.label :password, t("super_admin.login.password"), class: "text-label" %>
-      <%= f.password_field :password, autocomplete: "current-password", placeholder: t("super_admin.login.password_placeholder"), class: ui(:input, "mt-1 min-h-10") %>
-    </div>
-    <%= render "super_admin/application/button", label: t("super_admin.login.submit"), type: "submit", extra: "h-10 w-full" %>
+    <% if @mfa_challenge %>
+      <div>
+        <%= label_tag 'super_admin[otp_code]', t("super_admin.login.mfa_code"), class: "text-label" %>
+        <%= text_field_tag 'super_admin[otp_code]', nil, autofocus: true, autocomplete: "one-time-code", placeholder: t("super_admin.login.mfa_code_placeholder"), class: ui(:input, "mt-1 min-h-10") %>
+      </div>
+      <%= render "super_admin/application/button", label: t("super_admin.login.mfa_submit"), type: "submit", extra: "h-10 w-full" %>
+    <% else %>
+      <div>
+        <%= f.label :email, t("super_admin.login.email"), class: "text-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: t("super_admin.login.email_placeholder"), class: ui(:input, "mt-1 min-h-10") %>
+      </div>
+      <div>
+        <%= f.label :password, t("super_admin.login.password"), class: "text-label" %>
+        <%= f.password_field :password, autocomplete: "current-password", placeholder: t("super_admin.login.password_placeholder"), class: ui(:input, "mt-1 min-h-10") %>
+      </div>
+      <%= render "super_admin/application/button", label: t("super_admin.login.submit"), type: "submit", extra: "h-10 w-full" %>
+    <% end %>
   <% end %>
 <% end %>
