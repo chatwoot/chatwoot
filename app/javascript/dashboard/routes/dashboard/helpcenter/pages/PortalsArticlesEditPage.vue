@@ -210,10 +210,13 @@ const previewArticle = async () => {
       id: article.value.id,
       portalSlug: portalSlug.value,
     });
-    window.open(
+    const previewWindow = window.open(
       `${articleLink.value}?preview=${encodeURIComponent(data.preview_token)}`,
       '_blank'
     );
+    if (!previewWindow) {
+      useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW_ERROR'));
+    }
   } catch {
     useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW_ERROR'));
   } finally {

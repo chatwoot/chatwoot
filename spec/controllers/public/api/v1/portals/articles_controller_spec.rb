@@ -200,6 +200,16 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response.body).to include('G-TEST123')
     end
 
+    it 'marks a preview of an unpublished article as noindex' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: draft_article.preview_token }
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.headers['X-Robots-Tag']).to be_nil
+    end
+
     it 'skips the web widget on a preview of an unpublished article' do
       web_widget = create(:channel_widget, account: account)
       portal.update!(channel_web_widget: web_widget)
