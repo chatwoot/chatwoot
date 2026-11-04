@@ -191,14 +191,41 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
       expect(response).to have_http_status(:success)
     end
 
-    it 'skips signature validation for 360dialog channels' do
-      dialog_channel = create(:channel_whatsapp, provider: 'default', sync_templates: false, validate_provider_config: false)
-      allow(Webhooks::WhatsappEventsJob).to receive(:perform_later)
-      expect(Webhooks::WhatsappEventsJob).to receive(:perform_later)
+    context 'with 360dialog channels' do
+      let(:dialog_channel) { create(:channel_whatsapp, provider: 'default', sync_templates: false, validate_provider_config: false) }
+      let(:webhook_token) { dialog_channel.provider_config['webhook_token'] }
 
-      post_unsigned_whatsapp_webhook("/webhooks/whatsapp/#{dialog_channel.phone_number}", body)
+      before { allow(Webhooks::WhatsappEventsJob).to receive(:perform_later) }
 
-      expect(response).to have_http_status(:success)
+      it 'accepts webhooks with the channel webhook token' do
+        post_unsigned_whatsapp_webhook("/webhooks/whatsapp/#{dialog_channel.phone_number}?webhook_token=#{webhook_token}", body)
+
+        expect(response).to have_http_status(:success)
+        expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later).with(hash_excluding('webhook_token'))
+      end
+
+      it 'rejects webhooks without the webhook token' do
+        post_unsigned_whatsapp_webhook("/webhooks/whatsapp/#{dialog_channel.phone_number}", body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+
+      it 'rejects webhooks with an invalid webhook token' do
+        post_unsigned_whatsapp_webhook("/webhooks/whatsapp/#{dialog_channel.phone_number}?webhook_token=invalid", body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+
+      it 'accepts webhooks for channels that do not have a webhook token yet' do
+        dialog_channel.update_column(:provider_config, dialog_channel.provider_config.except('webhook_token')) # rubocop:disable Rails/SkipsModelValidations
+
+        post_unsigned_whatsapp_webhook("/webhooks/whatsapp/#{dialog_channel.phone_number}", body)
+
+        expect(response).to have_http_status(:success)
+        expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later)
+      end
     end
 
     it 'skips signature validation for manual whatsapp cloud channels without an app secret' do
