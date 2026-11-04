@@ -244,7 +244,7 @@ RSpec.describe 'Inboxes API', type: :request do
       it 'does not flag reauthorization_required for manual whatsapp channel even when reauth required' do
         whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
                                                      validate_provider_config: false)
-        whatsapp_channel.update!(provider_config: whatsapp_channel.provider_config.merge('source' => 'manual'))
+        whatsapp_channel.update!(provider_config: whatsapp_channel.provider_config.merge('source' => 'manual', 'app_secret' => 'secret'))
         whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
         whatsapp_channel.prompt_reauthorization!
 

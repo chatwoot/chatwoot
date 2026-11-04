@@ -37,6 +37,7 @@ class Channel::Whatsapp < ApplicationRecord
   validates :provider, inclusion: { in: PROVIDERS }
   validates :phone_number, presence: true, uniqueness: true
   validate :validate_provider_config
+  validate :validate_app_secret, if: :app_secret_required?
 
   after_create :sync_templates
   after_update_commit :log_credentials_transfer, if: :saved_change_to_provider_config?
@@ -124,6 +125,10 @@ class Channel::Whatsapp < ApplicationRecord
     before&.dig('source') == 'embedded_signup' && after['source'] != 'embedded_signup'
   end
 
+  def app_secret_pending?
+    manual_cloud_setup? && provider_config['app_secret'].blank?
+  end
+
   def mark_message_templates_updated
     # rubocop:disable Rails/SkipsModelValidations
     update_column(:message_templates_last_updated, Time.zone.now)
@@ -157,6 +162,21 @@ class Channel::Whatsapp < ApplicationRecord
 
   def validate_provider_config
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
+  end
+
+  def manual_cloud_setup?
+    provider == 'whatsapp_cloud' && provider_config['source'] != 'embedded_signup'
+  end
+
+  def app_secret_required?
+    return false unless manual_cloud_setup?
+
+    previous_config = provider_config_in_database.to_h
+    new_record? || previous_config['app_secret'].present? || previous_config['source'] == 'embedded_signup'
+  end
+
+  def validate_app_secret
+    errors.add(:provider_config, 'App secret is required') if provider_config['app_secret'].blank?
   end
 
   # Logs only the embedded signup → manual migration (the save drops the

@@ -88,7 +88,10 @@ RSpec.describe Channel::Whatsapp do
   end
 
   describe 'validate_provider_config' do
-    let(:channel) { build(:channel_whatsapp, provider: 'whatsapp_cloud', account: create(:account)) }
+    let(:channel) do
+      build(:channel_whatsapp, provider: 'whatsapp_cloud', account: create(:account),
+                               provider_config: { 'api_key' => 'test_key', 'phone_number_id' => 'random_id', 'app_secret' => 'test_secret' })
+    end
 
     it 'validates false when provider config is wrong' do
       stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key').to_return(status: 401)
@@ -115,6 +118,71 @@ RSpec.describe Channel::Whatsapp do
       stub_request(:get, 'https://graph.facebook.com/v14.0//phone_numbers?fields=id&limit=100&access_token=test_key')
         .to_return(status: 200, body: { data: [{ id: 'another_phone_id' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
       expect(channel.save).to be(false)
+    end
+  end
+
+  describe 'app secret' do
+    let(:account) { create(:account) }
+    let(:manual_config) { { 'api_key' => 'test_key', 'phone_number_id' => '123456789', 'source' => 'manual_setup_v2' } }
+
+    def build_manual_channel(provider_config)
+      build(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', provider_config: provider_config).tap do |channel|
+        allow(channel).to receive(:validate_provider_config)
+        allow(channel).to receive(:sync_templates)
+      end
+    end
+
+    it 'is required to create a manual whatsapp cloud channel' do
+      channel = build_manual_channel(manual_config)
+
+      expect(channel).not_to be_valid
+      expect(channel.errors[:provider_config]).to include('App secret is required')
+    end
+
+    it 'creates a manual whatsapp cloud channel with an app secret' do
+      expect(build_manual_channel(manual_config.merge('app_secret' => 'secret'))).to be_valid
+    end
+
+    it 'is not required for embedded signup channels' do
+      expect(build_manual_channel(manual_config.merge('source' => 'embedded_signup'))).to be_valid
+    end
+
+    context 'with an existing manual channel without an app secret' do
+      let(:channel) do
+        build_manual_channel(manual_config).tap { |channel| channel.save!(validate: false) }
+      end
+
+      it 'is pending app secret setup' do
+        expect(channel.app_secret_pending?).to be(true)
+      end
+
+      it 'still allows updates without an app secret' do
+        channel.provider_config = channel.provider_config.merge('api_key' => 'new_key')
+
+        expect(channel).to be_valid
+      end
+
+      it 'is no longer pending once an app secret is added' do
+        channel.update!(provider_config: channel.provider_config.merge('app_secret' => 'secret'))
+
+        expect(channel.app_secret_pending?).to be(false)
+      end
+    end
+
+    it 'cannot be removed once configured' do
+      channel = build_manual_channel(manual_config.merge('app_secret' => 'secret'))
+      channel.save!
+      channel.provider_config = channel.provider_config.except('app_secret')
+
+      expect(channel).not_to be_valid
+    end
+
+    it 'is required when an embedded signup channel moves to manual setup' do
+      channel = build_manual_channel(manual_config.merge('source' => 'embedded_signup'))
+      channel.save!
+      channel.provider_config = channel.provider_config.merge('source' => 'manual_setup_v2')
+
+      expect(channel).not_to be_valid
     end
   end
 
@@ -197,6 +265,7 @@ RSpec.describe Channel::Whatsapp do
                provider_config: {
                  'business_account_id' => 'test_waba_id',
                  'api_key' => 'test_access_token',
+                 'app_secret' => 'test_app_secret',
                  'source' => nil
                },
                validate_provider_config: false,
@@ -298,7 +367,7 @@ RSpec.describe Channel::Whatsapp do
     it 'returns true for manual whatsapp_cloud channels with calling_enabled' do
       channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
                                           validate_provider_config: false, sync_templates: false)
-      channel.update!(provider_config: channel.provider_config.merge('source' => 'manual', 'calling_enabled' => true))
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'manual', 'app_secret' => 'secret', 'calling_enabled' => true))
 
       expect(channel.voice_enabled?).to be true
     end
