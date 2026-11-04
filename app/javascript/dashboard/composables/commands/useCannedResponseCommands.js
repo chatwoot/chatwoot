@@ -37,7 +37,8 @@ export function useCannedResponseCommands() {
   const isAvailable = computed(
     () =>
       isFeatureFlagEnabled(FEATURE_FLAGS.CANNED_RESPONSES) &&
-      (isAConversationRoute(route.name) || isAInboxViewRoute(route.name))
+      (isAConversationRoute(route.name) || isAInboxViewRoute(route.name)) &&
+      Boolean(currentChat.value?.id)
   );
 
   watch(
