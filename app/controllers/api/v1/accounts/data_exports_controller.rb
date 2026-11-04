@@ -1,4 +1,6 @@
 class Api::V1::Accounts::DataExportsController < Api::V1::Accounts::BaseController
+  PAGE_SIZE = 25
+
   wrap_parameters format: []
 
   before_action :set_data_export, only: [:show, :download, :rerun]
@@ -7,7 +9,11 @@ class Api::V1::Accounts::DataExportsController < Api::V1::Accounts::BaseControll
   rescue_from ArgumentError, with: :invalid_export
 
   def index
-    @data_exports = policy_scope(Current.account.data_exports).includes(:initiated_by, :export_file_attachment).order(created_at: :desc)
+    history = policy_scope(Current.account.data_exports)
+    history = history.where(id: ...before_id) if params.key?(:before_id)
+    page = history.order(id: :desc).preload(:initiated_by, :export_file_attachment).limit(PAGE_SIZE + 1).to_a
+    @has_more = page.size > PAGE_SIZE
+    @data_exports = page.first(PAGE_SIZE)
   end
 
   def show; end
@@ -40,6 +46,13 @@ class Api::V1::Accounts::DataExportsController < Api::V1::Accounts::BaseControll
   end
 
   private
+
+  def before_id
+    cursor = Integer(params[:before_id], 10, exception: false)
+    raise ArgumentError, 'before_id must be a positive export ID.' unless cursor&.positive?
+
+    cursor
+  end
 
   def set_data_export
     @data_export = Current.account.data_exports.find(params[:id])
