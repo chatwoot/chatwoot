@@ -4,6 +4,8 @@ import { nextTick } from 'vue';
 import { createStore } from 'vuex';
 import ReplyBox from '../ReplyBox.vue';
 import WhatsappTemplates from '../WhatsappTemplates/Modal.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const CHANNELS = [
   { name: 'WhatsApp Cloud', inbox: { channel_type: 'Channel::Whatsapp' } },
@@ -474,6 +476,34 @@ describe('ReplyBox', () => {
       pressEnter({});
       expect(onSendReply).toHaveBeenCalledTimes(1);
 
+      wrapper.unmount();
+    });
+  });
+
+  describe('inserting content while a Copilot draft is open', () => {
+    it('dismisses the draft and appends the text to the reply', async () => {
+      const { wrapper } = mountWith({ chat: REPLIABLE });
+      await flushPromises();
+      wrapper.vm.message = 'Hello';
+      wrapper.vm.copilot.showEditor.value = true;
+
+      emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, 'Thanks for writing');
+      await nextTick();
+
+      expect(wrapper.vm.copilot.isActive.value).toBe(false);
+      expect(wrapper.vm.message).toBe('Hello\nThanks for writing');
+      wrapper.unmount();
+    });
+
+    it('leaves the reply alone when the editor is showing', async () => {
+      const { wrapper } = mountWith({ chat: REPLIABLE });
+      await flushPromises();
+      wrapper.vm.message = 'Hello';
+
+      emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, 'Thanks for writing');
+      await nextTick();
+
+      expect(wrapper.vm.message).toBe('Hello');
       wrapper.unmount();
     });
   });

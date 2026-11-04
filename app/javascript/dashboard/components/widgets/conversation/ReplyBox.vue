@@ -636,6 +636,10 @@ export default {
       this.onNewConversationModalActive
     );
     emitter.on(CMD_AI_ASSIST, this.executeCopilotAction);
+    emitter.on(
+      BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+      this.onInsertWhileCopilotActive
+    );
   },
   unmounted() {
     document.removeEventListener('paste', this.onPaste);
@@ -645,6 +649,10 @@ export default {
       this.onNewConversationModalActive
     );
     emitter.off(CMD_AI_ASSIST, this.executeCopilotAction);
+    emitter.off(
+      BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+      this.onInsertWhileCopilotActive
+    );
   },
   methods: {
     openContactInfoTemplateModal() {
@@ -1334,6 +1342,11 @@ export default {
       const acceptedMessage = this.copilot.accept();
       this.message = acceptedMessage;
       this.setCopilotAcceptedMessage(acceptedMessage);
+    },
+    onInsertWhileCopilotActive(content) {
+      if (!this.copilot.isActive.value) return;
+      this.copilot.reset();
+      this.message = this.message ? `${this.message}\n${content}` : content;
     },
   },
 };
