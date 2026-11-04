@@ -355,8 +355,8 @@ export function useConversationCommands() {
     ) {
       commands = localizeActions(SNOOZE_CONVERSATION_ACTIONS, t);
     } else if (
-      isAConversationRoute(route.name) ||
-      isAInboxViewRoute(route.name)
+      conversationId.value &&
+      (isAConversationRoute(route.name) || isAInboxViewRoute(route.name))
     ) {
       commands = defaultCommands.value;
     }
