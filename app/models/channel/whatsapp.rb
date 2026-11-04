@@ -142,6 +142,12 @@ class Channel::Whatsapp < ApplicationRecord
     Whatsapp::Providers::WhatsappCloudContactInfoRequestService.perform(self, identifier, message)
   end
 
+  def send_catalog_message(identifier, message)
+    raise NotImplementedError, 'Catalog messages require a WhatsApp Cloud provider' unless provider == 'whatsapp_cloud'
+
+    Whatsapp::Providers::WhatsappCloudCatalogService.perform(self, identifier, message)
+  end
+
   def setup_webhooks(is_coexistence: nil)
     perform_webhook_setup(is_coexistence: is_coexistence)
   rescue StandardError => e
