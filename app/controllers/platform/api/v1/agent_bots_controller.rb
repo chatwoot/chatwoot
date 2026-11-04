@@ -39,6 +39,7 @@ class Platform::Api::V1::AgentBotsController < PlatformController
 
   def validate_account_permissible
     return if params[:account_id].blank?
+    return if @resource && params[:account_id].to_s == @resource.account_id.to_s
     return if @platform_app.platform_app_permissibles.exists?(permissible_type: 'Account', permissible_id: params[:account_id])
 
     render json: { error: 'Non permissible resource' }, status: :unauthorized
