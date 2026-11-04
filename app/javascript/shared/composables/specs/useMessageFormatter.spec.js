@@ -87,5 +87,16 @@ describe('useMessageFormatter', () => {
         'This <span class="highlight">(message)</span> contains [special] characters'
       );
     });
+
+    it('should escape markup in content and search term', () => {
+      const result = messageFormatter.highlightContent(
+        'Jane &lt;img src=x&gt; & Co',
+        '& Co',
+        'highlight'
+      );
+      expect(result.trim()).toBe(
+        'Jane &lt;img src=x&gt; <span class="highlight">&amp; Co</span>'
+      );
+    });
   });
 });
