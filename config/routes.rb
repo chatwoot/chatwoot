@@ -296,6 +296,7 @@ Rails.application.routes.draw do
               post :abandon
               get :error_logs
               get :skip_logs
+              get :rejected_rows
             end
           end
           resources :csat_survey_responses, only: [:index] do
