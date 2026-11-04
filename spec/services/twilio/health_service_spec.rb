@@ -159,6 +159,100 @@ describe Twilio::HealthService do
       end
     end
 
+    context 'with a WhatsApp sender' do
+      let(:channel) { create(:channel_twilio_sms, :with_phone_number, :whatsapp) }
+      let(:messaging) { instance_double(Twilio::REST::Messaging) }
+      let(:messaging_v2) { instance_double(Twilio::REST::Messaging::V2) }
+      let(:senders) { instance_double(Twilio::REST::Messaging::V2::ChannelsSenderList) }
+      let(:sender_status) { 'ONLINE' }
+      let(:callback_url) { twilio_callback_index_url }
+      let(:callback_method) { 'POST' }
+      let(:sender) do
+        instance_double(Twilio::REST::Messaging::V2::ChannelsSenderInstance,
+                        sid: 'XE123', sender_id: channel.phone_number, status: sender_status,
+                        profile: { 'name' => 'Acme WhatsApp' },
+                        properties: { 'quality_rating' => 'HIGH', 'messaging_limit' => 'Unavailable' },
+                        webhook: { 'callback_url' => callback_url, 'callback_method' => callback_method })
+      end
+      let(:other_sender) do
+        instance_double(Twilio::REST::Messaging::V2::ChannelsSenderInstance, sender_id: 'whatsapp:+19999999999')
+      end
+
+      before do
+        allow(twilio_client).to receive(:messaging).and_return(messaging)
+        allow(messaging).to receive(:v2).and_return(messaging_v2)
+        allow(messaging_v2).to receive(:channels_senders).and_return(senders)
+        allow(senders).to receive(:stream).with(channel: 'whatsapp').and_return([other_sender, sender].each)
+      end
+
+      it 'reports the matching online sender as healthy without querying SMS number configuration' do
+        result = described_class.new(channel: channel).perform
+
+        expect(result).to include(status: 'healthy', medium: 'whatsapp', voice_enabled: false)
+        expect(result[:sender]).to eq(type: 'whatsapp_sender', sid: 'XE123', label: channel.phone_number.delete_prefix('whatsapp:'),
+                                      status: 'ONLINE', friendly_name: 'Acme WhatsApp', quality_rating: 'HIGH', messaging_limit: 'Unavailable')
+        expect(result[:webhooks]).to eq([{ name: 'messaging', expected: callback_url, actual: callback_url,
+                                           method: 'POST', configured: true, reason: nil }])
+        expect(twilio_client).not_to have_received(:incoming_phone_numbers)
+        expect(senders).to have_received(:stream).once
+      end
+
+      context 'when the sender is offline' do
+        let(:sender_status) { 'OFFLINE' }
+
+        it 'reports misconfigured even when the webhook is correct' do
+          result = described_class.new(channel: channel).perform
+
+          expect(result[:status]).to eq('misconfigured')
+          expect(result[:sender][:status]).to eq('OFFLINE')
+          expect(result[:webhooks].first[:configured]).to be(true)
+        end
+      end
+
+      context 'when the sender is missing' do
+        before { allow(senders).to receive(:stream).with(channel: 'whatsapp').and_return([other_sender].each) }
+
+        it 'raises rather than using another sender' do
+          expect { described_class.new(channel: channel).perform }
+            .to raise_error("WhatsApp sender #{channel.phone_number} was not found in the connected Twilio account")
+        end
+      end
+
+      context 'when the webhook URL points elsewhere' do
+        let(:callback_url) { 'https://old.example.com/twilio/callback' }
+
+        it 'reports the current and expected URLs' do
+          result = described_class.new(channel: channel).perform
+
+          expect(result[:status]).to eq('misconfigured')
+          expect(result[:webhooks].first).to include(configured: false, reason: 'url_mismatch',
+                                                     actual: callback_url, expected: twilio_callback_index_url)
+        end
+      end
+
+      context 'when the webhook uses GET' do
+        let(:callback_method) { 'GET' }
+
+        it 'reports the wrong HTTP method' do
+          result = described_class.new(channel: channel).perform
+
+          expect(result[:status]).to eq('misconfigured')
+          expect(result[:webhooks].first).to include(configured: false, reason: 'wrong_http_method', method: 'GET')
+        end
+      end
+
+      context 'when the webhook is missing' do
+        before { allow(sender).to receive(:webhook).and_return(nil) }
+
+        it 'reports an unset webhook' do
+          result = described_class.new(channel: channel).perform
+
+          expect(result[:status]).to eq('misconfigured')
+          expect(result[:webhooks].first).to include(configured: false, reason: 'not_set', actual: nil)
+        end
+      end
+    end
+
     context 'with a messaging service' do
       let(:channel) { create(:channel_twilio_sms) }
       let(:messaging) { instance_double(Twilio::REST::Messaging) }
@@ -183,6 +277,18 @@ describe Twilio::HealthService do
         expect(result[:status]).to eq('healthy')
         expect(result[:webhooks].first).to include(name: 'messaging', configured: true)
         expect(result[:sender]).to eq(type: 'messaging_service', sid: channel.messaging_service_sid, label: 'Acme Messaging')
+      end
+
+      context 'when the inbox uses WhatsApp' do
+        let(:channel) { create(:channel_twilio_sms, :whatsapp) }
+
+        it 'uses the messaging service webhook rather than looking up a WhatsApp sender' do
+          result = described_class.new(channel: channel).perform
+
+          expect(result).to include(status: 'healthy', medium: 'whatsapp')
+          expect(result[:sender]).to eq(type: 'messaging_service', sid: channel.messaging_service_sid, label: 'Acme Messaging')
+          expect(result[:webhooks]).to contain_exactly(hash_including(name: 'messaging', configured: true, reason: nil))
+        end
       end
 
       context 'when the service still defers to the number webhook' do
