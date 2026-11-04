@@ -47,6 +47,7 @@ const sources = {
   cannedResponseCommands: [command('canned')],
   accountCommands: [command('account')],
   helpCommands: [command('help')],
+  backCommands: [command('back')],
 };
 
 const pendingAttributes = ref(null);
@@ -105,7 +106,7 @@ vi.mock('dashboard/composables/commands/useSnoozeSuggestions', () => ({
   }),
 }));
 vi.mock('dashboard/composables/commands/useBackCommands', () => ({
-  useBackCommands: () => ({ backCommands: ref([]) }),
+  useBackCommands: () => ({ backCommands: ref(sources.backCommands) }),
 }));
 vi.mock('dashboard/composables/commands/useSearchCommands', () => ({
   useSearchCommands: () => ({
@@ -168,6 +169,7 @@ describe('commandbar', () => {
         'canned',
         'account',
         'help',
+        'back',
       ])
     );
   });
