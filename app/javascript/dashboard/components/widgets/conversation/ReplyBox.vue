@@ -1346,7 +1346,14 @@ export default {
     onInsertWhileCopilotActive(content) {
       if (!this.copilot.isActive.value) return;
       this.copilot.reset();
-      this.message = this.message ? `${this.message}\n${content}` : content;
+      const body = removeSignature(
+        this.message,
+        this.messageSignature,
+        getEffectiveChannelType(this.channelType, this.inbox?.medium || '')
+      );
+      this.message = this.toggleSignatureForDraft(
+        body.trim() ? `${body.trimEnd()}\n${content}` : content
+      );
     },
   },
 };

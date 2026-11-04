@@ -6,6 +6,7 @@ import ReplyBox from '../ReplyBox.vue';
 import WhatsappTemplates from '../WhatsappTemplates/Modal.vue';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { appendSignature } from 'dashboard/helper/editorHelper';
 
 const CHANNELS = [
   { name: 'WhatsApp Cloud', inbox: { channel_type: 'Channel::Whatsapp' } },
@@ -43,6 +44,7 @@ const buildStore = ({
   inboxes,
   isMetaMessageSendingDisabled = false,
   uiSettings = {},
+  signature = '',
 }) =>
   createStore({
     state: {
@@ -70,7 +72,7 @@ const buildStore = ({
       getSelectedChat: s => s.chat,
       getCurrentUser: () => ({ id: 7, name: 'Agent', accounts: [] }),
       getCurrentAccountId: () => 1,
-      getMessageSignature: () => '',
+      getMessageSignature: () => signature,
       getUISettings: () => uiSettings,
       getLastEmailInSelectedChat: () => null,
       'globalConfig/get': () => ({}),
@@ -99,6 +101,7 @@ const mountWith = ({
   inboxes,
   isMetaMessageSendingDisabled,
   uiSettings,
+  signature,
 }) => {
   const store = buildStore({
     inbox,
@@ -108,6 +111,7 @@ const mountWith = ({
     inboxes,
     isMetaMessageSendingDisabled,
     uiSettings,
+    signature,
   });
   const wrapper = shallowMount(ReplyBox, {
     global: {
@@ -492,6 +496,35 @@ describe('ReplyBox', () => {
 
       expect(wrapper.vm.copilot.isActive.value).toBe(false);
       expect(wrapper.vm.message).toBe('Hello\nThanks for writing');
+      wrapper.unmount();
+    });
+
+    it('keeps the signature after the inserted text', async () => {
+      const signature = 'Regards, Agent';
+      const { wrapper } = mountWith({
+        chat: REPLIABLE,
+        inbox: { channel_type: 'Channel::WebWidget' },
+        uiSettings: { channel_webwidget_signature_enabled: true },
+        signature,
+      });
+      await flushPromises();
+      wrapper.vm.message = appendSignature(
+        'Hello',
+        signature,
+        'Channel::WebWidget'
+      );
+      wrapper.vm.copilot.showEditor.value = true;
+
+      emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, 'Thanks for writing');
+      await nextTick();
+
+      expect(wrapper.vm.message).toBe(
+        appendSignature(
+          'Hello\nThanks for writing',
+          signature,
+          'Channel::WebWidget'
+        )
+      );
       wrapper.unmount();
     });
 
