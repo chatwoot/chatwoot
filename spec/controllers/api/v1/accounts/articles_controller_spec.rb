@@ -441,6 +441,17 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['id']).to eq(article2.id)
       end
 
+      it 'returns a preview token for the article' do
+        draft_article = create(:article, account_id: account.id, portal: portal, category: category, author_id: agent.id, status: :draft)
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{draft_article.id}",
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        preview_token = response.parsed_body['payload']['preview_token']
+        expect(Article.find_signed(preview_token, purpose: :preview)).to eq(draft_article)
+      end
+
       it 'does not expose an author who is not a member of the account' do
         foreign_user = create(:user, account: create(:account), role: :agent)
         article.update!(author_id: foreign_user.id)

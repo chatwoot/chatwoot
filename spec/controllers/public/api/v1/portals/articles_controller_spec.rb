@@ -147,20 +147,45 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(article.reload.views).to eq 0 # View count should not increment on show
     end
 
-    it 'does not increment the view count if the article is not published' do
-      draft_article = create(:article, category: category, status: :draft, portal: portal, account_id: account.id, author_id: agent.id, views: 0)
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}"
-      expect(response).to have_http_status(:success)
-      expect(draft_article.reload.views).to eq 0
+    %i[draft archived].each do |status|
+      it "returns not found for a #{status} article without a preview token" do
+        unpublished_article = create(:article, category: category, status: status, portal: portal, author: agent)
+
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}"
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include(I18n.t('public_portal.404.title'))
+
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}.json"
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "renders a #{status} article with its preview token" do
+        unpublished_article = create(:article, category: category, status: status, portal: portal, author: agent, content: 'Unreleased content')
+
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}", params: { preview: unpublished_article.preview_token }
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Unreleased content')
+      end
     end
 
-    it 'returns not found for an archived article' do
-      archived_article = create(:article, category: category, status: :archived, portal: portal, author: agent)
+    it 'returns not found when the preview token belongs to another article' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      other_draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
 
-      get "/hc/#{portal.slug}/articles/#{archived_article.slug}"
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: other_draft_article.preview_token }
+
       expect(response).to have_http_status(:not_found)
+    end
 
-      get "/hc/#{portal.slug}/articles/#{archived_article.slug}.json"
+    it 'returns not found when the preview token has expired' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      preview_token = draft_article.preview_token
+
+      travel(Article::PREVIEW_TOKEN_EXPIRY + 1.minute) do
+        get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: preview_token }
+      end
+
       expect(response).to have_http_status(:not_found)
     end
 

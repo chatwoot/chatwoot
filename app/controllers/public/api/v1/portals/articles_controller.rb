@@ -71,7 +71,13 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def set_article
-    @article = @portal.articles.not_archived.find_by!(slug: permitted_params[:article_slug])
+    @article = @portal.articles.published.find_by(slug: permitted_params[:article_slug]) || previewed_article
+    render_404 if @article.blank?
+  end
+
+  def previewed_article
+    article = @portal.articles.find_signed(permitted_params[:preview], purpose: :preview)
+    article if article&.slug == permitted_params[:article_slug]
   end
 
   def set_locale_switch_urls
@@ -99,7 +105,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def permitted_params
-    params.permit(:slug, :category_slug, :locale, :id, :article_slug)
+    params.permit(:slug, :category_slug, :locale, :id, :article_slug, :preview)
   end
 
   def render_article_content(content)

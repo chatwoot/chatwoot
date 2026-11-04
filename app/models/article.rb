@@ -62,6 +62,7 @@ class Article < ApplicationRecord
   # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
   RESERVED_SLUGS = %w[search articles categories].freeze
   SLUG_RANDOM_BYTES = 4
+  PREVIEW_TOKEN_EXPIRY = 1.day
 
   validates :account_id, presence: true
   validates :author_id, presence: true
@@ -135,6 +136,10 @@ class Article < ApplicationRecord
 
   def public_locale
     category.present? ? category.locale : locale
+  end
+
+  def preview_token
+    signed_id(purpose: :preview, expires_in: PREVIEW_TOKEN_EXPIRY)
   end
 
   def draft!
