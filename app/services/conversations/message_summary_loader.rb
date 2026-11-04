@@ -10,9 +10,7 @@ class Conversations::MessageSummaryLoader
   def perform
     return @conversations if @conversations_by_id.empty?
 
-    rows = Conversation.where(id: @conversations_by_id.keys)
-                       .pluck(:id, last_message_id, last_non_activity_message_id, unread_count)
-                       .index_by(&:first)
+    rows = Conversation.message_summary_rows(@conversations_by_id.keys).index_by(&:first)
     messages = load_messages(rows.values.flat_map { |_, last_id, last_non_activity_id, _| [last_id, last_non_activity_id] }.compact.uniq)
 
     @conversations_by_id.each do |id, conversation|
@@ -26,47 +24,6 @@ class Conversations::MessageSummaryLoader
   end
 
   private
-
-  def last_message_id
-    latest_id(conversation_messages)
-  end
-
-  def last_non_activity_message_id
-    latest_id(conversation_messages.non_activity_messages)
-  end
-
-  def unread_count
-    unread_messages = Message.unscoped
-                             .where(Conversation.unread_messages_condition(messages_table, conversations_table))
-                             .limit(Conversation::UNREAD_INCOMING_MESSAGES_LIMIT)
-                             .select(:id)
-    count = Arel::SelectManager.new.project(Arel.star.count).from(unread_messages.arel.as('unread_messages'))
-    Arel::Nodes::Grouping.new(count.ast)
-  end
-
-  # Messages of the conversation row in the outer query
-  def conversation_messages
-    Message.unscoped.where(
-      messages_table[:conversation_id].eq(conversations_table[:id]).and(messages_table[:account_id].eq(conversations_table[:account_id]))
-    )
-  end
-
-  # The dashboard seeds the message thread from the latest message and then paginates BACKWARD
-  # by id (before: messages[0].id). Keep the seed as the chronologically latest message,
-  # but add an id tiebreaker: without it, same-second siblings (e.g. the input_csat survey
-  # created alongside activity messages during an auto-resolve burst) could resolve to a
-  # lower-id activity, and backward pagination would then never load the higher-id survey.
-  def latest_id(messages)
-    Arel::Nodes::Grouping.new(messages.reorder(created_at: :desc, id: :desc).limit(1).select(:id).arel.ast)
-  end
-
-  def messages_table
-    Message.arel_table
-  end
-
-  def conversations_table
-    Conversation.arel_table
-  end
 
   def load_messages(ids)
     return {} if ids.empty?

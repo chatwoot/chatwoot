@@ -55,6 +55,8 @@
 #
 
 class Conversation < ApplicationRecord
+  extend ConversationMessageSummaryQueries
+
   include Labelable
   include LlmFormattable
   include AssignmentHandler
