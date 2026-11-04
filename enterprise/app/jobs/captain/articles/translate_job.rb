@@ -15,6 +15,7 @@ class Captain::Articles::TranslateJob < ApplicationJob
                          end
 
     existing = find_existing_translation(target_locale)
+    return if existing && existing.associated_article_id.nil?
 
     if existing
       existing.update!(title: translated_title, content: translated_content, description: @source_article.description)
