@@ -50,6 +50,7 @@ class Captain::McpServer < ApplicationRecord
 
   validates :url, presence: true, uniqueness: { scope: :assistant_id }
   validates :name, presence: true
+  validate :validate_plain_url
   validate :validate_auth_header
   validate :validate_token
 
@@ -67,6 +68,16 @@ class Captain::McpServer < ApplicationRecord
   end
 
   private
+
+  # The shared endpoint check accepts Liquid templates for custom tools, but RubyLLM connects to the URL as written.
+  # It refuses a URL with a username or password, so neither may reach it.
+  def validate_plain_url
+    return if url.blank?
+
+    errors.add(:endpoint_url, 'cannot contain a username or password') if URI.parse(url).userinfo
+  rescue URI::InvalidURIError
+    errors.add(:endpoint_url, 'must be a valid URL')
+  end
 
   def validate_auth_header
     return if auth_header.nil?
