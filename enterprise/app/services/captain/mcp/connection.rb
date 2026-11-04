@@ -24,18 +24,13 @@ class Captain::Mcp::Connection
     @server = server
   end
 
-  # Runs a request and records the result on the server.
-  # The status is written with update_columns, not save, for two reasons:
-  # - ServerUpdateService calls this after it assigns the admin's edit and before it saves it. A save here would store
-  #   that edit before the service saves the tool selection in the same transaction.
-  # - Agent runs, the OAuth callback and the hourly check record the status too. A validation on an unrelated column must
-  #   not stop Chatwoot from recording that a server is down or needs sign-in.
+  # Runs a request and records the result on the server
   def track_status
     result = yield
-    @server.update_columns(status: :active, last_error: nil) # rubocop:disable Rails/SkipsModelValidations
+    @server.record_success
     result
   rescue *ERRORS => e
-    @server.update_columns(**failed_status(e)) # rubocop:disable Rails/SkipsModelValidations
+    @server.record_failure(e)
     raise
   end
 
@@ -77,15 +72,6 @@ class Captain::Mcp::Connection
   end
 
   private
-
-  # Only an OAuth server can sign in again. A token server needs a new token, and a server without sign-in must be
-  # connected again with a token, because the sign-in type cannot change.
-  def failed_status(error)
-    return { status: :error, last_error: error.message } unless error.is_a?(RubyLLM::UnauthorizedError)
-    return { status: :needs_sign_in, last_error: error.message } if @server.auth_oauth?
-
-    { status: :error, last_error: I18n.t(@server.auth_token? ? 'captain.mcp_server.token_rejected' : 'captain.mcp_server.token_required') }
-  end
 
   # Each server has its own context, because RubyLLM reads the credential store from the context config
   def context
