@@ -179,7 +179,7 @@ export default {
       return this.inbox.channel_type === INBOX_TYPES.SMS;
     },
     shouldShowTwilioHealth() {
-      return this.isATwilioChannel && this.inbox.medium === 'sms';
+      return this.isATwilioChannel;
     },
     whatsAppAPIProviderName() {
       if (this.isAWhatsAppCloudChannel) {

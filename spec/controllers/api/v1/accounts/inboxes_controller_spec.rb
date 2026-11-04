@@ -1668,7 +1668,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio SMS channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio channels')
         end
 
         it 'returns bad request error for agent' do
@@ -1680,7 +1680,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio SMS channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio channels')
         end
       end
 
@@ -1697,7 +1697,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio SMS channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio channels')
         end
       end
 
@@ -1771,14 +1771,16 @@ RSpec.describe 'Inboxes API', type: :request do
       expect(response.parsed_body['webhooks'].first).to include('name' => 'messaging', 'configured' => false, 'reason' => 'url_mismatch')
     end
 
-    it 'returns bad request for a twilio whatsapp inbox' do
+    it 'returns health data for a twilio whatsapp inbox' do
       whatsapp_medium_inbox = create(:inbox, account: account, channel: create(:channel_twilio_sms, :whatsapp, account: account))
+
+      allow(Twilio::HealthService).to receive(:new).with(channel: whatsapp_medium_inbox.channel).and_return(health_service)
 
       get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_medium_inbox.id}/health",
           headers: admin.create_new_auth_token,
           as: :json
 
-      expect(response).to have_http_status(:bad_request)
+      expect(response).to have_http_status(:success)
     end
 
     it 'registers the messaging webhook' do
