@@ -171,6 +171,9 @@ export default {
     shouldShowWhatsAppConfiguration() {
       return this.isAWhatsAppCloudChannel;
     },
+    isBandwidthInbox() {
+      return this.inbox.channel_type === INBOX_TYPES.SMS;
+    },
     shouldShowTwilioHealth() {
       return this.isATwilioChannel;
     },
@@ -222,6 +225,7 @@ export default {
 
       if (
         this.isATwilioChannel ||
+        this.isBandwidthInbox ||
         this.isALineChannel ||
         this.isAPIInbox ||
         (this.isAnEmailChannel && !this.inbox.provider) ||

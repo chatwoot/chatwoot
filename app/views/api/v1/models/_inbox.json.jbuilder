@@ -194,3 +194,10 @@ if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
 end
+
+## Bandwidth SMS callback authentication
+if resource.sms? && Current.account_user&.administrator?
+  json.callback_auth_username Channel::Sms::CALLBACK_USERNAME
+  json.callback_auth_password resource.channel.secret
+  json.callback_auth_enforced resource.channel.callback_auth_enforced
+end

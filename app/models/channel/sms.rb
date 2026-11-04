@@ -2,13 +2,15 @@
 #
 # Table name: channel_sms
 #
-#  id              :bigint           not null, primary key
-#  phone_number    :string           not null
-#  provider        :string           default("default")
-#  provider_config :jsonb
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :integer          not null
+#  id                     :bigint           not null, primary key
+#  callback_auth_enforced :boolean          default(TRUE), not null
+#  phone_number           :string           not null
+#  provider               :string           default("default")
+#  provider_config        :jsonb
+#  secret                 :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :integer          not null
 #
 # Indexes
 #
@@ -17,9 +19,11 @@
 
 class Channel::Sms < ApplicationRecord
   include Channelable
+  include WebhookSecretable
 
   self.table_name = 'channel_sms'
-  EDITABLE_ATTRS = [:phone_number, { provider_config: {} }].freeze
+  EDITABLE_ATTRS = [:phone_number, :callback_auth_enforced, { provider_config: {} }].freeze
+  CALLBACK_USERNAME = 'chatwoot'.freeze
 
   validates :phone_number, presence: true, uniqueness: true
   # before_save :validate_provider_config
@@ -43,6 +47,13 @@ class Channel::Sms < ApplicationRecord
   def send_text_message(contact_number, message_content)
     body = message_body(contact_number, message_content)
     send_to_bandwidth(body)
+  end
+
+  def valid_callback_credentials?(username, password)
+    return false if secret.blank?
+
+    ActiveSupport::SecurityUtils.secure_compare(username.to_s, CALLBACK_USERNAME) &
+      ActiveSupport::SecurityUtils.secure_compare(password.to_s, secret)
   end
 
   private
