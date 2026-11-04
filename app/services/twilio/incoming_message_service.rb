@@ -5,6 +5,13 @@ class Twilio::IncomingMessageService
 
   pattr_initialize [:params!]
 
+  def self.find_channel(params)
+    channel = ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) if params[:MessagingServiceSid].present?
+    return channel if channel.present? || params[:AccountSid].blank? || params[:To].blank?
+
+    ::Channel::TwilioSms.find_by(account_sid: params[:AccountSid], phone_number: params[:To])
+  end
+
   def perform
     return if twilio_channel.blank?
 
@@ -27,11 +34,7 @@ class Twilio::IncomingMessageService
   private
 
   def twilio_channel
-    @twilio_channel ||= ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) if params[:MessagingServiceSid].present?
-    if params[:AccountSid].present? && params[:To].present?
-      @twilio_channel ||= ::Channel::TwilioSms.find_by(account_sid: params[:AccountSid],
-                                                       phone_number: params[:To])
-    end
+    @twilio_channel ||= self.class.find_channel(params)
     log_channel_not_found if @twilio_channel.blank?
     @twilio_channel
   end
