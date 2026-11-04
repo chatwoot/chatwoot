@@ -7,7 +7,7 @@ RSpec.describe 'Captain::McpCallbacks', type: :request do
     Captain::McpServer.create!(account: account, assistant: assistant, name: 'Invoicely', url: 'https://mcp.example.com/mcp', auth_type: 'oauth')
   end
   let(:servers_page) do
-    "https://app.example.com/app/accounts/#{account.id}/captain/#{assistant.id}/tools/mcp?mcp_server_id=#{server.id}"
+    "/app/accounts/#{account.id}/captain/#{assistant.id}/tools/mcp?mcp_server_id=#{server.id}"
   end
   # The params each sign-in was finished with
   let(:authorized) { [] }
@@ -21,9 +21,7 @@ RSpec.describe 'Captain::McpCallbacks', type: :request do
     allow(Captain::Mcp::Connection).to receive(:new).and_wrap_original do |original, signed_in_server|
       original.call(signed_in_server).tap { |connection| allow(connection).to receive(:authorize, &authorize) }
     end
-    with_modified_env(FRONTEND_URL: 'https://app.example.com') do
-      get '/captain/mcp/callback', params: { code: 'code-1', state: state, iss: 'https://auth.example.com', extra: 'dropped' }
-    end
+    get '/captain/mcp/callback', params: { code: 'code-1', state: state, iss: 'https://auth.example.com', extra: 'dropped' }
   end
 
   it 'finishes the sign-in, marks the server active and returns to its page' do
@@ -45,14 +43,14 @@ RSpec.describe 'Captain::McpCallbacks', type: :request do
     finish_sign_in { |params| authorized << params }
     finish_sign_in { |params| authorized << params }
 
-    expect(response).to redirect_to('https://app.example.com/app')
+    expect(response).to redirect_to('/app')
     expect(authorized.size).to eq(1)
   end
 
   it 'sends an unknown state to the app without signing in' do
     finish_sign_in(state: 'unknown') { |params| authorized << params }
 
-    expect(response).to redirect_to('https://app.example.com/app')
+    expect(response).to redirect_to('/app')
     expect(authorized).to be_empty
   end
 
@@ -61,7 +59,7 @@ RSpec.describe 'Captain::McpCallbacks', type: :request do
 
     finish_sign_in { |params| authorized << params }
 
-    expect(response).to redirect_to('https://app.example.com/app')
+    expect(response).to redirect_to('/app')
     expect(authorized).to be_empty
   end
 end

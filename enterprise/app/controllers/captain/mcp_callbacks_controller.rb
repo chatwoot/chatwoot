@@ -5,12 +5,9 @@ class Captain::McpCallbacksController < ApplicationController
 
   def show
     server = Captain::McpServer.for_oauth_state(params[:state])
-    # The callback can arrive on another host than FRONTEND_URL, such as localhost behind a tunnel
-    unless server&.account&.feature_enabled?(Captain::McpServer::FEATURE_FLAG)
-      return redirect_to("#{ENV.fetch('FRONTEND_URL', '')}/app", allow_other_host: true)
-    end
+    return redirect_to('/app') unless server&.account&.feature_enabled?(Captain::McpServer::FEATURE_FLAG)
 
-    redirect_to servers_page_url(server, sign_in_result(server)), allow_other_host: true
+    redirect_to servers_page_path(server, sign_in_result(server))
   end
 
   private
@@ -24,8 +21,7 @@ class Captain::McpCallbacksController < ApplicationController
     'failed'
   end
 
-  def servers_page_url(server, result)
-    "#{ENV.fetch('FRONTEND_URL', '')}/app/accounts/#{server.account_id}/captain/#{server.assistant_id}/tools/mcp" \
-      "?mcp_server_id=#{server.id}&sign_in=#{result}"
+  def servers_page_path(server, result)
+    "/app/accounts/#{server.account_id}/captain/#{server.assistant_id}/tools/mcp?mcp_server_id=#{server.id}&sign_in=#{result}"
   end
 end
