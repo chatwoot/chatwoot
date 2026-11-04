@@ -35,6 +35,10 @@ class Captain::McpServer < ApplicationRecord
   # OpenAI function names allow these characters only, and at most 64 of them
   INVALID_TOOL_NAME_CHARACTERS = /[^a-zA-Z0-9_-]/
   MAX_TOOL_NAME_LENGTH = Captain::CustomTool::MAX_SLUG_LENGTH
+  # RubyLLM sets these on MCP requests after the token header, so a token header with one of these names would replace
+  # them. Authorization is free: a server with its own token header gets no bearer token.
+  RESERVED_HEADERS = %w[host content-length content-type accept last-event-id].freeze
+  RESERVED_HEADER_PREFIX = 'mcp-'.freeze
 
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -127,9 +131,11 @@ class Captain::McpServer < ApplicationRecord
   def validate_auth_header
     return if auth_header.nil?
     return errors.add(:auth_header, :invalid) unless Captain::CustomTool::HEADER_NAME_PATTERN.match?(auth_header)
-    return unless Captain::CustomTool.reserved_header?(auth_header)
 
-    errors.add(:auth_header, I18n.t('captain.custom_tool.headers.reserved', name: auth_header))
+    name = auth_header.downcase
+    return unless RESERVED_HEADERS.include?(name) || name.start_with?(RESERVED_HEADER_PREFIX)
+
+    errors.add(:auth_header, I18n.t('captain.mcp_server.reserved_header', name: auth_header))
   end
 
   # The token is sent as a header value, so control characters would break the request

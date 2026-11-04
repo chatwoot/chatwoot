@@ -618,6 +618,7 @@ en:
       token_rejected: 'The server rejected the token. Check the token and the header name.'
       token_required: 'The server now asks for a token. Remove it and connect it again with a token.'
       not_oauth: 'This server does not use OAuth sign-in'
+      reserved_header: '%{name} is set by the MCP connection and cannot carry the token'
       tools:
         duplicate: 'cannot list the same tool twice'
         invalid_selection: 'Each tool selection must be an object with the tool name, and its param_sources and settings must be objects'
