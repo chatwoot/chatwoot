@@ -1,6 +1,7 @@
 # The RubyLLM credential store for one MCP server. RubyLLM keeps OAuth sign-in state, tokens and client
 # registrations here. A sign-in starts in one request and ends in the callback, and agent runs refresh tokens in other
-# processes, so the store keeps them in the server's encrypted oauth_credentials instead of RubyLLM's own table.
+# processes, so the store keeps them in the server's oauth_credentials instead of RubyLLM's own table. The model encrypts
+# that column when the install has encryption keys.
 # The store loads its own copy of the server row, so it never locks or writes the caller's record, which may hold an
 # admin edit that is not saved yet.
 class Captain::Mcp::CredentialStore

@@ -100,6 +100,12 @@ RSpec.describe Captain::McpTool do
     end
   end
 
+  it 'rejects a missing enabled value' do
+    tool.enabled = nil
+
+    expect(tool).not_to be_valid
+  end
+
   it 'rejects a setting that tools do not have' do
     tool.settings = { 'run_twice' => true }
 

@@ -52,6 +52,10 @@ RSpec.describe Captain::McpServer do
       expect(described_class.new(attributes.merge(auth_type: 'token', auth_header: 'Api Key'))).not_to be_valid
     end
 
+    it 'rejects a missing enabled value' do
+      expect(described_class.new(attributes.merge(enabled: nil))).not_to be_valid
+    end
+
     it 'rejects a token with control characters, which would break the request' do
       expect(described_class.new(attributes.merge(auth_type: 'token', auth_config: { 'token' => "abc\n" }))).not_to be_valid
     end

@@ -104,6 +104,12 @@ RSpec.describe Captain::Mcp::ServerUpdateService do
     expect { update({}, ['get_customer']) }.to raise_error(ActiveRecord::RecordInvalid, /Each tool selection must be an object/)
   end
 
+  it 'rejects a tool that is neither enabled nor disabled' do
+    update({}, [{ 'name' => 'get_customer' }])
+
+    expect { update({}, [{ 'name' => 'get_customer', 'enabled' => nil }]) }.to raise_error(ActiveRecord::RecordInvalid, /Enabled is not included/)
+  end
+
   it 'rejects the same tool twice' do
     expect { update({}, [{ 'name' => 'get_customer' }, { 'name' => 'get_customer' }]) }
       .to raise_error(ActiveRecord::RecordInvalid, /cannot list the same tool twice/)

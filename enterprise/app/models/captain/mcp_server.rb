@@ -64,6 +64,7 @@ class Captain::McpServer < ApplicationRecord
   validates :url, presence: true, uniqueness: { scope: :assistant_id }
   validate :validate_plain_url
   validates :name, presence: true
+  validates :enabled, inclusion: { in: [true, false] }
   validate :validate_auth_header
   validate :validate_token
 

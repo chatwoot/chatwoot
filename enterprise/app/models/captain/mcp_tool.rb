@@ -41,7 +41,9 @@ class Captain::McpTool < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: Captain::CustomTool::SETTINGS_VALIDATION,
                  attribute_resolver: ->(record) { record.settings }
-  validate :validate_captain_name
+  validates :enabled, inclusion: { in: [true, false] }
+  # The name is set once on create, so only a new tool can clash
+  validate :validate_captain_name, on: :create
   validate :validate_param_sources
 
   # Keys are sorted first, so the same definition always has the same digest. The name is stored beside it.
