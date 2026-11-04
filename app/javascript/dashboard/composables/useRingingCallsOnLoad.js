@@ -17,11 +17,11 @@ export function useRingingCallsOnLoad() {
     )
   );
 
-  // Keyed on the account too: moving between two voice accounts keeps the flag on
   watch(
-    [accountId, isVoiceEnabled],
-    ([, enabled]) => {
-      if (enabled) loadRingingCalls().catch(() => {});
+    isVoiceEnabled,
+    enabled => {
+      if (enabled)
+        loadRingingCalls(store.getters.getCurrentUserID).catch(() => {});
     },
     { immediate: true }
   );

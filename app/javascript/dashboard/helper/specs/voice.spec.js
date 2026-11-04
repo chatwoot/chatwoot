@@ -4,6 +4,8 @@ import {
   loadRingingCalls,
   markCallDismissed,
   syncConversationCallVisibility,
+  markLocalCall,
+  clearLocalCall,
 } from '../voice';
 
 import CallsAPI from 'dashboard/api/calls';
@@ -146,6 +148,43 @@ describe('voice call ringing', () => {
     expect(callsStore.removeCall).not.toHaveBeenCalled();
   });
 
+  it('drops a ringing Twilio card once the agent can no longer open its conversation, but not the call this tab is on', () => {
+    callsStore.calls = [
+      {
+        callSid: 'CA12',
+        conversationId: 42,
+        provider: 'twilio',
+        callDirection: 'inbound',
+      },
+      {
+        callSid: 'CA13',
+        conversationId: 42,
+        provider: 'twilio',
+        callDirection: 'inbound',
+        isActive: true,
+      },
+    ];
+    markLocalCall('CA13');
+
+    syncConversationCallVisibility(
+      { id: 42, assignee_id: TEAMMATE },
+      ME,
+      () => false
+    );
+    clearLocalCall('CA13');
+
+    expect(callsStore.removeCall).toHaveBeenCalledTimes(1);
+    expect(callsStore.removeCall).toHaveBeenCalledWith('CA12');
+
+    // The dismiss outlives a late re-send of the ring
+    handleVoiceCallCreated(
+      callMessage({ sid: 'CA12', ringUserIds: [ME] }),
+      ME,
+      true
+    );
+    expect(callsStore.addCall).not.toHaveBeenCalled();
+  });
+
   it('still hides a WhatsApp call assigned to another agent', () => {
     handleVoiceCallCreated(
       callMessage({ sid: 'WA1', provider: 'whatsapp', assigneeId: TEAMMATE }),
@@ -175,6 +214,7 @@ describe('voice call ringing', () => {
           payload: [
             ringing('CA7'),
             ringing('CA8', { agent: { id: TEAMMATE } }),
+            ringing('CA11', { agent: { id: ME } }),
             ringing('WA2', { provider: 'whatsapp' }),
           ],
         },
@@ -183,7 +223,7 @@ describe('voice call ringing', () => {
         data: { meta: { total_pages: 2 }, payload: [ringing('CA10')] },
       });
 
-    await loadRingingCalls();
+    await loadRingingCalls(ME);
 
     expect(CallsAPI.get).toHaveBeenCalledTimes(2);
     expect(CallsAPI.get).toHaveBeenCalledWith({
@@ -191,9 +231,12 @@ describe('voice call ringing', () => {
       direction: 'inbound',
       page: 2,
     });
-    expect(callsStore.addCall).toHaveBeenCalledTimes(2);
+    expect(callsStore.addCall).toHaveBeenCalledTimes(3);
     expect(callsStore.addCall).toHaveBeenCalledWith(
       expect.objectContaining({ callSid: 'CA10' })
+    );
+    expect(callsStore.addCall).toHaveBeenCalledWith(
+      expect.objectContaining({ callSid: 'CA11' })
     );
     expect(callsStore.addCall).toHaveBeenCalledWith(
       expect.objectContaining({

@@ -195,9 +195,10 @@ const MAX_RINGING_CALL_PAGES = 4;
 
 // A routed call rings agents whose conversation list may not hold its conversation, and the
 // call widget mounts only once a call is in the store, so a page load asks the server for the
-// calls ringing for this agent
-export async function loadRingingCalls() {
-  const calls = [];
+// calls ringing for this agent. A call this agent claimed stays ringing until their
+// connection joins, and only they can retry it, so it is restored as well.
+export async function loadRingingCalls(currentUserId) {
+  const callsStore = useCallsStore();
   let page = 1;
   let totalPages;
   do {
@@ -207,35 +208,32 @@ export async function loadRingingCalls() {
       direction: VOICE_CALL_DIRECTION.INBOUND,
       page,
     });
-    calls.push(...data.payload);
+    data.payload
+      .filter(
+        call =>
+          isRoutedCall(call.provider, call.direction) &&
+          (!call.agent || call.agent.id === currentUserId) &&
+          !dismissedCallSids.has(call.call_id)
+      )
+      .forEach(call => {
+        callsStore.addCall({
+          callSid: call.call_id,
+          callId: call.id,
+          provider: call.provider,
+          conversationId: call.conversation.display_id,
+          inboxId: call.inbox.id,
+          callDirection: call.direction,
+          caller: call.contact && {
+            name: call.contact.name,
+            phone: call.contact.phone_number,
+            avatar: call.contact.avatar,
+            additionalAttributes: {},
+          },
+        });
+      });
     totalPages = data.meta.total_pages;
     page += 1;
   } while (page <= Math.min(totalPages, MAX_RINGING_CALL_PAGES));
-
-  const callsStore = useCallsStore();
-  calls
-    .filter(
-      call =>
-        isRoutedCall(call.provider, call.direction) &&
-        !call.agent &&
-        !dismissedCallSids.has(call.call_id)
-    )
-    .forEach(call => {
-      callsStore.addCall({
-        callSid: call.call_id,
-        callId: call.id,
-        provider: call.provider,
-        conversationId: call.conversation.display_id,
-        inboxId: call.inbox.id,
-        callDirection: call.direction,
-        caller: call.contact && {
-          name: call.contact.name,
-          phone: call.contact.phone_number,
-          avatar: call.contact.avatar,
-          additionalAttributes: {},
-        },
-      });
-    });
 }
 
 export function handleVoiceCallUpdated(
@@ -310,7 +308,8 @@ export function handleVoiceCallUpdated(
 }
 
 // `canOpenConversation` turns false once the agent's role no longer reaches the conversation,
-// which also blocks joining or dismissing a call that still rings for them
+// which also blocks joining or dismissing a call that still rings for them. The call this tab
+// is joining or on stays: removing it would hang it up.
 export function syncConversationCallVisibility(
   conversation,
   currentUserId,
@@ -328,7 +327,7 @@ export function syncConversationCallVisibility(
     call =>
       call.conversationId === conversation.id &&
       (isRoutedCall(call.provider, call.callDirection)
-        ? !canOpenConversation()
+        ? !isLocalCall(call.callSid) && !canOpenConversation()
         : !shouldShowCall({
             callDirection: call.callDirection,
             senderId: call.senderId,
