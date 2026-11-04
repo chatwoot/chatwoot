@@ -1,9 +1,6 @@
 module Api::V1::Accounts::Concerns::BandwidthConfiguration
   extend ActiveSupport::Concern
 
-  CONFIG_KEYS = %w[account_id application_id api_key api_secret client_id client_secret].freeze
-  OAUTH_REQUIRED_KEYS = %w[account_id application_id client_id client_secret].freeze
-
   private
 
   def prepare_bandwidth_configuration
@@ -15,8 +12,7 @@ module Api::V1::Accounts::Concerns::BandwidthConfiguration
       return
     end
     config = merged_bandwidth_configuration(supplied)
-    return if action_name == 'update' && !config.keys.intersect?(%w[client_id client_secret])
-    return unless validate_bandwidth_oauth_config(config, supplied)
+    return unless validate_bandwidth_configuration(config)
 
     params[:channel][:provider_config] = config
   rescue CustomExceptions::Bandwidth::AuthenticationError => e
@@ -37,20 +33,16 @@ module Api::V1::Accounts::Concerns::BandwidthConfiguration
     params[:channel][:type] == 'sms'
   end
 
-  def valid_bandwidth_config_params?(config)
-    config.keys.all? do |key|
-      CONFIG_KEYS.include?(key) && config[key].is_a?(String) && config[key].present?
-    end
-  end
-
-  def validate_bandwidth_oauth_config(config, supplied)
-    complete = OAUTH_REQUIRED_KEYS.all? { |key| config[key].is_a?(String) && config[key].present? }
-    unless complete && valid_bandwidth_config_params?(supplied)
+  def validate_bandwidth_configuration(config)
+    channel = action_name == 'update' ? @inbox.channel : Current.account.sms_channels.build(phone_number: params.dig(:channel, :phone_number))
+    channel.assign_attributes(provider_config: config)
+    channel.validate!
+    if action_name == 'create' && !channel.oauth?
       render_could_not_create_error(I18n.t('errors.bandwidth.invalid_configuration'))
       return false
     end
 
-    Sms::BandwidthTokenService.new(config: config).token(force: true)
+    Sms::BandwidthTokenService.new(config: config).token(force: true) if channel.oauth?
     true
   end
 end

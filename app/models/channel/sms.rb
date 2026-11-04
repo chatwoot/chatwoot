@@ -20,8 +20,12 @@ class Channel::Sms < ApplicationRecord
 
   self.table_name = 'channel_sms'
   EDITABLE_ATTRS = [:phone_number, { provider_config: {} }].freeze
+  CONFIG_KEYS = %w[account_id application_id api_key api_secret client_id client_secret].freeze
+  OAUTH_REQUIRED_KEYS = %w[account_id application_id client_id client_secret].freeze
+  LEGACY_REQUIRED_KEYS = %w[account_id application_id api_key api_secret].freeze
 
   validates :phone_number, presence: true, uniqueness: true
+  validate :validate_provider_config
 
   def name
     'Sms'
@@ -45,7 +49,7 @@ class Channel::Sms < ApplicationRecord
   end
 
   def oauth?
-    provider_config.to_h.key?('client_id') || provider_config.to_h.key?('client_secret')
+    provider_config.is_a?(Hash) && provider_config.keys.intersect?(%w[client_id client_secret])
   end
 
   def media_download_options
@@ -55,6 +59,19 @@ class Channel::Sms < ApplicationRecord
   end
 
   private
+
+  def validate_provider_config
+    config = provider_config
+    required_keys = oauth? ? OAUTH_REQUIRED_KEYS : LEGACY_REQUIRED_KEYS
+    return if config.is_a?(Hash) && (required_keys - config.keys).empty? && (config.keys - CONFIG_KEYS).empty? &&
+              valid_provider_config_values?
+
+    errors.add(:provider_config, I18n.t('errors.bandwidth.invalid_configuration'))
+  end
+
+  def valid_provider_config_values?
+    provider_config.values.all? { |value| value.is_a?(String) && value.present? }
+  end
 
   def message_body(contact_number, message_content)
     {
