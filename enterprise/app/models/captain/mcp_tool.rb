@@ -24,34 +24,11 @@
 # A tool on an MCP server that an admin approved for Captain, pinned to the definition the admin reviewed.
 # Captain uses it only while the server's live definition still matches approved_digest.
 class Captain::McpTool < ApplicationRecord
-  include Concerns::VerifiedEmailSourceable
-
   self.table_name = 'captain_mcp_tools'
 
   # OpenAI function names allow these characters only, and at most 64 of them
   INVALID_NAME_CHARACTERS = /[^a-zA-Z0-9_-]/
   MAX_CAPTAIN_NAME_LENGTH = Captain::CustomTool::MAX_SLUG_LENGTH
-
-  PARAM_SOURCE_FIXED = 'fixed'.freeze
-  PARAM_SOURCES_VALIDATION = {
-    'type': 'object',
-    'additionalProperties': {
-      'oneOf': [
-        {
-          'type': 'object',
-          'properties': { 'source': { 'const': VERIFIED_EMAIL_SOURCE } },
-          'required': %w[source],
-          'additionalProperties': false
-        },
-        {
-          'type': 'object',
-          'properties': { 'source': { 'const': PARAM_SOURCE_FIXED }, 'value': { 'type': 'string', 'minLength': 1 } },
-          'required': %w[source value],
-          'additionalProperties': false
-        }
-      ]
-    }
-  }.to_json.freeze
 
   belongs_to :account
   belongs_to :mcp_server, class_name: 'Captain::McpServer'
@@ -61,9 +38,6 @@ class Captain::McpTool < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { scope: :mcp_server_id }
   validates :approved_digest, format: { with: /\Asha256:[0-9a-f]{64}\z/ }
-  validates_with JsonSchemaValidator,
-                 schema: PARAM_SOURCES_VALIDATION,
-                 attribute_resolver: ->(record) { record.param_sources }
   validates_with JsonSchemaValidator,
                  schema: Captain::CustomTool::SETTINGS_VALIDATION,
                  attribute_resolver: ->(record) { record.settings }
@@ -102,11 +76,18 @@ class Captain::McpTool < ApplicationRecord
     approved_definition['input_schema']
   end
 
-  private
-
-  def sources_by_param
-    param_sources.transform_values { |source| source['source'] }
+  # The admin set the tool to run only for a customer who verified an email with a one-time code
+  def requires_email_verification?
+    settings['requires_email_verification'] == true
   end
+
+  # The tool runs only for a customer who proved who they are, so Captain offers email verification.
+  # A parameter that takes a proven value cannot be filled without that proof, so it needs no setting.
+  def requires_verified_customer?
+    requires_email_verification? || param_sources.values.any? { |entry| Captain::ParamSources.proven?(entry) }
+  end
+
+  private
 
   # The name Captain sees. The server ID keeps names apart across servers, and the double underscore
   # keeps server 1's tool "2_x" apart from server 12's tool "x".
@@ -122,23 +103,9 @@ class Captain::McpTool < ApplicationRecord
     errors.add(:name, I18n.t('captain.mcp_server.tools.name_clash', names: [clash.name, name].join(', '))) if clash
   end
 
-  # The schema checks above guarantee the shapes read here, so this runs only once they pass
   def validate_param_sources
-    return if errors.any?
-
     properties = input_schema['properties'].is_a?(Hash) ? input_schema['properties'] : {}
-    unknown = param_sources.keys - properties.keys
-    return errors.add(:param_sources, I18n.t('captain.mcp_server.tools.unknown_param', tool: name, names: unknown.join(', '))) if unknown.any?
-
-    validate_verified_email_param(properties)
-  end
-
-  def validate_verified_email_param(properties)
-    verified = param_sources.select { |_name, source| source['source'] == VERIFIED_EMAIL_SOURCE }.keys
-    return errors.add(:param_sources, I18n.t('captain.mcp_server.tools.one_verified_email', tool: name)) if verified.size > 1
-    # Verified values are text, so a parameter that takes one must be a string
-    return if verified.none? || properties.dig(verified.first, 'type') == 'string'
-
-    errors.add(:param_sources, I18n.t('captain.mcp_server.tools.verified_email_type', tool: name, name: verified.first))
+    Captain::ParamSources.validate(param_sources, properties: properties, tool_name: name)
+                         .each { |error| errors.add(:param_sources, error) }
   end
 end

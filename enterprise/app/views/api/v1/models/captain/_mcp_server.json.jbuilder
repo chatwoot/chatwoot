@@ -17,7 +17,7 @@ json.tools mcp_server.tools do |tool|
   json.approved_digest tool.approved_digest
   json.param_sources tool.param_sources
   json.settings tool.settings
-  json.requires_email_verification tool.requires_email_verification?
+  json.requires_email_verification tool.requires_verified_customer?
   json.enabled tool.enabled
 end
 json.created_at mcp_server.created_at.to_i
