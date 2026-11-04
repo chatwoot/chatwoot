@@ -52,3 +52,5 @@ Local load rehearsal: the streaming reader consumed 250,000 logical records (10,
 5. Verify the daily scheduler runs artifact cleanup. Terminal source files, rejected rows, and export downloads expire after 30 days; history remains available.
 
 Production rollout and live storage/email verification remain outstanding. The linked tracking issue records the current PR and delivery status.
+
+When upgrading, drain workers running the previous release before abandoning a stalled legacy import. Updated workers respect abandonment between write batches. A delayed legacy job cannot write after abandonment.

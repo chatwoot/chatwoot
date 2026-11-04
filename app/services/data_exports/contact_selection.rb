@@ -29,13 +29,10 @@ class DataExports::ContactSelection
   end
 
   def contacts
-    if options[:payload].present?
-      Contacts::FilterService.new(@account, @user, options).perform(count: false).fetch(:contacts)
-    elsif options[:label].present?
-      @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2')).tagged_with(options[:label], any: true)
-    else
-      @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
-    end
+    return Contacts::FilterService.new(@account, @user, options).perform(count: false).fetch(:contacts) if options[:payload].present?
+
+    scope = @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
+    options[:label].present? ? scope.tagged_with(options[:label], any: true) : scope
   end
 
   private

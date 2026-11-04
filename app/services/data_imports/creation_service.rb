@@ -13,15 +13,19 @@ class DataImports::CreationService
 
     totals = validate_source
     blob = upload_file if @provider == 'csv'
-    @account.with_lock do
+    data_import = @account.with_lock do
       next if active_import?
 
-      @account.data_imports.new(attributes(totals)).tap do |data_import|
-        data_import.assign_active_import_run_id
-        data_import.import_file.attach(blob) if blob
-        data_import.save!
+      @account.data_imports.new(attributes(totals)).tap do |record|
+        record.assign_active_import_run_id
+        record.import_file.attach(blob) if blob
+        record.save!
       end
     end
+    return unless data_import
+
+    @source_class.import_job_class.perform_later(data_import, data_import.active_import_run_id)
+    data_import
   ensure
     purge_unattached_blob(blob)
   end

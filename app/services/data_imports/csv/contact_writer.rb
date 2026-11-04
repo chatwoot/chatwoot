@@ -4,7 +4,7 @@ class DataImports::Csv::ContactWriter
 
   def initialize(account, fields)
     @account = account
-    @fields = fields.except(*DIAGNOSTIC_FIELDS).dup
+    @fields = fields.except(*DIAGNOSTIC_FIELDS)
     @fields['email'] = @fields['email'].strip.downcase if @fields['email'].present?
     phone = @fields['phone_number']&.strip&.delete_prefix("'")
     @fields['phone_number'] = phone.start_with?('+') ? phone : "+#{phone}" if phone.present?
@@ -59,7 +59,7 @@ class DataImports::Csv::ContactWriter
 
   def validated_labels
     labels = @fields['labels'].to_s.split(',').map { |label| label.strip.downcase }.reject(&:blank?).uniq
-    unknown = labels - @account.labels.pluck(:title).map(&:downcase)
+    unknown = labels - @account.labels.where(title: labels).pluck(:title)
     raise CustomExceptions::DataImport::InvalidCsvError, "Unknown labels: #{unknown.join(', ')}" if unknown.any?
 
     labels

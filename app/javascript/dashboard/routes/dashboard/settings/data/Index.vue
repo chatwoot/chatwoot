@@ -21,7 +21,6 @@ import DataImportsAPI from 'dashboard/api/dataImports';
 import DataExportsAPI from 'dashboard/api/dataExports';
 import NewImportDialog from './NewImportDialog.vue';
 import NewExportDialog from './NewExportDialog.vue';
-import ExportsList from './ExportsList.vue';
 import { consumeExportDraft } from './exportDraft';
 import DataOperationList from './components/DataOperationList.vue';
 import { POLL_INTERVAL_MS, isActiveImport } from './importStatus';
@@ -44,7 +43,13 @@ const isLoading = ref(true);
 const isRefreshing = ref(false);
 const isPolling = ref(false);
 const showImportDrawer = ref(false);
-const activeTab = ref(route.query.tab === 'export' ? 'export' : 'import');
+const activeTab = computed(() =>
+  route.query.tab === 'export' ? 'export' : 'import'
+);
+const isExport = computed(() => activeTab.value === 'export');
+const visibleItems = computed(() =>
+  isExport.value ? dataExports.value : dataImports.value
+);
 let pollTimer;
 let isPageActive = false;
 let requestVersion = 0;
@@ -60,17 +65,13 @@ const activeTabIndex = computed(() =>
   tabs.value.findIndex(tab => tab.key === activeTab.value)
 );
 
-const hasActiveImport = computed(() => dataImports.value.some(isActiveImport));
 const hasActiveOperation = computed(
-  () => hasActiveImport.value || dataExports.value.some(isActiveImport)
+  () =>
+    dataImports.value.some(isActiveImport) ||
+    dataExports.value.some(isActiveImport)
 );
 
-const dataImportRoute = dataImport => ({
-  name: 'settings_data_import_show',
-  params: { accountId: accountId.value, dataImportId: dataImport.id },
-});
-
-const fetchImports = async () => {
+const fetchHistory = async () => {
   const version = requestVersion;
   const [response, exportsResponse] = await Promise.all([
     DataImportsAPI.get(),
@@ -91,7 +92,7 @@ const stopPolling = () => {
   pollTimer = null;
 };
 
-const refreshImportsInBackground = async () => {
+const refreshInBackground = async () => {
   if (
     !isPageActive ||
     isPolling.value ||
@@ -103,7 +104,7 @@ const refreshImportsInBackground = async () => {
 
   isPolling.value = true;
   try {
-    await fetchImports();
+    await fetchHistory();
   } catch {
     loadError.value = t('DATA_IMPORTS.ALERTS.LOAD_FAILED');
   } finally {
@@ -116,7 +117,7 @@ const startPolling = () => {
   stopPolling();
   if (!isPageActive || !hasActiveOperation.value) return;
 
-  pollTimer = window.setInterval(refreshImportsInBackground, POLL_INTERVAL_MS);
+  pollTimer = window.setInterval(refreshInBackground, POLL_INTERVAL_MS);
 };
 
 const refresh = async ({ showLoader = true } = {}) => {
@@ -124,7 +125,7 @@ const refresh = async ({ showLoader = true } = {}) => {
   else isRefreshing.value = true;
 
   try {
-    await fetchImports();
+    await fetchHistory();
   } catch {
     loadError.value = t('DATA_IMPORTS.ALERTS.LOAD_FAILED');
   } finally {
@@ -138,10 +139,15 @@ const refresh = async ({ showLoader = true } = {}) => {
 };
 
 const openImport = dataImportId => {
-  router.push(dataImportRoute({ id: dataImportId }));
+  showImportDrawer.value = false;
+  router.push({
+    name: 'settings_data_import_show',
+    params: { accountId: accountId.value, dataImportId },
+  });
 };
 
 const openImportDrawer = () => {
+  initialSource.value = '';
   if (canCreateImport.value) showImportDrawer.value = true;
 };
 
@@ -158,7 +164,6 @@ const newExport = () => {
   showExportDialog.value = true;
 };
 const consumeAction = async () => {
-  activeTab.value = route.query.tab === 'export' ? 'export' : 'import';
   if (!route.query.action) return;
   if (route.query.action === 'import') {
     initialSource.value = 'csv';
@@ -179,22 +184,13 @@ const consumeAction = async () => {
   await router.replace({ query: { tab: activeTab.value } });
 };
 
-const onImportCreated = dataImportId => {
-  showImportDrawer.value = false;
-  router.push({
-    name: 'settings_data_import_show',
-    params: { accountId: accountId.value, dataImportId },
-  });
-};
-
 const onTabChanged = tab => {
-  activeTab.value = tab.key;
   router.replace({ query: { tab: tab.key } });
 };
 
 const handleVisibilityChange = () => {
   if (isPageActive && !document.hidden && hasActiveOperation.value) {
-    refreshImportsInBackground();
+    refreshInBackground();
   }
 };
 
@@ -207,13 +203,6 @@ onActivated(async () => {
   startPolling();
   document.addEventListener('visibilitychange', handleVisibilityChange);
 });
-
-watch(
-  () => route.query.tab,
-  tab => {
-    if (isPageActive) activeTab.value = tab === 'export' ? 'export' : 'import';
-  }
-);
 
 watch(
   () => route.query.action,
@@ -326,39 +315,53 @@ onBeforeUnmount(() => {
       >
         {{ shortcutError }}
       </p>
-      <ExportsList
-        v-if="activeTab === 'export'"
-        :exports="dataExports"
-        @open="openExport"
-        @create="newExport"
-      />
-
       <div
-        v-else-if="!dataImports.length"
+        v-if="!visibleItems.length"
         class="flex min-h-80 flex-col items-center justify-center gap-4 rounded-xl border border-n-weak bg-n-solid-1 px-6 py-16 text-center"
       >
         <span
           class="flex size-12 items-center justify-center rounded-xl border border-n-weak bg-n-alpha-1"
         >
-          <Icon icon="i-lucide-file-input" class="size-5 text-n-slate-11" />
+          <Icon
+            :icon="isExport ? 'i-lucide-file-output' : 'i-lucide-file-input'"
+            class="size-5 text-n-slate-11"
+          />
         </span>
         <div class="flex flex-col gap-1">
           <h3 class="text-heading-2 text-n-slate-12">
-            {{ $t('DATA_IMPORTS.TABLE.EMPTY') }}
+            {{
+              isExport
+                ? $t('DATA_EXPORTS.EMPTY')
+                : $t('DATA_IMPORTS.TABLE.EMPTY')
+            }}
           </h3>
           <p class="max-w-sm text-body-main text-n-slate-11">
-            {{ $t('DATA_IMPORTS.TABLE.EMPTY_DESCRIPTION') }}
+            {{
+              isExport
+                ? $t('DATA_EXPORTS.EMPTY_DESCRIPTION')
+                : $t('DATA_IMPORTS.TABLE.EMPTY_DESCRIPTION')
+            }}
           </p>
         </div>
         <Button
           size="sm"
           icon="i-lucide-plus"
-          :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
-          @click="openImportDrawer"
+          :label="
+            isExport
+              ? $t('DATA_EXPORTS.NEW')
+              : $t('DATA_IMPORTS.TABLE.NEW_IMPORT')
+          "
+          :disabled="!isExport && !canCreateImport"
+          @click="isExport ? newExport() : openImportDrawer()"
         />
       </div>
 
-      <DataOperationList v-else :items="dataImports" @open="openImport" />
+      <DataOperationList
+        v-else
+        :items="visibleItems"
+        :type="activeTab"
+        @open="isExport ? openExport($event) : openImport($event)"
+      />
     </template>
   </SettingsLayout>
 
@@ -368,7 +371,7 @@ onBeforeUnmount(() => {
     :integration-enabled="integrationEnabled"
     :initial-source="initialSource"
     @close="showImportDrawer = false"
-    @created="onImportCreated"
+    @created="openImport"
   />
   <NewExportDialog
     :show="showExportDialog"

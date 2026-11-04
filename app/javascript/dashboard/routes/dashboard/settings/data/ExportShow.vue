@@ -65,17 +65,19 @@ const summaryItems = computed(() => [
 ]);
 
 const refresh = async () => {
-  if (refreshing.value) return;
+  if (refreshing.value || busy.value) return;
   refreshing.value = true;
   const current = generation;
   try {
     const response = await DataExportsAPI.show(route.params.dataExportId);
     if (active && current === generation) dataExport.value = response.data;
   } catch {
-    useAlert(t('DATA_EXPORTS.ERROR'));
+    if (active && current === generation) useAlert(t('DATA_EXPORTS.ERROR'));
   } finally {
-    refreshing.value = false;
-    loading.value = false;
+    if (current === generation) {
+      refreshing.value = false;
+      loading.value = false;
+    }
   }
 };
 const download = async () => {
@@ -92,9 +94,11 @@ const download = async () => {
 const rerun = async () => {
   busy.value = true;
   generation += 1;
+  const current = generation;
+  refreshing.value = false;
   try {
     const response = await DataExportsAPI.rerun(dataExport.value.id);
-    dataExport.value = response.data;
+    if (!active || current !== generation) return;
     await router.replace({
       name: 'settings_data_export_show',
       params: { ...route.params, dataExportId: response.data.id },
@@ -107,13 +111,13 @@ const rerun = async () => {
 };
 const stop = () => {
   active = false;
+  refreshing.value = false;
   generation += 1;
   window.clearInterval(timer);
 };
-onActivated(async () => {
+onActivated(() => {
   active = true;
-  await refresh();
-  if (!active) return;
+  refresh();
   timer = window.setInterval(() => {
     if (!document.hidden && running.value) refresh();
   }, POLL_INTERVAL_MS);

@@ -18,6 +18,6 @@ class CreateDataExports < ActiveRecord::Migration[7.1]
       t.timestamps
     end
     add_index :data_exports, [:account_id, :created_at]
-    add_index :data_exports, [:status, :updated_at]
+    add_index :data_exports, :completed_at, where: 'artifacts_expired_at IS NULL', name: 'index_data_exports_on_unexpired_completion'
   end
 end

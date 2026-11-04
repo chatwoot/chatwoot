@@ -109,7 +109,8 @@ class DataImports::Csv::Importer
 
   def stats
     counts = @data_import.items.group(:status).count
-    outcomes = @data_import.items.imported.group("metadata ->> 'outcome'").count
+    outcome = Arel::Nodes::InfixOperation.new('->>', DataImportItem.arel_table[:metadata], Arel::Nodes.build_quoted('outcome'))
+    outcomes = @data_import.items.imported.group(outcome).count
     imported = counts.fetch('imported', 0)
     failed = counts.fetch('failed', 0)
     skipped = counts.fetch('skipped', 0)

@@ -9,7 +9,7 @@ class DataExports::ContactsJob < ApplicationJob
 
     selection = DataExports::ContactSelection.new(account: data_export.account, user: data_export.initiated_by, options: data_export.export_options)
     contacts = selection.contacts
-    contacts = contacts.where('contacts.id <= ?', contacts.maximum(:id) || 0)
+    contacts = contacts.where(id: ..(contacts.maximum(:id) || 0))
     total = contacts.count
     data_export.with_lock { data_export.update!(total_records: total) if owned? }
     Tempfile.create(['contacts-export', '.csv']) do |file|

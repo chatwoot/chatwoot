@@ -36,11 +36,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def import
     return render json: { error: I18n.t('errors.contacts.import.failed') }, status: :unprocessable_entity if params[:import_file].blank?
 
-    source_params = { source_provider: 'csv', import_types: ['contacts'], import_file: params[:import_file] }
+    source_params = { source_provider: 'csv', import_file: params[:import_file] }
     data_import = DataImports::CreationService.new(account: Current.account, initiated_by: Current.user, source_params: source_params).perform
     return render json: { error: 'Another data import is already in progress.' }, status: :unprocessable_entity unless data_import
 
-    DataImports::Csv::PreparationJob.perform_later(data_import, data_import.active_import_run_id)
     head :ok
   rescue ArgumentError => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -108,8 +107,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     if ::OnlineStatusTracker.get_presence(
       @contact.account.id, 'Contact', @contact.id
     )
-      return render_error({ message: I18n.t('contacts.online.delete', contact_name: @contact.name.capitalize) },
-                          :unprocessable_entity)
+      return render json: { message: I18n.t('contacts.online.delete', contact_name: @contact.name.capitalize) }, status: :unprocessable_entity
     end
 
     @contact.destroy!
@@ -220,10 +218,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def process_avatar_from_url
     ::Avatar::AvatarFromUrlJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
-  end
-
-  def render_error(error, error_status)
-    render json: error, status: error_status
   end
 end
 

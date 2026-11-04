@@ -5,7 +5,7 @@ import DataExportsAPI from 'dashboard/api/dataExports';
 import dataRoutes from '../data.routes';
 import NewImportDialog from '../NewImportDialog.vue';
 import NewExportDialog from '../NewExportDialog.vue';
-import ExportsList from '../ExportsList.vue';
+import DataOperationList from '../components/DataOperationList.vue';
 import { saveExportDraft } from '../exportDraft';
 
 vi.mock('dashboard/api/dataImports', () => ({ default: { get: vi.fn() } }));
@@ -26,9 +26,9 @@ describe('data operation navigation', () => {
   beforeEach(() => {
     sessionStorage.clear();
     DataImportsAPI.get.mockResolvedValue({
-      data: { payload: [], can_create_import: true },
+      data: { payload: [{ id: 1 }], can_create_import: true },
     });
-    DataExportsAPI.get.mockResolvedValue({ data: { payload: [] } });
+    DataExportsAPI.get.mockResolvedValue({ data: { payload: [{ id: 2 }] } });
     router = createRouter({
       history: createMemoryHistory(),
       routes: dataRoutes.routes,
@@ -59,7 +59,7 @@ describe('data operation navigation', () => {
             Icon: true,
             NewImportDialog: true,
             NewExportDialog: true,
-            ExportsList: true,
+            DataOperationList: true,
           },
           mocks: { $t: key => key },
         },
@@ -92,11 +92,15 @@ describe('data operation navigation', () => {
     await openPage({ tab: 'import' });
     await router.push({ query: { tab: 'export' } });
     await flushPromises();
-    expect(wrapper.findComponent(ExportsList).exists()).toBe(true);
+    expect(wrapper.getComponent(DataOperationList).props('type')).toBe(
+      'export'
+    );
 
     router.back();
     await flushPromises();
-    expect(wrapper.findComponent(ExportsList).exists()).toBe(false);
+    expect(wrapper.getComponent(DataOperationList).props('type')).toBe(
+      'import'
+    );
     expect(DataImportsAPI.get).toHaveBeenCalledTimes(1);
   });
 });

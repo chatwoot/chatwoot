@@ -20,8 +20,4 @@ class DataImports::RunState
   def start!
     with_lock { @data_import.update!(status: :processing, started_at: @data_import.started_at || Time.current) }
   end
-
-  def heartbeat!
-    with_lock { @data_import.update!(updated_at: Time.current) }
-  end
 end

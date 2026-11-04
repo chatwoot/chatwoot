@@ -29,8 +29,4 @@ class DataImports::Csv::Source
   def self.client_error?(_error)
     false
   end
-
-  def initialize(data_import:)
-    @data_import = data_import
-  end
 end

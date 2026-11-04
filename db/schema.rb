@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_21_105045) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_04_085633) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1225,8 +1225,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_105045) do
     t.datetime "updated_at", null: false
     t.index ["account_id", "created_at"], name: "index_data_exports_on_account_id_and_created_at"
     t.index ["account_id"], name: "index_data_exports_on_account_id"
+    t.index ["completed_at"], name: "index_data_exports_on_unexpired_completion", where: "(artifacts_expired_at IS NULL)"
     t.index ["initiated_by_id"], name: "index_data_exports_on_initiated_by_id"
-    t.index ["status", "updated_at"], name: "index_data_exports_on_status_and_updated_at"
   end
 
   create_table "data_import_errors", force: :cascade do |t|
@@ -1258,8 +1258,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_21_105045) do
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["chatwoot_record_type", "chatwoot_record_id"], name: "idx_data_import_items_on_record"
     t.index ["data_import_id", "id"], name: "index_pending_data_import_items", where: "(status = 0)"
+    t.index ["chatwoot_record_type", "chatwoot_record_id"], name: "idx_data_import_items_on_record"
     t.index ["data_import_id", "source_object_type", "source_object_id"], name: "idx_data_import_items_on_import_and_source", unique: true
     t.index ["data_import_id"], name: "index_data_import_items_on_data_import_id"
     t.index ["source_provider", "source_object_type", "source_object_id"], name: "idx_data_import_items_on_source"

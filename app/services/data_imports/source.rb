@@ -6,8 +6,6 @@ class DataImports::Source
   }.freeze
 
   def self.for(data_import)
-    return source_class('csv').new(data_import: data_import) if data_import.csv_import?
-
     source_class(data_import.source_provider).new(
       access_token: data_import.access_token,
       source_metadata: data_import.source_metadata

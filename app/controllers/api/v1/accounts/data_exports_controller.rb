@@ -5,8 +5,6 @@ class Api::V1::Accounts::DataExportsController < Api::V1::Accounts::BaseControll
   before_action :check_authorization
 
   rescue_from ArgumentError, with: :invalid_export
-  rescue_from CustomExceptions::CustomFilter::InvalidAttribute, CustomExceptions::CustomFilter::InvalidOperator,
-              CustomExceptions::CustomFilter::InvalidQueryOperator, CustomExceptions::CustomFilter::InvalidValue, with: :invalid_export
 
   def index
     @data_exports = policy_scope(Current.account.data_exports).includes(:initiated_by, :export_file_attachment).order(created_at: :desc)

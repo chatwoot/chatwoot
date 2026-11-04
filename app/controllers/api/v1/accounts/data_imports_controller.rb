@@ -5,7 +5,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   before_action :check_authorization
 
   def index
-    @data_imports = policy_scope(Current.account.data_imports).includes(:initiated_by, :import_file_attachment, :failed_records_attachment)
+    @data_imports = policy_scope(Current.account.data_imports).includes(:initiated_by, :failed_records_attachment, import_file_attachment: :blob)
                                                               .order(created_at: :desc)
     data_import_ids = @data_imports.map(&:id)
     @import_errors_counts = DataImportError.non_skip_logs.where(data_import_id: data_import_ids).group(:data_import_id).count
@@ -27,12 +27,8 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
 
   def create
     @data_import = creation_service.perform
-    unless @data_import
-      render json: { message: 'Another data import is already in progress.' }, status: :unprocessable_entity
-      return
-    end
+    return render json: { message: 'Another data import is already in progress.' }, status: :unprocessable_entity unless @data_import
 
-    enqueue_import(@data_import)
     render_show
   rescue ArgumentError => e
     render_source_validation_error(e.message)

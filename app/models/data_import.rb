@@ -109,7 +109,7 @@ class DataImport < ApplicationRecord
   end
 
   def abandonable?
-    managed_import? && (pending? || processing?)
+    (pending? || processing?) && (managed_import? || (legacy_contacts_csv_import? && updated_at <= IMPORT_STALLED_AFTER.ago))
   end
 
   def abandon!

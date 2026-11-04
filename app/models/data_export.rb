@@ -25,7 +25,7 @@
 #  index_data_exports_on_account_id                 (account_id)
 #  index_data_exports_on_account_id_and_created_at  (account_id,created_at)
 #  index_data_exports_on_initiated_by_id            (initiated_by_id)
-#  index_data_exports_on_status_and_updated_at      (status,updated_at)
+#  index_data_exports_on_unexpired_completion      (completed_at) WHERE (artifacts_expired_at IS NULL)
 #
 # Foreign Keys
 #
