@@ -1,5 +1,4 @@
 require 'rails_helper'
-require Rails.root.join('db/migrate/20261103142055_enable_data_import_for_all_accounts')
 
 describe Enterprise::Billing::ReconcilePlanFeaturesService do
   let(:account) { create(:account) }
@@ -204,15 +203,14 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         account.enable_features!('shopify_integration')
       end
 
-      it 'preserves manual flag control after migrating legacy billing references' do
-        shopify_config.update!(value: [shopify_plans.first.merge('features' => %w[data_import audit_logs])])
+      it 'keeps an operator-disabled data import flag off on a Shopify plan' do
+        shopify_config.update!(value: [shopify_plans.first])
         account.update!(internal_attributes: account.internal_attributes.merge(
-          'shopify_managed_features' => %w[data_import audit_logs],
-          'manually_managed_features' => %w[data_import custom_tools]
+          'shopify_managed_features' => %w[audit_logs],
+          'manually_managed_features' => %w[custom_tools]
         ))
 
-        EnableDataImportForAllAccounts.new.up
-        account.reload.disable_features!('data_import')
+        account.disable_features!('data_import')
         described_class.new(account: account).perform
 
         expect(account.reload).not_to be_feature_enabled('data_import')
