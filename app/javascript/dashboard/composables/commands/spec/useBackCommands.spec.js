@@ -59,6 +59,14 @@ describe('useBackCommands', () => {
     );
   });
 
+  it('treats every conversation list as one area', async () => {
+    const { backCommands } = useBackCommands();
+    route.fullPath = '/app/accounts/1/inbox/3';
+    await nextTick();
+
+    expect(backCommands.value).toEqual([]);
+  });
+
   it('stays quiet for areas it cannot name', async () => {
     route.fullPath = '/app/accounts/1/search';
     const { backCommands } = useBackCommands();
