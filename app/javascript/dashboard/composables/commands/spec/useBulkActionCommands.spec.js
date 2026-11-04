@@ -76,6 +76,7 @@ describe('useBulkActionCommands', () => {
   };
   const byId = (commands, id) =>
     commands.value.find(action => action.id === id);
+  const confirm = (commands, row) => byId(commands, `${row.id}-confirm`).run();
 
   it('should return bulk actions when conversations are selected', () => {
     select([1, 2]);
@@ -148,7 +149,7 @@ describe('useBulkActionCommands', () => {
       src: 's.png',
       status: 'online',
     });
-    agents[1].run();
+    confirm(bulkActionCommands, agents[1]);
     expect(bulkActions.onAssignAgent).toHaveBeenCalledWith(
       expect.objectContaining({ id: 9 })
     );
@@ -165,7 +166,7 @@ describe('useBulkActionCommands', () => {
       'bulk-team-0',
       'bulk-team-5',
     ]);
-    teams[1].run();
+    confirm(bulkActionCommands, teams[1]);
     expect(bulkActions.onAssignTeamsForBulk).toHaveBeenCalledWith({
       id: 5,
       name: 'Sales',
@@ -184,16 +185,25 @@ describe('useBulkActionCommands', () => {
 
     expect(add.map(action => action.title)).toEqual(['billing', 'bug']);
     expect(remove.map(action => action.title)).toEqual(['billing']);
-    add[1].run();
-    remove[0].run();
+    confirm(bulkActionCommands, add[1]);
+    confirm(bulkActionCommands, remove[0]);
     expect(bulkActions.onAssignLabels).toHaveBeenCalledWith(['bug']);
     expect(bulkActions.onRemoveLabels).toHaveBeenCalledWith(['billing']);
   });
 
-  it('runs a macro on the selection only when macros are enabled', () => {
-    select([1]);
+  it('asks before applying a choice to the selection', () => {
+    select([1, 2]);
     const { bulkActionCommands } = useBulkActionCommands();
-    byId(bulkActionCommands, 'bulk-macro-7').run();
+    const macro = byId(bulkActionCommands, 'bulk-macro-7');
+    expect(macro.run).toBeUndefined();
+    expect(macro.page).toBe(true);
+
+    const yes = byId(bulkActionCommands, 'bulk-macro-7-confirm');
+    expect(yes).toMatchObject({
+      parent: 'bulk-macro-7',
+      searchFromRoot: false,
+    });
+    yes.run();
     expect(bulkActions.onExecuteMacro).toHaveBeenCalledWith({
       id: 7,
       name: 'Close politely',

@@ -190,6 +190,7 @@
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Search or jump to",
     "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
+    "CONFIRM_BULK_PLACEHOLDER": "Apply to {n} conversation? | Apply to {n} conversations?",
     "EMPTY": "No matches for \"{query}\"",
     "LINK_COPIED": "Conversation link copied",
     "SELECTED_COUNT": "{count} selected",
@@ -268,6 +269,7 @@
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Assign a team",
       "EXECUTE_A_MACRO": "Execute a macro",
+      "CONFIRM_BULK_ACTION": "Yes, apply to {n} conversation | Yes, apply to {n} conversations",
       "MUTE_CONVERSATION": "Mute conversation",
       "UNMUTE_CONVERSATION": "Unmute conversation",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",

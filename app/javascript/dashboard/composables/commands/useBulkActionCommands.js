@@ -111,8 +111,30 @@ export function useBulkActionCommands() {
   );
 
   const section = () => t(SECTION);
-  const page = (id, titleKey, icon, children) =>
-    commandPage({ id, title: t(titleKey), section: section(), icon, children });
+  const count = () => selectedConversations.value.length;
+
+  const page = (id, titleKey, icon, children) => [
+    ...commandPage({
+      id,
+      title: t(titleKey),
+      section: section(),
+      icon,
+      children: children.map(({ run, ...child }) => ({
+        ...child,
+        page: true,
+        placeholder: t('COMMAND_BAR.CONFIRM_BULK_PLACEHOLDER', count()),
+      })),
+    }),
+    ...children.map(child => ({
+      id: `${child.id}-confirm`,
+      parent: child.id,
+      title: t('COMMAND_BAR.COMMANDS.CONFIRM_BULK_ACTION', count()),
+      section: section(),
+      icon: 'i-lucide-check',
+      searchFromRoot: false,
+      run: child.run,
+    })),
+  ];
 
   const agentCommands = computed(() =>
     page(
