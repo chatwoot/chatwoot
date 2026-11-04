@@ -26,7 +26,6 @@ const SEARCH_THRESHOLD = 8;
 const query = ref('');
 const reviewing = ref(null);
 
-const readTools = computed(() => props.tools.filter(tool => tool.read_only));
 const visibleTools = computed(() => {
   const text = query.value.trim().toLowerCase();
   if (!text) return props.tools;
@@ -36,10 +35,10 @@ const visibleTools = computed(() => {
       (tool.description || '').toLowerCase().includes(text)
   );
 });
-const allReadSelected = computed(
+const allSelected = computed(
   () =>
-    readTools.value.length > 0 &&
-    readTools.value.every(tool => props.selectedNames.includes(tool.name))
+    props.tools.length > 0 &&
+    props.tools.every(tool => props.selectedNames.includes(tool.name))
 );
 
 const isSelected = tool => props.selectedNames.includes(tool.name);
@@ -51,7 +50,6 @@ const schemaChanged = tool =>
   ) !== JSON.stringify(tool.input_schema);
 
 const toggle = tool => {
-  if (!tool.read_only) return;
   emit('toggle', tool.name, !isSelected(tool));
 };
 </script>
@@ -95,15 +93,15 @@ const toggle = tool => {
           }}
         </span>
         <button
-          v-if="readTools.length"
+          v-if="tools.length"
           type="button"
           class="p-0 text-sm font-medium text-n-blue-11 hover:underline"
-          @click="emit('selectAll', !allReadSelected)"
+          @click="emit('selectAll', !allSelected)"
         >
           {{
-            allReadSelected
+            allSelected
               ? t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS.CLEAR')
-              : t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS.SELECT_ALL_READ')
+              : t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS.SELECT_ALL')
           }}
         </button>
       </div>
@@ -126,27 +124,20 @@ const toggle = tool => {
       >
         <li v-for="tool in visibleTools" :key="tool.name">
           <div
-            class="flex items-start gap-3 px-4 py-3.5 transition-colors"
-            :class="{
-              'cursor-pointer hover:bg-n-alpha-1': tool.read_only,
-              'bg-n-blue-2': isSelected(tool),
-            }"
+            class="flex items-start gap-3 px-4 py-3.5 transition-colors cursor-pointer hover:bg-n-alpha-1"
+            :class="{ 'bg-n-blue-2': isSelected(tool) }"
             @click="toggle(tool)"
           >
             <div class="pt-0.5" @click.stop>
               <Checkbox
                 :model-value="isSelected(tool)"
-                :disabled="!tool.read_only"
                 @update:model-value="emit('toggle', tool.name, $event)"
               />
             </div>
             <div class="flex flex-col flex-1 min-w-0 gap-1">
               <div class="flex items-center gap-2 min-w-0">
                 <span
-                  class="font-mono text-[0.8125rem] font-medium truncate"
-                  :class="
-                    tool.read_only ? 'text-n-slate-12' : 'text-n-slate-10'
-                  "
+                  class="font-mono text-[0.8125rem] font-medium truncate text-n-slate-12"
                 >
                   {{ tool.name }}
                 </span>
@@ -156,18 +147,8 @@ const toggle = tool => {
                 >
                   {{ t('CAPTAIN.MCP_SERVERS.DIALOG.CHANGED') }}
                 </span>
-                <span
-                  v-if="!tool.read_only"
-                  class="inline-flex items-center gap-1 px-1.5 py-px text-[0.6875rem] font-medium rounded-md bg-n-alpha-2 text-n-slate-11 shrink-0"
-                >
-                  <i class="i-lucide-lock size-3" />
-                  {{ t('CAPTAIN.MCP_SERVERS.DIALOG.WRITE') }}
-                </span>
               </div>
-              <p
-                class="m-0 text-sm line-clamp-2"
-                :class="tool.read_only ? 'text-n-slate-11' : 'text-n-slate-10'"
-              >
+              <p class="m-0 text-sm line-clamp-2 text-n-slate-11">
                 {{ tool.description }}
               </p>
               <button
@@ -224,7 +205,7 @@ const toggle = tool => {
                 size="sm"
                 :label="t('CAPTAIN.MCP_SERVERS.DIALOG.APPROVE_CHANGE')"
                 :is-loading="isBusy"
-                :disabled="isBusy || !tool.read_only"
+                :disabled="isBusy"
                 @click="emit('approve', tool)"
               />
             </div>
