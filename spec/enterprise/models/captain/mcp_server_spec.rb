@@ -58,76 +58,73 @@ RSpec.describe Captain::McpServer do
   end
 
   describe 'status' do
-    it 'starts an OAuth server as needing sign-in and other servers as active' do
-      oauth = described_class.create!(attributes.merge(auth_type: 'oauth'))
-      token = described_class.create!(attributes.merge(url: 'https://other.example.com/mcp', auth_type: 'token'))
+    let(:token_server) { described_class.create!(attributes.merge(auth_type: 'token', auth_config: { 'token' => 'old' })) }
+    let(:oauth_server) { described_class.create!(attributes.merge(url: 'https://oauth.example.com/mcp', auth_type: 'oauth')) }
 
-      expect(oauth).to be_needs_sign_in
-      expect(token).to be_active
+    def run_request(server, &)
+      Captain::Mcp::Connection.new(server).track_status(&)
+    rescue *Captain::Mcp::Connection::ERRORS
+      nil
     end
 
-    it 'clears the error when a new token is saved, and keeps it on other edits' do
-      server = described_class.create!(attributes.merge(auth_type: 'token', auth_config: { 'token' => 'old' }))
-      server.record_failure(RubyLLM::UnauthorizedError.new)
-
-      server.update!(name: 'Renamed')
-      expect(server.reload).to be_error
-
-      server.update!(auth_config: { 'token' => 'new' })
-      expect(server.reload).to have_attributes(status: 'active', last_error: nil)
+    it 'starts an OAuth server without credentials and other servers as active' do
+      expect(oauth_server).to be_needs_credentials
+      expect(token_server).to be_active
     end
 
-    describe '#record_failure' do
-      it 'asks an OAuth server to sign in again when the server rejects it' do
-        server = described_class.create!(attributes.merge(auth_type: 'oauth'))
-        server.record_success
+    it 'needs credentials once the server rejects the saved ones' do
+      run_request(token_server) { raise RubyLLM::UnauthorizedError }
 
-        server.record_failure(RubyLLM::UnauthorizedError.new)
-
-        expect(server.reload).to be_needs_sign_in
-      end
-
-      it 'tells a token server that its token was rejected' do
-        server = described_class.create!(attributes.merge(auth_type: 'token'))
-
-        server.record_failure(RubyLLM::UnauthorizedError.new)
-
-        expect(server.reload).to have_attributes(status: 'error', last_error: I18n.t('captain.mcp_server.token_rejected'))
-      end
-
-      it 'tells a server without sign-in that it now asks for a token' do
-        server = described_class.create!(attributes)
-
-        server.record_failure(RubyLLM::UnauthorizedError.new)
-
-        expect(server.reload).to have_attributes(status: 'error', last_error: I18n.t('captain.mcp_server.token_required'))
-      end
-
-      it 'records any other failure with its message' do
-        server = described_class.create!(attributes.merge(auth_type: 'oauth'))
-
-        server.record_failure(Faraday::TimeoutError.new('timed out'))
-
-        expect(server.reload).to have_attributes(status: 'error', last_error: 'timed out')
-      end
-
-      it 'records the failure even when the row no longer passes validation' do
-        server = described_class.create!(attributes)
-        server.update_column(:url, 'http://mcp.example.com/mcp') # rubocop:disable Rails/SkipsModelValidations
-
-        server.record_failure(Faraday::ConnectionFailed.new('refused'))
-
-        expect(server.reload).to be_error
-      end
+      expect(token_server.reload).to be_needs_credentials
     end
 
-    it 'records a success by clearing the last error' do
-      server = described_class.create!(attributes)
-      server.record_failure(Faraday::TimeoutError.new('timed out'))
+    it 'keeps the status when a request fails for another reason, and records why' do
+      run_request(token_server) { raise Faraday::TimeoutError, 'timed out' }
 
-      server.record_success
+      expect(token_server.reload).to have_attributes(status: 'active', last_error: 'timed out')
+    end
 
-      expect(server.reload).to have_attributes(status: 'active', last_error: nil)
+    it 'returns to active and clears the error when a request works' do
+      run_request(token_server) { raise Faraday::TimeoutError, 'timed out' }
+      run_request(token_server) { raise RubyLLM::UnauthorizedError }
+
+      run_request(token_server) { :ok }
+
+      expect(token_server.reload).to have_attributes(status: 'active', last_error: nil)
+    end
+
+    it 'returns a token server to active when a new token is saved, and keeps the status on other edits' do
+      token_server.credentials_rejected!
+
+      token_server.update!(name: 'Renamed')
+      expect(token_server.reload).to be_needs_credentials
+
+      token_server.update!(auth_config: { 'token' => 'new' })
+      expect(token_server.reload).to be_active
+    end
+
+    it 'does not let a token sent to an OAuth server stand in for signing in' do
+      oauth_server.update!(auth_config: { 'token' => 'ignored' })
+
+      expect(oauth_server.reload).to be_needs_credentials
+    end
+
+    it 'records a result even when the row no longer passes validation' do
+      token_server.update_column(:url, 'http://mcp.example.com/mcp') # rubocop:disable Rails/SkipsModelValidations
+
+      run_request(token_server) { raise RubyLLM::UnauthorizedError }
+
+      expect(token_server.reload).to be_needs_credentials
+    end
+
+    it 'writes nothing when a request changes nothing' do
+      allow(token_server).to receive(:update_columns).and_call_original
+
+      token_server.credentials_accepted!
+      token_server.credentials_rejected!
+      token_server.credentials_rejected!
+
+      expect(token_server).to have_received(:update_columns).once
     end
   end
 

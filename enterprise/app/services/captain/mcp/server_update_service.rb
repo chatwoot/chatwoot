@@ -25,9 +25,11 @@ class Captain::Mcp::ServerUpdateService
 
   private
 
+  # A new token is not saved yet, so a listing that uses it says nothing about the saved credentials
   def fetch_live_definitions
     connection = Captain::Mcp::Connection.new(@server)
-    connection.track_status { connection.tool_definitions }.index_by { |definition| definition['name'] }
+    definitions = @server.will_save_change_to_auth_config? ? connection.tool_definitions : connection.track_status { connection.tool_definitions }
+    definitions.index_by { |definition| definition['name'] }
   end
 
   # The selections are read as sent instead of through permit, which drops unknown or nested values without an error.

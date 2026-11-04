@@ -59,25 +59,36 @@ RSpec.describe Captain::Mcp::ServerUpdateService do
     expect(server.reload.auth_header).to be_nil
   end
 
-  it 'lists the tools with a new token and clears the error the old one caused' do
-    server.record_failure(RubyLLM::UnauthorizedError.new)
+  it 'lists the tools with a new token and makes a rejected server active again' do
+    server.credentials_rejected!
 
     update({ 'auth_config' => { 'token' => 'new' } }, [{ 'name' => 'get_customer' }])
 
     expect(listings).to eq(['new'])
-    expect(server.reload).to have_attributes(status: 'active', last_error: nil)
+    expect(server.reload).to be_active
     expect(server.auth_config['token']).to eq('new')
   end
 
-  it 'keeps the failed status when the server fails, and saves nothing' do
+  it 'records the failure when the server fails, keeps the status and saves nothing' do
     allow(Captain::Mcp::Connection).to receive(:new).and_wrap_original do |original, listed_server|
       original.call(listed_server).tap { |connection| allow(connection).to receive(:tool_definitions).and_raise(Faraday::TimeoutError, 'timed out') }
     end
 
     expect { update({ 'name' => 'Renamed' }, [{ 'name' => 'get_customer' }]) }.to raise_error(Faraday::TimeoutError)
 
-    expect(server.reload).to have_attributes(status: 'error', last_error: 'timed out', name: 'Invoicely')
+    expect(server.reload).to have_attributes(status: 'active', last_error: 'timed out', name: 'Invoicely')
     expect(server.tools).to be_empty
+  end
+
+  it 'records nothing about the saved token when a newly typed token is rejected' do
+    allow(Captain::Mcp::Connection).to receive(:new).and_wrap_original do |original, listed_server|
+      original.call(listed_server).tap { |connection| allow(connection).to receive(:tool_definitions).and_raise(RubyLLM::UnauthorizedError) }
+    end
+
+    expect { update({ 'auth_config' => { 'token' => 'typo' } }, [{ 'name' => 'get_customer' }]) }.to raise_error(RubyLLM::UnauthorizedError)
+
+    expect(server.reload).to have_attributes(status: 'active', last_error: nil)
+    expect(server.auth_config['token']).to eq('old')
   end
 
   it 'saves neither the edit nor the tools when a selected tool is missing on the server' do

@@ -48,15 +48,16 @@ class Captain::McpServer < ApplicationRecord
   has_many :tools, -> { order(:id) }, class_name: 'Captain::McpTool', inverse_of: :mcp_server, dependent: :delete_all
 
   enum :auth_type, %w[none oauth token].index_by(&:itself), prefix: :auth, validate: true
-  enum :status, %w[active needs_sign_in error].index_by(&:itself), validate: true
+  # Whether the saved credentials work. After create, only credentials_rejected! and credentials_accepted! change it.
+  enum :status, %w[active needs_credentials].index_by(&:itself), validate: true
 
   # oauth_credentials holds what RubyLLM stores for OAuth sign-in. The admin's token stays in auth_config.
   encrypts :auth_config, :oauth_credentials if Chatwoot.encryption_configured?
 
-  # An OAuth server cannot be used until an admin signs in
-  before_create { self.status = :needs_sign_in if auth_oauth? }
-  # A new token clears the error the old token caused, the same way a new server starts as active
-  before_update :reset_status, if: :will_save_change_to_auth_config?
+  # An OAuth server has no credentials until an admin signs in
+  before_create { self.status = :needs_credentials if auth_oauth? }
+  # A token server's credentials are its token, so a new token replaces the rejected one
+  before_update :accept_new_token, if: -> { auth_token? && will_save_change_to_auth_config? }
 
   # SafeEndpointValidatable checks endpoint_url
   alias_attribute :endpoint_url, :url
@@ -87,33 +88,32 @@ class Captain::McpServer < ApplicationRecord
     enabled? ? tools.where(enabled: true) : Captain::McpTool.none
   end
 
-  # Record the result of a request to the server. The status is written with update_columns, not save, for two reasons:
+  # The two status changes after create write only when the value changes, with update_columns and not save:
   # - ServerUpdateService sends a request after it assigns the admin's edit and before it saves it. A save here would
   #   store that edit before the service saves the tool selection in the same transaction.
-  # - Agent runs, the OAuth callback and the hourly check record the status too. A validation on an unrelated column must
-  #   not stop Chatwoot from recording that a server is down or needs sign-in.
-  def record_success
+  # - A validation on an unrelated column must not stop Chatwoot from recording what the server said.
+
+  # The server rejected the saved credentials, so an admin must sign in again or enter a new token
+  def credentials_rejected!
+    update_columns(status: :needs_credentials) unless needs_credentials? # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  # The saved credentials worked, so an earlier request failure no longer applies
+  def credentials_accepted!
+    return if active? && last_error.nil?
+
     update_columns(status: :active, last_error: nil) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  def record_failure(error)
-    update_columns(**failure_status(error)) # rubocop:disable Rails/SkipsModelValidations
+  # A request failed for a reason other than the credentials. It says nothing about the status.
+  def record_request_error(message)
+    update_columns(last_error: message) unless last_error == message # rubocop:disable Rails/SkipsModelValidations
   end
 
   private
 
-  def reset_status
+  def accept_new_token
     self.status = :active
-    self.last_error = nil
-  end
-
-  # Only an OAuth server can sign in again. A token server needs a new token, and a server without sign-in must be
-  # connected again with a token, because the sign-in type cannot change.
-  def failure_status(error)
-    return { status: :error, last_error: error.message } unless error.is_a?(RubyLLM::UnauthorizedError)
-    return { status: :needs_sign_in, last_error: error.message } if auth_oauth?
-
-    { status: :error, last_error: I18n.t(auth_token? ? 'captain.mcp_server.token_rejected' : 'captain.mcp_server.token_required') }
   end
 
   # The shared endpoint check accepts Liquid templates for custom tools, but RubyLLM connects to the URL as written.

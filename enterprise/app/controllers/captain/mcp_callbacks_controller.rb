@@ -12,9 +12,10 @@ class Captain::McpCallbacksController < ApplicationController
 
   private
 
+  # A failed or cancelled sign-in leaves the saved credentials as they were, so it leaves the status alone too
   def sign_in_result(server)
-    connection = Captain::Mcp::Connection.new(server)
-    connection.track_status { connection.authorize(params.to_unsafe_h.slice(*CALLBACK_PARAMS)) }
+    Captain::Mcp::Connection.new(server).authorize(params.to_unsafe_h.slice(*CALLBACK_PARAMS))
+    server.credentials_accepted!
     'success'
   rescue *Captain::Mcp::Connection::ERRORS => e
     Rails.logger.warn("Captain MCP sign-in failed for server #{server.id}: #{e.message}")

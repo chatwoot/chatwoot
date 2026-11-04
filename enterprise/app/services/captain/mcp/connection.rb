@@ -14,13 +14,14 @@ class Captain::Mcp::Connection
     @server = server
   end
 
-  # Runs a request and records the result on the server
+  # Runs a request with the saved credentials and records what it says about them. A 401 means the server rejected the
+  # credentials. Any other failure says only that this request failed.
   def track_status
     result = yield
-    @server.record_success
+    @server.credentials_accepted!
     result
   rescue *ERRORS => e
-    @server.record_failure(e)
+    e.is_a?(RubyLLM::UnauthorizedError) ? @server.credentials_rejected! : @server.record_request_error(e.message)
     raise
   end
 

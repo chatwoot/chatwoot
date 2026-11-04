@@ -32,11 +32,13 @@ RSpec.describe 'Captain::McpCallbacks', type: :request do
     expect(server.reload).to be_active
   end
 
-  it 'reports a failed sign-in and records why' do
+  it 'reports a cancelled sign-in and leaves a signed-in server as it was' do
+    server.credentials_accepted!
+
     finish_sign_in { raise RubyLLM::MCP::Error, 'Authorization failed: access_denied' }
 
     expect(response).to redirect_to("#{servers_page}&sign_in=failed")
-    expect(server.reload).to have_attributes(status: 'error', last_error: 'Authorization failed: access_denied')
+    expect(server.reload).to have_attributes(status: 'active', last_error: nil)
   end
 
   it 'uses a state only once' do
