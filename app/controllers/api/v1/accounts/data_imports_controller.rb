@@ -27,6 +27,8 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
 
   def create
     @data_import = creation_service.perform
+    return render json: { message: 'Another data import is already in progress.' }, status: :unprocessable_entity unless @data_import
+
     render_show
   rescue ArgumentError => e
     render_source_validation_error(e.message)
