@@ -33,10 +33,8 @@ class Captain::McpServer < ApplicationRecord
 
   FEATURE_FLAG = 'captain_mcp_servers'.freeze
 
+  # Starts the name of the RubyLLM client and of every tool Captain sees from a server
   TOOL_NAME_PREFIX = 'mcp'.freeze
-  # OpenAI function names allow these characters only, and at most 64 of them
-  INVALID_TOOL_NAME_CHARACTERS = /[^a-zA-Z0-9_-]/
-  MAX_TOOL_NAME_LENGTH = Captain::CustomTool::MAX_SLUG_LENGTH
 
   # RubyLLM sets these on MCP requests after the token header, so a token header with one of these names would replace
   # them. Authorization is free: a server with its own token header gets no bearer token.
@@ -67,12 +65,6 @@ class Captain::McpServer < ApplicationRecord
   validate :validate_token
 
   scope :enabled, -> { where(enabled: true) }
-
-  # The name Captain sees. The server ID keeps names apart across servers, and the double underscore
-  # keeps server 1's tool "2_x" apart from server 12's tool "x".
-  def captain_tool_name(server_tool_name)
-    "#{TOOL_NAME_PREFIX}_#{id}__#{server_tool_name.gsub(INVALID_TOOL_NAME_CHARACTERS, '_')}".first(MAX_TOOL_NAME_LENGTH)
-  end
 
   # Approved tools Captain may use. A caller must still compare each digest with the live definition.
   def available_tools

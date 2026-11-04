@@ -28,6 +28,10 @@ class Captain::McpTool < ApplicationRecord
 
   self.table_name = 'captain_mcp_tools'
 
+  # OpenAI function names allow these characters only, and at most 64 of them
+  INVALID_NAME_CHARACTERS = /[^a-zA-Z0-9_-]/
+  MAX_CAPTAIN_NAME_LENGTH = Captain::CustomTool::MAX_SLUG_LENGTH
+
   PARAM_SOURCE_FIXED = 'fixed'.freeze
   PARAM_SOURCES_VALIDATION = {
     'type': 'object',
@@ -104,8 +108,11 @@ class Captain::McpTool < ApplicationRecord
     param_sources.transform_values { |source| source['source'] }
   end
 
+  # The name Captain sees. The server ID keeps names apart across servers, and the double underscore
+  # keeps server 1's tool "2_x" apart from server 12's tool "x".
   def assign_captain_name
-    self.captain_name ||= mcp_server&.captain_tool_name(name.to_s)
+    self.captain_name ||= "#{Captain::McpServer::TOOL_NAME_PREFIX}_#{mcp_server_id}__#{name.to_s.gsub(INVALID_NAME_CHARACTERS, '_')}"
+                          .first(MAX_CAPTAIN_NAME_LENGTH)
   end
 
   # Captain names replace unsupported characters and cut long names, so two server names can become one.
