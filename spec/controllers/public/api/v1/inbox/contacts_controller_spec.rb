@@ -56,6 +56,17 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       expect(response).to have_http_status(:unauthorized)
       expect(contact_inbox.reload.hmac_verified).to be(false)
     end
+
+    it 'does not verify a contact inbox whose contact has no identifier' do
+      contact.update!(identifier: nil)
+      other_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, 'other-identifier')
+
+      get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",
+          params: { identifier: 'other-identifier', identifier_hash: other_hash }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(contact_inbox.reload.hmac_verified).to be(false)
+    end
   end
 
   describe 'PATCH /public/api/v1/inboxes/{identifier}/contact/{source_id}' do
