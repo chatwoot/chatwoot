@@ -56,4 +56,23 @@ RSpec.describe 'Outgoing message translation API', type: :request do
       expect(reply.reload.content).to eq('Réponse approuvée')
     end
   end
+
+  it 'honors the opt-out even when the request also carries a pending translation marker' do
+    post url, params: { content: 'Approved reply', content_attributes: { skip_translation: true, translation_pending: true } },
+              headers: { api_access_token: agent.access_token.token }, as: :json
+
+    expect(response).to have_http_status(:success)
+    reply = conversation.messages.find(response.parsed_body['id'])
+    expect(Messages::SendEmailNotificationService).to receive(:new) do |message:|
+      expect(message.content).to eq('Approved reply')
+      expect(message.content_attributes).not_to have_key('translation_pending')
+      delivery_service
+    end
+
+    SendReplyJob.perform_now(reply.id)
+
+    expect(Captain::Conversation::TranslatorService).not_to have_received(:new)
+    expect(delivery_service).to have_received(:perform)
+    expect(reply.reload.content).to eq('Approved reply')
+  end
 end
