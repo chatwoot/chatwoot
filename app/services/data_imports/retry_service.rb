@@ -23,6 +23,6 @@ class DataImports::RetryService
   private
 
   def another_active_import?
-    @account.data_imports.active_integrations.where.not(id: @data_import.id).exists?
+    @account.data_imports.active_imports.where.not(id: @data_import.id).exists?
   end
 end

@@ -13,6 +13,18 @@ RSpec.describe DataImportJob do
     end
   end
 
+  it 'releases a stale legacy import without allowing a delayed worker to write' do
+    data_import.update!(status: :processing)
+    expect(data_import).not_to be_abandonable
+    data_import.update!(updated_at: 1.hour.ago)
+    expect(data_import.account.data_imports.active_imports).to include(data_import)
+    data_import.abandon!
+
+    expect { described_class.perform_now(data_import) }.not_to change(Contact, :count)
+    expect(data_import.reload).to be_abandoned
+    expect(data_import.account.data_imports.active_imports).to be_empty
+  end
+
   describe 'retrying the job' do
     context 'when ActiveStorage::FileNotFoundError is raised' do
       let(:import_file_double) { instance_double(ActiveStorage::Blob) }
