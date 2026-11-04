@@ -23,10 +23,11 @@ class Captain::Mcp::AgentTools
     tool_class.new(assistant, server, mcp_tool, connection)
   end
 
-  # Fixed parameters are always hidden. A verified parameter is hidden unless the user is an admin or an agent.
+  # A parameter the customer does not prove, such as a fixed value, is always hidden.
+  # A proven parameter is hidden unless the user is an admin or an agent.
   def self.model_schema(mcp_tool, base_class)
-    hidden = mcp_tool.param_sources.filter_map do |param_name, source|
-      param_name if source['source'] == Captain::McpTool::PARAM_SOURCE_FIXED || !base_class.model_fills_verified_values?
+    hidden = mcp_tool.param_sources.filter_map do |param_name, entry|
+      param_name if !Captain::ParamSources.proven?(entry) || !base_class.model_fills_verified_values?
     end
     schema = mcp_tool.input_schema.deep_dup
     schema['properties'] = (schema['properties'] || {}).except(*hidden)

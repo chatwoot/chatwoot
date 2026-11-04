@@ -15,9 +15,9 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
     super(assistant)
   end
 
+  # Each subclass fills the sourced parameters for the user it serves before it calls this
   def perform(tool_context, **params)
-    # Fixed values go last, so a value from the model can never replace them
-    result = @connection.call(@mcp_tool.name, params.merge(fixed_arguments))
+    result = @connection.call(@mcp_tool.name, params)
     untrusted_result(result_text(result))
   rescue *Captain::Mcp::Connection::ERRORS => e
     Rails.logger.error("McpTool error for #{name}: #{e.class} - #{e.message}")
@@ -32,12 +32,6 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
 
   def safe_to_run_after_new_customer_message?
     @mcp_tool.read_only?
-  end
-
-  def fixed_arguments
-    @mcp_tool.param_sources.filter_map do |param_name, source|
-      [param_name.to_sym, source['value']] if source['source'] == Captain::McpTool::PARAM_SOURCE_FIXED
-    end.to_h
   end
 
   def result_text(result)

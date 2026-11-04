@@ -99,8 +99,8 @@ class Captain::McpServer < ApplicationRecord
     available_tools.map { |tool| { id: tool.captain_name, title: tool.name, description: tool.description, mcp: true } }
   end
 
-  def requires_email_verification?
-    available_tools.any?(&:requires_email_verification?)
+  def requires_verified_customer?
+    available_tools.any?(&:requires_verified_customer?)
   end
 
   # The two status changes after create write only when the value changes, with update_columns and not save:
