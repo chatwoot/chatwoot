@@ -28,16 +28,6 @@ class Captain::McpTool < ApplicationRecord
 
   PARAM_SOURCE_VERIFIED_EMAIL = 'verified.email'.freeze
   PARAM_SOURCE_FIXED = 'fixed'.freeze
-  APPROVED_DEFINITION_VALIDATION = {
-    'type': 'object',
-    'properties': {
-      'description': { 'type': %w[string null] },
-      'input_schema': { 'type': 'object' },
-      'read_only': { 'type': 'boolean' }
-    },
-    'required': %w[input_schema read_only],
-    'additionalProperties': false
-  }.to_json.freeze
   PARAM_SOURCES_VALIDATION = {
     'type': 'object',
     'additionalProperties': {
@@ -66,9 +56,6 @@ class Captain::McpTool < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { scope: :mcp_server_id }
   validates :approved_digest, format: { with: /\Asha256:[0-9a-f]{64}\z/ }
-  validates_with JsonSchemaValidator,
-                 schema: APPROVED_DEFINITION_VALIDATION,
-                 attribute_resolver: ->(record) { record.approved_definition }
   validates_with JsonSchemaValidator,
                  schema: PARAM_SOURCES_VALIDATION,
                  attribute_resolver: ->(record) { record.param_sources }
