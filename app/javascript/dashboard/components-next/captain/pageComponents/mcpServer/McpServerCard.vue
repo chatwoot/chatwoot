@@ -148,7 +148,7 @@ const handleAction = ({ action }) => {
         <span class="flex items-center gap-3 shrink-0 text-xs text-n-slate-11">
           <span>
             {{
-              tool.requires_email_verification
+              tool.requires_verified_customer
                 ? t('CAPTAIN.MCP_SERVERS.WHO.VERIFIED')
                 : t('CAPTAIN.MCP_SERVERS.WHO.ANYONE')
             }}
