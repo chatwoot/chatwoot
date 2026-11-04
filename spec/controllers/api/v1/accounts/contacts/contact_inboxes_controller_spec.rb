@@ -77,6 +77,19 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/contact_inboxes', typ
         expect(contact_inbox.hmac_verified).to be(true)
       end
 
+      it 'does not mark the contact inbox hmac verified with an invalid identifier hash' do
+        create(:inbox_member, inbox: channel_api.inbox, user: agent)
+        identifier_hash = OpenSSL::HMAC.hexdigest('sha256', 'wrong-token', contact.identifier)
+
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/contact_inboxes",
+             params: { inbox_id: channel_api.inbox.id, identifier: contact.identifier, identifier_hash: identifier_hash },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.contact_inboxes.find_by(inbox_id: channel_api.inbox.id).hmac_verified).to be(false)
+      end
+
       it 'throws error for invalid source id' do
         create(:inbox_member, inbox: channel_twilio_sms.inbox, user: agent)
         expect do
