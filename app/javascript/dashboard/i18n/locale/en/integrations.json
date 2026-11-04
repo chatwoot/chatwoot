@@ -1567,7 +1567,7 @@
         "EMAIL_VERIFICATION": {
           "LABEL": "Require email verification",
           "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code.",
-          "IMPLIED": "A parameter takes the customer's verified email, so email verification is always required."
+          "IMPLIED": "A parameter takes a value the customer verified, so verification is always required."
         },
         "AUTH_TYPES": {
           "NONE": "None",
@@ -1637,7 +1637,12 @@
           "ADD": "Add verified email",
           "EMAIL": "Contact email",
           "EMAIL_DESCRIPTION": "The contact's verified email address",
-          "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations."
+          "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations.",
+          "ADD_ATTRIBUTE": "Add verified contact attribute",
+          "ATTRIBUTE_DESCRIPTION": "A business managed attribute of the verified contact",
+          "ATTRIBUTE_PLACEHOLDER": "Select attribute",
+          "ATTRIBUTE_HELP": "Filled by Chatwoot from this business managed attribute of the contact the customer verified. Captain cannot see or change it in customer conversations.",
+          "NO_ATTRIBUTES": "No contact attribute is business managed yet. Mark one in Settings, Custom attributes."
         },
         "REQUEST_TEMPLATE": {
           "LABEL": "Request Body Template (Optional)",
@@ -1648,7 +1653,8 @@
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "Parameter name is required",
+          "CONTACT_ATTRIBUTE_REQUIRED": "Select a contact attribute"
         }
       }
     },

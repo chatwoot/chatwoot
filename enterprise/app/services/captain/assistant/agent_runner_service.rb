@@ -180,7 +180,7 @@ class Captain::Assistant::AgentRunnerService
 
   # A customer is the user, and a tool needs their verified email. The prompt reads this from the state.
   def can_verify_email?
-    @conversation.present? && COPILOT_SOURCES.exclude?(@source) && @assistant.custom_tools.enabled.any?(&:requires_email_verification?)
+    @conversation.present? && COPILOT_SOURCES.exclude?(@source) && @assistant.custom_tools.enabled.any?(&:requires_verified_customer?)
   end
 
   def reply_suggestion_agent

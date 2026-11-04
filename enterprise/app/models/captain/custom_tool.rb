@@ -53,8 +53,6 @@ class Captain::CustomTool < ApplicationRecord
   RESERVED_HEADERS = %w[authorization host content-length content-type].freeze
   # Any name starting with x-chatwoot, dash or not, is reserved for headers Chatwoot sets
   RESERVED_HEADER_PREFIX = 'x-chatwoot'.freeze
-  # Values Chatwoot fills into a parameter from what the customer verified: an email by one-time code
-  VERIFIED_SOURCES = %w[verified.email].freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -64,7 +62,8 @@ class Captain::CustomTool < ApplicationRecord
         'type': { 'type': 'string' },
         'description': { 'type': 'string' },
         'required': { 'type': 'boolean' },
-        'source': { 'enum': VERIFIED_SOURCES }
+        # Captain::ParamSources checks the name
+        'source': { 'type': 'string' }
       },
       'required': %w[name type description],
       # Verified values are text, so a parameter that takes one must be a string
@@ -123,6 +122,7 @@ class Captain::CustomTool < ApplicationRecord
                  attribute_resolver: ->(record) { record.settings }
   validate :validate_headers
   validate :validate_auth_config
+  validate :validate_param_sources
 
   scope :enabled, -> { where(enabled: true) }
   scope :from_github, lambda { |repository, path|
@@ -139,15 +139,21 @@ class Captain::CustomTool < ApplicationRecord
     }
   end
 
-  # The tool only runs for a customer who verified an email with a one-time code.
-  # A tool with a parameter that takes the verified email cannot run without one, so it needs no setting.
+  # The admin set the tool to run only for a customer who verified an email with a one-time code
   def requires_email_verification?
-    settings['requires_email_verification'] == true || param_schema.any? { |param_def| param_def['source'] == 'verified.email' }
+    settings['requires_email_verification'] == true
   end
 
-  # The name of the parameter Chatwoot fills with the verified email, if the tool has one
-  def verified_email_param
-    param_schema.find { |param_def| param_def['source'] == 'verified.email' }&.dig('name')
+  # The tool runs only for a customer who proved who they are, so Captain offers email verification.
+  # A tool with a parameter Chatwoot fills from that proof cannot run without one, so it needs no setting.
+  def requires_verified_customer?
+    requires_email_verification? || param_sources.any?
+  end
+
+  # Parameters Chatwoot fills, by name, with the source of each value
+  def param_sources
+    param_schema.select { |param_def| param_def['source'].present? }
+                .to_h { |param_def| [param_def['name'], Captain::ParamSources.parse(param_def['source'])] }
   end
 
   def enabled_scenarios_count
@@ -163,6 +169,16 @@ class Captain::CustomTool < ApplicationRecord
     names = headers.keys.map(&:downcase)
     errors.add(:headers, I18n.t('captain.custom_tool.headers.duplicate')) if names.uniq.size != names.size
     headers.each { |name, value| validate_header(name, value) }
+  end
+
+  def validate_param_sources
+    return unless param_schema.is_a?(Array)
+
+    param_schema.grep(Hash).filter_map { |param_def| param_def['source'] }.each do |name|
+      source = Captain::ParamSources.parse(name)
+      error = source ? source.validate(account) : I18n.t('captain.custom_tool.param_sources.unknown', source: name)
+      errors.add(:param_schema, error) if error
+    end
   end
 
   # Auth values become request headers, and the HTTP client rejects unsafe ones on every call
