@@ -62,6 +62,7 @@ class DataImport < ApplicationRecord
   }
   scope :active_imports, lambda {
     active_integrations
+      .or(where(data_type: 'contacts', source_provider: 'csv', source_type: 'file', status: [:pending, :processing]))
       .or(where(data_type: 'contacts', source_provider: [nil, ''], status: [:pending, :processing]))
   }
 
@@ -73,6 +74,18 @@ class DataImport < ApplicationRecord
 
   def legacy_contacts_csv_import?
     data_type == 'contacts' && source_provider.blank?
+  end
+
+  def csv_import?
+    data_type == 'contacts' && source_provider == 'csv' && source_type == 'file'
+  end
+
+  def managed_import?
+    integration_import? || csv_import?
+  end
+
+  def source_available?
+    csv_import? ? import_file.attached? && source_metadata['artifacts_expired_at'].blank? : access_token.present?
   end
 
   def intercom_import?
@@ -92,11 +105,11 @@ class DataImport < ApplicationRecord
   end
 
   def stalled?
-    integration_import? && (pending? || processing?) && updated_at <= IMPORT_STALLED_AFTER.ago
+    managed_import? && (pending? || processing?) && updated_at <= IMPORT_STALLED_AFTER.ago
   end
 
   def abandonable?
-    (pending? || processing?) && (integration_import? || (legacy_contacts_csv_import? && updated_at <= IMPORT_STALLED_AFTER.ago))
+    (pending? || processing?) && (managed_import? || (legacy_contacts_csv_import? && updated_at <= IMPORT_STALLED_AFTER.ago))
   end
 
   def abandon!
@@ -139,6 +152,10 @@ class DataImport < ApplicationRecord
   end
 
   def validate_import_types
+    if csv_import? && import_types != ['contacts']
+      errors.add(:import_types, 'must contain only contacts for a CSV import')
+      return
+    end
     return if import_types.blank?
 
     invalid_types = import_types - IMPORT_TYPES
