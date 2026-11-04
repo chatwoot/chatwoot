@@ -41,10 +41,72 @@ RSpec.describe 'Contact data operations API', type: :request do
     expect(response.parsed_body).to include('can_create_import' => false, 'integration_imports_enabled' => false)
   end
 
-  it 'denies ordinary agents contact import history access' do
+  it 'creates a tracked export and returns its selection' do
+    expect do
+      post "#{base_url}/data_exports", headers: headers, params: { column_names: %w[email name], scope_name: 'All contacts' }, as: :json
+    end.to have_enqueued_job(DataExports::ContactsJob)
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body['export_options']).to include('column_names' => %w[email name])
+  end
+
+  it 'rejects malformed filters instead of exporting all contacts' do
+    post "#{base_url}/data_exports", headers: headers, params: { payload: { attribute_key: 'email' } }, as: :json
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(account.data_exports).to be_empty
+  end
+
+  it 'isolates export history and downloads by account' do
+    other = create(:account)
+    record = other.data_exports.create!(name: 'Other export', export_options: { column_names: ['email'] })
+    get "#{base_url}/data_exports/#{record.id}", headers: headers
+    expect(response).to have_http_status(:not_found)
+    get "#{base_url}/data_exports/#{record.id}/download", headers: headers
+    expect(response).to have_http_status(:not_found)
+  end
+
+  it 'rejects malformed blank labels instead of widening the scope' do
+    post "#{base_url}/data_exports", headers: headers, params: { label: [] }, as: :json
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(account.data_exports).to be_empty
+  end
+
+  it 'rejects nested filter values at the request boundary' do
+    filter = { attribute_key: 'email', filter_operator: 'contains', values: [{ value: 'example.com' }] }
+    post "#{base_url}/data_exports", headers: headers, params: { payload: [filter] }, as: :json
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(account.data_exports).to be_empty
+  end
+
+  it 'rejects non-string values for text filters before creating an export' do
+    %w[email phone_number country_code].each do |attribute|
+      filter = { attribute_key: attribute, filter_operator: 'equal_to', values: [123] }
+      post "#{base_url}/data_exports", headers: headers, params: { payload: [filter] }, as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+    filter = { attribute_key: 'email', filter_operator: 'contains', values: [false] }
+    post "#{base_url}/data_exports", headers: headers, params: { payload: [filter] }, as: :json
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(account.data_exports).to be_empty
+  end
+
+  it 'returns a short-lived download URL only for a completed export' do
+    record = DataExports::CreationService.new(account: account, initiated_by: admin, options: {}).perform
+    get "#{base_url}/data_exports/#{record.id}/download", headers: headers
+    expect(response).to have_http_status(:not_found)
+    DataExports::ContactsJob.perform_now(record, record.active_run_id)
+    get "#{base_url}/data_exports/#{record.id}/download", headers: headers
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body['download_url']).to include('/rails/active_storage/disk/')
+  end
+
+  it 'denies ordinary agents import, export, and history access' do
     agent = create(:user, account: account, role: :agent)
     agent_headers = agent.create_new_auth_token
+    get "#{base_url}/data_exports", headers: agent_headers
+    expect(response).to have_http_status(:unauthorized)
     get "#{base_url}/data_imports", headers: agent_headers
+    expect(response).to have_http_status(:unauthorized)
+    post "#{base_url}/data_exports", headers: agent_headers, params: {}, as: :json
     expect(response).to have_http_status(:unauthorized)
   end
 end
