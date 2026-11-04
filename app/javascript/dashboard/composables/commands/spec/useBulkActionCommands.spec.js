@@ -205,6 +205,17 @@ describe('useBulkActionCommands', () => {
     ).not.toContain('bulk_execute_macro');
   });
 
+  it('loads agents and macros for a selection that exists when the bar mounts', () => {
+    useOrderedMacros.mockReturnValue({ orderedMacros: { value: [] } });
+    select([1]);
+    useBulkActionCommands();
+
+    expect(store.dispatch).toHaveBeenCalledWith('inboxAssignableAgents/fetch', [
+      conversations[1].inbox_id,
+    ]);
+    expect(store.dispatch).toHaveBeenCalledWith('macros/get');
+  });
+
   it('offers nothing once the user has left the conversation list', () => {
     select([1, 2]);
     useRoute.mockReturnValue({ name: 'agent_list' });

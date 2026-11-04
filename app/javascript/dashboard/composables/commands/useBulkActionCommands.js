@@ -96,7 +96,8 @@ export function useBulkActionCommands() {
     () => inboxIds.value.join(','),
     ids => {
       if (ids) store.dispatch('inboxAssignableAgents/fetch', inboxIds.value);
-    }
+    },
+    { immediate: true }
   );
   // A selection can start on a list page, where nothing else has loaded macros.
   watch(
@@ -105,7 +106,8 @@ export function useBulkActionCommands() {
       if (count && isMacrosEnabled() && !orderedMacros.value.length) {
         store.dispatch('macros/get');
       }
-    }
+    },
+    { immediate: true }
   );
 
   const section = () => t(SECTION);
