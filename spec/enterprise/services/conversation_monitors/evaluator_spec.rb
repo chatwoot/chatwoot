@@ -10,7 +10,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   let(:message) { create(:message, account: account, conversation: conversation, content: 'Please refund my order') }
   let(:work) { ConversationMonitors::WorkItem.find_by!(conversation_id: conversation.id) }
   let(:answers) { { monitor.id.to_s => { type: 'noul', noul: 0.95 }, second.id.to_s => { type: 'noul', noul: 0.05 } } }
-  let(:response_body) { { model: 'typesafe/jev-1.13-20260917', answers: answers, usage: { input_tokens: 100 } } }
+  let(:response_body) { { model: 'typesafe/jev-1.14-20261014', answers: answers, usage: { input_tokens: 100 } } }
   let(:endpoint) { ConversationMonitors::Configuration.endpoint }
 
   before do
@@ -67,42 +67,44 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(ConversationMonitors::DailyUsage.find_by!(account: account).calls_count).to eq(1)
   end
 
-  context 'when a monitor uses a legacy model alias' do
-    let(:monitor) { create(:conversation_monitor, account: account, model: 'jev-1.13.0') }
+  %w[jev-1.13.0 typesafe/jev-1.13].each do |legacy_model|
+    context "when a monitor uses #{legacy_model}" do
+      let(:monitor) { create(:conversation_monitor, account: account, model: legacy_model) }
 
-    it 'shares one provider request and credit with the canonical model without changing stored model names' do
-      evaluate.call
+      it 'shares one provider request and credit with the canonical model without changing stored model names' do
+        evaluate.call
 
-      expect(WebMock).to have_requested(:post, endpoint).with { |request|
-        body = JSON.parse(request.body)
-        body['model'] == 'typesafe/jev-1.13' && body['questions'].keys.sort == [monitor.id.to_s, second.id.to_s].sort
-      }.once
-      expect(WebMock).to have_requested(:post, endpoint).once
-      expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
-      expect(monitor.reload.model).to eq('jev-1.13.0')
-      expect(second.reload.model).to eq('typesafe/jev-1.13')
-      expect(monitor.evaluations.sole.status).to eq('matched')
-      expect(second.evaluations.sole.status).to eq('unmatched')
-    end
-
-    it 'keeps a different provider model in a separate request' do
-      other = create(:conversation_monitor, account: account, model: 'other/provider-model', created_at: 1.minute.ago)
-      batches = {}
-      stub_request(:post, endpoint).to_return do |request|
-        body = JSON.parse(request.body)
-        batches[body['model']] = body['questions'].keys
-        values = body['questions'].keys.index_with { { type: 'noul', noul: 0.9 } }
-        { status: 200, body: response_body.merge(model: body['model'], answers: values).to_json }
+        expect(WebMock).to have_requested(:post, endpoint).with { |request|
+          body = JSON.parse(request.body)
+          body['model'] == 'typesafe/jev-1.14' && body['questions'].keys.sort == [monitor.id.to_s, second.id.to_s].sort
+        }.once
+        expect(WebMock).to have_requested(:post, endpoint).once
+        expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
+        expect(monitor.reload.model).to eq(legacy_model)
+        expect(second.reload.model).to eq('typesafe/jev-1.14')
+        expect(monitor.evaluations.sole.status).to eq('matched')
+        expect(second.evaluations.sole.status).to eq('unmatched')
       end
 
-      evaluate.call
+      it 'keeps a different provider model in a separate request' do
+        other = create(:conversation_monitor, account: account, model: 'other/provider-model', created_at: 1.minute.ago)
+        batches = {}
+        stub_request(:post, endpoint).to_return do |request|
+          body = JSON.parse(request.body)
+          batches[body['model']] = body['questions'].keys
+          values = body['questions'].keys.index_with { { type: 'noul', noul: 0.9 } }
+          { status: 200, body: response_body.merge(model: body['model'], answers: values).to_json }
+        end
 
-      expect(batches.keys).to contain_exactly('typesafe/jev-1.13', 'other/provider-model')
-      expect(batches['typesafe/jev-1.13']).to contain_exactly(monitor.id.to_s, second.id.to_s)
-      expect(batches['other/provider-model']).to eq([other.id.to_s])
-      expect(WebMock).to have_requested(:post, endpoint).twice
-      expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(2)
-      expect(other.evaluations.sole).to have_attributes(status: 'matched', model: 'other/provider-model')
+        evaluate.call
+
+        expect(batches.keys).to contain_exactly('typesafe/jev-1.14', 'other/provider-model')
+        expect(batches['typesafe/jev-1.14']).to contain_exactly(monitor.id.to_s, second.id.to_s)
+        expect(batches['other/provider-model']).to eq([other.id.to_s])
+        expect(WebMock).to have_requested(:post, endpoint).twice
+        expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(2)
+        expect(other.evaluations.sole).to have_attributes(status: 'matched', model: 'other/provider-model')
+      end
     end
   end
 
@@ -156,7 +158,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   end
 
   it 'holds exhausted accounts until next month and preserves full history across new input' do
-    travel_to(Time.utc(2026, 10, 31, 12))
+    travel_to(Time.current.utc.next_month.end_of_month.change(hour: 12))
     now = Time.current.utc
     reset = now.beginning_of_month.next_month
     (1..19).each do |days_ago|
@@ -184,7 +186,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   end
 
   it 'preserves the monthly hold through an earlier batch provider cooldown after the reset' do
-    travel_to(Time.utc(2026, 10, 31, 23, 55))
+    travel_to(Time.current.utc.next_month.end_of_month.change(hour: 23, min: 55))
     now = Time.current.utc
     reset = now.beginning_of_month.next_month
     (1..19).each do |days_ago|
