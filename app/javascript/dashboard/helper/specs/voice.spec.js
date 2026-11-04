@@ -122,6 +122,20 @@ describe('voice call ringing', () => {
     expect(callsStore.addCall).not.toHaveBeenCalled();
   });
 
+  it('keeps the call this tab is joining when another tab dismisses it', () => {
+    markLocalCall('CA14');
+
+    handleVoiceCallUpdated(
+      vi.fn(),
+      callMessage({ sid: 'CA14', ringUserIds: [TEAMMATE] }),
+      ME,
+      true
+    );
+    clearLocalCall('CA14');
+
+    expect(callsStore.removeCall).not.toHaveBeenCalled();
+  });
+
   it('leaves an answered Twilio call to the accepted and ended broadcasts', () => {
     handleVoiceCallUpdated(
       vi.fn(),

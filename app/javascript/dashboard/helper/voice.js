@@ -282,8 +282,12 @@ export function handleVoiceCallUpdated(
       ringUserIds,
     })
   ) {
-    // The ring only grows, so leaving it means a dismiss, perhaps from another tab
-    if (isRoutedCall(provider, callDirection)) markCallDismissed(callSid);
+    // The ring only grows, so leaving it means a dismiss, perhaps from another tab. The call
+    // this tab is joining or on stays, as for the accepted broadcast.
+    if (isRoutedCall(provider, callDirection)) {
+      if (isLocalCall(callSid)) return;
+      markCallDismissed(callSid);
+    }
     callsStore.removeCall(callSid);
     return;
   }
