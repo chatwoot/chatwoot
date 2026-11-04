@@ -27,6 +27,7 @@ class EnableDataImportForAllAccounts < ActiveRecord::Migration[7.2]
     config.update!(value: others + [entry.merge('enabled' => true)])
   end
 
+  # Remove the old plan entitlement so the stored Shopify catalog no longer controls data import.
   def remove_data_import_from_shopify_plans
     config = InstallationConfig.find_by(name: 'CHATWOOT_SHOPIFY_PLANS')
     return unless config
@@ -39,6 +40,8 @@ class EnableDataImportForAllAccounts < ActiveRecord::Migration[7.2]
     end
   end
 
+  # Saved Shopify entitlements can revoke the flag, while manual billing grants can re-enable it.
+  # Remove both references so reconciliation leaves the data import flag under operator control.
   def remove_data_import_from_billing_metadata
     %w[shopify_managed_features manually_managed_features].each do |key|
       condition = Account.arel_table[:internal_attributes].contains(key => ['data_import'])
