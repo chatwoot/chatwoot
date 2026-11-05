@@ -59,7 +59,7 @@ gem 'azure-blob', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 # Rails 8.0.5.1+ requires the API that blocks untrusted libvips operations.
-gem 'ruby-vips', '~> 2.2', '>= 2.2.1'
+gem 'ruby-vips', '~> 2.2', '>= 2.2.1', require: false
 
 ##-- for actionmailbox --##
 gem 'aws-actionmailbox-ses', '~> 0'
