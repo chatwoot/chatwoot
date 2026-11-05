@@ -180,15 +180,27 @@ RSpec.describe 'Platform Users API', type: :request do
         expect(platform_app.platform_app_permissibles.first.permissible_id).to eq data['id']
       end
 
-      it 'fetch existing user and creates permissible for the user' do
-        create(:user, name: 'old test', email: 'test@test.com')
+      it 'returns the existing user when it is a permissible object' do
+        existing_user = create(:user, name: 'old test', email: 'test@test.com')
+        create(:platform_app_permissible, platform_app: platform_app, permissible: existing_user)
         post '/platform/api/v1/users/', params: { name: 'test', email: 'test@test.com', password: 'Password1!' },
                                         headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         data = response.parsed_body
+        expect(data['id']).to eq(existing_user.id)
         expect(data['name']).to eq('old test')
-        expect(platform_app.platform_app_permissibles.first.permissible_id).to eq data['id']
+        expect(platform_app.platform_app_permissibles.count).to eq(1)
+      end
+
+      it 'does not return an existing user when its not a permissible object' do
+        create(:user, name: 'old test', email: 'test@test.com')
+        post '/platform/api/v1/users/', params: { name: 'test', email: 'Test@test.com', password: 'Password1!' },
+                                        headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.parsed_body).not_to have_key('access_token')
+        expect(platform_app.platform_app_permissibles).to be_empty
       end
     end
   end

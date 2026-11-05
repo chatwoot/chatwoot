@@ -1,6 +1,8 @@
 class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference
+  before_action :validate_hold, :ensure_handling_agent, only: :hold
   rescue_from CustomExceptions::CallAlreadyAccepted, Voice::CallErrors::CallAlreadyEnded, with: :render_call_conflict
+  rescue_from Voice::CallErrors::CallFailed, with: :render_call_failed
 
   def token
     render json: Voice::Provider::Twilio::TokenService.new(
@@ -17,7 +19,9 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
     conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
     conference_sid = conference_service.ensure_conference_sid
-    conference_service.mark_agent_joined(user: current_user, attempt: params[:attempt_id].presence)
+    conference_service.mark_agent_joined(
+      user: current_user, agent_client: RequestDeviceInfo.new(request).client_details, attempt: params[:attempt_id].presence
+    )
     # voice_call.accepted broadcasts from Voice::Conference::Manager#join_agent! once
     # Twilio confirms the leg joined, not here — joinClientCall can still fail after this.
 
@@ -27,6 +31,12 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
       conference_sid: conference_sid,
       using_webrtc: true
     }
+  end
+
+  # Stops the ring for this agent only; the caller keeps waiting for the others
+  def dismiss
+    Voice::Provider::Twilio::ConferenceService.new(call: resolve_call!).dismiss(Current.user)
+    head :ok
   end
 
   def destroy
@@ -45,7 +55,29 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     render json: { status: 'success', id: call.conversation.display_id }
   end
 
+  # Holds or resumes the caller; the dashboard shows the hold only once Twilio made it
+  def hold
+    Voice::Provider::Twilio::ConferenceService.new(call: @call).hold_contact(params[:hold])
+    head :ok
+  end
+
   private
+
+  def validate_hold
+    return if [true, false].include?(params[:hold])
+
+    render_could_not_create_error(I18n.t('errors.voice.invalid_hold'))
+  end
+
+  # Only the agent on a live call can hold or resume it
+  def ensure_handling_agent
+    @call = resolve_call!
+    return if @call.in_progress? && @call.accepted_by_agent_id == Current.user.id
+
+    render_could_not_create_error(I18n.t('errors.voice.not_handling_agent'))
+  end
+
+  def render_call_failed(error) = render_could_not_create_error(error.message)
 
   # An attempt id is the short token a client makes for one connection and sends to Twilio
   # as well, so only that shape is kept

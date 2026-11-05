@@ -719,6 +719,7 @@ RSpec.describe Conversation do
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,
         timestamp: conversation.last_activity_at.to_i,
+        anonymous_caller: false,
         can_reply: true,
         channel: 'Channel::WebWidget',
         snoozed_until: conversation.snoozed_until,
@@ -1052,6 +1053,22 @@ RSpec.describe Conversation do
       conversation.update(label_list: %w[customer-support enterprise paid-customer])
 
       expect(conversation.cached_label_list_array).to eq %w[customer-support enterprise paid-customer]
+    end
+  end
+
+  describe '#message_summary' do
+    let(:conversation) { create(:conversation) }
+    let!(:message) { create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation) }
+
+    it 'loads its own summary when it was not preloaded' do
+      expect(conversation.message_summary.last_message_data[:id]).to eq(message.id)
+    end
+
+    it 'keeps the summary set by the loader' do
+      summary = Conversations::MessageSummary.new(last_message: nil, last_non_activity_message: nil, unread_count: 0)
+      conversation.message_summary = summary
+
+      expect(conversation.message_summary).to equal(summary)
     end
   end
 

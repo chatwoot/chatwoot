@@ -9,7 +9,7 @@
 
     <a href="<%= home_url %>" class="flex items-center min-w-0 gap-2.5">
       <% if portal.logo.present? %>
-        <img src="<%= url_for(portal.logo) %>" class="w-8 h-8 rounded-full" draggable="false" />
+        <%= render 'public/api/v1/portals/logo', portal: portal, css_class: 'w-8 h-8 rounded-full' %>
       <% end %>
       <span class="text-base font-semibold tracking-tight text-n-slate-12 truncate"><%= portal.localized_value('name', locale) %></span>
       <span class="hidden sm:inline-block w-px h-5 bg-n-weak mx-1"></span>

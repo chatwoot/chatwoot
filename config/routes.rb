@@ -349,6 +349,8 @@ Rails.application.routes.draw do
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
+                post :dismiss, on: :member
+                patch :hold, on: :member
               end
               post :enable_whatsapp_calling, on: :member
               post :disable_whatsapp_calling, on: :member
@@ -757,6 +759,7 @@ Rails.application.routes.draw do
     if ChatwootApp.enterprise?
       post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
       get 'voice/wait/:phone', to: 'voice#wait_twiml', as: :voice_wait
+      get 'voice/resume/:phone', to: 'voice#resume_twiml', as: :voice_resume
       post 'voice/status/:phone', to: 'voice#status', as: :voice_status
       post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
       post 'voice/recording_status/:phone', to: 'voice#recording_status', as: :voice_recording_status
@@ -780,7 +783,8 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
 
-  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
+  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' },
+                            skip: [:passwords, :registrations, :confirmations]
   devise_scope :super_admin do
     get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
     namespace :super_admin do
@@ -790,7 +794,6 @@ Rails.application.routes.draw do
       resource :user_diagnostics, only: [:show, :create] do
         post :destroy_subscriptions, on: :collection
       end
-      get 'push_diagnostics', to: redirect { |_params, request| "/super_admin/user_diagnostics?tab=push&#{request.query_string}" }
 
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
