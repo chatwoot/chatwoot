@@ -155,7 +155,7 @@ class ActionCableListener < BaseListener
     contact_inboxes = message_contact_inboxes(conversation, message)
     data = message.push_event_data.merge(extra)
 
-    broadcast(conversation.account, inbox_agent_tokens(conversation) + full_payload_tokens(contact_inboxes), event_name, data)
+    broadcast(conversation.account, inbox_user_tokens(conversation) + full_payload_tokens(contact_inboxes), event_name, data)
     broadcast_to_widget(conversation.account, contact_inboxes, event_name, message.widget_push_event_data(data))
   end
 
@@ -163,7 +163,7 @@ class ActionCableListener < BaseListener
     contact_inboxes = session_contact_inboxes(conversation.contact_inbox)
     data = conversation.push_event_data
 
-    broadcast(conversation.account, inbox_agent_tokens(conversation) + full_payload_tokens(contact_inboxes), event_name, data)
+    broadcast(conversation.account, inbox_user_tokens(conversation) + full_payload_tokens(contact_inboxes), event_name, data)
     broadcast_to_widget(conversation.account, contact_inboxes, event_name, conversation.widget_push_event_data)
   end
 
@@ -173,7 +173,7 @@ class ActionCableListener < BaseListener
     contact_inboxes = typing_contact_inboxes(conversation, user)
     data = { conversation: conversation.push_event_data, user: user.push_event_data, is_private: event.data[:is_private] || false }
 
-    broadcast(conversation.account, typing_agent_tokens(conversation, user) + full_payload_tokens(contact_inboxes), event_name, data)
+    broadcast(conversation.account, typing_user_tokens(conversation, user) + full_payload_tokens(contact_inboxes), event_name, data)
     broadcast_to_widget(conversation.account, contact_inboxes, event_name, data.merge(conversation: conversation.widget_push_event_data))
   end
 
@@ -188,13 +188,13 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, event_name, widget_data, widget: true)
   end
 
-  def inbox_agent_tokens(conversation)
+  def inbox_user_tokens(conversation)
     user_tokens(conversation.account, conversation.inbox.members)
   end
 
   # Whoever is typing does not get their own typing event
-  def typing_agent_tokens(conversation, user)
-    tokens = inbox_agent_tokens(conversation)
+  def typing_user_tokens(conversation, user)
+    tokens = inbox_user_tokens(conversation)
     user.respond_to?(:pubsub_token) ? tokens - [user.pubsub_token] : tokens
   end
 
