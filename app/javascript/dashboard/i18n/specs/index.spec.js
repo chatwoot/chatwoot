@@ -1,4 +1,5 @@
 import { createI18n } from 'vue-i18n';
+import languagesConfig from '../../../../../config/initializers/languages.rb?raw';
 import messages, {
   LOCALE_MODULES,
   SUPPORTED_DASHBOARD_LOCALES,
@@ -14,19 +15,18 @@ const sortStrings = values =>
 
 const FALLBACK_KEY = 'AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION';
 
-const flattenLeafTranslations = (value, prefix = '', out = new Map()) => {
-  if (value && typeof value === 'object' && !Array.isArray(value)) {
-    Object.entries(value).forEach(([key, child]) => {
-      flattenLeafTranslations(child, prefix ? `${prefix}.${key}` : key, out);
-    });
-    return out;
-  }
-
-  out.set(prefix, value);
-  return out;
-};
-
 describe('dashboard i18n', () => {
+  it('bundles exactly the dashboard locales enabled by the backend', () => {
+    const enabledLocales = Array.from(
+      languagesConfig.matchAll(/iso_639_1_code: '([^']+)', enabled: true/g),
+      match => match[1]
+    );
+
+    expect(sortStrings(SUPPORTED_DASHBOARD_LOCALES)).toEqual(
+      sortStrings(enabledLocales)
+    );
+  });
+
   it('keeps the english module allowlist in sync with locale files', () => {
     const englishModules = Object.keys(localeFiles)
       .filter(filePath => filePath.startsWith('../locale/en/'))
@@ -123,30 +123,39 @@ describe('dashboard i18n', () => {
     expect(duplicates).toEqual([]);
   });
 
-  it('falls back to english for missing keys in real locale data', () => {
-    const englishLeaves = flattenLeafTranslations(messages.en);
-    const fallbackLocales = SUPPORTED_DASHBOARD_LOCALES.filter(
-      locale => locale !== 'en'
-    ).filter(
-      locale => !flattenLeafTranslations(messages[locale]).has(FALLBACK_KEY)
-    );
+  it('falls back to english for a missing key in a loaded locale', () => {
+    const portugueseMessages = structuredClone(messages.pt_BR);
+    delete portugueseMessages.AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION;
 
-    expect(fallbackLocales.length).toBeGreaterThan(0);
-    expect(englishLeaves.get(FALLBACK_KEY)).toBeDefined();
-
-    fallbackLocales.forEach(locale => {
-      const i18n = createI18n({
-        legacy: false,
-        locale,
-        fallbackLocale: 'en',
-        missingWarn: false,
-        fallbackWarn: false,
-        messages,
-      });
-
-      expect(i18n.global.t('AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION')).toBe(
-        englishLeaves.get(FALLBACK_KEY)
-      );
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'pt_BR',
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages: { en: messages.en, pt_BR: portugueseMessages },
     });
+
+    expect(i18n.global.t(FALLBACK_KEY)).toBe(
+      messages.en.AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION
+    );
+  });
+
+  it('falls back to english for a missing locale module', () => {
+    const portugueseMessages = { ...messages.pt_BR };
+    delete portugueseMessages.AUDIT_LOGS;
+
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'pt_BR',
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages: { en: messages.en, pt_BR: portugueseMessages },
+    });
+
+    expect(i18n.global.t(FALLBACK_KEY)).toBe(
+      messages.en.AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION
+    );
   });
 });
