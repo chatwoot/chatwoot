@@ -260,6 +260,19 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(portal.reload.logo).to be_attached
       end
 
+      it 'attaches the dark mode logo from dark_logo_blob_id' do
+        blob = ActiveStorage::Blob.create_and_upload!(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png',
+                                                      content_type: 'image/png')
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { name: portal.name }, dark_logo_blob_id: blob.signed_id },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['dark_logo']['blob_id']).to eq(blob.signed_id)
+        expect(portal.reload.logo).not_to be_attached
+      end
+
       it 'does not allow associating an inbox from another account' do
         other_account = create(:account)
         foreign_inbox = create(:inbox, account: other_account)
@@ -346,6 +359,19 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
 
         expect { portal.logo.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response).to have_http_status(:success)
+      end
+
+      it 'deletes only the dark mode logo when dark is true' do
+        portal.dark_logo.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/logo",
+               params: { dark: true },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(portal.reload.dark_logo).not_to be_attached
+        expect(portal.logo).to be_attached
       end
     end
   end
