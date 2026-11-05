@@ -80,6 +80,13 @@ const isMonitorsAvailable = computed(
     )
 );
 
+const hasCommandBarV2 = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.COMMAND_BAR_V2
+  );
+});
+
 const hasAdvancedAssignment = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
@@ -1027,7 +1034,7 @@ const menuItems = computed(() => {
         :class="isEffectivelyCollapsed ? 'flex-col items-center' : 'px-2'"
       >
         <div
-          v-if="!isEffectivelyCollapsed"
+          v-if="hasCommandBarV2 && !isEffectivelyCollapsed"
           class="flex items-center w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
         >
           <RouterLink
@@ -1050,6 +1057,21 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </button>
         </div>
+        <RouterLink
+          v-else-if="!isEffectivelyCollapsed"
+          :to="{ name: 'search' }"
+          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
+        >
+          <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10" />
+          <span class="flex-grow text-start text-n-slate-10">
+            {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
+          </span>
+          <span
+            class="hidden tracking-wide pointer-events-none select-none text-n-slate-10"
+          >
+            {{ searchShortcut }}
+          </span>
+        </RouterLink>
         <RouterLink
           v-else
           :to="{ name: 'search' }"

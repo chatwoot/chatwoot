@@ -2,7 +2,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { SHORTCUT_KEYS } from 'dashboard/components/widgets/modal/constants';
-import { shortcutKeys } from 'dashboard/helper/commandbar/actions';
+import { shortcutKeys } from 'dashboard/modules/command-bar/commands';
 
 const DOCS_URL = 'https://www.chatwoot.com/hc/user-guide/en';
 

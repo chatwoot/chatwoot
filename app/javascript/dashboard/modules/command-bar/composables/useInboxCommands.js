@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router';
 import {
   createSnoozeOptions,
   localizeActions,
-} from 'dashboard/helper/commandbar/actions';
+} from 'dashboard/modules/command-bar/commands';
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';
 
 const SECTION = 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION';

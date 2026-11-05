@@ -6,7 +6,10 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 import { emitter } from 'shared/helpers/mitt';
 import wootConstants from 'dashboard/constants/globals';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions';
-import { ICON_SNOOZE, commandPage } from 'dashboard/helper/commandbar/actions';
+import {
+  ICON_SNOOZE,
+  commandPage,
+} from 'dashboard/modules/command-bar/commands';
 import {
   CMD_SWITCH_SORT,
   CMD_SWITCH_STATUS,

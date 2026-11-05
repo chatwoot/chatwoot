@@ -17,7 +17,7 @@ import {
   commandPage,
   createSnoozeOptions,
   localizeActions,
-} from 'dashboard/helper/commandbar/actions';
+} from 'dashboard/modules/command-bar/commands';
 import { isAConversationRoute } from 'dashboard/helper/routeHelpers';
 
 const SECTION = 'COMMAND_BAR.SECTIONS.BULK_ACTIONS';

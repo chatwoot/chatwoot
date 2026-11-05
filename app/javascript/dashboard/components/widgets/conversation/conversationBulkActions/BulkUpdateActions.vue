@@ -6,7 +6,7 @@ import { vOnClickOutside } from '@vueuse/components';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
-import { useCommandBar } from '@chatwoot/jumpbar';
+import { openCommandBar } from 'dashboard/modules/command-bar/openCommandBar';
 
 const props = defineProps({
   showResolve: {
@@ -67,7 +67,7 @@ const handleUpdate = item => {
   if (item.value === 'snoozed') {
     // If the user clicks on the snooze option from the bulk action change status dropdown.
     // Open the snooze option for bulk action in the cmd bar.
-    useCommandBar().open({ page: 'bulk_action_snooze_conversation' });
+    openCommandBar({ page: 'bulk_action_snooze_conversation' });
   } else {
     emit('update', item.value);
   }
