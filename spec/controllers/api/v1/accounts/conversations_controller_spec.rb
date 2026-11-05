@@ -556,6 +556,36 @@ RSpec.describe 'Conversations API', type: :request do
                as: :json
         end
 
+        it 'does not trust client supplied hmac_verified param when creating the contact inbox' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          identified_contact = create(:contact, account: account, identifier: 'contact-identifier')
+
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: { contact_id: identified_contact.id, inbox_id: inbox.id, hmac_verified: true },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          conversation = account.conversations.find_by(display_id: JSON.parse(response.body, symbolize_names: true)[:id])
+          expect(conversation.contact_inbox.hmac_verified).to be(false)
+        end
+
+        it 'marks the contact inbox hmac verified with a valid identifier hash' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          identified_contact = create(:contact, account: account, identifier: 'contact-identifier')
+          identifier_hash = OpenSSL::HMAC.hexdigest('sha256', inbox.channel.hmac_token, identified_contact.identifier)
+
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: { contact_id: identified_contact.id, inbox_id: inbox.id, identifier: identified_contact.identifier,
+                         identifier_hash: identifier_hash },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          conversation = account.conversations.find_by(display_id: JSON.parse(response.body, symbolize_names: true)[:id])
+          expect(conversation.contact_inbox.hmac_verified).to be(true)
+        end
+
         it 'creates a new conversation with assignee and team' do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           post "/api/v1/accounts/#{account.id}/conversations",
