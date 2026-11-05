@@ -170,8 +170,7 @@ class Message < ApplicationRecord
   end
 
   def merge_sender_attributes(data)
-    data[:sender] = sender.push_event_data if sender && !sender.is_a?(AgentBot)
-    data[:sender] = sender.push_event_data(inbox) if sender.is_a?(AgentBot)
+    data[:sender] = sender_push_event_data if sender
     data
   end
 
@@ -179,7 +178,13 @@ class Message < ApplicationRecord
   def widget_sender_data
     return { type: 'contact' } if sender.is_a?(Contact)
 
-    sender.push_event_data
+    sender_push_event_data
+  end
+
+  def widget_push_event_data
+    data = push_event_data
+    data[:sender] = widget_sender_data if sender
+    data
   end
 
   def webhook_push_event_data
@@ -301,6 +306,11 @@ class Message < ApplicationRecord
   end
 
   private
+
+  # Agent bots fall back to the inbox avatar
+  def sender_push_event_data
+    sender.is_a?(AgentBot) ? sender.push_event_data(inbox) : sender.push_event_data
+  end
 
   def prevent_message_flooding
     # Added this to cover the validation specs in messages
