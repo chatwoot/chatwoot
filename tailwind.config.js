@@ -35,6 +35,7 @@ const tailwindConfig = {
     './app/javascript/dashboard/components-next/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
     './app/javascript/dashboard/composables/**/*.js',
+    './app/javascript/dashboard/modules/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
     './node_modules/@chatwoot/jumpbar/dist/*.js',
