@@ -131,7 +131,11 @@ defineExpose({
         />
       </li>
       <li v-if="options.length === 0" class="px-3 py-2 text-sm text-n-slate-11">
-        {{ emptyState || t('COMBOBOX.EMPTY_STATE') }}
+        {{
+          loading
+            ? t('COMBOBOX.LOADING')
+            : emptyState || t('COMBOBOX.EMPTY_STATE')
+        }}
       </li>
     </ul>
   </div>

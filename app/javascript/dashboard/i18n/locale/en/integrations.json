@@ -545,7 +545,6 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
     "OVERVIEW": {
       "HEADER": "Overview",
@@ -745,12 +744,13 @@
     },
     "COPILOT": {
       "TITLE": "Copilot",
+      "AVATAR_LABEL": "Captain",
       "TRY_THESE_PROMPTS": "Try these prompts",
       "PANEL_TITLE": "Get started with Copilot",
       "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "Send message...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "LOADER": "Copilot is thinking",
       "YOU": "You",
       "USE": "Use this",
       "RESET": "Reset",
@@ -797,10 +797,19 @@
           "OTHER": "Run {action} on {count} conversation | Run {action} on {count} conversations"
         },
         "STATUS": {
-          "APPROVED": "Approved",
           "REJECTED": "Rejected",
           "EXPIRED": "Expired. Ask Copilot to propose it again."
-        }
+        },
+        "PROGRESS": "Applying {done} of {total}",
+        "APPLIED": "Applied to {count}",
+        "NOT_CHANGED": "{count} not changed"
+      },
+      "REVIEW": {
+        "RUNNING": "Reviewing conversations",
+        "FINISHED": "Reviewed {count} conversation | Reviewed {count} conversations",
+        "PROGRESS": "{done} of {total}",
+        "MATCHED": "{count} matched",
+        "FAILED": "{count} couldn't be reviewed"
       }
     },
     "PLAYGROUND": {
