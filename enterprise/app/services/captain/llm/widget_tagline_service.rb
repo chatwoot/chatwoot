@@ -28,6 +28,7 @@ class Captain::Llm::WidgetTaglineService < Captain::BaseTaskService
     <<~PROMPT
       You write a short marketing tagline for a company's customer-support chat widget.
       Use the provided company context to make the tagline specific and on-brand.
+      Keep it under 45 characters, and avoid generic phrasing that could fit any company.
     PROMPT
   end
 

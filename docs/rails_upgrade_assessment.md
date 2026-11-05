@@ -1,5 +1,7 @@
 # Rails 8.1 Upgrade Assessment
 
+> November 5, 2026 refresh: the Rails 8.0 checkpoint now targets **8.0.5.2**, which contains the July and November security fixes. Continue next to **8.1.4.1 or newer**, since Rails 8.0 security support ends November 7, 2026. The assessment and validation counts below describe the original upgrade experiments; use [the refreshed Rails 8.0 deployment guide](rails_upgrades/8_0.md) for current compatibility and rollout requirements.
+
 Date: 2026-07-24
 Repository revision assessed: `56e72eff8d67`
 

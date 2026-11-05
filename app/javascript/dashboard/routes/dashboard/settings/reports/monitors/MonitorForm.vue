@@ -14,6 +14,7 @@ import {
 } from 'dashboard/components-next/emoji-icon-picker/constants';
 import ReportDrilldownCard from '../components/ReportDrilldownCard.vue';
 import MonitorIconPicker from './MonitorIconPicker.vue';
+import { MAX_MONITOR_CONDITION_LENGTH } from './constants';
 
 const emit = defineEmits(['created']);
 
@@ -49,6 +50,7 @@ const { accountId } = useAccount();
 const dialog = ref(null);
 const name = ref('');
 const condition = ref('');
+const templateName = ref('');
 const icon = ref('');
 const iconColor = ref('');
 const isSaving = ref(false);
@@ -65,10 +67,18 @@ let dialogGeneration = 0;
 const previewCooldown = computed(() =>
   Math.max(0, Math.ceil((previewAvailableAt.value - now.value) / 1000))
 );
-const isValid = computed(() => name.value.trim() && condition.value.trim());
+const isValid = computed(
+  () =>
+    name.value.trim() &&
+    condition.value.trim() &&
+    condition.value.length <= MAX_MONITOR_CONDITION_LENGTH
+);
 const canPreview = computed(
   () =>
-    !!condition.value.trim() && !isPreviewing.value && !previewCooldown.value
+    !!condition.value.trim() &&
+    condition.value.length <= MAX_MONITOR_CONDITION_LENGTH &&
+    !isPreviewing.value &&
+    !previewCooldown.value
 );
 
 const errorText = (code, fallback) => {
@@ -147,6 +157,7 @@ const open = (prefill = {}) => {
   dialogGeneration += 1;
   name.value = prefill.name || '';
   condition.value = prefill.condition || '';
+  templateName.value = prefill.templateName || '';
   icon.value =
     prefill.icon ??
     `${pickRandom(RANDOM_ICONS)}-${pickRandom(Object.values(ICON_STYLE))}`;
@@ -204,6 +215,9 @@ defineExpose({ open });
     @close="onClose"
   >
     <form class="flex flex-col gap-5" @submit.prevent="create">
+      <p v-if="templateName" class="m-0 text-sm text-n-slate-11">
+        {{ t('MONITORS.TEMPLATES.EDIT_HINT', { name: templateName }) }}
+      </p>
       <Input
         v-model="name"
         :label="t('MONITORS.NAME')"
@@ -221,7 +235,7 @@ defineExpose({ open });
         v-model="condition"
         :label="t('MONITORS.CONDITION')"
         :placeholder="t('MONITORS.CONDITION_PLACEHOLDER')"
-        :max-length="2000"
+        :max-length="MAX_MONITOR_CONDITION_LENGTH"
         custom-text-area-class="min-h-24"
         show-character-count
       />

@@ -6,6 +6,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import MonitorIconPicker from './MonitorIconPicker.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import { MAX_MONITOR_CONDITION_LENGTH } from './constants';
 
 const emit = defineEmits(['saved', 'changed']);
 
@@ -44,7 +45,9 @@ const resumeModes = computed(() => [
 const isEditInvalid = computed(
   () =>
     action.value === 'edit' &&
-    (!newName.value.trim() || !newCondition.value.trim())
+    (!newName.value.trim() ||
+      !newCondition.value.trim() ||
+      newCondition.value.length > MAX_MONITOR_CONDITION_LENGTH)
 );
 
 const open = (nextAction, targetMonitor) => {
@@ -140,7 +143,7 @@ defineExpose({ open, close });
         v-model="newCondition"
         :label="t('MONITORS.MONITOR_DESCRIPTION')"
         :placeholder="t('MONITORS.CONDITION_PLACEHOLDER')"
-        :max-length="2000"
+        :max-length="MAX_MONITOR_CONDITION_LENGTH"
         custom-text-area-class="min-h-24"
         show-character-count
       />

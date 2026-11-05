@@ -18,6 +18,7 @@ module Enterprise::Concerns::Account
     has_many :captain_agent_sessions, dependent: :destroy_async, class_name: 'Captain::AgentSession'
     has_many :conversation_outcomes, dependent: :destroy_async
     has_many :conversation_monitors, class_name: 'ConversationMonitors::Monitor', dependent: :destroy_async
+    has_many :monitor_automation_deliveries, class_name: 'ConversationMonitors::AutomationDelivery', dependent: :delete_all
 
     has_many :copilot_threads, dependent: :destroy_async
     has_many :calls, dependent: :destroy_async

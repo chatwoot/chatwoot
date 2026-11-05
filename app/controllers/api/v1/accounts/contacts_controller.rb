@@ -84,7 +84,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def create
     ActiveRecord::Base.transaction do
-      @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
+      @contact = Current.account.contacts.new(permitted_params.except(:avatar_url).merge(contact_type: :lead))
       @contact.save!
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
@@ -92,8 +92,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @contact.assign_attributes(contact_update_params)
-    @contact.save!
+    ActiveRecord::Base.transaction do
+      @contact.assign_attributes(contact_update_params)
+      Contacts::CompanyAssociationService.new.associate_company_from_name(@contact) if params[:resolve_legacy_company].to_s == 'true'
+      @contact.save!
+    end
     process_avatar_from_url
   end
 

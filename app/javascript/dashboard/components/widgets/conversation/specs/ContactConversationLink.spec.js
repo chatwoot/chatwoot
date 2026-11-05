@@ -1,5 +1,9 @@
 import { mount } from '@vue/test-utils';
+import { useTrack } from 'dashboard/composables';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import ContactConversationLink from '../ContactConversationLink.vue';
+
+vi.mock('dashboard/composables', () => ({ useTrack: vi.fn() }));
 
 const conversation = (message = {}) => ({
   id: 11,
@@ -91,5 +95,23 @@ describe('ContactConversationLink', () => {
 
     await wrapper.find('a').trigger('click', { metaKey: true });
     expect(wrapper.emitted('navigate')).toHaveLength(1);
+  });
+
+  it('tracks every click by direction, modified clicks included', async () => {
+    const older = mountComponent();
+    await older.find('a').trigger('click');
+    await older.find('a').trigger('click', { metaKey: true });
+
+    expect(useTrack).toHaveBeenCalledTimes(2);
+    expect(useTrack).toHaveBeenCalledWith(
+      CONVERSATION_EVENTS.OPENED_PREVIOUS_CONVERSATION
+    );
+
+    const newer = mountComponent({ direction: 'newer' });
+    await newer.find('a').trigger('click');
+
+    expect(useTrack).toHaveBeenLastCalledWith(
+      CONVERSATION_EVENTS.OPENED_NEXT_CONVERSATION
+    );
   });
 });

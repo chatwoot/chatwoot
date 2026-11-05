@@ -3,6 +3,7 @@ import {
   getUserPermissions,
   getCurrentAccount,
 } from './permissionsHelper';
+import { requiresShopifyBilling } from 'v3/helpers/AuthHelper';
 
 import {
   ROLES,
@@ -61,6 +62,18 @@ export const validateLoggedInRoutes = (to, user) => {
     return `app/login`;
   }
 
+  const userPermissions = getUserPermissions(user, to.params.accountId);
+  if (requiresShopifyBilling(currentAccount)) {
+    if (userPermissions.includes('administrator')) {
+      return to.name === 'billing_settings_index'
+        ? null
+        : `accounts/${to.params.accountId}/settings/billing`;
+    }
+    return to.name === 'account_suspended'
+      ? null
+      : `accounts/${to.params.accountId}/suspended`;
+  }
+
   const isCurrentAccountActive = currentAccount.status === 'active';
 
   if (isCurrentAccountActive) {
@@ -69,7 +82,6 @@ export const validateLoggedInRoutes = (to, user) => {
 
   // If the current account is not active, only the suspended screen is
   // reachable; administrators can also access billing to restore the account
-  const userPermissions = getUserPermissions(user, to.params.accountId);
   const accessibleRoutes = userPermissions.includes('administrator')
     ? ['account_suspended', 'billing_settings_index']
     : ['account_suspended'];

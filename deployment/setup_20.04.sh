@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.5.0
+# Script Version: 3.5.1
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,Upgrade:,webserver,version,web-only,worker-only,convert:
 OPTIONS=cdhiI:l:rsuU:wvWK
-CWCTL_VERSION="3.5.0"
+CWCTL_VERSION="3.5.1"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -891,7 +891,7 @@ function upgrade_redis() {
 
 
 ##############################################################################
-# Update nodejs to v20+
+# Update Node.js to a patched v24.x release
 # Globals:
 #   None
 # Arguments:
@@ -900,6 +900,8 @@ function upgrade_redis() {
 #   None
 ##############################################################################
 function upgrade_node() {
+  local minimum_node_version="24.22.1"
+
   echo "Checking Node.js version..."
 
   # Get current Node.js version
@@ -908,8 +910,8 @@ function upgrade_node() {
   # Parse major version number
   major_version=$(echo "$current_version" | cut -d. -f1)
 
-  if [ "$major_version" -ge 24 ]; then
-    echo "Node.js is already version $current_version (>= 24.x). Skipping Node.js upgrade."
+  if [ "$major_version" -eq 24 ] && dpkg --compare-versions "$current_version" ge "$minimum_node_version"; then
+    echo "Node.js is already version $current_version (>= $minimum_node_version on 24.x). Skipping Node.js upgrade."
     return
   fi
 
@@ -922,6 +924,13 @@ function upgrade_node() {
   apt-get update
   apt-get install nodejs -y
 
+  current_version=$(node --version | cut -c 2-)
+  major_version=$(echo "$current_version" | cut -d. -f1)
+
+  if [ "$major_version" -ne 24 ] || ! dpkg --compare-versions "$current_version" ge "$minimum_node_version"; then
+    echo "Node.js 24.x version $minimum_node_version or newer is required; found $current_version after upgrading." >&2
+    return 1
+  fi
 }
 
 ##############################################################################

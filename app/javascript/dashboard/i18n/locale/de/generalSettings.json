@@ -44,6 +44,35 @@
         "TITLE": "Account ID",
         "NOTE": "Diese ID ist erforderlich, wenn Sie eine API-basierte Integration erstellen"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Übersetzer",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "Verbinden",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Upgrade durchführen"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Unterhaltungen automatisch auflösen",
         "NOTE": "Diese Konfiguration würde es Ihnen ermöglichen, die Unterhaltung nach einer gewissen Zeit der Inaktivität automatisch zu beenden.",
@@ -51,7 +80,7 @@
           "LABEL": "Dauer der Inaktivität",
           "HELP": "Zeit der Inaktivität, nach der die Unterhaltung automatisch gelöst wird",
           "PLACEHOLDER": "30",
-          "ERROR": "Automatische Auflösungsdauer sollte zwischen 10 Minuten und 999 Tagen liegen",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Auto resolve settings updated successfully",
             "ERROR": "Failed to update auto resolve settings"
@@ -104,6 +133,14 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Ein Update {latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisieren Sie Ihre Instanz.",
     "LEARN_MORE": "Mehr erfahren",
-    "PAYMENT_PENDING": "Ihre Zahlung steht noch aus. Um Chatwoot weiter zu verwenden, aktualisieren Sie Bitte Ihre Zahlungsinformationen",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Ihr Konto hat die Nutzungsbeschränkungen überschritten. Um Chatwoot weiter nutzen zu können aktualisieren Sie bitte Ihren Tarif",
     "OPEN_BILLING": "Rechnung öffnen"

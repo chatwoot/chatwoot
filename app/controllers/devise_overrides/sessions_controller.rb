@@ -1,6 +1,7 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   include MfaAuthenticationHelper
   include DeviceVerificationGuard
+  include ImpersonationLogging
 
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
@@ -66,8 +67,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def handle_sso_authentication
     return if !@impersonation && enforce_session_limit_for_password_login(@resource)
+    return render_create_error_bad_credentials if @impersonation && !@resource.consume_sso_auth_token(params[:sso_auth_token])
 
     authenticate_resource_with_sso_token
+    log_impersonation_started if @impersonation
     yield @resource if block_given?
     render_create_success
   end
@@ -82,7 +85,8 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     # DTA evicts the earliest-expiring token after save when at max_number_of_devices.
     # The short-lived impersonation token would always be that one, so pre-evict to make room.
     make_room_for_impersonation_token if @impersonation
-    @token = @resource.create_token(lifespan: @impersonation ? 2.days.to_i : nil)
+    token_extras = @impersonation ? { impersonation: true, impersonated_by: @impersonator_id }.compact : {}
+    @token = @resource.create_token(lifespan: @impersonation ? 2.days.to_i : nil, **token_extras)
     @resource.save!
 
     sign_in(:user, @resource, store: false, bypass: false)
@@ -104,6 +108,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     return unless user&.valid_sso_auth_token?(params[:sso_auth_token])
 
     @resource = user
+    @impersonator_id = user.sso_auth_token_impersonator_id(params[:sso_auth_token])
     @impersonation = user.sso_auth_token_impersonation?(params[:sso_auth_token])
   end
 

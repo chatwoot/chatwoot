@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useTrack } from 'dashboard/composables';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { dateFormat } from 'shared/helpers/timeHelper';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -33,6 +35,13 @@ const label = computed(() =>
     ? t('CONVERSATION.CONTACT_HISTORY.OLDER')
     : t('CONVERSATION.CONTACT_HISTORY.NEWER')
 );
+
+const trackNavigation = () =>
+  useTrack(
+    isOlder.value
+      ? CONVERSATION_EVENTS.OPENED_PREVIOUS_CONVERSATION
+      : CONVERSATION_EVENTS.OPENED_NEXT_CONVERSATION
+  );
 
 const startedAt = computed(() =>
   dateFormat(props.conversation.created_at, 'MMM d, yyyy')
@@ -68,6 +77,7 @@ const lastMessage = computed(() => {
         v-tooltip.top="tooltip"
         :href="href"
         class="inline-flex items-center h-8 gap-2 px-3 transition-colors border rounded-full shadow-sm group min-w-0 max-w-[min(32rem,100%)] border-n-weak bg-n-solid-1 hover:border-n-brand focus-visible:outline-none focus-visible:border-n-brand"
+        @click="trackNavigation"
         @click.exact.prevent="emit('navigate')"
       >
         <Icon

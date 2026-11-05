@@ -35,9 +35,7 @@ RSpec.describe Integrations::Hook do
     let(:account) { create(:account) }
 
     before do
-      allow(GlobalConfigService).to receive(:load)
-        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-        .and_return(true)
+      InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
       account.enable_features!('shopify_integration')
     end
 
@@ -180,10 +178,9 @@ RSpec.describe Integrations::Hook do
 
     it 'skips validation when an enabled openai hook is saved without changing the api key' do
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
-      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good', 'label_suggestion' => false })
+      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good' })
 
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(false)
-      hook.settings['label_suggestion'] = true
 
       expect(hook.save).to be true
     end

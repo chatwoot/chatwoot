@@ -16,9 +16,9 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
     end
   end
 
-  describe '#params_schema' do
+  describe '#parameters_schema' do
     it 'constrains the reason category to the supported values and keeps the reason optional' do
-      schema = tool.params_schema
+      schema = tool.parameters_schema
 
       expect(schema['properties']['reason']['type']).to eq('string')
       expect(schema['properties']['reason_category']['enum']).to eq(described_class::REASON_CATEGORIES)
@@ -29,10 +29,10 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       expect(ConversationOutcome::HANDOFF_REASON_CATEGORIES).to include(*described_class::REASON_CATEGORIES)
     end
 
-    it 'survives Agents::ToolWrapper reading the class params at wrap time' do
-      described_class.params
+    it 'survives Agents::ToolWrapper reading the schema at wrap time' do
+      wrapper = Agents::ToolWrapper.new(tool, Agents::RunContext.new({}))
 
-      expect(described_class.new(assistant).params_schema['properties'].keys).to contain_exactly('reason', 'reason_category')
+      expect(wrapper.parameters_schema['properties'].keys).to contain_exactly('reason', 'reason_category')
     end
   end
 

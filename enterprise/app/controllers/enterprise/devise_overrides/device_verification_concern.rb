@@ -3,6 +3,7 @@ module Enterprise::DeviseOverrides::DeviceVerificationConcern
 
   def device_verification_intercepted?(user)
     return false unless DeviceVerification.enabled?
+    return false if DeviceVerification.exempt?(user)
     return false if trusted_device?(user)
 
     token = DeviceVerification::ChallengeService.new(user: user, request_meta: device_request_meta).issue!

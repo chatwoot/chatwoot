@@ -149,6 +149,7 @@ class Contact < ApplicationRecord
       phone_number: phone_number,
       thumbnail: avatar_url,
       blocked: blocked,
+      contact_type: contact_type,
       type: 'contact'
     }
     data[:company_id] = company_id if account.feature_enabled?('companies')
@@ -167,7 +168,8 @@ class Contact < ApplicationRecord
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
-      blocked: blocked
+      blocked: blocked,
+      contact_type: contact_type
     }
   end
 

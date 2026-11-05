@@ -31,6 +31,7 @@ watch(
     <Input
       v-if="authType === 'bearer'"
       v-model="authConfig.token"
+      type="password"
       :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_CONFIG.BEARER_TOKEN')"
       :placeholder="
         t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_CONFIG.BEARER_TOKEN_PLACEHOLDER')
@@ -63,6 +64,7 @@ watch(
       />
       <Input
         v-model="authConfig.key"
+        type="password"
         :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_CONFIG.API_VALUE')"
         :placeholder="
           t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_CONFIG.API_VALUE_PLACEHOLDER')

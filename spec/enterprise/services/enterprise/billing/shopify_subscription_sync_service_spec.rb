@@ -22,7 +22,7 @@ RSpec.describe Enterprise::Billing::ShopifySubscriptionSyncService do
       {
         'name' => 'Shopify Pro',
         'handle' => 'shopify-pro',
-        'features' => %w[audit_logs saml],
+        'features' => %w[audit_logs saml conversation_monitors],
         'limits' => { 'agents' => 10, 'inboxes' => 20 }
       }
     ]

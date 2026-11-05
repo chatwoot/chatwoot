@@ -38,13 +38,13 @@ RSpec.describe Captain::AssistantMigration::InstructionClassifier do
         scenario_candidates: 1,
         faq_document_candidates: 3,
         needs_review: 4
-      ).new.to_json_schema[:schema]
+      ).new.to_json_schema
 
-      expect(schema[:properties]).not_to have_key(:response_guidelines)
-      expect(schema.dig(:properties, :guardrails, :maxItems)).to eq(2)
-      expect(schema.dig(:properties, :scenario_candidates, :maxItems)).to eq(1)
-      expect(schema.dig(:properties, :faq_document_candidates, :maxItems)).to eq(3)
-      expect(schema.dig(:properties, :needs_review, :maxItems)).to eq(4)
+      expect(schema['properties']).not_to have_key('response_guidelines')
+      expect(schema.dig('properties', 'guardrails', 'maxItems')).to eq(2)
+      expect(schema.dig('properties', 'scenario_candidates', 'maxItems')).to eq(1)
+      expect(schema.dig('properties', 'faq_document_candidates', 'maxItems')).to eq(3)
+      expect(schema.dig('properties', 'needs_review', 'maxItems')).to eq(4)
     end
   end
 

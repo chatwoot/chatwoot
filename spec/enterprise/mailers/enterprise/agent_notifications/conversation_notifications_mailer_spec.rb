@@ -26,6 +26,19 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     end
   end
 
+  describe 'voice_call_missed' do
+    let(:message) { create(:message, account: account, conversation: conversation, content_type: 'voice_call') }
+    let(:mail) { described_class.with(account: account).voice_call_missed(conversation, agent, message).deliver_now }
+
+    it 'renders the subject' do
+      expect(mail.subject).to eq("#{agent.available_name}, Missed call from #{conversation.contact.name} in #{conversation.inbox.name}")
+    end
+
+    it 'renders the receiver email' do
+      expect(mail.to).to eq([agent.email])
+    end
+  end
+
   describe 'sla_missed_next_response' do
     let(:sla_policy) { create(:sla_policy, account: account) }
     let(:mail) { described_class.with(account: account).sla_missed_next_response(conversation, agent, sla_policy).deliver_now }

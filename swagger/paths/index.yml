@@ -319,28 +319,28 @@
     $ref: ./application/portal/create.yml
   get:
     $ref: ./application/portal/index.yml
-/api/v1/accounts/{account_id}/portals/{id}:
+/api/v1/accounts/{account_id}/portals/{portal_slug}:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/portal_id'
+    - $ref: '#/components/parameters/portal_slug'
   get:
     $ref: ./application/portal/show.yml
   patch:
     $ref: ./application/portal/update.yml
 
 # Help Center category
-/api/v1/accounts/{account_id}/portals/{id}/categories:
+/api/v1/accounts/{account_id}/portals/{portal_slug}/categories:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/portal_id'
+    - $ref: '#/components/parameters/portal_slug'
   post:
     $ref: ./application/category/create.yml
 
 # Help Center article
-/api/v1/accounts/{account_id}/portals/{id}/articles:
+/api/v1/accounts/{account_id}/portals/{portal_slug}/articles:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/portal_id'
+    - $ref: '#/components/parameters/portal_slug'
   post:
     $ref: ./application/article/create.yml
 

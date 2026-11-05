@@ -4286,13 +4286,13 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/portals/{id}": {
+    "/api/v1/accounts/{account_id}/portals/{portal_slug}": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
         },
         {
-          "$ref": "#/components/parameters/portal_id"
+          "$ref": "#/components/parameters/portal_slug"
         }
       ],
       "get": {
@@ -4315,7 +4315,7 @@
             "$ref": "#/components/parameters/account_id"
           },
           {
-            "$ref": "#/components/parameters/portal_id"
+            "$ref": "#/components/parameters/portal_slug"
           }
         ],
         "responses": {
@@ -4397,7 +4397,7 @@
             }
           },
           "404": {
-            "description": "The given portal ID does not exist in the account",
+            "description": "The given portal slug does not exist in the account",
             "content": {
               "application/json": {
                 "schema": {
@@ -4428,7 +4428,7 @@
             "$ref": "#/components/parameters/account_id"
           },
           {
-            "$ref": "#/components/parameters/portal_id"
+            "$ref": "#/components/parameters/portal_slug"
           }
         ],
         "requestBody": {
@@ -4534,13 +4534,13 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/portals/{id}/categories": {
+    "/api/v1/accounts/{account_id}/portals/{portal_slug}/categories": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
         },
         {
-          "$ref": "#/components/parameters/portal_id"
+          "$ref": "#/components/parameters/portal_slug"
         }
       ],
       "post": {
@@ -4592,13 +4592,13 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/portals/{id}/articles": {
+    "/api/v1/accounts/{account_id}/portals/{portal_slug}/articles": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
         },
         {
-          "$ref": "#/components/parameters/portal_id"
+          "$ref": "#/components/parameters/portal_slug"
         }
       ],
       "post": {
@@ -6430,8 +6430,8 @@
                       "type": "sms",
                       "phone_number": "+15551234567",
                       "provider_config": {
-                        "api_key": "your-api-key",
-                        "api_secret": "your-api-secret",
+                        "client_id": "your-client-id",
+                        "client_secret": "your-client-secret",
                         "application_id": "your-application-id",
                         "account_id": "your-account-id"
                       }
@@ -14768,7 +14768,8 @@
         "title": "SMS channel",
         "required": [
           "type",
-          "phone_number"
+          "phone_number",
+          "provider_config"
         ],
         "properties": {
           "type": {
@@ -14785,10 +14786,38 @@
           },
           "provider_config": {
             "type": "object",
-            "description": "Provider-specific SMS configuration",
+            "description": "Bandwidth OAuth configuration. New SMS inboxes require client credentials.",
+            "required": [
+              "account_id",
+              "application_id",
+              "client_id",
+              "client_secret"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "account_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "application_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "client_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "client_secret": {
+                "type": "string",
+                "minLength": 1,
+                "writeOnly": true
+              }
+            },
             "example": {
               "account_id": "your-account-id",
-              "application_id": "your-application-id"
+              "application_id": "your-application-id",
+              "client_id": "your-client-id",
+              "client_secret": "your-client-secret"
             }
           }
         }
@@ -17894,14 +17923,15 @@
         "required": true,
         "description": "The source id of contact obtained on contact create"
       },
-      "portal_id": {
+      "portal_slug": {
         "in": "path",
-        "name": "id",
+        "name": "portal_slug",
         "schema": {
           "type": "string"
         },
         "required": true,
-        "description": "The slug identifier of the portal"
+        "description": "The slug of the portal. The numeric portal ID is not accepted.",
+        "example": "handbook"
       }
     },
     "securitySchemes": {

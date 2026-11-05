@@ -1,4 +1,54 @@
 {
+  "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "Stripe er ikke tilgængelig for denne konto. Kontakt din administrator for at kontrollere integrationskonfigurationen.",
+    "TITLE": "Stripe",
+    "DESCRIPTION": "Se kundedetaljer, abonnementer og fakturaer sammen med dine samtaler.",
+    "CONNECT": "Tilslut",
+    "DISCONNECT": "Afbryd forbindelsen til Chatwoot",
+    "DISCONNECT_NOTE": "Ved at afbryde forbindelsen fjernes de gemte legitimationsoplysninger fra Chatwoot. Afinstaller appen i Stripe for at tilbagekalde dens adgang dér.",
+    "CONNECTED": "Tilsluttet",
+    "RECONNECT": "Genopret forbindelse til Stripe",
+    "REAUTHORIZATION_REQUIRED": "Genoprettelse af forbindelse kræves",
+    "ACCOUNT": "Tilsluttet konto",
+    "ACCOUNT_ID": "Konto SID",
+    "ENVIRONMENT": "Miljø",
+    "SANDBOX": "Sandbox",
+    "LIVE": "Live",
+    "CONNECTED_ON": "Forbundet den",
+    "OPEN_STRIPE": "Åbn Stripe-dashboardet",
+    "ERROR": "Kunne ikke indlæse Stripe. Prøv igen eller gentilslutte integrationen.",
+    "EMPTY": "Ingen Stripe kunde matcher denne kontakts e-mail.",
+    "NO_EMAIL": "Tilføj en e-mail til denne kontakt for at kunne slå Stripe-kunder op.",
+    "SELECT": "Vælg en matchende kunde",
+    "CUSTOMER_OPTION": "{name} — {id}",
+    "MORE": "Viser de første 100 matchende kunder. Præciser kontakt-e-mailen, hvis kunden ikke står på listen.",
+    "SUBSCRIPTIONS": "Seneste fem abonnementer",
+    "SUBSCRIPTION": "Abonnement",
+    "VIEW_SUBSCRIPTION": "Se abonnementsoplysninger for {name}",
+    "COPY_ID": "Kopier ID",
+    "COPIED": "Kopieret",
+    "QUANTITY": "Antal: {count}",
+    "PRICE_INTERVAL": "{amount} / {interval}",
+    "INTERVAL": {
+      "day": "dag | {count} dage",
+      "week": "uge | {count} uger",
+      "month": "måned | {count} måneder",
+      "year": "år | {count} år"
+    },
+    "VARIABLE_PRICE": "Forbrugsbaseret prissætning eller prismodeller med niveauer",
+    "RENEWS": "Fornyes den {date}",
+    "PERIOD_START": "Perioden starter {date}",
+    "PERIOD_END": "Periode slutter {date}",
+    "TRIAL_ENDS": "Prøveperioden slutter {date}",
+    "CANCELS": "Opsiges den {date}",
+    "CANCELS_AT_PERIOD_END": "Opsiges ved udgangen af faktureringsperioden",
+    "CANCELED_ON": "Opsagt den {date}",
+    "MORE_ITEMS": "Yderligere abonnementsprodukter vises ikke.",
+    "PRICE_NOTE": "Priserne er pr. enhed, før rabatter og afgifter. De udgør ikke et estimat af den næste faktura.",
+    "INVOICES": "Seneste fakturaer",
+    "NO_SUBSCRIPTIONS": "Ingen abonnementer fundet.",
+    "NO_INVOICES": "Ingen fakturaer fundet."
+  },
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "Shopify",
@@ -11,10 +61,24 @@
         "LABEL": "Store URL",
         "PLACEHOLDER": "your-store.myshopify.com",
         "HELP": "Enter your Shopify store's myshopify.com URL",
+        "INVALID_URL": "Indtast venligst en gyldig Shopify butik URL (f.eks. din-butik.myshopify.com)",
         "CANCEL": "Annuller",
         "SUBMIT": "Connect Store"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "HELP_TEXT": {
+        "TITLE": "Hvordan bruger man Shopify-integrationen?",
+        "BODY": "Med denne integration forbindes din Shopify-butik ***{storeDomain}*** til dit Chatwoot-arbejdsområde. Her er, hvad du kan gøre:\n\n**Spor ordrer i samtaler:** Når du åbner en samtale, viser Shopify-sidepanelet automatisk kundens seneste ordrer baseret på deres e-mailadresse. Det giver dit supportteam øjeblikkelig kontekst, uden at de behøver at skifte faneblad.\n\n**Få adgang til ordreoplysninger:** Se ordrestatus, leveringsstatus og totalbeløb direkte i samtalepanelet."
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists.",
+      "PENDING_INSTALL": {
+        "SUCCESS": "Shopify butik er blevet tilsluttet.",
+        "ERROR": "Kunne ikke fuldføre Shopify installationen. Prøv venligst igen."
+      },
+      "SELECT_ACCOUNT": {
+        "TITLE": "Vælg et arbejdsområde",
+        "DESCRIPTION": "Vælg det arbejdsområde, der skal forbindes til din Shopify butik. Hvis du vil genoprette en tidligere forbindelse, skal du vælge det oprindelige arbejdsområde.",
+        "UNAVAILABLE": "Der blev ikke fundet et egnet arbejdsområde eller en gyldig installation. Genstart installationen, eller log ind som administrator for arbejdsområdet."
+      }
     },
     "HEADER": "Integrationer",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
@@ -32,11 +96,11 @@
       "SUBSCRIBED_EVENTS": "Abonnerede Begivenheder",
       "LEARN_MORE": "Learn more about webhooks",
       "PAYWALL": {
-        "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
-        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+        "TITLE": "Webhooks er tilgængelige i betalte abonnementer",
+        "AVAILABLE_ON": "Brug webhooks til at modtage begivenheder i realtid fra din Chatwoot-konto.",
+        "UPGRADE_PROMPT": "Opgrader til Startups-, Business- eller Enterprise-abonnementet for at bruge webhooks.",
+        "UPGRADE_NOW": "Opgradér nu",
+        "CANCEL_ANYTIME": "Ændre eller annullere din plan når som helst."
       },
       "SECRET": {
         "LABEL": "Secret",
@@ -65,7 +129,7 @@
             "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "Indbakke opdateret"
           }
         },
         "NAME": {
@@ -135,23 +199,23 @@
       "HELP_TEXT": {
         "TITLE": "Brug Slack Integration",
         "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
+        "BODY_ALERT": "Med denne integration synkroniseres alle dine indgående samtaler til kanalen ***{selectedChannelName}*** i dit Slack-arbejdsområde, så dit team kan tage sig af dem, så snart de modtages.\n\nDenne integration er indstillet til **Kun notifikationer**, hvilket betyder, at Slack-tråden er et sikkert sted til interne drøftelser. Alt, hvad dit team skriver der, bliver i Slack og sendes aldrig videre til kunden.\n\n**Svar kunden fra Chatwoot:** Åbn samtalen via linket i tråden, og svar fra Chatwoot-dashboardet. Svar og interne noter, der tilføjes i Chatwoot, vises løbende i Slack-tråden, så alle holdes opdateret.",
         "SELECTED": "selected"
       },
       "MESSAGE_MODE": {
-        "TITLE": "Slack thread behaviour",
-        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "TITLE": "Slack tråd adfærd",
+        "DESCRIPTION": "Beslut, om svar i Slack-tråden skal nå ud til kunden eller forblive interne.",
         "OPTIONS": {
           "TWO_WAY": {
-            "LABEL": "Two-way sync",
-            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+            "LABEL": "To-vejs synkronisering",
+            "DESCRIPTION": "Svar i Slack-tråden sendes til kunden. Start en besked med `note:` for at holde den intern."
           },
           "ALERT": {
-            "LABEL": "Alerts only",
-            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+            "LABEL": "Kun advarsler",
+            "DESCRIPTION": "Samtalerne lægges på Slack udelukkende til intern drøftelse. Intet i tråden når frem til kunden."
           }
         },
-        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
+        "UPDATE_SUCCESS": "Funktionsmåden for Slack-tråde er blevet opdateret"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
@@ -402,6 +466,37 @@
         "BUTTON_TEXT": "Connect Linear workspace"
       }
     },
+    "GOOGLE_TRANSLATE": {
+      "HEADER": "Google Translate",
+      "DELETE_MESSAGE": "Agents won't be able to translate messages with Google Translate anymore. If Google Translate is your translation service, auto-translate stops until you pick another one.",
+      "SETUP": {
+        "TITLE": "Set up Google Translate",
+        "DESCRIPTION": "You'll need a Google Cloud project. It takes about five minutes.",
+        "STEPS": {
+          "ENABLE_API": {
+            "TITLE": "Turn on the Cloud Translation API",
+            "DESCRIPTION": "Pick a project in the Google Cloud console and enable the Cloud Translation API. Note the project ID.",
+            "LINK": "Open Cloud Translation API"
+          },
+          "CREATE_KEY": {
+            "TITLE": "Create a service account key",
+            "DESCRIPTION": "Create a service account with the Cloud Translation API User role. Then open it, go to Keys, and add a JSON key.",
+            "LINK": "Open service accounts"
+          },
+          "CONNECT": {
+            "TITLE": "Connect it here",
+            "DESCRIPTION": "Click Connect, enter the project ID and paste the key file. We check it with Google before saving."
+          }
+        }
+      },
+      "DETAILS": {
+        "PROJECT": "Google Cloud project",
+        "SERVICE": "Translation service",
+        "SERVICE_GOOGLE": "Google Translate handles all translation in your conversations. When auto-translate is on, it translates incoming messages into each agent's language and sends replies in the customer's language. Agents also use it when they translate a message from its menu.",
+        "SERVICE_OTHER": "Captain is selected as your translation service, so Google Translate isn't used right now. Auto-translate and the Translate action on messages both go through Captain. Switch the service to Google Translate to use this integration instead.",
+        "CHANGE": "Skift"
+      }
+    },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
@@ -423,22 +518,25 @@
       },
       "INBOX_BANNER": {
         "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
-        "ACTION": "Connect inbox",
+        "ACTION": "Tilslut indbakke",
         "DISMISS": "Dismiss"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "TEXT": "{count} forslag til ofte stillede spørgsmål er klar til gennemgang, hvilket fastholder dækningen på {coverage} %. Godkend dem, så din assistent kan løse flere opgaver på egen hånd.",
         "ACTION": "Review suggestions",
         "DISMISS": "Dismiss"
       },
       "RANGES": {
-        "LAST_DAYS": "Last {count} days",
+        "INSUFFICIENT_HISTORY": "Not enough reporting history yet",
+        "THIS_WEEK": "This week",
+        "LAST_WEEK": "Sidste uge",
+        "LAST_DAYS": "Sidste {count} dage",
         "THIS_MONTH": "This month",
         "LAST_MONTH": "Last month"
       },
       "METRICS": {
         "HANDLED": {
-          "LABEL": "Conversations handled",
+          "LABEL": "Samtaler håndteret",
           "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
         },
         "AUTO_RESOLUTION": {
@@ -493,6 +591,21 @@
         }
       },
       "V2": {
+        "DRILLDOWN": {
+          "HANDLED": "Episodes where Captain participated during the selected period.",
+          "RESOLVED": "Episodes resolved by Captain without a handoff or human reply before resolution.",
+          "HANDED_OFF": "Episodes handed off after Captain participated.",
+          "REOPENED": "Captain-resolved episodes that subsequently reopened.",
+          "DURABLE": "Captain-resolved episodes that remained closed for at least seven days.",
+          "CLOSED_WITH_TEAM": "Episodes where Captain participated but neither resolved autonomously nor handed off.",
+          "REOPENED_WITHIN_7_DAYS": "Captain-resolved episodes that reopened within seven days.",
+          "STAYED_CLOSED": "Captain-resolved episodes with no reopen recorded within seven days. Recent resolutions are included.",
+          "HANDOFF_REASON": "Episodes handed off for this reason: {reason}.",
+          "COUNT": "No episodes | 1 episode | {count} episodes",
+          "EPISODES_HINT": "A conversation can appear more than once if Captain handled it in separate episodes. Episodes are grouped by when they started.",
+          "STARTED_AT": "Episode started {time}",
+          "RETRY": "Prøv igen"
+        },
         "EMPTY": "No data available for this period.",
         "SUMMARY": {
           "GREETING": "Hello, {name}!",
@@ -503,7 +616,7 @@
         },
         "UNITS": {
           "DAYS": "{value}d",
-          "HOURS": "{value}h",
+          "HOURS": "{value}t",
           "MINUTES": "{value} min"
         },
         "METRICS": {
@@ -512,6 +625,7 @@
           },
           "DURABLE": {
             "LABEL": "Captain resolutions remained closed",
+            "NOT_APPLICABLE_HINT": "No resolutions in this period have seven days of follow-up yet. Durability is unavailable.",
             "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
             "NOTE": "Only resolutions old enough to observe for seven days are included."
           },
@@ -523,13 +637,13 @@
           "DEPTH": {
             "LABEL": "Messages per conversation"
           },
-          "OF_TOTAL": "of {total}"
+          "OF_TOTAL": "af {total}"
         },
         "RESOLUTION_FLOW": {
           "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
           "NODES": {
-            "HANDLED": "Handled",
-            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
+            "HANDLED": "Håndteret",
+            "RESOLVED_BY_CAPTAIN": "Løst af Captain",
             "HANDED_OFF": "Handed off",
             "CLOSED_WITH_TEAM": "Closed with team",
             "REOPENED": "Reopened in 7d",
@@ -551,12 +665,15 @@
         },
         "RESOLUTION_TREND": {
           "TITLE": "Resolution trend",
+          "COMPARISON_LABEL": "Weekday-aligned comparison",
+          "COMPARISON_HINT": "Compare resolution rates on matching weekdays, such as Monday with Monday.",
+          "COMPARISON_NOTE": "Today is compared up to the same time of day.",
           "CONVERSATION_COUNT": "Conversation count",
           "RESOLUTION_RATE": "Resolution rate",
           "CURRENT_PERIOD": "Current period",
           "PREVIOUS_PERIOD": "Previous period",
-          "HANDLED": "Handled",
-          "RESOLVED": "Resolved by Captain",
+          "HANDLED": "Håndteret",
+          "RESOLVED": "Løst af Captain",
           "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
           "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
         },
@@ -578,6 +695,7 @@
           "BUY_MORE": "Buy more credits"
         },
         "KNOWLEDGE": {
+          "SUGGESTED": "Suggested FAQs",
           "REVIEW": "Review FAQs"
         }
       }
@@ -599,6 +717,12 @@
       "YOU": "Dig",
       "USE": "Brug dette",
       "RESET": "Nulstil",
+      "NEW_CHAT": "New chat",
+      "HISTORY": "Past chats",
+      "NO_HISTORY": "Your past Copilot chats will appear here.",
+      "LOAD_MORE": "Load more chats",
+      "LOADING_CHAT": "Loading chat...",
+      "LOADING_HISTORY": "Loading past chats...",
       "SHOW_STEPS": "Vis trin",
       "SELECT_ASSISTANT": "Vælg assistent",
       "PROMPTS": {
@@ -628,9 +752,93 @@
       "USER": "Dig",
       "ASSISTANT": "Assistent",
       "MESSAGE_PLACEHOLDER": "Skriv din besked...",
+      "SEND_MESSAGE": "Send besked",
       "HEADER": "Legeplads",
       "DESCRIPTION": "Brug denne legeplads til at sende beskeder til din assistent og tjekke, om den svarer korrekt, hurtigt og i den tone, du forventer.",
-      "CREDIT_NOTE": "Beskeder sendt her tæller mod dine Captain-kreditter."
+      "CREDIT_NOTE": "Beskeder sendt her tæller mod dine Captain-kreditter.",
+      "CLEAR_CONVERSATION": "Clear conversation",
+      "RESPONSE_ERROR": "Captain could not complete this test run. Review the setup and try again.",
+      "SETUP": {
+        "TITLE": "Test setup",
+        "DESCRIPTION": "Changes here apply only to this playground session unless you explicitly save an item.",
+        "TOGGLE": "Toggle test setup",
+        "CLOSE": "Close test setup",
+        "RESET": "Reset test setup",
+        "TEMPORARY": "Temporary",
+        "SESSION_ONLY": "Session only",
+        "INCLUDE_IN_TEST": "Include in this test",
+        "ADD_TO_TEST": "Add to test (↵)",
+        "LOAD_ERROR": "The saved assistant setup could not be loaded.",
+        "INVALID_CONFIGURATION": "Complete or remove the included temporary scenarios before sending a message.",
+        "SAVE_SCENARIO_SUCCESS": "The scenario was saved and remains included in this test.",
+        "SAVE_SCENARIO_ERROR": "The scenario could not be saved.",
+        "SAVE_RULE_SUCCESS": "The rule was saved and remains included in this test.",
+        "SAVE_RULE_ERROR": "The rule could not be saved.",
+        "RULE_ALREADY_SAVED": "That exact rule is already saved, so no duplicate was created.",
+        "SCENARIOS": {
+          "TAB_TITLE": "Scenarios",
+          "CREATE_TITLE": "Add a temporary scenario",
+          "CREATE_HINT": "Try a new behavior without changing the assistant configuration.",
+          "SAVED_SUMMARY": "Existing scenarios ({count})",
+          "ADD_PERMANENTLY": "Add scenario permanently",
+          "DISABLED": "Deaktiveret",
+          "EMPTY": "This assistant has no saved scenarios.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary scenario title...",
+          "COLLAPSE": "Collapse temporary scenario",
+          "EXPAND": "Expand temporary scenario",
+          "REMOVE": "Remove temporary scenario"
+        },
+        "GUIDELINES": {
+          "TAB_TITLE": "Guidelines",
+          "CREATE_TITLE": "Add a temporary guideline",
+          "CREATE_HINT": "Test a response preference before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guidelines ({count})",
+          "ADD_PERMANENTLY": "Add guideline permanently",
+          "EMPTY": "This assistant has no saved response guidelines.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guideline...",
+          "PLACEHOLDER": "Add a response guideline",
+          "REMOVE": "Remove temporary response guideline"
+        },
+        "GUARDRAILS": {
+          "TAB_TITLE": "Guardrails",
+          "CREATE_TITLE": "Add a temporary guardrail",
+          "CREATE_HINT": "Test a safety boundary before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guardrails ({count})",
+          "ADD_PERMANENTLY": "Add guardrail permanently",
+          "EMPTY": "This assistant has no saved guardrails.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guardrail...",
+          "PLACEHOLDER": "Add a guardrail",
+          "REMOVE": "Remove temporary guardrail"
+        },
+        "KNOWLEDGE": {
+          "TAB_TITLE": "Knowledge",
+          "AVAILABLE_TITLE": "Knowledge available to Captain",
+          "AVAILABLE_DESCRIPTION": "Saved sources are summarized here and managed outside the playground.",
+          "DOCUMENTS": "Documents",
+          "FAQS": "FAQs",
+          "TEMPORARY_TITLE": "Temporary knowledge",
+          "ADD_PERMANENTLY": "Add document permanently",
+          "LABEL": "Reference text",
+          "PLACEHOLDER": "Paste or write new knowledge for this test",
+          "HINT": "This text is attached only to playground requests unless you add it as a document."
+        },
+        "SAVE_KNOWLEDGE_SUCCESS": "Knowledge added as a document.",
+        "SAVE_KNOWLEDGE_ERROR": "Unable to add knowledge as a document."
+      },
+      "RUN_DETAILS": {
+        "SUMMARY": "Run details · {duration}ms",
+        "HANDLER_VALUE": "Handled by: {handler}",
+        "SCENARIOS": "No scenarios | One scenario | {count} scenarios",
+        "RULES": "{count} rules",
+        "KNOWLEDGE_ATTACHED": "Temporary knowledge was attached to this run.",
+        "NO_EVENTS": "No tool calls or scenario handoffs were recorded.",
+        "HANDOFF": "{from} → {to}",
+        "STATUS": {
+          "RUNNING": "Running",
+          "COMPLETED": "Afsluttet",
+          "FAILED": "Fejlet"
+        }
+      }
     },
     "PAYWALL": {
       "TITLE": "Opgrader for at bruge Captain AI",
@@ -659,7 +867,7 @@
       "ADD_NEW": "Create a new assistant",
       "DELETE": {
         "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
         "CONFIRM": "Yes, delete",
         "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
@@ -734,7 +942,7 @@
           },
           "DURATION_HOURS_ARIA_LABEL": "Hours before action",
           "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
-          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_HOURS_SHORT": "{count} t",
           "DURATION_MINUTES_SHORT": "{count} min"
         },
         "INSTRUCTIONS": {
@@ -750,7 +958,7 @@
         },
         "AUDIENCE": {
           "EVERYONE": {
-            "LABEL": "Everyone",
+            "LABEL": "Alle",
             "DESC": "Captain responds to every conversation in connected inboxes."
           },
           "SPECIFIC": {
@@ -832,7 +1040,7 @@
         },
         "DELETE": {
           "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
           "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
@@ -1053,7 +1261,7 @@
           "UPDATED": "Updated",
           "NEEDS_UPDATE": "Needs update",
           "UPDATING": "Updating",
-          "FAILED": "Failed"
+          "FAILED": "Fejlet"
         },
         "SORT": {
           "RECENTLY_UPDATED": "Recently updated",
@@ -1160,6 +1368,56 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "CATALOG": {
+        "BUTTON": "Tools Catalog",
+        "HEADER": "Tools Catalog",
+        "DESCRIPTION": "Browse toolsets from the Captain tools catalog and install them on this assistant.",
+        "ALL": "Alle",
+        "EMPTY": "No toolsets in this category yet.",
+        "LOAD_ERROR": "Could not load the tools catalog. Check the catalog URL in the Captain settings.",
+        "TOOL_COUNT": "{n} tool | {n} tools",
+        "VERSION": "v{version}",
+        "UPDATED": "Opdateret {time}",
+        "REPOSITORY": "Repository",
+        "MANIFEST": "Manifest",
+        "CONFIGURATION": "Konfiguration",
+        "REQUIRED": "Påkrævet",
+        "DETAILS_ERROR": "Could not load the toolset details.",
+        "INSTALLED": "Installed",
+        "UPDATE_AVAILABLE": "Update available"
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Choose an assistant",
+        "DESCRIPTION": "Pick the assistant to install this toolset on.",
+        "PLACEHOLDER": "Vælg en assistent",
+        "LOAD_ERROR": "Could not load your assistants. Reload the page to try again."
+      },
+      "INSTALL_MANIFEST": {
+        "TITLE": "Install a toolset",
+        "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
+        "TOOLS_LABEL": "Tools",
+        "CONFIGURATION_LABEL": "Konfiguration",
+        "CONTINUE": "Continue",
+        "INSTALL": "Install",
+        "UPDATE": "Opdater",
+        "REINSTALL": "Reinstall",
+        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
+        "ALREADY_INSTALLED": "Already installed",
+        "SUCCESS_MESSAGE": "Toolset installed",
+        "ERROR_MESSAGE": "Could not install the toolset",
+        "PREVIEW_ERROR": "Could not load the toolset"
+      },
+      "ASSISTANT_TOOLS_BANNER": {
+        "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
+        "LEARN_MORE": "Lær mere",
+        "DISMISS": "Dismiss announcement",
+        "MODAL_TITLE": "Your assistants now have their own tools",
+        "MODAL_DESCRIPTION": "Each assistant now has a separate list of custom tools. We copied your existing tools to every assistant, so nothing is missing.",
+        "MODAL_INSTRUCTIONS": "When you add, edit, turn off, or delete a tool, the change applies only to the assistant you're currently viewing. Switch assistants at the top of the page to review or customize their tools.",
+        "ACKNOWLEDGE": "Got it"
+      },
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
@@ -1172,6 +1430,7 @@
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
+        "VIEW_TOOL": "View tool",
         "DELETE_TOOL": "Delete tool"
       },
       "STATUS": {
@@ -1194,6 +1453,11 @@
         "TITLE": "Create Custom Tool",
         "SUCCESS_MESSAGE": "Custom tool created successfully",
         "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "VIEW": {
+        "TITLE": "Custom Tool Details",
+        "REQUEST": "Request and response",
+        "INSTALLED_NOTE": "This tool is read-only because it was installed from the Tools Catalog."
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
@@ -1247,6 +1511,11 @@
         "AUTH_TYPE": {
           "LABEL": "Authentication Type"
         },
+        "EMAIL_VERIFICATION": {
+          "LABEL": "Require email verification",
+          "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code.",
+          "IMPLIED": "A parameter takes the customer's verified email, so email verification is always required."
+        },
         "AUTH_TYPES": {
           "NONE": "Ingen",
           "BEARER": "Bearer Token",
@@ -1264,6 +1533,19 @@
           "API_KEY_PLACEHOLDER": "X-API-Key",
           "API_VALUE": "Header Value",
           "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "SECTIONS": {
+          "TEMPLATES": "Templates",
+          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Headers",
+          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
+          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
+          "VALUE_PLACEHOLDER": "Header value",
+          "NAME_REQUIRED": "Header name is required",
+          "NAME_DUPLICATE": "Header names must be unique",
+          "ADD": "Add Header"
         },
         "PARAMETERS": {
           "LABEL": "Parameters",
@@ -1288,6 +1570,21 @@
         },
         "PARAM_REQUIRED": {
           "LABEL": "Påkrævet"
+        },
+        "RISK": {
+          "MEDIUM": "This tool may return customer data. Consider requiring email verification.",
+          "HIGH": "This tool looks like it reads or changes customer data. Require email verification so only a verified customer can use it.",
+          "TITLE": "Save without email verification?",
+          "GO_BACK": "Gå tilbage",
+          "SAVE_ANYWAY": "Save anyway",
+          "EMAIL_PARAM": "This email is not verified. A customer could type someone else's.",
+          "USE_VERIFIED_EMAIL": "Use verified email"
+        },
+        "VERIFIED_VALUES": {
+          "ADD": "Add verified email",
+          "EMAIL": "Contact email",
+          "EMAIL_DESCRIPTION": "The contact's verified email address",
+          "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations."
         },
         "REQUEST_TEMPLATE": {
           "LABEL": "Request Body Template (Optional)",
@@ -1391,7 +1688,7 @@
         "SOURCES": "Source conversations",
         "SOURCE_PROGRESS": "{visible} of {total}",
         "NO_SOURCES": "No accessible source conversations were found.",
-        "RETRY": "Retry"
+        "RETRY": "Prøv igen"
       },
       "EMPTY_STATE": {
         "TITLE": "The review queue is clear",

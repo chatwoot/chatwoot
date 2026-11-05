@@ -185,15 +185,17 @@ describe('MonitorForm preview cooldown', () => {
     );
   });
 
-  it('opens prefilled with a template name, condition, icon, and color', async () => {
+  it('opens with a template and resets its source when reopened from scratch', async () => {
     wrapper.vm.open({
       name: 'Refunds',
       condition: 'Mentions refunds',
       icon: 'money-dollar-circle-line',
       icon_color: '#22C55E',
+      templateName: 'Refund requests',
     });
     await wrapper.vm.$nextTick();
 
+    expect(wrapper.text()).toContain('MONITORS.TEMPLATES.EDIT_HINT');
     expect(wrapper.find('textarea').element.value).toBe('Mentions refunds');
     expect(wrapper.findComponent({ name: 'Input' }).props('modelValue')).toBe(
       'Refunds'
@@ -206,6 +208,14 @@ describe('MonitorForm preview cooldown', () => {
         color: '#22C55E',
       })
     );
+
+    wrapper.vm.open();
+    await wrapper.vm.$nextTick();
+    expect(wrapper.text()).not.toContain('MONITORS.TEMPLATES.EDIT_HINT');
+    expect(wrapper.findComponent({ name: 'Input' }).props('modelValue')).toBe(
+      ''
+    );
+    expect(wrapper.find('textarea').element.value).toBe('');
   });
 
   it('opens a duplicate with only the condition', async () => {

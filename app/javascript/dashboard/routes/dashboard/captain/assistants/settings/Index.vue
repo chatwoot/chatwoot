@@ -2,7 +2,8 @@
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import { useAssistantSettings } from './useAssistantSettings';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SettingsPageLayout from 'dashboard/components-next/captain/pageComponents/assistant/settings/SettingsPageLayout.vue';
@@ -16,6 +17,33 @@ const { assistantId, assistant, updateAssistant } = useAssistantSettings();
 
 const deleteAssistantDialog = ref(null);
 const assistants = useMapGetter('captainAssistants/getRecords');
+const store = useStore();
+
+const handleAvatarUpload = async ({ file, url }) => {
+  URL.revokeObjectURL(url);
+  try {
+    await store.dispatch('captainAssistants/uploadAvatar', {
+      id: assistantId.value,
+      file,
+    });
+    useAlert(t('CAPTAIN.ASSISTANTS.FORM.AVATAR.UPLOAD_SUCCESS'));
+  } catch (error) {
+    useAlert(
+      error?.message || t('CAPTAIN.ASSISTANTS.FORM.AVATAR.UPLOAD_ERROR')
+    );
+  }
+};
+
+const handleAvatarDelete = async () => {
+  try {
+    await store.dispatch('captainAssistants/deleteAvatar', assistantId.value);
+    useAlert(t('CAPTAIN.ASSISTANTS.FORM.AVATAR.DELETE_SUCCESS'));
+  } catch (error) {
+    useAlert(
+      error?.message || t('CAPTAIN.ASSISTANTS.FORM.AVATAR.DELETE_ERROR')
+    );
+  }
+};
 
 const handleDelete = () => {
   deleteAssistantDialog.value.dialogRef.open();
@@ -55,6 +83,8 @@ const handleDeleteSuccess = () => {
     <AssistantBasicSettingsForm
       :assistant="assistant"
       @submit="updateAssistant"
+      @upload-avatar="handleAvatarUpload"
+      @delete-avatar="handleAvatarDelete"
     />
     <span class="w-full h-px mt-2 bg-n-weak" />
     <div class="flex items-end justify-between w-full gap-4">

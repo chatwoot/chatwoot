@@ -1,11 +1,15 @@
 import { ref } from 'vue';
 import { shallowMount } from '@vue/test-utils';
+import { useTrack } from 'dashboard/composables';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import ViewAllConversations from '../ViewAllConversations.vue';
 import { CONTACT_CONVERSATION_NAVIGATION } from 'dashboard/composables/useContactConversationNavigation';
 
 const isOnExpandedLayout = ref(false);
 const isOnFolderView = ref(false);
 const route = { name: 'inbox_conversation' };
+
+vi.mock('dashboard/composables', () => ({ useTrack: vi.fn() }));
 
 vi.mock('vue-router', () => ({
   useRoute: () => route,
@@ -60,6 +64,15 @@ describe('ViewAllConversations', () => {
       conversationId: 13,
       path: '/conversations/13',
     });
+  });
+
+  it('tracks the visit to the contact history', async () => {
+    const wrapper = mountComponent(navigation);
+    await wrapper.find('button').trigger('click');
+
+    expect(useTrack).toHaveBeenCalledWith(
+      CONVERSATION_EVENTS.VIEWED_ALL_CONTACT_CONVERSATIONS
+    );
   });
 
   it('keeps the open thread while scoping the list', async () => {
