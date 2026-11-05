@@ -73,6 +73,30 @@ describe('ImportDetailHeader', () => {
     expect(wrapper.emitted('retry')).toHaveLength(1);
   });
 
+  it('offers Abandon when the server marks a legacy import recoverable', async () => {
+    const legacy = {
+      id: 1,
+      name: 'Contacts',
+      data_type: 'contacts',
+      status: 'processing',
+      stalled: false,
+    };
+    const wrapper = mountHeader({
+      dataImport: { ...legacy, allowed_actions: { abandon: false } },
+    });
+    const abandon = '[data-label="DATA_IMPORTS.TABLE.ABANDON"]';
+    expect(wrapper.find(abandon).exists()).toBe(false);
+
+    await wrapper.setProps({
+      dataImport: { ...legacy, allowed_actions: { abandon: true } },
+    });
+    await wrapper.get(abandon).trigger('click');
+    expect(wrapper.emitted('abandon')).toHaveLength(1);
+    expect(
+      wrapper.find('[data-label="DATA_IMPORTS.TABLE.RETRY"]').exists()
+    ).toBe(false);
+  });
+
   it('hides Retry when the server does not report the import as stalled', () => {
     const wrapper = mountHeader({
       dataImport: { ...activeImport, stalled: false },

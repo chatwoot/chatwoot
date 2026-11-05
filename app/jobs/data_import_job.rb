@@ -5,6 +5,7 @@ class DataImportJob < ApplicationJob
   queue_as :low
   retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3
 
+  BATCH_SIZE = 1000
   LABELS_DELIMITER = ','.freeze
   LABELS_CONTEXT = 'labels'.freeze
   CONTACT_TAGGABLE_TYPE = 'Contact'.freeze
@@ -12,7 +13,7 @@ class DataImportJob < ApplicationJob
   def perform(data_import)
     @data_import = data_import
     @contact_manager = DataImport::ContactManager.new(@data_import.account)
-    begin
+    catch(:inactive_import) do
       process_import_file
       send_import_notification_to_admin
     rescue CSV::MalformedCSVError => e
@@ -22,13 +23,27 @@ class DataImportJob < ApplicationJob
 
   private
 
+  # Legacy rows can be abandoned after a lost job. Fence each write batch against a delayed delivery.
+  def while_active
+    @data_import.with_lock do
+      throw :inactive_import unless @data_import.pending? || @data_import.processing?
+
+      yield
+    end
+  end
+
   def process_import_file
-    @data_import.update!(status: :processing)
+    while_active { @data_import.update!(status: :processing) }
     contacts, rejected_contacts = parse_csv_and_build_contacts
 
-    import_contacts(contacts)
-    update_data_import_status(contacts.length, rejected_contacts.length)
+    contacts.each_slice(BATCH_SIZE) do |batch|
+      while_active do
+        import_contacts(batch)
+        @data_import.update!(updated_at: Time.current)
+      end
+    end
     save_failed_records_csv(rejected_contacts)
+    while_active { update_data_import_status(contacts.length, rejected_contacts.length) }
   end
 
   def parse_csv_and_build_contacts
@@ -36,8 +51,11 @@ class DataImportJob < ApplicationJob
     rejected_contacts = []
 
     with_import_file do |file|
-      csv_reader(file).each do |row|
-        build_contact_from_row(row, contacts, rejected_contacts)
+      csv_reader(file).each_slice(BATCH_SIZE) do |rows|
+        while_active do
+          rows.each { |row| build_contact_from_row(row, contacts, rejected_contacts) }
+          @data_import.update!(updated_at: Time.current)
+        end
       end
     end
 
@@ -74,7 +92,8 @@ class DataImportJob < ApplicationJob
   def import_contacts(contacts_with_labels)
     contacts = contacts_with_labels.pluck(:contact)
     # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
-    Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
+    Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true,
+                             track_validation_failures: true, validate: true, batch_size: BATCH_SIZE)
     apply_labels_to_contacts(contacts_with_labels)
   end
 
@@ -83,7 +102,7 @@ class DataImportJob < ApplicationJob
     return if taggings.blank?
 
     ActsAsTaggableOn::Tagging.import(%i[tag_id taggable_type taggable_id context created_at],
-                                     taggings, on_duplicate_key_ignore: true, validate: false, batch_size: 1000)
+                                     taggings, on_duplicate_key_ignore: true, validate: false, batch_size: BATCH_SIZE)
   end
 
   def taggings_for_contacts(contacts_with_labels)
@@ -118,17 +137,6 @@ class DataImportJob < ApplicationJob
   def contact_for_label_import(contact)
     return contact if contact.id.present?
 
-    key = contact_identity_key(contact)
-    return if key.blank?
-
-    imported_contact(contact)
-  end
-
-  def contact_identity_key(contact)
-    contact.identifier.presence || contact.email.presence || contact.phone_number.presence
-  end
-
-  def imported_contact(contact)
     return @data_import.account.contacts.find_by(identifier: contact.identifier) if contact.identifier.present?
     return @data_import.account.contacts.from_email(contact.email) if contact.email.present?
 
@@ -176,7 +184,7 @@ class DataImportJob < ApplicationJob
   end
 
   def handle_csv_error(error) # rubocop:disable Lint/UnusedMethodArgument
-    @data_import.update!(status: :failed)
+    while_active { @data_import.update!(status: :failed) }
     send_import_failed_notification_to_admin
   end
 
@@ -189,11 +197,7 @@ class DataImportJob < ApplicationJob
   end
 
   def csv_headers
-    header_row = nil
-    with_import_file do |file|
-      header_row = csv_reader(file).first
-    end
-    header_row&.headers || []
+    with_import_file { |file| csv_reader(file).first&.headers || [] }
   end
 
   def csv_reader(file)
