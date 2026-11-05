@@ -9,6 +9,26 @@ RSpec.describe Integrations::Hook do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  describe 'access_token length validation' do
+    let(:account) { create(:account) }
+
+    it 'keeps the Stripe bound independent of MAX_TEXT_COLUMN_LENGTH' do
+      stub_const('ApplicationRecord::MAX_TEXT_COLUMN_LENGTH', 100)
+      serialized = { access_token: 'a' * 128, refresh_token: 'r' * 128, expires_at: 1.hour.from_now.to_i }.to_json
+
+      hook = build(:integrations_hook, account: account, app_id: 'stripe', access_token: serialized)
+
+      expect(hook).to be_valid
+    end
+
+    it 'applies the string column bound to non-Stripe hooks' do
+      hook = build(:integrations_hook, account: account, app_id: 'slack', access_token: 'a' * 256)
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:access_token]).to include('is too long (maximum is 255 characters)')
+    end
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
   end
