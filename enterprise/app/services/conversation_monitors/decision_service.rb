@@ -1,6 +1,9 @@
 class ConversationMonitors::DecisionService
-  # Translate the legacy model ID on existing monitors to OpenRouter's Jev 1.13 ID.
-  MODEL_ALIASES = { 'jev-1.13.0' => 'typesafe/jev-1.13' }.freeze
+  # Upgrade existing monitors to the shared model without rewriting their stored definitions.
+  MODEL_ALIASES = {
+    'jev-1.13.0' => Captain::JevClient::DEFAULT_MODEL,
+    'typesafe/jev-1.13' => Captain::JevClient::DEFAULT_MODEL
+  }.freeze
 
   def initialize(account_id:, conversation_id: nil)
     @account_id = account_id
