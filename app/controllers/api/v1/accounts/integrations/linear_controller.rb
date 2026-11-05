@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Integrations::BaseController
   before_action :fetch_conversation, only: [:create_issue, :link_issue, :unlink_issue, :linked_issues]
+  before_action :validate_issue_link, only: [:unlink_issue]
   before_action :fetch_hook, only: [:destroy]
   before_action :check_authorization, only: [:destroy]
 
@@ -108,6 +109,16 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Int
 
   def fetch_conversation
     @conversation = Current.account.conversations.find_by!(display_id: permitted_params[:conversation_id])
+    authorize @conversation, :show?
+  end
+
+  def validate_issue_link
+    issues = linear_processor_service.linked_issues(conversation_link)
+    if issues[:error]
+      render json: { error: issues[:error] }, status: :unprocessable_entity
+    else
+      head :not_found unless issues[:data].any? { |attachment| attachment['id'] == permitted_params[:link_id] }
+    end
   end
 
   def linear_processor_service
