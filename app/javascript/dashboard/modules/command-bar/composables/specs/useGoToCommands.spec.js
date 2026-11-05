@@ -234,6 +234,45 @@ describe('useGoToCommands', () => {
     });
   });
 
+  it('should offer inboxes, teams and labels as pages of jump targets', () => {
+    const { goToCommands } = useGoToCommands();
+    const byId = id => goToCommands.value.find(cmd => cmd.id === id);
+
+    expect(byId('goto_inbox').page).toBe(true);
+    expect(byId('inbox-7')).toEqual(
+      expect.objectContaining({ parent: 'goto_inbox', title: 'Support' })
+    );
+    expect(byId('team-3')).toEqual(
+      expect.objectContaining({ parent: 'goto_team', title: 'Sales' })
+    );
+    expect(byId('label-billing')).toEqual(
+      expect.objectContaining({ parent: 'goto_label', prefix: '#' })
+    );
+
+    byId('inbox-7').run();
+    expect(useRouter().push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'inbox_dashboard',
+        params: expect.objectContaining({ inbox_id: 7 }),
+      })
+    );
+  });
+
+  it('should offer create shortcuts that lead to the new-record routes', () => {
+    const { goToCommands } = useGoToCommands();
+    const newInbox = goToCommands.value.find(cmd => cmd.id === 'new_inbox');
+
+    expect(newInbox.scopes).toEqual(['settings']);
+    const newCampaign = goToCommands.value.find(
+      cmd => cmd.id === 'new_campaign'
+    );
+    expect(newCampaign.scopes).toEqual([]);
+    newInbox.run();
+    expect(useRouter().push).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'settings_inbox_new' })
+    );
+  });
+
   it('should show the keyboard shortcut of pages that have one', () => {
     const { goToCommands } = useGoToCommands();
     const dashboard = goToCommands.value.find(

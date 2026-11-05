@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useRoute, useRouter } from 'vue-router';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { getInboxIconByType } from 'dashboard/helper/inbox';
 import {
   pathScopes,
   shortcutKeys,
@@ -12,6 +13,7 @@ import { isUpgradePageBypassRoute } from 'dashboard/helper/routeHelpers';
 const SECTION_GENERAL = 'COMMAND_BAR.SECTIONS.GENERAL';
 const SECTION_REPORTS = 'COMMAND_BAR.SECTIONS.REPORTS';
 const SECTION_SETTINGS = 'COMMAND_BAR.SECTIONS.SETTINGS';
+const SECTION_CREATE = 'COMMAND_BAR.SECTIONS.CREATE';
 
 const GO_TO_COMMANDS = [
   {
@@ -274,6 +276,80 @@ const GO_TO_COMMANDS = [
   },
 ];
 
+const CREATE_COMMANDS = [
+  {
+    id: 'new_inbox',
+    title: 'COMMAND_BAR.COMMANDS.NEW_INBOX',
+    section: SECTION_CREATE,
+    icon: 'i-lucide-plus',
+    routeName: 'settings_inbox_new',
+  },
+  {
+    id: 'new_team',
+    title: 'COMMAND_BAR.COMMANDS.NEW_TEAM',
+    section: SECTION_CREATE,
+    icon: 'i-lucide-plus',
+    routeName: 'settings_teams_new',
+  },
+  {
+    id: 'new_macro',
+    title: 'COMMAND_BAR.COMMANDS.NEW_MACRO',
+    section: SECTION_CREATE,
+    icon: 'i-lucide-plus',
+    routeName: 'macros_new',
+  },
+  {
+    id: 'new_campaign',
+    title: 'COMMAND_BAR.COMMANDS.NEW_CAMPAIGN',
+    section: SECTION_CREATE,
+    icon: 'i-lucide-plus',
+    routeName: 'campaigns_whatsapp_new',
+  },
+];
+
+const TARGET_PAGES = [
+  {
+    id: 'goto_inbox',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_INBOX',
+    icon: 'i-lucide-inbox',
+    routeName: 'inbox_dashboard',
+    getter: 'inboxes/getInboxes',
+    target: inbox => ({
+      id: `inbox-${inbox.id}`,
+      title: inbox.name,
+      icon: getInboxIconByType(inbox.channel_type, inbox.medium, 'line'),
+      params: { inbox_id: inbox.id },
+    }),
+  },
+  {
+    id: 'goto_team',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_TEAM',
+    icon: 'i-lucide-users',
+    routeName: 'team_conversations',
+    getter: 'teams/getTeams',
+    target: team => ({
+      id: `team-${team.id}`,
+      title: team.name,
+      icon: 'i-lucide-users',
+      params: { teamId: team.id },
+    }),
+  },
+  {
+    id: 'goto_label',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_LABEL',
+    icon: 'i-lucide-tag',
+    routeName: 'label_conversations',
+    getter: 'labels/getLabels',
+    target: label => ({
+      id: `label-${label.title}`,
+      title: label.title,
+      icon: 'i-lucide-tag',
+      prefix: '#',
+      params: { label: label.title },
+    }),
+  },
+];
+
 export function useGoToCommands(isPaywalled = ref(false)) {
   const { t } = useI18n();
   const router = useRouter();
@@ -282,6 +358,10 @@ export function useGoToCommands(isPaywalled = ref(false)) {
     usePolicy();
 
   const currentAccountId = useMapGetter('getCurrentAccountId');
+  const targetLists = Object.fromEntries(
+    TARGET_PAGES.map(page => [page.id, useMapGetter(page.getter)])
+  );
+
   const resolveRoute = ({ routeName, params }) =>
     router.resolve({
       name: routeName,
@@ -299,7 +379,7 @@ export function useGoToCommands(isPaywalled = ref(false)) {
   };
 
   const pageCommands = computed(() =>
-    GO_TO_COMMANDS.flatMap(command => {
+    [...GO_TO_COMMANDS, ...CREATE_COMMANDS].flatMap(command => {
       const route = resolveRoute(command);
       if (!isAvailable(route) || route.name === currentRoute.name) return [];
 
@@ -317,5 +397,37 @@ export function useGoToCommands(isPaywalled = ref(false)) {
     })
   );
 
-  return { goToCommands: pageCommands };
+  const targetCommands = computed(() =>
+    TARGET_PAGES.flatMap(page => {
+      const targets = targetLists[page.id].value.map(page.target);
+      if (!targets.length) return [];
+      if (!isAvailable(resolveRoute({ ...page, params: targets[0].params })))
+        return [];
+
+      const section = t(SECTION_GENERAL);
+      return [
+        {
+          id: page.id,
+          title: t(page.title),
+          section,
+          icon: page.icon,
+          page: true,
+        },
+        ...targets.map(({ params, ...target }) => ({
+          ...target,
+          parent: page.id,
+          section,
+          run: () =>
+            router.push(resolveRoute({ routeName: page.routeName, params })),
+        })),
+      ];
+    })
+  );
+
+  const goToCommands = computed(() => [
+    ...pageCommands.value,
+    ...targetCommands.value,
+  ]);
+
+  return { goToCommands };
 }

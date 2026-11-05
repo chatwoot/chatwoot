@@ -215,7 +215,11 @@
       "SETTINGS": "Settings",
       "AI_ASSIST": "AI Assist",
       "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Snooze Notification",
+      "CONVERSATIONS": "Conversations",
+      "CONTACTS": "Contacts",
+      "ARTICLES": "Articles",
+      "CREATE": "Create"
     },
     "COMMANDS": {
       "GO_TO_MY_INBOX": "Go to My Inbox",
@@ -278,7 +282,15 @@
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
       "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Snooze Notification",
+      "GO_TO_INBOX": "Go to inbox",
+      "GO_TO_TEAM": "Go to team",
+      "GO_TO_LABEL": "Go to label",
+      "SEE_ALL_RESULTS": "See all results for \"{query}\"",
+      "NEW_INBOX": "New inbox",
+      "NEW_TEAM": "New team",
+      "NEW_MACRO": "New macro",
+      "NEW_CAMPAIGN": "New campaign"
     }
   },
   "DASHBOARD_APPS": {

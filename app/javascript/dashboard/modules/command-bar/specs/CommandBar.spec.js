@@ -102,6 +102,15 @@ vi.mock(
     }),
   })
 );
+vi.mock('dashboard/modules/command-bar/composables/useSearchCommands', () => ({
+  useSearchCommands: () => ({
+    searchLoadedConversations: () => [],
+    searchConversations: async () => [command('remote_conversation')],
+    searchContacts: async () => [],
+    searchArticles: async () => [],
+    searchEverything: () => [],
+  }),
+}));
 
 describe('CommandBar', () => {
   let wrapper;
@@ -185,6 +194,17 @@ describe('CommandBar', () => {
     bar.setQuery('tomorrow');
     await vi.advanceTimersByTimeAsync(200);
     expect(ids()).toEqual(['parsed_date']);
+  });
+
+  it('adds remote results after the commands at the root', async () => {
+    await mountCommandBar();
+    bar.open({ query: 'sar' });
+    await vi.advanceTimersByTimeAsync(400);
+
+    expect(ids()).toContain('remote_conversation');
+    expect(ids().indexOf('goto')).toBeLessThan(
+      ids().indexOf('remote_conversation')
+    );
   });
 
   it('tracks the selected command', async () => {
