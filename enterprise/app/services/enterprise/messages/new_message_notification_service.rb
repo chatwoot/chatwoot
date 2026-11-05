@@ -29,13 +29,14 @@ module Enterprise::Messages::NewMessageNotificationService
     setting.present? && (setting.push_voice_call_missed? || setting.email_voice_call_missed?)
   end
 
-  # Empty while the message is not linked to its call yet, or for a call that has not
-  # entered the ring: until the ring is known to reach someone, everyone keeps the
-  # notification
+  # Empty while the message is not linked to its call yet, for a call that has not entered
+  # the ring, or for one that does not ring phones: until the ring is known to reach
+  # someone, everyone keeps the notification
   def rung_user_ids
     @rung_user_ids ||= begin
       call = Call.find_by(message_id: message.id)
-      call&.ring_state&.key?('ring_recipient_ids') ? Voice::VoipPushService.new(call: call).ringable_user_ids : []
+      rings_phones = call&.ring_state&.key?('ring_recipient_ids') && call.ring_state['rings_phones'] != false
+      rings_phones ? Voice::VoipPushService.new(call: call).ringable_user_ids : []
     end
   end
 end

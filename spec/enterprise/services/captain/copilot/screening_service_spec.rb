@@ -22,6 +22,7 @@ RSpec.describe Captain::Copilot::ScreeningService do
       expect(run).to receive(:record_cost!).with(0.000001)
 
       expect(service.send(:score, conversation)).to eq(0.9)
+      expect(client).to have_received(:call).with(body: satisfy { |body| JSON.parse(body)['model'] == 'typesafe/jev-1.14' })
     end
 
     it 'keeps the score and marks cost incomplete when Jev omits cost' do

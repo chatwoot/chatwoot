@@ -138,6 +138,36 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
+  context 'when recording who the ring reaches' do
+    let(:alice) { create(:user, account: account, role: :agent) }
+    let(:bob) { create(:user, account: account, role: :agent) }
+
+    before do
+      account.enable_features!('channel_voice')
+      [alice, bob].each { |agent| create(:inbox_member, inbox: inbox, user: agent) }
+    end
+
+    it 'names the agents it rings on the call message, without ringing phones when the account does not' do
+      call = nil
+      expect { call = perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
+
+      expect(call.reload.ring_state).to include('ring_recipient_ids' => contain_exactly(alice.id, bob.id), 'rings_phones' => false)
+      expect(call.message.content_attributes.dig('data', 'ring_user_ids')).to contain_exactly(alice.id, bob.id)
+    end
+
+    it 'names the agents it rings in the message created event the web rings from' do
+      events = []
+      allow(Rails.configuration.dispatcher).to receive(:dispatch).and_wrap_original do |original, name, *args, **kwargs|
+        events << [name, kwargs[:message]&.content_attributes&.dig('data', 'ring_user_ids')] if name.to_s.start_with?('message.')
+        original.call(name, *args, **kwargs)
+      end
+
+      perform_builder
+
+      expect(events).to contain_exactly(['message.created', contain_exactly(alice.id, bob.id)])
+    end
+  end
+
   context 'when the inbox ends unanswered calls' do
     before do
       channel.update!(provider_config: channel.provider_config.merge(
