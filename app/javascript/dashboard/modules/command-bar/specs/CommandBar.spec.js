@@ -34,6 +34,7 @@ const sources = {
   goToCommands: [command('goto'), command('goto_billing')],
   appearanceCommands: [command('appearance')],
   inboxCommands: [command('inbox')],
+  listCommands: [command('list')],
   bulkActionCommands: [command('bulk')],
   conversationCommands: [
     command('conversation'),
@@ -69,6 +70,9 @@ vi.mock(
 );
 vi.mock('dashboard/modules/command-bar/composables/useInboxCommands', () => ({
   useInboxCommands: () => ({ inboxCommands: ref(sources.inboxCommands) }),
+}));
+vi.mock('dashboard/modules/command-bar/composables/useListCommands', () => ({
+  useListCommands: () => ({ listCommands: ref(sources.listCommands) }),
 }));
 vi.mock(
   'dashboard/modules/command-bar/composables/useBulkActionCommands',
@@ -178,6 +182,7 @@ describe('CommandBar', () => {
         'goto',
         'appearance',
         'inbox',
+        'list',
         'bulk',
         'conversation',
         'macro',
@@ -203,11 +208,15 @@ describe('CommandBar', () => {
     expect(wrapper.vm.scopeLabel).toBe('Sarah');
   });
 
-  it('counts the bulk selection in the scope chip', async () => {
+  it('counts the bulk selection in the scope chip on the conversation list only', async () => {
     getters['bulkActions/getSelectedConversationIds'] = [1, 2, 3];
     await mountCommandBar();
-
     expect(wrapper.vm.scopeLabel).toBe('COMMAND_BAR.SELECTED_COUNT');
+
+    wrapper.unmount();
+    useRoute.mockReturnValue({ name: 'agent_list' });
+    await mountCommandBar();
+    expect(wrapper.vm.scopeLabel).toBe('');
   });
 
   it('replaces the snooze presets with parsed dates while typing', async () => {

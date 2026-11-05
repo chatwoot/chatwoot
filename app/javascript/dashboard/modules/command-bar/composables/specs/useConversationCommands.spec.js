@@ -7,6 +7,9 @@ import { useConversationLabels } from 'dashboard/composables/useConversationLabe
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { emitter } from 'shared/helpers/mitt';
+import { CMD_MARK_UNREAD } from 'dashboard/helper/commandbar/events';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import {
@@ -24,6 +27,8 @@ vi.mock('dashboard/composables/useConversationLabels');
 vi.mock('dashboard/composables/useCaptain');
 vi.mock('dashboard/composables/useAgentsList');
 vi.mock('dashboard/composables/usePolicy');
+vi.mock('dashboard/composables/useUISettings');
+vi.mock('shared/helpers/mitt');
 vi.mock('shared/helpers/clipboard');
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
 
@@ -65,6 +70,13 @@ describe('useConversationCommands', () => {
       checkPermissions: vi.fn(() => true),
       isFeatureFlagEnabled: vi.fn(() => true),
     });
+    useUISettings.mockReturnValue({
+      uiSettings: { value: { is_contact_sidebar_open: true } },
+      updateUISettings: vi.fn(),
+    });
+    emitter.emit = vi.fn();
+    window.open = vi.fn();
+    window.chatwootConfig = { hostURL: 'https://support.example.com' };
   });
 
   it('should include AI assist actions when captain tasks is enabled', () => {
@@ -132,7 +144,6 @@ describe('useConversationCommands', () => {
   });
 
   it('copies the conversation link on the configured host', async () => {
-    window.chatwootConfig = { hostURL: 'https://support.example.com' };
     const { conversationCommands } = useConversationCommands();
     await conversationCommands.value
       .find(action => action.id === 'copy_conversation_link')
@@ -272,6 +283,61 @@ describe('useConversationCommands', () => {
     );
 
     expect(unmuteAction).toBeDefined();
+  });
+
+  it('asks the list to mark the conversation unread, unless it already is', () => {
+    const { conversationCommands } = useConversationCommands();
+    conversationCommands.value
+      .find(action => action.id === 'mark_unread')
+      .run();
+    expect(emitter.emit).toHaveBeenCalledWith(
+      CMD_MARK_UNREAD,
+      mockCurrentChat.id
+    );
+
+    store.getters.getSelectedChat = { ...mockCurrentChat, unread_count: 2 };
+    expect(
+      useConversationCommands().conversationCommands.value.map(a => a.id)
+    ).not.toContain('mark_unread');
+  });
+
+  it('toggles the contact panel from its current state', () => {
+    const { conversationCommands } = useConversationCommands();
+    const toggle = conversationCommands.value.find(
+      action => action.id === 'toggle_contact_panel'
+    );
+
+    expect(toggle.title).toBe('COMMAND_BAR.COMMANDS.HIDE_CONTACT_PANEL');
+    toggle.run();
+    expect(useUISettings().updateUISettings).toHaveBeenCalledWith({
+      is_contact_sidebar_open: false,
+      is_copilot_panel_open: false,
+    });
+  });
+
+  it('opens the conversation in a new tab', () => {
+    const { conversationCommands } = useConversationCommands();
+    conversationCommands.value
+      .find(action => action.id === 'open_in_new_tab')
+      .run();
+
+    expect(window.open).toHaveBeenCalledWith(
+      `https://support.example.com/app/accounts/1/conversations/${mockCurrentChat.id}`,
+      '_blank',
+      'noopener'
+    );
+  });
+
+  it('offers the panel and new-tab actions in the Inbox, not mark unread', () => {
+    useRoute.mockReturnValue({ name: 'inbox_view_conversation' });
+    const ids = useConversationCommands().conversationCommands.value.map(
+      action => action.id
+    );
+
+    expect(ids).toEqual(
+      expect.arrayContaining(['toggle_contact_panel', 'open_in_new_tab'])
+    );
+    expect(ids).not.toContain('mark_unread');
   });
 
   it('offers nothing while the conversation is still loading', () => {

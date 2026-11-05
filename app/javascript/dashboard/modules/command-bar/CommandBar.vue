@@ -19,6 +19,7 @@ import {
 import { useGoToCommands } from 'dashboard/modules/command-bar/composables/useGoToCommands';
 import { useAppearanceCommands } from 'dashboard/modules/command-bar/composables/useAppearanceCommands';
 import { useInboxCommands } from 'dashboard/modules/command-bar/composables/useInboxCommands';
+import { useListCommands } from 'dashboard/modules/command-bar/composables/useListCommands';
 import { useBulkActionCommands } from 'dashboard/modules/command-bar/composables/useBulkActionCommands';
 import { useConversationCommands } from 'dashboard/modules/command-bar/composables/useConversationCommands';
 import { useMacroCommands } from 'dashboard/modules/command-bar/composables/useMacroCommands';
@@ -51,6 +52,7 @@ const isRTL = useMapGetter('accounts/isRTL');
 const { goToCommands } = useGoToCommands(toRef(props, 'isPaywalled'));
 const { appearanceCommands } = useAppearanceCommands();
 const { inboxCommands } = useInboxCommands();
+const { listCommands } = useListCommands();
 const { bulkActionCommands } = useBulkActionCommands();
 const { conversationCommands } = useConversationCommands();
 const { cannedResponseCommands } = useCannedResponseCommands();
@@ -80,13 +82,22 @@ const scopes = computed(() => {
     list.push('conversation');
   }
   if (isAInboxViewRoute(route.name)) list.push('inbox_view');
-  if (selectedConversationIds.value.length) list.push('bulk');
+  if (isAConversationRoute(route.name, true)) list.push('list');
+  if (
+    selectedConversationIds.value.length &&
+    isAConversationRoute(route.name, true)
+  ) {
+    list.push('bulk');
+  }
   return [...list, ...pathScopes(route.path)];
 });
 
 const scopeLabel = computed(() => {
-  const count = selectedConversationIds.value.length;
-  if (count) return t('COMMAND_BAR.SELECTED_COUNT', { count });
+  if (scopes.value.includes('bulk')) {
+    return t('COMMAND_BAR.SELECTED_COUNT', {
+      count: selectedConversationIds.value.length,
+    });
+  }
   if (scopes.value.includes('conversation')) {
     return currentChat.value?.meta?.sender?.name ?? '';
   }
@@ -113,6 +124,7 @@ const sources = computed(() => {
     { id: 'snooze', commands: snoozeCommands },
     { id: 'bulk', commands: () => bulkActionCommands.value },
     { id: 'inbox', commands: () => inboxCommands.value },
+    { id: 'list', commands: () => listCommands.value },
     { id: 'macros', commands: () => macroCommands.value },
     { id: 'canned', commands: () => cannedResponseCommands.value },
     ...general,

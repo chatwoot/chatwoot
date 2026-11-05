@@ -192,6 +192,7 @@
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Search or jump to",
     "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
+    "CONFIRM_BULK_PLACEHOLDER": "Apply to {n} conversation? | Apply to {n} conversations?",
     "EMPTY": "No matches for \"{query}\"",
     "LINK_COPIED": "Conversation link copied",
     "SELECTED_COUNT": "{count} selected",
@@ -224,7 +225,8 @@
       "ACCOUNT": "Account",
       "HELP": "Help",
       "PAGE": "This page",
-      "CREATE": "Create"
+      "CREATE": "Create",
+      "LIST": "Conversation list"
     },
     "COMMANDS": {
       "GO_TO_MY_INBOX": "Go to My Inbox",
@@ -270,6 +272,7 @@
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Assign a team",
       "EXECUTE_A_MACRO": "Execute a macro",
+      "CONFIRM_BULK_ACTION": "Yes, apply to {n} conversation | Yes, apply to {n} conversations",
       "MUTE_CONVERSATION": "Mute conversation",
       "UNMUTE_CONVERSATION": "Unmute conversation",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
@@ -307,7 +310,12 @@
       "DELETE_LABEL": "Delete label",
       "DELETE_CANNED_RESPONSE": "Delete canned response",
       "DELETE_CUSTOM_ATTRIBUTE": "Delete custom attribute",
-      "BACK_TO": "Back to {page}"
+      "BACK_TO": "Back to {page}",
+      "SWITCH_TAB": "Switch tab",
+      "FILTER_BY_STATUS": "Filter by status",
+      "SORT_BY": "Sort by",
+      "SHOW_CONTACT_PANEL": "Show contact panel",
+      "HIDE_CONTACT_PANEL": "Hide contact panel"
     }
   },
   "DASHBOARD_APPS": {
