@@ -19,8 +19,8 @@ import {
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
-import { useCommandBar } from '@chatwoot/jumpbar';
-import { SNOOZE_CONVERSATION_PAGE } from 'dashboard/helper/commandbar/actions';
+import { openCommandBar } from 'dashboard/modules/command-bar/openCommandBar';
+import { SNOOZE_CONVERSATION_PAGE } from 'dashboard/modules/command-bar/commands';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -79,7 +79,7 @@ const getConversationParams = () => {
 };
 
 const openSnoozeModal = () =>
-  useCommandBar().open({ page: SNOOZE_CONVERSATION_PAGE });
+  openCommandBar({ page: SNOOZE_CONVERSATION_PAGE });
 
 const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
   closeDropdown();

@@ -3,7 +3,10 @@ import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useRoute, useRouter } from 'vue-router';
 import { usePolicy } from 'dashboard/composables/usePolicy';
-import { pathScopes, shortcutKeys } from 'dashboard/helper/commandbar/actions';
+import {
+  pathScopes,
+  shortcutKeys,
+} from 'dashboard/modules/command-bar/commands';
 import { isUpgradePageBypassRoute } from 'dashboard/helper/routeHelpers';
 
 const SECTION_GENERAL = 'COMMAND_BAR.SECTIONS.GENERAL';

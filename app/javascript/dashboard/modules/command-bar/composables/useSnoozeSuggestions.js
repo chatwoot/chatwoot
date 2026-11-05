@@ -11,7 +11,7 @@ import {
   ICON_SNOOZE,
   SNOOZE_CONVERSATION_PAGE,
   SNOOZE_PAGES,
-} from 'dashboard/helper/commandbar/actions';
+} from 'dashboard/modules/command-bar/commands';
 
 export function useSnoozeSuggestions() {
   const { t, tm } = useI18n();
