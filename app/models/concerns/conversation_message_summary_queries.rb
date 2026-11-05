@@ -12,8 +12,8 @@ module ConversationMessageSummaryQueries
 
   def limited_summary_count(messages)
     selected = messages.reorder(created_at: :desc).limit(Conversation::UNREAD_INCOMING_MESSAGES_LIMIT).select(:id)
-    count = Arel::SelectManager.new.project(Arel.star.count).from(selected.arel.as('unread_messages'))
-    Arel::Nodes::Grouping.new(count.ast)
+    count_query = Message.unscoped.from(selected, :unread_messages).select(Arel.star.count)
+    Arel::Nodes::Grouping.new(count_query.arel.ast)
   end
 
   # Messages of the conversation row in the outer query.
@@ -28,8 +28,8 @@ module ConversationMessageSummaryQueries
   def latest_summary_message_id(message_types)
     candidates = Arel::Table.new(:message_candidates)
     source = Arel::Nodes::TableAlias.new(summary_message_candidates(message_types), candidates.name)
-    query = Arel::SelectManager.new.from(source).project(candidates[:id]).order(candidates[:created_at].desc, candidates[:id].desc).take(1)
-    Arel::Nodes::Grouping.new(query.ast)
+    query = Message.unscoped.from(source).select(candidates[:id]).order(candidates[:created_at].desc, candidates[:id].desc).limit(1)
+    Arel::Nodes::Grouping.new(query.arel.ast)
   end
 
   # Selecting a candidate per type uses the existing (conversation_id, account_id, message_type, created_at) index.
