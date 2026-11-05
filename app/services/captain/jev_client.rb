@@ -1,6 +1,7 @@
 class Captain::JevClient
   include Integrations::LlmInstrumentationConstants
 
+  DEFAULT_MODEL = 'typesafe/jev-1.14'.freeze
   ENDPOINT = 'https://openrouter.ai/api'.freeze
   SYSTEM_ONE_PATH = '/v1/systemone'.freeze
 

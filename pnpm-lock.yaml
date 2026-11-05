@@ -24,6 +24,9 @@ importers:
       '@chatwoot/captain-avatar':
         specifier: 0.2.0
         version: 0.2.0(vue@3.5.12(typescript@5.6.2))
+      '@chatwoot/jumpbar':
+        specifier: ^0.1.2
+        version: 0.1.2(vue@3.5.12(typescript@5.6.2))
       '@chatwoot/ninja-keys':
         specifier: 1.2.3
         version: 1.2.3
@@ -453,6 +456,14 @@ packages:
     resolution: {integrity: sha512-ZFvsZFkQ9aO0zPidtvnx0G67vp9HPv8RkkvjZyMmibXe9tTUdxtXHbPvmY4GBkl2+m37kBtehk+oqfqILc7p2g==}
     peerDependencies:
       vue: '>=3.3.0'
+    peerDependenciesMeta:
+      vue:
+        optional: true
+
+  '@chatwoot/jumpbar@0.1.2':
+    resolution: {integrity: sha512-h/NqXwsGTYrhuP0M797IrkjMPvsuopWOfRdwVAU9f0Zj82z8YbngO7rqDVQG6ZteVZwYh2FDzKijq7IDTA9bPw==}
+    peerDependencies:
+      vue: ^3.4.0
     peerDependenciesMeta:
       vue:
         optional: true
@@ -5194,6 +5205,10 @@ snapshots:
   '@breezystack/lamejs@1.2.7': {}
 
   '@chatwoot/captain-avatar@0.2.0(vue@3.5.12(typescript@5.6.2))':
+    optionalDependencies:
+      vue: 3.5.12(typescript@5.6.2)
+
+  '@chatwoot/jumpbar@0.1.2(vue@3.5.12(typescript@5.6.2))':
     optionalDependencies:
       vue: 3.5.12(typescript@5.6.2)
 
