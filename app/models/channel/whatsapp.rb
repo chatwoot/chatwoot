@@ -172,7 +172,8 @@ class Channel::Whatsapp < ApplicationRecord
     return false unless manual_cloud_setup?
 
     previous_config = provider_config_in_database.to_h
-    new_record? || previous_config['app_secret'].present? || previous_config['source'] == 'embedded_signup'
+    new_record? || provider_in_database != 'whatsapp_cloud' ||
+      previous_config['app_secret'].present? || previous_config['source'] == 'embedded_signup'
   end
 
   def validate_app_secret

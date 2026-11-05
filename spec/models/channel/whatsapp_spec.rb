@@ -177,6 +177,18 @@ RSpec.describe Channel::Whatsapp do
       expect(channel).not_to be_valid
     end
 
+    it 'is required when a 360dialog channel switches to whatsapp cloud' do
+      channel = build(:channel_whatsapp, account: account, provider: 'default').tap do |dialog_channel|
+        allow(dialog_channel).to receive(:validate_provider_config)
+        allow(dialog_channel).to receive(:sync_templates)
+      end
+      channel.save!
+      channel.assign_attributes(provider: 'whatsapp_cloud', provider_config: manual_config)
+
+      expect(channel).not_to be_valid
+      expect(channel.errors[:provider_config]).to include('App secret is required')
+    end
+
     it 'is required when an embedded signup channel moves to manual setup' do
       channel = build_manual_channel(manual_config.merge('source' => 'embedded_signup'))
       channel.save!
