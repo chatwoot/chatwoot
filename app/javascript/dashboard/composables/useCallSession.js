@@ -15,6 +15,7 @@ import {
   markCallDismissed,
   markLocalCall,
   clearLocalCall,
+  isLocalCall,
 } from 'dashboard/helper/voice';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import {
@@ -173,7 +174,8 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
       useAlert(error?.response?.data?.error || t('CONTACT_PANEL.CALL_FAILED'));
       if (!isWhatsappCall(call)) clearLocalCall(callSid);
       // 409 = the call already ended before accept landed (e.g. caller hung up mid-ring).
-      if (error?.response?.status === 409) {
+      // 401 = the agent lost access to the conversation while the call rang for them.
+      if ([401, 409].includes(error?.response?.status)) {
         TwilioVoiceClient.endClientCall();
         markCallDismissed(callSid);
         callsStore.dismissCall(callSid);
@@ -225,7 +227,30 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     }
   };
 
-  const dismissCall = callSid => {
+  // An inbound Twilio call is dismissed on the server first, which closes this agent's other
+  // tabs while the call keeps ringing everyone else; a failed request keeps the card for a retry
+  const dismissCall = async callSid => {
+    const call = findCall(callSid);
+    if (
+      !isWhatsappCall(call) &&
+      call?.callDirection === VOICE_CALL_DIRECTION.INBOUND
+    ) {
+      try {
+        await VoiceAPI.dismissRing({
+          inboxId: call.inboxId,
+          conversationId: call.conversationId,
+          callSid,
+        });
+      } catch (error) {
+        // 401: the agent lost access to the conversation, so the card goes anyway
+        if (error?.response?.status !== 401) {
+          useAlert(t('CONVERSATION.VOICE_CALL.DISMISS_FAILED'));
+          return;
+        }
+      }
+      // Joined while the request was on its way: the call stays with this tab
+      if (isLocalCall(callSid)) return;
+    }
     markCallDismissed(callSid);
     callsStore.dismissCall(callSid);
   };
