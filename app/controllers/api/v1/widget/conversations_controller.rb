@@ -76,7 +76,6 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def destroy_custom_attributes
     conversation.custom_attributes = conversation.custom_attributes.excluding(params[:custom_attribute])
     conversation.save!
-    render json: conversation
   end
 
   private
