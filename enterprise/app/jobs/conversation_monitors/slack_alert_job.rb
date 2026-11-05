@@ -8,8 +8,11 @@ class ConversationMonitors::SlackAlertJob < ApplicationJob
     return if monitor&.slack_channel_id.blank?
 
     hook = monitor.account.hooks.find_by(app_id: 'slack')
+    return unless hook
+    return if hook.reauthorization_required?
+
     conversation = monitor.account.conversations.find_by(id: conversation_id)
-    return unless hook && conversation
+    return unless conversation
 
     ConversationMonitors::SlackAlertService.new(monitor: monitor, conversation: conversation, hook: hook).perform
   end

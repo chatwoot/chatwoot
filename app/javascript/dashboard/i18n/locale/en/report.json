@@ -11,6 +11,7 @@
       "ON": "On",
       "OFF": "Off",
       "SAVED": "Slack alerts updated.",
+      "FETCH_FAILED": "Could not load channels. Open to retry.",
       "SAVE_FAILED": "Could not update Slack alerts. Try again."
     },
     "AUTOMATIONS": {

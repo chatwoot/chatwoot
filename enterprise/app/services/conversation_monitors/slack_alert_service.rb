@@ -5,12 +5,38 @@ class ConversationMonitors::SlackAlertService
   pattr_initialize [:monitor!, :conversation!, :hook!]
 
   def perform
+    channel_id = monitor.slack_channel_id
     slack_client.chat_postMessage(
-      channel: monitor.slack_channel_id, text: t('title', name: monitor.name), blocks: blocks, unfurl_links: false
+      channel: channel_id, text: t('title', name: escape(monitor.name)), blocks: blocks, unfurl_links: false
     )
+  rescue Slack::Web::Api::Errors::InvalidAuth, Slack::Web::Api::Errors::AccountInactive,
+         Slack::Web::Api::Errors::MissingScope, Slack::Web::Api::Errors::TokenRevoked => e
+    Rails.logger.warn(e)
+    request_reauthorization
+  rescue Slack::Web::Api::Errors::IsArchived, Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::NotInChannel => e
+    Rails.logger.warn(e)
+    clear_slack_channel(channel_id)
   end
 
   private
+
+  def request_reauthorization
+    hook.with_lock do
+      next if hook.reauthorization_required?
+
+      hook.prompt_reauthorization!
+      hook.disable
+    end
+  end
+
+  def clear_slack_channel(channel_id)
+    cleared = monitor.with_lock do
+      next false unless monitor.slack_channel_id == channel_id
+
+      monitor.update!(slack_channel_id: nil, data_revision: monitor.data_revision + 1)
+    end
+    ConversationMonitors::BroadcastJob.schedule(monitor.id) if cleared
+  end
 
   def blocks
     [
@@ -65,7 +91,7 @@ class ConversationMonitors::SlackAlertService
   end
 
   def mrkdwn(text)
-    { type: 'mrkdwn', text: text }
+    { type: 'mrkdwn', text: text, verbatim: true }
   end
 
   # Slack treats &, < and > as control characters in mrkdwn.

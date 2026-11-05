@@ -25,6 +25,8 @@ const selectedChannelId = ref(props.channelId);
 const isReady = ref(false);
 const isConnected = ref(false);
 const areChannelsLoaded = ref(false);
+const isLoadingChannels = ref(false);
+const channelLoadFailed = ref(false);
 const isSaving = ref(false);
 
 // Slack marks private channels with a lock where public ones have a hash.
@@ -50,10 +52,20 @@ watch(
 
 // Listing a workspace's channels is slow, so wait until the name of a saved channel is needed or the picker opens.
 const loadChannels = async () => {
-  if (areChannelsLoaded.value) return;
-  channels.value =
-    (await store.dispatch('integrations/listAllSlackChannels')) || [];
-  areChannelsLoaded.value = true;
+  if (areChannelsLoaded.value || isLoadingChannels.value) return;
+  isLoadingChannels.value = true;
+  try {
+    const loadedChannels = await store.dispatch(
+      'integrations/listAllSlackChannels'
+    );
+    channelLoadFailed.value = loadedChannels === null;
+    if (channelLoadFailed.value) return;
+
+    channels.value = loadedChannels;
+    areChannelsLoaded.value = true;
+  } finally {
+    isLoadingChannels.value = false;
+  }
 };
 
 onMounted(async () => {
@@ -120,6 +132,10 @@ const save = async channelId => {
           v-model="selectedChannelId"
           :options="options"
           :disabled="isSaving"
+          :has-error="channelLoadFailed"
+          :message="
+            channelLoadFailed ? t('MONITORS.SLACK_ALERT.FETCH_FAILED') : ''
+          "
           :display-label="t('MONITORS.SLACK_ALERT.LOADING')"
           :placeholder="t('MONITORS.SLACK_ALERT.PLACEHOLDER')"
           direction="up"
