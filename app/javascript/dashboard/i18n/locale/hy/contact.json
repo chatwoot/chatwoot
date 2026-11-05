@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Նախորդ զրույցներ"
+      "TITLE": "Նախորդ զրույցներ",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

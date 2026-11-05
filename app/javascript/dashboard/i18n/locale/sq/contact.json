@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nuk ka biseda të mëparshme të lidhura me këtë kontakt.",
-      "TITLE": "Bisedat e Mëparshme"
+      "TITLE": "Bisedat e Mëparshme",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

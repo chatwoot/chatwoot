@@ -146,7 +146,7 @@
         "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
       },
       "CARD": {
-        "ANALYTICS": "View analytics",
+        "ANALYTICS": "Analitika megtekintése",
         "STATUS": {
           "PROCESSING": "Processing",
           "COMPLETED": "Lezárt",
@@ -157,83 +157,112 @@
           "ON": "on"
         }
       },
-      "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
-        "CANCEL_BUTTON_TEXT": "Mégse",
-        "CREATE_BUTTON_TEXT": "Létrehozás",
-        "FORM": {
-          "TITLE": {
+      "FORM": {
+        "CREATE_TITLE": "Create campaign",
+        "LIVE_TEST": "Élő teszt",
+        "LIVE_TEST_TOOLTIP": "Az élő teszt hamarosan elérhető lesz",
+        "SCHEDULE": "Kampány ütemezése",
+        "SCHEDULED_FOR": "Ütemezés időpontja: {date}",
+        "RESCHEDULE": "Ütemezés módosítása",
+        "DISCARD": "Módosítások elvetése",
+        "SAVE": "Save changes",
+        "BASIC_SETTINGS": {
+          "TITLE": "Basic settings",
+          "NAME": {
             "LABEL": "Cím",
-            "PLACEHOLDER": "Kérlek írd ide a kampány nevét",
-            "ERROR": "Cím megadása kötelező"
+            "PLACEHOLDER": "Adja meg a kampány nevét"
           },
           "INBOX": {
-            "LABEL": "Válassz fiókot",
-            "PLACEHOLDER": "Válassz fiókot",
-            "ERROR": "Fiók kötelező"
-          },
-          "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
-            "PREVIEW_TITLE": "Feldolgozás: {templateName}",
-            "LANGUAGE": "Nyelv",
-            "CATEGORY": "Kategória",
-            "VARIABLES_LABEL": "Változók",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
-          },
-          "AUDIENCE": {
-            "LABEL": "Közönség",
-            "PLACEHOLDER": "Ügyfél címke kiválasztása",
-            "ERROR": "Közönség megadása kötelező"
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "Tervezett idő",
-            "PLACEHOLDER": "Kérlek, válaszd ki az időtartamot",
-            "ERROR": "Tervezett idő megadása kötelező"
-          },
-          "BUTTONS": {
-            "CREATE": "Létrehozás",
-            "CANCEL": "Mégse"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
-            "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra."
+            "LABEL": "Fiók",
+            "PLACEHOLDER": "Válassz egy fiókot"
           }
+        },
+        "AUDIENCE": {
+          "TITLE": "Közönség",
+          "TIER_DESCRIPTION": "WhatsApp-fiókjával legfeljebb {tier} kontakt számára küldhet üzenetet.",
+          "TIER_UNKNOWN": "Válasszon bejövőt a WhatsApp-fiók üzenetküldési korlátjának megtekintéséhez.",
+          "LEARN_MORE": "Tudj meg többet",
+          "LABELS": {
+            "LABEL": "Cimkék",
+            "PLACEHOLDER": "Ügyfél címke kiválasztása"
+          },
+          "SELECTED_COUNT": "{count} kontakt kijelölve",
+          "VIEW": "Megtekintés",
+          "EMPTY_STATE": "Válasszon ki legalább egy címkét a célközönség összeállításához.",
+          "CONTACTS": {
+            "TITLE": "Kontaktok",
+            "TAGGED_WITH": "megjelölés",
+            "SEARCH_PLACEHOLDER": "Keresés név, e-mail-cím vagy telefonszám alapján",
+            "EMPTY_STATE": "No contacts found"
+          }
+        },
+        "TEMPLATE": {
+          "TITLE": "Sablon",
+          "SELECT": {
+            "LABEL": "Sablon",
+            "PLACEHOLDER": "Select a template"
+          },
+          "EMPTY_STATE": "Válasszon bejövőt a jóváhagyott sablonok betöltéséhez",
+          "NO_TEMPLATES": "Ehhez a bejövőhöz nincs kampányban használható jóváhagyott sablon",
+          "HEADER_LABEL": "Header",
+          "INVALID_MEDIA_URL": "Adjon meg érvényes HTTP- vagy HTTPS-URL-t.",
+          "HEADER_PLACEHOLDER": "{type} fejléc megadása",
+          "DOCUMENT_NAME_PLACEHOLDER": "Adja meg a dokumentum nevét",
+          "BODY_LABEL": "Body",
+          "BUTTONS_LABEL": "Buttons",
+          "VARIABLE_PLACEHOLDER": "Adja meg a változót: {variable}",
+          "BUTTON_PLACEHOLDER": "Adja meg a gomb paraméterét: {index}"
+        },
+        "ACCOUNT_INFORMATION": {
+          "TITLE": "Fiókadatok",
+          "MESSAGING_TIER": "Üzenetküldési szint",
+          "ACCOUNT_STATUS": "Fiók állapota",
+          "ACCOUNT_HEALTH": "Fiók minősítése",
+          "STATUS_DESCRIPTION": "WhatsApp-szám jelenlegi módja",
+          "HEALTH_DESCRIPTION": "A Meta által megadott minőségi értékelés",
+          "EMPTY_STATE": "Válasszon bejövőt a WhatsApp-fiók adatainak megtekintéséhez.",
+          "UNAVAILABLE": "Not available",
+          "OPEN": "Megnyitás a WhatsApp Managerben"
+        },
+        "PREVIEW": {
+          "TITLE": "Message preview",
+          "EMPTY_STATE": "Válasszon sablont az üzenet előnézetéhez.",
+          "FOOTNOTE": "Ez operációs rendszerenként kissé eltérhet. Ellenőrzéshez végezzen élő tesztet. A kiemelt változók alapértelmezett értékei mentéskor tárolódnak."
+        },
+        "SCHEDULE_POPOVER": {
+          "LABEL": "Ütemezés",
+          "CANCEL": "Mégse",
+          "CREATE": "Létrehozás"
+        },
+        "API": {
+          "CREATE_SUCCESS": "WhatsApp campaign created successfully",
+          "CREATE_ERROR": "Hiba történt, kérjük próbáld újra.",
+          "UPDATE_SUCCESS": "WhatsApp-kampány frissítése sikerült",
+          "UPDATE_ERROR": "Hiba történt, kérjük próbáld újra."
         }
       },
       "ANALYTICS": {
-        "LOADING": "Loading analytics...",
-        "EMPTY": "No delivery records found.",
-        "EMPTY_FILTER": "No {status} delivery records found.",
-        "DELIVERIES_ERROR": "Delivery records couldn't be loaded. Refresh the page to try again.",
+        "LOADING": "Analitika betöltése…",
+        "EMPTY": "Nem találhatók kézbesítési adatok.",
+        "EMPTY_FILTER": "Nem találhatók {status} állapotú kézbesítési adatok.",
+        "DELIVERIES_ERROR": "Nem sikerült betölteni a kézbesítési adatokat. Frissítse az oldalt az újbóli próbálkozáshoz.",
         "EMPTY_STATE": {
           "ERROR": {
-            "TITLE": "Analytics couldn't be loaded",
-            "DESCRIPTION": "Refresh the page to try again."
+            "TITLE": "Nem sikerült betölteni az analitikát",
+            "DESCRIPTION": "Frissítse az oldalt az újbóli próbálkozáshoz."
           },
           "PENDING": {
-            "TITLE": "Delivery data will appear once sending begins",
-            "DESCRIPTION": "There are no delivery records for this campaign yet."
+            "TITLE": "A kézbesítési adatok az üzenetek küldésének megkezdése után jelennek meg",
+            "DESCRIPTION": "Ehhez a kampányhoz még nem tartoznak kézbesítési adatok."
           },
           "UNAVAILABLE": {
-            "TITLE": "Analytics aren't available for this campaign",
-            "DESCRIPTION": "No delivery data was recorded for this campaign. This can happen for campaigns sent before campaign analytics were introduced."
+            "TITLE": "Ehhez a kampányhoz nem érhető el analitika",
+            "DESCRIPTION": "Ehhez a kampányhoz nem rögzültek kézbesítési adatok. Ez előfordulhat, ha a kampányt még a kampányanalitika bevezetése előtt küldték."
           }
         },
-        "PROCESSING_BANNER": {
-          "DEFAULT": "This campaign is still processing. Analytics will update automatically.",
-          "BOTH": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "BOTH_QUEUED_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_AWAITING_SINGLE": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "QUEUED": "This campaign is still processing. {count} message is queued. | This campaign is still processing. {count} messages are queued.",
-          "AWAITING_UPDATE": "This campaign is still processing. {count} message is awaiting a delivery update from WhatsApp. | This campaign is still processing. {count} messages are awaiting a delivery update from WhatsApp.",
-          "COMPLETING": "This campaign is completing. Analytics will update automatically."
-        },
-        "RATE": "{value}% of audience",
-        "SENT_ON": "Sent on {date}",
+        "PROCESSING_NOTICE": "A kampány küldése még folyamatban van. A számok, százalékok és kézbesítési adatok részlegesek, és csak az eddig feldolgozott kontaktokra vonatkoznak. A küldés folytatásával további kontaktok jelennek meg.",
+        "RATE": "{value}% a célközönségből",
+        "SENT_ON": "Küldés időpontja: {date}",
         "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} contacts",
         "BREADCRUMB": {
           "CAMPAIGNS": "Kampányok",
@@ -245,62 +274,79 @@
         "METRICS": {
           "AUDIENCE": {
             "LABEL": "Közönség",
-            "HINT": "Contacts included in this campaign."
+            "HINT": "A kampányban szereplő kontaktok."
           },
           "SENT": {
-            "LABEL": "Submitted to WhatsApp",
-            "HINT": "Messages accepted by WhatsApp for delivery."
+            "LABEL": "Továbbítva a WhatsAppnak",
+            "HINT": "A WhatsApp átvette az üzeneteket kézbesítésre."
           },
           "DELIVERED": {
-            "LABEL": "Delivered",
-            "HINT": "Messages that reached the contact's device. Read messages are included."
+            "LABEL": "Kézbesítve",
+            "HINT": "A kontakt eszközére eljutott üzenetek. Az olvasott üzenetek is ide tartoznak."
           },
           "READ": {
             "LABEL": "Olvasott",
-            "HINT": "Messages opened by the contact."
+            "HINT": "A kontakt által megnyitott üzenetek."
           },
           "FAILED": {
             "LABEL": "Failed",
-            "HINT": "Messages WhatsApp could not deliver."
+            "HINT": "Az üzenetek, amelyeket a WhatsApp nem tudott kézbesíteni."
           },
           "SKIPPED": {
-            "LABEL": "Skipped",
-            "HINT": "Contacts skipped before sending, usually because of a missing or invalid phone number."
+            "LABEL": "Kihagyva",
+            "HINT": "Küldés előtt kihagyott kontaktok, többnyire hiányzó vagy érvénytelen telefonszám miatt."
           }
         },
         "STATUS": {
-          "QUEUED": "Queued",
-          "SENT": "Awaiting delivery update",
-          "DELIVERED": "Delivered",
+          "QUEUED": "Sorban áll",
+          "SENT": "Kézbesítési visszajelzésre vár",
+          "DELIVERED": "Kézbesítve",
           "READ": "Olvasott",
           "FAILED": "Failed",
-          "SKIPPED": "Skipped"
+          "SKIPPED": "Kihagyva"
         },
         "BREAKDOWN": {
-          "TITLE": "Delivery breakdown",
-          "DELIVERY_RATE": "{value}% delivered",
+          "TITLE": "Kézbesítési bontás",
+          "DELIVERY_RATE": "{value}% kézbesítve",
           "LEGEND": {
             "READ": "Olvasott",
-            "DELIVERED": "Delivered",
+            "DELIVERED": "Kézbesítve",
             "FAILED": "Failed",
-            "SKIPPED": "Skipped",
-            "PENDING": "Queued or awaiting update"
+            "SKIPPED": "Kihagyva",
+            "PENDING": "Sorban áll vagy visszajelzésre vár"
           }
         },
         "TABLE": {
-          "TITLE": "Deliveries",
+          "TITLE": "Kézbesítések",
           "CONTACT": "Kontakt",
           "STATUS": "Státusz",
           "MESSAGE": "Üzenet",
-          "MESSAGE_NOT_GENERATED": "Not generated",
-          "REASON": "Reason",
-          "ERROR_CODE": "Code {code}"
+          "MESSAGE_NOT_GENERATED": "Nem jött létre",
+          "REASON": "Ok",
+          "ERROR_CODE": "Kód: {code}"
+        },
+        "PAYWALL": {
+          "TITLE": "Kampányelemzések feloldása",
+          "AVAILABLE_ON": "A kampányelemzés Business és Enterprise csomagban érhető el.",
+          "UPGRADE_PROMPT": "Váltson magasabb csomagra a kampánykézbesítés, az olvasási állapot és a sikertelen üzenetek nyomon követéséhez.",
+          "UPGRADE_NOW": "Csomagok megtekintése",
+          "CANCEL_ANYTIME": "Csomagját bármikor módosíthatja vagy lemondhatja."
+        },
+        "ENTERPRISE_PAYWALL": {
+          "AVAILABLE_ON": "A kampányelemzés fizetős, saját üzemeltetésű csomagokban érhető el.",
+          "UPGRADE_PROMPT": "A kampányok kézbesítésének, az üzenetek olvasási állapotának és a sikertelen üzeneteknek a követéséhez frissítse a telepítést.",
+          "ASK_ADMIN": "Frissítésért forduljon a példány rendszergazdájához."
         }
       }
+    },
+    "HISTORY": {
+      "LABEL": "Kampány",
+      "LOAD_MORE": "Korábbi kampányok betöltése"
     },
     "CONFIRM_DELETE": {
       "TITLE": "Biztos abban, hogy törli?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "WHATSAPP_DESCRIPTION": "A kampány törlésével az elmentett üzenetelőzmények és kézbesítési adatok is törlődnek. A WhatsAppon már elküldött üzenetek megmaradnak. A művelet nem vonható vissza.",
       "CONFIRM": "Törlés",
       "API": {
         "SUCCESS_MESSAGE": "Kampány sikeresen törölve",

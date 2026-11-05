@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "کاربر",
         "TIME": "اقدام",
-        "IP_ADDRESS": "آدرس آی‌پی"
+        "IP_ADDRESS": "آدرس آی‌پی",
+        "LOCATION": "مکان"
       }
     },
     "API": {

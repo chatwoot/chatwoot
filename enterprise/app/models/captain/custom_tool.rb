@@ -8,11 +8,14 @@
 #  description       :text
 #  enabled           :boolean          default(TRUE), not null
 #  endpoint_url      :text             not null
+#  headers           :jsonb            not null
 #  http_method       :string           default("GET"), not null
 #  param_schema      :jsonb
 #  request_template  :text
 #  response_template :text
+#  settings          :jsonb            not null
 #  slug              :string           not null
+#  source_metadata   :jsonb
 #  title             :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -40,6 +43,18 @@ class Captain::CustomTool < ApplicationRecord
   # verbatim as the tool name in LLM requests, so it must fit within this limit.
   MAX_SLUG_LENGTH = 64
   COLLISION_SUFFIX_LENGTH = 7 # "_" + 6 random alphanumeric chars
+  # Header rules mirror the Captain tools catalog manifest schema
+  MAX_HEADERS = 16
+  MAX_HEADER_VALUE_BYTES = 1.kilobyte
+  # RFC 9110 field-name token
+  HEADER_NAME_PATTERN = /\A[!#$%&'*+.^_`|~0-9A-Za-z-]+\z/
+  # Control characters, or install-time (${{ }}) and call-time ({{ }}) placeholders
+  INVALID_HEADER_VALUE_PATTERN = /[[:cntrl:]]|\{\{/
+  RESERVED_HEADERS = %w[authorization host content-length content-type].freeze
+  # Any name starting with x-chatwoot, dash or not, is reserved for headers Chatwoot sets
+  RESERVED_HEADER_PREFIX = 'x-chatwoot'.freeze
+  # Values Chatwoot fills into a parameter from what the customer verified: an email by one-time code
+  VERIFIED_SOURCES = %w[verified.email].freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -48,18 +63,48 @@ class Captain::CustomTool < ApplicationRecord
         'name': { 'type': 'string' },
         'type': { 'type': 'string' },
         'description': { 'type': 'string' },
-        'required': { 'type': 'boolean' }
+        'required': { 'type': 'boolean' },
+        'source': { 'enum': VERIFIED_SOURCES }
       },
       'required': %w[name type description],
+      # Verified values are text, so a parameter that takes one must be a string
+      'if': { 'required': ['source'] },
+      'then': { 'properties': { 'type': { 'const': 'string' } } },
       'additionalProperties': false
     }
+  }.to_json.freeze
+  # Present only on tools installed from chatwoot/tools
+  SOURCE_METADATA_VALIDATION = {
+    'type': %w[object null],
+    'properties': {
+      'source': { 'const': 'github' },
+      'repository': { 'type': 'string', 'pattern': '^[\\w.-]+/[\\w.-]+$' },
+      'path': { 'type': 'string', 'pattern': '^[\\w.-]+$' },
+      'tool_id': { 'type': 'string', 'pattern': '^[a-z][a-z0-9_]*$' },
+      'revision': { 'type': 'string', 'pattern': '^[0-9a-f]{40}$' },
+      'version': { 'type': 'string', 'minLength': 1 },
+      'manifest_digest': { 'type': 'string', 'pattern': '^sha256:[0-9a-f]{64}$' },
+      'installation_id': { 'type': 'string', 'format': 'uuid' }
+    },
+    'required': %w[source repository path tool_id revision version manifest_digest installation_id],
+    'additionalProperties': false
+  }.to_json.freeze
+
+  # Only known settings with boolean values are accepted, so a typo or a string can never switch a safety setting off
+  SETTING_KEYS = %w[requires_email_verification].freeze
+  SETTINGS_VALIDATION = {
+    'type': 'object',
+    'properties': SETTING_KEYS.index_with { { 'type': 'boolean' } },
+    'additionalProperties': false
   }.to_json.freeze
 
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
 
-  enum :http_method, %w[GET POST].index_by(&:itself), validate: true
+  enum :http_method, %w[GET POST PUT PATCH DELETE].index_by(&:itself), validate: true
   enum :auth_type, %w[none bearer basic api_key].index_by(&:itself), default: :none, validate: true, prefix: :auth
+
+  encrypts :auth_config, :headers if Chatwoot.encryption_configured?
 
   before_validation :generate_slug
   before_create :ensure_within_limit
@@ -70,8 +115,20 @@ class Captain::CustomTool < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: PARAM_SCHEMA_VALIDATION,
                  attribute_resolver: ->(record) { record.param_schema }
+  validates_with JsonSchemaValidator,
+                 schema: SOURCE_METADATA_VALIDATION,
+                 attribute_resolver: ->(record) { record.source_metadata }
+  validates_with JsonSchemaValidator,
+                 schema: SETTINGS_VALIDATION,
+                 attribute_resolver: ->(record) { record.settings }
+  validate :validate_headers
+  validate :validate_auth_config
 
   scope :enabled, -> { where(enabled: true) }
+  scope :from_github, lambda { |repository, path|
+    where("source_metadata->>'source' = 'github'")
+      .where("source_metadata->>'repository' = ? AND source_metadata->>'path' = ?", repository, path)
+  }
 
   def to_tool_metadata
     {
@@ -82,11 +139,64 @@ class Captain::CustomTool < ApplicationRecord
     }
   end
 
+  # The tool only runs for a customer who verified an email with a one-time code.
+  # A tool with a parameter that takes the verified email cannot run without one, so it needs no setting.
+  def requires_email_verification?
+    settings['requires_email_verification'] == true || param_schema.any? { |param_def| param_def['source'] == 'verified.email' }
+  end
+
+  # The name of the parameter Chatwoot fills with the verified email, if the tool has one
+  def verified_email_param
+    param_schema.find { |param_def| param_def['source'] == 'verified.email' }&.dig('name')
+  end
+
   def enabled_scenarios_count
     assistant.scenarios.enabled.where('tools @> ?', [slug].to_json).count
   end
 
   private
+
+  def validate_headers
+    return errors.add(:headers, I18n.t('captain.custom_tool.headers.invalid')) unless headers.is_a?(Hash)
+    return errors.add(:headers, I18n.t('captain.custom_tool.headers.too_many', limit: MAX_HEADERS)) if headers.size > MAX_HEADERS
+
+    names = headers.keys.map(&:downcase)
+    errors.add(:headers, I18n.t('captain.custom_tool.headers.duplicate')) if names.uniq.size != names.size
+    headers.each { |name, value| validate_header(name, value) }
+  end
+
+  # Auth values become request headers, and the HTTP client rejects unsafe ones on every call
+  def validate_auth_config
+    config = auth_config.to_h
+    validate_api_key_name(config['name']) if auth_api_key? && config['name'].is_a?(String)
+    errors.add(:auth_config, :invalid) if invalid_auth_value?(config)
+  end
+
+  # Basic auth is sent as username:password, so a colon in the username splits it in the wrong place
+  def invalid_auth_value?(config)
+    (auth_basic? && config['username'].to_s.include?(':')) ||
+      config.values.any? { |value| value.is_a?(String) && value.match?(/[[:cntrl:]]/) }
+  end
+
+  # HttpTool sets reserved headers after auth, so they would overwrite the key. Authorization is the credential's own header.
+  def validate_api_key_name(name)
+    return errors.add(:auth_config, I18n.t('captain.custom_tool.headers.invalid_name', name: name)) unless HEADER_NAME_PATTERN.match?(name)
+    return if name.casecmp?('authorization') || !reserved_header?(name.downcase)
+
+    errors.add(:auth_config, I18n.t('captain.custom_tool.headers.reserved', name: name))
+  end
+
+  def validate_header(name, value)
+    return errors.add(:headers, I18n.t('captain.custom_tool.headers.invalid_name', name: name)) unless HEADER_NAME_PATTERN.match?(name)
+    return errors.add(:headers, I18n.t('captain.custom_tool.headers.reserved', name: name)) if reserved_header?(name.downcase)
+    return if value.is_a?(String) && value.bytesize <= MAX_HEADER_VALUE_BYTES && !INVALID_HEADER_VALUE_PATTERN.match?(value)
+
+    errors.add(:headers, I18n.t('captain.custom_tool.headers.invalid_value', name: name))
+  end
+
+  def reserved_header?(name)
+    RESERVED_HEADERS.include?(name) || name.start_with?(RESERVED_HEADER_PREFIX)
+  end
 
   def ensure_within_limit
     # Lock the assistant row to serialize concurrent creates and prevent exceeding the cap

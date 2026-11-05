@@ -42,6 +42,19 @@ const CONSOLE_URLS = {
   phone_number:
     'https://console.twilio.com/us1/develop/phone-numbers/manage/incoming',
   messaging_service: 'https://console.twilio.com/us1/develop/sms/services',
+  whatsapp_sender:
+    'https://console.twilio.com/us1/develop/sms/senders/whatsapp-senders',
+};
+
+const SENDER_STATUS_COLORS = {
+  ONLINE: 'text-n-teal-11',
+  OFFLINE: 'text-n-ruby-11',
+};
+
+const QUALITY_RATING_COLORS = {
+  HIGH: 'text-n-teal-11',
+  MEDIUM: 'text-n-amber-11',
+  LOW: 'text-n-ruby-11',
 };
 
 const ACCOUNT_STATUS_COLORS = {
@@ -151,6 +164,47 @@ const healthItems = computed(() => {
       ),
     },
     {
+      key: 'senderStatus',
+      label: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.SENDER_STATUS.LABEL'),
+      tooltip: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.SENDER_STATUS.TOOLTIP'),
+      value: translate(
+        `INBOX_MGMT.TWILIO_HEALTH.VALUES.SENDER_STATUSES.${toKey(sender.value.status)}`,
+        sender.value.status
+      ),
+      type: 'pill',
+      color:
+        SENDER_STATUS_COLORS[toKey(sender.value.status)] || 'text-n-amber-11',
+      show: sender.value.type === 'whatsapp_sender',
+    },
+    {
+      key: 'displayName',
+      label: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.DISPLAY_NAME.LABEL'),
+      tooltip: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.DISPLAY_NAME.TOOLTIP'),
+      value: sender.value.friendly_name,
+      show:
+        sender.value.type === 'whatsapp_sender' &&
+        Boolean(sender.value.friendly_name),
+    },
+    {
+      key: 'qualityRating',
+      label: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.QUALITY_RATING.LABEL'),
+      tooltip: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.QUALITY_RATING.TOOLTIP'),
+      value: translate(
+        `INBOX_MGMT.TWILIO_HEALTH.VALUES.QUALITY_RATINGS.${toKey(sender.value.quality_rating)}`,
+        sender.value.quality_rating
+      ),
+      type: 'pill',
+      color: QUALITY_RATING_COLORS[toKey(sender.value.quality_rating)],
+      show: Boolean(sender.value.quality_rating),
+    },
+    {
+      key: 'messagingLimit',
+      label: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.MESSAGING_LIMIT.LABEL'),
+      tooltip: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.MESSAGING_LIMIT.TOOLTIP'),
+      value: sender.value.messaging_limit,
+      show: Boolean(sender.value.messaging_limit),
+    },
+    {
       key: 'capabilities',
       label: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.CAPABILITIES.LABEL'),
       tooltip: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.CAPABILITIES.TOOLTIP'),
@@ -159,6 +213,7 @@ const healthItems = computed(() => {
     },
     {
       key: 'voiceCalling',
+      show: props.healthData.medium !== 'whatsapp',
       label: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.VOICE_CALLING.LABEL'),
       tooltip: t('INBOX_MGMT.TWILIO_HEALTH.FIELDS.VOICE_CALLING.TOOLTIP'),
       value: props.healthData.voice_enabled

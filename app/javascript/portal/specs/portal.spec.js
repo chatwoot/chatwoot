@@ -12,7 +12,7 @@ describe('InitializationHelpers.navigateToLocalePage', () => {
 
   beforeEach(() => {
     dom = new JSDOM(
-      '<!DOCTYPE html><html><body><div class="locale-switcher" data-portal-slug="test-slug"><select><option value="en">English</option><option value="fr">French</option></select></div></body></html>',
+      '<!DOCTYPE html><html><body><select class="locale-switcher"><option value="/hc/test-slug/en">English</option><option value="/hc/test-slug/fr">French</option></select></body></html>',
       { url: 'http://localhost/' }
     );
     document = dom.window.document;
@@ -43,6 +43,36 @@ describe('InitializationHelpers.navigateToLocalePage', () => {
     InitializationHelpers.navigateToLocalePage();
 
     expect(documentSpy).toHaveBeenCalledWith('change', expect.any(Function));
+    documentSpy.mockRestore();
+  });
+
+  it('navigates to a same-origin help center URL', () => {
+    const documentSpy = vi.spyOn(document, 'addEventListener');
+    const assign = vi.fn();
+    global.window = { location: { origin: 'http://localhost', assign } };
+
+    InitializationHelpers.navigateToLocalePage();
+    const changeHandler = documentSpy.mock.calls[0][1];
+    changeHandler({
+      target: { closest: () => ({ value: '/hc/test-slug/fr' }) },
+    });
+
+    expect(assign).toHaveBeenCalledWith('http://localhost/hc/test-slug/fr');
+    documentSpy.mockRestore();
+  });
+
+  it('ignores URLs outside the current help center', () => {
+    const documentSpy = vi.spyOn(document, 'addEventListener');
+    const assign = vi.fn();
+    global.window = { location: { origin: 'http://localhost', assign } };
+
+    InitializationHelpers.navigateToLocalePage();
+    const changeHandler = documentSpy.mock.calls[0][1];
+    ['https://example.com/hc/phishing', '/app/accounts/1'].forEach(value => {
+      changeHandler({ target: { closest: () => ({ value }) } });
+    });
+
+    expect(assign).not.toHaveBeenCalled();
     documentSpy.mockRestore();
   });
 });

@@ -4,6 +4,7 @@ operationId: add-new-canned-response-to-account
 summary: Add a New Canned Response
 description: Add a new Canned Response to Account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

@@ -28,6 +28,19 @@
           "PLACEHOLDER": "하나를 선택하십시오",
           "ERROR": "이벤트가 필요합니다"
         },
+        "MONITOR": {
+          "LABEL": "Monitor",
+          "PLACEHOLDER": "Select a live monitor",
+          "ERROR": "Select a live monitor",
+          "FETCH_FAILED": "Could not load monitors. Try again later.",
+          "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
+          "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
+          "GO_TO_MONITORS": "Go to monitors",
+          "RETRY": "재시도",
+          "UNAVAILABLE": "Unavailable monitor",
+          "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
+          "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
+        },
         "RUN_TYPE": {
           "LABEL": "When should this rule run?",
           "OPTIONS": {
@@ -83,8 +96,7 @@
       "TABLE_HEADER": {
         "NAME": "이름",
         "ACTIVE": "활성",
-        "CREATED_ON": "생성일",
-        "ACTIONS": "액션"
+        "CREATED_ON": "생성일"
       },
       "404": "자동화 규칙을 찾을 수 없습니다",
       "404_DELAYED": "No rules run after a wait yet",
@@ -93,6 +105,9 @@
         "DELAYED": "Runs after a wait"
       },
       "DELAY_BADGE": "Runs after {delay}",
+      "MONITOR_PAUSED": "Monitor paused",
+      "MONITOR_DELETED": "Monitor deleted",
+      "MONITOR_UNAVAILABLE": "Monitor feature unavailable",
       "DELAY_DISABLED_BANNER": "Delayed execution is turned off for this account, so the rules below that run after a wait are paused until it is turned back on."
     },
     "DELETE": {
@@ -136,7 +151,10 @@
     "CONDITION": {
       "DELETE_MESSAGE": "저장하려면 최소 하나의 조건이 필요합니다",
       "CONTACT_CUSTOM_ATTR_LABEL": "연락처 사용자 지정 속성",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "대화 사용자 지정 속성"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "대화 사용자 지정 속성",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Describe what to look for, e.g. customer wants to cancel"
+      }
     },
     "ACTION": {
       "DELETE_MESSAGE": "저장하려면 최소 하나의 액션이 필요합니다",
@@ -181,7 +199,8 @@
       "CONVERSATION_UPDATED": "대화 업데이트됨",
       "MESSAGE_CREATED": "메시지 생성됨",
       "CONVERSATION_RESOLVED": "대화 해결됨",
-      "CONVERSATION_OPENED": "대화 열림"
+      "CONVERSATION_OPENED": "대화 열림",
+      "MONITOR_MATCHED": "Monitor Matched"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "에이전트에게 배정",
@@ -232,7 +251,8 @@
       "ASSIGNEE_NAME": "담당자",
       "TEAM_NAME": "팀",
       "PRIORITY": "우선순위",
-      "LABELS": "라벨"
+      "LABELS": "라벨",
+      "CAPTAIN": "Captain"
     }
   }
 }

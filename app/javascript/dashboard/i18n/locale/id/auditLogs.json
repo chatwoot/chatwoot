@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "Pengguna",
         "TIME": "Tindakan",
-        "IP_ADDRESS": "Alamat IP"
+        "IP_ADDRESS": "Alamat IP",
+        "LOCATION": "Lokasi"
       }
     },
     "API": {

@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "Nicht verfügbar",
     "EMAIL_ADDRESS": "E-Mail-Adresse",
     "PHONE_NUMBER": "Telefonnummer",
-    "WHATSAPP_USERNAME": "WhatsApp username",
+    "WHATSAPP_USERNAME": "WhatsApp Benutzername",
     "IDENTIFIER": "Identifizierer",
     "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
     "COMPANY": "Firma",
@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Es sind keine vorherigen Gespräche mit diesem Kontakt verbunden.",
-      "TITLE": "Vorherige Gespräche"
+      "TITLE": "Vorherige Gespräche",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

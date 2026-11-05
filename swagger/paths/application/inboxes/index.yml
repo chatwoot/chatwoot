@@ -5,6 +5,7 @@ get:
   summary: List all inboxes
   description: List all inboxes available in the current account
   security:
+    - userBearerAuth: []
     - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
@@ -40,6 +41,7 @@ post:
   summary: Create an inbox
   description: You can create more than one website inbox in each account
   security:
+    - userBearerAuth: []
     - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'

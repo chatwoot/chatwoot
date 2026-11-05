@@ -43,6 +43,9 @@ const integrationStatusColor = computed(() =>
   props.enabled ? 'teal' : 'slate'
 );
 
+const isSvgLogo = computed(() => props.id === 'stripe');
+const logoExtension = computed(() => (isSvgLogo.value ? 'svg' : 'png'));
+
 const actionURL = computed(() =>
   frontendURL(`accounts/${accountId.value}/settings/integrations/${props.id}`)
 );
@@ -55,12 +58,20 @@ const actionURL = computed(() =>
     <div class="flex items-start justify-between">
       <div class="flex h-12 w-12 mb-2">
         <img
-          :src="`/dashboard/images/integrations/${id}.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
+          :src="`/dashboard/images/integrations/${id}.${logoExtension}`"
+          :alt="name"
+          class="rounded-md border border-n-weak shadow-sm block dark:hidden"
+          :class="
+            isSvgLogo ? 'size-12 p-1.5 bg-white' : 'max-w-full bg-n-alpha-3'
+          "
         />
         <img
-          :src="`/dashboard/images/integrations/${id}-dark.png`"
-          class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
+          :src="`/dashboard/images/integrations/${id}-dark.${logoExtension}`"
+          :alt="name"
+          class="rounded-md border border-n-weak shadow-sm hidden dark:block"
+          :class="
+            isSvgLogo ? 'size-12 p-1.5 bg-n-solid-3' : 'max-w-full bg-n-alpha-2'
+          "
         />
       </div>
       <Label
