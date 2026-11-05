@@ -29,7 +29,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
     )
   end
 
-  # The web widget reads only the conversation's id and status, so it gets nothing about the contact or the agents
+  # The widget learns the conversation's id, inbox, read state and status, not the contact or the agents
   def widget_data
     {
       id: display_id,

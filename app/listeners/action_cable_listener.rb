@@ -152,20 +152,17 @@ class ActionCableListener < BaseListener
 
   def broadcast_message_event(message, event_name, **extra)
     conversation = message.conversation
-    agent_tokens = user_tokens(conversation.account, conversation.inbox.members)
+    data = message.push_event_data.merge(extra)
 
-    broadcast(conversation.account, agent_tokens, event_name, message.push_event_data.merge(extra))
-    broadcast_to_contact(conversation, contact_tokens(conversation.contact_inbox, message), event_name) do |widget|
-      event_data_for(message, widget).merge(extra)
+    broadcast_to_sessions(conversation, event_name, inbox_agent_tokens(conversation), message_contact_inboxes(conversation, message), data) do
+      message.widget_push_event_data(data)
     end
   end
 
   def broadcast_conversation_event(conversation, event_name)
-    agent_tokens = user_tokens(conversation.account, conversation.inbox.members)
-
-    broadcast(conversation.account, agent_tokens, event_name, conversation.push_event_data)
-    broadcast_to_contact(conversation, contact_inbox_tokens(conversation.contact_inbox), event_name) do |widget|
-      event_data_for(conversation, widget)
+    broadcast_to_sessions(conversation, event_name, inbox_agent_tokens(conversation), session_contact_inboxes(conversation.contact_inbox),
+                          conversation.push_event_data) do
+      conversation.widget_push_event_data
     end
   end
 
@@ -173,35 +170,34 @@ class ActionCableListener < BaseListener
     conversation = event.data[:conversation]
     user = event.data[:user]
     is_private = event.data[:is_private] || false
+    data = { conversation: conversation.push_event_data, user: user.push_event_data, is_private: is_private }
 
-    broadcast(conversation.account, typing_agent_tokens(conversation, user), event_name,
-              { conversation: conversation.push_event_data, user: user.push_event_data, is_private: is_private })
-    broadcast_to_contact(conversation, typing_contact_tokens(conversation, user), event_name) do |widget|
-      { conversation: event_data_for(conversation, widget), user: user.push_event_data, is_private: is_private }
+    broadcast_to_sessions(conversation, event_name, typing_agent_tokens(conversation, user), typing_contact_inboxes(conversation, user), data) do
+      data.merge(conversation: conversation.widget_push_event_data)
     end
   end
 
-  # Web widget sessions get the widget payload. Client API sessions keep the documented payload.
-  def broadcast_to_contact(conversation, tokens, event_name)
-    return if tokens.blank?
+  # Agents and Client API sessions get the full payload in one job.
+  # Web widget sessions get the widget payload from the block in a second job.
+  def broadcast_to_sessions(conversation, event_name, agent_tokens, contact_inboxes, data)
+    widget_sessions, other_sessions = contact_inboxes.partition { |contact_inbox| contact_inbox.inbox.web_widget? }
 
-    widget = conversation.inbox.web_widget?
-    job_options = widget ? { widget: true } : {}
-    broadcast(conversation.account, tokens, event_name, yield(widget), **job_options)
+    broadcast(conversation.account, agent_tokens + other_sessions.filter_map(&:pubsub_token), event_name, data)
+    broadcast(conversation.account, widget_sessions.filter_map(&:pubsub_token), event_name, yield, widget: true) if widget_sessions.any?
   end
 
-  def event_data_for(record, widget)
-    widget ? record.widget_push_event_data : record.push_event_data
+  def inbox_agent_tokens(conversation)
+    user_tokens(conversation.account, conversation.inbox.members)
   end
 
   # Whoever is typing does not get their own typing event
   def typing_agent_tokens(conversation, user)
-    tokens = user_tokens(conversation.account, conversation.inbox.members)
+    tokens = inbox_agent_tokens(conversation)
     user.respond_to?(:pubsub_token) ? tokens - [user.pubsub_token] : tokens
   end
 
-  def typing_contact_tokens(conversation, user)
-    user.is_a?(Contact) ? [] : [conversation.contact_inbox.pubsub_token]
+  def typing_contact_inboxes(conversation, user)
+    user.is_a?(Contact) ? [] : [conversation.contact_inbox]
   end
 
   def user_tokens(account, agents)
@@ -210,18 +206,17 @@ class ActionCableListener < BaseListener
     (agent_tokens + admin_tokens).uniq
   end
 
-  def contact_tokens(contact_inbox, message)
-    return [] if message.private?
-    return [] if message.activity?
-    return [] if contact_inbox.nil?
+  def message_contact_inboxes(conversation, message)
+    return [] if message.private? || message.activity? || conversation.contact_inbox.nil?
 
-    contact_inbox_tokens(contact_inbox)
+    session_contact_inboxes(conversation.contact_inbox)
   end
 
-  def contact_inbox_tokens(contact_inbox)
-    contact = contact_inbox.contact
+  # A verified session also reaches the contact's other verified sessions, in any inbox
+  def session_contact_inboxes(contact_inbox)
+    return [contact_inbox] unless contact_inbox.hmac_verified?
 
-    contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
+    contact_inbox.contact.contact_inboxes.where(hmac_verified: true).includes(:inbox).to_a
   end
 
   def broadcast(account, tokens, event_name, data, **job_options)

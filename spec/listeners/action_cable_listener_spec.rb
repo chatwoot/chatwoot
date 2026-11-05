@@ -114,7 +114,28 @@ describe ActionCableListener do
       )
     end
 
-    it 'sends the full message to a Client API session' do
+    it 'sends each verified session the payload of its own inbox' do
+      conversation.contact_inbox.update(hmac_verified: true)
+      api_inbox = create(:inbox, account: account, channel: create(:channel_api, account: account))
+      api_session = create(:contact_inbox, contact: conversation.contact, inbox: api_inbox, hmac_verified: true)
+      allow(ActionCableBroadcastJob).to receive(:perform_later)
+
+      listener.message_created(event)
+
+      expect(ActionCableBroadcastJob).to have_received(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token, api_session.pubsub_token),
+        'message.created',
+        message.push_event_data.merge(account_id: account.id)
+      )
+      expect(ActionCableBroadcastJob).to have_received(:perform_later).with(
+        [conversation.contact_inbox.pubsub_token],
+        'message.created',
+        message.widget_push_event_data.merge(account_id: account.id),
+        widget: true
+      )
+    end
+
+    it 'sends a Client API session the full message in the agents job' do
       api_inbox = create(:inbox, account: account, channel: create(:channel_api, account: account))
       api_conversation = create(:conversation, account: account, inbox: api_inbox)
       api_message = create(:message, message_type: 'incoming', sender: api_conversation.contact,
@@ -123,8 +144,8 @@ describe ActionCableListener do
 
       listener.message_created(Events::Base.new(event_name, Time.zone.now, message: api_message))
 
-      expect(ActionCableBroadcastJob).to have_received(:perform_later).with(
-        [api_conversation.contact_inbox.pubsub_token],
+      expect(ActionCableBroadcastJob).to have_received(:perform_later).once.with(
+        a_collection_containing_exactly(admin.pubsub_token, api_conversation.contact_inbox.pubsub_token),
         'message.created',
         api_message.push_event_data.merge(account_id: account.id)
       )

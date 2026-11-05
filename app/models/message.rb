@@ -181,10 +181,10 @@ class Message < ApplicationRecord
     sender_push_event_data
   end
 
-  def widget_push_event_data
-    data = push_event_data
-    data[:sender] = widget_sender_data if sender
-    data
+  # The widget renders the whole message and forwards it to the host page, so the payload stays whole
+  # and only the contact sender loses its stored details. Pass a built push_event_data to skip building it again.
+  def widget_push_event_data(data = push_event_data)
+    sender ? data.merge(sender: widget_sender_data) : data
   end
 
   def webhook_push_event_data
