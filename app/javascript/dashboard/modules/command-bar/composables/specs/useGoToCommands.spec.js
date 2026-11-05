@@ -1,0 +1,254 @@
+import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { usePolicy } from 'dashboard/composables/usePolicy';
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+import { useGoToCommands } from '../useGoToCommands';
+import { MOCK_FEATURE_FLAGS } from 'dashboard/composables/commands/spec/fixtures';
+
+vi.mock('dashboard/composables/store');
+vi.mock('vue-i18n');
+vi.mock('vue-router');
+vi.mock('dashboard/composables/usePolicy');
+
+const ROUTE_META = {
+  calls_dashboard_index: {
+    permissions: ['administrator', 'agent'],
+    installationTypes: ['cloud', 'enterprise'],
+  },
+  portals_index: {
+    featureFlag: MOCK_FEATURE_FLAGS.HELP_CENTER,
+    permissions: ['administrator', 'knowledge_base_manage'],
+  },
+  agent_reports_index: {
+    featureFlag: MOCK_FEATURE_FLAGS.REPORTS,
+    permissions: ['administrator', 'report_manage'],
+  },
+  contacts_dashboard_index: {
+    featureFlag: MOCK_FEATURE_FLAGS.CRM,
+    permissions: ['administrator', 'agent', 'contact_manage'],
+  },
+  agent_list: {
+    featureFlag: MOCK_FEATURE_FLAGS.AGENT_MANAGEMENT,
+    permissions: ['administrator'],
+  },
+  settings_teams_list: {
+    featureFlag: MOCK_FEATURE_FLAGS.TEAM_MANAGEMENT,
+    permissions: ['administrator'],
+  },
+  settings_inbox_list: {
+    featureFlag: MOCK_FEATURE_FLAGS.INBOX_MANAGEMENT,
+    permissions: ['administrator'],
+  },
+  labels_list: {
+    featureFlag: MOCK_FEATURE_FLAGS.LABELS,
+    permissions: ['administrator'],
+  },
+  canned_list: {
+    featureFlag: MOCK_FEATURE_FLAGS.CANNED_RESPONSES,
+    permissions: ['administrator', 'agent', 'conversation_manage'],
+  },
+  macros_wrapper: {
+    featureFlag: MOCK_FEATURE_FLAGS.MACROS,
+    permissions: ['administrator', 'agent', 'conversation_manage'],
+  },
+  settings_applications: {
+    featureFlag: MOCK_FEATURE_FLAGS.INTEGRATIONS,
+    permissions: ['administrator'],
+  },
+  automation_list: {
+    featureFlag: MOCK_FEATURE_FLAGS.AUTOMATIONS,
+    permissions: ['administrator'],
+  },
+  auditlogs_list: {
+    featureFlag: MOCK_FEATURE_FLAGS.AUDIT_LOGS,
+    permissions: ['administrator'],
+  },
+  general_settings_index: { permissions: ['administrator'] },
+  billing_settings_index: { permissions: ['administrator'] },
+  account_overview_reports: {
+    featureFlag: MOCK_FEATURE_FLAGS.REPORTS,
+    permissions: ['administrator', 'report_manage'],
+  },
+  profile_settings_index: {
+    permissions: ['administrator', 'agent', 'custom_role'],
+  },
+};
+
+const DEFAULT_META = { permissions: ['administrator', 'agent'] };
+
+const ROUTE_PATHS = {
+  settings_inbox_new: '/app/accounts/1/settings/inboxes/new',
+  campaigns_whatsapp_new: '/app/accounts/1/campaigns/whatsapp/new',
+};
+
+describe('useGoToCommands', () => {
+  let store;
+  let userPermissions;
+  let installationType;
+  let disabledFeatures;
+
+  beforeEach(() => {
+    userPermissions = ['administrator'];
+    installationType = 'cloud';
+    disabledFeatures = [];
+    store = {
+      getters: {
+        getCurrentAccountId: 1,
+        'inboxes/getInboxes': [
+          { id: 7, name: 'Support', channel_type: 'Channel::WebWidget' },
+        ],
+        'teams/getTeams': [{ id: 3, name: 'Sales' }],
+        'labels/getLabels': [{ id: 9, title: 'billing', color: '#ff0000' }],
+      },
+    };
+
+    useStore.mockReturnValue(store);
+    useMapGetter.mockImplementation(key => ({
+      value: store.getters[key],
+    }));
+
+    useI18n.mockReturnValue({ t: vi.fn(key => key) });
+    useRoute.mockReturnValue({ name: 'settings_home' });
+    useRouter.mockReturnValue({
+      push: vi.fn(),
+      resolve: vi.fn(({ name, params }) => ({
+        name,
+        params,
+        path: ROUTE_PATHS[name] ?? '',
+        meta: ROUTE_META[name] || DEFAULT_META,
+      })),
+    });
+    usePolicy.mockReturnValue({
+      isFeatureFlagEnabled: vi.fn(
+        flag => !flag || !disabledFeatures.includes(flag)
+      ),
+      checkPermissions: vi.fn((required = []) =>
+        required.some(permission => userPermissions.includes(permission))
+      ),
+      checkInstallationType: vi.fn(
+        (types = []) => !types.length || types.includes(installationType)
+      ),
+    });
+  });
+
+  it('should hide the page the user is already on', () => {
+    useRoute.mockReturnValue({ name: 'automation_list' });
+    const { goToCommands } = useGoToCommands();
+
+    const ids = goToCommands.value.map(cmd => cmd.id);
+    expect(ids).not.toContain('open_automation_settings');
+    expect(ids).toContain('open_agent_settings');
+  });
+
+  it('should filter commands based on feature flags', () => {
+    disabledFeatures = [MOCK_FEATURE_FLAGS.CRM];
+    const { goToCommands } = useGoToCommands();
+
+    const ids = goToCommands.value.map(cmd => cmd.id);
+    expect(ids).not.toContain('goto_contacts_dashboard');
+    expect(ids).toContain('open_account_settings');
+  });
+
+  it('should filter commands for non-admin users', () => {
+    userPermissions = ['agent'];
+    const { goToCommands } = useGoToCommands();
+
+    const adminOnlyCommands = goToCommands.value.filter(
+      cmd =>
+        cmd.id.includes('agent_settings') ||
+        cmd.id.includes('team_settings') ||
+        cmd.id.includes('inbox_settings')
+    );
+    expect(adminOnlyCommands.length).toBe(0);
+  });
+
+  it('should include commands granted by a custom role permission', () => {
+    userPermissions = ['custom_role', 'report_manage'];
+    const { goToCommands } = useGoToCommands();
+
+    expect(
+      goToCommands.value.find(cmd => cmd.id.includes('reports_overview'))
+    ).toBeDefined();
+    expect(
+      goToCommands.value.find(cmd => cmd.id.includes('agent_settings'))
+    ).toBeUndefined();
+  });
+
+  it('should hide the help center from agents, who cannot open it', () => {
+    userPermissions = ['agent'];
+    const { goToCommands } = useGoToCommands();
+
+    expect(goToCommands.value.map(cmd => cmd.id)).not.toContain(
+      'goto_help_center'
+    );
+  });
+
+  it('should offer the help center to a knowledge base manager', () => {
+    userPermissions = ['custom_role', 'knowledge_base_manage'];
+    const { goToCommands } = useGoToCommands();
+
+    expect(goToCommands.value.map(cmd => cmd.id)).toContain('goto_help_center');
+  });
+
+  it('should drop report commands when the reports feature is disabled', () => {
+    disabledFeatures = [MOCK_FEATURE_FLAGS.REPORTS];
+    const { goToCommands } = useGoToCommands();
+
+    const ids = goToCommands.value.map(cmd => cmd.id);
+    expect(ids).not.toContain('open_reports_overview');
+    expect(ids).not.toContain('open_agent_reports');
+  });
+
+  it('should drop commands whose route is not available on the installation', () => {
+    installationType = 'community';
+    const { goToCommands } = useGoToCommands();
+
+    expect(
+      goToCommands.value.find(cmd => cmd.id === 'goto_calls_dashboard')
+    ).toBeUndefined();
+  });
+
+  it('should only keep routes that bypass the upgrade page when paywalled', () => {
+    const { goToCommands } = useGoToCommands(ref(true));
+
+    expect(goToCommands.value.map(cmd => cmd.id).sort()).toEqual([
+      'open_account_settings',
+      'open_agent_settings',
+      'open_billing_settings',
+      'open_inbox_settings',
+      'open_security_settings',
+    ]);
+  });
+
+  it('should resolve every route against the current account', () => {
+    store.getters.getCurrentAccountId = 42;
+    const { goToCommands } = useGoToCommands();
+    goToCommands.value.forEach(command => {
+      command.run?.();
+      expect(useRouter().push).toHaveBeenCalledWith(
+        expect.objectContaining({
+          params: expect.objectContaining({ accountId: 42 }),
+        })
+      );
+    });
+  });
+
+  it('should show the keyboard shortcut of pages that have one', () => {
+    const { goToCommands } = useGoToCommands();
+    const dashboard = goToCommands.value.find(
+      cmd => cmd.id === 'goto_conversation_dashboard'
+    );
+    expect(dashboard.shortcut).toHaveLength(2);
+  });
+
+  it('should not offer settings the custom role cannot open', () => {
+    userPermissions = ['custom_role', 'conversation_manage'];
+    const { goToCommands } = useGoToCommands();
+
+    const ids = goToCommands.value.map(cmd => cmd.id);
+    expect(ids).not.toContain('open_automation_settings');
+    expect(ids).not.toContain('open_audit_logs_settings');
+    expect(ids).toContain('open_canned_response_settings');
+  });
+});

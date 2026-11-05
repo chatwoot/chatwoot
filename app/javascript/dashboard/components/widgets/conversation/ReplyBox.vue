@@ -109,8 +109,8 @@ export default {
       '$mod+KeyK': {
         action: e => {
           e.preventDefault();
-          const ninja = document.querySelector('ninja-keys');
-          ninja.open();
+          // ninja-keys skips its own hotkey inside the editor; the v2 bar binds its own.
+          document.querySelector('ninja-keys')?.open();
         },
         allowOnFocusedInput: true,
       },
