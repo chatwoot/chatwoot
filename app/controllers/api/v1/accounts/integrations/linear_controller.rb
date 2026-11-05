@@ -63,7 +63,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Int
 
   def unlink_issue
     link_id = permitted_params[:link_id]
-    issue_id = permitted_params[:issue_id]
+    issue_identifier = @issue_attachment.fetch('issue').fetch('identifier')
     issue = linear_processor_service.unlink_issue(link_id)
 
     if issue[:error]
@@ -72,7 +72,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Int
       Linear::ActivityMessageService.new(
         conversation: @conversation,
         action_type: :issue_unlinked,
-        issue_data: { id: issue_id },
+        issue_data: { id: issue_identifier },
         user: Current.user
       ).perform
       render json: issue[:data], status: :ok
@@ -117,7 +117,8 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Int
     if issues[:error]
       render json: { error: issues[:error] }, status: :unprocessable_entity
     else
-      head :not_found unless issues[:data].any? { |attachment| attachment['id'] == permitted_params[:link_id] }
+      @issue_attachment = issues[:data].find { |attachment| attachment['id'] == permitted_params[:link_id] }
+      head :not_found unless @issue_attachment
     end
   end
 

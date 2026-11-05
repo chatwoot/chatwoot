@@ -232,10 +232,11 @@ RSpec.describe 'Linear Integration API', type: :request do
   describe 'POST /api/v1/accounts/:account_id/integrations/linear/unlink_issue' do
     before do
       create(:inbox_member, inbox: conversation.inbox, user: agent)
-      allow(processor_service).to receive(:linked_issues).with(conversation_link).and_return(data: [{ 'id' => link_id }])
+      allow(processor_service).to receive(:linked_issues).with(conversation_link).and_return(data: [issue_attachment])
     end
 
     let(:conversation_link) { "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}" }
+    let(:issue_attachment) { { 'id' => link_id, 'issue' => { 'identifier' => 'ENG-789' } } }
     let(:link_id) { 'attachment1' }
     let(:issue_id) { 'ENG-789' }
     let(:conversation) { create(:conversation, account: account) }
@@ -292,6 +293,22 @@ RSpec.describe 'Linear Integration API', type: :request do
 
       context 'when the issue is unlinked successfully' do
         let(:unlinked_issue) { { data: { 'id' => 'issue1', 'link' => 'https://linear.app/issue1' } } }
+
+        ['ENG-999', nil].each do |submitted_issue_id|
+          it "records the verified identifier when the supplied issue id is #{submitted_issue_id.inspect}" do
+            allow(processor_service).to receive(:unlink_issue).with(link_id).and_return(unlinked_issue)
+            request_params = { link_id: link_id, conversation_id: conversation.display_id }
+            request_params[:issue_id] = submitted_issue_id if submitted_issue_id
+
+            expect do
+              post "/api/v1/accounts/#{account.id}/integrations/linear/unlink_issue",
+                   params: request_params, headers: agent.create_new_auth_token, as: :json
+            end.to have_enqueued_job(Conversations::ActivityMessageJob)
+              .with(conversation, hash_including(content: "Linear issue ENG-789 was unlinked by #{agent.name}"))
+
+            expect(response).to have_http_status(:ok)
+          end
+        end
 
         it 'returns the unlinked issue and creates activity message' do
           allow(processor_service).to receive(:unlink_issue).with(link_id).and_return(unlinked_issue)
