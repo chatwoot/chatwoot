@@ -202,6 +202,14 @@
           "ERROR_MESSAGE": "We were not able to save the SMS channel"
         },
         "BANDWIDTH": {
+          "CALLBACK_AUTH": {
+            "TITLE": "Callback credentials",
+            "DESCRIPTION": "Add these as the inbound and outbound callback credentials in your Bandwidth application.",
+            "USERNAME": "Username",
+            "PASSWORD": "Password",
+            "ENFORCE": "Require callback credentials",
+            "ENFORCE_DESCRIPTION": "Reject callbacks that do not use these credentials. Turn this on after adding the credentials to your Bandwidth application."
+          },
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
@@ -315,6 +323,11 @@
           "PLACEHOLDER": "API key",
           "ERROR": "Please enter a valid value."
         },
+        "APP_SECRET": {
+          "LABEL": "App secret",
+          "PLACEHOLDER": "App secret of your Meta app",
+          "ERROR": "Please enter a valid value."
+        },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
           "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
@@ -368,7 +381,10 @@
             "PHONE_ID_LABEL": "Phone Number ID",
             "PHONE_ID_PLACEHOLDER": "Enter Phone Number ID",
             "TOKEN_LABEL": "Permanent access token",
-            "TOKEN_PLACEHOLDER": "Paste access token"
+            "TOKEN_PLACEHOLDER": "Paste access token",
+            "APP_SECRET_LABEL": "App secret",
+            "APP_SECRET_PLACEHOLDER": "Paste app secret",
+            "APP_SECRET_HELP": "Find it in your Meta app under App settings > Basic. It is used to verify incoming webhooks."
           },
           "REVIEW": {
             "TITLE": "Create your WhatsApp inbox",
@@ -412,7 +428,7 @@
           },
           "ERRORS": {
             "IDS_REQUIRED": "Enter the Phone Number ID and WhatsApp Business Account ID.",
-            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, and permanent access token.",
+            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, permanent access token, and app secret.",
             "INVALID_TOKEN": "This access token is invalid or expired. Generate a new permanent token and try again.",
             "GENERIC": "We could not complete the WhatsApp setup. Check your details and try again."
           }
@@ -1247,6 +1263,10 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
+      "WHATSAPP_APP_SECRET_TITLE": "App Secret",
+      "WHATSAPP_APP_SECRET_SUBHEADER": "Enter the app secret of your Meta app (App settings > Basic). It is used to verify that incoming webhooks come from Meta.",
+      "WHATSAPP_APP_SECRET_MISSING": "Incoming webhooks for this inbox are not verified yet. Add your Meta app secret to complete the setup.",
+      "WHATSAPP_APP_SECRET_PLACEHOLDER": "Enter the app secret here",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
@@ -1316,6 +1336,8 @@
           "DISPLAY_PHONE_NUMBER_HELP": "The customer-facing WhatsApp number. This cannot be changed during migration.",
           "ACCESS_TOKEN": "Permanent access token or system user token",
           "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
+          "APP_SECRET": "App secret",
+          "APP_SECRET_PLACEHOLDER": "App secret from App settings > Basic in your Meta app",
           "TOKEN_HELP_PREFIX": "The token must include",
           "TOKEN_HELP_MIDDLE": "Add",
           "TOKEN_HELP_SUFFIX": "for template sync and template management.",
@@ -1343,7 +1365,7 @@
           },
           "ACCESS_TOKEN": {
             "TITLE": "Access token",
-            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions, and the app secret of your Meta app."
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Review migration",

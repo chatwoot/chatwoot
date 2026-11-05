@@ -131,6 +131,8 @@ describe('FinishSetup', () => {
     mocks.inbox = {
       channel_type: INBOX_TYPES.SMS,
       callback_webhook_url: 'https://example.com/bandwidth/callback',
+      callback_auth_username: 'chatwoot',
+      callback_auth_password: 'callback-password',
     };
 
     const wrapper = mountComponent();
@@ -139,6 +141,7 @@ describe('FinishSetup', () => {
     expect(wrapper.text()).toContain(
       'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.TITLE'
     );
+    expect(wrapper.text()).toContain('callback-password');
     expect(wrapper.text()).not.toContain(
       'INBOX_MGMT.FINISH.TWILIO_CALLBACK_FALLBACK'
     );

@@ -71,7 +71,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def set_article
-    @article = @portal.articles.find_by!(slug: permitted_params[:article_slug])
+    @article = @portal.articles.not_archived.find_by!(slug: permitted_params[:article_slug])
   end
 
   def set_locale_switch_urls
