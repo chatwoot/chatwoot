@@ -4,7 +4,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import {
   usePageCommands,
   recordCommands,
-} from 'dashboard/composables/commands/usePageCommands';
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { getCaptainConditionUsage } from 'dashboard/helper/automationHelper';
 import AddAutomationRule from './AddAutomationRule.vue';

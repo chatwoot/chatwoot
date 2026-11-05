@@ -12,7 +12,7 @@ import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import {
   usePageCommands,
   recordCommands,
-} from 'dashboard/composables/commands/usePageCommands';
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';

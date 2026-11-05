@@ -1,128 +1,115 @@
 import { ref } from 'vue';
 import { flushPromises, mount } from '@vue/test-utils';
-import { useRoute } from 'vue-router';
-import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useCommandBar } from '@chatwoot/jumpbar';
+import { emitter } from 'shared/helpers/mitt';
+import { CMD_SNOOZE_CONVERSATION } from 'dashboard/helper/commandbar/events';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import CommandBar from '../commandbar.vue';
 
-const track = vi.fn();
-const dispatch = vi.fn();
-let getters;
+vi.mock('@chatwoot/ninja-keys', () => ({}));
 
-vi.mock('vue-router');
-vi.mock('dashboard/composables/store');
+const dispatch = vi.fn();
+const track = vi.fn();
+
+vi.mock('dashboard/composables/store', () => ({
+  useStore: () => ({ dispatch }),
+}));
+
 vi.mock('dashboard/composables', () => ({
   useTrack: (...args) => track(...args),
 }));
-vi.mock('dashboard/composables/useKeyboardEvents', () => ({
-  useKeyboardEvents: vi.fn(),
-}));
-vi.mock('@chatwoot/jumpbar', async importOriginal => ({
-  ...(await importOriginal()),
-  CommandBar: { template: '<div />' },
-}));
 
-const command = (id, extra = {}) => ({
-  id,
-  title: id,
-  section: 'Section',
-  ...extra,
-});
-
-const sources = {
-  goToCommands: [command('goto'), command('goto_billing')],
-  appearanceCommands: [command('appearance')],
-  inboxCommands: [command('inbox')],
-  bulkActionCommands: [command('bulk')],
-  conversationCommands: [
-    command('conversation'),
-    command('snooze_conversation', { page: true, placeholder: 'Type a time' }),
-    command('until_tomorrow', {
-      parent: 'snooze_conversation',
-      run: vi.fn(),
-    }),
+const hotKeySources = {
+  goToAppearanceHotKeys: [{ id: 'appearance' }],
+  inboxHotKeys: [{ id: 'inbox' }],
+  goToCommandHotKeys: [{ id: 'goto' }],
+  bulkActionsHotKeys: [
+    { id: 'bulk' },
+    { id: 'until_tomorrow', parent: 'bulk_action_snooze_conversation' },
   ],
-  macroCommands: [command('macro')],
-  cannedResponseCommands: [command('canned')],
-  accountCommands: [command('account')],
-  helpCommands: [command('help')],
-  backCommands: [command('back')],
+  conversationHotKeys: [
+    { id: 'conversation' },
+    { id: 'until_tomorrow', parent: 'snooze_conversation' },
+    { id: 'until_tomorrow', parent: 'snooze_notification' },
+    { id: 'until_tomorrow', parent: 'other_menu' },
+  ],
+  macroHotKeys: [{ id: 'execute_a_macro' }],
 };
 
 const pendingAttributes = ref(null);
 
-vi.mock('dashboard/composables/commands/useGoToCommands', () => ({
-  useGoToCommands: paywalled => ({
-    goToCommands: ref(
-      paywalled?.value ? [command('goto_billing')] : sources.goToCommands
+vi.mock('dashboard/composables/commands/useAppearanceHotKeys', () => ({
+  useAppearanceHotKeys: () => ({
+    goToAppearanceHotKeys: ref(hotKeySources.goToAppearanceHotKeys),
+  }),
+}));
+
+vi.mock('dashboard/composables/commands/useInboxHotKeys', () => ({
+  useInboxHotKeys: () => ({ inboxHotKeys: ref(hotKeySources.inboxHotKeys) }),
+}));
+
+vi.mock('dashboard/composables/commands/useGoToCommandHotKeys', () => ({
+  useGoToCommandHotKeys: paywalled => ({
+    goToCommandHotKeys: ref(
+      paywalled?.value
+        ? [{ id: 'goto_billing' }]
+        : hotKeySources.goToCommandHotKeys
     ),
   }),
 }));
-vi.mock('dashboard/composables/commands/useAppearanceCommands', () => ({
-  useAppearanceCommands: () => ({
-    appearanceCommands: ref(sources.appearanceCommands),
+
+vi.mock('dashboard/composables/commands/useBulkActionsHotKeys', () => ({
+  useBulkActionsHotKeys: () => ({
+    bulkActionsHotKeys: ref(hotKeySources.bulkActionsHotKeys),
   }),
 }));
-vi.mock('dashboard/composables/commands/useInboxCommands', () => ({
-  useInboxCommands: () => ({ inboxCommands: ref(sources.inboxCommands) }),
-}));
-vi.mock('dashboard/composables/commands/useBulkActionCommands', () => ({
-  useBulkActionCommands: () => ({
-    bulkActionCommands: ref(sources.bulkActionCommands),
+
+vi.mock('dashboard/composables/commands/useConversationHotKeys', () => ({
+  useConversationHotKeys: () => ({
+    conversationHotKeys: ref(hotKeySources.conversationHotKeys),
   }),
 }));
-vi.mock('dashboard/composables/commands/useConversationCommands', () => ({
-  useConversationCommands: () => ({
-    conversationCommands: ref(sources.conversationCommands),
-  }),
-}));
-vi.mock('dashboard/composables/commands/useMacroCommands', () => ({
-  useMacroCommands: () => ({
-    macroCommands: ref(sources.macroCommands),
+
+vi.mock('dashboard/composables/commands/useMacroHotKeys', () => ({
+  useMacroHotKeys: () => ({
+    macroHotKeys: ref(hotKeySources.macroHotKeys),
     pendingAttributes,
     submitPendingAttributes: vi.fn(),
     dismissPendingAttributes: vi.fn(),
   }),
 }));
-vi.mock('dashboard/composables/commands/useCannedResponseCommands', () => ({
-  useCannedResponseCommands: () => ({
-    cannedResponseCommands: ref(sources.cannedResponseCommands),
-  }),
+
+const suggestion = {
+  label: 'tomorrow',
+  formattedDate: 'Feb 3, 9:00 AM',
+  resolve: () => 'resolved-date',
+};
+
+vi.mock('dashboard/helper/snoozeHelpers', () => ({
+  generateSnoozeSuggestions: vi.fn(search => (search ? [suggestion] : [])),
 }));
-vi.mock('dashboard/composables/commands/useAccountCommands', () => ({
-  useAccountCommands: () => ({ accountCommands: ref(sources.accountCommands) }),
-}));
-vi.mock('dashboard/composables/commands/useHelpCommands', () => ({
-  useHelpCommands: () => ({ helpCommands: ref(sources.helpCommands) }),
-}));
-vi.mock('dashboard/composables/commands/useSnoozeSuggestions', () => ({
-  useSnoozeSuggestions: () => ({
-    snoozeCommands: () => [],
-    searchSnoozeSuggestions: ({ page, text }) =>
-      page === 'snooze_conversation' && text
-        ? [command('parsed_date', { parent: page })]
-        : [],
-  }),
-}));
-vi.mock('dashboard/composables/commands/useBackCommands', () => ({
-  useBackCommands: () => ({ backCommands: ref(sources.backCommands) }),
-}));
-vi.mock('dashboard/composables/commands/useSearchCommands', () => ({
-  useSearchCommands: () => ({
-    searchLoadedConversations: () => [],
-    searchConversations: async () => [command('remote_conversation')],
-    searchContacts: async () => [],
-    searchArticles: async () => [],
-    searchEverything: () => [],
-  }),
-}));
+
+class NinjaKeysStub extends HTMLElement {
+  constructor() {
+    super();
+    this.visible = false;
+    this.openedWith = null;
+  }
+
+  open(options = {}) {
+    this.visible = true;
+    this.openedWith = options;
+  }
+
+  close() {
+    this.visible = false;
+  }
+}
+
+customElements.define('ninja-keys', NinjaKeysStub);
 
 describe('commandbar', () => {
   let wrapper;
-  const bar = useCommandBar();
-
-  const ids = () => bar.visible.value.map(item => item.id);
+  let element;
 
   const mountCommandBar = async (props = {}) => {
     wrapper = mount(CommandBar, {
@@ -130,137 +117,234 @@ describe('commandbar', () => {
       global: { stubs: { ConversationResolveAttributesModal: true } },
     });
     await flushPromises();
+    element = wrapper.find('ninja-keys').element;
     return wrapper;
   };
 
+  const commandIds = () => element.data.map(action => action.id);
+
+  const presetSnoozeParents = () =>
+    element.data
+      .filter(action => action.id === 'until_tomorrow')
+      .map(action => action.parent)
+      .sort();
+
+  const emitChange = async (search, actions = []) => {
+    element.dispatchEvent(
+      new CustomEvent('change', { detail: { search, actions } })
+    );
+    await flushPromises();
+  };
+
+  const emitSelected = async action => {
+    element.dispatchEvent(new CustomEvent('selected', { detail: { action } }));
+    await flushPromises();
+  };
+
+  const emitClosed = async () => {
+    element.dispatchEvent(new CustomEvent('closed'));
+    await flushPromises();
+  };
+
   beforeEach(() => {
-    vi.useFakeTimers();
-    getters = {
-      getSelectedChat: { id: 7, meta: { sender: { name: 'Sarah' } } },
-      'bulkActions/getSelectedConversationIds': [],
-      'accounts/isRTL': false,
-      getCurrentAccountId: 1,
-    };
-    useRoute.mockReturnValue({ name: 'inbox_conversation' });
-    useStore.mockReturnValue({ dispatch });
-    useMapGetter.mockImplementation(key => ({ value: getters[key] }));
-    localStorage.clear();
+    dispatch.mockClear();
+    track.mockClear();
   });
 
   afterEach(() => {
-    bar.close();
     wrapper?.unmount();
-    vi.useRealTimers();
   });
 
-  it('registers every source', async () => {
-    await mountCommandBar();
-    bar.open();
-    await flushPromises();
+  describe('command data', () => {
+    it('hands every hotkey source to ninja-keys on mount', async () => {
+      await mountCommandBar();
 
-    expect(ids()).toEqual(
-      expect.arrayContaining([
-        'goto',
-        'appearance',
-        'inbox',
-        'bulk',
-        'conversation',
-        'macro',
-        'canned',
-        'account',
-        'help',
-        'back',
-      ])
-    );
-  });
+      expect(commandIds()).toEqual(
+        expect.arrayContaining([
+          'appearance',
+          'inbox',
+          'goto',
+          'bulk',
+          'conversation',
+          'execute_a_macro',
+        ])
+      );
+    });
 
-  it('offers only appearance and go-to commands when paywalled', async () => {
-    await mountCommandBar({ isPaywalled: true });
-    bar.open();
-    await flushPromises();
+    it('keeps preset snooze options while there are no dynamic suggestions', async () => {
+      await mountCommandBar();
 
-    expect(ids()).toEqual(['goto_billing', 'appearance']);
-  });
-
-  it('names the open conversation in the scope chip', async () => {
-    await mountCommandBar();
-
-    expect(wrapper.vm.scopeLabel).toBe('Sarah');
-  });
-
-  it('counts the bulk selection in the scope chip', async () => {
-    getters['bulkActions/getSelectedConversationIds'] = [1, 2, 3];
-    await mountCommandBar();
-
-    expect(wrapper.vm.scopeLabel).toBe('COMMAND_BAR.SELECTED_COUNT');
-  });
-
-  it('replaces the snooze presets with parsed dates while typing', async () => {
-    await mountCommandBar();
-    bar.open({ page: 'snooze_conversation' });
-    await vi.advanceTimersByTimeAsync(200);
-    expect(ids()).toEqual(['until_tomorrow']);
-
-    bar.setQuery('tomorrow');
-    await vi.advanceTimersByTimeAsync(200);
-    expect(ids()).toEqual(['parsed_date']);
-  });
-
-  it('adds remote results after the commands at the root', async () => {
-    await mountCommandBar();
-    bar.open({ query: 'sar' });
-    await vi.advanceTimersByTimeAsync(400);
-
-    expect(ids()).toContain('remote_conversation');
-    expect(ids().indexOf('goto')).toBeLessThan(
-      ids().indexOf('remote_conversation')
-    );
-  });
-
-  it('tracks the selected command', async () => {
-    await mountCommandBar();
-    bar.open();
-    await flushPromises();
-    bar.select(
-      command('goto', {
-        title: 'Go to inbox',
-        section: 'General',
-        run: vi.fn(),
-      })
-    );
-
-    expect(track).toHaveBeenCalledWith(GENERAL_EVENTS.COMMAND_BAR, {
-      section: 'General',
-      action: 'Go to inbox',
+      expect(presetSnoozeParents()).toEqual([
+        'bulk_action_snooze_conversation',
+        'other_menu',
+        'snooze_conversation',
+        'snooze_notification',
+      ]);
     });
   });
 
-  it('clears the context menu conversation when closed', async () => {
-    await mountCommandBar();
-    bar.open();
-    await flushPromises();
-    bar.close();
+  describe('when the account is paywalled', () => {
+    it('offers only appearance and go-to commands', async () => {
+      await mountCommandBar({ isPaywalled: true });
 
-    expect(dispatch).toHaveBeenCalledWith('setContextMenuChatId', null);
+      expect(commandIds()).toEqual(['appearance', 'goto_billing']);
+    });
+
+    it('drops inbox, bulk action and conversation commands', async () => {
+      await mountCommandBar({ isPaywalled: true });
+
+      expect(commandIds()).not.toContain('inbox');
+      expect(commandIds()).not.toContain('bulk');
+      expect(commandIds()).not.toContain('conversation');
+    });
+
+    it('passes the paywalled state through to the go-to commands', async () => {
+      await mountCommandBar({ isPaywalled: true });
+
+      expect(commandIds()).toContain('goto_billing');
+      expect(commandIds()).not.toContain('goto');
+    });
   });
 
-  it('keeps the right-clicked conversation while a snooze option runs', async () => {
-    await mountCommandBar();
-    bar.open({ page: 'snooze_conversation' });
-    await flushPromises();
-    bar.select(sources.conversationCommands[2]);
+  describe('placeholder', () => {
+    it('asks what the user is searching for by default', async () => {
+      await mountCommandBar();
 
-    expect(dispatch).not.toHaveBeenCalledWith('setContextMenuChatId', null);
+      expect(element.getAttribute('placeholder')).toBe(
+        'COMMAND_BAR.SEARCH_PLACEHOLDER'
+      );
+    });
+
+    it('switches to the snooze prompt inside a snooze menu', async () => {
+      await mountCommandBar();
+
+      element.open({ parent: 'snooze_conversation' });
+      await flushPromises();
+
+      expect(element.getAttribute('placeholder')).toBe(
+        'COMMAND_BAR.SNOOZE_PLACEHOLDER'
+      );
+    });
   });
 
-  it('remembers used commands per account', async () => {
-    await mountCommandBar();
-    bar.open();
-    await flushPromises();
-    bar.select(command('goto', { run: vi.fn() }));
+  describe('dynamic snooze suggestions', () => {
+    const enterSnoozeMenu = () =>
+      emitChange('', [{ id: 'until_tomorrow', parent: 'snooze_conversation' }]);
 
-    expect(
-      JSON.parse(localStorage.getItem('command_bar_usage_1')).goto
-    ).toHaveLength(1);
+    it('builds a suggestion from the search inside a snooze menu', async () => {
+      await mountCommandBar();
+      await enterSnoozeMenu();
+      await emitChange('tomorrow');
+
+      expect(commandIds()).toContain('dynamic_snooze_0');
+    });
+
+    it('hides the preset snooze options once a suggestion exists', async () => {
+      await mountCommandBar();
+      await enterSnoozeMenu();
+      await emitChange('tomorrow');
+
+      expect(presetSnoozeParents()).toEqual(['other_menu']);
+      expect(commandIds()).toContain('conversation');
+    });
+
+    it('ignores the search outside a snooze menu', async () => {
+      await mountCommandBar();
+      await emitChange('tomorrow', [{ id: 'goto', parent: null }]);
+
+      expect(commandIds()).not.toContain('dynamic_snooze_0');
+    });
+
+    it('clears the suggestions when the search is emptied', async () => {
+      await mountCommandBar();
+      await enterSnoozeMenu();
+      await emitChange('tomorrow');
+      await emitChange('');
+
+      expect(commandIds()).not.toContain('dynamic_snooze_0');
+      expect(commandIds()).toContain('until_tomorrow');
+    });
+
+    it('leaves the snooze menu when actions span several parents', async () => {
+      await mountCommandBar();
+      await enterSnoozeMenu();
+      await emitChange('tomorrow', [
+        { id: 'until_tomorrow', parent: 'snooze_conversation' },
+        { id: 'bulk', parent: 'bulk_action_snooze_conversation' },
+      ]);
+
+      expect(commandIds()).not.toContain('dynamic_snooze_0');
+    });
+
+    it('emits the resolved date when a suggestion is picked', async () => {
+      const onSnooze = vi.fn();
+      emitter.on(CMD_SNOOZE_CONVERSATION, onSnooze);
+
+      await mountCommandBar();
+      await enterSnoozeMenu();
+      await emitChange('tomorrow');
+      element.data.find(action => action.id === 'dynamic_snooze_0').handler();
+
+      expect(onSnooze).toHaveBeenCalledWith('resolved-date');
+      emitter.off(CMD_SNOOZE_CONVERSATION, onSnooze);
+    });
+
+    it('drops the suggestions when the bar closes', async () => {
+      await mountCommandBar();
+      await enterSnoozeMenu();
+      await emitChange('tomorrow');
+      element.close();
+      await flushPromises();
+
+      expect(commandIds()).not.toContain('dynamic_snooze_0');
+      expect(element.getAttribute('placeholder')).toBe(
+        'COMMAND_BAR.SEARCH_PLACEHOLDER'
+      );
+    });
+  });
+
+  describe('selecting a command', () => {
+    it('tracks the selection', async () => {
+      await mountCommandBar();
+      await emitSelected({
+        id: 'goto',
+        title: 'Go to inbox',
+        section: 'General',
+      });
+
+      expect(track).toHaveBeenCalledWith(GENERAL_EVENTS.COMMAND_BAR, {
+        section: 'General',
+        action: 'Go to inbox',
+      });
+    });
+
+    it('enters a submenu when the command has children', async () => {
+      await mountCommandBar();
+      await emitSelected({
+        id: 'snooze_conversation',
+        children: ['until_tomorrow'],
+      });
+
+      expect(element.getAttribute('placeholder')).toBe(
+        'COMMAND_BAR.SNOOZE_PLACEHOLDER'
+      );
+    });
+  });
+
+  describe('closing the bar', () => {
+    it('clears the context menu conversation', async () => {
+      await mountCommandBar();
+      await emitClosed();
+
+      expect(dispatch).toHaveBeenCalledWith('setContextMenuChatId', null);
+    });
+
+    it('keeps the context menu conversation for a custom snooze', async () => {
+      await mountCommandBar();
+      await emitSelected({ id: 'until_custom_time' });
+      await emitClosed();
+
+      expect(dispatch).not.toHaveBeenCalled();
+    });
   });
 });

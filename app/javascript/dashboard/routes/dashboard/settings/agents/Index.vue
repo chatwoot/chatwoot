@@ -3,7 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import {
   usePageCommands,
   recordCommands,
-} from 'dashboard/composables/commands/usePageCommands';
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 import { computed, onMounted, ref } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useI18n } from 'vue-i18n';

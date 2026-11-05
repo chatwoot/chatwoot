@@ -8,7 +8,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import {
   usePageCommands,
   recordCommands,
-} from 'dashboard/composables/commands/usePageCommands';
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { picoSearch } from '@chatwoot/pico-search';
 import IntegrationItem from './IntegrationItem.vue';

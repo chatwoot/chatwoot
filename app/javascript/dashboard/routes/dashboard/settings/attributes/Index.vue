@@ -20,7 +20,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import {
   usePageCommands,
   recordCommands,
-} from 'dashboard/composables/commands/usePageCommands';
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { t } = useI18n();

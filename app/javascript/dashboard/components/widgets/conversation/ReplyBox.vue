@@ -107,6 +107,14 @@ export default {
         action: () => proxy.hideEmojiPicker(),
         allowOnFocusedInput: true,
       },
+      '$mod+KeyK': {
+        action: e => {
+          e.preventDefault();
+          // ninja-keys skips its own hotkey inside the editor; the v2 bar binds its own.
+          document.querySelector('ninja-keys')?.open();
+        },
+        allowOnFocusedInput: true,
+      },
       Enter: {
         action: e => {
           if (isComposing(e)) return;

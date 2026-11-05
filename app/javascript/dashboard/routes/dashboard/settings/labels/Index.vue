@@ -6,7 +6,7 @@ import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import {
   usePageCommands,
   recordCommands,
-} from 'dashboard/composables/commands/usePageCommands';
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 import { picoSearch } from '@chatwoot/pico-search';
 
 import AddLabel from './AddLabel.vue';
