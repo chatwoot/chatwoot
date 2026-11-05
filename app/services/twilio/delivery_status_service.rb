@@ -2,6 +2,14 @@ class Twilio::DeliveryStatusService
   pattr_initialize [:params!]
   # Reference: https://www.twilio.com/docs/messaging/api/message-resource#message-status-values
 
+  def self.find_channel(params)
+    if params[:MessagingServiceSid].present?
+      ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid])
+    elsif params[:AccountSid].present? && params[:From].present?
+      ::Channel::TwilioSms.find_by(account_sid: params[:AccountSid], phone_number: params[:From])
+    end
+  end
+
   def perform
     return if twilio_channel.blank?
 
@@ -46,11 +54,7 @@ class Twilio::DeliveryStatusService
   end
 
   def twilio_channel
-    @twilio_channel ||= if params[:MessagingServiceSid].present?
-                          ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid])
-                        elsif params[:AccountSid].present? && params[:From].present?
-                          ::Channel::TwilioSms.find_by(account_sid: params[:AccountSid], phone_number: params[:From])
-                        end
+    @twilio_channel ||= self.class.find_channel(params)
     log_channel_not_found if @twilio_channel.blank?
     @twilio_channel
   end
