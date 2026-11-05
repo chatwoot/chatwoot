@@ -44,7 +44,7 @@ class Internal::Accounts::MarketingAttributionService
     internal_attributes_service.set(
       'marketing_attribution',
       {
-        'first_touch' => first_touch || existing_attribution['first_touch'],
+        'first_touch' => existing_attribution['first_touch'] || first_touch,
         'last_touch' => last_touch || existing_attribution['last_touch'],
         'captured_from' => 'cookie',
         'stored_at' => Time.current.iso8601
@@ -83,5 +83,6 @@ class Internal::Accounts::MarketingAttributionService
 
   def enqueue_signup_conversion
     Internal::Accounts::MarketingConversionTrackingJob.perform_later(account.id, 'cloud_signup', account.created_at)
+    Internal::Accounts::XConversionTrackingJob.perform_later(account.id, 'cloud_signup')
   end
 end

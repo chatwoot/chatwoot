@@ -16,6 +16,8 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
+    when 'invoice.paid'
+      process_invoice_paid
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
@@ -102,6 +104,12 @@ class Enterprise::Billing::HandleStripeEventService
 
   def subscription_conversion_value(subscription_plan)
     ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription['quantity'].to_i / 100).to_f
+  end
+
+  def process_invoice_paid
+    return unless stripe_billed_account?
+
+    Internal::Accounts::FirstPaymentService.new(account: account, invoice: @event.data.object).perform
   end
 
   def process_subscription_deleted

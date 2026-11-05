@@ -326,6 +326,12 @@
   description: 'JSON config for Chatwoot Cloud signup and plan activation conversion tracking'
   locked: true
   type: code
+- name: X_CONVERSION_TRACKING_CONFIG
+  value:
+  display_title: 'X Conversion Tracking Config'
+  description: 'JSON config for sending Chatwoot Cloud signup and first payment conversions to the X Conversion API; nothing is sent while empty'
+  locked: true
+  type: code
 - name: CHATWOOT_CLOUD_PLAN_FEATURES
   display_title: 'Planwise Features List'
   value:

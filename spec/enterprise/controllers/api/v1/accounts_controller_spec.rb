@@ -5,7 +5,11 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
   describe 'POST /api/v1/accounts' do
     let(:email) { Faker::Internet.email }
     let(:user_full_name) { Faker::Name.name_with_middle }
-    let(:first_touch_cookie) { Base64.urlsafe_encode64({ source: 'reddit', source_type: 'paid_social' }.to_json, padding: false) }
+    let(:first_touch) do
+      { source: 'x', source_type: 'paid_social', utm_source: 'x', utm_medium: 'paid_social', utm_campaign: 'x-pilot-nov',
+        utm_content: 'creative-a', twclid: 'x-click-1', captured_at: '2026-11-05T10:00:00.000Z' }
+    end
+    let(:first_touch_cookie) { Base64.urlsafe_encode64(first_touch.to_json, padding: false) }
     let(:last_touch_cookie) { Base64.urlsafe_encode64({ source: 'github', source_type: 'referral' }.to_json, padding: false) }
     let(:attribution_cookie_header) do
       {
@@ -47,8 +51,26 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
 
       attribution = account.reload.internal_attributes['marketing_attribution']
       expect(attribution['captured_from']).to eq('cookie')
-      expect(attribution['first_touch']).to include('source' => 'reddit', 'source_type' => 'paid_social')
+      expect(attribution['first_touch']).to eq(first_touch.stringify_keys)
       expect(attribution['last_touch']).to include('source' => 'github', 'source_type' => 'referral')
+      expect(Internal::Accounts::XConversionTrackingJob).to have_been_enqueued.with(account.id, 'cloud_signup')
+    end
+
+    it 'does not record attribution or send conversions when the signup fails' do
+      account_builder = double
+      allow(AccountBuilder).to receive(:new).and_return(account_builder)
+      allow(account_builder).to receive(:perform).and_return([nil, nil])
+
+      expect do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post api_v1_accounts_url,
+               params: { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' },
+               headers: attribution_cookie_header,
+               as: :json
+        end
+      end.not_to have_enqueued_job(Internal::Accounts::XConversionTrackingJob)
+
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'does not record marketing attribution for authenticated add-workspace requests' do

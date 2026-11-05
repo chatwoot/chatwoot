@@ -6,7 +6,12 @@ RSpec.describe 'Enterprise Google OAuth attribution', type: :request do
   let(:email) { 'oauth-attribution@example.com' }
   let(:account_builder) { double }
   let(:account) { create(:account) }
-  let(:first_touch_cookie) { encoded_cookie('source' => 'reddit', 'source_type' => 'paid_social') }
+  let(:first_touch) do
+    { 'source' => 'x', 'source_type' => 'paid_social', 'utm_source' => 'x', 'utm_medium' => 'paid_social',
+      'utm_campaign' => 'x-pilot-nov', 'utm_content' => 'creative-a', 'twclid' => 'x-click-1',
+      'captured_at' => '2026-11-05T10:00:00.000Z' }
+  end
+  let(:first_touch_cookie) { encoded_cookie(first_touch) }
   let(:last_touch_cookie) { encoded_cookie('source' => 'github', 'source_type' => 'referral') }
 
   before do
@@ -43,8 +48,22 @@ RSpec.describe 'Enterprise Google OAuth attribution', type: :request do
     attribution = account.reload.internal_attributes['marketing_attribution']
 
     expect(attribution['captured_from']).to eq('cookie')
-    expect(attribution['first_touch']).to include('source' => 'reddit', 'source_type' => 'paid_social')
+    expect(attribution['first_touch']).to eq(first_touch)
     expect(attribution['last_touch']).to include('source' => 'github', 'source_type' => 'referral')
+    expect(Internal::Accounts::XConversionTrackingJob).to have_been_enqueued.with(account.id, 'cloud_signup')
+  end
+
+  it 'does not record attribution when an existing user signs in with Google' do
+    create(:user, email: email)
+    cookies[Internal::Accounts::MarketingAttributionService::FIRST_TOUCH_COOKIE] = first_touch_cookie
+
+    with_modified_env FRONTEND_URL: 'http://www.example.com' do
+      get '/omniauth/google_oauth2/callback'
+      follow_redirect!
+    end
+
+    expect(account.reload.internal_attributes).not_to include('marketing_attribution')
+    expect(Internal::Accounts::XConversionTrackingJob).not_to have_been_enqueued
   end
 
   it 'returns an existing user to Shopify billing after Google OAuth' do
