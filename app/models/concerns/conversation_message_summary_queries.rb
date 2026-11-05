@@ -4,22 +4,11 @@ module ConversationMessageSummaryQueries
       :id,
       latest_summary_message_id(Message.message_types.values),
       latest_summary_message_id(Message.message_types.except('activity').values),
-      summary_unread_count
+      unread_incoming_messages_arel { |messages| limited_summary_count(messages) }
     )
   end
 
   private
-
-  def summary_unread_count
-    incoming_messages = summary_messages.incoming
-    unread_messages = incoming_messages.where(summary_messages_table[:created_at].gt(arel_table[:agent_last_seen_at]))
-
-    # Separate branches let PostgreSQL use created_at as an index range instead of filtering the message history.
-    Arel::Nodes::Case.new
-                     .when(arel_table[:agent_last_seen_at].eq(nil))
-                     .then(limited_summary_count(incoming_messages))
-                     .else(limited_summary_count(unread_messages))
-  end
 
   def limited_summary_count(messages)
     selected = messages.reorder(created_at: :desc).limit(Conversation::UNREAD_INCOMING_MESSAGES_LIMIT).select(:id)
