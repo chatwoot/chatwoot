@@ -397,7 +397,8 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
              params: params,
              as: :json
 
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:no_content)
+        expect(response.body).to be_empty
         conversation.reload
         # conversation custom attributes should not have "product_name" key with value "Chatwoot"
         expect(conversation.custom_attributes).not_to include('product_name' => 'Chatwoot')
