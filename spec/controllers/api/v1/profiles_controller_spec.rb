@@ -242,7 +242,7 @@ RSpec.describe 'Profile API', type: :request do
       it 'populates the unconfirmed email' do
         new_email = Faker::Internet.email
         put '/api/v1/profile',
-            params: { profile: { email: new_email } },
+            params: { profile: { email: new_email, current_password: 'Test123!' } },
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -250,6 +250,40 @@ RSpec.describe 'Profile API', type: :request do
         agent.reload
 
         expect(agent.unconfirmed_email).to eq(new_email)
+      end
+
+      it 'rejects the change when current password is missing' do
+        put '/api/v1/profile',
+            params: { profile: { email: Faker::Internet.email } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agent.reload.unconfirmed_email).to be_nil
+      end
+
+      it 'rejects the change when current password is invalid' do
+        put '/api/v1/profile',
+            params: { profile: { email: Faker::Internet.email, name: 'new name', current_password: 'wrong' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        agent.reload
+        expect(agent.unconfirmed_email).to be_nil
+        expect(agent.name).not_to eq('new name')
+      end
+
+      it 'does not require current password when the email is unchanged' do
+        put '/api/v1/profile',
+            params: { profile: { email: " #{agent.email.upcase} ", name: 'new name' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+        expect(agent.name).to eq('new name')
+        expect(agent.unconfirmed_email).to be_nil
       end
     end
   end

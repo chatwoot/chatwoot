@@ -9,11 +9,9 @@ class Api::V1::ProfilesController < Api::BaseController
   def show; end
 
   def update
-    if password_params[:password].present?
-      render_could_not_create_error('Invalid current password') and return unless @user.valid_password?(password_params[:current_password])
+    return render_could_not_create_error('Invalid current password') unless current_password_verified?
 
-      @user.update!(password_params.except(:current_password))
-    end
+    @user.update!(password_params.except(:current_password)) if password_params[:password].present?
 
     @user.assign_attributes(profile_params)
     @user.custom_attributes.merge!(custom_attributes_params)
@@ -61,6 +59,16 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def set_user
     @user = current_user
+  end
+
+  def current_password_verified?
+    return true unless password_params[:password].present? || email_change_requested?
+
+    @user.valid_password?(password_params[:current_password])
+  end
+
+  def email_change_requested?
+    profile_params[:email].present? && !profile_params[:email].to_s.strip.casecmp?(@user.email)
   end
 
   def availability_params
