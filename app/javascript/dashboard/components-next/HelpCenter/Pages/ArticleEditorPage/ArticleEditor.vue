@@ -30,10 +30,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  isLoadingPreview: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits([
@@ -225,7 +221,6 @@ defineExpose({ syncLocalState });
       <ArticleEditorHeader
         :is-updating="isUpdating"
         :is-saved="isSaved"
-        :is-loading-preview="isLoadingPreview"
         :status="article.status"
         :article-id="article.id"
         :pending-changes="hasPendingChanges"

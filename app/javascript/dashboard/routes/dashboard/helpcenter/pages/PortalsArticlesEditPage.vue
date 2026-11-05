@@ -37,19 +37,22 @@ const isUpdating = ref(false);
 const isSaved = ref(false);
 const hasNewerVersion = ref(false);
 const articleEditorRef = ref(null);
-const isLoadingPreview = ref(false);
+const previewToken = ref('');
 
 const articleLink = computed(() => {
   const { slug: categorySlug, locale: categoryLocale } = article.value.category;
-  const { slug: articleSlugValue } = article.value;
+  const { slug: articleSlugValue, status } = article.value;
   const portalCustomDomain = portal.value?.custom_domain;
-  return buildPortalArticleURL(
+  const publicUrl = buildPortalArticleURL(
     portalSlug.value,
     categorySlug,
     categoryLocale,
     articleSlugValue,
     portalCustomDomain
   );
+  if (status === ARTICLE_STATUSES.PUBLISHED) return publicUrl;
+
+  return `${publicUrl}?preview=${encodeURIComponent(previewToken.value)}`;
 });
 
 // On a published article, title/content edits stage into draft_* columns (kept
@@ -195,36 +198,23 @@ const loadLatestVersion = async () => {
 useEventListener(document, 'visibilitychange', checkForNewerVersion);
 useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, checkForNewerVersion);
 
-const previewArticle = async () => {
+const fetchPreviewToken = async () => {
+  const { data } = await ArticlesAPI.getPreviewToken({
+    id: articleSlug.value,
+    portalSlug: portalSlug.value,
+  });
+  previewToken.value = data.preview_token;
+};
+
+const previewArticle = () => {
+  window.open(articleLink.value, '_blank');
   useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
     status: article.value?.status,
   });
-  if (article.value.status === ARTICLE_STATUSES.PUBLISHED) {
-    window.open(articleLink.value, '_blank');
-    return;
-  }
-
-  isLoadingPreview.value = true;
-  try {
-    const { data } = await ArticlesAPI.getPreviewToken({
-      id: article.value.id,
-      portalSlug: portalSlug.value,
-    });
-    const previewWindow = window.open(
-      `${articleLink.value}?preview=${encodeURIComponent(data.preview_token)}`,
-      '_blank'
-    );
-    if (!previewWindow) {
-      useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW_ERROR'));
-    }
-  } catch {
-    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW_ERROR'));
-  } finally {
-    isLoadingPreview.value = false;
-  }
 };
 
 watch(articleSlug, fetchArticleDetails, { immediate: true });
+watch(articleSlug, fetchPreviewToken, { immediate: true });
 </script>
 
 <template>
@@ -234,7 +224,6 @@ watch(articleSlug, fetchArticleDetails, { immediate: true });
     :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"
-    :is-loading-preview="isLoadingPreview"
     @save-article="saveArticle"
     @preview-article="previewArticle"
     @go-back="goBackToArticles"
