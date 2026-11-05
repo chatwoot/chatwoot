@@ -24,6 +24,13 @@
     <% end %>
   <% end %>
 
+  <% if ChatwootApp.enterprise? && !ChatwootApp.chatwoot_cloud? && ChatwootHub.subscription_status == 'past_due' %>
+    <%= render "alert", role: "alert", extra: "flex flex-wrap items-center justify-between gap-3" do %>
+      <span><%= t("super_admin.billing.past_due") %></span>
+      <%= link_to t("super_admin.billing.resolve_payment"), ChatwootHub.billing_url, target: "_blank", rel: "noopener noreferrer", class: "font-medium" %>
+    <% end %>
+  <% end %>
+
   <div class="rounded-xl border border-n-weak bg-n-solid-1 divide-y divide-n-weak">
     <% if ChatwootApp.enterprise? %>
       <div class="<%= summary_row %>">

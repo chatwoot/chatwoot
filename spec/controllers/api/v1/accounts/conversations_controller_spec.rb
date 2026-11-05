@@ -35,6 +35,21 @@ RSpec.describe 'Conversations API', type: :request do
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
       end
 
+      it 'returns the newest activity in messages and the latest reply as last_non_activity_message' do
+        reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+        create(:message, conversation: conversation, account: account, message_type: :activity)
+        newest_activity = create(:message, conversation: conversation, account: account, message_type: :activity)
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        payload = JSON.parse(response.body, symbolize_names: true)[:data][:payload].first
+        expect(payload[:messages].first[:id]).to eq(newest_activity.id)
+        expect(payload[:last_non_activity_message][:id]).to eq(reply.id)
+      end
+
       it 'lists a conversation whose assignee no longer exists as unassigned' do
         assigned = create(:conversation, account: account, inbox: conversation.inbox, assignee: agent)
         conversation.update_column(:assignee_id, User.maximum(:id) + 1000) # rubocop:disable Rails/SkipsModelValidations
@@ -50,6 +65,22 @@ RSpec.describe 'Conversations API', type: :request do
         expect(payload[conversation.display_id][:meta]).not_to include(:assignee, :assignee_type)
         expect(payload[assigned.display_id][:meta][:assignee][:id]).to eq(agent.id)
         expect(payload[assigned.display_id][:meta][:assignee_type]).to eq('User')
+      end
+
+      it 'lists a conversation whose contact no longer exists with an empty sender' do
+        with_contact = create(:conversation, account: account, inbox: conversation.inbox)
+        Contact.where(id: conversation.contact_id).delete_all
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            params: { assignee_type: 'all' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        payload = JSON.parse(response.body, symbolize_names: true)[:data][:payload].index_by { |item| item[:id] }
+        expect(payload.keys).to contain_exactly(conversation.display_id, with_contact.display_id)
+        expect(payload[conversation.display_id][:meta][:sender]).to eq({})
+        expect(payload[with_contact.display_id][:meta][:sender][:id]).to eq(with_contact.contact_id)
       end
 
       it 'returns conversations with empty messages array for conversations with out messages' do
