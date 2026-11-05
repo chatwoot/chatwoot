@@ -21,7 +21,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
         params: { email: contact_email, name: contact_name },
         retain_original_contact_name: true
       )
-      identify_action.perform
+      @contact = identify_action.perform
       Conversations::UnverifiedContactNoteService.new(conversation: @message.conversation, matches: identify_action.unverified_matches).perform
     else
       @message.update!(message_update_params[:message])

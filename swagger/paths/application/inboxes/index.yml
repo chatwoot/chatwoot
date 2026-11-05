@@ -149,6 +149,7 @@ post:
                   api_key: your-api-key
                   phone_number_id: your-phone-number-id
                   business_account_id: your-business-account-id
+                  app_secret: your-app-secret
           sms:
             summary: SMS channel
             value:

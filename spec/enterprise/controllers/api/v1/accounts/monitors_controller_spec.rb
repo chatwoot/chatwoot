@@ -202,7 +202,7 @@ RSpec.describe 'Monitors API', type: :request do
   it 'does not expose a deleted conversation from a completed preview' do
     message
     stub_request(:post, ConversationMonitors::Configuration.endpoint).to_return(
-      status: 200, body: { model: 'typesafe/jev-1.13-20260917', answers: { '0' => { type: 'noul', noul: 0.6 } }, usage: { input_tokens: 10 } }.to_json
+      status: 200, body: { model: 'typesafe/jev-1.14-20261014', answers: { '0' => { type: 'noul', noul: 0.6 } }, usage: { input_tokens: 10 } }.to_json
     )
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
     ConversationMonitors::PreviewJob.perform_now(account.id, admin.id, 'sample')
@@ -218,7 +218,7 @@ RSpec.describe 'Monitors API', type: :request do
   it 'does not retain source text in preview storage or return redacted text later' do
     message
     stub_request(:post, ConversationMonitors::Configuration.endpoint).to_return(
-      status: 200, body: { model: 'typesafe/jev-1.13-20260917', answers: { '0' => { type: 'noul', noul: 0.99 } },
+      status: 200, body: { model: 'typesafe/jev-1.14-20261014', answers: { '0' => { type: 'noul', noul: 0.99 } },
                            usage: { input_tokens: 10 } }.to_json
     )
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })

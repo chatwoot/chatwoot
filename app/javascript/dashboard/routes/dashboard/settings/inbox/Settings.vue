@@ -511,6 +511,7 @@ export default {
               phone_number_id: form.phoneNumberId,
               business_account_id: form.wabaId,
               api_key: form.accessToken,
+              app_secret: form.appSecret,
             },
           },
         };
