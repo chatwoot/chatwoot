@@ -24,8 +24,7 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
-    # :messages is deliberately not preloaded: the list payload fetches messages through
-    # scoped queries (last message, last_non_activity_message), which bypass the preload.
+    # :messages is not preloaded. Conversations::MessageSummaryLoader loads the messages the list payload shows.
     conversations = @account.conversations.includes(
       :taggings, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team,
       :contact_inbox

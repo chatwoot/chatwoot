@@ -27,6 +27,28 @@ RSpec.describe Conversations::MessageSummaryLoader do
         expect(conversation.message_summary.last_message_data[:id]).to eq(latest.id)
       end
 
+      it 'picks the most recent message across message types' do
+        create(:message, **message_attributes, message_type: :incoming, created_at: 10.minutes.ago)
+        create(:message, **message_attributes, message_type: :activity, created_at: 7.minutes.ago)
+        create(:message, **message_attributes, message_type: :outgoing, created_at: 5.minutes.ago)
+        template = create(:message, **message_attributes, message_type: :template, created_at: 1.minute.ago)
+
+        described_class.new([conversation]).perform
+
+        expect(conversation.message_summary.last_message_data[:id]).to eq(template.id)
+      end
+
+      it 'picks the most recent message when the conversation has no template messages' do
+        create(:message, **message_attributes, message_type: :incoming, created_at: 10.minutes.ago)
+        reply = create(:message, **message_attributes, message_type: :outgoing, created_at: 1.minute.ago)
+
+        described_class.new([conversation]).perform
+
+        summary = conversation.message_summary
+        expect(summary.last_message_data[:id]).to eq(reply.id)
+        expect(summary.last_non_activity_message_data[:id]).to eq(reply.id)
+      end
+
       it 'breaks created_at ties with the higher id' do
         created_at = 5.minutes.ago
         create(:message, **message_attributes, created_at: created_at)
@@ -35,6 +57,18 @@ RSpec.describe Conversations::MessageSummaryLoader do
         described_class.new([conversation]).perform
 
         expect(conversation.message_summary.last_message_data[:id]).to eq(second.id)
+      end
+
+      it 'picks a csat survey created in the same second as an activity with a lower id' do
+        created_at = 5.minutes.ago
+        create(:message, **message_attributes, message_type: :activity, created_at: created_at)
+        survey = create(:message, **message_attributes, message_type: :template, content_type: :input_csat, created_at: created_at)
+
+        described_class.new([conversation]).perform
+
+        summary = conversation.message_summary
+        expect(summary.last_message_data[:id]).to eq(survey.id)
+        expect(summary.last_non_activity_message_data[:id]).to eq(survey.id)
       end
 
       it 'has no message data for a conversation without messages' do
@@ -48,8 +82,9 @@ RSpec.describe Conversations::MessageSummaryLoader do
     end
 
     context 'when loading the latest non-activity message' do
-      it 'skips activity messages' do
+      it 'skips the activity messages after the latest reply' do
         reply = create(:message, **message_attributes, message_type: :outgoing, created_at: 10.minutes.ago)
+        create(:message, **message_attributes, message_type: :activity, created_at: 3.minutes.ago)
         activity = create(:message, **message_attributes, message_type: :activity, created_at: 1.minute.ago)
 
         described_class.new([conversation]).perform
