@@ -16,7 +16,6 @@ import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
 import HmacSecretKey from './components/HmacSecretKey.vue';
-import BandwidthCallbackAuth from './components/BandwidthCallbackAuth.vue';
 
 export default {
   components: {
@@ -29,7 +28,6 @@ export default {
     TextArea,
     WhatsappBusinessManagementToken,
     HmacSecretKey,
-    BandwidthCallbackAuth,
   },
   mixins: [inboxMixin],
   props: {
@@ -244,15 +242,6 @@ export default {
     >
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </SettingsFieldSection>
-  </div>
-  <div v-else-if="isASmsInbox">
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.TITLE')"
-      :help-text="$t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE')"
-    >
-      <woot-code :script="inbox.callback_webhook_url" lang="html" />
-    </SettingsFieldSection>
-    <BandwidthCallbackAuth :key="inbox.id" :inbox="inbox" />
   </div>
   <div v-else-if="isAWebWidgetInbox">
     <div class="space-y-4">
