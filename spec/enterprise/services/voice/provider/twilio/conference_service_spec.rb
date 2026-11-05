@@ -54,6 +54,13 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect { service.dismiss(agent) }.to have_enqueued_job(Voice::RingNextAgentJob).with(call.id, 2)
     end
 
+    it 'keeps the agent in the ring when the next step cannot be queued, so the dismiss can be retried' do
+      allow(Voice::RingNextAgentJob).to receive(:perform_later).and_raise(RedisClient::CannotConnectError)
+
+      expect { service.dismiss(agent) }.to raise_error(RedisClient::CannotConnectError)
+      expect(call.reload).to have_attributes(dismissed_user_ids: [], ring_step: 1)
+    end
+
     it 'changes nothing for an agent the call does not ring, or a repeated dismiss' do
       outsider = create(:user, account: account)
       service.dismiss(agent)

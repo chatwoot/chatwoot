@@ -35,6 +35,13 @@ RSpec.describe Voice::RingNextAgentJob do
     expect(call.reload.ring_state['ring_recipient_ids']).to eq([alice.id, bob.id])
   end
 
+  it 'leaves the step to its retry when the next step cannot be queued' do
+    allow(described_class).to receive(:set).and_raise(RedisClient::CannotConnectError)
+
+    expect { described_class.perform_now(call.id, 1) }.to raise_error(RedisClient::CannotConnectError)
+    expect(call.reload).to have_attributes(ring_step: 1, ring_state: include('ring_recipient_ids' => [alice.id]))
+  end
+
   it 'does nothing for a step a dismiss moved past' do
     call.update!(ring_state: call.ring_state.merge('ring_step' => 3))
 

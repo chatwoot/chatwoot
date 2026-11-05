@@ -13,15 +13,15 @@ class Voice::RingNextAgentJob < ApplicationJob
     call = Call.find_by(id: call_id)
     return if call.blank?
 
+    # The next step is queued under the lock that moves the step on, so a failed enqueue rolls
+    # the move back and the retry runs this step again; a push that fails then stops nothing
     added = call.with_lock do
       next unless call.ringing? && call.ring_step == step
 
-      add_agents(call, step)
+      add_agents(call, step).tap { queue_next_step(call, step) }
     end
     return if added.nil?
 
-    # Queued first, so a push that fails does not stop the ring widening
-    queue_next_step(call, step)
     Voice::AddedRingPushService.new(call: call, users: added).perform if added.any? && call.ring_state['rings_phones'] != false
   end
 
