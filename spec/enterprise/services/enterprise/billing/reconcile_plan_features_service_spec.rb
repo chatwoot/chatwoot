@@ -46,6 +46,31 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
       end
     end
 
+    context 'with delayed automations' do
+      it 'grants delayed automations on Business and Enterprise only' do
+        account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+        described_class.new(account: account).perform
+        expect(account.reload).not_to be_feature_enabled('delayed_automations')
+
+        %w[Business Enterprise].each do |plan|
+          account.update!(custom_attributes: { 'plan_name' => plan })
+          described_class.new(account: account).perform
+          expect(account.reload).to be_feature_enabled('delayed_automations')
+        end
+      end
+
+      it 'keeps a manual delayed automations grant after downgrading to Startups' do
+        account.update!(
+          custom_attributes: { 'plan_name' => 'Startups' },
+          internal_attributes: { 'manually_managed_features' => ['delayed_automations'] }
+        )
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('delayed_automations')
+      end
+    end
+
     context 'with conversation monitors and Captain Classifier' do
       it 'grants Captain Classifier on Startups and both features on Business and Enterprise' do
         account.update!(custom_attributes: { 'plan_name' => 'Startups' })
