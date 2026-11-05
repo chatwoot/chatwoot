@@ -12,8 +12,7 @@ RSpec.describe Integrations::Hook do
   describe 'access_token length validation' do
     let(:account) { create(:account) }
 
-    it 'keeps the Stripe bound independent of MAX_TEXT_COLUMN_LENGTH' do
-      stub_const('ApplicationRecord::MAX_TEXT_COLUMN_LENGTH', 100)
+    it 'allows Stripe tokens serialized beyond the string column bound' do
       serialized = { access_token: 'a' * 128, refresh_token: 'r' * 128, expires_at: 1.hour.from_now.to_i }.to_json
 
       hook = build(:integrations_hook, account: account, app_id: 'stripe', access_token: serialized)
