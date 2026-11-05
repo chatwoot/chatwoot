@@ -212,11 +212,11 @@ class ActionCableListener < BaseListener
     session_contact_inboxes(conversation.contact_inbox)
   end
 
-  # A verified session also reaches the contact's other verified sessions, in any inbox
+  # A verified session also reaches the contact's other verified sessions, in any inbox that still exists
   def session_contact_inboxes(contact_inbox)
     return [contact_inbox] unless contact_inbox.hmac_verified?
 
-    contact_inbox.contact.contact_inboxes.where(hmac_verified: true).includes(:inbox).to_a
+    contact_inbox.contact.contact_inboxes.where(hmac_verified: true).where.associated(:inbox).includes(:inbox).to_a
   end
 
   def broadcast(account, tokens, event_name, data, **job_options)

@@ -135,6 +135,19 @@ describe ActionCableListener do
       )
     end
 
+    it 'skips a verified session whose inbox no longer exists' do
+      conversation.contact_inbox.update(hmac_verified: true)
+      orphan = create(:contact_inbox, contact: conversation.contact, inbox: create(:inbox, account: account), hmac_verified: true)
+      orphan.update_column(:inbox_id, 0) # rubocop:disable Rails/SkipsModelValidations
+      allow(ActionCableBroadcastJob).to receive(:perform_later)
+
+      listener.message_created(event)
+
+      expect(ActionCableBroadcastJob).to have_received(:perform_later).with(
+        [conversation.contact_inbox.pubsub_token], 'message.created', anything, widget: true
+      )
+    end
+
     it 'sends a Client API session the full message in the agents job' do
       api_inbox = create(:inbox, account: account, channel: create(:channel_api, account: account))
       api_conversation = create(:conversation, account: account, inbox: api_inbox)
