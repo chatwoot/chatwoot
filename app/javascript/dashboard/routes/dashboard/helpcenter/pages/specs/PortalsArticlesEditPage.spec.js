@@ -92,7 +92,7 @@ describe('PortalsArticlesEditPage signed previews', () => {
         portalSlug: 'help',
       });
       expect(previewTab.location.replace).toHaveBeenCalledWith(
-        'https://app.example.com/hc/help/articles/article-1?preview=token-1'
+        'https://app.example.com/hc/help/articles/article-1?preview_token=token-1'
       );
     }
   );
@@ -113,7 +113,7 @@ describe('PortalsArticlesEditPage signed previews', () => {
 
     expect(articlesAPI.getPreviewToken).toHaveBeenCalledTimes(2);
     expect(previewTab.location.replace).toHaveBeenLastCalledWith(
-      'https://app.example.com/hc/help/articles/article-1?preview=fresh-token'
+      'https://app.example.com/hc/help/articles/article-1?preview_token=fresh-token'
     );
   });
 
@@ -140,7 +140,7 @@ describe('PortalsArticlesEditPage signed previews', () => {
     await flushPromises();
 
     expect(previewTab.location.replace).toHaveBeenCalledWith(
-      'https://app.example.com/hc/help/articles/article-1?preview=token-1'
+      'https://app.example.com/hc/help/articles/article-1?preview_token=token-1'
     );
     wrapper.findComponent({ name: 'ArticleEditor' }).vm.$emit('previewArticle');
     await flushPromises();
@@ -149,7 +149,7 @@ describe('PortalsArticlesEditPage signed previews', () => {
       portalSlug: 'help',
     });
     expect(previewTab.location.replace).toHaveBeenLastCalledWith(
-      'https://app.example.com/hc/help/articles/article-2?preview=token-2'
+      'https://app.example.com/hc/help/articles/article-2?preview_token=token-2'
     );
   });
 
@@ -170,7 +170,7 @@ describe('PortalsArticlesEditPage signed previews', () => {
     await flushPromises();
 
     expect(retryTab.location.replace).toHaveBeenCalledWith(
-      'https://app.example.com/hc/help/articles/article-1?preview=token-1'
+      'https://app.example.com/hc/help/articles/article-1?preview_token=token-1'
     );
   });
 

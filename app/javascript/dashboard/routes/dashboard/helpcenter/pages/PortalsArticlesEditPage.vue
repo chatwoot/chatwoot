@@ -215,7 +215,7 @@ const previewArticle = async () => {
         id,
         portalSlug: portalId,
       });
-      previewUrl.searchParams.set('preview', data.preview_token);
+      previewUrl.searchParams.set('preview_token', data.preview_token);
     }
 
     previewTab.location.replace(previewUrl.toString());

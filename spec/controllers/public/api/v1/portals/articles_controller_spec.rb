@@ -162,7 +162,7 @@ RSpec.describe 'Public Articles API', type: :request do
       it "renders a #{status} article with its preview token" do
         unpublished_article = create(:article, category: category, status: status, portal: portal, author: agent, content: 'Unreleased content')
 
-        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}", params: { preview: unpublished_article.preview_token }
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}", params: { preview_token: unpublished_article.preview_token }
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Unreleased content')
@@ -173,7 +173,16 @@ RSpec.describe 'Public Articles API', type: :request do
       draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
       foreign_article = create(:article, status: :draft)
 
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: foreign_article.preview_token }
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: foreign_article.preview_token }
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns not found for a preview token used on another article URL' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      other_draft = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{other_draft.slug}", params: { preview_token: draft_article.preview_token }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -183,7 +192,7 @@ RSpec.describe 'Public Articles API', type: :request do
       preview_token = draft_article.preview_token
 
       travel(Article::PREVIEW_TOKEN_EXPIRY + 1.minute) do
-        get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: preview_token }
+        get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: preview_token }
       end
 
       expect(response).to have_http_status(:not_found)
@@ -193,17 +202,25 @@ RSpec.describe 'Public Articles API', type: :request do
       portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
       draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
 
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: draft_article.preview_token }
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
       expect(response.body).not_to include('G-TEST123')
 
       get "/hc/#{portal.slug}/articles/#{article.slug}"
       expect(response.body).to include('G-TEST123')
     end
 
+    it 'skips portal analytics on a preview link after the article is published' do
+      portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}", params: { preview_token: article.preview_token }
+
+      expect(response.body).not_to include('G-TEST123')
+    end
+
     it 'marks a preview of an unpublished article as noindex' do
       draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
 
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: draft_article.preview_token }
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
       expect(response.headers['X-Robots-Tag']).to eq('noindex')
 
       get "/hc/#{portal.slug}/articles/#{article.slug}"
@@ -215,7 +232,7 @@ RSpec.describe 'Public Articles API', type: :request do
       portal.update!(channel_web_widget: web_widget)
       draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
 
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: draft_article.preview_token }
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
       expect(response.body).not_to include(web_widget.website_token)
 
       get "/hc/#{portal.slug}/articles/#{article.slug}"
@@ -226,7 +243,7 @@ RSpec.describe 'Public Articles API', type: :request do
       portal.update!(config: portal.config.merge('layout' => 'documentation'))
       draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
 
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview: draft_article.preview_token }
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
       expect(response.body).not_to include(I18n.t('public_portal.article_actions.view_markdown'))
 
       get "/hc/#{portal.slug}/articles/#{article.slug}"

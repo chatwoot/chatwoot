@@ -34,10 +34,11 @@ class ArticlesAPI extends PortalsAPI {
     return axios.get(url, { signal });
   }
 
-  searchArticles({ portalSlug, query }) {
+  searchArticles({ portalSlug, query, status }) {
     const url = getArticleSearchURL({
       portalSlug,
       query,
+      status,
       host: this.url,
     });
     return axios.get(url);
