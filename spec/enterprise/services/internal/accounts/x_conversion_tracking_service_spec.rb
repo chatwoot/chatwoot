@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Internal::Accounts::XConversionTrackingService do
-  let(:account) { create(:account, created_at: Time.zone.parse('2026-11-05T10:05:00Z')) }
+  let(:account) { create(:account) }
+  let(:occurred_at) { Time.zone.parse('2026-11-05T10:05:00Z') }
   let(:api_url) { 'https://ads-api.x.com/12/measurement/conversions/o1abc' }
   let(:config) do
     {
@@ -12,7 +13,7 @@ RSpec.describe Internal::Accounts::XConversionTrackingService do
       'access_token' => 'access-token', 'access_token_secret' => 'access-token-secret',
       'events' => {
         'cloud_signup' => { 'event_id' => 'tw-o1abc-signup' },
-        'cloud_first_payment' => { 'event_id' => 'tw-o1abc-payment' }
+        'cloud_plan_activation' => { 'event_id' => 'tw-o1abc-activation' }
       }
     }
   end
@@ -30,44 +31,30 @@ RSpec.describe Internal::Accounts::XConversionTrackingService do
     stub_request(:post, api_url).to_return(status: 200, body: { data: {} }.to_json)
   end
 
-  it 'sends the signup with the last-touch twclid, a stable conversion id and an OAuth 1.0a signature' do
-    described_class.new(account: account, event_name: 'cloud_signup').perform
-
-    expect(
-      a_request(:post, api_url).with do |request|
-        request.headers['Authorization'].start_with?('OAuth ') &&
-          request.headers['Authorization'].include?('oauth_consumer_key="consumer-key"') &&
-          JSON.parse(request.body) == {
-            'conversions' => [{
-              'conversion_time' => '2026-11-05T10:05:00.000Z',
-              'event_id' => 'tw-o1abc-signup',
-              'identifiers' => [{ 'twclid' => 'x-click-last' }],
-              'conversion_id' => "cloud_signup-account-#{account.id}"
-            }]
-          }
-      end
-    ).to have_been_made.once
+  def sent_conversion
+    body = nil
+    expect(a_request(:post, api_url).with { |request| body = JSON.parse(request.body) }).to have_been_made.once
+    body['conversions'].first
   end
 
-  it 'sends the first payment at its paid time with its value' do
-    account.update!(internal_attributes: account.internal_attributes.merge(
-      'first_payment' => { 'paid_at' => '2026-11-12T08:30:00Z', 'amount_paid' => 1900, 'currency' => 'usd' }
-    ))
+  it 'sends the signup with the last-touch twclid, a stable conversion id and an OAuth 1.0a signature' do
+    described_class.new(account: account, event_name: 'cloud_signup', occurred_at: occurred_at).perform
 
-    described_class.new(account: account, event_name: 'cloud_first_payment').perform
+    expect(a_request(:post, api_url).with { |request| request.headers['Authorization'].include?('oauth_consumer_key="consumer-key"') })
+      .to have_been_made.once
+    expect(sent_conversion).to eq(
+      'conversion_id' => "cloud_signup-account-#{account.id}",
+      'conversion_time' => '2026-11-05T10:05:00.000Z',
+      'event_id' => 'tw-o1abc-signup',
+      'identifiers' => [{ 'twclid' => 'x-click-last' }]
+    )
+  end
 
-    expect(
-      a_request(:post, api_url).with do |request|
-        JSON.parse(request.body)['conversions'].first == {
-          'conversion_time' => '2026-11-12T08:30:00.000Z',
-          'event_id' => 'tw-o1abc-payment',
-          'identifiers' => [{ 'twclid' => 'x-click-last' }],
-          'conversion_id' => "cloud_first_payment-account-#{account.id}",
-          'value' => 19.0,
-          'price_currency' => 'USD'
-        }
-      end
-    ).to have_been_made.once
+  it 'sends the plan activation with its value, like the Google upload' do
+    described_class.new(account: account, event_name: 'cloud_plan_activation', occurred_at: occurred_at,
+                        conversion_value: 19.0, currency_code: 'USD').perform
+
+    expect(sent_conversion).to include('event_id' => 'tw-o1abc-activation', 'value' => 19.0, 'price_currency' => 'USD')
   end
 
   it 'falls back to the first-touch twclid' do
@@ -76,11 +63,11 @@ RSpec.describe Internal::Accounts::XConversionTrackingService do
 
     described_class.new(account: account, event_name: 'cloud_signup').perform
 
-    expect(a_request(:post, api_url).with { |request| request.body.include?('x-click-first') }).to have_been_made.once
+    expect(sent_conversion['identifiers']).to eq([{ 'twclid' => 'x-click-first' }])
   end
 
   it 'sends nothing without a twclid' do
-    account.update!(internal_attributes: { 'marketing_attribution' => { 'last_touch' => { 'source' => 'x', 'utm_source' => 'x' } } })
+    account.update!(internal_attributes: { 'marketing_attribution' => { 'last_touch' => { 'gclid' => 'g-click' } } })
 
     described_class.new(account: account, event_name: 'cloud_signup').perform
 
@@ -95,19 +82,20 @@ RSpec.describe Internal::Accounts::XConversionTrackingService do
     expect(a_request(:post, api_url)).not_to have_been_made
   end
 
-  it 'sends nothing outside Chatwoot Cloud' do
-    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
-
-    described_class.new(account: account, event_name: 'cloud_signup').perform
-
-    expect(a_request(:post, api_url)).not_to have_been_made
-  end
-
   it 'raises so the job retries when X rejects the upload' do
     stub_request(:post, api_url).to_return(status: 503, body: 'unavailable')
 
     expect do
       described_class.new(account: account, event_name: 'cloud_signup').perform
     end.to raise_error(RuntimeError, /X conversion upload failed/)
+  end
+
+  it 'runs from the existing marketing conversion job' do
+    google_service = instance_double(Internal::Accounts::MarketingConversionTrackingService, perform: nil)
+    allow(Internal::Accounts::MarketingConversionTrackingService).to receive(:new).and_return(google_service)
+
+    Internal::Accounts::MarketingConversionTrackingJob.perform_now(account.id, 'cloud_signup', occurred_at)
+
+    expect(sent_conversion['event_id']).to eq('tw-o1abc-signup')
   end
 end

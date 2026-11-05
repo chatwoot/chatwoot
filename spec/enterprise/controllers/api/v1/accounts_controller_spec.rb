@@ -53,7 +53,6 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
       expect(attribution['captured_from']).to eq('cookie')
       expect(attribution['first_touch']).to eq(first_touch.stringify_keys)
       expect(attribution['last_touch']).to include('source' => 'github', 'source_type' => 'referral')
-      expect(Internal::Accounts::XConversionTrackingJob).to have_been_enqueued.with(account.id, 'cloud_signup')
     end
 
     it 'does not record attribution or send conversions when the signup fails' do
@@ -68,7 +67,7 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
                headers: attribution_cookie_header,
                as: :json
         end
-      end.not_to have_enqueued_job(Internal::Accounts::XConversionTrackingJob)
+      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
 
       expect(response).to have_http_status(:forbidden)
     end

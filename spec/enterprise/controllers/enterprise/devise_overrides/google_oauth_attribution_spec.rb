@@ -50,7 +50,6 @@ RSpec.describe 'Enterprise Google OAuth attribution', type: :request do
     expect(attribution['captured_from']).to eq('cookie')
     expect(attribution['first_touch']).to eq(first_touch)
     expect(attribution['last_touch']).to include('source' => 'github', 'source_type' => 'referral')
-    expect(Internal::Accounts::XConversionTrackingJob).to have_been_enqueued.with(account.id, 'cloud_signup')
   end
 
   it 'does not record attribution when an existing user signs in with Google' do
@@ -63,7 +62,7 @@ RSpec.describe 'Enterprise Google OAuth attribution', type: :request do
     end
 
     expect(account.reload.internal_attributes).not_to include('marketing_attribution')
-    expect(Internal::Accounts::XConversionTrackingJob).not_to have_been_enqueued
+    expect(Internal::Accounts::MarketingConversionTrackingJob).not_to have_been_enqueued
   end
 
   it 'returns an existing user to Shopify billing after Google OAuth' do
