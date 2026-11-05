@@ -387,6 +387,19 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
+      it 'returns the presence flags of the contact it merged into' do
+        message = create(:message, account: account, content_type: 'input_email', inbox: web_widget.inbox, conversation: conversation)
+        create(:contact, account: account, email: 'bob@acme.com', name: 'Bob')
+
+        put api_v1_widget_message_url(message.id),
+            params: { website_token: web_widget.website_token, contact: { email: 'bob@acme.com' } },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['contact']['has_email']).to be true
+      end
+
       it 'ignores the casing of email, updates message in conversation and deletes the current contact' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
