@@ -98,6 +98,6 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
   def complete_sign_in(super_admin)
     sign_in(:super_admin, super_admin)
     flash.discard
-    redirect_to super_admin_root_path
+    redirect_to after_sign_in_path_for(:super_admin)
   end
 end
