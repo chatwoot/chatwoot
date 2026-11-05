@@ -251,26 +251,6 @@ watch(
             {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE') }}
           </p>
           <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
-          <p class="mt-8 font-medium text-n-slate-11">
-            {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.CALLBACK_AUTH.TITLE') }}
-          </p>
-          <p class="mt-2 text-sm text-n-slate-9">
-            {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.CALLBACK_AUTH.DESCRIPTION') }}
-          </p>
-          <p class="mt-4 text-sm text-n-slate-11">
-            {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.CALLBACK_AUTH.USERNAME') }}
-          </p>
-          <woot-code
-            lang="html"
-            :script="currentInbox.callback_auth_username"
-          />
-          <p class="mt-2 text-sm text-n-slate-11">
-            {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.CALLBACK_AUTH.PASSWORD') }}
-          </p>
-          <woot-code
-            lang="html"
-            :script="currentInbox.callback_auth_password"
-          />
         </div>
         <div
           v-if="shouldShowTwilioCallbackFallback"
