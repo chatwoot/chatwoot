@@ -32,7 +32,7 @@ export default defineConfig({
     },
     server: {
       deps: {
-        inline: ['tinykeys'],
+        inline: ['tinykeys', '@material/mwc-icon'],
       },
     },
     setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],

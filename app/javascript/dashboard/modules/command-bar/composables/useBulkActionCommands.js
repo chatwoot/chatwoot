@@ -11,7 +11,7 @@ import {
   ICON_SNOOZE,
   createSnoozeOptions,
   localizeActions,
-} from 'dashboard/helper/commandbar/actions';
+} from 'dashboard/modules/command-bar/commands';
 
 const SECTION = 'COMMAND_BAR.SECTIONS.BULK_ACTIONS';
 const SCOPES = ['bulk'];

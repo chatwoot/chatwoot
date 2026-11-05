@@ -18,7 +18,7 @@ import {
   MUTE_ACTION,
   commandPage,
   localizeActions,
-} from 'dashboard/helper/commandbar/actions';
+} from 'dashboard/modules/command-bar/commands';
 import {
   isAConversationRoute,
   isAInboxViewRoute,

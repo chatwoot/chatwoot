@@ -2,7 +2,7 @@
 import { useSlots } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
-import { usePageCommands } from 'dashboard/composables/commands/usePageCommands';
+import { usePageCommands } from 'dashboard/modules/command-bar/composables/usePageCommands';
 import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
 import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
 import BackButton from '../../../../components/widgets/BackButton.vue';

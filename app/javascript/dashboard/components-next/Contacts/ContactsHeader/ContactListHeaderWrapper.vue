@@ -25,7 +25,7 @@ import ContactImportDialog from 'dashboard/components-next/Contacts/ContactsForm
 import CreateSegmentDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateSegmentDialog.vue';
 import DeleteSegmentDialog from 'dashboard/components-next/Contacts/ContactsForm/DeleteSegmentDialog.vue';
 import ContactsFilter from 'dashboard/components-next/filter/ContactsFilter.vue';
-import { usePageCommands } from 'dashboard/composables/commands/usePageCommands';
+import { usePageCommands } from 'dashboard/modules/command-bar/composables/usePageCommands';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 
 const props = defineProps({
