@@ -54,6 +54,7 @@
         "GOOGLE": {
           "TITLE": "Google Translate",
           "NOTE": "Quick, reliable translations from Google.",
+          "SHORT_MESSAGE_WARNING": "May misread the language of one-word messages.",
           "NOT_CONNECTED": "Not connected",
           "CONNECT": "Connect",
           "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
