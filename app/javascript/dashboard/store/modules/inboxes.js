@@ -28,18 +28,24 @@ export const state = {
 
 // Deep-camelCasing an inbox record walks every key it carries, and a WhatsApp inbox carries its
 // whole `message_templates` array — thousands of entries and megabytes of JSON on a large account.
-// The template list does not need converting: its keys are already single-word/camelCase and its
-// consumers read it in snake_case straight off the record (`getWhatsAppTemplates`). Keep it out of
-// the walk; the remainder of a record is small and flat, so converting per call stays cheap.
+// Twilio inboxes ship a `content_templates` catalogue on the same payload, and API-channel inboxes
+// carry `message_templates` under `additional_attributes`. None of these lists need converting:
+// their consumers read them in snake_case straight off the record (`getWhatsAppTemplates`,
+// `ContentTemplatesPicker`), so keep them out of the walk. The remainder of a record is small and
+// flat, so converting per call stays cheap.
 export const toCamelCasedInbox = record => {
   if (!record || typeof record !== 'object') return record;
   const {
     message_templates: messageTemplates,
+    content_templates: contentTemplates,
     additional_attributes: additionalAttributes,
     ...rest
   } = record;
   const converted = camelcaseKeys(rest, { deep: true });
   if (messageTemplates) converted.messageTemplates = messageTemplates;
+  // Twilio inboxes embed their Content API catalogue the same way (`_inbox.json.jbuilder`
+  // ships `content_templates` on every Twilio payload, up to ~1,000 nested templates).
+  if (contentTemplates) converted.contentTemplates = contentTemplates;
 
   if (additionalAttributes && typeof additionalAttributes === 'object') {
     // API-channel inboxes keep the same catalogue one level down

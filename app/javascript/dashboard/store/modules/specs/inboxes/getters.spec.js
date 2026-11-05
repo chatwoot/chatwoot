@@ -429,6 +429,26 @@ describe('#getters', () => {
       expect(converted.channelType).toEqual('Channel::Whatsapp');
     });
 
+    it('leaves a Twilio content template catalogue out of the deep conversion', () => {
+      // Twilio inboxes ship `content_templates` on the inbox payload itself
+      // (`_inbox.json.jbuilder`), up to ~1,000 nested templates per channel.
+      const contentTemplates = {
+        templates: [{ friendly_name: 'order_update', status: 'approved' }],
+      };
+      const record = {
+        id: 11,
+        name: 'Twilio',
+        channel_type: 'Channel::TwilioSms',
+        content_templates: contentTemplates,
+        greeting_enabled: true,
+      };
+      const converted = getters.getInboxById({ records: [record] })(11);
+      // same reference: lifted out of the walk, not copied
+      expect(converted.contentTemplates).toBe(contentTemplates);
+      // the rest of the record is still camelCased
+      expect(converted.greetingEnabled).toBe(true);
+    });
+
     it('leaves an API inbox template catalogue out of the deep conversion', () => {
       // `getWhatsAppTemplates` falls back to `additional_attributes.message_templates`
       // for API-channel inboxes, so that catalogue needs the same treatment.
