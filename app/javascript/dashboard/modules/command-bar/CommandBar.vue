@@ -24,6 +24,7 @@ import { useConversationCommands } from 'dashboard/modules/command-bar/composabl
 import { useMacroCommands } from 'dashboard/modules/command-bar/composables/useMacroCommands';
 import { useSnoozeSuggestions } from 'dashboard/modules/command-bar/composables/useSnoozeSuggestions';
 import { useSearchCommands } from 'dashboard/modules/command-bar/composables/useSearchCommands';
+import { useBackCommands } from 'dashboard/modules/command-bar/composables/useBackCommands';
 
 const props = defineProps({
   isPaywalled: { type: Boolean, default: false },
@@ -49,6 +50,7 @@ const { appearanceCommands } = useAppearanceCommands();
 const { inboxCommands } = useInboxCommands();
 const { bulkActionCommands } = useBulkActionCommands();
 const { conversationCommands } = useConversationCommands();
+const { backCommands } = useBackCommands();
 const { searchSnoozeSuggestions, snoozeCommands } = useSnoozeSuggestions();
 const {
   searchLoadedConversations,
@@ -169,8 +171,23 @@ watch(
   { immediate: true }
 );
 
+// Registered after the page sources so "Back to" lands below their actions.
+let unregisterBack = () => {};
+watch(
+  () => route.fullPath,
+  () => {
+    unregisterBack();
+    unregisterBack = bar.register({
+      id: 'back',
+      commands: () => (props.isPaywalled ? [] : backCommands.value),
+    });
+  },
+  { immediate: true, flush: 'post' }
+);
+
 onBeforeUnmount(() => {
   unregister.forEach(remove => remove());
+  unregisterBack();
 });
 
 watch(pendingAttributes, pending => {
