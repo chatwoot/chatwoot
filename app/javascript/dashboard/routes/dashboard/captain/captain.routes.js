@@ -33,8 +33,6 @@ const meta = {
   installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
 };
 
-// Assistant settings and scenarios change how the assistant behaves, and the
-// API lets only administrators save them.
 const adminMeta = {
   ...meta,
   permissions: ['administrator'],
