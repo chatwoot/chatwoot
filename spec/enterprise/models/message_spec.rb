@@ -223,5 +223,21 @@ RSpec.describe Message do
 
       expect(reply.content_attributes).not_to have_key('translation_pending')
     end
+
+    it 'does not mark replies or templates that opt out of translation' do
+      messages = [:outgoing, :template].map do |message_type|
+        create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation,
+                         message_type: message_type, sender: agent, content: 'Approved reply', content_attributes: { skip_translation: true })
+      end
+
+      expect(messages.map { |message| message.reload.content_attributes.key?('translation_pending') }).to eq([false, false])
+    end
+
+    it 'marks replies when the translation opt-out is false' do
+      reply = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                               sender: agent, content: 'Approved reply', content_attributes: { skip_translation: false })
+
+      expect(reply.reload.content_attributes['translation_pending']).to be true
+    end
   end
 end

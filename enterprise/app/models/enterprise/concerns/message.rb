@@ -19,6 +19,8 @@ module Enterprise::Concerns::Message
 
   # Bots and automations already write in the contact language.
   def translation_enabled?
+    return false if content_attributes['skip_translation'] == true
+
     account.auto_translate_enabled? && content.present? && !private? && (template? || translatable_agent_reply?)
   end
 

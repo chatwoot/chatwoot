@@ -4,8 +4,11 @@ class Captain::Conversation::AgentMessageTranslationService
   pattr_initialize [:message!]
 
   def perform
-    detect_contact_language
-    translate_reply if conversation.language.present?
+    # API content attributes can carry an existing translation_pending marker.
+    unless message.content_attributes['skip_translation'] == true
+      detect_contact_language
+      translate_reply if conversation.language.present?
+    end
 
     message.content_attributes.delete('translation_pending')
     message.save!
