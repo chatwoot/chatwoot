@@ -43,7 +43,7 @@ const GO_TO_COMMANDS = [
     id: 'goto_captain',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN',
     section: SECTION_GENERAL,
-    icon: 'i-lucide-bot',
+    icon: 'i-woot-captain',
     routeName: 'captain_assistants_index',
     params: { navigationPath: 'captain_assistants_overview_index' },
   },

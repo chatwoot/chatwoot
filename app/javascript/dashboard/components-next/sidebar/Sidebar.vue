@@ -4,6 +4,7 @@ import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useCommandBar } from '@chatwoot/jumpbar';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
@@ -80,12 +81,10 @@ const isMonitorsAvailable = computed(
     )
 );
 
-const hasCommandBarV2 = computed(() => {
-  return isFeatureEnabledonAccount.value(
-    accountId.value,
-    FEATURE_FLAGS.COMMAND_BAR_V2
-  );
-});
+const { uiSettings } = useUISettings();
+const hasCommandBarV2 = computed(
+  () => uiSettings.value.command_bar_v2 === true
+);
 
 const hasAdvancedAssignment = computed(() => {
   return isFeatureEnabledonAccount.value(
