@@ -12,7 +12,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def index
     result = conversation_finder.perform
-    @conversations = result[:conversations]
+    @conversations = Conversations::MessageSummaryLoader.new(result[:conversations]).perform
     @conversations_count = result[:count]
   end
 
@@ -51,7 +51,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def filter
     result = ::Conversations::FilterService.new(params.permit!, current_user, current_account).perform
-    @conversations = result[:conversations]
+    @conversations = Conversations::MessageSummaryLoader.new(result[:conversations]).perform
     @conversations_count = result[:count]
   rescue CustomExceptions::CustomFilter::InvalidAttribute,
          CustomExceptions::CustomFilter::InvalidOperator,

@@ -4,11 +4,12 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
   # Scoped to a conversation, this returns it with the ones created around it: the in-thread
   # navigation walks the whole history and never needs more than that.
   def index
-    @conversations = if params[:conversation_id].present?
-                       conversation_with_neighbours(params[:conversation_id])
-                     else
-                       permitted_conversations.order(last_activity_at: :desc, id: :desc).limit(RESULTS_PER_PAGE)
-                     end
+    conversations = if params[:conversation_id].present?
+                      conversation_with_neighbours(params[:conversation_id])
+                    else
+                      permitted_conversations.order(last_activity_at: :desc, id: :desc).limit(RESULTS_PER_PAGE)
+                    end
+    @conversations = Conversations::MessageSummaryLoader.new(conversations).perform
   end
 
   private
