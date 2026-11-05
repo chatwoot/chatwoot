@@ -45,7 +45,6 @@ export const FEATURE_FLAGS = {
   CAPTAIN: 'captain_integration',
   CUSTOM_ROLES: 'custom_roles',
   CHATWOOT_V4: 'chatwoot_v4',
-  COMMAND_BAR_V2: 'command_bar_v2',
   CHANNEL_INSTAGRAM: 'channel_instagram',
   CHANNEL_TIKTOK: 'channel_tiktok',
   CHANNEL_VOICE: 'channel_voice',
