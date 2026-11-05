@@ -187,8 +187,7 @@ RSpec.describe Account do
         feature_mobile_voice_push: 1 << 12,
         feature_auto_translate: 1 << 13,
         feature_copilot_workflows: 1 << 14,
-        feature_shopify_custom_apps: 1 << 15,
-        feature_command_bar_v2: 1 << 16
+        feature_shopify_custom_apps: 1 << 15
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
