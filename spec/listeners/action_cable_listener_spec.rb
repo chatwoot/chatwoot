@@ -356,14 +356,26 @@ describe ActionCableListener do
       )
     end
 
-    it 'sends the widget payload to the contact' do
-      allow(ActionCableBroadcastJob).to receive(:perform_later)
+    it 'does not send the update to the web widget session, which has no handler for it' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).once.with(
+        [agent.pubsub_token, admin.pubsub_token], 'conversation.updated', anything
+      )
 
       listener.conversation_updated(event)
+    end
+  end
+
+  describe '#conversation_status_changed' do
+    let!(:event) { Events::Base.new(:'conversation.status_changed', Time.zone.now, conversation: conversation) }
+
+    it 'sends the widget payload to the web widget session' do
+      allow(ActionCableBroadcastJob).to receive(:perform_later)
+
+      listener.conversation_status_changed(event)
 
       expect(ActionCableBroadcastJob).to have_received(:perform_later).with(
         [conversation.contact_inbox.pubsub_token],
-        'conversation.updated',
+        'conversation.status_changed',
         conversation.widget_push_event_data.merge(account_id: account.id),
         widget: true
       )

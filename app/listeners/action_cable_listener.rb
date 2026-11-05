@@ -164,6 +164,9 @@ class ActionCableListener < BaseListener
     data = conversation.push_event_data
 
     broadcast(conversation.account, inbox_user_tokens(conversation) + full_payload_tokens(contact_inboxes), event_name, data)
+    # The web widget has no handler for conversation.updated
+    return if event_name == CONVERSATION_UPDATED
+
     broadcast_to_widget(conversation.account, contact_inboxes, event_name, conversation.widget_push_event_data)
   end
 
