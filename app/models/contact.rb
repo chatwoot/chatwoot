@@ -152,7 +152,7 @@ class Contact < ApplicationRecord
       contact_type: contact_type,
       type: 'contact'
     }
-    data[:company_id] = company_id if account.feature_enabled?('companies')
+    data[:company_id] = company_id if account&.feature_enabled?('companies')
     data
   end
 
