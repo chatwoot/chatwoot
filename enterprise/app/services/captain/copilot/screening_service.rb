@@ -1,7 +1,7 @@
 class Captain::Copilot::ScreeningService
   include Captain::Copilot::Tracing
 
-  MODEL = 'jev-latest'.freeze
+  MODEL = Captain::JevClient::DEFAULT_MODEL
   # The review model confirms every conversation that passes, so screening favours recall. Jev scores borderline
   # matches low: on a 45-conversation billing sample, 0.3 kept 3 of the 6 matches the review model found and 0.1 kept 5.
   THRESHOLD = 0.1
