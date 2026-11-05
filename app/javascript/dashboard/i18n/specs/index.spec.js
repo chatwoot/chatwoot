@@ -1,9 +1,6 @@
 import { createI18n } from 'vue-i18n';
 import languagesConfig from '../../../../../config/initializers/languages.rb?raw';
-import messages, {
-  LOCALE_MODULES,
-  SUPPORTED_DASHBOARD_LOCALES,
-} from '../index';
+import messages, { SUPPORTED_DASHBOARD_LOCALES } from '../index';
 
 const localeFiles = import.meta.glob('../locale/*/*.json', {
   eager: true,
@@ -23,15 +20,6 @@ describe('dashboard i18n', () => {
     expect(sortStrings(SUPPORTED_DASHBOARD_LOCALES)).toEqual(
       sortStrings(enabledLocales)
     );
-  });
-
-  it('keeps the english module allowlist in sync with locale files', () => {
-    const englishModules = Object.keys(localeFiles)
-      .filter(filePath => filePath.startsWith('../locale/en/'))
-      .map(filePath => filePath.match(/^\.\.\/locale\/en\/([^/]+)\.json$/)?.[1])
-      .filter(Boolean);
-
-    expect(sortStrings(englishModules)).toEqual(sortStrings(LOCALE_MODULES));
   });
 
   it('exposes a message object for every supported locale', () => {
@@ -58,7 +46,6 @@ describe('dashboard i18n', () => {
 
   it('loads every allowed locale file that exists on disk', () => {
     const allowedLocales = new Set(SUPPORTED_DASHBOARD_LOCALES);
-    const allowedModules = new Set(LOCALE_MODULES);
 
     Object.entries(localeFiles).forEach(([filePath, translations]) => {
       const match = filePath.match(/^\.\.\/locale\/([^/]+)\/([^/]+)\.json$/);
@@ -67,9 +54,9 @@ describe('dashboard i18n', () => {
         return;
       }
 
-      const [, locale, moduleName] = match;
+      const [, locale] = match;
 
-      if (!allowedLocales.has(locale) || !allowedModules.has(moduleName)) {
+      if (!allowedLocales.has(locale)) {
         return;
       }
 
@@ -81,7 +68,6 @@ describe('dashboard i18n', () => {
 
   it('does not define duplicate top-level keys across split locale files', () => {
     const allowedLocales = new Set(SUPPORTED_DASHBOARD_LOCALES);
-    const allowedModules = new Set(LOCALE_MODULES);
     const seenKeys = new Map();
     const duplicates = [];
 
@@ -94,7 +80,7 @@ describe('dashboard i18n', () => {
 
       const [, locale, moduleName] = match;
 
-      if (!allowedLocales.has(locale) || !allowedModules.has(moduleName)) {
+      if (!allowedLocales.has(locale)) {
         return;
       }
 
