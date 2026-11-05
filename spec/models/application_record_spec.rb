@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe ApplicationRecord do
   describe '#max_text_column_length' do
-    subject(:record) { described_class.new }
+    subject(:record) { Article.new }
 
     it 'defaults to 20_000 characters when unset' do
       with_modified_env MAX_TEXT_COLUMN_LENGTH: nil do
@@ -19,7 +19,7 @@ RSpec.describe ApplicationRecord do
     end
 
     it 'rejects values below 20_000' do
-      ['100', '19999'].each do |value|
+      %w[100 19999].each do |value|
         with_modified_env MAX_TEXT_COLUMN_LENGTH: value do
           expect { record.send(:max_text_column_length) }.to raise_error(ArgumentError, /at least 20000/)
         end

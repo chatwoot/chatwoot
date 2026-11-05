@@ -40,7 +40,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def max_text_column_length
-    raw_value = ENV['MAX_TEXT_COLUMN_LENGTH']
+    raw_value = ENV.fetch('MAX_TEXT_COLUMN_LENGTH', nil)
     return MIN_TEXT_COLUMN_LENGTH if raw_value.nil?
 
     valid = raw_value.match?(/\A\d+\z/) && raw_value.to_i >= MIN_TEXT_COLUMN_LENGTH
