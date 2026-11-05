@@ -166,12 +166,6 @@ RSpec.describe Message do
 
       expect(message.widget_sender_data).to eq(message.sender.push_event_data)
     end
-
-    it 'returns the agent bot with the inbox avatar fallback' do
-      message = create(:message, sender: create(:agent_bot))
-
-      expect(message.widget_sender_data).to eq(message.sender.push_event_data(message.inbox))
-    end
   end
 
   describe '#widget_push_event_data' do
@@ -185,6 +179,12 @@ RSpec.describe Message do
       message = create(:message, sender: create(:user))
 
       expect(message.widget_push_event_data).to eq(message.push_event_data)
+    end
+
+    it 'keeps an agent bot sender with the inbox avatar fallback' do
+      message = create(:message, sender: create(:agent_bot))
+
+      expect(message.widget_push_event_data[:sender]).to eq(message.sender.push_event_data(message.inbox))
     end
   end
 
