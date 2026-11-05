@@ -12,18 +12,34 @@ class Internal::Accounts::MarketingConversionTrackingService
   #   "events": {
   #     "cloud_signup": { "conversion_action_id": "123456789" },
   #     "cloud_plan_activation": { "conversion_action_id": "987654321" }
+  #   },
+  #   "x": {
+  #     "pixel_id": "o1abc",
+  #     "consumer_key": "...", "consumer_secret": "...", "access_token": "...", "access_token_secret": "...",
+  #     "events": {
+  #       "cloud_signup": { "event_id": "tw-o1abc-o1def" },
+  #       "cloud_plan_activation": { "event_id": "tw-o1abc-o1ghi" }
+  #     }
   #   }
   # }
+  # Accounts with an X click id (twclid) are also sent to the X Conversion API, only once "x" is set.
   TOKEN_SCOPES = ['https://www.googleapis.com/auth/datamanager'].freeze
   API_URL = 'https://datamanager.googleapis.com/v1/events:ingest'
   CLICK_ID_FIELDS = %w[gclid gbraid wbraid].freeze
+  X_API_SITE = 'https://ads-api.x.com'
 
   pattr_initialize [:account!, :event_name!, :occurred_at, :conversion_value, :currency_code]
 
   def perform
     return unless ChatwootApp.chatwoot_cloud?
-    return if click_attributes.blank?
 
+    upload_google_conversion if click_attributes.present?
+    upload_x_conversion if twclid.present? && config['x'].present?
+  end
+
+  private
+
+  def upload_google_conversion
     response = HTTParty.post(
       API_URL,
       headers: {
@@ -39,7 +55,12 @@ class Internal::Accounts::MarketingConversionTrackingService
     raise "Marketing conversion upload failed: #{response.body}" unless response.success?
   end
 
-  private
+  def upload_x_conversion
+    response = x_access_token.post("/12/measurement/conversions/#{config['x']['pixel_id']}",
+                                   { conversions: [x_conversion_payload] }.to_json, 'Content-Type' => 'application/json')
+
+    raise "X conversion upload failed: #{response.body}" unless response.is_a?(Net::HTTPSuccess)
+  end
 
   def destination_payload
     {
@@ -71,6 +92,22 @@ class Internal::Accounts::MarketingConversionTrackingService
     payload
   end
 
+  def x_conversion_payload
+    payload = {
+      conversion_id: "#{event_name}-account-#{account.id}",
+      conversion_time: event_timestamp.utc.iso8601(3),
+      event_id: config['x']['events'][event_name]['event_id'],
+      identifiers: [{ twclid: twclid }]
+    }
+
+    if conversion_value.present?
+      payload[:value] = conversion_value.to_f
+      payload[:price_currency] = currency_code.presence || 'USD'
+    end
+
+    payload
+  end
+
   def click_attributes
     @click_attributes ||= CLICK_ID_FIELDS.filter_map do |field|
       value = attribution[field]
@@ -83,10 +120,18 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def attribution
-    marketing_attribution = account.internal_attributes['marketing_attribution'] || {}
-    [marketing_attribution['last_touch'], marketing_attribution['first_touch']].find do |touch|
-      touch.present? && CLICK_ID_FIELDS.any? { |field| touch[field].present? }
+    touches.find do |touch|
+      CLICK_ID_FIELDS.any? { |field| touch[field].present? }
     end || {}
+  end
+
+  def twclid
+    touches.filter_map { |touch| touch['twclid'].presence }.first
+  end
+
+  def touches
+    marketing_attribution = account.internal_attributes['marketing_attribution'] || {}
+    [marketing_attribution['last_touch'], marketing_attribution['first_touch']].compact_blank
   end
 
   def access_token
@@ -95,6 +140,11 @@ class Internal::Accounts::MarketingConversionTrackingService
       scope: TOKEN_SCOPES
     )
     authorizer.fetch_access_token!['access_token']
+  end
+
+  def x_access_token
+    consumer = OAuth::Consumer.new(config['x']['consumer_key'], config['x']['consumer_secret'], site: X_API_SITE)
+    OAuth::AccessToken.new(consumer, config['x']['access_token'], config['x']['access_token_secret'])
   end
 
   def config

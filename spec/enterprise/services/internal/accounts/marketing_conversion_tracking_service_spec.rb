@@ -116,4 +116,85 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
 
     expect(upload_body['events'].first['adIdentifiers']['gclid']).to eq('first-click')
   end
+
+  context 'with an X click id' do
+    let(:x_api_url) { 'https://ads-api.x.com/12/measurement/conversions/o1abc' }
+    let(:x_config) do
+      {
+        'pixel_id' => 'o1abc',
+        'consumer_key' => 'consumer-key', 'consumer_secret' => 'consumer-secret',
+        'access_token' => 'access-token', 'access_token_secret' => 'access-token-secret',
+        'events' => {
+          'cloud_signup' => { 'event_id' => 'tw-o1abc-signup' },
+          'cloud_plan_activation' => { 'event_id' => 'tw-o1abc-activation' }
+        }
+      }
+    end
+    let(:marketing_attribution) do
+      {
+        'first_touch' => { 'source' => 'x', 'twclid' => 'x-click-first' },
+        'last_touch' => { 'source' => 'x', 'twclid' => 'x-click-last' }
+      }
+    end
+
+    before do
+      InstallationConfig.find_by(name: described_class::CONFIG_KEY).update!(value: config.merge('x' => x_config).to_json)
+      stub_request(:post, x_api_url).to_return(status: 200, body: { data: {} }.to_json)
+      allow(HTTParty).to receive(:post)
+    end
+
+    def sent_x_conversion
+      body = nil
+      expect(a_request(:post, x_api_url).with { |request| body = JSON.parse(request.body) }).to have_been_made.once
+      body['conversions'].first
+    end
+
+    it 'sends the signup to X with the last-touch twclid, a stable conversion id and an OAuth 1.0a signature' do
+      described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
+
+      expect(a_request(:post, x_api_url).with { |request| request.headers['Authorization'].include?('oauth_consumer_key="consumer-key"') })
+        .to have_been_made.once
+      expect(sent_x_conversion).to eq(
+        'conversion_id' => "cloud_signup-account-#{account.id}",
+        'conversion_time' => '2026-06-23T10:30:00.000Z',
+        'event_id' => 'tw-o1abc-signup',
+        'identifiers' => [{ 'twclid' => 'x-click-last' }]
+      )
+      expect(HTTParty).not_to have_received(:post)
+    end
+
+    it 'sends the plan activation to X with its value' do
+      described_class.new(account: account, event_name: 'cloud_plan_activation', occurred_at: occurred_at,
+                          conversion_value: 19.0, currency_code: 'USD').perform
+
+      expect(sent_x_conversion).to include('event_id' => 'tw-o1abc-activation', 'value' => 19.0, 'price_currency' => 'USD')
+    end
+
+    it 'falls back to the first-touch twclid and still uploads the Google click' do
+      marketing_attribution['last_touch'] = { 'source' => 'google', 'gclid' => 'g-click' }
+      account.update!(internal_attributes: { 'marketing_attribution' => marketing_attribution })
+      allow(HTTParty).to receive(:post).and_return(instance_double(HTTParty::Response, success?: true, body: '{}'))
+
+      described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
+
+      expect(sent_x_conversion['identifiers']).to eq([{ 'twclid' => 'x-click-first' }])
+      expect(HTTParty).to have_received(:post).once
+    end
+
+    it 'sends nothing to X until the x config is set' do
+      InstallationConfig.find_by(name: described_class::CONFIG_KEY).update!(value: config.to_json)
+
+      described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
+
+      expect(a_request(:post, x_api_url)).not_to have_been_made
+    end
+
+    it 'raises so the job retries when X rejects the upload' do
+      stub_request(:post, x_api_url).to_return(status: 503, body: 'unavailable')
+
+      expect do
+        described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
+      end.to raise_error(RuntimeError, /X conversion upload failed/)
+    end
+  end
 end
