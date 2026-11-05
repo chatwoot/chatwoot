@@ -11,7 +11,6 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useWindowSize } from '@vueuse/core';
 
 import wootConstants from 'dashboard/constants/globals';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { isUpgradePageBypassRoute } from 'dashboard/helper/routeHelpers';
 
 const CommandBar = defineAsyncComponent(
@@ -80,10 +79,7 @@ export default {
       return this.upgradePageRef?.isAccountPaywalled;
     },
     hasCommandBarV2() {
-      return this.$store.getters['accounts/isFeatureEnabledonAccount'](
-        this.accountId,
-        FEATURE_FLAGS.COMMAND_BAR_V2
-      );
+      return this.uiSettings.command_bar_v2 === true;
     },
     bypassUpgradePage() {
       return isUpgradePageBypassRoute(this.$route.name);

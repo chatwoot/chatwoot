@@ -3,11 +3,13 @@ import { createMemoryHistory, createRouter } from 'vue-router';
 import { flushPromises, mount } from '@vue/test-utils';
 import Dashboard from '../Dashboard.vue';
 
+const uiSettingsState = vi.hoisted(() => ({ current: {} }));
+
 vi.mock('dashboard/composables/useUISettings', async () => {
-  const { ref: createRef } = await import('vue');
+  const { computed: createComputed } = await import('vue');
   return {
     useUISettings: () => ({
-      uiSettings: createRef({}),
+      uiSettings: createComputed(() => uiSettingsState.current),
       updateUISettings: vi.fn(),
     }),
   };
@@ -82,6 +84,7 @@ describe('Dashboard', () => {
     routeName = 'home',
     commandBarV2 = false,
   } = {}) => {
+    uiSettingsState.current = { command_bar_v2: commandBarV2 };
     const isPaywalled = ref(paywalled);
     const commandBar = { mounts: 0, opens: 0 };
     const router = createRouter({
@@ -94,13 +97,6 @@ describe('Dashboard', () => {
     wrapper = mount(Dashboard, {
       global: {
         plugins: [router],
-        mocks: {
-          $store: {
-            getters: {
-              'accounts/isFeatureEnabledonAccount': () => commandBarV2,
-            },
-          },
-        },
         stubs: {
           UpgradePage: createUpgradePageStub(isPaywalled),
           CommandBar: createCommandBarStub(commandBar),
@@ -142,14 +138,14 @@ describe('Dashboard', () => {
       expect(commandBar.mounts).toBe(1);
     });
 
-    it('mounts ninja-keys until the account enables the v2 command bar', async () => {
+    it('mounts ninja-keys until the user enables the v2 command bar', async () => {
       await mountDashboard();
 
       expect(wrapper.find('.command-bar.CommandBar').exists()).toBe(true);
       expect(wrapper.find('.command-bar.CommandBarV2').exists()).toBe(false);
     });
 
-    it('mounts the v2 command bar when the account enables it', async () => {
+    it('mounts the v2 command bar when the user enables it', async () => {
       const { commandBar } = await mountDashboard({ commandBarV2: true });
 
       expect(wrapper.find('.command-bar.CommandBarV2').exists()).toBe(true);
