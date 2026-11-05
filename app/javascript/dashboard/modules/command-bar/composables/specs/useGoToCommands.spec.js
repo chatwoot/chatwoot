@@ -4,7 +4,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useGoToCommands } from '../useGoToCommands';
-import { MOCK_FEATURE_FLAGS } from './fixtures';
+import { MOCK_FEATURE_FLAGS } from 'dashboard/composables/commands/spec/fixtures';
 
 vi.mock('dashboard/composables/store');
 vi.mock('vue-i18n');
