@@ -1,10 +1,13 @@
 import { useConversationCommands } from '../useConversationCommands';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
+import { usePolicy } from 'dashboard/composables/usePolicy';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import {
   mockAssignableAgents,
@@ -20,6 +23,9 @@ vi.mock('vue-router');
 vi.mock('dashboard/composables/useConversationLabels');
 vi.mock('dashboard/composables/useCaptain');
 vi.mock('dashboard/composables/useAgentsList');
+vi.mock('dashboard/composables/usePolicy');
+vi.mock('shared/helpers/clipboard');
+vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
 
 describe('useConversationCommands', () => {
   let store;
@@ -54,6 +60,10 @@ describe('useConversationCommands', () => {
     useCaptain.mockReturnValue({ captainTasksEnabled: { value: true } });
     useAgentsList.mockReturnValue({
       agentsList: { value: mockAssignableAgents },
+    });
+    usePolicy.mockReturnValue({
+      checkPermissions: vi.fn(() => true),
+      isFeatureFlagEnabled: vi.fn(() => true),
     });
   });
 
@@ -107,6 +117,62 @@ describe('useConversationCommands', () => {
       action => action.id === 'resolve_conversation'
     );
     expect(resolve.shortcut).toHaveLength(2);
+  });
+
+  it('should offer to open the contact of the conversation', () => {
+    const { conversationCommands } = useConversationCommands();
+    const viewContact = conversationCommands.value.find(
+      action => action.id === 'view_contact'
+    );
+
+    viewContact.run();
+    expect(useRouter().push).toHaveBeenCalledWith(
+      `/app/accounts/1/contacts/${mockCurrentChat.meta.sender.id}`
+    );
+  });
+
+  it('copies the conversation link on the configured host', async () => {
+    window.chatwootConfig = { hostURL: 'https://support.example.com' };
+    const { conversationCommands } = useConversationCommands();
+    await conversationCommands.value
+      .find(action => action.id === 'copy_conversation_link')
+      .run();
+
+    expect(copyTextToClipboard).toHaveBeenCalledWith(
+      `https://support.example.com/app/accounts/1/conversations/${mockCurrentChat.id}`
+    );
+  });
+
+  it('hides the contact command from users who cannot open contacts', () => {
+    usePolicy.mockReturnValue({
+      checkPermissions: vi.fn(() => false),
+      isFeatureFlagEnabled: vi.fn(() => true),
+    });
+    const { conversationCommands } = useConversationCommands();
+    const ids = conversationCommands.value.map(action => action.id);
+    expect(ids).not.toContain('view_contact');
+    expect(ids).toContain('copy_conversation_link');
+  });
+
+  it('hides the contact command when the contact was deleted', () => {
+    store.getters.getSelectedChat = {
+      ...mockCurrentChat,
+      meta: { sender: {} },
+    };
+    const { conversationCommands } = useConversationCommands();
+    const ids = conversationCommands.value.map(action => action.id);
+    expect(ids).not.toContain('view_contact');
+  });
+
+  it('hides the contact command when the CRM feature is off', () => {
+    usePolicy.mockReturnValue({
+      checkPermissions: vi.fn(() => true),
+      isFeatureFlagEnabled: vi.fn(flag => flag !== FEATURE_FLAGS.CRM),
+    });
+    const { conversationCommands } = useConversationCommands();
+    const ids = conversationCommands.value.map(action => action.id);
+    expect(ids).not.toContain('view_contact');
+    expect(ids).toContain('copy_conversation_link');
   });
 
   it('offers only the snooze actions for a right-clicked conversation in the list', () => {

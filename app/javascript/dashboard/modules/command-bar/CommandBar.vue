@@ -22,6 +22,9 @@ import { useInboxCommands } from 'dashboard/modules/command-bar/composables/useI
 import { useBulkActionCommands } from 'dashboard/modules/command-bar/composables/useBulkActionCommands';
 import { useConversationCommands } from 'dashboard/modules/command-bar/composables/useConversationCommands';
 import { useMacroCommands } from 'dashboard/modules/command-bar/composables/useMacroCommands';
+import { useCannedResponseCommands } from 'dashboard/modules/command-bar/composables/useCannedResponseCommands';
+import { useAccountCommands } from 'dashboard/modules/command-bar/composables/useAccountCommands';
+import { useHelpCommands } from 'dashboard/modules/command-bar/composables/useHelpCommands';
 import { useSnoozeSuggestions } from 'dashboard/modules/command-bar/composables/useSnoozeSuggestions';
 import { useSearchCommands } from 'dashboard/modules/command-bar/composables/useSearchCommands';
 import { useBackCommands } from 'dashboard/modules/command-bar/composables/useBackCommands';
@@ -30,7 +33,7 @@ const props = defineProps({
   isPaywalled: { type: Boolean, default: false },
 });
 
-const PREFIXES = ['@', '#'];
+const PREFIXES = ['@', '#', '/', '?'];
 const atRoot = ({ page }) => !page;
 
 const store = useStore();
@@ -50,6 +53,9 @@ const { appearanceCommands } = useAppearanceCommands();
 const { inboxCommands } = useInboxCommands();
 const { bulkActionCommands } = useBulkActionCommands();
 const { conversationCommands } = useConversationCommands();
+const { cannedResponseCommands } = useCannedResponseCommands();
+const { accountCommands } = useAccountCommands();
+const { helpCommands } = useHelpCommands();
 const { backCommands } = useBackCommands();
 const { searchSnoozeSuggestions, snoozeCommands } = useSnoozeSuggestions();
 const {
@@ -108,7 +114,10 @@ const sources = computed(() => {
     { id: 'bulk', commands: () => bulkActionCommands.value },
     { id: 'inbox', commands: () => inboxCommands.value },
     { id: 'macros', commands: () => macroCommands.value },
+    { id: 'canned', commands: () => cannedResponseCommands.value },
     ...general,
+    { id: 'account', commands: () => accountCommands.value },
+    { id: 'help', commands: () => helpCommands.value },
     { id: 'snooze_suggestions', search: searchSnoozeSuggestions },
     ...[
       {

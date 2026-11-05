@@ -44,6 +44,9 @@ const sources = {
     }),
   ],
   macroCommands: [command('macro')],
+  cannedResponseCommands: [command('canned')],
+  accountCommands: [command('account')],
+  helpCommands: [command('help')],
   backCommands: [command('back')],
 };
 
@@ -90,6 +93,20 @@ vi.mock('dashboard/modules/command-bar/composables/useMacroCommands', () => ({
     submitPendingAttributes: vi.fn(),
     dismissPendingAttributes: vi.fn(),
   }),
+}));
+vi.mock(
+  'dashboard/modules/command-bar/composables/useCannedResponseCommands',
+  () => ({
+    useCannedResponseCommands: () => ({
+      cannedResponseCommands: ref(sources.cannedResponseCommands),
+    }),
+  })
+);
+vi.mock('dashboard/modules/command-bar/composables/useAccountCommands', () => ({
+  useAccountCommands: () => ({ accountCommands: ref(sources.accountCommands) }),
+}));
+vi.mock('dashboard/modules/command-bar/composables/useHelpCommands', () => ({
+  useHelpCommands: () => ({ helpCommands: ref(sources.helpCommands) }),
 }));
 vi.mock(
   'dashboard/modules/command-bar/composables/useSnoozeSuggestions',
@@ -164,6 +181,9 @@ describe('CommandBar', () => {
         'bulk',
         'conversation',
         'macro',
+        'canned',
+        'account',
+        'help',
         'back',
       ])
     );
