@@ -194,6 +194,15 @@ RSpec.describe Channel::Whatsapp do
       expect(channel.reload.provider_config['webhook_token']).to be_nil
     end
 
+    it 'does not register the webhook url when the channel is invalid' do
+      stub_request(:post, webhook_url)
+      duplicate = described_class.new(account: channel.account, provider: 'default', phone_number: channel.phone_number,
+                                      provider_config: { 'api_key' => 'test_key' })
+
+      expect(duplicate.save).to be(false)
+      expect(a_request(:post, webhook_url)).not_to have_been_made
+    end
+
     it 'keeps an existing webhook token' do
       stub_request(:post, webhook_url)
       channel.update!(provider_config: channel.provider_config.merge('webhook_token' => 'existing-token'))
