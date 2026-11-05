@@ -10,10 +10,11 @@ class ActionCableBroadcastJob < ApplicationJob
     CONVERSATION_STATUS_CHANGED
   ].freeze
 
-  def perform(members, event_name, data)
+  # widget: the members are web widget sessions, so a refreshed conversation uses the widget payload
+  def perform(members, event_name, data, widget: false)
     return if members.blank?
 
-    broadcast_data = prepare_broadcast_data(event_name, data)
+    broadcast_data = prepare_broadcast_data(event_name, data, widget)
     broadcast_to_members(members, event_name, broadcast_data)
   end
 
@@ -22,11 +23,13 @@ class ActionCableBroadcastJob < ApplicationJob
   # Ensures that only the latest available data is sent to prevent UI issues
   # caused by out-of-order events during high-traffic periods. This prevents
   # the conversation job from processing outdated data.
-  def prepare_broadcast_data(event_name, data)
+  def prepare_broadcast_data(event_name, data, widget)
     return data unless CONVERSATION_UPDATE_EVENTS.include?(event_name)
 
     account = Account.find(data[:account_id])
     conversation = account.conversations.find_by!(display_id: data[:id])
+    return conversation.widget_push_event_data.merge(account_id: data[:account_id]) if widget
+
     broadcast_data = conversation.push_event_data.merge(account_id: data[:account_id])
     if event_name == ASSIGNEE_CHANGED
       # Keep the original assignment together even when the conversation is
