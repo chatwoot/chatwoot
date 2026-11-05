@@ -807,6 +807,7 @@
           "SAVED": "Saved"
         },
         "PREVIEW": "Preview",
+        "PREVIEW_NOT_READY": "Preview is getting ready. Please try again in a moment.",
         "PUBLISH": "Publish",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",

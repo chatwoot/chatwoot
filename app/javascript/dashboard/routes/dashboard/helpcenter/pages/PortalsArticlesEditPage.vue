@@ -207,6 +207,13 @@ const fetchPreviewToken = async () => {
 };
 
 const previewArticle = () => {
+  const isPublished = article.value.status === ARTICLE_STATUSES.PUBLISHED;
+  if (!isPublished && !previewToken.value) {
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW_NOT_READY'));
+    fetchPreviewToken();
+    return;
+  }
+
   window.open(articleLink.value, '_blank');
   useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
     status: article.value?.status,
