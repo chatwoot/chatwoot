@@ -239,6 +239,30 @@
           "API_CALLBACK": {
             "TITLE": "Callback URL",
             "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          },
+          "CLIENT_ID": {
+            "LABEL": "Client ID",
+            "PLACEHOLDER": "Enter your Bandwidth Client ID",
+            "ERROR": "This field is required"
+          },
+          "CLIENT_SECRET": {
+            "LABEL": "Client Secret",
+            "PLACEHOLDER": "Enter your Bandwidth Client Secret",
+            "ERROR": "This field is required"
+          },
+          "OAUTH": {
+            "TITLE": "API credentials",
+            "MIGRATE": "Update credentials",
+            "READ_ONLY": "Read-only",
+            "SHOW_SECRET": "Show client secret",
+            "HIDE_SECRET": "Hide client secret",
+            "LEGACY_DESCRIPTION": "Update your Bandwidth credentials before December 2, 2026 to keep this inbox connected.",
+            "DESCRIPTION": "This inbox uses OAuth. Enter a new Client ID and Client Secret to replace its credentials.",
+            "SAVE": "Verify and save credentials",
+            "SUCCESS": "Bandwidth OAuth credentials saved.",
+            "LOAD_ERROR": "Unable to load Bandwidth credentials. Reload this page to try again.",
+            "ERROR": "Unable to save Bandwidth credentials. Please try again.",
+            "CALLBACK_DESCRIPTION": "Use this URL for inbound messages and delivery status callbacks in your Bandwidth application."
           }
         }
       },
