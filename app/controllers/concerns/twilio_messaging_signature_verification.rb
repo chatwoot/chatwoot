@@ -16,7 +16,7 @@ module TwilioMessagingSignatureVerification
     return enforce_twilio_signature!(channel) if signed_by_twilio?(channel)
 
     log_invalid_twilio_signature(channel)
-    head :forbidden if twilio_signature_enforced?(channel)
+    head :forbidden if channel.webhook_signature_enforced?(controller_name)
   end
 
   # API key channels store the key secret in auth_token, which Twilio does not sign with.
@@ -34,22 +34,8 @@ module TwilioMessagingSignatureVerification
     [request.original_url, registered_url.to_s].uniq
   end
 
-  def twilio_signature_enforced?(channel)
-    channel.provider_config[twilio_signature_enforced_key] == true
-  end
-
   def enforce_twilio_signature!(channel)
-    return if twilio_signature_enforced?(channel)
-
-    # rubocop:disable Rails/SkipsModelValidations
-    Channel::TwilioSms.where(id: channel.id).update_all(
-      ["provider_config = COALESCE(provider_config, '{}'::jsonb) || ?::jsonb", { twilio_signature_enforced_key => true }.to_json]
-    )
-    # rubocop:enable Rails/SkipsModelValidations
-  end
-
-  def twilio_signature_enforced_key
-    "#{controller_name}_signature_enforced"
+    channel.enforce_webhook_signature!(controller_name) unless channel.webhook_signature_enforced?(controller_name)
   end
 
   def log_unverifiable_twilio_channel(channel)
@@ -59,7 +45,7 @@ module TwilioMessagingSignatureVerification
   def log_invalid_twilio_signature(channel)
     Rails.logger.warn(
       "[TWILIO] Invalid webhook signature channel_id=#{channel.id} endpoint=#{controller_name} " \
-      "enforced=#{twilio_signature_enforced?(channel)} url=#{request.original_url}"
+      "enforced=#{channel.webhook_signature_enforced?(controller_name)} url=#{request.original_url}"
     )
   end
 end
