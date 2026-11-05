@@ -19,14 +19,9 @@ class Captain::Llm::LanguageDetectionService < Captain::BaseTaskService
   end
 
   # Runs on every inbound message before anyone reads the thread, like the help center query translation:
-  # a two-letter answer from a nano model is not a Captain response.
+  # a two-letter answer from a small model is not a Captain response.
   def counts_toward_usage?
     false
-  end
-
-  # Two letters about one line of text: the default reasoning effort of the gpt-5 models adds seconds for nothing.
-  def build_chat(...)
-    super.with_thinking(effort: :minimal)
   end
 
   def messages
