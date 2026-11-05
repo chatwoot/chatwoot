@@ -28,6 +28,19 @@
           "PLACEHOLDER": "Please select one",
           "ERROR": "Event is required"
         },
+        "MONITOR": {
+          "LABEL": "Monitor",
+          "PLACEHOLDER": "Select a live monitor",
+          "ERROR": "Select a live monitor",
+          "FETCH_FAILED": "Could not load monitors. Try again later.",
+          "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
+          "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
+          "GO_TO_MONITORS": "Go to monitors",
+          "RETRY": "Retry",
+          "UNAVAILABLE": "Unavailable monitor",
+          "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
+          "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
+        },
         "RUN_TYPE": {
           "LABEL": "When should this rule run?",
           "OPTIONS": {
@@ -83,8 +96,7 @@
       "TABLE_HEADER": {
         "NAME": "Name",
         "ACTIVE": "Active",
-        "CREATED_ON": "Created on",
-        "ACTIONS": "Actions"
+        "CREATED_ON": "Created on"
       },
       "404": "No automation rules found",
       "404_DELAYED": "No rules run after a wait yet",
@@ -93,6 +105,9 @@
         "DELAYED": "Runs after a wait"
       },
       "DELAY_BADGE": "Runs after {delay}",
+      "MONITOR_PAUSED": "Monitor paused",
+      "MONITOR_DELETED": "Monitor deleted",
+      "MONITOR_UNAVAILABLE": "Monitor feature unavailable",
       "DELAY_DISABLED_BANNER": "Delayed execution is turned off for this account, so the rules below that run after a wait are paused until it is turned back on."
     },
     "DELETE": {
@@ -136,7 +151,10 @@
     "CONDITION": {
       "DELETE_MESSAGE": "You need to have atleast one condition to save",
       "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Describe what to look for, e.g. customer wants to cancel"
+      }
     },
     "ACTION": {
       "DELETE_MESSAGE": "You need to have atleast one action to save",
@@ -181,7 +199,8 @@
       "CONVERSATION_UPDATED": "Conversation Updated",
       "MESSAGE_CREATED": "Message Created",
       "CONVERSATION_RESOLVED": "Conversation Resolved",
-      "CONVERSATION_OPENED": "Conversation Opened"
+      "CONVERSATION_OPENED": "Conversation Opened",
+      "MONITOR_MATCHED": "Monitor Matched"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Assign to Agent",
@@ -232,7 +251,8 @@
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",
       "PRIORITY": "Priority",
-      "LABELS": "Labels"
+      "LABELS": "Labels",
+      "CAPTAIN": "Captain"
     }
   }
 }

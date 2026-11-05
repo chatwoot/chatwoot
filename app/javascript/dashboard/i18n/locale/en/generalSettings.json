@@ -44,6 +44,35 @@
         "TITLE": "Account ID",
         "NOTE": "This ID is required if you are building an API based integration"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Translate",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "Connect",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Upgrade"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
         "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
@@ -51,7 +80,7 @@
           "LABEL": "Inactivity duration",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Auto resolve settings updated successfully",
             "ERROR": "Failed to update auto resolve settings"
@@ -104,6 +133,14 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
@@ -127,6 +164,8 @@
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
     "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
+    "INSTALLATION_PAYMENT_PENDING": "Your installation payment is past due. Please open billing to avoid subscription cancellation.",
+    "INSTALLATION_PAYMENT_PENDING_MEMBER": "Your installation payment is past due. Please contact your installation owner or super admin to resolve it.",
     "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
@@ -153,6 +192,16 @@
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Search or jump to",
     "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
+    "CONFIRM_BULK_PLACEHOLDER": "Apply to {n} conversation? | Apply to {n} conversations?",
+    "EMPTY": "No matches for \"{query}\"",
+    "LINK_COPIED": "Conversation link copied",
+    "SELECTED_COUNT": "{count} selected",
+    "HINTS": {
+      "NAVIGATE": "navigate",
+      "SELECT": "select",
+      "BACK": "back",
+      "CLOSE": "close"
+    },
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Reports",
@@ -168,7 +217,16 @@
       "SETTINGS": "Settings",
       "AI_ASSIST": "AI Assist",
       "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Snooze Notification",
+      "CONVERSATIONS": "Conversations",
+      "CONTACTS": "Contacts",
+      "ARTICLES": "Articles",
+      "CANNED_RESPONSES": "Canned responses",
+      "ACCOUNT": "Account",
+      "HELP": "Help",
+      "PAGE": "This page",
+      "CREATE": "Create",
+      "LIST": "Conversation list"
     },
     "COMMANDS": {
       "GO_TO_MY_INBOX": "Go to My Inbox",
@@ -194,12 +252,17 @@
       "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
       "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
       "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_AGENT_BOTS": "Go to Agent Bots",
       "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
       "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
       "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_CONVERSATION_WORKFLOW": "Go to Conversation Workflow",
+      "GO_TO_SETTINGS_INTEGRATIONS": "Go to Integration Settings",
       "GO_TO_SETTINGS_DATA": "Go to Data",
       "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_CUSTOM_ROLES": "Go to Custom Roles",
+      "GO_TO_SETTINGS_SECURITY": "Go to Security Settings",
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
       "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
@@ -209,6 +272,7 @@
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Assign a team",
       "EXECUTE_A_MACRO": "Execute a macro",
+      "CONFIRM_BULK_ACTION": "Yes, apply to {n} conversation | Yes, apply to {n} conversations",
       "MUTE_CONVERSATION": "Mute conversation",
       "UNMUTE_CONVERSATION": "Unmute conversation",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
@@ -226,7 +290,32 @@
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
       "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Snooze Notification",
+      "GO_TO_INBOX": "Go to inbox",
+      "GO_TO_TEAM": "Go to team",
+      "GO_TO_LABEL": "Go to label",
+      "VIEW_CONTACT": "View contact",
+      "COPY_CONVERSATION_LINK": "Copy conversation link",
+      "INSERT_CANNED_RESPONSE": "Insert canned response",
+      "SET_AVAILABILITY": "Set availability",
+      "SWITCH_ACCOUNT": "Switch account",
+      "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+      "SEE_ALL_RESULTS": "See all results for \"{query}\"",
+      "NEW_INBOX": "New inbox",
+      "NEW_TEAM": "New team",
+      "NEW_MACRO": "New macro",
+      "NEW_CAMPAIGN": "New campaign",
+      "PAGE_DOCS": "{title} documentation",
+      "DELETE_AGENT": "Delete agent",
+      "DELETE_LABEL": "Delete label",
+      "DELETE_CANNED_RESPONSE": "Delete canned response",
+      "DELETE_CUSTOM_ATTRIBUTE": "Delete custom attribute",
+      "BACK_TO": "Back to {page}",
+      "SWITCH_TAB": "Switch tab",
+      "FILTER_BY_STATUS": "Filter by status",
+      "SORT_BY": "Sort by",
+      "SHOW_CONTACT_PANEL": "Show contact panel",
+      "HIDE_CONTACT_PANEL": "Hide contact panel"
     }
   },
   "DASHBOARD_APPS": {

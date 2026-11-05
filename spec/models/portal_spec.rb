@@ -150,4 +150,38 @@ RSpec.describe Portal do
       expect(portal.display_title).to eq('Help Center | Acme')
     end
   end
+
+  describe 'search indexing' do
+    let!(:account) { create(:account) }
+    let(:author) { create(:user, account: account) }
+    let!(:portal) { create(:portal, account_id: account.id) }
+    let!(:visible_article) { create(:article, portal: portal, account: account, author: author, status: :published) }
+    let!(:hidden_article) do
+      create(:article, portal: portal, account: account, author: author, status: :published, meta: { 'noindex' => true })
+    end
+
+    before { create(:article, portal: portal, account: account, author: author, status: :draft) }
+
+    it 'is enabled by default' do
+      expect(portal.search_indexing_disabled?).to be(false)
+    end
+
+    it 'returns published articles that are not hidden from search' do
+      expect(portal.search_indexable_articles).to contain_exactly(visible_article)
+      expect(portal.search_indexable_articles).not_to include(hidden_article)
+    end
+
+    it 'returns no articles when the portal is hidden from search' do
+      portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+      expect(portal.search_indexing_disabled?).to be(true)
+      expect(portal.search_indexable_articles).to be_empty
+    end
+
+    it 'rejects a non-boolean disable_search_indexing value' do
+      portal.config = portal.config.merge('disable_search_indexing' => 'true')
+
+      expect(portal).not_to be_valid
+    end
+  end
 end

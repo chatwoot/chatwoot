@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Δεν υπάρχουν προηγούμενες συνομιλίες που σχετίζονται με αυτήν την επαφή.",
-      "TITLE": "Προηγούμενες συνομιλίες"
+      "TITLE": "Προηγούμενες συνομιλίες",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

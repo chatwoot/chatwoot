@@ -111,7 +111,9 @@ class Message < ApplicationRecord
   # [:data] : Used for structured content types such as voice_call
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported, :data], coder: JSON
+                                         :translations, :translation_failed, :translation_provider, :source_language,
+                                         :in_reply_to_external_id,
+                                         :is_unsupported, :data], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -119,6 +121,7 @@ class Message < ApplicationRecord
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('created_at desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
+  scope :not_forwarded, -> { where("(messages.content_attributes #>> '{}')::jsonb -> 'forwarded_message_id' IS NULL") }
   scope :voice_calls, -> { where(content_type: :voice_call) }
 
   # TODO: Get rid of default scope
@@ -144,22 +147,23 @@ class Message < ApplicationRecord
     @token ||= inbox.channel.try(:page_access_token)
   end
 
-  def push_event_data
+  # unread_count lets callers that already hold the conversation's unread count skip the per-message recount
+  def push_event_data(unread_count: nil)
     data = attributes.symbolize_keys.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation&.display_id,
-      conversation: conversation.present? ? conversation_push_event_data : nil
+      conversation: conversation.present? ? conversation_push_event_data(unread_count) : nil
     )
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     merge_sender_attributes(data)
   end
 
-  def conversation_push_event_data
+  def conversation_push_event_data(unread_count)
     {
       assignee_id: conversation.assignee_id,
-      unread_count: conversation.unread_incoming_messages.count,
+      unread_count: unread_count || conversation.unread_incoming_messages.count,
       last_activity_at: conversation.last_activity_at.to_i,
       contact_inbox: { source_id: conversation.contact_inbox.source_id }
     }
@@ -217,6 +221,10 @@ class Message < ApplicationRecord
     true
   end
 
+  def forwarded?
+    content_attributes['forwarded_message_id'].present?
+  end
+
   def auto_reply_email?
     return false unless incoming_email? || inbox.email?
 
@@ -229,6 +237,7 @@ class Message < ApplicationRecord
     return false if conversation.messages.outgoing
                                 .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
                                 .where.not(private: true)
+                                .not_forwarded
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
 
     true
@@ -366,7 +375,9 @@ class Message < ApplicationRecord
     # if automation rule id is present, it's not a human response
     # if campaign id is present, it's not a human response
     # external echo messages are responses sent from the native app (WhatsApp Business, Instagram)
+    # forwarded emails go to a third party, not to the contact
     outgoing? &&
+      !forwarded? &&
       content_attributes['automation_rule_id'].blank? &&
       additional_attributes['campaign_id'].blank? &&
       (sender.is_a?(User) || content_attributes['external_echo'].present?)

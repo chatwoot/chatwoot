@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
 
     get '/app', to: 'dashboard#index'
+    # Shareable install link for the Captain tools catalog; the dashboard picks the account and assistant
+    get '/captain/toolsets/install', to: redirect(status: 302) { |_params, request|
+      "/app/captain/toolsets/install?#{request.params.slice(:source).to_query}"
+    }
     get '/app/*params', to: 'dashboard#index'
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
@@ -52,6 +56,20 @@ Rails.application.routes.draw do
         end
 
         scope module: :accounts do
+          if ChatwootApp.enterprise?
+            resources :monitors, only: [:index, :show, :create, :update, :destroy] do
+              collection do
+                post :preview
+                get 'preview/:token', action: :preview_status
+              end
+              member do
+                get :timeseries
+                get :conversations
+                post :retry_evaluations
+                post :resume
+              end
+            end
+          end
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
@@ -66,6 +84,7 @@ Rails.application.routes.draw do
             resource :preferences, only: [:show, :update]
             resources :assistants do
               member do
+                delete :avatar
                 post :playground
                 get :metrics
                 get :faq_stats
@@ -73,6 +92,7 @@ Rails.application.routes.draw do
                 get :drilldown
               end
               resource :stats, only: [], controller: :assistant_stats do
+                get :drilldown
                 get :overview
                 get :overview_summary
                 get :resolution_flow
@@ -97,8 +117,17 @@ Rails.application.routes.draw do
             resources :copilot_threads, only: [:index, :create] do
               resources :copilot_messages, only: [:index, :create]
             end
+            resources :copilot_runs, only: [] do
+              post :approve, on: :member
+              post :reject, on: :member
+            end
             resources :custom_tools do
               post :test, on: :collection
+            end
+            resource :tools_manifest, only: [] do
+              get :installed
+              post :preview
+              post :install
             end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
@@ -108,11 +137,12 @@ Rails.application.routes.draw do
               post :rewrite
               post :summarize
               post :reply_suggestion
-              post :label_suggestion
               post :follow_up
             end
           end
-          resource :saml_settings, only: [:show, :create, :update, :destroy]
+          resource :saml_settings, only: [:show, :create, :update, :destroy] do
+            post :refresh
+          end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -166,18 +196,24 @@ Rails.application.routes.draw do
               post :filter
             end
             scope module: :conversations do
+              resources :campaign_history, only: [:index] if ChatwootApp.enterprise?
               resources :messages, only: [:index, :create, :destroy, :update] do
+                post :auto_translate, on: :collection if ChatwootApp.enterprise?
                 member do
                   post :translate
                   post :retry
                 end
               end
-              resource :contact_info_request, only: [:create]
+              resource :contact_info_request, only: [:show, :create]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              resource :suggestions, only: [] do
+                get :labels
+                get :priority
+              end
             end
             member do
               post :mute
@@ -219,8 +255,13 @@ Rails.application.routes.draw do
                   get :search
                 end
               end
-              resources :conversations, only: [:index]
+              resources :conversations, only: [:index] do
+                collection do
+                  post :filter
+                end
+              end
               resources :notes, only: [:index]
+              resource :enrichment, only: [:create] if ChatwootApp.enterprise?
             end
           end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
@@ -308,11 +349,14 @@ Rails.application.routes.draw do
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
+                post :dismiss, on: :member
+                patch :hold, on: :member
               end
               post :enable_whatsapp_calling, on: :member
               post :disable_whatsapp_calling, on: :member
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
+              resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
@@ -394,6 +438,10 @@ Rails.application.routes.draw do
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
+            resource :stripe, controller: 'stripe', only: [:show, :destroy] do
+              post :auth
+              get :customer
+            end
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:show, :create, :update, :destroy] do
               member do
@@ -411,9 +459,11 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            resource :shopify_custom_app, controller: 'shopify_custom_apps', only: [:show, :create, :update, :destroy]
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
                 post :auth
+                post :complete_install
                 get :orders
               end
             end
@@ -476,6 +526,7 @@ Rails.application.routes.draw do
         member do
           post :availability
           post :auto_offline
+          post :work_preferences
           put :set_active_account
           post :resend_confirmation
           post :reset_access_token
@@ -576,6 +627,7 @@ Rails.application.routes.draw do
         namespace :v1 do
           resources :accounts do
             member do
+              post :reconnect_shopify, to: 'shopify#reconnect_shopify'
               get :billing_summary
               post :checkout
               post :subscription
@@ -680,17 +732,23 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
+  post 'webhooks/shopify/accounts/:account_id', to: 'webhooks/shopify#events'
+  post 'webhooks/stripe_app', to: 'webhooks/stripe_app#events'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
 
   namespace :twitter do
     resource :callback, only: [:show]
   end
 
+  namespace :stripe do
+    resource :callback, only: [:show]
+  end
   namespace :linear do
     resource :callback, only: [:show]
   end
 
   namespace :shopify do
+    get 'accounts/:account_id/callback', to: 'custom_callbacks#show'
     resource :callback, only: [:show]
   end
 
@@ -700,6 +758,8 @@ Rails.application.routes.draw do
 
     if ChatwootApp.enterprise?
       post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
+      get 'voice/wait/:phone', to: 'voice#wait_twiml', as: :voice_wait
+      get 'voice/resume/:phone', to: 'voice#resume_twiml', as: :voice_resume
       post 'voice/status/:phone', to: 'voice#status', as: :voice_status
       post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
       post 'voice/recording_status/:phone', to: 'voice#recording_status', as: :voice_recording_status
@@ -723,14 +783,15 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
 
-  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
+  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' },
+                            skip: [:passwords, :registrations, :confirmations]
   devise_scope :super_admin do
     get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
     namespace :super_admin do
       root to: 'dashboard#index'
 
       resource :app_config, only: [:show, :create]
-      resource :push_diagnostics, only: [:show, :create] do
+      resource :user_diagnostics, only: [:show, :create] do
         post :destroy_subscriptions, on: :collection
       end
 
@@ -742,6 +803,11 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
         post :resend_confirmation, on: :member
+        post :impersonate, on: :member
+        post :impersonation_link, on: :member
+        post :check_email_suppression, on: :member
+        post :clear_email_suppression, on: :member
+        post :send_test_email, on: :member
       end
 
       resources :access_tokens, only: [:index, :show]
@@ -752,6 +818,13 @@ Rails.application.routes.draw do
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resources :platform_banners
       resource :instance_status, only: [:show]
+
+      resources :search, only: [] do
+        collection do
+          get :accounts
+          get :users
+        end
+      end
 
       resource :settings, only: [:show] do
         get :refresh, on: :collection

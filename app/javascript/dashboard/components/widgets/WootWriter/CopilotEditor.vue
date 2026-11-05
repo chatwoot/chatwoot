@@ -21,6 +21,7 @@ import {
 } from '@chatwoot/prosemirror-schema';
 
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { isComposing } from 'shared/helpers/KeyboardHelpers';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -132,7 +133,7 @@ function onKeydown(view, event) {
 
   // Handle Enter key to send message (Shift+Enter for new line)
   // Skip if IME composition is active (CJK character confirmation)
-  if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
+  if (event.key === 'Enter' && !event.shiftKey && !isComposing(event)) {
     event.preventDefault();
     handleSubmit();
     return true; // Prevent ProseMirror's default Enter handling

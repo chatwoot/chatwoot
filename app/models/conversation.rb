@@ -55,6 +55,8 @@
 #
 
 class Conversation < ApplicationRecord
+  extend ConversationMessageSummaryQueries
+
   include Labelable
   include LlmFormattable
   include AssignmentHandler
@@ -65,6 +67,7 @@ class Conversation < ApplicationRecord
   include PushDataHelper
   include ConversationMuteHelpers
 
+  UNREAD_INCOMING_MESSAGES_LIMIT = 10
   CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
   FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
   FILTERED_UNREAD_COUNT_UPDATE_KEYS = %w[
@@ -77,7 +80,7 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   before_validation :validate_additional_attributes
-  before_validation :reset_agent_bot_when_assignee_present
+  before_validation :clear_invalid_ai_assignee
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
@@ -137,6 +140,7 @@ class Conversation < ApplicationRecord
   before_save :set_status_changed_at
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
+  after_create :mark_contact_as_lead
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
@@ -181,6 +185,10 @@ class Conversation < ApplicationRecord
   end
 
   def bot_handoff!(dispatch_event: true)
+    # Best-effort eligibility check, not a lock against concurrent takeovers.
+    # The dashboard checks assignment/status again before playing the alert.
+    return false unless pending?
+
     update(waiting_since: Time.current) if waiting_since.blank?
     self.ai_assignee = nil
     open!
@@ -200,7 +208,15 @@ class Conversation < ApplicationRecord
   end
 
   def unread_incoming_messages
-    unread_messages.where(account_id: account_id).incoming.last(10)
+    unread_messages.where(account_id: account_id).incoming.last(UNREAD_INCOMING_MESSAGES_LIMIT)
+  end
+
+  attr_writer :message_summary
+
+  # Conversation lists set this for the whole page through Conversations::MessageSummaryLoader
+  def message_summary
+    Conversations::MessageSummaryLoader.new([self]).perform if @message_summary.nil?
+    @message_summary
   end
 
   def cached_label_list_array
@@ -232,23 +248,25 @@ class Conversation < ApplicationRecord
   end
 
   def self.unread_messages_count_arel
-    messages = Message.arel_table
-    conversations = arel_table
-    unread_messages = messages
-                      .project(messages[:id].count)
-                      .where(unread_messages_condition(messages, conversations))
-
-    Arel::Nodes::Grouping.new(unread_messages.ast)
+    unread_incoming_messages_arel do |messages|
+      Arel::Nodes::Grouping.new(messages.select(Message.arel_table[:id].count).arel.ast)
+    end
   end
 
-  def self.unread_messages_condition(messages, conversations)
-    messages[:conversation_id].eq(conversations[:id])
-                              .and(messages[:account_id].eq(conversations[:account_id]))
-                              .and(messages[:message_type].eq(Message.message_types[:incoming]))
-                              .and(
-                                conversations[:agent_last_seen_at].eq(nil)
-                                  .or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
-                              )
+  # Callers build their count query from each relation without executing it.
+  def self.unread_incoming_messages_arel
+    messages = Message.arel_table
+    conversations = arel_table
+    incoming_messages = Message.unscoped.where(
+      messages[:conversation_id].eq(conversations[:id]).and(messages[:account_id].eq(conversations[:account_id]))
+    ).incoming
+    unread_messages = incoming_messages.where(messages[:created_at].gt(conversations[:agent_last_seen_at]))
+
+    # Separate branches keep created_at indexable instead of filtering the message history.
+    Arel::Nodes::Case.new
+                     .when(conversations[:agent_last_seen_at].eq(nil))
+                     .then(yield(incoming_messages))
+                     .else(yield(unread_messages))
   end
 
   def recent_messages
@@ -294,14 +312,16 @@ class Conversation < ApplicationRecord
     self.waiting_since = created_at
   end
 
+  def mark_contact_as_lead
+    contact.update(contact_type: :lead) if contact.visitor?
+  end
+
   def validate_additional_attributes
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
-  def reset_agent_bot_when_assignee_present
-    return if assignee_id.blank?
-
-    self.ai_assignee = nil
+  def clear_invalid_ai_assignee
+    self.ai_assignee = nil if assignee_id.present?
   end
 
   def determine_conversation_status

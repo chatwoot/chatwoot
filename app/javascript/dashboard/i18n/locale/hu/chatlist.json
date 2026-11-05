@@ -7,7 +7,7 @@
       "404": "Nincs aktív üzenetváltás ebben a csoportban."
     },
     "FAILED_TO_SEND": "Failed to send",
-    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
+    "FETCH_ERROR": "Nem sikerült betölteni a beszélgetéseket. Próbálja meg újra.",
     "TAB_HEADING": "Beszélgetések",
     "MENTION_HEADING": "Megemlítések",
     "UNATTENDED_HEADING": "Figyelmen kívül hagyott",
@@ -80,7 +80,7 @@
         "TEXT": "Priority: Highest first, Created: Oldest first"
       },
       "unread": {
-        "TEXT": "Unread Count: Highest first"
+        "TEXT": "Olvasatlan üzenetek száma: legtöbb elöl"
       }
     },
     "ATTACHMENTS": {

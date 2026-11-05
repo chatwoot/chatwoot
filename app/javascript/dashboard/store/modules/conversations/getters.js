@@ -1,12 +1,28 @@
-import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
+import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import {
+  applyPageFilters,
+  applyRoleFilter,
+  isForeign,
+  isTranslatable,
+  languageCode,
+  sortComparator,
+} from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
-import { matchesFilters } from './helpers/filterHelpers';
+import {
+  TRANSLATION_PROVIDERS,
+  translationProvider,
+} from 'dashboard/helper/translationProvider';
+import { createFiltersMatcher } from './helpers/filterHelpers';
 import {
   getUserPermissions,
   getUserRole,
 } from '../../../helper/permissionsHelper';
 import camelcaseKeys from 'camelcase-keys';
+
+const languageName = code =>
+  languages.find(language => language.id === languageCode(code))?.name || code;
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -30,13 +46,11 @@ const getters = {
 
     const permissions = getUserPermissions(currentUser, currentAccountId);
     const userRole = getUserRole(currentUser, currentAccountId);
+    const matchesFilters = createFiltersMatcher(appliedFilters);
 
     return allConversations
       .filter(conversation => {
-        const matchesFilterResult = matchesFilters(
-          conversation,
-          appliedFilters
-        );
+        const matchesFilterResult = matchesFilters(conversation);
         const allowedForRole = applyRoleFilter(
           conversation,
           userRole,
@@ -66,8 +80,13 @@ const getters = {
     const selectedChat = _getters.getSelectedChat;
     const { messages = [] } = selectedChat;
     const lastEmail = [...messages].reverse().find(message => {
-      const { message_type: messageType } = message;
-      if (message.private) return false;
+      const {
+        message_type: messageType,
+        content_attributes: contentAttributes,
+      } = message;
+      if (message.private || contentAttributes?.forwarded_message_id) {
+        return false;
+      }
 
       return [MESSAGE_TYPE.OUTGOING, MESSAGE_TYPE.INCOMING].includes(
         messageType
@@ -103,7 +122,9 @@ const getters = {
   },
   getAppliedConversationFiltersQuery: _state => {
     const hasAppliedFilters = _state.appliedFilters.length !== 0;
-    return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
+    return hasAppliedFilters
+      ? filterQueryGenerator(_state.appliedFilters, { useLocalTimezone: false })
+      : [];
   },
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
@@ -183,6 +204,73 @@ const getters = {
 
   getCopilotAssistant: _state => {
     return _state.copilotAssistant;
+  },
+
+  getAutoTranslate: (_state, _getters, _rootState, rootGetters) => {
+    const accountId = rootGetters.getCurrentAccountId;
+    const account = rootGetters['accounts/getAccount'](accountId) || {};
+    const locale = rootGetters.getUISettings?.locale || account.locale || 'en';
+    const language =
+      _getters.getSelectedChat.additional_attributes?.conversation_language;
+    const isFeatureEnabled = feature =>
+      rootGetters['accounts/isFeatureEnabledonAccount'](accountId, feature);
+    const googleConnected =
+      !!rootGetters['integrations/getIntegration']('google_translate').enabled;
+    const provider = translationProvider(account.settings);
+    const serviceAvailable =
+      provider === TRANSLATION_PROVIDERS.GOOGLE
+        ? googleConnected
+        : isFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS);
+    const enabled =
+      isFeatureEnabled(FEATURE_FLAGS.AUTO_TRANSLATE) &&
+      account.settings?.auto_translate === true &&
+      serviceAvailable;
+
+    return {
+      enabled,
+      provider,
+      locale,
+      sameLanguage:
+        !!language && languageCode(language) === languageCode(locale),
+      language: enabled && language ? languageName(language) : '',
+      agentLanguage: languageName(locale),
+    };
+  },
+
+  getMessageTranslationState: (_state, _getters) => messageId => {
+    const { enabled, locale, language, sameLanguage } =
+      _getters.getAutoTranslate;
+    const messages = _getters.getSelectedChat.messages ?? [];
+    const message = messages.find(item => item.id === messageId) ?? {};
+    const attributes = message.content_attributes ?? {};
+    const translations = attributes.translations ?? {};
+    const translation = translations[locale];
+    // A reply or template keeps its author's own text under the language it was written in.
+    const ownLanguage = translation ? locale : Object.keys(translations)[0];
+    const translatable = isTranslatable(message);
+    const foreign = isForeign(message, locale);
+    const waiting = translatable
+      ? _state.autoTranslating[locale]?.[messageId] === true
+      : !!attributes.translation_pending ||
+        (message.status === MESSAGE_STATUS.PROGRESS &&
+          !message.private &&
+          !attributes.forwarded_message_id);
+    return {
+      pending:
+        enabled &&
+        (foreign || (!!language && !sameLanguage)) &&
+        !translation &&
+        !attributes.translation_failed &&
+        waiting,
+      failed: enabled && !!attributes.translation_failed,
+      // A message already in the agent language is stored with its own text as the translation.
+      sameLanguage:
+        enabled && translatable && !foreign && translation === message.content,
+      sourceLanguage: attributes.source_language
+        ? languageName(attributes.source_language)
+        : language,
+      originalLanguage: languageName(ownLanguage ?? locale),
+    };
   },
 };
 

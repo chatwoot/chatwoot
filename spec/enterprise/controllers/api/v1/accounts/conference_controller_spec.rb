@@ -15,7 +15,9 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       Voice::Provider::Twilio::ConferenceService,
       ensure_conference_sid: 'CF123',
       mark_agent_joined: true,
-      end_conference: true
+      terminate_call: true,
+      end_conference: true,
+      dismiss: nil
     )
   end
 
@@ -91,6 +93,49 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(conference_service).to have_received(:mark_agent_joined)
       end
 
+      it 'passes the connection attempt the client names to the conference service' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+             headers: agent.create_new_auth_token,
+             params: { conversation_id: conversation.display_id, call_sid: 'CALL123', attempt_id: '1760000000-abc123' }
+
+        expect(conference_service).to have_received(:mark_agent_joined)
+          .with(user: agent, agent_client: { 'platform' => 'web' }, attempt: '1760000000-abc123')
+      end
+
+      it 'refuses an attempt id that is not a short token' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+             headers: agent.create_new_auth_token,
+             params: { conversation_id: conversation.display_id, call_sid: 'CALL123', attempt_id: { nested: 'x' } },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(conference_service).not_to have_received(:mark_agent_joined)
+      end
+
+      [false, [], {}, ''].each do |attempt|
+        it "refuses a blank attempt id given as #{attempt.inspect}" do
+          post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123', attempt_id: attempt },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(conference_service).not_to have_received(:mark_agent_joined)
+        end
+      end
+
+      it 'answers 409 when the ring time is ending the call' do
+        allow(conference_service).to receive(:mark_agent_joined)
+          .and_raise(Voice::CallErrors::CallAlreadyEnded, 'The call timed out before you could join.')
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+             headers: agent.create_new_auth_token,
+             params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:conflict)
+        expect(response.parsed_body['error']).to eq('The call timed out before you could join.')
+      end
+
       it 'rejects the request when call_sid is missing' do
         post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
              headers: agent.create_new_auth_token,
@@ -121,6 +166,98 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
     end
   end
 
+  describe 'POST /conference/dismiss' do
+    before { create(:inbox_member, inbox: voice_inbox, user: agent) }
+
+    it 'stops the ring for the agent only' do
+      call = create(:call, account: account, inbox: voice_inbox, conversation: conversation, contact: conversation.contact,
+                           provider_call_id: 'CALL123')
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/dismiss",
+           headers: agent.create_new_auth_token, params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(Voice::Provider::Twilio::ConferenceService).to have_received(:new).with(call: call)
+      expect(conference_service).to have_received(:dismiss).with(agent)
+    end
+
+    it 'does not find a call the agent cannot open' do
+      other_conversation = create(:conversation, account: account, inbox: create(:inbox, account: account))
+      create(:call, account: account, inbox: other_conversation.inbox, conversation: other_conversation, contact: other_conversation.contact,
+                    provider_call_id: 'OTHER123')
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/dismiss",
+           headers: agent.create_new_auth_token, params: { conversation_id: other_conversation.display_id, call_sid: 'OTHER123' }, as: :json
+
+      expect(response).to have_http_status(:not_found)
+      expect(conference_service).not_to have_received(:dismiss)
+    end
+  end
+
+  describe 'PATCH /conference/hold' do
+    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/hold" }
+    let(:params) { { conversation_id: conversation.display_id, call_sid: 'CALL123', hold: true } }
+    let!(:call) do
+      create(:call, account: account, inbox: voice_inbox, conversation: conversation, contact: conversation.contact,
+                    provider_call_id: 'CALL123', status: 'in_progress', accepted_by_agent: agent)
+    end
+
+    before do
+      create(:inbox_member, inbox: voice_inbox, user: agent)
+      allow(conference_service).to receive(:hold_contact)
+    end
+
+    it 'holds the caller for the agent on the call' do
+      patch url, headers: agent.create_new_auth_token, params: params, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(conference_service).to have_received(:hold_contact).with(true)
+    end
+
+    it 'resumes the caller' do
+      patch url, headers: agent.create_new_auth_token, params: params.merge(hold: false), as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(conference_service).to have_received(:hold_contact).with(false)
+    end
+
+    it 'refuses an agent who is not on the call' do
+      other_agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: voice_inbox, user: other_agent)
+
+      patch url, headers: other_agent.create_new_auth_token, params: params, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('Only the agent on the call can hold or resume it.')
+      expect(conference_service).not_to have_received(:hold_contact)
+    end
+
+    it 'refuses a call that is not in progress' do
+      call.update!(status: 'ringing')
+
+      patch url, headers: agent.create_new_auth_token, params: params, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(conference_service).not_to have_received(:hold_contact)
+    end
+
+    it 'refuses a hold that is not a boolean' do
+      patch url, headers: agent.create_new_auth_token, params: params.merge(hold: 'true'), as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(conference_service).not_to have_received(:hold_contact)
+    end
+
+    it 'reports a hold Twilio refused instead of showing it' do
+      allow(conference_service).to receive(:hold_contact).and_raise(Voice::CallErrors::CallFailed, 'Could not update the hold. Please try again.')
+
+      patch url, headers: agent.create_new_auth_token, params: params, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('Could not update the hold. Please try again.')
+    end
+  end
+
   describe 'DELETE /conference' do
     context 'when unauthenticated' do
       it 'returns unauthorized' do
@@ -143,14 +280,15 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         )
       end
 
-      it 'ends the conference and marks a pre-pickup hangup as rejected' do
+      it 'hangs up the call leg, ends the conference and marks a pre-pickup hangup as rejected' do
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
-        expect(conference_service).to have_received(:end_conference)
+        expect(conference_service).to have_received(:terminate_call).ordered
+        expect(conference_service).to have_received(:end_conference).ordered
         call = Call.find_by(provider_call_id: 'CALL123')
         expect(call.status).to eq('rejected')
         expect(call.end_reason).to eq('agent_rejected')
@@ -186,6 +324,18 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.status).to eq('no_answer')
         expect(call.end_reason).to eq('agent_hangup')
         expect(call.terminal?).to be true
+      end
+
+      it 'leaves the call repairable when hanging up the provider leg fails' do
+        allow(conference_service).to receive(:terminate_call).and_raise(Twilio::REST::TwilioError, 'boom')
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).not_to have_http_status(:ok)
+        expect(conference_service).not_to have_received(:end_conference)
+        expect(Call.find_by(provider_call_id: 'CALL123').status).to eq('ringing')
       end
 
       it 'does not allow ending conferences for calls from inboxes without access' do

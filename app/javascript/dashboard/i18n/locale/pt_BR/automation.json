@@ -28,6 +28,19 @@
           "PLACEHOLDER": "Por favor, selecione um",
           "ERROR": "O campo evento é obrigatório"
         },
+        "MONITOR": {
+          "LABEL": "Monitor",
+          "PLACEHOLDER": "Selecione um monitor ativo",
+          "ERROR": "Selecione um monitor ativo",
+          "FETCH_FAILED": "Não foi possível carregar os monitores. Tente novamente mais tarde.",
+          "API_UNAVAILABLE": "Este monitor não está mais disponível. Selecione um monitor ativo e tente novamente.",
+          "EMPTY": "Ainda não há monitores ativos. Crie ou retome um monitor para usar este evento.",
+          "GO_TO_MONITORS": "Ir para monitores",
+          "RETRY": "Tentar novamente",
+          "UNAVAILABLE": "Monitor indisponível",
+          "UNAVAILABLE_HELP": "Este monitor não está disponível para automação. Selecione um monitor ativo para ativar esta regra.",
+          "HELP": "É executado uma vez quando o monitor corresponde pela primeira vez a uma conversa com base em uma nova atividade em tempo real. Verificações históricas não acionam ações."
+        },
         "RUN_TYPE": {
           "LABEL": "Quando esta regra deve ser executada?",
           "OPTIONS": {
@@ -83,8 +96,7 @@
       "TABLE_HEADER": {
         "NAME": "Nome",
         "ACTIVE": "Ativo",
-        "CREATED_ON": "Criado em",
-        "ACTIONS": "Ações"
+        "CREATED_ON": "Criado em"
       },
       "404": "Nenhuma regra de automação encontrada",
       "404_DELAYED": "Ainda não há regras executadas após um período de espera",
@@ -93,6 +105,9 @@
         "DELAYED": "Executadas após um período de espera"
       },
       "DELAY_BADGE": "Executadas após {delay}",
+      "MONITOR_PAUSED": "Monitor pausado",
+      "MONITOR_DELETED": "Monitor excluído",
+      "MONITOR_UNAVAILABLE": "Recurso de monitor indisponível",
       "DELAY_DISABLED_BANNER": "A execução com atraso está desativada para esta conta, portanto as regras abaixo que executam após um período de espera estão pausadas até que ela seja ativada novamente."
     },
     "DELETE": {
@@ -136,7 +151,10 @@
     "CONDITION": {
       "DELETE_MESSAGE": "Você precisa ter pelo menos uma condição para salvar",
       "CONTACT_CUSTOM_ATTR_LABEL": "Atributos personalizados do contato",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos personalizados da conversa"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atributos personalizados da conversa",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Descreva o que procurar, por exemplo: cliente deseja cancelar"
+      }
     },
     "ACTION": {
       "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar",
@@ -181,7 +199,8 @@
       "CONVERSATION_UPDATED": "Conversa Atualizada",
       "MESSAGE_CREATED": "Mensagem Criada",
       "CONVERSATION_RESOLVED": "Conversa Resolvida",
-      "CONVERSATION_OPENED": "Conversa Aberta"
+      "CONVERSATION_OPENED": "Conversa Aberta",
+      "MONITOR_MATCHED": "Monitor encontrou uma correspondência"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Atribuir ao Agente",
@@ -232,7 +251,8 @@
       "ASSIGNEE_NAME": "Agente atribuído",
       "TEAM_NAME": "Time",
       "PRIORITY": "Prioridade",
-      "LABELS": "Etiquetas"
+      "LABELS": "Etiquetas",
+      "CAPTAIN": "Captain"
     }
   }
 }
