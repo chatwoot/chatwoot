@@ -47,7 +47,7 @@ describe Voice::Provider::Twilio::ConferenceService do
 
       expect(call.reload).to be_ringing
       expect(call.dismissed_user_ids).to eq([agent.id])
-      expect(message.reload.content_attributes.dig('data', 'ring_user_ids')).to eq([teammate.id])
+      expect(message.reload.content_attributes['data']).to include('ring_user_ids' => [teammate.id], 'dismissed_user_ids' => [agent.id])
     end
 
     it 'changes nothing for an agent the call does not ring, or a repeated dismiss' do

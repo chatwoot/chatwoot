@@ -30,6 +30,7 @@ const callMessage = ({
   provider = 'twilio',
   status = 'ringing',
   ringUserIds,
+  dismissedUserIds = [],
   assigneeId = null,
 }) => ({
   content_type: 'voice_call',
@@ -38,7 +39,9 @@ const callMessage = ({
   inbox_id: 3,
   conversation: { assignee_id: assigneeId },
   sender: { id: 99, name: 'Caller' },
-  content_attributes: { data: { ring_user_ids: ringUserIds } },
+  content_attributes: {
+    data: { ring_user_ids: ringUserIds, dismissed_user_ids: dismissedUserIds },
+  },
   call: {
     provider_call_id: sid,
     id: 1,
@@ -96,7 +99,11 @@ describe('voice call ringing', () => {
   it('keeps a card dismissed in another tab closed when the original ring arrives late', () => {
     handleVoiceCallUpdated(
       vi.fn(),
-      callMessage({ sid: 'CA9', ringUserIds: [TEAMMATE] }),
+      callMessage({
+        sid: 'CA9',
+        ringUserIds: [TEAMMATE],
+        dismissedUserIds: [ME],
+      }),
       ME,
       true
     );
@@ -107,6 +114,26 @@ describe('voice call ringing', () => {
     );
 
     expect(callsStore.addCall).not.toHaveBeenCalled();
+  });
+
+  it('shows the card once a widening ring reaches an agent it had not reached yet', () => {
+    const commit = vi.fn();
+    handleVoiceCallUpdated(
+      commit,
+      callMessage({ sid: 'CA15', ringUserIds: [TEAMMATE] }),
+      ME,
+      true
+    );
+    handleVoiceCallUpdated(
+      commit,
+      callMessage({ sid: 'CA15', ringUserIds: [TEAMMATE, ME] }),
+      ME,
+      true
+    );
+
+    expect(callsStore.addCall).toHaveBeenCalledWith(
+      expect.objectContaining({ callSid: 'CA15' })
+    );
   });
 
   it('keeps a card this agent dismissed closed when the ring reaches another agent', () => {

@@ -27,7 +27,7 @@ class Voice::CallMessageBuilder
     message = call.message
     return if message.nil?
 
-    message.update!(content_attributes: message.content_attributes.deep_merge('data' => { 'ring_user_ids' => ring_user_ids }))
+    message.update!(content_attributes: message.content_attributes.deep_merge('data' => ring_data))
   end
 
   private
@@ -55,11 +55,14 @@ class Voice::CallMessageBuilder
       'call_sid' => call.provider_call_id,
       'call_source' => call.provider,
       'call_direction' => call.direction_label,
-      'status' => call.display_status,
-      'ring_user_ids' => (ring_user_ids if call.twilio? && call.incoming?)
-    }.compact
+      'status' => call.display_status
+    }.compact.merge(call.twilio? && call.incoming? ? ring_data : {})
   end
 
-  # The agents whose ringing card shows an inbound Twilio call: those it rang who have not dismissed it
-  def ring_user_ids = call.ring_state.fetch('ring_recipient_ids', []) - call.dismissed_user_ids
+  # Who an inbound Twilio call's ringing card shows for: those it rang who have not dismissed it.
+  # The dismissed are named too, since an agent missing from the ring may be yet to be reached.
+  def ring_data
+    { 'ring_user_ids' => call.ring_state.fetch('ring_recipient_ids', []) - call.dismissed_user_ids,
+      'dismissed_user_ids' => call.dismissed_user_ids }
+  end
 end

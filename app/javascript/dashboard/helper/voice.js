@@ -134,6 +134,7 @@ function extractCallData(message) {
     assigneeId: extractAssigneeId(message?.conversation),
     senderId: message?.sender?.id,
     ringUserIds: message?.content_attributes?.data?.ring_user_ids,
+    dismissedUserIds: message?.content_attributes?.data?.dismissed_user_ids,
     caller: extractCallerSnapshot(message),
   };
 }
@@ -255,6 +256,7 @@ export function handleVoiceCallUpdated(
     assigneeId,
     senderId,
     ringUserIds,
+    dismissedUserIds,
   } = extractCallData(message);
 
   const callsStore = useCallsStore();
@@ -282,11 +284,12 @@ export function handleVoiceCallUpdated(
       ringUserIds,
     })
   ) {
-    // The ring only grows, so leaving it means a dismiss, perhaps from another tab. The call
-    // this tab is joining or on stays, as for the accepted broadcast.
+    // Out of the ring: dismissed, perhaps from another tab, or not reached yet, which only a
+    // dismiss keeps closed. The call this tab is joining or on stays, as for the accepted broadcast.
     if (isRoutedCall(provider, callDirection)) {
       if (isLocalCall(callSid)) return;
-      markCallDismissed(callSid);
+      if ((dismissedUserIds || []).includes(currentUserId))
+        markCallDismissed(callSid);
     }
     callsStore.removeCall(callSid);
     return;
