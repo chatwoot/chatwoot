@@ -13,8 +13,6 @@ const localeFiles = import.meta.glob('../locale/*/*.json', {
 const sortStrings = values =>
   [...values].sort((left, right) => left.localeCompare(right));
 
-const FALLBACK_KEY = 'AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION';
-
 describe('dashboard i18n', () => {
   it('bundles exactly the dashboard locales enabled by the backend', () => {
     const enabledLocales = Array.from(
@@ -136,7 +134,7 @@ describe('dashboard i18n', () => {
       messages: { en: messages.en, pt_BR: portugueseMessages },
     });
 
-    expect(i18n.global.t(FALLBACK_KEY)).toBe(
+    expect(i18n.global.t('AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION')).toBe(
       messages.en.AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION
     );
   });
@@ -154,7 +152,7 @@ describe('dashboard i18n', () => {
       messages: { en: messages.en, pt_BR: portugueseMessages },
     });
 
-    expect(i18n.global.t(FALLBACK_KEY)).toBe(
+    expect(i18n.global.t('AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION')).toBe(
       messages.en.AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION
     );
   });
