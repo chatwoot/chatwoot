@@ -202,14 +202,6 @@
           "ERROR_MESSAGE": "We were not able to save the SMS channel"
         },
         "BANDWIDTH": {
-          "CALLBACK_AUTH": {
-            "TITLE": "Callback credentials",
-            "DESCRIPTION": "Add these as the inbound and outbound callback credentials in your Bandwidth application.",
-            "USERNAME": "Username",
-            "PASSWORD": "Password",
-            "ENFORCE": "Require callback credentials",
-            "ENFORCE_DESCRIPTION": "Reject callbacks that do not use these credentials. Turn this on after adding the credentials to your Bandwidth application."
-          },
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
