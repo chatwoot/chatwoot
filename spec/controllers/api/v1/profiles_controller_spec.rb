@@ -274,6 +274,18 @@ RSpec.describe 'Profile API', type: :request do
         expect(agent.name).not_to eq('new name')
       end
 
+      it 'rejects a change to an address that differs only by unicode case folding' do
+        user = create(:user, email: 'jess@example.com', password: 'Test123!', account: account, role: :agent)
+
+        put '/api/v1/profile',
+            params: { profile: { email: 'jeß@example.com' } },
+            headers: user.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(user.reload.unconfirmed_email).to be_nil
+      end
+
       it 'does not require current password when the email is unchanged' do
         put '/api/v1/profile',
             params: { profile: { email: " #{agent.email.upcase} ", name: 'new name' } },

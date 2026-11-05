@@ -68,7 +68,7 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def email_change_requested?
-    profile_params[:email].present? && !profile_params[:email].to_s.strip.casecmp?(@user.email)
+    profile_params[:email].present? && profile_params[:email].to_s.strip.downcase != @user.email.downcase
   end
 
   def availability_params
