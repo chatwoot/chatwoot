@@ -5,8 +5,7 @@ class Captain::Conversation::MessageLanguageService
   MIN_WORDS = 3
   # Scripts written without spaces between words count each character as a word. Elsewhere a word needs a letter,
   # so numbers, emoji and punctuation do not make a short message look long.
-  NO_SPACE_SCRIPTS = '\p{Han}\p{Hiragana}\p{Katakana}\p{Thai}\p{Lao}\p{Khmer}\p{Myanmar}'.freeze
-  WORD = /[#{NO_SPACE_SCRIPTS}]|[^\s#{NO_SPACE_SCRIPTS}]*\p{L}[^\s#{NO_SPACE_SCRIPTS}]*/
+  NO_SPACE_CHARACTER = /[\p{Han}\p{Hiragana}\p{Katakana}\p{Thai}\p{Lao}\p{Khmer}\p{Myanmar}]/
 
   pattr_initialize [:conversation!, :message!]
 
@@ -38,14 +37,19 @@ class Captain::Conversation::MessageLanguageService
     conversation.update!(additional_attributes: conversation.additional_attributes.merge('conversation_language' => new_language))
   end
 
-  # Newest first. When no recent message is reliable, the current language stays, or the newest message
-  # sets it when the conversation has none yet.
+  # Returns nil, which keeps the current language, when no recent message is reliable.
   def recent_language(detected)
     detected.each_with_index do |recent_message, index|
       language = recent_message.source_language
-      return language if recent_message.content.scan(WORD).size >= MIN_WORDS || language == detected[index + 1]&.source_language
+      return language if word_count(recent_message.content) >= MIN_WORDS || language == detected[index + 1]&.source_language
     end
     detected.first.source_language if conversation.language.blank?
+  end
+
+  def word_count(text)
+    no_space_characters = text.scan(NO_SPACE_CHARACTER).size
+    words = text.gsub(NO_SPACE_CHARACTER, ' ').split.count { |word| word.match?(/\p{L}/) }
+    no_space_characters + words
   end
 
   # Email auto replies are left out, so out-of-office messages cannot pick the reply language.
