@@ -323,6 +323,64 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
   end
 
+  describe 'stored values' do
+    let(:account) { create(:account) }
+    let(:source_metadata) do
+      { 'source' => 'github', 'repository' => 'chatwoot/tools', 'path' => 'stripe', 'tool_id' => 'find_customer', 'revision' => 'a' * 40,
+        'version' => '1.0.0', 'manifest_digest' => "sha256:#{'b' * 64}", 'installation_id' => SecureRandom.uuid }
+    end
+    let(:email_param) { { 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' } }
+    let(:customer_param) { { 'name' => 'customer', 'type' => 'string', 'description' => 'Customer', 'source' => 'stored.customer_id' } }
+
+    it 'accepts a manifest tool that stores values from a bound request' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata, param_schema: [email_param],
+                                         stores: { 'customer_id' => 'data[*].id' })
+
+      expect(tool).to be_valid
+    end
+
+    it 'accepts a manifest tool that takes a stored value' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata, param_schema: [customer_param])
+
+      expect(tool).to be_valid
+      expect(tool.stored_params).to eq([customer_param])
+      expect(tool.requires_email_verification?).to be(true)
+    end
+
+    it 'rejects stores on a tool that was not installed from a manifest' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param], stores: { 'customer_id' => 'data[*].id' })
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'rejects a stored value parameter on a tool that was not installed from a manifest' do
+      expect(build(:captain_custom_tool, account: account, param_schema: [customer_param])).not_to be_valid
+    end
+
+    it 'rejects stores on a tool that takes a value from the model' do
+      search_param = { 'name' => 'query', 'type' => 'string', 'description' => 'Search' }
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata, param_schema: [email_param, search_param],
+                                         stores: { 'customer_id' => 'data[*].id' })
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'rejects an invalid path or name' do
+      [{ 'customer_id' => 'data[*' }, { 'Customer-ID' => 'data[*].id' }, { 'customer_id' => '' }].each do |stores|
+        tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata, param_schema: [email_param], stores: stores)
+
+        expect(tool).not_to be_valid, "expected #{stores} to be invalid"
+      end
+    end
+
+    it 'rejects a stored source with an invalid name' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata,
+                                         param_schema: [customer_param.merge('source' => 'stored.Customer')])
+
+      expect(tool).not_to be_valid
+    end
+  end
+
   describe 'verified parameters' do
     let(:account) { create(:account) }
     let(:email_param) { { 'name' => 'email', 'type' => 'string', 'description' => 'Customer email', 'source' => 'verified.email' } }
@@ -852,6 +910,16 @@ RSpec.describe Captain::CustomTool, type: :model do
                    { 'name' => 'email', 'type' => 'string', 'description' => 'Customer email', 'source' => 'verified.email', 'required' => false },
                    { 'name' => 'order_id', 'type' => 'string', 'description' => 'Order ID' }
                  ])
+        end
+
+        it 'shows a stored value parameter to the model in a customer conversation' do
+          bound_tool.update!(source_metadata: { 'source' => 'github', 'repository' => 'chatwoot/tools', 'path' => 'stripe', 'tool_id' => 'list',
+                                                'revision' => 'a' * 40, 'version' => '1.0.0', 'manifest_digest' => "sha256:#{'b' * 64}",
+                                                'installation_id' => SecureRandom.uuid },
+                             param_schema: [{ 'name' => 'customer', 'type' => 'string', 'description' => 'Customer',
+                                              'source' => 'stored.customer_id' }])
+
+          expect(bound_tool.tool(assistant).class.declared_parameters.keys).to contain_exactly(:customer)
         end
 
         it 'hides the parameter from the model in a customer conversation' do

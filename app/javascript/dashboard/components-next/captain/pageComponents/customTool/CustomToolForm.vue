@@ -369,6 +369,7 @@ const handleTest = async () => {
               v-if="param.source"
               ref="paramsRef"
               v-model:name="param.name"
+              :source="param.source"
               @remove="removeParam(index)"
             />
             <ParamRow
