@@ -371,7 +371,9 @@ watch(
 watch(
   () => route.query.q,
   q => {
-    if (q && q !== query.value.trim()) onSearch(q);
+    if (!q || q === query.value.trim()) return;
+    selectedTab.value = route.params.tab || 'all';
+    onSearch(q);
   }
 );
 
