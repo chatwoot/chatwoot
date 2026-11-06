@@ -80,12 +80,18 @@ const deleteCustomAttribute = async customAttribute => {
   );
 };
 
+const transcribeAudioAPI = async audioFile => {
+  const urlData = endPoints.transcribeAudio(audioFile);
+  return API.post(urlData.url, urlData.params);
+};
+
 export {
   createConversationAPI,
   sendMessageAPI,
   getConversationAPI,
   getMessagesAPI,
   sendAttachmentAPI,
+  transcribeAudioAPI,
   toggleTyping,
   setUserLastSeenAt,
   sendEmailTranscript,
