@@ -5,6 +5,8 @@
 #    Hence there is no need to set user_id in message for outgoing echo messages.
 
 class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
+  FALLBACK_TITLE_LIMIT = 255
+
   attr_reader :response
 
   def initialize(response, inbox, outgoing_echo: false)
@@ -91,7 +93,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def fallback_params(attachment)
     {
-      fallback_title: attachment['title'] || attachment.dig('payload', 'title'),
+      fallback_title: (attachment['title'] || attachment.dig('payload', 'title'))&.truncate(FALLBACK_TITLE_LIMIT),
       external_url: attachment['url'] || attachment.dig('payload', 'url')
     }
   end
