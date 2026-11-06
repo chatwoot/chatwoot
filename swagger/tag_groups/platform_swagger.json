@@ -4933,7 +4933,8 @@
                 "required": [
                   "api_key",
                   "phone_number_id",
-                  "business_account_id"
+                  "business_account_id",
+                  "app_secret"
                 ],
                 "properties": {
                   "api_key": {
@@ -4950,12 +4951,18 @@
                     "type": "string",
                     "description": "Business account ID for WhatsApp Cloud",
                     "example": "your-business-account-id"
+                  },
+                  "app_secret": {
+                    "type": "string",
+                    "description": "App secret of your Meta app, from App settings > Basic. Used to verify incoming webhook signatures.",
+                    "example": "your-app-secret"
                   }
                 },
                 "example": {
                   "api_key": "your-api-key",
                   "phone_number_id": "your-phone-number-id",
-                  "business_account_id": "your-business-account-id"
+                  "business_account_id": "your-business-account-id",
+                  "app_secret": "your-app-secret"
                 }
               }
             }
@@ -5344,7 +5351,7 @@
           },
           "provider_config": {
             "type": "object",
-            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, and `business_account_id`; legacy 360dialog channels use `api_key`.",
+            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, `business_account_id`, and `app_secret`; legacy 360dialog channels use `api_key`.",
             "properties": {
               "api_key": {
                 "type": "string",
@@ -5360,12 +5367,18 @@
                 "type": "string",
                 "description": "Business account ID for WhatsApp Cloud",
                 "example": "your-business-account-id"
+              },
+              "app_secret": {
+                "type": "string",
+                "description": "App secret of your Meta app, used to verify incoming webhook signatures. Required for manually configured Cloud channels that already have one, when moving an embedded signup channel to manual setup, and when switching a channel to `whatsapp_cloud`. It cannot be removed once set.",
+                "example": "your-app-secret"
               }
             },
             "example": {
               "api_key": "your-api-key",
               "phone_number_id": "your-phone-number-id",
-              "business_account_id": "your-business-account-id"
+              "business_account_id": "your-business-account-id",
+              "app_secret": "your-app-secret"
             }
           }
         }
