@@ -31,8 +31,8 @@ type Handler struct {
 	Now    func() time.Time
 }
 
-// Routes returns the HTTP mux.
-func (h *Handler) Routes() http.Handler {
+// Routes returns the HTTP mux; callers may register more routes on it.
+func (h *Handler) Routes() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /webhooks/chatwoot", h.webhook)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {

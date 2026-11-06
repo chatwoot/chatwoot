@@ -13,6 +13,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/admin"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/chatwoot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/config"
@@ -20,6 +21,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
 )
 
 func main() {
@@ -37,16 +39,35 @@ func run() error {
 		return err
 	}
 
+	// Env gives the initial provider settings; a saved settings file wins.
+	store, err := settings.Open(cfg.SettingsPath, settings.LLM{
+		Primary:  settings.Provider{BaseURL: cfg.LLMBaseURL, APIKey: cfg.LLMAPIKey, Model: cfg.LLMModel},
+		Fallback: settings.Provider{BaseURL: cfg.LLMFallbackBaseURL, APIKey: cfg.LLMFallbackAPIKey, Model: cfg.LLMFallbackModel},
+	})
+	if err != nil {
+		return err
+	}
+	current := store.Get()
+	if err := current.Fallback.Validate(); err != nil {
+		logger.Warn("fallback provider incomplete, fallback disabled", "error", err)
+	}
+	if !current.Primary.Configured() {
+		logger.Warn("no LLM provider configured: every chat is handed to a human until one is set on /admin")
+	}
+	completer := &llm.Switch{}
+	completer.Set(settings.NewCompleter(current, cfg.LLMTimeout, logger))
+
 	b := bot.New(bot.Options{
 		Chatwoot:       chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
-		LLM:            llm.New(cfg.LLMBaseURL, cfg.LLMAPIKey, cfg.LLMModel, &http.Client{Timeout: cfg.LLMTimeout}),
+		LLM:            completer,
 		History:        memory.NewHistory(cfg.HistoryLimit, 24*time.Hour, nil),
 		Handoff:        handoff.New(cfg.HandoffKeywords),
 		SystemPrompt:   cfg.SystemPrompt,
 		HandoffMessage: cfg.HandoffMessage,
 		FailureMessage: cfg.FailureMessage,
 		Logger:         logger,
-		Timeout:        cfg.LLMTimeout + 30*time.Second,
+		// Primary + fallback calls, plus Chatwoot API calls.
+		Timeout: 2*cfg.LLMTimeout + 30*time.Second,
 	}, cfg.Workers, cfg.QueueSize)
 	b.Start(context.Background())
 
@@ -56,17 +77,29 @@ func run() error {
 		Seen:   memory.NewSeen(30*time.Minute, nil),
 		Logger: logger,
 	}
+	mux := h.Routes()
+	if cfg.AdminPassword != "" {
+		(&admin.Handler{
+			Password: cfg.AdminPassword, Store: store, Switch: completer,
+			Timeout: cfg.LLMTimeout, Logger: logger,
+		}).Routes(mux)
+	} else {
+		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
+	}
 	srv := &http.Server{
 		Addr:              cfg.ListenAddr,
-		Handler:           h.Routes(),
+		Handler:           mux,
 		ReadHeaderTimeout: 10 * time.Second,
 		ReadTimeout:       30 * time.Second,
-		WriteTimeout:      30 * time.Second,
+		// The admin "Test connection" button waits for one provider call.
+		WriteTimeout: cfg.LLMTimeout + 15*time.Second,
 	}
 
 	errCh := make(chan error, 1)
 	go func() {
-		logger.Info("ai-service listening", "addr", cfg.ListenAddr, "model", cfg.LLMModel, "workers", cfg.Workers)
+		logger.Info("ai-service listening", "addr", cfg.ListenAddr,
+			"primary_model", current.Primary.Model, "fallback_enabled", current.Fallback.Configured(),
+			"admin_enabled", cfg.AdminPassword != "", "workers", cfg.Workers)
 		errCh <- srv.ListenAndServe()
 	}()
 

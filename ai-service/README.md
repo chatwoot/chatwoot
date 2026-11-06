@@ -39,12 +39,13 @@ Customer ─► Chatwoot ── Agent Bot webhook (HMAC signed) ──► POST /
 |---|---|---|
 | POST | `/webhooks/chatwoot` | Agent Bot webhook (requires valid `X-Chatwoot-Signature`) |
 | GET | `/healthz` | Liveness |
+| GET/POST | `/admin` | LLM provider settings page (only when `ADMIN_PASSWORD` is set) |
 
 ## Configuration
 
 All settings are environment variables; see [`.env.example`](.env.example).
-Required: `CHATWOOT_BASE_URL`, `CHATWOOT_BOT_TOKEN`, `CHATWOOT_WEBHOOK_SECRET`,
-`LLM_API_KEY`, `LLM_MODEL`. The service refuses to start if any is missing.
+Required: `CHATWOOT_BASE_URL`, `CHATWOOT_BOT_TOKEN`, `CHATWOOT_WEBHOOK_SECRET`.
+The service refuses to start if any is missing.
 
 ### LLM provider
 
@@ -56,7 +57,31 @@ provider works. You switch providers with three variables:
 | OpenRouter (default) | `https://openrouter.ai/api/v1` | OpenRouter key | a slug from openrouter.ai/models |
 | OpenAI | `https://api.openai.com/v1` | OpenAI key | a model id from platform.openai.com/docs/models |
 
-Restart ai-service after changing them.
+Restart ai-service after changing env values (or use the settings page, which
+applies changes live).
+
+**Fallback:** set `LLM_FALLBACK_BASE_URL`, `LLM_FALLBACK_API_KEY` and
+`LLM_FALLBACK_MODEL` to a second provider. When the primary call fails or times
+out, ai-service retries once on the fallback; the reply log shows
+`used_fallback: true`. If both fail, the chat is handed to a human.
+
+LLM settings are not required at startup. Without a provider, every chat is
+handed to a human until one is configured.
+
+### Settings page (`/admin`)
+
+Set `ADMIN_PASSWORD` (12+ characters) to enable `http://localhost:8080/admin`
+(user `admin`). There you can set the primary and fallback provider, test each
+one with **Test connection**, and save. Saved settings take effect immediately
+and are stored in `SETTINGS_PATH` (default `/data/settings.json`, file mode
+0600, on the `ai_data` volume). A saved file overrides the `LLM_*` env values.
+
+- API keys are write-only: the page shows only the last 4 characters, and a
+  blank key field keeps the saved key.
+- To remove the fallback, clear its base URL and model and save.
+- Protection: HTTP Basic Auth, cross-origin form posts rejected, strict CSP,
+  `no-store`. Outside localhost, serve it only over HTTPS.
+- To show it inside Chatwoot, add it as a Dashboard App (phase 5).
 
 ## Run locally (with `../local` from `init.sh`)
 

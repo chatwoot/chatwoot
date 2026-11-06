@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>AI provider settings</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f6f7f9; --card: #ffffff; --text: #1d232b; --muted: #5b6573;
+    --border: #d9dee5; --accent: #1f6feb; --accent-text: #ffffff;
+    --ok-bg: #e8f5ec; --ok-text: #14532d; --err-bg: #fdecec; --err-text: #8a1c1c;
+    --focus: #1f6feb; --radius: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1318; --card: #171c23; --text: #e6e9ee; --muted: #9aa4b2;
+      --border: #2a313b; --accent: #4c8dff; --accent-text: #0b1220;
+      --ok-bg: #12301f; --ok-text: #b6f0c8; --err-bg: #3a1616; --err-text: #ffc9c9;
+      --focus: #7aa9ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", "Noto Sans Thai", sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 24px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px; margin: 0 0 16px;
+  }
+  fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+  legend { font-weight: 650; font-size: 1.125rem; padding: 0; margin-bottom: 4px; display: flex; gap: 8px; align-items: center; }
+  .hint { color: var(--muted); font-size: .9rem; margin: 0 0 16px; }
+  .badge { font-size: .75rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
+  .badge.on { background: var(--ok-bg); color: var(--ok-text); border-color: transparent; }
+  label { display: block; font-weight: 600; font-size: .9rem; margin: 14px 0 6px; }
+  input {
+    width: 100%; font: inherit; color: var(--text); background: var(--bg);
+    border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; min-height: 44px;
+  }
+  input::placeholder { color: var(--muted); }
+  .field-hint { color: var(--muted); font-size: .85rem; margin: 6px 0 0; }
+  button {
+    font: inherit; font-weight: 600; border-radius: 8px; padding: 10px 16px; min-height: 44px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--card); color: var(--text);
+  }
+  button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 16px; }
+  .actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px; }
+  .alert { border-radius: 8px; padding: 12px 14px; margin: 0 0 16px; overflow-wrap: anywhere; }
+  .alert.ok { background: var(--ok-bg); color: var(--ok-text); }
+  .alert.err { background: var(--err-bg); color: var(--err-text); white-space: pre-line; }
+  .test { margin-top: 12px; margin-bottom: 0; }
+  @media (max-width: 480px) {
+    .actions { justify-content: stretch; }
+    .actions button, .row button { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>AI provider settings</h1>
+  <p class="lead">Choose which AI service answers your customers. Changes apply right away, no restart needed.</p>
+
+  {{if .Saved}}<div class="alert ok" role="status">Settings saved and now in use.</div>{{end}}
+  {{if .Error}}<div class="alert err" role="alert"><strong>Not saved.</strong>
+{{.Error}}</div>{{end}}
+
+  <form method="post" action="/admin" autocomplete="off">
+    <datalist id="presets">{{range .Presets}}<option value="{{.URL}}">{{.Name}}</option>{{end}}</datalist>
+
+    {{template "provider" dict "Slot" "primary" "Title" "Primary provider" "Hint" "Answers every customer message." "P" .Primary "Test" .Test}}
+    {{template "provider" dict "Slot" "fallback" "Title" "Fallback provider" "Hint" "Optional. Used only when the primary provider fails or times out. Clear the base URL and model to turn it off." "P" .Fallback "Test" .Test}}
+
+    <div class="actions">
+      <button type="submit" class="primary">Save settings</button>
+    </div>
+  </form>
+</main>
+</body>
+</html>
+
+{{define "provider"}}
+<section class="card" aria-labelledby="{{.Slot}}-title">
+  <fieldset>
+    <legend id="{{.Slot}}-title">{{.Title}}
+      {{if .P.Configured}}<span class="badge on">Configured</span>{{else}}<span class="badge">Not set</span>{{end}}
+    </legend>
+    <p class="hint">{{.Hint}}</p>
+
+    <label for="{{.Slot}}_base_url">Base URL</label>
+    <input id="{{.Slot}}_base_url" name="{{.Slot}}_base_url" type="url" list="presets" inputmode="url"
+           value="{{.P.BaseURL}}" placeholder="https://openrouter.ai/api/v1" aria-describedby="{{.Slot}}_base_url_hint">
+    <p class="field-hint" id="{{.Slot}}_base_url_hint">OpenRouter: https://openrouter.ai/api/v1 · OpenAI: https://api.openai.com/v1</p>
+
+    <label for="{{.Slot}}_api_key">API key</label>
+    <input id="{{.Slot}}_api_key" name="{{.Slot}}_api_key" type="password" autocomplete="new-password" spellcheck="false"
+           placeholder="{{if .P.KeyMask}}Saved key {{.P.KeyMask}}{{else}}Paste your API key{{end}}"
+           aria-describedby="{{.Slot}}_api_key_hint">
+    <p class="field-hint" id="{{.Slot}}_api_key_hint">{{if .P.KeyMask}}Leave blank to keep the saved key. {{end}}Stored on the server only and never shown again.</p>
+
+    <label for="{{.Slot}}_model">Model</label>
+    <input id="{{.Slot}}_model" name="{{.Slot}}_model" type="text" spellcheck="false" autocapitalize="off"
+           value="{{.P.Model}}" placeholder="Model id from your provider">
+
+    <div class="row">
+      <button type="submit" name="test" value="{{.Slot}}" formnovalidate>Test connection</button>
+    </div>
+    {{with .Test}}{{if eq .Slot $.Slot}}
+      <div class="alert test {{if .OK}}ok{{else}}err{{end}}" role="{{if .OK}}status{{else}}alert{{end}}">
+        {{if .OK}}{{.Message}} Model: {{.Model}} · {{.LatencyMS}} ms{{else}}<strong>Test failed.</strong> {{.Message}}{{end}}
+      </div>
+    {{end}}{{end}}
+  </fieldset>
+</section>
+{{end}}

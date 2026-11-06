@@ -21,6 +21,9 @@ owner: John
   with a customer message and a private note giving the reason.
 - Structured JSON logs per reply: model, tokens, latency (no message content).
 - Local compose service (`--profile ai`) and `init.sh` support.
+- LLM fallback: retry once on `LLM_FALLBACK_*` when the primary fails or times out.
+- Settings page `/admin` (Basic Auth, CSRF-protected, write-only keys, Test
+  connection, live apply, persisted to `SETTINGS_PATH`).
 
 ## Exclusions (later phases)
 
@@ -55,6 +58,8 @@ Manual (needs admin account, bot and OpenRouter key):
 1. Send a message from the website widget in a pending conversation → AI reply appears.
 2. Send "ขอคุยกับแอดมิน" → handoff message, private note `ai-handoff:customer-request`, status `open`.
 3. Further customer messages in the `open` conversation get no AI reply.
+4. Set a wrong primary key and a valid fallback → replies still arrive, log shows `used_fallback: true`.
+5. `/admin`: Test connection succeeds for a valid key; Save applies without restart.
 
 ## Evidence
 
