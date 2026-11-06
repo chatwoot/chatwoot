@@ -24,21 +24,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # PRs read the cache that the base branch writes. A PR writes its own cache
-      # only when it changes the Dockerfile or gems, because the base branch
-      # cache does not have those layers.
-      - name: Check for Dockerfile or gem changes
-        id: build_inputs
-        if: github.event_name == 'pull_request'
-        run: |
-          if git diff --quiet origin/${{ github.base_ref }}...HEAD -- docker/Dockerfile Gemfile Gemfile.lock; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
