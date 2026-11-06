@@ -181,6 +181,46 @@ describe('availabilityHelpers', () => {
       expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
     });
 
+    it('should stay open through the closing minute', () => {
+      const mockDate = new Date('2024-01-15T23:59:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(23);
+      mockDate.getMinutes = vi.fn().mockReturnValue(59);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [
+        {
+          dayOfWeek: 1,
+          openHour: 0,
+          openMinutes: 0,
+          closeHour: 23,
+          closeMinutes: 59,
+        },
+      ];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
+    });
+
+    it('should return false once the closing minute has passed', () => {
+      const mockDate = new Date('2024-01-15T17:01:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(17);
+      mockDate.getMinutes = vi.fn().mockReturnValue(1);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [
+        {
+          dayOfWeek: 1,
+          openHour: 9,
+          openMinutes: 0,
+          closeHour: 17,
+          closeMinutes: 0,
+        },
+      ];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
+    });
+
     it('should return false when no config for current day', () => {
       const mockDate = new Date('2024-01-15T10:00:00.000Z');
       mockDate.getDay = vi.fn().mockReturnValue(1);
@@ -555,14 +595,14 @@ describe('availabilityHelpers', () => {
 
       expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
 
-      // Test at exact closing time
+      // Test at exact closing time, the closing minute itself is still open
       const mockDate2 = new Date('2024-01-15T17:00:00.000Z');
       mockDate2.getDay = vi.fn().mockReturnValue(1);
       mockDate2.getHours = vi.fn().mockReturnValue(17);
       mockDate2.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate2);
 
-      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
     });
 
     it('should handle one minute before closing', () => {
