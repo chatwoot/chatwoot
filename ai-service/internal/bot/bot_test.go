@@ -14,6 +14,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/webhook"
 )
 
@@ -261,5 +262,60 @@ func TestProcess_RetrievalErrorStillReplies(t *testing.T) {
 	}
 	if len(l.got) < 2 || !strings.Contains(l.got[1].Content, "unavailable") {
 		t.Errorf("messages = %+v", l.got)
+	}
+}
+
+type fakeProfiles struct {
+	byAccount map[int64]profile.Profile
+	err       error
+	asked     []int64
+}
+
+func (f *fakeProfiles) Get(_ context.Context, acct int64) (profile.Profile, error) {
+	f.asked = append(f.asked, acct)
+	return f.byAccount[acct], f.err
+}
+
+func TestProcess_UsesTheAccountsBusinessProfile(t *testing.T) {
+	// Arrange
+	cw, l := &fakeChatwoot{}, &fakeLLM{reply: "ok"}
+	b, _ := newBot(cw, l)
+	profiles := &fakeProfiles{byAccount: map[int64]profile.Profile{
+		1: {AccountID: 1, BusinessName: "Johnstocker AI Studio"},
+		2: {AccountID: 2, BusinessName: "Other Shop"},
+	}}
+	b.opts.Profiles = profiles
+
+	// Act
+	b.Process(context.Background(), customerMsg("hi"))
+
+	// Assert
+	sys := l.got[0].Content
+	if !strings.HasPrefix(sys, "SYS") || !strings.Contains(sys, "Johnstocker AI Studio") {
+		t.Errorf("system prompt = %q, want base + account 1 profile", sys)
+	}
+	if strings.Contains(sys, "Other Shop") {
+		t.Error("system prompt leaked another account's profile")
+	}
+	if len(profiles.asked) != 1 || profiles.asked[0] != 1 {
+		t.Errorf("profile lookups = %v, want [1]", profiles.asked)
+	}
+}
+
+func TestProcess_ProfileErrorFallsBackToBasePrompt(t *testing.T) {
+	// Arrange
+	cw, l := &fakeChatwoot{}, &fakeLLM{reply: "ok"}
+	b, _ := newBot(cw, l)
+	b.opts.Profiles = &fakeProfiles{err: errors.New("db down")}
+
+	// Act
+	b.Process(context.Background(), customerMsg("hi"))
+
+	// Assert
+	if l.got[0].Content != "SYS" {
+		t.Errorf("system prompt = %q, want the base prompt", l.got[0].Content)
+	}
+	if got := cw.joined(); got != "typing:on | msg:ok | typing:off" {
+		t.Errorf("calls = %s, want a normal reply", got)
 	}
 }

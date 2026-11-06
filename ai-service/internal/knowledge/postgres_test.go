@@ -7,12 +7,13 @@ import (
 	"testing"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // Integration test: set TEST_DATABASE_URL to an empty scratch database with
 // pgvector available, e.g. postgres://postgres:...@localhost:5432/ai_service_test.
-// The test drops and recreates the kb_* tables.
+// The test drops and recreates the kb_* and business_profiles tables.
 func openTestDB(t *testing.T) *Postgres {
 	t.Helper()
 	dsn := os.Getenv("TEST_DATABASE_URL")
@@ -25,7 +26,7 @@ func openTestDB(t *testing.T) *Postgres {
 		t.Fatal(err)
 	}
 	t.Cleanup(pool.Close)
-	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, kb_schema_version"); err != nil {
+	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_schema_version"); err != nil {
 		t.Fatal(err)
 	}
 	p := &Postgres{Pool: pool}
@@ -124,5 +125,86 @@ func TestPostgres_ReplaceChunks(t *testing.T) {
 	docs, _ := p.List(ctx, 1, "m1")
 	if len(docs) != 1 || docs[0].Chunks != 1 || docs[0].StaleChunks != 0 {
 		t.Errorf("docs = %+v", docs)
+	}
+}
+
+// Schema v2 creates business_profiles; the profile store reads and writes it.
+func TestPostgres_BusinessProfileRoundTrip(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	store := &profile.Postgres{Pool: db.Pool}
+	ctx := context.Background()
+
+	// Act: an unknown account reads as empty, then save twice (upsert).
+	empty, errEmpty := store.Get(ctx, 7)
+	errFirst := store.Save(ctx, profile.Profile{AccountID: 7, BusinessName: "First", Rules: "ห้ามให้ส่วนลด"})
+	errSecond := store.Save(ctx, profile.Profile{AccountID: 7, BusinessName: "Johnstocker AI Studio", About: "คอร์สออนไลน์"})
+	errInvalid := store.Save(ctx, profile.Profile{AccountID: 0, BusinessName: "x"})
+	got, errGet := store.Get(ctx, 7)
+	other, _ := store.Get(ctx, 8)
+
+	// Assert
+	for _, err := range []error{errEmpty, errFirst, errSecond, errGet} {
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+	if !empty.Empty() || empty.AccountID != 7 {
+		t.Errorf("unknown account = %+v, want an empty profile for account 7", empty)
+	}
+	if errInvalid == nil {
+		t.Error("saving account 0 succeeded, want a validation error")
+	}
+	if got.BusinessName != "Johnstocker AI Studio" || got.About != "คอร์สออนไลน์" || got.Rules != "" || got.UpdatedAt.IsZero() {
+		t.Errorf("after upsert = %+v", got)
+	}
+	if !other.Empty() {
+		t.Errorf("account 8 = %+v, want empty (profiles are per account)", other)
+	}
+}
+
+// Production databases are at schema v1; Migrate must add business_profiles
+// without touching existing knowledge.
+func TestPostgres_MigratesV1ToV2(t *testing.T) {
+	// Arrange: a v1 database holding one document.
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `DROP TABLE business_profiles;
+		UPDATE kb_schema_version SET version = 1;
+		INSERT INTO kb_documents (account_id, kind, title, content) VALUES (1, 'faq', 'q', 'a');`); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	err := db.Migrate(ctx)
+
+	// Assert
+	if err != nil {
+		t.Fatalf("Migrate: %v", err)
+	}
+	var version, docs int
+	var table *string
+	if err := db.Pool.QueryRow(ctx, `SELECT (SELECT version FROM kb_schema_version), (SELECT count(*) FROM kb_documents),
+		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
+		t.Fatal(err)
+	}
+	if version != 2 || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want 2, 1, present", version, docs, table)
+	}
+	var rls bool
+	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
+		t.Fatal(err)
+	}
+	if !rls {
+		t.Error("row level security is off on business_profiles")
+	}
+	// Supabase API roles exist only on Supabase; elsewhere there is nothing to revoke.
+	var exposed bool
+	if err := db.Pool.QueryRow(ctx, `SELECT EXISTS (SELECT 1 FROM pg_roles r WHERE r.rolname IN ('anon', 'authenticated')
+		AND has_table_privilege(r.rolname, 'business_profiles', 'SELECT'))`).Scan(&exposed); err != nil {
+		t.Fatal(err)
+	}
+	if exposed {
+		t.Error("anon or authenticated can read business_profiles")
 	}
 }

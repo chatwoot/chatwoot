@@ -17,6 +17,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/webhook"
 )
 
@@ -38,6 +39,11 @@ type Retriever interface {
 	Retrieve(ctx context.Context, accountID, inboxID int64, queries ...string) ([]knowledge.Hit, error)
 }
 
+// Profiles loads an account's business profile (empty when none is saved).
+type Profiles interface {
+	Get(ctx context.Context, accountID int64) (profile.Profile, error)
+}
+
 // Handoff reasons, written to a private note so agents see why the bot stepped back.
 const (
 	ReasonCustomerAsked = "ai-handoff:customer-request"
@@ -49,6 +55,7 @@ type Options struct {
 	Chatwoot       Chatwoot
 	LLM            Completer
 	Knowledge      Retriever // optional; nil answers from the system prompt only
+	Profiles       Profiles  // optional; adds each account's business profile to SystemPrompt
 	History        *memory.History
 	Handoff        *handoff.Detector
 	SystemPrompt   string
@@ -185,7 +192,7 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 	}()
 
 	history := b.opts.History.Get(acct, conv)
-	messages := []llm.Message{{Role: "system", Content: b.opts.SystemPrompt}}
+	messages := []llm.Message{{Role: "system", Content: b.systemPrompt(ctx, log, acct)}}
 	if b.opts.Knowledge != nil {
 		hits, err := b.opts.Knowledge.Retrieve(ctx, acct, inbox, retrievalQueries(history)...)
 		if err != nil {
@@ -222,6 +229,20 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 		"history_turns", len(history),
 		"reply_chars", len([]rune(res.Content)),
 	)
+}
+
+// systemPrompt is the shared prompt plus the account's business profile. If
+// the profile cannot be loaded the bot still answers with the shared prompt.
+func (b *Bot) systemPrompt(ctx context.Context, log *slog.Logger, acct int64) string {
+	if b.opts.Profiles == nil {
+		return b.opts.SystemPrompt
+	}
+	p, err := b.opts.Profiles.Get(ctx, acct)
+	if err != nil {
+		log.Error("business profile lookup failed", "error", err)
+		return b.opts.SystemPrompt
+	}
+	return profile.Prompt(b.opts.SystemPrompt, p)
 }
 
 func (b *Bot) handoff(ctx context.Context, log *slog.Logger, acct, conv int64, customerMsg, reason string) {
