@@ -13,6 +13,7 @@ import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import McpParamRow from './McpParamRow.vue';
 import {
+  AUTH_TYPES,
   PARAM_SOURCES,
   fingerprintLabel,
   schemaParams,
@@ -31,7 +32,6 @@ const emit = defineEmits(['saved', 'signIn']);
 const { t } = useI18n();
 
 const STEPS = ['SERVER', 'TOOLS', 'PARAMETERS', 'REVIEW'];
-const AUTH_TYPES = { NONE: 'none', OAUTH: 'oauth', TOKEN: 'token' };
 
 const dialogRef = ref(null);
 const step = ref('SERVER');

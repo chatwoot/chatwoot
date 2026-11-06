@@ -14,6 +14,7 @@ import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Pay
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import McpServerCard from 'dashboard/components-next/captain/pageComponents/mcpServer/McpServerCard.vue';
 import ConnectMcpServerDialog from 'dashboard/components-next/captain/pageComponents/mcpServer/ConnectMcpServerDialog.vue';
+import { SERVER_ACTIONS } from 'dashboard/components-next/captain/pageComponents/mcpServer/mcpTools';
 
 const SIGN_IN_RESULTS = { SUCCESS: 'success', FAILED: 'failed' };
 
@@ -74,9 +75,9 @@ const startSignIn = async server => {
 };
 
 const handleAction = ({ action, server }) => {
-  if (action === 'manage') connectDialogRef.value.open(server);
-  if (action === 'sign_in') startSignIn(server);
-  if (action === 'delete') {
+  if (action === SERVER_ACTIONS.MANAGE) connectDialogRef.value.open(server);
+  if (action === SERVER_ACTIONS.SIGN_IN) startSignIn(server);
+  if (action === SERVER_ACTIONS.DELETE) {
     serverToDelete.value = server;
     nextTick(() => deleteDialogRef.value.open());
   }

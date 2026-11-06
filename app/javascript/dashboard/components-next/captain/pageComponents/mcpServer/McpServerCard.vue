@@ -8,7 +8,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import Button from 'dashboard/components-next/button/Button.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Policy from 'dashboard/components/policy.vue';
-import { fingerprintLabel } from './mcpTools';
+import { AUTH_TYPES, SERVER_ACTIONS, fingerprintLabel } from './mcpTools';
 
 const props = defineProps({
   server: { type: Object, required: true },
@@ -27,9 +27,9 @@ const STATUS_CLASSES = {
 };
 // The server rejected the saved credentials. The sign-in type decides what the admin does about it.
 const NEEDS_CREDENTIALS_LABELS = {
-  oauth: 'CAPTAIN.MCP_SERVERS.STATUS.NEEDS_SIGN_IN',
-  token: 'CAPTAIN.MCP_SERVERS.STATUS.TOKEN_REJECTED',
-  none: 'CAPTAIN.MCP_SERVERS.STATUS.NEEDS_TOKEN',
+  [AUTH_TYPES.OAUTH]: 'CAPTAIN.MCP_SERVERS.STATUS.NEEDS_SIGN_IN',
+  [AUTH_TYPES.TOKEN]: 'CAPTAIN.MCP_SERVERS.STATUS.TOKEN_REJECTED',
+  [AUTH_TYPES.NONE]: 'CAPTAIN.MCP_SERVERS.STATUS.NEEDS_TOKEN',
 };
 
 const enabledState = computed({
@@ -50,24 +50,24 @@ const authLabel = computed(() =>
 const menuItems = computed(() => [
   {
     label: t('CAPTAIN.MCP_SERVERS.ACTIONS.MANAGE_TOOLS'),
-    value: 'manage',
-    action: 'manage',
+    value: SERVER_ACTIONS.MANAGE,
+    action: SERVER_ACTIONS.MANAGE,
     icon: 'i-lucide-wrench',
   },
-  ...(props.server.auth_type === 'oauth'
+  ...(props.server.auth_type === AUTH_TYPES.OAUTH
     ? [
         {
           label: t('CAPTAIN.MCP_SERVERS.ACTIONS.SIGN_IN'),
-          value: 'sign_in',
-          action: 'sign_in',
+          value: SERVER_ACTIONS.SIGN_IN,
+          action: SERVER_ACTIONS.SIGN_IN,
           icon: 'i-lucide-log-in',
         },
       ]
     : []),
   {
     label: t('CAPTAIN.MCP_SERVERS.ACTIONS.DELETE'),
-    value: 'delete',
-    action: 'delete',
+    value: SERVER_ACTIONS.DELETE,
+    action: SERVER_ACTIONS.DELETE,
     icon: 'i-lucide-trash',
   },
 ]);

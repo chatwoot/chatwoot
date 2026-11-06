@@ -5,16 +5,21 @@ export const PARAM_SOURCES = {
   FIXED: 'fixed',
 };
 
+// How a server asks to be signed in to, as the API reports it
+export const AUTH_TYPES = { NONE: 'none', OAUTH: 'oauth', TOKEN: 'token' };
+
+// The actions a server card emits to the MCP servers page
+export const SERVER_ACTIONS = {
+  MANAGE: 'manage',
+  SIGN_IN: 'sign_in',
+  DELETE: 'delete',
+};
+
 const DIGEST_PREFIX = 'sha256:';
 const FINGERPRINT_LENGTH = 8;
-const EMAIL_PARAM_PATTERN = /email/i;
-const ID_PARAM_PATTERN = /(^id$|_id$|Id$)/;
 
 export const fingerprintLabel = digest =>
   (digest || '').replace(DIGEST_PREFIX, '').slice(0, FINGERPRINT_LENGTH);
-
-export const isEmailParam = name => EMAIL_PARAM_PATTERN.test(name);
-export const isIdParam = name => ID_PARAM_PATTERN.test(name);
 
 // The parameters of a JSON schema, in order, with whether each one is required
 export const schemaParams = schema => {

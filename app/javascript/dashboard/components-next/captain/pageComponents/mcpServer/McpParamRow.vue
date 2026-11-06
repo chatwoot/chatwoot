@@ -4,7 +4,11 @@ import { useI18n } from 'vue-i18n';
 
 import Select from 'dashboard/components-next/select/Select.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import { PARAM_SOURCES, isEmailParam, isIdParam } from './mcpTools';
+import {
+  isEmailLikeParam,
+  isIdLikeParam,
+} from 'dashboard/components-next/captain/pageComponents/customTool/toolRisk';
+import { PARAM_SOURCES } from './mcpTools';
 
 const props = defineProps({
   param: { type: Object, required: true },
@@ -47,8 +51,8 @@ const hint = computed(() => {
     return { tone: 'ok', key: 'VERIFIED_EMAIL' };
   if (source.value === PARAM_SOURCES.FIXED)
     return { tone: 'muted', key: 'FIXED' };
-  if (isEmailParam(props.param.name)) return { tone: 'warn', key: 'EMAIL' };
-  if (isIdParam(props.param.name)) return { tone: 'warn', key: 'ID' };
+  if (isEmailLikeParam(props.param)) return { tone: 'warn', key: 'EMAIL' };
+  if (isIdLikeParam(props.param)) return { tone: 'warn', key: 'ID' };
   return { tone: 'muted', key: 'MODEL' };
 });
 
@@ -61,7 +65,7 @@ const HINT_CLASSES = {
 const showUseVerified = computed(
   () =>
     source.value === PARAM_SOURCES.MODEL &&
-    isEmailParam(props.param.name) &&
+    isEmailLikeParam(props.param) &&
     canTakeVerifiedEmail.value
 );
 </script>
