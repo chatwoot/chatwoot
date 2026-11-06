@@ -242,3 +242,43 @@ func TestTest_EmptyFallbackAsksToFillIn(t *testing.T) {
 		t.Errorf("probed=%d body=%s", len(e.probed), rec.Body)
 	}
 }
+
+func TestSavedKeyIsNotSentToANewBaseURL(t *testing.T) {
+	// Arrange: same blank key field, but the base URL now points elsewhere.
+	e := setup(t, nil)
+	testForm := baseForm()
+	testForm.Set("primary_base_url", "https://attacker.example/v1")
+	testForm.Set("test", "primary")
+	saveForm := baseForm()
+	saveForm.Set("primary_base_url", "https://attacker.example/v1")
+
+	// Act
+	testRec := e.do(post(testForm))
+	saveRec := e.do(post(saveForm))
+
+	// Assert
+	if len(e.probed) != 0 || !strings.Contains(testRec.Body.String(), "Fill in base URL") {
+		t.Errorf("saved key was probed against a new host: %+v", e.probed)
+	}
+	if saveRec.Code != http.StatusUnprocessableEntity || !strings.Contains(saveRec.Body.String(), "API key is required") {
+		t.Errorf("save code=%d", saveRec.Code)
+	}
+	if e.store.Get().Primary.BaseURL != "https://openrouter.ai/api/v1" {
+		t.Error("settings changed")
+	}
+}
+
+func TestSavedKeyKeptWhenOnlyTrailingSlashDiffers(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	form := baseForm()
+	form.Set("primary_base_url", "https://openrouter.ai/api/v1/")
+
+	// Act
+	rec := e.do(post(form))
+
+	// Assert
+	if rec.Code != http.StatusSeeOther || e.store.Get().Primary.APIKey != "sk-or-secret-9876" {
+		t.Errorf("code=%d key kept=%v", rec.Code, e.store.Get().Primary.APIKey == "sk-or-secret-9876")
+	}
+}

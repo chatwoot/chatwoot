@@ -42,6 +42,9 @@ func (p Provider) Validate() error {
 	u, err := url.Parse(p.BaseURL)
 	if p.BaseURL == "" || err != nil || (u.Scheme != "https" && u.Scheme != "http") || u.Host == "" {
 		errs = append(errs, errors.New("base URL must be an http(s) URL"))
+	} else if u.User != nil {
+		// Credentials belong in the API key field, never in a URL that gets logged.
+		errs = append(errs, errors.New("base URL must not contain a username or password"))
 	}
 	if p.APIKey == "" {
 		errs = append(errs, errors.New("API key is required"))
@@ -58,16 +61,27 @@ type LLM struct {
 	Fallback Provider `json:"fallback"`
 }
 
-// Normalize trims whitespace and trailing slashes.
-func (s LLM) Normalize() LLM {
-	clean := func(p Provider) Provider {
-		return Provider{
-			BaseURL: strings.TrimRight(strings.TrimSpace(p.BaseURL), "/"),
-			APIKey:  strings.TrimSpace(p.APIKey),
-			Model:   strings.TrimSpace(p.Model),
-		}
+// Normalize trims whitespace and the trailing slash of the base URL.
+func (p Provider) Normalize() Provider {
+	return Provider{
+		BaseURL: strings.TrimRight(strings.TrimSpace(p.BaseURL), "/"),
+		APIKey:  strings.TrimSpace(p.APIKey),
+		Model:   strings.TrimSpace(p.Model),
 	}
-	return LLM{Primary: clean(s.Primary), Fallback: clean(s.Fallback)}
+}
+
+// Host returns only the host of the base URL, safe to log.
+func (p Provider) Host() string {
+	u, err := url.Parse(p.BaseURL)
+	if err != nil {
+		return ""
+	}
+	return u.Host
+}
+
+// Normalize trims both providers.
+func (s LLM) Normalize() LLM {
+	return LLM{Primary: s.Primary.Normalize(), Fallback: s.Fallback.Normalize()}
 }
 
 // Validate checks both providers. The primary must be complete.

@@ -129,14 +129,15 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 	}
 	h.Switch.Set(settings.NewCompleter(h.Store.Get(), h.Timeout, h.Logger))
 	h.Logger.Info("llm settings updated",
-		"primary_base_url", next.Primary.BaseURL, "primary_model", next.Primary.Model,
+		"primary_host", next.Primary.Host(), "primary_model", next.Primary.Model,
 		"fallback_enabled", next.Fallback.Configured(), "fallback_model", next.Fallback.Model,
 		"remote_addr", r.RemoteAddr)
 	http.Redirect(w, r, "/admin?saved=1", http.StatusSeeOther)
 }
 
-// fromForm reads one provider. A blank key keeps the saved one; clearing both
-// URL and model removes the provider.
+// fromForm reads one provider. A blank key keeps the saved one only while the
+// base URL is unchanged, so a saved key can never be sent to a new host.
+// Clearing URL, key and model removes the provider.
 func fromForm(r *http.Request, slot string, saved settings.Provider) settings.Provider {
 	p := settings.Provider{
 		BaseURL: r.PostForm.Get(slot + "_base_url"),
@@ -146,7 +147,8 @@ func fromForm(r *http.Request, slot string, saved settings.Provider) settings.Pr
 	if p.BaseURL == "" && p.Model == "" && p.APIKey == "" {
 		return settings.Provider{}
 	}
-	if p.APIKey == "" {
+	sameHost := settings.Provider{BaseURL: p.BaseURL}.Normalize().BaseURL == saved.BaseURL
+	if p.APIKey == "" && sameHost {
 		p.APIKey = saved.APIKey
 	}
 	return p
@@ -173,7 +175,7 @@ func (h *Handler) runTest(ctx context.Context, slot string, s settings.LLM) *tes
 	tv.LatencyMS = time.Since(started).Milliseconds()
 	if err != nil {
 		tv.Message = err.Error()
-		h.Logger.Warn("llm test failed", "slot", slot, "base_url", p.BaseURL, "model", p.Model, "error", err)
+		h.Logger.Warn("llm test failed", "slot", slot, "host", p.Host(), "model", p.Model, "error", err)
 		return tv
 	}
 	tv.OK, tv.Model, tv.Message = true, res.Model, "Connected. The model answered."

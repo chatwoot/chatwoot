@@ -76,8 +76,13 @@ one with **Test connection**, and save. Saved settings take effect immediately
 and are stored in `SETTINGS_PATH` (default `/data/settings.json`, file mode
 0600, on the `ai_data` volume). A saved file overrides the `LLM_*` env values.
 
-- API keys are write-only: the page shows only the last 4 characters, and a
-  blank key field keeps the saved key.
+- API keys are write-only: the page shows only the last 4 characters. A blank
+  key field keeps the saved key only while the base URL stays the same; change
+  the URL and you must enter the key again, so a saved key never goes to a new host.
+- Base URLs with `user:pass@` are rejected; logs record only the host.
+- Accepted risk: an admin can point the base URL at any address, including
+  private ones, because local models (e.g. Ollama) need that. Only the HTTP
+  status and the provider's error message are shown back.
 - To remove the fallback, clear its base URL and model and save.
 - Protection: HTTP Basic Auth, cross-origin form posts rejected, strict CSP,
   `no-store`. Outside localhost, serve it only over HTTPS.

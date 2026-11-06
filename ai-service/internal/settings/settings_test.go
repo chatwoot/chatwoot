@@ -151,3 +151,29 @@ func TestNewCompleter_NilWhenPrimaryMissing(t *testing.T) {
 		t.Error("expected nil completer")
 	}
 }
+
+func TestValidate_RejectsCredentialsInURL(t *testing.T) {
+	// Arrange
+	p := Provider{BaseURL: "https://user:pass@api.example.com/v1", APIKey: "k", Model: "m"}
+
+	// Act
+	err := p.Validate()
+
+	// Assert
+	if err == nil || !strings.Contains(err.Error(), "username or password") {
+		t.Errorf("err = %v", err)
+	}
+}
+
+func TestHost_ReturnsHostOnly(t *testing.T) {
+	// Arrange
+	p := Provider{BaseURL: "https://api.openai.com/v1?x=secret"}
+
+	// Act
+	host := p.Host()
+
+	// Assert
+	if host != "api.openai.com" {
+		t.Errorf("host = %q", host)
+	}
+}
