@@ -18,4 +18,18 @@ RSpec.describe Conversations::UnreadCounts::FilterQueryCounter do
         .not_to include('inbox_id + 0')
     end
   end
+
+  describe '#perform' do
+    it 'counts unread conversations that match a participant filter' do
+      participating_conversation = create(:conversation, account: account, inbox: inbox)
+      other_conversation = create(:conversation, account: account, inbox: inbox)
+      [participating_conversation, other_conversation].each do |conversation|
+        create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+      end
+      create(:conversation_participant, account: account, conversation: participating_conversation, user: agent)
+      query = { payload: [{ attribute_key: 'participant_id', filter_operator: 'equal_to', values: [agent.id], query_operator: nil }] }
+
+      expect(described_class.new(account: account, user: agent, query: query).perform).to eq 1
+    end
+  end
 end
