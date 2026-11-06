@@ -101,7 +101,7 @@
 
     <label for="{{.Slot}}_api_key">API key</label>
     <input id="{{.Slot}}_api_key" name="{{.Slot}}_api_key" type="password" autocomplete="new-password" spellcheck="false"
-           placeholder="{{if .P.KeyMask}}Saved key {{.P.KeyMask}}{{else}}Paste your API key{{end}}"
+           value="{{.P.KeyValue}}" placeholder="{{if .P.KeyMask}}Saved key {{.P.KeyMask}}{{else}}Paste your API key{{end}}"
            aria-describedby="{{.Slot}}_api_key_hint">
     <p class="field-hint" id="{{.Slot}}_api_key_hint">{{if .P.KeyMask}}Leave blank to keep the saved key. {{end}}Stored on the server only and never shown again.</p>
 

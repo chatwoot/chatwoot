@@ -76,7 +76,9 @@ one with **Test connection**, and save. Saved settings take effect immediately
 and are stored in `SETTINGS_PATH` (default `/data/settings.json`, file mode
 0600, on the `ai_data` volume). A saved file overrides the `LLM_*` env values.
 
-- API keys are write-only: the page shows only the last 4 characters. A blank
+- API keys are write-only: a saved key is never written into the page, only
+  its last 4 characters. A key you just typed is refilled after **Test
+  connection** so a following **Save** stores it. A blank
   key field keeps the saved key only while the base URL stays the same; change
   the URL and you must enter the key again, so a saved key never goes to a new host.
 - Base URLs with `user:pass@` are rejected; logs record only the host.

@@ -344,3 +344,49 @@ func TestTest_FallbackOnSameURLUsesPrimaryKey(t *testing.T) {
 		t.Errorf("probed = %+v", e.probed)
 	}
 }
+
+func TestTestThenSave_KeepsTheNewlyTypedKey(t *testing.T) {
+	// Arrange: admin types a new key and clicks Test first.
+	e := setup(t, nil)
+	testForm := baseForm()
+	testForm.Set("primary_api_key", "sk-new-typed-key-5555")
+	testForm.Set("test", "primary")
+
+	// Act: Test, then submit the re-rendered form as the browser would.
+	testRec := e.do(post(testForm))
+	body := testRec.Body.String()
+
+	// Assert: the typed key is refilled so the next Save sends it,
+	// and the placeholder still describes the saved key, not the typed one.
+	if !strings.Contains(body, `value="sk-new-typed-key-5555"`) {
+		t.Fatalf("typed key not refilled after Test")
+	}
+	if strings.Contains(body, "Saved key ••••5555") || !strings.Contains(body, "Saved key ••••9876") {
+		t.Errorf("placeholder must describe the saved key only")
+	}
+	if strings.Contains(body, "sk-or-secret-9876") {
+		t.Error("saved key leaked into page")
+	}
+
+	saveForm := baseForm()
+	saveForm.Set("primary_api_key", "sk-new-typed-key-5555")
+	if rec := e.do(post(saveForm)); rec.Code != http.StatusSeeOther {
+		t.Fatalf("save code=%d", rec.Code)
+	}
+	if got := e.store.Get().Primary.APIKey; got != "sk-new-typed-key-5555" {
+		t.Errorf("stored key = %q", got)
+	}
+}
+
+func TestShow_NeverPrefillsSavedKey(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+
+	// Act
+	body := e.do(get(true)).Body.String()
+
+	// Assert: key inputs render empty; only the mask appears.
+	if strings.Contains(body, "sk-or-secret-9876") || !strings.Contains(body, `value="" placeholder="Saved key ••••9876"`) {
+		t.Error("saved key must never be prefilled; placeholder should show its mask")
+	}
+}

@@ -62,8 +62,9 @@ func (h *Handler) Routes(mux *http.ServeMux) {
 type providerView struct {
 	BaseURL    string
 	Model      string
-	KeyMask    string
-	Configured bool
+	KeyMask    string // last 4 of the SAVED key, for the placeholder
+	KeyValue   string // key the admin just typed in this request; refilled so Test → Save keeps it
+	Configured bool   // a complete provider is saved
 }
 
 type testView struct {
@@ -94,6 +95,23 @@ func view(p settings.Provider) providerView {
 	return providerView{BaseURL: p.BaseURL, Model: p.Model, KeyMask: settings.Mask(p.APIKey), Configured: p.Configured()}
 }
 
+// editView re-displays a submitted form. URL and model show what was entered;
+// the placeholder describes only the saved key (and only while the URL still
+// matches it); a key typed in this request is refilled so it is not lost
+// between Test and Save. Saved keys are never written into the page.
+func editView(entered, saved settings.Provider, typedKey string) providerView {
+	v := providerView{
+		BaseURL:    entered.BaseURL,
+		Model:      entered.Model,
+		KeyValue:   typedKey,
+		Configured: saved.Configured(),
+	}
+	if entered.BaseURL == saved.BaseURL {
+		v.KeyMask = settings.Mask(saved.APIKey)
+	}
+	return v
+}
+
 func (h *Handler) show(w http.ResponseWriter, r *http.Request) {
 	cur := h.Store.Get()
 	q := r.URL.Query()
@@ -121,8 +139,10 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 	if next.Fallback.APIKey == "" && next.Fallback.BaseURL != "" && next.Fallback.BaseURL == next.Primary.BaseURL {
 		next.Fallback.APIKey = next.Primary.APIKey
 	}
-	// Re-display what was entered; keys are still only masked.
-	data := pageData{Primary: view(next.Primary), Fallback: view(next.Fallback)}
+	data := pageData{
+		Primary:  editView(next.Primary, cur.Primary, r.PostForm.Get("primary_api_key")),
+		Fallback: editView(next.Fallback, cur.Fallback, r.PostForm.Get("fallback_api_key")),
+	}
 
 	if slot := r.PostForm.Get("test"); slot != "" {
 		data.Test = h.runTest(r.Context(), slot, next)
