@@ -1750,7 +1750,7 @@
         "ACTIVE": "Active",
         "NEEDS_SIGN_IN": "Needs sign-in",
         "TOKEN_REJECTED": "Token rejected",
-        "NEEDS_TOKEN": "Needs a token",
+        "NEEDS_TOKEN": "Needs a token, reconnect it",
         "LAST_REQUEST_FAILED": "Last request failed",
         "TOGGLE": "Turn {name} on or off"
       },
@@ -1764,7 +1764,15 @@
       "ACTIONS": {
         "MANAGE_TOOLS": "Manage tools",
         "SIGN_IN": "Sign in",
+        "UPDATE_TOKEN": "Update token",
         "DELETE": "Remove server"
+      },
+      "UPDATE_TOKEN": {
+        "TITLE": "Update the token of {name}",
+        "DESCRIPTION": "Chatwoot checks the new token with the server before it saves it.",
+        "CONFIRM": "Save token",
+        "SUCCESS": "Token updated.",
+        "ERROR": "Could not update the token."
       },
       "SIGN_IN": {
         "SUCCESS": "Signed in to the server. Choose the tools Captain can use.",

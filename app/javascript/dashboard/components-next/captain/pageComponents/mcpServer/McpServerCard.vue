@@ -64,6 +64,16 @@ const menuItems = computed(() => [
         },
       ]
     : []),
+  ...(props.server.auth_type === AUTH_TYPES.TOKEN
+    ? [
+        {
+          label: t('CAPTAIN.MCP_SERVERS.ACTIONS.UPDATE_TOKEN'),
+          value: SERVER_ACTIONS.UPDATE_TOKEN,
+          action: SERVER_ACTIONS.UPDATE_TOKEN,
+          icon: 'i-lucide-key-round',
+        },
+      ]
+    : []),
   {
     label: t('CAPTAIN.MCP_SERVERS.ACTIONS.DELETE'),
     value: SERVER_ACTIONS.DELETE,

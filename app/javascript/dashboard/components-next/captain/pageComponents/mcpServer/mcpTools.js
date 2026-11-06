@@ -12,6 +12,7 @@ export const AUTH_TYPES = { NONE: 'none', OAUTH: 'oauth', TOKEN: 'token' };
 export const SERVER_ACTIONS = {
   MANAGE: 'manage',
   SIGN_IN: 'sign_in',
+  UPDATE_TOKEN: 'update_token',
   DELETE: 'delete',
 };
 
