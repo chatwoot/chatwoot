@@ -29,8 +29,9 @@ x-chatwoot: &chatwoot
     # Supabase session-pooler slots are limited; keep Rails + Sidekiq small.
     RAILS_MAX_THREADS: '5'
     SIDEKIQ_CONCURRENCY: '5'
-    # The Agent Bot webhook targets http://ai-service:8080 on the private network.
-    SAFE_FETCH_ALLOW_PRIVATE_NETWORK: 'true'
+    # SAFE_FETCH_ALLOW_PRIVATE_NETWORK stays unset: it would let every URL Chatwoot
+    # fetches reach redis/rails. The Agent Bot webhook uses the public HTTPS path
+    # https://<FRONTEND_URL host>/webhooks/chatwoot, which Traefik routes to ai-service.
     MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-}
     SMTP_ADDRESS: ${SMTP_ADDRESS:-}
     SMTP_PORT: ${SMTP_PORT:-587}
