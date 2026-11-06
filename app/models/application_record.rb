@@ -1,6 +1,6 @@
 class ApplicationRecord < ActiveRecord::Base
   MAX_STRING_COLUMN_LENGTH = 255
-  MAX_TEXT_COLUMN_LENGTH = 20_000
+  MIN_TEXT_COLUMN_LENGTH = 20_000
 
   include Events::Types
   self.abstract_class = true
@@ -39,8 +39,19 @@ class ApplicationRecord < ActiveRecord::Base
     validate_content_length(column) if length_validator.blank?
   end
 
+  def max_text_column_length
+    raw_value = ENV.fetch('MAX_TEXT_COLUMN_LENGTH', nil)
+    return MIN_TEXT_COLUMN_LENGTH if raw_value.nil?
+
+    valid = raw_value.match?(/\A\d+\z/) && raw_value.to_i >= MIN_TEXT_COLUMN_LENGTH
+    return raw_value.to_i if valid
+
+    raise ArgumentError,
+          "MAX_TEXT_COLUMN_LENGTH must be a positive integer of at least #{MIN_TEXT_COLUMN_LENGTH}"
+  end
+
   def validate_content_length(column)
-    max_length = column.type == :text ? MAX_TEXT_COLUMN_LENGTH : MAX_STRING_COLUMN_LENGTH
+    max_length = column.type == :text ? max_text_column_length : MAX_STRING_COLUMN_LENGTH
     return if self[column.name].nil? || self[column.name].length <= max_length
 
     errors.add(column.name.to_sym, "is too long (maximum is #{max_length} characters)")
