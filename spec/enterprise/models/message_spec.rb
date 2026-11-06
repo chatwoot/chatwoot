@@ -223,5 +223,15 @@ RSpec.describe Message do
 
       expect(reply.content_attributes).not_to have_key('translation_pending')
     end
+
+    it 'does nothing while auto translate is off for the conversation' do
+      conversation.update!(auto_translate_disabled: true)
+      template = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :template,
+                                  content: 'Hello')
+      reply = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                               sender: agent, content: 'Hello')
+
+      expect([template, reply].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false, false])
+    end
   end
 end

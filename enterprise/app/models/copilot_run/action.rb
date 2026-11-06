@@ -37,6 +37,8 @@ class CopilotRun::Action < CopilotRun
   STATUSES = %w[awaiting_approval queued running completed incomplete rejected expired].freeze
   # The approval card shows a fixed set of conversations. After this long that set may be stale, so the agent has to ask again.
   APPROVAL_TTL = 5.minutes
+  # The approval card links this many records and counts the rest.
+  PREVIEW_TARGETS = 10
 
   has_many :action_items, class_name: 'CopilotActionItem', dependent: :delete_all, inverse_of: :copilot_run
 
@@ -45,7 +47,8 @@ class CopilotRun::Action < CopilotRun
   validate :action_name_present
 
   def action
-    Captain::Copilot::Actions.build(context.fetch('action'), account: account, user: user, arguments: context.fetch('arguments'))
+    Captain::Copilot::Actions.build(context.fetch('action'), account: account, user: user, arguments: context.fetch('arguments'),
+                                                             proposal_values: context.fetch('proposal_values', {}))
   end
 
   def target_ids
@@ -56,10 +59,13 @@ class CopilotRun::Action < CopilotRun
     target_ids - action_items.finished.pluck(:record_id)
   end
 
+  # failure_reasons counts the failed records by error, so the model can tell the agent why, e.g. that reply windows had closed.
+  # Skipped records already had the change. They are named already_applied, so the model does not read them as failures.
   def summary
     counts = action_items.group(:status).count
     super.merge({ action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
-                  skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, not_processed: not_processed(counts),
+                  already_applied: counts['skipped'].to_i, failed: counts['failed'].to_i,
+                  failure_reasons: action_items.failed.group(:error).count.presence, not_processed: not_processed(counts),
                   decision_reason: context['decision_reason'] }.compact)
   end
 
@@ -96,6 +102,11 @@ class CopilotRun::Action < CopilotRun
     close(:expired, I18n.t('captain.copilot.approval_expired', minutes: APPROVAL_TTL.in_minutes.to_i))
   end
 
+  # A change still awaiting approval is rejected, so approving its card later changes nothing.
+  def stop
+    reject(I18n.t('captain.copilot.stopped')) || super
+  end
+
   # The approval card's status: awaiting_approval until the agent decides, then approved, rejected or expired.
   def approval_status
     awaiting_approval? || rejected? || expired? ? status : 'approved'
@@ -107,6 +118,15 @@ class CopilotRun::Action < CopilotRun
 
   def approval_card
     copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
+  end
+
+  # Records the agent can no longer open are left out of the links.
+  def target_links(ids)
+    resource = Captain::Copilot::Resources.build(Captain::Copilot::Actions.find(context.fetch('action'))::RESOURCE,
+                                                 account: account, user: user)
+    return [] unless resource.readable?
+
+    resource.rows(ids.first(PREVIEW_TARGETS)).map { |row| row.slice(:label, :url) }
   end
 
   def publish_progress
@@ -127,8 +147,15 @@ class CopilotRun::Action < CopilotRun
   # change never reached count with the failed ones, so the card's numbers add up to what the agent approved.
   def card_progress
     progress = summary
-    { finished: finished?, done: progress.values_at(:applied, :skipped, :failed).sum, total: progress[:targets],
-      applied: progress[:applied] + progress[:skipped], not_changed: progress[:failed] + progress[:not_processed].to_i }
+    not_changed = progress[:failed] + progress[:not_processed].to_i
+    { finished: finished?, stopped: context['stopped'].present?, done: progress.values_at(:applied, :already_applied, :failed).sum,
+      total: progress[:targets], applied: progress[:applied] + progress[:already_applied], not_changed: not_changed,
+      not_changed_targets: (not_changed_links if finished? && not_changed.positive?) }.compact
+  end
+
+  def not_changed_links
+    changed = action_items.where(status: %i[applied skipped]).pluck(:record_id)
+    target_links(target_ids - changed)
   end
 
   # Targets an approved change never reached, such as when workflows were turned off partway through.
