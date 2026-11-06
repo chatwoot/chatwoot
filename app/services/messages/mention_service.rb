@@ -21,10 +21,16 @@ class Messages::MentionService
   def mentioned_ids
     user_mentions = message.content.scan(%r{\(mention://user/(\d+)/(.+?)\)}).map(&:first)
     team_mentions = message.content.scan(%r{\(mention://team/(\d+)/(.+?)\)}).map(&:first)
+    # The mobile app sends private-note mentions as standard Markdown links
+    # where the URL is just the numeric user ID (e.g. " @[Name](1) ") instead
+    # of the mention:// scheme used by the web app. Extract IDs from both
+    # patterns so mention notifications fire regardless of the source client.
+    # The non-greedy label match allows display names to contain "]".
+    mobile_user_mentions = message.content.scan(/@\[.+?\]\((\d+)\)/).map(&:first)
 
     expanded_user_ids = expand_team_mentions_to_users(team_mentions)
 
-    (user_mentions + expanded_user_ids).uniq
+    (user_mentions + mobile_user_mentions + expanded_user_ids).uniq
   end
 
   def expand_team_mentions_to_users(team_ids)

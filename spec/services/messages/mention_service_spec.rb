@@ -278,6 +278,134 @@ describe Messages::MentionService do
     end
   end
 
+  describe 'mobile app mentions' do
+    context 'when message contains a mobile-style user mention' do
+      it 'creates a notification for the mentioned inbox member' do
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hi @[#{first_agent.name}](#{first_agent.id})",
+          private: true
+        )
+
+        described_class.new(message: message).perform
+
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: first_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+      end
+
+      it 'adds the mentioned user as a conversation participant' do
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hi @[#{first_agent.name}](#{first_agent.id})",
+          private: true
+        )
+
+        described_class.new(message: message).perform
+
+        expect(conversation.conversation_participants.map(&:user_id)).to include(first_agent.id)
+      end
+
+      it 'does not notify non-inbox members' do
+        non_member = create(:user, account: account)
+
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hi @[#{non_member.name}](#{non_member.id})",
+          private: true
+        )
+
+        described_class.new(message: message).perform
+
+        expect(NotificationBuilder).not_to have_received(:new)
+        expect(Conversations::UserMentionJob).not_to have_received(:perform_later)
+      end
+
+      it 'skips self-mention notifications' do
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hi @[#{first_agent.name}](#{first_agent.id})",
+          private: true,
+          sender: first_agent
+        )
+
+        described_class.new(message: message).perform
+
+        expect(NotificationBuilder).not_to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: first_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+      end
+    end
+
+    context 'when message contains both web and mobile user mentions' do
+      it 'creates notifications for users mentioned in both formats' do
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hey (mention://user/#{first_agent.id}/#{first_agent.name}) " \
+                   "and @[#{second_agent.name}](#{second_agent.id})",
+          private: true
+        )
+
+        described_class.new(message: message).perform
+
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: first_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: second_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+      end
+    end
+
+    context 'when the mobile mention label contains a bracket character' do
+      it 'still resolves the mentioned user ID' do
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hi @[QA] Lead](#{first_agent.id})",
+          private: true
+        )
+
+        described_class.new(message: message).perform
+
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: first_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+      end
+    end
+  end
+
   describe 'team mentions' do
     context 'when message contains single team mention' do
       it 'creates notifications for all team members who are inbox members' do
