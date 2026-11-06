@@ -48,26 +48,15 @@ module ActivityMessageHandler
   end
 
   def status_change_activity(user_name)
-    content = if Current.executed_by.present?
-                automation_status_change_activity_content
-              else
-                user_status_change_activity_content(user_name)
-              end
+    params = if Current.executed_by.present?
+               automation_status_change_activity_params
+             else
+               user_status_change_activity_params(user_name)
+             end
 
-    return if content.blank?
+    return if params.blank?
 
-    ::Conversations::ActivityMessageJob.perform_later(
-      self,
-      activity_message_params(
-        content,
-        content_attributes: {
-          activity: {
-            type: 'conversation_status_changed',
-            status: status
-          }
-        }
-      )
-    )
+    ::Conversations::ActivityMessageJob.perform_later(self, params)
   end
 
   def auto_resolve_message_key(minutes)
@@ -80,30 +69,42 @@ module ActivityMessageHandler
     end
   end
 
-  def user_status_change_activity_content(user_name)
+  def user_status_change_activity_params(user_name)
     if user_name
-      I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+      status_activity_params(status, user_name: user_name)
     elsif Current.contact.present? && resolved?
-      I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
+      status_activity_params('contact_resolved', contact_name: Current.contact.name.capitalize)
     elsif resolved?
       message_data = auto_resolve_message_key(auto_resolve_after || 0)
-      I18n.t("conversations.activity.status.#{message_data[:key]}", count: message_data[:count])
+      status_activity_params(message_data[:key], count: message_data[:count])
     end
   end
 
-  def automation_status_change_activity_content
+  def automation_status_change_activity_params
     if Current.executed_by.instance_of?(AutomationRule)
-      I18n.t("conversations.activity.status.#{status}", user_name: I18n.t('automation.system_name'))
+      status_activity_params(status, user_name: I18n.t('automation.system_name'), actor_type: 'automation')
     elsif Current.executed_by.instance_of?(Contact)
       Current.executed_by = nil
-      I18n.t('conversations.activity.status.system_auto_open')
+      status_activity_params('system_auto_open')
     end
   end
 
-  def activity_message_params(content, content_attributes: nil)
-    params = { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
-    params[:content_attributes] = content_attributes if content_attributes.present?
-    params
+  def status_activity_params(key, **i18n_params)
+    activity_message_params(
+      "status.#{key}",
+      content_attributes: { activity: { type: 'conversation_status_changed', status: status } },
+      **i18n_params
+    )
+  end
+
+  # Stores the activity key and params next to the rendered content so clients can translate it
+  # in the viewer's locale. `content` stays populated for API, webhook and transcript consumers.
+  def activity_message_params(key, content_attributes: {}, **i18n_params)
+    {
+      account_id: account_id, inbox_id: inbox_id, message_type: :activity,
+      content: I18n.t("conversations.activity.#{key}", **i18n_params),
+      content_attributes: { activity: { key: key, params: i18n_params } }.deep_merge(content_attributes)
+    }
   end
 
   def create_muted_message
@@ -117,8 +118,7 @@ module ActivityMessageHandler
   def create_mute_change_activity(change_type)
     return unless Current.user
 
-    content = I18n.t("conversations.activity.#{change_type}", user_name: Current.user.name)
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(change_type, user_name: Current.user.name))
   end
 end
 

@@ -4,15 +4,10 @@ module SlaActivityMessageHandler
   private
 
   def create_sla_change_activity(change_type, user_name)
-    content = case change_type
-              when 'added'
-                I18n.t('conversations.activity.sla.added', user_name: user_name, sla_name: sla_policy_name)
-              when 'removed'
-                I18n.t('conversations.activity.sla.removed', user_name: user_name, sla_name: sla_policy_name)
-              when 'updated'
-                I18n.t('conversations.activity.sla.updated', user_name: user_name, sla_name: sla_policy_name)
-              end
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    return unless %w[added removed updated].include?(change_type)
+
+    params = activity_message_params("sla.#{change_type}", user_name: user_name, sla_name: sla_policy_name, **activity_actor_params)
+    ::Conversations::ActivityMessageJob.perform_later(self, params)
   end
 
   def sla_policy_name

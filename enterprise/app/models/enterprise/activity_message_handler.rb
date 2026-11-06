@@ -1,12 +1,17 @@
 module Enterprise::ActivityMessageHandler
-  def automation_status_change_activity_content
+  def automation_status_change_activity_params
     return super unless Current.executed_by.instance_of?(Captain::Assistant)
 
-    locale = Current.executed_by.account.locale
     key = captain_activity_key
     return unless key
 
-    I18n.t(key, user_name: Current.executed_by.name, reason: captain_status_reason, locale: locale)
+    I18n.with_locale(Current.executed_by.account.locale) do
+      activity_message_params(
+        key,
+        content_attributes: { activity: { type: 'conversation_status_changed', status: status } },
+        user_name: Current.executed_by.name, reason: captain_status_reason
+      )
+    end
   end
 
   private
@@ -21,15 +26,15 @@ module Enterprise::ActivityMessageHandler
   end
 
   def captain_resolved_activity_key
-    return 'conversations.activity.captain.resolved_by_tool' if captain_activity_reason_type == :tool && captain_status_reason.present?
-    return 'conversations.activity.captain.resolved_with_reason' if captain_status_reason.present?
+    return 'captain.resolved_by_tool' if captain_activity_reason_type == :tool && captain_status_reason.present?
+    return 'captain.resolved_with_reason' if captain_status_reason.present?
 
-    'conversations.activity.captain.resolved'
+    'captain.resolved'
   end
 
   def captain_open_activity_key
-    return 'conversations.activity.captain.open_with_reason' if captain_status_reason.present?
+    return 'captain.open_with_reason' if captain_status_reason.present?
 
-    'conversations.activity.captain.open'
+    'captain.open'
   end
 end
