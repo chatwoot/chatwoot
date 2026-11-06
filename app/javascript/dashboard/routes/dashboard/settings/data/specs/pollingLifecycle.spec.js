@@ -25,8 +25,8 @@ vi.mock('vue-i18n', () => ({
 
 vi.mock('vue-router', async importOriginal => ({
   ...(await importOriginal()),
-  useRoute: () => ({ params: { dataImportId: 1 } }),
-  useRouter: () => ({ push: vi.fn() }),
+  useRoute: () => ({ params: { dataImportId: 1 }, query: {} }),
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
 }));
 
 const deferredRequest = () => {
