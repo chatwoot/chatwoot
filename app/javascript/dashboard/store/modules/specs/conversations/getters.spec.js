@@ -13,6 +13,14 @@ import conversations from './conversations.fixtures';
 commonHelpers();
 
 describe('#getters', () => {
+  describe('#getChatListErrorStatus', () => {
+    it('returns the conversation list error status', () => {
+      expect(getters.getChatListErrorStatus({ listFetchError: true })).toBe(
+        true
+      );
+    });
+  });
+
   describe('#getAllConversations', () => {
     it('returns conversations ordered by lastActivityAt in descending order if no sort order is available', () => {
       const state = { allConversations: [...conversations] };

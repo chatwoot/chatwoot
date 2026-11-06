@@ -167,6 +167,7 @@ const getters = {
     });
   },
   getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,
+  getChatListErrorStatus: ({ listFetchError }) => listFetchError,
   getAllMessagesLoaded(_state) {
     const [chat] = getSelectedChatConversation(_state);
     return !chat || chat.allMessagesLoaded === undefined
