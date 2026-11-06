@@ -32,31 +32,62 @@ x-chatwoot: &chatwoot
     # SAFE_FETCH_ALLOW_PRIVATE_NETWORK stays unset: it would let every URL Chatwoot
     # fetches reach redis/rails. The Agent Bot webhook uses the public HTTPS path
     # https://<FRONTEND_URL host>/webhooks/chatwoot, which Traefik routes to ai-service.
-    MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-}
-    SMTP_ADDRESS: ${SMTP_ADDRESS:-}
+    # Email is required. Chatwoot reads these with ENV.fetch(name, default), so an
+    # empty string would override its defaults (an empty From address, or a
+    # sendmail fallback when SMTP_ADDRESS is blank). Missing values fail the deploy.
+    MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:?set in Dokploy}
+    SMTP_ADDRESS: ${SMTP_ADDRESS:?set in Dokploy}
     SMTP_PORT: ${SMTP_PORT:-587}
-    SMTP_USERNAME: ${SMTP_USERNAME:-}
-    SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+    SMTP_USERNAME: ${SMTP_USERNAME:?set in Dokploy}
+    SMTP_PASSWORD: ${SMTP_PASSWORD:?set in Dokploy}
 
 services:
   rails:
     <<: *chatwoot
-    depends_on: [redis]
+    # The first-boot seed writes to Redis, so wait until Redis answers.
+    depends_on:
+      redis:
+        condition: service_healthy
     entrypoint: docker/entrypoints/rails.sh
     command: ['sh', '-c', 'bundle exec rails db:chatwoot_prepare && exec bundle exec rails s -p 3000 -b 0.0.0.0']
     expose: ['3000']
+    # Healthy only once migrations are done and Puma serves /api. The header
+    # avoids the FORCE_SSL redirect; the image has busybox wget but no curl.
+    healthcheck:
+      test: ['CMD-SHELL', 'busybox wget -q -O /dev/null --header "X-Forwarded-Proto: https" http://127.0.0.1:3000/api']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 300s
 
   sidekiq:
     <<: *chatwoot
-    depends_on: [redis, rails]
+    # Start only after rails has finished db:chatwoot_prepare, so jobs never run
+    # new code against an unmigrated schema.
+    depends_on:
+      redis:
+        condition: service_healthy
+      rails:
+        condition: service_healthy
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
 
   redis:
     image: redis:7-alpine
     restart: unless-stopped
-    command: ['sh', '-c', 'redis-server --appendonly yes --requirepass "$$REDIS_PASSWORD"']
+    # The password goes into a private config file rather than argv, where
+    # `ps` on the host could read it.
+    command:
+      - sh
+      - -c
+      - umask 077 && printf 'requirepass %s\nappendonly yes\n' "$$REDIS_PASSWORD" > /tmp/redis.conf && exec redis-server /tmp/redis.conf
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD:?set in Dokploy}
+    healthcheck:
+      # REDISCLI_AUTH keeps the password off the redis-cli command line.
+      test: ['CMD-SHELL', 'REDISCLI_AUTH="$$REDIS_PASSWORD" redis-cli ping | grep -q PONG']
+      interval: 5s
+      timeout: 3s
+      retries: 10
     volumes:
       - redis_data:/data
 
