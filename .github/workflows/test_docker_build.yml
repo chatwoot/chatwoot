@@ -52,4 +52,4 @@ jobs:
           push: false
           load: false
           cache-from: type=gha,scope=${{ matrix.platform }}
-          cache-to: ${{ steps.build_inputs.outputs.changed == 'true' && format('type=gha,mode=max,scope={0}', matrix.platform) || '' }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.platform }}
