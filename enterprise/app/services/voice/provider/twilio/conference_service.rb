@@ -10,25 +10,33 @@ class Voice::Provider::Twilio::ConferenceService
 
   # `attempt` identifies the connection the agent is about to open, which passes the same id
   # to Twilio; a client that sends none holds no place for it
-  def mark_agent_joined(user:, attempt: nil)
-    claim_call!(user, attempt)
+  def mark_agent_joined(user:, agent_client:, attempt: nil)
+    claim_call!(user, agent_client, attempt)
     assign_conversation!(user)
   end
 
   # Stops the ring for one agent only; the call keeps ringing for the others. The ring then
   # widens at once, past the step the dismiss moved on from: a ring in turn adds the next agent,
   # and one that rang only this agent rings the team. A dismiss by an agent the call does not
-  # ring, or a repeated one, changes nothing.
+  # ring, or a repeated one, changes nothing. The step is queued under the lock that moves it on,
+  # so a failed enqueue undoes the dismiss and the agent can retry it; the job waits for the lock.
   def dismiss(user)
-    step = call.with_lock do
+    call.with_lock do
       next unless call.ringing? && rings_for?(user)
 
       next_step = call.ring_step + 1
       call.update!(ring_state: call.ring_state.merge('dismissed_user_ids' => call.dismissed_user_ids | [user.id], 'ring_step' => next_step))
       Voice::CallMessageBuilder.new(call).update_ring!
-      next_step
+      Voice::RingNextAgentJob.perform_later(call.id, next_step)
     end
-    Voice::RingNextAgentJob.perform_later(call.id, step) if step
+  end
+
+  # Undoes a claim whose connection never joined while the call still rings, including the client it was made from
+  def release_claim!(user_id)
+    return unless user_id && call.accepted_by_agent_id == user_id
+
+    call.update!(accepted_by_agent_id: nil)
+    call.merge_meta!('agent_client' => nil)
   end
 
   def end_conference
@@ -115,7 +123,7 @@ class Voice::Provider::Twilio::ConferenceService
   end
 
   # The agent's connection is on its way from here, before Twilio asks for its instructions
-  def claim_call!(user, attempt)
+  def claim_call!(user, agent_client, attempt)
     call.with_lock do
       # The ring time is up and the caller is being told so; a join now would find nobody. The mark is checked on
       # its own, since the move's webhooks can end the call before the timeout records it as unanswered.
@@ -123,6 +131,7 @@ class Voice::Provider::Twilio::ConferenceService
 
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
+      call.merge_meta!('agent_client' => agent_client) if agent_client
       next if attempt.blank?
 
       # A newer attempt replaces older ones, which may never have reached Twilio

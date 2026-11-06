@@ -35,6 +35,7 @@ class Portal < ApplicationRecord
   has_many :folders,  through: :categories
   has_many :articles, dependent: :destroy_async
   has_one_attached :logo
+  has_one_attached :dark_logo
   has_many :inboxes, dependent: :nullify
   belongs_to :channel_web_widget, class_name: 'Channel::WebWidget', optional: true
 
@@ -93,15 +94,15 @@ class Portal < ApplicationRecord
   POPULAR_CATEGORY_LIMIT = 3
   POPULAR_ARTICLE_LIMIT = 6
 
-  def file_base_data
+  def file_base_data(attachment = logo)
     {
-      id: logo.id,
+      id: attachment.id,
       portal_id: id,
-      file_type: logo.content_type,
+      file_type: attachment.content_type,
       account_id: account_id,
-      file_url: url_for(logo),
-      blob_id: logo.blob.signed_id,
-      filename: logo.filename.to_s
+      file_url: url_for(attachment),
+      blob_id: attachment.blob.signed_id,
+      filename: attachment.filename.to_s
     }
   end
 

@@ -3,11 +3,13 @@ import { createMemoryHistory, createRouter } from 'vue-router';
 import { flushPromises, mount } from '@vue/test-utils';
 import Dashboard from '../Dashboard.vue';
 
+const uiSettingsState = vi.hoisted(() => ({ current: {} }));
+
 vi.mock('dashboard/composables/useUISettings', async () => {
-  const { ref: createRef } = await import('vue');
+  const { computed: createComputed } = await import('vue');
   return {
     useUISettings: () => ({
-      uiSettings: createRef({}),
+      uiSettings: createComputed(() => uiSettingsState.current),
       updateUISettings: vi.fn(),
     }),
   };
@@ -53,8 +55,8 @@ const createUpgradePageStub = paywalled => ({
 
 // ninja-keys binds cmd+k / ctrl+k when it connects and unbinds when it
 // disconnects, so the hotkey only works while the component stays mounted.
-const createCommandBarStub = tracker => ({
-  name: 'CommandBar',
+const createCommandBarStub = (tracker, name = 'CommandBar') => ({
+  name,
   props: { isPaywalled: { type: Boolean, default: false } },
   setup(props) {
     tracker.mounts += 1;
@@ -67,7 +69,7 @@ const createCommandBarStub = tracker => ({
     onUnmounted(() => document.removeEventListener('keydown', onKeydown));
     return () =>
       h('div', {
-        class: 'command-bar',
+        class: ['command-bar', name],
         'data-paywalled': String(props.isPaywalled),
       });
   },
@@ -84,7 +86,9 @@ describe('Dashboard', () => {
   const mountDashboard = async ({
     paywalled = false,
     routeName = 'home',
+    commandBarV2 = false,
   } = {}) => {
+    uiSettingsState.current = { command_bar_v2: commandBarV2 };
     const isPaywalled = ref(paywalled);
     const commandBar = { mounts: 0, opens: 0 };
     const router = createRouter({
@@ -100,6 +104,7 @@ describe('Dashboard', () => {
         stubs: {
           UpgradePage: createUpgradePageStub(isPaywalled),
           CommandBar: createCommandBarStub(commandBar),
+          CommandBarV2: createCommandBarStub(commandBar, 'CommandBarV2'),
           NextSidebar: true,
           MobileSidebarLauncher: true,
           CopilotLauncher: true,
@@ -134,6 +139,21 @@ describe('Dashboard', () => {
       const { commandBar } = await mountDashboard();
 
       expect(wrapper.find('.command-bar').exists()).toBe(true);
+      expect(commandBar.mounts).toBe(1);
+    });
+
+    it('mounts ninja-keys until the user enables the v2 command bar', async () => {
+      await mountDashboard();
+
+      expect(wrapper.find('.command-bar.CommandBar').exists()).toBe(true);
+      expect(wrapper.find('.command-bar.CommandBarV2').exists()).toBe(false);
+    });
+
+    it('mounts the v2 command bar when the user enables it', async () => {
+      const { commandBar } = await mountDashboard({ commandBarV2: true });
+
+      expect(wrapper.find('.command-bar.CommandBarV2').exists()).toBe(true);
+      expect(wrapper.find('.command-bar.CommandBar').exists()).toBe(false);
       expect(commandBar.mounts).toBe(1);
     });
 

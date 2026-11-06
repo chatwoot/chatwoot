@@ -44,10 +44,20 @@ class Webhooks::WhatsappController < ActionController::API
 
   def meta_signature_verification_required?
     return true if whatsapp_channel.blank?
-    return false unless whatsapp_channel.provider == 'whatsapp_cloud'
-    return true if channel_meta_app_secrets(whatsapp_channel).present?
 
-    whatsapp_channel.provider_config['source'] == 'embedded_signup'
+    whatsapp_channel.provider == 'whatsapp_cloud'
+  end
+
+  def verify_meta_signature!
+    return super unless app_secret_pending?
+    return if valid_meta_signature?
+
+    Rails.logger.warn("[WHATSAPP_APP_SECRET_PENDING] unverified webhook accepted account_id=#{whatsapp_channel.account_id} " \
+                      "channel_id=#{whatsapp_channel.id}")
+  end
+
+  def app_secret_pending?
+    whatsapp_channel&.app_secret_pending? && channel_meta_app_secrets(whatsapp_channel).blank?
   end
 
   def whatsapp_business_payload_channel

@@ -20,7 +20,8 @@ export function useRingingCallsOnLoad() {
   watch(
     isVoiceEnabled,
     enabled => {
-      if (enabled) loadRingingCalls().catch(() => {});
+      if (enabled)
+        loadRingingCalls(store.getters.getCurrentUserID).catch(() => {});
     },
     { immediate: true }
   );
