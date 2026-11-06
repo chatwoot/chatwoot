@@ -24,6 +24,7 @@ type Result struct {
 	Model            string
 	PromptTokens     int
 	CompletionTokens int
+	UsedFallback     bool // set by Fallback when the secondary provider answered
 }
 
 // Client talks to {baseURL}/chat/completions.

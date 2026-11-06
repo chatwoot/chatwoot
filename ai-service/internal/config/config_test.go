@@ -56,10 +56,14 @@ func TestLoad_ReportsAllMissingRequired(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected error")
 	}
-	for _, key := range []string{"CHATWOOT_BASE_URL", "CHATWOOT_BOT_TOKEN", "CHATWOOT_WEBHOOK_SECRET", "LLM_API_KEY", "LLM_MODEL"} {
+	for _, key := range []string{"CHATWOOT_BASE_URL", "CHATWOOT_BOT_TOKEN", "CHATWOOT_WEBHOOK_SECRET"} {
 		if !strings.Contains(err.Error(), key) {
 			t.Errorf("error does not mention %s: %v", key, err)
 		}
+	}
+	// LLM settings are optional at startup: the admin page can set them.
+	if strings.Contains(err.Error(), "LLM_") {
+		t.Errorf("LLM settings must not be required: %v", err)
 	}
 }
 
@@ -96,5 +100,42 @@ func TestLoad_RejectsBadNumbers(t *testing.T) {
 	// Assert
 	if err == nil || !strings.Contains(err.Error(), "QUEUE_SIZE") || !strings.Contains(err.Error(), "LLM_TIMEOUT") {
 		t.Fatalf("expected QUEUE_SIZE and LLM_TIMEOUT errors, got %v", err)
+	}
+}
+
+func TestLoad_FallbackAndAdminSettings(t *testing.T) {
+	// Arrange
+	env := requiredEnv()
+	env["LLM_FALLBACK_BASE_URL"] = "https://api.openai.com/v1/"
+	env["LLM_FALLBACK_API_KEY"] = "fk"
+	env["LLM_FALLBACK_MODEL"] = "fm"
+	env["ADMIN_PASSWORD"] = "a-long-enough-password"
+
+	// Act
+	cfg, err := Load(lookupFrom(env))
+
+	// Assert
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.LLMFallbackBaseURL != "https://api.openai.com/v1" || cfg.LLMFallbackAPIKey != "fk" || cfg.LLMFallbackModel != "fm" {
+		t.Errorf("fallback = %q %q %q", cfg.LLMFallbackBaseURL, cfg.LLMFallbackAPIKey, cfg.LLMFallbackModel)
+	}
+	if cfg.SettingsPath != "/data/settings.json" {
+		t.Errorf("settings path = %q", cfg.SettingsPath)
+	}
+}
+
+func TestLoad_RejectsShortAdminPassword(t *testing.T) {
+	// Arrange
+	env := requiredEnv()
+	env["ADMIN_PASSWORD"] = "short"
+
+	// Act
+	_, err := Load(lookupFrom(env))
+
+	// Assert
+	if err == nil || !strings.Contains(err.Error(), "ADMIN_PASSWORD") {
+		t.Fatalf("err = %v", err)
 	}
 }

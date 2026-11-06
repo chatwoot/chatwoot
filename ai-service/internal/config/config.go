@@ -18,11 +18,18 @@ type Config struct {
 	ChatwootBotToken string // Agent Bot access token (secret)
 	WebhookSecret    string // Agent Bot webhook secret used for HMAC (secret)
 
-	LLMBaseURL   string
-	LLMAPIKey    string // secret
-	LLMModel     string
-	LLMTimeout   time.Duration
-	SystemPrompt string
+	// Initial LLM settings; the admin page can override them at runtime.
+	LLMBaseURL         string
+	LLMAPIKey          string // secret
+	LLMModel           string
+	LLMFallbackBaseURL string
+	LLMFallbackAPIKey  string // secret
+	LLMFallbackModel   string
+	LLMTimeout         time.Duration // per provider call
+	SystemPrompt       string
+
+	AdminPassword string // enables /admin when set (secret)
+	SettingsPath  string
 
 	HandoffKeywords []string
 	HandoffMessage  string
@@ -64,18 +71,23 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	}
 
 	cfg := Config{
-		ListenAddr:       get("LISTEN_ADDR", ":8080"),
-		ChatwootBaseURL:  strings.TrimRight(get("CHATWOOT_BASE_URL", ""), "/"),
-		ChatwootBotToken: get("CHATWOOT_BOT_TOKEN", ""),
-		WebhookSecret:    get("CHATWOOT_WEBHOOK_SECRET", ""),
-		LLMBaseURL:       strings.TrimRight(get("LLM_BASE_URL", "https://openrouter.ai/api/v1"), "/"),
-		LLMAPIKey:        get("LLM_API_KEY", ""),
-		LLMModel:         get("LLM_MODEL", ""),
-		SystemPrompt:     get("SYSTEM_PROMPT", DefaultSystemPrompt),
-		HandoffMessage:   get("HANDOFF_MESSAGE", DefaultHandoffMessage),
-		FailureMessage:   get("FAILURE_MESSAGE", DefaultFailureMessage),
-		LogLevel:         get("LOG_LEVEL", "info"),
-		HandoffKeywords:  DefaultHandoffKeywords,
+		ListenAddr:         get("LISTEN_ADDR", ":8080"),
+		ChatwootBaseURL:    strings.TrimRight(get("CHATWOOT_BASE_URL", ""), "/"),
+		ChatwootBotToken:   get("CHATWOOT_BOT_TOKEN", ""),
+		WebhookSecret:      get("CHATWOOT_WEBHOOK_SECRET", ""),
+		LLMBaseURL:         strings.TrimRight(get("LLM_BASE_URL", "https://openrouter.ai/api/v1"), "/"),
+		LLMAPIKey:          get("LLM_API_KEY", ""),
+		LLMModel:           get("LLM_MODEL", ""),
+		LLMFallbackBaseURL: strings.TrimRight(get("LLM_FALLBACK_BASE_URL", ""), "/"),
+		LLMFallbackAPIKey:  get("LLM_FALLBACK_API_KEY", ""),
+		LLMFallbackModel:   get("LLM_FALLBACK_MODEL", ""),
+		AdminPassword:      get("ADMIN_PASSWORD", ""),
+		SettingsPath:       get("SETTINGS_PATH", "/data/settings.json"),
+		SystemPrompt:       get("SYSTEM_PROMPT", DefaultSystemPrompt),
+		HandoffMessage:     get("HANDOFF_MESSAGE", DefaultHandoffMessage),
+		FailureMessage:     get("FAILURE_MESSAGE", DefaultFailureMessage),
+		LogLevel:           get("LOG_LEVEL", "info"),
+		HandoffKeywords:    DefaultHandoffKeywords,
 	}
 
 	if raw := get("HANDOFF_KEYWORDS", ""); raw != "" {
@@ -95,16 +107,20 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 		{"CHATWOOT_BASE_URL", cfg.ChatwootBaseURL},
 		{"CHATWOOT_BOT_TOKEN", cfg.ChatwootBotToken},
 		{"CHATWOOT_WEBHOOK_SECRET", cfg.WebhookSecret},
-		{"LLM_API_KEY", cfg.LLMAPIKey},
-		{"LLM_MODEL", cfg.LLMModel},
 	}
 	for _, r := range required {
 		if r.val == "" {
 			errs = append(errs, fmt.Errorf("%s is required", r.key))
 		}
 	}
+	if cfg.AdminPassword != "" && len(cfg.AdminPassword) < MinAdminPasswordLen {
+		errs = append(errs, fmt.Errorf("ADMIN_PASSWORD must be at least %d characters", MinAdminPasswordLen))
+	}
 	return cfg, errors.Join(errs...)
 }
+
+// MinAdminPasswordLen is the shortest accepted ADMIN_PASSWORD.
+const MinAdminPasswordLen = 12
 
 // FromEnv loads Config from the process environment.
 func FromEnv() (Config, error) { return Load(os.LookupEnv) }

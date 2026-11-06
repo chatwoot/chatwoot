@@ -196,6 +196,7 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, conv int64) {
 	// Content is not logged (personal data); lengths and usage are enough for cost tracking.
 	log.Info("ai replied",
 		"model", res.Model,
+		"used_fallback", res.UsedFallback,
 		"prompt_tokens", res.PromptTokens,
 		"completion_tokens", res.CompletionTokens,
 		"latency_ms", latency.Milliseconds(),
