@@ -22,6 +22,11 @@ import {
   handleVoiceCallUpdated,
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
+import { applyRoleFilter } from './helpers';
+import {
+  getUserPermissions,
+  getUserRole,
+} from 'dashboard/helper/permissionsHelper';
 
 // Page size MessageFinder uses when walking backwards through a conversation.
 const MESSAGES_PER_PAGE = 20;
@@ -460,7 +465,7 @@ const actions = {
     handleVoiceCallCreated(
       message,
       rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
+      rootGetters?.getCurrentUserReceivesCalls
     );
   },
 
@@ -487,7 +492,7 @@ const actions = {
       commit,
       message,
       rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
+      rootGetters?.getCurrentUserReceivesCalls
     );
   },
 
@@ -552,7 +557,26 @@ const actions = {
     const sender = conversation.meta?.sender;
 
     commit(types.UPDATE_CONVERSATION, conversation);
-    syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
+    syncConversationCallVisibility(
+      conversation,
+      rootGetters?.getCurrentUserID,
+      () => {
+        const currentUser = rootGetters.getCurrentUser;
+        const accountId = rootGetters.getCurrentAccountId;
+        const permissions = getUserPermissions(currentUser, accountId);
+        // Participants keep access once assigned away, and the client does not know who they
+        // are, so the card stays; joining or dismissing it drops it if the server refuses
+        return (
+          permissions.includes('conversation_participating_manage') ||
+          applyRoleFilter(
+            conversation,
+            getUserRole(currentUser, accountId),
+            permissions,
+            rootGetters.getCurrentUserID
+          )
+        );
+      }
+    );
     // The contact language can change after a message arrived; the action skips anything already handled.
     dispatch('autoTranslateMessages', conversation.id);
 

@@ -12,6 +12,7 @@ import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
@@ -25,6 +26,7 @@ export default {
     ImapSettings,
     SmtpSettings,
     NextButton,
+    Banner,
     TextArea,
     WhatsappBusinessManagementToken,
     HmacSecretKey,
@@ -45,6 +47,7 @@ export default {
       hmacMandatory: false,
       allowMobileWebview: false,
       whatsAppInboxAPIKey: '',
+      whatsAppAppSecret: '',
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
@@ -54,6 +57,7 @@ export default {
   },
   validations: {
     whatsAppInboxAPIKey: { required },
+    whatsAppAppSecret: { required },
   },
   computed: {
     ...mapGetters({
@@ -61,6 +65,15 @@ export default {
     }),
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
+    },
+    isManualWhatsAppCloud() {
+      return (
+        this.inbox.provider === 'whatsapp_cloud' &&
+        !this.isEmbeddedSignupWhatsApp
+      );
+    },
+    isWhatsAppAppSecretMissing() {
+      return !this.inbox.provider_config?.app_secret;
     },
     showWhatsAppReconfigure() {
       return this.isEmbeddedSignupWhatsApp;
@@ -173,6 +186,26 @@ export default {
         };
 
         await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async updateWhatsAppAppSecret() {
+      try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            provider_config: {
+              ...this.inbox.provider_config,
+              app_secret: this.whatsAppAppSecret,
+            },
+          },
+        };
+
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        this.whatsAppAppSecret = '';
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
@@ -462,6 +495,38 @@ export default {
             <NextButton
               :disabled="v$.whatsAppInboxAPIKey.$invalid"
               @click="updateWhatsAppInboxAPIKey"
+            >
+              {{
+                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')
+              }}
+            </NextButton>
+          </div>
+        </SettingsFieldSection>
+        <SettingsFieldSection
+          v-if="isManualWhatsAppCloud"
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_APP_SECRET_TITLE')"
+          :help-text="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_APP_SECRET_SUBHEADER')
+          "
+        >
+          <Banner v-if="isWhatsAppAppSecretMissing" color="amber" class="mb-3">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_APP_SECRET_MISSING') }}
+          </Banner>
+          <div
+            class="flex flex-1 justify-between items-center whatsapp-settings--content"
+          >
+            <woot-input
+              v-model="whatsAppAppSecret"
+              type="password"
+              autocomplete="off"
+              class="flex-1 mr-2 [&>input]:!mb-0"
+              :placeholder="
+                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_APP_SECRET_PLACEHOLDER')
+              "
+            />
+            <NextButton
+              :disabled="v$.whatsAppAppSecret.$invalid"
+              @click="updateWhatsAppAppSecret"
             >
               {{
                 $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')

@@ -8,6 +8,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::Accounts::Concerns::InboxHealthManagement
   include Api::V1::Accounts::Concerns::InboxSecretManagement
   include Api::V1::Accounts::Concerns::EmailChannelCreation
+  include Api::V1::Accounts::Concerns::BandwidthConfiguration
+  before_action :prepare_bandwidth_configuration, only: [:create, :update]
 
   def index
     @inboxes = inbox_scope
@@ -84,9 +86,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   private
 
-  def inbox_scope
-    policy_scope(Current.account.inboxes)
-  end
+  def inbox_scope = policy_scope(Current.account.inboxes)
 
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:id])

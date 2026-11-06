@@ -151,7 +151,7 @@ const openFlowDrilldown = payload => {
     <div
       class="flex flex-col min-w-0 gap-5 p-5 lg:flex-row lg:items-center lg:justify-between lg:gap-0"
     >
-      <div class="w-full min-w-0 lg:w-[47.1875rem]">
+      <div class="w-full min-w-0 lg:max-w-[47.1875rem]">
         <div
           v-if="loading"
           class="h-[16.25rem] rounded-lg bg-n-slate-3 animate-pulse"

@@ -174,6 +174,13 @@ class Message < ApplicationRecord
     data
   end
 
+  # The widget learns only that a contact sent the message, not the contact's stored details
+  def widget_sender_data
+    return { type: 'contact' } if sender.is_a?(Contact)
+
+    sender.push_event_data
+  end
+
   def webhook_push_event_data
     push_event_data.merge(
       content: Messages::WebhookContentNormalizer.normalize(content),
