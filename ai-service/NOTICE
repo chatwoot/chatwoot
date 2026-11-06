@@ -7,8 +7,13 @@ Chatwoot's enterprise/ directory.
 
 Third-party code
 ----------------
-None yet. Phase 2 (this MVP) is written from scratch using only the Go
-standard library.
+None yet. No source file is adapted from another project. Library
+dependencies (for example github.com/jackc/pgx/v5, MIT) are listed in go.mod
+and are not third-party code in this sense.
+
+Ideas, not code: .github/workflows/ai-service.yml (SHA-pinned actions and
+checksummed tools) and the AGENTS.md layout follow patterns from
+kulovema2012/project-reuse-toolkit@c6338799bb. No files were copied from it.
 
 When code is adapted from huabeitech/agent-desk (Apache License 2.0,
 https://github.com/huabeitech/agent-desk) or ideas/code from raksbisht/sitechat
