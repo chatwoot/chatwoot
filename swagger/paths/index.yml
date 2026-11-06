@@ -439,6 +439,10 @@
   $ref: ./application/inboxes/update.yml
 /api/v1/accounts/{account_id}/inboxes/{id}/message_templates:
   $ref: ./application/inboxes/message_templates.yml
+/api/v1/accounts/{account_id}/inboxes/{id}/whatsapp_catalog:
+  $ref: ./application/inboxes/whatsapp_catalog.yml
+/api/v1/accounts/{account_id}/inboxes/{id}/whatsapp_catalog_products:
+  $ref: ./application/inboxes/whatsapp_catalog_products.yml
 /api/v1/accounts/{account_id}/inboxes/{id}/agent_bot:
   $ref: ./application/inboxes/get_agent_bot.yml
 /api/v1/accounts/{account_id}/inboxes/{id}/set_agent_bot:
@@ -495,6 +499,12 @@
     $ref: ./application/conversation/messages/index.yml
   post:
     $ref: ./application/conversation/messages/create.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/catalog_message:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/messages/create_catalog.yml
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}:
   parameters:
     - $ref: '#/components/parameters/account_id'

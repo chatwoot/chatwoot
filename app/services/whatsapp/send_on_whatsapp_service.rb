@@ -51,12 +51,17 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def send_session_message
-    message_id = channel.send_message(message.conversation.contact_inbox.source_id, message)
+    source_id = message.conversation.contact_inbox.source_id
+    message_id = catalog_message? ? channel.send_catalog_message(source_id, message) : channel.send_message(source_id, message)
     message.update!(source_id: message_id) if message_id.present?
   end
 
   def template_params
     message.additional_attributes && message.additional_attributes['template_params']
+  end
+
+  def catalog_message?
+    message.content_attributes['whatsapp_catalog'].present?
   end
 
   def contact_info_request?
