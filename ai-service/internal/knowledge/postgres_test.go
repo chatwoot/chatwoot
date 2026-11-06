@@ -137,7 +137,7 @@ func TestPostgres_BusinessProfileRoundTrip(t *testing.T) {
 
 	// Act: an unknown account reads as empty, then save twice (upsert).
 	empty, errEmpty := store.Get(ctx, 7)
-	errFirst := store.Save(ctx, profile.Profile{AccountID: 7, BusinessName: "First", Rules: "ห้ามให้ส่วนลด"})
+	errFirst := store.Save(ctx, profile.Profile{AccountID: 7, BusinessName: "First", Rules: "ห้ามให้ส่วนลด", Features: profile.Features{Voice: true, Stickers: true}})
 	errSecond := store.Save(ctx, profile.Profile{AccountID: 7, BusinessName: "Johnstocker AI Studio", About: "คอร์สออนไลน์"})
 	errInvalid := store.Save(ctx, profile.Profile{AccountID: 0, BusinessName: "x"})
 	got, errGet := store.Get(ctx, 7)
@@ -155,7 +155,8 @@ func TestPostgres_BusinessProfileRoundTrip(t *testing.T) {
 	if errInvalid == nil {
 		t.Error("saving account 0 succeeded, want a validation error")
 	}
-	if got.BusinessName != "Johnstocker AI Studio" || got.About != "คอร์สออนไลน์" || got.Rules != "" || got.UpdatedAt.IsZero() {
+	if got.BusinessName != "Johnstocker AI Studio" || got.About != "คอร์สออนไลน์" || got.Rules != "" || got.UpdatedAt.IsZero() ||
+		got.Features != (profile.Features{}) {
 		t.Errorf("after upsert = %+v", got)
 	}
 	if !other.Empty() {
@@ -188,8 +189,8 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
 		t.Fatal(err)
 	}
-	if version != 2 || docs != 1 || table == nil {
-		t.Errorf("version=%d docs=%d business_profiles=%v, want 2, 1, present", version, docs, table)
+	if version != 3 || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want 3, 1, present", version, docs, table)
 	}
 	var rls bool
 	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
@@ -206,5 +207,30 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 	}
 	if exposed {
 		t.Error("anon or authenticated can read business_profiles")
+	}
+}
+
+// Production is at schema v2 with saved profiles; v3 adds feature switches,
+// all off, without touching the saved text.
+func TestPostgres_MigratesV2ToV3FeaturesOff(t *testing.T) {
+	// Arrange: a v2 database holding one profile.
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `ALTER TABLE business_profiles DROP COLUMN voice_enabled, DROP COLUMN images_enabled, DROP COLUMN stickers_enabled;
+		UPDATE kb_schema_version SET version = 2;
+		INSERT INTO business_profiles (account_id, business_name) VALUES (1, 'Johnstocker AI Studio');`); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	err := db.Migrate(ctx)
+	got, getErr := (&profile.Postgres{Pool: db.Pool}).Get(ctx, 1)
+
+	// Assert
+	if err != nil || getErr != nil {
+		t.Fatalf("migrate %v, get %v", err, getErr)
+	}
+	if got.BusinessName != "Johnstocker AI Studio" || got.Features != (profile.Features{}) {
+		t.Errorf("after v3 = %+v, want the saved name and every feature off", got)
 	}
 }

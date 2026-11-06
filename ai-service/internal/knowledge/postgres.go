@@ -18,6 +18,9 @@ var schemaV1 string
 //go:embed schema_v2.sql
 var schemaV2 string
 
+//go:embed schema_v3.sql
+var schemaV3 string
+
 // Postgres is a Store backed by Postgres with the pgvector extension.
 type Postgres struct {
 	Pool *pgxpool.Pool
@@ -62,6 +65,14 @@ func (p *Postgres) Migrate(ctx context.Context) error {
 			return fmt.Errorf("apply schema v2: %w", err)
 		}
 		if _, err := tx.Exec(ctx, "UPDATE kb_schema_version SET version = 2"); err != nil {
+			return err
+		}
+	}
+	if version < 3 {
+		if _, err := tx.Exec(ctx, schemaV3); err != nil {
+			return fmt.Errorf("apply schema v3: %w", err)
+		}
+		if _, err := tx.Exec(ctx, "UPDATE kb_schema_version SET version = 3"); err != nil {
 			return err
 		}
 	}

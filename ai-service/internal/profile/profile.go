@@ -27,7 +27,15 @@ type Profile struct {
 	Tone         string // voice, persona, language preferences
 	Contact      string // how to buy, pay, or reach staff
 	Rules        string // do and don't
+	Features     Features
 	UpdatedAt    time.Time
+}
+
+// Features are the AI abilities a business switches on (all off by default).
+type Features struct {
+	Voice    bool // transcribe voice notes and answer them
+	Images   bool // let the model look at photos and screenshots
+	Stickers bool // answer stickers and likes briefly instead of handing off
 }
 
 // Empty reports whether no field is filled.
