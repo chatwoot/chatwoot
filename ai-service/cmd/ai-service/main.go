@@ -59,6 +59,9 @@ func run() error {
 	}
 	completer := &llm.Switch{}
 	completer.Set(settings.NewCompleter(current, cfg.LLMTimeout, logger))
+	// The query rewrite can run on a smaller, faster model (REWRITE_MODEL).
+	rewriteLLM := &llm.Switch{}
+	rewriteLLM.Set(settings.NewCompleter(settings.RewriteSettings(current, cfg.RewriteModel), cfg.LLMTimeout, logger))
 	embedder := &embed.Switch{}
 	embedder.Set(settings.NewEmbedder(current, cfg.LLMTimeout))
 
@@ -74,7 +77,7 @@ func run() error {
 	var rewriter bot.QueryRewriter
 	if kb != nil {
 		retriever, botProfiles, adminProfiles = kb, profiles, profiles
-		rewriter = &bot.LLMRewriter{LLM: completer}
+		rewriter = &bot.LLMRewriter{LLM: rewriteLLM}
 	}
 
 	// Tracing: assign the interface only when on (a nil pointer is not a nil interface).
@@ -120,6 +123,7 @@ func run() error {
 	if cfg.AdminPassword != "" {
 		(&admin.Handler{
 			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
+			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
 			Knowledge: kb, Profiles: adminProfiles, Timeout: cfg.LLMTimeout, Logger: logger,
 		}).Routes(mux)
 	} else {
@@ -137,7 +141,7 @@ func run() error {
 	errCh := make(chan error, 1)
 	go func() {
 		logger.Info("ai-service listening", "addr", cfg.ListenAddr,
-			"primary_model", current.Primary.Model, "fallback_enabled", current.Fallback.Configured(),
+			"primary_model", current.Primary.Model, "rewrite_model", settings.RewriteSettings(current, cfg.RewriteModel).Primary.Model, "fallback_enabled", current.Fallback.Configured(),
 			"admin_enabled", cfg.AdminPassword != "", "workers", cfg.Workers,
 			"knowledge_enabled", kb != nil, "embedding_model", embedder.Model())
 		errCh <- srv.ListenAndServe()

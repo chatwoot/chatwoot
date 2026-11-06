@@ -23,6 +23,7 @@ type env struct {
 	mux    *http.ServeMux
 	store  *settings.Store
 	sw     *llm.Switch
+	h      *Handler
 	probed []settings.Provider
 }
 
@@ -43,6 +44,7 @@ func setup(t *testing.T, probeErr error) *env {
 			return llm.Result{Model: p.Model}, probeErr
 		},
 	}
+	e.h = h
 	h.Routes(e.mux)
 	return e
 }
@@ -388,5 +390,24 @@ func TestShow_NeverPrefillsSavedKey(t *testing.T) {
 	// Assert: key inputs render empty; only the mask appears.
 	if strings.Contains(body, "sk-or-secret-9876") || !strings.Contains(body, `value="" placeholder="Saved key ••••9876"`) {
 		t.Error("saved key must never be prefilled; placeholder should show its mask")
+	}
+}
+
+func TestSave_UpdatesTheRewriteModelLive(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	rw := &llm.Switch{}
+	e.h.Rewrite, e.h.RewriteModel = rw, "small-model"
+	form := baseForm()
+
+	// Act
+	w := e.do(post(form))
+
+	// Assert
+	if w.Code != http.StatusSeeOther {
+		t.Fatalf("save = %d", w.Code)
+	}
+	if _, err := rw.Complete(context.Background(), nil); errors.Is(err, llm.ErrNotConfigured) {
+		t.Error("saving provider settings must also point the rewrite switch at the new settings")
 	}
 }

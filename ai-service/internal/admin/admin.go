@@ -48,9 +48,13 @@ type Handler struct {
 	Password string
 	Store    *settings.Store
 	Switch   *llm.Switch
-	Embedder *embedclient.Switch // updated when the embeddings provider is saved
-	Timeout  time.Duration       // per provider call
-	Logger   *slog.Logger
+	// Rewrite is the query-rewrite completer (RewriteModel on the same
+	// provider); refreshed on save like Switch. Nil: no separate rewrite model.
+	Rewrite      *llm.Switch
+	RewriteModel string
+	Embedder     *embedclient.Switch // updated when the embeddings provider is saved
+	Timeout      time.Duration       // per provider call
+	Logger       *slog.Logger
 	// Knowledge enables the knowledge base page; nil when no database is set.
 	Knowledge *knowledge.Service
 	// Profiles enables the business profile page; nil when no database is set.
@@ -181,6 +185,9 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	h.Switch.Set(settings.NewCompleter(h.Store.Get(), h.Timeout, h.Logger))
+	if h.Rewrite != nil {
+		h.Rewrite.Set(settings.NewCompleter(settings.RewriteSettings(h.Store.Get(), h.RewriteModel), h.Timeout, h.Logger))
+	}
 	if h.Embedder != nil {
 		h.Embedder.Set(settings.NewEmbedder(h.Store.Get(), h.Timeout))
 	}

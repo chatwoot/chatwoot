@@ -182,7 +182,10 @@ message, with the conversation for context, as one stand-alone query in Thai
 and one in English. Both are searched alongside the customer's own words, so
 an English question finds a Thai knowledge base and "how much is it?" finds
 its topic. Results are merged round-robin, so each query keeps its best hit.
-If the rewrite fails, the bot searches with the customer's words only.
+If the rewrite fails, the bot searches with the customer's words only. `REWRITE_MODEL` runs the rewrite on a
+smaller, faster model of the same provider (falling back to the main model);
+on 2026-11-07 `gpt-5.4-mini` took a median 0.85 s against 2.36 s for
+`gpt-6-luna`, while `gpt-5.4-nano` mistranslated "ผ่อน" (instalments).
 
 ## Run locally (with `../local` from `init.sh`)
 

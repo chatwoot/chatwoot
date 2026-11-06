@@ -205,6 +205,19 @@ func Mask(secret string) string {
 }
 
 // NewCompleter builds the LLM chain (primary, then fallback if configured).
+// RewriteSettings is the provider setup for the query rewrite: the main
+// provider with a smaller, faster model, falling back to the main model so a
+// wrong or retired model name never breaks the rewrite. An empty model keeps
+// the main settings unchanged.
+func RewriteSettings(s LLM, model string) LLM {
+	if model == "" {
+		return s
+	}
+	fast := s.Primary
+	fast.Model = model
+	return LLM{Primary: fast, Fallback: s.Primary}
+}
+
 // Each provider call is bounded by timeout.
 func NewCompleter(s LLM, timeout time.Duration, logger *slog.Logger) llm.Completer {
 	if !s.Primary.Configured() {
