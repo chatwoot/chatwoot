@@ -16,6 +16,8 @@ class Captain::Tools::CopilotMcpTool < Captain::Tools::McpTool
     tool_arguments(tool_context).verified?(params) ? result : "#{result}\n\n#{Captain::Tools::CopilotHttpTool::UNVERIFIED_VALUE_NOTE}"
   end
 
+  # Each step builds its own copy, so a call looks up the conversation twice. The steps share no per-call value, and
+  # keeping one on the tool between them would put run state on a tool instance, which the ai-agents gem warns against.
   def tool_arguments(tool_context)
     Captain::ToolArguments.new(@mcp_tool, find_conversation(tool_context.state))
   end
