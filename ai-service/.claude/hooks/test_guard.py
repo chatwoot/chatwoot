@@ -10,7 +10,7 @@ import unittest
 
 HOOKS = os.path.dirname(os.path.abspath(__file__))
 GUARD = os.path.join(HOOKS, "guard.py")
-FORK_ROOT = os.path.abspath(os.path.join(HOOKS, "..", "..", ".."))
+FORK_ROOT = os.environ.get("GUARD_TEST_FORK_ROOT") or os.path.abspath(os.path.join(HOOKS, "..", "..", ".."))
 # Built by concatenation so this file itself never contains the forbidden setting.
 SAFE_FETCH_ON = "SAFE_FETCH_ALLOW_PRIVATE_NETWORK" + "=true"
 
@@ -305,6 +305,37 @@ class RedirectTests(unittest.TestCase):
             "echo x &> .git/config",
             "echo x >& ai-service/.claude/settings.json",
             "cp>&1x a ai-service/.claude/hooks/guard.py",
+        ):
+            result = run_guard("Bash", {"command": command})
+            self.assertEqual(result.returncode, 2, command)
+
+
+class FourthReviewTests(unittest.TestCase):
+    """Bypasses left open after PR #11."""
+
+    def test_vertical_tab_or_form_feed_is_blocked(self):
+        for sep in ("\x0b", "\x0c"):
+            result = run_guard("Bash", {"command": f"cp{sep}a ai-service/.claude/hooks/guard.py"})
+            self.assertEqual(result.returncode, 2, repr(sep))
+
+    def test_fd_duplication_before_vertical_tab_is_not_exempt(self):
+        result = run_guard("Bash", {"command": "echo x >&1\x0bai-service/.claude/settings.json"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_home_override_on_git_is_blocked(self):
+        for command in ("HOME=/tmp/x git commit -m x", "env XDG_CONFIG_HOME=/tmp/x git push origin feat/x"):
+            result = run_guard("Bash", {"command": command})
+            self.assertEqual(result.returncode, 2, command)
+
+    def test_home_without_git_is_allowed(self):
+        result = run_guard("Bash", {"command": "HOME=/tmp/x python3 -c 1"})
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_writes_to_user_git_config_are_blocked(self):
+        for command in (
+            "printf x >> ~/.gitconfig",
+            "echo x > $HOME/.config/git/config",
+            "cp evil ~/.config/git/attributes",
         ):
             result = run_guard("Bash", {"command": command})
             self.assertEqual(result.returncode, 2, command)

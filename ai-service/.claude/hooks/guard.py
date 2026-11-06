@@ -260,7 +260,11 @@ def check_push(args, repo_dir):
             block(f"current branch is {branch}; push a feature branch and open a PR.")
 
 
-FD_DUPLICATION = re.compile(r"[0-9]*[<>]&(?:[0-9]+|-)(?=\s|$|[;&|)])")
+FD_DUPLICATION = re.compile(r"[0-9]*[<>]&(?:[0-9]+|-)(?=[ \t\n;&|)]|$)")
+# Bash does not split words on these, but Python's \s and str.split() do.
+ODD_WHITESPACE = ("\x0b", "\x0c")
+CONFIG_HOME_OVERRIDE = re.compile(r"(^|[\s;&|(])(HOME|XDG_CONFIG_HOME)=")
+USER_GIT_CONFIG = re.compile(r"(~|\$HOME|\$\{HOME\}|/Users/[^/\s]+|/home/[^/\s]+)/(\.gitconfig|\.config/git/)")
 
 
 def shell_writes(command):
@@ -269,6 +273,12 @@ def shell_writes(command):
 
 
 def check_bash(command, cwd, depth=0):
+    if any(char in command for char in ODD_WHITESPACE):
+        block("vertical tab or form feed in a command; use spaces.")
+    if CONFIG_HOME_OVERRIDE.search(command) and re.search(r"\bgit\b", command):
+        block("no HOME or XDG_CONFIG_HOME override on git; it swaps in another git config.")
+    if USER_GIT_CONFIG.search(command) and shell_writes(command):
+        block("no shell writes to the user git config (~/.gitconfig, ~/.config/git/).")
     if SAFE_FETCH.search(command):
         block("never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.")
     if GUARD_MENTION.search(command) and shell_writes(command):
