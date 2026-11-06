@@ -233,4 +233,38 @@ func TestPostgres_MigratesV2ToV3FeaturesOff(t *testing.T) {
 	if got.BusinessName != "Johnstocker AI Studio" || got.Features != (profile.Features{}) {
 		t.Errorf("after v3 = %+v, want the saved name and every feature off", got)
 	}
+	var rls, exposed bool
+	if err := db.Pool.QueryRow(ctx, `SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'`).Scan(&rls); err != nil || !rls {
+		t.Errorf("row level security must stay on after v3 (err %v)", err)
+	}
+	if err := db.Pool.QueryRow(ctx, `SELECT EXISTS (SELECT 1 FROM pg_roles r WHERE r.rolname IN ('anon', 'authenticated')
+		AND has_table_privilege(r.rolname, 'business_profiles', 'SELECT'))`).Scan(&exposed); err != nil || exposed {
+		t.Errorf("anon/authenticated must not read business_profiles after v3 (err %v)", err)
+	}
+}
+
+// Rolling back to the v2 binary must not clear switches the v3 binary saved:
+// its upsert (copied from develop 9a4b1f3) does not touch the new columns.
+func TestPostgres_OldBinarySaveKeepsFeatureSwitches(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	store := &profile.Postgres{Pool: db.Pool}
+	if err := store.Save(ctx, profile.Profile{AccountID: 1, BusinessName: "A", Features: profile.Features{Voice: true}}); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act: the v2 binary's Save statement.
+	_, err := db.Pool.Exec(ctx, `INSERT INTO business_profiles
+		(account_id, business_name, about, tone, contact, rules, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6, now())
+		ON CONFLICT (account_id) DO UPDATE SET business_name = EXCLUDED.business_name,
+		about = EXCLUDED.about, tone = EXCLUDED.tone, contact = EXCLUDED.contact,
+		rules = EXCLUDED.rules, updated_at = now()`, 1, "B", "", "", "", "")
+	got, getErr := store.Get(ctx, 1)
+
+	// Assert
+	if err != nil || getErr != nil || got.BusinessName != "B" || !got.Features.Voice {
+		t.Errorf("after an old-binary save: %+v (err %v / %v), want name B and voice still on", got, err, getErr)
+	}
 }
