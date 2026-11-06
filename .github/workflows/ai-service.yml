@@ -51,7 +51,8 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
-          go-version-file: ai-service/go.mod
+          go-version: "1.27.x" # latest patch, like golang:1.27-alpine; go.mod pins only the minimum
+          check-latest: true
           cache-dependency-path: ai-service/go.sum
       - name: gofmt
         run: |
@@ -74,7 +75,8 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
-          go-version-file: ai-service/go.mod
+          go-version: "1.27.x" # latest patch, like golang:1.27-alpine; go.mod pins only the minimum
+          check-latest: true
           cache-dependency-path: ai-service/go.sum
       # Version pinned; integrity checked by the Go checksum database.
       - run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
