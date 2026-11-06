@@ -35,20 +35,21 @@ class CopilotThread < ApplicationRecord
     }
   end
 
-  # True while Copilot works on a turn, so the agent waits for the answer or stops it. A turn waiting on a change the
-  # agent has not approved is not working, because the agent's next message rejects that change.
+  # A turn waiting on a change the agent has not approved does not count, because the agent's next message rejects it.
   def working?
     CopilotRun::Turn.unfinished.exists?(copilot_thread: self) && !CopilotRun::Action.awaiting_approval.exists?(copilot_thread: self)
   end
 
-  # A message the old Copilot never answered has no turn to stop, so it is marked stopped instead, and the panel lets the
-  # agent write again.
+  # A reply suggestion, or a message the old Copilot never answered, has no turn to stop, so it is marked stopped instead,
+  # and the panel lets the agent write again. A reply suggestion checks the mark under the same lock before it is saved.
   def stop
     turns = CopilotRun::Turn.unfinished.where(copilot_thread: self)
     return turns.find_each(&:stop) if turns.exists?
 
-    request = copilot_messages.user.order(:id).last
-    request.update!(message: request.message.merge('status' => 'stopped')) unless request.copilot_run
+    with_lock do
+      request = copilot_messages.user.order(:id).last
+      request.update!(message: request.message.merge('status' => 'stopped')) unless request.copilot_run
+    end
   end
 
   # A collection or review saved in this thread, which a Copilot tool call can read from.

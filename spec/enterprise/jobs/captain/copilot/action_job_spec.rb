@@ -55,12 +55,14 @@ RSpec.describe Captain::Copilot::ActionJob do
 
   describe 'sending a reply' do
     let(:reply) { 'We are looking into the sign-in problem.' }
-    let(:reply_run) do
+    let!(:reply_run) do
+      arguments = { content: reply }
+      ids = [labeled.id, unlabeled.id]
+      proposed = Captain::Copilot::Actions::SendReply.new(account: account, user: user, arguments: arguments).proposal_values(ids)
       CopilotRun::Action.create!(
         account: account, user: user, copilot_thread: thread, status: :queued,
         copilot_tool_call: turn.tool_calls.create!(call_id: 'act-2', name: 'act'),
-        context: { action: 'send_reply', arguments: { content: reply }, target_ids: [labeled.id, unlabeled.id], approval_message_id: card.id,
-                   proposal_values: { labeled.id.to_s => 'open', unlabeled.id.to_s => 'open' } }
+        context: { action: 'send_reply', arguments: arguments, target_ids: ids, approval_message_id: card.id, proposal_values: proposed }
       )
     end
 
@@ -73,8 +75,18 @@ RSpec.describe Captain::Copilot::ActionJob do
       expect(unlabeled.messages.outgoing).to be_empty
       expect(reply_run.reload.summary).to include(
         applied: 1, failed: 1,
-        failure_reasons: { 'The conversation was open when the reply was proposed and is now resolved, so the reply was not sent' => 1 }
+        failure_reasons: { 'The conversation was open when the reply was proposed and its status has changed since, so the reply was not sent' => 1 }
       )
+    end
+
+    it 'does not reply to a conversation that was resolved and reopened after the proposal' do
+      unlabeled.update!(status: :resolved)
+      unlabeled.update!(status: :open)
+
+      described_class.perform_now(reply_run.id)
+
+      expect(labeled.messages.outgoing.pluck(:content)).to eq([reply])
+      expect(unlabeled.messages.outgoing).to be_empty
     end
 
     it 'keeps a saved reply applied when queueing its delivery fails, so it is never sent twice' do
