@@ -1,4 +1,6 @@
-<script>
+<script setup>
+import { computed, ref, watch } from 'vue';
+import { useStore } from 'vuex';
 import UserMessageBubble from 'widget/components/UserMessageBubble.vue';
 import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
 import ImageBubble from 'widget/components/ImageBubble.vue';
@@ -6,99 +8,53 @@ import VideoBubble from 'widget/components/VideoBubble.vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import { messageStamp } from 'shared/helpers/timeHelper';
-import messageMixin from '../mixins/messageMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import DragWrapper from 'widget/components/DragWrapper.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
-import { mapGetters } from 'vuex';
 
-export default {
-  name: 'UserMessage',
-  components: {
-    UserMessageBubble,
-    MessageReplyButton,
-    ImageBubble,
-    VideoBubble,
-    FileBubble,
-    FluentIcon,
-    ReplyToChip,
-    DragWrapper,
+const props = defineProps({
+  message: {
+    type: Object,
+    default: () => ({}),
   },
-  mixins: [messageMixin],
-  props: {
-    message: {
-      type: Object,
-      default: () => {},
-    },
-    replyTo: {
-      type: Object,
-      default: () => {},
-    },
+  replyTo: {
+    type: Object,
+    default: () => ({}),
   },
-  data() {
-    return {
-      hasImageError: false,
-      hasVideoError: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
+});
 
-    isInProgress() {
-      const { status = '' } = this.message;
-      return status === 'in_progress';
-    },
-    showTextBubble() {
-      const { message } = this;
-      return !!message.content;
-    },
-    readableTime() {
-      const { created_at: createdAt = '' } = this.message;
-      return messageStamp(createdAt);
-    },
-    isFailed() {
-      const { status = '' } = this.message;
-      return status === 'failed';
-    },
-    errorMessage() {
-      const { meta } = this.message;
-      return meta
-        ? meta.error
-        : this.$t('COMPONENTS.MESSAGE_BUBBLE.ERROR_MESSAGE');
-    },
-    hasReplyTo() {
-      return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
-    },
-  },
-  watch: {
-    message() {
-      this.hasImageError = false;
-      this.hasVideoError = false;
-    },
-  },
-  mounted() {
-    this.hasImageError = false;
-    this.hasVideoError = false;
-  },
-  methods: {
-    async retrySendMessage() {
-      await this.$store.dispatch('conversation/sendMessageWithData', {
-        message: this.message,
-      });
-    },
-    onImageLoadError() {
-      this.hasImageError = true;
-    },
-    onVideoLoadError() {
-      this.hasVideoError = true;
-    },
-    toggleReply() {
-      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
-    },
-  },
+const store = useStore();
+const failedAttachmentIds = ref({});
+const widgetColor = computed(() => store.getters['appConfig/getWidgetColor']);
+const isInProgress = computed(() => props.message.status === 'in_progress');
+const isFailed = computed(() => props.message.status === 'failed');
+const showTextBubble = computed(() => !!props.message.content);
+const hasAttachments = computed(() => !!props.message.attachments?.length);
+const readableTime = computed(() => {
+  const { created_at: createdAt = '' } = props.message;
+  return messageStamp(createdAt);
+});
+const hasReplyTo = computed(
+  () => props.replyTo && (props.replyTo.content || props.replyTo.attachments)
+);
+
+watch(
+  () => props.message,
+  () => {
+    failedAttachmentIds.value = {};
+  }
+);
+
+const retrySendMessage = () =>
+  store.dispatch('conversation/sendMessageWithData', {
+    message: props.message,
+  });
+const onMediaLoadError = attachmentId => {
+  failedAttachmentIds.value[attachmentId] = true;
+};
+const toggleReply = () => {
+  emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, props.message);
 };
 </script>
 
@@ -137,18 +93,24 @@ export default {
                 :key="attachment.id"
               >
                 <ImageBubble
-                  v-if="attachment.file_type === 'image' && !hasImageError"
+                  v-if="
+                    attachment.file_type === 'image' &&
+                    !failedAttachmentIds[attachment.id]
+                  "
                   :url="attachment.data_url"
                   :thumb="attachment.data_url"
                   :readable-time="readableTime"
-                  @error="onImageLoadError"
+                  @error="onMediaLoadError(attachment.id)"
                 />
 
                 <VideoBubble
-                  v-if="attachment.file_type === 'video' && !hasVideoError"
+                  v-else-if="
+                    attachment.file_type === 'video' &&
+                    !failedAttachmentIds[attachment.id]
+                  "
                   :url="attachment.data_url"
                   :readable-time="readableTime"
-                  @error="onVideoLoadError"
+                  @error="onMediaLoadError(attachment.id)"
                 />
 
                 <FileBubble
