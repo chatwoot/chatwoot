@@ -27,7 +27,7 @@ const router = useRouter();
 const route = useRoute();
 
 const dataImports = ref([]);
-const canCreateImport = ref(false);
+const canCreateImport = ref(null);
 const integrationEnabled = ref(false);
 const initialSource = ref('');
 const loadError = ref('');
@@ -41,7 +41,10 @@ let requestVersion = 0;
 
 const accountId = getters.getCurrentAccountId;
 
-const hasActiveImport = computed(() => dataImports.value.some(isActiveImport));
+const hasActiveImport = computed(
+  () =>
+    canCreateImport.value === false || dataImports.value.some(isActiveImport)
+);
 const dataImportRoute = dataImport => ({
   name: 'settings_data_import_show',
   params: { accountId: accountId.value, dataImportId: dataImport.id },
@@ -116,13 +119,16 @@ const openImport = dataImportId => {
 
 const openImportDrawer = () => {
   if (canCreateImport.value) showImportDrawer.value = true;
+  else if (canCreateImport.value === false)
+    useAlert(t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT'));
 };
 
 const consumeAction = async () => {
   if (route.query.action !== 'import') return;
   initialSource.value = 'csv';
   if (canCreateImport.value) showImportDrawer.value = true;
-  else useAlert(t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT'));
+  else if (canCreateImport.value === false)
+    useAlert(t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT'));
   await router.replace({ query: { tab: 'import' } });
 };
 
@@ -214,12 +220,7 @@ onBeforeUnmount(() => {
             size="sm"
             icon="i-lucide-plus"
             :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
-            :disabled="!canCreateImport"
-            :title="
-              !canCreateImport
-                ? $t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT')
-                : undefined
-            "
+            :disabled="isLoading || canCreateImport === null"
             @click="openImportDrawer"
           />
         </template>
@@ -255,6 +256,7 @@ onBeforeUnmount(() => {
           size="sm"
           icon="i-lucide-plus"
           :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
+          :disabled="isLoading || canCreateImport === null"
           @click="openImportDrawer"
         />
       </div>

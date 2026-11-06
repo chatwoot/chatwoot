@@ -469,7 +469,7 @@
       "VALIDATING": "Validating access key...",
       "VALID_KEY": "Access key validated.",
       "INVALID_KEY": "Could not validate this access key.",
-      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "ACTIVE_IMPORT": "There is already an active import in this account. Wait for it to finish before starting another one.",
       "CANCEL": "Cancel",
       "IMPORT": "Import"
     },
