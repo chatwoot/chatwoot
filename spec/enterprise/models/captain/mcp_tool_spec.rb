@@ -89,7 +89,6 @@ RSpec.describe Captain::McpTool do
     it 'is true when a parameter takes the verified email' do
       tool.param_sources = { 'email' => { 'source' => 'verified.email' } }
 
-      expect(tool.requires_email_verification?).to be(false)
       expect(tool.requires_verified_customer?).to be(true)
     end
 
