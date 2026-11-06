@@ -17,6 +17,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
             value: {
               contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: sender_number }],
               messages: [{
+                id: 'wamid.incoming-media-retry',
                 from: sender_number,
                 image: {
                   id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
@@ -51,12 +52,48 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           status: 401
         )
 
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: params).perform }
+          .to raise_error(CustomExceptions::WhatsappMediaDownloadError)
+        expect(whatsapp_channel.inbox.messages).to be_empty
+        expect(whatsapp_channel.reload.authorization_error_count).to eq(1)
+
+        stub_media_url_request
+        stub_sample_png_request
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect_contact_name
-        expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
-        expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be false
-        expect(whatsapp_channel.authorization_error_count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+        expect_message_has_attachment
+      end
+    end
+
+    context 'when media retrieval fails temporarily' do
+      it 'retries a failed lookup immediately and deduplicates the successfully saved message' do
+        stub_request(:get, whatsapp_channel.media_url('b1c68f38-8734-4ad3-b4a1-ef0c10d683')).to_return(status: 503)
+
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: params).perform }
+          .to raise_error(CustomExceptions::WhatsappMediaDownloadError)
+        expect(whatsapp_channel.inbox.messages).to be_empty
+        expect(whatsapp_channel.reload.authorization_error_count).to eq(0)
+
+        stub_media_url_request
+        stub_sample_png_request
+        2.times { described_class.new(inbox: whatsapp_channel.inbox, params: params).perform }
+
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+        expect_message_has_attachment
+      end
+
+      it 'releases the lock when downloading the media file fails' do
+        stub_media_url_request
+        stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(status: 503)
+
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: params).perform }.to raise_error(Down::ServerError)
+        expect(whatsapp_channel.inbox.messages).to be_empty
+
+        stub_sample_png_request
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+        expect_message_has_attachment
       end
     end
 
