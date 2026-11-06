@@ -139,3 +139,31 @@ func TestSystemPromptHasDateAndPolicy(t *testing.T) {
 		t.Error("the configured prompt must come first")
 	}
 }
+
+func TestProcess_RecordedMessagesAreCutToo(t *testing.T) {
+	// Arrange: while a human handles the chat, messages are only recorded.
+	cw, l := &fakeChatwoot{}, &fakeLLM{reply: "ok"}
+	b, h := newBot(cw, l)
+	job := customerMsg(strings.Repeat("ข", MaxInputRunes*3))
+	job.Decision = webhook.Record
+
+	// Act
+	b.Process(context.Background(), job)
+
+	// Assert
+	if got := len([]rune(h.Get(1, 7)[0].Content)); got > MaxInputRunes+40 {
+		t.Errorf("recorded %d runes, want at most about %d", got, MaxInputRunes)
+	}
+}
+
+func TestSplitHandoffNearMisses(t *testing.T) {
+	for _, in := range []string{"ok [[handoff]]", "ok [[ HANDOFF ]]", "ok\n[[Handoff]]"} {
+		// Act
+		text, want := SplitHandoff(in)
+
+		// Assert
+		if !want || text != "ok" {
+			t.Errorf("SplitHandoff(%q) = %q, %v; want \"ok\", true", in, text, want)
+		}
+	}
+}

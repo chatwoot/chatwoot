@@ -60,6 +60,12 @@ func TestClassify(t *testing.T) {
 			e.Attachments = []Attachment{{FileType: "audio"}}
 			e.Conversation.Status = "open"
 		}, Ignore},
+		{"agent sends only a file", func(e *Event) {
+			e.Content = ""
+			e.MessageType = "outgoing"
+			e.Sender.Type = "user"
+			e.Attachments = []Attachment{{FileType: "image"}}
+		}, Ignore},
 		{"text with attachment", func(e *Event) { e.Attachments = []Attachment{{FileType: "image"}} }, Reply},
 		{"bot's own reply", func(e *Event) { e.MessageType = "outgoing"; e.Sender.Type = "agent_bot" }, Ignore},
 		{"human agent reply", func(e *Event) { e.MessageType = "outgoing"; e.Sender.Type = "user" }, Record},

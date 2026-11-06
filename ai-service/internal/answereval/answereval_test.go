@@ -161,13 +161,14 @@ func TestRunAnswerErrorFails(t *testing.T) {
 
 func TestValidateCases(t *testing.T) {
 	// Arrange
-	bad := []Case{{Name: "no turns", Expect: ExpectAnswer}, {Name: "bad expect", Turns: []string{"x"}, Expect: "maybe"}}
+	bad := []Case{{Name: "no turns", AccountID: 1, Expect: ExpectAnswer}, {Name: "bad expect", AccountID: 1, Turns: []string{"x"}, Expect: "maybe"},
+		{Name: "no account", Turns: []string{"x"}, Expect: ExpectAnswer}}
 
 	// Act
 	err := Validate(bad)
 
 	// Assert
-	if err == nil || !strings.Contains(err.Error(), "no turns") || !strings.Contains(err.Error(), "bad expect") {
+	if err == nil || !strings.Contains(err.Error(), "no turns") || !strings.Contains(err.Error(), "bad expect") || !strings.Contains(err.Error(), "no account") {
 		t.Fatalf("Validate() = %v", err)
 	}
 }

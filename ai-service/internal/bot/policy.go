@@ -2,6 +2,7 @@ package bot
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -28,23 +29,34 @@ func policyPrompt(now time.Time) string {
 		now.Format("Monday 2 January 2006"), now.Year()+543, now.Format("15:04"), now.Location(), HandoffMarker)
 }
 
+// markerPattern also accepts near-misses ("[[ handoff ]]") so a model's
+// spelling slip neither shows the marker to the customer nor drops the handoff.
+var markerPattern = regexp.MustCompile(`(?i)\[\[\s*handoff\s*\]\]`)
+
 // SplitHandoff removes the handoff marker and reports whether it was there.
 func SplitHandoff(reply string) (string, bool) {
-	if !strings.Contains(reply, HandoffMarker) {
+	if !markerPattern.MatchString(reply) {
 		return strings.TrimSpace(reply), false
 	}
-	return strings.TrimSpace(strings.ReplaceAll(reply, HandoffMarker, "")), true
+	return strings.TrimSpace(markerPattern.ReplaceAllString(reply, "")), true
 }
 
 // customerText is the message as the model sees it: cut to MaxInputRunes,
 // plus a note when files came with it.
 func customerText(ev webhook.Event) string {
-	text := ev.Content
-	if utf8.RuneCountInString(text) > MaxInputRunes {
-		text = string([]rune(text)[:MaxInputRunes]) + cutMarker
-	}
+	text := capText(ev.Content)
 	if note := ev.AttachmentNote(); note != "" {
 		text += "\n" + note
+	}
+	return text
+}
+
+// capText cuts any stored message (customer or agent) to MaxInputRunes, so
+// long messages recorded while a human handles the chat cannot inflate later
+// model calls either.
+func capText(text string) string {
+	if utf8.RuneCountInString(text) > MaxInputRunes {
+		return string([]rune(text)[:MaxInputRunes]) + cutMarker
 	}
 	return text
 }

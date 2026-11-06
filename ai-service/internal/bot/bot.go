@@ -180,7 +180,7 @@ func (b *Bot) Process(parent context.Context, j Job) {
 		if ev.MessageType == "outgoing" {
 			role = "assistant"
 		}
-		b.opts.History.Append(acct, conv, memory.Turn{Role: role, Content: ev.Content})
+		b.opts.History.Append(acct, conv, memory.Turn{Role: role, Content: capText(ev.Content)})
 	case webhook.HandOff:
 		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.AttachmentNote()})
 		msg := b.opts.AttachmentMessage

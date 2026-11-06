@@ -104,6 +104,9 @@ func Validate(cases []Case) error {
 		if name == "" {
 			name = fmt.Sprintf("#%d", i+1)
 		}
+		if c.AccountID < 1 {
+			errs = append(errs, fmt.Errorf("%s: no account_id", name))
+		}
 		if len(c.Turns) == 0 {
 			errs = append(errs, fmt.Errorf("%s: no turns", name))
 		}
