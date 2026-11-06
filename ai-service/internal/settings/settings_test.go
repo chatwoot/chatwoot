@@ -228,3 +228,26 @@ func TestValidate_LabelsEmbeddingErrors(t *testing.T) {
 		t.Errorf("err = %v", err)
 	}
 }
+
+func TestRewriteSettings(t *testing.T) {
+	// Arrange
+	main := LLM{
+		Primary:  Provider{BaseURL: "https://api.openai.com/v1", APIKey: "k1", Model: "gpt-6-luna"},
+		Fallback: Provider{BaseURL: "https://openrouter.ai/api/v1", APIKey: "k2", Model: "other"},
+	}
+
+	// Act
+	same := RewriteSettings(main, "")
+	fast := RewriteSettings(main, "gpt-5.4-mini")
+
+	// Assert
+	if same != main {
+		t.Errorf("no rewrite model must keep the main settings, got %+v", same)
+	}
+	if fast.Primary.Model != "gpt-5.4-mini" || fast.Primary.BaseURL != main.Primary.BaseURL || fast.Primary.APIKey != "k1" {
+		t.Errorf("fast primary = %+v, want the main provider with the small model", fast.Primary)
+	}
+	if fast.Fallback != main.Primary {
+		t.Errorf("fast fallback = %+v, want the main model, so a bad small model still rewrites", fast.Fallback)
+	}
+}

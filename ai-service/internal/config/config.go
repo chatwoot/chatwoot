@@ -51,6 +51,9 @@ type Config struct {
 	LangfuseBaseURL, LangfusePublicKey, LangfuseSecretKey string
 	TraceText                                             string // redacted (default) | off
 	TraceEnvironment                                      string
+	// RewriteModel runs the query rewrite on a smaller, faster model of the
+	// main provider (REWRITE_MODEL); empty uses the main model.
+	RewriteModel string
 	// Location is the business time zone (TIMEZONE), used to tell the model the date.
 	Location *time.Location
 
@@ -122,6 +125,7 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 		LangfuseSecretKey:  get("LANGFUSE_SECRET_KEY", ""),
 		TraceText:          get("TRACE_TEXT", "redacted"),
 		TraceEnvironment:   get("TRACE_ENVIRONMENT", "production"),
+		RewriteModel:       get("REWRITE_MODEL", ""),
 		LogLevel:           get("LOG_LEVEL", "info"),
 		HandoffKeywords:    DefaultHandoffKeywords,
 	}

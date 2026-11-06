@@ -44,6 +44,7 @@ func run() error {
 	noRewrite := flag.Bool("no-rewrite", false, "search without the Thai/English query rewrite (to compare)")
 	minPass := flag.Float64("min-pass", 0, "exit 1 if the pass rate (0-1) is below this")
 	verbose := flag.Bool("v", false, "print every reply, not only failing ones")
+	rewriteModel := flag.String("rewrite-model", "\x00", "model for the query rewrite (default REWRITE_MODEL, else the bot's model)")
 	flag.Parse()
 
 	cfg, err := config.FromEnv()
@@ -95,13 +96,22 @@ func run() error {
 		Location:       cfg.Location,
 		Logger:         quiet,
 	}
+	if *rewriteModel == "\x00" {
+		*rewriteModel = cfg.RewriteModel
+	}
+	rewriteSettings := settings.RewriteSettings(current, *rewriteModel)
 	if !*noRewrite {
-		opts.Rewriter = &bot.LLMRewriter{LLM: chat}
+		opts.Rewriter = &bot.LLMRewriter{LLM: settings.NewCompleter(rewriteSettings, cfg.LLMTimeout, quiet)}
 	}
 	b := bot.New(opts, 1, 1)
 
-	fmt.Printf("model %s · judge %s · rewrite %v · %d cases\n\n",
-		current.Primary.Model, judgeSettings.Primary.Model, !*noRewrite, len(cases))
+	rewriteLabel := "off"
+	if !*noRewrite {
+		rewriteLabel = rewriteSettings.Primary.Model
+	}
+	fmt.Printf("model %s · judge %s · rewrite %s · %d cases\n\n",
+		current.Primary.Model, judgeSettings.Primary.Model, rewriteLabel, len(cases))
+	started := time.Now()
 	rep := answereval.Run(ctx, answereval.Runner{
 		Answerer: b,
 		Handoff:  handoff.New(cfg.HandoffKeywords),
@@ -117,6 +127,8 @@ func run() error {
 	}, cases)
 	rep.Verbose = *verbose
 	rep.Write(os.Stdout)
+	elapsed := time.Since(started)
+	fmt.Printf("Took %s (%.1fs per case)\n", elapsed.Round(time.Second), elapsed.Seconds()/float64(max(len(cases), 1)))
 	if len(rep.Results) > 0 && float64(rep.Passed)/float64(len(rep.Results)) < *minPass {
 		return fmt.Errorf("pass rate below %.2f", *minPass)
 	}

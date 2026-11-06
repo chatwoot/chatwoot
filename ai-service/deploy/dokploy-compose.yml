@@ -130,6 +130,8 @@ services:
       LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-}
       LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-}
       TRACE_TEXT: ${TRACE_TEXT:-redacted}
+      # Query rewrite on a smaller, faster model of the main provider; empty = main model.
+      REWRITE_MODEL: ${REWRITE_MODEL:-}
 
   # /admin from a browser: Cloudflare Tunnel → https://ai-admin.johnstockeraistudio.com,
   # behind a Cloudflare Access app (owner emails only). The tunnel's ingress rules
