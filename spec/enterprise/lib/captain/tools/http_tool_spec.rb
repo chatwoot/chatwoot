@@ -10,34 +10,24 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
   let(:tool) { Captain::Tools::PublicHttpTool.new(assistant, custom_tool) }
   let(:tool_context) { Struct.new(:state).new({}) }
 
-  describe '#active?' do
-    it 'returns true when custom tool is enabled' do
-      custom_tool.update!(enabled: true)
-
-      expect(tool.active?).to be true
-    end
-
-    it 'returns false when custom tool is disabled' do
-      custom_tool.update!(enabled: false)
-
-      expect(tool.active?).to be false
-    end
-  end
-
-  describe '#available_in_reply_suggestion?' do
-    it 'allows GET tools' do
+  describe '#read_only?' do
+    it 'is true for GET tools' do
       custom_tool.update!(http_method: 'GET')
 
-      expect(tool.available_in_reply_suggestion?).to be true
+      expect(tool.read_only?).to be true
     end
 
-    it 'rejects tools that change data' do
+    it 'is false for tools that change data' do
       %w[POST PUT PATCH DELETE].each do |http_method|
         custom_tool.update!(http_method: http_method)
 
-        expect(tool.available_in_reply_suggestion?).to be(false), "expected #{http_method} to be rejected"
+        expect(tool.read_only?).to be(false), "expected #{http_method} to change data"
       end
     end
+  end
+
+  it 'does not run for a tool class that does not decide its arguments' do
+    expect { described_class.new(assistant, custom_tool).perform(tool_context) }.to raise_error(NotImplementedError)
   end
 
   describe '#perform' do

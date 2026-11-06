@@ -6,9 +6,17 @@ class Captain::Tools::CopilotMcpTool < Captain::Tools::McpTool
     true
   end
 
-  def perform(tool_context, **params)
-    arguments = Captain::ToolArguments.new(@mcp_tool, find_conversation(tool_context.state))
-    result = super(tool_context, **arguments.fill_unproven(params))
-    arguments.verified?(params) ? result : "#{result}\n\n#{Captain::Tools::CopilotHttpTool::UNVERIFIED_VALUE_NOTE}"
+  private
+
+  def arguments_for(tool_context, params)
+    tool_arguments(tool_context).fill_unproven(params)
+  end
+
+  def annotate(result, tool_context, params)
+    tool_arguments(tool_context).verified?(params) ? result : "#{result}\n\n#{Captain::Tools::CopilotHttpTool::UNVERIFIED_VALUE_NOTE}"
+  end
+
+  def tool_arguments(tool_context)
+    Captain::ToolArguments.new(@mcp_tool, find_conversation(tool_context.state))
   end
 end

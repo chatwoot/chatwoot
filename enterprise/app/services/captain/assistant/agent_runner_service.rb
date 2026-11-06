@@ -197,14 +197,8 @@ class Captain::Assistant::AgentRunnerService
     agent = @assistant.agent
     agent.clone(
       instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
-      tools: copilot_tools(agent.tools.select { |tool| available_in_reply_suggestion?(tool) })
+      tools: copilot_tools(agent.tools.select(&:read_only?))
     )
-  end
-
-  def available_in_reply_suggestion?(tool)
-    return true if tool.is_a?(Captain::Tools::FaqLookupTool)
-
-    (tool.is_a?(Captain::Tools::HttpTool) || tool.is_a?(Captain::Tools::McpTool)) && tool.available_in_reply_suggestion?
   end
 
   def reply_suggestion? = @source == REPLY_SUGGESTION_SOURCE
