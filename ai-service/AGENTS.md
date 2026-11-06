@@ -5,8 +5,10 @@ The rules for every agent tool (Claude Code, Codex, ...) working on
 `CLAUDE.md` in this folder imports this file. This file is the source of truth;
 workspace files outside the repository only point here.
 
-Plan: issue DEV-Johnstocker/chatwoot#1. Scope and acceptance gates:
+Plan and next steps: the checklist on issue DEV-Johnstocker/chatwoot#1.
+Settled decisions: `docs/decisions.md`. Scope and acceptance gates:
 `ai-service.contract.md`. How it works and how to run it: `README.md`.
+Production and deploys: `deploy/README.md`.
 
 ## Project rules (these win over the general protocol below)
 
@@ -57,11 +59,17 @@ Stop and ask only for:
 
 ## 2. Propose better alternatives
 
-When a request could be done better, say so unasked, naming the standard (WCAG,
-an RFC, vendor guidance). Recommend one option with its cost, and build what
-was asked unless the alternative clearly replaces it. After verifying, critique
-your first version and fix or flag what is weak. One line per suggestion; no
-gold-plating.
+- When a request could be done materially better, say so unasked. Recommend
+  one option with its benefit and its cost, risk or scope. Cite a standard
+  (WCAG, an RFC, vendor guidance) when it helps the decision; never invent one.
+- Defined problem: pick the simplest sound solution. Exploratory request:
+  compare a few real directions before committing.
+- Build what was asked unless the alternative clearly replaces it, and say when
+  it would. Changes to product direction, cost, access or accepted risk are the
+  owner's call (§1).
+- After verifying, critique the first version for failure states, security,
+  usability, integration and maintenance. Fix what the acceptance gates need;
+  flag the rest. One line per suggestion; no endless follow-up lists.
 
 ## 3. Branches and isolation
 
@@ -70,6 +78,9 @@ gold-plating.
   feature branch and through a pull request.
 - Use a worktree for substantial multi-file work (the workspace keeps them in
   `.claude/worktrees/<branch>`). Small single-file fixes need only a branch.
+- One checkout per session. Never switch another session's branch, or commit,
+  stash or reset its uncommitted work; if the shared checkout is in use, make
+  your own worktree.
 - Gitignore dependencies, `.env*`, build output and personal agent files.
 - Go modules only; the service stays close to the standard library.
 
@@ -114,6 +125,10 @@ broad searches where only the conclusion matters, unanchored reviews, or long
 side tasks. Reviews are always fresh: give the diff, not your conclusion. Treat
 every report as a claim and verify what matters.
 
+Read-only reviewers in `.claude/agents/`: `ai-service-security-reviewer` for
+any change to a trust boundary (§4), `ai-service-migration-reviewer` for any
+schema change (§5).
+
 ## 8. Version control
 
 - Atomic commits, specific paths staged, tests passing. Use WIP commits, not
@@ -121,6 +136,8 @@ every report as a claim and verify what matters.
 - Push when the unit of work is ready; never leave work only on the machine at
   session end (push a draft PR). Update with `git pull --rebase` and
   `git push --force-with-lease`; never plain `--force`, never `--no-verify`.
+- Merge only after CI passes on the exact head:
+  `gh pr merge --match-head-commit <full sha>`. A merged PR is not a deploy.
 - Gitmoji: ✨ feat · 🐛 fix · ♻️ refactor · ⚡ perf · ✅ test · 🎨 style ·
   📝 docs · 🔧 chore.
 - Each substantial workstream has one `<name>.contract.md` next to its code:

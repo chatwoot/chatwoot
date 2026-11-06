@@ -10,3 +10,6 @@ bin/
 # Personal agent files
 CLAUDE.local.md
 .claude/settings.local.json
+
+# Shared agent definitions (the repository-root .gitignore ignores .claude/)
+!.claude/
