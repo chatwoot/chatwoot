@@ -86,7 +86,10 @@ func (f *Fetcher) client() *http.Client {
 // /audio/transcriptions endpoint.
 type Transcriber struct {
 	BaseURL, APIKey, Model string
-	Client                 *http.Client
+	// Prompt lists words the speaker may use (business and product names),
+	// which the model then spells correctly. Optional.
+	Prompt string
+	Client *http.Client
 }
 
 // Transcribe returns the spoken text.
@@ -94,6 +97,9 @@ func (t *Transcriber) Transcribe(ctx context.Context, audio []byte, filename str
 	var body bytes.Buffer
 	w := multipart.NewWriter(&body)
 	_ = w.WriteField("model", t.Model)
+	if t.Prompt != "" {
+		_ = w.WriteField("prompt", t.Prompt)
+	}
 	part, err := w.CreateFormFile("file", filename)
 	if err != nil {
 		return "", err

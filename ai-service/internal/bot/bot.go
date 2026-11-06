@@ -195,11 +195,11 @@ func (b *Bot) Process(parent context.Context, j Job) {
 	case webhook.HandOff, webhook.Reply:
 		tr := b.startTurn(ev, customerText(ev))
 		defer b.finishTurn(tr)
-		var feats profile.Features
+		p := profile.Profile{AccountID: acct}
 		if len(ev.Attachments) > 0 { // text-only messages skip the extra profile query
-			feats = b.features(ctx, log, acct)
+			p = b.mediaProfile(ctx, log, acct)
 		}
-		in, ok := b.readMessage(ctx, log, ev, feats, tr)
+		in, ok := b.readMessage(ctx, log, ev, p, tr)
 		if !ok {
 			// Only files the bot may not or cannot read: thank and pass to staff.
 			b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.AttachmentNote()})

@@ -32,9 +32,13 @@ func (f *fakeFetcher) Fetch(_ context.Context, url string) ([]byte, string, erro
 type fakeTranscriber struct {
 	text string
 	err  error
+	hint *string
 }
 
-func (f fakeTranscriber) Transcribe(context.Context, []byte, string) (string, error) {
+func (f fakeTranscriber) Transcribe(_ context.Context, _ []byte, _, hint string) (string, error) {
+	if f.hint != nil {
+		*f.hint = hint
+	}
 	return f.text, f.err
 }
 
@@ -51,7 +55,7 @@ func (s *scripted) Complete(_ context.Context, m []llm.Message) (llm.Result, err
 func mediaBot(feats profile.Features, main *fakeLLM) (*Bot, *fakeChatwoot, *fakeFetcher, *scripted) {
 	cw := &fakeChatwoot{}
 	b, _ := newBot(cw, main)
-	b.opts.Profiles = &fakeProfiles{byAccount: map[int64]profile.Profile{1: {AccountID: 1, Features: feats}}}
+	b.opts.Profiles = &fakeProfiles{byAccount: map[int64]profile.Profile{1: {AccountID: 1, BusinessName: "Johnstocker AI Studio", About: "คอร์ส AutoCut", Features: feats}}}
 	f := &fakeFetcher{files: map[string][]byte{"https://chat/voice.m4a": []byte("AUDIO"), "https://chat/a.png": []byte("PNG")}}
 	sticker := &scripted{reply: "STICKER"}
 	b.opts.Fetcher, b.opts.Transcriber, b.opts.StickerLLM = f, fakeTranscriber{text: "ผ่อนได้ไหมคะ"}, sticker
@@ -212,5 +216,20 @@ func TestMedia_FailuresAndUnsupportedFilesHandOff(t *testing.T) {
 				t.Errorf("calls = %s, want an attachment handoff", got)
 			}
 		})
+	}
+}
+
+func TestMedia_TranscriptionGetsTheBusinessVocabulary(t *testing.T) {
+	// Arrange
+	b, _, _, _ := mediaBot(profile.Features{Voice: true}, &fakeLLM{reply: "ok"})
+	var hint string
+	b.opts.Transcriber = fakeTranscriber{text: "ผ่อนได้ไหม", hint: &hint}
+
+	// Act
+	b.Process(context.Background(), fileJob("", voiceNote))
+
+	// Assert
+	if hint != "Johnstocker AI Studio. คอร์ส AutoCut" {
+		t.Errorf("hint = %q, want the business name and description", hint)
 	}
 }

@@ -19,9 +19,10 @@ type Fetcher interface {
 	Fetch(ctx context.Context, url string) ([]byte, string, error)
 }
 
-// Transcriber turns a voice note into text (media.Transcriber).
+// Transcriber turns a voice note into text. hint lists the business's own
+// words (name, products) so they are spelled right.
 type Transcriber interface {
-	Transcribe(ctx context.Context, audio []byte, filename string) (string, error)
+	Transcribe(ctx context.Context, audio []byte, filename, hint string) (string, error)
 }
 
 // Media limits per customer message.
@@ -39,23 +40,34 @@ type incoming struct {
 	images []string // data: URLs for the vision model
 }
 
-// features are the business's media switches; off when the profile can't load.
-func (b *Bot) features(ctx context.Context, log *slog.Logger, acct int64) profile.Features {
+// mediaProfile is the business profile for media handling; empty (every
+// feature off) when it can't load.
+func (b *Bot) mediaProfile(ctx context.Context, log *slog.Logger, acct int64) profile.Profile {
 	if b.opts.Profiles == nil {
-		return profile.Features{}
+		return profile.Profile{AccountID: acct}
 	}
 	p, err := b.opts.Profiles.Get(ctx, acct)
 	if err != nil {
-		log.Warn("business features lookup failed; media features off", "error", err)
-		return profile.Features{}
+		log.Warn("business profile lookup failed; media features off", "error", err)
+		return profile.Profile{AccountID: acct}
 	}
-	return p.Features
+	return p
+}
+
+// vocabulary is the transcription hint: business name and description.
+func vocabulary(p profile.Profile) string {
+	hint := []rune(strings.TrimSpace(p.BusinessName + ". " + p.About))
+	if len(hint) > 300 {
+		hint = hint[:300]
+	}
+	return strings.Trim(string(hint), ". ")
 }
 
 // readMessage turns text and attachments into what the model sees. ok is
 // false when nothing is left to answer (only files the bot may not or cannot
 // read), and the caller hands off. Every failure falls back to that handoff.
-func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Event, f profile.Features, tr *trace.Turn) (incoming, bool) {
+func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Event, p profile.Profile, tr *trace.Turn) (incoming, bool) {
+	f := p.Features
 	text := capText(ev.Content)
 	if len(ev.Attachments) == 0 {
 		return incoming{text: text}, strings.TrimSpace(text) != ""
@@ -65,7 +77,7 @@ func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Even
 	for _, a := range ev.Attachments {
 		switch {
 		case a.FileType == "audio" && f.Voice && b.opts.Transcriber != nil && b.opts.Fetcher != nil && !readable:
-			spoken := b.transcribe(ctx, log, a, tr)
+			spoken := b.transcribe(ctx, log, a, vocabulary(p), tr)
 			if spoken == "" {
 				unreadable = true
 				continue
@@ -105,7 +117,7 @@ func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Even
 	return incoming{text: full, images: images}, ok
 }
 
-func (b *Bot) transcribe(ctx context.Context, log *slog.Logger, a webhook.Attachment, tr *trace.Turn) string {
+func (b *Bot) transcribe(ctx context.Context, log *slog.Logger, a webhook.Attachment, hint string, tr *trace.Turn) string {
 	step := &trace.Step{Start: time.Now()}
 	tr.Transcribe = step
 	defer func() { step.End = time.Now() }()
@@ -119,7 +131,7 @@ func (b *Bot) transcribe(ctx context.Context, log *slog.Logger, a webhook.Attach
 	if ext == "" {
 		ext = "m4a"
 	}
-	spoken, err := b.opts.Transcriber.Transcribe(ctx, audio, "voice."+strings.TrimPrefix(ext, "."))
+	spoken, err := b.opts.Transcriber.Transcribe(ctx, audio, "voice."+strings.TrimPrefix(ext, "."), hint)
 	if err != nil {
 		log.Warn("voice note transcription failed", "error", err)
 		step.Err = "transcription failed"

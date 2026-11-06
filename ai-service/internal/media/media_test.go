@@ -148,3 +148,22 @@ func TestTranscribeProviderError(t *testing.T) {
 		t.Fatal("a 400 must be an error")
 	}
 }
+
+func TestTranscribeSendsVocabularyPrompt(t *testing.T) {
+	// Arrange
+	var gotPrompt string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_ = r.ParseMultipartForm(1 << 20)
+		gotPrompt = r.FormValue("prompt")
+		_, _ = w.Write([]byte(`{"text":"ok"}`))
+	}))
+	defer srv.Close()
+
+	// Act
+	_, err := (&Transcriber{BaseURL: srv.URL, APIKey: "k", Model: "m", Prompt: "Johnstocker AI Studio, AutoCut"}).Transcribe(context.Background(), []byte("x"), "a.m4a")
+
+	// Assert
+	if err != nil || gotPrompt != "Johnstocker AI Studio, AutoCut" {
+		t.Errorf("prompt = %q, err %v", gotPrompt, err)
+	}
+}

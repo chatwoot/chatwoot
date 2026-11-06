@@ -23,6 +23,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/handoff"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/media"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
@@ -99,6 +100,9 @@ func run() error {
 		Knowledge:         retriever,
 		Profiles:          botProfiles,
 		Rewriter:          rewriter,
+		Fetcher:           &media.Fetcher{Host: hostOf(cfg.ChatwootBaseURL), MaxBytes: 10 << 20},
+		Transcriber:       liveTranscriber{store: store, model: cfg.TranscribeModel},
+		StickerLLM:        rewriteLLM,
 		Tracer:            tracer,
 		History:           memory.NewHistory(cfg.HistoryLimit, 24*time.Hour, nil),
 		Handoff:           handoff.New(cfg.HandoffKeywords),
@@ -167,6 +171,18 @@ func run() error {
 	b.Close()
 	exporter.Close() // after the bot, so the last turns are sent
 	return nil
+}
+
+// liveTranscriber builds the transcriber from the saved provider settings on
+// every call, so a key changed on /admin applies without a restart.
+type liveTranscriber struct {
+	store *settings.Store
+	model string
+}
+
+func (t liveTranscriber) Transcribe(ctx context.Context, audio []byte, filename, hint string) (string, error) {
+	p := t.store.Get().Primary
+	return (&media.Transcriber{BaseURL: p.BaseURL, APIKey: p.APIKey, Model: t.model, Prompt: hint}).Transcribe(ctx, audio, filename)
 }
 
 func hostOf(raw string) string {
