@@ -1,5 +1,7 @@
 module Enterprise::Conversation
   attr_accessor :captain_activity_reason, :captain_activity_reason_type
+  # Set on the conversation an inbound Twilio call opens, before the call that rings exists
+  attr_writer :call_ringing
 
   def can_reply?
     return false if contact_inbox.anonymous_caller?
@@ -17,6 +19,17 @@ module Enterprise::Conversation
     super || call_attributes_changed?
   end
 
+  # Once its call stops ringing unanswered, the conversation gets the assignment it held off
+  def auto_assign_after_call
+    return unless open? && should_run_auto_assignment?
+
+    if inbox.auto_assignment_v2_enabled?
+      AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox_id)
+    else
+      AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: legacy_allowed_agent_ids).perform
+    end
+  end
+
   def with_captain_activity_context(reason:, reason_type:)
     previous_reason = captain_activity_reason
     previous_reason_type = captain_activity_reason_type
@@ -30,6 +43,23 @@ module Enterprise::Conversation
   end
 
   private
+
+  # Auto-assignment, the inbox's or a team's, holds off while an inbound Twilio call rings, so the
+  # agent who answers gets the conversation
+  def call_ringing?
+    return false unless inbox.twilio?
+
+    @call_ringing || calls.exists?(provider: :twilio, direction: :incoming, status: 'ringing')
+  end
+
+  # A V2 rebalance on resolve or snooze frees capacity rather than assigning this conversation, so it still runs
+  def should_run_auto_assignment?
+    super && (conversation_status_changed_to_resolved_or_snoozed? || !call_ringing?)
+  end
+
+  def find_assignee_from_team
+    super unless call_ringing?
+  end
 
   def clear_invalid_ai_assignee
     super
