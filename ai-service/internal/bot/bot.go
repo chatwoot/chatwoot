@@ -66,12 +66,16 @@ const cutMarker = " …[message cut]"
 
 // Options configures a Bot.
 type Options struct {
-	Chatwoot       Chatwoot
-	LLM            Completer
-	Knowledge      Retriever     // optional; nil answers from the system prompt only
-	Profiles       Profiles      // optional; adds each account's business profile to SystemPrompt
-	Rewriter       QueryRewriter // optional; adds rewritten (Thai + English) search queries
-	Tracer         Tracer        // optional; receives one trace per customer message
+	Chatwoot  Chatwoot
+	LLM       Completer
+	Knowledge Retriever     // optional; nil answers from the system prompt only
+	Profiles  Profiles      // optional; adds each account's business profile to SystemPrompt
+	Rewriter  QueryRewriter // optional; adds rewritten (Thai + English) search queries
+	Tracer    Tracer        // optional; receives one trace per customer message
+	// Media (each optional; a feature also needs its switch on the business profile).
+	Fetcher        Fetcher     // downloads attachments from the Chatwoot host
+	Transcriber    Transcriber // voice notes → text
+	StickerLLM     Completer   // small vision model: is this image a sticker?
 	History        *memory.History
 	Handoff        *handoff.Detector
 	SystemPrompt   string
@@ -188,26 +192,33 @@ func (b *Bot) Process(parent context.Context, j Job) {
 			role = "assistant"
 		}
 		b.opts.History.Append(acct, conv, memory.Turn{Role: role, Content: capText(ev.Content)})
-	case webhook.HandOff:
-		tr := b.startTurn(ev, ev.AttachmentNote())
-		defer b.finishTurn(tr)
-		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.AttachmentNote()})
-		msg := b.opts.AttachmentMessage
-		if msg == "" {
-			msg = b.opts.HandoffMessage
-		}
-		tr.Outcome, tr.Output = "handoff:"+ReasonAttachment, msg
-		b.handoff(ctx, log, acct, conv, msg, ReasonAttachment)
-	case webhook.Reply:
+	case webhook.HandOff, webhook.Reply:
 		tr := b.startTurn(ev, customerText(ev))
 		defer b.finishTurn(tr)
-		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: customerText(ev)})
-		if b.opts.Handoff.Wants(ev.Content) {
+		var feats profile.Features
+		if len(ev.Attachments) > 0 { // text-only messages skip the extra profile query
+			feats = b.features(ctx, log, acct)
+		}
+		in, ok := b.readMessage(ctx, log, ev, feats, tr)
+		if !ok {
+			// Only files the bot may not or cannot read: thank and pass to staff.
+			b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.AttachmentNote()})
+			msg := b.opts.AttachmentMessage
+			if msg == "" {
+				msg = b.opts.HandoffMessage
+			}
+			tr.Input, tr.Outcome, tr.Output = ev.AttachmentNote(), "handoff:"+ReasonAttachment, msg
+			b.handoff(ctx, log, acct, conv, msg, ReasonAttachment)
+			return
+		}
+		tr.Input = in.text
+		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: in.text})
+		if b.opts.Handoff.Wants(in.text) {
 			tr.Outcome, tr.Output = "handoff:"+ReasonCustomerAsked, b.opts.HandoffMessage
 			b.handoff(ctx, log, acct, conv, b.opts.HandoffMessage, ReasonCustomerAsked)
 			return
 		}
-		b.reply(ctx, log, acct, ev.Inbox.ID, conv, tr)
+		b.reply(ctx, log, acct, ev.Inbox.ID, conv, tr, in.images)
 	}
 }
 
@@ -227,7 +238,7 @@ func (b *Bot) finishTurn(tr *trace.Turn) {
 	b.opts.Tracer.Record(*tr)
 }
 
-func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int64, tr *trace.Turn) {
+func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int64, tr *trace.Turn, images []string) {
 	cw := b.opts.Chatwoot
 	if err := cw.SetTyping(ctx, acct, conv, true); err != nil {
 		log.Warn("typing on failed", "error", err)
@@ -243,7 +254,7 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 
 	history := b.opts.History.Get(acct, conv)
 	started := time.Now()
-	res, hits, err := b.answer(ctx, log, acct, inbox, history, tr)
+	res, hits, err := b.answer(ctx, log, acct, inbox, history, tr, images)
 	latency := time.Since(started)
 	log = log.With(sourceAttrs(hits)...)
 	if err != nil {
@@ -286,11 +297,12 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 // search (with rewritten queries) and the chat model. answer-eval uses it to
 // test exactly what customers get.
 func (b *Bot) Answer(ctx context.Context, acct, inbox int64, history []memory.Turn) (llm.Result, []knowledge.Hit, error) {
-	return b.answer(ctx, b.opts.Logger.With("account_id", acct), acct, inbox, history, &trace.Turn{})
+	return b.answer(ctx, b.opts.Logger.With("account_id", acct), acct, inbox, history, &trace.Turn{}, nil)
 }
 
 // answer fills tr's rewrite, search and generation steps as it goes.
-func (b *Bot) answer(ctx context.Context, log *slog.Logger, acct, inbox int64, history []memory.Turn, tr *trace.Turn) (llm.Result, []knowledge.Hit, error) {
+// images go with the latest customer message only; history stays text.
+func (b *Bot) answer(ctx context.Context, log *slog.Logger, acct, inbox int64, history []memory.Turn, tr *trace.Turn, images []string) (llm.Result, []knowledge.Hit, error) {
 	messages := []llm.Message{{Role: "system", Content: b.systemPrompt(ctx, log, acct)}}
 	var hits []knowledge.Hit
 	if b.opts.Knowledge != nil {
@@ -308,6 +320,9 @@ func (b *Bot) answer(ctx context.Context, log *slog.Logger, acct, inbox int64, h
 	}
 	for _, t := range history {
 		messages = append(messages, llm.Message{Role: t.Role, Content: t.Content})
+	}
+	if last := len(messages) - 1; len(images) > 0 && messages[last].Role == "user" {
+		messages[last].Images = images
 	}
 	gen := &trace.Generation{Step: trace.Step{Start: time.Now()}}
 	res, err := b.opts.LLM.Complete(ctx, messages)

@@ -44,7 +44,8 @@ type Turn struct {
 	Start, End                                    time.Time
 	Input, Output                                 string // raw; redacted or dropped before sending
 	Outcome                                       string // replied | handoff:<reason> | error
-	Rewrite, Search                               *Step
+	Media                                         string // voice, image, sticker (comma list) or ""
+	Transcribe, Rewrite, Search                   *Step
 	Generation                                    *Generation
 }
 
@@ -258,6 +259,7 @@ func (e *Exporter) turnSpans(t Turn) []map[string]any {
 		"langfuse.trace.metadata.inbox_id":    strconv.FormatInt(t.InboxID, 10),
 		"langfuse.trace.metadata.outcome":     t.Outcome,
 		"langfuse.trace.metadata.text_policy": e.Text,
+		"langfuse.trace.metadata.media":       t.Media,
 	}
 	if e.Environment != "" {
 		common["langfuse.environment"] = e.Environment
@@ -267,6 +269,11 @@ func (e *Exporter) turnSpans(t Turn) []map[string]any {
 	e.text(root, "langfuse.observation.output", t.Output)
 	out := []map[string]any{span(traceID, rootID, "", "chat-turn", t.Start, t.End, root, "")}
 
+	if s := t.Transcribe; s != nil {
+		a := merge(common, map[string]any{"langfuse.observation.type": "tool"})
+		e.text(a, "langfuse.observation.output", s.Output) // the transcript, redacted
+		out = append(out, span(traceID, randHex(8), rootID, "transcribe", s.Start, s.End, a, s.Err))
+	}
 	if s := t.Rewrite; s != nil {
 		a := merge(common, map[string]any{"langfuse.observation.type": "chain"})
 		e.text(a, "langfuse.observation.output", s.Output)

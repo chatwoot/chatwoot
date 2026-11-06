@@ -30,7 +30,9 @@ type Event struct {
 
 // Attachment is a file on a message (photo, voice note, document, ...).
 type Attachment struct {
-	FileType string `json:"file_type"` // image | audio | video | file | location | ...
+	FileType  string `json:"file_type"` // image | audio | video | file | location | ...
+	DataURL   string `json:"data_url"`  // download URL on the Chatwoot host
+	Extension string `json:"extension"` // e.g. m4a, ogg, png (may be empty)
 }
 
 // AttachmentNote tells the model that files came with the text, since it
