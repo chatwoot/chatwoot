@@ -1,6 +1,7 @@
 class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   include Api::V2::Accounts::ReportsHelper
   include Api::V2::Accounts::HeatmapHelper
+  include CsvExportConcern
 
   before_action :check_authorization
 
@@ -97,9 +98,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   private
 
   def generate_csv(filename, template)
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = "attachment; filename=#{filename}.csv"
-    render layout: false, template: template, formats: [:csv]
+    render_csv(filename: "#{filename}.csv", template: template)
   end
 
   def check_authorization
