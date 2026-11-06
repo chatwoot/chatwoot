@@ -58,9 +58,13 @@ const DefaultSystemPrompt = "You are a friendly customer support assistant. " +
 	"policies or order details."
 
 // DefaultHandoffKeywords trigger a handoff to a human (Thai, Lao, English).
+// They are request phrases, not bare words: "บริษัทมีพนักงานกี่คน" mentions
+// staff without asking for them, and must still get an AI answer.
 var DefaultHandoffKeywords = []string{
-	"คุยกับคน", "ขอคุยกับแอดมิน", "ติดต่อแอดมิน", "ขอสายแอดมิน", "เจ้าหน้าที่", "พนักงาน",
-	"ລົມກັບຄົນ", "ພະນັກງານ", "ແອັດມິນ",
+	"คุยกับคน", "ขอคุยกับแอดมิน", "ติดต่อแอดมิน", "ขอสายแอดมิน",
+	"คุยกับเจ้าหน้าที่", "ติดต่อเจ้าหน้าที่", "ขอเจ้าหน้าที่", "ขอสายเจ้าหน้าที่",
+	"คุยกับพนักงาน", "ติดต่อพนักงาน", "ขอพนักงาน", "ขอสายพนักงาน",
+	"ລົມກັບຄົນ", "ລົມກັບພະນັກງານ", "ຕິດຕໍ່ພະນັກງານ", "ລົມກັບແອັດມິນ", "ຕິດຕໍ່ແອັດມິນ",
 	"human", "real person", "talk to agent", "talk to a person", "live agent", "speak to someone",
 }
 

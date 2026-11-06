@@ -238,3 +238,28 @@ func TestRetrieve_SeveralQueriesMergeByBestScore(t *testing.T) {
 		t.Errorf("merged = %v (%+v)", ids, hits)
 	}
 }
+
+func TestRetrieve_EveryQueryKeepsItsBestHit(t *testing.T) {
+	// Arrange: the context query (previous + current) scores three overview
+	// chunks above the current message's only real answer (system requirements).
+	st := &byQueryStore{perQuery: map[float32][]Hit{
+		0: {{ChunkID: 9, Title: "requirements", Score: 0.43}},
+		1: {{ChunkID: 1, Title: "overview", Score: 0.67}, {ChunkID: 2, Title: "overview", Score: 0.6}, {ChunkID: 3, Title: "overview", Score: 0.55}},
+	}}
+	svc := &Service{Store: st, Embedder: &fakeEmbedder{model: "m1"}, TopK: 3, MinScore: 0.3}
+
+	// Act
+	hits, err := svc.Retrieve(context.Background(), 1, 0, "does it run on Windows?", "is there AutoCut?\ndoes it run on Windows?")
+
+	// Assert
+	if err != nil {
+		t.Fatal(err)
+	}
+	var ids []int64
+	for _, h := range hits {
+		ids = append(ids, h.ChunkID)
+	}
+	if len(ids) != 3 || ids[0] != 1 || ids[1] != 2 || ids[2] != 9 {
+		t.Errorf("hits = %v, want [1 2 9]: the current message's best hit must survive, sorted by score", ids)
+	}
+}
