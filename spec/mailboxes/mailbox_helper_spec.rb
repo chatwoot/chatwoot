@@ -252,5 +252,102 @@ RSpec.describe MailboxHelper do
         expect(message.content_attributes[:email][:html_content][:full]).to include('<attachment id="image001.jpg@test">')
       end
     end
+
+    context 'when the attachments are packed in an Outlook TNEF (winmail.dat) part' do
+      let(:conversation) { create(:conversation, inbox: create(:inbox, channel: create(:channel_email))) }
+      let(:winmail) { Rails.root.join('spec/fixtures/files/winmail.dat').binread }
+      let(:tnef_mime_type) { 'application/ms-tnef' }
+      let(:mail) do
+        message = Mail.new
+        message.from = 'Sender <sender@example.com>'
+        message.to = 'Inbox <inbox@example.com>'
+        message.subject = 'Sent from Outlook'
+        message.message_id = '<tnef-attachments@example.com>'
+        message.body = 'See the attached files.'
+        message.attachments['winmail.dat'] = { mime_type: tnef_mime_type, encoding: 'base64', content: Base64.encode64(winmail) }
+        Mail.new(message.to_s)
+      end
+
+      it 'attaches the files inside the TNEF part instead of winmail.dat' do
+        helper_instance.send(:add_attachments_to_message)
+
+        attachments = conversation.messages[0].attachments
+
+        expect(attachments.map { |attachment| attachment.file.filename.to_s }).to contain_exactly('quarterly-report.txt', 'avatar.png')
+        expect(attachments.find { |attachment| attachment.file.filename.to_s == 'avatar.png' }.file_type).to eq('image')
+      end
+
+      it 'purges the stored winmail.dat blob once its files are attached' do
+        helper_instance.send(:add_attachments_to_message)
+
+        expect(ActiveStorage::Blob.where(filename: 'winmail.dat')).to be_empty
+      end
+
+      context 'when the part uses the vnd.ms-tnef media type in capitals' do
+        let(:tnef_mime_type) { 'Application/Vnd.Ms-Tnef' }
+
+        it 'still extracts the files' do
+          helper_instance.send(:add_attachments_to_message)
+
+          names = conversation.messages[0].attachments.map { |attachment| attachment.file.filename.to_s }
+
+          expect(names).to contain_exactly('quarterly-report.txt', 'avatar.png')
+        end
+      end
+
+      context 'when the TNEF part holds more files than a message can carry' do
+        let(:file_count) { Message::NUMBER_OF_PERMITTED_ATTACHMENTS + 3 }
+        let(:file_names) { Array.new(file_count) { |index| format('file-%02d.txt', index) } }
+
+        before do
+          entries = file_names.map { |name| TnefReader::Entry.new(name, 'x') }
+          allow(TnefReader).to receive(:files).and_return(entries)
+        end
+
+        it 'uploads only the files that are attached' do
+          expect { helper_instance.send(:add_attachments_to_message) }
+            .to change { ActiveStorage::Blob.where(filename: file_names).count }.by(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+
+          expect(conversation.messages[0].attachments.count).to eq(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+        end
+      end
+
+      context 'when several TNEF parts each hold more files than a message can carry' do
+        let(:mail) do
+          message = Mail.new
+          message.from = 'Sender <sender@example.com>'
+          message.to = 'Inbox <inbox@example.com>'
+          message.subject = 'Sent from Outlook'
+          message.message_id = '<tnef-several@example.com>'
+          message.body = 'See the attached files.'
+          3.times do |index|
+            message.attachments["winmail#{index}.dat"] = { mime_type: tnef_mime_type, encoding: 'base64', content: Base64.encode64(winmail) }
+          end
+          Mail.new(message.to_s)
+        end
+        let(:file_names) { Array.new(20) { |index| format('file-%02d.txt', index) } }
+
+        before { allow(TnefReader).to receive(:files).and_return(file_names.map { |name| TnefReader::Entry.new(name, 'x') }) }
+
+        it 'uploads no more files than are attached' do
+          expect { helper_instance.send(:add_attachments_to_message) }
+            .to change { ActiveStorage::Blob.where(filename: file_names).count }.by(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+
+          expect(conversation.messages[0].attachments.count).to eq(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+        end
+      end
+
+      context 'when the TNEF data cannot be read' do
+        let(:winmail) { 'not a tnef file' }
+
+        it 'keeps winmail.dat' do
+          helper_instance.send(:add_attachments_to_message)
+
+          attachments = conversation.messages[0].attachments
+
+          expect(attachments.map { |attachment| attachment.file.filename.to_s }).to eq(['winmail.dat'])
+        end
+      end
+    end
   end
 end
