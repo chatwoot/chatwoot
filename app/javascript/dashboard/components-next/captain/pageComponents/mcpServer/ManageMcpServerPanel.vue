@@ -2,6 +2,7 @@
 import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import McpServersAPI from 'dashboard/api/captain/mcpServers';
 
@@ -20,6 +21,8 @@ const props = defineProps({
 const emit = defineEmits(['saved']);
 
 const { t } = useI18n();
+// The panel is reused across servers, so opening another server cancels the earlier tool request
+const { run, isPending: isLoadingTools } = useAbortableRequest();
 
 const STEPS = ['TOOLS', 'PARAMETERS', 'REVIEW'];
 
@@ -30,7 +33,6 @@ const liveTools = ref([]);
 // Approved tools the server no longer lists
 const missingTools = ref([]);
 const isBusy = ref(false);
-const isLoadingTools = ref(false);
 // Saving after a failed load would send an empty list and remove every approved tool
 const toolsLoadFailed = ref(false);
 // Selections by tool name: whether the tool is selected, its parameter sources, and its verification setting
@@ -67,15 +69,18 @@ const buildSelections = () => {
 };
 
 const loadTools = async () => {
-  isLoadingTools.value = true;
   toolsLoadFailed.value = false;
   try {
-    const { data } = await McpServersAPI.liveTools({
-      id: server.value.id,
-      assistantId: props.assistantId,
-    });
-    liveTools.value = data.payload;
-    missingTools.value = data.missing;
+    const response = await run(signal =>
+      McpServersAPI.liveTools({
+        id: server.value.id,
+        assistantId: props.assistantId,
+        signal,
+      })
+    );
+    if (!response) return;
+    liveTools.value = response.data.payload;
+    missingTools.value = response.data.missing;
     buildSelections();
   } catch (error) {
     toolsLoadFailed.value = true;
@@ -83,8 +88,6 @@ const loadTools = async () => {
       parseAPIErrorResponse(error) ||
         t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS_ERROR')
     );
-  } finally {
-    isLoadingTools.value = false;
   }
 };
 
