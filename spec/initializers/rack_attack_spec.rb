@@ -79,6 +79,24 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'portal_unlock/ip' do
+    it 'counts help center password attempts by ip and portal' do
+      key = throttle_key('portal_unlock/ip', form_env({ 'password' => 'x' }, '/hc/docs/unlock'))
+
+      expect(key).to eq("#{ip}:/hc/docs/unlock")
+    end
+
+    it 'counts attempts with an extension or trailing slash in the same bucket' do
+      %w[/hc/docs/unlock.json /hc/docs/unlock.xml /hc/docs/unlock/].each do |path|
+        expect(throttle_key('portal_unlock/ip', form_env({ 'password' => 'x' }, path))).to eq("#{ip}:/hc/docs/unlock")
+      end
+    end
+
+    it 'skips other help center requests' do
+      expect(throttle_key('portal_unlock/ip', form_env({ 'query' => 'x' }, '/hc/docs/en/search'))).to be_nil
+    end
+  end
+
   describe 'super_admin_login/ip' do
     it 'counts password sign-ins by ip' do
       env = form_env({ 'super_admin' => { 'email' => 'a@b.com', 'password' => 'x' } }, '/super_admin/sign_in')

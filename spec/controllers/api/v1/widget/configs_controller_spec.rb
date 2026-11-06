@@ -33,6 +33,19 @@ RSpec.describe '/api/v1/widget/config', type: :request do
       end
     end
 
+    context 'with a help center linked to the inbox' do
+      it 'returns only the portal fields the widget needs' do
+        portal = create(:portal, account: account, slug: 'docs', config: { allowed_locales: %w[en es] })
+        web_widget.inbox.update!(portal: portal)
+
+        post '/api/v1/widget/config', params: params, as: :json
+
+        expect(response.parsed_body['website_channel_config']['portal']).to eq(
+          'slug' => 'docs', 'config' => { 'allowed_locales' => %w[en es] }
+        )
+      end
+    end
+
     context 'with correct website token and valid X-Auth-Token' do
       it 'returns widget config along with the same contact' do
         expect do

@@ -142,6 +142,11 @@ export default {
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
     }),
+    widgetPortals() {
+      return this.portals.filter(
+        portal => portal.config?.visibility !== 'private_with_password'
+      );
+    },
     isInboundEmailEnabled() {
       return this.isFeatureEnabledonAccount(
         this.accountId,
@@ -1047,7 +1052,7 @@ export default {
                 :placeholder="$t('INBOX_MGMT.HELP_CENTER.PLACEHOLDER')"
                 :options="[
                   { value: '', label: $t('INBOX_MGMT.HELP_CENTER.NONE') },
-                  ...portals.map(p => ({ value: p.slug, label: p.name })),
+                  ...widgetPortals.map(p => ({ value: p.slug, label: p.name })),
                 ]"
               />
             </SettingsFieldSection>
