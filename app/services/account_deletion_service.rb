@@ -1,5 +1,6 @@
 class AccountDeletionService
   SOFT_DELETE_EMAIL_DOMAIN = '@chatwoot-deleted.invalid'.freeze
+  SOFT_DELETED_USER_NAME = 'Deleted User'.freeze
 
   attr_reader :account, :soft_deleted_users
 
@@ -32,8 +33,16 @@ class AccountDeletionService
 
       original_email = user.email
       user.email = soft_deleted_email_for(user)
+      # De-identify the retained user: the account is gone, so the original
+      # name and display name must not survive on the soft-deleted row.
+      user.name = SOFT_DELETED_USER_NAME
+      user.display_name = nil
       user.skip_reconfirmation!
       user.save!
+
+      # Invalidate any pre-deletion API credentials so the orphaned user can
+      # no longer authenticate after their final account membership is gone.
+      user.access_token&.regenerate_token
 
       user_info = {
         id: user.id.to_s,
