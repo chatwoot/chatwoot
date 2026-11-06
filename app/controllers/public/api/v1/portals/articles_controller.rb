@@ -22,7 +22,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def show
-    @is_internal_preview = permitted_params[:preview_token].present?
+    @is_internal_preview = @preview_article.present?
     set_locale_switch_urls
     @og_image_url = helpers.set_og_image_url(@portal.name, @article.title)
     @parsed_content = render_article_content(@article.content.to_s)
@@ -73,7 +73,8 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def set_article
     articles = @portal.articles.where(slug: permitted_params[:article_slug])
-    @article = articles.published.first || articles.find_signed(permitted_params[:preview_token], purpose: :preview)
+    @preview_article = articles.find_signed(permitted_params[:preview_token], purpose: :preview)
+    @article = articles.published.first || @preview_article
     render_404 if @article.blank?
   end
 

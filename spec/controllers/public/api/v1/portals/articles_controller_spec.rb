@@ -217,6 +217,18 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response.body).not_to include('G-TEST123')
     end
 
+    it 'treats a published article with an invalid preview token as a normal public page' do
+      portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
+      other_draft = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      ['junk', other_draft.preview_token].each do |preview_token|
+        get "/hc/#{portal.slug}/articles/#{article.slug}", params: { preview_token: preview_token }
+
+        expect(response.body).to include('G-TEST123')
+        expect(response.headers['X-Robots-Tag']).to be_nil
+      end
+    end
+
     it 'marks a preview of an unpublished article as noindex' do
       draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
 
