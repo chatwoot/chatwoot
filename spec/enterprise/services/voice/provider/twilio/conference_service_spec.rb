@@ -35,11 +35,44 @@ describe Voice::Provider::Twilio::ConferenceService do
     end
   end
 
+  describe '#dismiss' do
+    let(:agent) { create(:user, account: account) }
+    let(:teammate) { create(:user, account: account) }
+    let(:message) { create(:message, account: account, inbox: channel.inbox, conversation: conversation, content_type: 'voice_call') }
+
+    before { call.update!(message: message, ring_state: { 'ring_recipient_ids' => [agent.id, teammate.id] }) }
+
+    it 'stops the ring for the agent only and names who still rings on the message' do
+      service.dismiss(agent)
+
+      expect(call.reload).to be_ringing
+      expect(call.dismissed_user_ids).to eq([agent.id])
+      expect(message.reload.content_attributes['data']).to include('ring_user_ids' => [teammate.id], 'dismissed_user_ids' => [agent.id])
+    end
+
+    it 'changes nothing for an agent the call does not ring, or a repeated dismiss' do
+      outsider = create(:user, account: account)
+      service.dismiss(agent)
+      service.dismiss(agent)
+      service.dismiss(outsider)
+
+      expect(call.reload.dismissed_user_ids).to eq([agent.id])
+    end
+
+    it 'leaves a call that is no longer ringing alone' do
+      call.update!(status: 'in_progress')
+
+      service.dismiss(agent)
+
+      expect(call.reload.dismissed_user_ids).to be_empty
+    end
+  end
+
   describe '#mark_agent_joined' do
     it 'sets accepted_by_agent on the Call' do
       agent = create(:user, account: account)
 
-      service.mark_agent_joined(user: agent)
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' })
 
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
     end
@@ -47,7 +80,7 @@ describe Voice::Provider::Twilio::ConferenceService do
     it 'refuses a claim while the ring time is ending the call' do
       call.update!(ring_state: { 'timing_out_at' => Time.zone.now.to_i })
 
-      expect { service.mark_agent_joined(user: create(:user, account: account)) }
+      expect { service.mark_agent_joined(user: create(:user, account: account), agent_client: { 'platform' => 'web' }) }
         .to raise_error(Voice::CallErrors::CallAlreadyEnded, 'The call timed out before you could join.')
       expect(call.reload.accepted_by_agent_id).to be_nil
     end
@@ -55,7 +88,7 @@ describe Voice::Provider::Twilio::ConferenceService do
     it 'refuses a claim when the move has ended the call before the ring time records it' do
       call.update!(status: 'completed', ring_state: { 'timing_out_at' => Time.zone.now.to_i })
 
-      expect { service.mark_agent_joined(user: create(:user, account: account)) }
+      expect { service.mark_agent_joined(user: create(:user, account: account), agent_client: { 'platform' => 'web' }) }
         .to raise_error(Voice::CallErrors::CallAlreadyEnded, 'The call timed out before you could join.')
       expect(call.reload.accepted_by_agent_id).to be_nil
     end
@@ -63,7 +96,7 @@ describe Voice::Provider::Twilio::ConferenceService do
     it 'holds a place for the connection of the attempt the agent names' do
       agent = create(:user, account: account)
 
-      service.mark_agent_joined(user: agent, attempt: 'attempt-1')
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' }, attempt: 'attempt-1')
 
       expect(call.reload.agent_legs.dig(Call.pending_agent_leg('attempt-1'), 'state')).to eq('joining')
     end
@@ -71,15 +104,15 @@ describe Voice::Provider::Twilio::ConferenceService do
     it 'replaces the place an earlier attempt held, which may never have reached Twilio' do
       agent = create(:user, account: account)
       call.with_lock { call.record_agent_leg!('CA-live', 'joined') }
-      service.mark_agent_joined(user: agent, attempt: 'attempt-1')
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' }, attempt: 'attempt-1')
 
-      service.mark_agent_joined(user: agent, attempt: 'attempt-2')
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' }, attempt: 'attempt-2')
 
       expect(call.reload.agent_legs.keys).to contain_exactly('CA-live', Call.pending_agent_leg('attempt-2'))
     end
 
     it 'holds no place for a client that names no attempt' do
-      service.mark_agent_joined(user: create(:user, account: account))
+      service.mark_agent_joined(user: create(:user, account: account), agent_client: { 'platform' => 'web' })
 
       expect(call.reload.agent_legs).to be_empty
     end
@@ -89,7 +122,7 @@ describe Voice::Provider::Twilio::ConferenceService do
       agent_bot = create(:agent_bot, account: account)
       conversation.update!(ai_assignee: agent_bot)
 
-      service.mark_agent_joined(user: agent)
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' })
 
       expect(conversation.reload.assigned_entity).to eq(agent_bot)
     end

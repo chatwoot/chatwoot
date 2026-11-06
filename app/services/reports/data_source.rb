@@ -21,6 +21,7 @@ class Reports::DataSource
     @range = context[:range]
     @group_by = context[:group_by].to_s.presence || 'day'
     @timezone_offset = context[:timezone_offset]
+    @timezone = context[:timezone].presence
     @business_hours = context[:business_hours]
   end
 

@@ -8,6 +8,7 @@ import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useRingingCallsOnLoad } from 'dashboard/composables/useRingingCallsOnLoad';
 import { useWindowSize } from '@vueuse/core';
 
 import wootConstants from 'dashboard/constants/globals';
@@ -15,6 +16,9 @@ import { isUpgradePageBypassRoute } from 'dashboard/helper/routeHelpers';
 
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
+);
+const CommandBarV2 = defineAsyncComponent(
+  () => import('dashboard/modules/command-bar/CommandBar.vue')
 );
 
 const FloatingCallWidget = defineAsyncComponent(
@@ -31,6 +35,7 @@ export default {
   components: {
     NextSidebar,
     CommandBar,
+    CommandBarV2,
     WootKeyShortcutModal,
     AddAccountModal,
     UpgradePage,
@@ -45,6 +50,7 @@ export default {
     const { accountId } = useAccount();
     const { width: windowWidth } = useWindowSize();
     const callsStore = useCallsStore();
+    useRingingCallsOnLoad();
 
     return {
       uiSettings,
@@ -73,6 +79,9 @@ export default {
     },
     isAccountPaywalled() {
       return this.upgradePageRef?.isAccountPaywalled;
+    },
+    hasCommandBarV2() {
+      return this.uiSettings.command_bar_v2 === true;
     },
     bypassUpgradePage() {
       return isUpgradePageBypassRoute(this.$route.name);
@@ -162,7 +171,8 @@ export default {
         <CopilotContainer />
         <FloatingCallWidget v-if="hasActiveCall || hasIncomingCall" />
       </template>
-      <CommandBar :is-paywalled="isAccountPaywalled" />
+      <CommandBarV2 v-if="hasCommandBarV2" :is-paywalled="isAccountPaywalled" />
+      <CommandBar v-else :is-paywalled="isAccountPaywalled" />
       <AddAccountModal
         :show="showCreateAccountModal"
         @close-account-create-modal="closeCreateAccountModal"

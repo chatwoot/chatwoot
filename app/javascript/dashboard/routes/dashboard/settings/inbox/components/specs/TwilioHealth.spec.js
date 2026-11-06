@@ -88,6 +88,91 @@ describe('TwilioHealth', () => {
     expect(wrapper.find('[data-test="button"]').exists()).toBe(true);
   });
 
+  describe('WhatsApp health', () => {
+    const whatsappData = {
+      ...healthyData,
+      medium: 'whatsapp',
+      sender: {
+        type: 'whatsapp_sender',
+        sid: 'XE123',
+        label: '+15551234567',
+        status: 'ONLINE',
+        friendly_name: 'Acme WhatsApp',
+        quality_rating: 'HIGH',
+        messaging_limit: 'Unavailable',
+      },
+    };
+
+    it('shows sender details and hides SMS capabilities and voice calling', () => {
+      const wrapper = mountHealth({ healthData: whatsappData });
+      const text = wrapper.text();
+
+      expect(text).toContain('All checks passed');
+      expect(text).toContain('WhatsApp sender');
+      expect(text).toContain('+15551234567');
+      expect(text).toContain('Online');
+      expect(text).toContain('WhatsApp display name');
+      expect(text).toContain('Acme WhatsApp');
+      expect(text).toContain('Quality rating');
+      expect(text).toContain('High');
+      expect(text).toContain('Messaging limit');
+      expect(text).toContain('Unavailable');
+      expect(text).not.toContain('Number capabilities');
+      expect(text).not.toContain('Voice calling');
+    });
+
+    it('shows an offline sender as needing attention', () => {
+      const wrapper = mountHealth({
+        healthData: {
+          ...whatsappData,
+          status: 'misconfigured',
+          sender: { ...whatsappData.sender, status: 'OFFLINE' },
+        },
+      });
+
+      expect(wrapper.text()).toContain('Needs attention');
+      expect(wrapper.text()).toContain('Offline');
+      expect(wrapper.text()).not.toContain('All checks passed');
+    });
+
+    it('hides optional sender details when Twilio omits them', () => {
+      const wrapper = mountHealth({
+        healthData: {
+          ...whatsappData,
+          sender: {
+            ...whatsappData.sender,
+            friendly_name: null,
+            quality_rating: null,
+            messaging_limit: null,
+          },
+        },
+      });
+
+      expect(wrapper.text()).toContain('Online');
+      expect(wrapper.text()).not.toContain('WhatsApp display name');
+      expect(wrapper.text()).not.toContain('Quality rating');
+      expect(wrapper.text()).not.toContain('Messaging limit');
+    });
+
+    it('hides voice calling for a WhatsApp Messaging Service', () => {
+      const wrapper = mountHealth({
+        healthData: {
+          ...whatsappData,
+          sender: {
+            type: 'messaging_service',
+            sid: 'MG123',
+            label: 'Acme Messaging',
+          },
+        },
+      });
+
+      expect(wrapper.text()).toContain('Acme Messaging');
+      expect(wrapper.text()).not.toContain('Number capabilities');
+      expect(wrapper.text()).not.toContain('Voice calling');
+      expect(wrapper.text()).not.toContain('WhatsApp display name');
+    });
+  });
+
   it('uses the installation name instead of ours in the health copy', () => {
     const wrapper = mountHealth({
       healthData: withWebhook({ reason: 'not_set', configured: false }),

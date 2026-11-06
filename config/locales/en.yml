@@ -90,6 +90,10 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    bandwidth:
+      token_request_failed: "Unable to reach Bandwidth authentication. Please try again later."
+      invalid_configuration: 'Provide a valid Bandwidth account ID, application ID, client ID, and client secret.'
+      authentication_failed: 'Unable to authenticate with Bandwidth. Check your client ID and client secret, then try again.'
     account_saml_settings:
       invalid_certificate: must be a valid X.509 certificate in PEM format
       metadata_url:
@@ -372,6 +376,15 @@ en:
   conversations:
     captain:
       handoff: 'Transferring to another agent for further assistance.'
+    unverified_contact_match:
+      note: |-
+        This visitor entered contact details that belong to an existing contact. We couldn't verify the visitor's identity, so we didn't link this conversation to that contact or save these details.
+
+        %{matches}
+
+        If you confirm this visitor is the same person, merge the contacts from the contact panel.
+      email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
+      phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
@@ -542,6 +555,19 @@ en:
       tool_not_available: 'Tool not available'
       reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
       reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
+      step_failed: "Couldn't finish this step"
+      steps:
+        search_documentation: 'Searching the knowledge base'
+        search_articles: 'Searching help center articles'
+        get_article: 'Reading an article'
+        search_contacts: 'Searching contacts'
+        get_contact: 'Looking up a contact'
+        get_conversation: 'Reading a conversation'
+        search_linear_issues: 'Searching Linear issues'
+        get_data: 'Finding matching records'
+        display: 'Preparing the results'
+        get_report: 'Reading the reports'
+        get_account_directory: 'Looking up agents, inboxes and teams'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -725,6 +751,7 @@ en:
       invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: 'Translation requires Captain to be enabled for this account'
+      cannot_overwrite_original: "Can't translate into the original article's language. Edit the original directly."
       locale_not_available: 'Locale not available in this portal'
       category_not_found: 'Category not found in this portal'
       no_articles_found: 'No articles found to process'
@@ -752,6 +779,9 @@ en:
       submit: 'Finish Setup'
 
   super_admin:
+    billing:
+      past_due: Your installation payment is past due. Update your payment method or pay the outstanding invoice to avoid subscription cancellation.
+      resolve_payment: Resolve payment
     account_suspension:
       categories:
         spam: 'Spam'
@@ -876,6 +906,12 @@ en:
       password: 'Password'
       password_placeholder: 'Password'
       submit: 'Login'
+      mfa_code: 'Authentication code'
+      mfa_code_placeholder: '6-digit code or backup code'
+      mfa_submit: 'Verify'
+      mfa_invalid: 'Invalid code. Please try again.'
+      mfa_expired: 'Your sign-in attempt expired. Please sign in again.'
+      mfa_attempts_exhausted: 'Too many invalid codes. Please try again in a few minutes.'
     navigation:
       label: 'Super Admin'
       suffix: 'Super Admin console'
@@ -1082,6 +1118,8 @@ en:
       agents_over_limit: 'You have %{count} agents. Please add more licenses to add more users.'
       current_plan: 'Current plan'
       refresh: 'Refresh'
+      refresh_succeeded: 'Instance status refreshed'
+      refresh_failed: 'Could not reach Chatwoot Hub. Try again later.'
       manage: 'Manage'
       installation_identifier: 'Installation Identifier'
       need_help: 'Need help?'

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Captain::JevClient do
-  let(:body) { described_class.request_body(model: 'jev-latest', state: { messages: [] }, questions: { test: { type: 'noul' } }) }
+  let(:body) { described_class.request_body(model: 'typesafe/jev-1.14', state: { messages: [] }, questions: { test: { type: 'noul' } }) }
   let(:account) { create(:account) }
   let(:client) { described_class.new(account_id: account.id, feature: 'captain_classifier') }
 
@@ -12,12 +12,12 @@ RSpec.describe Captain::JevClient do
   end
 
   it 'uses the shared default endpoint and returns parsed System One data' do
-    response = { model: 'jev-1.13.0', answers: { test: { type: 'noul', noul: 0.9 } } }
+    response = { model: 'typesafe/jev-1.14-20261014', answers: { test: { type: 'noul', noul: 0.9 } } }
     stub_request(:post, 'https://openrouter.ai/api/v1/systemone').to_return(status: 200, body: response.to_json)
 
     expect(client.call(body: body)).to eq(response.deep_stringify_keys)
     expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').with { |request|
-      request.headers['Authorization'] == 'Bearer test-key' && JSON.parse(request.body)['model'] == 'jev-latest'
+      request.headers['Authorization'] == 'Bearer test-key' && JSON.parse(request.body)['model'] == 'typesafe/jev-1.14'
     }.once
   end
 
@@ -32,7 +32,7 @@ RSpec.describe Captain::JevClient do
   end
 
   it 'records the exact request, response, model, usage, and cost in Langfuse' do
-    response = { model: 'jev-1.13.0', answers: { test: { type: 'noul', noul: 0.9 } },
+    response = { model: 'typesafe/jev-1.14-20261014', answers: { test: { type: 'noul', noul: 0.9 } },
                  usage: { input_tokens: 12, output_tokens: 0, cost: 0.000001 } }
     stub_request(:post, 'https://openrouter.ai/api/v1/systemone').to_return(status: 200, body: response.to_json)
     attributes = {}
@@ -49,7 +49,7 @@ RSpec.describe Captain::JevClient do
     expect(attributes).to include(
       'langfuse.observation.input' => body,
       'langfuse.observation.output' => response.to_json,
-      'langfuse.observation.model.name' => 'jev-1.13.0',
+      'langfuse.observation.model.name' => 'typesafe/jev-1.14-20261014',
       'langfuse.observation.cost_details' => { total: 0.000001 }.to_json,
       'langfuse.session.id' => "#{account.id}_42",
       'gen_ai.usage.input_tokens' => 12
@@ -73,7 +73,7 @@ RSpec.describe Captain::JevClient do
   end
 
   context 'when tracing fails' do
-    let(:response) { { model: 'jev-1.13.0', answers: { test: { type: 'noul', noul: 0.9 } } } }
+    let(:response) { { model: 'typesafe/jev-1.14-20261014', answers: { test: { type: 'noul', noul: 0.9 } } } }
     let(:tracer) { instance_double(OpenTelemetry::Trace::Tracer) }
     let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: nil) }
 

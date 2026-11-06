@@ -23,6 +23,7 @@ const props = defineProps({
   emptyState: { type: String, default: '' },
   message: { type: String, default: '' },
   hasError: { type: Boolean, default: false },
+  loading: { type: Boolean, default: false },
   useApiResults: { type: Boolean, default: false }, // useApiResults prop to determine if search is handled by API
 });
 
@@ -124,6 +125,7 @@ watch(
         :search-placeholder="searchPlaceholder"
         :empty-state="emptyState"
         :selected-values="selectedValue"
+        :loading="loading"
         @search="emit('search', $event)"
         @select="selectOption"
       />
