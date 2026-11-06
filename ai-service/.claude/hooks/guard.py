@@ -50,12 +50,14 @@ ENTERPRISE_PATH = re.compile(r"^(\./)?enterprise(/|$)", re.IGNORECASE)
 GUARD_FILES = ("ai-service/.claude/hooks/", "ai-service/.claude/settings")
 GUARD_MENTION = re.compile(r"guard\.py|\.claude/hooks|\.claude/settings", re.IGNORECASE)
 SHELL_WRITE = re.compile(
-    r">|\btee\b|\bsed\s+-[a-zA-Z]*i|\bperl\s+-[a-zA-Z]*i|\b(mv|cp|rm|ln|chmod|truncate|install|rsync|dd)\b|python3?\s+-c"
+    r"(?<![0-9&])>(?!&)|\btee\b|\bsed\s+-[a-zA-Z]*i|\bperl\s+-[a-zA-Z]*i|\b(mv|cp|rm|ln|chmod|truncate|install|rsync|dd)\b|python3?\s+-c"
 )
 WRAPPERS = {"env", "command", "exec", "nohup", "time", "sudo", "nice", "xargs"}
 SHELLS = {"sh", "bash", "zsh", "dash"}
-GIT_CONFIG_BLOCKED = ("core.hookspath", "alias.")
+GIT_CONFIG_BLOCKED = ("core.hookspath", "alias.", "include.path", "includeif.")
 GIT_CONFIG_ENV = re.compile(r"\bGIT_CONFIG_\w*=")
+GIT_CONFIG_FILE_ENV = re.compile(r"\bGIT_CONFIG(_GLOBAL|_SYSTEM|_PARAMETERS)?=")
+GIT_CONFIG_FILE = re.compile(r"\.git/config\b")
 PUSH_ALL_FLAGS = ("--all", "--mirror", "--branches")
 MAX_NESTING = 3
 FILE_COMMANDS = {
@@ -220,8 +222,11 @@ def git_subcommand(words):
         if word == "-C" and i + 1 < len(words):
             repo = words[i + 1]
             i += 2
-        elif word.startswith("--config-env") and GIT_CONFIG_BLOCKED[0] in word.lower():
-            block("no git --config-env core.hooksPath; it bypasses hooks.")
+        elif word.startswith("--config-env"):
+            value = word.partition("=")[2] if "=" in word else (words[i + 1] if i + 1 < len(words) else "")
+            if value.lower().startswith(GIT_CONFIG_BLOCKED):
+                block("no git --config-env of core.hooksPath, aliases or includes.")
+            i += 1 if "=" in word else 2
         elif word == "-c" and i + 1 < len(words):
             if words[i + 1].lower().startswith(GIT_CONFIG_BLOCKED):
                 block("no git -c core.hooksPath or alias overrides; they bypass hooks and this guard.")
@@ -236,7 +241,7 @@ def git_subcommand(words):
 def check_push(args, repo_dir):
     for arg in args:
         name = arg.split("=")[0]
-        if name.startswith("--") and len(name) >= 4 and any(flag.startswith(name) for flag in PUSH_ALL_FLAGS):
+        if name.startswith("--") and len(name) >= 3 and any(flag.startswith(name) for flag in PUSH_ALL_FLAGS):
             block("no push --all/--mirror/--branches; push one feature branch.")
     for arg in args:
         if arg in ("--force", "-f") or (arg.startswith("-") and not arg.startswith("--") and "f" in arg[1:]):
@@ -260,6 +265,13 @@ def check_bash(command, cwd, depth=0):
         block("never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.")
     if GUARD_MENTION.search(command) and SHELL_WRITE.search(command):
         block("the guard and its settings change only by the owner's hand, not from an agent session.")
+    if GIT_CONFIG_FILE_ENV.search(command):
+        block("no GIT_CONFIG/GIT_CONFIG_GLOBAL/SYSTEM/PARAMETERS overrides.")
+    if GIT_CONFIG_FILE.search(command) and SHELL_WRITE.search(command):
+        block("no shell writes to .git/config.")
+    claude_dir = os.path.realpath(os.path.join(effective_cwd(command, cwd)))
+    if "/ai-service/.claude" in claude_dir.lower() and SHELL_WRITE.search(command):
+        block("no shell writes from inside ai-service/.claude; the owner changes it by hand.")
     lowered = command.lower()
     if GIT_CONFIG_ENV.search(command) and any(key in lowered for key in GIT_CONFIG_BLOCKED):
         block("no GIT_CONFIG_* overrides of core.hooksPath or aliases.")

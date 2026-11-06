@@ -188,7 +188,7 @@ class BypassTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
 
     def test_running_the_guard_tests_is_allowed(self):
-        result = run_guard("Bash", {"command": "python3 -m unittest discover -s .claude/hooks"})
+        result = run_guard("Bash", {"command": "python3 -m unittest discover -s .claude/hooks 2>&1 | tail -3"})
         self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_push_all_and_mirror_are_blocked(self):
@@ -264,6 +264,37 @@ class SecondReviewTests(unittest.TestCase):
         for _ in range(5):
             command = "sh -c " + shlex.quote(command)
         result = run_guard("Bash", {"command": command})
+        self.assertEqual(result.returncode, 2)
+
+
+class ThirdReviewTests(unittest.TestCase):
+    def test_config_env_as_separate_word_is_blocked(self):
+        result = run_guard("Bash", {"command": "git --config-env core.hooksPath=X commit -m x"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_short_abbreviation_is_blocked(self):
+        result = run_guard("Bash", {"command": "git push --a origin"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_atomic_push_is_allowed(self):
+        result = run_guard("Bash", {"command": "git push --atomic origin feat/x"})
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_include_path_is_blocked(self):
+        result = run_guard("Bash", {"command": "git config include.path /tmp/evil"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_global_config_override_is_blocked(self):
+        result = run_guard("Bash", {"command": "GIT_CONFIG_GLOBAL=/tmp/x git commit -m x"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_shell_write_to_git_config_is_blocked(self):
+        result = run_guard("Bash", {"command": "printf '[core]' >> .git/config"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_shell_write_from_inside_claude_dir_is_blocked(self):
+        cwd = os.path.join(FORK_ROOT, "ai-service", ".claude")
+        result = run_guard("Bash", {"command": "cd hooks && echo x > g.py"}, cwd=cwd)
         self.assertEqual(result.returncode, 2)
 
 
