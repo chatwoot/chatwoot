@@ -22,13 +22,25 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  canManage: {
+    type: Boolean,
+    default: false,
+  },
+  isApplyingDisplayName: {
+    type: Boolean,
+    default: false,
+  },
   isRegisteringWebhook: {
     type: Boolean,
     default: false,
   },
 });
 
-const emit = defineEmits(['registerWebhook', 'goToConfiguration']);
+const emit = defineEmits([
+  'registerWebhook',
+  'goToConfiguration',
+  'applyDisplayName',
+]);
 
 const { t, te } = useI18n();
 const { resolvedLocale } = useLocale();
@@ -151,6 +163,33 @@ const businessProfileDetails = computed(() => {
   ];
 });
 
+const hasRequestedDisplayName = computed(
+  () =>
+    Boolean(props.healthData?.new_display_name) ||
+    Boolean(
+      props.healthData?.new_name_status &&
+        props.healthData.new_name_status !== 'NONE'
+    )
+);
+
+const canApplyDisplayName = computed(
+  () =>
+    props.canManage &&
+    props.healthData?.new_name_status === 'APPROVED' &&
+    Boolean(props.healthData?.new_display_name) &&
+    props.healthData?.status === 'CONNECTED' &&
+    props.healthData?.is_on_biz_app === false
+);
+
+const requestedNameDescription = computed(() => {
+  const status = props.healthData?.new_name_status;
+  return t(
+    `INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.DESCRIPTIONS.${
+      STATUSES.includes(status) ? status : 'UNKNOWN'
+    }`
+  );
+});
+
 const healthSections = computed(() => {
   if (!props.healthData) {
     return [];
@@ -159,8 +198,6 @@ const healthSections = computed(() => {
   const {
     id: phoneNumberId,
     display_phone_number: displayPhoneNumber,
-    verified_name: verifiedName,
-    name_status: nameStatus,
     quality_rating: qualityRating,
     messaging_limit_tier: messagingLimitTier,
     account_mode: accountMode,
@@ -192,25 +229,6 @@ const healthSections = computed(() => {
           tooltip: t(
             'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_PHONE_NUMBER.TOOLTIP'
           ),
-        },
-        {
-          key: 'verifiedName',
-          label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.LABEL'),
-          value: verifiedName || notAvailable,
-          tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.TOOLTIP'),
-        },
-        {
-          key: 'displayNameStatus',
-          label: t(
-            'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.LABEL'
-          ),
-          value: nameStatus || 'UNKNOWN',
-          tooltip: t(
-            'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.TOOLTIP'
-          ),
-          description: getDisplayNameStatusDescription(nameStatus || 'UNKNOWN'),
-          type: 'status',
-          wide: true,
         },
         {
           key: 'phoneNumberId',
@@ -563,6 +581,82 @@ const handleCopyWebhookUrl = async url => {
                 </span>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section
+          data-testid="display-name-card"
+          class="flex flex-col gap-4 p-4 rounded-lg border border-n-weak bg-n-solid-1"
+        >
+          <h3 class="text-heading-4 text-n-slate-12">
+            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.TITLE') }}
+          </h3>
+          <div class="space-y-2">
+            <p class="text-label text-n-slate-11">
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.LABEL') }}
+            </p>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-body-main text-n-slate-12 break-words">
+                {{
+                  healthData.verified_name ||
+                  t('INBOX_MGMT.ACCOUNT_HEALTH.VALUES.NOT_AVAILABLE')
+                }}
+              </span>
+              <span
+                class="px-2 py-0.5 text-label-small rounded-md bg-n-alpha-2"
+                :class="getStatusTextColor(healthData.name_status)"
+              >
+                {{ formatStatusDisplay(healthData.name_status || 'UNKNOWN') }}
+              </span>
+            </div>
+            <p
+              v-if="!hasRequestedDisplayName"
+              class="text-body-main text-n-slate-11"
+            >
+              {{
+                getDisplayNameStatusDescription(
+                  healthData.name_status || 'UNKNOWN'
+                )
+              }}
+            </p>
+          </div>
+          <div
+            v-if="hasRequestedDisplayName"
+            class="flex flex-col gap-3 pt-4 border-t border-n-weak"
+          >
+            <p class="text-label text-n-slate-11">
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.REQUESTED_NAME') }}
+            </p>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-body-main text-n-slate-12 break-words">
+                {{
+                  healthData.new_display_name ||
+                  t('INBOX_MGMT.ACCOUNT_HEALTH.VALUES.NOT_AVAILABLE')
+                }}
+              </span>
+              <span
+                class="px-2 py-0.5 text-label-small rounded-md bg-n-alpha-2"
+                :class="getStatusTextColor(healthData.new_name_status)"
+              >
+                {{
+                  formatStatusDisplay(healthData.new_name_status || 'UNKNOWN')
+                }}
+              </span>
+            </div>
+            <p class="text-body-main text-n-slate-11">
+              {{ requestedNameDescription }}
+            </p>
+            <ButtonV4
+              v-if="canApplyDisplayName"
+              data-testid="apply-display-name"
+              sm
+              class="self-start"
+              :is-loading="isApplyingDisplayName"
+              :disabled="isApplyingDisplayName"
+              @click="emit('applyDisplayName', healthData.new_display_name)"
+            >
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.APPLY') }}
+            </ButtonV4>
           </div>
         </section>
 
