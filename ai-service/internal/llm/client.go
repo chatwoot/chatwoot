@@ -16,6 +16,38 @@ import (
 type Message struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
+	// Images are data: URLs sent with this message (vision models only).
+	Images []string `json:"-"`
+	// ImageDetail is "low", "high" or "" (auto).
+	ImageDetail string `json:"-"`
+}
+
+// MarshalJSON keeps text messages unchanged and sends images as OpenAI
+// content parts: [{"type":"text"}, {"type":"image_url"}...].
+func (m Message) MarshalJSON() ([]byte, error) {
+	if len(m.Images) == 0 {
+		return json.Marshal(struct {
+			Role    string `json:"role"`
+			Content string `json:"content"`
+		}{m.Role, m.Content})
+	}
+	type image struct {
+		URL    string `json:"url"`
+		Detail string `json:"detail,omitempty"`
+	}
+	type part struct {
+		Type     string `json:"type"`
+		Text     string `json:"text,omitempty"`
+		ImageURL *image `json:"image_url,omitempty"`
+	}
+	parts := []part{{Type: "text", Text: m.Content}}
+	for _, u := range m.Images {
+		parts = append(parts, part{Type: "image_url", ImageURL: &image{URL: u, Detail: m.ImageDetail}})
+	}
+	return json.Marshal(struct {
+		Role    string `json:"role"`
+		Content []part `json:"content"`
+	}{m.Role, parts})
 }
 
 // Result is a completion plus the usage data we log for cost tracking.
