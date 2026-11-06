@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Delete {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Locale removed from portal successfully",
           "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
