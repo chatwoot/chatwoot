@@ -282,3 +282,65 @@ func TestSavedKeyKeptWhenOnlyTrailingSlashDiffers(t *testing.T) {
 		t.Errorf("code=%d key kept=%v", rec.Code, e.store.Get().Primary.APIKey == "sk-or-secret-9876")
 	}
 }
+
+func TestSave_FallbackOnSameURLReusesPrimaryKey(t *testing.T) {
+	// Arrange: same OpenRouter account, backup model, no second key.
+	e := setup(t, nil)
+	form := baseForm()
+	form.Set("fallback_base_url", "https://openrouter.ai/api/v1/")
+	form.Set("fallback_model", "backup/model")
+
+	// Act
+	rec := e.do(post(form))
+
+	// Assert
+	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin?saved=1" {
+		t.Fatalf("code=%d location=%q", rec.Code, rec.Header().Get("Location"))
+	}
+	if fb := e.store.Get().Fallback; fb.APIKey != "sk-or-secret-9876" || fb.Model != "backup/model" {
+		t.Errorf("fallback = %+v", fb)
+	}
+}
+
+func TestSave_IncompleteFallbackIsTurnedOffNotBlocking(t *testing.T) {
+	// Arrange: different provider, key left blank.
+	e := setup(t, nil)
+	form := baseForm()
+	form.Set("primary_model", "new/model")
+	form.Set("fallback_base_url", "https://api.openai.com/v1")
+	form.Set("fallback_model", "gpt-x")
+
+	// Act
+	rec := e.do(post(form))
+	page := e.do(get(true))
+	notice := e.do(func() *http.Request { r := get(true); r.URL.RawQuery = "saved=1&fallback=off"; return r }())
+
+	// Assert
+	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin?saved=1&fallback=off" {
+		t.Fatalf("code=%d location=%q body=%s", rec.Code, rec.Header().Get("Location"), rec.Body)
+	}
+	got := e.store.Get()
+	if got.Primary.Model != "new/model" || got.Fallback != (settings.Provider{}) {
+		t.Errorf("stored = %+v", got)
+	}
+	if page.Code != 200 || !strings.Contains(notice.Body.String(), "Fallback provider is off") {
+		t.Errorf("notice missing: %s", notice.Body)
+	}
+}
+
+func TestTest_FallbackOnSameURLUsesPrimaryKey(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	form := baseForm()
+	form.Set("fallback_base_url", "https://openrouter.ai/api/v1")
+	form.Set("fallback_model", "backup/model")
+	form.Set("test", "fallback")
+
+	// Act
+	e.do(post(form))
+
+	// Assert
+	if len(e.probed) != 1 || e.probed[0].APIKey != "sk-or-secret-9876" || e.probed[0].Model != "backup/model" {
+		t.Errorf("probed = %+v", e.probed)
+	}
+}

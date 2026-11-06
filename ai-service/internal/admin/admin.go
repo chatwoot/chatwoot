@@ -77,6 +77,7 @@ type testView struct {
 type pageData struct {
 	Primary, Fallback providerView
 	Saved             bool
+	FallbackOff       bool // saved, but an incomplete fallback was turned off
 	Error             string
 	Test              *testView
 	Presets           []preset
@@ -95,9 +96,11 @@ func view(p settings.Provider) providerView {
 
 func (h *Handler) show(w http.ResponseWriter, r *http.Request) {
 	cur := h.Store.Get()
+	q := r.URL.Query()
 	h.render(w, http.StatusOK, pageData{
 		Primary: view(cur.Primary), Fallback: view(cur.Fallback),
-		Saved: r.URL.Query().Get("saved") == "1",
+		Saved:       q.Get("saved") == "1",
+		FallbackOff: q.Get("fallback") == "off",
 	})
 }
 
@@ -113,6 +116,11 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 		Primary:  fromForm(r, "primary", cur.Primary),
 		Fallback: fromForm(r, "fallback", cur.Fallback),
 	}.Normalize()
+	// Same provider as primary (e.g. a backup model on one OpenRouter account):
+	// reuse the primary key. Safe because the key goes to the same host.
+	if next.Fallback.APIKey == "" && next.Fallback.BaseURL != "" && next.Fallback.BaseURL == next.Primary.BaseURL {
+		next.Fallback.APIKey = next.Primary.APIKey
+	}
 	// Re-display what was entered; keys are still only masked.
 	data := pageData{Primary: view(next.Primary), Fallback: view(next.Fallback)}
 
@@ -122,6 +130,13 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// The fallback is optional: an incomplete one is turned off instead of
+	// blocking a valid primary.
+	fallbackOff := false
+	if next.Fallback != (settings.Provider{}) && next.Fallback.Validate() != nil {
+		next.Fallback = settings.Provider{}
+		fallbackOff = true
+	}
 	if err := h.Store.Save(next); err != nil {
 		data.Error = err.Error()
 		h.render(w, http.StatusUnprocessableEntity, data)
@@ -132,7 +147,11 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 		"primary_host", next.Primary.Host(), "primary_model", next.Primary.Model,
 		"fallback_enabled", next.Fallback.Configured(), "fallback_model", next.Fallback.Model,
 		"remote_addr", r.RemoteAddr)
-	http.Redirect(w, r, "/admin?saved=1", http.StatusSeeOther)
+	target := "/admin?saved=1"
+	if fallbackOff {
+		target += "&fallback=off"
+	}
+	http.Redirect(w, r, target, http.StatusSeeOther)
 }
 
 // fromForm reads one provider. A blank key keeps the saved one only while the

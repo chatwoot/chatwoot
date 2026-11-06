@@ -68,7 +68,7 @@
   <h1>AI provider settings</h1>
   <p class="lead">Choose which AI service answers your customers. Changes apply right away, no restart needed.</p>
 
-  {{if .Saved}}<div class="alert ok" role="status">Settings saved and now in use.</div>{{end}}
+  {{if .Saved}}<div class="alert ok" role="status">Settings saved and now in use.{{if .FallbackOff}} Fallback provider is off because it was incomplete. To use one, fill in its base URL, API key and model. With the same base URL as the primary, the key can stay blank.{{end}}</div>{{end}}
   {{if .Error}}<div class="alert err" role="alert"><strong>Not saved.</strong>
 {{.Error}}</div>{{end}}
 
@@ -76,7 +76,7 @@
     <datalist id="presets">{{range .Presets}}<option value="{{.URL}}">{{.Name}}</option>{{end}}</datalist>
 
     {{template "provider" dict "Slot" "primary" "Title" "Primary provider" "Hint" "Answers every customer message." "P" .Primary "Test" .Test}}
-    {{template "provider" dict "Slot" "fallback" "Title" "Fallback provider" "Hint" "Optional. Used only when the primary provider fails or times out. Clear the base URL and model to turn it off." "P" .Fallback "Test" .Test}}
+    {{template "provider" dict "Slot" "fallback" "Title" "Fallback provider" "Hint" "Optional. Used only when the primary provider fails or times out. Same base URL as the primary? Leave the key blank to reuse the primary key. Clear all fields to turn it off." "P" .Fallback "Test" .Test}}
 
     <div class="actions">
       <button type="submit" class="primary">Save settings</button>
