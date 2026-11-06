@@ -29,8 +29,8 @@ class BaseListener
     [inbox, inbox.account]
   end
 
-  def extract_changed_attributes(event)
-    changed_attributes = event.data[:changed_attributes]
+  def extract_changed_attributes(event, key = :changed_attributes)
+    changed_attributes = event.data[key]
 
     return if changed_attributes.blank?
 
