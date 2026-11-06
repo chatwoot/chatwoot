@@ -73,7 +73,9 @@ services:
     volumes:
       - ai_data:/data
     environment:
-      CHATWOOT_BASE_URL: http://rails:3000
+      # Public HTTPS URL: Rails runs with FORCE_SSL, so plain http://rails:3000
+      # calls get redirected to https://rails:3000, which nothing serves.
+      CHATWOOT_BASE_URL: ${FRONTEND_URL:?set in Dokploy}
       CHATWOOT_BOT_TOKEN: ${CHATWOOT_BOT_TOKEN:-}
       CHATWOOT_WEBHOOK_SECRET: ${CHATWOOT_WEBHOOK_SECRET:-}
       ADMIN_PASSWORD: ${AI_ADMIN_PASSWORD:-}
