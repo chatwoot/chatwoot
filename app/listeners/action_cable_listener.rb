@@ -152,43 +152,37 @@ class ActionCableListener < BaseListener
 
   def broadcast_message_event(message, event_name, **extra)
     conversation = message.conversation
-    contact_inboxes = message_contact_inboxes(conversation, message)
+    widget_tokens, client_tokens = split_contact_tokens(message_contact_inboxes(conversation, message))
     data = message.push_event_data.merge(extra)
 
-    broadcast(conversation.account, inbox_user_tokens(conversation) + full_payload_tokens(contact_inboxes), event_name, data)
-    broadcast_to_widget(conversation.account, contact_inboxes, event_name, message.widget_push_event_data(data))
+    broadcast(conversation.account, inbox_user_tokens(conversation) + client_tokens, event_name, data,
+              widget: { tokens: widget_tokens, data: message.widget_push_event_data(data) })
   end
 
   def broadcast_conversation_event(conversation, event_name)
-    contact_inboxes = session_contact_inboxes(conversation.contact_inbox)
-    data = conversation.push_event_data
-
-    broadcast(conversation.account, inbox_user_tokens(conversation) + full_payload_tokens(contact_inboxes), event_name, data)
+    widget_tokens, client_tokens = split_contact_tokens(session_contact_inboxes(conversation.contact_inbox))
     # The web widget has no handler for conversation.updated
-    return if event_name == CONVERSATION_UPDATED
+    widget_tokens = [] if event_name == CONVERSATION_UPDATED
 
-    broadcast_to_widget(conversation.account, contact_inboxes, event_name, conversation.widget_push_event_data)
+    broadcast(conversation.account, inbox_user_tokens(conversation) + client_tokens, event_name, conversation.push_event_data,
+              widget: { tokens: widget_tokens, data: conversation.widget_push_event_data })
   end
 
   def broadcast_typing_event(event, event_name)
     conversation = event.data[:conversation]
     user = event.data[:user]
-    contact_inboxes = typing_contact_inboxes(conversation, user)
+    widget_tokens, client_tokens = split_contact_tokens(typing_contact_inboxes(conversation, user))
     data = { conversation: conversation.push_event_data, user: user.push_event_data, is_private: event.data[:is_private] || false }
 
-    broadcast(conversation.account, typing_user_tokens(conversation, user) + full_payload_tokens(contact_inboxes), event_name, data)
-    broadcast_to_widget(conversation.account, contact_inboxes, event_name, data.merge(conversation: conversation.widget_push_event_data))
+    broadcast(conversation.account, typing_user_tokens(conversation, user) + client_tokens, event_name, data,
+              widget: { tokens: widget_tokens, data: data.merge(conversation: conversation.widget_push_event_data) })
   end
 
-  # Client API sessions get the same full payload as agents and admins
-  def full_payload_tokens(contact_inboxes)
-    contact_inboxes.reject { |contact_inbox| contact_inbox.inbox.web_widget? }.filter_map(&:pubsub_token)
-  end
-
-  # Web widget sessions get the widget payload in their own job
-  def broadcast_to_widget(account, contact_inboxes, event_name, widget_data)
-    tokens = contact_inboxes.select { |contact_inbox| contact_inbox.inbox.web_widget? }.filter_map(&:pubsub_token)
-    broadcast(account, tokens, event_name, widget_data, widget: true)
+  # Web widget sessions get the widget payload.
+  # Client API sessions get the same full payload as agents and admins.
+  def split_contact_tokens(contact_inboxes)
+    widget_inboxes, client_inboxes = contact_inboxes.partition { |contact_inbox| contact_inbox.inbox.web_widget? }
+    [widget_inboxes.filter_map(&:pubsub_token), client_inboxes.filter_map(&:pubsub_token)]
   end
 
   def inbox_user_tokens(conversation)
@@ -224,15 +218,22 @@ class ActionCableListener < BaseListener
     contact_inbox.contact.contact_inboxes.where(hmac_verified: true).where.associated(:inbox).includes(:inbox).to_a
   end
 
-  def broadcast(account, tokens, event_name, data, **job_options)
-    return if tokens.blank?
+  # widget: { tokens:, data: } sends web widget sessions their payload in the same job
+  def broadcast(account, tokens, event_name, data, widget: {})
+    widget_tokens = widget[:tokens].to_a
+    return if tokens.blank? && widget_tokens.blank?
 
+    widget_options = {}
+    widget_options = { widget_members: widget_tokens.uniq, widget_data: broadcast_payload(account, widget[:data]) } if widget_tokens.present?
+    ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, broadcast_payload(account, data), **widget_options)
+  end
+
+  def broadcast_payload(account, data)
     payload = data.merge(account_id: account.id)
     # So the frondend knows who performed the action.
     # Useful in cases like conversation assignment for generating a notification with assigner name.
     payload[:performer] = Current.user&.push_event_data if Current.user.present?
-
-    ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload, **job_options)
+    payload
   end
 end
 
