@@ -46,6 +46,18 @@ All settings are environment variables; see [`.env.example`](.env.example).
 Required: `CHATWOOT_BASE_URL`, `CHATWOOT_BOT_TOKEN`, `CHATWOOT_WEBHOOK_SECRET`,
 `LLM_API_KEY`, `LLM_MODEL`. The service refuses to start if any is missing.
 
+### LLM provider
+
+The LLM client speaks the OpenAI Chat Completions format, so any compatible
+provider works. You switch providers with three variables:
+
+| Provider | `LLM_BASE_URL` | `LLM_API_KEY` | `LLM_MODEL` example |
+|---|---|---|---|
+| OpenRouter (default) | `https://openrouter.ai/api/v1` | OpenRouter key | a slug from openrouter.ai/models |
+| OpenAI | `https://api.openai.com/v1` | OpenAI key | a model id from platform.openai.com/docs/models |
+
+Restart ai-service after changing them.
+
 ## Run locally (with `../local` from `init.sh`)
 
 1. Create the admin account at http://localhost:3000 and a website inbox.
