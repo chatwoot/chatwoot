@@ -749,6 +749,7 @@
       "PANEL_TITLE": "Get started with Copilot",
       "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "Send message...",
+      "STOP": "Stop Copilot",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Copilot is thinking",
       "YOU": "You",
@@ -790,6 +791,7 @@
         "TITLE": "Approve this change?",
         "APPROVE": "Approve",
         "REJECT": "Reject",
+        "STOPPED": "Stopped",
         "ERROR": "Could not save your decision. Please try again.",
         "MORE_TARGETS": "and {count} more",
         "ACTIONS": {

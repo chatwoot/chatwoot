@@ -112,6 +112,9 @@ const decide = async choice => {
     </div>
     <template v-else-if="status === 'approved'">
       <div v-if="progress.finished" class="flex flex-col">
+        <span v-if="progress.stopped" class="text-n-slate-11">
+          {{ t('CAPTAIN.COPILOT.APPROVAL.STOPPED') }}
+        </span>
         <span class="text-n-slate-11">
           {{
             t('CAPTAIN.COPILOT.APPROVAL.APPLIED', { count: progress.applied })

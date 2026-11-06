@@ -77,6 +77,15 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  // The old Copilot answers each message on its own and cannot be stopped.
+  canStop: {
+    type: Boolean,
+    default: false,
+  },
+  onStop: {
+    type: Function,
+    default: () => {},
+  },
 });
 
 const emit = defineEmits([
@@ -190,6 +199,14 @@ const isLastMessageFromAssistant = computed(() => {
   );
 });
 
+// Stopping marks the agent's message instead of answering it.
+const isLastRequestStopped = computed(() => {
+  const lastRequest = props.messages.findLast(
+    message => message.message_type === 'user'
+  );
+  return lastRequest?.message.status === 'stopped';
+});
+
 // An approval card waits on the agent, not on Copilot, so the loader stays hidden until they decide.
 const isCopilotWorking = computed(() => {
   const hasApprovalAwaitingDecision = props.messages.some(
@@ -197,7 +214,11 @@ const isCopilotWorking = computed(() => {
       message.message_type === 'assistant_approval' &&
       message.message.approval.status === 'awaiting_approval'
   );
-  return !isLastMessageFromAssistant.value && !hasApprovalAwaitingDecision;
+  return (
+    !isLastMessageFromAssistant.value &&
+    !hasApprovalAwaitingDecision &&
+    !isLastRequestStopped.value
+  );
 });
 
 // Only workflow steps save a run ID, so the old Copilot's steps keep the loader.
@@ -205,6 +226,12 @@ const hasLiveStep = (item, index) =>
   isCopilotWorking.value &&
   index === groupedMessages.value.length - 1 &&
   Boolean(item.messages.at(-1).message.run_id);
+
+// Copilot answers one message at a time, so while it works the agent can stop it but not send another message. A new
+// chat has no messages, so there is nothing to stop.
+const isStoppable = computed(
+  () => props.canStop && props.messages.length > 0 && isCopilotWorking.value
+);
 
 const showLoader = computed(() => {
   if (!isCopilotWorking.value) return false;
@@ -541,6 +568,8 @@ watch(
         v-model="draft"
         class="mb-1 w-full max-w-3xl mx-auto"
         :on-send="sendMessage"
+        :is-working="isStoppable"
+        :on-stop="onStop"
         @focusin="wakeAvatar"
         @input="onDraftInput"
       />
