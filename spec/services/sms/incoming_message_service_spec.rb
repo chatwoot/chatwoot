@@ -183,6 +183,52 @@ describe Sms::IncomingMessageService do
         expect do
           described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
         end.to raise_error(SafeFetch::HttpError)
+
+        expect(sms_channel.inbox.messages.count).to eq(0)
+      end
+
+      it 'attaches media and avoids creating duplicate messages when retrying after a failure' do
+        stub_request(:get, 'http://other.example/file.png')
+          .to_return(status: 500).then
+          .to_return(status: 200, body: File.read('spec/assets/sample.png'), headers: { 'Content-Type' => 'image/png' })
+        media_params = { 'media': ['http://other.example/file.png'] }.with_indifferent_access
+
+        expect do
+          described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+        end.to raise_error(SafeFetch::HttpError)
+
+        expect(sms_channel.inbox.messages.count).to eq(0)
+
+        # Retry succeeds and creates exactly one message with attachment
+        described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+        expect(sms_channel.inbox.messages.count).to eq(1)
+        expect(sms_channel.inbox.messages.first.attachments.count).to eq(1)
+
+        # Subsequent redelivery does not create duplicate message or attachments
+        described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+        expect(sms_channel.inbox.messages.count).to eq(1)
+        expect(sms_channel.inbox.messages.first.attachments.count).to eq(1)
+      end
+
+      it 'attaches media to an existing message created without attachments without creating a duplicate' do
+        contact_inbox = create(:contact_inbox, inbox: sms_channel.inbox, source_id: params[:from])
+        conversation = create(:conversation, inbox: sms_channel.inbox, contact_inbox: contact_inbox)
+        existing_message = create(
+          :message,
+          account: sms_channel.account,
+          inbox: sms_channel.inbox,
+          conversation: conversation,
+          source_id: params[:id],
+          content: params[:text]
+        )
+        stub_request(:get, 'http://other.example/file.png')
+          .to_return(status: 200, body: File.read('spec/assets/sample.png'), headers: { 'Content-Type' => 'image/png' })
+        media_params = { 'media': ['http://other.example/file.png'] }.with_indifferent_access
+
+        described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+
+        expect(sms_channel.inbox.messages.count).to eq(1)
+        expect(existing_message.reload.attachments.count).to eq(1)
       end
     end
   end
