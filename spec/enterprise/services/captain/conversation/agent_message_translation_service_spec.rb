@@ -63,6 +63,8 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
   end
 
   it 'follows the contact when they switch language midway' do
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Guten Morgen',
+                     content_attributes: { source_language: 'de' })
     switched = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Hallo')
     allow(detection).to receive(:language).and_return('de', nil)
     allow(llm_service).to receive(:perform).and_return(message: 'Guten Tag')
