@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
+import { messageTimestamp } from 'shared/helpers/timeHelper';
 import CopilotRunsAPI from 'dashboard/api/captain/copilotRuns';
 import Button from 'dashboard/components-next/button/Button.vue';
 import CopilotProgressBar from './CopilotProgressBar.vue';
@@ -38,17 +39,21 @@ const hiddenTargetCount = computed(
   () => approval.value.count - targets.value.length
 );
 
+// Each action names its card string and the values that fill it. A time is shown in the agent's own time zone.
 const summary = computed(() => {
-  const { action, arguments: args, count } = approval.value;
-  if (action === 'add_labels') {
-    return t(
-      'CAPTAIN.COPILOT.APPROVAL.ACTIONS.ADD_LABELS',
-      { labels: args.labels.join(', '), count },
-      count
-    );
-  }
-  return t('CAPTAIN.COPILOT.APPROVAL.ACTIONS.OTHER', { action, count }, count);
+  const { summary: key, values = {}, count } = approval.value;
+  const params = { ...values, count };
+  if (values.time) params.time = messageTimestamp(values.time, 'LLL d, h:mm a');
+  return t(`CAPTAIN.COPILOT.APPROVAL.ACTIONS.${key}`, params, count);
 });
+
+const warning = computed(() => {
+  const { warning: key, count } = approval.value;
+  return key && t(`CAPTAIN.COPILOT.APPROVAL.WARNINGS.${key}`, { count }, count);
+});
+
+// Set when the change comes from a review that has not read every conversation it selected.
+const coverage = computed(() => approval.value.coverage);
 
 const decide = async choice => {
   isSubmitting.value = true;
@@ -76,6 +81,22 @@ const decide = async choice => {
       <span class="font-medium">{{ t('CAPTAIN.COPILOT.APPROVAL.TITLE') }}</span>
       <span class="break-words text-n-slate-11">{{ summary }}</span>
     </div>
+    <p
+      v-if="approval.content"
+      class="px-3 py-2 m-0 rounded-lg whitespace-pre-wrap break-words bg-n-alpha-2 text-n-slate-12"
+    >
+      {{ approval.content }}
+    </p>
+    <span v-if="warning" class="text-n-amber-11">{{ warning }}</span>
+    <span v-if="coverage" class="text-n-amber-11">
+      {{
+        t('CAPTAIN.COPILOT.APPROVAL.PARTIAL_REVIEW', {
+          reviewed: coverage.reviewed,
+          total: coverage.total,
+          remaining: coverage.total - coverage.reviewed,
+        })
+      }}
+    </span>
     <div v-if="targets.length" class="flex flex-wrap gap-x-2 gap-y-1">
       <router-link
         v-for="target in targets"
