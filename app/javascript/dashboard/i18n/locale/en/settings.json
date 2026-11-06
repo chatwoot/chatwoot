@@ -435,8 +435,8 @@
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",
-    "DESCRIPTION": "Import contacts from a CSV file or customer history from another support tool.",
-    "LOADING": "Fetching imports",
+    "DESCRIPTION": "Bring in your customer data and manage contact exports.",
+    "LOADING": "Fetching imports and exports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
     "DEFAULT_IMPORT_NAMES": {
       "CSV": "Contacts Import - {date}",
@@ -519,7 +519,7 @@
       "ABANDON": "Abandon"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
+      "BACK": "Back to imports and exports",
       "ERRORS": "Errors",
       "SKIP_LOGS": "Skip logs",
       "SOURCE": "Source",
@@ -562,7 +562,7 @@
       }
     },
     "ALERTS": {
-      "LOAD_FAILED": "Could not refresh imports. Please try again.",
+      "LOAD_FAILED": "Could not refresh imports and exports. Please try again.",
       "IMPORT_STARTED": "Import has started.",
       "IMPORT_RETRIED": "Import has been queued to resume.",
       "IMPORT_RETRY_FAILED": "Could not retry the import.",
@@ -576,6 +576,40 @@
       "COMPLETED_WITH_ERRORS": "Completed with errors",
       "FAILED": "Failed",
       "ABANDONED": "Abandoned"
+    }
+  },
+  "DATA_EXPORTS": {
+    "INITIATOR": "Started by {name} on {date}",
+    "TITLE": "Contact export",
+    "NEW": "Export contacts",
+    "START": "Start export",
+    "EMPTY": "No exports yet",
+    "ALL_CONTACTS": "All contacts",
+    "FILTERED_CONTACTS": "Contacts matching the current filters",
+    "SCOPE": "Contacts to export: {scope}",
+    "DESCRIPTION": "Export the selected contacts to CSV. Data is captured when the export runs.",
+    "PROCESSED": "{count} contacts exported",
+    "ESTIMATE": "Estimated total: {count}. This can change while contacts are updated.",
+    "DOWNLOAD": "Download CSV",
+    "RERUN": "Run again",
+    "STALLED": "This export has stopped reporting progress. Run it again to create a new export.",
+    "EXPIRED": "This download has expired. Run the export again to create a new file.",
+    "RETENTION": "Export files are available for 30 days after completion.",
+    "ERROR": "Could not load or start this export. Please try again.",
+    "LOAD_OLDER": "Load older exports",
+    "LOAD_OLDER_ERROR": "Could not load older exports. Try again.",
+    "DOWNLOAD_ERROR": "This file is no longer available. Refresh the page to see its current status.",
+    "DRAFT_UNAVAILABLE": "The export selection is unavailable or expired. Return to Contacts and choose Export again. No export has been started.",
+    "EMPTY_DESCRIPTION": "Export your contacts to a CSV file. Your export history and downloads will appear here.",
+    "NOTIFICATION": "We’ll email you when your CSV is ready. You can also track progress and download it here.",
+    "FILE_FORMAT": "CSV file (.csv)",
+    "SELECTION": "Contacts",
+    "PROGRESS": "Export progress",
+    "FILE_READY": "Your export is ready",
+    "IN_PROGRESS": "Preparing your CSV. You can leave this page while the export runs.",
+    "TABLE": {
+      "EXPORTED": "Exported",
+      "COUNT": "Showing {count} exports"
     }
   },
   "CAPTAIN_SETTINGS": {
