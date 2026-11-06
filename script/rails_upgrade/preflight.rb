@@ -16,6 +16,7 @@ class RailsUpgrade::Preflight
     check_version
     check_framework_defaults
     check_background_job_dependencies
+    check_rails_8_compatibility
     check_migrations
     check_required_columns
     check_installation_configs
@@ -46,6 +47,25 @@ class RailsUpgrade::Preflight
 
     check('sidekiq.version', expected: expected_sidekiq, actual: Sidekiq::VERSION) { expected_sidekiq == Sidekiq::VERSION }
     check('sidekiq.connection_pool', actual: connection_pool.to_s, constraint: '< 3') { connection_pool < Gem::Version.new('3') }
+  end
+
+  def check_rails_8_compatibility
+    return report('rails_8.compatibility', true, skipped: true) if Gem::Version.new(Rails.version) < Gem::Version.new('8.0')
+
+    check_gem_version('administrate', '= 1.0.0')
+    check_gem_version('groupdate', '>= 6.8.0')
+    check_gem_version('rails-i18n', '~> 8.0')
+
+    route = Rails.application.routes.url_helpers.app_account_path(1)
+    check('rails_8.mailer_route', expected: '/app/accounts/1', actual: route) { route == '/app/accounts/1' }
+
+    time_behavior = ActiveSupport.to_time_preserves_timezone
+    check('rails_8.to_time_preserves_timezone', expected: 'zone', actual: time_behavior.to_s) { time_behavior == :zone }
+  end
+
+  def check_gem_version(name, requirement)
+    actual = Gem.loaded_specs.fetch(name).version
+    check("gem.#{name}", expected: requirement, actual: actual.to_s) { Gem::Requirement.new(requirement).satisfied_by?(actual) }
   end
 
   def check_migrations
