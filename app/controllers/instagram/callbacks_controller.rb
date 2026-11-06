@@ -106,6 +106,9 @@ class Instagram::CallbacksController < ApplicationController
 
     if channel_instagram
       update_channel(channel_instagram, user_details)
+      # Re-subscribe so newly granted scopes (e.g. comments) take effect on the
+      # refreshed token; new channels already subscribe via after_create_commit.
+      channel_instagram.subscribe
     else
       channel_instagram = create_channel_with_inbox(user_details)
     end
