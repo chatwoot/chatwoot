@@ -414,6 +414,7 @@
         "LABELS": "Search labels"
       }
     },
+    "NO_LABELS": "No labels found",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
