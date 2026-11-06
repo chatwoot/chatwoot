@@ -33,6 +33,7 @@ RUN NODE_MAJOR=$(echo $NODE_VERSION | cut -d. -f1) \
         libpq-dev \
         git \
         imagemagick \
+        ffmpeg \
         libyaml-dev \
         curl \
         ca-certificates \
