@@ -270,9 +270,9 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(data_import.reload).to be_processing
     end
 
-    it 'returns the active Intercom import instead of restarting another import' do
+    it 'returns a conflict instead of restarting another import' do
       data_import.update!(status: :abandoned, abandoned_at: 1.hour.ago)
-      active_import = create(
+      create(
         :data_import, :intercom,
         account: account,
         status: :processing
@@ -284,8 +284,8 @@ RSpec.describe 'Data Imports API', type: :request do
              as: :json
       end.not_to have_enqueued_job(DataImports::Intercom::ImportJob)
 
-      expect(response).to have_http_status(:ok)
-      expect(response.parsed_body['id']).to eq(active_import.id)
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('Another data import is already in progress.')
       expect(data_import.reload).to be_abandoned
     end
 
@@ -416,7 +416,18 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(data_import.abandoned_at).to be_nil
     end
 
-    it 'does not abandon legacy contact imports' do
+    it 'offers abandonment on a stale legacy import so the account can start another import' do
+      legacy_import = create(:data_import, account: account, status: :processing)
+      legacy_import.update!(updated_at: 1.hour.ago)
+      get api_v1_account_data_import_url(account, legacy_import), headers: admin.create_new_auth_token
+      expect(response.parsed_body.dig('allowed_actions', 'abandon')).to be(true)
+
+      post abandon_api_v1_account_data_import_url(account, legacy_import), headers: admin.create_new_auth_token
+      expect(response.parsed_body.dig('allowed_actions', 'abandon')).to be(false)
+      expect(account.data_imports.active_imports).not_to exist
+    end
+
+    it 'does not abandon a recently active legacy contact import' do
       legacy_import = create(:data_import, account: account, status: :processing)
 
       post abandon_api_v1_account_data_import_url(account_id: account.id, id: legacy_import.id),

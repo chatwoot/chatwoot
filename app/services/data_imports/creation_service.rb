@@ -60,6 +60,6 @@ class DataImports::CreationService
   end
 
   def active_import?
-    @account.data_imports.active_integrations.exists?
+    @account.data_imports.active_imports.exists?
   end
 end
