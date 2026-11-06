@@ -12,19 +12,22 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"embed"
+	"fmt"
 	"html/template"
 	"log/slog"
 	"net/http"
 	"time"
 
+	embedclient "github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
 )
 
-//go:embed page.html
+//go:embed *.html
 var pageFS embed.FS
 
-var page = template.Must(template.New("page.html").Funcs(template.FuncMap{
+var pages = template.Must(template.New("pages").Funcs(template.FuncMap{
 	// dict builds a map so one sub-template can render both provider cards.
 	"dict": func(kv ...any) map[string]any {
 		m := make(map[string]any, len(kv)/2)
@@ -33,7 +36,7 @@ var page = template.Must(template.New("page.html").Funcs(template.FuncMap{
 		}
 		return m
 	},
-}).ParseFS(pageFS, "page.html"))
+}).ParseFS(pageFS, "*.html"))
 
 // Username for Basic Auth.
 const Username = "admin"
@@ -43,10 +46,15 @@ type Handler struct {
 	Password string
 	Store    *settings.Store
 	Switch   *llm.Switch
-	Timeout  time.Duration // per provider call
+	Embedder *embedclient.Switch // updated when the embeddings provider is saved
+	Timeout  time.Duration       // per provider call
 	Logger   *slog.Logger
-	// Probe sends a tiny test request to a provider. Nil uses a real call.
+	// Knowledge enables the knowledge base page; nil when no database is set.
+	Knowledge *knowledge.Service
+	// Probe sends a tiny test request to a chat provider. Nil uses a real call.
 	Probe func(ctx context.Context, p settings.Provider) (llm.Result, error)
+	// ProbeEmbedding embeds one word with an embeddings provider. Nil uses a real call.
+	ProbeEmbedding func(ctx context.Context, p settings.Provider) error
 }
 
 // Routes registers the admin endpoints on mux.
@@ -57,6 +65,8 @@ func (h *Handler) Routes(mux *http.ServeMux) {
 	}
 	mux.Handle("GET /admin", wrap(h.show))
 	mux.Handle("POST /admin", wrap(h.submit))
+	mux.Handle("GET /admin/knowledge", wrap(h.showKnowledge))
+	mux.Handle("POST /admin/knowledge", wrap(h.submitKnowledge))
 }
 
 type providerView struct {
@@ -76,12 +86,13 @@ type testView struct {
 }
 
 type pageData struct {
-	Primary, Fallback providerView
-	Saved             bool
-	FallbackOff       bool // saved, but an incomplete fallback was turned off
-	Error             string
-	Test              *testView
-	Presets           []preset
+	Primary, Fallback, Embedding providerView
+	Saved                        bool
+	FallbackOff                  bool // saved, but an incomplete fallback was turned off
+	EmbeddingOff                 bool // saved, but an incomplete embeddings provider was turned off
+	Error                        string
+	Test                         *testView
+	Presets                      []preset
 }
 
 type preset struct{ Name, URL string }
@@ -116,9 +127,10 @@ func (h *Handler) show(w http.ResponseWriter, r *http.Request) {
 	cur := h.Store.Get()
 	q := r.URL.Query()
 	h.render(w, http.StatusOK, pageData{
-		Primary: view(cur.Primary), Fallback: view(cur.Fallback),
-		Saved:       q.Get("saved") == "1",
-		FallbackOff: q.Get("fallback") == "off",
+		Primary: view(cur.Primary), Fallback: view(cur.Fallback), Embedding: view(cur.Embedding),
+		Saved:        q.Get("saved") == "1",
+		FallbackOff:  q.Get("fallback") == "off",
+		EmbeddingOff: q.Get("embedding") == "off",
 	})
 }
 
@@ -131,17 +143,19 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 	}
 	cur := h.Store.Get()
 	next := settings.LLM{
-		Primary:  fromForm(r, "primary", cur.Primary),
-		Fallback: fromForm(r, "fallback", cur.Fallback),
+		Primary:   fromForm(r, "primary", cur.Primary),
+		Fallback:  fromForm(r, "fallback", cur.Fallback),
+		Embedding: fromForm(r, "embedding", cur.Embedding),
 	}.Normalize()
-	// Same provider as primary (e.g. a backup model on one OpenRouter account):
-	// reuse the primary key. Safe because the key goes to the same host.
-	if next.Fallback.APIKey == "" && next.Fallback.BaseURL != "" && next.Fallback.BaseURL == next.Primary.BaseURL {
-		next.Fallback.APIKey = next.Primary.APIKey
-	}
+	// Same provider as primary (e.g. a backup model on one OpenRouter account,
+	// or OpenAI embeddings next to an OpenAI chat model): reuse the primary key.
+	// Safe because the key goes to the same host.
+	next.Fallback = reusePrimaryKey(next.Fallback, next.Primary)
+	next.Embedding = reusePrimaryKey(next.Embedding, next.Primary)
 	data := pageData{
-		Primary:  editView(next.Primary, cur.Primary, r.PostForm.Get("primary_api_key")),
-		Fallback: editView(next.Fallback, cur.Fallback, r.PostForm.Get("fallback_api_key")),
+		Primary:   editView(next.Primary, cur.Primary, r.PostForm.Get("primary_api_key")),
+		Fallback:  editView(next.Fallback, cur.Fallback, r.PostForm.Get("fallback_api_key")),
+		Embedding: editView(next.Embedding, cur.Embedding, r.PostForm.Get("embedding_api_key")),
 	}
 
 	if slot := r.PostForm.Get("test"); slot != "" {
@@ -150,26 +164,31 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// The fallback is optional: an incomplete one is turned off instead of
-	// blocking a valid primary.
-	fallbackOff := false
-	if next.Fallback != (settings.Provider{}) && next.Fallback.Validate() != nil {
-		next.Fallback = settings.Provider{}
-		fallbackOff = true
-	}
+	// Fallback and embeddings are optional: an incomplete one is turned off
+	// instead of blocking a valid primary.
+	var fallbackOff, embeddingOff bool
+	next.Fallback, fallbackOff = dropIfIncomplete(next.Fallback)
+	next.Embedding, embeddingOff = dropIfIncomplete(next.Embedding)
 	if err := h.Store.Save(next); err != nil {
 		data.Error = err.Error()
 		h.render(w, http.StatusUnprocessableEntity, data)
 		return
 	}
 	h.Switch.Set(settings.NewCompleter(h.Store.Get(), h.Timeout, h.Logger))
+	if h.Embedder != nil {
+		h.Embedder.Set(settings.NewEmbedder(h.Store.Get(), h.Timeout))
+	}
 	h.Logger.Info("llm settings updated",
 		"primary_host", next.Primary.Host(), "primary_model", next.Primary.Model,
 		"fallback_enabled", next.Fallback.Configured(), "fallback_model", next.Fallback.Model,
+		"embedding_enabled", next.Embedding.Configured(), "embedding_model", next.Embedding.Model,
 		"remote_addr", r.RemoteAddr)
 	target := "/admin?saved=1"
 	if fallbackOff {
 		target += "&fallback=off"
+	}
+	if embeddingOff {
+		target += "&embedding=off"
 	}
 	http.Redirect(w, r, target, http.StatusSeeOther)
 }
@@ -193,17 +212,37 @@ func fromForm(r *http.Request, slot string, saved settings.Provider) settings.Pr
 	return p
 }
 
+func reusePrimaryKey(p, primary settings.Provider) settings.Provider {
+	if p.APIKey == "" && p.BaseURL != "" && p.BaseURL == primary.BaseURL {
+		p.APIKey = primary.APIKey
+	}
+	return p
+}
+
+func dropIfIncomplete(p settings.Provider) (settings.Provider, bool) {
+	if p != (settings.Provider{}) && p.Validate() != nil {
+		return settings.Provider{}, true
+	}
+	return p, false
+}
+
 func (h *Handler) runTest(ctx context.Context, slot string, s settings.LLM) *testView {
-	p := s.Primary
-	if slot == "fallback" {
+	var p settings.Provider
+	switch slot {
+	case "fallback":
 		p = s.Fallback
-	} else {
-		slot = "primary"
+	case "embedding":
+		p = s.Embedding
+	default:
+		slot, p = "primary", s.Primary
 	}
 	tv := &testView{Slot: slot}
 	if err := p.Validate(); err != nil || !p.Configured() {
 		tv.Message = "Fill in base URL, API key and model first."
 		return tv
+	}
+	if slot == "embedding" {
+		return h.runEmbeddingTest(ctx, tv, p)
 	}
 	probe := h.Probe
 	if probe == nil {
@@ -221,6 +260,27 @@ func (h *Handler) runTest(ctx context.Context, slot string, s settings.LLM) *tes
 	return tv
 }
 
+func (h *Handler) runEmbeddingTest(ctx context.Context, tv *testView, p settings.Provider) *testView {
+	probe := h.ProbeEmbedding
+	if probe == nil {
+		probe = func(ctx context.Context, p settings.Provider) error {
+			_, err := embedclient.New(p.BaseURL, p.APIKey, p.Model, &http.Client{Timeout: h.Timeout}).Embed(ctx, []string{"ping"})
+			return err
+		}
+	}
+	started := time.Now()
+	err := probe(ctx, p)
+	tv.LatencyMS = time.Since(started).Milliseconds()
+	if err != nil {
+		tv.Message = err.Error()
+		h.Logger.Warn("embedding test failed", "host", p.Host(), "model", p.Model, "error", err)
+		return tv
+	}
+	tv.OK, tv.Model = true, p.Model
+	tv.Message = fmt.Sprintf("Connected. The model returned a %d-dimension vector.", embedclient.Dimensions)
+	return tv
+}
+
 func (h *Handler) realProbe(ctx context.Context, p settings.Provider) (llm.Result, error) {
 	c := llm.New(p.BaseURL, p.APIKey, p.Model, &http.Client{Timeout: h.Timeout})
 	return c.Complete(ctx, []llm.Message{
@@ -231,10 +291,14 @@ func (h *Handler) realProbe(ctx context.Context, p settings.Provider) (llm.Resul
 
 func (h *Handler) render(w http.ResponseWriter, status int, data pageData) {
 	data.Presets = presets
+	h.renderPage(w, status, "page.html", data)
+}
+
+func (h *Handler) renderPage(w http.ResponseWriter, status int, name string, data any) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(status)
-	if err := page.Execute(w, data); err != nil {
-		h.Logger.Error("render admin page", "error", err)
+	if err := pages.ExecuteTemplate(w, name, data); err != nil {
+		h.Logger.Error("render admin page", "page", name, "error", err)
 	}
 }
 

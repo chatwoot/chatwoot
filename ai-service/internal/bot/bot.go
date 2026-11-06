@@ -4,13 +4,17 @@ package bot
 import (
 	"context"
 	"errors"
+	"fmt"
 	"hash/fnv"
 	"log/slog"
+	"math"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/handoff"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/webhook"
@@ -29,6 +33,11 @@ type Completer interface {
 	Complete(ctx context.Context, messages []llm.Message) (llm.Result, error)
 }
 
+// Retriever finds knowledge base excerpts for a customer question.
+type Retriever interface {
+	Retrieve(ctx context.Context, accountID, inboxID int64, queries ...string) ([]knowledge.Hit, error)
+}
+
 // Handoff reasons, written to a private note so agents see why the bot stepped back.
 const (
 	ReasonCustomerAsked = "ai-handoff:customer-request"
@@ -39,6 +48,7 @@ const (
 type Options struct {
 	Chatwoot       Chatwoot
 	LLM            Completer
+	Knowledge      Retriever // optional; nil answers from the system prompt only
 	History        *memory.History
 	Handoff        *handoff.Detector
 	SystemPrompt   string
@@ -156,11 +166,11 @@ func (b *Bot) Process(parent context.Context, j Job) {
 			b.handoff(ctx, log, acct, conv, b.opts.HandoffMessage, ReasonCustomerAsked)
 			return
 		}
-		b.reply(ctx, log, acct, conv)
+		b.reply(ctx, log, acct, ev.Inbox.ID, conv)
 	}
 }
 
-func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, conv int64) {
+func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int64) {
 	cw := b.opts.Chatwoot
 	if err := cw.SetTyping(ctx, acct, conv, true); err != nil {
 		log.Warn("typing on failed", "error", err)
@@ -174,8 +184,17 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, conv int64) {
 		}
 	}()
 
+	history := b.opts.History.Get(acct, conv)
 	messages := []llm.Message{{Role: "system", Content: b.opts.SystemPrompt}}
-	for _, t := range b.opts.History.Get(acct, conv) {
+	if b.opts.Knowledge != nil {
+		hits, err := b.opts.Knowledge.Retrieve(ctx, acct, inbox, retrievalQueries(history)...)
+		if err != nil {
+			log.Error("knowledge retrieval failed", "error", err)
+		}
+		messages = append(messages, llm.Message{Role: "system", Content: knowledgePrompt(hits, err)})
+		log = log.With(sourceAttrs(hits)...)
+	}
+	for _, t := range history {
 		messages = append(messages, llm.Message{Role: t.Role, Content: t.Content})
 	}
 
@@ -200,7 +219,7 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, conv int64) {
 		"prompt_tokens", res.PromptTokens,
 		"completion_tokens", res.CompletionTokens,
 		"latency_ms", latency.Milliseconds(),
-		"history_turns", len(messages)-1,
+		"history_turns", len(history),
 		"reply_chars", len([]rune(res.Content)),
 	)
 }
@@ -220,4 +239,56 @@ func (b *Bot) handoff(ctx context.Context, log *slog.Logger, acct, conv int64, c
 		return
 	}
 	log.Info("handed off to human", "reason", reason)
+}
+
+// retrievalQueries searches the latest customer message on its own, plus
+// together with the message before it, so a follow-up like "and how much is
+// it?" still finds its topic while a new topic is not drowned by the old one.
+func retrievalQueries(history []memory.Turn) []string {
+	var user []string
+	for i := len(history) - 1; i >= 0 && len(user) < 2; i-- {
+		if history[i].Role == "user" {
+			user = append(user, history[i].Content)
+		}
+	}
+	switch len(user) {
+	case 0:
+		return nil
+	case 1:
+		return user
+	default:
+		return []string{user[0], user[1] + "\n" + user[0]}
+	}
+}
+
+// knowledgePrompt tells the model which facts it may use.
+func knowledgePrompt(hits []knowledge.Hit, err error) string {
+	if err != nil {
+		return "The knowledge base is unavailable right now. Do not guess facts about the business " +
+			"(prices, hours, policies, stock, orders); say you are not sure and offer to connect a staff member."
+	}
+	if len(hits) == 0 {
+		return "The knowledge base has nothing relevant to this question. Do not guess facts about the business " +
+			"(prices, hours, policies, stock, orders); say you don't know and offer to connect a staff member."
+	}
+	var b strings.Builder
+	b.WriteString("Knowledge base excerpts. Use them as the only source for facts about the business. " +
+		"If they do not answer the question, say you don't know and offer to connect a staff member. " +
+		"Do not mention the excerpts or their numbers to the customer.\n")
+	for i, h := range hits {
+		fmt.Fprintf(&b, "\n[%d] %s\n", i+1, h.Content)
+	}
+	return b.String()
+}
+
+// sourceAttrs records which documents an answer was based on (no content).
+func sourceAttrs(hits []knowledge.Hit) []any {
+	docs := make([]int64, len(hits))
+	chunks := make([]int64, len(hits))
+	scores := make([]float64, len(hits))
+	for i, h := range hits {
+		docs[i], chunks[i] = h.DocumentID, h.ChunkID
+		scores[i] = math.Round(h.Score*1000) / 1000
+	}
+	return []any{"kb_hits", len(hits), "kb_document_ids", docs, "kb_chunk_ids", chunks, "kb_scores", scores}
 }

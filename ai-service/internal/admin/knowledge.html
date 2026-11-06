@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+{{template "head"}}
+<title>Knowledge base</title>
+</head>
+<body>
+<main>
+  {{template "nav" "knowledge"}}
+  <h1>Knowledge base</h1>
+  <p class="lead">What the bot may answer from. Add FAQs and documents; the bot searches them for every customer question.</p>
+
+  {{if not .Enabled}}
+  <div class="alert err" role="alert"><strong>Knowledge base is off.</strong> Set <code>DATABASE_URL</code> for ai-service (Postgres with pgvector) and restart it.</div>
+  {{else}}
+  {{if not .Embedding}}<div class="alert err" role="alert"><strong>No embeddings provider.</strong> Set one on the <a href="/admin">AI providers</a> page before adding knowledge.</div>{{end}}
+  {{if .Notice}}<div class="alert ok" role="status">{{.Notice}}</div>{{end}}
+  {{if and .Error (eq .ErrorForm "list")}}<div class="alert err" role="alert"><strong>Failed.</strong> {{.Error}}</div>{{end}}
+
+  <form class="card" method="get" action="/admin/knowledge">
+    <label for="account">Chatwoot account ID</label>
+    <div class="row" style="margin-top:0">
+      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}" style="max-width:12rem">
+      <button type="submit">Show</button>
+    </div>
+    <p class="field-hint">Each Chatwoot account has its own knowledge. Account 1 is the first account.</p>
+  </form>
+
+  <section class="card" aria-labelledby="faq-title">
+    <h2 id="faq-title" style="font-size:1.125rem;margin:0 0 4px">Add an FAQ</h2>
+    <p class="hint">One question and its answer. Best for short facts: hours, prices, delivery, returns.</p>
+    {{if and .Error (eq .ErrorForm "faq")}}<div class="alert err" role="alert"><strong>Not added.</strong>
+{{.Error}}</div>{{end}}
+    <form method="post" action="/admin/knowledge" autocomplete="off">
+      <input type="hidden" name="action" value="add_faq">
+      <input type="hidden" name="account" value="{{.AccountID}}">
+      <label for="question">Question</label>
+      <input id="question" name="question" type="text" maxlength="300" required value="{{.Question}}" placeholder="ร้านเปิดกี่โมง">
+      <label for="answer">Answer</label>
+      <textarea id="answer" name="answer" required rows="4" placeholder="เปิดทุกวัน 9:00–18:00 น.">{{.Answer}}</textarea>
+      <label for="faq-inbox">Inbox ID (optional)</label>
+      <input id="faq-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes" aria-describedby="inbox-hint">
+      <p class="field-hint" id="inbox-hint">Use it only when one page or channel has different answers.</p>
+      <div class="actions"><button type="submit" class="primary">Add FAQ</button></div>
+    </form>
+  </section>
+
+  <section class="card" aria-labelledby="doc-title">
+    <h2 id="doc-title" style="font-size:1.125rem;margin:0 0 4px">Add a document</h2>
+    <p class="hint">Longer text such as a price list, policy or product guide. Paste it, or upload a .txt or .md file (max 2 MB). It is split into chunks automatically.</p>
+    {{if and .Error (eq .ErrorForm "doc")}}<div class="alert err" role="alert"><strong>Not added.</strong>
+{{.Error}}</div>{{end}}
+    <form method="post" action="/admin/knowledge" enctype="multipart/form-data" autocomplete="off">
+      <input type="hidden" name="action" value="add_doc">
+      <input type="hidden" name="account" value="{{.AccountID}}">
+      <label for="title">Title</label>
+      <input id="title" name="title" type="text" maxlength="300" value="{{.DocTitle}}" placeholder="Shipping and returns policy" aria-describedby="title-hint">
+      <p class="field-hint" id="title-hint">Blank uses the first # heading, else the file name.</p>
+      <label for="content">Text</label>
+      <textarea id="content" name="content" rows="8">{{.DocContent}}</textarea>
+      <label for="file">Or upload a file</label>
+      <input id="file" name="file" type="file" accept=".txt,.md,.markdown,text/plain,text/markdown">
+      <label for="doc-inbox">Inbox ID (optional)</label>
+      <input id="doc-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes">
+      <div class="actions"><button type="submit" class="primary">Add document</button></div>
+    </form>
+  </section>
+
+  <section class="card" aria-labelledby="list-title">
+    <h2 id="list-title" style="font-size:1.125rem;margin:0 0 4px">Knowledge in account {{.AccountID}}</h2>
+    {{if .Stale}}
+    <div class="alert err" role="alert">{{.Stale}} chunks were made with a different embeddings model, so the bot cannot find them.
+      <form class="inline" method="post" action="/admin/knowledge">
+        <input type="hidden" name="action" value="reindex"><input type="hidden" name="account" value="{{.AccountID}}">
+        <button type="submit">Re-index now</button>
+      </form>
+    </div>
+    {{end}}
+    {{if .Docs}}
+    <table>
+      <thead><tr><th scope="col">Title</th><th scope="col">Type</th><th scope="col">Scope</th><th scope="col">Chunks</th><th scope="col">Updated</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+      <tbody>
+      {{range .Docs}}
+        <tr>
+          <td><strong>{{.Title}}</strong><div class="preview">{{.Preview}}</div></td>
+          <td data-label="Type">{{.Kind}}</td>
+          <td data-label="Scope">{{.Inbox}}</td>
+          <td class="num" data-label="Chunks">{{.Chunks}}{{if .Stale}} <span class="warn">({{.Stale}} old)</span>{{end}}</td>
+          <td class="num" data-label="Updated">{{.Updated}}</td>
+          <td>
+            <form class="inline" method="post" action="/admin/knowledge">
+              <input type="hidden" name="action" value="delete"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
+              <button type="submit" class="link" aria-label="Delete {{.Title}}">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {{end}}
+      </tbody>
+    </table>
+    {{else}}
+    <p class="hint" style="margin:0">Nothing yet. Add an FAQ or a document above.</p>
+    {{end}}
+  </section>
+  {{end}}
+</main>
+</body>
+</html>

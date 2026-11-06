@@ -1,0 +1,281 @@
+// Package knowledge is the knowledge base the bot answers from (RAG):
+// documents are split into chunks, embedded, stored in Postgres (pgvector),
+// and searched per Chatwoot account and inbox.
+package knowledge
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"sort"
+	"strings"
+	"time"
+	"unicode/utf8"
+
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
+)
+
+// Kind is the type of a knowledge document.
+type Kind string
+
+// Document kinds.
+const (
+	KindFAQ  Kind = "faq"  // Title is the question, Content the answer
+	KindText Kind = "text" // free text or Markdown
+)
+
+// Limits for what an admin can add.
+const (
+	MaxTitleRunes   = 300
+	MaxContentRunes = 200_000
+)
+
+// Document is one knowledge item. InboxID 0 means "all inboxes of the account".
+type Document struct {
+	ID        int64
+	AccountID int64
+	InboxID   int64
+	Kind      Kind
+	Title     string
+	Content   string
+	UpdatedAt time.Time
+
+	// Filled by List.
+	Chunks      int
+	StaleChunks int // embedded with a different model than the current one
+}
+
+// Chunk is one embedded piece of a document.
+type Chunk struct {
+	Ord       int
+	Content   string
+	Embedding []float32
+}
+
+// Hit is a chunk returned by a search, with cosine similarity in [−1, 1].
+type Hit struct {
+	ChunkID    int64
+	DocumentID int64
+	Title      string
+	Content    string
+	Score      float64
+}
+
+// Query is a vector search inside one account (and inbox).
+type Query struct {
+	AccountID int64
+	InboxID   int64
+	Model     string
+	Vector    []float32
+	Limit     int
+}
+
+// Store persists documents and chunks.
+type Store interface {
+	Insert(ctx context.Context, d Document, model string, chunks []Chunk) (int64, error)
+	ReplaceChunks(ctx context.Context, documentID int64, model string, chunks []Chunk) error
+	List(ctx context.Context, accountID int64, model string) ([]Document, error)
+	Delete(ctx context.Context, accountID, id int64) error
+	Search(ctx context.Context, q Query) ([]Hit, error)
+}
+
+// ErrNotFound means no document matched.
+var ErrNotFound = errors.New("document not found")
+
+// Service adds, re-indexes and searches knowledge.
+type Service struct {
+	Store      Store
+	Embedder   embed.Embedder
+	TopK       int     // hits returned by Retrieve
+	MinScore   float64 // hits below this similarity are dropped
+	ChunkRunes int     // max runes per chunk
+}
+
+// Validate checks a document an admin wants to add and trims it.
+func (d Document) Validate() (Document, error) {
+	d.Title = strings.TrimSpace(d.Title)
+	d.Content = strings.TrimSpace(strings.ReplaceAll(d.Content, "\r\n", "\n"))
+	var errs []error
+	if d.AccountID < 1 {
+		errs = append(errs, errors.New("account ID must be a positive number"))
+	}
+	if d.InboxID < 0 {
+		errs = append(errs, errors.New("inbox ID must be blank or a positive number"))
+	}
+	if d.Kind != KindFAQ && d.Kind != KindText {
+		errs = append(errs, errors.New("unknown document kind"))
+	}
+	label := "Title"
+	if d.Kind == KindFAQ {
+		label = "Question"
+	}
+	switch n := utf8.RuneCountInString(d.Title); {
+	case n == 0:
+		errs = append(errs, fmt.Errorf("%s is required", label))
+	case n > MaxTitleRunes:
+		errs = append(errs, fmt.Errorf("%s is longer than %d characters", label, MaxTitleRunes))
+	}
+	switch n := utf8.RuneCountInString(d.Content); {
+	case n == 0:
+		errs = append(errs, errors.New("content is required"))
+	case n > MaxContentRunes:
+		errs = append(errs, fmt.Errorf("content is longer than %d characters; split it into several documents", MaxContentRunes))
+	case !utf8.ValidString(d.Content):
+		errs = append(errs, errors.New("content must be UTF-8 text"))
+	}
+	return d, errors.Join(errs...)
+}
+
+// chunkTexts builds what gets embedded. Every chunk carries the document
+// title (or the FAQ question), plus its Markdown section heading, so a chunk
+// makes sense on its own.
+func (s *Service) chunkTexts(d Document) []string {
+	if d.Kind == KindFAQ {
+		return s.withPrefix("Q: "+d.Title+"\nA: ", d.Content)
+	}
+	var out []string
+	for _, sec := range Sections(d.Content) {
+		prefix := d.Title
+		if sec.Heading != "" && sec.Heading != d.Title {
+			prefix += " — " + sec.Heading
+		}
+		out = append(out, s.withPrefix(prefix+"\n\n", sec.Body)...)
+	}
+	return out
+}
+
+func (s *Service) withPrefix(prefix, body string) []string {
+	size := max(s.ChunkRunes-utf8.RuneCountInString(prefix), 100)
+	var out []string
+	for _, part := range Split(body, size) {
+		out = append(out, prefix+part)
+	}
+	return out
+}
+
+func (s *Service) embedChunks(ctx context.Context, d Document) (string, []Chunk, error) {
+	model := s.Embedder.Model()
+	if model == "" {
+		return "", nil, embed.ErrNotConfigured
+	}
+	texts := s.chunkTexts(d)
+	vecs, err := s.Embedder.Embed(ctx, texts)
+	if err != nil {
+		return "", nil, err
+	}
+	chunks := make([]Chunk, len(texts))
+	for i, t := range texts {
+		chunks[i] = Chunk{Ord: i, Content: t, Embedding: vecs[i]}
+	}
+	return model, chunks, nil
+}
+
+// Add validates, chunks, embeds and stores a document. Returns its ID.
+func (s *Service) Add(ctx context.Context, d Document) (int64, int, error) {
+	d, err := d.Validate()
+	if err != nil {
+		return 0, 0, err
+	}
+	model, chunks, err := s.embedChunks(ctx, d)
+	if err != nil {
+		return 0, 0, err
+	}
+	id, err := s.Store.Insert(ctx, d, model, chunks)
+	return id, len(chunks), err
+}
+
+// List returns an account's documents with chunk counts.
+func (s *Service) List(ctx context.Context, accountID int64) ([]Document, error) {
+	return s.Store.List(ctx, accountID, s.Embedder.Model())
+}
+
+// Delete removes a document and its chunks.
+func (s *Service) Delete(ctx context.Context, accountID, id int64) error {
+	return s.Store.Delete(ctx, accountID, id)
+}
+
+// Reindex re-embeds every document of the account whose chunks were made
+// with another model (or all of them when force is set). Returns how many
+// documents were re-indexed.
+func (s *Service) Reindex(ctx context.Context, accountID int64, force bool) (int, error) {
+	docs, err := s.List(ctx, accountID)
+	if err != nil {
+		return 0, err
+	}
+	n := 0
+	for _, d := range docs {
+		if !force && d.StaleChunks == 0 && d.Chunks > 0 {
+			continue
+		}
+		model, chunks, err := s.embedChunks(ctx, d)
+		if err != nil {
+			return n, fmt.Errorf("re-index %q: %w", d.Title, err)
+		}
+		if err := s.Store.ReplaceChunks(ctx, d.ID, model, chunks); err != nil {
+			return n, err
+		}
+		n++
+	}
+	return n, nil
+}
+
+// Retrieve finds the chunks most similar to any of the queries in the
+// account, limited to the inbox's documents plus account-wide ones. Results
+// of all queries are merged (best score per chunk), weak matches dropped and
+// the best TopK returned. Several queries let the bot search the current
+// message on its own and together with earlier context, so neither hides
+// the other's answer.
+func (s *Service) Retrieve(ctx context.Context, accountID, inboxID int64, queries ...string) ([]Hit, error) {
+	model := s.Embedder.Model()
+	queries = cleanQueries(queries)
+	if len(queries) == 0 || model == "" {
+		return nil, nil
+	}
+	vecs, err := s.Embedder.Embed(ctx, queries)
+	if err != nil {
+		return nil, err
+	}
+	best := map[int64]Hit{}
+	var order []int64
+	for _, v := range vecs {
+		hits, err := s.Store.Search(ctx, Query{
+			AccountID: accountID, InboxID: inboxID, Model: model, Vector: v, Limit: s.TopK,
+		})
+		if err != nil {
+			return nil, err
+		}
+		for _, h := range hits {
+			prev, seen := best[h.ChunkID]
+			if !seen {
+				order = append(order, h.ChunkID)
+			}
+			if !seen || h.Score > prev.Score {
+				best[h.ChunkID] = h
+			}
+		}
+	}
+	var out []Hit
+	for _, id := range order {
+		if h := best[id]; h.Score >= s.MinScore {
+			out = append(out, h)
+		}
+	}
+	sort.SliceStable(out, func(i, j int) bool { return out[i].Score > out[j].Score })
+	if len(out) > s.TopK {
+		out = out[:s.TopK]
+	}
+	return out, nil
+}
+
+func cleanQueries(in []string) []string {
+	var out []string
+	seen := map[string]bool{}
+	for _, q := range in {
+		q = strings.TrimSpace(q)
+		if q != "" && !seen[q] {
+			seen[q] = true
+			out = append(out, q)
+		}
+	}
+	return out
+}

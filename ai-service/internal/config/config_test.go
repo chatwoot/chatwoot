@@ -139,3 +139,27 @@ func TestLoad_RejectsShortAdminPassword(t *testing.T) {
 		t.Fatalf("err = %v", err)
 	}
 }
+
+func TestLoad_RAGDefaultsAndValidation(t *testing.T) {
+	// Arrange
+	base := map[string]string{"CHATWOOT_BASE_URL": "http://x", "CHATWOOT_BOT_TOKEN": "t", "CHATWOOT_WEBHOOK_SECRET": "s"}
+	bad := map[string]string{"RAG_MIN_SCORE": "high", "RAG_TOP_K": "0"}
+	for k, v := range base {
+		bad[k] = v
+	}
+	lookup := func(m map[string]string) func(string) (string, bool) {
+		return func(k string) (string, bool) { v, ok := m[k]; return v, ok }
+	}
+
+	// Act
+	cfg, err := Load(lookup(base))
+	_, badErr := Load(lookup(bad))
+
+	// Assert
+	if err != nil || cfg.DatabaseURL != "" || cfg.RAGTopK != 4 || cfg.RAGMinScore != 0.3 || cfg.RAGChunkRunes != 800 {
+		t.Errorf("cfg=%+v err=%v", cfg, err)
+	}
+	if badErr == nil || !strings.Contains(badErr.Error(), "RAG_MIN_SCORE") || !strings.Contains(badErr.Error(), "RAG_TOP_K") {
+		t.Errorf("badErr = %v", badErr)
+	}
+}

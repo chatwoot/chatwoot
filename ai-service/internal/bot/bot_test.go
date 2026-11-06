@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/handoff"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/webhook"
@@ -184,5 +185,81 @@ func TestStartClose_DrainsQueuedJobs(t *testing.T) {
 	// Assert
 	if !strings.Contains(cw.joined(), "msg:ok") {
 		t.Errorf("job not processed: %s", cw.joined())
+	}
+}
+
+type fakeRetriever struct {
+	acct, inbox int64
+	queries     []string
+	hits        []knowledge.Hit
+	err         error
+}
+
+func (f *fakeRetriever) Retrieve(_ context.Context, acct, inbox int64, q ...string) ([]knowledge.Hit, error) {
+	f.acct, f.inbox, f.queries = acct, inbox, q
+	return f.hits, f.err
+}
+
+func ragBot(cw *fakeChatwoot, l *fakeLLM, r Retriever) (*Bot, *memory.History) {
+	b, h := newBot(cw, l)
+	b.opts.Knowledge = r
+	return b, h
+}
+
+func TestProcess_KnowledgeExcerptsGoToTheModel(t *testing.T) {
+	// Arrange
+	cw, l := &fakeChatwoot{}, &fakeLLM{reply: "เปิด 9 โมงค่ะ"}
+	r := &fakeRetriever{hits: []knowledge.Hit{
+		{ChunkID: 40, DocumentID: 12, Title: "Opening hours", Content: "Q: ร้านเปิดกี่โมง\nA: 9:00–18:00", Score: 0.71},
+	}}
+	b, h := ragBot(cw, l, r)
+	h.Append(1, 7, memory.Turn{Role: "user", Content: "สวัสดี"})
+	h.Append(1, 7, memory.Turn{Role: "assistant", Content: "สวัสดีค่ะ"})
+	job := customerMsg("ร้านเปิดกี่โมง")
+	job.Event.Inbox.ID = 3
+
+	// Act
+	b.Process(context.Background(), job)
+
+	// Assert
+	if r.acct != 1 || r.inbox != 3 || len(r.queries) != 2 || r.queries[0] != "ร้านเปิดกี่โมง" || r.queries[1] != "สวัสดี\nร้านเปิดกี่โมง" {
+		t.Errorf("retrieve acct=%d inbox=%d queries=%q", r.acct, r.inbox, r.queries)
+	}
+	if len(l.got) < 2 || l.got[1].Role != "system" || !strings.Contains(l.got[1].Content, "[1] Q: ร้านเปิดกี่โมง\nA: 9:00–18:00") {
+		t.Fatalf("knowledge message missing: %+v", l.got)
+	}
+	if !strings.Contains(cw.joined(), "msg:เปิด 9 โมงค่ะ") {
+		t.Errorf("calls = %s", cw.joined())
+	}
+}
+
+func TestProcess_NoHitsTellsModelNotToGuess(t *testing.T) {
+	// Arrange
+	cw, l := &fakeChatwoot{}, &fakeLLM{reply: "ไม่ทราบค่ะ"}
+	b, _ := ragBot(cw, l, &fakeRetriever{})
+
+	// Act
+	b.Process(context.Background(), customerMsg("ราคาเท่าไหร่"))
+
+	// Assert
+	if len(l.got) < 2 || !strings.Contains(l.got[1].Content, "nothing relevant") {
+		t.Fatalf("messages = %+v", l.got)
+	}
+}
+
+func TestProcess_RetrievalErrorStillReplies(t *testing.T) {
+	// Arrange
+	cw, l := &fakeChatwoot{}, &fakeLLM{reply: "ok"}
+	b, _ := ragBot(cw, l, &fakeRetriever{err: errors.New("db down")})
+
+	// Act
+	b.Process(context.Background(), customerMsg("hi"))
+
+	// Assert
+	if !strings.Contains(cw.joined(), "msg:ok") || strings.Contains(cw.joined(), "handoff") {
+		t.Errorf("calls = %s", cw.joined())
+	}
+	if len(l.got) < 2 || !strings.Contains(l.got[1].Content, "unavailable") {
+		t.Errorf("messages = %+v", l.got)
 	}
 }

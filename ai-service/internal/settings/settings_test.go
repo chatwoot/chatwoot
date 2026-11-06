@@ -177,3 +177,54 @@ func TestHost_ReturnsHostOnly(t *testing.T) {
 		t.Errorf("host = %q", host)
 	}
 }
+
+func TestOpen_OldFileKeepsEnvEmbeddingDefault(t *testing.T) {
+	// Arrange: a settings file saved before "embedding" existed.
+	path := filepath.Join(t.TempDir(), "s.json")
+	old := `{"primary":{"base_url":"https://api.openai.com/v1","api_key":"sk-1","model":"m"},"fallback":{"base_url":"","api_key":"","model":""}}`
+	if err := os.WriteFile(path, []byte(old), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	def := LLM{Embedding: Provider{BaseURL: "https://api.openai.com/v1", APIKey: "sk-e", Model: "text-embedding-3-small"}}
+
+	// Act
+	s, err := Open(path, def)
+
+	// Assert
+	if err != nil || s.Get().Embedding != def.Embedding || s.Get().Primary.APIKey != "sk-1" {
+		t.Errorf("got %+v err=%v", s.Get(), err)
+	}
+}
+
+func TestOpen_SavedEmptyEmbeddingStaysOff(t *testing.T) {
+	// Arrange: the admin turned embeddings off; the env default must not come back.
+	path := filepath.Join(t.TempDir(), "s.json")
+	saved := `{"primary":{"base_url":"https://a","api_key":"k","model":"m"},"embedding":{"base_url":"","api_key":"","model":""}}`
+	if err := os.WriteFile(path, []byte(saved), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	s, err := Open(path, LLM{Embedding: Provider{BaseURL: "https://e", APIKey: "k", Model: "e"}})
+
+	// Assert
+	if err != nil || s.Get().Embedding != (Provider{}) {
+		t.Errorf("embedding = %+v err=%v", s.Get().Embedding, err)
+	}
+}
+
+func TestValidate_LabelsEmbeddingErrors(t *testing.T) {
+	// Arrange
+	s := LLM{
+		Primary:   Provider{BaseURL: "https://a", APIKey: "k", Model: "m"},
+		Embedding: Provider{BaseURL: "https://a", Model: "e"},
+	}
+
+	// Act
+	err := s.Validate()
+
+	// Assert
+	if err == nil || err.Error() != "Embeddings provider: API key is required" {
+		t.Errorf("err = %v", err)
+	}
+}
