@@ -32,7 +32,8 @@ type LLMRewriter struct {
 
 const rewriteInstruction = "You write search queries for a customer support knowledge base. " +
 	"Read the conversation and rewrite the customer's LAST message as one stand-alone search query " +
-	"that names the product or topic it refers to. Reply with exactly two lines and nothing else:\n" +
+	"that names the product or topic it refers to. If the message asks several things, cover every one " +
+	"of them in the query. Reply with exactly two lines and nothing else:\n" +
 	"TH: <the query in Thai>\nEN: <the query in English>"
 
 // Rewrite returns up to two queries. On error the caller keeps its own queries.

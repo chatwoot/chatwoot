@@ -146,3 +146,16 @@ func TestAnswerReturnsLLMError(t *testing.T) {
 }
 
 var _ = llm.Message{}
+
+func TestRewriteInstructionCoversSeveralQuestions(t *testing.T) {
+	// Arrange: "Price? แล้วผ่อนได้ไหม" lost the price when the query named only instalments.
+	l := &fakeLLM{reply: "TH: ราคาและการผ่อน\nEN: price and instalments"}
+
+	// Act
+	_, err := (&LLMRewriter{LLM: l}).Rewrite(context.Background(), []memory.Turn{{Role: "user", Content: "Price? แล้วผ่อนได้ไหม"}})
+
+	// Assert
+	if err != nil || !strings.Contains(l.got[0].Content, "cover every one") {
+		t.Errorf("rewrite instruction must ask to cover every question; err %v", err)
+	}
+}

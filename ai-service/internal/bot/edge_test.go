@@ -130,7 +130,7 @@ func TestSystemPromptHasDateAndPolicy(t *testing.T) {
 
 	// Assert: 23:30 UTC on 30 Nov is already 1 December in Bangkok (2569 BE).
 	sys := l.got[0].Content
-	for _, want := range []string{"SYS", "Tuesday 1 December 2026", "2569", "06:30", HandoffMarker} {
+	for _, want := range []string{"SYS", "Tuesday 1 December 2026", "2569", "06:30", HandoffMarker, "contact them"} {
 		if !strings.Contains(sys, want) {
 			t.Errorf("system prompt is missing %q:\n%s", want, sys)
 		}
