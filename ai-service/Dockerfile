@@ -1,5 +1,5 @@
 # Build a static binary, ship it on distroless (no shell, runs as non-root).
-FROM golang:1.25-alpine AS build
+FROM golang:1.27-alpine AS build
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
