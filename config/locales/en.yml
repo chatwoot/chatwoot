@@ -631,6 +631,23 @@ en:
         invalid: 'must be an object'
         unknown: 'has unknown settings: %{names}'
         not_boolean: 'values must be true or false'
+    param_sources:
+      invalid: '%{tool} parameter sources must be an object'
+      unknown_param: '%{tool} has no parameters named %{names}'
+      invalid_source: '%{tool} parameter %{name} has an invalid source'
+      fixed_value_blank: '%{tool} parameter %{name} needs a fixed value'
+      one_verified_email: '%{tool} can have one verified email parameter only'
+      verified_email_type: '%{tool} parameter %{name} must be a string to take the verified email'
+    mcp_server:
+      disabled: 'MCP servers are not enabled for this account'
+      token_rejected: 'The server rejected the token. Check the token and the header name.'
+      not_oauth: 'This server does not use OAuth sign-in'
+      reserved_header: '%{name} is set by the MCP connection and cannot carry the token'
+      tools:
+        duplicate: 'cannot list the same tool twice'
+        invalid_selection: 'Each tool selection must be an object with the tool name, and its settings must be an object'
+        missing: 'The server no longer offers %{tool}.'
+        name_clash: 'Captain cannot tell these tools apart: %{names}. Select only one of them.'
     tools_manifest:
       invalid_source: 'Enter a toolset from the Captain tools catalog as chatwoot/tools/folder'
       invalid_configuration: 'Invalid configuration'
