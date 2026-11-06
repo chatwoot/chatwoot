@@ -1,14 +1,15 @@
 # CI for chatwoot/ai-service (our Go service). Issue: DEV-Johnstocker/chatwoot#1
 #
-# Runs only when ai-service or this workflow changes. Third-party actions are
-# pinned by commit SHA; downloaded binaries are pinned by SHA-256.
+# Runs on every PR into develop, because branch protection requires these
+# checks (a path filter would leave PRs that don't touch ai-service waiting
+# forever). Pushes to develop run it only when ai-service or this workflow
+# changes. Third-party actions are pinned by commit SHA; downloaded binaries
+# are pinned by SHA-256.
 name: ai-service
 
 on:
   pull_request:
-    paths:
-      - 'ai-service/**'
-      - '.github/workflows/ai-service.yml'
+    branches: [develop]
   push:
     branches: [develop]
     paths:

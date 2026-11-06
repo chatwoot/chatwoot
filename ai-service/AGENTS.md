@@ -37,7 +37,8 @@ docker build -t chatwoot-ai-service:dev .
 ```
 
 CI: `.github/workflows/ai-service.yml` runs all of the above plus gitleaks and
-actionlint on every PR touching `ai-service/`.
+actionlint on every PR into `develop`. Branch protection requires those five
+checks and a PR for everyone, admins included.
 
 ## 1. Working autonomously
 
@@ -75,7 +76,9 @@ Stop and ask only for:
 
 - Run the freshness check first. If behind, rebase or branch fresh.
 - Never commit or push to `develop`. Every change, docs included, goes on a
-  feature branch and through a pull request.
+  feature branch and through a pull request. Upstream Chatwoot updates too:
+  merge `upstream/develop` into a branch and open a PR (the GitHub "Sync fork"
+  button can't push to the protected branch).
 - Use a worktree for substantial multi-file work (the workspace keeps them in
   `.claude/worktrees/<branch>`). Small single-file fixes need only a branch.
 - One checkout per session. Never switch another session's branch, or commit,
