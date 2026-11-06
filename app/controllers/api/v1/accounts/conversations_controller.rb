@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
   include DateRangeHelper
@@ -120,7 +121,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     return update_last_seen_on_conversation(DateTime.now.utc, false) if !assignee? && @conversation.unread_messages.any?
 
     # No unread messages - apply throttling to limit DB writes
-    return unless should_update_last_seen?
+    return reconcile_unread_counts_if_needed unless should_update_last_seen?
 
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end
@@ -160,6 +161,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
     ::Conversations::UnreadCounts::Notifier.new(@conversation).perform
     ::Conversations::UnreadCounts::FilteredCountInvalidator.new(Current.account).conversation_changed!
+  end
+
+  def reconcile_unread_counts_if_needed
+    reconciled = ::Conversations::UnreadCounts::Notifier.new(@conversation).perform(reconcile_only: true)
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(Current.account).conversation_changed! if reconciled
   end
 
   def should_update_last_seen?
@@ -236,5 +242,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.assignee_id? && Current.user == @conversation.assignee
   end
 end
+# rubocop:enable Metrics/ClassLength
 
 Api::V1::Accounts::ConversationsController.prepend_mod_with('Api::V1::Accounts::ConversationsController')
