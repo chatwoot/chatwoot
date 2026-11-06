@@ -51,6 +51,22 @@ describe Messages::MessageBuilder do
       end
     end
 
+    context 'when external_created_at is given alongside content_attributes' do
+      let(:time_stamp) { Time.now.utc.to_s }
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           content_attributes: { in_reply_to: message_for_reply.id },
+                                           external_created_at: time_stamp
+                                         })
+      end
+
+      it 'keeps both the provided attributes and external_created_at' do
+        message = described_class.new(user, conversation, params).perform
+        expect(message.content_attributes).to include(in_reply_to: message_for_reply.id, external_created_at: time_stamp)
+      end
+    end
+
     context 'when content_attributes is absent' do
       let(:params) do
         ActionController::Parameters.new({ content: 'test' })
