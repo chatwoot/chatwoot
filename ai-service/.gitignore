@@ -1,0 +1,12 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Build output
+bin/
+/ai-service
+
+# Personal agent files
+CLAUDE.local.md
+.claude/settings.local.json
