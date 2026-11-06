@@ -2,6 +2,7 @@
 
 import json
 import os
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -214,6 +215,55 @@ class BypassTests(unittest.TestCase):
     def test_enterprise_in_other_case_is_blocked(self):
         path = os.path.join(FORK_ROOT, "Enterprise", "LICENSE")
         result = run_guard("Read", {"file_path": path})
+        self.assertEqual(result.returncode, 2)
+
+
+class SecondReviewTests(unittest.TestCase):
+    """Findings from the second security review of PR #11."""
+
+    def test_guard_path_in_other_case_is_blocked(self):
+        path = os.path.join(FORK_ROOT, "ai-service", ".Claude", "Hooks", "guard.py")
+        result = run_guard("Write", {"file_path": path, "content": "x"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_shell_write_to_guard_in_other_case_is_blocked(self):
+        result = run_guard("Bash", {"command": "echo x > ai-service/.CLAUDE/HOOKS/GUARD.PY"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_git_config_hooks_path_is_blocked(self):
+        result = run_guard("Bash", {"command": "git config core.hooksPath /dev/null"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_git_config_alias_is_blocked(self):
+        result = run_guard("Bash", {"command": "git config --global alias.p 'push origin develop'"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_git_config_env_is_blocked(self):
+        result = run_guard("Bash", {"command": "GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.hooksPath GIT_CONFIG_VALUE_0=/x git commit -m x"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_reading_git_config_is_allowed(self):
+        result = run_guard("Bash", {"command": "git config user.email"})
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_abbreviated_all_and_branches_are_blocked(self):
+        for flag in ("--al", "--mirr", "--branches", "--bran"):
+            result = run_guard("Bash", {"command": f"git push {flag} origin"})
+            self.assertEqual(result.returncode, 2, flag)
+
+    def test_glob_refspec_is_blocked(self):
+        result = run_guard("Bash", {"command": "git push origin 'refs/heads/*:refs/heads/*'"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_combined_shell_flags_are_unwrapped(self):
+        result = run_guard("Bash", {"command": "bash -lc 'git push origin develop'"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_too_deep_nesting_fails_closed(self):
+        command = "git status"
+        for _ in range(5):
+            command = "sh -c " + shlex.quote(command)
+        result = run_guard("Bash", {"command": command})
         self.assertEqual(result.returncode, 2)
 
 

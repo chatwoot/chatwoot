@@ -48,13 +48,16 @@ SAFE_FETCH = re.compile(
 ENTERPRISE_PATH = re.compile(r"^(\./)?enterprise(/|$)", re.IGNORECASE)
 # The guard protects itself: changing it needs the owner, outside an agent session.
 GUARD_FILES = ("ai-service/.claude/hooks/", "ai-service/.claude/settings")
-GUARD_MENTION = re.compile(r"guard\.py|\.claude/hooks|\.claude/settings")
+GUARD_MENTION = re.compile(r"guard\.py|\.claude/hooks|\.claude/settings", re.IGNORECASE)
 SHELL_WRITE = re.compile(
     r">|\btee\b|\bsed\s+-[a-zA-Z]*i|\bperl\s+-[a-zA-Z]*i|\b(mv|cp|rm|ln|chmod|truncate|install|rsync|dd)\b|python3?\s+-c"
 )
 WRAPPERS = {"env", "command", "exec", "nohup", "time", "sudo", "nice", "xargs"}
 SHELLS = {"sh", "bash", "zsh", "dash"}
 GIT_CONFIG_BLOCKED = ("core.hookspath", "alias.")
+GIT_CONFIG_ENV = re.compile(r"\bGIT_CONFIG_\w*=")
+PUSH_ALL_FLAGS = ("--all", "--mirror", "--branches")
+MAX_NESTING = 3
 FILE_COMMANDS = {
     "cat", "less", "more", "head", "tail", "cp", "mv", "rsync", "sed", "awk",
     "grep", "rg", "ls", "find", "vim", "vi", "nano", "open", "code", "tar", "zip",
@@ -119,7 +122,7 @@ def is_enterprise(rel):
 
 
 def is_guard_file(rel):
-    return rel.startswith(GUARD_FILES)
+    return rel.lower().startswith(GUARD_FILES)
 
 
 def string_values(value):
@@ -198,9 +201,10 @@ def unwrap(words):
 
 def nested_script(words):
     """The script of `sh -c '...'` (and bash/zsh), or None."""
-    if words and os.path.basename(words[0]) in SHELLS and "-c" in words:
-        index = words.index("-c")
-        if index + 1 < len(words):
+    if not words or os.path.basename(words[0]) not in SHELLS:
+        return None
+    for index, word in enumerate(words[1:], start=1):
+        if re.match(r"^-[a-zA-Z]*c[a-zA-Z]*$", word) and index + 1 < len(words):
             return words[index + 1]
     return None
 
@@ -216,6 +220,8 @@ def git_subcommand(words):
         if word == "-C" and i + 1 < len(words):
             repo = words[i + 1]
             i += 2
+        elif word.startswith("--config-env") and GIT_CONFIG_BLOCKED[0] in word.lower():
+            block("no git --config-env core.hooksPath; it bypasses hooks.")
         elif word == "-c" and i + 1 < len(words):
             if words[i + 1].lower().startswith(GIT_CONFIG_BLOCKED):
                 block("no git -c core.hooksPath or alias overrides; they bypass hooks and this guard.")
@@ -228,8 +234,10 @@ def git_subcommand(words):
 
 
 def check_push(args, repo_dir):
-    if "--all" in args or "--mirror" in args:
-        block("no push --all/--mirror; push one feature branch.")
+    for arg in args:
+        name = arg.split("=")[0]
+        if name.startswith("--") and len(name) >= 4 and any(flag.startswith(name) for flag in PUSH_ALL_FLAGS):
+            block("no push --all/--mirror/--branches; push one feature branch.")
     for arg in args:
         if arg in ("--force", "-f") or (arg.startswith("-") and not arg.startswith("--") and "f" in arg[1:]):
             block("never plain --force; use --force-with-lease on your own branch.")
@@ -237,6 +245,8 @@ def check_push(args, repo_dir):
     for ref in refspecs[1:]:
         dest = ref.split(":")[-1].strip("'\"").lstrip("+")
         dest = dest.removeprefix("refs/heads/")
+        if "*" in dest:
+            block("no wildcard refspecs; push one feature branch.")
         if dest in PROTECTED_BRANCHES:
             block(f"never push to {dest}; push a feature branch and open a PR.")
     if len(refspecs) <= 1:
@@ -250,11 +260,16 @@ def check_bash(command, cwd, depth=0):
         block("never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.")
     if GUARD_MENTION.search(command) and SHELL_WRITE.search(command):
         block("the guard and its settings change only by the owner's hand, not from an agent session.")
+    lowered = command.lower()
+    if GIT_CONFIG_ENV.search(command) and any(key in lowered for key in GIT_CONFIG_BLOCKED):
+        block("no GIT_CONFIG_* overrides of core.hooksPath or aliases.")
     base = effective_cwd(command, cwd)
     for part in split_commands(command):
         words = unwrap(tokens(part))
         script = nested_script(words)
-        if script is not None and depth < 3:
+        if script is not None:
+            if depth >= MAX_NESTING:
+                block("shell nesting too deep to check; run the command directly.")
             check_bash(script, base, depth + 1)
             continue
         if words and os.path.basename(words[0]) in FILE_COMMANDS:
@@ -272,6 +287,8 @@ def check_bash(command, cwd, depth=0):
         repo, sub, args = parsed
         if "--no-verify" in args:
             block("never --no-verify; fix the failing hook instead.")
+        if sub == "config" and any(a.lower().startswith(GIT_CONFIG_BLOCKED) for a in args):
+            block("no git config of core.hooksPath or aliases; they bypass hooks and this guard.")
         if sub == "push":
             repo_dir = repo if repo and os.path.isabs(repo) else os.path.join(base, repo or "")
             check_push(args, repo_dir)
