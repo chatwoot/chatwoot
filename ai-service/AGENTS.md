@@ -82,7 +82,9 @@ gold-plating.
   negative tests: wrong secret, wrong credentials, replayed or malformed input,
   and proof that a rejected request changed nothing.
 - Verify before claiming done: the CI commands above, with output read. Report
-  failures with their output; say plainly when a step was skipped.
+  failures with their output; say plainly when a step was skipped. Keep
+  pre-existing failures apart from ones the change introduced, and local
+  test results apart from live production results.
 
 ## 5. Database and release
 
