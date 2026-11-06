@@ -47,6 +47,7 @@ func TestValidateRejectsBadInput(t *testing.T) {
 		"long name":     {AccountID: 1, BusinessName: strings.Repeat("ก", MaxNameRunes+1)},
 		"long rules":    {AccountID: 1, Rules: strings.Repeat("a", MaxFieldRunes+1)},
 		"invalid utf-8": {AccountID: 1, About: "\xff"},
+		"NUL character": {AccountID: 1, Rules: "a\x00b"},
 	}
 	for name, p := range cases {
 		t.Run(name, func(t *testing.T) {

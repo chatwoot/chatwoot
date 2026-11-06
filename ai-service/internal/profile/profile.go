@@ -55,7 +55,8 @@ func (p Profile) Validate() error {
 		errs = append(errs, errors.New("account ID must be a positive number"))
 	}
 	check := func(label, value string, limit int) {
-		if !utf8.ValidString(value) {
+		// Postgres TEXT rejects NUL, so catch it here with a clear message.
+		if !utf8.ValidString(value) || strings.ContainsRune(value, 0) {
 			errs = append(errs, fmt.Errorf("%s must be valid UTF-8 text", label))
 			return
 		}

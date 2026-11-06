@@ -191,4 +191,20 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 	if version != 2 || docs != 1 || table == nil {
 		t.Errorf("version=%d docs=%d business_profiles=%v, want 2, 1, present", version, docs, table)
 	}
+	var rls bool
+	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
+		t.Fatal(err)
+	}
+	if !rls {
+		t.Error("row level security is off on business_profiles")
+	}
+	// Supabase API roles exist only on Supabase; elsewhere there is nothing to revoke.
+	var exposed bool
+	if err := db.Pool.QueryRow(ctx, `SELECT EXISTS (SELECT 1 FROM pg_roles r WHERE r.rolname IN ('anon', 'authenticated')
+		AND has_table_privilege(r.rolname, 'business_profiles', 'SELECT'))`).Scan(&exposed); err != nil {
+		t.Fatal(err)
+	}
+	if exposed {
+		t.Error("anon or authenticated can read business_profiles")
+	}
 }

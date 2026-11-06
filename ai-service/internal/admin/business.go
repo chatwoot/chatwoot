@@ -3,12 +3,14 @@ package admin
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 )
 
-// maxProfileForm bounds a business profile post (5 fields of up to 4,000 Thai characters).
-const maxProfileForm = 128 << 10
+// maxProfileForm bounds a business profile post. Urlencoded Thai is 9 bytes
+// per character, so every field at its limit is (120 + 4×4,000) × 9 ≈ 145 KB.
+const maxProfileForm = 256 << 10
 
 type businessData struct {
 	Enabled bool // a database is configured
@@ -46,8 +48,14 @@ func (h *Handler) submitBusiness(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	f := r.PostForm
+	// Parse strictly: falling back to account 1 here would overwrite its profile.
+	acct, err := strconv.ParseInt(strings.TrimSpace(f.Get("account")), 10, 64)
+	if err != nil || acct < 1 {
+		http.Error(w, "account must be a positive number", http.StatusBadRequest)
+		return
+	}
 	p := profile.Profile{
-		AccountID:    accountParam(f.Get("account")),
+		AccountID:    acct,
 		BusinessName: f.Get("business_name"), About: f.Get("about"), Tone: f.Get("tone"),
 		Contact: f.Get("contact"), Rules: f.Get("rules"),
 	}.Normalize()

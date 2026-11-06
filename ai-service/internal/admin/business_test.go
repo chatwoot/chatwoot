@@ -150,3 +150,39 @@ func TestBusiness_WithoutDatabase(t *testing.T) {
 		t.Errorf("save = %d, want 503", save.Code)
 	}
 }
+
+func TestBusiness_MaxLengthThaiFitsTheFormLimit(t *testing.T) {
+	// Arrange: urlencoded Thai is 9 bytes per character on the wire.
+	mux, mp := businessEnv(t, true)
+	field := strings.Repeat("ก", profile.MaxFieldRunes)
+	form := url.Values{"account": {"1"}, "business_name": {strings.Repeat("ข", profile.MaxNameRunes)},
+		"about": {field}, "tone": {field}, "contact": {field}, "rules": {field}}
+
+	// Act
+	w := serve(mux, bpost(form))
+
+	// Assert
+	if w.Code != http.StatusSeeOther || mp.saves != 1 {
+		t.Fatalf("status = %d, saves = %d; want 303 and one save", w.Code, mp.saves)
+	}
+}
+
+func TestBusiness_BadAccountIDSavesNothing(t *testing.T) {
+	for _, acct := range []string{"0", "-5", "abc", ""} {
+		t.Run("account="+acct, func(t *testing.T) {
+			// Arrange
+			mux, mp := businessEnv(t, true)
+
+			// Act
+			w := serve(mux, bpost(url.Values{"account": {acct}, "business_name": {"x"}}))
+
+			// Assert
+			if w.Code != http.StatusBadRequest {
+				t.Errorf("status = %d, want 400", w.Code)
+			}
+			if mp.saves != 0 {
+				t.Error("a bad account ID saved a profile (it must not fall back to account 1)")
+			}
+		})
+	}
+}
