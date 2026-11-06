@@ -28,7 +28,8 @@ export const isShopifyBillingAccount = account =>
 export const getShopifyInstallAccount = ({ accounts, accountId }) => {
   const canManageShopify = account =>
     account.role === 'administrator' &&
-    account.billing_provider === 'shopify' &&
+    (account.billing_provider === 'shopify' ||
+      account.shopify_install_eligible === true) &&
     account.shopify_integration === true &&
     account.shopify_connected !== true &&
     (account.status === 'active' || isShopifyBillingAccount(account));
