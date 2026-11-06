@@ -23,7 +23,21 @@
     margin: 0; background: var(--bg); color: var(--text);
     font: 16px/1.5 system-ui, -apple-system, "Segoe UI", "Noto Sans Thai", sans-serif;
   }
-  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 48px; }
+  /* Shell: sticky sidebar menu + wide content; the sidebar becomes a top bar on phones. */
+  .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh;
+    background: linear-gradient(to right, var(--card) 232px, var(--border) 232px, var(--border) 233px, transparent 233px); }
+  .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 20px 12px; }
+  .brand { font-weight: 700; margin: 4px 12px 20px; }
+  .brand span { color: var(--muted); font-weight: 500; }
+  main { max-width: 1440px; width: 100%; padding: 28px 32px 48px; }
+  .lead { max-width: 72ch; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; align-items: start; }
+  .cards > .card { margin: 0; }
+  .cols2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; align-items: start; }
+  .cols2 > .card { margin: 0 0 16px; }
+  .card.toolbar { padding: 14px 20px; }
+  .card.toolbar label { margin-top: 0; }
+  .card.toolbar .field-hint { margin-top: 4px; }
   h1 { font-size: 1.5rem; margin: 0 0 4px; }
   .lead { color: var(--muted); margin: 0 0 24px; }
   .card {
@@ -54,9 +68,10 @@
   .alert.ok { background: var(--ok-bg); color: var(--ok-text); }
   .alert.err { background: var(--err-bg); color: var(--err-text); white-space: pre-line; }
   .test { margin-top: 12px; margin-bottom: 0; }
-  nav { display: flex; gap: 4px; margin: 0 0 20px; border-bottom: 1px solid var(--border); overflow-x: auto; }
-  nav a { color: var(--muted); text-decoration: none; font-weight: 600; padding: 10px 12px; min-height: 44px; display: inline-flex; align-items: center; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
-  nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--accent); }
+  nav { display: flex; flex-direction: column; gap: 2px; }
+  nav a { color: var(--muted); text-decoration: none; font-weight: 600; padding: 10px 12px; min-height: 44px; display: flex; align-items: center; border-radius: 8px; white-space: nowrap; }
+  nav a:hover { background: var(--bg); color: var(--text); }
+  nav a[aria-current="page"] { color: var(--text); background: var(--bg); box-shadow: inset 3px 0 0 var(--accent); }
   textarea { width: 100%; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; min-height: 160px; resize: vertical; }
   input[type="file"] { padding: 8px; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
@@ -68,7 +83,19 @@
   .warn { color: var(--err-text); }
   button.link { border: 0; background: none; color: var(--err-text); padding: 10px 4px; min-height: 44px; }
   .inline { display: inline; }
-  fieldset.features { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .page-head { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+  .page-head .lead { margin-bottom: 16px; }
+  form.acct { display: grid; grid-template-columns: auto 7rem auto; gap: 4px 8px; align-items: center; }
+  form.acct label { margin: 0; }
+  form.acct .field-hint { grid-column: 1 / -1; margin: 0; }
+  .span2 { grid-column: 1 / -1; }
+  .grid2 textarea { min-height: 96px; }
+  .biz { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
+  .biz > .card { margin: 0; }
+  .biz .side { position: sticky; top: 24px; }
+  .biz .side label.check:first-of-type { margin-top: 4px; }
+  button.save { width: 100%; margin-top: 20px; }
+  @media (max-width: 1100px) { .biz { grid-template-columns: 1fr; } .biz .side { position: static; } }
   label.check { display: flex; gap: 12px; align-items: flex-start; font-weight: 400; margin: 12px 0 0; min-height: 44px; cursor: pointer; }
   label.check input { width: 22px; height: 22px; min-height: 0; margin: 2px 0 0; flex: none; accent-color: var(--accent); }
   label.check strong { display: block; }
@@ -82,8 +109,16 @@
     td { border: 0; padding: 4px 0; }
     td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); font-size: .85rem; }
   }
+  @media (max-width: 860px) {
+    .shell { grid-template-columns: 1fr; background: none; }
+    .sidebar { position: sticky; top: 0; z-index: 5; height: auto; padding: 0 12px; background: var(--card); border-bottom: 1px solid var(--border); }
+    .brand { display: none; }
+    nav { flex-direction: row; overflow-x: auto; }
+    nav a { border-radius: 0; }
+    nav a[aria-current="page"] { background: none; box-shadow: inset 0 -2px 0 var(--accent); }
+    main { padding: 20px 16px 40px; }
+  }
   @media (max-width: 480px) {
-    nav { gap: 0; }
     nav a { padding: 10px 6px; font-size: .875rem; }
     .actions { justify-content: stretch; }
     .actions button, .row button { width: 100%; }
@@ -92,9 +127,12 @@
 {{end}}
 
 {{define "nav"}}
-<nav aria-label="Settings sections">
-  <a href="/admin"{{if eq . "providers"}} aria-current="page"{{end}}>AI providers</a>
-  <a href="/admin/business"{{if eq . "business"}} aria-current="page"{{end}}>Business profile</a>
-  <a href="/admin/knowledge"{{if eq . "knowledge"}} aria-current="page"{{end}}>Knowledge base</a>
-</nav>
+<aside class="sidebar">
+  <p class="brand">ai-service <span>admin</span></p>
+  <nav aria-label="Settings sections">
+    <a href="/admin"{{if eq . "providers"}} aria-current="page"{{end}}>AI providers</a>
+    <a href="/admin/business"{{if eq . "business"}} aria-current="page"{{end}}>Business profile</a>
+    <a href="/admin/knowledge"{{if eq . "knowledge"}} aria-current="page"{{end}}>Knowledge base</a>
+  </nav>
+</aside>
 {{end}}
