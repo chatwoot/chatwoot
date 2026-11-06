@@ -27,6 +27,7 @@ class BulkActionsJob < ApplicationJob
     records.each do |conversation|
       bulk_add_labels(conversation)
       bulk_snoozed_until(conversation)
+      conversation.ai_assignee = nil if params&.dig(:status) == 'open'
       conversation.update(params) if params
     end
   end
