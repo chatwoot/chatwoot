@@ -163,3 +163,22 @@ func TestLoad_RAGDefaultsAndValidation(t *testing.T) {
 		t.Errorf("badErr = %v", badErr)
 	}
 }
+
+func TestLoad_TimezoneAndAttachmentMessage(t *testing.T) {
+	// Arrange
+	env := requiredEnv()
+	bad := requiredEnv()
+	bad["TIMEZONE"] = "Mars/Olympus"
+
+	// Act
+	cfg, err := Load(lookupFrom(env))
+	_, badErr := Load(lookupFrom(bad))
+
+	// Assert
+	if err != nil || cfg.Location == nil || cfg.Location.String() != "Asia/Bangkok" || cfg.AttachmentMessage == "" {
+		t.Fatalf("defaults: location %v, attachment %q, err %v", cfg.Location, cfg.AttachmentMessage, err)
+	}
+	if badErr == nil || !strings.Contains(badErr.Error(), "TIMEZONE") {
+		t.Errorf("unknown TIMEZONE error = %v", badErr)
+	}
+}

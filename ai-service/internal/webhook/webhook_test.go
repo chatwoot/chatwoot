@@ -53,7 +53,20 @@ func TestClassify(t *testing.T) {
 		{"pending customer message", func(*Event) {}, Reply},
 		{"open conversation (human took over)", func(e *Event) { e.Conversation.Status = "open" }, Record},
 		{"private note", func(e *Event) { e.Private = true }, Ignore},
-		{"empty content (attachment only)", func(e *Event) { e.Content = "  " }, Ignore},
+		{"empty content, no attachment", func(e *Event) { e.Content = "  " }, Ignore},
+		{"attachment only (photo, voice, slip)", func(e *Event) { e.Content = ""; e.Attachments = []Attachment{{FileType: "image"}} }, HandOff},
+		{"attachment only, human took over", func(e *Event) {
+			e.Content = ""
+			e.Attachments = []Attachment{{FileType: "audio"}}
+			e.Conversation.Status = "open"
+		}, Ignore},
+		{"agent sends only a file", func(e *Event) {
+			e.Content = ""
+			e.MessageType = "outgoing"
+			e.Sender.Type = "user"
+			e.Attachments = []Attachment{{FileType: "image"}}
+		}, Ignore},
+		{"text with attachment", func(e *Event) { e.Attachments = []Attachment{{FileType: "image"}} }, Reply},
 		{"bot's own reply", func(e *Event) { e.MessageType = "outgoing"; e.Sender.Type = "agent_bot" }, Ignore},
 		{"human agent reply", func(e *Event) { e.MessageType = "outgoing"; e.Sender.Type = "user" }, Record},
 		{"activity message", func(e *Event) { e.MessageType = "activity" }, Ignore},
@@ -74,6 +87,27 @@ func TestClassify(t *testing.T) {
 				t.Errorf("Classify = %v, want %v", got, tc.want)
 			}
 		})
+	}
+}
+
+func TestParse_ReadsAttachmentsAndDescribesThem(t *testing.T) {
+	// Arrange
+	body := []byte(`{"event":"message_created","id":5,"content":"โอนแล้วค่ะ","message_type":"incoming",
+		"attachments":[{"id":1,"file_type":"image","data_url":"https://x/y.png"},{"id":2,"file_type":"file"}],
+		"account":{"id":1},"inbox":{"id":1},"conversation":{"id":2,"status":"pending"}}`)
+
+	// Act
+	ev, err := Parse(body)
+
+	// Assert
+	if err != nil || len(ev.Attachments) != 2 || ev.Attachments[0].FileType != "image" {
+		t.Fatalf("attachments = %+v, err %v", ev.Attachments, err)
+	}
+	if got := ev.AttachmentNote(); got != "[The customer attached 2 files: image, file]" {
+		t.Errorf("AttachmentNote() = %q", got)
+	}
+	if (Event{}).AttachmentNote() != "" {
+		t.Error("no attachments must give an empty note")
 	}
 }
 

@@ -43,6 +43,10 @@ type Config struct {
 	HandoffKeywords []string
 	HandoffMessage  string
 	FailureMessage  string
+	// AttachmentMessage answers a message that is only files (slip, photo, voice).
+	AttachmentMessage string
+	// Location is the business time zone (TIMEZONE), used to tell the model the date.
+	Location *time.Location
 
 	HistoryLimit int
 	Workers      int
@@ -58,14 +62,21 @@ const DefaultSystemPrompt = "You are a friendly customer support assistant. " +
 	"policies or order details."
 
 // DefaultHandoffKeywords trigger a handoff to a human (Thai, Lao, English).
+// They are request phrases, not bare words: "บริษัทมีพนักงานกี่คน" mentions
+// staff without asking for them, and must still get an AI answer.
 var DefaultHandoffKeywords = []string{
-	"คุยกับคน", "ขอคุยกับแอดมิน", "ติดต่อแอดมิน", "ขอสายแอดมิน", "เจ้าหน้าที่", "พนักงาน",
-	"ລົມກັບຄົນ", "ພະນັກງານ", "ແອັດມິນ",
+	"คุยกับคน", "ขอคุยกับแอดมิน", "ติดต่อแอดมิน", "ขอสายแอดมิน",
+	"คุยกับเจ้าหน้าที่", "ติดต่อเจ้าหน้าที่", "ขอเจ้าหน้าที่", "ขอสายเจ้าหน้าที่",
+	"คุยกับพนักงาน", "ติดต่อพนักงาน", "ขอพนักงาน", "ขอสายพนักงาน",
+	"ລົມກັບຄົນ", "ລົມກັບພະນັກງານ", "ຕິດຕໍ່ພະນັກງານ", "ລົມກັບແອັດມິນ", "ຕິດຕໍ່ແອັດມິນ",
 	"human", "real person", "talk to agent", "talk to a person", "live agent", "speak to someone",
 }
 
 // DefaultHandoffMessage is sent to the customer when the bot hands off.
 const DefaultHandoffMessage = "ได้เลยค่ะ กำลังส่งต่อให้เจ้าหน้าที่ กรุณารอสักครู่นะคะ 🙏"
+
+// DefaultAttachmentMessage acknowledges files the bot cannot read before handing off.
+const DefaultAttachmentMessage = "ได้รับไฟล์แล้วค่ะ แอดมินจะตรวจสอบและตอบกลับในแชทนี้โดยเร็วนะคะ 🙏"
 
 // DefaultFailureMessage is sent when the AI cannot answer (LLM error) before handing off.
 const DefaultFailureMessage = "ขออภัยค่ะ ระบบตอบอัตโนมัติขัดข้อง กำลังส่งต่อให้เจ้าหน้าที่นะคะ"
@@ -99,6 +110,7 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 		SystemPrompt:       get("SYSTEM_PROMPT", DefaultSystemPrompt),
 		HandoffMessage:     get("HANDOFF_MESSAGE", DefaultHandoffMessage),
 		FailureMessage:     get("FAILURE_MESSAGE", DefaultFailureMessage),
+		AttachmentMessage:  get("ATTACHMENT_MESSAGE", DefaultAttachmentMessage),
 		LogLevel:           get("LOG_LEVEL", "info"),
 		HandoffKeywords:    DefaultHandoffKeywords,
 	}
@@ -111,6 +123,9 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	var err error
 	if cfg.LLMTimeout, err = time.ParseDuration(get("LLM_TIMEOUT", "45s")); err != nil {
 		errs = append(errs, fmt.Errorf("LLM_TIMEOUT: %w", err))
+	}
+	if cfg.Location, err = time.LoadLocation(get("TIMEZONE", "Asia/Bangkok")); err != nil {
+		errs = append(errs, fmt.Errorf("TIMEZONE: %w", err))
 	}
 	cfg.HistoryLimit, errs = intVar(get("HISTORY_LIMIT", "20"), "HISTORY_LIMIT", errs)
 	cfg.Workers, errs = intVar(get("WORKERS", "4"), "WORKERS", errs)

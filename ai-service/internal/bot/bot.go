@@ -48,21 +48,35 @@ type Profiles interface {
 const (
 	ReasonCustomerAsked = "ai-handoff:customer-request"
 	ReasonLLMError      = "ai-handoff:llm-error"
+	ReasonAttachment    = "ai-handoff:attachment" // files only; the bot cannot read them
+	ReasonAIRequest     = "ai-handoff:ai-request" // the model decided a person is needed
 )
+
+// MaxInputRunes caps one customer message before it reaches the model, so a
+// huge paste cannot run up the bill. The rest is replaced by cutMarker.
+const MaxInputRunes = 2000
+
+const cutMarker = " …[message cut]"
 
 // Options configures a Bot.
 type Options struct {
 	Chatwoot       Chatwoot
 	LLM            Completer
-	Knowledge      Retriever // optional; nil answers from the system prompt only
-	Profiles       Profiles  // optional; adds each account's business profile to SystemPrompt
+	Knowledge      Retriever     // optional; nil answers from the system prompt only
+	Profiles       Profiles      // optional; adds each account's business profile to SystemPrompt
+	Rewriter       QueryRewriter // optional; adds rewritten (Thai + English) search queries
 	History        *memory.History
 	Handoff        *handoff.Detector
 	SystemPrompt   string
 	HandoffMessage string
 	FailureMessage string
-	Logger         *slog.Logger
-	Timeout        time.Duration // per-event processing budget
+	// AttachmentMessage acknowledges files the bot cannot read; "" uses HandoffMessage.
+	AttachmentMessage string
+	// Now and Location give the model today's date; nil uses time.Now and UTC.
+	Now      func() time.Time
+	Location *time.Location
+	Logger   *slog.Logger
+	Timeout  time.Duration // per-event processing budget
 }
 
 // Job is one event to process plus its delivery id for log correlation.
@@ -166,9 +180,16 @@ func (b *Bot) Process(parent context.Context, j Job) {
 		if ev.MessageType == "outgoing" {
 			role = "assistant"
 		}
-		b.opts.History.Append(acct, conv, memory.Turn{Role: role, Content: ev.Content})
+		b.opts.History.Append(acct, conv, memory.Turn{Role: role, Content: capText(ev.Content)})
+	case webhook.HandOff:
+		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.AttachmentNote()})
+		msg := b.opts.AttachmentMessage
+		if msg == "" {
+			msg = b.opts.HandoffMessage
+		}
+		b.handoff(ctx, log, acct, conv, msg, ReasonAttachment)
 	case webhook.Reply:
-		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.Content})
+		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: customerText(ev)})
 		if b.opts.Handoff.Wants(ev.Content) {
 			b.handoff(ctx, log, acct, conv, b.opts.HandoffMessage, ReasonCustomerAsked)
 			return
@@ -192,33 +213,30 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 	}()
 
 	history := b.opts.History.Get(acct, conv)
-	messages := []llm.Message{{Role: "system", Content: b.systemPrompt(ctx, log, acct)}}
-	if b.opts.Knowledge != nil {
-		hits, err := b.opts.Knowledge.Retrieve(ctx, acct, inbox, retrievalQueries(history)...)
-		if err != nil {
-			log.Error("knowledge retrieval failed", "error", err)
-		}
-		messages = append(messages, llm.Message{Role: "system", Content: knowledgePrompt(hits, err)})
-		log = log.With(sourceAttrs(hits)...)
-	}
-	for _, t := range history {
-		messages = append(messages, llm.Message{Role: t.Role, Content: t.Content})
-	}
-
 	started := time.Now()
-	res, err := b.opts.LLM.Complete(ctx, messages)
+	res, hits, err := b.answer(ctx, log, acct, inbox, history)
 	latency := time.Since(started)
+	log = log.With(sourceAttrs(hits)...)
 	if err != nil {
 		log.Error("llm completion failed", "error", err, "latency_ms", latency.Milliseconds())
 		b.handoff(ctx, log, acct, conv, b.opts.FailureMessage, ReasonLLMError)
 		return
 	}
 
-	if err := cw.SendMessage(ctx, acct, conv, res.Content); err != nil {
+	text, wantsHuman := SplitHandoff(res.Content)
+	if wantsHuman {
+		if text == "" {
+			text = b.opts.HandoffMessage
+		}
+		b.opts.History.Append(acct, conv, memory.Turn{Role: "assistant", Content: text})
+		b.handoff(ctx, log, acct, conv, text, ReasonAIRequest)
+		return
+	}
+	if err := cw.SendMessage(ctx, acct, conv, text); err != nil {
 		log.Error("send reply failed", "error", err)
 		return
 	}
-	b.opts.History.Append(acct, conv, memory.Turn{Role: "assistant", Content: res.Content})
+	b.opts.History.Append(acct, conv, memory.Turn{Role: "assistant", Content: text})
 	// Content is not logged (personal data); lengths and usage are enough for cost tracking.
 	log.Info("ai replied",
 		"model", res.Model,
@@ -231,18 +249,73 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 	)
 }
 
+// Answer runs the reply pipeline without Chatwoot: business profile, knowledge
+// search (with rewritten queries) and the chat model. answer-eval uses it to
+// test exactly what customers get.
+func (b *Bot) Answer(ctx context.Context, acct, inbox int64, history []memory.Turn) (llm.Result, []knowledge.Hit, error) {
+	return b.answer(ctx, b.opts.Logger.With("account_id", acct), acct, inbox, history)
+}
+
+func (b *Bot) answer(ctx context.Context, log *slog.Logger, acct, inbox int64, history []memory.Turn) (llm.Result, []knowledge.Hit, error) {
+	messages := []llm.Message{{Role: "system", Content: b.systemPrompt(ctx, log, acct)}}
+	var hits []knowledge.Hit
+	if b.opts.Knowledge != nil {
+		var err error
+		hits, err = b.opts.Knowledge.Retrieve(ctx, acct, inbox, b.searchQueries(ctx, log, history)...)
+		if err != nil {
+			log.Error("knowledge retrieval failed", "error", err)
+		}
+		messages = append(messages, llm.Message{Role: "system", Content: knowledgePrompt(hits, err)})
+	}
+	for _, t := range history {
+		messages = append(messages, llm.Message{Role: t.Role, Content: t.Content})
+	}
+	res, err := b.opts.LLM.Complete(ctx, messages)
+	return res, hits, err
+}
+
+// searchQueries is the customer's own wording plus, when a rewriter is set,
+// a stand-alone Thai and English query. A failed rewrite only loses the extras.
+func (b *Bot) searchQueries(ctx context.Context, log *slog.Logger, history []memory.Turn) []string {
+	queries := retrievalQueries(history)
+	if b.opts.Rewriter == nil || len(queries) == 0 {
+		return queries
+	}
+	started := time.Now()
+	extra, err := b.opts.Rewriter.Rewrite(ctx, history)
+	if err != nil {
+		log.Warn("query rewrite failed", "error", err, "latency_ms", time.Since(started).Milliseconds())
+		return queries
+	}
+	log.Debug("query rewritten", "queries", len(extra), "latency_ms", time.Since(started).Milliseconds())
+	return append(queries, extra...)
+}
+
 // systemPrompt is the shared prompt plus the account's business profile. If
 // the profile cannot be loaded the bot still answers with the shared prompt.
 func (b *Bot) systemPrompt(ctx context.Context, log *slog.Logger, acct int64) string {
-	if b.opts.Profiles == nil {
-		return b.opts.SystemPrompt
+	prompt := b.opts.SystemPrompt
+	if b.opts.Profiles != nil {
+		p, err := b.opts.Profiles.Get(ctx, acct)
+		if err != nil {
+			log.Error("business profile lookup failed", "error", err)
+		} else {
+			prompt = profile.Prompt(prompt, p)
+		}
 	}
-	p, err := b.opts.Profiles.Get(ctx, acct)
-	if err != nil {
-		log.Error("business profile lookup failed", "error", err)
-		return b.opts.SystemPrompt
+	return prompt + "\n\n" + policyPrompt(b.now())
+}
+
+func (b *Bot) now() time.Time {
+	now := time.Now
+	if b.opts.Now != nil {
+		now = b.opts.Now
 	}
-	return profile.Prompt(b.opts.SystemPrompt, p)
+	loc := b.opts.Location
+	if loc == nil {
+		loc = time.UTC
+	}
+	return now().In(loc)
 }
 
 func (b *Bot) handoff(ctx context.Context, log *slog.Logger, acct, conv int64, customerMsg, reason string) {

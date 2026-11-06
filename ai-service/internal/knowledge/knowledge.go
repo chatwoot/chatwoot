@@ -220,11 +220,11 @@ func (s *Service) Reindex(ctx context.Context, accountID int64, force bool) (int
 }
 
 // Retrieve finds the chunks most similar to any of the queries in the
-// account, limited to the inbox's documents plus account-wide ones. Results
-// of all queries are merged (best score per chunk), weak matches dropped and
-// the best TopK returned. Several queries let the bot search the current
-// message on its own and together with earlier context, so neither hides
-// the other's answer.
+// account, limited to the inbox's documents plus account-wide ones. Weak
+// matches are dropped. The TopK slots are filled round-robin by rank (each
+// query's best hit, then each query's second best, ...), so a query whose
+// matches all score higher (often the one carrying earlier context) cannot
+// crowd out another query's answer. The result is sorted by best score.
 func (s *Service) Retrieve(ctx context.Context, accountID, inboxID int64, queries ...string) ([]Hit, error) {
 	model := s.Embedder.Model()
 	queries = cleanQueries(queries)
@@ -236,7 +236,7 @@ func (s *Service) Retrieve(ctx context.Context, accountID, inboxID int64, querie
 		return nil, err
 	}
 	best := map[int64]Hit{}
-	var order []int64
+	perQuery := make([][]Hit, 0, len(vecs))
 	for _, v := range vecs {
 		hits, err := s.Store.Search(ctx, Query{
 			AccountID: accountID, InboxID: inboxID, Model: model, Vector: v, Limit: s.TopK,
@@ -244,27 +244,46 @@ func (s *Service) Retrieve(ctx context.Context, accountID, inboxID int64, querie
 		if err != nil {
 			return nil, err
 		}
+		var kept []Hit
 		for _, h := range hits {
-			prev, seen := best[h.ChunkID]
-			if !seen {
-				order = append(order, h.ChunkID)
+			if h.Score < s.MinScore {
+				continue
 			}
-			if !seen || h.Score > prev.Score {
+			kept = append(kept, h)
+			if prev, seen := best[h.ChunkID]; !seen || h.Score > prev.Score {
 				best[h.ChunkID] = h
 			}
 		}
+		sort.SliceStable(kept, func(i, j int) bool { return kept[i].Score > kept[j].Score })
+		perQuery = append(perQuery, kept)
 	}
+	out := roundRobin(perQuery, best, s.TopK)
+	sort.SliceStable(out, func(i, j int) bool { return out[i].Score > out[j].Score })
+	return out, nil
+}
+
+// roundRobin takes rank 1 of every query, then rank 2, ... until limit
+// distinct chunks are chosen; each chunk carries its best score.
+func roundRobin(perQuery [][]Hit, best map[int64]Hit, limit int) []Hit {
 	var out []Hit
-	for _, id := range order {
-		if h := best[id]; h.Score >= s.MinScore {
-			out = append(out, h)
+	chosen := map[int64]bool{}
+	for rank := 0; len(out) < limit; rank++ {
+		more := false
+		for _, hits := range perQuery {
+			if rank >= len(hits) || len(out) >= limit {
+				continue
+			}
+			more = true
+			if id := hits[rank].ChunkID; !chosen[id] {
+				chosen[id] = true
+				out = append(out, best[id])
+			}
+		}
+		if !more {
+			break
 		}
 	}
-	sort.SliceStable(out, func(i, j int) bool { return out[i].Score > out[j].Score })
-	if len(out) > s.TopK {
-		out = out[:s.TopK]
-	}
-	return out, nil
+	return out
 }
 
 func cleanQueries(in []string) []string {

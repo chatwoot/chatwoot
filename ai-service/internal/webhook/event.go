@@ -7,6 +7,7 @@ package webhook
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 )
 
@@ -24,6 +25,29 @@ type Event struct {
 	Inbox        Inbox        `json:"inbox"`
 	Sender       Sender       `json:"sender"`
 	Conversation Conversation `json:"conversation"`
+	Attachments  []Attachment `json:"attachments"` // present only when the message has files
+}
+
+// Attachment is a file on a message (photo, voice note, document, ...).
+type Attachment struct {
+	FileType string `json:"file_type"` // image | audio | video | file | location | ...
+}
+
+// AttachmentNote tells the model that files came with the text, since it
+// cannot see them; empty when there are none.
+func (ev Event) AttachmentNote() string {
+	if len(ev.Attachments) == 0 {
+		return ""
+	}
+	types := make([]string, len(ev.Attachments))
+	for i, a := range ev.Attachments {
+		types[i] = a.FileType
+	}
+	noun := "file"
+	if len(types) > 1 {
+		noun = "files"
+	}
+	return fmt.Sprintf("[The customer attached %d %s: %s]", len(types), noun, strings.Join(types, ", "))
 }
 
 // Account identifies the Chatwoot account.
@@ -69,6 +93,9 @@ const (
 	Record
 	// Forget means drop stored state for the conversation (resolved).
 	Forget
+	// HandOff means a customer sent only files (a payment slip, a photo, a
+	// voice note) that the bot cannot read: acknowledge and pass to a human.
+	HandOff
 )
 
 // Classify decides how to handle an event. It answers only public customer
@@ -82,7 +109,13 @@ func Classify(ev Event) Decision {
 	default:
 		return Ignore
 	}
-	if ev.Private || strings.TrimSpace(ev.Content) == "" {
+	if ev.Private {
+		return Ignore
+	}
+	if strings.TrimSpace(ev.Content) == "" {
+		if ev.MessageType == "incoming" && len(ev.Attachments) > 0 && ev.Conversation.Status == "pending" {
+			return HandOff
+		}
 		return Ignore
 	}
 	switch ev.MessageType {

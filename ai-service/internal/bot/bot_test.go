@@ -92,7 +92,7 @@ func TestProcess_RepliesWithHistoryAndTyping(t *testing.T) {
 	if got := cw.joined(); got != "typing:on | msg:We open at 9. | typing:off" {
 		t.Errorf("calls = %s", got)
 	}
-	if len(l.got) != 4 || l.got[0].Content != "SYS" || l.got[3].Content != "when do you open?" {
+	if len(l.got) != 4 || !strings.HasPrefix(l.got[0].Content, "SYS") || l.got[3].Content != "when do you open?" {
 		t.Errorf("llm messages = %+v", l.got)
 	}
 	if turns := h.Get(1, 7); len(turns) != 4 || turns[3].Role != "assistant" {
@@ -312,8 +312,8 @@ func TestProcess_ProfileErrorFallsBackToBasePrompt(t *testing.T) {
 	b.Process(context.Background(), customerMsg("hi"))
 
 	// Assert
-	if l.got[0].Content != "SYS" {
-		t.Errorf("system prompt = %q, want the base prompt", l.got[0].Content)
+	if sys := l.got[0].Content; !strings.HasPrefix(sys, "SYS") || strings.Contains(sys, "business you represent") {
+		t.Errorf("system prompt = %q, want the base prompt without a profile", sys)
 	}
 	if got := cw.joined(); got != "typing:on | msg:ok | typing:off" {
 		t.Errorf("calls = %s, want a normal reply", got)
