@@ -85,4 +85,19 @@ RSpec.describe Captain::Tools::McpTool do
       expect(tool.perform(tool_context, email: 'Jane@Example.com')).not_to include(Captain::Tools::CopilotHttpTool::UNVERIFIED_VALUE_NOTE)
     end
   end
+
+  describe '#read_only?' do
+    let(:base_class) { Captain::Tools::PublicMcpTool }
+
+    it 'follows the approved definition' do
+      expect(tool.read_only?).to be(true)
+    end
+  end
+
+  it 'does not run for a tool class that does not decide its arguments' do
+    tool = Captain::Mcp::AgentTools.build(assistant, mcp_tool, connection, base_class: described_class)
+
+    expect { tool.perform(tool_context, status: 'open') }.to raise_error(NotImplementedError)
+    expect(connection).not_to have_received(:call)
+  end
 end

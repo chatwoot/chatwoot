@@ -7,11 +7,16 @@ class Captain::Tools::CopilotHttpTool < Captain::Tools::HttpTool
     true
   end
 
-  def perform(tool_context, **params)
-    email_param = @custom_tool.verified_email_param
-    return super unless email_param
+  private
 
-    result = super
+  def arguments_for(_tool_context, params)
+    params
+  end
+
+  def annotate(result, tool_context, params)
+    email_param = @custom_tool.verified_email_param
+    return result unless email_param
+
     verified_email = stored_verified_email(tool_context.state)
     verified_email && params[email_param.to_sym].to_s.strip.casecmp?(verified_email) ? result : "#{result}\n\n#{UNVERIFIED_VALUE_NOTE}"
   end
