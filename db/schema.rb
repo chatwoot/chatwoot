@@ -1069,6 +1069,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.index ["identifier", "account_id"], name: "index_conversations_on_identifier_and_account_id"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
     t.index ["priority"], name: "index_conversations_on_priority"
+    t.index ["sla_policy_id"], name: "index_conversations_on_sla_policy_id", where: "(sla_policy_id IS NOT NULL)"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["status", "priority"], name: "index_conversations_on_status_and_priority"
     t.index ["team_id"], name: "index_conversations_on_team_id"
