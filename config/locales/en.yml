@@ -454,6 +454,7 @@ en:
         not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
+      via_copilot: '%{activity} via Copilot'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} typically replies in a few hours.'
@@ -535,6 +536,20 @@ en:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+  conversation_monitors:
+    slack_alert:
+      not_connected: needs a connected Slack integration
+      title: 'Monitor matched: %{name}'
+      matched: Monitor matched
+      summary: '%{conversation} with %{contact}'
+      conversation: 'Conversation #%{id}'
+      inbox: Inbox
+      assignee: Assignee
+      unassigned: Unassigned
+      status: Status
+      confidence: Confidence
+      unknown: Unknown
+      condition: Condition
   captain:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
@@ -550,6 +565,8 @@ en:
       approval_already_decided: 'This change has already been approved or rejected.'
       approval_expired: 'The agent did not approve this change within %{minutes} minutes.'
       approval_expired_notice: 'This change expired. Ask Copilot to propose it again.'
+      stopped: 'The agent stopped this before it finished.'
+      still_working: 'Copilot is still working on your last message. Stop it or wait for the answer.'
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'
@@ -617,6 +634,23 @@ en:
         invalid: 'must be an object'
         unknown: 'has unknown settings: %{names}'
         not_boolean: 'values must be true or false'
+    param_sources:
+      invalid: '%{tool} parameter sources must be an object'
+      unknown_param: '%{tool} has no parameters named %{names}'
+      invalid_source: '%{tool} parameter %{name} has an invalid source'
+      fixed_value_blank: '%{tool} parameter %{name} needs a fixed value'
+      one_verified_email: '%{tool} can have one verified email parameter only'
+      verified_email_type: '%{tool} parameter %{name} must be a string to take the verified email'
+    mcp_server:
+      disabled: 'MCP servers are not enabled for this account'
+      token_rejected: 'The server rejected the token. Check the token and the header name.'
+      not_oauth: 'This server does not use OAuth sign-in'
+      reserved_header: '%{name} is set by the MCP connection and cannot carry the token'
+      tools:
+        duplicate: 'cannot list the same tool twice'
+        invalid_selection: 'Each tool selection must be an object with the tool name, and its settings must be an object'
+        missing: 'The server no longer offers %{tool}.'
+        name_clash: 'Captain cannot tell these tools apart: %{names}. Select only one of them.'
     tools_manifest:
       invalid_source: 'Enter a toolset from the Captain tools catalog as chatwoot/tools/folder'
       invalid_configuration: 'Invalid configuration'
