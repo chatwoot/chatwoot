@@ -64,10 +64,10 @@ type Config struct {
 // when the buffer is full the turn is dropped and counted, so tracing can
 // never slow down or stop a customer reply. A nil *Exporter does nothing.
 type Exporter struct {
-	Key         []byte // pseudonym key; never the Langfuse secret key
 	Text        string
 	Environment string
 
+	key            []byte // pseudonym key; never the Langfuse secret key; unexported so dumps can't leak it
 	endpoint, host string
 	auth           string
 	client         *http.Client
@@ -77,14 +77,19 @@ type Exporter struct {
 	queue          chan Turn
 	done           chan struct{}
 	closeOnce      sync.Once
+	mu             sync.RWMutex // guards closed against Record racing Close
+	closed         bool
+	ctx            context.Context // cancelled when Close gives up waiting
+	cancel         context.CancelFunc
 	dropped        atomic.Int64
+	reported       int64 // dropped count already logged (loop goroutine only)
 }
 
 // NewExporter starts the background sender.
 func NewExporter(c Config, logger *slog.Logger) *Exporter {
 	base := strings.TrimRight(c.BaseURL, "/")
 	e := &Exporter{
-		Key: c.PseudonymKey, Text: c.Text, Environment: c.Environment,
+		key: c.PseudonymKey, Text: c.Text, Environment: c.Environment,
 		endpoint: base + "/api/public/otel/v1/traces",
 		auth:     "Basic " + basic(c.PublicKey, c.SecretKey),
 		client:   &http.Client{Timeout: 10 * time.Second},
@@ -97,10 +102,11 @@ func NewExporter(c Config, logger *slog.Logger) *Exporter {
 	if u, err := url.Parse(base); err == nil {
 		e.host = u.Host
 	}
-	if len(e.Key) == 0 {
-		e.Key = make([]byte, 32)
-		_, _ = rand.Read(e.Key)
+	if len(e.key) == 0 {
+		e.key = make([]byte, 32)
+		_, _ = rand.Read(e.key)
 	}
+	e.ctx, e.cancel = context.WithCancel(context.Background())
 	if e.every == 0 {
 		e.every = 5 * time.Second
 	}
@@ -114,6 +120,12 @@ func NewExporter(c Config, logger *slog.Logger) *Exporter {
 // Record queues a turn; it returns at once.
 func (e *Exporter) Record(t Turn) {
 	if e == nil {
+		return
+	}
+	e.mu.RLock()
+	defer e.mu.RUnlock()
+	if e.closed {
+		e.dropped.Add(1)
 		return
 	}
 	select {
@@ -137,9 +149,32 @@ func (e *Exporter) Close() {
 		return
 	}
 	e.closeOnce.Do(func() {
+		e.mu.Lock()
+		e.closed = true
 		close(e.queue)
-		<-e.done
+		e.mu.Unlock()
+		select {
+		case <-e.done:
+		case <-time.After(closeDeadline):
+			// Langfuse is down or slow: abort in-flight sends and drop the rest,
+			// so shutdown fits in the container's stop grace period.
+			e.cancel()
+			<-e.done
+		}
+		e.cancel()
+		e.reportDropped()
 	})
+}
+
+// closeDeadline bounds how long Close waits for the last sends.
+const closeDeadline = 5 * time.Second
+
+// reportDropped logs turns lost since the last report.
+func (e *Exporter) reportDropped() {
+	if n := e.dropped.Load(); n > e.reported {
+		e.logger.Warn("trace turns dropped", "dropped", n-e.reported, "dropped_total", n)
+		e.reported = n
+	}
 }
 
 func (e *Exporter) loop() {
@@ -166,6 +201,7 @@ func (e *Exporter) loop() {
 }
 
 func (e *Exporter) send(turns []Turn) {
+	e.reportDropped()
 	if len(turns) == 0 {
 		return
 	}
@@ -174,11 +210,11 @@ func (e *Exporter) send(turns []Turn) {
 		e.logger.Error("trace encode failed", "error", err)
 		return
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	ctx, cancel := context.WithTimeout(e.ctx, 15*time.Second)
 	defer cancel()
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, e.endpoint, bytes.NewReader(body))
 	if err != nil {
-		e.logger.Error("trace request failed", "host", e.host, "error", err)
+		e.logger.Error("trace request failed", "host", e.host) // the error would carry the full URL
 		return
 	}
 	req.Header.Set("Authorization", e.auth)
@@ -215,8 +251,8 @@ func (e *Exporter) turnSpans(t Turn) []map[string]any {
 	traceID, rootID := randHex(16), randHex(8)
 	common := map[string]any{
 		"langfuse.trace.name":                 "chat-turn",
-		"langfuse.session.id":                 Pseudonym(e.Key, "conversation", t.ConversationID),
-		"langfuse.user.id":                    Pseudonym(e.Key, "contact", t.ContactID),
+		"langfuse.session.id":                 Pseudonym(e.key, "conversation", t.AccountID, t.ConversationID),
+		"langfuse.user.id":                    Pseudonym(e.key, "contact", t.AccountID, t.ContactID),
 		"langfuse.trace.tags":                 []string{"account:" + strconv.FormatInt(t.AccountID, 10)},
 		"langfuse.trace.metadata.account_id":  strconv.FormatInt(t.AccountID, 10),
 		"langfuse.trace.metadata.inbox_id":    strconv.FormatInt(t.InboxID, 10),
@@ -331,4 +367,19 @@ func or(v, def int) int {
 		return v
 	}
 	return def
+}
+
+// ValidateBaseURL refuses plain http except for a local Langfuse: Basic auth
+// carries the secret key and must not travel in clear text.
+func ValidateBaseURL(raw string) error {
+	u, err := url.Parse(raw)
+	if err != nil || u.Host == "" {
+		return fmt.Errorf("LANGFUSE_BASE_URL must be an https URL")
+	}
+	host := u.Hostname()
+	local := host == "localhost" || host == "127.0.0.1" || host == "::1" || strings.HasSuffix(host, ".localhost")
+	if u.Scheme != "https" && !(u.Scheme == "http" && local) {
+		return fmt.Errorf("LANGFUSE_BASE_URL must use https (plain http only for localhost)")
+	}
+	return nil
 }

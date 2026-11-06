@@ -35,7 +35,7 @@ first. Owner: John (Johnstocker AI Studio).
 | Email | SMTP through Resend on the Chatwoot domain | Required for invites and password resets |
 | Deploys | Dokploy deploys branch `develop`; auto-deploy is off. PR → merge → trigger the deploy | Every production change is a reviewed commit; see `../deploy/README.md` |
 | Observability | Langfuse Cloud, Japan region (`jp.cloud.langfuse.com`), over OTLP/HTTP JSON with the standard library; not LangSmith, not self-hosted | Open source (can move to self-hosting later), larger free tier; the VPS can't also run Langfuse's ClickHouse, Redis and object storage |
-| Customer data in traces | Redacted in ai-service before export (emails, phones, Thai IDs, card and account numbers, labelled LINE IDs); contact and conversation ids replaced by keyed hashes; `TRACE_TEXT=off` sends no chat text | Langfuse is a second processor of customer data (PDPA); vendor masking SDKs don't support Go |
+| Customer data in traces | Redacted in ai-service before export (emails, phones, Thai IDs, card and account numbers, other 9+ digit runs, LINE IDs; Thai and full-width digits too); contact and conversation ids replaced by hashes keyed from the webhook secret, never the Langfuse key; `TRACE_TEXT=off` sends no chat text. Accepted residual risk: names, street addresses and free-form personal details in `redacted` mode reach Langfuse (owner chose redacted over off, 2026-11-07) | Langfuse is a second processor of customer data (PDPA); vendor masking SDKs don't support Go |
 
 ## Where things are
 

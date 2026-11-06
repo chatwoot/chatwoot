@@ -65,7 +65,7 @@ func attrs(t *testing.T, doc otlpDoc, span string) map[string]any {
 
 func TestEncodeBuildsOneTraceWithChildSpans(t *testing.T) {
 	// Arrange
-	e := &Exporter{Key: []byte("k"), Text: TextRedacted, Environment: "production"}
+	e := &Exporter{key: []byte("k"), Text: TextRedacted, Environment: "production"}
 
 	// Act
 	raw, err := e.encode([]Turn{sampleTurn()})
@@ -96,7 +96,7 @@ func TestEncodeBuildsOneTraceWithChildSpans(t *testing.T) {
 	}
 	for _, name := range []string{"chat-turn", "query-rewrite", "knowledge-search", "answer"} {
 		a := attrs(t, doc, name)
-		if a["langfuse.session.id"] != Pseudonym(e.Key, "conversation", 77) || a["langfuse.user.id"] != Pseudonym(e.Key, "contact", 9) {
+		if a["langfuse.session.id"] != Pseudonym(e.key, "conversation", 1, 77) || a["langfuse.user.id"] != Pseudonym(e.key, "contact", 1, 9) {
 			t.Errorf("%s: session/user must be pseudonyms on every span: %v", name, a)
 		}
 		if a["langfuse.trace.metadata.account_id"] != "1" {
@@ -122,7 +122,7 @@ func TestEncodeBuildsOneTraceWithChildSpans(t *testing.T) {
 
 func TestEncodeTextOffSendsNoText(t *testing.T) {
 	// Arrange
-	e := &Exporter{Key: []byte("k"), Text: TextOff}
+	e := &Exporter{key: []byte("k"), Text: TextOff}
 
 	// Act
 	raw, _ := e.encode([]Turn{sampleTurn()})
@@ -141,7 +141,7 @@ func TestEncodeTextOffSendsNoText(t *testing.T) {
 
 func TestEncodeNeverSendsRawIDs(t *testing.T) {
 	// Arrange
-	e := &Exporter{Key: []byte("k"), Text: TextRedacted}
+	e := &Exporter{key: []byte("k"), Text: TextRedacted}
 	turn := sampleTurn()
 	turn.ConversationID, turn.ContactID = 987654, 123456
 
@@ -255,7 +255,44 @@ func TestNewExporterUsesThePseudonymKeyNotTheSecret(t *testing.T) {
 	defer e.Close()
 
 	// Assert
-	if string(e.Key) == "sk-lf-2" {
+	if string(e.key) == "sk-lf-2" {
 		t.Fatal("the Langfuse secret key must not be the pseudonym key")
+	}
+}
+
+func TestCloseGivesUpWhenLangfuseHangs(t *testing.T) {
+	// Arrange: a backend that never answers.
+	hang := make(chan struct{})
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { <-hang }))
+	defer srv.Close()
+	defer close(hang)
+	e := NewExporter(Config{BaseURL: srv.URL, PublicKey: "p", SecretKey: "s", BatchSize: 1, FlushEvery: time.Hour},
+		slog.New(slog.NewJSONHandler(io.Discard, nil)))
+	for range 5 {
+		e.Record(sampleTurn())
+	}
+
+	// Act
+	started := time.Now()
+	e.Close()
+
+	// Assert: shutdown must fit in a container's stop grace period.
+	if d := time.Since(started); d > closeDeadline+2*time.Second {
+		t.Errorf("Close took %v, want about %v at most", d, closeDeadline)
+	}
+	e.Record(sampleTurn()) // after Close: dropped, no panic
+}
+
+func TestNewExporterRequiresHTTPS(t *testing.T) {
+	// Act
+	err := ValidateBaseURL("http://jp.cloud.langfuse.com")
+	ok := ValidateBaseURL("https://jp.cloud.langfuse.com")
+
+	// Assert
+	if err == nil || ok != nil {
+		t.Errorf("http must be refused (Basic auth in clear text), https accepted: %v / %v", err, ok)
+	}
+	if ValidateBaseURL("http://localhost:3000") != nil {
+		t.Error("plain http is fine for a local Langfuse")
 	}
 }

@@ -2,6 +2,8 @@
 package config
 
 import (
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/trace"
+
 	"errors"
 	"fmt"
 	"os"
@@ -150,6 +152,11 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	}
 	lf := []struct{ key, val string }{
 		{"LANGFUSE_BASE_URL", cfg.LangfuseBaseURL}, {"LANGFUSE_PUBLIC_KEY", cfg.LangfusePublicKey}, {"LANGFUSE_SECRET_KEY", cfg.LangfuseSecretKey},
+	}
+	if cfg.LangfuseBaseURL != "" {
+		if err := trace.ValidateBaseURL(cfg.LangfuseBaseURL); err != nil {
+			errs = append(errs, err)
+		}
 	}
 	if set := lf[0].val != "" || lf[1].val != "" || lf[2].val != ""; set {
 		for _, v := range lf {

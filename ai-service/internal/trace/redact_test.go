@@ -22,6 +22,16 @@ func TestRedactMasksPersonalData(t *testing.T) {
 		"phone with dots":    {"081.234.5678", "[PHONE]"},
 		"long digit run":     {"เลขพัสดุ 1234 5678 9012", "เลขพัสดุ [NUMBER]"},
 		"+66 no spaces":      {"+66812345678", "[PHONE]"},
+		"66 without plus":    {"66812345678", "[PHONE]"},
+		"(+66) brackets":     {"(+66) 81 234 5678", "[PHONE]"},
+		"thai digits phone":  {"เบอร์ ๐๘๑๒๓๔๕๖๗๘", "เบอร์ [PHONE]"},
+		"thai digits id":     {"๑๒๓๔๕๖๗๘๙๐๑๒๓", "[ID]"},
+		"fullwidth phone":    {"０８１２３４５６７８", "[PHONE]"},
+		"account spaces":     {"บัญชี 123 4 56789 0", "บัญชี [ACCOUNT]"},
+		"line colon":         {"ไลน์: somchai99", "ไลน์: [LINE]"},
+		"LINE colon":         {"LINE: somchai99", "LINE: [LINE]"},
+		"add line":           {"แอดไลน์ somchai99 นะ", "แอดไลน์ [LINE] นะ"},
+		"line at handle":     {"line @somchai99", "line [LINE]"},
 	}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -54,8 +64,9 @@ func TestPseudonymIsStableAndKeyed(t *testing.T) {
 	k1, k2 := []byte("key-one"), []byte("key-two")
 
 	// Act
-	a, b := Pseudonym(k1, "contact", 42), Pseudonym(k1, "contact", 42)
-	otherKind, otherKey := Pseudonym(k1, "conversation", 42), Pseudonym(k2, "contact", 42)
+	a, b := Pseudonym(k1, "contact", 1, 42), Pseudonym(k1, "contact", 1, 42)
+	otherKind, otherKey := Pseudonym(k1, "conversation", 1, 42), Pseudonym(k2, "contact", 1, 42)
+	otherAccount := Pseudonym(k1, "contact", 2, 42)
 
 	// Assert
 	if a != b || len(a) != 16 {
@@ -63,6 +74,9 @@ func TestPseudonymIsStableAndKeyed(t *testing.T) {
 	}
 	if a == otherKind || a == otherKey {
 		t.Error("kind and key must change the pseudonym")
+	}
+	if a == otherAccount {
+		t.Error("the same id in another account must get another pseudonym")
 	}
 	if strings.Contains(a, "42") && len(a) < 4 {
 		t.Error("pseudonym must not reveal the id")
@@ -80,7 +94,7 @@ func TestPseudonymKeyIsNotTheLangfuseSecret(t *testing.T) {
 	if string(k) == langfuseSecret || string(k) == webhookSecret || len(k) != 32 {
 		t.Fatalf("PseudonymKey must be a derived 32-byte key, got %d bytes", len(k))
 	}
-	if Pseudonym(k, "contact", 9) == Pseudonym([]byte(langfuseSecret), "contact", 9) {
+	if Pseudonym(k, "contact", 1, 9) == Pseudonym([]byte(langfuseSecret), "contact", 1, 9) {
 		t.Error("pseudonyms must not be reproducible with the Langfuse secret")
 	}
 }
