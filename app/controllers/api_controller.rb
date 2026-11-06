@@ -26,7 +26,8 @@ class ApiController < ApplicationController
   end
 
   def postgres_status
-    ActiveRecord::Base.connection.active? ? 'ok' : 'failing'
+    ActiveRecord::Base.connection.verify!
+    'ok'
   rescue ActiveRecord::ConnectionNotEstablished
     'failing'
   end
