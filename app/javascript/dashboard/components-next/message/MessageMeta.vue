@@ -35,11 +35,26 @@ const {
   contentAttributes,
 } = useMessageContext();
 
+// API inboxes can backdate a message through external_created_at; prefer it
+// for the displayed time, as the UI did before v4.4.0.
+const displayTimestamp = computed(() => {
+  const externalCreatedAt = contentAttributes.value?.externalCreatedAt;
+  if (!externalCreatedAt) return createdAt.value;
+
+  // The stored value can be unix seconds, a numeric string, or an ISO date
+  // string; the timestamp helpers expect unix seconds.
+  const asNumber = Number(externalCreatedAt);
+  if (!Number.isNaN(asNumber)) return asNumber;
+
+  const asDate = Date.parse(externalCreatedAt);
+  return Number.isNaN(asDate) ? createdAt.value : Math.floor(asDate / 1000);
+});
+
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  messageTimestamp(displayTimestamp.value, 'LLL d, h:mm a')
 );
 
-const exactTime = computed(() => exactTimestamp(createdAt.value));
+const exactTime = computed(() => exactTimestamp(displayTimestamp.value));
 
 const showStatusIndicator = computed(() => {
   if (isPrivate.value) return false;
