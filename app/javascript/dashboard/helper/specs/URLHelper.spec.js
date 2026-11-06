@@ -89,6 +89,18 @@ describe('#URL Helpers', () => {
     it('should return false if invalid url is passed', () => {
       expect(isValidURL('alert.window')).toBe(false);
     });
+    it('should return true for urls with a TLD longer than 6 characters', () => {
+      expect(isValidURL('https://admin.example.exchange/users/123')).toBe(true);
+      expect(isValidURL('https://example.technology')).toBe(true);
+    });
+    it('should return true for urls with special or non-ASCII characters in the path', () => {
+      expect(isValidURL('https://example.com/a,b;c')).toBe(true);
+      expect(isValidURL('https://example.com/café/menu')).toBe(true);
+    });
+    it('should return false for non-http(s) urls', () => {
+      expect(isValidURL('ftp://example.com/file')).toBe(false);
+      expect(isValidURL('javascript:alert(1)')).toBe(false);
+    });
   });
 
   describe('getArticleSearchURL', () => {
