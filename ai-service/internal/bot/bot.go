@@ -18,6 +18,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/trace"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/webhook"
 )
 
@@ -37,6 +38,11 @@ type Completer interface {
 // Retriever finds knowledge base excerpts for a customer question.
 type Retriever interface {
 	Retrieve(ctx context.Context, accountID, inboxID int64, queries ...string) ([]knowledge.Hit, error)
+}
+
+// Tracer receives what the bot did for one customer message (trace.Exporter).
+type Tracer interface {
+	Record(t trace.Turn)
 }
 
 // Profiles loads an account's business profile (empty when none is saved).
@@ -65,6 +71,7 @@ type Options struct {
 	Knowledge      Retriever     // optional; nil answers from the system prompt only
 	Profiles       Profiles      // optional; adds each account's business profile to SystemPrompt
 	Rewriter       QueryRewriter // optional; adds rewritten (Thai + English) search queries
+	Tracer         Tracer        // optional; receives one trace per customer message
 	History        *memory.History
 	Handoff        *handoff.Detector
 	SystemPrompt   string
@@ -182,23 +189,45 @@ func (b *Bot) Process(parent context.Context, j Job) {
 		}
 		b.opts.History.Append(acct, conv, memory.Turn{Role: role, Content: capText(ev.Content)})
 	case webhook.HandOff:
+		tr := b.startTurn(ev, ev.AttachmentNote())
+		defer b.finishTurn(tr)
 		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.AttachmentNote()})
 		msg := b.opts.AttachmentMessage
 		if msg == "" {
 			msg = b.opts.HandoffMessage
 		}
+		tr.Outcome, tr.Output = "handoff:"+ReasonAttachment, msg
 		b.handoff(ctx, log, acct, conv, msg, ReasonAttachment)
 	case webhook.Reply:
+		tr := b.startTurn(ev, customerText(ev))
+		defer b.finishTurn(tr)
 		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: customerText(ev)})
 		if b.opts.Handoff.Wants(ev.Content) {
+			tr.Outcome, tr.Output = "handoff:"+ReasonCustomerAsked, b.opts.HandoffMessage
 			b.handoff(ctx, log, acct, conv, b.opts.HandoffMessage, ReasonCustomerAsked)
 			return
 		}
-		b.reply(ctx, log, acct, ev.Inbox.ID, conv)
+		b.reply(ctx, log, acct, ev.Inbox.ID, conv, tr)
 	}
 }
 
-func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int64) {
+// startTurn opens the trace record for one customer message.
+func (b *Bot) startTurn(ev webhook.Event, input string) *trace.Turn {
+	return &trace.Turn{
+		AccountID: ev.Account.ID, InboxID: ev.Inbox.ID, ConversationID: ev.ConversationID(), ContactID: ev.Sender.ID,
+		Start: time.Now(), Input: input, Outcome: "error",
+	}
+}
+
+func (b *Bot) finishTurn(tr *trace.Turn) {
+	if b.opts.Tracer == nil {
+		return
+	}
+	tr.End = time.Now()
+	b.opts.Tracer.Record(*tr)
+}
+
+func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int64, tr *trace.Turn) {
 	cw := b.opts.Chatwoot
 	if err := cw.SetTyping(ctx, acct, conv, true); err != nil {
 		log.Warn("typing on failed", "error", err)
@@ -214,20 +243,23 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 
 	history := b.opts.History.Get(acct, conv)
 	started := time.Now()
-	res, hits, err := b.answer(ctx, log, acct, inbox, history)
+	res, hits, err := b.answer(ctx, log, acct, inbox, history, tr)
 	latency := time.Since(started)
 	log = log.With(sourceAttrs(hits)...)
 	if err != nil {
 		log.Error("llm completion failed", "error", err, "latency_ms", latency.Milliseconds())
+		tr.Outcome, tr.Output = "handoff:"+ReasonLLMError, b.opts.FailureMessage
 		b.handoff(ctx, log, acct, conv, b.opts.FailureMessage, ReasonLLMError)
 		return
 	}
 
 	text, wantsHuman := SplitHandoff(res.Content)
+	tr.Output = text
 	if wantsHuman {
 		if text == "" {
 			text = b.opts.HandoffMessage
 		}
+		tr.Outcome, tr.Output = "handoff:"+ReasonAIRequest, text
 		b.opts.History.Append(acct, conv, memory.Turn{Role: "assistant", Content: text})
 		b.handoff(ctx, log, acct, conv, text, ReasonAIRequest)
 		return
@@ -236,6 +268,7 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 		log.Error("send reply failed", "error", err)
 		return
 	}
+	tr.Outcome = "replied"
 	b.opts.History.Append(acct, conv, memory.Turn{Role: "assistant", Content: text})
 	// Content is not logged (personal data); lengths and usage are enough for cost tracking.
 	log.Info("ai replied",
@@ -253,37 +286,61 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 // search (with rewritten queries) and the chat model. answer-eval uses it to
 // test exactly what customers get.
 func (b *Bot) Answer(ctx context.Context, acct, inbox int64, history []memory.Turn) (llm.Result, []knowledge.Hit, error) {
-	return b.answer(ctx, b.opts.Logger.With("account_id", acct), acct, inbox, history)
+	return b.answer(ctx, b.opts.Logger.With("account_id", acct), acct, inbox, history, &trace.Turn{})
 }
 
-func (b *Bot) answer(ctx context.Context, log *slog.Logger, acct, inbox int64, history []memory.Turn) (llm.Result, []knowledge.Hit, error) {
+// answer fills tr's rewrite, search and generation steps as it goes.
+func (b *Bot) answer(ctx context.Context, log *slog.Logger, acct, inbox int64, history []memory.Turn, tr *trace.Turn) (llm.Result, []knowledge.Hit, error) {
 	messages := []llm.Message{{Role: "system", Content: b.systemPrompt(ctx, log, acct)}}
 	var hits []knowledge.Hit
 	if b.opts.Knowledge != nil {
+		queries := b.searchQueries(ctx, log, history, tr)
+		step := &trace.Step{Start: time.Now()}
 		var err error
-		hits, err = b.opts.Knowledge.Retrieve(ctx, acct, inbox, b.searchQueries(ctx, log, history)...)
+		hits, err = b.opts.Knowledge.Retrieve(ctx, acct, inbox, queries...)
+		step.End, step.Output = time.Now(), hitSummary(hits)
 		if err != nil {
 			log.Error("knowledge retrieval failed", "error", err)
+			step.Err = "knowledge retrieval failed"
 		}
+		tr.Search = step
 		messages = append(messages, llm.Message{Role: "system", Content: knowledgePrompt(hits, err)})
 	}
 	for _, t := range history {
 		messages = append(messages, llm.Message{Role: t.Role, Content: t.Content})
 	}
+	gen := &trace.Generation{Step: trace.Step{Start: time.Now()}}
 	res, err := b.opts.LLM.Complete(ctx, messages)
+	gen.End, gen.Model, gen.UsedFallback = time.Now(), res.Model, res.UsedFallback
+	gen.InputTokens, gen.OutputTokens = res.PromptTokens, res.CompletionTokens
+	if err != nil {
+		gen.Err = "chat model failed"
+	}
+	tr.Generation = gen
 	return res, hits, err
+}
+
+// hitSummary lists retrieved titles and scores (business content, no chunk text).
+func hitSummary(hits []knowledge.Hit) string {
+	lines := make([]string, len(hits))
+	for i, h := range hits {
+		lines[i] = fmt.Sprintf("%s (%.2f)", h.Title, h.Score)
+	}
+	return strings.Join(lines, "\n")
 }
 
 // searchQueries is the customer's own wording plus, when a rewriter is set,
 // a stand-alone Thai and English query. A failed rewrite only loses the extras.
-func (b *Bot) searchQueries(ctx context.Context, log *slog.Logger, history []memory.Turn) []string {
+func (b *Bot) searchQueries(ctx context.Context, log *slog.Logger, history []memory.Turn, tr *trace.Turn) []string {
 	queries := retrievalQueries(history)
 	if b.opts.Rewriter == nil || len(queries) == 0 {
 		return queries
 	}
 	started := time.Now()
 	extra, err := b.opts.Rewriter.Rewrite(ctx, history)
+	tr.Rewrite = &trace.Step{Start: started, End: time.Now(), Output: strings.Join(extra, "\n")}
 	if err != nil {
+		tr.Rewrite.Err = "query rewrite failed"
 		log.Warn("query rewrite failed", "error", err, "latency_ms", time.Since(started).Milliseconds())
 		return queries
 	}

@@ -1,0 +1,100 @@
+package trace
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestRedactMasksPersonalData(t *testing.T) {
+	cases := map[string]struct{ in, want string }{
+		"email":              {"ส่งมาที่ somchai.k@gmail.com นะคะ", "ส่งมาที่ [EMAIL] นะคะ"},
+		"thai mobile":        {"เบอร์ 0812345678 ค่ะ", "เบอร์ [PHONE] ค่ะ"},
+		"mobile with dashes": {"โทร 081-234-5678", "โทร [PHONE]"},
+		"mobile +66":         {"call +66 81 234 5678", "call [PHONE]"},
+		"landline":           {"02-123-4567", "[PHONE]"},
+		"thai national id":   {"บัตร 1-2345-67890-12-3", "บัตร [ID]"},
+		"id no dashes":       {"เลขบัตร 1234567890123", "เลขบัตร [ID]"},
+		"card number":        {"บัตร 4111 1111 1111 1111 ค่ะ", "บัตร [CARD] ค่ะ"},
+		"bank account":       {"โอนเข้า 123-4-56789-0 กสิกร", "โอนเข้า [ACCOUNT] กสิกร"},
+		"line id":            {"แอดไลน์ผม line id: somchai_99 ครับ", "แอดไลน์ผม line id: [LINE] ครับ"},
+		"thai line id":       {"ไอดีไลน์ somchai99", "ไอดีไลน์ [LINE]"},
+		"phone 2-4-4 groups": {"โทร 08 1234 5678 นะ", "โทร [PHONE] นะ"},
+		"phone with dots":    {"081.234.5678", "[PHONE]"},
+		"long digit run":     {"เลขพัสดุ 1234 5678 9012", "เลขพัสดุ [NUMBER]"},
+		"+66 no spaces":      {"+66812345678", "[PHONE]"},
+		"66 without plus":    {"66812345678", "[PHONE]"},
+		"(+66) brackets":     {"(+66) 81 234 5678", "[PHONE]"},
+		"thai digits phone":  {"เบอร์ ๐๘๑๒๓๔๕๖๗๘", "เบอร์ [PHONE]"},
+		"thai digits id":     {"๑๒๓๔๕๖๗๘๙๐๑๒๓", "[ID]"},
+		"fullwidth phone":    {"０８１２３４５６７８", "[PHONE]"},
+		"account spaces":     {"บัญชี 123 4 56789 0", "บัญชี [ACCOUNT]"},
+		"line colon":         {"ไลน์: somchai99", "ไลน์: [LINE]"},
+		"LINE colon":         {"LINE: somchai99", "LINE: [LINE]"},
+		"add line":           {"แอดไลน์ somchai99 นะ", "แอดไลน์ [LINE] นะ"},
+		"line at handle":     {"line @somchai99", "line [LINE]"},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			// Act
+			got := Redact(c.in)
+
+			// Assert
+			if got != c.want {
+				t.Errorf("Redact(%q) = %q, want %q", c.in, got, c.want)
+			}
+		})
+	}
+}
+
+func TestRedactKeepsBusinessFacts(t *testing.T) {
+	// Arrange: prices, dates, percentages and the shop's own LINE OA are not personal.
+	in := "ราคา 3,900 บาท ผ่อน 3 เดือน 1,300 บาท ถึง 30 พฤศจิกายน 2569 ดูได้ 20% ทัก LINE Official @johnstockerai"
+
+	// Act
+	got := Redact(in)
+
+	// Assert
+	if got != in {
+		t.Errorf("Redact changed business text:\n got %q\nwant %q", got, in)
+	}
+}
+
+func TestPseudonymIsStableAndKeyed(t *testing.T) {
+	// Arrange
+	k1, k2 := []byte("key-one"), []byte("key-two")
+
+	// Act
+	a, b := Pseudonym(k1, "contact", 1, 42), Pseudonym(k1, "contact", 1, 42)
+	otherKind, otherKey := Pseudonym(k1, "conversation", 1, 42), Pseudonym(k2, "contact", 1, 42)
+	otherAccount := Pseudonym(k1, "contact", 2, 42)
+
+	// Assert
+	if a != b || len(a) != 16 {
+		t.Fatalf("Pseudonym not stable or wrong length: %q %q", a, b)
+	}
+	if a == otherKind || a == otherKey {
+		t.Error("kind and key must change the pseudonym")
+	}
+	if a == otherAccount {
+		t.Error("the same id in another account must get another pseudonym")
+	}
+	if strings.Contains(a, "42") && len(a) < 4 {
+		t.Error("pseudonym must not reveal the id")
+	}
+}
+
+func TestPseudonymKeyIsNotTheLangfuseSecret(t *testing.T) {
+	// Arrange: Langfuse knows its own secret key, so it must not be the HMAC key.
+	webhookSecret, langfuseSecret := "chatwoot-webhook-secret", "sk-lf-2"
+
+	// Act
+	k := PseudonymKey(webhookSecret)
+
+	// Assert
+	if string(k) == langfuseSecret || string(k) == webhookSecret || len(k) != 32 {
+		t.Fatalf("PseudonymKey must be a derived 32-byte key, got %d bytes", len(k))
+	}
+	if Pseudonym(k, "contact", 1, 9) == Pseudonym([]byte(langfuseSecret), "contact", 1, 9) {
+		t.Error("pseudonyms must not be reproducible with the Langfuse secret")
+	}
+}

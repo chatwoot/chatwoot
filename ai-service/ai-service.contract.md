@@ -48,6 +48,11 @@ owner: John
 - Handoff keywords are request phrases, not bare words for staff.
 - `answer-eval` CLI: multi-turn cases, hard rules + LLM judge.
 
+## Scope (phase 3, slice 3)
+
+- Langfuse tracing over OTLP/HTTP JSON (stdlib): one trace per customer
+  message, personal data redacted, ids pseudonymised, `TRACE_TEXT=off` option.
+
 ## Exclusions (later phases)
 
 - Phase 3 next slices: PDF/DOCX upload; website crawl with scheduled re-crawl;
@@ -103,6 +108,12 @@ TEST_DATABASE_URL=postgres://...@localhost:5432/ai_service_test go test -count=1
 ```
 
 ## Evidence
+
+Phase 3 slice 3, 2026-11-07: unit tests for redaction (11 personal-data shapes
+masked, prices/dates/shop LINE OA kept), OTLP encoding, batching, non-blocking
+drop, `TRACE_TEXT=off`; live export to Langfuse JP returned four nested
+observations (agent, chain, retriever, generation with model and usage) with
+the phone number shown as `[PHONE]` and pseudonymous session and user ids.
 
 Phase 3 slice 2, 2026-11-07, production knowledge base (account 1, AutoCut;
 buying and refund facts are mock data), `answer-eval` on 22 conversations,
