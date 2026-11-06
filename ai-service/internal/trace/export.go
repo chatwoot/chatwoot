@@ -51,17 +51,20 @@ type Turn struct {
 // Config sets up an Exporter.
 type Config struct {
 	BaseURL, PublicKey, SecretKey string
-	Text                          string // TextRedacted (default) or TextOff
-	Environment                   string
-	Buffer, BatchSize             int           // defaults 256 and 20
-	FlushEvery                    time.Duration // default 5s
+	// PseudonymKey hashes ids (see PseudonymKey). Empty: a random per-process
+	// key, so ids stay unlinkable but sessions split across restarts.
+	PseudonymKey      []byte
+	Text              string // TextRedacted (default) or TextOff
+	Environment       string
+	Buffer, BatchSize int           // defaults 256 and 20
+	FlushEvery        time.Duration // default 5s
 }
 
 // Exporter sends turns to Langfuse in the background. Record never blocks:
 // when the buffer is full the turn is dropped and counted, so tracing can
 // never slow down or stop a customer reply. A nil *Exporter does nothing.
 type Exporter struct {
-	Key         []byte // pseudonym key (the Langfuse secret key)
+	Key         []byte // pseudonym key; never the Langfuse secret key
 	Text        string
 	Environment string
 
@@ -81,7 +84,7 @@ type Exporter struct {
 func NewExporter(c Config, logger *slog.Logger) *Exporter {
 	base := strings.TrimRight(c.BaseURL, "/")
 	e := &Exporter{
-		Key: []byte(c.SecretKey), Text: c.Text, Environment: c.Environment,
+		Key: c.PseudonymKey, Text: c.Text, Environment: c.Environment,
 		endpoint: base + "/api/public/otel/v1/traces",
 		auth:     "Basic " + basic(c.PublicKey, c.SecretKey),
 		client:   &http.Client{Timeout: 10 * time.Second},
@@ -93,6 +96,10 @@ func NewExporter(c Config, logger *slog.Logger) *Exporter {
 	}
 	if u, err := url.Parse(base); err == nil {
 		e.host = u.Host
+	}
+	if len(e.Key) == 0 {
+		e.Key = make([]byte, 32)
+		_, _ = rand.Read(e.Key)
 	}
 	if e.every == 0 {
 		e.every = 5 * time.Second

@@ -83,7 +83,8 @@ func run() error {
 	if cfg.TracingEnabled() {
 		exporter = trace.NewExporter(trace.Config{
 			BaseURL: cfg.LangfuseBaseURL, PublicKey: cfg.LangfusePublicKey, SecretKey: cfg.LangfuseSecretKey,
-			Text: cfg.TraceText, Environment: cfg.TraceEnvironment,
+			PseudonymKey: trace.PseudonymKey(cfg.WebhookSecret),
+			Text:         cfg.TraceText, Environment: cfg.TraceEnvironment,
 		}, logger)
 		tracer = exporter
 		logger.Info("langfuse tracing on", "host", hostOf(cfg.LangfuseBaseURL), "text", cfg.TraceText)

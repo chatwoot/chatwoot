@@ -169,7 +169,9 @@ buffer drops turns instead of delaying replies.
 Before anything leaves the server, emails, phone numbers, Thai national IDs,
 card and bank account numbers and labelled LINE IDs are masked, and contact
 and conversation ids become keyed hashes (`langfuse.user.id`,
-`langfuse.session.id`). `TRACE_TEXT=off` sends no chat text at all.
+`langfuse.session.id`) with a key derived from the Chatwoot webhook secret,
+which Langfuse never sees. Redaction is best effort: names and street
+addresses are not detected. `TRACE_TEXT=off` sends no chat text at all.
 `TRACE_ENVIRONMENT` (default `production`) tags the traces. To send one sample
 trace from your machine: `LANGFUSE_LIVE=1 go test -run Live ./internal/trace`.
 

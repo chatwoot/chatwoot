@@ -183,7 +183,7 @@ func TestExporterSendsBatchesWithAuthAndFlushesOnClose(t *testing.T) {
 	col := &collector{}
 	srv := httptest.NewServer(col)
 	defer srv.Close()
-	e := NewExporter(Config{BaseURL: srv.URL, PublicKey: "pk-lf-1", SecretKey: "sk-lf-2", Text: TextRedacted,
+	e := NewExporter(Config{BaseURL: srv.URL, PublicKey: "pk-lf-1", SecretKey: "sk-lf-2", PseudonymKey: PseudonymKey("w"), Text: TextRedacted,
 		FlushEvery: time.Hour, BatchSize: 10}, slog.New(slog.NewJSONHandler(io.Discard, nil)))
 
 	// Act
@@ -246,4 +246,16 @@ func TestNilExporterIsANoOp(t *testing.T) {
 	// Act + Assert: tracing off must not need nil checks at call sites.
 	e.Record(sampleTurn())
 	e.Close()
+}
+
+func TestNewExporterUsesThePseudonymKeyNotTheSecret(t *testing.T) {
+	// Arrange + Act
+	e := NewExporter(Config{BaseURL: "http://127.0.0.1:9", PublicKey: "p", SecretKey: "sk-lf-2", PseudonymKey: PseudonymKey("w")},
+		slog.New(slog.NewJSONHandler(io.Discard, nil)))
+	defer e.Close()
+
+	// Assert
+	if string(e.Key) == "sk-lf-2" {
+		t.Fatal("the Langfuse secret key must not be the pseudonym key")
+	}
 }

@@ -18,6 +18,10 @@ func TestRedactMasksPersonalData(t *testing.T) {
 		"bank account":       {"โอนเข้า 123-4-56789-0 กสิกร", "โอนเข้า [ACCOUNT] กสิกร"},
 		"line id":            {"แอดไลน์ผม line id: somchai_99 ครับ", "แอดไลน์ผม line id: [LINE] ครับ"},
 		"thai line id":       {"ไอดีไลน์ somchai99", "ไอดีไลน์ [LINE]"},
+		"phone 2-4-4 groups": {"โทร 08 1234 5678 นะ", "โทร [PHONE] นะ"},
+		"phone with dots":    {"081.234.5678", "[PHONE]"},
+		"long digit run":     {"เลขพัสดุ 1234 5678 9012", "เลขพัสดุ [NUMBER]"},
+		"+66 no spaces":      {"+66812345678", "[PHONE]"},
 	}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -62,5 +66,21 @@ func TestPseudonymIsStableAndKeyed(t *testing.T) {
 	}
 	if strings.Contains(a, "42") && len(a) < 4 {
 		t.Error("pseudonym must not reveal the id")
+	}
+}
+
+func TestPseudonymKeyIsNotTheLangfuseSecret(t *testing.T) {
+	// Arrange: Langfuse knows its own secret key, so it must not be the HMAC key.
+	webhookSecret, langfuseSecret := "chatwoot-webhook-secret", "sk-lf-2"
+
+	// Act
+	k := PseudonymKey(webhookSecret)
+
+	// Assert
+	if string(k) == langfuseSecret || string(k) == webhookSecret || len(k) != 32 {
+		t.Fatalf("PseudonymKey must be a derived 32-byte key, got %d bytes", len(k))
+	}
+	if Pseudonym(k, "contact", 9) == Pseudonym([]byte(langfuseSecret), "contact", 9) {
+		t.Error("pseudonyms must not be reproducible with the Langfuse secret")
 	}
 }
