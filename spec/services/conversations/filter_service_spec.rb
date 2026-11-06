@@ -134,6 +134,31 @@ describe Conversations::FilterService do
         expect(result[:conversations].pluck(:id)).to include(high_priority.id, urgent_priority.id)
       end
 
+      it 'filter conversations by status unread' do
+        unread_conversation = create(:conversation, account: account, inbox: inbox, agent_last_seen_at: 1.hour.ago)
+        read_conversation = create(:conversation, account: account, inbox: inbox, agent_last_seen_at: 1.minute.from_now)
+        create(:message, account: account, inbox: inbox, conversation: unread_conversation,
+                         message_type: :incoming, created_at: 5.minutes.ago)
+        create(:message, account: account, inbox: inbox, conversation: read_conversation,
+                         message_type: :incoming, created_at: 5.minutes.ago)
+
+        params[:payload] = [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['unread'],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, user_1, account).perform
+        conversation_ids = result[:conversations].map(&:id)
+
+        expect(conversation_ids).to include(unread_conversation.id)
+        expect(conversation_ids).not_to include(read_conversation.id)
+      end
+
       it 'filter conversations with not_equal_to priority operator' do
         create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :high)
         create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :urgent)

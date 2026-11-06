@@ -144,8 +144,13 @@ class ConversationFinder
 
   def filter_by_status
     return if params[:status] == 'all'
+    return filter_by_unread if params[:status] == 'unread'
 
     @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
+  end
+
+  def filter_by_unread
+    @conversations = @conversations.where(Conversation.unread_messages_count_arel.gt(0))
   end
 
   def filter_by_team
