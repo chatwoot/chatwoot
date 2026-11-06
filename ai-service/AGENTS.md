@@ -165,8 +165,10 @@ and docs skip this; their tests are the check.
 `.claude/settings.json` runs `.claude/hooks/guard.py` before tool calls. It
 blocks pushes to `develop`, plain `--force`, `--no-verify`, any access to
 `enterprise/`, edits to Chatwoot files outside our paths, and setting
-`SAFE_FETCH_ALLOW_PRIVATE_NETWORK`. A block is a rule, not an obstacle: never
-route around it (for example with shell redirection). Tests:
+`SAFE_FETCH_ALLOW_PRIVATE_NETWORK`. It also guards itself: agents cannot edit
+`.claude/hooks/` or `.claude/settings*.json`; the owner changes those by hand.
+A block is a rule, not an obstacle: never route around it. It is a guard
+rail, not a sandbox. Tests:
 `python3 -m unittest discover -s .claude/hooks`.
 
 Keep this file under 200 lines. Point to other files instead of restating them.

@@ -9,14 +9,20 @@ Enforces the hard rules in ai-service/AGENTS.md instead of trusting the text:
 4. Never edit Chatwoot's own files: in the fork, writes are allowed only under
    `ai-service/` and to `.github/workflows/ai-service.yml`.
 5. Never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.
+6. The guard protects itself: no agent edits to .claude/hooks/ or
+   .claude/settings*.json; the owner changes those by hand.
+
+It also unwraps `env`, `VAR=1`, `nohup` and `sh -c '...'`, and refuses
+`git -c core.hooksPath` / `-c alias.*` and `push --all/--mirror`.
 
 Claude Code sends the tool call as JSON on stdin. Exit code 2 blocks the call
 and shows stderr to the model; exit 0 lets it through. Anything the guard
 cannot parse is let through, so a bug here never blocks ordinary work.
 
-Limits: shell redirections or `sed -i` on Chatwoot files, and recursive
-searches that happen to walk enterprise/, are not detected; review still
-applies. Run the tests with
+This is a guard rail, not a sandbox. A determined script (eval, a heredoc fed
+to an interpreter, `sed -i` on Chatwoot files, a recursive search walking
+enterprise/) can still get past it. The real control for `develop` is GitHub
+branch protection; review still applies. Run the tests with
 `python3 -m unittest discover -s ai-service/.claude/hooks`.
 """
 
@@ -36,10 +42,19 @@ WRITE_TOOLS = ("Edit", "Write", "MultiEdit", "NotebookEdit")
 READ_TOOLS = ("Read", "Grep", "Glob")
 
 SAFE_FETCH = re.compile(
-    r"SAFE_FETCH_ALLOW_PRIVATE_NETWORK['\"]?\s*[:=]\s*['\"]?(true|1|yes|on)\b",
+    r"SAFE_FETCH_ALLOW_PRIVATE_NETWORK(\\*['\"])?\s*[:=]\s*(\\*['\"])?(true|1|yes|on)\b",
     re.IGNORECASE,
 )
-ENTERPRISE_PATH = re.compile(r"^(\./)?enterprise(/|$)")
+ENTERPRISE_PATH = re.compile(r"^(\./)?enterprise(/|$)", re.IGNORECASE)
+# The guard protects itself: changing it needs the owner, outside an agent session.
+GUARD_FILES = ("ai-service/.claude/hooks/", "ai-service/.claude/settings")
+GUARD_MENTION = re.compile(r"guard\.py|\.claude/hooks|\.claude/settings")
+SHELL_WRITE = re.compile(
+    r">|\btee\b|\bsed\s+-[a-zA-Z]*i|\bperl\s+-[a-zA-Z]*i|\b(mv|cp|rm|ln|chmod|truncate|install|rsync|dd)\b|python3?\s+-c"
+)
+WRAPPERS = {"env", "command", "exec", "nohup", "time", "sudo", "nice", "xargs"}
+SHELLS = {"sh", "bash", "zsh", "dash"}
+GIT_CONFIG_BLOCKED = ("core.hookspath", "alias.")
 FILE_COMMANDS = {
     "cat", "less", "more", "head", "tail", "cp", "mv", "rsync", "sed", "awk",
     "grep", "rg", "ls", "find", "vim", "vi", "nano", "open", "code", "tar", "zip",
@@ -99,7 +114,24 @@ def in_fork(directory):
 
 
 def is_enterprise(rel):
+    rel = rel.lower()
     return rel == "enterprise" or rel.startswith("enterprise/")
+
+
+def is_guard_file(rel):
+    return rel.startswith(GUARD_FILES)
+
+
+def string_values(value):
+    """Every string inside a tool input, decoded (no JSON escaping)."""
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for item in value.values():
+            yield from string_values(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from string_values(item)
 
 
 def check_write(file_path):
@@ -108,6 +140,8 @@ def check_write(file_path):
         return
     if is_enterprise(rel):
         block("never open, copy or edit enterprise/ (separate licence).")
+    if is_guard_file(rel):
+        block("the guard and its settings change only by the owner's hand, not from an agent session.")
     if rel.startswith(ALLOWED_PREFIXES) or rel in ALLOWED_FILES:
         return
     block(
@@ -124,7 +158,7 @@ def check_read(tool_input):
             if rel is not None and is_enterprise(rel):
                 block("never open enterprise/ (separate licence).")
     pattern = tool_input.get("pattern", "")
-    if tool_input.get("path") is None and pattern.startswith("enterprise/"):
+    if tool_input.get("path") is None and ENTERPRISE_PATH.match(pattern):
         block("never open enterprise/ (separate licence).")
 
 
@@ -149,6 +183,28 @@ def effective_cwd(command, cwd):
     return cwd
 
 
+def unwrap(words):
+    """Drop `env VAR=1`, `nohup`, `VAR=1` and similar prefixes before the real command."""
+    while words:
+        head = os.path.basename(words[0])
+        if head in WRAPPERS or re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", words[0]):
+            words = words[1:]
+            while words and (words[0].startswith("-") or re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", words[0])):
+                words = words[1:]
+            continue
+        return words
+    return words
+
+
+def nested_script(words):
+    """The script of `sh -c '...'` (and bash/zsh), or None."""
+    if words and os.path.basename(words[0]) in SHELLS and "-c" in words:
+        index = words.index("-c")
+        if index + 1 < len(words):
+            return words[index + 1]
+    return None
+
+
 def git_subcommand(words):
     """Return (repo_dir_or_None, subcommand, args) for a git invocation."""
     if not words or os.path.basename(words[0]) != "git":
@@ -161,6 +217,8 @@ def git_subcommand(words):
             repo = words[i + 1]
             i += 2
         elif word == "-c" and i + 1 < len(words):
+            if words[i + 1].lower().startswith(GIT_CONFIG_BLOCKED):
+                block("no git -c core.hooksPath or alias overrides; they bypass hooks and this guard.")
             i += 2
         elif word.startswith("-"):
             i += 1
@@ -170,12 +228,14 @@ def git_subcommand(words):
 
 
 def check_push(args, repo_dir):
+    if "--all" in args or "--mirror" in args:
+        block("no push --all/--mirror; push one feature branch.")
     for arg in args:
         if arg in ("--force", "-f") or (arg.startswith("-") and not arg.startswith("--") and "f" in arg[1:]):
             block("never plain --force; use --force-with-lease on your own branch.")
     refspecs = [a for a in args if not a.startswith("-")]
     for ref in refspecs[1:]:
-        dest = ref.split(":")[-1].lstrip("+")
+        dest = ref.split(":")[-1].strip("'\"").lstrip("+")
         dest = dest.removeprefix("refs/heads/")
         if dest in PROTECTED_BRANCHES:
             block(f"never push to {dest}; push a feature branch and open a PR.")
@@ -185,15 +245,21 @@ def check_push(args, repo_dir):
             block(f"current branch is {branch}; push a feature branch and open a PR.")
 
 
-def check_bash(command, cwd):
+def check_bash(command, cwd, depth=0):
     if SAFE_FETCH.search(command):
         block("never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.")
+    if GUARD_MENTION.search(command) and SHELL_WRITE.search(command):
+        block("the guard and its settings change only by the owner's hand, not from an agent session.")
     base = effective_cwd(command, cwd)
     for part in split_commands(command):
-        words = tokens(part)
+        words = unwrap(tokens(part))
+        script = nested_script(words)
+        if script is not None and depth < 3:
+            check_bash(script, base, depth + 1)
+            continue
         if words and os.path.basename(words[0]) in FILE_COMMANDS:
             for word in words[1:]:
-                if word.startswith("-") or "enterprise" not in word:
+                if word.startswith("-") or "enterprise" not in word.lower():
                     continue
                 path = os.path.expanduser(word)
                 path = path if os.path.isabs(path) else os.path.join(base, path)
@@ -220,7 +286,7 @@ def main():
     tool_input = event.get("tool_input") or {}
     cwd = event.get("cwd") or os.getcwd()
 
-    if SAFE_FETCH.search(json.dumps(tool_input)):
+    if any(SAFE_FETCH.search(text) for text in string_values(tool_input)):
         block("never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.")
     if tool == "Bash":
         check_bash(tool_input.get("command", ""), cwd)

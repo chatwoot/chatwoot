@@ -154,6 +154,69 @@ class SafeFetchTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
 
 
+class BypassTests(unittest.TestCase):
+    """Findings from the security review of PR #11."""
+
+    def test_escaped_quotes_in_json_still_blocked(self):
+        # Arrange: the value sits behind an escaped quote once JSON-encoded
+        content = 'env:\n  "SAFE_FETCH_ALLOW_PRIVATE_NETWORK": "' + "true" + '"\n'
+        path = os.path.join(FORK_ROOT, "ai-service", "deploy", "x.json")
+        # Act
+        result = run_guard("Write", {"file_path": path, "content": content})
+        # Assert
+        self.assertEqual(result.returncode, 2)
+
+    def test_nested_edit_value_is_blocked(self):
+        path = os.path.join(FORK_ROOT, "ai-service", "deploy", "x.env")
+        edits = [{"old_string": "a", "new_string": SAFE_FETCH_ON}]
+        result = run_guard("MultiEdit", {"file_path": path, "edits": edits})
+        self.assertEqual(result.returncode, 2)
+
+    def test_editing_the_guard_is_blocked(self):
+        result = run_guard("Edit", {"file_path": GUARD, "old_string": "a", "new_string": "b"})
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("guard", result.stderr)
+
+    def test_editing_settings_is_blocked(self):
+        path = os.path.join(FORK_ROOT, "ai-service", ".claude", "settings.json")
+        result = run_guard("Write", {"file_path": path, "content": "{}"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_shell_overwrite_of_guard_is_blocked(self):
+        result = run_guard("Bash", {"command": "echo pass > ai-service/.claude/hooks/guard.py"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_running_the_guard_tests_is_allowed(self):
+        result = run_guard("Bash", {"command": "python3 -m unittest discover -s .claude/hooks"})
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_push_all_and_mirror_are_blocked(self):
+        for flag in ("--all", "--mirror"):
+            result = run_guard("Bash", {"command": f"git push {flag} origin"})
+            self.assertEqual(result.returncode, 2, flag)
+
+    def test_hooks_path_override_is_blocked(self):
+        result = run_guard("Bash", {"command": "git -c core.hooksPath=/dev/null commit -m x"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_alias_override_is_blocked(self):
+        result = run_guard("Bash", {"command": "git -c alias.p='push origin develop' p"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_push_inside_sh_c_is_blocked(self):
+        result = run_guard("Bash", {"command": "sh -c 'git push origin develop'"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_push_behind_env_is_blocked(self):
+        result = run_guard("Bash", {"command": "env GIT_TRACE=1 git push origin develop"})
+        self.assertEqual(result.returncode, 2)
+
+    def test_enterprise_in_other_case_is_blocked(self):
+        path = os.path.join(FORK_ROOT, "Enterprise", "LICENSE")
+        result = run_guard("Read", {"file_path": path})
+        self.assertEqual(result.returncode, 2)
+
+
 class RobustnessTests(unittest.TestCase):
     def test_garbage_input_is_let_through(self):
         result = subprocess.run([sys.executable, GUARD], input="not json", capture_output=True, text=True)
