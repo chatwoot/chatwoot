@@ -11,7 +11,13 @@ export class DataManager {
   async initDb() {
     if (this.db) return this.db;
     const dbName = `cw-store-${this.accountId}`;
-    this.db = await openDB(`cw-store-${this.accountId}`, DATA_VERSION, {
+
+    let rejectBlocked;
+    const blockedByAnotherTab = new Promise((_, reject) => {
+      rejectBlocked = reject;
+    });
+
+    const opening = openDB(dbName, DATA_VERSION, {
       upgrade(db, oldVersion, _newVersion, transaction) {
         const shouldInvalidateInboxCache =
           oldVersion > 0 && oldVersion < INBOX_CACHE_INVALIDATION_VERSION;
@@ -34,7 +40,40 @@ export class DataManager {
         createStore('team', { keyPath: 'id' });
         createStore('canned_response', { keyPath: 'id' });
       },
+      // Another tab still holds this database at an older version and never
+      // closes its connection (a tab left open across a deploy). A blocked
+      // open neither resolves nor rejects, so awaiting it would stall the
+      // caller forever; reject instead, and callers such as
+      // CacheEnabledApiClient fall back to the network on a rejected initDb.
+      blocked() {
+        rejectBlocked(
+          new Error(
+            `Opening ${dbName} is blocked by another tab holding an older version`
+          )
+        );
+      },
+      // A newer tab is waiting to upgrade and this connection is in its way:
+      // close it so that upgrade can proceed instead of stalling that tab
+      // the same way.
+      blocking() {
+        opening.then(db => db.close());
+      },
     });
+
+    try {
+      this.db = await Promise.race([opening, blockedByAnotherTab]);
+    } catch (error) {
+      // A blocked open stays pending in the background; if the other tab
+      // eventually closes and it goes through, close that connection again.
+      // Nothing adopted it, and leaving it open would block the next upgrade.
+      opening.then(
+        db => {
+          if (this.db !== db) db.close();
+        },
+        () => {}
+      );
+      throw error;
+    }
 
     // Store the database name in LocalStorage
     const dbNames = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
