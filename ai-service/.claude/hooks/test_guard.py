@@ -298,6 +298,17 @@ class ThirdReviewTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
 
 
+class RedirectTests(unittest.TestCase):
+    def test_fd_redirects_to_guard_files_are_blocked(self):
+        for command in (
+            "echo x 1> ai-service/.claude/hooks/guard.py",
+            "echo x &> .git/config",
+            "echo x >& ai-service/.claude/settings.json",
+        ):
+            result = run_guard("Bash", {"command": command})
+            self.assertEqual(result.returncode, 2, command)
+
+
 class RobustnessTests(unittest.TestCase):
     def test_garbage_input_is_let_through(self):
         result = subprocess.run([sys.executable, GUARD], input="not json", capture_output=True, text=True)

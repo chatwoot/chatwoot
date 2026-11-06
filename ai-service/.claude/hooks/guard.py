@@ -50,7 +50,7 @@ ENTERPRISE_PATH = re.compile(r"^(\./)?enterprise(/|$)", re.IGNORECASE)
 GUARD_FILES = ("ai-service/.claude/hooks/", "ai-service/.claude/settings")
 GUARD_MENTION = re.compile(r"guard\.py|\.claude/hooks|\.claude/settings", re.IGNORECASE)
 SHELL_WRITE = re.compile(
-    r"(?<![0-9&])>(?!&)|\btee\b|\bsed\s+-[a-zA-Z]*i|\bperl\s+-[a-zA-Z]*i|\b(mv|cp|rm|ln|chmod|truncate|install|rsync|dd)\b|python3?\s+-c"
+    r">|\btee\b|\bsed\s+-[a-zA-Z]*i|\bperl\s+-[a-zA-Z]*i|\b(mv|cp|rm|ln|chmod|truncate|install|rsync|dd)\b|python3?\s+-c"
 )
 WRAPPERS = {"env", "command", "exec", "nohup", "time", "sudo", "nice", "xargs"}
 SHELLS = {"sh", "bash", "zsh", "dash"}
@@ -260,17 +260,25 @@ def check_push(args, repo_dir):
             block(f"current branch is {branch}; push a feature branch and open a PR.")
 
 
+FD_DUPLICATION = re.compile(r"[0-9]*[<>]&[0-9-]+")
+
+
+def shell_writes(command):
+    """True when the command may write a file; `2>&1`-style fd duplication is not a write."""
+    return bool(SHELL_WRITE.search(FD_DUPLICATION.sub("", command)))
+
+
 def check_bash(command, cwd, depth=0):
     if SAFE_FETCH.search(command):
         block("never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.")
-    if GUARD_MENTION.search(command) and SHELL_WRITE.search(command):
+    if GUARD_MENTION.search(command) and shell_writes(command):
         block("the guard and its settings change only by the owner's hand, not from an agent session.")
     if GIT_CONFIG_FILE_ENV.search(command):
         block("no GIT_CONFIG/GIT_CONFIG_GLOBAL/SYSTEM/PARAMETERS overrides.")
-    if GIT_CONFIG_FILE.search(command) and SHELL_WRITE.search(command):
+    if GIT_CONFIG_FILE.search(command) and shell_writes(command):
         block("no shell writes to .git/config.")
     claude_dir = os.path.realpath(os.path.join(effective_cwd(command, cwd)))
-    if "/ai-service/.claude" in claude_dir.lower() and SHELL_WRITE.search(command):
+    if "/ai-service/.claude" in claude_dir.lower() and shell_writes(command):
         block("no shell writes from inside ai-service/.claude; the owner changes it by hand.")
     lowered = command.lower()
     if GIT_CONFIG_ENV.search(command) and any(key in lowered for key in GIT_CONFIG_BLOCKED):
