@@ -226,6 +226,7 @@ const handleSubmit = async () => {
         <OnboardingFormRow
           :title="t('ONBOARDING_NEXT.FIELDS.EMAIL')"
           icon="i-lucide-mail"
+          :is-label="false"
         >
           <div class="flex items-center justify-end gap-1.5">
             <span class="text-sm text-n-slate-12">{{ userEmail }}</span>
@@ -237,10 +238,12 @@ const handleSubmit = async () => {
           </div>
         </OnboardingFormRow>
         <OnboardingFormRow
+          v-slot="{ id }"
           :title="t('ONBOARDING_NEXT.FIELDS.YOUR_ROLE')"
           icon="i-lucide-user"
         >
           <OnboardingFormSelect
+            :id="id"
             v-model="userRole"
             :has-error="showErrorOnFields && v$.userRole.$error"
             :options="USER_ROLE_OPTIONS"
@@ -275,11 +278,13 @@ const handleSubmit = async () => {
             </span>
           </div>
           <OnboardingFormRow
+            v-slot="{ id }"
             :title="t('ONBOARDING_NEXT.FIELDS.WEBSITE')"
             icon="i-lucide-globe"
           >
             <div class="flex items-center justify-end gap-2">
               <InlineInput
+                :id="id"
                 ref="websiteInput"
                 v-model="website"
                 :readonly="!isEditingWebsite"
@@ -294,6 +299,7 @@ const handleSubmit = async () => {
               <NextButton
                 type="button"
                 icon="i-lucide-pencil"
+                :aria-label="t('ONBOARDING_NEXT.EDIT_WEBSITE')"
                 slate
                 xs
                 ghost
@@ -302,20 +308,24 @@ const handleSubmit = async () => {
             </div>
           </OnboardingFormRow>
           <OnboardingFormRow
+            v-slot="{ id }"
             :title="t('ONBOARDING_NEXT.FIELDS.LANGUAGE')"
             icon="i-lucide-languages"
           >
             <OnboardingFormSelect
+              :id="id"
               v-model="locale"
               :has-error="showErrorOnFields && v$.locale.$error"
               :options="languageOptions"
             />
           </OnboardingFormRow>
           <OnboardingFormRow
+            v-slot="{ id }"
             :title="t('ONBOARDING_NEXT.FIELDS.TIMEZONE')"
             icon="i-lucide-clock"
           >
             <OnboardingFormSelect
+              :id="id"
               v-model="timezone"
               :has-error="showErrorOnFields && v$.timezone.$error"
               :options="timezoneOptions"
@@ -323,10 +333,12 @@ const handleSubmit = async () => {
             />
           </OnboardingFormRow>
           <OnboardingFormRow
+            v-slot="{ id }"
             :title="t('ONBOARDING_NEXT.FIELDS.INDUSTRY')"
             icon="i-lucide-factory"
           >
             <OnboardingFormSelect
+              :id="id"
               v-model="industry"
               :has-error="showErrorOnFields && v$.industry.$error"
               :options="INDUSTRY_OPTIONS"
@@ -334,10 +346,12 @@ const handleSubmit = async () => {
             />
           </OnboardingFormRow>
           <OnboardingFormRow
+            v-slot="{ id }"
             :title="t('ONBOARDING_NEXT.FIELDS.COMPANY_SIZE')"
             icon="i-lucide-users"
           >
             <OnboardingFormSelect
+              :id="id"
               v-model="companySize"
               :has-error="showErrorOnFields && v$.companySize.$error"
               :options="COMPANY_SIZE_OPTIONS"
@@ -347,10 +361,12 @@ const handleSubmit = async () => {
             />
           </OnboardingFormRow>
           <OnboardingFormRow
+            v-slot="{ id }"
             :title="t('ONBOARDING_NEXT.FIELDS.REFERRAL_SOURCE')"
             icon="i-lucide-megaphone"
           >
             <OnboardingFormSelect
+              :id="id"
               v-model="referralSource"
               :has-error="showErrorOnFields && v$.referralSource.$error"
               :options="REFERRAL_SOURCE_OPTIONS"
