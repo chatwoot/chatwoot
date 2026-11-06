@@ -304,6 +304,7 @@ class RedirectTests(unittest.TestCase):
             "echo x 1> ai-service/.claude/hooks/guard.py",
             "echo x &> .git/config",
             "echo x >& ai-service/.claude/settings.json",
+            "cp>&1x a ai-service/.claude/hooks/guard.py",
         ):
             result = run_guard("Bash", {"command": command})
             self.assertEqual(result.returncode, 2, command)

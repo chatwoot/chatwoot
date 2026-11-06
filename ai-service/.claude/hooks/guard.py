@@ -260,12 +260,12 @@ def check_push(args, repo_dir):
             block(f"current branch is {branch}; push a feature branch and open a PR.")
 
 
-FD_DUPLICATION = re.compile(r"[0-9]*[<>]&[0-9-]+")
+FD_DUPLICATION = re.compile(r"[0-9]*[<>]&(?:[0-9]+|-)(?=\s|$|[;&|)])")
 
 
 def shell_writes(command):
     """True when the command may write a file; `2>&1`-style fd duplication is not a write."""
-    return bool(SHELL_WRITE.search(FD_DUPLICATION.sub("", command)))
+    return bool(SHELL_WRITE.search(FD_DUPLICATION.sub(" ", command)))
 
 
 def check_bash(command, cwd, depth=0):
