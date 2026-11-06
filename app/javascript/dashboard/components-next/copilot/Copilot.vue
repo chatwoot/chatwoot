@@ -17,6 +17,7 @@ import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotApprovalMessage from './CopilotApprovalMessage.vue';
+import { APPROVAL_STATUS } from './constants';
 import CopilotReviewProgress from './CopilotReviewProgress.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
@@ -212,7 +213,7 @@ const isCopilotWorking = computed(() => {
   const hasApprovalAwaitingDecision = props.messages.some(
     message =>
       message.message_type === 'assistant_approval' &&
-      message.message.approval.status === 'awaiting_approval'
+      message.message.approval.status === APPROVAL_STATUS.AWAITING
   );
   return (
     !isLastMessageFromAssistant.value &&
@@ -242,7 +243,7 @@ const showLoader = computed(() => {
     return item.message.progress.finished;
   }
   const { approval } = item.message;
-  if (approval?.status === 'approved') {
+  if (approval?.status === APPROVAL_STATUS.APPROVED) {
     return Boolean(approval.progress?.finished);
   }
   return true;

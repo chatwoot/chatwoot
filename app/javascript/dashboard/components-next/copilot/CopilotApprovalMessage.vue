@@ -10,6 +10,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CopilotApprovalSummary from './CopilotApprovalSummary.vue';
+import { APPROVAL_ACTION, APPROVAL_STATUS } from './constants';
 import CopilotProgressBar from './CopilotProgressBar.vue';
 
 const props = defineProps({
@@ -20,7 +21,10 @@ const props = defineProps({
 });
 
 // Replies and notes show their text in the conversation's own bubble colors, and the button names what approving does.
-const NOTE_ACTIONS = ['add_private_note', 'add_contact_note'];
+const NOTE_ACTIONS = [
+  APPROVAL_ACTION.ADD_PRIVATE_NOTE,
+  APPROVAL_ACTION.ADD_CONTACT_NOTE,
+];
 
 const store = useStore();
 const { t } = useI18n();
@@ -28,19 +32,23 @@ const isSubmitting = ref(false);
 
 const approval = computed(() => props.message.approval);
 const status = computed(() => approval.value.status);
-const isAwaitingApproval = computed(() => status.value === 'awaiting_approval');
+const isAwaitingApproval = computed(
+  () => status.value === APPROVAL_STATUS.AWAITING
+);
 const isDeclined = computed(() =>
-  ['rejected', 'expired'].includes(status.value)
+  [APPROVAL_STATUS.REJECTED, APPROVAL_STATUS.EXPIRED].includes(status.value)
 );
 // The change job writes its progress after each batch, so a just approved change starts at 0.
 const progress = computed(
   () => approval.value.progress || { done: 0, total: approval.value.count }
 );
 const isApplying = computed(
-  () => status.value === 'approved' && !progress.value.finished
+  () => status.value === APPROVAL_STATUS.APPROVED && !progress.value.finished
 );
 
-const isReply = computed(() => approval.value.action === 'send_reply');
+const isReply = computed(
+  () => approval.value.action === APPROVAL_ACTION.SEND_REPLY
+);
 const isNote = computed(() => NOTE_ACTIONS.includes(approval.value.action));
 const approveLabel = computed(() => {
   if (isReply.value) return t('CAPTAIN.COPILOT.APPROVAL.CONFIRM.SEND_REPLY');
@@ -70,14 +78,14 @@ const timeLeft = computed(() =>
 );
 
 const outcome = computed(() => {
-  if (status.value === 'rejected') {
+  if (status.value === APPROVAL_STATUS.REJECTED) {
     return {
       icon: 'i-lucide-circle-x',
       color: 'text-n-slate-11',
       label: t('CAPTAIN.COPILOT.APPROVAL.STATUS.REJECTED'),
     };
   }
-  if (status.value === 'expired') {
+  if (status.value === APPROVAL_STATUS.EXPIRED) {
     return {
       icon: 'i-lucide-timer-off',
       color: 'text-n-slate-11',
