@@ -98,6 +98,11 @@ class Webhooks::Trigger
   end
 
   def update_message_status(error)
+    # The callback is the delivery channel of an API inbox, so a failed call means an outgoing
+    # message did not reach the end user. An incoming message was already received, so its
+    # delivery status is unaffected by the callback failing.
+    return if message.incoming?
+
     Messages::StatusUpdateService.new(message, 'failed', error.message).perform
   end
 
