@@ -10,6 +10,7 @@ class Enterprise::Billing::HandleStripeEventService
 
   def perform(event:)
     @event = event
+    log_event
 
     case @event.type
     when 'customer.subscription.updated'
@@ -22,6 +23,15 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   private
+
+  def log_event
+    object = @event.data.object
+    customer = object['customer']
+    account_id = account&.id if customer.present?
+    Rails.logger.info(
+      "Stripe event: id=#{@event.id} type=#{@event.type} customer=#{customer} status=#{object['status']} account_id=#{account_id}"
+    )
+  end
 
   def process_subscription_updated
     # A cancelled subscription keeps emitting updates that still carry its old plan.
