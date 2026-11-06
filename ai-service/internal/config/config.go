@@ -31,6 +31,15 @@ type Config struct {
 	AdminPassword string // enables /admin when set (secret)
 	SettingsPath  string
 
+	// Knowledge base (RAG). Off when DatabaseURL is empty.
+	DatabaseURL   string // Postgres with pgvector (secret: contains a password)
+	EmbedBaseURL  string // initial embeddings provider; the admin page can override it
+	EmbedAPIKey   string // secret
+	EmbedModel    string
+	RAGTopK       int
+	RAGMinScore   float64
+	RAGChunkRunes int
+
 	HandoffKeywords []string
 	HandoffMessage  string
 	FailureMessage  string
@@ -83,6 +92,10 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 		LLMFallbackModel:   get("LLM_FALLBACK_MODEL", ""),
 		AdminPassword:      get("ADMIN_PASSWORD", ""),
 		SettingsPath:       get("SETTINGS_PATH", "/data/settings.json"),
+		DatabaseURL:        get("DATABASE_URL", ""),
+		EmbedBaseURL:       strings.TrimRight(get("EMBED_BASE_URL", ""), "/"),
+		EmbedAPIKey:        get("EMBED_API_KEY", ""),
+		EmbedModel:         get("EMBED_MODEL", ""),
 		SystemPrompt:       get("SYSTEM_PROMPT", DefaultSystemPrompt),
 		HandoffMessage:     get("HANDOFF_MESSAGE", DefaultHandoffMessage),
 		FailureMessage:     get("FAILURE_MESSAGE", DefaultFailureMessage),
@@ -102,6 +115,11 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	cfg.HistoryLimit, errs = intVar(get("HISTORY_LIMIT", "20"), "HISTORY_LIMIT", errs)
 	cfg.Workers, errs = intVar(get("WORKERS", "4"), "WORKERS", errs)
 	cfg.QueueSize, errs = intVar(get("QUEUE_SIZE", "256"), "QUEUE_SIZE", errs)
+	cfg.RAGTopK, errs = intVar(get("RAG_TOP_K", "4"), "RAG_TOP_K", errs)
+	cfg.RAGChunkRunes, errs = intVar(get("RAG_CHUNK_RUNES", "800"), "RAG_CHUNK_RUNES", errs)
+	if cfg.RAGMinScore, err = strconv.ParseFloat(get("RAG_MIN_SCORE", "0.3"), 64); err != nil || cfg.RAGMinScore < -1 || cfg.RAGMinScore > 1 {
+		errs = append(errs, errors.New("RAG_MIN_SCORE must be a number between -1 and 1"))
+	}
 
 	required := []struct{ key, val string }{
 		{"CHATWOOT_BASE_URL", cfg.ChatwootBaseURL},

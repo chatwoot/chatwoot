@@ -17,7 +17,9 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/chatwoot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/config"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/handoff"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
@@ -40,10 +42,7 @@ func run() error {
 	}
 
 	// Env gives the initial provider settings; a saved settings file wins.
-	store, err := settings.Open(cfg.SettingsPath, settings.LLM{
-		Primary:  settings.Provider{BaseURL: cfg.LLMBaseURL, APIKey: cfg.LLMAPIKey, Model: cfg.LLMModel},
-		Fallback: settings.Provider{BaseURL: cfg.LLMFallbackBaseURL, APIKey: cfg.LLMFallbackAPIKey, Model: cfg.LLMFallbackModel},
-	})
+	store, err := settings.Open(cfg.SettingsPath, settings.Defaults(cfg))
 	if err != nil {
 		return err
 	}
@@ -56,10 +55,23 @@ func run() error {
 	}
 	completer := &llm.Switch{}
 	completer.Set(settings.NewCompleter(current, cfg.LLMTimeout, logger))
+	embedder := &embed.Switch{}
+	embedder.Set(settings.NewEmbedder(current, cfg.LLMTimeout))
+
+	kb, closeKB, err := openKnowledge(cfg, embedder, logger)
+	if err != nil {
+		return err
+	}
+	defer closeKB()
+	var retriever bot.Retriever
+	if kb != nil {
+		retriever = kb
+	}
 
 	b := bot.New(bot.Options{
 		Chatwoot:       chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
 		LLM:            completer,
+		Knowledge:      retriever,
 		History:        memory.NewHistory(cfg.HistoryLimit, 24*time.Hour, nil),
 		Handoff:        handoff.New(cfg.HandoffKeywords),
 		SystemPrompt:   cfg.SystemPrompt,
@@ -80,8 +92,8 @@ func run() error {
 	mux := h.Routes()
 	if cfg.AdminPassword != "" {
 		(&admin.Handler{
-			Password: cfg.AdminPassword, Store: store, Switch: completer,
-			Timeout: cfg.LLMTimeout, Logger: logger,
+			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
+			Knowledge: kb, Timeout: cfg.LLMTimeout, Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -99,7 +111,8 @@ func run() error {
 	go func() {
 		logger.Info("ai-service listening", "addr", cfg.ListenAddr,
 			"primary_model", current.Primary.Model, "fallback_enabled", current.Fallback.Configured(),
-			"admin_enabled", cfg.AdminPassword != "", "workers", cfg.Workers)
+			"admin_enabled", cfg.AdminPassword != "", "workers", cfg.Workers,
+			"knowledge_enabled", kb != nil, "embedding_model", embedder.Model())
 		errCh <- srv.ListenAndServe()
 	}()
 
@@ -122,6 +135,28 @@ func run() error {
 	}
 	b.Close()
 	return nil
+}
+
+// openKnowledge connects the knowledge base when DATABASE_URL is set.
+// Without it the bot answers from the system prompt only.
+func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logger) (*knowledge.Service, func(), error) {
+	if cfg.DatabaseURL == "" {
+		logger.Info("knowledge base disabled: set DATABASE_URL to enable it")
+		return nil, func() {}, nil
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	pg, err := knowledge.OpenPostgres(ctx, cfg.DatabaseURL)
+	if err != nil {
+		return nil, nil, err
+	}
+	if embedder.Model() == "" {
+		logger.Warn("knowledge base on, but no embeddings provider: set one on /admin so the bot can search it")
+	}
+	return &knowledge.Service{
+		Store: pg, Embedder: embedder,
+		TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes,
+	}, pg.Pool.Close, nil
 }
 
 func parseLevel(s string) slog.Level {

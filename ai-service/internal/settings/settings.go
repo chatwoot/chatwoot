@@ -1,5 +1,5 @@
-// Package settings persists the LLM provider settings an admin edits on the
-// settings page. Environment variables give the initial values; once saved,
+// Package settings persists the AI provider settings (chat models and the
+// embeddings model) an admin edits on the settings page. Environment variables give the initial values; once saved,
 // the file wins.
 package settings
 
@@ -17,6 +17,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/config"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 )
 
@@ -55,10 +57,12 @@ func (p Provider) Validate() error {
 	return errors.Join(errs...)
 }
 
-// LLM holds the primary provider and an optional fallback.
+// LLM holds the primary chat provider, an optional fallback, and the
+// optional embeddings provider used by the knowledge base.
 type LLM struct {
-	Primary  Provider `json:"primary"`
-	Fallback Provider `json:"fallback"`
+	Primary   Provider `json:"primary"`
+	Fallback  Provider `json:"fallback"`
+	Embedding Provider `json:"embedding"`
 }
 
 // Normalize trims whitespace and the trailing slash of the base URL.
@@ -79,12 +83,12 @@ func (p Provider) Host() string {
 	return u.Host
 }
 
-// Normalize trims both providers.
+// Normalize trims every provider.
 func (s LLM) Normalize() LLM {
-	return LLM{Primary: s.Primary.Normalize(), Fallback: s.Fallback.Normalize()}
+	return LLM{Primary: s.Primary.Normalize(), Fallback: s.Fallback.Normalize(), Embedding: s.Embedding.Normalize()}
 }
 
-// Validate checks both providers. The primary must be complete.
+// Validate checks every provider. The primary must be complete.
 func (s LLM) Validate() error {
 	var errs []error
 	if s.Primary == (Provider{}) {
@@ -93,6 +97,7 @@ func (s LLM) Validate() error {
 		errs = append(errs, prefixEach("Primary provider", s.Primary.Validate())...)
 	}
 	errs = append(errs, prefixEach("Fallback provider", s.Fallback.Validate())...)
+	errs = append(errs, prefixEach("Embeddings provider", s.Embedding.Validate())...)
 	return errors.Join(errs...)
 }
 
@@ -125,11 +130,20 @@ func Open(path string, defaults LLM) (*Store, error) {
 	if err != nil {
 		return nil, fmt.Errorf("read settings: %w", err)
 	}
-	var saved LLM
+	var saved struct {
+		LLM
+		Embedding *Provider `json:"embedding"`
+	}
 	if err := json.Unmarshal(raw, &saved); err != nil {
 		return nil, fmt.Errorf("parse settings %s: %w", path, err)
 	}
-	s.current = saved.Normalize()
+	// Files saved before the embeddings provider existed have no "embedding"
+	// key; keep the env default for it instead of turning it off.
+	saved.LLM.Embedding = defaults.Embedding
+	if saved.Embedding != nil {
+		saved.LLM.Embedding = *saved.Embedding
+	}
+	s.current = saved.LLM.Normalize()
 	return s, nil
 }
 
@@ -201,6 +215,24 @@ func NewCompleter(s LLM, timeout time.Duration, logger *slog.Logger) llm.Complet
 		f.Secondary = newClient(s.Fallback, timeout)
 	}
 	return f
+}
+
+// Defaults builds the initial settings from environment configuration.
+func Defaults(cfg config.Config) LLM {
+	return LLM{
+		Primary:   Provider{BaseURL: cfg.LLMBaseURL, APIKey: cfg.LLMAPIKey, Model: cfg.LLMModel},
+		Fallback:  Provider{BaseURL: cfg.LLMFallbackBaseURL, APIKey: cfg.LLMFallbackAPIKey, Model: cfg.LLMFallbackModel},
+		Embedding: Provider{BaseURL: cfg.EmbedBaseURL, APIKey: cfg.EmbedAPIKey, Model: cfg.EmbedModel},
+	}
+}
+
+// NewEmbedder builds the embeddings client, or nil when none is configured.
+func NewEmbedder(s LLM, timeout time.Duration) embed.Embedder {
+	if !s.Embedding.Configured() {
+		return nil
+	}
+	p := s.Embedding
+	return embed.New(p.BaseURL, p.APIKey, p.Model, &http.Client{Timeout: timeout})
 }
 
 func newClient(p Provider, timeout time.Duration) *llm.Client {

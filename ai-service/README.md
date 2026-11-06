@@ -4,7 +4,8 @@ The AI brain for our Chatwoot install. Chatwoot stays unmodified; this Go
 service plugs in through Chatwoot's **Agent Bot** webhook and REST API.
 
 Plan: [DEV-Johnstocker/chatwoot#1](https://github.com/DEV-Johnstocker/chatwoot/issues/1).
-This directory implements **phase 2 (MVP: LLM replies + handoff)**.
+This directory implements **phase 2 (MVP: LLM replies + handoff)** and
+**phase 3, slice 1 (knowledge base: FAQ + text/Markdown documents)**.
 
 ## How it works
 
@@ -13,6 +14,8 @@ Customer ─► Chatwoot ── Agent Bot webhook (HMAC signed) ──► POST /
                                                               │ verify · filter · dedupe
                                                               ▼ 202 Accepted (fast)
                                                        worker queue (per-conversation order)
+                                                              │
+                                                 knowledge base search (pgvector)
                                                               │
               ◄── POST .../messages ◄── LLM (OpenRouter) ◄────┘
               ◄── POST .../toggle_status {status: open}   (handoff)
@@ -27,6 +30,13 @@ Customer ─► Chatwoot ── Agent Bot webhook (HMAC signed) ──► POST /
   conversation to `open`. An agent can hand it back by setting it to `pending`.
 - **Idempotent**: duplicate deliveries of the same message id are dropped.
   When the queue is full it returns `429`, which Chatwoot retries.
+- **Knowledge base (RAG)**: for each reply the bot searches the account's
+  knowledge (this inbox's documents plus account-wide ones) with the current
+  message alone and together with the previous one, merges the best matches
+  and gives the top `RAG_TOP_K` above `RAG_MIN_SCORE` to the model as the only
+  source for business facts. With no match the model is told to say it does
+  not know and offer a staff member. The reply log lists `kb_document_ids`,
+  `kb_chunk_ids` and `kb_scores` (no content).
 - **History**: the last `HISTORY_LIMIT` messages per conversation are kept in
   memory from webhook events, because Chatwoot does not let bot tokens list
   messages. History is lost on restart (persistent store comes with RAG).
@@ -39,7 +49,8 @@ Customer ─► Chatwoot ── Agent Bot webhook (HMAC signed) ──► POST /
 |---|---|---|
 | POST | `/webhooks/chatwoot` | Agent Bot webhook (requires valid `X-Chatwoot-Signature`) |
 | GET | `/healthz` | Liveness |
-| GET/POST | `/admin` | LLM provider settings page (only when `ADMIN_PASSWORD` is set) |
+| GET/POST | `/admin` | AI provider settings page (only when `ADMIN_PASSWORD` is set) |
+| GET/POST | `/admin/knowledge` | Knowledge base page (also needs `DATABASE_URL`) |
 
 ## Configuration
 
@@ -90,6 +101,43 @@ and are stored in `SETTINGS_PATH` (default `/data/settings.json`, file mode
   `no-store`. Outside localhost, serve it only over HTTPS.
 - To show it inside Chatwoot, add it as a Dashboard App (phase 5).
 
+### Knowledge base (`/admin/knowledge`)
+
+Needs `DATABASE_URL` (Postgres with pgvector; locally the `ai_service`
+database that `init.sh` creates on the Chatwoot Postgres) and an
+**embeddings provider** on `/admin` (recommended: OpenAI
+`text-embedding-3-large`; with the same base URL as the primary, leave its key
+blank to reuse the primary key). The schema is created on startup.
+
+- Add **FAQs** (question + answer) or **documents** (paste text, or upload
+  `.txt`/`.md` up to 2 MB). Markdown is split at its headings, then into
+  chunks of about `RAG_CHUNK_RUNES` characters; every chunk carries the
+  document title and section heading. Thai text is split at paragraphs, lines
+  and sentence spaces, never mid-word unless a run has no spaces at all.
+- Knowledge is per Chatwoot **account**; an optional **inbox ID** limits a
+  document to one channel (blank = all inboxes).
+- Vectors are tied to the embeddings model. After changing the model the page
+  shows how many chunks are stale and offers **Re-index now**.
+- PDF/DOCX and website crawling are the next slices (see the contract).
+
+### Measuring retrieval (`rag-eval`)
+
+`rag-eval` runs a JSON list of test questions through the same search the bot
+uses and reports how many found the expected document (hit rate, MRR) and how
+many questions without an answer correctly found nothing:
+
+```bash
+docker compose cp my-eval.json ai-service:/data/eval.json
+docker compose exec ai-service /rag-eval -cases /data/eval.json            # current settings
+docker compose exec ai-service /rag-eval -cases /data/eval.json -min-score 0.35
+```
+
+Each case: `{"question": "...", "account_id": 1, "inbox_id": 0, "expect": "part of the expected title"}`;
+`"expect": ""` means the bot should find nothing and hand off. A sample shop
+knowledge base and 22 cases are in [`testdata/`](testdata/). On that sample
+(Thai + English), `text-embedding-3-small` found 16/18, `text-embedding-3-large`
+18/18 at `RAG_MIN_SCORE=0.3`.
+
 ## Run locally (with `../local` from `init.sh`)
 
 1. Create the admin account at http://localhost:3000 and a website inbox.
@@ -113,9 +161,13 @@ ai-service over HTTPS and leave that flag off.
 
 ```bash
 go test -race ./...
+# Postgres integration tests (scratch database with pgvector; tables are recreated):
+TEST_DATABASE_URL=postgres://postgres:PASSWORD@localhost:5432/ai_service_test go test ./internal/knowledge
 go vet ./...
 gofmt -l .
 docker build -t chatwoot-ai-service:dev .
 ```
 
-Standard library only; no third-party Go modules.
+Standard library plus one module: `github.com/jackc/pgx/v5` (Postgres driver;
+the protocol is not worth hand-rolling). Vectors are sent as pgvector text
+literals, so no pgvector client library is needed.
