@@ -30,7 +30,9 @@ RSpec.describe Whatsapp::HealthService do
       'id' => 'test_phone_number_id',
       'display_phone_number' => '+1 555-000-1111',
       'verified_name' => 'Example Store',
-      'name_status' => 'APPROVED',
+      'name_status' => 'DECLINED',
+      'new_display_name' => 'Mona Assistant',
+      'new_name_status' => 'APPROVED',
       'quality_rating' => 'GREEN',
       'whatsapp_business_manager_messaging_limit' => 'TIER_250',
       'status' => 'CONNECTED',
@@ -91,6 +93,9 @@ RSpec.describe Whatsapp::HealthService do
         id: 'test_phone_number_id',
         display_phone_number: '+1 555-000-1111',
         verified_name: 'Example Store',
+        name_status: 'DECLINED',
+        new_display_name: 'Mona Assistant',
+        new_name_status: 'APPROVED',
         quality_rating: 'GREEN',
         messaging_limit_tier: 'TIER_250',
         status: 'CONNECTED',
@@ -112,7 +117,8 @@ RSpec.describe Whatsapp::HealthService do
       expect(
         a_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id}).with do |request|
           fields = CGI.parse(request.uri.query)['fields']&.first.to_s.split(',')
-          fields.include?('whatsapp_business_manager_messaging_limit') && fields.exclude?('messaging_limit_tier')
+          fields.include?('whatsapp_business_manager_messaging_limit') && fields.include?('new_display_name') &&
+            fields.include?('new_name_status') && fields.exclude?('messaging_limit_tier')
         end
       ).to have_been_made.once
     end
@@ -173,6 +179,7 @@ RSpec.describe Whatsapp::HealthService do
           'business_account_id' => 'test_waba_id',
           'business_portfolio_id' => 'test_business_portfolio_id'
         )
+        expect(channel.phone_number_health).to include('new_display_name' => 'Mona Assistant', 'new_name_status' => 'APPROVED')
         expect(channel.phone_number_health).not_to have_key('webhook_configuration')
         expect(channel.phone_number_health_checked_at).to eq(Time.current)
         expect(channel.phone_number_health_error).to be_nil

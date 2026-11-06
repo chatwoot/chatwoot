@@ -122,4 +122,102 @@ describe('AccountHealth', () => {
     expect(wrapper.text()).toContain('The connection needs to be refreshed');
     expect(wrapper.text()).not.toContain('Stale Business Name');
   });
+  const monaHealth = {
+    verified_name: 'Mona',
+    name_status: 'DECLINED',
+    new_display_name: 'Mona Assistant',
+    new_name_status: 'APPROVED',
+    status: 'CONNECTED',
+    is_on_biz_app: false,
+  };
+
+  it('groups the current and requested names with their statuses in one card', () => {
+    const wrapper = mountComponent(monaHealth, { canManage: true });
+    const cards = wrapper.findAll('[data-testid="display-name-card"]');
+    expect(cards).toHaveLength(1);
+    expect(cards[0].text()).toContain('Mona');
+    expect(cards[0].text()).toContain('Mona Assistant');
+    expect(cards[0].text()).toContain('Declined');
+    expect(cards[0].text()).toContain('Approved');
+    expect(wrapper.text()).toContain(
+      'INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.DESCRIPTIONS.APPROVED'
+    );
+    expect(wrapper.text()).not.toContain(
+      'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.DECLINED'
+    );
+  });
+
+  it('emits the displayed approved name when the administrator applies it', async () => {
+    const wrapper = mountComponent(monaHealth, { canManage: true });
+    const button = wrapper
+      .findAllComponents(ButtonV4)
+      .find(
+        component =>
+          component.attributes('data-testid') === 'apply-display-name'
+      );
+    await button.trigger('click');
+    expect(wrapper.emitted('applyDisplayName')).toEqual([['Mona Assistant']]);
+  });
+
+  it.each(['PENDING_REVIEW', 'DECLINED', 'EXPIRED', 'NONE', undefined])(
+    'does not offer registration for replacement status %s',
+    status => {
+      const wrapper = mountComponent(
+        { ...monaHealth, new_name_status: status },
+        { canManage: true }
+      );
+      expect(wrapper.find('[data-testid="apply-display-name"]').exists()).toBe(
+        false
+      );
+    }
+  );
+
+  it.each([
+    [{ ...monaHealth, is_on_biz_app: true }, { canManage: true }],
+    [{ ...monaHealth, is_on_biz_app: undefined }, { canManage: true }],
+    [{ ...monaHealth, status: 'DISCONNECTED' }, { canManage: true }],
+    [monaHealth, { canManage: false }],
+  ])(
+    'does not offer registration for unsupported numbers or agents',
+    (health, props) => {
+      const wrapper = mountComponent(health, props);
+      expect(wrapper.find('[data-testid="apply-display-name"]').exists()).toBe(
+        false
+      );
+    }
+  );
+
+  it('disables the apply action while a request is in progress', () => {
+    const wrapper = mountComponent(monaHealth, {
+      canManage: true,
+      isApplyingDisplayName: true,
+    });
+    const button = wrapper
+      .findAllComponents(ButtonV4)
+      .find(
+        component =>
+          component.attributes('data-testid') === 'apply-display-name'
+      );
+    expect(button.attributes('disabled')).toBeDefined();
+    expect(button.props('isLoading')).toBe(true);
+  });
+
+  it('removes the requested name section once the name has been activated', async () => {
+    const wrapper = mountComponent(monaHealth, { canManage: true });
+    await wrapper.setProps({
+      healthData: {
+        ...monaHealth,
+        verified_name: 'Mona Assistant',
+        name_status: 'APPROVED',
+        new_display_name: null,
+        new_name_status: 'NONE',
+      },
+    });
+    expect(wrapper.text()).toContain('Mona Assistant');
+    expect(wrapper.text()).toContain('DISPLAY_NAME.TITLE');
+    expect(wrapper.text()).not.toContain('DISPLAY_NAME.REQUESTED_NAME');
+    expect(wrapper.find('[data-testid="apply-display-name"]').exists()).toBe(
+      false
+    );
+  });
 });
