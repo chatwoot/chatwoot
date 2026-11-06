@@ -83,6 +83,10 @@ export default {
       },
       immediate: true,
     },
+    isEmailChanged() {
+      this.currentPassword = '';
+      this.v$.currentPassword.$reset();
+    },
   },
   methods: {
     async updateUser() {
