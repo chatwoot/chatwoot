@@ -111,6 +111,20 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).to be(contact.id)
     end
 
+    it 'reuses existing contact when phone number is in alternate Brazil format' do
+      brazil_contact = create(:contact, phone_number: '+5511988887777', account: account)
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Contact',
+          phone_number: '+551188887777'
+        }
+      ).perform
+
+      expect(contact_inbox.contact.id).to be(brazil_contact.id)
+    end
+
     it 'reuses contact if it exists with the same source_id in a Facebook inbox when creating for Instagram inbox' do
       instagram_source_id = '123456789'
 
