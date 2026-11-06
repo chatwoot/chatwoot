@@ -25,7 +25,7 @@ const emit = defineEmits(['update', 'delete']);
 
 const { t } = useI18n();
 const isEditingValue = ref(false);
-const editedValue = ref(props.attribute.value || '');
+const editedValue = ref(props.attribute.value ?? '');
 
 const isAttributeTypeLink = computed(
   () => props.attribute.attributeDisplayType === 'link'
@@ -104,7 +104,7 @@ const toggleEditValue = value => {
     typeof value === 'boolean' ? value : !isEditingValue.value;
   if (isEditingValue.value) {
     v$.value.$reset();
-    editedValue.value = props.attribute.value || '';
+    editedValue.value = props.attribute.value ?? '';
   }
 };
 
@@ -149,7 +149,7 @@ const handleInputUpdate = async () => {
       </a>
       <template v-else>
         {{
-          attribute.value ||
+          attribute.value ??
           t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.TRIGGER.INPUT')
         }}
       </template>
