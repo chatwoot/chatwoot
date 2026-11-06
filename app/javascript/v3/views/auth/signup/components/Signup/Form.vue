@@ -14,6 +14,7 @@ import PasswordRequirements from './PasswordRequirements.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
+import { useMapGetter } from 'dashboard/composables/store.js';
 import * as CompanyEmailValidator from 'company-email-validator';
 
 const props = defineProps({
@@ -39,12 +40,16 @@ const credentials = reactive({
   hCaptchaClientResponse: '',
 });
 
+const globalConfig = computed(() => store.getters['globalConfig/get']);
+const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+
 const rules = {
   credentials: {
     email: {
       required,
       email,
       businessEmailValidator(value) {
+        if (!isOnChatwootCloud.value) return true;
         return CompanyEmailValidator.isCompanyEmail(value);
       },
     },
@@ -57,8 +62,6 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, { credentials });
-
-const globalConfig = computed(() => store.getters['globalConfig/get']);
 
 const termsLink = computed(() =>
   t('REGISTER.TERMS_ACCEPT')
