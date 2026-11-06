@@ -24,9 +24,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      # PRs read the cache that the base branch writes. A PR writes its own cache
+      # only when it changes the Dockerfile or gems, because the base branch
+      # cache does not have those layers.
+      - name: Check for Dockerfile or gem changes
+        id: build_inputs
+        if: github.event_name == 'pull_request'
+        run: |
+          if git diff --quiet origin/${{ github.base_ref }}...HEAD -- docker/Dockerfile Gemfile Gemfile.lock; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -40,4 +52,4 @@ jobs:
           push: false
           load: false
           cache-from: type=gha,scope=${{ matrix.platform }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.platform }}
+          cache-to: ${{ steps.build_inputs.outputs.changed == 'true' && format('type=gha,mode=max,scope={0}', matrix.platform) || '' }}

@@ -78,6 +78,10 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           outputs: type=image,name=${{ env.DOCKER_REPO }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha,scope=${{ matrix.platform }}
+          # Branch builds write the cache that PR builds read. Tag builds skip it,
+          # because no PR can read a cache saved on a tag.
+          cache-to: ${{ startsWith(github.ref, 'refs/heads/') && format('type=gha,mode=max,scope={0}', matrix.platform) || '' }}
 
       - name: Export digest
         run: |
