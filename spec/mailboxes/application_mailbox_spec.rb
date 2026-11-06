@@ -70,6 +70,17 @@ RSpec.describe ApplicationMailbox do
         described_class.route reply_cc_mail
       end
 
+      it 'routes emails without a To header to Reply Mailbox when X-Original-To is the channel email' do
+        envelope_mail = create_inbound_email_from_fixture('support.eml')
+        envelope_mail.mail['to'] = nil
+        envelope_mail.mail['X-Original-To'] = channel_email.email
+
+        dbl = double
+        expect(ReplyMailbox).to receive(:new).and_return(dbl)
+        expect(dbl).to receive(:perform_processing).and_return(true)
+        described_class.route envelope_mail
+      end
+
       it 'skips routing when BCC processing is disabled for account' do
         allow(GlobalConfigService).to receive(:load).with('SKIP_INCOMING_BCC_PROCESSING', '').and_return(channel_email.account_id.to_s)
 
