@@ -17,6 +17,7 @@ import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotApprovalMessage from './CopilotApprovalMessage.vue';
+import { APPROVAL_STATUS } from './constants';
 import CopilotReviewProgress from './CopilotReviewProgress.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
@@ -212,7 +213,7 @@ const isCopilotWorking = computed(() => {
   const hasApprovalAwaitingDecision = props.messages.some(
     message =>
       message.message_type === 'assistant_approval' &&
-      message.message.approval.status === 'awaiting_approval'
+      message.message.approval.status === APPROVAL_STATUS.AWAITING
   );
   return (
     !isLastMessageFromAssistant.value &&
@@ -242,7 +243,7 @@ const showLoader = computed(() => {
     return item.message.progress.finished;
   }
   const { approval } = item.message;
-  if (approval?.status === 'approved') {
+  if (approval?.status === APPROVAL_STATUS.APPROVED) {
     return Boolean(approval.progress?.finished);
   }
   return true;
@@ -471,7 +472,7 @@ watch(
     <div
       v-else
       ref="chatContainer"
-      class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
+      class="flex-1 flex px-4 py-4 overflow-y-auto no-scrollbar items-start"
     >
       <p
         v-if="isLoadingSelectedThread"
@@ -533,7 +534,7 @@ watch(
       </CopilotEmptyState>
     </div>
 
-    <div v-show="!showHistory" class="mx-3 mt-px mb-2">
+    <div v-show="!showHistory" class="mx-4 mt-px mb-2">
       <div
         v-if="showAvatarDock"
         class="flex items-center gap-3 w-full max-w-3xl mx-auto mb-2 px-1"

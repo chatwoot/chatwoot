@@ -15,7 +15,7 @@ class Captain::Copilot::Actions::AddLabels < Captain::Copilot::Actions::BaseActi
   end
 
   def card(_ids)
-    super.merge(values: { labels: labels.join(', ') })
+    super.merge(values: { labels: labels })
   end
 
   private

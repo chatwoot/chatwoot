@@ -37,6 +37,8 @@ class CopilotRun::Action < CopilotRun
   STATUSES = %w[awaiting_approval queued running completed incomplete rejected expired].freeze
   # The approval card shows a fixed set of conversations. After this long that set may be stale, so the agent has to ask again.
   APPROVAL_TTL = 5.minutes
+  # The approval card links this many records and counts the rest.
+  PREVIEW_TARGETS = 10
 
   has_many :action_items, class_name: 'CopilotActionItem', dependent: :delete_all, inverse_of: :copilot_run
 
@@ -118,6 +120,15 @@ class CopilotRun::Action < CopilotRun
     copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
   end
 
+  # Records the agent can no longer open are left out of the links.
+  def target_links(ids)
+    resource = Captain::Copilot::Resources.build(Captain::Copilot::Actions.find(context.fetch('action'))::RESOURCE,
+                                                 account: account, user: user)
+    return [] unless resource.readable?
+
+    resource.rows(ids.first(PREVIEW_TARGETS)).map { |row| row.slice(:label, :url) }
+  end
+
   def publish_progress
     progress = card_progress.as_json
     card = approval_card
@@ -136,9 +147,15 @@ class CopilotRun::Action < CopilotRun
   # change never reached count with the failed ones, so the card's numbers add up to what the agent approved.
   def card_progress
     progress = summary
+    not_changed = progress[:failed] + progress[:not_processed].to_i
     { finished: finished?, stopped: context['stopped'].present?, done: progress.values_at(:applied, :already_applied, :failed).sum,
-      total: progress[:targets], applied: progress[:applied] + progress[:already_applied],
-      not_changed: progress[:failed] + progress[:not_processed].to_i }
+      total: progress[:targets], applied: progress[:applied] + progress[:already_applied], not_changed: not_changed,
+      not_changed_targets: (not_changed_links if finished? && not_changed.positive?) }.compact
+  end
+
+  def not_changed_links
+    changed = action_items.where(status: %i[applied skipped]).pluck(:record_id)
+    target_links(target_ids - changed)
   end
 
   # Targets an approved change never reached, such as when workflows were turned off partway through.

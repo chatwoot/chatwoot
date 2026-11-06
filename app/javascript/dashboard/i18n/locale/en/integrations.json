@@ -788,8 +788,12 @@
         }
       },
       "APPROVAL": {
-        "TITLE": "Approve this change?",
         "APPROVE": "Approve",
+        "CONFIRM": {
+          "SEND_REPLY": "Send reply",
+          "ADD_NOTE": "Add note"
+        },
+        "EXPIRES_IN": "Expires in {time}",
         "REJECT": "Reject",
         "STOPPED": "Stopped",
         "ERROR": "Could not save your decision. Please try again.",
@@ -832,10 +836,12 @@
         },
         "STATUS": {
           "REJECTED": "Rejected",
-          "EXPIRED": "Expired. Ask Copilot to propose it again."
+          "EXPIRED": "Expired"
         },
+        "EXPIRED_HINT": "Ask Copilot to propose it again.",
         "PROGRESS": "Applying {done} of {total}",
         "APPLIED": "Applied to {count}",
+        "APPLIED_OF": "Applied to {applied} of {total}",
         "NOT_CHANGED": "{count} not changed"
       },
       "REVIEW": {

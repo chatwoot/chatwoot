@@ -48,7 +48,25 @@ RSpec.describe Captain::Copilot::ActionJob do
 
     described_class.perform_now(action_run.id)
 
-    expect(card.reload.message.dig('approval', 'progress')).to include('finished' => true, 'applied' => 0, 'not_changed' => 2)
+    progress = card.reload.message.dig('approval', 'progress')
+    expect(progress).to include('finished' => true, 'applied' => 0, 'not_changed' => 2)
+    expect(progress['not_changed_targets'].pluck('label')).to eq(["##{labeled.display_id}", "##{unlabeled.display_id}"])
+  end
+
+  it 'finishes the card of a contact change when the agent can no longer read contacts' do
+    custom_role = create(:custom_role, account: account, permissions: ['conversation_manage'])
+    AccountUser.find_by!(user: user, account: account).update!(custom_role: custom_role)
+    contact_run = CopilotRun::Action.create!(
+      account: account, user: user, copilot_thread: thread, status: :queued, attempts: 2,
+      copilot_tool_call: turn.tool_calls.create!(call_id: 'act-4', name: 'act'),
+      context: { action: 'add_contact_labels', arguments: { labels: ['billing'] }, target_ids: [labeled.contact_id],
+                 approval_message_id: card.id }
+    )
+
+    described_class.perform_now(contact_run.id)
+
+    expect(contact_run.reload).to be_incomplete
+    expect(card.reload.message.dig('approval', 'progress')).to include('finished' => true, 'not_changed' => 1, 'not_changed_targets' => [])
   end
 
   describe 'sending a reply' do

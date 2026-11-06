@@ -9,10 +9,14 @@ module Captain::Copilot::Actions
      Captain::Copilot::Actions::UnblockContacts, Captain::Copilot::Actions::AddContactNote]
   end
 
-  def self.build(name, account:, user:, arguments:, proposal_values: {})
+  def self.find(name)
     action = all.find { |candidate| name == candidate::NAME }
     raise ArgumentError, "Unknown action #{name}. Available actions: #{all.map { |candidate| candidate::NAME }.join(', ')}" unless action
 
-    action.new(account: account, user: user, arguments: arguments, proposal_values: proposal_values)
+    action
+  end
+
+  def self.build(name, account:, user:, arguments:, proposal_values: {})
+    find(name).new(account: account, user: user, arguments: arguments, proposal_values: proposal_values)
   end
 end
