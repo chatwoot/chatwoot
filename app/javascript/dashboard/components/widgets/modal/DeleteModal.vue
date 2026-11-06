@@ -22,6 +22,7 @@ const show = defineModel('show', { type: Boolean, default: false });
       :header-content="message"
       :header-content-value="messageValue"
     />
+    <slot />
     <div class="flex items-center justify-end gap-2 p-8">
       <Button faded slate type="reset" :label="rejectText" @click="onClose" />
       <Button ruby type="submit" :label="confirmText" @click="onConfirm" />

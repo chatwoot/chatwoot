@@ -15,6 +15,7 @@ import {
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import ReportCaptainMessageDialog from './ReportCaptainMessageDialog.vue';
 
 export default {
@@ -23,6 +24,7 @@ export default {
     MenuItem,
     ContextMenu,
     NextButton,
+    Checkbox,
     ReportCaptainMessageDialog,
   },
   props: {
@@ -46,6 +48,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    canDeleteForCustomer: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['open', 'close', 'replyTo', 'forwardEmail'],
   setup() {
@@ -59,6 +65,7 @@ export default {
     return {
       isCannedResponseModalOpen: false,
       showDeleteModal: false,
+      deleteForCustomer: false,
     };
   },
   computed: {
@@ -146,6 +153,7 @@ export default {
     },
     openDeleteModal() {
       this.handleClose();
+      this.deleteForCustomer = false;
       this.showDeleteModal = true;
     },
     async confirmDeletion() {
@@ -153,11 +161,16 @@ export default {
         await this.$store.dispatch('deleteMessage', {
           conversationId: this.conversationId,
           messageId: this.messageId,
+          deleteOnChannel: this.canDeleteForCustomer && this.deleteForCustomer,
         });
         useAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
         this.handleClose();
       } catch (error) {
-        useAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
+        // the channel's reason, e.g. when Telegram refuses to delete the message
+        useAlert(
+          error?.response?.data?.error ||
+            this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE')
+        );
       }
     },
     closeDeleteModal() {
@@ -195,7 +208,21 @@ export default {
       :message="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.MESSAGE')"
       :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
       :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')"
-    />
+    >
+      <label
+        v-if="canDeleteForCustomer"
+        class="flex items-center gap-2 px-8 pt-4 cursor-pointer"
+      >
+        <Checkbox v-model="deleteForCustomer" />
+        <span class="text-sm text-n-slate-11">
+          {{
+            $t(
+              'CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE_FOR_CUSTOMER'
+            )
+          }}
+        </span>
+      </label>
+    </woot-delete-modal>
     <NextButton
       v-if="!hideButton"
       ghost

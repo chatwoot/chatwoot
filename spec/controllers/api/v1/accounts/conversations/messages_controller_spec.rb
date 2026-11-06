@@ -324,6 +324,44 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
 
+    context 'when deleting the message on its channel' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:message_path) { "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}" }
+      let(:channel_service) { instance_double(Messages::DeleteOnChannelService, perform: nil) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        allow(Messages::DeleteOnChannelService).to receive(:new).with(message: message).and_return(channel_service)
+      end
+
+      it 'deletes the message on the channel and in chatwoot' do
+        delete "#{message_path}?delete_on_channel=true", headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(channel_service).to have_received(:perform)
+        expect(message.reload.deleted).to be true
+      end
+
+      it 'keeps the message and returns the reason when the channel refuses' do
+        allow(channel_service).to receive(:perform)
+          .and_raise(CustomExceptions::ChannelMessageDeleteFailed.new(message: 'Could not delete the message on the channel'))
+
+        delete "#{message_path}?delete_on_channel=true", headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Could not delete the message on the channel')
+        expect(message.reload.deleted).to be_nil
+      end
+
+      it 'only deletes the message in chatwoot without opting in to channel deletion' do
+        delete message_path, headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Messages::DeleteOnChannelService).not_to have_received(:new)
+        expect(message.reload.deleted).to be true
+      end
+    end
+
     context 'when the message id is invalid' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
