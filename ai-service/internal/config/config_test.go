@@ -182,3 +182,33 @@ func TestLoad_TimezoneAndAttachmentMessage(t *testing.T) {
 		t.Errorf("unknown TIMEZONE error = %v", badErr)
 	}
 }
+
+func TestLoad_Tracing(t *testing.T) {
+	// Arrange
+	on := requiredEnv()
+	on["LANGFUSE_BASE_URL"], on["LANGFUSE_PUBLIC_KEY"], on["LANGFUSE_SECRET_KEY"] = "https://jp.cloud.langfuse.com/", "pk-lf-1", "sk-lf-2"
+	half := requiredEnv()
+	half["LANGFUSE_PUBLIC_KEY"] = "pk-lf-1"
+	badText := requiredEnv()
+	badText["TRACE_TEXT"] = "full"
+
+	// Act
+	off, errOff := Load(lookupFrom(requiredEnv()))
+	cfg, errOn := Load(lookupFrom(on))
+	_, errHalf := Load(lookupFrom(half))
+	_, errBad := Load(lookupFrom(badText))
+
+	// Assert
+	if errOff != nil || off.TracingEnabled() {
+		t.Errorf("no keys must mean tracing off: %v", errOff)
+	}
+	if errOn != nil || !cfg.TracingEnabled() || cfg.LangfuseBaseURL != "https://jp.cloud.langfuse.com" || cfg.TraceText != "redacted" {
+		t.Errorf("tracing on: %+v %v", cfg, errOn)
+	}
+	if errHalf == nil || !strings.Contains(errHalf.Error(), "LANGFUSE_SECRET_KEY") {
+		t.Errorf("a partial key set must fail and name what is missing: %v", errHalf)
+	}
+	if errBad == nil || !strings.Contains(errBad.Error(), "TRACE_TEXT") {
+		t.Errorf("TRACE_TEXT=full must fail: %v", errBad)
+	}
+}

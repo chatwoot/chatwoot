@@ -7,6 +7,7 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"strings"
@@ -26,6 +27,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/trace"
 )
 
 func main() {
@@ -75,12 +77,25 @@ func run() error {
 		rewriter = &bot.LLMRewriter{LLM: completer}
 	}
 
+	// Tracing: assign the interface only when on (a nil pointer is not a nil interface).
+	var tracer bot.Tracer
+	var exporter *trace.Exporter
+	if cfg.TracingEnabled() {
+		exporter = trace.NewExporter(trace.Config{
+			BaseURL: cfg.LangfuseBaseURL, PublicKey: cfg.LangfusePublicKey, SecretKey: cfg.LangfuseSecretKey,
+			Text: cfg.TraceText, Environment: cfg.TraceEnvironment,
+		}, logger)
+		tracer = exporter
+		logger.Info("langfuse tracing on", "host", hostOf(cfg.LangfuseBaseURL), "text", cfg.TraceText)
+	}
+
 	b := bot.New(bot.Options{
 		Chatwoot:          chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
 		LLM:               completer,
 		Knowledge:         retriever,
 		Profiles:          botProfiles,
 		Rewriter:          rewriter,
+		Tracer:            tracer,
 		History:           memory.NewHistory(cfg.HistoryLimit, 24*time.Hour, nil),
 		Handoff:           handoff.New(cfg.HandoffKeywords),
 		SystemPrompt:      cfg.SystemPrompt,
@@ -145,7 +160,15 @@ func run() error {
 		logger.Warn("http shutdown", "error", err)
 	}
 	b.Close()
+	exporter.Close() // after the bot, so the last turns are sent
 	return nil
+}
+
+func hostOf(raw string) string {
+	if u, err := url.Parse(raw); err == nil {
+		return u.Host
+	}
+	return ""
 }
 
 // openKnowledge connects the knowledge base and business profiles when

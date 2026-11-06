@@ -45,6 +45,10 @@ type Config struct {
 	FailureMessage  string
 	// AttachmentMessage answers a message that is only files (slip, photo, voice).
 	AttachmentMessage string
+	// Langfuse tracing: on only when all three are set (the secret key is a secret).
+	LangfuseBaseURL, LangfusePublicKey, LangfuseSecretKey string
+	TraceText                                             string // redacted (default) | off
+	TraceEnvironment                                      string
 	// Location is the business time zone (TIMEZONE), used to tell the model the date.
 	Location *time.Location
 
@@ -111,6 +115,11 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 		HandoffMessage:     get("HANDOFF_MESSAGE", DefaultHandoffMessage),
 		FailureMessage:     get("FAILURE_MESSAGE", DefaultFailureMessage),
 		AttachmentMessage:  get("ATTACHMENT_MESSAGE", DefaultAttachmentMessage),
+		LangfuseBaseURL:    strings.TrimRight(get("LANGFUSE_BASE_URL", ""), "/"),
+		LangfusePublicKey:  get("LANGFUSE_PUBLIC_KEY", ""),
+		LangfuseSecretKey:  get("LANGFUSE_SECRET_KEY", ""),
+		TraceText:          get("TRACE_TEXT", "redacted"),
+		TraceEnvironment:   get("TRACE_ENVIRONMENT", "production"),
 		LogLevel:           get("LOG_LEVEL", "info"),
 		HandoffKeywords:    DefaultHandoffKeywords,
 	}
@@ -134,6 +143,20 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	cfg.RAGChunkRunes, errs = intVar(get("RAG_CHUNK_RUNES", "800"), "RAG_CHUNK_RUNES", errs)
 	if cfg.RAGMinScore, err = strconv.ParseFloat(get("RAG_MIN_SCORE", "0.3"), 64); err != nil || cfg.RAGMinScore < -1 || cfg.RAGMinScore > 1 {
 		errs = append(errs, errors.New("RAG_MIN_SCORE must be a number between -1 and 1"))
+	}
+
+	if cfg.TraceText != "redacted" && cfg.TraceText != "off" {
+		errs = append(errs, errors.New("TRACE_TEXT must be redacted or off"))
+	}
+	lf := []struct{ key, val string }{
+		{"LANGFUSE_BASE_URL", cfg.LangfuseBaseURL}, {"LANGFUSE_PUBLIC_KEY", cfg.LangfusePublicKey}, {"LANGFUSE_SECRET_KEY", cfg.LangfuseSecretKey},
+	}
+	if set := lf[0].val != "" || lf[1].val != "" || lf[2].val != ""; set {
+		for _, v := range lf {
+			if v.val == "" {
+				errs = append(errs, fmt.Errorf("%s is required when Langfuse tracing is configured", v.key))
+			}
+		}
 	}
 
 	required := []struct{ key, val string }{
@@ -174,4 +197,9 @@ func splitList(raw string) []string {
 		}
 	}
 	return out
+}
+
+// TracingEnabled reports whether every Langfuse setting is present.
+func (c Config) TracingEnabled() bool {
+	return c.LangfuseBaseURL != "" && c.LangfusePublicKey != "" && c.LangfuseSecretKey != ""
 }

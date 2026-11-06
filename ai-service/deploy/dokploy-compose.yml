@@ -124,6 +124,12 @@ services:
       EMBED_BASE_URL: ${EMBED_BASE_URL:-}
       EMBED_API_KEY: ${EMBED_API_KEY:-}
       EMBED_MODEL: ${EMBED_MODEL:-}
+      # Langfuse tracing (off unless all three are set). Customer text is
+      # redacted; TRACE_TEXT=off sends no chat text at all.
+      LANGFUSE_BASE_URL: ${LANGFUSE_BASE_URL:-}
+      LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-}
+      LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-}
+      TRACE_TEXT: ${TRACE_TEXT:-redacted}
 
   # /admin from a browser: Cloudflare Tunnel → https://ai-admin.johnstockeraistudio.com,
   # behind a Cloudflare Access app (owner emails only). The tunnel's ingress rules

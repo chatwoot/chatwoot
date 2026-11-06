@@ -157,6 +157,22 @@ Each case: `{"name", "account_id", "turns": ["...", "..."], "expect": "answer|un
 Only the reply to the last turn is graded. A case costs about two model calls
 per turn plus one judge call; `-judge-model` grades with a different model.
 
+### Tracing (Langfuse)
+
+With `LANGFUSE_BASE_URL`, `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` set,
+each customer message becomes one Langfuse trace: a `chat-turn` span with
+`query-rewrite`, `knowledge-search` (retrieved titles and scores) and `answer`
+(model, tokens, latency) children, and the outcome (`replied` or
+`handoff:<reason>`). It is sent over OTLP/HTTP JSON in the background; a full
+buffer drops turns instead of delaying replies.
+
+Before anything leaves the server, emails, phone numbers, Thai national IDs,
+card and bank account numbers and labelled LINE IDs are masked, and contact
+and conversation ids become keyed hashes (`langfuse.user.id`,
+`langfuse.session.id`). `TRACE_TEXT=off` sends no chat text at all.
+`TRACE_ENVIRONMENT` (default `production`) tags the traces. To send one sample
+trace from your machine: `LANGFUSE_LIVE=1 go test -run Live ./internal/trace`.
+
 ### Query rewrite
 
 Before searching, the bot asks the chat model to rewrite the customer's last
