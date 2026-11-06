@@ -25,9 +25,6 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
     annotate(request(tool_context, arguments), tool_context, params)
   rescue Captain::ParamSources::Unavailable => e
     failure_result(e.message, tool_context.state)
-  rescue StandardError => e
-    Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
-    failure_result('An error occurred while executing the request', tool_context.state)
   end
 
   def read_only?
@@ -44,10 +41,15 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
     result
   end
 
+  # Only the request is rescued. An error in the steps around it must not read as a failed request, which the model
+  # could retry after a write already happened.
   def request(tool_context, params)
     url = @custom_tool.build_request_url(params)
     body = @custom_tool.build_request_body(params)
     untrusted_result(@custom_tool.format_response(execute_http_request(url, body, tool_context)))
+  rescue StandardError => e
+    Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
+    failure_result('An error occurred while executing the request', tool_context.state)
   end
 
   # Route through SafeFetch so custom tool requests share the app's centralized HTTP
