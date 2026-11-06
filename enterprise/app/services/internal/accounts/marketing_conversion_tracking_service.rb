@@ -15,7 +15,7 @@ class Internal::Accounts::MarketingConversionTrackingService
   #   },
   #   "x": {
   #     "pixel_id": "o1abc",
-  #     "consumer_key": "...", "consumer_secret": "...", "access_token": "...", "access_token_secret": "...",
+  #     "pixel_token": "...",
   #     "events": {
   #       "cloud_signup": { "event_id": "tw-o1abc-o1def" },
   #       "cloud_plan_activation": { "event_id": "tw-o1abc-o1ghi" }
@@ -26,7 +26,7 @@ class Internal::Accounts::MarketingConversionTrackingService
   TOKEN_SCOPES = ['https://www.googleapis.com/auth/datamanager'].freeze
   API_URL = 'https://datamanager.googleapis.com/v1/events:ingest'
   CLICK_ID_FIELDS = %w[gclid gbraid wbraid].freeze
-  X_API_SITE = 'https://ads-api.x.com'
+  X_API_URL = 'https://ads-api.x.com/12/measurement/conversions'
 
   pattr_initialize [:account!, :event_name!, :occurred_at, :conversion_value, :currency_code]
 
@@ -56,10 +56,16 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def upload_x_conversion
-    response = x_access_token.post("/12/measurement/conversions/#{config['x']['pixel_id']}",
-                                   { conversions: [x_conversion_payload] }.to_json, 'Content-Type' => 'application/json')
+    response = HTTParty.post(
+      "#{X_API_URL}/#{config['x']['pixel_id']}",
+      headers: {
+        'X-Pixel-Token' => config['x']['pixel_token'],
+        'Content-Type' => 'application/json'
+      },
+      body: { conversions: [x_conversion_payload] }.to_json
+    )
 
-    raise "X conversion upload failed: #{response.body}" unless response.is_a?(Net::HTTPSuccess)
+    raise "X conversion upload failed: #{response.body}" unless response.success?
   end
 
   def destination_payload
@@ -101,7 +107,7 @@ class Internal::Accounts::MarketingConversionTrackingService
     }
 
     if conversion_value.present?
-      payload[:value] = conversion_value.to_f
+      payload[:value] = format('%.2f', conversion_value.to_f)
       payload[:price_currency] = currency_code.presence || 'USD'
     end
 
@@ -140,11 +146,6 @@ class Internal::Accounts::MarketingConversionTrackingService
       scope: TOKEN_SCOPES
     )
     authorizer.fetch_access_token!['access_token']
-  end
-
-  def x_access_token
-    consumer = OAuth::Consumer.new(config['x']['consumer_key'], config['x']['consumer_secret'], site: X_API_SITE)
-    OAuth::AccessToken.new(consumer, config['x']['access_token'], config['x']['access_token_secret'])
   end
 
   def config
