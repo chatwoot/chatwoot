@@ -15,10 +15,6 @@ models:
     provider: openai
     display_name: 'GPT-5 Mini'
     credit_multiplier: 1
-  gpt-5-nano:
-    provider: openai
-    display_name: 'GPT-5 Nano'
-    credit_multiplier: 1
   gpt-5.2:
     provider: openai
     display_name: 'GPT-5.2'
@@ -202,8 +198,8 @@ features:
     models: [gpt-6-luna, gpt-6.1-sol, gpt-5.2, gpt-5-mini]
     default: gpt-6-luna
   language_detection:
-    models: [gpt-5-mini, gpt-5-nano]
-    default: gpt-5-mini
+    models: [gpt-6-luna]
+    default: gpt-6-luna
   audio_transcription:
     models: [gpt-transcribe]
     default: gpt-transcribe
