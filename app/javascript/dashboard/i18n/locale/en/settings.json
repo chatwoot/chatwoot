@@ -306,6 +306,7 @@
     },
     "MEDIA": {
       "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "HD_BADGE": "HD",
       "LOADING_FAILED": "Loading failed"
     }
   },
