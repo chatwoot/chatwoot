@@ -22,6 +22,7 @@ const isConversationRoute = computed(() => {
     'conversations_through_label',
     'team_conversations_through_label',
     'conversations_through_folders',
+    'conversations_through_channel_group',
     'conversation_through_mentions',
     'conversation_through_unattended',
     'conversation_through_participating',

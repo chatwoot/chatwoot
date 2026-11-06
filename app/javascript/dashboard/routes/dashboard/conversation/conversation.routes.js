@@ -42,8 +42,46 @@ const redirectFolderConversationIfUnavailable = async (to, _from, next) => {
   });
 };
 
+const isChannelGroupAvailable = async channelGroupId => {
+  let groups = store.getters['channelGroups/getGroups'];
+  if (!groups.some(group => group.id === Number(channelGroupId))) {
+    await store.dispatch('channelGroups/get');
+    groups = store.getters['channelGroups/getGroups'];
+  }
+  return groups.some(group => group.id === Number(channelGroupId));
+};
+
+const redirectIfChannelGroupUnavailable = async (to, _from, next) => {
+  if (await isChannelGroupAvailable(to.params.channelGroupId)) {
+    next();
+    return;
+  }
+  next({ name: 'home', params: { accountId: to.params.accountId } });
+};
+
 export default {
   routes: [
+    {
+      path: frontendURL('accounts/:accountId/channel-groups/:channelGroupId'),
+      name: 'channel_group_conversations',
+      meta: { permissions: CONVERSATION_PERMISSIONS },
+      beforeEnter: redirectIfChannelGroupUnavailable,
+      component: ConversationView,
+      props: route => ({ channelGroupId: route.params.channelGroupId }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/channel-groups/:channelGroupId/conversations/:conversation_id'
+      ),
+      name: 'conversations_through_channel_group',
+      meta: { permissions: CONVERSATION_PERMISSIONS },
+      beforeEnter: redirectIfChannelGroupUnavailable,
+      component: ConversationView,
+      props: route => ({
+        channelGroupId: route.params.channelGroupId,
+        conversationId: route.params.conversation_id,
+      }),
+    },
     {
       path: frontendURL('accounts/:accountId/dashboard'),
       name: 'home',

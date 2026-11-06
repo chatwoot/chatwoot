@@ -5,6 +5,7 @@ import ChannelFactory from './ChannelFactory.vue';
 import SettingsContent from '../Wrapper.vue';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import InboxHome from './Index.vue';
+import ChannelGroups from './ChannelGroups.vue';
 import Settings from './Settings.vue';
 import InboxChannel from './InboxChannels.vue';
 import ChannelList from './ChannelList.vue';
@@ -27,6 +28,15 @@ export default {
           path: 'list',
           name: 'settings_inbox_list',
           component: InboxHome,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'groups',
+          name: 'settings_channel_groups',
+          component: ChannelGroups,
           meta: {
             featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
             permissions: ['administrator'],

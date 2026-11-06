@@ -39,9 +39,14 @@ const {
   cancelClose,
 } = usePopoverState();
 
-const navigableChildren = computed(() => {
-  return props.children?.flatMap(child => child.children || child) || [];
-});
+// Sections nest at most one level deep today, except channels, where a group of
+// channels adds another level below its section.
+const flattenItems = items =>
+  items.flatMap(item => [item, ...flattenItems(item.children || [])]);
+
+const navigableChildren = computed(() =>
+  flattenItems(props.children || []).filter(child => child.to)
+);
 
 const route = useRoute();
 const router = useRouter();
@@ -109,7 +114,7 @@ const handleWindowBlur = () => {
 };
 
 const hasAccessibleSubChildren = child => {
-  return child.children?.some(
+  return flattenItems(child.children || []).some(
     subChild => subChild.to && isAllowed(subChild.to)
   );
 };
@@ -127,9 +132,9 @@ const visibleChildren = computed(() => {
 const accessibleItems = computed(() => {
   if (!hasChildren.value) return [];
 
-  return visibleChildren.value
-    .flatMap(child => child.children || child)
-    .filter(child => child.to && isAllowed(child.to));
+  return flattenItems(visibleChildren.value).filter(
+    child => child.to && isAllowed(child.to)
+  );
 });
 
 const hasAccessibleChildren = computed(() => {

@@ -57,6 +57,20 @@ describe('#findPendingMessageIndex', () => {
 });
 
 describe('#applyPageFilters', () => {
+  describe('#filter-channel-group', () => {
+    it('returns true if the conversation belongs to a channel of the group', () => {
+      const filters = { status: 'open', channelGroupInboxIds: [2, 3] };
+
+      expect(applyPageFilters(conversationList[0], filters)).toEqual(true);
+    });
+
+    it('returns false if the conversation belongs to a channel outside the group', () => {
+      const filters = { status: 'pending', channelGroupInboxIds: [2, 3] };
+
+      expect(applyPageFilters(conversationList[3], filters)).toEqual(false);
+    });
+  });
+
   describe('#filter-team', () => {
     it('returns true if conversation has team and team filter is active', () => {
       const filters = {
