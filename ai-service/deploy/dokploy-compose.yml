@@ -80,6 +80,17 @@ services:
       DATABASE_URL: ${AI_DATABASE_URL:-}
       SETTINGS_PATH: /data/settings.json
       LOG_LEVEL: info
+      # Initial LLM/embeddings settings. Once someone saves /admin, the saved
+      # settings in /data/settings.json win over these.
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://openrouter.ai/api/v1}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_FALLBACK_BASE_URL: ${LLM_FALLBACK_BASE_URL:-}
+      LLM_FALLBACK_API_KEY: ${LLM_FALLBACK_API_KEY:-}
+      LLM_FALLBACK_MODEL: ${LLM_FALLBACK_MODEL:-}
+      EMBED_BASE_URL: ${EMBED_BASE_URL:-}
+      EMBED_API_KEY: ${EMBED_API_KEY:-}
+      EMBED_MODEL: ${EMBED_MODEL:-}
 
 volumes:
   storage_data:
