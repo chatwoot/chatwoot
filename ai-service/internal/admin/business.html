@@ -51,6 +51,16 @@
       <textarea id="rules" name="rules" rows="4" maxlength="{{.Limits.Field}}" aria-describedby="rules-hint" placeholder="ห้ามให้ส่วนลดเอง ถ้าถามเรื่องคืนเงินให้ส่งต่อแอดมิน">{{.Profile.Rules}}</textarea>
       <p class="field-hint" id="rules-hint">Things the bot must or must not do for this business.</p>
     </fieldset>
+    <fieldset class="features">
+      <legend>AI features</legend>
+      <p class="hint">Off by default. When a feature is off, the bot thanks the customer for the file and passes the chat to staff.</p>
+      <label class="check"><input id="feature_voice" name="feature_voice" type="checkbox"{{if .Profile.Features.Voice}} checked{{end}}>
+        <span><strong>Voice notes</strong><span class="field-hint">Transcribe voice messages and answer them like typed text.</span></span></label>
+      <label class="check"><input id="feature_images" name="feature_images" type="checkbox"{{if .Profile.Features.Images}} checked{{end}}>
+        <span><strong>Images</strong><span class="field-hint">Let the AI look at photos and screenshots. Payment slips still go to staff.</span></span></label>
+      <label class="check"><input id="feature_stickers" name="feature_stickers" type="checkbox"{{if .Profile.Features.Stickers}} checked{{end}}>
+        <span><strong>Stickers and likes</strong><span class="field-hint">Reply briefly to a sticker or 👍 instead of passing the chat to staff.</span></span></label>
+    </fieldset>
     <div class="actions"><button type="submit" class="primary">Save profile</button></div>
   </form>
   {{end}}

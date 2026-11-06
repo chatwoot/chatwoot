@@ -186,3 +186,45 @@ func TestBusiness_BadAccountIDSavesNothing(t *testing.T) {
 		})
 	}
 }
+
+func TestBusiness_FeatureSwitchesSaveAndShow(t *testing.T) {
+	// Arrange: voice and stickers ticked, images not.
+	mux, mp := businessEnv(t, true)
+	form := url.Values{"account": {"1"}, "business_name": {"Shop"}, "feature_voice": {"on"}, "feature_stickers": {"on"}}
+
+	// Act
+	saved := serve(mux, bpost(form))
+	get := httptest.NewRequest(http.MethodGet, "/admin/business?account=1", nil)
+	get.SetBasicAuth(Username, pw)
+	page := serve(mux, get).Body.String()
+
+	// Assert
+	if saved.Code != http.StatusSeeOther {
+		t.Fatalf("save = %d", saved.Code)
+	}
+	if f := mp.saved[1].Features; !f.Voice || f.Images || !f.Stickers {
+		t.Errorf("features = %+v, want voice and stickers on, images off", f)
+	}
+	for _, want := range []string{`name="feature_voice" type="checkbox" checked`, `name="feature_stickers" type="checkbox" checked`} {
+		if !strings.Contains(page, want) {
+			t.Errorf("page is missing %s", want)
+		}
+	}
+	if strings.Contains(page, `name="feature_images" type="checkbox" checked`) {
+		t.Error("images must show unticked")
+	}
+}
+
+func TestBusiness_UntickingTurnsFeaturesOff(t *testing.T) {
+	// Arrange: a profile with every feature on; the form posts no ticks.
+	mux, mp := businessEnv(t, true)
+	mp.saved[1] = profile.Profile{AccountID: 1, Features: profile.Features{Voice: true, Images: true, Stickers: true}}
+
+	// Act
+	serve(mux, bpost(url.Values{"account": {"1"}, "business_name": {"Shop"}}))
+
+	// Assert
+	if f := mp.saved[1].Features; f != (profile.Features{}) {
+		t.Errorf("features = %+v, want all off when nothing is ticked", f)
+	}
+}
