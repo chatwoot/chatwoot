@@ -34,16 +34,18 @@ const mountPicker = ({ searchKey = '', contactName = 'Jane Doe' } = {}) => {
 const listItem = wrapper => wrapper.find('li');
 
 describe('CannedResponse', () => {
+  it('does not match the contact name filled into a variable', () => {
+    expect(listItem(mountPicker({ searchKey: 'jane' })).exists()).toBe(false);
+  });
+
   it('highlights the search term in the title and preview', () => {
-    const wrapper = mountPicker({ searchKey: 'jane' });
+    const wrapper = mountPicker({ searchKey: 'hello' });
 
     const highlights = listItem(wrapper)
       .findAll('.text-n-blue-text')
       .map(node => node.text());
-    expect(highlights).toEqual(['Jane']);
-    expect(listItem(wrapper).text()).toContain(
-      'Hello Jane Doe, thanks for writing in.'
-    );
+    expect(highlights).toEqual(['Hello']);
+    expect(wrapper.text()).toContain('Hello Jane Doe, thanks for writing in.');
   });
 
   it.each(['', 'hello'])(
@@ -51,7 +53,7 @@ describe('CannedResponse', () => {
     searchKey => {
       const wrapper = mountPicker({ searchKey, contactName: markup });
 
-      const item = listItem(wrapper);
+      const item = wrapper.find('.prose');
       expect(item.find('form').exists()).toBe(false);
       expect(item.find('input').exists()).toBe(false);
       expect(item.find('img').exists()).toBe(false);

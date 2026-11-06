@@ -59,6 +59,14 @@ describe('useMessageFormatter', () => {
     });
   });
 
+  describe('normalizeForSearch', () => {
+    it('should strip accents and keep the case', () => {
+      expect(messageFormatter.normalizeForSearch('Olá olaMundo')).toBe(
+        'Ola olaMundo'
+      );
+    });
+  });
+
   describe('highlightContent', () => {
     it('should highlight search term in content', () => {
       const content = 'This is a test message';
@@ -86,6 +94,23 @@ describe('useMessageFormatter', () => {
       expect(result.trim()).toBe(
         'This <span class="highlight">(message)</span> contains [special] characters'
       );
+    });
+
+    it.each([
+      [
+        'Olá, tudo bem? OLA',
+        '<span class="highlight">Olá</span>, tudo bem? <span class="highlight">OLA</span>',
+      ],
+      ['Cafe\u0301 Ola', 'Caf\u00e9 <span class="highlight">Ola</span>'],
+      // An accent with no combined form shifts the indexes, so nothing is highlighted
+      ['g\u0303 ola', 'g\u0303 ola'],
+    ])('should ignore accents in "%s"', (content, expected) => {
+      const result = messageFormatter.highlightContent(
+        content,
+        'ola',
+        'highlight'
+      );
+      expect(result.trim()).toBe(expected);
     });
 
     it('should escape markup in content and search term', () => {
