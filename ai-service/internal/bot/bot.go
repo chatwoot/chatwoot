@@ -48,7 +48,15 @@ type Profiles interface {
 const (
 	ReasonCustomerAsked = "ai-handoff:customer-request"
 	ReasonLLMError      = "ai-handoff:llm-error"
+	ReasonAttachment    = "ai-handoff:attachment" // files only; the bot cannot read them
+	ReasonAIRequest     = "ai-handoff:ai-request" // the model decided a person is needed
 )
+
+// MaxInputRunes caps one customer message before it reaches the model, so a
+// huge paste cannot run up the bill. The rest is replaced by cutMarker.
+const MaxInputRunes = 2000
+
+const cutMarker = " …[message cut]"
 
 // Options configures a Bot.
 type Options struct {
@@ -62,8 +70,13 @@ type Options struct {
 	SystemPrompt   string
 	HandoffMessage string
 	FailureMessage string
-	Logger         *slog.Logger
-	Timeout        time.Duration // per-event processing budget
+	// AttachmentMessage acknowledges files the bot cannot read; "" uses HandoffMessage.
+	AttachmentMessage string
+	// Now and Location give the model today's date; nil uses time.Now and UTC.
+	Now      func() time.Time
+	Location *time.Location
+	Logger   *slog.Logger
+	Timeout  time.Duration // per-event processing budget
 }
 
 // Job is one event to process plus its delivery id for log correlation.
@@ -168,8 +181,15 @@ func (b *Bot) Process(parent context.Context, j Job) {
 			role = "assistant"
 		}
 		b.opts.History.Append(acct, conv, memory.Turn{Role: role, Content: ev.Content})
+	case webhook.HandOff:
+		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.AttachmentNote()})
+		msg := b.opts.AttachmentMessage
+		if msg == "" {
+			msg = b.opts.HandoffMessage
+		}
+		b.handoff(ctx, log, acct, conv, msg, ReasonAttachment)
 	case webhook.Reply:
-		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.Content})
+		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: customerText(ev)})
 		if b.opts.Handoff.Wants(ev.Content) {
 			b.handoff(ctx, log, acct, conv, b.opts.HandoffMessage, ReasonCustomerAsked)
 			return
@@ -203,11 +223,20 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 		return
 	}
 
-	if err := cw.SendMessage(ctx, acct, conv, res.Content); err != nil {
+	text, wantsHuman := SplitHandoff(res.Content)
+	if wantsHuman {
+		if text == "" {
+			text = b.opts.HandoffMessage
+		}
+		b.opts.History.Append(acct, conv, memory.Turn{Role: "assistant", Content: text})
+		b.handoff(ctx, log, acct, conv, text, ReasonAIRequest)
+		return
+	}
+	if err := cw.SendMessage(ctx, acct, conv, text); err != nil {
 		log.Error("send reply failed", "error", err)
 		return
 	}
-	b.opts.History.Append(acct, conv, memory.Turn{Role: "assistant", Content: res.Content})
+	b.opts.History.Append(acct, conv, memory.Turn{Role: "assistant", Content: text})
 	// Content is not logged (personal data); lengths and usage are enough for cost tracking.
 	log.Info("ai replied",
 		"model", res.Model,
@@ -265,15 +294,28 @@ func (b *Bot) searchQueries(ctx context.Context, log *slog.Logger, history []mem
 // systemPrompt is the shared prompt plus the account's business profile. If
 // the profile cannot be loaded the bot still answers with the shared prompt.
 func (b *Bot) systemPrompt(ctx context.Context, log *slog.Logger, acct int64) string {
-	if b.opts.Profiles == nil {
-		return b.opts.SystemPrompt
+	prompt := b.opts.SystemPrompt
+	if b.opts.Profiles != nil {
+		p, err := b.opts.Profiles.Get(ctx, acct)
+		if err != nil {
+			log.Error("business profile lookup failed", "error", err)
+		} else {
+			prompt = profile.Prompt(prompt, p)
+		}
 	}
-	p, err := b.opts.Profiles.Get(ctx, acct)
-	if err != nil {
-		log.Error("business profile lookup failed", "error", err)
-		return b.opts.SystemPrompt
+	return prompt + "\n\n" + policyPrompt(b.now())
+}
+
+func (b *Bot) now() time.Time {
+	now := time.Now
+	if b.opts.Now != nil {
+		now = b.opts.Now
 	}
-	return profile.Prompt(b.opts.SystemPrompt, p)
+	loc := b.opts.Location
+	if loc == nil {
+		loc = time.UTC
+	}
+	return now().In(loc)
 }
 
 func (b *Bot) handoff(ctx context.Context, log *slog.Logger, acct, conv int64, customerMsg, reason string) {

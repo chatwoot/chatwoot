@@ -75,6 +75,8 @@ type Runner struct {
 	Judge    Judge
 	// Profile returns the account's business profile text; optional.
 	Profile func(ctx context.Context, acct int64) string
+	// Split removes the model's handoff marker and reports it; optional.
+	Split func(reply string) (string, bool)
 }
 
 // Result is the outcome of one case.
@@ -143,10 +145,17 @@ func (r Runner) runCase(ctx context.Context, c Case) Result {
 			return res
 		}
 		res.Reply, hits = out.Content, h
-		history = append(history, memory.Turn{Role: "assistant", Content: out.Content})
+		if r.Split != nil {
+			res.Reply, res.Handoff = r.Split(out.Content)
+		}
+		history = append(history, memory.Turn{Role: "assistant", Content: res.Reply})
+		if res.Handoff {
+			break
+		}
 	}
 
-	if c.Expect == ExpectHandoff || res.Handoff {
+	// Handing off is also a correct way to not know, if the text invents nothing.
+	if c.Expect == ExpectHandoff || (res.Handoff && c.Expect != ExpectUnknown) {
 		res.Pass = c.Expect == ExpectHandoff && res.Handoff
 		if !res.Pass {
 			res.Reason = map[bool]string{true: "handed off unexpectedly", false: "did not hand off"}[res.Handoff]

@@ -202,3 +202,35 @@ func TestReportVerbosePrintsPassingReplies(t *testing.T) {
 		t.Errorf("verbose report is missing the reply:\n%s", buf.String())
 	}
 }
+
+func TestRunModelHandoffMarker(t *testing.T) {
+	// Arrange: the model asks for a person on the first turn; the second turn never runs.
+	a := &scriptedAnswerer{replies: []string{"[[H]] staff will check your slip"}}
+	split := func(r string) (string, bool) { return strings.TrimPrefix(r, "[[H]] "), strings.HasPrefix(r, "[[H]]") }
+	cases := []Case{{Name: "slip", Turns: []string{"โอนแล้วค่ะ", "เช็คให้หน่อย"}, Expect: ExpectHandoff}}
+
+	// Act
+	rep := Run(context.Background(), Runner{Answerer: a, Handoff: keyword("แอดมิน"), Judge: &fixedJudge{}, Split: split}, cases)
+
+	// Assert
+	r := rep.Results[0]
+	if !r.Pass || !r.Handoff || r.Reply != "staff will check your slip" || len(a.histories) != 1 {
+		t.Fatalf("result = %+v, calls = %d", r, len(a.histories))
+	}
+}
+
+func TestRunUnknownMayHandOff(t *testing.T) {
+	// Arrange
+	a := &scriptedAnswerer{replies: []string{"[[H]] staff will answer that"}}
+	split := func(r string) (string, bool) { return strings.TrimPrefix(r, "[[H]] "), strings.HasPrefix(r, "[[H]]") }
+	j := &fixedJudge{verdict: Verdict{Pass: true}}
+
+	// Act
+	rep := Run(context.Background(), Runner{Answerer: a, Handoff: keyword("x"), Judge: j, Split: split},
+		[]Case{{Name: "u", Turns: []string{"python course?"}, Expect: ExpectUnknown}})
+
+	// Assert
+	if !rep.Results[0].Pass || j.calls != 1 {
+		t.Errorf("result = %+v, judge calls = %d; want a pass after judging the text", rep.Results[0], j.calls)
+	}
+}

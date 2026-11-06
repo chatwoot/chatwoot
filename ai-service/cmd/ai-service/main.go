@@ -12,6 +12,7 @@ import (
 	"strings"
 	"syscall"
 	"time"
+	_ "time/tzdata" // the distroless image has no zoneinfo; TIMEZONE needs it
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/admin"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
@@ -75,17 +76,19 @@ func run() error {
 	}
 
 	b := bot.New(bot.Options{
-		Chatwoot:       chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
-		LLM:            completer,
-		Knowledge:      retriever,
-		Profiles:       botProfiles,
-		Rewriter:       rewriter,
-		History:        memory.NewHistory(cfg.HistoryLimit, 24*time.Hour, nil),
-		Handoff:        handoff.New(cfg.HandoffKeywords),
-		SystemPrompt:   cfg.SystemPrompt,
-		HandoffMessage: cfg.HandoffMessage,
-		FailureMessage: cfg.FailureMessage,
-		Logger:         logger,
+		Chatwoot:          chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
+		LLM:               completer,
+		Knowledge:         retriever,
+		Profiles:          botProfiles,
+		Rewriter:          rewriter,
+		History:           memory.NewHistory(cfg.HistoryLimit, 24*time.Hour, nil),
+		Handoff:           handoff.New(cfg.HandoffKeywords),
+		SystemPrompt:      cfg.SystemPrompt,
+		HandoffMessage:    cfg.HandoffMessage,
+		FailureMessage:    cfg.FailureMessage,
+		AttachmentMessage: cfg.AttachmentMessage,
+		Location:          cfg.Location,
+		Logger:            logger,
 		// Primary + fallback calls, plus Chatwoot API calls.
 		Timeout: 2*cfg.LLMTimeout + 30*time.Second,
 	}, cfg.Workers, cfg.QueueSize)

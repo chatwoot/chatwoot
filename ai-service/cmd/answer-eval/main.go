@@ -19,6 +19,7 @@ import (
 	"log/slog"
 	"os"
 	"time"
+	_ "time/tzdata" // the distroless image has no zoneinfo; TIMEZONE needs it
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/answereval"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
@@ -85,12 +86,14 @@ func run() error {
 	profiles := &profile.Postgres{Pool: pg.Pool}
 
 	opts := bot.Options{
-		LLM:          chat,
-		Knowledge:    &knowledge.Service{Store: pg, Embedder: embedder, TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes},
-		Profiles:     profiles,
-		History:      memory.NewHistory(cfg.HistoryLimit, time.Hour, nil),
-		SystemPrompt: cfg.SystemPrompt,
-		Logger:       quiet,
+		LLM:            chat,
+		Knowledge:      &knowledge.Service{Store: pg, Embedder: embedder, TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes},
+		Profiles:       profiles,
+		History:        memory.NewHistory(cfg.HistoryLimit, time.Hour, nil),
+		SystemPrompt:   cfg.SystemPrompt,
+		HandoffMessage: cfg.HandoffMessage,
+		Location:       cfg.Location,
+		Logger:         quiet,
 	}
 	if !*noRewrite {
 		opts.Rewriter = &bot.LLMRewriter{LLM: chat}
@@ -103,6 +106,7 @@ func run() error {
 		Answerer: b,
 		Handoff:  handoff.New(cfg.HandoffKeywords),
 		Judge:    answereval.LLMJudge{LLM: judge},
+		Split:    bot.SplitHandoff,
 		Profile: func(ctx context.Context, acct int64) string {
 			p, err := profiles.Get(ctx, acct)
 			if err != nil {
