@@ -1,15 +1,14 @@
 # A tool on an MCP server that an admin approved. Captain::Mcp::AgentTools builds one class per tool from the
 # approved definition, so the model sees only the description and schema the admin approved.
 class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
-  attr_reader :mcp_server, :mcp_tool, :connection
+  attr_reader :mcp_tool, :connection
 
   # Whether the model sees and fills a verified parameter. Each subclass answers for the user it serves.
   def self.model_fills_verified_values?
     false
   end
 
-  def initialize(assistant, mcp_server, mcp_tool, connection)
-    @mcp_server = mcp_server
+  def initialize(assistant, mcp_tool, connection)
     @mcp_tool = mcp_tool
     @connection = connection
     super(assistant)

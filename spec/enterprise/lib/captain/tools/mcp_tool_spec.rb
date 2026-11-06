@@ -17,7 +17,7 @@ RSpec.describe Captain::Tools::McpTool do
     server.tools.first
   end
   let(:connection) { instance_double(Captain::Mcp::Connection, call: instance_double(RubyLLM::MCP::Result, text: 'ok', structured: nil)) }
-  let(:tool) { Captain::Mcp::AgentTools.build(assistant, server, mcp_tool, connection, base_class: base_class) }
+  let(:tool) { Captain::Mcp::AgentTools.build(assistant, mcp_tool, connection, base_class: base_class) }
   let(:verified_email) { 'jane@example.com' }
 
   before do

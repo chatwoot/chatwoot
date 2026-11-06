@@ -8,9 +8,9 @@ class Captain::Mcp::AgentTools
   module Generated; end
 
   # An approved tool that matches its live definition, with the connection that listed it
-  Usable = Struct.new(:server, :mcp_tool, :connection)
+  Usable = Struct.new(:mcp_tool, :connection)
 
-  def self.build(assistant, server, mcp_tool, connection, base_class:)
+  def self.build(assistant, mcp_tool, connection, base_class:)
     tool_name = mcp_tool.captain_name
     tool_description = mcp_tool.description.to_s
     schema = model_schema(mcp_tool, base_class)
@@ -25,7 +25,7 @@ class Captain::Mcp::AgentTools
     Generated.send(:remove_const, class_name) if Generated.const_defined?(class_name, false)
     Generated.const_set(class_name, tool_class)
 
-    tool_class.new(assistant, server, mcp_tool, connection)
+    tool_class.new(assistant, mcp_tool, connection)
   end
 
   # A parameter the customer does not prove, such as a fixed value, is always hidden.
@@ -66,7 +66,7 @@ class Captain::Mcp::AgentTools
   private
 
   def build(entry)
-    self.class.build(@assistant, entry.server, entry.mcp_tool, entry.connection, base_class: Captain::Tools::PublicMcpTool)
+    self.class.build(@assistant, entry.mcp_tool, entry.connection, base_class: Captain::Tools::PublicMcpTool)
   end
 
   def usable
@@ -81,7 +81,7 @@ class Captain::Mcp::AgentTools
     live = connection.track_status { connection.tool_definitions }.index_by { |definition| definition['name'] }
     mcp_tools.filter_map do |mcp_tool|
       definition = live[mcp_tool.name]
-      Usable.new(server, mcp_tool, connection) if definition && mcp_tool.approval_current?(definition)
+      Usable.new(mcp_tool, connection) if definition && mcp_tool.approval_current?(definition)
     end
   rescue *Captain::Mcp::Connection::ERRORS => e
     Rails.logger.warn("Captain MCP server #{server.id} skipped: #{e.class} - #{e.message}")

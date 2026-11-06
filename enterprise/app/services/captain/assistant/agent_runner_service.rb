@@ -172,7 +172,7 @@ class Captain::Assistant::AgentRunnerService
       case tool
       when Captain::Tools::HttpTool then tool.custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool)
       when Captain::Tools::McpTool
-        Captain::Mcp::AgentTools.build(@assistant, tool.mcp_server, tool.mcp_tool, tool.connection, base_class: Captain::Tools::CopilotMcpTool)
+        Captain::Mcp::AgentTools.build(@assistant, tool.mcp_tool, tool.connection, base_class: Captain::Tools::CopilotMcpTool)
       else tool
       end
     end
