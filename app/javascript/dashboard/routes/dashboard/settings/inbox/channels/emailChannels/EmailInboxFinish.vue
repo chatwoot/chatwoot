@@ -17,20 +17,12 @@ const props = defineProps({
 const { t } = useI18n();
 const { replaceInstallationName } = useBranding();
 
-const isImapSmtpInbox = computed(() => {
-  return props.inbox.imap_enabled;
-});
-
 const message = computed(() => {
   return replaceInstallationName(
-    isImapSmtpInbox.value
+    props.inbox.imap_enabled
       ? t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE_IMAP_SMTP')
       : t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE_FORWARDING')
   );
-});
-
-const showForwardingAddress = computed(() => {
-  return !isImapSmtpInbox.value && props.inbox.forwarding_enabled;
 });
 </script>
 
@@ -40,7 +32,10 @@ const showForwardingAddress = computed(() => {
       {{ message }}
     </p>
 
-    <div v-if="showForwardingAddress" class="w-full max-w-xl mt-8">
+    <div
+      v-if="!inbox.imap_enabled && inbox.forwarding_enabled"
+      class="w-full max-w-xl mt-8"
+    >
       <p class="mb-4 font-medium text-n-slate-11">
         {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FORWARDING_ADDRESS_LABEL') }}
       </p>
@@ -51,7 +46,7 @@ const showForwardingAddress = computed(() => {
     </div>
 
     <p
-      v-if="isImapSmtpInbox"
+      v-if="inbox.imap_enabled"
       class="mt-8 text-sm text-n-slate-11 pb-4 max-w-xl leading-6"
     >
       <router-link

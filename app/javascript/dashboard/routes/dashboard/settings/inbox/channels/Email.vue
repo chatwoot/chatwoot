@@ -23,13 +23,9 @@ const { currentAccount } = useAccount();
 const globalConfig = getters['globalConfig/get'];
 const isAChatwootInstance = getters['globalConfig/isAChatwootInstance'];
 
-const isInboundEmailEnabled = computed(
-  () => currentAccount.value?.features?.[FEATURE_FLAGS.INBOUND_EMAILS]
-);
-
 const isForwardingEnabled = computed(
   () =>
-    isInboundEmailEnabled.value &&
+    currentAccount.value?.features?.[FEATURE_FLAGS.INBOUND_EMAILS] &&
     (currentAccount.value?.domain ||
       globalConfig.value.inboundEmailDomainPresent)
 );
@@ -67,16 +63,12 @@ const emailProviderList = computed(() => {
       key: 'other_provider',
       icon: 'i-woot-mail',
     },
-  ].filter(providerConfig => {
-    if (providerConfig.showWhenDisabled) {
-      return true;
-    }
-
-    if (isAChatwootInstance.value) {
-      return true;
-    }
-    return providerConfig.isEnabled;
-  });
+  ].filter(
+    providerConfig =>
+      providerConfig.showWhenDisabled ||
+      isAChatwootInstance.value ||
+      providerConfig.isEnabled
+  );
 });
 
 function onClick(emailProvider) {

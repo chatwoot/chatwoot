@@ -393,7 +393,7 @@ export default {
     </SettingsFieldSection>
   </div>
   <div v-else-if="isAnEmailChannel">
-    <div v-if="isForwardingEmailInbox" class="flex flex-col gap-4">
+    <template v-if="isForwardingEmailInbox">
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
         :help-text="
@@ -415,7 +415,7 @@ export default {
           </p>
         </div>
       </SettingsFieldSection>
-    </div>
+    </template>
     <ImapSettings :inbox="inbox" />
     <SmtpSettings
       :inbox="inbox"

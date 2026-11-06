@@ -4,7 +4,7 @@ import ImapSmtpOption from '../ImapSmtpOption.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
-vi.mock('vue-router', () => ({ useRouter: () => ({ push: vi.fn() }) }));
+vi.mock('vue-router', () => ({ useRouter: () => ({ replace: vi.fn() }) }));
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
 vi.mock('dashboard/composables/store', () => ({
   useStore: () => ({ dispatch: vi.fn() }),
