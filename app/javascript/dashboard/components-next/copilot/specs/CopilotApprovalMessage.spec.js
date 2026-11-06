@@ -57,6 +57,23 @@ describe('CopilotApprovalMessage', () => {
     expect(wrapper.text()).toContain('Add sign-in to 2 conversations');
   });
 
+  it('shows chips for a card that saved its labels as one joined string', () => {
+    const wrapper = mountCard({
+      status: 'rejected',
+      action: 'add_labels',
+      summary: 'ADD_LABELS',
+      values: { labels: 'sign-in, billing' },
+      count: 2,
+      targets,
+    });
+
+    expect(wrapper.findAllComponents(Label).map(chip => chip.text())).toEqual([
+      'sign-in',
+      'billing',
+    ]);
+    expect(wrapper.text()).toContain('Rejected');
+  });
+
   it('keeps linking the records after a change applies to all of them', () => {
     const wrapper = mountCard({
       status: 'approved',

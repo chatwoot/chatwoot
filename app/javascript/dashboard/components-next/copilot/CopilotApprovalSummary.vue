@@ -23,12 +23,15 @@ const values = computed(() => {
   return params;
 });
 
-// Labels show as the chips agents know from conversations, in the label's own color. Their text is smaller than the
-// sentence, so the template lifts them 1px to center them on the line.
+// Labels show as the chips agents know from conversations, in the label's own color. Cards saved before the titles were
+// a list hold them as one joined string. The chips are smaller than the sentence, so the template lifts them 1px.
 const labels = computed(() =>
-  (values.value.labels || []).map(
-    title => accountLabels.value.find(label => label.title === title) || title
-  )
+  []
+    .concat(values.value.labels || [])
+    .flatMap(title => title.split(', '))
+    .map(
+      title => accountLabels.value.find(label => label.title === title) || title
+    )
 );
 </script>
 
