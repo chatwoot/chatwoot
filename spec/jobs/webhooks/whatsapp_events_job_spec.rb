@@ -31,7 +31,7 @@ RSpec.describe Webhooks::WhatsappEventsJob do
   it 'enqueues the job' do
     expect { job.perform_later(params) }.to have_enqueued_job(described_class)
       .with(params)
-      .on_queue('low')
+      .on_queue('default')
   end
 
   context 'when whatsapp_cloud provider' do
