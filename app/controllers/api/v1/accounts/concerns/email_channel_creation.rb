@@ -6,7 +6,10 @@ module Api::V1::Accounts::Concerns::EmailChannelCreation
   def validate_new_email_channel
     return unless params.dig(:channel, :type) == 'email'
 
-    validate_email_channel(Channel::Email::EDITABLE_ATTRS)
+    attributes = permitted_params(Channel::Email::EDITABLE_ATTRS)[:channel].except(:type)
+    channel_data = Channel::Email.new(attributes).attributes.with_indifferent_access
+    validate_imap(channel_data)
+    validate_smtp(channel_data)
   rescue StandardError => e
     render json: { message: e }, status: :unprocessable_entity
   end

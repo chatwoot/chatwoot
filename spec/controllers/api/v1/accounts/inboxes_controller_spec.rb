@@ -554,6 +554,14 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com' } } }
 
+      let(:imap_creation_attributes) do
+        {
+          type: 'email', email: 'support@example.com', imap_enabled: true,
+          imap_address: 'imap.example.com', imap_port: 993,
+          imap_login: 'support@example.com', imap_password: 'password', imap_authentication: 'login'
+        }
+      end
+
       it 'will not create inbox for agent' do
         agent = create(:user, account: account, role: :agent)
 
@@ -617,6 +625,46 @@ RSpec.describe 'Inboxes API', type: :request do
         channel = Channel::Email.find_by!(email: 'support@example.com')
         expect(channel.imap_enabled).to be true
         expect(channel.smtp_enabled).to be false
+      end
+
+      [{}, { imap_enable_ssl: true }, { imap_enable_ssl: false }, { imap_enable_ssl: nil }].each do |ssl_attributes|
+        it "validates IMAP with the persisted SSL setting for #{ssl_attributes.inspect}" do
+          imap_connection = instance_double(Net::IMAP, disconnected?: false, disconnect: nil, login: nil)
+          ssl = ssl_attributes.fetch(:imap_enable_ssl, true)
+          allow(Net::IMAP).to receive(:new).and_return(imap_connection)
+
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: {
+                 name: 'Support',
+                 channel: imap_creation_attributes.merge(ssl_attributes)
+               }, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(Net::IMAP).to have_received(:new).with('imap.example.com', port: 993, ssl: ssl)
+          expect(Channel::Email.find_by!(email: 'support@example.com').imap_enable_ssl).to eq(ssl)
+        end
+      end
+
+      it 'applies SMTP encryption defaults when validating creation credentials' do
+        smtp_connection = instance_double(Net::SMTP, start: true, finish: true, enable_starttls_auto: true)
+        allow(smtp_connection).to receive(:open_timeout=)
+        allow(Net::SMTP).to receive(:new).and_return(smtp_connection)
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: {
+               name: 'Support',
+               channel: {
+                 type: 'email', email: 'support@example.com', smtp_enabled: true,
+                 smtp_address: 'smtp.example.com', smtp_port: 587,
+                 smtp_login: 'support@example.com', smtp_password: 'password'
+               }
+             }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(smtp_connection).to have_received(:enable_starttls_auto).with(an_instance_of(OpenSSL::SSL::SSLContext))
+        expect(Channel::Email.find_by!(email: 'support@example.com').smtp_enable_starttls_auto).to be true
       end
 
       it 'does not create an inbox or enqueue an import when the IMAP connection fails' do
