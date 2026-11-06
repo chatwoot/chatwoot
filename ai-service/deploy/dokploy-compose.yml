@@ -1,0 +1,82 @@
+# Production stack for Dokploy (DEV-Johnstocker/chatwoot#1).
+# Adapted from chatwoot/docker-compose.production.yaml (MIT). Differences:
+# - No postgres service: Chatwoot and ai-service use Supabase (session pooler).
+# - Migrations run before the Rails server starts (db:chatwoot_prepare is idempotent).
+# - No published ports: Dokploy's Traefik routes the public domain to rails:3000.
+# - ai-service sits behind the "ai" profile; set COMPOSE_PROFILES=ai once the
+#   Chatwoot Agent Bot exists and its token/secret are in the Dokploy env.
+# Every ${VAR} comes from the Dokploy environment tab; nothing secret lives here.
+
+x-chatwoot: &chatwoot
+  image: chatwoot/chatwoot:v4.19.1
+  restart: unless-stopped
+  volumes:
+    - storage_data:/app/storage
+  environment:
+    NODE_ENV: production
+    RAILS_ENV: production
+    INSTALLATION_ENV: docker
+    RAILS_LOG_TO_STDOUT: 'true'
+    LOG_LEVEL: info
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE:?set in Dokploy}
+    FRONTEND_URL: ${FRONTEND_URL:?set in Dokploy}
+    FORCE_SSL: 'true'
+    ENABLE_ACCOUNT_SIGNUP: 'false'
+    DATABASE_URL: ${CHATWOOT_DATABASE_URL:?set in Dokploy}
+    REDIS_URL: redis://redis:6379
+    REDIS_PASSWORD: ${REDIS_PASSWORD:?set in Dokploy}
+    ACTIVE_STORAGE_SERVICE: local
+    # Supabase session-pooler slots are limited; keep Rails + Sidekiq small.
+    RAILS_MAX_THREADS: '5'
+    SIDEKIQ_CONCURRENCY: '5'
+    # The Agent Bot webhook targets http://ai-service:8080 on the private network.
+    SAFE_FETCH_ALLOW_PRIVATE_NETWORK: 'true'
+    MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-}
+    SMTP_ADDRESS: ${SMTP_ADDRESS:-}
+    SMTP_PORT: ${SMTP_PORT:-587}
+    SMTP_USERNAME: ${SMTP_USERNAME:-}
+    SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+
+services:
+  rails:
+    <<: *chatwoot
+    depends_on: [redis]
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['sh', '-c', 'bundle exec rails db:chatwoot_prepare && exec bundle exec rails s -p 3000 -b 0.0.0.0']
+    expose: ['3000']
+
+  sidekiq:
+    <<: *chatwoot
+    depends_on: [redis, rails]
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ['sh', '-c', 'redis-server --appendonly yes --requirepass "$$REDIS_PASSWORD"']
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?set in Dokploy}
+    volumes:
+      - redis_data:/data
+
+  ai-service:
+    profiles: [ai]
+    build: ..
+    restart: unless-stopped
+    depends_on: [rails]
+    expose: ['8080']
+    volumes:
+      - ai_data:/data
+    environment:
+      CHATWOOT_BASE_URL: http://rails:3000
+      CHATWOOT_BOT_TOKEN: ${CHATWOOT_BOT_TOKEN:-}
+      CHATWOOT_WEBHOOK_SECRET: ${CHATWOOT_WEBHOOK_SECRET:-}
+      ADMIN_PASSWORD: ${AI_ADMIN_PASSWORD:-}
+      DATABASE_URL: ${AI_DATABASE_URL:-}
+      SETTINGS_PATH: /data/settings.json
+      LOG_LEVEL: info
+
+volumes:
+  storage_data:
+  redis_data:
+  ai_data:
