@@ -13,3 +13,4 @@ CLAUDE.local.md
 
 # Shared agent definitions (the repository-root .gitignore ignores .claude/)
 !.claude/
+__pycache__/

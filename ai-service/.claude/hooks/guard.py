@@ -1,0 +1,236 @@
+#!/usr/bin/env python3
+"""PreToolUse guard for ai-service (DEV-Johnstocker/chatwoot#1).
+
+Enforces the hard rules in ai-service/AGENTS.md instead of trusting the text:
+
+1. No push to `develop` (feature branch + PR only), no plain --force.
+2. No --no-verify.
+3. Never open, copy or edit the fork's `enterprise/` directory.
+4. Never edit Chatwoot's own files: in the fork, writes are allowed only under
+   `ai-service/` and to `.github/workflows/ai-service.yml`.
+5. Never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.
+
+Claude Code sends the tool call as JSON on stdin. Exit code 2 blocks the call
+and shows stderr to the model; exit 0 lets it through. Anything the guard
+cannot parse is let through, so a bug here never blocks ordinary work.
+
+Limits: shell redirections or `sed -i` on Chatwoot files, and recursive
+searches that happen to walk enterprise/, are not detected; review still
+applies. Run the tests with
+`python3 -m unittest discover -s ai-service/.claude/hooks`.
+"""
+
+import json
+import os
+import re
+import shlex
+import subprocess
+import sys
+
+FORK_REMOTE = "DEV-Johnstocker/chatwoot"
+ALLOWED_PREFIXES = ("ai-service/",)
+ALLOWED_FILES = (".github/workflows/ai-service.yml",)
+PROTECTED_BRANCHES = ("develop",)
+
+WRITE_TOOLS = ("Edit", "Write", "MultiEdit", "NotebookEdit")
+READ_TOOLS = ("Read", "Grep", "Glob")
+
+SAFE_FETCH = re.compile(
+    r"SAFE_FETCH_ALLOW_PRIVATE_NETWORK['\"]?\s*[:=]\s*['\"]?(true|1|yes|on)\b",
+    re.IGNORECASE,
+)
+ENTERPRISE_PATH = re.compile(r"^(\./)?enterprise(/|$)")
+FILE_COMMANDS = {
+    "cat", "less", "more", "head", "tail", "cp", "mv", "rsync", "sed", "awk",
+    "grep", "rg", "ls", "find", "vim", "vi", "nano", "open", "code", "tar", "zip",
+}
+
+
+def block(reason):
+    print(f"Blocked by ai-service guard: {reason}", file=sys.stderr)
+    sys.exit(2)
+
+
+def run_git(cwd, *args):
+    try:
+        out = subprocess.run(
+            ["git", "-C", cwd, *args],
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return out.stdout.strip() if out.returncode == 0 else None
+
+
+def existing_dir(path):
+    path = os.path.abspath(path)
+    while path and not os.path.isdir(path):
+        parent = os.path.dirname(path)
+        if parent == path:
+            return None
+        path = parent
+    return path
+
+
+def fork_relative_path(file_path):
+    """Path relative to the fork's root, or None when outside the fork."""
+    start = existing_dir(os.path.dirname(file_path) or ".")
+    if not start:
+        return None
+    root = run_git(start, "rev-parse", "--show-toplevel")
+    if not root:
+        return None
+    remote = run_git(root, "remote", "get-url", "origin") or ""
+    if FORK_REMOTE.lower() not in remote.lower():
+        return None
+    root = os.path.realpath(root)
+    target = os.path.realpath(os.path.abspath(file_path))
+    if not target.startswith(root + os.sep):
+        return None
+    return os.path.relpath(target, root)
+
+
+def in_fork(directory):
+    root = run_git(directory, "rev-parse", "--show-toplevel")
+    remote = run_git(root, "remote", "get-url", "origin") if root else ""
+    return bool(remote) and FORK_REMOTE.lower() in remote.lower()
+
+
+def is_enterprise(rel):
+    return rel == "enterprise" or rel.startswith("enterprise/")
+
+
+def check_write(file_path):
+    rel = fork_relative_path(file_path)
+    if rel is None:
+        return
+    if is_enterprise(rel):
+        block("never open, copy or edit enterprise/ (separate licence).")
+    if rel.startswith(ALLOWED_PREFIXES) or rel in ALLOWED_FILES:
+        return
+    block(
+        f"{rel} is a Chatwoot file. Our code lives only in ai-service/ and "
+        ".github/workflows/ai-service.yml (AGENTS.md project rules)."
+    )
+
+
+def check_read(tool_input):
+    for key in ("file_path", "path"):
+        value = tool_input.get(key)
+        if value:
+            rel = fork_relative_path(value)
+            if rel is not None and is_enterprise(rel):
+                block("never open enterprise/ (separate licence).")
+    pattern = tool_input.get("pattern", "")
+    if tool_input.get("path") is None and pattern.startswith("enterprise/"):
+        block("never open enterprise/ (separate licence).")
+
+
+def split_commands(command):
+    return [part for part in re.split(r"&&|\|\||;|\n|\|", command) if part.strip()]
+
+
+def tokens(part):
+    try:
+        return shlex.split(part)
+    except ValueError:
+        return part.split()
+
+
+def effective_cwd(command, cwd):
+    """Follow a leading `cd <dir>` so the branch check uses the right repo."""
+    for part in split_commands(command):
+        words = tokens(part)
+        if len(words) >= 2 and words[0] == "cd":
+            target = os.path.expanduser(words[1])
+            cwd = target if os.path.isabs(target) else os.path.join(cwd, target)
+    return cwd
+
+
+def git_subcommand(words):
+    """Return (repo_dir_or_None, subcommand, args) for a git invocation."""
+    if not words or os.path.basename(words[0]) != "git":
+        return None
+    repo = None
+    i = 1
+    while i < len(words):
+        word = words[i]
+        if word == "-C" and i + 1 < len(words):
+            repo = words[i + 1]
+            i += 2
+        elif word == "-c" and i + 1 < len(words):
+            i += 2
+        elif word.startswith("-"):
+            i += 1
+        else:
+            return repo, word, words[i + 1:]
+    return None
+
+
+def check_push(args, repo_dir):
+    for arg in args:
+        if arg in ("--force", "-f") or (arg.startswith("-") and not arg.startswith("--") and "f" in arg[1:]):
+            block("never plain --force; use --force-with-lease on your own branch.")
+    refspecs = [a for a in args if not a.startswith("-")]
+    for ref in refspecs[1:]:
+        dest = ref.split(":")[-1].lstrip("+")
+        dest = dest.removeprefix("refs/heads/")
+        if dest in PROTECTED_BRANCHES:
+            block(f"never push to {dest}; push a feature branch and open a PR.")
+    if len(refspecs) <= 1:
+        branch = run_git(repo_dir, "symbolic-ref", "--short", "HEAD")
+        if branch in PROTECTED_BRANCHES:
+            block(f"current branch is {branch}; push a feature branch and open a PR.")
+
+
+def check_bash(command, cwd):
+    if SAFE_FETCH.search(command):
+        block("never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.")
+    base = effective_cwd(command, cwd)
+    for part in split_commands(command):
+        words = tokens(part)
+        if words and os.path.basename(words[0]) in FILE_COMMANDS:
+            for word in words[1:]:
+                if word.startswith("-") or "enterprise" not in word:
+                    continue
+                path = os.path.expanduser(word)
+                path = path if os.path.isabs(path) else os.path.join(base, path)
+                rel = fork_relative_path(path)
+                if (rel is not None and is_enterprise(rel)) or (ENTERPRISE_PATH.match(word) and in_fork(base)):
+                    block("never open, copy or edit enterprise/ (separate licence).")
+        parsed = git_subcommand(words)
+        if not parsed:
+            continue
+        repo, sub, args = parsed
+        if "--no-verify" in args:
+            block("never --no-verify; fix the failing hook instead.")
+        if sub == "push":
+            repo_dir = repo if repo and os.path.isabs(repo) else os.path.join(base, repo or "")
+            check_push(args, repo_dir)
+
+
+def main():
+    try:
+        event = json.load(sys.stdin)
+    except (json.JSONDecodeError, ValueError):
+        return
+    tool = event.get("tool_name", "")
+    tool_input = event.get("tool_input") or {}
+    cwd = event.get("cwd") or os.getcwd()
+
+    if SAFE_FETCH.search(json.dumps(tool_input)):
+        block("never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.")
+    if tool == "Bash":
+        check_bash(tool_input.get("command", ""), cwd)
+    elif tool in WRITE_TOOLS:
+        path = tool_input.get("file_path") or tool_input.get("notebook_path")
+        if path:
+            check_write(path)
+    elif tool in READ_TOOLS:
+        check_read(tool_input)
+
+
+if __name__ == "__main__":
+    main()

@@ -109,7 +109,8 @@ Stop and ask only for:
   `vector` extension exist → deploy the exact reviewed commit → health check.
   Rolling back code does not roll back a schema change.
 - Production deploys go through Dokploy (`deploy/dokploy-compose.yml`) and need
-  the owner's go-ahead.
+  the owner's go-ahead. In Claude Code the owner runs `/deploy`
+  (`.claude/skills/deploy/`), which checks, deploys and verifies.
 
 ## 6. Observability
 
@@ -158,5 +159,14 @@ and docs skip this; their tests are the check.
 - Lead with the result. Recommend one option, not a menu. End with one handoff:
   what was delivered, what was verified, what is still open, and the one next
   step. Separate blockers from optional follow-ups.
+
+## 11. Enforcement (Claude Code)
+
+`.claude/settings.json` runs `.claude/hooks/guard.py` before tool calls. It
+blocks pushes to `develop`, plain `--force`, `--no-verify`, any access to
+`enterprise/`, edits to Chatwoot files outside our paths, and setting
+`SAFE_FETCH_ALLOW_PRIVATE_NETWORK`. A block is a rule, not an obstacle: never
+route around it (for example with shell redirection). Tests:
+`python3 -m unittest discover -s .claude/hooks`.
 
 Keep this file under 200 lines. Point to other files instead of restating them.
