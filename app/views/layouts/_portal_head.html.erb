@@ -22,8 +22,8 @@
   <link rel="icon" href="<%= url_for(@portal.logo) %>">
 <% end %>
 
-<%# Skip analytics on internal plain-layout previews (dashboard article preview iframe) so they don't count as visitor traffic. %>
-<%= render 'layouts/portal_analytics' unless @is_plain_layout_enabled %>
+<%# Skip analytics on internal previews (dashboard preview iframe, signed article previews) so they don't count as visitor traffic or record the preview token. %>
+<%= render 'layouts/portal_analytics' unless @is_plain_layout_enabled || @is_internal_preview %>
 
 <% unless @theme_from_params.blank? %>
 <%# this adds the theme from params, ensuring that there a localstorage value set %>

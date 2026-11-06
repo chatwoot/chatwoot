@@ -807,6 +807,8 @@
           "SAVED": "Saved"
         },
         "PREVIEW": "Preview",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "Publish",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
