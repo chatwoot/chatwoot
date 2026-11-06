@@ -68,8 +68,10 @@ func run() error {
 	var retriever bot.Retriever
 	var botProfiles bot.Profiles
 	var adminProfiles profile.Store
+	var rewriter bot.QueryRewriter
 	if kb != nil {
 		retriever, botProfiles, adminProfiles = kb, profiles, profiles
+		rewriter = &bot.LLMRewriter{LLM: completer}
 	}
 
 	b := bot.New(bot.Options{
@@ -77,6 +79,7 @@ func run() error {
 		LLM:            completer,
 		Knowledge:      retriever,
 		Profiles:       botProfiles,
+		Rewriter:       rewriter,
 		History:        memory.NewHistory(cfg.HistoryLimit, 24*time.Hour, nil),
 		Handoff:        handoff.New(cfg.HandoffKeywords),
 		SystemPrompt:   cfg.SystemPrompt,

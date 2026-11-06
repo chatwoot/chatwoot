@@ -138,6 +138,34 @@ knowledge base and 22 cases are in [`testdata/`](testdata/). On that sample
 (Thai + English), `text-embedding-3-small` found 16/18, `text-embedding-3-large`
 18/18 at `RAG_MIN_SCORE=0.3`.
 
+### Measuring answers (`answer-eval`)
+
+`answer-eval` grades the bot's real replies to multi-turn test conversations.
+It uses the same business profile, knowledge search, query rewrite and chat
+model as ai-service, and sends nothing to Chatwoot. Each case is checked by
+hard rules first (handoff, required and forbidden text), then by an LLM judge
+that fails wrong answers and invented business facts:
+
+```bash
+docker compose cp answers.json ai-service:/data/answers.json
+docker compose exec ai-service /answer-eval -cases /data/answers.json -v           # every reply
+docker compose exec ai-service /answer-eval -cases /data/answers.json -no-rewrite  # compare without the rewrite
+```
+
+Each case: `{"name", "account_id", "turns": ["...", "..."], "expect": "answer|unknown|handoff",
+"must_include": ["3,900|3900"], "must_not_include": [], "note": "what a correct reply says"}`.
+Only the reply to the last turn is graded. A case costs about two model calls
+per turn plus one judge call; `-judge-model` grades with a different model.
+
+### Query rewrite
+
+Before searching, the bot asks the chat model to rewrite the customer's last
+message, with the conversation for context, as one stand-alone query in Thai
+and one in English. Both are searched alongside the customer's own words, so
+an English question finds a Thai knowledge base and "how much is it?" finds
+its topic. Results are merged round-robin, so each query keeps its best hit.
+If the rewrite fails, the bot searches with the customer's words only.
+
 ## Run locally (with `../local` from `init.sh`)
 
 1. Create the admin account at http://localhost:3000 and a website inbox.

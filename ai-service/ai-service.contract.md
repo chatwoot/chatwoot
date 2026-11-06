@@ -40,6 +40,14 @@ owner: John
 - Source logging per reply (`kb_document_ids`, `kb_chunk_ids`, `kb_scores`).
 - `rag-eval` CLI + sample knowledge base and cases in `testdata/`.
 
+## Scope (phase 3, slice 2)
+
+- Business profile per Chatwoot account (`/admin/business`, schema v2).
+- Query rewrite (Thai + English stand-alone query) before knowledge search;
+  round-robin merge of multi-query results.
+- Handoff keywords are request phrases, not bare words for staff.
+- `answer-eval` CLI: multi-turn cases, hard rules + LLM judge.
+
 ## Exclusions (later phases)
 
 - Phase 3 next slices: PDF/DOCX upload; website crawl with scheduled re-crawl;
@@ -95,6 +103,16 @@ TEST_DATABASE_URL=postgres://...@localhost:5432/ai_service_test go test -count=1
 ```
 
 ## Evidence
+
+Phase 3 slice 2, 2026-11-07, production knowledge base (account 1, AutoCut;
+buying and refund facts are mock data), `answer-eval` on 22 conversations,
+chat model gpt-6-luna judging itself:
+
+- Production code before this slice: 16/22.
+- This slice: 22/22 (an earlier run 21/22; the judge wanted more detail in one
+  reply). English cases 4/4 pass; before, the English price and Windows
+  questions got "I don't know".
+- `rag-eval` on 42 retrieval cases: answerable 37/37, MRR 0.939.
 
 See the PR descriptions for the latest recorded output of the gates.
 

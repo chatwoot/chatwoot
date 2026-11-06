@@ -54,8 +54,9 @@ const (
 type Options struct {
 	Chatwoot       Chatwoot
 	LLM            Completer
-	Knowledge      Retriever // optional; nil answers from the system prompt only
-	Profiles       Profiles  // optional; adds each account's business profile to SystemPrompt
+	Knowledge      Retriever     // optional; nil answers from the system prompt only
+	Profiles       Profiles      // optional; adds each account's business profile to SystemPrompt
+	Rewriter       QueryRewriter // optional; adds rewritten (Thai + English) search queries
 	History        *memory.History
 	Handoff        *handoff.Detector
 	SystemPrompt   string
@@ -192,22 +193,10 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 	}()
 
 	history := b.opts.History.Get(acct, conv)
-	messages := []llm.Message{{Role: "system", Content: b.systemPrompt(ctx, log, acct)}}
-	if b.opts.Knowledge != nil {
-		hits, err := b.opts.Knowledge.Retrieve(ctx, acct, inbox, retrievalQueries(history)...)
-		if err != nil {
-			log.Error("knowledge retrieval failed", "error", err)
-		}
-		messages = append(messages, llm.Message{Role: "system", Content: knowledgePrompt(hits, err)})
-		log = log.With(sourceAttrs(hits)...)
-	}
-	for _, t := range history {
-		messages = append(messages, llm.Message{Role: t.Role, Content: t.Content})
-	}
-
 	started := time.Now()
-	res, err := b.opts.LLM.Complete(ctx, messages)
+	res, hits, err := b.answer(ctx, log, acct, inbox, history)
 	latency := time.Since(started)
+	log = log.With(sourceAttrs(hits)...)
 	if err != nil {
 		log.Error("llm completion failed", "error", err, "latency_ms", latency.Milliseconds())
 		b.handoff(ctx, log, acct, conv, b.opts.FailureMessage, ReasonLLMError)
@@ -229,6 +218,48 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 		"history_turns", len(history),
 		"reply_chars", len([]rune(res.Content)),
 	)
+}
+
+// Answer runs the reply pipeline without Chatwoot: business profile, knowledge
+// search (with rewritten queries) and the chat model. answer-eval uses it to
+// test exactly what customers get.
+func (b *Bot) Answer(ctx context.Context, acct, inbox int64, history []memory.Turn) (llm.Result, []knowledge.Hit, error) {
+	return b.answer(ctx, b.opts.Logger.With("account_id", acct), acct, inbox, history)
+}
+
+func (b *Bot) answer(ctx context.Context, log *slog.Logger, acct, inbox int64, history []memory.Turn) (llm.Result, []knowledge.Hit, error) {
+	messages := []llm.Message{{Role: "system", Content: b.systemPrompt(ctx, log, acct)}}
+	var hits []knowledge.Hit
+	if b.opts.Knowledge != nil {
+		var err error
+		hits, err = b.opts.Knowledge.Retrieve(ctx, acct, inbox, b.searchQueries(ctx, log, history)...)
+		if err != nil {
+			log.Error("knowledge retrieval failed", "error", err)
+		}
+		messages = append(messages, llm.Message{Role: "system", Content: knowledgePrompt(hits, err)})
+	}
+	for _, t := range history {
+		messages = append(messages, llm.Message{Role: t.Role, Content: t.Content})
+	}
+	res, err := b.opts.LLM.Complete(ctx, messages)
+	return res, hits, err
+}
+
+// searchQueries is the customer's own wording plus, when a rewriter is set,
+// a stand-alone Thai and English query. A failed rewrite only loses the extras.
+func (b *Bot) searchQueries(ctx context.Context, log *slog.Logger, history []memory.Turn) []string {
+	queries := retrievalQueries(history)
+	if b.opts.Rewriter == nil || len(queries) == 0 {
+		return queries
+	}
+	started := time.Now()
+	extra, err := b.opts.Rewriter.Rewrite(ctx, history)
+	if err != nil {
+		log.Warn("query rewrite failed", "error", err, "latency_ms", time.Since(started).Milliseconds())
+		return queries
+	}
+	log.Debug("query rewritten", "queries", len(extra), "latency_ms", time.Since(started).Milliseconds())
+	return append(queries, extra...)
 }
 
 // systemPrompt is the shared prompt plus the account's business profile. If
