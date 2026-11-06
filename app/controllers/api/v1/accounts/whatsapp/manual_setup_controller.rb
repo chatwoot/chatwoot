@@ -58,7 +58,7 @@ class Api::V1::Accounts::Whatsapp::ManualSetupController < Api::V1::Accounts::Ba
   end
 
   def connect_params
-    params.permit(:waba_id, :phone_number_id, :access_token, :inbox_name)
+    params.permit(:waba_id, :phone_number_id, :access_token, :app_secret, :inbox_name)
   end
 
   def connection_response(setup)

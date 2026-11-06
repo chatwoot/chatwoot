@@ -11,7 +11,7 @@ RSpec.describe ConversationMonitors::Resume do
     account.enable_features!('reports', 'conversation_monitors')
     stub_request(:post, endpoint).to_return do |request|
       answers = JSON.parse(request.body)['questions'].keys.index_with { { type: 'noul', noul: 0.95 } }
-      { status: 200, body: { model: 'typesafe/jev-1.13-20260917', answers: answers, usage: { input_tokens: 100 } }.to_json }
+      { status: 200, body: { model: 'typesafe/jev-1.14-20261014', answers: answers, usage: { input_tokens: 100 } }.to_json }
     end
   end
 
@@ -139,7 +139,7 @@ RSpec.describe ConversationMonitors::Resume do
       monitor.update!(paused_at: Time.current, collection_version: 1)
       described_class.new(monitor, mode: 'from_now', collection_version: 1).perform
       { status: 200,
-        body: { model: 'typesafe/jev-1.13-20260917', answers: { monitor.id.to_s => { type: 'noul', noul: 0.99 } },
+        body: { model: 'typesafe/jev-1.14-20261014', answers: { monitor.id.to_s => { type: 'noul', noul: 0.99 } },
                 usage: { input_tokens: 10 } }.to_json }
     end
     ConversationMonitors::Evaluator.new(work).perform

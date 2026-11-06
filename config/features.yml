@@ -256,7 +256,7 @@
   column: feature_flags_ext_1
 - name: data_import
   display_name: Data Import
-  enabled: false
+  enabled: true
   column: feature_flags_ext_1
 - name: api_and_webhooks
   display_name: API and Webhooks
@@ -322,4 +322,9 @@
 - name: shopify_custom_apps
   display_name: Shopify Custom Apps
   enabled: false
+  column: feature_flags_ext_1
+- name: captain_mcp_servers
+  display_name: Captain MCP servers
+  enabled: false
+  premium: true
   column: feature_flags_ext_1

@@ -149,6 +149,7 @@ post:
                   api_key: your-api-key
                   phone_number_id: your-phone-number-id
                   business_account_id: your-business-account-id
+                  app_secret: your-app-secret
           sms:
             summary: SMS channel
             value:
@@ -162,8 +163,8 @@ post:
                 type: sms
                 phone_number: '+15551234567'
                 provider_config:
-                  api_key: your-api-key
-                  api_secret: your-api-secret
+                  client_id: your-client-id
+                  client_secret: your-client-secret
                   application_id: your-application-id
                   account_id: your-account-id
   responses:
