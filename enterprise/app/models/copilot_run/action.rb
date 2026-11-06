@@ -120,10 +120,12 @@ class CopilotRun::Action < CopilotRun
     copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
   end
 
-  # Links to the first of these records for the approval card. Records the agent can no longer open are left out.
+  # Records the agent can no longer open are left out of the links.
   def target_links(ids)
     resource = Captain::Copilot::Resources.build(Captain::Copilot::Actions.find(context.fetch('action'))::RESOURCE,
                                                  account: account, user: user)
+    return [] unless resource.readable?
+
     resource.rows(ids.first(PREVIEW_TARGETS)).map { |row| row.slice(:label, :url) }
   end
 
@@ -142,8 +144,7 @@ class CopilotRun::Action < CopilotRun
   end
 
   # Records that already had the change count as applied, because they end up as the agent approved. Records a stopped
-  # change never reached count with the failed ones, so the card's numbers add up to what the agent approved. The finished
-  # card links the first records that were not changed, so the agent can open them.
+  # change never reached count with the failed ones, so the card's numbers add up to what the agent approved.
   def card_progress
     progress = summary
     not_changed = progress[:failed] + progress[:not_processed].to_i
