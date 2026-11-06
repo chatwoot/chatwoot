@@ -12,12 +12,18 @@ class Llm::SpeechToTextService < Llm::LegacyBaseOpenAiService
 
   attr_reader :blob, :account, :transcription_model
 
-  # Transcription runs on Captain's OpenAI credentials and consumes its response credits.
+  # Transcription runs on Captain's OpenAI credentials and consumes its response credits,
+  # or uses account-level OpenAI integration (BYOK).
   def self.available_for?(account)
     return false unless account.feature_enabled?('captain_integration')
     return false if account.audio_transcriptions.blank?
+    return true if account_openai_hook_configured?(account)
 
     account.usage_limits[:captain][:responses][:current_available].positive?
+  end
+
+  def self.account_openai_hook_configured?(account)
+    account&.hooks&.find_by(app_id: 'openai', status: 'enabled')&.settings&.dig('api_key').present?
   end
 
   def self.too_large?(blob)
@@ -25,10 +31,10 @@ class Llm::SpeechToTextService < Llm::LegacyBaseOpenAiService
   end
 
   def initialize(blob:, account:)
-    super()
     @blob = blob
     @account = account
     @transcription_model = Llm::FeatureRouter.resolve(feature: 'audio_transcription', account: account)[:model]
+    super(api_key: api_key)
   end
 
   def perform
@@ -51,13 +57,33 @@ class Llm::SpeechToTextService < Llm::LegacyBaseOpenAiService
       end
     end
 
-    account.increment_response_usage if transcribed_text.present?
+    account.increment_response_usage if transcribed_text.present? && !account_openai_hook_configured?
     transcribed_text
   ensure
     FileUtils.rm_f(temp_file_path) if temp_file_path.present?
   end
 
   private
+
+  def api_key
+    hook_api_key.presence || system_api_key
+  end
+
+  def hook_api_key
+    openai_hook&.settings&.dig('api_key')
+  end
+
+  def system_api_key
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+  end
+
+  def openai_hook
+    @openai_hook ||= account&.hooks&.find_by(app_id: 'openai', status: 'enabled')
+  end
+
+  def account_openai_hook_configured?
+    hook_api_key.present?
+  end
 
   def fetch_audio_file
     temp_dir = Rails.root.join('tmp/uploads/audio-transcriptions')
