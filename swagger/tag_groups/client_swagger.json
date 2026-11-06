@@ -3716,6 +3716,17 @@
             "description": "Team Id for assigning a conversation to a team\\",
             "example": 1
           },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Label titles to add to the conversation on creation",
+            "example": [
+              "support",
+              "billing"
+            ]
+          },
           "snoozed_until": {
             "type": "string",
             "format": "date-time",

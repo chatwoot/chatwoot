@@ -2,10 +2,21 @@ class ConversationBuilder
   pattr_initialize [:params!, :contact_inbox!]
 
   def perform
-    look_up_exising_conversation || create_new_conversation
+    validate_labels
+    existing_conversation = look_up_exising_conversation
+    return create_new_conversation unless existing_conversation
+
+    existing_conversation.add_labels(params[:labels])
+    existing_conversation
   end
 
   private
+
+  def validate_labels
+    return if params[:labels].nil? || (params[:labels].is_a?(Array) && params[:labels].all?(String))
+
+    raise ActionController::ParameterMissing, :labels
+  end
 
   def look_up_exising_conversation
     return unless @contact_inbox.inbox.lock_to_single_conversation?
@@ -34,7 +45,8 @@ class ConversationBuilder
       custom_attributes: custom_attributes,
       snoozed_until: params[:snoozed_until],
       assignee_id: params[:assignee_id],
-      team_id: params[:team_id]
+      team_id: params[:team_id],
+      label_list: params[:labels]
     }.merge(status)
   end
 end
