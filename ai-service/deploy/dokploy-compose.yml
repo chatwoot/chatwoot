@@ -66,6 +66,10 @@ services:
     restart: unless-stopped
     depends_on: [rails]
     expose: ['8080']
+    # Loopback only, for /admin over an SSH tunnel:
+    #   ssh -N -L 8081:127.0.0.1:18080 llmopshostinger  →  http://localhost:8081/admin
+    # Traefik exposes only /webhooks/chatwoot publicly.
+    ports: ['127.0.0.1:18080:8080']
     volumes:
       - ai_data:/data
     environment:
