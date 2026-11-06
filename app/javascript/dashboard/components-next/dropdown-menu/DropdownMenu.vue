@@ -154,7 +154,10 @@ onMounted(() => {
         @input="handleSearchInput"
       />
     </div>
-    <div class="flex flex-col gap-2 overflow-y-auto min-h-0 px-2 pb-2">
+    <div
+      class="flex flex-col gap-2 overflow-y-auto min-h-0 px-2 pb-2"
+      :class="{ 'h-48 max-h-[40dvh]': showSearch }"
+    >
       <template v-if="hasSections">
         <div
           v-for="(section, sectionIndex) in filteredMenuSections"
