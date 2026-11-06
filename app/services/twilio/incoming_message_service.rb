@@ -14,6 +14,7 @@ class Twilio::IncomingMessageService
 
   def perform
     return if twilio_channel.blank?
+    return if message_already_received?
 
     set_contact
     set_conversation
@@ -23,7 +24,7 @@ class Twilio::IncomingMessageService
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: params[:SmsSid],
+      source_id: message_sid,
       content_attributes: message_content_attributes.merge(in_reply_to_external_id: params[:OriginalRepliedMessageSid].presence).compact
     )
     attach_files
@@ -32,6 +33,14 @@ class Twilio::IncomingMessageService
   end
 
   private
+
+  def message_sid
+    params[:SmsSid].presence || params[:MessageSid].presence
+  end
+
+  def message_already_received?
+    message_sid.present? && inbox.messages.exists?(source_id: message_sid)
+  end
 
   def twilio_channel
     @twilio_channel ||= self.class.find_channel(params)
@@ -156,7 +165,7 @@ class Twilio::IncomingMessageService
     attachment_file = Twilio::MediaDownloadService.new(
       channel: twilio_channel,
       media_url: media_url,
-      message_sid: params[:SmsSid].presence || params[:MessageSid],
+      message_sid: message_sid,
       media_index: media_index,
       retry_delays: media_retry_delays
     ).perform
