@@ -51,6 +51,10 @@ a chat.
 
 ## Release a change
 
+In Claude Code, run `/deploy` (`ai-service/.claude/skills/deploy/`): it runs
+steps 3–5 below with the checks, using `dokploy.py status|deploy|verify`.
+Without Claude Code, follow the steps by hand.
+
 1. Open a PR into `develop`; CI (`.github/workflows/ai-service.yml`) must pass
    on the exact head. Merge with `gh pr merge --match-head-commit <sha>`.
 2. Schema change? Follow `../AGENTS.md` §5 first: backup → apply → check tables
