@@ -115,12 +115,24 @@ class AutoAssignment::AssignmentService
                     .lock('FOR UPDATE SKIP LOCKED')
                     .first
       next false unless locked
+      next false unless agent_allowed_for_team?(locked, agent)
 
       locked.update!(assignee: agent)
       true
     end
   ensure
     Current.executed_by = nil
+  end
+
+  # The batch snapshot in perform_bulk_assignment can predate an automation rule setting the
+  # team, so filter_agents_by_team may have seen a blank team_id. Re-check membership against
+  # the freshly locked row before claiming it.
+  def agent_allowed_for_team?(conversation, agent)
+    team = conversation.team
+    return true if team.blank?
+    return false if team.allow_auto_assign.blank?
+
+    team.members.exists?(agent.id)
   end
 
   def dispatch_assignment_event(conversation, agent)
