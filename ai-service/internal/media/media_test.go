@@ -29,9 +29,9 @@ func TestFetchOnlyFromTheChatwootHost(t *testing.T) {
 	f := &Fetcher{Host: host(t, srv), MaxBytes: 1 << 20, AllowHTTP: true}
 
 	// Act
-	body, ctype, err := f.Fetch(context.Background(), srv.URL+"/rails/active_storage/blobs/x.png")
-	_, _, errOther := f.Fetch(context.Background(), other.URL+"/evil")
-	_, _, errMeta := f.Fetch(context.Background(), "http://169.254.169.254/latest/meta-data")
+	body, ctype, err := f.Fetch(context.Background(), srv.URL+"/rails/active_storage/blobs/x.png", 1<<20)
+	_, _, errOther := f.Fetch(context.Background(), other.URL+"/evil", 1<<20)
+	_, _, errMeta := f.Fetch(context.Background(), "http://169.254.169.254/latest/meta-data", 1<<20)
 
 	// Assert
 	if err != nil || string(body) != "PNGDATA" || ctype != "image/png" {
@@ -61,8 +61,8 @@ func TestFetchRefusesRedirectsOffHost(t *testing.T) {
 	f := &Fetcher{Host: host(t, srv), MaxBytes: 1 << 20, AllowHTTP: true}
 
 	// Act
-	same, _, errSame := f.Fetch(context.Background(), srv.URL+"/same")
-	_, _, errOff := f.Fetch(context.Background(), srv.URL+"/off")
+	same, _, errSame := f.Fetch(context.Background(), srv.URL+"/same", 1<<20)
+	_, _, errOff := f.Fetch(context.Background(), srv.URL+"/off", 1<<20)
 
 	// Assert
 	if errSame != nil || string(same) != "ok" {
@@ -83,8 +83,8 @@ func TestFetchEnforcesSizeAndHTTPS(t *testing.T) {
 	strict := &Fetcher{Host: host(t, srv), MaxBytes: 1 << 20}
 
 	// Act
-	_, _, errBig := small.Fetch(context.Background(), srv.URL+"/big")
-	_, _, errHTTP := strict.Fetch(context.Background(), srv.URL+"/big")
+	_, _, errBig := small.Fetch(context.Background(), srv.URL+"/big", 1<<20)
+	_, _, errHTTP := strict.Fetch(context.Background(), srv.URL+"/big", 1<<20)
 
 	// Assert
 	if errBig == nil {
@@ -165,5 +165,49 @@ func TestTranscribeSendsVocabularyPrompt(t *testing.T) {
 	// Assert
 	if err != nil || gotPrompt != "Johnstocker AI Studio, AutoCut" {
 		t.Errorf("prompt = %q, err %v", gotPrompt, err)
+	}
+}
+
+func TestFetchPerCallLimit(t *testing.T) {
+	// Arrange: a 2 KB file, a 1 MB fetcher, a 1 KB call limit (images use 5 MB of 10).
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, _ = w.Write([]byte(strings.Repeat("a", 2048)))
+	}))
+	defer srv.Close()
+	f := &Fetcher{Host: host(t, srv), MaxBytes: 1 << 20, AllowHTTP: true}
+
+	// Act
+	_, _, err := f.Fetch(context.Background(), srv.URL+"/x", 1024)
+
+	// Assert
+	if err == nil {
+		t.Error("the per-call limit must apply when smaller than MaxBytes")
+	}
+}
+
+func TestAllowedRefusesURLTricks(t *testing.T) {
+	// Arrange
+	f := &Fetcher{Host: "chat.example.com", MaxBytes: 1 << 20}
+	empty := &Fetcher{MaxBytes: 1 << 20}
+	cases := []string{
+		"https://chat.example.com@evil.com/x", // userinfo: real host is evil.com
+		"https://chat.example.com:8443/x",     // same name, other port
+		"http://chat.example.com/x",           // downgrade to http
+		"https://evil.com/?h=chat.example.com",
+		"https://chat.example.com.evil.com/x",
+		"//chat.example.com/x",
+	}
+
+	// Act + Assert
+	for _, raw := range cases {
+		if f.allowed(raw) == nil {
+			t.Errorf("allowed(%q) = nil, want refused", raw)
+		}
+	}
+	if f.allowed("https://chat.example.com/rails/active_storage/x") != nil {
+		t.Error("the Chatwoot host itself must be allowed")
+	}
+	if empty.allowed("https://chat.example.com/x") == nil {
+		t.Error("an unset host must refuse everything")
 	}
 }

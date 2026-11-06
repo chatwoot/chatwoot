@@ -25,8 +25,13 @@ type Fetcher struct {
 	Client    *http.Client
 }
 
-// Fetch returns the file and its content type.
-func (f *Fetcher) Fetch(ctx context.Context, raw string) ([]byte, string, error) {
+// Fetch returns the file and its content type. max (if smaller) tightens
+// MaxBytes for this call, so an image stops at its own limit while reading.
+func (f *Fetcher) Fetch(ctx context.Context, raw string, max int64) ([]byte, string, error) {
+	limit := f.MaxBytes
+	if max > 0 && max < limit {
+		limit = max
+	}
 	if err := f.allowed(raw); err != nil {
 		return nil, "", err
 	}
@@ -43,19 +48,19 @@ func (f *Fetcher) Fetch(ctx context.Context, raw string) ([]byte, string, error)
 	if res.StatusCode != http.StatusOK {
 		return nil, "", fmt.Errorf("attachment download status %d", res.StatusCode)
 	}
-	body, err := io.ReadAll(io.LimitReader(res.Body, f.MaxBytes+1))
+	body, err := io.ReadAll(io.LimitReader(res.Body, limit+1))
 	if err != nil {
 		return nil, "", errors.New("attachment read failed")
 	}
-	if int64(len(body)) > f.MaxBytes {
-		return nil, "", fmt.Errorf("attachment over %d bytes", f.MaxBytes)
+	if int64(len(body)) > limit {
+		return nil, "", fmt.Errorf("attachment over %d bytes", limit)
 	}
 	return body, res.Header.Get("Content-Type"), nil
 }
 
 func (f *Fetcher) allowed(raw string) error {
 	u, err := url.Parse(raw)
-	if err != nil || u.Host == "" {
+	if err != nil || u.Host == "" || f.Host == "" || u.User != nil {
 		return errors.New("bad attachment url")
 	}
 	if u.Scheme != "https" && !(f.AllowHTTP && u.Scheme == "http") {

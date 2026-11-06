@@ -48,6 +48,11 @@ owner: John
 - Handoff keywords are request phrases, not bare words for staff.
 - `answer-eval` CLI: multi-turn cases, hard rules + LLM judge.
 
+## Scope (phase 3, slice 4)
+
+- Per-business switches (schema v3) for voice notes (transcription),
+  images (vision) and stickers (low-detail check); host-locked downloads.
+
 ## Scope (phase 3, slice 3)
 
 - Langfuse tracing over OTLP/HTTP JSON (stdlib): one trace per customer

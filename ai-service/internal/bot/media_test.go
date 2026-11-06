@@ -17,7 +17,7 @@ type fakeFetcher struct {
 	calls int
 }
 
-func (f *fakeFetcher) Fetch(_ context.Context, url string) ([]byte, string, error) {
+func (f *fakeFetcher) Fetch(_ context.Context, url string, _ int64) ([]byte, string, error) {
 	f.calls++
 	if f.err != nil {
 		return nil, "", f.err
@@ -25,6 +25,9 @@ func (f *fakeFetcher) Fetch(_ context.Context, url string) ([]byte, string, erro
 	b, ok := f.files[url]
 	if !ok {
 		return nil, "", errors.New("not found")
+	}
+	if strings.HasSuffix(url, ".heic") {
+		return b, "image/heic", nil
 	}
 	return b, "image/png", nil
 }
@@ -56,7 +59,7 @@ func mediaBot(feats profile.Features, main *fakeLLM) (*Bot, *fakeChatwoot, *fake
 	cw := &fakeChatwoot{}
 	b, _ := newBot(cw, main)
 	b.opts.Profiles = &fakeProfiles{byAccount: map[int64]profile.Profile{1: {AccountID: 1, BusinessName: "Johnstocker AI Studio", About: "คอร์ส AutoCut", Features: feats}}}
-	f := &fakeFetcher{files: map[string][]byte{"https://chat/voice.m4a": []byte("AUDIO"), "https://chat/a.png": []byte("PNG")}}
+	f := &fakeFetcher{files: map[string][]byte{"https://chat/voice.m4a": []byte("AUDIO"), "https://chat/a.png": []byte("PNG"), "https://chat/b.heic": []byte("HEIC")}}
 	sticker := &scripted{reply: "STICKER"}
 	b.opts.Fetcher, b.opts.Transcriber, b.opts.StickerLLM = f, fakeTranscriber{text: "ผ่อนได้ไหมคะ"}, sticker
 	return b, cw, f, sticker
@@ -231,5 +234,54 @@ func TestMedia_TranscriptionGetsTheBusinessVocabulary(t *testing.T) {
 	// Assert
 	if hint != "Johnstocker AI Studio. คอร์ส AutoCut" {
 		t.Errorf("hint = %q, want the business name and description", hint)
+	}
+}
+
+func TestMedia_StickerAnswerMustBeExact(t *testing.T) {
+	// Arrange: a model answer that mentions the word but means "not a sticker".
+	b, cw, _, sticker := mediaBot(profile.Features{Stickers: true}, &fakeLLM{reply: "x"})
+	sticker.reply = "OTHER, not a STICKER"
+
+	// Act
+	b.Process(context.Background(), fileJob("", photo))
+
+	// Assert
+	if got := cw.joined(); !strings.Contains(got, "note:"+ReasonAttachment) {
+		t.Errorf("calls = %s, want a handoff (it is not a sticker)", got)
+	}
+}
+
+func TestMedia_FailedImagesCountTowardTheLimit(t *testing.T) {
+	// Arrange: ten image attachments that all fail to download.
+	b, _, f, _ := mediaBot(profile.Features{Images: true}, &fakeLLM{reply: "x"})
+	f.err = errors.New("boom")
+	var atts []webhook.Attachment
+	for range 10 {
+		atts = append(atts, photo)
+	}
+
+	// Act
+	b.Process(context.Background(), fileJob("ดูรูปนี้หน่อย", atts...))
+
+	// Assert
+	if f.calls > maxImages {
+		t.Errorf("downloads = %d, want at most %d", f.calls, maxImages)
+	}
+}
+
+func TestMedia_UnsupportedImageTypeStillAnswersTheText(t *testing.T) {
+	// Arrange: a HEIC photo the model can't take, with a question.
+	main := &fakeLLM{reply: "ราคา 3,900 บาทค่ะ"}
+	b, cw, _, _ := mediaBot(profile.Features{Images: true}, main)
+
+	// Act
+	b.Process(context.Background(), fileJob("ราคาเท่าไหร่", webhook.Attachment{FileType: "image", DataURL: "https://chat/b.heic"}))
+
+	// Assert
+	if u := lastUser(main.got); len(u.Images) != 0 {
+		t.Error("an unsupported image type must not be sent to the model")
+	}
+	if !strings.Contains(cw.joined(), "msg:ราคา 3,900 บาทค่ะ") {
+		t.Errorf("calls = %s, want the text answered", cw.joined())
 	}
 }

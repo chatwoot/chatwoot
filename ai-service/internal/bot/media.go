@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"log/slog"
+	"net/http"
 	"strings"
 	"time"
 
@@ -16,7 +17,7 @@ import (
 
 // Fetcher downloads an attachment (media.Fetcher, locked to the Chatwoot host).
 type Fetcher interface {
-	Fetch(ctx context.Context, url string) ([]byte, string, error)
+	Fetch(ctx context.Context, url string, max int64) ([]byte, string, error)
 }
 
 // Transcriber turns a voice note into text. hint lists the business's own
@@ -27,9 +28,13 @@ type Transcriber interface {
 
 // Media limits per customer message.
 const (
-	maxImages     = 3
+	maxImages     = 3 // download attempts, failed ones included
 	maxImageBytes = 5 << 20
+	maxAudioBytes = 10 << 20
 )
+
+// visionTypes are the image formats the chat model accepts.
+var visionTypes = map[string]bool{"image/png": true, "image/jpeg": true, "image/webp": true, "image/gif": true}
 
 const stickerInstruction = "Look at the image. Is it a sticker, an emoji, or a thumbs-up/like icon, " +
 	"as opposed to a photo, a screenshot or a document? Answer with exactly one word: STICKER or OTHER."
@@ -74,6 +79,7 @@ func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Even
 	}
 	var notes, images, kinds []string
 	readable, unreadable := false, false
+	tried := 0
 	for _, a := range ev.Attachments {
 		switch {
 		case a.FileType == "audio" && f.Voice && b.opts.Transcriber != nil && b.opts.Fetcher != nil && !readable:
@@ -85,7 +91,8 @@ func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Even
 			notes = append(notes, "[Voice message, transcribed] "+capText(spoken))
 			readable = true
 			kinds = append(kinds, "voice")
-		case a.FileType == "image" && f.Images && b.opts.Fetcher != nil && len(images) < maxImages:
+		case a.FileType == "image" && f.Images && b.opts.Fetcher != nil && tried < maxImages:
+			tried++
 			if img := b.image(ctx, log, a); img != "" {
 				images = append(images, img)
 				kinds = append(kinds, "image")
@@ -121,7 +128,7 @@ func (b *Bot) transcribe(ctx context.Context, log *slog.Logger, a webhook.Attach
 	step := &trace.Step{Start: time.Now()}
 	tr.Transcribe = step
 	defer func() { step.End = time.Now() }()
-	audio, _, err := b.opts.Fetcher.Fetch(ctx, a.DataURL)
+	audio, _, err := b.opts.Fetcher.Fetch(ctx, a.DataURL, maxAudioBytes)
 	if err != nil {
 		log.Warn("voice note download failed", "error", err)
 		step.Err = "download failed"
@@ -142,13 +149,17 @@ func (b *Bot) transcribe(ctx context.Context, log *slog.Logger, a webhook.Attach
 }
 
 func (b *Bot) image(ctx context.Context, log *slog.Logger, a webhook.Attachment) string {
-	data, ctype, err := b.opts.Fetcher.Fetch(ctx, a.DataURL)
-	if err != nil || len(data) == 0 || len(data) > maxImageBytes {
-		log.Warn("image download failed or too large", "bytes", len(data))
+	data, ctype, err := b.opts.Fetcher.Fetch(ctx, a.DataURL, maxImageBytes)
+	if err != nil || len(data) == 0 {
+		log.Warn("image download failed or too large")
 		return ""
 	}
-	if !strings.HasPrefix(ctype, "image/") {
-		ctype = "image/jpeg"
+	if ctype = strings.ToLower(strings.TrimSpace(strings.Split(ctype, ";")[0])); !visionTypes[ctype] {
+		ctype = http.DetectContentType(data) // the stored type can be missing or generic
+	}
+	if !visionTypes[ctype] {
+		log.Info("image type the model can't read", "type", ctype) // e.g. HEIC, SVG
+		return ""
 	}
 	return "data:" + ctype + ";base64," + base64.StdEncoding.EncodeToString(data)
 }
@@ -166,5 +177,6 @@ func (b *Bot) isSticker(ctx context.Context, log *slog.Logger, a webhook.Attachm
 		log.Warn("sticker check failed", "error", err)
 		return false
 	}
-	return strings.Contains(strings.ToUpper(res.Content), "STICKER")
+	// Exact answer only: "OTHER, not a STICKER" must not count as a sticker.
+	return strings.EqualFold(strings.Trim(strings.TrimSpace(res.Content), ".!"), "STICKER")
 }
