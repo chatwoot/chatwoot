@@ -1,0 +1,136 @@
+# CI for chatwoot/ai-service (our Go service). Issue: DEV-Johnstocker/chatwoot#1
+#
+# Runs only when ai-service or this workflow changes. Third-party actions are
+# pinned by commit SHA; downloaded binaries are pinned by SHA-256.
+name: ai-service
+
+on:
+  pull_request:
+    paths:
+      - 'ai-service/**'
+      - '.github/workflows/ai-service.yml'
+  push:
+    branches: [develop]
+    paths:
+      - 'ai-service/**'
+      - '.github/workflows/ai-service.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-service-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: ai-service
+
+jobs:
+  test:
+    name: Test, vet, format
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: ai_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U ci -d ai_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      # Throwaway CI-only database; enables the pgvector integration tests.
+      TEST_DATABASE_URL: postgres://ci:ci@localhost:5432/ai_test?sslmode=disable
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: ai-service/go.mod
+          cache-dependency-path: ai-service/go.sum
+      - name: gofmt
+        run: |
+          unformatted="$(gofmt -l .)"
+          if [ -n "$unformatted" ]; then
+            echo "::error::gofmt needed on:"; echo "$unformatted"; exit 1
+          fi
+      - name: go vet
+        run: go vet ./...
+      - name: go test (race)
+        run: go test -race -count=1 ./...
+
+  vulncheck:
+    name: govulncheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: ai-service/go.mod
+          cache-dependency-path: ai-service/go.sum
+      # Version pinned; integrity checked by the Go checksum database.
+      - run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+
+  docker:
+    name: Docker build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: ai-service
+          push: false
+          tags: chatwoot-ai-service:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  secrets:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install gitleaks 8.30.1 (SHA-256 pinned)
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl -fsSLo gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf gitleaks.tar.gz gitleaks
+      # Scans our code only (not Chatwoot's history); --redact keeps any hit out of the log.
+      - name: Scan ai-service and workflow
+        working-directory: .
+        run: |
+          "$RUNNER_TEMP/gitleaks" dir ai-service --redact --no-banner --exit-code 1
+          "$RUNNER_TEMP/gitleaks" dir .github/workflows/ai-service.yml --redact --no-banner --exit-code 1
+
+  workflow-lint:
+    name: actionlint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install actionlint 1.7.12 (SHA-256 pinned)
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl -fsSLo actionlint.tar.gz https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz
+          echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  actionlint.tar.gz" | sha256sum -c -
+          tar -xzf actionlint.tar.gz actionlint
+      - name: Lint this workflow
+        working-directory: .
+        run: '"$RUNNER_TEMP/actionlint" .github/workflows/ai-service.yml'
