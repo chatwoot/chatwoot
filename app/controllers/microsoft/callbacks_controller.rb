@@ -3,6 +3,18 @@ class Microsoft::CallbacksController < OauthCallbackController
 
   private
 
+  def token_params
+    super.merge(
+      scope: [
+        'offline_access',
+        'https://outlook.office.com/IMAP.AccessAsUser.All',
+        'openid',
+        'profile',
+        'email'
+      ].join(' ')
+    )
+  end
+
   def oauth_client
     microsoft_client
   end
