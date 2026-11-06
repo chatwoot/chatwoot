@@ -22,6 +22,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
 )
@@ -58,20 +59,24 @@ func run() error {
 	embedder := &embed.Switch{}
 	embedder.Set(settings.NewEmbedder(current, cfg.LLMTimeout))
 
-	kb, closeKB, err := openKnowledge(cfg, embedder, logger)
+	kb, profiles, closeKB, err := openKnowledge(cfg, embedder, logger)
 	if err != nil {
 		return err
 	}
 	defer closeKB()
+	// Assign only when set: a nil pointer in an interface is not a nil interface.
 	var retriever bot.Retriever
+	var botProfiles bot.Profiles
+	var adminProfiles profile.Store
 	if kb != nil {
-		retriever = kb
+		retriever, botProfiles, adminProfiles = kb, profiles, profiles
 	}
 
 	b := bot.New(bot.Options{
 		Chatwoot:       chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
 		LLM:            completer,
 		Knowledge:      retriever,
+		Profiles:       botProfiles,
 		History:        memory.NewHistory(cfg.HistoryLimit, 24*time.Hour, nil),
 		Handoff:        handoff.New(cfg.HandoffKeywords),
 		SystemPrompt:   cfg.SystemPrompt,
@@ -93,7 +98,7 @@ func run() error {
 	if cfg.AdminPassword != "" {
 		(&admin.Handler{
 			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
-			Knowledge: kb, Timeout: cfg.LLMTimeout, Logger: logger,
+			Knowledge: kb, Profiles: adminProfiles, Timeout: cfg.LLMTimeout, Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -137,18 +142,18 @@ func run() error {
 	return nil
 }
 
-// openKnowledge connects the knowledge base when DATABASE_URL is set.
-// Without it the bot answers from the system prompt only.
-func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logger) (*knowledge.Service, func(), error) {
+// openKnowledge connects the knowledge base and business profiles when
+// DATABASE_URL is set. Without it the bot answers from the system prompt only.
+func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logger) (*knowledge.Service, *profile.Postgres, func(), error) {
 	if cfg.DatabaseURL == "" {
-		logger.Info("knowledge base disabled: set DATABASE_URL to enable it")
-		return nil, func() {}, nil
+		logger.Info("knowledge base and business profiles disabled: set DATABASE_URL to enable them")
+		return nil, nil, func() {}, nil
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	pg, err := knowledge.OpenPostgres(ctx, cfg.DatabaseURL)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 	if embedder.Model() == "" {
 		logger.Warn("knowledge base on, but no embeddings provider: set one on /admin so the bot can search it")
@@ -156,7 +161,7 @@ func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logg
 	return &knowledge.Service{
 		Store: pg, Embedder: embedder,
 		TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes,
-	}, pg.Pool.Close, nil
+	}, &profile.Postgres{Pool: pg.Pool}, pg.Pool.Close, nil
 }
 
 func parseLevel(s string) slog.Level {

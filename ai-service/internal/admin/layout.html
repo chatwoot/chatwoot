@@ -54,8 +54,8 @@
   .alert.ok { background: var(--ok-bg); color: var(--ok-text); }
   .alert.err { background: var(--err-bg); color: var(--err-text); white-space: pre-line; }
   .test { margin-top: 12px; margin-bottom: 0; }
-  nav { display: flex; gap: 4px; margin: 0 0 20px; border-bottom: 1px solid var(--border); }
-  nav a { color: var(--muted); text-decoration: none; font-weight: 600; padding: 10px 12px; min-height: 44px; display: inline-flex; align-items: center; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  nav { display: flex; gap: 4px; margin: 0 0 20px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  nav a { color: var(--muted); text-decoration: none; font-weight: 600; padding: 10px 12px; min-height: 44px; display: inline-flex; align-items: center; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
   nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--accent); }
   textarea { width: 100%; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; min-height: 160px; resize: vertical; }
   input[type="file"] { padding: 8px; }
@@ -79,6 +79,8 @@
     td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); font-size: .85rem; }
   }
   @media (max-width: 480px) {
+    nav { gap: 0; }
+    nav a { padding: 10px 6px; font-size: .875rem; }
     .actions { justify-content: stretch; }
     .actions button, .row button { width: 100%; }
   }
@@ -88,6 +90,7 @@
 {{define "nav"}}
 <nav aria-label="Settings sections">
   <a href="/admin"{{if eq . "providers"}} aria-current="page"{{end}}>AI providers</a>
+  <a href="/admin/business"{{if eq . "business"}} aria-current="page"{{end}}>Business profile</a>
   <a href="/admin/knowledge"{{if eq . "knowledge"}} aria-current="page"{{end}}>Knowledge base</a>
 </nav>
 {{end}}

@@ -1,5 +1,6 @@
-// Package admin serves the settings page where an admin configures the LLM
-// providers (primary + fallback) without restarting ai-service.
+// Package admin serves the settings pages: the LLM providers (primary +
+// fallback + embeddings), the knowledge base, and each account's business
+// profile, all applied without restarting ai-service.
 //
 // Security: HTTP Basic Auth (RFC 7617) with ADMIN_PASSWORD, constant-time
 // compare; cross-origin form posts are rejected (net/http CrossOriginProtection);
@@ -21,6 +22,7 @@ import (
 	embedclient "github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
 )
 
@@ -51,6 +53,8 @@ type Handler struct {
 	Logger   *slog.Logger
 	// Knowledge enables the knowledge base page; nil when no database is set.
 	Knowledge *knowledge.Service
+	// Profiles enables the business profile page; nil when no database is set.
+	Profiles profile.Store
 	// Probe sends a tiny test request to a chat provider. Nil uses a real call.
 	Probe func(ctx context.Context, p settings.Provider) (llm.Result, error)
 	// ProbeEmbedding embeds one word with an embeddings provider. Nil uses a real call.
@@ -67,6 +71,8 @@ func (h *Handler) Routes(mux *http.ServeMux) {
 	mux.Handle("POST /admin", wrap(h.submit))
 	mux.Handle("GET /admin/knowledge", wrap(h.showKnowledge))
 	mux.Handle("POST /admin/knowledge", wrap(h.submitKnowledge))
+	mux.Handle("GET /admin/business", wrap(h.showBusiness))
+	mux.Handle("POST /admin/business", wrap(h.submitBusiness))
 }
 
 type providerView struct {
