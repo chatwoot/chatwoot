@@ -16,7 +16,7 @@ RSpec.describe ConversationMonitors::AttachmentTracking do
     allow(message).to receive(:send_update_event)
     attachment
     stub_request(:post, endpoint).to_return(status: 200, body: {
-      model: 'typesafe/jev-1.13', answers: { monitor.id.to_s => { type: 'noul', noul: 0.9 } }, usage: { input_tokens: 10 }
+      model: 'typesafe/jev-1.14', answers: { monitor.id.to_s => { type: 'noul', noul: 0.9 } }, usage: { input_tokens: 10 }
     }.to_json)
   end
 

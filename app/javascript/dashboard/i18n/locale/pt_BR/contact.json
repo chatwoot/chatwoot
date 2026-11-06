@@ -179,7 +179,7 @@
         "ERROR": "O assunto não pode estar vazio"
       },
       "MESSAGE": {
-        "LABEL": "Messagem",
+        "LABEL": "Mensagem",
         "PLACEHOLDER": "Escreva sua mensagem aqui",
         "ERROR": "A mensagem não pode estar vazia"
       },

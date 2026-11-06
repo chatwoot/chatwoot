@@ -90,6 +90,10 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    bandwidth:
+      token_request_failed: "Unable to reach Bandwidth authentication. Please try again later."
+      invalid_configuration: 'Provide a valid Bandwidth account ID, application ID, client ID, and client secret.'
+      authentication_failed: 'Unable to authenticate with Bandwidth. Check your client ID and client secret, then try again.'
     account_saml_settings:
       invalid_certificate: must be a valid X.509 certificate in PEM format
       metadata_url:
@@ -531,6 +535,20 @@ en:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+  conversation_monitors:
+    slack_alert:
+      not_connected: needs a connected Slack integration
+      title: 'Monitor matched: %{name}'
+      matched: Monitor matched
+      summary: '%{conversation} with %{contact}'
+      conversation: 'Conversation #%{id}'
+      inbox: Inbox
+      assignee: Assignee
+      unassigned: Unassigned
+      status: Status
+      confidence: Confidence
+      unknown: Unknown
+      condition: Condition
   captain:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
@@ -792,6 +810,9 @@ en:
       submit: 'Finish Setup'
 
   super_admin:
+    billing:
+      past_due: Your installation payment is past due. Update your payment method or pay the outstanding invoice to avoid subscription cancellation.
+      resolve_payment: Resolve payment
     account_suspension:
       categories:
         spam: 'Spam'
@@ -1128,6 +1149,8 @@ en:
       agents_over_limit: 'You have %{count} agents. Please add more licenses to add more users.'
       current_plan: 'Current plan'
       refresh: 'Refresh'
+      refresh_succeeded: 'Instance status refreshed'
+      refresh_failed: 'Could not reach Chatwoot Hub. Try again later.'
       manage: 'Manage'
       installation_identifier: 'Installation Identifier'
       need_help: 'Need help?'
