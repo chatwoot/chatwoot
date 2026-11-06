@@ -146,7 +146,9 @@
       "CREATE": "Create",
       "DELETE": "Delete",
       "CANCEL": "Cancel",
-      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below",
+      "EVENT_SET_BY_CAPTAIN": "Captain set the event to {event} from the description.",
+      "UNDO_EVENT": "Undo"
     },
     "CONDITION": {
       "DELETE_MESSAGE": "You need to have atleast one condition to save",

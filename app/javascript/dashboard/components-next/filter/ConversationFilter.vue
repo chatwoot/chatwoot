@@ -7,10 +7,12 @@ import { vOnClickOutside } from '@vueuse/components';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useConversationFilterContext } from './provider.js';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useFilterRecommendations } from './useFilterRecommendations';
 
 import Button from 'next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ConditionRow from './ConditionRow.vue';
+import FilterDescribeStatus from './FilterDescribeStatus.vue';
 
 const props = defineProps({
   isFolderView: {
@@ -24,12 +26,14 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['applyFilter', 'updateFolder', 'close']);
-const { attributeFilterTypes } = useConversationFilterContext();
+const { filterTypes, attributeFilterTypes } = useConversationFilterContext();
 
 const filters = defineModel({
   type: Array,
   default: [],
 });
+const { canDescribeFilters, describeStatus, describeFilters } =
+  useFilterRecommendations('conversation', filterTypes, filters);
 const folderNameLocal = ref(props.folderName);
 
 const DEFAULT_FILTER = {
@@ -130,6 +134,8 @@ const outsideClickHandler = [
           v-model:values="filter.values"
           :filter-types="attributeFilterTypes"
           :show-query-operator="false"
+          :describable="canDescribeFilters"
+          @describe="query => describeFilters(index, query)"
           @remove="removeFilter(index)"
         />
         <ConditionRow
@@ -142,10 +148,13 @@ const outsideClickHandler = [
           v-model:values="filter.values"
           show-query-operator
           :filter-types="attributeFilterTypes"
+          :describable="canDescribeFilters"
+          @describe="query => describeFilters(index, query)"
           @remove="removeFilter(index)"
         />
       </template>
     </ul>
+    <FilterDescribeStatus v-if="describeStatus" :status="describeStatus" />
     <div class="flex gap-2 justify-between">
       <Button sm ghost blue @click="addFilter">
         {{ $t('FILTER.ADD_NEW_FILTER') }}

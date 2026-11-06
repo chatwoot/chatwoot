@@ -30,6 +30,9 @@ provideDropdownContext({
   toggle,
   closeMenu,
 });
+
+// Lets a parent open the menu without a click, such as on a row it just added.
+defineExpose({ open: () => toggle(true) });
 </script>
 
 <template>
