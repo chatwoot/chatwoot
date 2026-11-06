@@ -8,3 +8,11 @@ properties:
     type: string
     description: Temporary identifier which will be passed back via websockets
     example: '1234567890'
+  content_attributes:
+    type: object
+    description: Additional attributes for the message
+    properties:
+      in_reply_to:
+        type: integer
+        description: ID of a message in the same conversation that this message replies to
+        example: 1
