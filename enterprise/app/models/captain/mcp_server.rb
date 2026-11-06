@@ -69,6 +69,7 @@ class Captain::McpServer < ApplicationRecord
   validate :validate_token
 
   scope :enabled, -> { where(enabled: true) }
+  scope :for_enabled_accounts, -> { joins(:account).merge(Account.feature_captain_mcp_servers) }
 
   # The servers Captain may use for an assistant: none while the account does not have MCP servers turned on
   def self.usable_for(assistant)

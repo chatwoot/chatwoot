@@ -61,6 +61,17 @@ RSpec.describe Captain::McpServer do
     end
   end
 
+  describe '.for_enabled_accounts' do
+    it 'returns only servers whose account has MCP servers turned on' do
+      account.enable_features!(described_class::FEATURE_FLAG)
+      on_server = described_class.create!(attributes)
+      other_account = create(:account)
+      described_class.create!(attributes.merge(account: other_account, assistant: create(:captain_assistant, account: other_account)))
+
+      expect(described_class.for_enabled_accounts).to eq([on_server])
+    end
+  end
+
   describe 'status' do
     let(:token_server) { described_class.create!(attributes.merge(auth_type: 'token', auth_config: { 'token' => 'old' })) }
     let(:oauth_server) { described_class.create!(attributes.merge(url: 'https://oauth.example.com/mcp', auth_type: 'oauth')) }
