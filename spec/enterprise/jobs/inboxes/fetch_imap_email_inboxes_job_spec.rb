@@ -8,9 +8,10 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob do
     let(:premium_imap_channel) { create(:channel_email, imap_enabled: true, account: premium_account) }
 
     before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       premium_account.custom_attributes['plan_name'] = 'Startups'
       InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create!(value: 'cloud')
-      InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_create!(value: [{ 'name' => 'Hacker' }])
+      InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_CLOUD_PLANS').update!(value: [{ 'name' => 'Hacker' }])
     end
 
     it 'skips inboxes with default plan' do
