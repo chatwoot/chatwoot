@@ -11,6 +11,12 @@ by providing a `content_for(:javascript)` block.
   <%= javascript_include_tag js_path %>
 <% end %>
 
+<%= javascript_tag do %>
+  if (window.jQuery && window.jQuery.fn && window.jQuery.fn.selectize) {
+    window.jQuery.fn.selectize.defaults.allowEmptyOption = true;
+  }
+<% end %>
+
 <%= yield :javascript %>
 
 <% if Rails.env.test? %>

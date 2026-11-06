@@ -1160,6 +1160,8 @@ en:
       switch_to_enterprise: 'Switch to Enterprise edition'
       upgrade_now: 'Upgrade now'
     users:
+      type:
+        regular_user: 'User'
       impersonate: 'Impersonate user'
       copy_impersonation_link: 'Copy link'
       impersonation_link_copied: 'Copied'

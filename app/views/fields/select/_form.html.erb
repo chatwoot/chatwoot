@@ -1,5 +1,16 @@
 <%# Stored values read as labels ("feature_announcement" becomes "Feature Announcement"); locale codes stay as they are. %>
-<% options = field.attribute == :locale ? field.selectable_options : field.selectable_options.map { |value| [value.to_s.titleize, value] } %>
+<% options = if field.attribute == :locale
+               field.selectable_options
+             else
+               field.selectable_options.map do |value|
+                 label = if value.blank?
+                           field.attribute == :type ? t('super_admin.users.type.regular_user') : '-'
+                         else
+                           value.to_s.titleize
+                         end
+                 [label, value]
+               end
+             end %>
 <%= render "field", f: f, field: field do %>
   <%# Administrate turns selects inside this class into searchable selectize inputs. %>
   <div class="field-unit--select">
