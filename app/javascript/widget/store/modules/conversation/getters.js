@@ -6,6 +6,9 @@ import { formatUnixDate } from 'shared/helpers/DateHelper';
 export const getters = {
   getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
   getIsCreating: _state => _state.uiFlags.isCreating,
+  // expose the failure states so the UI can surface them.
+  getIsSyncFailed: _state => _state.uiFlags.isSyncFailed,
+  getIsCreateFailed: _state => _state.uiFlags.isCreateFailed,
   getIsAgentTyping: _state => _state.uiFlags.isAgentTyping,
   getConversation: _state => _state.conversations,
   getConversationSize: _state => Object.keys(_state.conversations).length,
