@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
@@ -12,6 +13,7 @@ import AssistantPageEmptyState from 'dashboard/components-next/captain/pageCompo
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 
 const { isOnChatwootCloud } = useAccount();
+const assetUrl = useAssetUrl();
 
 const dialogType = ref('');
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
@@ -60,8 +62,16 @@ const handleAfterCreate = newAssistant => {
         :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
         :note="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
         :hide-actions="!isOnChatwootCloud"
-        fallback-thumbnail="/assets/images/dashboard/captain/assistant-popover-light.svg"
-        fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-popover-dark.svg"
+        :fallback-thumbnail="
+          assetUrl(
+            '/assets/images/dashboard/captain/assistant-popover-light.svg'
+          )
+        "
+        :fallback-thumbnail-dark="
+          assetUrl(
+            '/assets/images/dashboard/captain/assistant-popover-dark.svg'
+          )
+        "
         learn-more-url="https://chwt.app/captain-assistant"
       />
     </template>

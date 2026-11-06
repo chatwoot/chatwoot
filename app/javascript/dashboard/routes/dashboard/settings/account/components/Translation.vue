@@ -14,6 +14,7 @@ import {
 } from 'dashboard/helper/translationProvider';
 import Switch from 'next/switch/Switch.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const GOOGLE_LOGO = '/dashboard/images/integrations/google_translate.png';
@@ -21,6 +22,7 @@ const GOOGLE_LOGO_DARK =
   '/dashboard/images/integrations/google_translate-dark.png';
 
 const { t } = useI18n();
+const assetUrl = useAssetUrl();
 const router = useRouter();
 const { needsUpgrade } = useTranslationPlan();
 const store = useStore();
@@ -156,12 +158,12 @@ const toggleAutoTranslate = () =>
                 class="flex flex-shrink-0 justify-center items-center rounded-lg size-12 bg-n-alpha-2"
               >
                 <img
-                  :src="GOOGLE_LOGO"
+                  :src="assetUrl(GOOGLE_LOGO)"
                   class="object-contain size-6 dark:hidden"
                   alt=""
                 />
                 <img
-                  :src="GOOGLE_LOGO_DARK"
+                  :src="assetUrl(GOOGLE_LOGO_DARK)"
                   class="hidden object-contain size-6 dark:block"
                   alt=""
                 />

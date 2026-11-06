@@ -7,7 +7,12 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins '*'
     resource '/packs/*', headers: :any, methods: [:get, :options]
+    resource '/vite/*', headers: :any, methods: [:get, :options]
     resource '/audio/*', headers: :any, methods: [:get, :options]
+    resource '/assets/*', headers: :any, methods: [:get, :options]
+    resource '/brand-assets/*', headers: :any, methods: [:get, :options]
+    resource '/dashboard/*', headers: :any, methods: [:get, :options]
+    resource '/integrations/*', headers: :any, methods: [:get, :options]
     # Make the public endpoints accessible to the frontend
     resource '/public/api/*', headers: :any, methods: :any
 
