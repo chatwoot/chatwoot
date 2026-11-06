@@ -1,0 +1,90 @@
+package llm
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+)
+
+func serve(t *testing.T, status int, body string, gotReq *chatRequest, gotAuth *string) *Client {
+	t.Helper()
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/chat/completions" {
+			t.Errorf("path = %q", r.URL.Path)
+		}
+		if gotAuth != nil {
+			*gotAuth = r.Header.Get("Authorization")
+		}
+		if gotReq != nil {
+			_ = json.NewDecoder(r.Body).Decode(gotReq)
+		}
+		w.WriteHeader(status)
+		_, _ = w.Write([]byte(body))
+	}))
+	t.Cleanup(srv.Close)
+	return New(srv.URL, "k", "test/model", nil)
+}
+
+func TestComplete_ReturnsContentAndUsage(t *testing.T) {
+	// Arrange
+	var req chatRequest
+	var auth string
+	c := serve(t, 200, `{"model":"test/model-v2","choices":[{"message":{"role":"assistant","content":"  hi there  "}}],"usage":{"prompt_tokens":12,"completion_tokens":3}}`, &req, &auth)
+
+	// Act
+	res, err := c.Complete(context.Background(), []Message{{Role: "user", Content: "hello"}})
+
+	// Assert
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if res.Content != "hi there" || res.Model != "test/model-v2" || res.PromptTokens != 12 || res.CompletionTokens != 3 {
+		t.Errorf("result = %+v", res)
+	}
+	if auth != "Bearer k" || req.Model != "test/model" || len(req.Messages) != 1 {
+		t.Errorf("auth=%q req=%+v", auth, req)
+	}
+}
+
+func TestComplete_ErrorStatusIncludesProviderMessage(t *testing.T) {
+	// Arrange
+	c := serve(t, 402, `{"error":{"message":"insufficient credits"}}`, nil, nil)
+
+	// Act
+	_, err := c.Complete(context.Background(), nil)
+
+	// Assert
+	if err == nil || !strings.Contains(err.Error(), "402") || !strings.Contains(err.Error(), "insufficient credits") {
+		t.Fatalf("err = %v", err)
+	}
+}
+
+func TestComplete_EmptyChoices(t *testing.T) {
+	// Arrange
+	c := serve(t, 200, `{"choices":[]}`, nil, nil)
+
+	// Act
+	_, err := c.Complete(context.Background(), nil)
+
+	// Assert
+	if !errors.Is(err, ErrEmptyResponse) {
+		t.Fatalf("err = %v, want ErrEmptyResponse", err)
+	}
+}
+
+func TestComplete_InvalidJSON(t *testing.T) {
+	// Arrange
+	c := serve(t, 502, `<html>bad gateway</html>`, nil, nil)
+
+	// Act
+	_, err := c.Complete(context.Background(), nil)
+
+	// Assert
+	if err == nil || !strings.Contains(err.Error(), "502") {
+		t.Fatalf("err = %v", err)
+	}
+}
