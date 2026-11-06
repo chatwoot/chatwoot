@@ -125,6 +125,21 @@ services:
       EMBED_API_KEY: ${EMBED_API_KEY:-}
       EMBED_MODEL: ${EMBED_MODEL:-}
 
+  # /admin from a browser: Cloudflare Tunnel → https://ai-admin.johnstockeraistudio.com,
+  # behind a Cloudflare Access app (owner emails only). The tunnel's ingress rules
+  # live in Cloudflare and forward only ^/admin to ai-service:8080; every other path
+  # gets 404. The connection is outbound, so no port opens on the VPS, and ai-service's
+  # Basic Auth (ADMIN_PASSWORD) still applies behind Access.
+  # Enable with COMPOSE_PROFILES=ai,admin and CF_TUNNEL_TOKEN in the Dokploy env.
+  cloudflared:
+    profiles: [admin]
+    image: cloudflare/cloudflared:2026.10.7
+    restart: unless-stopped
+    depends_on: [ai-service]
+    command: ['tunnel', '--no-autoupdate', 'run']
+    environment:
+      TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN:-}
+
 volumes:
   storage_data:
   redis_data:
