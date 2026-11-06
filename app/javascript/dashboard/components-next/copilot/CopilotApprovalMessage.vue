@@ -20,7 +20,6 @@ const props = defineProps({
   },
 });
 
-// Replies and notes show their text in the conversation's own bubble colors, and the button names what approving does.
 const NOTE_ACTIONS = [
   APPROVAL_ACTION.ADD_PRIVATE_NOTE,
   APPROVAL_ACTION.ADD_CONTACT_NOTE,
@@ -123,8 +122,6 @@ const outcome = computed(() => {
   return { icon: 'i-lucide-check', color: 'text-n-teal-10', label: applied };
 });
 
-// The card links the first records the change touches, so the agent can open them. After a change that left some
-// records unchanged, it links the first of those instead.
 const linkRow = computed(() => {
   if (progress.value.finished && progress.value.not_changed > 0) {
     return {
@@ -141,7 +138,6 @@ const warning = computed(() => {
   return key && t(`CAPTAIN.COPILOT.APPROVAL.WARNINGS.${key}`, { count }, count);
 });
 
-// Set when the change comes from a review that has not read every conversation it selected.
 const coverage = computed(() => approval.value.coverage);
 
 const decide = async choice => {
@@ -166,8 +162,6 @@ const decide = async choice => {
   <div
     class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1 text-n-slate-12"
   >
-    <!-- While the agent decides, the first line is the change itself. After the decision, it is the outcome, with the change
-    under it as one unit. -->
     <div class="flex flex-col gap-1">
       <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
         <CopilotApprovalSummary

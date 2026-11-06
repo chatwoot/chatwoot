@@ -13,7 +13,7 @@ const props = defineProps({
 
 const accountLabels = useMapGetter('labels/getLabels');
 
-// Each action names its card string and the values that fill it. A time is shown in the agent's own time zone.
+// A time is shown in the agent's own time zone.
 const values = computed(() => {
   const { values: cardValues = {}, count } = props.approval;
   const params = { ...cardValues, count };
@@ -23,8 +23,8 @@ const values = computed(() => {
   return params;
 });
 
-// Labels show as the chips agents know from conversations, in the label's own color. Cards saved before the titles were
-// a list hold them as one joined string. The chips are smaller than the sentence, so the template lifts them 1px.
+// Cards saved before the titles were a list hold them as one joined string. The chips are smaller than the sentence,
+// so the template lifts them 1px.
 const labels = computed(() =>
   []
     .concat(values.value.labels || [])
