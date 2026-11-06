@@ -16,6 +16,9 @@ properties:
     type: string
     enum: ['open', 'resolved', 'pending', 'snoozed']
     description: The status of the conversation
+  custom_attributes:
+    type: object
+    description: Custom attributes of the conversation
   agent_last_seen_at:
     type: integer
     description: Timestamp of when the agent last seen the conversation (Unix timestamp)
