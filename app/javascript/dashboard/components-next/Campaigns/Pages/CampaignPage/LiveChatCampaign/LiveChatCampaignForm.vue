@@ -9,6 +9,7 @@ import { URLPattern } from 'urlpattern-polyfill';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
@@ -87,8 +88,12 @@ const mapToOptions = (items, valueKey, labelKey) =>
     label: item[labelKey],
   })) ?? [];
 
-const inboxOptions = computed(() =>
-  mapToOptions(formState.inboxes.value, 'id', 'name')
+const inboxOptions = computed(
+  () =>
+    formState.inboxes.value?.map(inbox => ({
+      value: inbox.id,
+      label: getInboxDisplayName(inbox),
+    })) ?? []
 );
 
 const sendersAndBotList = computed(() => [

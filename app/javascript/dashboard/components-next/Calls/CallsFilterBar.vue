@@ -6,6 +6,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   // Null while a fetch is in flight so stale counts are never shown.
@@ -109,7 +110,7 @@ const moreFiltersSections = computed(() => [
         isSelected: !inboxId.value,
       },
       ...props.inboxes.map(inbox => ({
-        label: inbox.name,
+        label: getInboxDisplayName(inbox),
         value: inbox.id,
         action: 'inbox',
         isSelected: inboxId.value === inbox.id,

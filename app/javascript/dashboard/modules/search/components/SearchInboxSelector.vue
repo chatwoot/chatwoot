@@ -7,6 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store.js';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   label: {
@@ -40,7 +41,7 @@ const inboxesSection = computed(() => {
   const inboxes = inboxesList.value?.map(inbox => {
     const transformedInbox = useCamelCase(inbox, { deep: true });
     return {
-      label: transformedInbox.name,
+      label: getInboxDisplayName(inbox),
       value: transformedInbox.id,
       action: MENU_ACTIONS.SELECT,
       type: MENU_ITEM_TYPES.INBOX,
@@ -74,7 +75,7 @@ const selectedLabel = computed(() => {
 
   // Find the selected inbox
   const inbox = inboxesList.value?.find(i => i.id === modelValue.value);
-  if (inbox) return `${props.label}: ${inbox.name}`;
+  if (inbox) return `${props.label}: ${getInboxDisplayName(inbox)}`;
 
   return `${props.label}: ${modelValue.value}`;
 });
