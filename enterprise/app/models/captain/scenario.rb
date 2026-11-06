@@ -101,7 +101,7 @@ class Captain::Scenario < ApplicationRecord
   end
 
   def agent_tools
-    resolved_tools.map { |tool| resolve_tool_instance(tool) }
+    resolved_tools.filter_map { |tool| resolve_tool_instance(tool) }
   end
 
   def resolved_instructions
@@ -113,7 +113,9 @@ class Captain::Scenario < ApplicationRecord
 
     available_tools = assistant.available_agent_tools
     tools.filter_map do |tool_id|
-      available_tools.find { |tool| tool[:id] == tool_id }
+      tool = available_tools.find { |candidate| candidate[:id] == tool_id }
+      # An MCP tool the server changed or cannot list is left out of the run, so the prompt does not name it either
+      tool unless tool&.dig(:mcp) && !assistant.mcp_agent_tools.usable?(tool_id)
     end
   end
 

@@ -1,9 +1,14 @@
-# Builds the MCP tools of an assistant for a run. A tool is offered only while its live definition matches the
-# approved digest, so a server cannot change what Captain sees or sends without an admin approving the change.
-# Each server is listed once per instance, however many agents ask for its tools.
+# The MCP tools Captain can use in one run. A tool is usable only while its live definition matches the approved one,
+# so a server cannot change what Captain sees or sends without an admin approving the change.
+# Each server is listed once per instance, and a server that cannot be listed is skipped for the rest of the run.
+# Everything a run decides about MCP tools reads this list, so the agents, the scenario prompts and the email
+# verification check agree on which tools exist.
 class Captain::Mcp::AgentTools
   # Isolated namespace for the generated tool classes, as Concerns::Toolable does for custom tools
   module Generated; end
+
+  # An approved tool that matches its live definition, with the connection that listed it
+  Usable = Struct.new(:server, :mcp_tool, :connection)
 
   def self.build(assistant, server, mcp_tool, connection, base_class:)
     tool_name = mcp_tool.captain_name
@@ -38,38 +43,48 @@ class Captain::Mcp::AgentTools
 
   def initialize(assistant)
     @assistant = assistant
-    @live_digests = {}
-    @connections = {}
   end
 
-  def tools(base_class: Captain::Tools::PublicMcpTool)
-    Captain::McpServer.usable_for(@assistant).flat_map do |server|
-      matching_tools(server).map { |mcp_tool| self.class.build(@assistant, server, mcp_tool, @connections[server.id], base_class: base_class) }
-    end
+  def tools
+    usable.map { |entry| build(entry) }
   end
 
-  def tool(name, base_class: Captain::Tools::PublicMcpTool)
-    tools(base_class: base_class).find { |agent_tool| agent_tool.name == name }
+  # The tool with this Captain name, or nil when it is not usable in this run
+  def tool(captain_name)
+    entry = usable.find { |candidate| candidate.mcp_tool.captain_name == captain_name }
+    entry && build(entry)
+  end
+
+  def usable?(captain_name)
+    usable.any? { |entry| entry.mcp_tool.captain_name == captain_name }
+  end
+
+  def requires_verified_customer?
+    usable.any? { |entry| entry.mcp_tool.requires_verified_customer? }
   end
 
   private
 
-  def matching_tools(server)
+  def build(entry)
+    self.class.build(@assistant, entry.server, entry.mcp_tool, entry.connection, base_class: Captain::Tools::PublicMcpTool)
+  end
+
+  def usable
+    @usable ||= Captain::McpServer.usable_for(@assistant).flat_map { |server| usable_on(server) }
+  end
+
+  def usable_on(server)
     mcp_tools = server.available_tools.to_a
     return [] if mcp_tools.empty?
 
-    live = live_digests(server)
-    mcp_tools.select { |mcp_tool| live[mcp_tool.name] == mcp_tool.approved_digest }
+    connection = Captain::Mcp::Connection.new(server)
+    live = connection.track_status { connection.tool_definitions }.index_by { |definition| definition['name'] }
+    mcp_tools.filter_map do |mcp_tool|
+      definition = live[mcp_tool.name]
+      Usable.new(server, mcp_tool, connection) if definition && mcp_tool.approval_current?(definition)
+    end
   rescue *Captain::Mcp::Connection::ERRORS => e
     Rails.logger.warn("Captain MCP server #{server.id} skipped: #{e.class} - #{e.message}")
     []
-  end
-
-  def live_digests(server)
-    @live_digests[server.id] ||= begin
-      connection = @connections[server.id] = Captain::Mcp::Connection.new(server)
-      definitions = connection.track_status { connection.tool_definitions }
-      definitions.to_h { |definition| [definition['name'], Captain::McpTool.definition_digest(definition)] }
-    end
   end
 end

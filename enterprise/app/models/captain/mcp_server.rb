@@ -89,7 +89,7 @@ class Captain::McpServer < ApplicationRecord
     ::Redis::Alfred.setex(format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state), id, OAUTH_STATE_TTL)
   end
 
-  # Approved tools Captain may use. A caller must still compare each digest with the live definition.
+  # Approved tools Captain may use. Captain::Mcp::AgentTools compares each one with the live definition for a run.
   def available_tools
     enabled? ? tools.where(enabled: true) : Captain::McpTool.none
   end
@@ -97,10 +97,6 @@ class Captain::McpServer < ApplicationRecord
   # Scenarios list and reference these tools by their Captain name
   def tool_metadata
     available_tools.map { |tool| { id: tool.captain_name, title: tool.name, description: tool.description, mcp: true } }
-  end
-
-  def requires_verified_customer?
-    available_tools.any?(&:requires_verified_customer?)
   end
 
   # The two status changes after create write only when the value changes, with update_columns and not save:

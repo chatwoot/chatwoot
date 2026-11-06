@@ -190,7 +190,7 @@ class Captain::Assistant::AgentRunnerService
     return false unless @conversation.present? && COPILOT_SOURCES.exclude?(@source)
 
     @assistant.custom_tools.enabled.any?(&:requires_email_verification?) ||
-      Captain::McpServer.usable_for(@assistant).any?(&:requires_verified_customer?)
+      @assistant.mcp_agent_tools.requires_verified_customer?
   end
 
   def reply_suggestion_agent
