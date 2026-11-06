@@ -180,7 +180,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def logs_csv(logs)
-    CSV.generate(headers: true) do |csv|
+    CSVSafe.generate(headers: true) do |csv|
       csv << %w[created_at kind source_object_type source_object_id error_code message details]
 
       logs.order(:created_at).find_each do |log|
