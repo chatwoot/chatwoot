@@ -35,6 +35,11 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
+import {
+  fitHolderToViewport,
+  startFittingHolderToViewport,
+  stopFittingHolderToViewport,
+} from './visualViewportHelper';
 
 const updateAuthCookie = (cookieContent, baseDomain = '') =>
   setCookieWithDomain('cw_conversation', cookieContent, {
@@ -246,7 +251,10 @@ export const IFrameHelper = {
     onBubbleToggle: isOpen => {
       IFrameHelper.sendMessage('toggle-open', { isOpen });
       if (isOpen) {
+        startFittingHolderToViewport(widgetHolder);
         IFrameHelper.pushEvent('webwidget.triggered');
+      } else {
+        stopFittingHolderToViewport(widgetHolder);
       }
     },
     onLocationChange: ({ referrerURL, referrerHost }) => {
@@ -264,9 +272,13 @@ export const IFrameHelper = {
     setUnreadMode: () => {
       addUnreadClass();
       onBubbleClick({ toggleValue: true });
+      fitHolderToViewport(widgetHolder);
     },
 
-    resetUnreadMode: () => removeUnreadClass(),
+    resetUnreadMode: () => {
+      removeUnreadClass();
+      fitHolderToViewport(widgetHolder);
+    },
     handleNotificationDot: event => {
       if (window.$chatwoot.hideMessageBubble) {
         return;
