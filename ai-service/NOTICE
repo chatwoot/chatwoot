@@ -1,0 +1,19 @@
+ai-service
+Copyright 2026 Johnstocker AI Studio
+
+This directory is an independent service that talks to Chatwoot only through
+its public Agent Bot webhook and REST API. It contains no code from
+Chatwoot's enterprise/ directory.
+
+Third-party code
+----------------
+None yet. Phase 2 (this MVP) is written from scratch using only the Go
+standard library.
+
+When code is adapted from huabeitech/agent-desk (Apache License 2.0,
+https://github.com/huabeitech/agent-desk) or ideas/code from raksbisht/sitechat
+(MIT, https://github.com/raksbisht/sitechat), list each adapted file here as:
+
+  <our file>  <-  <upstream repo>@<commit>:<upstream file>  (<license>)
+
+and keep the upstream copyright notice in the file header.
