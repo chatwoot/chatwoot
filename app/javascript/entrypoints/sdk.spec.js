@@ -57,3 +57,81 @@ describe('$chatwoot.setUser', () => {
     });
   });
 });
+
+describe('$chatwoot.reset', () => {
+  let mockIframe;
+
+  beforeEach(() => {
+    delete window.$chatwoot;
+    delete window.chatwootSettings;
+    mockIframe = { src: '' };
+    IFrameHelper.getAppFrame = vi.fn().mockReturnValue(mockIframe);
+    IFrameHelper.getUrl = vi
+      .fn()
+      .mockReturnValue(
+        'https://app.chatwoot.com/widget?website_token=website-token'
+      );
+    IFrameHelper.events = {
+      toggleBubble: vi.fn(),
+    };
+    vi.spyOn(Cookies, 'remove').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    delete window.$chatwoot;
+    delete window.chatwootSettings;
+    vi.restoreAllMocks();
+  });
+
+  it('clears conversation and user cookies with default domain when baseDomain is not set', () => {
+    window.chatwootSDK.run({
+      baseUrl: 'https://app.chatwoot.com',
+      websiteToken: 'website-token',
+    });
+
+    window.$chatwoot.reset();
+
+    expect(Cookies.remove).toHaveBeenCalledWith('cw_conversation', {
+      domain: undefined,
+    });
+    expect(Cookies.remove).toHaveBeenCalledWith('cw_user_website-token', {
+      domain: undefined,
+    });
+    expect(mockIframe.src).toBe(
+      'https://app.chatwoot.com/widget?website_token=website-token'
+    );
+    expect(window.$chatwoot.resetTriggered).toBe(true);
+  });
+
+  it('clears cookies with baseDomain when baseDomain is configured', () => {
+    window.chatwootSettings = {
+      baseDomain: 'chatwoot.com',
+    };
+
+    window.chatwootSDK.run({
+      baseUrl: 'https://app.chatwoot.com',
+      websiteToken: 'website-token',
+    });
+
+    window.$chatwoot.reset();
+
+    expect(Cookies.remove).toHaveBeenCalledWith('cw_conversation', {
+      domain: 'chatwoot.com',
+    });
+    expect(Cookies.remove).toHaveBeenCalledWith('cw_user_website-token', {
+      domain: 'chatwoot.com',
+    });
+  });
+
+  it('toggles bubble if widget is open during reset', () => {
+    window.chatwootSDK.run({
+      baseUrl: 'https://app.chatwoot.com',
+      websiteToken: 'website-token',
+    });
+    window.$chatwoot.isOpen = true;
+
+    window.$chatwoot.reset();
+
+    expect(IFrameHelper.events.toggleBubble).toHaveBeenCalled();
+  });
+});
