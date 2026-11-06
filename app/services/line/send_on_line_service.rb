@@ -22,7 +22,9 @@ class Line::SendOnLineService < Base::SendOnChannelService
   end
 
   def build_payload
-    if message.content_type == 'input_select' && message.content_attributes['items'].any?
+    if flex_container.present?
+      build_flex_payload
+    elsif message.content_type == 'input_select' && message.content_attributes['items'].any?
       build_input_select_payload
     else
       build_text_payload
@@ -62,6 +64,33 @@ class Line::SendOnLineService < Base::SendOnChannelService
     {
       type: 'text',
       text: message.outgoing_content
+    }
+  end
+
+  # A caller (an agent bot, an automation, an integration) may supply a complete
+  # LINE Flex container in `content_attributes['line_flex']`, which is sent
+  # through untouched. The generated input_select bubble below cannot express a
+  # hero image, a URI action, or a carousel, so anything richer than a list of
+  # reply buttons is currently unreachable from Chatwoot.
+  #
+  # Only a bubble or carousel is accepted; anything else falls back to the
+  # existing behaviour rather than sending LINE a payload it will reject.
+  # https://developers.line.biz/en/reference/messaging-api/#flex-message
+  def flex_container
+    container = message.content_attributes['line_flex']
+    return unless container.is_a?(Hash)
+    return unless %w[bubble carousel].include?(container['type'] || container[:type])
+
+    container
+  end
+
+  # altText is what LINE shows in the notification and on clients that cannot
+  # render Flex, so it must never be blank. LINE caps it at 400 characters.
+  def build_flex_payload
+    {
+      type: 'flex',
+      altText: (message.outgoing_content.presence || 'Message')[0, 400],
+      contents: flex_container
     }
   end
 
