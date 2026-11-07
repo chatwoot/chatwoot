@@ -198,6 +198,18 @@ func TestCheckRedirect_StaysOnSite(t *testing.T) {
 		{"https://evil.example/a", "https://x.googleusercontent.com/b", false},
 		{"https://sites.google.com/a", "https://x.googleusercontent.com/b", false},
 	}
+	// A chain: docs.google.com → googleusercontent → somewhere else must stop.
+	chain := via("https://docs.google.com/spreadsheets/d/e/x/pub?output=csv")
+	second, _ := http.NewRequest(http.MethodGet, "https://doc-0k.googleusercontent.com/pub/x", nil)
+	chain = append(chain, second)
+	evil, _ := url.Parse("https://evil.example/steal")
+	again, _ := url.Parse("https://doc-1a.googleusercontent.com/pub/y")
+	if checkRedirect(evil, chain, false) == nil {
+		t.Error("googleusercontent → evil.example allowed")
+	}
+	if checkRedirect(again, chain, false) != nil {
+		t.Error("a second googleusercontent hop from a Google file was refused")
+	}
 	for _, c := range cases {
 		// Arrange
 		next, _ := url.Parse(c.to)

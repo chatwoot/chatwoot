@@ -81,7 +81,10 @@ func (e emb) Embed(_ context.Context, t []string) ([][]float32, error) {
 	return make([][]float32, len(t)), nil
 }
 
-type srcStore struct{ saved []Source }
+type srcStore struct {
+	saved   []Source
+	removed bool // the owner removed the source: Save finds no row
+}
 
 func (s *srcStore) Add(context.Context, int64, string, string) (Source, error) { return Source{}, nil }
 func (s *srcStore) List(context.Context, int64) ([]Source, error)              { return nil, nil }
@@ -94,6 +97,9 @@ func (s *srcStore) ClaimOne(context.Context, int64, int64) (Source, error) {
 	return Source{}, nil
 }
 func (s *srcStore) Save(_ context.Context, src Source) error {
+	if s.removed {
+		return ErrNotFound
+	}
 	s.saved = append(s.saved, src)
 	return nil
 }

@@ -246,3 +246,35 @@ func TestFeed_RowDatesBecomeTheWindowAndStay(t *testing.T) {
 			again, afterFirst, *embeds, len(ks.docs))
 	}
 }
+
+func TestFeed_RemovedDuringCheckLeavesNoRows(t *testing.T) {
+	// Arrange: the owner presses Remove while the file is being applied.
+	s, ks, ss, pg, _, _ := env()
+	pg.data = "id,title,content\na,A,one\nb,B,two\n"
+	ss.removed = true
+
+	// Act
+	outcome, err := s.Check(context.Background(), feedSrc())
+
+	// Assert
+	if outcome != Failed || !errors.Is(err, ErrNotFound) || len(ks.docs) != 0 {
+		t.Errorf("outcome=%s err=%v docs=%s, want failed and no rows left", outcome, err, keys(ks))
+	}
+}
+
+func TestFeed_NULCellDoesNotBlockHidingRemovedRows(t *testing.T) {
+	// Arrange
+	s, ks, ss, pg, _, _ := env()
+	ctx := context.Background()
+	pg.data = "id,title,content\na,A,one\nb,B,two\n"
+	_, _ = s.Check(ctx, feedSrc())
+
+	// Act: b is removed and a gets a NUL in its text.
+	pg.data = "id,title,content\na,A,o\x00ne!\n"
+	outcome, err := s.Check(ctx, ss.last())
+
+	// Assert
+	if err != nil || outcome != Updated || keys(ks) != "feed:7:a,feed:7:b(hidden)" {
+		t.Errorf("outcome=%s err=%v docs=%s", outcome, err, keys(ks))
+	}
+}

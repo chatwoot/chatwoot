@@ -166,3 +166,16 @@ func TestParse_Dates(t *testing.T) {
 		t.Error("a date change must change the row hash")
 	}
 }
+
+func TestParse_DropsNULCharacters(t *testing.T) {
+	// Arrange: a database text field cannot hold NUL.
+	body := "id,title,content\na\x00b,Ti\x00tle,te\x00xt\n"
+
+	// Act
+	res, err := Parse([]byte(body))
+
+	// Assert
+	if err != nil || len(res.Rows) != 1 || res.Rows[0] != (Row{ID: "ab", Title: "Title", Content: "text"}) {
+		t.Errorf("res=%+v err=%v", res, err)
+	}
+}

@@ -46,7 +46,7 @@ func TestPostgres_SourcesAddDueSaveRemove(t *testing.T) {
 	claimedAgain, _ := db.Claim(ctx, 10) // leased: another run must not take them
 	a.Status, a.Title, a.ContentHash, a.CheckedAt, a.ChangedAt = "ok", "Pricing", "h1", time.Now(), time.Now()
 	saveErr := db.Save(ctx, a)
-	if _, err := db.Pool.Exec(ctx, "UPDATE web_sources SET next_check_at = now() - interval '1 second' WHERE account_id = 2"); err != nil {
+	if _, err := db.Pool.Exec(ctx, "UPDATE web_sources SET next_check_at = now() - interval '1 second', checking_until = NULL WHERE account_id = 2"); err != nil {
 		t.Fatal(err)
 	}
 	dueAfter, _ := db.Claim(ctx, 10)
@@ -97,10 +97,12 @@ func TestPostgres_IntervalAndMarkAllDue(t *testing.T) {
 	db := openDB(t)
 	ctx := context.Background()
 	a, _ := db.Add(ctx, 1, "https://example.com/a", KindPage)
-	_, _ = db.Add(ctx, 1, "https://example.com/b", KindPage)
+	b, _ := db.Add(ctx, 1, "https://example.com/b", KindPage)
 	_, _ = db.Claim(ctx, 10)
-	a.Status, a.CheckedAt = "ok", time.Now()
-	_ = db.Save(ctx, a)
+	for _, src := range []Source{a, b} { // both checks finish
+		src.Status, src.CheckedAt = "ok", time.Now()
+		_ = db.Save(ctx, src)
+	}
 
 	// Act
 	ivErr := db.SetInterval(ctx, 1, a.ID, 168)
@@ -137,5 +139,28 @@ func TestPostgres_FeedKindAndRowCount(t *testing.T) {
 	}
 	if got.Kind != KindFeed || got.Items != 113 || !got.IsFeed() {
 		t.Errorf("source = %+v", got)
+	}
+}
+
+func TestPostgres_SyncNowWhileCheckingIsBusy(t *testing.T) {
+	// Arrange
+	db := openDB(t)
+	ctx := context.Background()
+	src, _ := db.Add(ctx, 1, "https://example.com/a", KindFeed)
+	if _, err := db.Pool.Exec(ctx, "UPDATE web_sources SET last_status = 'ok', interval_hours = 1 WHERE id = $1", src.ID); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	first, err1 := db.ClaimOne(ctx, 1, src.ID)
+	_, second := db.ClaimOne(ctx, 1, src.ID) // a double click
+	scheduled, _ := db.Claim(ctx, 10)        // the scheduler must skip it too
+	first.Status, first.CheckedAt = "ok", time.Now()
+	saveErr := db.Save(ctx, first)
+	_, afterSave := db.ClaimOne(ctx, 1, src.ID)
+
+	// Assert
+	if err1 != nil || !errors.Is(second, ErrBusy) || len(scheduled) != 0 || saveErr != nil || afterSave != nil {
+		t.Errorf("first=%v second=%v scheduled=%d save=%v afterSave=%v", err1, second, len(scheduled), saveErr, afterSave)
 	}
 }

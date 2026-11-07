@@ -26,6 +26,7 @@ func FeedKey(sourceID int64, rowID string) string { return FeedPrefix(sourceID) 
 // FeedResult counts what a feed check changed.
 type FeedResult struct {
 	Added, Updated, Hidden, Deleted int
+	Invalid                         int // rows the knowledge base refused
 }
 
 func (r FeedResult) changed() bool { return r.Added+r.Updated+r.Hidden+r.Deleted > 0 }
@@ -65,7 +66,9 @@ func (s *Syncer) checkFeed(ctx context.Context, src Source) (Outcome, error) {
 	res, err := s.applyRows(ctx, src, parsed.Rows)
 	if err != nil {
 		src.Status, src.Error = "error", "could not save to the knowledge base"
-		_ = s.Store.Save(context.WithoutCancel(ctx), src)
+		if saveErr := s.Store.Save(context.WithoutCancel(ctx), src); errors.Is(saveErr, ErrNotFound) {
+			s.removedDuringCheck(ctx, src)
+		}
 		s.Logger.Warn("feed save failed", "account_id", src.AccountID, "source_id", src.ID, "result", res.String(), "error", err)
 		return Failed, err
 	}
@@ -80,7 +83,14 @@ func (s *Syncer) checkFeed(ctx context.Context, src Source) (Outcome, error) {
 		src.ChangedAt = s.now()
 		s.event(ctx, src, "data feed synced: "+res.String(), knowledge.Document{})
 	}
+	if res.Invalid > 0 {
+		note := fmt.Sprintf("%d rows could not be saved", res.Invalid)
+		src.Error = strings.TrimPrefix(strings.Join([]string{src.Error, note}, "; "), "; ")
+	}
 	if err := s.Store.Save(ctx, src); err != nil {
+		if errors.Is(err, ErrNotFound) {
+			s.removedDuringCheck(ctx, src)
+		}
 		return Failed, err
 	}
 	switch {
@@ -120,6 +130,12 @@ func (s *Syncer) applyRows(ctx context.Context, src Source, rows []feed.Row) (Fe
 			cur.ValidFrom.Equal(from) && cur.ValidUntil.Equal(until) {
 			continue
 		}
+		doc, verr := knowledge.Document{AccountID: src.AccountID, Kind: kind, Title: row.Title, Content: row.Content,
+			SourceKey: key, ValidFrom: from, ValidUntil: until}.Validate()
+		if verr != nil { // one bad row must not stop the others or the clean-up below
+			res.Invalid++
+			continue
+		}
 		if ok && cur.Kind != kind {
 			// Upsert keeps a document's kind; a row that changed kind is replaced.
 			if err := s.Knowledge.Delete(ctx, src.AccountID, cur.ID); err != nil {
@@ -127,9 +143,8 @@ func (s *Syncer) applyRows(ctx context.Context, src Source, rows []feed.Row) (Fe
 			}
 			ok = false
 		}
-		if _, _, _, err := s.Knowledge.Upsert(ctx, knowledge.Document{AccountID: src.AccountID, Kind: kind,
-			Title: row.Title, Content: row.Content, SourceKey: key, ValidFrom: from, ValidUntil: until}); err != nil {
-			return res, fmt.Errorf("row %s: %w", row.ID, err)
+		if _, _, _, err := s.Knowledge.Upsert(ctx, doc); err != nil {
+			return res, err
 		}
 		if ok {
 			res.Updated++
@@ -164,6 +179,17 @@ func (s *Syncer) retire(ctx context.Context, d knowledge.Document, now time.Time
 		return FeedResult{Hidden: 1}, err
 	}
 	return FeedResult{}, nil // already hidden, still within the grace period
+}
+
+// removedDuringCheck deletes rows written after the owner removed the source
+// mid-check; nothing else would ever clean them up.
+func (s *Syncer) removedDuringCheck(ctx context.Context, src Source) {
+	n, err := s.RemoveDocuments(context.WithoutCancel(ctx), src)
+	if err != nil {
+		s.Logger.Error("feed removed during check: clean-up failed", "account_id", src.AccountID, "source_id", src.ID, "error", err)
+		return
+	}
+	s.Logger.Info("feed removed during check: rows deleted", "account_id", src.AccountID, "source_id", src.ID, "deleted", n)
 }
 
 // rowWindow turns a row's dates into a validity window in the business time
@@ -220,7 +246,8 @@ func (s *Syncer) feedFailed(ctx context.Context, src Source, msg string, err err
 	if saveErr := s.Store.Save(ctx, src); saveErr != nil {
 		return Failed, saveErr
 	}
-	s.Logger.Warn("feed check failed", "account_id", src.AccountID, "source_id", src.ID, "error", msg)
+	// The message may quote the file (a row id, a cell); log only that it failed.
+	s.Logger.Warn("feed check failed", "account_id", src.AccountID, "source_id", src.ID, "reason", logReason(err))
 	return Failed, err
 }
 
@@ -297,4 +324,17 @@ func (s *Syncer) CheckLater(ctx context.Context, src Source) {
 		return
 	}
 	go run()
+}
+
+// logReason keeps fetch errors (no file content) and hides parse details.
+func logReason(err error) string {
+	for _, known := range []error{webfetch.ErrBlocked, webfetch.ErrNotText, webfetch.ErrTooLarge, webfetch.ErrBadResponse, webfetch.ErrOffSite} {
+		if errors.Is(err, known) {
+			return known.Error()
+		}
+	}
+	if errors.Is(err, feed.ErrNotFeed) {
+		return "not a data file"
+	}
+	return "the file could not be read or has no usable rows"
 }

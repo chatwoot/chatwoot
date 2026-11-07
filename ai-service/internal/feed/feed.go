@@ -220,11 +220,13 @@ func RowHash(r Row) string {
 
 // cleanID trims the id and joins inner whitespace with "-" (keys have no spaces).
 func cleanID(s string) string {
-	return strings.Join(strings.FieldsFunc(s, unicode.IsSpace), "-")
+	return strings.Join(strings.FieldsFunc(clean(s), unicode.IsSpace), "-")
 }
 
+// clean trims a cell, normalises line ends and drops NUL characters (a
+// database text field cannot hold them).
 func clean(s string) string {
-	return strings.TrimSpace(strings.ReplaceAll(s, "\r\n", "\n"))
+	return strings.TrimSpace(strings.NewReplacer("\r\n", "\n", "\x00", "").Replace(s))
 }
 
 func first(f map[string]string, keys ...string) string {
