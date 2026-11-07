@@ -375,3 +375,15 @@ func oneLine(s string) string {
 	}
 	return s
 }
+
+// Unfaithful counts the replies the judge found unsupported by the knowledge
+// and profile (invented facts).
+func (r Report) Unfaithful() int {
+	n := 0
+	for _, res := range r.Results {
+		if res.Faithful != nil && !*res.Faithful {
+			n++
+		}
+	}
+	return n
+}

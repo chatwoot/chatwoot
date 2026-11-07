@@ -47,6 +47,10 @@ a chat.
   `EMBED_MODEL`. Settings saved on `/admin` override the `LLM_*`/`EMBED_*`
   values.
 - Tunnel: `CF_TUNNEL_TOKEN`.
+- GitHub Actions secrets (not Dokploy) for the nightly answer smoke check:
+  `SMOKE_LLM_BASE_URL`, `SMOKE_LLM_API_KEY`, `SMOKE_LLM_MODEL`,
+  `SMOKE_EMBED_BASE_URL`, `SMOKE_EMBED_API_KEY`, `SMOKE_EMBED_MODEL`. Use a
+  separate, spend-limited key; it never touches production.
 - Compose: `COMPOSE_PROFILES=ai,admin`, `COMPOSE_BAKE=false`.
 
 ## Release a change

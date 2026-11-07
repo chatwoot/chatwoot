@@ -14,7 +14,7 @@ on:
     branches: [develop]
     paths:
       - 'ai-service/**'
-      - '.github/workflows/ai-service.yml'
+      - '.github/workflows/ai-service*.yml'
 
 permissions:
   contents: read
@@ -120,7 +120,9 @@ jobs:
         working-directory: .
         run: |
           "$RUNNER_TEMP/gitleaks" dir ai-service --redact --no-banner --exit-code 1
-          "$RUNNER_TEMP/gitleaks" dir .github/workflows/ai-service.yml --redact --no-banner --exit-code 1
+          for f in .github/workflows/ai-service*.yml; do
+            "$RUNNER_TEMP/gitleaks" dir "$f" --redact --no-banner --exit-code 1
+          done
 
   workflow-lint:
     name: actionlint
@@ -136,6 +138,6 @@ jobs:
           curl -fsSLo actionlint.tar.gz https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz
           echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  actionlint.tar.gz" | sha256sum -c -
           tar -xzf actionlint.tar.gz actionlint
-      - name: Lint this workflow
+      - name: Lint our workflows
         working-directory: .
-        run: '"$RUNNER_TEMP/actionlint" .github/workflows/ai-service.yml'
+        run: '"$RUNNER_TEMP/actionlint" .github/workflows/ai-service*.yml'

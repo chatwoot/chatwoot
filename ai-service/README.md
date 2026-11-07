@@ -168,6 +168,22 @@ under the totals:
   `cause: retrieval`, so the fix is the knowledge base or search, not the
   prompt.
 
+**Gates for automation:** `-min-pass 0.8` exits 1 below an 80% pass rate;
+`-strict-faithful` exits 1 if any reply invents facts.
+
+#### Nightly smoke check (CI)
+
+`.github/workflows/ai-service-answer-smoke.yml` runs every night (02:30
+Bangkok) and on demand (Actions → *ai-service answer smoke* → Run workflow).
+It starts an empty pgvector database, loads the public sample shop with
+`-seed-kb testdata/sample-kb/faq.json`, and runs the 15 cases in
+`testdata/answers-smoke.json` with both gates above. Production data is never
+used. `-seed-kb` refuses an account that already has knowledge it did not add.
+The **sabotage** option on a manual run replaces every answer with "No
+information yet." to prove the gate fails (it must end red). It needs the
+`SMOKE_*` secrets listed in the workflow header; without them it skips with a
+warning. A run costs about 45 model calls (about 1.5 min).
+
 ### Voice notes, images and stickers
 
 Each business switches these on its **Business profile** page (all off by

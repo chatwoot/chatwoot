@@ -48,6 +48,9 @@ func run() error {
 	minPass := flag.Float64("min-pass", 0, "exit 1 if the pass rate (0-1) is below this")
 	verbose := flag.Bool("v", false, "print every reply, not only failing ones")
 	rewriteModel := flag.String("rewrite-model", "\x00", "model for the query rewrite (default REWRITE_MODEL, else the bot's model)")
+	strictFaithful := flag.Bool("strict-faithful", false, "exit 1 if any reply invents facts (judge: not faithful)")
+	seedKB := flag.String("seed-kb", "", "first load this JSON list of {question, answer} FAQs into -seed-account (empty test databases only, for CI)")
+	seedAccount := flag.Int64("seed-account", 1, "account that -seed-kb loads into")
 	flag.Parse()
 
 	cfg, err := config.FromEnv()
@@ -88,10 +91,18 @@ func run() error {
 	}
 	defer pg.Pool.Close()
 	profiles := &profile.Postgres{Pool: pg.Pool}
+	kb := &knowledge.Service{Store: pg, Embedder: embedder, TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes}
+	if *seedKB != "" {
+		n, err := answereval.Seed(ctx, kb, *seedAccount, *seedKB)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("seeded %d FAQs into account %d\n", n, *seedAccount)
+	}
 
 	opts := bot.Options{
 		LLM:            chat,
-		Knowledge:      &knowledge.Service{Store: pg, Embedder: embedder, TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes},
+		Knowledge:      kb,
 		Profiles:       profiles,
 		History:        memory.NewHistory(cfg.HistoryLimit, time.Hour, nil),
 		SystemPrompt:   cfg.SystemPrompt,
@@ -135,6 +146,9 @@ func run() error {
 	fmt.Printf("Took %s (%.1fs per case)\n", elapsed.Round(time.Second), elapsed.Seconds()/float64(max(len(cases), 1)))
 	if len(rep.Results) > 0 && float64(rep.Passed)/float64(len(rep.Results)) < *minPass {
 		return fmt.Errorf("pass rate below %.2f", *minPass)
+	}
+	if n := rep.Unfaithful(); *strictFaithful && n > 0 {
+		return fmt.Errorf("%d replies invented facts", n)
 	}
 	return nil
 }

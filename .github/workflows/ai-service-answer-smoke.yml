@@ -1,0 +1,113 @@
+# Nightly answer-quality smoke check for chatwoot/ai-service. Issue: DEV-Johnstocker/chatwoot#36 (refs #1)
+#
+# Runs answer-eval against a throwaway pgvector database seeded with the
+# public sample knowledge base (ai-service/testdata/sample-kb/faq.json), never
+# against production. It costs LLM calls (~15 cases), so it runs nightly and
+# on demand, not on every PR. Not a required check.
+#
+# Secrets (names only; the owner adds the values in Settings → Secrets):
+#   SMOKE_LLM_BASE_URL, SMOKE_LLM_API_KEY, SMOKE_LLM_MODEL,
+#   SMOKE_EMBED_BASE_URL, SMOKE_EMBED_API_KEY, SMOKE_EMBED_MODEL
+# Without SMOKE_LLM_API_KEY the job skips with a warning.
+#
+# "sabotage" (manual runs) replaces every knowledge answer with "No
+# information yet." to prove the gate fails; that run must end red.
+name: ai-service answer smoke
+
+on:
+  schedule:
+    - cron: '30 19 * * *' # 02:30 Bangkok
+  workflow_dispatch:
+    inputs:
+      sabotage:
+        description: 'Break the sample knowledge on purpose (the run must fail)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-service-answer-smoke
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: ai-service
+
+jobs:
+  smoke:
+    name: Answer smoke (sample KB)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: smoke
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U ci -d smoke"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      # Throwaway CI-only database.
+      DATABASE_URL: postgres://ci:ci@localhost:5432/smoke?sslmode=disable
+      # answer-eval sends nothing to Chatwoot; config only requires these to be set.
+      CHATWOOT_BASE_URL: http://chatwoot.invalid
+      CHATWOOT_BOT_TOKEN: unused
+      CHATWOOT_WEBHOOK_SECRET: unused-not-a-secret
+      LLM_BASE_URL: ${{ secrets.SMOKE_LLM_BASE_URL }}
+      LLM_API_KEY: ${{ secrets.SMOKE_LLM_API_KEY }}
+      LLM_MODEL: ${{ secrets.SMOKE_LLM_MODEL }}
+      EMBED_BASE_URL: ${{ secrets.SMOKE_EMBED_BASE_URL }}
+      EMBED_API_KEY: ${{ secrets.SMOKE_EMBED_API_KEY }}
+      EMBED_MODEL: ${{ secrets.SMOKE_EMBED_MODEL }}
+      SABOTAGE: ${{ inputs.sabotage || false }}
+    steps:
+      - name: Check secrets
+        id: keys
+        run: |
+          if [ -z "$LLM_API_KEY" ]; then
+            echo "::warning::SMOKE_LLM_API_KEY is not set; skipping the answer smoke check."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+        working-directory: .
+      - if: steps.keys.outputs.ready == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - if: steps.keys.outputs.ready == 'true'
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "1.27.x"
+          check-latest: true
+          cache-dependency-path: ai-service/go.sum
+      - name: Pick the knowledge file
+        if: steps.keys.outputs.ready == 'true'
+        run: |
+          kb=testdata/sample-kb/faq.json
+          if [ "$SABOTAGE" = "true" ]; then
+            jq '[.[] | .answer = "No information yet."]' "$kb" > "$RUNNER_TEMP/faq-broken.json"
+            kb="$RUNNER_TEMP/faq-broken.json"
+            echo "::notice::Sabotage run: knowledge answers replaced; this run must fail."
+          fi
+          echo "KB_FILE=$kb" >> "$GITHUB_ENV"
+      - name: answer-eval (≥ 80% pass, no invented facts)
+        if: steps.keys.outputs.ready == 'true'
+        env:
+          SETTINGS_PATH: ${{ runner.temp }}/settings.json
+        run: |
+          set -o pipefail
+          {
+            echo '### Answer smoke'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          status=0
+          go run ./cmd/answer-eval -seed-kb "$KB_FILE" -cases testdata/answers-smoke.json \
+            -min-pass 0.8 -strict-faithful 2>&1 | tee "$RUNNER_TEMP/smoke.txt" || status=$?
+          { cat "$RUNNER_TEMP/smoke.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit "$status"
