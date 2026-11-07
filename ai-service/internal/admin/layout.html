@@ -99,7 +99,7 @@
   form.acct select { min-width: 0; }
   details.acct-other summary { font-size: .875rem; color: var(--muted); }
   details.acct-other form.acct { margin-top: 6px; grid-template-columns: auto 7rem auto; }
-  @media (max-width: 640px) { .acct-pick { justify-items: stretch; width: 100%; } form.acct { grid-template-columns: auto minmax(0, 1fr) auto; } }
+  @media (max-width: 640px) { .acct-pick { justify-items: stretch; width: 100%; } form.acct { grid-template-columns: minmax(0, 1fr) auto; } form.acct label { grid-column: 1 / -1; } details.acct-other form.acct { grid-template-columns: minmax(0, 1fr) auto; } }
   form.acct label { margin: 0; }
   form.acct .field-hint { grid-column: 1 / -1; margin: 0; }
   .span2 { grid-column: 1 / -1; }
