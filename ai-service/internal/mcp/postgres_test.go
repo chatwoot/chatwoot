@@ -26,7 +26,7 @@ func openDB(t *testing.T) *Postgres {
 		t.Fatal(err)
 	}
 	t.Cleanup(pool.Close)
-	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, oauth_codes, oauth_grants, oauth_clients, team_members, kb_schema_version"); err != nil {
+	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, oauth_codes, oauth_grants, oauth_clients, team_members, admin_events, kb_schema_version"); err != nil {
 		t.Fatal(err)
 	}
 	if err := (&knowledge.Postgres{Pool: pool}).Migrate(ctx); err != nil {
@@ -43,9 +43,16 @@ func TestPostgres_TokenLifecycle(t *testing.T) {
 	// Act
 	plain, created, err := db.Create(ctx, 1, "Claude Code", true, 0)
 	got, lookupErr := db.Lookup(ctx, plain)
-	_, wrong := db.Lookup(ctx, plain[:len(plain)-1]+"A")
-	expPlain, _, _ := db.Create(ctx, 1, "short", false, time.Millisecond)
-	time.Sleep(20 * time.Millisecond)
+	last := "A"
+	if strings.HasSuffix(plain, "A") {
+		last = "B" // always a different token
+	}
+	_, wrong := db.Lookup(ctx, plain[:len(plain)-1]+last)
+	expPlain, expTok, _ := db.Create(ctx, 1, "short", false, time.Hour)
+	// Expire it in the database's own clock (a container clock can drift from ours).
+	if _, err := db.Pool.Exec(ctx, "UPDATE mcp_tokens SET expires_at = now() - interval '1 second' WHERE id = $1", expTok.ID); err != nil {
+		t.Fatal(err)
+	}
 	_, expired := db.Lookup(ctx, expPlain)
 	otherAcct := db.Revoke(ctx, 2, created.ID)
 	revokeErr := db.Revoke(ctx, 1, created.ID)

@@ -62,6 +62,20 @@
       {{if .Profiles}}<p class="field-hint" style="margin-top:12px"><a href="/admin/business?account={{.AccountID}}">Change AI features</a></p>{{end}}
     </aside>
   </div>
+
+  {{if .Recent}}
+  <section class="card" aria-labelledby="recent-h" style="margin-top:16px">
+    <h2 id="recent-h" style="font-size:1.125rem;margin:0 0 8px">Recent changes</h2>
+    <table>
+      <thead><tr><th scope="col">When</th><th scope="col">Who</th><th scope="col">What</th></tr></thead>
+      <tbody>
+      {{range .Recent}}
+        <tr><td class="num" data-label="When">{{.When}}</td><td data-label="Who">{{.Who}}</td><td data-label="What"><strong>{{.What}}</strong>{{with .Detail}} <span class="preview">{{.}}</span>{{end}}</td></tr>
+      {{end}}
+      </tbody>
+    </table>
+  </section>
+  {{end}}
 </main>
 </div>
 </body>

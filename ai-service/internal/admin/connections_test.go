@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/audit"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
 )
@@ -64,7 +65,7 @@ func TestConnections_CreateShowsTokenOnce(t *testing.T) {
 	e.h.Tokens, e.h.MCPURL = mt, "https://ai-admin.example/mcp"
 
 	// Act
-	created := e.do(connPost(url.Values{"action": {"create"}, "account": {"1"}, "name": {"Claude"}}))
+	created := e.do(connPost(url.Values{"action": {"create"}, "account": {"1"}, "name": {"Claude"}, "once": {e.h.newOnce()}}))
 	again := httptest.NewRequest(http.MethodGet, "/admin/connections?account=1", nil)
 	again.SetBasicAuth(Username, pw)
 	later := e.do(again).Body.String()
@@ -192,5 +193,57 @@ func TestTeam_HiddenAndRefusedWithoutAccess(t *testing.T) {
 	// Assert
 	if rec.Code != http.StatusBadRequest || len(apps.team) != 0 || strings.Contains(body, "Team for account") {
 		t.Fatalf("code=%d team=%d", rec.Code, len(apps.team))
+	}
+}
+
+func TestConnections_ReloadDoesNotCreateSecondToken(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	mt := &memTokens{}
+	e.h.Tokens = mt
+	form := url.Values{"action": {"create"}, "account": {"1"}, "name": {"Claude"}, "once": {e.h.newOnce()}}
+
+	// Act
+	first := e.do(connPost(form))
+	reload := e.do(connPost(form))
+	forged := e.do(connPost(url.Values{"action": {"create"}, "account": {"1"}, "name": {"X"}, "once": {"made-up"}}))
+
+	// Assert
+	if first.Code != http.StatusOK || reload.Code != http.StatusOK || len(mt.tokens) != 1 {
+		t.Fatalf("tokens = %d, want 1", len(mt.tokens))
+	}
+	if !strings.Contains(reload.Body.String(), "already sent") || strings.Contains(reload.Body.String(), "SECRET") || forged.Code != http.StatusOK {
+		t.Fatal("reload should explain and must not show a token")
+	}
+}
+
+type memEvents struct{ events []audit.Event }
+
+func (m *memEvents) Record(_ context.Context, e audit.Event) error {
+	m.events = append(m.events, e)
+	return nil
+}
+func (m *memEvents) Recent(context.Context, int64, int) ([]audit.Event, error) {
+	return m.events, nil
+}
+
+func TestAudit_AdminChangesRecordedWithActor(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	ev := &memEvents{}
+	e.h.Tokens, e.h.Events = &memTokens{}, ev
+
+	// Act
+	e.do(connPost(url.Values{"action": {"create"}, "account": {"1"}, "name": {"Claude"}, "once": {e.h.newOnce()}}))
+	home := httptest.NewRequest(http.MethodGet, "/admin?account=1", nil)
+	home.SetBasicAuth(Username, pw)
+	body := e.do(home).Body.String()
+
+	// Assert
+	if len(ev.events) != 1 || ev.events[0].Action != "token created" || ev.events[0].Actor != "admin password" || ev.events[0].AccountID != 1 {
+		t.Fatalf("events = %+v", ev.events)
+	}
+	if !strings.Contains(body, "Recent changes") || !strings.Contains(body, "token created") {
+		t.Fatal("home does not list recent changes")
 	}
 }

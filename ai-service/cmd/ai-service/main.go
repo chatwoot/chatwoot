@@ -16,6 +16,7 @@ import (
 	_ "time/tzdata" // the distroless image has no zoneinfo; TIMEZONE needs it
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/admin"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/audit"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/chatwoot"
@@ -139,7 +140,8 @@ func run() error {
 			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
 			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout,
 			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL,
-			TeamSignIn: cfg.CFAccessAUD != "", Owners: cfg.Owners, AdminAccess: adminAccess(cfg), Logger: logger,
+			TeamSignIn: cfg.CFAccessAUD != "", Owners: cfg.Owners, AdminAccess: adminAccess(cfg),
+			Events: adminEvents(profiles), Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -254,6 +256,14 @@ func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logg
 		Store: pg, Embedder: embedder,
 		TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes,
 	}, &profile.Postgres{Pool: pg.Pool}, pg.Pool.Close, nil
+}
+
+// adminEvents is the admin change log, or nil without a database.
+func adminEvents(p *profile.Postgres) audit.Store {
+	if p == nil {
+		return nil
+	}
+	return &audit.Postgres{Pool: p.Pool}
 }
 
 // adminAccess is the /admin Access verifier, or nil (password only).

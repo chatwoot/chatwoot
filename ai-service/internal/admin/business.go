@@ -68,6 +68,7 @@ func (h *Handler) submitBusiness(w http.ResponseWriter, r *http.Request) {
 		h.renderBusiness(w, r, http.StatusUnprocessableEntity, businessData{Enabled: true, Profile: p, Error: err.Error()})
 		return
 	}
+	h.record(r, p.AccountID, "business profile saved", p.BusinessName, nil)
 	h.Logger.Info("business profile saved", "account_id", p.AccountID, "remote_addr", r.RemoteAddr)
 	http.Redirect(w, r, "/admin/business?account="+strconv.FormatInt(p.AccountID, 10)+"&done=saved", http.StatusSeeOther)
 }

@@ -18,8 +18,10 @@ import (
 	"html/template"
 	"log/slog"
 	"net/http"
+	"sync"
 	"time"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/audit"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	embedclient "github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
@@ -65,6 +67,11 @@ type Handler struct {
 	Knowledge *knowledge.Service
 	// Profiles enables the business profile page; nil when no database is set.
 	Profiles profile.Store
+	onceMu   sync.Mutex
+	once     map[string]time.Time
+
+	// Events records changes made here; nil skips it (no database).
+	Events audit.Store
 	// AdminAccess verifies the Cloudflare Access sign-in in front of /admin;
 	// Owners are the emails it admits without the password.
 	AdminAccess Identifier
@@ -219,6 +226,7 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 	if h.Embedder != nil {
 		h.Embedder.Set(settings.NewEmbedder(h.Store.Get(), h.Timeout))
 	}
+	h.record(r, 0, "providers saved", "chat "+next.Primary.Host()+" "+next.Primary.Model+", embeddings "+next.Embedding.Host()+" "+next.Embedding.Model, nil)
 	h.Logger.Info("llm settings updated",
 		"primary_host", next.Primary.Host(), "primary_model", next.Primary.Model,
 		"fallback_enabled", next.Fallback.Configured(), "fallback_model", next.Fallback.Model,
@@ -361,6 +369,17 @@ type Identifier interface {
 }
 
 type actorKey struct{}
+
+// record logs one change to the audit trail. Failure only loses history,
+// so it is logged and the change stands.
+func (h *Handler) record(r *http.Request, acct int64, action, summary string, before any) {
+	if h.Events == nil {
+		return
+	}
+	if err := h.Events.Record(r.Context(), audit.Event{AccountID: acct, Actor: actor(r), Action: action, Summary: summary, Before: before}); err != nil {
+		h.Logger.Error("admin change not recorded", "account_id", acct, "action", action, "error", err)
+	}
+}
 
 // actor is who made a change: the owner's email when signed in through
 // Cloudflare Access, else "admin password".

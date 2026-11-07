@@ -26,6 +26,11 @@ type homeData struct {
 	Business    string
 	Features    profile.Features
 	Profiles    bool
+	Recent      []recentView
+}
+
+type recentView struct {
+	When, Who, What, Detail string
 }
 
 // showHome is the first screen: what is set up, what is missing, and a link
@@ -60,6 +65,15 @@ func (h *Handler) showHome(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	if h.Events != nil {
+		events, err := h.Events.Recent(r.Context(), acct, 8)
+		if err != nil {
+			h.Logger.Warn("home: recent changes failed", "account_id", acct, "error", err)
+		}
+		for _, ev := range events {
+			d.Recent = append(d.Recent, recentView{When: ev.At.In(h.loc()).Format("2 Jan 15:04"), Who: ev.Actor, What: ev.Action, Detail: ev.Summary})
+		}
+	}
 	acctQ := "?account=" + strconv.FormatInt(acct, 10)
 	d.Steps = []step{
 		{Title: "Connect an AI model", Hint: "The model that writes replies.", Link: "/admin/providers", Action: "Set up", Done: cur.Primary.Configured()},
