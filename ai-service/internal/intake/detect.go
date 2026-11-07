@@ -26,6 +26,9 @@ var (
 	// numberRun is one number written with separators between its digits:
 	// up to two spaces, dots, dashes, slashes or underscores (not commas,
 	// so a list of numbers stays apart).
+	// looseRun joins digit groups across any one or two characters that
+	// are not letters or line breaks; used only for the private checks.
+	looseRun    = regexp.MustCompile(`\d(?:[^\p{L}\p{N}\n]{0,2}\d)*`)
 	numberRun   = regexp.MustCompile(`\+?\d(?:[ \t.\-/_]{0,2}\d)*`)
 	promptPayKW = regexp.MustCompile(`(?i)พร้อมเพย์|prompt\s*pay`)
 	bankKW      = regexp.MustCompile(`(?i)บัญชี|ธนาคาร|\bbank\b|\baccount\b|\bacct\b|กสิกร|ไทยพาณิชย์|กรุงเทพ|กรุงไทย|กรุงศรี|\bkbank\b|\bscb\b|\bbbl\b|\bktb\b|\bttb\b|ออมสิน`)
@@ -66,6 +69,15 @@ func Detect(text string) Signals {
 
 	for _, sv := range secretValue {
 		take(sv.re, always(sv.kind))
+	}
+	// Private numbers first, on the whole text: inside links and emails
+	// too, and with any separator (commas included) between digit groups.
+	for _, m := range looseRun.FindAllString(s, -1) {
+		if d := digits(m); len(d) >= 13 && len(d) <= 19 && luhn(d) {
+			add(&sig, "card number")
+		} else if len(d) == 13 && validThaiID(d) && !promptPayKW.MatchString(s) {
+			add(&sig, "ID number")
+		}
 	}
 	take(link, func(m string) string {
 		switch {

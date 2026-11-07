@@ -37,6 +37,9 @@ func TestDetect(t *testing.T) {
 		"digits before a card":         {text: "เลข 99 4111 1111 1111 1111", private: []string{"card number"}},
 		"id after promptpay with tail": {text: "พร้อมเพย์ 1101700230708 99", private: []string{"ID number"}},
 		"phone then date on next line": {text: "โทร 083-919-0009\n\n2026-11-07", contact: []string{"phone"}},
+		"card in a link":               {text: "ดูที่ https://example.com/p?c=4111111111111111", private: []string{"card number"}},
+		"card with commas":             {text: "เลข 4111,1111,1111,1111", private: []string{"card number"}},
+		"id in an email":               {text: "ส่ง 1101700230708@example.com", private: []string{"ID number"}, contact: []string{"email"}},
 		"phone list stays apart":       {text: "โทร 081-516-9097, 083-919-0009", contact: []string{"phone"}},
 		"date is not a phone":          {text: "หมดเขต 08/11/2026 เวลา 23:59"},
 	}
