@@ -98,7 +98,8 @@ RSpec.describe Captain::ToolsManifest::InstallService do
 
       result = install.first.tool(assistant).perform(Struct.new(:state).new({}), order_id: '1001')
 
-      expect(result).to eq('{"id": 1001}')
+      expect(result).to start_with(Captain::Tools::BasePublicTool::UNTRUSTED_RESULT_START)
+      expect(result).to include('{"id": 1001}')
       expect(WebMock).to have_requested(:get, order_url)
         .with(headers: { 'X-Shopify-Access-Token' => 'shpat_secret', 'X-Api-Version' => '2026-05-01' })
     end
