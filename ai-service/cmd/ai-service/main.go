@@ -141,7 +141,7 @@ func run() error {
 			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout,
 			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL,
 			TeamSignIn: cfg.CFAccessAUD != "", Owners: cfg.Owners, AdminAccess: adminAccess(cfg),
-			Events: adminEvents(profiles), Logger: logger,
+			Events: adminEvents(profiles, cfg.AuditRetentionDays), Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -259,11 +259,11 @@ func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logg
 }
 
 // adminEvents is the admin change log, or nil without a database.
-func adminEvents(p *profile.Postgres) audit.Store {
+func adminEvents(p *profile.Postgres, retentionDays int) audit.Store {
 	if p == nil {
 		return nil
 	}
-	return &audit.Postgres{Pool: p.Pool}
+	return &audit.Postgres{Pool: p.Pool, RetentionDays: retentionDays}
 }
 
 // adminAccess is the /admin Access verifier, or nil (password only).

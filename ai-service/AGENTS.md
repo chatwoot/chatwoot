@@ -31,7 +31,7 @@ Run from `ai-service/`:
 
 ```bash
 gofmt -l . && go vet ./... && go test -race ./...            # what CI runs
-TEST_DATABASE_URL=postgres://... go test ./internal/knowledge/  # pgvector tests (scratch DB only)
+TEST_DATABASE_URL=postgres://... go test -p 1 ./...            # with pgvector tests (scratch DB only; -p 1: they share it)
 go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
 docker build -t chatwoot-ai-service:dev .
 ```

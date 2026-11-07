@@ -5,6 +5,7 @@ package audit
 import (
 	"context"
 	"encoding/json"
+	"sync"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -32,6 +33,31 @@ type Store interface {
 // Postgres implements Store (schema v8 admin_events, v5 kb_audit).
 type Postgres struct {
 	Pool *pgxpool.Pool
+	// RetentionDays: entries older than this are deleted from both logs
+	// (they can hold old document text); 0 keeps everything.
+	RetentionDays int
+
+	mu     sync.Mutex
+	pruned time.Time
+}
+
+// prune deletes old entries at most once an hour.
+func (p *Postgres) prune(ctx context.Context) {
+	if p.RetentionDays <= 0 {
+		return
+	}
+	p.mu.Lock()
+	due := time.Since(p.pruned) > time.Hour
+	if due {
+		p.pruned = time.Now()
+	}
+	p.mu.Unlock()
+	if !due {
+		return
+	}
+	for _, table := range []string{"admin_events", "kb_audit"} {
+		_, _ = p.Pool.Exec(ctx, `DELETE FROM `+table+` WHERE at < now() - make_interval(days => $1)`, p.RetentionDays)
+	}
 }
 
 // Record implements Store.
@@ -47,6 +73,7 @@ func (p *Postgres) Record(ctx context.Context, e Event) error {
 	if e.AccountID > 0 {
 		acct = e.AccountID
 	}
+	p.prune(ctx)
 	_, err := p.Pool.Exec(ctx, `INSERT INTO admin_events (account_id, actor, action, summary, before) VALUES ($1, $2, $3, $4, $5)`,
 		acct, e.Actor, e.Action, e.Summary, before)
 	return err
@@ -54,12 +81,16 @@ func (p *Postgres) Record(ctx context.Context, e Event) error {
 
 // Recent implements Store.
 func (p *Postgres) Recent(ctx context.Context, accountID int64, limit int) ([]Event, error) {
+	// Each branch reads its index in order and stops at the limit.
 	rows, err := p.Pool.Query(ctx, `
-		SELECT at, actor, action, summary FROM admin_events WHERE account_id = $1 OR account_id IS NULL
-		UNION ALL
-		SELECT at, actor, 'knowledge ' || action, COALESCE(before->>'title', source_key, 'document ' || document_id::text, '')
-		FROM kb_audit WHERE account_id = $1
-		ORDER BY at DESC LIMIT $2`, accountID, max(limit, 1))
+		SELECT at, actor, action, summary FROM (
+			(SELECT at, id, 1 AS src, actor, action, summary FROM admin_events WHERE account_id = $1 ORDER BY at DESC, id DESC LIMIT $2)
+			UNION ALL
+			(SELECT at, id, 2, actor, action, summary FROM admin_events WHERE account_id IS NULL ORDER BY at DESC, id DESC LIMIT $2)
+			UNION ALL
+			(SELECT at, id, 3, actor, 'knowledge ' || action, COALESCE(before->>'title', source_key, 'document ' || document_id::text, '')
+			   FROM kb_audit WHERE account_id = $1 ORDER BY at DESC, id DESC LIMIT $2)
+		) e ORDER BY at DESC, src, id DESC LIMIT $2`, accountID, max(limit, 1))
 	if err != nil {
 		return nil, err
 	}

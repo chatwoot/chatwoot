@@ -212,3 +212,12 @@ func TestLoad_Tracing(t *testing.T) {
 		t.Errorf("TRACE_TEXT=full must fail: %v", errBad)
 	}
 }
+
+func TestNormalizeEmail_ConfigMatchesAccess(t *testing.T) {
+	if got, ok := normalizeEmail(" John@Example.COM "); !ok || got != "john@example.com" {
+		t.Fatalf("got %q %v", got, ok)
+	}
+	if _, ok := normalizeEmail("\u212Aate@corp.com"); ok {
+		t.Fatal("non-ASCII owner email accepted")
+	}
+}

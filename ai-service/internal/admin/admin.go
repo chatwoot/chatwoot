@@ -376,7 +376,7 @@ func (h *Handler) record(r *http.Request, acct int64, action, summary string, be
 	if h.Events == nil {
 		return
 	}
-	if err := h.Events.Record(r.Context(), audit.Event{AccountID: acct, Actor: actor(r), Action: action, Summary: summary, Before: before}); err != nil {
+	if err := h.Events.Record(context.WithoutCancel(r.Context()), audit.Event{AccountID: acct, Actor: actor(r), Action: action, Summary: summary, Before: before}); err != nil {
 		h.Logger.Error("admin change not recorded", "account_id", acct, "action", action, "error", err)
 	}
 }

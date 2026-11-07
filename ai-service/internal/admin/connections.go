@@ -158,7 +158,7 @@ func (h *Handler) submitConnections(w http.ResponseWriter, r *http.Request) {
 	switch r.PostForm.Get("action") {
 	case "create":
 		if !h.useOnce(r.PostForm.Get("once")) {
-			d.Notice = "That form was already sent (for example by reloading the page), so no second token was made. The token is in the list below; if you lost it, revoke it and create a new one."
+			d.Notice = "That form was already sent (for example by reloading the page), so no token was made this time. If you did not copy a token, create one again below."
 			h.renderConnections(w, r, http.StatusOK, d)
 			return
 		}
@@ -209,7 +209,11 @@ func (h *Handler) submitConnections(w http.ResponseWriter, r *http.Request) {
 			h.renderConnections(w, r, http.StatusUnprocessableEntity, d)
 			return
 		}
-		h.record(r, acct, strings.ReplaceAll(r.PostForm.Get("action"), "_", " "), email+" "+r.PostForm.Get("member_access"), nil)
+		summary := email
+		if r.PostForm.Get("action") == "add_member" {
+			summary += map[bool]string{true: " (read and write)", false: " (read only)"}[r.PostForm.Get("member_access") == "write"]
+		}
+		h.record(r, acct, strings.ReplaceAll(r.PostForm.Get("action"), "_", " "), summary, nil)
 		h.Logger.Info("team changed", "account_id", acct, "action", r.PostForm.Get("action"), "remote_addr", r.RemoteAddr)
 		http.Redirect(w, r, "/admin/connections?account="+strconv.FormatInt(acct, 10)+"&done=team", http.StatusSeeOther)
 	case "revoke_app":

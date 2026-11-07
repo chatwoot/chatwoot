@@ -460,3 +460,42 @@ func TestAdmin_CloudflareSignInReplacesPassword(t *testing.T) {
 		})
 	}
 }
+
+func TestAdmin_RejectedAccessChangesNothing(t *testing.T) {
+	cases := map[string]struct {
+		jwt  string
+		want int
+	}{
+		"forged token with the password": {"jwt-forged", http.StatusForbidden},
+		"signed-in non-owner":            {"jwt-somchai", http.StatusForbidden},
+		"owner":                          {"jwt-john", http.StatusOK},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			// Arrange
+			e := setup(t, nil)
+			mt, ev := &memTokens{}, &memEvents{}
+			e.h.Tokens, e.h.Events = mt, ev
+			e.h.AdminAccess = fakeID{"jwt-john": "john@example.com", "jwt-somchai": "somchai@example.com"}
+			e.h.Owners = []string{"john@example.com"}
+			e.mux = http.NewServeMux()
+			e.h.Routes(e.mux)
+			r := connPost(url.Values{"action": {"create"}, "account": {"1"}, "name": {"x"}, "once": {e.h.newOnce()}})
+			r.Header.Set(cfaccess.Header, c.jwt)
+
+			// Act
+			rec := e.do(r)
+
+			// Assert
+			if rec.Code != c.want {
+				t.Fatalf("code = %d, want %d", rec.Code, c.want)
+			}
+			if c.want != http.StatusOK && (len(mt.tokens) != 0 || len(ev.events) != 0) {
+				t.Fatalf("a refused request changed something: tokens=%d events=%d", len(mt.tokens), len(ev.events))
+			}
+			if c.want == http.StatusOK && (len(mt.tokens) != 1 || ev.events[0].Actor != "john@example.com") {
+				t.Fatalf("owner change: tokens=%d events=%+v", len(mt.tokens), ev.events)
+			}
+		})
+	}
+}

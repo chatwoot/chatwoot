@@ -52,6 +52,22 @@ func TestPostgres_RecordAndRecentMergesAITools(t *testing.T) {
 			t.Fatal("another account's change leaked into the list")
 		}
 	}
+	two, err := db.Recent(ctx, 1, 2)
+	if err != nil || len(two) != 2 {
+		t.Fatalf("limit 2 across the union: %d rows, %v", len(two), err)
+	}
+	// Retention: an entry older than the limit disappears on the next write.
+	if _, err := pool.Exec(ctx, `INSERT INTO admin_events (account_id, actor, action, summary, at) VALUES (1, 'x', 'old', 'old', now() - interval '400 days')`); err != nil {
+		t.Fatal(err)
+	}
+	pruning := &Postgres{Pool: pool, RetentionDays: 180}
+	if err := pruning.Record(ctx, Event{AccountID: 1, Actor: "x", Action: "new", Summary: "new"}); err != nil {
+		t.Fatal(err)
+	}
+	var old int
+	if err := pool.QueryRow(ctx, `SELECT count(*) FROM admin_events WHERE action = 'old'`).Scan(&old); err != nil || old != 0 {
+		t.Fatalf("old entry kept: %d %v", old, err)
+	}
 	var kept string
 	if err := pool.QueryRow(ctx, `SELECT before->>'content' FROM admin_events WHERE action = 'knowledge deleted'`).Scan(&kept); err != nil || kept != "2,900" {
 		t.Fatalf("old text not kept: %q %v", kept, err)

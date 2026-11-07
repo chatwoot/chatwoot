@@ -469,6 +469,26 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, redirect.String(), http.StatusSeeOther)
 }
 
+// approverStillAllowed re-checks, on every refresh, that whoever approved a
+// connection still may: an owner still listed, or a team member still on the
+// account (with write if the connection writes). Password approvals (no
+// approver) are unaffected.
+func (s *Server) approverStillAllowed(ctx context.Context, g Grant) bool {
+	if g.ApprovedBy == "" || s.isOwner(g.ApprovedBy) {
+		return true
+	}
+	ms, err := s.Store.Memberships(ctx, g.ApprovedBy)
+	if err != nil {
+		return true // a lookup error must not log everyone out; removal revokes anyway
+	}
+	for _, m := range ms {
+		if m.AccountID == g.AccountID && (m.CanWrite || !g.CanWrite) {
+			return true
+		}
+	}
+	return false
+}
+
 func (s *Server) isOwner(email string) bool {
 	for _, o := range s.Owners {
 		if email != "" && o == email {
@@ -550,6 +570,14 @@ func (s *Server) token(w http.ResponseWriter, r *http.Request) {
 		}
 		if err != nil {
 			oauthError(w, http.StatusBadRequest, "invalid_grant", "the refresh token is invalid, expired or revoked")
+			return
+		}
+		if !s.approverStillAllowed(r.Context(), g) {
+			if err := s.Store.RevokeGrantID(r.Context(), g.ID); err != nil {
+				s.Logger.Error("oauth revoke after lost access failed", "grant_id", g.ID, "error", err)
+			}
+			s.Logger.Info("oauth connection ended: its approver no longer has access", "grant_id", g.ID, "account_id", g.AccountID)
+			oauthError(w, http.StatusBadRequest, "invalid_grant", "the person who connected this app no longer has access")
 			return
 		}
 	default:
