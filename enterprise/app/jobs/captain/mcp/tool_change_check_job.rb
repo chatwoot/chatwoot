@@ -6,7 +6,7 @@ class Captain::Mcp::ToolChangeCheckJob < ApplicationJob
   def perform
     Captain::McpServer.enabled.for_enabled_accounts.where(id: Captain::McpTool.select(:mcp_server_id)).find_each do |server|
       connection = Captain::Mcp::Connection.new(server)
-      server.record_live_tools(connection.track_status { connection.tool_definitions })
+      server.record_live_tools(connection.recent_tool_definitions)
     rescue *Captain::Mcp::Connection::ERRORS => e
       Rails.logger.warn("Captain MCP tool check failed for server #{server.id}: #{e.class} - #{e.message}")
     end

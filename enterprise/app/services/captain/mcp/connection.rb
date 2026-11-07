@@ -2,6 +2,8 @@
 # Every MCP and OAuth request goes through the SafeFetch address checks.
 class Captain::Mcp::Connection
   TIMEOUT = 30
+  # A run or the hourly check reuses a listing for this long, so a burst of messages lists each server once
+  LISTING_TTL = 1.minute
   # The server or the network failed: a bad answer, a refused address or a lost connection. Callers handle these as
   # expected failures, and anything else is a bug that should reach Sentry.
   ERRORS = [RubyLLM::Error, SafeFetch::Error, Faraday::Error].freeze
@@ -35,6 +37,16 @@ class Captain::Mcp::Connection
         'read_only' => tool.read_only?
       }
     end
+  end
+
+  # The tool definitions for a run or the hourly check, reused for LISTING_TTL. The tools page and approval list the
+  # server live, because an admin compares what it offers now. A failed listing is not kept, so the next run tries again.
+  def recent_tool_definitions
+    key = format(::Redis::RedisKeys::CAPTAIN_MCP_TOOL_LISTING, server_id: @server.id)
+    cached = ::Redis::Alfred.get(key)
+    return JSON.parse(cached) if cached
+
+    track_status { tool_definitions }.tap { |definitions| ::Redis::Alfred.setex(key, definitions.to_json, LISTING_TTL) }
   end
 
   # RubyLLM exposes the server's name only through its private server info

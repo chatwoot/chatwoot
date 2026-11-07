@@ -74,6 +74,24 @@ RSpec.describe Captain::Mcp::AgentTools do
     expect(tool_listings).to have_been_made.once
   end
 
+  it 'reuses a listing for the next run within a minute' do
+    described_class.new(assistant).tools
+    WebMock.reset_executed_requests!
+
+    expect(described_class.new(assistant).tools.map(&:name)).to eq([captain_name])
+    expect(tool_listings).not_to have_been_made
+  end
+
+  it 'lists the server again on the next run after a failed listing' do
+    fake.fails = true
+    described_class.new(assistant).tools
+    fake.fails = false
+    WebMock.reset_executed_requests!
+
+    expect(described_class.new(assistant).tools.map(&:name)).to eq([captain_name])
+    expect(tool_listings).to have_been_made.once
+  end
+
   it 'offers nothing while the account does not have MCP servers' do
     account.disable_features!(Captain::McpServer::FEATURE_FLAG)
 

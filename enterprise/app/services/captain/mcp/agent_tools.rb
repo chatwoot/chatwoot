@@ -77,7 +77,7 @@ class Captain::Mcp::AgentTools
     return [] if server.available_tools.empty?
 
     connection = Captain::Mcp::Connection.new(server)
-    server.record_live_tools(connection.track_status { connection.tool_definitions })
+    server.record_live_tools(connection.recent_tool_definitions)
     server.available_tools.select(&:review_current?).map { |mcp_tool| Usable.new(mcp_tool, connection) }
   rescue *Captain::Mcp::Connection::ERRORS => e
     Rails.logger.warn("Captain MCP server #{server.id} skipped: #{e.class} - #{e.message}")
