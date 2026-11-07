@@ -32,6 +32,11 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     false
   end
 
+  # The tool to use when an admin or an agent is the user. A tool that fills verified values builds its Copilot version.
+  def for_copilot
+    self
+  end
+
   private
 
   def account_scoped(model_class)

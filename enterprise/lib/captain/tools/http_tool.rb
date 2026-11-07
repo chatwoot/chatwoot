@@ -31,6 +31,10 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
     @custom_tool.http_method == 'GET'
   end
 
+  def for_copilot
+    @custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool)
+  end
+
   private
 
   def arguments_for(_tool_context, _params)
