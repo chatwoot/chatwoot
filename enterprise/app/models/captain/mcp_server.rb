@@ -71,7 +71,7 @@ class Captain::McpServer < ApplicationRecord
   scope :for_enabled_accounts, -> { joins(:account).merge(Account.feature_captain_mcp_servers) }
 
   # The servers Captain may use for an assistant: none while the account does not have MCP servers turned on
-  def self.usable_for(assistant)
+  def self.enabled_for(assistant)
     assistant.account.feature_enabled?(FEATURE_FLAG) ? assistant.mcp_servers.enabled : none
   end
 

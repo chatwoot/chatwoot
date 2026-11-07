@@ -67,7 +67,7 @@ class Captain::Mcp::AgentTools
   end
 
   def usable
-    @usable ||= Captain::McpServer.usable_for(@assistant).flat_map { |server| usable_on(server) }
+    @usable ||= Captain::McpServer.enabled_for(@assistant).flat_map { |server| usable_on(server) }
   end
 
   def usable_on(server)
