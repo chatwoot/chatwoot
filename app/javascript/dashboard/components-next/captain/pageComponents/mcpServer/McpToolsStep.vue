@@ -22,6 +22,8 @@ const { t } = useI18n();
 
 // Searching helps once a server lists more tools than fit on screen
 const SEARCH_THRESHOLD = 8;
+// Spaces per level when a parameter schema is shown for review
+const SCHEMA_INDENT = 2;
 
 const query = ref('');
 const reviewing = ref(null);
@@ -42,12 +44,15 @@ const allSelected = computed(
 );
 
 const isSelected = tool => props.selectedNames.includes(tool.name);
-const approvedDescription = tool =>
-  props.approvedTools.find(item => item.name === tool.name)?.description;
+const approvedTool = tool =>
+  props.approvedTools.find(item => item.name === tool.name);
 const schemaChanged = tool =>
-  JSON.stringify(
-    props.approvedTools.find(item => item.name === tool.name)?.input_schema
-  ) !== JSON.stringify(tool.input_schema);
+  JSON.stringify(approvedTool(tool)?.input_schema) !==
+  JSON.stringify(tool.input_schema);
+const readOnlyChanged = tool =>
+  approvedTool(tool) && approvedTool(tool).read_only !== tool.read_only;
+const formatSchema = schema =>
+  JSON.stringify(schema ?? {}, null, SCHEMA_INDENT);
 
 const toggle = tool => {
   emit('toggle', tool.name, !isSelected(tool));
@@ -172,7 +177,7 @@ const toggle = tool => {
                   {{ t('CAPTAIN.MCP_SERVERS.DIALOG.APPROVED_VERSION') }}
                 </span>
                 <span class="text-sm text-n-slate-11">
-                  {{ approvedDescription(tool) }}
+                  {{ approvedTool(tool)?.description }}
                 </span>
               </div>
               <div
@@ -186,9 +191,38 @@ const toggle = tool => {
                 </span>
               </div>
             </div>
-            <p v-if="schemaChanged(tool)" class="m-0 text-xs text-n-slate-11">
-              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.PARAMETERS_CHANGED') }}
-            </p>
+            <div v-if="schemaChanged(tool)" class="grid gap-3 sm:grid-cols-2">
+              <div
+                class="flex flex-col min-w-0 gap-1 p-3 rounded-lg bg-n-alpha-1"
+              >
+                <span class="text-xs text-n-slate-10">
+                  {{ t('CAPTAIN.MCP_SERVERS.DIALOG.APPROVED_PARAMETERS') }}
+                </span>
+                <pre
+                  dir="ltr"
+                  class="m-0 overflow-x-auto font-mono text-xs whitespace-pre-wrap break-all text-n-slate-11"
+                ><code>{{ formatSchema(approvedTool(tool)?.input_schema) }}</code></pre>
+              </div>
+              <div
+                class="flex flex-col min-w-0 gap-1 p-3 rounded-lg bg-n-amber-2 outline outline-1 -outline-offset-1 outline-n-amber-5"
+              >
+                <span class="text-xs text-n-amber-11">
+                  {{ t('CAPTAIN.MCP_SERVERS.DIALOG.LIVE_PARAMETERS') }}
+                </span>
+                <pre
+                  dir="ltr"
+                  class="m-0 overflow-x-auto font-mono text-xs whitespace-pre-wrap break-all text-n-slate-12"
+                ><code>{{ formatSchema(tool.input_schema) }}</code></pre>
+              </div>
+            </div>
+            <template v-if="readOnlyChanged(tool)">
+              <p v-if="tool.read_only" class="m-0 text-xs text-n-amber-11">
+                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.NOW_READ_ONLY') }}
+              </p>
+              <p v-else class="m-0 text-xs text-n-amber-11">
+                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.NOW_WRITES') }}
+              </p>
+            </template>
             <p class="m-0 text-xs text-n-amber-11">
               {{ t('CAPTAIN.MCP_SERVERS.DIALOG.CHANGE_WARNING') }}
             </p>
