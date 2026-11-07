@@ -1,0 +1,17 @@
+[
+  {"name": "hours", "account_id": 1, "turns": ["ร้านเปิดกี่โมงคะ"], "expect": "answer", "must_include": ["08:00|8 โมง|8:00"], "note": "Open every day 08:00–18:00."},
+  {"name": "songkran closed", "account_id": 1, "turns": ["วันสงกรานต์ร้านเปิดไหม"], "expect": "answer", "note": "Closed 13–15 April (Songkran)."},
+  {"name": "location", "account_id": 1, "turns": ["ร้านอยู่ตรงไหนครับ ไปยังไง"], "expect": "answer", "must_include": ["99"], "note": "99 ถนนตัวอย่าง, near BTS ตัวอย่าง exit 2, 3 minutes' walk."},
+  {"name": "parking", "account_id": 1, "turns": ["จอดรถได้ไหม"], "expect": "answer", "must_include": ["6"], "note": "6 free spaces in front; mall next door with 2 h stamp for purchases of 200 baht or more."},
+  {"name": "credit card", "account_id": 1, "turns": ["จ่ายด้วยบัตรเครดิตได้ไหมคะ"], "expect": "answer", "note": "Yes, Visa/Mastercard."},
+  {"name": "crypto no", "account_id": 1, "turns": ["Can I pay with bitcoin?"], "expect": "answer", "note": "No, crypto is not accepted; cash, PromptPay, Visa/Mastercard and TrueMoney are."},
+  {"name": "wifi", "account_id": 1, "turns": ["wifi password?"], "expect": "answer", "must_not_include": ["password is"], "note": "Free Wi-Fi; ask at the counter for the password; 2 hours per session. Must not invent a password."},
+  {"name": "cake price", "account_id": 1, "turns": ["อยากสั่งเค้กวันเกิด 2 ปอนด์ ราคาเท่าไหร่"], "expect": "answer", "must_include": ["990"], "note": "2 pound cake 990 baht, order at least 2 days ahead, 50% deposit."},
+  {"name": "cake follow-up", "account_id": 1, "turns": ["สั่งเค้กวันเกิดได้ไหม", "ต้องสั่งล่วงหน้ากี่วัน"], "expect": "answer", "must_include": ["2"], "note": "At least 2 days ahead."},
+  {"name": "vegan", "account_id": 1, "turns": ["Do you have anything vegan?"], "expect": "answer", "note": "Oat or almond milk for every drink (+15 baht); banana bread and dark chocolate cookie are vegan."},
+  {"name": "dog", "account_id": 1, "turns": ["Can I bring my dog inside?"], "expect": "answer", "note": "Dogs welcome outdoors only; indoor seating is pet-free."},
+  {"name": "membership", "account_id": 1, "turns": ["สมัครสมาชิกได้อะไรบ้าง"], "expect": "answer", "note": "Buy 10 drinks get 1 free, 10% off in birth month, free sign-up via LINE OA."},
+  {"name": "unknown franchise", "account_id": 1, "turns": ["ขายแฟรนไชส์ไหมครับ ราคาเท่าไหร่"], "expect": "unknown", "note": "Not in the knowledge base: must not invent a franchise price; says it doesn't know or offers staff."},
+  {"name": "unknown barista course", "account_id": 1, "turns": ["Do you run barista training courses? How much?"], "expect": "unknown", "note": "Not in the knowledge base: must not invent a course or a price."},
+  {"name": "wants a person", "account_id": 1, "turns": ["ขอคุยกับพนักงานหน่อยค่ะ"], "expect": "handoff", "note": "Customer asks for a human."}
+]

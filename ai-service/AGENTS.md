@@ -15,7 +15,7 @@ Production and deploys: `deploy/README.md`.
 - Reply to the owner (John) in **English**, plain and direct.
 - Base branch is **`develop`** (the fork), not `main`. Freshness check:
   `git fetch origin develop && git rev-list --left-right --count origin/develop...HEAD`.
-- Our code lives only in `ai-service/` plus `.github/workflows/ai-service.yml`.
+- Our code lives only in `ai-service/` plus `.github/workflows/ai-service*.yml`.
   Never edit Chatwoot's own files. Never open, copy or edit `enterprise/`.
   The repository-root `CLAUDE.md`/`AGENTS.md` are the Chatwoot team's Rails
   guide; they do not govern ai-service.
