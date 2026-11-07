@@ -76,8 +76,9 @@ func run() error {
 	var botProfiles bot.Profiles
 	var adminProfiles profile.Store
 	var rewriter bot.QueryRewriter
+	var usage bot.UsageRecorder
 	if kb != nil {
-		retriever, botProfiles, adminProfiles = kb, profiles, profiles
+		retriever, botProfiles, adminProfiles, usage = kb, profiles, profiles, kb
 		rewriter = &bot.LLMRewriter{LLM: rewriteLLM}
 	}
 
@@ -98,6 +99,7 @@ func run() error {
 		Chatwoot:          chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
 		LLM:               completer,
 		Knowledge:         retriever,
+		Usage:             usage,
 		Profiles:          botProfiles,
 		Rewriter:          rewriter,
 		Fetcher:           &media.Fetcher{Host: hostOf(cfg.ChatwootBaseURL), MaxBytes: 10 << 20},

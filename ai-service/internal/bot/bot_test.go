@@ -379,3 +379,46 @@ func TestPreview_ModelFails(t *testing.T) {
 		t.Fatalf("preview = %+v", p)
 	}
 }
+
+type fakeUsage struct {
+	acct int64
+	hits []knowledge.Hit
+	n    int
+}
+
+func (f *fakeUsage) MarkUsed(_ context.Context, acct int64, hits []knowledge.Hit) error {
+	f.acct, f.hits, f.n = acct, hits, f.n+1
+	return nil
+}
+
+func TestProcess_CountsKnowledgeUseForRealReplies(t *testing.T) {
+	// Arrange
+	hits := []knowledge.Hit{{ChunkID: 40, DocumentID: 12, Title: "Price", Content: "3,900", Score: 0.8}}
+	b, _ := ragBot(&fakeChatwoot{}, &fakeLLM{reply: "3,900 บาทค่ะ"}, &fakeRetriever{hits: hits})
+	u := &fakeUsage{}
+	b.opts.Usage = u
+
+	// Act
+	b.Process(context.Background(), customerMsg("ราคาเท่าไหร่"))
+
+	// Assert
+	if u.n != 1 || u.acct != 1 || len(u.hits) != 1 || u.hits[0].DocumentID != 12 {
+		t.Fatalf("usage = %+v", u)
+	}
+}
+
+func TestPreview_DoesNotCountKnowledgeUse(t *testing.T) {
+	// Arrange
+	hits := []knowledge.Hit{{ChunkID: 40, DocumentID: 12, Title: "Price", Content: "3,900", Score: 0.8}}
+	b, _ := ragBot(&fakeChatwoot{}, &fakeLLM{reply: "3,900 บาทค่ะ"}, &fakeRetriever{hits: hits})
+	u := &fakeUsage{}
+	b.opts.Usage = u
+
+	// Act
+	p := b.Preview(context.Background(), 1, 0, []memory.Turn{{Role: "user", Content: "ราคาเท่าไหร่"}})
+
+	// Assert
+	if u.n != 0 || len(p.Sources) != 1 {
+		t.Fatalf("usage calls = %d, sources = %d", u.n, len(p.Sources))
+	}
+}

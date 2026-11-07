@@ -40,9 +40,35 @@ type Document struct {
 	Content   string
 	UpdatedAt time.Time
 
+	// Optional validity window: zero means open-ended. Outside it the bot
+	// does not see the document.
+	ValidFrom, ValidUntil time.Time
+
+	// Usage: how often customer questions retrieved this document.
+	UseCount   int64
+	LastUsedAt time.Time
+
 	// Filled by List.
 	Chunks      int
 	StaleChunks int // embedded with a different model than the current one
+}
+
+// Document states for the admin list.
+const (
+	StatusActive    = "active"
+	StatusScheduled = "scheduled"
+	StatusExpired   = "expired"
+)
+
+// Status says whether the bot can use the document at now.
+func (d Document) Status(now time.Time) string {
+	switch {
+	case !d.ValidUntil.IsZero() && !now.Before(d.ValidUntil):
+		return StatusExpired
+	case !d.ValidFrom.IsZero() && now.Before(d.ValidFrom):
+		return StatusScheduled
+	}
+	return StatusActive
 }
 
 // Chunk is one embedded piece of a document.
@@ -68,6 +94,9 @@ type Query struct {
 	Model     string
 	Vector    []float32
 	Limit     int
+	// IncludeInactive also searches scheduled and expired documents (the
+	// duplicate check); the bot never sets it.
+	IncludeInactive bool
 }
 
 // Store persists documents and chunks.
@@ -77,7 +106,14 @@ type Store interface {
 	List(ctx context.Context, accountID int64, model string) ([]Document, error)
 	Delete(ctx context.Context, accountID, id int64) error
 	Search(ctx context.Context, q Query) ([]Hit, error)
+	Get(ctx context.Context, accountID, id int64) (Document, error)
+	Update(ctx context.Context, d Document, model string, chunks []Chunk) error
+	MarkUsed(ctx context.Context, accountID int64, documentIDs []int64) error
 }
+
+// DuplicateScore is the similarity above which a new document is reported
+// as probably repeating an existing one.
+const DuplicateScore = 0.85
 
 // ErrNotFound means no document matched.
 var ErrNotFound = errors.New("document not found")
@@ -122,6 +158,9 @@ func (d Document) Validate() (Document, error) {
 		errs = append(errs, fmt.Errorf("content is longer than %d characters; split it into several documents", MaxContentRunes))
 	case !utf8.ValidString(d.Content):
 		errs = append(errs, errors.New("content must be UTF-8 text"))
+	}
+	if !d.ValidFrom.IsZero() && !d.ValidUntil.IsZero() && !d.ValidUntil.After(d.ValidFrom) {
+		errs = append(errs, errors.New("the end date must be after the start date"))
 	}
 	return d, errors.Join(errs...)
 }
@@ -182,6 +221,73 @@ func (s *Service) Add(ctx context.Context, d Document) (int64, int, error) {
 	}
 	id, err := s.Store.Insert(ctx, d, model, chunks)
 	return id, len(chunks), err
+}
+
+// Get returns one document of the account.
+func (s *Service) Get(ctx context.Context, accountID, id int64) (Document, error) {
+	return s.Store.Get(ctx, accountID, id)
+}
+
+// Update validates, re-chunks and re-embeds an edited document and replaces
+// it in place. Returns the new chunk count.
+func (s *Service) Update(ctx context.Context, d Document) (int, error) {
+	if d.ID < 1 {
+		return 0, ErrNotFound
+	}
+	d, err := d.Validate()
+	if err != nil {
+		return 0, err
+	}
+	model, chunks, err := s.embedChunks(ctx, d)
+	if err != nil {
+		return 0, err
+	}
+	return len(chunks), s.Store.Update(ctx, d, model, chunks)
+}
+
+// Similar returns existing documents (active or not) that probably say the
+// same thing as d: one hit per document, best first, d itself excluded.
+func (s *Service) Similar(ctx context.Context, d Document) ([]Hit, error) {
+	d, err := d.Validate()
+	if err != nil {
+		return nil, err
+	}
+	model := s.Embedder.Model()
+	texts := s.chunkTexts(d)
+	if model == "" || len(texts) == 0 {
+		return nil, nil
+	}
+	vecs, err := s.Embedder.Embed(ctx, texts[:1])
+	if err != nil {
+		return nil, err
+	}
+	hits, err := s.Store.Search(ctx, Query{AccountID: d.AccountID, InboxID: d.InboxID, Model: model,
+		Vector: vecs[0], Limit: 8, IncludeInactive: true})
+	if err != nil {
+		return nil, err
+	}
+	var out []Hit
+	seen := map[int64]bool{d.ID: d.ID != 0}
+	for _, h := range hits {
+		if h.Score >= DuplicateScore && !seen[h.DocumentID] {
+			seen[h.DocumentID] = true
+			out = append(out, h)
+		}
+	}
+	return out, nil
+}
+
+// MarkUsed counts one use for each distinct document behind hits.
+func (s *Service) MarkUsed(ctx context.Context, accountID int64, hits []Hit) error {
+	var ids []int64
+	seen := map[int64]bool{}
+	for _, h := range hits {
+		if !seen[h.DocumentID] {
+			seen[h.DocumentID] = true
+			ids = append(ids, h.DocumentID)
+		}
+	}
+	return s.Store.MarkUsed(ctx, accountID, ids)
 }
 
 // List returns an account's documents with chunk counts.

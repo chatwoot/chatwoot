@@ -5,6 +5,7 @@ import (
 	"errors"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 )
@@ -35,6 +36,8 @@ type fakeStore struct {
 	replaced map[int64][]Chunk
 	query    Query
 	hits     []Hit
+	updated  Document
+	used     []int64
 }
 
 func (f *fakeStore) Insert(_ context.Context, d Document, model string, chunks []Chunk) (int64, error) {
@@ -53,6 +56,23 @@ func (f *fakeStore) Delete(context.Context, int64, int64) error              { r
 func (f *fakeStore) Search(_ context.Context, q Query) ([]Hit, error) {
 	f.query = q
 	return f.hits, nil
+}
+
+func (f *fakeStore) Get(_ context.Context, _, id int64) (Document, error) {
+	for _, d := range f.docs {
+		if d.ID == id {
+			return d, nil
+		}
+	}
+	return Document{}, ErrNotFound
+}
+func (f *fakeStore) Update(_ context.Context, d Document, _ string, chunks []Chunk) error {
+	f.updated, f.inserted = d, chunks
+	return nil
+}
+func (f *fakeStore) MarkUsed(_ context.Context, _ int64, ids []int64) error {
+	f.used = append(f.used, ids...)
+	return nil
 }
 
 func newService(st *fakeStore, em *fakeEmbedder) *Service {
@@ -261,5 +281,108 @@ func TestRetrieve_EveryQueryKeepsItsBestHit(t *testing.T) {
 	}
 	if len(ids) != 3 || ids[0] != 1 || ids[1] != 2 || ids[2] != 9 {
 		t.Errorf("hits = %v, want [1 2 9]: the current message's best hit must survive, sorted by score", ids)
+	}
+}
+
+func TestStatus_FollowsValidityWindow(t *testing.T) {
+	now := time.Date(2026, 11, 7, 12, 0, 0, 0, time.UTC)
+	cases := map[string]struct {
+		d    Document
+		want string
+	}{
+		"open":           {Document{}, StatusActive},
+		"inside":         {Document{ValidFrom: now.Add(-time.Hour), ValidUntil: now.Add(time.Hour)}, StatusActive},
+		"not started":    {Document{ValidFrom: now.Add(time.Minute)}, StatusScheduled},
+		"ended":          {Document{ValidUntil: now.Add(-time.Minute)}, StatusExpired},
+		"ends right now": {Document{ValidUntil: now}, StatusExpired},
+	}
+	for name, c := range cases {
+		// Act
+		got := c.d.Status(now)
+
+		// Assert
+		if got != c.want {
+			t.Errorf("%s: status = %q, want %q", name, got, c.want)
+		}
+	}
+}
+
+func TestValidate_EndBeforeStart(t *testing.T) {
+	// Arrange
+	day := time.Date(2026, 12, 1, 0, 0, 0, 0, time.UTC)
+	d := Document{AccountID: 1, Kind: KindFAQ, Title: "q", Content: "a", ValidFrom: day, ValidUntil: day}
+
+	// Act
+	_, err := d.Validate()
+
+	// Assert
+	if err == nil || !strings.Contains(err.Error(), "end date must be after the start date") {
+		t.Fatalf("err = %v", err)
+	}
+}
+
+func TestUpdate_ReembedsAndStores(t *testing.T) {
+	// Arrange
+	st := &fakeStore{}
+	s := newService(st, &fakeEmbedder{model: "m"})
+	d := Document{ID: 9, AccountID: 1, Kind: KindFAQ, Title: " ราคา ", Content: "3,900 บาท"}
+
+	// Act
+	n, err := s.Update(context.Background(), d)
+
+	// Assert
+	if err != nil || n != 1 || st.updated.ID != 9 || st.updated.Title != "ราคา" || len(st.inserted) != 1 {
+		t.Fatalf("n=%d err=%v updated=%+v", n, err, st.updated)
+	}
+}
+
+func TestUpdate_RejectsMissingIDAndBadInput(t *testing.T) {
+	// Arrange
+	st := &fakeStore{}
+	s := newService(st, &fakeEmbedder{model: "m"})
+
+	// Act
+	_, noID := s.Update(context.Background(), Document{AccountID: 1, Kind: KindFAQ, Title: "q", Content: "a"})
+	_, bad := s.Update(context.Background(), Document{ID: 3, AccountID: 1, Kind: KindFAQ, Title: "", Content: "a"})
+
+	// Assert
+	if !errors.Is(noID, ErrNotFound) || bad == nil || st.updated.ID != 0 {
+		t.Fatalf("noID=%v bad=%v updated=%+v", noID, bad, st.updated)
+	}
+}
+
+func TestSimilar_OnePerDocumentAboveThresholdIncludingInactive(t *testing.T) {
+	// Arrange
+	st := &fakeStore{hits: []Hit{
+		{ChunkID: 1, DocumentID: 5, Title: "Price", Score: 0.93},
+		{ChunkID: 2, DocumentID: 5, Title: "Price", Score: 0.90},
+		{ChunkID: 3, DocumentID: 7, Title: "Self", Score: 0.99},
+		{ChunkID: 4, DocumentID: 8, Title: "Loose", Score: 0.60},
+	}}
+	s := newService(st, &fakeEmbedder{model: "m"})
+
+	// Act
+	got, err := s.Similar(context.Background(), Document{ID: 7, AccountID: 1, Kind: KindFAQ, Title: "ราคา", Content: "3,900"})
+
+	// Assert
+	if err != nil || len(got) != 1 || got[0].DocumentID != 5 {
+		t.Fatalf("got=%+v err=%v", got, err)
+	}
+	if !st.query.IncludeInactive || st.query.AccountID != 1 {
+		t.Fatalf("query = %+v", st.query)
+	}
+}
+
+func TestMarkUsed_CountsEachDocumentOnce(t *testing.T) {
+	// Arrange
+	st := &fakeStore{}
+	s := newService(st, &fakeEmbedder{model: "m"})
+
+	// Act
+	err := s.MarkUsed(context.Background(), 1, []Hit{{DocumentID: 5}, {DocumentID: 5}, {DocumentID: 6}})
+
+	// Assert
+	if err != nil || len(st.used) != 2 {
+		t.Fatalf("used=%v err=%v", st.used, err)
 	}
 }
