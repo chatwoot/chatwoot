@@ -158,6 +158,7 @@ RSpec.describe 'Captain MCP servers against an MCP server', type: :request do
       save_tools(server, [{ name: 'get_customer', param_sources: sources }, { name: 'refund_invoice' }])
 
       expect(response).to have_http_status(:success)
+      expect(json_response[:tools].to_h { |tool| [tool[:name], tool[:read_only]] }).to eq('get_customer' => true, 'refund_invoice' => false)
       expect(server.tools.reload.to_h { |tool| [tool.name, tool.approved_digest] }).to eq(listed_digests)
       expect(server.tools.find_by(name: 'get_customer').param_sources)
         .to eq({ 'email' => { 'source' => 'verified.email' }, 'limit' => { 'source' => 'fixed', 'value' => '20' } })

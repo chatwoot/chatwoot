@@ -14,6 +14,7 @@ json.tools mcp_server.tools do |tool|
   json.captain_tool_name tool.captain_name
   json.description tool.description
   json.input_schema tool.input_schema
+  json.read_only tool.read_only?
   json.approved_digest tool.approved_digest
   json.param_sources tool.param_sources
   json.settings tool.settings
