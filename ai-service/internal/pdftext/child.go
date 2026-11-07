@@ -104,7 +104,9 @@ func runChild(ctx context.Context, b []byte) (Result, error) {
 	}
 	ctx, cancel := context.WithTimeout(context.WithoutCancel(ctx), Timeout)
 	defer cancel()
-	cmd := exec.CommandContext(ctx, exe)
+	// exe is this program's own path (os.Executable), with no arguments; the
+	// PDF reaches the child only on stdin, never on the command line.
+	cmd := exec.CommandContext(ctx, exe) // nosemgrep: dangerous-exec-command
 	cmd.Env = append(childEnviron(), childEnv+"=1")
 	cmd.Stdin = bytes.NewReader(b)
 	var out limitedBuffer
