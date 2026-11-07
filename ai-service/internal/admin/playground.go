@@ -175,9 +175,21 @@ func parseTestForm(w http.ResponseWriter, r *http.Request) ([]bot.Upload, error)
 			r.PostForm = map[string][]string{}
 			return nil, errTestTooLarge
 		}
-		return nil, err
+		return nil, formError("Could not read the form. Try sending it again.")
 	}
 	defer func() { _ = r.MultipartForm.RemoveAll() }()
+	// ParseMultipartForm allows 10 MB of text fields on top of maxMemory;
+	// hold them to the same limit as the plain form.
+	fields := 0
+	for _, vs := range r.MultipartForm.Value {
+		for _, v := range vs {
+			fields += len(v)
+		}
+	}
+	if fields > maxTestFormBytes {
+		r.PostForm = map[string][]string{}
+		return nil, errTestTooLarge
+	}
 	var uploads []bot.Upload
 	for _, fh := range r.MultipartForm.File["files"] {
 		if fh.Filename == "" && fh.Size == 0 {

@@ -163,3 +163,57 @@ func TestTestMedia_NoKnowledgeSectionWithoutModel(t *testing.T) {
 		t.Error("page shows knowledge for a reply no model wrote")
 	}
 }
+
+func TestTestMedia_RejectsOversizedTextFields(t *testing.T) {
+	// Arrange: more history text than the plain form allows.
+	e := setup(t, nil)
+	ft := &fakeTester{}
+	e.h.Tester = ft
+	r := mpost(t, map[string]string{"account": "1", "message": "hi", "text": strings.Repeat("ก", maxTestFormBytes)})
+
+	// Act
+	rec := e.do(r)
+
+	// Assert
+	if rec.Code != http.StatusRequestEntityTooLarge || ft.got != nil {
+		t.Fatalf("status = %d, tester called = %v", rec.Code, ft.got != nil)
+	}
+}
+
+func TestTestMedia_UploadNeedsAuth(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	ft := &fakeTester{}
+	e.h.Tester = ft
+	noAuth := mpost(t, map[string]string{"account": "1"}, testFile{"voice.ogg", ogg})
+	noAuth.Header.Del("Authorization")
+	wrong := mpost(t, map[string]string{"account": "1"}, testFile{"voice.ogg", ogg})
+	wrong.SetBasicAuth(Username, "wrong-password")
+
+	// Act
+	a, w := e.do(noAuth), e.do(wrong)
+
+	// Assert
+	if a.Code != http.StatusUnauthorized || w.Code != http.StatusUnauthorized || ft.got != nil {
+		t.Fatalf("no auth = %d, wrong password = %d, tester called = %v", a.Code, w.Code, ft.got != nil)
+	}
+}
+
+func TestTestMedia_MalformedMultipartShowsPlainError(t *testing.T) {
+	// Arrange: a multipart header with a body that ends early.
+	e := setup(t, nil)
+	ft := &fakeTester{}
+	e.h.Tester = ft
+	r := httptest.NewRequest(http.MethodPost, "/admin/test", strings.NewReader("--x\r\nContent-Disposition: form-data; name=\"message\"\r\n\r\nhi"))
+	r.Header.Set("Content-Type", "multipart/form-data; boundary=x")
+	r.Header.Set("Sec-Fetch-Site", "same-origin")
+	r.SetBasicAuth(Username, pw)
+
+	// Act
+	rec := e.do(r)
+
+	// Assert
+	if ft.got != nil || strings.Contains(rec.Body.String(), "multipart:") {
+		t.Fatalf("status = %d, tester called = %v, body shows Go's error", rec.Code, ft.got != nil)
+	}
+}
