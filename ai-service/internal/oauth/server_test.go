@@ -13,6 +13,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/ratelimit"
 )
 
 // --- in-memory store ---
@@ -106,14 +108,19 @@ type env struct {
 	mux   *http.ServeMux
 	store *mem
 	ip    int
+	srv   *Server
 }
+
+func (e *env) srvLogin() *Server { return e.srv }
+
+func ratelimitReset() ratelimit.Limiter { return ratelimit.Limiter{} }
 
 func newEnv() *env {
 	st := newMem()
 	s := &Server{Resource: resource, Password: password, Store: st, Logger: slog.New(slog.NewJSONHandler(io.Discard, nil))}
 	mux := http.NewServeMux()
 	s.Routes(mux)
-	return &env{mux: mux, store: st}
+	return &env{mux: mux, store: st, srv: s}
 }
 
 func (e *env) do(r *http.Request) *httptest.ResponseRecorder {
@@ -407,20 +414,29 @@ func TestUnknownAppGetsWarning(t *testing.T) {
 	}
 }
 
-func TestDailyFailedPasswordLock(t *testing.T) {
-	// Arrange
+func TestDailyFailedPasswordLockIsPerAddress(t *testing.T) {
+	// Arrange: one address guesses 30 times (spread over minutes in reality).
 	e := newEnv()
 	client := e.register(t, redirect)
+	post := func(f url.Values, ip string) int {
+		r := httptest.NewRequest(http.MethodPost, "/oauth/authorize", strings.NewReader(f.Encode()))
+		r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		r.RemoteAddr = "172.18.0.5:1" // the tunnel
+		r.Header.Set("CF-Connecting-IP", ip)
+		return e.do(r).Code
+	}
 	for i := 0; i < maxFailedPerDay; i++ {
-		e.approve(authForm(client, map[string]string{"password": "guess"}))
+		e.srvLogin().login = ratelimitReset() // only the daily counter matters here
+		post(authForm(client, map[string]string{"password": "guess"}), "203.0.113.66")
 	}
 
-	// Act: even the right password is refused for the rest of the day.
-	rec := e.approve(authForm(client, nil))
+	// Act
+	attacker := post(authForm(client, nil), "203.0.113.66")
+	owner := post(authForm(client, nil), "198.51.100.1")
 
-	// Assert
-	if rec.Code != http.StatusTooManyRequests || len(e.store.codes) != 0 {
-		t.Fatalf("code=%d codes=%d", rec.Code, len(e.store.codes))
+	// Assert: the guessing address is locked even with the right password; the owner is not.
+	if attacker != http.StatusTooManyRequests || owner != http.StatusSeeOther {
+		t.Fatalf("attacker=%d owner=%d", attacker, owner)
 	}
 }
 

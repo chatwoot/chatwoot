@@ -85,7 +85,7 @@ func TestPostgres_RefreshReuseRevokesGrant(t *testing.T) {
 	// Act
 	_, _, first := db.Refresh(ctx, "r1", "r2", c.ID, time.Now().Add(time.Hour), time.Hour)
 	_, _, retry := db.Refresh(ctx, "r1", "r3", c.ID, time.Now().Add(time.Hour), time.Hour) // within the grace period
-	if _, err := db.Pool.Exec(ctx, "UPDATE oauth_grants SET last_used_at = now() - interval '1 minute' WHERE id = $1", id); err != nil {
+	if _, err := db.Pool.Exec(ctx, "UPDATE oauth_grants SET rotated_at = now() - interval '1 minute' WHERE id = $1", id); err != nil {
 		t.Fatal(err)
 	}
 	_, _, reuse := db.Refresh(ctx, "r1", "r3", c.ID, time.Now().Add(time.Hour), time.Hour)
@@ -154,5 +154,29 @@ func TestPostgres_RevokeGrantOnlyOwnAccount(t *testing.T) {
 	// Assert
 	if !errors.Is(cross, ErrNotFound) {
 		t.Fatalf("cross-account revoke = %v", cross)
+	}
+}
+
+func TestPostgres_OlderRefreshTokenAlsoRevokes(t *testing.T) {
+	// Arrange: r1 -> r2 -> r3; r1 is two generations old.
+	db := openDB(t)
+	ctx := context.Background()
+	c, _ := db.RegisterClient(ctx, "Claude", []string{"https://claude.ai/cb"})
+	if _, _, err := db.CreateGrant(ctx, Grant{AccountID: 1, ClientID: c.ID, ClientName: c.Name, RefreshExpiresAt: time.Now().Add(time.Hour)}, "c", "r1", time.Hour); err != nil {
+		t.Fatal(err)
+	}
+	for _, step := range [][2]string{{"r1", "r2"}, {"r2", "r3"}} {
+		if _, _, err := db.Refresh(ctx, step[0], step[1], c.ID, time.Now().Add(time.Hour), time.Hour); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	// Act
+	_, _, err := db.Refresh(ctx, "r1", "rx", c.ID, time.Now().Add(time.Hour), time.Hour)
+	_, _, current := db.Refresh(ctx, "r3", "r4", c.ID, time.Now().Add(time.Hour), time.Hour)
+
+	// Assert
+	if !errors.Is(err, ErrRefreshReuse) || !errors.Is(current, ErrNotFound) {
+		t.Fatalf("old token: %v, current after revoke: %v", err, current)
 	}
 }

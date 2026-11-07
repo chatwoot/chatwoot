@@ -212,7 +212,8 @@ func (p *Postgres) Refresh(ctx context.Context, oldHash, newHash, clientID strin
 	}
 	defer tx.Rollback(ctx) //nolint:errcheck
 	g, err := scanGrant(tx.QueryRow(ctx, `UPDATE oauth_grants
-		SET prev_refresh_hash = refresh_hash, refresh_hash = $2, refresh_expires_at = $4, last_used_at = now()
+		SET prev_refresh_hash = refresh_hash, refresh_hash = $2, refresh_expires_at = $4, last_used_at = now(), rotated_at = now(),
+		    used_refresh = (array_append(used_refresh, refresh_hash))[greatest(cardinality(used_refresh) - 18, 1):]
 		WHERE refresh_hash = $1 AND client_id = $3 AND revoked_at IS NULL AND refresh_expires_at > now()
 		RETURNING `+grantColumns, oldHash, newHash, clientID, expires))
 	if err == nil {
@@ -226,9 +227,12 @@ func (p *Postgres) Refresh(ctx context.Context, oldHash, newHash, clientID strin
 		return Grant{}, "", err
 	}
 	var id int64
+	// The token just replaced, presented again within the grace period: a
+	// retry or a parallel call, refused without revoking. Any other used
+	// token (older, or after the grace period) means it was copied.
 	err = tx.QueryRow(ctx, `UPDATE oauth_grants SET revoked_at = now()
-		WHERE prev_refresh_hash = $1 AND client_id = $2 AND revoked_at IS NULL
-		  AND last_used_at < now() - make_interval(secs => $3)
+		WHERE client_id = $2 AND revoked_at IS NULL AND $1 = ANY(used_refresh)
+		  AND NOT (prev_refresh_hash = $1 AND rotated_at >= now() - make_interval(secs => $3))
 		RETURNING id`, oldHash, clientID, reuseGrace.Seconds()).Scan(&id)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return Grant{}, "", ErrNotFound

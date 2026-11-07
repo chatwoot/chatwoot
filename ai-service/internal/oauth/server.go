@@ -26,8 +26,8 @@ const (
 	ScopeWrite = "kb:write"
 )
 
-// maxFailedPerDay locks approvals for the rest of the day after this many
-// wrong passwords from anywhere (the owner can still use /admin).
+// maxFailedPerDay locks approvals from one address for the rest of the day
+// after this many wrong passwords (others, and /admin, are unaffected).
 const maxFailedPerDay = 30
 
 // Lifetimes.
@@ -330,7 +330,7 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, redirect.String(), http.StatusSeeOther)
 		return
 	}
-	if !s.login.Allow("login:"+ratelimit.ClientIP(r), 5) || !s.login.Allow("login", 20) || s.failedDay.Reached("failed", maxFailedPerDay) {
+	if !s.login.Allow("login:"+ratelimit.ClientIP(r), 5) || !s.login.Allow("login", 20) || s.failedDay.Reached("failed:"+ratelimit.ClientIP(r), maxFailedPerDay) {
 		d.Error = "Too many attempts. Wait a minute and try again."
 		s.render(w, http.StatusTooManyRequests, d)
 		return
@@ -339,8 +339,8 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 	got := sha256.Sum256([]byte(f.Get("password")))
 	if s.Password == "" || subtle.ConstantTimeCompare(want[:], got[:]) != 1 {
 		s.Logger.Warn("oauth approval: wrong password", "client_id", a.Client.ID, "client_ip", ratelimit.ClientIP(r))
-		if !s.failedDay.Allow("failed", maxFailedPerDay) {
-			s.Logger.Error("oauth approvals locked: too many wrong passwords today")
+		if !s.failedDay.Allow("failed:"+ratelimit.ClientIP(r), maxFailedPerDay) {
+			s.Logger.Error("oauth approvals locked for one address: too many wrong passwords today", "client_ip", ratelimit.ClientIP(r))
 		}
 		d.Error = "Wrong password."
 		s.render(w, http.StatusUnauthorized, d)

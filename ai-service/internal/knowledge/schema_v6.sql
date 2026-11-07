@@ -33,7 +33,9 @@ CREATE TABLE IF NOT EXISTS oauth_grants (
     client_name        TEXT        NOT NULL,
     can_write          BOOLEAN     NOT NULL,
     refresh_hash       TEXT        NOT NULL UNIQUE,
-    prev_refresh_hash  TEXT,        -- the one before; using it again means it leaked
+    prev_refresh_hash  TEXT,        -- the one before; reuse after the grace period means it leaked
+    rotated_at         TIMESTAMPTZ, -- when prev_refresh_hash was replaced
+    used_refresh       TEXT[]      NOT NULL DEFAULT '{}', -- the last 20 used refresh hashes
     refresh_expires_at TIMESTAMPTZ NOT NULL,
     created_at         TIMESTAMPTZ NOT NULL DEFAULT now(),
     last_used_at       TIMESTAMPTZ,
