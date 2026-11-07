@@ -13,11 +13,7 @@
       <h1>Connect AI tools</h1>
       <p class="lead">Let Claude, Codex or another AI tool read, update and test this knowledge base for you (MCP). Each access token works for one account only.</p>
     </div>
-    <form class="acct" method="get" action="/admin/connections">
-      <label for="account">Account</label>
-      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}">
-      <button type="submit">Show</button>
-    </form>
+    {{template "account-picker" (dict "Action" "/admin/connections" "Current" .AccountID)}}
   </div>
 
   {{if not .Enabled}}

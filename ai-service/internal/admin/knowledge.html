@@ -13,11 +13,7 @@
       <h1>Knowledge base</h1>
       <p class="lead">What the bot may answer from. Keep it current: edit a document when something changes, and give promotions an end date.</p>
     </div>
-    <form class="acct" method="get" action="/admin/knowledge">
-      <label for="account">Account</label>
-      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}">
-      <button type="submit">Show</button>
-    </form>
+    {{template "account-picker" (dict "Action" "/admin/knowledge" "Current" .AccountID)}}
   </div>
 
   {{if not .Enabled}}
@@ -73,8 +69,8 @@
       <textarea id="e-content" name="content" required rows="14">{{.DocContent}}</textarea>
       {{end}}
       <div class="grid2">
-        <div><label for="e-inbox">Inbox ID (optional)</label>
-        <input id="e-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes"></div>
+        <div><label for="e-inbox">Inbox (optional)</label>
+        {{template "inbox-select" (dict "ID" "e-inbox" "Account" $.AccountID "Current" .InboxID)}}</div>
         <div></div>
         {{template "dates" (dict "P" "e" "From" .From "Until" .Until)}}
       </div>
@@ -99,8 +95,8 @@
         <summary>Dates and inbox (optional)</summary>
         <div class="grid2">
           {{template "dates" (dict "P" "faq" "From" .From "Until" .Until)}}
-          <div class="span2"><label for="faq-inbox">Inbox ID</label>
-          <input id="faq-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes" aria-describedby="inbox-hint">
+          <div class="span2"><label for="faq-inbox">Inbox</label>
+          {{template "inbox-select" (dict "ID" "faq-inbox" "Account" .AccountID "Current" .InboxID "Hint" "inbox-hint")}}
           <p class="field-hint" id="inbox-hint">Use it only when one page or channel has different answers.</p></div>
         </div>
       </details>
@@ -127,8 +123,8 @@
         <summary>Dates and inbox (optional)</summary>
         <div class="grid2">
           {{template "dates" (dict "P" "doc" "From" .From "Until" .Until)}}
-          <div class="span2"><label for="doc-inbox">Inbox ID</label>
-          <input id="doc-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes"></div>
+          <div class="span2"><label for="doc-inbox">Inbox</label>
+          {{template "inbox-select" (dict "ID" "doc-inbox" "Account" .AccountID "Current" .InboxID)}}</div>
         </div>
       </details>
       <div class="actions"><button type="submit" class="primary">Add document</button></div>

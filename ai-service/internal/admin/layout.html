@@ -94,7 +94,14 @@
   .inline { display: inline; }
   .page-head { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
   .page-head .lead { margin-bottom: 16px; }
-  form.acct { display: grid; grid-template-columns: auto 7rem auto; gap: 4px 8px; align-items: center; }
+  .acct-pick { display: grid; gap: 6px; justify-items: start; max-width: 100%; }
+  form.acct { display: grid; grid-template-columns: auto minmax(7rem, 16rem) auto; gap: 4px 8px; align-items: center; max-width: 100%; }
+  form.acct select { min-width: 0; }
+  .acct-one { margin: 0; display: flex; gap: 8px; align-items: baseline; }
+  .acct-one span { font-weight: 600; font-size: .875rem; }
+  details.acct-other summary { font-size: .875rem; color: var(--muted); }
+  details.acct-other form.acct { margin-top: 6px; grid-template-columns: auto 7rem auto; }
+  @media (max-width: 640px) { .acct-pick { justify-items: stretch; width: 100%; } form.acct { grid-template-columns: minmax(0, 1fr) auto; } form.acct label { grid-column: 1 / -1; } details.acct-other form.acct { grid-template-columns: minmax(0, 1fr) auto; } }
   form.acct label { margin: 0; }
   form.acct .field-hint { grid-column: 1 / -1; margin: 0; }
   .span2 { grid-column: 1 / -1; }
@@ -203,6 +210,37 @@
   }
   @media (max-width: 480px) { ol.steps li { grid-template-columns: 32px minmax(0, 1fr); } ol.steps li > a.btn { grid-column: 2; justify-self: start; } .bubble { max-width: 92%; } }
 </style>
+{{end}}
+
+{{define "account-picker"}}
+<div class="acct-pick">
+  {{$list := accounts .Current}}{{if eq (len $list) 1}}
+  <p class="acct-one"><span>Account</span> <strong>{{(index $list 0).Label}}</strong></p>
+  {{else}}
+  <form class="acct" method="get" action="{{.Action}}">
+    <label for="account">Account</label>
+    <select id="account" name="account">{{range $list}}<option value="{{.Value}}"{{if .Selected}} selected{{end}}>{{.Label}}</option>{{end}}</select>
+    <button type="submit">Open</button>
+  </form>
+  {{end}}
+  <details class="acct-other">
+    <summary>Another account</summary>
+    <form class="acct" method="get" action="{{.Action}}">
+      <label for="account-other">ID</label>
+      <input id="account-other" name="account" type="number" min="1" inputmode="numeric" required aria-describedby="account-hint">
+      <button type="submit">Open</button>
+      <p class="field-hint" id="account-hint">From the Chatwoot URL: /app/accounts/<strong>1</strong>/…</p>
+    </form>
+  </details>
+</div>
+{{end}}
+
+{{define "inbox-select"}}{{$list := inboxes .Account .Current}}
+<select id="{{.ID}}" name="inbox"{{with .Hint}} aria-describedby="{{.}}"{{end}}>
+  <option value="">{{if .Blank}}{{.Blank}}{{else}}All inboxes{{end}}</option>
+  {{range $list}}<option value="{{.Value}}"{{if .Selected}} selected{{end}}>{{.Label}}</option>{{end}}
+</select>
+{{if not $list}}<p class="field-hint">Inboxes appear here by name after a customer writes in them.</p>{{end}}
 {{end}}
 
 {{define "nav"}}

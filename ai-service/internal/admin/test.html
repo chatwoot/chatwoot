@@ -13,11 +13,7 @@
       <h1>Test bot</h1>
       <p class="lead">Chat with the bot as a customer would. It uses your saved business profile and knowledge base. Nothing is sent to customers or staff.</p>
     </div>
-    <form class="acct" method="get" action="/admin/test">
-      <label for="account">Account</label>
-      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}">
-      <button type="submit">Show</button>
-    </form>
+    {{template "account-picker" (dict "Action" "/admin/test" "Current" .AccountID)}}
   </div>
 
   {{if not .Enabled}}
@@ -44,9 +40,9 @@
         <textarea id="message" name="message" rows="3" maxlength="2000" required{{if not .Turns}} autofocus{{end}}></textarea>
         <details>
           <summary>Test a specific inbox</summary>
-          <label for="inbox">Inbox ID</label>
-          <input id="inbox" name="inbox" inputmode="numeric" value="{{.Inbox}}" aria-describedby="inbox-hint">
-          <p class="field-hint" id="inbox-hint">Blank uses knowledge shared by all inboxes. A number adds that inbox's own documents.</p>
+          <label for="inbox">Inbox</label>
+          {{template "inbox-select" (dict "ID" "inbox" "Account" .AccountID "Current" .Inbox "Hint" "inbox-hint" "Blank" "Any inbox (shared knowledge only)")}}
+          <p class="field-hint" id="inbox-hint">"Any inbox" uses knowledge shared by all inboxes. Picking one adds that inbox's own documents.</p>
         </details>
         <div class="row">
           <button type="submit" class="primary">Send</button>
