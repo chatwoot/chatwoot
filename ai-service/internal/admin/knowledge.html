@@ -137,6 +137,44 @@
   </div>
   {{end}}
 
+  {{if .WebOn}}
+  <section class="card" aria-labelledby="web-title">
+    <h2 id="web-title" style="font-size:1.125rem;margin:0 0 4px">Website pages</h2>
+    <p class="hint">Add a public page (for example your price or policy page). The bot reads it now and checks it every day: changes update automatically, and a page that disappears stops being used.</p>
+    {{if and .Error (eq .ErrorForm "page")}}<div class="alert err" role="alert"><strong>Not added.</strong> {{.Error}}</div>{{end}}
+    <form method="post" action="/admin/knowledge" class="row" autocomplete="off" style="margin-top:0">
+      <input type="hidden" name="action" value="add_page"><input type="hidden" name="account" value="{{.AccountID}}">
+      <label for="page-url" class="visually-hidden">Page address</label>
+      <input id="page-url" name="url" type="url" required placeholder="https://www.example.com/pricing" value="{{.PageURL}}" style="flex:3;min-width:240px">
+      <button type="submit" class="primary">Add page</button>
+    </form>
+    {{if .Pages}}
+    <table style="margin-top:12px">
+      <thead><tr><th scope="col">Page</th><th scope="col">Status</th><th scope="col">Last checked</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+      <tbody>
+      {{range .Pages}}
+        <tr>
+          <td><strong>{{if .Title}}{{.Title}}{{else}}{{.URL}}{{end}}</strong><div class="preview">{{.URL}}</div></td>
+          <td data-label="Status"><span class="badge {{if eq .Status "ok"}}active{{else if eq .Status "new"}}scheduled{{else}}expired{{end}}">{{.Label}}</span>{{with .Detail}}<div class="preview">{{.}}</div>{{end}}</td>
+          <td class="num" data-label="Last checked">{{.Checked}}</td>
+          <td class="row-actions">
+            <form class="inline" method="post" action="/admin/knowledge">
+              <input type="hidden" name="action" value="sync_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
+              <button type="submit" class="btn small" aria-label="Check {{.URL}} now">Sync now</button>
+            </form>
+            <form class="inline" method="post" action="/admin/knowledge">
+              <input type="hidden" name="action" value="remove_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
+              <button type="submit" class="link" aria-label="Remove {{.URL}}">Remove</button>
+            </form>
+          </td>
+        </tr>
+      {{end}}
+      </tbody>
+    </table>
+    {{end}}
+  </section>
+  {{end}}
+
   <section class="card" aria-labelledby="list-title">
     <h2 id="list-title" style="font-size:1.125rem;margin:0 0 8px">Knowledge in account {{.AccountID}}</h2>
     <nav class="filters" aria-label="Filter knowledge">
