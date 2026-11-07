@@ -306,6 +306,7 @@ func (s *Server) render(w http.ResponseWriter, status int, d pageData) {
 		formAction += " " + u.Scheme + "://" + u.Host // the approval redirects there
 	}
 	w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; form-action "+formAction+"; frame-ancestors 'none'; base-uri 'none'")
+	w.Header().Set("X-Content-Type-Options", "nosniff")
 	w.WriteHeader(status)
 	if err := consent.Execute(w, d); err != nil {
 		s.Logger.Error("render consent page", "error", err)

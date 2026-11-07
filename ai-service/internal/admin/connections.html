@@ -28,16 +28,20 @@
     <p class="hint">It is shown only once. Anyone holding it can {{if .NewWrite}}change{{else}}read{{end}} account {{.AccountID}}'s knowledge, so keep it out of chats and screenshots. Lost it? Revoke it and create another.</p>
     <label for="tok">Token for “{{.NewName}}”</label>
     <input id="tok" class="mono" readonly value="{{.NewToken}}">
+    <p class="copy-row"><button type="button" class="btn small" data-copy="tok" hidden>Copy</button></p>
     <h3 class="sub">1. Save the token on your computer</h3>
     <p class="hint">Open <code>~/.zshrc</code> (Mac) in a text editor, add this line, save, and open a new terminal. Typing it into a terminal would leave it in the shell history.</p>
-    <pre class="code">export AISVC_MCP_TOKEN="{{.NewToken}}"</pre>
+    <pre class="code" id="cmd-env">export AISVC_MCP_TOKEN="{{.NewToken}}"</pre>
+    <p class="copy-row"><button type="button" class="btn small" data-copy="cmd-env" hidden>Copy</button></p>
     <h3 class="sub">2a. Claude Code</h3>
-    <pre class="code">claude mcp add --transport http ai-knowledge {{.URL}} --header "Authorization: Bearer ${AISVC_MCP_TOKEN}"</pre>
+    <pre class="code" id="cmd-claude">claude mcp add --transport http ai-knowledge {{.URL}} --header "Authorization: Bearer ${AISVC_MCP_TOKEN}"</pre>
+    <p class="copy-row"><button type="button" class="btn small" data-copy="cmd-claude" hidden>Copy</button></p>
     <h3 class="sub">2b. Codex</h3>
     <p class="hint">Add to <code>~/.codex/config.toml</code>:</p>
-    <pre class="code">[mcp_servers.ai_knowledge]
+    <pre class="code" id="cmd-codex">[mcp_servers.ai_knowledge]
 url = "{{.URL}}"
 bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
+    <p class="copy-row"><button type="button" class="btn small" data-copy="cmd-codex" hidden>Copy</button></p>
     <p class="hint" style="margin-top:12px">Then ask your AI, for example: “List my knowledge base and tell me what is expired or never used.”</p>
   </section>
   {{end}}
@@ -50,7 +54,8 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
     {{else}}
     <p class="hint">In the app, add a custom connector with this address. It opens a page here where you enter the admin password and choose the account and access.</p>
     {{end}}
-    <pre class="code">{{.URL}}</pre>
+    <pre class="code" id="mcp-url">{{.URL}}</pre>
+    <p class="copy-row"><button type="button" class="btn small" data-copy="mcp-url" hidden>Copy</button></p>
     {{if .Apps}}
     <table style="margin-top:12px">
       <thead><tr><th scope="col">Connected app</th>{{if .TeamOn}}<th scope="col">Connected by</th>{{end}}<th scope="col">Access</th><th scope="col">Connected</th><th scope="col">Last used</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
@@ -63,7 +68,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
           <td data-label="Connected">{{.Created}}</td>
           <td data-label="Last used">{{.LastUsed}}</td>
           <td class="row-actions">{{if not .Revoked}}
-            <form class="inline" method="post" action="/admin/connections">
+            <form class="inline" method="post" action="/admin/connections" data-confirm="Disconnect {{.Name}}? It loses access at once.">
               <input type="hidden" name="action" value="revoke_app"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
               <button type="submit" class="link" aria-label="Disconnect {{.Name}}">Disconnect</button>
             </form>{{end}}
@@ -88,7 +93,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
           <td data-label="Access">{{.Access}}</td>
           <td data-label="Added">{{.Added}}</td>
           <td class="row-actions">
-            <form class="inline" method="post" action="/admin/connections">
+            <form class="inline" method="post" action="/admin/connections" data-confirm="Remove {{.Email}} from the team? Apps they connected stop working.">
               <input type="hidden" name="action" value="remove_member"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="email" value="{{.Email}}">
               <button type="submit" class="link" aria-label="Remove {{.Email}}">Remove</button>
             </form>
@@ -131,7 +136,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
             <td data-label="Last used">{{.LastUsed}}</td>
             <td data-label="Expires">{{.Expires}}{{if and .Expired (not .Revoked)}} <span class="badge expired">Expired</span>{{end}}</td>
             <td class="row-actions">{{if not .Revoked}}
-              <form class="inline" method="post" action="/admin/connections">
+              <form class="inline" method="post" action="/admin/connections" data-confirm="Revoke the token “{{.Name}}”? Tools using it stop working at once.">
                 <input type="hidden" name="action" value="revoke"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
                 <button type="submit" class="link" aria-label="Revoke {{.Name}}">Revoke</button>
               </form>{{end}}

@@ -244,6 +244,9 @@ func TestFullFlowThenRefreshRotationAndReuse(t *testing.T) {
 	if page.Code != http.StatusOK || !strings.Contains(page.Body.String(), "claude.ai") || !strings.Contains(page.Body.String(), "Claude") {
 		t.Fatalf("consent page: %d", page.Code)
 	}
+	if page.Header().Get("X-Content-Type-Options") != "nosniff" {
+		t.Error("consent page missing nosniff")
+	}
 	if !strings.Contains(page.Header().Get("Content-Security-Policy"), "frame-ancestors 'none'") {
 		t.Error("consent page can be framed")
 	}
