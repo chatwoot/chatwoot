@@ -158,6 +158,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
       <h2 id="new-form-h" style="font-size:1.125rem;margin:0 0 4px">New token</h2>
       <form method="post" action="/admin/connections" autocomplete="off">
         <input type="hidden" name="action" value="create">
+        <input type="hidden" name="once" value="{{.Once}}">
         <input type="hidden" name="account" value="{{.AccountID}}">
         <label for="name">Name</label>
         <input id="name" name="name" type="text" maxlength="80" required placeholder="Claude Code on my Mac" value="{{if not .NewToken}}{{.NewName}}{{end}}">

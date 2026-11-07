@@ -43,6 +43,7 @@ type Grant struct {
 	ClientName       string
 	CanWrite         bool
 	ApprovedBy       string // email when approved through Cloudflare Access
+	ByOwner          bool   // approved by an owner (ADMIN_EMAILS): no team row to re-check
 	RefreshExpiresAt time.Time
 	CreatedAt        time.Time
 	LastUsedAt       time.Time
@@ -69,6 +70,8 @@ type Store interface {
 	// one transaction.
 	Refresh(ctx context.Context, oldHash, newHash, clientID string, expires time.Time, ttl time.Duration) (Grant, string, error)
 	RevokeByRefresh(ctx context.Context, hash, clientID string) error
+	// RevokeGrantID revokes one connection (and its access tokens).
+	RevokeGrantID(ctx context.Context, id int64) error
 	Grants(ctx context.Context, accountID int64) ([]Grant, error)
 	RevokeGrant(ctx context.Context, accountID, id int64) error
 
@@ -187,6 +190,8 @@ func (p *Postgres) CreateGrant(ctx context.Context, g Grant, codeHash, refreshHa
 	var approver any
 	if g.ApprovedBy != "" {
 		approver = g.ApprovedBy
+	}
+	if g.ApprovedBy != "" && !g.ByOwner {
 		// Re-check team membership in this transaction: someone removed (or
 		// limited to read-only) after approving gets nothing. FOR SHARE makes
 		// a concurrent removal wait, and then its revoke sees this grant.
@@ -335,6 +340,11 @@ func (p *Postgres) Grants(ctx context.Context, accountID int64) ([]Grant, error)
 		return nil, err
 	}
 	return pgx.CollectRows(rows, func(r pgx.CollectableRow) (Grant, error) { return scanGrant(r) })
+}
+
+// RevokeGrantID implements Store.
+func (p *Postgres) RevokeGrantID(ctx context.Context, id int64) error {
+	return p.revokeWhere(ctx, `id = $1`, id)
 }
 
 // RevokeGrant implements Store; its access tokens stop working at once.

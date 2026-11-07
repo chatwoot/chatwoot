@@ -28,7 +28,7 @@ func openTestDB(t *testing.T) *Postgres {
 		t.Fatal(err)
 	}
 	t.Cleanup(pool.Close)
-	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, oauth_codes, oauth_grants, oauth_clients, team_members, kb_schema_version"); err != nil {
+	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, oauth_codes, oauth_grants, oauth_clients, team_members, admin_events, kb_schema_version"); err != nil {
 		t.Fatal(err)
 	}
 	p := &Postgres{Pool: pool}
@@ -194,8 +194,8 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
 		t.Fatal(err)
 	}
-	if version != 7 || docs != 1 || table == nil {
-		t.Errorf("version=%d docs=%d business_profiles=%v, want 7, 1, present", version, docs, table)
+	if version != 8 || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want 8, 1, present", version, docs, table)
 	}
 	var rls bool
 	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
@@ -307,8 +307,8 @@ func TestPostgres_MigratesV3ToV4KeepsDocumentsActive(t *testing.T) {
 		t.Fatalf("migrate %v, search %v, list %v", err, searchErr, listErr)
 	}
 	var version int
-	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 7 {
-		t.Fatalf("version = %d (err %v), want 7", version, err)
+	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 8 {
+		t.Fatalf("version = %d (err %v), want 8", version, err)
 	}
 	if len(hits) != 1 || len(docs) != 1 || docs[0].UseCount != 0 || !docs[0].ValidUntil.IsZero() || !docs[0].LastUsedAt.IsZero() {
 		t.Errorf("after v4: hits=%d docs=%+v", len(hits), docs)
@@ -503,7 +503,10 @@ func TestPostgres_MigratesV2ToLatestInOneStep(t *testing.T) {
 	// Arrange: a v2 database with a document and a profile.
 	db := openTestDB(t)
 	ctx := context.Background()
-	if _, err := db.Pool.Exec(ctx, `ALTER TABLE business_profiles DROP COLUMN voice_enabled, DROP COLUMN images_enabled, DROP COLUMN stickers_enabled;
+	if _, err := db.Pool.Exec(ctx, `DROP TABLE admin_events, team_members, oauth_codes, oauth_grants, oauth_clients, mcp_tokens, kb_audit;
+		DROP INDEX kb_documents_source_key_idx;
+		ALTER TABLE kb_documents DROP CONSTRAINT kb_documents_source_key_check, DROP COLUMN source_key;
+		ALTER TABLE business_profiles DROP COLUMN voice_enabled, DROP COLUMN images_enabled, DROP COLUMN stickers_enabled;
 		ALTER TABLE kb_documents DROP COLUMN valid_from, DROP COLUMN valid_until, DROP COLUMN use_count, DROP COLUMN last_used_at;
 		UPDATE kb_schema_version SET version = 2;
 		INSERT INTO business_profiles (account_id, business_name) VALUES (1, 'A');
@@ -546,19 +549,28 @@ func TestPostgres_MigratesV2ToLatestInOneStep(t *testing.T) {
 	}
 	var v7 int
 	if err := db.Pool.QueryRow(ctx, `SELECT (to_regclass('team_members') IS NOT NULL)::int
-		+ (SELECT count(*) FROM information_schema.columns WHERE column_name = 'approved_by' AND table_name IN ('oauth_grants', 'oauth_codes'))::int
+		+ (SELECT count(*) FROM information_schema.columns WHERE column_name = 'approved_by' AND table_name IN ('oauth_grants', 'oauth_codes') AND table_schema = current_schema())::int
 		+ (SELECT count(*) FROM pg_class WHERE relname = 'team_members' AND relrowsecurity)::int`).Scan(&v7); err != nil {
 		t.Fatal(err)
 	}
 	if v7 != 4 {
 		t.Errorf("v7 objects present = %d, want 4 (team_members, 2 approved_by, RLS)", v7)
 	}
+	var v8 int
+	if err := db.Pool.QueryRow(ctx, `SELECT (to_regclass('admin_events') IS NOT NULL)::int
+		+ (to_regclass('admin_events_account_idx') IS NOT NULL)::int
+		+ (SELECT count(*) FROM pg_class WHERE relname = 'admin_events' AND relrowsecurity)::int`).Scan(&v8); err != nil {
+		t.Fatal(err)
+	}
+	if v8 != 3 {
+		t.Errorf("v8 objects present = %d, want 3 (admin_events, index, RLS)", v8)
+	}
 	docs, _ := db.List(ctx, 1, "m")
 	if len(docs) == 1 && docs[0].SourceKey != "" {
 		t.Errorf("existing document got a key: %q", docs[0].SourceKey)
 	}
-	if version != 7 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
-		t.Errorf("version=%d new columns=%d docs=%+v, want 7, 7, one active document", version, cols, docs)
+	if version != 8 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
+		t.Errorf("version=%d new columns=%d docs=%+v, want 8, 7, one active document", version, cols, docs)
 	}
 }
 

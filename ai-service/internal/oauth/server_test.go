@@ -82,6 +82,12 @@ func (m *mem) Refresh(_ context.Context, old, nw, client string, exp time.Time, 
 	}
 	return Grant{}, "", ErrNotFound
 }
+func (m *mem) RevokeGrantID(_ context.Context, id int64) error {
+	if g := m.grants[id]; g != nil {
+		g.RevokedAt = time.Now()
+	}
+	return nil
+}
 func (m *mem) RevokeByRefresh(_ context.Context, h, client string) error {
 	for _, g := range m.grants {
 		if g.refresh == h && g.ClientID == client {
@@ -589,5 +595,49 @@ func TestAccess_ReadOnlyMemberGetsReadToken(t *testing.T) {
 	// Assert
 	if tok["scope"] != "kb:read" || e.store.issued[0].CanWrite {
 		t.Fatalf("scope=%v grant=%+v", tok["scope"], e.store.issued[0])
+	}
+}
+
+func TestAccess_OwnerApprovesAnyAccountWithWrite(t *testing.T) {
+	// Arrange: the owner is not on any team list.
+	e := accessEnv()
+	e.srv.Owners = []string{"john@example.com"}
+	e.srv.Access = fakeAccess{byToken: map[string]string{"jwt-john": "john@example.com"}}
+	client := e.register(t, redirect)
+
+	// Act
+	code := codeFrom(t, e.approveAs("jwt-john", authForm(client, map[string]string{"account": "7", "password": ""})))
+	_, tok := e.tokenReq(url.Values{"grant_type": {"authorization_code"}, "code": {code}, "client_id": {client},
+		"redirect_uri": {redirect}, "code_verifier": {verifier}})
+
+	// Assert
+	g := e.store.issued[0]
+	if tok["scope"] != "kb:read kb:write" || g.AccountID != 7 || g.ApprovedBy != "john@example.com" || !g.ByOwner {
+		t.Fatalf("scope=%v grant=%+v", tok["scope"], g)
+	}
+}
+
+func TestAccess_OwnerRemovedFromListLosesConnectionOnRefresh(t *testing.T) {
+	// Arrange: an owner connects an app, then is taken off ADMIN_EMAILS.
+	e := accessEnv()
+	e.srv.Owners = []string{"john@example.com"}
+	e.srv.Access = fakeAccess{byToken: map[string]string{"jwt-john": "john@example.com"}}
+	client := e.register(t, redirect)
+	code := codeFrom(t, e.approveAs("jwt-john", authForm(client, map[string]string{"account": "7", "password": ""})))
+	_, tok := e.tokenReq(url.Values{"grant_type": {"authorization_code"}, "code": {code}, "client_id": {client},
+		"redirect_uri": {redirect}, "code_verifier": {verifier}})
+	e.srv.Owners = nil
+
+	// Act
+	rec, out := e.tokenReq(url.Values{"grant_type": {"refresh_token"}, "refresh_token": {tok["refresh_token"].(string)}, "client_id": {client}})
+
+	// Assert
+	if rec.Code != http.StatusBadRequest || out["access_token"] != nil {
+		t.Fatalf("refresh after removal: code=%d out=%v", rec.Code, out)
+	}
+	for _, g := range e.store.grants {
+		if g.RevokedAt.IsZero() {
+			t.Fatal("the connection was not revoked")
+		}
 	}
 }

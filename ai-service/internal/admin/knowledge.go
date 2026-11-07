@@ -323,6 +323,7 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 			fail(form, err)
 			return
 		}
+		h.record(r, acct, "knowledge added", doc.Title, nil)
 		h.Logger.Info("knowledge added", "account_id", acct, "document_id", id, "kind", doc.Kind,
 			"inbox_id", doc.InboxID, "chunks", chunks, "dated", !doc.ValidFrom.IsZero() || !doc.ValidUntil.IsZero(),
 			"remote_addr", r.RemoteAddr)
@@ -351,13 +352,18 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 			fail("edit", err)
 			return
 		}
+		h.record(r, acct, "knowledge edited", doc.Title, docCopy(cur))
 		h.Logger.Info("knowledge updated", "account_id", acct, "document_id", id, "chunks", chunks, "remote_addr", r.RemoteAddr)
 		http.Redirect(w, r, back+"&done=updated&chunks="+strconv.Itoa(chunks), http.StatusSeeOther)
 	case "delete":
 		id, _ := strconv.ParseInt(pf.Get("id"), 10, 64)
+		before, getErr := h.Knowledge.Get(r.Context(), acct, id)
 		if err := h.Knowledge.Delete(r.Context(), acct, id); err != nil {
 			fail("list", err)
 			return
+		}
+		if getErr == nil {
+			h.record(r, acct, "knowledge deleted", before.Title, docCopy(before))
 		}
 		h.Logger.Info("knowledge deleted", "account_id", acct, "document_id", id, "remote_addr", r.RemoteAddr)
 		http.Redirect(w, r, back+"&done=deleted", http.StatusSeeOther)
@@ -368,6 +374,7 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 			fail("list", err)
 			return
 		}
+		h.record(r, acct, "knowledge re-indexed", strconv.Itoa(n)+" documents", nil)
 		h.Logger.Info("knowledge reindexed", "account_id", acct, "documents", n, "remote_addr", r.RemoteAddr)
 		http.Redirect(w, r, back+"&done=reindexed&count="+strconv.Itoa(n), http.StatusSeeOther)
 	default:
@@ -436,4 +443,16 @@ func readUpload(r *http.Request, doc *knowledge.Document) error {
 		doc.Title = strings.TrimSuffix(filepath.Base(fh.Filename), filepath.Ext(fh.Filename))
 	}
 	return nil
+}
+
+// docCopy is what the audit trail keeps of a document before a change.
+func docCopy(d knowledge.Document) map[string]any {
+	m := map[string]any{"id": d.ID, "key": d.SourceKey, "kind": d.Kind, "title": d.Title, "content": d.Content, "inbox_id": d.InboxID}
+	if !d.ValidFrom.IsZero() {
+		m["valid_from"] = d.ValidFrom
+	}
+	if !d.ValidUntil.IsZero() {
+		m["valid_until"] = d.ValidUntil
+	}
+	return m
 }

@@ -46,7 +46,11 @@
     <input type="hidden" name="response_type" value="code">
     <input type="hidden" name="scope" value="{{.Scope}}">
     <input type="hidden" name="resource" value="{{.Resource}}">
-    {{if .Email}}
+    {{if .Owner}}
+    <p class="muted">Signed in as <strong>{{.Email}}</strong> (owner).</p>
+    <label for="account">Account</label>
+    <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.Account}}" required placeholder="e.g. 1">
+    {{else if .Email}}
     <p class="muted">Signed in as <strong>{{.Email}}</strong>.</p>
     <label for="account">Account</label>
     <select id="account" name="account" required>

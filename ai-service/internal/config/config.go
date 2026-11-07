@@ -67,6 +67,14 @@ type Config struct {
 	// (the approval page's Access application AUD tag) switch app approval
 	// from the admin password to team members signed in through Access.
 	CFAccessTeamDomain, CFAccessAUD string
+	// CFAccessAdminAUD is the AUD tag of the Access application in front of
+	// /admin; with Owners (ADMIN_EMAILS) it lets the owner in without the
+	// password (for example signed in with GitHub through Access).
+	CFAccessAdminAUD string
+	Owners           []string
+	// AuditRetentionDays: change-log entries (including old document text)
+	// older than this are deleted (AUDIT_RETENTION_DAYS, default 180).
+	AuditRetentionDays int
 	// Location is the business time zone (TIMEZONE), used to tell the model the date.
 	Location *time.Location
 
@@ -157,8 +165,30 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	cfg.MCPEnabled = get("MCP_ENABLED", "") == "true"
 	cfg.CFAccessTeamDomain = strings.TrimSuffix(get("CF_ACCESS_TEAM_DOMAIN", ""), "/")
 	cfg.CFAccessAUD = get("CF_ACCESS_AUD", "")
-	if (cfg.CFAccessTeamDomain == "") != (cfg.CFAccessAUD == "") {
-		errs = append(errs, errors.New("set both CF_ACCESS_TEAM_DOMAIN and CF_ACCESS_AUD, or neither"))
+	cfg.CFAccessAdminAUD = get("CF_ACCESS_ADMIN_AUD", "")
+	for _, e := range strings.Split(get("ADMIN_EMAILS", ""), ",") {
+		if strings.TrimSpace(e) == "" {
+			continue
+		}
+		n, ok := normalizeEmail(e)
+		if !ok {
+			errs = append(errs, fmt.Errorf("ADMIN_EMAILS: %q is not a plain ASCII email address", strings.TrimSpace(e)))
+			continue
+		}
+		cfg.Owners = append(cfg.Owners, n)
+	}
+	if v := get("AUDIT_RETENTION_DAYS", "180"); v != "" {
+		n, err := strconv.Atoi(v)
+		if err != nil || n < 1 {
+			errs = append(errs, errors.New("AUDIT_RETENTION_DAYS must be a positive number of days"))
+		}
+		cfg.AuditRetentionDays = n
+	}
+	if cfg.CFAccessAUD != "" && cfg.CFAccessTeamDomain == "" || cfg.CFAccessTeamDomain != "" && cfg.CFAccessAUD == "" && cfg.CFAccessAdminAUD == "" {
+		errs = append(errs, errors.New("CF_ACCESS_TEAM_DOMAIN needs CF_ACCESS_AUD and/or CF_ACCESS_ADMIN_AUD, and they need it"))
+	}
+	if cfg.CFAccessAdminAUD != "" && (cfg.CFAccessTeamDomain == "" || len(cfg.Owners) == 0) {
+		errs = append(errs, errors.New("CF_ACCESS_ADMIN_AUD needs CF_ACCESS_TEAM_DOMAIN and ADMIN_EMAILS"))
 	}
 	if cfg.CFAccessTeamDomain != "" && !strings.HasPrefix(cfg.CFAccessTeamDomain, "https://") {
 		errs = append(errs, errors.New("CF_ACCESS_TEAM_DOMAIN must start with https://"))
@@ -237,4 +267,23 @@ func splitList(raw string) []string {
 // TracingEnabled reports whether every Langfuse setting is present.
 func (c Config) TracingEnabled() bool {
 	return c.LangfuseBaseURL != "" && c.LangfusePublicKey != "" && c.LangfuseSecretKey != ""
+}
+
+// normalizeEmail mirrors cfaccess.NormalizeEmail (config must not import it):
+// ASCII only, trimmed, lower-cased by byte.
+func normalizeEmail(raw string) (string, bool) {
+	e := strings.TrimSpace(raw)
+	if e == "" || len(e) > 320 || !strings.Contains(e, "@") {
+		return "", false
+	}
+	b := []byte(e)
+	for i, c := range b {
+		switch {
+		case c > 0x7e || c < 0x21:
+			return "", false
+		case c >= 'A' && c <= 'Z':
+			b[i] = c + ('a' - 'A')
+		}
+	}
+	return string(b), true
 }

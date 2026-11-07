@@ -65,6 +65,8 @@ type Server struct {
 	// instead of the admin password; only team members can approve, and
 	// only for their accounts and access.
 	Access Identifier
+	// Owners (ADMIN_EMAILS) may approve for any account with write access.
+	Owners []string
 	Logger *slog.Logger
 
 	// login counts password attempts only, so other endpoints cannot fill
@@ -283,6 +285,7 @@ type pageData struct {
 	Write      bool
 	Email      string   // signed in through Access
 	Accounts   []Member // the person's accounts (Access mode)
+	Owner      bool     // an owner: any account, write allowed
 }
 
 func (d *pageData) setReturn() {
@@ -320,6 +323,14 @@ func (s *Server) identify(r *http.Request, d *pageData) bool {
 		s.Logger.Warn("oauth approval without a valid Cloudflare Access sign-in", "client_ip", ratelimit.ClientIP(r))
 		d.Error, d.Valid = "Sign in through Cloudflare Access first: open this page from the app again.", false
 		return false
+	}
+	if s.isOwner(id.Email) {
+		d.Email, d.Owner = id.Email, true
+		if !d.Trusted {
+			d.Error, d.Valid = d.ReturnHost+" is not Claude, ChatGPT or an app on this computer. Use an access token for other tools.", false
+			return false
+		}
+		return true
 	}
 	members, err := s.Store.Memberships(r.Context(), id.Email)
 	if err != nil {
@@ -400,6 +411,10 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		m, ok := memberFor(d.Accounts, d.Account)
+		if d.Owner {
+			n, err := strconv.ParseInt(strings.TrimSpace(d.Account), 10, 64)
+			m, ok = Member{Email: d.Email, AccountID: n, CanWrite: true}, err == nil && n > 0
+		}
 		if !ok {
 			d.Error = "Choose one of your accounts."
 			s.render(w, http.StatusUnprocessableEntity, d)
@@ -452,6 +467,35 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 	q.Set("code", code)
 	redirect.RawQuery = q.Encode()
 	http.Redirect(w, r, redirect.String(), http.StatusSeeOther)
+}
+
+// approverStillAllowed re-checks, on every refresh, that whoever approved a
+// connection still may: an owner still listed, or a team member still on the
+// account (with write if the connection writes). Password approvals (no
+// approver) are unaffected.
+func (s *Server) approverStillAllowed(ctx context.Context, g Grant) bool {
+	if g.ApprovedBy == "" || s.isOwner(g.ApprovedBy) {
+		return true
+	}
+	ms, err := s.Store.Memberships(ctx, g.ApprovedBy)
+	if err != nil {
+		return true // a lookup error must not log everyone out; removal revokes anyway
+	}
+	for _, m := range ms {
+		if m.AccountID == g.AccountID && (m.CanWrite || !g.CanWrite) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *Server) isOwner(email string) bool {
+	for _, o := range s.Owners {
+		if email != "" && o == email {
+			return true
+		}
+	}
+	return false
 }
 
 func memberFor(ms []Member, account string) (Member, bool) {
@@ -511,7 +555,7 @@ func (s *Server) token(w http.ResponseWriter, r *http.Request) {
 		}
 		refresh = random(32)
 		g = Grant{AccountID: c.AccountID, ClientID: clientID, ClientName: client.Name, CanWrite: c.CanWrite,
-			RefreshExpiresAt: time.Now().Add(refreshTTL), ApprovedBy: c.ApprovedBy}
+			RefreshExpiresAt: time.Now().Add(refreshTTL), ApprovedBy: c.ApprovedBy, ByOwner: s.isOwner(c.ApprovedBy)}
 		if g, access, err = s.Store.CreateGrant(r.Context(), g, codeHash, mcp.HashToken(refresh), accessTTL); err != nil {
 			s.Logger.Error("oauth create grant failed", "error", err)
 			oauthError(w, http.StatusInternalServerError, "server_error", "try again later")
@@ -526,6 +570,14 @@ func (s *Server) token(w http.ResponseWriter, r *http.Request) {
 		}
 		if err != nil {
 			oauthError(w, http.StatusBadRequest, "invalid_grant", "the refresh token is invalid, expired or revoked")
+			return
+		}
+		if !s.approverStillAllowed(r.Context(), g) {
+			if err := s.Store.RevokeGrantID(r.Context(), g.ID); err != nil {
+				s.Logger.Error("oauth revoke after lost access failed", "grant_id", g.ID, "error", err)
+			}
+			s.Logger.Info("oauth connection ended: its approver no longer has access", "grant_id", g.ID, "account_id", g.AccountID)
+			oauthError(w, http.StatusBadRequest, "invalid_grant", "the person who connected this app no longer has access")
 			return
 		}
 	default:
