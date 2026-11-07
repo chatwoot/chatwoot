@@ -591,3 +591,22 @@ func TestAccess_ReadOnlyMemberGetsReadToken(t *testing.T) {
 		t.Fatalf("scope=%v grant=%+v", tok["scope"], e.store.issued[0])
 	}
 }
+
+func TestAccess_OwnerApprovesAnyAccountWithWrite(t *testing.T) {
+	// Arrange: the owner is not on any team list.
+	e := accessEnv()
+	e.srv.Owners = []string{"john@example.com"}
+	e.srv.Access = fakeAccess{byToken: map[string]string{"jwt-john": "john@example.com"}}
+	client := e.register(t, redirect)
+
+	// Act
+	code := codeFrom(t, e.approveAs("jwt-john", authForm(client, map[string]string{"account": "7", "password": ""})))
+	_, tok := e.tokenReq(url.Values{"grant_type": {"authorization_code"}, "code": {code}, "client_id": {client},
+		"redirect_uri": {redirect}, "code_verifier": {verifier}})
+
+	// Assert
+	g := e.store.issued[0]
+	if tok["scope"] != "kb:read kb:write" || g.AccountID != 7 || g.ApprovedBy != "john@example.com" || !g.ByOwner {
+		t.Fatalf("scope=%v grant=%+v", tok["scope"], g)
+	}
+}

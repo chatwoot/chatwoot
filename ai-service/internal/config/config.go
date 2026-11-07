@@ -67,6 +67,11 @@ type Config struct {
 	// (the approval page's Access application AUD tag) switch app approval
 	// from the admin password to team members signed in through Access.
 	CFAccessTeamDomain, CFAccessAUD string
+	// CFAccessAdminAUD is the AUD tag of the Access application in front of
+	// /admin; with Owners (ADMIN_EMAILS) it lets the owner in without the
+	// password (for example signed in with GitHub through Access).
+	CFAccessAdminAUD string
+	Owners           []string
 	// Location is the business time zone (TIMEZONE), used to tell the model the date.
 	Location *time.Location
 
@@ -157,8 +162,17 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	cfg.MCPEnabled = get("MCP_ENABLED", "") == "true"
 	cfg.CFAccessTeamDomain = strings.TrimSuffix(get("CF_ACCESS_TEAM_DOMAIN", ""), "/")
 	cfg.CFAccessAUD = get("CF_ACCESS_AUD", "")
-	if (cfg.CFAccessTeamDomain == "") != (cfg.CFAccessAUD == "") {
-		errs = append(errs, errors.New("set both CF_ACCESS_TEAM_DOMAIN and CF_ACCESS_AUD, or neither"))
+	cfg.CFAccessAdminAUD = get("CF_ACCESS_ADMIN_AUD", "")
+	for _, e := range strings.Split(get("ADMIN_EMAILS", ""), ",") {
+		if e = strings.ToLower(strings.TrimSpace(e)); e != "" {
+			cfg.Owners = append(cfg.Owners, e)
+		}
+	}
+	if cfg.CFAccessAUD != "" && cfg.CFAccessTeamDomain == "" || cfg.CFAccessTeamDomain != "" && cfg.CFAccessAUD == "" && cfg.CFAccessAdminAUD == "" {
+		errs = append(errs, errors.New("CF_ACCESS_TEAM_DOMAIN needs CF_ACCESS_AUD and/or CF_ACCESS_ADMIN_AUD, and they need it"))
+	}
+	if cfg.CFAccessAdminAUD != "" && (cfg.CFAccessTeamDomain == "" || len(cfg.Owners) == 0) {
+		errs = append(errs, errors.New("CF_ACCESS_ADMIN_AUD needs CF_ACCESS_TEAM_DOMAIN and ADMIN_EMAILS"))
 	}
 	if cfg.CFAccessTeamDomain != "" && !strings.HasPrefix(cfg.CFAccessTeamDomain, "https://") {
 		errs = append(errs, errors.New("CF_ACCESS_TEAM_DOMAIN must start with https://"))

@@ -20,6 +20,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	embedclient "github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
@@ -64,6 +65,10 @@ type Handler struct {
 	Knowledge *knowledge.Service
 	// Profiles enables the business profile page; nil when no database is set.
 	Profiles profile.Store
+	// AdminAccess verifies the Cloudflare Access sign-in in front of /admin;
+	// Owners are the emails it admits without the password.
+	AdminAccess Identifier
+	Owners      []string
 	// Tokens manages MCP access tokens; nil hides the connections page.
 	Tokens mcp.Tokens
 	// Apps lists and revokes AI apps connected with OAuth; nil hides them.
@@ -350,9 +355,56 @@ func (h *Handler) renderPage(w http.ResponseWriter, r *http.Request, status int,
 	http.Error(w, "page could not be shown", http.StatusInternalServerError)
 }
 
+// Identifier verifies a Cloudflare Access token (cfaccess.Verifier).
+type Identifier interface {
+	Verify(ctx context.Context, token string) (cfaccess.Identity, error)
+}
+
+type actorKey struct{}
+
+// actor is who made a change: the owner's email when signed in through
+// Cloudflare Access, else "admin password".
+func actor(r *http.Request) string {
+	if a, ok := r.Context().Value(actorKey{}).(string); ok && a != "" {
+		return a
+	}
+	return "admin password"
+}
+
+func (h *Handler) isOwner(email string) bool {
+	for _, o := range h.Owners {
+		if o == email {
+			return true
+		}
+	}
+	return false
+}
+
+// requireAuth admits the owner. With Cloudflare Access in front of /admin
+// (AdminAccess set), a verified Access sign-in for an owner email is enough:
+// no password. A request without the Access header (e.g. through the SSH
+// tunnel) still needs the Basic Auth password. A present but invalid Access
+// token, or a signed-in person who is not an owner, is refused.
 func (h *Handler) requireAuth(next http.Handler) http.Handler {
 	want := sha256.Sum256([]byte(h.Password))
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if h.AdminAccess != nil {
+			if tok := r.Header.Get(cfaccess.Header); tok != "" {
+				id, err := h.AdminAccess.Verify(r.Context(), tok)
+				switch {
+				case err != nil:
+					h.Logger.Warn("admin: invalid cloudflare access token", "remote_addr", r.RemoteAddr)
+					http.Error(w, "your Cloudflare sign-in could not be verified; reload the page", http.StatusForbidden)
+					return
+				case !h.isOwner(id.Email):
+					h.Logger.Warn("admin: signed-in person is not an owner", "remote_addr", r.RemoteAddr)
+					http.Error(w, id.Email+" is not an owner of this admin page", http.StatusForbidden)
+					return
+				}
+				next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), actorKey{}, id.Email)))
+				return
+			}
+		}
 		user, pass, ok := r.BasicAuth()
 		got := sha256.Sum256([]byte(pass))
 		if !ok || user != Username || subtle.ConstantTimeCompare(got[:], want[:]) != 1 {

@@ -139,7 +139,7 @@ func run() error {
 			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
 			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout,
 			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL,
-			TeamSignIn: cfg.CFAccessTeamDomain != "", Logger: logger,
+			TeamSignIn: cfg.CFAccessAUD != "", Owners: cfg.Owners, AdminAccess: adminAccess(cfg), Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -160,9 +160,10 @@ func run() error {
 		if strings.HasPrefix(cfg.MCPPublicURL, "https://") || strings.HasPrefix(cfg.MCPPublicURL, "http://127.0.0.1:") {
 			as := &oauth.Server{Resource: cfg.MCPPublicURL, Password: cfg.AdminPassword,
 				Store: oauthStore, Logger: logger.With("component", "oauth")}
-			if cfg.CFAccessTeamDomain != "" {
+			if cfg.CFAccessAUD != "" {
 				// Team members signed in through Cloudflare Access approve apps; no password.
 				as.Access = &cfaccess.Verifier{TeamDomain: cfg.CFAccessTeamDomain, AUD: cfg.CFAccessAUD}
+				as.Owners = cfg.Owners
 				logger.Info("mcp oauth approvals by team members (cloudflare access)", "team_domain", hostOf(cfg.CFAccessTeamDomain))
 			}
 			as.Routes(mux)
@@ -253,6 +254,14 @@ func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logg
 		Store: pg, Embedder: embedder,
 		TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes,
 	}, &profile.Postgres{Pool: pg.Pool}, pg.Pool.Close, nil
+}
+
+// adminAccess is the /admin Access verifier, or nil (password only).
+func adminAccess(cfg config.Config) admin.Identifier {
+	if cfg.CFAccessAdminAUD == "" {
+		return nil
+	}
+	return &cfaccess.Verifier{TeamDomain: cfg.CFAccessTeamDomain, AUD: cfg.CFAccessAdminAUD}
 }
 
 // oauthApps keeps a nil store a nil interface.
