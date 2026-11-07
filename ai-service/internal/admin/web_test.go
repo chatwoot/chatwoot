@@ -53,6 +53,24 @@ func (m *memWeb) Remove(_ context.Context, acct, id int64) error {
 	return websync.ErrNotFound
 }
 func (m *memWeb) Claim(context.Context, int) ([]websync.Source, error) { return nil, nil }
+func (m *memWeb) SetInterval(_ context.Context, acct, id int64, h int) error {
+	for i, s := range m.srcs {
+		if s.ID == id && s.AccountID == acct {
+			m.srcs[i].IntervalHours = h
+			return nil
+		}
+	}
+	return websync.ErrNotFound
+}
+func (m *memWeb) MarkAllDue(_ context.Context, acct int64) (int, error) {
+	n := 0
+	for _, s := range m.srcs {
+		if s.AccountID == acct {
+			n++
+		}
+	}
+	return n, nil
+}
 func (m *memWeb) ClaimOne(ctx context.Context, acct, id int64) (websync.Source, error) {
 	return m.Get(ctx, acct, id)
 }
@@ -137,3 +155,25 @@ func TestWeb_RemoveDeletesDocumentAndStaysInAccount(t *testing.T) {
 }
 
 func strconvI(i int64) string { return strconv.FormatInt(i, 10) }
+
+func TestWeb_ScheduleAndSyncAll(t *testing.T) {
+	// Arrange
+	mux, _, mw := webEnv(t)
+	serve(mux, kform(url.Values{"action": {"add_page"}, "account": {"1"}, "url": {"https://example.com/price"}}))
+
+	// Act
+	weekly := serve(mux, kform(url.Values{"action": {"page_interval"}, "account": {"1"}, "id": {"1"}, "interval": {"168"}}))
+	odd := serve(mux, kform(url.Values{"action": {"page_interval"}, "account": {"1"}, "id": {"1"}, "interval": {"5"}}))
+	all := serve(mux, kform(url.Values{"action": {"sync_all"}, "account": {"1"}}))
+
+	// Assert
+	if weekly.Code != http.StatusSeeOther || mw.srcs[0].IntervalHours != 168 {
+		t.Fatalf("weekly: %d %+v", weekly.Code, mw.srcs)
+	}
+	if odd.Code != http.StatusUnprocessableEntity || mw.srcs[0].IntervalHours != 168 {
+		t.Fatalf("odd interval accepted: %d", odd.Code)
+	}
+	if all.Code != http.StatusSeeOther || !strings.Contains(all.Header().Get("Location"), "count=1") {
+		t.Fatalf("sync all: %d %q", all.Code, all.Header().Get("Location"))
+	}
+}

@@ -136,3 +136,23 @@ func (p *Postgres) Save(ctx context.Context, s Source) error {
 	}
 	return nil
 }
+
+// SetInterval implements Store; the next check moves accordingly.
+func (p *Postgres) SetInterval(ctx context.Context, accountID, id int64, hours int) error {
+	tag, err := p.Pool.Exec(ctx, `UPDATE web_sources SET interval_hours = $3,
+		next_check_at = COALESCE(last_checked_at, now()) + make_interval(hours => $3)
+		WHERE id = $1 AND account_id = $2`, id, accountID, hours)
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() == 0 {
+		return ErrNotFound
+	}
+	return nil
+}
+
+// MarkAllDue implements Store.
+func (p *Postgres) MarkAllDue(ctx context.Context, accountID int64) (int, error) {
+	tag, err := p.Pool.Exec(ctx, `UPDATE web_sources SET next_check_at = NULL WHERE account_id = $1`, accountID)
+	return int(tag.RowsAffected()), err
+}

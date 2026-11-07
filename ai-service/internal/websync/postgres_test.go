@@ -91,3 +91,26 @@ func TestPostgres_LimitsAndSaveAfterRemove(t *testing.T) {
 		t.Fatalf("tooMany=%v spaced=%v saveGone=%v", tooMany, spaced, saveGone)
 	}
 }
+
+func TestPostgres_IntervalAndMarkAllDue(t *testing.T) {
+	// Arrange
+	db := openDB(t)
+	ctx := context.Background()
+	a, _ := db.Add(ctx, 1, "https://example.com/a")
+	_, _ = db.Add(ctx, 1, "https://example.com/b")
+	_, _ = db.Claim(ctx, 10)
+	a.Status, a.CheckedAt = "ok", time.Now()
+	_ = db.Save(ctx, a)
+
+	// Act
+	ivErr := db.SetInterval(ctx, 1, a.ID, 168)
+	crossErr := db.SetInterval(ctx, 2, a.ID, 1)
+	_, badIv := db.Pool.Exec(ctx, "UPDATE web_sources SET interval_hours = 1000 WHERE id = $1", a.ID)
+	n, markErr := db.MarkAllDue(ctx, 1)
+	due, _ := db.Claim(ctx, 10)
+
+	// Assert
+	if ivErr != nil || !errors.Is(crossErr, ErrNotFound) || badIv == nil || markErr != nil || n != 2 || len(due) != 2 {
+		t.Fatalf("iv=%v cross=%v badIv=%v mark=%v n=%d due=%d", ivErr, crossErr, badIv, markErr, n, len(due))
+	}
+}

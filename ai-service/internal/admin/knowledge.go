@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -51,13 +52,14 @@ type docForm struct {
 }
 
 type pageView struct {
-	ID      int64
-	URL     string
-	Title   string
-	Status  string // ok, error, gone, new
-	Label   string
-	Detail  string
-	Checked string
+	ID       int64
+	Interval int
+	URL      string
+	Title    string
+	Status   string // ok, error, gone, new
+	Label    string
+	Detail   string
+	Checked  string
 }
 
 type dupView struct {
@@ -146,7 +148,7 @@ func (h *Handler) renderKnowledge(w http.ResponseWriter, r *http.Request, status
 			h.Logger.Error("list web pages", "account_id", data.AccountID, "error", err)
 		}
 		for _, p := range pages {
-			v := pageView{ID: p.ID, URL: p.URL, Title: p.Title, Status: p.Status, Checked: "Not yet"}
+			v := pageView{ID: p.ID, Interval: p.IntervalHours, URL: p.URL, Title: p.Title, Status: p.Status, Checked: "Not yet"}
 			if !p.CheckedAt.IsZero() {
 				v.Checked = p.CheckedAt.In(h.loc()).Format("2 Jan 15:04")
 			}
@@ -292,6 +294,10 @@ func noticeFor(q url.Values) string {
 		}
 	case "page_removed":
 		return "Page removed. The bot no longer uses it."
+	case "page_interval":
+		return "Schedule saved."
+	case "sync_all":
+		return fmt.Sprintf("Checking %s pages now in the background. Refresh in a minute to see the results.", q.Get("count"))
 	case "updated":
 		return fmt.Sprintf("Saved and re-indexed (%s chunks). The bot uses the new version right away.", q.Get("chunks"))
 	case "deleted":
@@ -412,7 +418,7 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 		h.record(r, acct, "knowledge edited", doc.Title, docCopy(cur))
 		h.Logger.Info("knowledge updated", "account_id", acct, "document_id", id, "chunks", chunks, "remote_addr", r.RemoteAddr)
 		http.Redirect(w, r, back+"&done=updated&chunks="+strconv.Itoa(chunks), http.StatusSeeOther)
-	case "add_page", "sync_page", "remove_page":
+	case "add_page", "sync_page", "remove_page", "page_interval", "sync_all":
 		h.webAction(w, r, acct, pf.Get("action"), data)
 	case "delete":
 		id, _ := strconv.ParseInt(pf.Get("id"), 10, 64)
@@ -550,6 +556,30 @@ func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, 
 			return
 		}
 		h.record(r, acct, "web page added", u.Host+u.Path, nil)
+	case "page_interval":
+		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
+		hours, _ := strconv.Atoi(r.PostForm.Get("interval"))
+		if !slices.Contains(websync.Intervals, hours) {
+			fail("Choose one of the listed schedules.")
+			return
+		}
+		if err := h.Web.SetInterval(r.Context(), acct, id, hours); err != nil {
+			fail("That page is no longer in the list.")
+			return
+		}
+		h.record(r, acct, "web page schedule changed", strconv.Itoa(hours)+" h", nil)
+		http.Redirect(w, r, back+"&done=page_interval", http.StatusSeeOther)
+		return
+	case "sync_all":
+		n, err := h.Web.MarkAllDue(r.Context(), acct)
+		if err != nil {
+			fail("Could not start the sync. Try again.")
+			return
+		}
+		h.WebSync.Kick()
+		h.record(r, acct, "sync all started", strconv.Itoa(n)+" pages", nil)
+		http.Redirect(w, r, back+"&done=sync_all&count="+strconv.Itoa(n), http.StatusSeeOther)
+		return
 	case "remove_page":
 		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
 		src, err := h.Web.Get(r.Context(), acct, id)

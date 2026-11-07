@@ -139,7 +139,10 @@
 
   {{if .WebOn}}
   <section class="card" aria-labelledby="web-title">
-    <h2 id="web-title" style="font-size:1.125rem;margin:0 0 4px">Website pages</h2>
+    <div class="page-head" style="margin:0">
+      <h2 id="web-title" style="font-size:1.125rem;margin:0 0 4px">Website pages</h2>
+      {{if .Pages}}<form method="post" action="/admin/knowledge"><input type="hidden" name="action" value="sync_all"><input type="hidden" name="account" value="{{.AccountID}}"><button type="submit" class="btn small">Sync all now</button></form>{{end}}
+    </div>
     <p class="hint">Add a public page (for example your price or policy page). The bot reads it now and checks it every day: changes update automatically, and a page that disappears stops being used.</p>
     {{if and .Error (eq .ErrorForm "page")}}<div class="alert err" role="alert"><strong>Not added.</strong> {{.Error}}</div>{{end}}
     <form method="post" action="/admin/knowledge" class="row" autocomplete="off" style="margin-top:0">
@@ -150,13 +153,26 @@
     </form>
     {{if .Pages}}
     <table style="margin-top:12px">
-      <thead><tr><th scope="col">Page</th><th scope="col">Status</th><th scope="col">Last checked</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+      <thead><tr><th scope="col">Page</th><th scope="col">Status</th><th scope="col">Last checked</th><th scope="col">Check</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
       <tbody>
       {{range .Pages}}
         <tr>
           <td><strong>{{if .Title}}{{.Title}}{{else}}{{.URL}}{{end}}</strong><div class="preview">{{.URL}}</div></td>
           <td data-label="Status"><span class="badge {{if eq .Status "ok"}}active{{else if eq .Status "new"}}scheduled{{else}}expired{{end}}">{{.Label}}</span>{{with .Detail}}<div class="preview">{{.}}</div>{{end}}</td>
           <td class="num" data-label="Last checked">{{.Checked}}</td>
+          <td data-label="Check">
+            <form class="inline sched" method="post" action="/admin/knowledge">
+              <input type="hidden" name="action" value="page_interval"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
+              <label for="iv-{{.ID}}" class="visually-hidden">How often to check</label>
+              <select id="iv-{{.ID}}" name="interval">
+                <option value="1"{{if eq .Interval 1}} selected{{end}}>Every hour</option>
+                <option value="6"{{if eq .Interval 6}} selected{{end}}>Every 6 hours</option>
+                <option value="24"{{if eq .Interval 24}} selected{{end}}>Daily</option>
+                <option value="168"{{if eq .Interval 168}} selected{{end}}>Weekly</option>
+              </select>
+              <button type="submit" class="btn small">Save</button>
+            </form>
+          </td>
           <td class="row-actions">
             <form class="inline" method="post" action="/admin/knowledge">
               <input type="hidden" name="action" value="sync_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">

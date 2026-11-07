@@ -12,6 +12,7 @@ import (
 	"errors"
 	"log/slog"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/audit"
@@ -48,7 +49,14 @@ type Store interface {
 	ClaimOne(ctx context.Context, accountID, id int64) (Source, error)
 	// Save stores a check result; ErrNotFound if the page was removed meanwhile.
 	Save(ctx context.Context, s Source) error
+	// SetInterval changes how often a page is checked (hours).
+	SetInterval(ctx context.Context, accountID, id int64, hours int) error
+	// MarkAllDue schedules every page of the account for the next run.
+	MarkAllDue(ctx context.Context, accountID int64) (int, error)
 }
+
+// Intervals are the schedule choices offered on the admin page (hours).
+var Intervals = []int{1, 6, 24, 168}
 
 // Key is the knowledge document key for a page.
 func Key(url string) string { return "web:" + url }
@@ -74,6 +82,9 @@ const GoneGrace = 7 * 24 * time.Hour
 
 // Syncer checks pages and updates the knowledge base.
 type Syncer struct {
+	kickOnce sync.Once
+	kick     chan struct{}
+
 	Store     Store
 	Knowledge *knowledge.Service
 	Fetcher   Fetcher
@@ -229,7 +240,7 @@ func errText(err error) string {
 
 // Run checks due pages every interval until ctx ends, one at a time. A batch
 // of 50 slow pages can take longer than the interval; the ticker then simply
-// waits for it.
+// waits for it. Kick starts a run early.
 func (s *Syncer) Run(ctx context.Context, every time.Duration) {
 	t := time.NewTicker(every)
 	defer t.Stop()
@@ -239,7 +250,21 @@ func (s *Syncer) Run(ctx context.Context, every time.Duration) {
 		case <-ctx.Done():
 			return
 		case <-t.C:
+		case <-s.kicks():
 		}
+	}
+}
+
+func (s *Syncer) kicks() chan struct{} {
+	s.kickOnce.Do(func() { s.kick = make(chan struct{}, 1) })
+	return s.kick
+}
+
+// Kick asks the running scheduler to check due pages now (non-blocking).
+func (s *Syncer) Kick() {
+	select {
+	case s.kicks() <- struct{}{}:
+	default:
 	}
 }
 

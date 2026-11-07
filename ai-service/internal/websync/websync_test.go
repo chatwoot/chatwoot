@@ -82,11 +82,13 @@ func (e emb) Embed(_ context.Context, t []string) ([][]float32, error) {
 
 type srcStore struct{ saved []Source }
 
-func (s *srcStore) Add(context.Context, int64, string) (Source, error) { return Source{}, nil }
-func (s *srcStore) List(context.Context, int64) ([]Source, error)      { return nil, nil }
-func (s *srcStore) Get(context.Context, int64, int64) (Source, error)  { return Source{}, nil }
-func (s *srcStore) Remove(context.Context, int64, int64) error         { return nil }
-func (s *srcStore) Claim(context.Context, int) ([]Source, error)       { return nil, nil }
+func (s *srcStore) Add(context.Context, int64, string) (Source, error)   { return Source{}, nil }
+func (s *srcStore) List(context.Context, int64) ([]Source, error)        { return nil, nil }
+func (s *srcStore) Get(context.Context, int64, int64) (Source, error)    { return Source{}, nil }
+func (s *srcStore) Remove(context.Context, int64, int64) error           { return nil }
+func (s *srcStore) Claim(context.Context, int) ([]Source, error)         { return nil, nil }
+func (s *srcStore) SetInterval(context.Context, int64, int64, int) error { return nil }
+func (s *srcStore) MarkAllDue(context.Context, int64) (int, error)       { return 0, nil }
 func (s *srcStore) ClaimOne(context.Context, int64, int64) (Source, error) {
 	return Source{}, nil
 }
@@ -249,4 +251,10 @@ func TestCheckSafely_PanicBecomesFailedCheck(t *testing.T) {
 	if out != Failed || ss.last().Status != "error" {
 		t.Fatalf("out=%v saved=%+v", out, ss.saved)
 	}
+}
+
+func TestKick_DoesNotBlock(t *testing.T) {
+	s, _, _, _, _, _ := env()
+	s.Kick()
+	s.Kick() // a second kick while one is pending is dropped, not blocking
 }
