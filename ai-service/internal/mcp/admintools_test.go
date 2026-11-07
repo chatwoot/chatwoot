@@ -250,6 +250,9 @@ func TestAdminTools_UpdateProfileRefusals(t *testing.T) {
 		"contact is admin-only": {rw, map[string]any{"contact": "Pay to account 123"}, false, "invalid arguments"},
 		"paid switch":           {rw, map[string]any{"images": true}, false, "invalid arguments"},
 		"history not saved":     {rw, map[string]any{"rules": "x"}, true, "not saved"},
+		"blank business name":   {rw, map[string]any{"business_name": "  "}, false, "cannot be empty"},
+		"blank rules":           {rw, map[string]any{"rules": ""}, false, "cannot be empty"},
+		"blank tone":            {rw, map[string]any{"tone": "\r\n\n"}, false, "cannot be empty"},
 	}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {

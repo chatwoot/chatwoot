@@ -51,7 +51,7 @@ var adminTools = []tool{
 		Description: "The business profile the support bot follows: name, about, tone, how customers buy or reach staff, rules, and which message types it answers (voice notes, images, stickers).",
 		InputSchema: obj(map[string]any{}), Annotations: map[string]any{"readOnlyHint": true, "openWorldHint": false}},
 	{Name: "update_profile", Title: "Change the business profile", write: true,
-		Description: "Change the business name, about, tone or rules. Only the fields you give change; each replaces the whole field. " +
+		Description: "Change the business name, about, tone or rules. Only the fields you give change; each replaces the whole field and cannot be empty. " +
 			"This changes what real customers are told at once: show the user the new text and get their confirmation first. " +
 			"Read it with get_profile first. The old version is kept in the change history. Use test_bot afterwards. " +
 			"Contact and payment details and the voice, image and sticker switches can only be changed by the owner on the admin page.",
@@ -223,6 +223,13 @@ func (s *Server) updateProfile(ctx context.Context, tok Token, a profileArgs) (a
 		return nil, userError("give at least one field to change")
 	}
 	next = next.Normalize()
+	// An AI app may rewrite a field but not wipe it: clearing the name, about,
+	// tone or rules stays with the owner on /admin.
+	for _, f := range given {
+		if profileField(next, f) == "" {
+			return nil, userError(f + " cannot be empty; send the full new text, or clear it on the admin page")
+		}
+	}
 	if err := next.Validate(); err != nil {
 		return nil, userError(err.Error())
 	}
