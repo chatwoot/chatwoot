@@ -126,7 +126,7 @@ func TestTestPage_ShowsAccountAndInboxDropdowns(t *testing.T) {
 		t.Fatalf("status = %d", rec.Code)
 	}
 	for _, want := range []string{
-		`<select id="account" name="account">`,
+		`<select id="account" name="account">`, `<button type="submit">Open</button>`,
 		`<option value="1">Johnstocker AI Studio (#1)</option>`,
 		`<option value="2" selected>Acme &lt;b&gt; (#2)</option>`,
 		`<select id="inbox" name="inbox" aria-describedby="inbox-hint">`,
@@ -136,5 +136,25 @@ func TestTestPage_ShowsAccountAndInboxDropdowns(t *testing.T) {
 		if !strings.Contains(body, want) {
 			t.Errorf("page missing %q", want)
 		}
+	}
+}
+
+func TestAccountPicker_OneAccountIsPlainText(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	e.h.Places = &fakePlaces{accounts: []places.Place{{ID: 1, Name: "Johnstocker AI Studio"}}}
+	r := httptest.NewRequest(http.MethodGet, "/admin?account=1", nil)
+	r.SetBasicAuth(Username, pw)
+
+	// Act
+	rec := e.do(r)
+
+	// Assert
+	body := rec.Body.String()
+	if !strings.Contains(body, `<strong>Johnstocker AI Studio (#1)</strong>`) || strings.Contains(body, `<select id="account"`) {
+		t.Errorf("want the name as text and no account dropdown")
+	}
+	if !strings.Contains(body, `id="account-other"`) {
+		t.Errorf("Another account box missing")
 	}
 }
