@@ -53,7 +53,7 @@ func TestTest_SendsHistoryAndShowsSources(t *testing.T) {
 	if ft.acct != 2 || ft.inbox != 5 || len(ft.got) != 3 || ft.got[2].Content != "ผ่อนได้ไหม" || ft.got[1].Role != "assistant" {
 		t.Fatalf("tester got acct=%d inbox=%d turns=%+v", ft.acct, ft.inbox, ft.got)
 	}
-	for _, want := range []string{"ราคา 3,900 บาทค่ะ", "AutoCut price", "match 0.81", "Answered by the bot",
+	for _, want := range []string{"ราคา 3,900 บาทค่ะ", "AutoCut price", "81% match", "Answered by the bot",
 		`name="text" value="ราคา 3,900 บาทค่ะ"`} {
 		if !strings.Contains(body, want) {
 			t.Errorf("page missing %q", want)

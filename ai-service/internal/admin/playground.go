@@ -2,6 +2,7 @@ package admin
 
 import (
 	"context"
+	"math"
 	"net/http"
 	"strconv"
 	"strings"
@@ -91,7 +92,7 @@ func (h *Handler) submitTest(w http.ResponseWriter, r *http.Request) {
 	d.Turns = append(d.Turns, memory.Turn{Role: "assistant", Content: p.Reply})
 	d.Asked, d.Handoff, d.Reason, d.Model = msg, p.Handoff, reasonText[p.Reason], p.Model
 	for _, hit := range p.Sources {
-		d.Sources = append(d.Sources, testSource{Title: hit.Title, Score: strconv.FormatFloat(hit.Score, 'f', 2, 64)})
+		d.Sources = append(d.Sources, testSource{Title: hit.Title, Score: strconv.Itoa(int(math.Round(hit.Score*100))) + "%"})
 	}
 	// Metadata only: test messages are business content but may be pasted
 	// from real customers, so their text is never logged.

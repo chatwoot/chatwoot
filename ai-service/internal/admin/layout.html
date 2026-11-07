@@ -121,7 +121,7 @@
   @media (max-width: 480px) {
     nav a { padding: 10px 6px; font-size: .875rem; }
     .actions { justify-content: stretch; }
-    .actions button, .row button { width: 100%; }
+    .actions button, .row button, .row a.btn { width: 100%; justify-content: center; }
   }
   /* Home checklist and test chat */
   .nav-settings { margin-top: 16px; border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; }
@@ -150,7 +150,11 @@
   .test-grid textarea { min-height: 88px; }
   ul.sources { margin: 0; padding-left: 1.2em; }
   ul.sources li { margin: 4px 0; overflow-wrap: anywhere; }
-  details summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+  details summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; gap: 8px; list-style: none; color: var(--accent); }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: "▸"; font-size: .8em; transition: transform .15s; }
+  details[open] summary::before { transform: rotate(90deg); }
+  @media (prefers-reduced-motion: reduce) { details summary::before { transition: none; } }
   @media (max-width: 1100px) { .test-grid { grid-template-columns: 1fr; } }
   @media (max-width: 860px) { .nav-settings { margin-top: 0; border-top: 0; } }
   @media (max-width: 480px) { ol.steps li { grid-template-columns: 32px minmax(0, 1fr); } ol.steps li > a.btn { grid-column: 2; justify-self: start; } .bubble { max-width: 92%; } }
