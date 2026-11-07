@@ -29,6 +29,9 @@ func TestDetect(t *testing.T) {
 		"line link":                {text: "https://line.me/R/ti/p/@johnautocut", contact: []string{"LINE"}},
 		"email":                    {text: "ติดต่อ sales@example.com", contact: []string{"email"}},
 		"price is not a phone":     {text: "ราคา 12,900 บาท ส่วนลด 2,000"},
+		"phone with dots":          {text: "โทร 081.234.5678", contact: []string{"phone"}},
+		"bare handle":              {text: "ทักมาที่ @shop_official ได้เลย", contact: []string{"LINE"}},
+		"date is not a phone":      {text: "หมดเขต 08/11/2026 เวลา 23:59"},
 	}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -52,6 +55,9 @@ func TestDetect_HiddenSeparatorsDoNotHideNumbers(t *testing.T) {
 		"ideographic":    "4111\u30001111\u30001111\u30001111",
 		"full-width":     "４１１１ １１１１ １１１１ １１１１",
 		"thai id dots":   "1.1017.00230.70.8",
+		"en dash":        "4111\u20131111\u20131111\u20131111",
+		"arabic digits":  "\u0664\u0661\u0661\u0661 1111 1111 1111",
+		"underscores":    "4111_1111_1111_1111",
 	}
 	for name, text := range cases {
 		t.Run(name, func(t *testing.T) {

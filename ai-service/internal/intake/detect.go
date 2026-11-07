@@ -15,8 +15,10 @@ type Signals struct {
 }
 
 var (
-	thaiID      = regexp.MustCompile(`\b\d[-./ ]?\d{4}[-./ ]?\d{5}[-./ ]?\d{2}[-./ ]?\d\b`)
-	cardNumber  = regexp.MustCompile(`\b(?:\d[-./ ]{0,2}){12,18}\d\b`)
+	// sep is what may sit between digits of one number: up to two
+	// characters that are not letters, digits or line breaks.
+	thaiID      = regexp.MustCompile(`\b\d(?:` + sep + `\d){12}\b`)
+	cardNumber  = regexp.MustCompile(`\b\d(?:` + sep + `\d){12,18}\b`)
 	secretValue = []struct {
 		re   *regexp.Regexp
 		kind string
@@ -25,15 +27,18 @@ var (
 		{regexp.MustCompile(`(?i)(?:\botp\b|รหัส\s*otp|one[- ]time (?:code|password))\s*(?:[:=]|คือ|is)\s*\d{4,8}`), "one-time code"},
 		{regexp.MustCompile(`(?i)(?:\bpassword\b|\bpasscode\b|รหัสผ่าน|\bpin\b)\s*(?:[:=]|คือ|is)\s*\S{3,}`), "password"},
 	}
-	promptPay   = regexp.MustCompile(`(?i)(?:พร้อมเพย์|prompt\s*pay)[^\d\n]{0,20}((?:\+66[- ]?|0)\d{1,2}[- ]?\d{3}[- ]?\d{4}|\d[- ]?\d{4}[- ]?\d{5}[- ]?\d{2}[- ]?\d)`)
-	bankAccount = regexp.MustCompile(`(?i)(?:บัญชี|ธนาคาร|\bbank\b|\baccount\b|\bacct\b|กสิกร|ไทยพาณิชย์|กรุงเทพ|กรุงไทย|กรุงศรี|\bkbank\b|\bscb\b|\bbbl\b|\bktb\b|\bttb\b|ออมสิน)[^\d\n]{0,30}(\d{3}[- ]?\d[- ]?\d{5}[- ]?\d|\d{10,12})\b`)
+	promptPay   = regexp.MustCompile(`(?i)(?:พร้อมเพย์|prompt\s*pay)[^\d\n]{0,20}((?:\+` + sep + `6` + sep + `6|0)(?:` + sep + `\d){8,9}|\d(?:` + sep + `\d){12})`)
+	bankAccount = regexp.MustCompile(`(?i)(?:บัญชี|ธนาคาร|\bbank\b|\baccount\b|\bacct\b|กสิกร|ไทยพาณิชย์|กรุงเทพ|กรุงไทย|กรุงศรี|\bkbank\b|\bscb\b|\bbbl\b|\bktb\b|\bttb\b|ออมสิน)[^\d\n]{0,30}(\d(?:` + sep + `\d){9,11})\b`)
 	link        = regexp.MustCompile(`(?i)https?://[^\s<>"')]+`)
 	payLink     = regexp.MustCompile(`(?i)pay|checkout|omise|stripe|2c2p|gbprime|promptpay|billing|invoice`)
 	lineLink    = regexp.MustCompile(`(?i)^https?://(?:[a-z0-9-]+\.)?line\.me/`)
 	email       = regexp.MustCompile(`(?i)\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b`)
 	lineID      = regexp.MustCompile(`(?i)(?:\bline\b|ไลน์|line\s*id)[^@\n]{0,20}@[a-z0-9._-]{3,}`)
-	phone       = regexp.MustCompile(`(?:\+66[- ]?\d{1,2}|\b0\d{1,2})[- ]?\d{3}[- ]?\d{3,4}\b`)
+	phone       = regexp.MustCompile(`(?:\+` + sep + `6` + sep + `6|\b0)(?:` + sep + `\d){8,9}\b`)
+	handle      = regexp.MustCompile(`(?i)(?:^|[^a-z0-9._%+-])@[a-z0-9._-]{3,}`)
 )
+
+const sep = `[^\p{L}\p{N}\n]{0,2}`
 
 // Detect runs the pattern checks. Each match is removed before the next
 // check, so one number is counted once (a PromptPay phone is payment, not
@@ -81,6 +86,7 @@ func Detect(text string) Signals {
 	take(email, always("email"))
 	take(lineID, always("LINE"))
 	take(phone, always("phone"))
+	take(handle, always("LINE"))
 	return sig
 }
 
@@ -109,10 +115,12 @@ func clean(s string) string {
 			return -1
 		case unicode.IsSpace(r) && r != '\n':
 			return ' '
-		case r >= '０' && r <= '９':
-			return '0' + (r - '０')
-		case r >= '๐' && r <= '๙': // Thai digits
-			return '0' + (r - '๐')
+		case unicode.Is(unicode.Pd, r) || r == '−':
+			return '-'
+		case unicode.IsDigit(r) && r > '9':
+			if d := digitValue(r); d >= 0 {
+				return '0' + rune(d)
+			}
 		}
 		return r
 	}, s)
@@ -153,4 +161,20 @@ func validThaiID(d string) bool {
 		sum += int(d[i]-'0') * (13 - i)
 	}
 	return (11-sum%11)%10 == int(d[12]-'0')
+}
+
+// digitValue is the value of a decimal digit in any script (Thai, full-width,
+// Arabic-Indic, ...), or -1.
+func digitValue(r rune) int {
+	for _, t := range unicode.Nd.R16 {
+		if uint16(r) >= t.Lo && uint16(r) <= t.Hi && r <= 0xFFFF {
+			return int((uint16(r) - t.Lo) % 10)
+		}
+	}
+	for _, t := range unicode.Nd.R32 {
+		if uint32(r) >= t.Lo && uint32(r) <= t.Hi {
+			return int((uint32(r) - t.Lo) % 10)
+		}
+	}
+	return -1
 }
