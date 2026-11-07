@@ -3,11 +3,13 @@ package mcp
 import (
 	"context"
 	"encoding/json"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/audit"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/websync"
 )
@@ -209,11 +211,11 @@ func TestAdminTools_UpdateProfileChangesOnlyGivenFields(t *testing.T) {
 
 	// Act
 	var out map[string]any
-	decodeResult(t, e.call(rw, "update_profile", map[string]any{"tone": "  Friendly, short.\r\n", "images": true}), &out)
+	decodeResult(t, e.call(rw, "update_profile", map[string]any{"tone": "  Friendly, short.\r\n", "about": "Auto-cut software"}), &out)
 
 	// Assert
 	p := e.profiles.byAcct[1]
-	if p.Tone != "Friendly, short." || !p.Features.Images || !p.Features.Voice || p.Rules != "Never promise a price." || p.BusinessName != "John Auto Cut" {
+	if p.Tone != "Friendly, short." || p.About != "Auto-cut software" || !p.Features.Voice || p.Rules != "Never promise a price." || p.BusinessName != "John Auto Cut" {
 		t.Fatalf("profile = %+v", p)
 	}
 	if e.profiles.byAcct[2].Rules != "secret rule" {
@@ -225,7 +227,7 @@ func TestAdminTools_UpdateProfileChangesOnlyGivenFields(t *testing.T) {
 	ev := e.events.events[0]
 	before, _ := ev.Before.(profileView)
 	if ev.AccountID != 1 || ev.Actor != "claude (AI tool)" || ev.Action != "business profile saved" ||
-		!strings.Contains(ev.Summary, "tone") || !strings.Contains(ev.Summary, "images") || before.Tone != "" || before.Rules != "Never promise a price." {
+		!strings.Contains(ev.Summary, "tone") || !strings.Contains(ev.Summary, "about") || before.Tone != "" || before.Rules != "Never promise a price." {
 		t.Fatalf("event = %+v", ev)
 	}
 	if out["result"] != "saved" {
@@ -240,12 +242,14 @@ func TestAdminTools_UpdateProfileRefusals(t *testing.T) {
 		fail bool // history store fails
 		want string
 	}{
-		"read-only token":   {ro, map[string]any{"tone": "x"}, false, "read-only"},
-		"no fields":         {rw, map[string]any{}, false, "give at least one field"},
-		"too long":          {rw, map[string]any{"rules": strings.Repeat("ก", profile.MaxFieldRunes+1)}, false, "limit"},
-		"nul byte":          {rw, map[string]any{"about": "a\x00b"}, false, "UTF-8"},
-		"forged account":    {rw, map[string]any{"account_id": 2, "rules": "x"}, false, "invalid arguments"},
-		"history not saved": {rw, map[string]any{"rules": "x"}, true, "not saved"},
+		"read-only token":       {ro, map[string]any{"tone": "x"}, false, "read-only"},
+		"no fields":             {rw, map[string]any{}, false, "give at least one field"},
+		"too long":              {rw, map[string]any{"rules": strings.Repeat("ก", profile.MaxFieldRunes+1)}, false, "limit"},
+		"nul byte":              {rw, map[string]any{"about": "a\x00b"}, false, "UTF-8"},
+		"forged account":        {rw, map[string]any{"account_id": 2, "rules": "x"}, false, "invalid arguments"},
+		"contact is admin-only": {rw, map[string]any{"contact": "Pay to account 123"}, false, "invalid arguments"},
+		"paid switch":           {rw, map[string]any{"images": true}, false, "invalid arguments"},
+		"history not saved":     {rw, map[string]any{"rules": "x"}, true, "not saved"},
 	}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -277,7 +281,7 @@ func TestAdminTools_UpdateProfileUnchangedIsNotSaved(t *testing.T) {
 
 	// Act
 	var out map[string]any
-	decodeResult(t, e.call(rw, "update_profile", map[string]any{"rules": "Never promise a price.", "voice_notes": true}), &out)
+	decodeResult(t, e.call(rw, "update_profile", map[string]any{"rules": "Never promise a price.", "business_name": " John Auto Cut "}), &out)
 
 	// Assert
 	if out["result"] != "unchanged" || e.profiles.saves != 0 || len(e.events.events) != 0 {
@@ -386,5 +390,176 @@ func TestAdminTools_ListChangesSkipsServiceWide(t *testing.T) {
 	}
 	if !isErr(tooMany) {
 		t.Fatalf("limit 500 accepted: %s", text(tooMany))
+	}
+}
+
+func TestAdminTools_SyncSourceLimitPerAccount(t *testing.T) {
+	// Arrange
+	e := newAdminEnv()
+	e.srv.SyncPerMinute = 2
+
+	// Act
+	var errs int
+	for range 3 {
+		if isErr(e.call(rw, "sync_source", map[string]any{"id": 7})) {
+			errs++
+		}
+	}
+
+	// Assert
+	if errs != 1 || len(e.checker.checked) != 2 {
+		t.Fatalf("errors=%d checks=%d, want the third call refused", errs, len(e.checker.checked))
+	}
+}
+
+type brokenSources struct{ *memSources }
+
+func (brokenSources) Get(context.Context, int64, int64) (websync.Source, error) {
+	return websync.Source{}, context.DeadlineExceeded
+}
+func (brokenSources) ClaimOne(context.Context, int64, int64) (websync.Source, error) {
+	return websync.Source{}, context.DeadlineExceeded
+}
+
+func TestAdminTools_DatabaseErrorIsNotReportedAsMissing(t *testing.T) {
+	// Arrange
+	e := newAdminEnv()
+	e.srv.Sources = brokenSources{e.sources}
+
+	// Act
+	sync := e.call(rw, "sync_source", map[string]any{"id": 7})
+	sched := e.call(rw, "set_source_schedule", map[string]any{"id": 7, "hours": 24})
+
+	// Assert
+	for _, res := range []map[string]any{sync, sched} {
+		if !isErr(res) || strings.Contains(text(res), "no source") || strings.Contains(text(res), "deadline") {
+			t.Fatalf("res = %s, want a generic internal error", text(res))
+		}
+	}
+	if len(e.events.events) != 0 {
+		t.Fatal("a failed lookup was recorded as a change")
+	}
+}
+
+type failingInterval struct{ *memSources }
+
+func (failingInterval) SetInterval(context.Context, int64, int64, int) error {
+	return context.DeadlineExceeded
+}
+
+func TestAdminTools_ScheduleFailureAfterHistoryIsNoted(t *testing.T) {
+	// Arrange
+	e := newAdminEnv()
+	e.srv.Sources = failingInterval{e.sources}
+
+	// Act
+	res := e.call(rw, "set_source_schedule", map[string]any{"id": 7, "hours": 24})
+
+	// Assert
+	if !isErr(res) || e.sources.srcs[1].IntervalHours != 6 {
+		t.Fatalf("res=%s src=%+v", text(res), e.sources.srcs[1])
+	}
+	if len(e.events.events) != 2 || e.events.events[1].Action != "web page schedule not changed" {
+		t.Fatalf("events = %+v, want the change and a note that it did not apply", e.events.events)
+	}
+}
+
+func TestAdminTools_ReadOnlyCannotSchedule(t *testing.T) {
+	// Arrange
+	e := newAdminEnv()
+
+	// Act
+	res := e.call(ro, "set_source_schedule", map[string]any{"id": 7, "hours": 24})
+
+	// Assert
+	if !isErr(res) || !strings.Contains(text(res), "read-only") || e.sources.srcs[1].IntervalHours != 6 || len(e.events.events) != 0 {
+		t.Fatalf("res=%s src=%+v events=%d", text(res), e.sources.srcs[1], len(e.events.events))
+	}
+}
+
+func TestAdminTools_ListChangesLimits(t *testing.T) {
+	// Arrange
+	e := newAdminEnv()
+	for i := range 30 {
+		e.events.events = append(e.events.events, audit.Event{AccountID: 1, Actor: "x", Action: "a", Summary: strconv.Itoa(i)})
+	}
+
+	// Act
+	var def struct {
+		Count int `json:"count"`
+	}
+	decodeResult(t, e.call(ro, "list_changes", map[string]any{}), &def)
+	neg := e.call(ro, "list_changes", map[string]any{"limit": -1})
+
+	// Assert
+	if def.Count != 20 || !isErr(neg) {
+		t.Fatalf("default count=%d neg=%s", def.Count, text(neg))
+	}
+}
+
+func TestAdminTools_HiddenWhenOneStoreMissing(t *testing.T) {
+	cases := map[string]struct {
+		unset func(s *Server)
+		gone  []string
+	}{
+		"no checker": {func(s *Server) { s.Checker = nil }, []string{"sync_source"}},
+		"no events":  {func(s *Server) { s.Events = nil }, []string{"update_profile", "set_source_schedule", "list_changes"}},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			// Arrange
+			e := newAdminEnv()
+			c.unset(e.srv)
+
+			// Act
+			_, out := e.rpc(rw, "tools/list", nil)
+
+			// Assert
+			b, _ := json.Marshal(out)
+			for _, n := range c.gone {
+				if strings.Contains(string(b), `"name":"`+n+`"`) {
+					t.Errorf("%s still listed", n)
+				}
+				if res := e.call(rw, n, map[string]any{}); !isErr(res) && res != nil {
+					t.Errorf("%s still callable: %v", n, res)
+				}
+			}
+		})
+	}
+}
+
+func TestTools_HighImpactToolsAreMarkedDestructive(t *testing.T) {
+	// Arrange
+	want := map[string]bool{"upsert_document": true, "delete_document": true, "update_profile": true, "sync_source": true}
+
+	// Act
+	all := allTools()
+
+	// Assert
+	for _, tl := range all {
+		d, _ := tl.Annotations["destructiveHint"].(bool)
+		if want[tl.Name] && !d {
+			t.Errorf("%s is not marked destructive", tl.Name)
+		}
+		if _, ok := tl.Annotations["openWorldHint"]; !ok {
+			t.Errorf("%s has no openWorldHint (the spec default is true)", tl.Name)
+		}
+	}
+}
+
+func TestTools_SyncedDocumentsAreMarked(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	e.st.docs = []knowledge.Document{
+		{ID: 1, AccountID: 1, Kind: knowledge.KindFAQ, Title: "q", Content: "a", SourceKey: "feed:5:row-1"},
+		{ID: 2, AccountID: 1, Kind: knowledge.KindFAQ, Title: "q2", Content: "a2", SourceKey: "product-1"},
+	}
+
+	// Act
+	feed, own := e.call(ro, "get_document", map[string]any{"id": 1}), e.call(ro, "get_document", map[string]any{"id": 2})
+
+	// Assert
+	if !strings.Contains(text(feed), `"synced": true`) || strings.Contains(text(own), "synced") {
+		t.Fatalf("feed=%s own=%s", text(feed), text(own))
 	}
 }

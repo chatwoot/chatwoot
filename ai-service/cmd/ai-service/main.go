@@ -179,8 +179,7 @@ func run() error {
 		srvMCP := &mcp.Server{
 			Knowledge: kb, Tokens: mcpStore, Audit: mcpStore, Tester: b,
 			Location: cfg.Location, Logger: logger.With("component", "mcp"), Version: "1",
-			// mcpStore is set only with a database, so these are all non-nil here.
-			Profiles: adminProfiles, Sources: &websync.Postgres{Pool: profiles.Pool}, Checker: webSyncer,
+			Profiles: adminProfiles, Sources: webStore(profiles), Checker: mcpChecker(webSyncer),
 			Events: adminEvents(profiles, cfg.AuditRetentionDays),
 		}
 		// OAuth lets Claude and ChatGPT apps connect with a sign-in instead of
@@ -309,6 +308,15 @@ func placesStore(p *profile.Postgres) *places.Postgres {
 }
 
 // adminPlaces keeps a nil store a nil interface.
+// mcpChecker keeps a nil syncer a nil interface (a typed nil would show the
+// sync_source tool and then panic).
+func mcpChecker(s *websync.Syncer) mcp.Checker {
+	if s == nil {
+		return nil
+	}
+	return s
+}
+
 func adminPlaces(p *places.Postgres) admin.Places {
 	if p == nil {
 		return nil
