@@ -183,3 +183,29 @@ func TestHome_ChecklistShowsWhatIsLeft(t *testing.T) {
 		t.Error("home page shows an API key")
 	}
 }
+
+func TestTest_EnterSendsMessage(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	e.h.Tester = &fakeTester{}
+	page := httptest.NewRequest(http.MethodGet, "/admin/test?account=1", nil)
+	page.SetBasicAuth(Username, pw)
+	script := httptest.NewRequest(http.MethodGet, "/admin/static/admin.js", nil)
+	script.SetBasicAuth(Username, pw)
+
+	// Act
+	body, js := e.do(page).Body.String(), e.do(script).Body.String()
+
+	// Assert: the box opts in, the hint shows only with the script, and the
+	// script leaves Shift+Enter and an unfinished Thai word alone.
+	for _, want := range []string{`id="message" name="message"`, `data-enter-send`, `id="enter-hint" hidden`} {
+		if !strings.Contains(body, want) {
+			t.Errorf("page missing %q", want)
+		}
+	}
+	for _, want := range []string{"textarea[data-enter-send]", "shiftKey", "isComposing", "requestSubmit"} {
+		if !strings.Contains(js, want) {
+			t.Errorf("admin.js missing %q", want)
+		}
+	}
+}
