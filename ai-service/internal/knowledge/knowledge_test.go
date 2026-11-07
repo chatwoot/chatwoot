@@ -79,6 +79,15 @@ func (f *fakeStore) MarkUsed(_ context.Context, _ int64, ids []int64) error {
 	return nil
 }
 
+func (f *fakeStore) GetByKey(_ context.Context, acct int64, key string) (Document, error) {
+	for _, d := range f.docs {
+		if d.AccountID == acct && d.SourceKey == key && key != "" {
+			return d, nil
+		}
+	}
+	return Document{}, ErrNotFound
+}
+
 func newService(st *fakeStore, em *fakeEmbedder) *Service {
 	return &Service{Store: st, Embedder: em, TopK: 4, MinScore: 0.3, ChunkRunes: 800}
 }
@@ -405,5 +414,43 @@ func TestReindex_SkipsDocumentEditedMeanwhile(t *testing.T) {
 	// Assert
 	if err != nil || n != 1 || st.replaced[2] == nil || st.replaced[1] != nil {
 		t.Fatalf("n=%d err=%v replaced=%v", n, err, st.replaced)
+	}
+}
+
+func TestUpsert_CreatesThenUpdatesByKey(t *testing.T) {
+	// Arrange
+	st := &fakeStore{}
+	s := newService(st, &fakeEmbedder{model: "m"})
+	d := Document{AccountID: 1, Kind: KindFAQ, Title: "ราคา", Content: "3,900", SourceKey: " product-017 "}
+
+	// Act
+	before, _, _, createErr := s.Upsert(context.Background(), d)
+	st.docs = []Document{{ID: 42, AccountID: 1, Kind: KindFAQ, Title: "ราคา", Content: "3,900", SourceKey: "product-017"}}
+	d.Content, d.Kind = "3,500", KindText // kind of an existing document never changes
+	prev, id, _, updateErr := s.Upsert(context.Background(), d)
+
+	// Assert
+	if createErr != nil || before.ID != 0 || len(st.inserted) == 0 {
+		t.Fatalf("create: before=%+v err=%v", before, createErr)
+	}
+	if updateErr != nil || id != 42 || prev.Content != "3,900" || st.updated.Content != "3,500" || st.updated.Kind != KindFAQ || st.updated.SourceKey != "product-017" {
+		t.Fatalf("update: id=%d prev=%+v updated=%+v err=%v", id, prev, st.updated, updateErr)
+	}
+}
+
+func TestUpsert_RequiresValidKey(t *testing.T) {
+	cases := map[string]string{"empty": "  ", "space inside": "a b", "too long": strings.Repeat("k", MaxKeyRunes+1)}
+	for name, key := range cases {
+		// Arrange
+		st := &fakeStore{}
+		s := newService(st, &fakeEmbedder{model: "m"})
+
+		// Act
+		_, _, _, err := s.Upsert(context.Background(), Document{AccountID: 1, Kind: KindFAQ, Title: "q", Content: "a", SourceKey: key})
+
+		// Assert
+		if err == nil || len(st.inserted) != 0 {
+			t.Errorf("%s: err=%v inserted=%d", name, err, len(st.inserted))
+		}
 	}
 }
