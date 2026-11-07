@@ -29,6 +29,7 @@ class Captain::Assistant < ApplicationRecord
   include Avatarable
   include Concerns::CaptainToolsHelpers
   include Concerns::Agentable
+  include Concerns::AssistantToolCatalog
 
   self.table_name = 'captain_assistants'
 
@@ -125,24 +126,6 @@ class Captain::Assistant < ApplicationRecord
   def send_inactivity_resolution_message?
     send_inactivity_resolution_message
   end
-
-  def available_agent_tools
-    tools = self.class.built_in_agent_tools.dup
-
-    tools.concat(custom_tools.enabled.map(&:to_tool_metadata))
-    tools.concat(Captain::McpServer.enabled_for(self).flat_map(&:tool_metadata))
-
-    tools
-  end
-
-  def available_tool_ids = available_agent_tools.pluck(:id)
-
-  def known_tool_ids
-    self.class.built_in_tool_ids + custom_tools.pluck(:slug) + mcp_tools.pluck(:captain_name)
-  end
-
-  # One instance per assistant record, so each MCP server is listed once while the agents of a run are built
-  def mcp_agent_tools = @mcp_agent_tools ||= Captain::Mcp::AgentTools.new(self)
 
   def push_event_data
     assistant_event_data
