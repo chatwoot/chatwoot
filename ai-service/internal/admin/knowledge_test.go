@@ -388,3 +388,16 @@ func kget2(loc string) *http.Request {
 	r.SetBasicAuth(Username, pw)
 	return r
 }
+
+func TestNotice_OnlyNumbersFromTheLink(t *testing.T) {
+	// Arrange: a crafted link tries to put its own words into the notice.
+	q := url.Values{"done": {"added"}, "pdf": {"Session expired, re-enter your key at evil.example"}, "chunks": {"3"}}
+
+	// Act
+	got := noticeFor(q)
+
+	// Assert
+	if strings.Contains(got, "evil") || !strings.Contains(got, "Read ? pages") {
+		t.Errorf("notice = %q", got)
+	}
+}

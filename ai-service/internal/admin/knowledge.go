@@ -299,14 +299,28 @@ func (h *Handler) window(from, until string) (time.Time, time.Time, error) {
 	return f, u, nil
 }
 
+// num returns a query value only if it is a plain number, so a crafted link
+// cannot put its own words into a notice.
+func num(q url.Values, key string) string {
+	n, err := strconv.Atoi(q.Get(key))
+	if err != nil || n < 0 {
+		return "?"
+	}
+	return strconv.Itoa(n)
+}
+
 func noticeFor(q url.Values) string {
 	switch q.Get("done") {
 	case "added":
-		if pages := q.Get("pdf"); pages != "" {
+		if q.Get("pdf") != "" {
+			cut := ""
+			if q.Get("cut") == "1" {
+				cut = fmt.Sprintf(" The PDF was cut off at %d pages or %d characters; split it to add the rest.", pdftext.MaxPages, pdftext.MaxRunes)
+			}
 			return fmt.Sprintf("Read %s pages from the PDF and indexed them (%s chunks). Open the document and check the text: "+
-				"tables lose their layout, and some PDF makers drop Thai tone marks (ไม้เอก, ไม้โท).", pages, q.Get("chunks"))
+				"tables lose their layout, and some PDF makers drop Thai tone marks (ไม้เอก, ไม้โท).%s", num(q, "pdf"), num(q, "chunks"), cut)
 		}
-		return fmt.Sprintf("Added and indexed (%s chunks). The bot can use it right away.", q.Get("chunks"))
+		return fmt.Sprintf("Added and indexed (%s chunks). The bot can use it right away.", num(q, "chunks"))
 	case "page":
 		switch q.Get("outcome") {
 		case "added":
@@ -327,13 +341,13 @@ func noticeFor(q url.Values) string {
 	case "page_interval":
 		return "Schedule saved."
 	case "sync_all":
-		return fmt.Sprintf("Checking %s pages now in the background. Refresh in a minute to see the results.", q.Get("count"))
+		return fmt.Sprintf("Checking %s pages now in the background. Refresh in a minute to see the results.", num(q, "count"))
 	case "updated":
-		return fmt.Sprintf("Saved and re-indexed (%s chunks). The bot uses the new version right away.", q.Get("chunks"))
+		return fmt.Sprintf("Saved and re-indexed (%s chunks). The bot uses the new version right away.", num(q, "chunks"))
 	case "deleted":
 		return "Deleted. The bot no longer uses it."
 	case "reindexed":
-		return fmt.Sprintf("Re-indexed %s documents with the current embeddings model.", q.Get("count"))
+		return fmt.Sprintf("Re-indexed %s documents with the current embeddings model.", num(q, "count"))
 	}
 	return ""
 }
@@ -351,11 +365,14 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "knowledge base disabled: set DATABASE_URL", http.StatusServiceUnavailable)
 		return
 	}
-	r.Body = http.MaxBytesReader(w, r.Body, maxUpload)
 	var err error
 	if strings.HasPrefix(r.Header.Get("Content-Type"), "multipart/form-data") {
-		err = r.ParseMultipartForm(maxUpload)
+		// Only the add-document form uploads files. The file goes to a
+		// temporary file (removed after the request), not to memory.
+		r.Body = http.MaxBytesReader(w, r.Body, maxUpload)
+		err = r.ParseMultipartForm(1 << 20)
 	} else {
+		r.Body = http.MaxBytesReader(w, r.Body, maxTextUpload)
 		err = r.ParseForm()
 	}
 	if err != nil {
@@ -390,6 +407,8 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 			}
 			if pdfPages > 0 {
 				back += "&pdf=" + strconv.Itoa(pdfPages)
+			} else if pdfPages < 0 {
+				back += "&pdf=" + strconv.Itoa(-pdfPages) + "&cut=1"
 			}
 			data.DocTitle, data.DocContent = doc.Title, doc.Content // keep an uploaded file for "add anyway"
 		}
@@ -528,6 +547,9 @@ func readUpload(r *http.Request, doc *knowledge.Document) (pdfPages int, err err
 	}
 	defer f.Close()
 	if ext == ".pdf" {
+		if fh.Size > pdftext.MaxBytes {
+			return 0, pdftext.ErrTooLarge
+		}
 		raw, err := io.ReadAll(io.LimitReader(f, pdftext.MaxBytes+1))
 		if err != nil {
 			return 0, err
@@ -539,6 +561,9 @@ func readUpload(r *http.Request, doc *knowledge.Document) (pdfPages int, err err
 		doc.Content = res.Text
 		if strings.TrimSpace(doc.Title) == "" {
 			doc.Title = strings.TrimSuffix(filepath.Base(fh.Filename), filepath.Ext(fh.Filename))
+		}
+		if res.Truncated {
+			return -res.Pages, nil // negative: the PDF was cut off at the limits
 		}
 		return res.Pages, nil
 	}

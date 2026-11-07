@@ -15,6 +15,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"unicode"
 	"unicode/utf8"
 
 	"github.com/ledongthuc/pdf"
@@ -25,7 +26,6 @@ const (
 	MaxBytes = 10 << 20
 	MaxPages = 300
 	MaxRunes = 200_000 // knowledge.MaxContentRunes
-	Timeout  = 30 * time.Second
 )
 
 // Errors shown to the owner.
@@ -44,8 +44,11 @@ type Result struct {
 	Truncated bool // more than MaxPages pages, or more than MaxRunes characters
 }
 
-// Extract reads up to MaxPages pages. A broken or hostile file returns an
-// error rather than crashing, and reading stops after Timeout.
+// Timeout bounds one PDF read; the child is killed after it.
+var Timeout = 30 * time.Second
+
+// Extract reads up to MaxPages pages in a separate process (see child.go):
+// a hostile file can crash, hang or exhaust that process, never the service.
 func Extract(ctx context.Context, b []byte) (Result, error) {
 	switch {
 	case len(b) > MaxBytes:
@@ -53,24 +56,7 @@ func Extract(ctx context.Context, b []byte) (Result, error) {
 	case !bytes.HasPrefix(bytes.TrimLeft(b, " \t\r\n"), []byte("%PDF-")):
 		return Result{}, ErrUnreadable
 	}
-	ctx, cancel := context.WithTimeout(ctx, Timeout)
-	defer cancel()
-	type out struct {
-		res Result
-		err error
-	}
-	done := make(chan out, 1)
-	go func() {
-		res, err := extract(b)
-		done <- out{res, err}
-	}()
-	select {
-	case o := <-done:
-		return o.res, o.err
-	case <-ctx.Done():
-		// The reader cannot be interrupted; its goroutine ends with the file.
-		return Result{}, ErrTimeout
-	}
+	return runChild(ctx, b)
 }
 
 func extract(b []byte) (res Result, err error) {
@@ -137,8 +123,13 @@ var (
 // normalize cleans extracted text: no NULs, single spaces, at most one blank
 // line in a row, and Thai words rejoined where a lost tone mark split them.
 func normalize(s string) string {
-	s = strings.ReplaceAll(s, "\x00", "")
 	s = strings.ReplaceAll(s, "\r\n", "\n")
+	s = strings.Map(func(r rune) rune {
+		if r != '\n' && r != '\t' && (unicode.IsControl(r) || r == '\u200b' || r == '\ufeff') {
+			return -1 // NUL, other controls and zero-width marks
+		}
+		return r
+	}, s)
 	s = spaceRuns.ReplaceAllString(s, " ")
 	s = thaiGap.ReplaceAllString(s, "$1$2")
 	s = blankLines.ReplaceAllString(s, "\n\n")

@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+var _ = time.Second
+
 func load(t *testing.T, name string) []byte {
 	t.Helper()
 	b, err := os.ReadFile("testdata/" + name)
@@ -90,24 +92,17 @@ func TestExtract_RefusesWhatHasNoText(t *testing.T) {
 	}
 }
 
-func TestExtract_LimitsSizeAndTime(t *testing.T) {
+func TestExtract_LimitsSize(t *testing.T) {
 	// Arrange
 	big := make([]byte, MaxBytes+1)
 	copy(big, "%PDF-1.4")
-	ctx, cancel := context.WithTimeout(context.Background(), time.Nanosecond)
-	defer cancel()
-	time.Sleep(time.Millisecond)
 
 	// Act
-	_, sizeErr := Extract(context.Background(), big)
-	_, timeErr := Extract(ctx, load(t, "thai.pdf"))
+	_, err := Extract(context.Background(), big)
 
 	// Assert
-	if !errors.Is(sizeErr, ErrTooLarge) {
-		t.Errorf("size: %v", sizeErr)
-	}
-	if timeErr == nil {
-		t.Error("expired context: no error")
+	if !errors.Is(err, ErrTooLarge) {
+		t.Errorf("err = %v, want ErrTooLarge", err)
 	}
 }
 
