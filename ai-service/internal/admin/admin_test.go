@@ -56,7 +56,7 @@ func (e *env) do(r *http.Request) *httptest.ResponseRecorder {
 }
 
 func get(auth bool) *http.Request {
-	r := httptest.NewRequest(http.MethodGet, "/admin", nil)
+	r := httptest.NewRequest(http.MethodGet, "/admin/providers", nil)
 	if auth {
 		r.SetBasicAuth(Username, pw)
 	}
@@ -64,7 +64,7 @@ func get(auth bool) *http.Request {
 }
 
 func post(form url.Values) *http.Request {
-	r := httptest.NewRequest(http.MethodPost, "/admin", strings.NewReader(form.Encode()))
+	r := httptest.NewRequest(http.MethodPost, "/admin/providers", strings.NewReader(form.Encode()))
 	r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	r.Header.Set("Sec-Fetch-Site", "same-origin")
 	r.SetBasicAuth(Username, pw)
@@ -130,7 +130,7 @@ func TestSave_BlankKeyKeepsSavedKeyAndSwitchesLive(t *testing.T) {
 	rec := e.do(post(form))
 
 	// Assert
-	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin?saved=1" {
+	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin/providers?saved=1" {
 		t.Fatalf("code=%d location=%q body=%s", rec.Code, rec.Header().Get("Location"), rec.Body)
 	}
 	got := e.store.Get()
@@ -296,7 +296,7 @@ func TestSave_FallbackOnSameURLReusesPrimaryKey(t *testing.T) {
 	rec := e.do(post(form))
 
 	// Assert
-	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin?saved=1" {
+	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin/providers?saved=1" {
 		t.Fatalf("code=%d location=%q", rec.Code, rec.Header().Get("Location"))
 	}
 	if fb := e.store.Get().Fallback; fb.APIKey != "sk-or-secret-9876" || fb.Model != "backup/model" {
@@ -318,7 +318,7 @@ func TestSave_IncompleteFallbackIsTurnedOffNotBlocking(t *testing.T) {
 	notice := e.do(func() *http.Request { r := get(true); r.URL.RawQuery = "saved=1&fallback=off"; return r }())
 
 	// Assert
-	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin?saved=1&fallback=off" {
+	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin/providers?saved=1&fallback=off" {
 		t.Fatalf("code=%d location=%q body=%s", rec.Code, rec.Header().Get("Location"), rec.Body)
 	}
 	got := e.store.Get()

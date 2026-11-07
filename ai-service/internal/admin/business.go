@@ -34,7 +34,7 @@ func (h *Handler) showBusiness(w http.ResponseWriter, r *http.Request) {
 			data.Profile = p
 		}
 	}
-	h.renderBusiness(w, http.StatusOK, data)
+	h.renderBusiness(w, r, http.StatusOK, data)
 }
 
 func (h *Handler) submitBusiness(w http.ResponseWriter, r *http.Request) {
@@ -65,17 +65,17 @@ func (h *Handler) submitBusiness(w http.ResponseWriter, r *http.Request) {
 	}.Normalize()
 	if err := h.Profiles.Save(r.Context(), p); err != nil {
 		h.Logger.Warn("save business profile failed", "account_id", p.AccountID, "error", err)
-		h.renderBusiness(w, http.StatusUnprocessableEntity, businessData{Enabled: true, Profile: p, Error: err.Error()})
+		h.renderBusiness(w, r, http.StatusUnprocessableEntity, businessData{Enabled: true, Profile: p, Error: err.Error()})
 		return
 	}
 	h.Logger.Info("business profile saved", "account_id", p.AccountID, "remote_addr", r.RemoteAddr)
 	http.Redirect(w, r, "/admin/business?account="+strconv.FormatInt(p.AccountID, 10)+"&done=saved", http.StatusSeeOther)
 }
 
-func (h *Handler) renderBusiness(w http.ResponseWriter, status int, data businessData) {
+func (h *Handler) renderBusiness(w http.ResponseWriter, r *http.Request, status int, data businessData) {
 	data.Limits.Name, data.Limits.Field = profile.MaxNameRunes, profile.MaxFieldRunes
 	if !data.Profile.UpdatedAt.IsZero() {
 		data.Updated = data.Profile.UpdatedAt.UTC().Format("2006-01-02 15:04 UTC")
 	}
-	h.renderPage(w, status, "business.html", data)
+	h.renderPage(w, r, status, "business.html", data)
 }

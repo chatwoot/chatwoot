@@ -9,6 +9,7 @@
 package admin
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha256"
 	"crypto/subtle"
@@ -31,6 +32,8 @@ var pageFS embed.FS
 
 var pages = template.Must(template.New("pages").Funcs(template.FuncMap{
 	// dict builds a map so one sub-template can render both provider cards.
+	"inc":   func(i int) int { return i + 1 },
+	"theme": func() string { return "" }, // replaced per request in renderPage
 	"dict": func(kv ...any) map[string]any {
 		m := make(map[string]any, len(kv)/2)
 		for i := 0; i+1 < len(kv); i += 2 {
@@ -59,6 +62,8 @@ type Handler struct {
 	Knowledge *knowledge.Service
 	// Profiles enables the business profile page; nil when no database is set.
 	Profiles profile.Store
+	// Tester runs the reply pipeline for the test page; nil turns that page off.
+	Tester Tester
 	// Probe sends a tiny test request to a chat provider. Nil uses a real call.
 	Probe func(ctx context.Context, p settings.Provider) (llm.Result, error)
 	// ProbeEmbedding embeds one word with an embeddings provider. Nil uses a real call.
@@ -71,8 +76,12 @@ func (h *Handler) Routes(mux *http.ServeMux) {
 	wrap := func(f http.HandlerFunc) http.Handler {
 		return secureHeaders(h.requireAuth(protect.Handler(f)))
 	}
-	mux.Handle("GET /admin", wrap(h.show))
-	mux.Handle("POST /admin", wrap(h.submit))
+	mux.Handle("GET /admin", wrap(h.showHome))
+	mux.Handle("GET /admin/providers", wrap(h.show))
+	mux.Handle("POST /admin/providers", wrap(h.submit))
+	mux.Handle("POST /admin/theme", wrap(h.setTheme))
+	mux.Handle("GET /admin/test", wrap(h.showTest))
+	mux.Handle("POST /admin/test", wrap(h.submitTest))
 	mux.Handle("GET /admin/knowledge", wrap(h.showKnowledge))
 	mux.Handle("POST /admin/knowledge", wrap(h.submitKnowledge))
 	mux.Handle("GET /admin/business", wrap(h.showBusiness))
@@ -136,7 +145,7 @@ func editView(entered, saved settings.Provider, typedKey string) providerView {
 func (h *Handler) show(w http.ResponseWriter, r *http.Request) {
 	cur := h.Store.Get()
 	q := r.URL.Query()
-	h.render(w, http.StatusOK, pageData{
+	h.render(w, r, http.StatusOK, pageData{
 		Primary: view(cur.Primary), Fallback: view(cur.Fallback), Embedding: view(cur.Embedding),
 		Saved:        q.Get("saved") == "1",
 		FallbackOff:  q.Get("fallback") == "off",
@@ -170,7 +179,7 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 
 	if slot := r.PostForm.Get("test"); slot != "" {
 		data.Test = h.runTest(r.Context(), slot, next)
-		h.render(w, http.StatusOK, data)
+		h.render(w, r, http.StatusOK, data)
 		return
 	}
 
@@ -181,7 +190,7 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 	next.Embedding, embeddingOff = dropIfIncomplete(next.Embedding)
 	if err := h.Store.Save(next); err != nil {
 		data.Error = err.Error()
-		h.render(w, http.StatusUnprocessableEntity, data)
+		h.render(w, r, http.StatusUnprocessableEntity, data)
 		return
 	}
 	h.Switch.Set(settings.NewCompleter(h.Store.Get(), h.Timeout, h.Logger))
@@ -196,7 +205,7 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 		"fallback_enabled", next.Fallback.Configured(), "fallback_model", next.Fallback.Model,
 		"embedding_enabled", next.Embedding.Configured(), "embedding_model", next.Embedding.Model,
 		"remote_addr", r.RemoteAddr)
-	target := "/admin?saved=1"
+	target := "/admin/providers?saved=1"
 	if fallbackOff {
 		target += "&fallback=off"
 	}
@@ -302,17 +311,29 @@ func (h *Handler) realProbe(ctx context.Context, p settings.Provider) (llm.Resul
 	})
 }
 
-func (h *Handler) render(w http.ResponseWriter, status int, data pageData) {
+func (h *Handler) render(w http.ResponseWriter, r *http.Request, status int, data pageData) {
 	data.Presets = presets
-	h.renderPage(w, status, "page.html", data)
+	h.renderPage(w, r, status, "page.html", data)
 }
 
-func (h *Handler) renderPage(w http.ResponseWriter, status int, name string, data any) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.WriteHeader(status)
-	if err := pages.ExecuteTemplate(w, name, data); err != nil {
-		h.Logger.Error("render admin page", "page", name, "error", err)
+// renderPage executes a clone of the page set with this request's theme, so
+// the shared set itself is never executed (html/template cannot clone a set
+// after it has run).
+func (h *Handler) renderPage(w http.ResponseWriter, r *http.Request, status int, name string, data any) {
+	theme := themeOf(r)
+	t, err := pages.Clone()
+	if err == nil {
+		t.Funcs(template.FuncMap{"theme": func() string { return theme }})
+		var buf bytes.Buffer
+		if err = t.ExecuteTemplate(&buf, name, data); err == nil {
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			w.WriteHeader(status)
+			_, _ = buf.WriteTo(w)
+			return
+		}
 	}
+	h.Logger.Error("render admin page", "page", name, "error", err)
+	http.Error(w, "page could not be shown", http.StatusInternalServerError)
 }
 
 func (h *Handler) requireAuth(next http.Handler) http.Handler {

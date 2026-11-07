@@ -458,3 +458,46 @@ func sourceAttrs(hits []knowledge.Hit) []any {
 	}
 	return []any{"kb_hits", len(hits), "kb_document_ids", docs, "kb_chunk_ids", chunks, "kb_scores", scores}
 }
+
+// Preview is what the bot would do with a conversation, worked out without
+// Chatwoot: the /admin test page shows it to the owner. Nothing is sent,
+// labelled, remembered or traced.
+type Preview struct {
+	Reply   string
+	Handoff bool
+	Reason  string // one of the Reason* labels when Handoff is true
+	Sources []knowledge.Hit
+	Model   string
+	Err     error
+}
+
+// Preview runs the same decisions as a customer's text message: keyword
+// handoff first, then the answer pipeline and the model's handoff marker.
+// history ends with the customer's latest message.
+func (b *Bot) Preview(parent context.Context, acct, inbox int64, history []memory.Turn) Preview {
+	if n := len(history); n > 0 && history[n-1].Role == "user" && b.opts.Handoff.Wants(history[n-1].Content) {
+		return Preview{Reply: b.opts.HandoffMessage, Handoff: true, Reason: ReasonCustomerAsked}
+	}
+	ctx, cancel := context.WithTimeout(parent, b.timeout())
+	defer cancel()
+	res, hits, err := b.Answer(ctx, acct, inbox, history)
+	if err != nil {
+		return Preview{Reply: b.opts.FailureMessage, Handoff: true, Reason: ReasonLLMError, Sources: hits, Err: err}
+	}
+	text, wantsHuman := SplitHandoff(res.Content)
+	p := Preview{Reply: text, Sources: hits, Model: res.Model}
+	if wantsHuman {
+		p.Handoff, p.Reason = true, ReasonAIRequest
+		if text == "" {
+			p.Reply = b.opts.HandoffMessage
+		}
+	}
+	return p
+}
+
+func (b *Bot) timeout() time.Duration {
+	if b.opts.Timeout > 0 {
+		return b.opts.Timeout
+	}
+	return time.Minute
+}

@@ -7,16 +7,24 @@
     color-scheme: light dark;
     --bg: #f6f7f9; --card: #ffffff; --text: #1d232b; --muted: #5b6573;
     --border: #d9dee5; --accent: #1f6feb; --accent-text: #ffffff;
-    --ok-bg: #e8f5ec; --ok-text: #14532d; --err-bg: #fdecec; --err-text: #8a1c1c;
+    --ok-bg: #e8f5ec; --ok-text: #14532d; --warn-bg: #fff4d6; --warn-text: #6b4a00; --err-bg: #fdecec; --err-text: #8a1c1c;
     --focus: #1f6feb; --radius: 10px;
   }
+  :root[data-theme="light"] { color-scheme: light; }
   @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not([data-theme="light"]) {
       --bg: #0f1318; --card: #171c23; --text: #e6e9ee; --muted: #9aa4b2;
       --border: #2a313b; --accent: #4c8dff; --accent-text: #0b1220;
-      --ok-bg: #12301f; --ok-text: #b6f0c8; --err-bg: #3a1616; --err-text: #ffc9c9;
+      --ok-bg: #12301f; --ok-text: #b6f0c8; --warn-bg: #33270a; --warn-text: #ffe2a3; --err-bg: #3a1616; --err-text: #ffc9c9;
       --focus: #7aa9ff;
     }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+      --bg: #0f1318; --card: #171c23; --text: #e6e9ee; --muted: #9aa4b2;
+      --border: #2a313b; --accent: #4c8dff; --accent-text: #0b1220;
+      --ok-bg: #12301f; --ok-text: #b6f0c8; --warn-bg: #33270a; --warn-text: #ffe2a3; --err-bg: #3a1616; --err-text: #ffc9c9;
+      --focus: #7aa9ff;
   }
   * { box-sizing: border-box; }
   body {
@@ -121,18 +129,78 @@
   @media (max-width: 480px) {
     nav a { padding: 10px 6px; font-size: .875rem; }
     .actions { justify-content: stretch; }
-    .actions button, .row button { width: 100%; }
+    .actions button, .row button, .row a.btn { width: 100%; justify-content: center; }
   }
+  /* Theme switch: a small segmented control under the menu */
+  form.theme { margin: 24px 12px 0; }
+  .theme-label { display: block; color: var(--muted); font-size: .8rem; font-weight: 600; margin-bottom: 6px; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .seg button { border: 0; border-radius: 0; min-height: 36px; padding: 6px 10px; font-size: .85rem; background: var(--card); color: var(--muted); }
+  .seg button + button { border-left: 1px solid var(--border); }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); }
+  /* Home checklist and test chat */
+  .nav-settings { margin-top: 16px; border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; }
+  .status { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: var(--radius); margin: 0 0 16px; font-weight: 600; }
+  .status.ready { background: var(--ok-bg); color: var(--ok-text); }
+  .status.todo { background: var(--warn-bg); color: var(--warn-text); }
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  ol.steps li { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  ol.steps li:last-child { border-bottom: 0; }
+  .mark { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: .85rem; border: 2px solid var(--border); color: var(--muted); }
+  .done .mark { background: var(--ok-bg); color: var(--ok-text); border-color: transparent; }
+  ol.steps p { margin: 2px 0 0; color: var(--muted); font-size: .9rem; }
+  a.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 16px; border-radius: 8px; font-weight: 600; text-decoration: none; border: 1px solid var(--border); color: var(--text); background: var(--card); white-space: nowrap; }
+  a.btn.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  dl.facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 16px; margin: 0; }
+  dl.facts dt { color: var(--muted); font-size: .9rem; }
+  dl.facts dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+  .chat { display: flex; flex-direction: column; gap: 10px; margin: 0 0 16px; }
+  .bubble { max-width: min(80%, 60ch); padding: 10px 14px; border-radius: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .bubble.user { align-self: flex-end; background: var(--accent); color: var(--accent-text); border-bottom-right-radius: 4px; }
+  .bubble.assistant { align-self: flex-start; background: var(--bg); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .who { display: block; font-size: .75rem; font-weight: 600; opacity: .8; margin-bottom: 2px; }
+  .empty { color: var(--muted); text-align: center; padding: 32px 16px; border: 1px dashed var(--border); border-radius: var(--radius); margin: 0 0 16px; }
+  .test-grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; align-items: start; }
+  .test-grid > .card { margin: 0; }
+  .test-grid textarea { min-height: 88px; }
+  ul.sources { margin: 0; padding-left: 1.2em; }
+  ul.sources li { margin: 4px 0; overflow-wrap: anywhere; }
+  details summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; gap: 8px; list-style: none; color: var(--accent); }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: "▸"; font-size: .8em; transition: transform .15s; }
+  details[open] summary::before { transform: rotate(90deg); }
+  @media (prefers-reduced-motion: reduce) { details summary::before { transition: none; } }
+  @media (max-width: 1100px) { .test-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 860px) {
+    .nav-settings { margin-top: 0; border-top: 0; }
+    .sidebar { display: flex; align-items: center; gap: 8px; }
+    .sidebar nav { flex: 1; min-width: 0; }
+    form.theme { margin: 0; flex: none; }
+    .theme-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .seg button { padding: 6px 8px; min-height: 32px; font-size: .8rem; }
+  }
+  @media (max-width: 480px) { ol.steps li { grid-template-columns: 32px minmax(0, 1fr); } ol.steps li > a.btn { grid-column: 2; justify-self: start; } .bubble { max-width: 92%; } }
 </style>
 {{end}}
 
 {{define "nav"}}
 <aside class="sidebar">
   <p class="brand">ai-service <span>admin</span></p>
-  <nav aria-label="Settings sections">
-    <a href="/admin"{{if eq . "providers"}} aria-current="page"{{end}}>AI providers</a>
+  <nav aria-label="Admin sections">
+    <a href="/admin"{{if eq . "home"}} aria-current="page"{{end}}>Home</a>
+    <a href="/admin/test"{{if eq . "test"}} aria-current="page"{{end}}>Test bot</a>
     <a href="/admin/business"{{if eq . "business"}} aria-current="page"{{end}}>Business profile</a>
     <a href="/admin/knowledge"{{if eq . "knowledge"}} aria-current="page"{{end}}>Knowledge base</a>
+    <a class="nav-settings" href="/admin/providers"{{if eq . "providers"}} aria-current="page"{{end}}>AI providers</a>
   </nav>
+  <form class="theme" method="post" action="/admin/theme" aria-label="Colour theme">
+    <input type="hidden" name="back" value="{{if eq . "home"}}/admin{{else}}/admin/{{.}}{{end}}">
+    <span class="theme-label">Theme</span>
+    <span class="seg">
+      <button name="theme" value="auto"{{if eq theme ""}} aria-pressed="true"{{else}} aria-pressed="false"{{end}} title="Follow this device">Auto</button>
+      <button name="theme" value="light" aria-pressed="{{if eq theme "light"}}true{{else}}false{{end}}">Light</button>
+      <button name="theme" value="dark" aria-pressed="{{if eq theme "dark"}}true{{else}}false{{end}}">Dark</button>
+    </span>
+  </form>
 </aside>
 {{end}}
