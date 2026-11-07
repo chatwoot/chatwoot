@@ -179,6 +179,9 @@ func run() error {
 		srvMCP := &mcp.Server{
 			Knowledge: kb, Tokens: mcpStore, Audit: mcpStore, Tester: b,
 			Location: cfg.Location, Logger: logger.With("component", "mcp"), Version: "1",
+			// mcpStore is set only with a database, so these are all non-nil here.
+			Profiles: adminProfiles, Sources: &websync.Postgres{Pool: profiles.Pool}, Checker: webSyncer,
+			Events: adminEvents(profiles, cfg.AuditRetentionDays),
 		}
 		// OAuth lets Claude and ChatGPT apps connect with a sign-in instead of
 		// a pasted token. It needs the public https address of /mcp.

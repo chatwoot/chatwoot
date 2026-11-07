@@ -84,13 +84,13 @@ var tools = []tool{
 		Annotations: map[string]any{"readOnlyHint": true}},
 }
 
+// allTools is every tool, knowledge first.
+func allTools() []tool { return append(append([]tool{}, tools...), adminTools...) }
+
 func (s *Server) toolList(tok Token) []tool {
 	var out []tool
-	for _, t := range tools {
-		if t.write && !tok.CanWrite {
-			continue
-		}
-		if t.Name == "test_bot" && s.Tester == nil {
+	for _, t := range allTools() {
+		if (t.write && !tok.CanWrite) || !s.available(t.Name) {
 			continue
 		}
 		out = append(out, t)
@@ -100,12 +100,12 @@ func (s *Server) toolList(tok Token) []tool {
 
 func (s *Server) callTool(ctx context.Context, tok Token, name string, raw json.RawMessage) (any, *rpcError) {
 	var t *tool
-	for i := range tools {
-		if tools[i].Name == name {
-			t = &tools[i]
+	for _, c := range allTools() {
+		if c.Name == name {
+			t = &c
 		}
 	}
-	if t == nil || (name == "test_bot" && s.Tester == nil) {
+	if t == nil || !s.available(name) {
 		return nil, &rpcError{codeInvalidParams, "unknown tool " + name}
 	}
 	if t.write && !tok.CanWrite {
@@ -182,6 +182,8 @@ func (s *Server) callTool(ctx context.Context, tok Token, name string, raw json.
 			}
 			out, err = s.testBot(ctx, tok, a.Message, h, a.InboxID)
 		}
+	default:
+		out, _, err = s.callAdminTool(ctx, tok, name, decode)
 	}
 	if err != nil {
 		s.Logger.Warn("mcp tool failed", "tool", name, "account_id", tok.AccountID, "token_id", tok.ID, "error", err)
