@@ -304,3 +304,23 @@ func TestFetchData_DefaultRefusesLocalServer(t *testing.T) {
 		t.Errorf("err = %v, want ErrBlocked", err)
 	}
 }
+
+func TestText_PlainTextTitledByFirstLine(t *testing.T) {
+	// Arrange: a Google Doc exported as .txt starts with a BOM and its heading.
+	doc := Page{ContentType: "text/plain", Body: []byte("\ufeff\n\nข้อมูลเพจ Johnstocker\n\nเพจของอาจารย์จอห์น\n")}
+	md := Page{ContentType: "text/markdown", Body: []byte("# Refund policy\nNo refunds.")}
+	long := Page{ContentType: "text/plain", Body: []byte(strings.Repeat("ก", 200))}
+
+	// Act
+	title, text := Text(doc)
+	mdTitle, _ := Text(md)
+	longTitle, _ := Text(long)
+
+	// Assert
+	if title != "ข้อมูลเพจ Johnstocker" || strings.ContainsRune(text, '\ufeff') || !strings.HasPrefix(text, "ข้อมูลเพจ") {
+		t.Errorf("title=%q text=%q", title, text)
+	}
+	if mdTitle != "Refund policy" || len([]rune(longTitle)) != 121 {
+		t.Errorf("md=%q long=%d", mdTitle, len([]rune(longTitle)))
+	}
+}

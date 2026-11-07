@@ -179,3 +179,26 @@ func TestParse_DropsNULCharacters(t *testing.T) {
 		t.Errorf("res=%+v err=%v", res, err)
 	}
 }
+
+func TestParse_ThaiColumnNames(t *testing.T) {
+	// Arrange: the owner's Google Sheet, exported as CSV.
+	body := "ID,หมวด,หัวข้อ,เนื้อหา,ต้องยืนยัน,อัปเดตล่าสุด\n" +
+		"product-001,John Auto Cut คืออะไร,ภาพรวม,คอร์สออนไลน์,,2026-11-07\n" +
+		"faq-1,,,,,\n"
+	faq := "รหัส,คำถาม,คำตอบ,วันสุดท้าย\nq1,ร้านเปิดกี่โมง,9 โมง,2026-12-31\n"
+
+	// Act
+	res, err := Parse([]byte(body))
+	fres, ferr := Parse([]byte(faq))
+
+	// Assert
+	if err != nil || len(res.Rows) != 1 || res.Skipped != 1 {
+		t.Fatalf("res=%+v err=%v", res, err)
+	}
+	if res.Rows[0] != (Row{ID: "product-001", Title: "John Auto Cut คืออะไร: ภาพรวม", Content: "คอร์สออนไลน์"}) {
+		t.Errorf("row = %+v", res.Rows[0])
+	}
+	if ferr != nil || len(fres.Rows) != 1 || !fres.Rows[0].FAQ || fres.Rows[0].LastDay != "2026-12-31" {
+		t.Errorf("faq = %+v err=%v", fres, ferr)
+	}
+}
