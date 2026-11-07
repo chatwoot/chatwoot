@@ -6,6 +6,13 @@ class Captain::Tools::BasePublicTool < Agents::Tool
   # The start of any tool_result tag, in any case or spacing
   TOOL_RESULT_TAG = %r{<(?=\s*/?\s*tool_result)}i
 
+  # A tool class built at runtime needs a constant, or Class#name is nil and the LLM request gets an empty function name.
+  # Registering a name again replaces the class an earlier build left there.
+  def self.register_generated(namespace, class_name, tool_class)
+    namespace.send(:remove_const, class_name) if namespace.const_defined?(class_name, false)
+    namespace.const_set(class_name, tool_class)
+  end
+
   def initialize(assistant)
     @assistant = assistant
     super()
