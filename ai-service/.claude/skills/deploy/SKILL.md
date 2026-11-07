@@ -14,6 +14,10 @@ work around it. Helper: `ai-service/.claude/skills/deploy/dokploy.py` (paths
 below are relative to the fork root; it reads Dokploy settings from the
 workspace `.env.supabase` and never prints secrets).
 
+Staging: every command below takes `--target staging` (for example
+`dokploy.py --target staging deploy`); see `deploy/README.md` → Staging.
+Staging deploys need no owner go-ahead; production deploys always do.
+
 ## 1. What would be deployed
 
 ```bash

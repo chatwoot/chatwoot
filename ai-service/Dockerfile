@@ -11,6 +11,9 @@ FROM gcr.io/distroless/static-debian12:nonroot
 COPY --from=build /out/ai-service /out/rag-eval /out/answer-eval /
 # Settings saved from /admin live here; mount a volume to keep them.
 COPY --from=build --chown=65532:65532 --chmod=700 /out/data /data
+# Public sample shop and smoke cases, so staging can seed and check itself:
+#   /answer-eval -seed-kb /testdata/sample-kb/faq.json -cases /testdata/answers-smoke.json
+COPY --from=build /src/testdata /testdata
 EXPOSE 8080
 USER nonroot:nonroot
 ENTRYPOINT ["/ai-service"]
