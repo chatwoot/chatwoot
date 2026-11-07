@@ -144,7 +144,9 @@
   nav.filters a[aria-current="page"] { background: var(--accent); color: var(--accent-text); border-color: var(--accent); box-shadow: none; }
   .count { font-weight: 700; margin-left: 4px; }
   .badge.active { background: var(--ok-bg); color: var(--ok-text); border-color: transparent; }
-  .badge.scheduled, .badge.expired { background: var(--warn-bg); color: var(--warn-text); border-color: transparent; }
+  .badge.scheduled { background: var(--warn-bg); color: var(--warn-text); border-color: transparent; }
+  .badge.expired { background: var(--err-bg); color: var(--err-text); border-color: transparent; }
+  main a:not(.btn) { color: var(--accent); text-underline-offset: 2px; }
   .muted-cell { color: var(--muted); }
   td.row-actions { white-space: nowrap; text-align: right; }
   a.btn.small { min-height: 36px; padding: 6px 12px; font-size: .9rem; }
