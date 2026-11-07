@@ -9,12 +9,12 @@ import (
 	"errors"
 	"html/template"
 	"log/slog"
-	"net"
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/ratelimit"
@@ -25,6 +25,10 @@ const (
 	ScopeRead  = "kb:read"
 	ScopeWrite = "kb:write"
 )
+
+// maxFailedPerDay locks approvals for the rest of the day after this many
+// wrong passwords from anywhere (the owner can still use /admin).
+const maxFailedPerDay = 30
 
 // Lifetimes.
 const (
@@ -48,9 +52,15 @@ type Server struct {
 	Logger   *slog.Logger
 
 	// login counts password attempts only, so other endpoints cannot fill
-	// its table; other counts registrations and token calls.
+	// its table; other counts registrations and token calls. failedDay caps
+	// wrong passwords per day across all callers.
 	login, other ratelimit.Limiter
+	failedDay    ratelimit.Limiter // Period set in Routes
 }
+
+// trustedHosts are the return addresses of well-known AI apps. Others get a
+// stronger warning on the consent page.
+var trustedHosts = map[string]bool{"claude.ai": true, "claude.com": true, "chatgpt.com": true, "chat.openai.com": true}
 
 // Issuer is the authorization server's identifier: the resource's origin.
 func (s *Server) Issuer() string {
@@ -68,8 +78,11 @@ func (s *Server) MetadataURL() string {
 
 // Routes registers the OAuth endpoints on mux.
 func (s *Server) Routes(mux *http.ServeMux) {
+	s.failedDay.Period = 24 * time.Hour
 	mux.HandleFunc("GET /.well-known/oauth-protected-resource", s.resourceMetadata)
-	mux.HandleFunc("GET /.well-known/oauth-protected-resource/mcp", s.resourceMetadata)
+	if u, err := url.Parse(s.Resource); err == nil && u.Path != "" && u.Path != "/" {
+		mux.HandleFunc("GET /.well-known/oauth-protected-resource"+u.Path, s.resourceMetadata)
+	}
 	mux.HandleFunc("GET /.well-known/oauth-authorization-server", s.serverMetadata)
 	mux.HandleFunc("POST /oauth/register", s.register)
 	mux.HandleFunc("GET /oauth/authorize", s.authorizePage)
@@ -117,13 +130,6 @@ func (s *Server) serverMetadata(w http.ResponseWriter, _ *http.Request) {
 	})
 }
 
-func clientIP(r *http.Request) string {
-	if host, _, err := net.SplitHostPort(r.RemoteAddr); err == nil {
-		return host
-	}
-	return r.RemoteAddr
-}
-
 // validRedirect accepts https URLs, and http only for the local machine
 // (desktop apps), with no fragment and no user info.
 func validRedirect(raw string) bool {
@@ -142,7 +148,7 @@ func validRedirect(raw string) bool {
 }
 
 func (s *Server) register(w http.ResponseWriter, r *http.Request) {
-	if !s.other.Allow("register:"+clientIP(r), 10) || !s.other.Allow("register", 60) {
+	if !s.other.Allow("register:"+ratelimit.ClientIP(r), 10) || !s.other.Allow("register", 60) {
 		oauthError(w, http.StatusTooManyRequests, "slow_down", "too many registrations; wait a minute")
 		return
 	}
@@ -164,7 +170,12 @@ func (s *Server) register(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	name := strings.TrimSpace(req.ClientName)
+	name := strings.TrimSpace(strings.Map(func(r rune) rune {
+		if unicode.IsControl(r) || unicode.Is(unicode.Cf, r) { // control and bidi/format characters
+			return -1
+		}
+		return r
+	}, req.ClientName))
 	if r := []rune(name); len(r) > 80 {
 		name = string(r[:80])
 	}
@@ -247,9 +258,19 @@ type pageData struct {
 	authRequest
 	ClientID   string
 	ReturnHost string
+	Trusted    bool // the return host is a well-known AI app or this computer
+	Valid      bool // the request itself checked out, so its redirect is trusted
 	Error      string
 	Account    string
 	Write      bool
+}
+
+func (d *pageData) setReturn() {
+	if u, err := url.Parse(d.RedirectURI); err == nil {
+		d.ReturnHost = u.Host
+		h := u.Hostname()
+		d.Trusted = trustedHosts[h] || h == "localhost" || h == "127.0.0.1" || h == "::1"
+	}
 }
 
 func (s *Server) render(w http.ResponseWriter, status int, d pageData) {
@@ -258,7 +279,7 @@ func (s *Server) render(w http.ResponseWriter, status int, d pageData) {
 	w.Header().Set("X-Frame-Options", "DENY")
 	w.Header().Set("Referrer-Policy", "no-referrer")
 	formAction := "'self'"
-	if u, err := url.Parse(d.RedirectURI); err == nil && d.Error == "" && u.Host != "" {
+	if u, err := url.Parse(d.RedirectURI); err == nil && d.Valid && u.Host != "" {
 		formAction += " " + u.Scheme + "://" + u.Host // the approval redirects there
 	}
 	w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; form-action "+formAction+"; frame-ancestors 'none'; base-uri 'none'")
@@ -269,11 +290,13 @@ func (s *Server) render(w http.ResponseWriter, status int, d pageData) {
 }
 
 func (s *Server) authorizePage(w http.ResponseWriter, r *http.Request) {
-	a, problem := s.parseAuth(r, r.URL.Query())
-	d := pageData{authRequest: a, ClientID: a.Client.ID, Error: problem, Account: "1", Write: a.WantsWrite}
-	if u, err := url.Parse(a.RedirectURI); err == nil {
-		d.ReturnHost = u.Host
+	if !s.other.Allow("authorize:"+ratelimit.ClientIP(r), 60) {
+		http.Error(w, "too many requests; wait a minute", http.StatusTooManyRequests)
+		return
 	}
+	a, problem := s.parseAuth(r, r.URL.Query())
+	d := pageData{authRequest: a, ClientID: a.Client.ID, Error: problem, Valid: problem == "", Write: a.WantsWrite}
+	d.setReturn()
 	status := http.StatusOK
 	if problem != "" {
 		status = http.StatusBadRequest
@@ -289,10 +312,8 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 	}
 	f := r.PostForm
 	a, problem := s.parseAuth(r, f)
-	d := pageData{authRequest: a, ClientID: a.Client.ID, Error: problem, Account: f.Get("account"), Write: f.Get("access") == "write"}
-	if u, err := url.Parse(a.RedirectURI); err == nil {
-		d.ReturnHost = u.Host
-	}
+	d := pageData{authRequest: a, ClientID: a.Client.ID, Error: problem, Valid: problem == "", Account: f.Get("account"), Write: f.Get("access") == "write"}
+	d.setReturn()
 	if problem != "" {
 		s.render(w, http.StatusBadRequest, d)
 		return
@@ -309,7 +330,7 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, redirect.String(), http.StatusSeeOther)
 		return
 	}
-	if !s.login.Allow("login:"+clientIP(r), 5) || !s.login.Allow("login", 20) {
+	if !s.login.Allow("login:"+ratelimit.ClientIP(r), 5) || !s.login.Allow("login", 20) || s.failedDay.Reached("failed", maxFailedPerDay) {
 		d.Error = "Too many attempts. Wait a minute and try again."
 		s.render(w, http.StatusTooManyRequests, d)
 		return
@@ -317,7 +338,10 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 	want := sha256.Sum256([]byte(s.Password))
 	got := sha256.Sum256([]byte(f.Get("password")))
 	if s.Password == "" || subtle.ConstantTimeCompare(want[:], got[:]) != 1 {
-		s.Logger.Warn("oauth approval: wrong password", "client_id", a.Client.ID, "remote_addr", r.RemoteAddr)
+		s.Logger.Warn("oauth approval: wrong password", "client_id", a.Client.ID, "client_ip", ratelimit.ClientIP(r))
+		if !s.failedDay.Allow("failed", maxFailedPerDay) {
+			s.Logger.Error("oauth approvals locked: too many wrong passwords today")
+		}
 		d.Error = "Wrong password."
 		s.render(w, http.StatusUnauthorized, d)
 		return
@@ -336,7 +360,7 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 		s.render(w, http.StatusInternalServerError, d)
 		return
 	}
-	s.Logger.Info("oauth app approved", "client_id", a.Client.ID, "account_id", acct, "can_write", d.Write, "remote_addr", r.RemoteAddr)
+	s.Logger.Info("oauth app approved", "client_id", a.Client.ID, "account_id", acct, "can_write", d.Write, "client_ip", ratelimit.ClientIP(r))
 	q.Set("code", code)
 	redirect.RawQuery = q.Encode()
 	http.Redirect(w, r, redirect.String(), http.StatusSeeOther)
@@ -351,7 +375,7 @@ func pkceOK(verifier, challenge string) bool {
 }
 
 func (s *Server) token(w http.ResponseWriter, r *http.Request) {
-	if !s.other.Allow("token:"+clientIP(r), 60) {
+	if !s.other.Allow("token:"+ratelimit.ClientIP(r), 60) {
 		oauthError(w, http.StatusTooManyRequests, "slow_down", "wait a minute")
 		return
 	}
@@ -367,10 +391,14 @@ func (s *Server) token(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var g Grant
-	var refresh string
+	var refresh, access string
 	switch f.Get("grant_type") {
 	case "authorization_code":
-		c, err := s.Store.TakeCode(r.Context(), mcp.HashToken(f.Get("code")))
+		codeHash := mcp.HashToken(f.Get("code"))
+		c, err := s.Store.TakeCode(r.Context(), codeHash)
+		if errors.Is(err, ErrCodeReuse) {
+			s.Logger.Warn("oauth code reused; its connection was revoked", "client_id", clientID)
+		}
 		if err != nil || c.ClientID != clientID || c.RedirectURI != f.Get("redirect_uri") || !pkceOK(f.Get("code_verifier"), c.Challenge) {
 			oauthError(w, http.StatusBadRequest, "invalid_grant", "the code is invalid, expired, used, or does not match")
 			return
@@ -383,7 +411,7 @@ func (s *Server) token(w http.ResponseWriter, r *http.Request) {
 		refresh = random(32)
 		g = Grant{AccountID: c.AccountID, ClientID: clientID, ClientName: client.Name, CanWrite: c.CanWrite,
 			RefreshExpiresAt: time.Now().Add(refreshTTL)}
-		if g.ID, err = s.Store.CreateGrant(r.Context(), g, mcp.HashToken(refresh)); err != nil {
+		if g, access, err = s.Store.CreateGrant(r.Context(), g, codeHash, mcp.HashToken(refresh), accessTTL); err != nil {
 			s.Logger.Error("oauth create grant failed", "error", err)
 			oauthError(w, http.StatusInternalServerError, "server_error", "try again later")
 			return
@@ -391,7 +419,7 @@ func (s *Server) token(w http.ResponseWriter, r *http.Request) {
 	case "refresh_token":
 		refresh = random(32)
 		var err error
-		g, err = s.Store.RotateRefresh(r.Context(), mcp.HashToken(f.Get("refresh_token")), mcp.HashToken(refresh), clientID, time.Now().Add(refreshTTL))
+		g, access, err = s.Store.Refresh(r.Context(), mcp.HashToken(f.Get("refresh_token")), mcp.HashToken(refresh), clientID, time.Now().Add(refreshTTL), accessTTL)
 		if errors.Is(err, ErrRefreshReuse) {
 			s.Logger.Warn("oauth refresh token reused; grant revoked", "client_id", clientID)
 		}
@@ -401,12 +429,6 @@ func (s *Server) token(w http.ResponseWriter, r *http.Request) {
 		}
 	default:
 		oauthError(w, http.StatusBadRequest, "unsupported_grant_type", "use authorization_code or refresh_token")
-		return
-	}
-	access, err := s.Store.IssueAccess(r.Context(), g, accessTTL)
-	if err != nil {
-		s.Logger.Error("oauth issue access failed", "error", err)
-		oauthError(w, http.StatusInternalServerError, "server_error", "try again later")
 		return
 	}
 	scope := ScopeRead
@@ -419,15 +441,20 @@ func (s *Server) token(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// revoke ends a connection by its refresh token (RFC 7009). Access tokens
-// expire within the hour; the owner can also revoke on the admin page.
+// revoke ends a connection by its refresh token (RFC 7009). Presenting an
+// access token does nothing (it expires within the hour); the owner can
+// also disconnect an app on the admin page.
 func (s *Server) revoke(w http.ResponseWriter, r *http.Request) {
+	if !s.other.Allow("revoke:"+ratelimit.ClientIP(r), 30) {
+		oauthError(w, http.StatusTooManyRequests, "slow_down", "wait a minute")
+		return
+	}
 	r.Body = http.MaxBytesReader(w, r.Body, 16<<10)
 	if err := r.ParseForm(); err != nil {
 		oauthError(w, http.StatusBadRequest, "invalid_request", "expected a form body")
 		return
 	}
-	if err := s.Store.RevokeByRefresh(r.Context(), mcp.HashToken(r.PostForm.Get("token")), r.PostForm.Get("client_id")); err != nil {
+	if err := s.Store.RevokeByRefresh(r.Context(), mcp.HashToken(r.PostForm.Get("token")), r.PostForm.Get("client_id")); err != nil && !errors.Is(err, ErrNotFound) {
 		s.Logger.Error("oauth revoke failed", "error", err)
 	}
 	w.WriteHeader(http.StatusOK)

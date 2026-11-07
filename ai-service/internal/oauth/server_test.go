@@ -54,26 +54,28 @@ func (m *mem) TakeCode(_ context.Context, h string) (Code, error) {
 	}
 	return c, nil
 }
-func (m *mem) CreateGrant(_ context.Context, g Grant, refresh string) (int64, error) {
+func (m *mem) CreateGrant(_ context.Context, g Grant, _, refresh string, _ time.Duration) (Grant, string, error) {
 	g.ID = int64(len(m.grants) + 1)
 	m.grants[g.ID] = &memGrant{Grant: g, refresh: refresh}
-	return g.ID, nil
+	m.issued = append(m.issued, g)
+	return g, "aisvc_mcp_" + random(32), nil
 }
-func (m *mem) RotateRefresh(_ context.Context, old, nw, client string, exp time.Time) (Grant, error) {
+func (m *mem) Refresh(_ context.Context, old, nw, client string, exp time.Time, _ time.Duration) (Grant, string, error) {
 	for _, g := range m.grants {
 		if g.ClientID != client || !g.RevokedAt.IsZero() {
 			continue
 		}
 		if g.refresh == old {
 			g.prev, g.refresh, g.RefreshExpiresAt = old, nw, exp
-			return g.Grant, nil
+			m.issued = append(m.issued, g.Grant)
+			return g.Grant, "aisvc_mcp_" + random(32), nil
 		}
 		if g.prev == old {
 			g.RevokedAt = time.Now()
-			return Grant{}, ErrRefreshReuse
+			return Grant{}, "", ErrRefreshReuse
 		}
 	}
-	return Grant{}, ErrNotFound
+	return Grant{}, "", ErrNotFound
 }
 func (m *mem) RevokeByRefresh(_ context.Context, h, client string) error {
 	for _, g := range m.grants {
@@ -82,10 +84,6 @@ func (m *mem) RevokeByRefresh(_ context.Context, h, client string) error {
 		}
 	}
 	return nil
-}
-func (m *mem) IssueAccess(_ context.Context, g Grant, _ time.Duration) (string, error) {
-	m.issued = append(m.issued, g)
-	return "aisvc_mcp_" + random(32), nil
 }
 func (m *mem) Grants(context.Context, int64) ([]Grant, error)  { return nil, nil }
 func (m *mem) RevokeGrant(context.Context, int64, int64) error { return nil }
@@ -372,5 +370,72 @@ func TestApproveRefusesCrossSitePost(t *testing.T) {
 	// Assert
 	if rec.Code != http.StatusForbidden || len(e.store.codes) != 0 {
 		t.Fatalf("code=%d", rec.Code)
+	}
+}
+
+func TestWrongPasswordRetryKeepsRedirectAllowed(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	client := e.register(t, redirect)
+
+	// Act
+	rec := e.approve(authForm(client, map[string]string{"password": "nope"}))
+
+	// Assert: the re-shown form must still be able to redirect to the app.
+	if rec.Code != http.StatusUnauthorized || !strings.Contains(rec.Header().Get("Content-Security-Policy"), "form-action 'self' https://claude.ai") {
+		t.Fatalf("code=%d csp=%q", rec.Code, rec.Header().Get("Content-Security-Policy"))
+	}
+}
+
+func TestUnknownAppGetsWarning(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	known := e.register(t, redirect)
+	unknown := e.register(t, "https://evil.example/cb")
+	q := func(c, ru string) string {
+		f := authForm(c, map[string]string{"redirect_uri": ru})
+		return "/oauth/authorize?" + f.Encode()
+	}
+
+	// Act
+	k := e.do(httptest.NewRequest(http.MethodGet, q(known, redirect), nil)).Body.String()
+	u := e.do(httptest.NewRequest(http.MethodGet, q(unknown, "https://evil.example/cb"), nil)).Body.String()
+
+	// Assert
+	if strings.Contains(k, "Unknown app") || !strings.Contains(u, "Unknown app") || !strings.Contains(u, "evil.example") {
+		t.Fatal("unknown-app warning wrong")
+	}
+}
+
+func TestDailyFailedPasswordLock(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	client := e.register(t, redirect)
+	for i := 0; i < maxFailedPerDay; i++ {
+		e.approve(authForm(client, map[string]string{"password": "guess"}))
+	}
+
+	// Act: even the right password is refused for the rest of the day.
+	rec := e.approve(authForm(client, nil))
+
+	// Assert
+	if rec.Code != http.StatusTooManyRequests || len(e.store.codes) != 0 {
+		t.Fatalf("code=%d codes=%d", rec.Code, len(e.store.codes))
+	}
+}
+
+func TestClientNameStripsControlCharacters(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	body := `{"client_name":"Cla\u202eude\u0007","redirect_uris":["` + redirect + `"]}`
+
+	// Act
+	e.do(httptest.NewRequest(http.MethodPost, "/oauth/register", strings.NewReader(body)))
+
+	// Assert
+	for _, c := range e.store.clients {
+		if c.Name != "Claude" {
+			t.Fatalf("name = %q", c.Name)
+		}
 	}
 }

@@ -6,7 +6,6 @@ import (
 	"errors"
 	"io"
 	"log/slog"
-	"net"
 	"net/http"
 	"strconv"
 	"strings"
@@ -98,7 +97,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "browser requests are not allowed", http.StatusForbidden)
 		return
 	}
-	if !s.allow("ip:"+clientIP(r), s.PerIPMinute, 120) {
+	if !s.allow("ip:"+ratelimit.ClientIP(r), s.PerIPMinute, 120) {
 		w.Header().Set("Retry-After", "60")
 		http.Error(w, "too many requests; wait a minute", http.StatusTooManyRequests)
 		return
@@ -180,14 +179,6 @@ func (s *Server) startTest(acct int64) (done func(), ok bool) {
 		defer s.mu.Unlock()
 		s.inFlight[acct]--
 	}, true
-}
-
-func clientIP(r *http.Request) string {
-	host, _, err := net.SplitHostPort(r.RemoteAddr)
-	if err != nil {
-		return r.RemoteAddr
-	}
-	return host
 }
 
 func (s *Server) dispatch(ctx context.Context, tok Token, req rpcRequest) (any, *rpcError) {

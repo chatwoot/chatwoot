@@ -45,16 +45,12 @@ func TestPostgres_GrantLifecycleCutsAccessTokens(t *testing.T) {
 		t.Fatal(err)
 	}
 	g := Grant{AccountID: 1, ClientID: c.ID, ClientName: c.Name, CanWrite: true, RefreshExpiresAt: time.Now().Add(time.Hour)}
-	g.ID, err = db.CreateGrant(ctx, g, "r1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	g, access, issueErr := db.CreateGrant(ctx, g, "code1", "r1", time.Hour)
 
 	// Act
-	access, issueErr := db.IssueAccess(ctx, g, time.Hour)
 	tok, lookupErr := tokens.Lookup(ctx, access)
-	rotated, rotErr := db.RotateRefresh(ctx, "r1", "r2", c.ID, time.Now().Add(time.Hour))
-	_, wrongClient := db.RotateRefresh(ctx, "r2", "r3", "aisvc_client_other", time.Now().Add(time.Hour))
+	rotated, _, rotErr := db.Refresh(ctx, "r1", "r2", c.ID, time.Now().Add(time.Hour), time.Hour)
+	_, _, wrongClient := db.Refresh(ctx, "r2", "r3", "aisvc_client_other", time.Now().Add(time.Hour), time.Hour)
 	manual, _ := tokens.List(ctx, 1)
 	revokeErr := db.RevokeGrant(ctx, 1, g.ID)
 	_, afterRevoke := tokens.Lookup(ctx, access)
@@ -80,20 +76,32 @@ func TestPostgres_RefreshReuseRevokesGrant(t *testing.T) {
 	db := openDB(t)
 	ctx := context.Background()
 	c, _ := db.RegisterClient(ctx, "ChatGPT", []string{"https://chatgpt.com/cb"})
-	id, err := db.CreateGrant(ctx, Grant{AccountID: 1, ClientID: c.ID, ClientName: c.Name, RefreshExpiresAt: time.Now().Add(time.Hour)}, "r1")
+	g, access, err := db.CreateGrant(ctx, Grant{AccountID: 1, ClientID: c.ID, ClientName: c.Name, RefreshExpiresAt: time.Now().Add(time.Hour)}, "c1", "r1", time.Hour)
 	if err != nil {
 		t.Fatal(err)
 	}
+	id := g.ID
 
 	// Act
-	_, first := db.RotateRefresh(ctx, "r1", "r2", c.ID, time.Now().Add(time.Hour))
-	_, reuse := db.RotateRefresh(ctx, "r1", "r3", c.ID, time.Now().Add(time.Hour))
-	_, current := db.RotateRefresh(ctx, "r2", "r4", c.ID, time.Now().Add(time.Hour))
+	_, _, first := db.Refresh(ctx, "r1", "r2", c.ID, time.Now().Add(time.Hour), time.Hour)
+	_, _, retry := db.Refresh(ctx, "r1", "r3", c.ID, time.Now().Add(time.Hour), time.Hour) // within the grace period
+	if _, err := db.Pool.Exec(ctx, "UPDATE oauth_grants SET last_used_at = now() - interval '1 minute' WHERE id = $1", id); err != nil {
+		t.Fatal(err)
+	}
+	_, _, reuse := db.Refresh(ctx, "r1", "r3", c.ID, time.Now().Add(time.Hour), time.Hour)
+	_, _, current := db.Refresh(ctx, "r2", "r4", c.ID, time.Now().Add(time.Hour), time.Hour)
+	// v5 binary's Lookup SQL: only mcp_tokens' own revoked_at
+	var oldBinarySees int
+	_ = db.Pool.QueryRow(ctx, `SELECT count(*) FROM mcp_tokens WHERE token_hash = $1 AND revoked_at IS NULL
+		AND (expires_at IS NULL OR expires_at > now())`, mcp.HashToken(access)).Scan(&oldBinarySees)
 	grants, _ := db.Grants(ctx, 1)
 
 	// Assert
-	if first != nil || !errors.Is(reuse, ErrRefreshReuse) || !errors.Is(current, ErrNotFound) {
-		t.Fatalf("first=%v reuse=%v current=%v", first, reuse, current)
+	if first != nil || !errors.Is(retry, ErrNotFound) || !errors.Is(reuse, ErrRefreshReuse) || !errors.Is(current, ErrNotFound) {
+		t.Fatalf("first=%v retry=%v reuse=%v current=%v", first, retry, reuse, current)
+	}
+	if oldBinarySees != 0 {
+		t.Error("an older binary would still accept the revoked app's access token")
 	}
 	if len(grants) != 1 || grants[0].ID != id || grants[0].RevokedAt.IsZero() {
 		t.Fatalf("grant not revoked: %+v", grants)
@@ -117,12 +125,17 @@ func TestPostgres_CodesWorkOnceAndExpire(t *testing.T) {
 
 	// Act
 	got, firstErr := db.TakeCode(ctx, "h1")
+	g, _, grantErr := db.CreateGrant(ctx, Grant{AccountID: 1, ClientID: "c", ClientName: "x", RefreshExpiresAt: time.Now().Add(time.Hour)}, "h1", "r", time.Hour)
 	_, again := db.TakeCode(ctx, "h1")
 	_, expired := db.TakeCode(ctx, "h2")
+	grants, _ := db.Grants(ctx, 1)
 
 	// Assert
-	if firstErr != nil || got.AccountID != 1 || !errors.Is(again, ErrNotFound) || !errors.Is(expired, ErrNotFound) {
-		t.Fatalf("first=%v again=%v expired=%v", firstErr, again, expired)
+	if firstErr != nil || grantErr != nil || got.AccountID != 1 || !errors.Is(again, ErrCodeReuse) || !errors.Is(expired, ErrNotFound) {
+		t.Fatalf("first=%v grant=%v again=%v expired=%v", firstErr, grantErr, again, expired)
+	}
+	if len(grants) != 1 || grants[0].ID != g.ID || grants[0].RevokedAt.IsZero() {
+		t.Fatalf("code reuse did not revoke the connection: %+v", grants)
 	}
 }
 
@@ -130,13 +143,13 @@ func TestPostgres_RevokeGrantOnlyOwnAccount(t *testing.T) {
 	// Arrange
 	db := openDB(t)
 	ctx := context.Background()
-	id, err := db.CreateGrant(ctx, Grant{AccountID: 2, ClientID: "c", ClientName: "x", RefreshExpiresAt: time.Now().Add(time.Hour)}, "r")
+	g, _, err := db.CreateGrant(ctx, Grant{AccountID: 2, ClientID: "c", ClientName: "x", RefreshExpiresAt: time.Now().Add(time.Hour)}, "c2", "r", time.Hour)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	// Act
-	cross := db.RevokeGrant(ctx, 1, id)
+	cross := db.RevokeGrant(ctx, 1, g.ID)
 
 	// Assert
 	if !errors.Is(cross, ErrNotFound) {

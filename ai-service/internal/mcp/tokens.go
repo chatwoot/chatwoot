@@ -131,7 +131,7 @@ func (p *Postgres) Lookup(ctx context.Context, plain string) (Token, error) {
 	var used, expires *time.Time
 	err := p.Pool.QueryRow(ctx, `SELECT id, account_id, name, can_write, created_at, last_used_at, expires_at
 		FROM mcp_tokens t WHERE token_hash = $1 AND revoked_at IS NULL AND (expires_at IS NULL OR expires_at > now())
-		  AND (grant_id IS NULL OR EXISTS (SELECT 1 FROM oauth_grants g WHERE g.id = t.grant_id AND g.revoked_at IS NULL))`, HashToken(plain)).
+		  AND (grant_id IS NULL OR EXISTS (SELECT 1 FROM oauth_grants g WHERE g.id = t.grant_id AND g.account_id = t.account_id AND g.revoked_at IS NULL))`, HashToken(plain)).
 		Scan(&t.ID, &t.AccountID, &t.Name, &t.CanWrite, &t.CreatedAt, &used, &expires)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return Token{}, ErrInvalidToken

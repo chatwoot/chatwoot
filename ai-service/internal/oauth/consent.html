@@ -34,8 +34,9 @@
   <div class="err" role="alert">{{.Error}}</div>
   {{end}}
   {{if .Client.ID}}{{if .ReturnHost}}
-  <div class="app"><strong>{{.Client.Name}}</strong> wants to use your knowledge base. After you approve, you go back to <strong>{{.ReturnHost}}</strong>.</div>
-  <p class="muted">Approve only if you just started this from that app. It can always be revoked on the admin page under Connect AI tools.</p>
+  <div class="app">An app at <strong>{{.ReturnHost}}</strong> wants to use your knowledge base. It calls itself “{{.Client.Name}}”.</div>
+  {{if not .Trusted}}<div class="err" role="alert"><strong>Unknown app.</strong> {{.ReturnHost}} is not Claude or ChatGPT. Deny unless you set this app up yourself.</div>{{end}}
+  <p class="muted">Approve only if you just started this from that app. You can disconnect it any time on the admin page under Connect AI tools.</p>
   <form method="post" action="/oauth/authorize" autocomplete="off">
     <input type="hidden" name="client_id" value="{{.ClientID}}">
     <input type="hidden" name="redirect_uri" value="{{.RedirectURI}}">
@@ -46,7 +47,7 @@
     <input type="hidden" name="scope" value="{{.Scope}}">
     <input type="hidden" name="resource" value="{{.Resource}}">
     <label for="account">Account</label>
-    <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.Account}}" required>
+    <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.Account}}" required placeholder="e.g. 1">
     <fieldset>
       <legend>Access</legend>
       <label class="check"><input type="radio" name="access" value="read"{{if not .Write}} checked{{end}}><span><strong>Read only</strong><span>Read documents and ask the bot test questions.</span></span></label>

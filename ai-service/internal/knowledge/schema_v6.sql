@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS oauth_codes (
     account_id     BIGINT      NOT NULL CHECK (account_id > 0),
     can_write      BOOLEAN     NOT NULL,
     resource       TEXT        NOT NULL,
-    expires_at     TIMESTAMPTZ NOT NULL
+    expires_at     TIMESTAMPTZ NOT NULL,
+    used_at        TIMESTAMPTZ,  -- kept after use: a second use revokes what the first issued
+    grant_id       BIGINT
 );
 
 CREATE TABLE IF NOT EXISTS oauth_grants (
@@ -41,6 +43,7 @@ CREATE INDEX IF NOT EXISTS oauth_grants_account_idx ON oauth_grants (account_id,
 CREATE INDEX IF NOT EXISTS oauth_grants_prev_idx ON oauth_grants (prev_refresh_hash) WHERE prev_refresh_hash IS NOT NULL;
 
 ALTER TABLE mcp_tokens ADD COLUMN IF NOT EXISTS grant_id BIGINT REFERENCES oauth_grants (id) ON DELETE CASCADE;
+CREATE INDEX IF NOT EXISTS mcp_tokens_grant_idx ON mcp_tokens (grant_id) WHERE grant_id IS NOT NULL;
 
 ALTER TABLE oauth_clients ENABLE ROW LEVEL SECURITY;
 ALTER TABLE oauth_codes ENABLE ROW LEVEL SECURITY;

@@ -1,6 +1,7 @@
 package ratelimit
 
 import (
+	"net/http/httptest"
 	"testing"
 	"time"
 )
@@ -56,5 +57,47 @@ func TestAllow_FullTableEvictsExpiredOnly(t *testing.T) {
 	// Assert
 	if !newKey || len(l.keys) != 2 || l.keys["fresh"] == nil {
 		t.Fatalf("newKey=%v keys=%v", newKey, l.keys)
+	}
+}
+
+func TestClientIP_TrustsCloudflareHeaderOnlyFromPrivateNetwork(t *testing.T) {
+	cases := []struct{ remote, cf, want string }{
+		{"172.18.0.5:4000", "203.0.113.9", "203.0.113.9"}, // via the tunnel container
+		{"127.0.0.1:4000", "203.0.113.9", "203.0.113.9"},
+		{"198.51.100.7:4000", "203.0.113.9", "198.51.100.7"}, // direct caller: header ignored
+		{"172.18.0.5:4000", "not-an-ip", "172.18.0.5"},
+		{"172.18.0.5:4000", "", "172.18.0.5"},
+	}
+	for _, c := range cases {
+		// Arrange
+		r := httptest.NewRequest("GET", "/", nil)
+		r.RemoteAddr = c.remote
+		if c.cf != "" {
+			r.Header.Set("CF-Connecting-IP", c.cf)
+		}
+
+		// Act
+		got := ClientIP(r)
+
+		// Assert
+		if got != c.want {
+			t.Errorf("remote=%s cf=%q: got %s, want %s", c.remote, c.cf, got, c.want)
+		}
+	}
+}
+
+func TestReached_DoesNotCount(t *testing.T) {
+	// Arrange
+	l := &Limiter{Period: 24 * time.Hour}
+	l.Allow("failed", 2)
+
+	// Act
+	before := l.Reached("failed", 2)
+	l.Allow("failed", 2)
+	after := l.Reached("failed", 2)
+
+	// Assert
+	if before || !after || l.keys["failed"].n != 2 {
+		t.Fatalf("before=%v after=%v n=%d", before, after, l.keys["failed"].n)
 	}
 }

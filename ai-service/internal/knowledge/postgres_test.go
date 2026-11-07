@@ -499,7 +499,7 @@ func TestPostgres_ValidityFilterThroughHNSWIndex(t *testing.T) {
 }
 
 // Production may jump from v2 to v4 in one Migrate call.
-func TestPostgres_MigratesV2ToV4InOneStep(t *testing.T) {
+func TestPostgres_MigratesV2ToLatestInOneStep(t *testing.T) {
 	// Arrange: a v2 database with a document and a profile.
 	db := openTestDB(t)
 	ctx := context.Background()
@@ -533,6 +533,16 @@ func TestPostgres_MigratesV2ToV4InOneStep(t *testing.T) {
 	}
 	if objects != 4 {
 		t.Errorf("v5 objects present = %d, want 4 (kb_audit, mcp_tokens, key index, source_key)", objects)
+	}
+	var v6 int
+	if err := db.Pool.QueryRow(ctx, `SELECT (to_regclass('oauth_clients') IS NOT NULL)::int + (to_regclass('oauth_codes') IS NOT NULL)::int
+		+ (to_regclass('oauth_grants') IS NOT NULL)::int + (to_regclass('mcp_tokens_grant_idx') IS NOT NULL)::int
+		+ (SELECT count(*) FROM pg_constraint WHERE conrelid = 'mcp_tokens'::regclass AND contype = 'f' AND confdeltype = 'c')::int
+		+ (SELECT count(*) FROM pg_class WHERE relname IN ('oauth_clients', 'oauth_codes', 'oauth_grants') AND relrowsecurity)::int`).Scan(&v6); err != nil {
+		t.Fatal(err)
+	}
+	if v6 != 8 {
+		t.Errorf("v6 objects present = %d, want 8 (3 tables, grant index, cascade FK, RLS on 3)", v6)
 	}
 	docs, _ := db.List(ctx, 1, "m")
 	if len(docs) == 1 && docs[0].SourceKey != "" {
