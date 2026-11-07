@@ -209,3 +209,32 @@ func TestTest_EnterSendsMessage(t *testing.T) {
 		}
 	}
 }
+
+func TestTest_ShowsProgressWhileWaiting(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	e.h.Tester = &fakeTester{}
+	page := httptest.NewRequest(http.MethodGet, "/admin/test?account=1", nil)
+	page.SetBasicAuth(Username, pw)
+	script := httptest.NewRequest(http.MethodGet, "/admin/static/admin.js", nil)
+	script.SetBasicAuth(Username, pw)
+
+	// Act
+	body, js := e.do(page).Body.String(), e.do(script).Body.String()
+
+	// Assert: the form opts in; the script shows the message and a typing
+	// bubble, blocks a second send, and recovers when the page is restored.
+	for _, want := range []string{`data-busy="Sending…"`, `.bubble.typing`} {
+		if !strings.Contains(body, want) {
+			t.Errorf("page missing %q", want)
+		}
+	}
+	for _, want := range []string{"form[data-busy]", "aria-busy", "Bot is replying", "pageshow", "textContent"} {
+		if !strings.Contains(js, want) {
+			t.Errorf("admin.js missing %q", want)
+		}
+	}
+	if strings.Contains(js, "innerHTML") {
+		t.Error("admin.js builds HTML from strings")
+	}
+}

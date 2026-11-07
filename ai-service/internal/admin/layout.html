@@ -198,6 +198,15 @@
   .bubble.user { align-self: flex-end; background: var(--accent); color: var(--accent-text); border-bottom-right-radius: 4px; }
   .bubble.assistant { align-self: flex-start; background: var(--bg); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
   .who { display: block; font-size: .75rem; font-weight: 600; opacity: .8; margin-bottom: 2px; }
+  form[aria-busy="true"] button[type=submit]:disabled { opacity: .7; cursor: progress; }
+  form[aria-busy="true"] textarea { cursor: progress; }
+  .bubble.typing { color: var(--muted); display: flex; gap: 8px; align-items: center; }
+  .bubble.typing .dots { display: inline-flex; gap: 4px; }
+  .bubble.typing .dots span { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .35; animation: typing 1.2s infinite ease-in-out; }
+  .bubble.typing .dots span:nth-child(2) { animation-delay: .2s; }
+  .bubble.typing .dots span:nth-child(3) { animation-delay: .4s; }
+  @keyframes typing { 0%, 80%, 100% { opacity: .35; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+  @media (prefers-reduced-motion: reduce) { .bubble.typing .dots span { animation: none; opacity: .6; } }
   .empty { color: var(--muted); text-align: center; padding: 32px 16px; border: 1px dashed var(--border); border-radius: var(--radius); margin: 0 0 16px; }
   .test-grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; align-items: start; }
   .test-grid > .card { margin: 0; }
