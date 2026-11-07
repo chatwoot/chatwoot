@@ -157,6 +157,16 @@ Each case: `{"name", "account_id", "turns": ["...", "..."], "expect": "answer|un
 Only the reply to the last turn is graded. A case costs about two model calls
 per turn plus one judge call; `-judge-model` grades with a different model.
 
+The same judge call also scores two RAG metrics, printed as a `RAG:` line
+under the totals:
+
+- **faithful**: every business fact in the reply is in the profile or the
+  excerpts. An unfaithful reply always fails, even if it answers the question.
+- **context recall** (expected `answer` only): the profile and excerpts held
+  what a correct reply needs. A failing case with recall false is marked
+  `cause: retrieval`, so the fix is the knowledge base or search, not the
+  prompt.
+
 ### Voice notes, images and stickers
 
 Each business switches these on its **Business profile** page (all off by

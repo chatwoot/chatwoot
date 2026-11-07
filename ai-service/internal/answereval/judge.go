@@ -30,7 +30,12 @@ Fail the reply if any of these is true:
 - It is not in the language the customer used in the last message.
 
 Otherwise pass it. Tone, length and wording are not reasons to fail.
-Reply with JSON only: {"pass": true|false, "reason": "<one short sentence>"}`
+
+Also score two metrics:
+- "faithful": true if every business fact in the reply is stated in the profile or the excerpts; false if any is not.
+- "context_recall": only when expected "answer": true if the profile and excerpts together contain the facts a correct reply needs (use the expectation note); false if something needed is missing. Use null for other expectations.
+
+Reply with JSON only: {"pass": true|false, "reason": "<one short sentence>", "faithful": true|false, "context_recall": true|false|null}`
 
 // Judge asks the model for a verdict.
 func (j LLMJudge) Judge(ctx context.Context, in JudgeInput) (Verdict, error) {

@@ -2,7 +2,11 @@
 // profile, knowledge search, query rewrite and the chat model, over
 // multi-turn test conversations. Each case is checked by hard rules first
 // (handoff, required and forbidden text), then by an LLM judge that looks for
-// wrong answers and invented business facts.
+// wrong answers and invented business facts. The judge also scores two RAG
+// metrics: faithfulness (every business claim in the reply is backed by the
+// profile or the excerpts) and context recall (the profile and excerpts held
+// what a correct answer needs). Recall separates retrieval misses from
+// generation mistakes.
 package answereval
 
 import (
@@ -57,10 +61,13 @@ type JudgeInput struct {
 	Profile  string // the business profile the bot was given, if any
 }
 
-// Verdict is the judge's decision.
+// Verdict is the judge's decision. The metrics are nil when the judge did
+// not score them (context recall is only scored for expected answers).
 type Verdict struct {
-	Pass   bool   `json:"pass"`
-	Reason string `json:"reason"`
+	Pass          bool   `json:"pass"`
+	Reason        string `json:"reason"`
+	Faithful      *bool  `json:"faithful,omitempty"`
+	ContextRecall *bool  `json:"context_recall,omitempty"`
 }
 
 // Judge grades one reply.
@@ -87,6 +94,9 @@ type Result struct {
 	Pass    bool
 	Reason  string
 	Err     error
+	// RAG metrics from the judge; nil when not scored.
+	Faithful      *bool
+	ContextRecall *bool
 }
 
 // Report summarises a run.
@@ -183,6 +193,12 @@ func (r Runner) runCase(ctx context.Context, c Case) Result {
 		return res
 	}
 	res.Pass, res.Reason = v.Pass, v.Reason
+	res.Faithful, res.ContextRecall = v.Faithful, v.ContextRecall
+	// An unsupported claim always fails, whatever the judge's pass says.
+	if v.Faithful != nil && !*v.Faithful && res.Pass {
+		res.Pass = false
+		res.Reason = "reply makes a claim not supported by the profile or excerpts: " + v.Reason
+	}
 	return res
 }
 
@@ -235,6 +251,9 @@ func (r Report) Write(w io.Writer) {
 		fmt.Fprintf(w, "%s %s [%s]\n", mark, res.Case.Name, res.Case.Expect)
 		if !res.Pass {
 			fmt.Fprintf(w, "     why:   %s\n", res.Reason)
+			if res.ContextRecall != nil && !*res.ContextRecall {
+				fmt.Fprintln(w, "     cause: retrieval: the context lacked what the answer needs")
+			}
 		}
 		if !res.Pass || r.Verbose {
 			fmt.Fprintf(w, "     reply: %s\n", oneLine(res.Reply))
@@ -256,6 +275,36 @@ func (r Report) Write(w io.Writer) {
 		}
 	}
 	fmt.Fprintln(w)
+	writeMetrics(w, r.Results)
+}
+
+// writeMetrics prints the RAG metric totals over the cases the judge scored.
+func writeMetrics(w io.Writer, results []Result) {
+	var faithful, recall [2]int // [true, scored]
+	for _, res := range results {
+		count(&faithful, res.Faithful)
+		count(&recall, res.ContextRecall)
+	}
+	var parts []string
+	if faithful[1] > 0 {
+		parts = append(parts, fmt.Sprintf("faithful %d/%d", faithful[0], faithful[1]))
+	}
+	if recall[1] > 0 {
+		parts = append(parts, fmt.Sprintf("context recall %d/%d", recall[0], recall[1]))
+	}
+	if len(parts) > 0 {
+		fmt.Fprintln(w, "RAG: "+strings.Join(parts, " · "))
+	}
+}
+
+func count(t *[2]int, v *bool) {
+	if v == nil {
+		return
+	}
+	t[1]++
+	if *v {
+		t[0]++
+	}
 }
 
 func oneLine(s string) string {
