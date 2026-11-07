@@ -1,3 +1,4 @@
+// fallow-ignore-file unused-file -- loaded by layout.html, embedded with go:embed
 // Small enhancements for the ai-service admin pages. Every page works
 // without this file; it only adds Copy buttons and "are you sure?" checks.
 // Rules: never build HTML from strings, no eval, no inline handlers (the CSP allows

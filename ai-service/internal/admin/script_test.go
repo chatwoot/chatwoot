@@ -2,6 +2,8 @@ package admin
 
 import (
 	"io/fs"
+
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -36,15 +38,36 @@ func TestScript_ServedWithStrictCSP(t *testing.T) {
 func TestScript_RequiresAuth(t *testing.T) {
 	// Arrange
 	e := setup(t, nil)
-	r := httptest.NewRequest(http.MethodGet, "/admin/static/admin.js", nil)
-	r.SetBasicAuth(Username, "wrong")
+	wrong := httptest.NewRequest(http.MethodGet, "/admin/static/admin.js", nil)
+	wrong.SetBasicAuth(Username, "wrong")
+	none := httptest.NewRequest(http.MethodGet, "/admin/static/admin.js", nil)
+
+	for name, r := range map[string]*http.Request{"wrong password": wrong, "no credentials": none} {
+		// Act
+		rec := e.do(r)
+
+		// Assert
+		if rec.Code != http.StatusUnauthorized || strings.Contains(rec.Body.String(), "clipboard") {
+			t.Errorf("%s: code=%d, want 401 and no script", name, rec.Code)
+		}
+	}
+}
+
+func TestConfirm_HostileTitleIsEscaped(t *testing.T) {
+	// Arrange
+	mux, ms := knowledgeEnv(t, true)
+	ms.docs = append(ms.docs, knowledge.Document{ID: 1, AccountID: 1, Kind: "text",
+		Title: `x" onclick="alert(1)"><script src=/admin/static/admin.js></script>`, Content: "c"})
 
 	// Act
-	rec := e.do(r)
+	body := kget(mux, "/admin/knowledge?account=1")
 
 	// Assert
-	if rec.Code != http.StatusUnauthorized || strings.Contains(rec.Body.String(), "clipboard") {
-		t.Errorf("code=%d, want 401 and no script", rec.Code)
+	if strings.Count(body, "<script") != 1 {
+		t.Errorf("hostile title produced a script tag: %d tags", strings.Count(body, "<script"))
+	}
+	if strings.Contains(body, `" onclick="`) || !strings.Contains(body, `data-confirm="Delete “x&#34; onclick=&#34;alert(1)&#34;&gt;&lt;script`) {
+		t.Error("data-confirm value not escaped as expected")
 	}
 }
 
@@ -66,7 +89,7 @@ func TestScript_NoUnsafeSinks(t *testing.T) {
 func TestTemplates_NoInlineScriptsOrHandlers(t *testing.T) {
 	// Arrange
 	scriptTag := regexp.MustCompile(`(?is)<script\b([^>]*)>(.*?)</script>`)
-	handler := regexp.MustCompile(`(?i)<[^>]*\son[a-z]+\s*=|javascript:`)
+	handler := regexp.MustCompile(`(?i)<[^>]*[\s/"']on[a-z]+\s*=|javascript:|srcdoc|<base\b|http-equiv|<object\b|<embed\b|<iframe\b`)
 	files, err := fs.Glob(pageFS, "*.html")
 	if err != nil || len(files) == 0 {
 		t.Fatalf("templates: %v %v", files, err)

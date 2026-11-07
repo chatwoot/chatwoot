@@ -458,7 +458,7 @@ func (h *Handler) requireAuth(next http.Handler) http.Handler {
 // csp allows only our own script file (no inline scripts, no eval) and
 // enforces Trusted Types, so even our own script cannot turn text into HTML.
 const csp = "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; form-action 'self'; " +
-	"frame-ancestors 'self'; base-uri 'none'; require-trusted-types-for 'script'; trusted-types 'none'"
+	"frame-ancestors 'none'; base-uri 'none'; require-trusted-types-for 'script'; trusted-types 'none'"
 
 // serveScript returns the embedded admin script.
 func serveScript(w http.ResponseWriter, _ *http.Request) {

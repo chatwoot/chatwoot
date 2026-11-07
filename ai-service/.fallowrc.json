@@ -1,0 +1,4 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "ignoreUnresolvedImports": ["/admin/static/admin.js"]
+}
