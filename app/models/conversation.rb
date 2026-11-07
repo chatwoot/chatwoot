@@ -308,7 +308,7 @@ class Conversation < ApplicationRecord
   end
 
   def clear_invalid_ai_assignee
-    self.ai_assignee = nil if assignee_id.present?
+    self.ai_assignee = nil if assignee_id.present? || (status_changed? && open?)
   end
 
   def determine_conversation_status

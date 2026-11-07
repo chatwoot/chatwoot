@@ -269,15 +269,15 @@ RSpec.describe Message do
     let(:message) { build(:message, message_type: :incoming, conversation: conversation) }
 
     it 'reopens resolved conversation when the message is from a contact' do
-      conversation.resolved!
+      conversation.update!(status: :resolved, ai_assignee: create(:agent_bot, account: conversation.account))
       message.save!
-      expect(message.conversation.open?).to be true
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
     end
 
     it 'reopens snoozed conversation when the message is from a contact' do
-      conversation.snoozed!
+      conversation.update!(status: :snoozed, ai_assignee: create(:agent_bot, account: conversation.account))
       message.save!
-      expect(message.conversation.open?).to be true
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
     end
 
     it 'will not reopen if the conversation is muted' do
@@ -288,14 +288,15 @@ RSpec.describe Message do
     end
 
     it 'will mark the conversation as pending if the agent bot is active' do
-      agent_bot = create(:agent_bot)
+      agent_bot = create(:agent_bot, account: conversation.account)
       inbox = conversation.inbox
       inbox.agent_bot = agent_bot
       inbox.save!
-      conversation.resolved!
+      conversation.update!(status: :resolved, ai_assignee: agent_bot)
       message.save!
       expect(conversation.open?).to be false
       expect(conversation.pending?).to be true
+      expect(conversation.reload.ai_assignee).to eq(agent_bot)
     end
   end
 
