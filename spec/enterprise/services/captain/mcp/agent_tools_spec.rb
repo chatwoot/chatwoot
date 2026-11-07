@@ -92,6 +92,13 @@ RSpec.describe Captain::Mcp::AgentTools do
     expect(tool_listings).to have_been_made.once
   end
 
+  it 'skips a server whose tool list it cannot read, and records why' do
+    fake.tools = [read_tool.merge(_meta: { ui: 'not an object' })]
+
+    expect(described_class.new(assistant).tools).to be_empty
+    expect(server.reload.last_error).to include('could not read')
+  end
+
   it 'offers nothing while the account does not have MCP servers' do
     account.disable_features!(Captain::McpServer::FEATURE_FLAG)
 
