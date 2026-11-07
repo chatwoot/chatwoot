@@ -63,6 +63,10 @@ type Config struct {
 	// MCPEnabled serves /mcp for AI tools (MCP_ENABLED, default false). It
 	// also needs a database and the admin page (ADMIN_PASSWORD) to manage tokens.
 	MCPEnabled bool
+	// CFAccessTeamDomain (https://<team>.cloudflareaccess.com) and CFAccessAUD
+	// (the approval page's Access application AUD tag) switch app approval
+	// from the admin password to team members signed in through Access.
+	CFAccessTeamDomain, CFAccessAUD string
 	// Location is the business time zone (TIMEZONE), used to tell the model the date.
 	Location *time.Location
 
@@ -151,6 +155,14 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	}
 	cfg.MCPPublicURL = get("MCP_PUBLIC_URL", "")
 	cfg.MCPEnabled = get("MCP_ENABLED", "") == "true"
+	cfg.CFAccessTeamDomain = strings.TrimSuffix(get("CF_ACCESS_TEAM_DOMAIN", ""), "/")
+	cfg.CFAccessAUD = get("CF_ACCESS_AUD", "")
+	if (cfg.CFAccessTeamDomain == "") != (cfg.CFAccessAUD == "") {
+		errs = append(errs, errors.New("set both CF_ACCESS_TEAM_DOMAIN and CF_ACCESS_AUD, or neither"))
+	}
+	if cfg.CFAccessTeamDomain != "" && !strings.HasPrefix(cfg.CFAccessTeamDomain, "https://") {
+		errs = append(errs, errors.New("CF_ACCESS_TEAM_DOMAIN must start with https://"))
+	}
 	if cfg.Location, err = time.LoadLocation(get("TIMEZONE", "Asia/Bangkok")); err != nil {
 		errs = append(errs, fmt.Errorf("TIMEZONE: %w", err))
 	}

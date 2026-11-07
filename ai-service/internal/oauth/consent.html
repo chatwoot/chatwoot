@@ -16,7 +16,7 @@
   .app { background:var(--warn-bg); color:var(--warn-text); border-radius:8px; padding:12px 14px; margin:0 0 16px; }
   .err { background:var(--err-bg); color:var(--err-text); border-radius:8px; padding:12px 14px; margin:0 0 16px; }
   label { display:block; font-weight:600; font-size:.9rem; margin:14px 0 6px; }
-  input[type=password], input[type=number] { width:100%; font:inherit; color:var(--text); background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:10px 12px; min-height:44px; }
+  input[type=password], input[type=number], select { width:100%; font:inherit; color:var(--text); background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:10px 12px; min-height:44px; }
   .check { display:flex; gap:10px; align-items:flex-start; font-weight:400; margin:10px 0 0; cursor:pointer; }
   .check input { width:20px; height:20px; margin:2px 0 0; accent-color:var(--accent); }
   .check span span { display:block; color:var(--muted); font-size:.85rem; }
@@ -46,16 +46,26 @@
     <input type="hidden" name="response_type" value="code">
     <input type="hidden" name="scope" value="{{.Scope}}">
     <input type="hidden" name="resource" value="{{.Resource}}">
+    {{if .Email}}
+    <p class="muted">Signed in as <strong>{{.Email}}</strong>.</p>
+    <label for="account">Account</label>
+    <select id="account" name="account" required>
+      {{range .Accounts}}<option value="{{.AccountID}}"{{if eq (printf "%d" .AccountID) $.Account}} selected{{end}}>Account {{.AccountID}}{{if not .CanWrite}} (read only){{end}}</option>{{end}}
+    </select>
+    {{else}}
     <label for="account">Account</label>
     <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.Account}}" required placeholder="e.g. 1">
+    {{end}}
     <fieldset>
       <legend>Access</legend>
       <label class="check"><input type="radio" name="access" value="read"{{if not .Write}} checked{{end}}><span><strong>Read only</strong><span>Read documents and ask the bot test questions.</span></span></label>
       <label class="check"><input type="radio" name="access" value="write"{{if .Write}} checked{{end}}><span><strong>Read and write</strong><span>Also add, update and delete documents. Changes what customers are told.</span></span></label>
     </fieldset>
+    {{if not .Email}}
     <input type="text" name="username" value="admin" autocomplete="username" hidden aria-hidden="true">
     <label for="password">Admin password</label>
     <input id="password" name="password" type="password" autocomplete="current-password" required autofocus>
+    {{end}}
     <div class="row">
       <button type="submit" name="decision" value="deny" formnovalidate>Deny</button>
       <button type="submit" name="decision" value="approve" class="primary">Approve</button>

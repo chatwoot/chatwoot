@@ -17,6 +17,7 @@ import (
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/admin"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/chatwoot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/config"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
@@ -137,7 +138,8 @@ func run() error {
 			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
 			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
 			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout,
-			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL, Logger: logger,
+			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL,
+			TeamSignIn: cfg.CFAccessTeamDomain != "", Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -158,6 +160,11 @@ func run() error {
 		if strings.HasPrefix(cfg.MCPPublicURL, "https://") || strings.HasPrefix(cfg.MCPPublicURL, "http://127.0.0.1:") {
 			as := &oauth.Server{Resource: cfg.MCPPublicURL, Password: cfg.AdminPassword,
 				Store: oauthStore, Logger: logger.With("component", "oauth")}
+			if cfg.CFAccessTeamDomain != "" {
+				// Team members signed in through Cloudflare Access approve apps; no password.
+				as.Access = &cfaccess.Verifier{TeamDomain: cfg.CFAccessTeamDomain, AUD: cfg.CFAccessAUD}
+				logger.Info("mcp oauth approvals by team members (cloudflare access)", "team_domain", hostOf(cfg.CFAccessTeamDomain))
+			}
 			as.Routes(mux)
 			srvMCP.ResourceMetadata = as.MetadataURL()
 			logger.Info("mcp oauth on", "issuer", as.Issuer())

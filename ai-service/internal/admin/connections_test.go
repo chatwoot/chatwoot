@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
 )
 
 type memTokens struct{ tokens []mcp.Token }
@@ -117,5 +118,79 @@ func TestConnections_RequiresAuthAndSameOrigin(t *testing.T) {
 	// Assert
 	if a.Code != http.StatusUnauthorized || c.Code != http.StatusForbidden || len(mt.tokens) != 0 {
 		t.Fatalf("noauth=%d cross=%d tokens=%d", a.Code, c.Code, len(mt.tokens))
+	}
+}
+
+type memApps struct {
+	oauth.Store
+	team    []oauth.Member
+	removed []string
+}
+
+func (m *memApps) Grants(context.Context, int64) ([]oauth.Grant, error) {
+	return []oauth.Grant{{ID: 1, ClientName: "Claude", ApprovedBy: "somchai@example.com", CreatedAt: time.Now()}}, nil
+}
+func (m *memApps) Team(_ context.Context, acct int64) ([]oauth.Member, error) {
+	var out []oauth.Member
+	for _, t := range m.team {
+		if t.AccountID == acct {
+			out = append(out, t)
+		}
+	}
+	return out, nil
+}
+func (m *memApps) AddMember(_ context.Context, mm oauth.Member) error {
+	m.team = append(m.team, mm)
+	return nil
+}
+func (m *memApps) RemoveMember(_ context.Context, email string, acct int64) error {
+	m.removed = append(m.removed, email)
+	return nil
+}
+
+func TestTeam_AddListRemove(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	apps := &memApps{}
+	e.h.Tokens, e.h.Apps, e.h.TeamSignIn, e.h.MCPURL = &memTokens{}, apps, true, "https://mcp.example.com/mcp"
+
+	// Act
+	added := e.do(connPost(url.Values{"action": {"add_member"}, "account": {"1"}, "email": {" Somchai@Example.com "}, "member_access": {"write"}}))
+	bad := e.do(connPost(url.Values{"action": {"add_member"}, "account": {"1"}, "email": {"not-an-email"}}))
+	page := httptest.NewRequest(http.MethodGet, "/admin/connections?account=1", nil)
+	page.SetBasicAuth(Username, pw)
+	body := e.do(page).Body.String()
+	removed := e.do(connPost(url.Values{"action": {"remove_member"}, "account": {"1"}, "email": {"somchai@example.com"}}))
+
+	// Assert
+	if added.Code != http.StatusSeeOther || len(apps.team) != 1 || apps.team[0].Email != "somchai@example.com" || !apps.team[0].CanWrite {
+		t.Fatalf("add: code=%d team=%+v", added.Code, apps.team)
+	}
+	if bad.Code != http.StatusUnprocessableEntity || len(apps.team) != 1 {
+		t.Fatalf("invalid email accepted: %d", bad.Code)
+	}
+	if !strings.Contains(body, "Team for account 1") || !strings.Contains(body, "somchai@example.com") || !strings.Contains(body, "Connected by") {
+		t.Fatal("team or connected-by missing from the page")
+	}
+	if removed.Code != http.StatusSeeOther || len(apps.removed) != 1 {
+		t.Fatalf("remove: %d", removed.Code)
+	}
+}
+
+func TestTeam_HiddenAndRefusedWithoutAccess(t *testing.T) {
+	// Arrange
+	e := setup(t, nil)
+	apps := &memApps{}
+	e.h.Tokens, e.h.Apps, e.h.MCPURL = &memTokens{}, apps, "https://mcp.example.com/mcp"
+
+	// Act
+	rec := e.do(connPost(url.Values{"action": {"add_member"}, "account": {"1"}, "email": {"a@example.com"}}))
+	page := httptest.NewRequest(http.MethodGet, "/admin/connections?account=1", nil)
+	page.SetBasicAuth(Username, pw)
+	body := e.do(page).Body.String()
+
+	// Assert
+	if rec.Code != http.StatusBadRequest || len(apps.team) != 0 || strings.Contains(body, "Team for account") {
+		t.Fatalf("code=%d team=%d", rec.Code, len(apps.team))
 	}
 }

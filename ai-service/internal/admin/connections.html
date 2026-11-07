@@ -49,15 +49,20 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
   {{if .OAuth}}
   <section class="card" aria-labelledby="apps-h">
     <h2 id="apps-h" style="font-size:1.125rem;margin:0 0 4px">Claude or ChatGPT app (sign in, no token)</h2>
+    {{if .TeamOn}}
+    <p class="hint">In the app, add a custom connector with this address. It opens a page where the person signs in with Cloudflare Access (their own email) and chooses one of their accounts below.</p>
+    {{else}}
     <p class="hint">In the app, add a custom connector with this address. It opens a page here where you enter the admin password and choose the account and access.</p>
+    {{end}}
     <pre class="code">{{.URL}}</pre>
     {{if .Apps}}
     <table style="margin-top:12px">
-      <thead><tr><th scope="col">Connected app</th><th scope="col">Access</th><th scope="col">Connected</th><th scope="col">Last used</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+      <thead><tr><th scope="col">Connected app</th>{{if .TeamOn}}<th scope="col">Connected by</th>{{end}}<th scope="col">Access</th><th scope="col">Connected</th><th scope="col">Last used</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
       <tbody>
       {{range .Apps}}
         <tr>
           <td><strong>{{.Name}}</strong>{{if .Revoked}} <span class="badge expired">Disconnected</span>{{end}}</td>
+          {{if $.TeamOn}}<td data-label="Connected by">{{if .By}}{{.By}}{{else}}Admin password{{end}}</td>{{end}}
           <td data-label="Access">{{.Access}}</td>
           <td data-label="Connected">{{.Created}}</td>
           <td data-label="Last used">{{.LastUsed}}</td>
@@ -73,6 +78,45 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
     </table>
     {{end}}
   </section>
+  {{if .TeamOn}}
+  <section class="card" aria-labelledby="team-h">
+    <h2 id="team-h" style="font-size:1.125rem;margin:0 0 4px">Team for account {{.AccountID}}</h2>
+    <p class="hint">People who may connect Claude or ChatGPT to this account with their own sign-in. Add their email here and in your Cloudflare Access policy. Removing someone disconnects the apps they connected.</p>
+    {{if .Team}}
+    <table>
+      <thead><tr><th scope="col">Email</th><th scope="col">Access</th><th scope="col">Added</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+      <tbody>
+      {{range .Team}}
+        <tr>
+          <td><strong>{{.Email}}</strong></td>
+          <td data-label="Access">{{.Access}}</td>
+          <td data-label="Added">{{.Added}}</td>
+          <td class="row-actions">
+            <form class="inline" method="post" action="/admin/connections">
+              <input type="hidden" name="action" value="remove_member"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="email" value="{{.Email}}">
+              <button type="submit" class="link" aria-label="Remove {{.Email}}">Remove</button>
+            </form>
+          </td>
+        </tr>
+      {{end}}
+      </tbody>
+    </table>
+    {{else}}
+    <p class="hint">No one yet. Add yourself first.</p>
+    {{end}}
+    <form method="post" action="/admin/connections" class="row" autocomplete="off">
+      <input type="hidden" name="action" value="add_member"><input type="hidden" name="account" value="{{.AccountID}}">
+      <label for="member-email" class="visually-hidden">Email</label>
+      <input id="member-email" name="email" type="email" required placeholder="teammate@example.com" style="flex:2;min-width:220px">
+      <label for="member-access" class="visually-hidden">Access</label>
+      <select id="member-access" name="member_access" style="flex:1;min-width:160px">
+        <option value="read">Read only</option>
+        <option value="write">Read and write</option>
+      </select>
+      <button type="submit" class="primary">Add to team</button>
+    </form>
+  </section>
+  {{end}}
   {{end}}
 
   <div class="biz">

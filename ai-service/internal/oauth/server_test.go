@@ -15,12 +15,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/ratelimit"
 )
 
 // --- in-memory store ---
 
 type mem struct {
+	team    []Member
 	clients map[string]Client
 	codes   map[string]Code
 	grants  map[int64]*memGrant
@@ -90,6 +92,18 @@ func (m *mem) RevokeByRefresh(_ context.Context, h, client string) error {
 }
 func (m *mem) Grants(context.Context, int64) ([]Grant, error)  { return nil, nil }
 func (m *mem) RevokeGrant(context.Context, int64, int64) error { return nil }
+func (m *mem) Memberships(_ context.Context, email string) ([]Member, error) {
+	var out []Member
+	for _, t := range m.team {
+		if t.Email == email {
+			out = append(out, t)
+		}
+	}
+	return out, nil
+}
+func (m *mem) Team(context.Context, int64) ([]Member, error)     { return m.team, nil }
+func (m *mem) AddMember(_ context.Context, mm Member) error      { m.team = append(m.team, mm); return nil }
+func (m *mem) RemoveMember(context.Context, string, int64) error { return nil }
 
 // --- harness ---
 
@@ -479,5 +493,100 @@ func TestGlobalDailyFailureCap(t *testing.T) {
 	// Assert
 	if fresh != http.StatusTooManyRequests {
 		t.Fatalf("after %d failures from many addresses, approval = %d, want 429", maxFailedAllPerDay, fresh)
+	}
+}
+
+// --- Cloudflare Access mode ---
+
+type fakeAccess struct{ byToken map[string]string }
+
+func (f fakeAccess) Verify(_ context.Context, tok string) (cfaccess.Identity, error) {
+	if email, ok := f.byToken[tok]; ok {
+		return cfaccess.Identity{Email: email}, nil
+	}
+	return cfaccess.Identity{}, cfaccess.ErrInvalid
+}
+
+func accessEnv() *env {
+	e := newEnv()
+	e.srv.Access = fakeAccess{byToken: map[string]string{"jwt-somchai": "somchai@example.com", "jwt-stranger": "stranger@example.com"}}
+	e.store.team = []Member{{Email: "somchai@example.com", AccountID: 1, CanWrite: true}, {Email: "somchai@example.com", AccountID: 2}}
+	return e
+}
+
+func (e *env) approveAs(jwt string, f url.Values) *httptest.ResponseRecorder {
+	r := httptest.NewRequest(http.MethodPost, "/oauth/authorize", strings.NewReader(f.Encode()))
+	r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	if jwt != "" {
+		r.Header.Set(cfaccess.Header, jwt)
+	}
+	return e.do(r)
+}
+
+func TestAccess_MemberApprovesWithoutPassword(t *testing.T) {
+	// Arrange
+	e := accessEnv()
+	client := e.register(t, redirect)
+	page := httptest.NewRequest(http.MethodGet, "/oauth/authorize?"+authForm(client, nil).Encode(), nil)
+	page.Header.Set(cfaccess.Header, "jwt-somchai")
+
+	// Act
+	shown := e.do(page).Body.String()
+	rec := e.approveAs("jwt-somchai", authForm(client, map[string]string{"password": ""}))
+	code := codeFrom(t, rec)
+	_, tok := e.tokenReq(url.Values{"grant_type": {"authorization_code"}, "code": {code}, "client_id": {client},
+		"redirect_uri": {redirect}, "code_verifier": {verifier}})
+
+	// Assert
+	if !strings.Contains(shown, "somchai@example.com") || strings.Contains(shown, `type="password"`) || !strings.Contains(shown, "Account 2 (read only)") {
+		t.Fatal("consent page should show the signed-in member, their accounts, and no password field")
+	}
+	if tok["access_token"] == nil || e.store.issued[0].ApprovedBy != "somchai@example.com" || e.store.issued[0].AccountID != 1 {
+		t.Fatalf("grant = %+v", e.store.issued)
+	}
+}
+
+func TestAccess_Refusals(t *testing.T) {
+	cases := map[string]struct {
+		jwt   string
+		extra map[string]string
+		want  int
+	}{
+		"no access token":       {"", nil, http.StatusForbidden},
+		"forged access token":   {"jwt-forged", nil, http.StatusForbidden},
+		"not on the team":       {"jwt-stranger", nil, http.StatusForbidden},
+		"other account":         {"jwt-somchai", map[string]string{"account": "3"}, http.StatusUnprocessableEntity},
+		"write on read account": {"jwt-somchai", map[string]string{"account": "2", "access": "write"}, http.StatusForbidden},
+	}
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			// Arrange
+			e := accessEnv()
+			client := e.register(t, redirect)
+
+			// Act
+			rec := e.approveAs(c.jwt, authForm(client, c.extra))
+
+			// Assert
+			if rec.Code != c.want || rec.Header().Get("Location") != "" || len(e.store.codes) != 0 {
+				t.Fatalf("code=%d loc=%q", rec.Code, rec.Header().Get("Location"))
+			}
+		})
+	}
+}
+
+func TestAccess_ReadOnlyMemberGetsReadToken(t *testing.T) {
+	// Arrange
+	e := accessEnv()
+	client := e.register(t, redirect)
+
+	// Act
+	code := codeFrom(t, e.approveAs("jwt-somchai", authForm(client, map[string]string{"account": "2", "access": "read"})))
+	_, tok := e.tokenReq(url.Values{"grant_type": {"authorization_code"}, "code": {code}, "client_id": {client},
+		"redirect_uri": {redirect}, "code_verifier": {verifier}})
+
+	// Assert
+	if tok["scope"] != "kb:read" || e.store.issued[0].CanWrite {
+		t.Fatalf("scope=%v grant=%+v", tok["scope"], e.store.issued[0])
 	}
 }

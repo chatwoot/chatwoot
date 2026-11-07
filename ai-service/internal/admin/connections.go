@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
 	"net/http"
 	"strconv"
 	"strings"
@@ -18,8 +19,15 @@ type tokenView struct {
 	Revoked  bool
 }
 
+type memberView struct {
+	Email  string
+	Access string
+	Added  string
+}
+
 type appView struct {
 	ID       int64
+	By       string
 	Name     string
 	Access   string
 	Created  string
@@ -30,6 +38,8 @@ type appView struct {
 type connectionsData struct {
 	Apps      []appView
 	OAuth     bool // apps can connect by signing in
+	Team      []memberView
+	TeamOn    bool // approvals by team members through Cloudflare Access
 	Enabled   bool
 	AccountID int64
 	URL       string
@@ -54,8 +64,11 @@ func (h *Handler) mcpURL(r *http.Request) string {
 
 func (h *Handler) showConnections(w http.ResponseWriter, r *http.Request) {
 	d := connectionsData{AccountID: accountParam(r.URL.Query().Get("account"))}
-	if r.URL.Query().Get("done") == "revoked" {
+	switch r.URL.Query().Get("done") {
+	case "revoked":
 		d.Notice = "Revoked. AI tools using that token are cut off immediately."
+	case "team":
+		d.Notice = "Team updated. Removing someone also disconnects the apps they connected to this account."
 	}
 	h.renderConnections(w, r, http.StatusOK, d)
 }
@@ -92,7 +105,7 @@ func (h *Handler) renderConnections(w http.ResponseWriter, r *http.Request, stat
 			h.Logger.Error("list oauth apps", "account_id", d.AccountID, "error", err)
 		}
 		for _, g := range grants {
-			v := appView{ID: g.ID, Name: g.ClientName, Access: "Read only", Created: h.day(g.CreatedAt), LastUsed: "Never", Revoked: !g.RevokedAt.IsZero()}
+			v := appView{ID: g.ID, By: g.ApprovedBy, Name: g.ClientName, Access: "Read only", Created: h.day(g.CreatedAt), LastUsed: "Never", Revoked: !g.RevokedAt.IsZero()}
 			if g.CanWrite {
 				v.Access = "Read and write"
 			}
@@ -100,6 +113,20 @@ func (h *Handler) renderConnections(w http.ResponseWriter, r *http.Request, stat
 				v.LastUsed = g.LastUsedAt.In(h.loc()).Format("2 Jan 2006 15:04")
 			}
 			d.Apps = append(d.Apps, v)
+		}
+	}
+	if h.Apps != nil && h.TeamSignIn {
+		d.TeamOn = true
+		team, err := h.Apps.Team(r.Context(), d.AccountID)
+		if err != nil {
+			h.Logger.Error("list team", "account_id", d.AccountID, "error", err)
+		}
+		for _, m := range team {
+			v := memberView{Email: m.Email, Access: "Read only", Added: h.day(m.CreatedAt)}
+			if m.CanWrite {
+				v.Access = "Read and write"
+			}
+			d.Team = append(d.Team, v)
 		}
 	}
 	// The new token is on this page only: never cache it.
@@ -140,6 +167,31 @@ func (h *Handler) submitConnections(w http.ResponseWriter, r *http.Request) {
 		h.Logger.Info("mcp token created", "account_id", acct, "token_id", t.ID, "can_write", t.CanWrite, "remote_addr", r.RemoteAddr)
 		d.NewToken = plain
 		h.renderConnections(w, r, http.StatusOK, d)
+	case "add_member", "remove_member":
+		if h.Apps == nil || !h.TeamSignIn {
+			http.Error(w, "team sign-in is off", http.StatusBadRequest)
+			return
+		}
+		email := strings.ToLower(strings.TrimSpace(r.PostForm.Get("email")))
+		if !validEmail(email) {
+			d.Error = "Enter a valid email address."
+			h.renderConnections(w, r, http.StatusUnprocessableEntity, d)
+			return
+		}
+		var err error
+		if r.PostForm.Get("action") == "add_member" {
+			err = h.Apps.AddMember(r.Context(), oauth.Member{Email: email, AccountID: acct, CanWrite: r.PostForm.Get("member_access") == "write"})
+		} else {
+			err = h.Apps.RemoveMember(r.Context(), email, acct)
+		}
+		if err != nil {
+			h.Logger.Warn("team change failed", "account_id", acct, "error", err)
+			d.Error = "Could not change the team. Try again."
+			h.renderConnections(w, r, http.StatusUnprocessableEntity, d)
+			return
+		}
+		h.Logger.Info("team changed", "account_id", acct, "action", r.PostForm.Get("action"), "remote_addr", r.RemoteAddr)
+		http.Redirect(w, r, "/admin/connections?account="+strconv.FormatInt(acct, 10)+"&done=team", http.StatusSeeOther)
 	case "revoke_app":
 		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
 		if h.Apps == nil || h.Apps.RevokeGrant(r.Context(), acct, id) != nil {
@@ -161,4 +213,10 @@ func (h *Handler) submitConnections(w http.ResponseWriter, r *http.Request) {
 	default:
 		http.Error(w, "unknown action", http.StatusBadRequest)
 	}
+}
+
+// validEmail is a light check; Cloudflare Access proves the address at sign-in.
+func validEmail(e string) bool {
+	at := strings.LastIndex(e, "@")
+	return len(e) <= 254 && at > 0 && at < len(e)-3 && strings.Contains(e[at:], ".") && !strings.ContainsAny(e, " \t<>\"'")
 }
