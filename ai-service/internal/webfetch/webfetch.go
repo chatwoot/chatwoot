@@ -133,10 +133,17 @@ func checkRedirect(next *url.URL, via []*http.Request, allowPrivate bool) error 
 		return ErrOffSite
 	}
 	site := func(h string) string { return strings.TrimPrefix(strings.ToLower(strings.TrimSuffix(h, ".")), "www.") }
-	if site(next.Hostname()) != site(first.Hostname()) {
+	if site(next.Hostname()) != site(first.Hostname()) && !googleHop(site(first.Hostname()), site(next.Hostname()), next.Scheme) {
 		return ErrOffSite
 	}
 	return checkURL(next, allowPrivate)
+}
+
+// googleHop allows the one cross-site redirect Google uses for files
+// published to the web: docs.google.com hands the download to
+// *.googleusercontent.com over https.
+func googleHop(from, to, scheme string) bool {
+	return from == "docs.google.com" && scheme == "https" && strings.HasSuffix(to, ".googleusercontent.com")
 }
 
 // dialAllowed is checked on the address actually being connected to, after
@@ -197,6 +204,31 @@ func checkURL(u *url.URL, allowPrivate bool) error {
 
 // Fetch downloads one page.
 func (f *Fetcher) Fetch(ctx context.Context, raw string) (Page, error) {
+	return f.fetch(ctx, raw, "text/html, text/plain, text/markdown;q=0.9", pageType)
+}
+
+// FetchData downloads a data file (CSV or JSON Lines). Body is returned as
+// UTF-8 text; parsing is the caller's job.
+func (f *Fetcher) FetchData(ctx context.Context, raw string) (Page, error) {
+	return f.fetch(ctx, raw, "text/csv, application/x-ndjson, application/jsonl, text/plain;q=0.8, */*;q=0.1", dataType)
+}
+
+func pageType(ct string) bool {
+	return ct == "text/html" || ct == "text/plain" || ct == "text/markdown" || ct == "application/xhtml+xml"
+}
+
+// dataType accepts the types data files are served as. octet-stream is
+// common for .jsonl files; the content must still parse as CSV or JSON Lines.
+func dataType(ct string) bool {
+	switch ct {
+	case "text/csv", "text/plain", "text/tab-separated-values", "application/json", "application/x-ndjson",
+		"application/jsonl", "application/jsonlines", "application/x-jsonlines", "application/octet-stream":
+		return true
+	}
+	return false
+}
+
+func (f *Fetcher) fetch(ctx context.Context, raw, accept string, allowed func(string) bool) (Page, error) {
 	u, err := url.Parse(strings.TrimSpace(raw))
 	if err != nil {
 		return Page{}, errors.New("not a valid web address")
@@ -213,7 +245,7 @@ func (f *Fetcher) Fetch(ctx context.Context, raw string) (Page, error) {
 		ua = "ai-service-knowledge-sync/1"
 	}
 	req.Header.Set("User-Agent", ua)
-	req.Header.Set("Accept", "text/html, text/plain, text/markdown;q=0.9")
+	req.Header.Set("Accept", accept)
 	res, err := f.client().Do(req)
 	if err != nil {
 		if errors.Is(err, ErrBlocked) {
@@ -232,7 +264,7 @@ func (f *Fetcher) Fetch(ctx context.Context, raw string) (Page, error) {
 		return Page{}, fmt.Errorf("%w (status %d)", ErrBadResponse, res.StatusCode)
 	}
 	ct, params, _ := mime.ParseMediaType(res.Header.Get("Content-Type"))
-	if ct != "text/html" && ct != "text/plain" && ct != "text/markdown" && ct != "application/xhtml+xml" {
+	if !allowed(ct) {
 		return Page{}, ErrNotText
 	}
 	body, err := io.ReadAll(io.LimitReader(res.Body, MaxBytes+1))

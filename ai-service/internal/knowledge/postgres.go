@@ -44,6 +44,9 @@ var schemaV9 string
 //go:embed schema_v10.sql
 var schemaV10 string
 
+//go:embed schema_v11.sql
+var schemaV11 string
+
 // Postgres is a Store backed by Postgres with the pgvector extension.
 type Postgres struct {
 	Pool *pgxpool.Pool
@@ -152,6 +155,14 @@ func (p *Postgres) Migrate(ctx context.Context) error {
 			return fmt.Errorf("apply schema v10: %w", err)
 		}
 		if _, err := tx.Exec(ctx, "UPDATE kb_schema_version SET version = 10"); err != nil {
+			return err
+		}
+	}
+	if version < 11 {
+		if _, err := tx.Exec(ctx, schemaV11); err != nil {
+			return fmt.Errorf("apply schema v11: %w", err)
+		}
+		if _, err := tx.Exec(ctx, "UPDATE kb_schema_version SET version = 11"); err != nil {
 			return err
 		}
 	}
@@ -382,6 +393,29 @@ func (p *Postgres) GetByKey(ctx context.Context, accountID int64, key string) (D
 		return Document{}, ErrNotFound
 	}
 	return d, err
+}
+
+// MaxPrefixList bounds ListByKeyPrefix (a feed has at most 500 rows).
+const MaxPrefixList = 2000
+
+// ListByKeyPrefix implements Store.
+func (p *Postgres) ListByKeyPrefix(ctx context.Context, accountID int64, prefix string) ([]Document, error) {
+	rows, err := p.Pool.Query(ctx, `SELECT `+docColumns+` FROM kb_documents d
+		WHERE d.account_id = $1 AND d.source_key IS NOT NULL AND left(d.source_key, char_length($2)) = $2
+		ORDER BY d.id LIMIT `+strconv.Itoa(MaxPrefixList), accountID, prefix)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var out []Document
+	for rows.Next() {
+		d, err := scanDocument(rows.Scan)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, d)
+	}
+	return out, rows.Err()
 }
 
 // Update implements Store: new text, scope and dates, and fresh chunks, in

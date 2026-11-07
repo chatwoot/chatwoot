@@ -194,8 +194,8 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
 		t.Fatal(err)
 	}
-	if version != 10 || docs != 1 || table == nil {
-		t.Errorf("version=%d docs=%d business_profiles=%v, want 10, 1, present", version, docs, table)
+	if version != 11 || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want 11, 1, present", version, docs, table)
 	}
 	var rls bool
 	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
@@ -307,8 +307,8 @@ func TestPostgres_MigratesV3ToV4KeepsDocumentsActive(t *testing.T) {
 		t.Fatalf("migrate %v, search %v, list %v", err, searchErr, listErr)
 	}
 	var version int
-	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 10 {
-		t.Fatalf("version = %d (err %v), want 10", version, err)
+	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 11 {
+		t.Fatalf("version = %d (err %v), want 11", version, err)
 	}
 	if len(hits) != 1 || len(docs) != 1 || docs[0].UseCount != 0 || !docs[0].ValidUntil.IsZero() || !docs[0].LastUsedAt.IsZero() {
 		t.Errorf("after v4: hits=%d docs=%+v", len(hits), docs)
@@ -581,12 +581,20 @@ func TestPostgres_MigratesV2ToLatestInOneStep(t *testing.T) {
 	if v10 != 2 {
 		t.Errorf("v10 objects present = %d, want 2 (chatwoot_inboxes, RLS)", v10)
 	}
+	var v11 int
+	if err := db.Pool.QueryRow(ctx, `SELECT count(*) FROM information_schema.columns
+		WHERE table_name = 'web_sources' AND column_name IN ('kind', 'item_count')`).Scan(&v11); err != nil {
+		t.Fatal(err)
+	}
+	if v11 != 2 {
+		t.Errorf("v11 columns present = %d, want 2 (kind, item_count)", v11)
+	}
 	docs, _ := db.List(ctx, 1, "m")
 	if len(docs) == 1 && docs[0].SourceKey != "" {
 		t.Errorf("existing document got a key: %q", docs[0].SourceKey)
 	}
-	if version != 10 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
-		t.Errorf("version=%d new columns=%d docs=%+v, want 10, 7, one active document", version, cols, docs)
+	if version != 11 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
+		t.Errorf("version=%d new columns=%d docs=%+v, want 11, 7, one active document", version, cols, docs)
 	}
 }
 
@@ -696,5 +704,32 @@ func TestPostgres_SimilarNeverSeesOtherAccounts(t *testing.T) {
 	// Assert
 	if err != nil || len(hits) != 0 {
 		t.Fatalf("hits=%+v err=%v", hits, err)
+	}
+}
+
+func TestPostgres_ListByKeyPrefixStaysInAccountAndFeed(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	for _, d := range []Document{
+		{AccountID: 1, Kind: KindText, Title: "a", Content: "a", SourceKey: "feed:1:a"},
+		{AccountID: 1, Kind: KindText, Title: "b", Content: "b", SourceKey: "feed:1:b"},
+		{AccountID: 1, Kind: KindText, Title: "c", Content: "c", SourceKey: "feed:10:a"},
+		{AccountID: 2, Kind: KindText, Title: "d", Content: "d", SourceKey: "feed:1:a"},
+		{AccountID: 1, Kind: KindText, Title: "e", Content: "e", SourceKey: "product-001"},
+		{AccountID: 1, Kind: KindText, Title: "f", Content: "f"},
+	} {
+		if _, err := db.Insert(ctx, d, "m", nil); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	// Act
+	got, err := db.ListByKeyPrefix(ctx, 1, "feed:1:")
+	pct, err2 := db.ListByKeyPrefix(ctx, 1, "%") // LIKE wildcards are plain text here
+
+	// Assert
+	if err != nil || err2 != nil || len(got) != 2 || got[0].SourceKey != "feed:1:a" || got[1].SourceKey != "feed:1:b" || len(pct) != 0 {
+		t.Errorf("got=%+v pct=%d err=%v %v", got, len(pct), err, err2)
 	}
 }

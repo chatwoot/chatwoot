@@ -16,13 +16,13 @@ import (
 
 type memWeb struct{ srcs []websync.Source }
 
-func (m *memWeb) Add(_ context.Context, acct int64, u string) (websync.Source, error) {
+func (m *memWeb) Add(_ context.Context, acct int64, u, kind string) (websync.Source, error) {
 	for _, s := range m.srcs {
 		if s.AccountID == acct && s.URL == u {
 			return websync.Source{}, websync.ErrDuplicate
 		}
 	}
-	s := websync.Source{ID: int64(len(m.srcs) + 1), AccountID: acct, URL: u, Status: "new"}
+	s := websync.Source{ID: int64(len(m.srcs) + 1), AccountID: acct, URL: u, Status: "new", Kind: kind}
 	m.srcs = append(m.srcs, s)
 	return s, nil
 }
@@ -85,6 +85,10 @@ func (m *memWeb) Save(_ context.Context, s websync.Source) error {
 
 type fixedPage struct{}
 
+func (fixedPage) FetchData(context.Context, string) (webfetch.Page, error) {
+	return webfetch.Page{ContentType: "text/csv", Body: []byte("id,question,answer\nfaq-1,Open hours?,9 to 6\nfaq-2,Refunds?,No refunds for digital goods\n")}, nil
+}
+
 func (fixedPage) Fetch(context.Context, string) (webfetch.Page, error) {
 	return webfetch.Page{ContentType: "text/html", Body: []byte("<title>Refund policy</title><main><p>No refunds for digital goods.</p></main>")}, nil
 }
@@ -96,7 +100,8 @@ func webEnv(t *testing.T) (*http.ServeMux, *memStore, *memWeb) {
 	kb := &knowledge.Service{Store: ms, Embedder: constEmbedder{"m1"}, TopK: 4, ChunkRunes: 800}
 	mw := &memWeb{}
 	e.h.Knowledge, e.h.Web = kb, mw
-	e.h.WebSync = &websync.Syncer{Store: mw, Knowledge: kb, Fetcher: fixedPage{}, Logger: e.h.Logger}
+	e.h.WebSync = &websync.Syncer{Store: mw, Knowledge: kb, Fetcher: fixedPage{}, Logger: e.h.Logger,
+		Background: func(f func()) { f() }}
 	return e.mux, ms, mw
 }
 
@@ -175,5 +180,35 @@ func TestWeb_ScheduleAndSyncAll(t *testing.T) {
 	}
 	if all.Code != http.StatusSeeOther || !strings.Contains(all.Header().Get("Location"), "count=1") {
 		t.Fatalf("sync all: %d %q", all.Code, all.Header().Get("Location"))
+	}
+}
+
+func TestWeb_FeedAddedReadInBackgroundAndRemovedWithItsRows(t *testing.T) {
+	// Arrange
+	mux, ms, mw := webEnv(t)
+	sheet := "https://docs.google.com/spreadsheets/d/e/abc/pub?output=csv"
+
+	// Act
+	added := serve(mux, kform(url.Values{"action": {"add_page"}, "account": {"1"}, "kind": {"feed"}, "url": {sheet}}))
+	page := httptest.NewRequest(http.MethodGet, "/admin/knowledge?account=1&done=feed_started", nil)
+	page.SetBasicAuth(Username, pw)
+	body := serve(mux, page).Body.String()
+	docsAfterAdd := len(ms.docs)
+	removed := serve(mux, kform(url.Values{"action": {"remove_page"}, "account": {"1"}, "id": {strconvI(mw.srcs[0].ID)}}))
+
+	// Assert
+	if added.Code != http.StatusSeeOther || !strings.Contains(added.Header().Get("Location"), "done=feed_started") {
+		t.Fatalf("add: %d %q", added.Code, added.Header().Get("Location"))
+	}
+	if docsAfterAdd != 2 || ms.docs[0].SourceKey != websync.FeedKey(1, "faq-1") || ms.docs[0].Kind != knowledge.KindFAQ {
+		t.Fatalf("docs = %+v", ms.docs)
+	}
+	for _, want := range []string{"Reading the file in the background", "Data file", "2 rows", "delete its 2 answers"} {
+		if !strings.Contains(body, want) {
+			t.Errorf("page missing %q", want)
+		}
+	}
+	if removed.Code != http.StatusSeeOther || len(ms.deleted) != 2 || len(mw.srcs) != 0 {
+		t.Errorf("remove: %d deleted=%v srcs=%d", removed.Code, ms.deleted, len(mw.srcs))
 	}
 }

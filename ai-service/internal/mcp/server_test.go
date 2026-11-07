@@ -528,3 +528,31 @@ func TestServer_401PointsToOAuthMetadata(t *testing.T) {
 		t.Fatalf("code=%d header=%q", rec.Code, h)
 	}
 }
+
+func (s *store) ListByKeyPrefix(_ context.Context, acct int64, prefix string) ([]knowledge.Document, error) {
+	var out []knowledge.Document
+	for _, d := range s.docs {
+		if (d.AccountID == acct || d.AccountID == 0) && d.SourceKey != "" && strings.HasPrefix(d.SourceKey, prefix) {
+			out = append(out, d)
+		}
+	}
+	return out, nil
+}
+
+func TestServer_UpsertRefusesSyncedKeys(t *testing.T) {
+	// Arrange
+	e := newEnv()
+
+	for _, key := range []string{"web:https://example.com/a", "feed:3:product-001", " FEED:3:x"} {
+		// Act
+		res := e.call(rw, "upsert_document", map[string]any{"key": key, "title": "q", "content": "a"})
+
+		// Assert
+		if !isErr(res) || !strings.Contains(text(res), "kept in sync") {
+			t.Errorf("%q: res=%v, want refusal", key, res)
+		}
+	}
+	if len(e.st.docs) != 0 || len(e.audit.entries) != 0 {
+		t.Errorf("docs=%d audit=%d, want nothing written", len(e.st.docs), len(e.audit.entries))
+	}
+}

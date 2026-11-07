@@ -191,6 +191,12 @@ func TestCheckRedirect_StaysOnSite(t *testing.T) {
 		{"https://example.com/a", "https://example.com:8080/b", false},
 		{"https://example.com/a", "https://127.0.0.1/b", false},
 		{"http://example.com/a", "https://example.com/b", true}, // upgrade is fine
+		// Google's published files hand off to googleusercontent.com over https only.
+		{"https://docs.google.com/spreadsheets/d/e/x/pub?output=csv", "https://doc-0k-4s-sheets.googleusercontent.com/pub/x", true},
+		{"https://docs.google.com/a", "http://doc-0k.googleusercontent.com/b", false},
+		{"https://docs.google.com/a", "https://googleusercontent.com.evil.example/b", false},
+		{"https://evil.example/a", "https://x.googleusercontent.com/b", false},
+		{"https://sites.google.com/a", "https://x.googleusercontent.com/b", false},
 	}
 	for _, c := range cases {
 		// Arrange
@@ -233,5 +239,56 @@ func TestFetch_DecodesThaiLegacyEncoding(t *testing.T) {
 	// Assert
 	if err != nil || text != "ราคา" {
 		t.Fatalf("text = %q err = %v", text, err)
+	}
+}
+
+func TestFetchData_TypesAndPagesStayStrict(t *testing.T) {
+	// Arrange
+	serve := func(ct, body string) http.HandlerFunc {
+		return func(w http.ResponseWriter, _ *http.Request) {
+			w.Header().Set("Content-Type", ct)
+			_, _ = w.Write([]byte(body))
+		}
+	}
+	mux := http.NewServeMux()
+	mux.HandleFunc("/csv", serve("text/csv; charset=utf-8", "id,text\n1,a\n"))
+	mux.HandleFunc("/jsonl", serve("application/octet-stream", `{"id":"1","text":"a"}`))
+	mux.HandleFunc("/pdf", serve("application/pdf", "%PDF"))
+	mux.HandleFunc("/img", serve("image/png", "x"))
+	srv := httptest.NewServer(mux)
+	defer srv.Close()
+	f := &Fetcher{AllowPrivate: true}
+	ctx := context.Background()
+
+	// Act
+	csvPage, csvErr := f.FetchData(ctx, srv.URL+"/csv")
+	_, jsonlErr := f.FetchData(ctx, srv.URL+"/jsonl")
+	_, pdfErr := f.FetchData(ctx, srv.URL+"/pdf")
+	_, imgErr := f.FetchData(ctx, srv.URL+"/img")
+	_, csvAsPage := f.Fetch(ctx, srv.URL+"/csv")
+
+	// Assert
+	if csvErr != nil || string(csvPage.Body) != "id,text\n1,a\n" || jsonlErr != nil {
+		t.Fatalf("csv=%v jsonl=%v body=%q", csvErr, jsonlErr, csvPage.Body)
+	}
+	if !errors.Is(pdfErr, ErrNotText) || !errors.Is(imgErr, ErrNotText) || !errors.Is(csvAsPage, ErrNotText) {
+		t.Errorf("pdf=%v img=%v csv-as-page=%v, want ErrNotText", pdfErr, imgErr, csvAsPage)
+	}
+}
+
+func TestFetchData_DefaultRefusesLocalServer(t *testing.T) {
+	// Arrange
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/csv")
+		_, _ = w.Write([]byte("id,text\n1,secret\n"))
+	}))
+	defer srv.Close()
+
+	// Act
+	_, err := (&Fetcher{}).FetchData(context.Background(), srv.URL)
+
+	// Assert
+	if !errors.Is(err, ErrBlocked) {
+		t.Errorf("err = %v, want ErrBlocked", err)
 	}
 }

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"log/slog"
+	"strings"
 	"testing"
 	"time"
 
@@ -82,13 +83,13 @@ func (e emb) Embed(_ context.Context, t []string) ([][]float32, error) {
 
 type srcStore struct{ saved []Source }
 
-func (s *srcStore) Add(context.Context, int64, string) (Source, error)   { return Source{}, nil }
-func (s *srcStore) List(context.Context, int64) ([]Source, error)        { return nil, nil }
-func (s *srcStore) Get(context.Context, int64, int64) (Source, error)    { return Source{}, nil }
-func (s *srcStore) Remove(context.Context, int64, int64) error           { return nil }
-func (s *srcStore) Claim(context.Context, int) ([]Source, error)         { return nil, nil }
-func (s *srcStore) SetInterval(context.Context, int64, int64, int) error { return nil }
-func (s *srcStore) MarkAllDue(context.Context, int64) (int, error)       { return 0, nil }
+func (s *srcStore) Add(context.Context, int64, string, string) (Source, error) { return Source{}, nil }
+func (s *srcStore) List(context.Context, int64) ([]Source, error)              { return nil, nil }
+func (s *srcStore) Get(context.Context, int64, int64) (Source, error)          { return Source{}, nil }
+func (s *srcStore) Remove(context.Context, int64, int64) error                 { return nil }
+func (s *srcStore) Claim(context.Context, int) ([]Source, error)               { return nil, nil }
+func (s *srcStore) SetInterval(context.Context, int64, int64, int) error       { return nil }
+func (s *srcStore) MarkAllDue(context.Context, int64) (int, error)             { return 0, nil }
 func (s *srcStore) ClaimOne(context.Context, int64, int64) (Source, error) {
 	return Source{}, nil
 }
@@ -100,7 +101,12 @@ func (s *srcStore) last() Source { return s.saved[len(s.saved)-1] }
 
 type page struct {
 	html string
+	data string // FetchData body
 	err  error
+}
+
+func (p *page) FetchData(context.Context, string) (webfetch.Page, error) {
+	return webfetch.Page{ContentType: "text/csv", Body: []byte(p.data)}, p.err
 }
 
 func (p *page) Fetch(context.Context, string) (webfetch.Page, error) {
@@ -238,6 +244,9 @@ func TestCheck_DocumentDeletedByHandIsRestored(t *testing.T) {
 type panicFetch struct{}
 
 func (panicFetch) Fetch(context.Context, string) (webfetch.Page, error) { panic("parser bug") }
+func (panicFetch) FetchData(context.Context, string) (webfetch.Page, error) {
+	panic("parser bug")
+}
 
 func TestCheckSafely_PanicBecomesFailedCheck(t *testing.T) {
 	// Arrange
@@ -257,4 +266,14 @@ func TestKick_DoesNotBlock(t *testing.T) {
 	s, _, _, _, _, _ := env()
 	s.Kick()
 	s.Kick() // a second kick while one is pending is dropped, not blocking
+}
+
+func (s *kstore) ListByKeyPrefix(_ context.Context, acct int64, prefix string) ([]knowledge.Document, error) {
+	var out []knowledge.Document
+	for _, d := range s.docs {
+		if (d.AccountID == acct || d.AccountID == 0) && d.SourceKey != "" && strings.HasPrefix(d.SourceKey, prefix) {
+			out = append(out, d)
+		}
+	}
+	return out, nil
 }

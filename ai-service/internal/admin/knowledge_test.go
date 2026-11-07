@@ -340,3 +340,13 @@ func TestTest_EmbeddingSlotUsesEmbeddingProbe(t *testing.T) {
 		t.Error("success message missing")
 	}
 }
+
+func (m *memStore) ListByKeyPrefix(_ context.Context, acct int64, prefix string) ([]knowledge.Document, error) {
+	var out []knowledge.Document
+	for _, d := range m.docs {
+		if (d.AccountID == acct || d.AccountID == 0) && d.SourceKey != "" && strings.HasPrefix(d.SourceKey, prefix) {
+			out = append(out, d)
+		}
+	}
+	return out, nil
+}

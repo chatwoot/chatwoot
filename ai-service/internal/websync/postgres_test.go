@@ -38,10 +38,10 @@ func TestPostgres_SourcesAddDueSaveRemove(t *testing.T) {
 	ctx := context.Background()
 
 	// Act
-	a, addErr := db.Add(ctx, 1, "https://example.com/pricing")
-	_, dup := db.Add(ctx, 1, "https://example.com/pricing")
-	_, otherAcct := db.Add(ctx, 2, "https://example.com/pricing")
-	_, badURL := db.Add(ctx, 1, "javascript:alert(1)")
+	a, addErr := db.Add(ctx, 1, "https://example.com/pricing", KindPage)
+	_, dup := db.Add(ctx, 1, "https://example.com/pricing", KindPage)
+	_, otherAcct := db.Add(ctx, 2, "https://example.com/pricing", KindPage)
+	_, badURL := db.Add(ctx, 1, "javascript:alert(1)", KindPage)
 	dueBefore, _ := db.Claim(ctx, 10)
 	claimedAgain, _ := db.Claim(ctx, 10) // leased: another run must not take them
 	a.Status, a.Title, a.ContentHash, a.CheckedAt, a.ChangedAt = "ok", "Pricing", "h1", time.Now(), time.Now()
@@ -79,10 +79,10 @@ func TestPostgres_LimitsAndSaveAfterRemove(t *testing.T) {
 		t.Fatal(err)
 	}
 	_, spaced := db.Pool.Exec(ctx, `INSERT INTO web_sources (account_id, url) VALUES (3, 'https://example.com/a b')`)
-	s, _ := db.Add(ctx, 2, "https://example.com/x")
+	s, _ := db.Add(ctx, 2, "https://example.com/x", KindPage)
 
 	// Act
-	_, tooMany := db.Add(ctx, 1, "https://example.com/one-more")
+	_, tooMany := db.Add(ctx, 1, "https://example.com/one-more", KindPage)
 	_ = db.Remove(ctx, 2, s.ID)
 	saveGone := db.Save(ctx, s)
 
@@ -96,8 +96,8 @@ func TestPostgres_IntervalAndMarkAllDue(t *testing.T) {
 	// Arrange
 	db := openDB(t)
 	ctx := context.Background()
-	a, _ := db.Add(ctx, 1, "https://example.com/a")
-	_, _ = db.Add(ctx, 1, "https://example.com/b")
+	a, _ := db.Add(ctx, 1, "https://example.com/a", KindPage)
+	_, _ = db.Add(ctx, 1, "https://example.com/b", KindPage)
 	_, _ = db.Claim(ctx, 10)
 	a.Status, a.CheckedAt = "ok", time.Now()
 	_ = db.Save(ctx, a)
@@ -112,5 +112,30 @@ func TestPostgres_IntervalAndMarkAllDue(t *testing.T) {
 	// Assert
 	if ivErr != nil || !errors.Is(crossErr, ErrNotFound) || badIv == nil || markErr != nil || n != 2 || len(due) != 2 {
 		t.Fatalf("iv=%v cross=%v badIv=%v mark=%v n=%d due=%d", ivErr, crossErr, badIv, markErr, n, len(due))
+	}
+}
+
+func TestPostgres_FeedKindAndRowCount(t *testing.T) {
+	// Arrange
+	db := openDB(t)
+	ctx := context.Background()
+
+	// Act
+	f, addErr := db.Add(ctx, 1, "https://docs.google.com/spreadsheets/d/e/x/pub?output=csv", KindFeed)
+	_, badKind := db.Add(ctx, 1, "https://example.com/a", "script")
+	f.Status, f.Items, f.Title, f.CheckedAt = "ok", 113, "Google Sheet (CSV)", time.Now()
+	saveErr := db.Save(ctx, f)
+	got, getErr := db.Get(ctx, 1, f.ID)
+	_, dbRefuses := db.Pool.Exec(ctx, "UPDATE web_sources SET kind = 'other' WHERE id = $1", f.ID)
+
+	// Assert
+	if addErr != nil || saveErr != nil || getErr != nil {
+		t.Fatal(addErr, saveErr, getErr)
+	}
+	if badKind == nil || dbRefuses == nil {
+		t.Errorf("bad kind accepted: store=%v db=%v", badKind, dbRefuses)
+	}
+	if got.Kind != KindFeed || got.Items != 113 || !got.IsFeed() {
+		t.Errorf("source = %+v", got)
 	}
 }

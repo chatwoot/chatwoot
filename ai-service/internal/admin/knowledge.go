@@ -44,6 +44,7 @@ type docView struct {
 // docForm is the add or edit form's values, kept when a post is re-shown.
 type docForm struct {
 	ID                   int64 // set when editing
+	Synced               bool  // kept in sync from a website or data file
 	Kind                 string
 	InboxID              string
 	Question, Answer     string
@@ -52,6 +53,8 @@ type docForm struct {
 }
 
 type pageView struct {
+	Feed     bool
+	Items    int
 	ID       int64
 	Interval int
 	URL      string
@@ -87,6 +90,7 @@ type knowledgeData struct {
 	WebOn     bool
 	Pages     []pageView
 	PageURL   string
+	PageKind  string // "page" or "feed", kept when adding fails
 	DupeForm  string // faq or doc
 }
 
@@ -148,22 +152,37 @@ func (h *Handler) renderKnowledge(w http.ResponseWriter, r *http.Request, status
 			h.Logger.Error("list web pages", "account_id", data.AccountID, "error", err)
 		}
 		for _, p := range pages {
-			v := pageView{ID: p.ID, Interval: p.IntervalHours, URL: p.URL, Title: p.Title, Status: p.Status, Checked: "Not yet"}
+			v := pageView{ID: p.ID, Interval: p.IntervalHours, URL: p.URL, Title: p.Title, Status: p.Status, Checked: "Not yet",
+				Feed: p.IsFeed(), Items: p.Items}
 			if !p.CheckedAt.IsZero() {
 				v.Checked = p.CheckedAt.In(h.loc()).Format("2 Jan 15:04")
 			}
 			switch p.Status {
 			case "ok":
 				v.Label = "In sync"
-				if !p.ChangedAt.IsZero() {
-					v.Detail = "changed " + p.ChangedAt.In(h.loc()).Format("2 Jan 2006")
+				var parts []string
+				if p.IsFeed() {
+					parts = append(parts, strconv.Itoa(p.Items)+" rows")
 				}
+				if !p.ChangedAt.IsZero() {
+					parts = append(parts, "changed "+p.ChangedAt.In(h.loc()).Format("2 Jan 2006"))
+				}
+				if p.Error != "" { // a feed with skipped rows
+					parts = append(parts, p.Error)
+				}
+				v.Detail = strings.Join(parts, " · ")
 			case "error":
 				v.Label, v.Detail = "Problem", p.Error
 			case "gone":
 				v.Label, v.Detail = "Page gone", "hidden from the bot; deleted a week after it disappeared"
+				if p.IsFeed() {
+					v.Label = "File gone"
+				}
 			default:
 				v.Label = "Waiting"
+				if p.IsFeed() {
+					v.Label = "Reading…"
+				}
 			}
 			data.Pages = append(data.Pages, v)
 		}
@@ -228,7 +247,7 @@ func (h *Handler) toDocView(d knowledge.Document, now time.Time) docView {
 // formFromDoc fills the edit form. The stored end is exclusive (midnight
 // after the last day), so the form shows the day before.
 func (h *Handler) formFromDoc(d knowledge.Document) docForm {
-	f := docForm{ID: d.ID, Kind: string(d.Kind)}
+	f := docForm{ID: d.ID, Kind: string(d.Kind), Synced: knowledge.SyncedKey(d.SourceKey)}
 	if d.InboxID > 0 {
 		f.InboxID = strconv.FormatInt(d.InboxID, 10)
 	}
@@ -293,7 +312,9 @@ func noticeFor(q url.Values) string {
 			return "The page no longer exists, so the bot stopped using it."
 		}
 	case "page_removed":
-		return "Page removed. The bot no longer uses it."
+		return "Removed. The bot no longer uses it."
+	case "feed_started":
+		return "Reading the file in the background. Refresh in a minute to see how many rows were added."
 	case "page_interval":
 		return "Schedule saved."
 	case "sync_all":
@@ -523,6 +544,16 @@ func docCopy(d knowledge.Document) map[string]any {
 }
 
 // webAction adds, syncs or removes a website page.
+// startFeedCheck claims a new feed and reads it in the background.
+func (h *Handler) startFeedCheck(w http.ResponseWriter, r *http.Request, back string, src websync.Source) {
+	if claimed, err := h.Web.ClaimOne(r.Context(), src.AccountID, src.ID); err == nil {
+		h.WebSync.CheckLater(r.Context(), claimed)
+	} else {
+		h.WebSync.Kick() // the scheduler picks it up
+	}
+	http.Redirect(w, r, back+"&done=feed_started", http.StatusSeeOther)
+}
+
 func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, action string, data knowledgeData) {
 	if h.Web == nil || h.WebSync == nil {
 		http.Error(w, "website pages need DATABASE_URL", http.StatusServiceUnavailable)
@@ -546,13 +577,23 @@ func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, 
 			fail("Set an embeddings provider on the AI providers page first.")
 			return
 		}
-		if src, err = h.Web.Add(r.Context(), acct, u.String()); err != nil {
+		kind := websync.KindPage
+		if r.PostForm.Get("kind") == websync.KindFeed {
+			kind = websync.KindFeed
+		}
+		data.PageKind = kind
+		if src, err = h.Web.Add(r.Context(), acct, u.String(), kind); err != nil {
 			if errors.Is(err, websync.ErrDuplicate) || errors.Is(err, websync.ErrTooMany) {
 				fail(err.Error())
 				return
 			}
 			h.Logger.Error("add web page", "account_id", acct, "error", err)
 			fail("Could not add the page. Try again.")
+			return
+		}
+		if kind == websync.KindFeed {
+			h.record(r, acct, "data feed added", u.Host+u.Path, nil)
+			h.startFeedCheck(w, r, back, src)
 			return
 		}
 		h.record(r, acct, "web page added", u.Host+u.Path, nil)
@@ -587,17 +628,12 @@ func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, 
 			fail("That page is no longer in the list.")
 			return
 		}
-		// The document goes first: if that fails the page stays listed, never orphaned.
-		doc, err := h.Knowledge.GetByKey(r.Context(), acct, websync.Key(src.URL))
-		if err == nil {
-			if err := h.Knowledge.Delete(r.Context(), acct, doc.ID); err != nil {
-				h.Logger.Error("remove web page document", "account_id", acct, "source_id", id, "error", err)
-				fail("Could not remove the page. Try again.")
-				return
-			}
-		} else if !errors.Is(err, knowledge.ErrNotFound) {
-			h.Logger.Error("find web page document", "account_id", acct, "source_id", id, "error", err)
-			fail("Could not remove the page. Try again.")
+		// The documents go first: if that fails the source stays listed, never orphaned.
+		doc, _ := h.Knowledge.GetByKey(r.Context(), acct, websync.Key(src.URL)) // the page's copy for the history
+		removed, err := h.WebSync.RemoveDocuments(r.Context(), src)
+		if err != nil {
+			h.Logger.Error("remove source documents", "account_id", acct, "source_id", id, "removed", removed, "error", err)
+			fail("Could not remove it. Try again.")
 			return
 		}
 		if err := h.Web.Remove(r.Context(), acct, id); err != nil && !errors.Is(err, websync.ErrNotFound) {
@@ -605,7 +641,11 @@ func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, 
 			fail("Could not remove the page. Try again.")
 			return
 		}
-		h.record(r, acct, "web page removed", src.Title, docCopy(doc))
+		if src.IsFeed() {
+			h.record(r, acct, "data feed removed", src.Title+" ("+strconv.Itoa(removed)+" documents)", nil)
+		} else {
+			h.record(r, acct, "web page removed", src.Title, docCopy(doc))
+		}
 		http.Redirect(w, r, back+"&done=page_removed", http.StatusSeeOther)
 		return
 	case "sync_page":
@@ -617,6 +657,11 @@ func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, 
 				return
 			}
 			fail("That page is no longer in the list.")
+			return
+		}
+		if src.IsFeed() {
+			h.WebSync.CheckLater(r.Context(), src)
+			http.Redirect(w, r, back+"&done=feed_started", http.StatusSeeOther)
 			return
 		}
 	}

@@ -113,6 +113,16 @@ type Store interface {
 	Update(ctx context.Context, d Document, model string, chunks []Chunk) error
 	MarkUsed(ctx context.Context, accountID int64, documentIDs []int64) error
 	GetByKey(ctx context.Context, accountID int64, key string) (Document, error)
+	// ListByKeyPrefix returns the account's documents whose source key starts
+	// with prefix (a data feed's rows), without chunk counts.
+	ListByKeyPrefix(ctx context.Context, accountID int64, prefix string) ([]Document, error)
+}
+
+// SyncedKey reports whether a source key belongs to website or data-file
+// sync ("web:" or "feed:"); AI tools may not write those keys.
+func SyncedKey(key string) bool {
+	k := strings.ToLower(strings.TrimSpace(key))
+	return strings.HasPrefix(k, "web:") || strings.HasPrefix(k, "feed:")
 }
 
 // MaxKeyRunes bounds a source key (long enough for a URL).
@@ -260,6 +270,14 @@ func (s *Service) Update(ctx context.Context, d Document) (int, error) {
 		return 0, err
 	}
 	return len(chunks), s.Store.Update(ctx, d, model, chunks)
+}
+
+// ListByKeyPrefix returns the account's documents whose source key starts with prefix.
+func (s *Service) ListByKeyPrefix(ctx context.Context, accountID int64, prefix string) ([]Document, error) {
+	if prefix == "" {
+		return nil, errors.New("key prefix is required")
+	}
+	return s.Store.ListByKeyPrefix(ctx, accountID, prefix)
 }
 
 // GetByKey returns the account's document with this source key.

@@ -332,6 +332,9 @@ func auditCopy(d knowledge.Document) map[string]any {
 }
 
 func (s *Server) upsert(ctx context.Context, tok Token, a upsertArgs) (any, error) {
+	if knowledge.SyncedKey(a.Key) {
+		return nil, userError("keys starting with web: or feed: are kept in sync from a website or data file; edit the source instead, or use another key")
+	}
 	kind := knowledge.KindText
 	if a.Kind == "faq" {
 		kind = knowledge.KindFAQ
