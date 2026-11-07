@@ -8,12 +8,15 @@ import (
 	"net/http"
 	"net/url"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
 	"unicode/utf8"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/webfetch"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/websync"
 )
 
 // maxUpload bounds a knowledge form post (file upload included).
@@ -48,6 +51,17 @@ type docForm struct {
 	From, Until          string // yyyy-mm-dd; Until is the last day the bot may use it
 }
 
+type pageView struct {
+	ID       int64
+	Interval int
+	URL      string
+	Title    string
+	Status   string // ok, error, gone, new
+	Label    string
+	Detail   string
+	Checked  string
+}
+
 type dupView struct {
 	DocumentID int64
 	Title      string
@@ -70,7 +84,10 @@ type knowledgeData struct {
 	docForm   // re-filled add form values
 	Edit      *docForm
 	Dupes     []dupView // similar existing documents found before adding
-	DupeForm  string    // faq or doc
+	WebOn     bool
+	Pages     []pageView
+	PageURL   string
+	DupeForm  string // faq or doc
 }
 
 func (h *Handler) showKnowledge(w http.ResponseWriter, r *http.Request) {
@@ -122,6 +139,33 @@ func (h *Handler) renderKnowledge(w http.ResponseWriter, r *http.Request, status
 				continue
 			}
 			data.Docs = append(data.Docs, v)
+		}
+	}
+	if h.Web != nil {
+		data.WebOn = true
+		pages, err := h.Web.List(r.Context(), data.AccountID)
+		if err != nil {
+			h.Logger.Error("list web pages", "account_id", data.AccountID, "error", err)
+		}
+		for _, p := range pages {
+			v := pageView{ID: p.ID, Interval: p.IntervalHours, URL: p.URL, Title: p.Title, Status: p.Status, Checked: "Not yet"}
+			if !p.CheckedAt.IsZero() {
+				v.Checked = p.CheckedAt.In(h.loc()).Format("2 Jan 15:04")
+			}
+			switch p.Status {
+			case "ok":
+				v.Label = "In sync"
+				if !p.ChangedAt.IsZero() {
+					v.Detail = "changed " + p.ChangedAt.In(h.loc()).Format("2 Jan 2006")
+				}
+			case "error":
+				v.Label, v.Detail = "Problem", p.Error
+			case "gone":
+				v.Label, v.Detail = "Page gone", "hidden from the bot; deleted a week after it disappeared"
+			default:
+				v.Label = "Waiting"
+			}
+			data.Pages = append(data.Pages, v)
 		}
 	}
 	h.renderPage(w, r, status, "knowledge.html", data)
@@ -235,6 +279,25 @@ func noticeFor(q url.Values) string {
 	switch q.Get("done") {
 	case "added":
 		return fmt.Sprintf("Added and indexed (%s chunks). The bot can use it right away.", q.Get("chunks"))
+	case "page":
+		switch q.Get("outcome") {
+		case "added":
+			return "Page added and indexed. It is checked again every day."
+		case "updated":
+			return "The page had changed; the bot now uses the new version."
+		case "unchanged":
+			return "Checked: the page has not changed."
+		case "failed":
+			return "The page could not be read. See the reason in the list; the last good version stays."
+		case "hidden", "deleted":
+			return "The page no longer exists, so the bot stopped using it."
+		}
+	case "page_removed":
+		return "Page removed. The bot no longer uses it."
+	case "page_interval":
+		return "Schedule saved."
+	case "sync_all":
+		return fmt.Sprintf("Checking %s pages now in the background. Refresh in a minute to see the results.", q.Get("count"))
 	case "updated":
 		return fmt.Sprintf("Saved and re-indexed (%s chunks). The bot uses the new version right away.", q.Get("chunks"))
 	case "deleted":
@@ -355,6 +418,8 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 		h.record(r, acct, "knowledge edited", doc.Title, docCopy(cur))
 		h.Logger.Info("knowledge updated", "account_id", acct, "document_id", id, "chunks", chunks, "remote_addr", r.RemoteAddr)
 		http.Redirect(w, r, back+"&done=updated&chunks="+strconv.Itoa(chunks), http.StatusSeeOther)
+	case "add_page", "sync_page", "remove_page", "page_interval", "sync_all":
+		h.webAction(w, r, acct, pf.Get("action"), data)
 	case "delete":
 		id, _ := strconv.ParseInt(pf.Get("id"), 10, 64)
 		before, getErr := h.Knowledge.Get(r.Context(), acct, id)
@@ -455,4 +520,106 @@ func docCopy(d knowledge.Document) map[string]any {
 		m["valid_until"] = d.ValidUntil
 	}
 	return m
+}
+
+// webAction adds, syncs or removes a website page.
+func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, action string, data knowledgeData) {
+	if h.Web == nil || h.WebSync == nil {
+		http.Error(w, "website pages need DATABASE_URL", http.StatusServiceUnavailable)
+		return
+	}
+	back := "/admin/knowledge?account=" + strconv.FormatInt(acct, 10)
+	fail := func(msg string) {
+		data.Error, data.ErrorForm = msg, "page"
+		h.renderKnowledge(w, r, http.StatusUnprocessableEntity, data)
+	}
+	var src websync.Source
+	switch action {
+	case "add_page":
+		data.PageURL = r.PostForm.Get("url")
+		u, err := webfetch.CheckURL(data.PageURL)
+		if err != nil {
+			fail(err.Error())
+			return
+		}
+		if h.Knowledge == nil || h.Knowledge.Embedder.Model() == "" {
+			fail("Set an embeddings provider on the AI providers page first.")
+			return
+		}
+		if src, err = h.Web.Add(r.Context(), acct, u.String()); err != nil {
+			if errors.Is(err, websync.ErrDuplicate) || errors.Is(err, websync.ErrTooMany) {
+				fail(err.Error())
+				return
+			}
+			h.Logger.Error("add web page", "account_id", acct, "error", err)
+			fail("Could not add the page. Try again.")
+			return
+		}
+		h.record(r, acct, "web page added", u.Host+u.Path, nil)
+	case "page_interval":
+		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
+		hours, _ := strconv.Atoi(r.PostForm.Get("interval"))
+		if !slices.Contains(websync.Intervals, hours) {
+			fail("Choose one of the listed schedules.")
+			return
+		}
+		if err := h.Web.SetInterval(r.Context(), acct, id, hours); err != nil {
+			fail("That page is no longer in the list.")
+			return
+		}
+		h.record(r, acct, "web page schedule changed", strconv.Itoa(hours)+" h", nil)
+		http.Redirect(w, r, back+"&done=page_interval", http.StatusSeeOther)
+		return
+	case "sync_all":
+		n, err := h.Web.MarkAllDue(r.Context(), acct)
+		if err != nil {
+			fail("Could not start the sync. Try again.")
+			return
+		}
+		h.WebSync.Kick()
+		h.record(r, acct, "sync all started", strconv.Itoa(n)+" pages", nil)
+		http.Redirect(w, r, back+"&done=sync_all&count="+strconv.Itoa(n), http.StatusSeeOther)
+		return
+	case "remove_page":
+		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
+		src, err := h.Web.Get(r.Context(), acct, id)
+		if err != nil {
+			fail("That page is no longer in the list.")
+			return
+		}
+		// The document goes first: if that fails the page stays listed, never orphaned.
+		doc, err := h.Knowledge.GetByKey(r.Context(), acct, websync.Key(src.URL))
+		if err == nil {
+			if err := h.Knowledge.Delete(r.Context(), acct, doc.ID); err != nil {
+				h.Logger.Error("remove web page document", "account_id", acct, "source_id", id, "error", err)
+				fail("Could not remove the page. Try again.")
+				return
+			}
+		} else if !errors.Is(err, knowledge.ErrNotFound) {
+			h.Logger.Error("find web page document", "account_id", acct, "source_id", id, "error", err)
+			fail("Could not remove the page. Try again.")
+			return
+		}
+		if err := h.Web.Remove(r.Context(), acct, id); err != nil && !errors.Is(err, websync.ErrNotFound) {
+			h.Logger.Error("remove web page", "account_id", acct, "source_id", id, "error", err)
+			fail("Could not remove the page. Try again.")
+			return
+		}
+		h.record(r, acct, "web page removed", src.Title, docCopy(doc))
+		http.Redirect(w, r, back+"&done=page_removed", http.StatusSeeOther)
+		return
+	case "sync_page":
+		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
+		var err error
+		if src, err = h.Web.ClaimOne(r.Context(), acct, id); err != nil {
+			if errors.Is(err, websync.ErrBusy) {
+				fail(err.Error())
+				return
+			}
+			fail("That page is no longer in the list.")
+			return
+		}
+	}
+	outcome, _ := h.WebSync.Check(r.Context(), src)
+	http.Redirect(w, r, back+"&done=page&outcome="+string(outcome), http.StatusSeeOther)
 }

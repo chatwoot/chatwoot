@@ -33,6 +33,8 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/trace"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/webfetch"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/websync"
 )
 
 func main() {
@@ -103,6 +105,13 @@ func run() error {
 		logger.Info("langfuse tracing on", "host", hostOf(cfg.LangfuseBaseURL), "text", cfg.TraceText)
 	}
 
+	// Website pages kept in sync with the knowledge base (checked every 10 min for due pages).
+	var webSyncer *websync.Syncer
+	if kb != nil {
+		webSyncer = &websync.Syncer{Store: &websync.Postgres{Pool: profiles.Pool}, Knowledge: kb, Fetcher: &webfetch.Fetcher{},
+			Events: adminEvents(profiles, cfg.AuditRetentionDays), Logger: logger.With("component", "websync")}
+	}
+
 	b := bot.New(bot.Options{
 		Chatwoot:          chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
 		LLM:               completer,
@@ -126,6 +135,9 @@ func run() error {
 		Timeout: 2*cfg.LLMTimeout + 30*time.Second,
 	}, cfg.Workers, cfg.QueueSize)
 	b.Start(context.Background())
+	if webSyncer != nil {
+		go webSyncer.Run(context.Background(), 10*time.Minute)
+	}
 
 	h := &server.Handler{
 		Secret: cfg.WebhookSecret,
@@ -141,7 +153,8 @@ func run() error {
 			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout,
 			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL,
 			TeamSignIn: cfg.CFAccessAUD != "", Owners: cfg.Owners, AdminAccess: adminAccess(cfg),
-			Events: adminEvents(profiles, cfg.AuditRetentionDays), Logger: logger,
+			Events: adminEvents(profiles, cfg.AuditRetentionDays),
+			Web:    webStore(profiles), WebSync: webSyncer, Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -256,6 +269,14 @@ func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logg
 		Store: pg, Embedder: embedder,
 		TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes,
 	}, &profile.Postgres{Pool: pg.Pool}, pg.Pool.Close, nil
+}
+
+// webStore is the website pages store, or nil without a database.
+func webStore(p *profile.Postgres) websync.Store {
+	if p == nil {
+		return nil
+	}
+	return &websync.Postgres{Pool: p.Pool}
 }
 
 // adminEvents is the admin change log, or nil without a database.

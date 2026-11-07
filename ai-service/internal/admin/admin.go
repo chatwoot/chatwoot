@@ -30,6 +30,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/websync"
 )
 
 //go:embed *.html
@@ -69,6 +70,10 @@ type Handler struct {
 	Profiles profile.Store
 	onceMu   sync.Mutex
 	once     map[string]time.Time
+
+	// Web keeps website pages in sync; nil hides that section.
+	Web     websync.Store
+	WebSync *websync.Syncer
 
 	// Events records changes made here; nil skips it (no database).
 	Events audit.Store
