@@ -64,6 +64,29 @@ class TargetTest(unittest.TestCase):
         self.assertEqual(checks["POST /webhooks/chatwoot unsigned"], {401})
         self.assertTrue(any("Access" in name for name in checks))
 
+    def test_staging_checks_cover_onboarding_and_admin(self):
+        # Arrange
+        config = dokploy.select_target(dict(BASE, DOKPLOY_STAGING_COMPOSE_ID="s"), "staging")
+
+        # Act
+        urls = [url for _, url, _, _ in dokploy.public_checks(config)]
+
+        # Assert
+        self.assertTrue(any(u.endswith("/installation/onboarding") for u in urls))
+        self.assertIn(f"{dokploy.STAGING_ADMIN_URL}/admin", urls)
+
+
+class DiskTest(unittest.TestCase):
+    def test_staging_deploy_refuses_low_or_unknown_disk(self):
+        for available in (None, dokploy.MIN_FREE_GB - 1):
+            with self.subTest(available=available), self.assertRaises(SystemExit):
+                dokploy.check_disk("staging", available)
+
+    def test_enough_disk_or_production_passes(self):
+        # Production keeps its own checks; the disk gate is for staging only.
+        dokploy.check_disk("staging", dokploy.MIN_FREE_GB)
+        dokploy.check_disk("production", None)
+
 
 if __name__ == "__main__":
     unittest.main()

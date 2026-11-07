@@ -2,14 +2,19 @@
 # The production file (dokploy-compose.yml) with these differences:
 # - Its own Postgres 17 + pgvector container (databases "chatwoot" and
 #   "ai_service"), not Supabase. Staging data is fake and disposable.
-# - Memory caps on every service (about 2.3 GB in total), so staging cannot
-#   starve production on the same VPS.
+# - Memory and CPU caps on every service (about 2.3 GB in total; no single
+#   service may take more than 0.75 of the VPS's 2 CPUs).
+# - Services are named stg-* so they can never resolve to production's
+#   rails/redis if both apps share a Docker network. Never add a Dokploy
+#   domain to the staging app; keep its "Isolated Deployment" on.
+# - stg-ai-service (profile "ai") stays off until the Agent Bot exists: its
+#   token and webhook secret are required. Its database role is not the superuser.
 # - No Traefik route. One Cloudflare Tunnel (its own token) serves
-#   chat-staging.<domain> → rails:3000 and ai-admin-staging.<domain> → ai-service,
+#   chat-staging.<domain> → stg-rails:3000 and ai-admin-staging.<domain> → stg-ai-service,
 #   both behind Cloudflare Access; only /webhooks/chatwoot bypasses Access
-#   (it is HMAC-signed and routed to ai-service:8080).
+#   (HMAC-signed, routed to stg-ai-service:8080; add that route only once the secret is set).
 # - FORCE_SSL off (Cloudflare terminates TLS), so ai-service calls Chatwoot
-#   inside the stack at http://rails:3000 instead of through Access.
+#   inside the stack at http://stg-rails:3000 instead of through Access.
 # - SMTP optional: without it, Chatwoot cannot send email (invites, password
 #   resets). Create users from the super-admin console instead.
 # Every ${VAR} comes from the staging app's Dokploy environment tab.
@@ -18,6 +23,7 @@ x-chatwoot: &chatwoot
   image: chatwoot/chatwoot:v4.19.1
   restart: unless-stopped
   mem_limit: 768m
+  cpus: 0.75
   volumes:
     - storage_data:/app/storage
   environment:
@@ -30,8 +36,8 @@ x-chatwoot: &chatwoot
     FRONTEND_URL: ${FRONTEND_URL:?set in Dokploy}
     FORCE_SSL: 'false'
     ENABLE_ACCOUNT_SIGNUP: 'false'
-    DATABASE_URL: postgres://postgres:${STAGING_DB_PASSWORD:?set in Dokploy}@postgres:5432/chatwoot
-    REDIS_URL: redis://redis:6379
+    DATABASE_URL: postgres://postgres:${STAGING_DB_PASSWORD:?set in Dokploy}@stg-postgres:5432/chatwoot
+    REDIS_URL: redis://stg-redis:6379
     REDIS_PASSWORD: ${REDIS_PASSWORD:?set in Dokploy}
     ACTIVE_STORAGE_SERVICE: local
     RAILS_MAX_THREADS: '3'
@@ -44,14 +50,16 @@ x-chatwoot: &chatwoot
     SMTP_PASSWORD: ${SMTP_PASSWORD:-}
 
 services:
-  postgres:
+  stg-postgres:
     image: pgvector/pgvector:pg17
     restart: unless-stopped
     mem_limit: 384m
+    cpus: 0.5
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${STAGING_DB_PASSWORD:?set in Dokploy}
       POSTGRES_DB: chatwoot
+      AI_DB_PASSWORD: ${AI_DB_PASSWORD:?set in Dokploy} # read once by staging/initdb
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./staging/initdb:/docker-entrypoint-initdb.d:ro
@@ -61,12 +69,12 @@ services:
       timeout: 5s
       retries: 20
 
-  rails:
+  stg-rails:
     <<: *chatwoot
     depends_on:
-      postgres:
+      stg-postgres:
         condition: service_healthy
-      redis:
+      stg-redis:
         condition: service_healthy
     entrypoint: docker/entrypoints/rails.sh
     command: ['sh', '-c', 'bundle exec rails db:chatwoot_prepare && exec bundle exec rails s -p 3000 -b 0.0.0.0']
@@ -78,19 +86,20 @@ services:
       retries: 5
       start_period: 300s
 
-  sidekiq:
+  stg-sidekiq:
     <<: *chatwoot
     depends_on:
-      redis:
+      stg-redis:
         condition: service_healthy
-      rails:
+      stg-rails:
         condition: service_healthy
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
 
-  redis:
+  stg-redis:
     image: redis:7-alpine
     restart: unless-stopped
     mem_limit: 128m
+    cpus: 0.25
     command:
       - sh
       - -c
@@ -105,14 +114,16 @@ services:
     volumes:
       - redis_data:/data
 
-  ai-service:
+  stg-ai-service:
+    profiles: [ai]
     build: ..
     restart: unless-stopped
     mem_limit: 256m
+    cpus: 0.5
     depends_on:
-      postgres:
+      stg-postgres:
         condition: service_healthy
-      rails:
+      stg-rails:
         condition: service_started
     expose: ['8080']
     # Loopback only (production uses 18080): /admin over an SSH tunnel.
@@ -120,11 +131,14 @@ services:
     volumes:
       - ai_data:/data
     environment:
-      CHATWOOT_BASE_URL: http://rails:3000
-      CHATWOOT_BOT_TOKEN: ${CHATWOOT_BOT_TOKEN:-staging-unset}
-      CHATWOOT_WEBHOOK_SECRET: ${CHATWOOT_WEBHOOK_SECRET:-staging-unset}
+      CHATWOOT_BASE_URL: http://stg-rails:3000
+      # Required: the webhook path bypasses Access, so a missing or guessable
+      # secret would let anyone drive the bot. Keep the "ai" profile off until
+      # the Agent Bot exists and both values are set.
+      CHATWOOT_BOT_TOKEN: ${CHATWOOT_BOT_TOKEN:?set in Dokploy}
+      CHATWOOT_WEBHOOK_SECRET: ${CHATWOOT_WEBHOOK_SECRET:?set in Dokploy}
       ADMIN_PASSWORD: ${AI_ADMIN_PASSWORD:?set in Dokploy}
-      DATABASE_URL: postgres://postgres:${STAGING_DB_PASSWORD:?set in Dokploy}@postgres:5432/ai_service?sslmode=disable
+      DATABASE_URL: postgres://ai_service:${AI_DB_PASSWORD:?set in Dokploy}@stg-postgres:5432/ai_service?sslmode=disable
       SETTINGS_PATH: /data/settings.json
       LOG_LEVEL: info
       LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
@@ -136,11 +150,12 @@ services:
       REWRITE_MODEL: ${REWRITE_MODEL:-}
       TRANSCRIBE_MODEL: ${TRANSCRIBE_MODEL:-gpt-4o-mini-transcribe}
 
-  cloudflared:
+  stg-cloudflared:
     image: cloudflare/cloudflared:2026.10.7
     restart: unless-stopped
     mem_limit: 64m
-    depends_on: [rails, ai-service]
+    cpus: 0.25
+    depends_on: [stg-rails]
     command: ['tunnel', '--no-autoupdate', 'run']
     environment:
       TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN:?set in Dokploy}

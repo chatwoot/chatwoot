@@ -30,6 +30,9 @@ import urllib.request
 
 PUBLIC_URL = os.environ.get("CHATWOOT_PUBLIC_URL", "https://chat.johnstockeraistudio.com")
 STAGING_URL = os.environ.get("STAGING_PUBLIC_URL", "https://chat-staging.johnstockeraistudio.com")
+STAGING_ADMIN_URL = os.environ.get("STAGING_ADMIN_URL", "https://ai-admin-staging.johnstockeraistudio.com")
+# Staging shares the production VPS: refuse to build/pull with less disk free.
+MIN_FREE_GB = 10
 SSH_HOST = os.environ.get("DEPLOY_SSH_HOST", "llmopshostinger")
 DEPLOY_TIMEOUT_S = 30 * 60
 POLL_S = 15
@@ -154,7 +157,29 @@ def status(config):
     return compose, items
 
 
+def free_gb():
+    """Free disk on the VPS root filesystem in GB, or None if unknown."""
+    command = ["ssh", "-o", "BatchMode=yes", SSH_HOST, "df -BG --output=avail / | tail -1"]
+    try:
+        result = subprocess.run(command, capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    digits = re.sub(r"[^0-9]", "", result.stdout)
+    return int(digits) if result.returncode == 0 and digits else None
+
+
+def check_disk(target, available):
+    """Fail a staging deploy when the shared VPS is short of disk."""
+    if target != "staging":
+        return
+    if available is None:
+        fail("could not read free disk on the VPS; refusing a staging deploy")
+    if available < MIN_FREE_GB:
+        fail(f"only {available} GB free on the VPS (need {MIN_FREE_GB}); refusing a staging deploy")
+
+
 def deploy(config):
+    check_disk(config.get("TARGET", "production"), free_gb() if config.get("TARGET") == "staging" else None)
     items = deployments(config)
     if any(i.get("status") == "running" for i in items):
         fail("a deploy is already running; wait for it, do not start another")
@@ -202,7 +227,14 @@ def public_checks(config):
     webhook = ("POST /webhooks/chatwoot unsigned", f"{url}/webhooks/chatwoot", "POST", {401})
     if config.get("TARGET") == "staging":
         # Everything sits behind Cloudflare Access except the signed webhook.
-        return [("GET /api (behind Access)", f"{url}/api", "GET", {302, 403}), webhook]
+        # Onboarding matters most: on a fresh install it creates the super admin.
+        access = {302, 403}
+        return [
+            ("GET /api (behind Access)", f"{url}/api", "GET", access),
+            ("GET /installation/onboarding (behind Access)", f"{url}/installation/onboarding", "GET", access),
+            ("GET staging /admin (behind Access)", f"{STAGING_ADMIN_URL}/admin", "GET", access),
+            webhook,
+        ]
     return [
         ("GET /api", f"{url}/api", "GET", {200}),
         ("GET /app/login", f"{url}/app/login", "GET", {200}),
