@@ -15,12 +15,17 @@ import (
 	"unicode/utf8"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pdftext"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/webfetch"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/websync"
 )
 
-// maxUpload bounds a knowledge form post (file upload included).
-const maxUpload = 2 << 20
+// maxUpload bounds a knowledge form post: a PDF of up to pdftext.MaxBytes
+// plus the form fields. Text files stay limited to maxTextUpload.
+const (
+	maxUpload     = pdftext.MaxBytes + 1<<20
+	maxTextUpload = 2 << 20
+)
 
 // allowedUploads are the file types read as plain UTF-8 text.
 var allowedUploads = map[string]bool{".txt": true, ".md": true, ".markdown": true}
@@ -294,10 +299,28 @@ func (h *Handler) window(from, until string) (time.Time, time.Time, error) {
 	return f, u, nil
 }
 
+// num returns a query value only if it is a plain number, so a crafted link
+// cannot put its own words into a notice.
+func num(q url.Values, key string) string {
+	n, err := strconv.Atoi(q.Get(key))
+	if err != nil || n < 0 {
+		return "?"
+	}
+	return strconv.Itoa(n)
+}
+
 func noticeFor(q url.Values) string {
 	switch q.Get("done") {
 	case "added":
-		return fmt.Sprintf("Added and indexed (%s chunks). The bot can use it right away.", q.Get("chunks"))
+		if q.Get("pdf") != "" {
+			cut := ""
+			if q.Get("cut") == "1" {
+				cut = fmt.Sprintf(" The PDF was cut off at %d pages or %d characters; split it to add the rest.", pdftext.MaxPages, pdftext.MaxRunes)
+			}
+			return fmt.Sprintf("Read %s pages from the PDF and indexed them (%s chunks). Open the document and check the text: "+
+				"tables lose their layout, and some PDF makers drop Thai tone marks (ไม้เอก, ไม้โท).%s", num(q, "pdf"), num(q, "chunks"), cut)
+		}
+		return fmt.Sprintf("Added and indexed (%s chunks). The bot can use it right away.", num(q, "chunks"))
 	case "page":
 		switch q.Get("outcome") {
 		case "added":
@@ -318,13 +341,13 @@ func noticeFor(q url.Values) string {
 	case "page_interval":
 		return "Schedule saved."
 	case "sync_all":
-		return fmt.Sprintf("Checking %s pages now in the background. Refresh in a minute to see the results.", q.Get("count"))
+		return fmt.Sprintf("Checking %s pages now in the background. Refresh in a minute to see the results.", num(q, "count"))
 	case "updated":
-		return fmt.Sprintf("Saved and re-indexed (%s chunks). The bot uses the new version right away.", q.Get("chunks"))
+		return fmt.Sprintf("Saved and re-indexed (%s chunks). The bot uses the new version right away.", num(q, "chunks"))
 	case "deleted":
 		return "Deleted. The bot no longer uses it."
 	case "reindexed":
-		return fmt.Sprintf("Re-indexed %s documents with the current embeddings model.", q.Get("count"))
+		return fmt.Sprintf("Re-indexed %s documents with the current embeddings model.", num(q, "count"))
 	}
 	return ""
 }
@@ -342,15 +365,18 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "knowledge base disabled: set DATABASE_URL", http.StatusServiceUnavailable)
 		return
 	}
-	r.Body = http.MaxBytesReader(w, r.Body, maxUpload)
 	var err error
 	if strings.HasPrefix(r.Header.Get("Content-Type"), "multipart/form-data") {
-		err = r.ParseMultipartForm(maxUpload)
+		// Only the add-document form uploads files. The file goes to a
+		// temporary file (removed after the request), not to memory.
+		r.Body = http.MaxBytesReader(w, r.Body, maxUpload)
+		err = r.ParseMultipartForm(1 << 20)
 	} else {
+		r.Body = http.MaxBytesReader(w, r.Body, maxTextUpload)
 		err = r.ParseForm()
 	}
 	if err != nil {
-		http.Error(w, "form too large or invalid (max 2 MB)", http.StatusBadRequest)
+		http.Error(w, "form too large or invalid (max 10 MB for a PDF, 2 MB for text)", http.StatusBadRequest)
 		return
 	}
 	pf := r.PostForm
@@ -374,9 +400,15 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 		if action == "add_doc" {
 			form = "doc"
 			doc = knowledge.Document{AccountID: acct, Kind: knowledge.KindText, Title: data.DocTitle, Content: data.DocContent}
-			if err := readUpload(r, &doc); err != nil {
+			pdfPages, err := readUpload(r, &doc)
+			if err != nil {
 				fail(form, err)
 				return
+			}
+			if pdfPages > 0 {
+				back += "&pdf=" + strconv.Itoa(pdfPages)
+			} else if pdfPages < 0 {
+				back += "&pdf=" + strconv.Itoa(-pdfPages) + "&cut=1"
 			}
 			data.DocTitle, data.DocContent = doc.Title, doc.Content // keep an uploaded file for "add anyway"
 		}
@@ -494,32 +526,57 @@ func inboxParam(raw string) (int64, error) {
 	return n, nil
 }
 
-// readUpload replaces the pasted content with an uploaded .txt/.md file, if any.
-// A blank title takes the first Markdown heading, else the file name.
-func readUpload(r *http.Request, doc *knowledge.Document) error {
+// readUpload replaces the pasted content with an uploaded .txt/.md/.pdf
+// file, if any, and returns the pages read from a PDF (0 otherwise). A blank
+// title takes the first Markdown heading, else the file name.
+func readUpload(r *http.Request, doc *knowledge.Document) (pdfPages int, err error) {
 	if r.MultipartForm == nil || len(r.MultipartForm.File["file"]) == 0 {
-		return nil
+		return 0, nil
 	}
 	fh := r.MultipartForm.File["file"][0]
 	if fh.Filename == "" || fh.Size == 0 {
-		return nil
+		return 0, nil
 	}
 	ext := strings.ToLower(filepath.Ext(fh.Filename))
-	if !allowedUploads[ext] {
-		return fmt.Errorf("file type %q is not supported yet; upload .txt or .md (PDF and DOCX come later)", ext)
+	if ext != ".pdf" && !allowedUploads[ext] {
+		return 0, fmt.Errorf("file type %q is not supported; upload .txt, .md or .pdf (Word: save as PDF first)", ext)
 	}
 	f, err := fh.Open()
 	if err != nil {
-		return err
+		return 0, err
 	}
 	defer f.Close()
-	raw, err := io.ReadAll(io.LimitReader(f, maxUpload))
+	if ext == ".pdf" {
+		if fh.Size > pdftext.MaxBytes {
+			return 0, pdftext.ErrTooLarge
+		}
+		raw, err := io.ReadAll(io.LimitReader(f, pdftext.MaxBytes+1))
+		if err != nil {
+			return 0, err
+		}
+		res, err := pdftext.Extract(r.Context(), raw)
+		if err != nil {
+			return 0, err
+		}
+		doc.Content = res.Text
+		if strings.TrimSpace(doc.Title) == "" {
+			doc.Title = strings.TrimSuffix(filepath.Base(fh.Filename), filepath.Ext(fh.Filename))
+		}
+		if res.Truncated {
+			return -res.Pages, nil // negative: the PDF was cut off at the limits
+		}
+		return res.Pages, nil
+	}
+	raw, err := io.ReadAll(io.LimitReader(f, maxTextUpload+1))
 	if err != nil {
-		return err
+		return 0, err
+	}
+	if len(raw) > maxTextUpload {
+		return 0, errors.New("the text file is larger than 2 MB; split it into several documents")
 	}
 	raw = bytes.TrimPrefix(raw, []byte("\xef\xbb\xbf")) // UTF-8 BOM
 	if !utf8.Valid(raw) {
-		return errors.New("the file is not UTF-8 text; save it as UTF-8 and try again")
+		return 0, errors.New("the file is not UTF-8 text; save it as UTF-8 and try again")
 	}
 	doc.Content = string(raw)
 	if strings.TrimSpace(doc.Title) == "" {
@@ -528,7 +585,7 @@ func readUpload(r *http.Request, doc *knowledge.Document) error {
 	if strings.TrimSpace(doc.Title) == "" {
 		doc.Title = strings.TrimSuffix(filepath.Base(fh.Filename), filepath.Ext(fh.Filename))
 	}
-	return nil
+	return 0, nil
 }
 
 // docCopy is what the audit trail keeps of a document before a change.

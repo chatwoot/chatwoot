@@ -107,7 +107,7 @@
 
   <section class="card" aria-labelledby="doc-title">
     <h2 id="doc-title" style="font-size:1.125rem;margin:0 0 4px">Add a document</h2>
-    <p class="hint">Longer text such as a price list, policy or product guide. Paste it, or upload a .txt or .md file (max 2 MB).</p>
+    <p class="hint">Longer text such as a price list, policy or product guide. Paste it, or upload a file: .txt or .md (max 2 MB), or a PDF with real text, not a scan (max 10 MB). From Word or Google Docs, save as PDF first.</p>
     {{if and .Error (eq .ErrorForm "doc")}}<div class="alert err" role="alert"><strong>Not added.</strong>
 {{.Error}}</div>{{end}}
     <form method="post" action="/admin/knowledge" enctype="multipart/form-data" autocomplete="off">
@@ -119,7 +119,7 @@
       <label for="content">Text</label>
       <textarea id="content" name="content" rows="6">{{.DocContent}}</textarea>
       <label for="file">Or upload a file</label>
-      <input id="file" name="file" type="file" accept=".txt,.md,.markdown,text/plain,text/markdown">
+      <input id="file" name="file" type="file" accept=".txt,.md,.markdown,.pdf,text/plain,text/markdown,application/pdf">
       <details{{if or .From .Until .InboxID}} open{{end}}>
         <summary>Dates and inbox (optional)</summary>
         <div class="grid2">

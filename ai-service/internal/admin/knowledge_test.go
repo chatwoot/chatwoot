@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -208,8 +209,10 @@ func TestKnowledge_UploadTitleFromHeadingElseFileName(t *testing.T) {
 
 func TestKnowledge_RejectsUnsupportedOrBinaryFiles(t *testing.T) {
 	cases := map[string]struct{ name, content, want string }{
-		"pdf":      {"price.pdf", "%PDF-1.7", "not supported yet"},
-		"not utf8": {"notes.txt", "\xff\xfe\x00", "not UTF-8"},
+		"broken pdf": {"price.pdf", "%PDF-1.7", "could not be read as a PDF"},
+		"word file":  {"price.docx", "PK\x03\x04", "not supported"},
+		"not utf8":   {"notes.txt", "\xff\xfe\x00", "not UTF-8"},
+		"big text":   {"notes.txt", strings.Repeat("a", maxTextUpload+1), "larger than 2 MB"},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -349,4 +352,52 @@ func (m *memStore) ListByKeyPrefix(_ context.Context, acct int64, prefix string)
 		}
 	}
 	return out, nil
+}
+
+func TestKnowledge_UploadPDF(t *testing.T) {
+	// Arrange
+	thai, err := os.ReadFile("../pdftext/testdata/thai.pdf")
+	if err != nil {
+		t.Fatal(err)
+	}
+	scan, _ := os.ReadFile("../pdftext/testdata/notext.pdf")
+	mux, ms := knowledgeEnv(t, true)
+
+	// Act
+	rec := serve(mux, upload(t, "refund-policy.pdf", string(thai)))
+	scanned := serve(mux, upload(t, "scan.pdf", string(scan)))
+	notice := serve(mux, kget2(rec.Header().Get("Location")))
+
+	// Assert
+	if rec.Code != http.StatusSeeOther || !strings.Contains(rec.Header().Get("Location"), "pdf=2") {
+		t.Fatalf("code=%d loc=%q body=%s", rec.Code, rec.Header().Get("Location"), rec.Body)
+	}
+	if len(ms.docs) != 1 || ms.docs[0].Title != "refund-policy" || !strings.Contains(ms.docs[0].Content, "3,900 บาท") {
+		t.Fatalf("docs = %+v", ms.docs)
+	}
+	if scanned.Code != http.StatusUnprocessableEntity || !strings.Contains(scanned.Body.String(), "may be a scan") || len(ms.docs) != 1 {
+		t.Errorf("scan: code=%d docs=%d", scanned.Code, len(ms.docs))
+	}
+	if !strings.Contains(notice.Body.String(), "Read 2 pages from the PDF") {
+		t.Error("notice missing the page count and check-the-text advice")
+	}
+}
+
+func kget2(loc string) *http.Request {
+	r := httptest.NewRequest(http.MethodGet, loc, nil)
+	r.SetBasicAuth(Username, pw)
+	return r
+}
+
+func TestNotice_OnlyNumbersFromTheLink(t *testing.T) {
+	// Arrange: a crafted link tries to put its own words into the notice.
+	q := url.Values{"done": {"added"}, "pdf": {"Session expired, re-enter your key at evil.example"}, "chunks": {"3"}}
+
+	// Act
+	got := noticeFor(q)
+
+	// Assert
+	if strings.Contains(got, "evil") || !strings.Contains(got, "Read ? pages") {
+		t.Errorf("notice = %q", got)
+	}
 }

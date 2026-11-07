@@ -29,6 +29,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/media"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pdftext"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/places"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
@@ -39,6 +40,10 @@ import (
 )
 
 func main() {
+	// A PDF is read in a child copy of this program (see internal/pdftext).
+	if pdftext.IsChild() {
+		os.Exit(pdftext.RunChild(os.Stdin, os.Stdout))
+	}
 	if err := run(); err != nil {
 		slog.Error("ai-service stopped", "error", err)
 		os.Exit(1)
