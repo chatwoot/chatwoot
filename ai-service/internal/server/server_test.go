@@ -236,3 +236,23 @@ func TestWebhook_PlaceFailureStillHandlesMessage(t *testing.T) {
 		t.Errorf("code=%d jobs=%d, want the message still queued", code, len(q.jobs))
 	}
 }
+
+func TestWebhook_StaleOrMalformedRecordsNothing(t *testing.T) {
+	// Arrange
+	q, p := &fakeQueue{}, &fakePlaces{}
+	h := placesHandler(q, p)
+	stale := signedRequest(namedMsg)
+	old := strconv.FormatInt(fixedNow.Add(-time.Hour).Unix(), 10)
+	stale.Header.Set("X-Chatwoot-Timestamp", old)
+	stale.Header.Set("X-Chatwoot-Signature", "sha256="+hex.EncodeToString(webhook.Sign(secret, old, []byte(namedMsg))))
+	malformed := signedRequest(`{"account":{"id":1,"name":"Acme"`)
+
+	// Act
+	staleCode := do(h, stale)
+	badCode := do(h, malformed)
+
+	// Assert
+	if staleCode != http.StatusUnauthorized || badCode != http.StatusBadRequest || len(p.got) != 0 || len(q.jobs) != 0 {
+		t.Errorf("stale=%d malformed=%d recorded=%v jobs=%d, want 401, 400 and nothing recorded", staleCode, badCode, p.got, len(q.jobs))
+	}
+}

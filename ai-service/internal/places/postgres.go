@@ -38,7 +38,7 @@ WITH seen AS (
 ), ids AS (
     SELECT account_id FROM chatwoot_inboxes
     UNION SELECT account_id FROM business_profiles
-    UNION SELECT DISTINCT account_id FROM kb_documents
+    UNION SELECT account_id FROM kb_documents
 )
 SELECT ids.account_id, COALESCE(NULLIF(seen.account_name, ''), NULLIF(bp.business_name, ''), '')
 FROM ids

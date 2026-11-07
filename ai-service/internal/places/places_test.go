@@ -25,11 +25,13 @@ func (f *fakeStore) Inboxes(context.Context, int64) ([]Place, error) { return ni
 func TestCleanName(t *testing.T) {
 	// Arrange
 	cases := map[string]string{
-		"  Facebook  Page ":      "Facebook Page",
-		"Line\x00OA\nshop":       "Line OA shop",
-		"ร้าน John":              "ร้าน John",
-		strings.Repeat("ก", 300): strings.Repeat("ก", MaxName),
-		"":                       "",
+		"  Facebook  Page ":       "Facebook Page",
+		"Line\x00OA\nshop":        "Line OA shop",
+		"ร้าน John":               "ร้าน John",
+		strings.Repeat("ก", 300):  strings.Repeat("ก", MaxName),
+		"":                        "",
+		"Acme\u202e1# \u200bShop": "Acme 1# Shop",
+		"\u2066Inbox\u2069":       "Inbox",
 	}
 	for in, want := range cases {
 		// Act
@@ -64,20 +66,24 @@ func TestRecorder_SkipsUnchangedWithinAnHour(t *testing.T) {
 	}
 }
 
-func TestRecorder_RetriesAfterStoreError(t *testing.T) {
+func TestRecorder_RetriesFailedWriteAfterAMinute(t *testing.T) {
 	// Arrange
 	st := &fakeStore{err: errors.New("db down")}
-	r := &Recorder{Store: st}
+	now := time.Date(2026, 11, 7, 12, 0, 0, 0, time.UTC)
+	r := &Recorder{Store: st, Now: func() time.Time { return now }}
 	ctx := context.Background()
 
 	// Act
 	first := r.Record(ctx, 1, "Acme", 3, "Website")
+	soon := r.Record(ctx, 1, "Acme", 3, "Website") // within a minute: no new attempt
 	st.err = nil
-	second := r.Record(ctx, 1, "Acme", 3, "Website")
+	now = now.Add(61 * time.Second)
+	later := r.Record(ctx, 1, "Acme", 3, "Website")
+	cached := r.Record(ctx, 1, "Acme", 3, "Website")
 
 	// Assert
-	if first == nil || second != nil || st.calls != 2 {
-		t.Errorf("first=%v second=%v calls=%d, want error, nil, 2 (a failed write is not cached)", first, second, st.calls)
+	if first == nil || soon != nil || later != nil || cached != nil || st.calls != 2 {
+		t.Errorf("first=%v soon=%v later=%v cached=%v calls=%d, want error, nil, nil, nil, 2", first, soon, later, cached, st.calls)
 	}
 }
 

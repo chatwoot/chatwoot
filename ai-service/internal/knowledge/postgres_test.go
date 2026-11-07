@@ -503,7 +503,7 @@ func TestPostgres_MigratesV2ToLatestInOneStep(t *testing.T) {
 	// Arrange: a v2 database with a document and a profile.
 	db := openTestDB(t)
 	ctx := context.Background()
-	if _, err := db.Pool.Exec(ctx, `DROP TABLE web_sources, admin_events, team_members, oauth_codes, oauth_grants, oauth_clients, mcp_tokens, kb_audit;
+	if _, err := db.Pool.Exec(ctx, `DROP TABLE chatwoot_inboxes, web_sources, admin_events, team_members, oauth_codes, oauth_grants, oauth_clients, mcp_tokens, kb_audit;
 		DROP INDEX kb_documents_source_key_idx;
 		ALTER TABLE kb_documents DROP CONSTRAINT kb_documents_source_key_check, DROP COLUMN source_key;
 		ALTER TABLE business_profiles DROP COLUMN voice_enabled, DROP COLUMN images_enabled, DROP COLUMN stickers_enabled;
@@ -572,6 +572,14 @@ func TestPostgres_MigratesV2ToLatestInOneStep(t *testing.T) {
 	}
 	if v9 != 2 {
 		t.Errorf("v9 objects present = %d, want 2 (web_sources, RLS)", v9)
+	}
+	var v10 int
+	if err := db.Pool.QueryRow(ctx, `SELECT (to_regclass('chatwoot_inboxes') IS NOT NULL)::int
+		+ (SELECT count(*) FROM pg_class WHERE relname = 'chatwoot_inboxes' AND relrowsecurity)::int`).Scan(&v10); err != nil {
+		t.Fatal(err)
+	}
+	if v10 != 2 {
+		t.Errorf("v10 objects present = %d, want 2 (chatwoot_inboxes, RLS)", v10)
 	}
 	docs, _ := db.List(ctx, 1, "m")
 	if len(docs) == 1 && docs[0].SourceKey != "" {

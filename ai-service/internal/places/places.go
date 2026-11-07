@@ -33,7 +33,9 @@ const MaxName = 255
 // CleanName trims a name, drops control characters and caps its length.
 func CleanName(s string) string {
 	s = strings.Map(func(r rune) rune {
-		if unicode.IsControl(r) {
+		// Cc controls and Cf format marks (RTL override, zero-width, isolates)
+		// could make one name look like another in the dropdown.
+		if unicode.IsControl(r) || unicode.Is(unicode.Cf, r) {
 			return ' '
 		}
 		return r
@@ -60,6 +62,9 @@ type seen struct {
 	account, inbox string
 	at             time.Time
 }
+
+// retryAfter is the wait before retrying a failed write.
+const retryAfter = time.Minute
 
 // maxRemembered bounds the in-memory cache; it is cleared when full.
 const maxRemembered = 1000
@@ -89,15 +94,19 @@ func (r *Recorder) Record(ctx context.Context, accountID int64, accountName stri
 	}
 	r.mu.Unlock()
 
-	if err := r.Store.Record(ctx, accountID, accountName, inboxID, inboxName); err != nil {
-		return err
+	err := r.Store.Record(ctx, accountID, accountName, inboxID, inboxName)
+	at := t
+	if err != nil {
+		// Retry a failed write after retryAfter, not on every message, so a
+		// slow or down database does not delay each webhook.
+		at = t.Add(retryAfter - every)
 	}
 
 	r.mu.Lock()
 	if r.last == nil || len(r.last) >= maxRemembered {
 		r.last = make(map[[2]int64]seen)
 	}
-	r.last[key] = seen{account: accountName, inbox: inboxName, at: t}
+	r.last[key] = seen{account: accountName, inbox: inboxName, at: at}
 	r.mu.Unlock()
-	return nil
+	return err
 }
