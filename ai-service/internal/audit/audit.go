@@ -88,7 +88,10 @@ func (p *Postgres) Recent(ctx context.Context, accountID int64, limit int) ([]Ev
 			UNION ALL
 			(SELECT at, id, 2, actor, action, summary FROM admin_events WHERE account_id IS NULL ORDER BY at DESC, id DESC LIMIT $2)
 			UNION ALL
-			(SELECT at, id, 3, actor, 'knowledge ' || action, COALESCE(before->>'title', source_key, 'document ' || document_id::text, '')
+			(SELECT at, id, 3,
+			        CASE WHEN actor LIKE 'mcp:%' THEN substr(actor, 5) || ' (AI tool)' ELSE actor END,
+			        CASE action WHEN 'create' THEN 'knowledge added' WHEN 'update' THEN 'knowledge edited' ELSE 'knowledge deleted' END,
+			        COALESCE(before->>'title', source_key, 'document ' || document_id::text, '')
 			   FROM kb_audit WHERE account_id = $1 ORDER BY at DESC, id DESC LIMIT $2)
 		) e ORDER BY at DESC, src, id DESC LIMIT $2`, accountID, max(limit, 1))
 	if err != nil {

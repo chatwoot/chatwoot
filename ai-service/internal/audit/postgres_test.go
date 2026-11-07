@@ -44,7 +44,7 @@ func TestPostgres_RecordAndRecentMergesAITools(t *testing.T) {
 	if e1 != nil || e2 != nil || e3 != nil || e4 != nil || err != nil {
 		t.Fatalf("record %v %v %v %v recent %v", e1, e2, e3, e4, err)
 	}
-	if len(recent) != 4 || recent[3].Action != "knowledge update" || recent[3].Summary != "ราคา" {
+	if len(recent) != 4 || recent[3].Action != "knowledge edited" || recent[3].Actor != "Claude (AI tool)" || recent[3].Summary != "ราคา" {
 		t.Fatalf("recent = %+v, want 3 admin events (incl. service-wide) then the AI tool change", recent)
 	}
 	for _, r := range recent {
