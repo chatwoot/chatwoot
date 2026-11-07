@@ -20,6 +20,8 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
   # Each subclass fills the sourced parameters for the user it serves before it calls this
   def perform(tool_context, **params)
     result = @connection.call(@mcp_tool.name, params)
+    return reported_failure(result, tool_context) if result.error?
+
     untrusted_result(result_text(result))
   rescue *Captain::Mcp::Connection::ERRORS => e
     Rails.logger.error("McpTool error for #{name}: #{e.class} - #{e.message}")
@@ -34,6 +36,13 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
 
   def safe_to_run_after_new_customer_message?
     @mcp_tool.read_only?
+  end
+
+  # The server ran the tool and reported that it failed. Its text still reaches the model, so Captain can say what went wrong.
+  def reported_failure(result, tool_context)
+    Rails.logger.warn("McpTool #{name} reported an error")
+    text = result_text(result)
+    failure_result(text.present? ? "The tool reported an error:\n#{untrusted_result(text)}" : 'The tool reported an error', tool_context.state)
   end
 
   def result_text(result)

@@ -16,7 +16,8 @@ RSpec.describe Captain::Tools::McpTool do
     server.sync_tools({ 'list_invoices' => { 'param_sources' => sources } }, { 'list_invoices' => definition })
     server.tools.first
   end
-  let(:connection) { instance_double(Captain::Mcp::Connection, call: instance_double(RubyLLM::MCP::Result, text: 'ok', structured: nil)) }
+  let(:ok_result) { instance_double(RubyLLM::MCP::Result, text: 'ok', structured: nil, error?: false) }
+  let(:connection) { instance_double(Captain::Mcp::Connection, call: ok_result) }
   let(:tool) { Captain::Mcp::AgentTools.build(assistant, mcp_tool, connection, base_class: base_class) }
   let(:verified_email) { 'jane@example.com' }
 
@@ -44,6 +45,25 @@ RSpec.describe Captain::Tools::McpTool do
         expect(tool.perform(tool_context, status: 'open')).to eq(Captain::ParamSources::UNVERIFIED)
         expect(connection).not_to have_received(:call)
       end
+    end
+  end
+
+  describe 'a failure the server reports' do
+    let(:base_class) { Captain::Tools::PublicMcpTool }
+
+    it 'reads as an error, with the text the server sent' do
+      allow(connection).to receive(:call).and_return(instance_double(RubyLLM::MCP::Result, text: 'Invoice not found', structured: nil, error?: true))
+
+      result = tool.perform(Struct.new(:state).new(tool_context.state.merge(source: 'playground')), status: 'open')
+
+      expect(result).to start_with('ERROR: The tool reported an error:')
+      expect(result).to include('Invoice not found')
+    end
+
+    it 'reads as an error when the server sent no text' do
+      allow(connection).to receive(:call).and_return(instance_double(RubyLLM::MCP::Result, text: nil, structured: nil, error?: true))
+
+      expect(tool.perform(tool_context, status: 'open')).to eq('The tool reported an error')
     end
   end
 
