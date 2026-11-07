@@ -15,8 +15,8 @@ type Signals struct {
 }
 
 var (
-	thaiID      = regexp.MustCompile(`\b\d[- ]?\d{4}[- ]?\d{5}[- ]?\d{2}[- ]?\d\b`)
-	cardNumber  = regexp.MustCompile(`\b(?:\d[ -]?){12,18}\d\b`)
+	thaiID      = regexp.MustCompile(`\b\d[-./ ]?\d{4}[-./ ]?\d{5}[-./ ]?\d{2}[-./ ]?\d\b`)
+	cardNumber  = regexp.MustCompile(`\b(?:\d[-./ ]{0,2}){12,18}\d\b`)
 	secretValue = []struct {
 		re   *regexp.Regexp
 		kind string
@@ -99,13 +99,16 @@ func add(sig *Signals, kind string) {
 	}
 }
 
-// clean drops zero-width and format characters and turns full-width digits
-// into ASCII, so hidden separators cannot break a number apart.
+// clean drops zero-width and format characters, turns every kind of space
+// into a plain space and full-width or Thai digits into ASCII, so hidden
+// separators cannot break a number apart.
 func clean(s string) string {
 	return strings.Map(func(r rune) rune {
 		switch {
 		case unicode.Is(unicode.Cf, r):
 			return -1
+		case unicode.IsSpace(r) && r != '\n':
+			return ' '
 		case r >= '０' && r <= '９':
 			return '0' + (r - '０')
 		case r >= '๐' && r <= '๙': // Thai digits

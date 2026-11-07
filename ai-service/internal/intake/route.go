@@ -75,6 +75,10 @@ func Decide(it Item, matches []Match) Decision {
 		return Decision{Action: ActionQueue, Field: profileField[it.Label],
 			Reason: "contains payment details (" + strings.Join(it.Signals.Payment, ", ") + "); payment details need your approval"}
 	}
+	if len(it.Signals.Contact) > 0 && !it.Source.ownerWritten() {
+		return Decision{Action: ActionQueue, Field: profileField[it.Label],
+			Reason: "contains contact details (" + strings.Join(it.Signals.Contact, ", ") + ") from " + it.Source.describe() + "; they need your approval"}
+	}
 	if field, ok := profileField[it.Label]; ok {
 		if !it.Source.ownerWritten() {
 			return Decision{Action: ActionQueue, Field: field, Reason: "a change to the bot's " + field + " from " + it.Source.describe() + " needs your approval"}

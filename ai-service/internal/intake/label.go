@@ -69,8 +69,8 @@ func (l *LLMLabeler) labelBatch(ctx context.Context, pieces []Piece) ([]Label, e
 	return parseLabels(res.Content, len(pieces))
 }
 
-// fencePieces numbers the pieces inside <piece> tags; a closing tag inside
-// the text is broken so a piece cannot end early and pose as the request.
+// fencePieces numbers the pieces inside <piece> tags; angle brackets in the
+// text are replaced so a piece cannot end early and pose as the request.
 func fencePieces(pieces []Piece) string {
 	var b strings.Builder
 	for i, p := range pieces {
@@ -81,7 +81,8 @@ func fencePieces(pieces []Piece) string {
 		if r := []rune(text); len(r) > labelPieceRunes {
 			text = string(r[:labelPieceRunes])
 		}
-		text = strings.NewReplacer("</piece", "< /piece", "<piece", "< piece").Replace(text)
+		// No "<" at all inside a piece, so no tag in any spelling can end it.
+		text = strings.NewReplacer("<", "‹", ">", "›").Replace(text)
 		b.WriteString(`<piece id="` + strconv.Itoa(i+1) + "\">\n" + text + "\n</piece>\n")
 	}
 	return b.String()

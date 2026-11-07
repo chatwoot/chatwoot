@@ -43,15 +43,25 @@ func TestDetect(t *testing.T) {
 	}
 }
 
-func TestDetect_HiddenSeparatorsDoNotHideACard(t *testing.T) {
-	// Arrange: zero-width spaces and full-width digits around a card number.
-	text := "4111​1111-1111​1111"
+func TestDetect_HiddenSeparatorsDoNotHideNumbers(t *testing.T) {
+	cases := map[string]string{
+		"zero-width":     "4111\u200b1111-1111\u200b1111",
+		"dots":           "4111.1111.1111.1111",
+		"slashes":        "4111/1111/1111/1111",
+		"no-break space": "4111\u00a01111\u00a01111\u00a01111",
+		"ideographic":    "4111\u30001111\u30001111\u30001111",
+		"full-width":     "４１１１ １１１１ １１１１ １１１１",
+		"thai id dots":   "1.1017.00230.70.8",
+	}
+	for name, text := range cases {
+		t.Run(name, func(t *testing.T) {
+			// Act
+			got := Detect(text)
 
-	// Act
-	got := Detect(text)
-
-	// Assert
-	if !slices.Contains(got.Private, "card number") {
-		t.Fatalf("Detect = %+v, want card number", got)
+			// Assert
+			if len(got.Private) == 0 {
+				t.Fatalf("Detect(%q) = %+v, want private", text, got)
+			}
+		})
 	}
 }
