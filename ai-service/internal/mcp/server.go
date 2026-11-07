@@ -6,7 +6,6 @@ import (
 	"errors"
 	"io"
 	"log/slog"
-	"net"
 	"net/http"
 	"strconv"
 	"strings"
@@ -16,6 +15,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/ratelimit"
 )
 
 // Protocol versions this server speaks, newest first.
@@ -38,6 +38,9 @@ type Server struct {
 	Location  *time.Location // business time zone for dates; nil is UTC
 	Logger    *slog.Logger
 	Version   string
+	// ResourceMetadata is the OAuth protected resource metadata URL, sent in
+	// 401 answers so apps can find where to sign in; empty without OAuth.
+	ResourceMetadata string
 
 	// PerMinute caps calls per token (embedding and model calls cost money);
 	// 0 means 60. TestPerMinute caps test_bot per account (each runs the full
@@ -45,17 +48,12 @@ type Server struct {
 	// before any token check; 0 means 120.
 	PerMinute, TestPerMinute, PerIPMinute int
 
+	limits   ratelimit.Limiter
 	mu       sync.Mutex
-	usage    map[string]*window
 	inFlight map[int64]int // test_bot calls running, per account
 }
 
 func (s *Server) now() time.Time { return time.Now() }
-
-type window struct {
-	start time.Time
-	n     int
-}
 
 type rpcRequest struct {
 	JSONRPC string          `json:"jsonrpc"`
@@ -99,7 +97,7 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "browser requests are not allowed", http.StatusForbidden)
 		return
 	}
-	if !s.allow("ip:"+clientIP(r), s.PerIPMinute, 120) {
+	if !s.allow("ip:"+ratelimit.ClientIP(r), s.PerIPMinute, 120) {
 		w.Header().Set("Retry-After", "60")
 		http.Error(w, "too many requests; wait a minute", http.StatusTooManyRequests)
 		return
@@ -111,7 +109,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err != nil {
-		w.Header().Set("WWW-Authenticate", `Bearer realm="ai-service mcp"`)
+		challenge := `Bearer realm="ai-service mcp"`
+		if s.ResourceMetadata != "" {
+			challenge = `Bearer resource_metadata="` + s.ResourceMetadata + `", scope="kb:read"`
+		}
+		w.Header().Set("WWW-Authenticate", challenge)
 		http.Error(w, "missing, invalid, expired or revoked token", http.StatusUnauthorized)
 		return
 	}
@@ -153,27 +155,12 @@ func (s *Server) authenticate(r *http.Request) (Token, error) {
 	return s.Tokens.Lookup(r.Context(), plain)
 }
 
-// allow is a fixed one-minute window per key.
+// allow counts one call for key against limit (def when limit is 0).
 func (s *Server) allow(key string, limit, def int) bool {
 	if limit <= 0 {
 		limit = def
 	}
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	if s.usage == nil {
-		s.usage = map[string]*window{}
-	}
-	now := time.Now()
-	w := s.usage[key]
-	if w == nil || now.Sub(w.start) >= time.Minute {
-		if len(s.usage) > 10000 { // bound memory under a flood of new keys
-			s.usage = map[string]*window{}
-		}
-		w = &window{start: now}
-		s.usage[key] = w
-	}
-	w.n++
-	return w.n <= limit
+	return s.limits.Allow(key, limit)
 }
 
 // startTest admits a test_bot call: at most 2 at once per account.
@@ -192,14 +179,6 @@ func (s *Server) startTest(acct int64) (done func(), ok bool) {
 		defer s.mu.Unlock()
 		s.inFlight[acct]--
 	}, true
-}
-
-func clientIP(r *http.Request) string {
-	host, _, err := net.SplitHostPort(r.RemoteAddr)
-	if err != nil {
-		return r.RemoteAddr
-	}
-	return host
 }
 
 func (s *Server) dispatch(ctx context.Context, tok Token, req rpcRequest) (any, *rpcError) {

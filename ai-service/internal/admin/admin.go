@@ -24,6 +24,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
 )
@@ -65,6 +66,8 @@ type Handler struct {
 	Profiles profile.Store
 	// Tokens manages MCP access tokens; nil hides the connections page.
 	Tokens mcp.Tokens
+	// Apps lists and revokes AI apps connected with OAuth; nil hides them.
+	Apps oauth.Store
 	// MCPURL is the public MCP address shown in setup steps; empty derives it from the request.
 	MCPURL string
 	// Location is the business time zone for knowledge dates; nil is UTC.

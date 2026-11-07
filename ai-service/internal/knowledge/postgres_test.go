@@ -28,7 +28,7 @@ func openTestDB(t *testing.T) *Postgres {
 		t.Fatal(err)
 	}
 	t.Cleanup(pool.Close)
-	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, kb_schema_version"); err != nil {
+	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, oauth_codes, oauth_grants, oauth_clients, kb_schema_version"); err != nil {
 		t.Fatal(err)
 	}
 	p := &Postgres{Pool: pool}
@@ -194,8 +194,8 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
 		t.Fatal(err)
 	}
-	if version != 5 || docs != 1 || table == nil {
-		t.Errorf("version=%d docs=%d business_profiles=%v, want 5, 1, present", version, docs, table)
+	if version != 6 || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want 6, 1, present", version, docs, table)
 	}
 	var rls bool
 	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
@@ -307,8 +307,8 @@ func TestPostgres_MigratesV3ToV4KeepsDocumentsActive(t *testing.T) {
 		t.Fatalf("migrate %v, search %v, list %v", err, searchErr, listErr)
 	}
 	var version int
-	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 5 {
-		t.Fatalf("version = %d (err %v), want 5", version, err)
+	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 6 {
+		t.Fatalf("version = %d (err %v), want 6", version, err)
 	}
 	if len(hits) != 1 || len(docs) != 1 || docs[0].UseCount != 0 || !docs[0].ValidUntil.IsZero() || !docs[0].LastUsedAt.IsZero() {
 		t.Errorf("after v4: hits=%d docs=%+v", len(hits), docs)
@@ -499,7 +499,7 @@ func TestPostgres_ValidityFilterThroughHNSWIndex(t *testing.T) {
 }
 
 // Production may jump from v2 to v4 in one Migrate call.
-func TestPostgres_MigratesV2ToV4InOneStep(t *testing.T) {
+func TestPostgres_MigratesV2ToLatestInOneStep(t *testing.T) {
 	// Arrange: a v2 database with a document and a profile.
 	db := openTestDB(t)
 	ctx := context.Background()
@@ -534,12 +534,22 @@ func TestPostgres_MigratesV2ToV4InOneStep(t *testing.T) {
 	if objects != 4 {
 		t.Errorf("v5 objects present = %d, want 4 (kb_audit, mcp_tokens, key index, source_key)", objects)
 	}
+	var v6 int
+	if err := db.Pool.QueryRow(ctx, `SELECT (to_regclass('oauth_clients') IS NOT NULL)::int + (to_regclass('oauth_codes') IS NOT NULL)::int
+		+ (to_regclass('oauth_grants') IS NOT NULL)::int + (to_regclass('mcp_tokens_grant_idx') IS NOT NULL)::int
+		+ (SELECT count(*) FROM pg_constraint WHERE conrelid = 'mcp_tokens'::regclass AND contype = 'f' AND confdeltype = 'c')::int
+		+ (SELECT count(*) FROM pg_class WHERE relname IN ('oauth_clients', 'oauth_codes', 'oauth_grants') AND relrowsecurity)::int`).Scan(&v6); err != nil {
+		t.Fatal(err)
+	}
+	if v6 != 8 {
+		t.Errorf("v6 objects present = %d, want 8 (3 tables, grant index, cascade FK, RLS on 3)", v6)
+	}
 	docs, _ := db.List(ctx, 1, "m")
 	if len(docs) == 1 && docs[0].SourceKey != "" {
 		t.Errorf("existing document got a key: %q", docs[0].SourceKey)
 	}
-	if version != 5 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
-		t.Errorf("version=%d new columns=%d docs=%+v, want 5, 7, one active document", version, cols, docs)
+	if version != 6 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
+		t.Errorf("version=%d new columns=%d docs=%+v, want 6, 7, one active document", version, cols, docs)
 	}
 }
 

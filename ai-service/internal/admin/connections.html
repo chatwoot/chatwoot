@@ -46,9 +46,39 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
   </section>
   {{end}}
 
+  {{if .OAuth}}
+  <section class="card" aria-labelledby="apps-h">
+    <h2 id="apps-h" style="font-size:1.125rem;margin:0 0 4px">Claude or ChatGPT app (sign in, no token)</h2>
+    <p class="hint">In the app, add a custom connector with this address. It opens a page here where you enter the admin password and choose the account and access.</p>
+    <pre class="code">{{.URL}}</pre>
+    {{if .Apps}}
+    <table style="margin-top:12px">
+      <thead><tr><th scope="col">Connected app</th><th scope="col">Access</th><th scope="col">Connected</th><th scope="col">Last used</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+      <tbody>
+      {{range .Apps}}
+        <tr>
+          <td><strong>{{.Name}}</strong>{{if .Revoked}} <span class="badge expired">Disconnected</span>{{end}}</td>
+          <td data-label="Access">{{.Access}}</td>
+          <td data-label="Connected">{{.Created}}</td>
+          <td data-label="Last used">{{.LastUsed}}</td>
+          <td class="row-actions">{{if not .Revoked}}
+            <form class="inline" method="post" action="/admin/connections">
+              <input type="hidden" name="action" value="revoke_app"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
+              <button type="submit" class="link" aria-label="Disconnect {{.Name}}">Disconnect</button>
+            </form>{{end}}
+          </td>
+        </tr>
+      {{end}}
+      </tbody>
+    </table>
+    {{end}}
+  </section>
+  {{end}}
+
   <div class="biz">
     <section class="card" aria-labelledby="list-h">
       <h2 id="list-h" style="font-size:1.125rem;margin:0 0 8px">Access tokens for account {{.AccountID}}</h2>
+      <p class="hint">For Claude Code, Codex and other tools that take a token.</p>
       {{if .Tokens}}
       <table>
         <thead><tr><th scope="col">Name</th><th scope="col">Access</th><th scope="col">Created</th><th scope="col">Last used</th><th scope="col">Expires</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
