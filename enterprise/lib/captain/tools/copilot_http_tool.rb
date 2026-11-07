@@ -17,7 +17,7 @@ class Captain::Tools::CopilotHttpTool < Captain::Tools::HttpTool
     email_param = @custom_tool.verified_email_param
     return result unless email_param
 
-    verified_email = stored_verified_email(tool_context.state)
+    verified_email = Captain::ParamSources.stored_verified_email(find_conversation(tool_context.state))
     verified_email && params[email_param.to_sym].to_s.strip.casecmp?(verified_email) ? result : "#{result}\n\n#{UNVERIFIED_VALUE_NOTE}"
   end
 end
