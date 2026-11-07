@@ -319,3 +319,63 @@ func TestProcess_ProfileErrorFallsBackToBasePrompt(t *testing.T) {
 		t.Errorf("calls = %s, want a normal reply", got)
 	}
 }
+
+func TestPreview_RepliesWithoutChatwoot(t *testing.T) {
+	// Arrange
+	cw := &fakeChatwoot{}
+	b, _ := newBot(cw, &fakeLLM{reply: "price is 3,900"})
+
+	// Act
+	p := b.Preview(context.Background(), 1, 0, []memory.Turn{{Role: "user", Content: "how much?"}})
+
+	// Assert
+	if p.Reply != "price is 3,900" || p.Handoff || p.Err != nil {
+		t.Fatalf("preview = %+v", p)
+	}
+	if len(cw.calls) != 0 {
+		t.Fatalf("preview must not touch Chatwoot: %v", cw.calls)
+	}
+}
+
+func TestPreview_CustomerAsksForHuman(t *testing.T) {
+	// Arrange
+	l := &fakeLLM{reply: "should not be called"}
+	b, _ := newBot(&fakeChatwoot{}, l)
+
+	// Act
+	p := b.Preview(context.Background(), 1, 0, []memory.Turn{{Role: "user", Content: "human please"}})
+
+	// Assert
+	if !p.Handoff || p.Reason != ReasonCustomerAsked || p.Reply != "connecting you" {
+		t.Fatalf("preview = %+v", p)
+	}
+	if l.got != nil {
+		t.Fatal("keyword handoff must not call the model")
+	}
+}
+
+func TestPreview_ModelAsksForHuman(t *testing.T) {
+	// Arrange
+	b, _ := newBot(&fakeChatwoot{}, &fakeLLM{reply: "let me get staff " + HandoffMarker})
+
+	// Act
+	p := b.Preview(context.Background(), 1, 0, []memory.Turn{{Role: "user", Content: "refund?"}})
+
+	// Assert
+	if !p.Handoff || p.Reason != ReasonAIRequest || p.Reply != "let me get staff" {
+		t.Fatalf("preview = %+v", p)
+	}
+}
+
+func TestPreview_ModelFails(t *testing.T) {
+	// Arrange
+	b, _ := newBot(&fakeChatwoot{}, &fakeLLM{err: errors.New("boom")})
+
+	// Act
+	p := b.Preview(context.Background(), 1, 0, []memory.Turn{{Role: "user", Content: "hi"}})
+
+	// Assert
+	if !p.Handoff || p.Reason != ReasonLLMError || p.Err == nil || p.Reply != "sorry, connecting you" {
+		t.Fatalf("preview = %+v", p)
+	}
+}

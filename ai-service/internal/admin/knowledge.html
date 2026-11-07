@@ -14,7 +14,7 @@
   {{if not .Enabled}}
   <div class="alert err" role="alert"><strong>Knowledge base is off.</strong> Set <code>DATABASE_URL</code> for ai-service (Postgres with pgvector) and restart it.</div>
   {{else}}
-  {{if not .Embedding}}<div class="alert err" role="alert"><strong>No embeddings provider.</strong> Set one on the <a href="/admin">AI providers</a> page before adding knowledge.</div>{{end}}
+  {{if not .Embedding}}<div class="alert err" role="alert"><strong>No embeddings provider.</strong> Set one on the <a href="/admin/providers">AI providers</a> page before adding knowledge.</div>{{end}}
   {{if .Notice}}<div class="alert ok" role="status">{{.Notice}}</div>{{end}}
   {{if and .Error (eq .ErrorForm "list")}}<div class="alert err" role="alert"><strong>Failed.</strong> {{.Error}}</div>{{end}}
 

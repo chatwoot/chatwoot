@@ -253,7 +253,7 @@ func TestSave_EmbeddingReusesPrimaryKeyAndSwitchesLive(t *testing.T) {
 	rec := serve(mux, post(form))
 
 	// Assert
-	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin?saved=1" {
+	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/admin/providers?saved=1" {
 		t.Fatalf("code=%d loc=%q body=%s", rec.Code, rec.Header().Get("Location"), rec.Body)
 	}
 	if got := e.store.Get().Embedding; got.APIKey != "sk-or-secret-9876" || got.Model != "text-embedding-3-small" {
@@ -275,7 +275,7 @@ func TestSave_IncompleteEmbeddingTurnedOff(t *testing.T) {
 	rec := e.do(post(form))
 
 	// Assert
-	if rec.Header().Get("Location") != "/admin?saved=1&embedding=off" || e.store.Get().Embedding != (settings.Provider{}) {
+	if rec.Header().Get("Location") != "/admin/providers?saved=1&embedding=off" || e.store.Get().Embedding != (settings.Provider{}) {
 		t.Errorf("loc=%q embedding=%+v", rec.Header().Get("Location"), e.store.Get().Embedding)
 	}
 }

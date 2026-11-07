@@ -15,7 +15,7 @@
   {{if .Error}}<div class="alert err" role="alert"><strong>Not saved.</strong>
 {{.Error}}</div>{{end}}
 
-  <form method="post" action="/admin" autocomplete="off">
+  <form method="post" action="/admin/providers" autocomplete="off">
     <datalist id="presets">{{range .Presets}}<option value="{{.URL}}">{{.Name}}</option>{{end}}</datalist>
 
     <div class="cards">

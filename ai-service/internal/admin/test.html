@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+{{template "head"}}
+<title>Test bot</title>
+</head>
+<body>
+<div class="shell">
+{{template "nav" "test"}}
+<main>
+  <div class="page-head">
+    <div>
+      <h1>Test bot</h1>
+      <p class="lead">Chat with the bot as a customer would. It uses your saved business profile and knowledge base. Nothing is sent to customers or staff.</p>
+    </div>
+    <form class="acct" method="get" action="/admin/test">
+      <label for="account">Account</label>
+      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}">
+      <button type="submit">Show</button>
+    </form>
+  </div>
+
+  {{if not .Enabled}}
+  <div class="alert err" role="alert"><strong>Test chat is off.</strong> The bot is not running in this service.</div>
+  {{else}}
+  {{if .Error}}<div class="alert err" role="alert">{{.Error}}</div>{{end}}
+  <div class="test-grid">
+    <section class="card" aria-labelledby="chat-h">
+      <h2 id="chat-h" class="visually-hidden">Conversation</h2>
+      {{if .Turns}}
+      <div class="chat" role="log" aria-label="Test conversation">
+        {{range .Turns}}
+        <div class="bubble {{.Role}}"><span class="who">{{if eq .Role "user"}}You (as customer){{else}}Bot{{end}}</span>{{.Content}}</div>
+        {{end}}
+      </div>
+      {{else}}
+      <p class="empty">Ask something your customers ask, for example the price, how to pay, or what the course includes.</p>
+      {{end}}
+      <form method="post" action="/admin/test" autocomplete="off">
+        <input type="hidden" name="account" value="{{.AccountID}}">
+        {{range .Turns}}<input type="hidden" name="role" value="{{.Role}}"><input type="hidden" name="text" value="{{.Content}}">
+        {{end}}
+        <label for="message">{{if .Turns}}Reply as the customer{{else}}Message{{end}}</label>
+        <textarea id="message" name="message" rows="3" maxlength="2000" required{{if not .Turns}} autofocus{{end}}></textarea>
+        <details>
+          <summary>Test a specific inbox</summary>
+          <label for="inbox">Inbox ID</label>
+          <input id="inbox" name="inbox" inputmode="numeric" value="{{.Inbox}}" aria-describedby="inbox-hint">
+          <p class="field-hint" id="inbox-hint">Blank uses knowledge shared by all inboxes. A number adds that inbox's own documents.</p>
+        </details>
+        <div class="row">
+          <button type="submit" class="primary">Send</button>
+          {{if .Turns}}<a class="btn" href="/admin/test?account={{.AccountID}}">Start over</a>{{end}}
+        </div>
+      </form>
+    </section>
+
+    <aside class="card side" aria-labelledby="why-h">
+      <h2 id="why-h" style="font-size:1.125rem;margin:0 0 12px">How the bot answered</h2>
+      {{if .Asked}}
+        {{if .Handoff}}
+        <div class="status todo" role="status">Passes to staff</div>
+        <p class="hint">{{.Reason}}</p>
+        {{else}}
+        <div class="status ready" role="status">Answered by the bot</div>
+        {{end}}
+        <h3 style="font-size:1rem;margin:16px 0 4px">Knowledge used</h3>
+        {{if .Sources}}
+        <ul class="sources">{{range .Sources}}<li>{{.Title}} <span class="preview">match {{.Score}}</span></li>{{end}}</ul>
+        {{else}}
+        <p class="hint">No document matched. The answer came from the business profile only.</p>
+        {{end}}
+        <p class="field-hint">{{if .Model}}{{.Model}} · {{end}}{{.LatencyMS}} ms</p>
+        {{if .Knowledge}}
+        <details{{if not .Sources}} open{{end}} style="margin-top:12px">
+          <summary>Wrong or missing? Add the right answer</summary>
+          <form method="post" action="/admin/knowledge" autocomplete="off">
+            <input type="hidden" name="account" value="{{.AccountID}}">
+            <input type="hidden" name="inbox" value="{{.Inbox}}">
+            <input type="hidden" name="action" value="add_faq">
+            <label for="question">Question</label>
+            <input id="question" name="question" value="{{.Asked}}" required>
+            <label for="answer">Correct answer</label>
+            <textarea id="answer" name="answer" rows="4" required></textarea>
+            <button type="submit" class="save">Add to knowledge base</button>
+          </form>
+        </details>
+        {{end}}
+      {{else}}
+      <p class="hint">After you send a message, this shows whether the bot would answer or pass the chat to staff, and which knowledge it used.</p>
+      {{end}}
+    </aside>
+  </div>
+  {{end}}
+</main>
+</div>
+</body>
+</html>

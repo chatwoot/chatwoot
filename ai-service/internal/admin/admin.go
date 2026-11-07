@@ -31,6 +31,7 @@ var pageFS embed.FS
 
 var pages = template.Must(template.New("pages").Funcs(template.FuncMap{
 	// dict builds a map so one sub-template can render both provider cards.
+	"inc": func(i int) int { return i + 1 },
 	"dict": func(kv ...any) map[string]any {
 		m := make(map[string]any, len(kv)/2)
 		for i := 0; i+1 < len(kv); i += 2 {
@@ -59,6 +60,8 @@ type Handler struct {
 	Knowledge *knowledge.Service
 	// Profiles enables the business profile page; nil when no database is set.
 	Profiles profile.Store
+	// Tester runs the reply pipeline for the test page; nil turns that page off.
+	Tester Tester
 	// Probe sends a tiny test request to a chat provider. Nil uses a real call.
 	Probe func(ctx context.Context, p settings.Provider) (llm.Result, error)
 	// ProbeEmbedding embeds one word with an embeddings provider. Nil uses a real call.
@@ -71,8 +74,11 @@ func (h *Handler) Routes(mux *http.ServeMux) {
 	wrap := func(f http.HandlerFunc) http.Handler {
 		return secureHeaders(h.requireAuth(protect.Handler(f)))
 	}
-	mux.Handle("GET /admin", wrap(h.show))
-	mux.Handle("POST /admin", wrap(h.submit))
+	mux.Handle("GET /admin", wrap(h.showHome))
+	mux.Handle("GET /admin/providers", wrap(h.show))
+	mux.Handle("POST /admin/providers", wrap(h.submit))
+	mux.Handle("GET /admin/test", wrap(h.showTest))
+	mux.Handle("POST /admin/test", wrap(h.submitTest))
 	mux.Handle("GET /admin/knowledge", wrap(h.showKnowledge))
 	mux.Handle("POST /admin/knowledge", wrap(h.submitKnowledge))
 	mux.Handle("GET /admin/business", wrap(h.showBusiness))
@@ -196,7 +202,7 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 		"fallback_enabled", next.Fallback.Configured(), "fallback_model", next.Fallback.Model,
 		"embedding_enabled", next.Embedding.Configured(), "embedding_model", next.Embedding.Model,
 		"remote_addr", r.RemoteAddr)
-	target := "/admin?saved=1"
+	target := "/admin/providers?saved=1"
 	if fallbackOff {
 		target += "&fallback=off"
 	}

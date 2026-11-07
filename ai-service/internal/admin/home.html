@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+{{template "head"}}
+<title>Home</title>
+</head>
+<body>
+<div class="shell">
+{{template "nav" "home"}}
+<main>
+  <div class="page-head">
+    <div>
+      <h1>{{if .Business}}{{.Business}}{{else}}Your AI assistant{{end}}</h1>
+      <p class="lead">Set up the bot in order, then try it on the Test bot page before customers see it.</p>
+    </div>
+    <form class="acct" method="get" action="/admin">
+      <label for="account">Account</label>
+      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}" aria-describedby="account-hint">
+      <button type="submit">Show</button>
+      <p class="field-hint" id="account-hint">From the Chatwoot URL: /app/accounts/<strong>1</strong>/…</p>
+    </form>
+  </div>
+
+  {{if eq .Left 0}}
+  <div class="status ready" role="status">Ready. The bot answers in every Chatwoot inbox it is connected to.</div>
+  {{else}}
+  <div class="status todo" role="status">{{.Left}} of {{len .Steps}} setup steps left. Until they are done, the bot may not answer well.</div>
+  {{end}}
+
+  <div class="biz">
+    <section class="card" aria-labelledby="setup">
+      <h2 id="setup" class="visually-hidden">Setup</h2>
+      <ol class="steps">
+        {{range $i, $s := .Steps}}
+        <li class="{{if $s.Done}}done{{end}}">
+          <span class="mark" aria-hidden="true">{{if $s.Done}}✓{{else}}{{inc $i}}{{end}}</span>
+          <div><strong>{{$s.Title}}</strong> <span class="visually-hidden">{{if $s.Done}}(done){{else}}(not done){{end}}</span><p>{{$s.Hint}}</p></div>
+          <a class="btn{{if not $s.Done}} primary{{end}}" href="{{$s.Link}}">{{if $s.Done}}Change{{else}}{{$s.Action}}{{end}}<span class="visually-hidden">: {{$s.Title}}</span></a>
+        </li>
+        {{end}}
+        <li>
+          <span class="mark" aria-hidden="true">{{inc (len .Steps)}}</span>
+          <div><strong>Test the bot</strong><p>Ask what your customers ask. Nothing is sent to customers.</p></div>
+          <a class="btn{{if eq .Left 0}} primary{{end}}" href="/admin/test?account={{.AccountID}}">Open test chat</a>
+        </li>
+      </ol>
+    </section>
+
+    <aside class="card side" aria-labelledby="glance">
+      <h2 id="glance" style="font-size:1.125rem;margin:0 0 12px">At a glance</h2>
+      <dl class="facts">
+        <dt>Knowledge</dt>
+        <dd>{{if .DocsKnown}}{{.Documents}} document{{if ne .Documents 1}}s{{end}}{{if .LastUpdated}}, last updated {{.LastUpdated}}{{end}}{{else}}Not available{{end}}</dd>
+        <dt>AI model</dt>
+        <dd>{{if .Model}}{{.Model}}{{if .Fallback}} (with backup){{end}}{{else}}Not set{{end}}</dd>
+        {{if .Profiles}}
+        <dt>Voice notes</dt><dd>{{if .Features.Voice}}On{{else}}Off{{end}}</dd>
+        <dt>Images</dt><dd>{{if .Features.Images}}On{{else}}Off{{end}}</dd>
+        <dt>Stickers</dt><dd>{{if .Features.Stickers}}On{{else}}Off{{end}}</dd>
+        {{end}}
+      </dl>
+      {{if .Profiles}}<p class="field-hint" style="margin-top:12px"><a href="/admin/business?account={{.AccountID}}">Change AI features</a></p>{{end}}
+    </aside>
+  </div>
+</main>
+</div>
+</body>
+</html>
