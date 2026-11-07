@@ -23,6 +23,7 @@ import (
 	embedclient "github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
 )
@@ -62,6 +63,10 @@ type Handler struct {
 	Knowledge *knowledge.Service
 	// Profiles enables the business profile page; nil when no database is set.
 	Profiles profile.Store
+	// Tokens manages MCP access tokens; nil hides the connections page.
+	Tokens mcp.Tokens
+	// MCPURL is the public MCP address shown in setup steps; empty derives it from the request.
+	MCPURL string
 	// Location is the business time zone for knowledge dates; nil is UTC.
 	Location *time.Location
 	// Tester runs the reply pipeline for the test page; nil turns that page off.
@@ -82,6 +87,8 @@ func (h *Handler) Routes(mux *http.ServeMux) {
 	mux.Handle("GET /admin/providers", wrap(h.show))
 	mux.Handle("POST /admin/providers", wrap(h.submit))
 	mux.Handle("POST /admin/theme", wrap(h.setTheme))
+	mux.Handle("GET /admin/connections", wrap(h.showConnections))
+	mux.Handle("POST /admin/connections", wrap(h.submitConnections))
 	mux.Handle("GET /admin/test", wrap(h.showTest))
 	mux.Handle("POST /admin/test", wrap(h.submitTest))
 	mux.Handle("GET /admin/knowledge", wrap(h.showKnowledge))

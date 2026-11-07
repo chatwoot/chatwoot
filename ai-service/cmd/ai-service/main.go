@@ -23,6 +23,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/handoff"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/media"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
@@ -77,7 +78,9 @@ func run() error {
 	var adminProfiles profile.Store
 	var rewriter bot.QueryRewriter
 	var usage bot.UsageRecorder
+	var mcpStore *mcp.Postgres
 	if kb != nil {
+		mcpStore = &mcp.Postgres{Pool: profiles.Pool}
 		retriever, botProfiles, adminProfiles, usage = kb, profiles, profiles, kb
 		rewriter = &bot.LLMRewriter{LLM: rewriteLLM}
 	}
@@ -130,10 +133,18 @@ func run() error {
 		(&admin.Handler{
 			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
 			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
-			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout, Logger: logger,
+			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout,
+			Tokens: mcpTokens(mcpStore), MCPURL: cfg.MCPPublicURL, Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
+	}
+	if mcpStore != nil {
+		// MCP for AI tools: bearer-token auth inside, no /admin password.
+		mux.Handle("/mcp", &mcp.Server{
+			Knowledge: kb, Tokens: mcpStore, Audit: mcpStore, Tester: b,
+			Location: cfg.Location, Logger: logger.With("component", "mcp"), Version: "1",
+		})
 	}
 	srv := &http.Server{
 		Addr:              cfg.ListenAddr,
@@ -214,6 +225,14 @@ func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logg
 		Store: pg, Embedder: embedder,
 		TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes,
 	}, &profile.Postgres{Pool: pg.Pool}, pg.Pool.Close, nil
+}
+
+// mcpTokens keeps a nil store a nil interface, so the admin hides the page.
+func mcpTokens(p *mcp.Postgres) mcp.Tokens {
+	if p == nil {
+		return nil
+	}
+	return p
 }
 
 func parseLevel(s string) slog.Level {

@@ -152,6 +152,11 @@
   a.btn.small { min-height: 36px; padding: 6px 12px; font-size: .9rem; }
   .card.dupes { border-color: var(--warn-text); }
   @media (max-width: 640px) { td.row-actions { text-align: left; } nav.filters a { min-height: 44px; } }
+  /* Connections: the one-time token and setup snippets */
+  .mono, pre.code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .85rem; }
+  pre.code { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  h3.sub { font-size: 1rem; margin: 18px 0 4px; }
+  .card.newtoken { border: 2px solid var(--accent); }
   /* Home checklist and test chat */
   .nav-settings { margin-top: 16px; border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; }
   .status { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: var(--radius); margin: 0 0 16px; font-weight: 600; }
@@ -205,6 +210,7 @@
     <a href="/admin/test"{{if eq . "test"}} aria-current="page"{{end}}>Test bot</a>
     <a href="/admin/business"{{if eq . "business"}} aria-current="page"{{end}}>Business profile</a>
     <a href="/admin/knowledge"{{if eq . "knowledge"}} aria-current="page"{{end}}>Knowledge base</a>
+    <a href="/admin/connections"{{if eq . "connections"}} aria-current="page"{{end}}>Connect AI tools</a>
     <a class="nav-settings" href="/admin/providers"{{if eq . "providers"}} aria-current="page"{{end}}>AI providers</a>
   </nav>
   <form class="theme" method="post" action="/admin/theme" aria-label="Colour theme">
