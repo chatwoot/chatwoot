@@ -216,16 +216,51 @@ RSpec.describe Captain::McpServer do
       expect(server.new_tool_names(%w[get_customer list_invoices])).to eq(['list_invoices'])
     end
 
-    it 'compares the live tools with the approved ones' do
-      approved = { 'same' => definition.call('same'), 'edited' => definition.call('edited'), 'gone' => definition.call('gone') }
-      server.sync_tools(approved.transform_values { {} }, approved)
-      live = [definition.call('same'), definition.call('edited', 'Changed'), definition.call('new')]
+    describe 'review states' do
+      let(:approved) { { 'same' => definition.call('same'), 'edited' => definition.call('edited'), 'gone' => definition.call('gone') } }
+      let(:live) { [definition.call('same'), definition.call('edited', 'Changed'), definition.call('new')] }
 
-      comparison = server.compare_live_tools(live)
+      before { server.sync_tools(approved.transform_values { {} }, approved) }
 
-      expect(comparison[:tools].map { |entry| [entry[:definition]['name'], entry[:approved], entry[:changed]] })
-        .to eq([['same', true, false], ['edited', true, true], ['new', false, false]])
-      expect(comparison[:missing]).to eq(['gone'])
+      it 'records how each approved tool compares with a live listing' do
+        expect(server).not_to be_needs_review
+
+        server.record_live_tools(live)
+
+        expect(server.tools.reload.to_h { |tool| [tool.name, tool.review_state] })
+          .to eq({ 'same' => 'current', 'edited' => 'changed', 'gone' => 'missing' })
+        expect(server).to be_needs_review
+      end
+
+      it 'marks each live tool from the recorded states' do
+        server.record_live_tools(live)
+
+        entries = server.live_tool_entries(live)
+
+        expect(entries[:tools].map { |entry| [entry[:definition]['name'], entry[:approved], entry[:changed]] })
+          .to eq([['same', true, false], ['edited', true, true], ['new', false, false]])
+        expect(entries[:missing]).to eq(['gone'])
+      end
+
+      it 'stops needing review once the admin removes the tools that changed' do
+        server.record_live_tools(live)
+
+        server.sync_tools({ 'same' => {} }, {})
+
+        expect(server.reload).not_to be_needs_review
+      end
+
+      it 'approves only the version the admin reviewed' do
+        server.record_live_tools(live)
+        reviewed = Captain::McpTool.definition_digest(definition.call('edited', 'Changed'))
+        changed_again = live.map { |tool| tool['name'] == 'edited' ? definition.call('edited', 'Changed again') : tool }
+
+        expect { server.approve_tool('edited', reviewed, changed_again) }.to raise_error(ActiveRecord::RecordInvalid)
+
+        server.approve_tool('edited', reviewed, live)
+
+        expect(server.tools.reload.find_by(name: 'edited')).to have_attributes(review_state: 'current', description: 'Changed')
+      end
     end
 
     it 'offers Captain only the enabled tools of an enabled server' do

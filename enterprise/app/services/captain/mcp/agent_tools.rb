@@ -74,15 +74,11 @@ class Captain::Mcp::AgentTools
   end
 
   def usable_on(server)
-    mcp_tools = server.available_tools.to_a
-    return [] if mcp_tools.empty?
+    return [] if server.available_tools.empty?
 
     connection = Captain::Mcp::Connection.new(server)
-    live = connection.track_status { connection.tool_definitions }.index_by { |definition| definition['name'] }
-    mcp_tools.filter_map do |mcp_tool|
-      definition = live[mcp_tool.name]
-      Usable.new(mcp_tool, connection) if definition && mcp_tool.approval_current?(definition)
-    end
+    server.record_live_tools(connection.track_status { connection.tool_definitions })
+    server.available_tools.select(&:review_current?).map { |mcp_tool| Usable.new(mcp_tool, connection) }
   rescue *Captain::Mcp::Connection::ERRORS => e
     Rails.logger.warn("Captain MCP server #{server.id} skipped: #{e.class} - #{e.message}")
     []

@@ -24,44 +24,46 @@ module Concerns::McpToolApprovable
     tools.reset
   end
 
-  # Compares the server's live tools with the approved ones. Each live tool says whether it is approved and whether
-  # it changed since, and missing lists the approved tools the server no longer offers.
-  def compare_live_tools(live_definitions)
-    approved = tools.index_by(&:name)
-    compared = live_definitions.map do |definition|
-      tool = approved[definition['name']]
-      { definition: definition, approved: tool.present?, changed: tool.present? && !tool.approval_current?(definition) }
+  # Stores how each approved tool compares with a live listing. Captain, the tools page and the server's Needs review
+  # badge all read these states, so every path that lists the server records it here. A tool is written only when its
+  # state changes. update_columns skips validations: a tool saved under older rules may fail today's, and that must
+  # not stop Chatwoot from flagging a change.
+  def record_live_tools(live_definitions)
+    live = live_definitions.index_by { |definition| definition['name'] }
+    tools.each do |tool|
+      state = tool.review_state_for(live[tool.name])
+      tool.update_columns(review_state: state) unless tool.review_state == state # rubocop:disable Rails/SkipsModelValidations
     end
-    { tools: compared, missing: approved.keys - live_definitions.pluck('name') }
   end
 
-  # Approved tools whose live definition differs from the approved one, or that the server no longer lists
-  def changed_tool_names(live_definitions)
-    comparison = compare_live_tools(live_definitions)
-    comparison[:tools].select { |entry| entry[:changed] }.map { |entry| entry[:definition]['name'] } + comparison[:missing]
+  # An approved tool changed on the server or is no longer listed, so an admin should review it
+  def needs_review?
+    tools.any? { |tool| !tool.review_current? }
   end
 
-  # Records when a change first appeared, and clears it once no approved tool differs.
-  # The hourly check and the tools page call this. update_columns writes only tools_changed_at: a server saved under
-  # older rules, such as an earlier URL check, may fail today's validations, and that must not stop Chatwoot from
-  # flagging a changed tool.
-  def record_tool_changes(live_definitions)
-    changed = changed_tool_names(live_definitions).any?
-    return if changed == tools_changed_at.present?
-
-    update_columns(tools_changed_at: changed ? Time.current : nil) # rubocop:disable Rails/SkipsModelValidations
+  # Marks each live tool with whether an admin approved it and whether it changed since, from the recorded states.
+  # Missing lists the approved tools the server no longer offers.
+  def live_tool_entries(live_definitions)
+    approved = tools.index_by(&:name)
+    entries = live_definitions.map do |definition|
+      tool = approved[definition['name']]
+      { definition: definition, approved: tool.present?, changed: tool.present? && tool.review_changed? }
+    end
+    { tools: entries, missing: tools.select(&:review_missing?).map(&:name) }
   end
 
-  # Pins an approved tool to its live definition after an admin reviewed the change. Parameter sources stay,
-  # so a parameter the server removed must lose its source first, and a new parameter is filled by Captain.
-  def approve_tool(name, live_definitions)
+  # Pins an approved tool to its live definition after an admin reviewed the change. The admin approves the version
+  # they saw, so a server that answers this listing with another version is refused. Parameter sources stay, so a
+  # parameter the server removed must lose its source first, and a new parameter is filled by Captain.
+  def approve_tool(name, reviewed_digest, live_definitions)
     definition = live_definitions.find { |live| live['name'] == name }
-    tool = tools.find_by(name: name)
+    tool = tools.find { |approved| approved.name == name }
     invalid_tool!(name, :missing) unless definition && tool
+    invalid_tool!(name, :changed_again) unless Captain::McpTool.definition_digest(definition) == reviewed_digest
 
     tool.approve(definition)
     tool.save!
-    record_tool_changes(live_definitions)
+    record_live_tools(live_definitions)
   end
 
   # Adds the error to the server and raises, so the API answers 422 with the reason

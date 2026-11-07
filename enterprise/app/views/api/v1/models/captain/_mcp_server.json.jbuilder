@@ -7,7 +7,7 @@ json.auth_type mcp_server.auth_type
 json.auth_header mcp_server.auth_header
 json.status mcp_server.status
 json.last_error mcp_server.last_error
-json.tools_changed_at mcp_server.tools_changed_at&.to_i
+json.needs_review mcp_server.needs_review?
 json.enabled mcp_server.enabled
 json.tools mcp_server.tools do |tool|
   json.name tool.name

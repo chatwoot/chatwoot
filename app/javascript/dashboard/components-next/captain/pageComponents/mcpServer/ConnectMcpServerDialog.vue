@@ -296,6 +296,7 @@ const approveChange = tool =>
       id: server.value.id,
       assistantId: props.assistantId,
       name: tool.name,
+      digest: tool.digest,
     });
     server.value = data;
     reviewingTool.value = null;

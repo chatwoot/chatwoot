@@ -49,10 +49,11 @@ class CaptainMcpServers extends ApiClient {
     });
   }
 
-  approveTool({ id, assistantId, name }) {
+  approveTool({ id, assistantId, name, digest }) {
     return axios.post(`${this.url}/${id}/approve_tool`, {
       assistant_id: assistantId,
       name,
+      digest,
     });
   }
 

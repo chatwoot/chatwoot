@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_07_075626) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -550,7 +550,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.jsonb "oauth_credentials", default: {}
     t.string "status", default: "active", null: false
     t.text "last_error"
-    t.datetime "tools_changed_at"
     t.boolean "enabled", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -570,6 +569,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.boolean "enabled", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "review_state", default: "current", null: false
     t.index ["account_id"], name: "index_captain_mcp_tools_on_account_id"
     t.index ["captain_name"], name: "index_captain_mcp_tools_on_captain_name", unique: true
     t.index ["mcp_server_id", "name"], name: "index_captain_mcp_tools_on_mcp_server_id_and_name", unique: true

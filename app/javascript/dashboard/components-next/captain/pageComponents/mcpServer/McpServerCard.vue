@@ -91,7 +91,7 @@ const handleAction = ({ action }) => {
       </div>
       <div class="flex items-center gap-2 shrink-0">
         <span
-          v-if="server.tools_changed_at"
+          v-if="server.needs_review"
           class="text-xs font-medium px-2 py-0.5 rounded-full bg-n-amber-3 text-n-amber-11"
         >
           {{ t('CAPTAIN.MCP_SERVERS.NEEDS_REVIEW') }}

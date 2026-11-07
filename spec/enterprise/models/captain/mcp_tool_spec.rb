@@ -30,6 +30,22 @@ RSpec.describe Captain::McpTool do
       expect(tool.approval_current?(definition)).to be(true)
       expect(tool.approval_current?(definition.merge('description' => 'Changed'))).to be(false)
     end
+
+    it 'makes a tool that had changed current again' do
+      tool.review_state = 'changed'
+
+      tool.approve(definition.merge('description' => 'Changed'))
+
+      expect(tool).to be_review_current
+    end
+  end
+
+  describe '#review_state_for' do
+    it 'is current, changed or missing for a live definition' do
+      expect(tool.review_state_for(definition)).to eq('current')
+      expect(tool.review_state_for(definition.merge('description' => 'Changed'))).to eq('changed')
+      expect(tool.review_state_for(nil)).to eq('missing')
+    end
   end
 
   describe 'Captain name' do
