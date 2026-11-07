@@ -4,8 +4,6 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
   # The most characters of a tool result the model sees
   MAX_RESULT_CHARACTERS = 1.megabyte
 
-  attr_reader :mcp_tool, :connection
-
   # Whether the model sees and fills a verified parameter. Each subclass answers for the user it serves.
   def self.model_fills_verified_values?
     false
@@ -27,6 +25,10 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
 
   def read_only?
     @mcp_tool.read_only?
+  end
+
+  def for_copilot
+    Captain::Mcp::AgentTools.build(@assistant, @mcp_tool, @connection, base_class: Captain::Tools::CopilotMcpTool)
   end
 
   private

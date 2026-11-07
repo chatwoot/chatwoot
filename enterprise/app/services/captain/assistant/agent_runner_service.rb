@@ -166,16 +166,9 @@ class Captain::Assistant::AgentRunnerService
     with_email_verification_tools(agent)
   end
 
-  # Custom tools and MCP tools are built for customers by default. Here an admin or an agent is the user, so they are rebuilt for Copilot.
+  # Tools are built for customers by default. Here an admin or an agent is the user, so each tool gives its Copilot version.
   def copilot_tools(tools)
-    tools.map do |tool|
-      case tool
-      when Captain::Tools::HttpTool then tool.custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool)
-      when Captain::Tools::McpTool
-        Captain::Mcp::AgentTools.build(@assistant, tool.mcp_tool, tool.connection, base_class: Captain::Tools::CopilotMcpTool)
-      else tool
-      end
-    end
+    tools.map(&:for_copilot)
   end
 
   # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it

@@ -70,6 +70,13 @@ RSpec.describe Captain::Tools::McpTool do
   describe Captain::Tools::CopilotMcpTool do
     let(:base_class) { described_class }
 
+    it 'is what a customer tool becomes when an admin or an agent is the user' do
+      copilot_tool = Captain::Mcp::AgentTools.build(assistant, mcp_tool, connection, base_class: Captain::Tools::PublicMcpTool).for_copilot
+
+      expect(copilot_tool).to be_a(described_class)
+      expect(copilot_tool.parameters_schema['properties'].keys.map(&:to_s)).to contain_exactly('email', 'status')
+    end
+
     it 'shows the model the verified parameter but not the fixed one' do
       expect(tool.parameters_schema['properties'].keys.map(&:to_s)).to contain_exactly('email', 'status')
     end
