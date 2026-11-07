@@ -104,3 +104,18 @@ func TestPost_ReturnsAPIErrorOnNon2xx(t *testing.T) {
 		t.Fatalf("expected APIError 401, got %v", err)
 	}
 }
+
+func TestSetConversationAttributes_MergesOnly(t *testing.T) {
+	// Arrange
+	var got captured
+	c := New(newServer(t, http.StatusOK, &got).URL, "t", nil)
+
+	// Act
+	err := c.SetConversationAttributes(context.Background(), 1, 7, map[string]string{"customer_email": "a@gmail.com"})
+
+	// Assert
+	attrs, _ := got.body["custom_attributes"].(map[string]any)
+	if err != nil || got.path != "/api/v1/accounts/1/conversations/7/custom_attributes" || got.body["merge"] != true || attrs["customer_email"] != "a@gmail.com" {
+		t.Fatalf("err=%v path=%q body=%v", err, got.path, got.body)
+	}
+}

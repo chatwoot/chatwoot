@@ -54,6 +54,12 @@ func (c *Client) SetTyping(ctx context.Context, accountID, conversationID int64,
 	return c.post(ctx, c.convPath(accountID, conversationID, "/toggle_typing_status"), map[string]any{"typing_status": status})
 }
 
+// SetConversationAttributes sets custom attributes on a conversation,
+// keeping the ones not named (merge).
+func (c *Client) SetConversationAttributes(ctx context.Context, accountID, conversationID int64, attrs map[string]string) error {
+	return c.post(ctx, c.convPath(accountID, conversationID, "/custom_attributes"), map[string]any{"custom_attributes": attrs, "merge": true})
+}
+
 func (c *Client) convPath(accountID, conversationID int64, suffix string) string {
 	return fmt.Sprintf("/api/v1/accounts/%d/conversations/%d%s", accountID, conversationID, suffix)
 }

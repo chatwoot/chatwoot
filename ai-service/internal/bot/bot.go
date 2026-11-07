@@ -220,6 +220,7 @@ func (b *Bot) Process(parent context.Context, j Job) {
 		}
 		tr.Input = in.text
 		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: in.text})
+		b.saveEmail(ctx, log, acct, conv, in.text)
 		if b.opts.Handoff.Wants(in.text) {
 			tr.Outcome, tr.Output = "handoff:"+ReasonCustomerAsked, b.opts.HandoffMessage
 			b.handoff(ctx, log, acct, conv, b.opts.HandoffMessage, ReasonCustomerAsked)
