@@ -39,9 +39,14 @@ module Captain::ParamSources
     end
   end
 
+  # The email the customer verified in this conversation, or nil. It is read from stored data on every call, never from
+  # the run state the model can influence.
+  def self.stored_verified_email(conversation)
+    conversation && Captain::EmailVerification.new(conversation).verified_email
+  end
+
   def self.verified_email(conversation)
-    email = conversation && Captain::EmailVerification.new(conversation).verified_email
-    email || raise(Unavailable, UNVERIFIED)
+    stored_verified_email(conversation) || raise(Unavailable, UNVERIFIED)
   end
 
   # Each source has an exact shape, so an unknown source, an extra key or a value of the wrong type is invalid

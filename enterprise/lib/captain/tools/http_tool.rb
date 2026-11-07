@@ -84,15 +84,9 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
     headers.merge!(@custom_tool.build_metadata_headers(tool_context&.state || {}))
     # The contact email can be typed by anyone, so the email the customer verified travels in its own header.
     # The admin test request runs without a conversation, so it has no customer to look up.
-    verified_email = stored_verified_email(tool_context.state) if tool_context
+    verified_email = Captain::ParamSources.stored_verified_email(find_conversation(tool_context.state)) if tool_context
     headers['X-Chatwoot-Verified-Email'] = verified_email if verified_email
     headers['Content-Type'] = 'application/json' if json_body.present?
     headers
-  end
-
-  # Read from stored data on every call, never from the run state the model can influence
-  def stored_verified_email(state)
-    conversation = find_conversation(state)
-    conversation && Captain::EmailVerification.new(conversation).verified_email
   end
 end
