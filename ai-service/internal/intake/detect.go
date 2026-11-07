@@ -15,10 +15,6 @@ type Signals struct {
 }
 
 var (
-	// sep is what may sit between digits of one number: up to two
-	// characters that are not letters, digits or line breaks.
-	thaiID      = regexp.MustCompile(`\b\d(?:` + sep + `\d){12}\b`)
-	cardNumber  = regexp.MustCompile(`\b\d(?:` + sep + `\d){12,18}\b`)
 	secretValue = []struct {
 		re   *regexp.Regexp
 		kind string
@@ -27,53 +23,50 @@ var (
 		{regexp.MustCompile(`(?i)(?:\botp\b|รหัส\s*otp|one[- ]time (?:code|password))\s*(?:[:=]|คือ|is)\s*\d{4,8}`), "one-time code"},
 		{regexp.MustCompile(`(?i)(?:\bpassword\b|\bpasscode\b|รหัสผ่าน|\bpin\b)\s*(?:[:=]|คือ|is)\s*\S{3,}`), "password"},
 	}
-	promptPay   = regexp.MustCompile(`(?i)(?:พร้อมเพย์|prompt\s*pay)[^\d\n]{0,20}((?:\+` + sep + `6` + sep + `6|0)(?:` + sep + `\d){8,9}|\d(?:` + sep + `\d){12})`)
-	bankAccount = regexp.MustCompile(`(?i)(?:บัญชี|ธนาคาร|\bbank\b|\baccount\b|\bacct\b|กสิกร|ไทยพาณิชย์|กรุงเทพ|กรุงไทย|กรุงศรี|\bkbank\b|\bscb\b|\bbbl\b|\bktb\b|\bttb\b|ออมสิน)[^\d\n]{0,30}(\d(?:` + sep + `\d){9,11})\b`)
+	// numberRun is one number written with separators between its digits:
+	// up to two spaces, dots, dashes, slashes or underscores (not commas,
+	// so a list of numbers stays apart).
+	numberRun   = regexp.MustCompile(`\+?\d(?:[ \t.\-/_]{0,2}\d)*`)
+	promptPayKW = regexp.MustCompile(`(?i)พร้อมเพย์|prompt\s*pay`)
+	bankKW      = regexp.MustCompile(`(?i)บัญชี|ธนาคาร|\bbank\b|\baccount\b|\bacct\b|กสิกร|ไทยพาณิชย์|กรุงเทพ|กรุงไทย|กรุงศรี|\bkbank\b|\bscb\b|\bbbl\b|\bktb\b|\bttb\b|ออมสิน`)
 	link        = regexp.MustCompile(`(?i)https?://[^\s<>"')]+`)
 	payLink     = regexp.MustCompile(`(?i)pay|checkout|omise|stripe|2c2p|gbprime|promptpay|billing|invoice`)
 	lineLink    = regexp.MustCompile(`(?i)^https?://(?:[a-z0-9-]+\.)?line\.me/`)
 	email       = regexp.MustCompile(`(?i)\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b`)
 	lineID      = regexp.MustCompile(`(?i)(?:\bline\b|ไลน์|line\s*id)[^@\n]{0,20}@[a-z0-9._-]{3,}`)
-	phone       = regexp.MustCompile(`(?:\+` + sep + `6` + sep + `6|\b0)(?:` + sep + `\d){8,9}\b`)
 	handle      = regexp.MustCompile(`(?i)(?:^|[^a-z0-9._%+-])@[a-z0-9._-]{3,}`)
 )
 
-const sep = `[^\p{L}\p{N}\n]{0,2}`
+// drop removes a match without recording anything.
+const drop = "-"
 
-// Detect runs the pattern checks. Each match is removed before the next
-// check, so one number is counted once (a PromptPay phone is payment, not
-// also a contact phone).
+// contextRunes is how far before a number its keyword (PromptPay, bank) may be.
+const contextRunes = 40
+
+// Detect runs the pattern checks. Links, emails and secret values go first;
+// then every number is read whole and judged once, private checks first, so
+// no payment or contact pattern can swallow a card or ID number.
 func Detect(text string) Signals {
 	s := clean(text)
 	var sig Signals
 	take := func(re *regexp.Regexp, keep func(m string) string) {
 		s = re.ReplaceAllStringFunc(s, func(m string) string {
-			if kind := keep(m); kind != "" {
+			switch kind := keep(m); kind {
+			case "":
+				return m
+			case drop:
+				return " "
+			default:
 				add(&sig, kind)
 				return " "
 			}
-			return m
 		})
 	}
 	always := func(kind string) func(string) string { return func(string) string { return kind } }
 
-	take(promptPay, always("PromptPay"))
-	take(bankAccount, always("bank account"))
 	for _, sv := range secretValue {
 		take(sv.re, always(sv.kind))
 	}
-	take(thaiID, func(m string) string {
-		if validThaiID(digits(m)) {
-			return "ID number"
-		}
-		return ""
-	})
-	take(cardNumber, func(m string) string {
-		if d := digits(m); len(d) >= 13 && luhn(d) {
-			return "card number"
-		}
-		return ""
-	})
 	take(link, func(m string) string {
 		switch {
 		case lineLink.MatchString(m):
@@ -81,13 +74,88 @@ func Detect(text string) Signals {
 		case payLink.MatchString(m):
 			return "payment link"
 		}
-		return ""
+		return drop // a plain link: removed so its digits are not read as numbers
 	})
 	take(email, always("email"))
+	for _, loc := range numberRun.FindAllStringIndex(s, -1) {
+		if kind := numberKind(s[loc[0]:loc[1]], before(s, loc[0])); kind != "" {
+			add(&sig, kind)
+		}
+	}
+	s = numberRun.ReplaceAllString(s, " ")
 	take(lineID, always("LINE"))
-	take(phone, always("phone"))
 	take(handle, always("LINE"))
 	return sig
+}
+
+// before is the text on the same line just before i.
+func before(s string, i int) string {
+	pre := s[:i]
+	if nl := strings.LastIndexByte(pre, '\n'); nl >= 0 {
+		pre = pre[nl+1:]
+	}
+	if r := []rune(pre); len(r) > contextRunes {
+		pre = string(r[len(r)-contextRunes:])
+	}
+	return pre
+}
+
+// numberKind judges one whole number. Private checks come first.
+func numberKind(raw, context string) string {
+	d := digits(raw)
+	switch {
+	case hasCard(d):
+		return "card number"
+	case hasThaiID(d):
+		if promptPayKW.MatchString(context) && len(d) == 13 {
+			return "PromptPay"
+		}
+		return "ID number"
+	case promptPayKW.MatchString(context) && phoneShaped(raw, d):
+		return "PromptPay"
+	case bankKW.MatchString(context) && len(d) >= 10 && len(d) <= 12:
+		return "bank account"
+	case phoneShaped(raw, d):
+		return "phone"
+	}
+	return ""
+}
+
+// hasCard reports a Luhn-valid card number: the whole number (13–19
+// digits), or a 15- or 16-digit card at the start or end of a longer one,
+// so digits stuck before or after a card cannot hide it. Inner windows are
+// not tried: one in ten random windows passes Luhn.
+func hasCard(d string) bool {
+	if len(d) >= 13 && len(d) <= 19 && luhn(d) {
+		return true
+	}
+	if len(d) <= 16 {
+		return false
+	}
+	for _, n := range []int{15, 16} {
+		if n < len(d) && (luhn(d[:n]) || luhn(d[len(d)-n:])) {
+			return true
+		}
+	}
+	return false
+}
+
+// hasThaiID reports a checksum-valid 13-digit ID number anywhere in d.
+func hasThaiID(d string) bool {
+	for i := 0; i+13 <= len(d); i++ {
+		if validThaiID(d[i : i+13]) {
+			return true
+		}
+	}
+	return false
+}
+
+// phoneShaped is a Thai phone number: 0 and 8–9 digits, or +66 and 8–9.
+func phoneShaped(raw, d string) bool {
+	if strings.HasPrefix(raw, "+") {
+		return strings.HasPrefix(d, "66") && len(d) >= 10 && len(d) <= 11
+	}
+	return strings.HasPrefix(d, "0") && len(d) >= 9 && len(d) <= 10
 }
 
 func add(sig *Signals, kind string) {
