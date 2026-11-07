@@ -5,8 +5,9 @@
 <title>AI provider settings</title>
 </head>
 <body>
+<div class="shell">
+{{template "nav" "providers"}}
 <main>
-  {{template "nav" "providers"}}
   <h1>AI provider settings</h1>
   <p class="lead">Choose which AI service answers your customers. Changes apply right away, no restart needed.</p>
 
@@ -17,15 +18,18 @@
   <form method="post" action="/admin" autocomplete="off">
     <datalist id="presets">{{range .Presets}}<option value="{{.URL}}">{{.Name}}</option>{{end}}</datalist>
 
+    <div class="cards">
     {{template "provider" dict "Slot" "primary" "Title" "Primary provider" "Hint" "Answers every customer message." "P" .Primary "Test" .Test "ModelHint" "Chat model id from your provider"}}
     {{template "provider" dict "Slot" "fallback" "Title" "Fallback provider" "Hint" "Optional. Used only when the primary provider fails or times out. Same base URL as the primary? Leave the key blank to reuse the primary key. Clear all fields to turn it off." "P" .Fallback "Test" .Test "ModelHint" "Chat model id from your provider"}}
     {{template "provider" dict "Slot" "embedding" "Title" "Embeddings provider" "Hint" "Optional. Lets the bot search the knowledge base. Needs a model that returns 1536-dimension vectors; recommended: OpenAI text-embedding-3-large (best for Thai). Changing the model needs a re-index on the Knowledge base page. Same base URL as the primary? Leave the key blank to reuse the primary key." "P" .Embedding "Test" .Test "ModelHint" "text-embedding-3-large"}}
+    </div>
 
     <div class="actions">
       <button type="submit" class="primary">Save settings</button>
     </div>
   </form>
 </main>
+</div>
 </body>
 </html>
 

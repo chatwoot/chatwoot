@@ -58,6 +58,10 @@ func (h *Handler) submitBusiness(w http.ResponseWriter, r *http.Request) {
 		AccountID:    acct,
 		BusinessName: f.Get("business_name"), About: f.Get("about"), Tone: f.Get("tone"),
 		Contact: f.Get("contact"), Rules: f.Get("rules"),
+		// An unticked checkbox is simply absent from the form: absent = off.
+		Features: profile.Features{
+			Voice: f.Get("feature_voice") == "on", Images: f.Get("feature_images") == "on", Stickers: f.Get("feature_stickers") == "on",
+		},
 	}.Normalize()
 	if err := h.Profiles.Save(r.Context(), p); err != nil {
 		h.Logger.Warn("save business profile failed", "account_id", p.AccountID, "error", err)

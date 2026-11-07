@@ -157,6 +157,25 @@ Each case: `{"name", "account_id", "turns": ["...", "..."], "expect": "answer|un
 Only the reply to the last turn is graded. A case costs about two model calls
 per turn plus one judge call; `-judge-model` grades with a different model.
 
+### Voice notes, images and stickers
+
+Each business switches these on its **Business profile** page (all off by
+default). Off, or when anything fails, the bot thanks the customer for the
+file and hands the chat to staff, as before.
+
+- **Voice notes** are downloaded and transcribed (`TRANSCRIBE_MODEL`, default
+  `gpt-4o-mini-transcribe`, with the business name and description as a
+  vocabulary hint), then answered like typed text. Handoff phrases work on
+  the transcript.
+- **Images** (png, jpeg, webp, gif; up to 3 per message, 5 MB each) go to the
+  chat model with the latest message only. Payment slips still hand off.
+- **Stickers and likes**: a lone image is checked at low detail by the
+  rewrite model; an exact `STICKER` answer gets a short friendly reply.
+
+Downloads come only from the Chatwoot host (`CHATWOOT_BASE_URL`), https, with
+every redirect checked. Traces carry the media kind and the redacted
+transcript, never the file.
+
 ### Tracing (Langfuse)
 
 With `LANGFUSE_BASE_URL`, `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` set,

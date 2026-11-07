@@ -137,7 +137,7 @@ func TestPostgres_BusinessProfileRoundTrip(t *testing.T) {
 
 	// Act: an unknown account reads as empty, then save twice (upsert).
 	empty, errEmpty := store.Get(ctx, 7)
-	errFirst := store.Save(ctx, profile.Profile{AccountID: 7, BusinessName: "First", Rules: "ห้ามให้ส่วนลด"})
+	errFirst := store.Save(ctx, profile.Profile{AccountID: 7, BusinessName: "First", Rules: "ห้ามให้ส่วนลด", Features: profile.Features{Voice: true, Stickers: true}})
 	errSecond := store.Save(ctx, profile.Profile{AccountID: 7, BusinessName: "Johnstocker AI Studio", About: "คอร์สออนไลน์"})
 	errInvalid := store.Save(ctx, profile.Profile{AccountID: 0, BusinessName: "x"})
 	got, errGet := store.Get(ctx, 7)
@@ -155,7 +155,8 @@ func TestPostgres_BusinessProfileRoundTrip(t *testing.T) {
 	if errInvalid == nil {
 		t.Error("saving account 0 succeeded, want a validation error")
 	}
-	if got.BusinessName != "Johnstocker AI Studio" || got.About != "คอร์สออนไลน์" || got.Rules != "" || got.UpdatedAt.IsZero() {
+	if got.BusinessName != "Johnstocker AI Studio" || got.About != "คอร์สออนไลน์" || got.Rules != "" || got.UpdatedAt.IsZero() ||
+		got.Features != (profile.Features{}) {
 		t.Errorf("after upsert = %+v", got)
 	}
 	if !other.Empty() {
@@ -188,8 +189,8 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
 		t.Fatal(err)
 	}
-	if version != 2 || docs != 1 || table == nil {
-		t.Errorf("version=%d docs=%d business_profiles=%v, want 2, 1, present", version, docs, table)
+	if version != 3 || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want 3, 1, present", version, docs, table)
 	}
 	var rls bool
 	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
@@ -206,5 +207,64 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 	}
 	if exposed {
 		t.Error("anon or authenticated can read business_profiles")
+	}
+}
+
+// Production is at schema v2 with saved profiles; v3 adds feature switches,
+// all off, without touching the saved text.
+func TestPostgres_MigratesV2ToV3FeaturesOff(t *testing.T) {
+	// Arrange: a v2 database holding one profile.
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `ALTER TABLE business_profiles DROP COLUMN voice_enabled, DROP COLUMN images_enabled, DROP COLUMN stickers_enabled;
+		UPDATE kb_schema_version SET version = 2;
+		INSERT INTO business_profiles (account_id, business_name) VALUES (1, 'Johnstocker AI Studio');`); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	err := db.Migrate(ctx)
+	got, getErr := (&profile.Postgres{Pool: db.Pool}).Get(ctx, 1)
+
+	// Assert
+	if err != nil || getErr != nil {
+		t.Fatalf("migrate %v, get %v", err, getErr)
+	}
+	if got.BusinessName != "Johnstocker AI Studio" || got.Features != (profile.Features{}) {
+		t.Errorf("after v3 = %+v, want the saved name and every feature off", got)
+	}
+	var rls, exposed bool
+	if err := db.Pool.QueryRow(ctx, `SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'`).Scan(&rls); err != nil || !rls {
+		t.Errorf("row level security must stay on after v3 (err %v)", err)
+	}
+	if err := db.Pool.QueryRow(ctx, `SELECT EXISTS (SELECT 1 FROM pg_roles r WHERE r.rolname IN ('anon', 'authenticated')
+		AND has_table_privilege(r.rolname, 'business_profiles', 'SELECT'))`).Scan(&exposed); err != nil || exposed {
+		t.Errorf("anon/authenticated must not read business_profiles after v3 (err %v)", err)
+	}
+}
+
+// Rolling back to the v2 binary must not clear switches the v3 binary saved:
+// its upsert (copied from develop 9a4b1f3) does not touch the new columns.
+func TestPostgres_OldBinarySaveKeepsFeatureSwitches(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	store := &profile.Postgres{Pool: db.Pool}
+	if err := store.Save(ctx, profile.Profile{AccountID: 1, BusinessName: "A", Features: profile.Features{Voice: true}}); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act: the v2 binary's Save statement.
+	_, err := db.Pool.Exec(ctx, `INSERT INTO business_profiles
+		(account_id, business_name, about, tone, contact, rules, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6, now())
+		ON CONFLICT (account_id) DO UPDATE SET business_name = EXCLUDED.business_name,
+		about = EXCLUDED.about, tone = EXCLUDED.tone, contact = EXCLUDED.contact,
+		rules = EXCLUDED.rules, updated_at = now()`, 1, "B", "", "", "", "")
+	got, getErr := store.Get(ctx, 1)
+
+	// Assert
+	if err != nil || getErr != nil || got.BusinessName != "B" || !got.Features.Voice {
+		t.Errorf("after an old-binary save: %+v (err %v / %v), want name B and voice still on", got, err, getErr)
 	}
 }

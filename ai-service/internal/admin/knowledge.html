@@ -5,8 +5,9 @@
 <title>Knowledge base</title>
 </head>
 <body>
+<div class="shell">
+{{template "nav" "knowledge"}}
 <main>
-  {{template "nav" "knowledge"}}
   <h1>Knowledge base</h1>
   <p class="lead">What the bot may answer from. Add FAQs and documents; the bot searches them for every customer question.</p>
 
@@ -17,7 +18,7 @@
   {{if .Notice}}<div class="alert ok" role="status">{{.Notice}}</div>{{end}}
   {{if and .Error (eq .ErrorForm "list")}}<div class="alert err" role="alert"><strong>Failed.</strong> {{.Error}}</div>{{end}}
 
-  <form class="card" method="get" action="/admin/knowledge">
+  <form class="card toolbar" method="get" action="/admin/knowledge">
     <label for="account">Chatwoot account ID</label>
     <div class="row" style="margin-top:0">
       <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}" style="max-width:12rem">
@@ -26,6 +27,7 @@
     <p class="field-hint">Each Chatwoot account has its own knowledge. Account 1 is the first account.</p>
   </form>
 
+  <div class="cols2">
   <section class="card" aria-labelledby="faq-title">
     <h2 id="faq-title" style="font-size:1.125rem;margin:0 0 4px">Add an FAQ</h2>
     <p class="hint">One question and its answer. Best for short facts: hours, prices, delivery, returns.</p>
@@ -66,6 +68,7 @@
     </form>
   </section>
 
+  </div>
   <section class="card" aria-labelledby="list-title">
     <h2 id="list-title" style="font-size:1.125rem;margin:0 0 4px">Knowledge in account {{.AccountID}}</h2>
     {{if .Stale}}
@@ -103,5 +106,6 @@
   </section>
   {{end}}
 </main>
+</div>
 </body>
 </html>

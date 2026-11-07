@@ -54,6 +54,9 @@ type Config struct {
 	// RewriteModel runs the query rewrite on a smaller, faster model of the
 	// main provider (REWRITE_MODEL); empty uses the main model.
 	RewriteModel string
+	// TranscribeModel turns voice notes into text (TRANSCRIBE_MODEL) on the
+	// main provider's /audio/transcriptions endpoint.
+	TranscribeModel string
 	// Location is the business time zone (TIMEZONE), used to tell the model the date.
 	Location *time.Location
 
@@ -126,6 +129,7 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 		TraceText:          get("TRACE_TEXT", "redacted"),
 		TraceEnvironment:   get("TRACE_ENVIRONMENT", "production"),
 		RewriteModel:       get("REWRITE_MODEL", ""),
+		TranscribeModel:    get("TRANSCRIBE_MODEL", "gpt-4o-mini-transcribe"),
 		LogLevel:           get("LOG_LEVEL", "info"),
 		HandoffKeywords:    DefaultHandoffKeywords,
 	}

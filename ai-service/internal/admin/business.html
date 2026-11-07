@@ -5,10 +5,21 @@
 <title>Business profile</title>
 </head>
 <body>
+<div class="shell">
+{{template "nav" "business"}}
 <main>
-  {{template "nav" "business"}}
-  <h1>Business profile</h1>
-  <p class="lead">Who the bot speaks for. Each Chatwoot account is one business; its profile is added to every AI reply for that account, on top of the built-in safety rules.</p>
+  <div class="page-head">
+    <div>
+      <h1>Business profile</h1>
+      <p class="lead">Who the bot speaks for. Each Chatwoot account is one business; its profile is added to every AI reply for that account, on top of the built-in safety rules.</p>
+    </div>
+    <form class="acct" method="get" action="/admin/business">
+      <label for="account">Account</label>
+      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.Profile.AccountID}}" aria-describedby="account-hint">
+      <button type="submit">Show</button>
+      <p class="field-hint" id="account-hint">From the Chatwoot URL: /app/accounts/<strong>1</strong>/…</p>
+    </form>
+  </div>
 
   {{if not .Enabled}}
   <div class="alert err" role="alert"><strong>Business profiles are off.</strong> Set <code>DATABASE_URL</code> for ai-service and restart it.</div>
@@ -17,43 +28,56 @@
   {{if .Error}}<div class="alert err" role="alert"><strong>Not saved.</strong>
 {{.Error}}</div>{{end}}
 
-  <form class="card" method="get" action="/admin/business">
-    <label for="account">Chatwoot account ID</label>
-    <div class="row" style="margin-top:0">
-      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.Profile.AccountID}}" style="max-width:12rem">
-      <button type="submit">Show</button>
-    </div>
-    <p class="field-hint">Use one Chatwoot account per business. The account ID is in the Chatwoot URL: /app/accounts/<strong>1</strong>/…</p>
-  </form>
-
-  <form class="card" method="post" action="/admin/business" autocomplete="off">
+  <form class="biz" method="post" action="/admin/business" autocomplete="off">
     <input type="hidden" name="account" value="{{.Profile.AccountID}}">
-    <fieldset>
-      <legend>Account {{.Profile.AccountID}}{{if .Updated}} <span class="badge on">Updated {{.Updated}}</span>{{end}}</legend>
-      <p class="hint">Leave a field blank to skip it. Prices, schedules and policies belong in the knowledge base, where the bot can search them.</p>
-
-      <label for="business_name">Business name</label>
-      <input id="business_name" name="business_name" type="text" maxlength="{{.Limits.Name}}" value="{{.Profile.BusinessName}}" placeholder="Johnstocker AI Studio">
-
-      <label for="about">What the business does</label>
-      <textarea id="about" name="about" rows="5" maxlength="{{.Limits.Field}}" aria-describedby="about-hint" placeholder="สอนคอร์สออนไลน์ด้าน AI สำหรับครีเอเตอร์ เช่น คอร์ส Johnstocker AI AutoCut">{{.Profile.About}}</textarea>
-      <p class="field-hint" id="about-hint">Industry, main products or courses, and who the customers are.</p>
-
-      <label for="tone">Tone and style</label>
-      <textarea id="tone" name="tone" rows="3" maxlength="{{.Limits.Field}}" aria-describedby="tone-hint" placeholder="เป็นกันเอง สุภาพ ใช้ค่ะ/ครับ ตอบสั้น ไม่เกิน 3 ประโยค">{{.Profile.Tone}}</textarea>
-      <p class="field-hint" id="tone-hint">How the bot should sound: voice, length, emoji, polite particles.</p>
-
-      <label for="contact">How customers buy or reach staff</label>
-      <textarea id="contact" name="contact" rows="3" maxlength="{{.Limits.Field}}" aria-describedby="contact-hint" placeholder="สมัครเรียนที่ https://… หรือทัก LINE @…  แอดมินตอบ 9:00–18:00 น.">{{.Profile.Contact}}</textarea>
-      <p class="field-hint" id="contact-hint">Links, channels and hours the bot may give out.</p>
-
-      <label for="rules">Rules</label>
-      <textarea id="rules" name="rules" rows="4" maxlength="{{.Limits.Field}}" aria-describedby="rules-hint" placeholder="ห้ามให้ส่วนลดเอง ถ้าถามเรื่องคืนเงินให้ส่งต่อแอดมิน">{{.Profile.Rules}}</textarea>
-      <p class="field-hint" id="rules-hint">Things the bot must or must not do for this business.</p>
-    </fieldset>
-    <div class="actions"><button type="submit" class="primary">Save profile</button></div>
+    <section class="card">
+      <fieldset>
+        <legend>Account {{.Profile.AccountID}}{{if .Updated}} <span class="badge on">Updated {{.Updated}}</span>{{end}}</legend>
+        <p class="hint">Leave a field blank to skip it. Prices, schedules and policies belong in the knowledge base, where the bot can search them.</p>
+        <div class="grid2">
+          <div class="span2">
+            <label for="business_name">Business name</label>
+            <input id="business_name" name="business_name" type="text" maxlength="{{.Limits.Name}}" value="{{.Profile.BusinessName}}" placeholder="Johnstocker AI Studio">
+          </div>
+          <div class="span2">
+            <label for="about">What the business does</label>
+            <textarea id="about" name="about" rows="3" maxlength="{{.Limits.Field}}" aria-describedby="about-hint" placeholder="สอนคอร์สออนไลน์ด้าน AI สำหรับครีเอเตอร์ เช่น คอร์ส Johnstocker AI AutoCut">{{.Profile.About}}</textarea>
+            <p class="field-hint" id="about-hint">Industry, main products or courses, and who the customers are.</p>
+          </div>
+          <div>
+            <label for="tone">Tone and style</label>
+            <textarea id="tone" name="tone" rows="3" maxlength="{{.Limits.Field}}" aria-describedby="tone-hint" placeholder="เป็นกันเอง สุภาพ ใช้ค่ะ/ครับ ตอบสั้น ไม่เกิน 3 ประโยค">{{.Profile.Tone}}</textarea>
+            <p class="field-hint" id="tone-hint">Voice, length, emoji, polite particles.</p>
+          </div>
+          <div>
+            <label for="contact">How customers buy or reach staff</label>
+            <textarea id="contact" name="contact" rows="3" maxlength="{{.Limits.Field}}" aria-describedby="contact-hint" placeholder="สมัครเรียนที่ https://… หรือทัก LINE @…  แอดมินตอบ 9:00–18:00 น.">{{.Profile.Contact}}</textarea>
+            <p class="field-hint" id="contact-hint">Links, channels and hours the bot may give out.</p>
+          </div>
+          <div class="span2">
+            <label for="rules">Rules</label>
+            <textarea id="rules" name="rules" rows="3" maxlength="{{.Limits.Field}}" aria-describedby="rules-hint" placeholder="ห้ามให้ส่วนลดเอง ถ้าถามเรื่องคืนเงินให้ส่งต่อแอดมิน">{{.Profile.Rules}}</textarea>
+            <p class="field-hint" id="rules-hint">Things the bot must or must not do for this business.</p>
+          </div>
+        </div>
+      </fieldset>
+    </section>
+    <aside class="card side">
+      <fieldset>
+        <legend>AI features</legend>
+        <p class="hint">Off by default. Off: the bot thanks the customer for the file and passes the chat to staff.</p>
+        <label class="check"><input id="feature_voice" name="feature_voice" type="checkbox"{{if .Profile.Features.Voice}} checked{{end}}>
+          <span><strong>Voice notes</strong><span class="field-hint">Transcribe voice messages and answer them like typed text.</span></span></label>
+        <label class="check"><input id="feature_images" name="feature_images" type="checkbox"{{if .Profile.Features.Images}} checked{{end}}>
+          <span><strong>Images</strong><span class="field-hint">Let the AI look at photos and screenshots. Payment slips still go to staff.</span></span></label>
+        <label class="check"><input id="feature_stickers" name="feature_stickers" type="checkbox"{{if .Profile.Features.Stickers}} checked{{end}}>
+          <span><strong>Stickers and likes</strong><span class="field-hint">Reply briefly to a sticker or 👍 instead of passing the chat to staff.</span></span></label>
+      </fieldset>
+      <button type="submit" class="primary save">Save profile</button>
+    </aside>
   </form>
   {{end}}
 </main>
+</div>
 </body>
 </html>
