@@ -95,15 +95,11 @@ class Captain::McpTool < ApplicationRecord
     approved_definition['read_only']
   end
 
-  # The admin set the tool to run only for a customer who verified an email with a one-time code
-  def requires_email_verification?
-    settings['requires_email_verification'] == true
-  end
-
   # The tool runs only for a customer who proved who they are, so Captain offers email verification.
-  # A parameter that takes a proven value cannot be filled without that proof, so it needs no setting.
+  # The admin can turn this on with a setting. A parameter that takes a proven value cannot be filled
+  # without that proof, so it needs no setting.
   def requires_verified_customer?
-    requires_email_verification? || param_sources.values.any? { |entry| Captain::ParamSources.proven?(entry) }
+    settings['requires_email_verification'] == true || param_sources.values.any? { |entry| Captain::ParamSources.proven?(entry) }
   end
 
   private

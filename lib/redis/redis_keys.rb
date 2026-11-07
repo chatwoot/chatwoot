@@ -130,4 +130,6 @@ module Redis::RedisKeys
   ## Captain MCP servers
   # MCP server an OAuth sign-in started for, keyed by the OAuth state, so the callback finds the server
   CAPTAIN_MCP_OAUTH_STATE = 'CAPTAIN::MCP::OAUTH_STATE::%<state>s'.freeze
+  # A server's last tool listing, which runs and the hourly check reuse for a short time
+  CAPTAIN_MCP_TOOL_LISTING = 'CAPTAIN::MCP::TOOL_LISTING::%<server_id>d'.freeze
 end
