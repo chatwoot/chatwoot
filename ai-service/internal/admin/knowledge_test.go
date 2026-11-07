@@ -31,7 +31,9 @@ func (m *memStore) Insert(_ context.Context, d knowledge.Document, _ string, chu
 	m.docs = append(m.docs, d)
 	return d.ID, nil
 }
-func (m *memStore) ReplaceChunks(context.Context, int64, string, []knowledge.Chunk) error { return nil }
+func (m *memStore) ReplaceChunks(context.Context, knowledge.Document, string, []knowledge.Chunk) error {
+	return nil
+}
 func (m *memStore) List(_ context.Context, acct int64, _ string) ([]knowledge.Document, error) {
 	var out []knowledge.Document
 	for _, d := range m.docs {

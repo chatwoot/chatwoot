@@ -263,7 +263,7 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 	res, hits, err := b.answer(ctx, log, acct, inbox, history, tr, images)
 	latency := time.Since(started)
 	log = log.With(sourceAttrs(hits)...)
-	if len(hits) > 0 {
+	if err == nil && len(hits) > 0 {
 		defer b.recordUsage(log, acct, hits) // after the reply, so it never delays the customer
 	}
 	if err != nil {

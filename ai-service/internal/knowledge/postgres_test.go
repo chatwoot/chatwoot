@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -115,13 +116,16 @@ func TestPostgres_ReplaceChunks(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	read, _ := p.Get(ctx, 1, id)
+
 	// Act
-	err = p.ReplaceChunks(ctx, id, "m1", []Chunk{{Content: "new", Embedding: axis(2)}})
-	missing := p.ReplaceChunks(ctx, id+999, "m1", nil)
+	err = p.ReplaceChunks(ctx, read, "m1", []Chunk{{Content: "new", Embedding: axis(2)}})
+	missing := p.ReplaceChunks(ctx, Document{ID: id + 999, AccountID: 1}, "m1", nil)
+	otherAcct := p.ReplaceChunks(ctx, Document{ID: id, AccountID: 2, UpdatedAt: read.UpdatedAt}, "m1", nil)
 
 	// Assert
-	if err != nil || !errors.Is(missing, ErrNotFound) {
-		t.Fatalf("err=%v missing=%v", err, missing)
+	if err != nil || !errors.Is(missing, ErrNotFound) || !errors.Is(otherAcct, ErrNotFound) {
+		t.Fatalf("err=%v missing=%v otherAcct=%v", err, missing, otherAcct)
 	}
 	docs, _ := p.List(ctx, 1, "m1")
 	if len(docs) != 1 || docs[0].Chunks != 1 || docs[0].StaleChunks != 0 {
@@ -388,5 +392,141 @@ func TestPostgres_UpdateGetAndMarkUsed(t *testing.T) {
 	}
 	if len(hits) != 2 || hits[0].Title != "new" {
 		t.Errorf("chunks not replaced: %+v", hits)
+	}
+}
+
+// A re-index that read a document before an admin edited it must not write
+// chunks of the old text over the edit.
+func TestPostgres_ReplaceChunksSkipsEditedDocument(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	id, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "old", Content: "a"}, "m",
+		[]Chunk{{Content: "old", Embedding: axis(0)}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	stale, _ := db.Get(ctx, 1, id) // re-index reads here...
+	if err := db.Update(ctx, Document{ID: id, AccountID: 1, Kind: KindFAQ, Title: "new", Content: "b"}, "m",
+		[]Chunk{{Content: "new", Embedding: axis(1)}}); err != nil { // ...admin edits...
+		t.Fatal(err)
+	}
+
+	// Act: ...then re-index writes chunks of the old text.
+	err = db.ReplaceChunks(ctx, stale, "m", []Chunk{{Content: "old", Embedding: axis(0)}})
+	hits, _ := db.Search(ctx, Query{AccountID: 1, Model: "m", Vector: axis(1), Limit: 5})
+
+	// Assert
+	if !errors.Is(err, ErrChanged) {
+		t.Fatalf("err = %v, want ErrChanged", err)
+	}
+	if len(hits) != 1 || hits[0].Content != "new" {
+		t.Errorf("chunks after = %+v, want only the edited text", hits)
+	}
+}
+
+// The validity filter must hold when the planner uses the HNSW index with
+// iterative scans (small tables otherwise get a sequential scan): expired
+// documents nearest to the query must be skipped, not returned or starve
+// the result.
+func TestPostgres_ValidityFilterThroughHNSWIndex(t *testing.T) {
+	// Arrange: 30 expired documents right next to the query, 1 active further away.
+	db := openTestDB(t)
+	ctx := context.Background()
+	past := time.Now().Add(-time.Hour)
+	near := func(i int) []float32 {
+		v := axis(0)
+		v[1+i] = 0.01
+		return v
+	}
+	for i := 0; i < 30; i++ {
+		if _, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "expired", Content: "x", ValidUntil: past},
+			"m", []Chunk{{Content: "expired", Embedding: near(i)}}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	active := axis(0)
+	active[100] = 0.5
+	if _, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "active", Content: "x"},
+		"m", []Chunk{{Content: "active", Embedding: active}}); err != nil {
+		t.Fatal(err)
+	}
+	tx, err := db.Pool.Begin(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer tx.Rollback(ctx) //nolint:errcheck
+	if _, err := tx.Exec(ctx, "SET LOCAL enable_seqscan = off; SET LOCAL enable_sort = off; SET LOCAL hnsw.iterative_scan = relaxed_order"); err != nil {
+		t.Fatal(err)
+	}
+	const q = `SELECT d.title FROM kb_chunks c JOIN kb_documents d ON d.id = c.document_id
+		WHERE c.account_id = $2 AND (c.inbox_id IS NULL OR c.inbox_id = $3) AND c.embedding_model = $4
+		  AND ($6 OR ((d.valid_from IS NULL OR d.valid_from <= now()) AND (d.valid_until IS NULL OR d.valid_until > now())))
+		ORDER BY c.embedding <=> $1::vector LIMIT $5`
+	args := []any{vectorLiteral(axis(0)), int64(1), int64(0), "m", 3, false}
+
+	// Act
+	var plan strings.Builder
+	rows, err := tx.Query(ctx, "EXPLAIN "+q, args...)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for rows.Next() {
+		var line string
+		_ = rows.Scan(&line)
+		plan.WriteString(line + "\n")
+	}
+	rows.Close()
+	var titles []string
+	rows, err = tx.Query(ctx, q, args...)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for rows.Next() {
+		var title string
+		_ = rows.Scan(&title)
+		titles = append(titles, title)
+	}
+	rows.Close()
+
+	// Assert
+	if !strings.Contains(plan.String(), "kb_chunks_embedding") {
+		t.Fatalf("plan does not use the HNSW index:\n%s", plan.String())
+	}
+	if len(titles) != 1 || titles[0] != "active" {
+		t.Errorf("titles = %v, want only the active document", titles)
+	}
+}
+
+// Production may jump from v2 to v4 in one Migrate call.
+func TestPostgres_MigratesV2ToV4InOneStep(t *testing.T) {
+	// Arrange: a v2 database with a document and a profile.
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `ALTER TABLE business_profiles DROP COLUMN voice_enabled, DROP COLUMN images_enabled, DROP COLUMN stickers_enabled;
+		ALTER TABLE kb_documents DROP COLUMN valid_from, DROP COLUMN valid_until, DROP COLUMN use_count, DROP COLUMN last_used_at;
+		UPDATE kb_schema_version SET version = 2;
+		INSERT INTO business_profiles (account_id, business_name) VALUES (1, 'A');
+		INSERT INTO kb_documents (account_id, kind, title, content) VALUES (1, 'faq', 'q', 'a');`); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	err := db.Migrate(ctx)
+
+	// Assert
+	if err != nil {
+		t.Fatalf("Migrate: %v", err)
+	}
+	var version, cols int
+	if err := db.Pool.QueryRow(ctx, `SELECT (SELECT version FROM kb_schema_version),
+		(SELECT count(*) FROM information_schema.columns WHERE
+		  (table_name = 'business_profiles' AND column_name IN ('voice_enabled', 'images_enabled', 'stickers_enabled')) OR
+		  (table_name = 'kb_documents' AND column_name IN ('valid_from', 'valid_until', 'use_count', 'last_used_at')))`).Scan(&version, &cols); err != nil {
+		t.Fatal(err)
+	}
+	docs, _ := db.List(ctx, 1, "m")
+	if version != 4 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
+		t.Errorf("version=%d new columns=%d docs=%+v, want 4, 7, one active document", version, cols, docs)
 	}
 }

@@ -150,23 +150,33 @@ func (p *Postgres) Insert(ctx context.Context, d Document, model string, chunks 
 	return d.ID, tx.Commit(ctx)
 }
 
-// ReplaceChunks implements Store.
-func (p *Postgres) ReplaceChunks(ctx context.Context, documentID int64, model string, chunks []Chunk) error {
+// ReplaceChunks implements Store. d is the document as read (ID, AccountID,
+// UpdatedAt): if it was edited or deleted since, nothing is written, so a
+// slow re-index can never put back chunks of text an admin just replaced.
+func (p *Postgres) ReplaceChunks(ctx context.Context, d Document, model string, chunks []Chunk) error {
 	tx, err := p.Pool.Begin(ctx)
 	if err != nil {
 		return err
 	}
 	defer tx.Rollback(ctx) //nolint:errcheck
-	var d Document
-	err = tx.QueryRow(ctx, `UPDATE kb_documents SET updated_at = now() WHERE id = $1
-		RETURNING id, account_id, COALESCE(inbox_id, 0)`, documentID).Scan(&d.ID, &d.AccountID, &d.InboxID)
+	err = tx.QueryRow(ctx, `UPDATE kb_documents SET updated_at = now()
+		WHERE id = $1 AND account_id = $2 AND updated_at = $3
+		RETURNING id, account_id, COALESCE(inbox_id, 0)`, d.ID, d.AccountID, d.UpdatedAt).Scan(&d.ID, &d.AccountID, &d.InboxID)
 	if errors.Is(err, pgx.ErrNoRows) {
+		var exists bool
+		if err := tx.QueryRow(ctx, "SELECT EXISTS (SELECT 1 FROM kb_documents WHERE id = $1 AND account_id = $2)",
+			d.ID, d.AccountID).Scan(&exists); err != nil {
+			return err
+		}
+		if exists {
+			return ErrChanged
+		}
 		return ErrNotFound
 	}
 	if err != nil {
 		return err
 	}
-	if _, err := tx.Exec(ctx, "DELETE FROM kb_chunks WHERE document_id = $1", documentID); err != nil {
+	if _, err := tx.Exec(ctx, "DELETE FROM kb_chunks WHERE document_id = $1", d.ID); err != nil {
 		return err
 	}
 	if err := insertChunks(ctx, tx, d, model, chunks); err != nil {

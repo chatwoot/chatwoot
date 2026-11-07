@@ -102,7 +102,7 @@ type Query struct {
 // Store persists documents and chunks.
 type Store interface {
 	Insert(ctx context.Context, d Document, model string, chunks []Chunk) (int64, error)
-	ReplaceChunks(ctx context.Context, documentID int64, model string, chunks []Chunk) error
+	ReplaceChunks(ctx context.Context, d Document, model string, chunks []Chunk) error
 	List(ctx context.Context, accountID int64, model string) ([]Document, error)
 	Delete(ctx context.Context, accountID, id int64) error
 	Search(ctx context.Context, q Query) ([]Hit, error)
@@ -117,6 +117,9 @@ const DuplicateScore = 0.85
 
 // ErrNotFound means no document matched.
 var ErrNotFound = errors.New("document not found")
+
+// ErrChanged means the document was edited after it was read; the write was skipped.
+var ErrChanged = errors.New("document changed since it was read")
 
 // Service adds, re-indexes and searches knowledge.
 type Service struct {
@@ -317,7 +320,10 @@ func (s *Service) Reindex(ctx context.Context, accountID int64, force bool) (int
 		if err != nil {
 			return n, fmt.Errorf("re-index %q: %w", d.Title, err)
 		}
-		if err := s.Store.ReplaceChunks(ctx, d.ID, model, chunks); err != nil {
+		switch err := s.Store.ReplaceChunks(ctx, d, model, chunks); {
+		case errors.Is(err, ErrChanged), errors.Is(err, ErrNotFound):
+			continue // edited (already re-embedded) or deleted meanwhile
+		case err != nil:
 			return n, err
 		}
 		n++

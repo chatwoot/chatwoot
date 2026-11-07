@@ -38,17 +38,21 @@ type fakeStore struct {
 	hits     []Hit
 	updated  Document
 	used     []int64
+	changed  map[int64]bool
 }
 
 func (f *fakeStore) Insert(_ context.Context, d Document, model string, chunks []Chunk) (int64, error) {
 	f.inserted, f.insModel = chunks, model
 	return 42, nil
 }
-func (f *fakeStore) ReplaceChunks(_ context.Context, id int64, _ string, chunks []Chunk) error {
+func (f *fakeStore) ReplaceChunks(_ context.Context, d Document, _ string, chunks []Chunk) error {
+	if f.changed[d.ID] {
+		return ErrChanged
+	}
 	if f.replaced == nil {
 		f.replaced = map[int64][]Chunk{}
 	}
-	f.replaced[id] = chunks
+	f.replaced[d.ID] = chunks
 	return nil
 }
 func (f *fakeStore) List(context.Context, int64, string) ([]Document, error) { return f.docs, nil }
@@ -384,5 +388,22 @@ func TestMarkUsed_CountsEachDocumentOnce(t *testing.T) {
 	// Assert
 	if err != nil || len(st.used) != 2 {
 		t.Fatalf("used=%v err=%v", st.used, err)
+	}
+}
+
+func TestReindex_SkipsDocumentEditedMeanwhile(t *testing.T) {
+	// Arrange
+	st := &fakeStore{docs: []Document{
+		{ID: 1, AccountID: 1, Kind: KindFAQ, Title: "a", Content: "a", StaleChunks: 1},
+		{ID: 2, AccountID: 1, Kind: KindFAQ, Title: "b", Content: "b", StaleChunks: 1},
+	}, changed: map[int64]bool{1: true}}
+	s := newService(st, &fakeEmbedder{model: "m"})
+
+	// Act
+	n, err := s.Reindex(context.Background(), 1, false)
+
+	// Assert
+	if err != nil || n != 1 || st.replaced[2] == nil || st.replaced[1] != nil {
+		t.Fatalf("n=%d err=%v replaced=%v", n, err, st.replaced)
 	}
 }
