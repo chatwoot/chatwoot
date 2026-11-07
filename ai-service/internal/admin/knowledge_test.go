@@ -70,6 +70,14 @@ func (m *memStore) Update(_ context.Context, d knowledge.Document, _ string, chu
 	return knowledge.ErrNotFound
 }
 func (m *memStore) MarkUsed(context.Context, int64, []int64) error { return nil }
+func (m *memStore) GetByKey(_ context.Context, acct int64, key string) (knowledge.Document, error) {
+	for _, d := range m.docs {
+		if d.AccountID == acct && key != "" && d.SourceKey == key {
+			return d, nil
+		}
+	}
+	return knowledge.Document{}, knowledge.ErrNotFound
+}
 
 type constEmbedder struct{ model string }
 

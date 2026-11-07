@@ -39,6 +39,9 @@ type Document struct {
 	Title     string
 	Content   string
 	UpdatedAt time.Time
+	// SourceKey is the document's ID in an outside source (MCP, a sheet row,
+	// a doc, a URL), unique per account; empty for documents added by hand.
+	SourceKey string
 
 	// Optional validity window: zero means open-ended. Outside it the bot
 	// does not see the document.
@@ -109,7 +112,11 @@ type Store interface {
 	Get(ctx context.Context, accountID, id int64) (Document, error)
 	Update(ctx context.Context, d Document, model string, chunks []Chunk) error
 	MarkUsed(ctx context.Context, accountID int64, documentIDs []int64) error
+	GetByKey(ctx context.Context, accountID int64, key string) (Document, error)
 }
+
+// MaxKeyRunes bounds a source key (long enough for a URL).
+const MaxKeyRunes = 500
 
 // DuplicateScore is the similarity above which a new document is reported
 // as probably repeating an existing one.
@@ -117,6 +124,9 @@ const DuplicateScore = 0.85
 
 // ErrNotFound means no document matched.
 var ErrNotFound = errors.New("document not found")
+
+// ErrKeyTaken means another document in the account already has this source key.
+var ErrKeyTaken = errors.New("source key already used in this account")
 
 // ErrChanged means the document was edited after it was read; the write was skipped.
 var ErrChanged = errors.New("document changed since it was read")
@@ -161,6 +171,10 @@ func (d Document) Validate() (Document, error) {
 		errs = append(errs, fmt.Errorf("content is longer than %d characters; split it into several documents", MaxContentRunes))
 	case !utf8.ValidString(d.Content):
 		errs = append(errs, errors.New("content must be UTF-8 text"))
+	}
+	d.SourceKey = strings.TrimSpace(d.SourceKey)
+	if n := utf8.RuneCountInString(d.SourceKey); n > MaxKeyRunes || strings.ContainsAny(d.SourceKey, " \t\r\n") {
+		errs = append(errs, fmt.Errorf("source key must be at most %d characters with no spaces", MaxKeyRunes))
 	}
 	if !d.ValidFrom.IsZero() && !d.ValidUntil.IsZero() && !d.ValidUntil.After(d.ValidFrom) {
 		errs = append(errs, errors.New("the end date must be after the start date"))
@@ -246,6 +260,42 @@ func (s *Service) Update(ctx context.Context, d Document) (int, error) {
 		return 0, err
 	}
 	return len(chunks), s.Store.Update(ctx, d, model, chunks)
+}
+
+// GetByKey returns the account's document with this source key.
+func (s *Service) GetByKey(ctx context.Context, accountID int64, key string) (Document, error) {
+	return s.Store.GetByKey(ctx, accountID, strings.TrimSpace(key))
+}
+
+// Upsert stores d by its source key: an existing document with that key is
+// replaced in place (re-chunked, usage kept), otherwise d is added. Returns
+// the stored document as it was before (zero when created), its ID and the
+// chunk count.
+func (s *Service) Upsert(ctx context.Context, d Document) (before Document, id int64, chunks int, err error) {
+	d, err = d.Validate()
+	if err != nil {
+		return Document{}, 0, 0, err
+	}
+	if d.SourceKey == "" {
+		return Document{}, 0, 0, errors.New("source key is required")
+	}
+	cur, err := s.Store.GetByKey(ctx, d.AccountID, d.SourceKey)
+	switch {
+	case errors.Is(err, ErrNotFound):
+		id, chunks, err = s.Add(ctx, d)
+		if !errors.Is(err, ErrKeyTaken) {
+			return Document{}, id, chunks, err
+		}
+		// Another writer created this key a moment ago: update theirs instead.
+		if cur, err = s.Store.GetByKey(ctx, d.AccountID, d.SourceKey); err != nil {
+			return Document{}, 0, 0, err
+		}
+	case err != nil:
+		return Document{}, 0, 0, err
+	}
+	d.ID, d.Kind = cur.ID, cur.Kind
+	chunks, err = s.Update(ctx, d)
+	return cur, cur.ID, chunks, err
 }
 
 // Similar returns existing documents (active or not) that probably say the

@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -24,6 +25,9 @@ var schemaV3 string
 
 //go:embed schema_v4.sql
 var schemaV4 string
+
+//go:embed schema_v5.sql
+var schemaV5 string
 
 // Postgres is a Store backed by Postgres with the pgvector extension.
 type Postgres struct {
@@ -88,6 +92,14 @@ func (p *Postgres) Migrate(ctx context.Context) error {
 			return err
 		}
 	}
+	if version < 5 {
+		if _, err := tx.Exec(ctx, schemaV5); err != nil {
+			return fmt.Errorf("apply schema v5: %w", err)
+		}
+		if _, err := tx.Exec(ctx, "UPDATE kb_schema_version SET version = 5"); err != nil {
+			return err
+		}
+	}
 	return tx.Commit(ctx)
 }
 
@@ -111,6 +123,13 @@ func nullableTime(t time.Time) any {
 		return nil
 	}
 	return t
+}
+
+func nullableKey(k string) any {
+	if k == "" {
+		return nil
+	}
+	return k
 }
 
 func nullableInbox(id int64) any {
@@ -137,10 +156,13 @@ func (p *Postgres) Insert(ctx context.Context, d Document, model string, chunks 
 		return 0, err
 	}
 	defer tx.Rollback(ctx) //nolint:errcheck
-	err = tx.QueryRow(ctx, `INSERT INTO kb_documents (account_id, inbox_id, kind, title, content, valid_from, valid_until)
-		VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+	err = tx.QueryRow(ctx, `INSERT INTO kb_documents (account_id, inbox_id, kind, title, content, valid_from, valid_until, source_key)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
 		d.AccountID, nullableInbox(d.InboxID), string(d.Kind), d.Title, d.Content,
-		nullableTime(d.ValidFrom), nullableTime(d.ValidUntil)).Scan(&d.ID)
+		nullableTime(d.ValidFrom), nullableTime(d.ValidUntil), nullableKey(d.SourceKey)).Scan(&d.ID)
+	if pgErr := (*pgconn.PgError)(nil); errors.As(err, &pgErr) && pgErr.Code == "23505" && pgErr.ConstraintName == "kb_documents_source_key_idx" {
+		return 0, ErrKeyTaken
+	}
 	if err != nil {
 		return 0, err
 	}
@@ -259,7 +281,7 @@ func (p *Postgres) Search(ctx context.Context, q Query) ([]Hit, error) {
 
 // docColumns are the kb_documents columns scanDocument reads, in order.
 const docColumns = `d.id, d.account_id, COALESCE(d.inbox_id, 0), d.kind, d.title, d.content, d.updated_at,
-		       d.valid_from, d.valid_until, d.use_count, d.last_used_at`
+		       d.valid_from, d.valid_until, d.use_count, d.last_used_at, COALESCE(d.source_key, '')`
 
 // scanDocument reads docColumns (plus any extra trailing columns) from one row.
 func scanDocument(scan func(dest ...any) error, extra ...any) (Document, error) {
@@ -267,7 +289,7 @@ func scanDocument(scan func(dest ...any) error, extra ...any) (Document, error) 
 	var kind string
 	var from, until, used *time.Time
 	dest := append([]any{&d.ID, &d.AccountID, &d.InboxID, &kind, &d.Title, &d.Content, &d.UpdatedAt,
-		&from, &until, &d.UseCount, &used}, extra...)
+		&from, &until, &d.UseCount, &used, &d.SourceKey}, extra...)
 	if err := scan(dest...); err != nil {
 		return Document{}, err
 	}
@@ -287,6 +309,19 @@ func scanDocument(scan func(dest ...any) error, extra ...any) (Document, error) 
 // Get implements Store.
 func (p *Postgres) Get(ctx context.Context, accountID, id int64) (Document, error) {
 	row := p.Pool.QueryRow(ctx, `SELECT `+docColumns+` FROM kb_documents d WHERE d.id = $1 AND d.account_id = $2`, id, accountID)
+	d, err := scanDocument(row.Scan)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return Document{}, ErrNotFound
+	}
+	return d, err
+}
+
+// GetByKey implements Store.
+func (p *Postgres) GetByKey(ctx context.Context, accountID int64, key string) (Document, error) {
+	if key == "" {
+		return Document{}, ErrNotFound
+	}
+	row := p.Pool.QueryRow(ctx, `SELECT `+docColumns+` FROM kb_documents d WHERE d.account_id = $1 AND d.source_key = $2`, accountID, key)
 	d, err := scanDocument(row.Scan)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return Document{}, ErrNotFound

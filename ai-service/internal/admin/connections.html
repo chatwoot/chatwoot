@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"{{with theme}} data-theme="{{.}}"{{end}}>
+<head>
+{{template "head"}}
+<title>Connect AI tools</title>
+</head>
+<body>
+<div class="shell">
+{{template "nav" "connections"}}
+<main>
+  <div class="page-head">
+    <div>
+      <h1>Connect AI tools</h1>
+      <p class="lead">Let Claude, Codex or another AI tool read, update and test this knowledge base for you (MCP). Each access token works for one account only.</p>
+    </div>
+    <form class="acct" method="get" action="/admin/connections">
+      <label for="account">Account</label>
+      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}">
+      <button type="submit">Show</button>
+    </form>
+  </div>
+
+  {{if not .Enabled}}
+  <div class="alert err" role="alert"><strong>Connections are off.</strong> Set <code>DATABASE_URL</code> for ai-service and restart it.</div>
+  {{else}}
+  {{if .Notice}}<div class="alert ok" role="status">{{.Notice}}</div>{{end}}
+  {{if .Error}}<div class="alert err" role="alert">{{.Error}}</div>{{end}}
+
+  {{if .NewToken}}
+  <section class="card newtoken" aria-labelledby="new-h" role="status">
+    <h2 id="new-h" style="font-size:1.125rem;margin:0 0 4px">Copy this token now</h2>
+    <p class="hint">It is shown only once. Anyone holding it can {{if .NewWrite}}change{{else}}read{{end}} account {{.AccountID}}'s knowledge, so keep it out of chats and screenshots. Lost it? Revoke it and create another.</p>
+    <label for="tok">Token for “{{.NewName}}”</label>
+    <input id="tok" class="mono" readonly value="{{.NewToken}}">
+    <h3 class="sub">1. Save the token on your computer</h3>
+    <p class="hint">Open <code>~/.zshrc</code> (Mac) in a text editor, add this line, save, and open a new terminal. Typing it into a terminal would leave it in the shell history.</p>
+    <pre class="code">export AISVC_MCP_TOKEN="{{.NewToken}}"</pre>
+    <h3 class="sub">2a. Claude Code</h3>
+    <pre class="code">claude mcp add --transport http ai-knowledge {{.URL}} --header "Authorization: Bearer ${AISVC_MCP_TOKEN}"</pre>
+    <h3 class="sub">2b. Codex</h3>
+    <p class="hint">Add to <code>~/.codex/config.toml</code>:</p>
+    <pre class="code">[mcp_servers.ai_knowledge]
+url = "{{.URL}}"
+bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
+    <p class="hint" style="margin-top:12px">Then ask your AI, for example: “List my knowledge base and tell me what is expired or never used.”</p>
+  </section>
+  {{end}}
+
+  <div class="biz">
+    <section class="card" aria-labelledby="list-h">
+      <h2 id="list-h" style="font-size:1.125rem;margin:0 0 8px">Access tokens for account {{.AccountID}}</h2>
+      {{if .Tokens}}
+      <table>
+        <thead><tr><th scope="col">Name</th><th scope="col">Access</th><th scope="col">Created</th><th scope="col">Last used</th><th scope="col">Expires</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+        <tbody>
+        {{range .Tokens}}
+          <tr>
+            <td><strong>{{.Name}}</strong>{{if .Revoked}} <span class="badge expired">Revoked</span>{{end}}</td>
+            <td data-label="Access">{{.Access}}</td>
+            <td data-label="Created">{{.Created}}</td>
+            <td data-label="Last used">{{.LastUsed}}</td>
+            <td data-label="Expires">{{.Expires}}{{if and .Expired (not .Revoked)}} <span class="badge expired">Expired</span>{{end}}</td>
+            <td class="row-actions">{{if not .Revoked}}
+              <form class="inline" method="post" action="/admin/connections">
+                <input type="hidden" name="action" value="revoke"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
+                <button type="submit" class="link" aria-label="Revoke {{.Name}}">Revoke</button>
+              </form>{{end}}
+            </td>
+          </tr>
+        {{end}}
+        </tbody>
+      </table>
+      {{else}}
+      <p class="hint" style="margin:0">No AI tool is connected yet. Create a token to connect one.</p>
+      {{end}}
+      <h3 class="sub">What a connected AI can do</h3>
+      <ul class="sources">
+        <li><strong>Read:</strong> list documents with status and usage, read one, find near-copies, ask the bot a test question.</li>
+        <li><strong>Read and write</strong> also: add or update a document by its key (for example <code>product-017</code>), and delete one. Every change keeps a copy of the old version in the audit log.</li>
+      </ul>
+    </section>
+
+    <aside class="card side" aria-labelledby="new-form-h">
+      <h2 id="new-form-h" style="font-size:1.125rem;margin:0 0 4px">New token</h2>
+      <form method="post" action="/admin/connections" autocomplete="off">
+        <input type="hidden" name="action" value="create">
+        <input type="hidden" name="account" value="{{.AccountID}}">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" maxlength="80" required placeholder="Claude Code on my Mac" value="{{if not .NewToken}}{{.NewName}}{{end}}">
+        <fieldset style="margin-top:14px">
+          <legend style="font-size:.9rem">Access</legend>
+          <label class="check"><input type="radio" name="access" value="read" checked>
+            <span><strong>Read only</strong><span class="field-hint">Safe for reviewing and testing.</span></span></label>
+          <label class="check"><input type="radio" name="access" value="write">
+            <span><strong>Read and write</strong><span class="field-hint">The AI can change what customers are told.</span></span></label>
+        </fieldset>
+        <label for="expires">Expires after</label>
+        <select id="expires" name="expires">
+          <option value="30">30 days</option>
+          <option value="90" selected>90 days</option>
+          <option value="365">1 year</option>
+          <option value="never">Never</option>
+        </select>
+        <button type="submit" class="primary save">Create token</button>
+      </form>
+    </aside>
+  </div>
+  {{end}}
+</main>
+</div>
+</body>
+</html>

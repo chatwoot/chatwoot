@@ -28,7 +28,7 @@ func openTestDB(t *testing.T) *Postgres {
 		t.Fatal(err)
 	}
 	t.Cleanup(pool.Close)
-	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_schema_version"); err != nil {
+	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, kb_schema_version"); err != nil {
 		t.Fatal(err)
 	}
 	p := &Postgres{Pool: pool}
@@ -194,8 +194,8 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
 		t.Fatal(err)
 	}
-	if version != 4 || docs != 1 || table == nil {
-		t.Errorf("version=%d docs=%d business_profiles=%v, want 4, 1, present", version, docs, table)
+	if version != 5 || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want 5, 1, present", version, docs, table)
 	}
 	var rls bool
 	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
@@ -307,8 +307,8 @@ func TestPostgres_MigratesV3ToV4KeepsDocumentsActive(t *testing.T) {
 		t.Fatalf("migrate %v, search %v, list %v", err, searchErr, listErr)
 	}
 	var version int
-	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 4 {
-		t.Fatalf("version = %d (err %v), want 4", version, err)
+	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 5 {
+		t.Fatalf("version = %d (err %v), want 5", version, err)
 	}
 	if len(hits) != 1 || len(docs) != 1 || docs[0].UseCount != 0 || !docs[0].ValidUntil.IsZero() || !docs[0].LastUsedAt.IsZero() {
 		t.Errorf("after v4: hits=%d docs=%+v", len(hits), docs)
@@ -525,8 +525,129 @@ func TestPostgres_MigratesV2ToV4InOneStep(t *testing.T) {
 		  (table_name = 'kb_documents' AND column_name IN ('valid_from', 'valid_until', 'use_count', 'last_used_at')))`).Scan(&version, &cols); err != nil {
 		t.Fatal(err)
 	}
+	var objects int
+	if err := db.Pool.QueryRow(ctx, `SELECT (to_regclass('kb_audit') IS NOT NULL)::int + (to_regclass('mcp_tokens') IS NOT NULL)::int
+		+ (to_regclass('kb_documents_source_key_idx') IS NOT NULL)::int
+		+ (SELECT count(*) FROM information_schema.columns WHERE table_name = 'kb_documents' AND column_name = 'source_key')::int`).Scan(&objects); err != nil {
+		t.Fatal(err)
+	}
+	if objects != 4 {
+		t.Errorf("v5 objects present = %d, want 4 (kb_audit, mcp_tokens, key index, source_key)", objects)
+	}
 	docs, _ := db.List(ctx, 1, "m")
-	if version != 4 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
-		t.Errorf("version=%d new columns=%d docs=%+v, want 4, 7, one active document", version, cols, docs)
+	if len(docs) == 1 && docs[0].SourceKey != "" {
+		t.Errorf("existing document got a key: %q", docs[0].SourceKey)
+	}
+	if version != 5 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
+		t.Errorf("version=%d new columns=%d docs=%+v, want 5, 7, one active document", version, cols, docs)
+	}
+}
+
+func TestPostgres_SourceKeyUniquePerAccount(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	add := func(acct int64, key string) error {
+		_, err := db.Insert(ctx, Document{AccountID: acct, Kind: KindFAQ, Title: "q", Content: "a", SourceKey: key}, "m",
+			[]Chunk{{Content: "q", Embedding: axis(0)}})
+		return err
+	}
+
+	// Act
+	first, dup, otherAcct, noKey1, noKey2 := add(1, "product-017"), add(1, "product-017"), add(2, "product-017"), add(1, ""), add(1, "")
+	got, getErr := db.GetByKey(ctx, 1, "product-017")
+	_, missing := db.GetByKey(ctx, 3, "product-017")
+
+	// Assert
+	if first != nil || dup == nil || otherAcct != nil || noKey1 != nil || noKey2 != nil {
+		t.Fatalf("first=%v dup=%v otherAcct=%v noKey=%v/%v", first, dup, otherAcct, noKey1, noKey2)
+	}
+	if getErr != nil || got.SourceKey != "product-017" || got.AccountID != 1 || !errors.Is(missing, ErrNotFound) {
+		t.Errorf("get=%+v err=%v missing=%v", got, getErr, missing)
+	}
+}
+
+func TestPostgres_UpdateKeepsSourceKeyAndOldBinaryWorks(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	id, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "q", Content: "a", SourceKey: "product-017"}, "m",
+		[]Chunk{{Content: "q", Embedding: axis(0)}})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Act: an admin edit (no key in the form), then the v4 binary's statements.
+	upErr := db.Update(ctx, Document{ID: id, AccountID: 1, Kind: KindFAQ, Title: "q2", Content: "b"}, "m",
+		[]Chunk{{Content: "q2", Embedding: axis(1)}})
+	_, oldInsert := db.Pool.Exec(ctx, `INSERT INTO kb_documents (account_id, inbox_id, kind, title, content, valid_from, valid_until)
+		VALUES (1, NULL, 'faq', 'old binary', 'x', NULL, NULL)`)
+	rows, oldSelect := db.Pool.Query(ctx, `SELECT d.id, d.account_id, COALESCE(d.inbox_id, 0), d.kind, d.title, d.content, d.updated_at,
+		d.valid_from, d.valid_until, d.use_count, d.last_used_at FROM kb_documents d WHERE d.account_id = 1`)
+	if oldSelect == nil {
+		rows.Close()
+	}
+	got, _ := db.Get(ctx, 1, id)
+
+	// Assert
+	if upErr != nil || oldInsert != nil || oldSelect != nil {
+		t.Fatalf("update %v, old insert %v, old select %v", upErr, oldInsert, oldSelect)
+	}
+	if got.SourceKey != "product-017" || got.Title != "q2" {
+		t.Errorf("after edit = %+v, want the key kept", got)
+	}
+}
+
+func TestPostgres_DatabaseRefusesBadKeys(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	bad := []string{"", "has space", "tab\there", strings.Repeat("k", 501)}
+
+	for _, k := range bad {
+		// Act
+		_, err := db.Pool.Exec(ctx, `INSERT INTO kb_documents (account_id, kind, title, content, source_key) VALUES (1, 'faq', 'q', 'a', $1)`, k)
+
+		// Assert
+		if err == nil {
+			t.Errorf("key %q accepted", k)
+		}
+	}
+}
+
+func TestPostgres_ConcurrentSameNewKeyBecomesUpdate(t *testing.T) {
+	// Arrange: the key appears between the service's lookup and its insert.
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "first", Content: "a", SourceKey: "k"}, "m",
+		[]Chunk{{Content: "first", Embedding: axis(0)}}); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	_, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "second", Content: "b", SourceKey: "k"}, "m",
+		[]Chunk{{Content: "second", Embedding: axis(1)}})
+
+	// Assert
+	if !errors.Is(err, ErrKeyTaken) {
+		t.Fatalf("err = %v, want ErrKeyTaken", err)
+	}
+}
+
+func TestPostgres_SimilarNeverSeesOtherAccounts(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Insert(ctx, Document{AccountID: 2, Kind: KindFAQ, Title: "secret price", Content: "x"}, "m",
+		[]Chunk{{Content: "secret", Embedding: axis(0)}}); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	hits, err := db.Search(ctx, Query{AccountID: 1, Model: "m", Vector: axis(0), Limit: 8, IncludeInactive: true})
+
+	// Assert
+	if err != nil || len(hits) != 0 {
+		t.Fatalf("hits=%+v err=%v", hits, err)
 	}
 }

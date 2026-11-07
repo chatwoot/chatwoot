@@ -17,6 +17,13 @@ func TestWants_DefaultKeywords(t *testing.T) {
 		{"ຂໍລົມກັບຄົນແດ່", true},
 		{"Can I talk to a HUMAN please?", true},
 		{"ราคาเท่าไหร่คะ", false},
+		// Asking whether the chat is a bot is a question for the AI to answer
+		// honestly, not a request for staff.
+		{"คุยกับคนหรือบอทครับเนี่ย", false},
+		{"นี่บอทหรือคนคะ", false},
+		{"are you a bot or a human?", false},
+		{"เป็นบอทเหรอ ขอคุยกับคนจริงๆ", true}, // asks for a person outright
+		{"bot? I want to talk to a human", true},
 		{"what are your opening hours", false},
 	}
 	for _, tc := range cases {
