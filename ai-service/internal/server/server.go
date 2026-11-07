@@ -2,6 +2,7 @@
 package server
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -22,6 +23,11 @@ type Enqueuer interface {
 	Enqueue(bot.Job) error
 }
 
+// PlaceRecorder remembers account and inbox names (places.Recorder).
+type PlaceRecorder interface {
+	Record(ctx context.Context, accountID int64, accountName string, inboxID int64, inboxName string) error
+}
+
 // Handler serves ai-service HTTP traffic.
 type Handler struct {
 	Secret string
@@ -29,6 +35,8 @@ type Handler struct {
 	Seen   *memory.Seen
 	Logger *slog.Logger
 	Now    func() time.Time
+	// Places records the account and inbox names of signed webhooks; nil skips it.
+	Places PlaceRecorder
 }
 
 // Routes returns the HTTP mux; callers may register more routes on it.
@@ -68,6 +76,7 @@ func (h *Handler) webhook(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "invalid json", http.StatusBadRequest)
 		return
 	}
+	h.recordPlace(r.Context(), ev)
 
 	decision := webhook.Classify(ev)
 	if decision == webhook.Ignore {
@@ -101,4 +110,17 @@ func dedupeKey(ev webhook.Event) string {
 		return fmt.Sprintf("msg:%d:%d", ev.Account.ID, ev.ID)
 	}
 	return fmt.Sprintf("%s:%d:%d:%s", ev.Event, ev.Account.ID, ev.ID, ev.Status)
+}
+
+// recordPlace saves the account and inbox names for the admin lists. It runs
+// only after the signature check; a failure loses a name, never the message.
+func (h *Handler) recordPlace(ctx context.Context, ev webhook.Event) {
+	if h.Places == nil {
+		return
+	}
+	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	defer cancel()
+	if err := h.Places.Record(ctx, ev.Account.ID, ev.Account.Name, ev.Inbox.ID, ev.Inbox.Name); err != nil {
+		h.Logger.Warn("record inbox name failed", "account_id", ev.Account.ID, "inbox_id", ev.Inbox.ID, "error", err)
+	}
 }

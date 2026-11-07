@@ -13,12 +13,7 @@
       <h1>Business profile</h1>
       <p class="lead">Who the bot speaks for. Each Chatwoot account is one business; its profile is added to every AI reply for that account, on top of the built-in safety rules.</p>
     </div>
-    <form class="acct" method="get" action="/admin/business">
-      <label for="account">Account</label>
-      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.Profile.AccountID}}" aria-describedby="account-hint">
-      <button type="submit">Show</button>
-      <p class="field-hint" id="account-hint">From the Chatwoot URL: /app/accounts/<strong>1</strong>/…</p>
-    </form>
+    {{template "account-picker" (dict "Action" "/admin/business" "Current" .Profile.AccountID)}}
   </div>
 
   {{if not .Enabled}}

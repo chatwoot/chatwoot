@@ -40,6 +40,9 @@ var pages = template.Must(template.New("pages").Funcs(template.FuncMap{
 	// dict builds a map so one sub-template can render both provider cards.
 	"inc":   func(i int) int { return i + 1 },
 	"theme": func() string { return "" }, // replaced per request in renderPage
+	// accounts and inboxes fill the dropdowns; replaced per request in renderPage.
+	"accounts": func(int64) []option { return nil },
+	"inboxes":  func(int64, string) []option { return nil },
 	"dict": func(kv ...any) map[string]any {
 		m := make(map[string]any, len(kv)/2)
 		for i := 0; i+1 < len(kv); i += 2 {
@@ -70,6 +73,10 @@ type Handler struct {
 	Profiles profile.Store
 	onceMu   sync.Mutex
 	once     map[string]time.Time
+
+	// Places lists known accounts and inboxes for the dropdowns; nil shows
+	// only the current value.
+	Places Places
 
 	// Web keeps website pages in sync; nil hides that section.
 	Web     websync.Store
@@ -355,7 +362,8 @@ func (h *Handler) renderPage(w http.ResponseWriter, r *http.Request, status int,
 	theme := themeOf(r)
 	t, err := pages.Clone()
 	if err == nil {
-		t.Funcs(template.FuncMap{"theme": func() string { return theme }})
+		pk := h.newPickers(r)
+		t.Funcs(template.FuncMap{"theme": func() string { return theme }, "accounts": pk.accountOptions, "inboxes": pk.inboxOptions})
 		var buf bytes.Buffer
 		if err = t.ExecuteTemplate(&buf, name, data); err == nil {
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")

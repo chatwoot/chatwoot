@@ -29,6 +29,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/media"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/places"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
@@ -145,6 +146,10 @@ func run() error {
 		Seen:   memory.NewSeen(30*time.Minute, nil),
 		Logger: logger,
 	}
+	placeStore := placesStore(profiles)
+	if placeStore != nil {
+		h.Places = &places.Recorder{Store: placeStore}
+	}
 	mux := h.Routes()
 	if cfg.AdminPassword != "" {
 		(&admin.Handler{
@@ -154,7 +159,7 @@ func run() error {
 			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL,
 			TeamSignIn: cfg.CFAccessAUD != "", Owners: cfg.Owners, AdminAccess: adminAccess(cfg),
 			Events: adminEvents(profiles, cfg.AuditRetentionDays),
-			Web:    webStore(profiles), WebSync: webSyncer, Logger: logger,
+			Web:    webStore(profiles), WebSync: webSyncer, Places: adminPlaces(placeStore), Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -285,6 +290,22 @@ func adminEvents(p *profile.Postgres, retentionDays int) audit.Store {
 		return nil
 	}
 	return &audit.Postgres{Pool: p.Pool, RetentionDays: retentionDays}
+}
+
+// placesStore remembers Chatwoot account and inbox names, or nil without a database.
+func placesStore(p *profile.Postgres) *places.Postgres {
+	if p == nil {
+		return nil
+	}
+	return &places.Postgres{Pool: p.Pool}
+}
+
+// adminPlaces keeps a nil store a nil interface.
+func adminPlaces(p *places.Postgres) admin.Places {
+	if p == nil {
+		return nil
+	}
+	return p
 }
 
 // adminAccess is the /admin Access verifier, or nil (password only).

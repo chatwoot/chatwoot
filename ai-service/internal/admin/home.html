@@ -13,12 +13,7 @@
       <h1>{{if .Business}}{{.Business}}{{else}}Your AI assistant{{end}}</h1>
       <p class="lead">Set up the bot in order, then try it on the Test bot page before customers see it.</p>
     </div>
-    <form class="acct" method="get" action="/admin">
-      <label for="account">Account</label>
-      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}" aria-describedby="account-hint">
-      <button type="submit">Show</button>
-      <p class="field-hint" id="account-hint">From the Chatwoot URL: /app/accounts/<strong>1</strong>/…</p>
-    </form>
+    {{template "account-picker" (dict "Action" "/admin" "Current" .AccountID)}}
   </div>
 
   {{if eq .Left 0}}

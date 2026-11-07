@@ -54,12 +54,14 @@ func (ev Event) AttachmentNote() string {
 
 // Account identifies the Chatwoot account.
 type Account struct {
-	ID int64 `json:"id"`
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
 }
 
 // Inbox identifies the Chatwoot inbox (channel).
 type Inbox struct {
-	ID int64 `json:"id"`
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
 }
 
 // Sender is the message author. Type is "contact", "user" or "agent_bot".

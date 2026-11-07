@@ -1,7 +1,10 @@
 package server
 
 import (
+	"context"
 	"encoding/hex"
+	"errors"
+	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
@@ -163,5 +166,73 @@ func TestHealthz(t *testing.T) {
 	// Assert
 	if code != http.StatusOK {
 		t.Errorf("code=%d", code)
+	}
+}
+
+type fakePlaces struct {
+	got []string
+	err error
+}
+
+func (f *fakePlaces) Record(_ context.Context, a int64, an string, i int64, in string) error {
+	f.got = append(f.got, fmt.Sprintf("%d:%s/%d:%s", a, an, i, in))
+	return f.err
+}
+
+const namedMsg = `{"event":"message_created","id":43,"content":"hi","message_type":"incoming","private":false,
+"account":{"id":1,"name":"Acme"},"inbox":{"id":3,"name":"Website"},"sender":{"id":9,"type":"contact"},"conversation":{"id":7,"status":"pending"}}`
+
+func placesHandler(q *fakeQueue, p *fakePlaces) http.Handler {
+	h := &Handler{
+		Secret: secret, Queue: q,
+		Seen:   memory.NewSeen(10*time.Minute, nil),
+		Logger: slog.New(slog.NewJSONHandler(io.Discard, nil)),
+		Now:    func() time.Time { return fixedNow },
+		Places: p,
+	}
+	return h.Routes()
+}
+
+func TestWebhook_RecordsAccountAndInboxNames(t *testing.T) {
+	// Arrange
+	q, p := &fakeQueue{}, &fakePlaces{}
+	h := placesHandler(q, p)
+
+	// Act
+	code := do(h, signedRequest(namedMsg))
+
+	// Assert
+	if code != http.StatusAccepted || len(p.got) != 1 || p.got[0] != "1:Acme/3:Website" {
+		t.Errorf("code=%d recorded=%v", code, p.got)
+	}
+}
+
+func TestWebhook_UnsignedRequestRecordsNothing(t *testing.T) {
+	// Arrange
+	q, p := &fakeQueue{}, &fakePlaces{}
+	h := placesHandler(q, p)
+	req := signedRequest(namedMsg)
+	req.Header.Set("X-Chatwoot-Signature", "sha256=00")
+
+	// Act
+	code := do(h, req)
+
+	// Assert
+	if code != http.StatusUnauthorized || len(p.got) != 0 || len(q.jobs) != 0 {
+		t.Errorf("code=%d recorded=%v jobs=%d, want 401 and nothing recorded", code, p.got, len(q.jobs))
+	}
+}
+
+func TestWebhook_PlaceFailureStillHandlesMessage(t *testing.T) {
+	// Arrange
+	q, p := &fakeQueue{}, &fakePlaces{err: errors.New("db down")}
+	h := placesHandler(q, p)
+
+	// Act
+	code := do(h, signedRequest(namedMsg))
+
+	// Assert
+	if code != http.StatusAccepted || len(q.jobs) != 1 {
+		t.Errorf("code=%d jobs=%d, want the message still queued", code, len(q.jobs))
 	}
 }
