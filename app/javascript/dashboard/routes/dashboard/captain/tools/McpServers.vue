@@ -9,11 +9,12 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import McpServersAPI from 'dashboard/api/captain/mcpServers';
 
-import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
+import ToolsPageLayout from 'dashboard/components-next/captain/pageComponents/tools/ToolsPageLayout.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import McpServerCard from 'dashboard/components-next/captain/pageComponents/mcpServer/McpServerCard.vue';
 import ConnectMcpServerDialog from 'dashboard/components-next/captain/pageComponents/mcpServer/ConnectMcpServerDialog.vue';
+import ManageMcpServerPanel from 'dashboard/components-next/captain/pageComponents/mcpServer/ManageMcpServerPanel.vue';
 import { SERVER_ACTIONS } from 'dashboard/components-next/captain/pageComponents/mcpServer/mcpTools';
 
 const SIGN_IN_RESULTS = { SUCCESS: 'success', FAILED: 'failed' };
@@ -27,22 +28,20 @@ const { run, isPending } = useAbortableRequest();
 const assistantId = computed(() => route.params.assistantId);
 const servers = ref([]);
 const connectDialogRef = ref(null);
+const managePanelRef = ref(null);
+const layoutRef = ref(null);
 const deleteDialogRef = ref(null);
 const serverToDelete = ref(null);
 const isDeleting = ref(false);
+const tokenDialogRef = ref(null);
+const serverForToken = ref(null);
+const newToken = ref('');
+const isSavingToken = ref(false);
 const pendingToggleIds = ref(new Set());
 
 const showPaywall = computed(() =>
   shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
 );
-
-const backUrl = computed(() => ({
-  name: 'captain_tools_index',
-  params: {
-    accountId: route.params.accountId,
-    assistantId: assistantId.value,
-  },
-}));
 
 const fetchServers = async () => {
   try {
@@ -51,6 +50,7 @@ const fetchServers = async () => {
     );
     if (!response) return false;
     servers.value = response.data.payload;
+    layoutRef.value?.refreshCounts();
     return true;
   } catch {
     useAlert(t('CAPTAIN.MCP_SERVERS.LOAD_ERROR'));
@@ -58,7 +58,8 @@ const fetchServers = async () => {
   }
 };
 
-const openConnectDialog = () => connectDialogRef.value.open(null);
+const openConnectDialog = () => connectDialogRef.value.open();
+const openManagePanel = server => managePanelRef.value.open(server);
 
 const startSignIn = async server => {
   try {
@@ -74,9 +75,45 @@ const startSignIn = async server => {
   }
 };
 
+const openTokenDialog = server => {
+  serverForToken.value = server;
+  newToken.value = '';
+  nextTick(() => tokenDialogRef.value.open());
+};
+
+// The new token is checked with the server before it is saved, as on connect, so a wrong token never replaces the saved one
+const updateToken = async () => {
+  const server = serverForToken.value;
+  const token = newToken.value.trim();
+  isSavingToken.value = true;
+  try {
+    await McpServersAPI.discover({
+      assistantId: assistantId.value,
+      url: server.url,
+      token,
+      authHeader: server.auth_header,
+    });
+    await McpServersAPI.update(server.id, {
+      assistantId: assistantId.value,
+      auth_config: { token },
+    });
+    useAlert(t('CAPTAIN.MCP_SERVERS.UPDATE_TOKEN.SUCCESS'));
+    tokenDialogRef.value.close();
+    await fetchServers();
+  } catch (error) {
+    useAlert(
+      parseAPIErrorResponse(error) ||
+        t('CAPTAIN.MCP_SERVERS.UPDATE_TOKEN.ERROR')
+    );
+  } finally {
+    isSavingToken.value = false;
+  }
+};
+
 const handleAction = ({ action, server }) => {
-  if (action === SERVER_ACTIONS.MANAGE) connectDialogRef.value.open(server);
+  if (action === SERVER_ACTIONS.MANAGE) openManagePanel(server);
   if (action === SERVER_ACTIONS.SIGN_IN) startSignIn(server);
+  if (action === SERVER_ACTIONS.UPDATE_TOKEN) openTokenDialog(server);
   if (action === SERVER_ACTIONS.DELETE) {
     serverToDelete.value = server;
     nextTick(() => deleteDialogRef.value.open());
@@ -141,7 +178,7 @@ const handleSignInResult = async () => {
 
   useAlert(t('CAPTAIN.MCP_SERVERS.SIGN_IN.SUCCESS'));
   const server = servers.value.find(item => item.id === Number(serverId));
-  if (server) connectDialogRef.value.open(server);
+  if (server) openManagePanel(server);
 };
 
 // On a full reload, account features load after mount, so the page waits for access before it fetches.
@@ -157,24 +194,19 @@ watch(
 </script>
 
 <template>
-  <PageLayout
-    :header-title="$t('CAPTAIN.MCP_SERVERS.HEADER')"
+  <ToolsPageLayout
+    ref="layoutRef"
+    :heading="$t('CAPTAIN.MCP_SERVERS.HEADER')"
+    :description="$t('CAPTAIN.TOOLS_PAGES.MCP_SERVERS.DESCRIPTION')"
     :button-label="$t('CAPTAIN.MCP_SERVERS.CONNECT')"
-    :button-policy="['administrator']"
-    :back-url="backUrl"
-    :feature-flag="FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS"
     :is-fetching="isPending && !servers.length"
     :is-empty="!servers.length"
-    :show-pagination-footer="false"
-    :show-know-more="false"
     @click="openConnectDialog"
   >
-    <template #paywall>
-      <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
-    </template>
-
     <template #emptyState>
-      <div class="flex flex-col items-center gap-2 py-16 text-center">
+      <div
+        class="flex flex-col items-center gap-2 py-12 text-center rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
+      >
         <span class="text-base font-medium text-n-slate-12">
           {{ $t('CAPTAIN.MCP_SERVERS.EMPTY_STATE.TITLE') }}
         </span>
@@ -196,13 +228,21 @@ watch(
         />
       </div>
     </template>
-  </PageLayout>
+  </ToolsPageLayout>
 
   <ConnectMcpServerDialog
     ref="connectDialogRef"
     :assistant-id="assistantId"
+    :connected-urls="servers.map(server => server.url)"
     @saved="fetchServers"
     @sign-in="startSignIn"
+    @connected="openManagePanel"
+  />
+
+  <ManageMcpServerPanel
+    ref="managePanelRef"
+    :assistant-id="assistantId"
+    @saved="fetchServers"
   />
 
   <Dialog
@@ -216,4 +256,26 @@ watch(
     :is-loading="isDeleting"
     @confirm="deleteServer"
   />
+
+  <Dialog
+    ref="tokenDialogRef"
+    :title="
+      t('CAPTAIN.MCP_SERVERS.UPDATE_TOKEN.TITLE', {
+        name: serverForToken?.name,
+      })
+    "
+    :description="t('CAPTAIN.MCP_SERVERS.UPDATE_TOKEN.DESCRIPTION')"
+    :confirm-button-label="t('CAPTAIN.MCP_SERVERS.UPDATE_TOKEN.CONFIRM')"
+    :disable-confirm-button="!newToken.trim()"
+    :is-loading="isSavingToken"
+    @confirm="updateToken"
+  >
+    <Input
+      v-model="newToken"
+      type="password"
+      autocomplete="off"
+      :label="t('CAPTAIN.MCP_SERVERS.DIALOG.TOKEN_LABEL')"
+      :disabled="isSavingToken"
+    />
+  </Dialog>
 </template>

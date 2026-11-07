@@ -136,6 +136,7 @@ Rails.application.routes.draw do
               get :installed
               post :preview
               post :install
+              delete :uninstall
             end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member

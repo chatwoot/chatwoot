@@ -13,13 +13,12 @@ class CaptainMcpServers extends ApiClient {
     });
   }
 
-  discover({ assistantId, url, token, authHeader }) {
-    return axios.post(`${this.url}/discover`, {
-      assistant_id: assistantId,
-      url,
-      token,
-      auth_header: authHeader,
-    });
+  discover({ assistantId, url, token, authHeader, signal }) {
+    return axios.post(
+      `${this.url}/discover`,
+      { assistant_id: assistantId, url, token, auth_header: authHeader },
+      { signal }
+    );
   }
 
   create({ assistantId, ...data }) {
@@ -46,6 +45,14 @@ class CaptainMcpServers extends ApiClient {
     return axios.get(`${this.url}/${id}/live_tools`, {
       params: { assistant_id: assistantId },
       signal,
+    });
+  }
+
+  approveTool({ id, assistantId, name, digest }) {
+    return axios.post(`${this.url}/${id}/approve_tool`, {
+      assistant_id: assistantId,
+      name,
+      digest,
     });
   }
 
