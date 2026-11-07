@@ -1,6 +1,7 @@
 // fallow-ignore-file unused-file -- loaded by layout.html, embedded with go:embed
 // Small enhancements for the ai-service admin pages. Every page works
-// without this file; it only adds Copy buttons and "are you sure?" checks.
+// without this file; it only adds Copy buttons, "are you sure?" checks and
+// Enter-to-send in the test chat.
 // Rules: never build HTML from strings, no eval, no inline handlers (the CSP allows
 // only this file and enforces Trusted Types).
 'use strict';
@@ -35,6 +36,27 @@
         }
       });
     }
+  }
+
+  // <textarea data-enter-send>: Enter sends the form, Shift+Enter adds a new
+  // line. Enter that finishes a word in an input method (Thai, Japanese, ...)
+  // is left alone, and an empty box with no file chosen does not send.
+  for (const box of document.querySelectorAll('textarea[data-enter-send]')) {
+    const hintEl = box.dataset.enterSend && document.getElementById(box.dataset.enterSend);
+    if (hintEl) {
+      hintEl.hidden = false;
+      box.setAttribute('aria-describedby', hintEl.id);
+    }
+    box.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.isComposing || event.keyCode === 229) return;
+      event.preventDefault();
+      const form = box.form;
+      if (!form) return;
+      const files = form.querySelector('input[type=file]');
+      if (box.value.trim() === '' && !(files && files.files && files.files.length)) return;
+      form.requestSubmit();
+    });
   }
 
   // <form data-confirm="Question?"> asks before it is sent.

@@ -37,7 +37,8 @@
         {{range .Turns}}<input type="hidden" name="role" value="{{.Role}}"><input type="hidden" name="text" value="{{.Content}}">
         {{end}}
         <label for="message">{{if .Turns}}Reply as the customer{{else}}Message{{end}}</label>
-        <textarea id="message" name="message" rows="3" maxlength="2000"{{if not .Turns}} autofocus{{end}}></textarea>
+        <textarea id="message" name="message" rows="3" maxlength="2000" data-enter-send="enter-hint"{{if not .Turns}} autofocus{{end}}></textarea>
+        <p class="field-hint" id="enter-hint" hidden>Enter sends. Shift+Enter starts a new line.</p>
         <label for="files">Attach files</label>
         <input id="files" name="files" type="file" multiple aria-describedby="files-hint">
         <p class="field-hint" id="files-hint">Voice notes (ogg, m4a, mp3, wav), photos and stickers (png, jpeg, webp, gif), or any other file to see how the bot handles it. Up to 4 files, 10 MB each. They follow the switches on the <a href="/admin/business?account={{.AccountID}}">Business profile</a> page.</p>
