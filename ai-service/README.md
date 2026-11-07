@@ -153,7 +153,8 @@ docker compose exec ai-service /answer-eval -cases /data/answers.json -no-rewrit
 ```
 
 Each case: `{"name", "account_id", "turns": ["...", "..."], "expect": "answer|unknown|handoff",
-"must_include": ["3,900|3900"], "must_not_include": [], "note": "what a correct reply says"}`.
+"must_include": ["3,900|3900"], "must_not_include": [], "note": "what a correct reply says",
+"files": []}` (`files` is optional; see "Testing media" below).
 Only the reply to the last turn is graded. A case costs about two model calls
 per turn plus one judge call; `-judge-model` grades with a different model.
 
@@ -185,6 +186,21 @@ file and hands the chat to staff, as before.
 Downloads come only from the Chatwoot host (`CHATWOOT_BASE_URL`), https, with
 every redirect checked. Traces carry the media kind and the redacted
 transcript, never the file.
+
+**Testing media.** The **Test bot** page (`/admin/test`) takes up to 4 files
+per message (10 MB each) next to the text box. They go through the same
+handling as live attachments, so the Business profile switches apply, and
+other file types such as PDF show the staff handoff. The side panel shows
+what the bot read and the voice transcript. Each test makes the real model
+calls (a transcription per voice note). Uploads stay in memory for that one
+request: they are not stored, sent to Chatwoot or traced, and only counts
+are logged. Later turns keep the text the bot read, not the files.
+
+In `answer-eval`, `"files": ["voice.ogg"]` attaches files to a case's last
+turn, which may have empty text (`"turns": ["สวัสดี", ""]`). Paths are
+relative to the cases file and must stay inside its folder. The image type
+is detected from the content; a voice note needs an audio extension (ogg,
+oga, opus, mp3, m4a, wav, webm, aac).
 
 ### Tracing (Langfuse)
 

@@ -5,9 +5,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
@@ -345,5 +348,100 @@ func TestReportWriteOmitsMetricsWhenNoneGraded(t *testing.T) {
 	// Assert
 	if strings.Contains(buf.String(), "faithful") || strings.Contains(buf.String(), "context recall") {
 		t.Errorf("report prints metrics nobody graded:\n%s", buf.String())
+	}
+}
+
+type fakeMedia struct {
+	out     bot.Preview
+	history []memory.Turn
+	uploads []bot.Upload
+}
+
+func (f *fakeMedia) PreviewMedia(_ context.Context, _, _ int64, h []memory.Turn, u []bot.Upload) bot.Preview {
+	f.history, f.uploads = append([]memory.Turn(nil), h...), u
+	return f.out
+}
+
+func TestRunFilesGoToLastTurn(t *testing.T) {
+	// Arrange: a text turn, then a voice note with no text.
+	a := &scriptedAnswerer{replies: []string{"สวัสดีค่ะ"}}
+	m := &fakeMedia{out: bot.Preview{Reply: "ผ่อนได้ 10 เดือนค่ะ", Input: "[Voice message, transcribed] ผ่อนได้ไหม",
+		Sources: []knowledge.Hit{{Content: "ผ่อน 10 เดือน"}}}}
+	j := &fixedJudge{verdict: Verdict{Pass: true}}
+	c := Case{Name: "voice", AccountID: 1, Turns: []string{"สวัสดี", ""}, Expect: ExpectAnswer,
+		Files: []string{"voice.ogg"}, Uploads: []bot.Upload{{Name: "voice.ogg", Data: []byte("OggS")}}}
+
+	// Act
+	rep := Run(context.Background(), Runner{Answerer: a, Media: m, Handoff: keyword("แอดมิน"), Judge: j}, []Case{c})
+
+	// Assert
+	r := rep.Results[0]
+	if !r.Pass || r.Reply != "ผ่อนได้ 10 เดือนค่ะ" || len(a.histories) != 1 || len(m.uploads) != 1 || len(m.history) != 3 {
+		t.Fatalf("result = %+v, text answers = %d, media history = %d", r, len(a.histories), len(m.history))
+	}
+	if j.got.LastInput != "[Voice message, transcribed] ผ่อนได้ไหม" || len(j.got.Excerpts) != 1 {
+		t.Errorf("judge input = %+v", j.got)
+	}
+	if !strings.Contains(judgePrompt(j.got), "ผ่อนได้ไหม") {
+		t.Error("judge prompt does not show the transcript")
+	}
+}
+
+func TestRunMediaHandoffAndError(t *testing.T) {
+	// Arrange
+	handoff := &fakeMedia{out: bot.Preview{Reply: "thanks", Handoff: true, Reason: bot.ReasonAttachment}}
+	failing := &fakeMedia{out: bot.Preview{Reply: "sorry", Handoff: true, Reason: bot.ReasonLLMError, Err: errors.New("down")}}
+	c := Case{Name: "pdf", AccountID: 1, Turns: []string{""}, Expect: ExpectHandoff, Files: []string{"a.pdf"}, Uploads: []bot.Upload{{Name: "a.pdf"}}}
+
+	// Act
+	ok := Run(context.Background(), Runner{Answerer: &scriptedAnswerer{}, Media: handoff, Handoff: keyword("x"), Judge: &fixedJudge{}}, []Case{c})
+	bad := Run(context.Background(), Runner{Answerer: &scriptedAnswerer{}, Media: failing, Handoff: keyword("x"), Judge: &fixedJudge{}}, []Case{c})
+
+	// Assert
+	if !ok.Results[0].Pass || !ok.Results[0].Handoff {
+		t.Errorf("attachment handoff result = %+v, want a pass", ok.Results[0])
+	}
+	if bad.Results[0].Pass || bad.Results[0].Err == nil {
+		t.Errorf("model error result = %+v, want a fail with the error", bad.Results[0])
+	}
+}
+
+func TestLoadFiles(t *testing.T) {
+	// Arrange
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "voice.ogg"), []byte("OggS"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	cases := []Case{{Name: "ok", Files: []string{"voice.ogg"}}, {Name: "none"}}
+	missing := []Case{{Name: "gone", Files: []string{"nope.ogg"}}}
+	escape := []Case{{Name: "up", Files: []string{"../secret"}}}
+
+	// Act
+	err := LoadFiles(cases, dir)
+	errMissing := LoadFiles(missing, dir)
+	errEscape := LoadFiles(escape, dir)
+
+	// Assert
+	if err != nil || len(cases[0].Uploads) != 1 || string(cases[0].Uploads[0].Data) != "OggS" || cases[1].Uploads != nil {
+		t.Fatalf("LoadFiles() = %v, cases = %+v", err, cases)
+	}
+	if errMissing == nil || !strings.Contains(errMissing.Error(), "gone") {
+		t.Errorf("missing file error = %v", errMissing)
+	}
+	if errEscape == nil {
+		t.Error("a path outside the cases folder was read")
+	}
+}
+
+func TestValidateFilesNeedLastTurn(t *testing.T) {
+	// Arrange: files with too many entries for the bot to read.
+	c := []Case{{Name: "many", AccountID: 1, Turns: []string{"x"}, Expect: ExpectAnswer, Files: []string{"1", "2", "3", "4", "5"}}}
+
+	// Act
+	err := Validate(c)
+
+	// Assert
+	if err == nil || !strings.Contains(err.Error(), "files") {
+		t.Fatalf("Validate() = %v", err)
 	}
 }

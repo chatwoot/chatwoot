@@ -6,7 +6,9 @@
 //	docker compose exec ai-service /answer-eval -cases /data/answers.json
 //
 // The cases file is a JSON array of answereval.Case. Each case costs about
-// two chat-model calls per turn (rewrite + reply) plus one judge call.
+// two chat-model calls per turn (rewrite + reply) plus one judge call; a
+// voice note in "files" adds a transcription. Files are read from the
+// cases file's folder.
 package main
 
 import (
@@ -18,6 +20,7 @@ import (
 	"io"
 	"log/slog"
 	"os"
+	"path/filepath"
 	"time"
 	_ "time/tzdata" // the distroless image has no zoneinfo; TIMEZONE needs it
 
@@ -114,6 +117,7 @@ func run() error {
 	started := time.Now()
 	rep := answereval.Run(ctx, answereval.Runner{
 		Answerer: b,
+		Media:    b,
 		Handoff:  handoff.New(cfg.HandoffKeywords),
 		Judge:    answereval.LLMJudge{LLM: judge},
 		Split:    bot.SplitHandoff,
@@ -144,5 +148,8 @@ func readCases(path string) ([]answereval.Case, error) {
 	if err := json.Unmarshal(raw, &cases); err != nil {
 		return nil, fmt.Errorf("parse %s: %w", path, err)
 	}
-	return cases, answereval.Validate(cases)
+	if err := answereval.Validate(cases); err != nil {
+		return nil, err
+	}
+	return cases, answereval.LoadFiles(cases, filepath.Dir(path))
 }
