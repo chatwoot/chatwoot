@@ -5,7 +5,7 @@
 SET LOCAL lock_timeout = '5s';
 
 CREATE TABLE IF NOT EXISTS team_members (
-    email      TEXT        NOT NULL CHECK (email = lower(email) AND email LIKE '%_@_%'),
+    email      TEXT        NOT NULL CHECK (email = lower(btrim(email)) AND email LIKE '%_@_%' AND length(email) <= 320),
     account_id BIGINT      NOT NULL CHECK (account_id > 0),
     can_write  BOOLEAN     NOT NULL DEFAULT false,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),

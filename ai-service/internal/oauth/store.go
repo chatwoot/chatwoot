@@ -187,6 +187,18 @@ func (p *Postgres) CreateGrant(ctx context.Context, g Grant, codeHash, refreshHa
 	var approver any
 	if g.ApprovedBy != "" {
 		approver = g.ApprovedBy
+		// Re-check team membership in this transaction: someone removed (or
+		// limited to read-only) after approving gets nothing. FOR SHARE makes
+		// a concurrent removal wait, and then its revoke sees this grant.
+		var canWrite bool
+		err := tx.QueryRow(ctx, `SELECT can_write FROM team_members WHERE email = $1 AND account_id = $2 FOR SHARE`,
+			g.ApprovedBy, g.AccountID).Scan(&canWrite)
+		if errors.Is(err, pgx.ErrNoRows) || (err == nil && g.CanWrite && !canWrite) {
+			return Grant{}, "", ErrNotFound
+		}
+		if err != nil {
+			return Grant{}, "", err
+		}
 	}
 	if err := tx.QueryRow(ctx, `INSERT INTO oauth_grants (account_id, client_id, client_name, can_write, refresh_hash, refresh_expires_at, approved_by)
 		VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, created_at`, g.AccountID, g.ClientID, g.ClientName, g.CanWrite, refreshHash, g.RefreshExpiresAt, approver).
@@ -353,11 +365,53 @@ func (p *Postgres) members(ctx context.Context, where string, arg any) ([]Member
 }
 
 // AddMember implements Store: adds the person or changes their access.
+// Lowering someone to read-only disconnects their read-write apps for the
+// account (they can reconnect read-only).
 func (p *Postgres) AddMember(ctx context.Context, m Member) error {
-	_, err := p.Pool.Exec(ctx, `INSERT INTO team_members (email, account_id, can_write) VALUES ($1, $2, $3)
-		ON CONFLICT (email, account_id) DO UPDATE SET can_write = EXCLUDED.can_write`,
-		strings.ToLower(strings.TrimSpace(m.Email)), m.AccountID, m.CanWrite)
-	return err
+	email := strings.ToLower(strings.TrimSpace(m.Email))
+	tx, err := p.Pool.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx) //nolint:errcheck
+	if _, err := tx.Exec(ctx, `INSERT INTO team_members (email, account_id, can_write) VALUES ($1, $2, $3)
+		ON CONFLICT (email, account_id) DO UPDATE SET can_write = EXCLUDED.can_write`, email, m.AccountID, m.CanWrite); err != nil {
+		return err
+	}
+	if !m.CanWrite {
+		if err := revokeApproved(ctx, tx, email, m.AccountID, true); err != nil {
+			return err
+		}
+	}
+	return tx.Commit(ctx)
+}
+
+// revokeApproved revokes the grants a person approved for an account (only
+// the write ones when writeOnly), their access tokens, and their unused codes.
+func revokeApproved(ctx context.Context, tx pgx.Tx, email string, accountID int64, writeOnly bool) error {
+	cond := ""
+	if writeOnly {
+		cond = " AND can_write"
+	}
+	if _, err := tx.Exec(ctx, `UPDATE oauth_codes SET used_at = now()
+		WHERE approved_by = $1 AND account_id = $2 AND used_at IS NULL`+cond, email, accountID); err != nil {
+		return err
+	}
+	rows, err := tx.Query(ctx, `UPDATE oauth_grants SET revoked_at = now()
+		WHERE approved_by = $1 AND account_id = $2 AND revoked_at IS NULL`+cond+` RETURNING id`, email, accountID)
+	if err != nil {
+		return err
+	}
+	ids, err := pgx.CollectRows(rows, pgx.RowTo[int64])
+	if err != nil {
+		return err
+	}
+	for _, id := range ids {
+		if err := revokeTokens(ctx, tx, id); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // RemoveMember implements Store.
@@ -375,19 +429,8 @@ func (p *Postgres) RemoveMember(ctx context.Context, email string, accountID int
 	if tag.RowsAffected() == 0 {
 		return ErrNotFound
 	}
-	rows, err := tx.Query(ctx, `UPDATE oauth_grants SET revoked_at = now()
-		WHERE approved_by = $1 AND account_id = $2 AND revoked_at IS NULL RETURNING id`, email, accountID)
-	if err != nil {
+	if err := revokeApproved(ctx, tx, email, accountID, false); err != nil {
 		return err
-	}
-	ids, err := pgx.CollectRows(rows, pgx.RowTo[int64])
-	if err != nil {
-		return err
-	}
-	for _, id := range ids {
-		if err := revokeTokens(ctx, tx, id); err != nil {
-			return err
-		}
 	}
 	return tx.Commit(ctx)
 }
