@@ -317,7 +317,7 @@ func (s *Server) identify(r *http.Request, d *pageData) bool {
 	}
 	id, err := s.Access.Verify(r.Context(), r.Header.Get(cfaccess.Header))
 	if err != nil {
-		s.Logger.Warn("oauth approval without a valid Cloudflare Access sign-in", "client_ip", ratelimit.ClientIP(r), "error", err)
+		s.Logger.Warn("oauth approval without a valid Cloudflare Access sign-in", "client_ip", ratelimit.ClientIP(r))
 		d.Error, d.Valid = "Sign in through Cloudflare Access first: open this page from the app again.", false
 		return false
 	}
@@ -328,6 +328,12 @@ func (s *Server) identify(r *http.Request, d *pageData) bool {
 		return false
 	}
 	d.Email, d.Accounts = id.Email, members
+	if !d.Trusted {
+		// Team members can only connect Claude, ChatGPT or an app on their own
+		// computer; other return addresses could be phishing.
+		d.Error, d.Valid = d.ReturnHost+" is not Claude, ChatGPT or an app on this computer, so team members cannot approve it.", false
+		return false
+	}
 	if len(members) == 0 {
 		d.Error, d.Valid = id.Email+" is not on the team. Ask the owner to add you on the admin page (Connect AI tools).", false
 		return false

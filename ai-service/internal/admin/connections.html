@@ -62,7 +62,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
       {{range .Apps}}
         <tr>
           <td><strong>{{.Name}}</strong>{{if .Revoked}} <span class="badge expired">Disconnected</span>{{end}}</td>
-          {{if $.TeamOn}}<td data-label="Connected by">{{if .By}}{{.By}}{{else}}Admin password{{end}}</td>{{end}}
+          {{if $.TeamOn}}<td data-label="Connected by">{{.By}}</td>{{end}}
           <td data-label="Access">{{.Access}}</td>
           <td data-label="Connected">{{.Created}}</td>
           <td data-label="Last used">{{.LastUsed}}</td>

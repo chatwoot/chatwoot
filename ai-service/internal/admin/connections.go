@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
 	"net/http"
 	"strconv"
@@ -105,7 +106,11 @@ func (h *Handler) renderConnections(w http.ResponseWriter, r *http.Request, stat
 			h.Logger.Error("list oauth apps", "account_id", d.AccountID, "error", err)
 		}
 		for _, g := range grants {
-			v := appView{ID: g.ID, By: g.ApprovedBy, Name: g.ClientName, Access: "Read only", Created: h.day(g.CreatedAt), LastUsed: "Never", Revoked: !g.RevokedAt.IsZero()}
+			by := g.ApprovedBy
+			if by == "" {
+				by = "Owner (admin password)"
+			}
+			v := appView{ID: g.ID, By: by, Name: g.ClientName, Access: "Read only", Created: h.day(g.CreatedAt), LastUsed: "Never", Revoked: !g.RevokedAt.IsZero()}
 			if g.CanWrite {
 				v.Access = "Read and write"
 			}
@@ -172,8 +177,8 @@ func (h *Handler) submitConnections(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "team sign-in is off", http.StatusBadRequest)
 			return
 		}
-		email := strings.ToLower(strings.TrimSpace(r.PostForm.Get("email")))
-		if !validEmail(email) {
+		email, ok := cfaccess.NormalizeEmail(r.PostForm.Get("email"))
+		if !ok || !validEmail(email) {
 			d.Error = "Enter a valid email address."
 			h.renderConnections(w, r, http.StatusUnprocessableEntity, d)
 			return

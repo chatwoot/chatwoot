@@ -146,7 +146,7 @@ func TestVerify_KeyRotationRefetchesOncePerMinute(t *testing.T) {
 		t.Fatal(err)
 	}
 	*published = []signer{old, next}
-	v.fetched = time.Now().Add(-2 * time.Minute) // past the refetch guard
+	v.attempted = time.Now().Add(-2 * time.Minute) // past the refetch guard
 
 	// Act
 	id, err := v.Verify(context.Background(), next.token(t, nil, claims(v, nil)))
@@ -159,5 +159,55 @@ func TestVerify_KeyRotationRefetchesOncePerMinute(t *testing.T) {
 	}
 	if !errors.Is(unknown1, ErrInvalid) || !errors.Is(unknown2, ErrInvalid) || *fetches != 2 {
 		t.Fatalf("unknown kids should not refetch within a minute: fetches=%d", *fetches)
+	}
+}
+
+func TestVerify_FailedFetchIsNotRetriedEveryRequest(t *testing.T) {
+	// Arrange: the key server is down.
+	fetches := 0
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		fetches++
+		http.Error(w, "down", http.StatusBadGateway)
+	}))
+	defer srv.Close()
+	v := &Verifier{TeamDomain: srv.URL, AUD: aud, Client: srv.Client()}
+	s := newSigner(t, "k1")
+
+	// Act
+	for i := 0; i < 5; i++ {
+		_, _ = v.Verify(context.Background(), s.token(t, nil, claims(v, nil)))
+	}
+
+	// Assert
+	if fetches != 1 {
+		t.Fatalf("fetches = %d, want 1 per minute while down", fetches)
+	}
+}
+
+func TestNormalizeEmail_RefusesLookalikes(t *testing.T) {
+	cases := map[string]string{"Kate@Corp.com": "kate@corp.com", " a@b.co ": "a@b.co"}
+	for in, want := range cases {
+		if got, ok := NormalizeEmail(in); !ok || got != want {
+			t.Errorf("NormalizeEmail(%q) = %q %v", in, got, ok)
+		}
+	}
+	for _, bad := range []string{"\u212Aate@corp.com", "\u0130nfo@corp.com", "kate@cörp.com", "a b@c.com", ""} {
+		if _, ok := NormalizeEmail(bad); ok {
+			t.Errorf("accepted %q", bad)
+		}
+	}
+}
+
+func TestVerify_NonASCIIEmailRefused(t *testing.T) {
+	// Arrange
+	s := newSigner(t, "k1")
+	v, _, _ := setup(t, s)
+
+	// Act
+	_, err := v.Verify(context.Background(), s.token(t, nil, claims(v, map[string]any{"email": "\u212Aate@corp.com"})))
+
+	// Assert
+	if !errors.Is(err, ErrInvalid) {
+		t.Fatalf("err = %v", err)
 	}
 }

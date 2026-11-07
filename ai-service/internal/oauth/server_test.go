@@ -557,12 +557,13 @@ func TestAccess_Refusals(t *testing.T) {
 		"not on the team":       {"jwt-stranger", nil, http.StatusForbidden},
 		"other account":         {"jwt-somchai", map[string]string{"account": "3"}, http.StatusUnprocessableEntity},
 		"write on read account": {"jwt-somchai", map[string]string{"account": "2", "access": "write"}, http.StatusForbidden},
+		"unknown return host":   {"jwt-somchai", map[string]string{"redirect_uri": "https://evil.example/cb"}, http.StatusForbidden},
 	}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			// Arrange
 			e := accessEnv()
-			client := e.register(t, redirect)
+			client := e.register(t, redirect, "https://evil.example/cb")
 
 			// Act
 			rec := e.approveAs(c.jwt, authForm(client, c.extra))

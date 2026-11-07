@@ -35,10 +35,16 @@ type Verifier struct {
 	Client     *http.Client
 	Now        func() time.Time
 
-	mu      sync.Mutex
-	keys    map[string]*rsa.PublicKey
-	fetched time.Time
+	mu        sync.Mutex
+	keys      map[string]*rsa.PublicKey
+	fetched   time.Time // last successful fetch
+	attempted time.Time // last fetch attempt, successful or not
+	fetching  bool
 }
+
+// maxKeyAge is how long cached keys stay usable when Cloudflare cannot be
+// reached.
+const maxKeyAge = 24 * time.Hour
 
 // Identity is who Access signed in.
 type Identity struct {
@@ -86,14 +92,40 @@ func (v *Verifier) Verify(ctx context.Context, token string) (Identity, error) {
 		return Identity{}, ErrInvalid
 	case !audienceHas(claims.Aud, v.AUD):
 		return Identity{}, ErrInvalid
-	case claims.Exp == 0 || now.After(time.Unix(int64(claims.Exp), 0).Add(skew)):
+	case claims.Exp <= 0 || claims.Exp > 1e12 || claims.Nbf < 0 || claims.Nbf > 1e12:
+		return Identity{}, ErrInvalid
+	case now.After(time.Unix(int64(claims.Exp), 0).Add(skew)):
 		return Identity{}, ErrInvalid
 	case claims.Nbf != 0 && now.Add(skew).Before(time.Unix(int64(claims.Nbf), 0)):
 		return Identity{}, ErrInvalid
 	case !strings.Contains(claims.Email, "@"):
 		return Identity{}, ErrInvalid // a service token, not a person
 	}
-	return Identity{Email: strings.ToLower(strings.TrimSpace(claims.Email))}, nil
+	email, ok := NormalizeEmail(claims.Email)
+	if !ok {
+		return Identity{}, ErrInvalid
+	}
+	return Identity{Email: email}, nil
+}
+
+// NormalizeEmail trims and lower-cases an ASCII email address. Non-ASCII
+// addresses are refused: Unicode case folding can turn look-alike letters
+// (the Kelvin sign, dotted capital I) into another person's address.
+func NormalizeEmail(raw string) (string, bool) {
+	e := strings.TrimSpace(raw)
+	if e == "" || len(e) > 320 {
+		return "", false
+	}
+	b := []byte(e)
+	for i, c := range b {
+		switch {
+		case c > 0x7e || c < 0x21:
+			return "", false
+		case c >= 'A' && c <= 'Z':
+			b[i] = c + ('a' - 'A')
+		}
+	}
+	return string(b), true
 }
 
 func (v *Verifier) now() time.Time {
@@ -123,26 +155,39 @@ func audienceHas(raw json.RawMessage, want string) bool {
 	return json.Unmarshal(raw, &many) == nil && slices.Contains(many, want)
 }
 
-// key returns the public key for kid, fetching the key set at most once a
-// minute (Access rotates keys every six weeks and publishes old and new).
+// key returns the public key for kid. The key set is fetched at most once a
+// minute (success or failure) and outside the lock, so an outage or tokens
+// with random kids cannot queue requests behind slow fetches.
 func (v *Verifier) key(ctx context.Context, kid string) (*rsa.PublicKey, error) {
 	v.mu.Lock()
-	defer v.mu.Unlock()
-	if k := v.keys[kid]; k != nil && time.Since(v.fetched) < time.Hour {
+	k := v.keys[kid]
+	fresh := time.Since(v.fetched) < time.Hour
+	canFetch := time.Since(v.attempted) >= time.Minute && !v.fetching
+	if k != nil && (fresh || !canFetch) {
+		usable := time.Since(v.fetched) < maxKeyAge
+		v.mu.Unlock()
+		if !usable {
+			return nil, ErrInvalid
+		}
 		return k, nil
 	}
-	if time.Since(v.fetched) < time.Minute && v.keys != nil {
-		if k := v.keys[kid]; k != nil {
-			return k, nil
-		}
+	if !canFetch {
+		v.mu.Unlock()
 		return nil, ErrInvalid
 	}
+	v.fetching, v.attempted = true, time.Now()
+	v.mu.Unlock()
+
 	keys, err := v.fetch(ctx)
+
+	v.mu.Lock()
+	defer v.mu.Unlock()
+	v.fetching = false
 	if err != nil {
-		if k := v.keys[kid]; k != nil { // keep working on a brief outage
-			return k, nil
+		if k := v.keys[kid]; k != nil && time.Since(v.fetched) < maxKeyAge {
+			return k, nil // keep working through a brief outage
 		}
-		return nil, fmt.Errorf("cloudflare access keys: %w", err)
+		return nil, fmt.Errorf("cloudflare access keys unavailable: %w", ErrInvalid)
 	}
 	v.keys, v.fetched = keys, time.Now()
 	if k := keys[kid]; k != nil {

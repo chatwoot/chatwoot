@@ -10,9 +10,9 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"errors"
-	"strings"
 	"time"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -344,7 +344,11 @@ func (p *Postgres) RevokeGrant(ctx context.Context, accountID, id int64) error {
 
 // Memberships implements Store.
 func (p *Postgres) Memberships(ctx context.Context, email string) ([]Member, error) {
-	return p.members(ctx, `WHERE email = $1 ORDER BY account_id`, strings.ToLower(strings.TrimSpace(email)))
+	e, ok := cfaccess.NormalizeEmail(email)
+	if !ok {
+		return nil, nil
+	}
+	return p.members(ctx, `WHERE email = $1 ORDER BY account_id`, e)
 }
 
 // Team implements Store.
@@ -368,7 +372,10 @@ func (p *Postgres) members(ctx context.Context, where string, arg any) ([]Member
 // Lowering someone to read-only disconnects their read-write apps for the
 // account (they can reconnect read-only).
 func (p *Postgres) AddMember(ctx context.Context, m Member) error {
-	email := strings.ToLower(strings.TrimSpace(m.Email))
+	email, ok := cfaccess.NormalizeEmail(m.Email)
+	if !ok {
+		return errors.New("email must be a plain ASCII address")
+	}
 	tx, err := p.Pool.Begin(ctx)
 	if err != nil {
 		return err
@@ -416,7 +423,10 @@ func revokeApproved(ctx context.Context, tx pgx.Tx, email string, accountID int6
 
 // RemoveMember implements Store.
 func (p *Postgres) RemoveMember(ctx context.Context, email string, accountID int64) error {
-	email = strings.ToLower(strings.TrimSpace(email))
+	email, ok := cfaccess.NormalizeEmail(email)
+	if !ok {
+		return ErrNotFound
+	}
 	tx, err := p.Pool.Begin(ctx)
 	if err != nil {
 		return err
