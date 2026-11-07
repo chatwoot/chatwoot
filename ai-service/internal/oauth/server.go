@@ -14,10 +14,10 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/ratelimit"
 )
 
 // Scopes.
@@ -47,13 +47,9 @@ type Server struct {
 	Store    Store
 	Logger   *slog.Logger
 
-	mu       sync.Mutex
-	attempts map[string]*window
-}
-
-type window struct {
-	start time.Time
-	n     int
+	// login counts password attempts only, so other endpoints cannot fill
+	// its table; other counts registrations and token calls.
+	login, other ratelimit.Limiter
 }
 
 // Issuer is the authorization server's identifier: the resource's origin.
@@ -121,23 +117,6 @@ func (s *Server) serverMetadata(w http.ResponseWriter, _ *http.Request) {
 	})
 }
 
-// allow is a fixed one-minute window per key.
-func (s *Server) allow(key string, limit int) bool {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	if s.attempts == nil || len(s.attempts) > 10000 {
-		s.attempts = map[string]*window{}
-	}
-	now := time.Now()
-	w := s.attempts[key]
-	if w == nil || now.Sub(w.start) >= time.Minute {
-		w = &window{start: now}
-		s.attempts[key] = w
-	}
-	w.n++
-	return w.n <= limit
-}
-
 func clientIP(r *http.Request) string {
 	if host, _, err := net.SplitHostPort(r.RemoteAddr); err == nil {
 		return host
@@ -163,7 +142,7 @@ func validRedirect(raw string) bool {
 }
 
 func (s *Server) register(w http.ResponseWriter, r *http.Request) {
-	if !s.allow("register:"+clientIP(r), 10) || !s.allow("register", 60) {
+	if !s.other.Allow("register:"+clientIP(r), 10) || !s.other.Allow("register", 60) {
 		oauthError(w, http.StatusTooManyRequests, "slow_down", "too many registrations; wait a minute")
 		return
 	}
@@ -330,7 +309,7 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, redirect.String(), http.StatusSeeOther)
 		return
 	}
-	if !s.allow("login:"+clientIP(r), 5) || !s.allow("login", 20) {
+	if !s.login.Allow("login:"+clientIP(r), 5) || !s.login.Allow("login", 20) {
 		d.Error = "Too many attempts. Wait a minute and try again."
 		s.render(w, http.StatusTooManyRequests, d)
 		return
@@ -372,7 +351,7 @@ func pkceOK(verifier, challenge string) bool {
 }
 
 func (s *Server) token(w http.ResponseWriter, r *http.Request) {
-	if !s.allow("token:"+clientIP(r), 60) {
+	if !s.other.Allow("token:"+clientIP(r), 60) {
 		oauthError(w, http.StatusTooManyRequests, "slow_down", "wait a minute")
 		return
 	}
