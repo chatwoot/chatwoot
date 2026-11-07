@@ -24,8 +24,8 @@ module Concerns::McpToolApprovable
     tools.reset
   end
 
-  # Stores how each approved tool compares with a live listing. The tools page and the server's Needs review badge read
-  # these states, so every path that lists the server records it here. A tool is written only when its
+  # Stores how each approved tool compares with a live listing. Captain, the tools page and the server's Needs review
+  # badge all read these states, so every path that lists the server records it here. A tool is written only when its
   # state changes. update_columns skips validations: a tool saved under older rules may fail today's, and that must
   # not stop Chatwoot from flagging a change.
   def record_live_tools(live_definitions)
