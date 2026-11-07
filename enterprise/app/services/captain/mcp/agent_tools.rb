@@ -20,10 +20,7 @@ class Captain::Mcp::AgentTools
       parameters schema
       define_method(:name) { tool_name }
     end
-    # Class#name must not be nil, or the LLM request gets an empty function name
-    class_name = tool_name.gsub(/[^a-zA-Z0-9]/, '_').camelize
-    Generated.send(:remove_const, class_name) if Generated.const_defined?(class_name, false)
-    Generated.const_set(class_name, tool_class)
+    Captain::Tools::BasePublicTool.register_generated(Generated, tool_name.gsub(/[^a-zA-Z0-9]/, '_').camelize, tool_class)
 
     tool_class.new(assistant, mcp_tool, connection)
   end
