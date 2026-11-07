@@ -70,7 +70,7 @@ func (h *Handler) renderKnowledge(w http.ResponseWriter, r *http.Request, status
 			data.Stale += d.StaleChunks
 		}
 	}
-	h.renderPage(w, status, "knowledge.html", data)
+	h.renderPage(w, r, status, "knowledge.html", data)
 }
 
 func toDocView(d knowledge.Document) docView {

@@ -10,13 +10,21 @@
     --ok-bg: #e8f5ec; --ok-text: #14532d; --warn-bg: #fff4d6; --warn-text: #6b4a00; --err-bg: #fdecec; --err-text: #8a1c1c;
     --focus: #1f6feb; --radius: 10px;
   }
+  :root[data-theme="light"] { color-scheme: light; }
   @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not([data-theme="light"]) {
       --bg: #0f1318; --card: #171c23; --text: #e6e9ee; --muted: #9aa4b2;
       --border: #2a313b; --accent: #4c8dff; --accent-text: #0b1220;
       --ok-bg: #12301f; --ok-text: #b6f0c8; --warn-bg: #33270a; --warn-text: #ffe2a3; --err-bg: #3a1616; --err-text: #ffc9c9;
       --focus: #7aa9ff;
     }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+      --bg: #0f1318; --card: #171c23; --text: #e6e9ee; --muted: #9aa4b2;
+      --border: #2a313b; --accent: #4c8dff; --accent-text: #0b1220;
+      --ok-bg: #12301f; --ok-text: #b6f0c8; --warn-bg: #33270a; --warn-text: #ffe2a3; --err-bg: #3a1616; --err-text: #ffc9c9;
+      --focus: #7aa9ff;
   }
   * { box-sizing: border-box; }
   body {
@@ -123,6 +131,13 @@
     .actions { justify-content: stretch; }
     .actions button, .row button, .row a.btn { width: 100%; justify-content: center; }
   }
+  /* Theme switch: a small segmented control under the menu */
+  form.theme { margin: 24px 12px 0; }
+  .theme-label { display: block; color: var(--muted); font-size: .8rem; font-weight: 600; margin-bottom: 6px; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .seg button { border: 0; border-radius: 0; min-height: 36px; padding: 6px 10px; font-size: .85rem; background: var(--card); color: var(--muted); }
+  .seg button + button { border-left: 1px solid var(--border); }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); }
   /* Home checklist and test chat */
   .nav-settings { margin-top: 16px; border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; }
   .status { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: var(--radius); margin: 0 0 16px; font-weight: 600; }
@@ -156,7 +171,14 @@
   details[open] summary::before { transform: rotate(90deg); }
   @media (prefers-reduced-motion: reduce) { details summary::before { transition: none; } }
   @media (max-width: 1100px) { .test-grid { grid-template-columns: 1fr; } }
-  @media (max-width: 860px) { .nav-settings { margin-top: 0; border-top: 0; } }
+  @media (max-width: 860px) {
+    .nav-settings { margin-top: 0; border-top: 0; }
+    .sidebar { display: flex; align-items: center; gap: 8px; }
+    .sidebar nav { flex: 1; min-width: 0; }
+    form.theme { margin: 0; flex: none; }
+    .theme-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .seg button { padding: 6px 8px; min-height: 32px; font-size: .8rem; }
+  }
   @media (max-width: 480px) { ol.steps li { grid-template-columns: 32px minmax(0, 1fr); } ol.steps li > a.btn { grid-column: 2; justify-self: start; } .bubble { max-width: 92%; } }
 </style>
 {{end}}
@@ -171,5 +193,14 @@
     <a href="/admin/knowledge"{{if eq . "knowledge"}} aria-current="page"{{end}}>Knowledge base</a>
     <a class="nav-settings" href="/admin/providers"{{if eq . "providers"}} aria-current="page"{{end}}>AI providers</a>
   </nav>
+  <form class="theme" method="post" action="/admin/theme" aria-label="Colour theme">
+    <input type="hidden" name="back" value="{{if eq . "home"}}/admin{{else}}/admin/{{.}}{{end}}">
+    <span class="theme-label">Theme</span>
+    <span class="seg">
+      <button name="theme" value="auto"{{if eq theme ""}} aria-pressed="true"{{else}} aria-pressed="false"{{end}} title="Follow this device">Auto</button>
+      <button name="theme" value="light" aria-pressed="{{if eq theme "light"}}true{{else}}false{{end}}">Light</button>
+      <button name="theme" value="dark" aria-pressed="{{if eq theme "dark"}}true{{else}}false{{end}}">Dark</button>
+    </span>
+  </form>
 </aside>
 {{end}}

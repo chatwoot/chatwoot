@@ -50,7 +50,7 @@ var reasonText = map[string]string{
 
 func (h *Handler) showTest(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
-	h.renderPage(w, http.StatusOK, "test.html", testData{
+	h.renderPage(w, r, http.StatusOK, "test.html", testData{
 		AccountID: accountParam(q.Get("account")), Inbox: q.Get("inbox"),
 		Enabled: h.Tester != nil, Knowledge: h.Knowledge != nil,
 	})
@@ -69,7 +69,7 @@ func (h *Handler) submitTest(w http.ResponseWriter, r *http.Request) {
 	d := testData{AccountID: acct, Inbox: r.PostForm.Get("inbox"), Enabled: h.Tester != nil, Knowledge: h.Knowledge != nil}
 	d.Turns = historyFromForm(r.PostForm["role"], r.PostForm["text"])
 	if !d.Enabled {
-		h.renderPage(w, http.StatusServiceUnavailable, "test.html", d)
+		h.renderPage(w, r, http.StatusServiceUnavailable, "test.html", d)
 		return
 	}
 	inbox, err := inboxParam(d.Inbox)
@@ -81,7 +81,7 @@ func (h *Handler) submitTest(w http.ResponseWriter, r *http.Request) {
 		d.Error = "Type a message to send."
 	}
 	if d.Error != "" {
-		h.renderPage(w, http.StatusUnprocessableEntity, "test.html", d)
+		h.renderPage(w, r, http.StatusUnprocessableEntity, "test.html", d)
 		return
 	}
 
@@ -102,7 +102,7 @@ func (h *Handler) submitTest(w http.ResponseWriter, r *http.Request) {
 	if p.Err != nil {
 		h.Logger.Warn("admin test reply failed", "account_id", acct, "error", p.Err)
 	}
-	h.renderPage(w, http.StatusOK, "test.html", d)
+	h.renderPage(w, r, http.StatusOK, "test.html", d)
 }
 
 // historyFromForm pairs role and text fields, keeping only well-formed turns.

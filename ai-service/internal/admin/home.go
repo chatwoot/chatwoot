@@ -72,5 +72,5 @@ func (h *Handler) showHome(w http.ResponseWriter, r *http.Request) {
 			d.Left++
 		}
 	}
-	h.renderPage(w, http.StatusOK, "home.html", d)
+	h.renderPage(w, r, http.StatusOK, "home.html", d)
 }
