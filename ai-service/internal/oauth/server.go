@@ -1,6 +1,7 @@
 package oauth
 
 import (
+	"context"
 	"crypto/sha256"
 	"crypto/subtle"
 	"embed"
@@ -16,9 +17,15 @@ import (
 	"time"
 	"unicode"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/ratelimit"
 )
+
+// Identifier verifies the Cloudflare Access token (cfaccess.Verifier).
+type Identifier interface {
+	Verify(ctx context.Context, token string) (cfaccess.Identity, error)
+}
 
 // Scopes.
 const (
@@ -52,9 +59,13 @@ type Server struct {
 	// Resource is the MCP endpoint URL, e.g. https://ai-mcp.example.com/mcp.
 	// The issuer is its origin.
 	Resource string
-	Password string // the admin password approves each app
+	Password string // the admin password approves each app (without Access)
 	Store    Store
-	Logger   *slog.Logger
+	// Access, when set, identifies the person through Cloudflare Access
+	// instead of the admin password; only team members can approve, and
+	// only for their accounts and access.
+	Access Identifier
+	Logger *slog.Logger
 
 	// login counts password attempts only, so other endpoints cannot fill
 	// its table; other counts registrations and token calls. failedDay caps
@@ -270,6 +281,8 @@ type pageData struct {
 	Error      string
 	Account    string
 	Write      bool
+	Email      string   // signed in through Access
+	Accounts   []Member // the person's accounts (Access mode)
 }
 
 func (d *pageData) setReturn() {
@@ -296,6 +309,41 @@ func (s *Server) render(w http.ResponseWriter, status int, d pageData) {
 	}
 }
 
+// identify returns the Access-verified person and their accounts, or an
+// error message for the page. Without Access it returns no email.
+func (s *Server) identify(r *http.Request, d *pageData) bool {
+	if s.Access == nil {
+		return true
+	}
+	id, err := s.Access.Verify(r.Context(), r.Header.Get(cfaccess.Header))
+	if err != nil {
+		s.Logger.Warn("oauth approval without a valid Cloudflare Access sign-in", "client_ip", ratelimit.ClientIP(r))
+		d.Error, d.Valid = "Sign in through Cloudflare Access first: open this page from the app again.", false
+		return false
+	}
+	members, err := s.Store.Memberships(r.Context(), id.Email)
+	if err != nil {
+		s.Logger.Error("oauth team lookup failed", "error", err)
+		d.Error, d.Valid = "Something went wrong. Try again.", false
+		return false
+	}
+	d.Email, d.Accounts = id.Email, members
+	if !d.Trusted {
+		// Team members can only connect Claude, ChatGPT or an app on their own
+		// computer; other return addresses could be phishing.
+		d.Error, d.Valid = d.ReturnHost+" is not Claude, ChatGPT or an app on this computer, so team members cannot approve it.", false
+		return false
+	}
+	if len(members) == 0 {
+		d.Error, d.Valid = id.Email+" is not on the team. Ask the owner to add you on the admin page (Connect AI tools).", false
+		return false
+	}
+	if d.Account == "" && len(members) == 1 {
+		d.Account = strconv.FormatInt(members[0].AccountID, 10)
+	}
+	return true
+}
+
 func (s *Server) authorizePage(w http.ResponseWriter, r *http.Request) {
 	if !s.other.Allow("authorize:"+ratelimit.ClientIP(r), 60) {
 		http.Error(w, "too many requests; wait a minute", http.StatusTooManyRequests)
@@ -307,6 +355,8 @@ func (s *Server) authorizePage(w http.ResponseWriter, r *http.Request) {
 	status := http.StatusOK
 	if problem != "" {
 		status = http.StatusBadRequest
+	} else if !s.identify(r, &d) {
+		status = http.StatusForbidden
 	}
 	s.render(w, status, d)
 }
@@ -337,44 +387,84 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, redirect.String(), http.StatusSeeOther)
 		return
 	}
-	if !s.login.Allow("login:"+ratelimit.ClientIP(r), 5) || !s.login.Allow("login", 20) ||
-		s.failedDay.Reached("failed:"+ratelimit.ClientIP(r), maxFailedPerDay) || s.failedAll.Reached("all", maxFailedAllPerDay) {
-		d.Error = "Too many attempts. Wait a minute and try again."
-		s.render(w, http.StatusTooManyRequests, d)
-		return
-	}
-	want := sha256.Sum256([]byte(s.Password))
-	got := sha256.Sum256([]byte(f.Get("password")))
-	if s.Password == "" || subtle.ConstantTimeCompare(want[:], got[:]) != 1 {
-		s.Logger.Warn("oauth approval: wrong password", "client_id", a.Client.ID, "client_ip", ratelimit.ClientIP(r))
-		if !s.failedDay.Allow("failed:"+ratelimit.ClientIP(r), maxFailedPerDay) {
-			s.Logger.Error("oauth approvals locked for one address: too many wrong passwords today", "client_ip", ratelimit.ClientIP(r))
+	var approver string
+	var acct int64
+	if s.Access != nil {
+		if !s.login.Allow("login:"+ratelimit.ClientIP(r), 20) {
+			d.Error = "Too many attempts. Wait a minute and try again."
+			s.render(w, http.StatusTooManyRequests, d)
+			return
 		}
-		if !s.failedAll.Allow("all", maxFailedAllPerDay) {
-			s.Logger.Error("oauth approvals locked for everyone today: too many wrong passwords from many addresses")
+		if !s.identify(r, &d) {
+			s.render(w, http.StatusForbidden, d)
+			return
 		}
-		d.Error = "Wrong password."
-		s.render(w, http.StatusUnauthorized, d)
-		return
-	}
-	acct, err := strconv.ParseInt(strings.TrimSpace(d.Account), 10, 64)
-	if err != nil || acct < 1 {
-		d.Error = "Account must be a positive number."
-		s.render(w, http.StatusUnprocessableEntity, d)
-		return
+		m, ok := memberFor(d.Accounts, d.Account)
+		if !ok {
+			d.Error = "Choose one of your accounts."
+			s.render(w, http.StatusUnprocessableEntity, d)
+			return
+		}
+		if d.Write && !m.CanWrite {
+			d.Error = "You have read-only access to this account. Choose Read only, or ask the owner for write access."
+			s.render(w, http.StatusForbidden, d)
+			return
+		}
+		approver, acct = d.Email, m.AccountID
+	} else {
+		if !s.login.Allow("login:"+ratelimit.ClientIP(r), 5) || !s.login.Allow("login", 20) ||
+			s.failedDay.Reached("failed:"+ratelimit.ClientIP(r), maxFailedPerDay) || s.failedAll.Reached("all", maxFailedAllPerDay) {
+			d.Error = "Too many attempts. Wait a minute and try again."
+			s.render(w, http.StatusTooManyRequests, d)
+			return
+		}
+		want := sha256.Sum256([]byte(s.Password))
+		got := sha256.Sum256([]byte(f.Get("password")))
+		if s.Password == "" || subtle.ConstantTimeCompare(want[:], got[:]) != 1 {
+			s.Logger.Warn("oauth approval: wrong password", "client_id", a.Client.ID, "client_ip", ratelimit.ClientIP(r))
+			if !s.failedDay.Allow("failed:"+ratelimit.ClientIP(r), maxFailedPerDay) {
+				s.Logger.Error("oauth approvals locked for one address: too many wrong passwords today", "client_ip", ratelimit.ClientIP(r))
+			}
+			if !s.failedAll.Allow("all", maxFailedAllPerDay) {
+				s.Logger.Error("oauth approvals locked for everyone today: too many wrong passwords from many addresses")
+			}
+			d.Error = "Wrong password."
+			s.render(w, http.StatusUnauthorized, d)
+			return
+		}
+		n, err := strconv.ParseInt(strings.TrimSpace(d.Account), 10, 64)
+		if err != nil || n < 1 {
+			d.Error = "Account must be a positive number."
+			s.render(w, http.StatusUnprocessableEntity, d)
+			return
+		}
+		acct = n
 	}
 	code := random(32)
 	if err := s.Store.SaveCode(r.Context(), Code{Hash: mcp.HashToken(code), ClientID: a.Client.ID, RedirectURI: a.RedirectURI,
-		Challenge: a.Challenge, Resource: s.Resource, AccountID: acct, CanWrite: d.Write, ExpiresAt: time.Now().Add(codeTTL)}); err != nil {
+		Challenge: a.Challenge, Resource: s.Resource, AccountID: acct, CanWrite: d.Write, ExpiresAt: time.Now().Add(codeTTL), ApprovedBy: approver}); err != nil {
 		s.Logger.Error("oauth save code failed", "error", err)
 		d.Error = "Something went wrong. Try again."
 		s.render(w, http.StatusInternalServerError, d)
 		return
 	}
-	s.Logger.Info("oauth app approved", "client_id", a.Client.ID, "account_id", acct, "can_write", d.Write, "client_ip", ratelimit.ClientIP(r))
+	s.Logger.Info("oauth app approved", "client_id", a.Client.ID, "account_id", acct, "can_write", d.Write, "by_team_member", approver != "", "client_ip", ratelimit.ClientIP(r))
 	q.Set("code", code)
 	redirect.RawQuery = q.Encode()
 	http.Redirect(w, r, redirect.String(), http.StatusSeeOther)
+}
+
+func memberFor(ms []Member, account string) (Member, bool) {
+	n, err := strconv.ParseInt(strings.TrimSpace(account), 10, 64)
+	if err != nil {
+		return Member{}, false
+	}
+	for _, m := range ms {
+		if m.AccountID == n {
+			return m, true
+		}
+	}
+	return Member{}, false
 }
 
 func pkceOK(verifier, challenge string) bool {
@@ -421,7 +511,7 @@ func (s *Server) token(w http.ResponseWriter, r *http.Request) {
 		}
 		refresh = random(32)
 		g = Grant{AccountID: c.AccountID, ClientID: clientID, ClientName: client.Name, CanWrite: c.CanWrite,
-			RefreshExpiresAt: time.Now().Add(refreshTTL)}
+			RefreshExpiresAt: time.Now().Add(refreshTTL), ApprovedBy: c.ApprovedBy}
 		if g, access, err = s.Store.CreateGrant(r.Context(), g, codeHash, mcp.HashToken(refresh), accessTTL); err != nil {
 			s.Logger.Error("oauth create grant failed", "error", err)
 			oauthError(w, http.StatusInternalServerError, "server_error", "try again later")

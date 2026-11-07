@@ -68,6 +68,8 @@ type Handler struct {
 	Tokens mcp.Tokens
 	// Apps lists and revokes AI apps connected with OAuth; nil hides them.
 	Apps oauth.Store
+	// TeamSignIn: apps are approved by team members through Cloudflare Access.
+	TeamSignIn bool
 	// MCPURL is the public MCP address shown in setup steps; empty derives it from the request.
 	MCPURL string
 	// Location is the business time zone for knowledge dates; nil is UTC.

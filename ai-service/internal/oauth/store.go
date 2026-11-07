@@ -12,6 +12,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -31,6 +32,7 @@ type Code struct {
 	AccountID                                        int64
 	CanWrite                                         bool
 	ExpiresAt                                        time.Time
+	ApprovedBy                                       string
 }
 
 // Grant is one app's approved access to one account.
@@ -40,6 +42,7 @@ type Grant struct {
 	ClientID         string
 	ClientName       string
 	CanWrite         bool
+	ApprovedBy       string // email when approved through Cloudflare Access
 	RefreshExpiresAt time.Time
 	CreatedAt        time.Time
 	LastUsedAt       time.Time
@@ -68,6 +71,21 @@ type Store interface {
 	RevokeByRefresh(ctx context.Context, hash, clientID string) error
 	Grants(ctx context.Context, accountID int64) ([]Grant, error)
 	RevokeGrant(ctx context.Context, accountID, id int64) error
+
+	// Team: who may approve apps for which account.
+	Memberships(ctx context.Context, email string) ([]Member, error)
+	Team(ctx context.Context, accountID int64) ([]Member, error)
+	AddMember(ctx context.Context, m Member) error
+	// RemoveMember also disconnects every app the person approved for that account.
+	RemoveMember(ctx context.Context, email string, accountID int64) error
+}
+
+// Member is one person's access to one account.
+type Member struct {
+	Email     string
+	AccountID int64
+	CanWrite  bool
+	CreatedAt time.Time
 }
 
 // random returns n random bytes in unpadded base64url.
@@ -110,8 +128,12 @@ func (p *Postgres) Client(ctx context.Context, id string) (Client, error) {
 // SaveCode implements Store (and clears codes expired over a day ago).
 func (p *Postgres) SaveCode(ctx context.Context, c Code) error {
 	_, _ = p.Pool.Exec(ctx, `DELETE FROM oauth_codes WHERE expires_at < now() - interval '1 day'`)
-	_, err := p.Pool.Exec(ctx, `INSERT INTO oauth_codes (code_hash, client_id, redirect_uri, code_challenge, account_id, can_write, resource, expires_at)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`, c.Hash, c.ClientID, c.RedirectURI, c.Challenge, c.AccountID, c.CanWrite, c.Resource, c.ExpiresAt)
+	var approver any
+	if c.ApprovedBy != "" {
+		approver = c.ApprovedBy
+	}
+	_, err := p.Pool.Exec(ctx, `INSERT INTO oauth_codes (code_hash, client_id, redirect_uri, code_challenge, account_id, can_write, resource, expires_at, approved_by)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`, c.Hash, c.ClientID, c.RedirectURI, c.Challenge, c.AccountID, c.CanWrite, c.Resource, c.ExpiresAt, approver)
 	return err
 }
 
@@ -122,8 +144,8 @@ func (p *Postgres) TakeCode(ctx context.Context, hash string) (Code, error) {
 	c := Code{Hash: hash}
 	err := p.Pool.QueryRow(ctx, `UPDATE oauth_codes SET used_at = now()
 		WHERE code_hash = $1 AND used_at IS NULL AND expires_at > now()
-		RETURNING client_id, redirect_uri, code_challenge, account_id, can_write, resource, expires_at`, hash).
-		Scan(&c.ClientID, &c.RedirectURI, &c.Challenge, &c.AccountID, &c.CanWrite, &c.Resource, &c.ExpiresAt)
+		RETURNING client_id, redirect_uri, code_challenge, account_id, can_write, resource, expires_at, COALESCE(approved_by, '')`, hash).
+		Scan(&c.ClientID, &c.RedirectURI, &c.Challenge, &c.AccountID, &c.CanWrite, &c.Resource, &c.ExpiresAt, &c.ApprovedBy)
 	if err == nil {
 		return c, nil
 	}
@@ -162,8 +184,24 @@ func (p *Postgres) CreateGrant(ctx context.Context, g Grant, codeHash, refreshHa
 		AND (revoked_at < now() - interval '30 days' OR refresh_expires_at < now() - interval '30 days')`, g.AccountID); err != nil {
 		return Grant{}, "", err
 	}
-	if err := tx.QueryRow(ctx, `INSERT INTO oauth_grants (account_id, client_id, client_name, can_write, refresh_hash, refresh_expires_at)
-		VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, created_at`, g.AccountID, g.ClientID, g.ClientName, g.CanWrite, refreshHash, g.RefreshExpiresAt).
+	var approver any
+	if g.ApprovedBy != "" {
+		approver = g.ApprovedBy
+		// Re-check team membership in this transaction: someone removed (or
+		// limited to read-only) after approving gets nothing. FOR SHARE makes
+		// a concurrent removal wait, and then its revoke sees this grant.
+		var canWrite bool
+		err := tx.QueryRow(ctx, `SELECT can_write FROM team_members WHERE email = $1 AND account_id = $2 FOR SHARE`,
+			g.ApprovedBy, g.AccountID).Scan(&canWrite)
+		if errors.Is(err, pgx.ErrNoRows) || (err == nil && g.CanWrite && !canWrite) {
+			return Grant{}, "", ErrNotFound
+		}
+		if err != nil {
+			return Grant{}, "", err
+		}
+	}
+	if err := tx.QueryRow(ctx, `INSERT INTO oauth_grants (account_id, client_id, client_name, can_write, refresh_hash, refresh_expires_at, approved_by)
+		VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, created_at`, g.AccountID, g.ClientID, g.ClientName, g.CanWrite, refreshHash, g.RefreshExpiresAt, approver).
 		Scan(&g.ID, &g.CreatedAt); err != nil {
 		return Grant{}, "", err
 	}
@@ -180,12 +218,12 @@ func (p *Postgres) CreateGrant(ctx context.Context, g Grant, codeHash, refreshHa
 	return g, access, tx.Commit(ctx)
 }
 
-const grantColumns = `id, account_id, client_id, client_name, can_write, refresh_expires_at, created_at, last_used_at, revoked_at`
+const grantColumns = `id, account_id, client_id, client_name, can_write, refresh_expires_at, created_at, last_used_at, revoked_at, COALESCE(approved_by, '')`
 
 func scanGrant(row pgx.Row) (Grant, error) {
 	var g Grant
 	var used, revoked *time.Time
-	err := row.Scan(&g.ID, &g.AccountID, &g.ClientID, &g.ClientName, &g.CanWrite, &g.RefreshExpiresAt, &g.CreatedAt, &used, &revoked)
+	err := row.Scan(&g.ID, &g.AccountID, &g.ClientID, &g.ClientName, &g.CanWrite, &g.RefreshExpiresAt, &g.CreatedAt, &used, &revoked, &g.ApprovedBy)
 	if used != nil {
 		g.LastUsedAt = *used
 	}
@@ -302,4 +340,107 @@ func (p *Postgres) Grants(ctx context.Context, accountID int64) ([]Grant, error)
 // RevokeGrant implements Store; its access tokens stop working at once.
 func (p *Postgres) RevokeGrant(ctx context.Context, accountID, id int64) error {
 	return p.revokeWhere(ctx, `id = $1 AND account_id = $2`, id, accountID)
+}
+
+// Memberships implements Store.
+func (p *Postgres) Memberships(ctx context.Context, email string) ([]Member, error) {
+	e, ok := cfaccess.NormalizeEmail(email)
+	if !ok {
+		return nil, nil
+	}
+	return p.members(ctx, `WHERE email = $1 ORDER BY account_id`, e)
+}
+
+// Team implements Store.
+func (p *Postgres) Team(ctx context.Context, accountID int64) ([]Member, error) {
+	return p.members(ctx, `WHERE account_id = $1 ORDER BY email`, accountID)
+}
+
+func (p *Postgres) members(ctx context.Context, where string, arg any) ([]Member, error) {
+	rows, err := p.Pool.Query(ctx, `SELECT email, account_id, can_write, created_at FROM team_members `+where+` LIMIT 500`, arg)
+	if err != nil {
+		return nil, err
+	}
+	return pgx.CollectRows(rows, func(r pgx.CollectableRow) (Member, error) {
+		var m Member
+		err := r.Scan(&m.Email, &m.AccountID, &m.CanWrite, &m.CreatedAt)
+		return m, err
+	})
+}
+
+// AddMember implements Store: adds the person or changes their access.
+// Lowering someone to read-only disconnects their read-write apps for the
+// account (they can reconnect read-only).
+func (p *Postgres) AddMember(ctx context.Context, m Member) error {
+	email, ok := cfaccess.NormalizeEmail(m.Email)
+	if !ok {
+		return errors.New("email must be a plain ASCII address")
+	}
+	tx, err := p.Pool.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx) //nolint:errcheck
+	if _, err := tx.Exec(ctx, `INSERT INTO team_members (email, account_id, can_write) VALUES ($1, $2, $3)
+		ON CONFLICT (email, account_id) DO UPDATE SET can_write = EXCLUDED.can_write`, email, m.AccountID, m.CanWrite); err != nil {
+		return err
+	}
+	if !m.CanWrite {
+		if err := revokeApproved(ctx, tx, email, m.AccountID, true); err != nil {
+			return err
+		}
+	}
+	return tx.Commit(ctx)
+}
+
+// revokeApproved revokes the grants a person approved for an account (only
+// the write ones when writeOnly), their access tokens, and their unused codes.
+func revokeApproved(ctx context.Context, tx pgx.Tx, email string, accountID int64, writeOnly bool) error {
+	cond := ""
+	if writeOnly {
+		cond = " AND can_write"
+	}
+	if _, err := tx.Exec(ctx, `UPDATE oauth_codes SET used_at = now()
+		WHERE approved_by = $1 AND account_id = $2 AND used_at IS NULL`+cond, email, accountID); err != nil {
+		return err
+	}
+	rows, err := tx.Query(ctx, `UPDATE oauth_grants SET revoked_at = now()
+		WHERE approved_by = $1 AND account_id = $2 AND revoked_at IS NULL`+cond+` RETURNING id`, email, accountID)
+	if err != nil {
+		return err
+	}
+	ids, err := pgx.CollectRows(rows, pgx.RowTo[int64])
+	if err != nil {
+		return err
+	}
+	for _, id := range ids {
+		if err := revokeTokens(ctx, tx, id); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// RemoveMember implements Store.
+func (p *Postgres) RemoveMember(ctx context.Context, email string, accountID int64) error {
+	email, ok := cfaccess.NormalizeEmail(email)
+	if !ok {
+		return ErrNotFound
+	}
+	tx, err := p.Pool.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx) //nolint:errcheck
+	tag, err := tx.Exec(ctx, `DELETE FROM team_members WHERE email = $1 AND account_id = $2`, email, accountID)
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() == 0 {
+		return ErrNotFound
+	}
+	if err := revokeApproved(ctx, tx, email, accountID, false); err != nil {
+		return err
+	}
+	return tx.Commit(ctx)
 }

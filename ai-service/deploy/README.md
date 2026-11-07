@@ -73,6 +73,12 @@ Without Claude Code, follow the steps by hand.
 Rollback: revert the PR, merge, deploy again. Rolling back code does not roll
 back a schema change.
 
+- Below schema v7 code (or while old and new replicas overlap), an app approved
+  by a team member can become a grant with no approver, which removing that
+  member does not disconnect. After such a rollback, check
+  `SELECT id, client_name, created_at FROM oauth_grants WHERE approved_by IS NULL
+  AND created_at > '<rollback time>'` and disconnect unexpected ones on
+  Connect AI tools.
 - Below schema v4 code, expired and scheduled knowledge comes back: older code
   ignores `valid_from`/`valid_until`. Before such a rollback, delete or edit
   dated documents whose window is closed, or accept that the bot may quote
