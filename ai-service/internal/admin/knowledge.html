@@ -172,7 +172,7 @@
       <tbody>
       {{range .Pages}}
         <tr>
-          <td><strong>{{if .Title}}{{.Title}}{{else}}{{.URL}}{{end}}</strong>{{if .Feed}} <span class="badge">Data file</span>{{end}}<div class="preview">{{.URL}}</div></td>
+          <td class="src"><strong>{{if .Title}}{{.Title}}{{else}}{{.URL}}{{end}}</strong>{{if .Feed}} <span class="badge">Data file</span>{{end}}<div class="preview">{{.URL}}</div></td>
           <td data-label="Status"><span class="badge {{if eq .Status "ok"}}active{{else if eq .Status "new"}}scheduled{{else}}expired{{end}}">{{.Label}}</span>{{with .Detail}}<div class="preview">{{.}}</div>{{end}}</td>
           <td class="num" data-label="Last checked">{{.Checked}}</td>
           <td data-label="Check">

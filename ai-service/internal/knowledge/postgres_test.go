@@ -733,3 +733,26 @@ func TestPostgres_ListByKeyPrefixStaysInAccountAndFeed(t *testing.T) {
 		t.Errorf("got=%+v pct=%d err=%v %v", got, len(pct), err, err2)
 	}
 }
+
+func TestPostgres_V11ConstraintsAndOldBinaryInsert(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+
+	// Act: the v10 binary inserts without kind or item_count.
+	var kind string
+	var items int
+	oldErr := db.Pool.QueryRow(ctx, `INSERT INTO web_sources (account_id, url) VALUES (1, 'https://example.com/a')
+		RETURNING kind, item_count`).Scan(&kind, &items)
+	_, badKind := db.Pool.Exec(ctx, "INSERT INTO web_sources (account_id, url, kind) VALUES (1, 'https://example.com/b', 'rss')")
+	_, negative := db.Pool.Exec(ctx, "INSERT INTO web_sources (account_id, url, item_count) VALUES (1, 'https://example.com/c', -1)")
+	_, huge := db.Pool.Exec(ctx, "INSERT INTO web_sources (account_id, url, item_count) VALUES (1, 'https://example.com/d', 100001)")
+
+	// Assert
+	if oldErr != nil || kind != "page" || items != 0 {
+		t.Errorf("old insert: err=%v kind=%q items=%d, want page and 0", oldErr, kind, items)
+	}
+	if badKind == nil || negative == nil || huge == nil {
+		t.Errorf("constraints: kind=%v negative=%v huge=%v, want all refused", badKind, negative, huge)
+	}
+}

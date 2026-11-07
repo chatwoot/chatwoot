@@ -400,9 +400,12 @@ const MaxPrefixList = 2000
 
 // ListByKeyPrefix implements Store.
 func (p *Postgres) ListByKeyPrefix(ctx context.Context, accountID int64, prefix string) ([]Document, error) {
+	// left() is an exact check (no LIKE wildcards); the account index narrows
+	// the scan. A range on source_key is not used: under the database's
+	// collation no character reliably sorts last.
 	rows, err := p.Pool.Query(ctx, `SELECT `+docColumns+` FROM kb_documents d
 		WHERE d.account_id = $1 AND d.source_key IS NOT NULL AND left(d.source_key, char_length($2)) = $2
-		ORDER BY d.id LIMIT `+strconv.Itoa(MaxPrefixList), accountID, prefix)
+		ORDER BY d.id LIMIT `+strconv.Itoa(MaxPrefixList+1), accountID, prefix)
 	if err != nil {
 		return nil, err
 	}
@@ -414,6 +417,9 @@ func (p *Postgres) ListByKeyPrefix(ctx context.Context, accountID int64, prefix 
 			return nil, err
 		}
 		out = append(out, d)
+	}
+	if len(out) > MaxPrefixList {
+		return nil, fmt.Errorf("more than %d documents start with this key", MaxPrefixList)
 	}
 	return out, rows.Err()
 }
