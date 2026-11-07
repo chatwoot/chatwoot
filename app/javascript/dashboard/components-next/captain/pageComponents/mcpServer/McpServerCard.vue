@@ -91,6 +91,12 @@ const handleAction = ({ action }) => {
       </div>
       <div class="flex items-center gap-2 shrink-0">
         <span
+          v-if="server.needs_review"
+          class="text-xs font-medium px-2 py-0.5 rounded-full bg-n-amber-3 text-n-amber-11"
+        >
+          {{ t('CAPTAIN.MCP_SERVERS.NEEDS_REVIEW') }}
+        </span>
+        <span
           v-if="server.last_error"
           v-tooltip.top="server.last_error"
           class="text-xs font-medium px-2 py-0.5 rounded-full bg-n-ruby-3 text-n-ruby-11"
