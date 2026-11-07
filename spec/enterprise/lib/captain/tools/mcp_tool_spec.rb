@@ -85,11 +85,11 @@ RSpec.describe Captain::Tools::McpTool do
       result = tool.perform(tool_context, email: 'typed@example.com', limit: '500')
 
       expect(connection).to have_received(:call).with('list_invoices', { email: 'typed@example.com', limit: '20' })
-      expect(result).to include(Captain::Tools::CopilotHttpTool::UNVERIFIED_VALUE_NOTE)
+      expect(result).to include(Captain::ParamSources::UNVERIFIED_VALUE_NOTE)
     end
 
     it 'adds no note when the email is the one the customer verified' do
-      expect(tool.perform(tool_context, email: 'Jane@Example.com')).not_to include(Captain::Tools::CopilotHttpTool::UNVERIFIED_VALUE_NOTE)
+      expect(tool.perform(tool_context, email: 'Jane@Example.com')).not_to include(Captain::ParamSources::UNVERIFIED_VALUE_NOTE)
     end
   end
 

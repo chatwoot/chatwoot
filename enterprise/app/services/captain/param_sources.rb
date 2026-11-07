@@ -8,6 +8,8 @@ module Captain::ParamSources
   UNVERIFIED = 'This tool needs a verified email, and this customer has not verified an email yet. ' \
                'Verify their email with a one-time code first, then call this tool again. ' \
                'If that is not possible, ask whether they want to talk to a support agent.'.freeze
+  # Added to a result when an admin or an agent passed a proven value the customer did not prove
+  UNVERIFIED_VALUE_NOTE = 'The email passed to this tool was not verified by the customer.'.freeze
 
   # The message tells the model why the value is missing and what to do next
   class Unavailable < StandardError; end

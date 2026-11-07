@@ -13,7 +13,7 @@ class Captain::Tools::CopilotMcpTool < Captain::Tools::McpTool
   end
 
   def annotate(result, tool_context, params)
-    tool_arguments(tool_context).verified?(params) ? result : "#{result}\n\n#{Captain::Tools::CopilotHttpTool::UNVERIFIED_VALUE_NOTE}"
+    tool_arguments(tool_context).verified?(params) ? result : "#{result}\n\n#{Captain::ParamSources::UNVERIFIED_VALUE_NOTE}"
   end
 
   # Each step builds its own copy, so a call looks up the conversation twice. The steps share no per-call value, and
