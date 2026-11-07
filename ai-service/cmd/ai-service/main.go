@@ -130,7 +130,7 @@ func run() error {
 		(&admin.Handler{
 			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
 			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
-			Knowledge: kb, Profiles: adminProfiles, Tester: b, Timeout: cfg.LLMTimeout, Logger: logger,
+			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout, Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")

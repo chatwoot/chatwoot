@@ -62,6 +62,8 @@ type Handler struct {
 	Knowledge *knowledge.Service
 	// Profiles enables the business profile page; nil when no database is set.
 	Profiles profile.Store
+	// Location is the business time zone for knowledge dates; nil is UTC.
+	Location *time.Location
 	// Tester runs the reply pipeline for the test page; nil turns that page off.
 	Tester Tester
 	// Probe sends a tiny test request to a chat provider. Nil uses a real call.

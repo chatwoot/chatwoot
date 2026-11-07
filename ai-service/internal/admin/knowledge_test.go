@@ -22,6 +22,8 @@ import (
 type memStore struct {
 	docs    []knowledge.Document
 	deleted []int64
+	hits    []knowledge.Hit
+	query   knowledge.Query
 }
 
 func (m *memStore) Insert(_ context.Context, d knowledge.Document, _ string, chunks []knowledge.Chunk) (int64, error) {
@@ -43,7 +45,29 @@ func (m *memStore) Delete(_ context.Context, acct, id int64) error {
 	m.deleted = append(m.deleted, id)
 	return nil
 }
-func (m *memStore) Search(context.Context, knowledge.Query) ([]knowledge.Hit, error) { return nil, nil }
+func (m *memStore) Search(_ context.Context, q knowledge.Query) ([]knowledge.Hit, error) {
+	m.query = q
+	return m.hits, nil
+}
+func (m *memStore) Get(_ context.Context, acct, id int64) (knowledge.Document, error) {
+	for _, d := range m.docs {
+		if d.ID == id && d.AccountID == acct {
+			return d, nil
+		}
+	}
+	return knowledge.Document{}, knowledge.ErrNotFound
+}
+func (m *memStore) Update(_ context.Context, d knowledge.Document, _ string, chunks []knowledge.Chunk) error {
+	for i, cur := range m.docs {
+		if cur.ID == d.ID && cur.AccountID == d.AccountID {
+			d.Chunks, d.UseCount = len(chunks), cur.UseCount
+			m.docs[i] = d
+			return nil
+		}
+	}
+	return knowledge.ErrNotFound
+}
+func (m *memStore) MarkUsed(context.Context, int64, []int64) error { return nil }
 
 type constEmbedder struct{ model string }
 
@@ -59,7 +83,8 @@ func knowledgeEnv(t *testing.T, withDB bool) (*http.ServeMux, *memStore) {
 		t.Fatal(err)
 	}
 	ms := &memStore{}
-	h := &Handler{Password: pw, Store: store, Switch: &llm.Switch{}, Timeout: time.Second,
+	bkk, _ := time.LoadLocation("Asia/Bangkok")
+	h := &Handler{Password: pw, Store: store, Switch: &llm.Switch{}, Timeout: time.Second, Location: bkk,
 		Logger: slog.New(slog.NewJSONHandler(io.Discard, nil))}
 	if withDB {
 		h.Knowledge = &knowledge.Service{Store: ms, Embedder: constEmbedder{"m1"}, TopK: 4, ChunkRunes: 800}
@@ -116,7 +141,7 @@ func TestDocView_PreviewDropsHeadingMarkers(t *testing.T) {
 	d := knowledge.Document{Kind: knowledge.KindText, Title: "D", Content: "# Delivery\n\n## Fees\nFree over 300 baht #1"}
 
 	// Act
-	v := toDocView(d)
+	v := (&Handler{}).toDocView(d, time.Now())
 
 	// Assert
 	if v.Preview != "Delivery Fees Free over 300 baht #1" {
