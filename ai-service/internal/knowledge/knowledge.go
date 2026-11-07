@@ -125,6 +125,9 @@ const DuplicateScore = 0.85
 // ErrNotFound means no document matched.
 var ErrNotFound = errors.New("document not found")
 
+// ErrKeyTaken means another document in the account already has this source key.
+var ErrKeyTaken = errors.New("source key already used in this account")
+
 // ErrChanged means the document was edited after it was read; the write was skipped.
 var ErrChanged = errors.New("document changed since it was read")
 
@@ -280,7 +283,13 @@ func (s *Service) Upsert(ctx context.Context, d Document) (before Document, id i
 	switch {
 	case errors.Is(err, ErrNotFound):
 		id, chunks, err = s.Add(ctx, d)
-		return Document{}, id, chunks, err
+		if !errors.Is(err, ErrKeyTaken) {
+			return Document{}, id, chunks, err
+		}
+		// Another writer created this key a moment ago: update theirs instead.
+		if cur, err = s.Store.GetByKey(ctx, d.AccountID, d.SourceKey); err != nil {
+			return Document{}, 0, 0, err
+		}
 	case err != nil:
 		return Document{}, 0, 0, err
 	}

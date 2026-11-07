@@ -32,11 +32,13 @@
     <p class="hint">It is shown only once. Anyone holding it can {{if .NewWrite}}change{{else}}read{{end}} account {{.AccountID}}'s knowledge, so keep it out of chats and screenshots. Lost it? Revoke it and create another.</p>
     <label for="tok">Token for “{{.NewName}}”</label>
     <input id="tok" class="mono" readonly value="{{.NewToken}}">
-    <h3 class="sub">Claude Code</h3>
-    <p class="hint">Run in a terminal:</p>
-    <pre class="code">claude mcp add --transport http ai-knowledge {{.URL}} --header "Authorization: Bearer {{.NewToken}}"</pre>
-    <h3 class="sub">Codex</h3>
-    <p class="hint">Add to <code>~/.codex/config.toml</code>, then set <code>AISVC_MCP_TOKEN</code> to the token in your shell profile:</p>
+    <h3 class="sub">1. Save the token on your computer</h3>
+    <p class="hint">Open <code>~/.zshrc</code> (Mac) in a text editor, add this line, save, and open a new terminal. Typing it into a terminal would leave it in the shell history.</p>
+    <pre class="code">export AISVC_MCP_TOKEN="{{.NewToken}}"</pre>
+    <h3 class="sub">2a. Claude Code</h3>
+    <pre class="code">claude mcp add --transport http ai-knowledge {{.URL}} --header "Authorization: Bearer ${AISVC_MCP_TOKEN}"</pre>
+    <h3 class="sub">2b. Codex</h3>
+    <p class="hint">Add to <code>~/.codex/config.toml</code>:</p>
     <pre class="code">[mcp_servers.ai_knowledge]
 url = "{{.URL}}"
 bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
@@ -49,7 +51,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
       <h2 id="list-h" style="font-size:1.125rem;margin:0 0 8px">Access tokens for account {{.AccountID}}</h2>
       {{if .Tokens}}
       <table>
-        <thead><tr><th scope="col">Name</th><th scope="col">Access</th><th scope="col">Created</th><th scope="col">Last used</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+        <thead><tr><th scope="col">Name</th><th scope="col">Access</th><th scope="col">Created</th><th scope="col">Last used</th><th scope="col">Expires</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
         <tbody>
         {{range .Tokens}}
           <tr>
@@ -57,6 +59,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
             <td data-label="Access">{{.Access}}</td>
             <td data-label="Created">{{.Created}}</td>
             <td data-label="Last used">{{.LastUsed}}</td>
+            <td data-label="Expires">{{.Expires}}{{if and .Expired (not .Revoked)}} <span class="badge expired">Expired</span>{{end}}</td>
             <td class="row-actions">{{if not .Revoked}}
               <form class="inline" method="post" action="/admin/connections">
                 <input type="hidden" name="action" value="revoke"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
@@ -91,6 +94,13 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
           <label class="check"><input type="radio" name="access" value="write">
             <span><strong>Read and write</strong><span class="field-hint">The AI can change what customers are told.</span></span></label>
         </fieldset>
+        <label for="expires">Expires after</label>
+        <select id="expires" name="expires">
+          <option value="30">30 days</option>
+          <option value="90" selected>90 days</option>
+          <option value="365">1 year</option>
+          <option value="never">Never</option>
+        </select>
         <button type="submit" class="primary save">Create token</button>
       </form>
     </aside>

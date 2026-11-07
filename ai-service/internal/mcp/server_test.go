@@ -9,6 +9,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
@@ -19,7 +20,7 @@ import (
 
 type memTokens struct{ byPlain map[string]Token }
 
-func (m *memTokens) Create(context.Context, int64, string, bool) (string, Token, error) {
+func (m *memTokens) Create(context.Context, int64, string, bool, time.Duration) (string, Token, error) {
 	return "", Token{}, nil
 }
 func (m *memTokens) Lookup(_ context.Context, plain string) (Token, error) {
@@ -120,10 +121,13 @@ func (f *tester) Preview(_ context.Context, acct, _ int64, h []memory.Turn) bot.
 
 // --- harness ---
 
-const (
-	rw    = "aisvc_mcp_rw"
-	ro    = "aisvc_mcp_ro"
-	other = "aisvc_mcp_other"
+// Well-formed fake tokens (prefix + 43 base64url characters).
+var (
+	rw      = TokenPrefix + strings.Repeat("a", 43)
+	ro      = TokenPrefix + strings.Repeat("b", 43)
+	other   = TokenPrefix + strings.Repeat("c", 43)
+	revoked = TokenPrefix + strings.Repeat("d", 43)
+	unknown = TokenPrefix + strings.Repeat("e", 43)
 )
 
 type env struct {
@@ -190,13 +194,14 @@ func TestServer_RejectsBadAccess(t *testing.T) {
 		want   int
 	}{
 		"no token":      {func(r *http.Request) { r.Header.Del("Authorization") }, http.StatusUnauthorized},
-		"wrong token":   {func(r *http.Request) { r.Header.Set("Authorization", "Bearer aisvc_mcp_nope") }, http.StatusUnauthorized},
+		"wrong token":   {func(r *http.Request) { r.Header.Set("Authorization", "Bearer "+unknown) }, http.StatusUnauthorized},
+		"malformed":     {func(r *http.Request) { r.Header.Set("Authorization", "Bearer aisvc_mcp_short") }, http.StatusUnauthorized},
 		"basic auth":    {func(r *http.Request) { r.SetBasicAuth("admin", rw) }, http.StatusUnauthorized},
 		"browser page":  {func(r *http.Request) { r.Header.Set("Origin", "https://evil.example") }, http.StatusForbidden},
 		"GET not POST":  {func(r *http.Request) { r.Method = http.MethodGet }, http.StatusMethodNotAllowed},
-		"revoked token": {func(r *http.Request) { r.Header.Set("Authorization", "Bearer aisvc_mcp_revoked") }, http.StatusUnauthorized},
+		"revoked token": {func(r *http.Request) { r.Header.Set("Authorization", "Bearer "+revoked) }, http.StatusUnauthorized},
 	}
-	e.srv.Tokens.(*memTokens).byPlain["aisvc_mcp_revoked"] = Token{ID: 9, AccountID: 1, CanWrite: true, RevokedAt: e.srv.now()}
+	e.srv.Tokens.(*memTokens).byPlain[revoked] = Token{ID: 9, AccountID: 1, CanWrite: true, RevokedAt: e.srv.now()}
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			// Arrange
@@ -408,5 +413,103 @@ func TestServer_NotificationGets202(t *testing.T) {
 	// Assert
 	if rec.Code != http.StatusAccepted {
 		t.Fatalf("code = %d", rec.Code)
+	}
+}
+
+type failingAudit struct{}
+
+func (failingAudit) Record(context.Context, AuditEntry) error { return context.DeadlineExceeded }
+
+func TestServer_NoAuditCopyNoChange(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	e.srv.Audit = failingAudit{}
+	e.st.docs = []knowledge.Document{{ID: 5, AccountID: 1, Kind: knowledge.KindFAQ, Title: "ราคา", Content: "3,900", SourceKey: "price"}}
+
+	// Act
+	upd := e.call(rw, "upsert_document", map[string]any{"key": "price", "title": "ราคา", "content": "1 บาท"})
+	del := e.call(rw, "delete_document", map[string]any{"key": "price"})
+
+	// Assert
+	if !isErr(upd) || !isErr(del) || len(e.st.docs) != 1 || e.st.docs[0].Content != "3,900" {
+		t.Fatalf("upd=%v del=%v docs=%+v", text(upd), text(del), e.st.docs)
+	}
+	if strings.Contains(text(upd), "deadline") {
+		t.Error("internal error details reached the client")
+	}
+}
+
+func TestServer_ReadOnlyTokenCannotDelete(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	e.st.docs = []knowledge.Document{{ID: 5, AccountID: 1, Kind: knowledge.KindFAQ, Title: "q", Content: "a", SourceKey: "k"}}
+
+	// Act
+	res := e.call(ro, "delete_document", map[string]any{"key": "k"})
+
+	// Assert
+	if !isErr(res) || len(e.st.docs) != 1 || len(e.audit.entries) != 0 {
+		t.Fatalf("res=%v docs=%d", text(res), len(e.st.docs))
+	}
+}
+
+func TestServer_TestBotLimitPerAccount(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	e.srv.TestPerMinute = 2
+
+	// Act
+	var errs int
+	for i := 0; i < 3; i++ {
+		if isErr(e.call(rw, "test_bot", map[string]any{"message": "hi"})) {
+			errs++
+		}
+	}
+	otherAcct := e.call(other, "test_bot", map[string]any{"message": "hi"})
+
+	// Assert
+	if errs != 1 || isErr(otherAcct) {
+		t.Fatalf("errors=%d otherAcct=%v", errs, text(otherAcct))
+	}
+}
+
+func TestServer_PerIPLimitBeforeTokenCheck(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	e.srv.PerIPMinute = 2
+
+	// Act
+	var codes []int
+	for i := 0; i < 3; i++ {
+		rec, _ := e.rpc(unknown, "ping", nil)
+		codes = append(codes, rec.Code)
+	}
+
+	// Assert
+	if codes[0] != http.StatusUnauthorized || codes[2] != http.StatusTooManyRequests {
+		t.Fatalf("codes = %v", codes)
+	}
+}
+
+func TestServer_TrailingDataAndBatchRejected(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	send := func(body string) map[string]any {
+		r := httptest.NewRequest(http.MethodPost, "/mcp", strings.NewReader(body))
+		r.Header.Set("Authorization", "Bearer "+rw)
+		rec := httptest.NewRecorder()
+		e.srv.ServeHTTP(rec, r)
+		var out map[string]any
+		_ = json.Unmarshal(rec.Body.Bytes(), &out)
+		return out
+	}
+
+	// Act
+	batch := send(`[{"jsonrpc":"2.0","id":1,"method":"ping"}]`)
+
+	// Assert
+	errObj, _ := batch["error"].(map[string]any)
+	if errObj == nil || errObj["code"].(float64) != codeInvalidRequest {
+		t.Fatalf("batch = %v", batch)
 	}
 }

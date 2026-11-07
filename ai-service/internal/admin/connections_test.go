@@ -15,11 +15,14 @@ import (
 
 type memTokens struct{ tokens []mcp.Token }
 
-func (m *memTokens) Create(_ context.Context, acct int64, name string, w bool) (string, mcp.Token, error) {
+func (m *memTokens) Create(_ context.Context, acct int64, name string, w bool, ttl time.Duration) (string, mcp.Token, error) {
 	if strings.TrimSpace(name) == "" {
 		return "", mcp.Token{}, errors.New("a token needs a name")
 	}
 	t := mcp.Token{ID: int64(len(m.tokens) + 1), AccountID: acct, Name: name, CanWrite: w, CreatedAt: time.Now()}
+	if ttl > 0 {
+		t.ExpiresAt = time.Now().Add(ttl)
+	}
 	m.tokens = append(m.tokens, t)
 	return mcp.TokenPrefix + "SECRET" + name, t, nil
 }
@@ -77,8 +80,8 @@ func TestConnections_CreateShowsTokenOnce(t *testing.T) {
 	if strings.Contains(later, "SECRET") || !strings.Contains(later, "Claude") || !strings.Contains(later, "Read only") {
 		t.Fatal("token shown again, or not listed as read-only")
 	}
-	if len(mt.tokens) != 1 || mt.tokens[0].CanWrite {
-		t.Fatalf("tokens = %+v, want one read-only token by default", mt.tokens)
+	if len(mt.tokens) != 1 || mt.tokens[0].CanWrite || mt.tokens[0].ExpiresAt.Before(time.Now().Add(89*24*time.Hour)) {
+		t.Fatalf("tokens = %+v, want one read-only token expiring in 90 days by default", mt.tokens)
 	}
 }
 

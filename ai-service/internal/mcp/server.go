@@ -6,7 +6,9 @@ import (
 	"errors"
 	"io"
 	"log/slog"
+	"net"
 	"net/http"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -38,11 +40,14 @@ type Server struct {
 	Version   string
 
 	// PerMinute caps calls per token (embedding and model calls cost money);
-	// 0 means 60.
-	PerMinute int
+	// 0 means 60. TestPerMinute caps test_bot per account (each runs the full
+	// reply pipeline); 0 means 10. PerIPMinute caps requests per client IP
+	// before any token check; 0 means 120.
+	PerMinute, TestPerMinute, PerIPMinute int
 
-	mu    sync.Mutex
-	usage map[int64]*window
+	mu       sync.Mutex
+	usage    map[string]*window
+	inFlight map[int64]int // test_bot calls running, per account
 }
 
 func (s *Server) now() time.Time { return time.Now() }
@@ -94,13 +99,23 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "browser requests are not allowed", http.StatusForbidden)
 		return
 	}
-	tok, err := s.authenticate(r)
-	if err != nil {
-		w.Header().Set("WWW-Authenticate", `Bearer realm="ai-service mcp"`)
-		http.Error(w, "missing, invalid or revoked token", http.StatusUnauthorized)
+	if !s.allow("ip:"+clientIP(r), s.PerIPMinute, 120) {
+		w.Header().Set("Retry-After", "60")
+		http.Error(w, "too many requests; wait a minute", http.StatusTooManyRequests)
 		return
 	}
-	if !s.allow(tok.ID) {
+	tok, err := s.authenticate(r)
+	if errors.Is(err, ErrUnavailable) {
+		s.Logger.Error("mcp token check failed", "error", err)
+		http.Error(w, "temporarily unavailable; try again", http.StatusServiceUnavailable)
+		return
+	}
+	if err != nil {
+		w.Header().Set("WWW-Authenticate", `Bearer realm="ai-service mcp"`)
+		http.Error(w, "missing, invalid, expired or revoked token", http.StatusUnauthorized)
+		return
+	}
+	if !s.allow("token:"+strconv.FormatInt(tok.ID, 10), s.PerMinute, 60) {
 		w.Header().Set("Retry-After", "60")
 		http.Error(w, "too many requests for this token; wait a minute", http.StatusTooManyRequests)
 		return
@@ -112,8 +127,8 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	var req rpcRequest
 	if err := json.Unmarshal(body, &req); err != nil || req.JSONRPC != "2.0" || req.Method == "" {
-		code, msg := codeInvalidRequest, "expected one JSON-RPC 2.0 request"
-		if err != nil {
+		code, msg := codeInvalidRequest, "expected one JSON-RPC 2.0 request (batches are not supported)"
+		if err != nil && !json.Valid(body) {
 			code, msg = codeParse, "invalid JSON"
 		}
 		writeJSON(w, http.StatusOK, rpcResponse{JSONRPC: "2.0", ID: json.RawMessage("null"), Error: &rpcError{code, msg}})
@@ -131,31 +146,60 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (s *Server) authenticate(r *http.Request) (Token, error) {
 	h := r.Header.Get("Authorization")
 	plain, ok := strings.CutPrefix(h, "Bearer ")
-	if !ok || plain == "" {
+	plain = strings.TrimSpace(plain)
+	if !ok || !WellFormed(plain) { // no database query for junk
 		return Token{}, ErrInvalidToken
 	}
-	return s.Tokens.Lookup(r.Context(), strings.TrimSpace(plain))
+	return s.Tokens.Lookup(r.Context(), plain)
 }
 
-// allow is a fixed one-minute window per token.
-func (s *Server) allow(tokenID int64) bool {
-	limit := s.PerMinute
+// allow is a fixed one-minute window per key.
+func (s *Server) allow(key string, limit, def int) bool {
 	if limit <= 0 {
-		limit = 60
+		limit = def
 	}
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if s.usage == nil {
-		s.usage = map[int64]*window{}
+		s.usage = map[string]*window{}
 	}
 	now := time.Now()
-	w := s.usage[tokenID]
+	w := s.usage[key]
 	if w == nil || now.Sub(w.start) >= time.Minute {
+		if len(s.usage) > 10000 { // bound memory under a flood of new keys
+			s.usage = map[string]*window{}
+		}
 		w = &window{start: now}
-		s.usage[tokenID] = w
+		s.usage[key] = w
 	}
 	w.n++
 	return w.n <= limit
+}
+
+// startTest admits a test_bot call: at most 2 at once per account.
+func (s *Server) startTest(acct int64) (done func(), ok bool) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if s.inFlight == nil {
+		s.inFlight = map[int64]int{}
+	}
+	if s.inFlight[acct] >= 2 {
+		return nil, false
+	}
+	s.inFlight[acct]++
+	return func() {
+		s.mu.Lock()
+		defer s.mu.Unlock()
+		s.inFlight[acct]--
+	}, true
+}
+
+func clientIP(r *http.Request) string {
+	host, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		return r.RemoteAddr
+	}
+	return host
 }
 
 func (s *Server) dispatch(ctx context.Context, tok Token, req rpcRequest) (any, *rpcError) {
@@ -226,4 +270,18 @@ func writeJSON(w http.ResponseWriter, status int, v any) {
 	_ = json.NewEncoder(w).Encode(v)
 }
 
-var errReadOnly = errors.New("this token is read-only; create a read-write token on the admin page")
+var errReadOnly = userError("this token is read-only; create a read-write token on the admin page")
+
+// userError is a message meant for the AI tool (bad input, not found). Any
+// other error is reported as a generic failure; details stay in the log.
+type userError string
+
+func (e userError) Error() string { return string(e) }
+
+func public(err error) string {
+	var u userError
+	if errors.As(err, &u) {
+		return u.Error()
+	}
+	return "internal error; try again later"
+}

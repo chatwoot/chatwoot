@@ -39,9 +39,14 @@ type fakeStore struct {
 	updated  Document
 	used     []int64
 	changed  map[int64]bool
+	raceDoc  *Document
 }
 
 func (f *fakeStore) Insert(_ context.Context, d Document, model string, chunks []Chunk) (int64, error) {
+	if f.raceDoc != nil { // another writer takes the key first
+		f.docs, f.raceDoc = append(f.docs, *f.raceDoc), nil
+		return 0, ErrKeyTaken
+	}
 	f.inserted, f.insModel = chunks, model
 	return 42, nil
 }
@@ -452,5 +457,19 @@ func TestUpsert_RequiresValidKey(t *testing.T) {
 		if err == nil || len(st.inserted) != 0 {
 			t.Errorf("%s: err=%v inserted=%d", name, err, len(st.inserted))
 		}
+	}
+}
+
+func TestUpsert_KeyTakenMeanwhileBecomesUpdate(t *testing.T) {
+	// Arrange
+	st := &fakeStore{raceDoc: &Document{ID: 77, AccountID: 1, Kind: KindFAQ, Title: "q", Content: "theirs", SourceKey: "k"}}
+	s := newService(st, &fakeEmbedder{model: "m"})
+
+	// Act
+	before, id, _, err := s.Upsert(context.Background(), Document{AccountID: 1, Kind: KindFAQ, Title: "q", Content: "mine", SourceKey: "k"})
+
+	// Assert
+	if err != nil || id != 77 || before.Content != "theirs" || st.updated.Content != "mine" {
+		t.Fatalf("id=%d before=%+v updated=%+v err=%v", id, before, st.updated, err)
 	}
 }

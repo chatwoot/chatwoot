@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -40,9 +41,12 @@ func TestPostgres_TokenLifecycle(t *testing.T) {
 	ctx := context.Background()
 
 	// Act
-	plain, created, err := db.Create(ctx, 1, "Claude Code", true)
+	plain, created, err := db.Create(ctx, 1, "Claude Code", true, 0)
 	got, lookupErr := db.Lookup(ctx, plain)
-	_, wrong := db.Lookup(ctx, plain+"x")
+	_, wrong := db.Lookup(ctx, plain[:len(plain)-1]+"A")
+	expPlain, _, _ := db.Create(ctx, 1, "short", false, time.Millisecond)
+	time.Sleep(20 * time.Millisecond)
+	_, expired := db.Lookup(ctx, expPlain)
 	otherAcct := db.Revoke(ctx, 2, created.ID)
 	revokeErr := db.Revoke(ctx, 1, created.ID)
 	_, afterRevoke := db.Lookup(ctx, plain)
@@ -55,10 +59,13 @@ func TestPostgres_TokenLifecycle(t *testing.T) {
 	if lookupErr != nil || got.ID != created.ID || got.AccountID != 1 || !got.CanWrite || got.LastUsedAt.IsZero() {
 		t.Fatalf("lookup = %+v err=%v", got, lookupErr)
 	}
+	if !errors.Is(expired, ErrInvalidToken) {
+		t.Fatalf("expired token accepted: %v", expired)
+	}
 	if !errors.Is(wrong, ErrInvalidToken) || !errors.Is(otherAcct, ErrInvalidToken) || revokeErr != nil || !errors.Is(afterRevoke, ErrInvalidToken) {
 		t.Fatalf("wrong=%v otherAcct=%v revoke=%v after=%v", wrong, otherAcct, revokeErr, afterRevoke)
 	}
-	if len(list) != 1 || list[0].RevokedAt.IsZero() {
+	if len(list) != 2 || list[1].RevokedAt.IsZero() || list[0].ExpiresAt.IsZero() {
 		t.Fatalf("list = %+v", list)
 	}
 	var stored string
@@ -73,7 +80,7 @@ func TestPostgres_AuditRecordsCopy(t *testing.T) {
 	ctx := context.Background()
 
 	// Act
-	err1 := db.Record(ctx, AuditEntry{AccountID: 1, DocumentID: 5, SourceKey: "promo", Action: "delete", Actor: "mcp:claude",
+	err1 := db.Record(ctx, AuditEntry{AccountID: 1, DocumentID: 5, SourceKey: "promo", Action: "delete", Actor: "mcp:claude", TokenID: 7,
 		Before: map[string]any{"title": "โปรลอยกระทง", "content": "2,900"}})
 	err2 := db.Record(ctx, AuditEntry{AccountID: 1, DocumentID: 6, Action: "create", Actor: "mcp:claude"})
 

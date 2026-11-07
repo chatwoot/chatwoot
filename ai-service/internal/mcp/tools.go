@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -49,7 +50,8 @@ var tools = []tool{
 		InputSchema: obj(keyOrID), Annotations: map[string]any{"readOnlyHint": true}},
 	{Name: "find_similar", Title: "Find similar knowledge",
 		Description: "Documents (active or not) that probably say the same as the given text (85%+ similar). Use before adding something new.",
-		InputSchema: obj(map[string]any{"title": str("Title or FAQ question."), "content": str("Text or FAQ answer.")}, "title", "content"),
+		InputSchema: obj(map[string]any{"title": str("Title or FAQ question."), "content": str("Text or FAQ answer."),
+			"inbox_id": map[string]any{"type": "integer", "description": "Also compare with this inbox's own documents."}}, "title", "content"),
 		Annotations: map[string]any{"readOnlyHint": true}},
 	{Name: "upsert_document", Title: "Add or update a document", write: true,
 		Description: "Create or replace a document by its key. The same key updates in place (re-indexed, usage kept, kind unchanged). " +
@@ -114,53 +116,76 @@ func (s *Server) callTool(ctx context.Context, tok Token, name string, raw json.
 	}
 	dec := json.NewDecoder(strings.NewReader(string(raw)))
 	dec.DisallowUnknownFields()
+	decode := func(v any) error {
+		if err := dec.Decode(v); err != nil {
+			return userError("invalid arguments: " + err.Error())
+		}
+		if dec.More() {
+			return userError("invalid arguments: trailing data")
+		}
+		return nil
+	}
 	var out any
 	var err error
 	switch name {
 	case "list_documents":
-		var a struct{ Filter, Query string }
-		if err = dec.Decode(&a); err == nil {
+		var a struct {
+			Filter string `json:"filter"`
+			Query  string `json:"query"`
+		}
+		if err = decode(&a); err == nil {
 			out, err = s.listDocuments(ctx, tok, a.Filter, a.Query)
 		}
 	case "get_document":
 		var a struct {
-			Key string
-			ID  int64
+			Key string `json:"key"`
+			ID  int64  `json:"id"`
 		}
-		if err = dec.Decode(&a); err == nil {
+		if err = decode(&a); err == nil {
 			out, err = s.getDocument(ctx, tok, a.Key, a.ID)
 		}
 	case "find_similar":
-		var a struct{ Title, Content string }
-		if err = dec.Decode(&a); err == nil {
-			out, err = s.findSimilar(ctx, tok, knowledge.Document{AccountID: tok.AccountID, Kind: knowledge.KindText, Title: a.Title, Content: a.Content})
+		var a struct {
+			Title   string `json:"title"`
+			Content string `json:"content"`
+			InboxID int64  `json:"inbox_id"`
+		}
+		if err = decode(&a); err == nil {
+			out, err = s.findSimilar(ctx, tok, knowledge.Document{AccountID: tok.AccountID, InboxID: a.InboxID, Kind: knowledge.KindText, Title: a.Title, Content: a.Content})
 		}
 	case "upsert_document":
 		var a upsertArgs
-		if err = dec.Decode(&a); err == nil {
+		if err = decode(&a); err == nil {
 			out, err = s.upsert(ctx, tok, a)
 		}
 	case "delete_document":
 		var a struct {
-			Key string
-			ID  int64
+			Key string `json:"key"`
+			ID  int64  `json:"id"`
 		}
-		if err = dec.Decode(&a); err == nil {
+		if err = decode(&a); err == nil {
 			out, err = s.deleteDocument(ctx, tok, a.Key, a.ID)
 		}
 	case "test_bot":
 		var a struct {
-			Message string
-			History []memory.Turn
+			Message string `json:"message"`
+			History []struct {
+				Role    string `json:"role"`
+				Content string `json:"content"`
+			} `json:"history"`
 			InboxID int64 `json:"inbox_id"`
 		}
-		if err = dec.Decode(&a); err == nil {
-			out, err = s.testBot(ctx, tok, a.Message, a.History, a.InboxID)
+		if err = decode(&a); err == nil {
+			var h []memory.Turn
+			for _, t := range a.History {
+				h = append(h, memory.Turn{Role: t.Role, Content: t.Content})
+			}
+			out, err = s.testBot(ctx, tok, a.Message, h, a.InboxID)
 		}
 	}
 	if err != nil {
 		s.Logger.Warn("mcp tool failed", "tool", name, "account_id", tok.AccountID, "token_id", tok.ID, "error", err)
-		return toolError(err.Error()), nil
+		return toolError(public(err)), nil
 	}
 	s.Logger.Info("mcp tool", "tool", name, "account_id", tok.AccountID, "token_id", tok.ID)
 	return toolResult(out)
@@ -231,7 +256,7 @@ func (s *Server) find(ctx context.Context, tok Token, key string, id int64) (kno
 	case id > 0:
 		return s.Knowledge.Get(ctx, tok.AccountID, id)
 	}
-	return knowledge.Document{}, errors.New("give a key or an id")
+	return knowledge.Document{}, userError("give a key or an id")
 }
 
 func (s *Server) getDocument(ctx context.Context, tok Token, key string, id int64) (any, error) {
@@ -246,7 +271,7 @@ func (s *Server) getDocument(ctx context.Context, tok Token, key string, id int6
 
 func notFound(err error) error {
 	if errors.Is(err, knowledge.ErrNotFound) {
-		return errors.New("no document with that key or id in this account")
+		return userError("no document with that key or id in this account")
 	}
 	return err
 }
@@ -295,8 +320,15 @@ type upsertArgs struct {
 
 // auditCopy is what kb_audit keeps of a document before a change.
 func auditCopy(d knowledge.Document) map[string]any {
-	return map[string]any{"id": d.ID, "key": d.SourceKey, "kind": d.Kind, "title": d.Title, "content": d.Content,
-		"inbox_id": d.InboxID, "valid_from": d.ValidFrom, "valid_until": d.ValidUntil}
+	m := map[string]any{"id": d.ID, "key": d.SourceKey, "kind": d.Kind, "title": d.Title, "content": d.Content,
+		"inbox_id": d.InboxID, "valid_from": nil, "valid_until": nil}
+	if !d.ValidFrom.IsZero() {
+		m["valid_from"] = d.ValidFrom
+	}
+	if !d.ValidUntil.IsZero() {
+		m["valid_until"] = d.ValidUntil
+	}
+	return m
 }
 
 func (s *Server) upsert(ctx context.Context, tok Token, a upsertArgs) (any, error) {
@@ -304,25 +336,40 @@ func (s *Server) upsert(ctx context.Context, tok Token, a upsertArgs) (any, erro
 	if a.Kind == "faq" {
 		kind = knowledge.KindFAQ
 	} else if a.Kind != "" && a.Kind != "text" {
-		return nil, errors.New(`kind must be "faq" or "text"`)
+		return nil, userError(`kind must be "faq" or "text"`)
 	}
 	from, until, err := s.window(a.StartDate, a.LastDay)
 	if err != nil {
-		return nil, err
+		return nil, userError(err.Error())
 	}
 	d := knowledge.Document{AccountID: tok.AccountID, InboxID: a.InboxID, Kind: kind, Title: a.Title, Content: a.Content,
 		SourceKey: a.Key, ValidFrom: from, ValidUntil: until}
 	if d, err = d.Validate(); err != nil {
-		return nil, err
+		return nil, userError(err.Error())
 	}
-	if _, err := s.Knowledge.GetByKey(ctx, tok.AccountID, d.SourceKey); errors.Is(err, knowledge.ErrNotFound) && !a.AllowDuplicate {
-		dupes, err := s.similar(ctx, tok, d)
-		if err != nil {
-			return nil, err
+	if a.InboxID < 0 {
+		return nil, userError("inbox_id must be positive")
+	}
+	cur, err := s.Knowledge.GetByKey(ctx, tok.AccountID, d.SourceKey)
+	switch {
+	case errors.Is(err, knowledge.ErrNotFound):
+		if !a.AllowDuplicate {
+			dupes, err := s.similar(ctx, tok, d)
+			if err != nil {
+				return nil, err
+			}
+			if len(dupes) > 0 {
+				b, _ := json.Marshal(dupes)
+				return nil, userError(fmt.Sprintf("not added: this is 85%%+ similar to existing knowledge %s. Update that document (use its key, or get_document and re-save it under a key) or set allow_duplicate if it is really different", b))
+			}
 		}
-		if len(dupes) > 0 {
-			b, _ := json.Marshal(dupes)
-			return nil, fmt.Errorf("not added: this is 85%%+ similar to existing knowledge %s. Update that document (use its key, or get_document and re-save it under a key) or set allow_duplicate if it is really different", b)
+	case err != nil:
+		return nil, err
+	default:
+		// Keep the old version before changing it; no copy, no change.
+		if err := s.Audit.Record(ctx, AuditEntry{AccountID: tok.AccountID, DocumentID: cur.ID, SourceKey: cur.SourceKey,
+			Action: "update", Actor: "mcp:" + tok.Name, TokenID: tok.ID, Before: auditCopy(cur)}); err != nil {
+			return nil, fmt.Errorf("not saved: the audit copy could not be stored: %w", err)
 		}
 	}
 	before, id, chunks, err := s.Knowledge.Upsert(ctx, d)
@@ -330,15 +377,12 @@ func (s *Server) upsert(ctx context.Context, tok Token, a upsertArgs) (any, erro
 		return nil, err
 	}
 	action := "update"
-	var copyBefore any
 	if before.ID == 0 {
 		action = "create"
-	} else {
-		copyBefore = auditCopy(before)
-	}
-	if err := s.Audit.Record(ctx, AuditEntry{AccountID: tok.AccountID, DocumentID: id, SourceKey: d.SourceKey,
-		Action: action, Actor: "mcp:" + tok.Name, Before: copyBefore}); err != nil {
-		s.Logger.Error("mcp audit not recorded", "account_id", tok.AccountID, "document_id", id, "error", err)
+		if err := s.Audit.Record(ctx, AuditEntry{AccountID: tok.AccountID, DocumentID: id, SourceKey: d.SourceKey,
+			Action: "create", Actor: "mcp:" + tok.Name, TokenID: tok.ID}); err != nil {
+			s.Logger.Error("mcp audit not recorded", "account_id", tok.AccountID, "document_id", id, "error", err)
+		}
 	}
 	return map[string]any{"result": action + "d", "id": id, "key": d.SourceKey, "chunks": chunks}, nil
 }
@@ -350,7 +394,7 @@ func (s *Server) deleteDocument(ctx context.Context, tok Token, key string, id i
 	}
 	// Audit first: if it cannot be recorded, nothing is deleted.
 	if err := s.Audit.Record(ctx, AuditEntry{AccountID: tok.AccountID, DocumentID: d.ID, SourceKey: d.SourceKey,
-		Action: "delete", Actor: "mcp:" + tok.Name, Before: auditCopy(d)}); err != nil {
+		Action: "delete", Actor: "mcp:" + tok.Name, TokenID: tok.ID, Before: auditCopy(d)}); err != nil {
 		return nil, fmt.Errorf("not deleted: the audit copy could not be saved: %w", err)
 	}
 	if err := s.Knowledge.Delete(ctx, tok.AccountID, d.ID); err != nil {
@@ -367,11 +411,19 @@ const (
 func (s *Server) testBot(ctx context.Context, tok Token, message string, history []memory.Turn, inbox int64) (any, error) {
 	message = strings.TrimSpace(message)
 	if message == "" {
-		return nil, errors.New("message is required")
+		return nil, userError("message is required")
 	}
 	if inbox < 0 {
-		return nil, errors.New("inbox_id must be positive")
+		return nil, userError("inbox_id must be positive")
 	}
+	if !s.allow("test:"+strconv.FormatInt(tok.AccountID, 10), s.TestPerMinute, 10) {
+		return nil, userError("test_bot limit reached for this account; wait a minute")
+	}
+	done, ok := s.startTest(tok.AccountID)
+	if !ok {
+		return nil, userError("another test_bot call is still running for this account; try again shortly")
+	}
+	defer done()
 	var turns []memory.Turn
 	for _, t := range history {
 		if (t.Role == "user" || t.Role == "assistant") && strings.TrimSpace(t.Content) != "" {

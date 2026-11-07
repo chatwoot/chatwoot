@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type tokenView struct {
@@ -12,6 +13,8 @@ type tokenView struct {
 	Access   string
 	Created  string
 	LastUsed string
+	Expires  string
+	Expired  bool
 	Revoked  bool
 }
 
@@ -57,7 +60,11 @@ func (h *Handler) renderConnections(w http.ResponseWriter, r *http.Request, stat
 		}
 		for _, t := range list {
 			v := tokenView{ID: t.ID, Name: t.Name, Access: "Read only", Created: h.day(t.CreatedAt),
-				LastUsed: "Never", Revoked: !t.RevokedAt.IsZero()}
+				LastUsed: "Never", Revoked: !t.RevokedAt.IsZero(), Expires: "Never"}
+			if !t.ExpiresAt.IsZero() {
+				v.Expires = h.day(t.ExpiresAt)
+				v.Expired = t.ExpiresAt.Before(time.Now())
+			}
 			if t.CanWrite {
 				v.Access = "Read and write"
 			}
@@ -87,7 +94,16 @@ func (h *Handler) submitConnections(w http.ResponseWriter, r *http.Request) {
 	switch r.PostForm.Get("action") {
 	case "create":
 		d.NewName, d.NewWrite = strings.TrimSpace(r.PostForm.Get("name")), r.PostForm.Get("access") == "write"
-		plain, t, err := h.Tokens.Create(r.Context(), acct, d.NewName, d.NewWrite)
+		ttl := 90 * 24 * time.Hour
+		switch r.PostForm.Get("expires") {
+		case "30":
+			ttl = 30 * 24 * time.Hour
+		case "365":
+			ttl = 365 * 24 * time.Hour
+		case "never":
+			ttl = 0
+		}
+		plain, t, err := h.Tokens.Create(r.Context(), acct, d.NewName, d.NewWrite, ttl)
 		if err != nil {
 			d.Error = err.Error()
 			h.renderConnections(w, r, http.StatusUnprocessableEntity, d)

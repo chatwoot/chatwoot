@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -159,6 +160,9 @@ func (p *Postgres) Insert(ctx context.Context, d Document, model string, chunks 
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
 		d.AccountID, nullableInbox(d.InboxID), string(d.Kind), d.Title, d.Content,
 		nullableTime(d.ValidFrom), nullableTime(d.ValidUntil), nullableKey(d.SourceKey)).Scan(&d.ID)
+	if pgErr := (*pgconn.PgError)(nil); errors.As(err, &pgErr) && pgErr.Code == "23505" && pgErr.ConstraintName == "kb_documents_source_key_idx" {
+		return 0, ErrKeyTaken
+	}
 	if err != nil {
 		return 0, err
 	}

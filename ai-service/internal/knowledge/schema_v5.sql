@@ -6,6 +6,10 @@
 SET LOCAL lock_timeout = '5s';
 
 ALTER TABLE kb_documents ADD COLUMN IF NOT EXISTS source_key TEXT;
+-- Same rule as Document.Validate: no empty key, no whitespace, at most 500 characters.
+ALTER TABLE kb_documents DROP CONSTRAINT IF EXISTS kb_documents_source_key_check;
+ALTER TABLE kb_documents ADD CONSTRAINT kb_documents_source_key_check
+    CHECK (source_key IS NULL OR (source_key <> '' AND char_length(source_key) <= 500 AND source_key !~ '[[:space:]]'));
 CREATE UNIQUE INDEX IF NOT EXISTS kb_documents_source_key_idx
     ON kb_documents (account_id, source_key) WHERE source_key IS NOT NULL;
 
@@ -16,6 +20,7 @@ CREATE TABLE IF NOT EXISTS kb_audit (
     source_key  TEXT,
     action      TEXT        NOT NULL CHECK (action IN ('create', 'update', 'delete')),
     actor       TEXT        NOT NULL,   -- "mcp:<token name>"
+    token_id    BIGINT,                 -- the MCP token that made the change
     before      JSONB,                  -- title, content, kind, inbox, dates before the change
     at          TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -29,6 +34,7 @@ CREATE TABLE IF NOT EXISTS mcp_tokens (
     token_hash   TEXT        NOT NULL UNIQUE,
     created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
     last_used_at TIMESTAMPTZ,
+    expires_at   TIMESTAMPTZ,           -- NULL = never
     revoked_at   TIMESTAMPTZ
 );
 
@@ -39,8 +45,10 @@ DO $$
 BEGIN
     IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
         REVOKE ALL ON kb_audit, mcp_tokens FROM anon;
+        REVOKE ALL ON SEQUENCE kb_audit_id_seq, mcp_tokens_id_seq FROM anon;
     END IF;
     IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
         REVOKE ALL ON kb_audit, mcp_tokens FROM authenticated;
+        REVOKE ALL ON SEQUENCE kb_audit_id_seq, mcp_tokens_id_seq FROM authenticated;
     END IF;
 END $$;

@@ -60,6 +60,9 @@ type Config struct {
 	// MCPPublicURL is the MCP address shown on the admin connections page
 	// (MCP_PUBLIC_URL); empty derives it from the admin request.
 	MCPPublicURL string
+	// MCPEnabled serves /mcp for AI tools (MCP_ENABLED, default false). It
+	// also needs a database and the admin page (ADMIN_PASSWORD) to manage tokens.
+	MCPEnabled bool
 	// Location is the business time zone (TIMEZONE), used to tell the model the date.
 	Location *time.Location
 
@@ -147,6 +150,7 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 		errs = append(errs, fmt.Errorf("LLM_TIMEOUT: %w", err))
 	}
 	cfg.MCPPublicURL = get("MCP_PUBLIC_URL", "")
+	cfg.MCPEnabled = get("MCP_ENABLED", "") == "true"
 	if cfg.Location, err = time.LoadLocation(get("TIMEZONE", "Asia/Bangkok")); err != nil {
 		errs = append(errs, fmt.Errorf("TIMEZONE: %w", err))
 	}

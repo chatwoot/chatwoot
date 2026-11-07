@@ -139,12 +139,18 @@ func run() error {
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
 	}
-	if mcpStore != nil {
+	switch {
+	case !cfg.MCPEnabled:
+		logger.Info("mcp off: set MCP_ENABLED=true to let AI tools use the knowledge base")
+	case mcpStore == nil || cfg.AdminPassword == "":
+		logger.Warn("mcp off: it needs DATABASE_URL and ADMIN_PASSWORD (tokens are managed on /admin)")
+	default:
 		// MCP for AI tools: bearer-token auth inside, no /admin password.
 		mux.Handle("/mcp", &mcp.Server{
 			Knowledge: kb, Tokens: mcpStore, Audit: mcpStore, Tester: b,
 			Location: cfg.Location, Logger: logger.With("component", "mcp"), Version: "1",
 		})
+		logger.Info("mcp on", "path", "/mcp")
 	}
 	srv := &http.Server{
 		Addr:              cfg.ListenAddr,
