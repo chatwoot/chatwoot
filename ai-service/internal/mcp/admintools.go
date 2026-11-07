@@ -4,9 +4,10 @@ package mcp
 // and the change history. Each acts only on the token's own account. Provider
 // keys, MCP tokens, connected apps, the contact (payment) field and the paid
 // feature switches are deliberately not writable here: they stay behind the
-// /admin login, so a prompt-injected AI app cannot redirect payments or run
-// up costs. Profile writes still change what customers are told, so the tool
-// is marked destructive and asks the app to confirm with its user.
+// /admin login, so a prompt-injected AI app cannot change the contact
+// section or run up costs. Profile and document writes still change what
+// customers are told (including any payment details written in them), so
+// those tools are marked destructive and ask the app to confirm with its user.
 
 import (
 	"context"

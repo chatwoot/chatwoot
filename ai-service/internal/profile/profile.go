@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"unicode"
 	"unicode/utf8"
 )
 
@@ -110,19 +111,34 @@ func Prompt(base string, p Profile) string {
 
 var (
 	// markdownHeading at a line start could imitate the bot's own sections.
-	markdownHeading = regexp.MustCompile(`(?m)^[ \t]*#+[ \t]*`)
+	// Only real headings ("# Rules"), not "#1 best seller" or hashtags.
+	markdownHeading = regexp.MustCompile(`(?m)^[ \t]{0,3}#{1,6}(?:[ \t]+|$)`)
 	// handoffLike matches the bot's handoff marker and near-misses.
 	handoffLike = regexp.MustCompile(`(?i)\[\[\s*handoff\s*\]\]`)
-	fenceTag    = regexp.MustCompile(`(?i)</?\s*business_profile\s*>`)
+	fenceTag    = regexp.MustCompile(`(?i)<\s*/?\s*business[_\s-]*profile\s*>`)
 )
 
 // fence keeps a profile field inside its section: no headings, no handoff
 // marker and no profile tags, so it cannot pose as the bot's rules.
+// It repeats until nothing changes: removing one piece can join the text
+// around it into another ("[[HAND</business_profile>OFF]]").
 func fence(s string) string {
-	s = markdownHeading.ReplaceAllString(s, "")
-	s = handoffLike.ReplaceAllString(s, "")
-	s = fenceTag.ReplaceAllString(s, "")
-	return strings.TrimSpace(s)
+	// Zero-width and other format characters could hide a tag or marker.
+	s = strings.Map(func(r rune) rune {
+		if unicode.Is(unicode.Cf, r) {
+			return -1
+		}
+		return r
+	}, s)
+	for {
+		next := markdownHeading.ReplaceAllString(s, "")
+		next = handoffLike.ReplaceAllString(next, "")
+		next = fenceTag.ReplaceAllString(next, "")
+		if next == s {
+			return strings.TrimSpace(s)
+		}
+		s = next
+	}
 }
 
 // Store loads and saves profiles.
