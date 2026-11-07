@@ -36,6 +36,9 @@ import (
 //go:embed *.html
 var pageFS embed.FS
 
+//go:embed static/admin.js
+var adminJS []byte
+
 var pages = template.Must(template.New("pages").Funcs(template.FuncMap{
 	// dict builds a map so one sub-template can render both provider cards.
 	"inc":   func(i int) int { return i + 1 },
@@ -116,6 +119,7 @@ func (h *Handler) Routes(mux *http.ServeMux) {
 	mux.Handle("GET /admin/providers", wrap(h.show))
 	mux.Handle("POST /admin/providers", wrap(h.submit))
 	mux.Handle("POST /admin/theme", wrap(h.setTheme))
+	mux.Handle("GET /admin/static/admin.js", wrap(serveScript))
 	mux.Handle("GET /admin/connections", wrap(h.showConnections))
 	mux.Handle("POST /admin/connections", wrap(h.submitConnections))
 	mux.Handle("GET /admin/test", wrap(h.showTest))
@@ -451,10 +455,21 @@ func (h *Handler) requireAuth(next http.Handler) http.Handler {
 	})
 }
 
+// csp allows only our own script file (no inline scripts, no eval) and
+// enforces Trusted Types, so even our own script cannot turn text into HTML.
+const csp = "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; form-action 'self'; " +
+	"frame-ancestors 'self'; base-uri 'none'; require-trusted-types-for 'script'; trusted-types 'none'"
+
+// serveScript returns the embedded admin script.
+func serveScript(w http.ResponseWriter, _ *http.Request) {
+	w.Header().Set("Content-Type", "text/javascript; charset=utf-8")
+	_, _ = w.Write(adminJS)
+}
+
 func secureHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		h := w.Header()
-		h.Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'self'; base-uri 'none'")
+		h.Set("Content-Security-Policy", csp)
 		h.Set("X-Content-Type-Options", "nosniff")
 		h.Set("Referrer-Policy", "no-referrer")
 		h.Set("Cache-Control", "no-store")

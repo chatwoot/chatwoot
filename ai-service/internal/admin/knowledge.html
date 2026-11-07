@@ -174,7 +174,7 @@
               <input type="hidden" name="action" value="sync_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
               <button type="submit" class="btn small" aria-label="Check {{.URL}} now">Sync now</button>
             </form>
-            <form class="inline" method="post" action="/admin/knowledge">
+            <form class="inline" method="post" action="/admin/knowledge" data-confirm="Stop syncing {{.URL}} and delete its knowledge?">
               <input type="hidden" name="action" value="remove_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
               <button type="submit" class="link" aria-label="Remove {{.URL}}">Remove</button>
             </form>
@@ -217,7 +217,7 @@
           <td class="num" data-label="Updated">{{.Updated}}</td>
           <td class="row-actions">
             <a class="btn small" href="/admin/knowledge?account={{$.AccountID}}&amp;edit={{.ID}}">Edit<span class="visually-hidden"> {{.Title}}</span></a>
-            <form class="inline" method="post" action="/admin/knowledge">
+            <form class="inline" method="post" action="/admin/knowledge" data-confirm="Delete “{{.Title}}”? The bot stops using it at once.">
               <input type="hidden" name="action" value="delete"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
               <button type="submit" class="link" aria-label="Delete {{.Title}}">Delete</button>
             </form>
