@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -20,6 +21,9 @@ var schemaV2 string
 
 //go:embed schema_v3.sql
 var schemaV3 string
+
+//go:embed schema_v4.sql
+var schemaV4 string
 
 // Postgres is a Store backed by Postgres with the pgvector extension.
 type Postgres struct {
@@ -76,6 +80,14 @@ func (p *Postgres) Migrate(ctx context.Context) error {
 			return err
 		}
 	}
+	if version < 4 {
+		if _, err := tx.Exec(ctx, schemaV4); err != nil {
+			return fmt.Errorf("apply schema v4: %w", err)
+		}
+		if _, err := tx.Exec(ctx, "UPDATE kb_schema_version SET version = 4"); err != nil {
+			return err
+		}
+	}
 	return tx.Commit(ctx)
 }
 
@@ -92,6 +104,13 @@ func vectorLiteral(v []float32) string {
 	}
 	b.WriteByte(']')
 	return b.String()
+}
+
+func nullableTime(t time.Time) any {
+	if t.IsZero() {
+		return nil
+	}
+	return t
 }
 
 func nullableInbox(id int64) any {
@@ -118,9 +137,10 @@ func (p *Postgres) Insert(ctx context.Context, d Document, model string, chunks 
 		return 0, err
 	}
 	defer tx.Rollback(ctx) //nolint:errcheck
-	err = tx.QueryRow(ctx, `INSERT INTO kb_documents (account_id, inbox_id, kind, title, content)
-		VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-		d.AccountID, nullableInbox(d.InboxID), string(d.Kind), d.Title, d.Content).Scan(&d.ID)
+	err = tx.QueryRow(ctx, `INSERT INTO kb_documents (account_id, inbox_id, kind, title, content, valid_from, valid_until)
+		VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+		d.AccountID, nullableInbox(d.InboxID), string(d.Kind), d.Title, d.Content,
+		nullableTime(d.ValidFrom), nullableTime(d.ValidUntil)).Scan(&d.ID)
 	if err != nil {
 		return 0, err
 	}
@@ -130,23 +150,33 @@ func (p *Postgres) Insert(ctx context.Context, d Document, model string, chunks 
 	return d.ID, tx.Commit(ctx)
 }
 
-// ReplaceChunks implements Store.
-func (p *Postgres) ReplaceChunks(ctx context.Context, documentID int64, model string, chunks []Chunk) error {
+// ReplaceChunks implements Store. d is the document as read (ID, AccountID,
+// UpdatedAt): if it was edited or deleted since, nothing is written, so a
+// slow re-index can never put back chunks of text an admin just replaced.
+func (p *Postgres) ReplaceChunks(ctx context.Context, d Document, model string, chunks []Chunk) error {
 	tx, err := p.Pool.Begin(ctx)
 	if err != nil {
 		return err
 	}
 	defer tx.Rollback(ctx) //nolint:errcheck
-	var d Document
-	err = tx.QueryRow(ctx, `UPDATE kb_documents SET updated_at = now() WHERE id = $1
-		RETURNING id, account_id, COALESCE(inbox_id, 0)`, documentID).Scan(&d.ID, &d.AccountID, &d.InboxID)
+	err = tx.QueryRow(ctx, `UPDATE kb_documents SET updated_at = now()
+		WHERE id = $1 AND account_id = $2 AND updated_at = $3
+		RETURNING id, account_id, COALESCE(inbox_id, 0)`, d.ID, d.AccountID, d.UpdatedAt).Scan(&d.ID, &d.AccountID, &d.InboxID)
 	if errors.Is(err, pgx.ErrNoRows) {
+		var exists bool
+		if err := tx.QueryRow(ctx, "SELECT EXISTS (SELECT 1 FROM kb_documents WHERE id = $1 AND account_id = $2)",
+			d.ID, d.AccountID).Scan(&exists); err != nil {
+			return err
+		}
+		if exists {
+			return ErrChanged
+		}
 		return ErrNotFound
 	}
 	if err != nil {
 		return err
 	}
-	if _, err := tx.Exec(ctx, "DELETE FROM kb_chunks WHERE document_id = $1", documentID); err != nil {
+	if _, err := tx.Exec(ctx, "DELETE FROM kb_chunks WHERE document_id = $1", d.ID); err != nil {
 		return err
 	}
 	if err := insertChunks(ctx, tx, d, model, chunks); err != nil {
@@ -158,7 +188,7 @@ func (p *Postgres) ReplaceChunks(ctx context.Context, documentID int64, model st
 // List implements Store. Newest first, at most 500 documents.
 func (p *Postgres) List(ctx context.Context, accountID int64, model string) ([]Document, error) {
 	rows, err := p.Pool.Query(ctx, `
-		SELECT d.id, d.account_id, COALESCE(d.inbox_id, 0), d.kind, d.title, d.content, d.updated_at,
+		SELECT `+docColumns+`,
 		       COUNT(c.id), COUNT(c.id) FILTER (WHERE c.embedding_model <> $2)
 		FROM kb_documents d
 		LEFT JOIN kb_chunks c ON c.document_id = d.id
@@ -170,10 +200,9 @@ func (p *Postgres) List(ctx context.Context, accountID int64, model string) ([]D
 		return nil, err
 	}
 	return pgx.CollectRows(rows, func(r pgx.CollectableRow) (Document, error) {
-		var d Document
-		var kind string
-		err := r.Scan(&d.ID, &d.AccountID, &d.InboxID, &kind, &d.Title, &d.Content, &d.UpdatedAt, &d.Chunks, &d.StaleChunks)
-		d.Kind = Kind(kind)
+		var chunks, stale int
+		d, err := scanDocument(r.Scan, &chunks, &stale)
+		d.Chunks, d.StaleChunks = chunks, stale
 		return d, err
 	})
 }
@@ -209,9 +238,11 @@ func (p *Postgres) Search(ctx context.Context, q Query) ([]Hit, error) {
 		WHERE c.account_id = $2
 		  AND (c.inbox_id IS NULL OR c.inbox_id = $3)
 		  AND c.embedding_model = $4
+		  AND ($6 OR ((d.valid_from IS NULL OR d.valid_from <= now())
+		          AND (d.valid_until IS NULL OR d.valid_until > now())))
 		ORDER BY c.embedding <=> $1::vector
 		LIMIT $5`,
-		vectorLiteral(q.Vector), q.AccountID, q.InboxID, q.Model, max(q.Limit, 1))
+		vectorLiteral(q.Vector), q.AccountID, q.InboxID, q.Model, max(q.Limit, 1), q.IncludeInactive)
 	if err != nil {
 		return nil, err
 	}
@@ -224,6 +255,80 @@ func (p *Postgres) Search(ctx context.Context, q Query) ([]Hit, error) {
 		return nil, err
 	}
 	return hits, tx.Commit(ctx)
+}
+
+// docColumns are the kb_documents columns scanDocument reads, in order.
+const docColumns = `d.id, d.account_id, COALESCE(d.inbox_id, 0), d.kind, d.title, d.content, d.updated_at,
+		       d.valid_from, d.valid_until, d.use_count, d.last_used_at`
+
+// scanDocument reads docColumns (plus any extra trailing columns) from one row.
+func scanDocument(scan func(dest ...any) error, extra ...any) (Document, error) {
+	var d Document
+	var kind string
+	var from, until, used *time.Time
+	dest := append([]any{&d.ID, &d.AccountID, &d.InboxID, &kind, &d.Title, &d.Content, &d.UpdatedAt,
+		&from, &until, &d.UseCount, &used}, extra...)
+	if err := scan(dest...); err != nil {
+		return Document{}, err
+	}
+	d.Kind = Kind(kind)
+	if from != nil {
+		d.ValidFrom = *from
+	}
+	if until != nil {
+		d.ValidUntil = *until
+	}
+	if used != nil {
+		d.LastUsedAt = *used
+	}
+	return d, nil
+}
+
+// Get implements Store.
+func (p *Postgres) Get(ctx context.Context, accountID, id int64) (Document, error) {
+	row := p.Pool.QueryRow(ctx, `SELECT `+docColumns+` FROM kb_documents d WHERE d.id = $1 AND d.account_id = $2`, id, accountID)
+	d, err := scanDocument(row.Scan)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return Document{}, ErrNotFound
+	}
+	return d, err
+}
+
+// Update implements Store: new text, scope and dates, and fresh chunks, in
+// one transaction. Usage counters are kept.
+func (p *Postgres) Update(ctx context.Context, d Document, model string, chunks []Chunk) error {
+	tx, err := p.Pool.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx) //nolint:errcheck
+	tag, err := tx.Exec(ctx, `UPDATE kb_documents
+		SET title = $3, content = $4, inbox_id = $5, valid_from = $6, valid_until = $7, updated_at = now()
+		WHERE id = $1 AND account_id = $2`,
+		d.ID, d.AccountID, d.Title, d.Content, nullableInbox(d.InboxID), nullableTime(d.ValidFrom), nullableTime(d.ValidUntil))
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() == 0 {
+		return ErrNotFound
+	}
+	if _, err := tx.Exec(ctx, "DELETE FROM kb_chunks WHERE document_id = $1", d.ID); err != nil {
+		return err
+	}
+	if err := insertChunks(ctx, tx, d, model, chunks); err != nil {
+		return err
+	}
+	return tx.Commit(ctx)
+}
+
+// MarkUsed implements Store.
+func (p *Postgres) MarkUsed(ctx context.Context, accountID int64, ids []int64) error {
+	if len(ids) == 0 {
+		return nil
+	}
+	_, err := p.Pool.Exec(ctx, `UPDATE kb_documents SET use_count = use_count + 1, last_used_at = now()
+		WHERE account_id = $1 AND id = ANY($2)`, accountID, ids)
+	return err
 }
 
 // OpenPostgres connects, checks the connection and applies migrations.

@@ -8,8 +8,17 @@
 <div class="shell">
 {{template "nav" "knowledge"}}
 <main>
-  <h1>Knowledge base</h1>
-  <p class="lead">What the bot may answer from. Add FAQs and documents; the bot searches them for every customer question.</p>
+  <div class="page-head">
+    <div>
+      <h1>Knowledge base</h1>
+      <p class="lead">What the bot may answer from. Keep it current: edit a document when something changes, and give promotions an end date.</p>
+    </div>
+    <form class="acct" method="get" action="/admin/knowledge">
+      <label for="account">Account</label>
+      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}">
+      <button type="submit">Show</button>
+    </form>
+  </div>
 
   {{if not .Enabled}}
   <div class="alert err" role="alert"><strong>Knowledge base is off.</strong> Set <code>DATABASE_URL</code> for ai-service (Postgres with pgvector) and restart it.</div>
@@ -18,15 +27,61 @@
   {{if .Notice}}<div class="alert ok" role="status">{{.Notice}}</div>{{end}}
   {{if and .Error (eq .ErrorForm "list")}}<div class="alert err" role="alert"><strong>Failed.</strong> {{.Error}}</div>{{end}}
 
-  <form class="card toolbar" method="get" action="/admin/knowledge">
-    <label for="account">Chatwoot account ID</label>
-    <div class="row" style="margin-top:0">
-      <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.AccountID}}" style="max-width:12rem">
-      <button type="submit">Show</button>
-    </div>
-    <p class="field-hint">Each Chatwoot account has its own knowledge. Account 1 is the first account.</p>
-  </form>
+  {{if .Dupes}}
+  <section class="card dupes" aria-labelledby="dupe-title" role="alert">
+    <h2 id="dupe-title" style="font-size:1.125rem;margin:0 0 4px">This looks like something you already have</h2>
+    <p class="hint">Two documents that say different things confuse the bot. Edit the existing one instead, or add yours anyway.</p>
+    <ul class="sources">
+      {{range .Dupes}}<li><strong>{{.Title}}</strong> <span class="preview">{{.Score}} similar</span> · <a href="/admin/knowledge?account={{$.AccountID}}&amp;edit={{.DocumentID}}">Edit this one</a></li>{{end}}
+    </ul>
+    <form method="post" action="/admin/knowledge" class="row">
+      <input type="hidden" name="account" value="{{.AccountID}}">
+      <input type="hidden" name="confirm_duplicate" value="1">
+      <input type="hidden" name="inbox" value="{{.InboxID}}">
+      <input type="hidden" name="valid_from" value="{{.From}}">
+      <input type="hidden" name="valid_until" value="{{.Until}}">
+      {{if eq .DupeForm "faq"}}
+      <input type="hidden" name="action" value="add_faq"><input type="hidden" name="question" value="{{.Question}}"><input type="hidden" name="answer" value="{{.Answer}}">
+      {{else}}
+      <input type="hidden" name="action" value="add_doc"><input type="hidden" name="title" value="{{.DocTitle}}"><input type="hidden" name="content" value="{{.DocContent}}">
+      {{end}}
+      <button type="submit">Add mine anyway</button>
+      <a class="btn" href="/admin/knowledge?account={{.AccountID}}">Cancel</a>
+    </form>
+  </section>
+  {{end}}
 
+  {{with .Edit}}
+  <section class="card" aria-labelledby="edit-title">
+    <h2 id="edit-title" style="font-size:1.125rem;margin:0 0 4px">Edit {{if eq .Kind "faq"}}FAQ{{else}}document{{end}}</h2>
+    <p class="hint">Saving re-indexes it. The bot uses the new version from the next message. Usage counts are kept.</p>
+    {{if and $.Error (eq $.ErrorForm "edit")}}<div class="alert err" role="alert"><strong>Not saved.</strong>
+{{$.Error}}</div>{{end}}
+    <form method="post" action="/admin/knowledge" autocomplete="off">
+      <input type="hidden" name="action" value="update">
+      <input type="hidden" name="account" value="{{$.AccountID}}">
+      <input type="hidden" name="id" value="{{.ID}}">
+      {{if eq .Kind "faq"}}
+      <label for="e-question">Question</label>
+      <input id="e-question" name="question" type="text" maxlength="300" required value="{{.Question}}">
+      <label for="e-answer">Answer</label>
+      <textarea id="e-answer" name="answer" required rows="5">{{.Answer}}</textarea>
+      {{else}}
+      <label for="e-title">Title</label>
+      <input id="e-title" name="title" type="text" maxlength="300" required value="{{.DocTitle}}">
+      <label for="e-content">Text</label>
+      <textarea id="e-content" name="content" required rows="14">{{.DocContent}}</textarea>
+      {{end}}
+      <div class="grid2">
+        <div><label for="e-inbox">Inbox ID (optional)</label>
+        <input id="e-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes"></div>
+        <div></div>
+        {{template "dates" (dict "P" "e" "From" .From "Until" .Until)}}
+      </div>
+      <div class="actions"><a class="btn" href="/admin/knowledge?account={{$.AccountID}}">Cancel</a><button type="submit" class="primary">Save changes</button></div>
+    </form>
+  </section>
+  {{else}}
   <div class="cols2">
   <section class="card" aria-labelledby="faq-title">
     <h2 id="faq-title" style="font-size:1.125rem;margin:0 0 4px">Add an FAQ</h2>
@@ -40,16 +95,22 @@
       <input id="question" name="question" type="text" maxlength="300" required value="{{.Question}}" placeholder="ร้านเปิดกี่โมง">
       <label for="answer">Answer</label>
       <textarea id="answer" name="answer" required rows="4" placeholder="เปิดทุกวัน 9:00–18:00 น.">{{.Answer}}</textarea>
-      <label for="faq-inbox">Inbox ID (optional)</label>
-      <input id="faq-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes" aria-describedby="inbox-hint">
-      <p class="field-hint" id="inbox-hint">Use it only when one page or channel has different answers.</p>
+      <details{{if or .From .Until .InboxID}} open{{end}}>
+        <summary>Dates and inbox (optional)</summary>
+        <div class="grid2">
+          {{template "dates" (dict "P" "faq" "From" .From "Until" .Until)}}
+          <div class="span2"><label for="faq-inbox">Inbox ID</label>
+          <input id="faq-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes" aria-describedby="inbox-hint">
+          <p class="field-hint" id="inbox-hint">Use it only when one page or channel has different answers.</p></div>
+        </div>
+      </details>
       <div class="actions"><button type="submit" class="primary">Add FAQ</button></div>
     </form>
   </section>
 
   <section class="card" aria-labelledby="doc-title">
     <h2 id="doc-title" style="font-size:1.125rem;margin:0 0 4px">Add a document</h2>
-    <p class="hint">Longer text such as a price list, policy or product guide. Paste it, or upload a .txt or .md file (max 2 MB). It is split into chunks automatically.</p>
+    <p class="hint">Longer text such as a price list, policy or product guide. Paste it, or upload a .txt or .md file (max 2 MB).</p>
     {{if and .Error (eq .ErrorForm "doc")}}<div class="alert err" role="alert"><strong>Not added.</strong>
 {{.Error}}</div>{{end}}
     <form method="post" action="/admin/knowledge" enctype="multipart/form-data" autocomplete="off">
@@ -59,18 +120,32 @@
       <input id="title" name="title" type="text" maxlength="300" value="{{.DocTitle}}" placeholder="Shipping and returns policy" aria-describedby="title-hint">
       <p class="field-hint" id="title-hint">Blank uses the first # heading, else the file name.</p>
       <label for="content">Text</label>
-      <textarea id="content" name="content" rows="8">{{.DocContent}}</textarea>
+      <textarea id="content" name="content" rows="6">{{.DocContent}}</textarea>
       <label for="file">Or upload a file</label>
       <input id="file" name="file" type="file" accept=".txt,.md,.markdown,text/plain,text/markdown">
-      <label for="doc-inbox">Inbox ID (optional)</label>
-      <input id="doc-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes">
+      <details{{if or .From .Until .InboxID}} open{{end}}>
+        <summary>Dates and inbox (optional)</summary>
+        <div class="grid2">
+          {{template "dates" (dict "P" "doc" "From" .From "Until" .Until)}}
+          <div class="span2"><label for="doc-inbox">Inbox ID</label>
+          <input id="doc-inbox" name="inbox" type="number" min="1" inputmode="numeric" value="{{.InboxID}}" placeholder="Blank = all inboxes"></div>
+        </div>
+      </details>
       <div class="actions"><button type="submit" class="primary">Add document</button></div>
     </form>
   </section>
-
   </div>
+  {{end}}
+
   <section class="card" aria-labelledby="list-title">
-    <h2 id="list-title" style="font-size:1.125rem;margin:0 0 4px">Knowledge in account {{.AccountID}}</h2>
+    <h2 id="list-title" style="font-size:1.125rem;margin:0 0 8px">Knowledge in account {{.AccountID}}</h2>
+    <nav class="filters" aria-label="Filter knowledge">
+      <a href="/admin/knowledge?account={{.AccountID}}"{{if eq .Show ""}} aria-current="page"{{end}}>All <span class="count">{{.Total}}</span></a>
+      <a href="/admin/knowledge?account={{.AccountID}}&amp;show=unused"{{if eq .Show "unused"}} aria-current="page"{{end}}>Not used yet <span class="count">{{.Unused}}</span></a>
+      <a href="/admin/knowledge?account={{.AccountID}}&amp;show=inactive"{{if eq .Show "inactive"}} aria-current="page"{{end}}>Expired or scheduled <span class="count">{{.Inactive}}</span></a>
+    </nav>
+    {{if eq .Show "unused"}}<p class="hint">No customer question has reached these yet. Check they are worded the way customers ask, or delete what is no longer true.</p>{{end}}
+    {{if eq .Show "inactive"}}<p class="hint">The bot does not use these right now. Expired ones can be deleted, or edited with new dates.</p>{{end}}
     {{if .Stale}}
     <div class="alert err" role="alert">{{.Stale}} chunks were made with a different embeddings model, so the bot cannot find them.
       <form class="inline" method="post" action="/admin/knowledge">
@@ -81,16 +156,17 @@
     {{end}}
     {{if .Docs}}
     <table>
-      <thead><tr><th scope="col">Title</th><th scope="col">Type</th><th scope="col">Scope</th><th scope="col">Chunks</th><th scope="col">Updated</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+      <thead><tr><th scope="col">Title</th><th scope="col">Status</th><th scope="col">Used by customers</th><th scope="col">Scope</th><th scope="col">Updated</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
       <tbody>
       {{range .Docs}}
         <tr>
-          <td><strong>{{.Title}}</strong><div class="preview">{{.Preview}}</div></td>
-          <td data-label="Type">{{.Kind}}</td>
-          <td data-label="Scope">{{.Inbox}}</td>
-          <td class="num" data-label="Chunks">{{.Chunks}}{{if .Stale}} <span class="warn">({{.Stale}} old)</span>{{end}}</td>
+          <td><strong>{{.Title}}</strong> <span class="preview">{{.Kind}}</span><div class="preview">{{.Preview}}</div></td>
+          <td data-label="Status"><span class="badge {{.Status}}">{{if eq .Status "active"}}Active{{else if eq .Status "scheduled"}}Scheduled{{else}}Expired{{end}}</span>{{with .Window}}<div class="preview">{{.}}</div>{{end}}</td>
+          <td data-label="Used by customers"{{if .Unused}} class="muted-cell"{{end}}>{{.Used}}</td>
+          <td data-label="Scope">{{.Inbox}}{{if .Stale}} <span class="warn">({{.Stale}} old chunks)</span>{{end}}</td>
           <td class="num" data-label="Updated">{{.Updated}}</td>
-          <td>
+          <td class="row-actions">
+            <a class="btn small" href="/admin/knowledge?account={{$.AccountID}}&amp;edit={{.ID}}">Edit<span class="visually-hidden"> {{.Title}}</span></a>
             <form class="inline" method="post" action="/admin/knowledge">
               <input type="hidden" name="action" value="delete"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
               <button type="submit" class="link" aria-label="Delete {{.Title}}">Delete</button>
@@ -100,6 +176,8 @@
       {{end}}
       </tbody>
     </table>
+    {{else if .Total}}
+    <p class="hint" style="margin:0">Nothing here. <a href="/admin/knowledge?account={{.AccountID}}">Show all</a></p>
     {{else}}
     <p class="hint" style="margin:0">Nothing yet. Add an FAQ or a document above.</p>
     {{end}}
@@ -109,3 +187,12 @@
 </div>
 </body>
 </html>
+
+{{define "dates"}}
+<div><label for="{{.P}}-from">Start date</label>
+<input id="{{.P}}-from" name="valid_from" type="date" value="{{.From}}" aria-describedby="{{.P}}-from-hint">
+<p class="field-hint" id="{{.P}}-from-hint">Blank = from now.</p></div>
+<div><label for="{{.P}}-until">Last day</label>
+<input id="{{.P}}-until" name="valid_until" type="date" value="{{.Until}}" aria-describedby="{{.P}}-until-hint">
+<p class="field-hint" id="{{.P}}-until-hint">The bot stops using it after this day. Blank = no end.</p></div>
+{{end}}

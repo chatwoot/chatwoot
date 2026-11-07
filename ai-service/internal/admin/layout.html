@@ -138,6 +138,20 @@
   .seg button { border: 0; border-radius: 0; min-height: 36px; padding: 6px 10px; font-size: .85rem; background: var(--card); color: var(--muted); }
   .seg button + button { border-left: 1px solid var(--border); }
   .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); }
+  /* Knowledge list: filters, status badges, row actions */
+  nav.filters { flex-direction: row; flex-wrap: wrap; gap: 4px; margin: 0 0 12px; }
+  nav.filters a { padding: 6px 12px; min-height: 36px; border: 1px solid var(--border); border-radius: 999px; font-size: .9rem; }
+  nav.filters a[aria-current="page"] { background: var(--accent); color: var(--accent-text); border-color: var(--accent); box-shadow: none; }
+  .count { font-weight: 700; margin-left: 4px; }
+  .badge.active { background: var(--ok-bg); color: var(--ok-text); border-color: transparent; }
+  .badge.scheduled { background: var(--warn-bg); color: var(--warn-text); border-color: transparent; }
+  .badge.expired { background: var(--err-bg); color: var(--err-text); border-color: transparent; }
+  main a:not(.btn) { color: var(--accent); text-underline-offset: 2px; }
+  .muted-cell { color: var(--muted); }
+  td.row-actions { white-space: nowrap; text-align: right; }
+  a.btn.small { min-height: 36px; padding: 6px 12px; font-size: .9rem; }
+  .card.dupes { border-color: var(--warn-text); }
+  @media (max-width: 640px) { td.row-actions { text-align: left; } nav.filters a { min-height: 44px; } }
   /* Home checklist and test chat */
   .nav-settings { margin-top: 16px; border-top: 1px solid var(--border); border-radius: 0 0 8px 8px; }
   .status { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: var(--radius); margin: 0 0 16px; font-weight: 600; }

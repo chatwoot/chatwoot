@@ -76,8 +76,9 @@ func run() error {
 	var botProfiles bot.Profiles
 	var adminProfiles profile.Store
 	var rewriter bot.QueryRewriter
+	var usage bot.UsageRecorder
 	if kb != nil {
-		retriever, botProfiles, adminProfiles = kb, profiles, profiles
+		retriever, botProfiles, adminProfiles, usage = kb, profiles, profiles, kb
 		rewriter = &bot.LLMRewriter{LLM: rewriteLLM}
 	}
 
@@ -98,6 +99,7 @@ func run() error {
 		Chatwoot:          chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
 		LLM:               completer,
 		Knowledge:         retriever,
+		Usage:             usage,
 		Profiles:          botProfiles,
 		Rewriter:          rewriter,
 		Fetcher:           &media.Fetcher{Host: hostOf(cfg.ChatwootBaseURL), MaxBytes: 10 << 20},
@@ -128,7 +130,7 @@ func run() error {
 		(&admin.Handler{
 			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
 			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
-			Knowledge: kb, Profiles: adminProfiles, Tester: b, Timeout: cfg.LLMTimeout, Logger: logger,
+			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout, Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")

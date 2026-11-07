@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 	"os"
+	"strings"
 	"testing"
+	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
@@ -114,13 +116,16 @@ func TestPostgres_ReplaceChunks(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	read, _ := p.Get(ctx, 1, id)
+
 	// Act
-	err = p.ReplaceChunks(ctx, id, "m1", []Chunk{{Content: "new", Embedding: axis(2)}})
-	missing := p.ReplaceChunks(ctx, id+999, "m1", nil)
+	err = p.ReplaceChunks(ctx, read, "m1", []Chunk{{Content: "new", Embedding: axis(2)}})
+	missing := p.ReplaceChunks(ctx, Document{ID: id + 999, AccountID: 1}, "m1", nil)
+	otherAcct := p.ReplaceChunks(ctx, Document{ID: id, AccountID: 2, UpdatedAt: read.UpdatedAt}, "m1", nil)
 
 	// Assert
-	if err != nil || !errors.Is(missing, ErrNotFound) {
-		t.Fatalf("err=%v missing=%v", err, missing)
+	if err != nil || !errors.Is(missing, ErrNotFound) || !errors.Is(otherAcct, ErrNotFound) {
+		t.Fatalf("err=%v missing=%v otherAcct=%v", err, missing, otherAcct)
 	}
 	docs, _ := p.List(ctx, 1, "m1")
 	if len(docs) != 1 || docs[0].Chunks != 1 || docs[0].StaleChunks != 0 {
@@ -189,8 +194,8 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
 		t.Fatal(err)
 	}
-	if version != 3 || docs != 1 || table == nil {
-		t.Errorf("version=%d docs=%d business_profiles=%v, want 3, 1, present", version, docs, table)
+	if version != 4 || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want 4, 1, present", version, docs, table)
 	}
 	var rls bool
 	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
@@ -266,5 +271,262 @@ func TestPostgres_OldBinarySaveKeepsFeatureSwitches(t *testing.T) {
 	// Assert
 	if err != nil || getErr != nil || got.BusinessName != "B" || !got.Features.Voice {
 		t.Errorf("after an old-binary save: %+v (err %v / %v), want name B and voice still on", got, err, getErr)
+	}
+}
+
+// Production will be at schema v3 with documents; v4 adds validity dates and
+// usage counters without changing what the bot finds.
+func TestPostgres_MigratesV3ToV4KeepsDocumentsActive(t *testing.T) {
+	// Arrange: a v3 database holding one document with a chunk.
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `ALTER TABLE kb_documents DROP COLUMN valid_from, DROP COLUMN valid_until,
+		DROP COLUMN use_count, DROP COLUMN last_used_at;
+		UPDATE kb_schema_version SET version = 3;`); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := db.Pool.Exec(ctx, `INSERT INTO kb_documents (account_id, kind, title, content) VALUES (1, 'faq', 'q', 'a')`); err != nil {
+		t.Fatal(err)
+	}
+	var docID int64
+	if err := db.Pool.QueryRow(ctx, "SELECT id FROM kb_documents").Scan(&docID); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := db.Pool.Exec(ctx, `INSERT INTO kb_chunks (document_id, account_id, ord, content, embedding_model, embedding)
+		VALUES ($1, 1, 0, 'q a', 'm', $2::vector)`, docID, vectorLiteral(axis(0))); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	err := db.Migrate(ctx)
+	hits, searchErr := db.Search(ctx, Query{AccountID: 1, Model: "m", Vector: axis(0), Limit: 3})
+	docs, listErr := db.List(ctx, 1, "m")
+
+	// Assert
+	if err != nil || searchErr != nil || listErr != nil {
+		t.Fatalf("migrate %v, search %v, list %v", err, searchErr, listErr)
+	}
+	var version int
+	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 4 {
+		t.Fatalf("version = %d (err %v), want 4", version, err)
+	}
+	if len(hits) != 1 || len(docs) != 1 || docs[0].UseCount != 0 || !docs[0].ValidUntil.IsZero() || !docs[0].LastUsedAt.IsZero() {
+		t.Errorf("after v4: hits=%d docs=%+v", len(hits), docs)
+	}
+}
+
+func TestPostgres_ValidityWindowHidesDocumentsFromTheBot(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	now := time.Now()
+	add := func(title string, from, until time.Time, dim int) {
+		t.Helper()
+		d := Document{AccountID: 1, Kind: KindFAQ, Title: title, Content: "x", ValidFrom: from, ValidUntil: until}
+		if _, err := db.Insert(ctx, d, "m", []Chunk{{Content: title, Embedding: axis(dim)}}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	add("open", time.Time{}, time.Time{}, 0)
+	add("expired", now.Add(-48*time.Hour), now.Add(-time.Hour), 1)
+	add("scheduled", now.Add(time.Hour), time.Time{}, 2)
+	add("current", now.Add(-time.Hour), now.Add(time.Hour), 3)
+	titles := func(inactive bool) map[string]bool {
+		got := map[string]bool{}
+		for dim := 0; dim < 4; dim++ {
+			hits, err := db.Search(ctx, Query{AccountID: 1, Model: "m", Vector: axis(dim), Limit: 1, IncludeInactive: inactive})
+			if err != nil {
+				t.Fatal(err)
+			}
+			for _, h := range hits {
+				if h.Score > 0.99 {
+					got[h.Title] = true
+				}
+			}
+		}
+		return got
+	}
+
+	// Act
+	bot, all := titles(false), titles(true)
+
+	// Assert
+	if !bot["open"] || !bot["current"] || bot["expired"] || bot["scheduled"] {
+		t.Errorf("bot sees %v, want only open and current", bot)
+	}
+	if len(all) != 4 {
+		t.Errorf("duplicate check sees %v, want all four", all)
+	}
+}
+
+func TestPostgres_UpdateGetAndMarkUsed(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	id, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "old", Content: "a"}, "m",
+		[]Chunk{{Content: "old", Embedding: axis(0)}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	until := time.Date(2030, 1, 1, 0, 0, 0, 0, time.UTC)
+
+	// Act
+	upErr := db.Update(ctx, Document{ID: id, AccountID: 1, InboxID: 5, Kind: KindFAQ, Title: "new", Content: "b", ValidUntil: until},
+		"m", []Chunk{{Content: "new", Embedding: axis(1)}, {Ord: 1, Content: "new 2", Embedding: axis(2)}})
+	wrongAcct := db.Update(ctx, Document{ID: id, AccountID: 2, Kind: KindFAQ, Title: "hijack", Content: "c"}, "m", nil)
+	usedErr := db.MarkUsed(ctx, 1, []int64{id})
+	_ = db.MarkUsed(ctx, 2, []int64{id}) // other account: no effect
+	got, getErr := db.Get(ctx, 1, id)
+	_, otherErr := db.Get(ctx, 2, id)
+	hits, _ := db.Search(ctx, Query{AccountID: 1, InboxID: 5, Model: "m", Vector: axis(1), Limit: 5})
+
+	// Assert
+	if upErr != nil || usedErr != nil || getErr != nil {
+		t.Fatalf("update %v, used %v, get %v", upErr, usedErr, getErr)
+	}
+	if !errors.Is(wrongAcct, ErrNotFound) || !errors.Is(otherErr, ErrNotFound) {
+		t.Errorf("other account: update %v, get %v, want ErrNotFound", wrongAcct, otherErr)
+	}
+	if got.Title != "new" || got.InboxID != 5 || !got.ValidUntil.Equal(until) || got.UseCount != 1 || got.LastUsedAt.IsZero() {
+		t.Errorf("after update = %+v", got)
+	}
+	if len(hits) != 2 || hits[0].Title != "new" {
+		t.Errorf("chunks not replaced: %+v", hits)
+	}
+}
+
+// A re-index that read a document before an admin edited it must not write
+// chunks of the old text over the edit.
+func TestPostgres_ReplaceChunksSkipsEditedDocument(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	id, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "old", Content: "a"}, "m",
+		[]Chunk{{Content: "old", Embedding: axis(0)}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	stale, _ := db.Get(ctx, 1, id) // re-index reads here...
+	if err := db.Update(ctx, Document{ID: id, AccountID: 1, Kind: KindFAQ, Title: "new", Content: "b"}, "m",
+		[]Chunk{{Content: "new", Embedding: axis(1)}}); err != nil { // ...admin edits...
+		t.Fatal(err)
+	}
+
+	// Act: ...then re-index writes chunks of the old text.
+	err = db.ReplaceChunks(ctx, stale, "m", []Chunk{{Content: "old", Embedding: axis(0)}})
+	hits, _ := db.Search(ctx, Query{AccountID: 1, Model: "m", Vector: axis(1), Limit: 5})
+
+	// Assert
+	if !errors.Is(err, ErrChanged) {
+		t.Fatalf("err = %v, want ErrChanged", err)
+	}
+	if len(hits) != 1 || hits[0].Content != "new" {
+		t.Errorf("chunks after = %+v, want only the edited text", hits)
+	}
+}
+
+// The validity filter must hold when the planner uses the HNSW index with
+// iterative scans (small tables otherwise get a sequential scan): expired
+// documents nearest to the query must be skipped, not returned or starve
+// the result.
+func TestPostgres_ValidityFilterThroughHNSWIndex(t *testing.T) {
+	// Arrange: 30 expired documents right next to the query, 1 active further away.
+	db := openTestDB(t)
+	ctx := context.Background()
+	past := time.Now().Add(-time.Hour)
+	near := func(i int) []float32 {
+		v := axis(0)
+		v[1+i] = 0.01
+		return v
+	}
+	for i := 0; i < 30; i++ {
+		if _, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "expired", Content: "x", ValidUntil: past},
+			"m", []Chunk{{Content: "expired", Embedding: near(i)}}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	active := axis(0)
+	active[100] = 0.5
+	if _, err := db.Insert(ctx, Document{AccountID: 1, Kind: KindFAQ, Title: "active", Content: "x"},
+		"m", []Chunk{{Content: "active", Embedding: active}}); err != nil {
+		t.Fatal(err)
+	}
+	tx, err := db.Pool.Begin(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer tx.Rollback(ctx) //nolint:errcheck
+	if _, err := tx.Exec(ctx, "SET LOCAL enable_seqscan = off; SET LOCAL enable_sort = off; SET LOCAL hnsw.iterative_scan = relaxed_order"); err != nil {
+		t.Fatal(err)
+	}
+	const q = `SELECT d.title FROM kb_chunks c JOIN kb_documents d ON d.id = c.document_id
+		WHERE c.account_id = $2 AND (c.inbox_id IS NULL OR c.inbox_id = $3) AND c.embedding_model = $4
+		  AND ($6 OR ((d.valid_from IS NULL OR d.valid_from <= now()) AND (d.valid_until IS NULL OR d.valid_until > now())))
+		ORDER BY c.embedding <=> $1::vector LIMIT $5`
+	args := []any{vectorLiteral(axis(0)), int64(1), int64(0), "m", 3, false}
+
+	// Act
+	var plan strings.Builder
+	rows, err := tx.Query(ctx, "EXPLAIN "+q, args...)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for rows.Next() {
+		var line string
+		_ = rows.Scan(&line)
+		plan.WriteString(line + "\n")
+	}
+	rows.Close()
+	var titles []string
+	rows, err = tx.Query(ctx, q, args...)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for rows.Next() {
+		var title string
+		_ = rows.Scan(&title)
+		titles = append(titles, title)
+	}
+	rows.Close()
+
+	// Assert
+	if !strings.Contains(plan.String(), "kb_chunks_embedding") {
+		t.Fatalf("plan does not use the HNSW index:\n%s", plan.String())
+	}
+	if len(titles) != 1 || titles[0] != "active" {
+		t.Errorf("titles = %v, want only the active document", titles)
+	}
+}
+
+// Production may jump from v2 to v4 in one Migrate call.
+func TestPostgres_MigratesV2ToV4InOneStep(t *testing.T) {
+	// Arrange: a v2 database with a document and a profile.
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `ALTER TABLE business_profiles DROP COLUMN voice_enabled, DROP COLUMN images_enabled, DROP COLUMN stickers_enabled;
+		ALTER TABLE kb_documents DROP COLUMN valid_from, DROP COLUMN valid_until, DROP COLUMN use_count, DROP COLUMN last_used_at;
+		UPDATE kb_schema_version SET version = 2;
+		INSERT INTO business_profiles (account_id, business_name) VALUES (1, 'A');
+		INSERT INTO kb_documents (account_id, kind, title, content) VALUES (1, 'faq', 'q', 'a');`); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	err := db.Migrate(ctx)
+
+	// Assert
+	if err != nil {
+		t.Fatalf("Migrate: %v", err)
+	}
+	var version, cols int
+	if err := db.Pool.QueryRow(ctx, `SELECT (SELECT version FROM kb_schema_version),
+		(SELECT count(*) FROM information_schema.columns WHERE
+		  (table_name = 'business_profiles' AND column_name IN ('voice_enabled', 'images_enabled', 'stickers_enabled')) OR
+		  (table_name = 'kb_documents' AND column_name IN ('valid_from', 'valid_until', 'use_count', 'last_used_at')))`).Scan(&version, &cols); err != nil {
+		t.Fatal(err)
+	}
+	docs, _ := db.List(ctx, 1, "m")
+	if version != 4 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
+		t.Errorf("version=%d new columns=%d docs=%+v, want 4, 7, one active document", version, cols, docs)
 	}
 }

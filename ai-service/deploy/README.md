@@ -73,6 +73,11 @@ Without Claude Code, follow the steps by hand.
 Rollback: revert the PR, merge, deploy again. Rolling back code does not roll
 back a schema change.
 
+- Below schema v4 code, expired and scheduled knowledge comes back: older code
+  ignores `valid_from`/`valid_until`. Before such a rollback, delete or edit
+  dated documents whose window is closed, or accept that the bot may quote
+  them again.
+
 ## Access
 
 - SSH: `ssh llmopshostinger` (key-based alias on the owner's machine; plain

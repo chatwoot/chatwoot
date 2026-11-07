@@ -64,6 +64,11 @@ const MaxInputRunes = 2000
 
 const cutMarker = " …[message cut]"
 
+// UsageRecorder counts knowledge use (knowledge.Service.MarkUsed).
+type UsageRecorder interface {
+	MarkUsed(ctx context.Context, accountID int64, hits []knowledge.Hit) error
+}
+
 // Options configures a Bot.
 type Options struct {
 	Chatwoot  Chatwoot
@@ -72,6 +77,7 @@ type Options struct {
 	Profiles  Profiles      // optional; adds each account's business profile to SystemPrompt
 	Rewriter  QueryRewriter // optional; adds rewritten (Thai + English) search queries
 	Tracer    Tracer        // optional; receives one trace per customer message
+	Usage     UsageRecorder // optional; counts which documents customer questions reach
 	// Media (each optional; a feature also needs its switch on the business profile).
 	Fetcher        Fetcher     // downloads attachments from the Chatwoot host
 	Transcriber    Transcriber // voice notes → text
@@ -257,6 +263,9 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 	res, hits, err := b.answer(ctx, log, acct, inbox, history, tr, images)
 	latency := time.Since(started)
 	log = log.With(sourceAttrs(hits)...)
+	if err == nil && len(hits) > 0 {
+		defer b.recordUsage(log, acct, hits) // after the reply, so it never delays the customer
+	}
 	if err != nil {
 		log.Error("llm completion failed", "error", err, "latency_ms", latency.Milliseconds())
 		tr.Outcome, tr.Output = "handoff:"+ReasonLLMError, b.opts.FailureMessage
@@ -457,6 +466,19 @@ func sourceAttrs(hits []knowledge.Hit) []any {
 		scores[i] = math.Round(h.Score*1000) / 1000
 	}
 	return []any{"kb_hits", len(hits), "kb_document_ids", docs, "kb_chunk_ids", chunks, "kb_scores", scores}
+}
+
+// recordUsage counts the documents behind hits as used. Failure only loses
+// a statistic, so it is logged and ignored.
+func (b *Bot) recordUsage(log *slog.Logger, acct int64, hits []knowledge.Hit) {
+	if b.opts.Usage == nil {
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := b.opts.Usage.MarkUsed(ctx, acct, hits); err != nil {
+		log.Warn("knowledge usage not recorded", "error", err)
+	}
 }
 
 // Preview is what the bot would do with a conversation, worked out without
