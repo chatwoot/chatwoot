@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Connect an AI app</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f6f7f9; --card:#fff; --text:#1d232b; --muted:#5b6573; --border:#d9dee5; --accent:#1f6feb; --accent-text:#fff; --err-bg:#fdecec; --err-text:#8a1c1c; --warn-bg:#fff4d6; --warn-text:#6b4a00; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0f1318; --card:#171c23; --text:#e6e9ee; --muted:#9aa4b2; --border:#2a313b; --accent:#4c8dff; --accent-text:#0b1220; --err-bg:#3a1616; --err-text:#ffc9c9; --warn-bg:#33270a; --warn-text:#ffe2a3; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif; display:grid; place-items:start center; min-height:100vh; padding:32px 16px; }
+  main { width:100%; max-width:460px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:24px; }
+  h1 { font-size:1.35rem; margin:0 0 8px; }
+  p { margin:0 0 12px; } .muted { color:var(--muted); font-size:.9rem; }
+  .app { background:var(--warn-bg); color:var(--warn-text); border-radius:8px; padding:12px 14px; margin:0 0 16px; }
+  .err { background:var(--err-bg); color:var(--err-text); border-radius:8px; padding:12px 14px; margin:0 0 16px; }
+  label { display:block; font-weight:600; font-size:.9rem; margin:14px 0 6px; }
+  input[type=password], input[type=number] { width:100%; font:inherit; color:var(--text); background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:10px 12px; min-height:44px; }
+  .check { display:flex; gap:10px; align-items:flex-start; font-weight:400; margin:10px 0 0; cursor:pointer; }
+  .check input { width:20px; height:20px; margin:2px 0 0; accent-color:var(--accent); }
+  .check span span { display:block; color:var(--muted); font-size:.85rem; }
+  fieldset { border:0; padding:0; margin:14px 0 0; } legend { font-weight:600; font-size:.9rem; }
+  .row { display:flex; gap:12px; margin-top:20px; }
+  button { flex:1; font:inherit; font-weight:600; border-radius:8px; padding:10px 16px; min-height:44px; cursor:pointer; border:1px solid var(--border); background:var(--card); color:var(--text); }
+  button.primary { background:var(--accent); color:var(--accent-text); border-color:var(--accent); }
+  :focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Connect an AI app</h1>
+  {{if .Error}}
+  <div class="err" role="alert">{{.Error}}</div>
+  {{end}}
+  {{if .Client.ID}}{{if .ReturnHost}}
+  <div class="app"><strong>{{.Client.Name}}</strong> wants to use your knowledge base. After you approve, you go back to <strong>{{.ReturnHost}}</strong>.</div>
+  <p class="muted">Approve only if you just started this from that app. It can always be revoked on the admin page under Connect AI tools.</p>
+  <form method="post" action="/oauth/authorize" autocomplete="off">
+    <input type="hidden" name="client_id" value="{{.ClientID}}">
+    <input type="hidden" name="redirect_uri" value="{{.RedirectURI}}">
+    <input type="hidden" name="state" value="{{.State}}">
+    <input type="hidden" name="code_challenge" value="{{.Challenge}}">
+    <input type="hidden" name="code_challenge_method" value="S256">
+    <input type="hidden" name="response_type" value="code">
+    <input type="hidden" name="scope" value="{{.Scope}}">
+    <input type="hidden" name="resource" value="{{.Resource}}">
+    <label for="account">Account</label>
+    <input id="account" name="account" type="number" min="1" inputmode="numeric" value="{{.Account}}" required>
+    <fieldset>
+      <legend>Access</legend>
+      <label class="check"><input type="radio" name="access" value="read"{{if not .Write}} checked{{end}}><span><strong>Read only</strong><span>Read documents and ask the bot test questions.</span></span></label>
+      <label class="check"><input type="radio" name="access" value="write"{{if .Write}} checked{{end}}><span><strong>Read and write</strong><span>Also add, update and delete documents. Changes what customers are told.</span></span></label>
+    </fieldset>
+    <label for="password">Admin password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required autofocus>
+    <div class="row">
+      <button type="submit" name="decision" value="deny" formnovalidate>Deny</button>
+      <button type="submit" name="decision" value="approve" class="primary">Approve</button>
+    </div>
+  </form>
+  {{end}}{{end}}
+</main>
+</body>
+</html>

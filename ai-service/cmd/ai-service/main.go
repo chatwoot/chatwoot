@@ -26,6 +26,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/media"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
@@ -79,8 +80,10 @@ func run() error {
 	var rewriter bot.QueryRewriter
 	var usage bot.UsageRecorder
 	var mcpStore *mcp.Postgres
+	var oauthStore *oauth.Postgres
 	if kb != nil {
 		mcpStore = &mcp.Postgres{Pool: profiles.Pool}
+		oauthStore = &oauth.Postgres{Pool: profiles.Pool}
 		retriever, botProfiles, adminProfiles, usage = kb, profiles, profiles, kb
 		rewriter = &bot.LLMRewriter{LLM: rewriteLLM}
 	}
@@ -134,7 +137,7 @@ func run() error {
 			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
 			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
 			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout,
-			Tokens: mcpTokens(mcpStore), MCPURL: cfg.MCPPublicURL, Logger: logger,
+			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL, Logger: logger,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -146,10 +149,22 @@ func run() error {
 		logger.Warn("mcp off: it needs DATABASE_URL and ADMIN_PASSWORD (tokens are managed on /admin)")
 	default:
 		// MCP for AI tools: bearer-token auth inside, no /admin password.
-		mux.Handle("/mcp", &mcp.Server{
+		srvMCP := &mcp.Server{
 			Knowledge: kb, Tokens: mcpStore, Audit: mcpStore, Tester: b,
 			Location: cfg.Location, Logger: logger.With("component", "mcp"), Version: "1",
-		})
+		}
+		// OAuth lets Claude and ChatGPT apps connect with a sign-in instead of
+		// a pasted token. It needs the public https address of /mcp.
+		if strings.HasPrefix(cfg.MCPPublicURL, "https://") || strings.HasPrefix(cfg.MCPPublicURL, "http://127.0.0.1:") {
+			as := &oauth.Server{Resource: cfg.MCPPublicURL, Password: cfg.AdminPassword,
+				Store: oauthStore, Logger: logger.With("component", "oauth")}
+			as.Routes(mux)
+			srvMCP.ResourceMetadata = as.MetadataURL()
+			logger.Info("mcp oauth on", "issuer", as.Issuer())
+		} else {
+			logger.Info("mcp oauth off: set MCP_PUBLIC_URL to the https address of /mcp")
+		}
+		mux.Handle("/mcp", srvMCP)
 		logger.Info("mcp on", "path", "/mcp")
 	}
 	srv := &http.Server{
@@ -231,6 +246,14 @@ func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logg
 		Store: pg, Embedder: embedder,
 		TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes,
 	}, &profile.Postgres{Pool: pg.Pool}, pg.Pool.Close, nil
+}
+
+// oauthApps keeps a nil store a nil interface.
+func oauthApps(p *oauth.Postgres) oauth.Store {
+	if p == nil {
+		return nil
+	}
+	return p
 }
 
 // mcpTokens keeps a nil store a nil interface, so the admin hides the page.

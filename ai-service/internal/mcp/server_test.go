@@ -513,3 +513,18 @@ func TestServer_TrailingDataAndBatchRejected(t *testing.T) {
 		t.Fatalf("batch = %v", batch)
 	}
 }
+
+func TestServer_401PointsToOAuthMetadata(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	e.srv.ResourceMetadata = "https://mcp.example.com/.well-known/oauth-protected-resource"
+
+	// Act
+	rec, _ := e.rpc("", "ping", nil)
+
+	// Assert
+	h := rec.Header().Get("WWW-Authenticate")
+	if rec.Code != http.StatusUnauthorized || !strings.Contains(h, `resource_metadata="https://mcp.example.com/.well-known/oauth-protected-resource"`) {
+		t.Fatalf("code=%d header=%q", rec.Code, h)
+	}
+}

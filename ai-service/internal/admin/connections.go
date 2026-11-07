@@ -18,7 +18,18 @@ type tokenView struct {
 	Revoked  bool
 }
 
+type appView struct {
+	ID       int64
+	Name     string
+	Access   string
+	Created  string
+	LastUsed string
+	Revoked  bool
+}
+
 type connectionsData struct {
+	Apps      []appView
+	OAuth     bool // apps can connect by signing in
 	Enabled   bool
 	AccountID int64
 	URL       string
@@ -74,6 +85,23 @@ func (h *Handler) renderConnections(w http.ResponseWriter, r *http.Request, stat
 			d.Tokens = append(d.Tokens, v)
 		}
 	}
+	if h.Apps != nil {
+		d.OAuth = strings.HasPrefix(d.URL, "https://") || strings.HasPrefix(d.URL, "http://127.0.0.1:")
+		grants, err := h.Apps.Grants(r.Context(), d.AccountID)
+		if err != nil {
+			h.Logger.Error("list oauth apps", "account_id", d.AccountID, "error", err)
+		}
+		for _, g := range grants {
+			v := appView{ID: g.ID, Name: g.ClientName, Access: "Read only", Created: h.day(g.CreatedAt), LastUsed: "Never", Revoked: !g.RevokedAt.IsZero()}
+			if g.CanWrite {
+				v.Access = "Read and write"
+			}
+			if !g.LastUsedAt.IsZero() {
+				v.LastUsed = g.LastUsedAt.In(h.loc()).Format("2 Jan 2006 15:04")
+			}
+			d.Apps = append(d.Apps, v)
+		}
+	}
 	// The new token is on this page only: never cache it.
 	w.Header().Set("Cache-Control", "no-store")
 	h.renderPage(w, r, status, "connections.html", d)
@@ -112,6 +140,15 @@ func (h *Handler) submitConnections(w http.ResponseWriter, r *http.Request) {
 		h.Logger.Info("mcp token created", "account_id", acct, "token_id", t.ID, "can_write", t.CanWrite, "remote_addr", r.RemoteAddr)
 		d.NewToken = plain
 		h.renderConnections(w, r, http.StatusOK, d)
+	case "revoke_app":
+		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
+		if h.Apps == nil || h.Apps.RevokeGrant(r.Context(), acct, id) != nil {
+			d.Error = "That app is already disconnected or belongs to another account."
+			h.renderConnections(w, r, http.StatusUnprocessableEntity, d)
+			return
+		}
+		h.Logger.Info("oauth app revoked", "account_id", acct, "grant_id", id, "remote_addr", r.RemoteAddr)
+		http.Redirect(w, r, "/admin/connections?account="+strconv.FormatInt(acct, 10)+"&done=revoked", http.StatusSeeOther)
 	case "revoke":
 		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
 		if err := h.Tokens.Revoke(r.Context(), acct, id); err != nil {

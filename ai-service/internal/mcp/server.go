@@ -38,6 +38,9 @@ type Server struct {
 	Location  *time.Location // business time zone for dates; nil is UTC
 	Logger    *slog.Logger
 	Version   string
+	// ResourceMetadata is the OAuth protected resource metadata URL, sent in
+	// 401 answers so apps can find where to sign in; empty without OAuth.
+	ResourceMetadata string
 
 	// PerMinute caps calls per token (embedding and model calls cost money);
 	// 0 means 60. TestPerMinute caps test_bot per account (each runs the full
@@ -111,7 +114,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err != nil {
-		w.Header().Set("WWW-Authenticate", `Bearer realm="ai-service mcp"`)
+		challenge := `Bearer realm="ai-service mcp"`
+		if s.ResourceMetadata != "" {
+			challenge = `Bearer resource_metadata="` + s.ResourceMetadata + `", scope="kb:read"`
+		}
+		w.Header().Set("WWW-Authenticate", challenge)
 		http.Error(w, "missing, invalid, expired or revoked token", http.StatusUnauthorized)
 		return
 	}

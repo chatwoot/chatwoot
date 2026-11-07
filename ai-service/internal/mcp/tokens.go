@@ -130,7 +130,8 @@ func (p *Postgres) Lookup(ctx context.Context, plain string) (Token, error) {
 	var t Token
 	var used, expires *time.Time
 	err := p.Pool.QueryRow(ctx, `SELECT id, account_id, name, can_write, created_at, last_used_at, expires_at
-		FROM mcp_tokens WHERE token_hash = $1 AND revoked_at IS NULL AND (expires_at IS NULL OR expires_at > now())`, HashToken(plain)).
+		FROM mcp_tokens t WHERE token_hash = $1 AND revoked_at IS NULL AND (expires_at IS NULL OR expires_at > now())
+		  AND (grant_id IS NULL OR EXISTS (SELECT 1 FROM oauth_grants g WHERE g.id = t.grant_id AND g.revoked_at IS NULL))`, HashToken(plain)).
 		Scan(&t.ID, &t.AccountID, &t.Name, &t.CanWrite, &t.CreatedAt, &used, &expires)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return Token{}, ErrInvalidToken
@@ -154,7 +155,7 @@ func (p *Postgres) Lookup(ctx context.Context, plain string) (Token, error) {
 // List implements Tokens: the account's tokens, newest first, revoked included.
 func (p *Postgres) List(ctx context.Context, accountID int64) ([]Token, error) {
 	rows, err := p.Pool.Query(ctx, `SELECT id, account_id, name, can_write, created_at, last_used_at, revoked_at, expires_at
-		FROM mcp_tokens WHERE account_id = $1 ORDER BY created_at DESC, id DESC LIMIT 100`, accountID)
+		FROM mcp_tokens WHERE account_id = $1 AND grant_id IS NULL ORDER BY created_at DESC, id DESC LIMIT 100`, accountID)
 	if err != nil {
 		return nil, err
 	}
@@ -178,7 +179,7 @@ func (p *Postgres) List(ctx context.Context, accountID int64) ([]Token, error) {
 // Revoke implements Tokens.
 func (p *Postgres) Revoke(ctx context.Context, accountID, id int64) error {
 	tag, err := p.Pool.Exec(ctx, `UPDATE mcp_tokens SET revoked_at = now()
-		WHERE id = $1 AND account_id = $2 AND revoked_at IS NULL`, id, accountID)
+		WHERE id = $1 AND account_id = $2 AND revoked_at IS NULL AND grant_id IS NULL`, id, accountID)
 	if err != nil {
 		return err
 	}
