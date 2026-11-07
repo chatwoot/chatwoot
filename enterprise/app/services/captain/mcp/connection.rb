@@ -51,6 +51,11 @@ class Captain::Mcp::Connection
 
   # The tool definitions for a run or the hourly check, reused for LISTING_TTL. The tools page and approval list the
   # server live, because an admin compares what it offers now. A failed listing is not kept, so the next run tries again.
+  #
+  # Known limit: while a server hangs, every run waits for the timeouts (about 40 seconds, RubyLLM's 10 second discovery
+  # plus TIMEOUT) before it skips the server, and holds a Sidekiq thread meanwhile. Runs also list servers that need new
+  # credentials, and the MCP session is never closed. A short Redis mark after a failed listing, skipping needs_credentials
+  # servers in Captain::Mcp::AgentTools, and closing the connections after a run would remove these costs.
   def recent_tool_definitions
     key = format(::Redis::RedisKeys::CAPTAIN_MCP_TOOL_LISTING, server_id: @server.id)
     cached = ::Redis::Alfred.get(key)
