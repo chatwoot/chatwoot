@@ -2,6 +2,8 @@
 # Every MCP and OAuth request goes through the SafeFetch address checks.
 class Captain::Mcp::Connection
   TIMEOUT = 30
+  # A run or the hourly check reuses a listing for this long, so a burst of messages lists each server once
+  LISTING_TTL = 1.minute
   # The server answered, but the MCP client could not read the answer
   class InvalidResponse < StandardError; end
 
@@ -30,7 +32,7 @@ class Captain::Mcp::Connection
 
   # Tools the server offers to models, as the definitions Captain approves and compares.
   # A reply the MCP client cannot parse, such as a string where it expects an object, raises InvalidResponse, so one
-  # server's bad reply is handled like a failed request. The original error still reaches Sentry.
+  # server's bad reply is handled like a failed request and never stops a run. The original error still reaches Sentry.
   def tool_definitions
     mcp.tools.select { |tool| tool.visibility.include?(:model) }.map do |tool|
       {
@@ -45,6 +47,21 @@ class Captain::Mcp::Connection
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @server.account).capture_exception
     raise InvalidResponse, "The server sent a tool list Captain could not read (#{e.class})"
+  end
+
+  # The tool definitions for a run or the hourly check, reused for LISTING_TTL. The tools page and approval list the
+  # server live, because an admin compares what it offers now. A failed listing is not kept, so the next run tries again.
+  #
+  # Known limit: while a server hangs, every run waits for the timeouts (about 40 seconds, RubyLLM's 10 second discovery
+  # plus TIMEOUT) before it skips the server, and holds a Sidekiq thread meanwhile. Runs also list servers that need new
+  # credentials, and the MCP session is never closed. A short Redis mark after a failed listing, skipping needs_credentials
+  # servers in Captain::Mcp::AgentTools, and closing the connections after a run would remove these costs.
+  def recent_tool_definitions
+    key = format(::Redis::RedisKeys::CAPTAIN_MCP_TOOL_LISTING, server_id: @server.id)
+    cached = ::Redis::Alfred.get(key)
+    return JSON.parse(cached) if cached
+
+    track_status { tool_definitions }.tap { |definitions| ::Redis::Alfred.setex(key, definitions.to_json, LISTING_TTL) }
   end
 
   # RubyLLM exposes the server's name only through its private server info
