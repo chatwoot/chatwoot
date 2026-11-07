@@ -160,6 +160,14 @@
   td.row-actions { white-space: nowrap; text-align: right; }
   a.btn.small, button.btn.small { min-height: 36px; padding: 6px 12px; font-size: .9rem; }
   .card.dupes { border-color: var(--warn-text); }
+  fieldset.kind-choice { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  fieldset.kind-choice label { display: inline-flex; gap: 8px; align-items: center; font-weight: 500; margin: 0; min-height: 44px; }
+  fieldset.kind-choice input[type="radio"] { width: 18px; height: 18px; min-height: 0; margin: 0; padding: 0; flex: none; accent-color: var(--accent, #1f6feb); }
+  details.feed-help { margin-top: 8px; }
+  td.src { overflow-wrap: anywhere; }
+  td.src .badge { white-space: nowrap; overflow-wrap: normal; }
+  details.feed-help ol { margin: 8px 0 0; padding-left: 1.25em; display: grid; gap: 6px; color: var(--muted); font-size: .9rem; min-width: 0; overflow-wrap: anywhere; }
+  details.feed-help code { white-space: normal; overflow-wrap: anywhere; }
   form.sched { display: inline-flex; gap: 6px; align-items: center; }
   form.sched select { min-height: 36px; padding: 4px 8px; width: auto; }
   @media (max-width: 640px) { td.row-actions { text-align: left; } nav.filters a { min-height: 44px; } }

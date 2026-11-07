@@ -51,6 +51,7 @@
   <section class="card" aria-labelledby="edit-title">
     <h2 id="edit-title" style="font-size:1.125rem;margin:0 0 4px">Edit {{if eq .Kind "faq"}}FAQ{{else}}document{{end}}</h2>
     <p class="hint">Saving re-indexes it. The bot uses the new version from the next message. Usage counts are kept.</p>
+    {{if .Synced}}<div class="alert err" role="note"><strong>This comes from a website page or data file.</strong> Your edit can be replaced at the next sync. To change it for good, edit the page or the file.</div>{{end}}
     {{if and $.Error (eq $.ErrorForm "edit")}}<div class="alert err" role="alert"><strong>Not saved.</strong>
 {{$.Error}}</div>{{end}}
     <form method="post" action="/admin/knowledge" autocomplete="off">
@@ -136,24 +137,42 @@
   {{if .WebOn}}
   <section class="card" aria-labelledby="web-title">
     <div class="page-head" style="margin:0">
-      <h2 id="web-title" style="font-size:1.125rem;margin:0 0 4px">Website pages</h2>
+      <h2 id="web-title" style="font-size:1.125rem;margin:0 0 4px">Website pages and data files</h2>
       {{if .Pages}}<form method="post" action="/admin/knowledge"><input type="hidden" name="action" value="sync_all"><input type="hidden" name="account" value="{{.AccountID}}"><button type="submit" class="btn small">Sync all now</button></form>{{end}}
     </div>
-    <p class="hint">Add a public page (for example your price or policy page). The bot reads it now and checks it every day: changes update automatically, and a page that disappears stops being used.</p>
+    <p class="hint">Add a public page (for example your price or policy page), or a data file where each row is one answer: a Google Sheet published as CSV, or a CSV or JSON Lines file. The bot reads it now and checks it on a schedule: changes update automatically, and anything that disappears stops being used.</p>
     {{if and .Error (eq .ErrorForm "page")}}<div class="alert err" role="alert"><strong>Not added.</strong> {{.Error}}</div>{{end}}
-    <form method="post" action="/admin/knowledge" class="row" autocomplete="off" style="margin-top:0">
+    <form method="post" action="/admin/knowledge" autocomplete="off" style="margin-top:0">
       <input type="hidden" name="action" value="add_page"><input type="hidden" name="account" value="{{.AccountID}}">
-      <label for="page-url" class="visually-hidden">Page address</label>
-      <input id="page-url" name="url" type="url" required placeholder="https://www.example.com/pricing" value="{{.PageURL}}" style="flex:3;min-width:240px">
-      <button type="submit" class="primary">Add page</button>
+      <fieldset class="kind-choice">
+        <legend class="visually-hidden">What is it?</legend>
+        <label><input type="radio" name="kind" value="page"{{if ne .PageKind "feed"}} checked{{end}}> Web page</label>
+        <label><input type="radio" name="kind" value="feed"{{if eq .PageKind "feed"}} checked{{end}}> Data file (one answer per row)</label>
+      </fieldset>
+      <div class="row" style="margin-top:8px">
+        <label for="page-url" class="visually-hidden">Address</label>
+        <input id="page-url" name="url" type="url" required placeholder="https://www.example.com/pricing" value="{{.PageURL}}" style="flex:3;min-width:240px">
+        <button type="submit" class="primary">Add</button>
+      </div>
     </form>
+    <details class="feed-help">
+      <summary>How to use a Google Sheet or a data file</summary>
+      <ol>
+        <li>In Google Sheets: <strong>File → Share → Publish to web</strong>, choose the sheet and <strong>Comma-separated values (.csv)</strong>, then <strong>Publish</strong>. Copy the link it shows and add it here as a data file.</li>
+        <li>The first row holds the column names. An <code>id</code> column is required: it must stay the same when you edit a row, so the bot updates that answer instead of adding a new one.</li>
+        <li>For questions and answers use <code>question</code> and <code>answer</code> columns. For longer text use <code>title</code> and <code>content</code> (or <code>text</code>); <code>category</code> and <code>section</code> become the title when there is no title.</li>
+        <li>JSON Lines works the same way: one object per line with the same names, for example <code>{"id": "product-001", "category": "Price", "section": "Lifetime", "text": "…"}</code>.</li>
+        <li>Optional <code>start_date</code> and <code>last_day</code> columns (YYYY-MM-DD) limit when the bot may use a row, for example a promotion.</li>
+        <li>Delete a row and the bot stops using it at once; it is removed for good a week later. Up to 500 rows per file.</li>
+      </ol>
+    </details>
     {{if .Pages}}
     <table style="margin-top:12px">
-      <thead><tr><th scope="col">Page</th><th scope="col">Status</th><th scope="col">Last checked</th><th scope="col">Check</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+      <thead><tr><th scope="col">Source</th><th scope="col">Status</th><th scope="col">Last checked</th><th scope="col">Check</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
       <tbody>
       {{range .Pages}}
         <tr>
-          <td><strong>{{if .Title}}{{.Title}}{{else}}{{.URL}}{{end}}</strong><div class="preview">{{.URL}}</div></td>
+          <td class="src"><strong>{{if .Title}}{{.Title}}{{else}}{{.URL}}{{end}}</strong>{{if .Feed}} <span class="badge">Data file</span>{{end}}<div class="preview">{{.URL}}</div></td>
           <td data-label="Status"><span class="badge {{if eq .Status "ok"}}active{{else if eq .Status "new"}}scheduled{{else}}expired{{end}}">{{.Label}}</span>{{with .Detail}}<div class="preview">{{.}}</div>{{end}}</td>
           <td class="num" data-label="Last checked">{{.Checked}}</td>
           <td data-label="Check">
@@ -174,7 +193,7 @@
               <input type="hidden" name="action" value="sync_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
               <button type="submit" class="btn small" aria-label="Check {{.URL}} now">Sync now</button>
             </form>
-            <form class="inline" method="post" action="/admin/knowledge" data-confirm="Stop syncing {{.URL}} and delete its knowledge?">
+            <form class="inline" method="post" action="/admin/knowledge" data-confirm="{{if .Feed}}Stop syncing this file and delete its {{.Items}} answers? Add the file again to bring them back.{{else}}Stop syncing {{.URL}} and delete its knowledge?{{end}}">
               <input type="hidden" name="action" value="remove_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
               <button type="submit" class="link" aria-label="Remove {{.URL}}">Remove</button>
             </form>

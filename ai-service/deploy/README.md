@@ -79,6 +79,11 @@ back a schema change.
   `SELECT id, client_name, created_at FROM oauth_grants WHERE approved_by IS NULL
   AND created_at > '<rollback time>'` and disconnect unexpected ones on
   Connect AI tools.
+- Below schema v11 code, data feeds are not understood: an older binary may
+  check a feed's file as if it were a web page, and removing a feed there
+  leaves its row documents behind. Before such a rollback, remove the data
+  files on Knowledge base (which deletes their rows), or accept that the
+  older code keeps the rows it last saved.
 - Below schema v4 code, expired and scheduled knowledge comes back: older code
   ignores `valid_from`/`valid_until`. Before such a rollback, delete or edit
   dated documents whose window is closed, or accept that the bot may quote

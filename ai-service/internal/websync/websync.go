@@ -34,11 +34,22 @@ type Source struct {
 	ChangedAt     time.Time
 	GoneSince     time.Time
 	CreatedAt     time.Time
+	Kind          string // KindPage or KindFeed
+	Items         int    // rows in a feed at the last good check
 }
+
+// Source kinds.
+const (
+	KindPage = "page" // one web page → one document
+	KindFeed = "feed" // a CSV or JSON Lines file → one document per row
+)
+
+// IsFeed reports whether the source is a data feed.
+func (s Source) IsFeed() bool { return s.Kind == KindFeed }
 
 // Store persists sources.
 type Store interface {
-	Add(ctx context.Context, accountID int64, url string) (Source, error)
+	Add(ctx context.Context, accountID int64, url, kind string) (Source, error)
 	List(ctx context.Context, accountID int64) ([]Source, error)
 	Get(ctx context.Context, accountID, id int64) (Source, error)
 	Remove(ctx context.Context, accountID, id int64) error
@@ -64,9 +75,10 @@ func Key(url string) string { return "web:" + url }
 // MaxPages is the most pages one account can keep in sync.
 const MaxPages = 200
 
-// Fetcher downloads a page (webfetch.Fetcher).
+// Fetcher downloads a page or a data file (webfetch.Fetcher).
 type Fetcher interface {
 	Fetch(ctx context.Context, url string) (webfetch.Page, error)
+	FetchData(ctx context.Context, url string) (webfetch.Page, error)
 }
 
 // Errors.
@@ -90,7 +102,11 @@ type Syncer struct {
 	Fetcher   Fetcher
 	Events    audit.Store // optional
 	Logger    *slog.Logger
-	Now       func() time.Time
+	// Location is the business time zone for feed row dates; nil is UTC.
+	Location *time.Location
+	// Background runs CheckLater's work; nil starts a goroutine (tests run it inline).
+	Background func(func())
+	Now        func() time.Time
 }
 
 func (s *Syncer) now() time.Time {
@@ -113,8 +129,11 @@ const (
 	Failed    Outcome = "failed"  // the page could not be read; the last version stays
 )
 
-// Check fetches one page and updates its document.
+// Check fetches one source and updates its documents.
 func (s *Syncer) Check(ctx context.Context, src Source) (Outcome, error) {
+	if src.IsFeed() {
+		return s.checkFeed(ctx, src)
+	}
 	src.CheckedAt = s.now()
 	page, err := s.Fetcher.Fetch(ctx, src.URL)
 	if errors.Is(err, webfetch.ErrNotFound) {
@@ -290,7 +309,11 @@ func (s *Syncer) RunOnce(ctx context.Context) {
 // checkSafely runs one check with a time limit and turns a panic into a
 // failed check, so one bad page cannot stop the service.
 func (s *Syncer) checkSafely(ctx context.Context, src Source) (outcome Outcome) {
-	cctx, cancel := context.WithTimeout(ctx, 2*time.Minute)
+	limit := 2 * time.Minute
+	if src.IsFeed() {
+		limit = 10 * time.Minute // up to 500 rows, each embedded when it changes
+	}
+	cctx, cancel := context.WithTimeout(ctx, limit)
 	defer cancel()
 	defer func() {
 		if r := recover(); r != nil {

@@ -110,7 +110,7 @@ func run() error {
 	var webSyncer *websync.Syncer
 	if kb != nil {
 		webSyncer = &websync.Syncer{Store: &websync.Postgres{Pool: profiles.Pool}, Knowledge: kb, Fetcher: &webfetch.Fetcher{},
-			Events: adminEvents(profiles, cfg.AuditRetentionDays), Logger: logger.With("component", "websync")}
+			Events: adminEvents(profiles, cfg.AuditRetentionDays), Logger: logger.With("component", "websync"), Location: cfg.Location}
 	}
 
 	b := bot.New(bot.Options{

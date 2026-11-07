@@ -473,3 +473,13 @@ func TestUpsert_KeyTakenMeanwhileBecomesUpdate(t *testing.T) {
 		t.Fatalf("id=%d before=%+v updated=%+v err=%v", id, before, st.updated, err)
 	}
 }
+
+func (f *fakeStore) ListByKeyPrefix(_ context.Context, acct int64, prefix string) ([]Document, error) {
+	var out []Document
+	for _, d := range f.docs {
+		if (d.AccountID == acct || d.AccountID == 0) && d.SourceKey != "" && strings.HasPrefix(d.SourceKey, prefix) {
+			out = append(out, d)
+		}
+	}
+	return out, nil
+}
