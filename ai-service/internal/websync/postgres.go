@@ -21,6 +21,9 @@ type Postgres struct {
 const columns = `id, account_id, url, title, interval_hours, content_hash, last_status, last_error,
 	last_checked_at, last_changed_at, gone_since, created_at`
 
+// claimLease is how long a claimed page is left to one checker.
+const claimLease = 5 * time.Minute
+
 func scan(row pgx.Row) (Source, error) {
 	var s Source
 	var checked, changed, gone *time.Time
@@ -45,11 +48,16 @@ func nullTime(t time.Time) any {
 	return t
 }
 
-// Add implements Store.
+// Add implements Store (at most MaxPages per account).
 func (p *Postgres) Add(ctx context.Context, accountID int64, url string) (Source, error) {
-	s, err := scan(p.Pool.QueryRow(ctx, `INSERT INTO web_sources (account_id, url) VALUES ($1, $2) RETURNING `+columns, accountID, url))
+	s, err := scan(p.Pool.QueryRow(ctx, `INSERT INTO web_sources (account_id, url)
+		SELECT $1, $2 WHERE (SELECT count(*) FROM web_sources WHERE account_id = $1) < $3
+		RETURNING `+columns, accountID, url, MaxPages))
 	if pgErr := (*pgconn.PgError)(nil); errors.As(err, &pgErr) && pgErr.Code == "23505" {
 		return Source{}, ErrDuplicate
+	}
+	if errors.Is(err, pgx.ErrNoRows) {
+		return Source{}, ErrTooMany
 	}
 	return s, err
 }
@@ -84,22 +92,47 @@ func (p *Postgres) Remove(ctx context.Context, accountID, id int64) error {
 	return nil
 }
 
-// Due implements Store: never checked, or last checked longer ago than the
-// page's interval, oldest first.
-func (p *Postgres) Due(ctx context.Context, limit int) ([]Source, error) {
-	rows, err := p.Pool.Query(ctx, `SELECT `+columns+` FROM web_sources
-		WHERE last_checked_at IS NULL OR last_checked_at < now() - make_interval(hours => interval_hours)
-		ORDER BY last_checked_at NULLS FIRST LIMIT $1`, max(limit, 1))
+// Claim implements Store: due pages are leased (next_check_at pushed past
+// the lease) in one statement, so concurrent runs never take the same page.
+func (p *Postgres) Claim(ctx context.Context, limit int) ([]Source, error) {
+	rows, err := p.Pool.Query(ctx, `UPDATE web_sources SET next_check_at = now() + make_interval(secs => $2)
+		WHERE id IN (SELECT id FROM web_sources WHERE next_check_at IS NULL OR next_check_at <= now()
+		             ORDER BY next_check_at NULLS FIRST LIMIT $1 FOR UPDATE SKIP LOCKED)
+		RETURNING `+columns, max(limit, 1), claimLease.Seconds())
 	if err != nil {
 		return nil, err
 	}
 	return pgx.CollectRows(rows, func(r pgx.CollectableRow) (Source, error) { return scan(r) })
 }
 
-// Save implements Store (the sync result fields only).
+// ClaimOne implements Store.
+func (p *Postgres) ClaimOne(ctx context.Context, accountID, id int64) (Source, error) {
+	s, err := scan(p.Pool.QueryRow(ctx, `UPDATE web_sources SET next_check_at = now() + make_interval(secs => $3)
+		WHERE id = $1 AND account_id = $2 AND (next_check_at IS NULL OR next_check_at <= now() + make_interval(hours => interval_hours) - make_interval(secs => $3) OR last_status <> 'new')
+		  AND id IN (SELECT id FROM web_sources WHERE id = $1 FOR UPDATE SKIP LOCKED)
+		RETURNING `+columns, id, accountID, claimLease.Seconds()))
+	if errors.Is(err, pgx.ErrNoRows) {
+		if _, getErr := p.Get(ctx, accountID, id); errors.Is(getErr, ErrNotFound) {
+			return Source{}, ErrNotFound
+		}
+		return Source{}, ErrBusy
+	}
+	return s, err
+}
+
+// Save implements Store (the sync result fields only) and schedules the next
+// check one interval later.
 func (p *Postgres) Save(ctx context.Context, s Source) error {
-	_, err := p.Pool.Exec(ctx, `UPDATE web_sources SET title = $3, content_hash = $4, last_status = $5, last_error = $6,
-		last_checked_at = $7, last_changed_at = $8, gone_since = $9 WHERE id = $1 AND account_id = $2`,
+	tag, err := p.Pool.Exec(ctx, `UPDATE web_sources SET title = $3, content_hash = $4, last_status = $5, last_error = $6,
+		last_checked_at = $7, last_changed_at = $8, gone_since = $9,
+		next_check_at = COALESCE($7, now()) + make_interval(hours => interval_hours)
+		WHERE id = $1 AND account_id = $2`,
 		s.ID, s.AccountID, s.Title, s.ContentHash, s.Status, s.Error, nullTime(s.CheckedAt), nullTime(s.ChangedAt), nullTime(s.GoneSince))
-	return err
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() == 0 {
+		return ErrNotFound
+	}
+	return nil
 }

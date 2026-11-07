@@ -42,10 +42,14 @@ func TestPostgres_SourcesAddDueSaveRemove(t *testing.T) {
 	_, dup := db.Add(ctx, 1, "https://example.com/pricing")
 	_, otherAcct := db.Add(ctx, 2, "https://example.com/pricing")
 	_, badURL := db.Add(ctx, 1, "javascript:alert(1)")
-	dueBefore, _ := db.Due(ctx, 10)
+	dueBefore, _ := db.Claim(ctx, 10)
+	claimedAgain, _ := db.Claim(ctx, 10) // leased: another run must not take them
 	a.Status, a.Title, a.ContentHash, a.CheckedAt, a.ChangedAt = "ok", "Pricing", "h1", time.Now(), time.Now()
 	saveErr := db.Save(ctx, a)
-	dueAfter, _ := db.Due(ctx, 10)
+	if _, err := db.Pool.Exec(ctx, "UPDATE web_sources SET next_check_at = now() - interval '1 second' WHERE account_id = 2"); err != nil {
+		t.Fatal(err)
+	}
+	dueAfter, _ := db.Claim(ctx, 10)
 	got, _ := db.Get(ctx, 1, a.ID)
 	_, crossGet := db.Get(ctx, 2, a.ID)
 	crossRemove := db.Remove(ctx, 2, a.ID)
@@ -56,13 +60,34 @@ func TestPostgres_SourcesAddDueSaveRemove(t *testing.T) {
 	if addErr != nil || !errors.Is(dup, ErrDuplicate) || otherAcct != nil || badURL == nil {
 		t.Fatalf("add=%v dup=%v other=%v bad=%v", addErr, dup, otherAcct, badURL)
 	}
-	if len(dueBefore) != 2 || len(dueAfter) != 1 {
-		t.Fatalf("due before=%d after=%d (a checked page is not due again for 24 h)", len(dueBefore), len(dueAfter))
+	if len(dueBefore) != 2 || len(claimedAgain) != 0 || len(dueAfter) != 1 || dueAfter[0].AccountID != 2 {
+		t.Fatalf("claims before=%d again=%d after=%d (a checked page is not due again for 24 h)", len(dueBefore), len(claimedAgain), len(dueAfter))
 	}
 	if saveErr != nil || got.Title != "Pricing" || got.Status != "ok" || got.ContentHash != "h1" {
 		t.Fatalf("saved = %+v err=%v", got, saveErr)
 	}
 	if !errors.Is(crossGet, ErrNotFound) || !errors.Is(crossRemove, ErrNotFound) || removeErr != nil || len(list) != 0 {
 		t.Fatalf("crossGet=%v crossRemove=%v remove=%v list=%d", crossGet, crossRemove, removeErr, len(list))
+	}
+}
+
+func TestPostgres_LimitsAndSaveAfterRemove(t *testing.T) {
+	// Arrange
+	db := openDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `INSERT INTO web_sources (account_id, url) SELECT 1, 'https://example.com/p' || g FROM generate_series(1, $1) g`, MaxPages); err != nil {
+		t.Fatal(err)
+	}
+	_, spaced := db.Pool.Exec(ctx, `INSERT INTO web_sources (account_id, url) VALUES (3, 'https://example.com/a b')`)
+	s, _ := db.Add(ctx, 2, "https://example.com/x")
+
+	// Act
+	_, tooMany := db.Add(ctx, 1, "https://example.com/one-more")
+	_ = db.Remove(ctx, 2, s.ID)
+	saveGone := db.Save(ctx, s)
+
+	// Assert
+	if !errors.Is(tooMany, ErrTooMany) || spaced == nil || !errors.Is(saveGone, ErrNotFound) {
+		t.Fatalf("tooMany=%v spaced=%v saveGone=%v", tooMany, spaced, saveGone)
 	}
 }

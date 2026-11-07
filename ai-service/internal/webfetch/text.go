@@ -32,18 +32,26 @@ var blankLines = regexp.MustCompile(`\n{3,}`)
 // table cells separated by " | ". The title is the first <h1>, else <title>.
 func Text(p Page) (title, text string) {
 	if p.ContentType != "text/html" {
-		return "", strings.TrimSpace(string(p.Body))
+		return "", strings.TrimSpace(strings.Map(func(r rune) rune {
+			if unicode.IsControl(r) && r != '\n' && r != '\t' {
+				return -1
+			}
+			return r
+		}, string(p.Body)))
 	}
 	doc, err := html.Parse(bytes.NewReader(p.Body))
 	if err != nil {
 		return "", ""
 	}
+	// Hidden "S:n" blocks are kept only on real React streaming pages, which
+	// swap them in with the $RC script; elsewhere hidden text stays hidden.
+	streaming := bytes.Contains(p.Body, []byte("$RC("))
 	var b strings.Builder
 	var h1 string
 	var walk func(n *html.Node)
 	walk = func(n *html.Node) {
 		if n.Type == html.ElementNode {
-			if skip[n.DataAtom] || hidden(n) {
+			if skip[n.DataAtom] || hidden(n, streaming) {
 				return
 			}
 			if n.DataAtom == atom.Title && title == "" && n.FirstChild != nil {
@@ -97,10 +105,10 @@ func Text(p Page) (title, text string) {
 	return title, strings.TrimSpace(blankLines.ReplaceAllString(strings.Join(lines, "\n"), "\n\n"))
 }
 
-func hidden(n *html.Node) bool {
+func hidden(n *html.Node, streaming bool) bool {
 	streamed := false // React streaming SSR sends content in <div hidden id="S:n"> and swaps it in
 	for _, a := range n.Attr {
-		if a.Key == "id" && strings.HasPrefix(a.Val, "S:") {
+		if streaming && n.DataAtom == atom.Div && a.Key == "id" && strings.HasPrefix(a.Val, "S:") {
 			streamed = true
 		}
 	}
@@ -119,10 +127,14 @@ func hidden(n *html.Node) bool {
 	return false
 }
 
+// inner is the visible text inside a heading.
 func inner(n *html.Node) string {
 	var b strings.Builder
 	var walk func(*html.Node)
 	walk = func(n *html.Node) {
+		if n.Type == html.ElementNode && (skip[n.DataAtom] || hidden(n, false)) {
+			return
+		}
 		if n.Type == html.TextNode {
 			b.WriteString(n.Data + " ")
 		}

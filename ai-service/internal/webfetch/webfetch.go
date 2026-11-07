@@ -6,6 +6,7 @@
 package webfetch
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
@@ -16,8 +17,12 @@ import (
 	"net/netip"
 	"net/url"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
+	"unicode/utf8"
+
+	"golang.org/x/net/html/charset"
 )
 
 // Limits.
@@ -52,6 +57,10 @@ var blocked = []netip.Prefix{
 	netip.MustParsePrefix("240.0.0.0/4"),
 	netip.MustParsePrefix("64:ff9b::/96"), // NAT64 can map to private IPv4
 	netip.MustParsePrefix("2001:db8::/32"),
+	netip.MustParsePrefix("::/96"),          // IPv4-compatible
+	netip.MustParsePrefix("fec0::/10"),      // site-local (deprecated)
+	netip.MustParsePrefix("2002::/16"),      // 6to4 can embed private IPv4
+	netip.MustParsePrefix("192.88.99.0/24"), // 6to4 relay
 }
 
 // Public reports whether ip is a public unicast address.
@@ -75,12 +84,20 @@ type Fetcher struct {
 	// AllowPrivate is for tests against a local server only.
 	AllowPrivate bool
 	UserAgent    string
+
+	once sync.Once
+	c    *http.Client
 }
 
 func (f *Fetcher) client() *http.Client {
 	if f.Client != nil {
 		return f.Client
 	}
+	f.once.Do(func() { f.c = f.build() })
+	return f.c
+}
+
+func (f *Fetcher) build() *http.Client {
 	dialer := &net.Dialer{Timeout: 10 * time.Second, Control: func(_, address string, _ syscall.RawConn) error {
 		return dialAllowed(address, f.AllowPrivate)
 	}}
@@ -96,12 +113,30 @@ func (f *Fetcher) client() *http.Client {
 		Transport: tr,
 		Timeout:   Timeout,
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-			if len(via) >= MaxRedirects {
-				return errors.New("too many redirects")
-			}
-			return checkURL(req.URL, f.AllowPrivate)
+			return checkRedirect(req.URL, via, f.AllowPrivate)
 		},
 	}
+}
+
+// ErrOffSite means a page redirected to another website.
+var ErrOffSite = errors.New("the page redirects to another website")
+
+// checkRedirect keeps redirects on the same site (the host, with or without
+// "www."), never from https to http: a page that starts redirecting elsewhere
+// (an expired domain, a hijacked site) must not replace the knowledge.
+func checkRedirect(next *url.URL, via []*http.Request, allowPrivate bool) error {
+	if len(via) >= MaxRedirects {
+		return errors.New("too many redirects")
+	}
+	first := via[0].URL
+	if first.Scheme == "https" && next.Scheme != "https" {
+		return ErrOffSite
+	}
+	site := func(h string) string { return strings.TrimPrefix(strings.ToLower(strings.TrimSuffix(h, ".")), "www.") }
+	if site(next.Hostname()) != site(first.Hostname()) {
+		return ErrOffSite
+	}
+	return checkURL(next, allowPrivate)
 }
 
 // dialAllowed is checked on the address actually being connected to, after
@@ -120,13 +155,25 @@ func dialAllowed(address string, allowPrivate bool) error {
 	return nil
 }
 
-// CheckURL validates a URL an owner wants to add.
+// CheckURL validates a URL an owner wants to add and normalises it: lower-case
+// scheme and host, no fragment, no whitespace, at most 496 characters.
 func CheckURL(raw string) (*url.URL, error) {
-	u, err := url.Parse(strings.TrimSpace(raw))
+	raw = strings.TrimSpace(raw)
+	if strings.ContainsAny(raw, " \t\r\n") {
+		return nil, errors.New("the address must not contain spaces")
+	}
+	u, err := url.Parse(raw)
 	if err != nil {
 		return nil, errors.New("not a valid web address")
 	}
-	return u, checkURL(u, false)
+	u.Scheme, u.Host, u.Fragment, u.RawFragment = strings.ToLower(u.Scheme), strings.ToLower(u.Host), "", ""
+	if err := checkURL(u, false); err != nil {
+		return nil, err
+	}
+	if len([]rune(u.String())) > 496 {
+		return nil, errors.New("the address is too long (496 characters at most)")
+	}
+	return u, nil
 }
 
 func checkURL(u *url.URL, allowPrivate bool) error {
@@ -172,6 +219,9 @@ func (f *Fetcher) Fetch(ctx context.Context, raw string) (Page, error) {
 		if errors.Is(err, ErrBlocked) {
 			return Page{}, ErrBlocked
 		}
+		if errors.Is(err, ErrOffSite) {
+			return Page{}, ErrOffSite
+		}
 		return Page{}, fmt.Errorf("could not reach the site: %w", unwrapNetErr(err))
 	}
 	defer res.Body.Close()
@@ -181,7 +231,7 @@ func (f *Fetcher) Fetch(ctx context.Context, raw string) (Page, error) {
 	case res.StatusCode != http.StatusOK:
 		return Page{}, fmt.Errorf("%w (status %d)", ErrBadResponse, res.StatusCode)
 	}
-	ct, _, _ := mime.ParseMediaType(res.Header.Get("Content-Type"))
+	ct, params, _ := mime.ParseMediaType(res.Header.Get("Content-Type"))
 	if ct != "text/html" && ct != "text/plain" && ct != "text/markdown" && ct != "application/xhtml+xml" {
 		return Page{}, ErrNotText
 	}
@@ -195,7 +245,25 @@ func (f *Fetcher) Fetch(ctx context.Context, raw string) (Page, error) {
 	if ct == "application/xhtml+xml" {
 		ct = "text/html"
 	}
+	// Decode legacy encodings (e.g. Thai TIS-620 / windows-874) to UTF-8.
+	if dec, err := charsetReader(body, params["charset"], ct); err == nil {
+		body = dec
+	}
+	if !utf8.Valid(body) {
+		return Page{}, errors.New("the page is not readable text")
+	}
 	return Page{FinalURL: res.Request.URL.String(), ContentType: ct, Body: body}, nil
+}
+
+func charsetReader(body []byte, label, ct string) ([]byte, error) {
+	if utf8.Valid(body) && (label == "" || strings.EqualFold(label, "utf-8")) {
+		return body, nil
+	}
+	r, err := charset.NewReader(bytes.NewReader(body), ct+"; charset="+label)
+	if err != nil {
+		return nil, err
+	}
+	return io.ReadAll(io.LimitReader(r, 4*MaxBytes))
 }
 
 // unwrapNetErr drops the URL from errors so logs and pages show the reason only.

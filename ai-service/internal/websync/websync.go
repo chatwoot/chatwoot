@@ -41,17 +41,32 @@ type Store interface {
 	List(ctx context.Context, accountID int64) ([]Source, error)
 	Get(ctx context.Context, accountID, id int64) (Source, error)
 	Remove(ctx context.Context, accountID, id int64) error
-	Due(ctx context.Context, limit int) ([]Source, error)
+	// Claim takes pages that are due (oldest first), marking them as being
+	// checked so another run or replica skips them.
+	Claim(ctx context.Context, limit int) ([]Source, error)
+	// ClaimOne takes one page for "Sync now"; ErrBusy if it is being checked.
+	ClaimOne(ctx context.Context, accountID, id int64) (Source, error)
+	// Save stores a check result; ErrNotFound if the page was removed meanwhile.
 	Save(ctx context.Context, s Source) error
 }
+
+// Key is the knowledge document key for a page.
+func Key(url string) string { return "web:" + url }
+
+// MaxPages is the most pages one account can keep in sync.
+const MaxPages = 200
 
 // Fetcher downloads a page (webfetch.Fetcher).
 type Fetcher interface {
 	Fetch(ctx context.Context, url string) (webfetch.Page, error)
 }
 
-// ErrDuplicate means the account already syncs that URL.
-var ErrDuplicate = errors.New("this page is already in the list")
+// Errors.
+var (
+	ErrDuplicate = errors.New("this page is already in the list")
+	ErrTooMany   = errors.New("this account already keeps 200 pages in sync; remove one first")
+	ErrBusy      = errors.New("this page is being checked right now; try again in a minute")
+)
 
 // GoneGrace is how long a page that disappeared stays (hidden) before its
 // document is deleted.
@@ -121,11 +136,22 @@ func (s *Syncer) Check(ctx context.Context, src Source) (Outcome, error) {
 	hash := hex.EncodeToString(sum[:])
 	wasGone := src.Status == "gone"
 	if hash == src.ContentHash && !wasGone {
-		src.Status, src.Error, src.Title = "ok", "", title
-		return Unchanged, s.Store.Save(ctx, src)
+		_, err := s.Knowledge.GetByKey(ctx, src.AccountID, Key(src.URL))
+		if err == nil {
+			src.Status, src.Error, src.Title = "ok", "", title
+			return Unchanged, s.Store.Save(ctx, src)
+		}
+		if !errors.Is(err, knowledge.ErrNotFound) {
+			return Failed, err
+		}
+		// the document was deleted by hand: save it again below
+	}
+	// The page may have been removed while it was being fetched.
+	if _, err := s.Store.Get(ctx, src.AccountID, src.ID); errors.Is(err, ErrNotFound) {
+		return Failed, err
 	}
 	before, _, _, err := s.Knowledge.Upsert(ctx, knowledge.Document{AccountID: src.AccountID, Kind: knowledge.KindText,
-		Title: title, Content: text, SourceKey: src.URL})
+		Title: title, Content: text, SourceKey: Key(src.URL)})
 	if err != nil {
 		src.Status, src.Error = "error", "could not save to the knowledge base"
 		_ = s.Store.Save(ctx, src)
@@ -150,7 +176,7 @@ func (s *Syncer) gone(ctx context.Context, src Source) (Outcome, error) {
 		src.GoneSince = s.now()
 	}
 	src.Status, src.Error = "gone", "the page no longer exists (404 or 410)"
-	doc, err := s.Knowledge.GetByKey(ctx, src.AccountID, src.URL)
+	doc, err := s.Knowledge.GetByKey(ctx, src.AccountID, Key(src.URL))
 	outcome := Hidden
 	switch {
 	case errors.Is(err, knowledge.ErrNotFound):
@@ -193,7 +219,7 @@ func (s *Syncer) event(ctx context.Context, src Source, action string, before kn
 }
 
 func errText(err error) string {
-	for _, known := range []error{webfetch.ErrBlocked, webfetch.ErrNotText, webfetch.ErrTooLarge, webfetch.ErrBadResponse} {
+	for _, known := range []error{webfetch.ErrBlocked, webfetch.ErrNotText, webfetch.ErrTooLarge, webfetch.ErrBadResponse, webfetch.ErrOffSite} {
 		if errors.Is(err, known) {
 			return err.Error()
 		}
@@ -201,7 +227,9 @@ func errText(err error) string {
 	return "could not reach the site"
 }
 
-// Run checks due pages every interval until ctx ends, one at a time.
+// Run checks due pages every interval until ctx ends, one at a time. A batch
+// of 50 slow pages can take longer than the interval; the ticker then simply
+// waits for it.
 func (s *Syncer) Run(ctx context.Context, every time.Duration) {
 	t := time.NewTicker(every)
 	defer t.Stop()
@@ -220,7 +248,7 @@ func (s *Syncer) RunOnce(ctx context.Context) {
 	if s.Knowledge == nil || s.Knowledge.Embedder.Model() == "" {
 		return // nothing can be indexed without an embeddings provider
 	}
-	due, err := s.Store.Due(ctx, 50)
+	due, err := s.Store.Claim(ctx, 50)
 	if err != nil {
 		s.Logger.Error("web sync: list due pages", "error", err)
 		return
@@ -229,9 +257,24 @@ func (s *Syncer) RunOnce(ctx context.Context) {
 		if ctx.Err() != nil {
 			return
 		}
-		cctx, cancel := context.WithTimeout(ctx, 2*time.Minute)
-		outcome, _ := s.Check(cctx, src)
-		cancel()
+		outcome := s.checkSafely(ctx, src)
 		s.Logger.Info("web page checked", "account_id", src.AccountID, "source_id", src.ID, "outcome", outcome)
 	}
+}
+
+// checkSafely runs one check with a time limit and turns a panic into a
+// failed check, so one bad page cannot stop the service.
+func (s *Syncer) checkSafely(ctx context.Context, src Source) (outcome Outcome) {
+	cctx, cancel := context.WithTimeout(ctx, 2*time.Minute)
+	defer cancel()
+	defer func() {
+		if r := recover(); r != nil {
+			s.Logger.Error("web page check panicked", "account_id", src.AccountID, "source_id", src.ID)
+			src.Status, src.Error, src.CheckedAt = "error", "the page could not be processed", s.now()
+			_ = s.Store.Save(context.WithoutCancel(ctx), src)
+			outcome = Failed
+		}
+	}()
+	outcome, _ = s.Check(cctx, src)
+	return outcome
 }

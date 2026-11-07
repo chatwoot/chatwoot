@@ -541,7 +541,7 @@ func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, 
 			return
 		}
 		if src, err = h.Web.Add(r.Context(), acct, u.String()); err != nil {
-			if errors.Is(err, websync.ErrDuplicate) {
+			if errors.Is(err, websync.ErrDuplicate) || errors.Is(err, websync.ErrTooMany) {
 				fail(err.Error())
 				return
 			}
@@ -550,24 +550,43 @@ func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, 
 			return
 		}
 		h.record(r, acct, "web page added", u.Host+u.Path, nil)
-	case "sync_page", "remove_page":
+	case "remove_page":
 		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
-		var err error
-		if src, err = h.Web.Get(r.Context(), acct, id); err != nil {
+		src, err := h.Web.Get(r.Context(), acct, id)
+		if err != nil {
 			fail("That page is no longer in the list.")
 			return
 		}
-		if action == "remove_page" {
-			if err := h.Web.Remove(r.Context(), acct, id); err != nil {
+		// The document goes first: if that fails the page stays listed, never orphaned.
+		doc, err := h.Knowledge.GetByKey(r.Context(), acct, websync.Key(src.URL))
+		if err == nil {
+			if err := h.Knowledge.Delete(r.Context(), acct, doc.ID); err != nil {
+				h.Logger.Error("remove web page document", "account_id", acct, "source_id", id, "error", err)
 				fail("Could not remove the page. Try again.")
 				return
 			}
-			if doc, err := h.Knowledge.GetByKey(r.Context(), acct, src.URL); err == nil {
-				if err := h.Knowledge.Delete(r.Context(), acct, doc.ID); err == nil {
-					h.record(r, acct, "web page removed", src.Title, docCopy(doc))
-				}
+		} else if !errors.Is(err, knowledge.ErrNotFound) {
+			h.Logger.Error("find web page document", "account_id", acct, "source_id", id, "error", err)
+			fail("Could not remove the page. Try again.")
+			return
+		}
+		if err := h.Web.Remove(r.Context(), acct, id); err != nil && !errors.Is(err, websync.ErrNotFound) {
+			h.Logger.Error("remove web page", "account_id", acct, "source_id", id, "error", err)
+			fail("Could not remove the page. Try again.")
+			return
+		}
+		h.record(r, acct, "web page removed", src.Title, docCopy(doc))
+		http.Redirect(w, r, back+"&done=page_removed", http.StatusSeeOther)
+		return
+	case "sync_page":
+		id, _ := strconv.ParseInt(r.PostForm.Get("id"), 10, 64)
+		var err error
+		if src, err = h.Web.ClaimOne(r.Context(), acct, id); err != nil {
+			if errors.Is(err, websync.ErrBusy) {
+				fail(err.Error())
+				return
 			}
-			http.Redirect(w, r, back+"&done=page_removed", http.StatusSeeOther)
+			fail("That page is no longer in the list.")
 			return
 		}
 	}

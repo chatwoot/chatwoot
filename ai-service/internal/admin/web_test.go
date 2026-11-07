@@ -52,7 +52,10 @@ func (m *memWeb) Remove(_ context.Context, acct, id int64) error {
 	}
 	return websync.ErrNotFound
 }
-func (m *memWeb) Due(context.Context, int) ([]websync.Source, error) { return nil, nil }
+func (m *memWeb) Claim(context.Context, int) ([]websync.Source, error) { return nil, nil }
+func (m *memWeb) ClaimOne(ctx context.Context, acct, id int64) (websync.Source, error) {
+	return m.Get(ctx, acct, id)
+}
 func (m *memWeb) Save(_ context.Context, s websync.Source) error {
 	for i, cur := range m.srcs {
 		if cur.ID == s.ID {
@@ -95,7 +98,7 @@ func TestWeb_AddIndexesNowAndRefusesInternalAddresses(t *testing.T) {
 	if added.Code != http.StatusSeeOther || !strings.Contains(added.Header().Get("Location"), "outcome=added") {
 		t.Fatalf("add: %d %q", added.Code, added.Header().Get("Location"))
 	}
-	if len(ms.docs) != 1 || ms.docs[0].SourceKey != "https://www.johnstockeraistudio.com/legal/refund" || ms.docs[0].Title != "Refund policy" {
+	if len(ms.docs) != 1 || ms.docs[0].SourceKey != websync.Key("https://www.johnstockeraistudio.com/legal/refund") || ms.docs[0].Title != "Refund policy" {
 		t.Fatalf("docs = %+v", ms.docs)
 	}
 	if again.Code != http.StatusUnprocessableEntity || !strings.Contains(again.Body.String(), "already in the list") {

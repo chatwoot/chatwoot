@@ -86,7 +86,10 @@ func (s *srcStore) Add(context.Context, int64, string) (Source, error) { return 
 func (s *srcStore) List(context.Context, int64) ([]Source, error)      { return nil, nil }
 func (s *srcStore) Get(context.Context, int64, int64) (Source, error)  { return Source{}, nil }
 func (s *srcStore) Remove(context.Context, int64, int64) error         { return nil }
-func (s *srcStore) Due(context.Context, int) ([]Source, error)         { return nil, nil }
+func (s *srcStore) Claim(context.Context, int) ([]Source, error)       { return nil, nil }
+func (s *srcStore) ClaimOne(context.Context, int64, int64) (Source, error) {
+	return Source{}, nil
+}
 func (s *srcStore) Save(_ context.Context, src Source) error {
 	s.saved = append(s.saved, src)
 	return nil
@@ -138,7 +141,7 @@ func TestCheck_AddThenUnchangedThenUpdated(t *testing.T) {
 	if *embeds != afterAdd+1 {
 		t.Errorf("an unchanged page was re-embedded: %d embed calls after add, %d total", afterAdd, *embeds)
 	}
-	if len(ks.docs) != 1 || ks.docs[0].SourceKey != url || ks.docs[0].Title != "Refund" || ks.docs[0].Content == "" {
+	if len(ks.docs) != 1 || ks.docs[0].SourceKey != Key(url) || ks.docs[0].Title != "Refund" || ks.docs[0].Content == "" {
 		t.Fatalf("docs = %+v", ks.docs)
 	}
 	if ss.last().Status != "ok" || ss.last().ContentHash == "" {
@@ -209,5 +212,41 @@ func TestCheck_EmptyPageIsAnError(t *testing.T) {
 	// Assert
 	if out != Failed || len(ks.docs) != 0 || ss.last().Error == "" {
 		t.Fatalf("out=%v docs=%d src=%+v", out, len(ks.docs), ss.last())
+	}
+}
+
+func TestCheck_DocumentDeletedByHandIsRestored(t *testing.T) {
+	// Arrange
+	s, ks, ss, pg, _, _ := env()
+	pg.html = "<title>Price</title><p>3,900</p>"
+	if _, err := s.Check(context.Background(), Source{ID: 1, AccountID: 1, URL: url}); err != nil {
+		t.Fatal(err)
+	}
+	ks.docs = nil // the owner deleted the document
+
+	// Act
+	out, err := s.Check(context.Background(), ss.last())
+
+	// Assert
+	if err != nil || out != Added || len(ks.docs) != 1 {
+		t.Fatalf("out=%v err=%v docs=%d", out, err, len(ks.docs))
+	}
+}
+
+type panicFetch struct{}
+
+func (panicFetch) Fetch(context.Context, string) (webfetch.Page, error) { panic("parser bug") }
+
+func TestCheckSafely_PanicBecomesFailedCheck(t *testing.T) {
+	// Arrange
+	s, _, ss, _, _, _ := env()
+	s.Fetcher = panicFetch{}
+
+	// Act
+	out := s.checkSafely(context.Background(), Source{ID: 1, AccountID: 1, URL: url})
+
+	// Assert
+	if out != Failed || ss.last().Status != "error" {
+		t.Fatalf("out=%v saved=%+v", out, ss.saved)
 	}
 }
