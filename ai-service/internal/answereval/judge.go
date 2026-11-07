@@ -55,6 +55,9 @@ func judgePrompt(in JudgeInput) string {
 	for _, t := range in.Case.Turns {
 		b.WriteString("- Customer: " + t + "\n")
 	}
+	if in.LastInput != "" {
+		b.WriteString("\nThe customer's last message came with files. As the bot read it (typed text, voice transcript, file notes):\n" + in.LastInput + "\n")
+	}
 	if in.Profile != "" {
 		b.WriteString("\nBusiness profile:\n" + in.Profile + "\n")
 	}

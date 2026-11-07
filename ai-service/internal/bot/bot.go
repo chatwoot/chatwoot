@@ -205,7 +205,7 @@ func (b *Bot) Process(parent context.Context, j Job) {
 		if len(ev.Attachments) > 0 { // text-only messages skip the extra profile query
 			p = b.mediaProfile(ctx, log, acct)
 		}
-		in, ok := b.readMessage(ctx, log, ev, p, tr)
+		in, ok := b.readMessage(ctx, log, ev, p, tr, b.opts.Fetcher)
 		if !ok {
 			// Only files the bot may not or cannot read: thank and pass to staff.
 			b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: ev.AttachmentNote()})
@@ -491,6 +491,10 @@ type Preview struct {
 	Sources []knowledge.Hit
 	Model   string
 	Err     error
+	// Set by PreviewMedia only.
+	Input      string // the latest message as the model saw it (text, transcript, file notes)
+	Media      string // what was read: comma-separated voice, image, sticker
+	Transcript string // the voice note's text, if one was transcribed
 }
 
 // Preview runs the same decisions as a customer's text message: keyword
@@ -503,11 +507,17 @@ func (b *Bot) Preview(parent context.Context, acct, inbox int64, history []memor
 	ctx, cancel := context.WithTimeout(parent, b.timeout())
 	defer cancel()
 	res, hits, err := b.Answer(ctx, acct, inbox, history)
+	return previewOf(b, res.Content, res.Model, hits, err)
+}
+
+// previewOf turns the model's reply into a Preview: failure message on an
+// error, handoff when the model asks for staff.
+func previewOf(b *Bot, content, model string, hits []knowledge.Hit, err error) Preview {
 	if err != nil {
 		return Preview{Reply: b.opts.FailureMessage, Handoff: true, Reason: ReasonLLMError, Sources: hits, Err: err}
 	}
-	text, wantsHuman := SplitHandoff(res.Content)
-	p := Preview{Reply: text, Sources: hits, Model: res.Model}
+	text, wantsHuman := SplitHandoff(content)
+	p := Preview{Reply: text, Sources: hits, Model: model}
 	if wantsHuman {
 		p.Handoff, p.Reason = true, ReasonAIRequest
 		if text == "" {

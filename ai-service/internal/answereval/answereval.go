@@ -15,8 +15,11 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
+	"path/filepath"
 	"strings"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
@@ -41,11 +44,25 @@ type Case struct {
 	MustNotInclude []string `json:"must_not_include"`
 	// Note tells the judge what a correct reply says.
 	Note string `json:"note"`
+	// Files go with the last turn, as a customer's attachments: voice
+	// notes, photos, stickers or other files. Paths are relative to the
+	// cases file; the last turn's text may be "".
+	Files   []string     `json:"files"`
+	Uploads []bot.Upload `json:"-"` // Files' contents, filled by LoadFiles
 }
+
+// maxCaseFiles matches what one customer message can carry in the test chat.
+const maxCaseFiles = 4
 
 // Answerer produces the bot's reply for a conversation (bot.Bot.Answer).
 type Answerer interface {
 	Answer(ctx context.Context, acct, inbox int64, history []memory.Turn) (llm.Result, []knowledge.Hit, error)
+}
+
+// MediaAnswerer answers a last turn that has files (bot.Bot.PreviewMedia),
+// with the same media handling, keyword handoff and handoff marker as live.
+type MediaAnswerer interface {
+	PreviewMedia(ctx context.Context, acct, inbox int64, history []memory.Turn, uploads []bot.Upload) bot.Preview
 }
 
 // HandoffDetector reports whether a customer message asks for a person.
@@ -59,6 +76,9 @@ type JudgeInput struct {
 	Reply    string
 	Excerpts []string
 	Profile  string // the business profile the bot was given, if any
+	// LastInput is the last message as the bot read it, when files came
+	// with it: typed text, the voice transcript and file notes.
+	LastInput string
 }
 
 // Verdict is the judge's decision. The metrics are nil when the judge did
@@ -78,6 +98,7 @@ type Judge interface {
 // Runner holds what a run needs.
 type Runner struct {
 	Answerer Answerer
+	Media    MediaAnswerer // needed for cases with files
 	Handoff  HandoffDetector
 	Judge    Judge
 	// Profile returns the account's business profile text; optional.
@@ -120,10 +141,35 @@ func Validate(cases []Case) error {
 		if len(c.Turns) == 0 {
 			errs = append(errs, fmt.Errorf("%s: no turns", name))
 		}
+		if len(c.Files) > maxCaseFiles {
+			errs = append(errs, fmt.Errorf("%s: at most %d files", name, maxCaseFiles))
+		}
 		switch c.Expect {
 		case ExpectAnswer, ExpectUnknown, ExpectHandoff:
 		default:
 			errs = append(errs, fmt.Errorf("%s: expect must be answer, unknown or handoff, not %q", name, c.Expect))
+		}
+	}
+	return errors.Join(errs...)
+}
+
+// LoadFiles reads every case's files from dir, the cases file's folder.
+// Paths must stay inside dir.
+func LoadFiles(cases []Case, dir string) error {
+	root, err := os.OpenRoot(dir)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = root.Close() }()
+	var errs []error
+	for i := range cases {
+		for _, f := range cases[i].Files {
+			data, err := root.ReadFile(f)
+			if err != nil {
+				errs = append(errs, fmt.Errorf("%s: %w", cases[i].Name, err))
+				continue
+			}
+			cases[i].Uploads = append(cases[i].Uploads, bot.Upload{Name: filepath.Base(f), Data: data})
 		}
 	}
 	return errors.Join(errs...)
@@ -146,8 +192,23 @@ func (r Runner) runCase(ctx context.Context, c Case) Result {
 	res := Result{Case: c}
 	var history []memory.Turn
 	var hits []knowledge.Hit
-	for _, turn := range c.Turns {
+	var lastInput string
+	for i, turn := range c.Turns {
 		history = append(history, memory.Turn{Role: "user", Content: turn})
+		if i == len(c.Turns)-1 && len(c.Uploads) > 0 {
+			if r.Media == nil {
+				res.Err = errors.New("no media answerer")
+				res.Reason = "case has files but the runner cannot send them"
+				return res
+			}
+			p := r.Media.PreviewMedia(ctx, c.AccountID, c.InboxID, history, c.Uploads)
+			if p.Err != nil {
+				res.Err, res.Reason = p.Err, "answer failed: "+p.Err.Error()
+				return res
+			}
+			res.Reply, res.Handoff, hits, lastInput = p.Reply, p.Handoff, p.Sources, p.Input
+			break
+		}
 		if r.Handoff.Wants(turn) {
 			res.Handoff = true
 			break
@@ -183,7 +244,7 @@ func (r Runner) runCase(ctx context.Context, c Case) Result {
 	for i, h := range hits {
 		excerpts[i] = h.Content
 	}
-	in := JudgeInput{Case: c, Reply: res.Reply, Excerpts: excerpts}
+	in := JudgeInput{Case: c, Reply: res.Reply, Excerpts: excerpts, LastInput: lastInput}
 	if r.Profile != nil {
 		in.Profile = r.Profile(ctx, c.AccountID)
 	}

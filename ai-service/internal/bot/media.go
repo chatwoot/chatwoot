@@ -71,7 +71,9 @@ func vocabulary(p profile.Profile) string {
 // readMessage turns text and attachments into what the model sees. ok is
 // false when nothing is left to answer (only files the bot may not or cannot
 // read), and the caller hands off. Every failure falls back to that handoff.
-func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Event, p profile.Profile, tr *trace.Turn) (incoming, bool) {
+// fetch downloads the attachments: the Chatwoot fetcher for live messages,
+// the uploaded files for a test.
+func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Event, p profile.Profile, tr *trace.Turn, fetch Fetcher) (incoming, bool) {
 	f := p.Features
 	text := capText(ev.Content)
 	if len(ev.Attachments) == 0 {
@@ -82,8 +84,8 @@ func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Even
 	tried := 0
 	for _, a := range ev.Attachments {
 		switch {
-		case a.FileType == "audio" && f.Voice && b.opts.Transcriber != nil && b.opts.Fetcher != nil && !readable:
-			spoken := b.transcribe(ctx, log, a, vocabulary(p), tr)
+		case a.FileType == "audio" && f.Voice && b.opts.Transcriber != nil && fetch != nil && !readable:
+			spoken := b.transcribe(ctx, log, fetch, a, vocabulary(p), tr)
 			if spoken == "" {
 				unreadable = true
 				continue
@@ -91,17 +93,17 @@ func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Even
 			notes = append(notes, "[Voice message, transcribed] "+capText(spoken))
 			readable = true
 			kinds = append(kinds, "voice")
-		case a.FileType == "image" && f.Images && b.opts.Fetcher != nil && tried < maxImages:
+		case a.FileType == "image" && f.Images && fetch != nil && tried < maxImages:
 			tried++
-			if img := b.image(ctx, log, a); img != "" {
+			if img := b.image(ctx, log, fetch, a); img != "" {
 				images = append(images, img)
 				kinds = append(kinds, "image")
 				continue
 			}
 			unreadable = true
-		case a.FileType == "image" && f.Stickers && b.opts.Fetcher != nil && b.opts.StickerLLM != nil &&
+		case a.FileType == "image" && f.Stickers && fetch != nil && b.opts.StickerLLM != nil &&
 			strings.TrimSpace(ev.Content) == "" && len(ev.Attachments) == 1:
-			if b.isSticker(ctx, log, a) {
+			if b.isSticker(ctx, log, fetch, a) {
 				notes = append(notes, "[The customer sent a sticker or like]")
 				readable = true
 				kinds = append(kinds, "sticker")
@@ -124,11 +126,11 @@ func (b *Bot) readMessage(ctx context.Context, log *slog.Logger, ev webhook.Even
 	return incoming{text: full, images: images}, ok
 }
 
-func (b *Bot) transcribe(ctx context.Context, log *slog.Logger, a webhook.Attachment, hint string, tr *trace.Turn) string {
+func (b *Bot) transcribe(ctx context.Context, log *slog.Logger, fetch Fetcher, a webhook.Attachment, hint string, tr *trace.Turn) string {
 	step := &trace.Step{Start: time.Now()}
 	tr.Transcribe = step
 	defer func() { step.End = time.Now() }()
-	audio, _, err := b.opts.Fetcher.Fetch(ctx, a.DataURL, maxAudioBytes)
+	audio, _, err := fetch.Fetch(ctx, a.DataURL, maxAudioBytes)
 	if err != nil {
 		log.Warn("voice note download failed", "error", err)
 		step.Err = "download failed"
@@ -148,8 +150,8 @@ func (b *Bot) transcribe(ctx context.Context, log *slog.Logger, a webhook.Attach
 	return strings.TrimSpace(spoken)
 }
 
-func (b *Bot) image(ctx context.Context, log *slog.Logger, a webhook.Attachment) string {
-	data, ctype, err := b.opts.Fetcher.Fetch(ctx, a.DataURL, maxImageBytes)
+func (b *Bot) image(ctx context.Context, log *slog.Logger, fetch Fetcher, a webhook.Attachment) string {
+	data, ctype, err := fetch.Fetch(ctx, a.DataURL, maxImageBytes)
 	if err != nil || len(data) == 0 {
 		log.Warn("image download failed or too large")
 		return ""
@@ -164,8 +166,8 @@ func (b *Bot) image(ctx context.Context, log *slog.Logger, a webhook.Attachment)
 	return "data:" + ctype + ";base64," + base64.StdEncoding.EncodeToString(data)
 }
 
-func (b *Bot) isSticker(ctx context.Context, log *slog.Logger, a webhook.Attachment) bool {
-	img := b.image(ctx, log, a)
+func (b *Bot) isSticker(ctx context.Context, log *slog.Logger, fetch Fetcher, a webhook.Attachment) bool {
+	img := b.image(ctx, log, fetch, a)
 	if img == "" {
 		return false
 	}

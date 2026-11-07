@@ -36,12 +36,15 @@
       {{else}}
       <p class="empty">Ask something your customers ask, for example the price, how to pay, or what the course includes.</p>
       {{end}}
-      <form method="post" action="/admin/test" autocomplete="off">
+      <form method="post" action="/admin/test" autocomplete="off" enctype="multipart/form-data">
         <input type="hidden" name="account" value="{{.AccountID}}">
         {{range .Turns}}<input type="hidden" name="role" value="{{.Role}}"><input type="hidden" name="text" value="{{.Content}}">
         {{end}}
         <label for="message">{{if .Turns}}Reply as the customer{{else}}Message{{end}}</label>
-        <textarea id="message" name="message" rows="3" maxlength="2000" required{{if not .Turns}} autofocus{{end}}></textarea>
+        <textarea id="message" name="message" rows="3" maxlength="2000"{{if not .Turns}} autofocus{{end}}></textarea>
+        <label for="files">Attach files</label>
+        <input id="files" name="files" type="file" multiple aria-describedby="files-hint">
+        <p class="field-hint" id="files-hint">Voice notes (ogg, m4a, mp3, wav), photos and stickers (png, jpeg, webp, gif), or any other file to see how the bot handles it. Up to 4 files, 10 MB each. They follow the switches on the <a href="/admin/business?account={{.AccountID}}">Business profile</a> page.</p>
         <details>
           <summary>Test a specific inbox</summary>
           <label for="inbox">Inbox ID</label>
@@ -57,13 +60,20 @@
 
     <aside class="card side" aria-labelledby="why-h">
       <h2 id="why-h" style="font-size:1.125rem;margin:0 0 12px">How the bot answered</h2>
-      {{if .Asked}}
+      {{if .Sent}}
         {{if .Handoff}}
         <div class="status todo" role="status">Passes to staff</div>
         <p class="hint">{{.Reason}}</p>
         {{else}}
         <div class="status ready" role="status">Answered by the bot</div>
         {{end}}
+        {{if .Files}}
+        <h3 style="font-size:1rem;margin:16px 0 4px">Files</h3>
+        <ul class="sources">{{range .Files}}<li>{{.Name}} <span class="preview">{{.Size}}</span></li>{{end}}</ul>
+        {{if .Media}}<p class="hint">Read by the bot: {{range $i, $m := .Media}}{{if $i}}, {{end}}{{$m}}{{end}}</p>{{else}}<p class="hint">The bot could not read these files.</p>{{end}}
+        {{if .Transcript}}<p class="hint">Transcript: “{{.Transcript}}”</p>{{end}}
+        {{end}}
+        {{if or .Model .Sources}}
         <h3 style="font-size:1rem;margin:16px 0 4px">Knowledge used</h3>
         {{if .Sources}}
         <ul class="sources">{{range .Sources}}<li>{{.Title}} <span class="preview">{{.Score}} match</span></li>{{end}}</ul>
@@ -71,7 +81,8 @@
         <p class="hint">No document matched. The answer came from the business profile only.</p>
         {{end}}
         <p class="field-hint">{{if .Model}}{{.Model}} · {{end}}{{.LatencyMS}} ms</p>
-        {{if .Knowledge}}
+        {{end}}
+        {{if and .Knowledge .Asked}}
         <details{{if not .Sources}} open{{end}} style="margin-top:12px">
           <summary>Wrong or missing? Add the right answer</summary>
           <form method="post" action="/admin/knowledge" autocomplete="off">

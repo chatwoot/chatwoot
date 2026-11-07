@@ -17,11 +17,12 @@ import (
 type fakeTester struct {
 	acct, inbox int64
 	got         []memory.Turn
+	uploads     []bot.Upload
 	out         bot.Preview
 }
 
-func (f *fakeTester) Preview(_ context.Context, acct, inbox int64, h []memory.Turn) bot.Preview {
-	f.acct, f.inbox, f.got = acct, inbox, append([]memory.Turn(nil), h...)
+func (f *fakeTester) PreviewMedia(_ context.Context, acct, inbox int64, h []memory.Turn, u []bot.Upload) bot.Preview {
+	f.acct, f.inbox, f.got, f.uploads = acct, inbox, append([]memory.Turn(nil), h...), u
 	return f.out
 }
 
