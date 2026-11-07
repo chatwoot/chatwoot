@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -453,5 +454,30 @@ func TestClientNameStripsControlCharacters(t *testing.T) {
 		if c.Name != "Claude" {
 			t.Fatalf("name = %q", c.Name)
 		}
+	}
+}
+
+func TestGlobalDailyFailureCap(t *testing.T) {
+	// Arrange: wrong passwords from many addresses, each under its own limit.
+	e := newEnv()
+	client := e.register(t, redirect)
+	post := func(f url.Values, ip string) int {
+		e.srv.login = ratelimit.Limiter{} // isolate the daily counters
+		r := httptest.NewRequest(http.MethodPost, "/oauth/authorize", strings.NewReader(f.Encode()))
+		r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		r.RemoteAddr = "172.18.0.5:1"
+		r.Header.Set("CF-Connecting-IP", ip)
+		return e.do(r).Code
+	}
+	for i := 0; i < maxFailedAllPerDay; i++ {
+		post(authForm(client, map[string]string{"password": "guess"}), "203.0."+strconv.Itoa(i/250)+"."+strconv.Itoa(i%250+1))
+	}
+
+	// Act
+	fresh := post(authForm(client, nil), "198.51.100.1")
+
+	// Assert
+	if fresh != http.StatusTooManyRequests {
+		t.Fatalf("after %d failures from many addresses, approval = %d, want 429", maxFailedAllPerDay, fresh)
 	}
 }

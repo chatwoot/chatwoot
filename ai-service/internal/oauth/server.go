@@ -30,6 +30,11 @@ const (
 // after this many wrong passwords (others, and /admin, are unaffected).
 const maxFailedPerDay = 30
 
+// maxFailedAllPerDay caps wrong passwords from all addresses together, so
+// guessing spread over many addresses is still bounded. Reaching it locks
+// approvals for everyone until the day window ends; /admin is unaffected.
+const maxFailedAllPerDay = 200
+
 // Lifetimes.
 const (
 	codeTTL    = time.Minute
@@ -55,7 +60,8 @@ type Server struct {
 	// its table; other counts registrations and token calls. failedDay caps
 	// wrong passwords per day across all callers.
 	login, other ratelimit.Limiter
-	failedDay    ratelimit.Limiter // Period set in Routes
+	failedDay    ratelimit.Limiter // per address; Period set in Routes
+	failedAll    ratelimit.Limiter // one key for all addresses, so a full failedDay table cannot hide failures
 }
 
 // trustedHosts are the return addresses of well-known AI apps. Others get a
@@ -79,6 +85,7 @@ func (s *Server) MetadataURL() string {
 // Routes registers the OAuth endpoints on mux.
 func (s *Server) Routes(mux *http.ServeMux) {
 	s.failedDay.Period = 24 * time.Hour
+	s.failedAll.Period = 24 * time.Hour
 	mux.HandleFunc("GET /.well-known/oauth-protected-resource", s.resourceMetadata)
 	if u, err := url.Parse(s.Resource); err == nil && u.Path != "" && u.Path != "/" {
 		mux.HandleFunc("GET /.well-known/oauth-protected-resource"+u.Path, s.resourceMetadata)
@@ -330,7 +337,8 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, redirect.String(), http.StatusSeeOther)
 		return
 	}
-	if !s.login.Allow("login:"+ratelimit.ClientIP(r), 5) || !s.login.Allow("login", 20) || s.failedDay.Reached("failed:"+ratelimit.ClientIP(r), maxFailedPerDay) {
+	if !s.login.Allow("login:"+ratelimit.ClientIP(r), 5) || !s.login.Allow("login", 20) ||
+		s.failedDay.Reached("failed:"+ratelimit.ClientIP(r), maxFailedPerDay) || s.failedAll.Reached("all", maxFailedAllPerDay) {
 		d.Error = "Too many attempts. Wait a minute and try again."
 		s.render(w, http.StatusTooManyRequests, d)
 		return
@@ -341,6 +349,9 @@ func (s *Server) approve(w http.ResponseWriter, r *http.Request) {
 		s.Logger.Warn("oauth approval: wrong password", "client_id", a.Client.ID, "client_ip", ratelimit.ClientIP(r))
 		if !s.failedDay.Allow("failed:"+ratelimit.ClientIP(r), maxFailedPerDay) {
 			s.Logger.Error("oauth approvals locked for one address: too many wrong passwords today", "client_ip", ratelimit.ClientIP(r))
+		}
+		if !s.failedAll.Allow("all", maxFailedAllPerDay) {
+			s.Logger.Error("oauth approvals locked for everyone today: too many wrong passwords from many addresses")
 		}
 		d.Error = "Wrong password."
 		s.render(w, http.StatusUnauthorized, d)
