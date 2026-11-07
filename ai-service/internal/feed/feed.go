@@ -2,7 +2,8 @@
 // JSON Lines) into rows that each become one knowledge document, keyed by the
 // row's id. A Google Sheet published to the web as CSV is the common case.
 //
-// Columns (case-insensitive): id (required); question + answer for an FAQ;
+// Columns (case-insensitive, English or Thai, e.g. เนื้อหา for content):
+// id (required); question + answer for an FAQ;
 // otherwise title (or category and section) + content (or text, body,
 // description); optional start_date and last_day (YYYY-MM-DD) limit when the
 // bot may use the row. Other columns are ignored.
@@ -255,8 +256,23 @@ func cut(s string, n int) string {
 	return s
 }
 
+// thaiColumns maps Thai column names to the English ones.
+var thaiColumns = map[string]string{
+	"รหัส": "id", "ไอดี": "id",
+	"คำถาม": "question", "คำตอบ": "answer",
+	"ชื่อเรื่อง": "title", "หัวเรื่อง": "title",
+	"เนื้อหา": "content", "ข้อความ": "content", "รายละเอียด": "content",
+	"หมวด": "category", "หมวดหมู่": "category",
+	"หัวข้อ": "section", "หัวข้อย่อย": "section",
+	"วันเริ่ม": "start_date", "วันที่เริ่ม": "start_date",
+	"วันสุดท้าย": "last_day", "วันหมดอายุ": "last_day",
+}
+
 func normKey(k string) string {
-	k = strings.ToLower(strings.TrimSpace(k))
+	k = strings.ToLower(strings.TrimSpace(strings.TrimPrefix(k, "\ufeff")))
+	if en, ok := thaiColumns[k]; ok {
+		return en
+	}
 	return strings.NewReplacer(" ", "_", "-", "_").Replace(k)
 }
 

@@ -32,12 +32,13 @@ var blankLines = regexp.MustCompile(`\n{3,}`)
 // table cells separated by " | ". The title is the first <h1>, else <title>.
 func Text(p Page) (title, text string) {
 	if p.ContentType != "text/html" {
-		return "", strings.TrimSpace(strings.Map(func(r rune) rune {
-			if unicode.IsControl(r) && r != '\n' && r != '\t' {
+		text = strings.TrimSpace(strings.Map(func(r rune) rune {
+			if (unicode.IsControl(r) && r != '\n' && r != '\t') || r == '\ufeff' {
 				return -1
 			}
 			return r
 		}, string(p.Body)))
+		return firstLine(text), text
 	}
 	doc, err := html.Parse(bytes.NewReader(p.Body))
 	if err != nil {
@@ -155,4 +156,20 @@ func clean(s string) string {
 		return r
 	}, s)
 	return strings.Join(strings.Fields(s), " ")
+}
+
+// firstLine titles a plain-text page (such as a Google Doc exported as .txt)
+// by its first non-empty line, without Markdown heading marks.
+func firstLine(text string) string {
+	for _, l := range strings.Split(text, "\n") {
+		l = strings.TrimSpace(strings.TrimLeft(strings.TrimSpace(l), "#"))
+		if l == "" {
+			continue
+		}
+		if r := []rune(l); len(r) > 120 {
+			l = strings.TrimSpace(string(r[:120])) + "…"
+		}
+		return l
+	}
+	return ""
 }
