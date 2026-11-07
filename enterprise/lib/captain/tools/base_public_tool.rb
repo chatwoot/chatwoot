@@ -1,13 +1,25 @@
 require 'agents'
 
 class Captain::Tools::BasePublicTool < Agents::Tool
+  UNTRUSTED_RESULT_START = '<tool_result trust="untrusted">'.freeze
+  UNTRUSTED_RESULT_END = '</tool_result>'.freeze
+  # The start of any tool_result tag, in any case or spacing
+  TOOL_RESULT_TAG = %r{<(?=\s*/?\s*tool_result)}i
+
+  # A tool class built at runtime needs a constant, or Class#name is nil and the LLM request gets an empty function name.
+  # Registering a name again replaces the class an earlier build left there.
+  def self.register_generated(namespace, class_name, tool_class)
+    namespace.send(:remove_const, class_name) if namespace.const_defined?(class_name, false)
+    namespace.const_set(class_name, tool_class)
+  end
+
   def initialize(assistant)
     @assistant = assistant
     super()
   end
 
   def execute(tool_context, **params)
-    return super if safe_to_run_after_new_customer_message?
+    return super if read_only?
     if newer_customer_message_arrived?(tool_context.state)
       return failure_result('Tool skipped because a newer customer message arrived', tool_context.state)
     end
@@ -15,15 +27,14 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     super
   end
 
-  def active?
-    # Public tools are always active
-    true
+  # A tool that changes nothing can still run after a newer customer message, and can run for a reply suggestion
+  def read_only?
+    false
   end
 
-  def permissions
-    # Override in subclasses to specify required permissions
-    # Returns empty array for public tools (no permissions required)
-    []
+  # The tool to use when an admin or an agent is the user. A tool that fills verified values builds its Copilot version.
+  def for_copilot
+    self
   end
 
   private
@@ -50,8 +61,11 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     account_scoped(::Contact).find_by(id: contact_id)
   end
 
-  def safe_to_run_after_new_customer_message?
-    false
+  # Text from an outside system goes to the model inside markers. The prompt tells the model to treat it as data only.
+  # Every tool_result tag in the text is escaped, so the text cannot open or close a block. Escaping adds characters,
+  # so unlike removing a tag, it cannot join the text around it into a new tag.
+  def untrusted_result(text)
+    "#{UNTRUSTED_RESULT_START}\n#{text.to_s.gsub(TOOL_RESULT_TAG, '&lt;')}\n#{UNTRUSTED_RESULT_END}"
   end
 
   def newer_customer_message_arrived?(state)

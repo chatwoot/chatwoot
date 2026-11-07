@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
+  let(:untrusted) do
+    ->(text) { "#{Captain::Tools::BasePublicTool::UNTRUSTED_RESULT_START}\n#{text}\n#{Captain::Tools::BasePublicTool::UNTRUSTED_RESULT_END}" }
+  end
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
@@ -31,12 +34,12 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
       result = tool.perform(tool_context, email: 'typed@example.com')
 
       expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=typed%40example.com')
-      expect(result).to start_with('{"found": true}')
+      expect(result).to start_with(untrusted.call('{"found": true}'))
       expect(result).to include('was not verified by the customer')
     end
 
     it 'adds no note when the email passed is what the customer verified' do
-      expect(tool.perform(tool_context, email: 'Jane@example.com')).to eq('{"found": true}')
+      expect(tool.perform(tool_context, email: 'Jane@example.com')).to eq(untrusted.call('{"found": true}'))
     end
 
     it 'says an empty email is not verified when the customer has verified none' do
@@ -57,7 +60,27 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
       custom_tool.update!(param_schema: [], endpoint_url: 'https://example.com/customers', settings: { 'requires_email_verification' => true })
       allow(Captain::EmailVerification).to receive(:new).and_return(instance_double(Captain::EmailVerification, verified_email: nil))
 
-      expect(tool.perform(tool_context)).to eq('{"found": true}')
+      expect(tool.perform(tool_context)).to eq(untrusted.call('{"found": true}'))
+    end
+
+    it 'does not report a sent request as failed when reading the verified email afterwards fails' do
+      custom_tool.update!(http_method: 'POST', endpoint_url: 'https://example.com/refunds', request_template: '{"email": "{{ email }}"}')
+      refund = stub_request(:post, 'https://example.com/refunds').to_return(status: 200, body: '{"refunded": true}')
+      verification = instance_double(Captain::EmailVerification)
+      allow(verification).to receive(:verified_email).and_invoke(-> { 'jane@example.com' }, -> { raise Redis::CannotConnectError })
+      allow(Captain::EmailVerification).to receive(:new).with(conversation).and_return(verification)
+
+      expect { tool.perform(tool_context, email: 'jane@example.com') }.to raise_error(Redis::CannotConnectError)
+      expect(refund).to have_been_requested.once
+    end
+
+    it 'says the email is not verified when the request fails' do
+      stub_request(:get, %r{\Ahttps://example.com/customers}).to_return(status: 500)
+
+      result = tool.perform(tool_context, email: 'typed@example.com')
+
+      expect(result).to include('An error occurred while executing the request')
+      expect(result).to include('was not verified by the customer')
     end
 
     it 'runs with another email the agent passes for a reply suggestion' do

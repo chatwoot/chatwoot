@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
+  let(:untrusted) do
+    ->(text) { "#{Captain::Tools::BasePublicTool::UNTRUSTED_RESULT_START}\n#{text}\n#{Captain::Tools::BasePublicTool::UNTRUSTED_RESULT_END}" }
+  end
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:custom_tool) { create(:captain_custom_tool, account: account) }
@@ -27,7 +30,7 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
       end
 
       it 'sends the verified email' do
-        expect(tool.perform(tool_context)).to eq('{"found": true}')
+        expect(tool.perform(tool_context)).to eq(untrusted.call('{"found": true}'))
         expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
       end
 
@@ -111,7 +114,7 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
         it 'calls the endpoint' do
           result = tool.perform(tool_context)
 
-          expect(result).to eq('{"status": "success"}')
+          expect(result).to eq(untrusted.call('{"status": "success"}'))
           expect(WebMock).to have_requested(:get, 'https://example.com/orders/123')
         end
       end
@@ -138,7 +141,7 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
       it 'does not block a tool that does not require verification' do
         custom_tool.update!(settings: {})
 
-        expect(tool.perform(tool_context)).to eq('{"status": "success"}')
+        expect(tool.perform(tool_context)).to eq(untrusted.call('{"status": "success"}'))
       end
     end
 
