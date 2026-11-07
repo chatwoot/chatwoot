@@ -1,7 +1,7 @@
 // fallow-ignore-file unused-file -- loaded by layout.html, embedded with go:embed
 // Small enhancements for the ai-service admin pages. Every page works
-// without this file; it only adds Copy buttons, "are you sure?" checks and
-// Enter-to-send in the test chat.
+// without this file; it only adds Copy buttons, "are you sure?" checks,
+// Enter-to-send and a "bot is replying" state in the test chat.
 // Rules: never build HTML from strings, no eval, no inline handlers (the CSP allows
 // only this file and enforces Trusted Types).
 'use strict';
@@ -58,6 +58,74 @@
       form.requestSubmit();
     });
   }
+
+  // <form data-busy="Sending…">: while the server works on the reply, show the
+  // customer's message and a typing bubble at once, and block a second send.
+  // The page itself is still a plain form post.
+  const el = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text) node.textContent = text;
+    return node;
+  };
+  const showPending = (form) => {
+    const section = form.closest('section');
+    if (!section) return;
+    let chat = section.querySelector('.chat');
+    if (!chat) {
+      chat = el('div', 'chat');
+      chat.setAttribute('role', 'log');
+      chat.setAttribute('aria-label', 'Test conversation');
+      const empty = section.querySelector('.empty');
+      if (empty) empty.replaceWith(chat); else form.before(chat);
+    }
+    const box = form.querySelector('textarea');
+    const text = box ? box.value.trim() : '';
+    const files = form.querySelector('input[type=file]');
+    const names = files && files.files ? Array.from(files.files, (f) => f.name) : [];
+    const mine = el('div', 'bubble user pending');
+    mine.append(el('span', 'who', 'You (as customer)'));
+    if (text) mine.append(text);
+    if (names.length) mine.append((text ? '\n' : '') + 'Attached: ' + names.join(', '));
+    const typing = el('div', 'bubble assistant typing pending');
+    typing.setAttribute('role', 'status');
+    const dots = el('span', 'dots');
+    dots.setAttribute('aria-hidden', 'true');
+    dots.append(el('span'), el('span'), el('span'));
+    typing.append(dots, el('span', '', 'Bot is replying'));
+    chat.append(mine, typing);
+    typing.scrollIntoView({ block: 'nearest' });
+  };
+  document.addEventListener('submit', (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement) || !form.dataset.busy || event.defaultPrevented) return;
+    if (form.getAttribute('aria-busy') === 'true') {
+      event.preventDefault();
+      return;
+    }
+    form.setAttribute('aria-busy', 'true');
+    for (const button of form.querySelectorAll('button[type=submit]')) {
+      button.dataset.label = button.textContent;
+      button.textContent = form.dataset.busy;
+      button.disabled = true;
+    }
+    // Read-only, not disabled: a disabled field would not be sent.
+    for (const box of form.querySelectorAll('textarea')) box.readOnly = true;
+    showPending(form);
+  });
+  // Back/forward can restore the page as it was left: undo the busy state.
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    for (const form of document.querySelectorAll('form[data-busy][aria-busy]')) {
+      form.removeAttribute('aria-busy');
+      for (const box of form.querySelectorAll('textarea')) box.readOnly = false;
+      for (const button of form.querySelectorAll('button[type=submit]')) {
+        button.disabled = false;
+        if (button.dataset.label) button.textContent = button.dataset.label;
+      }
+    }
+    for (const node of document.querySelectorAll('.bubble.pending')) node.remove();
+  });
 
   // <form data-confirm="Question?"> asks before it is sent.
   document.addEventListener('submit', (event) => {
