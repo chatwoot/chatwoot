@@ -4,6 +4,7 @@ go 1.27.0
 
 require (
 	github.com/jackc/pgx/v5 v5.12.0
+	github.com/ledongthuc/pdf v0.0.0-20261020125853-5e46805f718e
 	golang.org/x/net v0.62.0
 )
 
