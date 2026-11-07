@@ -129,6 +129,7 @@ Rails.application.routes.draw do
               member do
                 get :live_tools
                 get :authorization_url
+                post :approve_tool
               end
             end
             resource :tools_manifest, only: [] do
