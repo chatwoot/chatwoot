@@ -1,11 +1,11 @@
 {
   "CONVERSATION": {
     "REFERRAL": {
-      "AD_LABEL": "Ad",
-      "POST_LABEL": "Post",
-      "VIEW_AD": "View ad",
-      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
-      "REPLIED_BELOW": "Customer replied below"
+      "AD_LABEL": "Hirdetés",
+      "POST_LABEL": "Bejegyzés",
+      "VIEW_AD": "Hirdetés megtekintése",
+      "WELCOME_MESSAGE_LABEL": "Előre kitöltött üzenet: ",
+      "REPLIED_BELOW": "Az ügyfél alább válaszolt"
     },
     "SELECT_A_CONVERSATION": "Kérjük válassz egy beszélgetést a bal sávból",
     "CSAT_REPLY_MESSAGE": "Kérlek értékeld a beszélgetést",
@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Üzenetek keresése a beszélgetésekben",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
+    "TRANSLATING": "Fordítás folyamatban…",
+    "TRANSLATING_TO": "Fordítás erre a nyelvre: {language}…",
+    "VIEW_ORIGINAL_IN": "Eredeti megtekintése ({language})",
+    "VIEW_TRANSLATED_IN": "Lefordított szöveg megtekintése ({language})",
+    "TRANSLATION_FAILED": "Nem sikerült lefordítani, a beírt szöveget küldtük el",
+    "CONTACT_TRANSLATION_FAILED": "Nem sikerült lefordítani a kontaktot",
     "EMPTY_STATE": {
       "CMD_BAR": "menü megnyitása",
       "KEYBOARD_SHORTCUTS": "billentyűparancs megtekintése"
@@ -34,6 +40,15 @@
     },
     "UNREAD_MESSAGES": "Olvasatlan üzenetek",
     "UNREAD_MESSAGE": "Olvasatlan üzenet",
+    "CONTACT_HISTORY": {
+      "OLDER": "Előző beszélgetés",
+      "NEWER": "Következő beszélgetés",
+      "OLDER_WITH": "{name} előző beszélgetése · {time}",
+      "NEWER_WITH": "{name} következő beszélgetése · {time}",
+      "CUSTOMER": "ez az ügyfél",
+      "REPLY_TO_OLDER": "Válasz az előző beszélgetésre",
+      "GO_TO_LATEST": "Ugrás a legújabb beszélgetésre"
+    },
     "CLICK_HERE": "Kattints ide",
     "LOADING_INBOXES": "Postaládák betöltése",
     "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
@@ -43,17 +58,17 @@
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ez a beszélgetés nincs hozzádrendelve. Szeretnéd magadhoz rendelni?",
     "ASSIGN_TO_ME": "Hozzárendelés magamhoz",
-    "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
-    "BOT_HANDOFF_ACTION": "Take over",
+    "BOT_HANDOFF_MESSAGE": "Ezt a beszélgetést jelenleg {assigneeName} kezeli.",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "egy MI-ügynök",
+    "BOT_HANDOFF_ACTION": "Átvétel",
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Erre a beszélgetésre csak konzerv válasszal válaszolhatsz, mert",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
-    "INSTAGRAM_RESTRICTION_BANNER": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
-    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status updates",
+    "INSTAGRAM_RESTRICTION_BANNER": "Az Instagramon zajló üzenetküldést jelenleg a Meta oldalán fellépő API szintű probléma érinti, nem a Chatwoot hibája. Egyes üzenetek vagy műveletek késhetnek vagy átmenetileg nem érhetők el. A hiba mielőbbi elhárításán szorosan együttműködünk a Metával.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Állapotfrissítések megtekintése",
     "REPLYING_TO": "Neki válaszolsz:",
     "REMOVE_SELECTION": "Kijelölés törlése",
     "DOWNLOAD": "Letöltés",
@@ -72,36 +87,48 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ez az üzenet nem támogatott. Ezt az üzenetet a Facebook Messenger alkalmazásban tekintheti meg.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ez az üzenet nem támogatott. Ezt az üzenetet az Instagram alkalmazásban tekintheti meg.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
-    "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
+    "WHATSAPP_FLOW_RESPONSE": "Űrlapválasz beküldve",
     "WHATSAPP_REFERRAL": {
-      "AD": "Ad"
+      "AD": "Hirdetés"
     },
     "SUCCESS_DELETE_MESSAGE": "Üzenet törölve",
     "FAIL_DELETE_MESSSAGE": "Nem tudtad törölni az üzenetet! Próbáld újra",
     "NO_RESPONSE": "Nincs válasz",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Kérje meg az ügyfelet, hogy ossza meg a WhatsApp telefonszámát",
+      "PENDING_ACTION": "A kontaktadatokra vonatkozó kérés függőben van",
+      "STATES": {
+        "PENDING": "Várakozás a kontaktadatokra",
+        "SHARED": "Telefonszám megosztva",
+        "IDENTITY_CONFLICT": "A telefonszám ellenőrzést igényel"
+      }
+    },
     "RESPONSE": "Response",
     "RATING_TITLE": "Értékelés",
     "FEEDBACK_TITLE": "Visszajelzés",
     "REPLY_MESSAGE_NOT_FOUND": "Üzenet nem elérhető",
     "CAPTAIN_GENERATION": {
-      "TITLE": "How was this reply generated?",
-      "GENERATED_BY": "Generated by Captain",
-      "LOADING": "Loading details…",
-      "EMPTY": "No generation details available for this message.",
-      "TIMELINE": "Generation steps",
-      "STEP_TOOL": "Called {name}",
-      "STEP_HANDOFF": "Handed off to {name}",
-      "REASONING": "Reasoning",
-      "SOURCES": "Knowledge base",
-      "SOURCES_SUMMARY": "{count} result | {count} results",
-      "MODEL": "Generated with {model}",
-      "CREDITS": "Credits: {credits}"
+      "TITLE": "Hogyan készült ez a válasz?",
+      "GENERATED_BY": "A Captain készítette",
+      "LOADING": "Részletek betöltése…",
+      "EMPTY": "Ehhez az üzenethez nem állnak rendelkezésre adatok a generálásról.",
+      "TIMELINE": "Generálási lépések",
+      "STEP_TOOL": "Meghívta: {name}",
+      "STEP_HANDOFF": "Átadva: {name}",
+      "REASONING": "Gondolatmenet",
+      "SOURCES": "Tudásbázis",
+      "SOURCES_SUMMARY": "{count} találat | {count} találat",
+      "MODEL": "Ezzel a modellel készült: {model}",
+      "CREDITS": "Felhasznált kreditek: {credits}"
     },
     "CARD": {
       "SHOW_LABELS": "Cimkék mutatása",
       "HIDE_LABELS": "Cimkék elrejtése",
-      "LABELS_COUNT": "{count} labels"
+      "LABELS_COUNT": "{count} címke"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
@@ -109,20 +136,20 @@
       "CALL_IN_PROGRESS": "Call in progress",
       "NO_ANSWER": "No answer",
       "NO_ANSWER_OUTBOUND_LABEL": "No answer",
-      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "A kontakt nem vette fel",
       "MISSED_CALL": "Missed call",
-      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
-      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
+      "MISSED_CALL_INBOUND_SUBTEXT": "Egyik ügynök sem vette fel",
+      "MISSED_CALL_DECLINED_BY": "Elutasította: {agentName}",
       "CALL_ENDED": "Call ended",
-      "HANDLED_BY": "Handled by {agentName}",
+      "HANDLED_BY": "Kezelte: {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
-      "CALLING": "Calling…",
+      "CALLING": "Hívás folyamatban…",
       "THEY_ANSWERED": "They answered",
       "YOU_ANSWERED": "You answered",
-      "AGENT_ANSWERED": "{agentName} answered",
+      "AGENT_ANSWERED": "{agentName} válaszolt",
       "JOIN_CALL": "Join call",
-      "CALL_BACK": "Call back",
-      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "CALL_BACK": "Visszahívás",
+      "TRANSCRIPT_SHOW_MORE": "Továbbiak megjelenítése",
       "TRANSCRIPT_SHOW_LESS": "Kevesebb mutatása"
     },
     "HEADER": {
@@ -133,17 +160,17 @@
       "OPEN": "Tovább",
       "CLOSE": "Bezárás",
       "DETAILS": "részletek",
-      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
+      "COPY_ID_SUCCESS": "A beszélgetés azonosítója a vágólapra másolva",
       "SNOOZED_UNTIL": "Halasztás eddig",
       "SNOOZED_UNTIL_TOMORROW": "Halasztás holnapig",
       "SNOOZED_UNTIL_NEXT_WEEK": "Halasztás jövő hétig",
       "SNOOZED_UNTIL_NEXT_REPLY": "Halasztás következő válaszig",
-      "WHATSAPP_CALL": "Start WhatsApp call",
-      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
-      "VOICE_CALL": "Start call",
-      "VOICE_CALL_FAILED": "Could not start the call.",
-      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+      "WHATSAPP_CALL": "WhatsApp hívás indítása",
+      "WHATSAPP_CALL_FAILED": "Nem sikerült elindítani a WhatsApp hívást.",
+      "VOICE_CALL": "Hívás indítása",
+      "VOICE_CALL_FAILED": "Nem sikerült elindítani a hívást.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Hívási engedélykérést küldtünk a kontaktnak. Próbálja újra, miután elfogadta.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Nemrég már küldtünk hívási engedélykérést. Próbálja újra, miután a kontakt elfogadta.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -168,36 +195,46 @@
     },
     "PICKER": {
       "VARIABLE": {
-        "SEARCH_PLACEHOLDER": "Search variables",
+        "SEARCH_PLACEHOLDER": "Változók keresése",
         "DESCRIPTION": "Leírás",
-        "VALUE": "Value",
-        "NO_VALUE": "No value for this conversation"
+        "VALUE": "Érték",
+        "NO_VALUE": "Ehhez a beszélgetéshez nincs érték"
       },
       "EMOJI": {
         "SEARCH_PLACEHOLDER": "Emoji keresése",
-        "EMPTY_STATE": "Type to search emojis"
+        "EMPTY_STATE": "Írjon be szöveget emojik kereséséhez"
       },
       "MACRO": {
         "SEARCH_PLACEHOLDER": "Search macros",
-        "ACTION_COUNT": "1 action | {count} actions"
+        "ACTION_COUNT": "1 művelet | {count} művelet"
       },
       "MENTION": {
-        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "SEARCH_PLACEHOLDER": "Ügynökök és csapatok keresése",
         "FILTER": {
           "ALL": "Mind"
         },
         "AVAILABILITY": "Elérhetőség",
         "ROLE": "Agent Type",
-        "AUTO_ASSIGN": "Auto assign",
+        "AUTO_ASSIGN": "Automatikus hozzárendelés",
         "ENABLED": "Engedélyezve",
         "DISABLED": "Letiltva",
-        "YOU_ARE_A_MEMBER": "You are a member of this team"
+        "YOU_ARE_A_MEMBER": "Ön ennek a csapatnak a tagja"
       }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Halasztás eddig",
       "APPLY": "Halasztás",
       "CANCEL": "Mégse"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Javaslat kérése a Captain segítségével",
+      "EMPTY": "Nincsenek új javaslatok",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Kattintson az alkalmazáshoz",
+      "REJECT": "Elutasítás",
+      "ACCEPT_ALL": "Összes elfogadása",
+      "ERROR": "Nem sikerült betölteni a javaslatokat. Próbálja újra.",
+      "APPLY_ERROR": "Nem sikerült alkalmazni a javasolt címkéket. Próbálja újra."
     },
     "PRIORITY": {
       "TITLE": "Prioritás",
@@ -289,15 +326,14 @@
       "TIP_AUDIORECORDER_ICON": "Hangfelvétel",
       "TIP_AUDIORECORDER_PERMISSION": "Hozzáférés megadása a hangfelvételhez",
       "TIP_AUDIORECORDER_ERROR": "Nem sikerült megnyitni a hangfelvételt",
-      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
+      "AUDIO_CONVERSION_FAILED": "Nem sikerült átalakítani a hangfájlt. Próbálja újra.",
       "DRAG_DROP": "Helyezd ide a csatolmányt",
       "IMAGE_UPLOAD_SUCCESS": "Képfeltöltés sikeres",
       "START_AUDIO_RECORDING": "Hangfelvétel indítása",
       "STOP_AUDIO_RECORDING": "Hangfelvétel leállítása",
       "COPILOT_THINKING": "Copilot gondolkodik",
       "EMAIL_HEAD": {
-        "TO": "Címzett",
-        "ADD_BCC": "Titkos másolat hozzáadása",
+        "TO": "Ide",
         "CC": {
           "LABEL": "Másolat",
           "PLACEHOLDER": "E-mail vesszőkkel elválasztva",
@@ -307,6 +343,10 @@
           "LABEL": "Titkos másolat",
           "PLACEHOLDER": "E-mail vesszőkkel elválasztva",
           "ERROR": "Kérlek, adj meg érvényes e-mail címet"
+        },
+        "SUBJECT": {
+          "LABEL": "Tárgy",
+          "PLACEHOLDER": "Adja meg a tárgyat"
         }
       },
       "UNDEFINED_VARIABLES": {
@@ -318,11 +358,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "SHOW_TOOLTIP": "Csonkolt tartalom megjelenítése",
+        "HIDE_TOOLTIP": "Csonkolt tartalom elrejtése",
+        "REMOVE": "Idézett szöveg eltávolítása"
       }
     },
     "VISIBLE_TO_AGENTS": "Privát megjegyzés: csak Neked és a csapat tagjainak látható",
@@ -352,6 +390,7 @@
     "CONTEXT_MENU": {
       "COPY": "Másolás",
       "REPLY_TO": "Válasz az üzenetre",
+      "FORWARD_EMAIL": "E-mail továbbítása",
       "DELETE": "Törlés",
       "CREATE_A_CANNED_RESPONSE": "Mentett válasz hozzáadása",
       "TRANSLATE": "Fordítás",
@@ -364,22 +403,22 @@
         "CANCEL": "Mégse"
       },
       "REPORT_MESSAGE": {
-        "LABEL": "Report message",
-        "TITLE": "Report Captain message",
-        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
-        "PROBLEM_TYPE": "Problem type",
-        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "LABEL": "Üzenet jelentése",
+        "TITLE": "Captain válaszának jelentése",
+        "DESCRIPTION": "Problémát talált a MI-válaszban? Jelezze, mi történt, csapatunk pedig áttekinti a bejelentést, hogy javíthassuk a Captain pontosságát.",
+        "PROBLEM_TYPE": "Probléma típusa",
+        "PROBLEM_TYPE_PLACEHOLDER": "Válasszon problématípust",
         "DESCRIPTION_LABEL": "Leírás",
-        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
-        "SUBMIT": "Report",
-        "SUCCESS": "Thanks for reporting. Our team will take a look.",
-        "ERROR": "Could not report this message. Please try again.",
+        "DESCRIPTION_PLACEHOLDER": "Írja le részletesen a problémát",
+        "SUBMIT": "Jelentés",
+        "SUCCESS": "Köszönjük a bejelentést. Csapatunk áttekinti.",
+        "ERROR": "Nem sikerült jelenteni az üzenetet. Próbálja újra.",
         "REASONS": {
-          "incorrect_information": "Incorrect information",
-          "inappropriate_response": "Inappropriate response",
-          "incomplete_response": "Incomplete response",
-          "outdated_information": "Outdated information",
-          "other": "Other"
+          "incorrect_information": "Hibás információ",
+          "inappropriate_response": "Nem megfelelő válasz",
+          "incomplete_response": "Hiányos válasz",
+          "outdated_information": "Elavult információ",
+          "other": "Egyéb"
         }
       }
     },
@@ -397,10 +436,10 @@
       "DISMISS_CALL": "Elutasítás",
       "JOIN_CALL": "Join call",
       "END_CALL": "End call",
-      "MUTE": "Mute mic",
-      "UNMUTE": "Unmute mic",
-      "VIEW_CHAT_HISTORY": "View chat history",
-      "GO_TO_CONVERSATION": "Go to conversation thread"
+      "MUTE": "Mikrofon némítása",
+      "UNMUTE": "Mikrofon bekapcsolása",
+      "VIEW_CHAT_HISTORY": "Beszélgetési előzmények megtekintése",
+      "GO_TO_CONVERSATION": "Ugrás a beszélgetésre"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -467,19 +506,19 @@
       "MACROS": "Makrók",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders",
-      "SHARED_FILES": "Attachments"
+      "SHARED_FILES": "Csatolmányok"
     },
     "SHARED_FILES": {
-      "EMPTY": "No attachments yet",
-      "DOWNLOAD": "Download file",
-      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "EMPTY": "Még nincsenek csatolmányok",
+      "DOWNLOAD": "Fájl letöltése",
+      "DOWNLOAD_ERROR": "Nem sikerült letölteni a fájlt. Próbálja újra.",
       "MEDIA_HEADING": "Media",
-      "FILES_HEADING": "Files",
+      "FILES_HEADING": "Fájlok",
       "VIEW_ALL": "Összes megtekintése",
       "SHOW_LESS": "Kevesebb mutatása",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file",
-      "JUMP_TO_MESSAGE": "Jump to message"
+      "UNTITLED_FILE": "Névtelen fájl",
+      "JUMP_TO_MESSAGE": "Ugrás az üzenethez"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
@@ -529,7 +568,16 @@
     "BCC": "Titkos másolat",
     "CC": "Másolat",
     "SUBJECT": "Tárgy",
+    "DATE": "Date",
     "EXPAND": "Expand email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Továbbított üzenet ---------",
+    "TO_LABEL": "Ide:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Üzenet hozzáadása (nem kötelező)",
+    "FORWARDED_TO": "Továbbítva: {emails}",
+    "CONTACT_CANNOT_SEE": "{name} ezt nem láthatja"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Részvétel",

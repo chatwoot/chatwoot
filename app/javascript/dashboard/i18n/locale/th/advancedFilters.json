@@ -33,6 +33,8 @@
       "is_less_than": "ก่อนหน้า",
       "days_before": "x วันก่อน",
       "starts_with": "Starts with",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "เท่ากับ",
       "notEqualTo": "ไม่เท่ากับ",
       "contains": "มี",

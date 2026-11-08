@@ -4,6 +4,7 @@ operationId: delete-an-account-agent-bot
 summary: Delete an AgentBot
 description: Delete an AgentBot from the account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 responses:
   200:

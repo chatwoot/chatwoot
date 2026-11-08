@@ -2,7 +2,9 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
+  CAPTAIN_RESPONSES_USAGE_ALERTED = 'captain_responses_usage_alerted'.freeze
   CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
+  CAPTAIN_RESPONSES_USAGE_ALERT_THRESHOLD = 0.8
 
   def usage_limits
     {
@@ -18,11 +20,35 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   def increment_response_usage
     return unless ChatwootApp.chatwoot_cloud?
 
-    increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
+    alert_usage = with_lock do
+      increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
+      next unless captain_response_usage_alert_required?
+
+      update_custom_attribute(CAPTAIN_RESPONSES_USAGE_ALERTED, true)
+      response_limits = usage_limits[:captain][:responses]
+      { consumed: response_limits[:consumed], remaining: response_limits[:current_available] }
+    end
+
+    return if alert_usage.blank?
+
+    ActiveRecord.after_all_transactions_commit { enqueue_captain_response_usage_alert(alert_usage) }
   end
 
   def reset_response_usage
-    update_custom_attribute(CAPTAIN_RESPONSES_USAGE, 0)
+    # rubocop:disable Rails/SkipsModelValidations
+    Account.where(id: id).update_all([
+                                       "custom_attributes = jsonb_set(jsonb_set(COALESCE(custom_attributes, '{}'), " \
+                                       'ARRAY[:usage_key], :usage::jsonb), ARRAY[:alert_key], :alerted::jsonb)',
+                                       {
+                                         usage_key: CAPTAIN_RESPONSES_USAGE,
+                                         usage: 0.to_json,
+                                         alert_key: CAPTAIN_RESPONSES_USAGE_ALERTED,
+                                         alerted: false.to_json
+                                       }
+                                     ])
+    # rubocop:enable Rails/SkipsModelValidations
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = 0
+    custom_attributes[CAPTAIN_RESPONSES_USAGE_ALERTED] = false
   end
 
   def update_document_usage
@@ -61,6 +87,24 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   private
+
+  def captain_response_usage_alert_required?
+    return false if custom_attributes[CAPTAIN_RESPONSES_USAGE_ALERTED]
+    return false unless feature_enabled?('captain_integration')
+
+    response_limits = usage_limits[:captain][:responses]
+    response_limits[:total_count].positive? &&
+      response_limits[:consumed].fdiv(response_limits[:total_count]) > CAPTAIN_RESPONSES_USAGE_ALERT_THRESHOLD
+  end
+
+  def enqueue_captain_response_usage_alert(usage)
+    AdministratorNotifications::CaptainNotificationMailer
+      .with(account: self)
+      .response_usage_alert(**usage)
+      .deliver_later
+  rescue StandardError => e
+    Rails.logger.error("Captain response usage alert enqueue failed for account #{id}: #{e.class} - #{e.message}")
+  end
 
   def get_captain_limits(type)
     total_count = captain_monthly_limit[type.to_s].to_i
@@ -181,6 +225,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                                        { key: key, value: value.to_json }
                                      ])
     custom_attributes[key] = value
+    clear_attribute_changes([:custom_attributes])
   end
 
   def increment_custom_attribute(key)
@@ -190,6 +235,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                                        { key: key }
                                      ])
     custom_attributes[key] = custom_attributes[key].to_i + 1
+    clear_attribute_changes([:custom_attributes])
   end
 
   # rubocop:enable Rails/SkipsModelValidations

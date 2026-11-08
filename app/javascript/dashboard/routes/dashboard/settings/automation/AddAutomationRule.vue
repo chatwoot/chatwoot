@@ -45,8 +45,13 @@ const {
   manifestCustomAttributes,
 } = useAutomation(START_VALUE);
 
-const open = (executionDelay = null) => {
+const open = (executionDelay = null, monitorId = null) => {
   automation.value = structuredClone(START_VALUE);
+  if (monitorId) {
+    automation.value.event_name = 'monitor_matched';
+    automation.value.monitor_id = Number(monitorId);
+    automation.value.conditions = [];
+  }
   manifestCustomAttributes();
   formRef.value?.open(executionDelay);
 };

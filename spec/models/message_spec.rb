@@ -154,6 +154,20 @@ RSpec.describe Message do
     end
   end
 
+  describe '#widget_sender_data' do
+    it 'returns only the type for a contact sender' do
+      message = create(:message, message_type: :incoming, sender: create(:contact, email: 'jane@example.com'))
+
+      expect(message.widget_sender_data).to eq(type: 'contact')
+    end
+
+    it 'returns the full event data for an agent sender' do
+      message = create(:message, sender: create(:user))
+
+      expect(message.widget_sender_data).to eq(message.sender.push_event_data)
+    end
+  end
+
   describe 'message create event' do
     let!(:conversation) { create(:conversation) }
 
@@ -169,6 +183,20 @@ RSpec.describe Message do
 
       expect(conversation.first_reply_created_at).to eq outgoing_message.created_at
       expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'does not count a forwarded email as a reply to the contact' do
+      create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { forwarded_message_id: 1 })
+
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+    end
+
+    it 'records the first reply to the contact after a forwarded email' do
+      create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { forwarded_message_id: 1 })
+      reply = create(:message, message_type: :outgoing, conversation: conversation)
+
+      expect(conversation.first_reply_created_at).to eq reply.created_at
     end
 
     it 'does not update the conversation first reply created at if the message is incoming' do
