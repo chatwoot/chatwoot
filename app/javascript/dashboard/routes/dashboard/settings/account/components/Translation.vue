@@ -192,6 +192,15 @@ const toggleAutoTranslate = () =>
             </router-link>
           </div>
         </div>
+        <p
+          v-if="isGoogleSelected"
+          class="flex gap-1.5 items-center px-4 mb-0 md:col-start-2 text-label-small text-n-amber-11"
+        >
+          <span class="flex-shrink-0 i-lucide-triangle-alert size-3.5" />
+          {{
+            t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.SHORT_MESSAGE_WARNING')
+          }}
+        </p>
       </div>
 
       <div

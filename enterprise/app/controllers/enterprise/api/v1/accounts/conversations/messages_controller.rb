@@ -13,7 +13,7 @@ module Enterprise::Api::V1::Accounts::Conversations::MessagesController
   end
 
   def auto_translate
-    return head :forbidden unless Current.account.auto_translate_enabled?
+    return head :forbidden unless @conversation.auto_translate_enabled?
 
     message_ids = params.require(:message_ids)
     return render_could_not_create_error(I18n.t('errors.auto_translate.invalid_messages')) unless conversation_messages?(message_ids)

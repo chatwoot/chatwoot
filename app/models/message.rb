@@ -147,23 +147,22 @@ class Message < ApplicationRecord
     @token ||= inbox.channel.try(:page_access_token)
   end
 
-  # unread_count lets callers that already hold the conversation's unread count skip the per-message recount
-  def push_event_data(unread_count: nil)
+  def push_event_data
     data = attributes.symbolize_keys.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation&.display_id,
-      conversation: conversation.present? ? conversation_push_event_data(unread_count) : nil
+      conversation: conversation.present? ? conversation_push_event_data : nil
     )
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     merge_sender_attributes(data)
   end
 
-  def conversation_push_event_data(unread_count)
+  def conversation_push_event_data
     {
       assignee_id: conversation.assignee_id,
-      unread_count: unread_count || conversation.unread_incoming_messages.count,
+      unread_count: conversation.unread_incoming_messages.count,
       last_activity_at: conversation.last_activity_at.to_i,
       contact_inbox: { source_id: conversation.contact_inbox.source_id }
     }
@@ -173,6 +172,13 @@ class Message < ApplicationRecord
     data[:sender] = sender.push_event_data if sender && !sender.is_a?(AgentBot)
     data[:sender] = sender.push_event_data(inbox) if sender.is_a?(AgentBot)
     data
+  end
+
+  # The widget learns only that a contact sent the message, not the contact's stored details
+  def widget_sender_data
+    return { type: 'contact' } if sender.is_a?(Contact)
+
+    sender.push_event_data
   end
 
   def webhook_push_event_data

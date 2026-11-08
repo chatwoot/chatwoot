@@ -55,8 +55,6 @@
 #
 
 class Conversation < ApplicationRecord
-  extend ConversationMessageSummaryQueries
-
   include Labelable
   include LlmFormattable
   include AssignmentHandler
@@ -67,8 +65,7 @@ class Conversation < ApplicationRecord
   include PushDataHelper
   include ConversationMuteHelpers
 
-  UNREAD_INCOMING_MESSAGES_LIMIT = 10
-  CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
+  CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language auto_translate_disabled].freeze
   FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
   FILTERED_UNREAD_COUNT_UPDATE_KEYS = %w[
     cached_label_list campaign_id custom_attributes first_reply_created_at label_list last_activity_at priority snoozed_until waiting_since
@@ -208,15 +205,7 @@ class Conversation < ApplicationRecord
   end
 
   def unread_incoming_messages
-    unread_messages.where(account_id: account_id).incoming.last(UNREAD_INCOMING_MESSAGES_LIMIT)
-  end
-
-  attr_writer :message_summary
-
-  # Conversation lists set this for the whole page through Conversations::MessageSummaryLoader
-  def message_summary
-    Conversations::MessageSummaryLoader.new([self]).perform if @message_summary.nil?
-    @message_summary
+    unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
   def cached_label_list_array
@@ -248,25 +237,23 @@ class Conversation < ApplicationRecord
   end
 
   def self.unread_messages_count_arel
-    unread_incoming_messages_arel do |messages|
-      Arel::Nodes::Grouping.new(messages.select(Message.arel_table[:id].count).arel.ast)
-    end
-  end
-
-  # Callers build their count query from each relation without executing it.
-  def self.unread_incoming_messages_arel
     messages = Message.arel_table
     conversations = arel_table
-    incoming_messages = Message.unscoped.where(
-      messages[:conversation_id].eq(conversations[:id]).and(messages[:account_id].eq(conversations[:account_id]))
-    ).incoming
-    unread_messages = incoming_messages.where(messages[:created_at].gt(conversations[:agent_last_seen_at]))
+    unread_messages = messages
+                      .project(messages[:id].count)
+                      .where(unread_messages_condition(messages, conversations))
 
-    # Separate branches keep created_at indexable instead of filtering the message history.
-    Arel::Nodes::Case.new
-                     .when(conversations[:agent_last_seen_at].eq(nil))
-                     .then(yield(incoming_messages))
-                     .else(yield(unread_messages))
+    Arel::Nodes::Grouping.new(unread_messages.ast)
+  end
+
+  def self.unread_messages_condition(messages, conversations)
+    messages[:conversation_id].eq(conversations[:id])
+                              .and(messages[:account_id].eq(conversations[:account_id]))
+                              .and(messages[:message_type].eq(Message.message_types[:incoming]))
+                              .and(
+                                conversations[:agent_last_seen_at].eq(nil)
+                                  .or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
+                              )
   end
 
   def recent_messages

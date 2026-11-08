@@ -154,6 +154,20 @@ RSpec.describe Message do
     end
   end
 
+  describe '#widget_sender_data' do
+    it 'returns only the type for a contact sender' do
+      message = create(:message, message_type: :incoming, sender: create(:contact, email: 'jane@example.com'))
+
+      expect(message.widget_sender_data).to eq(type: 'contact')
+    end
+
+    it 'returns the full event data for an agent sender' do
+      message = create(:message, sender: create(:user))
+
+      expect(message.widget_sender_data).to eq(message.sender.push_event_data)
+    end
+  end
+
   describe 'message create event' do
     let!(:conversation) { create(:conversation) }
 
