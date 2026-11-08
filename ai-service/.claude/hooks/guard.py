@@ -271,7 +271,9 @@ USER_GIT_CONFIG = re.compile(r"(~|\$HOME|\$\{HOME\}|/Users/[^/\s]+|/home/[^/\s]+
 
 
 NULL_REDIRECT = re.compile(r"[0-9]*&?>>?[ \t]*/dev/null(?=[ \t\n;&|)]|$)")
-HEREDOC = re.compile(r"<<-?[ \t]*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
+# Quoted delimiters only: bash expands nothing in a <<'EOF' body, but runs
+# $(...) and backticks in an unquoted one.
+HEREDOC = re.compile(r"<<-?[ \t]*(['\"])([A-Za-z_][A-Za-z0-9_]*)\1")
 # Heredocs fed to these carry only prose: PR, issue, commit and tag text.
 MESSAGE_COMMANDS = {("gh", "pr"), ("gh", "issue"), ("git", "commit"), ("git", "tag")}
 
@@ -290,7 +292,7 @@ def message_command(segment):
 
 
 def strip_message_heredocs(command):
-    """Drop heredoc bodies that are PR or commit text, so prose that names the
+    """Drop quoted heredoc bodies that are PR or commit text, so prose that names the
     guard is not read as a shell write. The line that opens the heredoc stays,
     so a redirect on it still counts; an unterminated heredoc is kept whole."""
     lines = command.split("\n")
@@ -303,7 +305,8 @@ def strip_message_heredocs(command):
         if not match or not message_command(line[: match.start()]):
             continue
         end = next((j for j in range(i, len(lines)) if lines[j].strip() == match.group(2)), None)
-        if end is not None:
+        body = lines[i:end] if end is not None else []
+        if end is not None and not any("$(" in text or "`" in text for text in body):
             i = end + 1
     return "\n".join(kept)
 

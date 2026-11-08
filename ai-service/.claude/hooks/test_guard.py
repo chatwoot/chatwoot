@@ -402,6 +402,36 @@ class OwnerPatchTests(unittest.TestCase):
             self.assertEqual(result.returncode, 2, command)
 
 
+class HeredocExpansionTests(unittest.TestCase):
+    """Security review of #46: unquoted heredoc bodies run $(...) and backticks."""
+
+    def test_command_substitution_in_unquoted_heredoc_is_blocked(self):
+        for command in (
+            "gh pr create --body-file - <<EOF\n$(cp x ai-service/.claude/hooks/guard.py)\nEOF",
+            "git commit -F - <<EOF\n`rm ai-service/.claude/settings.json`\nEOF",
+            "gh pr create --body-file - <<-EOF\n$(echo x > ai-service/.claude/hooks/guard.py)\nEOF",
+        ):
+            # Act
+            result = run_guard("Bash", {"command": command})
+            # Assert
+            self.assertEqual(result.returncode, 2, command)
+
+    def test_substitution_text_in_quoted_heredoc_is_not_stripped(self):
+        command = "gh pr create --body-file - <<'EOF'\n$(cp x ai-service/.claude/hooks/guard.py)\nEOF"
+        result = run_guard("Bash", {"command": command})
+        self.assertEqual(result.returncode, 2)
+
+    def test_unquoted_heredoc_prose_is_checked_in_full(self):
+        command = "gh pr create --body-file - <<EOF\nAllow the path in guard.py; rm the old note.\nEOF"
+        result = run_guard("Bash", {"command": command})
+        self.assertEqual(result.returncode, 2)
+
+    def test_double_quoted_heredoc_prose_is_allowed(self):
+        command = 'gh pr create --body-file - <<"EOF"\nAllow the path in guard.py; rm the old note.\nEOF'
+        result = run_guard("Bash", {"command": command})
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+
 class RobustnessTests(unittest.TestCase):
     def test_garbage_input_is_let_through(self):
         result = subprocess.run([sys.executable, GUARD], input="not json", capture_output=True, text=True)
