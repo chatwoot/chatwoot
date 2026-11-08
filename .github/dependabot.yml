@@ -1,0 +1,34 @@
+# Dependency update PRs for ai-service only (our Go service).
+# Issue: DEV-Johnstocker/chatwoot#1
+#
+# Chatwoot's own Ruby/JS dependencies and its workflows come from upstream
+# merges, so they are deliberately not listed here. GitHub Actions are left out
+# too: Dependabot cannot limit them to our ai-service*.yml files and would open
+# PRs against Chatwoot's workflows. Every PR still goes through CI and review;
+# nothing merges automatically.
+version: 2
+updates:
+  - package-ecosystem: gomod
+    directory: /ai-service
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Asia/Bangkok
+    target-branch: develop
+    open-pull-requests-limit: 3
+    groups:
+      go-modules:
+        patterns: ['*']
+    commit-message:
+      prefix: '🔧 chore(ai-service)'
+
+  - package-ecosystem: docker
+    directory: /ai-service
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Asia/Bangkok
+    target-branch: develop
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: '🔧 chore(ai-service)'
