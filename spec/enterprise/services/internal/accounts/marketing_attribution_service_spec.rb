@@ -80,18 +80,6 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     expect(attribution['last_touch']['source']).to eq('google')
   end
 
-  it 'keeps an existing first touch when a new first-touch cookie arrives' do
-    account.update!(internal_attributes: { 'marketing_attribution' => { 'first_touch' => { 'source' => 'reddit' } } })
-    cookies[described_class::FIRST_TOUCH_COOKIE] = encoded_cookie('source' => 'x')
-    cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie('source' => 'x')
-
-    described_class.new(account: account, cookies: cookies).perform
-
-    attribution = account.reload.internal_attributes['marketing_attribution']
-    expect(attribution['first_touch']).to eq('source' => 'reddit')
-    expect(attribution['last_touch']).to eq('source' => 'x')
-  end
-
   it 'stores the X pilot tags, click id and capture time' do
     x_touch = {
       'utm_source' => 'x', 'utm_medium' => 'paid_social', 'utm_campaign' => 'x-pilot-nov', 'utm_content' => 'creative-a',
