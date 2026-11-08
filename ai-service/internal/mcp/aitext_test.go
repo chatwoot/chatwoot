@@ -37,6 +37,17 @@ func TestAIText_RefusesPaymentAndContactDetails(t *testing.T) {
 		"Call 0,812,253,456",
 		"Card 4111 1111 1111 1111",
 		"Account 1,234,567,890",
+		// second review: mixed ranges, line breaks, look-alike characters
+		"Call 08:12-123,456",
+		"Call 081\n234\n5678",
+		"Call 081\n\n234-5678",
+		"Call ⓪⑧①-②③④-⑤⑥⑦⑧",
+		"Call ⁰⁸¹²³⁴⁵⁶⁷⁸",
+		"Write to pay﹫evil.example",
+		"See ｗｗｗ．evil．com",
+		"See evil。com",
+		"Kbank only",
+		"ธนาคารกสิกรไทย",
 	}
 	for _, in := range cases {
 		t.Run(in, func(t *testing.T) {
@@ -66,6 +77,8 @@ func TestAIText_AllowsOrdinaryShopText(t *testing.T) {
 		"Friendly, short replies. Use ค่ะ.",
 		"We are online every day and reply in line with our policy.",
 		"Never promise a price.",
+		"Mon-Fri 09:00-18:00\nSat 10:00-16:00\nSun 10:00-14:00",
+		"Small 1,290\nLarge 2,490\nParty 12,900",
 	}
 	for _, in := range cases {
 		t.Run(in, func(t *testing.T) {

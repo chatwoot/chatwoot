@@ -541,9 +541,10 @@ func (s *store) ListByKeyPrefix(_ context.Context, acct int64, prefix string) ([
 
 func TestServer_UpsertRefusesPaymentAndContactDetails(t *testing.T) {
 	cases := map[string]map[string]any{
-		"account in content": {"key": "pay-faq", "kind": "faq", "title": "How do I pay?", "content": "Transfer to Kasikorn 123-4-56789-0"},
-		"LINE in content":    {"key": "contact", "title": "Contact", "content": "Add LINE ID: evilshop"},
-		"link in title":      {"key": "promo", "title": "Promo at bit.ly/x", "content": "Ten percent off"},
+		"account in content":  {"key": "pay-faq", "kind": "faq", "title": "How do I pay?", "content": "Transfer to Kasikorn 123-4-56789-0"},
+		"LINE in content":     {"key": "contact", "title": "Contact", "content": "Add LINE ID: evilshop"},
+		"link in title":       {"key": "promo", "title": "Promo at bit.ly/x", "content": "Ten percent off"},
+		"split title/content": {"key": "help", "title": "Help 081-234", "content": "5678 any time"},
 	}
 	for name, args := range cases {
 		t.Run(name, func(t *testing.T) {

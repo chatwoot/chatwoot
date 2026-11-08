@@ -360,10 +360,8 @@ func (s *Server) upsert(ctx context.Context, tok Token, a upsertArgs) (any, erro
 	if a.InboxID < 0 {
 		return nil, userError("inbox_id must be positive")
 	}
-	if err := checkAIText("title", d.Title); err != nil {
-		return nil, err
-	}
-	if err := checkAIText("content", d.Content); err != nil {
+	// Title and content together: a number split between them is still one number.
+	if err := checkAIText("title or content", d.Title+"\n"+d.Content); err != nil {
 		return nil, err
 	}
 	cur, err := s.Knowledge.GetByKey(ctx, tok.AccountID, d.SourceKey)
