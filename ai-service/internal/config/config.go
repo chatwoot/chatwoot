@@ -16,9 +16,13 @@ import (
 type Config struct {
 	ListenAddr string
 
-	ChatwootBaseURL  string
-	ChatwootBotToken string // Agent Bot access token (secret)
-	WebhookSecret    string // Agent Bot webhook secret used for HMAC (secret)
+	ChatwootBaseURL string
+	// ChatwootPublicURL is the address Chatwoot writes into attachment links
+	// (its FRONTEND_URL) when the bot reaches Chatwoot by another one, as in
+	// Docker. Optional.
+	ChatwootPublicURL string
+	ChatwootBotToken  string // Agent Bot access token (secret)
+	WebhookSecret     string // Agent Bot webhook secret used for HMAC (secret)
 
 	// Initial LLM settings; the admin page can override them at runtime.
 	LLMBaseURL         string
@@ -123,6 +127,7 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	cfg := Config{
 		ListenAddr:         get("LISTEN_ADDR", ":8080"),
 		ChatwootBaseURL:    strings.TrimRight(get("CHATWOOT_BASE_URL", ""), "/"),
+		ChatwootPublicURL:  strings.TrimRight(get("CHATWOOT_PUBLIC_URL", ""), "/"),
 		ChatwootBotToken:   get("CHATWOOT_BOT_TOKEN", ""),
 		WebhookSecret:      get("CHATWOOT_WEBHOOK_SECRET", ""),
 		LLMBaseURL:         strings.TrimRight(get("LLM_BASE_URL", "https://openrouter.ai/api/v1"), "/"),

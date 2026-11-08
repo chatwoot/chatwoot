@@ -19,9 +19,20 @@ import (
 
 // Fetcher downloads attachment files.
 type Fetcher struct {
-	Host      string // Chatwoot host, e.g. chat.example.com; nothing else is fetched
-	MaxBytes  int64
-	AllowHTTP bool // tests only; production requires https
+	Host string // Chatwoot host, e.g. chat.example.com; nothing else is fetched
+	// PublicHost is the host Chatwoot writes into attachment links when it
+	// differs from Host (local Docker: links say localhost:3000, the bot
+	// reaches Chatwoot as rails:3000). Such links are fetched from Host.
+	PublicHost string
+	// HostScheme is the scheme for links moved to Host ("http" inside
+	// Docker); empty keeps the link's own scheme.
+	HostScheme string
+	MaxBytes   int64
+	// RetryWait is the first pause before asking again for a file that
+	// answered 404: Chatwoot sends the webhook before the upload finishes.
+	// It doubles each time (3 retries). Zero means 500ms.
+	RetryWait time.Duration
+	AllowHTTP bool // tests, and Docker service names (rails:3000); public hosts need https
 	Client    *http.Client
 }
 
@@ -35,14 +46,9 @@ func (f *Fetcher) Fetch(ctx context.Context, raw string, max int64) ([]byte, str
 	if err := f.allowed(raw); err != nil {
 		return nil, "", err
 	}
-	client := f.client()
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, raw, nil)
+	res, err := f.get(ctx, f.internal(raw))
 	if err != nil {
-		return nil, "", errors.New("bad attachment url")
-	}
-	res, err := client.Do(req)
-	if err != nil {
-		return nil, "", errors.New("attachment download failed")
+		return nil, "", err
 	}
 	defer res.Body.Close()
 	if res.StatusCode != http.StatusOK {
@@ -58,6 +64,35 @@ func (f *Fetcher) Fetch(ctx context.Context, raw string, max int64) ([]byte, str
 	return body, res.Header.Get("Content-Type"), nil
 }
 
+// get requests the file, asking again while it answers 404 (still uploading).
+func (f *Fetcher) get(ctx context.Context, link string) (*http.Response, error) {
+	client := f.client()
+	wait := f.RetryWait
+	if wait <= 0 {
+		wait = 500 * time.Millisecond
+	}
+	for try := 0; ; try++ {
+		req, err := http.NewRequestWithContext(ctx, http.MethodGet, link, nil)
+		if err != nil {
+			return nil, errors.New("bad attachment url")
+		}
+		res, err := client.Do(req)
+		if err != nil {
+			return nil, errors.New("attachment download failed")
+		}
+		if res.StatusCode != http.StatusNotFound || try == 3 {
+			return res, nil
+		}
+		res.Body.Close()
+		select {
+		case <-ctx.Done():
+			return nil, errors.New("attachment download failed")
+		case <-time.After(wait):
+		}
+		wait *= 2
+	}
+}
+
 func (f *Fetcher) allowed(raw string) error {
 	u, err := url.Parse(raw)
 	if err != nil || u.Host == "" || f.Host == "" || u.User != nil {
@@ -66,10 +101,24 @@ func (f *Fetcher) allowed(raw string) error {
 	if u.Scheme != "https" && !(f.AllowHTTP && u.Scheme == "http") {
 		return errors.New("attachment url must be https")
 	}
-	if !strings.EqualFold(u.Host, f.Host) {
+	if !strings.EqualFold(u.Host, f.Host) && (f.PublicHost == "" || !strings.EqualFold(u.Host, f.PublicHost)) {
 		return errors.New("attachment is not on the Chatwoot host")
 	}
 	return nil
+}
+
+// internal points a link on PublicHost at Host; any other link is unchanged.
+// Call it only after allowed.
+func (f *Fetcher) internal(raw string) string {
+	u, err := url.Parse(raw)
+	if err != nil || f.PublicHost == "" || !strings.EqualFold(u.Host, f.PublicHost) {
+		return raw
+	}
+	u.Host = f.Host
+	if f.HostScheme != "" {
+		u.Scheme = f.HostScheme
+	}
+	return u.String()
 }
 
 func (f *Fetcher) client() *http.Client {
@@ -82,7 +131,17 @@ func (f *Fetcher) client() *http.Client {
 		if len(via) >= 5 {
 			return errors.New("too many redirects")
 		}
-		return f.allowed(req.URL.String())
+		if err := f.allowed(req.URL.String()); err != nil {
+			return err
+		}
+		if f.PublicHost != "" && strings.EqualFold(req.URL.Host, f.PublicHost) {
+			req.URL.Host = f.Host
+			req.Host = f.Host
+			if f.HostScheme != "" {
+				req.URL.Scheme = f.HostScheme
+			}
+		}
+		return nil
 	}
 	return &c
 }

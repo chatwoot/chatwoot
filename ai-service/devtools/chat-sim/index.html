@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chat simulator</title>
+<!--
+  Local test chat that looks and behaves like Facebook Messenger, for trying
+  the support bot end to end: page → Chatwoot API inbox → ai-service → reply.
+  Uses only Chatwoot's public client API (no login, no token). See README.md.
+-->
+<style>
+:root {
+  --bg: #ffffff; --panel: #f5f6f7; --text: #050505; --muted: #65676b;
+  --bubble-in: #f0f0f0; --bubble-out: #0084ff; --on-out: #ffffff;
+  --line: #e4e6eb; --accent: #0084ff; --staff: #7b2ff7; --warn: #b45309;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #18191a; --panel: #242526; --text: #e4e6eb; --muted: #b0b3b8;
+    --bubble-in: #3a3b3c; --line: #3e4042;
+  }
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--panel); color: var(--text); font: 15px/1.35 -apple-system, "Segoe UI", Helvetica, Arial, "Noto Sans Thai", sans-serif; display: flex; justify-content: center; gap: 20px; padding: 20px 16px; }
+.phone { width: 100%; max-width: 420px; height: calc(100vh - 40px); background: var(--bg); border-radius: 18px; box-shadow: 0 2px 16px rgba(0,0,0,.12); display: flex; flex-direction: column; overflow: hidden; }
+header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,#0084ff,#a033ff); color: #fff; display: grid; place-items: center; font-weight: 700; flex: none; position: relative; }
+.avatar.sm { width: 28px; height: 28px; font-size: 12px; }
+.avatar .dot { position: absolute; right: 0; bottom: 0; width: 11px; height: 11px; border-radius: 50%; background: #31a24c; border: 2px solid var(--bg); }
+header .name { font-weight: 600; }
+header .sub { color: var(--muted); font-size: 12px; }
+.chip { margin-left: auto; font-size: 11px; padding: 3px 8px; border-radius: 10px; background: var(--panel); color: var(--muted); white-space: nowrap; }
+.chip.staff { background: #efe5ff; color: var(--staff); }
+.chip.resolved { background: #e7f6ea; color: #1e7b34; }
+#log { flex: 1; overflow-y: auto; padding: 12px 10px; display: flex; flex-direction: column; gap: 2px; }
+.intro { text-align: center; color: var(--muted); padding: 24px 10px; }
+.intro .avatar { width: 64px; height: 64px; margin: 0 auto 8px; font-size: 24px; }
+.time { text-align: center; color: var(--muted); font-size: 11px; margin: 12px 0 6px; }
+.activity { text-align: center; color: var(--muted); font-size: 12px; margin: 6px 0; }
+.row { display: flex; align-items: flex-end; gap: 6px; }
+.row.out { justify-content: flex-end; }
+.row .slot { width: 28px; flex: none; }
+.who { font-size: 11px; color: var(--muted); margin: 8px 0 2px 40px; }
+.who.staff { color: var(--staff); }
+.bubble { max-width: 72%; padding: 8px 12px; border-radius: 18px; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: anywhere; }
+.in .bubble { background: var(--bubble-in); }
+.out .bubble { background: var(--bubble-out); color: var(--on-out); }
+.bubble a { color: inherit; text-decoration: underline; }
+.media { max-width: 72%; }
+.media img { max-width: 220px; max-height: 260px; border-radius: 14px; display: block; }
+.media img.sticker { max-width: 120px; background: none; }
+.media audio { width: 220px; }
+.media .file { padding: 10px 12px; border-radius: 14px; background: var(--bubble-in); }
+.status { text-align: right; color: var(--muted); font-size: 11px; margin: 2px 4px 0; }
+.typing { display: none; }
+.typing.on { display: flex; }
+.typing .bubble { display: flex; gap: 4px; padding: 12px 14px; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: b 1.2s infinite; }
+.typing i:nth-child(2) { animation-delay: .2s; } .typing i:nth-child(3) { animation-delay: .4s; }
+@keyframes b { 0%,60%,100% { opacity: .3; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .typing i { animation: none; opacity: .6; } }
+footer { border-top: 1px solid var(--line); padding: 8px; }
+.bar { display: flex; align-items: center; gap: 4px; }
+.icon { border: 0; background: none; color: var(--accent); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 20px; display: grid; place-items: center; flex: none; }
+.icon:hover { background: var(--panel); }
+.icon:focus-visible, textarea:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.icon.rec { color: #e41e3f; }
+textarea { flex: 1; resize: none; border: 0; border-radius: 18px; background: var(--panel); color: var(--text); padding: 8px 12px; font: inherit; max-height: 110px; }
+#stickers { display: none; flex-wrap: wrap; gap: 6px; padding: 6px 4px 2px; }
+#stickers.on { display: flex; }
+#stickers button { font-size: 30px; border: 0; background: var(--panel); border-radius: 10px; width: 52px; height: 52px; cursor: pointer; }
+.side { width: 300px; flex: none; display: flex; flex-direction: column; gap: 12px; }
+.card { background: var(--bg); border-radius: 12px; padding: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.card h2 { font-size: 14px; margin: 0 0 8px; }
+.card p, .card li { color: var(--muted); font-size: 13px; margin: 4px 0; }
+.card ul { padding-left: 18px; margin: 0; }
+.card label { display: block; font-size: 12px; color: var(--muted); margin: 8px 0 3px; }
+.card input { width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); font: inherit; }
+.btn { border: 0; border-radius: 8px; background: var(--accent); color: #fff; padding: 8px 12px; font: inherit; font-weight: 600; cursor: pointer; margin-top: 10px; width: 100%; }
+.btn.ghost { background: var(--panel); color: var(--text); }
+.err { color: #e41e3f; font-size: 13px; }
+@media (max-width: 760px) { body { padding: 0; } .phone { max-width: none; height: 100vh; border-radius: 0; } .side { display: none; } }
+</style>
+</head>
+<body>
+<main class="phone" aria-label="Chat">
+  <header>
+    <div class="avatar" aria-hidden="true"><span id="initial">J</span><span class="dot"></span></div>
+    <div><div class="name" id="pageName">Johnstocker AI Studio</div><div class="sub">Active now</div></div>
+    <span class="chip" id="mode" title="Who is answering this chat">Bot</span>
+  </header>
+  <div id="log" aria-live="polite">
+    <div class="intro"><div class="avatar" aria-hidden="true">J</div><div class="name" id="introName">Johnstocker AI Studio</div><div>Send a message to start</div></div>
+  </div>
+  <div class="row in typing" id="typing" aria-label="Typing"><div class="slot"><div class="avatar sm">J</div></div><div class="bubble"><i></i><i></i><i></i></div></div>
+  <footer>
+    <div id="stickers" aria-label="Stickers"></div>
+    <div class="bar">
+      <button class="icon" id="attach" title="Photo, voice file, video or PDF" aria-label="Attach a file">＋</button>
+      <input type="file" id="file" accept="image/*,audio/*,video/*,application/pdf" hidden multiple>
+      <button class="icon" id="mic" title="Hold a voice note: click to start, click again to send" aria-label="Record a voice note">🎤</button>
+      <button class="icon" id="stk" title="Stickers" aria-label="Stickers">😊</button>
+      <textarea id="text" rows="1" placeholder="Aa" aria-label="Message"></textarea>
+      <button class="icon" id="like" title="Send a like (Facebook sends it as a sticker image)" aria-label="Send a like">👍</button>
+    </div>
+  </footer>
+</main>
+<aside class="side">
+  <div class="card">
+    <h2>Customer</h2>
+    <label for="custName">Name</label>
+    <input id="custName" value="ลูกค้าทดสอบ">
+    <button class="btn" id="newCust">New customer</button>
+    <button class="btn ghost" id="openCw">Open in Chatwoot (staff view)</button>
+    <p id="convInfo">No conversation yet</p>
+    <p class="err" id="err" role="alert"></p>
+  </div>
+  <div class="card">
+    <h2>Like Messenger</h2>
+    <ul>
+      <li>Enter sends at once, so three quick messages arrive as three, like on a phone.</li>
+      <li>👍 and stickers are sent as images, the way Facebook delivers them.</li>
+      <li>🎤 records a real voice note; ＋ sends photos, voice files, video or PDF.</li>
+      <li>The chip shows Bot, Staff (handed off) or Resolved.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>Not like Messenger</h2>
+    <ul>
+      <li>The typing dots are this page's guess while waiting for a reply.</li>
+      <li>No 24-hour reply window, no read receipts from the page.</li>
+    </ul>
+  </div>
+</aside>
+<script src="config.js" onerror="window.CHATSIM = window.CHATSIM || {}"></script>
+<script>
+"use strict";
+const CFG = window.CHATSIM || {};
+const qs = new URLSearchParams(location.search);
+const CW = (qs.get("chatwoot") || "http://localhost:3000").replace(/\/$/, "");
+const INBOX = qs.get("inbox") || CFG.inbox || "";
+const PAGE = qs.get("page") || "Johnstocker AI Studio";
+const ACCOUNT = qs.get("account") || "1";
+const API = `${CW}/public/api/v1/inboxes/${encodeURIComponent(INBOX)}`;
+const $ = id => document.getElementById(id);
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem("chatsim:" + INBOX + ":" + k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem("chatsim:" + INBOX + ":" + k, JSON.stringify(v)); } catch {} },
+};
+let session = store.get("session"); // {source, conv}
+let seen = new Set(), lastTime = 0, lastKey = "", waiting = 0, pollTimer = null;
+
+$("pageName").textContent = $("introName").textContent = PAGE;
+$("initial").textContent = PAGE.trim()[0] || "J";
+if (!INBOX) showError("No inbox set. Start this page with run.sh, or add ?inbox=<API inbox identifier>.");
+
+function showError(t) { $("err").textContent = t; }
+
+async function api(method, path, body, isForm) {
+  const opts = { method, headers: {} };
+  if (body && !isForm) { opts.headers["content-type"] = "application/json"; opts.body = JSON.stringify(body); }
+  if (isForm) opts.body = body;
+  const r = await fetch(API + path, opts);
+  if (!r.ok) throw new Error(`${method} ${path.split("/").slice(0, 2).join("/")} → ${r.status}`);
+  const t = await r.text();
+  return t ? JSON.parse(t) : null;
+}
+
+async function ensureSession() {
+  if (session) return session;
+  const c = await api("POST", "/contacts", { name: $("custName").value.trim() || "ลูกค้าทดสอบ" });
+  const v = await api("POST", `/contacts/${c.source_id}/conversations`, {});
+  session = { source: c.source_id, conv: v.id };
+  store.set("session", session);
+  showConv();
+  startPolling();
+  return session;
+}
+
+function showConv() {
+  $("convInfo").textContent = session ? `Conversation #${session.conv}` : "No conversation yet";
+}
+
+async function sendText(text) {
+  const s = await ensureSession();
+  await api("POST", `/contacts/${s.source}/conversations/${s.conv}/messages`, { content: text });
+  expectReply();
+  poll();
+}
+
+async function sendFiles(files, content) {
+  const s = await ensureSession();
+  const fd = new FormData();
+  if (content) fd.append("content", content);
+  for (const f of files) fd.append("attachments[]", f, f.name);
+  await api("POST", `/contacts/${s.source}/conversations/${s.conv}/messages`, fd, true);
+  expectReply();
+  poll();
+}
+
+function expectReply() {
+  waiting = Date.now();
+  $("typing").classList.add("on");
+  setTimeout(() => { if (Date.now() - waiting >= 60000) $("typing").classList.remove("on"); }, 60500);
+}
+
+function linkify(text) {
+  const frag = document.createDocumentFragment();
+  const re = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
+  let i = 0, m;
+  while ((m = re.exec(text))) {
+    frag.append(text.slice(i, m.index));
+    const a = document.createElement("a");
+    a.href = m[0].startsWith("http") ? m[0] : "https://" + m[0];
+    a.target = "_blank"; a.rel = "noopener"; a.textContent = m[0];
+    frag.append(a);
+    i = m.index + m[0].length;
+  }
+  frag.append(text.slice(i));
+  return frag;
+}
+
+function fmtTime(sec) {
+  return new Date(sec * 1000).toLocaleString([], { weekday: "short", hour: "2-digit", minute: "2-digit" });
+}
+
+function render(m) {
+  const log = $("log");
+  if (m.created_at - lastTime > 600) { const t = document.createElement("div"); t.className = "time"; t.textContent = fmtTime(m.created_at); log.append(t); }
+  lastTime = m.created_at;
+  if (m.message_type === 2) {
+    const a = document.createElement("div"); a.className = "activity"; a.textContent = m.content; log.append(a); lastKey = ""; return;
+  }
+  const out = m.message_type === 0; // incoming to Chatwoot = sent by this customer
+  const senderType = (m.sender && (m.sender.type || m.sender_type)) || m.sender_type || "";
+  const staff = !out && /user/i.test(senderType);
+  const key = out ? "me" : staff ? "staff:" + (m.sender && m.sender.name) : "bot";
+  if (!out && key !== lastKey) {
+    const w = document.createElement("div");
+    w.className = "who" + (staff ? " staff" : "");
+    w.textContent = staff ? `Staff · ${(m.sender && m.sender.name) || "agent"}` : `${PAGE} · bot`;
+    log.append(w);
+  }
+  lastKey = key;
+  for (const a of m.attachments || []) {
+    const row = document.createElement("div"); row.className = "row " + (out ? "out" : "in");
+    if (!out) row.append(slot());
+    const box = document.createElement("div"); box.className = "media";
+    if (a.file_type === "image") {
+      const img = document.createElement("img"); img.src = a.data_url; img.alt = "Photo";
+      if (/sticker|like/i.test(a.data_url || "")) img.className = "sticker";
+      box.append(img);
+    } else if (a.file_type === "audio") {
+      const au = document.createElement("audio"); au.controls = true; au.src = a.data_url; box.append(au);
+    } else {
+      const f = document.createElement("div"); f.className = "file"; f.textContent = "📎 " + (a.file_type || "file"); box.append(f);
+    }
+    row.append(box); log.append(row);
+  }
+  if (m.content) {
+    const row = document.createElement("div"); row.className = "row " + (out ? "out" : "in");
+    if (!out) row.append(slot());
+    const b = document.createElement("div"); b.className = "bubble"; b.append(linkify(m.content));
+    row.append(b); log.append(row);
+  }
+}
+
+function slot() { const s = document.createElement("div"); s.className = "slot"; s.innerHTML = '<div class="avatar sm" aria-hidden="true"></div>'; s.firstChild.textContent = PAGE.trim()[0] || "J"; return s; }
+
+async function poll() {
+  if (!session) return;
+  try {
+    const msgs = await api("GET", `/contacts/${session.source}/conversations/${session.conv}/messages`);
+    let gotReply = false;
+    const log = $("log");
+    const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
+    for (const m of msgs.sort((a, b) => a.id - b.id)) {
+      if (seen.has(m.id)) continue;
+      seen.add(m.id);
+      render(m);
+      if (m.message_type === 1) gotReply = true;
+    }
+    // Like Messenger: the page avatar shows only on the last bubble of a group.
+    log.querySelectorAll(".row.in").forEach(r => {
+      const next = r.nextElementSibling;
+      r.querySelector(".slot .avatar").style.visibility = next && next.matches(".row.in") ? "hidden" : "visible";
+    });
+    if (gotReply) { $("typing").classList.remove("on"); waiting = 0; }
+    if (nearBottom || gotReply) log.scrollTop = log.scrollHeight;
+    const convs = await api("GET", `/contacts/${session.source}/conversations`);
+    const c = (convs || []).find(x => x.id === session.conv);
+    if (c) {
+      const mode = c.status === "pending" ? "Bot" : c.status === "open" ? "Staff" : c.status === "resolved" ? "Resolved" : c.status;
+      $("mode").textContent = mode;
+      $("mode").className = "chip" + (mode === "Staff" ? " staff" : mode === "Resolved" ? " resolved" : "");
+    }
+    showError("");
+  } catch (e) { showError("Can't reach Chatwoot: " + e.message); }
+}
+
+function startPolling() { clearInterval(pollTimer); pollTimer = setInterval(poll, 1500); poll(); }
+
+function resetChat() {
+  session = null; store.set("session", null); seen = new Set(); lastTime = 0; lastKey = "";
+  $("log").querySelectorAll(":scope > :not(.intro)").forEach(n => n.remove());
+  $("mode").textContent = "Bot"; $("mode").className = "chip"; $("typing").classList.remove("on");
+  clearInterval(pollTimer); showConv();
+}
+
+// Stickers and the like button: Facebook delivers both as image attachments.
+const STICKERS = ["👍", "😀", "😂", "❤️", "🙏", "😢", "😡", "🥰"];
+function stickerFile(emoji) {
+  return new Promise(res => {
+    const c = document.createElement("canvas"); c.width = c.height = 240;
+    const g = c.getContext("2d"); g.font = "190px serif"; g.textAlign = "center"; g.textBaseline = "middle";
+    g.fillText(emoji, 120, 132);
+    c.toBlob(b => res(new File([b], "sticker.png", { type: "image/png" })), "image/png");
+  });
+}
+for (const e of STICKERS) {
+  const b = document.createElement("button"); b.textContent = e; b.title = "Send sticker"; b.setAttribute("aria-label", "Send sticker " + e);
+  b.onclick = async () => { $("stickers").classList.remove("on"); await sendFiles([await stickerFile(e)]).catch(err => showError(err.message)); };
+  $("stickers").append(b);
+}
+$("stk").onclick = () => $("stickers").classList.toggle("on");
+$("like").onclick = async () => sendFiles([await stickerFile("👍")]).catch(err => showError(err.message));
+
+// Text: Enter sends at once, Shift+Enter is a new line.
+$("text").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
+    e.preventDefault();
+    const t = $("text").value.trim();
+    if (!t) return;
+    $("text").value = "";
+    sendText(t).catch(err => showError(err.message));
+  }
+});
+
+$("attach").onclick = () => $("file").click();
+$("file").onchange = () => { const f = [...$("file").files]; $("file").value = ""; if (f.length) sendFiles(f).catch(err => showError(err.message)); };
+
+// Voice notes: click to start recording, click again to send.
+let rec = null, chunks = [];
+$("mic").onclick = async () => {
+  if (rec) { rec.stop(); return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const type = ["audio/mp4", "audio/webm;codecs=opus", "audio/webm"].find(t => MediaRecorder.isTypeSupported(t)) || "";
+    rec = new MediaRecorder(stream, type ? { mimeType: type } : {});
+    chunks = [];
+    rec.ondataavailable = e => chunks.push(e.data);
+    rec.onstop = () => {
+      stream.getTracks().forEach(t => t.stop());
+      const mt = (rec.mimeType || "audio/webm").split(";")[0];
+      const ext = mt.includes("mp4") ? "m4a" : "webm";
+      sendFiles([new File(chunks, "voice." + ext, { type: mt })]).catch(err => showError(err.message));
+      rec = null; $("mic").classList.remove("rec"); $("mic").textContent = "🎤";
+    };
+    rec.start(); $("mic").classList.add("rec"); $("mic").textContent = "⏺";
+  } catch (e) { showError("Microphone: " + e.message); }
+};
+
+$("newCust").onclick = () => resetChat();
+$("openCw").onclick = () => { if (session) window.open(`${CW}/app/accounts/${ACCOUNT}/conversations/${session.conv}`, "_blank", "noopener"); };
+
+showConv();
+if (session) startPolling();
+</script>
+</body>
+</html>
