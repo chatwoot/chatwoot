@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此聯絡人沒有關聯的歷史對話。",
-      "TITLE": "歷史對話"
+      "TITLE": "歷史對話",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

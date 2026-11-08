@@ -4,6 +4,8 @@ import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useCommandBar } from '@chatwoot/jumpbar';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -54,6 +56,7 @@ const isCallsAvailable = computed(
   () => isOnChatwootCloud.value || isEnterprise
 );
 const searchShortcut = useKbd([`$mod`, 'k']);
+const commandBar = useCommandBar();
 const { t } = useI18n();
 
 const isACustomBrandedInstance = useMapGetter(
@@ -68,6 +71,19 @@ const accountId = useMapGetter('getCurrentAccountId');
 const currentUserId = useMapGetter('getCurrentUserID');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
+);
+
+const isMonitorsAvailable = computed(
+  () =>
+    (isOnChatwootCloud.value || isEnterprise) &&
+    [FEATURE_FLAGS.REPORTS, FEATURE_FLAGS.CONVERSATION_MONITORS].every(flag =>
+      isFeatureEnabledonAccount.value(accountId.value, flag)
+    )
+);
+
+const { uiSettings } = useUISettings();
+const hasCommandBarV2 = computed(
+  () => uiSettings.value.command_bar_v2 === true
 );
 
 const hasAdvancedAssignment = computed(() => {
@@ -91,6 +107,13 @@ const hasFilteredUnreadCounts = computed(() => {
       accountId.value,
       FEATURE_FLAGS.UNREAD_COUNT_FOR_FILTERS
     )
+  );
+});
+
+const hasCaptainMcpServers = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CAPTAIN_MCP_SERVERS
   );
 });
 
@@ -559,8 +582,14 @@ const menuItems = computed(() => {
         },
         {
           name: 'Tools',
-          label: t('SIDEBAR.CAPTAIN_TOOLS'),
-          activeOn: ['captain_tools_index'],
+          label: hasCaptainMcpServers.value
+            ? t('SIDEBAR.CAPTAIN_TOOLS_AND_MCP')
+            : t('SIDEBAR.CAPTAIN_TOOLS'),
+          activeOn: [
+            'captain_tools_index',
+            'captain_tools_explore',
+            'captain_mcp_servers_index',
+          ],
           to: accountScopedRoute('captain_assistants_index', {
             navigationPath: 'captain_tools_index',
           }),
@@ -708,6 +737,16 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_BOT'),
           to: accountScopedRoute('bot_reports'),
         },
+        ...(isMonitorsAvailable.value
+          ? [
+              {
+                name: 'Monitors',
+                label: t('MONITORS.TITLE'),
+                to: accountScopedRoute('monitor_reports_index'),
+                activeOn: ['monitor_reports_show'],
+              },
+            ]
+          : []),
       ],
     },
     {
@@ -1003,16 +1042,40 @@ const menuItems = computed(() => {
         </template>
       </div>
       <div
-        class="flex gap-2"
+        class="flex gap-2 min-w-0"
         :class="isEffectivelyCollapsed ? 'flex-col items-center' : 'px-2'"
       >
+        <div
+          v-if="hasCommandBarV2 && !isEffectivelyCollapsed"
+          class="flex items-center w-full min-w-0 h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
+        >
+          <RouterLink
+            :to="{ name: 'search' }"
+            class="flex flex-grow gap-2 items-center px-2 py-1 min-w-0 h-7"
+          >
+            <span
+              class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10"
+            />
+            <span class="flex-grow min-w-0 truncate text-start text-n-slate-10">
+              {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
+            </span>
+          </RouterLink>
+          <button
+            type="button"
+            class="flex-shrink-0 px-2 h-full text-xs tracking-wide whitespace-nowrap rounded-e-lg text-n-slate-10 hover:text-n-slate-12 hover:bg-n-alpha-2 dark:hover:bg-n-slate-9/30"
+            :title="t('COMMAND_BAR.SEARCH_PLACEHOLDER')"
+            @click="commandBar.open()"
+          >
+            {{ searchShortcut }}
+          </button>
+        </div>
         <RouterLink
-          v-if="!isEffectivelyCollapsed"
+          v-else-if="!isEffectivelyCollapsed"
           :to="{ name: 'search' }"
-          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
+          class="flex gap-2 items-center px-2 py-1 w-full min-w-0 h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
         >
           <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10" />
-          <span class="flex-grow text-start text-n-slate-10">
+          <span class="flex-grow min-w-0 truncate text-start text-n-slate-10">
             {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
           </span>
           <span

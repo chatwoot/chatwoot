@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
-      "TITLE": "Conversas anteriores"
+      "TITLE": "Conversas anteriores",
+      "VIEW_ALL": "Ver todas as conversas"
     },
     "LABELS": {
       "CONTACT": {
@@ -178,7 +179,7 @@
         "ERROR": "O assunto não pode estar vazio"
       },
       "MESSAGE": {
-        "LABEL": "Messagem",
+        "LABEL": "Mensagem",
         "PLACEHOLDER": "Escreva sua mensagem aqui",
         "ERROR": "A mensagem não pode estar vazia"
       },

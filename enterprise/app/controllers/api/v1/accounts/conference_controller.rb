@@ -1,6 +1,8 @@
 class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference
-  rescue_from CustomExceptions::CallAlreadyAccepted, with: :render_call_already_accepted
+  before_action :validate_hold, :ensure_handling_agent, only: :hold
+  rescue_from CustomExceptions::CallAlreadyAccepted, Voice::CallErrors::CallAlreadyEnded, with: :render_call_conflict
+  rescue_from Voice::CallErrors::CallFailed, with: :render_call_failed
 
   def token
     render json: Voice::Provider::Twilio::TokenService.new(
@@ -11,11 +13,15 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   def create
+    return render json: { error: 'Invalid attempt_id' }, status: :unprocessable_entity unless valid_attempt_id?
+
     call = resolve_call!
 
     conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
     conference_sid = conference_service.ensure_conference_sid
-    conference_service.mark_agent_joined(user: current_user)
+    conference_service.mark_agent_joined(
+      user: current_user, agent_client: RequestDeviceInfo.new(request).client_details, attempt: params[:attempt_id].presence
+    )
     # voice_call.accepted broadcasts from Voice::Conference::Manager#join_agent! once
     # Twilio confirms the leg joined, not here — joinClientCall can still fail after this.
 
@@ -27,18 +33,60 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     }
   end
 
+  # Stops the ring for this agent only; the caller keeps waiting for the others
+  def dismiss
+    Voice::Provider::Twilio::ConferenceService.new(call: resolve_call!).dismiss(Current.user)
+    head :ok
+  end
+
   def destroy
     call = resolve_call!
-    # Tear down provider side first so a teardown failure leaves the call repairable.
-    Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
-    finalize_call!(call)
+    # Teardown holds the row lock so the status callbacks it triggers can't finalize the call first;
+    # a teardown failure rolls back and leaves the call repairable.
+    call.with_lock do
+      conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
+      conference_service.terminate_call
+      conference_service.end_conference
+      finalize_call!(call)
+    end
     # Account-wide, so every other tab/agent stops showing this call as ringing/active —
     # matches the equivalent WhatsApp broadcast (Whatsapp::CallService#broadcast).
     call.broadcast_voice_call_event(:ended, status: call.display_status)
     render json: { status: 'success', id: call.conversation.display_id }
   end
 
+  # Holds or resumes the caller; the dashboard shows the hold only once Twilio made it
+  def hold
+    Voice::Provider::Twilio::ConferenceService.new(call: @call).hold_contact(params[:hold])
+    head :ok
+  end
+
   private
+
+  def validate_hold
+    return if [true, false].include?(params[:hold])
+
+    render_could_not_create_error(I18n.t('errors.voice.invalid_hold'))
+  end
+
+  # Only the agent on a live call can hold or resume it
+  def ensure_handling_agent
+    @call = resolve_call!
+    return if @call.in_progress? && @call.accepted_by_agent_id == Current.user.id
+
+    render_could_not_create_error(I18n.t('errors.voice.not_handling_agent'))
+  end
+
+  def render_call_failed(error) = render_could_not_create_error(error.message)
+
+  # An attempt id is the short token a client makes for one connection and sends to Twilio
+  # as well, so only that shape is kept
+  ATTEMPT_ID_FORMAT = /\A[\w-]{1,64}\z/
+
+  def valid_attempt_id?
+    attempt = params[:attempt_id]
+    attempt.nil? || (attempt.is_a?(String) && attempt.match?(ATTEMPT_ID_FORMAT))
+  end
 
   def resolve_call!
     sid = params[:call_sid].presence
@@ -63,32 +111,30 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     conversation
   end
 
-  def render_call_already_accepted(error)
+  # Another agent has the call, or it is ending unanswered; the client drops its ringing card
+  def render_call_conflict(error)
     render json: { error: error.message }, status: :conflict
   end
 
-  # Always persist a terminal status under a row lock before the :ended broadcast fires —
+  # Always persist a terminal status under destroy's row lock before the :ended broadcast fires —
   # otherwise a delayed join webhook can still pass Manager#join_agent!'s terminal? guard
   # and broadcast voice_call.accepted after voice_call.ended. Mirrors Whatsapp::CallService#terminate.
   # Routed through CallStatus::Manager (not a bare update!) so ended_at/duration_seconds are set here —
   # the async Twilio webhook that would normally set them now finds the call already terminal and bails.
   def finalize_call!(call)
-    status = nil
-    call.with_lock do
-      next if call.terminal?
+    return if call.terminal?
 
-      if call.ringing? && call.accepted_by_agent_id.nil?
-        status = 'rejected'
-        call.update!(end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id)
-      elsif call.in_progress?
-        status = 'completed'
-        call.update!(end_reason: 'agent_hangup')
-      else
-        status = 'no_answer'
-        call.update!(end_reason: 'agent_hangup')
-      end
-      Voice::CallStatus::Manager.new(call: call).process_status_update(status)
+    if call.ringing? && call.accepted_by_agent_id.nil?
+      status = 'rejected'
+      call.update!(end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id)
+    elsif call.in_progress?
+      status = 'completed'
+      call.update!(end_reason: 'agent_hangup')
+    else
+      status = 'no_answer'
+      call.update!(end_reason: 'agent_hangup')
     end
-    Voice::CallMessageBuilder.new(call).update_status!(status: status, agent: Current.user) if status
+    Voice::CallStatus::Manager.new(call: call).process_status_update(status)
+    Voice::CallMessageBuilder.new(call).update_status!(status: status, agent: Current.user)
   end
 end

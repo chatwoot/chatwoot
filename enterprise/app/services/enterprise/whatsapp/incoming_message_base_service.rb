@@ -9,7 +9,7 @@ module Enterprise::Whatsapp::IncomingMessageBaseService
     super
 
     return if recipient || @message
-    return unless inbox.account.feature_enabled?(:whatsapp_campaign)
+    return unless inbox.account.feature_enabled?(:campaigns)
     return unless %w[delivered read failed].include?(status[:status].to_s)
 
     Campaigns::UpdateRecipientStatusJob.set(wait: 2.seconds).perform_later(inbox.id, status.to_h)

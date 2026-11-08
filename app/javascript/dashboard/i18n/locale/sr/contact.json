@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nema ranijih razgovora povezanih sa ovim kontaktom.",
-      "TITLE": "Prethodni razgovor"
+      "TITLE": "Prethodni razgovor",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

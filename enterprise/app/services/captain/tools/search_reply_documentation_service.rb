@@ -3,7 +3,7 @@ class Captain::Tools::SearchReplyDocumentationService < RubyLLM::Tool
 
   description 'Search and retrieve documentation/FAQs from knowledge base'
 
-  param :query, desc: 'Search Query', required: true
+  parameter :query, description: 'Search Query', required: true
 
   def initialize(account:, assistant: nil)
     @account = account
