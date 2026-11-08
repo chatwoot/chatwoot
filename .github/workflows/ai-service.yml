@@ -109,20 +109,29 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0 # full history: a key added then deleted stays readable in git
       - name: Install gitleaks 8.30.1 (SHA-256 pinned)
         working-directory: ${{ runner.temp }}
         run: |
           curl -fsSLo gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
           echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  gitleaks.tar.gz" | sha256sum -c -
           tar -xzf gitleaks.tar.gz gitleaks
-      # Scans our code only (not Chatwoot's history); --redact keeps any hit out of the log.
-      - name: Scan ai-service and workflow
+      # Scans every commit that touched our paths (not Chatwoot's own history),
+      # so a key committed and later deleted still fails. The rules come from
+      # runner temp, so a checked-in .gitleaks.toml, .gitleaksignore or
+      # gitleaks:allow comment cannot switch them off. --redact keeps any hit
+      # out of the log.
+      - name: Scan ai-service and workflow history
         working-directory: .
         run: |
-          "$RUNNER_TEMP/gitleaks" dir ai-service --redact --no-banner --exit-code 1
-          for f in .github/workflows/ai-service*.yml; do
-            "$RUNNER_TEMP/gitleaks" dir "$f" --redact --no-banner --exit-code 1
-          done
+          printf '[extend]\nuseDefault = true\n' > "$RUNNER_TEMP/gitleaks.toml"
+          mkdir -p "$RUNNER_TEMP/gitleaks-no-ignore"
+          "$RUNNER_TEMP/gitleaks" git . \
+            --config "$RUNNER_TEMP/gitleaks.toml" \
+            --gitleaks-ignore-path "$RUNNER_TEMP/gitleaks-no-ignore" \
+            --ignore-gitleaks-allow \
+            --log-opts="HEAD -- ai-service .github/workflows/ai-service*.yml" \
+            --redact --no-banner --exit-code 1
 
   workflow-lint:
     name: actionlint
