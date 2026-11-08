@@ -22,7 +22,6 @@ class Internal::Accounts::MarketingConversionTrackingService
   #     }
   #   }
   # }
-  # Accounts with an X click id (twclid) are also sent to the X Conversion API, only once "x" is set.
   TOKEN_SCOPES = ['https://www.googleapis.com/auth/datamanager'].freeze
   API_URL = 'https://datamanager.googleapis.com/v1/events:ingest'
   CLICK_ID_FIELDS = %w[gclid gbraid wbraid].freeze

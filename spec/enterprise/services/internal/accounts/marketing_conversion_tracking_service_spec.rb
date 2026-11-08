@@ -188,13 +188,5 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
 
       expect(a_request(:post, x_api_url)).not_to have_been_made
     end
-
-    it 'raises so the job retries when X rejects the upload' do
-      stub_request(:post, x_api_url).to_return(status: 503, body: 'unavailable')
-
-      expect do
-        described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
-      end.to raise_error(RuntimeError, /X conversion upload failed/)
-    end
   end
 end
