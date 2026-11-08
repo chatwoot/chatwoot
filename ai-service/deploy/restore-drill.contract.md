@@ -59,12 +59,28 @@ dumped from Postgres 17.11:
   file: end of file`, `RESTORE FAILED`, exit 2; copy shredded afterwards.
 - pg16 tools cannot read this dump (`unsupported version (1.16)`), hence pg17.
 
+2026-11-08 21:42, fresh backup at the live schema (owner's go-ahead):
+
+- Read-only `pg_dump -Fc -n public` of Supabase production (ai-service
+  database, session pooler) run on the VPS in a `pgvector:pg17` container;
+  the URL came from the production container's environment through a
+  root-only temp file and was never printed. The service's URL carries pgx
+  pool options (`pool_max_conns`) that `pg_dump` rejects; they are stripped
+  first.
+- `aisvc-full-20261108-214246.dump`, 836,392 bytes, 2 s, Postgres 17.11,
+  schema 11, sha256
+  `a66c9387c11bcd24934dfe134c0ae30a7d8ef00c5c93b54c67ee25b0c70d6de2`, written
+  to `<dump>.sha256` and checked before the drill. The container wrote the
+  file mode 644 (inside the 700 backups folder); set to 600.
+- Drill: `RESULT: PASS`, schema 11 before and after, kb_documents 106,
+  kb_chunks 108, business_profiles 1, web_sources 2, admin_events 138;
+  vector query ok; no container left.
+
 ## Open gaps
 
-1. **Latest backup predates the live schema.** The newest full backup
-   (2026-11-07 23:05) is at schema 10; production has run schema 11 since
-   2026-11-08. A restore today would lose everything written since.
+1. ~~Latest backup predates the live schema.~~ Closed 2026-11-08 by the
+   fresh backup above.
 2. **Backups are manual and live on the same VPS** as production, with no
-   checksum written at backup time, no schedule, no retention rule and no
-   offsite copy. Losing the VPS loses the backups.
+   schedule, no retention rule and no offsite copy. Losing the VPS loses the
+   backups. (Checksums are now written for new backups.)
 3. The backup command itself is not in the repository.
