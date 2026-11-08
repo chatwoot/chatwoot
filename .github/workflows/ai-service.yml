@@ -68,7 +68,7 @@ jobs:
         # database, so they must not run at the same time.
         run: go test -race -count=1 -p 1 ./...
       - name: backup script tests
-        run: bash deploy/backup_test.sh
+        run: bash deploy/backup_test.sh && bash deploy/backup/alert_test.sh
 
   vulncheck:
     name: govulncheck

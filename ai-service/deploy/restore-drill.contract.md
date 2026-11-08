@@ -100,8 +100,7 @@ from a temporary folder before review:
    backups").
 3. ~~No offsite copy.~~ Closed 2026-11-08: Cloudflare R2 (owner's choice),
    evidence below.
-4. **No alert on failure.** A failed run is only in the journal
-   (`journalctl -u aisvc-backup.service`).
+4. ~~No alert on failure.~~ Closed 2026-11-08: email via Resend, evidence below.
 
 ## Evidence: offsite copy (2026-11-08)
 
@@ -121,3 +120,17 @@ from a temporary folder before review:
   exit 3.
 - Round trip: downloaded `daily/aisvc-full-20261108-231221.dump` and its
   `.sha256` from R2, `sha256sum -c` OK, restore drill PASS (106 documents).
+
+## Evidence: failure alert (2026-11-08)
+
+- Resend key created by the owner (Sending access, one domain), pasted through
+  the secret box, piped to `/etc/aisvc-backup-alert.env` (600) unprinted.
+- Deliberate failure: a throwaway unit exiting 3 with the same `OnFailure=`
+  wiring → alert unit `success`, `alert sent`; Resend status **delivered** to
+  the owner's address, subject `[ai-service backup] FAILED on <host>
+  (aisvc-backup-alerttest.service)`.
+- Successful real run of `aisvc-backup.service` (dump, drill, R2 copy):
+  the alert unit did not run (0 journal lines), so no email.
+- `alert_test.sh`: payload stays valid JSON with quotes, newlines, tabs and
+  Thai; exit-code wording; refuses to run without settings. A sabotaged copy
+  (`to` as a string instead of a list) fails.

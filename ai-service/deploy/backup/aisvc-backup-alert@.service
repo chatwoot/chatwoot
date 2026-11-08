@@ -1,0 +1,10 @@
+# Failure email for a backup run; started only by OnFailure= in
+# aisvc-backup.service. %i is the failed unit. Issue: DEV-Johnstocker/chatwoot#1
+[Unit]
+Description=Email alert: %i failed
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/aisvc-backup-alert.env
+ExecStart=/opt/aisvc-backup/alert.sh %i

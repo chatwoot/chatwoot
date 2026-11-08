@@ -237,7 +237,23 @@ failure keeps the verified local backup and exits 3, which marks the
 systemd run failed. To restore from R2: download `daily/<name>` and its
 `.sha256`, run `sha256sum -c`, then `restore-drill.sh` or `pg_restore`.
 
-Not covered yet: an alert when a run fails (the journal records it).
+**Failure alert (email via Resend).** `aisvc-backup.service` has
+`OnFailure=aisvc-backup-alert@%n.service`, so `deploy/backup/alert.sh` runs
+only when a backup run fails (exit 1, 2 or 3, timeout or kill) and emails the
+owner the unit, exit status in plain words and the last 30 log lines. A
+successful run sends nothing. Settings in `/etc/aisvc-backup-alert.env`
+(mode 600): `RESEND_BACKUP_ALERT_KEY` (Resend key with Sending access for the
+sender's domain only) and `ALERT_TO`. Install alongside the backup:
+
+```bash
+install -m 700 deploy/backup/alert.sh /opt/aisvc-backup/
+install -m 644 'deploy/backup/aisvc-backup-alert@.service' /etc/systemd/system/
+systemctl daemon-reload
+# test the real path with a unit that fails on purpose:
+systemd-run --unit=aisvc-backup-alerttest -p OnFailure=aisvc-backup-alert@aisvc-backup-alerttest.service.service /bin/sh -c 'exit 3'
+```
+
+Tests: `bash deploy/backup/alert_test.sh` (CI runs them).
 
 ## Access
 
