@@ -237,13 +237,16 @@ failure keeps the verified local backup and exits 3, which marks the
 systemd run failed. To restore from R2: download `daily/<name>` and its
 `.sha256`, run `sha256sum -c`, then `restore-drill.sh` or `pg_restore`.
 
-**Failure alert (email via Resend).** `aisvc-backup.service` has
+**Failure alert (email via Resend, and Slack).** `aisvc-backup.service` has
 `OnFailure=aisvc-backup-alert@%n.service`, so `deploy/backup/alert.sh` runs
-only when a backup run fails (exit 1, 2 or 3, timeout or kill) and emails the
-owner the unit, exit status in plain words and the last 30 log lines. A
-successful run sends nothing. Settings in `/etc/aisvc-backup-alert.env`
-(mode 600): `RESEND_BACKUP_ALERT_KEY` (Resend key with Sending access for the
-sender's domain only) and `ALERT_TO`. Install alongside the backup:
+only when a backup run fails (exit 1, 2 or 3, timeout or kill) and sends the
+unit, exit status in plain words and the last 30 log lines to every
+configured channel; one failing does not stop the other. A successful run
+sends nothing. Settings in `/etc/aisvc-backup-alert.env` (mode 600):
+`RESEND_BACKUP_ALERT_KEY` (Resend key with Sending access for the sender's
+domain only) and `ALERT_TO` for email; `SLACK_BACKUP_WEBHOOK_URL` (incoming
+webhook of a Slack app with only the `incoming-webhook` scope, posting to
+the project channel) for Slack. Install alongside the backup:
 
 ```bash
 install -m 700 deploy/backup/alert.sh /opt/aisvc-backup/

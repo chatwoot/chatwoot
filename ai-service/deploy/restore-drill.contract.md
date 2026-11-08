@@ -134,3 +134,12 @@ from a temporary folder before review:
 - `alert_test.sh`: payload stays valid JSON with quotes, newlines, tabs and
   Thai; exit-code wording; refuses to run without settings. A sabotaged copy
   (`to` as a string instead of a list) fails.
+- 2026-11-09, Slack added: owner created a Slack app (manifest with only
+  the `incoming-webhook` scope) posting to the private project channel and
+  pasted the webhook URL through the secret box; piped to the alert settings
+  file unprinted. Deliberate failure → `alert sent by email` and `alert sent
+  by slack`; message seen in the channel (marked as a test in its thread);
+  email delivered. Tests added for the Slack payload (valid JSON, triple
+  backticks in logs cannot break the code block) and channel selection (email
+  only, Slack only, both, none, non-https webhook ignored); a sabotaged copy
+  that accepts http fails.
