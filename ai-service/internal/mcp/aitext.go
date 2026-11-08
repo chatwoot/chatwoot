@@ -17,19 +17,24 @@ import (
 // alone ("pay via our Facebook page") still gets through, which is why owner
 // approval of AI edits is the follow-up.
 var (
-	aiLink  = regexp.MustCompile(`(?i)[a-z][a-z0-9+.-]*://|\bwww\.|\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}\b`)
-	aiWords = regexp.MustCompile(`(?i)\bline\s*(?:id|oa|official)\b|\bline\s*[:@]|ไลน์|พร้อมเพย์|\bprompt\s*pay\b|โอน|บัญชี|\bbank\b|\baccount\b|\bacct\b|\btransfer\b|\biban\b|\bwallet\b|true\s*money` +
-		`|ธนาคาร|กสิกร|ไทยพาณิชย์|กรุงไทย|กรุงศรี|ออมสิน|\b(?:kbank|kasikorn\w*|scb|ktb|bbl|ttb|gsb|krungsri|krungthai)\b`)
-	aiLINE = regexp.MustCompile(`\bLINE\b`)
+	aiLink = regexp.MustCompile(`(?i)[a-z][a-z0-9+.-]*://|\bwww\.|\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}\b`)
+	// aiWords are contact channels that work without a link or @: a LINE ID
+	// or a messenger name. Payment words alone (PromptPay, bank, transfer)
+	// point nowhere and are common in real shop text, so they are allowed;
+	// the number they would need is caught by aiLongNumber.
+	aiWords = regexp.MustCompile(`(?i)\bline\s*(?:id|oa|official)\b|\bline\s*[:@]|ไลน|ไอดี|ไอจี|\b(?:telegram|whatsapp|wechat|instagram|ig)\b`)
+	aiLINE  = regexp.MustCompile(`\b(?:LINE|Line)\b`) // case-sensitive: "in line with" is fine
 	// aiNumberLines is one number, with up to six non-letter characters
 	// (spaces, dashes, commas, colons, line breaks...) between digit groups.
 	aiNumberLines = regexp.MustCompile(`\d(?:[^\p{L}\p{N}]{0,6}\d)*`)
-	aiBigPrice    = regexp.MustCompile(`^[1-9]\d{0,2}(?:,\d{3}){2}`)
+	aiBigPrice    = regexp.MustCompile(`(?:^|[^\d,])[1-9]\d{0,2}(?:,\d{3}){2}`) // any price in a range or list
 	aiCurrency    = regexp.MustCompile(`(?i)฿|บาท|\bbaht\b|\bthb\b`)
 	aiSpaces      = regexp.MustCompile(`[^\S\n]+`)
+	aiPunctRun    = regexp.MustCompile(`[^\p{L}\p{N}\s]{3,}`)
+	aiHandle      = regexp.MustCompile(`@\S`)
 	aiBreaks      = regexp.MustCompile(`\s*\n\s*`)
-	// aiSafeNumber is a time, a date or a price, or a range of two of the
-	// same kind: long, but not an account or phone number.
+	// aiSafeNumber is a time, a date, a date with a time or a price, or a
+	// range or list of one kind: long, but not an account or phone number.
 	aiSafeNumber = func() *regexp.Regexp {
 		year := `(?:19|20|25)\d{2}`
 		month := `(?:0?[1-9]|1[0-2])`
@@ -39,9 +44,11 @@ var (
 			`(?:` + year + `-` + month + `-` + day + `|` + day + `/` + month + `/(?:` + year + `|\d{2}))`, // date
 			`[1-9]\d{0,2}(?:,\d{3}){1,2}(?:\.\d{1,2})?`,                                                   // price up to 999,999,999
 		}
+		kinds = append(kinds, kinds[1]+`\s+`+kinds[0]) // date and time
+		// One kind repeated: a range or a list ("09:00-12:00, 13:00-18:00").
 		var alts []string
 		for _, k := range kinds {
-			alts = append(alts, k+`(?:\s*[-–]\s*`+k+`)?`)
+			alts = append(alts, k+`(?:\s*[-–,/;&]\s*`+k+`)*`)
 		}
 		return regexp.MustCompile(`^(?:` + strings.Join(alts, `|`) + `)$`)
 	}()
@@ -55,9 +62,9 @@ const aiMaxDigits = 6
 // say which rule matched, so an injected app cannot probe for a gap.
 func checkAIText(field, text string) error {
 	s := aiDigits(text)
-	if aiLink.MatchString(s) || strings.ContainsAny(s, "@＠") || aiWords.MatchString(s) || aiLINE.MatchString(s) || aiLongNumber(s) {
-		return userError(field + ": an AI tool cannot add links, @handles, long numbers or payment and contact words " +
-			"(LINE, PromptPay, bank account, transfer); the owner adds these on the admin page")
+	if aiLink.MatchString(s) || aiHandle.MatchString(s) || aiWords.MatchString(s) || aiLINE.MatchString(s) || aiLongNumber(s) {
+		return userError(field + ": an AI tool cannot add links, @handles, LINE or messenger IDs, or long numbers " +
+			"(phone, account or card numbers); the owner adds these on the admin page")
 	}
 	return nil
 }
@@ -104,10 +111,13 @@ func digitCount(s string) int {
 // aiDigits writes every digit form (Thai, full-width, circled...) as ASCII, and
 // reads O, o, I and l next to a digit as 0 or 1 ("O81-234-5678").
 func aiDigits(text string) string {
-	// NFKC turns full-width and other look-alike forms (＠ ﹫ ｗ ． ① ¹) into
-	// plain ones; a few dots it leaves are mapped by hand.
-	text = strings.NewReplacer("。", ".", "｡", ".", "︒", ".").Replace(norm.NFKC.String(text))
+	// NFKD turns full-width and other look-alike forms (＠ ﹫ ｗ ． ① ¹) into
+	// plain ones and splits accents off their letters (Ń → N + mark) so
+	// visible can drop them; a few dots it leaves are mapped by hand. It also
+	// splits Thai sara am (ำ → ํ + า): no pattern here may contain ำ.
+	text = strings.NewReplacer("。", ".", "｡", ".", "︒", ".").Replace(norm.NFKD.String(text))
 	text = aiBreaks.ReplaceAllString(aiSpaces.ReplaceAllString(visible(text), " "), "\n")
+	text = aiPunctRun.ReplaceAllString(text, "--") // "081.......234" stays one number
 	rs := []rune(text)
 	out := make([]rune, len(rs))
 	for i, r := range rs {
@@ -129,9 +139,9 @@ func aiDigits(text string) string {
 }
 
 // visible drops invisible characters (zero-width spaces and joiners, soft
-// hyphens, direction marks) and combining marks that do not sit on a Thai
-// letter, so "Prompt\u200bPay" reads as PromptPay. Thai vowel and tone marks
-// stay.
+// hyphens, direction marks) and every combining mark except a Thai mark on
+// a Thai letter, so "L\u200dINE" and "LIN\u0301E" read as LINE. Thai vowel
+// and tone marks stay.
 func visible(text string) string {
 	var b strings.Builder
 	prev := rune(0)
@@ -139,7 +149,7 @@ func visible(text string) string {
 		switch {
 		case unicode.In(r, unicode.Cf, unicode.Variation_Selector, unicode.Other_Default_Ignorable_Code_Point):
 			continue
-		case unicode.In(r, unicode.Mn, unicode.Me) && !unicode.Is(unicode.Thai, prev):
+		case unicode.In(r, unicode.Mn, unicode.Me) && !(unicode.Is(unicode.Thai, r) && unicode.Is(unicode.Thai, prev)):
 			continue
 		}
 		b.WriteRune(r)

@@ -57,7 +57,7 @@ var tools = []tool{
 		Description: "Create or replace a document by its key. The same key updates in place (re-indexed, usage kept, kind unchanged). " +
 			"A new key that is 85%+ similar to an existing document is refused unless allow_duplicate is true; update that document's key instead. " +
 			"Dates are YYYY-MM-DD in the business time zone; last_day is the last day the bot may use it. " +
-			"Links, @handles, long numbers and payment or contact words (LINE, PromptPay, bank account, transfer) are refused; the owner adds those on the admin page.",
+			"Links, @handles, LINE or messenger IDs and long numbers (phone, account, card) are refused; the owner adds those on the admin page.",
 		InputSchema: obj(map[string]any{
 			"key":             str("Stable ID from your source, e.g. product-017 or a page URL. No spaces."),
 			"kind":            map[string]any{"type": "string", "enum": []string{"faq", "text"}, "description": "faq: title is the customer's question, content the answer. text: longer document. Used only when creating."},

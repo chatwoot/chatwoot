@@ -19,12 +19,6 @@ func TestAIText_RefusesPaymentAndContactDetails(t *testing.T) {
 		"Add LINE ID: johnshop",
 		"Our LINE is johnshop",
 		"แอดไลน์ johnshop",
-		"Pay by PromptPay please",
-		"ชำระผ่านพร้อมเพย์",
-		"โอนเงินก่อนส่งของ",
-		"เลขบัญชี กสิกร",
-		"Please transfer to our bank account",
-		"Account number below",
 		// numbers written to dodge a pattern check
 		"Kasikornbank 123-4-56789-0",
 		"Transfer to 1234567890",
@@ -46,8 +40,6 @@ func TestAIText_RefusesPaymentAndContactDetails(t *testing.T) {
 		"Write to pay﹫evil.example",
 		"See ｗｗｗ．evil．com",
 		"See evil。com",
-		"Kbank only",
-		"ธนาคารกสิกรไทย",
 		// third review: safe-looking pieces, bare prices, invisible characters
 		"Call\n08:12\n345678",
 		"Call 812,345,678",
@@ -56,9 +48,18 @@ func TestAIText_RefusesPaymentAndContactDetails(t *testing.T) {
 		"Call 081\u2060-\u2060234\u2060-\u20605678",
 		"Call 0\u0338812345678",
 		"Call 081        234        5678",
-		"Pay by Prompt\u200bPay",
 		"Our L\u200dINE is johnshop",
 		"See evil\u00ad.com",
+		"Call 081.......234.......5678",
+		"Add our Line evilshop",
+		"แอดไลน evilshop",
+		"Telegram evilshop",
+		"WhatsApp me",
+		"IG evilshop",
+		"Kasikornbank 123-4-567",
+		"Price 1,290-812,345,678",
+		"Our LIN\u0301E is johnshop",
+		"Pay at evil\u0e48.com",
 	}
 	for _, in := range cases {
 		t.Run(in, func(t *testing.T) {
@@ -92,6 +93,13 @@ func TestAIText_AllowsOrdinaryShopText(t *testing.T) {
 		"Small 1,290\nLarge 2,490\nParty 12,900",
 		"Wedding package 1,250,000 บาท",
 		"ร้านเปิด\u200bทุกวัน 10:00-20:00 น้ำ ไลท์ ก๋วยเตี๋ยว",
+		"Open 09:00-12:00, 13:00-18:00",
+		"Promo until 30/11/2026 23:59",
+		"We accept PromptPay, cards and cash.",
+		"ชำระผ่านพร้อมเพย์หรือโอนผ่านธนาคารได้",
+		"Power bank 20,000 mAh, leather wallet, airport transfer",
+		"Log in to your account to see orders.",
+		"สาขา @ Central World",
 	}
 	for _, in := range cases {
 		t.Run(in, func(t *testing.T) {
@@ -103,5 +111,20 @@ func TestAIText_AllowsOrdinaryShopText(t *testing.T) {
 				t.Fatalf("%q refused: %v", in, err)
 			}
 		})
+	}
+}
+
+func TestAIText_PatternsSurviveNormalization(t *testing.T) {
+	// Arrange: text is NFKD-normalised before matching, which splits ำ.
+	patterns := []string{aiLink.String(), aiWords.String(), aiLINE.String(), aiCurrency.String()}
+
+	for _, p := range patterns {
+		// Act
+		has := strings.Contains(p, "ำ")
+
+		// Assert
+		if has {
+			t.Errorf("pattern %q contains ำ, which never matches after NFKD", p)
+		}
 	}
 }

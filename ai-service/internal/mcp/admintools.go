@@ -55,7 +55,7 @@ var adminTools = []tool{
 		Description: "Change the business name, about, tone or rules. Only the fields you give change; each replaces the whole field and cannot be empty. " +
 			"This changes what real customers are told at once: show the user the new text and get their confirmation first. " +
 			"Read it with get_profile first. The old version is kept in the change history. Use test_bot afterwards. " +
-			"Links, @handles, long numbers and payment or contact words (LINE, PromptPay, bank account, transfer) are refused in every field, " +
+			"Links, @handles, LINE or messenger IDs and long numbers (phone, account, card) are refused in every field, " +
 			"and they and the voice, image and sticker switches can only be changed by the owner on the admin page.",
 		InputSchema: obj(map[string]any{
 			"business_name": str("Business name (up to 120 characters)."),

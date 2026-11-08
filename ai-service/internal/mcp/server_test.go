@@ -1,6 +1,7 @@
 package mcp
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"io"
@@ -562,6 +563,28 @@ func TestServer_UpsertRefusesPaymentAndContactDetails(t *testing.T) {
 				t.Fatalf("docs=%d audit=%d, want nothing written", len(e.st.docs), len(e.audit.entries))
 			}
 		})
+	}
+}
+
+func TestServer_RefusedAITextIsLoggedWithoutText(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	var logs bytes.Buffer
+	e.srv.Logger = slog.New(slog.NewJSONHandler(&logs, nil))
+
+	// Act
+	res := e.call(rw, "upsert_document", map[string]any{"key": "pay", "title": "Pay", "content": "Transfer to 1234567890"})
+
+	// Assert
+	if !isErr(res) {
+		t.Fatalf("res = %v, want refusal", text(res))
+	}
+	got := logs.String()
+	if !strings.Contains(got, "mcp tool failed") || !strings.Contains(got, `"tool":"upsert_document"`) || !strings.Contains(got, `"account_id":1`) {
+		t.Fatalf("log = %s", got)
+	}
+	if strings.Contains(got, "1234567890") || strings.Contains(got, "Transfer") {
+		t.Fatalf("log carries the refused text: %s", got)
 	}
 }
 
