@@ -194,8 +194,8 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
 		t.Fatal(err)
 	}
-	if version != 11 || docs != 1 || table == nil {
-		t.Errorf("version=%d docs=%d business_profiles=%v, want 11, 1, present", version, docs, table)
+	if version != SchemaVersion || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want %d, 1, present", version, docs, table, SchemaVersion)
 	}
 	var rls bool
 	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
@@ -307,8 +307,8 @@ func TestPostgres_MigratesV3ToV4KeepsDocumentsActive(t *testing.T) {
 		t.Fatalf("migrate %v, search %v, list %v", err, searchErr, listErr)
 	}
 	var version int
-	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 11 {
-		t.Fatalf("version = %d (err %v), want 11", version, err)
+	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != SchemaVersion {
+		t.Fatalf("version = %d (err %v), want %d", version, err, SchemaVersion)
 	}
 	if len(hits) != 1 || len(docs) != 1 || docs[0].UseCount != 0 || !docs[0].ValidUntil.IsZero() || !docs[0].LastUsedAt.IsZero() {
 		t.Errorf("after v4: hits=%d docs=%+v", len(hits), docs)
@@ -593,8 +593,8 @@ func TestPostgres_MigratesV2ToLatestInOneStep(t *testing.T) {
 	if len(docs) == 1 && docs[0].SourceKey != "" {
 		t.Errorf("existing document got a key: %q", docs[0].SourceKey)
 	}
-	if version != 11 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
-		t.Errorf("version=%d new columns=%d docs=%+v, want 11, 7, one active document", version, cols, docs)
+	if version != SchemaVersion || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
+		t.Errorf("version=%d new columns=%d docs=%+v, want %d, 7, one active document", version, cols, docs, SchemaVersion)
 	}
 }
 

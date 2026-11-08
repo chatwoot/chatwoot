@@ -47,6 +47,9 @@ var schemaV10 string
 //go:embed schema_v11.sql
 var schemaV11 string
 
+//go:embed schema_v12.sql
+var schemaV12 string
+
 // Postgres is a Store backed by Postgres with the pgvector extension.
 type Postgres struct {
 	Pool *pgxpool.Pool
@@ -54,7 +57,7 @@ type Postgres struct {
 
 // SchemaVersion is the version Migrate brings a database to. The schema guard
 // test keeps it equal to the newest schema file.
-const SchemaVersion = 11
+const SchemaVersion = 12
 
 // migrationLock serialises Migrate across replicas (pg_advisory_xact_lock key).
 const migrationLock = 7_301_265
@@ -167,6 +170,14 @@ func (p *Postgres) Migrate(ctx context.Context) error {
 			return fmt.Errorf("apply schema v11: %w", err)
 		}
 		if _, err := tx.Exec(ctx, "UPDATE kb_schema_version SET version = 11"); err != nil {
+			return err
+		}
+	}
+	if version < 12 {
+		if _, err := tx.Exec(ctx, schemaV12); err != nil {
+			return fmt.Errorf("apply schema v12: %w", err)
+		}
+		if _, err := tx.Exec(ctx, "UPDATE kb_schema_version SET version = 12"); err != nil {
 			return err
 		}
 	}
