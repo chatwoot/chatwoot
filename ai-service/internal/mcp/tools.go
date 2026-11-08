@@ -56,7 +56,8 @@ var tools = []tool{
 	{Name: "upsert_document", Title: "Add or update a document", write: true,
 		Description: "Create or replace a document by its key. The same key updates in place (re-indexed, usage kept, kind unchanged). " +
 			"A new key that is 85%+ similar to an existing document is refused unless allow_duplicate is true; update that document's key instead. " +
-			"Dates are YYYY-MM-DD in the business time zone; last_day is the last day the bot may use it.",
+			"Dates are YYYY-MM-DD in the business time zone; last_day is the last day the bot may use it. " +
+			"Links, @handles, LINE or messenger IDs and long numbers (phone, account, card) are refused; the owner adds those on the admin page.",
 		InputSchema: obj(map[string]any{
 			"key":             str("Stable ID from your source, e.g. product-017 or a page URL. No spaces."),
 			"kind":            map[string]any{"type": "string", "enum": []string{"faq", "text"}, "description": "faq: title is the customer's question, content the answer. text: longer document. Used only when creating."},
@@ -358,6 +359,10 @@ func (s *Server) upsert(ctx context.Context, tok Token, a upsertArgs) (any, erro
 	}
 	if a.InboxID < 0 {
 		return nil, userError("inbox_id must be positive")
+	}
+	// Title and content together: a number split between them is still one number.
+	if err := checkAIText("title or content", d.Title+"\n"+d.Content); err != nil {
+		return nil, err
 	}
 	cur, err := s.Knowledge.GetByKey(ctx, tok.AccountID, d.SourceKey)
 	switch {

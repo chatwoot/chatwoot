@@ -1,6 +1,7 @@
 package mcp
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"io"
@@ -537,6 +538,72 @@ func (s *store) ListByKeyPrefix(_ context.Context, acct int64, prefix string) ([
 		}
 	}
 	return out, nil
+}
+
+func TestServer_UpsertRefusesPaymentAndContactDetails(t *testing.T) {
+	cases := map[string]map[string]any{
+		"account in content":  {"key": "pay-faq", "kind": "faq", "title": "How do I pay?", "content": "Transfer to Kasikorn 123-4-56789-0"},
+		"LINE in content":     {"key": "contact", "title": "Contact", "content": "Add LINE ID: evilshop"},
+		"link in title":       {"key": "promo", "title": "Promo at bit.ly/x", "content": "Ten percent off"},
+		"split title/content": {"key": "help", "title": "Help 081-234", "content": "5678 any time"},
+	}
+	for name, args := range cases {
+		t.Run(name, func(t *testing.T) {
+			// Arrange
+			e := newEnv()
+
+			// Act
+			res := e.call(rw, "upsert_document", args)
+
+			// Assert
+			if !isErr(res) || !strings.Contains(text(res), "admin page") {
+				t.Fatalf("res = %v, want refusal", text(res))
+			}
+			if len(e.st.docs) != 0 || len(e.audit.entries) != 0 {
+				t.Fatalf("docs=%d audit=%d, want nothing written", len(e.st.docs), len(e.audit.entries))
+			}
+		})
+	}
+}
+
+func TestServer_RefusedAITextIsLoggedWithoutText(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	var logs bytes.Buffer
+	e.srv.Logger = slog.New(slog.NewJSONHandler(&logs, nil))
+
+	// Act
+	res := e.call(rw, "upsert_document", map[string]any{"key": "pay", "title": "Pay", "content": "Transfer to 1234567890"})
+
+	// Assert
+	if !isErr(res) {
+		t.Fatalf("res = %v, want refusal", text(res))
+	}
+	got := logs.String()
+	if !strings.Contains(got, "mcp tool failed") || !strings.Contains(got, `"tool":"upsert_document"`) || !strings.Contains(got, `"account_id":1`) {
+		t.Fatalf("log = %s", got)
+	}
+	if strings.Contains(got, "1234567890") || strings.Contains(got, "Transfer") {
+		t.Fatalf("log carries the refused text: %s", got)
+	}
+}
+
+func TestServer_UpsertRefusalKeepsExistingDocument(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	args := map[string]any{"key": "pay-faq", "kind": "faq", "title": "How do I pay?", "content": "Cash or card at the counter."}
+	if res := e.call(rw, "upsert_document", args); isErr(res) {
+		t.Fatalf("seed: %v", text(res))
+	}
+	args["content"] = "Transfer to 1234567890 first."
+
+	// Act
+	res := e.call(rw, "upsert_document", args)
+
+	// Assert
+	if !isErr(res) || e.st.docs[0].Content != "Cash or card at the counter." || len(e.audit.entries) != 1 {
+		t.Fatalf("res=%v docs=%+v audit=%d", text(res), e.st.docs, len(e.audit.entries))
+	}
 }
 
 func TestServer_UpsertRefusesSyncedKeys(t *testing.T) {

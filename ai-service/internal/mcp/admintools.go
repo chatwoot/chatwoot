@@ -6,8 +6,9 @@ package mcp
 // feature switches are deliberately not writable here: they stay behind the
 // /admin login, so a prompt-injected AI app cannot change the contact
 // section or run up costs. Profile and document writes still change what
-// customers are told (including any payment details written in them), so
-// those tools are marked destructive and ask the app to confirm with its user.
+// customers are told, so those tools are marked destructive, ask the app to
+// confirm with its user, and refuse payment and contact details
+// (checkAIText in aitext.go).
 
 import (
 	"context"
@@ -54,7 +55,8 @@ var adminTools = []tool{
 		Description: "Change the business name, about, tone or rules. Only the fields you give change; each replaces the whole field and cannot be empty. " +
 			"This changes what real customers are told at once: show the user the new text and get their confirmation first. " +
 			"Read it with get_profile first. The old version is kept in the change history. Use test_bot afterwards. " +
-			"Contact and payment details and the voice, image and sticker switches can only be changed by the owner on the admin page.",
+			"Links, @handles, LINE or messenger IDs and long numbers (phone, account, card) are refused in every field, " +
+			"and they and the voice, image and sticker switches can only be changed by the owner on the admin page.",
 		InputSchema: obj(map[string]any{
 			"business_name": str("Business name (up to 120 characters)."),
 			"about":         str("What the business sells or does."),
@@ -187,7 +189,7 @@ func (s *Server) getProfile(ctx context.Context, tok Token) (any, error) {
 // profileArgs are the fields an AI tool may change. Contact (payment and
 // links) and the paid voice and image switches are left to the owner on
 // /admin: a prompt-injected app must not be able to swap the payment details
-// customers are given.
+// customers are given. checkDetails keeps such details out of these fields too.
 type profileArgs struct {
 	BusinessName *string `json:"business_name"`
 	About        *string `json:"about"`
@@ -233,6 +235,9 @@ func (s *Server) updateProfile(ctx context.Context, tok Token, a profileArgs) (a
 	if err := next.Validate(); err != nil {
 		return nil, userError(err.Error())
 	}
+	if err := checkDetails(next, given); err != nil {
+		return nil, err
+	}
 	var changed []string
 	for _, f := range given {
 		if profileField(cur, f) != profileField(next, f) {
@@ -251,6 +256,18 @@ func (s *Server) updateProfile(ctx context.Context, tok Token, a profileArgs) (a
 		return nil, err
 	}
 	return map[string]any{"result": "saved", "changed": changed}, nil
+}
+
+// checkDetails runs checkAIText on each field the call gives. Fields the
+// call leaves alone are not checked: the owner may have written contact
+// details there on /admin.
+func checkDetails(p profile.Profile, given []string) error {
+	for _, f := range given {
+		if err := checkAIText(f, profileField(p, f)); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func profileField(p profile.Profile, name string) string {
