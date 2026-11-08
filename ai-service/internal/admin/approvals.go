@@ -158,6 +158,8 @@ func (h *Handler) profileDiff(ctx context.Context, acct int64, raw []byte) ([]fi
 
 func (h *Handler) documentDiff(ctx context.Context, acct int64, key string, raw []byte) (string, bool, []fieldDiff, error) {
 	var d struct {
+		Kind      string `json:"kind"`
+		InboxID   int64  `json:"inbox_id"`
 		Title     string `json:"title"`
 		Content   string `json:"content"`
 		StartDate string `json:"start_date"`
@@ -179,6 +181,20 @@ func (h *Handler) documentDiff(ctx context.Context, acct int64, key string, raw 
 		}
 	}
 	fields := []fieldDiff{{Label: "Title", Current: cur.Title, Proposed: d.Title}, {Label: "Text", Current: cur.Content, Proposed: d.Content}}
+	// Everything the approval applies is shown: where it is used, and the
+	// kind of a new document (an existing one keeps its kind).
+	usedIn := fieldDiff{Label: "Used in", Proposed: inboxLabel(d.InboxID)}
+	if !isNew && h.Knowledge != nil {
+		usedIn.Current = inboxLabel(cur.InboxID)
+	}
+	fields = append(fields, usedIn)
+	if isNew {
+		kind := "Text"
+		if d.Kind == "faq" {
+			kind = "FAQ (question and answer)"
+		}
+		fields = append(fields, fieldDiff{Label: "Kind", Proposed: kind})
+	}
 	if d.StartDate != "" || d.LastDay != "" {
 		fields = append(fields, fieldDiff{Label: "Dates", Proposed: "from " + orNow(d.StartDate) + " to " + orNoEnd(d.LastDay)})
 	}
@@ -197,4 +213,11 @@ func orNoEnd(s string) string {
 		return "no end"
 	}
 	return s
+}
+
+func inboxLabel(id int64) string {
+	if id > 0 {
+		return "Only inbox " + strconv.FormatInt(id, 10)
+	}
+	return "All inboxes"
 }

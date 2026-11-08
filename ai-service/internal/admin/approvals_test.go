@@ -97,7 +97,7 @@ func TestApprovals_ListsChangesOfTheAccountOnly(t *testing.T) {
 	// Arrange
 	e := newApprovalsEnv(t, true)
 	e.propose(t, 2, pending.KindProfile, pending.ProfileTarget, map[string]string{"tone": "Warm <b>and</b> short."})
-	e.propose(t, 2, pending.KindDocument, "hours", map[string]any{"key": "hours", "title": "Opening hours", "content": "9 to 5"})
+	e.propose(t, 2, pending.KindDocument, "hours", map[string]any{"key": "hours", "kind": "faq", "inbox_id": 7, "title": "Opening hours", "content": "9 to 5"})
 	e.propose(t, 2, pending.KindDocument, "delivery", map[string]any{"key": "delivery", "title": "Delivery", "content": "New delivery answer"})
 	e.propose(t, 3, pending.KindProfile, pending.ProfileTarget, map[string]string{"tone": "Other account secret"})
 
@@ -109,7 +109,7 @@ func TestApprovals_ListsChangesOfTheAccountOnly(t *testing.T) {
 	if page.Code != http.StatusOK {
 		t.Fatalf("status %d", page.Code)
 	}
-	for _, want := range []string{"Tone and style", "Polite.", "Warm &lt;b&gt;and&lt;/b&gt; short.", "Opening hours", "9 to 5", "claude", "New document", "Old delivery answer", "New delivery answer"} {
+	for _, want := range []string{"Tone and style", "Polite.", "Warm &lt;b&gt;and&lt;/b&gt; short.", "Opening hours", "9 to 5", "claude", "New document", "Old delivery answer", "New delivery answer", "Only inbox 7", "FAQ (question and answer)", "All inboxes"} {
 		if !strings.Contains(body, want) {
 			t.Errorf("page lacks %q", want)
 		}
