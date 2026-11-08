@@ -47,6 +47,7 @@ func run() error {
 	noRewrite := flag.Bool("no-rewrite", false, "search without the Thai/English query rewrite (to compare)")
 	minPass := flag.Float64("min-pass", 0, "exit 1 if the pass rate (0-1) is below this")
 	verbose := flag.Bool("v", false, "print every reply, not only failing ones")
+	jsonOut := flag.String("json", "", "also write every full reply and verdict to this JSON file")
 	rewriteModel := flag.String("rewrite-model", "\x00", "model for the query rewrite (default REWRITE_MODEL, else the bot's model)")
 	strictFaithful := flag.Bool("strict-faithful", false, "exit 1 if any reply invents facts (judge: not faithful)")
 	seedKB := flag.String("seed-kb", "", "first load this JSON list of {question, answer} FAQs into -seed-account (empty test databases only, for CI)")
@@ -150,6 +151,11 @@ func run() error {
 		},
 	}, cases)
 	rep.Verbose = *verbose
+	if *jsonOut != "" {
+		if err := writeJSON(*jsonOut, rep); err != nil {
+			return err
+		}
+	}
 	rep.Write(os.Stdout)
 	elapsed := time.Since(started)
 	fmt.Printf("Took %s (%.1fs per case)\n", elapsed.Round(time.Second), elapsed.Seconds()/float64(max(len(cases), 1)))
@@ -175,4 +181,16 @@ func readCases(path string) ([]answereval.Case, error) {
 		return nil, err
 	}
 	return cases, answereval.LoadFiles(cases, filepath.Dir(path))
+}
+
+func writeJSON(path string, rep answereval.Report) error {
+	f, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	if err := rep.WriteJSON(f); err != nil {
+		_ = f.Close()
+		return err
+	}
+	return f.Close()
 }

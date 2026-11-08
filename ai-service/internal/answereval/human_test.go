@@ -232,3 +232,18 @@ func TestJudgeInstructionAllowsTheHandoffLine(t *testing.T) {
 		t.Fatal("the judge must accept the standard handoff line as correct")
 	}
 }
+
+func TestReportWriteJSONKeepsFullReplies(t *testing.T) {
+	// Arrange
+	long := strings.Repeat("ยาว", 150)
+	rep := Report{Results: []Result{{Case: Case{Name: "n1"}, Reply: long, Handoff: true, Pass: false, Reason: "why"}}}
+	var b strings.Builder
+
+	// Act
+	err := rep.WriteJSON(&b)
+
+	// Assert
+	if err != nil || !strings.Contains(b.String(), long) || !strings.Contains(b.String(), `"handoff": true`) || !strings.Contains(b.String(), `"name": "n1"`) {
+		t.Fatalf("WriteJSON() = %v\n%s", err, b.String())
+	}
+}

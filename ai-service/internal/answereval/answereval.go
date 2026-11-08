@@ -428,6 +428,24 @@ func (r Report) Write(w io.Writer) {
 	writeMetrics(w, r.Results)
 }
 
+// WriteJSON writes every case's full reply and verdict, for comparing runs.
+func (r Report) WriteJSON(w io.Writer) error {
+	type row struct {
+		Name    string `json:"name"`
+		Reply   string `json:"reply"`
+		Handoff bool   `json:"handoff"`
+		Pass    bool   `json:"pass"`
+		Reason  string `json:"reason,omitempty"`
+	}
+	rows := make([]row, len(r.Results))
+	for i, res := range r.Results {
+		rows[i] = row{Name: res.Case.Name, Reply: res.Reply, Handoff: res.Handoff, Pass: res.Pass, Reason: res.Reason}
+	}
+	enc := json.NewEncoder(w)
+	enc.SetIndent("", " ")
+	return enc.Encode(rows)
+}
+
 // writeMetrics prints the RAG metric totals over the cases the judge scored.
 func writeMetrics(w io.Writer, results []Result) {
 	var faithful, recall, human [2]int // [true, scored]
