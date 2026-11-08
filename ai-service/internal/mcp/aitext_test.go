@@ -60,6 +60,9 @@ func TestAIText_RefusesPaymentAndContactDetails(t *testing.T) {
 		"Price 1,290-812,345,678",
 		"Our LIN\u0301E is johnshop",
 		"Pay at evil\u0e48.com",
+		"Pay at hxxps://evil",
+		"DM @ evilshop",
+		"Call 08:12, 12:34, 05:56, 07:08, 09:10",
 	}
 	for _, in := range cases {
 		t.Run(in, func(t *testing.T) {
@@ -99,7 +102,6 @@ func TestAIText_AllowsOrdinaryShopText(t *testing.T) {
 		"ชำระผ่านพร้อมเพย์หรือโอนผ่านธนาคารได้",
 		"Power bank 20,000 mAh, leather wallet, airport transfer",
 		"Log in to your account to see orders.",
-		"สาขา @ Central World",
 	}
 	for _, in := range cases {
 		t.Run(in, func(t *testing.T) {

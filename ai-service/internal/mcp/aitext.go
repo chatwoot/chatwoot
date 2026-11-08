@@ -30,8 +30,8 @@ var (
 	aiBigPrice    = regexp.MustCompile(`(?:^|[^\d,])[1-9]\d{0,2}(?:,\d{3}){2}`) // any price in a range or list
 	aiCurrency    = regexp.MustCompile(`(?i)฿|บาท|\bbaht\b|\bthb\b`)
 	aiSpaces      = regexp.MustCompile(`[^\S\n]+`)
-	aiPunctRun    = regexp.MustCompile(`[^\p{L}\p{N}\s]{3,}`)
-	aiHandle      = regexp.MustCompile(`@\S`)
+	aiPunctRun    = regexp.MustCompile(`[^\p{L}\p{N}\s]{3,}`) // numbers only: "081.......234" stays one number
+	aiHandle      = regexp.MustCompile(`@\s*[\p{L}\p{N}_]`)
 	aiBreaks      = regexp.MustCompile(`\s*\n\s*`)
 	// aiSafeNumber is a time, a date, a date with a time or a price, or a
 	// range or list of one kind: long, but not an account or phone number.
@@ -48,7 +48,7 @@ var (
 		// One kind repeated: a range or a list ("09:00-12:00, 13:00-18:00").
 		var alts []string
 		for _, k := range kinds {
-			alts = append(alts, k+`(?:\s*[-–,/;&]\s*`+k+`)*`)
+			alts = append(alts, k+`(?:\s*[-–,/;&]\s*`+k+`){0,3}`) // at most four items: two ranges
 		}
 		return regexp.MustCompile(`^(?:` + strings.Join(alts, `|`) + `)$`)
 	}()
@@ -62,7 +62,7 @@ const aiMaxDigits = 6
 // say which rule matched, so an injected app cannot probe for a gap.
 func checkAIText(field, text string) error {
 	s := aiDigits(text)
-	if aiLink.MatchString(s) || aiHandle.MatchString(s) || aiWords.MatchString(s) || aiLINE.MatchString(s) || aiLongNumber(s) {
+	if aiLink.MatchString(s) || aiHandle.MatchString(s) || aiWords.MatchString(s) || aiLINE.MatchString(s) || aiLongNumber(aiPunctRun.ReplaceAllString(s, "--")) {
 		return userError(field + ": an AI tool cannot add links, @handles, LINE or messenger IDs, or long numbers " +
 			"(phone, account or card numbers); the owner adds these on the admin page")
 	}
@@ -117,7 +117,6 @@ func aiDigits(text string) string {
 	// splits Thai sara am (ำ → ํ + า): no pattern here may contain ำ.
 	text = strings.NewReplacer("。", ".", "｡", ".", "︒", ".").Replace(norm.NFKD.String(text))
 	text = aiBreaks.ReplaceAllString(aiSpaces.ReplaceAllString(visible(text), " "), "\n")
-	text = aiPunctRun.ReplaceAllString(text, "--") // "081.......234" stays one number
 	rs := []rune(text)
 	out := make([]rune, len(rs))
 	for i, r := range rs {
