@@ -52,6 +52,10 @@ type Postgres struct {
 	Pool *pgxpool.Pool
 }
 
+// SchemaVersion is the version Migrate brings a database to. The schema guard
+// test keeps it equal to the newest schema file.
+const SchemaVersion = 11
+
 // migrationLock serialises Migrate across replicas (pg_advisory_xact_lock key).
 const migrationLock = 7_301_265
 

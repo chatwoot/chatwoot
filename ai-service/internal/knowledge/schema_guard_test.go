@@ -113,6 +113,9 @@ func TestSchemaFiles_AreContiguousAndApplied(t *testing.T) {
 	sort.Ints(versions)
 
 	// Assert
+	if latest := versions[len(versions)-1]; latest != SchemaVersion {
+		t.Errorf("SchemaVersion is %d but the newest schema file is version %d", SchemaVersion, latest)
+	}
 	for i, v := range versions {
 		if v != i+1 {
 			t.Fatalf("schema versions must be 1..N with no gap; got %v", versions)
