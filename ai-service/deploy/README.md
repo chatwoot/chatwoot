@@ -134,6 +134,23 @@ volumes, then redo first-time setup steps 4–6 below.
    policy (Everyone). Then seed the sample shop into the bot's account
    (`-seed-account <id>`; the first account Chatwoot creates is not always 1).
 
+**Auto-deploy (#38):** `.github/workflows/ai-service-staging.yml` runs after
+the `ai-service` CI succeeds on a push to `develop`. It deploys staging,
+runs `verify` and the answer smoke check on staging, and sets the commit
+status `staging` (pending → success/failure). One run at a time; a newer
+commit replaces a queued one. A failed check leaves the new version running
+and marks `staging` red. Manual run with *fail_verify* proves the red path.
+
+- Dokploy: the token in `DOKPLOY_STAGING_API_KEY` belongs to a member user
+  that can reach the staging environment only; every run first checks it
+  cannot read the production compose and stops if it can.
+- VPS: the key in `STAGING_SSH_KEY` is bound in `/root/.ssh/authorized_keys`
+  to the forced command `/usr/local/bin/staging-ci`
+  (`deploy/staging/staging-ci.sh`), which accepts only `free-gb`,
+  `containers` and `smoke`. When appending to `authorized_keys`, make sure
+  the file ends with a newline first: a key glued onto the previous line
+  breaks both keys.
+
 ## Release a change
 
 In Claude Code, run `/deploy` (`ai-service/.claude/skills/deploy/`): it runs

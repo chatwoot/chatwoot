@@ -3,6 +3,7 @@
 Run: python3 -m unittest discover -s ai-service/.claude/skills/deploy
 """
 
+import os
 import unittest
 
 import dokploy
@@ -105,3 +106,29 @@ class PublicRequestTest(unittest.TestCase):
         self.assertTrue(agent and agent.startswith("chatwoot-deploy-verify/"))
         self.assertEqual(request.get_method(), "POST")
         self.assertEqual(request.data, b"{}")
+
+
+class RemoteCommandTest(unittest.TestCase):
+    def tearDown(self):
+        os.environ.pop("DEPLOY_SSH_FORCED", None)
+
+    def test_normal_ssh_sends_the_shell_commands(self):
+        # Arrange / Act
+        disk = dokploy.remote_command("free-gb", "app-x")
+        containers = dokploy.remote_command("containers", "app-x")
+
+        # Assert
+        self.assertIn("df -BG", disk)
+        self.assertIn("--filter name=app-x-", containers)
+
+    def test_forced_command_key_sends_only_keywords(self):
+        # Arrange: CI's key may only run the staging-ci script, which takes keywords.
+        os.environ["DEPLOY_SSH_FORCED"] = "1"
+
+        # Act / Assert
+        self.assertEqual(dokploy.remote_command("free-gb", "app-x"), "free-gb")
+        self.assertEqual(dokploy.remote_command("containers", "app-x"), "containers")
+
+    def test_unknown_kind_fails(self):
+        with self.assertRaises(SystemExit):
+            dokploy.remote_command("rm -rf /", "app-x")
