@@ -67,6 +67,8 @@ jobs:
         # -p 1: several packages reset and migrate the same Postgres test
         # database, so they must not run at the same time.
         run: go test -race -count=1 -p 1 ./...
+      - name: backup script tests
+        run: bash deploy/backup_test.sh
 
   vulncheck:
     name: govulncheck

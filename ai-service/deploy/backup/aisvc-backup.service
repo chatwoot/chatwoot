@@ -1,0 +1,16 @@
+# Daily ai-service database backup + restore drill. Issue: DEV-Johnstocker/chatwoot#1
+# Install: see deploy/README.md "Scheduled backups".
+[Unit]
+Description=ai-service database backup and restore drill
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/aisvc-backup.env
+ExecStart=/opt/aisvc-backup/backup.sh
+# Production shares this host: stay out of its way.
+Nice=10
+IOSchedulingClass=idle
+TimeoutStartSec=30min
