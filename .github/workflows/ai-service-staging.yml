@@ -1,0 +1,152 @@
+# Continuous delivery to staging for chatwoot/ai-service. Issue: DEV-Johnstocker/chatwoot#38 (refs #1)
+#
+# After the ai-service CI workflow succeeds on a push to develop, deploy that
+# commit to the staging stack (deploy/dokploy-compose.staging.yml), verify it
+# and run the answer smoke check there. The result is the commit status
+# `staging`, which the promote step (#39) can require. Never touches production.
+#
+# Secrets (names only; values live in Settings → Secrets):
+#   DOKPLOY_URL                  Dokploy base URL
+#   DOKPLOY_STAGING_API_KEY      token of a Dokploy member that can reach the staging
+#                                environment only (never the production token)
+#   DOKPLOY_COMPOSE_ID           production compose ID: used only to prove the token
+#                                cannot read it, and by dokploy.py's same-ID guard
+#   DOKPLOY_STAGING_COMPOSE_ID   staging compose ID
+#   STAGING_SSH_HOST, STAGING_SSH_KNOWN_HOSTS, STAGING_SSH_KEY
+#                                a key bound on the VPS to the forced command
+#                                deploy/staging/staging-ci.sh (free-gb, containers, smoke)
+#
+# Manual run with "fail_verify" points verify at a host that does not exist, to
+# prove a failing check marks `staging` failed.
+name: ai-service staging
+
+on:
+  workflow_run:
+    workflows: [ai-service]
+    types: [completed]
+    branches: [develop]
+  workflow_dispatch:
+    inputs:
+      fail_verify:
+        description: 'Make verify fail on purpose (the run must end red)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  statuses: write
+
+# One staging deploy at a time. A newer commit replaces a queued older one;
+# a running deploy is never cancelled halfway.
+concurrency:
+  group: ai-service-staging
+  cancel-in-progress: false
+
+jobs:
+  staging:
+    name: Deploy and check staging
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'develop')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Mark staging pending
+        run: |
+          gh api "repos/$REPO/statuses/$SHA" -f state=pending -f context=staging \
+            -f description="Deploying to staging" -f target_url="$RUN_URL" > /dev/null
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Configure Dokploy and SSH
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_STAGING_API_KEY: ${{ secrets.DOKPLOY_STAGING_API_KEY }}
+          DOKPLOY_COMPOSE_ID: ${{ secrets.DOKPLOY_COMPOSE_ID }}
+          DOKPLOY_STAGING_COMPOSE_ID: ${{ secrets.DOKPLOY_STAGING_COMPOSE_ID }}
+          STAGING_SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
+          STAGING_SSH_KNOWN_HOSTS: ${{ secrets.STAGING_SSH_KNOWN_HOSTS }}
+          STAGING_SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
+        run: |
+          umask 077
+          {
+            echo "DOKPLOY_URL=$DOKPLOY_URL"
+            echo "DOKPLOY_API_KEY=$DOKPLOY_STAGING_API_KEY"
+            echo "DOKPLOY_COMPOSE_ID=$DOKPLOY_COMPOSE_ID"
+            echo "DOKPLOY_STAGING_COMPOSE_ID=$DOKPLOY_STAGING_COMPOSE_ID"
+          } > "$RUNNER_TEMP/deploy.env"
+          mkdir -p ~/.ssh
+          printf '%s\n' "$STAGING_SSH_KEY" > ~/.ssh/staging_ci
+          printf '%s\n' "$STAGING_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          printf 'Host staging-ci\n  HostName %s\n  User root\n  IdentityFile ~/.ssh/staging_ci\n  IdentitiesOnly yes\n' \
+            "$STAGING_SSH_HOST" > ~/.ssh/config
+          {
+            echo "DEPLOY_ENV_FILE=$RUNNER_TEMP/deploy.env"
+            echo "DEPLOY_SSH_HOST=staging-ci"
+            echo "DEPLOY_SSH_FORCED=1"
+          } >> "$GITHUB_ENV"
+
+      - name: Token cannot read production
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_STAGING_API_KEY: ${{ secrets.DOKPLOY_STAGING_API_KEY }}
+          DOKPLOY_COMPOSE_ID: ${{ secrets.DOKPLOY_COMPOSE_ID }}
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' -H "x-api-key: $DOKPLOY_STAGING_API_KEY" \
+            "${DOKPLOY_URL%/}/api/compose.one?composeId=$DOKPLOY_COMPOSE_ID")
+          echo "production compose.one with the staging token: HTTP $code"
+          if [ "$code" = "200" ]; then
+            echo "::error::The staging token can read production; refusing to run."
+            exit 1
+          fi
+
+      - name: Deploy
+        working-directory: ai-service/.claude/skills/deploy
+        run: |
+          set -o pipefail
+          python3 dokploy.py --target staging deploy | tee "$RUNNER_TEMP/deploy.txt"
+          deployed=$(sed -n 's/^deploy done: commit=//p' "$RUNNER_TEMP/deploy.txt")
+          echo "DEPLOYED=$deployed" >> "$GITHUB_ENV"
+          if [ "$deployed" != "$SHA" ]; then
+            echo "::notice::Staging now runs $deployed (develop moved on); checks below test that commit."
+          fi
+
+      - name: Verify
+        working-directory: ai-service/.claude/skills/deploy
+        env:
+          STAGING_PUBLIC_URL: ${{ inputs.fail_verify && 'https://staging-sabotage.invalid' || 'https://chat-staging.johnstockeraistudio.com' }}
+        run: python3 dokploy.py --target staging verify
+
+      - name: Answer smoke check on staging
+        run: |
+          set -o pipefail
+          {
+            echo '### Staging answer smoke'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          status=0
+          ssh -o BatchMode=yes staging-ci smoke 2>&1 | tee "$RUNNER_TEMP/smoke.txt" || status=$?
+          { tail -n 20 "$RUNNER_TEMP/smoke.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit "$status"
+
+      - name: Mark staging result
+        if: always()
+        env:
+          OUTCOME: ${{ job.status }}
+        run: |
+          if [ "$OUTCOME" = "success" ]; then
+            state=success; text="Deployed ${DEPLOYED:0:10}, verify and smoke passed"
+          else
+            state=failure; text="Staging $OUTCOME; see the run (previous version may still be live)"
+          fi
+          gh api "repos/$REPO/statuses/$SHA" -f state="$state" -f context=staging \
+            -f description="$text" -f target_url="$RUN_URL" > /dev/null

@@ -15,7 +15,8 @@ or its parents. Secrets are never printed.
 
 Optional: CHATWOOT_PUBLIC_URL (default https://chat.johnstockeraistudio.com),
 STAGING_PUBLIC_URL (default https://chat-staging.johnstockeraistudio.com)
-and DEPLOY_SSH_HOST (default llmopshostinger).
+and DEPLOY_SSH_HOST (default llmopshostinger). DEPLOY_SSH_FORCED=1 (CI) sends
+keywords for the VPS staging-ci forced command instead of shell commands.
 """
 
 import json
@@ -157,9 +158,24 @@ def status(config):
     return compose, items
 
 
+def remote_command(kind, app):
+    """The command sent over SSH for one kind of check.
+
+    With DEPLOY_SSH_FORCED=1 (CI) the key may only run the staging-ci script on the
+    VPS (an authorized_keys forced command), which takes these keywords instead.
+    """
+    shell = {
+        "free-gb": "df -BG --output=avail / | tail -1",
+        "containers": f"docker ps -a --filter name={app}- --format '{{{{.Names}}}}\t{{{{.Status}}}}'",
+    }
+    if kind not in shell:
+        fail(f"unknown remote check {kind!r}")
+    return kind if os.environ.get("DEPLOY_SSH_FORCED") == "1" else shell[kind]
+
+
 def free_gb():
     """Free disk on the VPS root filesystem in GB, or None if unknown."""
-    command = ["ssh", "-o", "BatchMode=yes", SSH_HOST, "df -BG --output=avail / | tail -1"]
+    command = ["ssh", "-o", "BatchMode=yes", SSH_HOST, remote_command("free-gb", None)]
     try:
         result = subprocess.run(command, capture_output=True, text=True, timeout=60)
     except (OSError, subprocess.TimeoutExpired):
@@ -261,8 +277,7 @@ def verify(config):
         print(f"{'PASS' if passed else 'FAIL'}  {name}: {got} (want {'/'.join(map(str, sorted(want)))})")
 
     app = api(config, "compose.one", {"composeId": config["DOKPLOY_COMPOSE_ID"]}).get("appName")
-    command = ["ssh", "-o", "BatchMode=yes", SSH_HOST,
-               f"docker ps -a --filter name={app}- --format '{{{{.Names}}}}\t{{{{.Status}}}}'"]
+    command = ["ssh", "-o", "BatchMode=yes", SSH_HOST, remote_command("containers", app)]
     result = subprocess.run(command, capture_output=True, text=True, timeout=60)
     if result.returncode != 0:
         print("FAIL  containers: ssh failed")
