@@ -28,14 +28,19 @@ Fail the reply if any of these is true:
 - Expected "answer": it does not answer the customer's last question, or misses what the expectation note asks for.
 - Expected "unknown": it does not say it doesn't know or isn't sure, or it does not offer a staff member or a contact channel.
 - It is not in the language the customer used in the last message.
+- A listed criterion is not met. Judge criteria by meaning, not exact words.
+- It does something listed under "must not".
+- Expected "handoff": the text promises an outcome staff have not confirmed (a refund, a discount, access granted), or misses a listed criterion. Saying a staff member will continue in this chat is the correct way to hand off, not a promise.
 
-Otherwise pass it. Tone, length and wording are not reasons to fail.
+Otherwise pass it. Tone, length and wording are not reasons to fail unless a criterion or a "must not" item is about them.
+A reference reply, when given, shows the tone and approach the business wants; the bot's reply does not need its wording or every detail.
 
 Also score two metrics:
 - "faithful": true if every business fact in the reply is stated in the profile or the excerpts; false if any is not.
 - "context_recall": only when expected "answer": true if the profile and excerpts together contain the facts a correct reply needs (use the expectation note); false if something needed is missing. Use null for other expectations.
+- "human": only when the prompt asks for it, else null. True if the reply reads like a real person on the business's team chatting: short, warm, natural spoken language in the customer's register, at most one question, no stock assistant phrases ("as an AI", "is there anything else I can help with", "I hope this helps"), no form-letter structure. False if it reads like a bot or a brochure.
 
-Reply with JSON only: {"pass": true|false, "reason": "<one short sentence>", "faithful": true|false, "context_recall": true|false|null}`
+Reply with JSON only: {"pass": true|false, "reason": "<one short sentence>", "faithful": true|false, "context_recall": true|false|null, "human": true|false|null}`
 
 // Judge asks the model for a verdict.
 func (j LLMJudge) Judge(ctx context.Context, in JudgeInput) (Verdict, error) {
@@ -51,7 +56,18 @@ func (j LLMJudge) Judge(ctx context.Context, in JudgeInput) (Verdict, error) {
 
 func judgePrompt(in JudgeInput) string {
 	var b strings.Builder
-	b.WriteString("Conversation (customer turns; the bot's earlier replies are omitted):\n")
+	if len(in.Case.History) > 0 {
+		b.WriteString("Conversation (the bot's earlier replies are shown where known):\n")
+	} else {
+		b.WriteString("Conversation (customer turns; the bot's earlier replies are omitted):\n")
+	}
+	for _, m := range in.Case.History {
+		who := "Customer"
+		if m.Role == "assistant" {
+			who = "Bot"
+		}
+		b.WriteString("- " + who + ": " + m.Content + "\n")
+	}
 	for _, t := range in.Case.Turns {
 		b.WriteString("- Customer: " + t + "\n")
 	}
@@ -72,6 +88,24 @@ func judgePrompt(in JudgeInput) string {
 	if in.Case.Note != "" {
 		b.WriteString("Expectation note: " + in.Case.Note + "\n")
 	}
+	writeList(&b, "Criteria (each must be met)", in.Case.Criteria)
+	writeList(&b, "The reply must not", in.Case.Avoid)
+	if in.Case.Reference != "" {
+		b.WriteString("Reference reply (tone and approach, not exact wording):\n" + in.Case.Reference + "\n")
+	}
+	if in.Case.Human {
+		b.WriteString("Score \"human\" for this reply.\n")
+	}
 	b.WriteString("\nBot's last reply:\n" + in.Reply + "\n")
 	return b.String()
+}
+
+func writeList(b *strings.Builder, title string, items []string) {
+	if len(items) == 0 {
+		return
+	}
+	b.WriteString(title + ":\n")
+	for _, it := range items {
+		b.WriteString("- " + it + "\n")
+	}
 }
