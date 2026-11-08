@@ -341,6 +341,67 @@ class FourthReviewTests(unittest.TestCase):
             self.assertEqual(result.returncode, 2, command)
 
 
+class OwnerPatchTests(unittest.TestCase):
+    """Allowed paths match AGENTS.md; reads and PR text no longer trip the self-protection."""
+
+    def test_our_workflows_and_dependabot_are_allowed(self):
+        for rel in (".github/workflows/ai-service-answer-smoke.yml", ".github/dependabot.yml"):
+            # Arrange
+            path = os.path.join(FORK_ROOT, *rel.split("/"))
+            # Act
+            result = run_guard("Write", {"file_path": path, "content": "x"})
+            # Assert
+            self.assertEqual(result.returncode, 0, rel + result.stderr)
+
+    def test_other_github_files_stay_blocked(self):
+        for rel in (
+            ".github/workflows/frontend-fe.yml",
+            ".github/workflows/ai-service/nested.yml",
+            ".github/workflows/ai-service.yml.bak",
+            ".github/CODEOWNERS",
+        ):
+            path = os.path.join(FORK_ROOT, *rel.split("/"))
+            result = run_guard("Write", {"file_path": path, "content": "x"})
+            self.assertEqual(result.returncode, 2, rel)
+            self.assertIn("is a Chatwoot file", result.stderr)
+
+    def test_reading_the_guard_with_dev_null_redirect_is_allowed(self):
+        for command in (
+            "grep -n Chatwoot ai-service/.claude/hooks/guard.py 2>/dev/null | head",
+            "cat ai-service/.claude/settings.json &>/dev/null",
+        ):
+            result = run_guard("Bash", {"command": command})
+            self.assertEqual(result.returncode, 0, command + result.stderr)
+
+    def test_writes_to_the_guard_next_to_dev_null_stay_blocked(self):
+        for command in (
+            "echo x 2>/dev/null > ai-service/.claude/hooks/guard.py",
+            "cat a >/dev/null; rm ai-service/.claude/hooks/guard.py",
+            "echo x >/dev/nullx ai-service/.claude/settings.json",
+        ):
+            result = run_guard("Bash", {"command": command})
+            self.assertEqual(result.returncode, 2, command)
+
+    def test_pr_and_commit_text_naming_the_guard_is_allowed(self):
+        for command in (
+            "gh pr create --title t --body-file - <<'EOF'\nAllow the path in guard.py, then rm the > note; cp it.\nEOF",
+            "cd /tmp && git commit -q -F - <<'EOF'\nfix: tests for .claude/hooks > guard.py (cp, mv)\nEOF",
+        ):
+            result = run_guard("Bash", {"command": command})
+            self.assertEqual(result.returncode, 0, command + result.stderr)
+
+    def test_heredoc_writes_to_the_guard_stay_blocked(self):
+        for command in (
+            "cat <<'EOF' > ai-service/.claude/hooks/guard.py\nx\nEOF",
+            "gh pr create --body-file - <<'EOF' > ai-service/.claude/hooks/guard.py\nx\nEOF",
+            "gh pr create --body-file - <<'EOF'\nok\nEOF\ncp x ai-service/.claude/hooks/guard.py",
+            "gh pr create --body-file - <<'EOF'\nunterminated rm ai-service/.claude/hooks/guard.py",
+            "git apply <<'EOF'\n+++ b/ai-service/.claude/hooks/guard.py\n> x\nEOF",
+        ):
+            result = run_guard("Bash", {"command": command})
+            self.assertEqual(result.returncode, 2, command)
+
+
 class RobustnessTests(unittest.TestCase):
     def test_garbage_input_is_let_through(self):
         result = subprocess.run([sys.executable, GUARD], input="not json", capture_output=True, text=True)

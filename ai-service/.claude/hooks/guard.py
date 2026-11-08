@@ -7,7 +7,8 @@ Enforces the hard rules in ai-service/AGENTS.md instead of trusting the text:
 2. No --no-verify.
 3. Never open, copy or edit the fork's `enterprise/` directory.
 4. Never edit Chatwoot's own files: in the fork, writes are allowed only under
-   `ai-service/` and to `.github/workflows/ai-service.yml`.
+   `ai-service/`, `.github/workflows/ai-service*.yml` and
+   `.github/dependabot.yml`.
 5. Never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.
 6. The guard protects itself: no agent edits to .claude/hooks/ or
    .claude/settings*.json; the owner changes those by hand.
@@ -35,7 +36,9 @@ import sys
 
 FORK_REMOTE = "DEV-Johnstocker/chatwoot"
 ALLOWED_PREFIXES = ("ai-service/",)
-ALLOWED_FILES = (".github/workflows/ai-service.yml",)
+ALLOWED_FILES = (".github/dependabot.yml",)
+# Our workflows: top-level .github/workflows/ai-service*.yml only.
+ALLOWED_FILE_PATTERN = re.compile(r"^\.github/workflows/ai-service[^/]*\.ya?ml$")
 PROTECTED_BRANCHES = ("develop",)
 
 WRITE_TOOLS = ("Edit", "Write", "MultiEdit", "NotebookEdit")
@@ -147,11 +150,11 @@ def check_write(file_path):
         block("never open, copy or edit enterprise/ (separate licence).")
     if is_guard_file(rel):
         block("the guard and its settings change only by the owner's hand, not from an agent session.")
-    if rel.startswith(ALLOWED_PREFIXES) or rel in ALLOWED_FILES:
+    if rel.startswith(ALLOWED_PREFIXES) or rel in ALLOWED_FILES or ALLOWED_FILE_PATTERN.match(rel):
         return
     block(
-        f"{rel} is a Chatwoot file. Our code lives only in ai-service/ and "
-        ".github/workflows/ai-service.yml (AGENTS.md project rules)."
+        f"{rel} is a Chatwoot file. Our code lives only in ai-service/, "
+        ".github/workflows/ai-service*.yml and .github/dependabot.yml (AGENTS.md project rules)."
     )
 
 
@@ -267,8 +270,47 @@ CONFIG_HOME_OVERRIDE = re.compile(r"(^|[\s;&|(])(HOME|XDG_CONFIG_HOME)=")
 USER_GIT_CONFIG = re.compile(r"(~|\$HOME|\$\{HOME\}|/Users/[^/\s]+|/home/[^/\s]+)/(\.gitconfig|\.config/git/)")
 
 
+NULL_REDIRECT = re.compile(r"[0-9]*&?>>?[ \t]*/dev/null(?=[ \t\n;&|)]|$)")
+HEREDOC = re.compile(r"<<-?[ \t]*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
+# Heredocs fed to these carry only prose: PR, issue, commit and tag text.
+MESSAGE_COMMANDS = {("gh", "pr"), ("gh", "issue"), ("git", "commit"), ("git", "tag")}
+
+
+def message_command(segment):
+    """True when the last command in a segment is gh pr/issue or git commit/tag."""
+    parts = split_commands(segment)
+    words = unwrap(tokens(parts[-1])) if parts else []
+    if not words:
+        return False
+    head = os.path.basename(words[0])
+    if head == "git":
+        parsed = git_subcommand(words)
+        return bool(parsed) and ("git", parsed[1]) in MESSAGE_COMMANDS
+    return len(words) > 1 and (head, words[1]) in MESSAGE_COMMANDS
+
+
+def strip_message_heredocs(command):
+    """Drop heredoc bodies that are PR or commit text, so prose that names the
+    guard is not read as a shell write. The line that opens the heredoc stays,
+    so a redirect on it still counts; an unterminated heredoc is kept whole."""
+    lines = command.split("\n")
+    kept, i = [], 0
+    while i < len(lines):
+        line = lines[i]
+        kept.append(line)
+        i += 1
+        match = HEREDOC.search(line)
+        if not match or not message_command(line[: match.start()]):
+            continue
+        end = next((j for j in range(i, len(lines)) if lines[j].strip() == match.group(2)), None)
+        if end is not None:
+            i = end + 1
+    return "\n".join(kept)
+
+
 def shell_writes(command):
     """True when the command may write a file; `2>&1`-style fd duplication is not a write."""
+    command = NULL_REDIRECT.sub(" ", strip_message_heredocs(command))
     return bool(SHELL_WRITE.search(FD_DUPLICATION.sub(" ", command)))
 
 
@@ -281,7 +323,7 @@ def check_bash(command, cwd, depth=0):
         block("no shell writes to the user git config (~/.gitconfig, ~/.config/git/).")
     if SAFE_FETCH.search(command):
         block("never set SAFE_FETCH_ALLOW_PRIVATE_NETWORK.")
-    if GUARD_MENTION.search(command) and shell_writes(command):
+    if GUARD_MENTION.search(strip_message_heredocs(command)) and shell_writes(command):
         block("the guard and its settings change only by the owner's hand, not from an agent session.")
     if GIT_CONFIG_FILE_ENV.search(command):
         block("no GIT_CONFIG/GIT_CONFIG_GLOBAL/SYSTEM/PARAMETERS overrides.")
