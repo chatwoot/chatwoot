@@ -9,6 +9,9 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 EnvironmentFile=/etc/aisvc-backup.env
+# R2 keys (R2_BACKUP_ACCESS_KEY_ID, R2_BACKUP_SECRET_ACCESS_KEY), mode 600.
+# Optional: without it the backup stays local only.
+EnvironmentFile=-/etc/aisvc-backup-r2.env
 ExecStart=/opt/aisvc-backup/backup.sh
 # Production shares this host: stay out of its way.
 Nice=10

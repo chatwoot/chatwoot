@@ -28,6 +28,14 @@ check "two pool options"    "$base?sslmode=require"         "$(strip_pool_params
 check "other options kept"  "$base?sslmode=require&connect_timeout=5" "$(strip_pool_params "$base?sslmode=require&connect_timeout=5")"
 check "lookalike kept"      "$base?mypool_size=2"           "$(strip_pool_params "$base?mypool_size=2")"
 
+# --- offsite (R2) settings ---
+check "object url" "https://acct.r2.example/bucket/daily/a.dump" "$(offsite_url https://acct.r2.example bucket daily/a.dump)"
+check "object url, endpoint with slash" "https://acct.r2.example/bucket/daily/a.dump" "$(offsite_url https://acct.r2.example/ bucket daily/a.dump)"
+offsite_state() { if offsite_configured; then echo on; else echo off; fi; }
+check "offsite off when unset" "off" "$(env -u R2_BACKUP_ENDPOINT bash -c "source '$here/backup.sh'; $(declare -f offsite_state); offsite_state")"
+check "offsite on when all set" "on" "$(R2_BACKUP_ENDPOINT=e R2_BACKUP_BUCKET=b R2_BACKUP_ACCESS_KEY_ID=k R2_BACKUP_SECRET_ACCESS_KEY=s offsite_state)"
+check "offsite off when a key is missing" "off" "$(R2_BACKUP_ENDPOINT=e R2_BACKUP_BUCKET=b R2_BACKUP_ACCESS_KEY_ID=k R2_BACKUP_SECRET_ACCESS_KEY= offsite_state)"
+
 # --- prune_old: keep every dump of the newest N dates, touch nothing else ---
 count_dumps() { find "$1" -name 'aisvc-full-????????-??????.dump' | wc -l | tr -d ' '; }
 dir=$(mktemp -d)
