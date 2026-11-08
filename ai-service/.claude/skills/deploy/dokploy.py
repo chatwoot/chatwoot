@@ -203,9 +203,18 @@ def deploy(config):
     fail("timed out waiting for the deploy; check Dokploy before retrying")
 
 
+# Cloudflare blocks the default "Python-urllib" agent on the staging host (403 before
+# the request reaches Access or ai-service), so public checks name themselves.
+USER_AGENT = "chatwoot-deploy-verify/1 (+DEV-Johnstocker/chatwoot#37)"
+
+
+def public_request(url, method="GET"):
+    return urllib.request.Request(url, method=method, data=b"{}" if method == "POST" else None,
+                                  headers={"Content-Type": "application/json", "User-Agent": USER_AGENT})
+
+
 def http_status(url, method="GET"):
-    request = urllib.request.Request(url, method=method, data=b"{}" if method == "POST" else None,
-                                     headers={"Content-Type": "application/json"})
+    request = public_request(url, method)
     opener = urllib.request.build_opener(NoRedirect, urllib.request.HTTPSHandler(context=TLS))
     try:
         with opener.open(request, timeout=20) as response:
