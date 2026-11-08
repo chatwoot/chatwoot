@@ -20,6 +20,9 @@ type Event struct {
 	Summary   string
 	Before    any // the old version, when something was changed or deleted
 	At        time.Time
+	// Global marks a service-wide change (AccountID 0) listed by Recent
+	// next to the account's own; it is set only on events Recent returns.
+	Global bool
 }
 
 // Store records and lists events.
@@ -83,7 +86,7 @@ func (p *Postgres) Record(ctx context.Context, e Event) error {
 func (p *Postgres) Recent(ctx context.Context, accountID int64, limit int) ([]Event, error) {
 	// Each branch reads its index in order and stops at the limit.
 	rows, err := p.Pool.Query(ctx, `
-		SELECT at, actor, action, summary FROM (
+		SELECT at, src, actor, action, summary FROM (
 			(SELECT at, id, 1 AS src, actor, action, summary FROM admin_events WHERE account_id = $1 ORDER BY at DESC, id DESC LIMIT $2)
 			UNION ALL
 			(SELECT at, id, 2, actor, action, summary FROM admin_events WHERE account_id IS NULL ORDER BY at DESC, id DESC LIMIT $2)
@@ -99,7 +102,9 @@ func (p *Postgres) Recent(ctx context.Context, accountID int64, limit int) ([]Ev
 	}
 	return pgx.CollectRows(rows, func(r pgx.CollectableRow) (Event, error) {
 		e := Event{AccountID: accountID}
-		err := r.Scan(&e.At, &e.Actor, &e.Action, &e.Summary)
+		var src int
+		err := r.Scan(&e.At, &src, &e.Actor, &e.Action, &e.Summary)
+		e.Global = src == 2
 		return e, err
 	})
 }

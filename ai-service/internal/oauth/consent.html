@@ -63,7 +63,7 @@
     <fieldset>
       <legend>Access</legend>
       <label class="check"><input type="radio" name="access" value="read"{{if not .Write}} checked{{end}}><span><strong>Read only</strong><span>Read documents and ask the bot test questions.</span></span></label>
-      <label class="check"><input type="radio" name="access" value="write"{{if .Write}} checked{{end}}><span><strong>Read and write</strong><span>Also add, update and delete documents. Changes what customers are told.</span></span></label>
+      <label class="check"><input type="radio" name="access" value="write"{{if .Write}} checked{{end}}><span><strong>Read and write</strong><span>Also add, update and delete documents, change the business name, about, tone and rules, and sync or reschedule website pages and data files. Changes what customers are told at once. The contact section and the voice and image switches stay admin-only.</span></span></label>
     </fieldset>
     {{if not .Email}}
     <input type="text" name="username" value="admin" autocomplete="username" hidden aria-hidden="true">

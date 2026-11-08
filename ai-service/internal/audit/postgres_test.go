@@ -51,6 +51,9 @@ func TestPostgres_RecordAndRecentMergesAITools(t *testing.T) {
 		if r.Summary == "other account" {
 			t.Fatal("another account's change leaked into the list")
 		}
+		if r.Global != (r.Action == "providers saved") {
+			t.Fatalf("Global = %v for %q; only the service-wide change is global", r.Global, r.Action)
+		}
 	}
 	two, err := db.Recent(ctx, 1, 2)
 	if err != nil || len(two) != 2 {
