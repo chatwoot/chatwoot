@@ -37,3 +37,26 @@ updates:
       default-days: 7
     commit-message:
       prefix: '🔧 chore(ai-service)'
+
+  # Image tags in the Dokploy compose files (production and staging). This is
+  # how a new Chatwoot release reaches us: Dependabot opens a PR bumping
+  # chatwoot/chatwoot, which we review (Rails migrations run on start), merge
+  # and ship with /deploy. Major Redis versions and the pgvector image (its tag
+  # is the Postgres major, and a data directory can't move across majors) are
+  # upgraded by hand, never by a bot PR.
+  - package-ecosystem: docker-compose
+    directory: /ai-service/deploy
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Asia/Bangkok
+    target-branch: develop
+    open-pull-requests-limit: 3
+    cooldown:
+      default-days: 7
+    ignore:
+      - dependency-name: pgvector/pgvector
+      - dependency-name: redis
+        update-types: ['version-update:semver-major']
+    commit-message:
+      prefix: '🔧 chore(ai-service)'
