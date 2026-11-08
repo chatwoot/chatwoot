@@ -46,6 +46,27 @@ const setCategoryId = newCategoryId => {
   selectedCategoryId.value = newCategoryId;
 };
 
+// Nothing to save to until the create returns an id; keep edits local and let
+// createNewArticle save them.
+const saveArticle = values => Object.assign(article.value, values);
+
+const currentArticle = () => ({
+  title: article.value.title,
+  content: article.value.content,
+  author_id: selectedAuthorId.value || currentUserId.value,
+  category_id: selectedCategoryId.value || categoryId.value,
+});
+
+// Save what changed while the create request ran, since the edit page opens
+// with the stored article.
+const saveEditsMadeWhileCreating = async (articleId, saved) => {
+  const latest = currentArticle();
+  if (Object.keys(latest).every(key => latest[key] === saved[key])) return;
+
+  await store.dispatch('articles/update', { portalSlug, articleId, ...latest });
+  await saveEditsMadeWhileCreating(articleId, latest);
+};
+
 const createNewArticle = async ({ title, content }) => {
   if (title) article.value.title = title;
   if (content) article.value.content = content;
@@ -55,18 +76,25 @@ const createNewArticle = async ({ title, content }) => {
   isUpdating.value = true;
   try {
     const { locale } = route.params;
-    const resolvedCategoryId = selectedCategoryId.value || categoryId.value;
+    const created = currentArticle();
     const articleId = await store.dispatch('articles/create', {
       portalSlug,
-      content: article.value.content,
-      title: article.value.title,
+      title: created.title,
+      content: created.content,
       locale: locale,
-      authorId: selectedAuthorId.value || currentUserId.value,
-      categoryId: resolvedCategoryId,
+      authorId: created.author_id,
+      categoryId: created.category_id,
     });
 
     useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
 
+    // The article exists now, so open it even if saving the later edits fails;
+    // staying here would create it again on the next title blur.
+    await saveEditsMadeWhileCreating(articleId, created).catch(error =>
+      useAlert(error?.message || t('HELP_CENTER.EDIT_ARTICLE_PAGE.API.ERROR'))
+    );
+
+    const resolvedCategoryId = currentArticle().category_id;
     const resolvedSlug = categories.value?.find(
       c => c.id === resolvedCategoryId
     )?.slug;
@@ -116,6 +144,7 @@ const goBackToArticles = () => {
     :is-updating="isUpdating"
     :is-saved="isSaved"
     @create-article="createNewArticle"
+    @save-article="saveArticle"
     @go-back="goBackToArticles"
     @set-author="setAuthorId"
     @set-category="setCategoryId"

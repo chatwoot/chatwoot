@@ -3,6 +3,7 @@ tags:
 operationId: list-campaigns
 summary: List campaigns
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: >-
   List all campaigns in the account. The response is an unpaginated array.

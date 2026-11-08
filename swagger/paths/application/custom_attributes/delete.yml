@@ -4,6 +4,7 @@ operationId: delete-custom-attribute-from-account
 summary: Remove a custom attribute from account
 description: Remove a custom attribute from account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'

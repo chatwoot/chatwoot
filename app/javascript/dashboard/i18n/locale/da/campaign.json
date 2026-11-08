@@ -88,7 +88,7 @@
       },
       "CARD": {
         "STATUS": {
-          "PROCESSING": "Processing",
+          "PROCESSING": "Behandler",
           "COMPLETED": "Afsluttet",
           "SCHEDULED": "Scheduled"
         },
@@ -146,7 +146,7 @@
         "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
       },
       "CARD": {
-        "ANALYTICS": "View analytics",
+        "ANALYTICS": "Se analyser",
         "STATUS": {
           "PROCESSING": "Processing",
           "COMPLETED": "Afsluttet",
@@ -157,84 +157,113 @@
           "ON": "on"
         }
       },
-      "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
-        "CANCEL_BUTTON_TEXT": "Annuller",
-        "CREATE_BUTTON_TEXT": "Opret",
-        "FORM": {
-          "TITLE": {
+      "FORM": {
+        "CREATE_TITLE": "Create campaign",
+        "LIVE_TEST": "Live test",
+        "LIVE_TEST_TOOLTIP": "Live test vil være tilgængelig snart",
+        "SCHEDULE": "Planlæg kampagne",
+        "SCHEDULED_FOR": "Planlagt til den {date}",
+        "RESCHEDULE": "Omlæg",
+        "DISCARD": "Kassér ændringer",
+        "SAVE": "Save changes",
+        "BASIC_SETTINGS": {
+          "TITLE": "Basis indstillinger",
+          "NAME": {
             "LABEL": "Titel",
-            "PLACEHOLDER": "Indtast titlen på kampagnen",
-            "ERROR": "Titel er påkrævet"
+            "PLACEHOLDER": "Indtast titlen på kampagnen"
           },
           "INBOX": {
-            "LABEL": "Vælg Indbakke",
-            "PLACEHOLDER": "Vælg Indbakke",
-            "ERROR": "Indbakke er påkrævet"
-          },
-          "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
-            "PREVIEW_TITLE": "Proces {templateName}",
-            "LANGUAGE": "Sprog",
-            "CATEGORY": "Kategori",
-            "VARIABLES_LABEL": "Variabler",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
-          },
-          "AUDIENCE": {
-            "LABEL": "Målgruppe",
-            "PLACEHOLDER": "Vælg kunde etiketter",
-            "ERROR": "Målgruppe er påkrævet"
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "Planlagt tid",
-            "PLACEHOLDER": "Vælg venligst tid",
-            "ERROR": "Planlagt tid er påkrævet"
-          },
-          "BUTTONS": {
-            "CREATE": "Opret",
-            "CANCEL": "Annuller"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
-            "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen."
+            "LABEL": "Indbakke",
+            "PLACEHOLDER": "Vælg en indbakke"
           }
+        },
+        "AUDIENCE": {
+          "TITLE": "Målgruppe",
+          "TIER_DESCRIPTION": "Din WhatsApp-konto kan sende beskeder op til {tier}.",
+          "TIER_UNKNOWN": "Vælg en indbakke for at se grænsen for beskeder på din WhatsApp-konto.",
+          "LEARN_MORE": "Lær mere",
+          "LABELS": {
+            "LABEL": "Etiketter",
+            "PLACEHOLDER": "Vælg kunde etiketter"
+          },
+          "SELECTED_COUNT": "{count} kontakter valgt",
+          "VIEW": "Vis",
+          "EMPTY_STATE": "Vælg mindst én etiket til at bygge publikum.",
+          "CONTACTS": {
+            "TITLE": "Kontakter",
+            "TAGGED_WITH": "mærket med",
+            "SEARCH_PLACEHOLDER": "Søg efter navn, e-mail eller telefonnummer",
+            "EMPTY_STATE": "Ingen kontakter fundet"
+          }
+        },
+        "TEMPLATE": {
+          "TITLE": "Skabelon",
+          "SELECT": {
+            "LABEL": "Skabelon",
+            "PLACEHOLDER": "Select a template"
+          },
+          "EMPTY_STATE": "Vælg en indbakke for at indlæse de godkendte skabeloner",
+          "NO_TEMPLATES": "Denne indbakke har ingen godkendte skabeloner, der kan bruges i en kampagne",
+          "HEADER_LABEL": "Overskrift",
+          "INVALID_MEDIA_URL": "Indtast en gyldig HTTP eller HTTPS URL.",
+          "HEADER_PLACEHOLDER": "Indtast {type} overskrift",
+          "DOCUMENT_NAME_PLACEHOLDER": "Indtast dokumentnavn",
+          "BODY_LABEL": "Indhold",
+          "BUTTONS_LABEL": "Knapper",
+          "VARIABLE_PLACEHOLDER": "Indtast variabel {variable}",
+          "BUTTON_PLACEHOLDER": "Indtast parameter for knap {index}"
+        },
+        "ACCOUNT_INFORMATION": {
+          "TITLE": "Kontooplysninger",
+          "MESSAGING_TIER": "Niveau for beskeder",
+          "ACCOUNT_STATUS": "Konto status",
+          "ACCOUNT_HEALTH": "Konto sundhed",
+          "STATUS_DESCRIPTION": "Nuværende tilstand for dette WhatsApp nummer",
+          "HEALTH_DESCRIPTION": "Kvalitetsklassificering tildelt af Meta",
+          "EMPTY_STATE": "Vælg en indbakke for at se dens WhatsApp kontooplysninger.",
+          "UNAVAILABLE": "Ikke tilgængelig",
+          "OPEN": "Åbn i WhatsApp Manager"
+        },
+        "PREVIEW": {
+          "TITLE": "Besked forhåndsvisning",
+          "EMPTY_STATE": "Vælg en skabelon for at forhåndsvise beskeden.",
+          "FOOTNOTE": "Dette kan variere en smule pr. OS. Udfør en live test for at bekræfte. Standardværdier for de fremhævede variabler vil blive gemt ved gemning."
+        },
+        "SCHEDULE_POPOVER": {
+          "LABEL": "Planlæg",
+          "CANCEL": "Annuller",
+          "CREATE": "Opret"
+        },
+        "API": {
+          "CREATE_SUCCESS": "WhatsApp campaign created successfully",
+          "CREATE_ERROR": "Der opstod en fejl. Prøv venligst igen.",
+          "UPDATE_SUCCESS": "WhatsApp kampagne blev opdateret",
+          "UPDATE_ERROR": "Der opstod en fejl. Prøv venligst igen."
         }
       },
       "ANALYTICS": {
-        "LOADING": "Loading analytics...",
-        "EMPTY": "No delivery records found.",
-        "EMPTY_FILTER": "No {status} delivery records found.",
-        "DELIVERIES_ERROR": "Delivery records couldn't be loaded. Refresh the page to try again.",
+        "LOADING": "Indlæser analytiker...",
+        "EMPTY": "Ingen leveringsdata fundet.",
+        "EMPTY_FILTER": "Ingen {status} leveringsdata fundet.",
+        "DELIVERIES_ERROR": "Leveringsdata kunne ikke indlæses. Opdater siden for at prøve igen.",
         "EMPTY_STATE": {
           "ERROR": {
-            "TITLE": "Analytics couldn't be loaded",
-            "DESCRIPTION": "Refresh the page to try again."
+            "TITLE": "Analyser kunne ikke indlæses",
+            "DESCRIPTION": "Opdater siden for at prøve igen."
           },
           "PENDING": {
-            "TITLE": "Delivery data will appear once sending begins",
-            "DESCRIPTION": "There are no delivery records for this campaign yet."
+            "TITLE": "Leveringsdata vil fremgå når afsendelse begynder",
+            "DESCRIPTION": "Der er ingen leveringsdata for denne kampagne endnu."
           },
           "UNAVAILABLE": {
-            "TITLE": "Analytics aren't available for this campaign",
-            "DESCRIPTION": "No delivery data was recorded for this campaign. This can happen for campaigns sent before campaign analytics were introduced."
+            "TITLE": "Analyser er ikke tilgængelige for denne kampagne",
+            "DESCRIPTION": "Ingen leveringsdata blev registreret for denne kampagne. Dette kan ske for kampagner, der blev sendt før kampagneanalyser blev introduceret."
           }
         },
-        "PROCESSING_BANNER": {
-          "DEFAULT": "This campaign is still processing. Analytics will update automatically.",
-          "BOTH": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "BOTH_QUEUED_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_AWAITING_SINGLE": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "QUEUED": "This campaign is still processing. {count} message is queued. | This campaign is still processing. {count} messages are queued.",
-          "AWAITING_UPDATE": "This campaign is still processing. {count} message is awaiting a delivery update from WhatsApp. | This campaign is still processing. {count} messages are awaiting a delivery update from WhatsApp.",
-          "COMPLETING": "This campaign is completing. Analytics will update automatically."
-        },
-        "RATE": "{value}% of audience",
-        "SENT_ON": "Sent on {date}",
-        "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} contacts",
+        "PROCESSING_NOTICE": "Denne kampagne sender stadig. Antal, procenter og leveringselementer er delvise og omfatter kun kontakter behandlet indtil videre. Flere kontaktpersoner vil fremgå som afsendelse fortsætter.",
+        "RATE": "{value}% af publikum",
+        "SENT_ON": "Sendt den {date}",
+        "PAGE_INFO": "Viser {startItem} - {endItem} af {totalItems} kontakt | Viser {startItem} - {endItem} af {totalItems} kontakter",
         "BREADCRUMB": {
           "CAMPAIGNS": "Kampagner",
           "WHATSAPP": "WhatsApp"
@@ -245,62 +274,79 @@
         "METRICS": {
           "AUDIENCE": {
             "LABEL": "Målgruppe",
-            "HINT": "Contacts included in this campaign."
+            "HINT": "Kontakter inkluderet i denne kampagne."
           },
           "SENT": {
-            "LABEL": "Submitted to WhatsApp",
-            "HINT": "Messages accepted by WhatsApp for delivery."
+            "LABEL": "Indsendt til WhatsApp",
+            "HINT": "Beskeder accepteret af WhatsApp for levering."
           },
           "DELIVERED": {
-            "LABEL": "Delivered",
-            "HINT": "Messages that reached the contact's device. Read messages are included."
+            "LABEL": "Leveret",
+            "HINT": "Beskeder der nåede frem til kontaktens enhed. Læste beskeder er inkluderet."
           },
           "READ": {
             "LABEL": "Læst",
-            "HINT": "Messages opened by the contact."
+            "HINT": "Beskeder åbnet af kontakten."
           },
           "FAILED": {
-            "LABEL": "Failed",
-            "HINT": "Messages WhatsApp could not deliver."
+            "LABEL": "Fejlet",
+            "HINT": "Beskeder WhatsApp ikke kunne levere."
           },
           "SKIPPED": {
-            "LABEL": "Skipped",
-            "HINT": "Contacts skipped before sending, usually because of a missing or invalid phone number."
+            "LABEL": "Sprunget over",
+            "HINT": "Kontakter sprunget over før afsendelse, normalt på grund af et manglende eller ugyldigt telefonnummer."
           }
         },
         "STATUS": {
-          "QUEUED": "Queued",
-          "SENT": "Awaiting delivery update",
-          "DELIVERED": "Delivered",
+          "QUEUED": "I Kø",
+          "SENT": "Afventer leveringsopdatering",
+          "DELIVERED": "Leveret",
           "READ": "Læst",
-          "FAILED": "Failed",
-          "SKIPPED": "Skipped"
+          "FAILED": "Fejlet",
+          "SKIPPED": "Sprunget over"
         },
         "BREAKDOWN": {
-          "TITLE": "Delivery breakdown",
-          "DELIVERY_RATE": "{value}% delivered",
+          "TITLE": "Opdeling efter leverance",
+          "DELIVERY_RATE": "{value}% leveret",
           "LEGEND": {
             "READ": "Læst",
-            "DELIVERED": "Delivered",
-            "FAILED": "Failed",
-            "SKIPPED": "Skipped",
-            "PENDING": "Queued or awaiting update"
+            "DELIVERED": "Leveret",
+            "FAILED": "Fejlet",
+            "SKIPPED": "Sprunget over",
+            "PENDING": "I kø eller afventer opdatering"
           }
         },
         "TABLE": {
-          "TITLE": "Deliveries",
+          "TITLE": "Leveringer",
           "CONTACT": "Kontakt",
           "STATUS": "Status",
           "MESSAGE": "Besked",
-          "MESSAGE_NOT_GENERATED": "Not generated",
-          "REASON": "Reason",
-          "ERROR_CODE": "Code {code}"
+          "MESSAGE_NOT_GENERATED": "Ikke genereret",
+          "REASON": "Årsag",
+          "ERROR_CODE": "Kode {code}"
+        },
+        "PAYWALL": {
+          "TITLE": "Lås kampagne analyser op",
+          "AVAILABLE_ON": "Kampagne analyser er tilgængelig på Business and Enterprise planer.",
+          "UPGRADE_PROMPT": "Opgrader for at spore kampagnelevering, læsestatus og mislykkede beskeder.",
+          "UPGRADE_NOW": "Se abonnementer",
+          "CANCEL_ANYTIME": "Ændre eller annullere din plan når som helst."
+        },
+        "ENTERPRISE_PAYWALL": {
+          "AVAILABLE_ON": "Kampagne analyser er tilgængelige på betalte selvhostede planer.",
+          "UPGRADE_PROMPT": "Opgrader din installation for at spore kampagnelevering, læsestatus og mislykkede beskeder.",
+          "ASK_ADMIN": "Kontakt administratoren for din instans for at opgradere."
         }
       }
+    },
+    "HISTORY": {
+      "LABEL": "Kampagne",
+      "LOAD_MORE": "Indlæs tidligere kampagner"
     },
     "CONFIRM_DELETE": {
       "TITLE": "Er du sikker på du vil slette?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "WHATSAPP_DESCRIPTION": "Sletning af denne kampagne vil også fjerne dens gemte beskedhistorik og leveringsdetaljer. Beskeder der allerede er sendt på WhatsApp vil forblive. Dette kan ikke fortrydes.",
       "CONFIRM": "Slet",
       "API": {
         "SUCCESS_MESSAGE": "Kampagne slettet",

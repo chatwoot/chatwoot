@@ -663,9 +663,9 @@ export default {
   width: 100%;
 }
 
+// Height comes from the host (ArticleEditor); a cap here would leak into every
+// other editor on the page, since these styles are global.
 .ProseMirror-woot-style {
-  min-height: 5rem;
-  max-height: 7.5rem;
   overflow: auto;
 }
 

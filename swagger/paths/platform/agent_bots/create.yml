@@ -4,6 +4,7 @@ operationId: create-an-agent-bot
 summary: Create an Agent Bot
 description: Create an agent bot
 security:
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 requestBody:
   required: true

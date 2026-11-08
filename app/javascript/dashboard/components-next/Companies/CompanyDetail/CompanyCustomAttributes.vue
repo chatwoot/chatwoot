@@ -80,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="hasCompanyAttributes" class="flex flex-col gap-6 px-6 py-6">
+  <div v-if="hasCompanyAttributes" class="flex flex-col gap-6">
     <div v-if="!hasNoUsedAttributes" class="flex flex-col gap-2">
       <CompanyCustomAttributeItem
         v-for="attribute in usedAttributes"
@@ -105,14 +105,12 @@ onMounted(() => {
 
     <div class="flex flex-col gap-3">
       <div v-if="!hasNoUnusedAttributes" class="relative">
-        <span
-          class="absolute i-lucide-search size-3.5 top-2 ltr:left-3 rtl:right-3"
-        />
+        <span class="absolute i-lucide-search size-3.5 top-2 start-3" />
         <input
           v-model="searchQuery"
           type="search"
           :placeholder="t('COMPANIES.DETAIL.ATTRIBUTES.SEARCH_PLACEHOLDER')"
-          class="w-full h-8 py-2 pl-10 pr-2 text-sm reset-base outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          class="w-full h-8 py-2 ps-10 pe-2 text-sm reset-base outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
         />
       </div>
 
@@ -136,7 +134,7 @@ onMounted(() => {
     </div>
   </div>
 
-  <p v-else class="px-6 py-10 text-sm leading-6 text-center text-n-slate-11">
+  <p v-else class="text-sm text-n-slate-11">
     {{ t('COMPANIES.DETAIL.ATTRIBUTES.EMPTY_STATE') }}
   </p>
 </template>

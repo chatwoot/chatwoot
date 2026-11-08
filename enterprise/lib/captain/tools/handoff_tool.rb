@@ -4,18 +4,9 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   REASON_CATEGORIES = %w[customer_request missing_knowledge unsupported_request policy_restriction tool_failure].freeze
 
   description 'Hand off the conversation to a human agent when unable to assist further'
-  params do
+  parameters do
     string :reason, description: 'The reason why handoff is needed (optional)', required: false
     string :reason_category, enum: REASON_CATEGORIES, description: 'Reporting category for why the handoff is needed'
-  end
-
-  # Agents::ToolWrapper reads `tool.class.params`, while ruby_llm treats a
-  # no-argument call as a schema reset. Keep the compatibility fix local to the
-  # only tool that uses ruby_llm's block schema DSL.
-  def self.params(schema = nil, &)
-    return params_schema_definition if schema.nil? && !block_given?
-
-    super
   end
 
   def perform(tool_context, reason: nil, reason_category: nil)
@@ -42,8 +33,6 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   private
 
   def trigger_handoff(tool_context, conversation, reason, reason_category)
-    return trigger_legacy_handoff(tool_context, conversation, reason, reason_category) unless captain_v2_enabled?
-
     note = nil
     handoff_result = conversation.with_lock do
       next :changed unless conversation.pending?
@@ -73,18 +62,6 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     emit_tool_handoff_event(conversation, reason_category)
 
     # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
-    send_out_of_office_message_if_applicable(conversation)
-    :completed
-  end
-
-  def trigger_legacy_handoff(tool_context, conversation, reason, reason_category)
-    note = conversation.messages.create!(
-      message_type: :outgoing, private: true, sender: @assistant,
-      account: conversation.account, inbox: conversation.inbox, content: reason
-    )
-    record_handoff_note(tool_context, note) if reason.present?
-    conversation.bot_handoff!
-    emit_tool_handoff_event(conversation, reason_category)
     send_out_of_office_message_if_applicable(conversation)
     :completed
   end
@@ -125,7 +102,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   # 4. Support escalation levels (L1 -> L2 -> L3)
   #
   # Example future signature:
-  # param :team_id, type: 'string', desc: 'ID of team to assign conversation to', required: false
-  # param :priority, type: 'string', desc: 'Priority level (low/medium/high/urgent)', required: false
-  # param :escalation_level, type: 'string', desc: 'Support level (L1/L2/L3)', required: false
+  # parameter :team_id, type: 'string', description: 'ID of team to assign conversation to', required: false
+  # parameter :priority, type: 'string', description: 'Priority level (low/medium/high/urgent)', required: false
+  # parameter :escalation_level, type: 'string', description: 'Support level (L1/L2/L3)', required: false
 end

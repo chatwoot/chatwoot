@@ -61,13 +61,17 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
         end
       end
 
-      it 'returns only the most recent conversations' do
-        create_list(:conversation, 25, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1)
+      it 'includes older conversations with recent activity within the 25 conversation limit' do
+        create_list(:conversation, 25, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1,
+                                       created_at: 1.day.ago, last_activity_at: 1.day.ago)
+        older_conversation = create(:conversation, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1,
+                                                   created_at: 1.year.ago, last_activity_at: Time.current)
 
         get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations", headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['payload'].length).to eq 25
+        expect(response.parsed_body['payload'].first['id']).to eq older_conversation.display_id
       end
     end
   end

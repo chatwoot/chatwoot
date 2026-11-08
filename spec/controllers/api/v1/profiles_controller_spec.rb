@@ -73,6 +73,43 @@ RSpec.describe 'Profile API', type: :request do
         expect(response.parsed_body['access_token']).to eq(agent.access_token.token)
       end
     end
+
+    context 'when the account enforces MFA' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+        account.update!(enforce_mfa: true)
+      end
+
+      it 'blocks api_access_token requests from non-enrolled users' do
+        get '/api/v1/profile',
+            headers: { api_access_token: agent.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+      end
+
+      it 'allows enrolled users over api_access_token' do
+        agent.enable_two_factor!
+        agent.update!(otp_required_for_login: true)
+
+        get '/api/v1/profile',
+            headers: { api_access_token: agent.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not gate session-authenticated requests' do
+        get '/api/v1/profile',
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
   end
 
   describe 'PUT /api/v1/profile' do
@@ -289,6 +326,52 @@ RSpec.describe 'Profile API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['accounts'].first['auto_offline']).to be(false)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/profile/work_preferences' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/work_preferences'
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+
+      it 'updates the work preferences' do
+        post '/api/v1/profile/work_preferences',
+             params: { profile: { accepts_calls: false, account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['accounts'].first).to include('accepts_conversations' => true, 'accepts_calls' => false)
+      end
+
+      it 'rejects turning off the last preference' do
+        agent.account_users.find_by(account: account).update!(accepts_calls: false)
+
+        post '/api/v1/profile/work_preferences',
+             params: { profile: { accepts_conversations: false, account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agent.account_users.find_by(account: account).accepts_conversations).to be(true)
+      end
+
+      it 'rejects a value that is not a boolean' do
+        post '/api/v1/profile/work_preferences',
+             params: { profile: { accepts_calls: 'no', account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agent.account_users.find_by(account: account).accepts_calls).to be(true)
       end
     end
   end

@@ -37,6 +37,17 @@ describe '/widget', type: :request do
       expect(response.body).to include('window.authToken')
     end
 
+    it 'does not set the session cookie' do
+      previous = ActionController::Base.allow_forgery_protection
+      ActionController::Base.allow_forgery_protection = true
+
+      get widget_url(website_token: web_widget.website_token)
+
+      expect(response.headers['Set-Cookie'].to_s).not_to include('_chatwoot_session')
+    ensure
+      ActionController::Base.allow_forgery_protection = previous
+    end
+
     context 'when requested by a crawler' do
       %w[Googlebot bingbot].each do |crawler|
         it "returns no content without creating contacts for #{crawler}" do

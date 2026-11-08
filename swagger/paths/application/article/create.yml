@@ -4,6 +4,7 @@ operationId: add-new-article-to-account
 summary: Add a new article
 description: Add a new article to portal
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true
