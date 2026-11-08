@@ -200,7 +200,10 @@ file and hands the chat to staff, as before.
   rewrite model; an exact `STICKER` answer gets a short friendly reply.
 
 Downloads come only from the Chatwoot host (`CHATWOOT_BASE_URL`), https, with
-every redirect checked. Traces carry the media kind and the redacted
+every redirect checked. Inside Docker, where the bot reaches Chatwoot over
+plain http by a service name (`http://rails:3000`), set `CHATWOOT_PUBLIC_URL` to
+Chatwoot's `FRONTEND_URL`: links on that host are then fetched from the
+service name instead. Traces carry the media kind and the redacted
 transcript, never the file.
 
 **Testing media.** The **Test bot** page (`/admin/test`) takes up to 4 files

@@ -132,6 +132,7 @@ services:
       - ai_data:/data
     environment:
       CHATWOOT_BASE_URL: http://stg-rails:3000
+      CHATWOOT_PUBLIC_URL: ${FRONTEND_URL:?set in Dokploy}
       # Required: the webhook path bypasses Access, so a missing or guessable
       # secret would let anyone drive the bot. Keep the "ai" profile off until
       # the Agent Bot exists and both values are set.

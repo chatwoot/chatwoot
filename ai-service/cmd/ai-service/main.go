@@ -125,7 +125,7 @@ func run() error {
 		Usage:             usage,
 		Profiles:          botProfiles,
 		Rewriter:          rewriter,
-		Fetcher:           &media.Fetcher{Host: hostOf(cfg.ChatwootBaseURL), MaxBytes: 10 << 20},
+		Fetcher:           attachmentFetcher(cfg),
 		Transcriber:       liveTranscriber{store: store, model: cfg.TranscribeModel},
 		StickerLLM:        rewriteLLM,
 		Tracer:            tracer,
@@ -252,6 +252,25 @@ type liveTranscriber struct {
 func (t liveTranscriber) Transcribe(ctx context.Context, audio []byte, filename, hint string) (string, error) {
 	p := t.store.Get().Primary
 	return (&media.Transcriber{BaseURL: p.BaseURL, APIKey: p.APIKey, Model: t.model, Prompt: hint}).Transcribe(ctx, audio, filename)
+}
+
+// attachmentFetcher downloads customer files from Chatwoot only. Inside
+// Docker the bot reaches Chatwoot over plain http by a service name, while
+// attachment links carry the public address (CHATWOOT_PUBLIC_URL).
+func attachmentFetcher(cfg config.Config) *media.Fetcher {
+	// Plain http only for a Docker service name (no dot), never a public host
+	// set to http by mistake: that keeps failing closed.
+	host := hostOf(cfg.ChatwootBaseURL)
+	name, _, _ := strings.Cut(host, ":")
+	internalHTTP := strings.HasPrefix(cfg.ChatwootBaseURL, "http://") && name != "" && !strings.Contains(name, ".")
+	f := &media.Fetcher{Host: host, MaxBytes: 10 << 20, AllowHTTP: internalHTTP}
+	if pub := hostOf(cfg.ChatwootPublicURL); pub != "" && !strings.EqualFold(pub, f.Host) {
+		f.PublicHost = pub
+		if internalHTTP {
+			f.HostScheme = "http"
+		}
+	}
+	return f
 }
 
 func hostOf(raw string) string {
