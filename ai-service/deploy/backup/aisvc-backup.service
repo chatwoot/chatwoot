@@ -5,6 +5,8 @@ Description=ai-service database backup and restore drill
 Requires=docker.service
 After=docker.service network-online.target
 Wants=network-online.target
+# Email only when a run fails (any non-zero exit, timeout or kill).
+OnFailure=aisvc-backup-alert@%n.service
 
 [Service]
 Type=oneshot
