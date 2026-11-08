@@ -23,8 +23,15 @@
 #                            (same Postgres major version as the database)
 #   BACKUP_MIN_ROWS          restore-check minimums
 #   RESTORE_CHECK            restore-check binary, default next to this script
+#   R2_BACKUP_ENDPOINT, R2_BACKUP_BUCKET, R2_BACKUP_ACCESS_KEY_ID,
+#   R2_BACKUP_SECRET_ACCESS_KEY
+#                            offsite copy (Cloudflare R2 or any S3 API); when
+#                            all four are set, a verified dump and its .sha256
+#                            are uploaded to daily/ in the bucket
 #
-# Exit: 0 backed up and verified, 1 drill failed, 2 setup or dump failed.
+# Exit: 0 backed up and verified (and copied offsite when configured),
+# 1 drill failed, 2 setup or dump failed, 3 verified locally but the offsite
+# copy failed.
 set -euo pipefail
 
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -64,6 +71,36 @@ prune_old() {
       echo "${files[$i]}"
     fi
   done
+}
+
+# offsite_configured is true when every R2 setting is present.
+offsite_configured() {
+  [[ -n "${R2_BACKUP_ENDPOINT:-}" && -n "${R2_BACKUP_BUCKET:-}" &&
+     -n "${R2_BACKUP_ACCESS_KEY_ID:-}" && -n "${R2_BACKUP_SECRET_ACCESS_KEY:-}" ]]
+}
+
+# offsite_url <endpoint> <bucket> <key> prints the object's path-style URL.
+offsite_url() { printf '%s/%s/%s' "${1%/}" "$2" "$3"; }
+
+# upload_offsite <file> <key> uploads one file with S3 SigV4 (curl, no extra
+# tools). The request carries the file's SHA-256, which R2 checks, and a HEAD
+# afterwards must report the local size. The keys reach curl through a
+# root-only config file, never the command line.
+upload_offsite() {
+  local file=$1 key=$2 url cfg sha size remote ok=1
+  url=$(offsite_url "$R2_BACKUP_ENDPOINT" "$R2_BACKUP_BUCKET" "$key")
+  cfg=$(mktemp)
+  printf 'user = "%s:%s"\n' "$R2_BACKUP_ACCESS_KEY_ID" "$R2_BACKUP_SECRET_ACCESS_KEY" >"$cfg"
+  sha=$(sha256sum "$file" | cut -d' ' -f1)
+  size=$(stat -c %s "$file")
+  if curl --fail --silent --show-error --retry 3 --retry-all-errors -o /dev/null \
+       -K "$cfg" --aws-sigv4 "aws:amz:auto:s3" -H "x-amz-content-sha256: $sha" -T "$file" "$url"; then
+    remote=$(curl --fail --silent --show-error -I -K "$cfg" --aws-sigv4 "aws:amz:auto:s3" "$url" |
+      tr -d '\r' | awk -F': ' 'tolower($1) == "content-length" { print $2 }')
+    [[ "$remote" == "$size" ]] && ok=0
+  fi
+  rm -f "$cfg"
+  return "$ok"
 }
 
 # source_url prints DATABASE_URL from a container's environment (to a pipe or
@@ -129,10 +166,25 @@ main() {
     exit 1
   fi
 
+  local offsite_failed=0
+  if offsite_configured; then
+    if upload_offsite "$dir/$name" "daily/$name" && upload_offsite "$dir/$name.sha256" "daily/$name.sha256"; then
+      log "offsite: copied to $R2_BACKUP_BUCKET/daily/$name"
+    else
+      log "OFFSITE COPY FAILED for $name; the local backup is verified and kept" >&2
+      offsite_failed=1
+    fi
+  else
+    log "offsite: not configured (R2_BACKUP_* unset); local copy only"
+  fi
+
   local deleted
   deleted=$(prune_old "$dir" "$keep")
   [[ -z "$deleted" ]] || log "pruned: $(echo "$deleted" | tr '\n' ' ')"
   log "OK $name verified; keeping $keep days"
+  if (( offsite_failed )); then
+    exit 3
+  fi
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then

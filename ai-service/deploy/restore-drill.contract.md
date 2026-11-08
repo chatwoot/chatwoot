@@ -98,7 +98,26 @@ from a temporary folder before review:
 2. ~~No schedule, no retention rule, backup command not in the repository.~~
    Closed by `deploy/backup.sh` and the systemd timer (README "Scheduled
    backups").
-3. **No offsite copy.** Backups live on the same VPS as production; losing
-   the VPS loses them. Needs the owner's choice of storage and a key.
+3. ~~No offsite copy.~~ Closed 2026-11-08: Cloudflare R2 (owner's choice),
+   evidence below.
 4. **No alert on failure.** A failed run is only in the journal
    (`journalctl -u aisvc-backup.service`).
+
+## Evidence: offsite copy (2026-11-08)
+
+- Private R2 bucket in APAC (public dev URL off) with lifecycle rules: delete
+  `daily/` objects after 30 days, abort unfinished uploads after 1 day (same
+  convention as the owner's other backup bucket). Bucket name and account
+  endpoint live only in `/etc/aisvc-backup.env` on the VPS.
+- R2 token created by the owner, Object Read & Write on this bucket only;
+  keys pasted through the masked secret box into `.env.r2` (git-ignored) and
+  copied to `/etc/aisvc-backup-r2.env` (600) without being printed. The first
+  paste repeated the Access Key ID in both boxes (R2 answered 403); fixed.
+- Token probe: PUT 200; PUT with a wrong `x-amz-content-sha256` 400 (R2
+  verifies the hash); HEAD 200 with the right size; DELETE 204; listing a
+  different bucket 403 (token is scoped).
+- `backup.sh` live run: drill PASS, `offsite: copied to …/daily/…`, exit 0.
+  With a wrong secret: four 403s, `OFFSITE COPY FAILED`, local backup kept,
+  exit 3.
+- Round trip: downloaded `daily/aisvc-full-20261108-231221.dump` and its
+  `.sha256` from R2, `sha256sum -c` OK, restore drill PASS (106 documents).

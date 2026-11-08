@@ -217,9 +217,22 @@ systemctl list-timers aisvc-backup.timer      # next run
 ```
 
 `restore-check` is the Linux build from "Restore drill" above. Tests for the
-URL cleaning and retention: `bash deploy/backup_test.sh` (CI runs them).
-Not covered yet: an offsite copy and an alert when a run fails (the journal
-records it).
+URL cleaning, retention and offsite settings: `bash deploy/backup_test.sh`
+(CI runs them).
+
+**Offsite copy (Cloudflare R2).** After the drill passes, the dump and its
+`.sha256` are uploaded to `daily/` in a private R2 bucket with `curl
+--aws-sigv4` (no extra tools). The upload carries the SHA-256, which R2
+checks, and a HEAD afterwards must match the local size. A bucket lifecycle
+rule deletes `daily/` objects after 30 days and aborts unfinished uploads
+after 1 day. Set `R2_BACKUP_ENDPOINT` and `R2_BACKUP_BUCKET` in
+`/etc/aisvc-backup.env`, and the keys of an R2 token limited to that bucket
+(Object Read & Write) in `/etc/aisvc-backup-r2.env`, mode 600. An upload
+failure keeps the verified local backup and exits 3, which marks the
+systemd run failed. To restore from R2: download `daily/<name>` and its
+`.sha256`, run `sha256sum -c`, then `restore-drill.sh` or `pg_restore`.
+
+Not covered yet: an alert when a run fails (the journal records it).
 
 ## Access
 
