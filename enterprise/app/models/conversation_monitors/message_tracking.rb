@@ -19,7 +19,13 @@ module ConversationMonitors::MessageTracking
   def request_monitor_evaluation
     return unless (incoming? || outgoing?) && !private?
 
-    @monitor_work_requested = ConversationMonitors::Scheduler.request(conversation, activity_at: created_at).present?
+    if !monitor_automation_origin? && conversation.account.feature_enabled?('automations') &&
+       ConversationMonitors::Configuration.enabled?(conversation.account)
+      @monitor_live_activity_at = Time.current
+    end
+    @monitor_work_requested = ConversationMonitors::Scheduler.request(
+      conversation, activity_at: created_at, live_activity_at: @monitor_live_activity_at
+    ).present?
   end
 
   def catch_up_monitor_activation
@@ -31,17 +37,24 @@ module ConversationMonitors::MessageTracking
     monitors.where('created_at >= :boundary OR resumed_at >= :boundary', boundary: @monitor_activation_boundary).find_each do |monitor|
       next if monitor.resumed_at && !monitor.eligible_activity?(created_at)
 
-      work = ConversationMonitors::Scheduler.request_for_monitor(conversation, monitor, monitor.collection_version)
+      work = ConversationMonitors::Scheduler.request_for_monitor(
+        conversation, monitor, monitor.collection_version, live_activity_at: @monitor_live_activity_at
+      )
       @monitor_work_requested = true if work
     end
     wake_monitor_evaluation
+  ensure
+    @monitor_live_activity_at = nil
   end
 
   def invalidate_monitor_evaluation
     return if activity? || template?
     return if conversation.nil?
 
-    @monitor_work_requested = ConversationMonitors::Scheduler.request(conversation, invalidate: true).present?
+    live_activity_at = @monitor_live_activity_at unless private? || content_attributes['deleted']
+    @monitor_work_requested = ConversationMonitors::Scheduler.request(
+      conversation, invalidate: true, live_activity_at: live_activity_at
+    ).present?
     @monitor_content_invalidated = @monitor_work_requested
   end
 
@@ -49,6 +62,10 @@ module ConversationMonitors::MessageTracking
     return false if private? && !saved_change_to_private?
 
     saved_change_to_content? || saved_change_to_private? || saved_change_to_content_type? || monitor_deletion_changed?
+  end
+
+  def monitor_automation_origin?
+    content_attributes['automation_rule_id'].present? || Current.executed_by.is_a?(AutomationRule)
   end
 
   def monitor_deletion_changed?

@@ -1,0 +1,5 @@
+<%# locals: (label:, commands:) -%>
+<div role="group" aria-label="<%= label %>" data-command-group="<%= label %>">
+  <p class="px-3 pb-1 pt-3 text-xs font-medium uppercase tracking-wider text-n-slate-10" aria-hidden="true"><%= label %></p>
+  <%= render partial: "command", collection: commands, as: :command %>
+</div>

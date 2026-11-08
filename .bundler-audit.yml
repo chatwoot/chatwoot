@@ -12,20 +12,63 @@ ignore:
   # advisory. Chatwoot filters internal metadata keys locally.
   - CVE-2026-33173
   - CVE-2026-33174
-  # Rails 7.1 has no patched release for these Rails advisories. These are not
-  # reachable through Chatwoot's current usage patterns and should be removed
-  # once we upgrade to Rails 7.2.3.1+.
-  - CVE-2026-33168
-  - CVE-2026-33169
-  - CVE-2026-33170
-  - CVE-2026-33176
-  - CVE-2026-33195
-  - CVE-2026-33202
-  # No Rails 7.1 patch for this Active Storage advisory; mitigated locally.
-  # Remove once on Rails 7.2.3.1+.
+  # No patch for this Active Storage advisory below Rails 7.2.3.2; mitigated locally.
+  # Remove once on Rails 7.2.3.2+.
   - CVE-2026-66066
   # RubyLLM's name-normalization ReDoS is reported on Ruby 3.1; we require Ruby 3.4.4.
   # Built-in tool names are fixed; custom tools use bounded slugs and override normalization.
   # Patched 2.0 releases need an ai-agents migration (currently constrained to RubyLLM 1.x).
   # Remove when a supported patched RubyLLM/ai-agents combination is adopted.
   - CVE-2026-67991
+  # Think-tag parsing and Mistral matching ReDoS are reported on Ruby 3.1.
+  # We pin Ruby 3.4.4, where the affected regexes are linear-time.
+  # Remove when a supported patched RubyLLM/ai-agents combination is adopted;
+  # reassess if the supported Ruby runtime changes.
+  - CVE-2026-67987
+  - CVE-2026-67989
+  # Rails advisories published on 2026-11-04 have no patched Rails 7.2 release.
+  # The Rails gem requires matching component versions, so upgrading actionpack,
+  # actionview, activestorage, actionmailbox or activesupport individually is blocked.
+  # Temporary deferral: remove these exceptions when upgrading to Rails 8.0.5.2
+  # or 8.1.4.1 (or another release containing these fixes).
+
+  # Mailgun ingress is supported; installations using it retain the signature replay risk.
+  - GHSA-5957-c7qm-m469
+  # Sessions use CookieStore, not the affected CacheStore.
+  - GHSA-2586-8ghr-69fj
+  # CookieStore also explicitly sets same_site: :lax.
+  - GHSA-gmj8-hvj3-49mw
+  # Application controllers do not mark negotiated responses as publicly cacheable.
+  - GHSA-r9jg-fmfx-2gv6
+  # Active Storage proxy routes use Live streaming; slow clients retain the DoS risk.
+  - GHSA-rwvh-fw6r-pwvp
+  # No application path passes Parameters#each_key's return value to mass assignment.
+  - GHSA-wm3x-v3qw-4jh3
+  # Proxy routes exist, but cookies use :json with no configured secret rotations.
+  - GHSA-x6mj-8jx9-qhqv
+
+  # Already mitigated by Nokogiri 1.19.5 / rails-html-sanitizer 1.7.2; HTML4 is the default vendor.
+  - GHSA-2p2f-4rq4-gjwc
+  # Tag helpers use application-defined attribute names, not user-supplied names.
+  - GHSA-68p9-83h6-5wpj
+  # No application use of strip_tags output inside quoted HTML attributes.
+  - GHSA-rq8q-p985-fjq7
+  # No application use of highlight with placeholders inside HTML attributes.
+  - GHSA-v6rj-xm57-3p59
+
+  # Previewers are disabled, but audio/video analyzers remain enabled: risk if FFmpeg is installed.
+  - GHSA-3f4q-8x5m-76v8
+  # The GCS service does not configure the affected cache_control option.
+  - GHSA-3w93-6hmw-whh4
+  # Image analysis and variants use libvips, not the affected ImageMagick processor.
+  - GHSA-f3w6-w445-fwh9
+  # GCS is supported; direct uploads retain the declared file-size bypass risk.
+  - GHSA-hfr4-8rjc-97m2
+  # PostgreSQL rejects the NUL-containing filenames needed for this persistent DoS.
+  - GHSA-p2pm-g2h6-7j5j
+  # libvips and disabled previewers avoid ImageMagick/video previews; FFmpeg analyzers remain a risk.
+  - GHSA-v924-7rp8-4mxh
+
+  # Public Action Cable resolves client-supplied channel names before RoomChannel authentication.
+  # The safe_constantize DoS remains reachable; notification actor names are allowlisted separately.
+  - GHSA-8474-xrp6-wh69

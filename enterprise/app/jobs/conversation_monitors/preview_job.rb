@@ -47,8 +47,9 @@ class ConversationMonitors::PreviewJob < ApplicationJob
 
   def matches?(conversation)
     state = ConversationMonitors::ContextBuilder.new(conversation).build
-    response = ConversationMonitors::JevClient.new(account_id: conversation.account_id).evaluate(state: state, monitors: [@monitor])
-    ConversationMonitors::JevClient.score(response['answers']['0']) >= ConversationMonitors::Configuration::THRESHOLD
+    response = ConversationMonitors::DecisionService.new(account_id: conversation.account_id, conversation_id: conversation.display_id)
+                                                    .evaluate(state: state, monitors: [@monitor])
+    ConversationMonitors::DecisionService.score(response['answers']['0']) >= ConversationMonitors::Configuration::THRESHOLD
   rescue CustomExceptions::MonitorEvaluationError => e
     raise unless %w[context_limit no_text].include?(e.code)
 

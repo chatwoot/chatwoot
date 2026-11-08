@@ -3,8 +3,9 @@ class ConversationMonitors::DispatchJob < ApplicationJob
   PER_ACCOUNT_BATCH = 25
 
   def perform
-    Account.feature_conversation_monitors.find_each do |account|
-      next unless ConversationMonitors::Configuration.enabled?(account) && account.conversation_monitors.active.exists?
+    dispatch_automation_deliveries
+    Account.feature_conversation_monitors.where(id: ConversationMonitors::Monitor.active.select(:account_id)).find_each do |account|
+      next unless ConversationMonitors::Configuration.enabled?(account)
 
       dispatch_account(account)
     end
@@ -12,6 +13,13 @@ class ConversationMonitors::DispatchJob < ApplicationJob
   end
 
   private
+
+  def dispatch_automation_deliveries
+    ConversationMonitors::AutomationDelivery.sweepable.order(:id).limit(1000).pluck(:id).each do |id|
+      ConversationMonitors::ProcessAutomationDeliveryJob.perform_later(id)
+    end
+    ConversationMonitors::AutomationDelivery.purge_terminal!
+  end
 
   def dispatch_account(account)
     account.conversation_monitors.active.where.not(recheck_requested_at: nil).find_each do |monitor|

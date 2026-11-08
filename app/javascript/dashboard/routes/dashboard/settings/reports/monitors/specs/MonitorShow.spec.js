@@ -3,6 +3,7 @@ import { computed, reactive, ref } from 'vue';
 import { createI18n } from 'vue-i18n';
 import MonitorShow from '../MonitorShow.vue';
 import MonitorsAPI from 'dashboard/api/monitors';
+import AutomationAPI from 'dashboard/api/automation';
 import report from 'dashboard/i18n/locale/en/report.json';
 
 const state = vi.hoisted(() => ({
@@ -23,6 +24,7 @@ vi.mock('dashboard/composables/useAccount', () => ({
     accountId: computed(() => Number(state.route.params.accountId)),
     currentAccount: computed(() => state.account),
     accountScopedRoute: name => ({ name }),
+    isCloudFeatureEnabled: () => true,
   }),
 }));
 vi.mock('dashboard/composables/useAdmin', () => ({
@@ -53,6 +55,9 @@ vi.mock('dashboard/api/monitors', () => ({
     retry: vi.fn(),
   },
 }));
+vi.mock('dashboard/api/automation', () => ({
+  default: { linkedToMonitor: vi.fn() },
+}));
 
 const responseFor = (params, count = 2) => ({
   data: {
@@ -65,6 +70,8 @@ const responseFor = (params, count = 2) => ({
     ],
     monitor: {
       name: 'Refunds',
+      icon: 'fire-line',
+      icon_color: '#EF4444',
       collection_version: 0,
       condition: 'refund',
       processing: { state: 'live', error_codes: [] },
@@ -79,6 +86,7 @@ const mountOptions = {
       Dialog: false,
       MonitorActionDialog: false,
       TextArea: false,
+      Input: false,
     },
   },
 };
@@ -93,6 +101,8 @@ describe('MonitorShow', () => {
     state.router = { push: vi.fn(), replace: vi.fn() };
     state.i18n = { t: key => key, te: () => true, locale: ref('en') };
     MonitorsAPI.timeseries.mockReset();
+    AutomationAPI.linkedToMonitor.mockReset();
+    AutomationAPI.linkedToMonitor.mockResolvedValue({ data: { payload: [] } });
     MonitorsAPI.update.mockReset();
     MonitorsAPI.resume.mockReset();
     MonitorsAPI.retry.mockReset();
@@ -256,6 +266,21 @@ describe('MonitorShow', () => {
     });
   });
 
+  it('shows linked automations under the monitor report', async () => {
+    AutomationAPI.linkedToMonitor.mockResolvedValue({
+      data: { payload: [{ id: 25, name: 'Route refunds', active: true }] },
+    });
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+
+    expect(AutomationAPI.linkedToMonitor).toHaveBeenCalledWith(
+      '10',
+      expect.any(AbortSignal)
+    );
+    expect(wrapper.text()).toContain('Route refunds');
+    expect(wrapper.text()).toContain('MONITORS.AUTOMATIONS.TITLE');
+  });
+
   it('clears the deleted monitor and leaves its detail route on a tombstone event', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
@@ -310,6 +335,9 @@ describe('MonitorShow', () => {
       .findComponent({ name: 'Input' })
       .vm.$emit('update:modelValue', ' Payments ');
     await wrapper.find('textarea').setValue(' Conversations about payments ');
+    wrapper
+      .findComponent({ name: 'MonitorIconPicker' })
+      .vm.$emit('update:icon', 'bug-line');
     MonitorsAPI.timeseries.mockImplementation((id, params) => {
       const response = responseFor(params);
       response.data.monitor.collection_version = 1;
@@ -323,6 +351,8 @@ describe('MonitorShow', () => {
     expect(MonitorsAPI.update).toHaveBeenCalledWith('10', {
       name: 'Payments',
       condition: 'Conversations about payments',
+      icon: 'bug-line',
+      icon_color: '#EF4444',
       collection_version: 0,
     });
   });
@@ -348,14 +378,31 @@ describe('MonitorShow', () => {
     expect(
       wrapper.findComponent({ name: 'MonitorDrilldown' }).props('request')
     ).toMatchObject(original);
-    finish(responseFor(MonitorsAPI.timeseries.mock.calls[1][1]));
+    const updated = responseFor(MonitorsAPI.timeseries.mock.calls[1][1], 5);
+    updated.data.data_revision = 2;
+    finish(updated);
+    await flushPromises();
+    expect(wrapper.findComponent({ name: 'MonitorDrilldown' }).exists()).toBe(
+      true
+    );
+    expect(
+      wrapper.findComponent({ name: 'BarChart' }).props('data').series[0].data
+    ).toEqual([2]);
+
+    MonitorsAPI.timeseries.mockImplementation((id, params) =>
+      Promise.resolve(responseFor(params, 5))
+    );
+    wrapper.findComponent({ name: 'MonitorDrilldown' }).vm.$emit('close');
     await flushPromises();
     expect(wrapper.findComponent({ name: 'MonitorDrilldown' }).exists()).toBe(
       false
     );
+    expect(
+      wrapper.findComponent({ name: 'BarChart' }).props('data').series[0].data
+    ).toEqual([5]);
   });
 
-  it('closes a rolling edge bucket when its population changes without a membership revision', async () => {
+  it('defers automatic refreshes while the drilldown is open', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     wrapper
@@ -366,8 +413,14 @@ describe('MonitorShow', () => {
     await state.refresh();
     await flushPromises();
 
+    expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(1);
     expect(wrapper.findComponent({ name: 'MonitorDrilldown' }).exists()).toBe(
-      false
+      true
+    );
+    wrapper.findComponent({ name: 'MonitorDrilldown' }).vm.$emit('close');
+    await flushPromises();
+    expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
+      Date.now() / 1000
     );
   });
 

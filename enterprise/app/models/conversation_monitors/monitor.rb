@@ -1,15 +1,56 @@
+# == Schema Information
+#
+# Table name: conversation_monitors
+#
+#  id                   :bigint           not null, primary key
+#  collection_version   :bigint           default(0), not null
+#  condition            :text             not null
+#  data_revision        :bigint           default(0), not null
+#  deleted_at           :datetime
+#  history_since        :datetime         not null
+#  model                :string           not null
+#  name                 :string           not null
+#  paused_at            :datetime
+#  recheck_requested_at :datetime
+#  resumed_at           :datetime
+#  slack_channel_id     :string
+#  threshold            :float            not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  account_id           :bigint           not null
+#  user_id              :bigint
+#
+# Indexes
+#
+#  index_conversation_monitors_on_account_id  (account_id)
+#  index_conversation_monitors_on_user_id     (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
+#  fk_rails_...  (user_id => users.id) ON DELETE => nullify
+#
 class ConversationMonitors::Monitor < ApplicationRecord
   self.table_name = 'conversation_monitors'
+  MAX_CONDITION_LENGTH = 500
 
   belongs_to :account
   belongs_to :user, optional: true
   has_many :evaluations, class_name: 'ConversationMonitors::Evaluation', dependent: :delete_all, inverse_of: :monitor
   has_many :scans, class_name: 'ConversationMonitors::Scan', dependent: :delete_all, inverse_of: :monitor
+  has_many :automation_rules, class_name: '::AutomationRule', dependent: :nullify, inverse_of: :monitor
+  has_many :automation_deliveries, class_name: 'ConversationMonitors::AutomationDelivery', dependent: :delete_all,
+                                   inverse_of: :monitor
 
   validates :name, presence: true, length: { maximum: 100 }
-  validates :condition, presence: true, length: { maximum: 2000 }
+  validates :condition, presence: true
+  validates :condition, length: { maximum: MAX_CONDITION_LENGTH }, if: :will_save_change_to_condition?
   validates :model, :history_since, presence: true
   validates :threshold, numericality: { greater_than: 0, less_than_or_equal_to: 1 }
+  validates :slack_channel_id, format: { with: /\A[A-Z0-9]+\z/ }, length: { maximum: 30 }, allow_nil: true
+  validate :slack_connected, if: -> { slack_channel_id && will_save_change_to_slack_channel_id? }
+  # A blank channel turns Slack alerts off.
+  normalizes :slack_channel_id, with: ->(channel_id) { channel_id.presence }
   attr_readonly :model, :threshold, :history_since, :account_id
 
   scope :visible, -> { where(deleted_at: nil) }
@@ -25,6 +66,13 @@ class ConversationMonitors::Monitor < ApplicationRecord
 
   def resumable?
     paused_at.present? && deleted_at.nil?
+  end
+
+  def disable_automations!
+    automation_rules.active.find_each do |rule|
+      rule.active = false
+      rule.save!(validate: false)
+    end
   end
 
   def matched_conversations
@@ -72,6 +120,10 @@ class ConversationMonitors::Monitor < ApplicationRecord
   end
 
   private
+
+  def slack_connected
+    errors.add(:slack_channel_id, I18n.t('conversation_monitors.slack_alert.not_connected')) unless account.hooks.exists?(app_id: 'slack')
+  end
 
   def skipped_import_activity?(activity_at)
     scans.any? do |scan|

@@ -146,7 +146,7 @@
         "SUBTITLE": "Avvia una campagna WhatsApp per raggiungere direttamente i tuoi clienti. Invia offerte o fai annunci con facilità. Clicca su 'Crea campagna' per iniziare."
       },
       "CARD": {
-        "ANALYTICS": "View analytics",
+        "ANALYTICS": "Vedi le statistiche",
         "STATUS": {
           "PROCESSING": "Elaborazione",
           "COMPLETED": "Completata",
@@ -157,83 +157,112 @@
           "ON": "il"
         }
       },
-      "CREATE": {
-        "TITLE": "Crea campagna WhatsApp",
-        "CANCEL_BUTTON_TEXT": "Annulla",
-        "CREATE_BUTTON_TEXT": "Crea",
-        "FORM": {
-          "TITLE": {
+      "FORM": {
+        "CREATE_TITLE": "Crea campagna",
+        "LIVE_TEST": "Prova dal vivo",
+        "LIVE_TEST_TOOLTIP": "La prova dal vivo sarà disponibile presto",
+        "SCHEDULE": "Pianifica la campagna",
+        "SCHEDULED_FOR": "Pianificata per il {date}",
+        "RESCHEDULE": "Ripianifica",
+        "DISCARD": "Scarta le modifiche",
+        "SAVE": "Salva modifiche",
+        "BASIC_SETTINGS": {
+          "TITLE": "Impostazioni di base",
+          "NAME": {
             "LABEL": "Titolo",
-            "PLACEHOLDER": "Inserisci il titolo della campagna",
-            "ERROR": "Titolo richiesto"
+            "PLACEHOLDER": "Inserisci il titolo della campagna"
           },
           "INBOX": {
-            "LABEL": "Seleziona Inbox",
-            "PLACEHOLDER": "Seleziona Inbox",
-            "ERROR": "Inbox richiesta"
-          },
-          "TEMPLATE": {
-            "LABEL": "Modello WhatsApp",
-            "PLACEHOLDER": "Seleziona un modello",
-            "INFO": "Seleziona un modello da utilizzare per questa campagna.",
-            "ERROR": "Modello richiesto",
-            "PREVIEW_TITLE": "Elabora {templateName}",
-            "LANGUAGE": "Lingua",
-            "CATEGORY": "Categoria",
-            "VARIABLES_LABEL": "Variabili",
-            "VARIABLE_PLACEHOLDER": "Inserisci il valore per {variable}"
-          },
-          "AUDIENCE": {
-            "LABEL": "Pubblico",
-            "PLACEHOLDER": "Seleziona le etichette dei clienti",
-            "ERROR": "Pubblico richiesto"
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "Orario programmato",
-            "PLACEHOLDER": "Seleziona l'orario",
-            "ERROR": "È richiesto un orario programmato"
-          },
-          "BUTTONS": {
-            "CREATE": "Crea",
-            "CANCEL": "Annulla"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "Campagna WhatsApp creata con successo",
-            "ERROR_MESSAGE": "Si è verificato un errore. Riprova."
+            "LABEL": "Inbox",
+            "PLACEHOLDER": "Seleziona una Inbox"
           }
+        },
+        "AUDIENCE": {
+          "TITLE": "Pubblico",
+          "TIER_DESCRIPTION": "Il tuo account WhatsApp può scrivere fino a {tier}.",
+          "TIER_UNKNOWN": "Seleziona una casella per vedere il limite di messaggi del tuo account WhatsApp.",
+          "LEARN_MORE": "Scopri di più",
+          "LABELS": {
+            "LABEL": "Etichette",
+            "PLACEHOLDER": "Seleziona le etichette dei clienti"
+          },
+          "SELECTED_COUNT": "{count} contatti selezionati",
+          "VIEW": "Visualizza",
+          "EMPTY_STATE": "Seleziona almeno un'etichetta per creare il pubblico.",
+          "CONTACTS": {
+            "TITLE": "Contatti",
+            "TAGGED_WITH": "etichettato con",
+            "SEARCH_PLACEHOLDER": "Cerca per nome, email o numero di telefono",
+            "EMPTY_STATE": "Nessun contatto trovato"
+          }
+        },
+        "TEMPLATE": {
+          "TITLE": "Modello",
+          "SELECT": {
+            "LABEL": "Modello",
+            "PLACEHOLDER": "Seleziona un modello"
+          },
+          "EMPTY_STATE": "Seleziona una casella per caricare i suoi modelli approvati",
+          "NO_TEMPLATES": "Questa casella non ha modelli approvati utilizzabili in una campagna",
+          "HEADER_LABEL": "Intestazione",
+          "INVALID_MEDIA_URL": "Inserisci un URL HTTP o HTTPS valido.",
+          "HEADER_PLACEHOLDER": "Inserisci l'intestazione {type}",
+          "DOCUMENT_NAME_PLACEHOLDER": "Inserisci il nome del documento",
+          "BODY_LABEL": "Corpo",
+          "BUTTONS_LABEL": "Pulsanti",
+          "VARIABLE_PLACEHOLDER": "Inserisci la variabile {variable}",
+          "BUTTON_PLACEHOLDER": "Inserisci il parametro per il pulsante {index}"
+        },
+        "ACCOUNT_INFORMATION": {
+          "TITLE": "Informazioni sull'account",
+          "MESSAGING_TIER": "Livello di messaggistica",
+          "ACCOUNT_STATUS": "Stato dell'account",
+          "ACCOUNT_HEALTH": "Salute dell'account",
+          "STATUS_DESCRIPTION": "Modalità attuale di questo numero WhatsApp",
+          "HEALTH_DESCRIPTION": "Valutazione di qualità assegnata da Meta",
+          "EMPTY_STATE": "Seleziona una casella per vedere le informazioni del suo account WhatsApp.",
+          "UNAVAILABLE": "Non disponibile",
+          "OPEN": "Apri in WhatsApp Manager"
+        },
+        "PREVIEW": {
+          "TITLE": "Anteprima messaggio",
+          "EMPTY_STATE": "Seleziona un modello per vedere l'anteprima del messaggio.",
+          "FOOTNOTE": "Può variare leggermente a seconda del sistema operativo. Fai una prova dal vivo per conferma. I valori predefiniti delle variabili evidenziate verranno salvati al salvataggio."
+        },
+        "SCHEDULE_POPOVER": {
+          "LABEL": "Pianifica",
+          "CANCEL": "Annulla",
+          "CREATE": "Crea"
+        },
+        "API": {
+          "CREATE_SUCCESS": "Campagna WhatsApp creata con successo",
+          "CREATE_ERROR": "Si è verificato un errore, riprova.",
+          "UPDATE_SUCCESS": "Campagna WhatsApp aggiornata",
+          "UPDATE_ERROR": "Si è verificato un errore, riprova."
         }
       },
       "ANALYTICS": {
-        "LOADING": "Loading analytics...",
-        "EMPTY": "No delivery records found.",
-        "EMPTY_FILTER": "No {status} delivery records found.",
-        "DELIVERIES_ERROR": "Delivery records couldn't be loaded. Refresh the page to try again.",
+        "LOADING": "Caricamento delle statistiche...",
+        "EMPTY": "Nessun dato di consegna trovato.",
+        "EMPTY_FILTER": "Nessun dato di consegna {status} trovato.",
+        "DELIVERIES_ERROR": "Impossibile caricare i dati di consegna. Aggiorna la pagina per riprovare.",
         "EMPTY_STATE": {
           "ERROR": {
-            "TITLE": "Analytics couldn't be loaded",
-            "DESCRIPTION": "Refresh the page to try again."
+            "TITLE": "Impossibile caricare le statistiche",
+            "DESCRIPTION": "Aggiorna la pagina per riprovare."
           },
           "PENDING": {
-            "TITLE": "Delivery data will appear once sending begins",
-            "DESCRIPTION": "There are no delivery records for this campaign yet."
+            "TITLE": "I dati di consegna compariranno quando inizierà l'invio",
+            "DESCRIPTION": "Per questa campagna non ci sono ancora dati di consegna."
           },
           "UNAVAILABLE": {
-            "TITLE": "Analytics aren't available for this campaign",
-            "DESCRIPTION": "No delivery data was recorded for this campaign. This can happen for campaigns sent before campaign analytics were introduced."
+            "TITLE": "Statistiche non disponibili per questa campagna",
+            "DESCRIPTION": "Per questa campagna non sono stati registrati dati di consegna. Può succedere con le campagne inviate prima dell'introduzione delle statistiche."
           }
         },
-        "PROCESSING_BANNER": {
-          "DEFAULT": "This campaign is still processing. Analytics will update automatically.",
-          "BOTH": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "BOTH_QUEUED_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_AWAITING_SINGLE": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "QUEUED": "This campaign is still processing. {count} message is queued. | This campaign is still processing. {count} messages are queued.",
-          "AWAITING_UPDATE": "This campaign is still processing. {count} message is awaiting a delivery update from WhatsApp. | This campaign is still processing. {count} messages are awaiting a delivery update from WhatsApp.",
-          "COMPLETING": "This campaign is completing. Analytics will update automatically."
-        },
-        "RATE": "{value}% of audience",
-        "SENT_ON": "Sent on {date}",
+        "PROCESSING_NOTICE": "Questa campagna è ancora in fase di invio. Conteggi, percentuali e dati di consegna sono parziali e comprendono solo i contatti elaborati finora. Altri contatti compariranno man mano che l'invio prosegue.",
+        "RATE": "{value}% del pubblico",
+        "SENT_ON": "Inviata il {date}",
         "PAGE_INFO": "Mostrando {startItem} - {endItem} di {totalItems} contatti",
         "BREADCRUMB": {
           "CAMPAIGNS": "Campagne",
@@ -245,62 +274,79 @@
         "METRICS": {
           "AUDIENCE": {
             "LABEL": "Pubblico",
-            "HINT": "Contacts included in this campaign."
+            "HINT": "Contatti inclusi in questa campagna."
           },
           "SENT": {
-            "LABEL": "Submitted to WhatsApp",
-            "HINT": "Messages accepted by WhatsApp for delivery."
+            "LABEL": "Inviati a WhatsApp",
+            "HINT": "Messaggi accettati da WhatsApp per la consegna."
           },
           "DELIVERED": {
-            "LABEL": "Delivered",
-            "HINT": "Messages that reached the contact's device. Read messages are included."
+            "LABEL": "Consegnati",
+            "HINT": "Messaggi arrivati sul dispositivo del contatto. Sono inclusi quelli letti."
           },
           "READ": {
             "LABEL": "Letto",
-            "HINT": "Messages opened by the contact."
+            "HINT": "Messaggi aperti dal contatto."
           },
           "FAILED": {
             "LABEL": "Non Riuscito",
-            "HINT": "Messages WhatsApp could not deliver."
+            "HINT": "Messaggi che WhatsApp non è riuscito a consegnare."
           },
           "SKIPPED": {
-            "LABEL": "Skipped",
-            "HINT": "Contacts skipped before sending, usually because of a missing or invalid phone number."
+            "LABEL": "Saltati",
+            "HINT": "Contatti saltati prima dell'invio, di solito per un numero di telefono mancante o non valido."
           }
         },
         "STATUS": {
-          "QUEUED": "Queued",
-          "SENT": "Awaiting delivery update",
-          "DELIVERED": "Delivered",
+          "QUEUED": "In coda",
+          "SENT": "In attesa di aggiornamento della consegna",
+          "DELIVERED": "Consegnato",
           "READ": "Letto",
           "FAILED": "Non Riuscito",
-          "SKIPPED": "Skipped"
+          "SKIPPED": "Saltato"
         },
         "BREAKDOWN": {
-          "TITLE": "Delivery breakdown",
-          "DELIVERY_RATE": "{value}% delivered",
+          "TITLE": "Dettaglio delle consegne",
+          "DELIVERY_RATE": "{value}% consegnati",
           "LEGEND": {
             "READ": "Letto",
-            "DELIVERED": "Delivered",
+            "DELIVERED": "Consegnati",
             "FAILED": "Non Riuscito",
-            "SKIPPED": "Skipped",
-            "PENDING": "Queued or awaiting update"
+            "SKIPPED": "Saltati",
+            "PENDING": "In coda o in attesa di aggiornamento"
           }
         },
         "TABLE": {
-          "TITLE": "Deliveries",
+          "TITLE": "Consegne",
           "CONTACT": "Contatto",
           "STATUS": "Stato",
           "MESSAGE": "Messaggio",
-          "MESSAGE_NOT_GENERATED": "Not generated",
-          "REASON": "Reason",
-          "ERROR_CODE": "Code {code}"
+          "MESSAGE_NOT_GENERATED": "Non generato",
+          "REASON": "Motivo",
+          "ERROR_CODE": "Codice {code}"
+        },
+        "PAYWALL": {
+          "TITLE": "Sblocca le statistiche delle campagne",
+          "AVAILABLE_ON": "Le statistiche delle campagne sono disponibili nei piani Business ed Enterprise.",
+          "UPGRADE_PROMPT": "Aggiorna per seguire consegne, letture e messaggi non riusciti delle campagne.",
+          "UPGRADE_NOW": "Vedi i piani",
+          "CANCEL_ANYTIME": "Puoi cambiare o disdire il piano in qualsiasi momento."
+        },
+        "ENTERPRISE_PAYWALL": {
+          "AVAILABLE_ON": "Le statistiche delle campagne sono disponibili nei piani self-hosted a pagamento.",
+          "UPGRADE_PROMPT": "Aggiorna la tua installazione per seguire consegne, letture e messaggi non riusciti delle campagne.",
+          "ASK_ADMIN": "Contatta l'amministratore della tua istanza per aggiornare."
         }
       }
+    },
+    "HISTORY": {
+      "LABEL": "Campagna",
+      "LOAD_MORE": "Carica le campagne precedenti"
     },
     "CONFIRM_DELETE": {
       "TITLE": "Sei sicuro di voler eliminare?",
       "DESCRIPTION": "L'azione di eliminazione è permanente e non può essere annullata.",
+      "WHATSAPP_DESCRIPTION": "Eliminando questa campagna verranno rimossi anche la cronologia dei messaggi salvata e i dettagli di consegna. I messaggi già inviati su WhatsApp resteranno. L'operazione non può essere annullata.",
       "CONFIRM": "Elimina",
       "API": {
         "SUCCESS_MESSAGE": "Campagna eliminata con successo",

@@ -149,10 +149,16 @@ class Contact < ApplicationRecord
       phone_number: phone_number,
       thumbnail: avatar_url,
       blocked: blocked,
+      contact_type: contact_type,
       type: 'contact'
     }
     data[:company_id] = company_id if account.feature_enabled?('companies')
     data
+  end
+
+  # The widget learns which details the contact has, not their values
+  def widget_presence_data
+    { has_email: email.present?, has_name: name.present?, has_phone_number: phone_number.present? }
   end
 
   def webhook_data
@@ -167,7 +173,8 @@ class Contact < ApplicationRecord
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
-      blocked: blocked
+      blocked: blocked,
+      contact_type: contact_type
     }
   end
 

@@ -33,11 +33,7 @@ class Email::BaseBuilder
         business_name: business_name
       ).build
     else
-      I18n.t(
-        'conversations.reply.email.header.professional_name',
-        business_name: business_name,
-        from_email: sender_email
-      )
+      format_email_with_name(business_name, sender_email)
     end
   end
 

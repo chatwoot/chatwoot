@@ -1,7 +1,7 @@
 require 'ruby_llm'
 
 module Llm::Config
-  DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
+  DEFAULT_MODEL = 'gpt-6-luna'.freeze
 
   class << self
     def initialized?
@@ -37,6 +37,14 @@ module Llm::Config
       versioned_path?(endpoint) ? endpoint : "#{endpoint}/v1"
     end
 
+    # The `chat` arguments for a model. A custom CAPTAIN_OPEN_AI_MODEL (a Groq, Ollama or Azure deployment name)
+    # is in neither Chatwoot's model list nor RubyLLM's registry, so it is sent as-is to the OpenAI-compatible
+    # endpoint instead of failing the registry lookup.
+    def chat_model_options(model)
+      custom = Llm::Models.provider_for(model).nil? && model == InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence
+      custom ? { model: model, provider: :openai, assume_model_exists: true } : { model: model }
+    end
+
     private
 
     def versioned_path?(endpoint)
@@ -50,6 +58,7 @@ module Llm::Config
         config.openai_api_key = system_api_key if system_api_key.present?
         config.openai_api_base = openai_api_base if openai_endpoint.present?
         config.model_registry_file = Rails.root.join('config/llm_models.json').to_s
+        config.openai_protocol = :chat_completions
         config.logger = Rails.logger
       end
     end

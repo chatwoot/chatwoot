@@ -47,12 +47,14 @@
       "REGENERATE": "Rigenera Codici di Backup",
       "DISABLE_MFA": "Disattiva 2FA",
       "DISABLE_MFA_DESC": "Rimuovi l'autenticazione a due fattori dal tuo account",
-      "DISABLE_BUTTON": "Disattiva Autenticazione A Due Fattori"
+      "DISABLE_BUTTON": "Disattiva Autenticazione A Due Fattori",
+      "ENFORCED_TITLE": "Richiesta dal tuo account",
+      "ENFORCED_NOTE": "Il tuo account richiede l'autenticazione a due fattori, quindi non si può disattivare qui. Contatta il tuo amministratore se ti serve aiuto."
     },
     "LOW_BACKUP_CODES": {
-      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
-      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
-      "ACTION": "Generate codes"
+      "MESSAGE": "Ti resta {n} codice di backup. Genera nuovi codici per non restare bloccato fuori se perdi l'accesso all'app di autenticazione. | Ti restano {n} codici di backup. Genera nuovi codici per non restare bloccato fuori se perdi l'accesso all'app di autenticazione.",
+      "NONE_LEFT": "Non ti restano codici di backup. Genera subito nuovi codici per non restare bloccato fuori se perdi l'accesso all'app di autenticazione.",
+      "ACTION": "Genera codici"
     },
     "DISABLE": {
       "TITLE": "Disattiva Autenticazione A Due Fattori",
@@ -90,6 +92,9 @@
   "MFA_VERIFICATION": {
     "TITLE": "Autenticazione a Due Fattori",
     "DESCRIPTION": "Inserisci il tuo codice di verifica per continuare",
+    "EMAIL_TITLE": "Controlla la tua email",
+    "EMAIL_DESCRIPTION": "Stai accedendo da un nuovo dispositivo.",
+    "ENTER_EMAIL_CODE": "Inserisci il codice di 6 cifre ricevuto via email",
     "AUTHENTICATOR_APP": "App di Autenticazione",
     "BACKUP_CODE": "Codice di Backup",
     "ENTER_OTP_CODE": "Inserisci il codice a 6 cifre dalla tua app di autenticazione",
@@ -110,6 +115,11 @@
       "CONTACT_DESC_CLOUD": "Se hai perso l'accesso sia alla tua app di autenticazione che ai codici di backup, contatta il supporto di Chatwoot per ricevere assistenza.",
       "CONTACT_DESC_SELF_HOSTED": "Se hai perso l'accesso sia alla tua app di autenticazione che ai codici di backup, contatta il tuo amministratore per ricevere assistenza."
     },
-    "VERIFICATION_FAILED": "Verifica non riuscita. Riprova."
+    "VERIFICATION_FAILED": "Verifica non riuscita. Riprova.",
+    "REMEMBER_DEVICE": "Non chiedere più su questo dispositivo per 30 giorni"
+  },
+  "MFA_ENFORCED_SETUP": {
+    "TITLE": "Configura l'autenticazione a due fattori",
+    "DESCRIPTION": "Il tuo account richiede l'autenticazione a due fattori. Scansiona il codice QR con l'app di autenticazione e inserisci il codice per continuare."
   }
 }

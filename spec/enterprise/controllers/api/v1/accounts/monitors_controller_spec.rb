@@ -13,10 +13,56 @@ RSpec.describe 'Monitors API', type: :request do
 
   before do
     account.enable_features!('reports', 'conversation_monitors')
-    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPENROUTER_API_KEY').update!(value: 'test-key')
   end
 
   after { Redis::Alfred.delete(preview_key) }
+
+  describe 'Slack alert channel' do
+    let(:channel_builder) { instance_double(Integrations::Slack::ChannelBuilder, join: true) }
+
+    before { allow(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder) }
+
+    it 'joins and saves the channel, and clears it again' do
+      create(:integrations_hook, account: account)
+
+      patch "#{base}/#{monitor.id}", headers: headers, params: { slack_channel_id: 'C0ALERTS' }, as: :json
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['slack_channel_id']).to eq('C0ALERTS')
+      expect(channel_builder).to have_received(:join).with('C0ALERTS').once
+
+      patch "#{base}/#{monitor.id}", headers: headers, params: { slack_channel_id: '' }, as: :json
+      expect(response.parsed_body['slack_channel_id']).to be_nil
+      expect(channel_builder).to have_received(:join).once
+    end
+
+    it 'rejects a channel that is not in the connected workspace' do
+      create(:integrations_hook, account: account)
+      allow(channel_builder).to receive(:join).and_return(false)
+
+      patch "#{base}/#{monitor.id}", headers: headers, params: { slack_channel_id: 'C0MISSING' }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('invalid_slack_channel')
+      expect(monitor.reload.slack_channel_id).to be_nil
+    end
+
+    it 'rejects a channel when Slack is not connected' do
+      patch "#{base}/#{monitor.id}", headers: headers, params: { slack_channel_id: 'C0ALERTS' }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(monitor.reload.slack_channel_id).to be_nil
+    end
+  end
+
+  it 'forbids monitor access after downgrading to Startups' do
+    account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+
+    get base, headers: headers
+
+    expect(response).to have_http_status(:forbidden)
+  end
 
   it 'creates a durable historical scan with immutable evaluation settings' do
     expect do
@@ -31,12 +77,45 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'rejects overlong creation fields at the monitor request boundary' do
-    [{ name: 'x' * 101, condition: 'Refunds' }, { name: 'Refunds', condition: 'x' * 2001 }].each do |attributes|
+    [{ name: 'x' * 101, condition: 'Refunds' }, { name: 'Refunds', condition: 'x' * 501 }].each do |attributes|
       post base, headers: headers, params: attributes, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body).to eq('error' => 'invalid_parameters')
     end
     expect(account.conversation_monitors).not_to exist
+  end
+
+  it 'stores the chosen icon and color and returns them' do
+    post base, headers: headers, params: { name: 'Refunds', condition: 'Mentions refunds', icon: 'fire-line', icon_color: '#EF4444' }, as: :json
+
+    expect(response).to have_http_status(:created)
+    expect(response.parsed_body).to include('icon' => 'fire-line', 'icon_color' => '#EF4444')
+    expect(account.conversation_monitors.sole).to have_attributes(icon: 'fire-line', icon_color: '#EF4444')
+  end
+
+  it 'rejects malformed icon fields at the monitor request boundary' do
+    definition = { name: 'Refunds', condition: 'Refunds' }
+    [{ icon: nil }, { icon: '' }, { icon: 'not an icon' }, { icon: '<b>x</b>' }, { icon: 'not-an-icon' },
+     { icon: '😀😀' }, { icon: 'x' * 51 }, { icon: ['fire-line'] }, { icon_color: nil },
+     { icon_color: 'red' }, { icon_color: '#FFF' }].each do |attributes|
+      post base, headers: headers, params: definition.merge(attributes), as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to eq('error' => 'invalid_parameters')
+    end
+    expect(account.conversation_monitors).not_to exist
+  end
+
+  it 'accepts picker emojis on create and update' do
+    post base, headers: headers, params: { name: 'Refunds', condition: 'Mentions refunds', icon: '👩‍❤️‍💋‍👨', icon_color: '' }, as: :json
+
+    expect(response).to have_http_status(:created)
+    created = account.conversation_monitors.sole
+    expect(created).to have_attributes(icon: '👩‍❤️‍💋‍👨', icon_color: '')
+
+    patch "#{base}/#{created.id}", headers: headers, params: { icon: '👍🏽' }, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(created.reload.icon).to eq('👍🏽')
   end
 
   it 'isolates definitions and results between accounts' do
@@ -68,13 +147,17 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'returns shared account usage on the list and every monitor without hiding historical reports' do
+    travel_to(Time.utc(2026, 10, 31, 12))
     other_monitor = create(:conversation_monitor, account: account)
     now = Time.current.utc
-    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 100_000, limit_reached_at: now)
+    (1..19).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date - days_ago, calls_count: 500_000)
+    end
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 500_000, limit_reached_at: now)
 
     get base, headers: headers
     usage = response.parsed_body.dig('meta', 'usage')
-    expect(usage).to include('limit' => 100_000, 'used' => 100_000, 'remaining' => 0, 'limit_reached' => true,
+    expect(usage).to include('limit' => 10_000_000, 'used' => 10_000_000, 'remaining' => 0, 'limit_reached' => true,
                              'limit_reached_at' => now.to_i, 'resets_at' => now.beginning_of_month.next_month.to_i)
     [monitor, other_monitor].each do |record|
       get "#{base}/#{record.id}/timeseries", headers: headers, params: query
@@ -86,8 +169,12 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'applies the same allowance to preview and does not send requests after exhaustion' do
+    travel_to(Time.utc(2026, 10, 31, 12))
     message
-    ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date, calls_count: 100_000,
+    (1..19).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date - days_ago, calls_count: 500_000)
+    end
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date, calls_count: 500_000,
                                              limit_reached_at: Time.current)
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
     ConversationMonitors::PreviewJob.perform_now(account.id, admin.id, 'sample')
@@ -152,7 +239,7 @@ RSpec.describe 'Monitors API', type: :request do
   it 'does not expose a deleted conversation from a completed preview' do
     message
     stub_request(:post, ConversationMonitors::Configuration.endpoint).to_return(
-      status: 200, body: { model: 'typesafe/jev-1.13-20260917', answers: { '0' => { type: 'noul', noul: 0.6 } }, usage: { input_tokens: 10 } }.to_json
+      status: 200, body: { model: 'typesafe/jev-1.14-20261014', answers: { '0' => { type: 'noul', noul: 0.6 } }, usage: { input_tokens: 10 } }.to_json
     )
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
     ConversationMonitors::PreviewJob.perform_now(account.id, admin.id, 'sample')
@@ -168,7 +255,7 @@ RSpec.describe 'Monitors API', type: :request do
   it 'does not retain source text in preview storage or return redacted text later' do
     message
     stub_request(:post, ConversationMonitors::Configuration.endpoint).to_return(
-      status: 200, body: { model: 'typesafe/jev-1.13-20260917', answers: { '0' => { type: 'noul', noul: 0.99 } },
+      status: 200, body: { model: 'typesafe/jev-1.14-20261014', answers: { '0' => { type: 'noul', noul: 0.99 } },
                            usage: { input_tokens: 10 } }.to_json
     )
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
@@ -203,8 +290,26 @@ RSpec.describe 'Monitors API', type: :request do
     expect(response).to have_http_status(:not_found)
   end
 
+  it 'changes the icon without rechecking conversations' do
+    patch "#{base}/#{monitor.id}", headers: headers, params: { icon: 'bug-line', icon_color: '#22C55E' }, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body).to include('icon' => 'bug-line', 'icon_color' => '#22C55E')
+    expect(monitor.reload).to have_attributes(icon: 'bug-line', icon_color: '#22C55E', collection_version: 0, recheck_requested_at: nil)
+  end
+
+  it 'rejects malformed icon updates without changing the monitor' do
+    [{ icon: nil }, { icon: '' }, { icon: 'not an icon' }, { icon: '<b>x</b>' }, { icon: 'not-an-icon' },
+     { icon: '😀😀' }, { icon_color: nil }].each do |attributes|
+      patch "#{base}/#{monitor.id}", headers: headers, params: attributes, as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to eq('error' => 'invalid_parameters')
+    end
+    expect(monitor.reload).to have_attributes(icon: 'chat-3-line', icon_color: '#3B82F6')
+  end
+
   it 'rejects invalid descriptions and stale edits without replacing the current rule' do
-    ['', 'a' * 2001, ['refund'], { text: 'refund' }].each do |condition|
+    ['', 'a' * 501, ['refund'], { text: 'refund' }].each do |condition|
       patch "#{base}/#{monitor.id}", headers: headers, params: { condition: condition, collection_version: 0 }, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['error']).to eq('invalid_parameters')

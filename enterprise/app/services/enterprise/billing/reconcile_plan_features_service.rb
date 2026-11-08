@@ -1,10 +1,11 @@
 class Enterprise::Billing::ReconcilePlanFeaturesService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
   SHOPIFY_MANAGED_FEATURES = 'shopify_managed_features'.freeze
+  PAID_PLAN_FEATURES = %w[captain_classifier].freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
   # Each higher tier includes all features from the lower tiers
-  STARTUP_PLAN_FEATURES = %w[
+  STARTUP_PLAN_FEATURES = (%w[
     inbound_emails
     help_center
     campaigns
@@ -17,20 +18,25 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     advanced_search_indexing
     advanced_search
     linear_integration
+    stripe_integration
     channel_voice
     whatsapp_embedded_signup_inbox_creation
     api_and_webhooks
-    data_import
     companies
-  ].freeze
+    auto_translate
+  ] + PAID_PLAN_FEATURES).freeze
 
   BUSINESS_PLAN_FEATURES = %w[
+    campaign_analytics
     sla
     custom_roles
     csat_review_notes
     conversation_required_attributes
     advanced_assignment
     custom_tools
+    conversation_monitors
+    company_enrichment
+    delayed_automations
   ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
@@ -52,7 +58,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
   def current_plan_features
     return [] if default_plan?
-    return Enterprise::Billing::PlanConfiguration.current_plan!(account).fetch('features') if shopify_billing?
+    return Enterprise::Billing::PlanConfiguration.current_plan!(account).fetch('features') + PAID_PLAN_FEATURES if shopify_billing?
 
     case account.custom_attributes['plan_name']
     when 'Startups' then STARTUP_PLAN_FEATURES

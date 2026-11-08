@@ -2,7 +2,7 @@ module Llm::FeatureRouter
   class UnknownFeatureError < StandardError; end
 
   CAPTAIN_V2_ASSISTANT_MODEL = 'gpt-5.2'.freeze
-  CUSTOM_ENDPOINT_FEATURES = %w[editor label_suggestion].freeze
+  CUSTOM_ENDPOINT_FEATURES = %w[editor].freeze
 
   class << self
     def resolve(feature:, account: nil)
@@ -17,6 +17,18 @@ module Llm::FeatureRouter
         model: model,
         source: source
       }
+    end
+
+    def reasoning_effort(feature:, model:)
+      return unless Llm::Models.provider_for(model) == 'openai' && standard_openai_endpoint?
+
+      effort = Llm::Models.features.dig(feature.to_s, 'reasoning_effort') || Llm::Models.model_config(model)&.dig('reasoning_effort')
+      effort.to_sym if RubyLLM.models.find(model).reasoning_option_values(:effort).include?(effort)
+    end
+
+    def standard_openai_endpoint?
+      endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
+      endpoint.blank? || endpoint.chomp('/') == LlmConstants::OPENAI_API_ENDPOINT
     end
 
     private
@@ -43,15 +55,15 @@ module Llm::FeatureRouter
       InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence
     end
 
-    # The reply editor's AI actions run on `editor` and `label_suggestion`. A self-hosted installation that
-    # points CAPTAIN_OPEN_AI_ENDPOINT at another OpenAI-compatible provider cannot serve the OpenAI default
-    # model names there, so those features follow CAPTAIN_OPEN_AI_MODEL, as Captain itself does.
+    # The reply editor's AI actions run on `editor`. A self-hosted installation that points
+    # CAPTAIN_OPEN_AI_ENDPOINT at another OpenAI-compatible provider cannot serve the OpenAI default model names
+    # there, so that feature follows CAPTAIN_OPEN_AI_MODEL, as Captain itself does.
     def installation_model_applies?(feature_key)
       return ChatwootApp.self_hosted_paid? if feature_key == 'conversation_completion'
       return false unless CUSTOM_ENDPOINT_FEATURES.include?(feature_key)
       return false if ChatwootApp.chatwoot_cloud?
 
-      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.present?
+      !standard_openai_endpoint?
     end
 
     def provider_for(model, source)

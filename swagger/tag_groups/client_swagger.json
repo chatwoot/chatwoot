@@ -4627,7 +4627,8 @@
                 "required": [
                   "api_key",
                   "phone_number_id",
-                  "business_account_id"
+                  "business_account_id",
+                  "app_secret"
                 ],
                 "properties": {
                   "api_key": {
@@ -4644,12 +4645,18 @@
                     "type": "string",
                     "description": "Business account ID for WhatsApp Cloud",
                     "example": "your-business-account-id"
+                  },
+                  "app_secret": {
+                    "type": "string",
+                    "description": "App secret of your Meta app, from App settings > Basic. Used to verify incoming webhook signatures.",
+                    "example": "your-app-secret"
                   }
                 },
                 "example": {
                   "api_key": "your-api-key",
                   "phone_number_id": "your-phone-number-id",
-                  "business_account_id": "your-business-account-id"
+                  "business_account_id": "your-business-account-id",
+                  "app_secret": "your-app-secret"
                 }
               }
             }
@@ -4711,7 +4718,8 @@
         "title": "SMS channel",
         "required": [
           "type",
-          "phone_number"
+          "phone_number",
+          "provider_config"
         ],
         "properties": {
           "type": {
@@ -4728,10 +4736,38 @@
           },
           "provider_config": {
             "type": "object",
-            "description": "Provider-specific SMS configuration",
+            "description": "Bandwidth OAuth configuration. New SMS inboxes require client credentials.",
+            "required": [
+              "account_id",
+              "application_id",
+              "client_id",
+              "client_secret"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "account_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "application_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "client_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "client_secret": {
+                "type": "string",
+                "minLength": 1,
+                "writeOnly": true
+              }
+            },
             "example": {
               "account_id": "your-account-id",
-              "application_id": "your-application-id"
+              "application_id": "your-application-id",
+              "client_id": "your-client-id",
+              "client_secret": "your-client-secret"
             }
           }
         }
@@ -5009,7 +5045,7 @@
           },
           "provider_config": {
             "type": "object",
-            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, and `business_account_id`; legacy 360dialog channels use `api_key`.",
+            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, `business_account_id`, and `app_secret`; legacy 360dialog channels use `api_key`.",
             "properties": {
               "api_key": {
                 "type": "string",
@@ -5025,12 +5061,18 @@
                 "type": "string",
                 "description": "Business account ID for WhatsApp Cloud",
                 "example": "your-business-account-id"
+              },
+              "app_secret": {
+                "type": "string",
+                "description": "App secret of your Meta app, used to verify incoming webhook signatures. Required for manually configured Cloud channels that already have one, when moving an embedded signup channel to manual setup, and when switching a channel to `whatsapp_cloud`. It cannot be removed once set.",
+                "example": "your-app-secret"
               }
             },
             "example": {
               "api_key": "your-api-key",
               "phone_number_id": "your-phone-number-id",
-              "business_account_id": "your-business-account-id"
+              "business_account_id": "your-business-account-id",
+              "app_secret": "your-app-secret"
             }
           }
         }
@@ -7837,14 +7879,15 @@
         "required": true,
         "description": "The source id of contact obtained on contact create"
       },
-      "portal_id": {
+      "portal_slug": {
         "in": "path",
-        "name": "id",
+        "name": "portal_slug",
         "schema": {
           "type": "string"
         },
         "required": true,
-        "description": "The slug identifier of the portal"
+        "description": "The slug of the portal. The numeric portal ID is not accepted.",
+        "example": "handbook"
       }
     },
     "securitySchemes": {

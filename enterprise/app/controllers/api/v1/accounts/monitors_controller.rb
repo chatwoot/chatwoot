@@ -1,5 +1,6 @@
 class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccountsController
   PREVIEW_COOLDOWN = 30.seconds.to_i
+  DEFAULT_ICON_ATTRIBUTES = { 'icon' => 'chat-3-line', 'icon_color' => '#3B82F6' }.freeze
 
   before_action :ensure_enabled
   before_action -> { authorize :report, :view? }
@@ -14,7 +15,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
     page = params[:page] ? ConversationMonitors::Buckets.integer!(params[:page]) : 1
     raise CustomExceptions::MonitorParametersError, 'invalid_page' unless page.between?(1, 100_000)
 
-    scope = Current.account.conversation_monitors.visible.order(created_at: :desc, id: :desc)
+    scope = indexed_monitors.order(created_at: :desc, id: :desc)
     render json: { payload: scope.offset((page - 1) * 20).limit(20).map { |monitor| serialize(monitor) },
                    meta: { total_count: scope.count, page: page, configured: ConversationMonitors::Configuration.configured?, usage: usage } }
   end
@@ -45,6 +46,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   def update
     attributes = update_params
     version = ConversationMonitors::Buckets.integer!(params[:collection_version]) if attributes.key?('condition')
+    join_slack_channel!(attributes['slack_channel_id']) if attributes['slack_channel_id'].present?
     ConversationMonitors::Update.new(@monitor, attributes, collection_version: version).perform
     render json: serialize(@monitor)
   end
@@ -74,7 +76,10 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def destroy
-    @monitor.with_lock { @monitor.update!(deleted_at: Time.current, data_revision: @monitor.data_revision + 1) }
+    @monitor.with_lock do
+      @monitor.update!(deleted_at: Time.current, data_revision: @monitor.data_revision + 1)
+      @monitor.disable_automations!
+    end
     tombstone = { account_id: @monitor.account_id, monitor_id: @monitor.id, data_revision: @monitor.data_revision, deleted: true }
     ConversationMonitors::BroadcastJob.perform_later(@monitor.id, tombstone)
     head :no_content
@@ -113,6 +118,12 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
 
   private
 
+  def indexed_monitors
+    raise CustomExceptions::MonitorParametersError, 'invalid_parameters' if params.key?(:active) && params[:active] != 'true'
+
+    params.key?(:active) ? Current.account.conversation_monitors.active : Current.account.conversation_monitors.visible
+  end
+
   def usage
     @usage ||= ConversationMonitors::Usage.new(Current.account.id).snapshot
   end
@@ -128,7 +139,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
 
   def preview_condition
     condition = params[:condition]
-    unless condition.is_a?(String) && condition.strip.present? && condition.length <= 2000
+    unless condition.is_a?(String) && condition.strip.present? && condition.length <= ConversationMonitors::Monitor::MAX_CONDITION_LENGTH
       raise CustomExceptions::MonitorParametersError, 'invalid_parameters'
     end
 
@@ -136,8 +147,9 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def update_params
-    attributes = params.permit(:name, :condition, :paused).to_h
-    valid_text = { 'name' => 100, 'condition' => 2000 }.slice(*params.keys).all? do |key, limit|
+    validate_icon_parameters!
+    attributes = params.permit(:name, :condition, :paused, :icon, :icon_color, :slack_channel_id).to_h
+    valid_text = { 'name' => 100, 'condition' => ConversationMonitors::Monitor::MAX_CONDITION_LENGTH }.slice(*params.keys).all? do |key, limit|
       valid_text_parameter?(key, limit)
     end
     valid_state = params.slice(:paused).values.all?(true)
@@ -146,9 +158,35 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
     attributes.transform_values { |value| value.is_a?(String) ? value.strip : value }
   end
 
+  def join_slack_channel!(channel_id)
+    hook = Current.account.hooks.find_by(app_id: 'slack')
+    return unless hook
+    return if Integrations::Slack::ChannelBuilder.new(hook: hook).join(channel_id)
+
+    raise CustomExceptions::MonitorParametersError, 'invalid_slack_channel'
+  end
+
   def valid_text_parameter?(key, limit)
     value = params[key]
     value.is_a?(String) && value.strip.present? && value.length <= limit
+  end
+
+  # Same shape as team icons: an icon name or emoji, tinted with an optional hex color.
+  def validate_icon_parameters!
+    icon, color = params.values_at(:icon, :icon_color)
+    valid = (!params.key?(:icon) || valid_icon_parameter?(icon)) &&
+            (!params.key?(:icon_color) || (color.is_a?(String) && color.match?(/\A(#\h{6})?\z/)))
+    raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless valid
+  end
+
+  def valid_icon_parameter?(icon)
+    return false unless icon.is_a?(String) && icon.length <= 50
+    return true if icon.match?(/\A[a-z][a-z0-9]*(?:-[a-z0-9]+)*-(?:line|fill)\z/)
+
+    # gemoji defines this method; Emoji is not an ActiveRecord model.
+    # rubocop:disable Rails/DynamicFindBy
+    Emoji.find_by_unicode(icon).present?
+    # rubocop:enable Rails/DynamicFindBy
   end
 
   def ensure_enabled
@@ -168,10 +206,13 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def create_params
-    attributes = params.permit(:name, :condition).to_h
-    valid = { 'name' => 100, 'condition' => 2000 }.all? { |key, limit| valid_text_parameter?(key, limit) }
+    validate_icon_parameters!
+    attributes = params.permit(:name, :condition, :icon, :icon_color).to_h
+    valid = { 'name' => 100, 'condition' => ConversationMonitors::Monitor::MAX_CONDITION_LENGTH }.all? do |key, limit|
+      valid_text_parameter?(key, limit)
+    end
     raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless valid
 
-    attributes.transform_values(&:strip)
+    DEFAULT_ICON_ATTRIBUTES.merge(attributes).transform_values(&:strip)
   end
 end

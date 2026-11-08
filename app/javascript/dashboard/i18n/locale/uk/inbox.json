@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Нове повідомлення в розмові, в якій ви берете участь",
       "SLA_MISSED_FIRST_RESPONSE": "Перша відповідь на SLA пропущена для розмови",
       "SLA_MISSED_NEXT_RESPONSE": "Запропонована відповідь SLA відсутня для розмови",
-      "SLA_MISSED_RESOLUTION": "Цільова роздільна здатність SLA відсутня для розмови"
+      "SLA_MISSED_RESOLUTION": "Цільова роздільна здатність SLA відсутня для розмови",
+      "VOICE_CALL_MISSED": "Missed call"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "Mentioned",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "SLA breach",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Нове повідомлення",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Нове повідомлення",
+      "VOICE_CALL_MISSED": "Missed call",
       "SNOOZED_UNTIL": "Snoozed for {time}",
       "SNOOZED_ENDS": "Snooze ended"
     },

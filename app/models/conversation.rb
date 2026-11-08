@@ -65,7 +65,7 @@ class Conversation < ApplicationRecord
   include PushDataHelper
   include ConversationMuteHelpers
 
-  CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
+  CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language auto_translate_disabled].freeze
   FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
   FILTERED_UNREAD_COUNT_UPDATE_KEYS = %w[
     cached_label_list campaign_id custom_attributes first_reply_created_at label_list last_activity_at priority snoozed_until waiting_since
@@ -77,7 +77,7 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   before_validation :validate_additional_attributes
-  before_validation :reset_agent_bot_when_assignee_present
+  before_validation :clear_invalid_ai_assignee
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
@@ -137,6 +137,7 @@ class Conversation < ApplicationRecord
   before_save :set_status_changed_at
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
+  after_create :mark_contact_as_lead
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
@@ -298,14 +299,16 @@ class Conversation < ApplicationRecord
     self.waiting_since = created_at
   end
 
+  def mark_contact_as_lead
+    contact.update(contact_type: :lead) if contact.visitor?
+  end
+
   def validate_additional_attributes
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
-  def reset_agent_bot_when_assignee_present
-    return if assignee_id.blank?
-
-    self.ai_assignee = nil
+  def clear_invalid_ai_assignee
+    self.ai_assignee = nil if assignee_id.present?
   end
 
   def determine_conversation_status

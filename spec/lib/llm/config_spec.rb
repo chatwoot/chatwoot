@@ -25,27 +25,43 @@ RSpec.describe Llm::Config do
     end
   end
 
-  describe 'global RubyLLM configuration' do
+  describe '.chat_model_options' do
+    before { InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'llama-3.3-70b-versatile') }
+
+    it 'sends the installation model as-is when Chatwoot does not list it' do
+      expect(described_class.chat_model_options('llama-3.3-70b-versatile'))
+        .to eq(model: 'llama-3.3-70b-versatile', provider: :openai, assume_model_exists: true)
+    end
+
+    it 'keeps a listed model on the registry lookup' do
+      expect(described_class.chat_model_options('gpt-6-luna')).to eq(model: 'gpt-6-luna')
+    end
+
+    it 'does not skip the lookup for an unlisted model that is not the installation model' do
+      expect(described_class.chat_model_options('unknown-model')).to eq(model: 'unknown-model')
+    end
+  end
+
+  describe '.configure_ruby_llm' do
     around do |example|
       original_base = RubyLLM.config.openai_api_base
       example.run
     ensure
-      described_class.reset!
       RubyLLM.configure { |config| config.openai_api_base = original_base }
     end
 
-    it 'adds the version segment a bare endpoint is missing' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://proxy.example.com')
-      described_class.reset!
-      described_class.initialize!
+    it 'adds the API version to the configured OpenAI endpoint' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://example.test/')
 
-      expect(RubyLLM.config.openai_api_base).to eq('https://proxy.example.com/v1')
+      described_class.send(:configure_ruby_llm)
+
+      expect(RubyLLM.config.openai_api_base).to eq('https://example.test/v1')
     end
 
-    it 'keeps an endpoint that already carries the version segment' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://openrouter.ai/api/v1/')
-      described_class.reset!
-      described_class.initialize!
+    it 'keeps an endpoint that already carries the API version' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://openrouter.ai/api/v1/')
+
+      described_class.send(:configure_ruby_llm)
 
       expect(RubyLLM.config.openai_api_base).to eq('https://openrouter.ai/api/v1')
     end

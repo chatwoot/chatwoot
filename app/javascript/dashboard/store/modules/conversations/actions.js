@@ -22,6 +22,11 @@ import {
   handleVoiceCallUpdated,
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
+import { applyRoleFilter } from './helpers';
+import {
+  getUserPermissions,
+  getUserRole,
+} from 'dashboard/helper/permissionsHelper';
 
 // Page size MessageFinder uses when walking backwards through a conversation.
 const MESSAGES_PER_PAGE = 20;
@@ -169,7 +174,7 @@ const actions = {
     commit(types.CLEAR_CURRENT_CHAT_WINDOW);
   },
 
-  fetchPreviousMessages: ({ commit }, data) => {
+  fetchPreviousMessages: ({ commit, dispatch }, data) => {
     const requestKey = JSON.stringify([
       MessageApi.url,
       data.conversationId,
@@ -190,6 +195,7 @@ const actions = {
           id: data.conversationId,
           data: payload,
         });
+        dispatch('autoTranslateMessages', data.conversationId);
         // A short backward page means the start is reached; `after` requests only prove it when empty.
         const hasReachedFirstMessage = data.after
           ? !payload.length
@@ -266,6 +272,7 @@ const actions = {
         conversationId,
         messageId: null,
       });
+      dispatch('autoTranslateMessages', conversationId);
       dispatch('markMessagesRead', { id: conversationId }, { root: true });
     } catch (error) {
       // Handle error
@@ -429,13 +436,23 @@ const actions = {
     }
   },
 
+  getContactInfoRequestAvailability: async (_, { conversationId, signal }) => {
+    const { data } = await ConversationApi.getContactInfoRequestAvailability(
+      conversationId,
+      {
+        signal,
+      }
+    );
+    return data;
+  },
+
   requestContactInfo: async ({ commit }, conversationId) => {
     const { data } = await ConversationApi.requestContactInfo(conversationId);
     commit(types.ADD_MESSAGE, data);
     return data;
   },
 
-  addMessage({ commit, rootGetters }, message) {
+  addMessage({ commit, dispatch, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
       commit(types.SET_CONVERSATION_CAN_REPLY, {
@@ -443,11 +460,12 @@ const actions = {
         canReply: true,
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
+      dispatch('autoTranslateMessages', message.conversation_id);
     }
     handleVoiceCallCreated(
       message,
       rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
+      rootGetters?.getCurrentUserReceivesCalls
     );
   },
 
@@ -474,7 +492,7 @@ const actions = {
       commit,
       message,
       rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
+      rootGetters?.getCurrentUserReceivesCalls
     );
   },
 
@@ -539,7 +557,28 @@ const actions = {
     const sender = conversation.meta?.sender;
 
     commit(types.UPDATE_CONVERSATION, conversation);
-    syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
+    syncConversationCallVisibility(
+      conversation,
+      rootGetters?.getCurrentUserID,
+      () => {
+        const currentUser = rootGetters.getCurrentUser;
+        const accountId = rootGetters.getCurrentAccountId;
+        const permissions = getUserPermissions(currentUser, accountId);
+        // Participants keep access once assigned away, and the client does not know who they
+        // are, so the card stays; joining or dismissing it drops it if the server refuses
+        return (
+          permissions.includes('conversation_participating_manage') ||
+          applyRoleFilter(
+            conversation,
+            getUserRole(currentUser, accountId),
+            permissions,
+            rootGetters.getCurrentUserID
+          )
+        );
+      }
+    );
+    // The contact language can change after a message arrived; the action skips anything already handled.
+    dispatch('autoTranslateMessages', conversation.id);
 
     dispatch('conversationLabels/setConversationLabel', {
       id: conversation.id,

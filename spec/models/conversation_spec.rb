@@ -72,6 +72,17 @@ RSpec.describe Conversation do
         .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
                                                                     changed_attributes: nil, performed_by: nil)
     end
+
+    it 'marks a visitor contact as a lead' do
+      expect(conversation.contact.reload).to be_lead
+    end
+
+    it 'does not change the contact type of a customer' do
+      customer = create(:contact, account: account, contact_type: :customer)
+      create(:conversation, account: account, contact: customer, inbox: inbox)
+
+      expect(customer.reload).to be_customer
+    end
   end
 
   describe '.validate jsonb attributes' do
@@ -220,6 +231,15 @@ RSpec.describe Conversation do
 
     it 'will run conversation_updated event for conversation language changes' do
       conversation.update!(additional_attributes: { 'conversation_language' => 'es' })
+      changed_attributes = conversation.previous_changes
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                    changed_attributes: changed_attributes, performed_by: nil)
+    end
+
+    it 'will run conversation_updated event when auto translate is switched off for the conversation' do
+      conversation.update!(additional_attributes: { 'auto_translate_disabled' => true })
       changed_attributes = conversation.previous_changes
 
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
@@ -708,6 +728,7 @@ RSpec.describe Conversation do
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,
         timestamp: conversation.last_activity_at.to_i,
+        anonymous_caller: false,
         can_reply: true,
         channel: 'Channel::WebWidget',
         snoozed_until: conversation.snoozed_until,

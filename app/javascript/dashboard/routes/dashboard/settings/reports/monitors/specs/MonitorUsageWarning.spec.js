@@ -24,7 +24,7 @@ describe('MonitorUsageWarning', () => {
     });
 
     expect(wrapper.get('[role="status"]').text()).toContain(
-      '100,000 monitor calls'
+      '100,000 AI classification calls'
     );
     expect(wrapper.text()).toContain('Existing results remain available.');
     expect(wrapper.text()).toContain('Limit reached on');

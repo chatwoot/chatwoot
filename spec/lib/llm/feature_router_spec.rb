@@ -16,20 +16,20 @@ RSpec.describe Llm::FeatureRouter do
       expect(resolved).to eq(
         feature: 'editor',
         provider: 'openai',
-        model: 'gpt-4.1-mini',
+        model: 'gpt-6-luna',
         source: :default
       )
     end
 
     it 'uses a valid account model override' do
-      account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+      account.update!(captain_models: { 'editor' => 'gpt-5.1' })
 
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
         feature: 'editor',
         provider: 'openai',
-        model: 'gpt-4.1',
+        model: 'gpt-5.1',
         source: :account_override
       )
     end
@@ -93,25 +93,23 @@ RSpec.describe Llm::FeatureRouter do
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'llama-3.3-70b-versatile')
       end
 
-      %w[editor label_suggestion].each do |feature|
-        it "uses the installation model for #{feature}" do
-          resolved = described_class.resolve(feature: feature, account: account)
+      it 'uses the installation model for editor' do
+        resolved = described_class.resolve(feature: 'editor', account: account)
 
-          expect(resolved).to eq(
-            feature: feature,
-            provider: 'openai',
-            model: 'llama-3.3-70b-versatile',
-            source: :installation_override
-          )
-        end
+        expect(resolved).to eq(
+          feature: 'editor',
+          provider: 'openai',
+          model: 'llama-3.3-70b-versatile',
+          source: :installation_override
+        )
       end
 
       it 'keeps account overrides ahead of the installation model' do
-        account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+        account.update!(captain_models: { 'editor' => 'gpt-5.1' })
 
         resolved = described_class.resolve(feature: 'editor', account: account)
 
-        expect(resolved).to include(model: 'gpt-4.1', source: :account_override)
+        expect(resolved).to include(model: 'gpt-5.1', source: :account_override)
       end
 
       it 'keeps the feature default on Chatwoot Cloud' do
@@ -119,7 +117,7 @@ RSpec.describe Llm::FeatureRouter do
 
         resolved = described_class.resolve(feature: 'editor', account: account)
 
-        expect(resolved).to include(model: 'gpt-4.1-mini', source: :default)
+        expect(resolved).to include(model: 'gpt-6-luna', source: :default)
       end
 
       it 'does not extend the installation model to other features' do
@@ -135,7 +133,16 @@ RSpec.describe Llm::FeatureRouter do
 
       resolved = described_class.resolve(feature: 'editor', account: account)
 
-      expect(resolved).to include(model: 'gpt-4.1-mini', source: :default)
+      expect(resolved).to include(model: 'gpt-6-luna', source: :default)
+    end
+
+    it 'keeps the editor default when the endpoint is the standard OpenAI one' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://api.openai.com/')
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+
+      resolved = described_class.resolve(feature: 'editor', account: account)
+
+      expect(resolved).to include(model: 'gpt-6-luna', source: :default)
     end
 
     it 'resolves GPT-5.2 as the assistant default when Captain V2 is enabled without storing an account override' do
@@ -170,7 +177,7 @@ RSpec.describe Llm::FeatureRouter do
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
-        model: 'gpt-4.1-mini',
+        model: 'gpt-6-luna',
         source: :default
       )
     end
@@ -181,9 +188,21 @@ RSpec.describe Llm::FeatureRouter do
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
-        model: 'gpt-4.1-mini',
+        model: 'gpt-6-luna',
         source: :default
       )
+    end
+
+    it 'uses the feature reasoning effort when the model supports it' do
+      allow(Llm::Models).to receive(:features).and_return('copilot' => { 'reasoning_effort' => 'high' })
+
+      expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-5.2')).to eq(:high)
+    end
+
+    it 'does not force reasoning parameters onto custom endpoints' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
+
+      expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-5.2')).to be_nil
     end
 
     it 'raises for unknown features' do
