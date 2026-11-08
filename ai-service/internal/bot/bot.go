@@ -342,6 +342,7 @@ func (b *Bot) answer(ctx context.Context, log *slog.Logger, acct, inbox int64, h
 	if err != nil {
 		gen.Err = "chat model failed"
 	}
+	res.Content = plainChat(res.Content)
 	tr.Generation = gen
 	return res, hits, err
 }

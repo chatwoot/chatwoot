@@ -23,3 +23,21 @@ func TestPolicy_ForbidsCollectingSecretsInChat(t *testing.T) {
 		t.Error("policy does not say the profile cannot lift the rule")
 	}
 }
+
+func TestPolicy_ChatsLikeAPerson(t *testing.T) {
+	// Arrange
+	now := time.Date(2026, 11, 8, 3, 0, 0, 0, time.UTC)
+
+	// Act
+	p := policyPrompt(now)
+
+	// Assert
+	for _, want := range []string{
+		"plain text", "at most one question", "same thing again", "Thai script", "offer to connect them with a staff member",
+		"hand off in the same message", "flirting",
+	} {
+		if !strings.Contains(p, want) {
+			t.Errorf("policy is missing %q", want)
+		}
+	}
+}
