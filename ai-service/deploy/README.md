@@ -193,6 +193,34 @@ Supabase dump needs its `extensions` schema, which the script recreates.
 so it cannot migrate production by mistake. Evidence and open gaps:
 `restore-drill.contract.md`.
 
+## Scheduled backups
+
+`backup.sh` runs daily at 03:00 (VPS time, Asia/Bangkok) from a systemd
+timer: a read-only `pg_dump -Fc -n public` of the production ai-service
+database (URL read from the running container, pgx `pool_*` options
+stripped, never printed), a `.sha256` next to it, then the restore drill on
+that dump. Only after the drill passes does it delete dumps older than the
+newest `BACKUP_KEEP_DAYS` dates (default 7); a dump that fails the drill is
+kept as `aisvc-failed-*.dump` and older backups stay untouched.
+
+Install or update on the VPS (as root), from the reviewed commit:
+
+```bash
+install -d -m 700 /opt/aisvc-backup
+install -m 700 deploy/backup.sh deploy/restore-drill.sh restore-check /opt/aisvc-backup/
+install -m 600 deploy/backup/aisvc-backup.env.example /etc/aisvc-backup.env   # first time; set BACKUP_SOURCE_CONTAINER
+install -m 644 deploy/backup/aisvc-backup.service deploy/backup/aisvc-backup.timer /etc/systemd/system/
+systemctl daemon-reload && systemctl enable --now aisvc-backup.timer
+systemctl start aisvc-backup.service          # one run now
+journalctl -u aisvc-backup.service -n 50      # result: "OK ... verified"
+systemctl list-timers aisvc-backup.timer      # next run
+```
+
+`restore-check` is the Linux build from "Restore drill" above. Tests for the
+URL cleaning and retention: `bash deploy/backup_test.sh` (CI runs them).
+Not covered yet: an offsite copy and an alert when a run fails (the journal
+records it).
+
 ## Access
 
 - SSH: `ssh llmopshostinger` (key-based alias on the owner's machine; plain

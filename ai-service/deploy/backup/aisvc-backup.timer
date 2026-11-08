@@ -1,0 +1,13 @@
+# Runs aisvc-backup.service daily at 03:00 host time (the VPS is on
+# Asia/Bangkok). Persistent: a run missed while the host was down happens at
+# the next boot. Issue: DEV-Johnstocker/chatwoot#1
+[Unit]
+Description=Daily ai-service database backup
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+RandomizedDelaySec=15min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
