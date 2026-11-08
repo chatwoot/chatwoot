@@ -17,6 +17,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
@@ -49,6 +50,30 @@ type Case struct {
 	// cases file; the last turn's text may be "".
 	Files   []string     `json:"files"`
 	Uploads []bot.Upload `json:"-"` // Files' contents, filled by LoadFiles
+
+	// History comes before Turns and is given, not generated: the bot's
+	// earlier replies are fixed text, as a real chat log would have them.
+	History []Message `json:"history"`
+	// Criteria and Avoid are checked by the judge by meaning, not as
+	// literal text: what a correct reply does, and what it must not do.
+	Criteria []string `json:"criteria"`
+	Avoid    []string `json:"avoid"`
+	// Reference is an example of a great reply: a guide to tone, length and
+	// approach for the judge, not a list of facts the reply must repeat.
+	Reference string `json:"reference"`
+	// Style rules checked without the judge: at most MaxLines non-empty
+	// lines (0 = no limit), and no markdown (bold, headings, lists).
+	MaxLines   int  `json:"max_lines"`
+	NoMarkdown bool `json:"no_markdown"`
+	// Human fails a reply the judge finds robotic rather than a person
+	// chatting.
+	Human bool `json:"human"`
+}
+
+// Message is one turn of a given history.
+type Message struct {
+	Role    string `json:"role"` // "user" or "assistant"
+	Content string `json:"content"`
 }
 
 // maxCaseFiles matches what one customer message can carry in the test chat.
@@ -88,6 +113,7 @@ type Verdict struct {
 	Reason        string `json:"reason"`
 	Faithful      *bool  `json:"faithful,omitempty"`
 	ContextRecall *bool  `json:"context_recall,omitempty"`
+	Human         *bool  `json:"human,omitempty"`
 }
 
 // Judge grades one reply.
@@ -118,6 +144,7 @@ type Result struct {
 	// RAG metrics from the judge; nil when not scored.
 	Faithful      *bool
 	ContextRecall *bool
+	Human         *bool
 }
 
 // Report summarises a run.
@@ -140,6 +167,13 @@ func Validate(cases []Case) error {
 		}
 		if len(c.Turns) == 0 {
 			errs = append(errs, fmt.Errorf("%s: no turns", name))
+		}
+		for _, m := range c.History {
+			if m.Role != "user" && m.Role != "assistant" {
+				errs = append(errs, fmt.Errorf("%s: history role must be user or assistant, not %q", name, m.Role))
+			} else if strings.TrimSpace(m.Content) == "" {
+				errs = append(errs, fmt.Errorf("%s: empty %s message in history", name, m.Role))
+			}
 		}
 		if len(c.Files) > maxCaseFiles {
 			errs = append(errs, fmt.Errorf("%s: at most %d files", name, maxCaseFiles))
@@ -190,7 +224,10 @@ func Run(ctx context.Context, r Runner, cases []Case) Report {
 
 func (r Runner) runCase(ctx context.Context, c Case) Result {
 	res := Result{Case: c}
-	var history []memory.Turn
+	history := make([]memory.Turn, 0, len(c.History)+len(c.Turns))
+	for _, m := range c.History {
+		history = append(history, memory.Turn{Role: m.Role, Content: m.Content})
+	}
 	var hits []knowledge.Hit
 	var lastInput string
 	for i, turn := range c.Turns {
@@ -234,9 +271,14 @@ func (r Runner) runCase(ctx context.Context, c Case) Result {
 		if !res.Pass {
 			res.Reason = map[bool]string{true: "handed off unexpectedly", false: "did not hand off"}[res.Handoff]
 		}
-		return res
+		// A handoff with criteria is also graded on what it told the
+		// customer; a keyword handoff sends the fixed message instead.
+		if !res.Pass || len(c.Criteria) == 0 || res.Reply == "" {
+			return res
+		}
 	}
-	if fails := checkRules(c, res.Reply); len(fails) > 0 {
+	fails := append(checkRules(c, res.Reply), checkStyle(c, res.Reply)...)
+	if len(fails) > 0 {
 		res.Reason = strings.Join(fails, "; ")
 		return res
 	}
@@ -254,13 +296,41 @@ func (r Runner) runCase(ctx context.Context, c Case) Result {
 		return res
 	}
 	res.Pass, res.Reason = v.Pass, v.Reason
-	res.Faithful, res.ContextRecall = v.Faithful, v.ContextRecall
+	res.Faithful, res.ContextRecall, res.Human = v.Faithful, v.ContextRecall, v.Human
 	// An unsupported claim always fails, whatever the judge's pass says.
 	if v.Faithful != nil && !*v.Faithful && res.Pass {
 		res.Pass = false
 		res.Reason = "reply makes a claim not supported by the profile or excerpts: " + v.Reason
 	}
+	if c.Human && v.Human != nil && !*v.Human && res.Pass {
+		res.Pass = false
+		res.Reason = "does not read like a person chatting: " + v.Reason
+	}
 	return res
+}
+
+// markdown matches what a chat app shows as raw symbols: bold, headings and
+// list lines. A dash between words ("3,900 - one payment") is not a list.
+var markdown = regexp.MustCompile(`\*\*[^*\n]+\*\*|__[^_\n]+__|(?m)^\s{0,3}(?:#{1,6}\s|[-*•]\s|\d{1,2}[.)]\s)`)
+
+// checkStyle returns one message per broken style rule.
+func checkStyle(c Case, reply string) []string {
+	var fails []string
+	if c.MaxLines > 0 {
+		n := 0
+		for _, line := range strings.Split(reply, "\n") {
+			if strings.TrimSpace(line) != "" {
+				n++
+			}
+		}
+		if n > c.MaxLines {
+			fails = append(fails, fmt.Sprintf("%d lines, more than %d", n, c.MaxLines))
+		}
+	}
+	if c.NoMarkdown && markdown.MatchString(reply) {
+		fails = append(fails, "uses markdown (bold, heading or list), which chat apps show as raw symbols")
+	}
+	return fails
 }
 
 // checkRules returns one message per broken rule.
@@ -341,10 +411,11 @@ func (r Report) Write(w io.Writer) {
 
 // writeMetrics prints the RAG metric totals over the cases the judge scored.
 func writeMetrics(w io.Writer, results []Result) {
-	var faithful, recall [2]int // [true, scored]
+	var faithful, recall, human [2]int // [true, scored]
 	for _, res := range results {
 		count(&faithful, res.Faithful)
 		count(&recall, res.ContextRecall)
+		count(&human, res.Human)
 	}
 	var parts []string
 	if faithful[1] > 0 {
@@ -355,6 +426,9 @@ func writeMetrics(w io.Writer, results []Result) {
 	}
 	if len(parts) > 0 {
 		fmt.Fprintln(w, "RAG: "+strings.Join(parts, " · "))
+	}
+	if human[1] > 0 {
+		fmt.Fprintf(w, "Style: human-like %d/%d\n", human[0], human[1])
 	}
 }
 
