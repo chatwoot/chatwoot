@@ -33,13 +33,20 @@
       <h2 id="change-{{.ID}}">{{.Heading}}{{if .New}} <span class="badge scheduled">New document</span>{{end}}</h2>
       <p class="hint">From <strong>{{.From}}</strong> (AI app) · {{.When}}</p>
     </div>
+    {{$new := .New}}
     {{range .Fields}}
     <div class="diff">
-      <h3 class="sub">{{.Label}}</h3>
+      <h3 class="sub">{{.Label}}{{if .Same}} <span class="badge">Unchanged</span>{{end}}</h3>
+      {{if .Same}}
+      <pre class="code diff-now">{{.Current}}</pre>
+      {{else if $new}}
+      <pre class="code diff-new">{{.Proposed}}</pre>
+      {{else}}
       <div class="diff-cols">
         <div><p class="diff-label">Now</p><pre class="code diff-now">{{if .Current}}{{.Current}}{{else}}(empty){{end}}</pre></div>
         <div><p class="diff-label">Proposed</p><pre class="code diff-new">{{.Proposed}}</pre></div>
       </div>
+      {{end}}
     </div>
     {{end}}
     <form method="post" action="/admin/approvals" class="row change-actions">

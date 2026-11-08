@@ -40,6 +40,7 @@ type approvalItem struct {
 
 type fieldDiff struct {
 	Label, Current, Proposed string
+	Same                     bool // the change leaves this field as it is
 }
 
 var profileLabels = []struct{ key, label string }{
@@ -128,6 +129,9 @@ func (h *Handler) approvalItems(ctx context.Context, acct int64) ([]approvalItem
 		}
 		if err != nil {
 			return nil, err
+		}
+		for i := range it.Fields {
+			it.Fields[i].Same = !it.New && it.Fields[i].Current == it.Fields[i].Proposed
 		}
 		items = append(items, it)
 	}

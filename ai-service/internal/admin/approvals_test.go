@@ -247,3 +247,21 @@ func TestApprovals_HomeShowsWaitingCount(t *testing.T) {
 		t.Fatal("another account's changes counted")
 	}
 }
+
+func TestApprovals_UnchangedFieldsAndNewDocumentsStayShort(t *testing.T) {
+	// Arrange: the delivery title stays the same; "hours" is new.
+	e := newApprovalsEnv(t, true)
+	e.propose(t, 2, pending.KindDocument, "delivery", map[string]any{"key": "delivery", "title": "Delivery", "content": "New answer"})
+	e.propose(t, 2, pending.KindDocument, "hours", map[string]any{"key": "hours", "title": "Hours", "content": "9 to 5"})
+
+	// Act
+	body := serve(e.mux, approvalsGet("account=2")).Body.String()
+
+	// Assert
+	if !strings.Contains(body, "Unchanged") {
+		t.Error("an unchanged field is not marked")
+	}
+	if strings.Contains(body, "(empty)") {
+		t.Error("a new document shows empty current values")
+	}
+}
