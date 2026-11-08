@@ -34,7 +34,7 @@ func TestPolicy_ChatsLikeAPerson(t *testing.T) {
 	// Assert
 	for _, want := range []string{
 		"plain text", "at most one question", "same thing again", "Thai script", "offer to connect them with a staff member",
-		"hand off in the same message", "flirting", "never say staff will reply", "too expensive", "hand off now instead of offering",
+		"hand off in the same message", "flirting", "never say staff will reply", "too expensive", "hand off now instead of offering", "several messages since your last reply",
 	} {
 		if !strings.Contains(p, want) {
 			t.Errorf("policy is missing %q", want)
