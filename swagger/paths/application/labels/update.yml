@@ -3,6 +3,7 @@ tags:
 operationId: update-a-label
 summary: Update a label
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Update a label's attributes
 requestBody:

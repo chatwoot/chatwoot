@@ -21,6 +21,10 @@ class SamlSettingsAPI extends ApiClient {
   delete() {
     return axios.delete(this.url);
   }
+
+  refresh() {
+    return axios.post(`${this.url}/refresh`);
+  }
 }
 
 export default new SamlSettingsAPI();

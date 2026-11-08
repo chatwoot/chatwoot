@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Enterprise Audit API', type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, password: 'Password1!', account: account) }
+  let(:super_admin) { create(:super_admin) }
 
   describe 'POST /sign_in' do
     context 'with SAML user attempting password login' do
@@ -87,6 +88,18 @@ RSpec.describe 'Enterprise Audit API', type: :request do
       end
     end
 
+    context 'with a super admin impersonation token' do
+      it 'signs in without creating a sign_in audit event' do
+        params = { email: user.email, sso_auth_token: user.generate_sso_auth_token(impersonated_by: super_admin) }
+
+        expect do
+          post new_user_session_url, params: params, as: :json
+        end.not_to change(Enterprise::AuditLog, :count)
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+
     context 'with a user belonging to multiple accounts' do
       before do
         create_list(:account, 3).each { |extra_account| create(:account_user, account: extra_account, user: user) }
@@ -148,6 +161,42 @@ RSpec.describe 'Enterprise Audit API', type: :request do
       end
     end
 
+    context 'with Shopify billing' do
+      it 'returns the Shopify billing route state for feature-enabled accounts' do
+        shopify_account = create(
+          :account,
+          internal_attributes: {
+            'billing_provider' => 'shopify',
+            'signup_source' => 'shopify'
+          },
+          custom_attributes: {
+            'subscription_status' => 'pending'
+          }
+        )
+        shopify_account.enable_features!('shopify_integration')
+        create(
+          :integrations_hook,
+          :shopify,
+          account: shopify_account,
+          reference_id: 'billing-test-store.myshopify.com'
+        )
+        shopify_user = create(:user, password: 'Password1!', account: shopify_account)
+        allow(Shopify::FeatureGate).to receive(:enabled?).with(account: shopify_account).and_return(true)
+
+        post new_user_session_url,
+             params: { email: shopify_user.email, password: 'Password1!' },
+             as: :json
+
+        account_payload = response.parsed_body['data']['accounts'].first
+        expect(account_payload).to include(
+          'billing_provider' => 'shopify',
+          'subscription_status' => 'pending',
+          'shopify_integration' => true,
+          'shopify_shop_domain' => 'billing-test-store.myshopify.com'
+        )
+      end
+    end
+
     context 'with blank email' do
       it 'skips SAML check and processes normally' do
         params = { email: '', password: 'Password1!' }
@@ -170,6 +219,30 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         expect(user.audits.last.action).to eq('sign_out')
         expect(user.audits.last.associated_id).to eq(account.id)
         expect(user.audits.last.associated_type).to eq('Account')
+      end
+
+      it 'does not create audit events for a token minted before super admin attribution' do
+        sso_token = SecureRandom.hex(32)
+        Redis::Alfred.setex(format(Redis::RedisKeys::USER_SSO_AUTH_TOKEN, user_id: user.id, token: sso_token), 'impersonation', 5.minutes)
+
+        expect do
+          post new_user_session_url, params: { email: user.email, sso_auth_token: sso_token }, as: :json
+          delete '/auth/sign_out', headers: response.headers.slice('access-token', 'client', 'uid')
+        end.not_to change(Enterprise::AuditLog, :count)
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not create an audit event when ending an impersonation session' do
+        post new_user_session_url,
+             params: { email: user.email, sso_auth_token: user.generate_sso_auth_token(impersonated_by: super_admin) },
+             as: :json
+        auth_headers = response.headers.slice('access-token', 'client', 'uid')
+
+        expect do
+          delete '/auth/sign_out', headers: auth_headers
+        end.not_to change(Enterprise::AuditLog, :count)
+        expect(response).to have_http_status(:success)
+        expect(user.reload.tokens).to be_empty
       end
 
       it 'signs out and revokes the token even when the lookup cannot be enqueued' do

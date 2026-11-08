@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "tag"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "Ny",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Forrige",
+    "NEXT": "Næste",
+    "DISMISS_HINT": "Tryk på {key} for at lukke",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Luk"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Lær mere",
     "WATCH_VIDEO": "Watch video"
@@ -64,20 +73,20 @@
     "BULLET_LIST": "Bullet List",
     "ORDERED_LIST": "Ordered List",
     "TABLE": "Table",
-    "IMAGE": "Image",
+    "IMAGE": "Billede",
     "VIDEO": "Video",
-    "DIVIDER": "Divider"
+    "DIVIDER": "Opdeler"
   },
   "VIDEO_EMBED": {
-    "TAB_EMBED": "Embed link",
+    "TAB_EMBED": "Indlejret link",
     "TAB_UPLOAD": "Upload",
-    "PLACEHOLDER": "Paste a video link",
-    "HINT": "Works with YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar and mp4 links",
-    "ERROR": "That doesn't look like a supported video link",
-    "UPLOAD_LABEL": "Choose a video file",
-    "UPLOAD_HINT": "MP4 · up to {size}MB · or drop it here",
-    "UPLOAD_ERROR": "Only MP4 files can be uploaded",
-    "ADD": "Embed",
+    "PLACEHOLDER": "Indsæt et videolink",
+    "HINT": "Arbejder med YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar og mp4 links",
+    "ERROR": "Det ligner ikke et understøttet videolink",
+    "UPLOAD_LABEL": "Vælg en videofil",
+    "UPLOAD_HINT": "MP4 · op til {size}MB · eller slip den her",
+    "UPLOAD_ERROR": "Kun MP4-filer kan uploades",
+    "ADD": "Indlejr",
     "CANCEL": "Annuller"
   }
 }

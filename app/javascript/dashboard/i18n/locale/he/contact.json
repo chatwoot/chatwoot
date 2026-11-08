@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "לא קיימות שיחות קודמות המשויכות לאיש קשר זה.",
-      "TITLE": "שיחות קודמות"
+      "TITLE": "שיחות קודמות",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

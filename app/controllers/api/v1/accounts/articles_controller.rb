@@ -11,7 +11,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
     set_article_count
 
-    @articles = @articles.search(list_params)
+    @articles = @articles.search(list_params).includes(root_article: :category)
 
     @articles = if list_params[:category_slug].present?
                   @articles.order_by_position.page(@current_page)
@@ -27,8 +27,6 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     params_with_defaults = article_params
     params_with_defaults[:status] ||= :draft
     @article = @portal.articles.create!(params_with_defaults)
-    @article.associate_root_article(article_params[:associated_article_id])
-    render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
   end
 
   def update
@@ -49,9 +47,8 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   private
 
   def set_article_count
-    # Search the params without status and author_id, use this to
-    # compute mine count published draft etc
-    base_search_params = list_params.except(:status, :author_id)
+    # Keep tab counts independent of status while honoring the selected author.
+    base_search_params = list_params.except(:status)
     @articles = @portal_articles.search(base_search_params)
 
     @articles_count = @articles.count
@@ -110,6 +107,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
       :title, :slug, :position, :content, :description, :category_id, :author_id, :associated_article_id, :status,
       :locale, :draft_title, :draft_content, meta: [:title,
                                                     :description,
+                                                    :noindex,
                                                     { tags: [] }]
     )
   end

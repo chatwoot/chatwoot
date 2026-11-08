@@ -148,6 +148,7 @@ watch(
           v-model="noteContent"
           focus-on-mount
           :placeholder="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.PLACEHOLDER')"
+          :show-character-count="false"
           class="[&>div]:!border-transparent [&>div]:px-4 [&>div]:py-4"
         />
         <div class="flex items-center justify-end gap-3">

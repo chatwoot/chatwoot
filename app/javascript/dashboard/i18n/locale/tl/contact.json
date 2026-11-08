@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Walang mga naunang pag-uusap na kaugnay sa taong ito.",
-      "TITLE": "Mga Naunang Pag-uusap"
+      "TITLE": "Mga Naunang Pag-uusap",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

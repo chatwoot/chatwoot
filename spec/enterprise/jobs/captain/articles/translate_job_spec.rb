@@ -58,6 +58,33 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
     )
   end
 
+  it 'preserves an original linked while the translation is queued' do
+    spanish_original = create(:article, portal: portal, category: category_es, account: account, author: user,
+                                        title: 'Original Spanish title', content: 'Original Spanish content')
+    job = described_class.perform_later(account, article.id, 'es', category_es.id, user)
+    article.update!(associated_article_id: spanish_original.id)
+
+    expect do
+      job.perform_now
+    end.not_to(change { spanish_original.reload.attributes.slice('title', 'content') })
+  end
+
+  it 'keeps the original article as the root when translating a translation' do
+    portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
+    category_fr = create(:category, portal: portal, account: account, locale: 'fr', slug: 'premiers-pas')
+    allow(title_service).to receive(:perform).and_return({ message: 'Premiers pas' }, { message: 'Primeros pasos' })
+    allow(content_service).to receive(:perform).and_return({ message: 'Bienvenue' }, { message: 'Bienvenido' })
+
+    described_class.perform_now(account, article.id, 'fr', category_fr.id, user)
+    french_article = portal.articles.find_by!(locale: 'fr')
+
+    described_class.perform_now(account, french_article.id, 'es', category_es.id, user)
+    spanish_article = portal.articles.find_by!(locale: 'es')
+
+    expect(spanish_article.associated_article_id).to eq(article.id)
+    expect(spanish_article.translation_family).to contain_exactly(article, french_article, spanish_article)
+  end
+
   it 'calls the translation service with the correct language' do
     described_class.perform_now(account, article.id, 'es', category_es.id, user)
 
