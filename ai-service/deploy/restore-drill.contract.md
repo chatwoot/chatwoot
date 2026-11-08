@@ -76,11 +76,29 @@ dumped from Postgres 17.11:
   kb_chunks 108, business_profiles 1, web_sources 2, admin_events 138;
   vector query ok; no container left.
 
+2026-11-08 22:45, `deploy/backup.sh` (scheduled backups) tested on the VPS
+from a temporary folder before review:
+
+- Run 1 dumped, checksummed and passed the drill, then exited 1 on
+  `env_file: unbound variable` (EXIT trap read a variable local to `main`).
+  Fixed; run 2: exit 0, `OK ... verified`.
+- **Incident:** a retention check was run against the real `/root/backups`
+  with a keep-count of 3 and deleted three real full backups: 2026-11-07
+  21:39 and 23:05 (schema 10) and 2026-11-08 21:42 (schema 11). The 21:42
+  data is covered by the newer verified dumps; the two 2026-11-07 evening
+  snapshots are lost (Supabase project backups may still hold that state).
+  The test should have run on a copy. Retention was then changed from "newest
+  N files" to "newest N dates" (`BACKUP_KEEP_DAYS`), so repeated runs on one
+  day can no longer push older days out; `deploy/backup_test.sh` covers it.
+
 ## Open gaps
 
 1. ~~Latest backup predates the live schema.~~ Closed 2026-11-08 by the
    fresh backup above.
-2. **Backups are manual and live on the same VPS** as production, with no
-   schedule, no retention rule and no offsite copy. Losing the VPS loses the
-   backups. (Checksums are now written for new backups.)
-3. The backup command itself is not in the repository.
+2. ~~No schedule, no retention rule, backup command not in the repository.~~
+   Closed by `deploy/backup.sh` and the systemd timer (README "Scheduled
+   backups").
+3. **No offsite copy.** Backups live on the same VPS as production; losing
+   the VPS loses them. Needs the owner's choice of storage and a key.
+4. **No alert on failure.** A failed run is only in the journal
+   (`journalctl -u aisvc-backup.service`).
