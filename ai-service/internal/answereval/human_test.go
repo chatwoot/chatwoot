@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestRunHistoryIsGivenNotGenerated(t *testing.T) {
@@ -174,5 +175,60 @@ func TestReportWriteHumanMetric(t *testing.T) {
 	// Assert
 	if !strings.Contains(b.String(), "human-like 1/2") {
 		t.Fatalf("report lacks the human-like total:\n%s", b.String())
+	}
+}
+
+func TestRunHandoffOKAcceptsEitherWay(t *testing.T) {
+	// Arrange
+	split := func(r string) (string, bool) { return strings.TrimPrefix(r, "[[H]] "), strings.HasPrefix(r, "[[H]]") }
+	c := Case{Name: "voice", AccountID: 1, Expect: ExpectAnswer, HandoffOK: true, Turns: []string{"[ข้อความเสียง]"}}
+	for name, reply := range map[string]string{"asks to type": "รบกวนพิมพ์ได้ไหมครับ", "hands off": "[[H]] เดี๋ยวให้แอดมินฟังให้ครับ"} {
+		t.Run(name, func(t *testing.T) {
+			j := &fixedJudge{verdict: Verdict{Pass: true}}
+
+			// Act
+			rep := Run(context.Background(), Runner{Answerer: &scriptedAnswerer{replies: []string{reply}}, Handoff: keyword("แอดมิน"), Judge: j, Split: split}, []Case{c})
+
+			// Assert
+			if !rep.Results[0].Pass || j.calls != 1 {
+				t.Fatalf("result = %+v, judge calls = %d; want a pass graded by the judge", rep.Results[0], j.calls)
+			}
+		})
+	}
+}
+
+func TestRunSetsTheCaseClock(t *testing.T) {
+	// Arrange
+	var got []time.Time
+	cases := []Case{
+		{Name: "after promo", AccountID: 1, Expect: ExpectAnswer, Turns: []string{"ยังได้ 3,900 ไหม"}, Now: "2026-12-02T10:00:00+07:00"},
+		{Name: "today", AccountID: 1, Expect: ExpectAnswer, Turns: []string{"ราคา"}},
+	}
+	r := Runner{Answerer: &scriptedAnswerer{replies: []string{"a", "b"}}, Handoff: keyword("แอดมิน"),
+		Judge: &fixedJudge{verdict: Verdict{Pass: true}}, SetNow: func(t time.Time) { got = append(got, t) }}
+
+	// Act
+	Run(context.Background(), r, cases)
+
+	// Assert
+	if len(got) != 2 || got[0].Day() != 2 || got[0].Month() != time.December || !got[1].IsZero() {
+		t.Fatalf("clock set to %v, want 2 Dec then zero (real time)", got)
+	}
+}
+
+func TestValidateNow(t *testing.T) {
+	// Act
+	err := Validate([]Case{{Name: "bad clock", AccountID: 1, Expect: ExpectAnswer, Turns: []string{"x"}, Now: "2 Dec"}})
+
+	// Assert
+	if err == nil || !strings.Contains(err.Error(), "now") {
+		t.Fatalf("Validate() = %v, want a now error", err)
+	}
+}
+
+func TestJudgeInstructionAllowsTheHandoffLine(t *testing.T) {
+	// Assert
+	if !strings.Contains(judgeInstruction, "staff member will continue") {
+		t.Fatal("the judge must accept the standard handoff line as correct")
 	}
 }

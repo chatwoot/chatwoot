@@ -110,6 +110,14 @@ func run() error {
 		Location:       cfg.Location,
 		Logger:         quiet,
 	}
+	// A case may set the bot's clock (promotions that ended, deadlines).
+	var caseNow time.Time
+	opts.Now = func() time.Time {
+		if caseNow.IsZero() {
+			return time.Now()
+		}
+		return caseNow
+	}
 	if *rewriteModel == "\x00" {
 		*rewriteModel = cfg.RewriteModel
 	}
@@ -132,6 +140,7 @@ func run() error {
 		Handoff:  handoff.New(cfg.HandoffKeywords),
 		Judge:    answereval.LLMJudge{LLM: judge},
 		Split:    bot.SplitHandoff,
+		SetNow:   func(t time.Time) { caseNow = t },
 		Profile: func(ctx context.Context, acct int64) string {
 			p, err := profiles.Get(ctx, acct)
 			if err != nil {

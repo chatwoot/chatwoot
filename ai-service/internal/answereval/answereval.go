@@ -19,6 +19,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
@@ -68,6 +69,12 @@ type Case struct {
 	// Human fails a reply the judge finds robotic rather than a person
 	// chatting.
 	Human bool `json:"human"`
+	// HandoffOK accepts a handoff as well as a reply; either way the text
+	// is graded.
+	HandoffOK bool `json:"handoff_ok"`
+	// Now is the time the bot believes it is (RFC 3339), for promotions
+	// and deadlines; empty is the real time.
+	Now string `json:"now"`
 }
 
 // Message is one turn of a given history.
@@ -131,6 +138,9 @@ type Runner struct {
 	Profile func(ctx context.Context, acct int64) string
 	// Split removes the model's handoff marker and reports it; optional.
 	Split func(reply string) (string, bool)
+	// SetNow sets the bot's clock for the next case; the zero time means
+	// the real time. Optional.
+	SetNow func(t time.Time)
 }
 
 // Result is the outcome of one case.
@@ -167,6 +177,11 @@ func Validate(cases []Case) error {
 		}
 		if len(c.Turns) == 0 {
 			errs = append(errs, fmt.Errorf("%s: no turns", name))
+		}
+		if c.Now != "" {
+			if _, err := time.Parse(time.RFC3339, c.Now); err != nil {
+				errs = append(errs, fmt.Errorf("%s: now must be RFC 3339, like 2026-12-02T10:00:00+07:00", name))
+			}
 		}
 		for _, m := range c.History {
 			if m.Role != "user" && m.Role != "assistant" {
@@ -224,6 +239,10 @@ func Run(ctx context.Context, r Runner, cases []Case) Report {
 
 func (r Runner) runCase(ctx context.Context, c Case) Result {
 	res := Result{Case: c}
+	if r.SetNow != nil {
+		now, _ := time.Parse(time.RFC3339, c.Now) // checked by Validate; empty gives the zero time
+		r.SetNow(now)
+	}
 	history := make([]memory.Turn, 0, len(c.History)+len(c.Turns))
 	for _, m := range c.History {
 		history = append(history, memory.Turn{Role: m.Role, Content: m.Content})
@@ -266,7 +285,7 @@ func (r Runner) runCase(ctx context.Context, c Case) Result {
 	}
 
 	// Handing off is also a correct way to not know, if the text invents nothing.
-	if c.Expect == ExpectHandoff || (res.Handoff && c.Expect != ExpectUnknown) {
+	if c.Expect == ExpectHandoff || (res.Handoff && c.Expect != ExpectUnknown && !c.HandoffOK) {
 		res.Pass = c.Expect == ExpectHandoff && res.Handoff
 		if !res.Pass {
 			res.Reason = map[bool]string{true: "handed off unexpectedly", false: "did not hand off"}[res.Handoff]
