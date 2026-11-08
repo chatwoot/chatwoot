@@ -48,6 +48,17 @@ func TestAIText_RefusesPaymentAndContactDetails(t *testing.T) {
 		"See evil。com",
 		"Kbank only",
 		"ธนาคารกสิกรไทย",
+		// third review: safe-looking pieces, bare prices, invisible characters
+		"Call\n08:12\n345678",
+		"Call 812,345,678",
+		"Call 1,234,567",
+		"Call 081\u200b234\u200b5678",
+		"Call 081\u2060-\u2060234\u2060-\u20605678",
+		"Call 0\u0338812345678",
+		"Call 081        234        5678",
+		"Pay by Prompt\u200bPay",
+		"Our L\u200dINE is johnshop",
+		"See evil\u00ad.com",
 	}
 	for _, in := range cases {
 		t.Run(in, func(t *testing.T) {
@@ -79,6 +90,8 @@ func TestAIText_AllowsOrdinaryShopText(t *testing.T) {
 		"Never promise a price.",
 		"Mon-Fri 09:00-18:00\nSat 10:00-16:00\nSun 10:00-14:00",
 		"Small 1,290\nLarge 2,490\nParty 12,900",
+		"Wedding package 1,250,000 บาท",
+		"ร้านเปิด\u200bทุกวัน 10:00-20:00 น้ำ ไลท์ ก๋วยเตี๋ยว",
 	}
 	for _, in := range cases {
 		t.Run(in, func(t *testing.T) {
