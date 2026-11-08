@@ -69,7 +69,7 @@ class Campaign < ApplicationRecord
   private
 
   def feature_enabled?
-    inbox.inbox_type != 'Whatsapp' || account.feature_enabled?(:whatsapp_campaign)
+    account.feature_enabled?(:campaigns)
   end
 
   def mark_processing!

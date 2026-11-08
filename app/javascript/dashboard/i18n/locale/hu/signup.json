@@ -9,6 +9,10 @@
     "OAUTH": {
       "GOOGLE_SIGNUP": "Regisztráció Google-el"
     },
+    "SHOPIFY": {
+      "TITLE": "Állítsa be a Chatwootot Shopify áruházához",
+      "DESCRIPTION": "A folytatáshoz hozza létre fiókját, majd válasszon csomagot a Shopify alkalmazás díjszabási oldalán."
+    },
     "COMPANY_NAME": {
       "LABEL": "Cég neve",
       "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",

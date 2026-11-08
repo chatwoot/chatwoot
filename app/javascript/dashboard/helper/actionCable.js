@@ -18,6 +18,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { isImpersonating } = useImpersonation();
 const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
+const HANDOFF_ALERT_WINDOW_MS = 2500;
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS = 30000;
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS = 15000;
 const MENTION_UNREAD_COUNTS_REFETCH_DELAY_MS =
@@ -31,15 +32,18 @@ class ActionCableConnector extends BaseActionCableConnector {
     const { websocketURL = '' } = window.chatwootConfig || {};
     super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
+    this.pendingHandoffAlerts = new Map();
     this.lastUnreadCountsFetchAt = null;
     this.unreadCountsFetchTimer = null;
     this.mentionUnreadCountsFetchTimer = null;
     this.mentionUnreadCountsRetryTimer = null;
     this.filteredUnreadCountsRetryTimer = null;
     this.events = {
+      'monitor.updated': this.onMonitorUpdated,
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
       'conversation.created': this.onConversationCreated,
+      'conversation.bot_handoff': this.onConversationBotHandoff,
       'conversation.status_changed': this.onStatusChange,
       'user:logout': this.onLogout,
       'page:reload': this.onReload,
@@ -62,6 +66,9 @@ class ActionCableConnector extends BaseActionCableConnector {
       'account.enrichment_completed': this.onEnrichmentCompleted,
       'account.billing_updated': this.onBillingUpdated,
       'copilot.message.created': this.onCopilotMessageCreated,
+      // The store upserts by ID, so an updated approval card replaces the old one.
+      'copilot.message.updated': this.onCopilotMessageCreated,
+      'captain.playground.response': this.onCaptainPlaygroundResponse,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.accepted': this.onVoiceCallAccepted,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
@@ -73,6 +80,11 @@ class ActionCableConnector extends BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   onReconnect = () => {
     emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onMonitorUpdated = data => {
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, data);
   };
 
   // eslint-disable-next-line class-methods-use-this
@@ -93,6 +105,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('contacts/updatePresence', data.contacts);
     this.app.$store.dispatch('agents/updatePresence', data.users);
     this.app.$store.dispatch('setCurrentUserAvailability', data.users);
+    this.app.$store.dispatch(
+      'setCurrentUserWorkPreferences',
+      data.work_preferences
+    );
   };
 
   onConversationContactChange = payload => {
@@ -118,6 +134,60 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('addConversation', data);
     this.fetchConversationStats();
   };
+
+  onConversationBotHandoff = data => {
+    // Trust the handoff event, not its request's performer: a bot handoff can
+    // run inside an agent-authenticated API request.
+    const key = `${data.account_id}:${data.id}`;
+    if (this.pendingHandoffAlerts.has(key)) return;
+
+    // One fixed window lets the normal store absorb assignment/status updates,
+    // even assignments delivered before the handoff. Duplicates do not extend it.
+    // Late assignments intentionally do not resurrect alerts after this window.
+    this.pendingHandoffAlerts.set(
+      key,
+      setTimeout(() => {
+        this.pendingHandoffAlerts.delete(key);
+        if (!this.isAValidEvent(data)) return;
+        this.alertOnSettledHandoff(data);
+      }, HANDOFF_ALERT_WINDOW_MS)
+    );
+  };
+
+  alertOnSettledHandoff = handoff => {
+    const stored = this.app.$store.getters.getConversationById(handoff.id);
+    // Fall back to the handoff snapshot when local state is missing or older.
+    const conversation =
+      stored?.updated_at >= handoff.updated_at ? stored : handoff;
+    if (conversation.status !== 'open') return;
+
+    const { assignment, meta } = conversation;
+    const hasAssignmentChange =
+      assignment?.updated_at > handoff.updated_at ||
+      meta?.assignee?.id !== handoff.meta?.assignee?.id ||
+      meta?.assignee_type !== handoff.meta?.assignee_type;
+
+    if (hasAssignmentChange) {
+      // Unrelated updates (e.g. out-of-office messages) must not cancel alerts.
+      // A changed owner needs a matching automatic assignment since the handoff,
+      // even if a refreshed status payload exposes it before the assignment event.
+      if (
+        !assignment?.automatic ||
+        assignment.updated_at < handoff.updated_at ||
+        assignment.assignee_id !== meta?.assignee?.id ||
+        assignment.assignee_type !== meta?.assignee_type
+      ) {
+        return;
+      }
+    }
+    DashboardAudioNotificationHelper.onConversationBotHandoff(conversation);
+  };
+
+  disconnect() {
+    this.pendingHandoffAlerts.forEach(clearTimeout);
+    this.pendingHandoffAlerts.clear();
+    super.disconnect();
+  }
 
   onConversationRead = data => {
     this.app.$store.dispatch('updateConversation', data);
@@ -339,6 +409,11 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('copilotMessages/upsert', data);
   };
 
+  // eslint-disable-next-line class-methods-use-this
+  onCaptainPlaygroundResponse = data => {
+    emitter.emit(BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE, data);
+  };
+
   onEnrichmentCompleted = () => {
     this.app.$store.dispatch('accounts/get', { silent: true });
   };
@@ -368,11 +443,11 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onVoiceCallIncoming = data => {
     if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP) return;
-    // Defense in depth: the server already filters to online agent streams,
-    // but if anything ever broadcasts to a broader stream (e.g. account-wide),
-    // an agent who's set availability=offline/busy shouldn't ring.
-    const availability = this.app.$store.getters.getCurrentUserAvailability;
-    if (availability !== 'online') return;
+    // Defense in depth: the server already filters to online agent streams that
+    // take calls, but if anything ever broadcasts to a broader stream (e.g.
+    // account-wide), an agent who is not online or has turned calls off
+    // shouldn't ring.
+    if (!this.app.$store.getters.getCurrentUserReceivesCalls) return;
 
     useCallsStore().addCall({
       callSid: data.call_id,

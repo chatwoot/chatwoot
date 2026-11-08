@@ -7,7 +7,7 @@
       "404": "Der er ingen aktive samtaler i denne gruppe."
     },
     "FAILED_TO_SEND": "Failed to send",
-    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
+    "FETCH_ERROR": "Samtaler kunne ikke indlæses. Prøv venligst igen.",
     "TAB_HEADING": "Samtaler",
     "MENTION_HEADING": "Omtaler",
     "UNATTENDED_HEADING": "Ubehandlet",
@@ -80,7 +80,7 @@
         "TEXT": "Priority: Highest first, Created: Oldest first"
       },
       "unread": {
-        "TEXT": "Unread Count: Highest first"
+        "TEXT": "Ulæst antal: Højeste først"
       }
     },
     "ATTACHMENTS": {

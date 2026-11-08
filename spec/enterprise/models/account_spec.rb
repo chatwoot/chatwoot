@@ -58,6 +58,25 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe '#auto_translate_enabled?' do
+    it 'needs both the auto translate flag and Captain tasks' do
+      account = create(:account, settings: { auto_translate: true })
+      account.enable_features('auto_translate')
+      account.disable_features('captain_tasks')
+
+      expect(account).not_to be_auto_translate_enabled
+      account.enable_features('captain_tasks')
+      expect(account).to be_auto_translate_enabled
+    end
+
+    it 'stays off until the account switches it on' do
+      account = create(:account)
+      account.enable_features('auto_translate', 'captain_tasks')
+
+      expect(account).not_to be_auto_translate_enabled
+    end
+  end
+
   describe '#api_and_webhooks_enabled?' do
     let(:account) { create(:account) }
 
@@ -308,6 +327,113 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe 'Captain response usage alerts' do
+    let(:mailer) { double }
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
+    let(:account) do
+      create(
+        :account,
+        limits: { 'captain_responses' => 300 },
+        custom_attributes: { 'captain_responses_usage' => 239 }
+      )
+    end
+
+    before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      allow(ActiveRecord).to receive(:after_all_transactions_commit).and_yield
+      account.enable_features!('captain_integration')
+      allow(AdministratorNotifications::CaptainNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
+      allow(mailer).to receive(:response_usage_alert).and_return(message_delivery)
+    end
+
+    it 'queues one alert after usage exceeds 80 percent of the persisted account limit' do
+      account.increment_response_usage
+      expect(message_delivery).not_to have_received(:deliver_later)
+
+      account.increment_response_usage
+      3.times { account.increment_response_usage }
+
+      expect(mailer).to have_received(:response_usage_alert).with(consumed: 241, remaining: 59).once
+      expect(message_delivery).to have_received(:deliver_later).once
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 244,
+        'captain_responses_usage_alerted' => true
+      )
+    end
+
+    it 'does not queue an alert when Captain is disabled' do
+      account.disable_features!('captain_integration')
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
+
+      account.increment_response_usage
+
+      expect(message_delivery).not_to have_received(:deliver_later)
+    end
+
+    it 'does not count or queue response usage outside Chatwoot Cloud' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+
+      account.increment_response_usage
+
+      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(239)
+      expect(message_delivery).not_to have_received(:deliver_later)
+    end
+
+    it 'does not queue an alert for a zero response limit' do
+      account.update!(limits: { 'captain_responses' => 0 })
+
+      account.increment_response_usage
+
+      expect(message_delivery).not_to have_received(:deliver_later)
+    end
+
+    it 'waits for the surrounding transaction to commit before queueing the alert' do
+      after_commit = nil
+      allow(ActiveRecord).to receive(:after_all_transactions_commit) { |&block| after_commit = block }
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
+
+      account.increment_response_usage
+
+      expect(message_delivery).not_to have_received(:deliver_later)
+      after_commit.call
+      expect(message_delivery).to have_received(:deliver_later).once
+    end
+
+    it 'keeps the response successful when the alert cannot be queued' do
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
+      allow(message_delivery).to receive(:deliver_later).and_raise(StandardError, 'queue unavailable')
+      allow(Rails.logger).to receive(:error)
+
+      expect { account.increment_response_usage }.not_to raise_error
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 241,
+        'captain_responses_usage_alerted' => true
+      )
+
+      account.increment_response_usage
+
+      expect(mailer).to have_received(:response_usage_alert).once
+      expect(Rails.logger).to have_received(:error).with(
+        "Captain response usage alert enqueue failed for account #{account.id}: StandardError - queue unavailable"
+      )
+    end
+
+    it 'rearms the alert and preserves other custom attributes when usage resets' do
+      account.update!(custom_attributes: account.custom_attributes.merge(
+        'captain_responses_usage_alerted' => true,
+        'unrelated_key' => 'preserved'
+      ))
+
+      account.reset_response_usage
+
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 0,
+        'captain_responses_usage_alerted' => false,
+        'unrelated_key' => 'preserved'
+      )
+    end
+  end
+
   context 'with Shopify plan entitlements' do
     let(:account) do
       create(
@@ -428,7 +554,6 @@ RSpec.describe Account, type: :model do
       account = create(:account)
 
       expect(account).to be_feature_enabled('captain_integration')
-      expect(account).to be_feature_enabled('captain_integration_v2')
       expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
       expect(account.captain_models).to be_nil
     end

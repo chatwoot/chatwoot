@@ -1,0 +1,19 @@
+<%# Switches the `data-tab-panel` blocks that follow. `active` comes from `active_tab`, so a reload keeps the tab. %>
+<%# locals: (tabs:, active:, inset: false) -%>
+<%# The strip is pulled over the line below it so the active underline covers it; the line sits on the wrapper, so nothing overflows the scroller. %>
+<div class="border-b border-n-weak">
+  <div class="<%= class_names("-mb-px flex gap-5 overflow-x-auto sm:gap-6", "px-5" => inset) %>" role="tablist">
+    <% tabs.each do |tab| %>
+      <button type="button" role="tab" id="tab-<%= tab[:key] %>" aria-controls="panel-<%= tab[:key] %>" data-tab="<%= tab[:key] %>" aria-selected="<%= tab[:key] == active %>"
+              class="inline-flex h-10 shrink-0 items-center gap-1.5 border-b-2 border-transparent text-body-main text-n-slate-11 hover:text-n-slate-12 aria-selected:border-n-brand aria-selected:font-medium aria-selected:text-n-slate-12 touch:h-11">
+        <% if tab[:icon] %>
+          <span class="<%= tab[:icon] %> hidden size-4 sm:block"></span>
+        <% end %>
+        <%= tab[:label] %>
+        <% if tab[:count] %>
+          <%= render "badge", label: number_with_delimiter(tab[:count]), tone: :neutral %>
+        <% end %>
+      </button>
+    <% end %>
+  </div>
+</div>

@@ -1850,6 +1850,14 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
           },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon"
+          },
           "account_id": {
             "type": "number",
             "description": "The ID of the account with the team is a part of"
@@ -1970,8 +1978,11 @@
             "description": "The type of the audited object (e.g., Conversation, Contact, User)"
           },
           "auditable": {
-            "type": "object",
-            "description": "The audited object data"
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The audited object data. Null for message deletion entries, which are served without the message payload."
           },
           "associated_id": {
             "type": "integer",
@@ -2030,7 +2041,14 @@
               "string",
               "null"
             ],
-            "description": "IP address from which the action was performed"
+            "description": "IP address from which the action was performed. Masked to the network portion (for example 203.0.113.x) unless the account has the audit_log_ip_address feature enabled, in which case the full address is returned."
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "City and country resolved from remote_address, present only when the account has the ip_lookup feature enabled and the address has been resolved. Omitted when the account returns full IP addresses."
           }
         }
       },
@@ -4024,7 +4042,8 @@
                 "required": [
                   "api_key",
                   "phone_number_id",
-                  "business_account_id"
+                  "business_account_id",
+                  "app_secret"
                 ],
                 "properties": {
                   "api_key": {
@@ -4041,12 +4060,18 @@
                     "type": "string",
                     "description": "Business account ID for WhatsApp Cloud",
                     "example": "your-business-account-id"
+                  },
+                  "app_secret": {
+                    "type": "string",
+                    "description": "App secret of your Meta app, from App settings > Basic. Used to verify incoming webhook signatures.",
+                    "example": "your-app-secret"
                   }
                 },
                 "example": {
                   "api_key": "your-api-key",
                   "phone_number_id": "your-phone-number-id",
-                  "business_account_id": "your-business-account-id"
+                  "business_account_id": "your-business-account-id",
+                  "app_secret": "your-app-secret"
                 }
               }
             }
@@ -4108,7 +4133,8 @@
         "title": "SMS channel",
         "required": [
           "type",
-          "phone_number"
+          "phone_number",
+          "provider_config"
         ],
         "properties": {
           "type": {
@@ -4125,10 +4151,38 @@
           },
           "provider_config": {
             "type": "object",
-            "description": "Provider-specific SMS configuration",
+            "description": "Bandwidth OAuth configuration. New SMS inboxes require client credentials.",
+            "required": [
+              "account_id",
+              "application_id",
+              "client_id",
+              "client_secret"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "account_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "application_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "client_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "client_secret": {
+                "type": "string",
+                "minLength": 1,
+                "writeOnly": true
+              }
+            },
             "example": {
               "account_id": "your-account-id",
-              "application_id": "your-application-id"
+              "application_id": "your-application-id",
+              "client_id": "your-client-id",
+              "client_secret": "your-client-secret"
             }
           }
         }
@@ -4406,7 +4460,7 @@
           },
           "provider_config": {
             "type": "object",
-            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, and `business_account_id`; legacy 360dialog channels use `api_key`.",
+            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, `business_account_id`, and `app_secret`; legacy 360dialog channels use `api_key`.",
             "properties": {
               "api_key": {
                 "type": "string",
@@ -4422,12 +4476,18 @@
                 "type": "string",
                 "description": "Business account ID for WhatsApp Cloud",
                 "example": "your-business-account-id"
+              },
+              "app_secret": {
+                "type": "string",
+                "description": "App secret of your Meta app, used to verify incoming webhook signatures. Required for manually configured Cloud channels that already have one, when moving an embedded signup channel to manual setup, and when switching a channel to `whatsapp_cloud`. It cannot be removed once set.",
+                "example": "your-app-secret"
               }
             },
             "example": {
               "api_key": "your-api-key",
               "phone_number_id": "your-phone-number-id",
-              "business_account_id": "your-business-account-id"
+              "business_account_id": "your-business-account-id",
+              "app_secret": "your-app-secret"
             }
           }
         }
@@ -4470,6 +4530,16 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
             "example": true
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team",
+            "example": "🚀"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon",
+            "example": "#6C5CE7"
           }
         }
       },
@@ -7224,34 +7294,50 @@
         "required": true,
         "description": "The source id of contact obtained on contact create"
       },
-      "portal_id": {
+      "portal_slug": {
         "in": "path",
-        "name": "id",
+        "name": "portal_slug",
         "schema": {
           "type": "string"
         },
         "required": true,
-        "description": "The slug identifier of the portal"
+        "description": "The slug of the portal. The numeric portal ID is not accepted.",
+        "example": "handbook"
       }
     },
     "securitySchemes": {
+      "userBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using a user API token from **Profile Settings**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "agentBotBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using an agent bot token from **Settings → Agent Bots**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "platformAppBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using a platform app token from **Super Admin**. Available in Chatwoot `v4.19.0` and later."
+      },
       "userApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
+        "description": "Find your API token in **Profile Settings**. The `api_access_token` header remains supported, but will be deprecated in a future release. For new integrations, use Bearer authentication."
       },
       "agentBotApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis."
+        "description": "Find your agent bot token in **Settings → Agent Bots**. For new integrations, use Bearer authentication in Chatwoot `v4.19.0` and later. Agent bot tokens can access only bot-permitted APIs."
       },
       "platformAppApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles."
+        "description": "Create a platform app in **Super Admin** to get its token. For new integrations, use Bearer authentication in Chatwoot `v4.19.0` and later. Platform app tokens can provision agent bots, accounts, users, and roles."
       }
     }
   },

@@ -1,4 +1,6 @@
 class Instagram::BaseSendService < Base::SendOnChannelService
+  include Facebook::HumanAgentTagHelpers
+
   pattr_initialize [:message!]
 
   private
