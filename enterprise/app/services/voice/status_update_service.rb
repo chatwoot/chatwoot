@@ -15,8 +15,7 @@ class Voice::StatusUpdateService
     'canceled' => 'failed'
   }.freeze
 
-  # Twilio's statuses in the order it fires them; callbacks can arrive out of order. Every
-  # status that ends the call outranks the live ones, so none of them can follow it.
+  # Twilio callbacks can arrive out of order.
   PROVIDER_STATUS_ORDER = %w[queued initiated ringing in-progress].freeze
   ACTIVE_PROVIDER_STATUSES = %w[in-progress inprogress answered].freeze
   TERMINAL_PROVIDER_STATUSES = %w[completed busy no-answer failed canceled].freeze
@@ -35,23 +34,17 @@ class Voice::StatusUpdateService
       duration: payload_duration,
       timestamp: payload_timestamp
     )
-    # One message update per callback: the status manager sends its own when the call's
-    # status moved
+    # The status manager broadcasts when the call status changes.
     call.message&.touch if provider_status_changed && call.status == status_before # rubocop:disable Rails/SkipsModelValidations
   end
 
   private
 
-  # Twilio's own status is kept beside the call's: queued, initiated and ringing all map
-  # to ringing here, but only the last means the far handset is actually ringing, and a
-  # client placing a call shows that moment. Returns whether it changed, so the message is
-  # rebroadcast even when the call's status does not move.
+  # Provider status distinguishes queued, initiated, and ringing for outbound clients.
   def record_provider_status(call)
     provider_status = call_status.to_s.downcase
     return false if provider_status.blank?
 
-    # Callbacks for one call can run at the same time; the check and the write share the
-    # row lock, and the write touches only this key so another webhook's meta keeps it
     call.with_lock do
       next false if call.provider_status == provider_status || !provider_status_recordable?(call)
       next false if stale_provider_status?(call.provider_status, provider_status)
@@ -61,11 +54,8 @@ class Voice::StatusUpdateService
     end
   end
 
-  # An ended call keeps the provider status it ended with, apart from one a failed join ended
-  # unanswered: the answer that comes in after it, and then the final status, are recorded
   def provider_status_recordable?(call) = !call.terminal? || call.meta&.dig('unanswered_by_failed_join').present?
 
-  # A delayed callback for an earlier stage does not move the status backwards
   def stale_provider_status?(current, incoming)
     current_rank = provider_status_rank(current)
     incoming_rank = provider_status_rank(incoming)

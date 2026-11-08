@@ -1,5 +1,3 @@
-# The data sent with VoIP pushes: the ring as APNs carries it, and the ring and the
-# cancel as FCM data messages
 class Voice::VoipPushPayloads
   pattr_initialize [:call!]
 

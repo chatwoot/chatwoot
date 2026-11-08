@@ -1,31 +1,20 @@
-# Sends APNs VoIP pushes over one connection. Built from settings read before any delivery
-# thread starts, so the deliveries make HTTP requests only and never touch the database.
 class Voice::ApnsVoipSender
   pattr_initialize [:settings!, :call_id!]
 
-  # Pushes in flight at once over the connection, so one slow response does not hold up
-  # the iPhones after it
   BATCH_SIZE = 20
 
-  # How long one push may wait to connect and for Apple's answer, well inside the ring, so a
-  # stalled first push does not hold up the iPhones after it
   PUSH_TIMEOUT_SECONDS = 10
 
-  # How long the first push, which also sets up TLS, may take in all. The connection's own
-  # timeouts do not cover the TLS handshake, so a connection that stalls there is given up.
+  # The connection timeout does not cover the TLS handshake.
   FIRST_PUSH_DEADLINE_SECONDS = 15
 
-  # Returns each token's outcome: :sent, :gone when Apple no longer knows it, or :failed.
-  # The first push goes alone: APNs allows more requests at once on a connection only
-  # after its first. `proceed` is asked on the calling thread before each batch after the
-  # first push; once it returns false the remaining tokens are not sent and have no outcome.
+  # APNs allows concurrent requests only after the first push.
   def ring(tokens, payload, proceed: -> { true })
     return {} if tokens.empty?
 
     connection = new_connection
     first, *rest = tokens
     outcomes = { first => deliver_first(connection, first, payload) }
-    # A connection given up reached nobody
     return tokens.index_with(:failed) if (abandoned = outcomes[first].nil?)
 
     outcomes.merge!(deliver_rest(connection, rest, payload, proceed))
@@ -36,9 +25,7 @@ class Voice::ApnsVoipSender
 
   private
 
-  # nil when the push did not finish in time. That push is then stopped, which releases the
-  # connection's lock held through a TLS setup still under way, and the connection is closed
-  # on a thread of its own, so nothing here waits on it.
+  # Stopping the first push releases the TLS lock so the abandoned connection can close.
   def deliver_first(connection, token, payload)
     attempt = Thread.new { deliver(connection, token, payload) }
     return attempt.value if attempt.join(FIRST_PUSH_DEADLINE_SECONDS)
@@ -86,7 +73,6 @@ class Voice::ApnsVoipSender
     response = connection.push(notification(token, payload), timeout: PUSH_TIMEOUT_SECONDS)
     status = response ? response.status.to_s : 'no response'
     outcome = { '200' => :sent, '410' => :gone }.fetch(status, :failed)
-    # A rejection such as a wrong key or topic leaves the iPhone silent, so it is logged as an error
     Rails.logger.public_send(outcome == :failed ? :error : :info,
                              "[VOIP PUSH] apple ring call #{call_id} to #{token[0, 8]}… status=#{status} #{response&.body}")
     outcome

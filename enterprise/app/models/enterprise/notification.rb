@@ -19,13 +19,11 @@ module Enterprise::Notification
 
   private
 
-  # The caller, the way a phone's call log names them
   def missed_call_body
     contact = conversation.contact
     [contact&.name, contact&.phone_number].compact_blank.join(' · ')
   end
 
-  # Enough for the app to show the missed call without a lookup
   def missed_call_push_data
     call = secondary_actor.try(:call)
     return if call.blank?

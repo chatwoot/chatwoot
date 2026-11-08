@@ -1,8 +1,4 @@
-# The agents a call rings: the assignee if the conversation has one who can still be
-# assigned the inbox, otherwise everyone who could be, keeping only agents whose status is
-# online, who take calls and who may open the conversation, as the web does. Socket
-# presence is not consulted: a locked phone is offline on the socket and is exactly the
-# device a ring push exists for.
+# Locked phones can receive pushes without a live socket.
 class Voice::RingRecipients
   pattr_initialize [:inbox!, :conversation!]
 

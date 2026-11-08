@@ -1,6 +1,3 @@
-# Decides again an agent's failed connection that was set aside while another of their
-# connections was on its way in, once that connection's time to join is up: it has joined,
-# and the failure is left alone, or it has not, and the failure takes effect.
 class Voice::FailedAddRecheckJob < ApplicationJob
   queue_as :critical
 

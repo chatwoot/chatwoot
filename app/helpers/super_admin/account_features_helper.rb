@@ -43,12 +43,11 @@ module SuperAdmin::AccountFeaturesHelper
             .transform_keys { |key| [key, display_names[key]] }
   end
 
-  # Features left out of the Super Admin feature lists; they are changed from the console
   def self.hidden_features
     account_features.select { |feature| feature['hidden'] }.pluck('name')
   end
 
-  # The form does not show hidden features, so they keep the state the account already has
+  # The form omits hidden features, so their existing state is preserved.
   def self.with_hidden_features(flags, account)
     flags + hidden_features.select { |feature| account&.feature_enabled?(feature) }.map { |feature| :"feature_#{feature}" }
   end
