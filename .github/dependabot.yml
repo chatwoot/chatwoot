@@ -5,7 +5,8 @@
 # merges, so they are deliberately not listed here. GitHub Actions are left out
 # too: Dependabot cannot limit them to our ai-service*.yml files and would open
 # PRs against Chatwoot's workflows. Every PR still goes through CI and review;
-# nothing merges automatically.
+# nothing merges automatically. A 7-day cooldown skips versions published in
+# the last week, when a compromised or broken release is most likely.
 version: 2
 updates:
   - package-ecosystem: gomod
@@ -16,6 +17,8 @@ updates:
       timezone: Asia/Bangkok
     target-branch: develop
     open-pull-requests-limit: 3
+    cooldown:
+      default-days: 7
     groups:
       go-modules:
         patterns: ['*']
@@ -30,5 +33,7 @@ updates:
       timezone: Asia/Bangkok
     target-branch: develop
     open-pull-requests-limit: 2
+    cooldown:
+      default-days: 7
     commit-message:
       prefix: '🔧 chore(ai-service)'
