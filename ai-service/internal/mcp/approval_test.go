@@ -3,6 +3,7 @@ package mcp
 import (
 	"context"
 	"errors"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -266,4 +267,41 @@ func TestApproval_WriteToolCallRefusedWithoutPendingStore(t *testing.T) {
 	if (res != nil && !isErr(res)) || len(e.st.docs) != 0 {
 		t.Fatalf("res=%v docs=%d", res, len(e.st.docs))
 	}
+}
+
+func TestApproval_ReplyLinksToReviewPage(t *testing.T) {
+	// Arrange
+	e := newAdminEnv()
+	e.srv.AdminURL = "https://support.example.com"
+
+	// Act
+	var out map[string]any
+	decodeResult(t, e.call(rw, "update_profile", map[string]any{"tone": "Warm and short."}), &out)
+
+	// Assert
+	want := "https://support.example.com/admin/approvals?account=1#change-" + jsonNum(out["id"])
+	if out["review_url"] != want {
+		t.Fatalf("review_url = %v, want %s", out["review_url"], want)
+	}
+}
+
+func TestApproval_NoLinkWithoutAdminURL(t *testing.T) {
+	// Arrange
+	e := newAdminEnv()
+
+	// Act
+	var out map[string]any
+	decodeResult(t, e.call(rw, "update_profile", map[string]any{"tone": "Warm and short."}), &out)
+
+	// Assert
+	if _, ok := out["review_url"]; ok {
+		t.Fatalf("review_url set without AdminURL: %v", out)
+	}
+}
+
+func jsonNum(v any) string {
+	if f, ok := v.(float64); ok {
+		return strconv.FormatInt(int64(f), 10)
+	}
+	return ""
 }

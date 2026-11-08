@@ -170,6 +170,7 @@ func run() error {
 			Location: cfg.Location, Logger: logger.With("component", "mcp"), Version: "1",
 			Profiles: adminProfiles, Sources: webStore(profiles), Checker: mcpChecker(webSyncer),
 			Events: adminEvents(profiles, cfg.AuditRetentionDays), Pending: pendingStore(profiles),
+			AdminURL: adminBaseURL(cfg.MCPPublicURL),
 		}
 		// OAuth lets Claude and ChatGPT apps connect with a sign-in instead of
 		// a pasted token. It needs the public https address of /mcp.
@@ -274,6 +275,21 @@ func attachmentFetcher(cfg config.Config) *media.Fetcher {
 		}
 	}
 	return f
+}
+
+// adminBaseURL is the public scheme and host of /admin, taken from
+// MCP_PUBLIC_URL (both are served by this process). It is empty unless that
+// address is https (or local http for development), so a review link never
+// points to an unexpected place.
+func adminBaseURL(mcpURL string) string {
+	u, err := url.Parse(mcpURL)
+	if err != nil || u.Host == "" || u.User != nil {
+		return ""
+	}
+	if u.Scheme != "https" && (u.Scheme != "http" || u.Hostname() != "127.0.0.1") {
+		return ""
+	}
+	return u.Scheme + "://" + u.Host
 }
 
 func hostOf(raw string) string {

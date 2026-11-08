@@ -46,7 +46,11 @@ type Server struct {
 	Events   audit.Store
 	// Pending holds AI edits until the owner approves them on /admin; nil
 	// hides update_profile and upsert_document (#60).
-	Pending  pending.Store
+	Pending pending.Store
+	// AdminURL is the public base address of /admin (scheme and host). When
+	// set, a "waiting for approval" reply carries a review_url the app can
+	// show the owner; empty leaves the link out.
+	AdminURL string
 	Location *time.Location // business time zone for dates; nil is UTC
 	Logger   *slog.Logger
 	Version  string

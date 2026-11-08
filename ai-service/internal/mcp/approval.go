@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/audit"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pending"
@@ -34,6 +35,12 @@ func (s *Server) propose(ctx context.Context, tok Token, kind pending.Kind, targ
 			"Sending another change to the same target updates this one."}
 	if changed != nil {
 		out["changed"] = changed
+	}
+	if s.AdminURL != "" {
+		// A link only: approving still needs the owner's /admin sign-in.
+		out["review_url"] = s.AdminURL + "/admin/approvals?account=" + strconv.FormatInt(tok.AccountID, 10) +
+			"#change-" + strconv.FormatInt(id, 10)
+		out["note"] = out["note"].(string) + " Show the owner review_url to review it."
 	}
 	return out, nil
 }
