@@ -48,7 +48,7 @@ type Change struct {
 	// Proposed is the edit as JSON: profile fields that change, or the
 	// document as the app sent it.
 	Proposed json.RawMessage
-	Actor    string // the AI app's name
+	Actor    string // the AI app's name; every contributing app, comma-separated
 	TokenID  int64
 	Version  int
 	At       time.Time

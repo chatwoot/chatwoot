@@ -276,6 +276,10 @@ func (s *Server) applyProfile(ctx context.Context, tok Token, raw []byte, approv
 	if err := next.Validate(); err != nil {
 		return userError(err.Error())
 	}
+	// The same checks as the tool, again: the row is applied as stored.
+	if err := checkDetails(next, given); err != nil {
+		return err
+	}
 	// History first: if the old version cannot be kept, nothing changes.
 	if err := s.Events.Record(ctx, audit.Event{AccountID: tok.AccountID, Actor: actorName(tok) + ", approved by " + approver,
 		Action: "business profile saved", Summary: "changed " + strings.Join(given, ", "), Before: s.profileView(cur)}); err != nil {

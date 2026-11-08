@@ -217,3 +217,53 @@ func TestApproval_FullQueueRefusesNewTargets(t *testing.T) {
 		t.Fatalf("res = %v", text(res))
 	}
 }
+
+func TestApproval_DoubleApproveAppliesOnce(t *testing.T) {
+	// Arrange: two tabs approve the same change.
+	e := newAdminEnv()
+	e.call(rw, "update_profile", map[string]any{"tone": "Warm."})
+	list, _ := e.srv.Pending.List(context.Background(), 1)
+	ctx := context.Background()
+
+	// Act
+	first := e.srv.Approve(ctx, 1, list[0].ID, list[0].Version, "owner@example.com")
+	second := e.srv.Approve(ctx, 1, list[0].ID, list[0].Version, "owner@example.com")
+	reject := e.srv.Reject(ctx, 1, list[0].ID, list[0].Version, "owner@example.com")
+
+	// Assert
+	if first != nil || !errors.Is(second, pending.ErrNotFound) || !errors.Is(reject, pending.ErrNotFound) {
+		t.Fatalf("first=%v second=%v reject=%v", first, second, reject)
+	}
+	if e.profiles.saves != 1 || len(e.events.events) != 1 {
+		t.Fatalf("saves=%d events=%d, want one apply", e.profiles.saves, len(e.events.events))
+	}
+}
+
+func TestApproval_ApplyRechecksText(t *testing.T) {
+	// Arrange: a row that did not come through the tool (another code path, SQL).
+	e := newEnv()
+	id, _ := e.srv.Pending.Propose(context.Background(), pending.Change{AccountID: 1, Kind: pending.KindDocument, Target: "pay",
+		Proposed: []byte(`{"key":"pay","title":"Pay","content":"Transfer to 1234567890"}`), Actor: "claude"})
+
+	// Act
+	err := e.srv.Approve(context.Background(), 1, id, 1, "owner@example.com")
+
+	// Assert
+	if err == nil || len(e.st.docs) != 0 {
+		t.Fatalf("err=%v docs=%d", err, len(e.st.docs))
+	}
+}
+
+func TestApproval_WriteToolCallRefusedWithoutPendingStore(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	e.srv.Pending = nil
+
+	// Act
+	res := e.call(rw, "upsert_document", map[string]any{"key": "hours", "title": "Hours", "content": "Open daily."})
+
+	// Assert
+	if (res != nil && !isErr(res)) || len(e.st.docs) != 0 {
+		t.Fatalf("res=%v docs=%d", res, len(e.st.docs))
+	}
+}

@@ -167,3 +167,23 @@ func TestStore_UnknownKindRefused(t *testing.T) {
 		}
 	})
 }
+
+func TestStore_EveryProposerIsNamed(t *testing.T) {
+	each(t, func(t *testing.T, db Store) {
+		// Arrange
+		ctx := context.Background()
+		second := profileChange(1, map[string]string{"rules": "Rule."})
+		second.Actor = "ChatGPT"
+
+		// Act
+		id, _ := db.Propose(ctx, profileChange(1, map[string]string{"tone": "Warm."}))
+		_, _ = db.Propose(ctx, second)
+		_, _ = db.Propose(ctx, profileChange(1, map[string]string{"tone": "Warmer."}))
+		got, _ := db.Get(ctx, 1, id)
+
+		// Assert
+		if got.Actor != "claude, ChatGPT" {
+			t.Fatalf("actor = %q, want both apps once", got.Actor)
+		}
+	})
+}

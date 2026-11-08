@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"slices"
+	"strings"
 	"sync"
 	"time"
 )
@@ -39,7 +40,7 @@ func (m *Memory) Propose(_ context.Context, c Change) (int64, error) {
 				}
 				proposed = merged
 			}
-			m.changes[i].Proposed, m.changes[i].Actor, m.changes[i].TokenID = proposed, c.Actor, c.TokenID
+			m.changes[i].Proposed, m.changes[i].Actor, m.changes[i].TokenID = proposed, addActor(cur.Actor, c.Actor), c.TokenID
 			m.changes[i].Version++
 			m.changes[i].At = time.Now()
 			return cur.ID, nil
@@ -112,4 +113,16 @@ func (m *Memory) Remove(_ context.Context, accountID, id int64, version int) err
 func (m *Memory) Count(ctx context.Context, accountID int64) (int, error) {
 	l, err := m.List(ctx, accountID)
 	return len(l), err
+}
+
+// addActor names every app that contributed to a change, once each.
+func addActor(names, actor string) string {
+	if slices.Contains(strings.Split(names, ", "), actor) {
+		return names
+	}
+	out := names + ", " + actor
+	if r := []rune(out); len(r) > 512 {
+		out = string(r[:512])
+	}
+	return out
 }

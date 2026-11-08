@@ -49,7 +49,9 @@ func (p *Postgres) Propose(ctx context.Context, c Change) (int64, error) {
 			proposed = CASE WHEN ai_pending_changes.kind = 'profile'
 			                THEN ai_pending_changes.proposed || EXCLUDED.proposed
 			                ELSE EXCLUDED.proposed END,
-			actor    = EXCLUDED.actor,
+			actor    = CASE WHEN position(', ' || EXCLUDED.actor || ', ' in ', ' || ai_pending_changes.actor || ', ') > 0
+			                THEN ai_pending_changes.actor
+			                ELSE left(ai_pending_changes.actor || ', ' || EXCLUDED.actor, 512) END,
 			token_id = EXCLUDED.token_id,
 			version  = ai_pending_changes.version + 1,
 			at       = now()

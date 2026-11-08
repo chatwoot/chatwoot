@@ -39,8 +39,10 @@ func (s *Server) propose(ctx context.Context, tok Token, kind pending.Kind, targ
 }
 
 // Approve applies a waiting change of the account, if it still has the
-// version the owner saw, and removes it. approver is who approved (shown in
-// the history).
+// version the owner saw. It claims the change first (removes it), so two
+// approvals, or an approval and a rejection, cannot both act on it; if
+// applying fails, the change is put back to wait. approver is who approved
+// (shown in the history).
 func (s *Server) Approve(ctx context.Context, accountID, id int64, version int, approver string) error {
 	c, err := s.Pending.Get(ctx, accountID, id)
 	if err != nil {
@@ -48,6 +50,9 @@ func (s *Server) Approve(ctx context.Context, accountID, id int64, version int, 
 	}
 	if c.Version != version {
 		return pending.ErrChanged
+	}
+	if err := s.Pending.Remove(ctx, accountID, id, version); err != nil {
+		return err
 	}
 	tok := Token{ID: c.TokenID, AccountID: accountID, Name: c.Actor}
 	switch c.Kind {
@@ -59,10 +64,9 @@ func (s *Server) Approve(ctx context.Context, accountID, id int64, version int, 
 		err = fmt.Errorf("unknown change kind %q", c.Kind)
 	}
 	if err != nil {
-		return err
-	}
-	// Applied; a newer proposal that arrived meanwhile stays waiting.
-	if err := s.Pending.Remove(ctx, accountID, id, version); err != nil && !errors.Is(err, pending.ErrChanged) {
+		if _, putErr := s.Pending.Propose(ctx, c); putErr != nil {
+			s.Logger.Error("approval failed and the change could not be put back", "account_id", accountID, "change_id", id, "error", putErr)
+		}
 		return err
 	}
 	if c.Kind == pending.KindDocument {

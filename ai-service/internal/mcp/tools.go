@@ -403,6 +403,13 @@ func (s *Server) applyDocument(ctx context.Context, tok Token, raw []byte) error
 	if err != nil {
 		return err
 	}
+	// The same checks as the tool, again: the row is applied as stored.
+	if knowledge.SyncedKey(d.SourceKey) || d.InboxID < 0 {
+		return userError("this change can no longer be applied: its key or inbox is not allowed")
+	}
+	if err := checkAIText("title or content", d.Title+"\n"+d.Content); err != nil {
+		return err
+	}
 	cur, err := s.Knowledge.GetByKey(ctx, tok.AccountID, d.SourceKey)
 	switch {
 	case errors.Is(err, knowledge.ErrNotFound):

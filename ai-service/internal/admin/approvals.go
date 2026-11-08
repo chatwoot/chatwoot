@@ -93,7 +93,7 @@ func (h *Handler) submitApprovals(w http.ResponseWriter, r *http.Request) {
 	default:
 		h.Logger.Error("ai change "+decision+" failed", "account_id", acct, "change_id", id, "error", err)
 		h.renderApprovals(w, r, http.StatusUnprocessableEntity, approvalsData{Account: acct,
-			Error: "Not applied: " + err.Error()})
+			Error: "Not applied. The change still waits; try again, and check the service logs if it keeps failing."})
 	}
 }
 

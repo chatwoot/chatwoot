@@ -16,7 +16,11 @@ CREATE TABLE IF NOT EXISTS ai_pending_changes (
     token_id   BIGINT,
     version    INT         NOT NULL DEFAULT 1,
     at         TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (account_id, kind, target)
+    UNIQUE (account_id, kind, target),
+    CHECK (kind <> 'profile' OR target = 'profile'),          -- one profile row per account
+    CHECK (char_length(target) <= 512),
+    CHECK (octet_length(proposed::text) <= 1048576),          -- the MCP request limit
+    CHECK (char_length(actor) <= 512)
 );
 
 ALTER TABLE ai_pending_changes ENABLE ROW LEVEL SECURITY;
