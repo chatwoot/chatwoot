@@ -20,6 +20,7 @@ import (
 	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/audit"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/intake"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/websync"
 )
@@ -54,7 +55,8 @@ var adminTools = []tool{
 		Description: "Change the business name, about, tone or rules. Only the fields you give change; each replaces the whole field and cannot be empty. " +
 			"This changes what real customers are told at once: show the user the new text and get their confirmation first. " +
 			"Read it with get_profile first. The old version is kept in the change history. Use test_bot afterwards. " +
-			"Contact and payment details and the voice, image and sticker switches can only be changed by the owner on the admin page.",
+			"Contact and payment details (phone, LINE, email, bank account, PromptPay, payment links) are refused in every field, " +
+			"and they and the voice, image and sticker switches can only be changed by the owner on the admin page.",
 		InputSchema: obj(map[string]any{
 			"business_name": str("Business name (up to 120 characters)."),
 			"about":         str("What the business sells or does."),
@@ -187,7 +189,7 @@ func (s *Server) getProfile(ctx context.Context, tok Token) (any, error) {
 // profileArgs are the fields an AI tool may change. Contact (payment and
 // links) and the paid voice and image switches are left to the owner on
 // /admin: a prompt-injected app must not be able to swap the payment details
-// customers are given.
+// customers are given. checkDetails keeps such details out of these fields too.
 type profileArgs struct {
 	BusinessName *string `json:"business_name"`
 	About        *string `json:"about"`
@@ -233,6 +235,9 @@ func (s *Server) updateProfile(ctx context.Context, tok Token, a profileArgs) (a
 	if err := next.Validate(); err != nil {
 		return nil, userError(err.Error())
 	}
+	if err := checkDetails(next, given); err != nil {
+		return nil, err
+	}
 	var changed []string
 	for _, f := range given {
 		if profileField(cur, f) != profileField(next, f) {
@@ -251,6 +256,29 @@ func (s *Server) updateProfile(ctx context.Context, tok Token, a profileArgs) (a
 		return nil, err
 	}
 	return map[string]any{"result": "saved", "changed": changed}, nil
+}
+
+// checkDetails refuses AI-written profile text that carries payment, contact
+// or private details. The bot repeats these fields to customers, so such
+// details stay with the owner on /admin, the same as the Contact field.
+func checkDetails(p profile.Profile, given []string) error {
+	for _, f := range given {
+		sig := intake.Detect(profileField(p, f))
+		var kind string
+		var found []string
+		switch {
+		case len(sig.Private) > 0:
+			kind, found = "private details", sig.Private
+		case len(sig.Payment) > 0:
+			kind, found = "payment details", sig.Payment
+		case len(sig.Contact) > 0:
+			kind, found = "contact details", sig.Contact
+		default:
+			continue
+		}
+		return userError(fmt.Sprintf("%s contains %s (%s); an AI tool cannot set these, the owner adds them on the admin page", f, kind, strings.Join(found, ", ")))
+	}
+	return nil
 }
 
 func profileField(p profile.Profile, name string) string {
