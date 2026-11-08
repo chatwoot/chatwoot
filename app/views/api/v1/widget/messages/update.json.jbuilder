@@ -1,1 +1,1 @@
-json.contact @contact if @contact
+json.contact @contact.widget_presence_data

@@ -4,6 +4,7 @@ get:
   operationId: GetInbox
   summary: Get an inbox
   security:
+    - userBearerAuth: []
     - userApiKey: []
   description: Get an inbox available in the current account
   parameters:
@@ -39,6 +40,7 @@ patch:
   operationId: updateInbox
   summary: Update Inbox
   security:
+    - userBearerAuth: []
     - userApiKey: []
   description: Update an existing inbox
   parameters:
@@ -147,6 +149,7 @@ patch:
                   api_key: your-api-key
                   phone_number_id: your-phone-number-id
                   business_account_id: your-business-account-id
+                  app_secret: your-app-secret
           sms:
             summary: SMS channel settings
             value:

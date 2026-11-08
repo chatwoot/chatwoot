@@ -55,6 +55,15 @@ RSpec.describe Email::FromBuilder do
 
           expect(result).to include('support@example.com')
         end
+
+        it 'quotes a business name containing a comma so the mailbox parses to a single address' do
+          inbox.update!(name: 'Atención al Paciente, Medicina y Cirugía')
+
+          result = described_class.new(inbox: inbox, message: current_message).build
+
+          expect(result).to eq('"Atención al Paciente, Medicina y Cirugía" <support@example.com>')
+          expect(Mail.new(from: result).smtp_envelope_from).to eq('support@example.com')
+        end
       end
     end
 

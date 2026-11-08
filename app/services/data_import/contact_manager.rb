@@ -13,7 +13,7 @@ class DataImport::ContactManager
     contact = find_existing_contact(params)
     contact_params = params.slice(:email, :identifier, :phone_number)
     contact_params[:phone_number] = format_phone_number(contact_params[:phone_number]) if contact_params[:phone_number].present?
-    contact ||= @account.contacts.new(contact_params)
+    contact ||= @account.contacts.new(contact_params.merge(contact_type: :lead))
     contact
   end
 

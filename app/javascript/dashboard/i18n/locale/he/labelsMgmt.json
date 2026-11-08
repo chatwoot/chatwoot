@@ -43,20 +43,6 @@
       "DELETE": "מחק",
       "CANCEL": "ביטול"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "הוסף תווית לשיחה",
-        "MULTIPLE_SUGGESTION": "בחר תווית זו",
-        "DESELECT": "בטל בחירת תווית",
-        "DISMISS": "בטל הצעה"
-      },
-      "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "סגור",
-      "ADD_SELECTED_LABELS": "הוסף תוויות שנבחרו",
-      "ADD_SELECTED_LABEL": "הוסף תווית שנבחרה",
-      "ADD_ALL_LABELS": "הוסף את כל התוויות",
-      "SUGGESTED_LABELS": "תוויות מוצעות"
-    },
     "ADD": {
       "TITLE": "הוסף תווית",
       "DESC": "תוויות מאפשרות לך לקבץ את השיחות יחד.",
