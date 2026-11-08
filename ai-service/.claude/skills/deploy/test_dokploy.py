@@ -90,3 +90,18 @@ class DiskTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PublicRequestTest(unittest.TestCase):
+    def test_public_checks_send_a_named_user_agent(self):
+        # Arrange: Cloudflare blocks the default "Python-urllib" agent on the staging host.
+        url = "https://chat-staging.example.test/webhooks/chatwoot"
+
+        # Act
+        request = dokploy.public_request(url, "POST")
+
+        # Assert
+        agent = request.get_header("User-agent")
+        self.assertTrue(agent and agent.startswith("chatwoot-deploy-verify/"))
+        self.assertEqual(request.get_method(), "POST")
+        self.assertEqual(request.data, b"{}")

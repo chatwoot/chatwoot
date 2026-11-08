@@ -121,13 +121,18 @@ volumes, then redo first-time setup steps 4–6 below.
    `dokploy.py --target staging verify`.
 5. Chatwoot first login (through Access): create the super admin on the
    onboarding page, an account, a Website inbox, and an Agent Bot whose
-   webhook URL is `https://chat-staging.johnstockeraistudio.com/webhooks/chatwoot`.
+   webhook URL is `https://chat-staging.johnstockeraistudio.com/webhooks/chatwoot`;
+   connect the bot to the inbox. The URL must be the public one: Chatwoot
+   refuses webhook hosts without a public IP ("has no public ip addresses"),
+   so `http://stg-ai-service:8080` does not work in production mode.
 6. Put the bot's real token and secret in the staging env, set
    `COMPOSE_PROFILES=ai`, deploy again. Only now add the tunnel route
    `chat-staging` path `^/webhooks/chatwoot` → `http://stg-ai-service:8080`
-   (above the catch-all) and a second Access app for
+   and drag it to **first place** (routes match top to bottom; below the
+   catch-all it never matches), plus a second Access app for
    `chat-staging.johnstockeraistudio.com/webhooks/chatwoot` with a *Bypass*
-   policy (Everyone). Then seed the sample shop (above).
+   policy (Everyone). Then seed the sample shop into the bot's account
+   (`-seed-account <id>`; the first account Chatwoot creates is not always 1).
 
 ## Release a change
 
