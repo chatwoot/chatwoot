@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useStore } from 'dashboard/composables/store';
@@ -16,6 +17,7 @@ import CopilotThreadsAPI from 'dashboard/api/captain/copilotThreads';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const store = useStore();
+const route = useRoute();
 const { uiSettings, updateUISettings } = useUISettings();
 const { isEnterprise } = useConfig();
 const { width: windowWidth } = useWindowSize();
@@ -120,6 +122,21 @@ const shouldShowCopilotPanel = computed(() => {
     !uiFlags.value.fetchingList
   );
 });
+
+// Expanded, the panel covers the conversation area. It opens at its normal width every time. It stays below the
+// sidebar's z-40, so the sidebar menus open over it.
+const isExpanded = ref(false);
+watch(shouldShowCopilotPanel, isOpen => {
+  if (!isOpen) isExpanded.value = false;
+});
+// A page opened while expanded, from a Copilot link or the sidebar, would load behind the panel, so the panel returns
+// to its normal width beside it.
+watch(
+  () => route.path,
+  () => {
+    isExpanded.value = false;
+  }
+);
 
 const isWorkflowsEnabled = computed(() =>
   isFeatureEnabledonAccount.value(
@@ -286,6 +303,14 @@ const sendMessage = async payload => {
   }
 };
 
+const stopCopilot = async () => {
+  try {
+    await CopilotThreadsAPI.stop(selectedCopilotThreadId.value);
+  } catch (error) {
+    useAlert(error.message);
+  }
+};
+
 onMounted(() => {
   if (isEnterprise) {
     store.dispatch('captainAssistants/get');
@@ -297,12 +322,15 @@ onMounted(() => {
   <div
     v-if="shouldShowCopilotPanel"
     v-on-click-outside="() => closeCopilotPanel()"
-    class="bg-n-surface-2 h-full overflow-hidden flex-col fixed top-0 ltr:right-0 rtl:left-0 z-40 w-full max-w-sm transition-transform duration-300 ease-in-out md:static md:w-[320px] md:min-w-[320px] ltr:border-l rtl:border-r border-n-weak 2xl:min-w-[360px] 2xl:w-[360px] shadow-lg md:shadow-none"
+    class="bg-n-surface-2 h-full overflow-hidden flex-col fixed top-0 end-0 z-40 w-full max-w-sm transition-transform duration-300 ease-in-out border-s border-n-weak shadow-lg md:shadow-none"
     :class="[
       {
         'md:flex': shouldShowCopilotPanel,
         'md:hidden': !shouldShowCopilotPanel,
       },
+      isExpanded
+        ? 'md:absolute md:inset-0 md:max-w-none md:z-30'
+        : 'md:static md:w-80 md:min-w-80 2xl:w-[22.5rem] 2xl:min-w-[22.5rem]',
     ]"
   >
     <Copilot
@@ -317,11 +345,16 @@ onMounted(() => {
       :is-loading-selected-thread="isLoadingSelectedThread"
       :can-suggest-reply="canSuggestReply"
       :can-use-reply="canUseReply"
+      :is-expanded="isExpanded"
+      :can-show-avatar="isWorkflowsEnabled"
       :on-send-message="sendMessage"
+      :can-stop="isWorkflowsEnabled"
+      :on-stop="stopCopilot"
       @set-assistant="setAssistant"
       @select-thread="selectThread"
       @load-more-threads="loadThreads(historyPage + 1)"
       @reset="handleReset"
+      @toggle-expand="isExpanded = !isExpanded"
     />
   </div>
   <template v-else />

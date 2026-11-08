@@ -1,5 +1,5 @@
 <script setup>
-import { ref, useTemplateRef } from 'vue';
+import { ref, useTemplateRef, watch } from 'vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import { ROLES } from 'dashboard/constants/permissions';
@@ -18,6 +18,13 @@ const filters = defineModel('filters', { type: Object, default: () => ({}) });
 
 const searchInputRef = useTemplateRef('searchInputRef');
 const searchQuery = ref(props.initialQuery);
+
+watch(
+  () => props.initialQuery,
+  query => {
+    searchQuery.value = query;
+  }
+);
 
 const onSearch = query => {
   if (query?.trim() && searchInputRef.value) {

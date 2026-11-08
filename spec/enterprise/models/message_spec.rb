@@ -129,6 +129,60 @@ RSpec.describe Message do
     end
   end
 
+  describe 'reopening Captain-owned conversations' do
+    let(:account) { create(:account, limits: { 'captain_responses' => 10 }) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :resolved) }
+
+    before do
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+      conversation.update!(ai_assignee: assistant)
+    end
+
+    it 'returns a resolved conversation to Captain when the feature is enabled and credits are available' do
+      account.enable_features!('captain_integration')
+
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: assistant)
+    end
+
+    it 'opens a resolved conversation and clears Captain when the feature is disabled' do
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
+    end
+
+    it 'opens a resolved conversation and clears Captain when credits are exhausted' do
+      account.enable_features!('captain_integration')
+      account.update!(limits: { 'captain_responses' => 0 })
+
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
+    end
+
+    it 'opens a snoozed conversation and clears Captain' do
+      account.enable_features!('captain_integration')
+      conversation.snoozed!
+
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
+    end
+  end
+
+  it 'preserves AgentBot ownership when a resolved conversation reopens' do
+    agent_bot = create(:agent_bot, account: conversation.account)
+    create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: agent_bot)
+    conversation.update!(status: :resolved, ai_assignee: agent_bot)
+
+    create(:message, conversation: conversation, message_type: :incoming)
+
+    expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: agent_bot)
+  end
+
   describe 'translation flag' do
     let(:conversation) { create(:conversation, additional_attributes: { 'conversation_language' => 'fr' }) }
     let(:agent) { create(:user, account: conversation.account) }
@@ -168,6 +222,16 @@ RSpec.describe Message do
                                sender: agent, content: 'Hello')
 
       expect(reply.content_attributes).not_to have_key('translation_pending')
+    end
+
+    it 'does nothing while auto translate is off for the conversation' do
+      conversation.update!(auto_translate_disabled: true)
+      template = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :template,
+                                  content: 'Hello')
+      reply = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                               sender: agent, content: 'Hello')
+
+      expect([template, reply].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false, false])
     end
   end
 end

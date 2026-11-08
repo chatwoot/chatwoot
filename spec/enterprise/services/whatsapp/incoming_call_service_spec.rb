@@ -86,6 +86,34 @@ describe Whatsapp::IncomingCallService do
         hash_including(data: hash_including(recording_enabled: false))
       )
     end
+
+    context 'when an inbox agent has turned calls off' do
+      let!(:calls_off_agent) { create(:user, account: account) }
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+
+      before do
+        create(:inbox_member, inbox: inbox, user: calls_off_agent)
+        calls_off_agent.account_users.find_by(account: account).update!(accepts_calls: false)
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      it 'rings only the online agents who take calls' do
+        allow(OnlineStatusTracker).to receive(:get_available_users)
+          .and_return(agent.id.to_s => 'online', calls_off_agent.id.to_s => 'online')
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(ActionCable.server).to have_received(:broadcast).with(agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
+        expect(ActionCable.server).not_to have_received(:broadcast).with(calls_off_agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
+      end
+
+      it 'leaves them out of the fallback when no agent is online' do
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(ActionCable.server).to have_received(:broadcast).with(agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
+        expect(ActionCable.server).not_to have_received(:broadcast).with(calls_off_agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
+      end
+    end
   end
 
   describe 'inbound connect from a username (BSUID) caller' do

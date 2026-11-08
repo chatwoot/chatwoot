@@ -14,6 +14,7 @@ RSpec.describe Captain::Conversation::ContactMessageTranslationService do
   end
 
   it 'detects the language, stores the translation next to the ones other agents made and follows the contact' do
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Salut', source_language: 'fr')
     message.update!(translations: { 'de' => 'Hallo' })
 
     described_class.new(message: message, target_language: 'en').perform

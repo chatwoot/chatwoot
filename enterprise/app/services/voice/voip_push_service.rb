@@ -27,7 +27,7 @@ class Voice::VoipPushService
   ANDROID = 'fcm'.freeze
 
   # The agents a call rings; see Voice::RingRecipients
-  def self.recipients_for(call) = Voice::RingRecipients.new(call: call).agents
+  def self.recipients_for(call) = Voice::RingRecipients.new(inbox: call.inbox, conversation: call.conversation).agents
 
   def perform(action)
     case action

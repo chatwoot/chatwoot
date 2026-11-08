@@ -139,11 +139,11 @@
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
+      "HEADER_TITLE": "WhatsApp 活动",
       "NEW_CAMPAIGN": "创建活动",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "暂无 WhatsApp 活动",
+        "SUBTITLE": "启动 WhatsApp 活动直接与客户沟通。轻松发送优惠或公告。点击「创建活动」开始。"
       },
       "CARD": {
         "ANALYTICS": "View analytics",
