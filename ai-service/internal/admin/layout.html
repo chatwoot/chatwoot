@@ -77,6 +77,8 @@
   .alert { border-radius: 8px; padding: 12px 14px; margin: 0 0 16px; overflow-wrap: anywhere; }
   .alert.ok { background: var(--ok-bg); color: var(--ok-text); }
   .alert.err { background: var(--err-bg); color: var(--err-text); white-space: pre-line; }
+  .alert.warn { background: var(--warn-bg); color: var(--warn-text); }
+  .alert.warn a { color: inherit; font-weight: 600; }
   .test { margin-top: 12px; margin-bottom: 0; }
   nav { display: flex; flex-direction: column; gap: 2px; }
   nav a { color: var(--muted); text-decoration: none; font-weight: 600; padding: 10px 12px; min-height: 44px; display: flex; align-items: center; border-radius: 8px; white-space: nowrap; }
@@ -207,6 +209,15 @@
   .bubble.typing .dots span:nth-child(3) { animation-delay: .4s; }
   @keyframes typing { 0%, 80%, 100% { opacity: .35; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
   @media (prefers-reduced-motion: reduce) { .bubble.typing .dots span { animation: none; opacity: .6; } }
+  .card.change { margin: 0 0 16px; }
+  .change-head h2 { margin: 0 0 4px; }
+  .diff { margin: 12px 0 0; }
+  .diff-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .diff-label { margin: 0 0 4px; font-size: .8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  pre.diff-now { color: var(--muted); }
+  pre.diff-new { border-color: var(--accent); }
+  .change-actions { margin-top: 16px; }
+  @media (max-width: 640px) { .diff-cols { grid-template-columns: 1fr; } }
   .empty { color: var(--muted); text-align: center; padding: 32px 16px; border: 1px dashed var(--border); border-radius: var(--radius); margin: 0 0 16px; }
   .test-grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; align-items: start; }
   .test-grid > .card { margin: 0; }
@@ -270,6 +281,7 @@
     <a href="/admin/test"{{if eq . "test"}} aria-current="page"{{end}}>Test bot</a>
     <a href="/admin/business"{{if eq . "business"}} aria-current="page"{{end}}>Business profile</a>
     <a href="/admin/knowledge"{{if eq . "knowledge"}} aria-current="page"{{end}}>Knowledge base</a>
+    <a href="/admin/approvals"{{if eq . "approvals"}} aria-current="page"{{end}}>AI approvals</a>
     <a href="/admin/connections"{{if eq . "connections"}} aria-current="page"{{end}}>Connect AI tools</a>
     <a class="nav-settings" href="/admin/providers"{{if eq . "providers"}} aria-current="page"{{end}}>AI providers</a>
   </nav>

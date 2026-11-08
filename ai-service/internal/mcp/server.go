@@ -16,6 +16,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pending"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/ratelimit"
 )
@@ -43,6 +44,9 @@ type Server struct {
 	Sources  Sources
 	Checker  Checker
 	Events   audit.Store
+	// Pending holds AI edits until the owner approves them on /admin; nil
+	// hides update_profile and upsert_document (#60).
+	Pending  pending.Store
 	Location *time.Location // business time zone for dates; nil is UTC
 	Logger   *slog.Logger
 	Version  string

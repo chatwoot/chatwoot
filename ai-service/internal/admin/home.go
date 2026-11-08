@@ -27,6 +27,7 @@ type homeData struct {
 	Features    profile.Features
 	Profiles    bool
 	Recent      []recentView
+	Waiting     int // AI-app edits waiting for approval
 }
 
 type recentView struct {
@@ -46,6 +47,13 @@ func (h *Handler) showHome(w http.ResponseWriter, r *http.Request) {
 			h.Logger.Warn("home: business profile lookup failed", "account_id", acct, "error", err)
 		}
 		d.Business, d.Features = p.BusinessName, p.Features
+	}
+	if h.approvalsOn() {
+		n, err := h.Pending.Count(r.Context(), acct)
+		if err != nil {
+			h.Logger.Warn("home: waiting ai changes count failed", "account_id", acct, "error", err)
+		}
+		d.Waiting = n
 	}
 	if h.Knowledge != nil {
 		docs, err := h.Knowledge.List(r.Context(), acct)

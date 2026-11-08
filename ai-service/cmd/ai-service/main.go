@@ -30,6 +30,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pdftext"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pending"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/places"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/server"
@@ -156,19 +157,7 @@ func run() error {
 		h.Places = &places.Recorder{Store: placeStore}
 	}
 	mux := h.Routes()
-	if cfg.AdminPassword != "" {
-		(&admin.Handler{
-			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
-			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
-			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout,
-			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL,
-			TeamSignIn: cfg.CFAccessAUD != "", Owners: cfg.Owners, AdminAccess: adminAccess(cfg),
-			Events: adminEvents(profiles, cfg.AuditRetentionDays),
-			Web:    webStore(profiles), WebSync: webSyncer, Places: adminPlaces(placeStore), Logger: logger,
-		}).Routes(mux)
-	} else {
-		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
-	}
+	var srvMCP *mcp.Server // nil while MCP is off
 	switch {
 	case !cfg.MCPEnabled:
 		logger.Info("mcp off: set MCP_ENABLED=true to let AI tools use the knowledge base")
@@ -176,11 +165,11 @@ func run() error {
 		logger.Warn("mcp off: it needs DATABASE_URL and ADMIN_PASSWORD (tokens are managed on /admin)")
 	default:
 		// MCP for AI tools: bearer-token auth inside, no /admin password.
-		srvMCP := &mcp.Server{
+		srvMCP = &mcp.Server{
 			Knowledge: kb, Tokens: mcpStore, Audit: mcpStore, Tester: b,
 			Location: cfg.Location, Logger: logger.With("component", "mcp"), Version: "1",
 			Profiles: adminProfiles, Sources: webStore(profiles), Checker: mcpChecker(webSyncer),
-			Events: adminEvents(profiles, cfg.AuditRetentionDays),
+			Events: adminEvents(profiles, cfg.AuditRetentionDays), Pending: pendingStore(profiles),
 		}
 		// OAuth lets Claude and ChatGPT apps connect with a sign-in instead of
 		// a pasted token. It needs the public https address of /mcp.
@@ -201,6 +190,20 @@ func run() error {
 		}
 		mux.Handle("/mcp", srvMCP)
 		logger.Info("mcp on", "path", "/mcp")
+	}
+	if cfg.AdminPassword != "" {
+		(&admin.Handler{
+			Password: cfg.AdminPassword, Store: store, Switch: completer, Embedder: embedder,
+			Rewrite: rewriteLLM, RewriteModel: cfg.RewriteModel,
+			Knowledge: kb, Profiles: adminProfiles, Tester: b, Location: cfg.Location, Timeout: cfg.LLMTimeout,
+			Tokens: mcpTokens(mcpStore), Apps: oauthApps(oauthStore), MCPURL: cfg.MCPPublicURL,
+			TeamSignIn: cfg.CFAccessAUD != "", Owners: cfg.Owners, AdminAccess: adminAccess(cfg),
+			Events: adminEvents(profiles, cfg.AuditRetentionDays),
+			Web:    webStore(profiles), WebSync: webSyncer, Places: adminPlaces(placeStore), Logger: logger,
+			Pending: pendingStore(profiles), Approver: adminApprover(srvMCP),
+		}).Routes(mux)
+	} else {
+		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
 	}
 	srv := &http.Server{
 		Addr:              cfg.ListenAddr,
@@ -308,6 +311,22 @@ func webStore(p *profile.Postgres) websync.Store {
 		return nil
 	}
 	return &websync.Postgres{Pool: p.Pool}
+}
+
+// pendingStore keeps AI-app edits waiting for approval, or nil without a database.
+func pendingStore(p *profile.Postgres) pending.Store {
+	if p == nil {
+		return nil
+	}
+	return &pending.Postgres{Pool: p.Pool}
+}
+
+// adminApprover keeps a nil MCP server a nil interface (approvals off).
+func adminApprover(s *mcp.Server) admin.Approver {
+	if s == nil || s.Pending == nil {
+		return nil
+	}
+	return s
 }
 
 // adminEvents is the admin change log, or nil without a database.

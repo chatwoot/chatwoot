@@ -28,6 +28,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/oauth"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pending"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/websync"
@@ -87,6 +88,10 @@ type Handler struct {
 
 	// Events records changes made here; nil skips it (no database).
 	Events audit.Store
+	// Pending and Approver show and decide AI-app edits waiting for the
+	// owner (#60); either nil turns the approvals page off.
+	Pending  pending.Store
+	Approver Approver
 	// AdminAccess verifies the Cloudflare Access sign-in in front of /admin;
 	// Owners are the emails it admits without the password.
 	AdminAccess Identifier
@@ -128,6 +133,8 @@ func (h *Handler) Routes(mux *http.ServeMux) {
 	mux.Handle("POST /admin/knowledge", wrap(h.submitKnowledge))
 	mux.Handle("GET /admin/business", wrap(h.showBusiness))
 	mux.Handle("POST /admin/business", wrap(h.submitBusiness))
+	mux.Handle("GET /admin/approvals", wrap(h.showApprovals))
+	mux.Handle("POST /admin/approvals", wrap(h.submitApprovals))
 }
 
 type providerView struct {

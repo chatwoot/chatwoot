@@ -5,13 +5,14 @@ package mcp
 // keys, MCP tokens, connected apps, the contact (payment) field and the paid
 // feature switches are deliberately not writable here: they stay behind the
 // /admin login, so a prompt-injected AI app cannot change the contact
-// section or run up costs. Profile and document writes still change what
-// customers are told, so those tools are marked destructive, ask the app to
-// confirm with its user, and refuse payment and contact details
-// (checkAIText in aitext.go).
+// section or run up costs. Profile and document writes would change what
+// customers are told, so they wait for the owner's approval (approval.go),
+// refuse payment and contact details at once (aitext.go), and are marked
+// destructive so the app confirms with its user.
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -21,6 +22,7 @@ import (
 	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/audit"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pending"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/websync"
 )
@@ -53,7 +55,7 @@ var adminTools = []tool{
 		InputSchema: obj(map[string]any{}), Annotations: map[string]any{"readOnlyHint": true, "openWorldHint": false}},
 	{Name: "update_profile", Title: "Change the business profile", write: true,
 		Description: "Change the business name, about, tone or rules. Only the fields you give change; each replaces the whole field and cannot be empty. " +
-			"This changes what real customers are told at once: show the user the new text and get their confirmation first. " +
+			"The change waits until the owner approves it on the admin page; until then customers see the current text. Show the user the new text first. " +
 			"Read it with get_profile first. The old version is kept in the change history. Use test_bot afterwards. " +
 			"Links, @handles, LINE or messenger IDs and long numbers (phone, account, card) are refused in every field, " +
 			"and they and the voice, image and sticker switches can only be changed by the owner on the admin page.",
@@ -90,10 +92,12 @@ func (s *Server) available(name string) bool {
 	switch name {
 	case "test_bot":
 		return s.Tester != nil
+	case "upsert_document":
+		return s.Pending != nil
 	case "get_profile":
 		return s.Profiles != nil
 	case "update_profile":
-		return s.Profiles != nil && s.Events != nil
+		return s.Profiles != nil && s.Events != nil && s.Pending != nil
 	case "list_sources":
 		return s.Sources != nil
 	case "sync_source":
@@ -247,15 +251,37 @@ func (s *Server) updateProfile(ctx context.Context, tok Token, a profileArgs) (a
 	if len(changed) == 0 {
 		return map[string]any{"result": "unchanged"}, nil
 	}
+	fields := make(map[string]string, len(changed))
+	for _, f := range changed {
+		fields[f] = profileField(next, f)
+	}
+	return s.propose(ctx, tok, pending.KindProfile, pending.ProfileTarget, fields, changed)
+}
+
+// applyProfile saves approved profile fields over the current profile, so
+// edits the owner made since the proposal stay.
+func (s *Server) applyProfile(ctx context.Context, tok Token, raw []byte, approver string) error {
+	var a profileArgs
+	if err := json.Unmarshal(raw, &a); err != nil {
+		return err
+	}
+	cur, err := s.Profiles.Get(ctx, tok.AccountID)
+	if err != nil {
+		return err
+	}
+	next := cur
+	next.AccountID = tok.AccountID
+	given := a.apply(&next)
+	next = next.Normalize()
+	if err := next.Validate(); err != nil {
+		return userError(err.Error())
+	}
 	// History first: if the old version cannot be kept, nothing changes.
-	if err := s.Events.Record(ctx, audit.Event{AccountID: tok.AccountID, Actor: actorName(tok), Action: "business profile saved",
-		Summary: "changed " + strings.Join(changed, ", "), Before: s.profileView(cur)}); err != nil {
-		return nil, fmt.Errorf("%w: %w", userError("not saved: the change history could not be stored; try again"), err)
+	if err := s.Events.Record(ctx, audit.Event{AccountID: tok.AccountID, Actor: actorName(tok) + ", approved by " + approver,
+		Action: "business profile saved", Summary: "changed " + strings.Join(given, ", "), Before: s.profileView(cur)}); err != nil {
+		return fmt.Errorf("not saved: the change history could not be stored: %w", err)
 	}
-	if err := s.Profiles.Save(ctx, next); err != nil {
-		return nil, err
-	}
-	return map[string]any{"result": "saved", "changed": changed}, nil
+	return s.Profiles.Save(ctx, next)
 }
 
 // checkDetails runs checkAIText on each field the call gives. Fields the

@@ -16,6 +16,9 @@
     {{template "account-picker" (dict "Action" "/admin" "Current" .AccountID)}}
   </div>
 
+  {{if .Waiting}}
+  <div class="alert warn" role="status"><strong>{{.Waiting}} AI {{if eq .Waiting 1}}change waits{{else}}changes wait{{end}} for your approval.</strong> <a href="/admin/approvals?account={{.AccountID}}">Review {{if eq .Waiting 1}}it{{else}}them{{end}}</a></div>
+  {{end}}
   {{if eq .Left 0}}
   <div class="status ready" role="status">Ready. The bot answers in every Chatwoot inbox it is connected to.</div>
   {{else}}

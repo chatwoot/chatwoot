@@ -212,6 +212,7 @@ func TestAdminTools_UpdateProfileChangesOnlyGivenFields(t *testing.T) {
 	// Act
 	var out map[string]any
 	decodeResult(t, e.call(rw, "update_profile", map[string]any{"tone": "  Friendly, short.\r\n", "about": "Auto-cut software"}), &out)
+	approveAll(t, e.srv)
 
 	// Assert
 	p := e.profiles.byAcct[1]
@@ -226,11 +227,11 @@ func TestAdminTools_UpdateProfileChangesOnlyGivenFields(t *testing.T) {
 	}
 	ev := e.events.events[0]
 	before, _ := ev.Before.(profileView)
-	if ev.AccountID != 1 || ev.Actor != "claude (AI tool)" || ev.Action != "business profile saved" ||
+	if ev.AccountID != 1 || ev.Actor != "claude (AI tool), approved by owner@example.com" || ev.Action != "business profile saved" ||
 		!strings.Contains(ev.Summary, "tone") || !strings.Contains(ev.Summary, "about") || before.Tone != "" || before.Rules != "Never promise a price." {
 		t.Fatalf("event = %+v", ev)
 	}
-	if out["result"] != "saved" {
+	if out["result"] != "waiting for approval" {
 		t.Fatalf("out = %v", out)
 	}
 }
@@ -249,7 +250,6 @@ func TestAdminTools_UpdateProfileRefusals(t *testing.T) {
 		"forged account":        {rw, map[string]any{"account_id": 2, "rules": "x"}, false, "invalid arguments"},
 		"contact is admin-only": {rw, map[string]any{"contact": "Pay to account 123"}, false, "invalid arguments"},
 		"paid switch":           {rw, map[string]any{"images": true}, false, "invalid arguments"},
-		"history not saved":     {rw, map[string]any{"rules": "x"}, true, "not saved"},
 		"blank business name":   {rw, map[string]any{"business_name": "  "}, false, "cannot be empty"},
 		"blank rules":           {rw, map[string]any{"rules": ""}, false, "cannot be empty"},
 		"blank tone":            {rw, map[string]any{"tone": "\r\n\n"}, false, "cannot be empty"},
@@ -297,6 +297,7 @@ func TestAdminTools_UpdateProfileIgnoresOwnerTextInOtherFields(t *testing.T) {
 
 	// Act
 	res := e.call(rw, "update_profile", map[string]any{"tone": "Warm and short."})
+	approveAll(t, e.srv)
 
 	// Assert
 	if isErr(res) || e.profiles.byAcct[1].Tone != "Warm and short." || e.profiles.byAcct[1].Rules != p.Rules {

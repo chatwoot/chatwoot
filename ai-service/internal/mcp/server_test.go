@@ -15,6 +15,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pending"
 )
 
 // --- fakes ---
@@ -148,7 +149,7 @@ func newEnv() *env {
 			ro:    {ID: 2, AccountID: 1, Name: "reader"},
 			other: {ID: 3, AccountID: 2, Name: "other", CanWrite: true},
 		}},
-		Audit: e.audit, Tester: e.test,
+		Audit: e.audit, Tester: e.test, Pending: &pending.Memory{},
 		Logger: slog.New(slog.NewJSONHandler(io.Discard, nil)), Version: "test",
 	}
 	return e
@@ -269,8 +270,10 @@ func TestServer_UpsertCreatesThenUpdatesWithAudit(t *testing.T) {
 
 	// Act
 	created := e.call(rw, "upsert_document", args)
+	approveAll(t, e.srv)
 	args["content"] = "3,500 บาท"
 	updated := e.call(rw, "upsert_document", args)
+	approveAll(t, e.srv)
 
 	// Assert
 	if isErr(created) || isErr(updated) || len(e.st.docs) != 1 || e.st.docs[0].Content != "3,500 บาท" || e.st.docs[0].SourceKey != "product-017" {
@@ -297,6 +300,7 @@ func TestServer_UpsertRefusesNearCopyUnlessAllowed(t *testing.T) {
 	refused := e.call(rw, "upsert_document", args)
 	args["allow_duplicate"] = true
 	allowed := e.call(rw, "upsert_document", args)
+	approveAll(t, e.srv)
 
 	// Assert
 	if !isErr(refused) || !strings.Contains(text(refused), "product-017") {
@@ -429,13 +433,18 @@ func TestServer_NoAuditCopyNoChange(t *testing.T) {
 
 	// Act
 	upd := e.call(rw, "upsert_document", map[string]any{"key": "price", "title": "ราคา", "content": "1 บาท"})
+	list, _ := e.srv.Pending.List(context.Background(), 1)
+	approveErr := e.srv.Approve(context.Background(), 1, list[0].ID, list[0].Version, "owner@example.com")
 	del := e.call(rw, "delete_document", map[string]any{"key": "price"})
 
 	// Assert
-	if !isErr(upd) || !isErr(del) || len(e.st.docs) != 1 || e.st.docs[0].Content != "3,900" {
-		t.Fatalf("upd=%v del=%v docs=%+v", text(upd), text(del), e.st.docs)
+	if isErr(upd) || approveErr == nil || !isErr(del) || len(e.st.docs) != 1 || e.st.docs[0].Content != "3,900" {
+		t.Fatalf("upd=%v approve=%v del=%v docs=%+v", text(upd), approveErr, text(del), e.st.docs)
 	}
-	if strings.Contains(text(upd), "deadline") {
+	if n, _ := e.srv.Pending.Count(context.Background(), 1); n != 1 {
+		t.Errorf("a failed approval dropped the change: waiting=%d", n)
+	}
+	if strings.Contains(text(del), "deadline") {
 		t.Error("internal error details reached the client")
 	}
 }
@@ -595,6 +604,7 @@ func TestServer_UpsertRefusalKeepsExistingDocument(t *testing.T) {
 	if res := e.call(rw, "upsert_document", args); isErr(res) {
 		t.Fatalf("seed: %v", text(res))
 	}
+	approveAll(t, e.srv)
 	args["content"] = "Transfer to 1234567890 first."
 
 	// Act

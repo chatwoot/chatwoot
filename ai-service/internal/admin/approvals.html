@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"{{with theme}} data-theme="{{.}}"{{end}}>
+<head>
+{{template "head"}}
+<title>AI approvals</title>
+</head>
+<body>
+<div class="shell">
+{{template "nav" "approvals"}}
+<main>
+  <div class="page-head">
+    <div>
+      <h1>AI approvals</h1>
+      <p class="lead">Changes that connected AI apps want to make to the business profile and the knowledge base. Customers keep seeing the current text until you approve.</p>
+    </div>
+    {{template "account-picker" (dict "Action" "/admin/approvals" "Current" .Account)}}
+  </div>
+
+  {{if not .Enabled}}
+  <div class="alert err" role="alert"><strong>Approvals are off.</strong> They need <code>DATABASE_URL</code> and <code>MCP_ENABLED=true</code> for ai-service.</div>
+  {{else}}
+  {{if eq .Done "approved"}}<div class="alert ok" role="status">Approved. The bot uses it from the next message.</div>{{end}}
+  {{if eq .Done "rejected"}}<div class="alert ok" role="status">Rejected. Nothing changed.</div>{{end}}
+  {{if .Error}}<div class="alert err" role="alert">{{.Error}}</div>{{end}}
+
+  {{if not .Items}}
+  <p class="empty">Nothing is waiting for approval.</p>
+  {{end}}
+
+  {{range .Items}}
+  <section class="card change" aria-labelledby="change-{{.ID}}">
+    <div class="change-head">
+      <h2 id="change-{{.ID}}">{{.Heading}}{{if .New}} <span class="badge scheduled">New document</span>{{end}}</h2>
+      <p class="hint">From <strong>{{.From}}</strong> (AI app) · {{.When}}</p>
+    </div>
+    {{range .Fields}}
+    <div class="diff">
+      <h3 class="sub">{{.Label}}</h3>
+      <div class="diff-cols">
+        <div><p class="diff-label">Now</p><pre class="code diff-now">{{if .Current}}{{.Current}}{{else}}(empty){{end}}</pre></div>
+        <div><p class="diff-label">Proposed</p><pre class="code diff-new">{{.Proposed}}</pre></div>
+      </div>
+    </div>
+    {{end}}
+    <form method="post" action="/admin/approvals" class="row change-actions">
+      <input type="hidden" name="account" value="{{$.Account}}">
+      <input type="hidden" name="id" value="{{.ID}}">
+      <input type="hidden" name="version" value="{{.Version}}">
+      <button type="submit" name="decision" value="approve" class="primary">Approve</button>
+      <button type="submit" name="decision" value="reject">Reject</button>
+    </form>
+  </section>
+  {{end}}
+  {{end}}
+</main>
+</div>
+</body>
+</html>
