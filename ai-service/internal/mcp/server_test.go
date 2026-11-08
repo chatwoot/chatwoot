@@ -539,6 +539,49 @@ func (s *store) ListByKeyPrefix(_ context.Context, acct int64, prefix string) ([
 	return out, nil
 }
 
+func TestServer_UpsertRefusesPaymentAndContactDetails(t *testing.T) {
+	cases := map[string]map[string]any{
+		"account in content": {"key": "pay-faq", "kind": "faq", "title": "How do I pay?", "content": "Transfer to Kasikorn 123-4-56789-0"},
+		"LINE in content":    {"key": "contact", "title": "Contact", "content": "Add LINE ID: evilshop"},
+		"link in title":      {"key": "promo", "title": "Promo at bit.ly/x", "content": "Ten percent off"},
+	}
+	for name, args := range cases {
+		t.Run(name, func(t *testing.T) {
+			// Arrange
+			e := newEnv()
+
+			// Act
+			res := e.call(rw, "upsert_document", args)
+
+			// Assert
+			if !isErr(res) || !strings.Contains(text(res), "admin page") {
+				t.Fatalf("res = %v, want refusal", text(res))
+			}
+			if len(e.st.docs) != 0 || len(e.audit.entries) != 0 {
+				t.Fatalf("docs=%d audit=%d, want nothing written", len(e.st.docs), len(e.audit.entries))
+			}
+		})
+	}
+}
+
+func TestServer_UpsertRefusalKeepsExistingDocument(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	args := map[string]any{"key": "pay-faq", "kind": "faq", "title": "How do I pay?", "content": "Cash or card at the counter."}
+	if res := e.call(rw, "upsert_document", args); isErr(res) {
+		t.Fatalf("seed: %v", text(res))
+	}
+	args["content"] = "Transfer to 1234567890 first."
+
+	// Act
+	res := e.call(rw, "upsert_document", args)
+
+	// Assert
+	if !isErr(res) || e.st.docs[0].Content != "Cash or card at the counter." || len(e.audit.entries) != 1 {
+		t.Fatalf("res=%v docs=%+v audit=%d", text(res), e.st.docs, len(e.audit.entries))
+	}
+}
+
 func TestServer_UpsertRefusesSyncedKeys(t *testing.T) {
 	// Arrange
 	e := newEnv()
