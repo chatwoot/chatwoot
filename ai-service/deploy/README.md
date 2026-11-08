@@ -169,6 +169,30 @@ back a schema change.
   dated documents whose window is closed, or accept that the bot may quote
   them again.
 
+## Restore drill
+
+A backup counts only once it has been restored. `restore-drill.sh` restores a
+`pg_dump -Fc` backup of the ai-service database into a throwaway
+`pgvector/pgvector:pg17` container (data in RAM, port on 127.0.0.1 only,
+removed on exit) and runs `restore-check`: `Migrate`, then the `vector`
+extension, the schema version, every table `Migrate` creates, minimum row
+counts and one vector query. It prints counts only, never row content. Run it
+on the host that keeps the backups, so customer data stays there.
+
+```bash
+# on your machine, from ai-service/
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -o restore-check ./cmd/restore-check
+# copy restore-check and deploy/restore-drill.sh to the backup host, then there:
+./restore-drill.sh <backup>.dump ./restore-check -min-rows kb_documents=1,kb_chunks=1,business_profiles=1
+```
+
+Exit 0 = pass, 1 = a check failed, 2 = the restore itself failed. Use the
+Postgres major version of the source database (`RESTORE_DRILL_IMAGE`); a
+Supabase dump needs its `extensions` schema, which the script recreates.
+`restore-check` reads `RESTORE_DATABASE_URL` and refuses any non-local host,
+so it cannot migrate production by mistake. Evidence and open gaps:
+`restore-drill.contract.md`.
+
 ## Access
 
 - SSH: `ssh llmopshostinger` (key-based alias on the owner's machine; plain
