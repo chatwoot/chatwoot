@@ -53,6 +53,82 @@ a chat.
   separate, spend-limited key; it never touches production.
 - Compose: `COMPOSE_PROFILES=ai,admin`, `COMPOSE_BAKE=false`.
 
+## Staging
+
+A second Dokploy app on the same VPS runs `deploy/dokploy-compose.staging.yml`
+(DEV-Johnstocker/chatwoot#37). It is the production stack with its own
+Postgres 17 + pgvector container instead of Supabase, memory and CPU caps
+(about 2.3 GB in total; about 1 GB in use when idle), services named `stg-*`,
+and no public route: one Cloudflare Tunnel serves both hostnames behind
+Cloudflare Access. **Never add a Dokploy domain to the staging app**, and keep
+its *Isolated Deployment* on, so staging never shares a network with
+production.
+
+| Hostname | Goes to | Access |
+|---|---|---|
+| `chat-staging.johnstockeraistudio.com` | `stg-rails:3000`, except `/webhooks/chatwoot` → `stg-ai-service:8080` | owner emails; `/webhooks/chatwoot` bypasses Access (HMAC-signed), added only after the real webhook secret is set |
+| `ai-admin-staging.johnstockeraistudio.com` | `stg-ai-service:8080`, only `^/admin` | owner emails |
+
+Inside the stack, ai-service calls Chatwoot at `http://stg-rails:3000`
+(`FORCE_SSL` is off; Cloudflare terminates TLS). Staging data is fake: never
+copy production customer data into it. `/admin` over SSH:
+`ssh -N -L 8082:127.0.0.1:18081 llmopshostinger` → `http://localhost:8082/admin`.
+
+**Environment (staging app, Dokploy):** `SECRET_KEY_BASE`, `FRONTEND_URL`
+(`https://chat-staging.johnstockeraistudio.com`), `STAGING_DB_PASSWORD`,
+`AI_DB_PASSWORD` (ai-service's own database role), `REDIS_PASSWORD`,
+`AI_ADMIN_PASSWORD`, `CF_TUNNEL_TOKEN` (the staging tunnel's, not
+production's), `LLM_API_KEY`/`EMBED_API_KEY` (the spend-limited CI key),
+`LLM_MODEL`, `EMBED_MODEL`, `CHATWOOT_BOT_TOKEN`, `CHATWOOT_WEBHOOK_SECRET`
+(both required: random placeholders from `openssl rand -hex 32` until the
+Agent Bot exists), `COMPOSE_PROFILES` (empty until the bot exists, then
+`ai`), `COMPOSE_BAKE=false`. SMTP is optional.
+Never reuse a production secret. The staging compose ID goes in the
+workspace `.env.supabase` as `DOKPLOY_STAGING_COMPOSE_ID`.
+
+**Commands:** `dokploy.py --target staging status|deploy|verify`. It refuses
+if the staging compose ID equals production's, refuses a deploy with less
+than 10 GB free on the VPS, and `verify` checks that Access guards
+`/api`, `/installation/onboarding` and the staging `/admin`. Seed the sample shop and
+check answers in one step:
+
+```bash
+ssh llmopshostinger 'docker exec <staging-app>-stg-ai-service-1 /answer-eval \
+  -seed-kb /testdata/sample-kb/faq.json -cases /testdata/answers-smoke.json -min-pass 0.8 -strict-faithful'
+```
+
+`-seed-kb` refuses an account that already holds knowledge it did not add.
+
+**Reset** (destroys staging data only): stop the staging app in Dokploy,
+delete its `postgres_data`, `redis_data`, `storage_data` and `ai_data`
+volumes, then redo first-time setup steps 4–6 below.
+
+**First-time setup (owner):**
+
+1. Dokploy → the project → *Create service* → *Compose*: name `chatwoot-staging`,
+   provider GitHub, this repository, branch `develop`, compose path
+   `ai-service/deploy/dokploy-compose.staging.yml`, auto-deploy off. No domains.
+2. Cloudflare Zero Trust → *Networks → Tunnels* → create tunnel
+   `chatwoot-staging` (cloudflared). Copy its token into the staging env as
+   `CF_TUNNEL_TOKEN`. Public hostnames: `chat-staging` (any path) →
+   `http://stg-rails:3000`; `ai-admin-staging` path `^/admin` →
+   `http://stg-ai-service:8080`.
+3. Cloudflare Zero Trust → *Access → Applications*: one app for
+   `chat-staging.johnstockeraistudio.com` and `ai-admin-staging…` with an
+   *Allow* policy for the owner emails. Do this **before** the first deploy:
+   Chatwoot's onboarding page lets the first visitor create the super admin.
+4. Fill the staging env (above) with `COMPOSE_PROFILES` empty, deploy, then
+   `dokploy.py --target staging verify`.
+5. Chatwoot first login (through Access): create the super admin on the
+   onboarding page, an account, a Website inbox, and an Agent Bot whose
+   webhook URL is `https://chat-staging.johnstockeraistudio.com/webhooks/chatwoot`.
+6. Put the bot's real token and secret in the staging env, set
+   `COMPOSE_PROFILES=ai`, deploy again. Only now add the tunnel route
+   `chat-staging` path `^/webhooks/chatwoot` → `http://stg-ai-service:8080`
+   (above the catch-all) and a second Access app for
+   `chat-staging.johnstockeraistudio.com/webhooks/chatwoot` with a *Bypass*
+   policy (Everyone). Then seed the sample shop (above).
+
 ## Release a change
 
 In Claude Code, run `/deploy` (`ai-service/.claude/skills/deploy/`): it runs

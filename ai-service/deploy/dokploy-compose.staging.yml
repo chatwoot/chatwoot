@@ -1,0 +1,167 @@
+# Staging stack for Dokploy (DEV-Johnstocker/chatwoot#37, refs #1).
+# The production file (dokploy-compose.yml) with these differences:
+# - Its own Postgres 17 + pgvector container (databases "chatwoot" and
+#   "ai_service"), not Supabase. Staging data is fake and disposable.
+# - Memory and CPU caps on every service (about 2.3 GB in total; no single
+#   service may take more than 0.75 of the VPS's 2 CPUs).
+# - Services are named stg-* so they can never resolve to production's
+#   rails/redis if both apps share a Docker network. Never add a Dokploy
+#   domain to the staging app; keep its "Isolated Deployment" on.
+# - stg-ai-service (profile "ai") stays off until the Agent Bot exists: its
+#   token and webhook secret are required. Its database role is not the superuser.
+# - No Traefik route. One Cloudflare Tunnel (its own token) serves
+#   chat-staging.<domain> → stg-rails:3000 and ai-admin-staging.<domain> → stg-ai-service,
+#   both behind Cloudflare Access; only /webhooks/chatwoot bypasses Access
+#   (HMAC-signed, routed to stg-ai-service:8080; add that route only once the secret is set).
+# - FORCE_SSL off (Cloudflare terminates TLS), so ai-service calls Chatwoot
+#   inside the stack at http://stg-rails:3000 instead of through Access.
+# - SMTP optional: without it, Chatwoot cannot send email (invites, password
+#   resets). Create users from the super-admin console instead.
+# Every ${VAR} comes from the staging app's Dokploy environment tab.
+
+x-chatwoot: &chatwoot
+  image: chatwoot/chatwoot:v4.19.1
+  restart: unless-stopped
+  mem_limit: 768m
+  cpus: 0.75
+  volumes:
+    - storage_data:/app/storage
+  environment:
+    NODE_ENV: production
+    RAILS_ENV: production
+    INSTALLATION_ENV: docker
+    RAILS_LOG_TO_STDOUT: 'true'
+    LOG_LEVEL: info
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE:?set in Dokploy}
+    FRONTEND_URL: ${FRONTEND_URL:?set in Dokploy}
+    FORCE_SSL: 'false'
+    ENABLE_ACCOUNT_SIGNUP: 'false'
+    DATABASE_URL: postgres://postgres:${STAGING_DB_PASSWORD:?set in Dokploy}@stg-postgres:5432/chatwoot
+    REDIS_URL: redis://stg-redis:6379
+    REDIS_PASSWORD: ${REDIS_PASSWORD:?set in Dokploy}
+    ACTIVE_STORAGE_SERVICE: local
+    RAILS_MAX_THREADS: '3'
+    SIDEKIQ_CONCURRENCY: '3'
+    # SAFE_FETCH_ALLOW_PRIVATE_NETWORK stays unset (see the production file).
+    MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-Staging <staging@example.invalid>}
+    SMTP_ADDRESS: ${SMTP_ADDRESS:-}
+    SMTP_PORT: ${SMTP_PORT:-587}
+    SMTP_USERNAME: ${SMTP_USERNAME:-}
+    SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+
+services:
+  stg-postgres:
+    image: pgvector/pgvector:pg17
+    restart: unless-stopped
+    mem_limit: 384m
+    cpus: 0.5
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${STAGING_DB_PASSWORD:?set in Dokploy}
+      POSTGRES_DB: chatwoot
+      AI_DB_PASSWORD: ${AI_DB_PASSWORD:?set in Dokploy} # read once by staging/initdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./staging/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d chatwoot']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  stg-rails:
+    <<: *chatwoot
+    depends_on:
+      stg-postgres:
+        condition: service_healthy
+      stg-redis:
+        condition: service_healthy
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['sh', '-c', 'bundle exec rails db:chatwoot_prepare && exec bundle exec rails s -p 3000 -b 0.0.0.0']
+    expose: ['3000']
+    healthcheck:
+      test: ['CMD-SHELL', 'busybox wget -q -O /dev/null http://127.0.0.1:3000/api']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 300s
+
+  stg-sidekiq:
+    <<: *chatwoot
+    depends_on:
+      stg-redis:
+        condition: service_healthy
+      stg-rails:
+        condition: service_healthy
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+
+  stg-redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    mem_limit: 128m
+    cpus: 0.25
+    command:
+      - sh
+      - -c
+      - umask 077 && printf 'requirepass %s\nappendonly yes\n' "$$REDIS_PASSWORD" > /tmp/redis.conf && exec redis-server /tmp/redis.conf
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?set in Dokploy}
+    healthcheck:
+      test: ['CMD-SHELL', 'REDISCLI_AUTH="$$REDIS_PASSWORD" redis-cli ping | grep -q PONG']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - redis_data:/data
+
+  stg-ai-service:
+    profiles: [ai]
+    build: ..
+    restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.5
+    depends_on:
+      stg-postgres:
+        condition: service_healthy
+      stg-rails:
+        condition: service_started
+    expose: ['8080']
+    # Loopback only (production uses 18080): /admin over an SSH tunnel.
+    ports: ['127.0.0.1:18081:8080']
+    volumes:
+      - ai_data:/data
+    environment:
+      CHATWOOT_BASE_URL: http://stg-rails:3000
+      # Required: the webhook path bypasses Access, so a missing or guessable
+      # secret would let anyone drive the bot. Keep the "ai" profile off until
+      # the Agent Bot exists and both values are set.
+      CHATWOOT_BOT_TOKEN: ${CHATWOOT_BOT_TOKEN:?set in Dokploy}
+      CHATWOOT_WEBHOOK_SECRET: ${CHATWOOT_WEBHOOK_SECRET:?set in Dokploy}
+      ADMIN_PASSWORD: ${AI_ADMIN_PASSWORD:?set in Dokploy}
+      DATABASE_URL: postgres://ai_service:${AI_DB_PASSWORD:?set in Dokploy}@stg-postgres:5432/ai_service?sslmode=disable
+      SETTINGS_PATH: /data/settings.json
+      LOG_LEVEL: info
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      EMBED_BASE_URL: ${EMBED_BASE_URL:-https://api.openai.com/v1}
+      EMBED_API_KEY: ${EMBED_API_KEY:-}
+      EMBED_MODEL: ${EMBED_MODEL:-}
+      REWRITE_MODEL: ${REWRITE_MODEL:-}
+      TRANSCRIBE_MODEL: ${TRANSCRIBE_MODEL:-gpt-4o-mini-transcribe}
+
+  stg-cloudflared:
+    image: cloudflare/cloudflared:2026.10.7
+    restart: unless-stopped
+    mem_limit: 64m
+    cpus: 0.25
+    depends_on: [stg-rails]
+    command: ['tunnel', '--no-autoupdate', 'run']
+    environment:
+      TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN:?set in Dokploy}
+
+volumes:
+  postgres_data:
+  storage_data:
+  redis_data:
+  ai_data:
