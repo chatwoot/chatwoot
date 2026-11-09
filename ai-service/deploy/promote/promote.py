@@ -25,8 +25,12 @@ SHA = re.compile(r"^[0-9a-f]{7,40}$")
 # Chatwoot's own migrations). They need a backup first, which only /deploy does
 # today (AGENTS.md §5).
 NEEDS_BACKUP = re.compile(r"^ai-service/(internal/knowledge/(schema[^/]*\.sql|postgres\.go)|deploy/dokploy-compose\.yml)$")
-# Only the staging workflow (GITHUB_TOKEN) may vouch for a commit.
+# A `staging` status counts only when the GitHub Actions bot wrote it and the
+# run it links to is the staging workflow, on develop, finished green.
 STAGING_CREATOR = "github-actions[bot]"
+STAGING_WORKFLOW = ".github/workflows/ai-service-staging.yml"
+CI_WORKFLOW = ".github/workflows/ai-service.yml"
+RUN_URL = re.compile(r"^https://github\.com/[^/]+/[^/]+/actions/runs/([0-9]+)$")
 CANDIDATES = 50
 
 
@@ -42,9 +46,11 @@ def pick(candidates, staging_state):
     return None
 
 
-def refusals(sha, prev, on_develop, after_prev, staging, changed):
+def refusals(sha, prev, on_develop, after_prev, staging, changed, ci=True):
     """Reasons not to promote sha; empty when it may go to production."""
     reasons = []
+    if not ci:
+        reasons.append(f"CI (the ai-service workflow on a push to develop) has not passed for {sha[:10]}")
     if not on_develop:
         reasons.append(f"{sha[:10]} is not on develop (its first-parent line)")
     if staging != "success":
@@ -58,12 +64,32 @@ def refusals(sha, prev, on_develop, after_prev, staging, changed):
     return reasons
 
 
-def trusted_staging_state(statuses):
-    """State of the newest `staging` status written by the staging workflow."""
+def trusted_staging_status(statuses):
+    """The newest `staging` status written by the GitHub Actions bot, or None."""
     for status in statuses:
         if status.get("context") == "staging" and (status.get("creator") or {}).get("login") == STAGING_CREATOR:
-            return status.get("state")
+            return status
     return None
+
+
+def trusted_staging_state(statuses):
+    status = trusted_staging_status(statuses)
+    return status.get("state") if status else None
+
+
+def run_id(url):
+    match = RUN_URL.match(url or "")
+    return match.group(1) if match else None
+
+
+def is_staging_run(run):
+    return (run.get("path") == STAGING_WORKFLOW and run.get("head_branch") == "develop"
+            and run.get("conclusion") == "success")
+
+
+def ci_green(runs):
+    return any(r.get("path") == CI_WORKFLOW and r.get("event") == "push" and r.get("conclusion") == "success"
+               for r in runs)
 
 
 def git(*args, check=True):
@@ -80,13 +106,27 @@ def on_develop_line(sha):
     return sha in git("rev-list", "--first-parent", "origin/develop").split()
 
 
+def gh_json(path):
+    out = subprocess.run(["gh", "api", f"repos/{os.environ['REPO']}/{path}"], capture_output=True, text=True)
+    return json.loads(out.stdout) if out.returncode == 0 and out.stdout else None
+
+
 def staging_state(sha):
-    repo = os.environ["REPO"]
-    out = subprocess.run(["gh", "api", f"repos/{repo}/commits/{sha}/statuses?per_page=100"],
-                         capture_output=True, text=True)
-    if out.returncode != 0:
+    """The trusted staging state of sha; a success whose run does not check out
+    counts as "unverified"."""
+    status = trusted_staging_status(gh_json(f"commits/{sha}/statuses?per_page=100") or [])
+    if not status:
         return None
-    return trusted_staging_state(json.loads(out.stdout or "[]"))
+    if status.get("state") != "success":
+        return status.get("state")
+    rid = run_id(status.get("target_url"))
+    run = gh_json(f"actions/runs/{rid}") if rid else None
+    return "success" if run and is_staging_run(run) else "unverified"
+
+
+def ci_passed(sha):
+    runs = gh_json(f"actions/workflows/ai-service.yml/runs?head_sha={sha}&per_page=20") or {}
+    return ci_green(runs.get("workflow_runs") or [])
 
 
 def append(path_var, text):
@@ -114,7 +154,8 @@ def check(requested):
 
     changed = git("diff", "--name-only", prev, sha).splitlines() if prev else []
     reasons = refusals(sha, prev, on_develop_line(sha),
-                       bool(prev) and is_ancestor(prev, sha), staging_state(sha), changed)
+                       bool(prev) and is_ancestor(prev, sha), staging_state(sha), changed,
+                       ci=ci_passed(sha))
 
     log = git("log", "--first-parent", "--format=- %h %s", f"{prev}..{sha}") if prev else "(first promote)"
     summary = (f"### Promote to production\n\n- commit: `{sha}`\n- production now: `{prev or 'none'}`\n\n"

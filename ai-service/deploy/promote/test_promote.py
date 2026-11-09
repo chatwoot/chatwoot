@@ -79,6 +79,39 @@ class RefusalTest(unittest.TestCase):
                 self.assertIn(path, reasons[0])
 
 
+class StagingRunTest(unittest.TestCase):
+    GOOD = {"path": ".github/workflows/ai-service-staging.yml", "head_branch": "develop",
+            "conclusion": "success", "event": "workflow_run"}
+
+    def test_run_id_from_status_link(self):
+        url = "https://github.com/DEV-Johnstocker/chatwoot/actions/runs/42688342088"
+        self.assertEqual(promote.run_id(url), "42688342088")
+        for bad in ("", None, "https://evil.example/actions/runs/1", "https://github.com/x/y/pull/3"):
+            self.assertIsNone(promote.run_id(bad), bad)
+
+    def test_only_a_green_staging_run_on_develop_vouches(self):
+        self.assertTrue(promote.is_staging_run(self.GOOD))
+        for change in ({"path": ".github/workflows/evil.yml"}, {"head_branch": "feature"},
+                       {"conclusion": "failure"}, {"conclusion": None}):
+            with self.subTest(change=change):
+                self.assertFalse(promote.is_staging_run({**self.GOOD, **change}))
+
+
+class CiTest(unittest.TestCase):
+    def test_ci_green_needs_a_successful_ai_service_push_run(self):
+        green = {"path": ".github/workflows/ai-service.yml", "event": "push", "conclusion": "success"}
+        self.assertTrue(promote.ci_green([{"conclusion": "failure", "path": green["path"], "event": "push"}, green]))
+        self.assertFalse(promote.ci_green([{**green, "event": "pull_request"}]))
+        self.assertFalse(promote.ci_green([{**green, "conclusion": "failure"}]))
+        self.assertFalse(promote.ci_green([]))
+
+    def test_refuses_without_green_ci(self):
+        reasons = promote.refusals(sha=B, prev=A, on_develop=True, after_prev=True, staging="success",
+                                   changed=[], ci=False)
+        self.assertEqual(len(reasons), 1)
+        self.assertIn("CI", reasons[0])
+
+
 class TrustedStagingTest(unittest.TestCase):
     def test_only_github_actions_bot_status_counts(self):
         # Arrange: newest first, as the statuses API lists them.

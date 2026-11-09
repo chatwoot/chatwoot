@@ -148,10 +148,12 @@ jobs:
           else
             state=failure; text="Staging $OUTCOME; see the run (previous version may still be live)"
           fi
-          # The checks tested DEPLOYED; only that commit may be promoted on them (#39).
-          gh api "repos/$REPO/statuses/${DEPLOYED:-$SHA}" -f state="$state" -f context=staging \
-            -f description="$text" -f target_url="$RUN_URL" > /dev/null
+          # Promote (#39) trusts this status, so success goes only to a commit that
+          # both passed CI (it triggered this run) and is the one staging ran.
+          # When develop moved on, SHA was not tested: mark it superseded; the
+          # newer commit gets its own status from its own CI-triggered run.
           if [ -n "$DEPLOYED" ] && [ "$DEPLOYED" != "$SHA" ]; then
-            gh api "repos/$REPO/statuses/$SHA" -f state=error -f context=staging \
-              -f description="Superseded: staging ran ${DEPLOYED:0:10} instead" -f target_url="$RUN_URL" > /dev/null
+            state=error; text="Superseded: staging ran ${DEPLOYED:0:10} instead"
           fi
+          gh api "repos/$REPO/statuses/$SHA" -f state="$state" -f context=staging \
+            -f description="$text" -f target_url="$RUN_URL" > /dev/null
