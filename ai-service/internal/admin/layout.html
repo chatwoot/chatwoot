@@ -2,30 +2,31 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="{{favicon}}">
 <script src="/admin/static/admin.js" defer></script>
 <style>
   :root {
     color-scheme: light dark;
     --bg: #f6f7f9; --card: #ffffff; --text: #1d232b; --muted: #5b6573;
-    --border: #d9dee5; --accent: #1f6feb; --accent-text: #ffffff;
+    --border: #d9dee5; --accent: #3300aa; --accent-text: #ffffff; --brand: #3300aa;
     --ok-bg: #e8f5ec; --ok-text: #14532d; --warn-bg: #fff4d6; --warn-text: #6b4a00; --err-bg: #fdecec; --err-text: #8a1c1c;
-    --focus: #1f6feb; --radius: 10px;
+    --focus: #3300aa; --radius: 10px;
   }
   :root[data-theme="light"] { color-scheme: light; }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #0f1318; --card: #171c23; --text: #e6e9ee; --muted: #9aa4b2;
-      --border: #2a313b; --accent: #4c8dff; --accent-text: #0b1220;
+      --border: #2a313b; --accent: #c9c2ff; --accent-text: #1a0b4d; --brand: #c9c2ff;
       --ok-bg: #12301f; --ok-text: #b6f0c8; --warn-bg: #33270a; --warn-text: #ffe2a3; --err-bg: #3a1616; --err-text: #ffc9c9;
-      --focus: #7aa9ff;
+      --focus: #c9c2ff;
     }
   }
   :root[data-theme="dark"] {
     color-scheme: dark;
       --bg: #0f1318; --card: #171c23; --text: #e6e9ee; --muted: #9aa4b2;
-      --border: #2a313b; --accent: #4c8dff; --accent-text: #0b1220;
+      --border: #2a313b; --accent: #c9c2ff; --accent-text: #1a0b4d; --brand: #c9c2ff;
       --ok-bg: #12301f; --ok-text: #b6f0c8; --warn-bg: #33270a; --warn-text: #ffe2a3; --err-bg: #3a1616; --err-text: #ffc9c9;
-      --focus: #7aa9ff;
+      --focus: #c9c2ff;
   }
   * { box-sizing: border-box; }
   body {
@@ -36,8 +37,9 @@
   .shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh;
     background: linear-gradient(to right, var(--card) 232px, var(--border) 232px, var(--border) 233px, transparent 233px); }
   .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 20px 12px; }
-  .brand { font-weight: 700; margin: 4px 12px 20px; }
-  .brand span { color: var(--muted); font-weight: 500; }
+  .brand { display: flex; align-items: center; gap: 10px; margin: 4px 12px 20px; color: var(--brand); }
+  .brand .logo { display: block; height: 26px; width: auto; }
+  .brand span { color: var(--muted); font-weight: 600; font-size: .85rem; letter-spacing: .02em; }
   main { max-width: 1440px; width: 100%; padding: 28px 32px 48px; }
   .lead { max-width: 72ch; }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; align-items: start; }
@@ -164,7 +166,7 @@
   .card.dupes { border-color: var(--warn-text); }
   fieldset.kind-choice { display: flex; flex-wrap: wrap; gap: 4px 20px; }
   fieldset.kind-choice label { display: inline-flex; gap: 8px; align-items: center; font-weight: 500; margin: 0; min-height: 44px; }
-  fieldset.kind-choice input[type="radio"] { width: 18px; height: 18px; min-height: 0; margin: 0; padding: 0; flex: none; accent-color: var(--accent, #1f6feb); }
+  fieldset.kind-choice input[type="radio"] { width: 18px; height: 18px; min-height: 0; margin: 0; padding: 0; flex: none; accent-color: var(--accent); }
   details.feed-help { margin-top: 8px; }
   td.src { overflow-wrap: anywhere; }
   td.src .badge { white-space: nowrap; overflow-wrap: normal; }
@@ -275,7 +277,7 @@
 
 {{define "nav"}}
 <aside class="sidebar">
-  <p class="brand">ai-service <span>admin</span></p>
+  <p class="brand">{{wordmark}}<span>AI admin</span></p>
   <nav aria-label="Admin sections">
     <a href="/admin"{{if eq . "home"}} aria-current="page"{{end}}>Home</a>
     <a href="/admin/test"{{if eq . "test"}} aria-current="page"{{end}}>Test bot</a>
