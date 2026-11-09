@@ -235,6 +235,69 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
+  context "when only the conversation's team auto-assigns" do
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:team) { create(:team, account: account, allow_auto_assign: true) }
+
+    before do
+      account.enable_features!('channel_voice')
+      create(:inbox_member, inbox: inbox, user: agent)
+      create(:team_member, team: team, user: agent)
+      inbox.update!(enable_auto_assignment: false)
+      OnlineStatusTracker.update_presence(account.id, 'User', agent.id)
+      OnlineStatusTracker.set_status(account.id, agent.id, 'online')
+    end
+
+    it 'assigns a team member once a call the team was set on during the ring goes unanswered' do
+      call = perform_builder
+      call.conversation.reload.update!(team: team)
+      expect(call.conversation.reload.assignee).to be_nil
+
+      Call.find(call.id).update!(status: 'no_answer')
+      expect(call.conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'assigns a team member after a missed call with assignment V2 too' do
+      account.enable_features!('assignment_v2')
+      call = perform_builder
+      call.conversation.reload.update!(team: team)
+
+      Call.find(call.id).update!(status: 'no_answer')
+      expect(call.conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'leaves the conversation with the agent who answered' do
+      teammate = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: inbox, user: teammate)
+      call = perform_builder
+      call.conversation.reload.update!(team: team)
+
+      Voice::Provider::Twilio::ConferenceService.new(call: call.reload).mark_agent_joined(user: teammate, agent_client: 'web')
+      Call.find(call.id).update!(status: 'completed')
+      expect(call.conversation.reload.assignee).to eq(teammate)
+    end
+
+    it 'leaves an agent assigned during the ring in place' do
+      teammate = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: inbox, user: teammate)
+      create(:team_member, team: team, user: teammate)
+      call = perform_builder
+      call.conversation.reload.update!(team: team, assignee: teammate)
+
+      Call.find(call.id).update!(status: 'no_answer')
+      expect(call.conversation.reload.assignee).to eq(teammate)
+    end
+
+    it 'leaves a missed call unassigned when its team does not auto-assign' do
+      team.update!(allow_auto_assign: false)
+      call = perform_builder
+      call.conversation.reload.update!(team: team)
+
+      Call.find(call.id).update!(status: 'no_answer')
+      expect(call.conversation.reload.assignee).to be_nil
+    end
+  end
+
   context 'when routing the ring' do
     let(:alice) { create(:user, account: account, role: :agent) }
     let(:bob) { create(:user, account: account, role: :agent) }

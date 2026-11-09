@@ -19,9 +19,11 @@ module Enterprise::Conversation
     super || call_attributes_changed?
   end
 
-  # Once its call stops ringing unanswered, the conversation gets the assignment it held off
+  # Once its call stops ringing unanswered, the conversation gets the assignment it held off: the
+  # inbox's, or else its team's
   def auto_assign_after_call
-    return unless open? && should_run_auto_assignment?
+    return unless open?
+    return assign_from_held_team unless should_run_auto_assignment?
 
     if inbox.auto_assignment_v2_enabled?
       AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox_id)
@@ -59,6 +61,14 @@ module Enterprise::Conversation
 
   def find_assignee_from_team
     super unless call_ringing?
+  end
+
+  # A team's auto-assignment applies whatever the inbox's own setting, as it does when the team is set
+  # without a call ringing. The service locks the row, so an agent assigned meanwhile keeps the conversation.
+  def assign_from_held_team
+    return unless team&.allow_auto_assign && ai_assignee_type.blank?
+
+    AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: team_member_ids_with_capacity).perform
   end
 
   def clear_invalid_ai_assignee
