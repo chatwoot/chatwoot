@@ -8,9 +8,10 @@ class DataImports::Csv::RejectedRowsExporter
 
     headers = @data_import.source_metadata.fetch('headers').excluding('errors')
     Tempfile.create(['rejected-contacts', '.csv']) do |file|
-      file.write(CSVSafe.generate_line(headers + ['errors']))
+      file.write(CSVSafe.generate_line(headers + ['errors', DataImports::Csv::RejectedRowsFormat::VERSION_COLUMN]))
       @data_import.items.failed.find_each do |item|
-        file.write(CSVSafe.generate_line(headers.map { |header| item.metadata.fetch('fields')[header] } + [item.last_error_message]))
+        values = headers.map { |header| item.metadata.fetch('fields')[header] } + [item.last_error_message]
+        file.write(DataImports::Csv::RejectedRowsFormat.generate_line(values))
       end
       attach_file(file)
     end
