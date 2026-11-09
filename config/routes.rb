@@ -115,6 +115,7 @@ Rails.application.routes.draw do
             resources :message_reports, only: [:create]
             resources :bulk_actions, only: [:create]
             resources :copilot_threads, only: [:index, :create] do
+              post :stop, on: :member
               resources :copilot_messages, only: [:index, :create]
             end
             resources :copilot_runs, only: [] do

@@ -49,9 +49,7 @@ class ActionService
     @agent = @account.users.find_by(id: agent_ids)
     return unless @agent.present? && @agent.confirmed?
 
-    # Locks the row so a concurrent writer (e.g. AutoAssignment::AssignmentService) can't
-    # interleave with a stale in-memory assignee_id and produce a spurious duplicate activity message.
-    @conversation.with_lock { @conversation.update!(assignee_id: @agent.id) }
+    Conversations::AssignmentService.new(conversation: @conversation, assignee_id: @agent.id).perform
   end
 
   def remove_label(labels)
