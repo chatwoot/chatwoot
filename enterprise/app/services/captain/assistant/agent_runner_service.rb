@@ -182,7 +182,7 @@ class Captain::Assistant::AgentRunnerService
   def can_verify_email?
     return false unless @conversation.present? && COPILOT_SOURCES.exclude?(@source)
 
-    @assistant.custom_tools.enabled.any?(&:requires_email_verification?) ||
+    @assistant.custom_tools.enabled.any?(&:requires_verified_customer?) ||
       @assistant.mcp_agent_tools.requires_verified_customer?
   end
 

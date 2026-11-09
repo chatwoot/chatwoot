@@ -181,7 +181,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response[:settings]).to eq({ requires_email_verification: true })
-        expect(Captain::CustomTool.last.requires_email_verification?).to be(true)
+        expect(Captain::CustomTool.last.requires_verified_customer?).to be(true)
       end
 
       it 'rejects a setting it does not know' do
@@ -443,7 +443,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
             headers: admin.create_new_auth_token, as: :json
 
-        expect(custom_tool.reload.requires_email_verification?).to be(true)
+        expect(custom_tool.reload.requires_verified_customer?).to be(true)
         expect(json_response[:settings]).to eq({ requires_email_verification: false })
       end
 
@@ -452,10 +452,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
         patch tool_url, params: { custom_tool: { settings: { requires_email_verification: true } } }, headers: admin.create_new_auth_token, as: :json
         expect(response).to have_http_status(:success)
-        expect(custom_tool.reload.requires_email_verification?).to be(true)
+        expect(custom_tool.reload.requires_verified_customer?).to be(true)
 
         patch tool_url, params: { custom_tool: { settings: { requires_email_verification: false } } }, headers: admin.create_new_auth_token, as: :json
-        expect(custom_tool.reload.requires_email_verification?).to be(false)
+        expect(custom_tool.reload.requires_verified_customer?).to be(false)
       end
 
       it 'keeps email verification on when another field is updated' do
@@ -465,7 +465,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
               params: update_attributes, headers: admin.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:success)
-        expect(custom_tool.reload.requires_email_verification?).to be(true)
+        expect(custom_tool.reload.requires_verified_customer?).to be(true)
       end
 
       it 'rejects an update with a setting it does not know and changes nothing' do
@@ -476,7 +476,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:error]).to eq('Settings has unknown settings: unknown_key')
-        expect(custom_tool.reload).to have_attributes(title: custom_tool.title, requires_email_verification?: true)
+        expect(custom_tool.reload).to have_attributes(title: custom_tool.title, requires_verified_customer?: true)
         expect(custom_tool.title).not_to eq('Renamed')
       end
 
@@ -486,7 +486,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
               params: { custom_tool: { title: 'Renamed', settings: {} } }, headers: admin.create_new_auth_token, as: :json
 
-        expect(custom_tool.reload).to have_attributes(title: 'Renamed', requires_email_verification?: true)
+        expect(custom_tool.reload).to have_attributes(title: 'Renamed', requires_verified_customer?: true)
       end
 
       context 'with invalid parameters' do
@@ -531,11 +531,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
       patch tool_url, params: { custom_tool: { settings: { requires_email_verification: true } } }, headers: admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:success)
-      expect(installed_tool.reload.requires_email_verification?).to be(true)
+      expect(installed_tool.reload.requires_verified_customer?).to be(true)
 
       patch tool_url, params: { custom_tool: { settings: { requires_email_verification: false } } }, headers: admin.create_new_auth_token, as: :json
 
-      expect(installed_tool.reload.requires_email_verification?).to be(false)
+      expect(installed_tool.reload.requires_verified_customer?).to be(false)
     end
 
     it 'allows enabling and disabling' do
