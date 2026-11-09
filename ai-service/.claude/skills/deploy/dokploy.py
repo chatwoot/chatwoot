@@ -17,6 +17,8 @@ Optional: CHATWOOT_PUBLIC_URL (default https://pronto.johnstockeraistudio.com),
 STAGING_PUBLIC_URL (default https://pronto-staging.johnstockeraistudio.com)
 and DEPLOY_SSH_HOST (default llmopshostinger). DEPLOY_SSH_FORCED=1 (CI) sends
 keywords for the VPS staging-ci forced command instead of shell commands.
+DEPLOY_NO_SSH=1 skips the container check in verify (the production promote
+workflow has no SSH key).
 """
 
 import json
@@ -277,17 +279,31 @@ def verify(config):
         print(f"{'PASS' if passed else 'FAIL'}  {name}: {got} (want {'/'.join(map(str, sorted(want)))})")
 
     app = api(config, "compose.one", {"composeId": config["DOKPLOY_COMPOSE_ID"]}).get("appName")
+    containers_ok, lines = container_check(app)
+    for line in lines:
+        print(line)
+    sys.exit(0 if ok and containers_ok else 1)
+
+
+def container_check(app):
+    """(ok, report lines) for the stack's containers, read over SSH.
+
+    DEPLOY_NO_SSH=1 skips it: the production promote workflow has no SSH key
+    and relies on the public checks (DEV-Johnstocker/chatwoot#39).
+    """
+    if os.environ.get("DEPLOY_NO_SSH") == "1":
+        return True, ["SKIP  containers: no SSH here (DEPLOY_NO_SSH=1); public checks only"]
     command = ["ssh", "-o", "BatchMode=yes", SSH_HOST, remote_command("containers", app)]
     result = subprocess.run(command, capture_output=True, text=True, timeout=60)
     if result.returncode != 0:
-        print("FAIL  containers: ssh failed")
-        ok = False
+        return False, ["FAIL  containers: ssh failed"]
+    ok, lines = True, []
     for line in result.stdout.splitlines():
         name, _, state = line.partition("\t")
         healthy = state.startswith("Up") and "unhealthy" not in state
         ok &= healthy
-        print(f"{'PASS' if healthy else 'FAIL'}  {name}: {state}")
-    sys.exit(0 if ok else 1)
+        lines.append(f"{'PASS' if healthy else 'FAIL'}  {name}: {state}")
+    return ok, lines
 
 
 def parse_args(argv):

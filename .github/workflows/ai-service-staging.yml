@@ -46,7 +46,7 @@ jobs:
   staging:
     name: Deploy and check staging
     if: >-
-      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/develop') ||
       (github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.event == 'push' &&
        github.event.workflow_run.head_branch == 'develop')
@@ -147,6 +147,13 @@ jobs:
             state=success; text="Deployed ${DEPLOYED:0:10}, verify and smoke passed"
           else
             state=failure; text="Staging $OUTCOME; see the run (previous version may still be live)"
+          fi
+          # Promote (#39) trusts this status, so success goes only to a commit that
+          # both passed CI (it triggered this run) and is the one staging ran.
+          # When develop moved on, SHA was not tested: mark it superseded; the
+          # newer commit gets its own status from its own CI-triggered run.
+          if [ -n "$DEPLOYED" ] && [ "$DEPLOYED" != "$SHA" ]; then
+            state=error; text="Superseded: staging ran ${DEPLOYED:0:10} instead"
           fi
           gh api "repos/$REPO/statuses/$SHA" -f state="$state" -f context=staging \
             -f description="$text" -f target_url="$RUN_URL" > /dev/null

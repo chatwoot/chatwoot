@@ -132,3 +132,63 @@ class RemoteCommandTest(unittest.TestCase):
     def test_unknown_kind_fails(self):
         with self.assertRaises(SystemExit):
             dokploy.remote_command("rm -rf /", "app-x")
+
+
+def fake_run(result=None, calls=None):
+    """Stand-in for subprocess.run that records calls and returns result."""
+    def run(*args, **kwargs):
+        if calls is not None:
+            calls.append(args)
+        return result
+    return run
+
+
+class ContainerCheckTest(unittest.TestCase):
+    def setUp(self):
+        self.original = dokploy.subprocess.run
+
+    def tearDown(self):
+        dokploy.subprocess.run = self.original
+        os.environ.pop("DEPLOY_NO_SSH", None)
+
+    def test_no_ssh_skips_the_container_check_without_calling_ssh(self):
+        # Arrange: the production promote job has no SSH key (DEV-Johnstocker/chatwoot#39).
+        os.environ["DEPLOY_NO_SSH"] = "1"
+        calls = []
+        dokploy.subprocess.run = fake_run(calls=calls)
+
+        # Act
+        ok, lines = dokploy.container_check("app-x")
+
+        # Assert
+        self.assertTrue(ok)
+        self.assertEqual(calls, [])
+        self.assertTrue(lines and lines[0].startswith("SKIP"))
+
+    def test_ssh_failure_fails_the_check(self):
+        # Arrange
+        class Result:
+            returncode, stdout = 255, ""
+        dokploy.subprocess.run = fake_run(Result())
+
+        # Act
+        ok, lines = dokploy.container_check("app-x")
+
+        # Assert
+        self.assertFalse(ok)
+        self.assertIn("FAIL  containers: ssh failed", lines)
+
+    def test_unhealthy_container_fails(self):
+        # Arrange
+        class Result:
+            returncode = 0
+            stdout = "app-x-rails-1\tUp 3 hours (healthy)\napp-x-sidekiq-1\tUp 2 minutes (unhealthy)\n"
+        dokploy.subprocess.run = fake_run(Result())
+
+        # Act
+        ok, lines = dokploy.container_check("app-x")
+
+        # Assert
+        self.assertFalse(ok)
+        self.assertIn("PASS  app-x-rails-1: Up 3 hours (healthy)", lines)
+        self.assertIn("FAIL  app-x-sidekiq-1: Up 2 minutes (unhealthy)", lines)

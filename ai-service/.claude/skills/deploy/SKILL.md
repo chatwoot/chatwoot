@@ -18,6 +18,14 @@ Staging: every command below takes `--target staging` (for example
 `dokploy.py --target staging deploy`); see `deploy/README.md` → Staging.
 Staging deploys need no owner go-ahead; production deploys always do.
 
+**Production deploys the `production` branch, not develop** (#39). The normal
+path is the "ai-service promote" workflow, which moves that branch to a commit
+that passed staging after the owner approves it in GitHub:
+`gh workflow run ai-service-promote.yml --repo DEV-Johnstocker/chatwoot -f sha=<sha>`.
+Use this skill when the workflow refuses on purpose (a schema change, which
+needs the backup first) or GitHub is unavailable. Then step 3 moves the
+`production` branch yourself before deploying.
+
 ## 1. What would be deployed
 
 ```bash
@@ -26,7 +34,7 @@ git log -1 --format='%H %s' origin/develop
 python3 ai-service/.claude/skills/deploy/dokploy.py status
 ```
 
-- `status` must show `branch=develop`. Note `deployed_commit`.
+- `status` must show `branch=production`. Note `deployed_commit`.
 - If `$ARGUMENTS` names a commit, it must equal `origin/develop`; otherwise
   stop and say which is which.
 - If `deployed_commit` already equals `origin/develop`, say so and stop:
@@ -57,10 +65,11 @@ python3 ai-service/.claude/skills/deploy/dokploy.py status
 ## 3. Deploy
 
 ```bash
+git push origin <sha>:refs/heads/production    # fast-forward only; never force
 python3 ai-service/.claude/skills/deploy/dokploy.py deploy
 ```
 
-It refuses if a deploy is running, starts one, and waits (up to 30 minutes)
+Dokploy builds the tip of `production`, so move the branch first. It refuses if a deploy is running, starts one, and waits (up to 30 minutes)
 for `done` or `error`. Run it in the background and wait for the
 notification; do not start a second deploy if it times out — check Dokploy.
 The printed commit must be the one from step 1.
@@ -87,5 +96,7 @@ the unsigned verify request.
 
 Lead with the result: deployed commit, what changed (PR titles), each check
 with PASS/FAIL, and anything left open. If verification fails: say so with the
-output, do not redeploy on your own; rollback is revert PR → merge → `/deploy`
-(code only; a schema change does not roll back).
+output, do not redeploy on your own; rollback is the owner's call: move
+`production` back to the previous commit (`git push --force-with-lease=production:<bad> origin <previous>:refs/heads/production`)
+and deploy, or revert PR → merge → promote (code only; a schema change does
+not roll back).
