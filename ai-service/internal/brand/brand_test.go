@@ -3,6 +3,7 @@ package brand
 import (
 	"encoding/base64"
 	"os"
+	"regexp"
 	"strings"
 	"testing"
 )
@@ -44,8 +45,14 @@ func TestWordmark_InlineThemeColouredAndLabelled(t *testing.T) {
 	if !strings.Contains(w, `fill="currentColor"`) || strings.Contains(strings.ToLower(w), "#3300aa") {
 		t.Error("wordmark must take its colour from CSS (currentColor), not a fixed fill")
 	}
-	if strings.Contains(strings.ToLower(w), "<script") || strings.Contains(strings.ToLower(w), "href") {
-		t.Error("wordmark must carry no script or links")
+	lower := strings.ToLower(w)
+	for _, bad := range []string{"<script", "href", "foreignobject", "<style", "javascript:"} {
+		if strings.Contains(lower, bad) {
+			t.Errorf("wordmark is rendered inline and must not contain %q", bad)
+		}
+	}
+	if regexp.MustCompile(`\son[a-z]+\s*=`).MatchString(lower) {
+		t.Error("wordmark must not carry event handler attributes")
 	}
 }
 
