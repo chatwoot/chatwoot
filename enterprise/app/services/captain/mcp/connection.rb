@@ -30,7 +30,8 @@ class Captain::Mcp::Connection
 
   # Tools the server offers to models, as the definitions Captain approves and compares.
   # A reply the MCP client cannot parse, such as a string where it expects an object, raises InvalidResponse, so one
-  # server's bad reply is handled like a failed request. The original error still reaches Sentry.
+  # server's bad reply is handled like a failed request. The original error is logged, not sent to Sentry, because a
+  # broken server would report it on every listing.
   def tool_definitions
     mcp.tools.select { |tool| tool.visibility.include?(:model) }.map do |tool|
       {
@@ -43,7 +44,7 @@ class Captain::Mcp::Connection
   rescue *ERRORS
     raise
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @server.account).capture_exception
+    Rails.logger.warn("Captain MCP server #{@server.id} sent a tool list Captain could not read: #{e.class} - #{e.message}")
     raise InvalidResponse, "The server sent a tool list Captain could not read (#{e.class})"
   end
 

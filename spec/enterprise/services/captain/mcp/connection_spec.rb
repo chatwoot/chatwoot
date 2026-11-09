@@ -13,4 +13,14 @@ RSpec.describe Captain::Mcp::Connection do
       expect(connection.server_name).to eq('Example')
     end
   end
+
+  describe '#tool_definitions' do
+    it 'reports a tool list the MCP client cannot read as an invalid response, without sending it to Sentry' do
+      allow(connection.mcp).to receive(:tools).and_raise(NoMethodError, "undefined method 'fetch' for an instance of String")
+      allow(ChatwootExceptionTracker).to receive(:new)
+
+      expect { connection.tool_definitions }.to raise_error(described_class::InvalidResponse, /could not read \(NoMethodError\)/)
+      expect(ChatwootExceptionTracker).not_to have_received(:new)
+    end
+  end
 end
