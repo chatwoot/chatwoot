@@ -288,6 +288,20 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(call.conversation.reload.assignee).to eq(teammate)
     end
 
+    it 'keeps holding the team assignment while another call from the caller still rings' do
+      first = perform_builder
+      first.conversation.reload.update!(team: team)
+      second = described_class.perform!(inbox: inbox, call_sid: 'CA_SECOND',
+                                        caller: { source_ids: [from_number], contact_attributes: { phone_number: from_number } })
+      expect(second.conversation).to eq(first.conversation)
+
+      Call.find(first.id).update!(status: 'no_answer')
+      expect(first.conversation.reload.assignee).to be_nil
+
+      Call.find(second.id).update!(status: 'no_answer')
+      expect(first.conversation.reload.assignee).to eq(agent)
+    end
+
     it 'leaves a missed call unassigned when its team does not auto-assign' do
       team.update!(allow_auto_assign: false)
       call = perform_builder

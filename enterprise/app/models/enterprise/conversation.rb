@@ -64,9 +64,11 @@ module Enterprise::Conversation
   end
 
   # A team's auto-assignment applies whatever the inbox's own setting, as it does when the team is set
-  # without a call ringing. The service locks the row, so an agent assigned meanwhile keeps the conversation.
+  # without a call ringing. Another call still ringing keeps holding it, for the agent who answers that one.
+  # The service locks the row, so an agent assigned meanwhile keeps the conversation.
   def assign_from_held_team
-    return unless team&.allow_auto_assign && ai_assignee_type.blank?
+    return if call_ringing? || ai_assignee_type.present?
+    return unless team&.allow_auto_assign
 
     AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: team_member_ids_with_capacity).perform
   end
