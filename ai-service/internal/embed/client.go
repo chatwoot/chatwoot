@@ -160,3 +160,28 @@ func (s *Switch) Model() string {
 	}
 	return ""
 }
+
+// Fallback tries a second provider when the first fails, for the same
+// embedding model reached another way (OpenAI direct, then OpenRouter). It
+// reports the primary's model name, because both return the same vectors and
+// stored chunks are matched by that name.
+type Fallback struct {
+	Primary   Embedder
+	Secondary Embedder
+}
+
+// Embed implements Embedder.
+func (f *Fallback) Embed(ctx context.Context, texts []string) ([][]float32, error) {
+	out, err := f.Primary.Embed(ctx, texts)
+	if err == nil || f.Secondary == nil || ctx.Err() != nil {
+		return out, err
+	}
+	out, fbErr := f.Secondary.Embed(ctx, texts)
+	if fbErr != nil {
+		return nil, fmt.Errorf("primary: %w; fallback: %w", err, fbErr)
+	}
+	return out, nil
+}
+
+// Model implements Embedder.
+func (f *Fallback) Model() string { return f.Primary.Model() }

@@ -133,6 +133,9 @@ services:
     environment:
       CHATWOOT_BASE_URL: http://stg-rails:3000
       CHATWOOT_PUBLIC_URL: ${FRONTEND_URL:?set in Dokploy}
+      # Optional: an agent account token ("AI Reader") so the bot can re-read a
+      # chat after a restart or when a closed chat reopens. Bot tokens cannot.
+      CHATWOOT_READER_TOKEN: ${CHATWOOT_READER_TOKEN:-}
       # Required: the webhook path bypasses Access, so a missing or guessable
       # secret would let anyone drive the bot. Keep the "ai" profile off until
       # the Agent Bot exists and both values are set.
@@ -148,6 +151,12 @@ services:
       EMBED_BASE_URL: ${EMBED_BASE_URL:-https://api.openai.com/v1}
       EMBED_API_KEY: ${EMBED_API_KEY:-}
       EMBED_MODEL: ${EMBED_MODEL:-}
+      LLM_FALLBACK_BASE_URL: ${LLM_FALLBACK_BASE_URL:-}
+      LLM_FALLBACK_API_KEY: ${LLM_FALLBACK_API_KEY:-}
+      LLM_FALLBACK_MODEL: ${LLM_FALLBACK_MODEL:-}
+      EMBED_FALLBACK_BASE_URL: ${EMBED_FALLBACK_BASE_URL:-}
+      EMBED_FALLBACK_API_KEY: ${EMBED_FALLBACK_API_KEY:-}
+      EMBED_FALLBACK_MODEL: ${EMBED_FALLBACK_MODEL:-}
       REWRITE_MODEL: ${REWRITE_MODEL:-}
       TRANSCRIBE_MODEL: ${TRANSCRIBE_MODEL:-gpt-4o-mini-transcribe}
 

@@ -45,7 +45,15 @@ a chat.
   `AI_ADMIN_PASSWORD`, `AI_DATABASE_URL`, `LLM_BASE_URL`, `LLM_API_KEY`,
   `LLM_MODEL`, `LLM_FALLBACK_*`, `EMBED_BASE_URL`, `EMBED_API_KEY`,
   `EMBED_MODEL`. Settings saved on `/admin` override the `LLM_*`/`EMBED_*`
-  values.
+  values. Optional: `EMBED_FALLBACK_*` (backup route to the same embedding
+  model), `REPLY_DELAY` (default `4s`), `CHATWOOT_READER_TOKEN`.
+- `CHATWOOT_READER_TOKEN` is the access token of a dedicated Chatwoot user,
+  "AI Reader", used to re-read chats and to assign handoffs by workload. Keep
+  that user an **Agent** (never Administrator), a member **only** of the
+  inboxes the bot answers, and **Offline** (it is never given chats, but an
+  online status adds noise). Its token can act as an agent in those inboxes,
+  so treat it as a password. Create the `bot-handoff` label in Chatwoot
+  (Settings, Labels) so the handoff label shows in filters.
 - Tunnel: `CF_TUNNEL_TOKEN`.
 - GitHub Actions secrets (not Dokploy) for the nightly answer smoke check:
   `SMOKE_LLM_BASE_URL`, `SMOKE_LLM_API_KEY`, `SMOKE_LLM_MODEL`,

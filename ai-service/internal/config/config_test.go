@@ -221,3 +221,65 @@ func TestNormalizeEmail_ConfigMatchesAccess(t *testing.T) {
 		t.Fatal("non-ASCII owner email accepted")
 	}
 }
+
+func TestDefaultMessagesMatchThePageVoice(t *testing.T) {
+	// Arrange: the page speaks as ครับ, and nobody may be online to answer
+	// "in a moment" (night, weekend).
+	msgs := map[string]string{
+		"handoff":    DefaultHandoffMessage,
+		"attachment": DefaultAttachmentMessage,
+		"failure":    DefaultFailureMessage,
+	}
+
+	// Act + Assert
+	for name, m := range msgs {
+		if !strings.Contains(m, "ครับ") {
+			t.Errorf("%s message %q must use ครับ", name, m)
+		}
+		for _, bad := range []string{"ค่ะ", "นะคะ", "รอสักครู่", "โดยเร็ว"} {
+			if strings.Contains(m, bad) {
+				t.Errorf("%s message %q must not say %q", name, m, bad)
+			}
+		}
+		if !strings.Contains(m, "ในแชทนี้") {
+			t.Errorf("%s message %q must say staff answer in this chat", name, m)
+		}
+	}
+}
+
+func TestLoad_ReplyDelay(t *testing.T) {
+	// Arrange
+	lookup := func(extra map[string]string) func(string) (string, bool) {
+		m := map[string]string{"CHATWOOT_BASE_URL": "http://x", "CHATWOOT_BOT_TOKEN": "t", "CHATWOOT_WEBHOOK_SECRET": "s"}
+		for k, v := range extra {
+			m[k] = v
+		}
+		return func(k string) (string, bool) { v, ok := m[k]; return v, ok }
+	}
+
+	// Act
+	def, errDef := Load(lookup(nil))
+	off, errOff := Load(lookup(map[string]string{"REPLY_DELAY": "0s"}))
+	_, errBad := Load(lookup(map[string]string{"REPLY_DELAY": "2m"}))
+	_, errNeg := Load(lookup(map[string]string{"REPLY_DELAY": "-1s"}))
+
+	// Assert
+	if errDef != nil || def.ReplyDelay != 4*time.Second {
+		t.Errorf("default = %v %v, want 4s", def.ReplyDelay, errDef)
+	}
+	if errOff != nil || off.ReplyDelay != 0 {
+		t.Errorf("0s must turn waiting off: %v %v", off.ReplyDelay, errOff)
+	}
+	if errBad == nil || errNeg == nil {
+		t.Error("delays over 30s or below 0 must be refused")
+	}
+}
+
+func TestFailureMessageDoesNotMentionTheSystem(t *testing.T) {
+	// Act + Assert: the owner does not want customers told a system failed.
+	for _, bad := range []string{"ระบบ", "อัตโนมัติ", "ขัดข้อง", "บอท", "AI"} {
+		if strings.Contains(DefaultFailureMessage, bad) {
+			t.Errorf("failure message %q must not say %q", DefaultFailureMessage, bad)
+		}
+	}
+}

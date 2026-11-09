@@ -88,3 +88,33 @@ func TestComplete_InvalidJSON(t *testing.T) {
 		t.Fatalf("err = %v", err)
 	}
 }
+
+func TestComplete_SendsMaxTokensOnlyWhenSet(t *testing.T) {
+	// Arrange
+	var bodies []map[string]any
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var b map[string]any
+		_ = json.NewDecoder(r.Body).Decode(&b)
+		bodies = append(bodies, b)
+		_, _ = w.Write([]byte(`{"choices":[{"message":{"role":"assistant","content":"ok"}}]}`))
+	}))
+	defer srv.Close()
+	plain := New(srv.URL, "key", "m", nil)
+	capped := New(srv.URL, "key", "m", nil)
+	capped.MaxTokens = 1024
+
+	// Act
+	_, err1 := plain.Complete(context.Background(), []Message{{Role: "user", Content: "hi"}})
+	_, err2 := capped.Complete(context.Background(), []Message{{Role: "user", Content: "hi"}})
+
+	// Assert
+	if err1 != nil || err2 != nil {
+		t.Fatalf("errors: %v %v", err1, err2)
+	}
+	if _, ok := bodies[0]["max_tokens"]; ok {
+		t.Error("no cap must be sent when MaxTokens is 0 (the main model is unchanged)")
+	}
+	if bodies[1]["max_tokens"] != float64(1024) {
+		t.Errorf("max_tokens = %v, want 1024", bodies[1]["max_tokens"])
+	}
+}

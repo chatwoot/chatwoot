@@ -110,3 +110,64 @@ func TestSwitch_NotConfiguredThenSet(t *testing.T) {
 		t.Errorf("after: model=%q", s.Model())
 	}
 }
+
+type stubEmbedder struct {
+	model string
+	err   error
+	calls int
+}
+
+func (s *stubEmbedder) Embed(_ context.Context, texts []string) ([][]float32, error) {
+	s.calls++
+	if s.err != nil {
+		return nil, s.err
+	}
+	return [][]float32{vec(1)}, nil
+}
+func (s *stubEmbedder) Model() string { return s.model }
+
+func TestFallback_UsesSecondProviderWhenFirstFails(t *testing.T) {
+	// Arrange: OpenAI out of credit; the same model through another provider works.
+	primary := &stubEmbedder{model: "text-embedding-3-large", err: errors.New("status 429")}
+	backup := &stubEmbedder{model: "openai/text-embedding-3-large"}
+	f := &Fallback{Primary: primary, Secondary: backup}
+
+	// Act
+	out, err := f.Embed(context.Background(), []string{"price"})
+
+	// Assert
+	if err != nil || len(out) != 1 || backup.calls != 1 {
+		t.Fatalf("out=%d err=%v backup calls=%d", len(out), err, backup.calls)
+	}
+	if f.Model() != "text-embedding-3-large" {
+		t.Errorf("Model() = %q, want the primary's name so stored vectors still match", f.Model())
+	}
+}
+
+func TestFallback_PrimaryOKSkipsBackup(t *testing.T) {
+	// Arrange
+	primary := &stubEmbedder{model: "m"}
+	backup := &stubEmbedder{model: "m"}
+	f := &Fallback{Primary: primary, Secondary: backup}
+
+	// Act
+	_, err := f.Embed(context.Background(), []string{"x"})
+
+	// Assert
+	if err != nil || backup.calls != 0 {
+		t.Fatalf("err=%v backup calls=%d", err, backup.calls)
+	}
+}
+
+func TestFallback_BothFailReturnsBothErrors(t *testing.T) {
+	// Arrange
+	f := &Fallback{Primary: &stubEmbedder{err: errors.New("first down")}, Secondary: &stubEmbedder{err: errors.New("second down")}}
+
+	// Act
+	_, err := f.Embed(context.Background(), []string{"x"})
+
+	// Assert
+	if err == nil || !strings.Contains(err.Error(), "first down") || !strings.Contains(err.Error(), "second down") {
+		t.Fatalf("err = %v", err)
+	}
+}

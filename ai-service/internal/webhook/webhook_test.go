@@ -65,7 +65,12 @@ func TestClassify(t *testing.T) {
 			e.MessageType = "outgoing"
 			e.Sender.Type = "user"
 			e.Attachments = []Attachment{{FileType: "image"}}
-		}, Ignore},
+		}, Pause},
+		{"staff private note", func(e *Event) { e.Private = true; e.MessageType = "outgoing"; e.Sender.Type = "user" }, Pause},
+		{"bot's own private note", func(e *Event) { e.Private = true; e.MessageType = "outgoing"; e.Sender.Type = "agent_bot" }, Ignore},
+		{"staff opened the chat", func(e *Event) { e.Event = "conversation_status_changed"; e.Status = "open" }, Pause},
+		{"chat back to the bot", func(e *Event) { e.Event = "conversation_status_changed"; e.Status = "pending" }, Ignore},
+		{"conversation updated, staff", func(e *Event) { e.Event = "conversation_updated"; e.Status = "open" }, Pause},
 		{"text with attachment", func(e *Event) { e.Attachments = []Attachment{{FileType: "image"}} }, Reply},
 		{"bot's own reply", func(e *Event) { e.MessageType = "outgoing"; e.Sender.Type = "agent_bot" }, Ignore},
 		{"human agent reply", func(e *Event) { e.MessageType = "outgoing"; e.Sender.Type = "user" }, Record},

@@ -22,7 +22,10 @@ type Config struct {
 	// Docker. Optional.
 	ChatwootPublicURL string
 	ChatwootBotToken  string // Agent Bot access token (secret)
-	WebhookSecret     string // Agent Bot webhook secret used for HMAC (secret)
+	// ChatwootReaderToken is an agent account's token, used only to read a
+	// chat's recent messages (bot tokens cannot). Optional (secret).
+	ChatwootReaderToken string
+	WebhookSecret       string // Agent Bot webhook secret used for HMAC (secret)
 
 	// Initial LLM settings; the admin page can override them at runtime.
 	LLMBaseURL         string
@@ -32,19 +35,23 @@ type Config struct {
 	LLMFallbackAPIKey  string // secret
 	LLMFallbackModel   string
 	LLMTimeout         time.Duration // per provider call
+	ReplyDelay         time.Duration // wait after a customer's last message, so quick messages get one reply
 	SystemPrompt       string
 
 	AdminPassword string // enables /admin when set (secret)
 	SettingsPath  string
 
 	// Knowledge base (RAG). Off when DatabaseURL is empty.
-	DatabaseURL   string // Postgres with pgvector (secret: contains a password)
-	EmbedBaseURL  string // initial embeddings provider; the admin page can override it
-	EmbedAPIKey   string // secret
-	EmbedModel    string
-	RAGTopK       int
-	RAGMinScore   float64
-	RAGChunkRunes int
+	DatabaseURL          string // Postgres with pgvector (secret: contains a password)
+	EmbedBaseURL         string // initial embeddings provider; the admin page can override it
+	EmbedAPIKey          string // secret
+	EmbedModel           string
+	EmbedFallbackBaseURL string // same embedding model through another provider (optional)
+	EmbedFallbackAPIKey  string // secret
+	EmbedFallbackModel   string
+	RAGTopK              int
+	RAGMinScore          float64
+	RAGChunkRunes        int
 
 	HandoffKeywords []string
 	HandoffMessage  string
@@ -106,14 +113,17 @@ var DefaultHandoffKeywords = []string{
 	"human", "real person", "talk to agent", "talk to a person", "live agent", "speak to someone",
 }
 
-// DefaultHandoffMessage is sent to the customer when the bot hands off.
-const DefaultHandoffMessage = "ได้เลยค่ะ กำลังส่งต่อให้เจ้าหน้าที่ กรุณารอสักครู่นะคะ 🙏"
+// DefaultHandoffMessage is sent to the customer when the bot hands off. The
+// default messages speak as the page does (ครับ) and promise no reply time:
+// staff may be offline. HANDOFF_MESSAGE, ATTACHMENT_MESSAGE and
+// FAILURE_MESSAGE override them.
+const DefaultHandoffMessage = "ได้เลยครับ กำลังส่งต่อให้เจ้าหน้าที่ที่ดูแลเรื่องนี้โดยเฉพาะเข้ามาดูแลในแชทนี้ครับ ระหว่างนี้พิมพ์รายละเอียดทิ้งไว้ได้เลย 🙏"
 
 // DefaultAttachmentMessage acknowledges files the bot cannot read before handing off.
-const DefaultAttachmentMessage = "ได้รับไฟล์แล้วค่ะ แอดมินจะตรวจสอบและตอบกลับในแชทนี้โดยเร็วนะคะ 🙏"
+const DefaultAttachmentMessage = "ได้รับไฟล์แล้วครับ ไฟล์แบบนี้ผมเปิดดูเองไม่ได้ กำลังส่งต่อให้เจ้าหน้าที่ที่ดูแลเรื่องนี้โดยเฉพาะเข้ามาดูแลในแชทนี้ครับ"
 
 // DefaultFailureMessage is sent when the AI cannot answer (LLM error) before handing off.
-const DefaultFailureMessage = "ขออภัยค่ะ ระบบตอบอัตโนมัติขัดข้อง กำลังส่งต่อให้เจ้าหน้าที่นะคะ"
+const DefaultFailureMessage = "ขออภัยครับ เรื่องนี้ขอส่งต่อให้เจ้าหน้าที่ที่ดูแลโดยเฉพาะเข้ามาดูแลในแชทนี้นะครับ 🙏"
 
 // Load reads Config from the given lookup function (os.LookupEnv in production).
 func Load(lookup func(string) (string, bool)) (Config, error) {
@@ -125,36 +135,40 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 	}
 
 	cfg := Config{
-		ListenAddr:         get("LISTEN_ADDR", ":8080"),
-		ChatwootBaseURL:    strings.TrimRight(get("CHATWOOT_BASE_URL", ""), "/"),
-		ChatwootPublicURL:  strings.TrimRight(get("CHATWOOT_PUBLIC_URL", ""), "/"),
-		ChatwootBotToken:   get("CHATWOOT_BOT_TOKEN", ""),
-		WebhookSecret:      get("CHATWOOT_WEBHOOK_SECRET", ""),
-		LLMBaseURL:         strings.TrimRight(get("LLM_BASE_URL", "https://openrouter.ai/api/v1"), "/"),
-		LLMAPIKey:          get("LLM_API_KEY", ""),
-		LLMModel:           get("LLM_MODEL", ""),
-		LLMFallbackBaseURL: strings.TrimRight(get("LLM_FALLBACK_BASE_URL", ""), "/"),
-		LLMFallbackAPIKey:  get("LLM_FALLBACK_API_KEY", ""),
-		LLMFallbackModel:   get("LLM_FALLBACK_MODEL", ""),
-		AdminPassword:      get("ADMIN_PASSWORD", ""),
-		SettingsPath:       get("SETTINGS_PATH", "/data/settings.json"),
-		DatabaseURL:        get("DATABASE_URL", ""),
-		EmbedBaseURL:       strings.TrimRight(get("EMBED_BASE_URL", ""), "/"),
-		EmbedAPIKey:        get("EMBED_API_KEY", ""),
-		EmbedModel:         get("EMBED_MODEL", ""),
-		SystemPrompt:       get("SYSTEM_PROMPT", DefaultSystemPrompt),
-		HandoffMessage:     get("HANDOFF_MESSAGE", DefaultHandoffMessage),
-		FailureMessage:     get("FAILURE_MESSAGE", DefaultFailureMessage),
-		AttachmentMessage:  get("ATTACHMENT_MESSAGE", DefaultAttachmentMessage),
-		LangfuseBaseURL:    strings.TrimRight(get("LANGFUSE_BASE_URL", ""), "/"),
-		LangfusePublicKey:  get("LANGFUSE_PUBLIC_KEY", ""),
-		LangfuseSecretKey:  get("LANGFUSE_SECRET_KEY", ""),
-		TraceText:          get("TRACE_TEXT", "redacted"),
-		TraceEnvironment:   get("TRACE_ENVIRONMENT", "production"),
-		RewriteModel:       get("REWRITE_MODEL", ""),
-		TranscribeModel:    get("TRANSCRIBE_MODEL", "gpt-4o-mini-transcribe"),
-		LogLevel:           get("LOG_LEVEL", "info"),
-		HandoffKeywords:    DefaultHandoffKeywords,
+		ListenAddr:           get("LISTEN_ADDR", ":8080"),
+		ChatwootBaseURL:      strings.TrimRight(get("CHATWOOT_BASE_URL", ""), "/"),
+		ChatwootPublicURL:    strings.TrimRight(get("CHATWOOT_PUBLIC_URL", ""), "/"),
+		ChatwootBotToken:     get("CHATWOOT_BOT_TOKEN", ""),
+		ChatwootReaderToken:  get("CHATWOOT_READER_TOKEN", ""),
+		WebhookSecret:        get("CHATWOOT_WEBHOOK_SECRET", ""),
+		LLMBaseURL:           strings.TrimRight(get("LLM_BASE_URL", "https://openrouter.ai/api/v1"), "/"),
+		LLMAPIKey:            get("LLM_API_KEY", ""),
+		LLMModel:             get("LLM_MODEL", ""),
+		LLMFallbackBaseURL:   strings.TrimRight(get("LLM_FALLBACK_BASE_URL", ""), "/"),
+		LLMFallbackAPIKey:    get("LLM_FALLBACK_API_KEY", ""),
+		LLMFallbackModel:     get("LLM_FALLBACK_MODEL", ""),
+		AdminPassword:        get("ADMIN_PASSWORD", ""),
+		SettingsPath:         get("SETTINGS_PATH", "/data/settings.json"),
+		DatabaseURL:          get("DATABASE_URL", ""),
+		EmbedBaseURL:         strings.TrimRight(get("EMBED_BASE_URL", ""), "/"),
+		EmbedAPIKey:          get("EMBED_API_KEY", ""),
+		EmbedModel:           get("EMBED_MODEL", ""),
+		EmbedFallbackBaseURL: strings.TrimRight(get("EMBED_FALLBACK_BASE_URL", ""), "/"),
+		EmbedFallbackAPIKey:  get("EMBED_FALLBACK_API_KEY", ""),
+		EmbedFallbackModel:   get("EMBED_FALLBACK_MODEL", ""),
+		SystemPrompt:         get("SYSTEM_PROMPT", DefaultSystemPrompt),
+		HandoffMessage:       get("HANDOFF_MESSAGE", DefaultHandoffMessage),
+		FailureMessage:       get("FAILURE_MESSAGE", DefaultFailureMessage),
+		AttachmentMessage:    get("ATTACHMENT_MESSAGE", DefaultAttachmentMessage),
+		LangfuseBaseURL:      strings.TrimRight(get("LANGFUSE_BASE_URL", ""), "/"),
+		LangfusePublicKey:    get("LANGFUSE_PUBLIC_KEY", ""),
+		LangfuseSecretKey:    get("LANGFUSE_SECRET_KEY", ""),
+		TraceText:            get("TRACE_TEXT", "redacted"),
+		TraceEnvironment:     get("TRACE_ENVIRONMENT", "production"),
+		RewriteModel:         get("REWRITE_MODEL", ""),
+		TranscribeModel:      get("TRANSCRIBE_MODEL", "gpt-4o-mini-transcribe"),
+		LogLevel:             get("LOG_LEVEL", "info"),
+		HandoffKeywords:      DefaultHandoffKeywords,
 	}
 
 	if raw := get("HANDOFF_KEYWORDS", ""); raw != "" {
@@ -163,6 +177,9 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 
 	var errs []error
 	var err error
+	if cfg.ReplyDelay, err = time.ParseDuration(get("REPLY_DELAY", "4s")); err != nil || cfg.ReplyDelay < 0 || cfg.ReplyDelay > 30*time.Second {
+		errs = append(errs, fmt.Errorf("REPLY_DELAY must be a duration from 0s to 30s"))
+	}
 	if cfg.LLMTimeout, err = time.ParseDuration(get("LLM_TIMEOUT", "45s")); err != nil {
 		errs = append(errs, fmt.Errorf("LLM_TIMEOUT: %w", err))
 	}

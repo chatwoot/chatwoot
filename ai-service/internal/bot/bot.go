@@ -55,8 +55,9 @@ type Profiles interface {
 const (
 	ReasonCustomerAsked = "ai-handoff:customer-request"
 	ReasonLLMError      = "ai-handoff:llm-error"
-	ReasonAttachment    = "ai-handoff:attachment" // files only; the bot cannot read them
-	ReasonAIRequest     = "ai-handoff:ai-request" // the model decided a person is needed
+	ReasonAttachment    = "ai-handoff:attachment"    // files only; the bot cannot read them
+	ReasonAIRequest     = "ai-handoff:ai-request"    // the model decided a person is needed
+	ReasonStaffReplied  = "ai-handoff:staff-replied" // someone else answered while the bot owned the chat
 )
 
 // MaxInputRunes caps one customer message before it reaches the model, so a
@@ -70,6 +71,12 @@ type UsageRecorder interface {
 	MarkUsed(ctx context.Context, accountID int64, hits []knowledge.Hit) error
 }
 
+// HistoryReader reads a conversation's recent messages as chat turns,
+// leaving out skipID (the message being answered). chatwoot.Reader.
+type HistoryReader interface {
+	RecentTurns(ctx context.Context, accountID, conversationID, skipID int64) ([]memory.Turn, error)
+}
+
 // Options configures a Bot.
 type Options struct {
 	Chatwoot  Chatwoot
@@ -80,9 +87,16 @@ type Options struct {
 	Tracer    Tracer        // optional; receives one trace per customer message
 	Usage     UsageRecorder // optional; counts which documents customer questions reach
 	// Media (each optional; a feature also needs its switch on the business profile).
-	Fetcher        Fetcher     // downloads attachments from the Chatwoot host
-	Transcriber    Transcriber // voice notes → text
-	StickerLLM     Completer   // small vision model: is this image a sticker?
+	Fetcher     Fetcher     // downloads attachments from the Chatwoot host
+	Transcriber Transcriber // voice notes → text
+	StickerLLM  Completer   // small vision model: is this image a sticker?
+	NoteLLM     Completer   // optional; small vision model that writes the staff note at a handoff
+	// HistoryReader recalls a chat from Chatwoot when the bot has no memory of
+	// it (after a restart, or a closed chat reopened). Optional.
+	HistoryReader HistoryReader
+	// Staff looks up who is online and how busy they are, so a handed-off
+	// chat goes to the least busy person. Optional (needs the reader token).
+	Staff          StaffDirectory
 	History        *memory.History
 	Handoff        *handoff.Detector
 	SystemPrompt   string
@@ -95,6 +109,9 @@ type Options struct {
 	Location *time.Location
 	Logger   *slog.Logger
 	Timeout  time.Duration // per-event processing budget
+	// ReplyDelay waits this long after a customer's last message before
+	// replying, so quick messages get one answer (batch.go). 0 replies at once.
+	ReplyDelay time.Duration
 }
 
 // Job is one event to process plus its delivery id for log correlation.
@@ -102,6 +119,7 @@ type Job struct {
 	Event      webhook.Event
 	Decision   webhook.Decision
 	DeliveryID string
+	flush      uint64 // set on the job that answers a burst (batch.go)
 }
 
 // Bot processes jobs on a fixed pool of workers. Jobs for the same
@@ -110,6 +128,10 @@ type Bot struct {
 	opts   Options
 	queues []chan Job
 	wg     sync.WaitGroup
+
+	mu      sync.Mutex
+	pending map[convKey]*pendingReply // replies waiting for a burst to end
+	closed  bool                      // set by Close; no new waiting reply is queued
 }
 
 // New creates a Bot with `workers` workers, each with a buffer of queueSize/workers.
@@ -166,6 +188,13 @@ func (b *Bot) Start(ctx context.Context) {
 
 // Close stops accepting work, drains queued jobs and waits for workers.
 func (b *Bot) Close() {
+	b.mu.Lock()
+	b.closed = true
+	for key, p := range b.pending { // a waiting reply must not reach a closed queue
+		p.timer.Stop()
+		delete(b.pending, key)
+	}
+	b.mu.Unlock()
 	for _, q := range b.queues {
 		close(q)
 	}
@@ -188,17 +217,42 @@ func (b *Bot) Process(parent context.Context, j Job) {
 	)
 	ctx, cancel := context.WithTimeout(parent, b.opts.Timeout)
 	defer cancel()
+	if j.flush != 0 {
+		b.flush(ctx, log, j)
+		return
+	}
 
 	switch j.Decision {
+	case webhook.Pause:
+		takeover := b.staffTookOver(ev)
+		if automated(ev, takeover) {
+			return
+		}
+		b.cancelPending(acct, conv)
+		log.Debug("staff took the chat, waiting reply dropped")
+		if takeover {
+			b.handoff(ctx, log, acct, ev.Inbox.ID, conv, "", ReasonStaffReplied, nil)
+		}
 	case webhook.Forget:
+		b.cancelPending(acct, conv)
 		b.opts.History.Forget(acct, conv)
 		log.Debug("conversation resolved, history cleared")
 	case webhook.Record:
-		role := "user"
+		takeover := b.staffTookOver(ev) // decided before this message joins the memory
+		if !automated(ev, takeover) {
+			b.cancelPending(acct, conv) // staff are handling the chat
+		}
+		role, content := "user", capText(ev.Content)
 		if ev.MessageType == "outgoing" {
 			role = "assistant"
 		}
-		b.opts.History.Append(acct, conv, memory.Turn{Role: role, Content: capText(ev.Content)})
+		if ev.ContentAttributes.ExternalEcho && automated(ev, takeover) {
+			content = memory.PageMessagePrefix + content
+		}
+		b.opts.History.Append(acct, conv, memory.Turn{Role: role, Content: content})
+		if takeover {
+			b.handoff(ctx, log, acct, ev.Inbox.ID, conv, "", ReasonStaffReplied, nil)
+		}
 	case webhook.HandOff, webhook.Reply:
 		tr := b.startTurn(ev, customerText(ev))
 		defer b.finishTurn(tr)
@@ -215,15 +269,21 @@ func (b *Bot) Process(parent context.Context, j Job) {
 				msg = b.opts.HandoffMessage
 			}
 			tr.Input, tr.Outcome, tr.Output = ev.AttachmentNote(), "handoff:"+ReasonAttachment, msg
-			b.handoff(ctx, log, acct, conv, msg, ReasonAttachment)
+			b.handoff(ctx, log, acct, ev.Inbox.ID, conv, msg, ReasonAttachment, nil)
 			return
 		}
 		tr.Input = in.text
+		b.recall(ctx, log, acct, conv, ev.ID)
 		b.opts.History.Append(acct, conv, memory.Turn{Role: "user", Content: in.text})
 		b.saveEmail(ctx, log, acct, conv, in.text)
 		if b.opts.Handoff.Wants(in.text) {
 			tr.Outcome, tr.Output = "handoff:"+ReasonCustomerAsked, b.opts.HandoffMessage
-			b.handoff(ctx, log, acct, conv, b.opts.HandoffMessage, ReasonCustomerAsked)
+			b.handoff(ctx, log, acct, ev.Inbox.ID, conv, b.opts.HandoffMessage, ReasonCustomerAsked, nil)
+			return
+		}
+		if b.opts.ReplyDelay > 0 {
+			tr.Outcome = "waiting"
+			b.deferReply(log, ev, j.DeliveryID, in.text, in.images)
 			return
 		}
 		b.reply(ctx, log, acct, ev.Inbox.ID, conv, tr, in.images)
@@ -239,7 +299,7 @@ func (b *Bot) startTurn(ev webhook.Event, input string) *trace.Turn {
 }
 
 func (b *Bot) finishTurn(tr *trace.Turn) {
-	if b.opts.Tracer == nil {
+	if b.opts.Tracer == nil || tr.Outcome == "waiting" { // a burst is traced once, when it is answered
 		return
 	}
 	tr.End = time.Now()
@@ -271,7 +331,7 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 	if err != nil {
 		log.Error("llm completion failed", "error", err, "latency_ms", latency.Milliseconds())
 		tr.Outcome, tr.Output = "handoff:"+ReasonLLMError, b.opts.FailureMessage
-		b.handoff(ctx, log, acct, conv, b.opts.FailureMessage, ReasonLLMError)
+		b.handoff(ctx, log, acct, inbox, conv, b.opts.FailureMessage, ReasonLLMError, images)
 		return
 	}
 
@@ -283,7 +343,7 @@ func (b *Bot) reply(ctx context.Context, log *slog.Logger, acct, inbox, conv int
 		}
 		tr.Outcome, tr.Output = "handoff:"+ReasonAIRequest, text
 		b.opts.History.Append(acct, conv, memory.Turn{Role: "assistant", Content: text})
-		b.handoff(ctx, log, acct, conv, text, ReasonAIRequest)
+		b.handoff(ctx, log, acct, inbox, conv, text, ReasonAIRequest, images)
 		return
 	}
 	if err := cw.SendMessage(ctx, acct, conv, text); err != nil {
@@ -402,21 +462,88 @@ func (b *Bot) now() time.Time {
 	return now().In(loc)
 }
 
-func (b *Bot) handoff(ctx context.Context, log *slog.Logger, acct, conv int64, customerMsg, reason string) {
+func (b *Bot) handoff(ctx context.Context, log *slog.Logger, acct, inbox, conv int64, customerMsg, reason string, images []string) {
+	b.cancelPending(acct, conv)
 	cw := b.opts.Chatwoot
 	if customerMsg != "" {
 		if err := cw.SendMessage(ctx, acct, conv, customerMsg); err != nil {
 			log.Error("send handoff message failed", "error", err)
 		}
 	}
-	if err := cw.SendPrivateNote(ctx, acct, conv, reason); err != nil {
+	note := b.staffNote(ctx, log, acct, conv, customerMsg, reason, images)
+	if err := cw.SendPrivateNote(ctx, acct, conv, note); err != nil {
 		log.Warn("handoff note failed", "error", err)
+	}
+	if reason != ReasonStaffReplied { // an admin already answering keeps the chat
+		b.route(ctx, log, acct, inbox, conv)
 	}
 	if err := cw.Handoff(ctx, acct, conv); err != nil {
 		log.Error("handoff failed", "error", err, "reason", reason)
 		return
 	}
 	log.Info("handed off to human", "reason", reason)
+}
+
+// recall fills an empty memory from Chatwoot, so a restart or a reopened chat
+// keeps its context (what staff said included). Its own memory is kept when
+// it has one: that also holds voice transcripts and photo notes.
+func (b *Bot) recall(ctx context.Context, log *slog.Logger, acct, conv, current int64) {
+	if b.opts.HistoryReader == nil || len(b.opts.History.Get(acct, conv)) > 0 {
+		return
+	}
+	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+	turns, err := b.opts.HistoryReader.RecentTurns(ctx, acct, conv, current)
+	if err != nil {
+		log.Warn("chat recall from chatwoot failed", "error", err)
+		return
+	}
+	for _, t := range turns {
+		b.opts.History.Append(acct, conv, memory.Turn{Role: t.Role, Content: capText(t.Content)})
+	}
+	if len(turns) > 0 {
+		log.Info("chat recalled from chatwoot", "turns", len(turns))
+	}
+}
+
+// automated is an outgoing message from no one in Chatwoot that does not
+// mean a takeover (a page Instant Reply, an automation message): it must
+// not cancel the reply the bot is about to send.
+func automated(ev webhook.Event, takeover bool) bool {
+	return ev.Event == "message_created" && ev.MessageType == "outgoing" && ev.Sender.Type == "" && !takeover
+}
+
+// staffTookOver says whether a public reply that is not the bot's means a
+// person took the chat while the bot still owned it. Then the bot hands it
+// over silently, or the bot and the admin would both answer the next message.
+//   - A Chatwoot user (staff typing in Chatwoot) always counts.
+//   - A reply with no sender counts only when Chatwoot marks it as a Messenger
+//     echo, the bot has already been chatting here, and it is not the bot's
+//     own last reply echoed back. So a page's Instant Reply or an ad's
+//     welcome message (sent before the bot speaks, even several of them) and
+//     Chatwoot automation messages (not echoes) do not.
+func (b *Bot) staffTookOver(ev webhook.Event) bool {
+	if ev.Event != "message_created" || ev.MessageType != "outgoing" || ev.Private ||
+		ev.Conversation.Status != "pending" {
+		return false
+	}
+	switch ev.Sender.Type {
+	case "user":
+		return true
+	case "":
+	default:
+		return false
+	}
+	if !ev.ContentAttributes.ExternalEcho {
+		return false
+	}
+	lastBot := ""
+	for _, t := range b.opts.History.Get(ev.Account.ID, ev.ConversationID()) {
+		if t.Role == "assistant" && !strings.HasPrefix(t.Content, memory.PageMessagePrefix) {
+			lastBot = t.Content
+		}
+	}
+	return lastBot != "" && strings.TrimSpace(ev.Content) != strings.TrimSpace(lastBot)
 }
 
 // retrievalQueries searches the latest customer message on its own, plus

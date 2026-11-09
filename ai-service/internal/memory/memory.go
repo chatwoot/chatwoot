@@ -13,6 +13,12 @@ import (
 )
 
 // Turn is one remembered message. Role is "user" or "assistant".
+// PageMessagePrefix marks an assistant turn the Facebook Page sent itself
+// (Instant Reply, an ad's welcome message, an Away message): it came back as a
+// Messenger echo, not from the bot. The model still sees it as context, but it
+// does not count as the bot having spoken.
+const PageMessagePrefix = "[Page message] "
+
 type Turn struct {
 	Role    string
 	Content string

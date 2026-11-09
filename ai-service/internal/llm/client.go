@@ -65,6 +65,9 @@ type Client struct {
 	apiKey  string
 	model   string
 	http    *http.Client
+	// MaxTokens caps the answer when > 0. Some providers (OpenRouter) hold
+	// credit for the longest possible answer when no cap is sent.
+	MaxTokens int
 }
 
 // New returns a Client. httpClient should carry the request timeout.
@@ -79,8 +82,9 @@ func New(baseURL, apiKey, model string, httpClient *http.Client) *Client {
 var ErrEmptyResponse = errors.New("llm returned empty response")
 
 type chatRequest struct {
-	Model    string    `json:"model"`
-	Messages []Message `json:"messages"`
+	Model     string    `json:"model"`
+	Messages  []Message `json:"messages"`
+	MaxTokens int       `json:"max_tokens,omitempty"`
 }
 
 type chatResponse struct {
@@ -99,7 +103,7 @@ type chatResponse struct {
 
 // Complete sends messages and returns the first choice.
 func (c *Client) Complete(ctx context.Context, messages []Message) (Result, error) {
-	buf, err := json.Marshal(chatRequest{Model: c.model, Messages: messages})
+	buf, err := json.Marshal(chatRequest{Model: c.model, Messages: messages, MaxTokens: c.MaxTokens})
 	if err != nil {
 		return Result{}, err
 	}

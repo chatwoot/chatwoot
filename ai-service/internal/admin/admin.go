@@ -214,6 +214,8 @@ func (h *Handler) submit(w http.ResponseWriter, r *http.Request) {
 		Primary:   fromForm(r, "primary", cur.Primary),
 		Fallback:  fromForm(r, "fallback", cur.Fallback),
 		Embedding: fromForm(r, "embedding", cur.Embedding),
+		// Not on the form: set by environment or the settings file; keep it.
+		EmbeddingFallback: cur.EmbeddingFallback,
 	}.Normalize()
 	// Same provider as primary (e.g. a backup model on one OpenRouter account,
 	// or OpenAI embeddings next to an OpenAI chat model): reuse the primary key.

@@ -10,6 +10,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
+
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 )
 
@@ -247,7 +249,59 @@ func TestRewriteSettings(t *testing.T) {
 	if fast.Primary.Model != "gpt-5.4-mini" || fast.Primary.BaseURL != main.Primary.BaseURL || fast.Primary.APIKey != "k1" {
 		t.Errorf("fast primary = %+v, want the main provider with the small model", fast.Primary)
 	}
-	if fast.Fallback != main.Primary {
-		t.Errorf("fast fallback = %+v, want the main model, so a bad small model still rewrites", fast.Fallback)
+	if fast.Fallback != main.Fallback {
+		t.Errorf("fast fallback = %+v, want the backup provider, so a bad small model or a primary outage still rewrites", fast.Fallback)
+	}
+}
+
+func TestOpen_FileWithoutEmbeddingFallbackKeepsEnvDefault(t *testing.T) {
+	// Arrange
+	path := filepath.Join(t.TempDir(), "s.json")
+	old := `{"primary":{"base_url":"https://a","api_key":"key-a","model":"m"},"embedding":{"base_url":"https://e","api_key":"key-e","model":"e"}}`
+	if err := os.WriteFile(path, []byte(old), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	def := LLM{EmbeddingFallback: Provider{BaseURL: "https://openrouter.ai/api/v1", APIKey: "key-or", Model: "openai/text-embedding-3-large"}}
+
+	// Act
+	s, err := Open(path, def)
+
+	// Assert
+	if err != nil || s.Get().EmbeddingFallback != def.EmbeddingFallback {
+		t.Errorf("embedding fallback = %+v err=%v", s.Get().EmbeddingFallback, err)
+	}
+}
+
+func TestRewriteSettings_FallsBackToTheBackupProvider(t *testing.T) {
+	// Arrange
+	backup := Provider{BaseURL: "https://openrouter.ai/api/v1", APIKey: "key-or", Model: "anthropic/claude-haiku-5.5"}
+	s := LLM{Primary: Provider{BaseURL: "https://api.openai.com/v1", APIKey: "key-a", Model: "big"}, Fallback: backup}
+
+	// Act
+	with := RewriteSettings(s, "small")
+	without := RewriteSettings(LLM{Primary: s.Primary}, "small")
+
+	// Assert
+	if with.Primary.Model != "small" || with.Fallback != backup {
+		t.Errorf("with backup: %+v", with)
+	}
+	if without.Fallback != s.Primary {
+		t.Errorf("without backup the rewrite falls back to the main model: %+v", without)
+	}
+}
+
+func TestNewEmbedder_UsesTheBackupWhenSet(t *testing.T) {
+	// Arrange
+	s := LLM{
+		Embedding:         Provider{BaseURL: "https://api.openai.com/v1", APIKey: "key-a", Model: "text-embedding-3-large"},
+		EmbeddingFallback: Provider{BaseURL: "https://openrouter.ai/api/v1", APIKey: "key-or", Model: "openai/text-embedding-3-large"},
+	}
+
+	// Act
+	e := NewEmbedder(s, time.Second)
+
+	// Assert
+	if _, ok := e.(*embed.Fallback); !ok || e.Model() != "text-embedding-3-large" {
+		t.Errorf("embedder = %T model %q, want a fallback named after the primary", e, e.Model())
 	}
 }

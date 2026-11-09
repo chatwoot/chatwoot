@@ -119,6 +119,13 @@ func run() error {
 			Events: adminEvents(profiles, cfg.AuditRetentionDays), Logger: logger.With("component", "websync"), Location: cfg.Location}
 	}
 
+	var historyReader bot.HistoryReader
+	var staff bot.StaffDirectory
+	if cfg.ChatwootReaderToken != "" {
+		reader := chatwoot.NewReader(cfg.ChatwootBaseURL, cfg.ChatwootReaderToken, nil)
+		historyReader, staff = reader, reader
+		logger.Info("chat recall and workload assignment on")
+	}
 	b := bot.New(bot.Options{
 		Chatwoot:          chatwoot.New(cfg.ChatwootBaseURL, cfg.ChatwootBotToken, nil),
 		LLM:               completer,
@@ -129,6 +136,9 @@ func run() error {
 		Fetcher:           attachmentFetcher(cfg),
 		Transcriber:       liveTranscriber{store: store, model: cfg.TranscribeModel},
 		StickerLLM:        rewriteLLM,
+		NoteLLM:           rewriteLLM,
+		HistoryReader:     historyReader,
+		Staff:             staff,
 		Tracer:            tracer,
 		History:           memory.NewHistory(cfg.HistoryLimit, 24*time.Hour, nil),
 		Handoff:           handoff.New(cfg.HandoffKeywords),
@@ -137,6 +147,7 @@ func run() error {
 		FailureMessage:    cfg.FailureMessage,
 		AttachmentMessage: cfg.AttachmentMessage,
 		Location:          cfg.Location,
+		ReplyDelay:        cfg.ReplyDelay,
 		Logger:            logger,
 		// Primary + fallback calls, plus Chatwoot API calls.
 		Timeout: 2*cfg.LLMTimeout + 30*time.Second,

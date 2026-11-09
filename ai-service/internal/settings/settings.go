@@ -63,6 +63,9 @@ type LLM struct {
 	Primary   Provider `json:"primary"`
 	Fallback  Provider `json:"fallback"`
 	Embedding Provider `json:"embedding"`
+	// EmbeddingFallback reaches the same embedding model another way
+	// (OpenRouter), so knowledge search survives a primary outage.
+	EmbeddingFallback Provider `json:"embedding_fallback"`
 }
 
 // Normalize trims whitespace and the trailing slash of the base URL.
@@ -85,7 +88,8 @@ func (p Provider) Host() string {
 
 // Normalize trims every provider.
 func (s LLM) Normalize() LLM {
-	return LLM{Primary: s.Primary.Normalize(), Fallback: s.Fallback.Normalize(), Embedding: s.Embedding.Normalize()}
+	return LLM{Primary: s.Primary.Normalize(), Fallback: s.Fallback.Normalize(), Embedding: s.Embedding.Normalize(),
+		EmbeddingFallback: s.EmbeddingFallback.Normalize()}
 }
 
 // Validate checks every provider. The primary must be complete.
@@ -98,6 +102,7 @@ func (s LLM) Validate() error {
 	}
 	errs = append(errs, prefixEach("Fallback provider", s.Fallback.Validate())...)
 	errs = append(errs, prefixEach("Embeddings provider", s.Embedding.Validate())...)
+	errs = append(errs, prefixEach("Embeddings backup provider", s.EmbeddingFallback.Validate())...)
 	return errors.Join(errs...)
 }
 
@@ -132,7 +137,8 @@ func Open(path string, defaults LLM) (*Store, error) {
 	}
 	var saved struct {
 		LLM
-		Embedding *Provider `json:"embedding"`
+		Embedding         *Provider `json:"embedding"`
+		EmbeddingFallback *Provider `json:"embedding_fallback"`
 	}
 	if err := json.Unmarshal(raw, &saved); err != nil {
 		return nil, fmt.Errorf("parse settings %s: %w", path, err)
@@ -142,6 +148,10 @@ func Open(path string, defaults LLM) (*Store, error) {
 	saved.LLM.Embedding = defaults.Embedding
 	if saved.Embedding != nil {
 		saved.LLM.Embedding = *saved.Embedding
+	}
+	saved.LLM.EmbeddingFallback = defaults.EmbeddingFallback
+	if saved.EmbeddingFallback != nil {
+		saved.LLM.EmbeddingFallback = *saved.EmbeddingFallback
 	}
 	s.current = saved.LLM.Normalize()
 	return s, nil
@@ -204,6 +214,10 @@ func Mask(secret string) string {
 	return "••••" + string(r[len(r)-4:])
 }
 
+// FallbackMaxTokens caps backup answers. Replies are a few lines; the cap
+// bounds cost and stops a backup provider holding credit for a huge answer.
+const FallbackMaxTokens = 1024
+
 // NewCompleter builds the LLM chain (primary, then fallback if configured).
 // RewriteSettings is the provider setup for the query rewrite: the main
 // provider with a smaller, faster model, falling back to the main model so a
@@ -215,7 +229,12 @@ func RewriteSettings(s LLM, model string) LLM {
 	}
 	fast := s.Primary
 	fast.Model = model
-	return LLM{Primary: fast, Fallback: s.Primary}
+	// With a backup provider, the rewrite also survives a primary outage.
+	backup := s.Primary
+	if s.Fallback.Configured() {
+		backup = s.Fallback
+	}
+	return LLM{Primary: fast, Fallback: backup}
 }
 
 // Each provider call is bounded by timeout.
@@ -225,7 +244,9 @@ func NewCompleter(s LLM, timeout time.Duration, logger *slog.Logger) llm.Complet
 	}
 	f := &llm.Fallback{Primary: newClient(s.Primary, timeout), Logger: logger}
 	if s.Fallback.Configured() {
-		f.Secondary = newClient(s.Fallback, timeout)
+		backup := newClient(s.Fallback, timeout)
+		backup.MaxTokens = FallbackMaxTokens
+		f.Secondary = backup
 	}
 	return f
 }
@@ -236,6 +257,8 @@ func Defaults(cfg config.Config) LLM {
 		Primary:   Provider{BaseURL: cfg.LLMBaseURL, APIKey: cfg.LLMAPIKey, Model: cfg.LLMModel},
 		Fallback:  Provider{BaseURL: cfg.LLMFallbackBaseURL, APIKey: cfg.LLMFallbackAPIKey, Model: cfg.LLMFallbackModel},
 		Embedding: Provider{BaseURL: cfg.EmbedBaseURL, APIKey: cfg.EmbedAPIKey, Model: cfg.EmbedModel},
+		EmbeddingFallback: Provider{BaseURL: cfg.EmbedFallbackBaseURL, APIKey: cfg.EmbedFallbackAPIKey,
+			Model: cfg.EmbedFallbackModel},
 	}
 }
 
@@ -245,7 +268,12 @@ func NewEmbedder(s LLM, timeout time.Duration) embed.Embedder {
 		return nil
 	}
 	p := s.Embedding
-	return embed.New(p.BaseURL, p.APIKey, p.Model, &http.Client{Timeout: timeout})
+	primary := embed.New(p.BaseURL, p.APIKey, p.Model, &http.Client{Timeout: timeout})
+	if !s.EmbeddingFallback.Configured() {
+		return primary
+	}
+	b := s.EmbeddingFallback
+	return &embed.Fallback{Primary: primary, Secondary: embed.New(b.BaseURL, b.APIKey, b.Model, &http.Client{Timeout: timeout})}
 }
 
 func newClient(p Provider, timeout time.Duration) *llm.Client {

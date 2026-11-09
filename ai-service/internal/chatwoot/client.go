@@ -33,6 +33,43 @@ func (c *Client) SendMessage(ctx context.Context, accountID, conversationID int6
 	return c.post(ctx, c.convPath(accountID, conversationID, "/messages"), body)
 }
 
+// Assign gives a conversation to a staff member.
+func (c *Client) Assign(ctx context.Context, accountID, conversationID, userID int64) error {
+	return c.post(ctx, c.convPath(accountID, conversationID, "/assignments"), map[string]any{"assignee_id": userID})
+}
+
+// AddLabel adds one label and keeps the conversation's others (Chatwoot's
+// labels call replaces the whole list).
+func (c *Client) AddLabel(ctx context.Context, accountID, conversationID int64, label string) error {
+	path := c.convPath(accountID, conversationID, "/labels")
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL+path, nil)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("api_access_token", c.token)
+	resp, err := c.http.Do(req)
+	if err != nil {
+		return fmt.Errorf("chatwoot %s: %w", path, err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode/100 != 2 {
+		snippet, _ := io.ReadAll(io.LimitReader(resp.Body, 512))
+		return &APIError{Path: path, Status: resp.StatusCode, Body: string(snippet)}
+	}
+	var current struct {
+		Payload []string `json:"payload"`
+	}
+	if err := json.NewDecoder(io.LimitReader(resp.Body, 1<<20)).Decode(&current); err != nil {
+		return fmt.Errorf("chatwoot %s: %w", path, err)
+	}
+	for _, l := range current.Payload {
+		if l == label {
+			return nil
+		}
+	}
+	return c.post(ctx, path, map[string]any{"labels": append(current.Payload, label)})
+}
+
 // SendPrivateNote posts a private note visible only to agents.
 func (c *Client) SendPrivateNote(ctx context.Context, accountID, conversationID int64, content string) error {
 	body := map[string]any{"content": content, "message_type": "outgoing", "private": true}
@@ -58,6 +95,33 @@ func (c *Client) SetTyping(ctx context.Context, accountID, conversationID int64,
 // keeping the ones not named (merge).
 func (c *Client) SetConversationAttributes(ctx context.Context, accountID, conversationID int64, attrs map[string]string) error {
 	return c.post(ctx, c.convPath(accountID, conversationID, "/custom_attributes"), map[string]any{"custom_attributes": attrs, "merge": true})
+}
+
+// ConversationStatus returns a conversation's status ("pending" while the
+// bot owns it, "open" once staff have it, "resolved", "snoozed").
+func (c *Client) ConversationStatus(ctx context.Context, accountID, conversationID int64) (string, error) {
+	path := c.convPath(accountID, conversationID, "")
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL+path, nil)
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("api_access_token", c.token)
+	resp, err := c.http.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("chatwoot %s: %w", path, err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode/100 != 2 {
+		snippet, _ := io.ReadAll(io.LimitReader(resp.Body, 512))
+		return "", &APIError{Path: path, Status: resp.StatusCode, Body: string(snippet)}
+	}
+	var conv struct {
+		Status string `json:"status"`
+	}
+	if err := json.NewDecoder(io.LimitReader(resp.Body, 1<<20)).Decode(&conv); err != nil {
+		return "", fmt.Errorf("chatwoot %s: %w", path, err)
+	}
+	return conv.Status, nil
 }
 
 func (c *Client) convPath(accountID, conversationID int64, suffix string) string {

@@ -247,3 +247,10 @@ func TestReportWriteJSONKeepsFullReplies(t *testing.T) {
 		t.Fatalf("WriteJSON() = %v\n%s", err, b.String())
 	}
 }
+
+func TestJudgeAcceptsTheShopsWayOfAddressingCustomers(t *testing.T) {
+	// Act + Assert: the owner chose คุณลูกค้า; the judge must not count it as robotic.
+	if !strings.Contains(judgeInstruction, "คุณลูกค้า") {
+		t.Error("judge instruction must say คุณลูกค้า is the shop's chosen style")
+	}
+}

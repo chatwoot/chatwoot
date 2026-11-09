@@ -39,7 +39,26 @@ Customer ─► Chatwoot ── Agent Bot webhook (HMAC signed) ──► POST /
   `kb_chunk_ids` and `kb_scores` (no content).
 - **History**: the last `HISTORY_LIMIT` messages per conversation are kept in
   memory from webhook events, because Chatwoot does not let bot tokens list
-  messages. History is lost on restart (persistent store comes with RAG).
+  messages. With `CHATWOOT_READER_TOKEN` (an agent account, e.g. "AI Reader",
+  with access to the bot's inboxes) the bot re-reads a chat from Chatwoot
+  when it has no memory of it: after a restart or when a closed chat reopens.
+  Staff and Messenger replies are included; private notes are not. Without
+  it, history is lost on restart.
+- **Backup AI**: `LLM_FALLBACK_*` answers when the main model fails, the
+  question rewrite falls back to it too, and `EMBED_FALLBACK_*` reaches the
+  same embedding model another way (for example OpenRouter with
+  `openai/text-embedding-3-large`), so knowledge search keeps working in an
+  outage. Use a different provider from the main one.
+- **Quick messages**: each message is read at once (photos, voice, email,
+  "talk to a person"), but the reply waits until the customer has been quiet
+  for `REPLY_DELAY` (default `4s`, `0s` turns it off), so a burst gets one
+  answer that covers all of it. A staff reply, a resolved chat or a handoff
+  cancels a waiting reply.
+- **Handoff note**: at every handoff a small vision model writes a private
+  Thai note for staff (why, what the customer wants, what the bot said, what a
+  photo shows, details given, next step), headed by a fixed warning that it
+  comes from customer content and money is not checked. Card and ID numbers
+  are removed; the reason code stays on the last line.
 - **Logs**: JSON (`log/slog`) with delivery, account, inbox, conversation and
   message ids, model, token counts and latency. Message content is not logged.
 

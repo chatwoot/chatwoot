@@ -30,7 +30,7 @@ Fail the reply if any of these is true:
 - It is not in the language the customer used in the last message.
 - A listed criterion is not met. Judge criteria by meaning, not exact words.
 - It does something listed under "must not".
-- Expected "handoff": the text promises an outcome staff have not confirmed (a refund, a discount, access granted), or misses a listed criterion. Saying a staff member will continue in this chat is the correct way to hand off, not a promise.
+- Expected "handoff": the text promises an outcome staff have not confirmed (a refund, a discount, access granted), or misses a listed criterion. Saying a staff member will continue in this chat is the correct way to hand off, not a promise. Addressing the customer as "คุณลูกค้า" (or "คุณ" with their name) is this shop's chosen polite style, not a sign of a robot.
 
 Otherwise pass it. Tone, length and wording are not reasons to fail unless a criterion or a "must not" item is about them.
 A reference reply, when given, shows the tone and approach the business wants; the bot's reply does not need its wording or every detail.
