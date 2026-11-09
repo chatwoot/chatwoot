@@ -123,7 +123,7 @@ jobs:
       - name: Verify
         working-directory: ai-service/.claude/skills/deploy
         env:
-          STAGING_PUBLIC_URL: ${{ inputs.fail_verify && 'https://staging-sabotage.invalid' || 'https://chat-staging.johnstockeraistudio.com' }}
+          STAGING_PUBLIC_URL: ${{ inputs.fail_verify && 'https://staging-sabotage.invalid' || 'https://pronto-staging.johnstockeraistudio.com' }}
         run: python3 dokploy.py --target staging verify
 
       - name: Answer smoke check on staging

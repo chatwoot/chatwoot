@@ -32,7 +32,7 @@ environment. It takes effect after a redeploy.
 Production writes need the owner's go-ahead (AGENTS.md §1). Back up first.
 
 ```bash
-python3 build_values.py https://chat.johnstockeraistudio.com > values.json
+python3 build_values.py https://pronto.johnstockeraistudio.com > values.json
 # copy pronto_branding.rb and values.json into the rails container at /tmp/pronto/, then:
 bundle exec rails runner /tmp/pronto/pronto_branding.rb backup /tmp/pronto/backup.json
 bundle exec rails runner /tmp/pronto/pronto_branding.rb apply  /tmp/pronto/values.json
