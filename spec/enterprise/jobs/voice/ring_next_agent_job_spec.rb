@@ -93,6 +93,45 @@ RSpec.describe Voice::RingNextAgentJob do
     expect(call.reload.ring_state['ring_recipient_ids']).to eq([alice.id, bob.id])
   end
 
+  context 'when a call whose end was never reported passes the dial limit' do
+    before do
+      account.enable_features!('channel_voice')
+      call # the conversation opens with nobody online, so it starts unassigned
+      OnlineStatusTracker.update_presence(account.id, 'User', bob.id)
+      OnlineStatusTracker.set_status(account.id, bob.id, 'online')
+    end
+
+    it "runs the inbox's auto-assignment the call held off" do
+      inbox.update!(enable_auto_assignment: true)
+      call.update!(created_at: (described_class::MAX_RING_SECONDS + 1).seconds.ago)
+
+      described_class.perform_now(call.id, 1)
+
+      expect(call.reload).to be_ringing
+      expect(conversation.reload.assignee).to eq(bob)
+    end
+
+    it "runs the team's auto-assignment when the inbox's own is off" do
+      inbox.update!(enable_auto_assignment: false)
+      team = create(:team, account: account, allow_auto_assign: true)
+      create(:team_member, team: team, user: bob)
+      conversation.update!(team: team)
+      call.update!(created_at: (described_class::MAX_RING_SECONDS + 1).seconds.ago)
+
+      described_class.perform_now(call.id, 1)
+
+      expect(conversation.reload.assignee).to eq(bob)
+    end
+
+    it 'assigns nothing while the call is within the limit' do
+      inbox.update!(enable_auto_assignment: true)
+
+      described_class.perform_now(call.id, 1)
+
+      expect(conversation.reload.assignee).to be_nil
+    end
+  end
+
   context 'when the inbox rings everyone at once' do
     before { channel.update!(provider_config: channel.provider_config.merge('ring_strategy' => 'simultaneous')) }
 

@@ -13,19 +13,32 @@ class Voice::RingNextAgentJob < ApplicationJob
     call = Call.find_by(id: call_id)
     return if call.blank?
 
-    # The next step is queued under the lock that moves the step on, so a failed enqueue rolls
-    # the move back and the retry runs this step again; a push that fails then stops nothing
-    added = call.with_lock do
-      next unless call.ringing? && call.ring_step == step
-
-      add_agents(call, step).tap { queue_next_step(call, step) }
-    end
+    added = widen_ring(call, step)
     return if added.nil?
 
     Voice::AddedRingPushService.new(call: call, users: added).perform if added.any? && call.ring_state['rings_phones'] != false
+    # A call still ringing past the dial limit lost its end callback, so it no longer holds off its
+    # conversation's auto-assignment (see Concerns::CallAssignmentHold), which runs here instead
+    call.conversation.auto_assign_after_call if dial_ended?(call)
   end
 
   private
+
+  # The next step is queued under the lock that moves the step on, so a failed enqueue rolls
+  # the move back and the retry runs this step again; a push that fails then stops nothing
+  def widen_ring(call, step)
+    call.with_lock do
+      next unless call.ringing? && call.ring_step == step
+
+      add_agents(call, step).tap { queue_next_step(call, step) unless dial_ended?(call) }
+    end
+  end
+
+  # Read once per step, so a step either queues the next one or runs the held assignment, never both
+  def dial_ended?(call)
+    @dial_ended = call.created_at <= MAX_RING_SECONDS.seconds.ago unless defined?(@dial_ended)
+    @dial_ended
+  end
 
   # Called under the row lock, which the end of the call also takes, so the status on the
   # call's message is never written back to ringing
@@ -49,8 +62,6 @@ class Voice::RingNextAgentJob < ApplicationJob
   end
 
   def queue_next_step(call, step)
-    return unless call.created_at > MAX_RING_SECONDS.seconds.ago
-
     self.class.set(wait: call.inbox.channel.ring_step_seconds.seconds).perform_later(call.id, step + 1)
   end
 end
