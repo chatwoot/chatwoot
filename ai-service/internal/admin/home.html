@@ -17,7 +17,7 @@
   </div>
 
   {{if .Waiting}}
-  <div class="alert warn" role="status"><strong>{{.Waiting}} AI {{if eq .Waiting 1}}change waits{{else}}changes wait{{end}} for your approval.</strong> <a href="/admin/approvals?account={{.AccountID}}">Review {{if eq .Waiting 1}}it{{else}}them{{end}}</a></div>
+  <div class="alert info" role="status"><strong>{{.Waiting}} AI {{if eq .Waiting 1}}change waits{{else}}changes wait{{end}} for your approval.</strong> <a href="/admin/approvals?account={{.AccountID}}">Review {{if eq .Waiting 1}}it{{else}}them{{end}}</a></div>
   {{end}}
   {{if eq .Left 0}}
   <div class="status ready" role="status">Ready. The bot answers in every Chatwoot inbox it is connected to.</div>
@@ -45,7 +45,7 @@
     </section>
 
     <aside class="card side" aria-labelledby="glance">
-      <h2 id="glance" style="font-size:1.125rem;margin:0 0 12px">At a glance</h2>
+      <h2 id="glance" class="card-title">At a glance</h2>
       <dl class="facts">
         <dt>Knowledge</dt>
         <dd>{{if .DocsKnown}}{{.Documents}} document{{if ne .Documents 1}}s{{end}}{{if .LastUpdated}}, last updated {{.LastUpdated}}{{end}}{{else}}Not available{{end}}</dd>
@@ -57,13 +57,13 @@
         <dt>Stickers</dt><dd>{{if .Features.Stickers}}On{{else}}Off{{end}}</dd>
         {{end}}
       </dl>
-      {{if .Profiles}}<p class="field-hint" style="margin-top:12px"><a href="/admin/business?account={{.AccountID}}">Change AI features</a></p>{{end}}
+      {{if .Profiles}}<p class="field-hint spaced"><a href="/admin/business?account={{.AccountID}}">Change AI features</a></p>{{end}}
     </aside>
   </div>
 
   {{if .Recent}}
-  <section class="card" aria-labelledby="recent-h" style="margin-top:16px">
-    <h2 id="recent-h" style="font-size:1.125rem;margin:0 0 8px">Recent changes</h2>
+  <section class="card spaced-lg" aria-labelledby="recent-h">
+    <h2 id="recent-h" class="card-title">Recent changes</h2>
     <table>
       <thead><tr><th scope="col">When</th><th scope="col">Who</th><th scope="col">What</th></tr></thead>
       <tbody>

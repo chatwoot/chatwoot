@@ -119,7 +119,7 @@ func (h *Handler) approvalItems(ctx context.Context, acct int64) ([]approvalItem
 	}
 	items := make([]approvalItem, 0, len(changes))
 	for _, c := range changes {
-		it := approvalItem{ID: c.ID, Version: c.Version, From: c.Actor, When: c.At.In(h.loc()).Format("2006-01-02 15:04")}
+		it := approvalItem{ID: c.ID, Version: c.Version, From: c.Actor, When: h.when(c.At)}
 		switch c.Kind {
 		case pending.KindProfile:
 			it.Heading = "Business profile"

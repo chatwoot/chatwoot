@@ -25,7 +25,7 @@
 
   {{if .Dupes}}
   <section class="card dupes" aria-labelledby="dupe-title" role="alert">
-    <h2 id="dupe-title" style="font-size:1.125rem;margin:0 0 4px">This looks like something you already have</h2>
+    <h2 id="dupe-title" class="card-title">This looks like something you already have</h2>
     <p class="hint">Two documents that say different things confuse the bot. Edit the existing one instead, or add yours anyway.</p>
     <ul class="sources">
       {{range .Dupes}}<li><strong>{{.Title}}</strong> <span class="preview">{{.Score}} similar</span> · <a href="/admin/knowledge?account={{$.AccountID}}&amp;edit={{.DocumentID}}">Edit this one</a></li>{{end}}
@@ -49,7 +49,7 @@
 
   {{with .Edit}}
   <section class="card" aria-labelledby="edit-title">
-    <h2 id="edit-title" style="font-size:1.125rem;margin:0 0 4px">Edit {{if eq .Kind "faq"}}FAQ{{else}}document{{end}}</h2>
+    <h2 id="edit-title" class="card-title">Edit {{if eq .Kind "faq"}}FAQ{{else}}document{{end}}</h2>
     <p class="hint">Saving re-indexes it. The bot uses the new version from the next message. Usage counts are kept.</p>
     {{if .Synced}}<div class="alert err" role="note"><strong>This comes from a website page or data file.</strong> Your edit can be replaced at the next sync. To change it for good, edit the page or the file.</div>{{end}}
     {{if and $.Error (eq $.ErrorForm "edit")}}<div class="alert err" role="alert"><strong>Not saved.</strong>
@@ -81,7 +81,7 @@
   {{else}}
   <div class="cols2">
   <section class="card" aria-labelledby="faq-title">
-    <h2 id="faq-title" style="font-size:1.125rem;margin:0 0 4px">Add an FAQ</h2>
+    <h2 id="faq-title" class="card-title">Add an FAQ</h2>
     <p class="hint">One question and its answer. Best for short facts: hours, prices, delivery, returns.</p>
     {{if and .Error (eq .ErrorForm "faq")}}<div class="alert err" role="alert"><strong>Not added.</strong>
 {{.Error}}</div>{{end}}
@@ -106,7 +106,7 @@
   </section>
 
   <section class="card" aria-labelledby="doc-title">
-    <h2 id="doc-title" style="font-size:1.125rem;margin:0 0 4px">Add a document</h2>
+    <h2 id="doc-title" class="card-title">Add a document</h2>
     <p class="hint">Longer text such as a price list, policy or product guide. Paste it, or upload a file: .txt or .md (max 2 MB), or a PDF with real text, not a scan (max 10 MB). From Word or Google Docs, save as PDF first.</p>
     {{if and .Error (eq .ErrorForm "doc")}}<div class="alert err" role="alert"><strong>Not added.</strong>
 {{.Error}}</div>{{end}}
@@ -136,13 +136,13 @@
 
   {{if .WebOn}}
   <section class="card" aria-labelledby="web-title">
-    <div class="page-head" style="margin:0">
-      <h2 id="web-title" style="font-size:1.125rem;margin:0 0 4px">Website pages and data files</h2>
+    <div class="card-head">
+      <h2 id="web-title" class="card-title">Website pages and data files</h2>
       {{if .Pages}}<form method="post" action="/admin/knowledge"><input type="hidden" name="action" value="sync_all"><input type="hidden" name="account" value="{{.AccountID}}"><button type="submit" class="btn small">Sync all now</button></form>{{end}}
     </div>
     <p class="hint">Add a public page (for example your price or policy page), or a data file where each row is one answer: a Google Sheet published as CSV, or a CSV or JSON Lines file. The bot reads it now and checks it on a schedule: changes update automatically, and anything that disappears stops being used.</p>
     {{if and .Error (eq .ErrorForm "page")}}<div class="alert err" role="alert"><strong>Not added.</strong> {{.Error}}</div>{{end}}
-    <form method="post" action="/admin/knowledge" autocomplete="off" style="margin-top:0">
+    <form method="post" action="/admin/knowledge" autocomplete="off">
       <input type="hidden" name="action" value="add_page"><input type="hidden" name="account" value="{{.AccountID}}">
       <fieldset class="kind-choice">
         <legend class="visually-hidden">What is it?</legend>
@@ -167,7 +167,7 @@
       </ol>
     </details>
     {{if .Pages}}
-    <table style="margin-top:12px">
+    <table class="spaced">
       <thead><tr><th scope="col">Source</th><th scope="col">Status</th><th scope="col">Last checked</th><th scope="col">Check</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
       <tbody>
       {{range .Pages}}
@@ -195,7 +195,7 @@
             </form>
             <form class="inline" method="post" action="/admin/knowledge" data-confirm="{{if .Feed}}Stop syncing this file and delete its {{.Items}} answers? Add the file again to bring them back.{{else}}Stop syncing {{.URL}} and delete its knowledge?{{end}}">
               <input type="hidden" name="action" value="remove_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
-              <button type="submit" class="link" aria-label="Remove {{.URL}}">Remove</button>
+              <button type="submit" class="btn small danger" aria-label="Remove {{.URL}}">Remove</button>
             </form>
           </td>
         </tr>
@@ -207,7 +207,7 @@
   {{end}}
 
   <section class="card" aria-labelledby="list-title">
-    <h2 id="list-title" style="font-size:1.125rem;margin:0 0 8px">Knowledge in account {{.AccountID}}</h2>
+    <h2 id="list-title" class="card-title">Knowledge in account {{.AccountID}}</h2>
     <nav class="filters" aria-label="Filter knowledge">
       <a href="/admin/knowledge?account={{.AccountID}}"{{if eq .Show ""}} aria-current="page"{{end}}>All <span class="count">{{.Total}}</span></a>
       <a href="/admin/knowledge?account={{.AccountID}}&amp;show=unused"{{if eq .Show "unused"}} aria-current="page"{{end}}>Not used yet <span class="count">{{.Unused}}</span></a>
@@ -232,13 +232,13 @@
           <td><strong>{{.Title}}</strong> <span class="preview">{{.Kind}}</span><div class="preview">{{.Preview}}</div></td>
           <td data-label="Status"><span class="badge {{.Status}}">{{if eq .Status "active"}}Active{{else if eq .Status "scheduled"}}Scheduled{{else}}Expired{{end}}</span>{{with .Window}}<div class="preview">{{.}}</div>{{end}}</td>
           <td data-label="Used by customers"{{if .Unused}} class="muted-cell"{{end}}>{{.Used}}</td>
-          <td data-label="Scope">{{.Inbox}}{{if .Stale}} <span class="warn">({{.Stale}} old chunks)</span>{{end}}</td>
+          <td class="nowrap" data-label="Scope">{{.Inbox}}{{if .Stale}} <span class="warn">({{.Stale}} old chunks)</span>{{end}}</td>
           <td class="num" data-label="Updated">{{.Updated}}</td>
           <td class="row-actions">
             <a class="btn small" href="/admin/knowledge?account={{$.AccountID}}&amp;edit={{.ID}}">Edit<span class="visually-hidden"> {{.Title}}</span></a>
             <form class="inline" method="post" action="/admin/knowledge" data-confirm="Delete “{{.Title}}”? The bot stops using it at once.">
               <input type="hidden" name="action" value="delete"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
-              <button type="submit" class="link" aria-label="Delete {{.Title}}">Delete</button>
+              <button type="submit" class="btn small danger" aria-label="Delete {{.Title}}">Delete</button>
             </form>
           </td>
         </tr>

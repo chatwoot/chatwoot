@@ -49,12 +49,12 @@
       {{end}}
     </div>
     {{end}}
-    <form method="post" action="/admin/approvals" class="row change-actions">
+    <form method="post" action="/admin/approvals" class="actions">
       <input type="hidden" name="account" value="{{$.Account}}">
       <input type="hidden" name="id" value="{{.ID}}">
       <input type="hidden" name="version" value="{{.Version}}">
+      <button type="submit" name="decision" value="reject" class="danger">Reject</button>
       <button type="submit" name="decision" value="approve" class="primary">Approve</button>
-      <button type="submit" name="decision" value="reject">Reject</button>
     </form>
   </section>
   {{end}}

@@ -68,7 +68,7 @@ func (h *Handler) showHome(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 			if !last.IsZero() {
-				d.LastUpdated = last.Format("2 Jan 2006")
+				d.LastUpdated = h.day(last)
 			}
 		}
 	}
@@ -79,7 +79,7 @@ func (h *Handler) showHome(w http.ResponseWriter, r *http.Request) {
 			h.Logger.Warn("home: recent changes failed", "account_id", acct, "error", err)
 		}
 		for _, ev := range events {
-			d.Recent = append(d.Recent, recentView{When: ev.At.In(h.loc()).Format("2 Jan 15:04"), Who: ev.Actor, What: ev.Action, Detail: ev.Summary})
+			d.Recent = append(d.Recent, recentView{When: h.when(ev.At), Who: ev.Actor, What: ev.Action, Detail: ev.Summary})
 		}
 	}
 	acctQ := "?account=" + strconv.FormatInt(acct, 10)

@@ -76,7 +76,7 @@ func (h *Handler) submitBusiness(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) renderBusiness(w http.ResponseWriter, r *http.Request, status int, data businessData) {
 	data.Limits.Name, data.Limits.Field = profile.MaxNameRunes, profile.MaxFieldRunes
 	if !data.Profile.UpdatedAt.IsZero() {
-		data.Updated = data.Profile.UpdatedAt.UTC().Format("2006-01-02 15:04 UTC")
+		data.Updated = h.when(data.Profile.UpdatedAt)
 	}
 	h.renderPage(w, r, status, "business.html", data)
 }
