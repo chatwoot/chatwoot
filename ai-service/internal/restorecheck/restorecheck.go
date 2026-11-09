@@ -28,6 +28,7 @@ import (
 // lacks one is incomplete.
 var RequiredTables = []string{
 	"admin_events",
+	"ai_pending_changes",
 	"business_profiles",
 	"chatwoot_inboxes",
 	"kb_audit",

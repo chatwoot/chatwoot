@@ -28,7 +28,7 @@ func openTestDB(t *testing.T) *Postgres {
 		t.Fatal(err)
 	}
 	t.Cleanup(pool.Close)
-	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, oauth_codes, oauth_grants, oauth_clients, team_members, admin_events, web_sources, chatwoot_inboxes, kb_schema_version"); err != nil {
+	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, oauth_codes, oauth_grants, oauth_clients, team_members, admin_events, web_sources, chatwoot_inboxes, ai_pending_changes, kb_schema_version"); err != nil {
 		t.Fatal(err)
 	}
 	p := &Postgres{Pool: pool}
@@ -194,8 +194,8 @@ func TestPostgres_MigratesV1ToV2(t *testing.T) {
 		to_regclass('business_profiles')::text`).Scan(&version, &docs, &table); err != nil {
 		t.Fatal(err)
 	}
-	if version != 11 || docs != 1 || table == nil {
-		t.Errorf("version=%d docs=%d business_profiles=%v, want 11, 1, present", version, docs, table)
+	if version != SchemaVersion || docs != 1 || table == nil {
+		t.Errorf("version=%d docs=%d business_profiles=%v, want %d, 1, present", version, docs, table, SchemaVersion)
 	}
 	var rls bool
 	if err := db.Pool.QueryRow(ctx, "SELECT relrowsecurity FROM pg_class WHERE relname = 'business_profiles'").Scan(&rls); err != nil {
@@ -307,8 +307,8 @@ func TestPostgres_MigratesV3ToV4KeepsDocumentsActive(t *testing.T) {
 		t.Fatalf("migrate %v, search %v, list %v", err, searchErr, listErr)
 	}
 	var version int
-	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != 11 {
-		t.Fatalf("version = %d (err %v), want 11", version, err)
+	if err := db.Pool.QueryRow(ctx, "SELECT version FROM kb_schema_version").Scan(&version); err != nil || version != SchemaVersion {
+		t.Fatalf("version = %d (err %v), want %d", version, err, SchemaVersion)
 	}
 	if len(hits) != 1 || len(docs) != 1 || docs[0].UseCount != 0 || !docs[0].ValidUntil.IsZero() || !docs[0].LastUsedAt.IsZero() {
 		t.Errorf("after v4: hits=%d docs=%+v", len(hits), docs)
@@ -593,8 +593,8 @@ func TestPostgres_MigratesV2ToLatestInOneStep(t *testing.T) {
 	if len(docs) == 1 && docs[0].SourceKey != "" {
 		t.Errorf("existing document got a key: %q", docs[0].SourceKey)
 	}
-	if version != 11 || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
-		t.Errorf("version=%d new columns=%d docs=%+v, want 11, 7, one active document", version, cols, docs)
+	if version != SchemaVersion || cols != 7 || len(docs) != 1 || docs[0].Status(time.Now()) != StatusActive {
+		t.Errorf("version=%d new columns=%d docs=%+v, want %d, 7, one active document", version, cols, docs, SchemaVersion)
 	}
 }
 
@@ -754,5 +754,49 @@ func TestPostgres_V11ConstraintsAndOldBinaryInsert(t *testing.T) {
 	}
 	if badKind == nil || negative == nil || huge == nil {
 		t.Errorf("constraints: kind=%v negative=%v huge=%v, want all refused", badKind, negative, huge)
+	}
+}
+
+// v12 on a Supabase-like database: anon and authenticated exist and get every
+// new table and sequence by default. The upgrade from v11 must create the
+// pending-changes table with row level security on and both roles shut out.
+func TestPostgres_V12UpgradeShutsOutAPIRoles(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `DO $$ BEGIN
+			IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN CREATE ROLE anon NOLOGIN; END IF;
+			IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN CREATE ROLE authenticated NOLOGIN; END IF;
+		END $$;
+		ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO anon, authenticated;
+		ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated;
+		DROP TABLE ai_pending_changes;
+		UPDATE kb_schema_version SET version = 11;`); err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() {
+		_, _ = db.Pool.Exec(context.Background(), `ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE ALL ON TABLES FROM anon, authenticated;
+			ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE ALL ON SEQUENCES FROM anon, authenticated;`)
+	})
+
+	// Act
+	err := db.Migrate(ctx)
+
+	// Assert
+	if err != nil {
+		t.Fatal(err)
+	}
+	var version int
+	var rls, tableOpen, seqOpen bool
+	if err := db.Pool.QueryRow(ctx, `SELECT (SELECT version FROM kb_schema_version),
+		(SELECT relrowsecurity FROM pg_class WHERE relname = 'ai_pending_changes'),
+		EXISTS (SELECT 1 FROM pg_roles r WHERE r.rolname IN ('anon', 'authenticated')
+			AND has_table_privilege(r.rolname, 'ai_pending_changes', 'SELECT,INSERT,UPDATE,DELETE')),
+		EXISTS (SELECT 1 FROM pg_roles r WHERE r.rolname IN ('anon', 'authenticated')
+			AND has_sequence_privilege(r.rolname, 'ai_pending_changes_id_seq', 'USAGE,SELECT,UPDATE'))`).Scan(&version, &rls, &tableOpen, &seqOpen); err != nil {
+		t.Fatal(err)
+	}
+	if version != 12 || !rls || tableOpen || seqOpen {
+		t.Fatalf("version=%d rls=%v table open=%v sequence open=%v", version, rls, tableOpen, seqOpen)
 	}
 }

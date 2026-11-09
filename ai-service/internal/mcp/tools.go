@@ -11,6 +11,7 @@ import (
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pending"
 )
 
 type tool struct {
@@ -55,6 +56,7 @@ var tools = []tool{
 		Annotations: map[string]any{"readOnlyHint": true, "openWorldHint": false}},
 	{Name: "upsert_document", Title: "Add or update a document", write: true,
 		Description: "Create or replace a document by its key. The same key updates in place (re-indexed, usage kept, kind unchanged). " +
+			"The change waits until the owner approves it on the admin page; until then customers see the current version. " +
 			"A new key that is 85%+ similar to an existing document is refused unless allow_duplicate is true; update that document's key instead. " +
 			"Dates are YYYY-MM-DD in the business time zone; last_day is the last day the bot may use it. " +
 			"Links, @handles, LINE or messenger IDs and long numbers (phone, account, card) are refused; the owner adds those on the admin page.",
@@ -342,19 +344,14 @@ func (s *Server) upsert(ctx context.Context, tok Token, a upsertArgs) (any, erro
 	if knowledge.SyncedKey(a.Key) {
 		return nil, userError("keys starting with web: or feed: are kept in sync from a website or data file; edit the source instead, or use another key")
 	}
-	kind := knowledge.KindText
-	if a.Kind == "faq" {
-		kind = knowledge.KindFAQ
-	} else if a.Kind != "" && a.Kind != "text" {
+	if a.Kind != "" && a.Kind != "faq" && a.Kind != "text" {
 		return nil, userError(`kind must be "faq" or "text"`)
 	}
-	from, until, err := s.window(a.StartDate, a.LastDay)
+	d, err := s.document(tok.AccountID, a)
 	if err != nil {
-		return nil, userError(err.Error())
-	}
-	d := knowledge.Document{AccountID: tok.AccountID, InboxID: a.InboxID, Kind: kind, Title: a.Title, Content: a.Content,
-		SourceKey: a.Key, ValidFrom: from, ValidUntil: until}
-	if d, err = d.Validate(); err != nil {
+		if errors.As(err, new(userError)) {
+			return nil, err
+		}
 		return nil, userError(err.Error())
 	}
 	if a.InboxID < 0 {
@@ -364,41 +361,78 @@ func (s *Server) upsert(ctx context.Context, tok Token, a upsertArgs) (any, erro
 	if err := checkAIText("title or content", d.Title+"\n"+d.Content); err != nil {
 		return nil, err
 	}
+	if _, err := s.Knowledge.GetByKey(ctx, tok.AccountID, d.SourceKey); errors.Is(err, knowledge.ErrNotFound) && !a.AllowDuplicate {
+		dupes, err := s.similar(ctx, tok, d)
+		if err != nil {
+			return nil, err
+		}
+		if len(dupes) > 0 {
+			b, _ := json.Marshal(dupes)
+			return nil, userError(fmt.Sprintf("not added: this is 85%%+ similar to existing knowledge %s. Update that document (use its key, or get_document and re-save it under a key) or set allow_duplicate if it is really different", b))
+		}
+	} else if err != nil && !errors.Is(err, knowledge.ErrNotFound) {
+		return nil, err
+	}
+	a.Key = d.SourceKey
+	return s.propose(ctx, tok, pending.KindDocument, d.SourceKey, a, nil)
+}
+
+// document builds the document an upsert describes, validated.
+func (s *Server) document(accountID int64, a upsertArgs) (knowledge.Document, error) {
+	kind := knowledge.KindText
+	if a.Kind == "faq" {
+		kind = knowledge.KindFAQ
+	}
+	from, until, err := s.window(a.StartDate, a.LastDay)
+	if err != nil {
+		return knowledge.Document{}, userError(err.Error())
+	}
+	d := knowledge.Document{AccountID: accountID, InboxID: a.InboxID, Kind: kind, Title: a.Title, Content: a.Content,
+		SourceKey: a.Key, ValidFrom: from, ValidUntil: until}
+	return d.Validate()
+}
+
+// applyDocument saves an approved document: the old version goes to the
+// audit log first, as for every AI-tool change.
+func (s *Server) applyDocument(ctx context.Context, tok Token, raw []byte) error {
+	var a upsertArgs
+	if err := json.Unmarshal(raw, &a); err != nil {
+		return err
+	}
+	d, err := s.document(tok.AccountID, a)
+	if err != nil {
+		return err
+	}
+	// The same checks as the tool, again: the row is applied as stored.
+	if knowledge.SyncedKey(d.SourceKey) || d.InboxID < 0 {
+		return userError("this change can no longer be applied: its key or inbox is not allowed")
+	}
+	if err := checkAIText("title or content", d.Title+"\n"+d.Content); err != nil {
+		return err
+	}
 	cur, err := s.Knowledge.GetByKey(ctx, tok.AccountID, d.SourceKey)
 	switch {
 	case errors.Is(err, knowledge.ErrNotFound):
-		if !a.AllowDuplicate {
-			dupes, err := s.similar(ctx, tok, d)
-			if err != nil {
-				return nil, err
-			}
-			if len(dupes) > 0 {
-				b, _ := json.Marshal(dupes)
-				return nil, userError(fmt.Sprintf("not added: this is 85%%+ similar to existing knowledge %s. Update that document (use its key, or get_document and re-save it under a key) or set allow_duplicate if it is really different", b))
-			}
-		}
 	case err != nil:
-		return nil, err
+		return err
 	default:
 		// Keep the old version before changing it; no copy, no change.
 		if err := s.Audit.Record(ctx, AuditEntry{AccountID: tok.AccountID, DocumentID: cur.ID, SourceKey: cur.SourceKey,
 			Action: "update", Actor: "mcp:" + tok.Name, TokenID: tok.ID, Before: auditCopy(cur)}); err != nil {
-			return nil, fmt.Errorf("not saved: the audit copy could not be stored: %w", err)
+			return fmt.Errorf("not saved: the audit copy could not be stored: %w", err)
 		}
 	}
-	before, id, chunks, err := s.Knowledge.Upsert(ctx, d)
+	before, id, _, err := s.Knowledge.Upsert(ctx, d)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	action := "update"
 	if before.ID == 0 {
-		action = "create"
 		if err := s.Audit.Record(ctx, AuditEntry{AccountID: tok.AccountID, DocumentID: id, SourceKey: d.SourceKey,
 			Action: "create", Actor: "mcp:" + tok.Name, TokenID: tok.ID}); err != nil {
 			s.Logger.Error("mcp audit not recorded", "account_id", tok.AccountID, "document_id", id, "error", err)
 		}
 	}
-	return map[string]any{"result": action + "d", "id": id, "key": d.SourceKey, "chunks": chunks}, nil
+	return nil
 }
 
 func (s *Server) deleteDocument(ctx context.Context, tok Token, key string, id int64) (any, error) {

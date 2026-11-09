@@ -16,6 +16,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/pending"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/ratelimit"
 )
@@ -43,6 +44,13 @@ type Server struct {
 	Sources  Sources
 	Checker  Checker
 	Events   audit.Store
+	// Pending holds AI edits until the owner approves them on /admin; nil
+	// hides update_profile and upsert_document (#60).
+	Pending pending.Store
+	// AdminURL is the public base address of /admin (scheme and host). When
+	// set, a "waiting for approval" reply carries a review_url the app can
+	// show the owner; empty leaves the link out.
+	AdminURL string
 	Location *time.Location // business time zone for dates; nil is UTC
 	Logger   *slog.Logger
 	Version  string
