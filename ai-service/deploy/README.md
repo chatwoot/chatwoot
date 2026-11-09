@@ -33,10 +33,13 @@ These domain rules live in the Dokploy UI, not in git. If you change them,
 update this section in the same PR.
 
 The old host `chat.johnstockeraistudio.com` (the address before the Pronto
-rename on 2026-11-09) still has the same two rules and keeps working. The
-Messenger callback in the Meta app and older links still use it. Do not remove
-it, or its DNS records: Resend's sending records for
-`alerts@chat.johnstockeraistudio.com` live under that name.
+rename on 2026-11-09) is proxied by Cloudflare and a zone redirect rule sends
+every request to the same path on `pronto.` with a 308. The Messenger
+callback in the Meta app is `https://pronto.johnstockeraistudio.com/bot`.
+Keep the DNS records under `chat.`: Resend's sending records for
+`alerts@chat.johnstockeraistudio.com` live there. The two Dokploy domains for
+`chat.` are left in place, so removing the redirect rule and un-proxying the
+record is a complete rollback.
 
 ## Environment
 
@@ -83,8 +86,8 @@ production.
 | `pronto-staging.johnstockeraistudio.com` | `stg-rails:3000`, except `/webhooks/chatwoot` → `stg-ai-service:8080` | owner emails; `/webhooks/chatwoot` bypasses Access (HMAC-signed), added only after the real webhook secret is set |
 | `ai-admin-staging.johnstockeraistudio.com` | `stg-ai-service:8080`, only `^/admin` | owner emails |
 
-The old staging host `chat-staging.johnstockeraistudio.com` still has the same
-tunnel routes and Access rules as `pronto-staging`.
+The old staging host `chat-staging.johnstockeraistudio.com` redirects (308)
+to `pronto-staging` through the same Cloudflare redirect rule set.
 
 Inside the stack, ai-service calls Chatwoot at `http://stg-rails:3000`
 (`FORCE_SSL` is off; Cloudflare terminates TLS). Staging data is fake: never
