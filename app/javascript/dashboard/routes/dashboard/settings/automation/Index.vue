@@ -202,9 +202,9 @@ const clearQuery = keys =>
   });
 
 watch(
-  () => [
-    route.query[AUTOMATION_QUERY.MONITOR_ID],
-    route.query[AUTOMATION_QUERY.SLA_POLICY_ID],
+  [
+    () => route.query[AUTOMATION_QUERY.MONITOR_ID],
+    () => route.query[AUTOMATION_QUERY.SLA_POLICY_ID],
   ],
   async ([rawMonitorId, rawSlaPolicyId]) => {
     const monitorId = parseId(rawMonitorId);
