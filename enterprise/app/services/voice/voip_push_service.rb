@@ -1,7 +1,8 @@
 class Voice::VoipPushService
+  include Voice::VoipPushConfiguration
+
   pattr_initialize [:call!]
 
-  RING_EXPIRY_SECONDS = 45
   RING_LEASE_SECONDS = 30
   APPLE = 'apns_voip'.freeze
   ANDROID = 'fcm'.freeze
@@ -60,11 +61,17 @@ class Voice::VoipPushService
   end
 
   # Batch checks bypass the query cache without reloading the Call shared by delivery threads.
-  def keep_ringing? = Call.uncached { Call.where(id: call.id).first&.ringing? } && hold_ring_lease
+  def keep_ringing?
+    Call.uncached { Call.where(id: call.id).first&.ringing? } && hold_ring_lease
+  end
 
-  def hold_ring_lease = merge_ring_state({ 'ring_started_at' => Time.zone.now.to_i }, reload: false) || true
+  def hold_ring_lease
+    merge_ring_state({ 'ring_started_at' => Time.zone.now.to_i }, reload: false) || true
+  end
 
-  def apple_sender(settings) = platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }
+  def apple_sender(settings)
+    platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }
+  end
 
   def devices_to_ring
     apple_environment if configured?(:apple)
@@ -86,7 +93,9 @@ class Voice::VoipPushService
     forget_devices(ANDROID, gone(with_rails { sender.deliver(tokens, data, 'cancel') }.to_h))
   end
 
-  def payloads = (@payloads ||= Voice::VoipPushPayloads.new(call: call))
+  def payloads
+    (@payloads ||= Voice::VoipPushPayloads.new(call: call))
+  end
 
   def platform_client(platform)
     yield
@@ -107,7 +116,9 @@ class Voice::VoipPushService
     @recipients ||= call.ring_state['ring_recipient_ids']&.then { |ids| call.account.users.where(id: ids).to_a } || self.class.recipients_for(call)
   end
 
-  def apple_subscriptions = NotificationSubscription.apns_voip.where(user_id: recipients.map(&:id))
+  def apple_subscriptions
+    NotificationSubscription.apns_voip.where(user_id: recipients.map(&:id))
+  end
 
   def android_subscriptions
     NotificationSubscription.fcm
@@ -115,9 +126,13 @@ class Voice::VoipPushService
                             .select { |subscription| subscription.subscription_attributes['devicePlatform'].to_s.casecmp('android').zero? }
   end
 
-  def apple_tokens = push_tokens(apple_subscriptions)
+  def apple_tokens
+    push_tokens(apple_subscriptions)
+  end
 
-  def android_tokens = push_tokens(android_subscriptions)
+  def android_tokens
+    push_tokens(android_subscriptions)
+  end
 
   # Token ownership can change while pushes are in flight.
   def push_tokens(subscriptions)
@@ -128,12 +143,18 @@ class Voice::VoipPushService
     end.uniq
   end
 
-  def token_owners = (@token_owners ||= {})
+  def token_owners
+    (@token_owners ||= {})
+  end
 
-  def rung_devices = call.ring_state.fetch('rung_devices', {})
+  def rung_devices
+    call.ring_state.fetch('rung_devices', {})
+  end
 
   # A recorded delivery outcome prevents duplicate rings; an expired lease permits recovery.
-  def ring_settled? = call.ring_state.key?('unreached_user_ids')
+  def ring_settled?
+    call.ring_state.key?('unreached_user_ids')
+  end
 
   def prepare_ring
     return :settled if ring_settled?
@@ -152,14 +173,18 @@ class Voice::VoipPushService
     [apple, android]
   end
 
-  def forget_rung_devices = Call.where(id: call.id).update_all("ring_state = ring_state - 'rung_devices'") # rubocop:disable Rails/SkipsModelValidations
+  def forget_rung_devices
+    Call.where(id: call.id).update_all("ring_state = ring_state - 'rung_devices'") # rubocop:disable Rails/SkipsModelValidations
+  end
 
   def merge_ring_state(values, reload: true)
     Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', values.to_json]) # rubocop:disable Rails/SkipsModelValidations
     call.reload if reload
   end
 
-  def gone(results) = results.filter_map { |token, outcome| token if outcome == :gone }
+  def gone(results)
+    results.filter_map { |token, outcome| token if outcome == :gone }
+  end
 
   # Replaying notifications restores alerts for agents whose devices did not receive the ring.
   def settle_ring(apple_results, android_results)
@@ -178,7 +203,9 @@ class Voice::VoipPushService
     end
   end
 
-  def replay_new_message_notification = call.reload.message&.then { |message| Messages::NewMessageNotificationService.new(message: message).perform }
+  def replay_new_message_notification
+    call.reload.message&.then { |message| Messages::NewMessageNotificationService.new(message: message).perform }
+  end
 
   def unreached_user_ids(results)
     token_owners.values.uniq - results.filter_map { |token, outcome| token_owners[token] if outcome == :sent }
@@ -192,51 +219,10 @@ class Voice::VoipPushService
                             .destroy_all
   end
 
-  APNS_ENVIRONMENTS = %w[development production].freeze
-
-  CREDENTIALS = {
-    apple: %w[APNS_VOIP_KEY APNS_VOIP_KEY_ID APNS_VOIP_TEAM_ID],
-    android: %w[FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS]
-  }.freeze
-
-  def configured?(platform)
-    @configured ||= {}
-    return @configured[platform] if @configured.key?(platform)
-
-    names = CREDENTIALS[platform]
-    missing = names.select { |name| config(name).blank? }
-    if missing.any? && missing.size < names.size
-      ChatwootExceptionTracker.new(ArgumentError.new("#{platform} push is partly configured; missing #{missing.join(', ')}")).capture_exception
-    end
-    @configured[platform] = missing.empty?
-  end
-
-  def apple_environment
-    environment = config('APNS_VOIP_ENVIRONMENT', 'production')
-    return environment if APNS_ENVIRONMENTS.include?(environment)
-
-    raise ArgumentError, "APNS_VOIP_ENVIRONMENT must be one of #{APNS_ENVIRONMENTS.join(', ')}, got #{environment.inspect}"
-  end
-
-  def apple_settings
-    {
-      production: apple_environment == 'production',
-      key: config('APNS_VOIP_KEY'),
-      key_id: config('APNS_VOIP_KEY_ID'),
-      team_id: config('APNS_VOIP_TEAM_ID'),
-      topic: "#{config('APNS_VOIP_BUNDLE_ID').presence || 'com.chatwoot.app'}.voip",
-      expiry_seconds: RING_EXPIRY_SECONDS
-    }
-  end
-
-  def firebase_config = [config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')]
-
   def fcm_sender(project_id, credentials)
     platform_client('android') do
       client = Notification::FcmService.new(project_id, credentials).fcm_client
       Voice::FcmVoipSender.new(client: client, call_id: call.id, expiry_seconds: RING_EXPIRY_SECONDS)
     end
   end
-
-  def config(name, default = nil) = GlobalConfigService.load(name, default)
 end

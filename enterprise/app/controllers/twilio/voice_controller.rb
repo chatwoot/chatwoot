@@ -82,7 +82,9 @@ class Twilio::VoiceController < ApplicationController
 
   private
 
-  def twilio_call_sid = params[:CallSid]
+  def twilio_call_sid
+    params[:CallSid]
+  end
 
   def twilio_from = params[:From].to_s
 
@@ -138,7 +140,9 @@ class Twilio::VoiceController < ApplicationController
     end
   end
 
-  def open_leg?(call) = agent_leg?(twilio_from) ? call.open_agent_leg!(twilio_call_sid, attempt: params[:attempt_id]) : !call.terminal?
+  def open_leg?(call)
+    agent_leg?(twilio_from) ? call.open_agent_leg!(twilio_call_sid, attempt: params[:attempt_id]) : !call.terminal?
+  end
 
   def find_call_for_agent
     sid = params[:call_sid].presence

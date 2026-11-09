@@ -22,7 +22,9 @@ class Voice::CallStatus::Manager
   private
 
   # A delayed answer can correct a failed join's no-answer outcome.
-  def late_answer?(status) = status == 'in_progress' && call.unanswered_by_failed_join?
+  def late_answer?(status)
+    status == 'in_progress' && call.unanswered_by_failed_join?
+  end
 
   def record_late_answer!(timestamp)
     started = timestamp || now_seconds
