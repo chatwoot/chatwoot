@@ -1,0 +1,58 @@
+<script>
+/* Pronto: hide Chatwoot paid-plan features (we run the free Community edition).
+   Loaded through the DASHBOARD_SCRIPTS installation setting; no Chatwoot files changed.
+   Hides: Calls, SLA (report + settings), Security (SAML), Custom roles, Captain, voice inbox types.
+   Direct visits to those pages go back to the conversation list. */
+(function () {
+  var BLOCKED = /\/app\/accounts\/\d+\/(calls|captain|reports\/sla|settings\/(sla|security|custom-roles))(\/|\?|$)/;
+  var BLOCKED_TILES = /^(Voice|WhatsApp Call)\b/;
+
+  function accountHome() {
+    var m = location.pathname.match(/\/app\/accounts\/\d+/);
+    return m ? m[0] + '/dashboard' : '/app';
+  }
+
+  function hideLinks() {
+    var links = document.querySelectorAll('a[href]');
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      if (a.dataset.prontoChecked) continue;
+      a.dataset.prontoChecked = '1';
+      if (BLOCKED.test(a.getAttribute('href'))) {
+        var item = a.closest('li') || a;
+        item.style.display = 'none';
+      }
+    }
+  }
+
+  function hideInboxTiles() {
+    if (!/\/settings\/inboxes\/new/.test(location.pathname)) return;
+    var tiles = document.querySelectorAll('main button, main a, main [role=button], main .cursor-pointer');
+    for (var i = 0; i < tiles.length; i++) {
+      var text = (tiles[i].innerText || '').trim();
+      if (BLOCKED_TILES.test(text) && text.length < 80) tiles[i].style.display = 'none';
+    }
+  }
+
+  function guardRoute() {
+    if (BLOCKED.test(location.pathname)) location.replace(accountHome());
+  }
+
+  var queued = false;
+  function run() {
+    queued = false;
+    guardRoute();
+    hideLinks();
+    hideInboxTiles();
+  }
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(run);
+  }
+
+  new MutationObserver(schedule).observe(document.documentElement, { childList: true, subtree: true });
+  window.addEventListener('popstate', schedule);
+  schedule();
+})();
+</script>
