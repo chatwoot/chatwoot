@@ -17,6 +17,7 @@ import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotApprovalMessage from './CopilotApprovalMessage.vue';
+import { APPROVAL_STATUS } from './constants';
 import CopilotReviewProgress from './CopilotReviewProgress.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
@@ -76,6 +77,15 @@ const props = defineProps({
   onSendMessage: {
     type: Function,
     required: true,
+  },
+  // The old Copilot answers each message on its own and cannot be stopped.
+  canStop: {
+    type: Boolean,
+    default: false,
+  },
+  onStop: {
+    type: Function,
+    default: () => {},
   },
 });
 
@@ -190,14 +200,26 @@ const isLastMessageFromAssistant = computed(() => {
   );
 });
 
+// Stopping marks the agent's message instead of answering it.
+const isLastRequestStopped = computed(() => {
+  const lastRequest = props.messages.findLast(
+    message => message.message_type === 'user'
+  );
+  return lastRequest?.message.status === 'stopped';
+});
+
 // An approval card waits on the agent, not on Copilot, so the loader stays hidden until they decide.
 const isCopilotWorking = computed(() => {
   const hasApprovalAwaitingDecision = props.messages.some(
     message =>
       message.message_type === 'assistant_approval' &&
-      message.message.approval.status === 'awaiting_approval'
+      message.message.approval.status === APPROVAL_STATUS.AWAITING
   );
-  return !isLastMessageFromAssistant.value && !hasApprovalAwaitingDecision;
+  return (
+    !isLastMessageFromAssistant.value &&
+    !hasApprovalAwaitingDecision &&
+    !isLastRequestStopped.value
+  );
 });
 
 // Only workflow steps save a run ID, so the old Copilot's steps keep the loader.
@@ -205,6 +227,12 @@ const hasLiveStep = (item, index) =>
   isCopilotWorking.value &&
   index === groupedMessages.value.length - 1 &&
   Boolean(item.messages.at(-1).message.run_id);
+
+// Copilot answers one message at a time, so while it works the agent can stop it but not send another message. A new
+// chat has no messages, so there is nothing to stop.
+const isStoppable = computed(
+  () => props.canStop && props.messages.length > 0 && isCopilotWorking.value
+);
 
 const showLoader = computed(() => {
   if (!isCopilotWorking.value) return false;
@@ -215,7 +243,7 @@ const showLoader = computed(() => {
     return item.message.progress.finished;
   }
   const { approval } = item.message;
-  if (approval?.status === 'approved') {
+  if (approval?.status === APPROVAL_STATUS.APPROVED) {
     return Boolean(approval.progress?.finished);
   }
   return true;
@@ -444,7 +472,7 @@ watch(
     <div
       v-else
       ref="chatContainer"
-      class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
+      class="flex-1 flex px-4 py-4 overflow-y-auto no-scrollbar items-start"
     >
       <p
         v-if="isLoadingSelectedThread"
@@ -506,7 +534,7 @@ watch(
       </CopilotEmptyState>
     </div>
 
-    <div v-show="!showHistory" class="mx-3 mt-px mb-2">
+    <div v-show="!showHistory" class="mx-4 mt-px mb-2">
       <div
         v-if="showAvatarDock"
         class="flex items-center gap-3 w-full max-w-3xl mx-auto mb-2 px-1"
@@ -541,6 +569,8 @@ watch(
         v-model="draft"
         class="mb-1 w-full max-w-3xl mx-auto"
         :on-send="sendMessage"
+        :is-working="isStoppable"
+        :on-stop="onStop"
         @focusin="wakeAvatar"
         @input="onDraftInput"
       />

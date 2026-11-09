@@ -26,7 +26,7 @@ module Linear::Queries
           }
         }
         workflowStates(
-          filter: { team: { id: { eq: "#{team_id}" } } }
+          filter: { team: { id: { eq: #{Linear::Mutations.graphql_value(team_id)} } } }
         ) {
           nodes {
             id
@@ -34,7 +34,7 @@ module Linear::Queries
           }
         }
         issueLabels(
-          filter: { team: { id: { eq: "#{team_id}" } } }
+          filter: { team: { id: { eq: #{Linear::Mutations.graphql_value(team_id)} } } }
         ) {
           nodes {
             id
