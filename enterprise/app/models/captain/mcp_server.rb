@@ -89,8 +89,9 @@ class Captain::McpServer < ApplicationRecord
     ::Redis::Alfred.setex(format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state), id, OAUTH_STATE_TTL)
   end
 
-  # Approved tools Captain may use. Captain::Mcp::AgentTools records each one's review state for a run and offers only
-  # the current ones. It reads the loaded tools, so the states record_live_tools writes are the ones it sees.
+  # Approved tools Captain offers. Captain::Mcp::AgentTools records each one's review state for a run, and a tool that is
+  # not current answers that it is unavailable. It reads the loaded tools, so the states record_live_tools writes are the
+  # ones it sees.
   def available_tools
     enabled? ? tools.select(&:enabled?) : []
   end
