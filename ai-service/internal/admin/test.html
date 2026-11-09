@@ -48,15 +48,15 @@
           {{template "inbox-select" (dict "ID" "inbox" "Account" .AccountID "Current" .Inbox "Hint" "inbox-hint" "Blank" "Any inbox (shared knowledge only)")}}
           <p class="field-hint" id="inbox-hint">"Any inbox" uses knowledge shared by all inboxes. Picking one adds that inbox's own documents.</p>
         </details>
-        <div class="row">
-          <button type="submit" class="primary">Send</button>
+        <div class="actions">
           {{if .Turns}}<a class="btn" href="/admin/test?account={{.AccountID}}">Start over</a>{{end}}
+          <button type="submit" class="primary">Send</button>
         </div>
       </form>
     </section>
 
     <aside class="card side" aria-labelledby="why-h">
-      <h2 id="why-h" style="font-size:1.125rem;margin:0 0 12px">How the bot answered</h2>
+      <h2 id="why-h" class="card-title">How the bot answered</h2>
       {{if .Sent}}
         {{if .Handoff}}
         <div class="status todo" role="status">Passes to staff</div>
@@ -65,13 +65,13 @@
         <div class="status ready" role="status">Answered by the bot</div>
         {{end}}
         {{if .Files}}
-        <h3 style="font-size:1rem;margin:16px 0 4px">Files</h3>
+        <h3 class="sub">Files</h3>
         <ul class="sources">{{range .Files}}<li>{{.Name}} <span class="preview">{{.Size}}</span></li>{{end}}</ul>
         {{if .Media}}<p class="hint">Read by the bot: {{range $i, $m := .Media}}{{if $i}}, {{end}}{{$m}}{{end}}</p>{{else}}<p class="hint">The bot could not read these files.</p>{{end}}
         {{if .Transcript}}<p class="hint">Transcript: “{{.Transcript}}”</p>{{end}}
         {{end}}
         {{if or .Model .Sources}}
-        <h3 style="font-size:1rem;margin:16px 0 4px">Knowledge used</h3>
+        <h3 class="sub">Knowledge used</h3>
         {{if .Sources}}
         <ul class="sources">{{range .Sources}}<li>{{.Title}} <span class="preview">{{.Score}} match</span></li>{{end}}</ul>
         {{else}}
@@ -80,7 +80,7 @@
         <p class="field-hint">{{if .Model}}{{.Model}} · {{end}}{{.LatencyMS}} ms</p>
         {{end}}
         {{if and .Knowledge .Asked}}
-        <details{{if not .Sources}} open{{end}} style="margin-top:12px">
+        <details{{if not .Sources}} open{{end}} class="spaced">
           <summary>Wrong or missing? Add the right answer</summary>
           <form method="post" action="/admin/knowledge" autocomplete="off">
             <input type="hidden" name="account" value="{{.AccountID}}">
@@ -90,7 +90,7 @@
             <input id="question" name="question" value="{{.Asked}}" required>
             <label for="answer">Correct answer</label>
             <textarea id="answer" name="answer" rows="4" required></textarea>
-            <button type="submit" class="save">Add to knowledge base</button>
+            <div class="card-foot"><button type="submit">Add to knowledge base</button></div>
           </form>
         </details>
         {{end}}

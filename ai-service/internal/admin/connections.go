@@ -98,7 +98,7 @@ func (h *Handler) renderConnections(w http.ResponseWriter, r *http.Request, stat
 				v.Access = "Read and write"
 			}
 			if !t.LastUsedAt.IsZero() {
-				v.LastUsed = t.LastUsedAt.In(h.loc()).Format("2 Jan 2006 15:04")
+				v.LastUsed = h.when(t.LastUsedAt)
 			}
 			d.Tokens = append(d.Tokens, v)
 		}
@@ -119,7 +119,7 @@ func (h *Handler) renderConnections(w http.ResponseWriter, r *http.Request, stat
 				v.Access = "Read and write"
 			}
 			if !g.LastUsedAt.IsZero() {
-				v.LastUsed = g.LastUsedAt.In(h.loc()).Format("2 Jan 2006 15:04")
+				v.LastUsed = h.when(g.LastUsedAt)
 			}
 			d.Apps = append(d.Apps, v)
 		}

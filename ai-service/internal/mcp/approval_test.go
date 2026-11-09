@@ -305,3 +305,16 @@ func jsonNum(v any) string {
 	}
 	return ""
 }
+
+func TestApproval_InstructionsSayEditsWait(t *testing.T) {
+	// Arrange
+	tok := Token{AccountID: 1, Name: "claude", CanWrite: true}
+
+	// Act
+	s := instructions(tok)
+
+	// Assert
+	if !strings.Contains(s, "wait for the owner's approval") || strings.Contains(s, "Every change reaches real customers at once") {
+		t.Fatalf("instructions do not match the approval flow: %s", s)
+	}
+}

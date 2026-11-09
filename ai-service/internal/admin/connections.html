@@ -11,7 +11,7 @@
   <div class="page-head">
     <div>
       <h1>Connect AI tools</h1>
-      <p class="lead">Let Claude, Codex or another AI tool read, update and test this knowledge base for you (MCP). Each access token works for one account only.</p>
+      <p class="lead">Let Claude, Codex or another AI tool read and test this knowledge base, suggest changes for your approval, and delete documents or sync website pages (MCP). Each access token works for one account only.</p>
     </div>
     {{template "account-picker" (dict "Action" "/admin/connections" "Current" .AccountID)}}
   </div>
@@ -24,40 +24,35 @@
 
   {{if .NewToken}}
   <section class="card newtoken" aria-labelledby="new-h" role="status">
-    <h2 id="new-h" style="font-size:1.125rem;margin:0 0 4px">Copy this token now</h2>
-    <p class="hint">It is shown only once. Anyone holding it can {{if .NewWrite}}change{{else}}read{{end}} account {{.AccountID}}'s knowledge, so keep it out of chats and screenshots. Lost it? Revoke it and create another.</p>
+    <h2 id="new-h" class="card-title">Copy this token now</h2>
+    <p class="hint">It is shown only once. Anyone holding it can {{if .NewWrite}}read, delete, sync and reschedule account {{.AccountID}}'s knowledge and suggest changes to it and the business profile{{else}}read account {{.AccountID}}'s knowledge{{end}}, so keep it out of chats and screenshots. Lost it? Revoke it and create another.</p>
     <label for="tok">Token for “{{.NewName}}”</label>
-    <input id="tok" class="mono" readonly value="{{.NewToken}}">
-    <p class="copy-row"><button type="button" class="btn small" data-copy="tok" hidden>Copy</button></p>
+    <div class="copy-field"><input id="tok" class="mono" readonly value="{{.NewToken}}"><button type="button" class="btn small" data-copy="tok" hidden>Copy</button></div>
     <h3 class="sub">1. Save the token on your computer</h3>
     <p class="hint">Open <code>~/.zshrc</code> (Mac) in a text editor, add this line, save, and open a new terminal. Typing it into a terminal would leave it in the shell history.</p>
-    <pre class="code" id="cmd-env">export AISVC_MCP_TOKEN="{{.NewToken}}"</pre>
-    <p class="copy-row"><button type="button" class="btn small" data-copy="cmd-env" hidden>Copy</button></p>
+    <div class="copy-field"><pre class="code" id="cmd-env">export AISVC_MCP_TOKEN="{{.NewToken}}"</pre><button type="button" class="btn small" data-copy="cmd-env" hidden>Copy</button></div>
     <h3 class="sub">2a. Claude Code</h3>
-    <pre class="code" id="cmd-claude">claude mcp add --transport http ai-knowledge {{.URL}} --header "Authorization: Bearer ${AISVC_MCP_TOKEN}"</pre>
-    <p class="copy-row"><button type="button" class="btn small" data-copy="cmd-claude" hidden>Copy</button></p>
+    <div class="copy-field"><pre class="code" id="cmd-claude">claude mcp add --transport http ai-knowledge {{.URL}} --header "Authorization: Bearer ${AISVC_MCP_TOKEN}"</pre><button type="button" class="btn small" data-copy="cmd-claude" hidden>Copy</button></div>
     <h3 class="sub">2b. Codex</h3>
     <p class="hint">Add to <code>~/.codex/config.toml</code>:</p>
-    <pre class="code" id="cmd-codex">[mcp_servers.ai_knowledge]
+    <div class="copy-field"><pre class="code" id="cmd-codex">[mcp_servers.ai_knowledge]
 url = "{{.URL}}"
-bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
-    <p class="copy-row"><button type="button" class="btn small" data-copy="cmd-codex" hidden>Copy</button></p>
-    <p class="hint" style="margin-top:12px">Then ask your AI, for example: “List my knowledge base and tell me what is expired or never used.”</p>
+bearer_token_env_var = "AISVC_MCP_TOKEN"</pre><button type="button" class="btn small" data-copy="cmd-codex" hidden>Copy</button></div>
+    <p class="hint spaced">Then ask your AI, for example: “List my knowledge base and tell me what is expired or never used.”</p>
   </section>
   {{end}}
 
   {{if .OAuth}}
   <section class="card" aria-labelledby="apps-h">
-    <h2 id="apps-h" style="font-size:1.125rem;margin:0 0 4px">Claude or ChatGPT app (sign in, no token)</h2>
+    <h2 id="apps-h" class="card-title">Claude or ChatGPT app (sign in, no token)</h2>
     {{if .TeamOn}}
     <p class="hint">In the app, add a custom connector with this address. It opens a page where the person signs in with Cloudflare Access (their own email) and chooses one of their accounts below.</p>
     {{else}}
     <p class="hint">In the app, add a custom connector with this address. It opens a page here where you enter the admin password and choose the account and access.</p>
     {{end}}
-    <pre class="code" id="mcp-url">{{.URL}}</pre>
-    <p class="copy-row"><button type="button" class="btn small" data-copy="mcp-url" hidden>Copy</button></p>
+    <div class="copy-field"><pre class="code" id="mcp-url">{{.URL}}</pre><button type="button" class="btn small" data-copy="mcp-url" hidden>Copy</button></div>
     {{if .Apps}}
-    <table style="margin-top:12px">
+    <table class="spaced">
       <thead><tr><th scope="col">Connected app</th>{{if .TeamOn}}<th scope="col">Connected by</th>{{end}}<th scope="col">Access</th><th scope="col">Connected</th><th scope="col">Last used</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
       <tbody>
       {{range .Apps}}
@@ -65,12 +60,12 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
           <td><strong>{{.Name}}</strong>{{if .Revoked}} <span class="badge expired">Disconnected</span>{{end}}</td>
           {{if $.TeamOn}}<td data-label="Connected by">{{.By}}</td>{{end}}
           <td data-label="Access">{{.Access}}</td>
-          <td data-label="Connected">{{.Created}}</td>
-          <td data-label="Last used">{{.LastUsed}}</td>
+          <td class="num" data-label="Connected">{{.Created}}</td>
+          <td class="num" data-label="Last used">{{.LastUsed}}</td>
           <td class="row-actions">{{if not .Revoked}}
             <form class="inline" method="post" action="/admin/connections" data-confirm="Disconnect {{.Name}}? It loses access at once.">
               <input type="hidden" name="action" value="revoke_app"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
-              <button type="submit" class="link" aria-label="Disconnect {{.Name}}">Disconnect</button>
+              <button type="submit" class="btn small danger" aria-label="Disconnect {{.Name}}">Disconnect</button>
             </form>{{end}}
           </td>
         </tr>
@@ -81,7 +76,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
   </section>
   {{if .TeamOn}}
   <section class="card" aria-labelledby="team-h">
-    <h2 id="team-h" style="font-size:1.125rem;margin:0 0 4px">Team for account {{.AccountID}}</h2>
+    <h2 id="team-h" class="card-title">Team for account {{.AccountID}}</h2>
     <p class="hint">People who may connect Claude or ChatGPT to this account with their own sign-in. Add their email here and in your Cloudflare Access policy. Removing someone disconnects the apps they connected.</p>
     {{if .Team}}
     <table>
@@ -95,7 +90,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
           <td class="row-actions">
             <form class="inline" method="post" action="/admin/connections" data-confirm="Remove {{.Email}} from the team? Apps they connected stop working.">
               <input type="hidden" name="action" value="remove_member"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="email" value="{{.Email}}">
-              <button type="submit" class="link" aria-label="Remove {{.Email}}">Remove</button>
+              <button type="submit" class="btn small danger" aria-label="Remove {{.Email}}">Remove</button>
             </form>
           </td>
         </tr>
@@ -122,7 +117,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
 
   <div class="biz">
     <section class="card" aria-labelledby="list-h">
-      <h2 id="list-h" style="font-size:1.125rem;margin:0 0 8px">Access tokens for account {{.AccountID}}</h2>
+      <h2 id="list-h" class="card-title">Access tokens for account {{.AccountID}}</h2>
       <p class="hint">For Claude Code, Codex and other tools that take a token.</p>
       {{if .Tokens}}
       <table>
@@ -132,13 +127,13 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
           <tr>
             <td><strong>{{.Name}}</strong>{{if .Revoked}} <span class="badge expired">Revoked</span>{{end}}</td>
             <td data-label="Access">{{.Access}}</td>
-            <td data-label="Created">{{.Created}}</td>
-            <td data-label="Last used">{{.LastUsed}}</td>
+            <td class="num" data-label="Created">{{.Created}}</td>
+            <td class="num" data-label="Last used">{{.LastUsed}}</td>
             <td data-label="Expires">{{.Expires}}{{if and .Expired (not .Revoked)}} <span class="badge expired">Expired</span>{{end}}</td>
             <td class="row-actions">{{if not .Revoked}}
               <form class="inline" method="post" action="/admin/connections" data-confirm="Revoke the token “{{.Name}}”? Tools using it stop working at once.">
                 <input type="hidden" name="action" value="revoke"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit" class="link" aria-label="Revoke {{.Name}}">Revoke</button>
+                <button type="submit" class="btn small danger" aria-label="Revoke {{.Name}}">Revoke</button>
               </form>{{end}}
             </td>
           </tr>
@@ -150,25 +145,26 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
       {{end}}
       <h3 class="sub">What a connected AI can do</h3>
       <ul class="sources">
-        <li><strong>Read:</strong> list documents with status and usage, read one, find near-copies, ask the bot a test question.</li>
-        <li><strong>Read and write</strong> also: add or update a document by its key (for example <code>product-017</code>), and delete one. Every change keeps a copy of the old version in the audit log.</li>
+        <li><strong>Read only:</strong> list documents with status and usage, read one, find near-copies, read the business profile, list website pages and data files, see recent changes, and ask the bot a test question.</li>
+        <li><strong>Read and write</strong> also: suggest a new or changed document (by its key, for example <code>product-017</code>) or a change to the business name, about, tone and rules. These wait for your approval on <a href="/admin/approvals?account={{.AccountID}}">AI approvals</a>; customers keep seeing the current text until you approve.</li>
+        <li>Deleting a document, and syncing or rescheduling a website page or data file, take effect at once (a data file syncs in the background). Deletes and schedule changes show under Recent changes on Home as the AI tool; what a sync changes shows as “website sync”. The history is kept for 180 days by default.</li>
       </ul>
     </section>
 
     <aside class="card side" aria-labelledby="new-form-h">
-      <h2 id="new-form-h" style="font-size:1.125rem;margin:0 0 4px">New token</h2>
+      <h2 id="new-form-h" class="card-title">New token</h2>
       <form method="post" action="/admin/connections" autocomplete="off">
         <input type="hidden" name="action" value="create">
         <input type="hidden" name="once" value="{{.Once}}">
         <input type="hidden" name="account" value="{{.AccountID}}">
         <label for="name">Name</label>
         <input id="name" name="name" type="text" maxlength="80" required placeholder="Claude Code on my Mac" value="{{if not .NewToken}}{{.NewName}}{{end}}">
-        <fieldset style="margin-top:14px">
-          <legend style="font-size:.9rem">Access</legend>
+        <fieldset class="field-group">
+          <legend class="field-legend">Access</legend>
           <label class="check"><input type="radio" name="access" value="read" checked>
             <span><strong>Read only</strong><span class="field-hint">Safe for reviewing and testing.</span></span></label>
           <label class="check"><input type="radio" name="access" value="write">
-            <span><strong>Read and write</strong><span class="field-hint">The AI can change what customers are told.</span></span></label>
+            <span><strong>Read and write</strong><span class="field-hint">Edits wait for your approval. Deletes and syncs apply at once.</span></span></label>
         </fieldset>
         <label for="expires">Expires after</label>
         <select id="expires" name="expires">
@@ -177,7 +173,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre>
           <option value="365">1 year</option>
           <option value="never">Never</option>
         </select>
-        <button type="submit" class="primary save">Create token</button>
+        <div class="card-foot"><button type="submit" class="primary">Create token</button></div>
       </form>
     </aside>
   </div>

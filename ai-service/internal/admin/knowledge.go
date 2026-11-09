@@ -160,7 +160,7 @@ func (h *Handler) renderKnowledge(w http.ResponseWriter, r *http.Request, status
 			v := pageView{ID: p.ID, Interval: p.IntervalHours, URL: p.URL, Title: p.Title, Status: p.Status, Checked: "Not yet",
 				Feed: p.IsFeed(), Items: p.Items}
 			if !p.CheckedAt.IsZero() {
-				v.Checked = p.CheckedAt.In(h.loc()).Format("2 Jan 15:04")
+				v.Checked = h.when(p.CheckedAt)
 			}
 			switch p.Status {
 			case "ok":
@@ -170,7 +170,7 @@ func (h *Handler) renderKnowledge(w http.ResponseWriter, r *http.Request, status
 					parts = append(parts, strconv.Itoa(p.Items)+" rows")
 				}
 				if !p.ChangedAt.IsZero() {
-					parts = append(parts, "changed "+p.ChangedAt.In(h.loc()).Format("2 Jan 2006"))
+					parts = append(parts, "changed "+h.day(p.ChangedAt))
 				}
 				if p.Error != "" { // a feed with skipped rows
 					parts = append(parts, p.Error)
@@ -204,6 +204,9 @@ func (h *Handler) loc() *time.Location {
 
 func (h *Handler) day(t time.Time) string { return t.In(h.loc()).Format("2 Jan 2006") }
 
+// when is the one date-and-time format of every admin page.
+func (h *Handler) when(t time.Time) string { return t.In(h.loc()).Format("2 Jan 2006, 15:04") }
+
 func (h *Handler) toDocView(d knowledge.Document, now time.Time) docView {
 	v := docView{
 		ID: d.ID, Title: d.Title, Chunks: d.Chunks, Stale: d.StaleChunks,
@@ -214,7 +217,7 @@ func (h *Handler) toDocView(d knowledge.Document, now time.Time) docView {
 		Unused:  d.UseCount == 0,
 		Used:    "Not used yet",
 	}
-	if d.UseCount > 0 {
+	if d.UseCount > 0 && !d.LastUsedAt.IsZero() {
 		times := "times"
 		if d.UseCount == 1 {
 			times = "time"

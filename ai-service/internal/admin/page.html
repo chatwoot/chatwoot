@@ -8,14 +8,19 @@
 <div class="shell">
 {{template "nav" "providers"}}
 <main>
-  <h1>AI provider settings</h1>
-  <p class="lead">Choose which AI service answers your customers. Changes apply right away, no restart needed.</p>
+  <div class="page-head">
+    <div>
+      <h1>AI provider settings</h1>
+      <p class="lead">Choose which AI service answers your customers. Changes apply right away, no restart needed.</p>
+    </div>
+  </div>
 
   {{if .Saved}}<div class="alert ok" role="status">Settings saved and now in use.{{if .FallbackOff}} Fallback provider is off because it was incomplete.{{end}}{{if .EmbeddingOff}} Embeddings provider is off because it was incomplete.{{end}}{{if or .FallbackOff .EmbeddingOff}} To use one, fill in its base URL, API key and model. With the same base URL as the primary, the key can stay blank.{{end}}</div>{{end}}
-  {{if .Error}}<div class="alert err" role="alert"><strong>Not saved.</strong>
-{{.Error}}</div>{{end}}
+  {{if .Error}}<div class="alert err" role="alert"><strong>Not saved.</strong><span class="pre">{{.Error}}</span></div>{{end}}
 
   <form method="post" action="/admin/providers" autocomplete="off">
+    <!-- Enter in any field saves; the per-card Test buttons come later in the form. -->
+    <button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true">Save settings</button>
     <datalist id="presets">{{range .Presets}}<option value="{{.URL}}">{{.Name}}</option>{{end}}</datalist>
 
     <div class="cards">
@@ -56,14 +61,14 @@
     <input id="{{.Slot}}_model" name="{{.Slot}}_model" type="text" spellcheck="false" autocapitalize="off"
            value="{{.P.Model}}" placeholder="{{.ModelHint}}">
 
-    <div class="row">
-      <button type="submit" name="test" value="{{.Slot}}" formnovalidate>Test connection</button>
-    </div>
     {{with .Test}}{{if eq .Slot $.Slot}}
       <div class="alert test {{if .OK}}ok{{else}}err{{end}}" role="{{if .OK}}status{{else}}alert{{end}}">
         {{if .OK}}{{.Message}}{{if .Model}} Model: {{.Model}} ·{{end}} {{.LatencyMS}} ms{{else}}<strong>Test failed.</strong> {{.Message}}{{end}}
       </div>
     {{end}}{{end}}
+    <div class="card-foot">
+      <button type="submit" name="test" value="{{.Slot}}" formnovalidate>Test connection</button>
+    </div>
   </fieldset>
 </section>
 {{end}}

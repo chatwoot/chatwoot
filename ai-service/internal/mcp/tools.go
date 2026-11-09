@@ -73,7 +73,7 @@ var tools = []tool{
 		// Destructive: the same key replaces the existing document in place.
 		Annotations: map[string]any{"destructiveHint": true, "idempotentHint": true, "openWorldHint": false}},
 	{Name: "delete_document", Title: "Delete a document", write: true,
-		Description: "Delete a document by key or ID. A copy is kept in the audit log so the owner can restore it.",
+		Description: "Delete a document by key or ID. It takes effect at once; a copy of the old text is kept in the change history.",
 		InputSchema: obj(keyOrID), Annotations: map[string]any{"destructiveHint": true, "openWorldHint": false}},
 	{Name: "test_bot", Title: "Ask the support bot",
 		Description: "Ask the real support bot a customer question, without sending anything to customers. Returns the reply, whether it would hand off to staff and why, and the knowledge it used. history is earlier turns, oldest first.",
