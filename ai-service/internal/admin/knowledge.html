@@ -188,7 +188,7 @@
           <td class="row-actions">
             <form class="inline" method="post" action="/admin/knowledge">
               <input type="hidden" name="action" value="sync_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
-              <button type="submit" class="btn small" aria-label="Check {{.URL}} now">Sync now</button>
+              <button type="submit" class="btn small" aria-label="Sync now: {{.URL}}">Sync now</button>
             </form>
             <form class="inline" method="post" action="/admin/knowledge" data-confirm="{{if .Feed}}Stop syncing this file and delete its {{.Items}} answers? Add the file again to bring them back.{{else}}Stop syncing {{.URL}} and delete its knowledge?{{end}}">
               <input type="hidden" name="action" value="remove_page"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
@@ -213,7 +213,7 @@
     {{if eq .Show "unused"}}<p class="hint">No customer question has reached these yet. Check they are worded the way customers ask, or delete what is no longer true.</p>{{end}}
     {{if eq .Show "inactive"}}<p class="hint">The bot does not use these right now. Expired ones can be deleted, or edited with new dates.</p>{{end}}
     {{if .Stale}}
-    <div class="alert err" role="alert">{{.Stale}} chunks were made with a different embeddings model, so the bot cannot find them.
+    <div class="alert err" role="alert">{{.Stale}} {{if eq .Stale 1}}chunk was{{else}}chunks were{{end}} made with a different embeddings model, so the bot cannot find them.
       <form class="inline" method="post" action="/admin/knowledge">
         <input type="hidden" name="action" value="reindex"><input type="hidden" name="account" value="{{.AccountID}}">
         <button type="submit">Re-index now</button>

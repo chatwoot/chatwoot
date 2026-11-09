@@ -9,7 +9,7 @@
     color-scheme: light dark;
     --bg: #f6f7f9; --card: #ffffff; --text: #1d232b; --muted: #5b6573;
     --border: #d9dee5; --accent: #3300aa; --accent-text: #ffffff; --brand: #3300aa;
-    --ok-bg: #e8f5ec; --ok-text: #14532d; --warn-bg: #fff4d6; --warn-text: #6b4a00; --err-bg: #fdecec; --err-text: #8a1c1c; --info-bg: #efeaff; --info-text: #2a0a80; --field-border: #8a94a3;
+    --ok-bg: #e8f5ec; --ok-text: #14532d; --warn-bg: #fff4d6; --warn-text: #6b4a00; --err-bg: #fdecec; --err-text: #8a1c1c; --info-bg: #efeaff; --info-text: #2a0a80; --field-border: #848e9d;
     --focus: #3300aa; --radius: 10px;
   }
   :root[data-theme="light"] { color-scheme: light; }
@@ -119,8 +119,19 @@
   input[type="file"] { padding: 8px; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
   table { width: 100%; border-collapse: collapse; font-size: .95rem; }
-  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top; overflow-wrap: anywhere; }
+  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top; overflow-wrap: break-word; }
+  /* Long titles, URLs and emails wrap anywhere; short words in other columns stay whole. */
+  td:first-child, td.src, .preview { overflow-wrap: anywhere; }
   td:first-child { min-width: 10ch; }
+  .badge { white-space: nowrap; }
+  /* Narrow windows: date and action cells may wrap, so wide tables fit
+     (table-prefixed selectors outrank the nowrap rules further down). */
+  @media (max-width: 1100px) {
+    table td.num, table td.row-actions { white-space: normal; }
+    table td.row-actions > * { margin: 2px 0; }
+    table td.row-actions > * + * { margin-left: 0; }
+    table form.sched { flex-wrap: wrap; }
+  }
   th { color: var(--muted); font-weight: 600; font-size: .85rem; }
   td.num { white-space: nowrap; }
   .preview { color: var(--muted); font-size: .85rem; overflow-wrap: anywhere; }
@@ -189,7 +200,7 @@
   .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; }
   .seg button:first-child { border-radius: 7px 0 0 7px; }
   .seg button:last-child { border-radius: 0 7px 7px 0; }
-  .seg button:focus-visible { outline-offset: -3px; position: relative; z-index: 1; }
+  .seg button:focus-visible { outline-offset: 2px; position: relative; z-index: 1; }
   .seg button { border: 0; border-radius: 0; min-height: 36px; padding: 6px 10px; font-size: .85rem; background: var(--card); color: var(--muted); }
   .seg button + button { border-left: 1px solid var(--border); }
   .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); }
@@ -277,7 +288,7 @@
   ul.sources li { margin: 4px 0; overflow-wrap: anywhere; }
   details summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; gap: 8px; list-style: none; color: var(--accent); }
   details summary::-webkit-details-marker { display: none; }
-  details summary::before { content: "▸"; font-size: .8em; transition: transform .15s; }
+  details summary::before { content: "▸"; content: "▸" / ""; font-size: .8em; transition: transform .15s; }
   details[open] summary::before { transform: rotate(90deg); }
   @media (prefers-reduced-motion: reduce) { details summary::before { transition: none; } }
   @media (max-width: 1100px) { .test-grid { grid-template-columns: minmax(0, 1fr); } }

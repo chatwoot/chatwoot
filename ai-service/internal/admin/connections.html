@@ -25,7 +25,7 @@
   {{if .NewToken}}
   <section class="card newtoken" aria-labelledby="new-h" role="status">
     <h2 id="new-h" class="card-title">Copy this token now</h2>
-    <p class="hint">It is shown only once. Anyone holding it can {{if .NewWrite}}read, delete and sync account {{.AccountID}}'s knowledge and suggest changes to it and the business profile{{else}}read account {{.AccountID}}'s knowledge{{end}}, so keep it out of chats and screenshots. Lost it? Revoke it and create another.</p>
+    <p class="hint">It is shown only once. Anyone holding it can {{if .NewWrite}}read, delete, sync and reschedule account {{.AccountID}}'s knowledge and suggest changes to it and the business profile{{else}}read account {{.AccountID}}'s knowledge{{end}}, so keep it out of chats and screenshots. Lost it? Revoke it and create another.</p>
     <label for="tok">Token for “{{.NewName}}”</label>
     <div class="copy-field"><input id="tok" class="mono" readonly value="{{.NewToken}}"><button type="button" class="btn small" data-copy="tok" hidden>Copy</button></div>
     <h3 class="sub">1. Save the token on your computer</h3>

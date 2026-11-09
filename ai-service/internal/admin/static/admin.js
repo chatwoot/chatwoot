@@ -134,6 +134,10 @@
       // relatedTarget is null for taps that do not move focus (Safari): keep it open then.
       if (menu.open && event.relatedTarget && !menu.contains(event.relatedTarget)) menu.open = false;
     });
+    // Focus that lands outside it without leaving it first (a tap on the page) closes it too.
+    document.addEventListener('focusin', (event) => {
+      if (menu.open && !menu.contains(event.target)) menu.open = false;
+    });
     menu.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape' || !menu.open) return;
       menu.open = false;
