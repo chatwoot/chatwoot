@@ -143,6 +143,11 @@ services:
       CHATWOOT_WEBHOOK_SECRET: ${CHATWOOT_WEBHOOK_SECRET:?set in Dokploy}
       ADMIN_PASSWORD: ${AI_ADMIN_PASSWORD:?set in Dokploy}
       DATABASE_URL: postgres://ai_service:${AI_DB_PASSWORD:?set in Dokploy}@stg-postgres:5432/ai_service?sslmode=disable
+      # MCP for AI apps (#60): their edits wait on /admin/approvals. /mcp has no
+      # public route (only /admin and the webhook are routed), so this exposes
+      # nothing new; MCP_PUBLIC_URL stays empty until a route is chosen.
+      MCP_ENABLED: 'true'
+      MCP_PUBLIC_URL: ${MCP_PUBLIC_URL:-}
       SETTINGS_PATH: /data/settings.json
       LOG_LEVEL: info
       LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
