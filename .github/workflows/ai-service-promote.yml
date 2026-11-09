@@ -1,0 +1,166 @@
+# Promote one commit to production for chatwoot/ai-service. Issue: DEV-Johnstocker/chatwoot#39 (refs #1)
+#
+# Production (Dokploy) deploys the `production` branch, not develop. This
+# workflow moves that branch forward to a commit that passed staging, deploys
+# it and verifies it. If a step after the move fails, it moves the branch back
+# and redeploys the commit that was live before.
+#
+# Two jobs:
+#   check    no secrets, no approval. Picks the commit (the `sha` input, or the
+#            newest develop commit whose `staging` status is success) and refuses
+#            one that is not on develop, has no green staging, is older than
+#            production, or comes with a knowledge-base schema change (those go
+#            through /deploy, which takes a backup first). The job summary lists
+#            what would ship.
+#   promote  runs in the GitHub Environment `production`. Its required reviewer
+#            (the owner) approves each run, and only it holds the production
+#            Dokploy token.
+#
+# Secrets (names only):
+#   repository:              DOKPLOY_URL, DOKPLOY_COMPOSE_ID (shared with staging)
+#   environment production:  DOKPLOY_PRODUCTION_API_KEY
+#
+# The production job has no SSH key, so verify runs the public checks only
+# (DEPLOY_NO_SSH=1). /deploy remains the manual fallback; see deploy/README.md.
+name: ai-service promote
+
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: 'Commit to promote (empty = newest develop commit with green staging)'
+        required: false
+        default: ''
+      dry_run:
+        description: 'Only check and show what would ship; do not move production or deploy'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# One production change at a time; never cancel a deploy halfway.
+concurrency:
+  group: ai-service-production
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Pick and check the commit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      sha: ${{ steps.pick.outputs.sha }}
+      prev: ${{ steps.pick.outputs.prev }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: develop
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Fetch develop and production
+        run: |
+          git fetch --no-tags origin develop
+          git fetch --no-tags origin production || echo "No production branch yet: this is the first promote."
+
+      - name: Pick and check
+        id: pick
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA_INPUT: ${{ inputs.sha }}
+        run: python3 ai-service/deploy/promote/promote.py check "$SHA_INPUT"
+
+  promote:
+    name: Deploy to production
+    needs: check
+    if: ${{ !inputs.dry_run }}
+    environment: production
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write # moves the production branch
+    env:
+      SHA: ${{ needs.check.outputs.sha }}
+      PREV: ${{ needs.check.outputs.prev }}
+      DEPLOY_NO_SSH: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.check.outputs.sha }}
+          fetch-depth: 0
+
+      - name: Configure Dokploy
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_PRODUCTION_API_KEY: ${{ secrets.DOKPLOY_PRODUCTION_API_KEY }}
+          DOKPLOY_COMPOSE_ID: ${{ secrets.DOKPLOY_COMPOSE_ID }}
+        run: |
+          umask 077
+          {
+            echo "DOKPLOY_URL=$DOKPLOY_URL"
+            echo "DOKPLOY_API_KEY=$DOKPLOY_PRODUCTION_API_KEY"
+            echo "DOKPLOY_COMPOSE_ID=$DOKPLOY_COMPOSE_ID"
+          } > "$RUNNER_TEMP/deploy.env"
+          echo "DEPLOY_ENV_FILE=$RUNNER_TEMP/deploy.env" >> "$GITHUB_ENV"
+
+      - name: Production follows the production branch, nothing running
+        working-directory: ai-service/.claude/skills/deploy
+        run: |
+          set -o pipefail
+          python3 dokploy.py status | tee "$RUNNER_TEMP/status.txt"
+          if ! grep -q '^branch=production ' "$RUNNER_TEMP/status.txt"; then
+            echo "::error::Dokploy production does not deploy the production branch; refusing."
+            exit 1
+          fi
+          if ! grep -q '^running_deploys=0$' "$RUNNER_TEMP/status.txt"; then
+            echo "::error::A production deploy is already running; refusing."
+            exit 1
+          fi
+
+      - name: Move production to the commit
+        run: |
+          # Fast-forward only: a non-fast-forward push is rejected, never forced.
+          git push origin "$SHA:refs/heads/production"
+          echo "MOVED=1" >> "$GITHUB_ENV"
+
+      - name: Deploy
+        working-directory: ai-service/.claude/skills/deploy
+        run: |
+          set -o pipefail
+          python3 dokploy.py deploy | tee "$RUNNER_TEMP/deploy.txt"
+          deployed=$(sed -n 's/^deploy done: commit=//p' "$RUNNER_TEMP/deploy.txt")
+          if [ "$deployed" != "$SHA" ]; then
+            echo "::error::Dokploy deployed '$deployed', expected $SHA."
+            exit 1
+          fi
+
+      - name: Verify
+        working-directory: ai-service/.claude/skills/deploy
+        run: python3 dokploy.py verify
+
+      - name: Roll back to the previous production commit
+        if: failure() && env.MOVED == '1'
+        working-directory: ai-service/.claude/skills/deploy
+        run: |
+          if [ -z "$PREV" ]; then
+            echo "::error::First promote failed and there is no earlier production commit; use /deploy."
+            exit 1
+          fi
+          git push --force-with-lease="production:$SHA" origin "$PREV:refs/heads/production"
+          python3 dokploy.py deploy
+          python3 dokploy.py verify
+          echo "Rolled back: production is ${PREV:0:10} again." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Summary
+        if: always()
+        env:
+          OUTCOME: ${{ job.status }}
+        run: |
+          {
+            echo "### Production result: $OUTCOME"
+            echo
+            echo "- promoted: \`${SHA:0:10}\` (was \`${PREV:0:10}\`)"
+            [ -f "$RUNNER_TEMP/deploy.txt" ] && sed -n 's/^deploy done: /- dokploy: /p' "$RUNNER_TEMP/deploy.txt"
+          } >> "$GITHUB_STEP_SUMMARY"

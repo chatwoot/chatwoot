@@ -9,7 +9,9 @@ memory notes.
 ## What runs
 
 Dokploy (v0.31) on the VPS deploys `ai-service/deploy/dokploy-compose.yml` from
-branch `develop` of this fork. Auto-deploy is off.
+branch `production` of this fork (staging deploys `develop`). Auto-deploy is
+off. Only a promote (below) or `/deploy` moves `production`, so a redeploy
+never picks up develop commits nobody approved.
 
 | Service | Profile | Notes |
 |---|---|---|
@@ -171,11 +173,36 @@ and marks `staging` red. Manual run with *fail_verify* proves the red path.
   the file ends with a newline first: a key glued onto the previous line
   breaks both keys.
 
-## Release a change
+## Promote to production
 
-In Claude Code, run `/deploy` (`ai-service/.claude/skills/deploy/`): it runs
-steps 3–5 below with the checks, using `dokploy.py status|deploy|verify`.
-Without Claude Code, follow the steps by hand.
+The usual release (#39). After a PR merges into `develop`, CI passes and the
+staging workflow deploys and checks it (commit status `staging`). Then run
+**Actions → ai-service promote → Run workflow** (or
+`gh workflow run ai-service-promote.yml -f sha=<sha>`; empty = newest develop
+commit with green staging):
+
+1. `check` (no secrets) refuses a commit that is not on `develop`, has no
+   green `staging`, is older than production, or whose range changes a
+   `internal/knowledge/schema*.sql` file. Its summary lists what would ship.
+   `dry_run` stops here.
+2. `promote` waits in the GitHub Environment `production` until the owner
+   approves. It then fast-forwards `production` to the commit, deploys,
+   checks that Dokploy deployed exactly that commit, and runs `verify` (public
+   checks; the job has no SSH key, so container health is not read).
+3. If deploy or verify fails after the branch moved, it moves `production`
+   back to the previous commit and redeploys it.
+
+Secrets: `DOKPLOY_URL` and `DOKPLOY_COMPOSE_ID` (repository) and
+`DOKPLOY_PRODUCTION_API_KEY` (environment `production` only).
+
+## Release a change by hand
+
+For a schema change (the promote refuses it: the backup comes first) or when
+GitHub is unavailable. In Claude Code, run `/deploy`
+(`ai-service/.claude/skills/deploy/`): it runs steps 3–5 below with the
+checks, using `dokploy.py status|deploy|verify`. Without Claude Code, follow
+the steps by hand. Step 4 moves `production` first:
+`git push origin <sha>:refs/heads/production` (fast-forward only).
 
 1. Open a PR into `develop`; CI (`.github/workflows/ai-service.yml`) must pass
    on the exact head. Merge with `gh pr merge --match-head-commit <sha>`.
@@ -192,7 +219,9 @@ Without Claude Code, follow the steps by hand.
    - an unsigned `POST /webhooks/chatwoot` → 401;
    - `ai-admin.johnstockeraistudio.com/admin` asks for Cloudflare Access.
 
-Rollback: revert the PR, merge, deploy again. Rolling back code does not roll
+Rollback: move `production` back to the previous commit and deploy (the promote
+workflow does this itself when verify fails), or revert the PR, merge and
+promote again. Rolling back code does not roll
 back a schema change.
 
 - Below schema v7 code (or while old and new replicas overlap), an app approved
