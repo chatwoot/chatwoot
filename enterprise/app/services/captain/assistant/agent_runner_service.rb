@@ -37,13 +37,9 @@ class Captain::Assistant::AgentRunnerService
 
   def generate_response(message_history: [])
     run_agents_with_leak_retry(message_history)
+    return halted_run_response if run_halted?
 
-    record_turn_start(@last_run_result)
-    @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
-
-    raise "Captain response exceeds the channel limit of #{message_length_limit} characters" if response_too_long?(@last_run_result)
-
-    process_agent_result(@last_run_result)
+    channel_ready_response
   rescue StandardError => e
     # In rake/local runs, conversation may not be present, so account is optional here.
     ChatwootExceptionTracker.new(e, account: @conversation&.account).capture_exception
@@ -70,7 +66,8 @@ class Captain::Assistant::AgentRunnerService
   def run_agents(message_history)
     message_to_process, context = run_payload(message_history)
     @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
-    raise @last_run_result.error if @last_run_result.error
+    # A halted run ends with RubyLLM::CancelledError by design, so it is not reported as a failure.
+    raise @last_run_result.error if @last_run_result.error && !run_halted?
   end
 
   def leaked_tool_call?(run_result = @last_run_result)
@@ -203,6 +200,7 @@ class Captain::Assistant::AgentRunnerService
     @runner ||= begin
       configured_runner = Agents::Runner.with_agents(*build_and_wire_agents)
       configured_runner = add_usage_metadata_callback(configured_runner)
+      configured_runner = add_run_guard_callback(configured_runner)
       configured_runner = add_callbacks_to_runner(configured_runner) if @callbacks.any?
       install_instrumentation(configured_runner)
       configured_runner
