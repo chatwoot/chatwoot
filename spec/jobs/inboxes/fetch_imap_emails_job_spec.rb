@@ -102,6 +102,21 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         described_class.perform_now(switched_back_google_channel)
         expect(fetch_service).to have_received(:perform)
       end
+
+      it 'still uses the OAuth fetch service while an access token without a refresh token is unexpired' do
+        live_token_channel = create(:channel_email, :microsoft_email,
+                                    provider_config: { access_token: 'live-token', expires_on: 1.hour.from_now.utc.to_s })
+        fetch_service = double
+        allow(Imap::MicrosoftFetchEmailService).to receive(:new)
+          .with(channel: live_token_channel, interval: 1)
+          .and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+
+        expect(Imap::FetchEmailService).not_to receive(:new)
+
+        described_class.perform_now(live_token_channel)
+        expect(fetch_service).to have_received(:perform)
+      end
     end
 
     context 'when IMAP OAuth errors out' do

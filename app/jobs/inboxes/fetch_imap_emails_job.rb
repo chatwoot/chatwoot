@@ -62,8 +62,10 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
   # A channel keeps its `provider` value after being switched back to
   # password-based IMAP, so only route it to the OAuth fetcher while it
-  # still holds OAuth credentials. Without a refresh token those services
-  # can only raise "A refresh_token is not available" on every run.
+  # still holds usable OAuth credentials: a refresh token, or an access
+  # token that has not expired yet (Google can omit the refresh token on
+  # re-consent). With neither, those services can only raise "A
+  # refresh_token is not available" on every run.
   def fetch_service_for(channel)
     return Imap::MicrosoftFetchEmailService if channel.microsoft? && oauth_configured?(channel)
     return Imap::GoogleFetchEmailService if channel.google? && oauth_configured?(channel)
@@ -89,7 +91,11 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   end
 
   def oauth_configured?(channel)
-    channel.provider_config.to_h['refresh_token'].present?
+    config = channel.provider_config.to_h.with_indifferent_access
+    return true if config[:refresh_token].present?
+    return false if config[:access_token].blank?
+
+    !BaseRefreshOauthTokenService.new(channel: channel).access_token_expired?
   end
 
   def should_skip_email?(message_id)
