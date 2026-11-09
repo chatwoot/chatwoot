@@ -1,5 +1,9 @@
+import { readonly, ref } from 'vue';
 import { Call, Device } from '@twilio/voice-sdk';
 import VoiceAPI from './voiceAPIClient';
+
+const isConnected = ref(false);
+export const isTwilioCallConnected = readonly(isConnected);
 
 const createCallDisconnectedEvent = () => new CustomEvent('call:disconnected');
 
@@ -8,6 +12,7 @@ class TwilioVoiceClient extends EventTarget {
     super();
     this.device = null;
     this.activeConnection = null;
+    isConnected.value = false;
     this.initialized = false;
     this.inboxId = null;
   }
@@ -27,8 +32,7 @@ class TwilioVoiceClient extends EventTarget {
 
     this.device.removeAllListeners();
     this.device.on('connect', conn => {
-      this.activeConnection = conn;
-      conn.on('disconnect', this.onDisconnect);
+      this.trackConnection(conn);
     });
 
     this.device.on('disconnect', this.onDisconnect);
@@ -69,6 +73,7 @@ class TwilioVoiceClient extends EventTarget {
       this.activeConnection.disconnect();
     }
     this.activeConnection = null;
+    isConnected.value = false;
     if (this.device) {
       this.device.disconnectAll();
     }
@@ -79,6 +84,7 @@ class TwilioVoiceClient extends EventTarget {
       this.device.destroy();
     }
     this.activeConnection = null;
+    isConnected.value = false;
     this.device = null;
     this.initialized = false;
     this.inboxId = null;
@@ -97,15 +103,31 @@ class TwilioVoiceClient extends EventTarget {
     };
 
     const connection = await this.device.connect({ params });
-    this.activeConnection = connection;
-
-    connection.on('disconnect', this.onDisconnect);
+    this.trackConnection(connection);
 
     return connection;
   }
 
+  trackConnection(connection) {
+    this.activeConnection = connection;
+    isConnected.value = connection.status() === Call.State.Open;
+    // The SDK emits reconnected before status() changes back to open.
+    ['accept', 'reconnecting', 'reconnected', 'cancel', 'reject'].forEach(
+      event => {
+        connection.on(event, () => {
+          if (this.activeConnection !== connection) return;
+          isConnected.value = event === 'accept' || event === 'reconnected';
+        });
+      }
+    );
+    connection.on('disconnect', () => {
+      if (this.activeConnection === connection) this.onDisconnect();
+    });
+  }
+
   onDisconnect = () => {
     this.activeConnection = null;
+    isConnected.value = false;
     this.dispatchEvent(createCallDisconnectedEvent());
   };
 }

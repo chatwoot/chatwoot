@@ -7,6 +7,8 @@ import { VOICE_CALL_OUTBOUND_INIT_STATUS } from 'dashboard/components-next/messa
 // Module-level state lets the cable handlers and unload listeners reach the
 // live PeerConnection without prop-drilling refs through every composable.
 let pc = null;
+const isConnected = ref(false);
+export const isWhatsappCallConnected = readonly(isConnected);
 let localStream = null;
 let remoteStream = null;
 let remoteAudioEl = null;
@@ -127,6 +129,7 @@ const setupRecorder = () => {
 };
 
 const cleanup = () => {
+  isConnected.value = false;
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     try {
       mediaRecorder.stop();
@@ -157,6 +160,11 @@ const cleanup = () => {
 const buildPeerConnection = iceServers => {
   const config = iceServers && iceServers.length ? { iceServers } : {};
   pc = new RTCPeerConnection(config);
+  const connection = pc;
+  pc.onconnectionstatechange = () => {
+    if (pc !== connection) return;
+    isConnected.value = connection.connectionState === 'connected';
+  };
   remoteStream = new MediaStream();
   pc.ontrack = event => {
     // Reuse the same MediaStream object — the recorder's audioContext source

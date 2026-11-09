@@ -1,5 +1,6 @@
 import {
   cleanupWhatsappSession,
+  isWhatsappCallConnected,
   sendWhatsappDigits,
   useWhatsappCallSession,
 } from '../useWhatsappCallSession';
@@ -19,6 +20,7 @@ describe('sendWhatsappDigits', () => {
     };
 
     peerConnection = {
+      connectionState: 'new',
       addTrack: vi.fn(),
       close: vi.fn(),
       createOffer: vi.fn().mockResolvedValue({ type: 'offer', sdp: 'offer' }),
@@ -48,6 +50,27 @@ describe('sendWhatsappDigits', () => {
   afterEach(() => {
     cleanupWhatsappSession();
     vi.unstubAllGlobals();
+  });
+
+  it('tracks the peer connection and clears readiness when it disconnects or is cleaned up', async () => {
+    await useWhatsappCallSession().prepareOutboundOffer();
+    expect(isWhatsappCallConnected.value).toBe(false);
+
+    peerConnection.connectionState = 'connected';
+    peerConnection.onconnectionstatechange();
+    expect(isWhatsappCallConnected.value).toBe(true);
+
+    peerConnection.connectionState = 'disconnected';
+    peerConnection.onconnectionstatechange();
+    expect(isWhatsappCallConnected.value).toBe(false);
+
+    peerConnection.connectionState = 'connected';
+    peerConnection.onconnectionstatechange();
+    expect(isWhatsappCallConnected.value).toBe(true);
+    cleanupWhatsappSession();
+    expect(isWhatsappCallConnected.value).toBe(false);
+    peerConnection.onconnectionstatechange();
+    expect(isWhatsappCallConnected.value).toBe(false);
   });
 
   it('returns false when there is no peer connection', () => {

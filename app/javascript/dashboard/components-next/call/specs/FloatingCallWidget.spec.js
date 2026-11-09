@@ -6,6 +6,8 @@ import CallCard from '../CallCard.vue';
 
 const mocks = vi.hoisted(() => ({
   activeCall: null,
+  twilioConnected: null,
+  whatsappConnected: null,
   sendDigits: vi.fn(),
   sendWhatsappDigits: vi.fn(),
   useAlert: vi.fn(),
@@ -51,17 +53,27 @@ vi.mock('dashboard/composables/useCallSession', () => ({
   }),
 }));
 
-vi.mock('dashboard/composables/useWhatsappCallSession', () => ({
-  sendWhatsappDigits: mocks.sendWhatsappDigits,
-  setWhatsappCallMuted: vi.fn(),
-}));
+vi.mock('dashboard/composables/useWhatsappCallSession', async () => {
+  const { ref: createRef } = await import('vue');
+  mocks.whatsappConnected = createRef(false);
+  return {
+    isWhatsappCallConnected: mocks.whatsappConnected,
+    sendWhatsappDigits: mocks.sendWhatsappDigits,
+    setWhatsappCallMuted: vi.fn(),
+  };
+});
 
-vi.mock('dashboard/api/channel/voice/twilioVoiceClient', () => ({
-  default: {
-    sendDigits: mocks.sendDigits,
-    setMuted: vi.fn(),
-  },
-}));
+vi.mock('dashboard/api/channel/voice/twilioVoiceClient', async () => {
+  const { ref: createRef } = await import('vue');
+  mocks.twilioConnected = createRef(false);
+  return {
+    isTwilioCallConnected: mocks.twilioConnected,
+    default: {
+      sendDigits: mocks.sendDigits,
+      setMuted: vi.fn(),
+    },
+  };
+});
 
 import FloatingCallWidget from '../FloatingCallWidget.vue';
 
@@ -71,6 +83,7 @@ const activeCall = provider => ({
   inboxId: 7,
   ...(provider ? { provider } : {}),
   isActive: true,
+  status: 'in-progress',
 });
 
 const mountWidget = () =>
@@ -86,8 +99,57 @@ describe('FloatingCallWidget keypad', () => {
   beforeEach(() => {
     vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
     mocks.activeCall = activeCall(VOICE_CALL_PROVIDERS.TWILIO);
+    mocks.twilioConnected.value = true;
+    mocks.whatsappConnected.value = true;
     mocks.sendDigits.mockReturnValue(true);
     mocks.sendWhatsappDigits.mockReturnValue(true);
+  });
+
+  it.each([
+    { provider: VOICE_CALL_PROVIDERS.TWILIO, state: 'twilioConnected' },
+    { provider: VOICE_CALL_PROVIDERS.WHATSAPP, state: 'whatsappConnected' },
+  ])(
+    'waits for the $provider connection and closes the keypad when it drops',
+    async ({ provider, state }) => {
+      mocks.activeCall = activeCall(provider);
+      mocks[state].value = false;
+      const wrapper = mountWidget();
+      const toggle = () =>
+        wrapper.find('[data-test-id="voice-call-keypad-toggle"]');
+
+      expect(toggle().exists()).toBe(false);
+      wrapper.findComponent(CallCard).vm.$emit('sendDigit', '1');
+      expect(mocks.sendDigits).not.toHaveBeenCalled();
+      expect(mocks.sendWhatsappDigits).not.toHaveBeenCalled();
+
+      mocks[state].value = true;
+      await wrapper.vm.$nextTick();
+      expect(toggle().exists()).toBe(true);
+      await toggle().trigger('click');
+      expect(wrapper.find('#voice-call-keypad').exists()).toBe(true);
+
+      mocks[state].value = false;
+      await wrapper.vm.$nextTick();
+      expect(toggle().exists()).toBe(false);
+      expect(wrapper.find('#voice-call-keypad').exists()).toBe(false);
+
+      mocks[state].value = true;
+      await wrapper.vm.$nextTick();
+      expect(toggle().exists()).toBe(true);
+      expect(wrapper.find('#voice-call-keypad').exists()).toBe(false);
+    }
+  );
+
+  it('keeps the keypad hidden while the outbound contact rings even when the Twilio media leg is open', () => {
+    mocks.activeCall = {
+      ...activeCall(VOICE_CALL_PROVIDERS.TWILIO),
+      status: 'ringing',
+    };
+    const wrapper = mountWidget();
+
+    expect(
+      wrapper.find('[data-test-id="voice-call-keypad-toggle"]').exists()
+    ).toBe(false);
   });
 
   it('exposes the keypad and routes digits only to Twilio for an active Twilio call', async () => {
