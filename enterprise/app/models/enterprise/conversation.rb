@@ -49,7 +49,7 @@ module Enterprise::Conversation
   def call_ringing?
     return false unless inbox.twilio?
 
-    @call_ringing || calls.exists?(provider: :twilio, direction: :incoming, status: 'ringing')
+    @call_ringing || calls.holding_assignment.exists?
   end
 
   # A V2 rebalance on resolve or snooze frees capacity rather than assigning this conversation, so it still runs

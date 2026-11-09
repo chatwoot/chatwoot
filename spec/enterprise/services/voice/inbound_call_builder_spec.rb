@@ -168,6 +168,15 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(call.conversation.reload.assignee).to eq(agent)
     end
 
+    it 'releases the hold of a call still ringing past the dial limit, whose end was never reported' do
+      account.enable_features!('assignment_v2')
+      call = perform_builder
+      call.update!(created_at: (Voice::RingNextAgentJob::MAX_RING_SECONDS + 60).seconds.ago)
+
+      expect(AutoAssignment::AssignmentService.new(inbox: inbox.reload).perform_bulk_assignment).to eq(1)
+      expect(call.conversation.reload.assignee).to eq(agent)
+    end
+
     it 'still rebalances V2 assignments when a conversation is resolved while its call rings' do
       account.enable_features!('assignment_v2')
       conversation = perform_builder.conversation.reload
