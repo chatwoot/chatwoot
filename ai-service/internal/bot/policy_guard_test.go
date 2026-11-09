@@ -101,3 +101,24 @@ func TestPolicy_ObjectionsGetOneHelpfulCounterThenRespect(t *testing.T) {
 		t.Error("the old accept-and-stop rule must be gone")
 	}
 }
+
+func TestPolicy_HandoffNamesTheTeamNotASpecialist(t *testing.T) {
+	// Arrange: handoff assigns whoever is online with the fewest chats, so the
+	// bot must not promise a specialist (DEV-Johnstocker/chatwoot#1).
+	now := time.Date(2026, 11, 10, 4, 0, 0, 0, time.UTC)
+
+	// Act
+	p := policyPrompt(now)
+
+	// Assert
+	for _, banned := range []string{"handles this kind of matter", "ดูแลเรื่องนี้โดยเฉพาะ", "โดยเฉพาะ"} {
+		if strings.Contains(p, banned) {
+			t.Errorf("policy still promises a specialist: %q", banned)
+		}
+	}
+	for _, want := range []string{"a team member will continue in this chat", "ทีมงาน", "Never say the person is a specialist"} {
+		if !strings.Contains(p, want) {
+			t.Errorf("policy is missing %q", want)
+		}
+	}
+}
