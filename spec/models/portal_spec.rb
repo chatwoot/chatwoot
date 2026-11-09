@@ -88,6 +88,66 @@ RSpec.describe Portal do
     end
   end
 
+  describe '#widget_data' do
+    it 'exposes only the slug and allowed locales' do
+      portal = create(:portal, slug: 'docs', custom_domain: 'docs.example.com', config: { allowed_locales: %w[en es] })
+
+      expect(portal.widget_data).to eq(slug: 'docs', config: { allowed_locales: %w[en es] })
+    end
+  end
+
+  describe 'password protection' do
+    let(:portal) { create(:portal) }
+
+    it 'is public by default' do
+      expect(portal.visibility).to eq('public')
+      expect(portal.password_protected?).to be(false)
+    end
+
+    it 'requires a password to become password protected' do
+      portal.update(config: { visibility: 'private_with_password' })
+
+      expect(portal.errors[:password]).to include("can't be blank")
+    end
+
+    it 'rejects an unsupported visibility' do
+      portal.update(config: { visibility: 'secret' })
+
+      expect(portal).not_to be_valid
+    end
+
+    it 'cannot be password protected while linked to an inbox' do
+      create(:inbox, account: portal.account, portal: portal)
+
+      portal.update(config: { visibility: 'private_with_password' }, password: 'opensesame1')
+
+      expect(portal.errors[:base]).to include('Remove this help center from its inboxes before password protecting it')
+    end
+
+    context 'when password protected' do
+      before { portal.update!(config: { visibility: 'private_with_password' }, password: 'opensesame1') }
+
+      it 'authenticates the password' do
+        expect(portal.password_protected?).to be(true)
+        expect(portal.authenticate('opensesame1')).to eq(portal)
+        expect(portal.authenticate('wrong-password')).to be(false)
+      end
+
+      it 'keeps the password when other settings change' do
+        portal.reload.update!(name: 'Renamed', config: { layout: 'documentation' })
+
+        expect(portal.reload.password_protected?).to be(true)
+        expect(portal.authenticate('opensesame1')).to eq(portal)
+      end
+
+      it 'removes the password when made public' do
+        portal.update!(config: { visibility: 'public' })
+
+        expect(portal.reload.password_digest).to be_nil
+      end
+    end
+  end
+
   describe '#localized_value' do
     let!(:account) { create(:account) }
     let!(:portal) do
