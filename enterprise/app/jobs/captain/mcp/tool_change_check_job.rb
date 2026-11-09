@@ -1,5 +1,9 @@
 # Lists the tools of every enabled MCP server with approved tools, so admins see a changed tool before a customer asks.
 # This job only records each approved tool's review state.
+#
+# Known limit: one run lists every server in turn. A slow server delays the servers after it, and an error that is not
+# a Connection error ends the run. As the number of servers grows, this job should enqueue one job per server instead,
+# as Channels::Whatsapp::HealthSyncSchedulerJob does.
 class Captain::Mcp::ToolChangeCheckJob < ApplicationJob
   queue_as :low
 
