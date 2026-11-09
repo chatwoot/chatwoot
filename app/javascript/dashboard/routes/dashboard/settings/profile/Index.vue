@@ -140,7 +140,10 @@ export default {
       let alertMessage = '';
       try {
         await this.$store.dispatch('updateProfile', payload);
-        alertMessage = successMessage;
+        alertMessage =
+          typeof successMessage === 'function'
+            ? successMessage()
+            : successMessage;
 
         return true; // return the value so that the status can be known
       } catch (error) {
@@ -153,27 +156,46 @@ export default {
     },
     async updateProfile(userAttributes) {
       const { name, email, displayName } = userAttributes;
-      const hasEmailChanged = this.currentUser.email !== email;
+      // Taken before the request and compared as Devise stores them (downcased and
+      // stripped), so a second save in flight or a change of case alone cannot read as
+      // a new address.
+      const previousEmail = this.currentUser.email;
+      const normalizeEmail = value => (value || '').trim().toLowerCase();
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
+      const submittedEmail = this.email;
+      const hasEmailChanged =
+        normalizeEmail(submittedEmail) !== normalizeEmail(previousEmail);
 
       const updatePayload = {
         name: this.name,
-        email: this.email,
+        email: submittedEmail,
         displayName: this.displayName,
         avatar: this.avatarFile,
       };
 
+      // With Devise's reconfirmable on, the current email stays in effect until the link
+      // mailed to the new one is clicked, so the saved profile comes back with the old
+      // address and the session is still valid.
+      const isEmailInEffect = () => this.currentUser.email !== previousEmail;
       const success = await this.dispatchUpdate(
         updatePayload,
-        hasEmailChanged
-          ? this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED')
-          : this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS'),
+        () => {
+          if (!hasEmailChanged)
+            return this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
+          if (isEmailInEffect())
+            return this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
+          return this.$t('PROFILE_SETTINGS.EMAIL_CONFIRMATION_PENDING', {
+            email: submittedEmail,
+          });
+        },
         this.$t('RESET_PASSWORD.API.ERROR_MESSAGE')
       );
 
-      if (hasEmailChanged && success) clearCookiesOnLogout();
+      if (!success) return;
+      if (hasEmailChanged && isEmailInEffect()) clearCookiesOnLogout();
+      else this.email = this.currentUser.email;
     },
     async updateSignature(signature) {
       const payload = { message_signature: signature };
