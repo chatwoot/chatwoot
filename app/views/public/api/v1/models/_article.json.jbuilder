@@ -31,9 +31,10 @@ if article.author.present?
   end
 end
 
+published_translations = article.associated_articles.select(&:published?)
 json.associated_articles do
-  if article.associated_articles.any?
-    json.array! article.associated_articles.each do |associated_article|
+  if published_translations.any?
+    json.array! published_translations do |associated_article|
       json.partial! 'public/api/v1/models/hc/associated_article', formats: [:json], article: associated_article
     end
   end

@@ -50,14 +50,62 @@ describe Whatsapp::Providers::Whatsapp360DialogService do
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
 
-      it 'calls message endpoints with list payload when number of items is greater than 3' do
-        items = %w[Burito Pasta Sushi Salad].map { |i| { title: i, value: i } }
+      it 'calls message endpoints with list payload when descriptions are present' do
+        items = [
+          { title: 'Burito', value: 'Burito', description: 'A tortilla wrap with fillings' },
+          { title: 'Pasta', value: 'Pasta', description: 'An Italian noodle dish' },
+          { title: 'Sushi', value: 'Sushi', description: 'Rice and seafood rolls' }
+        ]
         message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
                                    content_type: 'input_select', content_attributes: { items: items })
 
         expected_action = {
           button: I18n.t('conversations.messages.whatsapp.list_button_label'),
-          sections: [{ rows: %w[Burito Pasta Sushi Salad].map { |i| { id: i, title: i } } }]
+          sections: [
+            {
+              rows: items.map do |item|
+                { id: item[:value], title: item[:title], description: item[:description] }
+              end
+            }
+          ]
+        }.to_json
+
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(
+            body: {
+              to: '+123456789',
+              interactive: {
+                type: 'list',
+                body: {
+                  text: 'test'
+                },
+                action: expected_action
+              },
+              type: 'interactive'
+            }.to_json
+          ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+
+      it 'calls message endpoints with list payload when number of items is greater than 3' do
+        items = [
+          { title: 'Burito', value: 'Burito', description: 'A tortilla wrap with fillings' },
+          { title: 'Pasta', value: 'Pasta', description: 'An Italian noodle dish' },
+          { title: 'Sushi', value: 'Sushi', description: 'Rice and seafood rolls' },
+          { title: 'Salad', value: 'Salad', description: 'Fresh mixed vegetables' }
+        ]
+        message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
+                                   content_type: 'input_select', content_attributes: { items: items })
+
+        expected_action = {
+          button: I18n.t('conversations.messages.whatsapp.list_button_label'),
+          sections: [
+            {
+              rows: items.map do |item|
+                { id: item[:value], title: item[:title], description: item[:description] }
+              end
+            }
+          ]
         }.to_json
 
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')

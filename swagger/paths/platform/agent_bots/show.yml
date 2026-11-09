@@ -4,6 +4,7 @@ operationId: get-details-of-a-single-agent-bot
 summary: Get an agent bot details
 description: Get the details of an agent bot
 security:
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 responses:
   '200':

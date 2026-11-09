@@ -4,8 +4,10 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
-  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
+  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id, config: { allowed_locales: %w[en es fr] }) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'en', slug: 'category_slug') }
+  let(:spanish_category) { create(:category, portal: portal, locale: 'es') }
+  let(:french_category) { create(:category, portal: portal, locale: 'fr') }
   let!(:article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id) }
 
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles' do
@@ -38,6 +40,41 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['title']).to eql('MyTitle')
         expect(json_response['payload']['status']).to eql('published')
         expect(json_response['payload']['position']).to be(3)
+      end
+
+      it 'rejects a cross-account author without exposing their details' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
+        article_params = {
+          article: {
+            category_id: category.id,
+            title: 'MyTitle',
+            slug: 'my-title',
+            content: 'This is my content.',
+            status: :published,
+            author_id: foreign_user.id
+          }
+        }
+        expect do
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: article_params,
+               headers: admin.create_new_auth_token
+        end.not_to(change { portal.articles.count })
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body).to eq('error' => 'Invalid author ID')
+        expect(response.body).not_to include(foreign_user.email)
+      end
+
+      it 'rejects a malformed author_id without raising' do
+        [%w[3 4], ' 3 ', '3abc'].each do |bad_author_id|
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: { article: { title: 'MyTitle', slug: 'my-title', content: 'This is my content.', author_id: bad_author_id } },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body).to eq('error' => 'Invalid author ID')
+        end
       end
 
       it 'creates article even if category is not provided' do
@@ -86,12 +123,12 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
       it 'associate to the root article' do
         root_article = create(:article, category: category, slug: 'root-article', portal: portal, account_id: account.id, author_id: agent.id,
                                         associated_article_id: nil)
-        parent_article = create(:article, category: category, slug: 'parent-article', portal: portal, account_id: account.id, author_id: agent.id,
-                                          associated_article_id: root_article.id)
+        parent_article = create(:article, category: spanish_category, slug: 'parent-article', portal: portal, account_id: account.id,
+                                          author_id: agent.id, associated_article_id: root_article.id)
 
         article_params = {
           article: {
-            category_id: category.id,
+            category_id: french_category.id,
             description: 'test description',
             title: 'MyTitle',
             slug: 'MyTitle',
@@ -117,7 +154,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         article_params = {
           article: {
-            category_id: category.id,
+            category_id: spanish_category.id,
             description: 'test description',
             title: 'MyTitle',
             slug: 'MyTitle',
@@ -169,6 +206,104 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['title']).to eql(article_params[:article][:title])
         expect(json_response['payload']['status']).to eql(article_params[:article][:status])
         expect(json_response['payload']['position']).to eql(article_params[:article][:position])
+      end
+
+      it 'normalizes a selected translation to its root article' do
+        root_article = create(:article, category: french_category, portal: portal, account_id: account.id, author_id: agent.id)
+        translation = create(:article, category: spanish_category, portal: portal, account_id: account.id, author_id: agent.id,
+                                       associated_article_id: root_article.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { associated_article_id: translation.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.associated_article_id).to eq(root_article.id)
+        expect(response.parsed_body['payload']).to include(
+          'associated_article_id' => root_article.id,
+          'root_article' => include('id' => root_article.id)
+        )
+      end
+
+      it 'returns a null root article when an article is unlinked' do
+        root_article = create(:article, category: spanish_category, portal: portal, account_id: account.id, author_id: agent.id)
+        article.update!(associated_article_id: root_article.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { associated_article_id: nil } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.associated_article_id).to be_nil
+        expect(response.parsed_body['payload']).to include(
+          'associated_article_id' => nil,
+          'root_article' => nil
+        )
+      end
+
+      it 'keeps a root article unlinked when one of its translations is selected' do
+        translation = create(:article, category: spanish_category, portal: portal, account_id: account.id, author_id: agent.id,
+                                       associated_article_id: article.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { associated_article_id: translation.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.associated_article_id).to be_nil
+        expect(response.parsed_body['payload']).to include(
+          'associated_article_id' => nil,
+          'root_article' => nil
+        )
+      end
+
+      it 'ignores a cross-account author while updating other attributes' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { title: 'Updated title', author_id: foreign_user.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.dig('payload', 'title')).to eq('Updated title')
+        expect(response.parsed_body.dig('payload', 'author', 'id')).to eq(agent.id)
+        expect(response.body).not_to include(foreign_user.email)
+        expect(article.reload.author_id).to eq(agent.id)
+      end
+
+      it 'allows editing an article whose author is no longer an account member' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
+        article.update!(author_id: foreign_user.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { title: 'Updated title', author_id: foreign_user.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.title).to eq('Updated title')
+      end
+
+      it 'stages draft-only fields without bumping updated_at' do
+        expect do
+          put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+              params: { article: { draft_title: 'Draft title', draft_content: 'Draft body' } },
+              headers: admin.create_new_auth_token
+        end.not_to(change { article.reload.updated_at })
+
+        expect(response).to have_http_status(:success)
+        expect(article.draft_title).to eq('Draft title')
+        expect(article.draft_content).to eq('Draft body')
+      end
+
+      it 'rejects an over-length draft without persisting it' do
+        expect do
+          put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+              params: { article: { draft_content: 'a' * 20_001 } },
+              headers: admin.create_new_auth_token
+        end.not_to(change { article.reload.draft_content })
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include('too long')
       end
     end
   end
@@ -306,11 +441,23 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['id']).to eq(article2.id)
       end
 
+      it 'does not expose an author who is not a member of the account' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
+        article.update!(author_id: foreign_user.id)
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).not_to have_key('author')
+        expect(response.body).not_to include(foreign_user.email)
+      end
+
       it 'get associated articles' do
         root_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
-        child_article_1 = create(:article, slug: 'child-1', category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_1 = create(:article, slug: 'child-1', category: spanish_category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
-        child_article_2 = create(:article, slug: 'child-2', category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_2 = create(:article, slug: 'child-2', category: french_category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{root_article.id}",
@@ -323,6 +470,24 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(associated_articles_ids).to contain_exactly(child_article_1.id, child_article_2.id)
         expect(json_response['payload']['id']).to eq(root_article.id)
       end
+    end
+  end
+
+  describe 'meta.noindex' do
+    let(:article_url) { "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}" }
+
+    it 'hides the article from search engines' do
+      put article_url, params: { article: { meta: { noindex: true } } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(article.reload.noindex?).to be(true)
+    end
+
+    it 'rejects a non-boolean value' do
+      put article_url, params: { article: { meta: { noindex: 'true' } } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(article.reload.meta['noindex']).to be_nil
     end
   end
 end

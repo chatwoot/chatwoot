@@ -14,6 +14,7 @@ import auditlogs from './auditlogs/audit.routes';
 import billing from './billing/billing.routes';
 import canned from './canned/canned.routes';
 import inbox from './inbox/inbox.routes';
+import templates from './templates/templates.routes';
 import integrations from './integrations/integrations.routes';
 import labels from './labels/labels.routes';
 import macros from './macros/macros.routes';
@@ -57,6 +58,7 @@ export default {
     ...billing.routes,
     ...canned.routes,
     ...inbox.routes,
+    ...templates.routes,
     ...integrations.routes,
     ...data.routes,
     ...labels.routes,

@@ -30,5 +30,63 @@
     "VALIDATION_ERROR": "Töltsd ki az összes kötelező mezőt",
     "SUCCESS": "Az adatok sikeresen mentve",
     "ERROR": "Nem sikerült menteni az adatokat. Próbáld újra."
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "Állítsunk be néhány dolgot",
+    "SUBTITLE": "Ezzel gyorsabban elindulhat a munkaterületen",
+    "CONTINUE": "Continue",
+    "SKIP": "Skip",
+    "ERROR": "Valami elromlott, kérjük töltsd próbáld újra.",
+    "WHATSAPP_CONNECTED": "A WhatsApp csatorna sikeresen csatlakozott",
+    "FACEBOOK_CONNECTED": "A Facebook csatorna sikeresen csatlakozott",
+    "META_RESTRICTION": {
+      "MESSAGE": "A Facebook, Instagram és WhatsApp csatorna beállítása átmenetileg nem érhető el a Meta oldalán fellépő programozási felületi hiba miatt. A problémát nem a Chatwoot okozza. A Meta közreműködésével dolgozunk a mielőbbi megoldáson.",
+      "STATUS_LINK": "Állapotfrissítések megtekintése"
+    },
+    "CREATED_FOR_YOU": {
+      "TITLE": "Ezeket készítettük el Önnek",
+      "LIVE_CHAT": "Élő csevegőmodul",
+      "LIVE_CHAT_DESCRIPTION": "Azonnali üzenetküldő a webhelyéhez",
+      "LIVE_CHAT_STATUS": "Majdnem kész…",
+      "LIVE_CHAT_READY": "Ready",
+      "HELP_CENTER": "Súgóközpont",
+      "HELP_CENTER_DESCRIPTION": "Az Ön digitális tudástára",
+      "HELP_CENTER_GENERATING": "A súgóközpont létrehozása…",
+      "HELP_CENTER_ANALYZING_WEBSITE": "A webhely elemzése…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "Kategóriák beállítása…",
+      "HELP_CENTER_CURATING_ARTICLES": "Cikkek összeállítása…",
+      "HELP_CENTER_ARTICLES": "{count} cikk létrehozva | {count} cikk létrehozva",
+      "HELP_CENTER_CATEGORIES": "{count} category | {count} categories",
+      "HELP_CENTER_SUMMARY": "{count} cikk létrehozva {categories} kategóriában | {count} cikk létrehozva {categories} kategóriában"
+    },
+    "CHANNELS": {
+      "TITLE": "Csatlakoztassa az összes beszélgetési csatornáját",
+      "HEADER": "Találtunk néhány csatornát, amelyet csatlakoztathat",
+      "CONNECT": "Kapcsolódás",
+      "CONNECTED": "Csatlakoztatva",
+      "MORE_CHANNELS_NOTE": "Az {email} és {voice} csatornákat később is beállíthatja az alkalmazásban",
+      "MORE_CHANNELS_EMAIL": "E-mail",
+      "MORE_CHANNELS_VOICE": "Voice",
+      "VIEW_ALL": "Összes megtekintése",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Outlook",
+      "OTHER_EMAIL": "Más levelezési szolgáltatók"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "Csatlakoztassa az összes csatornáját pillanatok alatt",
+      "SUBTITLE": "Kezelje mindet egyetlen vezérlőpultról. A postaládákat később is beállíthatja és szerkesztheti az alkalmazásban.",
+      "NOTE": "Az SMS, API és hanghívási csatornákat, valamint más levelezési szolgáltatókat később is beállíthatja a vezérlőpultról.",
+      "CONNECT_TITLE": "Csatlakoztassa {name} fiókját",
+      "CONNECT_SUBTITLE": "Adja meg ezt a néhány adatot",
+      "CONNECT": "Kapcsolódás",
+      "BACK": "Vissza",
+      "SETUP_LATER": "Beállítás később az alkalmazásban",
+      "FACEBOOK_SUBTITLE": "Engedélyezze a hozzáférést, majd válassza ki a csatlakoztatni kívánt oldalt.",
+      "FACEBOOK_LAUNCH": "Folytatás Facebookkal",
+      "FACEBOOK_SELECT_PAGE": "Válassza ki a csatlakoztatni kívánt oldalt",
+      "FACEBOOK_LOADING": "Facebook-oldalak betöltése…",
+      "FACEBOOK_NO_PAGES": "Nincs csatlakoztatható oldal. Az összes oldala már csatlakoztatva van.",
+      "FACEBOOK_ERROR": "Nem sikerült csatlakozni a Facebookhoz. Próbálja újra."
+    }
   }
 }

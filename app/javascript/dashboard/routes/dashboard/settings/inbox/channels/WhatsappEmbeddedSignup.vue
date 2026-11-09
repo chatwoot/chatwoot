@@ -30,10 +30,6 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  restrictionWarningText: {
-    type: String,
-    default: '',
-  },
 });
 
 const store = useStore();
@@ -194,14 +190,13 @@ const launchEmbeddedSignup = async () => {
       </div>
 
       <Banner v-if="showRestrictionAlert" color="amber" class="w-full mb-6">
-        <div class="flex items-start gap-3 text-left">
+        <div class="flex items-start gap-3 text-start">
           <Icon
             icon="i-lucide-triangle-alert"
             class="flex-shrink-0 size-4 mt-0.5"
           />
           <span>
             {{
-              restrictionWarningText ||
               $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.RESTRICTED_WARNING')
             }}
             <a

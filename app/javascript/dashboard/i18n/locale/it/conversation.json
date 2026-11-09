@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Annuncio",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "Vedi annuncio",
+      "WELCOME_MESSAGE_LABEL": "Messaggio precompilato: ",
+      "REPLIED_BELOW": "Il cliente ha risposto qui sotto"
+    },
     "SELECT_A_CONVERSATION": "Seleziona una conversazione dal pannello a sinistra",
     "CSAT_REPLY_MESSAGE": "Valuta la conversazione",
     "404": "Siamo spiacenti, non siamo riusciti a trovare la conversazione. Riprova",
@@ -14,6 +21,12 @@
     "SEARCH_MESSAGES": "Cerca messaggi nelle conversazioni",
     "VIEW_ORIGINAL": "Visualizza originale",
     "VIEW_TRANSLATED": "Visualizza traduzione",
+    "TRANSLATING": "Traduzione in corso…",
+    "TRANSLATING_TO": "Traduzione in {language}…",
+    "VIEW_ORIGINAL_IN": "Vedi originale ({language})",
+    "VIEW_TRANSLATED_IN": "Vedi tradotto ({language})",
+    "TRANSLATION_FAILED": "Impossibile tradurre, inviato come scritto",
+    "CONTACT_TRANSLATION_FAILED": "Impossibile tradurre",
     "EMPTY_STATE": {
       "CMD_BAR": "per aprire il menu dei comandi",
       "KEYBOARD_SHORTCUTS": "per visualizzare le scorciatoie da tastiera"
@@ -27,6 +40,15 @@
     },
     "UNREAD_MESSAGES": "Messaggi Non Letti",
     "UNREAD_MESSAGE": "Messaggio Non Letto",
+    "CONTACT_HISTORY": {
+      "OLDER": "Conversazione precedente",
+      "NEWER": "Conversazione successiva",
+      "OLDER_WITH": "Conversazione precedente con {name} · {time}",
+      "NEWER_WITH": "Conversazione successiva con {name} · {time}",
+      "CUSTOMER": "questo cliente",
+      "REPLY_TO_OLDER": "Rispondi a questa conversazione precedente",
+      "GO_TO_LATEST": "Vai all'ultima conversazione"
+    },
     "CLICK_HERE": "Clicca qui",
     "LOADING_INBOXES": "Caricamento inbox",
     "LOADING_CONVERSATIONS": "Caricamento Conversazioni",
@@ -36,14 +58,17 @@
     "API_HOURS_WINDOW": "Puoi rispondere a questa conversazione solo entro {hours} ore",
     "NOT_ASSIGNED_TO_YOU": "Questa conversazione non è assegnata. Vuoi assegnare questa conversazione a te stesso?",
     "ASSIGN_TO_ME": "Assegna a me",
-    "BOT_HANDOFF_MESSAGE": "Si sta rispondendo a una conversazione che è attualmente gestita da un assistente o un bot.",
-    "BOT_HANDOFF_ACTION": "Segna aperta e assegna a te",
+    "BOT_HANDOFF_MESSAGE": "Questa conversazione è attualmente gestita da {assigneeName}.",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "un operatore IA",
+    "BOT_HANDOFF_ACTION": "Prendi in carico",
     "BOT_HANDOFF_REOPEN_ACTION": "Segna conversazione aperta",
     "BOT_HANDOFF_SUCCESS": "La conversazione ti è stata assegnata",
     "BOT_HANDOFF_ERROR": "Impossibile prendere la conversazione. Riprova.",
     "TWILIO_WHATSAPP_CAN_REPLY": "È possibile rispondere a questa conversazione solo utilizzando un messaggio modello a causa di",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrizione finestra messaggio 24 ore",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Questo account Instagram è stato migrato alla nuova Inbox del canale Instagram. Tutti i nuovi messaggi verranno visualizzati lì. Non sarà più possibile inviare messaggi da questa conversazione.",
+    "INSTAGRAM_RESTRICTION_BANNER": "La messaggistica di Instagram è attualmente interessata da un problema delle API di Meta, non da un problema di Chatwoot. Alcuni messaggi o azioni potrebbero subire ritardi o non essere disponibili. Stiamo lavorando con Meta per risolverlo il prima possibile.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Vedi gli aggiornamenti di stato",
     "REPLYING_TO": "Stai rispondendo a:",
     "REMOVE_SELECTION": "Rimuovi Selezione",
     "DOWNLOAD": "Scarica",
@@ -62,14 +87,44 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app TikTok.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
+    "WHATSAPP_FLOW_RESPONSE": "Ha inviato una risposta a un flusso",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Annuncio"
+    },
     "SUCCESS_DELETE_MESSAGE": "Messaggio eliminato con successo",
     "FAIL_DELETE_MESSSAGE": "Impossibile eliminare il messaggio! Riprova",
     "NO_RESPONSE": "Nessuna risposta",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Chiedi al cliente di condividere il suo numero WhatsApp",
+      "PENDING_ACTION": "Richiesta di informazioni di contatto in attesa",
+      "STATES": {
+        "PENDING": "In attesa delle informazioni di contatto",
+        "SHARED": "Numero di telefono condiviso",
+        "IDENTITY_CONFLICT": "Numero di telefono da verificare"
+      }
+    },
     "RESPONSE": "Risposta",
     "RATING_TITLE": "Valutazione",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Messaggio non disponibile",
+    "CAPTAIN_GENERATION": {
+      "TITLE": "Come è stata generata questa risposta?",
+      "GENERATED_BY": "Generata da Captain",
+      "LOADING": "Caricamento dei dettagli…",
+      "EMPTY": "Nessun dettaglio di generazione disponibile per questo messaggio.",
+      "TIMELINE": "Passaggi della generazione",
+      "STEP_TOOL": "Ha chiamato {name}",
+      "STEP_HANDOFF": "Passata a {name}",
+      "REASONING": "Ragionamento",
+      "SOURCES": "Base di conoscenza",
+      "SOURCES_SUMMARY": "{count} risultato | {count} risultati",
+      "MODEL": "Generata con {model}",
+      "CREDITS": "Crediti: {credits}"
+    },
     "CARD": {
       "SHOW_LABELS": "Mostra etichette",
       "HIDE_LABELS": "Nascondi etichette",
@@ -81,20 +136,20 @@
       "CALL_IN_PROGRESS": "Chiamata in corso",
       "NO_ANSWER": "Nessuna risposta",
       "NO_ANSWER_OUTBOUND_LABEL": "Nessuna risposta",
-      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Il contatto non ha risposto",
       "MISSED_CALL": "Chiamata persa",
-      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
-      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
+      "MISSED_CALL_INBOUND_SUBTEXT": "Nessun operatore ha risposto",
+      "MISSED_CALL_DECLINED_BY": "Rifiutata da {agentName}",
       "CALL_ENDED": "Chiamata terminata",
-      "HANDLED_BY": "Handled by {agentName}",
+      "HANDLED_BY": "Gestita da {agentName}",
       "NOT_ANSWERED_YET": "Non ancora risposta",
-      "CALLING": "Calling…",
+      "CALLING": "Chiamata in corso…",
       "THEY_ANSWERED": "Hanno risposto",
       "YOU_ANSWERED": "Hai risposto",
       "AGENT_ANSWERED": "{agentName} ha risposto",
       "JOIN_CALL": "Entra nella chiamata",
-      "CALL_BACK": "Call back",
-      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "CALL_BACK": "Richiama",
+      "TRANSCRIPT_SHOW_MORE": "Mostra di più",
       "TRANSCRIPT_SHOW_LESS": "Mostra meno"
     },
     "HEADER": {
@@ -110,12 +165,12 @@
       "SNOOZED_UNTIL_TOMORROW": "Posticipata fino a domani",
       "SNOOZED_UNTIL_NEXT_WEEK": "Posticipata fino alla prossima settimana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Posticipata fino alla prossima risposta",
-      "WHATSAPP_CALL": "Start WhatsApp call",
-      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
-      "VOICE_CALL": "Start call",
-      "VOICE_CALL_FAILED": "Could not start the call.",
-      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+      "WHATSAPP_CALL": "Avvia chiamata WhatsApp",
+      "WHATSAPP_CALL_FAILED": "Impossibile avviare la chiamata WhatsApp.",
+      "VOICE_CALL": "Avvia chiamata",
+      "VOICE_CALL_FAILED": "Impossibile avviare la chiamata.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Inviata una richiesta di autorizzazione di chiamata al contatto. Riprova una volta accettata.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Richiesta di autorizzazione chiamata già inviata di recente. Riprova una volta che il contatto accetta.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -138,10 +193,48 @@
       "AGENTS": "Operatori",
       "TEAMS": "Team"
     },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Cerca variabili",
+        "DESCRIPTION": "Descrizione",
+        "VALUE": "Valore",
+        "NO_VALUE": "Nessun valore per questa conversazione"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Cerca emoji",
+        "EMPTY_STATE": "Digita per cercare le emoji"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Cerca macro",
+        "ACTION_COUNT": "1 azione | {count} azioni"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Cerca agenti e team",
+        "FILTER": {
+          "ALL": "Tutte"
+        },
+        "AVAILABILITY": "Disponibilità",
+        "ROLE": "Ruolo",
+        "AUTO_ASSIGN": "Assegnazione automatica",
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato",
+        "YOU_ARE_A_MEMBER": "Sei membro di questo team"
+      }
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Posticipa fino a",
       "APPLY": "Posticipa",
       "CANCEL": "Annulla"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggerisci con Captain",
+      "EMPTY": "Nessun nuovo suggerimento",
+      "ACCEPT": "Accetta",
+      "APPLY_HINT": "Clicca per applicare",
+      "REJECT": "Ignora",
+      "ACCEPT_ALL": "Accetta tutti",
+      "ERROR": "Impossibile caricare i suggerimenti. Riprova.",
+      "APPLY_ERROR": "Impossibile applicare le etichette suggerite. Riprova."
     },
     "PRIORITY": {
       "TITLE": "Priorità",
@@ -179,6 +272,8 @@
       },
       "ASSIGN_AGENT": "Assegna operatore",
       "ASSIGN_LABEL": "Assegna etichetta",
+      "SEARCH_LABELS": "Cerca etichette",
+      "NO_LABELS_FOUND": "Nessuna etichetta trovata",
       "AGENTS_LOADING": "Caricamento operatori...",
       "ASSIGN_TEAM": "Assegna team",
       "DELETE": "Elimina conversazione",
@@ -231,14 +326,14 @@
       "TIP_AUDIORECORDER_ICON": "Registra audio",
       "TIP_AUDIORECORDER_PERMISSION": "Consenti l'accesso all'audio",
       "TIP_AUDIORECORDER_ERROR": "Impossibile aprire l'audio",
-      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
+      "AUDIO_CONVERSION_FAILED": "Conversione audio non riuscita. Riprova.",
       "DRAG_DROP": "Trascina qui per allegare",
+      "IMAGE_UPLOAD_SUCCESS": "Immagine caricata correttamente",
       "START_AUDIO_RECORDING": "Avvia registrazione audio",
       "STOP_AUDIO_RECORDING": "Interrompi registrazione audio",
       "COPILOT_THINKING": "Copilot sta pensando",
       "EMAIL_HEAD": {
         "TO": "A",
-        "ADD_BCC": "Aggiungi Ccn",
         "CC": {
           "LABEL": "Cc",
           "PLACEHOLDER": "Email separate da virgole",
@@ -248,6 +343,10 @@
           "LABEL": "Ccn",
           "PLACEHOLDER": "Email separate da virgole",
           "ERROR": "Inserisci indirizzi email validi"
+        },
+        "SUBJECT": {
+          "LABEL": "Oggetto",
+          "PLACEHOLDER": "Inserisci un oggetto"
         }
       },
       "UNDEFINED_VARIABLES": {
@@ -259,11 +358,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Includi discussione email citata",
-        "DISABLE_TOOLTIP": "Non includere discussione email citata",
-        "REMOVE_PREVIEW": "Rimuovi discussione email citata",
-        "COLLAPSE": "Comprimi anteprima",
-        "EXPAND": "Espandi anteprima"
+        "SHOW_TOOLTIP": "Mostra il contenuto nascosto",
+        "HIDE_TOOLTIP": "Nascondi il contenuto nascosto",
+        "REMOVE": "Rimuovi il testo citato"
       }
     },
     "VISIBLE_TO_AGENTS": "Nota Privata: visibile solo a te e al tuo team",
@@ -293,6 +390,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copia",
       "REPLY_TO": "Rispondi a questo messaggio",
+      "FORWARD_EMAIL": "Inoltra email",
       "DELETE": "Elimina",
       "CREATE_A_CANNED_RESPONSE": "Aggiungi alle Risposte Predefinite",
       "TRANSLATE": "Traduci",
@@ -303,6 +401,25 @@
         "MESSAGE": "Non puoi annullare questa azione",
         "DELETE": "Elimina",
         "CANCEL": "Annulla"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Segnala messaggio",
+        "TITLE": "Segnala messaggio Captain",
+        "DESCRIPTION": "Trovato un problema con questa risposta AI? Facci sapere cosa è andato storto e il nostro team lo esaminerà per contribuire a migliorare la precisione di Captain.",
+        "PROBLEM_TYPE": "Tipo di problema",
+        "PROBLEM_TYPE_PLACEHOLDER": "Seleziona un tipo di problema",
+        "DESCRIPTION_LABEL": "Descrizione",
+        "DESCRIPTION_PLACEHOLDER": "Descrivi il problema nel dettaglio",
+        "SUBMIT": "Segnala",
+        "SUCCESS": "Grazie per la segnalazione. Il nostro team darà un'occhiata.",
+        "ERROR": "Impossibile segnalare questo messaggio. Riprova.",
+        "REASONS": {
+          "incorrect_information": "Informazioni errate",
+          "inappropriate_response": "Risposta inappropriata",
+          "incomplete_response": "Risposta incompleta",
+          "outdated_information": "Informazioni obsolete",
+          "other": "Altro"
+        }
       }
     },
     "SIDEBAR": {
@@ -319,10 +436,10 @@
       "DISMISS_CALL": "Ignora",
       "JOIN_CALL": "Entra nella chiamata",
       "END_CALL": "Termina chiamata",
-      "MUTE": "Mute mic",
-      "UNMUTE": "Unmute mic",
-      "VIEW_CHAT_HISTORY": "View chat history",
-      "GO_TO_CONVERSATION": "Go to conversation thread"
+      "MUTE": "Silenzia microfono",
+      "UNMUTE": "Riattiva microfono",
+      "VIEW_CHAT_HISTORY": "Visualizza cronologia chat",
+      "GO_TO_CONVERSATION": "Vai alla conversazione"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -400,7 +517,8 @@
       "VIEW_ALL": "Vedi tutti",
       "SHOW_LESS": "Mostra meno",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "File senza titolo"
+      "UNTITLED_FILE": "File senza titolo",
+      "JUMP_TO_MESSAGE": "Vai al messaggio"
     },
     "SHOPIFY": {
       "ORDER_ID": "Ordine #{id}",
@@ -450,7 +568,16 @@
     "BCC": "Ccn",
     "CC": "Cc",
     "SUBJECT": "Oggetto",
+    "DATE": "Data",
     "EXPAND": "Espandi email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Messaggio inoltrato ---------",
+    "TO_LABEL": "A:",
+    "TO_PLACEHOLDER": "Inserisci almeno 2 caratteri per cercare via email",
+    "MESSAGE_PLACEHOLDER": "Aggiungi un messaggio (facoltativo)",
+    "FORWARDED_TO": "Inoltrato a {emails}",
+    "CONTACT_CANNOT_SEE": "{name} non può vederlo"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Partecipate",

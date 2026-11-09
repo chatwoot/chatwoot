@@ -37,7 +37,8 @@ describe('#PortalAPI', () => {
         authorId: '1',
       });
       expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/portals/room-rental/articles?page=1&locale=en-US&status=published&author_id=1'
+        '/api/v1/portals/room-rental/articles?page=1&locale=en-US&status=published&author_id=1',
+        { signal: undefined }
       );
     });
   });

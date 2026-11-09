@@ -249,6 +249,34 @@ RSpec.describe SafeFetch do
           expect { described_class.fetch(redirect_url) { nil } }.not_to raise_error
         end
       end
+
+      it 'strips caller-provided sensitive headers on private network cross-origin redirects' do
+        redirect_url = 'http://example.com/redirect.png'
+        private_url = 'http://private.example.com/image.png'
+        redirected_headers = nil
+        allow(Resolv).to receive(:getaddresses).with('private.example.com').and_return(['10.0.0.5'])
+        stub_request(:get, redirect_url).to_return(status: 302, headers: { 'Location' => private_url })
+        stub_request(:get, private_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(
+            status: 200,
+            body: File.new(Rails.root.join('spec/assets/avatar.png')),
+            headers: { 'Content-Type' => 'image/png' }
+          )
+
+        with_modified_env('SAFE_FETCH_ALLOW_PRIVATE_NETWORK' => 'true') do
+          described_class.fetch(
+            redirect_url,
+            headers: { 'X-API-Key' => 'secret-key' },
+            sensitive_headers: ['X-API-Key']
+          ) { nil }
+        end
+
+        expect(redirected_headers).not_to include('x-api-key')
+      end
     end
 
     context 'with content-type allowlist' do
@@ -398,6 +426,47 @@ RSpec.describe SafeFetch do
           'x-chatwoot-signature' => 'sha256=test-signature'
         )
         expect(redirected_headers).not_to include('authorization', 'cookie')
+      end
+
+      it 'strips caller-provided sensitive headers on cross-origin redirects' do
+        redirect_url = 'https://example.com/image.png'
+        redirected_headers = nil
+        headers = { 'X-API-Key' => 'secret-key' }
+
+        stub_request(:get, url).to_return(status: 302, headers: { 'Location' => redirect_url })
+        stub_request(:get, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(status: 200, body: '', headers: {})
+
+        described_class.fetch(
+          url,
+          headers: headers,
+          sensitive_headers: ['X-API-Key'],
+          validate_content_type: false
+        ) { nil }
+
+        expect(redirected_headers).not_to include('x-api-key')
+      end
+
+      it 'preserves caller-provided sensitive headers on same-origin redirects' do
+        redirect_url = 'http://example.com/redirected.png'
+
+        stub_request(:get, url).to_return(status: 302, headers: { 'Location' => '/redirected.png' })
+        stub_request(:get, redirect_url)
+          .with(headers: { 'X-API-Key' => 'secret-key' })
+          .to_return(status: 200, body: '', headers: {})
+
+        described_class.fetch(
+          url,
+          headers: { 'X-API-Key' => 'secret-key' },
+          sensitive_headers: ['X-API-Key'],
+          validate_content_type: false
+        ) { nil }
+
+        expect(WebMock).to have_requested(:get, redirect_url).with(headers: { 'X-API-Key' => 'secret-key' })
       end
 
       it 'raises UnsupportedMethodError for unsupported HTTP methods' do

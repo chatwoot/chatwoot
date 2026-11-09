@@ -1,5 +1,6 @@
 module Enterprise::Concerns::Conversation
   extend ActiveSupport::Concern
+  include ConversationMonitors::ConversationTracking
 
   included do
     belongs_to :sla_policy, optional: true
@@ -8,7 +9,12 @@ module Enterprise::Concerns::Conversation
     has_many :calls, dependent: :destroy_async
     has_many :captain_responses, class_name: 'Captain::AssistantResponse', dependent: :nullify, as: :documentable
     has_many :captain_faq_observations, class_name: 'Captain::FaqObservation', dependent: :delete_all
+    has_many :conversation_outcomes, dependent: :destroy_async
+    has_many :monitor_automation_deliveries, class_name: 'ConversationMonitors::AutomationDelivery', dependent: :delete_all
     scope :with_sla_applicable_contact, -> { left_joins(:contact).where(contacts: { blocked: [false, nil] }) }
+
+    store_accessor :additional_attributes, :auto_translate_disabled
+    validates :auto_translate_disabled, inclusion: { in: [true, false] }, allow_nil: true
 
     before_validation :validate_sla_policy, if: -> { sla_policy_id_changed? }
     around_save :ensure_applied_sla_is_created, if: -> { sla_policy_id_changed? }
@@ -16,6 +22,10 @@ module Enterprise::Concerns::Conversation
 
   def sla_applicable?
     !contact&.blocked?
+  end
+
+  def auto_translate_enabled?
+    account.auto_translate_enabled? && !auto_translate_disabled
   end
 
   private

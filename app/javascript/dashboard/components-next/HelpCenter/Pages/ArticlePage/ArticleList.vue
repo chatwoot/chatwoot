@@ -5,8 +5,12 @@ import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { getArticleStatus } from 'dashboard/helper/portalHelper.js';
+import {
+  getArticleStatus,
+  ARTICLE_STATUSES,
+} from 'dashboard/helper/portalHelper.js';
 import wootConstants from 'dashboard/constants/globals';
+import { hasPendingChanges } from 'dashboard/helper/articleDiffHelper';
 
 import ArticleCard from 'dashboard/components-next/HelpCenter/ArticleCard/ArticleCard.vue';
 import DraggableReorderList from 'dashboard/components-next/DraggableReorderList/DraggableReorderList.vue';
@@ -43,6 +47,7 @@ const emit = defineEmits([
   'toggleSelect',
   'navigatePage',
   'dragging',
+  'refreshArticles',
 ]);
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
@@ -81,23 +86,13 @@ const getCategory = categoryId => {
 };
 
 const openArticle = id => {
-  const { tab, categorySlug, locale } = route.params;
-  if (props.isCategoryArticles) {
-    router.push({
-      name: 'portals_categories_articles_edit',
-      params: { articleSlug: id },
-    });
-  } else {
-    router.push({
-      name: 'portals_articles_edit',
-      params: {
-        articleSlug: id,
-        tab,
-        categorySlug,
-        locale,
-      },
-    });
-  }
+  router.push({
+    name: props.isCategoryArticles
+      ? 'portals_categories_articles_edit'
+      : 'portals_articles_edit',
+    params: { ...route.params, articleSlug: id },
+    query: route.query,
+  });
 };
 
 const onReorder = async positionsHash => {
@@ -132,17 +127,23 @@ const getStatusMessage = (status, isSuccess) => {
     : '';
 };
 
-const updatePortalMeta = () => {
+const refreshArticles = () => {
   const { portalSlug, locale } = route.params;
+  emit('refreshArticles');
   return store.dispatch('portals/show', { portalSlug, locale });
 };
 
-const updateArticlesMeta = () => {
-  const { portalSlug, locale } = route.params;
-  return store.dispatch('articles/updateArticleMeta', {
-    portalSlug,
-    locale,
-  });
+// The card's pending-changes popover applies the status itself; surface the result.
+const onDraftResolved = status => {
+  useAlert(getStatusMessage(status, true));
+  refreshArticles();
+};
+
+const onDraftFailed = error => {
+  useAlert(
+    error?.message ||
+      t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PUBLISH_CHANGES_ERROR')
+  );
 };
 
 const handleArticleAction = async (action, { status, id }) => {
@@ -154,6 +155,14 @@ const handleArticleAction = async (action, { status, id }) => {
         articleId: id,
       });
       useAlert(t('HELP_CENTER.DELETE_ARTICLE.API.SUCCESS_MESSAGE'));
+    } else if (action === 'discard-draft') {
+      await store.dispatch('articles/discardDraft', {
+        portalSlug,
+        articleId: id,
+      });
+      useAlert(
+        t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.DISCARD_CHANGES_SUCCESS')
+      );
     } else {
       await store.dispatch('articles/update', {
         portalSlug,
@@ -168,15 +177,16 @@ const handleArticleAction = async (action, { status, id }) => {
         useTrack(PORTALS_EVENTS.PUBLISH_ARTICLE);
       }
     }
-    await updateArticlesMeta();
-    await updatePortalMeta();
+    await refreshArticles();
   } catch (error) {
-    const errorMessage =
-      error?.message ||
-      (action === 'delete'
-        ? t('HELP_CENTER.DELETE_ARTICLE.API.ERROR_MESSAGE')
-        : getStatusMessage(status, false));
-    useAlert(errorMessage);
+    const fallbackMessage =
+      {
+        delete: t('HELP_CENTER.DELETE_ARTICLE.API.ERROR_MESSAGE'),
+        'discard-draft': t(
+          'HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.DISCARD_CHANGES_ERROR'
+        ),
+      }[action] ?? getStatusMessage(status, false);
+    useAlert(error?.message || fallbackMessage);
   }
 };
 
@@ -210,10 +220,15 @@ const updateArticle = ({ action, value, id }) => {
         :views="item.views || 0"
         :updated-at="item.updatedAt"
         :is-selected="selectedArticleIds.has(item.id)"
+        :has-pending-changes="
+          item.status === ARTICLE_STATUSES.PUBLISHED && hasPendingChanges(item)
+        "
         selectable
         :show-selection-control="shouldShowSelectionControl(item.id)"
         @open-article="openArticle"
         @article-action="updateArticle"
+        @draft-resolved="onDraftResolved"
+        @draft-failed="onDraftFailed"
         @toggle-select="emit('toggleSelect', $event)"
         @hover="isHovered => handleCardHover(isHovered, item.id)"
       />

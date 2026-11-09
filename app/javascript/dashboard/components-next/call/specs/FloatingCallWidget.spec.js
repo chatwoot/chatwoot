@@ -1,3 +1,4 @@
+import { withFullI18n } from 'test-i18n';
 import { computed, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
@@ -78,6 +79,8 @@ const mountWidget = () =>
       stubs: { Avatar: true, Icon: true },
     },
   });
+
+withFullI18n();
 
 describe('FloatingCallWidget keypad', () => {
   beforeEach(() => {

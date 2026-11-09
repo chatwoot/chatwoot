@@ -1,0 +1,12 @@
+{
+  "SESSION_LIMIT": {
+    "TITLE": "Raggiunto il limite di sessioni attive",
+    "DESCRIPTION": "Hai raggiunto il limite di sessioni attive. Chiudi una sessione prima di accedere.",
+    "END": "Chiudi",
+    "END_ALL": "Chiudi tutte le sessioni",
+    "LOG_IN": "Accedi",
+    "CANCEL": "Torna all'accesso",
+    "UNKNOWN_DEVICE": "Dispositivo sconosciuto",
+    "STARTED": "Avviata"
+  }
+}

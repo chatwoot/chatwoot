@@ -1,6 +1,8 @@
-class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Integrations::BaseController
   before_action :fetch_conversation, only: [:create_issue, :link_issue, :unlink_issue, :linked_issues]
+  before_action :validate_issue_link, only: [:unlink_issue]
   before_action :fetch_hook, only: [:destroy]
+  before_action :check_authorization, only: [:destroy]
 
   def destroy
     revoke_linear_token
@@ -28,7 +30,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def create_issue
-    issue = linear_processor_service.create_issue(permitted_params, Current.user)
+    issue = linear_processor_service.create_issue(permitted_params.to_h.stringify_keys, Current.user)
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
@@ -61,7 +63,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
 
   def unlink_issue
     link_id = permitted_params[:link_id]
-    issue_id = permitted_params[:issue_id]
+    issue_identifier = @issue_attachment.fetch('issue').fetch('identifier')
     issue = linear_processor_service.unlink_issue(link_id)
 
     if issue[:error]
@@ -70,7 +72,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
       Linear::ActivityMessageService.new(
         conversation: @conversation,
         action_type: :issue_unlinked,
-        issue_data: { id: issue_id },
+        issue_data: { id: issue_identifier },
         user: Current.user
       ).perform
       render json: issue[:data], status: :ok
@@ -107,6 +109,17 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
 
   def fetch_conversation
     @conversation = Current.account.conversations.find_by!(display_id: permitted_params[:conversation_id])
+    authorize @conversation, :show?
+  end
+
+  def validate_issue_link
+    issues = linear_processor_service.linked_issues(conversation_link)
+    if issues[:error]
+      render json: { error: issues[:error] }, status: :unprocessable_entity
+    else
+      @issue_attachment = issues[:data].find { |attachment| attachment['id'] == permitted_params[:link_id] }
+      head :not_found unless @issue_attachment
+    end
   end
 
   def linear_processor_service

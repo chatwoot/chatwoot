@@ -1,0 +1,46 @@
+type: object
+required: [name, language]
+properties:
+  name:
+    type: string
+    minLength: 1
+    description: Name of the approved template in the selected inbox's message_templates.
+  language:
+    type: string
+    minLength: 1
+    description: Language code matching that template in the selected inbox.
+    example: en
+  namespace:
+    type: string
+    description: Template namespace, when present in the selected template.
+  category:
+    type: string
+    description: Category of the selected template.
+  processed_params:
+    type: object
+    description: >-
+      Values for the selected template's variables, grouped by component. Supply all
+      parameters needed by that template. May be omitted for a template without variables.
+      Body keys use positional numbers or the template's named parameters. Liquid
+      expressions such as {{ contact.name }} are rendered separately for each recipient.
+    properties:
+      body:
+        type: object
+        additionalProperties:
+          type: string
+      header:
+        type: object
+        additionalProperties: true
+        description: Text parameter values or media_url, media_type, and optional media_name for a media header.
+      footer:
+        type: object
+        additionalProperties:
+          type: string
+      buttons:
+        type: array
+        items:
+          type: object
+          additionalProperties: true
+    example:
+      body:
+        '1': '{{ contact.name }}'

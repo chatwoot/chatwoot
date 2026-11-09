@@ -46,11 +46,15 @@ const transformedValue = computed({
       duration.value = null;
       return;
     }
-    let minuteValue = convertToMinutes(newValue);
-
-    duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
+    duration.value = convertToMinutes(newValue);
   },
 });
+
+const normalizeDuration = () => {
+  if (duration.value == null) return;
+
+  duration.value = Math.min(Math.max(duration.value, props.min), props.max);
+};
 
 // when unit is changed set the nearest value to that unit
 // so if the minute is set to 900, and the user changes the unit to "days"
@@ -72,6 +76,8 @@ watch(unit, () => {
     :disabled="disabled"
     :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
     class="flex-grow w-full disabled:"
+    @blur="normalizeDuration"
+    @keydown.enter="normalizeDuration"
   />
   <select
     v-model="unit"

@@ -44,6 +44,35 @@
         "TITLE": "ID da Conta",
         "NOTE": "Este ID é necessário se você está construindo uma integração baseada em API"
       },
+      "TRANSLATION": {
+        "TITLE": "Tradução",
+        "NOTE": "Fale o idioma de cada cliente, independentemente dos idiomas que sua equipe domina.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "Traduções por IA que soam naturais e preservam seu tom."
+        },
+        "GOOGLE": {
+          "TITLE": "Tradutor do Google",
+          "NOTE": "Traduções rápidas e confiáveis do Google.",
+          "NOT_CONNECTED": "Não conectado",
+          "CONNECT": "Conectar",
+          "NOT_CONNECTED_HINT": "O Google Translate ainda não está conectado."
+        },
+        "UPGRADE": {
+          "NOTE": "Faça upgrade para um plano pago e traduza conversas com o Captain ou o Google Translate.",
+          "BUTTON": "Atualize"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Traduzir conversas automaticamente",
+          "NOTE": "Leia todas as mensagens no seu idioma. Os clientes recebem as respostas no idioma deles.",
+          "LOCKED": "Escolha um serviço para ativar esse recurso.",
+          "NOT_AVAILABLE": "A tradução automática ainda não está ativada nesta conta."
+        },
+        "API": {
+          "SUCCESS": "Configurações de tradução atualizadas com sucesso",
+          "ERROR": "Falha ao atualizar as configurações de tradução"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Resolver conversas automaticamente",
         "NOTE": "Essa configuração permitirá que você resolva automaticamente a conversa após um determinado período de inatividade.",
@@ -51,7 +80,7 @@
           "LABEL": "Duração da inatividade",
           "HELP": "Período de tempo de inatividade após o qual a conversa é resolvida automaticamente",
           "PLACEHOLDER": "30",
-          "ERROR": "O tempo decorrido para resolução automática deve ser entre 10 minutos e 999 dias",
+          "ERROR": "O tempo de resolução automática deve estar entre {minDuration} minutos e 999 dias",
           "API": {
             "SUCCESS": "Configurações de resolução automática atualizadas com sucesso",
             "ERROR": "Falha ao atualizar as configurações de resolução automática"
@@ -104,6 +133,14 @@
           "ERROR": "Falha ao atualizar configuração de transcrição de áudio"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Exigir autenticação de dois fatores",
+        "NOTE": "Exija que todos os membros desta conta configurem a autenticação de dois fatores. Quem ainda não a tiver configurado será solicitado a fazê-lo no próximo acesso com senha. Acessos pelo Google ou SAML ficam isentos. Os tokens de acesso à API de membros que não configuraram a autenticação de dois fatores deixarão de funcionar nesta conta até que façam a configuração.",
+        "API": {
+          "SUCCESS": "Exigência de autenticação de dois fatores atualizada com sucesso",
+          "ERROR": "Não foi possível atualizar a exigência de autenticação de dois fatores"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Tempo de inatividade para resolução",
         "HELP": "Tempo de inatividade após o qual a conversa deve ser encerrada automaticamente",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Uma atualização {latestChatwootVersion} para o Chatwoot está disponível. Por favor, atualize sua instância.",
     "LEARN_MORE": "Saiba mais",
-    "PAYMENT_PENDING": "Seu pagamento está pendente. Por favor, atualize suas informações de pagamento para continuar usando o Chatwoot",
+    "PAYMENT_PENDING": "O pagamento da sua conta está em atraso. Atualize suas informações de pagamento para evitar o cancelamento da assinatura.",
+    "PAYMENT_PENDING_AGENT": "O pagamento da sua conta está em atraso. Por favor, entre em contato com o seu administrador para resolver isso.",
     "UPGRADE": "Atualize para continuar usando o Chatwoot",
     "LIMITS_UPGRADE": "Sua conta excedeu os limites de uso. Por favor, faça um upgrade do seu plano para continuar usando o Chatwoot",
     "OPEN_BILLING": "Abrir faturamento"
@@ -137,37 +175,6 @@
       "NO_OPTIONS": "Lista vazia",
       "SELECT_ONE": "Selecione um",
       "SELECT": "Selecionar"
-    }
-  },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notificações",
-    "MARK_ALL_DONE": "Marcar Tudo Feito",
-    "DELETE_TITLE": "Excluído",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Notificações não lidas",
-      "ALL_NOTIFICATIONS": "Visualizar todas as notificações",
-      "LOADING_UNREAD_MESSAGE": "Carregando notificações não lidas...",
-      "EMPTY_MESSAGE": "Você não tem notificações não lidas"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Carregando notificações...",
-      "404": "Sem Notificações",
-      "TABLE_HEADER": [
-        "Nome",
-        "Número de Telefone",
-        "Conversas",
-        "Último Contactado"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Nova conversa",
-      "conversation_assignment": "Conversa Atribuída",
-      "assigned_conversation_new_message": "Nova Mensagem",
-      "participating_conversation_new_message": "Nova Mensagem",
-      "conversation_mention": "Menção",
-      "sla_missed_first_response": "SLA não alcançado",
-      "sla_missed_next_response": "SLA não alcançado",
-      "sla_missed_resolution": "SLA não alcançado"
     }
   },
   "NETWORK": {
@@ -192,6 +199,7 @@
       "CHANGE_PRIORITY": "Alterar Prioridade",
       "CHANGE_TEAM": "Alterar o Time",
       "SNOOZE_CONVERSATION": "Adiar Conversa",
+      "EXECUTE_MACRO": "Executar Macro",
       "ADD_LABEL": "Adicionar etiqueta à conversa",
       "REMOVE_LABEL": "Remover etiqueta da conversa",
       "SETTINGS": "Configurações",
@@ -200,28 +208,44 @@
       "SNOOZE_NOTIFICATION": "Adiar Notificação"
     },
     "COMMANDS": {
+      "GO_TO_MY_INBOX": "Ir para Minha Caixa de Entrada",
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para Painel de Conversação",
       "GO_TO_CONTACTS_DASHBOARD": "Ir para Painel de Contatos",
+      "GO_TO_CAPTAIN": "Ir para o Captain",
+      "GO_TO_CALLS_DASHBOARD": "Ir para o Painel de Chamadas",
+      "GO_TO_CAMPAIGNS": "Ir para Campanhas",
+      "GO_TO_HELP_CENTER": "Ir para a Central de Ajuda",
       "GO_TO_REPORTS_OVERVIEW": "Ir para Resumo de Relatórios",
       "GO_TO_CONVERSATION_REPORTS": "Ir para Relatórios das Conversas",
       "GO_TO_AGENT_REPORTS": "Ir para Relatórios do Agente",
       "GO_TO_LABEL_REPORTS": "Ir para Relatórios de Etiquetas",
       "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",
       "GO_TO_TEAM_REPORTS": "Ir para Relatórios de Time",
+      "GO_TO_CSAT_REPORTS": "Ir para Relatórios de CSAT",
+      "GO_TO_BOT_REPORTS": "Ir para Relatórios de Bots",
+      "GO_TO_SLA_REPORTS": "Ir para Relatórios de SLA",
       "GO_TO_SETTINGS_AGENTS": "Ir para Configurações de Agente",
       "GO_TO_SETTINGS_TEAMS": "Ir para as Configurações de Time",
       "GO_TO_SETTINGS_INBOXES": "Ir para as Configurações da Caixa de Entrada",
+      "GO_TO_SETTINGS_TEMPLATES": "Ir para Modelos",
       "GO_TO_SETTINGS_LABELS": "Ir para as Configurações de Etiqueta",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Ir para Atributos Personalizados",
+      "GO_TO_SETTINGS_AUTOMATION": "Ir para Automação",
+      "GO_TO_SETTINGS_MACROS": "Ir para Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para as Configurações de Respostas Prontas",
+      "GO_TO_SETTINGS_SLA": "Ir para Configurações de SLA",
       "GO_TO_SETTINGS_APPLICATIONS": "Vá para Configurações do Aplicativo",
+      "GO_TO_SETTINGS_DATA": "Ir para Dados",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Ir para Logs de Auditoria",
+      "GO_TO_SETTINGS_BILLING": "Ir para Faturamento",
       "GO_TO_SETTINGS_ACCOUNT": "Ir para as Configurações da Conta",
       "GO_TO_SETTINGS_PROFILE": "Ir para as Configurações do Perfil",
-      "GO_TO_NOTIFICATIONS": "Ir para Notificações",
       "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
       "ASSIGN_AN_AGENT": "Atribuir um agente",
       "AI_ASSIST": "Assistente IA",
       "ASSIGN_PRIORITY": "Atribuir prioridade",
       "ASSIGN_A_TEAM": "Atribuir um time",
+      "EXECUTE_A_MACRO": "Executar um macro",
       "MUTE_CONVERSATION": "Silenciar conversa",
       "UNMUTE_CONVERSATION": "Reativar conversa",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remover etiqueta da conversa",

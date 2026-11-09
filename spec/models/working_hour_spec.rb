@@ -67,6 +67,12 @@ RSpec.describe WorkingHour do
       expect(described_class.today.close_hour).to be 23
       expect(described_class.today.close_minutes).to be 59
     end
+
+    it 'remains open through the end of the day' do
+      travel_to '18.02.2022 23:59:59'.to_datetime do
+        expect(described_class.today.open_now?).to be true
+      end
+    end
   end
 
   context 'when open_all_day and closed_all_day true at the same time' do

@@ -13,6 +13,18 @@ class Integrations::Slack::ChannelBuilder
     update_reference_id(reference_id)
   end
 
+  # Makes sure the app can post to the channel. Returns false when the channel is missing or archived.
+  def join(channel_id)
+    channel = slack_client.conversations_info(channel: channel_id).channel
+    return false if channel.is_archived
+
+    # The app only sees private channels it was already invited to.
+    slack_client.conversations_join(channel: channel_id) unless channel.is_private || channel.is_member
+    true
+  rescue Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::IsArchived
+    false
+  end
+
   private
 
   def hook
@@ -64,7 +76,7 @@ class Integrations::Slack::ChannelBuilder
     return if channel.blank?
 
     slack_client.conversations_join(channel: channel[:id]) if channel[:is_private] == false
-    @hook.update!(reference_id: channel[:id], settings: { channel_name: channel[:name] }, status: 'enabled')
-    @hook
+    hook.update!(reference_id: channel[:id], settings: hook.settings.merge('channel_name' => channel[:name]), status: 'enabled')
+    hook
   end
 end

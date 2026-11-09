@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Biến",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Ngôn ngữ",
       "CATEGORY": "Loại",
       "VARIABLE_PLACEHOLDER": "Nhập giá trị {variable}",

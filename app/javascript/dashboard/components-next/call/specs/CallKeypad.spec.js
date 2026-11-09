@@ -1,7 +1,10 @@
+import { withFullI18n } from 'test-i18n';
 import { mount } from '@vue/test-utils';
 import CallKeypad from '../CallKeypad.vue';
 
 const mountKeypad = () => mount(CallKeypad);
+
+withFullI18n();
 
 describe('CallKeypad', () => {
   it('renders the twelve telephone keys in standard order', () => {

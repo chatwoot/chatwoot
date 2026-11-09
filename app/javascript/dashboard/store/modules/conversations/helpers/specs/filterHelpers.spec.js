@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { matchesFilters } from '../filterHelpers';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { createFiltersMatcher, matchesFilters } from '../filterHelpers';
 
 // SAMPLE PAYLOAD
 //
@@ -92,6 +92,24 @@ import { matchesFilters } from '../filterHelpers';
 // },
 
 describe('filterHelpers', () => {
+  it.each([0, false, 42])(
+    'preserves custom attribute value %s when filtering',
+    value => {
+      const conversation = { custom_attributes: { custom_value: value } };
+      const filter = {
+        attribute_key: 'custom_value',
+        filter_operator: 'equal_to',
+        values: [value],
+      };
+      expect(matchesFilters(conversation, [filter])).toBe(true);
+      expect(
+        matchesFilters(conversation, [
+          { ...filter, filter_operator: 'not_equal_to' },
+        ])
+      ).toBe(false);
+      expect(matchesFilters({ custom_attributes: {} }, [filter])).toBe(false);
+    }
+  );
   describe('#matchesFilters', () => {
     it('returns true by default when no filters are provided', () => {
       const conversation = {};
@@ -192,6 +210,53 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
+    it('should match an AgentBot-owned conversation when assignee is present', () => {
+      const conversation = {
+        meta: { assignee: { id: 1 }, assignee_type: 'AgentBot' },
+      };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'is_present',
+          values: [],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    ['AgentBot', 'Captain::Assistant'].forEach(assigneeType => {
+      it(`should not match a ${assigneeType}-owned conversation to a human assignee id`, () => {
+        const conversation = {
+          meta: { assignee: { id: 1 }, assignee_type: assigneeType },
+        };
+        const filters = [
+          {
+            attribute_key: 'assignee_id',
+            filter_operator: 'equal_to',
+            values: { id: 1, name: 'John Doe' },
+            query_operator: 'and',
+          },
+        ];
+        expect(matchesFilters(conversation, filters)).toBe(false);
+      });
+
+      it(`should not match a ${assigneeType}-owned conversation to a human assignee not-equal filter`, () => {
+        const conversation = {
+          meta: { assignee: { id: 1 }, assignee_type: assigneeType },
+        };
+        const filters = [
+          {
+            attribute_key: 'assignee_id',
+            filter_operator: 'not_equal_to',
+            values: { id: 1, name: 'John Doe' },
+            query_operator: 'and',
+          },
+        ];
+        expect(matchesFilters(conversation, filters)).toBe(false);
+      });
+    });
+
     it('should not match conversation with equal_to operator when assignee is null', () => {
       const conversation = { meta: { assignee: null } };
       const filters = [
@@ -229,6 +294,21 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should not match an AgentBot-owned conversation when assignee is not present', () => {
+      const conversation = {
+        meta: { assignee: { id: 1 }, assignee_type: 'AgentBot' },
+      };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'is_not_present',
+          values: [],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
     it('should not match conversation with is_present operator when assignee is null', () => {
@@ -1110,14 +1190,14 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
-    it('should handle empty arrays in conversation', () => {
+    it('should treat an empty labels array as not present', () => {
       const conversation = {
         labels: [],
       };
       const filters = [
         {
           attribute_key: 'labels',
-          filter_operator: 'is_present',
+          filter_operator: 'is_not_present',
           values: [],
           query_operator: 'and',
         },
@@ -1736,6 +1816,176 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+  });
+
+  describe('date filters with a saved timezone', () => {
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.restoreAllMocks();
+    });
+
+    it.each(['created_at', 'last_activity_at'])(
+      'compares %s against a precomputed UTC boundary',
+      attributeKey => {
+        const formatSpy = vi.spyOn(
+          Intl.DateTimeFormat.prototype,
+          'formatToParts'
+        );
+        const matches = createFiltersMatcher([
+          {
+            attribute_key: attributeKey,
+            filter_operator: 'is_less_than',
+            values: ['2026-09-08'],
+            timezone: 'America/Sao_Paulo',
+            query_operator: 'and',
+          },
+        ]);
+        formatSpy.mockClear();
+
+        expect(
+          matches({ [attributeKey]: Date.parse('2026-09-08T00:49:00Z') / 1000 })
+        ).toBe(true);
+        expect(
+          matches({ [attributeKey]: Date.parse('2026-09-08T03:00:00Z') / 1000 })
+        ).toBe(false);
+        expect(formatSpy).not.toHaveBeenCalled();
+      }
+    );
+
+    // Santiago skips 2026-09-06 00:00, so the day starts at 01:00 (04:00 UTC), matching Rails.
+    it.each([
+      ['is_less_than', '2026-09-06', '2026-09-06T03:30:00Z', true],
+      ['is_less_than', '2026-09-06', '2026-09-06T04:00:00Z', false],
+      ['is_greater_than', '2026-09-05', '2026-09-06T03:30:00Z', false],
+      ['is_greater_than', '2026-09-05', '2026-09-06T04:00:00Z', true],
+    ])(
+      'starts the local day after a skipped midnight for %s %s',
+      (filterOperator, value, timestamp, expected) => {
+        const matches = createFiltersMatcher([
+          {
+            attribute_key: 'created_at',
+            filter_operator: filterOperator,
+            values: [value],
+            timezone: 'America/Santiago',
+            query_operator: 'and',
+          },
+        ]);
+
+        expect(matches({ created_at: Date.parse(timestamp) / 1000 })).toBe(
+          expected
+        );
+      }
+    );
+
+    it('uses the local current date for days_before without per-row formatting', () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-09-10T00:49:00Z'));
+      const formatSpy = vi.spyOn(
+        Intl.DateTimeFormat.prototype,
+        'formatToParts'
+      );
+      const matches = createFiltersMatcher([
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'days_before',
+          values: [1],
+          timezone: 'America/Sao_Paulo',
+          query_operator: 'and',
+        },
+      ]);
+      formatSpy.mockClear();
+
+      expect(
+        matches({ created_at: Date.parse('2026-09-08T00:49:00Z') / 1000 })
+      ).toBe(true);
+      expect(
+        matches({ created_at: Date.parse('2026-09-08T03:00:00Z') / 1000 })
+      ).toBe(false);
+      expect(formatSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  // These expectations hold in every timezone. Run the suite under
+  // TZ=Asia/Kolkata and TZ=America/Los_Angeles to cover browsers ahead of and
+  // behind UTC, where the boundary used to shift and hide rows.
+  describe('date-only filter values are compared as whole UTC days', () => {
+    const buildFilter = (filterOperator, value) => [
+      {
+        attribute_key: 'last_activity_at',
+        filter_operator: filterOperator,
+        values: [value],
+        query_operator: 'and',
+      },
+    ];
+
+    const lateInDay = { last_activity_at: 1786132800 }; // 2026-08-07 20:00 UTC
+    const earlyInDay = { last_activity_at: 1786075200 }; // 2026-08-07 04:00 UTC
+
+    it('includes both ends of the day for is_less_than', () => {
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_less_than', '2026-08-08'))
+      ).toBe(true);
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_less_than', '2026-08-08'))
+      ).toBe(true);
+    });
+
+    it('includes both ends of the day for is_greater_than', () => {
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_greater_than', '2026-08-06'))
+      ).toBe(true);
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_greater_than', '2026-08-06'))
+      ).toBe(true);
+    });
+
+    it('excludes the whole day named by the bound', () => {
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_greater_than', '2026-08-07'))
+      ).toBe(false);
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_greater_than', '2026-08-07'))
+      ).toBe(false);
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_less_than', '2026-08-07'))
+      ).toBe(false);
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_less_than', '2026-08-07'))
+      ).toBe(false);
+    });
+
+    it('still excludes conversations outside the range', () => {
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_less_than', '2026-08-06'))
+      ).toBe(false);
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_greater_than', '2026-08-08'))
+      ).toBe(false);
+    });
+
+    // Date custom attributes are stored as full ISO strings, not date-only ones
+    it('compares date custom attributes against the same boundary', () => {
+      const filters = [
+        {
+          attribute_key: 'renewal_date',
+          filter_operator: 'is_greater_than',
+          values: ['2026-08-07'],
+          query_operator: 'and',
+        },
+      ];
+      expect(
+        matchesFilters(
+          { custom_attributes: { renewal_date: '2026-08-08T00:00:00.000Z' } },
+          filters
+        )
+      ).toBe(true);
+      expect(
+        matchesFilters(
+          { custom_attributes: { renewal_date: '2026-08-07T00:00:00.000Z' } },
+          filters
+        )
+      ).toBe(false);
     });
   });
 });

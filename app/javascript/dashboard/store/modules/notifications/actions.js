@@ -2,22 +2,6 @@ import types from '../../mutation-types';
 import NotificationsAPI from '../../../api/notifications';
 
 export const actions = {
-  get: async ({ commit }, { page = 1 } = {}) => {
-    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true });
-    try {
-      const {
-        data: {
-          data: { payload, meta },
-        },
-      } = await NotificationsAPI.get({ page });
-      commit(types.CLEAR_NOTIFICATIONS);
-      commit(types.SET_NOTIFICATIONS, payload);
-      commit(types.SET_NOTIFICATIONS_META, meta);
-      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
-    } catch (error) {
-      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
-    }
-  },
   index: async ({ commit }, { page = 1, status, type, sortOrder } = {}) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true });
     try {

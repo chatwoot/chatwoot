@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Chatwoot",
   "EMAIL_PLACEHOLDER": "Add meg az e-mailed",
+  "TRANSLATING": "Fordítás alatt",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "Fordítás megtekintése",
   "CHAT_PLACEHOLDER": "Gépeld be üzeneted",
   "TODAY": "Ma",
   "YESTERDAY": "Tegnap",
@@ -105,6 +108,11 @@
     "PLACEHOLDER": "Emoji keresése",
     "NOT_FOUND": "Nem található emoji",
     "ARIA_LABEL": "Emoji picker"
+  },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Emojik keresése…",
+    "FREQUENTLY_USED": "Gyakran használt",
+    "NO_EMOJI": "Nem található emoji"
   },
   "CSAT": {
     "TITLE": "Értékeld a beszélgetést",

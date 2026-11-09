@@ -15,6 +15,7 @@ class Captain::Articles::TranslateJob < ApplicationJob
                          end
 
     existing = find_existing_translation(target_locale)
+    return if existing && existing.associated_article_id.nil?
 
     if existing
       existing.update!(title: translated_title, content: translated_content, description: @source_article.description)
@@ -35,8 +36,7 @@ class Captain::Articles::TranslateJob < ApplicationJob
   end
 
   def find_existing_translation(target_locale)
-    root_id = Article.find_root_article_id(@source_article)
-    @source_article.portal.articles.find_by(associated_article_id: root_id, locale: target_locale)
+    @source_article.translation_family.find_by(locale: target_locale)
   end
 
   def create_translated_article(translated_title, translated_content, target_locale, target_category_id, user)
@@ -48,7 +48,7 @@ class Captain::Articles::TranslateJob < ApplicationJob
       locale: target_locale,
       author_id: user.id,
       status: :draft,
-      associated_article_id: Article.find_root_article_id(@source_article)
+      associated_article_id: @source_article.root_id
     )
   end
 

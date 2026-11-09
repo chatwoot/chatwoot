@@ -82,9 +82,10 @@ class ChatwootHub
     model.last&.id || 0
   end
 
-  def self.sync_with_hub
+  def self.sync_with_hub(refresh_billing: false)
     begin
       info = instance_config
+      info[:refresh_billing] = true if refresh_billing
       info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
       response = RestClient.post(ping_url, info.to_json, { content_type: :json, accept: :json })
       parsed_response = JSON.parse(response)

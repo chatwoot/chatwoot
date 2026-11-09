@@ -104,6 +104,7 @@ const expectNormalizedTwilioCall = callsStore => {
     callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
     provider: VOICE_CALL_PROVIDERS.TWILIO,
     isActive: true,
+    onHold: false,
   });
 };
 
@@ -123,7 +124,7 @@ describe('outbound Twilio call producers', () => {
       conversationId: ref(twilioResponse.conversation_id),
       currentUserId: ref(1),
       inboxId: ref(twilioInbox.id),
-      sender: ref({ id: 99 }),
+      sender: ref({ id: 99, phoneNumber: '+16045550198' }),
       messageType: ref(MESSAGE_TYPES.INCOMING),
     };
   });

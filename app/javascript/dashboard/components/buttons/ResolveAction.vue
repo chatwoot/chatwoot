@@ -19,6 +19,8 @@ import {
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
+import { openCommandBar } from 'dashboard/modules/command-bar/openCommandBar';
+import { SNOOZE_CONVERSATION_PAGE } from 'dashboard/modules/command-bar/commands';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -76,10 +78,8 @@ const getConversationParams = () => {
   };
 };
 
-const openSnoozeModal = () => {
-  const ninja = document.querySelector('ninja-keys');
-  ninja.open({ parent: 'snooze_conversation' });
-};
+const openSnoozeModal = () =>
+  openCommandBar({ page: SNOOZE_CONVERSATION_PAGE });
 
 const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
   closeDropdown();
@@ -144,7 +144,12 @@ const keyboardEvents = {
     allowOnFocusedInput: true,
   },
   'Alt+KeyE': {
-    action: async () => {
+    action: async event => {
+      // Chrome on Windows treats Alt+E as a legacy shortcut for its own
+      // menu (Alt+E / Alt+F both open "Customize and control Google
+      // Chrome"). Without preventDefault, our resolve action still runs,
+      // but Chrome's menu also opens on top of it.
+      event.preventDefault();
       onCmdResolveConversation();
     },
   },

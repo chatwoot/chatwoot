@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
-import { evaluateSLAStatus } from 'dashboard/helper/slaHelper';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useSlaStatus } from 'dashboard/composables/useSlaStatus';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Label from 'dashboard/components-next/label/Label.vue';
@@ -12,52 +13,32 @@ const props = defineProps({
   },
 });
 
-const REFRESH_INTERVAL = 60000;
-
-const timer = ref(null);
-const slaStatus = ref({
-  threshold: null,
-  isSlaMissed: false,
-  type: null,
-  icon: null,
-});
+const { t } = useI18n();
 
 defineOptions({
   inheritAttrs: false,
 });
 
-const appliedSLA = computed(() => props.chat?.applied_sla);
-const slaEvents = computed(() => props.chat?.sla_events);
-const hasSlaThreshold = computed(() => slaStatus.value?.threshold);
+const chat = computed(() => props.chat);
+const appliedSLA = computed(() => chat.value?.applied_sla);
+const slaEvents = computed(() => chat.value?.sla_events);
+const { slaStatus } = useSlaStatus({
+  appliedSla: appliedSLA,
+  chat,
+  slaEvents,
+});
+const hasSlaThreshold = computed(() => slaStatus.value?.type);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
+const slaLabel = computed(() => {
+  if (slaStatus.value?.threshold) return slaStatus.value.threshold;
 
-const updateSlaStatus = () => {
-  slaStatus.value = evaluateSLAStatus({
-    appliedSla: appliedSLA.value || {},
-    chat: props.chat,
-    slaEvents: slaEvents.value || [],
-  });
-};
-
-const createTimer = () => {
-  timer.value = setTimeout(() => {
-    updateSlaStatus();
-    createTimer();
-  }, REFRESH_INTERVAL);
-};
-
-onMounted(() => {
-  updateSlaStatus();
-  createTimer();
+  const status = t('CONVERSATION.HEADER.SLA_STATUS.MISSED');
+  return {
+    FRT: t('CONVERSATION.HEADER.SLA_STATUS.FRT', { status }),
+    NRT: t('CONVERSATION.HEADER.SLA_STATUS.NRT', { status }),
+    RT: t('CONVERSATION.HEADER.SLA_STATUS.RT', { status }),
+  }[slaStatus.value.type];
 });
-
-onUnmounted(() => {
-  if (timer.value) {
-    clearTimeout(timer.value);
-  }
-});
-
-watch(() => props.chat, updateSlaStatus);
 
 defineExpose({
   hasSlaThreshold,
@@ -70,11 +51,7 @@ defineExpose({
     v-bind="$attrs"
     class="relative flex items-center cursor-pointer min-w-fit group"
   >
-    <Label
-      :label="slaStatus.threshold"
-      :color="isSlaMissed ? 'ruby' : 'amber'"
-      compact
-    >
+    <Label :label="slaLabel" :color="isSlaMissed ? 'ruby' : 'amber'" compact>
       <template #icon>
         <Icon icon="i-lucide-flame" class="flex-shrink-0 size-3.5" />
       </template>

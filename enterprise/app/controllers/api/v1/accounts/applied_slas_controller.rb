@@ -4,6 +4,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   RESULTS_PER_PAGE = 25
 
+  before_action :ensure_sla_feature_enabled
   before_action :set_applied_slas, only: [:index, :metrics, :download]
   before_action :set_current_page, only: [:index]
   before_action :check_admin_authorization?
@@ -29,6 +30,10 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   end
 
   private
+
+  def ensure_sla_feature_enabled
+    raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?('sla')
+  end
 
   def total_applied_slas
     @total_applied_slas ||= @applied_slas.count

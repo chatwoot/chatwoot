@@ -68,6 +68,7 @@ class Whatsapp::IncomingCallService
     return accept_outbound_call(call, payload) if call.outgoing?
 
     Rails.logger.info "[WHATSAPP CALL] Duplicate inbound connect for #{payload[:id]}; ignoring"
+    Voice::InboundCallBuilder.queue_ring(call)
   end
 
   def inbound_offer?(payload)
@@ -95,28 +96,21 @@ class Whatsapp::IncomingCallService
   # commit) already terminal, never `ringing` — agents aren't rung for a dead call.
   def build_inbound_call(payload, sdp_offer)
     ActiveRecord::Base.transaction do
-      call = Voice::InboundCallBuilder.perform!(inbox: inbox, from_number: "+#{payload[:from]}", call_sid: payload[:id],
-                                                provider: :whatsapp, extra_meta: inbound_extra_meta(payload, sdp_offer))
+      identity = Whatsapp::InboundCallIdentityBuilder.new(inbox: inbox, params: params).perform(payload)
+      extra_meta = { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
+      call = Voice::InboundCallBuilder.perform!(inbox: inbox, call_sid: payload[:id],
+                                                provider: :whatsapp, extra_meta: extra_meta, caller: identity)
+      sync_caller_identifiers(call, identity)
       tombstone = consume_terminate_tombstone(payload[:id])
       finalize_terminate(call, tombstone['duration'], tombstone['terminate_reason']) if tombstone
       call
     end
   end
 
-  def inbound_extra_meta(payload, sdp_offer)
-    extra_meta = { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
-    name = caller_profile_name(payload)
-    extra_meta['contact_name'] = name if name.present?
-    extra_meta
-  end
-
-  # Match strictly on wa_id (== calls[].from): in a batched payload missing this
-  # call's contact entry, borrowing another caller's name would corrupt this
-  # contact, so fall back to the phone number (nil here) instead of contacts.first.
-  def caller_profile_name(payload)
-    contacts = Array(params[:contacts]).map(&:with_indifferent_access)
-    match = contacts.find { |c| c[:wa_id].to_s == payload[:from].to_s }
-    match&.dig(:profile, :name).presence
+  # Backfill every caller alias (the builder only stores the first) so a later event keyed on any one lands on this thread.
+  def sync_caller_identifiers(call, identity)
+    Whatsapp::IdentifierSyncService.new(contact_inbox: call.conversation.contact_inbox, contact: call.contact)
+                                   .perform(source_ids: identity[:source_ids], phone_number: identity.dig(:contact_attributes, :phone_number))
   end
 
   # `connect` is the WebRTC tunnel-ready signal, not the pickup signal. Apply
@@ -219,9 +213,9 @@ class Whatsapp::IncomingCallService
     )
   end
 
-  # Ring the assignee if any, else online inbox agents, else fall back to the
-  # inbox's own agents and account admins. Never the whole-account stream, which
-  # would ring online agents from unrelated inboxes.
+  # Ring the assignee if any, else online inbox agents who take calls, else fall back
+  # to the inbox's own agents and account admins who take calls. Never the
+  # whole-account stream, which would ring online agents from unrelated inboxes.
   def broadcast_incoming(call, sdp_offer)
     contact = call.contact
     token = call.conversation.assignee&.pubsub_token
@@ -230,16 +224,18 @@ class Whatsapp::IncomingCallService
               streams: streams,
               direction: call.direction_label, inbox_id: call.inbox_id,
               sdp_offer: sdp_offer, ice_servers: Call.default_ice_servers,
+              recording_enabled: call.recording_enabled?,
               caller: { name: contact.name, phone: contact.phone_number, avatar: contact.avatar_url })
   end
 
   def online_agent_streams
-    inbox.available_agents.pluck('users.pubsub_token').compact
+    inbox.available_call_agents.pluck('users.pubsub_token').compact
   end
 
   def fallback_agent_streams
     user_ids = inbox.member_ids | inbox.account.administrators.ids
-    User.where(id: user_ids).pluck(:pubsub_token).compact
+    call_user_ids = inbox.account.account_users.where(user_id: user_ids, accepts_calls: true).select(:user_id)
+    User.where(id: call_user_ids).pluck(:pubsub_token).compact
   end
 
   def broadcast(call, event, streams: account_streams, **extra)

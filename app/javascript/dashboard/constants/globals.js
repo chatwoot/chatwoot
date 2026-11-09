@@ -79,4 +79,4 @@ export default {
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
 export const META_RESTRICTION_STATUS_URL =
-  'https://status.chatwoot.com/incident/948346';
+  'https://status.chatwoot.com/incidents';

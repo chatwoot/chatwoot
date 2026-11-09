@@ -9,6 +9,7 @@ class Whatsapp::WebhookTeardownService
     api_client = Whatsapp::FacebookApiClient.new(provider_config['api_key'])
 
     clear_phone_number_override(api_client)
+    deregister_phone_number(api_client)
     unsubscribe_app_if_last_inbox(api_client)
   rescue StandardError => e
     # before_destroy must never block a channel delete — log and move on.
@@ -35,6 +36,20 @@ class Whatsapp::WebhookTeardownService
     Rails.logger.info "[WHATSAPP] Phone-level webhook override cleared for channel #{@channel.id}"
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP] Phone-level webhook clear failed for channel #{@channel.id}: #{e.message}"
+  end
+
+  # Embedded signup only — deregistering a manually connected number disables it on the customer's own app.
+  # Releases the number from our app so the customer can re-add it elsewhere.
+  def deregister_phone_number(api_client)
+    return unless provider_config['source'] == 'embedded_signup'
+
+    phone_number_id = provider_config['phone_number_id']
+    return if phone_number_id.blank?
+
+    api_client.deregister_phone_number(phone_number_id)
+    Rails.logger.info "[WHATSAPP] Phone number deregistered for channel #{@channel.id}"
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Phone deregistration failed for channel #{@channel.id}: #{e.message}"
   end
 
   # Embedded signup only — a manual token's subscribed app is the customer's, not ours to unsubscribe.

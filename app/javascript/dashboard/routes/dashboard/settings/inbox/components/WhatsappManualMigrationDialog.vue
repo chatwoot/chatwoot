@@ -23,8 +23,7 @@ const emit = defineEmits(['reconnect']);
 const { t } = useI18n();
 const { replaceInstallationName } = useBranding();
 
-const WHATSAPP_MANUAL_MIGRATION_GUIDE_URL =
-  'https://www.chatwoot.com/hc/user-guide/articles/1756799850-how-to-setup-a-whats_app-channel-manual-flow';
+const WHATSAPP_MANUAL_MIGRATION_GUIDE_URL = 'https://chwt.app/migrate-whatsapp';
 
 const dialogRef = ref(null);
 const currentStep = ref(0);
@@ -34,6 +33,7 @@ const buildForm = () => ({
   phoneNumberId: props.inbox.provider_config?.phone_number_id || '',
   displayPhoneNumber: props.inbox.phone_number || '',
   accessToken: '',
+  appSecret: '',
 });
 
 const form = ref(buildForm());
@@ -97,6 +97,12 @@ const copy = computed(() => ({
   ),
   accessTokenPlaceholder: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.ACCESS_TOKEN_PLACEHOLDER`
+  ),
+  appSecret: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.APP_SECRET`
+  ),
+  appSecretPlaceholder: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.APP_SECRET_PLACEHOLDER`
   ),
   tokenHelpPrefix: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.TOKEN_HELP_PREFIX`
@@ -183,7 +189,9 @@ const guideUrl = WHATSAPP_MANUAL_MIGRATION_GUIDE_URL;
 const hasBusinessDetails = computed(
   () => form.value.wabaId.trim() && form.value.phoneNumberId.trim()
 );
-const hasAccessToken = computed(() => form.value.accessToken.trim());
+const hasAccessToken = computed(
+  () => form.value.accessToken.trim() && form.value.appSecret.trim()
+);
 const canContinue = computed(() => {
   if (currentStep.value === 1) return hasBusinessDetails.value;
   if (currentStep.value === 2) return hasAccessToken.value;
@@ -217,6 +225,7 @@ const reconnect = () => {
     wabaId: form.value.wabaId.trim(),
     phoneNumberId: form.value.phoneNumberId.trim(),
     accessToken: form.value.accessToken.trim(),
+    appSecret: form.value.appSecret.trim(),
   });
 };
 
@@ -310,9 +319,9 @@ defineExpose({ open, close });
               class="flex gap-3 p-3 border rounded-xl border-n-weak bg-n-alpha-2"
             >
               <span
-                class="grid flex-shrink-0 rounded-lg size-8 place-content-center bg-n-amber-3 text-n-amber-11"
+                class="grid flex-shrink-0 rounded-lg size-8 place-content-center bg-n-blue-3 text-n-blue-11"
               >
-                <Icon icon="i-lucide-triangle-alert" class="size-4" />
+                <Icon icon="i-lucide-info" class="size-4" />
               </span>
               <div>
                 <h4 class="mt-0 mb-1 text-base font-medium text-n-slate-12">
@@ -411,6 +420,13 @@ defineExpose({ open, close });
               auto-height
               min-height="6rem"
               max-height="12rem"
+            />
+            <Input
+              v-model="form.appSecret"
+              type="password"
+              autocomplete="off"
+              :label="copy.appSecret"
+              :placeholder="copy.appSecretPlaceholder"
             />
             <div
               class="flex gap-3 p-3 border rounded-xl bg-n-blue-3 border-n-blue-4 text-n-blue-11"

@@ -1,0 +1,841 @@
+{
+  "MONITORS": {
+    "TITLE": "Monitors",
+    "AUTOMATIONS": {
+      "TITLE": "Automations",
+      "DESCRIPTION": "Run actions when this monitor first matches a conversation from new live activity.",
+      "CREATE": "Create automation",
+      "EMPTY": "No automations are linked to this monitor yet.",
+      "ACTIVE": "Active",
+      "DISABLED": "Disabled",
+      "FETCH_FAILED": "Could not load linked automations."
+    },
+    "LIST": {
+      "CONVERSATIONS_COUNT": "{count} conversation | {count} conversations",
+      "CONVERSATIONS_HELP": "Count of conversations matching this monitor in the last 7 days.",
+      "RUNNING": "Running",
+      "FETCH_FAILED": "Could not load monitors. Please try again.",
+      "PAGINATION": "Showing {startItem} – {endItem} of {totalItems} monitor | Showing {startItem} – {endItem} of {totalItems} monitors"
+    },
+    "DESCRIPTION": "Follow the themes that matter across your customer conversations. Describe a topic in plain English, and a monitor charts matching conversations as new customer messages arrive.",
+    "CREATE": "Create monitor",
+    "PREVIEW": "Preview matches",
+    "PREVIEW_COOLDOWN": "You can preview again in {count} second. | You can preview again in {count} seconds.",
+    "PREVIEW_FAILED": "Could not preview matches. Please try again.",
+    "PREVIEW_HELP": "{count} match in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan. | {count} matches in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan.",
+    "NAME": "Name",
+    "NAME_PLACEHOLDER": "Refund conversations",
+    "CHOOSE_ICON": "Choose icon or emoji",
+    "CONDITION": "Which conversations should this monitor find?",
+    "CONDITION_PLACEHOLDER": "All conversations mentioning refunds",
+    "CREATE_HELP": "We will check conversations created in the last seven days, then keep checking new customer messages. Public replies and configured customer attributes provide context. Private notes are excluded.",
+    "SECTIONS": {
+      "YOUR_MONITORS": "Your monitors",
+      "TEMPLATES": "Templates"
+    },
+    "TEMPLATES": {
+      "TITLE": "Start with a template",
+      "USE_NAMED": "Use {name} template",
+      "EDIT_HINT": "From {name} template. Edit anything before creating.",
+      "ADMIN_HELP": "Ask an administrator to create a monitor from a template.",
+      "LOGIN_PROBLEMS": {
+        "NAME": "Login problems",
+        "AUDIENCE": "For support teams",
+        "SUMMARY": "See when login complaints start increasing.",
+        "CONDITION": "A customer says they cannot sign in to their account, including failed password resets and verification codes that never arrive. Exclude questions about changing a password while already signed in."
+      },
+      "MISSING_ORDER_UPDATES": {
+        "NAME": "Missing order updates",
+        "AUDIENCE": "For operations teams",
+        "SUMMARY": "Track recurring delivery communication problems.",
+        "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive, or arrived for the wrong order. Exclude customers asking where a parcel is when they did receive the tracking email."
+      },
+      "COMPETITOR_MENTIONS": {
+        "NAME": "Competitor mentions",
+        "AUDIENCE": "For founders and sales teams",
+        "SUMMARY": "Find conversations worth following up on.",
+        "CONDITION": "A customer compares us with a competing product, says they are evaluating one, or mentions they may switch. Exclude customers who moved to us from a competitor and are asking how to import their data."
+      },
+      "FEATURE_REQUESTS": {
+        "NAME": "Feature requests",
+        "AUDIENCE": "For product teams",
+        "SUMMARY": "Keep a running count of conversations about unmet needs.",
+        "CONDITION": "A customer asks for a capability the product does not currently offer, or asks whether something is possible and it is not. Exclude questions about how to use a feature that already exists."
+      },
+      "REFUND_REQUESTS": {
+        "NAME": "Refund requests",
+        "AUDIENCE": "For finance teams",
+        "SUMMARY": "Bring a consistent definition to your weekly refund request count.",
+        "CONDITION": "A customer asks for money back on a payment they already made, including duplicate charges and refunds after cancelling. Exclude questions about the refund policy and requests for a discount."
+      },
+      "CANCELLATION_INTENT": {
+        "NAME": "Cancellation intent",
+        "AUDIENCE": "For account managers",
+        "SUMMARY": "Find customers who may need a conversation before they leave.",
+        "CONDITION": "A customer says they intend to cancel, will not renew, or plan to stop using the product. Exclude requests to reduce seats or downgrade, and cancellations the customer takes back in the same conversation."
+      },
+      "PAYMENT_FAILURES": {
+        "NAME": "Payment failures",
+        "AUDIENCE": "For billing and support teams",
+        "SUMMARY": "Spot customers who are blocked from paying.",
+        "CONDITION": "A customer says a payment, checkout, or invoice payment failed, or their card was declined. Exclude refund requests, disputes about completed charges, and general questions about payment methods."
+      },
+      "PRODUCT_ERRORS": {
+        "NAME": "Product errors",
+        "AUDIENCE": "For support and engineering teams",
+        "SUMMARY": "See when errors and crashes start spreading.",
+        "CONDITION": "A customer reports an error, crash, unavailable service, or severe slowness that prevents them from completing a task. Exclude sign-in problems and questions about how to use a working feature."
+      },
+      "ISSUE_STILL_UNRESOLVED": {
+        "NAME": "Issue still unresolved",
+        "AUDIENCE": "For support leads",
+        "SUMMARY": "Find conversations that need another pass.",
+        "CONDITION": "A customer says a suggested fix did not work, the same problem returned, or their issue remains after support said it was resolved. Exclude first-time reports and requests only asking for a status update."
+      },
+      "ESCALATION_REQUESTS": {
+        "NAME": "Escalation requests",
+        "AUDIENCE": "For support leads",
+        "SUMMARY": "Surface requests that need prompt attention.",
+        "CONDITION": "A customer explicitly asks for a human agent, manager, specialist, or higher support tier because their issue has not been resolved. Exclude routine transfers and sales requests."
+      }
+    },
+    "MATCHING_CONVERSATIONS": "Matching conversations created",
+    "LAST_DAYS": "Last {count} day | Last {count} days",
+    "LAST_DAYS_BEFORE_PAUSE": "{count} day before pause | {count} days before pause",
+    "GROUP_BY": "Group by {interval}",
+    "INTERVALS": {
+      "HOUR": "1 hour",
+      "SIX_HOURS": "6 hours",
+      "DAY": "1 day"
+    },
+    "EDIT": "Edit",
+    "UPDATE": "Update",
+    "MONITOR_DESCRIPTION": "Description",
+    "EDIT_HELP": "The description defines which conversations match. Changing it clears existing matches and rechecks previously checked conversations. Skipped periods stay skipped. If paused, rechecking starts when you resume.",
+    "DUPLICATE": "Duplicate",
+    "PAUSE": "Pause",
+    "RESUME": "Resume",
+    "RESUME_HELP": "Choose where this monitor should pick up. Existing results will stay available.",
+    "RESUME_CATCH_UP": "Check the paused period",
+    "RESUME_CATCH_UP_HELP": "Check conversations created and customer messages received from when the monitor was paused until now, then continue live updates.",
+    "RESUME_FROM_NOW": "Start from now",
+    "RESUME_FROM_NOW_HELP": "Only check new customer messages and conversations from now on. Do not scan the paused period.",
+    "DELETE": "Delete",
+    "DELETE_HELP": "Delete this monitor and its results? This does not delete the conversations.",
+    "PAUSE_HELP": "Pause this monitor? Its results will remain available, and it will stop checking messages and conversations.",
+    "PAUSED_HELP": "Paused on {time}. Historical results remain available. New messages and conversations are not being checked.",
+    "COLLECTED_UNTIL": "Results collected until {time}.",
+    "RETRY": "Retry",
+    "RESULTS_UPDATED": "New results are available. The chart has been refreshed; select a bar to view its updated conversations.",
+    "TIME_BASIS_HELP": "Each conversation counts once, on the date it was created. A new match can update an earlier bar.",
+    "COVERAGE_HELP": "This range includes periods that were not fully checked. Counts may be incomplete.",
+    "REFRESHED": "Last refreshed at {time}. Updates appear automatically.",
+    "USAGE": {
+      "LIMIT_REACHED": "This account has used its {limit} monitor calls for this month.",
+      "RESETS": "New evaluations and previews are on hold until {time}. Existing results remain available.",
+      "REACHED_AT": "Limit reached on {time}."
+    },
+    "STATES": {
+      "SCANNING": "Checking recent conversations",
+      "PROCESSING": "Checking conversations",
+      "RECHECKING": "Rechecking conversations with the updated description",
+      "LIVE": "Up to date",
+      "DELAYED": "Updates are delayed",
+      "NEEDS_ATTENTION": "Needs attention",
+      "PAUSED": "Paused",
+      "CATCHING_UP": "Checking the paused period"
+    },
+    "ERRORS": {
+      "FETCH_FAILED": "Could not load this monitor. Refresh to try again.",
+      "SAVE_FAILED": "Could not save the monitor. Check the name and condition, then try again.",
+      "NOT_CONFIGURED": "Configure the OpenRouter connection, then click Retry.",
+      "CREDENTIALS_INVALID": "The OpenRouter connection needs attention. Ask your installation administrator to check its credentials.",
+      "PROVIDER_CREDITS_EXHAUSTED": "The OpenRouter account has insufficient credits. Ask your installation administrator to check its balance, then retry.",
+      "INVALID_REQUEST": "The evaluation request needs attention. Contact your installation administrator.",
+      "INVALID_RESPONSE": "The evaluation provider returned an incomplete result. Affected conversations have not been counted.",
+      "PROVIDER_BUSY": "The evaluation provider is busy. Pending conversations need another evaluation.",
+      "PROVIDER_UNAVAILABLE": "The evaluation provider is temporarily unavailable. Updates may be delayed.",
+      "BUDGET_LIMIT": "The daily evaluation allowance has been reached. Pending work will resume after it resets.",
+      "MONTHLY_LIMIT": "This account has reached its monthly monitor allowance. Pending evaluations will resume next month.",
+      "CONTEXT_LIMIT": "Some conversations are too long to evaluate completely. They are excluded from the results.",
+      "INVALID_PARAMETERS": "Check the name, condition, date range, and interval.",
+      "TOO_MANY_BUCKETS": "Choose a shorter date range or a larger interval. A chart can show up to 744 bars.",
+      "MONITOR_LIMIT": "This account has reached its active monitor limit. Pause a monitor before creating another.",
+      "MONITOR_PAUSED": "This monitor is paused and no longer checks conversations.",
+      "MONITOR_CHANGED": "This monitor changed in another session. Its current state has been refreshed. Try again."
+    }
+  },
+  "REPORT": {
+    "HEADER": "Conversations",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
+    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
+    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversations",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Messages received",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Messages sent",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "( Total )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
+      }
+    },
+    "DATE_RANGE_OPTIONS": {
+      "LAST_7_DAYS": "Last 7 days",
+      "LAST_14_DAYS": "Last 14 days",
+      "LAST_30_DAYS": "Last 30 days",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
+      "LAST_3_MONTHS": "Last 3 months",
+      "LAST_6_MONTHS": "Last 6 months",
+      "LAST_YEAR": "Last year",
+      "CUSTOM_DATE_RANGE": "Custom date range"
+    },
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    },
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
+    "DURATION_FILTER_LABEL": "Duration",
+    "GROUPING_OPTIONS": {
+      "DAY": "Day",
+      "WEEK": "Week",
+      "MONTH": "Month",
+      "YEAR": "Year"
+    },
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      }
+    ],
+    "GROUP_BY_WEEK_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      }
+    ],
+    "GROUP_BY_MONTH_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      }
+    ],
+    "GROUP_BY_YEAR_OPTIONS": [
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      },
+      {
+        "id": 4,
+        "groupBy": "Year"
+      }
+    ],
+    "BUSINESS_HOURS": "Business Hours",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "No results found"
+    },
+    "DRILLDOWN": {
+      "TITLE": "{metric} details",
+      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
+      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
+      "EMPTY": "No records found for this bar.",
+      "ERROR": "Could not load records. Please try again.",
+      "ADMIN_ONLY": "Only administrators can drill down into report records.",
+      "LOAD_MORE": "Load more",
+      "PREVIOUS_BUCKET": "Previous bar",
+      "NEXT_BUCKET": "Next bar",
+      "VIEW_ALL": "View all",
+      "UNKNOWN_CONTACT": "Unknown contact",
+      "UNKNOWN_INBOX": "Unknown inbox",
+      "UNASSIGNED_AGENT": "Unassigned",
+      "NO_MESSAGE_CONTENT": "No message content",
+      "MESSAGE_CREATED_AT": "Message created at {time}",
+      "EVENT_OCCURRED_AT": "Event occurred at {time}",
+      "INCOMING_MESSAGE": "Incoming message",
+      "OUTGOING_MESSAGE": "Outgoing message"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
+  },
+  "AGENT_REPORTS": {
+    "HEADER": "Agents Overview",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Search agents"
+      }
+    },
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversations",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Last 7 days"
+      },
+      {
+        "id": 1,
+        "name": "Last 30 days"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "LABEL_REPORTS": {
+    "HEADER": "Labels Overview",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
+    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Search labels"
+      }
+    },
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversations",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Last 7 days"
+      },
+      {
+        "id": 1,
+        "name": "Last 30 days"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "INBOX_REPORTS": {
+    "HEADER": "Inbox Overview",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversations",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Last 7 days"
+      },
+      {
+        "id": 1,
+        "name": "Last 30 days"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "TEAM_REPORTS": {
+    "HEADER": "Team Overview",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "LOADING_CHART": "Loading chart data...",
+    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
+    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Search teams"
+      }
+    },
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Conversations",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "First Response Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Last 7 days"
+      },
+      {
+        "id": 1,
+        "name": "Last 30 days"
+      },
+      {
+        "id": 2,
+        "name": "Last 3 months"
+      },
+      {
+        "id": 3,
+        "name": "Last 6 months"
+      },
+      {
+        "id": 4,
+        "name": "Last year"
+      },
+      {
+        "id": 5,
+        "name": "Custom date range"
+      }
+    ],
+    "CUSTOM_DATE_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date range"
+    }
+  },
+  "CSAT_REPORTS": {
+    "HEADER": "CSAT Reports",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
+    "DOWNLOAD": "Download CSAT Reports",
+    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Search agents",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "Search teams",
+        "RATINGS": "Search ratings"
+      },
+      "AGENTS": {
+        "LABEL": "Agent"
+      },
+      "INBOXES": {
+        "LABEL": "Inbox"
+      },
+      "TEAMS": {
+        "LABEL": "Team"
+      },
+      "RATINGS": {
+        "LABEL": "Rating"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "CONTACT_NAME": "Contact",
+        "AGENT_NAME": "Agent",
+        "RATING": "Rating",
+        "FEEDBACK_TEXT": "Feedback comment",
+        "CONVERSATION": "Conversation",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "Response",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
+    },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
+    "METRIC": {
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total responses",
+        "TOOLTIP": "Total number of responses collected"
+      },
+      "SATISFACTION_SCORE": {
+        "LABEL": "Satisfaction score",
+        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+      },
+      "RESPONSE_RATE": {
+        "LABEL": "Response rate",
+        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "SAVING": "Saving...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
+  "OVERVIEW_REPORTS": {
+    "HEADER": "Overview",
+    "LIVE": "Live",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
+    "ACCOUNT_CONVERSATIONS": {
+      "HEADER": "Open Conversations",
+      "LOADING_MESSAGE": "Loading conversation metrics...",
+      "OPEN": "Open",
+      "UNATTENDED": "Unattended",
+      "UNASSIGNED": "Unassigned",
+      "PENDING": "Pending"
+    },
+    "CONVERSATION_HEATMAP": {
+      "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "Open",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
+        "OPEN": "Open",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
+    "AGENT_STATUS": {
+      "HEADER": "Agent status",
+      "ONLINE": "Online",
+      "BUSY": "Busy",
+      "OFFLINE": "Offline"
+    }
+  },
+  "DAYS_OF_WEEK": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "No results found",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Agent name",
+        "INBOXES": "Inbox name",
+        "LABELS": "Label name",
+        "TEAMS": "Team name"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "Inbox",
+      "AGENTS": "Agent",
+      "LABELS": "Label",
+      "TEAMS": "Team"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "Conversation",
+        "AGENT": "Agent"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Inbox",
+    "AGENT": "Agent",
+    "TEAM": "Team",
+    "LABEL": "Label",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Resolution Count",
+    "CONVERSATIONS": "No. of conversations"
+  }
+}

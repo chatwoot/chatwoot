@@ -8,8 +8,13 @@ RSpec.describe 'Callbacks API', type: :request do
     allow(Koala::Facebook::API).to receive(:new).and_return(koala_api)
 
     allow(Facebook::Messenger::Subscriptions).to receive(:subscribe).and_return(true)
-    allow(koala_api).to receive(:get_connections).and_return(
-      [{ 'id' => facebook_page.page_id, 'access_token' => SecureRandom.hex(10) }]
+    allow(koala_api).to receive(:get_connections).with('me', 'accounts').and_return(
+      [{ 'id' => facebook_page.page_id, 'access_token' => SecureRandom.hex(10), 'name' => 'Acme Support' }]
+    )
+    allow(koala_api).to receive(:get_connections).with(
+      'me', '', { fields: 'name,instagram_business_account' }
+    ).and_return(
+      { 'name' => 'Acme Support', 'instagram_business_account' => { 'id' => 'instagram-business-id' } }
     )
     allow(koala_oauth).to receive(:exchange_access_token_info).and_return('access_token' => SecureRandom.hex(10))
   end
@@ -18,6 +23,7 @@ RSpec.describe 'Callbacks API', type: :request do
   let!(:facebook_page) { create(:channel_facebook_page, inbox: inbox, account: account) }
   let(:valid_params) { attributes_for(:channel_facebook_page).merge(inbox_name: 'Test Inbox') }
   let(:inbox) { create(:inbox, account: account) }
+  let(:agent) { create(:user, account: account, role: :agent) }
 
   # Doubles
   let(:koala_api) { instance_double(Koala::Facebook::API) }
@@ -27,6 +33,19 @@ RSpec.describe 'Callbacks API', type: :request do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/callbacks/register_facebook_page"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'returns unauthorized' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/callbacks/register_facebook_page",
+               headers: agent.create_new_auth_token,
+               params: valid_params,
+               as: :json
+        end.not_to change(Channel::FacebookPage, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -42,6 +61,11 @@ RSpec.describe 'Callbacks API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+
+        channel = account.facebook_pages.find_by!(page_id: valid_params[:page_id])
+        expect(channel.provider_name).to eq('Acme Support')
+        expect(channel.instagram_id).to eq('instagram-business-id')
+        expect(channel.inbox.name).to eq('Test Inbox')
       end
 
       it 'registers a new facebook page with avatar' do
@@ -80,6 +104,16 @@ RSpec.describe 'Callbacks API', type: :request do
       end
     end
 
+    context 'when it is an agent' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/callbacks/facebook_pages",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
@@ -103,11 +137,25 @@ RSpec.describe 'Callbacks API', type: :request do
       end
     end
 
+    context 'when it is an agent' do
+      it 'returns unauthorized' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/callbacks/reauthorize_page",
+               headers: agent.create_new_auth_token,
+               params: { inbox_id: inbox.id },
+               as: :json
+        end.not_to(change { facebook_page.reload.page_access_token })
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'reauthorizes the page' do
         params = { inbox_id: inbox.id }
+        inbox.update!(name: 'Custom Inbox Name')
 
         post "/api/v1/accounts/#{account.id}/callbacks/reauthorize_page",
              headers: admin.create_new_auth_token,
@@ -116,6 +164,9 @@ RSpec.describe 'Callbacks API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(inbox.id.to_s)
+        expect(facebook_page.reload.provider_name).to eq('Acme Support')
+        expect(facebook_page.instagram_id).to eq('instagram-business-id')
+        expect(inbox.reload.name).to eq('Custom Inbox Name')
       end
 
       it 'returns unprocessable_entity if no page found' do

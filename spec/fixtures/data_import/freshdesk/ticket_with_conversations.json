@@ -1,0 +1,98 @@
+{
+  "ticket": {
+    "id": 2001,
+    "subject": "Unable to finish checkout",
+    "description": "<p>The checkout button is not responding.</p>",
+    "description_text": "The checkout button is not responding.",
+    "status": 4,
+    "priority": 2,
+    "source": 1,
+    "requester_id": 1001,
+    "responder_id": 501,
+    "group_id": 42,
+    "company_id": 77,
+    "tags": [
+      "checkout"
+    ],
+    "custom_fields": {
+      "product_area": "payments"
+    },
+    "created_at": "2024-01-02T10:00:00Z",
+    "updated_at": "2024-01-04T12:30:00Z",
+    "attachments": [],
+    "requester": {
+      "id": 1001,
+      "active": true,
+      "email": "customer@example.com",
+      "name": "Customer Example",
+      "mobile": "+15551234567",
+      "created_at": "2024-01-01T09:00:00Z",
+      "updated_at": "2024-01-04T12:30:00Z",
+      "unique_external_id": "customer-1001"
+    }
+  },
+  "conversations": [
+    {
+      "id": 3003,
+      "body": "<p>The issue still happens in a private window.</p>",
+      "body_text": "The issue still happens in a private window.",
+      "incoming": true,
+      "private": false,
+      "source": 0,
+      "user_id": 1001,
+      "from_email": "customer@example.com",
+      "to_emails": [
+        "support@example.com"
+      ],
+      "cc_emails": [],
+      "bcc_emails": [],
+      "created_at": "2024-01-04T12:30:00Z",
+      "updated_at": "2024-01-04T12:30:00Z",
+      "attachments": [],
+      "deleted": false
+    },
+    {
+      "id": 3001,
+      "body": "<p>Could you try this in a private window?</p>",
+      "body_text": "Could you try this in a private window?",
+      "incoming": false,
+      "private": false,
+      "source": 0,
+      "user_id": 501,
+      "from_email": "agent@example.com",
+      "to_emails": [
+        "customer@example.com"
+      ],
+      "cc_emails": [],
+      "bcc_emails": [],
+      "created_at": "2024-01-03T08:00:00Z",
+      "updated_at": "2024-01-03T08:00:00Z",
+      "attachments": [],
+      "deleted": false
+    },
+    {
+      "id": 3002,
+      "body": "<p>Payments team is investigating the browser logs.</p>",
+      "body_text": "Payments team is investigating the browser logs.",
+      "incoming": false,
+      "private": true,
+      "source": 2,
+      "user_id": 501,
+      "from_email": "agent@example.com",
+      "to_emails": [],
+      "cc_emails": [],
+      "bcc_emails": [],
+      "created_at": "2024-01-03T09:00:00Z",
+      "updated_at": "2024-01-03T09:00:00Z",
+      "attachments": [
+        {
+          "id": 4001,
+          "name": "browser-log.txt",
+          "content_type": "text/plain",
+          "size": 128
+        }
+      ],
+      "deleted": false
+    }
+  ]
+}

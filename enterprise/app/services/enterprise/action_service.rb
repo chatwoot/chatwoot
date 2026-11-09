@@ -1,6 +1,8 @@
 module Enterprise::ActionService
   def add_sla(sla_policy_id)
     return if sla_policy_id.blank?
+    # SLA is a premium feature; automation rules must not keep applying SLAs once it is disabled.
+    return unless @account.feature_enabled?('sla')
 
     sla_policy = @account.sla_policies.find_by(id: sla_policy_id.first)
     return if sla_policy.nil?

@@ -8,17 +8,19 @@ RSpec.describe Twilio::TemplateSyncService do
 
   let(:twilio_client) { instance_double(Twilio::REST::Client) }
   let(:content_api) { double }
-  let(:contents_list) { double }
+  let(:content_and_approvals_list) { double }
+  let(:approval_requests) { { 'status' => 'approved' } }
 
   # Mock Twilio template objects
   let(:text_template) do
     instance_double(
-      Twilio::REST::Content::V1::ContentInstance,
+      Twilio::REST::Content::V1::ContentAndApprovalsInstance,
       sid: 'HX123456789',
       friendly_name: 'hello_world',
       language: 'en',
       date_created: Time.current,
       date_updated: Time.current,
+      approval_requests: approval_requests,
       variables: {},
       types: { 'twilio/text' => { 'body' => 'Hello World!' } }
     )
@@ -26,12 +28,13 @@ RSpec.describe Twilio::TemplateSyncService do
 
   let(:media_template) do
     instance_double(
-      Twilio::REST::Content::V1::ContentInstance,
+      Twilio::REST::Content::V1::ContentAndApprovalsInstance,
       sid: 'HX987654321',
       friendly_name: 'product_showcase',
       language: 'en',
       date_created: Time.current,
       date_updated: Time.current,
+      approval_requests: approval_requests,
       variables: { '1' => 'iPhone', '2' => '$999' },
       types: {
         'twilio/media' => {
@@ -44,12 +47,13 @@ RSpec.describe Twilio::TemplateSyncService do
 
   let(:quick_reply_template) do
     instance_double(
-      Twilio::REST::Content::V1::ContentInstance,
+      Twilio::REST::Content::V1::ContentAndApprovalsInstance,
       sid: 'HX555666777',
       friendly_name: 'welcome_message',
       language: 'en_US',
       date_created: Time.current,
       date_updated: Time.current,
+      approval_requests: approval_requests,
       variables: {},
       types: {
         'twilio/quick-reply' => {
@@ -65,12 +69,13 @@ RSpec.describe Twilio::TemplateSyncService do
 
   let(:catalog_template) do
     instance_double(
-      Twilio::REST::Content::V1::ContentInstance,
+      Twilio::REST::Content::V1::ContentAndApprovalsInstance,
       sid: 'HX111222333',
       friendly_name: 'product_catalog',
       language: 'en',
       date_created: Time.current,
       date_updated: Time.current,
+      approval_requests: approval_requests,
       variables: {},
       types: {
         'twilio/catalog' => {
@@ -83,12 +88,13 @@ RSpec.describe Twilio::TemplateSyncService do
 
   let(:call_to_action_template) do
     instance_double(
-      Twilio::REST::Content::V1::ContentInstance,
+      Twilio::REST::Content::V1::ContentAndApprovalsInstance,
       sid: 'HX444555666',
       friendly_name: 'payment_reminder',
       language: 'en',
       date_created: Time.current,
       date_updated: Time.current,
+      approval_requests: approval_requests,
       variables: {},
       types: {
         'twilio/call-to-action' => {
@@ -110,8 +116,8 @@ RSpec.describe Twilio::TemplateSyncService do
     allow(twilio_channel).to receive(:send).with(:client).and_return(twilio_client)
     allow(twilio_client).to receive(:content).and_return(content_api)
     allow(content_api).to receive(:v1).and_return(content_api)
-    allow(content_api).to receive(:contents).and_return(contents_list)
-    allow(contents_list).to receive(:list).with(limit: 1000).and_return(templates)
+    allow(content_api).to receive(:content_and_approvals).and_return(content_and_approvals_list)
+    allow(content_and_approvals_list).to receive(:list).with(limit: 1000).and_return(templates)
   end
 
   describe '#call' do
@@ -121,7 +127,7 @@ RSpec.describe Twilio::TemplateSyncService do
           result = sync_service.call
 
           expect(result).to be_truthy
-          expect(contents_list).to have_received(:list).with(limit: 1000)
+          expect(content_and_approvals_list).to have_received(:list).with(limit: 1000)
 
           twilio_channel.reload
           expect(twilio_channel.content_templates).to be_present
@@ -150,6 +156,30 @@ RSpec.describe Twilio::TemplateSyncService do
           'category' => 'utility',
           'body' => 'Hello World!'
         )
+      end
+
+      context 'when a template has a non-approved WhatsApp status' do
+        let(:approval_requests) { { 'status' => 'rejected' } }
+
+        it 'stores the provider approval status' do
+          sync_service.call
+
+          template_data = twilio_channel.reload.content_templates['templates'].first
+
+          expect(template_data['status']).to eq('rejected')
+        end
+      end
+
+      context 'when a template has not been submitted to WhatsApp' do
+        let(:approval_requests) { {} }
+
+        it 'stores the template as unsubmitted' do
+          sync_service.call
+
+          template_data = twilio_channel.reload.content_templates['templates'].first
+
+          expect(template_data['status']).to eq('unsubmitted')
+        end
       end
 
       it 'correctly formats media templates' do
@@ -222,17 +252,18 @@ RSpec.describe Twilio::TemplateSyncService do
 
       it 'categorizes marketing templates correctly' do
         marketing_template = instance_double(
-          Twilio::REST::Content::V1::ContentInstance,
+          Twilio::REST::Content::V1::ContentAndApprovalsInstance,
           sid: 'HX_MARKETING',
           friendly_name: 'promo_offer_50_off',
           language: 'en',
           date_created: Time.current,
           date_updated: Time.current,
+          approval_requests: approval_requests,
           variables: {},
           types: { 'twilio/text' => { 'body' => '50% off sale!' } }
         )
 
-        allow(contents_list).to receive(:list).with(limit: 1000).and_return([marketing_template])
+        allow(content_and_approvals_list).to receive(:list).with(limit: 1000).and_return([marketing_template])
 
         sync_service.call
 
@@ -244,17 +275,18 @@ RSpec.describe Twilio::TemplateSyncService do
 
       it 'categorizes authentication templates correctly' do
         auth_template = instance_double(
-          Twilio::REST::Content::V1::ContentInstance,
+          Twilio::REST::Content::V1::ContentAndApprovalsInstance,
           sid: 'HX_AUTH',
           friendly_name: 'otp_verification',
           language: 'en',
           date_created: Time.current,
           date_updated: Time.current,
+          approval_requests: approval_requests,
           variables: {},
           types: { 'twilio/text' => { 'body' => 'Your OTP is {{1}}' } }
         )
 
-        allow(contents_list).to receive(:list).with(limit: 1000).and_return([auth_template])
+        allow(content_and_approvals_list).to receive(:list).with(limit: 1000).and_return([auth_template])
 
         sync_service.call
 
@@ -267,21 +299,24 @@ RSpec.describe Twilio::TemplateSyncService do
 
     context 'with API error' do
       before do
-        allow(contents_list).to receive(:list).and_raise(Twilio::REST::TwilioError.new('API Error'))
+        allow(content_and_approvals_list).to receive(:list).and_raise(Twilio::REST::TwilioError.new('API Error'))
         allow(Rails.logger).to receive(:error)
       end
 
       it 'handles Twilio::REST::TwilioError gracefully' do
-        result = sync_service.call
+        freeze_time do
+          result = sync_service.call
 
-        expect(result).to be_falsey
+          expect(result).to be_falsey
+          expect(twilio_channel.reload.content_templates_last_updated).to eq(Time.current)
+        end
         expect(Rails.logger).to have_received(:error).with('Twilio template sync failed: API Error')
       end
     end
 
     context 'with generic error' do
       before do
-        allow(contents_list).to receive(:list).and_raise(StandardError, 'Connection failed')
+        allow(content_and_approvals_list).to receive(:list).and_raise(StandardError, 'Connection failed')
         allow(Rails.logger).to receive(:error)
       end
 
@@ -292,7 +327,7 @@ RSpec.describe Twilio::TemplateSyncService do
 
     context 'with empty templates list' do
       before do
-        allow(contents_list).to receive(:list).with(limit: 1000).and_return([])
+        allow(content_and_approvals_list).to receive(:list).with(limit: 1000).and_return([])
       end
 
       it 'updates channel with empty templates array' do
@@ -308,17 +343,18 @@ RSpec.describe Twilio::TemplateSyncService do
   describe 'template categorization behavior' do
     it 'defaults to utility category for unrecognized patterns' do
       generic_template = instance_double(
-        Twilio::REST::Content::V1::ContentInstance,
+        Twilio::REST::Content::V1::ContentAndApprovalsInstance,
         sid: 'HX_GENERIC',
         friendly_name: 'order_status',
         language: 'en',
         date_created: Time.current,
         date_updated: Time.current,
+        approval_requests: approval_requests,
         variables: {},
         types: { 'twilio/text' => { 'body' => 'Order updated' } }
       )
 
-      allow(contents_list).to receive(:list).with(limit: 1000).and_return([generic_template])
+      allow(content_and_approvals_list).to receive(:list).with(limit: 1000).and_return([generic_template])
 
       sync_service.call
 
@@ -333,12 +369,13 @@ RSpec.describe Twilio::TemplateSyncService do
     context 'with multiple type definitions' do
       let(:mixed_template) do
         instance_double(
-          Twilio::REST::Content::V1::ContentInstance,
+          Twilio::REST::Content::V1::ContentAndApprovalsInstance,
           sid: 'HX_MIXED',
           friendly_name: 'mixed_type',
           language: 'en',
           date_created: Time.current,
           date_updated: Time.current,
+          approval_requests: approval_requests,
           variables: {},
           types: {
             'twilio/media' => { 'body' => 'Media content' },
@@ -348,7 +385,7 @@ RSpec.describe Twilio::TemplateSyncService do
       end
 
       before do
-        allow(contents_list).to receive(:list).with(limit: 1000).and_return([mixed_template])
+        allow(content_and_approvals_list).to receive(:list).with(limit: 1000).and_return([mixed_template])
       end
 
       it 'prioritizes media type for type detection but text for body extraction' do

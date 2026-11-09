@@ -24,13 +24,15 @@ class Captain::AssistantMigration::DraftApplier
       description: description_change,
       response_guidelines: array_change(:response_guidelines, response_guidelines),
       guardrails: array_change(:guardrails, guardrails),
-      config: config_change
+      config: config_change,
+      faq_responses: faq_responses_change
     }.compact
   end
 
   def apply_changes(changes)
     assistant.transaction do
       assistant.update!(assistant_update_attributes(changes)) if assistant_update_attributes(changes).present?
+      apply_faq_response_changes(changes[:faq_responses]) if changes[:faq_responses].present?
     end
   end
 
@@ -60,11 +62,11 @@ class Captain::AssistantMigration::DraftApplier
   end
 
   def response_guidelines
-    (item_values(:response_guidelines) + scenario_response_guidelines).uniq
+    (Array(assistant.response_guidelines) + item_values(:response_guidelines) + scenario_response_guidelines).uniq
   end
 
   def guardrails
-    item_values(:guardrails)
+    (Array(assistant.guardrails) + item_values(:guardrails)).uniq
   end
 
   def array_change(field, values)
@@ -144,6 +146,21 @@ class Captain::AssistantMigration::DraftApplier
     scenario_candidates.filter_map { |candidate| candidate[:response_guideline].presence }
   end
 
+  def faq_responses_change
+    faq_applier.changes
+  end
+
+  def apply_faq_response_changes(changes)
+    faq_applier.apply(changes)
+  end
+
+  def faq_applier
+    @faq_applier ||= Captain::AssistantMigration::FaqApplier.new(
+      assistant: assistant,
+      candidates: normalized_faq_document_candidates
+    )
+  end
+
   def scenario_tool_ids(tool_ids)
     Array(tool_ids).filter_map { |tool_id| tool_id.to_s.squish.presence }.uniq
   end
@@ -186,7 +203,7 @@ class Captain::AssistantMigration::DraftApplier
 
       candidate = candidate.deep_symbolize_keys
       question = candidate[:question].to_s.squish
-      answer = candidate[:answer].to_s.squish
+      answer = candidate[:answer].to_s.strip
       raise ArgumentError, 'FAQ document candidates must include a question and answer' if question.blank? || answer.blank?
 
       { 'question' => question, 'answer' => answer }

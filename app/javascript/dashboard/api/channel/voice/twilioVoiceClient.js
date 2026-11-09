@@ -49,9 +49,7 @@ class TwilioVoiceClient extends EventTarget {
   }
 
   setMuted(shouldMute) {
-    if (!this.activeConnection) return false;
-    this.activeConnection.mute(shouldMute);
-    return shouldMute;
+    this.activeConnection?.mute(shouldMute);
   }
 
   sendDigits(digit) {
@@ -86,7 +84,7 @@ class TwilioVoiceClient extends EventTarget {
     this.inboxId = null;
   }
 
-  async joinClientCall({ to, conversationId, callSid }) {
+  async joinClientCall({ to, conversationId, callSid, attemptId }) {
     if (!this.device || !this.initialized || !to) return null;
     if (this.activeConnection) return this.activeConnection;
 
@@ -95,6 +93,7 @@ class TwilioVoiceClient extends EventTarget {
       is_agent: 'true',
       conversation_id: conversationId,
       call_sid: callSid,
+      attempt_id: attemptId,
     };
 
     const connection = await this.device.connect({ params });

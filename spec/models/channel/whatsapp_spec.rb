@@ -4,6 +4,65 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe Channel::Whatsapp do
+  describe '#serializable_hash' do
+    it 'does not expose the business management token' do
+      channel = build(:channel_whatsapp, business_management_token: 'business-token')
+
+      expect(channel.serializable_hash).not_to have_key('business_management_token')
+    end
+  end
+
+  describe '#template_access_token' do
+    let(:channel) do
+      build(
+        :channel_whatsapp,
+        provider: 'whatsapp_cloud',
+        provider_config: { 'api_key' => 'api-key', 'source' => source },
+        business_management_token: business_management_token
+      )
+    end
+    let(:source) { 'embedded_signup' }
+
+    context 'when running on Chatwoot Cloud' do
+      before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
+
+      context 'with a business management token' do
+        let(:business_management_token) { 'business-token' }
+
+        it 'uses the business management token' do
+          expect(channel.template_access_token).to eq('business-token')
+        end
+      end
+
+      context 'without a business management token' do
+        let(:business_management_token) { nil }
+
+        it 'uses the provider API key' do
+          expect(channel.template_access_token).to eq('api-key')
+        end
+      end
+
+      context 'with a manually configured inbox' do
+        let(:business_management_token) { 'business-token' }
+        let(:source) { nil }
+
+        it 'ignores the business management token' do
+          expect(channel.template_access_token).to eq('api-key')
+        end
+      end
+    end
+
+    context 'when running outside Chatwoot Cloud' do
+      before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false) }
+
+      let(:business_management_token) { 'business-token' }
+
+      it 'ignores the business management token' do
+        expect(channel.template_access_token).to eq('api-key')
+      end
+    end
+  end
+
   describe 'concerns' do
     let(:channel) { create(:channel_whatsapp) }
 
@@ -29,7 +88,10 @@ RSpec.describe Channel::Whatsapp do
   end
 
   describe 'validate_provider_config' do
-    let(:channel) { build(:channel_whatsapp, provider: 'whatsapp_cloud', account: create(:account)) }
+    let(:channel) do
+      build(:channel_whatsapp, provider: 'whatsapp_cloud', account: create(:account),
+                               provider_config: { 'api_key' => 'test_key', 'phone_number_id' => 'random_id', 'app_secret' => 'test_secret' })
+    end
 
     it 'validates false when provider config is wrong' do
       stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key').to_return(status: 401)
@@ -44,6 +106,9 @@ RSpec.describe Channel::Whatsapp do
                    }] }.to_json)
       stub_request(:get, 'https://graph.facebook.com/v14.0//phone_numbers?fields=id&limit=100&access_token=test_key')
         .to_return(status: 200, body: { data: [{ id: 'random_id' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+      stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates')
+        .with(headers: { 'Authorization' => 'Bearer test_key' })
+        .to_return(status: 200, body: { data: [] }.to_json, headers: { 'Content-Type' => 'application/json' })
       expect(channel.save).to be(true)
     end
 
@@ -53,6 +118,83 @@ RSpec.describe Channel::Whatsapp do
       stub_request(:get, 'https://graph.facebook.com/v14.0//phone_numbers?fields=id&limit=100&access_token=test_key')
         .to_return(status: 200, body: { data: [{ id: 'another_phone_id' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
       expect(channel.save).to be(false)
+    end
+  end
+
+  describe 'app secret' do
+    let(:account) { create(:account) }
+    let(:manual_config) { { 'api_key' => 'test_key', 'phone_number_id' => '123456789', 'source' => 'manual_setup_v2' } }
+
+    def build_manual_channel(provider_config)
+      build(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', provider_config: provider_config).tap do |channel|
+        allow(channel).to receive(:validate_provider_config)
+        allow(channel).to receive(:sync_templates)
+      end
+    end
+
+    it 'is required to create a manual whatsapp cloud channel' do
+      channel = build_manual_channel(manual_config)
+
+      expect(channel).not_to be_valid
+      expect(channel.errors[:provider_config]).to include('App secret is required')
+    end
+
+    it 'creates a manual whatsapp cloud channel with an app secret' do
+      expect(build_manual_channel(manual_config.merge('app_secret' => 'secret'))).to be_valid
+    end
+
+    it 'is not required for embedded signup channels' do
+      expect(build_manual_channel(manual_config.merge('source' => 'embedded_signup'))).to be_valid
+    end
+
+    context 'with an existing manual channel without an app secret' do
+      let(:channel) do
+        build_manual_channel(manual_config).tap { |channel| channel.save!(validate: false) }
+      end
+
+      it 'is pending app secret setup' do
+        expect(channel.app_secret_pending?).to be(true)
+      end
+
+      it 'still allows updates without an app secret' do
+        channel.provider_config = channel.provider_config.merge('api_key' => 'new_key')
+
+        expect(channel).to be_valid
+      end
+
+      it 'is no longer pending once an app secret is added' do
+        channel.update!(provider_config: channel.provider_config.merge('app_secret' => 'secret'))
+
+        expect(channel.app_secret_pending?).to be(false)
+      end
+    end
+
+    it 'cannot be removed once configured' do
+      channel = build_manual_channel(manual_config.merge('app_secret' => 'secret'))
+      channel.save!
+      channel.provider_config = channel.provider_config.except('app_secret')
+
+      expect(channel).not_to be_valid
+    end
+
+    it 'is required when a 360dialog channel switches to whatsapp cloud' do
+      channel = build(:channel_whatsapp, account: account, provider: 'default').tap do |dialog_channel|
+        allow(dialog_channel).to receive(:validate_provider_config)
+        allow(dialog_channel).to receive(:sync_templates)
+      end
+      channel.save!
+      channel.assign_attributes(provider: 'whatsapp_cloud', provider_config: manual_config)
+
+      expect(channel).not_to be_valid
+      expect(channel.errors[:provider_config]).to include('App secret is required')
+    end
+
+    it 'is required when an embedded signup channel moves to manual setup' do
+      channel = build_manual_channel(manual_config.merge('source' => 'embedded_signup'))
+      channel.save!
+      channel.provider_config = channel.provider_config.merge('source' => 'manual_setup_v2')
+
+      expect(channel).not_to be_valid
     end
   end
 
@@ -135,6 +277,7 @@ RSpec.describe Channel::Whatsapp do
                provider_config: {
                  'business_account_id' => 'test_waba_id',
                  'api_key' => 'test_access_token',
+                 'app_secret' => 'test_app_secret',
                  'source' => nil
                },
                validate_provider_config: false,
@@ -236,7 +379,7 @@ RSpec.describe Channel::Whatsapp do
     it 'returns true for manual whatsapp_cloud channels with calling_enabled' do
       channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
                                           validate_provider_config: false, sync_templates: false)
-      channel.update!(provider_config: channel.provider_config.merge('source' => 'manual', 'calling_enabled' => true))
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'manual', 'app_secret' => 'secret', 'calling_enabled' => true))
 
       expect(channel.voice_enabled?).to be true
     end

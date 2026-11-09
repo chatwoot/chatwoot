@@ -8,7 +8,7 @@ import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
-import { IMPORT_SOURCES } from './importSources';
+import { IMPORT_SOURCES, importSourceConfigFor } from './importSources';
 
 const props = defineProps({
   show: { type: Boolean, default: false },
@@ -20,8 +20,17 @@ const emit = defineEmits(['close', 'created']);
 const { t } = useI18n();
 const dialogRef = ref(null);
 const sourceProvider = ref('intercom');
-const importName = ref(t('DATA_IMPORTS.DEFAULT_IMPORT_NAME'));
+const sourceConfig = computed(
+  () => importSourceConfigFor(sourceProvider.value) || IMPORT_SOURCES[0]
+);
+const defaultImportName = computed(() =>
+  sourceProvider.value === 'freshdesk'
+    ? t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.FRESHDESK')
+    : t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.INTERCOM')
+);
+const importName = ref(defaultImportName.value);
 const accessToken = ref('');
+const domain = ref('');
 const selectedImportTypes = ref(['contacts', 'conversations']);
 const validationState = ref('idle');
 const validationMessage = ref('');
@@ -32,6 +41,17 @@ const closeDrawer = () => emit('close');
 
 const sourceOptions = computed(() =>
   IMPORT_SOURCES.map(({ value, label }) => ({ value, label }))
+);
+
+const credentialPlaceholder = computed(() =>
+  sourceProvider.value === 'freshdesk'
+    ? t('DATA_IMPORTS.DRAWER.FRESHDESK_API_KEY_PLACEHOLDER')
+    : t('DATA_IMPORTS.DRAWER.INTERCOM_ACCESS_KEY_PLACEHOLDER')
+);
+const credentialLabel = computed(() =>
+  sourceProvider.value === 'freshdesk'
+    ? t('DATA_IMPORTS.DRAWER.FRESHDESK_API_KEY')
+    : t('DATA_IMPORTS.DRAWER.INTERCOM_ACCESS_KEY')
 );
 
 const tokenMessageType = computed(() => {
@@ -51,8 +71,13 @@ const canCreate = computed(
 const validationPayload = () => ({
   source_provider: sourceProvider.value,
   access_token: accessToken.value.trim(),
+  ...(sourceConfig.value.requiresDomain ? { domain: domain.value.trim() } : {}),
   import_types: selectedImportTypes.value,
 });
+
+const hasRequiredCredentials = () =>
+  accessToken.value.trim() &&
+  (!sourceConfig.value.requiresDomain || domain.value.trim());
 
 const invalidateValidation = () => {
   validationRequestId += 1;
@@ -61,7 +86,7 @@ const invalidateValidation = () => {
 };
 
 const validateSource = async () => {
-  if (!accessToken.value.trim() || !selectedImportTypes.value.length) {
+  if (!hasRequiredCredentials() || !selectedImportTypes.value.length) {
     invalidateValidation();
     return;
   }
@@ -98,7 +123,7 @@ const createImport = async () => {
   try {
     const response = await DataImportsAPI.create({
       ...validationPayload(),
-      name: importName.value.trim() || t('DATA_IMPORTS.DEFAULT_IMPORT_NAME'),
+      name: importName.value.trim() || defaultImportName.value,
     });
     useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_STARTED'));
     emit('created', response.data.id);
@@ -112,10 +137,18 @@ const createImport = async () => {
 };
 
 watch(accessToken, invalidateValidation);
+watch(domain, invalidateValidation);
+
+watch(sourceProvider, () => {
+  importName.value = defaultImportName.value;
+  accessToken.value = '';
+  domain.value = '';
+  invalidateValidation();
+});
 
 watch(selectedImportTypes, () => {
   invalidateValidation();
-  if (accessToken.value.trim() && selectedImportTypes.value.length) {
+  if (hasRequiredCredentials() && selectedImportTypes.value.length) {
     validateSource();
   }
 });
@@ -130,6 +163,7 @@ watch(
 
     dialogRef.value?.close();
     accessToken.value = '';
+    domain.value = '';
     validationState.value = 'idle';
     validationMessage.value = '';
   }
@@ -165,11 +199,20 @@ watch(
       />
 
       <Input
+        v-if="sourceConfig.requiresDomain"
+        v-model="domain"
+        autocomplete="off"
+        :label="$t('DATA_IMPORTS.DRAWER.FRESHDESK_DOMAIN')"
+        :placeholder="$t('DATA_IMPORTS.DRAWER.FRESHDESK_DOMAIN_PLACEHOLDER')"
+        @blur="validateSource"
+      />
+
+      <Input
         v-model="accessToken"
         type="password"
         autocomplete="off"
-        :label="$t('DATA_IMPORTS.DRAWER.ACCESS_KEY')"
-        :placeholder="$t('DATA_IMPORTS.DRAWER.ACCESS_KEY_PLACEHOLDER')"
+        :label="credentialLabel"
+        :placeholder="credentialPlaceholder"
         :message="validationMessage"
         :message-type="tokenMessageType"
         @blur="validateSource"

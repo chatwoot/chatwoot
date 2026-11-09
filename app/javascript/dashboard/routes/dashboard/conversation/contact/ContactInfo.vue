@@ -1,15 +1,17 @@
 <script>
 import { mapGetters } from 'vuex';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAlert } from 'dashboard/composables';
 import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
+import ViewAllConversations from './ViewAllConversations.vue';
 import Avatar from 'next/avatar/Avatar.vue';
-import SocialIcons from './SocialIcons.vue';
+import SocialProfileLinks from 'dashboard/components-next/social-profiles/SocialProfileLinks.vue';
 import EditContact from './EditContact.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ContactDeleteModal from 'dashboard/modules/contact/ContactDeleteModal.vue';
@@ -17,19 +19,22 @@ import ComposeConversation from 'dashboard/components-next/NewConversation/Compo
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
+import Flag from 'dashboard/components-next/flag/Flag.vue';
 
 export default {
   components: {
     NextButton,
     ContactInfoRow,
+    ViewAllConversations,
     EditContact,
     Avatar,
     ComposeConversation,
-    SocialIcons,
+    SocialProfileLinks,
     ContactMergeModal,
     ContactDeleteModal,
     VoiceCallButton,
     InlineInput,
+    Flag,
   },
   props: {
     contact: {
@@ -46,6 +51,7 @@ export default {
     const { isAdmin } = useAdmin();
     return {
       isAdmin,
+      exactTimestamp: useExactTimestamp(),
     };
   },
   data() {
@@ -59,25 +65,39 @@ export default {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
       currentChat: 'getSelectedChat',
+      isFeatureEnabledOnAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    hasCompaniesFeature() {
+      return this.isFeatureEnabledOnAccount(
+        Number(this.$route.params.accountId),
+        FEATURE_FLAGS.COMPANIES
+      );
+    },
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
+    },
+    companyLink() {
+      return this.hasCompaniesFeature && this.contact.company_id
+        ? `/app/accounts/${this.$route.params.accountId}/companies/${this.contact.company_id}`
+        : '';
     },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
     },
     location() {
-      const {
-        country = '',
-        city = '',
-        country_code: countryCode,
-      } = this.additionalAttributes;
+      const { country = '', city = '' } = this.additionalAttributes;
       const cityAndCountry = [city, country].filter(item => !!item).join(', ');
 
       if (!cityAndCountry) {
         return '';
       }
-      return this.findCountryFlag(countryCode, cityAndCountry);
+      return this.countryCode ? cityAndCountry : `${cityAndCountry} 🌎`;
+    },
+    countryCode() {
+      const { country_code: countryCode } = this.additionalAttributes;
+      const isValid =
+        typeof countryCode === 'string' && /^[a-z]{2}$/i.test(countryCode);
+      return isValid ? countryCode : '';
     },
     socialProfiles() {
       const {
@@ -95,6 +115,17 @@ export default {
         telegram,
       };
     },
+    whatsappUsername() {
+      const username =
+        this.socialProfiles.whatsapp ||
+        this.additionalAttributes.social_whatsapp_user_name ||
+        '';
+
+      return username.toString().replace(/^@+/, '');
+    },
+    formattedWhatsappUsername() {
+      return this.whatsappUsername ? `@${this.whatsappUsername}` : '';
+    },
   },
   watch: {
     'contact.id': {
@@ -105,21 +136,8 @@ export default {
     },
   },
   methods: {
-    dynamicTime,
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
-    },
-    findCountryFlag(countryCode, cityAndCountry) {
-      try {
-        if (!countryCode) {
-          return `${cityAndCountry} 🌎`;
-        }
-
-        const code = countryCode?.toLowerCase();
-        return `${cityAndCountry} <span class="fi fi-${code} size-3.5"></span>`;
-      } catch (error) {
-        return '';
-      }
     },
     startEditingName() {
       this.editName = this.contact.name || '';
@@ -192,33 +210,46 @@ export default {
       </div>
 
       <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
-        <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-3">
-          <InlineInput
-            v-if="isEditingName"
-            ref="nameInput"
-            v-model="editName"
-            custom-input-class="!text-base !font-medium"
-            class="!w-fit"
-            @enter-press="saveNameEdit"
-            @escape-press="cancelNameEdit"
-            @blur="saveNameEdit"
-          />
-          <h3
-            v-else
-            class="group/name flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12 cursor-pointer hover:text-n-slate-12/80"
-            :title="$t('CONTACT_PANEL.CLICK_TO_EDIT')"
-            @click="startEditingName"
-          >
-            {{ contact.name }}
-            <span
-              class="i-lucide-pencil text-xs text-n-slate-10 opacity-0 group-hover/name:opacity-100 transition-opacity ml-1 align-middle"
+        <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-2">
+          <div class="group/name flex items-center min-w-0 gap-2">
+            <InlineInput
+              v-if="isEditingName"
+              ref="nameInput"
+              v-model="editName"
+              custom-input-class="!text-base !font-medium !w-auto max-w-full [field-sizing:content]"
+              class="!w-fit min-w-0"
+              @enter-press="saveNameEdit"
+              @escape-press="cancelNameEdit"
+              @blur="saveNameEdit"
             />
-          </h3>
+            <h3
+              v-else
+              class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12 cursor-pointer hover:text-n-slate-12/80"
+              :title="$t('CONTACT_PANEL.CLICK_TO_EDIT')"
+              @click="startEditingName"
+            >
+              {{ contact.name }}
+            </h3>
+            <NextButton
+              ghost
+              xs
+              slate
+              icon="i-lucide-pencil"
+              :title="$t('CONTACT_PANEL.CLICK_TO_EDIT')"
+              class="flex-shrink-0 -mx-1 opacity-0 transition-opacity"
+              :class="
+                isEditingName
+                  ? 'invisible'
+                  : 'group-hover/name:opacity-100 focus-visible:opacity-100'
+              "
+              @click="startEditingName"
+            />
+          </div>
           <div class="flex flex-row items-center gap-2">
             <span
               v-if="contact.created_at"
               v-tooltip.left="
-                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
+                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${exactTimestamp(
                   contact.created_at
                 )}`
               "
@@ -260,6 +291,14 @@ export default {
             @update="value => onFieldUpdate('phone_number', value)"
           />
           <ContactInfoRow
+            v-if="formattedWhatsappUsername"
+            :value="formattedWhatsappUsername"
+            icon="brand-whatsapp"
+            emoji="💬"
+            :title="$t('CONTACT_PANEL.WHATSAPP_USERNAME')"
+            show-copy
+          />
+          <ContactInfoRow
             v-if="contact.identifier"
             :value="contact.identifier"
             icon="contact-identify"
@@ -267,11 +306,12 @@ export default {
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
           />
           <ContactInfoRow
+            :href="companyLink"
             :value="additionalAttributes.company_name"
             icon="building-bank"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
-            editable
+            :editable="!hasCompaniesFeature"
             @update="
               value =>
                 updateContactField({
@@ -288,8 +328,14 @@ export default {
             icon="map"
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
-          />
-          <SocialIcons :social-profiles="socialProfiles" />
+          >
+            <Flag
+              v-if="location && countryCode"
+              :country="countryCode"
+              class="size-3.5"
+            />
+          </ContactInfoRow>
+          <SocialProfileLinks :profiles="socialProfiles" class="my-2" />
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
@@ -304,11 +350,12 @@ export default {
             />
           </template>
         </ComposeConversation>
+        <ViewAllConversations />
         <VoiceCallButton
           :phone="contact.phone_number"
           :contact-id="contact.id"
           :conversation-id="currentChat?.id"
-          icon="i-lucide-phone"
+          icon="i-ph-phone"
           sm
           faded
           slate

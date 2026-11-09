@@ -21,16 +21,43 @@ class CallFinder
 
   private
 
-  # Admins and report managers see the whole account; everyone else only sees
-  # calls they handled within conversations they can still access.
+  # Admins and report managers see the whole account; everyone else only sees calls they
+  # handled within conversations they can still access. A request for ringing calls is
+  # the ring's recovery, so everyone gets only their own calls and the rings meant for them.
   def filter_by_visibility
-    return if account_wide_access?
+    own = @calls.where(accepted_by_agent_id: @current_user.id, conversation_id: accessible_conversations)
+    if ringing_requested?
+      @calls = own.or(ringing_for_current_user)
+    elsif !account_wide_access?
+      @calls = own
+    end
+  end
 
-    @calls = @calls.where(accepted_by_agent_id: @current_user.id, conversation_id: accessible_conversations)
+  # An unanswered inbound call is visible to the agents it rang, as recorded when its ring
+  # started or reached them, less those who dismissed it, within the conversations the
+  # agent's role lets them see, and only while the agent is online and takes calls. A phone
+  # that lost its socket, and a web page as it loads, ask for these.
+  def ringing_for_current_user
+    return @calls.none unless Current.account_user&.online? && Current.account_user.accepts_calls
+
+    @calls.where(status: 'ringing', accepted_by_agent_id: nil, direction: :incoming)
+          .where("calls.ring_state -> 'ring_recipient_ids' @> ?::jsonb", [@current_user.id].to_json)
+          .where.not(Call.arel_table[:ring_state].contains('dismissed_user_ids' => [@current_user.id]))
+          .where(conversation_id: permitted_conversations.select(:id))
+  end
+
+  def ringing_requested?
+    @params[:status].present? && Call.status_from_display(@params[:status]) == 'ringing'
   end
 
   def accessible_conversations
-    Conversations::PermissionFilterService.new(@current_account.conversations, @current_user, @current_account).perform.select(:id)
+    permitted_conversations.select(:id)
+  end
+
+  def permitted_conversations
+    @permitted_conversations ||= Conversations::PermissionFilterService.new(
+      @current_account.conversations, @current_user, @current_account
+    ).perform
   end
 
   def account_wide_access?
@@ -62,7 +89,7 @@ class CallFinder
   end
 
   def paginated_calls
-    @calls.includes(:contact, :inbox, :conversation, :accepted_by_agent)
+    @calls.includes(:contact, :conversation, :accepted_by_agent, inbox: :channel)
           .order(created_at: :desc)
           .page(@params[:page] || 1)
           .per(RESULTS_PER_PAGE)

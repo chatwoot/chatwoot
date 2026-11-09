@@ -6,6 +6,8 @@
 #   there is a change in the underlying asset.
 # - A 1 minute rate limit window is enforced via `last_avatar_sync_at`.
 class Avatar::AvatarFromUrlJob < ApplicationJob
+  self.enqueue_after_transaction_commit = true
+
   include UrlHelper
   queue_as :purgable
 

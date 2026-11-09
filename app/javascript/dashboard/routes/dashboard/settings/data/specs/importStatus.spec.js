@@ -2,6 +2,7 @@ import {
   formatDate,
   importedCount,
   isActiveIntercomImport,
+  isActiveIntegrationImport,
   statusDotClass,
 } from '../importStatus';
 
@@ -32,12 +33,38 @@ describe('importStatus', () => {
     });
   });
 
-  describe('importedCount', () => {
-    it('sums Intercom imported stats', () => {
+  describe('isActiveIntegrationImport', () => {
+    it('treats matching Freshdesk and Intercom imports as active', () => {
       expect(
-        importedCount({
+        isActiveIntegrationImport({
+          data_type: 'freshdesk',
+          source_provider: 'freshdesk',
+          status: 'pending',
+        })
+      ).toBe(true);
+      expect(
+        isActiveIntegrationImport({
           data_type: 'intercom',
           source_provider: 'intercom',
+          status: 'processing',
+        })
+      ).toBe(true);
+      expect(
+        isActiveIntegrationImport({
+          data_type: 'freshdesk',
+          source_provider: 'intercom',
+          status: 'processing',
+        })
+      ).toBe(false);
+    });
+  });
+
+  describe('importedCount', () => {
+    it('sums integration imported stats', () => {
+      expect(
+        importedCount({
+          data_type: 'freshdesk',
+          source_provider: 'freshdesk',
           processed_records: 20,
           stats: {
             contacts: { imported: 2 },

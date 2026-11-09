@@ -4,12 +4,17 @@ import { useAlert } from 'dashboard/composables';
 import { useFacebookPageConnect } from 'dashboard/composables/useFacebookPageConnect';
 import { required } from '@vuelidate/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import { useBranding } from 'shared/composables/useBranding';
+import { useAccount } from 'dashboard/composables/useAccount';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 import * as Sentry from '@sentry/vue';
 
@@ -19,14 +24,19 @@ export default {
     PageHeader,
     NextButton,
     ComboBox,
+    Banner,
+    Icon,
   },
   setup() {
     const { replaceInstallationName } = useBranding();
+    const { isMetaInboxCreationDisabled } = useAccount();
     const { preloadSdk, loginAndFetchPages } = useFacebookPageConnect();
     return {
       replaceInstallationName,
+      isMetaInboxCreationDisabled,
       preloadSdk,
       loginAndFetchPages,
+      META_RESTRICTION_STATUS_URL,
       v$: useVuelidate(),
     };
   },
@@ -70,16 +80,23 @@ export default {
         label: name,
       }));
     },
+    isFacebookConnectionDisabled() {
+      return this.isMetaInboxCreationDisabled;
+    },
   },
 
   mounted() {
     // Warm the SDK so the login click opens its popup within the gesture's
     // activation window (see useFacebookPageConnect).
-    this.preloadSdk();
+    if (!this.isFacebookConnectionDisabled) {
+      this.preloadSdk();
+    }
   },
 
   methods: {
     async startLogin() {
+      if (this.isFacebookConnectionDisabled) return;
+
       this.hasLoginStarted = true;
       try {
         const result = await this.loginAndFetchPages();
@@ -136,7 +153,13 @@ export default {
               params: { page: 'new', inbox_id: data.id },
             });
           })
-          .catch(() => {
+          .catch(error => {
+            const errorMessage = parseAPIErrorResponse(error);
+            useAlert(
+              typeof errorMessage === 'string'
+                ? errorMessage
+                : this.$t('INBOX_MGMT.DETAILS.ERROR_CHANNEL_CREATION')
+            );
             this.isCreating = false;
           });
       }
@@ -151,16 +174,48 @@ export default {
       v-if="!hasLoginStarted"
       class="flex flex-col items-center justify-center h-full text-center"
     >
-      <a href="#" @click="startLogin()">
-        <img
-          class="w-auto h-10 rounded-md"
-          src="~dashboard/assets/images/channels/facebook_login.png"
-          alt="Facebook-logo"
-        />
-      </a>
-      <p class="py-6">
-        {{ replaceInstallationName($t('INBOX_MGMT.ADD.FB.HELP')) }}
-      </p>
+      <div class="flex flex-col items-center w-full max-w-2xl">
+        <button
+          type="button"
+          :disabled="isFacebookConnectionDisabled"
+          :class="{
+            'cursor-not-allowed opacity-50': isFacebookConnectionDisabled,
+          }"
+          @click="startLogin()"
+        >
+          <img
+            class="w-auto h-10 rounded-md"
+            src="~dashboard/assets/images/channels/facebook_login.png"
+            alt="Facebook-logo"
+          />
+        </button>
+        <p class="py-6">
+          {{ replaceInstallationName($t('INBOX_MGMT.ADD.FB.HELP')) }}
+        </p>
+        <Banner
+          v-if="isFacebookConnectionDisabled"
+          color="amber"
+          class="w-full"
+        >
+          <div class="flex items-start gap-3 text-start">
+            <Icon
+              icon="i-lucide-triangle-alert"
+              class="flex-shrink-0 size-4 mt-0.5"
+            />
+            <span>
+              {{ $t('INBOX_MGMT.ADD.FB.RESTRICTED_WARNING') }}
+              <a
+                :href="META_RESTRICTION_STATUS_URL"
+                class="link underline"
+                rel="noopener noreferrer nofollow"
+                target="_blank"
+              >
+                {{ $t('INBOX_MGMT.ADD.FB.STATUS_LINK') }}
+              </a>
+            </span>
+          </div>
+        </Banner>
+      </div>
     </div>
     <div v-else>
       <div v-if="hasError" class="max-w-lg mx-auto text-center">

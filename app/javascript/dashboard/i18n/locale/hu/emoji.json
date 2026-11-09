@@ -3,5 +3,33 @@
     "PLACEHOLDER": "Emoji keresése",
     "NOT_FOUND": "Nem található emoji",
     "REMOVE": "Eltávolítás"
+  },
+  "EMOJI_ICON_PICKER": {
+    "TABS": {
+      "ICONS": "Ikonok",
+      "EMOJIS": "Emojik"
+    },
+    "SEARCH_EMOJI": "Emojik keresése…",
+    "SEARCH_ICON": "Ikonok keresése…",
+    "FREQUENTLY_USED": "Gyakran használt",
+    "NO_EMOJI": "Nem található emoji",
+    "NO_ICON": "Nem található a keresésnek megfelelő ikon",
+    "REMOVE": "Eltávolítás",
+    "STYLE": {
+      "OUTLINE": "Körvonalas ikonok",
+      "FILLED": "Kitöltött ikonok"
+    },
+    "COLORS": {
+      "SLATE": "Palaszürke",
+      "RED": "Piros",
+      "ORANGE": "Narancssárga",
+      "AMBER": "Borostyán",
+      "GREEN": "Zöld",
+      "TEAL": "Kékeszöld",
+      "BLUE": "Kék",
+      "INDIGO": "Indigókék",
+      "VIOLET": "Ibolya",
+      "PINK": "Rózsaszín"
+    }
   }
 }

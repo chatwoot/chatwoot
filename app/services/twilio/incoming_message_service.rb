@@ -5,6 +5,13 @@ class Twilio::IncomingMessageService
 
   pattr_initialize [:params!]
 
+  def self.find_channel(params)
+    channel = ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) if params[:MessagingServiceSid].present?
+    return channel if channel.present? || params[:AccountSid].blank? || params[:To].blank?
+
+    ::Channel::TwilioSms.find_by(account_sid: params[:AccountSid], phone_number: params[:To])
+  end
+
   def perform
     return if twilio_channel.blank?
 
@@ -17,7 +24,7 @@ class Twilio::IncomingMessageService
       message_type: :incoming,
       sender: @contact,
       source_id: params[:SmsSid],
-      content_attributes: message_content_attributes
+      content_attributes: message_content_attributes.merge(in_reply_to_external_id: params[:OriginalRepliedMessageSid].presence).compact
     )
     attach_files
     attach_location if location_message?
@@ -27,11 +34,7 @@ class Twilio::IncomingMessageService
   private
 
   def twilio_channel
-    @twilio_channel ||= ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) if params[:MessagingServiceSid].present?
-    if params[:AccountSid].present? && params[:To].present?
-      @twilio_channel ||= ::Channel::TwilioSms.find_by(account_sid: params[:AccountSid],
-                                                       phone_number: params[:To])
-    end
+    @twilio_channel ||= self.class.find_channel(params)
     log_channel_not_found if @twilio_channel.blank?
     @twilio_channel
   end
@@ -119,7 +122,7 @@ class Twilio::IncomingMessageService
     {
       name: contact_name,
       phone_number: phone_number.presence,
-      additional_attributes: additional_attributes
+      additional_attributes: additional_attributes, phone_number_candidates: twilio_whatsapp_phone_number_candidates
     }
   end
 
@@ -145,12 +148,18 @@ class Twilio::IncomingMessageService
 
     num_media.times do |i|
       media_url = params[:"MediaUrl#{i}"]
-      attach_single_file(media_url) if media_url.present?
+      attach_single_file(media_url, i) if media_url.present?
     end
   end
 
-  def attach_single_file(media_url)
-    attachment_file = download_attachment_file(media_url)
+  def attach_single_file(media_url, media_index)
+    attachment_file = Twilio::MediaDownloadService.new(
+      channel: twilio_channel,
+      media_url: media_url,
+      message_sid: params[:SmsSid].presence || params[:MessageSid],
+      media_index: media_index,
+      retry_delays: media_retry_delays
+    ).perform
     return if attachment_file.blank?
 
     @message.attachments.new(
@@ -164,30 +173,8 @@ class Twilio::IncomingMessageService
     )
   end
 
-  def download_attachment_file(media_url)
-    download_with_auth(media_url)
-  rescue Down::Error, Down::ClientError => e
-    handle_download_attachment_error(e, media_url)
-  end
-
-  def download_with_auth(media_url)
-    auth_credentials = if twilio_channel.api_key_sid.present?
-                         # When using api_key_sid, the auth token should be the api_secret_key
-                         [twilio_channel.api_key_sid, twilio_channel.auth_token]
-                       else
-                         # When using account_sid, the auth token is the account's auth token
-                         [twilio_channel.account_sid, twilio_channel.auth_token]
-                       end
-
-    Down.download(media_url, http_basic_authentication: auth_credentials)
-  end
-
-  def handle_download_attachment_error(error, media_url)
-    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying without auth"
-    Down.download(media_url)
-  rescue StandardError => e
-    Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
-    nil
+  def media_retry_delays
+    @media_retry_delays ||= Twilio::MediaDownloadService::RETRY_DELAYS.dup
   end
 
   def location_message?
@@ -207,7 +194,7 @@ class Twilio::IncomingMessageService
     return if params[:ProfileName].blank?
     return if @contact.name == params[:ProfileName]
 
-    # Only update if current name exactly matches the phone number or formatted phone number
+    # Only update if current name exactly matches a phone number candidate
     return unless contact_name_matches_phone_number?
 
     @contact.update!(name: params[:ProfileName])
@@ -216,6 +203,16 @@ class Twilio::IncomingMessageService
   def contact_name_matches_phone_number?
     return false if phone_number.blank?
 
-    @contact.name == phone_number || @contact.name == formatted_phone_number
+    phone_name_candidates.include?(@contact.name)
+  end
+
+  def phone_name_candidates
+    [phone_number, formatted_phone_number, *formatted_twilio_whatsapp_phone_number_candidates].compact_blank.uniq
+  end
+
+  def formatted_twilio_whatsapp_phone_number_candidates
+    Array(twilio_whatsapp_phone_number_candidates).flat_map do |candidate|
+      [candidate, TelephoneNumber.parse(candidate).international_number]
+    end
   end
 end

@@ -29,6 +29,21 @@ RSpec.describe CopilotThread, type: :model do
     end
   end
 
+  describe '#saved_set' do
+    let(:account) { create(:account) }
+    let(:user) { create(:user, account: account) }
+    let(:copilot_thread) { create(:captain_copilot_thread, account: account, user: user) }
+    let!(:collection) do
+      CopilotRun::Collection.create!(account: account, user: user, copilot_thread: copilot_thread, status: :completed,
+                                     context: { resource: 'conversations', selected_ids: [1], as_of: Time.current.iso8601 })
+    end
+
+    it 'finds only the kinds of run asked for' do
+      expect(copilot_thread.saved_set(collection.id)).to eq(collection)
+      expect { copilot_thread.saved_set(collection.id, types: [CopilotRun::Review]) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
   describe '#previous_history' do
     let(:account) { create(:account) }
     let(:user) { create(:user, account: account) }

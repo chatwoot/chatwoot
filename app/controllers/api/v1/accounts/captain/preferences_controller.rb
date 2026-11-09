@@ -1,5 +1,4 @@
 class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::BaseController
-  before_action :current_account
   before_action :authorize_account_update, only: [:update]
 
   def show
@@ -77,7 +76,7 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
   end
 
   def default_model_for(feature_key)
-    return Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL if feature_key == 'assistant' && Current.account.feature_enabled?('captain_integration_v2')
+    return Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL if feature_key == 'assistant' && Current.account.feature_enabled?('captain_integration')
 
     Llm::Models.default_model_for(feature_key)
   end

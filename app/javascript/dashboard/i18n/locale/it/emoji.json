@@ -3,5 +3,33 @@
     "PLACEHOLDER": "Cerca emoji",
     "NOT_FOUND": "Nessuna emoji corrisponde alla tua ricerca",
     "REMOVE": "Rimuovi"
+  },
+  "EMOJI_ICON_PICKER": {
+    "TABS": {
+      "ICONS": "Icone",
+      "EMOJIS": "Emoji"
+    },
+    "SEARCH_EMOJI": "Cerca emoji…",
+    "SEARCH_ICON": "Cerca icone…",
+    "FREQUENTLY_USED": "Usate di frequente",
+    "NO_EMOJI": "Nessuna emoji corrisponde alla tua ricerca",
+    "NO_ICON": "Nessuna icona corrisponde alla ricerca",
+    "REMOVE": "Rimuovi",
+    "STYLE": {
+      "OUTLINE": "Icone a contorno",
+      "FILLED": "Icone piene"
+    },
+    "COLORS": {
+      "SLATE": "Ardesia",
+      "RED": "Rosso",
+      "ORANGE": "Arancione",
+      "AMBER": "Ambra",
+      "GREEN": "Verde",
+      "TEAL": "Verde acqua",
+      "BLUE": "Blu",
+      "INDIGO": "Indaco",
+      "VIOLET": "Viola",
+      "PINK": "Rosa"
+    }
   }
 }

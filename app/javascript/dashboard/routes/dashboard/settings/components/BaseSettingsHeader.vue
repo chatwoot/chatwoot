@@ -1,5 +1,8 @@
 <script setup>
 import { useSlots } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
+import { usePageCommands } from 'dashboard/modules/command-bar/composables/usePageCommands';
 import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
 import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
 import BackButton from '../../../../components/widgets/BackButton.vue';
@@ -38,6 +41,22 @@ const slots = useSlots();
 const searchQuery = defineModel('searchQuery', { type: String, default: '' });
 
 const helpURL = getHelpUrlForFeature(props.featureName);
+
+const { t } = useI18n();
+const isCustomBranded = useMapGetter('globalConfig/isACustomBrandedInstance');
+
+usePageCommands(() =>
+  helpURL && props.linkText && !isCustomBranded.value
+    ? [
+        {
+          id: 'page_docs',
+          title: t('COMMAND_BAR.COMMANDS.PAGE_DOCS', { title: props.title }),
+          icon: 'i-lucide-book',
+          run: () => window.open(helpURL, '_blank', 'noopener'),
+        },
+      ]
+    : []
+);
 </script>
 
 <template>
@@ -59,7 +78,9 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       </slot>
     </div>
     <div
-      v-if="description || $slots.description || linkText || helpURL"
+      v-if="
+        description || $slots.description || linkText || helpURL || $slots.meta
+      "
       class="flex flex-col w-full gap-1.5 text-n-slate-11"
     >
       <p
@@ -83,15 +104,16 @@ const helpURL = getHelpUrlForFeature(props.featureName);
           />
         </a>
       </CustomBrandPolicyWrapper>
+      <slot name="meta" />
     </div>
   </div>
   <div
     v-if="searchPlaceholder || slots.actions || slots.tabs"
-    class="gap-3 flex justify-between sm:mt-4 min-w-0"
+    class="gap-3 flex flex-wrap sm:flex-nowrap justify-between sm:mt-4 min-w-0"
   >
     <div
       v-if="slots.tabs || searchPlaceholder"
-      class="flex items-center gap-3"
+      class="flex items-center gap-3 min-w-0"
       :class="{
         'hidden sm:flex': !slots.tabs,
       }"
@@ -114,12 +136,12 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       </Input>
     </div>
     <div
-      class="flex items-center gap-3 min-w-0"
+      class="flex items-center gap-3 shrink-0"
       :class="{ 'flex-row-reverse sm:flex-row': !slots.tabs }"
     >
       <slot name="count" />
       <div
-        v-if="slots.count"
+        v-if="slots.count && slots.actions"
         class="w-px h-3 rounded-lg bg-n-weak ltr:ml-1 ltr:mr-2 rtl:ml-2 rtl:mr-1 flex-shrink-0"
       />
       <slot name="actions" />

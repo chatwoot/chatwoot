@@ -150,39 +150,98 @@ describe('#actions', () => {
     });
   });
 
-  describe('#updateArticleMeta', () => {
-    it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          payload: articleList,
-          meta: {
-            all_articles_count: 56,
-            archived_articles_count: 7,
-            articles_count: 56,
-            current_page: '1', // This is not needed, it cause pagination issues.
-            draft_articles_count: 24,
-            mine_articles_count: 44,
-            published_count: 25,
+  describe('#publishDraft', () => {
+    const state = {
+      articles: {
+        byId: {
+          1: {
+            id: 1,
+            draftTitle: 'Draft title',
+            draftContent: 'Draft content',
           },
         },
-      });
-      await actions.updateArticleMeta(
-        { commit },
-        { pageNumber: 1, portalSlug: 'test', locale: 'en' }
+      },
+    };
+
+    it('dispatches update promoting the edited fields and clearing the draft', async () => {
+      await actions.publishDraft(
+        { dispatch, state },
+        { portalSlug: 'room-rental', articleId: 1 }
       );
-      expect(commit.mock.calls).toEqual([
-        [
-          types.default.SET_ARTICLES_META,
-          {
-            allArticlesCount: 56,
-            archivedArticlesCount: 7,
-            articlesCount: 56,
-            draftArticlesCount: 24,
-            mineArticlesCount: 44,
-            publishedCount: 25,
-          },
-        ],
-      ]);
+      expect(dispatch).toHaveBeenCalledWith('update', {
+        portalSlug: 'room-rental',
+        articleId: 1,
+        status: undefined,
+        draft_title: null,
+        draft_content: null,
+        title: 'Draft title',
+        content: 'Draft content',
+      });
+    });
+
+    it('only sends the fields that were actually edited', async () => {
+      const partialState = {
+        articles: { byId: { 1: { id: 1, draftContent: 'Only content' } } },
+      };
+      await actions.publishDraft(
+        { dispatch, state: partialState },
+        { portalSlug: 'room-rental', articleId: 1 }
+      );
+      expect(dispatch).toHaveBeenCalledWith('update', {
+        portalSlug: 'room-rental',
+        articleId: 1,
+        status: undefined,
+        draft_title: null,
+        draft_content: null,
+        content: 'Only content',
+      });
+    });
+
+    it('forwards a status to change it in the same update', async () => {
+      await actions.publishDraft(
+        { dispatch, state },
+        { portalSlug: 'room-rental', articleId: 1, status: 'archived' }
+      );
+      expect(dispatch).toHaveBeenCalledWith(
+        'update',
+        expect.objectContaining({
+          status: 'archived',
+          title: 'Draft title',
+          content: 'Draft content',
+          draft_title: null,
+          draft_content: null,
+        })
+      );
+    });
+  });
+
+  describe('#discardDraft', () => {
+    it('dispatches update clearing the draft columns', async () => {
+      await actions.discardDraft(
+        { dispatch },
+        { portalSlug: 'room-rental', articleId: 1 }
+      );
+      expect(dispatch).toHaveBeenCalledWith('update', {
+        portalSlug: 'room-rental',
+        articleId: 1,
+        status: undefined,
+        draft_title: null,
+        draft_content: null,
+      });
+    });
+
+    it('forwards a status to change it in the same update', async () => {
+      await actions.discardDraft(
+        { dispatch },
+        { portalSlug: 'room-rental', articleId: 1, status: 'draft' }
+      );
+      expect(dispatch).toHaveBeenCalledWith('update', {
+        portalSlug: 'room-rental',
+        articleId: 1,
+        status: 'draft',
+        draft_title: null,
+        draft_content: null,
+      });
     });
   });
 
@@ -232,13 +291,23 @@ describe('#actions', () => {
     it('should upload the file and return the fileUrl', async () => {
       const mockFile = new Blob(['test'], { type: 'image/png' });
       mockFile.name = 'test.png';
+      const onProgress = () => {};
+      const signal = new AbortController().signal;
 
       const mockFileUrl = 'https://test.com/test.png';
       uploadFile.mockResolvedValueOnce({ fileUrl: mockFileUrl });
 
-      const result = await actions.attachImage({}, { file: mockFile });
+      const result = await actions.attachImage(
+        {},
+        { file: mockFile, onProgress, signal }
+      );
 
-      expect(uploadFile).toHaveBeenCalledWith(mockFile);
+      expect(uploadFile).toHaveBeenCalledWith(
+        mockFile,
+        undefined,
+        onProgress,
+        signal
+      );
       expect(result).toBe(mockFileUrl);
     });
 
@@ -258,14 +327,22 @@ describe('#actions', () => {
   describe('uploadExternalImage', () => {
     it('should upload the image from external URL and return the fileUrl', async () => {
       const mockUrl = 'https://example.com/image.jpg';
+      const signal = new AbortController().signal;
       const mockFileUrl = 'https://uploaded.example.com/image.jpg';
       uploadExternalImage.mockResolvedValueOnce({ fileUrl: mockFileUrl });
 
       // When
-      const result = await actions.uploadExternalImage({}, { url: mockUrl });
+      const result = await actions.uploadExternalImage(
+        {},
+        { url: mockUrl, signal }
+      );
 
       // Then
-      expect(uploadExternalImage).toHaveBeenCalledWith(mockUrl);
+      expect(uploadExternalImage).toHaveBeenCalledWith(
+        mockUrl,
+        undefined,
+        signal
+      );
       expect(result).toBe(mockFileUrl);
     });
 

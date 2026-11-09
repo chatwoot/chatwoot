@@ -26,6 +26,18 @@ describe('agentHelper', () => {
         offlineAgentsData
       );
     });
+
+    it('does not throw when an agent has a null name', () => {
+      const agents = [
+        { id: 1, name: null, availability_status: 'offline' },
+        { id: 2, name: 'Zoe', availability_status: 'offline' },
+      ];
+
+      expect(() => getAgentsByAvailability(agents, 'offline')).not.toThrow();
+      expect(
+        getAgentsByAvailability(agents, 'offline').map(agent => agent.id)
+      ).toEqual([1, 2]);
+    });
   });
 
   describe('getSortedAgentsByAvailability', () => {

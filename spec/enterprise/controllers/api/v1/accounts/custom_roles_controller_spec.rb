@@ -6,6 +6,8 @@ RSpec.describe 'Custom Roles API', type: :request do
   let!(:agent) { create(:user, account: account, role: :agent) }
   let!(:custom_role) { create(:custom_role, account: account, name: 'Manager') }
 
+  before { account.enable_features!('custom_roles') }
+
   describe 'GET #index' do
     context 'when it is an authenticated administrator' do
       it 'returns all custom roles in the account' do

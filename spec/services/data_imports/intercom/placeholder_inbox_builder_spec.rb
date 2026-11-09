@@ -29,5 +29,27 @@ RSpec.describe DataImports::Intercom::PlaceholderInboxBuilder do
       expect(second_inbox).to eq(first_inbox)
       expect(Inbox.where(account: account, channel_type: 'Channel::Api').count).to eq(1)
     end
+
+    it 'creates editable default working hours without running inbox creation callbacks' do
+      inbox = described_class.new(account: account).inbox_for('email')
+
+      expect(inbox.working_hours.count).to eq(7)
+
+      inbox.update_working_hours(
+        [
+          {
+            'day_of_week' => 1,
+            'open_hour' => 10,
+            'open_minutes' => 0,
+            'close_hour' => 18,
+            'close_minutes' => 0,
+            'closed_all_day' => false,
+            'open_all_day' => false
+          }
+        ]
+      )
+
+      expect(inbox.working_hours.find_by(day_of_week: 1)).to have_attributes(open_hour: 10, close_hour: 18)
+    end
   end
 end

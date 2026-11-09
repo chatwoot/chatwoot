@@ -23,15 +23,15 @@ const OAUTH_CLIENTS = {
 export function useChannelConnect() {
   const { t } = useI18n();
   const store = useStore();
+  const { isMetaInboxCreationDisabled } = useAccount();
   const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
-  const { isOnChatwootCloud } = useAccount();
 
   const connectViaOAuth = async provider => {
     const client = OAUTH_CLIENTS[provider];
     if (!client) return;
 
-    if (provider === 'instagram' && isOnChatwootCloud.value) {
-      useAlert(t('INBOX_MGMT.ADD.INSTAGRAM.RESTRICTED_WARNING'));
+    if (provider === 'instagram' && isMetaInboxCreationDisabled.value) {
+      useAlert(t('ONBOARDING_INBOX_SETUP.META_RESTRICTION.MESSAGE'));
       return;
     }
 
@@ -50,6 +50,11 @@ export function useChannelConnect() {
   // inbox, and surface the result inline — then refetch so the connected state
   // reflects the freshly created inbox (and renders its real channel icon).
   const connectWhatsapp = async () => {
+    if (isMetaInboxCreationDisabled.value) {
+      useAlert(t('ONBOARDING_INBOX_SETUP.META_RESTRICTION.MESSAGE'));
+      return;
+    }
+
     let credentials;
     try {
       credentials = await runEmbeddedSignup();

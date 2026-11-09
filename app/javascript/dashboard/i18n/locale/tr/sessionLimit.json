@@ -1,0 +1,12 @@
+{
+  "SESSION_LIMIT": {
+    "TITLE": "Active session limit reached",
+    "DESCRIPTION": "Aktif oturum sınırınıza ulaştınız. Lütfen oturum açmadan önce bir oturumu sonlandırın.",
+    "END": "End",
+    "END_ALL": "End all sessions",
+    "LOG_IN": "Log in",
+    "CANCEL": "Back to login",
+    "UNKNOWN_DEVICE": "Unknown device",
+    "STARTED": "Started"
+  }
+}

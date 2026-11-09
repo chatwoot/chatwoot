@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Μεταβλητές",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Γλώσσα",
       "CATEGORY": "Κατηγορία",
       "VARIABLE_PLACEHOLDER": "Εισάγετε τιμή για {variable}",

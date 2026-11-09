@@ -3,6 +3,7 @@ json.sla_id resource.sla_policy_id
 json.sla_status resource.sla_status
 json.created_at resource.created_at.to_i
 json.updated_at resource.updated_at.to_i
+json.sla_completed_at resource.completed_at&.to_i
 json.sla_description resource.sla_policy.description
 json.sla_name resource.sla_policy.name
 json.sla_first_response_time_threshold resource.sla_policy.first_response_time_threshold

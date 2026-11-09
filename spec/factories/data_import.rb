@@ -12,5 +12,15 @@ FactoryBot.define do
       access_token { 'intercom-token' }
       import_file { nil }
     end
+
+    trait :freshdesk do
+      data_type { 'freshdesk' }
+      source_type { 'api' }
+      source_provider { 'freshdesk' }
+      import_types { %w[contacts conversations] }
+      access_token { 'freshdesk-api-key' }
+      source_metadata { { domain: 'acme.freshdesk.com' } }
+      import_file { nil }
+    end
   end
 end

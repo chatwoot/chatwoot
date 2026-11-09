@@ -16,12 +16,13 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'returns the correct parameters' do
-      expect(tool.parameters).to have_key(:note)
-      expect(tool.parameters[:note].name).to eq(:note)
-      expect(tool.parameters[:note].type).to eq('string')
-      expect(tool.parameters[:note].description).to eq('The note content to add to the contact')
+      properties = tool.parameters_schema.fetch('properties')
+
+      expect(properties).to have_key('note')
+      expect(properties['note']['type']).to eq('string')
+      expect(properties['note']['description']).to eq('The note content to add to the contact')
     end
   end
 
@@ -104,6 +105,16 @@ RSpec.describe Captain::Tools::AddContactNoteTool, type: :model do
       it 'returns error message' do
         result = tool.perform(tool_context, note: 'Some note')
         expect(result).to eq('Contact not found')
+      end
+    end
+
+    context 'when a playground call cannot add the note' do
+      let(:tool_context) { Struct.new(:state).new({ source: 'playground' }) }
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, note: 'Some note')
+
+        expect(result).to eq('ERROR: Contact not found')
       end
     end
   end

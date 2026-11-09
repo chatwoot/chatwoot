@@ -12,7 +12,6 @@
     display: none;
   }
 </style>
-<%= csrf_meta_tags %>
 <% if content_for?(:head) %>
   <%= yield(:head) %>
 <% else %>
@@ -22,6 +21,9 @@
 <% if @portal.logo.present? %>
   <link rel="icon" href="<%= url_for(@portal.logo) %>">
 <% end %>
+
+<%# Skip analytics on internal plain-layout previews (dashboard article preview iframe) so they don't count as visitor traffic. %>
+<%= render 'layouts/portal_analytics' unless @is_plain_layout_enabled %>
 
 <% unless @theme_from_params.blank? %>
 <%# this adds the theme from params, ensuring that there a localstorage value set %>

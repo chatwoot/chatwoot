@@ -35,13 +35,96 @@ describe Voice::Provider::Twilio::ConferenceService do
     end
   end
 
+  describe '#dismiss' do
+    let(:agent) { create(:user, account: account) }
+    let(:teammate) { create(:user, account: account) }
+    let(:message) { create(:message, account: account, inbox: channel.inbox, conversation: conversation, content_type: 'voice_call') }
+
+    before { call.update!(message: message, ring_state: { 'ring_recipient_ids' => [agent.id, teammate.id] }) }
+
+    it 'stops the ring for the agent only and names who still rings on the message' do
+      service.dismiss(agent)
+
+      expect(call.reload).to be_ringing
+      expect(call.dismissed_user_ids).to eq([agent.id])
+      expect(message.reload.content_attributes['data']).to include('ring_user_ids' => [teammate.id], 'dismissed_user_ids' => [agent.id])
+    end
+
+    it 'changes nothing for an agent the call does not ring, or a repeated dismiss' do
+      outsider = create(:user, account: account)
+      service.dismiss(agent)
+      service.dismiss(agent)
+      service.dismiss(outsider)
+
+      expect(call.reload.dismissed_user_ids).to eq([agent.id])
+    end
+
+    it 'leaves a call that is no longer ringing alone' do
+      call.update!(status: 'in_progress')
+
+      service.dismiss(agent)
+
+      expect(call.reload.dismissed_user_ids).to be_empty
+    end
+  end
+
   describe '#mark_agent_joined' do
     it 'sets accepted_by_agent on the Call' do
       agent = create(:user, account: account)
 
-      service.mark_agent_joined(user: agent)
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' })
 
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
+    end
+
+    it 'refuses a claim while the ring time is ending the call' do
+      call.update!(ring_state: { 'timing_out_at' => Time.zone.now.to_i })
+
+      expect { service.mark_agent_joined(user: create(:user, account: account), agent_client: { 'platform' => 'web' }) }
+        .to raise_error(Voice::CallErrors::CallAlreadyEnded, 'The call timed out before you could join.')
+      expect(call.reload.accepted_by_agent_id).to be_nil
+    end
+
+    it 'refuses a claim when the move has ended the call before the ring time records it' do
+      call.update!(status: 'completed', ring_state: { 'timing_out_at' => Time.zone.now.to_i })
+
+      expect { service.mark_agent_joined(user: create(:user, account: account), agent_client: { 'platform' => 'web' }) }
+        .to raise_error(Voice::CallErrors::CallAlreadyEnded, 'The call timed out before you could join.')
+      expect(call.reload.accepted_by_agent_id).to be_nil
+    end
+
+    it 'holds a place for the connection of the attempt the agent names' do
+      agent = create(:user, account: account)
+
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' }, attempt: 'attempt-1')
+
+      expect(call.reload.agent_legs.dig(Call.pending_agent_leg('attempt-1'), 'state')).to eq('joining')
+    end
+
+    it 'replaces the place an earlier attempt held, which may never have reached Twilio' do
+      agent = create(:user, account: account)
+      call.with_lock { call.record_agent_leg!('CA-live', 'joined') }
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' }, attempt: 'attempt-1')
+
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' }, attempt: 'attempt-2')
+
+      expect(call.reload.agent_legs.keys).to contain_exactly('CA-live', Call.pending_agent_leg('attempt-2'))
+    end
+
+    it 'holds no place for a client that names no attempt' do
+      service.mark_agent_joined(user: create(:user, account: account), agent_client: { 'platform' => 'web' })
+
+      expect(call.reload.agent_legs).to be_empty
+    end
+
+    it 'keeps an existing AgentBot conversation owner' do
+      agent = create(:user, account: account)
+      agent_bot = create(:agent_bot, account: account)
+      conversation.update!(ai_assignee: agent_bot)
+
+      service.mark_agent_joined(user: agent, agent_client: { 'platform' => 'web' })
+
+      expect(conversation.reload.assigned_entity).to eq(agent_bot)
     end
   end
 
@@ -66,6 +149,114 @@ describe Voice::Provider::Twilio::ConferenceService do
       allow(twilio_client).to receive(:conferences)
       service.end_conference
       expect(twilio_client).not_to have_received(:conferences)
+    end
+  end
+
+  describe '#agents_remain?' do
+    let(:conferences_proxy) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceList) }
+    let(:conf_instance) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance, sid: 'CF123') }
+    let(:conf_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext, update: nil) }
+    let(:participants_proxy) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::ParticipantList) }
+
+    def participant(label, call_sid)
+      instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::ParticipantInstance, label: label, call_sid: call_sid)
+    end
+
+    before do
+      call.update!(conference_sid: 'CF123_FRIENDLY')
+      allow(twilio_client).to receive(:conferences).with(no_args).and_return(conferences_proxy)
+      allow(conferences_proxy).to receive(:list).with(friendly_name: 'CF123_FRIENDLY', status: 'in-progress').and_return([conf_instance])
+      allow(twilio_client).to receive(:conferences).with('CF123').and_return(conf_context)
+      allow(conf_context).to receive(:participants).and_return(participants_proxy)
+    end
+
+    it 'is false when only the contact is left' do
+      allow(participants_proxy).to receive(:list).and_return([participant('contact', 'CA-contact'), participant('agent-1-account-1', 'CA-agent-1')])
+
+      expect(service.agents_remain?(leaving_call_sid: 'CA-agent-1')).to be(false)
+    end
+
+    it 'is true when another agent is still on the call' do
+      allow(participants_proxy).to receive(:list)
+        .and_return([participant('agent-1-account-1', 'CA-agent-1'), participant('agent-2-account-1', 'CA-agent-2')])
+
+      expect(service.agents_remain?(leaving_call_sid: 'CA-agent-1')).to be(true)
+    end
+
+    it 'is true when the same agent reconnected on a new leg' do
+      allow(participants_proxy).to receive(:list).and_return([participant('contact', 'CA-contact'), participant('agent-1-account-1', 'CA-agent-1b')])
+
+      expect(service.agents_remain?(leaving_call_sid: 'CA-agent-1')).to be(true)
+    end
+
+    it 'is false when call has no conference_sid' do
+      call.update!(conference_sid: nil)
+
+      expect(service.agents_remain?(leaving_call_sid: 'CA-agent-1')).to be(false)
+      expect(conferences_proxy).not_to have_received(:list)
+    end
+  end
+
+  describe '#hold_contact' do
+    let(:participant) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::ParticipantContext, update: true) }
+    let(:conference_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext) }
+
+    before do
+      call.update!(twilio_conference_sid: 'CF_TWILIO')
+      allow(twilio_client).to receive(:conferences).with('CF_TWILIO').and_return(conference_context)
+      allow(conference_context).to receive(:participants).with(call.provider_call_id).and_return(participant)
+    end
+
+    it 'plays the default playlist to the contact alone, so the agent still hears them' do
+      service.hold_contact(true)
+
+      expect(participant).to have_received(:update)
+        .with(announce_url: 'https://s3.amazonaws.com/com.twilio.sounds.music/index.xml', announce_method: 'GET')
+    end
+
+    it 'ends the music with an empty announcement' do
+      service.hold_contact(false)
+
+      digits = channel.phone_number.delete_prefix('+')
+      expect(participant).to have_received(:update)
+        .with(announce_url: "http://localhost:3000/twilio/voice/resume/#{digits}", announce_method: 'GET')
+    end
+
+    it 'raises a call error when Twilio refuses, so no hold is shown' do
+      allow(participant).to receive(:update).and_raise(Twilio::REST::RestError.new('not found', Twilio::Response.new(404, '{}')))
+
+      expect { service.hold_contact(true) }.to raise_error(Voice::CallErrors::CallFailed, 'Could not update the hold. Please try again.')
+    end
+  end
+
+  describe '#terminate_call' do
+    let(:call_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext, update: true) }
+
+    before { allow(twilio_client).to receive(:calls).and_return(call_context) }
+
+    it 'hangs up the provider call leg with status completed' do
+      service.terminate_call
+
+      expect(twilio_client).to have_received(:calls).with(call.provider_call_id).once
+      expect(call_context).to have_received(:update).with(status: 'completed').once
+    end
+
+    it 'also hangs up the parent call leg when it differs from the provider call' do
+      call.update!(parent_call_sid: 'CA_parent')
+
+      service.terminate_call
+
+      expect(twilio_client).to have_received(:calls).with(call.provider_call_id)
+      expect(twilio_client).to have_received(:calls).with('CA_parent')
+      expect(call_context).to have_received(:update).with(status: 'completed').twice
+    end
+
+    it 'hangs up a leg only once when the parent call is the provider call' do
+      call.update!(parent_call_sid: call.provider_call_id)
+
+      service.terminate_call
+
+      expect(call_context).to have_received(:update).with(status: 'completed').once
     end
   end
 end

@@ -3,6 +3,7 @@ import { computed, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import {
   snoozedReopenTimeToTimestamp,
   shortenSnoozeTime,
@@ -29,6 +30,8 @@ const emit = defineEmits([
   'deleteNotification',
 ]);
 
+const exactTimestamp = useExactTimestamp();
+
 const { t } = useI18n();
 
 const isContextMenuOpen = ref(false);
@@ -49,8 +52,8 @@ const isUnread = computed(() => !props.inboxItem?.readAt);
 const inbox = computed(() => props.stateInbox);
 
 const inboxIcon = computed(() => {
-  const { channelType, medium } = inbox.value;
-  return getInboxIconByType(channelType, medium);
+  const { channelType, medium, voiceEnabled } = inbox.value;
+  return getInboxIconByType(channelType, medium, 'fill', voiceEnabled);
 });
 
 const hasSlaThreshold = computed(() => {
@@ -80,22 +83,15 @@ const messageClasses = computed(() => ({
     : getMessageClasses.normal,
 }));
 
-const formatPushMessage = message => {
-  if (message.startsWith(': ')) {
-    return message.slice(2);
+const messageParts = computed(() => {
+  const body = props.inboxItem?.pushMessageBody || '';
+  if (body.startsWith(': ')) {
+    return { senderLabel: '', message: body.slice(2) };
   }
 
-  return message.replace(/^([^:]+):/g, (match, name) => {
-    return `<span class="${messageClasses.value.emphasis}">${name}:</span>`;
-  });
-};
-
-const formattedMessage = computed(() => {
-  const messageContent = `<span class="${messageClasses.value.normal}">${formatPushMessage(props.inboxItem?.pushMessageBody || '')}</span>`;
-
-  return isUnread.value
-    ? `<span class="inline-flex flex-shrink-0 w-2 h-2 mb-px rounded-full bg-n-iris-10 ltr:mr-1 rtl:ml-1"></span> ${messageContent}`
-    : messageContent;
+  const match = body.match(/^[^:]+:/);
+  const senderLabel = match ? match[0] : '';
+  return { senderLabel, message: body.slice(senderLabel.length) };
 });
 
 const notificationDetails = computed(() => {
@@ -166,7 +162,22 @@ onBeforeMount(contextMenuActions.close);
         rounded-full
         class="mt-1"
       />
-      <p v-dompurify-html="formattedMessage" class="mb-0 line-clamp-2" />
+      <p class="mb-0 line-clamp-2">
+        <template v-if="isUnread">
+          <span
+            class="inline-flex flex-shrink-0 w-2 h-2 mb-px rounded-full bg-n-iris-10 ltr:mr-1 rtl:ml-1"
+          />{{ ' ' }}
+        </template>
+        <span :class="messageClasses.normal">
+          <span
+            v-if="messageParts.senderLabel"
+            :class="messageClasses.emphasis"
+          >
+            {{ messageParts.senderLabel }}
+          </span>
+          <span>{{ messageParts.message }}</span>
+        </span>
+      </p>
     </div>
     <div class="flex items-center justify-between h-6 gap-2">
       <div class="flex items-center flex-1 min-w-0 gap-1">
@@ -233,7 +244,13 @@ onBeforeMount(contextMenuActions.close);
             class="flex-shrink-0 text-n-slate-11 size-2.5"
           />
         </div>
-        <span class="text-xs text-n-slate-10">
+        <span
+          v-tooltip.top="{
+            content: exactTimestamp(inboxItem?.lastActivityAt),
+            delay: { show: 500, hide: 0 },
+          }"
+          class="text-xs text-n-slate-10"
+        >
           {{ lastActivityAt }}
         </span>
       </div>

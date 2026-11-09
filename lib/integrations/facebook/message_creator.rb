@@ -9,6 +9,8 @@ class Integrations::Facebook::MessageCreator
 
   def perform
     # begin
+    return if response.echo? && response.sent_from_chatwoot_app?
+
     if agent_message_via_echo?
       create_agent_message
     else
@@ -22,10 +24,9 @@ class Integrations::Facebook::MessageCreator
   private
 
   def agent_message_via_echo?
-    # TODO : check and remove send_from_chatwoot_app if not working
-    response.echo? && !response.sent_from_chatwoot_app?
-    # this means that it is an agent message from page, but not sent from chatwoot.
-    # User can send from fb page directly on mobile / web messenger, so this case should be handled as agent message
+    # echoes of chatwoot-sent messages are skipped in perform; a remaining echo means an agent
+    # replied from the fb page directly (mobile / web messenger), so handle it as an agent message
+    response.echo?
   end
 
   def create_agent_message

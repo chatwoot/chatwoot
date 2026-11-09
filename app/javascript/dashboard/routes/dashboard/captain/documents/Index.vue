@@ -54,11 +54,9 @@ const handleDelete = () => {
 const showDocumentDetails = ref(false);
 const showCreateDialog = ref(false);
 const createDocumentDialog = ref(null);
-const documentDetailsDialog = ref(null);
 
 const handleShowDocumentDetails = () => {
   showDocumentDetails.value = true;
-  nextTick(() => documentDetailsDialog.value.dialogRef.open());
 };
 const handleCreateDocument = () => {
   showCreateDialog.value = true;
@@ -408,6 +406,8 @@ onUnmounted(() => {
           :name="doc.name || doc.external_link"
           :external-link="doc.external_link"
           :pdf-document="doc.pdf_document"
+          :markdown-document="doc.markdown_document"
+          :syncable="doc.syncable"
           :assistant="doc.assistant"
           :created-at="doc.created_at"
           :status="doc.status"
@@ -430,7 +430,6 @@ onUnmounted(() => {
 
     <DocumentDetails
       v-if="showDocumentDetails"
-      ref="documentDetailsDialog"
       :captain-document="selectedDocument"
       @close="handleDocumentDetailsClose"
     />
