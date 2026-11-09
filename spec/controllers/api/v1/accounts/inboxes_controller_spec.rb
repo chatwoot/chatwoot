@@ -244,7 +244,7 @@ RSpec.describe 'Inboxes API', type: :request do
       it 'does not flag reauthorization_required for manual whatsapp channel even when reauth required' do
         whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
                                                      validate_provider_config: false)
-        whatsapp_channel.update!(provider_config: whatsapp_channel.provider_config.merge('source' => 'manual'))
+        whatsapp_channel.update!(provider_config: whatsapp_channel.provider_config.merge('source' => 'manual', 'app_secret' => 'secret'))
         whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
         whatsapp_channel.prompt_reauthorization!
 
@@ -610,15 +610,60 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'creates a sms inbox when administrator' do
+        token_service = instance_double(Sms::BandwidthTokenService, token: 'token')
+        allow(Sms::BandwidthTokenService).to receive(:new).and_return(token_service)
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
              params: { name: 'Sms Inbox',
-                       channel: { type: 'sms', phone_number: '+123456789', provider_config: { test: 'test' } } },
+                       channel: { type: 'sms', phone_number: '+123456789',
+                                  provider_config: { account_id: '123', application_id: 'app', client_id: 'client', client_secret: 'secret' } } },
              as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Sms Inbox')
         expect(response.body).to include('+123456789')
+      end
+
+      context 'when creating a manual whatsapp cloud inbox' do
+        let(:provider_config) do
+          { api_key: 'test_key', phone_number_id: '123456', business_account_id: '654321', app_secret: 'test_app_secret' }
+        end
+        let(:whatsapp_params) do
+          { name: 'WhatsApp Inbox',
+            channel: { type: 'whatsapp', phone_number: '+15551234567', provider: 'whatsapp_cloud', provider_config: provider_config } }
+        end
+        let(:webhook_setup_service) { instance_double(Whatsapp::WebhookSetupService, perform: true) }
+
+        before do
+          stub_request(:get, %r{graph\.facebook\.com/v14\.0/654321/message_templates})
+            .to_return(status: 200, body: { data: [] }.to_json, headers: { 'Content-Type' => 'application/json' })
+          stub_request(:get, %r{graph\.facebook\.com/v14\.0/654321/phone_numbers})
+            .to_return(status: 200, body: { data: [{ id: '123456' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+          allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_setup_service)
+        end
+
+        it 'creates the inbox with the app secret and conforms to the documented contract' do
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: whatsapp_params,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response).to conform_schema(200)
+          expect(Channel::Whatsapp.last.provider_config['app_secret']).to eq('test_app_secret')
+        end
+
+        it 'rejects a request without the app secret, which the documented contract also rejects' do
+          whatsapp_params[:channel][:provider_config] = provider_config.except(:app_secret)
+
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: whatsapp_params,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).not_to conform_request_schema
+        end
       end
 
       it 'creates the webwidget inbox that allow messages after conversation is resolved' do
@@ -706,6 +751,30 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(whatsapp_inbox.reload.enable_auto_assignment).to be_falsey
         expect(whatsapp_channel.reload.provider_config['api_key']).to eq('new_key')
         expect(whatsapp_channel.reload).not_to be_reauthorization_required
+      end
+
+      it 'adds an app secret to a manual whatsapp cloud inbox and conforms to the documented contract' do
+        stub_request(:get, %r{graph\.facebook\.com/v14\.0/.*/message_templates})
+          .to_return(status: 200, body: { data: [] }.to_json, headers: { 'Content-Type' => 'application/json' })
+        stub_request(:get, %r{graph\.facebook\.com/v14\.0/.*/phone_numbers})
+          .to_return(status: 200, body: { data: [{ id: '123456' }] }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+        # An existing manual inbox created before the app secret was required.
+        whatsapp_channel = build(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
+                                                    validate_provider_config: false,
+                                                    provider_config: { 'api_key' => 'test_key', 'phone_number_id' => '123456',
+                                                                       'source' => 'manual_setup_v2' })
+        whatsapp_channel.save!(validate: false)
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { channel: { provider_config: whatsapp_channel.provider_config.merge('app_secret' => 'test_app_secret') } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
+        expect(whatsapp_channel.reload.provider_config['app_secret']).to eq('test_app_secret')
       end
 
       it 'updates twitter inbox when administrator' do

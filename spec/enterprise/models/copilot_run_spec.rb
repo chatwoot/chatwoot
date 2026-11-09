@@ -109,6 +109,23 @@ RSpec.describe CopilotRun do
     end
   end
 
+  describe 'stopping a turn' do
+    it 'changes nothing when a step fails, so a turn never ends while its change can still be approved' do
+      turn.update!(status: :awaiting_background_run)
+      # The change has no approval card, so rejecting it raises after the turn has been released.
+      action = CopilotRun::Action.create!(
+        account: account, user: user, copilot_thread: thread, status: :awaiting_approval,
+        copilot_tool_call: turn.tool_calls.create!(call_id: 'act-1', name: 'act'),
+        context: { action: 'add_labels', arguments: { labels: ['billing'] }, target_ids: [1], approval_message_id: 0 }
+      )
+
+      expect { turn.stop }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(turn.reload).to be_awaiting_background_run
+      expect(action.reload).to be_awaiting_approval
+      expect(message.reload.message).not_to include('status')
+    end
+  end
+
   describe '#record_cost!' do
     it 'adds provider costs to the user turn' do
       turn.record_cost!(0.0123456789)

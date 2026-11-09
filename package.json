@@ -20,8 +20,7 @@
     "size": "size-limit",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
-    "story:preview": "histoire preview",
-    "sync:i18n": "bin/sync_i18n_file_change"
+    "story:preview": "histoire preview"
   },
   "size-limit": [
     {
@@ -37,6 +36,7 @@
     "@amplitude/analytics-browser": "^2.11.10",
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/captain-avatar": "0.2.0",
+    "@chatwoot/jumpbar": "^0.1.2",
     "@chatwoot/ninja-keys": "1.2.3",
     "@chatwoot/pico-search": "0.6.2",
     "@chatwoot/prosemirror-schema": "1.4.6",

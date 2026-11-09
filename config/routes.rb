@@ -115,6 +115,7 @@ Rails.application.routes.draw do
             resources :message_reports, only: [:create]
             resources :bulk_actions, only: [:create]
             resources :copilot_threads, only: [:index, :create] do
+              post :stop, on: :member
               resources :copilot_messages, only: [:index, :create]
             end
             resources :copilot_runs, only: [] do
@@ -123,6 +124,13 @@ Rails.application.routes.draw do
             end
             resources :custom_tools do
               post :test, on: :collection
+            end
+            resources :mcp_servers, only: [:index, :show, :create, :update, :destroy] do
+              post :discover, on: :collection
+              member do
+                get :live_tools
+                get :authorization_url
+              end
             end
             resource :tools_manifest, only: [] do
               get :installed
@@ -349,6 +357,7 @@ Rails.application.routes.draw do
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
+                post :dismiss, on: :member
                 patch :hold, on: :member
               end
               post :enable_whatsapp_calling, on: :member
@@ -770,6 +779,7 @@ Rails.application.routes.draw do
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
+  get 'captain/mcp/callback', to: 'captain/mcp_callbacks#show' if ChatwootApp.enterprise?
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'

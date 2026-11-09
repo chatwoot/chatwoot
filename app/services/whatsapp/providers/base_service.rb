@@ -68,6 +68,13 @@ class Whatsapp::Providers::BaseService
     end
   end
 
+  # Meta keeps existing WABA ids as messaging account ids, and returns new ones in the WABA id field.
+  # Without this, Meta may pick another messaging account on the number, which the token may not be able to access.
+  # See: https://developers.facebook.com/documentation/business-messaging/whatsapp/account-model-evolution/messaging/
+  def messaging_account_params
+    { messaging_account_id: whatsapp_channel.provider_config['business_account_id'] }
+  end
+
   def create_buttons(items)
     buttons = []
     items.each do |item|

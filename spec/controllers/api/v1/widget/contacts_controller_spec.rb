@@ -276,6 +276,20 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
              as: :json
         expect(contact.reload.custom_attributes).to eq({})
       end
+
+      it 'returns presence flags instead of the stored contact details' do
+        contact.update!(email: 'stored@example.com', phone_number: '+15555550100', custom_attributes: { test: 'test', plan: 'pro' })
+
+        post '/api/v1/widget/contact/destroy_custom_attributes',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.custom_attributes).to eq({ 'plan' => 'pro' })
+        expect(response.parsed_body).to include('has_email' => true, 'has_name' => true, 'has_phone_number' => true)
+        expect(response.parsed_body.keys).not_to include('email', 'name', 'phone_number', 'custom_attributes', 'additional_attributes')
+      end
     end
   end
 end
