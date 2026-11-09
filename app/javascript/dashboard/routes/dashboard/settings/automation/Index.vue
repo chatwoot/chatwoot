@@ -2,6 +2,10 @@
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { AUTOMATION_QUERY } from 'dashboard/composables/useAutomationRoute';
+import {
+  usePageCommands,
+  recordCommands,
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { getCaptainConditionUsage } from 'dashboard/helper/automationHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
@@ -246,6 +250,7 @@ const openDeletePopup = response => {
   showDeleteConfirmationPopup.value = true;
   selectedAutomation.value = response;
 };
+
 const closeDeletePopup = () => {
   showDeleteConfirmationPopup.value = false;
 };
@@ -362,6 +367,30 @@ const tableHeaders = computed(() => {
     t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
   ];
 });
+
+usePageCommands(() => [
+  {
+    id: 'add_automation',
+    title: t('AUTOMATION.HEADER_BTN_TXT'),
+    run: () => openAddPopup(),
+  },
+  ...recordCommands({
+    id: 'edit_automation',
+    title: t('AUTOMATION.EDIT.TITLE'),
+    icon: 'i-lucide-pencil',
+    records: records.value,
+    label: rule => rule.name,
+    run: openEditPopup,
+  }),
+  ...recordCommands({
+    id: 'delete_automation',
+    title: t('AUTOMATION.DELETE.TITLE'),
+    icon: 'i-lucide-trash-2',
+    records: records.value,
+    label: rule => rule.name,
+    run: openDeletePopup,
+  }),
+]);
 </script>
 
 <template>

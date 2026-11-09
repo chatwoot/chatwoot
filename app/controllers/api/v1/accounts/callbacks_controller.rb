@@ -1,4 +1,5 @@
 class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
+  before_action :check_admin_authorization?
   before_action :inbox, only: [:reauthorize_page]
 
   def register_facebook_page

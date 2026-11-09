@@ -34,7 +34,7 @@ RSpec.describe Captain::AutomationConditionService do
     expect(stub).to have_been_requested
     expect(stub.with do |request|
       body = JSON.parse(request.body)
-      body['questions'].keys == ['1'] &&
+      body['model'] == 'typesafe/jev-1.14' && body['questions'].keys == ['1'] &&
         body['questions']['1']['type'] == 'noul' &&
         body['questions']['1']['instructions']['description'] == 'the customer is asking for a refund' &&
         body['state']['latest_message'] == { 'sender' => 'customer', 'text' => 'I want my money back' } &&

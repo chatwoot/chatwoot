@@ -19,7 +19,7 @@ module Enterprise::Concerns::Message
 
   # Bots and automations already write in the contact language.
   def translation_enabled?
-    account.auto_translate_enabled? && content.present? && !private? && (template? || translatable_agent_reply?)
+    conversation.auto_translate_enabled? && content.present? && !private? && (template? || translatable_agent_reply?)
   end
 
   # Forwarded messages and WhatsApp templates must go out exactly as they are.

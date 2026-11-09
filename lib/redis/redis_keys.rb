@@ -55,6 +55,7 @@ module Redis::RedisKeys
   # SSO Auth Tokens
   USER_SSO_AUTH_TOKEN = 'USER_SSO_AUTH_TOKEN::%<user_id>d::%<token>s'.freeze
   USER_SSO_IMPERSONATOR = 'USER_SSO_IMPERSONATOR::%<user_id>d::%<token>s'.freeze
+  SUPER_ADMIN_MFA_FAILED_ATTEMPTS = 'SUPER_ADMIN_MFA_FAILED_ATTEMPTS::%<user_id>d'.freeze
 
   ## Online Status Keys
   # hash containing user_id key and status as value
@@ -125,4 +126,8 @@ module Redis::RedisKeys
   CAPTAIN_EMAIL_VERIFICATION_EMAIL_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::EMAIL_SENDS::%<email_digest>s'.freeze
   # Email address verified in the conversation
   CAPTAIN_EMAIL_VERIFICATION_VERIFIED = 'CAPTAIN::EMAIL_VERIFICATION::VERIFIED::%<conversation_id>d'.freeze
+
+  ## Captain MCP servers
+  # MCP server an OAuth sign-in started for, keyed by the OAuth state, so the callback finds the server
+  CAPTAIN_MCP_OAUTH_STATE = 'CAPTAIN::MCP::OAUTH_STATE::%<state>s'.freeze
 end

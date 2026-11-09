@@ -117,6 +117,19 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(5)
     end
 
+    it 'excludes unpublished translations from associated articles' do
+      draft_translation = create(:article, locale: 'fr', portal: portal, author: agent, associated_article_id: article.id,
+                                           status: :draft, content: 'Unreleased pricing')
+
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json"
+
+      expect(response).to have_http_status(:success)
+      payload = JSON.parse(response.body, symbolize_names: true)[:payload]
+      associated_ids = payload.find { |entry| entry[:id] == article.id }[:associated_articles].pluck(:id)
+      expect(associated_ids).to eq([translated_article.id])
+      expect(response.body).not_to include(draft_translation.content)
+    end
+
     it 'uses default items per page if per_page is less than 1' do
       get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { per_page: 0 }
 
@@ -139,6 +152,16 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/articles/#{draft_article.slug}"
       expect(response).to have_http_status(:success)
       expect(draft_article.reload.views).to eq 0
+    end
+
+    it 'returns not found for an archived article' do
+      archived_article = create(:article, category: category, status: :archived, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{archived_article.slug}"
+      expect(response).to have_http_status(:not_found)
+
+      get "/hc/#{portal.slug}/articles/#{archived_article.slug}.json"
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'returns the article with the id with a different locale' do
@@ -199,7 +222,8 @@ RSpec.describe 'Public Articles API', type: :request do
     it 'excludes translations from other portals' do
       portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
       foreign_portal = create(:portal, config: { allowed_locales: ['fr'] })
-      foreign_article = create(:article, portal: foreign_portal, locale: 'fr', associated_article_id: article.id)
+      foreign_article = create(:article, portal: foreign_portal, locale: 'fr')
+      foreign_article.update_column(:associated_article_id, article.id) # rubocop:disable Rails/SkipsModelValidations
 
       get "/hc/#{portal.slug}/articles/#{article.slug}"
 

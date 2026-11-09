@@ -1,6 +1,7 @@
 <script setup>
 import { ref, useTemplateRef, onMounted, onUnmounted } from 'vue';
 import { debounce } from '@chatwoot/utils';
+import { isActiveElementTypeable } from 'shared/helpers/KeyboardHelpers';
 import RecentSearches from './RecentSearches.vue';
 
 const emit = defineEmits(['search', 'selectRecentSearch']);
@@ -15,7 +16,7 @@ const searchInput = useTemplateRef('searchInput');
 const recentSearchesRef = useTemplateRef('recentSearchesRef');
 
 const handler = e => {
-  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+  if (e.key === '/' && !isActiveElementTypeable(e)) {
     e.preventDefault();
     searchInput.value.focus();
   } else if (e.key === 'Escape' && document.activeElement.tagName === 'INPUT') {

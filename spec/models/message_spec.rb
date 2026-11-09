@@ -154,6 +154,40 @@ RSpec.describe Message do
     end
   end
 
+  describe '#widget_sender_data' do
+    it 'returns only the type for a contact sender' do
+      message = create(:message, message_type: :incoming, sender: create(:contact, email: 'jane@example.com'))
+
+      expect(message.widget_sender_data).to eq(type: 'contact')
+    end
+
+    it 'returns the full event data for an agent sender' do
+      message = create(:message, sender: create(:user))
+
+      expect(message.widget_sender_data).to eq(message.sender.push_event_data)
+    end
+  end
+
+  describe '#widget_push_event_data' do
+    it 'keeps the message event and reduces a contact sender to its type' do
+      message = create(:message, message_type: :incoming, sender: create(:contact, email: 'jane@example.com'))
+
+      expect(message.widget_push_event_data).to eq(message.push_event_data.merge(sender: { type: 'contact' }))
+    end
+
+    it 'keeps an agent sender' do
+      message = create(:message, sender: create(:user))
+
+      expect(message.widget_push_event_data).to eq(message.push_event_data)
+    end
+
+    it 'keeps an agent bot sender with the inbox avatar fallback' do
+      message = create(:message, sender: create(:agent_bot))
+
+      expect(message.widget_push_event_data[:sender]).to eq(message.sender.push_event_data(message.inbox))
+    end
+  end
+
   describe 'message create event' do
     let!(:conversation) { create(:conversation) }
 

@@ -21,6 +21,7 @@ import ReportHeader from '../components/ReportHeader.vue';
 import MonitorChartFilters from './MonitorChartFilters.vue';
 import MonitorDrilldown from './MonitorDrilldown.vue';
 import MonitorActionDialog from './MonitorActionDialog.vue';
+import MonitorSlackAlerts from './MonitorSlackAlerts.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
 import { useMonitorRefresh } from './useMonitorRefresh';
 
@@ -519,6 +520,13 @@ const duplicate = () =>
         </li>
       </ul>
     </section>
+    <MonitorSlackAlerts
+      v-if="monitor && canManageAutomations"
+      :key="`${accountId}/${monitorId}`"
+      :monitor-id="monitorId"
+      :channel-id="monitor.slack_channel_id || ''"
+      @saved="fetchReport"
+    />
   </div>
   <MonitorDrilldown
     v-if="drilldown"

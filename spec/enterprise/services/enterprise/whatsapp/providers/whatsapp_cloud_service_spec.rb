@@ -32,7 +32,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
   describe '#send_call_permission_request' do
     it 'returns the parsed body on success' do
       stub_request(:post, messages_url)
-        .with(body: hash_including(messaging_product: 'whatsapp', to: '15551234567', type: 'interactive'))
+        .with(body: hash_including(messaging_product: 'whatsapp', to: '15551234567', messaging_account_id: '123456789', type: 'interactive'))
         .to_return(status: 200, body: { messages: [{ id: 'wamid' }] }.to_json, headers: headers)
 
       expect(service.send_call_permission_request('15551234567')).to eq('messages' => [{ 'id' => 'wamid' }])
