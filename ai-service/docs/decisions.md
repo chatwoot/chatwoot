@@ -30,7 +30,7 @@ first. Owner: John (Johnstocker AI Studio).
 | Hosting | One VPS (Hostinger, Malaysia, 2 vCPU / 8 GB, shared with other services) running Docker Compose through Dokploy; Traefik serves the public domain | Chatwoot and ai-service are long-running services; Workers or Vercel don't fit |
 | Database | Supabase Postgres (Singapore), reached through the session pooler, not the transaction pooler. Chatwoot uses the `chatwoot` database; ai-service uses the project's default `postgres` database | Managed backups and pgvector; Supabase has no Redis |
 | Redis | On the VPS, password-protected, append-only file | Supabase has no Redis |
-| Public routes | `https://chat.johnstockeraistudio.com` → Chatwoot; `/webhooks/chatwoot` on the same host → ai-service | The Agent Bot webhook goes over public HTTPS, so `SAFE_FETCH_ALLOW_PRIVATE_NETWORK` stays unset |
+| Public routes | `https://pronto.johnstockeraistudio.com` → Chatwoot; `/webhooks/chatwoot` on the same host → ai-service | The Agent Bot webhook goes over public HTTPS, so `SAFE_FETCH_ALLOW_PRIVATE_NETWORK` stays unset |
 | `/admin` access | Cloudflare Tunnel `https://ai-admin.johnstockeraistudio.com` behind Cloudflare Access (owner emails), plus ai-service Basic Auth; also an SSH tunnel to VPS loopback | No public port for `/admin` |
 | Email | SMTP through Resend on the Chatwoot domain | Required for invites and password resets |
 | Deploys | Dokploy deploys branch `develop`; auto-deploy is off. PR → merge → trigger the deploy | Every production change is a reviewed commit; see `../deploy/README.md` |

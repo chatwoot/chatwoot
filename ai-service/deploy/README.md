@@ -24,13 +24,19 @@ both apps use Supabase.
 
 ## Routing
 
-Traefik (managed by Dokploy) serves `https://chat.johnstockeraistudio.com`:
+Traefik (managed by Dokploy) serves `https://pronto.johnstockeraistudio.com`:
 
 - `/webhooks/chatwoot` → `ai-service:8080` (the Agent Bot webhook URL).
 - everything else → `rails:3000`.
 
 These domain rules live in the Dokploy UI, not in git. If you change them,
 update this section in the same PR.
+
+The old host `chat.johnstockeraistudio.com` (the address before the Pronto
+rename on 2026-11-09) still has the same two rules and keeps working. The
+Messenger callback in the Meta app and older links still use it. Do not remove
+it, or its DNS records: Resend's sending records for
+`alerts@chat.johnstockeraistudio.com` live under that name.
 
 ## Environment
 
@@ -74,8 +80,11 @@ production.
 
 | Hostname | Goes to | Access |
 |---|---|---|
-| `chat-staging.johnstockeraistudio.com` | `stg-rails:3000`, except `/webhooks/chatwoot` → `stg-ai-service:8080` | owner emails; `/webhooks/chatwoot` bypasses Access (HMAC-signed), added only after the real webhook secret is set |
+| `pronto-staging.johnstockeraistudio.com` | `stg-rails:3000`, except `/webhooks/chatwoot` → `stg-ai-service:8080` | owner emails; `/webhooks/chatwoot` bypasses Access (HMAC-signed), added only after the real webhook secret is set |
 | `ai-admin-staging.johnstockeraistudio.com` | `stg-ai-service:8080`, only `^/admin` | owner emails |
+
+The old staging host `chat-staging.johnstockeraistudio.com` still has the same
+tunnel routes and Access rules as `pronto-staging`.
 
 Inside the stack, ai-service calls Chatwoot at `http://stg-rails:3000`
 (`FORCE_SSL` is off; Cloudflare terminates TLS). Staging data is fake: never
@@ -83,7 +92,7 @@ copy production customer data into it. `/admin` over SSH:
 `ssh -N -L 8082:127.0.0.1:18081 llmopshostinger` → `http://localhost:8082/admin`.
 
 **Environment (staging app, Dokploy):** `SECRET_KEY_BASE`, `FRONTEND_URL`
-(`https://chat-staging.johnstockeraistudio.com`), `STAGING_DB_PASSWORD`,
+(`https://pronto-staging.johnstockeraistudio.com`), `STAGING_DB_PASSWORD`,
 `AI_DB_PASSWORD` (ai-service's own database role), `REDIS_PASSWORD`,
 `AI_ADMIN_PASSWORD`, `CF_TUNNEL_TOKEN` (the staging tunnel's, not
 production's), `LLM_API_KEY`/`EMBED_API_KEY` (the spend-limited CI key),
@@ -122,14 +131,14 @@ volumes, then redo first-time setup steps 4–6 below.
    `http://stg-rails:3000`; `ai-admin-staging` path `^/admin` →
    `http://stg-ai-service:8080`.
 3. Cloudflare Zero Trust → *Access → Applications*: one app for
-   `chat-staging.johnstockeraistudio.com` and `ai-admin-staging…` with an
+   `pronto-staging.johnstockeraistudio.com` and `ai-admin-staging…` with an
    *Allow* policy for the owner emails. Do this **before** the first deploy:
    Chatwoot's onboarding page lets the first visitor create the super admin.
 4. Fill the staging env (above) with `COMPOSE_PROFILES` empty, deploy, then
    `dokploy.py --target staging verify`.
 5. Chatwoot first login (through Access): create the super admin on the
    onboarding page, an account, a Website inbox, and an Agent Bot whose
-   webhook URL is `https://chat-staging.johnstockeraistudio.com/webhooks/chatwoot`;
+   webhook URL is `https://pronto-staging.johnstockeraistudio.com/webhooks/chatwoot`;
    connect the bot to the inbox. The URL must be the public one: Chatwoot
    refuses webhook hosts without a public IP ("has no public ip addresses"),
    so `http://stg-ai-service:8080` does not work in production mode.
@@ -138,7 +147,7 @@ volumes, then redo first-time setup steps 4–6 below.
    `chat-staging` path `^/webhooks/chatwoot` → `http://stg-ai-service:8080`
    and drag it to **first place** (routes match top to bottom; below the
    catch-all it never matches), plus a second Access app for
-   `chat-staging.johnstockeraistudio.com/webhooks/chatwoot` with a *Bypass*
+   `pronto-staging.johnstockeraistudio.com/webhooks/chatwoot` with a *Bypass*
    policy (Everyone). Then seed the sample shop into the bot's account
    (`-seed-account <id>`; the first account Chatwoot creates is not always 1).
 
@@ -175,7 +184,7 @@ Without Claude Code, follow the steps by hand.
    `compose.deploy` (`POST /api/compose.deploy` with header `x-api-key`).
 5. Verify:
    - all containers up; `rails` and `redis` healthy; `sidekiq` without errors;
-   - `https://chat.johnstockeraistudio.com/api` → 200 and `/app/login` → 200;
+   - `https://pronto.johnstockeraistudio.com/api` → 200 and `/app/login` → 200;
    - `/admin` on the public domain → 404;
    - an unsigned `POST /webhooks/chatwoot` → 401;
    - `ai-admin.johnstockeraistudio.com/admin` asks for Cloudflare Access.

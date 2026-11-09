@@ -13,8 +13,8 @@ DOKPLOY_STAGING_COMPOSE_ID, which must differ from the production one. The file 
 $DEPLOY_ENV_FILE, or the first `.env.supabase` found in the current directory
 or its parents. Secrets are never printed.
 
-Optional: CHATWOOT_PUBLIC_URL (default https://chat.johnstockeraistudio.com),
-STAGING_PUBLIC_URL (default https://chat-staging.johnstockeraistudio.com)
+Optional: CHATWOOT_PUBLIC_URL (default https://pronto.johnstockeraistudio.com),
+STAGING_PUBLIC_URL (default https://pronto-staging.johnstockeraistudio.com)
 and DEPLOY_SSH_HOST (default llmopshostinger). DEPLOY_SSH_FORCED=1 (CI) sends
 keywords for the VPS staging-ci forced command instead of shell commands.
 """
@@ -29,8 +29,8 @@ import time
 import urllib.error
 import urllib.request
 
-PUBLIC_URL = os.environ.get("CHATWOOT_PUBLIC_URL", "https://chat.johnstockeraistudio.com")
-STAGING_URL = os.environ.get("STAGING_PUBLIC_URL", "https://chat-staging.johnstockeraistudio.com")
+PUBLIC_URL = os.environ.get("CHATWOOT_PUBLIC_URL", "https://pronto.johnstockeraistudio.com")
+STAGING_URL = os.environ.get("STAGING_PUBLIC_URL", "https://pronto-staging.johnstockeraistudio.com")
 STAGING_ADMIN_URL = os.environ.get("STAGING_ADMIN_URL", "https://ai-admin-staging.johnstockeraistudio.com")
 # Staging shares the production VPS: refuse to build/pull with less disk free.
 MIN_FREE_GB = 10
