@@ -121,3 +121,34 @@ func TestUI_OneDateFormat(t *testing.T) {
 		t.Fatalf("when = %q, day = %q", when, day)
 	}
 }
+
+func TestUI_HiddenStaysHiddenAndMenuClosesOnFocusLeave(t *testing.T) {
+	// Arrange
+	sources := templateSources(t)
+	js, err := os.ReadFile("static/admin.js")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Act and Assert: buttons get display:inline-flex, so [hidden] needs !important
+	if !strings.Contains(sources["layout.html"], "[hidden] { display: none !important; }") {
+		t.Error("layout.html must keep [hidden] elements hidden over the button display rule")
+	}
+	if !strings.Contains(string(js), "details.menu") || !strings.Contains(string(js), "'Escape'") {
+		t.Error("admin.js must close the phone menu when focus leaves it and on Escape")
+	}
+}
+
+func TestUI_ProvidersEnterSaves(t *testing.T) {
+	// Arrange
+	src := templateSources(t)["page.html"]
+
+	// Act
+	save := strings.Index(src, `>Save settings</button>`)
+	test := strings.Index(src, `name="test"`)
+
+	// Assert: implicit submission uses the first submit button in the form
+	if save < 0 || test < 0 || save > strings.Index(src, `{{define "provider"}}`) || save > strings.Index(src, `{{template "provider"`) {
+		t.Fatalf("a Save submit must come before the per-card Test buttons (save=%d test=%d)", save, test)
+	}
+}

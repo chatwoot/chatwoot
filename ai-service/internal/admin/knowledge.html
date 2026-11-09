@@ -30,7 +30,7 @@
     <ul class="sources">
       {{range .Dupes}}<li><strong>{{.Title}}</strong> <span class="preview">{{.Score}} similar</span> · <a href="/admin/knowledge?account={{$.AccountID}}&amp;edit={{.DocumentID}}">Edit this one</a></li>{{end}}
     </ul>
-    <form method="post" action="/admin/knowledge" class="row">
+    <form method="post" action="/admin/knowledge" class="card-foot">
       <input type="hidden" name="account" value="{{.AccountID}}">
       <input type="hidden" name="confirm_duplicate" value="1">
       <input type="hidden" name="inbox" value="{{.InboxID}}">
@@ -41,8 +41,8 @@
       {{else}}
       <input type="hidden" name="action" value="add_doc"><input type="hidden" name="title" value="{{.DocTitle}}"><input type="hidden" name="content" value="{{.DocContent}}">
       {{end}}
-      <button type="submit">Add mine anyway</button>
       <a class="btn" href="/admin/knowledge?account={{.AccountID}}">Cancel</a>
+      <button type="submit">Add mine anyway</button>
     </form>
   </section>
   {{end}}
@@ -51,9 +51,8 @@
   <section class="card" aria-labelledby="edit-title">
     <h2 id="edit-title" class="card-title">Edit {{if eq .Kind "faq"}}FAQ{{else}}document{{end}}</h2>
     <p class="hint">Saving re-indexes it. The bot uses the new version from the next message. Usage counts are kept.</p>
-    {{if .Synced}}<div class="alert err" role="note"><strong>This comes from a website page or data file.</strong> Your edit can be replaced at the next sync. To change it for good, edit the page or the file.</div>{{end}}
-    {{if and $.Error (eq $.ErrorForm "edit")}}<div class="alert err" role="alert"><strong>Not saved.</strong>
-{{$.Error}}</div>{{end}}
+    {{if .Synced}}<div class="alert warn" role="note"><strong>This comes from a website page or data file.</strong> Your edit can be replaced at the next sync. To change it for good, edit the page or the file.</div>{{end}}
+    {{if and $.Error (eq $.ErrorForm "edit")}}<div class="alert err" role="alert"><strong>Not saved.</strong><span class="pre">{{$.Error}}</span></div>{{end}}
     <form method="post" action="/admin/knowledge" autocomplete="off">
       <input type="hidden" name="action" value="update">
       <input type="hidden" name="account" value="{{$.AccountID}}">
@@ -83,8 +82,7 @@
   <section class="card" aria-labelledby="faq-title">
     <h2 id="faq-title" class="card-title">Add an FAQ</h2>
     <p class="hint">One question and its answer. Best for short facts: hours, prices, delivery, returns.</p>
-    {{if and .Error (eq .ErrorForm "faq")}}<div class="alert err" role="alert"><strong>Not added.</strong>
-{{.Error}}</div>{{end}}
+    {{if and .Error (eq .ErrorForm "faq")}}<div class="alert err" role="alert"><strong>Not added.</strong><span class="pre">{{.Error}}</span></div>{{end}}
     <form method="post" action="/admin/knowledge" autocomplete="off">
       <input type="hidden" name="action" value="add_faq">
       <input type="hidden" name="account" value="{{.AccountID}}">
@@ -108,8 +106,7 @@
   <section class="card" aria-labelledby="doc-title">
     <h2 id="doc-title" class="card-title">Add a document</h2>
     <p class="hint">Longer text such as a price list, policy or product guide. Paste it, or upload a file: .txt or .md (max 2 MB), or a PDF with real text, not a scan (max 10 MB). From Word or Google Docs, save as PDF first.</p>
-    {{if and .Error (eq .ErrorForm "doc")}}<div class="alert err" role="alert"><strong>Not added.</strong>
-{{.Error}}</div>{{end}}
+    {{if and .Error (eq .ErrorForm "doc")}}<div class="alert err" role="alert"><strong>Not added.</strong><span class="pre">{{.Error}}</span></div>{{end}}
     <form method="post" action="/admin/knowledge" enctype="multipart/form-data" autocomplete="off">
       <input type="hidden" name="action" value="add_doc">
       <input type="hidden" name="account" value="{{.AccountID}}">
@@ -232,7 +229,7 @@
           <td><strong>{{.Title}}</strong> <span class="preview">{{.Kind}}</span><div class="preview">{{.Preview}}</div></td>
           <td data-label="Status"><span class="badge {{.Status}}">{{if eq .Status "active"}}Active{{else if eq .Status "scheduled"}}Scheduled{{else}}Expired{{end}}</span>{{with .Window}}<div class="preview">{{.}}</div>{{end}}</td>
           <td data-label="Used by customers"{{if .Unused}} class="muted-cell"{{end}}>{{.Used}}</td>
-          <td class="nowrap" data-label="Scope">{{.Inbox}}{{if .Stale}} <span class="warn">({{.Stale}} old chunks)</span>{{end}}</td>
+          <td data-label="Scope">{{.Inbox}}{{if .Stale}} <span class="warn">({{.Stale}} old chunks)</span>{{end}}</td>
           <td class="num" data-label="Updated">{{.Updated}}</td>
           <td class="row-actions">
             <a class="btn small" href="/admin/knowledge?account={{$.AccountID}}&amp;edit={{.ID}}">Edit<span class="visually-hidden"> {{.Title}}</span></a>

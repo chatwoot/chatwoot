@@ -20,8 +20,7 @@
   <div class="alert err" role="alert"><strong>Business profiles are off.</strong> Set <code>DATABASE_URL</code> for ai-service and restart it.</div>
   {{else}}
   {{if .Saved}}<div class="alert ok" role="status">Saved. The bot uses it from the next message.</div>{{end}}
-  {{if .Error}}<div class="alert err" role="alert"><strong>Not saved.</strong>
-{{.Error}}</div>{{end}}
+  {{if .Error}}<div class="alert err" role="alert"><strong>Not saved.</strong><span class="pre">{{.Error}}</span></div>{{end}}
 
   <form class="biz" method="post" action="/admin/business" autocomplete="off">
     <input type="hidden" name="account" value="{{.Profile.AccountID}}">

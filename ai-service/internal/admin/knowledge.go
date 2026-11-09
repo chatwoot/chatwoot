@@ -217,7 +217,7 @@ func (h *Handler) toDocView(d knowledge.Document, now time.Time) docView {
 		Unused:  d.UseCount == 0,
 		Used:    "Not used yet",
 	}
-	if d.UseCount > 0 {
+	if d.UseCount > 0 && !d.LastUsedAt.IsZero() {
 		times := "times"
 		if d.UseCount == 1 {
 			times = "time"

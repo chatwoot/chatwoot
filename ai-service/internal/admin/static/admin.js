@@ -127,6 +127,20 @@
     for (const node of document.querySelectorAll('.bubble.pending')) node.remove();
   });
 
+  // Phone menu (<details class="menu">): close it when focus moves on to the
+  // page below, so nothing focused hides under the open panel, and on Escape.
+  for (const menu of document.querySelectorAll('details.menu')) {
+    menu.addEventListener('focusout', (event) => {
+      // relatedTarget is null for taps that do not move focus (Safari): keep it open then.
+      if (menu.open && event.relatedTarget && !menu.contains(event.relatedTarget)) menu.open = false;
+    });
+    menu.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !menu.open) return;
+      menu.open = false;
+      menu.querySelector('summary').focus();
+    });
+  }
+
   // <form data-confirm="Question?"> asks before it is sent.
   document.addEventListener('submit', (event) => {
     const form = event.target;

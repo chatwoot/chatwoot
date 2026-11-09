@@ -11,7 +11,7 @@
   <div class="page-head">
     <div>
       <h1>Connect AI tools</h1>
-      <p class="lead">Let Claude, Codex or another AI tool read and test this knowledge base, and suggest changes for you (MCP). Each access token works for one account only.</p>
+      <p class="lead">Let Claude, Codex or another AI tool read and test this knowledge base, suggest changes for your approval, and delete documents or sync website pages (MCP). Each access token works for one account only.</p>
     </div>
     {{template "account-picker" (dict "Action" "/admin/connections" "Current" .AccountID)}}
   </div>
@@ -25,7 +25,7 @@
   {{if .NewToken}}
   <section class="card newtoken" aria-labelledby="new-h" role="status">
     <h2 id="new-h" class="card-title">Copy this token now</h2>
-    <p class="hint">It is shown only once. Anyone holding it can {{if .NewWrite}}delete and suggest changes to{{else}}read{{end}} account {{.AccountID}}'s knowledge, so keep it out of chats and screenshots. Lost it? Revoke it and create another.</p>
+    <p class="hint">It is shown only once. Anyone holding it can {{if .NewWrite}}read, delete and sync account {{.AccountID}}'s knowledge and suggest changes to it and the business profile{{else}}read account {{.AccountID}}'s knowledge{{end}}, so keep it out of chats and screenshots. Lost it? Revoke it and create another.</p>
     <label for="tok">Token for “{{.NewName}}”</label>
     <div class="copy-field"><input id="tok" class="mono" readonly value="{{.NewToken}}"><button type="button" class="btn small" data-copy="tok" hidden>Copy</button></div>
     <h3 class="sub">1. Save the token on your computer</h3>
@@ -145,9 +145,9 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre><button type="button" class="btn s
       {{end}}
       <h3 class="sub">What a connected AI can do</h3>
       <ul class="sources">
-        <li><strong>Read only:</strong> list documents with status and usage, read one, find near-copies, ask the bot a test question.</li>
-        <li><strong>Read and write</strong> also: suggest a new or changed document (by its key, for example <code>product-017</code>) or a change to the business profile. These wait for your approval on <a href="/admin/approvals?account={{.AccountID}}">AI approvals</a>; customers keep seeing the current text until you approve.</li>
-        <li>Deleting a document, and syncing or rescheduling a website page or data file, happen at once. Every change is kept in the change history.</li>
+        <li><strong>Read only:</strong> list documents with status and usage, read one, find near-copies, read the business profile, list website pages and data files, see recent changes, and ask the bot a test question.</li>
+        <li><strong>Read and write</strong> also: suggest a new or changed document (by its key, for example <code>product-017</code>) or a change to the business name, about, tone and rules. These wait for your approval on <a href="/admin/approvals?account={{.AccountID}}">AI approvals</a>; customers keep seeing the current text until you approve.</li>
+        <li>Deleting a document, and syncing or rescheduling a website page or data file, take effect at once (a data file syncs in the background). Deletes and schedule changes show under Recent changes on Home as the AI tool; what a sync changes shows as “website sync”. The history is kept for 180 days by default.</li>
       </ul>
     </section>
 
@@ -164,7 +164,7 @@ bearer_token_env_var = "AISVC_MCP_TOKEN"</pre><button type="button" class="btn s
           <label class="check"><input type="radio" name="access" value="read" checked>
             <span><strong>Read only</strong><span class="field-hint">Safe for reviewing and testing.</span></span></label>
           <label class="check"><input type="radio" name="access" value="write">
-            <span><strong>Read and write</strong><span class="field-hint">Suggested edits wait for your approval. Deletes apply at once.</span></span></label>
+            <span><strong>Read and write</strong><span class="field-hint">Edits wait for your approval. Deletes and syncs apply at once.</span></span></label>
         </fieldset>
         <label for="expires">Expires after</label>
         <select id="expires" name="expires">
