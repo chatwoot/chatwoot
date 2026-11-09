@@ -265,8 +265,10 @@ RSpec.describe Captain::McpServer do
       it 'tells a tool that was never approved apart from one the server dropped' do
         digest = Captain::McpTool.definition_digest(definition.call('new'))
 
-        expect { server.approve_tool('new', digest, live) }.to raise_error(ActiveRecord::RecordInvalid, /new is not approved yet/)
-        expect { server.approve_tool('gone', digest, live) }.to raise_error(ActiveRecord::RecordInvalid, /no longer offers gone/)
+        expect { server.approve_tool('new', digest, live) }
+          .to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: new is not approved yet. Select it in the tools list to approve it.')
+        expect { described_class.find(server.id).approve_tool('gone', digest, live) }
+          .to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: The server no longer offers gone.')
       end
     end
 

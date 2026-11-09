@@ -68,9 +68,10 @@ module Concerns::McpToolApprovable
     record_live_tools(live_definitions)
   end
 
-  # Adds the error to the server and raises, so the API answers 422 with the reason
+  # Adds the error to the server and raises, so the API answers 422 with the reason. The reason is a full sentence, so
+  # it goes on the record and not on an attribute, whose name Rails would put in front of it.
   def invalid_tool!(name, reason)
-    errors.add(:tools, I18n.t("captain.mcp_server.tools.#{reason}", tool: name))
+    errors.add(:base, I18n.t("captain.mcp_server.tools.#{reason}", tool: name))
     raise ActiveRecord::RecordInvalid, self
   end
 
