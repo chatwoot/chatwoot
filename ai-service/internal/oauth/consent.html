@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Connect an AI app</title>
+<link rel="icon" type="image/svg+xml" href="{{favicon}}">
+<title>Connect an AI app · Pronto</title>
 <style>
-  :root { color-scheme: light dark; --bg:#f6f7f9; --card:#fff; --text:#1d232b; --muted:#5b6573; --border:#d9dee5; --accent:#1f6feb; --accent-text:#fff; --err-bg:#fdecec; --err-text:#8a1c1c; --warn-bg:#fff4d6; --warn-text:#6b4a00; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#0f1318; --card:#171c23; --text:#e6e9ee; --muted:#9aa4b2; --border:#2a313b; --accent:#4c8dff; --accent-text:#0b1220; --err-bg:#3a1616; --err-text:#ffc9c9; --warn-bg:#33270a; --warn-text:#ffe2a3; } }
+  :root { color-scheme: light dark; --bg:#f6f7f9; --card:#fff; --text:#1d232b; --muted:#5b6573; --border:#d9dee5; --accent:#3300aa; --accent-text:#fff; --brand:#3300aa; --err-bg:#fdecec; --err-text:#8a1c1c; --warn-bg:#fff4d6; --warn-text:#6b4a00; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0f1318; --card:#171c23; --text:#e6e9ee; --muted:#9aa4b2; --border:#2a313b; --accent:#c9c2ff; --accent-text:#1a0b4d; --brand:#c9c2ff; --err-bg:#3a1616; --err-text:#ffc9c9; --warn-bg:#33270a; --warn-text:#ffe2a3; } }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif; display:grid; place-items:start center; min-height:100vh; padding:32px 16px; }
   main { width:100%; max-width:460px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:24px; }
@@ -24,11 +25,13 @@
   .row { display:flex; gap:12px; margin-top:20px; }
   button { flex:1; font:inherit; font-weight:600; border-radius:8px; padding:10px 16px; min-height:44px; cursor:pointer; border:1px solid var(--border); background:var(--card); color:var(--text); }
   button.primary { background:var(--accent); color:var(--accent-text); border-color:var(--accent); }
+  .brand { color:var(--brand); margin:0 0 16px; } .brand .logo { display:block; height:28px; width:auto; }
   :focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
 </style>
 </head>
 <body>
 <main>
+<p class="brand">{{wordmark}}</p>
   <h1>Connect an AI app</h1>
   {{if .Error}}
   <div class="err" role="alert">{{.Error}}</div>

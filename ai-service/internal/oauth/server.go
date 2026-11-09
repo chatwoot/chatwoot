@@ -17,6 +17,7 @@ import (
 	"time"
 	"unicode"
 
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/brand"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/mcp"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/ratelimit"
@@ -52,7 +53,10 @@ const (
 //go:embed consent.html
 var pageFS embed.FS
 
-var consent = template.Must(template.ParseFS(pageFS, "consent.html"))
+var consent = template.Must(template.New("consent.html").Funcs(template.FuncMap{
+	"wordmark": func() template.HTML { return brand.Wordmark },
+	"favicon":  func() template.URL { return brand.FaviconURL },
+}).ParseFS(pageFS, "consent.html"))
 
 // Server is the authorization server plus the discovery documents.
 type Server struct {
@@ -305,7 +309,7 @@ func (s *Server) render(w http.ResponseWriter, status int, d pageData) {
 	if u, err := url.Parse(d.RedirectURI); err == nil && d.Valid && u.Host != "" {
 		formAction += " " + u.Scheme + "://" + u.Host // the approval redirects there
 	}
-	w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; form-action "+formAction+"; frame-ancestors 'none'; base-uri 'none'")
+	w.Header().Set("Content-Security-Policy", "default-src 'none'; img-src data:; style-src 'unsafe-inline'; form-action "+formAction+"; frame-ancestors 'none'; base-uri 'none'")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	w.WriteHeader(status)
 	if err := consent.Execute(w, d); err != nil {

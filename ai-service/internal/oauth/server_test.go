@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
+	"html"
 	"io"
 	"log/slog"
 	"net/http"
@@ -642,5 +643,30 @@ func TestAccess_OwnerRemovedFromListLosesConnectionOnRefresh(t *testing.T) {
 		if g.RevokedAt.IsZero() {
 			t.Fatal("the connection was not revoked")
 		}
+	}
+}
+
+func TestConsentPage_ProntoBrand(t *testing.T) {
+	// Arrange
+	e := newEnv()
+	client := e.register(t, redirect)
+
+	// Act
+	page := e.do(httptest.NewRequest(http.MethodGet, "/oauth/authorize?"+authForm(client, nil).Encode(), nil))
+	body := page.Body.String()
+	csp := page.Header().Get("Content-Security-Policy")
+
+	// Assert
+	if !strings.Contains(body, `aria-label="Pronto"`) || !strings.Contains(body, "<title>Connect an AI app · Pronto</title>") {
+		t.Error("consent page not branded Pronto")
+	}
+	if !strings.Contains(html.UnescapeString(body), `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,`) {
+		t.Error("consent page has no Pronto favicon")
+	}
+	if !strings.Contains(csp, "img-src data:;") || strings.Contains(csp, "img-src *") || !strings.Contains(csp, "default-src 'none'") {
+		t.Errorf("consent CSP = %s", csp)
+	}
+	if strings.Contains(strings.ToLower(body), "#1f6feb") {
+		t.Error("old blue accent still on consent page")
 	}
 }

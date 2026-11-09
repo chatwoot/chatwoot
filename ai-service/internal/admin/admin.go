@@ -22,6 +22,7 @@ import (
 	"time"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/audit"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/brand"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	embedclient "github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
@@ -42,8 +43,11 @@ var adminJS []byte
 
 var pages = template.Must(template.New("pages").Funcs(template.FuncMap{
 	// dict builds a map so one sub-template can render both provider cards.
-	"inc":   func(i int) int { return i + 1 },
-	"theme": func() string { return "" }, // replaced per request in renderPage
+	"inc": func(i int) int { return i + 1 },
+	// wordmark and favicon are the Pronto logo (internal/brand).
+	"wordmark": func() template.HTML { return brand.Wordmark },
+	"favicon":  func() template.URL { return brand.FaviconURL },
+	"theme":    func() string { return "" }, // replaced per request in renderPage
 	// accounts and inboxes fill the dropdowns; replaced per request in renderPage.
 	"accounts": func(int64) []option { return nil },
 	"inboxes":  func(int64, string) []option { return nil },
@@ -456,7 +460,7 @@ func (h *Handler) requireAuth(next http.Handler) http.Handler {
 			if ok {
 				h.Logger.Warn("admin login failed", "remote_addr", r.RemoteAddr)
 			}
-			w.Header().Set("WWW-Authenticate", `Basic realm="ai-service admin", charset="UTF-8"`)
+			w.Header().Set("WWW-Authenticate", `Basic realm="Pronto AI admin", charset="UTF-8"`)
 			http.Error(w, "authentication required", http.StatusUnauthorized)
 			return
 		}
@@ -466,7 +470,8 @@ func (h *Handler) requireAuth(next http.Handler) http.Handler {
 
 // csp allows only our own script file (no inline scripts, no eval) and
 // enforces Trusted Types, so even our own script cannot turn text into HTML.
-const csp = "default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; form-action 'self'; " +
+// img-src data: is for the Pronto favicon; the wordmark is inline svg.
+const csp = "default-src 'none'; img-src data:; script-src 'self'; style-src 'unsafe-inline'; form-action 'self'; " +
 	"frame-ancestors 'none'; base-uri 'none'; require-trusted-types-for 'script'; trusted-types 'none'"
 
 // serveScript returns the embedded admin script.
