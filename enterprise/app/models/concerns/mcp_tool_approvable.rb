@@ -59,7 +59,8 @@ module Concerns::McpToolApprovable
   def approve_tool(name, reviewed_digest, live_definitions)
     definition = live_definitions.find { |live| live['name'] == name }
     tool = tools.find { |approved| approved.name == name }
-    invalid_tool!(name, :missing) unless definition && tool
+    invalid_tool!(name, :not_approved) unless tool
+    invalid_tool!(name, :missing) unless definition
     invalid_tool!(name, :changed_again) unless Captain::McpTool.definition_digest(definition) == reviewed_digest
 
     tool.approve(definition)

@@ -647,6 +647,7 @@ en:
         duplicate: 'cannot list the same tool twice'
         invalid_selection: 'Each tool selection must be an object with the tool name, and its settings must be an object'
         missing: 'The server no longer offers %{tool}.'
+        not_approved: '%{tool} is not approved yet. Select it in the tools list to approve it.'
         changed_again: '%{tool} changed again on the server. Review the new version before you approve it.'
         name_clash: 'Captain cannot tell these tools apart: %{names}. Select only one of them.'
     tools_manifest:

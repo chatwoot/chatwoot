@@ -261,6 +261,13 @@ RSpec.describe Captain::McpServer do
 
         expect(server.tools.reload.find_by(name: 'edited')).to have_attributes(review_state: 'current', description: 'Changed')
       end
+
+      it 'tells a tool that was never approved apart from one the server dropped' do
+        digest = Captain::McpTool.definition_digest(definition.call('new'))
+
+        expect { server.approve_tool('new', digest, live) }.to raise_error(ActiveRecord::RecordInvalid, /new is not approved yet/)
+        expect { server.approve_tool('gone', digest, live) }.to raise_error(ActiveRecord::RecordInvalid, /no longer offers gone/)
+      end
     end
 
     it 'offers Captain only the enabled tools of an enabled server' do
