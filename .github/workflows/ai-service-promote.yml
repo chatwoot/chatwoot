@@ -47,6 +47,9 @@ concurrency:
 jobs:
   check:
     name: Pick and check the commit
+    # Only the reviewed workflow on develop may promote; the production
+    # environment also admits develop runs only.
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -75,7 +78,7 @@ jobs:
   promote:
     name: Deploy to production
     needs: check
-    if: ${{ !inputs.dry_run }}
+    if: github.ref == 'refs/heads/develop' && !inputs.dry_run
     environment: production
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -108,19 +111,23 @@ jobs:
       - name: Production follows the production branch, nothing running
         working-directory: ai-service/.claude/skills/deploy
         run: |
-          set -o pipefail
-          python3 dokploy.py status | tee "$RUNNER_TEMP/status.txt"
-          if ! grep -q '^branch=production ' "$RUNNER_TEMP/status.txt"; then
-            echo "::error::Dokploy production does not deploy the production branch; refusing."
-            exit 1
-          fi
-          if ! grep -q '^running_deploys=0$' "$RUNNER_TEMP/status.txt"; then
-            echo "::error::A production deploy is already running; refusing."
-            exit 1
-          fi
+          # Status output stays out of the public log (it names the Dokploy app).
+          python3 dokploy.py status > "$RUNNER_TEMP/status.txt"
+          refuse() { echo "::error::$1; refusing."; exit 1; }
+          grep -q '^branch=production ' "$RUNNER_TEMP/status.txt" || refuse "Dokploy production does not deploy the production branch"
+          grep -q ' autoDeploy=False ' "$RUNNER_TEMP/status.txt" || refuse "Dokploy auto-deploy is not off for production"
+          grep -q '^running_deploys=0$' "$RUNNER_TEMP/status.txt" || refuse "A production deploy is already running"
+          echo "Dokploy: branch production, auto-deploy off, no deploy running."
 
       - name: Move production to the commit
         run: |
+          # production must still be where the check saw it (it may have moved
+          # while this run waited for approval).
+          now=$(git ls-remote origin refs/heads/production | cut -f1)
+          if [ "$now" != "$PREV" ]; then
+            echo "::error::production moved to '${now:0:10}' since the check (expected '${PREV:0:10}'); start a new promote."
+            exit 1
+          fi
           # Fast-forward only: a non-fast-forward push is rejected, never forced.
           git push origin "$SHA:refs/heads/production"
           echo "MOVED=1" >> "$GITHUB_ENV"
@@ -148,7 +155,17 @@ jobs:
             echo "::error::First promote failed and there is no earlier production commit; use /deploy."
             exit 1
           fi
-          git push --force-with-lease="production:$SHA" origin "$PREV:refs/heads/production"
+          # A deploy still running (for example after the 30-minute timeout) may
+          # yet put SHA live: leave everything as it is for a person to check.
+          python3 dokploy.py status > "$RUNNER_TEMP/status.txt"
+          if ! grep -q '^running_deploys=0$' "$RUNNER_TEMP/status.txt"; then
+            echo "::error::A deploy is still running; not rolling back. Check Dokploy by hand (production branch is ${SHA:0:10})."
+            exit 1
+          fi
+          if ! git push --force-with-lease="production:$SHA" origin "$PREV:refs/heads/production"; then
+            echo "::error::production moved during the promote; not rolling back. Check Dokploy by hand."
+            exit 1
+          fi
           python3 dokploy.py deploy
           python3 dokploy.py verify
           echo "Rolled back: production is ${PREV:0:10} again." >> "$GITHUB_STEP_SUMMARY"

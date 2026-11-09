@@ -181,10 +181,12 @@ staging workflow deploys and checks it (commit status `staging`). Then run
 `gh workflow run ai-service-promote.yml -f sha=<sha>`; empty = newest develop
 commit with green staging):
 
-1. `check` (no secrets) refuses a commit that is not on `develop`, has no
-   green `staging`, is older than production, or whose range changes a
-   `internal/knowledge/schema*.sql` file. Its summary lists what would ship.
-   `dry_run` stops here.
+1. `check` (no secrets) refuses a commit that is not on `develop`'s
+   first-parent line, has no green `staging` status from the staging workflow,
+   is older than production, or whose range can change a production database
+   (`internal/knowledge/schema*.sql`, `internal/knowledge/postgres.go`, or
+   `deploy/dokploy-compose.yml`, where a Chatwoot image bump runs Chatwoot's
+   migrations). Its summary lists what would ship. `dry_run` stops here.
 2. `promote` waits in the GitHub Environment `production` until the owner
    approves. It then fast-forwards `production` to the commit, deploys,
    checks that Dokploy deployed exactly that commit, and runs `verify` (public
@@ -193,7 +195,10 @@ commit with green staging):
    back to the previous commit and redeploys it.
 
 Secrets: `DOKPLOY_URL` and `DOKPLOY_COMPOSE_ID` (repository) and
-`DOKPLOY_PRODUCTION_API_KEY` (environment `production` only).
+`DOKPLOY_PRODUCTION_API_KEY` (environment `production` only). The environment
+has the owner as required reviewer and admits runs from `develop` only, so the
+key never reaches a workflow file from another branch. Agents never approve a
+pending production deployment; only the owner clicks it.
 
 ## Release a change by hand
 

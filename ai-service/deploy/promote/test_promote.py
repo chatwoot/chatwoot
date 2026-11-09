@@ -69,6 +69,34 @@ class RefusalTest(unittest.TestCase):
     def test_schema_guard_test_file_is_not_a_schema_change(self):
         self.assertEqual(self.ok_case(changed=["ai-service/internal/knowledge/schema_guard_test.go"]), [])
 
+    def test_refuses_migration_code_and_compose_changes(self):
+        # A Chatwoot image bump in the compose file runs Chatwoot's own migrations,
+        # and postgres.go applies ours: both need the backup that /deploy takes.
+        for path in ("ai-service/internal/knowledge/postgres.go", "ai-service/deploy/dokploy-compose.yml"):
+            with self.subTest(path=path):
+                reasons = self.ok_case(changed=[path])
+                self.assertEqual(len(reasons), 1)
+                self.assertIn(path, reasons[0])
+
+
+class TrustedStagingTest(unittest.TestCase):
+    def test_only_github_actions_bot_status_counts(self):
+        # Arrange: newest first, as the statuses API lists them.
+        statuses = [
+            {"context": "staging", "state": "success", "creator": {"login": "someone"}},
+            {"context": "staging", "state": "failure", "creator": {"login": "github-actions[bot]"}},
+            {"context": "ci", "state": "success", "creator": {"login": "github-actions[bot]"}},
+        ]
+
+        # Act
+        state = promote.trusted_staging_state(statuses)
+
+        # Assert
+        self.assertEqual(state, "failure")
+
+    def test_missing_when_no_trusted_status(self):
+        self.assertIsNone(promote.trusted_staging_state([{"context": "staging", "state": "success", "creator": {"login": "x"}}]))
+
 
 class ShaArgumentTest(unittest.TestCase):
     def test_accepts_hex_shas_only(self):
