@@ -24,15 +24,15 @@ description: |
   
   ### Replying to a message
 
-  Set `content_attributes.in_reply_to` to the id of another message in the conversation
-  (or `content_attributes.in_reply_to_external_id` to its `source_id`) to send it as a reply.
-  Chatwoot fills in the other reference and the dashboard renders the quoted message.
+  Set `content_attributes.in_reply_to` to a Chatwoot message ID in this conversation,
+  or `content_attributes.in_reply_to_external_id` to its `source_id`.
+  Chatwoot resolves the other reference and displays the quoted message.
 
   ```json
   {
     "content": "Yes, that one is in stock",
     "content_attributes": {
-      "in_reply_to_external_id": "wamid.HBgLMTIzNDU2Nzg5MDEVAgARGBI5QTQ5QzU4OTQ4NzUzRTg3RUEA"
+      "in_reply_to_external_id": "external-message-123"
     }
   }
   ```

@@ -27,9 +27,8 @@ properties:
       `title`, `value`, and optional `description`. WhatsApp list messages use `description`
       as the row subtitle when present.
 
-      To reply to another message of the same conversation, set `in_reply_to` to its Chatwoot
-      message id, or `in_reply_to_external_id` to its `source_id`. Chatwoot resolves the other
-      value and the dashboard renders the quoted message.
+      For replies, set `in_reply_to` to a Chatwoot message ID in this conversation,
+      or `in_reply_to_external_id` to its `source_id`.
     example:
       items:
         - title: 'Option 1'
@@ -38,27 +37,24 @@ properties:
   source_id:
     type: string
     description: |
-      Identifier of the message in the external system, for example the id the messaging
-      provider assigned to it on an API channel inbox. Returned as `source_id` on the message
-      and used to resolve `content_attributes.in_reply_to_external_id` on replies.
-    example: 'wamid.HBgLMTIzNDU2Nzg5MDEVAgARGBI5QTQ5QzU4OTQ4NzUzRTg3RUEA'
+      External message ID, returned as `source_id`. Use it with
+      `content_attributes.in_reply_to_external_id` to reference this message in a reply.
+    example: 'external-message-123'
   sender_type:
     type: string
     enum: ['AgentBot']
     description: |
-      Set to `AgentBot`, together with `sender_id`, to create an outgoing message on behalf of an
-      agent bot instead of the authenticated user.
+      Use `AgentBot` with `sender_id` to send an outgoing message as that bot.
     example: 'AgentBot'
   sender_id:
     type: integer
-    description: The id of the agent bot when `sender_type` is `AgentBot`
+    description: Agent bot ID when `sender_type` is `AgentBot`.
     example: 1
   echo_id:
     type: string
     description: |
-      Client-generated identifier that is echoed back as `echo_id` on the created message, in the
-      response and in the real-time event, so a client can match its optimistic copy of the message.
-    example: 'c0b2f5e8-3d0a-4b1e-9d3f-2a1f8e6c7d11'
+      Client-generated ID returned in the response and real-time event to match an optimistic message.
+    example: 'client-message-123'
   campaign_id:
     type: integer
     description: The campaign id to which the message belongs
