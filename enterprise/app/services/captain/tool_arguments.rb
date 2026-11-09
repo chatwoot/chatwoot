@@ -1,6 +1,6 @@
 # The arguments a Captain tool runs with. Parameters with a source take the value Chatwoot reads, and those values are
 # set last, so a value from the model can never replace them. The tool is any record that answers
-# requires_verified_customer? and param_sources, entries as Captain::ParamSources describes.
+# requires_verified_customer?, input_schema and param_sources, entries as Captain::ParamSources describes.
 #
 # A run where a customer is the user calls fill. A run where an admin or an agent is the user, such as Copilot,
 # lets the model fill proven values, so it calls fill_unproven and checks them with verified?.
@@ -36,6 +36,10 @@ class Captain::ToolArguments
   end
 
   def values(entries)
-    entries.to_h { |name, entry| [name.to_sym, Captain::ParamSources.resolve(entry, @conversation)] }
+    entries.to_h { |name, entry| [name.to_sym, Captain::ParamSources.resolve(entry, @conversation, type: property_type(name))] }
+  end
+
+  def property_type(name)
+    @tool.input_schema.to_h.dig('properties', name, 'type')
   end
 end

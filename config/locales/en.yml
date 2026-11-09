@@ -642,6 +642,7 @@ en:
       unknown_param: '%{tool} has no parameters named %{names}'
       invalid_source: '%{tool} parameter %{name} has an invalid source'
       fixed_value_blank: '%{tool} parameter %{name} needs a fixed value'
+      fixed_value_type: '%{tool} parameter %{name} needs a fixed value of type %{type}'
       one_verified_email: '%{tool} can have one verified email parameter only'
       verified_email_type: '%{tool} parameter %{name} must be a string to take the verified email'
     mcp_server:

@@ -39,6 +39,17 @@ RSpec.describe Captain::ToolArguments do
     end
   end
 
+  describe 'fixed values' do
+    let(:tool) do
+      Captain::McpTool.new(param_sources: entries, settings: settings,
+                           approved_definition: { 'input_schema' => { 'properties' => { 'limit' => { 'type' => 'integer' } } } })
+    end
+
+    it 'sends a fixed value in the type the approved schema declares' do
+      expect(arguments.fill({})).to eq({ email: 'jane@example.com', limit: 20 })
+    end
+  end
+
   describe '#fill_unproven' do
     it 'sets the fixed value and keeps the value the model passed for the verified email' do
       expect(arguments.fill_unproven({ email: 'jane@example.com', limit: '500' })).to eq({ email: 'jane@example.com', limit: '20' })

@@ -10,6 +10,12 @@ module Captain::ParamSources
                'If that is not possible, ask whether they want to talk to a support agent.'.freeze
   # Added to a result when an admin or an agent passed a proven value the customer did not prove
   UNVERIFIED_VALUE_NOTE = 'The email passed to this tool was not verified by the customer.'.freeze
+  # A fixed value is stored as text. A parameter of one of these JSON types gets the value in that type.
+  FIXED_TYPES = {
+    'integer' => ->(text) { Integer(text, 10) },
+    'number' => ->(text) { Float(text) },
+    'boolean' => ->(text) { { 'true' => true, 'false' => false }.fetch(text.strip.downcase) }
+  }.freeze
 
   # The message tells the model why the value is missing and what to do next
   class Unavailable < StandardError; end
@@ -22,8 +28,9 @@ module Captain::ParamSources
     return [I18n.t('captain.param_sources.unknown_param', tool: tool_name, names: unknown.join(', '))] if unknown.any?
 
     errors = entries.filter_map do |param, entry|
-      problem = entry_problem(entry)
-      I18n.t("captain.param_sources.#{problem}", tool: tool_name, name: param) if problem
+      type = properties.dig(param, 'type')
+      problem = entry_problem(entry) || fixed_type_problem(entry, type)
+      I18n.t("captain.param_sources.#{problem}", tool: tool_name, name: param, type: type) if problem
     end
     errors.presence || verified_email_errors(entries, properties, tool_name)
   end
@@ -33,11 +40,11 @@ module Captain::ParamSources
     entry['source'] == VERIFIED_EMAIL
   end
 
-  # Raises Unavailable when the value cannot be read for this conversation
-  def self.resolve(entry, conversation)
+  # Raises Unavailable when the value cannot be read for this conversation. A fixed value takes the parameter's type.
+  def self.resolve(entry, conversation, type: nil)
     case entry['source']
     when VERIFIED_EMAIL then verified_email(conversation)
-    when FIXED then entry['value']
+    when FIXED then fixed_value(entry['value'], type)
     end
   end
 
@@ -59,6 +66,23 @@ module Captain::ParamSources
     :fixed_value_blank if entry['source'] == FIXED && entry['value'].blank?
   end
   private_class_method :entry_problem
+
+  def self.fixed_value(text, type)
+    convert = FIXED_TYPES[type]
+    convert ? convert.call(text) : text
+  end
+  private_class_method :fixed_value
+
+  # A fixed value must convert to its parameter's type, so a call never sends a value of the wrong type
+  def self.fixed_type_problem(entry, type)
+    return unless entry['source'] == FIXED
+
+    fixed_value(entry['value'], type)
+    nil
+  rescue ArgumentError, KeyError
+    :fixed_value_type
+  end
+  private_class_method :fixed_type_problem
 
   def self.verified_email_errors(entries, properties, tool_name)
     verified = entries.select { |_param, entry| proven?(entry) }.keys
