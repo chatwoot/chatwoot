@@ -81,7 +81,8 @@ class RefusalTest(unittest.TestCase):
 
 class StagingRunTest(unittest.TestCase):
     GOOD = {"path": ".github/workflows/ai-service-staging.yml", "head_branch": "develop",
-            "conclusion": "success", "event": "workflow_run"}
+            "conclusion": "success", "event": "workflow_run", "head_sha": B,
+            "repository": {"full_name": "o/r"}}
 
     def test_run_id_from_status_link(self):
         url = "https://github.com/DEV-Johnstocker/chatwoot/actions/runs/42688342088"
@@ -90,11 +91,12 @@ class StagingRunTest(unittest.TestCase):
             self.assertIsNone(promote.run_id(bad), bad)
 
     def test_only_a_green_staging_run_on_develop_vouches(self):
-        self.assertTrue(promote.is_staging_run(self.GOOD))
+        self.assertTrue(promote.is_staging_run(self.GOOD, B, "o/r"))
         for change in ({"path": ".github/workflows/evil.yml"}, {"head_branch": "feature"},
-                       {"conclusion": "failure"}, {"conclusion": None}):
+                       {"conclusion": "failure"}, {"conclusion": None}, {"event": "push"},
+                       {"head_sha": A}, {"repository": {"full_name": "other/r"}}):
             with self.subTest(change=change):
-                self.assertFalse(promote.is_staging_run({**self.GOOD, **change}))
+                self.assertFalse(promote.is_staging_run({**self.GOOD, **change}, B, "o/r"))
 
 
 class CiTest(unittest.TestCase):

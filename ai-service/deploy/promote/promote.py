@@ -82,8 +82,11 @@ def run_id(url):
     return match.group(1) if match else None
 
 
-def is_staging_run(run):
+def is_staging_run(run, sha, repo):
+    """True when run is a green staging run in repo, on develop, that tested sha."""
     return (run.get("path") == STAGING_WORKFLOW and run.get("head_branch") == "develop"
+            and run.get("event") in ("workflow_run", "workflow_dispatch")
+            and run.get("head_sha") == sha and (run.get("repository") or {}).get("full_name") == repo
             and run.get("conclusion") == "success")
 
 
@@ -121,7 +124,7 @@ def staging_state(sha):
         return status.get("state")
     rid = run_id(status.get("target_url"))
     run = gh_json(f"actions/runs/{rid}") if rid else None
-    return "success" if run and is_staging_run(run) else "unverified"
+    return "success" if run and is_staging_run(run, sha, os.environ["REPO"]) else "unverified"
 
 
 def ci_passed(sha):
