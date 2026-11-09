@@ -127,4 +127,76 @@ RSpec.describe DataImports::Csv::Importer do
     expect(corrected.reload).to be_completed
     expect(account.contacts.find_by!(email: 'jane@example.com').phone_number).to eq('+14155552671')
   end
+
+  context 'when correcting rejected rows with spreadsheet-sensitive identities' do
+    let(:identities) do
+      [
+        ['+external-42', nil],
+        ["'+external-42", nil],
+        ['@identifier-only', nil],
+        ['-email-42', 'existing@example.com'],
+        ['=plus-email', '+jane@example.com'],
+        ["''literal-42", nil]
+      ]
+    end
+    let(:existing_contacts) do
+      identities.map do |identifier, email|
+        create(:contact, account: account, identifier: identifier, email: email, phone_number: nil)
+      end
+    end
+    let(:csv) do
+      CSV.generate do |output|
+        output << %w[name identifier email labels note]
+        existing_contacts.each_with_index do |contact, index|
+          output << ["Updated #{index}", contact.identifier, contact.email, 'missing', "'literal note"]
+        end
+      end
+    end
+    let(:corrected_import) do
+      create(:data_import, account: account, source_provider: 'csv', source_type: 'file', import_types: ['contacts'],
+                           source_metadata: { active_import_run_id: 'corrected' },
+                           import_file: { io: StringIO.new(data_import.failed_records.download), filename: 'corrected.csv' })
+    end
+    let(:corrected_importer) { described_class.new(data_import: corrected_import, run_id: 'corrected') }
+
+    it 'updates the original contacts without changing identifiers, emails, or literal apostrophes' do
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      importer.import_contacts_page
+      importer.finish!
+      create(:label, account: account, title: 'missing')
+
+      expect do
+        DataImports::Csv::PreparationJob.perform_now(corrected_import, 'corrected')
+        corrected_importer.import_contacts_page
+        corrected_importer.finish!
+      end.not_to change(account.contacts, :count)
+
+      expect(corrected_import.reload).to be_completed
+      expect(corrected_import.stats['contacts']).to include('created' => 0, 'updated' => identities.size, 'failed' => 0)
+      existing_contacts.each_with_index do |contact, index|
+        expect(contact.reload.identifier).to eq(identities[index].first)
+        expect(contact.email).to eq(identities[index].last)
+        expect(contact.name).to eq("Updated #{index}")
+        expect(contact.custom_attributes).to eq('note' => "'literal note")
+      end
+    end
+
+    it 'retains spreadsheet protection without accumulating escapes on repeated rejections' do
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      importer.import_contacts_page
+      importer.finish!
+      rejected = CSV.parse(data_import.failed_records.download, headers: true)
+      expect(rejected.map { |row| row['identifier'] }).to eq(
+        ["'+external-42", "''+external-42", "'@identifier-only", "'-email-42", "'=plus-email", "'''literal-42"]
+      )
+      expect(rejected[4]['email']).to eq("'+jane@example.com")
+
+      DataImports::Csv::PreparationJob.perform_now(corrected_import, 'corrected')
+      corrected_importer.import_contacts_page
+      corrected_importer.finish!
+
+      expect(corrected_import.reload).to be_completed_with_errors
+      expect(corrected_import.failed_records.download).to eq(data_import.failed_records.download)
+    end
+  end
 end

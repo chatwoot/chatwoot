@@ -18,13 +18,14 @@ class DataImports::Csv::Reader
         row = csv.shift
         @headers = csv.headers
         validate_headers!
+        @headers = @headers.excluding(DataImports::Csv::RejectedRowsFormat::VERSION_COLUMN)
         raise CustomExceptions::DataImport::InvalidCsvError, 'The CSV must contain at least one contact row.' unless row
 
         number = 0
         while row
           number += 1
           validate_row!(row, number)
-          yield row.to_h, number
+          yield DataImports::Csv::RejectedRowsFormat.decode_row(row.to_h), number
           row = csv.shift
         end
       end
