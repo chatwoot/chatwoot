@@ -29,7 +29,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def perform_time_based(inbox)
     Current.executed_by = captain_assistant
 
-    resolvable_pending_conversations(inbox).each do |conversation|
+    resolvable_conversations(inbox).each do |conversation|
       resolve_time_based_conversation(conversation, inbox)
     end
   end
@@ -37,7 +37,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def perform_with_evaluation(inbox)
     Current.executed_by = captain_assistant
 
-    resolvable_pending_conversations(inbox).each do |conversation|
+    resolvable_conversations(inbox).each do |conversation|
       evaluation = evaluate_conversation(conversation, inbox)
       next unless still_resolvable_after_evaluation?(conversation)
 
@@ -56,14 +56,15 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     ).perform
   end
 
-  def resolvable_pending_conversations(inbox)
-    inbox.conversations.pending.where(ai_assignee: captain_assistant)
+  def resolvable_conversations(inbox)
+    inbox.conversations.where(ai_assignee: captain_assistant).where.not(status: %i[resolved snoozed])
          .where('last_activity_at < ?', inactivity_cutoff_time)
          .limit(Limits::BULK_ACTIONS_LIMIT)
   end
 
   def resolvable?(conversation)
-    conversation.captain_handling?(captain_assistant) && conversation.last_activity_at < inactivity_cutoff_time
+    conversation.captain_assigned?(captain_assistant) && !conversation.resolved? && !conversation.snoozed? &&
+      conversation.last_activity_at < inactivity_cutoff_time
   end
 
   def still_resolvable_after_evaluation?(conversation)

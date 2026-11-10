@@ -19,6 +19,23 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
   describe 'resolving a conversation' do
     before { account.enable_features('captain_integration') }
 
+    it 'resolves an assigned open conversation without requiring pending' do
+      conversation.open!
+      conversation.update!(ai_assignee: assistant)
+
+      tool.perform(tool_context, reason: 'Done')
+
+      expect(conversation.reload).to be_resolved
+    end
+
+    it 'does not resolve a snoozed conversation even when the assistant remains assigned' do
+      conversation.snoozed!
+
+      expect { tool.perform(tool_context, reason: 'Done') }.not_to change(Message, :count)
+
+      expect(conversation.reload).to have_attributes(status: 'snoozed', ai_assignee: assistant)
+    end
+
     it 'does not resolve another assistant\'s pending conversation' do
       other_assistant = create(:captain_assistant, account: account)
       conversation.update!(ai_assignee: other_assistant)

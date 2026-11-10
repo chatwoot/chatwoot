@@ -25,6 +25,16 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
     end
 
+    it 'replies using the assigned assistant without requiring pending' do
+      conversation.open!
+      conversation.update!(ai_assignee: assistant)
+
+      described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+      expect(conversation.messages.outgoing.last).to have_attributes(content: 'Hey, welcome to Captain V2', sender: assistant)
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: assistant)
+    end
+
     %w[resolved snoozed].each do |status|
       it "does not reply to a #{status} conversation even when the assistant remains assigned" do
         conversation.update!(status: status)
@@ -56,6 +66,21 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       context 'with message burst protection' do
+        %w[resolved snoozed].each do |status|
+          it "discards the generated reply when the conversation becomes #{status} without changing its owner" do
+            allow(mock_agent_runner_service).to receive(:generate_response) do
+              Conversation.find(conversation.id).update!(status: status)
+              { 'response' => 'Stale reply' }
+            end
+
+            described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+            expect(conversation.reload).to have_attributes(status: status, ai_assignee: assistant)
+            expect(conversation.messages.outgoing).to be_empty
+            expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+          end
+        end
+
         it 'does not deliver or charge when ownership changes during generation while still pending' do
           other_assistant = create(:captain_assistant, account: account)
           allow(mock_agent_runner_service).to receive(:generate_response) do

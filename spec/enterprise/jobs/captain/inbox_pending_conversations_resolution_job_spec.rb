@@ -22,6 +22,26 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       .to have_enqueued_job.on_queue('low')
   end
 
+  it 'resolves an inactive conversation owned by the assistant without requiring pending' do
+    resolvable_pending_conversation.open!
+    resolvable_pending_conversation.update!(ai_assignee: captain_assistant)
+
+    described_class.perform_now(inbox)
+
+    expect(resolvable_pending_conversation.reload).to be_resolved
+  end
+
+  %w[resolved snoozed].each do |status|
+    it "leaves a #{status} conversation unchanged even when the assistant remains assigned" do
+      resolvable_pending_conversation.update!(status: status)
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload).to have_attributes(status: status, ai_assignee: captain_assistant)
+      expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+    end
+  end
+
   [nil, :agent_bot, :captain_assistant].each do |owner_factory|
     it "does not resolve an inactive pending conversation assigned to #{owner_factory || 'no AI'} instead of this assistant" do
       owner = create(owner_factory, account: inbox.account) if owner_factory

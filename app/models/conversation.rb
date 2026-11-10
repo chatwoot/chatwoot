@@ -182,9 +182,8 @@ class Conversation < ApplicationRecord
   end
 
   def bot_handoff!(dispatch_event: true)
-    # Best-effort eligibility check, not a lock against concurrent takeovers.
-    # The dashboard checks assignment/status again before playing the alert.
-    return false unless pending?
+    # Dialogflow has no AI assignee and keeps its existing Pending handoff flow.
+    return false unless ai_assignee || pending?
 
     update(waiting_since: Time.current) if waiting_since.blank?
     self.ai_assignee = nil

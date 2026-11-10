@@ -3,11 +3,14 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
   parameter :reason, type: 'string', description: 'Brief reason for resolving the conversation', required: true
 
   def perform(tool_context, reason:)
-    conversation = find_conversation(tool_context.state)
-    return failure_result('Conversation not found', tool_context.state) unless conversation
-    return failure_result("Conversation ##{conversation.display_id} is already resolved", tool_context.state) if conversation.resolved?
-    return failure_result('Auto-resolve is disabled for this assistant', tool_context.state) if @assistant.inactive_conversation_resolution_disabled?
-    return failure_result('Conversation is not assigned to this assistant', tool_context.state) unless conversation.captain_handling?(@assistant)
+    state = tool_context.state
+    conversation = find_conversation(state)
+    return failure_result('Conversation not found', state) unless conversation
+    return failure_result("Conversation ##{conversation.display_id} is already resolved", state) if conversation.resolved?
+    return failure_result('Auto-resolve is disabled for this assistant', state) if @assistant.inactive_conversation_resolution_disabled?
+    unless conversation.captain_assigned?(@assistant) && !conversation.snoozed?
+      return failure_result('Conversation is not available to this assistant', state)
+    end
 
     log_tool_usage('resolve_conversation', { conversation_id: conversation.id, reason: reason })
 

@@ -71,7 +71,7 @@ module Enterprise::Message
   end
 
   def captain_pending_conversation?
-    conversation.captain_handling?
+    conversation.pending? && conversation.captain_assigned?
   end
 
   def template_bootstrap_message?

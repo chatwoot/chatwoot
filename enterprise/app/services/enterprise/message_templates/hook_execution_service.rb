@@ -9,26 +9,27 @@ module Enterprise::MessageTemplates::HookExecutionService
     # otherwise the coverage denominator only ever contains conversations
     # Captain was already about to answer.
     track_captain_eligibility
-    return unless conversation.captain_handling?
+    return unless conversation.captain_assigned?
+    return if conversation.resolved? || conversation.snoozed?
     return perform_handoff unless inbox.captain_active?
 
     Captain::Conversation::ResponseSchedulerService.new(message: message).perform
   end
 
   def should_send_greeting?
-    return false if conversation.captain_handling?
+    return false if conversation.captain_assigned?
 
     super
   end
 
   def should_send_out_of_office_message?
-    return false if conversation.captain_handling?
+    return false if conversation.captain_assigned?
 
     super
   end
 
   def should_send_email_collect?
-    return false if conversation.captain_handling?
+    return false if conversation.captain_assigned?
 
     super
   end

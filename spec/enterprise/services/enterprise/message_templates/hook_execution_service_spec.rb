@@ -4,7 +4,7 @@ RSpec.describe MessageTemplates::HookExecutionService do
   let(:account) { create(:account, custom_attributes: { plan_name: 'startups' }) }
   let(:inbox) { create(:inbox, account: account) }
   let(:contact) { create(:contact, account: account) }
-  let(:conversation) { create(:conversation, inbox: inbox, account: account, contact: contact, status: :pending) }
+  let(:conversation) { create(:conversation, inbox: inbox, account: account, contact: contact, status: :pending, ai_assignee: assistant) }
   let(:assistant) { create(:captain_assistant, account: account) }
 
   before do
@@ -13,6 +13,30 @@ RSpec.describe MessageTemplates::HookExecutionService do
   end
 
   context 'when captain assistant is configured' do
+    it 'schedules the assigned assistant without requiring pending' do
+      conversation.open!
+      conversation.update!(ai_assignee: assistant)
+      expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant, kind_of(Integer))
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: assistant)
+    end
+
+    %w[resolved snoozed].each do |status|
+      it "does not reply or hand off a muted #{status} conversation that is still assigned" do
+        conversation.contact.update!(blocked: true)
+        conversation.update!(status: status)
+        account.update!(limits: { 'captain_responses' => 0 })
+        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+
+        expect(conversation.reload).to have_attributes(status: status, ai_assignee: assistant)
+        expect(conversation.messages.outgoing).to be_empty
+      end
+    end
+
     [nil, :agent_bot, :user].each do |owner_factory|
       it "does not schedule Captain when a pending conversation belongs to #{owner_factory || 'no owner'}" do
         owner = create(owner_factory, account: account) if owner_factory
@@ -231,7 +255,7 @@ RSpec.describe MessageTemplates::HookExecutionService do
     create(:message, conversation: conversation, message_type: :incoming, account: account)
   end
 
-  context 'when conversation is not pending' do
+  context 'when AI ownership has been cleared' do
     before do
       conversation.update!(status: :open)
     end
@@ -346,11 +370,7 @@ RSpec.describe MessageTemplates::HookExecutionService do
   end
 
   context 'when greeting and out of office messages with Captain enabled' do
-    context 'when conversation is pending (Captain is handling)' do
-      before do
-        conversation.update!(status: :pending)
-      end
-
+    context 'when Captain is assigned' do
       it 'does not create greeting message in conversation' do
         inbox.update!(greeting_enabled: true, greeting_message: 'Hello! How can we help you?', enable_email_collect: false)
 
@@ -413,9 +433,10 @@ RSpec.describe MessageTemplates::HookExecutionService do
     end
   end
 
-  context 'when Captain is not configured' do
+  context 'when Captain is not configured and no AI is assigned' do
     before do
       CaptainInbox.where(inbox: inbox).destroy_all
+      conversation.update!(ai_assignee: nil)
     end
 
     it 'creates greeting message in conversation' do

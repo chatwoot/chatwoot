@@ -20,6 +20,12 @@ RSpec.describe Conversation, type: :model do
       expect(conversation).to have_attributes(status: 'open', ai_assignee: nil)
     end
 
+    it 'does not infer Captain ownership from an explicitly pending status' do
+      conversation = create(:conversation, account: account, inbox: inbox, status: :pending)
+
+      expect(conversation).to have_attributes(status: 'pending', ai_assignee: nil)
+    end
+
     context 'with a Captain assignee' do
       let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :pending, ai_assignee: assistant) }
 

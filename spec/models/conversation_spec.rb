@@ -448,13 +448,22 @@ RSpec.describe Conversation do
       expect(conversation.reload.ai_assignee).to be_nil
     end
 
+    it 'hands off an AI-assigned open conversation without requiring pending' do
+      conversation.open!
+      conversation.update!(ai_assignee: create(:agent_bot, account: conversation.account))
+
+      conversation.bot_handoff!
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil)
+    end
+
     it 'dispatches CONVERSATION_BOT_HANDOFF event' do
       expect(Rails.configuration.dispatcher).to receive(:dispatch)
         .with(described_class::CONVERSATION_BOT_HANDOFF, anything, hash_including(conversation: conversation))
       conversation.bot_handoff!
     end
 
-    it 'does not hand off or dispatch when the conversation is no longer pending' do
+    it 'does not hand off or dispatch an open conversation without an AI assignee' do
       conversation.open!
 
       expect(Rails.configuration.dispatcher).not_to receive(:dispatch)

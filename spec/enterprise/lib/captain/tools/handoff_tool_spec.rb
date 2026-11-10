@@ -37,6 +37,26 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
   end
 
   describe '#perform' do
+    it 'hands off an assigned open conversation without requiring pending' do
+      conversation.open!
+      conversation.update!(ai_assignee: assistant)
+
+      tool.perform(tool_context, reason: 'Transfer')
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil)
+      expect(tool_context.state[:captain_v2_handoff_tool_completed]).to be true
+    end
+
+    %w[resolved snoozed].each do |status|
+      it "does not hand off a #{status} conversation even when the assistant remains assigned" do
+        conversation.update!(status: status)
+
+        expect { tool.perform(tool_context, reason: 'Transfer') }.not_to change(Message, :count)
+
+        expect(conversation.reload).to have_attributes(status: status, ai_assignee: assistant)
+      end
+    end
+
     it 'does not hand off another assistant\'s pending conversation' do
       other_assistant = create(:captain_assistant, account: account)
       conversation.update!(ai_assignee: other_assistant)
