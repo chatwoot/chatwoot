@@ -5,7 +5,6 @@ module Voice::Conference::FailedAddHandling
     agent_participant? && leave_reason == 'participant_add_failed'
   end
 
-  # Failed legs never joined; replacement legs may still be connecting.
   def handle_failed_add!
     user_id = extract_user_id
     outcome = call.with_lock { failed_add_outcome(user_id) }
@@ -49,7 +48,6 @@ module Voice::Conference::FailedAddHandling
     call.accepted_broadcast_at.present? ? 'completed' : 'failed'
   end
 
-  # Lock order: call, then conversation.
   def release_claim_assignment(user_id)
     return unless user_id && call.reload.ring_state['assigned_by_claim'] == user_id
 

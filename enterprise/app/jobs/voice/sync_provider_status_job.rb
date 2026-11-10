@@ -25,7 +25,6 @@ class Voice::SyncProviderStatusJob < ApplicationJob
     call.status == 'completed' && call.started_at.nil?
   end
 
-  # The completed callback can arrive before the answer callback supplies a start time.
   def fill_start(call, twilio_call)
     return unless twilio_call.start_time
 

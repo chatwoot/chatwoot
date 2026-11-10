@@ -111,7 +111,6 @@ class Voice::VoipPushService
     nil
   end
 
-  # Recipients stay fixed for a ring even if the conversation is reassigned.
   def recipients
     @recipients ||= call.ring_state['ring_recipient_ids']&.then { |ids| call.account.users.where(id: ids).to_a } || self.class.recipients_for(call)
   end
@@ -134,7 +133,6 @@ class Voice::VoipPushService
     push_tokens(android_subscriptions)
   end
 
-  # Token ownership can change while pushes are in flight.
   def push_tokens(subscriptions)
     subscriptions.filter_map do |subscription|
       token = subscription.subscription_attributes['push_token']
@@ -151,7 +149,6 @@ class Voice::VoipPushService
     call.ring_state.fetch('rung_devices', {})
   end
 
-  # A recorded delivery outcome prevents duplicate rings; an expired lease permits recovery.
   def ring_settled?
     call.ring_state.key?('unreached_user_ids')
   end
@@ -163,7 +160,6 @@ class Voice::VoipPushService
     lease_left.positive? ? lease_left : remember_ring
   end
 
-  # Ring state is merged atomically to preserve concurrent updates.
   def remember_ring
     apple, android = devices_to_ring
     rung = { 'ring_recipient_ids' => recipients.map(&:id), 'rung_user_ids' => token_owners.values.uniq,

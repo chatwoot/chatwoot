@@ -47,7 +47,6 @@ module SuperAdmin::AccountFeaturesHelper
     account_features.select { |feature| feature['hidden'] }.pluck('name')
   end
 
-  # The form omits hidden features, so their existing state is preserved.
   def self.with_hidden_features(flags, account)
     flags + hidden_features.select { |feature| account&.feature_enabled?(feature) }.map { |feature| :"feature_#{feature}" }
   end

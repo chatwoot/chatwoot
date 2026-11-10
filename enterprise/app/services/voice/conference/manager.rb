@@ -118,7 +118,6 @@ class Voice::Conference::Manager
     complete_call!
   end
 
-  # An outbound contact may still be ringing outside the conference.
   def complete_call!
     status_manager.process_status_update('completed', timestamp: now)
     end_conference!

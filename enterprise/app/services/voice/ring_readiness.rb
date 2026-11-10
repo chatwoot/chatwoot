@@ -79,7 +79,6 @@ class Voice::RingReadiness
     Voice::VoipPushService::CREDENTIALS.fetch(platform).all? { |name| GlobalConfigService.load(name, nil).present? }
   end
 
-  # Returns :all, :assigned, or nil according to conversation visibility.
   def rung_for(inbox, account_user)
     return unless inbox.assignable_agents.include?(user)
     return :all if opens?(Conversation.new(account: account_user.account, inbox: inbox), account_user)
