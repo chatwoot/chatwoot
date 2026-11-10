@@ -33,6 +33,13 @@ document.addEventListener('turbo:before-cache', () => {
   document
     .querySelectorAll('select.js-belongs-to-search-field')
     .forEach(element => {
-      element.selectize?.destroy();
+      if (!element.selectize) return;
+
+      // Selectize restores the original options when destroyed.
+      const selectedOptions = Array.from(element.selectedOptions, option =>
+        option.cloneNode(true)
+      );
+      element.selectize.destroy();
+      element.replaceChildren(...selectedOptions);
     });
 });
