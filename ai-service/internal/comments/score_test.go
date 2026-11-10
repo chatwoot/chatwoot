@@ -214,3 +214,25 @@ func TestWorker_FailingCommentsDoNotHoldUpNewOnes(t *testing.T) {
 		t.Fatalf("n %d waiting %+v", n, waiting)
 	}
 }
+
+// Staging run sim1794318632 (2026-11-10): with no profile the complaint draft
+// said ค่ะ while every other draft said ครับ. The rules must pin one voice for
+// every intent, from the profile, with ครับ when the profile names none.
+func TestScorer_EveryDraftKeepsTheBusinessVoice(t *testing.T) {
+	// Arrange
+	model := &stubLLM{content: `{"intent":"complaint","reason":"Unhappy.","reply":"ขอโทษด้วยครับ"}`}
+	s := &Scorer{LLM: model}
+
+	// Act
+	if _, _, _, err := s.Score(context.Background(), Comment{AccountID: 1, Message: "ใช้ไม่ได้เลย"}); err != nil {
+		t.Fatal(err)
+	}
+
+	// Assert
+	rules := model.got[0].Content
+	for _, want := range []string{"every intent, complaints and apologies included", "polite particle", "ครับ"} {
+		if !strings.Contains(rules, want) {
+			t.Errorf("draft rules missing %q", want)
+		}
+	}
+}
