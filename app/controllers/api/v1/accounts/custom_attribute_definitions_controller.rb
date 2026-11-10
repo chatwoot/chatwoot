@@ -4,6 +4,7 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
   before_action :check_authorization
   before_action :validate_reorder_positions, only: [:reorder]
   DEFAULT_ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
+  DEFINITION_ID_FORMAT = /\A\d+\z/
 
   def index; end
 
@@ -59,14 +60,19 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
   end
 
   def validate_reorder_positions
-    positions = reorder_positions.values
-    return if positions.present? && positions.all? { |position| valid_position?(position) } && positions.uniq.size == positions.size
+    return if valid_reorder_positions?(reorder_positions)
 
     render json: { error: I18n.t('errors.custom_attribute_definition.invalid_positions') }, status: :unprocessable_entity
   end
 
-  def valid_position?(position)
-    position.is_a?(Integer) && position.positive?
+  def valid_reorder_positions?(positions_hash)
+    ids = positions_hash.keys
+    positions = positions_hash.values
+    return false if positions_hash.blank?
+    return false unless ids.all? { |id| id.match?(DEFINITION_ID_FORMAT) }
+    return false unless positions.all? { |position| position.is_a?(Integer) && position.positive? }
+
+    positions.uniq.size == positions.size
   end
 
   def permitted_params
