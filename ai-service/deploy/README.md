@@ -176,10 +176,23 @@ and marks `staging` red. Manual run with *fail_verify* proves the red path.
 ## Promote to production
 
 The usual release (#39). After a PR merges into `develop`, CI passes and the
-staging workflow deploys and checks it (commit status `staging`). Then run
-**Actions → ai-service promote → Run workflow** (or
+staging workflow deploys and checks it (commit status `staging`). When that
+staging run ends green, the promote workflow starts by itself on the newest
+develop commit with green staging, and the owner gets one approval request.
+It can also be run by hand: **Actions → ai-service promote → Run workflow** (or
 `gh workflow run ai-service-promote.yml -f sha=<sha>`; empty = newest develop
-commit with green staging):
+commit with green staging).
+
+No approval request is sent when production would not change: the range holds
+only docs and tests (`*.md`, `ai-service/docs/`, `*_test.go`, the deploy and
+promote `test_*.py`), or an automatic run finds production already on the
+commit. `production` then stays where it is, and the next real promote ships
+those commits too. `testdata/` counts as a real change: the image ships it.
+
+A run waiting for approval holds the production queue. A newer automatic run
+waits behind it (GitHub keeps only the newest waiting one); reject the older
+run to let the newer one go, or approve it and the newer one follows.
+
 
 1. `check` (no secrets) refuses a commit that is not on `develop`'s
    first-parent line, has no green `staging` status from the staging workflow,
