@@ -43,6 +43,7 @@ type docView struct {
 	Window   string // "Until 31 Dec 2026", "From 1 Dec 2026", ""
 	Used     string // "12 times, last 5 Nov 2026" or "Not used yet"
 	Unused   bool
+	Synced   bool // kept in sync from a website page or data file
 	Disabled bool
 }
 
@@ -84,9 +85,13 @@ type knowledgeData struct {
 	Stale     int
 	Notice    string
 	Error     string
-	ErrorForm string // which form the error belongs to: faq, doc, edit, list
-	Show      string // list filter: "", "unused", "inactive"
+	ErrorForm string        // which form the error belongs to: faq, doc, edit, list
+	Lib       libraryFilter // search, type, status and grid or list
 	Total     int
+	Shown     int // documents that pass Lib
+	FAQs      int
+	Texts     int
+	Synced    int
 	Unused    int
 	Inactive  int
 	docForm   // re-filled add form values
@@ -101,7 +106,7 @@ type knowledgeData struct {
 
 func (h *Handler) showKnowledge(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
-	data := knowledgeData{AccountID: accountParam(q.Get("account")), Show: listFilter(q.Get("show"))}
+	data := knowledgeData{AccountID: accountParam(q.Get("account")), Lib: parseLibrary(q)}
 	data.Notice = noticeFor(q)
 	if id, err := strconv.ParseInt(q.Get("edit"), 10, 64); err == nil && id > 0 && h.Knowledge != nil {
 		d, err := h.Knowledge.Get(r.Context(), data.AccountID, id)
@@ -144,10 +149,22 @@ func (h *Handler) renderKnowledge(w http.ResponseWriter, r *http.Request, status
 			if v.Status != knowledge.StatusActive {
 				data.Inactive++
 			}
-			if (data.Show == "unused" && !v.Unused) || (data.Show == "inactive" && v.Status == knowledge.StatusActive) {
+			switch docType(d) {
+			case "faq":
+				data.FAQs++
+			case "doc":
+				data.Texts++
+			default:
+				data.Synced++
+			}
+			if !data.Lib.match(d, v) {
 				continue
 			}
 			data.Docs = append(data.Docs, v)
+		}
+		data.Shown = len(data.Docs)
+		if data.Edit != nil { // the edit page shows only the form
+			data.Docs = nil
 		}
 	}
 	if h.Web != nil {
@@ -216,6 +233,7 @@ func (h *Handler) toDocView(d knowledge.Document, now time.Time) docView {
 		Status:  d.Status(now),
 		Unused:  d.UseCount == 0,
 		Used:    "Not used yet",
+		Synced:  knowledge.SyncedKey(d.SourceKey),
 	}
 	if d.UseCount > 0 && !d.LastUsedAt.IsZero() {
 		times := "times"
@@ -384,7 +402,7 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 	}
 	pf := r.PostForm
 	acct := accountParam(pf.Get("account"))
-	data := knowledgeData{AccountID: acct, docForm: docForm{
+	data := knowledgeData{AccountID: acct, Lib: parseLibrary(pf), docForm: docForm{
 		InboxID:  pf.Get("inbox"),
 		Question: pf.Get("question"), Answer: pf.Get("answer"),
 		DocTitle: pf.Get("title"), DocContent: pf.Get("content"),
@@ -395,6 +413,7 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 		h.renderKnowledge(w, r, http.StatusUnprocessableEntity, data)
 	}
 	back := "/admin/knowledge?account=" + strconv.FormatInt(acct, 10)
+	lib := back + data.Lib.Params() // back to the same library view
 
 	switch action := pf.Get("action"); action {
 	case "add_faq", "add_doc":
@@ -473,7 +492,7 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 		}
 		h.record(r, acct, "knowledge edited", doc.Title, docCopy(cur))
 		h.Logger.Info("knowledge updated", "account_id", acct, "document_id", id, "chunks", chunks, "remote_addr", r.RemoteAddr)
-		http.Redirect(w, r, back+"&done=updated&chunks="+strconv.Itoa(chunks), http.StatusSeeOther)
+		http.Redirect(w, r, lib+"&done=updated&chunks="+strconv.Itoa(chunks)+"#doc-"+strconv.FormatInt(id, 10), http.StatusSeeOther)
 	case "add_page", "sync_page", "remove_page", "page_interval", "sync_all":
 		h.webAction(w, r, acct, pf.Get("action"), data)
 	case "delete":
@@ -487,7 +506,7 @@ func (h *Handler) submitKnowledge(w http.ResponseWriter, r *http.Request) {
 			h.record(r, acct, "knowledge deleted", before.Title, docCopy(before))
 		}
 		h.Logger.Info("knowledge deleted", "account_id", acct, "document_id", id, "remote_addr", r.RemoteAddr)
-		http.Redirect(w, r, back+"&done=deleted", http.StatusSeeOther)
+		http.Redirect(w, r, lib+"&done=deleted", http.StatusSeeOther)
 	case "reindex":
 		n, err := h.Knowledge.Reindex(r.Context(), acct, false)
 		if err != nil {

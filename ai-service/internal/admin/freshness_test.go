@@ -145,10 +145,10 @@ func TestKnowledge_FiltersAndStatus(t *testing.T) {
 	if !strings.Contains(all, "3 times, last") || !strings.Contains(all, "Not used yet") || !strings.Contains(all, ">Expired<") {
 		t.Error("all: missing usage or status")
 	}
-	if !strings.Contains(unused, "<strong>Never</strong>") || strings.Contains(unused, "<strong>Used</strong>") {
+	if !strings.Contains(unused, ">Never</h3>") || strings.Contains(unused, ">Used</h3>") {
 		t.Error("unused filter wrong")
 	}
-	if !strings.Contains(inactive, "<strong>Old promo</strong>") || strings.Contains(inactive, "<strong>Never</strong>") {
+	if !strings.Contains(inactive, ">Old promo</h3>") || strings.Contains(inactive, ">Never</h3>") {
 		t.Error("inactive filter wrong")
 	}
 }

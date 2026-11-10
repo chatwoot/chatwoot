@@ -205,10 +205,39 @@
   .seg button + button { border-left: 1px solid var(--border); }
   .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); }
   /* Knowledge list: filters, status badges, row actions */
-  nav.filters { flex-direction: row; flex-wrap: wrap; gap: 4px; margin: 0 0 12px; }
-  nav.filters a { padding: 6px 12px; min-height: 36px; border: 1px solid var(--border); border-radius: 999px; font-size: .9rem; }
-  nav.filters a[aria-current="page"] { background: var(--accent); color: var(--accent-text); border-color: var(--accent); box-shadow: none; }
-  .count { font-weight: 700; margin-left: 4px; }
+  /* Knowledge library: counts that filter, a search, and cards or a table. */
+  .seg a { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 12px; font-size: .85rem; font-weight: 600; color: var(--muted); text-decoration: none; background: var(--card); }
+  .seg a:first-child { border-radius: 7px 0 0 7px; }
+  .seg a:last-child { border-radius: 0 7px 7px 0; }
+  .seg a + a { border-left: 1px solid var(--border); }
+  .seg a[aria-current="true"] { background: var(--accent); color: var(--accent-text); }
+  .seg a:focus-visible { outline-offset: 2px; position: relative; z-index: 1; }
+  .stats { list-style: none; margin: 16px 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 136px), 1fr)); gap: 8px; }
+  .stats a { display: flex; flex-direction: column; gap: 2px; height: 100%; min-height: 44px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; color: var(--text); text-decoration: none; }
+  .stats a:hover { border-color: var(--accent); }
+  .stats a[aria-current="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .stat-num { font-size: 1.5rem; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .stat-label { color: var(--muted); font-size: .85rem; font-weight: 600; }
+  .lib-search { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 12px; }
+  .lib-search > div { flex: 1 1 160px; min-width: 0; }
+  .library { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 12px; }
+  .doc { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); scroll-margin-top: 80px; }
+  .doc:target { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  tr:target > td { background: var(--info-bg); }
+  .doc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .doc-title { font-size: 1rem; font-weight: 650; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
+  .doc-preview { margin: 0; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+  .doc-meta { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; margin: 0; font-size: .85rem; }
+  .doc-meta dt { color: var(--muted); }
+  .doc-meta dd { margin: 0; overflow-wrap: anywhere; }
+  .doc > .warn { margin: 0; }
+  .doc > .card-foot { margin-top: auto; padding-top: 8px; gap: 8px; }
+  .back-link { margin: 0 0 12px; font-weight: 600; }
+  @media (max-width: 480px) {
+    .doc > .card-foot { flex-direction: row; }
+    .doc > .card-foot > * { flex: 1; width: auto; }
+    .doc > .card-foot form button { width: 100%; }
+  }
   .badge.active { background: var(--ok-bg); color: var(--ok-text); border-color: transparent; }
   .badge.scheduled { background: var(--warn-bg); color: var(--warn-text); border-color: transparent; }
   .badge.expired { background: var(--err-bg); color: var(--err-text); border-color: transparent; }
@@ -228,7 +257,7 @@
   details.feed-help code { white-space: normal; overflow-wrap: anywhere; }
   form.sched { display: inline-flex; gap: 6px; align-items: center; }
   form.sched select { min-height: 36px; padding: 4px 8px; width: auto; }
-  @media (max-width: 640px) { td.row-actions { text-align: left; } nav.filters a { min-height: 44px; } }
+  @media (max-width: 640px) { td.row-actions { text-align: left; } }
   /* Connections: the one-time token and setup snippets */
   .mono, pre.code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .85rem; }
   /* A value with its Copy button beside it. */

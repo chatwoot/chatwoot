@@ -48,6 +48,7 @@
   {{end}}
 
   {{with .Edit}}
+  <p class="back-link"><a href="{{$.Lib.Back $.AccountID .ID}}">← Back to library</a></p>
   <section class="card" aria-labelledby="edit-title">
     <h2 id="edit-title" class="card-title">Edit {{if eq .Kind "faq"}}FAQ{{else}}document{{end}}</h2>
     <p class="hint">Saving re-indexes it. The bot uses the new version from the next message. Usage counts are kept.</p>
@@ -57,6 +58,7 @@
       <input type="hidden" name="action" value="update">
       <input type="hidden" name="account" value="{{$.AccountID}}">
       <input type="hidden" name="id" value="{{.ID}}">
+      {{template "lib-fields" $.Lib}}
       {{if eq .Kind "faq"}}
       <label for="e-question">Question</label>
       <input id="e-question" name="question" type="text" maxlength="300" required value="{{.Question}}">
@@ -74,7 +76,7 @@
         <div></div>
         {{template "dates" (dict "P" "e" "From" .From "Until" .Until)}}
       </div>
-      <div class="actions"><a class="btn" href="/admin/knowledge?account={{$.AccountID}}">Cancel</a><button type="submit" class="primary">Save changes</button></div>
+      <div class="actions"><a class="btn" href="{{$.Lib.Back $.AccountID .ID}}">Cancel</a><button type="submit" class="primary">Save changes</button></div>
     </form>
   </section>
   {{else}}
@@ -131,7 +133,7 @@
   </div>
   {{end}}
 
-  {{if .WebOn}}
+  {{if and .WebOn (not .Edit)}}
   <section class="card" aria-labelledby="web-title">
     <div class="card-head">
       <h2 id="web-title" class="card-title">Website pages and data files</h2>
@@ -204,15 +206,34 @@
   </section>
   {{end}}
 
+  {{if not .Edit}}
   <section class="card" aria-labelledby="list-title">
-    <h2 id="list-title" class="card-title">Knowledge in account {{.AccountID}}</h2>
-    <nav class="filters" aria-label="Filter knowledge">
-      <a href="/admin/knowledge?account={{.AccountID}}"{{if eq .Show ""}} aria-current="page"{{end}}>All <span class="count">{{.Total}}</span></a>
-      <a href="/admin/knowledge?account={{.AccountID}}&amp;show=unused"{{if eq .Show "unused"}} aria-current="page"{{end}}>Not used yet <span class="count">{{.Unused}}</span></a>
-      <a href="/admin/knowledge?account={{.AccountID}}&amp;show=inactive"{{if eq .Show "inactive"}} aria-current="page"{{end}}>Expired or scheduled <span class="count">{{.Inactive}}</span></a>
-    </nav>
-    {{if eq .Show "unused"}}<p class="hint">No customer question has reached these yet. Check they are worded the way customers ask, or delete what is no longer true.</p>{{end}}
-    {{if eq .Show "inactive"}}<p class="hint">The bot does not use these right now. Expired ones can be deleted, or edited with new dates.</p>{{end}}
+    <div class="card-head">
+      <h2 id="list-title" class="card-title">Document library</h2>
+      <span class="seg" role="group" aria-label="Layout">
+        <a href="{{.Lib.With .AccountID "view" ""}}" aria-current="{{if eq .Lib.View ""}}true{{else}}false{{end}}">Grid</a>
+        <a href="{{.Lib.With .AccountID "view" "list"}}" aria-current="{{if eq .Lib.View "list"}}true{{else}}false{{end}}">List</a>
+      </span>
+    </div>
+    <ul class="stats" aria-label="Filter by type or status">
+      <li><a href="{{.Lib.With .AccountID "all" ""}}" aria-current="{{if and (eq .Lib.Type "") (eq .Lib.Show "")}}true{{else}}false{{end}}"><span class="stat-num">{{.Total}}</span> <span class="stat-label">Total</span></a></li>
+      <li><a href="{{.Lib.With .AccountID "type" "faq"}}" aria-current="{{if eq .Lib.Type "faq"}}true{{else}}false{{end}}"><span class="stat-num">{{.FAQs}}</span> <span class="stat-label">FAQs</span></a></li>
+      <li><a href="{{.Lib.With .AccountID "type" "doc"}}" aria-current="{{if eq .Lib.Type "doc"}}true{{else}}false{{end}}"><span class="stat-num">{{.Texts}}</span> <span class="stat-label">Documents</span></a></li>
+      <li><a href="{{.Lib.With .AccountID "type" "synced"}}" aria-current="{{if eq .Lib.Type "synced"}}true{{else}}false{{end}}"><span class="stat-num">{{.Synced}}</span> <span class="stat-label">From website or file</span></a></li>
+      <li><a href="{{.Lib.With .AccountID "show" "unused"}}" aria-current="{{if eq .Lib.Show "unused"}}true{{else}}false{{end}}"><span class="stat-num">{{.Unused}}</span> <span class="stat-label">Not used yet</span></a></li>
+      <li><a href="{{.Lib.With .AccountID "show" "inactive"}}" aria-current="{{if eq .Lib.Show "inactive"}}true{{else}}false{{end}}"><span class="stat-num">{{.Inactive}}</span> <span class="stat-label">Expired or scheduled</span></a></li>
+    </ul>
+    <form class="lib-search" method="get" action="/admin/knowledge" role="search">
+      <input type="hidden" name="account" value="{{.AccountID}}">
+      {{with .Lib.Type}}<input type="hidden" name="type" value="{{.}}">{{end}}{{with .Lib.Show}}<input type="hidden" name="show" value="{{.}}">{{end}}{{with .Lib.View}}<input type="hidden" name="view" value="{{.}}">{{end}}
+      <div><label for="lib-q" class="visually-hidden">Search titles and text</label>
+      <input id="lib-q" name="q" type="search" maxlength="200" value="{{.Lib.Query}}" placeholder="Search titles and text"></div>
+      <button type="submit">Search</button>
+      {{if .Lib.Active}}<a class="btn" href="{{.Lib.With .AccountID "clear" ""}}">Clear</a>{{end}}
+    </form>
+    {{if .Lib.Active}}<p class="hint" role="status">{{.Shown}} of {{.Total}} shown.</p>{{end}}
+    {{if eq .Lib.Show "unused"}}<p class="hint">No customer question has reached these yet. Check they are worded the way customers ask, or delete what is no longer true.</p>{{end}}
+    {{if eq .Lib.Show "inactive"}}<p class="hint">The bot does not use these right now. Expired ones can be deleted, or edited with new dates.</p>{{end}}
     {{if .Stale}}
     <div class="alert err" role="alert">{{.Stale}} {{if eq .Stale 1}}chunk was{{else}}chunks were{{end}} made with a different embeddings model, so the bot cannot find them.
       <form class="inline" method="post" action="/admin/knowledge">
@@ -222,38 +243,63 @@
     </div>
     {{end}}
     {{if .Docs}}
+    {{if eq .Lib.View "list"}}
     <table>
       <thead><tr><th scope="col">Title</th><th scope="col">Status</th><th scope="col">Used by customers</th><th scope="col">Scope</th><th scope="col">Updated</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
       <tbody>
       {{range .Docs}}
-        <tr>
-          <td><strong>{{.Title}}</strong> <span class="preview">{{.Kind}}</span><div class="preview">{{.Preview}}</div></td>
-          <td data-label="Status"><span class="badge {{.Status}}">{{if eq .Status "active"}}Active{{else if eq .Status "scheduled"}}Scheduled{{else}}Expired{{end}}</span>{{with .Window}}<div class="preview">{{.}}</div>{{end}}</td>
+        <tr id="doc-{{.ID}}">
+          <td><strong>{{.Title}}</strong> <span class="preview">{{.Kind}}{{if .Synced}} · from website or file{{end}}</span><div class="preview">{{.Preview}}</div></td>
+          <td data-label="Status"><span class="badge {{.Status}}">{{template "status-label" .Status}}</span>{{with .Window}}<div class="preview">{{.}}</div>{{end}}</td>
           <td data-label="Used by customers"{{if .Unused}} class="muted-cell"{{end}}>{{.Used}}</td>
           <td data-label="Scope">{{.Inbox}}{{if .Stale}} <span class="warn">({{.Stale}} old chunks)</span>{{end}}</td>
           <td class="num" data-label="Updated">{{.Updated}}</td>
-          <td class="row-actions">
-            <a class="btn small" href="/admin/knowledge?account={{$.AccountID}}&amp;edit={{.ID}}">Edit<span class="visually-hidden"> {{.Title}}</span></a>
-            <form class="inline" method="post" action="/admin/knowledge" data-confirm="Delete “{{.Title}}”? The bot stops using it at once.">
-              <input type="hidden" name="action" value="delete"><input type="hidden" name="account" value="{{$.AccountID}}"><input type="hidden" name="id" value="{{.ID}}">
-              <button type="submit" class="btn small danger" aria-label="Delete {{.Title}}">Delete</button>
-            </form>
-          </td>
+          <td class="row-actions">{{template "doc-actions" (dict "D" . "Lib" $.Lib "Account" $.AccountID)}}</td>
         </tr>
       {{end}}
       </tbody>
     </table>
-    {{else if .Total}}
-    <p class="hint" style="margin:0">Nothing here. <a href="/admin/knowledge?account={{.AccountID}}">Show all</a></p>
     {{else}}
-    <p class="hint" style="margin:0">Nothing yet. Add an FAQ or a document above.</p>
+    <ul class="library">
+      {{range .Docs}}
+      <li class="doc" id="doc-{{.ID}}">
+        <div class="doc-tags"><span class="badge">{{.Kind}}</span>{{if .Synced}}<span class="badge">From website or file</span>{{end}}<span class="badge {{.Status}}">{{template "status-label" .Status}}</span></div>
+        <h3 class="doc-title">{{.Title}}</h3>
+        {{with .Preview}}<p class="preview doc-preview">{{.}}</p>{{end}}
+        <dl class="doc-meta">
+          <dt>Used</dt><dd{{if .Unused}} class="muted-cell"{{end}}>{{.Used}}</dd>
+          <dt>Updated</dt><dd>{{.Updated}}</dd>
+          <dt>Scope</dt><dd>{{.Inbox}}</dd>
+          {{with .Window}}<dt>Dates</dt><dd>{{.}}</dd>{{end}}
+        </dl>
+        {{if .Stale}}<p class="warn preview">{{.Stale}} old chunks: re-index above.</p>{{end}}
+        <div class="card-foot">{{template "doc-actions" (dict "D" . "Lib" $.Lib "Account" $.AccountID)}}</div>
+      </li>
+      {{end}}
+    </ul>
+    {{end}}
+    {{else if .Total}}
+    <p class="hint spaced">Nothing matches. <a href="{{.Lib.With .AccountID "clear" ""}}">Show all</a></p>
+    {{else}}
+    <p class="hint spaced">Nothing yet. Add an FAQ or a document above.</p>
     {{end}}
   </section>
+  {{end}}
   {{end}}
 </main>
 </div>
 </body>
 </html>
+
+{{define "status-label"}}{{if eq . "active"}}Active{{else if eq . "scheduled"}}Scheduled{{else}}Expired{{end}}{{end}}
+
+{{define "doc-actions"}}<a class="btn small" href="{{.Lib.Edit .Account .D.ID}}">Edit<span class="visually-hidden"> {{.D.Title}}</span></a>
+<form class="inline" method="post" action="/admin/knowledge" data-confirm="Delete “{{.D.Title}}”? The bot stops using it at once.">
+  <input type="hidden" name="action" value="delete"><input type="hidden" name="account" value="{{.Account}}"><input type="hidden" name="id" value="{{.D.ID}}">{{template "lib-fields" .Lib}}
+  <button type="submit" class="btn small danger" aria-label="Delete {{.D.Title}}">Delete</button>
+</form>{{end}}
+
+{{define "lib-fields"}}{{with .Query}}<input type="hidden" name="q" value="{{.}}">{{end}}{{with .Type}}<input type="hidden" name="type" value="{{.}}">{{end}}{{with .Show}}<input type="hidden" name="show" value="{{.}}">{{end}}{{with .View}}<input type="hidden" name="view" value="{{.}}">{{end}}{{end}}
 
 {{define "dates"}}
 <div><label for="{{.P}}-from">Start date</label>
