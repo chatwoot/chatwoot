@@ -52,7 +52,9 @@ func run() error {
 	rewriteModel := flag.String("rewrite-model", "\x00", "model for the query rewrite (default REWRITE_MODEL, else the bot's model)")
 	strictFaithful := flag.Bool("strict-faithful", false, "exit 1 if any reply invents facts (judge: not faithful)")
 	seedKB := flag.String("seed-kb", "", "first load this JSON list of {question, answer} FAQs into -seed-account (empty test databases only, for CI)")
-	seedAccount := flag.Int64("seed-account", 1, "account that -seed-kb loads into")
+	seedAccount := flag.Int64("seed-account", 1, "account that -seed-kb and -seed-profile load into")
+	seedProfile := flag.String("seed-profile", "", "first load this JSON business profile into -seed-account (refused if that account holds another business's profile)")
+	account := flag.Int64("account", 0, "run every case as this account (the smoke check's own test account); 0 keeps each case's account_id")
 	flag.Parse()
 
 	cfg, err := config.FromEnv()
@@ -66,6 +68,7 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	cases = answereval.WithAccount(cases, *account)
 
 	store, err := settings.Open(cfg.SettingsPath, settings.Defaults(cfg))
 	if err != nil {
@@ -110,6 +113,12 @@ func run() error {
 			return err
 		}
 		fmt.Printf("seeded %d FAQs into account %d\n", n, *seedAccount)
+	}
+	if *seedProfile != "" {
+		if err := answereval.SeedProfile(ctx, profiles, *seedAccount, *seedProfile); err != nil {
+			return err
+		}
+		fmt.Printf("seeded the business profile into account %d\n", *seedAccount)
 	}
 
 	opts := bot.Options{

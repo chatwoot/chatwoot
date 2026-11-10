@@ -9,7 +9,9 @@
 #
 #   free-gb     free disk on / in GB (the deploy gate)
 #   containers  name<TAB>status of every staging container
-#   smoke       seed the sample shop (idempotent) and run the answer smoke check
+#   smoke       seed the sample shop (idempotent) into test account 9001 and
+#               run the answer smoke check there, so whatever is being tried
+#               on the real staging accounts cannot change its result
 set -eu
 
 staging_prefix() {
@@ -27,7 +29,8 @@ case "${SSH_ORIGINAL_COMMAND:-}" in
     prefix=$(staging_prefix)
     [ -n "$prefix" ] || { echo "staging ai-service is not running" >&2; exit 1; }
     exec timeout 900 docker exec "$prefix-stg-ai-service-1" /answer-eval \
-      -seed-kb /testdata/sample-kb/faq.json -cases /testdata/answers-smoke.json \
+      -seed-kb /testdata/sample-kb/faq.json -seed-profile /testdata/sample-kb/profile.json \
+      -seed-account 9001 -account 9001 -cases /testdata/answers-smoke.json \
       -min-pass 0.8 -strict-faithful
     ;;
   *)

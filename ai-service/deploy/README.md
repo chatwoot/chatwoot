@@ -169,7 +169,11 @@ and marks `staging` red. Manual run with *fail_verify* proves the red path.
 - VPS: the key in `STAGING_SSH_KEY` is bound in `/root/.ssh/authorized_keys`
   to the forced command `/usr/local/bin/staging-ci`
   (`deploy/staging/staging-ci.sh`), which accepts only `free-gb`,
-  `containers` and `smoke`. When appending to `authorized_keys`, make sure
+  `containers` and `smoke`. `smoke` seeds the sample café (FAQs and
+  business profile from `testdata/sample-kb/`) into its own test account
+  9001 and runs every case there, so whatever is tried on the real staging
+  accounts cannot change the release check. After changing the script,
+  copy it to `/usr/local/bin/staging-ci` on the VPS again. When appending to `authorized_keys`, make sure
   the file ends with a newline first: a key glued onto the previous line
   breaks both keys.
 
