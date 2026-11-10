@@ -74,7 +74,8 @@ RSpec.describe Whatsapp::WebhookTeardownService do
             'source' => 'manual',
             'phone_number_id' => 'manual_phone_id',
             'business_account_id' => 'manual_waba_id',
-            'api_key' => 'manual_api_key'
+            'api_key' => 'manual_api_key',
+            'app_secret' => 'manual_app_secret'
           }
         )
       end

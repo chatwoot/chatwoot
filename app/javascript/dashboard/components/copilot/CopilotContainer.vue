@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useStore } from 'dashboard/composables/store';
@@ -16,6 +17,7 @@ import CopilotThreadsAPI from 'dashboard/api/captain/copilotThreads';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const store = useStore();
+const route = useRoute();
 const { uiSettings, updateUISettings } = useUISettings();
 const { isEnterprise } = useConfig();
 const { width: windowWidth } = useWindowSize();
@@ -127,6 +129,14 @@ const isExpanded = ref(false);
 watch(shouldShowCopilotPanel, isOpen => {
   if (!isOpen) isExpanded.value = false;
 });
+// A page opened while expanded, from a Copilot link or the sidebar, would load behind the panel, so the panel returns
+// to its normal width beside it.
+watch(
+  () => route.path,
+  () => {
+    isExpanded.value = false;
+  }
+);
 
 const isWorkflowsEnabled = computed(() =>
   isFeatureEnabledonAccount.value(
@@ -293,6 +303,14 @@ const sendMessage = async payload => {
   }
 };
 
+const stopCopilot = async () => {
+  try {
+    await CopilotThreadsAPI.stop(selectedCopilotThreadId.value);
+  } catch (error) {
+    useAlert(error.message);
+  }
+};
+
 onMounted(() => {
   if (isEnterprise) {
     store.dispatch('captainAssistants/get');
@@ -328,7 +346,10 @@ onMounted(() => {
       :can-suggest-reply="canSuggestReply"
       :can-use-reply="canUseReply"
       :is-expanded="isExpanded"
+      :can-show-avatar="isWorkflowsEnabled"
       :on-send-message="sendMessage"
+      :can-stop="isWorkflowsEnabled"
+      :on-stop="stopCopilot"
       @set-assistant="setAssistant"
       @select-thread="selectThread"
       @load-more-threads="loadThreads(historyPage + 1)"

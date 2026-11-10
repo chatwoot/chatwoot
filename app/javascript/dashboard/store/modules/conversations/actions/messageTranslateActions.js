@@ -1,9 +1,10 @@
-import types from '../../../mutation-types';
-import MessageApi from '../../../../api/inbox/message';
 import { useAlert } from 'dashboard/composables';
-import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
-import { isTranslatable } from '../helpers';
 import { TRANSLATION_PROVIDERS } from 'dashboard/helper/translationProvider';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
+import ConversationApi from '../../../../api/inbox/conversation';
+import MessageApi from '../../../../api/inbox/message';
+import types from '../../../mutation-types';
+import { isTranslatable } from '../helpers';
 
 let integrationsRequest = null;
 
@@ -29,6 +30,12 @@ export default {
     );
   },
 
+  async setConversationAutoTranslate(_, { conversationId, disabled }) {
+    await ConversationApi.update(conversationId, {
+      auto_translate_disabled: disabled,
+    });
+  },
+
   async autoTranslateMessages(
     { state, commit, dispatch, getters, rootGetters },
     conversationId
@@ -37,8 +44,13 @@ export default {
       await loadIntegrations(dispatch, rootGetters);
     }
 
-    const { enabled, locale } = getters.getAutoTranslate;
-    if (!enabled || conversationId !== state.selectedChatId) {
+    const { enabled, locale, disabledInConversation } =
+      getters.getAutoTranslate;
+    if (
+      !enabled ||
+      disabledInConversation ||
+      conversationId !== state.selectedChatId
+    ) {
       return;
     }
 

@@ -94,6 +94,22 @@ class Rack::Attack
       email = get_header('HTTP_EMAIL').presence if email.nil? && include_header
       email&.downcase&.gsub(/\s+/, '')
     end
+
+    def normalized_super_admin_email
+      email = super_admin_params&.dig('email')
+      email.downcase.gsub(/\s+/, '') if email.is_a?(String) && email.present?
+    end
+
+    def super_admin_mfa_submission?
+      !super_admin_params&.dig('otp_code').nil?
+    end
+
+    def super_admin_params
+      scoped_params = params['super_admin'].presence || ActionDispatch::Request.new(env).params['super_admin']
+      scoped_params if scoped_params.is_a?(Hash)
+    rescue StandardError
+      nil
+    end
   end
 
   ### Safelist IPs from Environment Variable ###
@@ -133,7 +149,11 @@ class Rack::Attack
 
   ### Prevent Brute-Force Super Admin Login Attacks ###
   throttle('super_admin_login/ip', limit: 5, period: 5.minutes) do |req|
-    req.ip if req.path_without_extensions == '/super_admin/sign_in' && req.post?
+    req.ip if req.path_without_extensions == '/super_admin/sign_in' && req.post? && !req.super_admin_mfa_submission?
+  end
+
+  throttle('super_admin_mfa/ip', limit: 10, period: 1.minute) do |req|
+    req.ip if req.path_without_extensions == '/super_admin/sign_in' && req.post? && req.super_admin_mfa_submission?
   end
 
   throttle('super_admin_login/email', limit: 5, period: 15.minutes) do |req|
@@ -141,8 +161,7 @@ class Rack::Attack
       # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
       # Hence placed in the if block
       # ref: https://github.com/rack/rack-attack/issues/399
-      email = req.params['email'].presence || ActionDispatch::Request.new(req.env).params['email'].presence
-      email.to_s.downcase.gsub(/\s+/, '')
+      req.normalized_super_admin_email
     end
   end
 

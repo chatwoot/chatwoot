@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Delete {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Locale removed from portal successfully",
           "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
@@ -823,6 +828,11 @@
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Back to articles"
       },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
+      },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
         "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
@@ -841,6 +851,10 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Search articles...",
+        "ORIGINAL_ARTICLE_EMPTY": "No articles found",
         "META_DESCRIPTION": "Meta description",
         "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
         "META_TITLE": "Meta title",
@@ -891,6 +905,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
           "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
           "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
