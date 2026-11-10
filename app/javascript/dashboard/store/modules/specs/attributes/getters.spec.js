@@ -50,6 +50,33 @@ describe('#getters', () => {
     ).toEqual(['first', 'second', 'no_position']);
   });
 
+  it.each([
+    ['getConversationAttributes', 'conversation_attribute'],
+    ['getContactAttributes', 'contact_attribute'],
+    ['getCompanyAttributes', 'company_attribute'],
+  ])('%s returns records ordered by position', (getterName, attributeModel) => {
+    const state = {
+      records: [
+        { attribute_key: 'no_position', attribute_model: attributeModel },
+        {
+          attribute_key: 'second',
+          attribute_model: attributeModel,
+          position: 20,
+        },
+        {
+          attribute_key: 'first',
+          attribute_model: attributeModel,
+          position: 10,
+        },
+      ],
+    };
+    expect(getters[getterName](state).map(r => r.attributeKey)).toEqual([
+      'first',
+      'second',
+      'no_position',
+    ]);
+  });
+
   it('getCompanyAttributes', () => {
     const state = {
       records: [

@@ -14,6 +14,18 @@ export const state = {
   },
 };
 
+const sortByPosition = records => {
+  return [...records].sort(
+    (a, b) => (a.position ?? Infinity) - (b.position ?? Infinity)
+  );
+};
+
+const getRecordsByModel = (records, attributeModel) => {
+  return sortByPosition(
+    records.filter(record => record.attribute_model === attributeModel)
+  );
+};
+
 export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
@@ -22,24 +34,22 @@ export const getters = {
     return _state.records;
   },
   getConversationAttributes: _state => {
-    return _state.records
-      .filter(record => record.attribute_model === 'conversation_attribute')
-      .map(camelcaseKeys);
+    return getRecordsByModel(_state.records, 'conversation_attribute').map(
+      camelcaseKeys
+    );
   },
   getContactAttributes: _state => {
-    return _state.records
-      .filter(record => record.attribute_model === 'contact_attribute')
-      .map(camelcaseKeys);
+    return getRecordsByModel(_state.records, 'contact_attribute').map(
+      camelcaseKeys
+    );
   },
   getCompanyAttributes: _state => {
-    return _state.records
-      .filter(record => record.attribute_model === 'company_attribute')
-      .map(camelcaseKeys);
+    return getRecordsByModel(_state.records, 'company_attribute').map(
+      camelcaseKeys
+    );
   },
   getAttributesByModel: _state => attributeModel => {
-    return _state.records
-      .filter(record => record.attribute_model === attributeModel)
-      .sort((a, b) => (a.position ?? Infinity) - (b.position ?? Infinity));
+    return getRecordsByModel(_state.records, attributeModel);
   },
 };
 
