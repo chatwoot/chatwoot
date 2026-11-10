@@ -133,6 +133,38 @@ class TrustedStagingTest(unittest.TestCase):
         self.assertIsNone(promote.trusted_staging_state([{"context": "staging", "state": "success", "creator": {"login": "x"}}]))
 
 
+class NeedsDeployTest(unittest.TestCase):
+    def test_docs_and_tests_only_need_no_deploy(self):
+        # Arrange
+        changed = ["ai-service/README.md", "ai-service/docs/decisions.md",
+                   "ai-service/internal/bot/policy_test.go",
+                   "ai-service/deploy/promote/test_promote.py",
+                   "ai-service/.claude/skills/deploy/test_dokploy.py"]
+
+        # Act
+        deploy = promote.needs_deploy(changed, B, A, auto=True)
+
+        # Assert
+        self.assertFalse(deploy)
+
+    def test_any_other_file_needs_a_deploy(self):
+        # testdata/ ships in the image; templates, Go code, workflows and
+        # scripts all count as real changes.
+        for path in ("ai-service/internal/bot/policy.go", "ai-service/internal/admin/layout.html",
+                     "ai-service/testdata/answers-smoke.json", "ai-service/Dockerfile",
+                     ".github/workflows/ai-service-promote.yml", "ai-service/deploy/promote/promote.py",
+                     "ai-service/internal/brand/logo.svg", "ai-service/docs.go", "README.md.go"):
+            with self.subTest(path=path):
+                self.assertTrue(promote.needs_deploy(["ai-service/README.md", path], B, A, auto=True))
+
+    def test_same_commit_skips_only_on_an_automatic_run(self):
+        self.assertFalse(promote.needs_deploy([], A, A, auto=True))
+        self.assertTrue(promote.needs_deploy([], A, A, auto=False))
+
+    def test_first_promote_always_deploys(self):
+        self.assertTrue(promote.needs_deploy([], B, None, auto=True))
+
+
 class ShaArgumentTest(unittest.TestCase):
     def test_accepts_hex_shas_only(self):
         for good in ("b22580a26d", B):

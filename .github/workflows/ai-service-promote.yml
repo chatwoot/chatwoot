@@ -5,13 +5,20 @@
 # it and verifies it. If a step after the move fails, it moves the branch back
 # and redeploys the commit that was live before.
 #
+# Starts by itself when a staging run on develop finishes green (and can still be
+# run by hand). An automatic run picks the newest develop commit with green
+# staging, so a superseded staging run never promotes an untested commit.
+#
 # Two jobs:
 #   check    no secrets, no approval. Picks the commit (the `sha` input, or the
 #            newest develop commit whose `staging` status is success) and refuses
 #            one that is not on develop, has no green staging, is older than
 #            production, or comes with a knowledge-base schema change (those go
 #            through /deploy, which takes a backup first). The job summary lists
-#            what would ship.
+#            what would ship. It also decides whether production would change
+#            at all: a range of only docs and tests (or, on an automatic run,
+#            the commit production already runs) skips the promote job, so no
+#            approval request is sent.
 #   promote  runs in the GitHub Environment `production`. Its required reviewer
 #            (the owner) approves each run, and only it holds the production
 #            Dokploy token.
@@ -25,6 +32,10 @@
 name: ai-service promote
 
 on:
+  workflow_run:
+    workflows: [ai-service staging]
+    types: [completed]
+    branches: [develop]
   workflow_dispatch:
     inputs:
       sha:
@@ -39,7 +50,9 @@ on:
 permissions:
   contents: read
 
-# One production change at a time; never cancel a deploy halfway.
+# One production change at a time; never cancel a deploy halfway. A run waiting
+# for approval holds the group: a newer automatic run queues behind it (GitHub
+# keeps only the newest queued one). Reject the older run to let the newer go.
 concurrency:
   group: ai-service-production
   cancel-in-progress: false
@@ -48,13 +61,19 @@ jobs:
   check:
     name: Pick and check the commit
     # Only the reviewed workflow on develop may promote; the production
-    # environment also admits develop runs only.
-    if: github.ref == 'refs/heads/develop'
+    # environment also admits develop runs only. An automatic run needs a green
+    # staging run on develop (github.ref is develop, the default branch).
+    if: >-
+      github.ref == 'refs/heads/develop' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'develop'))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
       sha: ${{ steps.pick.outputs.sha }}
       prev: ${{ steps.pick.outputs.prev }}
+      deploy: ${{ steps.pick.outputs.deploy }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -73,12 +92,19 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           SHA_INPUT: ${{ inputs.sha }}
-        run: python3 ai-service/deploy/promote/promote.py check "$SHA_INPUT"
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" = "workflow_run" ]; then
+            python3 ai-service/deploy/promote/promote.py check --auto
+          else
+            python3 ai-service/deploy/promote/promote.py check "$SHA_INPUT"
+          fi
 
   promote:
     name: Deploy to production
     needs: check
-    if: github.ref == 'refs/heads/develop' && !inputs.dry_run
+    # Skipped (no approval request) on a dry run or when production would not change.
+    if: github.ref == 'refs/heads/develop' && !inputs.dry_run && needs.check.outputs.deploy == 'true'
     environment: production
     runs-on: ubuntu-latest
     timeout-minutes: 60

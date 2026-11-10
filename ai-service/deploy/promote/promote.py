@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Checks for the "ai-service promote" workflow (DEV-Johnstocker/chatwoot#39, refs #1).
 
-  promote.py check [SHA]
+  promote.py check [--auto] [SHA]
 
 Picks the commit to promote (SHA, or the newest develop commit whose `staging`
 status is success), refuses it when it should not reach production, and writes
 `sha` and `prev` to $GITHUB_OUTPUT plus a summary of what would ship to
 $GITHUB_STEP_SUMMARY. `prev` is the commit on the `production` branch now
-(empty before the first promote).
+(empty before the first promote). `deploy` is false when production would not
+change (only docs and tests, or with --auto the same commit), so the workflow
+skips the approval and the deploy.
 
 Run inside a full clone (fetch-depth 0) with origin/develop and, once it
 exists, origin/production fetched. Needs GH_TOKEN and REPO for the status API.
@@ -30,6 +32,11 @@ NEEDS_BACKUP = re.compile(r"^ai-service/(internal/knowledge/(schema[^/]*\.sql|po
 STAGING_CREATOR = "github-actions[bot]"
 STAGING_WORKFLOW = ".github/workflows/ai-service-staging.yml"
 CI_WORKFLOW = ".github/workflows/ai-service.yml"
+# Files that never reach the production image or its behaviour: Markdown docs
+# (the Dockerfile ignores *.md, and nothing embeds them) and test code. A range
+# of only these needs no deploy. testdata/ is not here: the image ships it.
+NO_DEPLOY = re.compile(r"^(.*\.md|ai-service/docs/.*|.*_test\.go"
+                       r"|ai-service/(deploy/promote|\.claude/skills/deploy)/test_[^/]*\.py)$")
 RUN_URL = re.compile(r"^https://github\.com/[^/]+/[^/]+/actions/runs/([0-9]+)$")
 CANDIDATES = 50
 
@@ -62,6 +69,17 @@ def refusals(sha, prev, on_develop, after_prev, staging, changed, ci=True):
         reasons.append("the range can change a production database (" + ", ".join(risky)
                        + "); run /deploy, which takes a backup first")
     return reasons
+
+
+def needs_deploy(changed, sha, prev, auto):
+    """False when production would not change: the range holds only docs and
+    tests, or (on an automatic run) production already is sha. A manual run of
+    the same commit is a deliberate redeploy."""
+    if prev and sha == prev:
+        return not auto
+    if not prev:
+        return True
+    return not changed or any(not NO_DEPLOY.match(f) for f in changed)
 
 
 def trusted_staging_status(statuses):
@@ -141,7 +159,7 @@ def append(path_var, text):
         print(text, end="")
 
 
-def check(requested):
+def check(requested, auto=False):
     prev = git("rev-parse", "--verify", "--quiet", "origin/production^{commit}", check=False) or None
     if requested:
         if not valid_sha(requested):
@@ -163,18 +181,25 @@ def check(requested):
     log = git("log", "--first-parent", "--format=- %h %s", f"{prev}..{sha}") if prev else "(first promote)"
     summary = (f"### Promote to production\n\n- commit: `{sha}`\n- production now: `{prev or 'none'}`\n\n"
                f"Ships:\n\n{log or '(nothing new: redeploy of the same commit)'}\n\n")
+    deploy = needs_deploy(changed, sha, prev, auto)
     if reasons:
         summary += "**Refused:**\n\n" + "".join(f"- {r}\n" for r in reasons)
+    elif not deploy:
+        summary += ("**No deploy needed:** production already runs this commit, or the range "
+                    "changes only docs and tests. Production stays where it is; the next real "
+                    "promote ships these commits too.\n")
     append("GITHUB_STEP_SUMMARY", summary)
     if reasons:
         sys.exit("refused: " + "; ".join(reasons))
-    append("GITHUB_OUTPUT", f"sha={sha}\nprev={prev or ''}\n")
+    append("GITHUB_OUTPUT", f"sha={sha}\nprev={prev or ''}\ndeploy={'true' if deploy else 'false'}\n")
 
 
 def main(argv):
-    if not argv or argv[0] != "check" or len(argv) > 2:
-        sys.exit("usage: promote.py check [SHA]")
-    check(argv[1] if len(argv) == 2 else "")
+    auto = argv[1:2] == ["--auto"]
+    rest = argv[2:] if auto else argv[1:]
+    if not argv or argv[0] != "check" or len(rest) > 1:
+        sys.exit("usage: promote.py check [--auto] [SHA]")
+    check(rest[0] if rest else "", auto=auto)
 
 
 if __name__ == "__main__":
