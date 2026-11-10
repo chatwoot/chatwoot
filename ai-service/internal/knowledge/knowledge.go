@@ -478,3 +478,22 @@ func cleanQueries(in []string) []string {
 	}
 	return out
 }
+
+// Search ranks chunks by meaning for one text, the way the bot's retrieval
+// does, but without the bot's filters: every hit up to limit comes back with
+// its score, and includeInactive also searches expired and scheduled
+// documents. It does not count as customer use. For owners and AI tools
+// checking what the knowledge base would return.
+func (s *Service) Search(ctx context.Context, accountID, inboxID int64, text string, limit int, includeInactive bool) ([]Hit, error) {
+	model := s.Embedder.Model()
+	text = strings.TrimSpace(text)
+	if text == "" || model == "" {
+		return nil, nil
+	}
+	vecs, err := s.Embedder.Embed(ctx, []string{text})
+	if err != nil {
+		return nil, err
+	}
+	return s.Store.Search(ctx, Query{AccountID: accountID, InboxID: inboxID, Model: model, Vector: vecs[0],
+		Limit: limit, IncludeInactive: includeInactive})
+}

@@ -43,9 +43,11 @@ func (m *memAudit) Record(_ context.Context, e AuditEntry) error {
 }
 
 type store struct {
-	docs []knowledge.Document
-	hits []knowledge.Hit
-	next int64
+	docs    []knowledge.Document
+	hits    []knowledge.Hit
+	next    int64
+	queries []knowledge.Query // every Search call, for scope checks
+	marked  int               // MarkUsed calls
 }
 
 func (s *store) Insert(_ context.Context, d knowledge.Document, _ string, _ []knowledge.Chunk) (int64, error) {
@@ -75,7 +77,10 @@ func (s *store) Delete(_ context.Context, acct, id int64) error {
 	}
 	return knowledge.ErrNotFound
 }
-func (s *store) Search(context.Context, knowledge.Query) ([]knowledge.Hit, error) { return s.hits, nil }
+func (s *store) Search(_ context.Context, q knowledge.Query) ([]knowledge.Hit, error) {
+	s.queries = append(s.queries, q)
+	return s.hits, nil
+}
 func (s *store) Get(_ context.Context, acct, id int64) (knowledge.Document, error) {
 	for _, d := range s.docs {
 		if d.ID == id && d.AccountID == acct {
@@ -94,7 +99,7 @@ func (s *store) Update(_ context.Context, d knowledge.Document, _ string, _ []kn
 	}
 	return knowledge.ErrNotFound
 }
-func (s *store) MarkUsed(context.Context, int64, []int64) error { return nil }
+func (s *store) MarkUsed(context.Context, int64, []int64) error { s.marked++; return nil }
 func (s *store) GetByKey(_ context.Context, acct int64, key string) (knowledge.Document, error) {
 	for _, d := range s.docs {
 		if d.AccountID == acct && key != "" && d.SourceKey == key {

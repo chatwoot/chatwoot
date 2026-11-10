@@ -54,6 +54,7 @@ var tools = []tool{
 		InputSchema: obj(map[string]any{"title": str("Title or FAQ question."), "content": str("Text or FAQ answer."),
 			"inbox_id": map[string]any{"type": "integer", "description": "Also compare with this inbox's own documents."}}, "title", "content"),
 		Annotations: map[string]any{"readOnlyHint": true, "openWorldHint": false}},
+	searchTool,
 	{Name: "upsert_document", Title: "Add or update a document", write: true,
 		Description: "Create or replace a document by its key. The same key updates in place (re-indexed, usage kept, kind unchanged). " +
 			"The change waits until the owner approves it on the admin page; until then customers see the current version. " +
@@ -156,6 +157,11 @@ func (s *Server) callTool(ctx context.Context, tok Token, name string, raw json.
 		}
 		if err = decode(&a); err == nil {
 			out, err = s.findSimilar(ctx, tok, knowledge.Document{AccountID: tok.AccountID, InboxID: a.InboxID, Kind: knowledge.KindText, Title: a.Title, Content: a.Content})
+		}
+	case "search_knowledge":
+		var a searchArgs
+		if err = decode(&a); err == nil {
+			out, err = s.search(ctx, tok, a)
 		}
 	case "upsert_document":
 		var a upsertArgs
