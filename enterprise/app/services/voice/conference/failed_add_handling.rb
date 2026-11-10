@@ -40,7 +40,10 @@ module Voice::Conference::FailedAddHandling
 
   # The contact's answer callback can arrive after the failed join.
   def failed_add_status
-    return 'no_answer'.tap { call.merge_meta!('unanswered_by_failed_join' => true) } if call.ringing?
+    if call.ringing?
+      call.merge_meta!('unanswered_by_failed_join' => true)
+      return 'no_answer'
+    end
 
     call.accepted_broadcast_at.present? ? 'completed' : 'failed'
   end
