@@ -14,7 +14,6 @@ module Concerns::CallAgentLegs
     meta&.fetch('agent_legs', nil) || {}
   end
 
-  # Seconds until all pending legs expire, or nil when none are pending.
   def agent_leg_join_wait(except: nil)
     now = Time.zone.now.to_i
     joining = agent_legs.except(except.to_s).values.select { |leg| leg['state'] == 'joining' && leg['at'].to_i > now - AGENT_LEG_JOIN_GRACE_SECONDS }
@@ -25,7 +24,6 @@ module Concerns::CallAgentLegs
     agent_legs.except(except.to_s).values.any? { |leg| leg['state'] == 'joined' && (since.nil? || leg['at'].to_i >= since) }
   end
 
-  # Repeated TwiML requests preserve states already recorded by join and leave callbacks.
   def open_agent_leg!(sid, attempt: nil)
     with_lock do
       leg_state = agent_legs.dig(sid.to_s, 'state')

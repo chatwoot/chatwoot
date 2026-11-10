@@ -15,7 +15,6 @@ class Voice::StatusUpdateService
     'canceled' => 'failed'
   }.freeze
 
-  # Twilio callbacks can arrive out of order.
   PROVIDER_STATUS_ORDER = %w[queued initiated ringing in-progress].freeze
   ACTIVE_PROVIDER_STATUSES = %w[in-progress inprogress answered].freeze
   TERMINAL_PROVIDER_STATUSES = %w[completed busy no-answer failed canceled].freeze
@@ -40,7 +39,6 @@ class Voice::StatusUpdateService
 
   private
 
-  # Provider status distinguishes queued, initiated, and ringing for outbound clients.
   def record_provider_status(call)
     provider_status = call_status.to_s.downcase
     return false if provider_status.blank?

@@ -37,7 +37,6 @@ class Voice::EndConferenceJob < ApplicationJob
     Rails.logger.error("[VOICE] call #{call.id}: last attempt to end the conference failed: #{e.class}: #{e.message}")
     return self.class.set(wait: LATE_ROUND_WAIT).perform_later(call.id, leaving_call_sid: leaving_call_sid, round: round + 1) if round < LATE_ROUNDS
 
-    # Exhausted retries complete the call even if the participant lookup still fails.
     hang_up_dialled_contact(call) unless hung_up
     complete(call)
   end

@@ -1,11 +1,9 @@
 class Notification::FcmService
   SCOPES = ['https://www.googleapis.com/auth/firebase.messaging'].freeze
   TOKEN_MARGIN_SECONDS = 60
-  # Access tokens stay in process memory.
   TOKENS = {} # rubocop:disable Style/MutableConstant
   TOKENS_LOCK = Mutex.new
   TOKEN_REQUEST_TIMEOUT_SECONDS = 10
-  # Includes the auth library's retries.
   TOKEN_REFRESH_BUDGET_SECONDS = 15
   TOKEN_RETRY_SECONDS = 30
 
