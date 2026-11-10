@@ -1,0 +1,13 @@
+# Checks that the bot's model provider still answers (credit, key, reachability)
+# and posts to Slack on a change. Issue: DEV-Johnstocker/chatwoot#1
+[Unit]
+Description=ai-service model provider check (Slack alert)
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/aisvc-backup-alert.env
+EnvironmentFile=-/etc/aisvc-openai-check.env
+ExecStart=/opt/aisvc-monitor/openai-check.sh
+TimeoutStartSec=180

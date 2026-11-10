@@ -1,0 +1,11 @@
+# Every 30 minutes. Issue: DEV-Johnstocker/chatwoot#1
+[Unit]
+Description=Run the ai-service model provider check every 30 minutes
+
+[Timer]
+OnCalendar=*:00/30
+RandomizedDelaySec=60
+Persistent=true
+
+[Install]
+WantedBy=timers.target

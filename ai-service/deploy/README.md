@@ -333,6 +333,44 @@ systemd-run --unit=aisvc-backup-alerttest -p OnFailure=aisvc-backup-alert@aisvc-
 
 Tests: `bash deploy/backup/alert_test.sh` (CI runs them).
 
+## Model provider check (Slack)
+
+On 2026-11-10 the OpenAI key behind both bots ran out of credit. Nothing
+alerted, and the staging smoke check was the first sign. Now
+`aisvc-openai-check.timer` runs `deploy/monitor/openai-check.sh` every 30
+minutes on the VPS. For each running `*ai-service-1` container (production
+and staging) it does two things:
+
+- It sends one tiny embeddings request with the key and base URL from that
+  container's env (`EMBED_*`, falling back to `LLM_*`). The cost is about
+  $0.0000002 per run.
+- It counts quota errors in the last 35 minutes of the container's log.
+
+It posts to Slack `#chatwoot-ai-service` through the backup alert's webhook
+(`SLACK_BACKUP_WEBHOOK_URL` in `/etc/aisvc-backup-alert.env`) in these
+cases only:
+
+- a target starts failing: out of credit, key rejected, or rate limit,
+  server errors or no answer twice in a row;
+- the failure changes kind;
+- every 6 hours while it stays down;
+- once when it recovers.
+
+State is kept in `/var/lib/aisvc-openai-check/`. Keys go to curl through a
+root-only config file and are never printed. Optional settings go in
+`/etc/aisvc-openai-check.env` (`OPENAI_CHECK_CONTAINERS`, `REMIND_HOURS`).
+Install or update:
+
+```bash
+install -d -m 700 /opt/aisvc-monitor
+install -m 700 deploy/monitor/openai-check.sh /opt/aisvc-monitor/
+install -m 644 deploy/monitor/aisvc-openai-check.service deploy/monitor/aisvc-openai-check.timer /etc/systemd/system/
+systemctl daemon-reload && systemctl enable --now aisvc-openai-check.timer
+systemctl start aisvc-openai-check && journalctl -u aisvc-openai-check -n 20
+```
+
+Tests: `bash deploy/monitor/openai-check_test.sh` (CI runs them).
+
 ## Access
 
 - SSH: `ssh llmopshostinger` (key-based alias on the owner's machine; plain
