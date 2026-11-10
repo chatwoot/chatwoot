@@ -236,3 +236,29 @@ func TestScorer_EveryDraftKeepsTheBusinessVoice(t *testing.T) {
 		}
 	}
 }
+
+// Live check 2026-11-11: after #83, English comments got Thai drafts (4 of 6
+// with no profile, up from 0 of 6), because the voice fallback said "write
+// Thai". The commenter's language must win; the voice only picks the
+// particle of a Thai reply.
+func TestScorer_VoiceNeverChangesTheReplyLanguage(t *testing.T) {
+	// Arrange
+	model := &stubLLM{content: `{"intent":"question","reason":"Asks.","reply":"Yes, it does."}`}
+	s := &Scorer{LLM: model}
+
+	// Act
+	if _, _, _, err := s.Score(context.Background(), Comment{AccountID: 1, Message: "Does it work with English videos?"}); err != nil {
+		t.Fatal(err)
+	}
+
+	// Assert
+	rules := model.got[0].Content
+	if strings.Contains(rules, "write Thai") {
+		t.Error("draft rules still tell the model to write Thai")
+	}
+	for _, want := range []string{"the commenter's language, even when the business's tone names another", "In a Thai reply"} {
+		if !strings.Contains(rules, want) {
+			t.Errorf("draft rules missing %q", want)
+		}
+	}
+}
