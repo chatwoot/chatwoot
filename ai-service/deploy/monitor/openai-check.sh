@@ -9,6 +9,9 @@
 #      embeddings request (about $0.0000002);
 #   2. counts quota errors (429, insufficient_quota) in the last 35 minutes
 #      of the container's log.
+# When the primary fails it also probes the embeddings fallback
+# (EMBED_FALLBACK_*); if that answers, the state is on_fallback (warning)
+# instead of a failure.
 # It posts to Slack only when a target's state changes (failing <-> ok),
 # plus a reminder every REMIND_HOURS while it stays down. A network error
 # or a 5xx must happen twice in a row before it alerts, so one blip is quiet.
@@ -50,6 +53,7 @@ transient() { [[ "$1" == unreachable || "$1" == provider_error || "$1" == rate_l
 explain() {
   case "$1" in
     ok) echo "answering normally" ;;
+    on_fallback) echo "PRIMARY FAILING, bot answering through the fallback provider. Fix the primary (credit or key); the fallback may be rate limited." ;;
     no_credit) echo "OUT OF CREDIT: the bot cannot search the knowledge base or answer. Add credit in the provider's billing page." ;;
     bad_key) echo "KEY REJECTED (revoked or wrong): the bot cannot answer. Replace the key in Dokploy." ;;
     rate_limited) echo "rate limited twice in a row: answers may fail or be slow." ;;
@@ -93,17 +97,10 @@ list_targets() {
 # env_value <env lines> <name> prints that variable's value.
 env_value() { sed -n "s/^$2=//p" <<<"$1" | head -1; }
 
-# probe <container> prints "<http status> <error code>".
-probe() {
-  local envs base key model cfg body code status
-  envs=$(docker inspect "$1" --format '{{range .Config.Env}}{{println .}}{{end}}')
-  base=$(env_value "$envs" EMBED_BASE_URL)
-  key=$(env_value "$envs" EMBED_API_KEY)
-  model=$(env_value "$envs" EMBED_MODEL)
-  [[ -n "$base" ]] || base=$(env_value "$envs" LLM_BASE_URL)
-  [[ -n "$key" ]] || key=$(env_value "$envs" LLM_API_KEY)
-  base=${base:-$default_base}
-  model=${model:-text-embedding-3-small}
+# probe_provider <base url> <key> <model> prints "<http status> <error code>"
+# for one tiny embeddings request.
+probe_provider() {
+  local base=$1 key=$2 model=$3 cfg body code status
   cfg=$(mktemp) body=$(mktemp)
   printf 'header = "Authorization: Bearer %s"\n' "$key" >"$cfg"
   status=$(jq -n --arg m "$model" '{model: $m, input: "ping"}' |
@@ -112,6 +109,48 @@ probe() {
   code=$(jq -r '.error.code // .error.type // empty' "$body" 2>/dev/null | head -1 | tr -cd 'A-Za-z0-9_.-' || true)
   rm -f "$cfg" "$body"
   echo "${status:-000} ${code:--}"
+}
+
+# url_host <url> prints only the host[:port]: no user info, path, query or
+# fragment, and "redacted" if anything else is left.
+url_host() {
+  local host=${1#*://}
+  host=${host%%[/?#]*}
+  host=${host##*@}
+  [[ "$host" =~ ^[A-Za-z0-9.-]+(:[0-9]+)?$ ]] || host=redacted
+  echo "$host"
+}
+
+container_env() { docker inspect "$1" --format '{{range .Config.Env}}{{println .}}{{end}}'; }
+
+# probe <container> probes the primary provider: EMBED_* falling back to
+# LLM_*, like the service.
+probe() {
+  local envs base key model
+  envs=$(container_env "$1")
+  base=$(env_value "$envs" EMBED_BASE_URL)
+  key=$(env_value "$envs" EMBED_API_KEY)
+  model=$(env_value "$envs" EMBED_MODEL)
+  [[ -n "$base" ]] || base=$(env_value "$envs" LLM_BASE_URL)
+  [[ -n "$key" ]] || key=$(env_value "$envs" LLM_API_KEY)
+  probe_provider "${base:-$default_base}" "$key" "${model:-text-embedding-3-small}"
+}
+
+# probe_fallback <container> probes the embeddings fallback and prints
+# "<http status> <error code> <host>", or "none" when the service would not
+# use one (it needs base URL, key and model, like settings.Configured).
+probe_fallback() {
+  local envs base key model host
+  envs=$(container_env "$1")
+  base=$(env_value "$envs" EMBED_FALLBACK_BASE_URL)
+  key=$(env_value "$envs" EMBED_FALLBACK_API_KEY)
+  model=$(env_value "$envs" EMBED_FALLBACK_MODEL)
+  if [[ -z "$base" || -z "$key" || -z "$model" ]]; then
+    echo none
+    return
+  fi
+  host=$(url_host "$base")
+  echo "$(probe_provider "$base" "$key" "$model") $host"
 }
 
 quota_errors() { # <container>
@@ -129,16 +168,17 @@ post_slack() { # <text>
   return "$ok"
 }
 
-# message <action> <label> <state> <http> <code> <log errors> <since>
+# message <action> <label> <state> <http> <code> <log errors> <since> [fallback note]
 message() {
   local icon=':x:' head
+  [[ "$3" == on_fallback ]] && icon=':warning:'
   case "$1" in
     recovered) icon=':white_check_mark:' head="$2 bot: model provider OK again" ;;
-    remind) head="$2 bot: STILL failing (since $7)" ;;
-    *) head="$2 bot: model provider failing" ;;
+    remind) head="$2 bot: STILL degraded (since $7)" ;;
+    *) if [[ "$3" == on_fallback ]]; then head="$2 bot: answering through fallback"; else head="$2 bot: model provider failing"; fi ;;
   esac
-  printf '%s *%s*\n%s\nProbe: HTTP %s %s · quota errors in log (35 min): %s\nHost: %s · check: systemctl start aisvc-openai-check' \
-    "$icon" "$head" "$(explain "$3")" "$4" "$5" "$6" "$(hostname)"
+  printf '%s *%s*\n%s\nPrimary probe: HTTP %s %s · quota errors in log (35 min): %s%s\nHost: %s · check: systemctl start aisvc-openai-check' \
+    "$icon" "$head" "$(explain "$3")" "$4" "$5" "$6" "${8:+$'\n'$8}" "$(hostname)"
 }
 
 check_target() { # <label> <container> <state dir> <now> <remind seconds>
@@ -147,14 +187,25 @@ check_target() { # <label> <container> <state dir> <now> <remind seconds>
   # shellcheck disable=SC1090
   [[ -f "$file" ]] && source "$file"
   local http code state logs action
+  local fb fhttp fcode fhost note=''
   read -r http code < <(probe "$container")
   state=$(classify "$http" "$code")
+  if [[ "$state" != ok ]]; then
+    fb=$(probe_fallback "$container")
+    if [[ "$fb" != none ]]; then
+      read -r fhttp fcode fhost <<<"$fb"
+      note="fallback $fhost: HTTP $fhttp $fcode"
+      [[ "$(classify "$fhttp" "$fcode")" == ok ]] && state=on_fallback
+    else
+      note="no fallback configured"
+    fi
+  fi
   logs=$(quota_errors "$container")
   [[ "$state" == "$prev" ]] || since=$now
   read -r action streak < <(decide "$prev" "$streak" "$last" "$state" "$now" "$remind")
-  echo "$label: $state (HTTP $http $code, log quota errors $logs) -> $action"
+  echo "$label: $state (HTTP $http $code${note:+, $note}, log quota errors $logs) -> $action"
   if [[ "$action" != quiet ]]; then
-    if post_slack "$(message "$action" "$label" "$state" "$http" "$code" "$logs" "$(date -u -d "@$since" '+%F %H:%M UTC' 2>/dev/null || echo "$since")")"; then
+    if post_slack "$(message "$action" "$label" "$state" "$http" "$code" "$logs" "$(date -u -d "@$since" '+%F %H:%M UTC' 2>/dev/null || echo "$since")" "$note")"; then
       last=$now
       [[ "$action" == recovered ]] && last=0
     else

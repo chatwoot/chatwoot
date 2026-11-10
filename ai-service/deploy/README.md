@@ -344,6 +344,9 @@ and staging) it does two things:
 - It sends one tiny embeddings request with the key and base URL from that
   container's env (`EMBED_*`, falling back to `LLM_*`). The cost is about
   $0.0000002 per run.
+- When the primary fails, it probes the embeddings fallback
+  (`EMBED_FALLBACK_*`). If the fallback answers, the state is a ⚠️ warning
+  ("answering through fallback"), not a ❌ failure.
 - It counts quota errors in the last 35 minutes of the container's log.
 
 It posts to Slack `#chatwoot-ai-service` through the backup alert's webhook

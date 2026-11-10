@@ -48,7 +48,7 @@ check "alert names target" "yes" "$(grep -qF '*production bot: model provider fa
 check "alert says out of credit" "yes" "$(grep -qF 'OUT OF CREDIT' <<<"$msg" && echo yes || echo no)"
 check "alert shows probe result" "yes" "$(grep -qF 'HTTP 429 insufficient_quota' <<<"$msg" && echo yes || echo no)"
 check "recovery has check mark" ":white_check_mark:" "$(message recovered staging ok 200 - 0 x | head -1 | cut -d" " -f1)"
-check "reminder says since" "yes" "$(message remind production no_credit 429 - 0 '2026-11-10 03:00 UTC' | grep -qF 'STILL failing (since 2026-11-10 03:00 UTC)' && echo yes || echo no)"
+check "reminder says since" "yes" "$(message remind production no_credit 429 - 0 '2026-11-10 03:00 UTC' | grep -qF 'STILL degraded (since 2026-11-10 03:00 UTC)' && echo yes || echo no)"
 
 # --- targets from settings ---
 check "configured targets" $'production=a-ai-service-1\nstaging=b' \
@@ -81,10 +81,30 @@ check "request is tiny" '{"model":"text-embedding-3-small","input":"ping"}' "$(j
 check "key not in probe output" "0" "$(grep -c "$marker" <<<"$got" || true)"
 unset -f docker curl
 
+# --- url_host: never leaks credentials or paths ---
+check "plain host" "openrouter.ai" "$(url_host https://openrouter.ai/api/v1)"
+check "port kept" "proxy.local:8443" "$(url_host https://proxy.local:8443/v1)"
+check "user info dropped" "host.example" "$(url_host 'https://user:p4ss@host.example/v1')"
+check "query dropped" "host.example" "$(url_host 'https://host.example?key=abc')"
+check "odd host redacted" "redacted" "$(url_host 'https://ho st/x')"
+
+# --- probe_fallback: only when base URL, key and model are all set ---
+docker() { printf 'EMBED_FALLBACK_BASE_URL=https://openrouter.ai/api/v1\nEMBED_FALLBACK_API_KEY=%s\n' "$marker"; }
+check "incomplete fallback is none" none "$(probe_fallback c)"
+docker() { printf 'EMBED_FALLBACK_BASE_URL=https://openrouter.ai/api/v1\nEMBED_FALLBACK_API_KEY=%s\nEMBED_FALLBACK_MODEL=openai/text-embedding-3-large\n' "$marker"; }
+probe_provider() { printf '%s\n' "$@" >"$tmp/fbargs"; echo "200 -"; }
+check "fallback probe reports host" "200 - openrouter.ai" "$(probe_fallback c)"
+check "fallback probe uses fallback model" "openai/text-embedding-3-large" "$(sed -n 3p "$tmp/fbargs")"
+check "fallback host has no key" "0" "$(probe_fallback c | grep -c "$marker" || true)"
+unset -f docker
+# shellcheck source=openai-check.sh
+source "$here/openai-check.sh"
+
 # --- check_target: state file round trip, Slack only on change ---
 posts=0
 probe() { echo "$PROBE"; }
 quota_errors() { echo 2; }
+probe_fallback() { echo none; }
 post_slack() { posts=$((posts + 1)); echo "$1" >"$tmp/slack"; }
 PROBE="429 insufficient_quota" check_target production c "$tmp" 1000 $H >/dev/null
 check "first failure posts" 1 "$posts"
@@ -96,6 +116,23 @@ check "recovery posts" 2 "$posts"
 check "state saved ok" "prev=ok" "$(head -1 "$tmp/production")"
 PROBE="200 -" check_target production c "$tmp" 6400 $H >/dev/null
 check "ok after recovery quiet" 2 "$posts"
+
+# --- primary down, fallback up: warning, not failure ---
+rm -f "$tmp/fb"
+posts=0
+probe_fallback() { echo "$FALLBACK"; }
+PROBE="429 insufficient_quota" FALLBACK="200 - openrouter.ai" check_target fb c "$tmp" 1000 $H >/dev/null
+check "on fallback posts" 1 "$posts"
+check "on fallback state saved" "prev=on_fallback" "$(head -1 "$tmp/fb")"
+check "warning icon" ":warning:" "$(head -1 "$tmp/slack" | cut -d' ' -f1)"
+check "names fallback host" "yes" "$(grep -qF 'fallback openrouter.ai: HTTP 200 -' "$tmp/slack" && echo yes || echo no)"
+PROBE="429 insufficient_quota" FALLBACK="429 rate_limit_exceeded openrouter.ai" check_target fb c "$tmp" 2800 $H >/dev/null
+check "fallback failing too alerts" 2 "$posts"
+check "both down is a failure" "prev=no_credit" "$(head -1 "$tmp/fb")"
+PROBE="429 insufficient_quota" FALLBACK="none" check_target fb2 c "$tmp" 1000 $H >/dev/null
+check "no fallback says so" "yes" "$(grep -qF 'no fallback configured' "$tmp/slack" && echo yes || echo no)"
+PROBE="200 -" FALLBACK="none" check_target fb c "$tmp" 4600 $H >/dev/null
+check "recovery from fallback posts" ":white_check_mark:" "$(head -1 "$tmp/slack" | cut -d' ' -f1)"
 
 # --- refuses to run without a Slack webhook ---
 if (unset SLACK_BACKUP_WEBHOOK_URL; main) >/dev/null 2>&1; then
