@@ -21,10 +21,4 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
 
     "Conversation ##{conversation.display_id} resolved#{" (Reason: #{reason})" if reason}"
   end
-
-  private
-
-  def permissions
-    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
-  end
 end

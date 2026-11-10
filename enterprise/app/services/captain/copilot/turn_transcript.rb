@@ -46,6 +46,8 @@ class Captain::Copilot::TurnTranscript
     return unless prior && prior.id != @run.id
 
     append_earlier_turn(prior)
+    # A stopped turn has no answer in the thread, so the model reads why instead.
+    @chat.add_message(role: :assistant, content: prior.error) if message.message['status'] == 'stopped'
   end
 
   def append_earlier_turn(prior)

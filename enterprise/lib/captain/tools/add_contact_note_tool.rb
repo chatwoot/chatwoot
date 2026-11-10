@@ -19,8 +19,4 @@ class Captain::Tools::AddContactNoteTool < Captain::Tools::BasePublicTool
   def create_contact_note(contact, note)
     contact.notes.create!(content: note)
   end
-
-  def permissions
-    %w[contact_manage]
-  end
 end
