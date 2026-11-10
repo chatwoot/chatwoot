@@ -10,4 +10,8 @@ module Enterprise::PortalPolicy
   def logo?
     @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
   end
+
+  def remove_locale?
+    @account_user.custom_role&.permissions&.include?('knowledge_base_manage') || super
+  end
 end

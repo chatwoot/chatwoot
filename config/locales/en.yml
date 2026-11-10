@@ -454,6 +454,7 @@ en:
         not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
+      via_copilot: '%{activity} via Copilot'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} typically replies in a few hours.'
@@ -564,6 +565,8 @@ en:
       approval_already_decided: 'This change has already been approved or rejected.'
       approval_expired: 'The agent did not approve this change within %{minutes} minutes.'
       approval_expired_notice: 'This change expired. Ask Copilot to propose it again.'
+      stopped: 'The agent stopped this before it finished.'
+      still_working: 'Copilot is still working on your last message. Stop it or wait for the answer.'
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'
@@ -797,6 +800,8 @@ en:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+    remove_locale:
+      default_locale: 'The default locale cannot be removed'
   installation:
     onboarding:
       heading: 'Howdy, Welcome to Chatwoot 👋'

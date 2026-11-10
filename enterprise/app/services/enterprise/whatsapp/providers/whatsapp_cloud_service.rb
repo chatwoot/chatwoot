@@ -80,7 +80,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
   def permission_request_body(recipient, body_text)
     {
-      messaging_product: 'whatsapp', recipient_type: 'individual', **recipient_params(recipient),
+      messaging_product: 'whatsapp', recipient_type: 'individual', **recipient_params(recipient), **messaging_account_params,
       type: 'interactive',
       interactive: {
         type: 'call_permission_request',

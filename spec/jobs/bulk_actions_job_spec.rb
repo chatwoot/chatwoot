@@ -62,6 +62,23 @@ RSpec.describe BulkActionsJob do
       expect(conversation_3.reload.assignee_id).to eq(agent.id)
     end
 
+    it 'clears AgentBot ownership when bulk reopening conversations' do
+      agent_bot = create(:agent_bot, account: account)
+      conversations = [conversation_1, conversation_2, conversation_3]
+      conversations.zip(%w[pending resolved snoozed]).each do |conversation, status|
+        conversation.update!(status: status, ai_assignee: agent_bot)
+      end
+      params = { type: 'Conversation', fields: { status: 'open' }, ids: conversation_ids }
+
+      described_class.perform_now(account: account, params: params, user: agent)
+
+      conversations.each do |conversation|
+        expect(conversation.reload).to have_attributes(
+          status: 'open', assignee_id: nil, ai_assignee_type: nil, assignee_agent_bot_id: nil
+        )
+      end
+    end
+
     it 'bulk updates the snoozed_until' do
       params = {
         type: 'Conversation',
