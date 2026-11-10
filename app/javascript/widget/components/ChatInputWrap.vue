@@ -179,7 +179,6 @@ export default {
             ? `${this.userInput} ${transcription}`
             : transcription;
         }
-        this.focusInput();
       } catch (error) {
         emitter.emit(BUS_EVENTS.SHOW_ALERT, {
           message: this.$t('VOICE_RECORDER.TRANSCRIPTION_ERROR'),
@@ -187,6 +186,11 @@ export default {
       } finally {
         this.isTranscribing = false;
       }
+      // The textarea is disabled while transcribing, so it can only take
+      // focus once it has re-rendered as enabled.
+      this.$nextTick(() => {
+        if (this.isWidgetOpen) this.focusInput();
+      });
     },
   },
 };
