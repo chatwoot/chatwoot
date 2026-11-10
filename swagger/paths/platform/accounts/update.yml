@@ -4,6 +4,7 @@ operationId: update-an-account
 summary: Update an account
 description: Update an account's attributes
 security:
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 requestBody:
   required: true

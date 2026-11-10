@@ -45,6 +45,7 @@ class Captain::Assistant < ApplicationRecord
   has_many :messages, as: :sender, dependent: :nullify
   has_many :copilot_threads, dependent: :destroy_async
   has_many :custom_tools, class_name: 'Captain::CustomTool', dependent: :destroy_async
+  has_many :mcp_servers, class_name: 'Captain::McpServer', dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
   has_many :conversation_outcomes, dependent: :destroy_async
@@ -113,14 +114,10 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def inactivity_threshold_minutes
-    return DEFAULT_INACTIVITY_THRESHOLD_MINUTES unless account.feature_enabled?('captain_integration_v2')
-
     (config['auto_resolve_after'] || DEFAULT_INACTIVITY_THRESHOLD_MINUTES).to_i
   end
 
   def send_inactivity_resolution_message
-    return true unless account.feature_enabled?('captain_integration_v2')
-
     config.fetch('send_inactivity_resolution_message', true)
   end
 

@@ -1,6 +1,6 @@
 class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
   description 'Add a private note to a conversation'
-  param :note, type: 'string', desc: 'The private note content'
+  parameter :note, type: 'string', description: 'The private note content'
 
   def perform(tool_context, note:)
     conversation = find_conversation(tool_context.state)
@@ -25,9 +25,5 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
       content: note,
       private: true
     )
-  end
-
-  def permissions
-    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
   end
 end

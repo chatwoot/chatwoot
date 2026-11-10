@@ -25,13 +25,11 @@ class AutomationRules::ActionService < ActionService
   def send_attachment(blob_ids)
     return if conversation_a_tweet?
 
-    return unless @rule.files.attached?
-
-    blobs = ActiveStorage::Blob.where(id: blob_ids)
+    blobs = @rule.files.blobs.where(id: blob_ids)
 
     return if blobs.blank?
 
-    params = { content: nil, private: false, attachments: blobs }
+    params = { content: nil, private: false, attachments: blobs, content_attributes: { automation_rule_id: @rule.id } }
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
@@ -55,7 +53,7 @@ class AutomationRules::ActionService < ActionService
   end
 
   def send_email_to_team(params)
-    teams = Team.where(id: params[0][:team_ids])
+    teams = @account.teams.where(id: params[0][:team_ids])
 
     teams.each do |team|
       break unless @account.within_email_rate_limit?

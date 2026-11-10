@@ -157,50 +157,88 @@
           "ON": "일시"
         }
       },
-      "CREATE": {
-        "TITLE": "WhatsApp 캠페인 생성",
-        "CANCEL_BUTTON_TEXT": "취소",
-        "CREATE_BUTTON_TEXT": "만들기",
-        "FORM": {
-          "TITLE": {
+      "FORM": {
+        "CREATE_TITLE": "캠페인 생성",
+        "LIVE_TEST": "Live test",
+        "LIVE_TEST_TOOLTIP": "Live test will be available soon",
+        "SCHEDULE": "Schedule campaign",
+        "SCHEDULED_FOR": "Scheduled for {date}",
+        "RESCHEDULE": "Reschedule",
+        "DISCARD": "Discard changes",
+        "SAVE": "변경사항 저장",
+        "BASIC_SETTINGS": {
+          "TITLE": "기본 설정",
+          "NAME": {
             "LABEL": "제목",
-            "PLACEHOLDER": "캠페인 제목을 입력하십시오.",
-            "ERROR": "제목이 필요합니다."
+            "PLACEHOLDER": "Enter the title of the campaign"
           },
           "INBOX": {
-            "LABEL": "받은 메시지함 선택",
-            "PLACEHOLDER": "받은 메시지함 선택",
-            "ERROR": "받은 메시지함이 필요합니다."
-          },
-          "TEMPLATE": {
-            "LABEL": "WhatsApp 템플릿",
-            "PLACEHOLDER": "템플릿을 선택하십시오.",
-            "INFO": "이 캠페인에 사용할 템플릿을 선택하십시오.",
-            "ERROR": "템플릿이 필요합니다.",
-            "PREVIEW_TITLE": "{templateName} 처리",
-            "LANGUAGE": "언어",
-            "CATEGORY": "카테고리",
-            "VARIABLES_LABEL": "변수",
-            "VARIABLE_PLACEHOLDER": "{variable}의 값을 입력하십시오."
-          },
-          "AUDIENCE": {
-            "LABEL": "대상",
-            "PLACEHOLDER": "고객 라벨을 선택하십시오.",
-            "ERROR": "대상이 필요합니다."
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "예약 시간",
-            "PLACEHOLDER": "시간을 선택하십시오.",
-            "ERROR": "예약 시간이 필요합니다."
-          },
-          "BUTTONS": {
-            "CREATE": "만들기",
-            "CANCEL": "취소"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "WhatsApp 캠페인이 성공적으로 생성되었습니다.",
-            "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+            "LABEL": "받은 메시지함",
+            "PLACEHOLDER": "받은 메시지함 선택"
           }
+        },
+        "AUDIENCE": {
+          "TITLE": "대상",
+          "TIER_DESCRIPTION": "Your WhatsApp account can message up to {tier}.",
+          "TIER_UNKNOWN": "Select an inbox to see the messaging limit of your WhatsApp account.",
+          "LEARN_MORE": "자세히 알아보기",
+          "LABELS": {
+            "LABEL": "라벨",
+            "PLACEHOLDER": "고객 라벨을 선택하십시오."
+          },
+          "SELECTED_COUNT": "{count} contacts selected",
+          "VIEW": "보기",
+          "EMPTY_STATE": "Select at least one label to build the audience.",
+          "CONTACTS": {
+            "TITLE": "연락처",
+            "TAGGED_WITH": "태그됨",
+            "SEARCH_PLACEHOLDER": "Search by name, email or phone number",
+            "EMPTY_STATE": "연락처를 찾을 수 없습니다"
+          }
+        },
+        "TEMPLATE": {
+          "TITLE": "Template",
+          "SELECT": {
+            "LABEL": "Template",
+            "PLACEHOLDER": "템플릿을 선택하십시오."
+          },
+          "EMPTY_STATE": "Select an inbox to load its approved templates",
+          "NO_TEMPLATES": "This inbox has no approved templates that can be used in a campaign",
+          "HEADER_LABEL": "헤더",
+          "INVALID_MEDIA_URL": "Enter a valid HTTP or HTTPS URL.",
+          "HEADER_PLACEHOLDER": "Enter {type} header",
+          "DOCUMENT_NAME_PLACEHOLDER": "Enter document name",
+          "BODY_LABEL": "본문",
+          "BUTTONS_LABEL": "버튼",
+          "VARIABLE_PLACEHOLDER": "Enter variable {variable}",
+          "BUTTON_PLACEHOLDER": "Enter parameter for button {index}"
+        },
+        "ACCOUNT_INFORMATION": {
+          "TITLE": "Account information",
+          "MESSAGING_TIER": "Messaging tier",
+          "ACCOUNT_STATUS": "Account status",
+          "ACCOUNT_HEALTH": "Account health",
+          "STATUS_DESCRIPTION": "Current mode of this WhatsApp number",
+          "HEALTH_DESCRIPTION": "Quality rating assigned by Meta",
+          "EMPTY_STATE": "Select an inbox to see its WhatsApp account information.",
+          "UNAVAILABLE": "사용 불가",
+          "OPEN": "Open in WhatsApp Manager"
+        },
+        "PREVIEW": {
+          "TITLE": "메시지 미리보기",
+          "EMPTY_STATE": "Select a template to preview the message.",
+          "FOOTNOTE": "This may vary slightly per OS. Perform a live test to confirm. Default values for the highlighted variables will be stored upon saving."
+        },
+        "SCHEDULE_POPOVER": {
+          "LABEL": "Schedule",
+          "CANCEL": "취소",
+          "CREATE": "만들기"
+        },
+        "API": {
+          "CREATE_SUCCESS": "WhatsApp 캠페인이 성공적으로 생성되었습니다.",
+          "CREATE_ERROR": "오류가 발생했습니다. 다시 시도하십시오.",
+          "UPDATE_SUCCESS": "WhatsApp campaign updated successfully",
+          "UPDATE_ERROR": "오류가 발생했습니다. 다시 시도하십시오."
         }
       },
       "ANALYTICS": {
@@ -222,16 +260,7 @@
             "DESCRIPTION": "No delivery data was recorded for this campaign. This can happen for campaigns sent before campaign analytics were introduced."
           }
         },
-        "PROCESSING_BANNER": {
-          "DEFAULT": "This campaign is still processing. Analytics will update automatically.",
-          "BOTH": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "BOTH_QUEUED_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_AWAITING_SINGLE": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "QUEUED": "This campaign is still processing. {count} message is queued. | This campaign is still processing. {count} messages are queued.",
-          "AWAITING_UPDATE": "This campaign is still processing. {count} message is awaiting a delivery update from WhatsApp. | This campaign is still processing. {count} messages are awaiting a delivery update from WhatsApp.",
-          "COMPLETING": "This campaign is completing. Analytics will update automatically."
-        },
+        "PROCESSING_NOTICE": "This campaign is still sending. Counts, percentages, and delivery records are partial and include only contacts processed so far. More contacts will appear as sending continues.",
         "RATE": "{value}% of audience",
         "SENT_ON": "Sent on {date}",
         "PAGE_INFO": "{totalItems}개의 연락처 중 {startItem} - {endItem} 표시",
@@ -295,12 +324,29 @@
           "MESSAGE_NOT_GENERATED": "Not generated",
           "REASON": "Reason",
           "ERROR_CODE": "Code {code}"
+        },
+        "PAYWALL": {
+          "TITLE": "Unlock campaign analytics",
+          "AVAILABLE_ON": "Campaign analytics is available on Business and Enterprise plans.",
+          "UPGRADE_PROMPT": "Upgrade to track campaign delivery, read status, and failed messages.",
+          "UPGRADE_NOW": "View plans",
+          "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+        },
+        "ENTERPRISE_PAYWALL": {
+          "AVAILABLE_ON": "Campaign analytics is available on paid self-hosted plans.",
+          "UPGRADE_PROMPT": "Upgrade your installation to track campaign delivery, read status, and failed messages.",
+          "ASK_ADMIN": "Contact your instance administrator to upgrade."
         }
       }
+    },
+    "HISTORY": {
+      "LABEL": "Campaign",
+      "LOAD_MORE": "Load earlier campaigns"
     },
     "CONFIRM_DELETE": {
       "TITLE": "정말로 삭제하시겠습니까?",
       "DESCRIPTION": "삭제 작업은 영구적이며 되돌릴 수 없습니다.",
+      "WHATSAPP_DESCRIPTION": "Deleting this campaign will also remove its saved message history and delivery details. Messages already sent on WhatsApp will remain. This cannot be undone.",
       "CONFIRM": "삭제",
       "API": {
         "SUCCESS_MESSAGE": "캠페인이 성공적으로 삭제되었습니다.",

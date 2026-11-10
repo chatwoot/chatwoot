@@ -4,6 +4,7 @@ operationId: list-all-agent-bots
 summary: List all AgentBots
 description: List all agent bots available
 security:
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 responses:
   '200':

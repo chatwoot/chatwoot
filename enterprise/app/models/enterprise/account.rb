@@ -64,6 +64,27 @@ module Enterprise::Account
     interval_hours.hours
   end
 
+  def auto_translate_enabled?
+    feature_enabled?('auto_translate') && auto_translate == true && translation_service_available?
+  end
+
+  def translation_service
+    translation_provider.presence || 'captain'
+  end
+
+  # The zone Copilot cuts report days in. An account without a reporting time zone reports in UTC.
+  def report_time_zone
+    reporting_timezone.presence || 'UTC'
+  end
+
+  def google_translate_hook
+    hooks.find_by(app_id: 'google_translate')
+  end
+
+  def translation_service_available?
+    translation_service == 'google_translate' ? google_translate_hook.present? : feature_enabled?('captain_tasks')
+  end
+
   def saml_enabled?
     saml_settings&.saml_enabled? || false
   end
@@ -102,7 +123,7 @@ module Enterprise::Account
 
   def enable_default_features
     super
-    enable_features('captain_integration', 'captain_integration_v2') if ChatwootApp.self_hosted_paid?
+    enable_features('captain_integration') if ChatwootApp.self_hosted_paid?
   end
 
   def sync_assignment_features

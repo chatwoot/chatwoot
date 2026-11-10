@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "غير متاح",
     "EMAIL_ADDRESS": "عنوان البريد الإلكتروني",
     "PHONE_NUMBER": "رقم الهاتف",
-    "WHATSAPP_USERNAME": "WhatsApp username",
+    "WHATSAPP_USERNAME": "اسم مستخدم الواتساب",
     "IDENTIFIER": "المعرف",
     "COPY_SUCCESSFUL": "تم النسخ إلى الحافظة بنجاح",
     "COMPANY": "المنشأة",
@@ -21,15 +21,16 @@
     "CALL": "Call",
     "CALL_INITIATED": "جار الاتصال بجهة الاتصال…",
     "CALL_FAILED": "تعذر بدء المكالمة. الرجاء المحاولة مرة أخرى.",
-    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "أرسل طلب إذن مكالمة إلى جهة الاتصال. حاول مرة أخرى بمجرد قبولها.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "تم إرسال طلب إذن المكالمة مؤخرًا. حاول مرة أخرى بمجرد قبول جهة الاتصال.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "لا توجد محادثات سابقة مرتبطة بجهة الاتصال هذه.",
-      "TITLE": "المحادثات السابقة"
+      "TITLE": "المحادثات السابقة",
+      "VIEW_ALL": "عرض جميع المحادثات"
     },
     "LABELS": {
       "CONTACT": {
@@ -463,7 +464,7 @@
             "PLACEHOLDER": "Add Instagram"
           },
           "WHATSAPP": {
-            "PLACEHOLDER": "Add WhatsApp"
+            "PLACEHOLDER": "إضافة واتساب"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

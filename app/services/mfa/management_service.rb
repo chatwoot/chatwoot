@@ -14,7 +14,7 @@ class Mfa::ManagementService
   end
 
   def verify_and_activate!
-    ActiveRecord::Base.transaction do
+    user.with_lock do
       user.update!(otp_required_for_login: true)
       backup_codes_generated? ? nil : generate_backup_codes!
     end

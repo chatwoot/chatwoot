@@ -79,6 +79,64 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'super_admin_login/ip' do
+    it 'counts password sign-ins by ip' do
+      env = form_env({ 'super_admin' => { 'email' => 'a@b.com', 'password' => 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to eq(ip)
+    end
+
+    it 'skips code submissions' do
+      env = form_env({ 'super_admin' => { 'otp_code' => '123456' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to be_nil
+    end
+
+    it 'counts a JSON sign-in with a null code as a password sign-in' do
+      env = json_env({ super_admin: { email: 'a@b.com', password: 'x', otp_code: nil } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to eq(ip)
+    end
+  end
+
+  describe 'super_admin_mfa/ip' do
+    it 'counts code submissions by ip' do
+      env = form_env({ 'super_admin' => { 'otp_code' => '123456' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_mfa/ip', env)).to eq(ip)
+    end
+
+    it 'skips password sign-ins' do
+      env = form_env({ 'super_admin' => { 'email' => 'a@b.com', 'password' => 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_mfa/ip', env)).to be_nil
+    end
+  end
+
+  describe 'super_admin_login/email' do
+    def super_admin_env(params)
+      form_env(params, '/super_admin/sign_in')
+    end
+
+    it 'keys password sign-ins by the normalized super admin email' do
+      key = throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => { 'email' => ' Admin@Example.COM ', 'password' => 'x' } }))
+      expect(key).to eq('admin@example.com')
+    end
+
+    it 'keys JSON password sign-ins by the normalized super admin email' do
+      env = json_env({ super_admin: { email: ' Admin@Example.COM ', password: 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/email', env)).to eq('admin@example.com')
+    end
+
+    it 'skips malformed JSON bodies without raising' do
+      env = build_env('/super_admin/sign_in', '{"super_admin": broken', 'application/json')
+      expect(throttle_key('super_admin_login/email', env)).to be_nil
+    end
+
+    it 'skips code submissions instead of sharing a blank key' do
+      expect(throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => { 'otp_code' => '123456' } }))).to be_nil
+    end
+
+    it 'skips a non-hash super_admin param' do
+      expect(throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => 'email' }))).to be_nil
+    end
+  end
+
   describe 'malformed query strings' do
     it 'falls back to the per-ip throttle instead of raising on an over-nested query' do
       env = build_env('/auth/sign_in', '{}', 'application/json')
@@ -122,7 +180,66 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'API user throttles' do
+    let(:env) { Rack::MockRequest.env_for('/api/v2/accounts/1/reports', 'REMOTE_ADDR' => ip) }
+
+    it 'shares the reports key for legacy and bearer API tokens' do
+      name = '/api/v2/accounts/:account_id/reports/user'
+      expect(throttle_key(name, env.merge('HTTP_API_ACCESS_TOKEN' => 'api-token'))).to eq('api-token:1')
+      expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => 'bearer   api-token'))).to eq('api-token:1')
+    end
+
+    it 'keys reports drilldown by the bearer API token' do
+      env = Rack::MockRequest.env_for('/api/v2/accounts/1/reports/drilldown', 'HTTP_AUTHORIZATION' => 'Bearer api-token')
+      expect(throttle_key('/api/v2/accounts/:account_id/reports/drilldown/user', env)).to eq('api-token:1')
+    end
+
+    it 'keys conversation meta by the bearer API token' do
+      env = Rack::MockRequest.env_for('/api/v1/accounts/1/conversations/meta', 'HTTP_AUTHORIZATION' => 'Bearer api-token')
+      expect(throttle_key('/api/v1/accounts/:account_id/conversations/meta/user', env)).to eq('api-token:1')
+    end
+
+    it 'gives the bearer token precedence over other identity headers' do
+      headers = { 'HTTP_AUTHORIZATION' => 'Bearer api-token', 'HTTP_UID' => 'other-user', 'HTTP_API_ACCESS_TOKEN' => 'other-token' }
+      expect(throttle_key('/api/v2/accounts/:account_id/reports/user', env.merge(headers))).to eq('api-token:1')
+    end
+
+    it 'preserves dashboard UID keys with and without encoded bearer credentials' do
+      credentials = { uid: 'user@example.com', client: 'client', 'access-token': 'session-token' }
+      encoded = Base64.strict_encode64(credentials.to_json)
+      name = '/api/v2/accounts/:account_id/reports/user'
+      expect(throttle_key(name, env.merge('HTTP_UID' => credentials[:uid]))).to eq('user@example.com:1')
+      expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => "Bearer #{encoded}"))).to eq('user@example.com:1')
+      expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => "Bearer junk #{encoded}"))).to eq('user@example.com:1')
+    end
+
+    it 'skips missing and empty credentials' do
+      name = '/api/v2/accounts/:account_id/reports/user'
+      expect(throttle_key(name, env)).to be_nil
+      expect(throttle_key(name, env.merge('HTTP_AUTHORIZATION' => 'Bearer', 'HTTP_API_ACCESS_TOKEN' => 'api-token'))).to be_nil
+    end
+  end
+
   describe 'throttle event logging' do
+    it 'masks bearer tokens even when a UID header is supplied' do
+      env = Rack::MockRequest.env_for('/api/v2/accounts/1/reports',
+                                      'HTTP_AUTHORIZATION' => 'Bearer api-token-secret', 'HTTP_UID' => 'spoofed-user')
+      request = Rack::Attack::Request.new(env)
+
+      expect(Rails.logger).to receive(:warn).with(a_string_including('user_identifier: "api-t...[REDACTED]"'))
+      ActiveSupport::Notifications.instrument('throttle.rack_attack', request: request)
+    end
+
+    it 'logs the dashboard UID for encoded bearer credentials' do
+      credentials = { uid: 'user@example.com', client: 'client', 'access-token': 'session-token' }
+      env = Rack::MockRequest.env_for('/api/v2/accounts/1/reports',
+                                      'HTTP_AUTHORIZATION' => "Bearer #{Base64.strict_encode64(credentials.to_json)}")
+      request = Rack::Attack::Request.new(env)
+
+      expect(Rails.logger).to receive(:warn).with(a_string_including('user_identifier: "user@example.com"'))
+      ActiveSupport::Notifications.instrument('throttle.rack_attack', request: request)
+    end
+
     it 'logs which rule matched' do
       env = form_env({ 'email' => 'a@b.com', 'password' => 'x' })
       env['rack.attack.matched'] = 'login/ip'

@@ -1,4 +1,54 @@
 {
+  "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "A Stripe nem érhető el ehhez a fiókhoz. A beállítások ellenőrzéséhez forduljon a rendszergazdához.",
+    "TITLE": "Stripe",
+    "DESCRIPTION": "Tekintse meg az ügyfél adatait, előfizetéseit és számláit a beszélgetések mellett.",
+    "CONNECT": "Kapcsolódás",
+    "DISCONNECT": "Leválasztás a Chatwootról",
+    "DISCONNECT_NOTE": "A leválasztás eltávolítja a mentett hitelesítési adatokat a Chatwootból. A Stripe-ban távolítsa el az alkalmazást is, hogy visszavonja annak hozzáférését.",
+    "CONNECTED": "Csatlakoztatva",
+    "RECONNECT": "Stripe újracsatlakoztatása",
+    "REAUTHORIZATION_REQUIRED": "Újracsatlakozás szükséges",
+    "ACCOUNT": "Csatlakoztatott fiók",
+    "ACCOUNT_ID": "Fiók Azonosító",
+    "ENVIRONMENT": "Környezet",
+    "SANDBOX": "Sandbox",
+    "LIVE": "Élő",
+    "CONNECTED_ON": "Csatlakoztatás időpontja",
+    "OPEN_STRIPE": "Stripe-vezérlőpult megnyitása",
+    "ERROR": "Nem sikerült betölteni a Stripe-ot. Próbálja újra, vagy csatlakoztassa újra az integrációt.",
+    "EMPTY": "Ehhez a kontakthoz nem található Stripe-ügyfél az e-mail-címe alapján.",
+    "NO_EMAIL": "Adjon meg e-mail-címet a kontaktnál a Stripe-ügyfelek kereséséhez.",
+    "SELECT": "Válassza ki a megfelelő ügyfelet",
+    "CUSTOMER_OPTION": "{name} — {id}",
+    "MORE": "Az első 100 egyező ügyfél látható. Ha az ügyfél nem szerepel a listában, pontosítsa a kontakt e-mail-címét.",
+    "SUBSCRIPTIONS": "Legutóbbi öt előfizetés",
+    "SUBSCRIPTION": "Előfizetés",
+    "VIEW_SUBSCRIPTION": "{name} előfizetési adatainak megtekintése",
+    "COPY_ID": "Azonosító másolása",
+    "COPIED": "Másolva",
+    "QUANTITY": "Mennyiség: {count}",
+    "PRICE_INTERVAL": "{amount} / {interval}",
+    "INTERVAL": {
+      "day": "nap | {count} nap",
+      "week": "hét | {count} hét",
+      "month": "hónap | {count} hónap",
+      "year": "év | {count} év"
+    },
+    "VARIABLE_PRICE": "Használatalapú vagy sávos árazás",
+    "RENEWS": "Megújulás dátuma: {date}",
+    "PERIOD_START": "Időszak kezdete: {date}",
+    "PERIOD_END": "Időszak vége: {date}",
+    "TRIAL_ENDS": "Próbaidőszak vége: {date}",
+    "CANCELS": "Lemondás dátuma: {date}",
+    "CANCELS_AT_PERIOD_END": "Lemondás a számlázási időszak végén",
+    "CANCELED_ON": "Lemondva: {date}",
+    "MORE_ITEMS": "További előfizetési tételek nem jelennek meg.",
+    "PRICE_NOTE": "Az árak egységenként értendők, kedvezmények és adók nélkül. Nem a következő számla becsült összegei.",
+    "INVOICES": "Legutóbbi számlák",
+    "NO_SUBSCRIPTIONS": "Nem találhatók előfizetések.",
+    "NO_INVOICES": "Nem találhatók számlák."
+  },
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "Shopify",
@@ -11,10 +61,24 @@
         "LABEL": "Store URL",
         "PLACEHOLDER": "your-store.myshopify.com",
         "HELP": "Enter your Shopify store's myshopify.com URL",
+        "INVALID_URL": "Adjon meg érvényes URL-t a Shopify-áruházhoz (például: sajat-aruhaz.myshopify.com)",
         "CANCEL": "Mégse",
         "SUBMIT": "Connect Store"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "HELP_TEXT": {
+        "TITLE": "A Shopify-integráció használata?",
+        "BODY": "Ez az integráció összekapcsolja a Chatwoot-munkaterületet a ***{storeDomain}*** Shopify-áruházzal. Az alábbiakra lesz lehetősége:\n\n**Rendelések követése a beszélgetésekben:** Beszélgetés megnyitásakor a Shopify oldalsávja automatikusan megjeleníti az ügyfél legutóbbi rendeléseit az e-mail-címe alapján. Így az ügyfélszolgálati csapat azonnal hozzájut a szükséges információkhoz, és nem kell lapok között váltania.\n\n**Rendelési adatok megtekintése:** A beszélgetési panelen közvetlenül megtekintheti a rendelés állapotát, teljesítési állapotát és végösszegét."
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists.",
+      "PENDING_INSTALL": {
+        "SUCCESS": "A Shopify-áruház csatlakoztatása sikerült.",
+        "ERROR": "Nem sikerült befejezni a Shopify telepítését. Próbálja újra."
+      },
+      "SELECT_ACCOUNT": {
+        "TITLE": "Válasszon munkaterületet",
+        "DESCRIPTION": "Válassza ki a Shopify-áruházhoz csatlakoztatandó munkaterületet. Korábbi kapcsolat visszaállításához válassza az eredeti munkaterületet.",
+        "UNAVAILABLE": "Nem található megfelelő munkaterület vagy érvényes telepítés. Indítsa újra a telepítést, vagy jelentkezzen be munkaterület-rendszergazdaként."
+      }
     },
     "HEADER": "Integrációk",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
@@ -32,11 +96,11 @@
       "SUBSCRIBED_EVENTS": "Feliratkozott események",
       "LEARN_MORE": "Learn more about webhooks",
       "PAYWALL": {
-        "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
-        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "TITLE": "Webhookok a fizetős csomagokban érhetők el",
+        "AVAILABLE_ON": "Webhookokkal valós időben fogadhat eseményeket a Chatwoot-fiókjából.",
+        "UPGRADE_PROMPT": "Váltson Startups, Business vagy Enterprise csomagra a webhookok használatához.",
         "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+        "CANCEL_ANYTIME": "Bármikor módosíthatja vagy lemondhatja csomagját."
       },
       "SECRET": {
         "LABEL": "Secret",
@@ -65,7 +129,7 @@
             "CONTACT_UPDATED": "Kontakt frissítve",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "Postafiók frissítve"
           }
         },
         "NAME": {
@@ -135,23 +199,23 @@
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
         "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
+        "BODY_ALERT": "Ezzel az integrációval a beérkező beszélgetések mindegyike szinkronizálódik a Slack-munkaterület ***{selectedChannelName}*** csatornájával, így a csapat azonnal foglalkozhat velük.\n\nAz integráció **Csak értesítések** módra van állítva, ezért a Slack-szál belső megbeszélésekre szolgál. Az ott közzétett tartalmak a Slackben maradnak, és nem jutnak el az ügyfélhez.\n\n**Válasz az ügyfélnek a Chatwootból:** Nyissa meg a beszélgetést a szálban megosztott hivatkozással, majd válaszoljon a Chatwoot kezelőfelületén. A Chatwootban küldött válaszok és belső megjegyzések továbbra is megjelennek a Slack-szálban, így mindenki értesül róluk.",
         "SELECTED": "kiválasztás"
       },
       "MESSAGE_MODE": {
-        "TITLE": "Slack thread behaviour",
-        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "TITLE": "A Slack-szál működése",
+        "DESCRIPTION": "Döntse el, hogy a Slack-szálban küldött válaszok eljutnak-e az ügyfélhez, vagy belső üzenetként maradnak.",
         "OPTIONS": {
           "TWO_WAY": {
-            "LABEL": "Two-way sync",
-            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+            "LABEL": "Kétirányú szinkronizálás",
+            "DESCRIPTION": "A Slack-szálban küldött válaszokat az ügyfél is megkapja. Ha belső üzenetet szeretne küldeni, kezdje az üzenetet ezzel: `note:`."
           },
           "ALERT": {
-            "LABEL": "Alerts only",
-            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+            "LABEL": "Csak értesítések",
+            "DESCRIPTION": "A beszélgetések csak belső megbeszélés céljából jelennek meg a Slackben. A szálban megosztott tartalmak nem jutnak el az ügyfélhez."
           }
         },
-        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
+        "UPDATE_SUCCESS": "A Slack-szál működése sikeresen frissült."
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Csatorna kiválasztása",
@@ -402,6 +466,37 @@
         "BUTTON_TEXT": "Connect Linear workspace"
       }
     },
+    "GOOGLE_TRANSLATE": {
+      "HEADER": "Google Fordító",
+      "DELETE_MESSAGE": "Az ügynökök többé nem tudják a Google Fordítóval lefordítani az üzeneteket. Ha a Google Fordító van kiválasztva fordítási szolgáltatásként, az automatikus fordítás szünetel, amíg másik szolgáltatást nem választ.",
+      "SETUP": {
+        "TITLE": "Google Fordító beállítása",
+        "DESCRIPTION": "Google Cloud-projektre lesz szüksége. A beállítás körülbelül öt percet vesz igénybe.",
+        "STEPS": {
+          "ENABLE_API": {
+            "TITLE": "Cloud Translation API bekapcsolása",
+            "DESCRIPTION": "Válasszon projektet a Google Cloud Console-ban, majd engedélyezze a Cloud Translation API-t. Jegyezze fel a projektazonosítót.",
+            "LINK": "Cloud Translation API megnyitása"
+          },
+          "CREATE_KEY": {
+            "TITLE": "Szolgáltatásfiók kulcsának létrehozása",
+            "DESCRIPTION": "Hozzon létre szolgáltatásfiókot a Cloud Translation API User szerepkörrel. Nyissa meg a fiókot, lépjen a Kulcsok részre, és adjon hozzá JSON-kulcsot.",
+            "LINK": "Szolgáltatásfiókok megnyitása"
+          },
+          "CONNECT": {
+            "TITLE": "Csatlakozás itt",
+            "DESCRIPTION": "Kattintson a Csatlakozás gombra, adja meg a projektazonosítót, majd illessze be a kulcsfájlt. Mentés előtt ellenőrizzük az adatokat a Google-lal."
+          }
+        }
+      },
+      "DETAILS": {
+        "PROJECT": "Google Cloud-projekt",
+        "SERVICE": "Fordítási szolgáltatás",
+        "SERVICE_GOOGLE": "A Google Fordító végzi a beszélgetések fordítását. Automatikus fordítás bekapcsolásakor a bejövő üzeneteket az egyes ügynökök nyelvére fordítja, a válaszokat pedig az ügyfél nyelvén küldi el. Az ügynökök az üzenet menüjéből is használhatják fordításra.",
+        "SERVICE_OTHER": "A Captain van kiválasztva fordítási szolgáltatásként, ezért a Google Fordítót jelenleg nem használjuk. Az automatikus fordítást és az üzenetek Fordítás műveletét is a Captain végzi. A Google-integráció használatához váltson a Google Fordítóra.",
+        "CHANGE": "Megváltoztatás"
+      }
+    },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
@@ -418,167 +513,190 @@
     "OVERVIEW": {
       "HEADER": "Áttekintés",
       "WELCOME": {
-        "LABEL": "Captain summary",
-        "LOADING": "Generating summary…"
+        "LABEL": "Captain-összefoglaló",
+        "LOADING": "Összefoglaló készítése…"
       },
       "INBOX_BANNER": {
-        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
-        "ACTION": "Connect inbox",
+        "TEXT": "Ez az asszisztens még nincs postafiókhoz kapcsolva, ezért nem fog válaszolni a beszélgetésekre.",
+        "ACTION": "Postafiók csatlakoztatása",
         "DISMISS": "Elutasítás"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review suggestions",
+        "TEXT": "{count} GYIK-javaslat vár ellenőrzésre, a lefedettség pedig {coverage}%. Hagyja jóvá őket, hogy az asszisztens még több ügyet oldhasson meg önállóan.",
+        "ACTION": "Javaslatok áttekintése",
         "DISMISS": "Elutasítás"
       },
       "RANGES": {
-        "LAST_DAYS": "Last {count} days",
+        "INSUFFICIENT_HISTORY": "Még nincs elegendő jelentési adat",
+        "THIS_WEEK": "This week",
+        "LAST_WEEK": "Múlt hét",
+        "LAST_DAYS": "Elmúlt {count} nap",
         "THIS_MONTH": "This month",
         "LAST_MONTH": "Last month"
       },
       "METRICS": {
         "HANDLED": {
-          "LABEL": "Conversations handled",
-          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
+          "LABEL": "Kezelt beszélgetések",
+          "HINT": "Azok a beszélgetések, amelyekben Captain válaszolt az ügyfélnek, vagy átadta a beszélgetést a csapatnak."
         },
         "AUTO_RESOLUTION": {
-          "LABEL": "Auto-resolution rate",
-          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
+          "LABEL": "Automatikus megoldási arány",
+          "HINT": "A kezelt beszélgetések azon aránya, amelyeket Captain a csapat segítsége nélkül oldott meg. A magasabb érték azt jelenti, hogy Captain több beszélgetést oldott meg önállóan."
         },
         "HANDOFF": {
-          "LABEL": "Handoff rate",
-          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
+          "LABEL": "Átadási arány",
+          "HINT": "A kezelt beszélgetések azon aránya, amelyeket Captain átadott a csapatnak. Az alacsonyabb érték azt jelenti, hogy kevesebb beszélgetéshez volt szükség ügynökre."
         },
         "HOURS_SAVED": {
-          "LABEL": "Time saved",
-          "HINT": "An estimate of how much agent reply time Captain saved.",
-          "NOTE": "Based on two minutes saved for each public Captain reply."
+          "LABEL": "Megtakarított idő",
+          "HINT": "Becsült időmegtakarítás az ügynökök válaszidejében a Captain használatával.",
+          "NOTE": "Számítás alapja: minden nyilvános Captain-válasz két perc megtakarítást jelent."
         },
         "REOPEN": {
-          "LABEL": "Reopen rate",
-          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
-          "NOTE": "Lower means more resolutions stayed resolved."
+          "LABEL": "Újranyitási arány",
+          "HINT": "Azon, Captain által megoldott beszélgetések aránya, amelyeket az ügyfelek később újranyitottak.",
+          "NOTE": "Az alacsonyabb érték azt jelenti, hogy több megoldott beszélgetés maradt lezárva."
         },
         "DEPTH": {
-          "LABEL": "Messages / conversation",
-          "HINT": "The average number of replies Captain sent in each conversation it handled.",
-          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
+          "LABEL": "Üzenetek beszélgetésenként",
+          "HINT": "A Captain által kezelt beszélgetésekben átlagosan küldött válaszok száma.",
+          "NOTE": "Az alacsonyabb érték gyorsabb válaszadást jelezhet, de összetett kérdésekhez több válaszra lehet szükség."
         }
       },
       "DRILLDOWN": {
-        "EMPTY": "No records found for this metric.",
-        "ERROR": "Could not load records. Please try again.",
+        "EMPTY": "Ehhez a mutatóhoz nem található adat.",
+        "ERROR": "Nem sikerült betölteni az adatokat. Próbálja újra.",
         "LOAD_MORE": "Load more",
-        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+        "RESULT_COUNT_CONVERSATION": "{count} beszélgetés | {count} beszélgetés"
       },
       "KNOWLEDGE": {
-        "TITLE": "Knowledge coverage",
-        "COVERAGE": "{pct}% approved",
-        "APPROVED": "Approved FAQs",
-        "SUGGESTIONS": "FAQ suggestions",
+        "TITLE": "Tudásbázis-lefedettség",
+        "COVERAGE": "{pct}% jóváhagyva",
+        "APPROVED": "Jóváhagyott GYIK-ek",
+        "SUGGESTIONS": "GYIK-javaslatok",
         "DOCUMENTS": "Documents"
       },
       "LINKS": {
         "DOCS": {
-          "TITLE": "Captain docs",
-          "DESCRIPTION": "Guides and how-tos for Captain"
+          "TITLE": "Captain dokumentációja",
+          "DESCRIPTION": "Útmutatók és leírások a Captain használatához"
         },
         "PLAYGROUND": {
           "TITLE": "Játszótér",
-          "DESCRIPTION": "Test this assistant's replies"
+          "DESCRIPTION": "Tesztelje az asszisztens válaszait"
         },
         "BILLING": {
           "TITLE": "Számlázás",
-          "DESCRIPTION": "Manage credits and plan"
+          "DESCRIPTION": "Kreditek és csomag kezelése"
         }
       },
       "V2": {
-        "EMPTY": "No data available for this period.",
+        "DRILLDOWN": {
+          "HANDLED": "Az időszak azon beszélgetései, amelyekben Captain részt vett.",
+          "RESOLVED": "Azok a beszélgetések, amelyeket Captain átadás vagy emberi válasz nélkül oldott meg.",
+          "HANDED_OFF": "A Captain részvétele után átadott epizódok.",
+          "REOPENED": "A Captain által megoldott, majd később újranyitott epizódok.",
+          "DURABLE": "A Captain által megoldott epizódok, amelyek legalább hét napig lezárva maradtak.",
+          "CLOSED_WITH_TEAM": "Olyan epizódok, amelyekben a Captain részt vett, de amelyeket sem önállóan nem oldott meg, sem nem adott tovább.",
+          "REOPENED_WITHIN_7_DAYS": "A Captain által megoldott, hét napon belül újranyitott epizódok.",
+          "STAYED_CLOSED": "A Captain által megoldott epizódok, amelyeknél hét napon belül nem rögzítettek újranyitást. A közelmúltban megoldott epizódok is szerepelnek.",
+          "HANDOFF_REASON": "{reason} okból átadott epizódok.",
+          "COUNT": "Nincs epizód | 1 epizód | {count} epizód",
+          "EPISODES_HINT": "Egy beszélgetés többször is megjelenhet, ha a Captain különálló epizódokban kezelte. Az epizódok kezdési időpont szerint vannak csoportosítva.",
+          "STARTED_AT": "Epizód kezdete: {time}",
+          "RETRY": "Újrapróbálkozás"
+        },
+        "EMPTY": "Erre az időszakra nem áll rendelkezésre adat.",
         "SUMMARY": {
-          "GREETING": "Hello, {name}!",
-          "DEFAULT_NAME": "there",
-          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
-          "PREVIOUS": "Previous summary point",
-          "NEXT": "Next summary point"
+          "GREETING": "Üdvözöljük, {name}!",
+          "DEFAULT_NAME": "vendég",
+          "EMPTY": "A Captain teljesítmény-összefoglalója akkor jelenik meg itt, ha már elegendő aktivitási adat áll rendelkezésre.",
+          "PREVIOUS": "Előző összefoglalópont",
+          "NEXT": "Következő összefoglalópont"
         },
         "UNITS": {
-          "DAYS": "{value}d",
-          "HOURS": "{value}h",
-          "MINUTES": "{value} min"
+          "DAYS": "{value} nap",
+          "HOURS": "{value} óra",
+          "MINUTES": "{value} perc"
         },
         "METRICS": {
           "TIME_SAVED": {
-            "LABEL": "Saved in agent effort and time"
+            "LABEL": "Az ügynökök munkaidejének és ráfordításának megtakarítása"
           },
           "DURABLE": {
-            "LABEL": "Captain resolutions remained closed",
-            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
-            "NOTE": "Only resolutions old enough to observe for seven days are included."
+            "LABEL": "Lezárva maradt, Captain által megoldott beszélgetések",
+            "NOT_APPLICABLE_HINT": "Ebben az időszakban még nincs olyan megoldás, amelyet hét napig követni lehetne. A tartósság mutatója ezért nem érhető el.",
+            "HINT": "A Captain által megoldott beszélgetések azon aránya, amelyek hét nappal később is lezárva maradtak.",
+            "NOTE": "Csak azok a megoldások szerepelnek, amelyek óta már eltelt hét nap."
           },
           "MEDIAN_RESOLUTION": {
-            "LABEL": "Median resolution time",
-            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
-            "NOTE": "Lower means customers generally got resolved sooner."
+            "LABEL": "Medián megoldási idő",
+            "HINT": "A beszélgetés Captainhez kerülésétől annak megoldásáig jellemzően eltelő idő.",
+            "NOTE": "Az alacsonyabb érték azt jelenti, hogy a beszélgetések általában hamarabb megoldódnak."
           },
           "DEPTH": {
-            "LABEL": "Messages per conversation"
+            "LABEL": "Üzenetek száma beszélgetésenként"
           },
-          "OF_TOTAL": "of {total}"
+          "OF_TOTAL": "/ {total}"
         },
         "RESOLUTION_FLOW": {
-          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "ARIA_LABEL": "A beszélgetések alakulása a Captain kezelése és a csapat eredményei szerint",
           "NODES": {
-            "HANDLED": "Handled",
-            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
-            "HANDED_OFF": "Handed off",
-            "CLOSED_WITH_TEAM": "Closed with team",
-            "REOPENED": "Reopened in 7d",
-            "STAYED_CLOSED": "Stayed closed",
-            "OTHER_REASONS": "Other reasons"
+            "HANDLED": "Kezelve",
+            "RESOLVED_BY_CAPTAIN": "Captain által megoldva",
+            "HANDED_OFF": "Átadva",
+            "CLOSED_WITH_TEAM": "A csapat által lezárva",
+            "REOPENED": "7 napon belül újranyitva",
+            "STAYED_CLOSED": "Lezárva maradt",
+            "OTHER_REASONS": "Egyéb okok"
           }
         },
         "HANDOFF_REASONS": {
-          "TITLE": "Handoff reasons",
-          "CUSTOMER_REQUEST": "Customer requested",
-          "MISSING_KNOWLEDGE": "Missing knowledge",
-          "UNSUPPORTED_REQUEST": "Unsupported request",
-          "POLICY_RESTRICTION": "Policy restriction",
-          "TOOL_FAILURE": "Tool failure",
-          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "TITLE": "Átadás okai",
+          "CUSTOMER_REQUEST": "Ügyfél kérésére",
+          "MISSING_KNOWLEDGE": "Hiányzó ismeretek",
+          "UNSUPPORTED_REQUEST": "Nem támogatott kérés",
+          "POLICY_RESTRICTION": "Szabályzati korlátozás",
+          "TOOL_FAILURE": "Eszközhiba",
+          "PENDING_CLARIFICATION": "Ügyfél pontosítására vár",
           "PERCENTAGE": "({value}%)",
-          "USAGE_LIMIT": "Usage limit",
-          "UNCLASSIFIED": "Unclassified"
+          "USAGE_LIMIT": "Használati korlát",
+          "UNCLASSIFIED": "Besorolatlan"
         },
         "RESOLUTION_TREND": {
-          "TITLE": "Resolution trend",
-          "CONVERSATION_COUNT": "Conversation count",
-          "RESOLUTION_RATE": "Resolution rate",
-          "CURRENT_PERIOD": "Current period",
+          "TITLE": "Megoldási trend",
+          "COMPARISON_LABEL": "Azonos hétköznapokra igazított összehasonlítás",
+          "COMPARISON_HINT": "Hasonlítsa össze a megoldási arányokat azonos hétköznapokon, például hétfőt hétfővel.",
+          "COMPARISON_NOTE": "A mai adatokat a nap azonos időpontjáig hasonlítjuk össze.",
+          "CONVERSATION_COUNT": "Beszélgetések száma",
+          "RESOLUTION_RATE": "Megoldási arány",
+          "CURRENT_PERIOD": "Aktuális időszak",
           "PREVIOUS_PERIOD": "Previous period",
-          "HANDLED": "Handled",
-          "RESOLVED": "Resolved by Captain",
-          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
-          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+          "HANDLED": "Kezelve",
+          "RESOLVED": "Captain által megoldva",
+          "ARIA_LABEL": "A kezelt, illetve Captain által megoldott beszélgetések jelentési időszakonként",
+          "RATE_ARIA_LABEL": "Captain aktuális és előző megoldási aránya"
         },
         "CSAT": {
-          "TITLE": "Captain CSAT",
-          "AUTONOMOUS": "Captain-resolved conversations",
-          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
-          "ASSISTED": "Captain-assisted conversations",
-          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
-          "VS_HUMANS": "{value} vs humans"
+          "TITLE": "Captain ügyfél-elégedettségi mutatója (CSAT)",
+          "AUTONOMOUS": "Captain által önállóan megoldott beszélgetések",
+          "AUTONOMOUS_HINT": "A Captain által a csapat segítsége nélkül megoldott beszélgetések átlagos ügyfélértékelése.",
+          "ASSISTED": "Captain által támogatott beszélgetések",
+          "ASSISTED_HINT": "Az átlagos ügyfélértékelés azoknál a beszélgetéseknél, amelyek megoldása előtt Captain segítséget nyújtott a csapatnak.",
+          "VS_HUMANS": "{value} az ügynökökhöz képest"
         },
         "USAGE": {
-          "TITLE": "Usage",
+          "TITLE": "Használat",
           "CREDITS": "Credits",
           "DOCUMENTS": "Documents",
-          "USED": "({percentage}% used)",
+          "USED": "({percentage}% felhasználva)",
           "VALUE": "{used}/{total}",
-          "REFRESH": "Refresh usage",
+          "REFRESH": "Használat frissítése",
           "BUY_MORE": "Buy more credits"
         },
         "KNOWLEDGE": {
-          "REVIEW": "Review FAQs"
+          "SUGGESTED": "Javasolt GYIK-ek",
+          "REVIEW": "GYIK áttekintése"
         }
       }
     },
@@ -599,6 +717,12 @@
       "YOU": "Ön",
       "USE": "Használja ezt",
       "RESET": "Alaphelyzetbe állítás",
+      "NEW_CHAT": "Új csevegés",
+      "HISTORY": "Korábbi csevegések",
+      "NO_HISTORY": "Itt jelennek meg a korábbi Copilot-csevegései.",
+      "LOAD_MORE": "További csevegések betöltése",
+      "LOADING_CHAT": "Csevegés betöltése...",
+      "LOADING_HISTORY": "Korábbi csevegések betöltése...",
       "SHOW_STEPS": "Mutassa a lépéseket",
       "SELECT_ASSISTANT": "Asszisztens kiválasztása",
       "PROMPTS": {
@@ -628,9 +752,93 @@
       "USER": "Ön",
       "ASSISTANT": "Asszisztens",
       "MESSAGE_PLACEHOLDER": "Gépeld be üzeneted...",
+      "SEND_MESSAGE": "Üzenet elküldése",
       "HEADER": "Játszótér",
       "DESCRIPTION": "Használja ezt a játszóteret üzenetek küldéséhez az asszisztensnek, és ellenőrizze, hogy pontosan, gyorsan és a várt hangnemben válaszol-e.",
-      "CREDIT_NOTE": "Itt küldött üzenetek a Captain kreditjeit csökkentik."
+      "CREDIT_NOTE": "Itt küldött üzenetek a Captain kreditjeit csökkentik.",
+      "CLEAR_CONVERSATION": "Beszélgetés törlése",
+      "RESPONSE_ERROR": "Captain nem tudta befejezni ezt a tesztfuttatást. Ellenőrizze a beállítást, és próbálja újra.",
+      "SETUP": {
+        "TITLE": "Tesztbeállítás",
+        "DESCRIPTION": "Az itt végzett módosítások csak erre a tesztkörnyezetre érvényesek, kivéve, ha külön ment egy elemet.",
+        "TOGGLE": "Tesztbeállítás váltása",
+        "CLOSE": "Tesztbeállítás bezárása",
+        "RESET": "Tesztbeállítás visszaállítása",
+        "TEMPORARY": "Ideiglenes",
+        "SESSION_ONLY": "Csak erre a munkamenetre",
+        "INCLUDE_IN_TEST": "Bekerül a tesztbe",
+        "ADD_TO_TEST": "Hozzáadás a teszthez (↵)",
+        "LOAD_ERROR": "Nem sikerült betölteni a mentett asszisztensbeállítást.",
+        "INVALID_CONFIGURATION": "Az üzenet elküldése előtt fejezze be vagy távolítsa el a tesztbe bevont ideiglenes forgatókönyveket.",
+        "SAVE_SCENARIO_SUCCESS": "A forgatókönyv mentése sikerült, és továbbra is szerepel a tesztben.",
+        "SAVE_SCENARIO_ERROR": "Nem sikerült menteni a forgatókönyvet.",
+        "SAVE_RULE_SUCCESS": "A szabály mentése sikerült, és továbbra is szerepel a tesztben.",
+        "SAVE_RULE_ERROR": "Nem sikerült menteni a szabályt.",
+        "RULE_ALREADY_SAVED": "Ezzel a pontos szabállyal már mentett egy elemet, ezért nem jött létre másolat.",
+        "SCENARIOS": {
+          "TAB_TITLE": "Scenarios",
+          "CREATE_TITLE": "Ideiglenes forgatókönyv hozzáadása",
+          "CREATE_HINT": "Próbáljon ki új működést az asszisztens beállításainak módosítása nélkül.",
+          "SAVED_SUMMARY": "Meglévő forgatókönyvek ({count})",
+          "ADD_PERMANENTLY": "Forgatókönyv végleges hozzáadása",
+          "DISABLED": "Letiltva",
+          "EMPTY": "Az asszisztenshez még nincs mentett forgatókönyv.",
+          "COMPOSER_PLACEHOLDER": "Ideiglenes forgatókönyv címe...",
+          "COLLAPSE": "Ideiglenes forgatókönyv összecsukása",
+          "EXPAND": "Ideiglenes forgatókönyv kibontása",
+          "REMOVE": "Ideiglenes forgatókönyv eltávolítása"
+        },
+        "GUIDELINES": {
+          "TAB_TITLE": "Irányelvek",
+          "CREATE_TITLE": "Ideiglenes irányelv hozzáadása",
+          "CREATE_HINT": "Mielőtt hozzáadná az asszisztenshez, tesztelje a válaszadás egyik beállítását.",
+          "SAVED_SUMMARY": "Meglévő irányelvek ({count})",
+          "ADD_PERMANENTLY": "Irányelv végleges hozzáadása",
+          "EMPTY": "Ehhez az asszisztenshez még nincsenek mentett válaszadási irányelvek.",
+          "COMPOSER_PLACEHOLDER": "Ideiglenes irányelv megadása...",
+          "PLACEHOLDER": "Add a response guideline",
+          "REMOVE": "Ideiglenes válaszadási irányelv eltávolítása"
+        },
+        "GUARDRAILS": {
+          "TAB_TITLE": "Guardrails",
+          "CREATE_TITLE": "Ideiglenes korlátozás hozzáadása",
+          "CREATE_HINT": "Az asszisztenshez adás előtt tesztelje a biztonsági korlátozást.",
+          "SAVED_SUMMARY": "Meglévő korlátozások ({count})",
+          "ADD_PERMANENTLY": "Korlátozás végleges hozzáadása",
+          "EMPTY": "Ehhez az asszisztenshez még nincsenek mentett korlátozások.",
+          "COMPOSER_PLACEHOLDER": "Ideiglenes korlátozás megadása...",
+          "PLACEHOLDER": "Add a guardrail",
+          "REMOVE": "Ideiglenes korlátozás eltávolítása"
+        },
+        "KNOWLEDGE": {
+          "TAB_TITLE": "Tudás",
+          "AVAILABLE_TITLE": "A Captain számára elérhető tudás",
+          "AVAILABLE_DESCRIPTION": "A mentett források összefoglalója itt látható, kezelésük pedig a tesztfelületen kívül történik.",
+          "DOCUMENTS": "Documents",
+          "FAQS": "FAQs",
+          "TEMPORARY_TITLE": "Ideiglenes tudás",
+          "ADD_PERMANENTLY": "Dokumentum végleges hozzáadása",
+          "LABEL": "Referenciaszöveg",
+          "PLACEHOLDER": "Illesszen be vagy írjon be új tudást ehhez a teszthez",
+          "HINT": "Ez a szöveg csak a tesztfelületen indított kérésekhez kapcsolódik, kivéve ha dokumentumként is hozzáadja."
+        },
+        "SAVE_KNOWLEDGE_SUCCESS": "A tudás dokumentumként hozzáadva.",
+        "SAVE_KNOWLEDGE_ERROR": "Nem sikerült a tudást dokumentumként hozzáadni."
+      },
+      "RUN_DETAILS": {
+        "SUMMARY": "Futtatás részletei · {duration} ms",
+        "HANDLER_VALUE": "Kezelte: {handler}",
+        "SCENARIOS": "Nincs forgatókönyv | Egy forgatókönyv | {count} forgatókönyv",
+        "RULES": "{count} szabály",
+        "KNOWLEDGE_ATTACHED": "Ehhez a futtatáshoz ideiglenes tudás is kapcsolódott.",
+        "NO_EVENTS": "Nem rögzítettünk eszközhívásokat vagy forgatókönyv-átadásokat.",
+        "HANDOFF": "{from} → {to}",
+        "STATUS": {
+          "RUNNING": "Folyamatban",
+          "COMPLETED": "Lezárt",
+          "FAILED": "Failed"
+        }
+      }
     },
     "PAYWALL": {
       "TITLE": "Frissítsen a Captain AI használatához",
@@ -659,7 +867,7 @@
       "ADD_NEW": "Create a new assistant",
       "DELETE": {
         "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "DESCRIPTION": "A művelet végleges. Az asszisztens törlésével eltávolítja azt az összes hozzákapcsolt bejövő postaládából, és véglegesen törli az egyéni eszközeit, valamint az összes létrehozott tudást.",
         "CONFIRM": "Igen, törlés",
         "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
@@ -699,7 +907,7 @@
           "PLACEHOLDER": "Enter welcome message"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff message",
+          "LABEL": "Átadási üzenet",
           "PLACEHOLDER": "Enter handoff message"
         },
         "RESOLUTION_MESSAGE": {
@@ -707,35 +915,35 @@
           "PLACEHOLDER": "Enter resolution message"
         },
         "INACTIVITY_RESOLUTION": {
-          "TITLE": "When customers stop replying",
-          "DESCRIPTION": "Choose how Captain handles the conversation.",
-          "MODE_LABEL": "Action when the customer stops replying",
-          "REVIEW_AFTER": "Review after",
-          "RESOLVE_AFTER": "Resolve after",
-          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
-          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "TITLE": "Amikor az ügyfelek nem válaszolnak",
+          "DESCRIPTION": "Válassza ki, hogyan kezelje a Captain a beszélgetést.",
+          "MODE_LABEL": "Teendő, ha az ügyfél nem válaszol",
+          "REVIEW_AFTER": "Ellenőrzés ennyi idő elteltével",
+          "RESOLVE_AFTER": "Beszélgetés lezárása ennyi idő után",
+          "ALWAYS_WARNING": "A Captain a kiválasztott idő elteltével ellenőrzés nélkül lezárja az összes beszélgetést. Így olyan beszélgetések is lezárulhatnak, amelyek még segítséget igényelnek.",
+          "PENDING_INFO": "A beszélgetés függőben marad, amíg az ügyfél nem válaszol.",
           "RESOLUTION_MESSAGE": {
-            "TITLE": "Send a message when resolving",
-            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+            "TITLE": "Üzenet küldése a beszélgetés lezárásakor",
+            "DESCRIPTION": "A Captain ezt a záróüzenetet küldi el a beszélgetés lezárása előtt."
           },
           "MODES": {
             "DISABLED": {
-              "LABEL": "Wait for the customer",
-              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+              "LABEL": "Várakozás az ügyfél válaszára",
+              "DESCRIPTION": "A Captain nem zárja le a beszélgetést. Kérésre azonban átadhatja az ügyet."
             },
             "LEGACY": {
-              "LABEL": "Always resolve",
-              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+              "LABEL": "Mindig zárja le",
+              "DESCRIPTION": "A Captain minden beszélgetést lezár a kiválasztott idő elteltével."
             },
             "EVALUATED": {
-              "LABEL": "Let Captain review it (recommended)",
-              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+              "LABEL": "Captain általi ellenőrzés (ajánlott)",
+              "DESCRIPTION": "A Captain dönti el, hogy lezárja-e a beszélgetést, vagy átadja."
             }
           },
-          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
-          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
-          "DURATION_HOURS_SHORT": "{count} h",
-          "DURATION_MINUTES_SHORT": "{count} min"
+          "DURATION_HOURS_ARIA_LABEL": "Órák a műveletig",
+          "DURATION_MINUTES_ARIA_LABEL": "Percek a műveletig",
+          "DURATION_HOURS_SHORT": "{count} óra",
+          "DURATION_MINUTES_SHORT": "{count} perc"
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
@@ -750,45 +958,45 @@
         },
         "AUDIENCE": {
           "EVERYONE": {
-            "LABEL": "Everyone",
-            "DESC": "Captain responds to every conversation in connected inboxes."
+            "LABEL": "Mindenki",
+            "DESC": "Captain minden csatlakoztatott postafiókban válaszol a beszélgetésekre."
           },
           "SPECIFIC": {
-            "LABEL": "Specific audience",
-            "DESC": "Captain responds only to customers who match the conditions below."
+            "LABEL": "Meghatározott célközönség",
+            "DESC": "Captain csak az alábbi feltételeknek megfelelő ügyfeleknek válaszol."
           },
-          "ADD_CONDITION": "Add condition",
-          "ADD_GROUP": "Add condition group",
-          "EMPTY_TITLE": "No conditions yet",
-          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
-          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
-          "MATCH_PREFIX": "Match",
-          "MATCH_SUFFIX": "of the following",
+          "ADD_CONDITION": "Feltétel hozzáadása",
+          "ADD_GROUP": "Feltételcsoport hozzáadása",
+          "EMPTY_TITLE": "Még nincsenek feltételek",
+          "EMPTY_BODY": "Adjon hozzá egy feltételt az ügyfelek célzásához, vagy hozzon létre feltételcsoportot a különböző ÉS/VAGY logikájú feltételek összekapcsolásához.",
+          "EMPTY_ERROR": "Adjon meg legalább egy feltételt a meghatározott célközönséghez.",
+          "MATCH_PREFIX": "Egyezzen",
+          "MATCH_SUFFIX": "az alábbiak közül",
           "MATCH_ALL": "mind",
-          "MATCH_ANY": "any",
-          "GROUP_CONTACT": "Contact attributes",
+          "MATCH_ANY": "bármelyik",
+          "GROUP_CONTACT": "Kontakt attribútumai",
           "GROUP_CONVERSATION": "Beszélgetés",
           "GROUP_CUSTOM": "Egyéni tulajdonságok",
           "BROWSER_LANGUAGE": "Böngésző nyelve",
-          "CONVERSATION_LANGUAGE": "First message language",
-          "LOGGED_IN": "Logged-in user",
+          "CONVERSATION_LANGUAGE": "Első üzenet nyelve",
+          "LOGGED_IN": "Bejelentkezett felhasználó",
           "LOGGED_IN_TRUE": "Igen",
           "LOGGED_IN_FALSE": "Nem"
         },
         "SCHEDULE": {
           "ALWAYS": {
-            "LABEL": "Anytime",
-            "DESC": "Captain responds to every conversation, regardless of time."
+            "LABEL": "Bármikor",
+            "DESC": "Captain időponttól függetlenül minden beszélgetésre válaszol."
           },
           "BUSINESS_HOURS": {
-            "LABEL": "During business hours",
-            "DESC": "Captain responds only within each inbox's business hours."
+            "LABEL": "Nyitvatartási időben",
+            "DESC": "Captain csak az egyes postafiókok nyitvatartási idejében válaszol."
           },
           "OUTSIDE_BUSINESS_HOURS": {
-            "LABEL": "Outside business hours",
-            "DESC": "Captain responds only when each inbox is closed."
+            "LABEL": "Nyitvatartási időn kívül",
+            "DESC": "Captain csak akkor válaszol, amikor az egyes postafiókok zárva vannak."
           },
-          "HINT": "Inboxes without business hours configured are always covered."
+          "HINT": "Azok a postafiókok, amelyekhez nincs beállítva nyitvatartási idő, mindig érintettek."
         }
       },
       "EDIT": {
@@ -806,15 +1014,15 @@
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
-          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+          "DESCRIPTION_V2": "Állítsa be, mit tegyen Captain, ha az ügyfél nem válaszol, és adja meg az átadáskor küldött üzenetet."
         },
         "AUDIENCE": {
           "TITLE": "Közönség",
-          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+          "DESCRIPTION": "Válassza ki, hogy az asszisztens mindenkinek vagy csak meghatározott célközönségnek válaszoljon."
         },
         "SCHEDULE": {
-          "TITLE": "Schedule",
-          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
+          "TITLE": "Ütemezés",
+          "DESCRIPTION": "Válassza ki, mikor válaszoljon Captain. Ezen az időszakon kívül a beszélgetések a csapathoz kerülnek."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
@@ -832,7 +1040,7 @@
         },
         "DELETE": {
           "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "DESCRIPTION": "A művelet végleges. Az asszisztens törlésével eltávolítja azt az összes hozzákapcsolt bejövő postaládából, és véglegesen törli az egyéni eszközeit, valamint az összes létrehozott tudást.",
           "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
@@ -986,7 +1194,7 @@
         "STATUS": {
           "ENABLED": "Engedélyezve",
           "DISABLED": "Letiltva",
-          "TOGGLE": "Toggle {title}"
+          "TOGGLE": "{title} be-/kikapcsolása"
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Search..."
@@ -1003,9 +1211,9 @@
             "ERROR": "There was an error updating scenarios, please try again."
           },
           "TOGGLE": {
-            "ENABLED": "Scenario enabled successfully",
-            "DISABLED": "Scenario disabled successfully",
-            "ERROR": "There was an error updating the scenario status, please try again."
+            "ENABLED": "A forgatókönyv engedélyezése sikerült",
+            "DISABLED": "A forgatókönyv letiltása sikerült",
+            "ERROR": "Hiba történt a forgatókönyv állapotának frissítésekor. Próbálja újra."
           },
           "DELETE": {
             "SUCCESS": "Scenarios deleted successfully",
@@ -1017,9 +1225,9 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
-      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
-      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
-      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
+      "FAQ_COUNT": "{n} GYIK | {n} GYIK",
+      "USED_IN_CONVERSATIONS": "{n} beszélgetésben használva | {n} beszélgetésben használva",
+      "NO_USED_CONVERSATIONS": "Egyetlen beszélgetés sem található ehhez a dokumentumhoz.",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
@@ -1033,75 +1241,75 @@
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
       "BULK_SYNC": {
-        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
-        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
-        "ZERO_MESSAGE": "No documents marked for refresh.",
-        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+        "SUCCESS_MESSAGE_ONE": "1 dokumentum frissítése sorba állítva",
+        "SUCCESS_MESSAGE": "{count} dokumentum frissítése sorba állítva",
+        "ZERO_MESSAGE": "Nincs frissítésre kijelölt dokumentum.",
+        "ERROR_MESSAGE": "Hiba történt a frissítés sorba állításakor. Próbálja újra."
       },
       "SYNC": {
-        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
-        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+        "QUEUED_MESSAGE": "A frissítés sorba állítva. Hamarosan frissítjük a dokumentumot.",
+        "ERROR_MESSAGE": "Nem sikerült sorba állítani a frissítést. Próbálja újra."
       },
       "FILTERS": {
         "SOURCE": {
-          "ALL": "All sources",
-          "WEB": "Web pages",
-          "PDF": "PDFs"
+          "ALL": "Minden forrás",
+          "WEB": "Weboldalak",
+          "PDF": "PDF fájlok"
         },
         "STATUS": {
-          "ANY": "Any status",
-          "UPDATED": "Updated",
-          "NEEDS_UPDATE": "Needs update",
-          "UPDATING": "Updating",
+          "ANY": "Bármilyen állapot",
+          "UPDATED": "Frissítve",
+          "NEEDS_UPDATE": "Frissítést igényel",
+          "UPDATING": "Frissítés folyamatban",
           "FAILED": "Failed"
         },
         "SORT": {
-          "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created",
-          "MOST_USED": "Most used in conversations"
+          "RECENTLY_UPDATED": "Legutóbb frissítve",
+          "RECENTLY_CREATED": "Legutóbb létrehozva",
+          "MOST_USED": "Leggyakrabban használt beszélgetésekben"
         },
         "SEARCH_PLACEHOLDER": "Search..."
       },
       "SYNC_STATUS": {
-        "SYNCED": "last updated {time}",
-        "SYNCING": "updating...",
-        "STALE_SYNC": "update stalled",
-        "FAILED": "Failed to sync",
-        "NEVER_SYNCED": "not updated yet"
+        "SYNCED": "Utoljára frissítve: {time}",
+        "SYNCING": "frissítés folyamatban...",
+        "STALE_SYNC": "a frissítés elakadt",
+        "FAILED": "Nem sikerült a szinkronizálás",
+        "NEVER_SYNCED": "még nem frissült"
       },
       "SYNC_ERRORS": {
         "NOT_FOUND": "Az oldal nem található",
-        "ACCESS_DENIED": "Access denied",
-        "TIMEOUT": "Page took too long to respond",
-        "CONTENT_EMPTY": "Page returned empty content",
-        "FETCH_FAILED": "Could not fetch page",
-        "SYNC_ERROR": "Unexpected error",
-        "DEFAULT": "Sync error"
+        "ACCESS_DENIED": "Hozzáférés megtagadva",
+        "TIMEOUT": "Az oldal nem válaszolt időben",
+        "CONTENT_EMPTY": "Az oldal üres tartalmat adott vissza",
+        "FETCH_FAILED": "Nem sikerült lekérni az oldalt",
+        "SYNC_ERROR": "Váratlan hiba",
+        "DEFAULT": "Szinkronizálási hiba"
       },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
-        "EMPTY": "No FAQs have been generated from this document yet."
+        "EMPTY": "Ehhez a dokumentumhoz még nem készült GYIK."
       },
       "DETAILS": {
-        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
-        "SOURCE": "Source",
-        "GENERATED_FAQS": "Generated FAQs",
-        "USED_IN_CONVERSATIONS": "Used in conversations",
-        "LAST_UPDATED": "Last updated",
+        "DESCRIPTION": "Tekintse át a beolvasott tartalmat és a forrásból generált GYIK-kérdéseket.",
+        "SOURCE": "Forrás",
+        "GENERATED_FAQS": "Generált GYIK",
+        "USED_IN_CONVERSATIONS": "Beszélgetésekben használva",
+        "LAST_UPDATED": "Utoljára frissítve",
         "NOT_AVAILABLE": "Not available",
-        "CONTENT_TAB": "Crawled content",
-        "PDF_TAB": "PDF details",
-        "CONTENT_TITLE": "Crawled content",
-        "PDF_TITLE": "PDF file",
-        "PDF_DESCRIPTION": "Review the original PDF source.",
-        "CHARACTER_COUNT": "{count} characters extracted",
+        "CONTENT_TAB": "Beolvasott tartalom",
+        "PDF_TAB": "PDF-adatok",
+        "CONTENT_TITLE": "Beolvasott tartalom",
+        "PDF_TITLE": "PDF-fájl",
+        "PDF_DESCRIPTION": "Tekintse át az eredeti PDF-forrást.",
+        "CHARACTER_COUNT": "{count} karakter kinyerve",
         "COPY_CONTENT": "Másolás",
-        "COPY_SUCCESS": "Crawled content copied to clipboard",
-        "COPY_ERROR": "Could not copy crawled content",
-        "VIEW_RAW": "View raw",
-        "VIEW_PREVIEW": "View preview",
-        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
-        "EMPTY_CONTENT": "No crawled content is available for this document yet."
+        "COPY_SUCCESS": "A beolvasott tartalom a vágólapra másolva",
+        "COPY_ERROR": "Nem sikerült a beolvasott tartalom másolása",
+        "VIEW_RAW": "Nyers tartalom megtekintése",
+        "VIEW_PREVIEW": "Előnézet megtekintése",
+        "UNREADABLE_CONTENT": "Nem sikerült olvasható tartalmat kinyerni ebből a dokumentumból. A kinyert nyers tartalom megtekinthető.",
+        "EMPTY_CONTENT": "Ehhez a dokumentumhoz még nem áll rendelkezésre beolvasott tartalom."
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -1142,15 +1350,15 @@
       },
       "OPTIONS": {
         "VIEW_DETAILS": "Részletek megtekintése",
-        "SYNC_NOW": "Refresh now",
-        "RETRY_SYNC": "Retry refresh",
+        "SYNC_NOW": "Frissítés most",
+        "RETRY_SYNC": "Frissítés újrapróbálása",
         "DELETE_DOCUMENT": "Delete Document"
       },
       "EMPTY_STATE": {
         "TITLE": "No documents available",
         "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
-        "FILTERED_TITLE": "No matching documents",
-        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
+        "FILTERED_TITLE": "Nincs egyező dokumentum",
+        "FILTERED_SUBTITLE": "Próbálja meg módosítani a forrást, az állapotot vagy a keresőkifejezést.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
@@ -1160,6 +1368,56 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "CATALOG": {
+        "BUTTON": "Eszközkatalógus",
+        "HEADER": "Eszközkatalógus",
+        "DESCRIPTION": "Böngésszen a Captain eszközkatalógusában található eszközkészletek között, és telepítse őket ehhez az asszisztenshez.",
+        "ALL": "Mind",
+        "EMPTY": "Ebben a kategóriában még nincsenek eszközkészletek.",
+        "LOAD_ERROR": "Nem sikerült betölteni az eszközkatalógust. Ellenőrizze a katalógus URL-jét a Captain beállításaiban.",
+        "TOOL_COUNT": "{n} eszköz | {n} eszköz",
+        "VERSION": "v{version}",
+        "UPDATED": "Updated {time}",
+        "REPOSITORY": "Kódtár",
+        "MANIFEST": "Manifestfájl",
+        "CONFIGURATION": "Beállítások",
+        "REQUIRED": "Kötelező",
+        "DETAILS_ERROR": "Nem sikerült betölteni az eszközkészlet adatait.",
+        "INSTALLED": "Telepítve",
+        "UPDATE_AVAILABLE": "Frissítés érhető el"
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Válasszon egy asszisztenst",
+        "DESCRIPTION": "Válassza ki, melyik asszisztensre telepíti ezt az eszközkészletet.",
+        "PLACEHOLDER": "Select an assistant",
+        "LOAD_ERROR": "Nem sikerült betölteni az asszisztenseket. A próbálkozáshoz töltse újra az oldalt."
+      },
+      "INSTALL_MANIFEST": {
+        "TITLE": "Eszközkészlet telepítése",
+        "DESCRIPTION": "Telepítsen eszközkészletet a Captain eszközkatalógusából.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "Másik verzió van telepítve. A frissítés lecseréli az eszközöket, a bekapcsolt állapotukat viszont megőrzi. Adja meg újra a titkos adatokat.",
+        "TOOLS_LABEL": "Tools",
+        "CONFIGURATION_LABEL": "Beállítások",
+        "CONTINUE": "Continue",
+        "INSTALL": "Telepítés",
+        "UPDATE": "Frissítés",
+        "REINSTALL": "Újratelepítés",
+        "REINSTALL_NOTE": "Az eszközkészlet egyes eszközeit törölték. Az újratelepítés visszaállítja őket, és megőrzi a bekapcsolt állapotukat. Adja meg újra a titkos adatokat.",
+        "ALREADY_INSTALLED": "Már telepítve",
+        "SUCCESS_MESSAGE": "Eszközkészlet telepítve",
+        "ERROR_MESSAGE": "Nem sikerült telepíteni az eszközkészletet",
+        "PREVIEW_ERROR": "Nem sikerült betölteni az eszközkészletet"
+      },
+      "ASSISTANT_TOOLS_BANNER": {
+        "MESSAGE": "Az egyéni eszközök mostantól asszisztensenként kezelhetők. Az eszközök testreszabásához váltson asszisztenst.",
+        "LEARN_MORE": "Tudj meg többet",
+        "DISMISS": "Értesítés bezárása",
+        "MODAL_TITLE": "Az asszisztensek mostantól saját eszközökkel rendelkeznek",
+        "MODAL_DESCRIPTION": "Mostantól minden asszisztens külön egyéni eszközlistával rendelkezik. A meglévő eszközöket átmásoltuk minden asszisztenshez, így semmi sem veszett el.",
+        "MODAL_INSTRUCTIONS": "Eszköz hozzáadásakor, szerkesztésekor, kikapcsolásakor vagy törlésekor a módosítás csak az éppen megtekintett asszisztensre vonatkozik. Az eszközök áttekintéséhez vagy testreszabásához váltson asszisztenst az oldal tetején.",
+        "ACKNOWLEDGE": "Got it"
+      },
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
@@ -1172,28 +1430,34 @@
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
+        "VIEW_TOOL": "Eszköz megtekintése",
         "DELETE_TOOL": "Delete tool"
       },
       "STATUS": {
         "ENABLED": "Engedélyezve",
         "DISABLED": "Letiltva",
-        "TOGGLE": "Toggle {title}"
+        "TOGGLE": "{title} be-/kikapcsolása"
       },
       "TOGGLE": {
-        "ENABLED": "Tool enabled successfully",
-        "DISABLED": "Tool disabled successfully",
-        "ERROR": "Failed to update tool status"
+        "ENABLED": "Az eszköz engedélyezése sikerült",
+        "DISABLED": "Az eszköz letiltása sikerült",
+        "ERROR": "Nem sikerült frissíteni az eszköz állapotát"
       },
       "DISABLE_CONFIRMATION": {
-        "TITLE": "Disable {title}?",
-        "DESCRIPTION_ONE": "This tool is used by {count} enabled scenario. Disabling it may cause that scenario to stop working as expected.",
-        "DESCRIPTION_OTHER": "This tool is used by {count} enabled scenarios. Disabling it may cause those scenarios to stop working as expected.",
-        "CONFIRM": "Disable tool"
+        "TITLE": "{title} letiltása?",
+        "DESCRIPTION_ONE": "Ezt az eszközt {count} bekapcsolt forgatókönyv használja. Letiltása miatt előfordulhat, hogy a forgatókönyv nem fog megfelelően működni.",
+        "DESCRIPTION_OTHER": "Ezt az eszközt {count} bekapcsolt forgatókönyv használja. Letiltása miatt előfordulhat, hogy ezek a forgatókönyvek nem fognak megfelelően működni.",
+        "CONFIRM": "Eszköz letiltása"
       },
       "CREATE": {
         "TITLE": "Create Custom Tool",
         "SUCCESS_MESSAGE": "Custom tool created successfully",
         "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "VIEW": {
+        "TITLE": "Egyéni eszköz adatai",
+        "REQUEST": "Kérés és válasz",
+        "INSTALLED_NOTE": "Ez az eszköz csak olvasásra használható, mert az Eszközkatalógusból telepítették."
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
@@ -1247,6 +1511,11 @@
         "AUTH_TYPE": {
           "LABEL": "Authentication Type"
         },
+        "EMAIL_VERIFICATION": {
+          "LABEL": "E-mail-cím ellenőrzésének megkövetelése",
+          "DESCRIPTION": "A Captain csak akkor használhatja ezt az eszközt, ha az ügyfél egyszer használatos kóddal igazolta az e-mail-címét.",
+          "IMPLIED": "A paraméter az ügyfél ellenőrzött e-mail-címét használja, ezért az e-mail-cím ellenőrzése mindig kötelező."
+        },
         "AUTH_TYPES": {
           "NONE": "Nincs",
           "BEARER": "Bearer Token",
@@ -1264,6 +1533,19 @@
           "API_KEY_PLACEHOLDER": "X-API-Key",
           "API_VALUE": "Header Value",
           "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "SECTIONS": {
+          "TEMPLATES": "Sablonok",
+          "TEMPLATES_HELP_TEXT": "A Liquid szintaxist is támogatja, például: {'{{'} order_id {'}}'} vagy {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Fejlécek",
+          "HELP_TEXT": "Minden kéréshez rögzített fejléceket küldünk. Az értékek pontosan a megadott formában kerülnek elküldésre; a hitelesítő adatokhoz használja a Hitelesítés részt.",
+          "NAME_PLACEHOLDER": "Fejléc neve (pl. cal-api-version)",
+          "VALUE_PLACEHOLDER": "Fejléc értéke",
+          "NAME_REQUIRED": "A fejléc neve kötelező",
+          "NAME_DUPLICATE": "A fejlécneveknek egyedieknek kell lenniük",
+          "ADD": "Fejléc hozzáadása"
         },
         "PARAMETERS": {
           "LABEL": "Parameters",
@@ -1289,6 +1571,21 @@
         "PARAM_REQUIRED": {
           "LABEL": "Kötelező"
         },
+        "RISK": {
+          "MEDIUM": "Ez az eszköz ügyféladatokat adhat vissza. Érdemes lehet megkövetelni az e-mail-cím ellenőrzését.",
+          "HIGH": "Úgy tűnik, ez az eszköz ügyféladatokat olvas vagy módosít. Követelje meg az e-mail-cím ellenőrzését, hogy csak ellenőrzött ügyfél használhassa.",
+          "TITLE": "Mentés e-mail-cím ellenőrzése nélkül?",
+          "GO_BACK": "Visszaugrás",
+          "SAVE_ANYWAY": "Mentés ennek ellenére",
+          "EMAIL_PARAM": "Ez az e-mail-cím nincs ellenőrizve. Az ügyfél más e-mail-címét is megadhatja.",
+          "USE_VERIFIED_EMAIL": "Ellenőrzött e-mail-cím használata"
+        },
+        "VERIFIED_VALUES": {
+          "ADD": "Ellenőrzött e-mail-cím hozzáadása",
+          "EMAIL": "Kontakt e-mail-címe",
+          "EMAIL_DESCRIPTION": "A kontakt ellenőrzött e-mail-címe",
+          "HELP": "A Chatwoot tölti ki az e-mail-cím alapján, amelyet a kontakt egyszer használatos kóddal megerősített. A Captain nem láthatja és nem módosíthatja ezt az ügyfélbeszélgetésekben."
+        },
         "REQUEST_TEMPLATE": {
           "LABEL": "Request Body Template (Optional)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
@@ -1305,7 +1602,7 @@
     "RESPONSES": {
       "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
-      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
+      "NO_USED_CONVERSATIONS": "Ehhez a GYIK-hez nem található beszélgetés.",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
       },
@@ -1314,7 +1611,7 @@
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
       "ERRORS": {
-        "LOAD": "There was an error loading FAQs. Please try again."
+        "LOAD": "Nem sikerült betölteni a GYIK-eket. Próbálja újra."
       },
       "BULK_DELETE_BUTTON": "Törlés",
       "BULK_DELETE": {
@@ -1332,8 +1629,8 @@
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
       "SUGGESTIONS_BANNER": {
-        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
-        "ACTION": "Review suggestions"
+        "TITLE": "Captain a gyakran ismétlődő ügyfélkérdésekből GYIK-javaslatokat állított össze.",
+        "ACTION": "Javaslatok áttekintése"
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
@@ -1375,40 +1672,40 @@
       }
     },
     "FAQ_SUGGESTIONS": {
-      "HEADER": "FAQ suggestions",
-      "SEARCH_PLACEHOLDER": "Search suggestions...",
-      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
-      "QUEUE_HINT": "Ranked by customer demand",
-      "SOURCE_COUNT": "{count} conversation | {count} conversations",
-      "REVIEW": "Review sources",
+      "HEADER": "GYIK-javaslatok",
+      "SEARCH_PLACEHOLDER": "Javaslatok keresése...",
+      "QUEUE_COUNT": "{count} áttekintendő javaslat | {count} áttekintendő javaslat",
+      "QUEUE_HINT": "Ügyféligény szerinti rangsorolás",
+      "SOURCE_COUNT": "{count} beszélgetés | {count} beszélgetés",
+      "REVIEW": "Források áttekintése",
       "APPROVE": "Approve",
-      "APPROVE_FAQ": "Approve FAQ",
+      "APPROVE_FAQ": "GYIK jóváhagyása",
       "DISMISS": "Elutasítás",
       "SAVE": "Save changes",
       "DETAILS": {
-        "TITLE": "Review FAQ suggestion",
-        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
-        "SOURCES": "Source conversations",
-        "SOURCE_PROGRESS": "{visible} of {total}",
-        "NO_SOURCES": "No accessible source conversations were found.",
-        "RETRY": "Retry"
+        "TITLE": "GYIK-javaslat áttekintése",
+        "DESCRIPTION": "Captain {count} beszélgetést csoportosított ebbe a javaslatba. Tekintse át a bizonyítékokat, és pontosítsa a GYIK-et jóváhagyás előtt. | Captain {count} beszélgetést csoportosított ebbe a javaslatba. Tekintse át a bizonyítékokat, és pontosítsa a GYIK-et jóváhagyás előtt.",
+        "SOURCES": "Forrásbeszélgetések",
+        "SOURCE_PROGRESS": "{visible}/{total}",
+        "NO_SOURCES": "Nem található elérhető forrásbeszélgetés.",
+        "RETRY": "Újrapróbálás"
       },
       "EMPTY_STATE": {
-        "TITLE": "The review queue is clear",
-        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
-        "CLEAR_SEARCH": "Clear search"
+        "TITLE": "Nincs több áttekintendő javaslat",
+        "SUBTITLE": "Az új GYIK-javaslatok itt jelennek meg, amikor készen állnak az áttekintésre.",
+        "CLEAR_SEARCH": "Keresés törlése"
       },
       "SUCCESS": {
-        "APPROVED": "FAQ approved and added to Captain's knowledge.",
-        "DISMISSED": "Suggestion dismissed.",
-        "SAVED": "Suggestion updated."
+        "APPROVED": "A GYIK jóváhagyva, és hozzáadva a Captain tudásanyagához.",
+        "DISMISSED": "Javaslat elvetve.",
+        "SAVED": "Javaslat frissítve."
       },
       "ERRORS": {
-        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
-        "LOAD_DETAILS": "There was an error loading the source conversations.",
-        "APPROVE": "There was an error approving the FAQ. Please try again.",
-        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
-        "SAVE": "There was an error saving the suggestion. Please try again."
+        "LOAD": "Hiba történt a GYIK-javaslatok betöltésekor. Próbálja újra.",
+        "LOAD_DETAILS": "Hiba történt a forrásbeszélgetések betöltésekor.",
+        "APPROVE": "Hiba történt a GYIK jóváhagyásakor. Próbálja újra.",
+        "DISMISS": "Hiba történt a javaslat elvetésekor. Próbálja újra.",
+        "SAVE": "Hiba történt a javaslat mentésekor. Próbálja újra."
       }
     },
     "INBOXES": {

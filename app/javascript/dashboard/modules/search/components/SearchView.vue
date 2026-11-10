@@ -395,6 +395,18 @@ watch(
   { immediate: true }
 );
 
+watch(
+  () => [route.params.tab, route.query.q],
+  ([tab, q]) => {
+    selectedTab.value = tab || 'all';
+    if (q && q !== query.value.trim()) {
+      onSearch(q);
+    } else if (q) {
+      fetchFocusedResults();
+    }
+  }
+);
+
 onUnmounted(() => {
   query.value = '';
   clearSearchResult();
