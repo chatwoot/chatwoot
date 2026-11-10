@@ -80,6 +80,13 @@ const startRecording = async () => {
       if (event.data.size > 0) chunks.value.push(event.data);
     });
 
+    // A recorder failure is still followed by `stop`; discard the partial
+    // recording instead of submitting it.
+    mediaRecorder.value.addEventListener('error', event => {
+      isCancelled.value = true;
+      emit('error', event.error);
+    });
+
     mediaRecorder.value.addEventListener('stop', () => {
       releaseStream();
       if (isCancelled.value) return;
