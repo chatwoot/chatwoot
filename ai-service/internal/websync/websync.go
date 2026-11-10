@@ -249,7 +249,7 @@ func (s *Syncer) event(ctx context.Context, src Source, action string, before kn
 }
 
 func errText(err error) string {
-	for _, known := range []error{webfetch.ErrBlocked, webfetch.ErrNotText, webfetch.ErrTooLarge, webfetch.ErrBadResponse, webfetch.ErrOffSite} {
+	for _, known := range []error{webfetch.ErrBlocked, webfetch.ErrNotText, webfetch.ErrTooLarge, webfetch.ErrBadResponse, webfetch.ErrOffSite, webfetch.ErrGoogleSignIn} {
 		if errors.Is(err, known) {
 			return err.Error()
 		}

@@ -641,6 +641,14 @@ func (h *Handler) webAction(w http.ResponseWriter, r *http.Request, acct int64, 
 		if r.PostForm.Get("kind") == websync.KindFeed {
 			kind = websync.KindFeed
 		}
+		// A Google Sheets or Docs link from the address bar becomes its
+		// download link; the file type decides: a sheet is a data file.
+		if g, data, ok := webfetch.GoogleExport(u); ok {
+			u, kind = g, websync.KindPage
+			if data {
+				kind = websync.KindFeed
+			}
+		}
 		data.PageKind = kind
 		if src, err = h.Web.Add(r.Context(), acct, u.String(), kind); err != nil {
 			if errors.Is(err, websync.ErrDuplicate) || errors.Is(err, websync.ErrTooMany) {

@@ -133,6 +133,9 @@ func checkRedirect(next *url.URL, via []*http.Request, allowPrivate bool) error 
 		return ErrOffSite
 	}
 	site := func(h string) string { return strings.TrimPrefix(strings.ToLower(strings.TrimSuffix(h, ".")), "www.") }
+	if googleSignIn(site(first.Hostname()), site(next.Hostname())) {
+		return ErrGoogleSignIn
+	}
 	if site(next.Hostname()) != site(first.Hostname()) && !googleHop(site(first.Hostname()), site(next.Hostname()), next.Scheme) {
 		return ErrOffSite
 	}
@@ -250,6 +253,9 @@ func (f *Fetcher) fetch(ctx context.Context, raw, accept string, allowed func(st
 	if err != nil {
 		if errors.Is(err, ErrBlocked) {
 			return Page{}, ErrBlocked
+		}
+		if errors.Is(err, ErrGoogleSignIn) {
+			return Page{}, ErrGoogleSignIn
 		}
 		if errors.Is(err, ErrOffSite) {
 			return Page{}, ErrOffSite

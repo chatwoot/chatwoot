@@ -137,7 +137,7 @@
       <h2 id="web-title" class="card-title">Website pages and data files</h2>
       {{if .Pages}}<form method="post" action="/admin/knowledge"><input type="hidden" name="action" value="sync_all"><input type="hidden" name="account" value="{{.AccountID}}"><button type="submit" class="btn small">Sync all now</button></form>{{end}}
     </div>
-    <p class="hint">Add a public page (for example your price or policy page), or a data file where each row is one answer: a Google Sheet published as CSV, or a CSV or JSON Lines file. The bot reads it now and checks it on a schedule: changes update automatically, and anything that disappears stops being used.</p>
+    <p class="hint">Add a public page (for example your price or policy page), or a data file where each row is one answer: a Google Sheet, or a CSV or JSON Lines file. Google Sheets and Docs links can be pasted straight from the address bar. The bot reads it now and checks it on a schedule: changes update automatically, and anything that disappears stops being used.</p>
     {{if and .Error (eq .ErrorForm "page")}}<div class="alert err" role="alert"><strong>Not added.</strong> {{.Error}}</div>{{end}}
     <form method="post" action="/admin/knowledge" autocomplete="off">
       <input type="hidden" name="action" value="add_page"><input type="hidden" name="account" value="{{.AccountID}}">
@@ -153,9 +153,10 @@
       </div>
     </form>
     <details class="feed-help">
-      <summary>How to use a Google Sheet or a data file</summary>
+      <summary>How to use Google Sheets, Google Docs or a data file</summary>
       <ol>
-        <li>In Google Sheets: <strong>File → Share → Publish to web</strong>, choose the sheet and <strong>Comma-separated values (.csv)</strong>, then <strong>Publish</strong>. Copy the link it shows and add it here as a data file.</li>
+        <li>Google Sheets: paste the link from the address bar. In the sheet, set <strong>Share → General access</strong> to <strong>Anyone with the link</strong> (Viewer) first. The tab open in the link is the one read; a sheet is always added as a data file. Or use <strong>File → Share → Publish to web</strong> as <strong>Comma-separated values (.csv)</strong> and paste that link.</li>
+        <li>Google Docs: paste the link the same way, with the same sharing. The whole document becomes one answer source and is checked on the schedule like a web page.</li>
         <li>The first row holds the column names. An <code>id</code> column is required: it must stay the same when you edit a row, so the bot updates that answer instead of adding a new one.</li>
         <li>For questions and answers use <code>question</code> and <code>answer</code> columns. For longer text use <code>title</code> and <code>content</code> (or <code>text</code>); <code>category</code> and <code>section</code> become the title when there is no title.</li>
         <li>JSON Lines works the same way: one object per line with the same names, for example <code>{"id": "product-001", "category": "Price", "section": "Lifetime", "text": "…"}</code>.</li>

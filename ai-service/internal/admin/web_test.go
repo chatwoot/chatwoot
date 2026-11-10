@@ -212,3 +212,25 @@ func TestWeb_FeedAddedReadInBackgroundAndRemovedWithItsRows(t *testing.T) {
 		t.Errorf("remove: %d deleted=%v srcs=%d", removed.Code, ms.deleted, len(mw.srcs))
 	}
 }
+
+func TestWeb_GoogleEditLinksBecomeDownloads(t *testing.T) {
+	// Arrange
+	mux, _, mw := webEnv(t)
+	sheet := "https://docs.google.com/spreadsheets/d/1AbC_d-9/edit?gid=42#gid=42"
+	doc := "https://docs.google.com/document/d/1XyZ-0_q/edit?tab=t.0"
+
+	// Act: the owner picked "page" for the sheet and "data file" for the doc.
+	serve(mux, kform(url.Values{"action": {"add_page"}, "account": {"1"}, "kind": {websync.KindPage}, "url": {sheet}}))
+	serve(mux, kform(url.Values{"action": {"add_page"}, "account": {"1"}, "kind": {websync.KindFeed}, "url": {doc}}))
+
+	// Assert: the link decides; a sheet is a data file, a doc is a page.
+	if len(mw.srcs) != 2 {
+		t.Fatalf("sources = %+v", mw.srcs)
+	}
+	if s := mw.srcs[0]; s.URL != "https://docs.google.com/spreadsheets/d/1AbC_d-9/export?format=csv&gid=42" || s.Kind != websync.KindFeed {
+		t.Errorf("sheet stored as %q kind %q", s.URL, s.Kind)
+	}
+	if s := mw.srcs[1]; s.URL != "https://docs.google.com/document/d/1XyZ-0_q/export?format=txt" || s.Kind != websync.KindPage {
+		t.Errorf("doc stored as %q kind %q", s.URL, s.Kind)
+	}
+}
