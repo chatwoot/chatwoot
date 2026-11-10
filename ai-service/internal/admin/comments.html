@@ -39,6 +39,7 @@
       <p class="hint">{{.When}}{{with .Left}} · {{.}}{{end}}{{with .PostURL}} · <a href="{{.}}" target="_blank" rel="noopener noreferrer">Open post</a>{{end}}</p>
     </div>
     <div class="diff">
+      {{with .Post}}<p class="field-hint">On the post: {{.}}</p>{{end}}
       <h3 class="sub">Comment</h3>
       <pre class="code diff-now">{{.Message}}</pre>
       {{with .Reason}}<p class="field-hint">Why: {{.}}</p>{{end}}

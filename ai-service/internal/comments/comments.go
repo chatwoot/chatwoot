@@ -100,6 +100,12 @@ type Comment struct {
 	Message   string
 	CreatedAt time.Time // when the person commented (Meta's created_time)
 
+	// PostText is the post the comment was left on, read from Graph when
+	// the comment is drafted or shown; it is not stored. PostKnown says the
+	// read worked (a photo post can have no text and still be known).
+	PostText  string
+	PostKnown bool
+
 	Intent Intent
 	Reason string // one line from the scorer, for the owner
 	Draft  string // the reply the scorer suggests

@@ -268,3 +268,29 @@ func TestComments_DraftIsLabelledAsAnAISuggestion(t *testing.T) {
 		t.Fatal("draft not labelled")
 	}
 }
+
+type fixedPost struct{ text string }
+
+func (f fixedPost) Post(context.Context, string) (comments.Post, error) {
+	return comments.Post{Text: f.text}, nil
+}
+
+func TestComments_CardShowsThePostTheCommentIsOn(t *testing.T) {
+	// Arrange: the owner must see which post "สนใจ" was about.
+	e := newCommentsEnv(t, true, true)
+	e.waiting(t, 2, "c1", "สนใจครับ", time.Now())
+	h := &Handler{Password: pw, Timeout: time.Second, Logger: slog.New(slog.NewJSONHandler(io.Discard, nil)),
+		Comments: &comments.Queue{Store: e.store, Posts: fixedPost{text: "ทุนนวัตกรรมพลังงาน <script>x</script>"}}}
+	h.Store, _ = settings.Open(t.TempDir()+"/s.json", settings.LLM{})
+	h.Switch = &llm.Switch{}
+	mux := http.NewServeMux()
+	h.Routes(mux)
+
+	// Act
+	body := serve(mux, commentsGet("account=2")).Body.String()
+
+	// Assert
+	if !strings.Contains(body, "On the post") || !strings.Contains(body, "ทุนนวัตกรรมพลังงาน &lt;script&gt;") {
+		t.Fatalf("post snippet missing or unescaped")
+	}
+}

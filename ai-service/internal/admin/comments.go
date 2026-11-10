@@ -45,6 +45,7 @@ type commentItem struct {
 	Message  string
 	Draft    string
 	PostURL  string
+	Post     string // a snippet of the post the comment is on
 	LastFail string
 	Shadow   string // the shadow reviewer's call, or ""
 	Hold     bool   // the shadow reviewer would hold it
@@ -172,7 +173,7 @@ func (h *Handler) loadComments(ctx context.Context, data *commentsData) error {
 	for _, c := range waiting {
 		it := commentItem{ID: c.ID, Version: c.Version, From: orUnknown(c.FromName), When: h.stamp(c.CreatedAt),
 			Expired: c.Expired(now), Intent: intentLabels[c.Intent], Reason: c.Reason, Message: c.Message,
-			Draft: c.Draft, PostURL: postURL(c.PostID), LastFail: c.Error}
+			Draft: c.Draft, PostURL: postURL(c.PostID), Post: snippet(c.PostText, 240), LastFail: c.Error}
 		if !it.Expired {
 			it.Left = timeLeft(c.CreatedAt.Add(comments.ReplyWindow).Sub(now))
 		}
@@ -233,10 +234,13 @@ func orUnknown(name string) string {
 	return name
 }
 
-func preview(s string) string {
+func preview(s string) string { return snippet(s, 80) }
+
+// snippet is s on one line, cut to n characters.
+func snippet(s string, n int) string {
 	s = strings.Join(strings.Fields(s), " ")
-	if r := []rune(s); len(r) > 80 {
-		return string(r[:80]) + "…"
+	if r := []rune(s); len(r) > n {
+		return string(r[:n]) + "…"
 	}
 	return s
 }

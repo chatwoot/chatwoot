@@ -128,6 +128,20 @@ func Decide(r Review, draft string, t Thresholds) Review {
 // PSend is the reviewer's overall probability that the draft is safe to send:
 // the product of the checks and the sendable intents. Used for
 // calibration in the benchmark, not for the decision.
+// ReasonPostUnknown holds a draft written without the post it answers: the
+// post could not be read, so the draft may be about the wrong product.
+const ReasonPostUnknown = "post unknown"
+
+// holdUnknownPost holds the review of a comment whose post could not be read.
+func holdUnknownPost(r Review, c Comment) Review {
+	if c.PostID == "" || c.PostKnown {
+		return r
+	}
+	r.Flags = append(r.Flags, ReasonPostUnknown)
+	r.Pass, r.Reason = false, ReasonPostUnknown
+	return r
+}
+
 func (r Review) PSend() float64 {
 	p := r.PIntent[IntentLead] + r.PIntent[IntentQuestion]
 	p *= r.Checks[CheckAnswersComment] * r.Checks[CheckNoUnbackedOffer] * r.Checks[CheckToneFits]
@@ -142,7 +156,7 @@ func (r Review) PSend() float64 {
 // reviewer asks the same thing.
 var questionText = map[string]string{
 	"intent":            "What does the person who wrote `comment.text` want?",
-	CheckAnswersComment: "Does `draft` respond to what `comment.text` says or asks?",
+	CheckAnswersComment: "Does `draft` respond to what `comment.text` says or asks, about the topic of `post.text` when it is given?",
 	CheckNoUnbackedOffer: "Is every price, discount, stock level, deadline and promise in `draft` stated in `business`? " +
 		"(true when `draft` makes none)",
 	CheckToneFits: "Is `draft` polite, short enough for a Messenger reply, and written in the tone `business.tone` describes?",
@@ -158,9 +172,13 @@ var intentText = map[Intent]string{
 
 // reviewState is the input every reviewer sees.
 func reviewState(c Comment, draft string, p profile.Profile) map[string]any {
-	return map[string]any{
+	s := map[string]any{
 		"business": map[string]string{"name": p.BusinessName, "about": p.About, "tone": p.Tone, "contact": p.Contact, "rules": p.Rules},
 		"comment":  map[string]string{"name": oneLine(c.FromName), "text": c.Message},
 		"draft":    draft,
 	}
+	if c.PostKnown {
+		s["post"] = map[string]string{"text": c.PostText}
+	}
+	return s
 }

@@ -352,15 +352,21 @@ func startComments(cfg config.Config, db *profile.Postgres, profiles profile.Sto
 	store := &comments.Postgres{Pool: db.Pool}
 	(&comments.Webhook{AppSecret: cfg.MetaAppSecret, VerifyToken: cfg.MetaVerifyToken, PageID: cfg.MetaPageID,
 		AccountID: cfg.MetaAccountID, Store: store, Logger: log}).Routes(mux)
-	worker := &comments.Worker{Store: store, Scorer: &comments.Scorer{LLM: completer, Profiles: profiles},
-		Logger: log, Timeout: cfg.LLMTimeout, Reviewer: reviewer, Profiles: profiles}
-	go worker.Run(context.Background(), 20*time.Second)
-	q := &comments.Queue{Store: store}
+	var graph *comments.Graph
+	var posts comments.PostReader // nil: drafts without the post
 	if cfg.MetaPageToken != "" {
-		q.Sender = &comments.Graph{BaseURL: "https://graph.facebook.com/" + cfg.MetaGraphVersion,
+		graph = &comments.Graph{BaseURL: "https://graph.facebook.com/" + cfg.MetaGraphVersion,
 			PageID: cfg.MetaPageID, PageToken: cfg.MetaPageToken}
+		posts = &comments.PostCache{Reader: graph}
 	} else {
-		log.Warn("page comment replies off: set META_PAGE_TOKEN to send them")
+		log.Warn("page comment replies off: set META_PAGE_TOKEN to send them; drafts are written without the post")
+	}
+	worker := &comments.Worker{Store: store, Scorer: &comments.Scorer{LLM: completer, Profiles: profiles},
+		Logger: log, Timeout: cfg.LLMTimeout, Reviewer: reviewer, Profiles: profiles, Posts: posts}
+	go worker.Run(context.Background(), 20*time.Second)
+	q := &comments.Queue{Store: store, Posts: posts}
+	if graph != nil {
+		q.Sender = graph
 	}
 	log.Info("page comments on", "path", comments.WebhookPath, "account_id", cfg.MetaAccountID, "sending", q.CanSend())
 	return q

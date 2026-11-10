@@ -16,6 +16,13 @@ become customers.
   - a row the database refuses for good (an ID over its length, say) is logged and skipped, so it never blocks the rest of a delivery;
   - row level security on, `anon`/`authenticated` revoked;
   - rows deleted 30 days after they arrive.
+- **Post context** (2026-11-11): before drafting, the worker reads the post the comment was left on (`GET /{post-id}?fields=message,attachments{title,description}` with the Page token; `pages_read_engagement`).
+  - Only digit-and-underscore post IDs are read, so a webhook value cannot change the Graph path; the token goes in the header, and errors name the Graph host only.
+  - Posts are cached in memory for an hour (at most 500), so many comments on one post cost one read. Failed reads are not cached. Nothing new is stored in the database.
+  - The post goes to the drafter inside `<post>` tags (tag look-alikes removed) and to both reviewers as `post.text`. The drafter answers about the post's topic and, when the profile does not cover it, offers to send details in chat instead of pitching the profile's other products.
+  - A comment whose post could not be read is still drafted, but the reviewer always holds it ("post unknown").
+  - `/admin/comments` shows "On the post: …" (240 characters) on each card.
+  - Without `META_PAGE_TOKEN` drafts are written without the post.
 - A background worker (every 20 s) asks the main LLM to classify each new comment as `lead`, `question`, `complaint` or `other`, give a one-line reason, and draft a reply in the business's tone (`profile.Prompt`).
   - `other` is ignored.
   - A failed model call leaves the comment for a later pass, behind comments that have not failed. After 3 failures it goes to the owner unscored ("Not sorted").
