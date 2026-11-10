@@ -1,10 +1,9 @@
 module Enterprise::Conversation
   attr_accessor :captain_activity_reason, :captain_activity_reason_type
 
-  def captain_assigned?(assistant = nil)
-    return false unless ai_assignee_type == 'Captain::Assistant'
-
-    assistant.nil? || assignee_agent_bot_id == assistant.id
+  def captain_handling?(assistant = nil)
+    pending? && ai_assignee_type == 'Captain::Assistant' &&
+      (assistant.nil? || assignee_agent_bot_id == assistant.id)
   end
 
   def can_reply?

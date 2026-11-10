@@ -9,26 +9,26 @@ module Enterprise::MessageTemplates::HookExecutionService
     # otherwise the coverage denominator only ever contains conversations
     # Captain was already about to answer.
     track_captain_eligibility
-    return unless captain_handling_conversation?
+    return unless conversation.captain_handling?
     return perform_handoff unless inbox.captain_active?
 
     Captain::Conversation::ResponseSchedulerService.new(message: message).perform
   end
 
   def should_send_greeting?
-    return false if captain_handling_conversation?
+    return false if conversation.captain_handling?
 
     super
   end
 
   def should_send_out_of_office_message?
-    return false if captain_handling_conversation?
+    return false if conversation.captain_handling?
 
     super
   end
 
   def should_send_email_collect?
-    return false if captain_handling_conversation?
+    return false if conversation.captain_handling?
 
     super
   end
@@ -43,7 +43,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def captain_conversation_message?
-    message.captain_response_triggering? && captain_assistant_configured? && !inbox.external_bot_active?
+    message.captain_response_triggering? && inbox.captain_assistant.present? && !inbox.external_bot_active?
   end
 
   def perform_handoff
@@ -72,13 +72,5 @@ module Enterprise::MessageTemplates::HookExecutionService
     return if conversation.campaign.present?
 
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation)
-  end
-
-  def captain_handling_conversation?
-    conversation.pending? && conversation.captain_assigned?
-  end
-
-  def captain_assistant_configured?
-    inbox.captain_assistant.present?
   end
 end

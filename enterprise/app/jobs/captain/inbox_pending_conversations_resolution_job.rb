@@ -63,7 +63,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def resolvable?(conversation)
-    conversation.pending? && conversation.captain_assigned?(captain_assistant) && conversation.last_activity_at < inactivity_cutoff_time
+    conversation.captain_handling?(captain_assistant) && conversation.last_activity_at < inactivity_cutoff_time
   end
 
   def still_resolvable_after_evaluation?(conversation)
@@ -74,14 +74,9 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def resolve_time_based_conversation(conversation, _inbox)
-    resolved = false
-    conversation.with_lock do
-      conversation.reload
-      next unless resolvable?(conversation)
-
+    resolved = perform_locked_transition(conversation) do
       create_resolution_message(conversation)
       conversation.resolved!
-      resolved = true
     end
     return unless resolved
 
@@ -142,7 +137,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def perform_locked_transition(conversation)
     conversation.with_lock do
-      conversation.reload
       next false unless resolvable?(conversation)
 
       yield

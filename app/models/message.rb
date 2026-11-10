@@ -447,17 +447,11 @@ class Message < ApplicationRecord
 
   def reopen_resolved_conversation
     agent_bot = agent_bot_for_reopen
+    return reopen_with_ai_assignee(agent_bot) if agent_bot
+    return conversation.pending! if conversation.inbox.active_bot?
 
-    if agent_bot.present?
-      reopen_with_ai_assignee(agent_bot)
-    elsif conversation.inbox.active_bot?
-      conversation.pending!
-    elsif conversation.inbox.api?
-      Current.executed_by = sender if reopened_by_contact?
-      conversation.open!
-    else
-      conversation.open!
-    end
+    Current.executed_by = sender if conversation.inbox.api? && reopened_by_contact?
+    conversation.open!
   end
 
   def agent_bot_for_reopen
