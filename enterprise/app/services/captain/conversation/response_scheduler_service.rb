@@ -4,7 +4,7 @@ class Captain::Conversation::ResponseSchedulerService
   def initialize(message:)
     @message = message
     @conversation = message.conversation
-    @assistant = message.inbox.captain_assistant
+    @assistant = @conversation.ai_assignee
   end
 
   def perform

@@ -6,7 +6,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   let(:assistant) { create(:captain_assistant, account: account) }
 
   describe '#perform' do
-    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
+    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending, ai_assignee: assistant) }
     let(:mock_agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
     let!(:responding_to_message) { create(:message, conversation: conversation, content: 'Hello', message_type: :incoming) }
     let(:v2_response_parts) { [{ 'text' => 'Hey, welcome to Captain V2', 'citation_indexes' => [] }] }
@@ -25,6 +25,30 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
     end
 
+    %w[resolved snoozed].each do |status|
+      it "does not reply to a #{status} conversation even when the assistant remains assigned" do
+        conversation.update!(status: status)
+        expect(mock_agent_runner_service).not_to receive(:generate_response)
+
+        described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+        expect(conversation.reload).to have_attributes(status: status, ai_assignee: assistant)
+      end
+    end
+
+    [nil, :agent_bot, :captain_assistant].each do |owner_factory|
+      it "skips a pending conversation assigned to #{owner_factory || 'no AI'} instead of this assistant" do
+        owner = create(owner_factory, account: account) if owner_factory
+        conversation.update!(ai_assignee: owner)
+
+        expect(mock_agent_runner_service).not_to receive(:generate_response)
+
+        described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+        expect(conversation.messages.outgoing).to be_empty
+      end
+    end
+
     context 'when captain_v2 is enabled' do
       before do
         allow(account).to receive(:feature_enabled?).and_return(false)
@@ -32,6 +56,20 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       context 'with message burst protection' do
+        it 'does not deliver or charge when ownership changes during generation while still pending' do
+          other_assistant = create(:captain_assistant, account: account)
+          allow(mock_agent_runner_service).to receive(:generate_response) do
+            Conversation.find(conversation.id).update!(ai_assignee: other_assistant)
+            { 'response' => 'Stale reply' }
+          end
+
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+          expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: other_assistant)
+          expect(conversation.messages.outgoing).to be_empty
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        end
+
         it 'passes the responding message id to the runner' do
           expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
             assistant: assistant,

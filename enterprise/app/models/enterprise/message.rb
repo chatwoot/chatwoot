@@ -41,10 +41,11 @@ module Enterprise::Message
   def reopen_resolved_conversation
     assistant = conversation.inbox.captain_assistant
 
-    return super if assistant.blank? || conversation.inbox.external_bot_active?
+    return super if assistant.blank? || conversation.inbox.external_bot_active? || conversation.ai_assignee.is_a?(AgentBot)
     return conversation.open! unless assistant.engages?(conversation.contact, conversation)
+    return super unless conversation.inbox.captain_active?
 
-    super
+    reopen_with_ai_assignee(assistant)
   end
 
   def mark_pending_conversation_as_open_for_human_response
@@ -59,7 +60,6 @@ module Enterprise::Message
     Current.executed_by = nil
 
     begin
-      conversation.ai_assignee = nil if conversation.ai_assignee_type == 'Captain::Assistant'
       conversation.open!
       return unless conversation.saved_change_to_status?
 
@@ -71,9 +71,7 @@ module Enterprise::Message
   end
 
   def captain_pending_conversation?
-    return false unless conversation.pending?
-
-    ::CaptainInbox.exists?(inbox_id: conversation.inbox_id)
+    conversation.pending? && conversation.captain_assigned?
   end
 
   def template_bootstrap_message?

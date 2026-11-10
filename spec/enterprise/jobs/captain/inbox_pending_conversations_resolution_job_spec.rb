@@ -2,8 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   let!(:inbox) { create(:inbox) }
-  let!(:resolvable_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 2.hours.ago, status: :pending) }
-  let!(:recent_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.minute.ago, status: :pending) }
+  let!(:resolvable_pending_conversation) do
+    create(:conversation, inbox: inbox, last_activity_at: 2.hours.ago, status: :pending, ai_assignee: captain_assistant)
+  end
+  let!(:recent_pending_conversation) do
+    create(:conversation, inbox: inbox, last_activity_at: 1.minute.ago, status: :pending, ai_assignee: captain_assistant)
+  end
   let!(:open_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.hour.ago, status: :open) }
   let!(:captain_assistant) { create(:captain_assistant, account: inbox.account, config: { 'auto_resolve_mode' => 'evaluated' }) }
 
@@ -16,6 +20,18 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   it 'queues the job' do
     expect { described_class.perform_later(inbox) }
       .to have_enqueued_job.on_queue('low')
+  end
+
+  [nil, :agent_bot, :captain_assistant].each do |owner_factory|
+    it "does not resolve an inactive pending conversation assigned to #{owner_factory || 'no AI'} instead of this assistant" do
+      owner = create(owner_factory, account: inbox.account) if owner_factory
+      resolvable_pending_conversation.update!(ai_assignee: owner)
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload).to have_attributes(status: 'pending', ai_assignee: owner)
+      expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+    end
   end
 
   context 'when the assistant is deleted before the queued job runs' do
@@ -135,6 +151,21 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       described_class.perform_now(inbox)
 
       expect(resolvable_pending_conversation.reload.status).to eq('pending')
+      expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+    end
+
+    it 'skips auto-action when ownership changes during evaluation while still pending' do
+      other_assistant = create(:captain_assistant, account: inbox.account)
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform) do
+        resolvable_pending_conversation.update!(ai_assignee: other_assistant)
+        { complete: true, reason: 'Done' }
+      end
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload).to have_attributes(status: 'pending', ai_assignee: other_assistant)
       expect(resolvable_pending_conversation.messages.outgoing).to be_empty
     end
 

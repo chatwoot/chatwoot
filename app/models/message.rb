@@ -446,8 +446,11 @@ class Message < ApplicationRecord
   end
 
   def reopen_resolved_conversation
-    # mark resolved bot conversation as pending to be reopened by bot processor service
-    if conversation.inbox.active_bot?
+    agent_bot = agent_bot_for_reopen
+
+    if agent_bot.present?
+      reopen_with_ai_assignee(agent_bot)
+    elsif conversation.inbox.active_bot?
       conversation.pending!
     elsif conversation.inbox.api?
       Current.executed_by = sender if reopened_by_contact?
@@ -455,6 +458,20 @@ class Message < ApplicationRecord
     else
       conversation.open!
     end
+  end
+
+  def agent_bot_for_reopen
+    return conversation.ai_assignee if conversation.ai_assignee.is_a?(AgentBot)
+
+    conversation.inbox.agent_bot if conversation.inbox.agent_bot_inbox&.active?
+  end
+
+  def reopen_with_ai_assignee(ai_assignee)
+    return conversation.open! if conversation.assignee_id.present?
+
+    Conversations::AssignmentService.new(
+      conversation: conversation, assignee_id: ai_assignee.id, assignee_type: ai_assignee.class.polymorphic_name
+    ).perform
   end
 
   def reopened_by_contact?

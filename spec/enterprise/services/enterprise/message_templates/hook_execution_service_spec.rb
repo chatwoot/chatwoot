@@ -13,6 +13,25 @@ RSpec.describe MessageTemplates::HookExecutionService do
   end
 
   context 'when captain assistant is configured' do
+    [nil, :agent_bot, :user].each do |owner_factory|
+      it "does not schedule Captain when a pending conversation belongs to #{owner_factory || 'no owner'}" do
+        owner = create(owner_factory, account: account) if owner_factory
+        conversation.update!(owner_factory == :user ? { assignee: owner } : { ai_assignee: owner })
+        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+      end
+    end
+
+    it 'schedules the assigned assistant rather than a newly connected inbox assistant' do
+      conversation
+      other_assistant = create(:captain_assistant, account: account)
+      inbox.captain_inbox.update!(captain_assistant: other_assistant)
+      expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant, kind_of(Integer))
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+    end
+
     it 'hands off a pending Captain conversation when the feature is disabled' do
       conversation.update!(ai_assignee: assistant)
       account.disable_features!('captain_integration')

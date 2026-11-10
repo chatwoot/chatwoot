@@ -4,7 +4,7 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :open) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :pending, ai_assignee: assistant) }
   let(:tool) { described_class.new(assistant) }
   let(:tool_context) { Struct.new(:state).new({ conversation: { id: conversation.id } }) }
 
@@ -18,6 +18,15 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
 
   describe 'resolving a conversation' do
     before { account.enable_features('captain_integration') }
+
+    it 'does not resolve another assistant\'s pending conversation' do
+      other_assistant = create(:captain_assistant, account: account)
+      conversation.update!(ai_assignee: other_assistant)
+
+      expect { tool.perform(tool_context, reason: 'Done') }.not_to change(Message, :count)
+
+      expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: other_assistant)
+    end
 
     it 'marks resolved and enqueues an activity message with the reason' do
       tool.perform(tool_context, reason: 'Possible spam')
@@ -50,7 +59,7 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
       end.to raise_error(ActiveRecord::RecordInvalid)
         .and(not_change { conversation.messages.outgoing.where(private: false).count })
 
-      expect(conversation.reload).to be_open
+      expect(conversation.reload).to be_pending
     end
 
     it 'resolves without a message when resolution messages are disabled' do

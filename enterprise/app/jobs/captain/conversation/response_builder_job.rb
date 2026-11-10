@@ -13,7 +13,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @assistant = assistant
     @responding_to_message_id = responding_to_message_id
 
-    return log_non_pending unless conversation_pending?
+    return log_not_owned unless conversation_owned?
 
     Current.executed_by = @assistant
 
@@ -63,7 +63,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       process_v2_handoff_response
     elsif v2_generation_errored?
       process_error_handoff
-    elsif conversation_pending?
+    elsif conversation_owned?
       process_standard_response
     end
   end
@@ -84,7 +84,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_v2_handoff_response
-    return unless v2_handoff_tool_completed? || conversation_pending?
+    return unless v2_handoff_tool_completed? || conversation_owned?
 
     v2_handoff_tool_completed? ? process_v2_handoff : process_failure_handoff
     record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TOOL) unless v2_handoff_tool_completed?
@@ -149,7 +149,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_error_handoff
-    return unless conversation_pending?
+    return unless conversation_owned?
     return if newer_customer_message_arrived?
 
     process_failure_handoff

@@ -9,7 +9,7 @@ module Enterprise::MessageTemplates::HookExecutionService
     # otherwise the coverage denominator only ever contains conversations
     # Captain was already about to answer.
     track_captain_eligibility
-    return unless conversation.pending?
+    return unless captain_handling_conversation?
     return perform_handoff unless inbox.captain_active?
 
     Captain::Conversation::ResponseSchedulerService.new(message: message).perform
@@ -47,6 +47,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def perform_handoff
+    assistant = conversation.ai_assignee
     Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
     conversation.messages.create!(
       message_type: :outgoing,
@@ -57,7 +58,7 @@ module Enterprise::MessageTemplates::HookExecutionService
     conversation.bot_handoff!
     Captain::ConversationEvents.handed_off(
       conversation: conversation,
-      assistant: inbox.captain_assistant,
+      assistant: assistant,
       source: Captain::ConversationEvents::Sources::USAGE_LIMIT,
       reason_category: :usage_limit,
       at: Time.current
@@ -74,7 +75,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def captain_handling_conversation?
-    conversation.pending? && captain_assistant_configured?
+    conversation.pending? && conversation.captain_assigned?
   end
 
   def captain_assistant_configured?

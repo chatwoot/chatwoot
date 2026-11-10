@@ -35,7 +35,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   def trigger_handoff(tool_context, conversation, reason, reason_category)
     note = nil
     handoff_result = conversation.with_lock do
-      next :changed unless conversation.pending?
+      next :changed unless conversation.pending? && conversation.captain_assigned?(@assistant)
       next :stale if newer_customer_message_arrived?(tool_context.state)
 
       # post the reason as a private note

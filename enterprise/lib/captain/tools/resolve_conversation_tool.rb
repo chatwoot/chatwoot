@@ -7,6 +7,9 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
     return failure_result('Conversation not found', tool_context.state) unless conversation
     return failure_result("Conversation ##{conversation.display_id} is already resolved", tool_context.state) if conversation.resolved?
     return failure_result('Auto-resolve is disabled for this assistant', tool_context.state) if @assistant.inactive_conversation_resolution_disabled?
+    unless conversation.pending? && conversation.captain_assigned?(@assistant)
+      return failure_result('Conversation is no longer assigned to this assistant', tool_context.state)
+    end
 
     log_tool_usage('resolve_conversation', { conversation_id: conversation.id, reason: reason })
 

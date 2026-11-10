@@ -57,16 +57,18 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def resolvable_pending_conversations(inbox)
-    inbox.conversations.pending
+    inbox.conversations.pending.where(ai_assignee: captain_assistant)
          .where('last_activity_at < ?', inactivity_cutoff_time)
          .limit(Limits::BULK_ACTIONS_LIMIT)
   end
 
-  def inactive_for_initial_action?(conversation) = conversation.last_activity_at < inactivity_cutoff_time
+  def resolvable?(conversation)
+    conversation.pending? && conversation.captain_assigned?(captain_assistant) && conversation.last_activity_at < inactivity_cutoff_time
+  end
 
   def still_resolvable_after_evaluation?(conversation)
     conversation.reload
-    conversation.pending? && inactive_for_initial_action?(conversation)
+    resolvable?(conversation)
   rescue ActiveRecord::RecordNotFound
     false
   end
@@ -75,7 +77,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     resolved = false
     conversation.with_lock do
       conversation.reload
-      next unless conversation.pending? && inactive_for_initial_action?(conversation)
+      next unless resolvable?(conversation)
 
       create_resolution_message(conversation)
       conversation.resolved!
@@ -141,7 +143,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def perform_locked_transition(conversation)
     conversation.with_lock do
       conversation.reload
-      next false unless conversation.pending? && inactive_for_initial_action?(conversation)
+      next false unless resolvable?(conversation)
 
       yield
       true

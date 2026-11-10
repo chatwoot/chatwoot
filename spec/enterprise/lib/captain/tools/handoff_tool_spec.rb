@@ -7,7 +7,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
   let(:user) { create(:user, account: account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:contact) { create(:contact, account: account) }
-  let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, status: :pending) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, status: :pending, ai_assignee: assistant) }
   let(:tool_context) { Struct.new(:state).new({ conversation: { id: conversation.id } }) }
 
   describe '#description' do
@@ -37,6 +37,15 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
   end
 
   describe '#perform' do
+    it 'does not hand off another assistant\'s pending conversation' do
+      other_assistant = create(:captain_assistant, account: account)
+      conversation.update!(ai_assignee: other_assistant)
+
+      expect { tool.perform(tool_context, reason: 'Transfer') }.not_to change(Message, :count)
+
+      expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: other_assistant)
+    end
+
     context 'when conversation exists' do
       context 'when Captain is responding to a customer message' do
         let(:responding_to_message) do

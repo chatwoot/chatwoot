@@ -288,10 +288,37 @@ RSpec.describe Message do
     let(:conversation) { create(:conversation) }
     let(:message) { build(:message, message_type: :incoming, conversation: conversation) }
 
-    it 'reopens resolved conversation when the message is from a contact' do
-      conversation.update!(status: :resolved, ai_assignee: create(:agent_bot, account: conversation.account))
+    it 'resumes the assigned AgentBot without requiring an inbox connection' do
+      agent_bot = create(:agent_bot, account: conversation.account)
+      conversation.update!(status: :resolved, ai_assignee: agent_bot)
       message.save!
-      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
+      expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: agent_bot)
+    end
+
+    it 'reopens an unassigned resolved conversation for humans' do
+      conversation.resolved!
+      message.save!
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil)
+    end
+
+    it 'preserves the existing Dialogflow pending behavior for human-assigned conversations' do
+      create(:integrations_hook, :dialogflow, inbox: conversation.inbox, account: conversation.account)
+      agent = create(:user, account: conversation.account)
+      conversation.update!(status: :resolved, assignee: agent)
+
+      message.save!
+
+      expect(conversation.reload).to have_attributes(status: 'pending', assignee: agent, ai_assignee: nil)
+    end
+
+    it 'keeps human ownership when reopening in an AgentBot-connected inbox' do
+      create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: create(:agent_bot, account: conversation.account))
+      agent = create(:user, account: conversation.account)
+      conversation.update!(status: :resolved, assignee: agent)
+
+      message.save!
+
+      expect(conversation.reload).to have_attributes(status: 'open', assignee: agent, ai_assignee: nil)
     end
 
     it 'reopens snoozed conversation when the message is from a contact' do

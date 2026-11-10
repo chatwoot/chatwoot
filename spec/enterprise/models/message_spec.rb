@@ -69,14 +69,31 @@ RSpec.describe Message do
 
     before do
       create(:captain_inbox, inbox: conversation.inbox, captain_assistant: captain_assistant)
+      conversation.update!(ai_assignee: captain_assistant)
     end
 
     it 'opens the conversation and clears Captain ownership when a human sends a public outgoing message' do
-      conversation.update!(ai_assignee: captain_assistant)
-
       create(:message, message_type: :outgoing, conversation: conversation)
 
       expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
+    end
+
+    it 'keeps a manually pending human conversation pending' do
+      agent = create(:user, account: conversation.account)
+      conversation.update!(assignee: agent)
+
+      create(:message, message_type: :outgoing, conversation: conversation, sender: agent)
+
+      expect(conversation.reload).to have_attributes(status: 'pending', assignee: agent, ai_assignee: nil)
+    end
+
+    it 'does not treat an AgentBot assignment as Captain ownership' do
+      agent_bot = create(:agent_bot, account: conversation.account)
+      conversation.update!(ai_assignee: agent_bot)
+
+      create(:message, message_type: :outgoing, conversation: conversation)
+
+      expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: agent_bot)
     end
 
     it 'creates an activity message when a human sends a public outgoing message' do
@@ -146,6 +163,25 @@ RSpec.describe Message do
       create(:message, conversation: conversation, message_type: :incoming)
 
       expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: assistant)
+    end
+
+    it 'explicitly assigns Captain when an unassigned resolved conversation returns to AI handling' do
+      account.enable_features!('captain_integration')
+      conversation.update!(ai_assignee: nil)
+
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect(conversation.reload).to have_attributes(status: 'pending', ai_assignee: assistant)
+    end
+
+    it 'preserves human ownership instead of inferring Captain ownership from the inbox' do
+      account.enable_features!('captain_integration')
+      agent = create(:user, account: account)
+      conversation.update!(assignee: agent)
+
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect(conversation.reload).to have_attributes(status: 'open', assignee: agent, ai_assignee: nil)
     end
 
     it 'opens a resolved conversation and clears Captain when the feature is disabled' do
