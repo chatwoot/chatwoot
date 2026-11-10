@@ -141,6 +141,12 @@ type Runner struct {
 	// SetNow sets the bot's clock for the next case; the zero time means
 	// the real time. Optional.
 	SetNow func(t time.Time)
+	// SkipRateLimited marks a case skipped instead of failed when the bot or
+	// the judge could not finish because the AI provider answered 429 (rate
+	// limit or no credit), even after its fallback. Skipped cases are left
+	// out of the pass rate; callers should still require enough completed
+	// cases.
+	SkipRateLimited bool
 }
 
 // Result is the outcome of one case.
@@ -149,6 +155,7 @@ type Result struct {
 	Reply   string
 	Handoff bool
 	Pass    bool
+	Skipped bool // not finished: the AI provider was rate-limited (Runner.SkipRateLimited)
 	Reason  string
 	Err     error
 	// RAG metrics from the judge; nil when not scored.
@@ -161,7 +168,19 @@ type Result struct {
 type Report struct {
 	Results []Result
 	Passed  int
+	Skipped int  // cases left unfinished because the AI provider was rate-limited
 	Verbose bool // also print the reply of passing cases
+}
+
+// Completed is how many cases ran to a verdict (not skipped).
+func (r Report) Completed() int { return len(r.Results) - r.Skipped }
+
+// PassRate is Passed over the completed cases; 0 when none completed.
+func (r Report) PassRate() float64 {
+	if r.Completed() == 0 {
+		return 0
+	}
+	return float64(r.Passed) / float64(r.Completed())
 }
 
 // Validate checks a cases file before anything is spent on model calls.
@@ -229,6 +248,11 @@ func Run(ctx context.Context, r Runner, cases []Case) Report {
 	var rep Report
 	for _, c := range cases {
 		res := r.runCase(ctx, c)
+		if r.SkipRateLimited && res.Err != nil && llm.IsRateLimited(res.Err) {
+			res.Skipped, res.Pass = true, false
+			res.Reason = "skipped: the AI provider was rate-limited (429): " + res.Err.Error()
+			rep.Skipped++
+		}
 		if res.Pass {
 			rep.Passed++
 		}
@@ -398,6 +422,10 @@ func (r Report) Write(w io.Writer) {
 		if res.Pass {
 			mark = "PASS"
 		}
+		if res.Skipped {
+			fmt.Fprintf(w, "SKIP %s [%s]\n     why:   %s\n", res.Case.Name, res.Case.Expect, res.Reason)
+			continue
+		}
 		fmt.Fprintf(w, "%s %s [%s]\n", mark, res.Case.Name, res.Case.Expect)
 		if !res.Pass {
 			fmt.Fprintf(w, "     why:   %s\n", res.Reason)
@@ -418,11 +446,14 @@ func (r Report) Write(w io.Writer) {
 			t.pass++
 		}
 	}
-	fmt.Fprintf(w, "\nPassed %d/%d", r.Passed, len(r.Results))
+	fmt.Fprintf(w, "\nPassed %d/%d", r.Passed, r.Completed())
 	for _, e := range []string{ExpectAnswer, ExpectUnknown, ExpectHandoff} {
 		if t := by[e]; t != nil {
 			fmt.Fprintf(w, " · %s %d/%d", e, t.pass, t.total)
 		}
+	}
+	if r.Skipped > 0 {
+		fmt.Fprintf(w, " · skipped %d (AI provider rate-limited)", r.Skipped)
 	}
 	fmt.Fprintln(w)
 	writeMetrics(w, r.Results)
@@ -435,11 +466,12 @@ func (r Report) WriteJSON(w io.Writer) error {
 		Reply   string `json:"reply"`
 		Handoff bool   `json:"handoff"`
 		Pass    bool   `json:"pass"`
+		Skipped bool   `json:"skipped,omitempty"`
 		Reason  string `json:"reason,omitempty"`
 	}
 	rows := make([]row, len(r.Results))
 	for i, res := range r.Results {
-		rows[i] = row{Name: res.Case.Name, Reply: res.Reply, Handoff: res.Handoff, Pass: res.Pass, Reason: res.Reason}
+		rows[i] = row{Name: res.Case.Name, Reply: res.Reply, Handoff: res.Handoff, Pass: res.Pass, Skipped: res.Skipped, Reason: res.Reason}
 	}
 	enc := json.NewEncoder(w)
 	enc.SetIndent("", " ")

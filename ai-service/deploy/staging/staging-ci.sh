@@ -11,7 +11,9 @@
 #   containers  name<TAB>status of every staging container
 #   smoke       seed the sample shop (idempotent) into test account 9001 and
 #               run the answer smoke check there, so whatever is being tried
-#               on the real staging accounts cannot change its result
+#               on the real staging accounts cannot change its result.
+#               Cases the AI provider could not finish (429 even after the
+#               fallback) are skipped; at least 5 of 15 must complete.
 set -eu
 
 staging_prefix() {
@@ -31,7 +33,7 @@ case "${SSH_ORIGINAL_COMMAND:-}" in
     exec timeout 900 docker exec "$prefix-stg-ai-service-1" /answer-eval \
       -seed-kb /testdata/sample-kb/faq.json -seed-profile /testdata/sample-kb/profile.json \
       -seed-account 9001 -account 9001 -cases /testdata/answers-smoke.json \
-      -min-pass 0.8 -strict-faithful
+      -min-pass 0.8 -strict-faithful -skip-rate-limited -min-completed 5
     ;;
   *)
     echo "refused: staging-ci accepts only free-gb, containers or smoke" >&2

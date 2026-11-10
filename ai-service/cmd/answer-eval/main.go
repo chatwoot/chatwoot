@@ -54,6 +54,8 @@ func run() error {
 	seedKB := flag.String("seed-kb", "", "first load this JSON list of {question, answer} FAQs into -seed-account (empty test databases only, for CI)")
 	seedAccount := flag.Int64("seed-account", 1, "account that -seed-kb and -seed-profile load into")
 	seedProfile := flag.String("seed-profile", "", "first load this JSON business profile into -seed-account (refused if that account holds another business's profile)")
+	skipLimited := flag.Bool("skip-rate-limited", false, "count a case the AI provider could not finish (429, even after the fallback) as skipped, not failed; the pass rate is over completed cases")
+	minCompleted := flag.Int("min-completed", 0, "with -skip-rate-limited: fail unless at least this many cases completed")
 	account := flag.Int64("account", 0, "run every case as this account (the smoke check's own test account); 0 keeps each case's account_id")
 	flag.Parse()
 
@@ -156,12 +158,13 @@ func run() error {
 		current.Primary.Model, judgeSettings.Primary.Model, judgeBackupLabel, rewriteLabel, len(cases))
 	started := time.Now()
 	rep := answereval.Run(ctx, answereval.Runner{
-		Answerer: b,
-		Media:    b,
-		Handoff:  handoff.New(cfg.HandoffKeywords),
-		Judge:    answereval.LLMJudge{LLM: judge, Backup: judgeBackup, BackupUsed: backupVerdicts},
-		Split:    bot.SplitHandoff,
-		SetNow:   func(t time.Time) { caseNow = t },
+		Answerer:        b,
+		Media:           b,
+		Handoff:         handoff.New(cfg.HandoffKeywords),
+		Judge:           answereval.LLMJudge{LLM: judge, Backup: judgeBackup, BackupUsed: backupVerdicts},
+		Split:           bot.SplitHandoff,
+		SetNow:          func(t time.Time) { caseNow = t },
+		SkipRateLimited: *skipLimited,
 		Profile: func(ctx context.Context, acct int64) string {
 			p, err := profiles.Get(ctx, acct)
 			if err != nil {
@@ -183,7 +186,11 @@ func run() error {
 		fmt.Printf("Judge: the primary was rate-limited (429); %d of %d verdicts came from the backup judge %s\n",
 			n, len(rep.Results), judgeBackupLabel)
 	}
-	if len(rep.Results) > 0 && float64(rep.Passed)/float64(len(rep.Results)) < *minPass {
+	if *skipLimited && rep.Completed() < *minCompleted {
+		return fmt.Errorf("only %d of %d cases completed (the AI provider was rate-limited); at least %d are needed",
+			rep.Completed(), len(rep.Results), *minCompleted)
+	}
+	if len(rep.Results) > 0 && rep.PassRate() < *minPass {
 		return fmt.Errorf("pass rate below %.2f", *minPass)
 	}
 	if n := rep.Unfaithful(); *strictFaithful && n > 0 {

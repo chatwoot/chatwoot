@@ -172,7 +172,9 @@ and marks `staging` red. Manual run with *fail_verify* proves the red path.
   `containers` and `smoke`. `smoke` seeds the sample café (FAQs and
   business profile from `testdata/sample-kb/`) into its own test account
   9001 and runs every case there, so whatever is tried on the real staging
-  accounts cannot change the release check. After changing the script,
+  accounts cannot change the release check. Cases the AI provider could not
+  finish (429 on the primary and the fallback) are reported as skipped and
+  left out of the pass rate; at least 5 must complete. After changing the script,
   copy it to `/usr/local/bin/staging-ci` on the VPS again. When appending to `authorized_keys`, make sure
   the file ends with a newline first: a key glued onto the previous line
   breaks both keys.
