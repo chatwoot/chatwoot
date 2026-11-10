@@ -29,6 +29,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/config"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/handoff"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/knowledge"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/memory"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/profile"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/settings"
@@ -83,6 +84,16 @@ func run() error {
 		judgeSettings.Primary.Model = *judgeModel
 	}
 	judge := settings.NewCompleter(judgeSettings, cfg.LLMTimeout, quiet)
+	// The judge stays on one model, but when the primary answers 429 (rate
+	// limit or no credit left) it grades with the backup provider instead
+	// of failing every case. The report says how often that happened.
+	var judgeBackup llm.Completer
+	judgeBackupLabel := "none"
+	if current.Fallback.Configured() {
+		judgeBackup = settings.NewCompleter(settings.LLM{Primary: current.Fallback}, cfg.LLMTimeout, quiet)
+		judgeBackupLabel = current.Fallback.Model
+	}
+	backupVerdicts := new(answereval.BackupCounter)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
 	defer cancel()
@@ -132,14 +143,14 @@ func run() error {
 	if !*noRewrite {
 		rewriteLabel = rewriteSettings.Primary.Model
 	}
-	fmt.Printf("model %s · judge %s · rewrite %s · %d cases\n\n",
-		current.Primary.Model, judgeSettings.Primary.Model, rewriteLabel, len(cases))
+	fmt.Printf("model %s · judge %s (backup on 429: %s) · rewrite %s · %d cases\n\n",
+		current.Primary.Model, judgeSettings.Primary.Model, judgeBackupLabel, rewriteLabel, len(cases))
 	started := time.Now()
 	rep := answereval.Run(ctx, answereval.Runner{
 		Answerer: b,
 		Media:    b,
 		Handoff:  handoff.New(cfg.HandoffKeywords),
-		Judge:    answereval.LLMJudge{LLM: judge},
+		Judge:    answereval.LLMJudge{LLM: judge, Backup: judgeBackup, BackupUsed: backupVerdicts},
 		Split:    bot.SplitHandoff,
 		SetNow:   func(t time.Time) { caseNow = t },
 		Profile: func(ctx context.Context, acct int64) string {
@@ -159,6 +170,10 @@ func run() error {
 	rep.Write(os.Stdout)
 	elapsed := time.Since(started)
 	fmt.Printf("Took %s (%.1fs per case)\n", elapsed.Round(time.Second), elapsed.Seconds()/float64(max(len(cases), 1)))
+	if n := backupVerdicts.Load(); n > 0 {
+		fmt.Printf("Judge: the primary was rate-limited (429); %d of %d verdicts came from the backup judge %s\n",
+			n, len(rep.Results), judgeBackupLabel)
+	}
 	if len(rep.Results) > 0 && float64(rep.Passed)/float64(len(rep.Results)) < *minPass {
 		return fmt.Errorf("pass rate below %.2f", *minPass)
 	}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -116,5 +117,28 @@ func TestComplete_SendsMaxTokensOnlyWhenSet(t *testing.T) {
 	}
 	if bodies[1]["max_tokens"] != float64(1024) {
 		t.Errorf("max_tokens = %v, want 1024", bodies[1]["max_tokens"])
+	}
+}
+
+func TestComplete_ErrorStatusIsTyped(t *testing.T) {
+	// Arrange
+	c := serve(t, 429, `{"error":{"message":"You have no credits remaining."}}`, nil, nil)
+	bad := serve(t, 502, `<html>bad gateway</html>`, nil, nil)
+
+	// Act
+	_, err := c.Complete(context.Background(), nil)
+	_, badErr := bad.Complete(context.Background(), nil)
+
+	// Assert
+	var se *StatusError
+	if !errors.As(err, &se) || se.Code != 429 || err.Error() != "llm status 429: You have no credits remaining." {
+		t.Fatalf("err = %#v", err)
+	}
+	if !errors.As(badErr, &se) || se.Code != 502 {
+		t.Fatalf("invalid JSON error = %#v, want a StatusError with 502", badErr)
+	}
+	wrapped := fmt.Errorf("primary: %w", err)
+	if !IsRateLimited(wrapped) || IsRateLimited(badErr) || IsRateLimited(errors.New("llm status 429")) {
+		t.Error("IsRateLimited must match only a typed 429, through wrapping")
 	}
 }

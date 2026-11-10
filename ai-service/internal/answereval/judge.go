@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"sync/atomic"
 
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/llm"
 )
@@ -16,7 +17,17 @@ type Completer interface {
 // LLMJudge grades a reply with a chat model.
 type LLMJudge struct {
 	LLM Completer
+	// Backup grades instead when LLM answers 429 (rate limit or, for OpenAI,
+	// no credit left), so a provider outage does not fail every case. It is
+	// used only for 429: other errors still fail, and the judge stays one
+	// model whenever the primary is available. Nil means no backup.
+	Backup Completer
+	// BackupUsed counts verdicts the backup gave, for the report. Optional.
+	BackupUsed *BackupCounter
 }
+
+// BackupCounter counts backup verdicts; safe for concurrent use.
+type BackupCounter struct{ atomic.Int64 }
 
 const judgeInstruction = `You grade replies from a customer support chatbot for a business.
 You get the conversation, the business profile and knowledge base excerpts the bot was given, the bot's last reply, and what was expected.
@@ -44,10 +55,21 @@ Reply with JSON only: {"pass": true|false, "reason": "<one short sentence>", "fa
 
 // Judge asks the model for a verdict.
 func (j LLMJudge) Judge(ctx context.Context, in JudgeInput) (Verdict, error) {
-	res, err := j.LLM.Complete(ctx, []llm.Message{
+	messages := []llm.Message{
 		{Role: "system", Content: judgeInstruction},
 		{Role: "user", Content: judgePrompt(in)},
-	})
+	}
+	res, err := j.LLM.Complete(ctx, messages)
+	if err != nil && j.Backup != nil && llm.IsRateLimited(err) && ctx.Err() == nil {
+		var backupErr error
+		if res, backupErr = j.Backup.Complete(ctx, messages); backupErr != nil {
+			return Verdict{}, fmt.Errorf("judge: %w; backup judge: %w", err, backupErr)
+		}
+		err = nil
+		if j.BackupUsed != nil {
+			j.BackupUsed.Add(1)
+		}
+	}
 	if err != nil {
 		return Verdict{}, err
 	}

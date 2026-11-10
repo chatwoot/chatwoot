@@ -127,14 +127,14 @@ func (c *Client) Complete(ctx context.Context, messages []Message) (Result, erro
 
 	var parsed chatResponse
 	if err := json.Unmarshal(raw, &parsed); err != nil {
-		return Result{}, fmt.Errorf("llm status %d: invalid json", resp.StatusCode)
+		return Result{}, &StatusError{Code: resp.StatusCode, Message: "invalid json"}
 	}
 	if resp.StatusCode/100 != 2 || parsed.Error != nil {
 		msg := ""
 		if parsed.Error != nil {
 			msg = parsed.Error.Message
 		}
-		return Result{}, fmt.Errorf("llm status %d: %s", resp.StatusCode, msg)
+		return Result{}, &StatusError{Code: resp.StatusCode, Message: msg}
 	}
 	if len(parsed.Choices) == 0 || strings.TrimSpace(parsed.Choices[0].Message.Content) == "" {
 		return Result{}, ErrEmptyResponse
