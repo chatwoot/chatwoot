@@ -112,7 +112,6 @@ class Voice::Conference::Manager
     complete_call!
   end
 
-  # An outbound contact may still be ringing outside the conference.
   def complete_call!
     status_manager.process_status_update('completed', timestamp: now)
     end_conference!
@@ -146,7 +145,6 @@ class Voice::Conference::Manager
 
   def failed_add? = agent_participant? && leave_reason == 'participant_add_failed'
 
-  # Failed legs never joined; replacement legs may still be connecting.
   def handle_failed_add!
     user_id = extract_user_id
     outcome = call.with_lock { failed_add_outcome(user_id) }
@@ -194,7 +192,6 @@ class Voice::Conference::Manager
     call.accepted_broadcast_at.present? ? 'completed' : 'failed'
   end
 
-  # Lock order: call, then conversation.
   def release_claim_assignment(user_id)
     return unless user_id && call.reload.ring_state['assigned_by_claim'] == user_id
 

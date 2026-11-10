@@ -21,7 +21,6 @@ class CallFinder
 
   private
 
-  # Ringing queries recover a phone's missed socket events and remain scoped to its agent.
   def filter_by_visibility
     own = @calls.where(accepted_by_agent_id: @current_user.id, conversation_id: accessible_conversations)
     if ringing_requested?

@@ -144,7 +144,6 @@ class Call < ApplicationRecord
 
   AGENT_LEG_JOIN_GRACE_SECONDS = 30
 
-  # Seconds until all pending legs expire, or nil when none are pending.
   def agent_leg_join_wait(except: nil)
     now = Time.zone.now.to_i
     joining = agent_legs.except(except.to_s).values.select { |leg| leg['state'] == 'joining' && leg['at'].to_i > now - AGENT_LEG_JOIN_GRACE_SECONDS }
@@ -158,7 +157,6 @@ class Call < ApplicationRecord
   # The attempt ID links an API reservation to its matching TwiML request.
   def self.pending_agent_leg(attempt) = "pending:#{attempt}"
 
-  # Repeated TwiML requests preserve states already recorded by join and leave callbacks.
   def open_agent_leg!(sid, attempt: nil)
     with_lock do
       leg_state = agent_legs.dig(sid.to_s, 'state')
