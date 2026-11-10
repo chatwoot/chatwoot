@@ -10,11 +10,20 @@ class Webhooks::WhatsappController < ActionController::API
       return
     end
 
+    return head :ok if tracking_events_only?
+
     Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash)
     head :ok
   end
 
   private
+
+  def tracking_events_only?
+    return false unless params[:object] == 'whatsapp_business_account'
+
+    changes = params.fetch(:entry, []).flat_map { |entry| entry.fetch(:changes, []) }
+    changes.present? && changes.all? { |change| change[:field] == 'tracking_events' }
+  end
 
   def valid_token?(token)
     channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
@@ -35,10 +44,20 @@ class Webhooks::WhatsappController < ActionController::API
 
   def meta_signature_verification_required?
     return true if whatsapp_channel.blank?
-    return false unless whatsapp_channel.provider == 'whatsapp_cloud'
-    return true if channel_meta_app_secrets(whatsapp_channel).present?
 
-    whatsapp_channel.provider_config['source'] == 'embedded_signup'
+    whatsapp_channel.provider == 'whatsapp_cloud'
+  end
+
+  def verify_meta_signature!
+    return super unless app_secret_pending?
+    return if valid_meta_signature?
+
+    Rails.logger.warn("[WHATSAPP_APP_SECRET_PENDING] unverified webhook accepted account_id=#{whatsapp_channel.account_id} " \
+                      "channel_id=#{whatsapp_channel.id}")
+  end
+
+  def app_secret_pending?
+    whatsapp_channel&.app_secret_pending? && channel_meta_app_secrets(whatsapp_channel).blank?
   end
 
   def whatsapp_business_payload_channel

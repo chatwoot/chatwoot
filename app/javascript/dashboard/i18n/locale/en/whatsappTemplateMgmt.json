@@ -3,7 +3,7 @@
     "TITLE": "Templates",
     "DESCRIPTION": "View the message templates synced from your WhatsApp inboxes. To create or edit a template, manage it with your provider.",
     "COUNT": "{n} template | {n} templates",
-    "KNOW_MORE": "Know more",
+    "LEARN_MORE": "Learn more about WhatsApp templates",
     "SYNC_TEMPLATES": "Sync templates",
     "SYNC_SUCCESS": "Template sync started for all WhatsApp inboxes. Updates may take a couple of minutes.",
     "PARTIAL_SYNC_ERROR": "Template sync started for some WhatsApp inboxes, but others could not be synced.",

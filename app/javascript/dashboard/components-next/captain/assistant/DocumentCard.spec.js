@@ -91,4 +91,17 @@ describe('DocumentCard', () => {
       [{ action: 'viewDetails', id: 42 }],
     ]);
   });
+
+  it('renders Markdown uploads as non-syncable files', () => {
+    const wrapper = mountCard({
+      name: 'playground-knowledge.md',
+      externalLink: 'MARKDOWN: playground-knowledge_abcd1234.md',
+      markdownDocument: true,
+      syncable: false,
+    });
+
+    expect(wrapper.text()).toContain('playground-knowledge.md');
+    expect(wrapper.find('a').exists()).toBe(false);
+    expect(wrapper.find('document-sync-status-stub').exists()).toBe(false);
+  });
 });

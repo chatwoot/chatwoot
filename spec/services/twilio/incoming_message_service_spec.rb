@@ -16,6 +16,37 @@ describe Twilio::IncomingMessageService do
   end
 
   describe '#perform' do
+    context 'when a WhatsApp message replies to an earlier message' do
+      let!(:twilio_channel) do
+        create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                               inbox: create(:inbox, account: account, greeting_enabled: false))
+      end
+      let!(:contact) { create(:contact, account: account, phone_number: '+14155550123') }
+      let(:contact_inbox) do
+        create(:contact_inbox, source_id: 'whatsapp:+14155550123', contact: contact, inbox: twilio_channel.inbox)
+      end
+      let!(:original_message) { create(:message, :outgoing, conversation: conversation, source_id: 'SMoriginal') }
+
+      it 'persists the external reply SID and the original message ID' do
+        described_class.new(
+          params: {
+            SmsSid: 'SMreply',
+            From: contact_inbox.source_id,
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: twilio_channel.messaging_service_sid,
+            Body: 'This one, please',
+            OriginalRepliedMessageSid: original_message.source_id
+          }
+        ).perform
+
+        message = conversation.messages.find_by!(source_id: 'SMreply')
+        expect(message.content_attributes).to include(
+          'in_reply_to_external_id' => original_message.source_id,
+          'in_reply_to' => original_message.id
+        )
+      end
+    end
+
     it 'creates a new message in existing conversation' do
       params = {
         SmsSid: 'SMxx',
@@ -759,6 +790,41 @@ describe Twilio::IncomingMessageService do
           expect(last_conversation.messages.last.content).to eq('Test message from Brazil')
           # Should use the existing contact's source_id (normalized format)
           expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+5541988887777')
+        end
+
+        it 'reuses an existing contact in new format when the inbox has no contact inbox' do
+          existing_contact = create(:contact, account: account, phone_number: '+5541988887777')
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+554188887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Brazil',
+            ProfileName: 'João Silva'
+          }
+
+          expect { described_class.new(params: params).perform }.not_to change(account.contacts, :count)
+
+          contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:+554188887777')
+          expect(contact_inbox.contact).to eq(existing_contact)
+        end
+
+        it 'updates a normalized phone placeholder with the profile name' do
+          existing_contact = create(:contact, account: account, name: '+5541988887777', phone_number: '+5541988887777')
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+554188887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Brazil',
+            ProfileName: 'João Silva'
+          }
+
+          expect { described_class.new(params: params).perform }.not_to change(account.contacts, :count)
+
+          expect(existing_contact.reload.name).to eq('João Silva')
         end
 
         it 'creates contact inbox with incoming number when no existing contact' do

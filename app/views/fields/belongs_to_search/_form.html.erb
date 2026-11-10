@@ -1,0 +1,8 @@
+<%= render "field", f: f, field: field, attribute: field.permitted_attribute do %>
+  <%# The belongs_to_search gem turns selects inside this class into selectize inputs that search `data-url`. %>
+  <div class="field-unit--belongs-to-search">
+    <%= f.select(field.permitted_attribute, nil, {}, "data-url": polymorphic_url([namespace, field.associated_class], format: :json)) do %>
+      <%= options_for_select(field.associated_resource_options, field.selected_option) %>
+    <% end %>
+  </div>
+<% end %>

@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "رسالة جديدة في محادثة تشارك فيها",
       "SLA_MISSED_FIRST_RESPONSE": "تم تجاوز الهدف الأول للرد للمحادثة",
       "SLA_MISSED_NEXT_RESPONSE": "تم تجاوز الهدف التالي للرد للمحادثة",
-      "SLA_MISSED_RESOLUTION": "تم تجاوز الهدف النهائي للحل للمحادثة"
+      "SLA_MISSED_RESOLUTION": "تم تجاوز الهدف النهائي للحل للمحادثة",
+      "VOICE_CALL_MISSED": "Missed call"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "Mentioned",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "SLA breach",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "رسالة جديدة",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "رسالة جديدة",
+      "VOICE_CALL_MISSED": "Missed call",
       "SNOOZED_UNTIL": "Snoozed for {time}",
       "SNOOZED_ENDS": "Snooze ended"
     },

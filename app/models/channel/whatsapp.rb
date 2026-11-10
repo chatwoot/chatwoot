@@ -37,6 +37,7 @@ class Channel::Whatsapp < ApplicationRecord
   validates :provider, inclusion: { in: PROVIDERS }
   validates :phone_number, presence: true, uniqueness: true
   validate :validate_provider_config
+  validate :validate_app_secret, if: :app_secret_required?
 
   after_create :sync_templates
   after_update_commit :log_credentials_transfer, if: :saved_change_to_provider_config?
@@ -124,6 +125,10 @@ class Channel::Whatsapp < ApplicationRecord
     before&.dig('source') == 'embedded_signup' && after['source'] != 'embedded_signup'
   end
 
+  def app_secret_pending?
+    manual_cloud_setup? && provider_config['app_secret'].blank?
+  end
+
   def mark_message_templates_updated
     # rubocop:disable Rails/SkipsModelValidations
     update_column(:message_templates_last_updated, Time.zone.now)
@@ -136,8 +141,14 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
-  def setup_webhooks
-    perform_webhook_setup
+  def send_contact_info_request(identifier, message)
+    raise NotImplementedError, 'Contact information requests require a WhatsApp Cloud provider' unless provider == 'whatsapp_cloud'
+
+    Whatsapp::Providers::WhatsappCloudContactInfoRequestService.perform(self, identifier, message)
+  end
+
+  def setup_webhooks(is_coexistence: nil)
+    perform_webhook_setup(is_coexistence: is_coexistence)
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
     prompt_reauthorization!
@@ -153,6 +164,22 @@ class Channel::Whatsapp < ApplicationRecord
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
   end
 
+  def manual_cloud_setup?
+    provider == 'whatsapp_cloud' && provider_config['source'] != 'embedded_signup'
+  end
+
+  def app_secret_required?
+    return false unless manual_cloud_setup?
+
+    previous_config = provider_config_in_database.to_h
+    new_record? || provider_in_database != 'whatsapp_cloud' ||
+      previous_config['app_secret'].present? || previous_config['source'] == 'embedded_signup'
+  end
+
+  def validate_app_secret
+    errors.add(:provider_config, 'App secret is required') if provider_config['app_secret'].blank?
+  end
+
   # Logs only the embedded signup → manual migration (the save drops the
   # embedded_signup source marker), so credential rotations on inboxes that are
   # already manual stay silent.
@@ -163,12 +190,12 @@ class Channel::Whatsapp < ApplicationRecord
     Rails.logger.info("[WHATSAPP_EMBEDDED_TO_MANUAL] success account_id=#{account_id} channel_id=#{id}")
   end
 
-  def perform_webhook_setup
-    webhook_setup_service.perform
+  def perform_webhook_setup(is_coexistence: nil)
+    webhook_setup_service(is_coexistence: is_coexistence).perform
   end
 
-  def webhook_setup_service
-    Whatsapp::WebhookSetupService.new(self, provider_config['business_account_id'], provider_config['api_key'])
+  def webhook_setup_service(is_coexistence: nil)
+    Whatsapp::WebhookSetupService.new(self, provider_config['business_account_id'], provider_config['api_key'], is_coexistence: is_coexistence)
   end
 
   def teardown_webhooks
@@ -176,9 +203,10 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def should_auto_setup_webhooks?
-    # Only auto-setup webhooks for whatsapp_cloud provider with manual setup
-    # Embedded signup calls setup_webhooks explicitly in EmbeddedSignupService
-    provider == 'whatsapp_cloud' && provider_config['source'] != 'embedded_signup'
+    # Embedded signup and Manual V2 run webhook setup explicitly so their API
+    # responses can reflect the real result instead of swallowing callback errors.
+    explicitly_configured_sources = %w[embedded_signup manual_setup_v2]
+    provider == 'whatsapp_cloud' && explicitly_configured_sources.exclude?(provider_config['source'])
   end
 end
 

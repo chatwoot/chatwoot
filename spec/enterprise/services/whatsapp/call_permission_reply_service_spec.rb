@@ -87,6 +87,36 @@ describe Whatsapp::CallPermissionReplyService do
     )
   end
 
+  it 'matches and clears only the nested recipient request by context.id' do
+    conversation.update!(
+      additional_attributes: {
+        'call_permission_requests' => {
+          'IN.2081978709342942' => {
+            'call_permission_requested_at' => Time.current.iso8601,
+            'call_permission_request_message_id' => request_wamid
+          },
+          '15550001111' => {
+            'call_permission_requested_at' => Time.current.iso8601,
+            'call_permission_request_message_id' => 'wamid.permission_request_phone'
+          }
+        }
+      }
+    )
+    allow(ActionCable.server).to receive(:broadcast)
+
+    described_class.new(inbox: inbox, params: reply_params(response: 'accept')).perform
+
+    attrs = conversation.reload.additional_attributes
+    expect(attrs['call_permission_requests']).to include(
+      '15550001111' => include('call_permission_request_message_id' => 'wamid.permission_request_phone')
+    )
+    expect(attrs['call_permission_requests']).not_to include('IN.2081978709342942')
+    expect(ActionCable.server).to have_received(:broadcast).with(
+      "account_#{account.id}",
+      hash_including(data: hash_including(conversation_id: conversation.id))
+    )
+  end
+
   it 'is a no-op when the reply has no context.id' do
     allow(ActionCable.server).to receive(:broadcast)
 

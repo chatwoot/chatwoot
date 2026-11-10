@@ -44,9 +44,22 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hasPendingUploads: {
+    type: Function,
+    default: () => false,
+  },
+  hasNewerVersion: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['goBack', 'previewArticle', 'showDiff']);
+const emit = defineEmits([
+  'goBack',
+  'previewArticle',
+  'showDiff',
+  'reloadArticle',
+]);
 
 const { t } = useI18n();
 const store = useStore();
@@ -66,11 +79,20 @@ const isUpdatingArticle = computed(
   () => articleUiFlags.value(props.articleId).isUpdating
 );
 
-// Publishing while a save is still in flight would promote a stale draft, so we show an alert
-const blockedWhileSaving = () => {
-  if (!props.isSaving && !isUpdatingArticle.value) return false;
-  useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.SAVE_IN_PROGRESS'));
+const blockedByUploads = () => {
+  if (!props.hasPendingUploads()) return false;
+  useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
   return true;
+};
+
+// Publishing while a save is in flight would promote a stale draft; resolving
+// a draft while a file is uploading reloads the editor and drops the file.
+const blockedWhileBusy = () => {
+  if (props.isSaving || isUpdatingArticle.value) {
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.SAVE_IN_PROGRESS'));
+    return true;
+  }
+  return blockedByUploads();
 };
 
 const isPublished = computed(() => props.status === ARTICLE_STATUSES.PUBLISHED);
@@ -112,6 +134,11 @@ const statusText = computed(() =>
 const onClickGoBack = () => emit('goBack');
 
 const previewArticle = () => emit('previewArticle');
+
+const reloadArticle = () => {
+  if (blockedByUploads()) return;
+  emit('reloadArticle');
+};
 
 const getStatusMessage = (status, isSuccess) => {
   const messageType = isSuccess ? 'SUCCESS' : 'ERROR';
@@ -204,7 +231,7 @@ const discardDraftChanges = async () => {
 };
 
 const onPrimaryAction = () => {
-  if (blockedWhileSaving()) return;
+  if (blockedWhileBusy()) return;
   if (hasPendingChanges.value) {
     publishDraftChanges();
   } else if (props.pendingChanges) {
@@ -219,7 +246,7 @@ const onMenuAction = event => {
   showArticleActionMenu.value = false;
   // Don't resolve a draft while an autosave is still in flight — it could land
   // after and recreate the draft we just discarded/applied.
-  if (blockedWhileSaving()) return;
+  if (blockedWhileBusy()) return;
   if (event.action === 'discard-draft') {
     discardDraftChanges();
   } else {
@@ -246,26 +273,40 @@ const onDraftFailed = error => {
 </script>
 
 <template>
-  <div class="flex items-center justify-between h-20">
+  <div class="flex items-center justify-between gap-4 h-20">
     <Button
       :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.BACK_TO_ARTICLES')"
       icon="i-lucide-chevron-left"
       variant="link"
       color="slate"
       size="sm"
-      class="ltr:pl-3 rtl:pr-3"
+      class="ps-3 shrink-0"
       @click="onClickGoBack"
     />
-    <div class="flex items-center gap-4">
+    <div class="flex items-center min-w-0 gap-4">
+      <button
+        v-if="hasNewerVersion"
+        type="button"
+        :title="t('HELP_CENTER.EDIT_ARTICLE_PAGE.NEWER_VERSION.TOOLTIP')"
+        class="flex items-center min-w-0 gap-1.5 px-2 py-1 text-xs font-medium transition-colors rounded-lg cursor-pointer text-n-blue-11 bg-n-blue-3 outline outline-1 outline-n-blue-5 hover:bg-n-blue-4"
+        @click="reloadArticle"
+      >
+        <span class="i-lucide-refresh-cw size-3 shrink-0" />
+        <span class="truncate">
+          {{ t('HELP_CENTER.EDIT_ARTICLE_PAGE.NEWER_VERSION.LABEL') }}
+        </span>
+      </button>
       <button
         v-if="hasPendingChanges"
         type="button"
         :title="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.VIEW_CHANGES')"
-        class="flex items-center gap-1.5 px-2 py-1 text-xs font-medium transition-colors rounded-lg cursor-pointer text-n-amber-11 bg-n-amber-3 outline outline-1 outline-n-amber-5 hover:bg-n-amber-4"
+        class="flex items-center min-w-0 gap-1.5 px-2 py-1 text-xs font-medium transition-colors rounded-lg cursor-pointer text-n-amber-11 bg-n-amber-3 outline outline-1 outline-n-amber-5 hover:bg-n-amber-4"
         @click="emit('showDiff')"
       >
         <span class="rounded-full size-1.5 bg-n-amber-9 shrink-0" />
-        {{ t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PENDING_CHANGES') }}
+        <span class="truncate">
+          {{ t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PENDING_CHANGES') }}
+        </span>
       </button>
       <span
         v-if="isUpdating || isSaved"
@@ -273,7 +314,7 @@ const onDraftFailed = error => {
       >
         {{ statusText }}
       </span>
-      <div class="relative flex items-center gap-2">
+      <div class="relative flex items-center gap-2 shrink-0">
         <Button
           :label="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW')"
           color="slate"
@@ -321,6 +362,7 @@ const onDraftFailed = error => {
         <ArticlePendingChangesPopover
           ref="pendingChangesPopoverRef"
           :article-id="articleId"
+          :blocked="blockedWhileBusy"
           @resolved="onDraftResolved"
           @failed="onDraftFailed"
         />

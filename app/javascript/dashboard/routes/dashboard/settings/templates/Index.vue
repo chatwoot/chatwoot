@@ -32,9 +32,6 @@ const FUZZY_SEARCH_KEYS = [
   'searchableContent',
 ];
 
-const TEMPLATE_LEARN_MORE_URL =
-  'https://www.chatwoot.com/hc/user-guide/articles/1754940076-whatsapp-templates';
-
 const store = useStore();
 const { t } = useI18n();
 
@@ -342,24 +339,15 @@ onDeactivated(abortTemplateRequest);
       <BaseSettingsHeader
         v-model:search-query="searchQuery"
         :title="$t('WHATSAPP_TEMPLATE_MGMT.TITLE')"
+        :description="$t('WHATSAPP_TEMPLATE_MGMT.DESCRIPTION')"
+        :link-text="$t('WHATSAPP_TEMPLATE_MGMT.LEARN_MORE')"
+        feature-name="whatsapp_templates"
         :search-placeholder="
           showSearch ? $t('WHATSAPP_TEMPLATE_MGMT.SEARCH_PLACEHOLDER') : ''
         "
       >
-        <template #description>
-          {{ $t('WHATSAPP_TEMPLATE_MGMT.DESCRIPTION') }}
-          <a
-            :href="TEMPLATE_LEARN_MORE_URL"
-            class="text-sm font-medium text-n-blue-11 hover:underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {{ $t('WHATSAPP_TEMPLATE_MGMT.KNOW_MORE') }}
-          </a>
-          <span
-            v-if="lastSyncAttemptAt"
-            class="block mt-1 text-xs text-n-slate-10"
-          >
+        <template v-if="lastSyncAttemptAt" #meta>
+          <span class="text-xs text-n-slate-10">
             {{
               $t('WHATSAPP_TEMPLATE_MGMT.LAST_SYNC_ATTEMPT', {
                 date: formatTemplateDate(lastSyncAttemptAt),

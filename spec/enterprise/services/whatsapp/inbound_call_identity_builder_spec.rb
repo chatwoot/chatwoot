@@ -13,35 +13,41 @@ RSpec.describe Whatsapp::InboundCallIdentityBuilder do
 
   describe '#perform' do
     context 'when the inbox addresses identifiers' do
-      it 'leads with the business scoped user id and trails the phone' do
+      it 'leads with the phone when Meta still provides it' do
+        identity = described_class.new(inbox: cloud_inbox, params: params)
+                                  .perform({ from: '5541988887777', from_user_id: 'IN.2081978709342942' })
+
+        expect(identity[:source_ids]).to eq(['5541988887777', 'IN.2081978709342942'])
+      end
+
+      it 'keeps identifiers behind the phone when all are present' do
+        identity = described_class.new(inbox: cloud_inbox, params: params).perform(
+          { from: '5541988887777', from_user_id: 'IN.2081978709342942', from_parent_user_id: 'IN.ENT.2081978709342942' }
+        )
+
+        expect(identity[:source_ids]).to eq(['5541988887777', 'IN.ENT.2081978709342942', 'IN.2081978709342942'])
+      end
+
+      it 'uses the parent identifier first when the phone is absent' do
+        parent_only = described_class.new(inbox: cloud_inbox, params: params).perform(
+          { from_user_id: 'IN.2081978709342942', from_parent_user_id: 'IN.ENT.2081978709342942' }
+        )
+
+        expect(parent_only[:source_ids]).to eq(['IN.ENT.2081978709342942', 'IN.2081978709342942'])
+      end
+
+      it 'keeps a BSUID-only conversation as the leading identity when the phone appears later' do
+        contact = create(:contact, account: account)
+        contact_inbox = create(:contact_inbox, contact: contact, inbox: cloud_inbox, source_id: 'IN.2081978709342942')
+        create(:conversation, account: account, inbox: cloud_inbox, contact: contact, contact_inbox: contact_inbox)
+
         identity = described_class.new(inbox: cloud_inbox, params: params)
                                   .perform({ from: '5541988887777', from_user_id: 'IN.2081978709342942' })
 
         expect(identity[:source_ids]).to eq(['IN.2081978709342942', '5541988887777'])
       end
 
-      # The parent leads: a payload carrying both identifiers and a later parent-only payload
-      # describe the same caller, so anchoring on the parent keeps them on one ContactInbox.
-      it 'places the parent identifier ahead of the personal one and of the phone' do
-        identity = described_class.new(inbox: cloud_inbox, params: params).perform(
-          { from: '5541988887777', from_user_id: 'IN.2081978709342942', from_parent_user_id: 'IN.ENT.2081978709342942' }
-        )
-
-        expect(identity[:source_ids]).to eq(['IN.ENT.2081978709342942', 'IN.2081978709342942', '5541988887777'])
-      end
-
-      it 'resolves a parent-only call onto the identifier a mixed payload led with' do
-        mixed = described_class.new(inbox: cloud_inbox, params: params).perform(
-          { from: '5541988887777', from_user_id: 'IN.2081978709342942', from_parent_user_id: 'IN.ENT.2081978709342942' }
-        )
-        parent_only = described_class.new(inbox: cloud_inbox, params: params).perform(
-          { from_parent_user_id: 'IN.ENT.2081978709342942' }
-        )
-
-        expect(parent_only[:source_ids].first).to eq(mixed[:source_ids].first)
-      end
-
-      it 'keeps the phone as the display name even though it no longer leads' do
+      it 'keeps the phone as the display name' do
         identity = described_class.new(inbox: cloud_inbox, params: params)
                                   .perform({ from: '5541988887777', from_user_id: 'IN.2081978709342942' })
 

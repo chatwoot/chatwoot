@@ -1,45 +1,46 @@
 {
   "CALLS_PAGE": {
-    "HEADER": "Calls",
-    "ALL_CALLS": "All Calls",
-    "ALL_CALLS_COUNT": "All Calls ({count})",
-    "EMPTY_STATE": "No calls found",
+    "HEADER": "Aramalar",
+    "ALL_CALLS": "Tüm Aramalar",
+    "ALL_CALLS_COUNT": "Tüm Aramalar ({count})",
+    "EMPTY_STATE": "Hiçbir arama bulunamadı",
     "SETUP": {
-      "TITLE": "Make and receive calls in one place",
-      "SUBTITLE": "Set up a voice channel to start handling calls with your team. Every call, along with its recording, will appear here.",
-      "ACTION": "Set up voice channel"
+      "TITLE": "Aramaları tek bir yerden yapın ve alın",
+      "SUBTITLE": "Ekibinizle aramaları yönetmeye başlamak için bir ses kanalı kurun. Her arama, kaydıyla birlikte burada görünecektir.",
+      "ACTION": "Ses kanalı kur"
     },
     "FILTERS": {
-      "MISSED": "Missed",
-      "NO_REPLY": "No reply",
-      "OTHER_ACTIVITY": "Other activity",
-      "INCOMING": "Incoming",
-      "OUTGOING": "Outgoing",
-      "IN_PROGRESS": "In progress",
+      "MISSED": "Cevapsız",
+      "NO_REPLY": "Yanıt yok",
+      "OTHER_ACTIVITY": "Diğer etkinlik",
+      "INCOMING": "Gelen",
+      "OUTGOING": "Giden",
+      "IN_PROGRESS": "Devam ediyor",
       "ASSIGNEE": "Assignee",
-      "ALL_ASSIGNEES": "All assignees",
-      "MORE_FILTERS": "More filters",
+      "ALL_ASSIGNEES": "Tüm atananlar",
+      "MORE_FILTERS": "Daha fazla filtre",
       "INBOX": "Gelen Kutusu",
       "ALL_INBOXES": "Tüm gelen kutuları"
     },
     "STATUS": {
       "ONGOING": "Devam Eden",
-      "INCOMING": "Incoming",
-      "OUTGOING": "Outgoing",
-      "MISSED": "Missed",
-      "NO_REPLY": "No reply",
+      "INCOMING": "Gelen",
+      "OUTGOING": "Giden",
+      "MISSED": "Cevapsız",
+      "NO_REPLY": "Yanıt yok",
       "FAILED": "Başarısız"
     },
     "ROW": {
-      "PICKED_BY": "Picked by",
-      "DIALED_BY": "Dialed by",
-      "ANSWERED": "Answered",
-      "RINGING": "Ringing",
-      "IN_PROGRESS": "In progress",
-      "NO_AGENT": "No agent answered this call",
-      "NO_CONTACT_ANSWER": "Contact did not answer",
-      "FAILED": "This call could not be connected",
-      "YESTERDAY": "Dün"
+      "PICKED_BY": "Yanıtlayan",
+      "DIALED_BY": "Arayan",
+      "ANSWERED": "Yanıtlandı",
+      "RINGING": "Çalıyor",
+      "IN_PROGRESS": "Devam ediyor",
+      "NO_AGENT": "Bu aramayı hiçbir temsilci yanıtlamadı",
+      "NO_CONTACT_ANSWER": "Kişi yanıt vermedi",
+      "FAILED": "Bu arama bağlanamadı",
+      "YESTERDAY": "Dün",
+      "DELETED_CONTACT": "Deleted contact"
     }
   }
 }

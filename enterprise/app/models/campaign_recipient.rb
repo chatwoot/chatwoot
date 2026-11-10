@@ -3,6 +3,7 @@ class CampaignRecipient < ApplicationRecord
   belongs_to :campaign
   belongs_to :contact
   belongs_to :inbox
+  belongs_to :contact_inbox, optional: true
 
   enum status: {
     queued: 0,

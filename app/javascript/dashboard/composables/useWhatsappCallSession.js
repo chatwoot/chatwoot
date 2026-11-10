@@ -7,6 +7,8 @@ import { VOICE_CALL_OUTBOUND_INIT_STATUS } from 'dashboard/components-next/messa
 // Module-level state lets the cable handlers and unload listeners reach the
 // live PeerConnection without prop-drilling refs through every composable.
 let pc = null;
+const isConnected = ref(false);
+export const isWhatsappCallConnected = readonly(isConnected);
 let localStream = null;
 let remoteStream = null;
 let remoteAudioEl = null;
@@ -34,6 +36,9 @@ const isInitiatingOutboundReadonly = readonly(isInitiatingOutbound);
 // answers, and we don't want pre-pickup audio in the recording. This flag is
 // flipped to true by armOutboundRecorder() when the ACCEPTED status arrives.
 let recorderArmed = false;
+// This call's recording decision, snapshotted server-side at call creation and
+// carried on every payload that can start a call in this tab.
+let callRecordingEnabled = true;
 
 const ensureRemoteAudioElement = () => {
   if (remoteAudioEl) return remoteAudioEl;
@@ -91,6 +96,7 @@ const waitForIceGatheringComplete = peer =>
   });
 
 const setupRecorder = () => {
+  if (!callRecordingEnabled) return;
   if (!localStream || !remoteStream || mediaRecorder) return;
   // createMediaStreamSource on a stream with no audio tracks wires up to
   // nothing — the recorded mix would be silence. Wait until ontrack fires.
@@ -123,6 +129,7 @@ const setupRecorder = () => {
 };
 
 const cleanup = () => {
+  isConnected.value = false;
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     try {
       mediaRecorder.stop();
@@ -142,6 +149,7 @@ const cleanup = () => {
   localStream = null;
   remoteStream = null;
   mediaRecorder = null;
+  callRecordingEnabled = true;
   recorderChunks = [];
   audioContext = null;
   activeCallId = null;
@@ -152,6 +160,11 @@ const cleanup = () => {
 const buildPeerConnection = iceServers => {
   const config = iceServers && iceServers.length ? { iceServers } : {};
   pc = new RTCPeerConnection(config);
+  const connection = pc;
+  pc.onconnectionstatechange = () => {
+    if (pc !== connection) return;
+    isConnected.value = connection.connectionState === 'connected';
+  };
   remoteStream = new MediaStream();
   pc.ontrack = event => {
     // Reuse the same MediaStream object — the recorder's audioContext source
@@ -280,16 +293,23 @@ export function useWhatsappCallSession() {
     return pc.localDescription.sdp;
   };
 
-  const acceptIncomingCall = async ({ callId, sdpOffer, iceServers }) => {
+  const acceptIncomingCall = async ({
+    callId,
+    sdpOffer,
+    iceServers,
+    recordingEnabled,
+  }) => {
     // The store may not have sdpOffer yet (the cable broadcast can race the
     // click). Fall back to GET /whatsapp_calls/:id which exposes it.
     let offer = sdpOffer;
     let ice = iceServers;
+    let recording = recordingEnabled;
     if (!offer && callId) {
       try {
         const fresh = await WhatsappCallsAPI.show(callId);
         offer = fresh?.sdp_offer || fresh?.sdpOffer;
         ice = ice || fresh?.ice_servers || fresh?.iceServers;
+        recording = recording ?? fresh?.recording_enabled;
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(
@@ -312,6 +332,7 @@ export function useWhatsappCallSession() {
       // Inbound: agent's click is the pickup. Arm the recorder before the API
       // round-trip so when ontrack fires (triggered by setRemoteDescription
       // back in prepareInboundAnswer) the recorder is already authorized.
+      callRecordingEnabled = recording !== false;
       recorderArmed = true;
       setupRecorder();
       await WhatsappCallsAPI.accept(callId, sdpAnswer);
@@ -345,6 +366,7 @@ export function useWhatsappCallSession() {
       const response = await WhatsappCallsAPI.initiate(target, sdpOffer);
       if (response?.id) {
         activeCallId = response.id;
+        callRecordingEnabled = response.recording_enabled !== false;
         // A connect webhook that raced ahead of this response was buffered;
         // apply our own by id now that we know it, then drop every buffered
         // answer (concurrent agents' calls aren't ours to apply).
@@ -462,6 +484,23 @@ export const setWhatsappCallMuted = muted => {
     track.enabled = !muted;
   });
   return muted;
+};
+
+export const sendWhatsappDigits = digit => {
+  if (!pc) return false;
+  const audioSender = pc
+    .getSenders()
+    .find(sender => sender.track?.kind === 'audio');
+  const dtmf = audioSender?.dtmf;
+  if (!dtmf?.canInsertDTMF) return false;
+
+  try {
+    dtmf.insertDTMF(`${dtmf.toneBuffer}${digit}`, 500, 100);
+    return true;
+  } catch (error) {
+    if (error.name === 'InvalidStateError') return false;
+    throw error;
+  }
 };
 
 export const sendWhatsappTerminateBeacon = () => {

@@ -2,11 +2,17 @@
 import { computed, ref, watch } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useMapGetter } from 'dashboard/composables/store';
 import { formatTime } from '@chatwoot/utils';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import { useReportDrilldown } from '../composables/useReportDrilldown';
+import {
+  buildDrilldownConversationFilters,
+  canLinkDrilldownToConversations,
+} from '../helpers/drilldownConversationFilters';
 import ReportDrilldownCard from './ReportDrilldownCard.vue';
 
 const props = defineProps({
@@ -31,6 +37,8 @@ const emit = defineEmits(['close', 'navigate']);
 
 const panelRef = ref(null);
 const { t } = useI18n();
+const router = useRouter();
+const getLabelById = useMapGetter('labels/getLabelById');
 const {
   records,
   meta,
@@ -95,6 +103,29 @@ const subtitle = computed(() =>
     .filter(Boolean)
     .join(' ⋅ ')
 );
+
+const canViewAll = computed(
+  () =>
+    canLinkDrilldownToConversations({
+      metric: props.metric,
+      groupBy: props.groupBy,
+    }) && !!meta.value.bucket
+);
+
+const viewAllConversations = () => {
+  const filters = buildDrilldownConversationFilters({
+    bucket: meta.value.bucket,
+    type: props.type,
+    id: props.id,
+    labelTitle: getLabelById.value(props.id)?.title,
+  });
+  const { href } = router.resolve({
+    name: 'home',
+    query: { filters: JSON.stringify(filters) },
+  });
+
+  window.open(href, '_blank', 'noopener');
+};
 
 const recordKey = record =>
   `${record.record_type}-${record.message?.id || record.conversation?.id}-${
@@ -180,6 +211,15 @@ watch(
       </div>
     </template>
     <template #header-actions>
+      <Button
+        v-if="canViewAll"
+        faded
+        slate
+        size="sm"
+        icon="i-lucide-external-link"
+        :label="$t('REPORT.DRILLDOWN.VIEW_ALL')"
+        @click="viewAllConversations"
+      />
       <Button
         ghost
         slate

@@ -3,8 +3,11 @@
     "TITLE": "Plantillas",
     "DESCRIPTION": "Consulta las plantillas de mensajes sincronizadas desde tus bandejas de entrada de WhatsApp. Para crear o editar una plantilla, gestiónala con tu proveedor.",
     "COUNT": "{n} plantilla | {n} plantillas",
-    "KNOW_MORE": "Más información",
-    "NEW_TEMPLATE": "Nueva plantilla",
+    "LEARN_MORE": "Aprenda más sobre las plantillas de WhatsApp",
+    "SYNC_TEMPLATES": "Sincronizar plantillas",
+    "SYNC_SUCCESS": "La sincronización de plantillas comenzó para todas las bandejas de entrada de WhatsApp. Las actualizaciones pueden tardar un par de minutos.",
+    "PARTIAL_SYNC_ERROR": "La sincronización de plantillas comenzó para algunas bandejas de entrada de WhatsApp, pero no se pudieron sincronizar otras.",
+    "SYNC_ERROR": "No se pudo iniciar la sincronización de plantillas. Por favor, inténtalo de nuevo.",
     "SEARCH_PLACEHOLDER": "Buscar por contenido o nombre...",
     "MANAGE_IN_META": "Gestionar en Meta",
     "MANAGE_IN_TWILIO": "Gestionar en Twilio",
@@ -15,9 +18,13 @@
     "PARTIAL_FETCH_ERROR": "No se pudieron cargar algunas plantillas de WhatsApp. Inténtalo de nuevo.",
     "LAST_SYNC_ATTEMPT": "Último intento de sincronización: {date}",
     "MORE_INBOXES": "+{n}",
+    "STATUSES": {
+      "UNSUBMITTED": "No enviado para aprobación de WhatsApp"
+    },
     "FILTERS": {
       "ALL_INBOXES": "Todas las bandejas",
-      "ALL_LANGUAGES": "Todos los idiomas"
+      "ALL_LANGUAGES": "Todos los idiomas",
+      "ALL_TYPES": "Todos los tipos"
     },
     "TYPES": {
       "TEXT": "Texto",
@@ -40,8 +47,7 @@
       "TYPE": "Tipo de contenido",
       "CATEGORY": "Categoría",
       "LANGUAGE": "Idioma",
-      "INBOXES": "Bandejas de entrada",
-      "LAST_SYNC_ATTEMPT": "Último intento de sincronización"
+      "INBOXES": "Bandejas de entrada"
     }
   }
 }

@@ -23,6 +23,11 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     )
   end
   let(:run_result) { instance_double(Agents::RunResult) }
+  let(:run_options) do
+    Captain::Assistant::AgentRunnerService::RunOptions.new(
+      source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
+    )
+  end
   let(:response) do
     {
       'response_parts' => [{ 'text' => "Chatwoot's mascot is Bob the Builder.", 'citation_indexes' => [1] }],
@@ -39,12 +44,14 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
 
   before do
     incoming_message
+    # Every thread starts with the agent's request, as the threads controller creates it.
+    copilot_thread.copilot_messages.create!(message_type: :user, message: { content: 'Suggest a reply' })
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
       hash_including(
         assistant: assistant,
         conversation: conversation,
-        source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
+        run_options: run_options
       )
     ).and_return(runner)
     allow(runner).to receive(:generate_response).and_return(response)
@@ -57,7 +64,7 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     expect(Captain::Assistant::AgentRunnerService).to have_received(:new).with(
       assistant: assistant,
       conversation: conversation,
-      source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
+      run_options: run_options
     )
     expect(runner).to have_received(:generate_response).with(
       message_history: [{ role: 'user', content: 'Who is your mascot?' }]
@@ -179,6 +186,20 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     )
   end
 
+  it 'drops a generated response without a message or a charge when the agent stops the request during the run' do
+    allow(runner).to receive(:generate_response) do
+      copilot_thread.stop
+      response
+    end
+
+    expect do
+      expect(service.generate_response['discarded']).to be true
+    end.not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
+
+    expect(copilot_thread.copilot_messages.assistant).to be_empty
+    expect(copilot_thread.copilot_messages.user.first.message['status']).to eq('stopped')
+  end
+
   it 'charges once when a failed attempt is retried successfully' do
     allow(runner).to receive(:generate_response).and_return(
       { 'error' => true, 'reasoning' => 'Temporary model failure.' },
@@ -207,7 +228,8 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     message = copilot_thread.copilot_messages.last
     expect(message).to be_assistant
     expect(message.message).to eq(
-      'content' => "Copilot couldn't generate a reply. Please try again."
+      'content' => "Copilot couldn't generate a reply. Please try again.",
+      'status' => 'failed'
     )
   end
 
@@ -231,7 +253,8 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
 
     expect(runner).not_to have_received(:generate_response)
     expect(copilot_thread.copilot_messages.last.message).to eq(
-      'content' => "Copilot couldn't generate a reply. Please try again."
+      'content' => "Copilot couldn't generate a reply. Please try again.",
+      'status' => 'failed'
     )
   end
 
@@ -246,7 +269,8 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     end.not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
 
     expect(copilot_thread.copilot_messages.last.message).to eq(
-      'content' => "Copilot couldn't generate a reply. Please try again."
+      'content' => "Copilot couldn't generate a reply. Please try again.",
+      'status' => 'failed'
     )
   end
 
@@ -260,7 +284,7 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
       Captain::Copilot::ReplySuggestionService::GenerationError,
       'The model request failed.'
     )
-    expect(copilot_thread.copilot_messages).to be_empty
+    expect(copilot_thread.copilot_messages.assistant).to be_empty
   end
 
   describe 'Langfuse metadata' do

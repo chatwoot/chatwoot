@@ -47,7 +47,9 @@
       "REGENERATE": "Gerar novos códigos de recuperação",
       "DISABLE_MFA": "Desabilitar 2FA",
       "DISABLE_MFA_DESC": "Remover a autenticação em dois fatores da sua conta",
-      "DISABLE_BUTTON": "Desabilitar Autenticação em Dois Fatores"
+      "DISABLE_BUTTON": "Desabilitar Autenticação em Dois Fatores",
+      "ENFORCED_TITLE": "Obrigatório para sua conta",
+      "ENFORCED_NOTE": "Sua conta exige autenticação de dois fatores, por isso ela não pode ser desativada aqui. Entre em contato com o administrador se precisar de ajuda."
     },
     "LOW_BACKUP_CODES": {
       "MESSAGE": "Você tem {n} código de recuperação restante. Gere novos códigos para evitar perder o acesso à sua conta caso não consiga acessar seu autenticador. | Você tem {n} códigos de recuperação restantes. Gere novos códigos para evitar perder o acesso à sua conta caso não consiga acessar seu autenticador.",
@@ -90,6 +92,9 @@
   "MFA_VERIFICATION": {
     "TITLE": "Autenticação em Dois Fatores",
     "DESCRIPTION": "Informe o código de verificação para continuar",
+    "EMAIL_TITLE": "Verifique seu e-mail",
+    "EMAIL_DESCRIPTION": "Você está acessando sua conta em um novo dispositivo.",
+    "ENTER_EMAIL_CODE": "Digite o código de 6 dígitos enviado para seu e-mail",
     "AUTHENTICATOR_APP": "Aplicativo Autenticador",
     "BACKUP_CODE": "Código de Recuperação",
     "ENTER_OTP_CODE": "Insira o código de 6 dígitos do seu aplicativo autenticador",
@@ -110,6 +115,11 @@
       "CONTACT_DESC_CLOUD": "Se você perdeu o acesso tanto ao aplicativo autenticador quanto aos códigos de backup, entre em contato com o suporte do Chatwoot para obter ajuda.",
       "CONTACT_DESC_SELF_HOSTED": "Se você perdeu o acesso tanto ao aplicativo autenticador quanto aos códigos de backup, entre em contato com o administrador para obter ajuda."
     },
-    "VERIFICATION_FAILED": "Falha na verificação. Tente novamente."
+    "VERIFICATION_FAILED": "Falha na verificação. Tente novamente.",
+    "REMEMBER_DEVICE": "Não perguntar novamente neste dispositivo por 30 dias"
+  },
+  "MFA_ENFORCED_SETUP": {
+    "TITLE": "Configurar autenticação de dois fatores",
+    "DESCRIPTION": "Sua conta exige autenticação de dois fatores. Leia o código QR com seu aplicativo autenticador e digite o código para continuar."
   }
 }

@@ -25,11 +25,8 @@ json.website_channel_config do
 end
 
 json.contact do
-  json.email @contact.email
   json.id @contact.id
-  json.identifier @contact.identifier
-  json.name @contact.name
-  json.phone_number @contact.phone_number
+  json.merge! @contact.widget_presence_data
   json.pubsub_token @contact_inbox.pubsub_token
 end
 

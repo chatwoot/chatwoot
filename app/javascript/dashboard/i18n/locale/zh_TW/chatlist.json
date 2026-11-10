@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "建立時間",
         "OLDEST": "建立於："
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "最後活動：",
-        "ACTIVE": "最後活動"
+        "NOT_ACTIVE": "最後活動："
       }
     },
     "SORT_ORDER_ITEMS": {

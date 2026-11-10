@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "생성됨",
         "OLDEST": "생성 일시:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "최근 활동:",
-        "ACTIVE": "최근 활동"
+        "NOT_ACTIVE": "최근 활동:"
       }
     },
     "SORT_ORDER_ITEMS": {

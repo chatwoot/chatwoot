@@ -15,6 +15,10 @@ const props = defineProps({
     type: Number,
     default: undefined,
   },
+  requestContactInfoOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['onSelect']);
@@ -29,8 +33,20 @@ const whatsAppTemplateMessages = useFunctionGetter(
   toRef(props, 'inboxId')
 );
 
+const hasRequestContactInfoButton = template => {
+  const buttons = findComponentByType(template, COMPONENT_TYPES.BUTTONS);
+  return buttons?.buttons?.some(
+    button => button.type?.toUpperCase() === 'REQUEST_CONTACT_INFO'
+  );
+};
+
+const availableTemplateMessages = computed(() => {
+  if (!props.requestContactInfoOnly) return whatsAppTemplateMessages.value;
+  return whatsAppTemplateMessages.value.filter(hasRequestContactInfoButton);
+});
+
 const filteredTemplateMessages = computed(() =>
-  whatsAppTemplateMessages.value.filter(template =>
+  availableTemplateMessages.value.filter(template =>
     template.name.toLowerCase().includes(query.value.toLowerCase())
   )
 );
@@ -189,13 +205,13 @@ const refreshTemplates = async () => {
         />
       </div>
       <div v-if="!filteredTemplateMessages.length" class="py-8 text-center">
-        <div v-if="query && whatsAppTemplateMessages.length">
+        <div v-if="query && availableTemplateMessages.length">
           <p>
             {{ t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND') }}
             <strong>{{ query }}</strong>
           </p>
         </div>
-        <div v-else-if="!whatsAppTemplateMessages.length" class="space-y-4">
+        <div v-else-if="!availableTemplateMessages.length" class="space-y-4">
           <p class="text-n-slate-11">
             {{ t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_AVAILABLE') }}
           </p>

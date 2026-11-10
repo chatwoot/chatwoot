@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "作成",
         "OLDEST": "作成日時:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "最終アクティビティ:",
-        "ACTIVE": "最終アクティビティ"
+        "NOT_ACTIVE": "最終アクティビティ:"
       }
     },
     "SORT_ORDER_ITEMS": {

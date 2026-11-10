@@ -15,13 +15,28 @@ description: |
 
   ```bash
   curl -X POST "https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages" \
-    -H "api_access_token: <your-api-token>" \
+    -H "Authorization: Bearer <your-api-token>" \
     -F "content=Here is the screenshot" \
     -F "message_type=outgoing" \
     -F "private=false" \
     -F "attachments[]=@/path/to/screenshot.png"
   ```
   
+  ### Replying to a message
+
+  Set `content_attributes.in_reply_to` to a Chatwoot message ID in this conversation,
+  or `content_attributes.in_reply_to_external_id` to its `source_id`.
+  Chatwoot resolves the other reference and displays the quoted message.
+
+  ```json
+  {
+    "content": "Yes, that one is in stock",
+    "content_attributes": {
+      "in_reply_to_external_id": "external-message-123"
+    }
+  }
+  ```
+
   ## WhatsApp Template Messages
   
   For WhatsApp channels, you can send structured template messages using the `template_params` field. 
@@ -76,6 +91,8 @@ description: |
   }
   ```
 security:
+  - userBearerAuth: []
+  - agentBotBearerAuth: []
   - userApiKey: []
   - agentBotApiKey: []
 requestBody:

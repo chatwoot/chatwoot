@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "მიუწვდომელია",
     "EMAIL_ADDRESS": "ელ. ფოსტის მისამართი",
     "PHONE_NUMBER": "ტელეფონის ნომერი",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "კლიპბორდზე წარმატებით დაკოპირდა",
     "COMPANY": "კომპანია",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ამ კონტაქტთან დაკავშირებული წინა საუბრები არ მოიძებნა.",
-      "TITLE": "წინა საუბრები"
+      "TITLE": "წინა საუბრები",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -460,6 +462,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

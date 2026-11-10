@@ -26,16 +26,9 @@ const isCopilotPanelOpen = computed(
   () => uiSettings.value.is_copilot_panel_open
 );
 
-const toggleConversationSidebarToggle = () => {
-  updateUISettings({
-    is_contact_sidebar_open: !isContactSidebarOpen.value,
-    is_copilot_panel_open: false,
-  });
-};
-
 const handleConversationSidebarToggle = () => {
   updateUISettings({
-    is_contact_sidebar_open: true,
+    is_contact_sidebar_open: !isContactSidebarOpen.value,
     is_copilot_panel_open: false,
   });
 };
@@ -43,13 +36,13 @@ const handleConversationSidebarToggle = () => {
 const handleCopilotSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: false,
-    is_copilot_panel_open: true,
+    is_copilot_panel_open: !isCopilotPanelOpen.value,
   });
 };
 
 const keyboardEvents = {
   'Alt+KeyO': {
-    action: toggleConversationSidebarToggle,
+    action: handleConversationSidebarToggle,
   },
 };
 useKeyboardEvents(keyboardEvents);

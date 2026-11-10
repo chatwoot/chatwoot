@@ -36,12 +36,12 @@
     "SUBTITLE": "This will give you head-start in your workspace",
     "CONTINUE": "Devam et",
     "SKIP": "Skip",
-    "ERROR": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin.",
+    "ERROR": "Bir hata oluştu. Lütfen tekrar deneyin.",
     "WHATSAPP_CONNECTED": "WhatsApp connected successfully",
     "FACEBOOK_CONNECTED": "Facebook connected successfully",
     "META_RESTRICTION": {
       "MESSAGE": "Inbox setup for Facebook, Instagram, and WhatsApp is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-      "STATUS_LINK": "View status updates"
+      "STATUS_LINK": "Durum güncellemelerini görüntüle"
     },
     "CREATED_FOR_YOU": {
       "TITLE": "We've created the following for you",

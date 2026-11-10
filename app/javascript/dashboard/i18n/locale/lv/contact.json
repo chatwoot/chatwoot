@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Nav Pieejams",
     "EMAIL_ADDRESS": "e-pasta Adrese",
     "PHONE_NUMBER": "Telefona numurs",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifikators",
     "COPY_SUCCESSFUL": "Veiksmīgi nokopēts uz clipboard",
     "COMPANY": "Uzņēmums",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Ar šo kontaktpersonu nav saistītas iepriekšējās sarunas.",
-      "TITLE": "Iepriekšējās Sarunas"
+      "TITLE": "Iepriekšējās Sarunas",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -460,6 +462,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Pievienot Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

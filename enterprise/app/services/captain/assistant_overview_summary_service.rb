@@ -44,7 +44,7 @@ class Captain::AssistantOverviewSummaryService < Captain::BaseTaskService
   end
 
   def report_has_activity?
-    report_data[:overview][:conversations_handled].values_at(:current, :previous).any?(&:positive?)
+    report_data[:overview][:conversations_handled].values_at(:current, :previous).compact.any?(&:positive?)
   end
 
   def extract_points(message)

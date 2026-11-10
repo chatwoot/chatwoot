@@ -2,12 +2,25 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
   OVERVIEW_SUMMARY_CACHE_VERSION = 'v1'.freeze
   OVERVIEW_SUMMARY_CACHE_TTL = 1.hour
 
-  before_action -> { authorize(Captain::Assistant, :metrics?) }
+  before_action -> { authorize(Captain::Assistant, :metrics?) }, except: :drilldown
+  before_action -> { authorize(Captain::Assistant, :drilldown?) }, only: :drilldown
   before_action :set_assistant
-  before_action :validate_timezone_offset, only: :overview_summary
+  before_action :validate_timezone_offset, only: [:overview_summary, :drilldown]
+
+  def drilldown
+    return head :unprocessable_entity unless Captain::AssistantOverviewDrilldownBuilder.supported_metric?(params[:metric])
+    if params[:metric] == 'handoff_reason' && Captain::AssistantOverviewDrilldownBuilder::HANDOFF_REASONS.exclude?(params[:reason])
+      return head :unprocessable_entity
+    end
+
+    render json: Captain::AssistantOverviewDrilldownBuilder.new(
+      @assistant, params.permit(:metric, :reason, :range, :timezone_offset, :page, :per_page)
+    ).build
+  end
 
   def overview
-    render json: Captain::AssistantOverviewStatsBuilder.new(@assistant, params[:range], params[:timezone_offset]).metrics
+    metrics = Captain::AssistantOverviewStatsBuilder.new(@assistant, params[:range], params[:timezone_offset]).metrics
+    render json: metrics.merge(tracking_started_at: Captain::OutcomeTrackingHistory.started_at&.iso8601(6))
   end
 
   def overview_summary
@@ -51,6 +64,7 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
       @assistant.cache_key_with_version,
       stats_window.range,
       stats_window.timezone,
+      Captain::OutcomeTrackingHistory.started_at&.iso8601(6),
       Current.account.locale
     ].join(':')
   end

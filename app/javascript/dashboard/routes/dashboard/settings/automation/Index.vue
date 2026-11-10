@@ -1,12 +1,26 @@
 <script setup>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { AUTOMATION_QUERY } from 'dashboard/composables/useAutomationRoute';
+import {
+  usePageCommands,
+  recordCommands,
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
+import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { getCaptainConditionUsage } from 'dashboard/helper/automationHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { until } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import {
+  useMapGetter,
+  useStoreGetters,
+  useStore,
+} from 'dashboard/composables/store';
 import { picoSearch } from '@chatwoot/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -18,9 +32,13 @@ const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 const confirmDialog = ref(null);
+const route = useRoute();
+const router = useRouter();
+const { accountScopedRoute } = useAccount();
 
 const loading = ref({});
 const addDialogRef = ref(null);
+const creationSourceMonitorId = ref(null);
 const editDialogRef = ref(null);
 const showDeleteConfirmationPopup = ref(false);
 const selectedAutomation = ref({});
@@ -35,11 +53,16 @@ const records = computed(() => getters['automations/getAutomations'].value);
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
   if (!query) return records.value;
-  return picoSearch(records.value, query, ['name', 'description']);
+  return picoSearch(records.value, query, [
+    'name',
+    'description',
+    'monitor_name',
+  ]);
 });
 
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
 const accountId = computed(() => getters.getCurrentAccountId.value);
+const accountUiFlags = useMapGetter('accounts/getUIFlags');
 
 const isDelayedAutomationsEnabled = computed(() =>
   getters['accounts/isFeatureEnabledonAccount'].value(
@@ -113,6 +136,20 @@ const isSLAEnabled = computed(() =>
   getters['accounts/isFeatureEnabledonAccount'].value(accountId.value, 'sla')
 );
 
+let slaFetchPromise;
+
+// Account feature flags may load after this page mounts, so watch the SLA flag
+// to ensure its options are fetched after a hard refresh.
+watch(
+  isSLAEnabled,
+  isEnabled => {
+    if (isEnabled) {
+      slaFetchPromise = store.dispatch('sla/get');
+    }
+  },
+  { immediate: true }
+);
+
 const showDelayDisabledBanner = computed(
   () =>
     !isDelayedAutomationsEnabled.value &&
@@ -127,32 +164,93 @@ onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('campaigns/get');
   store.dispatch('automations/get');
-  if (isSLAEnabled.value) {
-    store.dispatch('sla/get');
-  }
 });
 
-const openAddPopup = () => {
-  const startsWithWait =
-    isDelayedAutomationsEnabled.value && activeTab.value === 'delayed';
-  addDialogRef.value?.open(startsWithWait ? DEFAULT_DELAY_MINUTES : null);
+const ensureOptionsLoaded = async () => {
+  if (!isSLAEnabled.value) return;
+  slaFetchPromise ||= store.dispatch('sla/get');
+  await slaFetchPromise;
 };
+
+const openAddPopup = async (seed = null) => {
+  creationSourceMonitorId.value = seed?.monitor_id ?? null;
+  await ensureOptionsLoaded();
+  const startsWithWait =
+    !seed && isDelayedAutomationsEnabled.value && activeTab.value === 'delayed';
+  addDialogRef.value?.open(startsWithWait ? DEFAULT_DELAY_MINUTES : null, seed);
+};
+
 const hideAddPopup = () => {
   addDialogRef.value?.close();
 };
 
-const openEditPopup = response => {
+const openEditPopup = async response => {
   selectedAutomation.value = { ...response };
+  await until(() => accountUiFlags.value.isFetchingItem).toBe(false);
+  await ensureOptionsLoaded();
   editDialogRef.value?.open(response);
 };
 const hideEditPopup = () => {
   editDialogRef.value?.close();
 };
 
+const parseId = value =>
+  typeof value === 'string' && /^\d+$/.test(value) ? Number(value) : null;
+
+const clearQuery = keys =>
+  router.replace({
+    query: {
+      ...route.query,
+      ...Object.fromEntries(keys.map(key => [key, undefined])),
+    },
+  });
+
+watch(
+  [
+    () => route.query[AUTOMATION_QUERY.MONITOR_ID],
+    () => route.query[AUTOMATION_QUERY.SLA_POLICY_ID],
+  ],
+  async ([rawMonitorId, rawSlaPolicyId]) => {
+    const monitorId = parseId(rawMonitorId);
+    const slaPolicyId = parseId(rawSlaPolicyId);
+    if (!monitorId && !slaPolicyId) return;
+    activeTab.value = 'instant';
+    await nextTick();
+    openAddPopup(
+      monitorId
+        ? {
+            event_name: 'monitor_matched',
+            monitor_id: monitorId,
+            conditions: [],
+          }
+        : {
+            actions: [{ action_name: 'add_sla', action_params: [slaPolicyId] }],
+          }
+    );
+    clearQuery([AUTOMATION_QUERY.MONITOR_ID, AUTOMATION_QUERY.SLA_POLICY_ID]);
+  },
+  { immediate: true }
+);
+
+// Rules may load after the route, so retry when they change.
+watch(
+  [() => route.query[AUTOMATION_QUERY.EDIT_ID], records],
+  async ([rawRuleId, rules]) => {
+    const ruleId = parseId(rawRuleId);
+    const rule = ruleId && rules.find(item => item.id === ruleId);
+    if (!rule) return;
+    await nextTick();
+    openEditPopup(rule);
+    clearQuery([AUTOMATION_QUERY.EDIT_ID]);
+  },
+  { immediate: true }
+);
+
 const openDeletePopup = response => {
   showDeleteConfirmationPopup.value = true;
   selectedAutomation.value = response;
 };
+
 const closeDeletePopup = () => {
   showDeleteConfirmationPopup.value = false;
 };
@@ -193,15 +291,37 @@ const submitAutomation = async (payload, mode) => {
         ? t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
         : t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
     await store.dispatch(action, payload);
+    const captainUsage = getCaptainConditionUsage(payload);
+    if (captainUsage) {
+      useTrack(CAPTAIN_EVENTS.AUTOMATION_CONDITION_SAVED, {
+        mode,
+        ...captainUsage,
+      });
+    }
     useAlert(successMessage);
     hideAddPopup();
     hideEditPopup();
+    if (mode !== 'edit' && creationSourceMonitorId.value) {
+      router.push(
+        accountScopedRoute('monitor_reports_show', {
+          monitorId: creationSourceMonitorId.value,
+        })
+      );
+    }
+    creationSourceMonitorId.value = null;
   } catch (error) {
     const fallbackMessage =
       mode === 'edit'
         ? t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
         : t('AUTOMATION.ADD.API.ERROR_MESSAGE');
-    useAlert(error?.response?.data?.error || fallbackMessage);
+    const reason = error?.response?.data?.error;
+    let message = fallbackMessage;
+    if (['monitor_not_available', 'invalid_monitor_id'].includes(reason)) {
+      message = t('AUTOMATION.ADD.FORM.MONITOR.API_UNAVAILABLE');
+    } else if (typeof reason === 'string') {
+      message = reason;
+    }
+    useAlert(message);
   }
 };
 const toggleAutomation = async ({ id, name, status }) => {
@@ -245,9 +365,32 @@ const tableHeaders = computed(() => {
     t('AUTOMATION.LIST.TABLE_HEADER.NAME'),
     t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE'),
     t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
-    t('AUTOMATION.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
+
+usePageCommands(() => [
+  {
+    id: 'add_automation',
+    title: t('AUTOMATION.HEADER_BTN_TXT'),
+    run: () => openAddPopup(),
+  },
+  ...recordCommands({
+    id: 'edit_automation',
+    title: t('AUTOMATION.EDIT.TITLE'),
+    icon: 'i-lucide-pencil',
+    records: records.value,
+    label: rule => rule.name,
+    run: openEditPopup,
+  }),
+  ...recordCommands({
+    id: 'delete_automation',
+    title: t('AUTOMATION.DELETE.TITLE'),
+    icon: 'i-lucide-trash-2',
+    records: records.value,
+    label: rule => rule.name,
+    run: openDeletePopup,
+  }),
+]);
 </script>
 
 <template>
@@ -282,7 +425,7 @@ const tableHeaders = computed(() => {
           <Button
             :label="$t('AUTOMATION.HEADER_BTN_TXT')"
             size="sm"
-            @click="openAddPopup"
+            @click="openAddPopup()"
           />
         </template>
       </BaseSettingsHeader>
@@ -299,6 +442,9 @@ const tableHeaders = computed(() => {
         :items="visibleRecords"
         :no-data-message="noDataMessage"
       >
+        <template #header-2="{ header }">
+          <span class="hidden text-end md:block">{{ header }}</span>
+        </template>
         <template #row="{ items }">
           <AutomationRuleRow
             v-for="automation in items"

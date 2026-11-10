@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "사용할 수 없음",
     "EMAIL_ADDRESS": "이메일 주소",
     "PHONE_NUMBER": "휴대폰 번호",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "식별자",
     "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
     "COMPANY": "회사",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "이 연락처와 관련된 이전 대화가 없습니다.",
-      "TITLE": "이전 대화"
+      "TITLE": "이전 대화",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -460,6 +462,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram 추가"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Telegram 추가"

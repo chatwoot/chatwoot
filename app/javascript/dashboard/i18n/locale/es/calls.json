@@ -16,7 +16,7 @@
       "INCOMING": "Entrantes",
       "OUTGOING": "Salientes",
       "IN_PROGRESS": "En curso",
-      "ASSIGNEE": "Responsable",
+      "ASSIGNEE": "Asignado a",
       "ALL_ASSIGNEES": "Todos los responsables",
       "MORE_FILTERS": "Más filtros",
       "INBOX": "Bandeja de entrada",
@@ -39,7 +39,8 @@
       "NO_AGENT": "Ningún agente respondió esta llamada",
       "NO_CONTACT_ANSWER": "El contacto no respondió",
       "FAILED": "La llamada no se ha podido conectar",
-      "YESTERDAY": "Ayer"
+      "YESTERDAY": "Ayer",
+      "DELETED_CONTACT": "Contacto eliminado"
     }
   }
 }

@@ -2,7 +2,6 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import whatsappChannel from 'dashboard/api/channel/whatsappChannel';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
@@ -13,9 +12,11 @@ import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
+import HmacSecretKey from './components/HmacSecretKey.vue';
 
 export default {
   components: {
@@ -25,8 +26,10 @@ export default {
     ImapSettings,
     SmtpSettings,
     NextButton,
+    Banner,
     TextArea,
     WhatsappBusinessManagementToken,
+    HmacSecretKey,
   },
   mixins: [inboxMixin],
   props: {
@@ -44,6 +47,7 @@ export default {
       hmacMandatory: false,
       allowMobileWebview: false,
       whatsAppInboxAPIKey: '',
+      whatsAppAppSecret: '',
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
@@ -53,26 +57,26 @@ export default {
   },
   validations: {
     whatsAppInboxAPIKey: { required },
+    whatsAppAppSecret: { required },
   },
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
     },
-    showWhatsAppReconfigure() {
+    isManualWhatsAppCloud() {
       return (
-        this.isEmbeddedSignupWhatsApp &&
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          this.isOnChatwootCloud
-            ? FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW
-            : FEATURE_FLAGS.WHATSAPP_RECONFIGURE
-        )
+        this.inbox.provider === 'whatsapp_cloud' &&
+        !this.isEmbeddedSignupWhatsApp
       );
+    },
+    isWhatsAppAppSecretMissing() {
+      return !this.inbox.provider_config?.app_secret;
+    },
+    showWhatsAppReconfigure() {
+      return this.isEmbeddedSignupWhatsApp;
     },
     isForwardingEnabled() {
       return !!this.inbox.forwarding_enabled;
@@ -179,6 +183,26 @@ export default {
         };
 
         await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async updateWhatsAppAppSecret() {
+      try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            provider_config: {
+              ...this.inbox.provider_config,
+              app_secret: this.whatsAppAppSecret,
+            },
+          },
+        };
+
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        this.whatsAppAppSecret = '';
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
@@ -304,7 +328,7 @@ export default {
           <p class="mb-1 text-sm font-medium text-n-slate-12">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.SECRET_KEY') }}
           </p>
-          <woot-code :script="inbox.hmac_token" />
+          <HmacSecretKey :inbox="inbox" />
           <p class="mt-1.5 text-label-small text-n-slate-11">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION') }}
             <a
@@ -346,7 +370,7 @@ export default {
       :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
       :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
     >
-      <woot-code :script="inbox.hmac_token" />
+      <HmacSecretKey :inbox="inbox" />
     </SettingsFieldSection>
     <SettingsFieldSection
       :label="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
@@ -390,7 +414,7 @@ export default {
       </SettingsFieldSection>
     </div>
     <ImapSettings :inbox="inbox" />
-    <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
+    <SmtpSettings :inbox="inbox" />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config">
@@ -463,6 +487,38 @@ export default {
             <NextButton
               :disabled="v$.whatsAppInboxAPIKey.$invalid"
               @click="updateWhatsAppInboxAPIKey"
+            >
+              {{
+                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')
+              }}
+            </NextButton>
+          </div>
+        </SettingsFieldSection>
+        <SettingsFieldSection
+          v-if="isManualWhatsAppCloud"
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_APP_SECRET_TITLE')"
+          :help-text="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_APP_SECRET_SUBHEADER')
+          "
+        >
+          <Banner v-if="isWhatsAppAppSecretMissing" color="amber" class="mb-3">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_APP_SECRET_MISSING') }}
+          </Banner>
+          <div
+            class="flex flex-1 justify-between items-center whatsapp-settings--content"
+          >
+            <woot-input
+              v-model="whatsAppAppSecret"
+              type="password"
+              autocomplete="off"
+              class="flex-1 mr-2 [&>input]:!mb-0"
+              :placeholder="
+                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_APP_SECRET_PLACEHOLDER')
+              "
+            />
+            <NextButton
+              :disabled="v$.whatsAppAppSecret.$invalid"
+              @click="updateWhatsAppAppSecret"
             >
               {{
                 $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')

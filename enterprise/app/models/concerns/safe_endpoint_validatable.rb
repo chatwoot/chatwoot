@@ -22,10 +22,10 @@ module Concerns::SafeEndpointValidatable
     validate_no_unicode_chars(uri)
   end
 
+  # The endpoint is a Liquid template, so tags ({% %}) are dropped and outputs ({{ }}) replaced before parsing.
+  # This only checks the URL's shape; SafeFetch checks the real host when the tool is called.
   def parse_endpoint_uri
-    # Strip Liquid template syntax for validation
-    # Replace {{ variable }} with a placeholder value
-    sanitized_url = endpoint_url.gsub(/\{\{[^}]+\}\}/, 'placeholder')
+    sanitized_url = endpoint_url.gsub(/\{%.*?%\}/m, '').gsub(/\{\{[^}]+\}\}/, 'placeholder')
     URI.parse(sanitized_url)
   rescue URI::InvalidURIError
     nil

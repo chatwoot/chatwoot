@@ -1,16 +1,18 @@
 class Voice::Provider::Twilio::RecordingAttachmentService
+  API_HOST_PATTERN = /\Aapi(?:\.[a-z0-9-]+){0,2}\.twilio\.com\z/i
   DEFAULT_FILENAME_EXTENSION = 'wav'.freeze
   ALLOWED_CONTENT_TYPE_PREFIXES = %w[audio/].freeze
 
   pattr_initialize [:call!, :recording_sid!, :recording_url!, { recording_duration: nil }]
 
   def perform
-    return if recording_sid.blank? || recording_url.blank?
-    return if already_attached?
+    return unless attachable?
+
+    raise SafeFetch::InvalidUrlError, 'invalid Twilio recording URL' unless valid_recording_url?
 
     SafeFetch.fetch(
       recording_url,
-      http_basic_authentication: [account_sid, auth_token],
+      http_basic_authentication: channel.basic_auth_credentials,
       allowed_content_type_prefixes: ALLOWED_CONTENT_TYPE_PREFIXES
     ) do |result|
       persist_recording!(result)
@@ -26,6 +28,26 @@ class Voice::Provider::Twilio::RecordingAttachmentService
   end
 
   private
+
+  def valid_recording_url?
+    uri = URI.parse(recording_url)
+    return false unless uri.is_a?(URI::HTTPS) && uri.host.to_s.match?(API_HOST_PATTERN)
+    return false unless uri.port == 443
+    return false if [uri.userinfo, uri.query, uri.fragment].any?(&:present?)
+
+    path = "/2010-04-01/Accounts/#{channel.account_sid}/Recordings/#{recording_sid}"
+    [path, "#{path}.wav", "#{path}.mp3"].include?(uri.path)
+  rescue URI::InvalidURIError
+    false
+  end
+
+  def attachable?
+    return false if recording_sid.blank? || recording_url.blank?
+    # Twilio shouldn't deliver a recording for a do-not-record conference, but the callback is public: the snapshot decides.
+    return false unless call.recording_enabled?
+
+    !already_attached?
+  end
 
   def persist_recording!(result)
     call.with_lock do
@@ -70,14 +92,6 @@ class Voice::Provider::Twilio::RecordingAttachmentService
 
   def recording_content_type(result)
     result.content_type.presence || 'audio/wav'
-  end
-
-  def account_sid
-    @account_sid ||= channel.account_sid
-  end
-
-  def auth_token
-    @auth_token ||= channel.auth_token
   end
 
   def channel

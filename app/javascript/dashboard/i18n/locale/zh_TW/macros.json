@@ -105,6 +105,7 @@
       "MUTE_CONVERSATION": "將對話靜音",
       "SNOOZE_CONVERSATION": "暫停對話提醒",
       "RESOLVE_CONVERSATION": "解決對話",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "傳送附件",
       "SEND_MESSAGE": "傳送訊息",
       "CHANGE_PRIORITY": "變更優先順序",
