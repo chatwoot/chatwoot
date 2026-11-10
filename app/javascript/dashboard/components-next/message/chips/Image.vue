@@ -1,25 +1,55 @@
 <script setup>
-import { ref } from 'vue';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
-
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
-defineProps({
+const props = defineProps({
   attachment: {
     type: Object,
     required: true,
   },
 });
-const hasError = ref(false);
-const showGallery = ref(false);
 
 const { filteredCurrentChatAttachments } = useMessageContext();
 
-const handleError = () => {
-  hasError.value = true;
+const hasError = ref(false);
+const showGallery = ref(false);
+const imageAttempt = ref(0);
+const retryDelays = [1000, 2000];
+let retryTimer;
+
+const cancelRetry = () => {
+  clearTimeout(retryTimer);
+  retryTimer = undefined;
 };
+
+const handleError = () => {
+  if (retryTimer !== undefined) return;
+
+  if (imageAttempt.value >= retryDelays.length) {
+    hasError.value = true;
+    return;
+  }
+
+  // The message can appear before its image is available in storage.
+  retryTimer = setTimeout(() => {
+    retryTimer = undefined;
+    imageAttempt.value += 1;
+  }, retryDelays[imageAttempt.value]);
+};
+
+watch(
+  () => props.attachment.dataUrl,
+  () => {
+    cancelRetry();
+    imageAttempt.value = 0;
+    hasError.value = false;
+  }
+);
+
+onBeforeUnmount(cancelRetry);
 </script>
 
 <template>
@@ -36,17 +66,18 @@ const handleError = () => {
     </div>
     <img
       v-else
+      :key="imageAttempt"
       class="object-cover w-full h-full skip-context-menu"
       :src="attachment.dataUrl"
       @error="handleError"
     />
   </div>
+
   <GalleryView
     v-if="showGallery"
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"
-    @error="handleError"
     @close="() => (showGallery = false)"
   />
 </template>
