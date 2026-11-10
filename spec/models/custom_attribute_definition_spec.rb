@@ -191,6 +191,32 @@ RSpec.describe CustomAttributeDefinition do
       expect(second.reload.position).to eq(10)
     end
 
+    it 'writes all positions in a single update' do
+      definitions = create_list(:custom_attribute_definition, 3, account: account, attribute_model: 'conversation_attribute')
+      positions_hash = definitions.each_with_index.to_h { |definition, index| [definition.id.to_s, (3 - index) * 10] }
+      update_queries = []
+      subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |*, payload|
+        update_queries << payload[:sql] if payload[:sql].start_with?('UPDATE "custom_attribute_definitions"')
+      end
+
+      described_class.update_positions(account: account, positions_hash: positions_hash)
+      ActiveSupport::Notifications.unsubscribe(subscriber)
+
+      expect(update_queries.size).to eq(1)
+      expect(definitions.map { |definition| definition.reload.position }).to eq([30, 20, 10])
+    end
+
+    it 'does not update any position when an id belongs to another account' do
+      own = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+      foreign = create(:custom_attribute_definition, account: create(:account), attribute_model: 'conversation_attribute')
+      original_positions = [own.position, foreign.position]
+
+      expect { described_class.update_positions(account: account, positions_hash: { own.id => 50, foreign.id => 60 }) }
+        .to raise_error(ActiveRecord::RecordNotFound)
+
+      expect([own.reload.position, foreign.reload.position]).to eq(original_positions)
+    end
+
     it 'does nothing when positions_hash is blank' do
       cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
 

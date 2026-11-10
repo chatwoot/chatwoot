@@ -32,6 +32,7 @@ class CustomAttributeDefinition < ApplicationRecord
 
   # Keys automation rules use for conditions that are not backed by an attribute.
   AUTOMATION_ATTRIBUTES = [Captain::AutomationConditionService::ATTRIBUTE_KEY].freeze
+  POSITION_UPDATE_BATCH_SIZE = 1000
 
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
   validates :attribute_display_name, presence: true
@@ -61,15 +62,29 @@ class CustomAttributeDefinition < ApplicationRecord
   def self.update_positions(account:, positions_hash:)
     return if positions_hash.blank?
 
+    positions = positions_hash.transform_keys { |id| Integer(id) }
+
     transaction do
       account.lock!
-      positions_hash.each do |id, new_position|
+      definitions = account.custom_attribute_definitions
+      definitions.select(:id).find(positions.keys)
+
+      positions.each_slice(POSITION_UPDATE_BATCH_SIZE) do |batch|
         # rubocop:disable Rails/SkipsModelValidations
-        account.custom_attribute_definitions.find(id).update_columns(position: new_position, updated_at: Time.current)
+        definitions.where(id: batch.map(&:first)).update_all(position: position_case(batch), updated_at: Time.current)
         # rubocop:enable Rails/SkipsModelValidations
       end
     end
   end
+
+  def self.position_case(positions)
+    position_by_id = Arel::Nodes::Case.new(arel_table[:id])
+    positions.each do |id, position|
+      position_by_id.when(id).then(position)
+    end
+    position_by_id
+  end
+  private_class_method :position_case
 
   private
 
