@@ -31,7 +31,7 @@ export const getters = {
     return _state.uiFlags;
   },
   getAttributes: _state => {
-    return _state.records;
+    return sortByPosition(_state.records);
   },
   getConversationAttributes: _state => {
     return getRecordsByModel(_state.records, 'conversation_attribute').map(

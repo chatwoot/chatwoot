@@ -260,6 +260,28 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         expect(first_attribute.reload.position).to eq(20)
         expect(second_attribute.reload.position).to eq(10)
       end
+
+      it 'rejects invalid positions without updating any definition' do
+        original_positions = [first_attribute.position, second_attribute.position]
+        invalid_payloads = [
+          { first_attribute.id => 10, second_attribute.id => 10 },
+          { first_attribute.id => nil, second_attribute.id => 10 },
+          { first_attribute.id => '20', second_attribute.id => 10 },
+          { first_attribute.id => 0, second_attribute.id => 10 },
+          {}
+        ]
+
+        invalid_payloads.each do |positions_hash|
+          post "/api/v1/accounts/#{account.id}/custom_attribute_definitions/reorder",
+               headers: admin.create_new_auth_token,
+               params: { positions_hash: positions_hash },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        expect([first_attribute.reload.position, second_attribute.reload.position]).to eq(original_positions)
+      end
     end
 
     context 'when it is an agent' do
