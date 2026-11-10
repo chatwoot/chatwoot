@@ -70,6 +70,8 @@ Customer ─► Chatwoot ── Agent Bot webhook (HMAC signed) ──► POST /
 | GET | `/healthz` | Liveness |
 | GET/POST | `/admin` | AI provider settings page (only when `ADMIN_PASSWORD` is set) |
 | GET/POST | `/admin/knowledge` | Knowledge base page (also needs `DATABASE_URL`) |
+| GET/POST | `/webhooks/meta` | Facebook Page feed webhook (requires valid `X-Hub-Signature-256`; only when the `META_*` settings are set) |
+| GET/POST | `/admin/comments` | Comment leads: send one private reply or dismiss |
 
 ## Configuration
 
@@ -269,6 +271,37 @@ If the rewrite fails, the bot searches with the customer's words only. `REWRITE_
 smaller, faster model of the same provider (falling back to the main model);
 on 2026-11-07 `gpt-5.4-mini` took a median 0.85 s against 2.36 s for
 `gpt-6-luna`, while `gpt-5.4-nano` mistranslated "ผ่อน" (instalments).
+
+### Facebook Page comments (`/admin/comments`)
+
+When someone comments on the business's Facebook Page, Meta sends the comment
+to `/webhooks/meta`. ai-service checks Meta's signature, stores the comment
+once, and an LLM sorts it (likely buyer, question, complaint, or not a lead)
+and drafts a short private reply in the business's tone. Comments worth
+answering wait on `/admin/comments`, where the owner edits the draft and sends
+it as **one private Messenger reply**, or dismisses it. Nothing is sent
+automatically. When the person replies, the chat continues in Chatwoot like any
+Messenger chat.
+
+Meta's rules apply: one private reply per comment, within 7 days of the
+comment. Comments are deleted 30 days after they arrive.
+
+A **shadow AI reviewer** checks each draft after it is written: what the
+comment wants, whether the draft answers it, promises nothing the profile
+does not say, fits the tone, and whether the comment is a genuine customer
+message. Code rules hold any draft with a link, a long number, a price or a
+percentage. The reviewer only records "would send" or "would hold" next to
+each comment and compares itself with what the owner does; it never sends.
+`COMMENT_REVIEWER` picks it: `llm` (default, the main provider;
+`COMMENT_REVIEW_MODEL` picks a model on it), `jev` (TypeSafe, needs
+`TYPESAFE_API_KEY`) or `off`. Benchmark reviewers on labelled cases with
+`go run ./cmd/comment-eval -llm <models>` (see `testdata/comment-eval/`).
+
+Settings: `META_APP_SECRET`, `META_VERIFY_TOKEN`, `META_PAGE_ID` (all three
+switch it on, with `DATABASE_URL`), `META_PAGE_TOKEN` (needed to send),
+`META_ACCOUNT_ID` (default 1) and `META_GRAPH_VERSION` (default `v24.0`). The
+Meta app, its permissions and App Review are in
+[`internal/comments/comments.contract.md`](internal/comments/comments.contract.md).
 
 ## Run locally (with `../local` from `init.sh`)
 

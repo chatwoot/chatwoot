@@ -31,6 +31,7 @@ var RequiredTables = []string{
 	"ai_pending_changes",
 	"business_profiles",
 	"chatwoot_inboxes",
+	"fb_comments",
 	"kb_audit",
 	"kb_chunks",
 	"kb_documents",

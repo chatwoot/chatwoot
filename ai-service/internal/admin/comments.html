@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"{{with theme}} data-theme="{{.}}"{{end}}>
+<head>
+{{template "head"}}
+<title>Comment leads · Pronto</title>
+</head>
+<body>
+<div class="shell">
+{{template "nav" "comments"}}
+<main>
+  <div class="page-head">
+    <div>
+      <h1>Comment leads</h1>
+      <p class="lead">Comments on your Facebook Page that look worth answering. Edit the suggested message and send it as one private reply in Messenger. Facebook allows one private reply per comment, within 7 days.</p>
+    </div>
+    {{template "account-picker" (dict "Action" "/admin/comments" "Current" .Account)}}
+  </div>
+
+  {{if not .Enabled}}
+  <div class="alert err" role="alert"><strong>Page comments are off.</strong> They need <code>META_APP_SECRET</code>, <code>META_VERIFY_TOKEN</code>, <code>META_PAGE_ID</code> and <code>DATABASE_URL</code> for ai-service.</div>
+  {{else}}
+  {{if not .CanSend}}<div class="alert warn" role="status"><strong>Sending is off.</strong> Comments are collected, but replies can be sent only after a Page access token (<code>META_PAGE_TOKEN</code>) is set.</div>{{end}}
+  {{if eq .Done "sent"}}<div class="alert ok" role="status">Sent. When they reply, the chat appears in Chatwoot like any Messenger chat.</div>{{end}}
+  {{if eq .Done "dismissed"}}<div class="alert ok" role="status">Dismissed. Nothing was sent.</div>{{end}}
+  {{if .Error}}<div class="alert err" role="alert">{{.Error}}</div>{{end}}
+
+  {{if .Stats.Decided}}
+  <p class="hint">AI reviewer (trial, sends nothing): agreed with you on <strong>{{.Stats.Agreed}} of {{.Stats.Decided}}</strong> decisions.{{if .Stats.TooLoose}} It would have sent <strong>{{.Stats.TooLoose}}</strong> you dismissed or changed.{{end}}{{if .Stats.TooStrict}} It would have held {{.Stats.TooStrict}} you sent as drafted.{{end}}</p>
+  {{end}}
+
+  {{if not .Items}}
+  <p class="empty">No comments are waiting.</p>
+  {{end}}
+
+  {{range .Items}}
+  <section class="card change" aria-labelledby="comment-{{.ID}}">
+    <div class="change-head">
+      <h2 id="comment-{{.ID}}">{{.From}} <span class="badge{{if eq .Intent "Likely buyer"}} active{{end}}">{{.Intent}}</span>{{if .Expired}} <span class="badge expired">Too late to reply</span>{{end}}</h2>
+      <p class="hint">{{.When}}{{with .Left}} · {{.}}{{end}}{{with .PostURL}} · <a href="{{.}}" target="_blank" rel="noopener noreferrer">Open post</a>{{end}}</p>
+    </div>
+    <div class="diff">
+      <h3 class="sub">Comment</h3>
+      <pre class="code diff-now">{{.Message}}</pre>
+      {{with .Reason}}<p class="field-hint">Why: {{.}}</p>{{end}}
+      {{with .Shadow}}<p class="field-hint">AI reviewer (trial): {{.}}</p>{{end}}
+    </div>
+    {{with .LastFail}}<div class="alert warn" role="status">The last send failed: {{.}}</div>{{end}}
+    <form method="post" action="/admin/comments">
+      <input type="hidden" name="account" value="{{$.Account}}">
+      <input type="hidden" name="id" value="{{.ID}}">
+      <input type="hidden" name="version" value="{{.Version}}">
+      {{if not .Expired}}
+      <label for="reply-{{.ID}}" class="sub">Private reply</label>
+      <p class="field-hint" id="reply-hint-{{.ID}}">{{if .Draft}}AI suggestion: check it before sending. It is written from a stranger's comment.{{else}}Write the message they will receive in Messenger.{{end}}</p>
+      <textarea id="reply-{{.ID}}" name="reply" rows="4" maxlength="2000" aria-describedby="reply-hint-{{.ID}}">{{.Draft}}</textarea>
+      {{end}}
+      <div class="actions">
+        <button type="submit" name="decision" value="dismiss">Dismiss</button>
+        {{if not .Expired}}<button type="submit" name="decision" value="send" class="primary"{{if not $.CanSend}} disabled{{end}}>Send private reply</button>{{end}}
+      </div>
+    </form>
+  </section>
+  {{end}}
+
+  {{if .Recent}}
+  <section class="card spaced-lg" aria-labelledby="history-h">
+    <h2 id="history-h" class="card-title">History</h2>
+    <table>
+      <thead><tr><th scope="col">When</th><th scope="col">From</th><th scope="col">Result</th><th scope="col">Comment</th><th scope="col">Reply sent</th><th scope="col">AI reviewer</th></tr></thead>
+      <tbody>
+      {{range .Recent}}
+        <tr><td class="num" data-label="When">{{.When}}</td><td data-label="From">{{.From}}</td><td data-label="Result">{{.Status}}</td><td data-label="Comment"><span class="preview">{{.Message}}</span></td><td data-label="Reply sent">{{if .Reply}}<span class="preview">{{.Reply}}</span>{{else}}<span class="muted-cell">—</span>{{end}}</td><td data-label="AI reviewer">{{if .Shadow}}{{.Shadow}}{{else}}<span class="muted-cell">—</span>{{end}}</td></tr>
+      {{end}}
+      </tbody>
+    </table>
+  </section>
+  {{end}}
+  {{end}}
+</main>
+</div>
+</body>
+</html>

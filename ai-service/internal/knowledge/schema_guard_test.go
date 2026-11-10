@@ -36,6 +36,7 @@ var appliedSchemaSHA256 = map[string]string{
 	"schema_v10.sql": "432c5600faf4c5cc64da6c42665e85f38c8fc642d49ee0f0588fa413dc9363d7",
 	"schema_v11.sql": "932b9b38c76b70c2994d70a2489da91a7b8ff9298d69e0122e263649427b785f",
 	"schema_v12.sql": "753e975409181e40d61592386a904c1ae896ac007139eed53f7bf966d50a2538",
+	"schema_v13.sql": "cfd40164817fe82fe22199a19e6ae33c356f09c6289a3658f82b8232f9466b14",
 }
 
 // destructiveAck marks a reviewed destructive statement. It must give a reason.

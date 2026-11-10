@@ -20,6 +20,7 @@ import (
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/bot"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/cfaccess"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/chatwoot"
+	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/comments"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/config"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/embed"
 	"github.com/DEV-Johnstocker/chatwoot/ai-service/internal/handoff"
@@ -168,6 +169,7 @@ func run() error {
 		h.Places = &places.Recorder{Store: placeStore}
 	}
 	mux := h.Routes()
+	commentQueue := startComments(cfg, profiles, adminProfiles, completer, commentReviewer(cfg, current, completer, logger), mux, logger)
 	var srvMCP *mcp.Server // nil while MCP is off
 	switch {
 	case !cfg.MCPEnabled:
@@ -213,6 +215,7 @@ func run() error {
 			Events: adminEvents(profiles, cfg.AuditRetentionDays),
 			Web:    webStore(profiles), WebSync: webSyncer, Places: adminPlaces(placeStore), Logger: logger,
 			Pending: pendingStore(profiles), Approver: adminApprover(srvMCP),
+			Comments: commentQueue,
 		}).Routes(mux)
 	} else {
 		logger.Info("admin page disabled: set ADMIN_PASSWORD to enable /admin")
@@ -330,6 +333,58 @@ func openKnowledge(cfg config.Config, embedder embed.Embedder, logger *slog.Logg
 		Store: pg, Embedder: embedder,
 		TopK: cfg.RAGTopK, MinScore: cfg.RAGMinScore, ChunkRunes: cfg.RAGChunkRunes,
 	}, &profile.Postgres{Pool: pg.Pool}, pg.Pool.Close, nil
+}
+
+// startComments serves the Facebook Page comment webhook and scores new
+// comments in the background, when the Meta settings and a database are set.
+// It returns the admin queue, or nil (a nil interface) when off.
+func startComments(cfg config.Config, db *profile.Postgres, profiles profile.Store, completer llm.Completer,
+	reviewer comments.Reviewer, mux *http.ServeMux, logger *slog.Logger) admin.CommentQueue {
+	if !cfg.CommentsEnabled() {
+		logger.Info("page comments off: set META_APP_SECRET, META_VERIFY_TOKEN and META_PAGE_ID to collect Facebook comments")
+		return nil
+	}
+	if db == nil {
+		logger.Warn("page comments off: they need DATABASE_URL")
+		return nil
+	}
+	log := logger.With("component", "comments")
+	store := &comments.Postgres{Pool: db.Pool}
+	(&comments.Webhook{AppSecret: cfg.MetaAppSecret, VerifyToken: cfg.MetaVerifyToken, PageID: cfg.MetaPageID,
+		AccountID: cfg.MetaAccountID, Store: store, Logger: log}).Routes(mux)
+	worker := &comments.Worker{Store: store, Scorer: &comments.Scorer{LLM: completer, Profiles: profiles},
+		Logger: log, Timeout: cfg.LLMTimeout, Reviewer: reviewer, Profiles: profiles}
+	go worker.Run(context.Background(), 20*time.Second)
+	q := &comments.Queue{Store: store}
+	if cfg.MetaPageToken != "" {
+		q.Sender = &comments.Graph{BaseURL: "https://graph.facebook.com/" + cfg.MetaGraphVersion,
+			PageID: cfg.MetaPageID, PageToken: cfg.MetaPageToken}
+	} else {
+		log.Warn("page comment replies off: set META_PAGE_TOKEN to send them")
+	}
+	log.Info("page comments on", "path", comments.WebhookPath, "account_id", cfg.MetaAccountID, "sending", q.CanSend())
+	return q
+}
+
+// commentReviewer is the shadow reviewer of drafted comment replies, or nil
+// (a nil interface) when COMMENT_REVIEWER=off. It records what it would do
+// and never sends.
+func commentReviewer(cfg config.Config, current settings.LLM, completer llm.Completer, logger *slog.Logger) comments.Reviewer {
+	switch cfg.CommentReviewer {
+	case "jev":
+		logger.Info("comment reviewer (shadow): jev", "model", cfg.TypeSafeModel)
+		return &comments.JevReviewer{APIKey: cfg.TypeSafeAPIKey, Model: cfg.TypeSafeModel}
+	case "llm":
+		if cfg.CommentReviewModel == "" {
+			logger.Info("comment reviewer (shadow): main model")
+			return &comments.LLMReviewer{LLM: completer}
+		}
+		sw := &llm.Switch{}
+		sw.Set(settings.NewCompleter(settings.RewriteSettings(current, cfg.CommentReviewModel), cfg.LLMTimeout, logger))
+		logger.Info("comment reviewer (shadow): llm", "model", cfg.CommentReviewModel)
+		return &comments.LLMReviewer{LLM: sw, Model: cfg.CommentReviewModel}
+	}
+	return nil
 }
 
 // webStore is the website pages store, or nil without a database.

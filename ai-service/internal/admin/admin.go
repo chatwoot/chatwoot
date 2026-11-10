@@ -96,6 +96,9 @@ type Handler struct {
 	// owner (#60); either nil turns the approvals page off.
 	Pending  pending.Store
 	Approver Approver
+	// Comments lists Facebook Page comments that may be leads; nil shows
+	// the page as off (no Meta settings or no database).
+	Comments CommentQueue
 	// AdminAccess verifies the Cloudflare Access sign-in in front of /admin;
 	// Owners are the emails it admits without the password.
 	AdminAccess Identifier
@@ -139,6 +142,8 @@ func (h *Handler) Routes(mux *http.ServeMux) {
 	mux.Handle("POST /admin/business", wrap(h.submitBusiness))
 	mux.Handle("GET /admin/approvals", wrap(h.showApprovals))
 	mux.Handle("POST /admin/approvals", wrap(h.submitApprovals))
+	mux.Handle("GET /admin/comments", wrap(h.showComments))
+	mux.Handle("POST /admin/comments", wrap(h.submitComments))
 }
 
 type providerView struct {

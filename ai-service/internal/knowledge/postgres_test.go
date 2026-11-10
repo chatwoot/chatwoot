@@ -28,7 +28,7 @@ func openTestDB(t *testing.T) *Postgres {
 		t.Fatal(err)
 	}
 	t.Cleanup(pool.Close)
-	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, oauth_codes, oauth_grants, oauth_clients, team_members, admin_events, web_sources, chatwoot_inboxes, ai_pending_changes, kb_schema_version"); err != nil {
+	if _, err := pool.Exec(ctx, "DROP TABLE IF EXISTS kb_chunks, kb_documents, business_profiles, kb_audit, mcp_tokens, oauth_codes, oauth_grants, oauth_clients, team_members, admin_events, web_sources, chatwoot_inboxes, ai_pending_changes, fb_comments, kb_schema_version"); err != nil {
 		t.Fatal(err)
 	}
 	p := &Postgres{Pool: pool}
@@ -796,7 +796,60 @@ func TestPostgres_V12UpgradeShutsOutAPIRoles(t *testing.T) {
 			AND has_sequence_privilege(r.rolname, 'ai_pending_changes_id_seq', 'USAGE,SELECT,UPDATE'))`).Scan(&version, &rls, &tableOpen, &seqOpen); err != nil {
 		t.Fatal(err)
 	}
-	if version != 12 || !rls || tableOpen || seqOpen {
+	if version != SchemaVersion || !rls || tableOpen || seqOpen {
 		t.Fatalf("version=%d rls=%v table open=%v sequence open=%v", version, rls, tableOpen, seqOpen)
+	}
+}
+
+// v13 on a Supabase-like database: the upgrade from v12 must create the page
+// comments table with row level security on and anon/authenticated shut out,
+// and refuse an unknown status or a second row for the same comment.
+func TestMigrate_V13CommentsTableIsClosedAndChecked(t *testing.T) {
+	// Arrange
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `DO $$ BEGIN
+			IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN CREATE ROLE anon NOLOGIN; END IF;
+			IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN CREATE ROLE authenticated NOLOGIN; END IF;
+		END $$;
+		ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO anon, authenticated;
+		ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated;
+		DROP TABLE fb_comments;
+		UPDATE kb_schema_version SET version = 12;`); err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() {
+		_, _ = db.Pool.Exec(context.Background(), `ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE ALL ON TABLES FROM anon, authenticated;
+			ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE ALL ON SEQUENCES FROM anon, authenticated;`)
+	})
+
+	// Act
+	err := db.Migrate(ctx)
+	insert := func(commentID, status string) error {
+		_, err := db.Pool.Exec(ctx, `INSERT INTO fb_comments (account_id, page_id, comment_id, from_id, created_at, status)
+			VALUES (1, 'p', $1, 'u', now(), $2)`, commentID, status)
+		return err
+	}
+	okErr, dupErr, badStatus := insert("c1", "new"), insert("c1", "new"), insert("c2", "posted")
+
+	// Assert
+	if err != nil {
+		t.Fatal(err)
+	}
+	var version int
+	var rls, tableOpen, seqOpen bool
+	if err := db.Pool.QueryRow(ctx, `SELECT (SELECT version FROM kb_schema_version),
+		(SELECT relrowsecurity FROM pg_class WHERE relname = 'fb_comments'),
+		EXISTS (SELECT 1 FROM pg_roles r WHERE r.rolname IN ('anon', 'authenticated')
+			AND has_table_privilege(r.rolname, 'fb_comments', 'SELECT,INSERT,UPDATE,DELETE')),
+		EXISTS (SELECT 1 FROM pg_roles r WHERE r.rolname IN ('anon', 'authenticated')
+			AND has_sequence_privilege(r.rolname, 'fb_comments_id_seq', 'USAGE,SELECT,UPDATE'))`).Scan(&version, &rls, &tableOpen, &seqOpen); err != nil {
+		t.Fatal(err)
+	}
+	if version != 13 || !rls || tableOpen || seqOpen {
+		t.Fatalf("version=%d rls=%v table open=%v sequence open=%v", version, rls, tableOpen, seqOpen)
+	}
+	if okErr != nil || dupErr == nil || badStatus == nil {
+		t.Fatalf("insert ok=%v duplicate=%v bad status=%v", okErr, dupErr, badStatus)
 	}
 }

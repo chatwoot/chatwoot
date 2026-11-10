@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -88,6 +89,22 @@ type Config struct {
 	AuditRetentionDays int
 	// Location is the business time zone (TIMEZONE), used to tell the model the date.
 	Location *time.Location
+
+	// Facebook Page comments (/webhooks/meta, /admin/comments): on when the
+	// app secret, verify token and Page ID are set, with a database.
+	MetaAppSecret    string // verifies Meta's webhook signature (secret)
+	MetaVerifyToken  string // our token for Meta's subscription check (secret)
+	MetaPageID       string
+	MetaPageToken    string // Page access token for private replies; empty: no sending (secret)
+	MetaAccountID    int64  // the Chatwoot account the Page belongs to (default 1)
+	MetaGraphVersion string // Graph API version, e.g. v24.0
+	// CommentReviewer is the shadow reviewer of drafted replies: off, llm
+	// (the main provider, or CommentReviewModel on it) or jev (TypeSafe).
+	// It only records what it would do; it never sends.
+	CommentReviewer    string
+	CommentReviewModel string
+	TypeSafeAPIKey     string // for COMMENT_REVIEWER=jev (secret)
+	TypeSafeModel      string
 
 	HistoryLimit int
 	Workers      int
@@ -247,6 +264,8 @@ func Load(lookup func(string) (string, bool)) (Config, error) {
 		}
 	}
 
+	errs = loadMeta(&cfg, get, errs)
+
 	required := []struct{ key, val string }{
 		{"CHATWOOT_BASE_URL", cfg.ChatwootBaseURL},
 		{"CHATWOOT_BOT_TOKEN", cfg.ChatwootBotToken},
@@ -285,6 +304,62 @@ func splitList(raw string) []string {
 		}
 	}
 	return out
+}
+
+var (
+	digitsRe       = regexp.MustCompile(`^[0-9]{1,32}$`)
+	graphVersionRe = regexp.MustCompile(`^v[0-9]{1,3}\.[0-9]{1,2}$`)
+)
+
+// loadMeta reads the Facebook Page comment settings. The app secret, verify
+// token and Page ID come together; the Page token is optional (without it
+// comments are queued but cannot be sent).
+func loadMeta(cfg *Config, get func(key, def string) string, errs []error) []error {
+	cfg.MetaAppSecret = get("META_APP_SECRET", "")
+	cfg.MetaVerifyToken = get("META_VERIFY_TOKEN", "")
+	cfg.MetaPageID = get("META_PAGE_ID", "")
+	cfg.MetaPageToken = get("META_PAGE_TOKEN", "")
+	cfg.MetaGraphVersion = get("META_GRAPH_VERSION", "v24.0")
+	cfg.CommentReviewer = get("COMMENT_REVIEWER", "llm")
+	cfg.CommentReviewModel = get("COMMENT_REVIEW_MODEL", "")
+	cfg.TypeSafeAPIKey = get("TYPESAFE_API_KEY", "")
+	cfg.TypeSafeModel = get("TYPESAFE_MODEL", "jev-latest")
+	switch cfg.CommentReviewer {
+	case "off", "llm":
+	case "jev":
+		if cfg.TypeSafeAPIKey == "" {
+			errs = append(errs, errors.New("COMMENT_REVIEWER=jev needs TYPESAFE_API_KEY"))
+		}
+	default:
+		errs = append(errs, errors.New("COMMENT_REVIEWER must be off, llm or jev"))
+	}
+	n, err := strconv.ParseInt(get("META_ACCOUNT_ID", "1"), 10, 64)
+	if err != nil || n < 1 {
+		errs = append(errs, errors.New("META_ACCOUNT_ID must be a positive Chatwoot account id"))
+	}
+	cfg.MetaAccountID = n
+	set := cfg.MetaAppSecret != "" || cfg.MetaVerifyToken != "" || cfg.MetaPageID != "" || cfg.MetaPageToken != ""
+	if !set {
+		return errs
+	}
+	if cfg.MetaAppSecret == "" || cfg.MetaVerifyToken == "" || cfg.MetaPageID == "" {
+		errs = append(errs, errors.New("META_APP_SECRET, META_VERIFY_TOKEN and META_PAGE_ID are required together"))
+	}
+	if cfg.MetaPageID != "" && !digitsRe.MatchString(cfg.MetaPageID) {
+		errs = append(errs, errors.New("META_PAGE_ID must be the numeric Facebook Page id"))
+	}
+	if cfg.MetaVerifyToken != "" && len(cfg.MetaVerifyToken) < 16 {
+		errs = append(errs, errors.New("META_VERIFY_TOKEN must be at least 16 characters"))
+	}
+	if !graphVersionRe.MatchString(cfg.MetaGraphVersion) {
+		errs = append(errs, errors.New("META_GRAPH_VERSION must look like v24.0"))
+	}
+	return errs
+}
+
+// CommentsEnabled reports whether the Page comment webhook is configured.
+func (c Config) CommentsEnabled() bool {
+	return c.MetaAppSecret != "" && c.MetaVerifyToken != "" && c.MetaPageID != ""
 }
 
 // TracingEnabled reports whether every Langfuse setting is present.

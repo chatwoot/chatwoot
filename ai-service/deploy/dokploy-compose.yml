@@ -147,6 +147,21 @@ services:
       REWRITE_MODEL: ${REWRITE_MODEL:-}
       # Voice notes (when switched on per business) are transcribed with this model.
       TRANSCRIBE_MODEL: ${TRANSCRIBE_MODEL:-gpt-4o-mini-transcribe}
+      # Facebook Page comments → /admin/comments (off unless the first three are
+      # set). Meta posts to /webhooks/meta, signed with the app secret; that path
+      # needs a public route of its own (see internal/comments/comments.contract.md).
+      # Without META_PAGE_TOKEN comments are collected but no reply can be sent.
+      META_APP_SECRET: ${META_APP_SECRET:-}
+      META_VERIFY_TOKEN: ${META_VERIFY_TOKEN:-}
+      META_PAGE_ID: ${META_PAGE_ID:-}
+      META_PAGE_TOKEN: ${META_PAGE_TOKEN:-}
+      META_ACCOUNT_ID: ${META_ACCOUNT_ID:-1}
+      # Shadow AI reviewer of drafted comment replies (records, never sends):
+      # off | llm (main provider, or COMMENT_REVIEW_MODEL on it) | jev (TypeSafe).
+      COMMENT_REVIEWER: ${COMMENT_REVIEWER:-llm}
+      COMMENT_REVIEW_MODEL: ${COMMENT_REVIEW_MODEL:-}
+      TYPESAFE_API_KEY: ${TYPESAFE_API_KEY:-}
+      TYPESAFE_MODEL: ${TYPESAFE_MODEL:-jev-latest}
 
   # /admin from a browser: Cloudflare Tunnel → https://ai-admin.johnstockeraistudio.com,
   # behind a Cloudflare Access app (owner emails only). The tunnel's ingress rules

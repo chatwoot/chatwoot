@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-var adminPages = []string{"/admin", "/admin/providers", "/admin/test", "/admin/business", "/admin/knowledge", "/admin/approvals", "/admin/connections"}
+var adminPages = []string{"/admin", "/admin/providers", "/admin/test", "/admin/business", "/admin/knowledge", "/admin/approvals", "/admin/comments", "/admin/connections"}
 
 func TestBrand_EveryPageShowsProntoLogoFaviconAndTitle(t *testing.T) {
 	// Arrange

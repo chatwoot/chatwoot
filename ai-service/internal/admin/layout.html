@@ -333,11 +333,12 @@
     <a href="/admin/business"{{if eq . "business"}} aria-current="page"{{end}}>Business profile</a>
     <a href="/admin/knowledge"{{if eq . "knowledge"}} aria-current="page"{{end}}>Knowledge base</a>
     <a href="/admin/approvals"{{if eq . "approvals"}} aria-current="page"{{end}}>AI approvals</a>
+    <a href="/admin/comments"{{if eq . "comments"}} aria-current="page"{{end}}>Comment leads</a>
     <a href="/admin/connections"{{if eq . "connections"}} aria-current="page"{{end}}>Connect AI tools</a>
     <a class="nav-settings" href="/admin/providers"{{if eq . "providers"}} aria-current="page"{{end}}>AI providers</a>
 {{end}}
 
-{{define "page-name"}}{{if eq . "home"}}Home{{else if eq . "test"}}Test bot{{else if eq . "business"}}Business profile{{else if eq . "knowledge"}}Knowledge base{{else if eq . "approvals"}}AI approvals{{else if eq . "connections"}}Connect AI tools{{else if eq . "providers"}}AI providers{{end}}{{end}}
+{{define "page-name"}}{{if eq . "home"}}Home{{else if eq . "test"}}Test bot{{else if eq . "business"}}Business profile{{else if eq . "knowledge"}}Knowledge base{{else if eq . "approvals"}}AI approvals{{else if eq . "comments"}}Comment leads{{else if eq . "connections"}}Connect AI tools{{else if eq . "providers"}}AI providers{{end}}{{end}}
 
 {{define "theme-form"}}
   <form class="theme" method="post" action="/admin/theme" aria-label="Colour theme">

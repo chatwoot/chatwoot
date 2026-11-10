@@ -213,6 +213,10 @@ the steps by hand. Step 4 moves `production` first:
    on the exact head. Merge with `gh pr merge --match-head-commit <sha>`.
 2. Schema change? Follow `../AGENTS.md` §5 first: backup → apply → check tables
    and the `vector` extension. `Postgres.Migrate` applies new versions on start.
+   After the deploy, rebuild `restore-check` from the deployed commit and
+   reinstall it in `/opt/aisvc-backup/` (see "Scheduled backups"): it checks
+   the schema version and table list compiled into it, so an old binary fails
+   the next nightly drill and sends a false alert.
 3. Check that no other deploy is running: Dokploy → Deployments, or the API
    `deployment.allByCompose`. Two sessions once deployed ten minutes apart.
 4. Get the owner's go-ahead, then deploy: Dokploy → Deploy, or the API
