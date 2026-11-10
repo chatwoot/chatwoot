@@ -57,7 +57,7 @@ module Linear::Mutations
   def self.unlink_issue(link_id)
     <<~GRAPHQL
       mutation {
-        attachmentDelete(id: "#{link_id}") {
+        attachmentDelete(id: #{graphql_value(link_id)}) {
           success
         }
       }

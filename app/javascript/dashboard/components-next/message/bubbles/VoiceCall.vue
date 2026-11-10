@@ -18,6 +18,7 @@ import { useCallsStore } from 'dashboard/stores/calls';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { formatDuration } from 'shared/helpers/timeHelper';
 import { useAlert } from 'dashboard/composables';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
@@ -311,9 +312,14 @@ const handleCallBack = async () => {
       conversationId: response?.conversation_id ?? conversationId.value,
       inboxId: inboxId.value,
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+      provider: VOICE_CALL_PROVIDERS.TWILIO,
     });
   } catch (error) {
-    useAlert(error?.message || t('CONTACT_PANEL.CALL_FAILED'));
+    useAlert(
+      error instanceof ExceptionWithMessage
+        ? error.data
+        : error?.message || t('CONTACT_PANEL.CALL_FAILED')
+    );
   }
 };
 </script>

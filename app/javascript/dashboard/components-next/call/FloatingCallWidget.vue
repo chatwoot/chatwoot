@@ -2,11 +2,23 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { useCallSession } from 'dashboard/composables/useCallSession';
-import { setWhatsappCallMuted } from 'dashboard/composables/useWhatsappCallSession';
+import {
+  isWhatsappCallConnected,
+  sendWhatsappDigits,
+  setWhatsappCallMuted,
+} from 'dashboard/composables/useWhatsappCallSession';
+import TwilioVoiceClient, {
+  isTwilioCallConnected,
+} from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
-import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
+import {
+  VOICE_CALL_DIRECTION,
+  VOICE_CALL_STATUS,
+} from 'dashboard/components-next/message/constants';
 import WindowVisibilityHelper from 'dashboard/helper/AudioAlerts/WindowVisibilityHelper';
 import CallCard from 'dashboard/components-next/call/CallCard.vue';
 import countriesList from 'shared/constants/countries.js';
@@ -16,6 +28,7 @@ const RINGTONE_URL = '/audio/dashboard/ringtone.mp3';
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+const { t } = useI18n();
 
 const {
   activeCall,
@@ -36,6 +49,32 @@ const isWhatsappMuted = ref(false);
 const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
+const showKeypad = computed(() => {
+  if (activeCall.value?.provider === VOICE_CALL_PROVIDERS.TWILIO) {
+    return (
+      isTwilioCallConnected.value &&
+      activeCall.value.status === VOICE_CALL_STATUS.IN_PROGRESS
+    );
+  }
+  return isWhatsappActive.value && isWhatsappCallConnected.value;
+});
+
+const handleSendDigit = digit => {
+  if (!showKeypad.value) return;
+  let sent;
+  if (activeCall.value?.provider === VOICE_CALL_PROVIDERS.TWILIO) {
+    sent = TwilioVoiceClient.sendDigits(digit);
+  } else if (isWhatsappActive.value) {
+    sent = sendWhatsappDigits(digit);
+  } else {
+    return;
+  }
+
+  if (!sent) {
+    useAlert(t('CONVERSATION.VOICE_WIDGET.KEYPAD_SEND_FAILED'));
+  }
+};
+
 const isMuted = computed(() =>
   isWhatsappActive.value ? isWhatsappMuted.value : !!activeCall.value?.onHold
 );
@@ -283,11 +322,13 @@ onBeforeUnmount(stopRingtone);
       :duration="hasActiveCall ? formattedCallDuration : ''"
       :is-muted="isMuted"
       :show-mute="hasActiveCall"
+      :show-keypad="showKeypad"
       @accept="handleJoinCall(primaryIncomingCall)"
       @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
       @dismiss="dismissCall(primaryIncomingCall?.callSid)"
       @end="handleEndCall"
       @toggle-mute="toggleMute"
+      @send-digit="handleSendDigit"
       @go-to-conversation="goToConversation(activeCall || primaryIncomingCall)"
     />
   </div>

@@ -35,10 +35,9 @@ class Call < ApplicationRecord
   STATUSES = %w[ringing in_progress completed no_answer failed rejected].freeze
   TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
   OUTSIDE_WORKING_HOURS = 'outside_working_hours'.freeze
-  NO_AGENTS_AVAILABLE = 'no_agents_available'.freeze
   RING_TIMEOUT = 'ring_timeout'.freeze
   # Calls ended before anyone was rung, and the announcement that tells the caller why
-  ANNOUNCED_END_REASONS = { OUTSIDE_WORKING_HOURS => :out_of_hours, NO_AGENTS_AVAILABLE => :unanswered }.freeze
+  ANNOUNCED_END_REASONS = { OUTSIDE_WORKING_HOURS => :out_of_hours }.freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
                  :accepted_broadcast_at, :recording_enabled, :provider_status
@@ -69,6 +68,7 @@ class Call < ApplicationRecord
 
   # Phones that were rung learn the ring is over; see Voice::VoipPushService
   after_update_commit :cancel_phone_ring, if: :ring_just_ended?
+  include Concerns::CallAssignmentHold
   # On create too: a call whose end arrived before its start is created and ended in one transaction
   after_commit :notify_missed_call, on: %i[create update], if: :missed_just_now?
   validates :status, presence: true, inclusion: { in: STATUSES }
@@ -236,6 +236,11 @@ class Call < ApplicationRecord
     status.to_s.tr('_', '-')
   end
 
+  def dismissed_user_ids = ring_state.fetch('dismissed_user_ids', [])
+
+  # The step a ring in turn is on; a dismiss moves it on, so the step queued before is dropped
+  def ring_step = ring_state.fetch('ring_step', 1)
+
   # Payload shape matches Whatsapp::CallService#broadcast so the frontend's
   # onVoiceCallAccepted/onVoiceCallEnded handlers can treat both providers uniformly.
   def broadcast_voice_call_event(event, **extra)
@@ -298,7 +303,7 @@ class Call < ApplicationRecord
   # Only a call that rang phones has a missed-call notice: the agents rung were recorded
   # as its ring started
   def missed_just_now?
-    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && missed?
+    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && ring_state['rings_phones'] != false && missed?
   end
 
   def notify_missed_call

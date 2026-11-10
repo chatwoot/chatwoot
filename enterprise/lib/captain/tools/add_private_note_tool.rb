@@ -26,8 +26,4 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
       private: true
     )
   end
-
-  def permissions
-    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
-  end
 end
