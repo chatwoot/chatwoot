@@ -464,6 +464,21 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).to include('Invalid operator. The allowed operators for country_code are [equal_to,not_equal_to]')
       end
 
+      %w[contains does_not_contain].each do |operator|
+        it "rejects #{operator} for a numeric custom attribute" do
+          create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                               attribute_display_type: :number, attribute_key: 'contract_count')
+
+          post "/api/v1/accounts/#{account.id}/contacts/filter",
+               params: { payload: [{ attribute_key: 'contract_count', filter_operator: operator, values: ['12'] }] },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to start_with('Invalid operator. The allowed operators for contract_count are')
+        end
+      end
+
       it 'returns error the query value is invalid' do
         post "/api/v1/accounts/#{account.id}/contacts/filter",
              params: { payload: [
