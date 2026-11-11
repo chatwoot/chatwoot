@@ -175,6 +175,7 @@ func (p *Postgres) Finish(ctx context.Context, id int64, status Status, reply, b
 			WHERE id = $1 AND status = 'sending'`, id, clip(errText, 500))
 	} else {
 		tag, err = p.Pool.Exec(ctx, `UPDATE fb_comments SET status = $2, reply = $3, decided_by = $4, decided_at = now(),
+			replied_at = CASE WHEN $2::text = 'sent' THEN now() ELSE replied_at END,
 			error = $5, version = version + 1 WHERE id = $1 AND status = 'sending'`, id, status, reply, clip(by, 320), clip(errText, 500))
 	}
 	if err != nil {
@@ -243,8 +244,9 @@ func (p *Postgres) LastReplies(ctx context.Context, accountID int64, fromIDs []s
 	if len(fromIDs) == 0 {
 		return out, nil
 	}
-	rows, err := p.Pool.Query(ctx, `SELECT from_id, max(decided_at) FROM fb_comments
-		WHERE account_id = $1 AND status = 'sent' AND from_id = ANY($2) AND decided_at IS NOT NULL
+	rows, err := p.Pool.Query(ctx, `SELECT from_id, max(coalesce(replied_at, CASE WHEN status = 'sent' THEN decided_at END)) FROM fb_comments
+		WHERE account_id = $1 AND from_id = ANY($2)
+		  AND (replied_at IS NOT NULL OR (status = 'sent' AND decided_at IS NOT NULL))
 		GROUP BY from_id`, accountID, fromIDs)
 	if err != nil {
 		return nil, err

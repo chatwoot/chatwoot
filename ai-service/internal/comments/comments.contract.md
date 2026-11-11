@@ -22,7 +22,7 @@ become customers.
   - The post goes to the drafter inside `<post>` tags (tag look-alikes removed) and to both reviewers as `post.text`. The drafter answers about the post's topic and, when the profile does not cover it, offers to send details in chat instead of pitching the profile's other products.
   - A comment whose post could not be read is still drafted, but the reviewer always holds it ("post unknown").
   - `/admin/comments` shows "On the post: …" (240 characters) on each card.
-- **Repeat commenters** (2026-11-11): each waiting card says how many other waiting comments the same person left on the same post ("1 more comment from this person on this post"), and warns when this person was already sent a private reply on any comment (`Store.LastReplies`, sent rows within the 30-day retention; a comment the person deleted no longer counts). Nothing is hidden or dismissed automatically; the owner decides.
+- **Repeat commenters** (2026-11-11): each waiting card says how many other waiting comments the same person left on the same post ("1 more comment from this person on this post"), and warns when this person was already sent a private reply on any comment (`Store.LastReplies`, the `replied_at` time of rows within the 30-day retention, schema v14; it survives the person deleting the answered comment, which blanks the text but keeps that time). Nothing is hidden or dismissed automatically; the owner decides.
   - Without `META_PAGE_TOKEN` drafts are written without the post.
 - A background worker (every 20 s) asks the main LLM to classify each new comment as `lead`, `question`, `complaint` or `other`, give a one-line reason, and draft a reply in the business's tone (`profile.Prompt`).
   - `other` is ignored.

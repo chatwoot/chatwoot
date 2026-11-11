@@ -846,10 +846,43 @@ func TestMigrate_V13CommentsTableIsClosedAndChecked(t *testing.T) {
 			AND has_sequence_privilege(r.rolname, 'fb_comments_id_seq', 'USAGE,SELECT,UPDATE'))`).Scan(&version, &rls, &tableOpen, &seqOpen); err != nil {
 		t.Fatal(err)
 	}
-	if version != 13 || !rls || tableOpen || seqOpen {
+	if version != SchemaVersion || !rls || tableOpen || seqOpen {
 		t.Fatalf("version=%d rls=%v table open=%v sequence open=%v", version, rls, tableOpen, seqOpen)
 	}
 	if okErr != nil || dupErr == nil || badStatus == nil {
 		t.Fatalf("insert ok=%v duplicate=%v bad status=%v", okErr, dupErr, badStatus)
+	}
+}
+
+func TestMigrate_V14KeepsWhenRepliesWereSent(t *testing.T) {
+	// Arrange: a version-13 database with one sent and one dismissed comment
+	db := openTestDB(t)
+	ctx := context.Background()
+	if _, err := db.Pool.Exec(ctx, `ALTER TABLE fb_comments DROP COLUMN replied_at;
+		UPDATE kb_schema_version SET version = 13;
+		INSERT INTO fb_comments (account_id, page_id, comment_id, from_id, created_at, status, decided_at) VALUES
+			(1, 'p', 'sent', 'u', now(), 'sent', '2026-11-11 10:00:00+00'),
+			(1, 'p', 'dismissed', 'u', now(), 'dismissed', '2026-11-11 11:00:00+00');`); err != nil {
+		t.Fatal(err)
+	}
+
+	// Act
+	err := db.Migrate(ctx)
+	again := db.Migrate(ctx)
+
+	// Assert
+	if err != nil || again != nil {
+		t.Fatalf("migrate %v, again %v", err, again)
+	}
+	var version int
+	var sent, dismissed *time.Time
+	if err := db.Pool.QueryRow(ctx, `SELECT (SELECT version FROM kb_schema_version),
+		(SELECT replied_at FROM fb_comments WHERE comment_id = 'sent'),
+		(SELECT replied_at FROM fb_comments WHERE comment_id = 'dismissed')`).Scan(&version, &sent, &dismissed); err != nil {
+		t.Fatal(err)
+	}
+	want := time.Date(2026, 11, 11, 10, 0, 0, 0, time.UTC)
+	if version != SchemaVersion || sent == nil || !sent.Equal(want) || dismissed != nil {
+		t.Fatalf("version=%d sent=%v dismissed=%v", version, sent, dismissed)
 	}
 }
