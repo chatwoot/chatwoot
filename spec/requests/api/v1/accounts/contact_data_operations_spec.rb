@@ -139,6 +139,32 @@ RSpec.describe 'Contact data operations API', type: :request do
     expect(account.data_exports).to be_empty
   end
 
+  it 'keeps existing Contacts filtering behavior while restricting export text values' do
+    contact = create(:contact, account: account, name: '123', email: 'person@example.com')
+    filter = { attribute_key: 'name', filter_operator: 'equal_to', values: [123], query_operator: nil }
+
+    post "#{base_url}/contacts/filter", headers: headers, params: { payload: [filter] }, as: :json
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body['payload'].pluck('id')).to eq([contact.id])
+
+    post "#{base_url}/data_exports", headers: headers, params: { payload: [filter] }, as: :json
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(account.data_exports).to be_empty
+  end
+
+  it 'continues accepting boolean and numeric custom attribute export filters' do
+    create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                         attribute_key: 'score', attribute_display_type: :number)
+    filters = [
+      { attribute_key: 'blocked', filter_operator: 'equal_to', values: [false], query_operator: 'AND' },
+      { attribute_key: 'score', filter_operator: 'is_greater_than', values: [10], attribute_model: 'custom_attributes',
+        custom_attribute_type: 'contact_attribute', query_operator: nil }
+    ]
+    post "#{base_url}/data_exports", headers: headers, params: { payload: filters }, as: :json
+    expect(response).to have_http_status(:ok)
+    expect(account.data_exports.last.export_options['payload'].last['values']).to eq([10])
+  end
+
   it 'returns a short-lived download URL only for a completed export' do
     record = DataExports::CreationService.new(account: account, initiated_by: admin, options: {}).perform
     get "#{base_url}/data_exports/#{record.id}/download", headers: headers

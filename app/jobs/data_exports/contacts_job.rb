@@ -1,6 +1,7 @@
 class DataExports::ContactsJob < ApplicationJob
   queue_as :low
   BATCH_SIZE = 1000
+  ACCESS_REVOKED_MESSAGE = 'The requesting user no longer has export access.'.freeze
 
   def perform(data_export, run_id)
     @data_export = data_export
@@ -16,18 +17,23 @@ class DataExports::ContactsJob < ApplicationJob
       write_csv(file, contacts, selection.columns)
       publish(file) if owned?
     end
-  rescue StandardError
-    fail_export
+  rescue StandardError => e
+    fail_export(e)
     raise
   end
 
   private
 
-  def fail_export
+  def fail_export(error)
+    message = if error.is_a?(Pundit::NotAuthorizedError)
+                ACCESS_REVOKED_MESSAGE
+              else
+                'The export could not finish. Run the export again to retry.'
+              end
     @data_export&.with_lock do
       if owned?
         @data_export.update!(status: :failed, completed_at: Time.current,
-                             error_message: 'The export could not finish. Run the export again to retry.')
+                             error_message: message)
       end
     end
   end
@@ -39,7 +45,7 @@ class DataExports::ContactsJob < ApplicationJob
       if @data_export.requester_authorized?
         @data_export.update!(status: :processing, started_at: Time.current)
       else
-        @data_export.update!(status: :failed, completed_at: Time.current, error_message: 'The requesting user no longer has export access.')
+        @data_export.update!(status: :failed, completed_at: Time.current, error_message: ACCESS_REVOKED_MESSAGE)
         false
       end
     end

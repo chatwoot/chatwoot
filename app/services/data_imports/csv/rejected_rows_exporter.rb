@@ -8,22 +8,19 @@ class DataImports::Csv::RejectedRowsExporter
 
     headers = @data_import.source_metadata.fetch('headers').excluding('errors')
     Tempfile.create(['rejected-contacts', '.csv']) do |file|
-      file.write(CSVSafe.generate_line(headers + ['errors', DataImports::Csv::RejectedRowsFormat::VERSION_COLUMN]))
+      file.write(DataImports::Csv::RejectedRowsFormat.generate_headers(headers + ['errors']))
       @data_import.items.failed.find_each do |item|
         values = headers.map { |header| item.metadata.fetch('fields')[header] } + [item.last_error_message]
         file.write(DataImports::Csv::RejectedRowsFormat.generate_line(values))
       end
-      attach_file(file)
+      upload_file(file)
     end
   end
 
   private
 
-  def attach_file(file)
+  def upload_file(file)
     file.rewind
-    blob = ActiveStorage::Blob.create_and_upload!(io: file, filename: "contacts-#{@data_import.id}-rejected.csv", content_type: 'text/csv')
-    @data_import.failed_records.attach(blob)
-  ensure
-    blob&.purge_later if blob && !blob.attachments.exists?
+    ActiveStorage::Blob.create_and_upload!(io: file, filename: "contacts-#{@data_import.id}-rejected.csv", content_type: 'text/csv')
   end
 end
