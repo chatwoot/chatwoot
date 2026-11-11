@@ -109,8 +109,11 @@ describe Messages::Facebook::MessageBuilder do
 
     context 'when contact is blocked' do
       let!(:blocked_contact) { create(:contact, account: facebook_channel.account, blocked: true) }
-      let!(:contact_inbox) do
+
+      before do
         create(:contact_inbox, contact: blocked_contact, inbox: facebook_channel.inbox, source_id: '3383290475046708')
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return({ name: 'Blocked User' }.with_indifferent_access)
       end
 
       it 'does not create a conversation or message for incoming message' do
@@ -120,9 +123,6 @@ describe Messages::Facebook::MessageBuilder do
       end
 
       it 'allows outgoing echo message to be created' do
-        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
-        allow(fb_object).to receive(:get_object).and_return({ name: 'Blocked User' }.with_indifferent_access)
-
         echo_message_object = {
           messaging: {
             sender: { id: facebook_channel.page_id },

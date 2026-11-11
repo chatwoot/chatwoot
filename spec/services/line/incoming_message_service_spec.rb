@@ -272,7 +272,7 @@ describe Line::IncomingMessageService do
         create(:contact_inbox, contact: blocked_contact, inbox: line_channel.inbox, source_id: 'U4af4980629')
 
         expect do
-          described_class.new(inbox: line_channel.inbox, params: text_params).perform
+          described_class.new(inbox: line_channel.inbox, params: params).perform
         end.to not_change(Conversation, :count).and not_change(Message, :count)
       end
     end

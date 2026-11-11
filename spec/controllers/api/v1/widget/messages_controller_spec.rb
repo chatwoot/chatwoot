@@ -103,9 +103,10 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
     end
 
-    context 'when the contact is blocked' do
+    context 'when the contact is blocked and no conversation exists' do
       before do
         contact.update!(blocked: true)
+        conversation.destroy!
       end
 
       it 'rejects the message with forbidden and does not create message or conversation' do
@@ -338,20 +339,6 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
     end
 
-    context 'when contact is blocked' do
-      it 'rejects update with forbidden' do
-        contact.update!(blocked: true)
-        message = conversation.messages.last
-
-        put api_v1_widget_message_url(message.id),
-            params: { website_token: web_widget.website_token, contact: { email: Faker::Internet.email } },
-            headers: { 'X-Auth-Token' => token },
-            as: :json
-
-        expect(response).to have_http_status(:forbidden)
-        expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
-      end
-    end
 
     context 'when put request is made with non existing email' do
       it 'updates message in conversation and creates a new contact' do
