@@ -27,4 +27,21 @@ RSpec.describe 'Contact manager data operations', type: :request do
                                                         params: { source_provider: 'intercom', access_token: 'test' }, as: :json
     expect(response).to have_http_status(:unauthorized)
   end
+
+  it 'reports permission loss when a custom role loses contact access during an export' do
+    create(:contact, account: account, email: 'person@example.com')
+    post "/api/v1/accounts/#{account.id}/data_exports", headers: headers, params: {}, as: :json
+    expect(response).to have_http_status(:ok)
+    record = account.data_exports.find(response.parsed_body['id'])
+    job = DataExports::ContactsJob.new
+    allow(job).to receive(:write_batch).and_wrap_original do |method, *args|
+      method.call(*args)
+      custom_role.update!(permissions: [])
+    end
+
+    expect { job.perform(record, record.active_run_id) }.to raise_error(Pundit::NotAuthorizedError)
+    expect(record.reload).to be_failed
+    expect(record.error_message).to eq('The requesting user no longer has export access.')
+    expect(record.export_file).not_to be_attached
+  end
 end

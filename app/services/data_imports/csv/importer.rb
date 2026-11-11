@@ -43,16 +43,12 @@ class DataImports::Csv::Importer
   end
 
   def finish!
-    @run_state.with_lock do
-      return unless @data_import.items.pending.none?
+    return unless @run_state.active? && @data_import.items.pending.none?
 
-      DataImports::Csv::RejectedRowsExporter.new(@data_import).perform
-      current_stats = stats
-      @data_import.update!(status: current_stats.dig('contacts', 'failed').positive? ? :completed_with_errors : :completed,
-                           completed_at: Time.current, stats: current_stats,
-                           processed_records: current_stats.dig('contacts', 'imported'))
-      DataImports::Csv::NotificationJob.perform_later(@data_import)
-    end
+    blob = DataImports::Csv::RejectedRowsExporter.new(@data_import).perform
+    complete!(blob)
+  ensure
+    blob&.purge_later if blob && !blob.attachments.exists?
   end
 
   def fail!(error)
@@ -69,6 +65,19 @@ class DataImports::Csv::Importer
   end
 
   private
+
+  def complete!(blob)
+    @run_state.with_lock do
+      return unless @data_import.items.pending.none?
+
+      @data_import.failed_records.attach(blob) if blob
+      current_stats = stats
+      @data_import.update!(status: current_stats.dig('contacts', 'failed').positive? ? :completed_with_errors : :completed,
+                           completed_at: Time.current, stats: current_stats,
+                           processed_records: current_stats.dig('contacts', 'imported'))
+      DataImports::Csv::NotificationJob.perform_later(@data_import)
+    end
+  end
 
   def process_item(item)
     @run_state.with_lock do
