@@ -159,14 +159,11 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         ))
       end
 
-      it 'tells the caller nobody is available and hangs up, without a conference' do
-        post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params)
+      it 'puts the caller in the conference to wait for an agent to come online' do
+        expect { post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params) }.to have_enqueued_job(Voice::EndUnansweredCallJob)
 
-        xml = Nokogiri::XML(response.body)
-        expect(xml.at_xpath('//Say').text).to eq('Nobody is available right now.')
-        expect(xml.at_xpath('//Hangup')).to be_present
-        expect(xml.at_xpath('//Dial')).to be_nil
-        expect(inbox.calls.sole).to have_attributes(status: 'no_answer', end_reason: 'no_agents_available')
+        expect(Nokogiri::XML(response.body).at_xpath('//Conference')).to be_present
+        expect(inbox.calls.sole).to be_ringing
       end
 
       it 'rings an online agent and times the ring instead' do

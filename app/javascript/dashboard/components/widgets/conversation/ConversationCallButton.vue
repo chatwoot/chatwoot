@@ -118,6 +118,7 @@ const startTwilioCall = async () => {
       conversationId: response?.conversation_id ?? props.chat.id,
       inboxId: props.inbox?.id,
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+      provider: VOICE_CALL_PROVIDERS.TWILIO,
     });
   } catch (error) {
     useAlert(

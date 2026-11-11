@@ -94,6 +94,18 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
+  setCallRouting(
+    inboxId,
+    { ringStrategy, ringStepSeconds, preferFreeAgents, callCooldownSeconds }
+  ) {
+    return axios.patch(`${this.url}/${inboxId}/call_routing`, {
+      ring_strategy: ringStrategy,
+      ring_step_seconds: ringStepSeconds,
+      prefer_free_agents: preferFreeAgents,
+      call_cooldown_seconds: callCooldownSeconds,
+    });
+  }
+
   // kind: 'out_of_hours' | 'greeting' | 'unanswered'; only 'unanswered' carries a ring time
   setCallAnnouncement(inboxId, kind, { enabled, message, timeoutSeconds }) {
     return axios.patch(`${this.url}/${inboxId}/call_announcements/${kind}`, {
