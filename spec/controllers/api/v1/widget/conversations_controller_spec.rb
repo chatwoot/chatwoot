@@ -139,6 +139,82 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(messages.pluck(:content)).to include('Hello from the team')
     end
 
+    context 'when the pre-chat details match an identified contact' do
+      let!(:identified_contact) do
+        create(:contact, account: account, identifier: 'customer-1', name: 'Real Customer', email: 'contact-email@chatwoot.com',
+                         phone_number: '+15555550100', custom_attributes: { 'plan' => 'pro' })
+      end
+
+      def create_widget_conversation(contact_params = conversation_params[:contact])
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: conversation_params.merge(contact: contact_params),
+             as: :json
+        account.conversations.find_by(display_id: response.parsed_body['id'])
+      end
+
+      it 'links the conversation and the widget session to the identified contact as unverified' do
+        new_conversation = create_widget_conversation
+
+        expect(response).to have_http_status(:success)
+        expect(new_conversation.contact_id).to eq identified_contact.id
+        expect(contact_inbox.reload).to have_attributes(contact_id: identified_contact.id, hmac_verified: false)
+        expect(Contact.exists?(contact.id)).to be(false)
+      end
+
+      it 'links the conversation when only the phone number matches' do
+        new_conversation = create_widget_conversation({ name: 'contact-name', phone_number: '+15555550100' })
+
+        expect(new_conversation.contact_id).to eq identified_contact.id
+        expect(contact_inbox.reload).to have_attributes(contact_id: identified_contact.id, hmac_verified: false)
+      end
+
+      it 'does not change the details of the identified contact' do
+        create_widget_conversation(conversation_params[:contact].merge(custom_attributes: { plan: 'free' }))
+
+        expect(identified_contact.reload).to have_attributes(
+          name: 'Real Customer',
+          email: 'contact-email@chatwoot.com',
+          phone_number: '+15555550100',
+          custom_attributes: { 'plan' => 'pro' }
+        )
+      end
+
+      it 'does not ask for the email again in the same widget session' do
+        create_widget_conversation
+
+        get '/api/v1/widget/contact',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response.parsed_body['has_email']).to be(true)
+      end
+
+      it 'does not link the visitor when the inbox requires identity verification' do
+        web_widget.update!(hmac_mandatory: true)
+
+        new_conversation = create_widget_conversation
+
+        expect(new_conversation.contact_id).to eq contact.id
+        expect(contact_inbox.reload.contact_id).to eq contact.id
+        expect(new_conversation.messages.find_by(private: true).content).to include("didn't link this conversation")
+      end
+
+      it 'does not show the identified contact conversations to the visitor' do
+        new_conversation = create_widget_conversation
+        verified_session = create(:contact_inbox, contact: identified_contact, inbox: web_widget.inbox, hmac_verified: true)
+        create(:conversation, contact: identified_contact, account: account, inbox: web_widget.inbox, contact_inbox: verified_session)
+
+        get '/api/v1/widget/conversations',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response.parsed_body['id']).to eq new_conversation.display_id
+      end
+    end
+
     it 'does not update the name if the contact already exist' do
       existing_contact = create(:contact, account: account, email: 'contact-email@chatwoot.com')
 

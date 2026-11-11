@@ -355,6 +355,22 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(note.content).to include('customer@test.com')
         expect(note.content).to include("/contacts/#{identified_contact.id}")
       end
+
+      it 'links the conversation and the widget session to the identified contact as unverified' do
+        message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
+        identified_contact = create(:contact, account: account, identifier: 'customer-1', name: 'Real Customer', email: 'customer@test.com')
+
+        put api_v1_widget_message_url(message.id),
+            params: { website_token: web_widget.website_token, contact: { email: 'customer@test.com' } },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['contact']['has_email']).to be(true)
+        expect(conversation.reload.contact_id).to eq identified_contact.id
+        expect(contact_inbox.reload).to have_attributes(contact_id: identified_contact.id, hmac_verified: false)
+        expect(identified_contact.reload).to have_attributes(name: 'Real Customer', email: 'customer@test.com')
+      end
     end
 
     context 'when put request is made with invalid email' do

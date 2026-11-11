@@ -28,6 +28,14 @@ describe Conversations::UnverifiedContactNoteService do
     )
   end
 
+  it 'says the conversation was linked when the visitor was linked to the matched contact' do
+    matches = [{ key: :email, value: 'jane@acme.com', contact: email_contact }]
+
+    described_class.new(conversation: conversation, matches: matches, linked: true).perform
+
+    expect(conversation.messages.last.content).to start_with('This visitor entered contact details that belong to an existing contact. We linked')
+  end
+
   it 'labels the link with the phone number when the contact has no name or email' do
     contact = create(:contact, account: account, name: '', identifier: 'customer-1', phone_number: '+14155550123')
     matches = [{ key: :phone_number, value: '+14155550123', contact: contact }]
