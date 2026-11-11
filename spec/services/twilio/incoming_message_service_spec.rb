@@ -48,16 +48,12 @@ describe Twilio::IncomingMessageService do
     end
 
     context 'when contact is blocked' do
-      let!(:twilio_channel) do
-        create(:channel_twilio_sms, account: account, account_sid: 'ACxxx',
-                                    inbox: create(:inbox, account: account, greeting_enabled: false))
-      end
-      let!(:blocked_contact) { create(:contact, account: account, phone_number: '+14155550199', blocked: true) }
-      let!(:blocked_contact_inbox) do
-        create(:contact_inbox, source_id: '+14155550199', contact: blocked_contact, inbox: twilio_channel.inbox)
-      end
-
       it 'does not create a conversation or message' do
+        twilio_channel = create(:channel_twilio_sms, account: account, account_sid: 'ACxxx',
+                                                     inbox: create(:inbox, account: account, greeting_enabled: false))
+        blocked_contact = create(:contact, account: account, phone_number: '+14155550199', blocked: true)
+        blocked_contact_inbox = create(:contact_inbox, source_id: '+14155550199', contact: blocked_contact, inbox: twilio_channel.inbox)
+
         expect do
           described_class.new(
             params: {

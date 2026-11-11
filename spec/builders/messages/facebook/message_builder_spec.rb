@@ -108,9 +108,8 @@ describe Messages::Facebook::MessageBuilder do
     end
 
     context 'when contact is blocked' do
-      let!(:blocked_contact) { create(:contact, account: facebook_channel.account, blocked: true) }
-
       before do
+        blocked_contact = create(:contact, account: facebook_channel.account, blocked: true)
         create(:contact_inbox, contact: blocked_contact, inbox: facebook_channel.inbox, source_id: '3383290475046708')
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return({ name: 'Blocked User' }.with_indifferent_access)
