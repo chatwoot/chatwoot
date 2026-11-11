@@ -43,6 +43,99 @@ RSpec.describe DataImports::Csv::Importer do
     expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
   end
 
+  context 'when ordinary CSV columns update custom attributes' do
+    let(:csv) { "name,email,row_number,tier,notes\nUpdated,existing@example.com,customer-42,,New note\n" }
+
+    it 'preserves row_number and skips blank custom attribute cells without emitting contact events' do
+      existing = create(:contact, account: account, email: 'existing@example.com',
+                                  custom_attributes: { tier: 'gold', notes: 'Old note', subscribed: false })
+      data_import
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      importer.import_contacts_page
+      importer.finish!
+
+      expect(existing.reload.custom_attributes).to eq('row_number' => 'customer-42', 'tier' => 'gold',
+                                                      'notes' => 'New note', 'subscribed' => false)
+      expect(data_import.items.first.metadata['row_number']).to eq(1)
+      expect(data_import.reload).to be_completed
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
+    end
+  end
+
+  context 'when publishing rejected rows' do
+    before do
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      importer.import_contacts_page
+    end
+
+    it 'uploads before locking the import and attaches the file on completion' do
+      locked = false
+      allow(data_import).to receive(:with_lock).and_wrap_original do |method, &block|
+        locked = true
+        method.call(&block)
+      ensure
+        locked = false
+      end
+      allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_wrap_original do |method, **args|
+        expect(locked).to be(false)
+        method.call(**args)
+      end
+
+      importer.finish!
+
+      expect(data_import.reload).to be_completed_with_errors
+      expect(data_import.failed_records).to be_attached
+    end
+
+    it 'does not publish an uploaded file if the import was abandoned during upload' do
+      blob = nil
+      allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_wrap_original do |method, **args|
+        blob = method.call(**args)
+        DataImport.find(data_import.id).update!(status: :abandoned, abandoned_at: Time.current)
+        blob
+      end
+
+      expect { importer.finish! }.to have_enqueued_job(ActiveStorage::PurgeJob)
+      expect(data_import.reload).to be_abandoned
+      expect(data_import.failed_records).not_to be_attached
+      expect(blob.attachments).to be_empty
+      expect(DataImports::Csv::NotificationJob).not_to have_been_enqueued
+    end
+
+    it 'does not let a previous run attach a file after a restart during upload' do
+      allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_wrap_original do |method, **args|
+        blob = method.call(**args)
+        current = DataImport.find(data_import.id)
+        current.update!(source_metadata: current.source_metadata.merge('active_import_run_id' => 'replacement'))
+        blob
+      end
+
+      expect { importer.finish! }.to have_enqueued_job(ActiveStorage::PurgeJob)
+      expect(data_import.reload).to be_processing
+      expect(data_import.failed_records).not_to be_attached
+      expect(DataImports::Csv::NotificationJob).not_to have_been_enqueued
+    end
+
+    it 'retains the uploaded blob for cleanup when completion rolls back' do
+      blob = nil
+      allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_wrap_original do |method, **args|
+        blob = method.call(**args)
+      end
+      allow(data_import).to receive(:with_lock).and_wrap_original do |method, &block|
+        method.call(requires_new: true, &block)
+      end
+      allow(DataImports::Csv::NotificationJob).to receive(:perform_later).and_raise(IOError, 'Queue unavailable')
+
+      expect { importer.finish! }.to raise_error(IOError, 'Queue unavailable')
+      expect(data_import.reload).to be_processing
+      expect(data_import.failed_records).not_to be_attached
+      expect(ActiveStorage::Blob.exists?(blob.id)).to be(true)
+      expect(ActiveStorage::PurgeJob).to have_been_enqueued.with(blob)
+    end
+  end
+
   context 'when the CSV has a structural error after a valid row' do
     let(:csv) { "name,email\nValid,valid@example.com\n\"unterminated" }
 
@@ -146,9 +239,9 @@ RSpec.describe DataImports::Csv::Importer do
     end
     let(:csv) do
       CSV.generate do |output|
-        output << %w[name identifier email labels note]
+        output << %w[name identifier email labels note -region '-literal]
         existing_contacts.each_with_index do |contact, index|
-          output << ["Updated #{index}", contact.identifier, contact.email, 'missing', "'literal note"]
+          output << ["Updated #{index}", contact.identifier, contact.email, 'missing', "'literal note", 'West', 'Literal header']
         end
       end
     end
@@ -177,7 +270,7 @@ RSpec.describe DataImports::Csv::Importer do
         expect(contact.reload.identifier).to eq(identities[index].first)
         expect(contact.email).to eq(identities[index].last)
         expect(contact.name).to eq("Updated #{index}")
-        expect(contact.custom_attributes).to eq('note' => "'literal note")
+        expect(contact.custom_attributes).to eq('note' => "'literal note", '-region' => 'West', "'-literal" => 'Literal header')
       end
     end
 
