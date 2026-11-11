@@ -134,6 +134,60 @@ check "no fallback says so" "yes" "$(grep -qF 'no fallback configured' "$tmp/sla
 PROBE="200 -" FALLBACK="none" check_target fb c "$tmp" 4600 $H >/dev/null
 check "recovery from fallback posts" ":white_check_mark:" "$(head -1 "$tmp/slack" | cut -d' ' -f1)"
 
+# --- Meta Page token (comment leads): valid, expiring, rejected ---
+D=86400
+check "valid token without expiry ok" ok "$(meta_state 200 true 0 1000)"
+check "valid token far from expiry ok" ok "$(meta_state 200 true $((1000 + 30 * D)) 1000)"
+check "token expiring within 14 days" expiring "$(meta_state 200 true $((1000 + 13 * D)) 1000)"
+check "token Meta says is invalid" invalid "$(meta_state 200 false 0 1000)"
+check "token Graph rejects (400, code 190)" invalid "$(meta_state 400 - - 1000)"
+check "Graph unreachable" unreachable "$(meta_state 000 - - 1000)"
+check "Graph server error" provider_error "$(meta_state 503 - - 1000)"
+
+docker() { printf 'META_PAGE_TOKEN=%s\n' "$marker"; }
+curl() {
+  local cfg='' out='' prev=''
+  for a in "$@"; do
+    [[ "$prev" == -K ]] && cfg=$a
+    [[ "$prev" == -o ]] && out=$a
+    prev=$a
+  done
+  printf '%s\n' "$@" >"$tmp/argv"
+  cat "$cfg" >"$tmp/cfg"
+  echo '{"data":{"is_valid":true,"expires_at":1799518173}}' >"$out"
+  printf 200
+}
+got=$(probe_meta some-container)
+check "meta probe reads validity and expiry" "200 true 1799518173" "$got"
+check "meta token not on curl argv" "0" "$(grep -c "$marker" "$tmp/argv" || true)"
+check "meta token only in curl config" "2" "$(grep -c "$marker" "$tmp/cfg" || true)"
+check "meta token not in output" "0" "$(grep -c "$marker" <<<"$got" || true)"
+docker() { printf 'LLM_API_KEY=x\n'; }
+check "no Page token means no check" none "$(probe_meta c)"
+unset -f docker curl
+# shellcheck source=openai-check.sh
+source "$here/openai-check.sh"
+
+posts=0
+post_slack() { posts=$((posts + 1)); echo "$1" >"$tmp/slack"; }
+probe_meta() { echo "$META"; }
+META="200 true $((1000 + 10 * D))" check_meta staging c "$tmp" 1000 >/dev/null
+check "expiring token posts" 1 "$posts"
+check "expiry warning names the date" "yes" "$(grep -qF 'expires' "$tmp/slack" && echo yes || echo no)"
+check "expiry warning icon" ":warning:" "$(head -1 "$tmp/slack" | cut -d' ' -f1)"
+META="200 true $((1000 + 10 * D))" check_meta staging c "$tmp" $((1000 + 3600)) >/dev/null
+check "expiring again within a day quiet" 1 "$posts"
+META="200 true $((1000 + 10 * D))" check_meta staging c "$tmp" $((1000 + D + 60)) >/dev/null
+check "expiring reminds daily" 2 "$posts"
+META="400 - -" check_meta staging c "$tmp" $((1000 + D + 120)) >/dev/null
+check "rejected token alerts" 3 "$posts"
+check "rejected says what to do" "yes" "$(grep -qF 'new system-user token' "$tmp/slack" && echo yes || echo no)"
+META="200 true 0" check_meta staging c "$tmp" $((1000 + D + 180)) >/dev/null
+check "token fixed posts recovery" ":white_check_mark:" "$(head -1 "$tmp/slack" | cut -d' ' -f1)"
+check "meta state kept apart from the model check" "prev=ok" "$(head -1 "$tmp/staging-meta-token")"
+META="none" check_meta production c "$tmp" 1000 >/dev/null
+check "no Page token posts nothing" 4 "$posts"
+
 # --- refuses to run without a Slack webhook ---
 if (unset SLACK_BACKUP_WEBHOOK_URL; main) >/dev/null 2>&1; then
   check "missing webhook refused" refused accepted

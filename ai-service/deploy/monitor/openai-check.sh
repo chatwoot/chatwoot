@@ -18,6 +18,10 @@
 # Keys go to curl through a root-only config file, never the command line,
 # and are never printed.
 #
+# It also checks each container's Meta Page token (META_PAGE_TOKEN, used to
+# read and answer Facebook comments): rejected, or expiring within 14 days,
+# posts to Slack, with a daily reminder. Containers without one are skipped.
+#
 # Settings: SLACK_BACKUP_WEBHOOK_URL (shared with the backup alert,
 # /etc/aisvc-backup-alert.env). Optional /etc/aisvc-openai-check.env:
 #   OPENAI_CHECK_CONTAINERS  "label=container ..." (default: every running
@@ -153,6 +157,84 @@ probe_fallback() {
   echo "$(probe_provider "$base" "$key" "$model") $host"
 }
 
+# meta_state <http status> <is_valid> <expires_at> <now epoch> prints ok,
+# expiring (within 14 days), invalid, unreachable or provider_error.
+meta_state() {
+  local status=$1 valid=$2 exp=$3 now=$4
+  case "$status" in
+    2??) ;;
+    000 | '') echo unreachable; return ;;
+    4??) echo invalid; return ;; # Graph's 400 / code 190: expired or revoked
+    *) echo provider_error; return ;;
+  esac
+  if [[ "$valid" != true ]]; then
+    echo invalid
+  elif [[ "$exp" =~ ^[0-9]+$ ]] && ((exp > 0 && exp - now < 14 * 86400)); then
+    echo expiring
+  else
+    echo ok
+  fi
+}
+
+# probe_meta <container> prints "<http status> <is_valid> <expires_at>" for
+# the container's Meta Page token, or "none" when it has no token. The token
+# goes in the curl config file (header and URL), never on the command line.
+probe_meta() {
+  local envs token cfg body status
+  envs=$(container_env "$1")
+  token=$(env_value "$envs" META_PAGE_TOKEN)
+  if [[ -z "$token" ]]; then
+    echo none
+    return
+  fi
+  cfg=$(mktemp) body=$(mktemp)
+  printf 'header = "Authorization: Bearer %s"\nurl = "%s/debug_token?input_token=%s"\n' \
+    "$token" "${META_GRAPH_URL:-https://graph.facebook.com/v24.0}" "$token" >"$cfg"
+  status=$(curl --silent --max-time 20 -o "$body" -w '%{http_code}' -K "$cfg" || true)
+  read -r valid exp < <(jq -r '[(.data.is_valid // "-"), (.data.expires_at // "-")] | map(tostring) | join(" ")' "$body" 2>/dev/null || echo "- -")
+  rm -f "$cfg" "$body"
+  echo "${status:-000} ${valid:--} ${exp:--}"
+}
+
+meta_explain() { # <state> <expires_at>
+  case "$1" in
+    ok) echo "the Page token works again" ;;
+    expiring) echo "The Meta Page token used for Facebook comment leads expires $(date -u -d "@$2" '+%F' 2>/dev/null || echo "at $2"). Generate a new system-user token (expiry Never) and hand it over through the secret box." ;;
+    invalid) echo "META PAGE TOKEN REJECTED: comment leads can't read posts or send private replies. Generate a new system-user token (expiry Never) and hand it over through the secret box." ;;
+    unreachable) echo "Meta's Graph API could not be reached twice in a row." ;;
+    *) echo "Meta's Graph API returned server errors twice in a row." ;;
+  esac
+}
+
+# check_meta <label> <container> <state dir> <now>: like check_target, for
+# the Meta Page token, reminding once a day.
+check_meta() {
+  local label=$1 container=$2 dir=$3 now=$4
+  local file="$dir/$label-meta-token" prev=ok streak=0 last=0 since=$now
+  local status valid exp state action icon head text
+  read -r status valid exp < <(probe_meta "$container")
+  [[ "$status" == none ]] && return 0
+  # shellcheck disable=SC1090
+  [[ -f "$file" ]] && source "$file"
+  state=$(meta_state "$status" "$valid" "$exp" "$now")
+  [[ "$state" == "$prev" ]] || since=$now
+  read -r action streak < <(decide "$prev" "$streak" "$last" "$state" "$now" 86400)
+  echo "$label meta token: $state (HTTP $status, valid $valid, expires $exp) -> $action"
+  if [[ "$action" != quiet ]]; then
+    icon=':x:' head="$label bot: Meta Page token problem"
+    [[ "$state" == expiring ]] && icon=':warning:' head="$label bot: Meta Page token expiring"
+    [[ "$action" == recovered ]] && icon=':white_check_mark:' head="$label bot: Meta Page token OK again"
+    text=$(printf '%s *%s*\n%s\nHost: %s · check: systemctl start aisvc-openai-check' "$icon" "$head" "$(meta_explain "$state" "$exp")" "$(hostname)")
+    if post_slack "$text"; then
+      last=$now
+      [[ "$action" == recovered ]] && last=0
+    else
+      echo "SLACK POST FAILED for $label meta token" >&2
+    fi
+  fi
+  printf 'prev=%q\nstreak=%q\nlast=%q\nsince=%q\n' "$state" "$streak" "$last" "$since" >"$file"
+}
+
 quota_errors() { # <container>
   docker logs --since 35m "$1" 2>&1 | grep -ciE 'insufficient_quota|credit_balance|no credits|status 429' || true
 }
@@ -229,6 +311,7 @@ main() {
     [[ -n "$t" ]] || continue
     found=1
     check_target "${t%%=*}" "${t#*=}" "$dir" "$now" "$remind"
+    check_meta "${t%%=*}" "${t#*=}" "$dir" "$now"
   done < <(list_targets)
   if [[ $found -eq 0 ]]; then
     echo "no ai-service container found" >&2

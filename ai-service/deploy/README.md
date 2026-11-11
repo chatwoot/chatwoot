@@ -367,6 +367,10 @@ and staging) it does two things:
   (`EMBED_FALLBACK_*`). If the fallback answers, the state is a ⚠️ warning
   ("answering through fallback"), not a ❌ failure.
 - It counts quota errors in the last 35 minutes of the container's log.
+- When the container has a `META_PAGE_TOKEN` (Facebook comment leads), it asks
+  Meta's `debug_token` whether that token is still valid. A rejected token is
+  a ❌, a token expiring within 14 days is a ⚠️, both with a daily reminder.
+  Containers without a Page token are skipped.
 
 It posts to Slack `#chatwoot-ai-service` through the backup alert's webhook
 (`SLACK_BACKUP_WEBHOOK_URL` in `/etc/aisvc-backup-alert.env`) in these
