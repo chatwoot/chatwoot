@@ -123,6 +123,39 @@ type Worker struct {
 	Profiles profile.Store
 	// Posts reads the post each comment was left on; nil drafts without it.
 	Posts PostReader
+	// Now is the clock (tests); nil uses time.Now.
+	Now func() time.Time
+
+	// A provider's 429 pauses scoring instead of counting as a failed
+	// attempt: 30 s, doubling to 10 min, reset by the next success. Only the
+	// Run goroutine touches these.
+	pauseUntil time.Time
+	backoff    time.Duration
+}
+
+// Rate-limit pauses.
+const (
+	firstBackoff = 30 * time.Second
+	maxBackoff   = 10 * time.Minute
+)
+
+func (w *Worker) now() time.Time {
+	if w.Now != nil {
+		return w.Now()
+	}
+	return time.Now()
+}
+
+// pause stops scoring after a 429, longer each time it repeats.
+func (w *Worker) pause(c Comment) {
+	if w.backoff == 0 {
+		w.backoff = firstBackoff
+	} else {
+		w.backoff = min(2*w.backoff, maxBackoff)
+	}
+	w.pauseUntil = w.now().Add(w.backoff)
+	w.Logger.Warn("model rate limited: comment scoring paused", "account_id", c.AccountID, "comment_id", c.CommentID,
+		"pause_seconds", int(w.backoff.Seconds()))
 }
 
 // batch is how many comments one pass scores.
@@ -131,6 +164,9 @@ const batch = 10
 // RunOnce scores up to one batch of new comments and returns how many it
 // scored. A comment the model cannot score stays new and is tried next pass.
 func (w *Worker) RunOnce(ctx context.Context) int {
+	if w.now().Before(w.pauseUntil) {
+		return 0
+	}
 	list, err := w.Store.Unscored(ctx, batch)
 	if err != nil {
 		w.Logger.Error("list unscored comments", "error", err)
@@ -142,6 +178,10 @@ func (w *Worker) RunOnce(ctx context.Context) int {
 		cctx, cancel := context.WithTimeout(ctx, w.Timeout)
 		intent, reason, draft, err := w.Scorer.Score(cctx, c)
 		cancel()
+		if err != nil && llm.IsRateLimited(err) {
+			w.pause(c) // not the comment's fault: no attempt is counted
+			return done
+		}
 		if err != nil {
 			w.Logger.Warn("score page comment", "account_id", c.AccountID, "comment_id", c.CommentID, "attempt", c.Attempts+1, "error", err)
 			if err := w.Store.Retry(ctx, c.ID); err != nil {
@@ -153,6 +193,7 @@ func (w *Worker) RunOnce(ctx context.Context) int {
 			w.Logger.Error("save comment score", "account_id", c.AccountID, "comment_id", c.CommentID, "error", err)
 			continue
 		}
+		w.backoff = 0
 		w.Logger.Info("page comment scored", "account_id", c.AccountID, "comment_id", c.CommentID, "intent", string(intent))
 		done++
 		if intent != IntentOther && draft != "" {

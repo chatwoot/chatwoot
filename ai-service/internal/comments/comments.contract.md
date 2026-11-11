@@ -26,6 +26,7 @@ become customers.
 - A background worker (every 20 s) asks the main LLM to classify each new comment as `lead`, `question`, `complaint` or `other`, give a one-line reason, and draft a reply in the business's tone (`profile.Prompt`).
   - `other` is ignored.
   - A failed model call leaves the comment for a later pass, behind comments that have not failed. After 3 failures it goes to the owner unscored ("Not sorted").
+  - A provider's 429 (rate limit, or no credit on the primary with the fallback also limited) is not a failure: no attempt is counted, the pass stops, and scoring pauses 30 s, doubling to 10 min, reset by the next success (2026-11-11; OpenRouter's 20 requests a minute used to turn a burst of comments into "Not sorted").
   - The comment and the commenter's name are inside `<comment>` tags with tag look-alikes removed. The page labels every draft as an AI suggestion to check, because a comment can still steer what the model writes.
 - `/admin/comments` (same auth and cross-origin protection as every admin page, form capped at 16 KiB):
   - waiting comments, newest first (at most 100), each with the time left in Meta's 7-day window;
