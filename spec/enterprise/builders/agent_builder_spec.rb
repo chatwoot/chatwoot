@@ -76,7 +76,10 @@ RSpec.describe AgentBuilder do
       let(:other_account) { create(:account) }
       let!(:existing_user) { create(:user, email: email, account: other_account) }
 
-      before { other_account.enable_features!('saml') }
+      before do
+        account.enable_features!('saml')
+        other_account.enable_features!('saml')
+      end
 
       it 'adds the user when the other account trusts the same identity provider' do
         create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
@@ -85,6 +88,14 @@ RSpec.describe AgentBuilder do
 
         expect(existing_user.reload.accounts).to include(account)
         expect(existing_user.provider).to eq('saml')
+      end
+
+      it 'refuses the user when SAML is disabled for this account' do
+        create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+        account.disable_features!('saml')
+
+        expect { builder.perform }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(existing_user.reload.provider).to eq('email')
       end
 
       it 'refuses the user when the other account does not trust the same identity provider' do
