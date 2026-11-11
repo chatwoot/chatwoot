@@ -221,3 +221,20 @@ func (m *Memory) ReviewStats(_ context.Context, accountID int64) (ReviewStats, e
 	}
 	return s, nil
 }
+
+// LastReplies implements Store.
+func (m *Memory) LastReplies(_ context.Context, accountID int64, fromIDs []string) (map[string]time.Time, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	want := map[string]bool{}
+	for _, id := range fromIDs {
+		want[id] = true
+	}
+	out := map[string]time.Time{}
+	for _, c := range m.rows {
+		if c.AccountID == accountID && c.Status == StatusSent && want[c.FromID] && c.DecidedAt.After(out[c.FromID]) {
+			out[c.FromID] = c.DecidedAt
+		}
+	}
+	return out, nil
+}

@@ -46,6 +46,8 @@ type commentItem struct {
 	Draft    string
 	PostURL  string
 	Post     string // a snippet of the post the comment is on
+	Repeat   string // "1 more comment from this person on this post"
+	Replied  string // "Already sent this person a private reply on …"
 	LastFail string
 	Shadow   string // the shadow reviewer's call, or ""
 	Hold     bool   // the shadow reviewer would hold it
@@ -176,6 +178,15 @@ func (h *Handler) loadComments(ctx context.Context, data *commentsData) error {
 			Draft: c.Draft, PostURL: postURL(c.PostID), Post: snippet(c.PostText, 240), LastFail: c.Error}
 		if !it.Expired {
 			it.Left = timeLeft(c.CreatedAt.Add(comments.ReplyWindow).Sub(now))
+		}
+		switch {
+		case c.MoreOnPost == 1:
+			it.Repeat = "1 more comment from this person on this post"
+		case c.MoreOnPost > 1:
+			it.Repeat = strconv.Itoa(c.MoreOnPost) + " more comments from this person on this post"
+		}
+		if !c.RepliedAt.IsZero() {
+			it.Replied = "Already sent this person a private reply on " + h.stamp(c.RepliedAt)
 		}
 		if c.Review != nil {
 			it.Hold = !c.Review.Pass

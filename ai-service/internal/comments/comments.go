@@ -106,6 +106,12 @@ type Comment struct {
 	PostText  string
 	PostKnown bool
 
+	// Filled by Queue.Waiting for the page, not stored: other waiting
+	// comments from the same person on the same post, and when this person
+	// was last sent a private reply on any comment (zero: never).
+	MoreOnPost int
+	RepliedAt  time.Time
+
 	Intent Intent
 	Reason string // one line from the scorer, for the owner
 	Draft  string // the reply the scorer suggests
@@ -163,6 +169,9 @@ type Store interface {
 	// SaveReview records the shadow reviewer's answer on a comment. It does
 	// not change the comment's status or version.
 	SaveReview(ctx context.Context, id int64, r Review) error
+	// LastReplies returns, for each of fromIDs that was sent a private reply
+	// in this account, the time of the latest one.
+	LastReplies(ctx context.Context, accountID int64, fromIDs []string) (map[string]time.Time, error)
 	// ReviewStats compares the reviewer with the owner's decisions.
 	ReviewStats(ctx context.Context, accountID int64) (ReviewStats, error)
 	// Purge deletes comments received before cutoff and returns how many.

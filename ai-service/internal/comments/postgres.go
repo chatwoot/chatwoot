@@ -236,3 +236,27 @@ func (p *Postgres) ReviewStats(ctx context.Context, accountID int64) (ReviewStat
 	}
 	return s, nil
 }
+
+// LastReplies implements Store.
+func (p *Postgres) LastReplies(ctx context.Context, accountID int64, fromIDs []string) (map[string]time.Time, error) {
+	out := map[string]time.Time{}
+	if len(fromIDs) == 0 {
+		return out, nil
+	}
+	rows, err := p.Pool.Query(ctx, `SELECT from_id, max(decided_at) FROM fb_comments
+		WHERE account_id = $1 AND status = 'sent' AND from_id = ANY($2) AND decided_at IS NOT NULL
+		GROUP BY from_id`, accountID, fromIDs)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var id string
+		var at time.Time
+		if err := rows.Scan(&id, &at); err != nil {
+			return nil, err
+		}
+		out[id] = at
+	}
+	return out, rows.Err()
+}

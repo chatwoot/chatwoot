@@ -294,3 +294,29 @@ func TestComments_CardShowsThePostTheCommentIsOn(t *testing.T) {
 		t.Fatalf("post snippet missing or unescaped")
 	}
 }
+
+func TestComments_CardFlagsRepeatsAndPeopleAlreadyAnswered(t *testing.T) {
+	// Arrange: Somchai was answered before and has commented twice more.
+	e := newCommentsEnv(t, true, true)
+	first := e.waiting(t, 2, "c0", "สนใจ", time.Now().Add(-2*time.Hour))
+	if err := e.sendNow(first); err != nil {
+		t.Fatal(err)
+	}
+	e.waiting(t, 2, "c1", "สนใจครับ", time.Now().Add(-time.Hour))
+	e.waiting(t, 2, "c2", "ราคาเท่าไหร่", time.Now())
+
+	// Act
+	body := serve(e.mux, commentsGet("account=2")).Body.String()
+
+	// Assert
+	for _, want := range []string{"1 more comment from this person on this post", "Already sent this person a private reply on"} {
+		if !strings.Contains(body, want) {
+			t.Errorf("page lacks %q", want)
+		}
+	}
+}
+
+// sendNow sends the stored comment through the queue, as the owner would.
+func (e *commentsEnv) sendNow(c comments.Comment) error {
+	return (&comments.Queue{Store: e.store, Sender: e.sender}).Send(context.Background(), c.AccountID, c.ID, c.Version, "hello", "owner")
+}

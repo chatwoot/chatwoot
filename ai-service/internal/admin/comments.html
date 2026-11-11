@@ -39,6 +39,8 @@
       <p class="hint">{{.When}}{{with .Left}} · {{.}}{{end}}{{with .PostURL}} · <a href="{{.}}" target="_blank" rel="noopener noreferrer">Open post</a>{{end}}</p>
     </div>
     <div class="diff">
+      {{with .Replied}}<div class="alert warn" role="status">{{.}}. Meta allows one private reply per comment, but the same person may not want another message.</div>{{end}}
+      {{with .Repeat}}<p class="field-hint"><strong>{{.}}</strong>: one reply is usually enough; dismiss the others.</p>{{end}}
       {{with .Post}}<p class="field-hint">On the post: {{.}}</p>{{end}}
       <h3 class="sub">Comment</h3>
       <pre class="code diff-now">{{.Message}}</pre>

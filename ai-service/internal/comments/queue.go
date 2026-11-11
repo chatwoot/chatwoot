@@ -51,8 +51,14 @@ func (q *Queue) CanSend() bool { return q.Sender != nil }
 // Waiting lists the account's comments that wait for the owner.
 func (q *Queue) Waiting(ctx context.Context, accountID int64) ([]Comment, error) {
 	list, err := q.Store.Waiting(ctx, accountID)
-	if err != nil || q.Posts == nil {
+	if err != nil {
 		return list, err
+	}
+	if err := q.markRepeats(ctx, accountID, list); err != nil {
+		return nil, err
+	}
+	if q.Posts == nil {
+		return list, nil
 	}
 	// One read per post per page load, all within one budget; a failed or
 	// late read just shows no post.
@@ -146,4 +152,35 @@ func (q *Queue) ReviewStats(ctx context.Context, accountID int64) (ReviewStats, 
 // Dismiss marks a waiting comment as not answered.
 func (q *Queue) Dismiss(ctx context.Context, accountID, id int64, version int, by string) error {
 	return q.Store.Dismiss(ctx, accountID, id, version, by)
+}
+
+// markRepeats fills MoreOnPost and RepliedAt, so the owner sees a person who
+// commented several times, or was already sent a private reply.
+func (q *Queue) markRepeats(ctx context.Context, accountID int64, list []Comment) error {
+	type key struct{ from, post string }
+	count := map[key]int{}
+	var people []string
+	seen := map[string]bool{}
+	for _, c := range list {
+		if c.FromID == "" {
+			continue
+		}
+		count[key{c.FromID, c.PostID}]++
+		if !seen[c.FromID] {
+			seen[c.FromID] = true
+			people = append(people, c.FromID)
+		}
+	}
+	replied, err := q.Store.LastReplies(ctx, accountID, people)
+	if err != nil {
+		return err
+	}
+	for i, c := range list {
+		if c.FromID == "" {
+			continue
+		}
+		list[i].MoreOnPost = count[key{c.FromID, c.PostID}] - 1
+		list[i].RepliedAt = replied[c.FromID]
+	}
+	return nil
 }
