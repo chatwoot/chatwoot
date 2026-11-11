@@ -339,7 +339,6 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
     end
 
-
     context 'when put request is made with non existing email' do
       it 'updates message in conversation and creates a new contact' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)

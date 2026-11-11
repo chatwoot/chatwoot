@@ -11,7 +11,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     identify_action = nil
     ActiveRecord::Base.transaction do
       identify_action = process_update_contact
-      if @contact&.blocked? || identify_action&.unverified_matches&.any? { |m| m[:contact]&.blocked? }
+      if blocked_contact?(identify_action)
         render_contact_blocked
         raise ActiveRecord::Rollback
       end
@@ -87,6 +87,10 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   private
+
+  def blocked_contact?(identify_action)
+    @contact&.blocked? || identify_action&.unverified_matches&.any? { |m| m[:contact]&.blocked? }
+  end
 
   def send_transcript_email
     return if conversation.contact&.email.blank?
