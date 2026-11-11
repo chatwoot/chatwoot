@@ -11,6 +11,8 @@ import ChannelList from './ChannelList.vue';
 import AddAgents from './AddAgents.vue';
 import FinishSetup from './FinishSetup.vue';
 
+const INBOX_MANAGE_PERMISSIONS = ['administrator', 'can_manage_inboxes'];
+
 export default {
   routes: [
     {
@@ -29,7 +31,7 @@ export default {
           component: InboxHome,
           meta: {
             featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
-            permissions: ['administrator'],
+            permissions: INBOX_MANAGE_PERMISSIONS,
           },
         },
       ],
@@ -58,7 +60,7 @@ export default {
               component: ChannelList,
               meta: {
                 featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
-                permissions: ['administrator'],
+                permissions: INBOX_MANAGE_PERMISSIONS,
               },
             },
             {
@@ -67,7 +69,7 @@ export default {
               component: FinishSetup,
               meta: {
                 featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
-                permissions: ['administrator'],
+                permissions: INBOX_MANAGE_PERMISSIONS,
               },
             },
             {
@@ -76,7 +78,7 @@ export default {
               component: ChannelFactory,
               meta: {
                 featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
-                permissions: ['administrator'],
+                permissions: INBOX_MANAGE_PERMISSIONS,
               },
               props: route => {
                 return { channelName: route.params.sub_page };
@@ -87,7 +89,7 @@ export default {
               name: 'settings_inboxes_add_agents',
               meta: {
                 featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
-                permissions: ['administrator'],
+                permissions: INBOX_MANAGE_PERMISSIONS,
               },
               component: AddAgents,
             },
@@ -99,7 +101,7 @@ export default {
           component: Settings,
           meta: {
             featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
-            permissions: ['administrator'],
+            permissions: INBOX_MANAGE_PERMISSIONS,
           },
         },
       ],

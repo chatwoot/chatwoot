@@ -10,7 +10,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.CAMPAIGNS,
-  permissions: ['administrator'],
+  permissions: ['administrator', 'can_manage_campaigns'],
 };
 
 const campaignsRoutes = {

@@ -1,0 +1,40 @@
+# Maps Keycloak realm roles to Chatwoot granular capabilities.
+# Role names are matched with or without a "keycloak:" prefix.
+# A role with `administrator: true` grants the full Chatwoot administrator role.
+# Roles listed here that grant no capabilities are restricted agents.
+capabilities:
+  - can_view_all_inboxes
+  - can_view_all_contacts
+  - can_delete_conversations
+  - can_manage_inboxes
+  - can_manage_automations
+  - can_manage_campaigns
+  - can_view_reports
+  - can_export_contacts
+  - can_import_contacts
+  - can_delete_contacts
+  - can_use_flow_builder
+
+# Capabilities every account user without a Keycloak role keeps (existing agent behaviour).
+default_agent_capabilities:
+  - can_view_all_contacts
+
+roles:
+  chatwoot_admin:
+    administrator: true
+  chatwoot_manager:
+    permissions:
+      - can_view_all_inboxes
+      - can_view_all_contacts
+      - can_delete_conversations
+      - can_manage_automations
+      - can_manage_campaigns
+      - can_view_reports
+      - can_export_contacts
+      - can_import_contacts
+      - can_use_flow_builder
+  chatwoot_agent:
+    permissions:
+      - can_view_all_contacts
+  chatwoot_agent_limited:
+    permissions: []

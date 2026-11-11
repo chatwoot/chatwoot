@@ -1,0 +1,13 @@
+FROM chatwoot/chatwoot:latest@sha256:0ea1fdeecf99470d76c51ca6d60f54d0e0b044c149ea069290741b35113a720d
+
+WORKDIR /app
+ENV NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider"
+COPY . /app
+
+RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+  && npm install --global pnpm@10.2.0 \
+  && bundle install -j 4 -r 3 \
+  && pnpm install --frozen-lockfile \
+  && SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
+  && git rev-parse HEAD > /app/.git_sha \
+  && rm -rf /app/spec /app/node_modules /app/tmp/cache /app/.git

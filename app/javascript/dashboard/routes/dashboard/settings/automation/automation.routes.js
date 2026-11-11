@@ -21,7 +21,7 @@ export default {
           component: Automation,
           meta: {
             featureFlag: FEATURE_FLAGS.AUTOMATIONS,
-            permissions: ['administrator'],
+            permissions: ['administrator', 'can_manage_automations'],
           },
         },
       ],
