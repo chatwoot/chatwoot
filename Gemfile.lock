@@ -584,8 +584,8 @@ GEM
     newrelic-sidekiq-metrics (1.6.2)
       newrelic_rpm (>= 8.0.0)
       sidekiq
-    newrelic_rpm (9.6.0)
-      base64
+    newrelic_rpm (10.9.1)
+      logger
     nio4r (2.7.5)
     nokogiri (1.19.5)
       mini_portile2 (~> 2.8.2)

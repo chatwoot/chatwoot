@@ -18,6 +18,11 @@ common: &default_settings
   distributed_tracing:
     enabled: true
 
+  simplify_action_cable_broadcast_metrics: true
+
+  ai_monitoring:
+    enabled: false
+
   # To disable the agent regardless of other settings, uncomment the following:
   agent_enabled: <%= ENV['NEW_RELIC_LICENSE_KEY'].present? && ENV.fetch('NEW_RELIC_AGENT_ENABLED', true)  %>
 
