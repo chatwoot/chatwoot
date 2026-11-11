@@ -371,7 +371,21 @@ RSpec.describe 'Data Imports API', type: :request do
       end.not_to have_enqueued_job(DataImports::Intercom::ImportJob)
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['message']).to eq('Another Intercom import is already in progress.')
+      expect(response.parsed_body['message']).to eq('Another data import is already in progress.')
+    end
+
+    it 'uses a provider-neutral conflict message while a legacy contact import is active' do
+      data_import.update!(updated_at: 16.minutes.ago)
+      create(:data_import, account: account, status: :processing)
+
+      expect do
+        post retry_api_v1_account_data_import_url(account_id: account.id, id: data_import.id),
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to have_enqueued_job(DataImports::Intercom::ImportJob)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('Another data import is already in progress.')
     end
 
     it 'resumes a stalled Freshdesk import with the Freshdesk job' do

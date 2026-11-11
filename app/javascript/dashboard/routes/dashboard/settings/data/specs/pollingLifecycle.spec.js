@@ -2,6 +2,7 @@ import { flushPromises, mount } from '@vue/test-utils';
 import { KeepAlive, defineComponent, h, nextTick, ref } from 'vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
 import DataExportsAPI from 'dashboard/api/dataExports';
+import { useAlert } from 'dashboard/composables';
 import Index from '../Index.vue';
 import Show from '../Show.vue';
 
@@ -55,9 +56,17 @@ const mountKeptAlive = component => {
   return mount(Host, {
     global: {
       stubs: {
-        SettingsLayout: true,
-        BaseSettingsHeader: true,
-        Button: true,
+        SettingsLayout: {
+          template: '<main><slot name="header"/><slot name="body"/></main>',
+        },
+        BaseSettingsHeader: {
+          template: '<header><slot name="actions"/></header>',
+        },
+        Button: {
+          name: 'Button',
+          props: ['label', 'disabled'],
+          template: '<button :disabled="disabled">{{ label }}</button>',
+        },
         Icon: true,
         TabBar: true,
         NewImportDialog: true,
@@ -85,6 +94,49 @@ describe('data import polling lifecycle', () => {
     vi.useRealTimers();
     vi.clearAllMocks();
   });
+
+  it.each(['pending', 'processing'])(
+    'blocks creation during a %s contact import and re-enables it after completion',
+    async status => {
+      const record = { id: 1, data_type: 'contacts', status };
+      DataImportsAPI.get.mockResolvedValue({
+        data: { payload: [record], can_create_import: false },
+      });
+      const wrapper = mountKeptAlive(Index);
+      try {
+        await flushPromises();
+        const createButton = wrapper
+          .findAllComponents({ name: 'Button' })
+          .find(
+            button => button.props('label') === 'DATA_IMPORTS.TABLE.NEW_IMPORT'
+          );
+        const dialog = wrapper.findComponent({ name: 'NewImportDialog' });
+        expect(createButton.props('disabled')).toBe(false);
+        expect(dialog.props('hasActiveImport')).toBe(true);
+        createButton.vm.$emit('click');
+        await nextTick();
+        expect(useAlert).toHaveBeenCalledWith(
+          'DATA_IMPORTS.DRAWER.ACTIVE_IMPORT'
+        );
+        expect(dialog.props('show')).toBe(false);
+
+        DataImportsAPI.get.mockResolvedValue({
+          data: {
+            payload: [{ ...record, status: 'completed' }],
+            can_create_import: true,
+          },
+        });
+        await vi.advanceTimersByTimeAsync(5000);
+        expect(createButton.props('disabled')).toBe(false);
+        expect(dialog.props('hasActiveImport')).toBe(false);
+        createButton.vm.$emit('click');
+        await nextTick();
+        expect(dialog.props('show')).toBe(true);
+      } finally {
+        wrapper.unmount();
+      }
+    }
+  );
 
   it('does not start list polling after the page deactivates', async () => {
     const request = deferredRequest();

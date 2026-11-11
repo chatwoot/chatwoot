@@ -45,6 +45,17 @@ RSpec.describe Conversations::EventDataPresenter do
     end
   end
 
+  describe '#widget_data' do
+    it 'returns only the conversation id and state' do
+      expect(presenter.widget_data).to eq(
+        id: conversation.display_id,
+        inbox_id: conversation.inbox_id,
+        contact_last_seen_at: conversation.contact_last_seen_at.to_i,
+        status: conversation.status
+      )
+    end
+  end
+
   describe '#webhook_data' do
     it 'includes account details for webhook consumers' do
       expect(presenter.webhook_data[:account]).to eq(conversation.account.webhook_data)

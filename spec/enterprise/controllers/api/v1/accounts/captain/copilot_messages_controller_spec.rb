@@ -51,6 +51,22 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotMessagesController', type: :r
       end
     end
 
+    context 'when Copilot is still working on the last message' do
+      before { CopilotRun::Turn.create!(account: account, user: user, copilot_thread: copilot_thread, copilot_message: copilot_message) }
+
+      it 'refuses the message instead of answering it after the current one' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads/#{copilot_thread.id}/copilot_messages",
+               params: { message: 'And the unassigned ones?' },
+               headers: user.create_new_auth_token,
+               as: :json
+        end.not_to change(CopilotMessage, :count)
+
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(response.parsed_body['error']).to eq(I18n.t('captain.copilot.still_working'))
+      end
+    end
+
     context 'when thread does not exist' do
       it 'returns not found error' do
         post "/api/v1/accounts/#{account.id}/captain/copilot_threads/999999999/copilot_messages",
