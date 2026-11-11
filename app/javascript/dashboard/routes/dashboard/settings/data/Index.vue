@@ -24,7 +24,6 @@ import {
   formatStatus,
   importedCount,
   isActiveImport,
-  isActiveIntegrationImport,
   statusDotClass,
 } from './importStatus';
 
@@ -53,9 +52,6 @@ const activeTabIndex = computed(() =>
 );
 
 const hasActiveImport = computed(() => dataImports.value.some(isActiveImport));
-const hasActiveIntegrationImport = computed(() =>
-  dataImports.value.some(isActiveIntegrationImport)
-);
 
 const dataImportRoute = dataImport => ({
   name: 'settings_data_import_show',
@@ -137,7 +133,7 @@ const openImport = dataImport => {
 };
 
 const openImportDrawer = () => {
-  if (!hasActiveIntegrationImport.value) showImportDrawer.value = true;
+  if (!hasActiveImport.value) showImportDrawer.value = true;
 };
 
 const onImportCreated = dataImportId => {
@@ -227,9 +223,9 @@ onBeforeUnmount(() => {
           <Button
             size="sm"
             :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
-            :disabled="hasActiveIntegrationImport"
+            :disabled="hasActiveImport"
             :title="
-              hasActiveIntegrationImport
+              hasActiveImport
                 ? $t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT')
                 : undefined
             "
@@ -371,7 +367,7 @@ onBeforeUnmount(() => {
 
   <NewImportDialog
     :show="showImportDrawer"
-    :has-active-import="hasActiveIntegrationImport"
+    :has-active-import="hasActiveImport"
     @close="showImportDrawer = false"
     @created="onImportCreated"
   />
