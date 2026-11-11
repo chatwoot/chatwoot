@@ -1126,6 +1126,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         }
       ],
       "post": {
@@ -1214,6 +1217,9 @@
           "$ref": "#/components/parameters/public_contact_identifier"
         },
         {
+          "$ref": "#/components/parameters/public_identifier_hash"
+        },
+        {
           "$ref": "#/components/parameters/conversation_id"
         }
       ],
@@ -1268,6 +1274,9 @@
           "$ref": "#/components/parameters/public_contact_identifier"
         },
         {
+          "$ref": "#/components/parameters/public_identifier_hash"
+        },
+        {
           "$ref": "#/components/parameters/conversation_id"
         }
       ],
@@ -1320,6 +1329,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         },
         {
           "$ref": "#/components/parameters/conversation_id"
@@ -1401,6 +1413,9 @@
           "$ref": "#/components/parameters/public_contact_identifier"
         },
         {
+          "$ref": "#/components/parameters/public_identifier_hash"
+        },
+        {
           "$ref": "#/components/parameters/conversation_id"
         }
       ],
@@ -1446,6 +1461,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         },
         {
           "$ref": "#/components/parameters/conversation_id"
@@ -1535,6 +1553,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         },
         {
           "$ref": "#/components/parameters/conversation_id"
@@ -17960,6 +17981,15 @@
         },
         "required": true,
         "description": "The source id of contact obtained on contact create"
+      },
+      "public_identifier_hash": {
+        "in": "query",
+        "name": "identifier_hash",
+        "schema": {
+          "type": "string"
+        },
+        "required": false,
+        "description": "HMAC-SHA256 of the contact identifier, signed with the inbox HMAC token. Required when the inbox enforces identity validation."
       },
       "portal_slug": {
         "in": "path",
