@@ -5,6 +5,7 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
   before_action :validate_reorder_positions, only: [:reorder]
   DEFAULT_ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   DEFINITION_ID_FORMAT = /\A\d+\z/
+  MAX_REORDER_POSITION = 1_000_000
 
   def index; end
 
@@ -70,7 +71,7 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
     positions = positions_hash.values
     return false if positions_hash.blank?
     return false unless ids.all? { |id| id.match?(DEFINITION_ID_FORMAT) }
-    return false unless positions.all? { |position| position.is_a?(Integer) && position.positive? }
+    return false unless positions.all? { |position| position.is_a?(Integer) && position.between?(1, MAX_REORDER_POSITION) }
 
     positions.uniq.size == positions.size
   end
