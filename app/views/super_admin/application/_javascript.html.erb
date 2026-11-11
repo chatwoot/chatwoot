@@ -11,6 +11,7 @@ by providing a `content_for(:javascript)` block.
   <%= javascript_include_tag js_path %>
 <% end %>
 
+<%= javascript_include_tag 'rails-ujs' %>
 <%= javascript_include_tag 'belongsToSearchField' %>
 
 <%= yield :javascript %>

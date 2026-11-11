@@ -3,3 +3,4 @@
 //= link administrate/application.js
 //= link administrate-field-active_storage/application.css
 //= link belongsToSearchField.js
+//= link rails-ujs.js
