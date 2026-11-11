@@ -14,7 +14,8 @@ class Internal::ExpireDataOperationFilesJob < ApplicationJob
     imports = DataImport.arel_table
     terminal_at = Arel::Nodes::NamedFunction.new('COALESCE', %i[completed_at abandoned_at last_error_at updated_at].map { |column| imports[column] })
     expired_at = Arel::Nodes::InfixOperation.new('->>', imports[:source_metadata], Arel::Nodes.build_quoted('artifacts_expired_at'))
-    DataImport.where(source_provider: 'csv', status: [:completed, :completed_with_errors, :failed, :abandoned])
+    DataImport.where(source_provider: 'csv').or(DataImport.where(data_type: 'contacts', source_provider: [nil, '']))
+              .where(status: [:completed, :completed_with_errors, :failed, :abandoned])
               .where(terminal_at.lt(RETENTION.ago)).where(expired_at.eq(nil))
   end
 
@@ -34,7 +35,7 @@ class Internal::ExpireDataOperationFilesJob < ApplicationJob
     # Keep row outcomes and counters, remove the source contact data and diagnostic values.
     metadata = Arel::Nodes::InfixOperation.new('-', DataImportItem.arel_table[:metadata], Arel::Nodes.build_quoted('fields'))
     record.items.update_all(metadata: metadata, last_error_message: nil) # rubocop:disable Rails/SkipsModelValidations
-    record.import_errors.delete_all
+    DataImportError.where(data_import_id: record.id).delete_all
   end
 
   def expire_export(record)

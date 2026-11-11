@@ -70,10 +70,19 @@ class DataExports::ContactSelection
 
   def valid_filter_values?(filter)
     strings_valid = %w[query_operator attribute_model custom_attribute_type].all? { |key| filter[key].nil? || filter[key].is_a?(String) }
-    strings_valid && filter['values'].is_a?(Array) && filter['values'].all? do |value|
-      [String, Numeric, TrueClass, FalseClass].any? do |type|
+    return false unless strings_valid && filter['values'].is_a?(Array)
+
+    types = string_filter?(filter) ? [String] : [String, Numeric, TrueClass, FalseClass]
+    filter['values'].all? do |value|
+      types.any? do |type|
         value.is_a?(type)
       end
     end
+  end
+
+  def string_filter?(filter)
+    @contact_filters ||= YAML.safe_load_file(Rails.root.join('lib/filters/filter_keys.yml')).fetch('contacts')
+    data_type = @contact_filters.dig(filter['attribute_key'], 'data_type')
+    %w[text text_case_insensitive labels].include?(data_type) || %w[contains does_not_contain].include?(filter['filter_operator'])
   end
 end

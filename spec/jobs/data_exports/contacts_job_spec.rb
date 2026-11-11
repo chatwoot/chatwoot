@@ -43,6 +43,45 @@ RSpec.describe DataExports::ContactsJob do
     expect(data_export.export_file).not_to be_attached
   end
 
+  it 'explains permission loss during generation without publishing a file' do
+    create(:contact, account: account, email: 'person@example.com')
+    job = described_class.new
+    allow(job).to receive(:write_batch).and_wrap_original do |method, *args|
+      method.call(*args)
+      account.account_users.find_by!(user: admin).update!(role: :agent)
+    end
+
+    expect { job.perform(data_export, data_export.active_run_id) }.to raise_error(Pundit::NotAuthorizedError)
+    expect(data_export.reload).to be_failed
+    expect(data_export.error_message).to eq('The requesting user no longer has export access.')
+    expect(data_export.export_file).not_to be_attached
+  end
+
+  it 'explains permission loss during upload and purges the unpublished file' do
+    data_export
+    allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_wrap_original do |method, **args|
+      blob = method.call(**args)
+      account.account_users.find_by!(user: admin).update!(role: :agent)
+      blob
+    end
+
+    expect { described_class.perform_now(data_export, data_export.active_run_id) }.to raise_error(Pundit::NotAuthorizedError)
+    expect(data_export.reload).to be_failed
+    expect(data_export.error_message).to eq('The requesting user no longer has export access.')
+    expect(data_export.export_file).not_to be_attached
+    expect(ActiveStorage::PurgeJob).to have_been_enqueued
+  end
+
+  it 'keeps retry advice for an unexpected export failure' do
+    job = described_class.new
+    allow(job).to receive(:write_csv).and_raise(IOError, 'Storage unavailable')
+
+    expect { job.perform(data_export, data_export.active_run_id) }.to raise_error(IOError)
+    expect(data_export.reload).to be_failed
+    expect(data_export.error_message).to eq('The export could not finish. Run the export again to retry.')
+    expect(data_export.export_file).not_to be_attached
+  end
+
   it 'ignores jobs from an obsolete run' do
     expect { described_class.perform_now(data_export, 'stale') }.not_to(change { data_export.reload.status })
     expect(data_export.export_file).not_to be_attached
