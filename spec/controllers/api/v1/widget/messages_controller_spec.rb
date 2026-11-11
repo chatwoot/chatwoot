@@ -377,6 +377,21 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(conversation.messages.incoming.last).to have_attributes(content: 'still here', sender: contact)
       end
+
+      it 'adds one note when the visitor submits the same email twice' do
+        create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com')
+        2.times do
+          message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
+          put api_v1_widget_message_url(message.id),
+              params: { website_token: web_widget.website_token, contact: { email: 'customer@test.com' } },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+        end
+
+        notes = conversation.messages.where(private: true)
+        expect(notes.count).to eq 1
+        expect(notes.first.content).to include('We linked this conversation')
+      end
     end
 
     context 'when put request is made with invalid email' do

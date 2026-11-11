@@ -1,10 +1,10 @@
 # Handles contact details a widget visitor entered that matched an identified contact.
 # The visitor did not prove they are that contact, so ContactIdentifyAction did not save the details or merge the contacts.
 #
-# When the inbox does not require identity validation and the visitor has no identifier of their own, the conversation
-# is linked to the first matched contact, so agents see it in that contact's history. Only the conversation moves.
-# The visitor's contact and contact inbox stay as they are, so the widget session never acts as the matched contact.
-# Agents get a private note that lists the matches and says whether the conversation was linked.
+# When the inbox does not require identity validation, the visitor has no identifier of their own and the conversation
+# is not linked yet, the conversation is linked to the first matched contact, so agents see it in that contact's history.
+# Only the conversation moves. The visitor's contact and contact inbox stay as they are, so the widget session never acts
+# as the matched contact. Agents get a private note that lists the matches and says whether the conversation was linked.
 class Conversations::UnverifiedContactMatchService
   pattr_initialize [:conversation!, :matches!]
 
@@ -14,6 +14,8 @@ class Conversations::UnverifiedContactMatchService
 
   def perform
     return if matches.empty?
+    # The visitor entered the same details again, and the note from the first link already covers them
+    return if conversation.contact_id == matches.first[:contact].id
 
     linked = linkable?
     conversation.update!(contact: matches.first[:contact]) if linked
@@ -22,8 +24,10 @@ class Conversations::UnverifiedContactMatchService
 
   private
 
+  # The contact inbox always belongs to the visitor, while conversation.contact changes once the conversation is linked
   def linkable?
-    !conversation.inbox.channel.hmac_mandatory && conversation.contact.identifier.blank?
+    visitor_contact = conversation.contact_inbox.contact
+    !conversation.inbox.channel.hmac_mandatory && visitor_contact.identifier.blank? && conversation.contact == visitor_contact
   end
 
   # Widget requests run in the visitor's locale, but agents read this note

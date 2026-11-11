@@ -52,6 +52,22 @@ describe Conversations::UnverifiedContactMatchService do
     expect(conversation.messages.last.content).to include("we didn't link this conversation")
   end
 
+  it 'does not post another note when the conversation is already linked to the matched contact' do
+    matches = [{ key: :email, value: 'jane@acme.com', contact: email_contact }]
+    described_class.new(conversation: conversation, matches: matches).perform
+
+    expect { described_class.new(conversation: conversation, matches: matches).perform }.not_to change(conversation.messages, :count)
+  end
+
+  it 'does not relink a linked conversation to another matched contact' do
+    described_class.new(conversation: conversation, matches: [{ key: :email, value: 'jane@acme.com', contact: email_contact }]).perform
+
+    described_class.new(conversation: conversation, matches: [{ key: :phone_number, value: '+14155550123', contact: phone_contact }]).perform
+
+    expect(conversation.reload.contact).to eq email_contact
+    expect(conversation.messages.last.content).to include("we didn't link this conversation")
+  end
+
   it 'does not link the conversation when the visitor has their own identifier' do
     conversation.contact.update!(identifier: 'visitor-1')
     visitor_contact = conversation.contact
