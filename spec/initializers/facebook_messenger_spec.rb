@@ -83,6 +83,16 @@ describe 'Facebook Messenger webhook', type: :request do
       expect(response).to have_http_status(:ok)
     end
 
+    it 'resolves the app secret once per event' do
+      allow(Facebook::Messenger.config.provider).to receive(:app_secret_for).and_call_original
+
+      with_modified_env FB_APP_SECRET: app_secret do
+        post_bot(body, headers: { 'X-Hub-Signature' => signature_for(body) })
+      end
+
+      expect(Facebook::Messenger.config.provider).to have_received(:app_secret_for).once
+    end
+
     it 'rejects the event when the signature is missing' do
       with_modified_env FB_APP_SECRET: app_secret do
         expect { post_bot(body) }.not_to have_enqueued_job(Webhooks::FacebookEventsJob)

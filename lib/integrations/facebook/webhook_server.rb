@@ -9,4 +9,11 @@ class Integrations::Facebook::WebhookServer < Facebook::Messenger::Server
 
     super
   end
+
+  def app_secret_for(facebook_page_id)
+    @app_secrets ||= {}
+    return @app_secrets[facebook_page_id] if @app_secrets.key?(facebook_page_id)
+
+    @app_secrets[facebook_page_id] = super
+  end
 end
