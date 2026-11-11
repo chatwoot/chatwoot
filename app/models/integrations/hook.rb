@@ -26,6 +26,7 @@ class Integrations::Hook < ApplicationRecord
   encrypts :access_token, deterministic: true if Chatwoot.encryption_configured?
 
   validates :account_id, presence: true
+  validate :inbox_must_belong_to_account
   validates :app_id, presence: true
   validates :access_token, length: { maximum: ->(hook) { hook.app_id == 'stripe' ? MAX_TEXT_COLUMN_LENGTH : MAX_STRING_COLUMN_LENGTH } }
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
@@ -121,6 +122,13 @@ class Integrations::Hook < ApplicationRecord
   end
 
   private
+
+  def inbox_must_belong_to_account
+    return unless inbox
+    return if inbox.account_id == account_id
+
+    errors.add(:inbox_id, 'must belong to the same account as the hook')
+  end
 
   def ensure_exclusive_bot_provider
     provider = inbox&.conflicting_bot_provider(:dialogflow)

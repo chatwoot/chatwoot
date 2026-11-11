@@ -25,6 +25,7 @@ class Webhook < ApplicationRecord
   include WebhookSecretable
 
   validates :account_id, presence: true
+  validate :inbox_must_belong_to_account
   validates :url, uniqueness: { scope: [:account_id] }, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
   validate :validate_webhook_subscriptions
   enum webhook_type: { account_type: 0, inbox_type: 1 }
@@ -34,6 +35,13 @@ class Webhook < ApplicationRecord
                               conversation_typing_on conversation_typing_off].freeze
 
   private
+
+  def inbox_must_belong_to_account
+    return unless inbox
+    return if inbox.account_id == account_id
+
+    errors.add(:inbox_id, 'must belong to the same account as the webhook')
+  end
 
   def validate_webhook_subscriptions
     invalid_subscriptions = !subscriptions.instance_of?(Array) ||

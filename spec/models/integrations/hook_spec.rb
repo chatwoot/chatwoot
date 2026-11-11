@@ -9,6 +9,35 @@ RSpec.describe Integrations::Hook do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  describe 'inbox ownership' do
+    let(:account) { create(:account) }
+
+    it 'allows an inbox belonging to the same account' do
+      inbox = create(:inbox, account: account)
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: inbox)
+
+      expect(record).to be_valid
+    end
+
+    it 'rejects an inbox belonging to another account' do
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: create(:inbox))
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include('must belong to the same account as the hook')
+    end
+
+    it 'preserves account integrations without an inbox' do
+      expect(build(:integrations_hook, account: account, inbox: nil)).to be_valid
+    end
+
+    it 'still requires an inbox for Dialogflow' do
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: nil)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include("can't be blank")
+    end
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
   end

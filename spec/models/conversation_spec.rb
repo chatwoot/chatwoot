@@ -820,7 +820,7 @@ RSpec.describe Conversation do
 
   describe '#botintegration: when conversation created in inbox with dialogflow integration' do
     let(:inbox) { create(:inbox) }
-    let(:hook) { create(:integrations_hook, :dialogflow, inbox: inbox) }
+    let(:hook) { create(:integrations_hook, :dialogflow, inbox: inbox, account: inbox.account) }
     let(:conversation) { create(:conversation, inbox: hook.inbox) }
 
     it 'returns conversation status as pending' do
