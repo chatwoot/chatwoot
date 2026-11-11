@@ -3,7 +3,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
   def ensure_contact(ig_scope_id)
     result = fetch_instagram_user(ig_scope_id)
-    find_or_create_contact(result) if result.present?
+    return if result.blank?
+
+    find_or_create_contact(result)
+    hydrate_unknown_contact(result)
   end
 
   def fetch_instagram_user(ig_scope_id)
@@ -18,6 +21,25 @@ class Instagram::MessageText < Instagram::BaseMessageText
   end
 
   private
+
+  # A contact created from an outgoing echo before profile consent keeps the fallback name.
+  # Refetch the profile once the recipient replies, since their reply grants consent.
+  def contacts_first_message?(ig_scope_id)
+    super || unknown_contact_replied?
+  end
+
+  def unknown_contact_replied?
+    return false if @contact_inbox.blank? || agent_message_via_echo?
+
+    @contact_inbox.contact.name == unknown_user(@contact_inbox.source_id)['name']
+  end
+
+  def hydrate_unknown_contact(user)
+    return if user['username'].blank? || @contact.name != unknown_user(user['id'])['name']
+
+    @contact.update!(name: user['name'].presence || user['username'])
+    Avatar::AvatarFromUrlJob.perform_later(@contact, user['profile_pic']) if user['profile_pic']
+  end
 
   def process_successful_response(response)
     result = JSON.parse(response.body).with_indifferent_access

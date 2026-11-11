@@ -355,7 +355,25 @@ describe Webhooks::InstagramEventsJob do
             have_attributes(id: echo.id, content: 'Hello from Instagram', source_id: 'outgoing-echo-id', message_type: 'outgoing'),
             have_attributes(content: 'Hello back', source_id: 'incoming-reply-id', message_type: 'incoming', sender: contact)
           )
-          expect(profile_request).to have_been_requested.once
+          expect(profile_request).to have_been_requested.twice
+        end
+
+        it 'hydrates the unknown contact with the profile once the recipient replies' do
+          instagram_webhook.perform_now(echo_event[:entry])
+          contact = instagram_inbox.contacts.last
+
+          stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/#{recipient_id}\?.*})
+            .to_return(status: 200, body: { name: 'Jane', username: 'some_user_name', profile_pic: 'https://chatwoot-assets.local/sample.png',
+                                            id: recipient_id }.to_json, headers: { 'Content-Type' => 'application/json' })
+          reply_event = build(:instagram_message_create_event, sender_id: recipient_id,
+                                                               ig_entry_id: instagram_channel.instagram_id).with_indifferent_access
+          reply_event[:entry][0][:messaging][0][:message].merge!(mid: 'incoming-reply-id', text: 'Hello back')
+
+          expect { instagram_webhook.perform_now(reply_event[:entry]) }.to have_enqueued_job(Avatar::AvatarFromUrlJob)
+
+          expect(instagram_inbox.contacts).to contain_exactly(contact)
+          expect(contact.reload).to have_attributes(name: 'Jane', additional_attributes: include('social_instagram_user_name' => 'some_user_name'))
+          expect(instagram_inbox.messages.last).to have_attributes(source_id: 'incoming-reply-id', sender: contact)
         end
       end
 
