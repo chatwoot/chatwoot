@@ -34,11 +34,79 @@ RSpec.describe DataImportJob do
         allow(import_file_double).to receive(:open).and_raise(ActiveStorage::FileNotFoundError)
       end
 
-      it 'retries the job' do
+      it 'keeps the import active during the first two download attempts' do
+        retrying_job = described_class.new(data_import)
         expect do
-          described_class.perform_now(data_import)
-        end.to have_enqueued_job(described_class).at_least(1).times
+          2.times { retrying_job.perform_now }
+        end.to have_enqueued_job(described_class).exactly(2).times
+
+        expect(data_import.reload).to be_processing
+        expect(data_import.account.data_imports.active_imports).to include(data_import)
       end
+
+      it 'fails after the third download attempt and prevents delayed deliveries from writing' do
+        retrying_job = described_class.new(data_import)
+        2.times { retrying_job.perform_now }
+
+        expect { retrying_job.perform_now }.to raise_error(ActiveStorage::FileNotFoundError)
+
+        expect(import_file_double).to have_received(:open).exactly(3).times
+        expect(data_import.reload).to be_failed
+        expect(data_import.account.data_imports.active_imports).to be_empty
+        expect { described_class.perform_now(data_import) }.not_to change(Contact, :count)
+        expect(data_import.reload).to be_failed
+      end
+
+      it 'continues importing when the file becomes available on a later attempt' do
+        retrying_job = described_class.new(data_import)
+        retrying_job.perform_now
+        allow(import_file_double).to receive(:open).and_yield(StringIO.new("name,email\nRecovered,recovered@example.com\n"))
+
+        retrying_job.perform_now
+
+        expect(data_import.reload).to be_completed
+        expect(data_import.account.contacts.from_email('recovered@example.com')).to be_present
+      end
+    end
+  end
+
+  describe 'unexpected failures' do
+    let(:import_file_double) { instance_double(ActiveStorage::Blob) }
+    let(:error) { IOError.new('Download failed') }
+
+    before { allow(data_import).to receive(:import_file).and_return(import_file_double) }
+
+    it 'marks the import failed, releases the account slot, and re-raises the original error' do
+      allow(import_file_double).to receive(:open).and_raise(error)
+
+      expect { described_class.perform_now(data_import) }.to raise_error(error)
+
+      expect(data_import.reload).to be_failed
+      expect(data_import.account.data_imports.active_imports).to be_empty
+    end
+
+    it 'preserves abandonment if a running download fails after the user abandons the import' do
+      allow(import_file_double).to receive(:open) do
+        data_import.update!(updated_at: 16.minutes.ago)
+        data_import.abandon!
+        raise error
+      end
+
+      expect { described_class.perform_now(data_import) }.to raise_error(error)
+
+      expect(data_import.reload).to be_abandoned
+    end
+
+    it 'does not change a completed import when sending its notification fails' do
+      allow(import_file_double).to receive(:open).and_yield(StringIO.new("name,email\nImported,imported@example.com\n"))
+      mailer = AdministratorNotifications::AccountNotificationMailer.with(account: data_import.account)
+      allow(AdministratorNotifications::AccountNotificationMailer).to receive(:with).and_return(mailer)
+      allow(mailer).to receive(:contact_import_complete).and_raise(error)
+
+      expect { described_class.perform_now(data_import) }.to raise_error(error)
+
+      expect(data_import.reload).to be_completed
+      expect(data_import.account.contacts.from_email('imported@example.com')).to be_present
     end
   end
 

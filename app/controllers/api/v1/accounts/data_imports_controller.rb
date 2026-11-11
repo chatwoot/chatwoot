@@ -68,7 +68,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
     when :not_stalled
       render json: { message: "This #{source_name} import is no longer stalled." }, status: :unprocessable_entity
     when :active_import_exists
-      render json: { message: "Another #{source_name} import is already in progress." }, status: :unprocessable_entity
+      render json: { message: 'Another data import is already in progress.' }, status: :unprocessable_entity
     when :access_token_missing
       render json: { message: "The #{source_name} #{credential_name} for this import is unavailable." }, status: :unprocessable_entity
     end
