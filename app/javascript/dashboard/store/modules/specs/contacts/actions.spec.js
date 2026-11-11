@@ -335,19 +335,28 @@ describe('#actions', () => {
   });
 
   describe('#fetchFilteredContacts', () => {
-    it('fetches filtered conversations with a mock commit', async () => {
+    it('replaces the contact list with the filter results', async () => {
       axios.post.mockResolvedValue({
         data: filterApiResponse,
       });
       await actions.filter({ commit }, filterQueryData);
-      expect(commit).toHaveBeenCalledTimes(5);
       expect(commit.mock.calls).toEqual([
-        ['SET_CONTACT_UI_FLAG', { isFetching: true }],
         ['CLEAR_CONTACTS'],
         ['SET_CONTACTS', filterApiResponse.payload],
         ['SET_CONTACT_META', filterApiResponse.meta],
-        ['SET_CONTACT_UI_FLAG', { isFetching: false }],
       ]);
+    });
+
+    it('returns an empty result when a lookup outside the list fails', async () => {
+      axios.post.mockRejectedValue(new Error('Request failed'));
+
+      const result = await actions.filter(
+        { commit },
+        { queryPayload: filterQueryData, resetState: false }
+      );
+
+      expect(result).toEqual([]);
+      expect(commit).not.toHaveBeenCalled();
     });
   });
 
