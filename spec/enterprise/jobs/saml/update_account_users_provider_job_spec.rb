@@ -49,6 +49,16 @@ RSpec.describe Saml::UpdateAccountUsersProviderJob, type: :job do
         # rubocop:enable Rails/SkipsModelValidations
       end
 
+      context 'when SAML settings were created again before the job ran' do
+        before { create(:account_saml_settings, account: account) }
+
+        it 'keeps users on saml provider' do
+          described_class.new.perform(account.id, 'email')
+
+          expect(user1.reload.provider).to eq('saml')
+        end
+      end
+
       context 'when users have no other SAML accounts' do
         it 'updates all account users to email provider' do
           described_class.new.perform(account.id, 'email')
