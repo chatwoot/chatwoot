@@ -53,9 +53,17 @@ const mountKeptAlive = component => {
   return mount(Host, {
     global: {
       stubs: {
-        SettingsLayout: true,
-        BaseSettingsHeader: true,
-        Button: true,
+        SettingsLayout: {
+          template: '<main><slot name="header"/><slot name="body"/></main>',
+        },
+        BaseSettingsHeader: {
+          template: '<header><slot name="actions"/></header>',
+        },
+        Button: {
+          name: 'Button',
+          props: ['label', 'disabled'],
+          template: '<button :disabled="disabled">{{ label }}</button>',
+        },
         Icon: true,
         TabBar: true,
         NewImportDialog: true,
@@ -81,6 +89,41 @@ describe('data import polling lifecycle', () => {
     vi.useRealTimers();
     vi.clearAllMocks();
   });
+
+  it.each(['pending', 'processing'])(
+    'blocks creation during a %s contact import and re-enables it after completion',
+    async status => {
+      const record = { id: 1, data_type: 'contacts', status };
+      DataImportsAPI.get.mockResolvedValue({ data: { payload: [record] } });
+      const wrapper = mountKeptAlive(Index);
+      try {
+        await flushPromises();
+        const createButton = wrapper
+          .findAllComponents({ name: 'Button' })
+          .find(
+            button => button.props('label') === 'DATA_IMPORTS.TABLE.NEW_IMPORT'
+          );
+        const dialog = wrapper.findComponent({ name: 'NewImportDialog' });
+        expect(createButton.props('disabled')).toBe(true);
+        expect(dialog.props('hasActiveImport')).toBe(true);
+        createButton.vm.$emit('click');
+        await nextTick();
+        expect(dialog.props('show')).toBe(false);
+
+        DataImportsAPI.get.mockResolvedValue({
+          data: { payload: [{ ...record, status: 'completed' }] },
+        });
+        await vi.advanceTimersByTimeAsync(5000);
+        expect(createButton.props('disabled')).toBe(false);
+        expect(dialog.props('hasActiveImport')).toBe(false);
+        createButton.vm.$emit('click');
+        await nextTick();
+        expect(dialog.props('show')).toBe(true);
+      } finally {
+        wrapper.unmount();
+      }
+    }
+  );
 
   it('does not start list polling after the page deactivates', async () => {
     const request = deferredRequest();
