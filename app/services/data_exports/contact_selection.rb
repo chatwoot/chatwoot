@@ -65,12 +65,17 @@ class DataExports::ContactSelection
 
   def valid_filter?(filter)
     filter.is_a?(Hash) && (filter.keys.map(&:to_s) - FILTER_KEYS).empty? &&
-      filter['attribute_key'].is_a?(String) && filter['filter_operator'].is_a?(String) && valid_filter_values?(filter)
+      valid_filter_strings?(filter) && valid_filter_values?(filter)
+  end
+
+  def valid_filter_strings?(filter)
+    return false unless filter['attribute_key'].is_a?(String) && filter['filter_operator'].is_a?(String)
+
+    %w[query_operator attribute_model custom_attribute_type].all? { |key| filter[key].nil? || filter[key].is_a?(String) }
   end
 
   def valid_filter_values?(filter)
-    strings_valid = %w[query_operator attribute_model custom_attribute_type].all? { |key| filter[key].nil? || filter[key].is_a?(String) }
-    return false unless strings_valid && filter['values'].is_a?(Array)
+    return false unless filter['values'].is_a?(Array)
 
     types = string_filter?(filter) ? [String] : [String, Numeric, TrueClass, FalseClass]
     filter['values'].all? do |value|
