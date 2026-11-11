@@ -76,6 +76,35 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(contact.reload).to have_attributes(email: 'contact-email@chatwoot.com', phone_number: '+919745313456', name: 'contact-name')
     end
 
+    it 'returns forbidden and does not create a conversation when contact is blocked' do
+      contact.update!(blocked: true)
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: conversation_params,
+             as: :json
+      end.to not_change(Conversation, :count).and not_change(Message, :count)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+    end
+
+    it 'returns forbidden and does not create a conversation when submitted email belongs to a blocked contact' do
+      create(:contact, account: account, identifier: 'blocked-customer', email: 'blocked-email@chatwoot.com', blocked: true)
+      blocked_params = conversation_params.deep_merge(contact: { email: 'blocked-email@chatwoot.com' })
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: blocked_params,
+             as: :json
+      end.to not_change(Conversation, :count).and not_change(Message, :count)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+    end
+
     it 'creates a conversation with correct message and custom attributes' do
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },
@@ -248,6 +277,18 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
         expect(response).to have_http_status(:success)
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
           .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: contact })
+      end
+
+      it 'returns forbidden when contact is blocked' do
+        contact.update!(blocked: true)
+
+        post '/api/v1/widget/conversations/toggle_typing',
+             headers: { 'X-Auth-Token' => token },
+             params: { typing_status: 'on', website_token: web_widget.website_token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
       end
     end
   end

@@ -26,6 +26,8 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
 
     # Prepare contact (persisted), reuse the sender's conversation for the thread or build one (not persisted)
     find_or_create_contact
+    return nil if @contact&.blocked?
+
     find_conversation_by_in_reply_to || build_conversation
   end
 

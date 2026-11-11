@@ -16,6 +16,8 @@ class Twilio::IncomingMessageService
     return if twilio_channel.blank?
 
     set_contact
+    return if @contact.blocked?
+
     set_conversation
     @message = @conversation.messages.build(
       content: message_body,

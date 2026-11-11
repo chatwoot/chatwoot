@@ -107,6 +107,37 @@ describe Messages::Facebook::MessageBuilder do
       expect(message.content_attributes['external_echo']).to be true
     end
 
+    context 'when contact is blocked' do
+      let!(:blocked_contact) { create(:contact, account: facebook_channel.account, blocked: true) }
+      let!(:contact_inbox) do
+        create(:contact_inbox, contact: blocked_contact, inbox: facebook_channel.inbox, source_id: '3383290475046708')
+      end
+
+      it 'does not create a conversation or message for incoming message' do
+        expect do
+          described_class.new(incoming_fb_text_message, facebook_channel.inbox).perform
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+      end
+
+      it 'allows outgoing echo message to be created' do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return({ name: 'Blocked User' }.with_indifferent_access)
+
+        echo_message_object = {
+          messaging: {
+            sender: { id: facebook_channel.page_id },
+            recipient: { id: '3383290475046708' },
+            message: { mid: 'm_echo_blocked', text: 'Echo to blocked', is_echo: true, app_id: '263902037430900' }
+          }
+        }.to_json
+        echo_message = Integrations::Facebook::MessageParser.new(echo_message_object)
+
+        expect do
+          described_class.new(echo_message, facebook_channel.inbox, outgoing_echo: true).perform
+        end.to change(Message, :count).by(1)
+      end
+    end
+
     context 'when message contains a reel attachment' do
       let(:reel_message_object) do
         {

@@ -23,6 +23,8 @@ class Line::IncomingMessageService
       next if @line_contact_info['userId'].blank?
 
       set_contact
+      next if @contact.blocked?
+
       set_conversation
 
       next unless message_created? event

@@ -12,6 +12,8 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     return if @inbox.channel.reauthorization_required?
 
     ActiveRecord::Base.transaction do
+      return if contact&.blocked? && !@outgoing_echo
+
       build_message
     end
   rescue StandardError => e

@@ -163,6 +163,7 @@ en:
       data_type:
         invalid: Invalid data type
     contacts:
+      blocked: 'Contact is blocked'
       import:
         failed: File is blank
       export:

@@ -251,6 +251,32 @@ describe Line::IncomingMessageService do
       end
     end
 
+    context 'when contact is blocked' do
+      let(:line_bot) { double }
+      let(:line_user_profile) { double }
+
+      before do
+        allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
+        allow(line_bot).to receive(:get_profile).with('U4af4980629').and_return(line_user_profile)
+        allow(line_user_profile).to receive(:body).and_return(
+          {
+            'displayName': 'LINE Test',
+            'userId': 'U4af4980629',
+            'pictureUrl': 'https://test.com'
+          }.to_json
+        )
+      end
+
+      it 'does not create conversations or messages' do
+        blocked_contact = create(:contact, account: line_channel.account, blocked: true)
+        create(:contact_inbox, contact: blocked_contact, inbox: line_channel.inbox, source_id: 'U4af4980629')
+
+        expect do
+          described_class.new(inbox: line_channel.inbox, params: text_params).perform
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+      end
+    end
+
     context 'when valid text message params' do
       let(:line_bot) { double }
       let(:line_user_profile) { double }
