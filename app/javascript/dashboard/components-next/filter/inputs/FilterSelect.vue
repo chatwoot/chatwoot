@@ -3,11 +3,16 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useElementBounding, useWindowSize } from '@vueuse/core';
 import { picoSearch } from '@chatwoot/pico-search';
-import { DROPDOWN_SEARCH_THRESHOLD } from '../helper/filterHelper';
+import {
+  DROPDOWN_SEARCH_THRESHOLD,
+  DESCRIBE_QUERY_MIN_LENGTH,
+  DESCRIBE_QUERY_MAX_LENGTH,
+} from '../helper/filterHelper';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
+import RecommendedDropdownItems from './RecommendedDropdownItems.vue';
 
 import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -35,7 +40,19 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  // Turns the search field into "Ask or describe" and offers to build filters from the text.
+  describable: {
+    type: Boolean,
+    default: false,
+  },
+  // [{ key, label }] shown above the options while the search field is empty.
+  recommendations: {
+    type: Array,
+    default: () => [],
+  },
 });
+
+const emit = defineEmits(['describe', 'recommend']);
 
 const { t } = useI18n();
 const selected = defineModel({
@@ -46,11 +63,25 @@ const selected = defineModel({
 const vFocus = { mounted: el => el.focus() };
 
 const triggerRef = ref(null);
+const containerRef = ref(null);
 const dropdownRef = ref(null);
 const searchTerm = ref('');
+// The dropdown's toggle, kept so pressing Enter can close it.
+let toggleMenu = null;
 
 const showSearch = computed(
-  () => props.options.length > DROPDOWN_SEARCH_THRESHOLD
+  () => props.describable || props.options.length > DROPDOWN_SEARCH_THRESHOLD
+);
+
+const describeQuery = computed(() => searchTerm.value.trim());
+const visibleRecommendations = computed(() =>
+  describeQuery.value ? [] : props.recommendations
+);
+const canDescribe = computed(
+  () =>
+    props.describable &&
+    describeQuery.value.length >= DESCRIBE_QUERY_MIN_LENGTH &&
+    describeQuery.value.length <= DESCRIBE_QUERY_MAX_LENGTH
 );
 
 const searchResults = computed(() => {
@@ -91,12 +122,30 @@ const updateSelected = newValue => {
 
 const toggleDropdown = toggle => {
   searchTerm.value = '';
+  toggleMenu = toggle;
   toggle();
+};
+
+const describe = () => {
+  emit('describe', describeQuery.value);
+};
+
+const open = () => {
+  searchTerm.value = '';
+  containerRef.value?.open();
+};
+
+defineExpose({ open });
+
+const describeOnEnter = () => {
+  if (!canDescribe.value) return;
+  describe();
+  toggleMenu?.();
 };
 </script>
 
 <template>
-  <DropdownContainer>
+  <DropdownContainer ref="containerRef">
     <template #trigger="{ toggle }">
       <slot name="trigger" :toggle="() => toggleDropdown(toggle)">
         <Button
@@ -124,10 +173,30 @@ const toggleDropdown = toggle => {
           v-model="searchTerm"
           v-focus
           class="w-full p-1.5 pl-8 rounded-lg text-n-slate-11 bg-n-alpha-1"
-          :placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
+          :placeholder="
+            describable
+              ? t('FILTER.DESCRIBE_PLACEHOLDER')
+              : t('COMBOBOX.SEARCH_PLACEHOLDER')
+          "
+          @keydown.enter.prevent="describeOnEnter"
         />
       </div>
       <DropdownSection class="[&>ul]:max-h-72">
+        <DropdownItem
+          v-if="canDescribe"
+          :label="t('FILTER.BUILD_FILTERS', { query: describeQuery })"
+          @click="describe"
+        >
+          <template #icon>
+            <Icon class="size-4 text-n-blue-11" icon="i-ph-sparkle" />
+          </template>
+        </DropdownItem>
+        <RecommendedDropdownItems
+          v-if="visibleRecommendations.length"
+          :recommendations="visibleRecommendations"
+          :options-label="t('FILTER.ALL_FILTERS')"
+          @select="key => emit('recommend', key)"
+        />
         <template v-for="option in searchResults" :key="option.value">
           <li
             v-if="option.disabled"
@@ -142,7 +211,7 @@ const toggleDropdown = toggle => {
             @click="updateSelected(option.value)"
           />
         </template>
-        <DropdownItem v-if="!searchResults.length" disabled>
+        <DropdownItem v-if="!searchResults.length && !canDescribe" disabled>
           {{
             searchTerm
               ? t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm })

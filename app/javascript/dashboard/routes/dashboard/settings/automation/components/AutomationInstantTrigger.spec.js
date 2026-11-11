@@ -4,6 +4,11 @@ import { describe, expect, it, vi } from 'vitest';
 import { getDefaultConditions } from 'dashboard/helper/automationHelper';
 import AutomationInstantTrigger from './AutomationInstantTrigger.vue';
 
+// Building conditions from a description reads the account plan from the store, which these specs do not mount.
+vi.mock('dashboard/composables/useTranslationPlan', async () => {
+  const { ref } = await import('vue');
+  return { useTranslationPlan: () => ({ isAvailable: ref(false) }) };
+});
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
 
 const filterKeysByEvent = {

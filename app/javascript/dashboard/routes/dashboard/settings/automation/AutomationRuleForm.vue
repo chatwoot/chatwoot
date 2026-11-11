@@ -29,6 +29,7 @@ import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
 import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
 import AutomationMonitorSelect from './components/AutomationMonitorSelect.vue';
 import AutomationActions from './components/AutomationActions.vue';
+import { useAutomationRecommendations } from './useAutomationRecommendations';
 
 const props = defineProps({
   mode: {
@@ -303,6 +304,34 @@ const filterTypes = computed(() => {
   });
 });
 
+// The events a new rule can be given from its name and description, each with its condition keys.
+// A monitor event also needs a monitor, so it is never picked for the person.
+const eventConditionKeys = computed(() =>
+  Object.fromEntries(
+    AUTOMATION_RULE_EVENTS.filter(event => event.key !== 'monitor_matched').map(
+      event => [
+        event.key,
+        getAttributes(props.automationTypes, event.key)
+          .filter(
+            attr =>
+              !attr.disabled &&
+              (attr.key !== CAPTAIN_CONDITION.key ||
+                allowsCaptainConditions.value)
+          )
+          .map(attr => attr.key),
+      ]
+    )
+  )
+);
+
+// A new instant rule gets its event from the name and description until the person picks one themselves.
+const eventChosen = ref(false);
+// The rule's event and conditions before Captain first set the event, so the person can undo it. Null otherwise.
+const eventBeforeRecommendation = ref(null);
+const canSetEvent = computed(
+  () => !isEditMode.value && !eventChosen.value && !isDelayed.value
+);
+
 const automationRuleEvents = computed(() =>
   AUTOMATION_RULE_EVENTS.filter(
     event =>
@@ -400,17 +429,76 @@ const fetchMonitors = async () => {
   }
 };
 
+function onInstantEventChange() {
+  automation.value.monitor_id = null;
+  props.onEventChange();
+}
+
+// An event change resets the conditions and the actions. A recommended event keeps them instead, so the
+// rows the person sees do not change under them: actions do not depend on the event, and conditions stay
+// when the new event offers them. The event's default row is used only when no condition is left.
+const setRecommendedEvent = recommendedEvent => {
+  if (automation.value.event_name === recommendedEvent) return;
+  const { actions, conditions } = automation.value;
+  eventBeforeRecommendation.value ??= {
+    eventName: automation.value.event_name,
+    conditions: cloneConditions(conditions),
+  };
+  const offeredKeys = eventConditionKeys.value[recommendedEvent] ?? [];
+  const keptConditions = conditions.filter(condition =>
+    offeredKeys.includes(condition.attribute_key)
+  );
+  automation.value.event_name = recommendedEvent;
+  onInstantEventChange();
+  automation.value.actions = actions;
+  if (keptConditions.length) automation.value.conditions = keptConditions;
+};
+
+const {
+  conditionRecommendations,
+  actionRecommendations,
+  applyConditionRecommendation,
+  applyActionRecommendation,
+  recommend,
+  reset: resetRecommendations,
+} = useAutomationRecommendations({
+  automation,
+  filterTypes,
+  eventConditionKeys,
+  canSetEvent,
+  setEvent: setRecommendedEvent,
+  actionTypes: automationActionTypes,
+  getActionDropdownValues: props.getActionDropdownValues,
+});
+
+// The recommended conditions belong to an event, so an event the person picks asks again.
+const onUserEventChange = () => {
+  eventChosen.value = true;
+  eventBeforeRecommendation.value = null;
+  onInstantEventChange();
+  recommend({ force: true });
+};
+
+// Puts back the event and conditions from before Captain set the event. That counts as the person's choice.
+const undoRecommendedEvent = () => {
+  const previous = eventBeforeRecommendation.value;
+  automation.value.event_name = previous.eventName;
+  automation.value.conditions = previous.conditions;
+  automation.value.monitor_id = null;
+  eventChosen.value = true;
+  eventBeforeRecommendation.value = null;
+  recommend({ force: true });
+};
+
 const open = (executionDelay = null) => {
   resetValidation();
+  eventChosen.value = false;
+  eventBeforeRecommendation.value = null;
+  resetRecommendations();
   syncDelayState(executionDelay);
   isOpen.value = true;
   panelRef.value?.open();
   fetchMonitors();
-};
-
-const onInstantEventChange = () => {
-  automation.value.monitor_id = null;
-  props.onEventChange();
 };
 
 const close = () => {
@@ -471,6 +559,7 @@ defineExpose({ open, close });
             errors.description ? $t('AUTOMATION.ADD.FORM.DESC.ERROR') : ''
           "
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
+          @blur="recommend()"
         />
       </div>
       <AutomationRunTypeSelector
@@ -505,7 +594,11 @@ defineExpose({ open, close });
         :show-reset-message="!isEditMode && hasAutomationMutated"
         :append-new-condition="appendNewCondition"
         :remove-filter="removeFilter"
-        :on-event-change="onInstantEventChange"
+        :on-event-change="onUserEventChange"
+        :recommendations="conditionRecommendations"
+        :apply-recommendation="applyConditionRecommendation"
+        :event-set-by-captain="Boolean(eventBeforeRecommendation)"
+        @undo-event="undoRecommendedEvent"
       >
         <AutomationMonitorSelect
           v-if="automation.event_name === 'monitor_matched'"
@@ -528,6 +621,8 @@ defineExpose({ open, close });
         :append-new-action="appendNewAction"
         :remove-action="removeAction"
         :reset-action="resetAction"
+        :recommendations="actionRecommendations"
+        :apply-recommendation="applyActionRecommendation"
       />
     </div>
     <template #footer>

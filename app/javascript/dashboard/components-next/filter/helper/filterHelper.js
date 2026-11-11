@@ -1,8 +1,16 @@
+import { buildDatePresetConditions } from './datePresets';
+
 /**
  * Number of options a filter dropdown can hold before it renders a search field.
  * Shared so the attribute and value dropdowns never disagree on when to show one.
  */
 export const DROPDOWN_SEARCH_THRESHOLD = 8;
+
+/**
+ * Length limits for a description sent to build filters. The API rejects anything outside them.
+ */
+export const DESCRIBE_QUERY_MIN_LENGTH = 3;
+export const DESCRIBE_QUERY_MAX_LENGTH = 200;
 
 /**
  * Standard attributes of the conversation model
@@ -95,6 +103,117 @@ export const buildAttributesFilterTypes = (
       attributeModel: 'customAttributes',
     }));
 };
+
+const VALUELESS_OPERATORS = ['is_present', 'is_not_present'];
+
+const recommendedValues = (filterType, filterOperator, values) => {
+  if (VALUELESS_OPERATORS.includes(filterOperator)) return [];
+  if (filterType.inputType === 'multiSelect') {
+    return filterType.options.filter(option => values.includes(option.id));
+  }
+  if (filterType.inputType === 'searchSelect') {
+    return filterType.options.find(option => option.id === values[0]) ?? {};
+  }
+  if (filterType.inputType === 'multiText') return values;
+  return values[0]?.toString() ?? '';
+};
+
+const recommendedConditions = (recommendation, filterType, today) => {
+  if (recommendation.date_preset) {
+    return buildDatePresetConditions(
+      recommendation.date_preset,
+      recommendation.days,
+      today
+    );
+  }
+
+  return [
+    {
+      filterOperator: recommendation.filter_operator,
+      values: recommendedValues(
+        filterType,
+        recommendation.filter_operator,
+        recommendation.values
+      ),
+    },
+  ];
+};
+
+const describeValues = values => {
+  if (Array.isArray(values)) {
+    return values.map(value => value?.name ?? value).join(', ');
+  }
+  if (values && typeof values === 'object') return values.name ?? '';
+  return values ?? '';
+};
+
+// A readable summary of a recommendation's rows, such as "Priority Equal to Urgent".
+const describeRecommendation = (rows, filterType) =>
+  rows
+    .map(row => {
+      const operatorLabel =
+        filterType.filterOperators?.find(
+          operator => operator.value === row.filterOperator
+        )?.label ?? row.filterOperator;
+      return [filterType.label, operatorLabel, describeValues(row.values)]
+        .filter(Boolean)
+        .join(' ');
+    })
+    .join(', ');
+
+/**
+ * Turns recommended conditions from the API into groups of filter rows, one group per recommendation.
+ * A condition on an attribute the form does not offer is dropped.
+ * A date condition names a preset, which becomes one or two date rows.
+ * @param {Array<{attribute_key: string, filter_operator?: string, values?: Array, date_preset?: string, days?: number}>} recommendations
+ * @param {Array} filterTypes - The filter types from the filter context
+ * @param {Date} [today] - The reference date for date presets
+ * @returns {Array<{attributeKey: string, label: string, icon: any, rows: Array}>}
+ */
+export const buildRecommendationGroups = (
+  recommendations,
+  filterTypes,
+  today = new Date()
+) =>
+  recommendations.flatMap(recommendation => {
+    const filterType = filterTypes.find(
+      type => type.attributeKey === recommendation.attribute_key
+    );
+    if (!filterType) return [];
+
+    const rows = recommendedConditions(recommendation, filterType, today).map(
+      condition => ({
+        attributeKey: recommendation.attribute_key,
+        attributeModel: filterType.attributeModel,
+        queryOperator: 'and',
+        ...condition,
+      })
+    );
+    return [
+      {
+        attributeKey: recommendation.attribute_key,
+        label: describeRecommendation(rows, filterType),
+        icon: filterType.icon,
+        rows,
+      },
+    ];
+  });
+
+/**
+ * Turns recommended conditions from the API into filter rows for the filter form.
+ * @param {Array} recommendations - Conditions from the filter recommendations API
+ * @param {Array} filterTypes - The filter types from the filter context
+ * @param {Date} [today] - The reference date for date presets
+ * @returns {Array} Filter rows
+ */
+export const buildFiltersFromRecommendations = (
+  recommendations,
+  filterTypes,
+  today = new Date()
+) =>
+  buildRecommendationGroups(recommendations, filterTypes, today).flatMap(
+    group => group.rows
+  );
 
 /**
  * Replaces underscores with spaces in a string

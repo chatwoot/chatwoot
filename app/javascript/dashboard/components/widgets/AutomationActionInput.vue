@@ -1,4 +1,5 @@
-<script>
+<script setup>
+import { computed, ref } from 'vue';
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -7,138 +8,134 @@ import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.v
 import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue';
 import NextInput from 'dashboard/components-next/input/Input.vue';
 
+const props = defineProps({
+  modelValue: {
+    type: Object,
+    default: () => null,
+  },
+  actionTypes: {
+    type: Array,
+    default: () => [],
+  },
+  dropdownValues: {
+    type: Array,
+    default: () => [],
+  },
+  errorMessage: {
+    type: String,
+    default: '',
+  },
+  showActionInput: {
+    type: Boolean,
+    default: true,
+  },
+  initialFileName: {
+    type: String,
+    default: '',
+  },
+  isMacro: {
+    type: Boolean,
+    default: false,
+  },
+  dropdownMaxHeight: {
+    type: String,
+    default: 'max-h-80',
+  },
+  // [{ key, label }] recommended actions for the action picker.
+  recommendations: {
+    type: Array,
+    default: () => [],
+  },
+});
+const emit = defineEmits([
+  'update:modelValue',
+  'input',
+  'removeAction',
+  'resetAction',
+  'recommend',
+]);
 const CONTACT_EMAIL_TOKEN = '{{contact.email}}';
+const VERTICAL_INPUT_TYPES = ['team_message', 'textarea', 'email'];
 
-export default {
-  components: {
-    AutomationActionTeamMessageInput,
-    AutomationActionFileInput,
-    WootMessageEditor,
-    NextButton,
-    SingleSelect,
-    MultiSelect,
-    NextInput,
-  },
-  props: {
-    modelValue: {
-      type: Object,
-      default: () => null,
-    },
-    actionTypes: {
-      type: Array,
-      default: () => [],
-    },
-    dropdownValues: {
-      type: Array,
-      default: () => [],
-    },
-    errorMessage: {
-      type: String,
-      default: '',
-    },
-    showActionInput: {
-      type: Boolean,
-      default: true,
-    },
-    initialFileName: {
-      type: String,
-      default: '',
-    },
-    isMacro: {
-      type: Boolean,
-      default: false,
-    },
-    dropdownMaxHeight: {
-      type: String,
-      default: 'max-h-80',
-    },
-  },
-  emits: ['update:modelValue', 'input', 'removeAction', 'resetAction'],
-  computed: {
-    action_name: {
-      get() {
-        if (!this.modelValue) return null;
-        return this.modelValue.action_name;
-      },
-      set(value) {
-        const payload = this.modelValue || {};
-        this.$emit('update:modelValue', { ...payload, action_name: value });
-        this.$emit('input', { ...payload, action_name: value });
-      },
-    },
-    action_params: {
-      get() {
-        if (!this.modelValue) return null;
-        return this.modelValue.action_params;
-      },
-      set(value) {
-        const payload = this.modelValue || {};
-        this.$emit('update:modelValue', { ...payload, action_params: value });
-        this.$emit('input', { ...payload, action_params: value });
-      },
-    },
-    inputType() {
-      return this.actionTypes.find(action => action.key === this.action_name)
-        .inputType;
-    },
-    actionNameAsSelectModel: {
-      get() {
-        if (!this.action_name) return null;
-        const found = this.actionTypes.find(a => a.key === this.action_name);
-        return found ? { id: found.key, name: found.label } : null;
-      },
-      set(value) {
-        this.action_name = value?.id || value;
-      },
-    },
-    actionTypesAsOptions() {
-      return this.actionTypes.map(a => ({
-        id: a.key,
-        name: a.label,
-        icon: a.icon,
-      }));
-    },
-    isVerticalLayout() {
-      return ['team_message', 'textarea', 'email'].includes(this.inputType);
-    },
-    castMessageVmodel: {
-      get() {
-        if (Array.isArray(this.action_params)) {
-          return this.action_params[0];
-        }
-        return this.action_params;
-      },
-      set(value) {
-        this.action_params = value;
-      },
-    },
-  },
-  methods: {
-    removeAction() {
-      this.$emit('removeAction');
-    },
-    resetAction() {
-      this.$emit('resetAction');
-    },
-    onActionNameChange(value) {
-      this.actionNameAsSelectModel = value;
-      this.resetAction();
-    },
-    insertContactEmailToken() {
-      const existingEmails = (this.castMessageVmodel || '')
-        .split(',')
-        .map(email => email.trim())
-        .filter(Boolean);
+const actionPickerRef = ref(null);
 
-      const hasContactEmail = existingEmails.some(
-        email => email.replace(/\s+/g, '') === CONTACT_EMAIL_TOKEN
-      );
-      if (hasContactEmail) return;
-
-      this.action_params = [[...existingEmails, CONTACT_EMAIL_TOKEN].join(',')];
-    },
-  },
+const updateAction = changes => {
+  const payload = { ...(props.modelValue || {}), ...changes };
+  emit('update:modelValue', payload);
+  emit('input', payload);
 };
+
+const actionName = computed({
+  get: () => props.modelValue?.action_name ?? null,
+  set: value => updateAction({ action_name: value }),
+});
+
+const actionParams = computed({
+  get: () => props.modelValue?.action_params ?? null,
+  set: value => updateAction({ action_params: value }),
+});
+
+const inputType = computed(
+  () =>
+    props.actionTypes.find(action => action.key === actionName.value)?.inputType
+);
+
+const actionNameAsSelectModel = computed(() => {
+  if (!actionName.value) return null;
+  const found = props.actionTypes.find(
+    action => action.key === actionName.value
+  );
+  return found ? { id: found.key, name: found.label } : null;
+});
+
+const actionTypesAsOptions = computed(() =>
+  props.actionTypes.map(action => ({
+    id: action.key,
+    name: action.label,
+    icon: action.icon,
+  }))
+);
+
+const isVerticalLayout = computed(() =>
+  VERTICAL_INPUT_TYPES.includes(inputType.value)
+);
+
+const castMessageVmodel = computed({
+  get: () =>
+    Array.isArray(actionParams.value)
+      ? actionParams.value[0]
+      : actionParams.value,
+  set: value => {
+    actionParams.value = value;
+  },
+});
+
+const removeAction = () => emit('removeAction');
+const resetAction = () => emit('resetAction');
+
+const onActionNameChange = value => {
+  actionName.value = value?.id || value;
+  resetAction();
+};
+
+const insertContactEmailToken = () => {
+  const existingEmails = (castMessageVmodel.value || '')
+    .split(',')
+    .map(email => email.trim())
+    .filter(Boolean);
+
+  const hasContactEmail = existingEmails.some(
+    email => email.replace(/\s+/g, '') === CONTACT_EMAIL_TOKEN
+  );
+  if (hasContactEmail) return;
+
+  actionParams.value = [[...existingEmails, CONTACT_EMAIL_TOKEN].join(',')];
+};
+
+// Opens the action picker, such as on a row added for the next recommendation.
+const openActionPicker = () => actionPickerRef.value?.open();
+
+defineExpose({ openActionPicker });
 </script>
 
 <template>
@@ -149,36 +146,40 @@ export default {
     >
       <div class="flex items-center gap-2">
         <SingleSelect
+          ref="actionPickerRef"
           :model-value="actionNameAsSelectModel"
           :options="actionTypesAsOptions"
           :dropdown-max-height="dropdownMaxHeight"
+          :recommendations="recommendations"
+          :recommendations-options-label="$t('FILTER.ALL_ACTIONS')"
           disable-deselect
           class="flex-shrink-0"
           @update:model-value="onActionNameChange"
+          @recommend="key => emit('recommend', key)"
         />
         <template v-if="showActionInput && !isVerticalLayout">
           <SingleSelect
             v-if="inputType === 'search_select'"
-            v-model="action_params"
+            v-model="actionParams"
             :options="dropdownValues"
             :dropdown-max-height="dropdownMaxHeight"
           />
           <MultiSelect
             v-else-if="inputType === 'multi_select'"
-            v-model="action_params"
+            v-model="actionParams"
             :options="dropdownValues"
             :dropdown-max-height="dropdownMaxHeight"
           />
           <NextInput
             v-else-if="inputType === 'url'"
-            v-model="action_params"
+            v-model="actionParams"
             type="url"
             size="sm"
             :placeholder="$t('AUTOMATION.ACTION.URL_INPUT_PLACEHOLDER')"
           />
           <AutomationActionFileInput
             v-else-if="inputType === 'attachment'"
-            v-model="action_params"
+            v-model="actionParams"
             :initial-file-name="initialFileName"
           />
         </template>
@@ -194,7 +195,7 @@ export default {
       </div>
       <div v-if="inputType === 'email'" class="flex items-center w-full gap-2">
         <NextInput
-          v-model="action_params"
+          v-model="actionParams"
           type="text"
           size="sm"
           class="flex-1"
@@ -211,7 +212,7 @@ export default {
       </div>
       <AutomationActionTeamMessageInput
         v-else-if="inputType === 'team_message'"
-        v-model="action_params"
+        v-model="actionParams"
         :teams="dropdownValues"
         :dropdown-max-height="dropdownMaxHeight"
       />

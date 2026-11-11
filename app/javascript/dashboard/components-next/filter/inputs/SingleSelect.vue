@@ -9,6 +9,7 @@ import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
+import RecommendedDropdownItems from './RecommendedDropdownItems.vue';
 
 const {
   options,
@@ -21,6 +22,8 @@ const {
   placeholderTrailingIcon,
   searchPlaceholder,
   dropdownMaxHeight,
+  recommendations,
+  recommendationsOptionsLabel,
 } = defineProps({
   options: {
     type: Array,
@@ -62,9 +65,19 @@ const {
     type: Boolean,
     default: false,
   },
+  // [{ key, label }] shown above the options while the search field is empty.
+  recommendations: {
+    type: Array,
+    default: () => [],
+  },
+  // The header of the regular options below the recommendations.
+  recommendationsOptionsLabel: {
+    type: String,
+    default: '',
+  },
 });
 
-const emit = defineEmits(['search']);
+const emit = defineEmits(['search', 'recommend']);
 
 // the input is re-inserted on every dropdown open (v-if),
 // where the native autofocus attribute is ignored so focus it via a directive instead
@@ -77,6 +90,18 @@ const selected = defineModel({
 });
 
 const searchTerm = ref('');
+const containerRef = ref(null);
+
+const visibleRecommendations = computed(() =>
+  searchTerm.value.trim() ? [] : recommendations
+);
+
+const open = () => {
+  searchTerm.value = '';
+  containerRef.value?.open();
+};
+
+defineExpose({ open });
 
 const searchResults = computed(() => {
   if (asyncSearch) return options;
@@ -120,7 +145,7 @@ const toggleSelected = option => {
 </script>
 
 <template>
-  <DropdownContainer class="min-w-0">
+  <DropdownContainer ref="containerRef" class="min-w-0">
     <template #trigger="{ toggle }">
       <Button
         v-if="selectedItem"
@@ -169,6 +194,12 @@ const toggleSelected = option => {
         />
       </div>
       <DropdownSection :height="dropdownMaxHeight">
+        <RecommendedDropdownItems
+          v-if="visibleRecommendations.length"
+          :recommendations="visibleRecommendations"
+          :options-label="recommendationsOptionsLabel"
+          @select="key => emit('recommend', key)"
+        />
         <template v-if="isSearching">
           <DropdownItem disabled>
             {{ t('DROPDOWN_MENU.SEARCHING') }}

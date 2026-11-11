@@ -1,7 +1,11 @@
 <script setup>
-import { computed, useTemplateRef } from 'vue';
+import { computed, nextTick, useTemplateRef } from 'vue';
 import ConditionRow from 'dashboard/components-next/filter/ConditionRow.vue';
+import FilterDescribeStatus from 'dashboard/components-next/filter/FilterDescribeStatus.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { useFilterRecommendations } from 'dashboard/components-next/filter/useFilterRecommendations';
+import { toAutomationCondition } from 'dashboard/helper/automationHelper';
 
 const props = defineProps({
   events: {
@@ -32,12 +36,48 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  // [{ key, label }] conditions recommended from the rule's name and description.
+  recommendations: {
+    type: Array,
+    default: () => [],
+  },
+  // Applies a recommendation to a row and returns whether more remain.
+  applyRecommendation: {
+    type: Function,
+    default: () => false,
+  },
+  // Whether Captain set the current event from the rule's name and description.
+  eventSetByCaptain: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+const emit = defineEmits(['undoEvent']);
 const eventName = defineModel('eventName', { type: String, required: true });
 const conditions = defineModel('conditions', { type: Array, required: true });
 
+const { canDescribeFilters, describeStatus, describeFilters } =
+  useFilterRecommendations(
+    'automation',
+    computed(() => props.filterTypes),
+    conditions,
+    { toRow: toAutomationCondition }
+  );
+
+const eventLabel = computed(
+  () => props.events.find(event => event.key === eventName.value)?.value
+);
+
 const conditionsRef = useTemplateRef('conditionsRef');
+
+// Replaces the row with the recommendation. While more remain, a new row opens its picker on them.
+const onRecommend = async (rowIndex, key) => {
+  if (!props.applyRecommendation(rowIndex, key)) return;
+  props.appendNewCondition();
+  await nextTick();
+  conditionsRef.value?.at(-1)?.openAttributePicker();
+};
 
 const hasConditionErrors = computed(() =>
   Object.keys(props.errors).some(key => key.startsWith('condition_'))
@@ -79,6 +119,20 @@ defineExpose({ validate, resetValidation });
           {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
         </span>
       </label>
+      <p
+        v-if="eventSetByCaptain"
+        class="flex flex-wrap items-center gap-1 pt-1.5 mb-0 text-xs text-n-slate-11"
+      >
+        <Icon icon="i-ph-sparkle-fill" class="size-3 text-n-iris-9" />
+        {{ $t('AUTOMATION.FORM.EVENT_SET_BY_CAPTAIN', { event: eventLabel }) }}
+        <NextButton
+          link
+          blue
+          xs
+          :label="$t('AUTOMATION.FORM.UNDO_EVENT')"
+          @click="emit('undoEvent')"
+        />
+      </p>
       <p v-if="showResetMessage" class="pt-1 text-xs text-right text-n-teal-10">
         {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
       </p>
@@ -105,6 +159,10 @@ defineExpose({ validate, resetValidation });
             v-model:values="conditions[i].values"
             :filter-types="filterTypes"
             :show-query-operator="false"
+            :describable="canDescribeFilters"
+            :recommendations="recommendations"
+            @describe="query => describeFilters(i, query)"
+            @recommend="key => onRecommend(i, key)"
             @remove="removeFilter(i)"
           />
           <ConditionRow
@@ -116,6 +174,10 @@ defineExpose({ validate, resetValidation });
             v-model:values="conditions[i].values"
             :filter-types="filterTypes"
             show-query-operator
+            :describable="canDescribeFilters"
+            :recommendations="recommendations"
+            @describe="query => describeFilters(i, query)"
+            @recommend="key => onRecommend(i, key)"
             @remove="removeFilter(i)"
           />
         </template>
@@ -130,6 +192,11 @@ defineExpose({ validate, resetValidation });
           />
         </div>
       </ul>
+      <FilterDescribeStatus
+        v-if="describeStatus"
+        :status="describeStatus"
+        class="mt-3"
+      />
     </section>
   </div>
 </template>
