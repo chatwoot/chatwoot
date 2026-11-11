@@ -123,5 +123,105 @@ RSpec.describe CustomAttributeDefinition do
         expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
       end
     end
+
+    describe '#set_position' do
+      it 'assigns an incremental position scoped to account and attribute_model' do
+        first = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+        second = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+        expect(first.position).to eq(10)
+        expect(second.position).to eq(20)
+      end
+
+      it 'tracks positions independently per attribute_model' do
+        conversation_cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+        contact_cad = create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute')
+
+        expect(conversation_cad.position).to eq(10)
+        expect(contact_cad.position).to eq(10)
+      end
+
+      context 'when attribute_model changes on update' do
+        it 'reassigns position to the end of the destination attribute_model scope' do
+          existing_contact_cad = create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute')
+          cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+          cad.update!(attribute_model: 'contact_attribute')
+
+          expect(cad.reload.position).to eq(existing_contact_cad.position + 10)
+        end
+
+        it 'appends to an empty destination scope starting at 10' do
+          cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+          cad.update!(attribute_model: 'company_attribute')
+
+          expect(cad.reload.position).to eq(10)
+        end
+
+        it 'does not collide with an existing record already at the same position in the destination scope' do
+          existing_company_cad = create(:custom_attribute_definition, account: account, attribute_model: 'company_attribute')
+          cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+          cad.update!(attribute_model: 'company_attribute')
+
+          expect(cad.reload.position).not_to eq(existing_company_cad.reload.position)
+        end
+
+        it 'does not change position when attribute_model is not part of the update' do
+          cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+          original_position = cad.position
+
+          cad.update!(attribute_display_name: 'Renamed')
+
+          expect(cad.reload.position).to eq(original_position)
+        end
+      end
+    end
+  end
+
+  describe '.update_positions' do
+    it 'updates positions for the given account-scoped ids' do
+      first = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+      second = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+      described_class.update_positions(account: account, positions_hash: { first.id => 20, second.id => 10 })
+
+      expect(first.reload.position).to eq(20)
+      expect(second.reload.position).to eq(10)
+    end
+
+    it 'writes all positions in a single update' do
+      definitions = create_list(:custom_attribute_definition, 3, account: account, attribute_model: 'conversation_attribute')
+      positions_hash = definitions.each_with_index.to_h { |definition, index| [definition.id.to_s, (3 - index) * 10] }
+      update_queries = []
+      subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |*, payload|
+        update_queries << payload[:sql] if payload[:sql].start_with?('UPDATE "custom_attribute_definitions"')
+      end
+
+      described_class.update_positions(account: account, positions_hash: positions_hash)
+      ActiveSupport::Notifications.unsubscribe(subscriber)
+
+      expect(update_queries.size).to eq(1)
+      expect(definitions.map { |definition| definition.reload.position }).to eq([30, 20, 10])
+    end
+
+    it 'does not update any position when an id belongs to another account' do
+      own = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+      foreign = create(:custom_attribute_definition, account: create(:account), attribute_model: 'conversation_attribute')
+      original_positions = [own.position, foreign.position]
+
+      expect { described_class.update_positions(account: account, positions_hash: { own.id => 50, foreign.id => 60 }) }
+        .to raise_error(ActiveRecord::RecordNotFound)
+
+      expect([own.reload.position, foreign.reload.position]).to eq(original_positions)
+    end
+
+    it 'does nothing when positions_hash is blank' do
+      cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+      expect { described_class.update_positions(account: account, positions_hash: {}) }
+        .not_to(change { cad.reload.position })
+    end
   end
 end

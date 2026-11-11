@@ -90,4 +90,36 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#reorder', () => {
+    const state = {
+      records: [
+        { id: 1, position: 10 },
+        { id: 2, position: 20 },
+      ],
+    };
+
+    it('sets isReordering while in flight and clears it if API is success', async () => {
+      axios.post.mockResolvedValue({});
+      await actions.reorder({ commit, state }, { 1: 20, 2: 10 });
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isReordering: true }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_POSITIONS, { 1: 20, 2: 10 }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isReordering: false }],
+      ]);
+    });
+
+    it('rolls back positions and clears isReordering if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.reorder({ commit, state }, { 1: 20, 2: 10 })
+      ).rejects.toBeTruthy();
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isReordering: true }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_POSITIONS, { 1: 20, 2: 10 }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_POSITIONS, { 1: 10, 2: 20 }],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isReordering: false }],
+      ]);
+    });
+  });
 });

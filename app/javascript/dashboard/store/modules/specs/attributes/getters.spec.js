@@ -22,6 +22,21 @@ describe('#getters', () => {
     ]);
   });
 
+  it('getAttributes returns records ordered by position', () => {
+    const state = {
+      records: [
+        { attribute_key: 'no_position', attribute_model: 0 },
+        { attribute_key: 'second', attribute_model: 0, position: 20 },
+        { attribute_key: 'first', attribute_model: 0, position: 10 },
+      ],
+    };
+    expect(getters.getAttributes(state).map(r => r.attribute_key)).toEqual([
+      'first',
+      'second',
+      'no_position',
+    ]);
+  });
+
   it('getAttributesByModel', () => {
     const state = { records: attributesList };
     expect(getters.getAttributesByModel(state)(1)).toEqual([
@@ -32,6 +47,48 @@ describe('#getters', () => {
         attribute_key: 'language_one',
         attribute_model: 1,
       },
+    ]);
+  });
+
+  it('getAttributesByModel sorts records without a position to the end', () => {
+    const state = {
+      records: [
+        { attribute_key: 'no_position', attribute_model: 1, position: null },
+        { attribute_key: 'second', attribute_model: 1, position: 20 },
+        { attribute_key: 'first', attribute_model: 1, position: 10 },
+      ],
+    };
+    expect(
+      getters
+        .getAttributesByModel(state)(1)
+        .map(r => r.attribute_key)
+    ).toEqual(['first', 'second', 'no_position']);
+  });
+
+  it.each([
+    ['getConversationAttributes', 'conversation_attribute'],
+    ['getContactAttributes', 'contact_attribute'],
+    ['getCompanyAttributes', 'company_attribute'],
+  ])('%s returns records ordered by position', (getterName, attributeModel) => {
+    const state = {
+      records: [
+        { attribute_key: 'no_position', attribute_model: attributeModel },
+        {
+          attribute_key: 'second',
+          attribute_model: attributeModel,
+          position: 20,
+        },
+        {
+          attribute_key: 'first',
+          attribute_model: attributeModel,
+          position: 10,
+        },
+      ],
+    };
+    expect(getters[getterName](state).map(r => r.attributeKey)).toEqual([
+      'first',
+      'second',
+      'no_position',
     ]);
   });
 
