@@ -19,13 +19,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
       identify_action = ContactIdentifyAction.new(
         contact: @contact,
         params: { email: contact_email, name: contact_name },
-        retain_original_contact_name: true,
-        link_identified_contact: !@web_widget.hmac_mandatory
+        retain_original_contact_name: true
       )
       @contact = identify_action.perform
-      Conversations::UnverifiedContactNoteService.new(
-        conversation: @message.conversation, matches: identify_action.unverified_matches, linked: identify_action.linked_identified_contact?
-      ).perform
+      Conversations::UnverifiedContactMatchService.new(conversation: @message.conversation, matches: identify_action.unverified_matches).perform
     else
       @message.update!(message_update_params[:message])
     end

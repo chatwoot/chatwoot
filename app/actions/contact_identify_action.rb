@@ -4,17 +4,10 @@
 #
 # But, In case of contact merge during prechat form contact update.
 # We don't want to update the name of the identified original contact.
-#
-# link_identified_contact: false / true
-# The widget pre-chat form and email capture box set this. When an anonymous visitor enters details
-# that belong to an identified contact, the visitor's contact is merged into that contact. The request's
-# details are not saved on it. The merge only fills fields the identified contact has blank, the same as a
-# manual merge. The visitor's contact inbox keeps hmac_verified false, so the visitor's widget lists only
-# its own conversations.
 
 class ContactIdentifyAction
   include UrlHelper
-  pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false, link_identified_contact: false }]
+  pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
 
   # Details the request sent that matched another identified contact, so they were not saved
   attr_reader :unverified_matches
@@ -22,20 +15,14 @@ class ContactIdentifyAction
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
     @unverified_matches = []
-    @visitor_contact_id = @contact.id
 
     ActiveRecord::Base.transaction do
       merge_if_existing_identified_contact
       merge_if_existing_email_contact
-      # A linked contact must not be merged again, for example into an anonymous contact with the same phone number
-      merge_if_existing_phone_number_contact unless linked_identified_contact?
-      update_contact unless linked_identified_contact?
+      merge_if_existing_phone_number_contact
+      update_contact
     end
     @contact
-  end
-
-  def linked_identified_contact?
-    @linked_identified_contact == true
   end
 
   private
@@ -64,7 +51,6 @@ class ContactIdentifyAction
   end
 
   def process_contact_merge(mergee_contact)
-    @linked_identified_contact = true if identified_by_another_request?(mergee_contact)
     @contact = merge_contact(mergee_contact, @contact)
     @attributes_to_update.delete(:name) if retain_original_contact_name
   end
@@ -90,36 +76,23 @@ class ContactIdentifyAction
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
 
-    # Never update a contact that already owns an identifier unless the request
+    # Never merge into a contact that already owns an identifier unless the request
     # supplies the matching one. This also covers the blank-identifier case: an
     # unverified/anonymous request must not take over an identified contact just by
     # matching its email or phone_number. Merges into non-identified contacts
-    # (anonymous dedup) are still allowed. With link_identified_contact, an anonymous
-    # visitor is merged into the identified contact, and the request's details are not saved on it.
-    if identified_by_another_request?(existing_contact)
+    # (anonymous dedup) are still allowed.
+    if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
       # we will remove attribute from update list
       @attributes_to_update.delete(key)
-      return false if existing_contact == @contact
-
-      @unverified_matches << { key: key, value: params[key], contact: existing_contact }
-      return true if link_to_identified_contact?
-
-      Rails.logger.info "[CONTACT_IDENTIFY] Held off merge on #{key}: contact #{@contact.id} matched identified contact #{existing_contact.id} " \
-                        "in account #{account.id}"
+      unless existing_contact == @contact
+        @unverified_matches << { key: key, value: params[key], contact: existing_contact }
+        Rails.logger.info "[CONTACT_IDENTIFY] Held off merge on #{key}: contact #{@contact.id} matched identified contact #{existing_contact.id} " \
+                          "in account #{account.id}"
+      end
       return false
     end
 
     true
-  end
-
-  def identified_by_another_request?(existing_contact)
-    existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
-  end
-
-  # Only the visitor's own anonymous contact is linked. A contact with its own identifier, or an existing
-  # contact the visitor was merged into earlier in this request, is never merged into an identified contact.
-  def link_to_identified_contact?
-    link_identified_contact && @contact.id == @visitor_contact_id && @contact.identifier.blank?
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789

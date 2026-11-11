@@ -152,65 +152,6 @@ describe ContactIdentifyAction do
       end
     end
 
-    context 'when link_identified_contact is set to true' do
-      let!(:identified_contact) { create(:contact, account: account, identifier: 'customer-1', name: 'Real Customer', email: 'customer@test.com') }
-
-      it 'links an anonymous contact to the identified contact without updating it' do
-        anonymous_contact = create(:contact, account: account)
-        params = { name: 'Visitor', email: 'customer@test.com', custom_attributes: { plan: 'free' } }
-        action = described_class.new(contact: anonymous_contact, params: params, link_identified_contact: true)
-
-        expect(action.perform.id).to eq identified_contact.id
-        expect(action).to be_linked_identified_contact
-        expect(identified_contact.reload).to have_attributes(name: 'Real Customer', custom_attributes: {})
-        expect(Contact.exists?(anonymous_contact.id)).to be(false)
-      end
-
-      it 'does not merge the linked contact into an anonymous contact with the same phone number' do
-        anonymous_contact = create(:contact, account: account)
-        phone_contact = create(:contact, account: account, phone_number: '+15555550100')
-        params = { email: 'customer@test.com', phone_number: '+15555550100' }
-
-        result = described_class.new(contact: anonymous_contact, params: params, link_identified_contact: true).perform
-
-        expect(result.id).to eq identified_contact.id
-        expect(Contact.exists?(phone_contact.id)).to be(true)
-      end
-
-      it 'does not link an existing contact the visitor was merged into' do
-        anonymous_contact = create(:contact, account: account)
-        existing_contact = create(:contact, account: account, email: 'existing@test.com')
-        create(:contact, account: account, identifier: 'customer-2', phone_number: '+15555550100')
-        params = { email: 'existing@test.com', phone_number: '+15555550100' }
-        action = described_class.new(contact: anonymous_contact, params: params, link_identified_contact: true)
-
-        expect(action.perform.id).to eq existing_contact.id
-        expect(action).not_to be_linked_identified_contact
-      end
-
-      it 'updates the visitor contact when the phone match is not merged' do
-        anonymous_contact = create(:contact, account: account)
-        create(:contact, account: account, identifier: 'customer-2', email: 'other@test.com', phone_number: '+15555550100')
-        params = { email: 'visitor@test.com', phone_number: '+15555550100', custom_attributes: { source: 'prechat' } }
-        action = described_class.new(contact: anonymous_contact, params: params, link_identified_contact: true)
-
-        result = action.perform
-
-        expect(result.id).to eq anonymous_contact.id
-        expect(action).not_to be_linked_identified_contact
-        expect(result.reload).to have_attributes(email: 'visitor@test.com', custom_attributes: { 'source' => 'prechat' })
-      end
-
-      it 'does not link a contact that has its own identifier' do
-        visitor = create(:contact, account: account, identifier: 'visitor-1')
-
-        result = described_class.new(contact: visitor, params: { email: 'customer@test.com' }, link_identified_contact: true).perform
-
-        expect(result.id).to eq visitor.id
-        expect(Contact.exists?(identified_contact.id)).to be(true)
-      end
-    end
-
     context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do
       it 'updates the attributes of contact passed in to identify action' do
         create(:contact, account: account, identifier: '')

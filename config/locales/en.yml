@@ -390,7 +390,7 @@ en:
 
         %{matches}
 
-        Check that this visitor is the same person before you share any account details.
+        Check that this visitor is the same person before you share any account details. If you confirm it, merge the contacts from the contact panel.
       email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
       phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
     messages:

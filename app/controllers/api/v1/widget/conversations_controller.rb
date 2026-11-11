@@ -14,9 +14,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
       conversation.messages.create!(message_params)
     end
     # Added after the first message commits, so the greeting hook does not count the note as a reply
-    Conversations::UnverifiedContactNoteService.new(
-      conversation: conversation, matches: identify_action.unverified_matches, linked: identify_action.linked_identified_contact?
-    ).perform
+    Conversations::UnverifiedContactMatchService.new(conversation: conversation, matches: identify_action.unverified_matches).perform
     # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer
     conversation.reload
   end
@@ -26,8 +24,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
       contact: @contact,
       params: { email: contact_email, phone_number: contact_phone_number, name: contact_name, custom_attributes: contact_custom_attributes },
       retain_original_contact_name: true,
-      discard_invalid_attrs: true,
-      link_identified_contact: !@web_widget.hmac_mandatory
+      discard_invalid_attrs: true
     )
     @contact = identify_action.perform
     identify_action

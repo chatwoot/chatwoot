@@ -153,20 +153,21 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
         account.conversations.find_by(display_id: response.parsed_body['id'])
       end
 
-      it 'links the conversation and the widget session to the identified contact as unverified' do
+      it 'links only the conversation to the identified contact' do
         new_conversation = create_widget_conversation
 
         expect(response).to have_http_status(:success)
         expect(new_conversation.contact_id).to eq identified_contact.id
-        expect(contact_inbox.reload).to have_attributes(contact_id: identified_contact.id, hmac_verified: false)
-        expect(Contact.exists?(contact.id)).to be(false)
+        expect(new_conversation.contact_inbox_id).to eq contact_inbox.id
+        expect(contact_inbox.reload.contact_id).to eq contact.id
+        expect(new_conversation.messages.incoming.first.sender).to eq contact
+        expect(new_conversation.messages.find_by(private: true).content).to include('We linked this conversation')
       end
 
       it 'links the conversation when only the phone number matches' do
         new_conversation = create_widget_conversation({ name: 'contact-name', phone_number: '+15555550100' })
 
         expect(new_conversation.contact_id).to eq identified_contact.id
-        expect(contact_inbox.reload).to have_attributes(contact_id: identified_contact.id, hmac_verified: false)
       end
 
       it 'does not change the details of the identified contact' do
@@ -180,7 +181,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
         )
       end
 
-      it 'does not ask for the email again in the same widget session' do
+      it 'keeps the widget session on the visitor contact' do
         create_widget_conversation
 
         get '/api/v1/widget/contact',
@@ -188,7 +189,16 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
             params: { website_token: web_widget.website_token },
             as: :json
 
-        expect(response.parsed_body['has_email']).to be(true)
+        expect(response.parsed_body).to include('id' => contact.id, 'identifier' => nil)
+      end
+
+      it 'does not link a visitor that has its own identifier' do
+        contact.update!(identifier: 'visitor-1')
+
+        new_conversation = create_widget_conversation
+
+        expect(new_conversation.contact_id).to eq contact.id
+        expect(new_conversation.messages.find_by(private: true).content).to include("didn't link this conversation")
       end
 
       it 'does not link the visitor when the inbox requires identity verification' do
@@ -197,8 +207,20 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
         new_conversation = create_widget_conversation
 
         expect(new_conversation.contact_id).to eq contact.id
-        expect(contact_inbox.reload.contact_id).to eq contact.id
         expect(new_conversation.messages.find_by(private: true).content).to include("didn't link this conversation")
+      end
+
+      it 'does not show the linked conversation to a verified session of the identified contact' do
+        verified_session = create(:contact_inbox, contact: identified_contact, inbox: web_widget.inbox, hmac_verified: true)
+        verified_token = Widget::TokenService.new(payload: { source_id: verified_session.source_id, inbox_id: web_widget.inbox.id }).generate_token
+        create_widget_conversation
+
+        get '/api/v1/widget/conversations',
+            headers: { 'X-Auth-Token' => verified_token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response.parsed_body['id']).to be_nil
       end
 
       it 'does not show the identified contact conversations to the visitor' do
