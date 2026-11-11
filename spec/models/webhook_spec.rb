@@ -8,6 +8,14 @@ RSpec.describe Webhook do
   describe 'inbox ownership' do
     let(:account) { create(:account) }
 
+    it 'rejects a nonexistent inbox ID' do
+      missing_inbox_id = create(:inbox, account: account).id + 1
+      record = build(:webhook, account: account, inbox_id: missing_inbox_id)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include('must belong to the same account as the webhook')
+    end
+
     it 'allows an inbox belonging to the same account' do
       inbox = create(:inbox, account: account)
       record = build(:webhook, account: account, inbox: inbox)

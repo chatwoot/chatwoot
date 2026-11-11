@@ -124,8 +124,8 @@ class Integrations::Hook < ApplicationRecord
   private
 
   def inbox_must_belong_to_account
-    return unless inbox
-    return if inbox.account_id == account_id
+    return if inbox_id.blank? && inbox.blank?
+    return if inbox&.account_id == account_id
 
     errors.add(:inbox_id, 'must belong to the same account as the hook')
   end
