@@ -3,7 +3,10 @@
 
 class DataImportJob < ApplicationJob
   queue_as :low
-  retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3
+  retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3 do |job, error|
+    job.fail_import!
+    raise error
+  end
 
   BATCH_SIZE = 1000
   LABELS_DELIMITER = ','.freeze
@@ -15,9 +18,21 @@ class DataImportJob < ApplicationJob
     @contact_manager = DataImport::ContactManager.new(@data_import.account)
     catch(:inactive_import) do
       process_import_file
-      send_import_notification_to_admin
-    rescue CSV::MalformedCSVError => e
-      handle_csv_error(e)
+      AdministratorNotifications::AccountNotificationMailer.with(account: @data_import.account).contact_import_complete(@data_import).deliver_later
+    end
+  rescue CSV::MalformedCSVError
+    fail_import!
+  rescue ActiveStorage::FileNotFoundError
+    raise
+  rescue StandardError
+    fail_import!
+    raise
+  end
+
+  def fail_import!
+    catch(:inactive_import) do
+      while_active { @data_import.update!(status: :failed) }
+      AdministratorNotifications::AccountNotificationMailer.with(account: @data_import.account).contact_import_failed.deliver_later
     end
   end
 
@@ -171,7 +186,7 @@ class DataImportJob < ApplicationJob
   end
 
   def generate_csv_data(rejected_contacts)
-    headers = csv_headers
+    headers = with_import_file { |file| csv_reader(file).first&.headers || [] }
     headers << 'errors'
     return if rejected_contacts.blank?
 
@@ -181,23 +196,6 @@ class DataImportJob < ApplicationJob
         csv << record
       end
     end
-  end
-
-  def handle_csv_error(error) # rubocop:disable Lint/UnusedMethodArgument
-    while_active { @data_import.update!(status: :failed) }
-    send_import_failed_notification_to_admin
-  end
-
-  def send_import_notification_to_admin
-    AdministratorNotifications::AccountNotificationMailer.with(account: @data_import.account).contact_import_complete(@data_import).deliver_later
-  end
-
-  def send_import_failed_notification_to_admin
-    AdministratorNotifications::AccountNotificationMailer.with(account: @data_import.account).contact_import_failed.deliver_later
-  end
-
-  def csv_headers
-    with_import_file { |file| csv_reader(file).first&.headers || [] }
   end
 
   def csv_reader(file)

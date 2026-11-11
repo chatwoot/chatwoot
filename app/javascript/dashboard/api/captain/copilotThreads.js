@@ -9,6 +9,10 @@ class CopilotThreads extends ApiClient {
   get({ page = 1 } = {}) {
     return axios.get(this.url, { params: { page } });
   }
+
+  stop(threadId) {
+    return axios.post(`${this.url}/${threadId}/stop`);
+  }
 }
 
 export default new CopilotThreads();
