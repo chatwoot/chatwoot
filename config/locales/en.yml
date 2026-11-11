@@ -51,6 +51,8 @@ en:
       message_required: 'Add the message callers hear'
       message_too_long: 'The announcement must be 1000 characters or fewer'
       invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
+    call_routing:
+      invalid_settings: 'Choose a ringing order, a ring interval of %{step_min} to %{step_max} seconds and a cooldown of 0 to %{cooldown_max} seconds'
   auth:
     saml:
       invalid_email: 'Please enter a valid email address'

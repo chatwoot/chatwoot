@@ -41,7 +41,6 @@ describe Whatsapp::SendOnWhatsappService do
           messaging_product: 'whatsapp',
           recipient_type: 'individual',
           to: '123456789',
-          messaging_account_id: '123456789',
           type: 'template',
           template: {
             name: 'ticket_status_updated',
