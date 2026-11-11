@@ -2,7 +2,9 @@ class Voice::RingReadiness
   pattr_initialize [:user!]
 
   Platform = Struct.new(:problem, :devices, keyword_init: true) do
-    def configured = problem.nil?
+    def configured
+      problem.nil?
+    end
   end
   Membership = Struct.new(:account, :voice_enabled, :ringing_enabled, :voice_inboxes, :assigned_only_inboxes, :availability,
                           :accepts_calls, keyword_init: true)

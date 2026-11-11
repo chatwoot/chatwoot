@@ -87,7 +87,9 @@ class Voice::InboundCallBuilder
     end
   end
 
-  def ring_phones(call) = self.class.queue_ring(call)
+  def ring_phones(call)
+    self.class.queue_ring(call)
+  end
 
   # The caller is told nobody answered once the inbox's ring time is up; a call answered or
   # ended before then is left alone. See Voice::RingingTimeoutService.

@@ -52,7 +52,9 @@ class Voice::StatusUpdateService
     end
   end
 
-  def provider_status_recordable?(call) = !call.terminal? || call.meta&.dig('unanswered_by_failed_join').present?
+  def provider_status_recordable?(call)
+    !call.terminal? || call.meta&.dig('unanswered_by_failed_join').present?
+  end
 
   def stale_provider_status?(current, incoming)
     current_rank = provider_status_rank(current)
