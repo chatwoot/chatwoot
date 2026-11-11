@@ -16,9 +16,7 @@ class DataImports::Csv::Reader
         transcode(source, file)
         csv = CSV.new(file, headers: true, skip_blanks: true, max_field_size: DataImports::Csv::UploadValidator::MAX_FIELD_SIZE)
         row = csv.shift
-        @headers = csv.headers
-        validate_headers!
-        @headers = @headers.excluding(DataImports::Csv::RejectedRowsFormat::VERSION_COLUMN)
+        read_headers(csv.headers)
         raise CustomExceptions::DataImport::InvalidCsvError, 'The CSV must contain at least one contact row.' unless row
 
         number = 0
@@ -45,6 +43,13 @@ class DataImports::Csv::Reader
     end
     target.write(converter.finish.encode('UTF-8'))
     target.rewind
+  end
+
+  def read_headers(headers)
+    @headers = headers
+    validate_headers!
+    @headers = DataImports::Csv::RejectedRowsFormat.decode_headers(@headers)
+    validate_headers!
   end
 
   def validate_headers!
