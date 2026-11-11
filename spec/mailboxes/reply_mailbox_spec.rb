@@ -425,6 +425,25 @@ RSpec.describe ReplyMailbox do
     end
   end
 
+  describe 'when a third-party email shares the mailer sender address' do
+    let(:account) { create(:account) }
+    let!(:channel_email) { create(:channel_email, email: 'sojan@chatwoot.com', account: account) }
+    let(:third_party_mail) { create_inbound_email_from_fixture('notification.eml') }
+    let(:described_subject) { described_class.receive third_party_mail }
+    let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
+
+    before do
+      # remove the marker header so the mail looks like it came from another
+      # system that happens to use the same MAILER_SENDER_EMAIL address
+      third_party_mail.mail.header['X-Chatwoot-Notification'] = nil
+    end
+
+    it 'creates a conversation in the channel' do
+      described_subject
+      expect(conversation.present?).to be(true)
+    end
+  end
+
   describe 'when bounced email with out a sender is recieved' do
     let(:account) { create(:account) }
     let(:bounced_email) { create_inbound_email_from_fixture('bounced_with_no_from.eml') }
