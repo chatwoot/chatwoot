@@ -1,7 +1,7 @@
 # TODO: Wrap the schema lib under ai-agents
 # So we can extend it as Agents::Schema
 class Captain::ResponseSchema < Schematist::Schema
-  string :reasoning, description: "Agent's thought process"
+  string :reasoning, description: 'Brief basis for the answer'
   array :response_parts,
         description: 'Ordered parts of the message to send to the user. Keep all customer-visible text within each part text field.',
         min_items: 1 do
