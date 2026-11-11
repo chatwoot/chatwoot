@@ -26,11 +26,7 @@ class Enterprise::Billing::HandleStripeEventService
 
   def log_event
     object = @event.data.object
-    customer = object['customer']
-    account_id = account&.id if customer.present?
-    Rails.logger.info(
-      "Stripe event: id=#{@event.id} type=#{@event.type} customer=#{customer} status=#{object['status']} account_id=#{account_id}"
-    )
+    Rails.logger.info("Stripe event: id=#{@event.id} type=#{@event.type} customer=#{object['customer']} status=#{object['status']}")
   end
 
   def process_subscription_updated
