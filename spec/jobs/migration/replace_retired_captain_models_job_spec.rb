@@ -21,12 +21,14 @@ RSpec.describe Migration::ReplaceRetiredCaptainModelsJob, type: :job do
     )
   end
 
-  it 'replaces a retired installation model on the standard OpenAI endpoint' do
-    set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'gpt-5')
+  %w[gpt-5 gpt-5-mini-2025-08-07].each do |retired_model|
+    it "replaces the retired installation model #{retired_model} on the standard OpenAI endpoint" do
+      set_installation_config('CAPTAIN_OPEN_AI_MODEL', retired_model)
 
-    described_class.perform_now
+      described_class.perform_now
 
-    expect(InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL').value).to eq(Llm::Config::DEFAULT_MODEL)
+      expect(InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL').value).to eq(Llm::Config::DEFAULT_MODEL)
+    end
   end
 
   it 'keeps the installation model on a custom endpoint' do
