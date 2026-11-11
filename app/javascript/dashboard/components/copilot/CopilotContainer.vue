@@ -347,6 +347,7 @@ onMounted(() => {
       :can-use-reply="canUseReply"
       :is-expanded="isExpanded"
       :can-show-avatar="isWorkflowsEnabled"
+      :is-workflows-enabled="isWorkflowsEnabled"
       :on-send-message="sendMessage"
       :can-stop="isWorkflowsEnabled"
       :on-stop="stopCopilot"

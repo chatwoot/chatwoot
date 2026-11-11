@@ -9,6 +9,8 @@ import CopilotThinkingGroup from '../CopilotThinkingGroup.vue';
 import CopilotReviewProgress from '../CopilotReviewProgress.vue';
 import CopilotLoader from '../CopilotLoader.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
+import { useTrack } from 'dashboard/composables';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
@@ -281,6 +283,63 @@ describe('Copilot', () => {
     ]);
     expect(wrapper.findAll('.i-lucide-sparkles')).toHaveLength(1);
     expect(wrapper.findAll('.i-lucide-check')).toHaveLength(2);
+  });
+
+  it('records how each workflow turn ended, but not the old Copilot answers', async () => {
+    const question = {
+      id: 1,
+      message_type: 'user',
+      message: { content: 'Hi' },
+    };
+    const answer = (id, message) => ({
+      id,
+      message_type: 'assistant',
+      message,
+    });
+    const wrapper = mountComponent({ messages: [question] });
+    useTrack.mockClear();
+
+    await wrapper.setProps({
+      messages: [question, answer(2, { content: 'Done', run_id: 9 })],
+    });
+    await wrapper.setProps({
+      messages: [
+        question,
+        answer(2, { content: 'Done', run_id: 9 }),
+        { ...question, id: 3 },
+      ],
+    });
+    await wrapper.setProps({
+      messages: [
+        question,
+        answer(2, { content: 'Done', run_id: 9 }),
+        { ...question, id: 3 },
+        answer(4, { content: 'Failed', run_id: 10, status: 'failed' }),
+      ],
+    });
+    await wrapper.setProps({ messages: [question] });
+    await wrapper.setProps({
+      messages: [question, answer(5, { content: 'Old' })],
+    });
+
+    expect(useTrack.mock.calls.map(([event]) => event)).toEqual([
+      'Copilot: Workflow turn finished',
+      'Copilot: Workflow turn failed',
+    ]);
+  });
+
+  it('labels Copilot beta only while workflows is in the test', () => {
+    const betaLabel = isWorkflowsEnabled =>
+      mount(Copilot, {
+        props: { onSendMessage: vi.fn(), isWorkflowsEnabled },
+        global: {
+          mocks: { $t: key => key },
+          stubs: { CopilotEmptyState: true, CopilotInput: true },
+        },
+      }).findComponent(Label);
+
+    expect(betaLabel(true).props('label')).toBe('GENERAL.BETA');
+    expect(betaLabel(false).exists()).toBe(false);
   });
 
   it('preserves a draft while a saved chat is loading', async () => {

@@ -23,6 +23,7 @@ import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import CopilotEmptyState from './CopilotEmptyState.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -71,6 +72,11 @@ const props = defineProps({
     default: false,
   },
   canShowAvatar: {
+    type: Boolean,
+    default: false,
+  },
+  // Workflows is in a test with a few accounts, so the panel labels it beta and offers its starter prompts.
+  isWorkflowsEnabled: {
     type: Boolean,
     default: false,
   },
@@ -313,9 +319,18 @@ const { start: startReaction } = useTimeoutFn(
 // error face. Opening a past chat shows neither, because no turn was running.
 watch(turnAvatarState, (state, previousState) => {
   if (previousState && !state && isLastMessageFromAssistant.value) {
-    const hasFailed = props.messages.at(-1).message.status === 'failed';
+    const lastMessage = props.messages.at(-1).message;
+    const hasFailed = lastMessage.status === 'failed';
     reaction.value = hasFailed ? 'error' : 'happy';
     startReaction();
+    // Only a workflow turn saves its run ID on the answer.
+    if (lastMessage.run_id) {
+      useTrack(
+        hasFailed
+          ? COPILOT_EVENTS.WORKFLOW_TURN_FAILED
+          : COPILOT_EVENTS.WORKFLOW_TURN_FINISHED
+      );
+    }
   }
 });
 
@@ -421,7 +436,11 @@ watch(
       :buttons="copilotButtons"
       @click="handleSidebarAction"
       @close="closeCopilotPanel"
-    />
+    >
+      <template v-if="isWorkflowsEnabled" #titleBadge>
+        <Label :label="t('GENERAL.BETA')" color="blue" compact />
+      </template>
+    </SidebarActionsHeader>
     <div v-if="showHistory" class="flex-1 overflow-y-auto px-3 py-3">
       <div class="w-full max-w-3xl mx-auto">
         <div class="mb-3 flex items-center justify-between">
@@ -518,6 +537,7 @@ watch(
         class="max-w-3xl mx-auto"
         :has-assistants="hasAssistants"
         :can-suggest-reply="canSuggestReply"
+        :is-workflows-enabled="isWorkflowsEnabled"
         @use-suggestion="sendSuggestion"
       >
         <template v-if="showAvatar" #logo>
@@ -574,6 +594,12 @@ watch(
         @focusin="wakeAvatar"
         @input="onDraftInput"
       />
+      <p
+        v-if="hasAssistants"
+        class="w-full max-w-3xl mx-auto mb-0 text-center text-xs text-n-slate-10"
+      >
+        {{ $t('CAPTAIN.COPILOT.DISCLAIMER') }}
+      </p>
     </div>
   </div>
 </template>

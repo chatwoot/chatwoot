@@ -2,6 +2,9 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { useTrack } from 'dashboard/composables';
+import { useMapGetter } from 'dashboard/composables/store';
+import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import Icon from '../icon/Icon.vue';
 import Button from '../button/Button.vue';
 
@@ -14,38 +17,67 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isWorkflowsEnabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['useSuggestion']);
 const { t } = useI18n();
 const route = useRoute();
+const currentRole = useMapGetter('getCurrentRole');
+
+const PROMPTS = {
+  SUMMARIZE: {
+    label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
+    content: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
+  },
+  SUGGEST: {
+    label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
+    content: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
+    requestType: 'reply_suggestion',
+  },
+  RATE: {
+    label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
+    content: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
+  },
+  HIGH_PRIORITY: {
+    label: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.LABEL',
+    content: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.CONTENT',
+  },
+  LIST_CONTACTS: {
+    label: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.LABEL',
+    content: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.CONTENT',
+  },
+  WAITING_ON_ME: {
+    label: 'CAPTAIN.COPILOT.PROMPTS.WAITING_ON_ME.LABEL',
+    content: 'CAPTAIN.COPILOT.PROMPTS.WAITING_ON_ME.CONTENT',
+  },
+  RECENT_CONVERSATIONS: {
+    label: 'CAPTAIN.COPILOT.PROMPTS.RECENT_CONVERSATIONS.LABEL',
+    content: 'CAPTAIN.COPILOT.PROMPTS.RECENT_CONVERSATIONS.CONTENT',
+  },
+  TEAM_WORKLOAD: {
+    label: 'CAPTAIN.COPILOT.PROMPTS.TEAM_WORKLOAD.LABEL',
+    content: 'CAPTAIN.COPILOT.PROMPTS.TEAM_WORKLOAD.CONTENT',
+  },
+  TOP_QUESTIONS: {
+    label: 'CAPTAIN.COPILOT.PROMPTS.TOP_QUESTIONS.LABEL',
+    content: 'CAPTAIN.COPILOT.PROMPTS.TOP_QUESTIONS.CONTENT',
+  },
+};
 
 const routePromptMap = {
-  conversations: [
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
-    },
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
-      requestType: 'reply_suggestion',
-    },
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
-    },
-  ],
-  dashboard: [
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.CONTENT',
-    },
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.CONTENT',
-    },
-  ],
+  conversations: ['SUMMARIZE', 'SUGGEST', 'RATE'],
+  dashboard: ['HIGH_PRIORITY', 'LIST_CONTACTS'],
+};
+
+// Workflows answers across many conversations, so its prompts follow the person's role instead of the page. Each one
+// reads only conversations the person can open, and still has an answer on a quiet account.
+const rolePromptMap = {
+  agent: ['WAITING_ON_ME', 'RECENT_CONVERSATIONS'],
+  administrator: ['WAITING_ON_ME', 'TEAM_WORKLOAD', 'TOP_QUESTIONS'],
 };
 
 const getCurrentRoute = () => {
@@ -56,22 +88,27 @@ const getCurrentRoute = () => {
 };
 
 const promptOptions = computed(() => {
-  const currentRoute = getCurrentRoute();
-  const prompts = routePromptMap[currentRoute] || routePromptMap.conversations;
+  const keys = props.isWorkflowsEnabled
+    ? rolePromptMap[currentRole.value] || rolePromptMap.agent
+    : routePromptMap[getCurrentRoute()];
 
-  return prompts
+  return keys
+    .map(key => ({ key, ...PROMPTS[key] }))
     .filter(
       prompt =>
         prompt.requestType !== 'reply_suggestion' || props.canSuggestReply
-    )
-    .map(prompt => ({ ...prompt, label: t(prompt.label) }));
+    );
 });
 
-const handleSuggestion = opt => {
-  const message = t(opt.prompt);
+const handleSuggestion = prompt => {
+  useTrack(COPILOT_EVENTS.SEND_SUGGESTED, {
+    prompt: prompt.key,
+    role: currentRole.value,
+  });
+  const message = t(prompt.content);
   emit(
     'useSuggestion',
-    opt.requestType ? { message, requestType: opt.requestType } : message
+    prompt.requestType ? { message, requestType: prompt.requestType } : message
   );
 };
 </script>
@@ -115,8 +152,8 @@ const handleSuggestion = opt => {
     <div v-else-if="$slots.logo" class="flex flex-wrap gap-2 mt-auto">
       <Button
         v-for="prompt in promptOptions"
-        :key="prompt.label"
-        :label="prompt.label"
+        :key="prompt.key"
+        :label="t(prompt.label)"
         faded
         slate
         sm
@@ -131,11 +168,11 @@ const handleSuggestion = opt => {
       <div class="space-y-1">
         <button
           v-for="prompt in promptOptions"
-          :key="prompt.label"
+          :key="prompt.key"
           class="w-full px-3 py-2 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center justify-between hover:bg-n-slate-3 transition-colors"
           @click="handleSuggestion(prompt)"
         >
-          <span>{{ prompt.label }}</span>
+          <span>{{ t(prompt.label) }}</span>
           <Icon icon="i-lucide-chevron-right" />
         </button>
       </div>

@@ -746,6 +746,7 @@
       "TITLE": "Copilot",
       "AVATAR_LABEL": "Captain",
       "TRY_THESE_PROMPTS": "Try these prompts",
+      "DISCLAIMER": "Copilot can make mistakes. Check important info.",
       "PANEL_TITLE": "Get started with Copilot",
       "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "Send message...",
@@ -785,6 +786,22 @@
         "LIST_CONTACTS": {
           "LABEL": "List contacts",
           "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+        },
+        "WAITING_ON_ME": {
+          "LABEL": "What's waiting on me?",
+          "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
+        },
+        "RECENT_CONVERSATIONS": {
+          "LABEL": "Catch me up on recent conversations",
+          "CONTENT": "Summarize the 10 most recent conversations: what each customer asked and where it stands."
+        },
+        "TEAM_WORKLOAD": {
+          "LABEL": "Who has the most open conversations?",
+          "CONTENT": "How many open conversations does each agent have? Include how many open conversations have no one assigned."
+        },
+        "TOP_QUESTIONS": {
+          "LABEL": "What are customers asking about?",
+          "CONTENT": "What do customers ask about most in the 20 most recent conversations? Group them into topics and link an example for each."
         }
       },
       "APPROVAL": {
