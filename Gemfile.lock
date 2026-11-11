@@ -167,7 +167,6 @@ GEM
       logger (~> 1.5)
     cld3 (3.7.0)
     climate_control (1.2.0)
-    coderay (1.1.3)
     commonmarker (0.23.12)
     concurrent-ruby (1.3.8)
     connection_pool (2.5.5)
@@ -535,7 +534,6 @@ GEM
     meta_request (0.8.5)
       rack-contrib (>= 1.1, < 3)
       railties (>= 3.0.0, < 9)
-    method_source (1.1.0)
     mime-types (3.4.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.0218.1)
@@ -665,11 +663,6 @@ GEM
     prism (1.9.0)
     procore-sift (1.0.0)
       activerecord (>= 6.1)
-    pry (0.14.2)
-      coderay (~> 1.1)
-      method_source (~> 1.0)
-    pry-rails (0.3.9)
-      pry (>= 0.10.4)
     public_suffix (7.0.5)
     puma (7.2.1)
       nio4r (~> 2.0)
@@ -1120,7 +1113,6 @@ DEPENDENCIES
   pg_search
   pgvector
   procore-sift
-  pry-rails
   puma (~> 7.2, >= 7.2.1)
   pundit
   rack-attack (>= 6.7.0)

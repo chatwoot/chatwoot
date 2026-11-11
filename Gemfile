@@ -267,7 +267,6 @@ group :development, :test do
   gem 'debug', '~> 1.8'
   gem 'factory_bot_rails', '>= 6.4.3'
   gem 'mock_redis'
-  gem 'pry-rails'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '>= 6.1.5'
   gem 'rubocop', require: false
