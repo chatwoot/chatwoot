@@ -597,6 +597,8 @@
     "EXPIRED": "This download has expired. Run the export again to create a new file.",
     "RETENTION": "Export files are available for 30 days after completion.",
     "ERROR": "Could not load or start this export. Please try again.",
+    "LOAD_ERROR": "Could not load this export. Please try again.",
+    "RETRY": "Retry",
     "LOAD_OLDER": "Load older exports",
     "LOAD_OLDER_ERROR": "Could not load older exports. Try again.",
     "DOWNLOAD_ERROR": "This file is no longer available. Refresh the page to see its current status.",

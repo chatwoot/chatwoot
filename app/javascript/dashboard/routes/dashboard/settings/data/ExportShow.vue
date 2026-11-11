@@ -25,6 +25,7 @@ const dataExport = ref(null);
 const loading = ref(true);
 const busy = ref(false);
 const refreshing = ref(false);
+const loadError = ref(false);
 let timer;
 let active = false;
 let generation = 0;
@@ -70,9 +71,12 @@ const refresh = async () => {
   const current = generation;
   try {
     const response = await DataExportsAPI.show(route.params.dataExportId);
-    if (active && current === generation) dataExport.value = response.data;
+    if (active && current === generation) {
+      dataExport.value = response.data;
+      loadError.value = false;
+    }
   } catch {
-    if (active && current === generation) useAlert(t('DATA_EXPORTS.ERROR'));
+    if (active && current === generation) loadError.value = true;
   } finally {
     if (current === generation) {
       refreshing.value = false;
@@ -182,6 +186,17 @@ onBeforeUnmount(stop);
       </BaseSettingsHeader>
     </template>
     <template #body>
+      <Banner
+        v-if="loadError"
+        color="ruby"
+        role="alert"
+        class="mb-4"
+        :action-label="$t('DATA_EXPORTS.RETRY')"
+        :is-loading="refreshing"
+        @action="refresh"
+      >
+        {{ $t('DATA_EXPORTS.LOAD_ERROR') }}
+      </Banner>
       <div v-if="dataExport" class="flex flex-col gap-4">
         <dl
           class="grid gap-px overflow-hidden rounded-xl border border-n-weak bg-n-weak sm:grid-cols-3"
