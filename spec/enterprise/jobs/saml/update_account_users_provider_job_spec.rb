@@ -8,12 +8,35 @@ RSpec.describe Saml::UpdateAccountUsersProviderJob, type: :job do
 
   describe '#perform' do
     context 'when setting provider to saml' do
+      let!(:saml_settings) { create(:account_saml_settings, account: account) }
+      let(:other_account) { create(:account) }
+
+      before { other_account.enable_features!('saml') }
+
       it 'updates all account users to saml provider' do
         described_class.new.perform(account.id, 'saml')
 
         expect(user1.reload.provider).to eq('saml')
         expect(user2.reload.provider).to eq('saml')
         expect(user3.reload.provider).to eq('saml')
+      end
+
+      it 'updates users whose other accounts trust the same identity provider' do
+        create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+        user1.account_users.create!(account: other_account, role: :agent)
+
+        described_class.new.perform(account.id, 'saml')
+
+        expect(user1.reload.provider).to eq('saml')
+      end
+
+      it 'skips users whose other accounts do not trust the same identity provider' do
+        user1.account_users.create!(account: other_account, role: :agent)
+
+        described_class.new.perform(account.id, 'saml')
+
+        expect(user1.reload.provider).to eq('email')
+        expect(user2.reload.provider).to eq('saml')
       end
     end
 
@@ -44,10 +67,10 @@ RSpec.describe Saml::UpdateAccountUsersProviderJob, type: :job do
           user1.account_users.create!(account: other_account, role: :agent)
         end
 
-        it 'preserves SAML provider for users with other SAML accounts' do
+        it 'resets users with other SAML accounts to email provider' do
           described_class.new.perform(account.id, 'email')
 
-          expect(user1.reload.provider).to eq('saml')
+          expect(user1.reload.provider).to eq('email')
           expect(user2.reload.provider).to eq('email')
           expect(user3.reload.provider).to eq('email')
         end
