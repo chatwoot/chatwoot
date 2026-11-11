@@ -114,6 +114,11 @@ Stop and ask only for:
 - Production deploys go through Dokploy (`deploy/dokploy-compose.yml`) and need
   the owner's go-ahead. In Claude Code the owner runs `/deploy`
   (`.claude/skills/deploy/`), which checks, deploys and verifies.
+- Bot data (business profile, knowledge-base sheets, sources): follow
+  `.claude/skills/pronto-kb-dataset/`, not the general knowledge-base skill.
+  Keep it current in the same PR: a new test result or owner decision gets a
+  dated entry in its `references/lessons.md`; a change to `internal/feed/`
+  columns or limits updates its `SKILL.md` §2 and `scripts/pronto_check.py`.
 
 ## 6. Observability
 
