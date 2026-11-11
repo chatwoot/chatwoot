@@ -7,9 +7,10 @@
 #
 # link_identified_contact: false / true
 # The widget pre-chat form and email capture box set this. When an anonymous visitor enters details
-# that belong to an identified contact, the visitor's contact is merged into that contact, but the
-# identified contact is not updated. The visitor's contact inbox keeps hmac_verified false, so the
-# visitor's widget lists only its own conversations.
+# that belong to an identified contact, the visitor's contact is merged into that contact. The request's
+# details are not saved on it. The merge only fills fields the identified contact has blank, the same as a
+# manual merge. The visitor's contact inbox keeps hmac_verified false, so the visitor's widget lists only
+# its own conversations.
 
 class ContactIdentifyAction
   include UrlHelper
@@ -94,7 +95,7 @@ class ContactIdentifyAction
     # unverified/anonymous request must not take over an identified contact just by
     # matching its email or phone_number. Merges into non-identified contacts
     # (anonymous dedup) are still allowed. With link_identified_contact, an anonymous
-    # visitor is merged into the identified contact, and the contact is not updated.
+    # visitor is merged into the identified contact, and the request's details are not saved on it.
     if identified_by_another_request?(existing_contact)
       # we will remove attribute from update list
       @attributes_to_update.delete(key)
