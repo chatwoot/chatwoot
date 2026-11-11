@@ -95,7 +95,7 @@ func (q *Queue) Recent(ctx context.Context, accountID int64, limit int) ([]Comme
 // refuses for good the comment is marked failed; otherwise it waits again
 // with the error, so the owner can retry.
 func (q *Queue) Send(ctx context.Context, accountID, id int64, version int, text, by string) error {
-	text = strings.TrimSpace(noNUL(text))
+	text = strings.TrimSpace(strings.ReplaceAll(noNUL(text), "\r\n", "\n")) // browsers submit \r\n
 	switch {
 	case text == "":
 		return ErrEmptyReply

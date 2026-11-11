@@ -184,7 +184,7 @@ type ReviewStats struct {
 // Agreement classifies one decided comment: "agreed", "too_loose" or
 // "too_strict". The owner approved the draft when they sent it unchanged.
 func Agreement(c Comment) string {
-	approved := c.Status == StatusSent && strings.TrimSpace(c.Reply) == strings.TrimSpace(c.Draft)
+	approved := c.Status == StatusSent && sameText(c.Reply, c.Draft)
 	switch {
 	case c.Review.Pass == approved:
 		return "agreed"
@@ -207,4 +207,11 @@ func (s *ReviewStats) add(c Comment) {
 	default:
 		s.TooStrict++
 	}
+}
+
+// sameText compares a sent reply with its draft, ignoring surrounding space
+// and the \r\n line breaks browsers submit for a textarea.
+func sameText(a, b string) bool {
+	norm := func(s string) string { return strings.TrimSpace(strings.ReplaceAll(s, "\r\n", "\n")) }
+	return norm(a) == norm(b)
 }

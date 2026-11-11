@@ -255,3 +255,23 @@ func TestQueue_SentButNotRecordedIsReportedAsSuch(t *testing.T) {
 		t.Fatalf("err %v again %v calls %d", err, again, len(sender.calls))
 	}
 }
+
+func TestQueue_SendStoresBrowserLineBreaksAsPlainNewlines(t *testing.T) {
+	// Arrange
+	ctx := context.Background()
+	store := &Memory{}
+	_, _ = store.Add(ctx, Comment{AccountID: 1, CommentID: "c1", FromID: "p", CreatedAt: time.Now()})
+	list, _ := store.Unscored(ctx, 5)
+	_ = store.Score(ctx, list[0].ID, IntentLead, "r", "line one\nline two")
+	c, _ := store.Get(ctx, 1, list[0].ID)
+	sender := &fakeSender{}
+
+	// Act
+	err := (&Queue{Store: store, Sender: sender}).Send(ctx, 1, c.ID, c.Version, "line one\r\nline two", "owner")
+
+	// Assert
+	got, _ := store.Get(ctx, 1, c.ID)
+	if err != nil || got.Reply != "line one\nline two" || len(sender.calls) != 1 || sender.calls[0] != "c1|line one\nline two" {
+		t.Fatalf("err %v reply %q sent %q", err, got.Reply, sender.calls)
+	}
+}

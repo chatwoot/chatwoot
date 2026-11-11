@@ -316,3 +316,18 @@ func TestJevReviewer_ErrorBodyIsNotRepeated(t *testing.T) {
 		t.Fatalf("err %v", err)
 	}
 }
+
+// Staging 2026-11-11: a two-line draft sent unchanged counted as "changed",
+// because browsers submit textarea line breaks as \r\n.
+func TestAgreement_UnchangedMultiLineDraftSentFromABrowserAgrees(t *testing.T) {
+	// Arrange
+	c := Comment{Status: StatusSent, Draft: "บรรทัดแรกครับ\nบรรทัดสองครับ", Reply: "บรรทัดแรกครับ\r\nบรรทัดสองครับ", Review: &Review{Pass: true}}
+
+	// Act
+	got := Agreement(c)
+
+	// Assert
+	if got != "agreed" {
+		t.Fatalf("got %q, want agreed", got)
+	}
+}
