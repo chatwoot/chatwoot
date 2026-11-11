@@ -240,6 +240,14 @@ describe Webhooks::InstagramEventsJob do
     context 'when handling messaging events for Instagram via Instagram login' do
       let!(:instagram_channel) { create(:channel_instagram, account: account, instagram_id: 'chatwoot-app-user-id-1') }
       let!(:instagram_inbox) { instagram_channel.inbox }
+      let(:recipient_id) { echo_event[:entry][0][:messaging][0][:recipient][:id] }
+      let(:echo_event) do
+        event = build(:instagram_message_create_event, ig_entry_id: instagram_channel.instagram_id).with_indifferent_access
+        messaging = event[:entry][0][:messaging][0]
+        messaging[:sender], messaging[:recipient] = messaging[:recipient], messaging[:sender]
+        messaging[:message].merge!(is_echo: true, mid: 'outgoing-echo-id', text: 'Hello from Instagram')
+        event
+      end
 
       before do
         instagram_channel.update(access_token: 'valid_instagram_token')
@@ -285,6 +293,104 @@ describe Webhooks::InstagramEventsJob do
         expect(contact.additional_attributes['social_instagram_is_user_follow_business']).to be true
         expect(contact.additional_attributes['social_instagram_is_business_follow_user']).to be true
         expect(contact.additional_attributes['social_instagram_is_verified_user']).to be false
+      end
+
+      it 'creates the recipient contact and outgoing message with profile data' do
+        instagram_webhook.perform_now(echo_event[:entry])
+
+        contact = instagram_inbox.contacts.last
+        expect(contact).to have_attributes(name: 'Jane', additional_attributes: include('social_instagram_user_name' => 'some_user_name'))
+        expect(instagram_inbox.contact_inboxes).to contain_exactly(have_attributes(source_id: recipient_id, contact: contact))
+        expect(instagram_inbox.conversations).to contain_exactly(have_attributes(contact: contact))
+        expect(instagram_inbox.messages).to contain_exactly(have_attributes(
+                                                              content: 'Hello from Instagram', source_id: 'outgoing-echo-id',
+                                                              message_type: 'outgoing', status: 'delivered', sender: nil,
+                                                              conversation: instagram_inbox.conversations.last,
+                                                              content_attributes: include('external_echo' => true)
+                                                            ))
+      end
+
+      context 'when profile consent is missing' do
+        let!(:profile_request) do
+          stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/#{recipient_id}\?.*})
+            .to_return(status: 400, body: { error: { message: 'User consent is required to access user profile', code: 230 } }.to_json)
+        end
+
+        it 'preserves the echo with an unknown contact without invalidating authorization or fetching an avatar' do
+          expect(instagram_inbox.contact_inboxes).to be_empty
+          expect { instagram_webhook.perform_now(echo_event[:entry]) }.not_to have_enqueued_job(Avatar::AvatarFromUrlJob)
+
+          contact = instagram_inbox.contacts.last
+          expect(instagram_inbox.contacts).to contain_exactly(have_attributes(name: "Unknown (IG: #{recipient_id})"))
+          expect(instagram_inbox.contact_inboxes).to contain_exactly(have_attributes(source_id: recipient_id, contact: contact))
+          expect(instagram_inbox.conversations).to contain_exactly(have_attributes(contact: contact,
+                                                                                   contact_inbox: instagram_inbox.contact_inboxes.last))
+          expect(instagram_inbox.messages).to contain_exactly(have_attributes(
+                                                                content: 'Hello from Instagram', source_id: 'outgoing-echo-id',
+                                                                message_type: 'outgoing', status: 'delivered', sender: nil,
+                                                                conversation: instagram_inbox.conversations.last,
+                                                                content_attributes: include('external_echo' => true)
+                                                              ))
+          expect(instagram_channel.reload).not_to be_reauthorization_required
+        end
+
+        it 'deduplicates the echo and reuses the contact and conversation for the incoming reply' do
+          instagram_webhook.perform_now(echo_event[:entry])
+          contact = instagram_inbox.contacts.last
+          contact_inbox = instagram_inbox.contact_inboxes.last
+          conversation = instagram_inbox.conversations.last
+          echo = instagram_inbox.messages.last
+
+          expect { instagram_webhook.perform_now(echo_event[:entry]) }.not_to(change { instagram_inbox.messages.count })
+
+          reply_event = build(:instagram_message_create_event, sender_id: recipient_id,
+                                                               ig_entry_id: instagram_channel.instagram_id).with_indifferent_access
+          reply_event[:entry][0][:messaging][0][:message].merge!(mid: 'incoming-reply-id', text: 'Hello back')
+          instagram_webhook.perform_now(reply_event[:entry])
+
+          expect(instagram_inbox.contacts).to contain_exactly(contact)
+          expect(instagram_inbox.contact_inboxes).to contain_exactly(contact_inbox)
+          expect(instagram_inbox.conversations).to contain_exactly(conversation)
+          expect(conversation.messages).to contain_exactly(
+            have_attributes(id: echo.id, content: 'Hello from Instagram', source_id: 'outgoing-echo-id', message_type: 'outgoing'),
+            have_attributes(content: 'Hello back', source_id: 'incoming-reply-id', message_type: 'incoming', sender: contact)
+          )
+          expect(profile_request).to have_been_requested.once
+        end
+      end
+
+      [230, 100].each do |error_code|
+        it "preserves an incoming message with an unknown contact for profile error #{error_code}" do
+          stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-.*\?.*})
+            .to_return(status: 400, body: { error: { message: 'Profile unavailable', code: error_code } }.to_json)
+          dm_event = build(:instagram_message_create_event).with_indifferent_access
+          sender_id = dm_event[:entry][0][:messaging][0][:sender][:id]
+
+          instagram_webhook.perform_now(dm_event[:entry])
+
+          contact = instagram_inbox.contacts.last
+          expect(instagram_inbox.contacts).to contain_exactly(have_attributes(name: "Unknown (IG: #{sender_id})"))
+          expect(instagram_inbox.contact_inboxes).to contain_exactly(have_attributes(source_id: sender_id, contact: contact))
+          expect(instagram_inbox.conversations).to contain_exactly(have_attributes(contact: contact))
+          expect(instagram_inbox.messages).to contain_exactly(have_attributes(
+                                                                content: 'This is the first message from the customer', source_id: 'message-id-1',
+                                                                message_type: 'incoming', sender: contact
+                                                              ))
+          expect(instagram_inbox.messages.last.content_attributes).not_to have_key('external_echo')
+        end
+      end
+
+      it 'requires reauthorization without creating a contact or message for profile error 190' do
+        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-.*\?.*})
+          .to_return(status: 401, body: { error: { message: 'Invalid OAuth access token', code: 190 } }.to_json)
+        dm_event = build(:instagram_message_create_event).with_indifferent_access
+
+        instagram_webhook.perform_now(dm_event[:entry])
+
+        expect(instagram_channel.reload).to be_reauthorization_required
+        expect(instagram_inbox.contacts).to be_empty
+        expect(instagram_inbox.contact_inboxes).to be_empty
+        expect(instagram_inbox.messages).to be_empty
       end
 
       it 'handle instagram unsend message event' do

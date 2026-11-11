@@ -43,14 +43,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
     # Access token has expired or become invalid.
     channel.authorization_error! if error_code == 190
 
-    # TODO: Remove this once we have a better way to handle this error.
     # https://developers.facebook.com/docs/messenger-platform/instagram/features/user-profile/#user-consent
-    # The error typically occurs when the connected Instagram account attempts to send a message to a user
-    # who has never messaged this Instagram account before.
-    # We can only get consent to access a user's profile if they have previously sent a message to the connected Instagram account.
-    # In such cases, we receive the error "User consent is required to access user profile".
-    # We can safely ignore this error.
-    return if error_code == 230
+    # Profile consent may be missing when messaging a user who has not contacted the connected account before.
+    # Preserve the already-received message with an unknown contact when the profile is unavailable.
+    return unknown_user(ig_scope_id) if error_code == 230
 
     # The error occurs when Facebook tries to validate the Facebook App created to authorize Instagram integration.
     # The Facebook's agent uses a Bot to make tests on the App where is not a valid user via API,
