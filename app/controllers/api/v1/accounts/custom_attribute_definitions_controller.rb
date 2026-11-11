@@ -4,7 +4,7 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
   before_action :check_authorization
   before_action :validate_reorder_positions, only: [:reorder]
   DEFAULT_ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
-  DEFINITION_ID_FORMAT = /\A\d+\z/
+  DEFINITION_ID_FORMAT = /\A[1-9]\d*\z/
   MAX_REORDER_POSITION = 1_000_000
 
   def index; end

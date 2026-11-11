@@ -270,6 +270,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
           { first_attribute.id => 0, second_attribute.id => 10 },
           { first_attribute.id => 2_147_483_648, second_attribute.id => 10 },
           { 'not-an-id' => 20, second_attribute.id => 10 },
+          { "0#{first_attribute.id}" => 20, second_attribute.id => 10 },
           {}
         ]
 

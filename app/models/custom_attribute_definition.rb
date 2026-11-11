@@ -62,7 +62,7 @@ class CustomAttributeDefinition < ApplicationRecord
   def self.update_positions(account:, positions_hash:)
     return if positions_hash.blank?
 
-    positions = positions_hash.transform_keys { |id| Integer(id) }
+    positions = positions_hash.transform_keys { |id| Integer(id.to_s, 10) }
 
     transaction do
       account.lock!

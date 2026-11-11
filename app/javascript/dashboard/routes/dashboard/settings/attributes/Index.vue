@@ -173,6 +173,8 @@ const filteredAttributes = computed(() => {
   ]);
 });
 
+const POSITION_STEP = 10;
+
 const localAttributes = ref(filteredAttributes.value);
 
 const dragEnabled = computed(
@@ -183,13 +185,9 @@ const dragEnabled = computed(
 );
 
 const onDragEnd = () => {
-  const sortedPositions = localAttributes.value
-    .map((attribute, index) => attribute.position || index + 1)
-    .sort((a, b) => a - b);
-
   const positionsHash = localAttributes.value.reduce(
     (obj, attribute, index) => {
-      obj[attribute.id] = sortedPositions[index];
+      obj[attribute.id] = (index + 1) * POSITION_STEP;
       return obj;
     },
     {}
