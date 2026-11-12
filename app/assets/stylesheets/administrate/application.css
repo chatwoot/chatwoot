@@ -1,0 +1,5 @@
+/*
+ * Super Admin is styled by the Vite superadmin entrypoint.
+ * Keep this override so Administrate's full theme is not loaded.
+ *= require selectize
+ */
