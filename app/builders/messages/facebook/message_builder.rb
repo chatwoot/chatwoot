@@ -23,6 +23,8 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
 
     ActiveRecord::Base.transaction do
       build_contact_inbox
+      return if @contact_inbox&.contact&.blocked? && !@outgoing_echo
+
       build_message
     end
   rescue Koala::Facebook::AuthenticationError => e

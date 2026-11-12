@@ -62,6 +62,20 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   end
 
   describe 'POST /api/v1/widget/conversations' do
+    it 'returns forbidden and does not create a conversation when contact is blocked' do
+      contact.update!(blocked: true)
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: conversation_params,
+             as: :json
+      end.to not_change(Conversation, :count).and not_change(Message, :count)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+    end
+
     it 'creates a conversation with correct details' do
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },

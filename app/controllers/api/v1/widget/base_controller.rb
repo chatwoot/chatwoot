@@ -89,4 +89,12 @@ class Api::V1::Widget::BaseController < ApplicationController
       message_type: :incoming
     }
   end
+
+  def render_contact_blocked
+    render json: { error: I18n.t('errors.contacts.blocked', default: 'Contact is blocked') }, status: :forbidden
+  end
+
+  def ensure_contact_not_blocked
+    render_contact_blocked if @contact&.blocked?
+  end
 end
