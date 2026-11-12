@@ -316,9 +316,13 @@ const { start: startReaction } = useTimeoutFn(
   { immediate: false }
 );
 // A turn that ends with a reply shows the happy face for a moment, and one that ends with a failed reply shows the
-// error face. Opening a past chat shows neither, because no turn was running.
-watch(turnAvatarState, (state, previousState) => {
-  if (previousState && !state && isLastMessageFromAssistant.value) {
+// error face. Opening a past chat shows neither, even while a turn runs in the chat it leaves, because no turn ended.
+watch(
+  [turnAvatarState, () => props.selectedThreadId],
+  ([state, threadId], [previousState, previousThreadId]) => {
+    if (threadId !== previousThreadId) return;
+    if (!previousState || state || !isLastMessageFromAssistant.value) return;
+
     const lastMessage = props.messages.at(-1).message;
     const hasFailed = lastMessage.status === 'failed';
     reaction.value = hasFailed ? 'error' : 'happy';
@@ -332,7 +336,7 @@ watch(turnAvatarState, (state, previousState) => {
       );
     }
   }
-});
+);
 
 const awakeAvatarState = computed(() => {
   if (turnAvatarState.value) return turnAvatarState.value;

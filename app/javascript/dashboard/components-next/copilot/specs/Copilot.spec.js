@@ -328,6 +328,31 @@ describe('Copilot', () => {
     ]);
   });
 
+  it('does not record a turn when a past chat opens while one runs', async () => {
+    const question = {
+      id: 1,
+      message_type: 'user',
+      message: { content: 'Hi' },
+    };
+    const pastAnswer = {
+      id: 2,
+      message_type: 'assistant',
+      message: { content: 'Earlier answer', run_id: 8 },
+    };
+    const wrapper = mountComponent({
+      messages: [question],
+      selectedThreadId: 1,
+    });
+    useTrack.mockClear();
+
+    await wrapper.setProps({
+      messages: [question, pastAnswer],
+      selectedThreadId: 2,
+    });
+
+    expect(useTrack).not.toHaveBeenCalled();
+  });
+
   it('labels Copilot beta only while workflows is in the test', () => {
     const betaLabel = isWorkflowsEnabled =>
       mount(Copilot, {
