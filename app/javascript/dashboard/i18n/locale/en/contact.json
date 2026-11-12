@@ -406,6 +406,8 @@
       },
       "TITLE": "Filter contacts",
       "EDIT_SEGMENT": "Edit segment",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"

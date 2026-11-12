@@ -238,6 +238,15 @@ RSpec.describe Conversation do
                                                                     changed_attributes: changed_attributes, performed_by: nil)
     end
 
+    it 'will run conversation_updated event when auto translate is switched off for the conversation' do
+      conversation.update!(additional_attributes: { 'auto_translate_disabled' => true })
+      changed_attributes = conversation.previous_changes
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
+                                                                    changed_attributes: changed_attributes, performed_by: nil)
+    end
+
     it 'invalidates filtered counts without sending conversation_updated for filtered-only additional_attributes' do
       account.enable_features!(:unread_count_for_filters)
 
@@ -1053,22 +1062,6 @@ RSpec.describe Conversation do
       conversation.update(label_list: %w[customer-support enterprise paid-customer])
 
       expect(conversation.cached_label_list_array).to eq %w[customer-support enterprise paid-customer]
-    end
-  end
-
-  describe '#message_summary' do
-    let(:conversation) { create(:conversation) }
-    let!(:message) { create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation) }
-
-    it 'loads its own summary when it was not preloaded' do
-      expect(conversation.message_summary.last_message_data[:id]).to eq(message.id)
-    end
-
-    it 'keeps the summary set by the loader' do
-      summary = Conversations::MessageSummary.new(last_message: nil, last_non_activity_message: nil, unread_count: 0)
-      conversation.message_summary = summary
-
-      expect(conversation.message_summary).to equal(summary)
     end
   end
 

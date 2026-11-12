@@ -56,6 +56,19 @@ describe('Copilot', () => {
     ).toEqual(['History', 'New chat', 'GENERAL.CLOSE']);
   });
 
+  it('offers Stop while Copilot works on a message, but not in a new chat', () => {
+    const assistants = [{ id: 7, name: 'Support' }];
+    const working = mountComponent({
+      assistants,
+      canStop: true,
+      messages: [{ id: 1, message_type: 'user', message: { content: 'Hi' } }],
+    });
+    const empty = mountComponent({ assistants, canStop: true, messages: [] });
+
+    expect(working.findComponent(CopilotInput).props('isWorking')).toBe(true);
+    expect(empty.findComponent(CopilotInput).props('isWorking')).toBe(false);
+  });
+
   it('opens a past chat and starts a new one', async () => {
     const thread = { id: 42, title: 'Older question' };
     const wrapper = mountComponent({ threads: [thread] });
@@ -161,6 +174,35 @@ describe('Copilot', () => {
       expect(wrapper.findComponent(CopilotLoader).exists()).toBe(isShown);
     }
   );
+
+  it('stops working when the agent stops their message, until they send another', () => {
+    const assistants = [{ id: 7, name: 'Support' }];
+    const stopped = {
+      id: 1,
+      message_type: 'user',
+      message: { content: 'Hi', status: 'stopped' },
+    };
+    const wrapper = mountComponent({
+      assistants,
+      canStop: true,
+      messages: [stopped, step(2, 'Finding matching records')],
+    });
+    const next = mountComponent({
+      assistants,
+      canStop: true,
+      messages: [
+        stopped,
+        { id: 3, message_type: 'user', message: { content: 'And now?' } },
+      ],
+    });
+
+    expect(wrapper.findComponent(CopilotInput).props('isWorking')).toBe(false);
+    expect(wrapper.findComponent(CopilotLoader).exists()).toBe(false);
+    expect(wrapper.findComponent(CopilotThinkingGroup).props('isActive')).toBe(
+      false
+    );
+    expect(next.findComponent(CopilotInput).props('isWorking')).toBe(true);
+  });
 
   it('shows only the newest step while Copilot works on it', async () => {
     const wrapper = mount(CopilotThinkingGroup, {

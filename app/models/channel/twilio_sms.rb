@@ -60,6 +60,16 @@ class Channel::TwilioSms < ApplicationRecord
     provider_config['inbound_calls_enabled'] != false
   end
 
+  def webhook_signature_enforced?(endpoint)
+    provider_config["#{endpoint}_signature_enforced"] == true
+  end
+
+  def enforce_webhook_signature!(endpoint)
+    with_lock do
+      update_columns(provider_config: provider_config.merge("#{endpoint}_signature_enforced" => true)) # rubocop:disable Rails/SkipsModelValidations
+    end
+  end
+
   def send_message(to:, body:, media_url: nil)
     params = send_message_from.merge(to: to, body: body)
     params[:media_url] = media_url if media_url.present?

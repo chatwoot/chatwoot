@@ -234,4 +234,51 @@ RSpec.describe Conversation, type: :model do
       end
     end
   end
+
+  describe 'activity messages for changes made through Copilot' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, account: account, role: :administrator) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:label) { create(:label, account: account) }
+    let(:thread) { create(:captain_copilot_thread, account: account, user: agent) }
+    let(:message) { create(:captain_copilot_message, account: account, copilot_thread: thread) }
+    let(:turn) { CopilotRun::Turn.create!(account: account, user: agent, copilot_thread: thread, copilot_message: message) }
+    let(:tool_call) { turn.tool_calls.create!(call_id: 'act-1', name: 'act') }
+    let(:card) { thread.copilot_messages.create!(message_type: :assistant_approval, message: { approval: { status: 'approved', count: 1 } }) }
+    let(:run) do
+      CopilotRun::Action.create!(account: account, user: agent, copilot_thread: thread, copilot_tool_call: tool_call, status: :queued,
+                                 context: { action: 'add_labels', arguments: { labels: [label.title] }, target_ids: [conversation.id],
+                                            approval_message_id: card.id })
+    end
+
+    before { account.enable_features!('copilot_workflows') }
+
+    after { Current.reset }
+
+    it 'names the agent and says the label came through Copilot' do
+      run
+
+      expect { Captain::Copilot::ActionJob.perform_now(run.id) }
+        .to have_enqueued_job(Conversations::ActivityMessageJob)
+        .with(conversation, hash_including(content: "#{agent.name} added #{label.title} via Copilot"))
+      expect(conversation.reload.label_list).to contain_exactly(label.title)
+    end
+
+    it 'keeps the usual wording when the agent adds the label by hand' do
+      Current.user = agent
+
+      expect { conversation.add_labels([label.title]) }
+        .to have_enqueued_job(Conversations::ActivityMessageJob)
+        .with(conversation, hash_including(content: "#{agent.name} added #{label.title}"))
+    end
+
+    it 'still writes a status change made through Copilot' do
+      Current.user = agent
+      Current.executed_by = run
+
+      expect { conversation.resolved! }
+        .to have_enqueued_job(Conversations::ActivityMessageJob)
+        .with(conversation, hash_including(content: "Conversation was marked resolved by #{agent.name} via Copilot"))
+    end
+  end
 end

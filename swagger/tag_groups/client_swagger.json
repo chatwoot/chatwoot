@@ -166,6 +166,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         }
       ],
       "post": {
@@ -254,6 +257,9 @@
           "$ref": "#/components/parameters/public_contact_identifier"
         },
         {
+          "$ref": "#/components/parameters/public_identifier_hash"
+        },
+        {
           "$ref": "#/components/parameters/conversation_id"
         }
       ],
@@ -308,6 +314,9 @@
           "$ref": "#/components/parameters/public_contact_identifier"
         },
         {
+          "$ref": "#/components/parameters/public_identifier_hash"
+        },
+        {
           "$ref": "#/components/parameters/conversation_id"
         }
       ],
@@ -360,6 +369,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         },
         {
           "$ref": "#/components/parameters/conversation_id"
@@ -441,6 +453,9 @@
           "$ref": "#/components/parameters/public_contact_identifier"
         },
         {
+          "$ref": "#/components/parameters/public_identifier_hash"
+        },
+        {
           "$ref": "#/components/parameters/conversation_id"
         }
       ],
@@ -486,6 +501,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         },
         {
           "$ref": "#/components/parameters/conversation_id"
@@ -575,6 +593,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         },
         {
           "$ref": "#/components/parameters/conversation_id"
@@ -3806,7 +3827,7 @@
           },
           "content_attributes": {
             "type": "object",
-            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n",
+            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n\nFor replies, set `in_reply_to` to a Chatwoot message ID in this conversation,\nor `in_reply_to_external_id` to its `source_id`.\n",
             "example": {
               "items": [
                 {
@@ -3816,6 +3837,29 @@
                 }
               ]
             }
+          },
+          "source_id": {
+            "type": "string",
+            "description": "External message ID, returned as `source_id`. Use it with\n`content_attributes.in_reply_to_external_id` to reference this message in a reply.\n",
+            "example": "external-message-123"
+          },
+          "sender_type": {
+            "type": "string",
+            "enum": [
+              "AgentBot"
+            ],
+            "description": "Use `AgentBot` with `sender_id` to send an outgoing message as that bot.\n",
+            "example": "AgentBot"
+          },
+          "sender_id": {
+            "type": "integer",
+            "description": "Agent bot ID when `sender_type` is `AgentBot`.",
+            "example": 1
+          },
+          "echo_id": {
+            "type": "string",
+            "description": "Client-generated ID returned in the response and real-time event to match an optimistic message.\n",
+            "example": "client-message-123"
           },
           "campaign_id": {
             "type": "integer",
@@ -4627,7 +4671,8 @@
                 "required": [
                   "api_key",
                   "phone_number_id",
-                  "business_account_id"
+                  "business_account_id",
+                  "app_secret"
                 ],
                 "properties": {
                   "api_key": {
@@ -4644,12 +4689,18 @@
                     "type": "string",
                     "description": "Business account ID for WhatsApp Cloud",
                     "example": "your-business-account-id"
+                  },
+                  "app_secret": {
+                    "type": "string",
+                    "description": "App secret of your Meta app, from App settings > Basic. Used to verify incoming webhook signatures.",
+                    "example": "your-app-secret"
                   }
                 },
                 "example": {
                   "api_key": "your-api-key",
                   "phone_number_id": "your-phone-number-id",
-                  "business_account_id": "your-business-account-id"
+                  "business_account_id": "your-business-account-id",
+                  "app_secret": "your-app-secret"
                 }
               }
             }
@@ -5038,7 +5089,7 @@
           },
           "provider_config": {
             "type": "object",
-            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, and `business_account_id`; legacy 360dialog channels use `api_key`.",
+            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, `business_account_id`, and `app_secret`; legacy 360dialog channels use `api_key`.",
             "properties": {
               "api_key": {
                 "type": "string",
@@ -5054,12 +5105,18 @@
                 "type": "string",
                 "description": "Business account ID for WhatsApp Cloud",
                 "example": "your-business-account-id"
+              },
+              "app_secret": {
+                "type": "string",
+                "description": "App secret of your Meta app, used to verify incoming webhook signatures. Required for manually configured Cloud channels that already have one, when moving an embedded signup channel to manual setup, and when switching a channel to `whatsapp_cloud`. It cannot be removed once set.",
+                "example": "your-app-secret"
               }
             },
             "example": {
               "api_key": "your-api-key",
               "phone_number_id": "your-phone-number-id",
-              "business_account_id": "your-business-account-id"
+              "business_account_id": "your-business-account-id",
+              "app_secret": "your-app-secret"
             }
           }
         }
@@ -7865,6 +7922,15 @@
         },
         "required": true,
         "description": "The source id of contact obtained on contact create"
+      },
+      "public_identifier_hash": {
+        "in": "query",
+        "name": "identifier_hash",
+        "schema": {
+          "type": "string"
+        },
+        "required": false,
+        "description": "HMAC-SHA256 of the contact identifier, signed with the inbox HMAC token. Required when the inbox enforces identity validation."
       },
       "portal_slug": {
         "in": "path",

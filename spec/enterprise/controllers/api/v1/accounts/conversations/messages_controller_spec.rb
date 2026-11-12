@@ -52,6 +52,16 @@ RSpec.describe 'Auto translate messages API', type: :request do
     expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
   end
 
+  it 'refuses when auto translate is off for the conversation' do
+    conversation.update!(auto_translate_disabled: true)
+
+    expect do
+      post url, params: { message_ids: [message.id] }, headers: agent.create_new_auth_token, as: :json
+    end.not_to have_enqueued_job(Captain::Conversation::ContactMessageTranslationJob)
+
+    expect(response).to have_http_status(:forbidden)
+  end
+
   it 'rejects message ids from another conversation' do
     other = create(:conversation, account: account, inbox: inbox)
     elsewhere = create(:message, account: account, inbox: inbox, conversation: other, message_type: :incoming, content: 'Salut')

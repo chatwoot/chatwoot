@@ -101,6 +101,22 @@ class CopilotRun < ApplicationRecord
     update!(status: status, lease_token: nil, lease_until: nil, **attributes)
   end
 
+  # Stops a review or an approved change when the agent stops its turn. What it finished stays. The lock waits for the
+  # record the job is working on, and the job finds its lease gone before the next one, so it saves nothing more.
+  def stop
+    stopped = with_lock do
+      next false if finished?
+
+      release!(:incomplete, error: I18n.t('captain.copilot.stopped'), context: context.merge('stopped' => true))
+      summary
+    end
+    return false unless stopped
+
+    turn.resume_with(copilot_tool_call, stopped)
+    publish_progress
+    true
+  end
+
   # Checked before every model call and batch of changes, so turning the feature off or running out of credits also
   # stops work in flight. Changes make no model call, so they skip the credit check.
   def ensure_can_continue!(credits: true)

@@ -107,6 +107,15 @@ export const actions = {
     }
   },
 
+  removeLocale: async ({ commit }, { portalSlug, locale }) => {
+    try {
+      const { data } = await portalAPIs.removeLocale(portalSlug, locale);
+      commit(types.UPDATE_PORTAL_ENTRY, data);
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+  },
+
   updatePortal: async ({ commit }, portal) => {
     commit(types.UPDATE_PORTAL_ENTRY, portal);
   },
