@@ -27,6 +27,7 @@ const emit = defineEmits(['useSuggestion']);
 const { t } = useI18n();
 const route = useRoute();
 const currentRole = useMapGetter('getCurrentRole');
+const currentChat = useMapGetter('getSelectedChat');
 
 const PROMPTS = {
   SUMMARIZE: {
@@ -73,7 +74,7 @@ const routePromptMap = {
   dashboard: ['HIGH_PRIORITY', 'LIST_CONTACTS'],
 };
 
-// Workflows answers across many conversations, so its prompts follow the person's role instead of the page. Each one
+// Workflows answers across many conversations, so most of its prompts follow the person's role. Each one
 // reads only conversations the person can open, and still has an answer on a quiet account.
 const rolePromptMap = {
   agent: ['WAITING_ON_ME', 'RECENT_CONVERSATIONS'],
@@ -88,9 +89,12 @@ const getCurrentRoute = () => {
 };
 
 const promptOptions = computed(() => {
-  const keys = props.isWorkflowsEnabled
-    ? rolePromptMap[currentRole.value] || rolePromptMap.agent
-    : routePromptMap[getCurrentRoute()];
+  let keys = routePromptMap[getCurrentRoute()];
+  if (props.isWorkflowsEnabled) {
+    const roleKeys = rolePromptMap[currentRole.value] || rolePromptMap.agent;
+    // Copilot reads the open conversation, so summarizing it comes first for every role.
+    keys = currentChat.value.id ? ['SUMMARIZE', ...roleKeys] : roleKeys;
+  }
 
   return keys
     .map(key => ({ key, ...PROMPTS[key] }))

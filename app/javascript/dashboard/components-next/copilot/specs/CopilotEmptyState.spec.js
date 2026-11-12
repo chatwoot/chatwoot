@@ -5,13 +5,15 @@ import { useTrack } from 'dashboard/composables';
 import CopilotEmptyState from '../CopilotEmptyState.vue';
 
 const currentRole = ref('agent');
+const currentChat = ref({ id: 1 });
 
 vi.mock('dashboard/composables', () => ({
   useTrack: vi.fn(),
 }));
 
 vi.mock('dashboard/composables/store', () => ({
-  useMapGetter: () => currentRole,
+  useMapGetter: name =>
+    name === 'getSelectedChat' ? currentChat : currentRole,
 }));
 
 vi.mock('vue-i18n', () => ({
@@ -67,22 +69,40 @@ describe('CopilotEmptyState', () => {
   describe('with workflows', () => {
     beforeEach(() => {
       useTrack.mockClear();
+      currentChat.value = { id: 1 };
     });
+
+    const promptLabels = wrapper =>
+      wrapper.findAll('button').map(button => button.text());
+    const labelsFor = keys =>
+      keys.map(key => `CAPTAIN.COPILOT.PROMPTS.${key}.LABEL`);
 
     it.each([
       ['agent', ['WAITING_ON_ME', 'RECENT_CONVERSATIONS']],
       ['administrator', ['WAITING_ON_ME', 'TEAM_WORKLOAD', 'TOP_QUESTIONS']],
-    ])('offers the %s prompts on a conversation page', (role, keys) => {
+    ])('offers the %s prompts when no conversation is open', (role, keys) => {
       currentRole.value = role;
+      currentChat.value = {};
       const wrapper = mountComponent({ isWorkflowsEnabled: true });
 
-      expect(wrapper.findAll('button').map(button => button.text())).toEqual(
-        keys.map(key => `CAPTAIN.COPILOT.PROMPTS.${key}.LABEL`)
-      );
+      expect(promptLabels(wrapper)).toEqual(labelsFor(keys));
     });
+
+    it.each(['agent', 'administrator'])(
+      'offers the %s a summary of the open conversation first',
+      role => {
+        currentRole.value = role;
+        const wrapper = mountComponent({ isWorkflowsEnabled: true });
+
+        expect(promptLabels(wrapper)[0]).toBe(
+          'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL'
+        );
+      }
+    );
 
     it('records which prompt was clicked and the role of the person', async () => {
       currentRole.value = 'administrator';
+      currentChat.value = {};
       const wrapper = mountComponent({ isWorkflowsEnabled: true });
 
       await wrapper.findAll('button')[1].trigger('click');
