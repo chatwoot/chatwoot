@@ -28,6 +28,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  showGeneralMenu: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['executeCopilotAction']);
@@ -111,13 +115,34 @@ const menuItems = computed(() => {
         icon: 'i-fluent-flow-sparkle-24-regular',
       }
     );
+  } else {
+    items.push(
+      {
+        label: t(
+          'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.TITLE'
+        ),
+        key: 'change_tone',
+        icon: 'i-fluent-sound-wave-circle-sparkle-24-regular',
+        disabled: true,
+      },
+      {
+        label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.GRAMMAR'),
+        key: 'fix_spelling_grammar',
+        icon: 'i-fluent-flow-sparkle-24-regular',
+        disabled: true,
+      }
+    );
   }
   return items;
 });
 
 const generalMenuItems = computed(() => {
+  if (!props.showGeneralMenu || !props.conversationId) {
+    return [];
+  }
+
   const items = [];
-  if (props.conversationId && replyMode.value === REPLY_EDITOR_MODES.REPLY) {
+  if (replyMode.value === REPLY_EDITOR_MODES.REPLY) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.SUGGESTION'),
       key: 'reply_suggestion',
@@ -125,10 +150,7 @@ const generalMenuItems = computed(() => {
     });
   }
 
-  if (
-    props.conversationId &&
-    (replyMode.value === REPLY_EDITOR_MODES.NOTE || true)
-  ) {
+  if (replyMode.value === REPLY_EDITOR_MODES.NOTE || true) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.SUMMARIZE'),
       key: 'summarize',
@@ -144,6 +166,10 @@ const generalMenuItems = computed(() => {
 
   return items;
 });
+
+const hasAnyMenuItems = computed(
+  () => menuItems.value.length > 0 || generalMenuItems.value.length > 0
+);
 
 const menuRef = useTemplateRef('menuRef');
 const { height: menuHeight } = useElementSize(menuRef);
@@ -176,6 +202,7 @@ const selectionMenuStyle = computed(() => {
 });
 
 const handleMenuItemClick = item => {
+  if (item.disabled) return;
   // For items with submenus, do nothing on click (hover will show submenu)
   if (!item.subMenuItems) {
     emit('executeCopilotAction', item.key);
@@ -189,6 +216,7 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
 
 <template>
   <DropdownBody
+    v-if="hasAnyMenuItems"
     ref="menuRef"
     class="min-w-56 [&>ul]:gap-3 z-50 [&>ul]:px-4 [&>ul]:py-3.5"
     :class="{ 'selection-menu': hasSelection && isEditorMenuPopover }"
@@ -203,6 +231,7 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
         <Button
           :label="item.label"
           :icon="item.icon"
+          :disabled="item.disabled"
           slate
           link
           sm
@@ -222,7 +251,7 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
 
         <!-- Hover Submenu -->
         <DropdownBody
-          v-if="item.subMenuItems"
+          v-if="item.subMenuItems && !item.disabled"
           class="group-hover/submenu:block hidden [&>ul]:gap-2 [&>ul]:px-3 [&>ul]:py-2.5 [&>ul]:dark:!border-n-strong max-h-[15rem] min-w-32 z-10 top-0"
           :class="submenuPosition"
         >
@@ -240,9 +269,15 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
       </div>
     </div>
 
-    <div v-if="menuItems.length > 0" class="h-px w-full bg-n-strong" />
+    <div
+      v-if="menuItems.length > 0 && generalMenuItems.length > 0"
+      class="h-px w-full bg-n-strong"
+    />
 
-    <div class="flex flex-col items-start gap-3">
+    <div
+      v-if="generalMenuItems.length > 0"
+      class="flex flex-col items-start gap-3"
+    >
       <Button
         v-for="(item, index) in generalMenuItems"
         :key="index"

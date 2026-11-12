@@ -168,7 +168,7 @@ export default {
       </div>
     </div>
     <div v-if="captainTasksEnabled" class="flex items-center gap-2">
-      <div class="relative">
+      <div v-if="conversationId" class="relative">
         <NextButton
           ref="copilotToggleRef"
           ghost
