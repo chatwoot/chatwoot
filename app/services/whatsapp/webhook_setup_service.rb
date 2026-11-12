@@ -33,12 +33,19 @@ class Whatsapp::WebhookSetupService
   def should_register_phone_number?
     return false if @is_coexistence
     return false if @is_coexistence.nil? && health_data[:is_on_biz_app]
-    # Meta can keep reporting a deregistered number as CONNECTED, so a reconnect that trusts that status never
-    # re-registers it. Re-registering a registered number succeeds and keeps its PIN, so embedded signup always does,
-    # except for a number still on the WhatsApp Business app: Meta says coexistence numbers must not be registered.
-    return !health_data[:is_on_biz_app] if @channel.provider_config['source'] == 'embedded_signup'
+    return embedded_signup_number_needs_registration? if @channel.provider_config['source'] == 'embedded_signup'
 
     !phone_number_verified? || phone_number_needs_registration?
+  end
+
+  # Meta can keep reporting a deregistered number as CONNECTED, so a reconnect that trusts that status never
+  # re-registers it. Re-registering a registered number succeeds and keeps its PIN, so embedded signup always does,
+  # except for a number still on the WhatsApp Business app: Meta says coexistence numbers must not be registered.
+  # Without health data the two can't be told apart, so the setup fails and the inbox shows the reconnect banner.
+  def embedded_signup_number_needs_registration?
+    raise 'Could not check whether the number is on the WhatsApp Business app' if health_data.blank?
+
+    !health_data[:is_on_biz_app]
   end
 
   def validate_parameters!

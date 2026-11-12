@@ -456,6 +456,14 @@ describe Whatsapp::WebhookSetupService do
         expect(api_client).not_to have_received(:register_phone_number)
       end
 
+      it 'fails without registering when Meta health data is unavailable' do
+        allow(health_service).to receive(:fetch_health_status).and_raise('Graph error')
+        service = described_class.new(existing_channel, waba_id, new_access_token, is_coexistence: false)
+
+        expect { service.perform }.to raise_error('Could not check whether the number is on the WhatsApp Business app')
+        expect(api_client).not_to have_received(:register_phone_number)
+      end
+
       it 'successfully reauthorizes with new access token' do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).to receive(:subscribe_phone_number_webhook)
