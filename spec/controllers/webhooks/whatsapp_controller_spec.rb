@@ -337,6 +337,24 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
         expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
       end
 
+      it 'drops an account_update signed only with a channel app secret but keeps the rest of the delivery' do
+        channel.update!(provider_config: channel.provider_config.merge('source' => 'manual_setup_v2', 'app_secret' => 'customer-app-secret'))
+        metadata = { phone_number_id: channel.provider_config['phone_number_id'], display_phone_number: channel.phone_number.delete('+') }
+        mixed_body = {
+          object: 'whatsapp_business_account',
+          entry: [
+            { id: '980198427658004', changes: [{ field: 'messages', value: { metadata: metadata } }] },
+            JSON.parse(account_update_body)['entry'].first
+          ]
+        }.to_json
+
+        post_whatsapp_webhook("/webhooks/whatsapp/#{channel.phone_number}", mixed_body, signature: signature_for(mixed_body, 'customer-app-secret'))
+
+        expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later) { |payload|
+          expect(payload[:entry].flat_map { |entry| entry[:changes] }.pluck(:field)).to eq(['messages'])
+        }
+      end
+
       it 'ignores unsigned events accepted for a channel whose app secret is pending' do
         channel.provider_config = channel.provider_config.except('app_secret', 'app_secret_key', 'api_secret', 'client_secret', 'source')
         channel.save!(validate: false)
