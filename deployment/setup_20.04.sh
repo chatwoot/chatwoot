@@ -228,7 +228,7 @@ function install_dependencies() {
       postgresql-client-16 redis-tools \
       nodejs patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
-      libvips python3-pip
+      libvips ffmpeg python3-pip
   npm install -g pnpm
 }
 
