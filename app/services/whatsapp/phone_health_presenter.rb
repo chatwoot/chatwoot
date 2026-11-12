@@ -6,6 +6,7 @@ class Whatsapp::PhoneHealthPresenter
     name_status
     new_display_name
     new_name_status
+    official_business_account
     quality_rating
     status
     account_mode

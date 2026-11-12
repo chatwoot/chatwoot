@@ -13,7 +13,7 @@ class Whatsapp::DisplayNameService
     result = @api.register_phone_number(@channel.provider_config.fetch('phone_number_id'), pin)
     raise ArgumentError, I18n.t('whatsapp.display_name.registration_failed') unless result['success'] == true
 
-    store_pin(pin) if @channel.provider_config['verification_pin'].blank?
+    store_pin(pin) if @store_registration_pin
   end
 
   private
@@ -27,6 +27,7 @@ class Whatsapp::DisplayNameService
   def validate_approval!(display_name)
     health = Whatsapp::HealthService.new(@channel).fetch_health_status
     raise ArgumentError, I18n.t('whatsapp.display_name.unsupported_number') unless health[:is_on_biz_app] == false && health[:status] == 'CONNECTED'
+    raise ArgumentError, I18n.t('whatsapp.display_name.oba_restricted') unless health.dig(:official_business_account, 'oba_status') == 'NOT_STARTED'
 
     return if health[:new_name_status] == 'APPROVED' && health[:new_display_name] == display_name
 
@@ -38,7 +39,13 @@ class Whatsapp::DisplayNameService
     return stored_pin.to_s if stored_pin.present?
 
     phone = @api.fetch_phone_number(@channel.provider_config.fetch('phone_number_id'), fields: 'is_pin_enabled')
-    raise ArgumentError, I18n.t('whatsapp.display_name.pin_unavailable') unless phone['is_pin_enabled'] == false
+    pin_enabled = phone['is_pin_enabled']
+    raise ArgumentError, I18n.t('whatsapp.display_name.pin_unavailable') unless [true, false].include?(pin_enabled)
+
+    # PIN-deprecated numbers may still report true. Meta ignores this required parameter for eligible numbers
+    # and enforces the existing PIN for legacy numbers. Never retry registration with another PIN.
+    # https://developers.facebook.com/documentation/business-messaging/whatsapp/account-model-evolution/#2fa-pin
+    @store_registration_pin = pin_enabled == false
 
     (SecureRandom.random_number(900_000) + 100_000).to_s
   end

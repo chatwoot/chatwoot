@@ -6,7 +6,10 @@ RSpec.describe 'Inbox display names', type: :request do
   let(:channel) { create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false) }
   let(:inbox) { channel.inbox }
   let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/apply_display_name" }
-  let(:health) { { status: 'CONNECTED', is_on_biz_app: false, new_display_name: 'Mona Assistant', new_name_status: 'APPROVED' } }
+  let(:health) do
+    { status: 'CONNECTED', is_on_biz_app: false, new_display_name: 'Mona Assistant', new_name_status: 'APPROVED',
+      official_business_account: { 'oba_status' => 'NOT_STARTED' } }
+  end
 
   before do
     channel.provider_config['verification_pin'] = '123456'
@@ -29,6 +32,17 @@ RSpec.describe 'Inbox display names', type: :request do
   it 'requires authentication' do
     post url, params: { display_name: 'Mona Assistant' }, as: :json
     expect(response).to have_http_status(:unauthorized)
+  end
+
+  it 'rejects registration if the OBA status changed since the administrator viewed health' do
+    channel.update!(phone_number_health: health.deep_stringify_keys)
+    health[:official_business_account] = { 'oba_status' => 'APPROVED' }
+
+    post url, params: { display_name: 'Mona Assistant' }, headers: admin.create_new_auth_token, as: :json
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response.parsed_body['error']).to include('contact Meta support')
+    expect(a_request(:post, %r{/register})).not_to have_been_made
   end
 
   it 'rejects an assigned agent' do

@@ -1202,6 +1202,7 @@
       "DISPLAY_NAME": {
         "TITLE": "WhatsApp display name",
         "APPLY": "Apply approved name",
+        "OBA_RESTRICTED": "Applying this name requires a confirmed OBA status of Not started. Check the status in WhatsApp Manager. For Official Business Accounts, contact Meta support to change the display name.",
         "SUCCESS": "The approved display name is now active.",
         "SUBMITTED": "Meta accepted the registration request. Refresh Account Health to confirm the new name is active.",
         "ERROR": "Could not apply the approved name. Refresh Account Health before trying again.",

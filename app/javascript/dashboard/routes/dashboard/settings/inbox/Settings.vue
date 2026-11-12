@@ -649,7 +649,8 @@ export default {
         const nameApplied =
           !this.healthError &&
           this.healthData?.verified_name === displayName &&
-          this.healthData?.name_status === 'APPROVED';
+          this.healthData?.name_status === 'APPROVED' &&
+          this.healthData?.new_name_status === 'NONE';
         useAlert(
           nameApplied
             ? this.$t('INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.SUCCESS')

@@ -33,6 +33,7 @@ describe('Inbox settings display name activation', () => {
       context.healthData = {
         verified_name: 'Mona Assistant',
         name_status: 'APPROVED',
+        new_name_status: 'NONE',
       };
     });
     await Settings.methods.applyDisplayName.call(context, 'Mona Assistant');
@@ -48,6 +49,21 @@ describe('Inbox settings display name activation', () => {
 
   it('reports acceptance instead of activation when Meta still returns the old name', async () => {
     const context = createContext();
+    await Settings.methods.applyDisplayName.call(context, 'Mona Assistant');
+    expect(useAlert).toHaveBeenCalledWith(
+      'INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.SUBMITTED'
+    );
+  });
+
+  it('does not announce activation while the approved name change is still outstanding', async () => {
+    const context = createContext();
+    context.fetchHealthData.mockImplementation(async () => {
+      context.healthData = {
+        verified_name: 'Mona Assistant',
+        name_status: 'APPROVED',
+        new_name_status: 'APPROVED',
+      };
+    });
     await Settings.methods.applyDisplayName.call(context, 'Mona Assistant');
     expect(useAlert).toHaveBeenCalledWith(
       'INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.SUBMITTED'
@@ -78,6 +94,7 @@ describe('Inbox settings display name activation', () => {
       context.healthData = {
         verified_name: 'Mona Assistant',
         name_status: 'APPROVED',
+        new_name_status: 'NONE',
       };
     });
     await Settings.methods.applyDisplayName.call(context, 'Mona Assistant');

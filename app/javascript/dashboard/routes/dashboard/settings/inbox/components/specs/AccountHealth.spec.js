@@ -127,6 +127,7 @@ describe('AccountHealth', () => {
     name_status: 'DECLINED',
     new_display_name: 'Mona Assistant',
     new_name_status: 'APPROVED',
+    official_business_account: { oba_status: 'NOT_STARTED' },
     status: 'CONNECTED',
     is_on_biz_app: false,
   };
@@ -200,6 +201,32 @@ describe('AccountHealth', () => {
       );
     expect(button.attributes('disabled')).toBeDefined();
     expect(button.props('isLoading')).toBe(true);
+  });
+
+  it.each(['APPROVED', 'PENDING', 'REJECTED', 'UNKNOWN', undefined])(
+    'hides the apply action and explains the restriction for OBA status %s',
+    status => {
+      const wrapper = mountComponent(
+        { ...monaHealth, official_business_account: { oba_status: status } },
+        { canManage: true }
+      );
+      expect(wrapper.find('[data-testid="apply-display-name"]').exists()).toBe(
+        false
+      );
+      expect(wrapper.text()).toContain('DISPLAY_NAME.OBA_RESTRICTED');
+      expect(wrapper.text()).toContain('Mona Assistant');
+    }
+  );
+
+  it('hides the apply action when OBA information is missing', () => {
+    const wrapper = mountComponent(
+      { ...monaHealth, official_business_account: undefined },
+      { canManage: true }
+    );
+    expect(wrapper.find('[data-testid="apply-display-name"]').exists()).toBe(
+      false
+    );
+    expect(wrapper.text()).toContain('DISPLAY_NAME.OBA_RESTRICTED');
   });
 
   it('removes the requested name section once the name has been activated', async () => {

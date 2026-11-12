@@ -24,6 +24,7 @@ class Whatsapp::HealthService
     name_status
     new_display_name
     new_name_status
+    official_business_account
     quality_rating
     messaging_limit_tier
     status
@@ -114,6 +115,7 @@ class Whatsapp::HealthService
       name_status
       new_display_name
       new_name_status
+      official_business_account
       verified_name
       webhook_configuration
       throughput

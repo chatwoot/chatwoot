@@ -172,16 +172,26 @@ const hasRequestedDisplayName = computed(
     )
 );
 
+const hasUnrestrictedObaStatus = computed(
+  () =>
+    props.healthData?.official_business_account?.oba_status === 'NOT_STARTED'
+);
+
 const canApplyDisplayName = computed(
   () =>
     props.canManage &&
     props.healthData?.new_name_status === 'APPROVED' &&
     Boolean(props.healthData?.new_display_name) &&
+    hasUnrestrictedObaStatus.value &&
     props.healthData?.status === 'CONNECTED' &&
     props.healthData?.is_on_biz_app === false
 );
 
 const requestedNameDescription = computed(() => {
+  if (!hasUnrestrictedObaStatus.value) {
+    return t('INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.OBA_RESTRICTED');
+  }
+
   const status = props.healthData?.new_name_status;
   return t(
     `INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.DESCRIPTIONS.${
