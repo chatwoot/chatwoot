@@ -1,4 +1,4 @@
-# The one-time code a contact inbox is waiting on. A contact inbox holds one code at a time.
+# The one-time code a conversation is waiting on. A conversation holds one code at a time.
 #
 # The code is stored as a digest, together with the address it was sent to, in one key.
 # Storing a new code replaces the code and its address in one write.
@@ -7,7 +7,7 @@ class Captain::EmailVerification::Code
   TTL = 30.minutes
   MAX_ATTEMPTS = 5
 
-  pattr_initialize :contact_inbox
+  pattr_initialize :conversation
 
   # A new code starts with a full set of attempts. Both writes run together, so an overlapping store cannot clear the attempts of a newer code.
   def store(email, code)
@@ -42,7 +42,7 @@ class Captain::EmailVerification::Code
   private
 
   def stored_value(email, code)
-    { email: email, digest: OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "#{contact_inbox.id}:#{email}:#{code}") }.to_json
+    { email: email, digest: OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "#{conversation.id}:#{email}:#{code}") }.to_json
   end
 
   def attempts
@@ -50,10 +50,10 @@ class Captain::EmailVerification::Code
   end
 
   def code_key
-    format(::Redis::RedisKeys::CAPTAIN_EMAIL_VERIFICATION_CODE, contact_inbox_id: contact_inbox.id)
+    format(::Redis::RedisKeys::CAPTAIN_EMAIL_VERIFICATION_CODE, conversation_id: conversation.id)
   end
 
   def attempts_key
-    format(::Redis::RedisKeys::CAPTAIN_EMAIL_VERIFICATION_ATTEMPTS, contact_inbox_id: contact_inbox.id)
+    format(::Redis::RedisKeys::CAPTAIN_EMAIL_VERIFICATION_ATTEMPTS, conversation_id: conversation.id)
   end
 end

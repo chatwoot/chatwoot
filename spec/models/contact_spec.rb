@@ -124,6 +124,14 @@ RSpec.describe Contact do
     end
   end
 
+  describe '#widget_presence_data' do
+    it 'returns which details the contact has without their values' do
+      contact = create(:contact, name: 'Jane', email: 'jane@example.com', phone_number: nil)
+
+      expect(contact.widget_presence_data).to eq(has_email: true, has_name: true, has_phone_number: false)
+    end
+  end
+
   describe '.resolved_contacts' do
     let(:account) { create(:account) }
 

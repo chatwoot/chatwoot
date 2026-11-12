@@ -19,6 +19,12 @@ trigger_scheduled_items_job:
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 
+# executed At every 5th minute by default, AUTO_RESOLVE_CRON overrides it
+trigger_conversations_resolution_job:
+  cron: <%= ENV.fetch('AUTO_RESOLVE_CRON', '*/5 * * * *').to_json %>
+  class: 'Account::ConversationsResolutionSchedulerJob'
+  queue: scheduled_jobs
+
 # executed hourly for scheduled jobs that do not need minute-level cadence
 trigger_hourly_scheduled_items_job:
   cron: '0 * * * *'

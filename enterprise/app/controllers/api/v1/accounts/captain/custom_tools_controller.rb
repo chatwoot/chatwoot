@@ -25,8 +25,8 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def update
-    # Tools installed from a manifest are managed by their manifest; only the user-owned enabled flag can change
-    if @custom_tool.source_metadata.present? && (custom_tool_params.keys - ['enabled']).any?
+    # Tools installed from a manifest are managed by their manifest. Only the user-owned enabled flag and settings can change.
+    if @custom_tool.source_metadata.present? && (custom_tool_params.keys - %w[enabled settings]).any?
       return render_could_not_create_error(I18n.t('captain.custom_tool.installed_read_only'))
     end
 

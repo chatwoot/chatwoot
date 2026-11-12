@@ -1,44 +1,60 @@
 require 'agents'
 
 class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
+  # Limit response size to prevent memory exhaustion and match LLM token limits
+  # 1MB of text ≈ 250K tokens, which exceeds most LLM context windows
+  MAX_RESPONSE_SIZE = 1.megabyte
+  # Customer details Chatwoot sends with every request. They are dropped on a redirect to another origin, like credentials.
+  PERSONAL_HEADERS = %w[X-Chatwoot-Contact-Email X-Chatwoot-Contact-Phone X-Chatwoot-Verified-Email].freeze
+
   def initialize(assistant, custom_tool)
     @custom_tool = custom_tool
     super(assistant)
   end
 
-  # A customer is the user, so Chatwoot fills a verified parameter and the model does not see it
+  attr_reader :custom_tool
+
+  # Whether the model sees and fills a verified parameter. Each subclass answers for the user it serves.
   def self.model_fills_verified_values?
     false
   end
 
-  def active?
-    @custom_tool.enabled?
-  end
-
+  # Each subclass decides the arguments for the user it serves, and can add to the result
   def perform(tool_context, **params)
-    url = @custom_tool.build_request_url(params)
-    body = @custom_tool.build_request_body(params)
-
-    response_body = execute_http_request(url, body, tool_context)
-    @custom_tool.format_response(response_body)
-  rescue StandardError => e
-    Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
-    failure_result('An error occurred while executing the request', tool_context.state)
+    arguments = arguments_for(tool_context, params)
+    annotate(request(tool_context, arguments), tool_context, params)
+  rescue Captain::ParamSources::Unavailable => e
+    failure_result(e.message, tool_context.state)
   end
 
-  def available_in_reply_suggestion?
+  def read_only?
     @custom_tool.http_method == 'GET'
+  end
+
+  def for_copilot
+    @custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool)
   end
 
   private
 
-  def safe_to_run_after_new_customer_message?
-    @custom_tool.http_method == 'GET'
+  def arguments_for(_tool_context, _params)
+    raise NotImplementedError, "#{self.class} must decide the arguments for the user it serves"
   end
 
-  # Limit response size to prevent memory exhaustion and match LLM token limits
-  # 1MB of text ≈ 250K tokens, which exceeds most LLM context windows
-  MAX_RESPONSE_SIZE = 1.megabyte
+  def annotate(result, _tool_context, _params)
+    result
+  end
+
+  # The request and its response formatting are rescued here. An error in the steps around them, such as reading the
+  # verified email afterwards, must not read as a failed request, which the model could retry after a write happened.
+  def request(tool_context, params)
+    url = @custom_tool.build_request_url(params)
+    body = @custom_tool.build_request_body(params)
+    @custom_tool.format_response(execute_http_request(url, body, tool_context))
+  rescue StandardError => e
+    Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
+    failure_result('An error occurred while executing the request', tool_context.state)
+  end
 
   # Route through SafeFetch so custom tool requests share the app's centralized HTTP
   # fetching (resolution, timeouts, response size limits, and redirect handling).
@@ -55,7 +71,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
       method: @custom_tool.http_method.downcase.to_sym,
       body: json_body,
       headers: request_headers(tool_context, json_body, auth_headers),
-      sensitive_headers: auth_headers.keys + @custom_tool.headers.keys,
+      sensitive_headers: auth_headers.keys + @custom_tool.headers.keys + PERSONAL_HEADERS,
       http_basic_authentication: @custom_tool.build_basic_auth_credentials,
       max_bytes: MAX_RESPONSE_SIZE,
       validate_content_type: false
@@ -66,6 +82,10 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   def request_headers(tool_context, json_body, auth_headers)
     headers = @custom_tool.headers.merge(auth_headers)
     headers.merge!(@custom_tool.build_metadata_headers(tool_context&.state || {}))
+    # The contact email can be typed by anyone, so the email the customer verified travels in its own header.
+    # The admin test request runs without a conversation, so it has no customer to look up.
+    verified_email = Captain::ParamSources.stored_verified_email(find_conversation(tool_context.state)) if tool_context
+    headers['X-Chatwoot-Verified-Email'] = verified_email if verified_email
     headers['Content-Type'] = 'application/json' if json_body.present?
     headers
   end

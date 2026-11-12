@@ -4,15 +4,15 @@ class Captain::Tools::VerifyEmailCodeTool < Captain::Tools::BasePublicTool
   parameter :code, type: 'string', description: 'The 6-digit code the customer typed in the conversation'
 
   def perform(tool_context, code:)
-    contact_inbox = find_contact_inbox(tool_context.state)
-    return failure_result('Email verification is not available in this conversation', tool_context.state) unless contact_inbox
+    conversation = find_conversation(tool_context.state)
+    return failure_result('Email verification is not available in this conversation', tool_context.state) unless conversation
 
-    verification = Captain::EmailVerification.new(contact_inbox)
+    verification = Captain::EmailVerification.new(conversation)
     result = verification.verify(code)
-    log_tool_usage('verify_email_code', { contact_inbox_id: contact_inbox.id, result: result })
+    log_tool_usage('verify_email_code', { conversation_id: conversation.id, result: result })
 
     case result
-    when :verified then verified_message(tool_context, verification.verified_email)
+    when :verified then verified_message(tool_context, verification)
     when :invalid_code then invalid_code_message(verification.attempts_left)
     when :locked then 'Too many wrong codes were entered, so this code no longer works. Send a new code, or offer a support agent.'
     else 'There is no active code. It may have expired. Send a new code first.'
@@ -22,10 +22,11 @@ class Captain::Tools::VerifyEmailCodeTool < Captain::Tools::BasePublicTool
   private
 
   # The rest of this run reads the state, so the prompt shows the email as verified straight away
-  def verified_message(tool_context, email)
+  def verified_message(tool_context, verification)
+    email = verification.verified_email
     tool_context.state[:verified_email] = email
-    hours = Captain::EmailVerification::VERIFIED_TTL.in_hours.to_i
-    "Verified. The customer entered the code that was emailed to #{email}, so they can read that mailbox. This stays valid for #{hours} hours."
+    "Verified. The customer entered the code that was emailed to #{email}, so they can read that mailbox. " \
+      "This stays valid for #{verification.verified_ttl.inspect}."
   end
 
   def invalid_code_message(attempts_left)

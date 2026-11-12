@@ -3,6 +3,7 @@ import { colors } from './theme/colors';
 import { icons } from './theme/icons';
 const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
+const jumpbar = require('@chatwoot/jumpbar/tailwind');
 const {
   iconsPlugin,
   getIconCollections,
@@ -22,6 +23,7 @@ const defaultSansFonts = [
 
 const tailwindConfig = {
   darkMode: 'class',
+  presets: [jumpbar],
   content: [
     './enterprise/app/views/**/*.erb',
     './app/javascript/widget/**/*.vue',
@@ -33,12 +35,32 @@ const tailwindConfig = {
     './app/javascript/dashboard/components-next/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
     './app/javascript/dashboard/composables/**/*.js',
+    './app/javascript/dashboard/modules/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
+    './node_modules/@chatwoot/jumpbar/dist/*.js',
     './app/views/**/*.erb',
   ],
   theme: {
     extend: {
+      colors: {
+        jumpbar: {
+          background: colors.n.background,
+          foreground: colors.n.slate[12],
+          'muted-foreground': colors.n.slate[11],
+          'subtle-foreground': colors.n.slate[10],
+          muted: colors.n.alpha[2],
+          subtle: colors.n.alpha[1],
+          border: colors.n.weak,
+          ring: colors.n.strong.replace('<alpha-value>', '0.5'),
+          primary: colors.n.brand,
+          'primary-soft': `${colors.n.brand}1a`,
+          overlay: colors.n.alpha.black1,
+          online: colors.n.teal[10],
+          busy: colors.n.amber[10],
+          offline: colors.n.slate[10],
+        },
+      },
       fontFamily: {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],
@@ -256,6 +278,10 @@ const tailwindConfig = {
         '0%': { transform: 'translateX(-100%)' },
         '100%': { transform: 'translateX(100%)' },
       },
+      'text-shimmer': {
+        '0%': { backgroundPosition: '100% 0' },
+        '100%': { backgroundPosition: '0% 0' },
+      },
       twinkle: {
         '0%, 100%': { transform: 'scale(1) rotate(0deg)', opacity: 1 },
         '50%': { transform: 'scale(1.25) rotate(20deg)', opacity: 0.7 },
@@ -288,6 +314,7 @@ const tailwindConfig = {
       'card-select': 'card-select 0.25s ease-in-out',
       shake: 'shake 0.3s ease-in-out 0s 2',
       shimmer: 'shimmer 1.4s ease-in-out infinite',
+      'text-shimmer': 'text-shimmer 1.8s ease-in-out infinite',
       'pop-in': 'pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards',
       twinkle: 'twinkle 0.9s ease-in-out infinite',
       'fade-in': 'fade-in 0.3s ease-out',

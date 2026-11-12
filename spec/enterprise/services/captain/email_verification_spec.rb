@@ -4,7 +4,8 @@ RSpec.describe Captain::EmailVerification do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }
-  let(:verification) { described_class.new(contact_inbox) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact) }
+  let(:verification) { described_class.new(conversation) }
   let(:email) { "customer-#{SecureRandom.hex(4)}@example.com" }
   let(:emailed_codes) { [] }
   let(:mailer) { class_double(Captain::EmailVerificationMailer) }
@@ -16,6 +17,10 @@ RSpec.describe Captain::EmailVerification do
       emailed_codes << described_class.decrypt_code(encrypted_code)
       instance_double(ActionMailer::MessageDelivery, deliver_later: true)
     end
+  end
+
+  def conversation_for(conversation_contact_inbox)
+    create(:conversation, account: account, inbox: inbox, contact_inbox: conversation_contact_inbox, contact: conversation_contact_inbox.contact)
   end
 
   def wrong_code
@@ -71,7 +76,13 @@ RSpec.describe Captain::EmailVerification do
       expect(verification.send_code(email)).to eq(:sent)
     end
 
-    it 'allows 5 codes per hour from one contact inbox' do
+    it 'allows 5 codes per hour from one contact inbox, across its conversations' do
+      results = Array.new(6) { described_class.new(conversation_for(contact_inbox)).send_code("customer-#{SecureRandom.hex(4)}@example.com") }
+
+      expect(results).to eq(([:sent] * 5) + [:rate_limited])
+    end
+
+    it 'allows 5 codes per hour from one conversation' do
       results = Array.new(6) { verification.send_code("customer-#{SecureRandom.hex(4)}@example.com") }
 
       expect(results).to eq(([:sent] * 5) + [:rate_limited])
@@ -82,13 +93,12 @@ RSpec.describe Captain::EmailVerification do
       5.times { verification.send_code(email) }
       other_contact_inbox = create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account))
 
-      expect(described_class.new(other_contact_inbox).send_code(email)).to eq(:sent)
+      expect(described_class.new(conversation_for(other_contact_inbox)).send_code(email)).to eq(:sent)
     end
 
     it 'allows 5 codes per hour to one email address across contact inboxes' do
       results = Array.new(6) do
-        other_contact_inbox = create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account))
-        described_class.new(other_contact_inbox).send_code(email)
+        described_class.new(conversation_for(create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)))).send_code(email)
       end
 
       expect(results).to eq(([:sent] * 5) + [:rate_limited])
@@ -155,8 +165,8 @@ RSpec.describe Captain::EmailVerification do
       expect(verification.verify(emailed_codes.last)).to eq(:expired)
     end
 
-    it 'does not accept a code sent to another contact inbox' do
-      other = described_class.new(create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)))
+    it 'does not accept a code sent in another conversation' do
+      other = described_class.new(conversation_for(contact_inbox))
       other.send_code(email)
       other_code = emailed_codes.last
       verification.send_code(email)
@@ -165,12 +175,26 @@ RSpec.describe Captain::EmailVerification do
       expect(verification.verify(other_code)).to eq(:invalid_code)
     end
 
-    it 'keeps the verification to the contact inbox that entered the code' do
+    it 'keeps the verification to the conversation that entered the code' do
       verification.send_code(email)
       verification.verify(emailed_codes.last)
-      other_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact_inbox.contact)
 
-      expect(described_class.new(other_contact_inbox).verified_email).to be_nil
+      expect(described_class.new(conversation_for(contact_inbox)).verified_email).to be_nil
+    end
+
+    it 'keeps the verification for 1 hour' do
+      verification.send_code(email)
+      verification.verify(emailed_codes.last)
+
+      expect(Redis::Alfred.ttl(format(Redis::RedisKeys::CAPTAIN_EMAIL_VERIFICATION_VERIFIED, conversation_id: conversation.id))).to eq(1.hour.to_i)
+    end
+  end
+
+  describe '#verified_ttl' do
+    it 'keeps an email conversation verified for 3 hours' do
+      conversation.inbox.update!(channel: create(:channel_email, account: account))
+
+      expect(verification.verified_ttl).to eq(3.hours)
     end
   end
 end

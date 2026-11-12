@@ -4,37 +4,27 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:custom_tool) { create(:captain_custom_tool, account: account) }
-  let(:tool) { described_class.new(assistant, custom_tool) }
+  let(:tool) { Captain::Tools::PublicHttpTool.new(assistant, custom_tool) }
   let(:tool_context) { Struct.new(:state).new({}) }
 
-  describe '#active?' do
-    it 'returns true when custom tool is enabled' do
-      custom_tool.update!(enabled: true)
-
-      expect(tool.active?).to be true
-    end
-
-    it 'returns false when custom tool is disabled' do
-      custom_tool.update!(enabled: false)
-
-      expect(tool.active?).to be false
-    end
-  end
-
-  describe '#available_in_reply_suggestion?' do
-    it 'allows GET tools' do
+  describe '#read_only?' do
+    it 'is true for GET tools' do
       custom_tool.update!(http_method: 'GET')
 
-      expect(tool.available_in_reply_suggestion?).to be true
+      expect(tool.read_only?).to be true
     end
 
-    it 'rejects tools that change data' do
+    it 'is false for tools that change data' do
       %w[POST PUT PATCH DELETE].each do |http_method|
         custom_tool.update!(http_method: http_method)
 
-        expect(tool.available_in_reply_suggestion?).to be(false), "expected #{http_method} to be rejected"
+        expect(tool.read_only?).to be(false), "expected #{http_method} to change data"
       end
     end
+  end
+
+  it 'does not run for a tool class that does not decide its arguments' do
+    expect { described_class.new(assistant, custom_tool).perform(tool_context) }.to raise_error(NotImplementedError)
   end
 
   describe '#perform' do
@@ -453,6 +443,43 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
           endpoint_url: 'https://example.com/api/data',
           response_template: nil
         )
+      end
+
+      it 'sends the email the customer verified with a one-time code, next to the contact email' do
+        allow(Captain::EmailVerification).to receive(:new).with(conversation)
+                                                          .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
+        stub_request(:get, 'https://example.com/api/data').to_return(status: 200, body: '{}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to(have_requested(:get, 'https://example.com/api/data').with do |request|
+          request.headers['X-Chatwoot-Verified-Email'] == 'jane@example.com' && request.headers['X-Chatwoot-Contact-Email'] == contact.email
+        end)
+      end
+
+      it 'strips the contact and verified email headers on cross-origin redirects' do
+        contact.update!(email: 'jane@example.com', phone_number: '+14155550100')
+        tool_context_with_state.state[:contact].merge!(email: contact.email, phone_number: contact.phone_number)
+        allow(Captain::EmailVerification).to receive(:new).with(conversation)
+                                                          .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
+        redirected_headers = nil
+        stub_request(:get, 'https://example.com/api/data').to_return(status: 302, headers: { 'Location' => 'http://example.com/data' })
+        stub_request(:get, 'http://example.com/data').with do |request|
+          redirected_headers = request.headers.transform_keys(&:downcase)
+          true
+        end
+
+        tool.perform(tool_context_with_state)
+
+        expect(redirected_headers.keys).not_to include('x-chatwoot-verified-email', 'x-chatwoot-contact-email', 'x-chatwoot-contact-phone')
+      end
+
+      it 'leaves out the verified email header when the customer has not verified an email' do
+        stub_request(:get, 'https://example.com/api/data').to_return(status: 200, body: '{}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to(have_requested(:get, 'https://example.com/api/data').with { |request| !request.headers.key?('X-Chatwoot-Verified-Email') })
       end
 
       it 'includes metadata headers in GET request' do

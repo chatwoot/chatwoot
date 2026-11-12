@@ -369,5 +369,54 @@ RSpec.describe Captain::Assistant, type: :model do
       )
       expect(instructions).not_to include('# Human Handoff Protocol', scenario.title, "handoff_to_#{scenario.handoff_key}")
     end
+
+    it 'names the verified address even when contact information is not allowed' do
+      state = { channel_type: 'Channel::WebWidget', contact_inbox: { id: 1, hmac_verified: false }, verified_email: 'jane@example.com',
+                contact: { id: 1, name: 'Jane Doe', email: 'jane@example.com' }, assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('Email verified by one-time code: Yes, jane@example.com')
+      expect(instructions).not_to include('# Contact Information', 'Jane Doe')
+    end
+
+    it 'tells Captain to use only IDs found for the verified email' do
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, verified_email: 'jane@example.com', assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('use only an ID that a tool returned in this conversation for jane@example.com')
+    end
+
+    it 'leaves out the ID rule before the customer verifies' do
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, can_verify_email: true, assistant_config: {} }
+
+      expect(assistant.agent_instructions(Struct.new(:context).new({ state: state }))).not_to include('use only an ID that a tool returned')
+    end
+
+    it 'gives the steps to verify on a messaging channel, without any HMAC status' do
+      state = { channel_type: 'Channel::Whatsapp', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: true }, can_verify_email: true,
+                assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('Email verified by one-time code: No', 'captain--tools--send_email_verification_code')
+      expect(instructions).not_to include('HMAC')
+    end
+
+    it 'gives the steps to verify in an email conversation too' do
+      state = { channel_type: 'Channel::Email', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: false }, can_verify_email: true,
+                assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('Email verified by one-time code: No', 'captain--tools--send_email_verification_code')
+    end
+
+    it 'leaves out the verification steps when Captain cannot verify the customer' do
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, assistant_config: {} }
+
+      expect(assistant.agent_instructions(Struct.new(:context).new({ state: state }))).not_to include('# Customer Identity')
+    end
   end
 end

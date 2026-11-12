@@ -21,6 +21,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
     allow(Captain::Tools::SimplePageCrawlService).to receive(:new).and_return(mock_crawler)
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_thinking).and_return(mock_chat)
     allow(mock_chat).to receive(:with_provider_options).and_return(mock_chat)
     allow(mock_chat).to receive(:add_message).with(role: :user, content: 'Respond with valid JSON.')
     allow(mock_chat).to receive(:with_max_output_tokens).and_return(mock_chat)

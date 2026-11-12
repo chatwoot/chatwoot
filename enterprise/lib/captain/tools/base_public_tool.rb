@@ -1,13 +1,20 @@
 require 'agents'
 
 class Captain::Tools::BasePublicTool < Agents::Tool
+  # A tool class built at runtime needs a constant, or Class#name is nil and the LLM request gets an empty function name.
+  # Registering a name again replaces the class an earlier build left there.
+  def self.register_generated(namespace, class_name, tool_class)
+    namespace.send(:remove_const, class_name) if namespace.const_defined?(class_name, false)
+    namespace.const_set(class_name, tool_class)
+  end
+
   def initialize(assistant)
     @assistant = assistant
     super()
   end
 
   def execute(tool_context, **params)
-    return super if safe_to_run_after_new_customer_message?
+    return super if read_only?
     if newer_customer_message_arrived?(tool_context.state)
       return failure_result('Tool skipped because a newer customer message arrived', tool_context.state)
     end
@@ -15,15 +22,14 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     super
   end
 
-  def active?
-    # Public tools are always active
-    true
+  # A tool that changes nothing can still run after a newer customer message, and can run for a reply suggestion
+  def read_only?
+    false
   end
 
-  def permissions
-    # Override in subclasses to specify required permissions
-    # Returns empty array for public tools (no permissions required)
-    []
+  # The tool to use when an admin or an agent is the user. A tool that fills verified values builds its Copilot version.
+  def for_copilot
+    self
   end
 
   private
@@ -48,14 +54,6 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     return nil unless contact_id
 
     account_scoped(::Contact).find_by(id: contact_id)
-  end
-
-  def find_contact_inbox(state)
-    ::ContactInbox.joins(:inbox).find_by(id: state&.dig(:contact_inbox, :id), inboxes: { account_id: @assistant.account_id })
-  end
-
-  def safe_to_run_after_new_customer_message?
-    false
   end
 
   def newer_customer_message_arrived?(state)

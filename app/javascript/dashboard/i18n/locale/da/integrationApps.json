@@ -46,7 +46,7 @@
           "PLACEHOLDER": "Vælg Indbakke"
         },
         "SUBMIT": "Opret",
-        "VALIDATING_OPENAI": "Validating with OpenAI...",
+        "VALIDATING_OPENAI": "Validerer med OpenAI...",
         "CANCEL": "Annuller"
       },
       "API": {

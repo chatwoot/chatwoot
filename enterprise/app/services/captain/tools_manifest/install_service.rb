@@ -3,7 +3,7 @@
 # The toolset is pinned to a commit: the given revision, or the latest commit on the
 # default branch. Installing the same commit again is a no-op once every tool is
 # present. Otherwise the existing tools are updated in place, matched by manifest
-# tool id so slugs and the user-owned enabled flag stay, and missing ones are added.
+# tool id so slugs and the user-owned enabled flag and settings stay, and missing ones are added.
 class Captain::ToolsManifest::InstallService
   class InstallError < StandardError; end
 
@@ -16,18 +16,11 @@ class Captain::ToolsManifest::InstallService
   # call time. Secrets are only used in auth_config, which is never rendered, so they may contain these characters.
   LIQUID_DELIMITER_PATTERN = /\{\{|\{%/
 
-  # Installed at this commit with every manifest tool present and its settings applied, so there is nothing to add or update
+  # Installed at this commit with every manifest tool present, so there is nothing to add or update
   def self.complete?(tools, manifest, revision)
     tools.any? &&
       tools.all? { |tool| tool.source_metadata['revision'] == revision } &&
-      (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty? &&
-      settings_applied?(tools, manifest)
-  end
-
-  # A version that did not know a setting records the commit without it, so the commit alone does not prove the install is current
-  def self.settings_applied?(tools, manifest)
-    verification_required = manifest['tools'].to_h { |tool| [tool['id'], tool['requires_email_verification'] == true] }
-    tools.all? { |tool| (tool.settings['requires_email_verification'] == true) == verification_required[tool.source_metadata['tool_id']] }
+      (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty?
   end
 
   # Fields filled into auth_config must have a value even when optional, or the tool would send blank credentials
@@ -142,11 +135,14 @@ class Captain::ToolsManifest::InstallService
   def save_tool!(existing_tool, tool, attributes)
     return existing_tool.tap { |record| record.update!(attributes) } if existing_tool
 
-    @assistant.custom_tools.create!(attributes.merge(account: @assistant.account, enabled: tool['enabled']))
+    @assistant.custom_tools.create!(
+      attributes.merge(account: @assistant.account, enabled: tool['enabled'],
+                       settings: { 'requires_email_verification' => tool['requires_email_verification'] })
+    )
   end
 
-  # Everything except enabled comes from the manifest; enabled belongs to the user once a tool exists.
-  # The manifest keeps tool options flat; they are stored together in settings.
+  # Everything except enabled and settings comes from the manifest. Those belong to the user once a tool exists.
+  # The manifest keeps tool options flat. They are stored together in settings.
   def tool_attributes(tool, manifest, values, metadata)
     {
       title: tool['title'],
@@ -159,7 +155,6 @@ class Captain::ToolsManifest::InstallService
       request_template: interpolate(tool['request_template'], values),
       response_template: tool['response_template'],
       headers: manifest['headers'],
-      settings: { 'requires_email_verification' => tool['requires_email_verification'] },
       source_metadata: metadata.merge('tool_id' => tool['id'])
     }
   end

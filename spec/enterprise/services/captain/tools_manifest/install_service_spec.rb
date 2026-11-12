@@ -80,15 +80,14 @@ RSpec.describe Captain::ToolsManifest::InstallService do
         expect(install.map(&:requires_email_verification?)).to eq([true, false])
       end
 
-      it 'applies the setting on a reinstall when the same commit was installed without it' do
+      it 'keeps a setting the user changed when the same commit is installed again' do
         tools = install
-        # An older version records the commit but ignores the key
-        tools.first.update_columns(settings: {}) # rubocop:disable Rails/SkipsModelValidations
+        tools.first.update!(settings: { 'requires_email_verification' => false })
 
         parsed_manifest = Captain::ToolsManifest::Manifest.parse(manifest.to_yaml)
 
-        expect(described_class.complete?(assistant.custom_tools.to_a, parsed_manifest, latest_revision)).to be(false)
-        expect(install.map(&:requires_email_verification?)).to eq([true, false])
+        expect(described_class.complete?(assistant.custom_tools.to_a, parsed_manifest, latest_revision)).to be(true)
+        expect(install.map(&:requires_email_verification?)).to eq([false, false])
       end
     end
 
@@ -207,14 +206,14 @@ RSpec.describe Captain::ToolsManifest::InstallService do
         expect(updated.source_metadata['installation_id']).to eq(installed_tools.first.source_metadata['installation_id'])
       end
 
-      it 'follows the manifest when a tool starts requiring email verification' do
+      it 'keeps the email verification setting of a tool that already exists' do
         manifest['tools'].first['requires_email_verification'] = true
         stub_request(:get, manifest_url).to_return(status: 200, body: manifest.to_yaml)
 
         updated = install.find { |tool| tool.source_metadata['tool_id'] == 'get_order' }
 
         expect(updated.id).to eq(installed_tools.first.id)
-        expect(updated.requires_email_verification?).to be(true)
+        expect(updated.requires_email_verification?).to be(false)
       end
 
       it 'creates tools added to the manifest and deletes tools it dropped' do

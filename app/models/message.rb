@@ -111,7 +111,9 @@ class Message < ApplicationRecord
   # [:data] : Used for structured content types such as voice_call
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported, :data], coder: JSON
+                                         :translations, :translation_failed, :translation_provider, :source_language,
+                                         :in_reply_to_external_id,
+                                         :is_unsupported, :data], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -170,6 +172,19 @@ class Message < ApplicationRecord
     data[:sender] = sender.push_event_data if sender && !sender.is_a?(AgentBot)
     data[:sender] = sender.push_event_data(inbox) if sender.is_a?(AgentBot)
     data
+  end
+
+  # The widget learns only that a contact sent the message, not the contact's stored details
+  def widget_sender_data
+    return { type: 'contact' } if sender.is_a?(Contact)
+
+    sender.push_event_data
+  end
+
+  # The widget renders the whole message and forwards it to the host page, so the payload stays whole
+  # and only a contact sender loses its stored details. Pass a built push_event_data to skip building it again.
+  def widget_push_event_data(data = push_event_data)
+    sender.is_a?(Contact) ? data.merge(sender: widget_sender_data) : data
   end
 
   def webhook_push_event_data

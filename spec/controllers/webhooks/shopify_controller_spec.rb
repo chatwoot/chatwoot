@@ -82,14 +82,13 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
   it 'raises a retryable failure when a matching hook appears during cleanup' do
     hook
     inserted_hook = nil
-    app_hooks = Integrations::Hook.where(app_id: 'shopify')
-    hooks = app_hooks.where('LOWER(reference_id) = ?', shop_domain)
+    hooks = Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain)
 
     allow(Integrations::Hook).to receive(:where)
-      .with(app_id: 'shopify')
-      .and_return(app_hooks)
-    allow(app_hooks).to receive(:where)
-      .with('LOWER(reference_id) = ?', shop_domain)
+      .with(app_id: 'shopify', reference_id: shop_domain)
+      .and_return(hooks)
+    allow(hooks).to receive(:with_shopify_custom_app_id)
+      .with(nil)
       .and_return(hooks)
     allow(hooks).to receive(:find_each) do |&block|
       block.call(hook)
@@ -101,6 +100,41 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     expect(response).to have_http_status(:internal_server_error)
     expect(inserted_hook).not_to be_persisted
     expect(hook.reload).to be_persisted
+  end
+
+  it 'does not remove custom-app hooks through the public webhook' do
+    hook.update!(settings: { custom_app_id: 123 })
+
+    expect { post '/webhooks/shopify', params: body, headers: headers }.not_to change(Integrations::Hook, :count)
+    expect(response).to have_http_status(:ok)
+  end
+
+  context 'with a custom app' do
+    let(:custom_app) do
+      Shopify::CustomApp.create!(
+        account: account, shop_domain: shop_domain, client_id: 'custom-client', client_secret: client_secret,
+        install_url: 'https://admin.shopify.com/store/feature-gated-shop/oauth/install_custom_app?client_id=custom-client&signature=test'
+      )
+    end
+
+    before do
+      skip('encryption keys missing; see run_mfa_spec workflow') unless Chatwoot.encryption_configured?
+    end
+
+    [:matching, :other_app, :other_account].each do |ownership|
+      it "preserves custom webhook isolation for #{ownership}" do
+        custom_app
+        hook_account = ownership == :other_account ? create(:account) : account
+        hook_app_id = ownership == :other_app ? custom_app.id + 1 : custom_app.id
+        owned_hook = create(:integrations_hook, :shopify, account: hook_account, reference_id: shop_domain,
+                                                          settings: { custom_app_id: hook_app_id, scope: 'read_orders' })
+
+        post "/webhooks/shopify/accounts/#{account.id}", params: body, headers: headers
+
+        expect(response).to have_http_status(:ok)
+        expect(Integrations::Hook.exists?(owned_hook.id)).to eq(ownership != :matching)
+      end
+    end
   end
 
   it 'ignores a delayed redaction from before the current installation' do

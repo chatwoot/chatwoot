@@ -17,6 +17,19 @@ module Captain::ChatGenerationRecorder
     Rails.logger.warn "Failed to record LLM generation: #{e.message}"
   end
 
+  def record_generation_cost(run, message)
+    return unless valid_llm_message?(message)
+
+    run.record_cost!(message.cost.total)
+  rescue StandardError => e
+    begin
+      run.record_cost!(nil)
+    rescue StandardError => cost_error
+      Rails.logger.warn "Failed to mark LLM generation cost incomplete: #{cost_error.message}"
+    end
+    Rails.logger.warn "Failed to record LLM generation cost: #{e.message}"
+  end
+
   # Skip non-LLM messages (e.g., tool results that RubyLLM processes internally).
   # Check for assistant role rather than token presence - some providers/streaming modes
   # may not return token counts, but we still want to capture the generation for evals.

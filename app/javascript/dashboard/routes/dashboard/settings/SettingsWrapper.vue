@@ -11,8 +11,8 @@ defineProps({
 
 const route = useRoute();
 
-// Routes that manage filters/pagination via query params opt out of
-// query-keyed remounts, else every filter change rebuilds the page.
+// Routes that read or clear their own query params opt out of
+// query-keyed remounts, else every query change rebuilds the page.
 const routeKey = computed(() =>
   route.meta.reuseOnQueryChange ? route.path : route.fullPath
 );

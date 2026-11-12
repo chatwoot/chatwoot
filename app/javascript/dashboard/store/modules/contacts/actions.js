@@ -301,24 +301,32 @@ export const actions = {
 
   filter: async (
     { commit },
-    { page = 1, sortAttr, queryPayload, resetState = true } = {}
+    { page = 1, sortAttr, queryPayload, resetState = true, signal } = {}
   ) => {
-    commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.filter(page, sortAttr, queryPayload);
+      } = await ContactAPI.filter(page, sortAttr, queryPayload, { signal });
+      if (signal?.aborted) return null;
+
       if (resetState) {
         commit(types.CLEAR_CONTACTS);
         commit(types.SET_CONTACTS, payload);
         commit(types.SET_CONTACT_META, meta);
-        commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
       }
       return payload;
     } catch (error) {
-      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+      if (signal?.aborted) return null;
+      if (!resetState) return [];
+
+      commit(types.CLEAR_CONTACTS);
+      commit(types.SET_CONTACT_META, {
+        count: 0,
+        current_page: page,
+        has_more: false,
+      });
+      throw error;
     }
-    return [];
   },
 
   setContactFilters({ commit }, data) {

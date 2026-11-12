@@ -4,7 +4,7 @@ RSpec.describe Captain::ConversationClassifierService do
   let(:conversation) { create(:conversation) }
   let(:endpoint) { 'https://openrouter.ai/api/v1/systemone' }
   let(:response) do
-    { model: 'jev-1.13.0', answers: { priority: { type: 'choice', choice: 'medium', confidence: 0.8 } },
+    { model: 'typesafe/jev-1.14-20261014', answers: { priority: { type: 'choice', choice: 'medium', confidence: 0.8 } },
       usage: { input_tokens: 15, output_tokens: 0 } }
   end
 
@@ -28,7 +28,9 @@ RSpec.describe Captain::ConversationClassifierService do
     expect(tracer).to have_received(:in_span).with('llm.jev.captain_classifier', kind: :client)
     expect(span).to have_received(:set_attribute).with('langfuse.session.id', "#{conversation.account_id}_#{conversation.display_id}")
     expect(span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 15)
-    expect(WebMock).to have_requested(:post, endpoint).once
+    expect(WebMock).to have_requested(:post, endpoint).with { |request|
+      JSON.parse(request.body)['model'] == 'typesafe/jev-1.14'
+    }.once
   end
 
   it 'preserves the classifier error on an unsuccessful Jev response' do

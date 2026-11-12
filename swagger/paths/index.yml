@@ -101,6 +101,7 @@
   parameters:
     - $ref: '#/components/parameters/public_inbox_identifier'
     - $ref: '#/components/parameters/public_contact_identifier'
+    - $ref: '#/components/parameters/public_identifier_hash'
   post:
     $ref: ./public/inboxes/conversations/create.yml
   get:
@@ -110,6 +111,7 @@
   parameters:
     - $ref: '#/components/parameters/public_inbox_identifier'
     - $ref: '#/components/parameters/public_contact_identifier'
+    - $ref: '#/components/parameters/public_identifier_hash'
     - $ref: '#/components/parameters/conversation_id'
   get:
     $ref: ./public/inboxes/conversations/show.yml
@@ -118,6 +120,7 @@
   parameters:
     - $ref: '#/components/parameters/public_inbox_identifier'
     - $ref: '#/components/parameters/public_contact_identifier'
+    - $ref: '#/components/parameters/public_identifier_hash'
     - $ref: '#/components/parameters/conversation_id'
   post:
     $ref: ./public/inboxes/conversations/toggle_status.yml
@@ -126,6 +129,7 @@
   parameters:
     - $ref: '#/components/parameters/public_inbox_identifier'
     - $ref: '#/components/parameters/public_contact_identifier'
+    - $ref: '#/components/parameters/public_identifier_hash'
     - $ref: '#/components/parameters/conversation_id'
   post:
     $ref: ./public/inboxes/conversations/toggle_typing.yml
@@ -134,6 +138,7 @@
   parameters:
     - $ref: '#/components/parameters/public_inbox_identifier'
     - $ref: '#/components/parameters/public_contact_identifier'
+    - $ref: '#/components/parameters/public_identifier_hash'
     - $ref: '#/components/parameters/conversation_id'
   post:
     $ref: ./public/inboxes/conversations/update_last_seen.yml
@@ -142,6 +147,7 @@
   parameters:
     - $ref: '#/components/parameters/public_inbox_identifier'
     - $ref: '#/components/parameters/public_contact_identifier'
+    - $ref: '#/components/parameters/public_identifier_hash'
     - $ref: '#/components/parameters/conversation_id'
   post:
     $ref: ./public/inboxes/messages/create.yml
@@ -152,6 +158,7 @@
   parameters:
     - $ref: '#/components/parameters/public_inbox_identifier'
     - $ref: '#/components/parameters/public_contact_identifier'
+    - $ref: '#/components/parameters/public_identifier_hash'
     - $ref: '#/components/parameters/conversation_id'
     - $ref: '#/components/parameters/message_id'
   patch:
@@ -319,28 +326,28 @@
     $ref: ./application/portal/create.yml
   get:
     $ref: ./application/portal/index.yml
-/api/v1/accounts/{account_id}/portals/{id}:
+/api/v1/accounts/{account_id}/portals/{portal_slug}:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/portal_id'
+    - $ref: '#/components/parameters/portal_slug'
   get:
     $ref: ./application/portal/show.yml
   patch:
     $ref: ./application/portal/update.yml
 
 # Help Center category
-/api/v1/accounts/{account_id}/portals/{id}/categories:
+/api/v1/accounts/{account_id}/portals/{portal_slug}/categories:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/portal_id'
+    - $ref: '#/components/parameters/portal_slug'
   post:
     $ref: ./application/category/create.yml
 
 # Help Center article
-/api/v1/accounts/{account_id}/portals/{id}/articles:
+/api/v1/accounts/{account_id}/portals/{portal_slug}/articles:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/portal_id'
+    - $ref: '#/components/parameters/portal_slug'
   post:
     $ref: ./application/article/create.yml
 

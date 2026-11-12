@@ -12,6 +12,7 @@ import MultiTextInput from './inputs/MultiTextInput.vue';
 
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
+import { FILTER_OPS } from './operators';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
 const { filterTypes } = defineProps({
@@ -20,6 +21,12 @@ const { filterTypes } = defineProps({
 });
 
 const emit = defineEmits(['remove']);
+
+const CONTAINMENT_OPERATORS = [
+  FILTER_OPS.CONTAINS,
+  FILTER_OPS.DOES_NOT_CONTAIN,
+];
+
 const { t } = useI18n();
 const showErrors = ref(false);
 
@@ -98,6 +105,13 @@ const booleanOptions = computed(() => [
 ]);
 
 const validationError = computed(() => {
+  if (
+    currentFilter.value?.attributeDisplayType === 'number' &&
+    CONTAINMENT_OPERATORS.includes(filterOperator.value)
+  ) {
+    return 'INVALID_FILTER_OPERATOR';
+  }
+
   // TOOD: Migrate validateSingleFilter to use camelcase and then remove useSnakeCase here too
   return validateSingleFilter(
     useSnakeCase({

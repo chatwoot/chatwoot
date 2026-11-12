@@ -2,12 +2,23 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { useCallSession } from 'dashboard/composables/useCallSession';
-import { setWhatsappCallMuted } from 'dashboard/composables/useWhatsappCallSession';
-import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
+import {
+  isWhatsappCallConnected,
+  sendWhatsappDigits,
+  setWhatsappCallMuted,
+} from 'dashboard/composables/useWhatsappCallSession';
+import TwilioVoiceClient, {
+  isTwilioCallConnected,
+} from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
-import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
+import {
+  VOICE_CALL_DIRECTION,
+  VOICE_CALL_STATUS,
+} from 'dashboard/components-next/message/constants';
 import WindowVisibilityHelper from 'dashboard/helper/AudioAlerts/WindowVisibilityHelper';
 import CallCard from 'dashboard/components-next/call/CallCard.vue';
 import countriesList from 'shared/constants/countries.js';
@@ -17,6 +28,7 @@ const RINGTONE_URL = '/audio/dashboard/ringtone.mp3';
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+const { t } = useI18n();
 
 const {
   activeCall,
@@ -27,15 +39,63 @@ const {
   endCall: endCallSession,
   rejectIncomingCall,
   dismissCall,
+  holdCall,
   formattedCallDuration,
 } = useCallSession();
 
-// Mute routes by provider: WhatsApp toggles the local mic track, Twilio uses
-// the Voice SDK connection's native mute. Both surface the same button.
-const isMuted = ref(false);
+// Mute routes by provider: WhatsApp toggles the local mic track, Twilio also plays
+// hold music to the caller while the agent keeps hearing them. Both surface the same button.
+const isWhatsappMuted = ref(false);
 const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
+const showKeypad = computed(() => {
+  if (activeCall.value?.provider === VOICE_CALL_PROVIDERS.TWILIO) {
+    return (
+      isTwilioCallConnected.value &&
+      activeCall.value.status === VOICE_CALL_STATUS.IN_PROGRESS
+    );
+  }
+  return isWhatsappActive.value && isWhatsappCallConnected.value;
+});
+
+const handleSendDigit = digit => {
+  if (!showKeypad.value) return;
+  let sent;
+  if (activeCall.value?.provider === VOICE_CALL_PROVIDERS.TWILIO) {
+    sent = TwilioVoiceClient.sendDigits(digit);
+  } else if (isWhatsappActive.value) {
+    sent = sendWhatsappDigits(digit);
+  } else {
+    return;
+  }
+
+  if (!sent) {
+    useAlert(t('CONVERSATION.VOICE_WIDGET.KEYPAD_SEND_FAILED'));
+  }
+};
+
+const isMuted = computed(() =>
+  isWhatsappActive.value ? isWhatsappMuted.value : !!activeCall.value?.onHold
+);
+
+// One hold or resume at a time, so a stale request can't land after a newer one
+const isHoldPending = ref(false);
+const toggleTwilioHold = async () => {
+  if (isHoldPending.value) return;
+  const call = activeCall.value;
+  isHoldPending.value = true;
+  try {
+    await holdCall({
+      conversationId: call.conversationId,
+      inboxId: call.inboxId,
+      callSid: call.callSid,
+      hold: !call.onHold,
+    });
+  } finally {
+    isHoldPending.value = false;
+  }
+};
 
 const primaryIncomingCall = computed(() =>
   hasActiveCall.value ? null : incomingCalls.value[0] || null
@@ -63,16 +123,16 @@ const stackedCardState = call =>
     : VOICE_CALL_DIRECTION.INCOMING;
 
 const toggleMute = () => {
-  isMuted.value = !isMuted.value;
-  if (isWhatsappActive.value) {
-    setWhatsappCallMuted(isMuted.value);
-  } else {
-    TwilioVoiceClient.setMuted(isMuted.value);
+  if (!isWhatsappActive.value) {
+    toggleTwilioHold();
+    return;
   }
+  isWhatsappMuted.value = !isWhatsappMuted.value;
+  setWhatsappCallMuted(isWhatsappMuted.value);
 };
 
 watch(hasActiveCall, active => {
-  if (!active) isMuted.value = false;
+  if (!active) isWhatsappMuted.value = false;
 });
 
 // Convert ISO 3166-1 alpha-2 country code (e.g. "US") to its regional indicator
@@ -262,11 +322,13 @@ onBeforeUnmount(stopRingtone);
       :duration="hasActiveCall ? formattedCallDuration : ''"
       :is-muted="isMuted"
       :show-mute="hasActiveCall"
+      :show-keypad="showKeypad"
       @accept="handleJoinCall(primaryIncomingCall)"
       @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
       @dismiss="dismissCall(primaryIncomingCall?.callSid)"
       @end="handleEndCall"
       @toggle-mute="toggleMute"
+      @send-digit="handleSendDigit"
       @go-to-conversation="goToConversation(activeCall || primaryIncomingCall)"
     />
   </div>
