@@ -1,14 +1,16 @@
 class Api::V1::Accounts::Inboxes::CallRoutingsController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox
 
-  # All four settings are sent together, as the form shows them. The channel validates them, and
-  # the lock keeps another voice settings save from being lost in the merge.
+  # Who rings and what happens outside business hours are sent together, as the form shows them.
+  # The channel validates them, and the lock keeps another voice settings save from being lost in
+  # the merge.
   def update
     channel = @inbox.channel
     channel.with_lock do
       channel.update!(provider_config: channel.provider_config.merge(
         'ring_strategy' => params[:ring_strategy], 'ring_step_seconds' => params[:ring_step_seconds],
-        'assignee_rings_first' => params[:assignee_rings_first], 'call_cooldown_seconds' => params[:call_cooldown_seconds]
+        'assignee_rings_first' => params[:assignee_rings_first], 'call_cooldown_seconds' => params[:call_cooldown_seconds],
+        'business_hours_calls_enabled' => params[:business_hours_calls_enabled]
       ))
     end
     @inbox.update_account_cache

@@ -168,16 +168,12 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
   if ChatwootApp.enterprise?
-    out_of_hours = Voice::CallAnnouncement.new(resource, :out_of_hours)
-    json.business_hours_calls_enabled out_of_hours.enabled?
-    json.out_of_hours_call_message out_of_hours.message
-    json.out_of_hours_call_audio_url out_of_hours.audio.attached? ? url_for(out_of_hours.audio) : nil
+    json.business_hours_calls_enabled resource.channel.business_hours_calls_enabled?
     greeting = Voice::CallAnnouncement.new(resource, :greeting)
     json.call_greeting_enabled greeting.enabled?
     json.call_greeting_message greeting.message
     json.call_greeting_audio_url greeting.audio.attached? ? url_for(greeting.audio) : nil
     unanswered = Voice::CallAnnouncement.new(resource, :unanswered)
-    json.unanswered_calls_enabled unanswered.enabled?
     json.unanswered_call_message unanswered.message
     json.unanswered_call_audio_url unanswered.audio.attached? ? url_for(unanswered.audio) : nil
     json.unanswered_call_timeout_seconds resource.channel.unanswered_call_timeout_seconds

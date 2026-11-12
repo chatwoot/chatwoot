@@ -7,7 +7,9 @@ RSpec.describe 'Call routing API', type: :request do
   let(:channel) { create(:channel_twilio_sms, :with_voice, account: account) }
   let(:inbox) { channel.inbox }
   let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_routing" }
-  let(:params) { { ring_strategy: 'sequential', ring_step_seconds: 15, assignee_rings_first: false, call_cooldown_seconds: 30 } }
+  let(:params) do
+    { ring_strategy: 'sequential', ring_step_seconds: 15, assignee_rings_first: false, call_cooldown_seconds: 30, business_hours_calls_enabled: true }
+  end
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
@@ -18,7 +20,7 @@ RSpec.describe 'Call routing API', type: :request do
     get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}", headers: admin.create_new_auth_token, as: :json
 
     expect(response.parsed_body).to include('ring_strategy' => 'simultaneous', 'ring_step_seconds' => 20, 'assignee_rings_first' => true,
-                                            'call_cooldown_seconds' => 0)
+                                            'call_cooldown_seconds' => 0, 'business_hours_calls_enabled' => false)
   end
 
   it 'allows administrators to save the routing settings' do
@@ -26,9 +28,9 @@ RSpec.describe 'Call routing API', type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(response.parsed_body).to include('ring_strategy' => 'sequential', 'ring_step_seconds' => 15, 'assignee_rings_first' => false,
-                                            'call_cooldown_seconds' => 30)
+                                            'call_cooldown_seconds' => 30, 'business_hours_calls_enabled' => true)
     expect(channel.reload).to have_attributes(sequential_ringing?: true, ring_step_seconds: 15, assignee_rings_first?: false,
-                                              call_cooldown_seconds: 30)
+                                              call_cooldown_seconds: 30, business_hours_calls_enabled?: true)
   end
 
   [
@@ -38,7 +40,8 @@ RSpec.describe 'Call routing API', type: :request do
     { ring_step_seconds: 61 },
     { call_cooldown_seconds: -1 },
     { call_cooldown_seconds: 601 },
-    { assignee_rings_first: 'false' }
+    { assignee_rings_first: 'false' },
+    { business_hours_calls_enabled: nil }
   ].each do |invalid|
     it "rejects #{invalid.inspect}" do
       patch url, headers: admin.create_new_auth_token, params: params.merge(invalid), as: :json

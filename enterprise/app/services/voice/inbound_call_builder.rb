@@ -96,10 +96,10 @@ class Voice::InboundCallBuilder
   # to ring for.
   def ring_phones(call) = self.class.queue_ring(call)
 
-  # The caller is told nobody answered once the inbox's ring time is up; a call answered or
+  # The caller hears the missed-call message once the inbox's ring time is up; a call answered or
   # ended before then is left alone. See Voice::RingingTimeoutService.
   def end_unanswered_in_time(call)
-    return unless call.twilio? && call.ringing? && inbox.channel.unanswered_calls_enabled?
+    return unless call.twilio? && call.ringing?
 
     ends_at = call.created_at + inbox.channel.unanswered_call_timeout_seconds.seconds
     ActiveRecord.after_all_transactions_commit { Voice::EndUnansweredCallJob.set(wait_until: ends_at).perform_later(call.id) }
@@ -129,13 +129,10 @@ class Voice::InboundCallBuilder
     reusable = reusable_conversation(contact_inbox)
     return reusable if reusable
 
-    account.conversations.create!(
-      contact_inbox_id: contact_inbox.id,
-      inbox_id: inbox.id,
-      contact_id: contact.id,
-      status: :open,
-      call_ringing: provider == :twilio && !closed_for_calls?
-    )
+    conversation = account.conversations.new(contact_inbox_id: contact_inbox.id, inbox_id: inbox.id, contact_id: contact.id, status: :open)
+    conversation.call_ringing = provider == :twilio && announced_end_reason(conversation).nil?
+    conversation.save!
+    conversation
   end
 
   # Scoped to the resolved ContactInbox, never to the contact. A dashboard merge leaves unrelated
@@ -162,26 +159,35 @@ class Voice::InboundCallBuilder
       provider: provider,
       direction: :incoming,
       provider_call_id: call_sid,
-      **initial_state
+      **initial_state(conversation)
     )
     # `conference_sid` is a Twilio bridging concept; WhatsApp goes browser↔Meta.
     call.update!(conference_sid: call.default_conference_sid) if call.twilio?
     call
   end
 
-  # A Twilio call to an inbox closed for calls ends as it starts, with the caller told why. One
-  # that finds no agent to ring waits for one to come online until its ring time is up.
-  def initial_state
+  def initial_state(conversation)
     now = Time.zone.now.to_i
     meta = { 'initiated_at' => now }.merge(extra_meta.stringify_keys)
-    return { status: 'ringing', meta: meta } unless provider == :twilio && closed_for_calls?
+    end_reason = announced_end_reason(conversation)
+    return { status: 'ringing', meta: meta } unless end_reason
 
-    { status: 'no_answer', end_reason: Call::OUTSIDE_WORKING_HOURS, meta: meta.merge('ended_at' => now) }
+    { status: 'no_answer', end_reason: end_reason, meta: meta.merge('ended_at' => now) }
   end
 
-  # Read once, so a call that crosses a working-hours boundary is not held for a ring it never gets
-  def closed_for_calls?
-    @closed_for_calls = inbox.closed_for_calls? unless defined?(@closed_for_calls)
-    @closed_for_calls
+  # A Twilio call ends as it starts, with the caller hearing the missed-call message, when the inbox
+  # is closed for calls or nobody who could answer is online. One whose agents are all busy waits.
+  # Read once, so a call that crosses a working-hours boundary or an agent's status change is not
+  # held for a ring it never gets.
+  def announced_end_reason(conversation)
+    return @announced_end_reason if defined?(@announced_end_reason)
+
+    @announced_end_reason = if provider != :twilio
+                              nil
+                            elsif inbox.closed_for_calls?
+                              Call::OUTSIDE_WORKING_HOURS
+                            elsif Voice::RingRecipients.new(inbox: inbox, conversation: conversation).nobody_online?
+                              Call::NO_AGENTS_AVAILABLE
+                            end
   end
 end

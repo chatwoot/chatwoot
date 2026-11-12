@@ -8,7 +8,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
     it 'preloads announcement attachments and blobs for the inbox list' do
       channels = create_list(:channel_twilio_sms, 2, account: account)
       channels.each do |channel|
-        channel.inbox.out_of_hours_call_audio.attach(io: StringIO.new('audio'), filename: 'announcement.mp3', content_type: 'audio/mpeg')
+        channel.inbox.unanswered_call_audio.attach(io: StringIO.new('audio'), filename: 'announcement.mp3', content_type: 'audio/mpeg')
       end
       create(:channel_twilio_sms, account: account)
       headers = admin.create_new_auth_token
@@ -18,7 +18,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
         payload = args.last
         blob_queries << payload if payload[:name] == 'ActiveStorage::Blob Load'
         next unless payload[:name] == 'ActiveStorage::Attachment Load'
-        next unless payload[:binds].any? { |bind| bind.value_for_database == 'out_of_hours_call_audio' }
+        next unless payload[:binds].any? { |bind| bind.value_for_database == 'unanswered_call_audio' }
 
         attachment_queries << payload
       end
@@ -30,7 +30,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       expect(response).to have_http_status(:ok)
       expect(attachment_queries.size).to eq(1)
       expect(blob_queries.size).to eq(1)
-      announcements = response.parsed_body.fetch('payload').filter_map { |inbox| inbox['out_of_hours_call_audio_url'] }
+      announcements = response.parsed_body.fetch('payload').filter_map { |inbox| inbox['unanswered_call_audio_url'] }
       expect(announcements.size).to eq(2)
     end
   end

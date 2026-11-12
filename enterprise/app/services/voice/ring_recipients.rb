@@ -28,6 +28,11 @@ class Voice::RingRecipients
     ordered.find { |user| rung_ids.exclude?(user.id) }
   end
 
+  # Nobody who could answer is online, as opposed to everyone being busy, when the caller waits
+  def nobody_online?
+    eligible.empty?
+  end
+
   private
 
   def assignee = conversation.assignee

@@ -96,17 +96,24 @@ class Inboxes extends CacheEnabledApiClient {
 
   setCallRouting(
     inboxId,
-    { ringStrategy, ringStepSeconds, assigneeRingsFirst, callCooldownSeconds }
+    {
+      ringStrategy,
+      ringStepSeconds,
+      assigneeRingsFirst,
+      callCooldownSeconds,
+      businessHoursCallsEnabled,
+    }
   ) {
     return axios.patch(`${this.url}/${inboxId}/call_routing`, {
       ring_strategy: ringStrategy,
       ring_step_seconds: ringStepSeconds,
       assignee_rings_first: assigneeRingsFirst,
       call_cooldown_seconds: callCooldownSeconds,
+      business_hours_calls_enabled: businessHoursCallsEnabled,
     });
   }
 
-  // kind: 'out_of_hours' | 'greeting' | 'unanswered'; only 'unanswered' carries a ring time
+  // kind: 'greeting' | 'unanswered'; only 'unanswered' carries a ring time
   setCallAnnouncement(inboxId, kind, { enabled, message, timeoutSeconds }) {
     return axios.patch(`${this.url}/${inboxId}/call_announcements/${kind}`, {
       enabled,

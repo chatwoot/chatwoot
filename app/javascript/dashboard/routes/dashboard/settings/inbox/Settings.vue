@@ -289,7 +289,7 @@ export default {
           ...visibleToAllChannelTabs,
           {
             key: 'voice-configuration',
-            name: this.$t('INBOX_MGMT.TABS.VOICE'),
+            name: this.$t('INBOX_MGMT.TABS.CALLS'),
           },
         ];
       }

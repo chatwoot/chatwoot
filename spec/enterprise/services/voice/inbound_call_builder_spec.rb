@@ -8,6 +8,8 @@ RSpec.describe Voice::InboundCallBuilder do
   let(:inbox) { channel.inbox }
   let(:from_number) { '+15550001111' }
   let(:call_sid) { 'CA1234567890abcdef' }
+  # A Twilio call rings only while someone who can answer is online
+  let!(:online_agent) { create(:user, account: account, role: :agent).tap { |agent| create(:inbox_member, inbox: inbox, user: agent) } }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
@@ -318,6 +320,7 @@ RSpec.describe Voice::InboundCallBuilder do
 
     before do
       account.enable_features!('channel_voice')
+      online_agent.account_users.first.update!(availability: :offline)
       [alice, bob].each { |agent| create(:inbox_member, inbox: inbox, user: agent) }
     end
 
@@ -368,39 +371,42 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
-  context 'when the inbox ends unanswered calls' do
+  context 'with the missed-call message' do
     before do
-      channel.update!(provider_config: channel.provider_config.merge(
-        'unanswered_calls_enabled' => true, 'unanswered_call_timeout_seconds' => 45, 'unanswered_call_message' => 'Nobody is available.'
-      ))
+      channel.update!(provider_config: channel.provider_config.merge('unanswered_call_timeout_seconds' => 45,
+                                                                     'unanswered_call_message' => 'Nobody is available.'))
     end
 
-    it 'keeps a call no agent is online for waiting for one until the ring time is up' do
-      account.enable_features!('channel_voice')
+    it 'ends the call as it starts when nobody who can answer is online' do
+      online_agent.account_users.first.update!(availability: :offline)
 
       call = nil
-      expect { call = perform_builder }
-        .to have_enqueued_job(Voice::EndUnansweredCallJob).and have_enqueued_job(Voice::RingNextAgentJob).with(kind_of(Integer), 1)
+      expect { call = perform_builder }.not_to have_enqueued_job(Voice::EndUnansweredCallJob)
+
+      expect(call).to have_attributes(status: 'no_answer', end_reason: 'no_agents_available', ring_state: {})
+    end
+
+    it 'keeps a call waiting until the ring time when every online agent is on a call' do
+      create(:call, account: account, inbox: inbox, status: 'in_progress', accepted_by_agent_id: online_agent.id)
+
+      call = nil
+      expect { call = perform_builder }.to have_enqueued_job(Voice::EndUnansweredCallJob).and have_enqueued_job(Voice::RingNextAgentJob)
 
       expect(call).to be_ringing
-      expect(call.ring_state['ring_recipient_ids']).to eq([])
+      expect(call.message.content_attributes.dig('data', 'ring_user_ids')).to eq([])
     end
 
     it 'rings, and ends the call after the ring time, when an online agent can be rung' do
-      agent = create(:user, account: account, role: :agent)
-      create(:inbox_member, inbox: inbox, user: agent)
-
       call = nil
       expect { call = perform_builder }
         .to have_enqueued_job(Voice::EndUnansweredCallJob).with(kind_of(Integer)).at(a_value_within(2.seconds).of(45.seconds.from_now))
       expect(call).to be_ringing
     end
 
-    it 'lets the ring go on when ending unanswered calls is off' do
+    it 'ends the ring after the ring time even for an inbox that had turned the old no-answer message off' do
       channel.update!(provider_config: channel.provider_config.merge('unanswered_calls_enabled' => false))
 
-      expect { perform_builder }.not_to have_enqueued_job(Voice::EndUnansweredCallJob)
-      expect(Call.sole).to be_ringing
+      expect { perform_builder }.to have_enqueued_job(Voice::EndUnansweredCallJob)
     end
   end
 
@@ -441,8 +447,8 @@ RSpec.describe Voice::InboundCallBuilder do
       expect { perform_builder }.to have_enqueued_job(Voice::RingNextAgentJob).with(existing_call.id, 3)
     end
 
-    it 'queues the ring time again, from when the call began, when the inbox ends unanswered calls' do
-      channel.update!(provider_config: channel.provider_config.merge('unanswered_calls_enabled' => true, 'unanswered_call_timeout_seconds' => 45))
+    it 'queues the ring time again, from when the call began' do
+      channel.update!(provider_config: channel.provider_config.merge('unanswered_call_timeout_seconds' => 45))
       existing_call.update!(status: 'ringing', created_at: 10.seconds.ago)
 
       expect { perform_builder }

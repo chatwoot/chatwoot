@@ -11,7 +11,9 @@ module Concerns::CallRoutingSettings
     'ring_strategy' => ->(value) { RING_STRATEGIES.include?(value) },
     'ring_step_seconds' => ->(value) { value.is_a?(Integer) && RING_STEP_SECONDS.cover?(value) },
     'assignee_rings_first' => ->(value) { [true, false].include?(value) },
-    'call_cooldown_seconds' => ->(value) { value.is_a?(Integer) && CALL_COOLDOWN_SECONDS.cover?(value) }
+    'call_cooldown_seconds' => ->(value) { value.is_a?(Integer) && CALL_COOLDOWN_SECONDS.cover?(value) },
+    # Outside business hours nobody rings and the caller hears the missed-call message
+    'business_hours_calls_enabled' => ->(value) { [true, false].include?(value) }
   }.freeze
 
   def sequential_ringing?
