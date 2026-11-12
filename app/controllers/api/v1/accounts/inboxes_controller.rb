@@ -80,6 +80,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def destroy
+    # When the admin asks for it, InboxHealthManagement#release_whatsapp_number has already released the number.
     ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
   end

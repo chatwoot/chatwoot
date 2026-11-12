@@ -304,15 +304,15 @@ export const actions = {
       throwErrorMessage(error);
     }
   },
-  delete: async ({ commit }, inboxId) => {
+  delete: async ({ commit }, { id, releaseWhatsappNumber = false }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: true });
     try {
-      await InboxesAPI.delete(inboxId);
-      commit(types.default.DELETE_INBOXES, inboxId);
+      await InboxesAPI.delete(id, { releaseWhatsappNumber });
+      commit(types.default.DELETE_INBOXES, id);
       commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: false });
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: false });
-      throw new Error(error);
+      throwErrorMessage(error);
     }
   },
   reauthorizeFacebookPage: async ({ commit }, params) => {
@@ -321,14 +321,6 @@ export const actions = {
       commit(types.default.EDIT_INBOXES, response.data);
     } catch (error) {
       throw new Error(error.message);
-    }
-  },
-  // Deregisters the number from Cloud API before its inbox is deleted; rejects with Meta's reason on failure.
-  releaseWhatsappNumber: async (_, inboxId) => {
-    try {
-      await InboxesAPI.releaseWhatsappNumber(inboxId);
-    } catch (error) {
-      throwErrorMessage(error);
     }
   },
   deleteInboxAvatar: async (_, inboxId) => {

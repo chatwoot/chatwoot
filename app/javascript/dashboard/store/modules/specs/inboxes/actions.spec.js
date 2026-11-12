@@ -199,43 +199,35 @@ describe('#actions', () => {
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({ data: inboxList[0] });
-      await actions.delete({ commit }, inboxList[0].id);
+      await actions.delete({ commit }, { id: inboxList[0].id });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_INBOXES_UI_FLAG, { isDeleting: true }],
         [types.default.DELETE_INBOXES, inboxList[0].id],
         [types.default.SET_INBOXES_UI_FLAG, { isDeleting: false }],
       ]);
     });
-    it('sends correct actions if API is error', async () => {
-      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.delete({ commit }, inboxList[0].id)).rejects.toThrow(
-        Error
+    it('asks the API to release the WhatsApp number when requested', async () => {
+      axios.delete.mockResolvedValue({});
+      await actions.delete(
+        { commit },
+        { id: inboxList[0].id, releaseWhatsappNumber: true }
       );
+      expect(axios.delete).toHaveBeenCalledWith(
+        expect.stringContaining(`/inboxes/${inboxList[0].id}`),
+        { params: { release_whatsapp_number: true } }
+      );
+    });
+    it("rejects with the API's error message so the reason can be shown", async () => {
+      axios.delete.mockRejectedValue({
+        response: { data: { message: 'Meta could not release the number' } },
+      });
+      await expect(
+        actions.delete({ commit }, { id: inboxList[0].id })
+      ).rejects.toThrow('Meta could not release the number');
       expect(commit.mock.calls).toEqual([
         [types.default.SET_INBOXES_UI_FLAG, { isDeleting: true }],
         [types.default.SET_INBOXES_UI_FLAG, { isDeleting: false }],
       ]);
-    });
-  });
-
-  describe('#releaseWhatsappNumber', () => {
-    it('posts to the release endpoint', async () => {
-      axios.post.mockResolvedValue({});
-      await actions.releaseWhatsappNumber({}, inboxList[0].id);
-      expect(axios.post).toHaveBeenCalledWith(
-        expect.stringContaining(
-          `/inboxes/${inboxList[0].id}/release_whatsapp_number`
-        )
-      );
-    });
-
-    it("rejects with the API's error message so the reason can be shown", async () => {
-      axios.post.mockRejectedValue({
-        response: { data: { message: 'Meta could not release the number' } },
-      });
-      await expect(
-        actions.releaseWhatsappNumber({}, inboxList[0].id)
-      ).rejects.toThrow('Meta could not release the number');
     });
   });
 

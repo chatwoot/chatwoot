@@ -77,22 +77,20 @@ const canReleaseWhatsappNumber = computed(
     selectedInbox.value.provider_config?.source === 'embedded_signup'
 );
 
-const deleteInbox = async (inboxId, shouldReleaseNumber) => {
-  if (shouldReleaseNumber) {
-    try {
-      await store.dispatch('inboxes/releaseWhatsappNumber', inboxId);
-    } catch (error) {
-      // The inbox is kept so the admin can retry, or delete without releasing.
-      useAlert(error.message);
-      return;
-    }
-  }
-
+const deleteInbox = async (id, shouldReleaseNumber) => {
   try {
-    await store.dispatch('inboxes/delete', inboxId);
+    await store.dispatch('inboxes/delete', {
+      id,
+      releaseWhatsappNumber: shouldReleaseNumber,
+    });
     useAlert(t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    useAlert(t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
+    // When Meta refuses the release the inbox is kept, so show Meta's reason; the admin can delete without releasing.
+    useAlert(
+      shouldReleaseNumber
+        ? error.message
+        : t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE')
+    );
   }
 };
 const closeDelete = () => {

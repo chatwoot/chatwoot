@@ -537,58 +537,78 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
-  end
 
-  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/release_whatsapp_number' do
-    let(:admin) { create(:user, account: account, role: :administrator) }
-    let(:whatsapp_channel) do
-      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
-    end
-    let(:whatsapp_inbox) { whatsapp_channel.inbox }
-    let(:deregister_url) { %r{graph\.facebook\.com/v[\d.]+/#{whatsapp_channel.provider_config['phone_number_id']}/deregister\z} }
-    let(:release_path) { "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/release_whatsapp_number" }
+    context 'when the admin asks to release the WhatsApp number' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:whatsapp_channel) do
+        create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+      end
+      let(:whatsapp_inbox) { whatsapp_channel.inbox }
+      let(:deregister_url) { %r{graph\.facebook\.com/v[\d.]+/#{whatsapp_channel.provider_config['phone_number_id']}/deregister\z} }
 
-    it 'deregisters the number for an administrator' do
-      stub_request(:post, deregister_url).to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+      def delete_inbox(target_inbox, release:)
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{target_inbox.id}",
+               params: { release_whatsapp_number: release },
+               headers: admin.create_new_auth_token,
+               as: :json
+      end
 
-      post release_path, headers: admin.create_new_auth_token, as: :json
+      it 'releases the number, then deletes the inbox' do
+        stub_request(:post, deregister_url).to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+        expect(DeleteObjectJob).to receive(:perform_later).with(whatsapp_inbox, admin, anything).once
 
-      expect(response).to have_http_status(:no_content)
-      expect(a_request(:post, deregister_url)).to have_been_made.once
-    end
+        delete_inbox(whatsapp_inbox, release: true)
 
-    it "returns Meta's reason when Meta refuses" do
-      stub_request(:post, deregister_url).to_return(
-        status: 400,
-        body: { error: { message: 'Deregister endpoint is not available for API solution for SMB businesses.' } }.to_json,
-        headers: { 'Content-Type' => 'application/json' }
-      )
+        expect(response).to have_http_status(:success)
+        expect(a_request(:post, deregister_url)).to have_been_made.once
+      end
 
-      post release_path, headers: admin.create_new_auth_token, as: :json
+      it "keeps the inbox and returns Meta's reason when Meta refuses" do
+        stub_request(:post, deregister_url).to_return(
+          status: 400,
+          body: { error: { message: 'Deregister endpoint is not available for API solution for SMB businesses.' } }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+        expect(DeleteObjectJob).not_to receive(:perform_later)
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['message']).to eq(
-        'Meta could not release the number, so the inbox was not deleted: ' \
-        'Deregister endpoint is not available for API solution for SMB businesses.'
-      )
-    end
+        delete_inbox(whatsapp_inbox, release: true)
 
-    it 'refuses an inbox that is not connected with embedded signup' do
-      other_inbox = create(:inbox, account: account)
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq(
+          'Meta could not release the number, so the inbox was not deleted: ' \
+          'Deregister endpoint is not available for API solution for SMB businesses.'
+        )
+      end
 
-      post "/api/v1/accounts/#{account.id}/inboxes/#{other_inbox.id}/release_whatsapp_number", headers: admin.create_new_auth_token, as: :json
+      it 'keeps an inbox that was not connected with embedded signup' do
+        expect(DeleteObjectJob).not_to receive(:perform_later)
 
-      expect(response).to have_http_status(:unprocessable_entity)
-    end
+        delete_inbox(inbox, release: true)
 
-    it 'is not available to agents' do
-      agent = create(:user, account: account, role: :agent)
-      create(:inbox_member, user: agent, inbox: whatsapp_inbox)
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
 
-      post release_path, headers: agent.create_new_auth_token, as: :json
+      it 'does not release the number for an agent' do
+        agent = create(:user, account: account, role: :agent)
+        create(:inbox_member, user: agent, inbox: whatsapp_inbox)
 
-      expect(response).to have_http_status(:unauthorized)
-      expect(a_request(:post, deregister_url)).not_to have_been_made
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+               params: { release_whatsapp_number: true },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(a_request(:post, deregister_url)).not_to have_been_made
+      end
+
+      it 'does not release the number unless asked' do
+        expect(DeleteObjectJob).to receive(:perform_later).once
+
+        delete_inbox(whatsapp_inbox, release: false)
+
+        expect(response).to have_http_status(:success)
+        expect(a_request(:post, deregister_url)).not_to have_been_made
+      end
     end
   end
 

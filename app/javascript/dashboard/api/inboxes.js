@@ -15,8 +15,11 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.get(`${this.url}/${inboxId}/campaigns`);
   }
 
-  releaseWhatsappNumber(inboxId) {
-    return axios.post(`${this.url}/${inboxId}/release_whatsapp_number`);
+  // An admin can also release a WhatsApp number from the Cloud API in the same request.
+  delete(inboxId, { releaseWhatsappNumber = false } = {}) {
+    return axios.delete(`${this.url}/${inboxId}`, {
+      params: { release_whatsapp_number: releaseWhatsappNumber },
+    });
   }
 
   deleteInboxAvatar(inboxId) {
