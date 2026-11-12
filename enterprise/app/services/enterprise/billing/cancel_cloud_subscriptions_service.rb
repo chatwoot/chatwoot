@@ -17,8 +17,9 @@ class Enterprise::Billing::CancelCloudSubscriptionsService
 
   private
 
+  # Trialing subscriptions charge when the trial ends, so they must be cancelled too.
   def subscriptions
-    Stripe::Subscription.list(customer: stripe_customer_id, status: 'active', limit: 100).data
+    %w[active trialing].flat_map { |status| Stripe::Subscription.list(customer: stripe_customer_id, status: status, limit: 100).data }
   end
 
   def stripe_customer_id

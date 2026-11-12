@@ -39,6 +39,7 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
     allow(subscription).to receive(:[]).with('cancel_at').and_return(nil)
     allow(subscription).to receive(:[]).with('cancel_at_period_end').and_return(false)
+    allow(subscription).to receive(:[]).with('trial_end').and_return(nil)
     allow(subscription).to receive(:customer).and_return('cus_123')
     allow(event).to receive(:created).and_return(account.created_at.to_i + 1.day.to_i)
     allow(event).to receive(:type).and_return('customer.subscription.updated')

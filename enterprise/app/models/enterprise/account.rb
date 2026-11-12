@@ -1,4 +1,6 @@
 module Enterprise::Account
+  include Enterprise::Account::CloudTrial
+
   class << self
     def captain_document_sync_intervals
       parse_captain_document_sync_intervals(InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')&.value)
