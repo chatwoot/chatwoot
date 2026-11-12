@@ -21,12 +21,10 @@ describe Whatsapp::EmbeddedSignupService do
     }
   end
   let(:channel) { instance_double(Channel::Whatsapp) }
+  let(:setup_job) { Channels::Whatsapp::EmbeddedSignupSetupJob }
 
   describe '#perform' do
     before do
-      allow(GlobalConfig).to receive(:clear_cache)
-
-      # Mock service dependencies
       token_exchange = instance_double(Whatsapp::TokenExchangeService)
       allow(Whatsapp::TokenExchangeService).to receive(:new).with(params[:code]).and_return(token_exchange)
       allow(token_exchange).to receive(:perform).and_return(access_token)
@@ -42,66 +40,18 @@ describe Whatsapp::EmbeddedSignupService do
         .and_return(channel_creation)
       allow(channel_creation).to receive(:perform).and_return(channel)
 
-      allow(channel).to receive(:setup_webhooks)
-      allow(channel).to receive(:phone_number).and_return('+1234567890')
-
-      health_service = instance_double(Whatsapp::HealthService)
-      allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-      allow(health_service).to receive(:fetch_health_status).and_return({
-                                                                          platform_type: 'CLOUD_API',
-                                                                          throughput: { 'level' => 'STANDARD' },
-                                                                          messaging_limit_tier: 'TIER_1000'
-                                                                        })
+      allow(setup_job).to receive(:perform_later)
     end
 
-    it 'creates channel and sets up webhooks' do
-      expect(channel).to receive(:setup_webhooks)
-
-      result = service.perform
-      expect(result).to eq(channel)
+    it 'creates the channel and leaves registration and webhook setup to the setup job' do
+      expect(service.perform).to eq(channel)
+      expect(setup_job).to have_received(:perform_later).with(channel, is_coexistence: nil, check_health: true)
     end
 
-    it 'checks health status after channel creation' do
-      health_service = instance_double(Whatsapp::HealthService)
-      allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-      expect(health_service).to receive(:fetch_health_status)
+    it 'skips the health check for coexistence signups' do
+      described_class.new(account: account, params: params.merge(is_coexistence: 'true')).perform
 
-      service.perform
-    end
-
-    context 'when channel is in pending state' do
-      it 'prompts reauthorization for pending channel' do
-        health_service = instance_double(Whatsapp::HealthService)
-        allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-        allow(health_service).to receive(:fetch_health_status).and_return({
-                                                                            platform_type: 'NOT_APPLICABLE',
-                                                                            throughput: { 'level' => 'STANDARD' },
-                                                                            messaging_limit_tier: 'TIER_1000'
-                                                                          })
-
-        expect(channel).to receive(:prompt_reauthorization!)
-        service.perform
-      end
-
-      it 'prompts reauthorization when throughput level is NOT_APPLICABLE' do
-        health_service = instance_double(Whatsapp::HealthService)
-        allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-        allow(health_service).to receive(:fetch_health_status).and_return({
-                                                                            platform_type: 'CLOUD_API',
-                                                                            throughput: { 'level' => 'NOT_APPLICABLE' },
-                                                                            messaging_limit_tier: 'TIER_1000'
-                                                                          })
-
-        expect(channel).to receive(:prompt_reauthorization!)
-        service.perform
-      end
-    end
-
-    context 'when channel is healthy' do
-      it 'does not prompt reauthorization for healthy channel' do
-        expect(channel).not_to receive(:prompt_reauthorization!)
-        service.perform
-      end
+      expect(setup_job).to have_received(:perform_later).with(channel, is_coexistence: true, check_health: false)
     end
 
     context 'when parameters are invalid' do
@@ -117,46 +67,21 @@ describe Whatsapp::EmbeddedSignupService do
     end
 
     context 'when service fails' do
-      it 'logs and re-raises errors' do
+      it 'logs and re-raises errors without enqueueing setup' do
         token_exchange = instance_double(Whatsapp::TokenExchangeService)
         allow(Whatsapp::TokenExchangeService).to receive(:new).and_return(token_exchange)
         allow(token_exchange).to receive(:perform).and_raise('Token error')
 
         expect(Rails.logger).to receive(:error).with('[WHATSAPP] Embedded signup failed: Token error')
         expect { service.perform }.to raise_error('Token error')
-      end
-
-      it 'prompts reauthorization when webhook setup fails' do
-        # Create a real channel to test the actual webhook failure behavior
-        real_channel = create(:channel_whatsapp, account: account, phone_number: '+1234567890',
-                                                 validate_provider_config: false, sync_templates: false)
-
-        # Mock the channel creation to return our real channel
-        channel_creation = instance_double(Whatsapp::ChannelCreationService)
-        allow(Whatsapp::ChannelCreationService).to receive(:new).and_return(channel_creation)
-        allow(channel_creation).to receive(:perform).and_return(real_channel)
-
-        # Mock webhook setup to fail
-        allow(real_channel).to receive(:perform_webhook_setup).and_raise('Webhook setup error')
-
-        # Verify channel is not marked for reauthorization initially
-        expect(real_channel.reauthorization_required?).to be false
-
-        # The service completes successfully even if webhook fails (webhook error is rescued in setup_webhooks)
-        result = service.perform
-        expect(result).to eq(real_channel)
-
-        # Verify the channel is now marked for reauthorization
-        expect(real_channel.reauthorization_required?).to be true
+        expect(setup_job).not_to have_received(:perform_later)
       end
     end
 
     context 'with reauthorization flow' do
       let(:inbox_id) { 123 }
       let(:reauth_service) { instance_double(Whatsapp::ReauthorizationService) }
-      let(:service_with_inbox) do
-        described_class.new(account: account, params: params, inbox_id: inbox_id)
-      end
+      let(:service_with_inbox) { described_class.new(account: account, params: params, inbox_id: inbox_id) }
 
       before do
         allow(Whatsapp::ReauthorizationService).to receive(:new).with(
@@ -166,77 +91,65 @@ describe Whatsapp::EmbeddedSignupService do
           waba_id: params[:waba_id]
         ).and_return(reauth_service)
         allow(reauth_service).to receive(:perform).with(access_token, phone_info).and_return(channel)
-
-        allow(channel).to receive(:phone_number).and_return('+1234567890')
-
-        health_service = instance_double(Whatsapp::HealthService)
-        allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-        allow(health_service).to receive(:fetch_health_status).and_return({
-                                                                            platform_type: 'CLOUD_API',
-                                                                            throughput: { 'level' => 'STANDARD' },
-                                                                            messaging_limit_tier: 'TIER_1000'
-                                                                          })
       end
 
-      it 'uses ReauthorizationService and sets up webhooks' do
-        expect(reauth_service).to receive(:perform)
-        expect(channel).to receive(:setup_webhooks)
+      it 'reauthorizes and enqueues setup without the health check' do
+        expect(service_with_inbox.perform).to eq(channel)
+        expect(setup_job).to have_received(:perform_later).with(channel, is_coexistence: nil, check_health: false)
+      end
+    end
 
-        result = service_with_inbox.perform
-        expect(result).to eq(channel)
+    # A signup that timed out, or Meta removing our access, leaves the inbox in place; customers then run signup again.
+    context 'when this account already has a cloud inbox for the number' do
+      let!(:existing_channel) do
+        create(:channel_whatsapp, account: account, phone_number: '+1234567890', provider: 'whatsapp_cloud',
+                                  validate_provider_config: false, sync_templates: false)
+      end
+      let(:reauth_service) { instance_double(Whatsapp::ReauthorizationService) }
+
+      before do
+        allow(Whatsapp::ReauthorizationService).to receive(:new).with(
+          account: account,
+          inbox_id: existing_channel.inbox.id,
+          phone_number_id: params[:phone_number_id],
+          waba_id: params[:waba_id]
+        ).and_return(reauth_service)
+        allow(reauth_service).to receive(:perform).with(access_token, phone_info).and_return(existing_channel)
       end
 
-      context 'with real channel requiring reauthorization' do
-        let(:inbox) { create(:inbox, account: account) }
-        let(:whatsapp_channel) do
-          create(:channel_whatsapp, account: account, phone_number: '+1234567890',
-                                    validate_provider_config: false, sync_templates: false)
-        end
-        let(:service_with_real_inbox) { described_class.new(account: account, params: params, inbox_id: inbox.id) }
+      it 'reconnects the existing inbox instead of failing on the duplicate number' do
+        expect(service.perform).to eq(existing_channel)
+        expect(Whatsapp::ChannelCreationService).not_to have_received(:new)
+        expect(setup_job).to have_received(:perform_later).with(existing_channel, is_coexistence: nil, check_health: false)
+      end
+    end
 
-        before do
-          inbox.update!(channel: whatsapp_channel)
-          whatsapp_channel.prompt_reauthorization!
+    context 'when another account already has an inbox for the number' do
+      before do
+        create(:channel_whatsapp, account: create(:account), phone_number: '+1234567890', provider: 'whatsapp_cloud',
+                                  validate_provider_config: false, sync_templates: false)
+        allow(Whatsapp::ChannelCreationService).to receive(:new).and_call_original
+      end
 
-          setup_reauthorization_mocks
-          setup_health_service_mock
-        end
+      it 'still refuses the signup' do
+        expect { service.perform }.to raise_error(/\+1234567890/)
+        expect(setup_job).not_to have_received(:perform_later)
+      end
+    end
 
-        it 'clears reauthorization flag when reauthorization completes' do
-          expect(whatsapp_channel.reauthorization_required?).to be true
-          result = service_with_real_inbox.perform
-          expect(result).to eq(whatsapp_channel)
-          expect(whatsapp_channel.reauthorization_required?).to be false
-        end
+    # A manual inbox runs on the customer's own Meta app; signup must not switch it to ours.
+    context 'when this account has a manually connected inbox for the number' do
+      before do
+        manual_channel = create(:channel_whatsapp, account: account, phone_number: '+1234567890', provider: 'whatsapp_cloud',
+                                                   validate_provider_config: false, sync_templates: false)
+        manual_channel.update!(provider_config: manual_channel.provider_config.merge('source' => 'manual_setup_v2', 'app_secret' => 'secret'))
+        allow(Whatsapp::ChannelCreationService).to receive(:new).and_call_original
+        allow(Whatsapp::ReauthorizationService).to receive(:new)
+      end
 
-        private
-
-        def setup_reauthorization_mocks
-          reauth_service = instance_double(Whatsapp::ReauthorizationService)
-          allow(Whatsapp::ReauthorizationService).to receive(:new).with(
-            account: account,
-            inbox_id: inbox.id,
-            phone_number_id: params[:phone_number_id],
-            waba_id: params[:waba_id]
-          ).and_return(reauth_service)
-
-          allow(reauth_service).to receive(:perform) do
-            whatsapp_channel.reauthorized!
-            whatsapp_channel
-          end
-
-          allow(whatsapp_channel).to receive(:setup_webhooks).and_return(true)
-        end
-
-        def setup_health_service_mock
-          health_service = instance_double(Whatsapp::HealthService)
-          allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-          allow(health_service).to receive(:fetch_health_status).and_return({
-                                                                              platform_type: 'CLOUD_API',
-                                                                              throughput: { 'level' => 'STANDARD' },
-                                                                              messaging_limit_tier: 'TIER_1000'
-                                                                            })
-        end
+      it 'refuses the signup instead of taking the inbox over' do
+        expect { service.perform }.to raise_error(/\+1234567890/)
+        expect(Whatsapp::ReauthorizationService).not_to have_received(:new)
       end
     end
   end

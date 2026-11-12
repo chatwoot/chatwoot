@@ -8,23 +8,22 @@ class Whatsapp::EmbeddedSignupService
     @is_coexistence = ActiveModel::Type::Boolean.new.cast(params[:is_coexistence])
   end
 
+  # Only the steps the inbox depends on run in the request: the auth code expires 30 seconds after Meta issues it.
+  # Registration and webhook setup run in Channels::Whatsapp::EmbeddedSignupSetupJob.
   def perform
     validate_parameters!
 
     access_token = exchange_code_for_token
     phone_info = fetch_phone_info(access_token)
+    inbox_id = @inbox_id.presence || existing_inbox_id(phone_info[:phone_number])
 
-    channel = create_or_reauthorize_channel(access_token, phone_info)
-    # NOTE: We call setup_webhooks explicitly here instead of relying on after_commit callback because:
-    # 1. Reauthorization flow updates an existing channel (not a create), so after_commit on: :create won't trigger
-    # 2. We need to run check_channel_health_and_prompt_reauth after webhook setup completes
-    # 3. The channel is marked with source: 'embedded_signup' to skip the after_commit callback
-    channel.setup_webhooks(is_coexistence: @is_coexistence)
-    # Skip health check on reauth (avoids false disconnect emails) and on coexistence signups
+    channel = create_or_reauthorize_channel(inbox_id, access_token, phone_info)
+    # Skip the health check on reauth (avoids false disconnect emails) and on coexistence signups
     # (Meta's health data can lag several minutes behind a fresh FINISH event).
-    check_channel_health_and_prompt_reauth(channel) if @inbox_id.blank? && !@is_coexistence
+    Channels::Whatsapp::EmbeddedSignupSetupJob.perform_later(
+      channel, is_coexistence: @is_coexistence, check_health: inbox_id.blank? && !@is_coexistence
+    )
     channel
-
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Embedded signup failed: #{e.message}")
     raise e
@@ -53,11 +52,21 @@ class Whatsapp::EmbeddedSignupService
     nil
   end
 
-  def create_or_reauthorize_channel(access_token, phone_info)
-    if @inbox_id.present?
+  # Customers re-run signup for a number this account already has, usually after a signup that timed out or after
+  # Meta removed our access. Reconnecting that inbox keeps its history; creating a second one is refused anyway.
+  # Manually connected inboxes run on the customer's own Meta app, so signup must not silently take them over.
+  def existing_inbox_id(phone_number)
+    channel = @account.whatsapp_channels.find_by(phone_number: phone_number, provider: 'whatsapp_cloud')
+    return if channel.blank? || channel.provider_config['source'] != 'embedded_signup'
+
+    channel.inbox&.id
+  end
+
+  def create_or_reauthorize_channel(inbox_id, access_token, phone_info)
+    if inbox_id.present?
       Whatsapp::ReauthorizationService.new(
         account: @account,
-        inbox_id: @inbox_id,
+        inbox_id: inbox_id,
         phone_number_id: @phone_number_id,
         waba_id: @waba_id
       ).perform(access_token, phone_info)
@@ -65,24 +74,6 @@ class Whatsapp::EmbeddedSignupService
       waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
       Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token).perform
     end
-  end
-
-  def check_channel_health_and_prompt_reauth(channel)
-    health_data = Whatsapp::HealthService.new(channel).fetch_health_status
-    return unless health_data
-
-    if channel_in_pending_state?(health_data)
-      channel.prompt_reauthorization!
-    else
-      Rails.logger.info "[WHATSAPP] Channel #{channel.phone_number} health check passed"
-    end
-  rescue StandardError => e
-    Rails.logger.error "[WHATSAPP] Health check failed for channel #{channel.phone_number}: #{e.message}"
-  end
-
-  def channel_in_pending_state?(health_data)
-    health_data[:platform_type] == 'NOT_APPLICABLE' ||
-      health_data.dig(:throughput, 'level') == 'NOT_APPLICABLE'
   end
 
   def validate_parameters!
