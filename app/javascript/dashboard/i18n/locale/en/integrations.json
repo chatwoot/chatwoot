@@ -1491,7 +1491,7 @@
         "REMOVE": {
           "BUTTON": "Remove",
           "TITLE": "Remove {name}?",
-          "DESCRIPTION": "This removes its {count} tools from this assistant. Scenarios that use them stop calling them. You can install it again from the tools catalog.",
+          "DESCRIPTION": "This removes all of its tools from this assistant. Scenarios that use them stop calling them. You can install it again from the tools catalog.",
           "CONFIRM": "Remove",
           "SUCCESS": "{name} removed.",
           "ERROR": "Could not remove the toolset."

@@ -545,11 +545,7 @@ watch(
         name: toolsetToRemove?.name,
       })
     "
-    :description="
-      t('CAPTAIN.TOOLS_PAGES.INSTALLED.REMOVE.DESCRIPTION', {
-        count: toolsetToRemove?.tools.length,
-      })
-    "
+    :description="t('CAPTAIN.TOOLS_PAGES.INSTALLED.REMOVE.DESCRIPTION')"
     :confirm-button-label="t('CAPTAIN.TOOLS_PAGES.INSTALLED.REMOVE.CONFIRM')"
     :is-loading="isRemovingToolset"
     @confirm="removeToolset"
