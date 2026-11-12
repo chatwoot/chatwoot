@@ -82,6 +82,20 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       end
     end
 
+    context 'when the transcription API rejects the audio' do
+      let(:speech_to_text) { instance_double(Llm::SpeechToTextService) }
+
+      before do
+        allow(Llm::SpeechToTextService).to receive_messages(available_for?: true, new: speech_to_text)
+        allow(speech_to_text).to receive(:perform).and_raise(Faraday::BadRequestError.new('bad request', { status: 400 }))
+      end
+
+      it 'returns an error instead of raising, so Captain can still answer the conversation' do
+        expect(service.perform).to eq({ error: 'Audio rejected by the transcription API' })
+        expect(attachment.reload.meta).to be_blank
+      end
+    end
+
     context 'when attachment already has transcribed text' do
       before do
         attachment.update!(meta: { transcribed_text: 'Existing transcription' })
