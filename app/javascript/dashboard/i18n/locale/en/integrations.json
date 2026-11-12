@@ -1777,7 +1777,9 @@
       "SIGN_IN": {
         "SUCCESS": "Signed in to the server. Choose the tools Captain can use.",
         "FAILED": "Could not sign in to the server. Try again.",
-        "ERROR": "Could not start the sign-in."
+        "ERROR": "Could not start the sign-in.",
+        "OPENING_TITLE": "Opening the sign-in for {name}",
+        "OPENING_DESCRIPTION": "Chatwoot is setting up the sign-in with the server. Its sign-in page opens in a moment."
       },
       "DELETE": {
         "TITLE": "Remove {name}?",
