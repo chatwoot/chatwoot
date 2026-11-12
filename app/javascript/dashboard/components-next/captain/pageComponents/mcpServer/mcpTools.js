@@ -43,6 +43,15 @@ export const schemaParams = schema => {
   }));
 };
 
+// The parameter types a fixed value can fill. The API converts the text to a number or true or false, and refuses a list
+// or an object. A parameter with no single type besides null is left for the API to check.
+const FIXED_VALUE_TYPES = ['string', 'integer', 'number', 'boolean'];
+
+export const canTakeFixedValue = param => {
+  const types = [param.type].flat().filter(type => type !== 'null');
+  return types.length !== 1 || FIXED_VALUE_TYPES.includes(types[0]);
+};
+
 // The API keeps only Chatwoot-filled parameters. Captain fills every other one.
 export const sourceOf = (paramSources, name) =>
   paramSources?.[name]?.source || PARAM_SOURCES.MODEL;
