@@ -301,6 +301,53 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
       end
     end
 
+    context 'with account_update payloads' do
+      let(:account_update_body) do
+        {
+          object: 'whatsapp_business_account',
+          entry: [{
+            id: '867661734107985',
+            changes: [{
+              field: 'account_update',
+              value: { event: 'PARTNER_REMOVED', waba_info: { waba_id: '980198427658004', owner_business_id: '2329417887457253' } }
+            }]
+          }]
+        }.to_json
+      end
+
+      before do
+        allow(Webhooks::WhatsappEventsJob).to receive(:perform_later)
+      end
+
+      it 'processes events signed with our app secret' do
+        post_whatsapp_webhook("/webhooks/whatsapp/#{channel.phone_number}", account_update_body)
+
+        expect(response).to have_http_status(:success)
+        expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later)
+      end
+
+      # A customer's own Meta app can point its app-level webhook at their inbox URL; its partner events are not about us.
+      it 'ignores events signed only with a channel app secret' do
+        channel.update!(provider_config: channel.provider_config.merge('source' => 'manual_setup_v2', 'app_secret' => 'customer-app-secret'))
+
+        post_whatsapp_webhook("/webhooks/whatsapp/#{channel.phone_number}", account_update_body,
+                              signature: signature_for(account_update_body, 'customer-app-secret'))
+
+        expect(response).to have_http_status(:success)
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+
+      it 'ignores unsigned events accepted for a channel whose app secret is pending' do
+        channel.provider_config = channel.provider_config.except('app_secret', 'app_secret_key', 'api_secret', 'client_secret', 'source')
+        channel.save!(validate: false)
+
+        post_unsigned_whatsapp_webhook("/webhooks/whatsapp/#{channel.phone_number}", account_update_body)
+
+        expect(response).to have_http_status(:success)
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+    end
+
     it 'returns unauthorized when signature is missing' do
       allow(Webhooks::WhatsappEventsJob).to receive(:perform_later)
 

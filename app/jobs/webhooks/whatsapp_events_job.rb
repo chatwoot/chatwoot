@@ -6,6 +6,9 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   retry_on LockAcquisitionError, wait: 2.seconds, attempts: 20
 
   def perform(params = {})
+    # account_update events are WABA-level and carry no phone metadata, so they never resolve to a channel.
+    return handle_account_update(params) if account_update_event?(params)
+
     channel = find_channel_from_whatsapp_business_payload(params)
 
     if channel_is_inactive?(channel)
@@ -156,6 +159,18 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 
   def embedded_signup_channel?(channel)
     (channel.provider_config || {}).to_h['source'] == 'embedded_signup'
+  end
+
+  def account_update_event?(params)
+    params[:object] == 'whatsapp_business_account' && params.dig(:entry, 0, :changes, 0, :field) == 'account_update'
+  end
+
+  # Only PARTNER_REMOVED is acted on today; other account_update events are ignored as before.
+  def handle_account_update(params)
+    value = params.dig(:entry, 0, :changes, 0, :value) || {}
+    return unless value[:event] == 'PARTNER_REMOVED'
+
+    Whatsapp::PartnerRemovedService.new(value.dig(:waba_info, :waba_id)).perform
   end
 
   def find_channel_by_url_param(params)

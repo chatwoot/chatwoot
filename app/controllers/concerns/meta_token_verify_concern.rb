@@ -26,15 +26,15 @@ module MetaTokenVerifyConcern
   end
 
   def valid_meta_signature?
+    meta_app_secrets.any? { |secret| meta_signature_matches?(secret) }
+  end
+
+  def meta_signature_matches?(secret)
     signature = request.headers[META_SIGNATURE_HEADER]
-    return false unless signature&.start_with?(META_SIGNATURE_PREFIX)
+    return false if secret.blank? || !signature&.start_with?(META_SIGNATURE_PREFIX)
 
-    meta_app_secrets.any? do |secret|
-      next false if secret.blank?
-
-      expected_signature = "#{META_SIGNATURE_PREFIX}#{OpenSSL::HMAC.hexdigest('SHA256', secret, meta_request_body)}"
-      ActiveSupport::SecurityUtils.secure_compare(expected_signature, signature)
-    end
+    expected_signature = "#{META_SIGNATURE_PREFIX}#{OpenSSL::HMAC.hexdigest('SHA256', secret, meta_request_body)}"
+    ActiveSupport::SecurityUtils.secure_compare(expected_signature, signature)
   end
 
   def meta_request_body

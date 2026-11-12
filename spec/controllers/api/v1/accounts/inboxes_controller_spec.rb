@@ -539,6 +539,59 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/release_whatsapp_number' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:whatsapp_inbox) { whatsapp_channel.inbox }
+    let(:deregister_url) { %r{graph\.facebook\.com/v[\d.]+/#{whatsapp_channel.provider_config['phone_number_id']}/deregister\z} }
+    let(:release_path) { "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/release_whatsapp_number" }
+
+    it 'deregisters the number for an administrator' do
+      stub_request(:post, deregister_url).to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      post release_path, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:no_content)
+      expect(a_request(:post, deregister_url)).to have_been_made.once
+    end
+
+    it "returns Meta's reason when Meta refuses" do
+      stub_request(:post, deregister_url).to_return(
+        status: 400,
+        body: { error: { message: 'Deregister endpoint is not available for API solution for SMB businesses.' } }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+
+      post release_path, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq(
+        'Meta could not release the number, so the inbox was not deleted: ' \
+        'Deregister endpoint is not available for API solution for SMB businesses.'
+      )
+    end
+
+    it 'refuses an inbox that is not connected with embedded signup' do
+      other_inbox = create(:inbox, account: account)
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{other_inbox.id}/release_whatsapp_number", headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it 'is not available to agents' do
+      agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, user: agent, inbox: whatsapp_inbox)
+
+      post release_path, headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(a_request(:post, deregister_url)).not_to have_been_made
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/inboxes' do
     let(:inbox) { create(:inbox, account: account) }
 

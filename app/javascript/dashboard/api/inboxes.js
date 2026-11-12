@@ -15,6 +15,10 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.get(`${this.url}/${inboxId}/campaigns`);
   }
 
+  releaseWhatsappNumber(inboxId) {
+    return axios.post(`${this.url}/${inboxId}/release_whatsapp_number`);
+  }
+
   deleteInboxAvatar(inboxId) {
     return axios.delete(`${this.url}/${inboxId}/avatar`);
   }

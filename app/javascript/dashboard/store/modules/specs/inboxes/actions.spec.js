@@ -218,6 +218,27 @@ describe('#actions', () => {
     });
   });
 
+  describe('#releaseWhatsappNumber', () => {
+    it('posts to the release endpoint', async () => {
+      axios.post.mockResolvedValue({});
+      await actions.releaseWhatsappNumber({}, inboxList[0].id);
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining(
+          `/inboxes/${inboxList[0].id}/release_whatsapp_number`
+        )
+      );
+    });
+
+    it("rejects with the API's error message so the reason can be shown", async () => {
+      axios.post.mockRejectedValue({
+        response: { data: { message: 'Meta could not release the number' } },
+      });
+      await expect(
+        actions.releaseWhatsappNumber({}, inboxList[0].id)
+      ).rejects.toThrow('Meta could not release the number');
+    });
+  });
+
   describe('#deleteInboxAvatar', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue();

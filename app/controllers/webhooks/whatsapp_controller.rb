@@ -12,6 +12,7 @@ class Webhooks::WhatsappController < ActionController::API
     end
 
     return head :ok if tracking_events_only?
+    return head :ok if account_update_from_another_app?
 
     Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash.except(:webhook_token))
     head :ok
@@ -24,6 +25,15 @@ class Webhooks::WhatsappController < ActionController::API
 
     changes = params.fetch(:entry, []).flat_map { |entry| entry.fetch(:changes, []) }
     changes.present? && changes.all? { |change| change[:field] == 'tracking_events' }
+  end
+
+  # account_update describes the sending app's own partner relationship. Customers' own Meta apps can point their
+  # app-level webhook at an inbox URL, so act only on events signed with our app secret.
+  def account_update_from_another_app?
+    return false unless params[:object] == 'whatsapp_business_account'
+    return false unless params.dig(:entry, 0, :changes, 0, :field) == 'account_update'
+
+    !meta_signature_matches?(GlobalConfigService.load('WHATSAPP_APP_SECRET', nil))
   end
 
   def valid_token?(token)

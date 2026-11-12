@@ -20,33 +20,27 @@ RSpec.describe Whatsapp::WebhookTeardownService do
         )
       end
 
-      it 'calls clear_phone_number_callback_override on Facebook API client' do
-        api_client = instance_double(Whatsapp::FacebookApiClient)
-        allow(Whatsapp::FacebookApiClient).to receive(:new).with('test_api_key').and_return(api_client)
-        allow(api_client).to receive(:clear_phone_number_callback_override).with('test_phone_id')
-        allow(api_client).to receive(:deregister_phone_number).with('test_phone_id')
-
-        service.perform
-
-        expect(api_client).to have_received(:clear_phone_number_callback_override).with('test_phone_id')
+      let!(:clear_override_request) do
+        stub_request(:post, %r{\Ahttps://graph\.facebook\.com/v[\d.]+/test_phone_id\z})
+          .with(body: { webhook_configuration: { override_callback_uri: '' } }.to_json)
+          .to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
-      it 'deregisters the phone number so it is freed from the app' do
-        api_client = instance_double(Whatsapp::FacebookApiClient)
-        allow(Whatsapp::FacebookApiClient).to receive(:new).with('test_api_key').and_return(api_client)
-        allow(api_client).to receive(:clear_phone_number_callback_override)
-        allow(api_client).to receive(:deregister_phone_number).with('test_phone_id')
-
+      it 'clears the phone-level webhook override' do
         service.perform
 
-        expect(api_client).to have_received(:deregister_phone_number).with('test_phone_id')
+        expect(clear_override_request).to have_been_requested
+      end
+
+      # Deregistration is number-wide, so it would also cut off other partners or the customer's own app on the number.
+      it 'does not deregister the phone number' do
+        service.perform
+
+        expect(a_request(:post, %r{/test_phone_id/deregister})).not_to have_been_made
       end
 
       it 'handles errors gracefully without raising' do
-        api_client = instance_double(Whatsapp::FacebookApiClient)
-        allow(Whatsapp::FacebookApiClient).to receive(:new).and_return(api_client)
-        allow(api_client).to receive(:clear_phone_number_callback_override).and_raise(StandardError, 'API Error')
-        allow(api_client).to receive(:deregister_phone_number)
+        stub_request(:post, %r{/test_phone_id\z}).to_return(status: 500, body: { error: 'API Error' }.to_json)
 
         expect { service.perform }.not_to raise_error
       end

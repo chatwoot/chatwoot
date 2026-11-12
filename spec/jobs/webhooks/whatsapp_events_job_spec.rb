@@ -504,4 +504,48 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(wb_params)
     end
   end
+
+  context 'when the payload is an account_update event' do
+    let(:waba_id) { '980198427658004' }
+    let(:account_update_params) do
+      {
+        phone_number: '+15550000000',
+        object: 'whatsapp_business_account',
+        entry: [{
+          id: '2949482758682047',
+          time: 1_748_477_359,
+          changes: [{
+            field: 'account_update',
+            value: { event: event, waba_info: { waba_id: waba_id, owner_business_id: '2329417887457253' } }
+          }]
+        }]
+      }
+    end
+
+    before do
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'business_account_id' => waba_id))
+    end
+
+    context 'with PARTNER_REMOVED' do
+      let(:event) { 'PARTNER_REMOVED' }
+
+      it 'prompts reauthorization for the embedded signup channel on that WABA' do
+        job.perform_now(account_update_params)
+
+        expect(channel.reload.reauthorization_required?).to be true
+      end
+    end
+
+    context 'with another account_update event' do
+      let(:event) { 'PARTNER_ADDED' }
+
+      it 'does not change the channel' do
+        expect(Whatsapp::PartnerRemovedService).not_to receive(:new)
+
+        job.perform_now(account_update_params)
+
+        expect(channel.reload.reauthorization_required?).to be false
+      end
+    end
+  end
 end

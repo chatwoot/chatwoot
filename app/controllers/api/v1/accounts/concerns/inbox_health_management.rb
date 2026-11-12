@@ -2,8 +2,8 @@ module Api::V1::Accounts::Concerns::InboxHealthManagement
   extend ActiveSupport::Concern
 
   included do
-    skip_before_action :check_authorization, only: [:health, :register_webhook]
-    before_action :check_admin_authorization?, only: [:register_webhook]
+    skip_before_action :check_authorization, only: [:health, :register_webhook, :release_whatsapp_number]
+    before_action :check_admin_authorization?, only: [:register_webhook, :release_whatsapp_number]
     before_action :validate_health_supported_channel, only: [:health, :register_webhook]
   end
 
@@ -55,6 +55,15 @@ module Api::V1::Accounts::Concerns::InboxHealthManagement
   rescue StandardError => e
     Rails.logger.error "[INBOX WEBHOOK] Webhook registration failed: #{e.message}"
     render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  # The dashboard calls this before deleting the inbox, while its token still works, and deletes only on success.
+  def release_whatsapp_number
+    Whatsapp::PhoneNumberReleaseService.new(@inbox.channel).perform
+
+    head :no_content
+  rescue CustomExceptions::WhatsappNumberReleaseError => e
+    render_error_response(e)
   end
 
   def whatsapp_business_management_token

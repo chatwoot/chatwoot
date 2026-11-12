@@ -323,6 +323,14 @@ export const actions = {
       throw new Error(error.message);
     }
   },
+  // Deregisters the number from Cloud API before its inbox is deleted; rejects with Meta's reason on failure.
+  releaseWhatsappNumber: async (_, inboxId) => {
+    try {
+      await InboxesAPI.releaseWhatsappNumber(inboxId);
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+  },
   deleteInboxAvatar: async (_, inboxId) => {
     try {
       await InboxesAPI.deleteInboxAvatar(inboxId);
