@@ -7,6 +7,10 @@ class AutomationRuleListener < BaseListener
     process_conversation_event(event, 'conversation_created')
   end
 
+  def conversation_viewed(event)
+    process_conversation_event(event, 'conversation_viewed')
+  end
+
   def conversation_opened(event)
     process_conversation_event(event, 'conversation_opened')
   end
