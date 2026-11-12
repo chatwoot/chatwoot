@@ -1764,6 +1764,7 @@
       "ACTIONS": {
         "MANAGE_TOOLS": "Manage tools",
         "SIGN_IN": "Sign in",
+        "RECONNECT": "Reconnect",
         "UPDATE_TOKEN": "Update token",
         "DELETE": "Remove server"
       },
