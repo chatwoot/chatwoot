@@ -68,16 +68,35 @@ document.addEventListener('keydown', event => {
   if (event.key === 'Escape') closeDropdowns();
 });
 
-// Administrate's table.js opens a row on click, Enter and Space unless the
-// target is a link, so a button inside a row has to stop the event first.
-document.addEventListener(
-  'keydown',
-  event => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    if (event.target.matches('.js-table-row button')) event.stopPropagation();
-  },
-  true
-);
+// Administrate 1.0 uses a Stimulus controller for row navigation. Super Admin's
+// custom tables handle clicks and keyboard activation here to keep full page loads.
+document.addEventListener('click', event => {
+  const row = event.target.closest('tr[data-row-url]');
+  if (
+    !row ||
+    event.defaultPrevented ||
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey
+  )
+    return;
+  if (
+    event.target.closest('a, button, input, select, textarea, label') ||
+    window.getSelection()?.toString()
+  )
+    return;
+
+  window.location.assign(row.dataset.rowUrl);
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+  if (!event.target.matches('tr[data-row-url]')) return;
+
+  event.preventDefault();
+  window.location.assign(event.target.dataset.rowUrl);
+});
 
 document.addEventListener(
   'click',
@@ -254,8 +273,7 @@ const initializeBannerForm = () => {
     });
   };
 
-  // Selectize reports changes through jQuery, which native listeners never hear.
-  window.jQuery(type).on('change', updateFields);
+  type.addEventListener('change', updateFields);
   updateFields();
 };
 
