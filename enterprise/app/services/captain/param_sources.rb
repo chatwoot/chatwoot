@@ -28,7 +28,7 @@ module Captain::ParamSources
     return [I18n.t('captain.param_sources.unknown_param', tool: tool_name, names: unknown.join(', '))] if unknown.any?
 
     errors = entries.filter_map do |param, entry|
-      type = properties.dig(param, 'type')
+      type = property_type(properties[param])
       problem = entry_problem(entry) || fixed_type_problem(entry, type)
       I18n.t("captain.param_sources.#{problem}", tool: tool_name, name: param, type: type) if problem
     end
@@ -38,6 +38,16 @@ module Captain::ParamSources
   # Whether the customer proves the value, so a tool that uses it runs only for a verified customer
   def self.proven?(entry)
     entry['source'] == VERIFIED_EMAIL
+  end
+
+  # The JSON type of a parameter in an input schema. A nullable parameter has one type besides null, written as a type
+  # list or as anyOf or oneOf branches, as MCP SDKs describe optional parameters. Any other shape has no single type, so a
+  # fixed value for it stays text.
+  def self.property_type(property)
+    return unless property.is_a?(Hash)
+
+    types = (declared_types(property) - ['null']).uniq
+    types.first if types.one?
   end
 
   # Raises Unavailable when the value cannot be read for this conversation. A fixed value takes the parameter's type.
@@ -66,6 +76,14 @@ module Captain::ParamSources
     :fixed_value_blank if entry['source'] == FIXED && entry['value'].blank?
   end
   private_class_method :entry_problem
+
+  def self.declared_types(property)
+    branches = property['anyOf'] || property['oneOf']
+    return Array(property['type']) unless branches.is_a?(Array)
+
+    branches.select { |branch| branch.is_a?(Hash) }.flat_map { |branch| Array(branch['type']) }
+  end
+  private_class_method :declared_types
 
   def self.fixed_value(text, type)
     convert = FIXED_TYPES[type]

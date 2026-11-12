@@ -48,6 +48,17 @@ RSpec.describe Captain::ToolArguments do
     it 'sends a fixed value in the type the approved schema declares' do
       expect(arguments.fill({})).to eq({ email: 'jane@example.com', limit: 20 })
     end
+
+    context 'when the parameter is nullable' do
+      let(:tool) do
+        properties = { 'limit' => { 'anyOf' => [{ 'type' => 'integer' }, { 'type' => 'null' }] } }
+        Captain::McpTool.new(param_sources: entries, settings: settings, approved_definition: { 'input_schema' => { 'properties' => properties } })
+      end
+
+      it 'sends the fixed value in the non-null type' do
+        expect(arguments.fill({})).to eq({ email: 'jane@example.com', limit: 20 })
+      end
+    end
   end
 
   describe '#fill_unproven' do

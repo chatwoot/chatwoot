@@ -40,6 +40,6 @@ class Captain::ToolArguments
   end
 
   def property_type(name)
-    @tool.input_schema.to_h.dig('properties', name, 'type')
+    Captain::ParamSources.property_type(@tool.input_schema.to_h.dig('properties', name))
   end
 end

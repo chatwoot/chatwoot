@@ -40,6 +40,14 @@ RSpec.describe Captain::ParamSources do
                                          'list_invoices parameter paid needs a fixed value of type boolean'])
     end
 
+    it 'checks a fixed value against the one type of a nullable parameter' do
+      properties.merge!('page' => { 'type' => %w[integer null] }, 'paid' => { 'anyOf' => [{ 'type' => 'boolean' }, { 'type' => 'null' }] })
+      entries = { 'page' => 'two', 'paid' => 'yes' }.transform_values { |value| { 'source' => 'fixed', 'value' => value } }
+
+      expect(errors_for(entries)).to eq(['list_invoices parameter page needs a fixed value of type integer',
+                                         'list_invoices parameter paid needs a fixed value of type boolean'])
+    end
+
     it 'rejects a verified email on a parameter that is not a string' do
       expect(errors_for({ 'limit' => { 'source' => 'verified.email' } }))
         .to eq(['list_invoices parameter limit must be a string to take the verified email'])
