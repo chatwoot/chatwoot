@@ -17,7 +17,11 @@ RSpec.describe Captain::Tools::McpTool do
     server.tools.first
   end
   let(:ok_result) { instance_double(RubyLLM::MCP::Result, text: 'ok', structured: nil, error?: false) }
-  let(:connection) { instance_double(Captain::Mcp::Connection, call: ok_result, live_tool_definitions: [definition]) }
+  let(:connection) do
+    instance_double(Captain::Mcp::Connection, call: ok_result, live_tool_definitions: [definition]).tap do |double|
+      allow(double).to receive(:track_status).and_yield
+    end
+  end
   let(:tool) { Captain::Mcp::AgentTools.build(assistant, mcp_tool, connection, base_class: base_class) }
   let(:verified_email) { 'jane@example.com' }
 
@@ -68,6 +72,28 @@ RSpec.describe Captain::Tools::McpTool do
 
       expect(tool.perform(tool_context, status: 'open')).to eq('An error occurred while calling the tool')
       expect(connection).not_to have_received(:call)
+    end
+  end
+
+  describe 'a call the server refuses after it listed the tools' do
+    let(:base_class) { Captain::Tools::PublicMcpTool }
+    let(:connection) { Captain::Mcp::Connection.new(server) }
+
+    before { allow(connection).to receive(:live_tool_definitions).and_return([definition]) }
+
+    it 'marks the server as needing new credentials when the call is unauthorized' do
+      allow(connection).to receive(:call).and_raise(RubyLLM::UnauthorizedError)
+
+      expect(tool.perform(tool_context, status: 'open')).to eq('An error occurred while calling the tool')
+      expect(server.reload).to be_needs_credentials
+    end
+
+    it 'records why when the call fails for another reason' do
+      allow(connection).to receive(:call).and_raise(Faraday::ConnectionFailed, 'connection refused')
+
+      tool.perform(tool_context, status: 'open')
+
+      expect(server.reload).to have_attributes(status: 'active', last_error: 'connection refused')
     end
   end
 

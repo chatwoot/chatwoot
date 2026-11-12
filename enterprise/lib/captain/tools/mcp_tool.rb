@@ -45,7 +45,8 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
   def call_tool(tool_context, arguments)
     return failure_result(UNAVAILABLE, tool_context.state) unless approved_definition_live?
 
-    result = @connection.call(@mcp_tool.name, arguments)
+    # The call records what it says about the credentials, as a listing does, so a refused call reaches the server card
+    result = @connection.track_status { @connection.call(@mcp_tool.name, arguments) }
     return reported_failure(result, tool_context) if result.error?
 
     result_text(result)
