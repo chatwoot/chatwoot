@@ -1,3 +1,6 @@
+# KEY_ERRORS names Google's error classes when this file loads, which can happen before ProcessorService requires the gem.
+require 'google/cloud/translate/v3'
+
 module Integrations::GoogleTranslate::CredentialsValidator
   KEY_FIELDS = %w[client_email private_key].freeze
   # Errors Google's client raises for a broken or rejected key. Its auth library raises a bare RuntimeError
