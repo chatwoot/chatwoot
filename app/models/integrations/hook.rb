@@ -38,7 +38,7 @@ class Integrations::Hook < ApplicationRecord
   validate :ensure_exclusive_bot_provider, if: -> { dialogflow? && enabled? }
   validate :validate_openai_api_key, if: :validate_openai_api_key?
   validate :validate_cloudflare_realtimekit_credentials, if: :validate_cloudflare_realtimekit_credentials?
-  validate :validate_google_translate_credentials, on: :create, if: :google_translate?
+  validate :validate_google_translate_credentials, if: -> { google_translate? && will_save_change_to_settings? }
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   # TODO: This seems to be only used for slack at the moment

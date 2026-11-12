@@ -7,12 +7,12 @@ class Captain::Conversation::MessageLanguageService
   # so numbers, emoji and punctuation do not make a short message look long.
   NO_SPACE_CHARACTER = /[\p{Han}\p{Hiragana}\p{Katakana}\p{Thai}\p{Lao}\p{Khmer}\p{Myanmar}]/
 
-  pattr_initialize [:conversation!, :message!]
+  pattr_initialize [:conversation!, :message!, { translator: nil }]
 
   def perform
     return message.source_language if message.source_language.present?
 
-    language = Captain::Conversation::TranslatorService.new(account: conversation.account).language(message.content)
+    language = translator.language(message.content)
     return if language.blank?
 
     message.with_lock { message.update!(source_language: language) }
@@ -21,6 +21,10 @@ class Captain::Conversation::MessageLanguageService
   end
 
   private
+
+  def translator
+    @translator ||= Captain::Conversation::TranslatorService.new(account: conversation.account)
+  end
 
   # Any recent message can change the result, because the dashboard detects messages in parallel and the newest
   # one may finish before the older ones.
