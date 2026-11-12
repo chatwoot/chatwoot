@@ -232,19 +232,30 @@ function install_dependencies() {
   npm install -g pnpm
 }
 
-# Check the native API that Rails requires through ruby-vips.
-function libvips_supports_operation_blocking() {
-  python3 -c 'from ctypes import CDLL; CDLL("libvips.so.42").vips_block_untrusted_set' 2>/dev/null
+# Check Rails' required API and the GIF encoder used for image variants.
+function libvips_is_compatible() {
+  python3 - 2>/dev/null <<'PY'
+from ctypes import CDLL, c_char_p, c_size_t
+
+vips = CDLL('libvips.so.42')
+if vips.vips_init(b'chatwoot-libvips-check') != 0:
+    raise SystemExit(1)
+
+vips.vips_block_untrusted_set(1)
+vips.vips_type_find.argtypes = [c_char_p, c_char_p]
+vips.vips_type_find.restype = c_size_t
+raise SystemExit(0 if vips.vips_type_find(b'VipsOperation', b'gifsave') else 1)
+PY
 }
 
 function install_libvips() (
-  if libvips_supports_operation_blocking; then
+  if libvips_is_compatible; then
     return
   fi
 
   apt-get update
   apt-get install -y libvips
-  if libvips_supports_operation_blocking; then
+  if libvips_is_compatible; then
     return
   fi
 
@@ -256,7 +267,7 @@ function install_libvips() (
 
   apt-get install -y --no-install-recommends build-essential ca-certificates curl ninja-build pkg-config python3-venv xz-utils \
     libglib2.0-dev libexpat1-dev libjpeg-dev libpng-dev libwebp-dev libtiff-dev \
-    libheif-dev libexif-dev liblcms2-dev
+    libheif-dev libexif-dev liblcms2-dev libimagequant-dev
 
   curl --fail --location --silent --show-error \
     "https://github.com/libvips/libvips/releases/download/v$vips_version/vips-$vips_version.tar.xz" --output "$archive"
@@ -268,16 +279,35 @@ function install_libvips() (
   printf '%s\n' 'meson==1.8.5 --hash=sha256:15ab2cca08271bc055bc33a4929b7c58f15ad67df4c1fa65dc223e822b882bef' | \
     "$build_dir/venv/bin/python" -m pip install --require-hashes --only-binary=:all: -r /dev/stdin
   local meson="$build_dir/venv/bin/meson"
+
+  if apt-cache show libcgif-dev >/dev/null 2>&1; then
+    apt-get install -y --no-install-recommends libcgif-dev
+  else
+    # Ubuntu 20.04 has no libcgif-dev. Link cgif statically into libvips.
+    local cgif_version=0.5.4 cgif_archive="$build_dir/cgif.tar.gz"
+    curl --fail --location --silent --show-error \
+      "https://codeload.github.com/dloebl/cgif/tar.gz/refs/tags/v$cgif_version" --output "$cgif_archive"
+    printf '%s  %s\n' '83a70a15bc2da41f081a44ebc58ee48e2e1d524a6d3fdb4a24064afa08d5ad4d' "$cgif_archive" | sha256sum --check
+    tar -xf "$cgif_archive" -C "$build_dir"
+    "$meson" setup "$build_dir/cgif-build" "$build_dir/cgif-$cgif_version" \
+      --prefix="$build_dir/cgif" --libdir=lib --buildtype=release --default-library=static --wrap-mode=nodownload
+    "$meson" install -C "$build_dir/cgif-build"
+    export PKG_CONFIG_PATH="$build_dir/cgif/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+  fi
+
   "$meson" setup "$build_dir/build" "$build_dir/vips-$vips_version" \
-    --prefix=/usr/local --libdir=lib/chatwoot-libvips --buildtype=release --wrap-mode=nodownload -Dintrospection=disabled
+    --prefix=/usr/local --libdir=lib/chatwoot-libvips --buildtype=release --wrap-mode=nodownload \
+    -Dintrospection=disabled -Dcgif=enabled -Dimagequant=enabled
   "$meson" compile -C "$build_dir/build" -j 2
+  # Use the new build before replacing any installed library.
+  VIPS_BLOCK_UNTRUSTED=1 "$build_dir/build/tools/vips" black "$build_dir/probe.gif" 2 2 --bands 3
   "$meson" install -C "$build_dir/build"
   # Resolve the newer library before Ubuntu's copy with the same SONAME.
   printf '%s\n' '/usr/local/lib/chatwoot-libvips' >| /etc/ld.so.conf.d/00-chatwoot-libvips.conf
   ldconfig
 
-  if ! libvips_supports_operation_blocking; then
-    echo "Unable to load libvips with operation blocking. Chatwoot requires libvips 8.13 or later." >&2
+  if ! libvips_is_compatible; then
+    echo "Chatwoot requires libvips 8.13 or later with operation blocking and GIF encoding." >&2
     return 1
   fi
 )
