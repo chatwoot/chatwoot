@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Captain::Mcp::ToolChangeCheckJob do
   let(:definition) { { 'name' => 'list_invoices', 'description' => 'List invoices', 'input_schema' => {}, 'read_only' => true } }
-  let(:connection) { instance_double(Captain::Mcp::Connection, recent_tool_definitions: [definition]) }
+  let(:connection) { instance_double(Captain::Mcp::Connection, live_tool_definitions: [definition]) }
 
   def create_server_with_tool(account)
     assistant = create(:captain_assistant, account: account)

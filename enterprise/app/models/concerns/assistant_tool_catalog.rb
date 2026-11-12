@@ -20,8 +20,9 @@ module Concerns::AssistantToolCatalog
     self.class.built_in_tool_ids + custom_tools.pluck(:slug) + mcp_tools.pluck(:captain_name)
   end
 
-  # One instance per assistant record, so each MCP server is listed once while the agents of a run are built.
-  # A run loads the assistant once, so the instance lasts as long as the run.
+  # One instance per assistant record, so the agents of a run share one connection per MCP server, and a server is
+  # listed at most once when the model calls its tools. A run loads the assistant once, so the instance lasts as long as
+  # the run.
   def mcp_agent_tools
     @mcp_agent_tools ||= Captain::Mcp::AgentTools.new(self)
   end

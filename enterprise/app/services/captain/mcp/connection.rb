@@ -2,8 +2,6 @@
 # Every MCP and OAuth request goes through the SafeFetch address checks.
 class Captain::Mcp::Connection
   TIMEOUT = 30
-  # A run or the hourly check reuses a listing for this long, so a burst of messages lists each server once
-  LISTING_TTL = 1.minute
   # The server answered, but the MCP client could not read the answer
   class InvalidResponse < StandardError; end
 
@@ -50,24 +48,14 @@ class Captain::Mcp::Connection
     raise InvalidResponse, "The server sent a tool list Captain could not read (#{e.class})"
   end
 
-  # The tool definitions for a run or the hourly check, reused for LISTING_TTL. The tools page and approval list the
-  # server live with live_tool_definitions, because an admin compares what it offers now, and that listing replaces the
-  # reused one, so the next run sees what the admin saw. A failed listing is not kept, so the next run tries again.
+  # Lists the server with the saved credentials and records what the request says about them. RubyLLM keeps the
+  # listing for the life of this connection, so a run that calls several tools on one server lists it once.
   #
-  # Known limit: while a server hangs, every run waits for the timeouts (about 40 seconds, RubyLLM's 10 second discovery
-  # plus TIMEOUT) before it skips the server, and holds a Sidekiq thread meanwhile. Runs also list servers that need new
-  # credentials, and the MCP session is never closed. A short Redis mark after a failed listing, skipping needs_credentials
-  # servers in Captain::Mcp::AgentTools, and closing the connections after a run would remove these costs.
-  def recent_tool_definitions
-    cached = ::Redis::Alfred.get(listing_key)
-    return JSON.parse(cached) if cached
-
-    live_tool_definitions
-  end
-
-  # Lists the server now with the saved credentials, and keeps the listing for the runs that follow
+  # Known limit: while a server hangs, the call that lists it waits for the timeouts (about 40 seconds, RubyLLM's
+  # 10 second discovery plus TIMEOUT) and holds a Sidekiq thread meanwhile. Only a run that calls one of the server's
+  # tools pays this. The MCP session is never closed.
   def live_tool_definitions
-    track_status { tool_definitions }.tap { |definitions| ::Redis::Alfred.setex(listing_key, definitions.to_json, LISTING_TTL) }
+    track_status { tool_definitions }
   end
 
   # RubyLLM exposes the server's name only through its private server info
@@ -95,10 +83,6 @@ class Captain::Mcp::Connection
   end
 
   private
-
-  def listing_key
-    format(::Redis::RedisKeys::CAPTAIN_MCP_TOOL_LISTING, server_id: @server.id)
-  end
 
   # Each server has its own context, because RubyLLM reads the credential store from the context config
   def context

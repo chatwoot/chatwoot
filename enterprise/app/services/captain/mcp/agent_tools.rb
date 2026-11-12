@@ -1,13 +1,13 @@
-# The MCP tools of one run. A tool is usable only while its live definition matches the approved one, so a server
-# cannot change what Captain sees or sends without an admin approving the change. Every enabled tool is offered: one
-# that is not usable answers that it is unavailable and never calls its server. A scenario that names a tool therefore
-# always matches the tools its agent has.
-# Each server is listed once per instance, and a server that cannot be listed makes its tools unavailable for the run.
+# The MCP tools of one run, built from each approved tool's stored review state without calling any server. Every
+# enabled tool is offered, so a scenario that names a tool always matches the tools its agent has. A tool the last
+# listing found changed or missing, or whose server rejected its credentials, answers that it is unavailable. A current
+# tool still compares the server's live definition with the approved one when the model calls it, so a server cannot
+# change what Captain sends without an admin approving the change. Each server gets one connection per run.
 class Captain::Mcp::AgentTools
   # Isolated namespace for the generated tool classes, as Concerns::Toolable does for custom tools
   module Generated; end
 
-  # An approved tool, with the connection that listed it when it matches its live definition, or nil when it does not
+  # An approved tool, with the run's connection to its server when the tool is current, or nil when it is not
   Entry = Struct.new(:mcp_tool, :connection) do
     def usable?
       connection.present?
@@ -72,14 +72,9 @@ class Captain::Mcp::AgentTools
     @entries ||= Captain::McpServer.enabled_for(@assistant).flat_map { |server| entries_on(server) }
   end
 
+  # A server that rejected its credentials cannot answer until an admin signs in again, so its tools are unavailable
   def entries_on(server)
-    return [] if server.available_tools.empty?
-
-    connection = Captain::Mcp::Connection.new(server)
-    server.record_live_tools(connection.recent_tool_definitions)
+    connection = Captain::Mcp::Connection.new(server) unless server.needs_credentials?
     server.available_tools.map { |mcp_tool| Entry.new(mcp_tool, mcp_tool.review_current? ? connection : nil) }
-  rescue *Captain::Mcp::Connection::ERRORS => e
-    Rails.logger.warn("Captain MCP server #{server.id} could not be listed: #{e.class} - #{e.message}")
-    server.available_tools.map { |mcp_tool| Entry.new(mcp_tool, nil) }
   end
 end
