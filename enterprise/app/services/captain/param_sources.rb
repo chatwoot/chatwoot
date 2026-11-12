@@ -16,6 +16,8 @@ module Captain::ParamSources
     'number' => ->(text) { Float(text) },
     'boolean' => ->(text) { { 'true' => true, 'false' => false }.fetch(text.strip.downcase) }
   }.freeze
+  # The types a fixed value can fill: text as typed, or text converted to one of FIXED_TYPES
+  FIXED_VALUE_TYPES = (['string'] + FIXED_TYPES.keys).freeze
 
   # The message tells the model why the value is missing and what to do next
   class Unavailable < StandardError; end
@@ -94,6 +96,7 @@ module Captain::ParamSources
   # A fixed value must convert to its parameter's type, so a call never sends a value of the wrong type
   def self.fixed_type_problem(entry, type)
     return unless entry['source'] == FIXED
+    return :fixed_value_unsupported if type && FIXED_VALUE_TYPES.exclude?(type)
 
     fixed_value(entry['value'], type)
     nil

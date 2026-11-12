@@ -40,6 +40,14 @@ RSpec.describe Captain::ParamSources do
                                          'list_invoices parameter paid needs a fixed value of type boolean'])
     end
 
+    it 'rejects a fixed value on a list or object parameter, which a fixed text cannot fill' do
+      properties.merge!('ids' => { 'type' => 'array' }, 'filter' => { 'type' => %w[object null] })
+      entries = { 'ids' => '[1,2]', 'filter' => '{"status":"open"}' }.transform_values { |value| { 'source' => 'fixed', 'value' => value } }
+
+      expect(errors_for(entries)).to eq(['list_invoices parameter ids is of type array and cannot take a fixed value',
+                                         'list_invoices parameter filter is of type object and cannot take a fixed value'])
+    end
+
     it 'checks a fixed value against the one type of a nullable parameter' do
       properties.merge!('page' => { 'type' => %w[integer null] }, 'paid' => { 'anyOf' => [{ 'type' => 'boolean' }, { 'type' => 'null' }] })
       entries = { 'page' => 'two', 'paid' => 'yes' }.transform_values { |value| { 'source' => 'fixed', 'value' => value } }
