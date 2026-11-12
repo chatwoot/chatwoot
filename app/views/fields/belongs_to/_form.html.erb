@@ -1,10 +1,8 @@
 <%= render "field", f: f, field: field, attribute: field.permitted_attribute do %>
-  <%# Administrate turns selects inside this class into searchable selectize inputs. %>
-  <div class="field-unit--belongs-to">
-    <%= f.select(
-          field.permitted_attribute,
-          options_for_select(field.associated_resource_options, field.selected_option),
-          include_blank: field.include_blank_option
-        ) %>
-  </div>
+  <%= f.select(
+        field.permitted_attribute,
+        options_for_select(field.associated_resource_options, field.selected_option),
+        { include_blank: field.include_blank_option },
+        class: ui(:select)
+      ) %>
 <% end %>

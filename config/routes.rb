@@ -130,6 +130,7 @@ Rails.application.routes.draw do
               member do
                 get :live_tools
                 get :authorization_url
+                post :approve_tool
               end
             end
             resource :tools_manifest, only: [] do
@@ -724,8 +725,8 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
-  resource :app, only: [:index] do
-    resources :accounts do
+  scope path: 'app', as: 'app' do
+    resources :accounts, only: [:show] do
       resources :conversations, only: [:show]
     end
   end

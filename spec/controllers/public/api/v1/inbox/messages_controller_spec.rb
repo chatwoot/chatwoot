@@ -109,4 +109,38 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
+
+  context 'when the inbox requires HMAC' do
+    let(:contact) { create(:contact, account: api_channel.account, email: 'contact@example.com', identifier: 'contact-identifier') }
+    let(:messages_path) do
+      "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{conversation.display_id}/messages"
+    end
+
+    before { api_channel.update!(hmac_mandatory: true) }
+
+    it 'does not return messages without a valid identifier hash' do
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
+
+      get messages_path
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'does not create a message without a valid identifier hash' do
+      expect do
+        post messages_path, params: { content: 'hello', identifier_hash: 'invalid' }
+      end.not_to change(Message, :count)
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'creates a message with the identifier hash of the contact' do
+      identifier_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, contact.identifier)
+
+      post messages_path, params: { content: 'hello', identifier: contact.identifier, identifier_hash: identifier_hash }
+
+      expect(response).to have_http_status(:success)
+      expect(conversation.messages.incoming.last.content).to eq('hello')
+    end
+  end
 end
