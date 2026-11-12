@@ -7,7 +7,8 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 
   def perform(params = {})
     # account_update events are WABA-level and carry no phone metadata, so they never resolve to a channel.
-    return handle_account_update(params) if account_update_event?(params)
+    account_updates = account_update_changes(params)
+    return account_updates.each { |change| handle_account_update(change[:value]) } if account_updates.any?
 
     channel = find_channel_from_whatsapp_business_payload(params)
 
@@ -161,14 +162,16 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     (channel.provider_config || {}).to_h['source'] == 'embedded_signup'
   end
 
-  def account_update_event?(params)
-    params[:object] == 'whatsapp_business_account' && params.dig(:entry, 0, :changes, 0, :field) == 'account_update'
+  # Meta can batch several entries and changes into one delivery, e.g. removals from two WABAs.
+  def account_update_changes(params)
+    return [] unless params[:object] == 'whatsapp_business_account'
+
+    Array(params[:entry]).flat_map { |entry| Array(entry[:changes]) }.select { |change| change[:field] == 'account_update' }
   end
 
   # Only PARTNER_REMOVED is acted on today; other account_update events are ignored as before.
-  def handle_account_update(params)
-    value = params.dig(:entry, 0, :changes, 0, :value) || {}
-    return unless value[:event] == 'PARTNER_REMOVED'
+  def handle_account_update(value)
+    return unless value&.dig(:event) == 'PARTNER_REMOVED'
 
     Whatsapp::PartnerRemovedService.new(value.dig(:waba_info, :waba_id)).perform
   end

@@ -353,7 +353,6 @@ Rails.application.routes.draw do
             put :whatsapp_business_management_token, on: :member
             get :health, on: :member
             post :register_webhook, on: :member
-            post :release_whatsapp_number, on: :member
             post :reset_secret, on: :member
             post :rotate_hmac_token, on: :member
             if ChatwootApp.enterprise?

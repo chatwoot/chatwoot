@@ -536,6 +536,27 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       end
     end
 
+    context 'with PARTNER_REMOVED for two WABAs in one delivery' do
+      let(:event) { 'PARTNER_REMOVED' }
+      let(:other_waba_id) { '880198427658005' }
+      let!(:other_channel) do
+        create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false).tap do |whatsapp_channel|
+          whatsapp_channel.update!(provider_config: whatsapp_channel.provider_config.merge('source' => 'embedded_signup',
+                                                                                           'business_account_id' => other_waba_id))
+        end
+      end
+
+      it 'prompts reauthorization on both' do
+        other_change = { field: 'account_update', value: { event: 'PARTNER_REMOVED', waba_info: { waba_id: other_waba_id } } }
+        account_update_params[:entry] << { id: '2949482758682047', time: 1_748_477_360, changes: [other_change] }
+
+        job.perform_now(account_update_params)
+
+        expect(channel.reload.reauthorization_required?).to be true
+        expect(other_channel.reload.reauthorization_required?).to be true
+      end
+    end
+
     context 'with another account_update event' do
       let(:event) { 'PARTNER_ADDED' }
 
