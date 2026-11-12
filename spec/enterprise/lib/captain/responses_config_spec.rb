@@ -46,7 +46,7 @@ RSpec.describe Captain::ResponsesConfig do
     InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
 
     expect(described_class.options(model: 'gpt-6-luna', temperature: 0.7, feature: 'copilot')).to eq(temperature: 0.7)
-    expect(described_class.options(model: 'gpt-5-mini', temperature: 0.7, feature: 'copilot')).to eq(temperature: nil)
+    expect(described_class.options(model: 'gpt-5.1', temperature: 0.7, feature: 'copilot')).to eq(temperature: nil)
   end
 
   it 'reports Chat Completions and omits effort when thinking is not configured' do
