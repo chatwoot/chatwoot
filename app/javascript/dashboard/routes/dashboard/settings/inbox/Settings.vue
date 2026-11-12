@@ -227,8 +227,10 @@ export default {
         ];
       }
 
+      // A Twilio SMS or voice inbox's webhooks are checked on its Health tab; Twilio WhatsApp
+      // keeps this tab for template sync
       if (
-        this.isATwilioChannel ||
+        this.isATwilioWhatsAppChannel ||
         this.isBandwidthInbox ||
         this.isALineChannel ||
         this.isAPIInbox ||

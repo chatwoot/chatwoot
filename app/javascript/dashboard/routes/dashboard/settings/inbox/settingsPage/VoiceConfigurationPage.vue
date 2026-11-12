@@ -216,7 +216,7 @@ const save = async () => {
             />
             <label
               v-if="form.ringStrategy === SEQUENTIAL"
-              class="flex items-center gap-2 mb-0 ps-7 text-body-main text-n-slate-12"
+              class="flex items-center gap-2 mb-0 text-body-main text-n-slate-12"
             >
               {{ label('INCOMING.STEP') }}
               <Select
@@ -325,7 +325,6 @@ const save = async () => {
           <CallSettingsOption
             v-model="form.recordingEnabled"
             :label="label('AFTER_CALL.RECORD')"
-            :help="label('AFTER_CALL.RECORD_HELP')"
           />
           <CallSettingsOption
             v-if="form.recordingEnabled"
