@@ -215,6 +215,26 @@ RSpec.describe Integrations::Hook do
     end
   end
 
+  describe 'google translate credential validation' do
+    let!(:hook) do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+      create(:integrations_hook, :google_translate)
+    end
+
+    it 'rejects a broken key saved on an existing hook' do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(false)
+
+      expect(hook.update(settings: { project_id: 'test', credentials: { 'private_key' => 'sample' } })).to be(false)
+      expect(hook.errors[:base]).to include(I18n.t('errors.google_translate.invalid_credentials'))
+    end
+
+    it 'does not call Google when only the status changes' do
+      expect(Integrations::GoogleTranslate::CredentialsValidator).not_to receive(:valid?)
+
+      hook.update!(status: :disabled)
+    end
+  end
+
   describe 'cloudflare realtimekit credential validation' do
     let(:account) { create(:account) }
     let(:settings) { { 'account_id' => 'account_id', 'app_id' => 'app_id', 'api_token' => 'api_token' } }
