@@ -6,7 +6,7 @@ import {
   isEmailLikeParam,
   isIdLikeParam,
 } from 'dashboard/components-next/captain/pageComponents/customTool/toolRisk';
-import { PARAM_SOURCES } from './mcpTools';
+import { PARAM_SOURCES, canTakeFixedValue } from './mcpTools';
 
 const props = defineProps({
   param: { type: Object, required: true },
@@ -41,6 +41,8 @@ const options = computed(() => [
   {
     value: PARAM_SOURCES.FIXED,
     label: t('CAPTAIN.MCP_SERVERS.DIALOG.SOURCES.FIXED'),
+    disabled:
+      !canTakeFixedValue(props.param) && source.value !== PARAM_SOURCES.FIXED,
   },
 ]);
 
