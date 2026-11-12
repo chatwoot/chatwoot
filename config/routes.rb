@@ -330,6 +330,7 @@ Rails.application.routes.draw do
               member do
                 post :accept
                 post :reject
+                post :dismiss
                 post :terminate
                 post :upload_recording
               end
@@ -367,6 +368,7 @@ Rails.application.routes.draw do
               post :set_call_recording, on: :member
               resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
               resource :call_routing, only: [:update], controller: 'inboxes/call_routings'
+              resource :call_callback_permission, only: [:update], controller: 'inboxes/call_callback_permissions'
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do

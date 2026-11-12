@@ -35,7 +35,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   # Stops the ring for this agent only; the caller keeps waiting for the others
   def dismiss
-    Voice::Provider::Twilio::ConferenceService.new(call: resolve_call!).dismiss(Current.user)
+    Voice::RingDismissService.new(call: resolve_call!, user: Current.user).perform
     head :ok
   end
 

@@ -1,16 +1,21 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { useStore } from 'vuex';
+import { computed, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useAlert } from 'dashboard/composables';
 import InboxesAPI from 'dashboard/api/inboxes';
 import Select from 'dashboard/components-next/select/Select.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import CallSettingsSection from './calls/CallSettingsSection.vue';
 import CallSettingsOption from './calls/CallSettingsOption.vue';
+import CallWhoRings from './calls/CallWhoRings.vue';
+import CallAfterCall from './calls/CallAfterCall.vue';
 import TwilioCallConnection from './calls/TwilioCallConnection.vue';
 import { durationOptions } from './calls/callDurations';
+import {
+  useCallSettingsForm,
+  sharedSavedValues,
+  sharedSteps,
+} from './calls/useCallSettingsForm';
 
 // The Calls tab of a Twilio inbox. Calling is turned on and its connection managed on their own;
 // every other setting is saved together with Save changes.
@@ -22,78 +27,26 @@ const props = defineProps({
 });
 
 const MESSAGE_MAX_LENGTH = 1000;
-// Within the bounds the server accepts: 10–60 s interval, 10–300 s ring time, 0–600 s wrap-up
-const RING_STEP_PRESETS = [10, 15, 20, 30, 45, 60];
+// Within the 10–300 s ring time the server accepts
 const RING_TIME_PRESETS = [15, 30, 45, 60, 90, 120, 180, 300];
-const WRAP_UP_PRESETS = [0, 30, 60, 120, 300, 600];
-const SEQUENTIAL = 'sequential';
 
-const store = useStore();
 const { t } = useI18n();
 const label = key => t(`INBOX_MGMT.CALL_SETTINGS.${key}`);
 
 // A greeting switched off keeps its text on the server; the empty box is what turns it off here
-const saved = () => ({
-  inboundCallsEnabled: props.inbox.inbound_calls_enabled !== false,
+const savedValues = () => ({
+  ...sharedSavedValues(props.inbox),
   greeting: props.inbox.call_greeting_enabled
     ? props.inbox.call_greeting_message || ''
     : '',
-  ringStrategy: props.inbox.ring_strategy,
-  ringStepSeconds: props.inbox.ring_step_seconds,
-  assigneeRingsFirst: props.inbox.assignee_rings_first !== false,
   ringTimeSeconds: props.inbox.unanswered_call_timeout_seconds,
   missedCallMessage: props.inbox.unanswered_call_message || '',
-  businessHoursCallsEnabled: !!props.inbox.business_hours_calls_enabled,
-  callCooldownSeconds: props.inbox.call_cooldown_seconds,
-  recordingEnabled: props.inbox.recording_enabled !== false,
-  transcriptionEnabled: props.inbox.transcription_enabled !== false,
 });
-const form = ref(saved());
-const isSaving = ref(false);
 
-watch(
-  () => [props.inbox.id, JSON.stringify(saved())],
-  () => {
-    form.value = saved();
-  }
-);
-
-const changed = keys => {
-  const current = saved();
-  return keys.some(key => form.value[key] !== current[key]);
-};
-const greetingChanged = () => form.value.greeting.trim() !== saved().greeting;
-const isDirty = computed(
-  () =>
-    greetingChanged() ||
-    changed(Object.keys(form.value).filter(key => key !== 'greeting'))
-);
-
-const ringStepOptions = computed(() =>
-  durationOptions(t, RING_STEP_PRESETS, props.inbox.ring_step_seconds)
-);
-const ringTimeOptions = computed(() =>
-  durationOptions(
-    t,
-    RING_TIME_PRESETS,
-    props.inbox.unanswered_call_timeout_seconds
-  )
-);
-const wrapUpOptions = computed(() =>
-  durationOptions(t, WRAP_UP_PRESETS, props.inbox.call_cooldown_seconds)
-);
-
-// Each group goes to the endpoint that owns it, and only when something in it changed
-const saveSteps = () => {
+const buildSteps = (changed, values) => {
   const { id } = props.inbox;
-  const values = form.value;
-  const steps = [];
-  if (changed(['inboundCallsEnabled'])) {
-    steps.push(() =>
-      InboxesAPI.setInboundCalls(id, values.inboundCallsEnabled)
-    );
-  }
-  if (greetingChanged()) {
+  const steps = sharedSteps(id, changed, values);
+  if (changed(['greeting'])) {
     const message = values.greeting.trim();
     steps.push(() =>
       InboxesAPI.setCallAnnouncement(id, 'greeting', {
@@ -101,17 +54,6 @@ const saveSteps = () => {
         message,
       })
     );
-  }
-  if (
-    changed([
-      'ringStrategy',
-      'ringStepSeconds',
-      'assigneeRingsFirst',
-      'callCooldownSeconds',
-      'businessHoursCallsEnabled',
-    ])
-  ) {
-    steps.push(() => InboxesAPI.setCallRouting(id, values));
   }
   if (changed(['ringTimeSeconds', 'missedCallMessage'])) {
     steps.push(() =>
@@ -122,32 +64,22 @@ const saveSteps = () => {
       })
     );
   }
-  if (changed(['recordingEnabled', 'transcriptionEnabled'])) {
-    steps.push(() => InboxesAPI.setCallRecording(id, values));
-  }
   return steps;
 };
 
-const save = async () => {
-  if (isSaving.value) return;
-  isSaving.value = true;
-  try {
-    // One at a time, since each write merges into the same provider_config
-    await saveSteps().reduce(
-      (previous, step) => previous.then(step),
-      Promise.resolve()
-    );
-    useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-  } catch (error) {
-    const { data } = error?.response || {};
-    useAlert(
-      data?.message || data?.error || t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
-    );
-  } finally {
-    await store.dispatch('inboxes/get', props.inbox.id);
-    isSaving.value = false;
-  }
-};
+const { form, isSaving, isDirty, save } = useCallSettingsForm(
+  toRef(props, 'inbox'),
+  savedValues,
+  buildSteps
+);
+
+const ringTimeOptions = computed(() =>
+  durationOptions(
+    t,
+    RING_TIME_PRESETS,
+    props.inbox.unanswered_call_timeout_seconds
+  )
+);
 </script>
 
 <template>
@@ -195,51 +127,13 @@ const save = async () => {
               {{ label('INCOMING.GREETING_HELP') }}
             </p>
           </div>
-
-          <div class="flex flex-col gap-3">
-            <span class="text-heading-3 text-n-slate-12">
-              {{ label('INCOMING.WHO_RINGS') }}
-            </span>
-            <CallSettingsOption
-              v-model="form.ringStrategy"
-              value="simultaneous"
-              :name="`call-ring-strategy-${inbox.id}`"
-              :label="label('INCOMING.SIMULTANEOUS')"
-              :help="label('INCOMING.SIMULTANEOUS_HELP')"
-            />
-            <CallSettingsOption
-              v-model="form.ringStrategy"
-              :value="SEQUENTIAL"
-              :name="`call-ring-strategy-${inbox.id}`"
-              :label="label('INCOMING.SEQUENTIAL')"
-              :help="label('INCOMING.SEQUENTIAL_HELP')"
-            />
-            <label
-              v-if="form.ringStrategy === SEQUENTIAL"
-              class="flex items-center gap-2 mb-0 text-body-main text-n-slate-12"
-            >
-              {{ label('INCOMING.STEP') }}
-              <Select
-                v-model="form.ringStepSeconds"
-                :options="ringStepOptions"
-                :aria-label="label('INCOMING.STEP')"
-              />
-            </label>
-            <CallSettingsOption
-              v-model="form.assigneeRingsFirst"
-              :label="label('INCOMING.ASSIGNEE_FIRST')"
-              :help="label('INCOMING.ASSIGNEE_FIRST_HELP')"
-            />
-          </div>
-
-          <p
-            class="px-3 py-2 rounded-lg bg-n-teal-2 text-body-main text-n-slate-12"
-          >
-            <span class="font-medium text-n-teal-11">
-              {{ label('INCOMING.ALWAYS') }}
-            </span>
-            {{ label('INCOMING.ALWAYS_NOTE') }}
-          </p>
+          <CallWhoRings
+            v-model:ring-strategy="form.ringStrategy"
+            v-model:ring-step-seconds="form.ringStepSeconds"
+            v-model:assignee-rings-first="form.assigneeRingsFirst"
+            :inbox-id="inbox.id"
+            :saved-step-seconds="inbox.ring_step_seconds"
+          />
         </CallSettingsSection>
 
         <CallSettingsSection
@@ -307,30 +201,11 @@ const save = async () => {
           :title="label('AFTER_CALL.TITLE')"
           :description="label('AFTER_CALL.DESCRIPTION')"
         >
-          <div class="flex flex-col gap-1.5">
-            <label
-              class="flex items-center gap-2 mb-0 text-body-main text-n-slate-12"
-            >
-              {{ label('AFTER_CALL.WRAP_UP') }}
-              <Select
-                v-model="form.callCooldownSeconds"
-                :options="wrapUpOptions"
-                :aria-label="label('AFTER_CALL.WRAP_UP')"
-              />
-            </label>
-            <p class="text-body-main text-n-slate-11">
-              {{ label('AFTER_CALL.WRAP_UP_HELP') }}
-            </p>
-          </div>
-          <CallSettingsOption
-            v-model="form.recordingEnabled"
-            :label="label('AFTER_CALL.RECORD')"
-          />
-          <CallSettingsOption
-            v-if="form.recordingEnabled"
-            v-model="form.transcriptionEnabled"
-            :label="label('AFTER_CALL.TRANSCRIBE')"
-            :help="label('AFTER_CALL.TRANSCRIBE_HELP')"
+          <CallAfterCall
+            v-model:call-cooldown-seconds="form.callCooldownSeconds"
+            v-model:recording-enabled="form.recordingEnabled"
+            v-model:transcription-enabled="form.transcriptionEnabled"
+            :saved-cooldown-seconds="inbox.call_cooldown_seconds"
           />
         </CallSettingsSection>
       </div>

@@ -94,6 +94,12 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
+  setCallbackPermission(inboxId, enabled) {
+    return axios.patch(`${this.url}/${inboxId}/call_callback_permission`, {
+      callback_permission_enabled: enabled,
+    });
+  }
+
   setCallRouting(
     inboxId,
     {

@@ -56,10 +56,10 @@ class Voice::CallMessageBuilder
       'call_source' => call.provider,
       'call_direction' => call.direction_label,
       'status' => call.display_status
-    }.compact.merge(call.twilio? && call.incoming? ? ring_data : {})
+    }.compact.merge(call.incoming? ? ring_data : {})
   end
 
-  # Who an inbound Twilio call's ringing card shows for: those it rang who have not dismissed it.
+  # Who an inbound call's ringing card shows for: those it rang who have not dismissed it.
   # The dismissed are named too, since an agent missing from the ring may be yet to be reached.
   def ring_data
     { 'ring_user_ids' => call.ring_state.fetch('ring_recipient_ids', []) - call.dismissed_user_ids,

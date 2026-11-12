@@ -114,6 +114,90 @@ describe Whatsapp::IncomingCallService do
         expect(ActionCable.server).not_to have_received(:broadcast).with(calls_off_agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
       end
     end
+
+    context 'with the inbox routing' do
+      let!(:teammate) { create(:user, account: account) }
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+
+      before do
+        create(:inbox_member, inbox: inbox, user: teammate)
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      def incoming_streams
+        streams = []
+        expect(ActionCable.server).to have_received(:broadcast).at_least(:once) do |stream, payload|
+          streams << stream if payload[:event] == 'voice_call.incoming'
+        end
+        streams
+      end
+
+      it 'rings the agents it picked, names them on the message, and widens the ring every step' do
+        expect { described_class.new(inbox: inbox, params: params).perform }
+          .to have_enqueued_job(Voice::RingNextAgentJob).with(kind_of(Integer), 1)
+
+        call = Call.last
+        expect(call.ring_state['ring_recipient_ids']).to contain_exactly(agent.id, teammate.id)
+        expect(call.message.content_attributes.dig('data', 'ring_user_ids')).to contain_exactly(agent.id, teammate.id)
+        expect(incoming_streams).to contain_exactly(agent.pubsub_token, teammate.pubsub_token)
+      end
+
+      it 'leaves out an agent who is on another call' do
+        busy = create(:conversation, account: account, inbox: inbox)
+        create(:call, account: account, inbox: inbox, conversation: busy, contact: busy.contact, provider: :whatsapp,
+                      status: 'in_progress', accepted_by_agent: teammate)
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(incoming_streams).to eq([agent.pubsub_token])
+      end
+
+      it 'rings one agent at a time when the inbox is set to' do
+        channel.update!(provider_config: channel.provider_config.merge('ring_strategy' => 'sequential'))
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(Call.last.ring_state['ring_recipient_ids'].size).to eq(1)
+        expect(incoming_streams.size).to eq(1)
+      end
+
+      it 'keeps ringing when nobody is online, for an agent coming online during the ring' do
+        [agent, teammate].each { |user| user.account_users.first.update!(availability: :offline) }
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(Call.last).to be_ringing
+      end
+    end
+
+    context 'when outside business hours' do
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+      let(:provider_service) { instance_double(Whatsapp::Providers::WhatsappCloudService, reject_call: true) }
+
+      before do
+        inbox.update!(working_hours_enabled: true)
+        inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
+        allow(inbox.channel).to receive(:provider_service).and_return(provider_service)
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      it 'declines the call at Meta and logs it as missed, without ringing anyone' do
+        channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => true))
+
+        expect { described_class.new(inbox: inbox, params: params).perform }.not_to have_enqueued_job(Voice::RingNextAgentJob)
+
+        expect(provider_service).to have_received(:reject_call).with(provider_call_id)
+        expect(Call.last).to have_attributes(status: 'no_answer', end_reason: 'outside_working_hours')
+        expect(ActionCable.server).not_to have_received(:broadcast).with(anything, hash_including(event: 'voice_call.incoming'))
+      end
+
+      it 'rings as usual when the inbox does not apply business hours to calls' do
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(provider_service).not_to have_received(:reject_call)
+        expect(Call.last).to be_ringing
+      end
+    end
   end
 
   describe 'inbound connect from a username (BSUID) caller' do

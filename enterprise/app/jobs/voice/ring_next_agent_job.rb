@@ -1,12 +1,12 @@
-# Widens the ring of a Twilio call every interval, so agents who come online meanwhile are
+# Widens the ring of an inbound call, Twilio or WhatsApp, every interval, so agents who come online meanwhile are
 # reached. Each run carries the step it was queued for; a dismiss moves the step on, so a job
 # for a step already passed does nothing.
 class Voice::RingNextAgentJob < ApplicationJob
   queue_as :critical
 
-  # An inbox without a ring timeout rings until the caller hangs up, so steps go on until
-  # Twilio ends the caller's dial (its default four-hour limit), never forever for a call whose
-  # end was never reported
+  # Steps go on until the call stops ringing, or at the latest Twilio's default four-hour dial
+  # limit, never forever for a call whose end was never reported. Meta ends a WhatsApp ring itself
+  # after about a minute.
   MAX_RING_SECONDS = 4.hours.to_i
 
   def perform(call_id, step)

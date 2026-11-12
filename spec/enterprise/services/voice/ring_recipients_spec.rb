@@ -120,11 +120,28 @@ RSpec.describe Voice::RingRecipients do
   context 'with a WhatsApp inbox' do
     let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
 
-    it 'keeps ringing an assignable assignee alone, even when they are busy' do
+    it 'routes like a Twilio inbox: the free assignee alone first, then the free agents' do
+      conversation.update!(assignee: alice)
+
+      expect(recipients.agents).to eq([alice])
+      expect(recipients.next_group([alice.id])).to contain_exactly(bob, cara)
+    end
+
+    it 'leaves out an agent on a call, and rings the teammates of an assignee who is not online' do
       conversation.update!(assignee: alice)
       AccountUser.find_by(user: alice, account: account).update!(availability: :busy)
+      busy = create(:conversation, account: account, inbox: inbox)
+      create(:call, account: account, inbox: inbox, conversation: busy, contact: busy.contact, provider: :whatsapp, status: 'in_progress',
+                    accepted_by_agent: cara)
 
-      expect(recipients.agents).to be_empty
+      expect(recipients.agents).to eq([bob])
+    end
+
+    it 'rings one agent at a time when the inbox is set to' do
+      inbox.channel.provider_config = inbox.channel.provider_config.merge('ring_strategy' => 'sequential')
+      inbox.channel.save!(validate: false)
+
+      expect(recipients.agents.size).to eq(1)
     end
   end
 end

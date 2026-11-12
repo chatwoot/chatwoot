@@ -168,7 +168,6 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
   if ChatwootApp.enterprise?
-    json.business_hours_calls_enabled resource.channel.business_hours_calls_enabled?
     greeting = Voice::CallAnnouncement.new(resource, :greeting)
     json.call_greeting_enabled greeting.enabled?
     json.call_greeting_message greeting.message
@@ -177,10 +176,7 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     json.unanswered_call_message unanswered.message
     json.unanswered_call_audio_url unanswered.audio.attached? ? url_for(unanswered.audio) : nil
     json.unanswered_call_timeout_seconds resource.channel.unanswered_call_timeout_seconds
-    json.ring_strategy resource.channel.sequential_ringing? ? 'sequential' : 'simultaneous'
-    json.ring_step_seconds resource.channel.ring_step_seconds
-    json.assignee_rings_first resource.channel.assignee_rings_first?
-    json.call_cooldown_seconds resource.channel.call_cooldown_seconds
+    json.partial! 'api/v1/models/call_routing', channel: resource.channel
   end
   json.account_auth_token_configured resource.channel.try(:account_auth_token_configured?) == true
   json.voice_configured resource.channel.try(:twiml_app_sid).present?
@@ -197,4 +193,8 @@ if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(
   json.inbound_calls_enabled resource.channel.inbound_calls_enabled?
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
+  if ChatwootApp.enterprise?
+    json.partial! 'api/v1/models/call_routing', channel: resource.channel
+    json.callback_permission_enabled resource.channel.callback_permission_enabled?
+  end
 end

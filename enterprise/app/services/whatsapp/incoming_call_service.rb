@@ -84,7 +84,8 @@ class Whatsapp::IncomingCallService
 
     sdp_offer = payload.dig(:session, :sdp)
     call = build_inbound_call(payload, sdp_offer)
-
+    # Outside business hours the call is declined at Meta, as nobody rings for it
+    inbox.channel.provider_service.reject_call(payload[:id]) if call.end_reason == Call::OUTSIDE_WORKING_HOURS
     return if call.terminal? # terminated before pickup; no ringing widget to surface
 
     update_conversation(call)
@@ -216,26 +217,17 @@ class Whatsapp::IncomingCallService
   # Ring the assignee if any, else online inbox agents who take calls, else fall back
   # to the inbox's own agents and account admins who take calls. Never the
   # whole-account stream, which would ring online agents from unrelated inboxes.
+  # Sent to the agents the call rings first, as Voice::RingRecipients picked them. Agents the ring
+  # adds later see it from the call message and fetch the offer when they answer.
   def broadcast_incoming(call, sdp_offer)
     contact = call.contact
-    token = call.conversation.assignee&.pubsub_token
-    streams = token ? [token] : (online_agent_streams.presence || fallback_agent_streams)
+    streams = User.where(id: call.ring_state.fetch('ring_recipient_ids', [])).pluck(:pubsub_token).compact
     broadcast(call, 'voice_call.incoming',
               streams: streams,
               direction: call.direction_label, inbox_id: call.inbox_id,
               sdp_offer: sdp_offer, ice_servers: Call.default_ice_servers,
               recording_enabled: call.recording_enabled?,
               caller: { name: contact.name, phone: contact.phone_number, avatar: contact.avatar_url })
-  end
-
-  def online_agent_streams
-    inbox.available_call_agents.pluck('users.pubsub_token').compact
-  end
-
-  def fallback_agent_streams
-    user_ids = inbox.member_ids | inbox.account.administrators.ids
-    call_user_ids = inbox.account.account_users.where(user_id: user_ids, accepts_calls: true).select(:user_id)
-    User.where(id: call_user_ids).pluck(:pubsub_token).compact
   end
 
   def broadcast(call, event, streams: account_streams, **extra)
