@@ -56,12 +56,20 @@ const menuItems = computed(() => [
   },
   ...(props.server.auth_type === AUTH_TYPES.OAUTH
     ? [
-        {
-          label: t('CAPTAIN.MCP_SERVERS.ACTIONS.SIGN_IN'),
-          value: SERVER_ACTIONS.SIGN_IN,
-          action: SERVER_ACTIONS.SIGN_IN,
-          icon: 'i-lucide-log-in',
-        },
+        // A connected server signs in again to switch accounts or refresh its access
+        props.server.status === NEEDS_CREDENTIALS
+          ? {
+              label: t('CAPTAIN.MCP_SERVERS.ACTIONS.SIGN_IN'),
+              value: SERVER_ACTIONS.SIGN_IN,
+              action: SERVER_ACTIONS.SIGN_IN,
+              icon: 'i-lucide-log-in',
+            }
+          : {
+              label: t('CAPTAIN.MCP_SERVERS.ACTIONS.RECONNECT'),
+              value: SERVER_ACTIONS.SIGN_IN,
+              action: SERVER_ACTIONS.SIGN_IN,
+              icon: 'i-lucide-refresh-cw',
+            },
       ]
     : []),
   ...(props.server.auth_type === AUTH_TYPES.TOKEN
