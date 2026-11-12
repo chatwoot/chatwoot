@@ -190,12 +190,20 @@ const totalSearchResultsCount = computed(
     articles.value.length
 );
 
+const hasEmptyMessageContinuation = computed(
+  () =>
+    filterMessages.value &&
+    Boolean(resultsOf('messages').nextCursor) &&
+    !messages.value.length
+);
+
 const showEmptySearchResults = computed(
   () =>
     searchStarted.value &&
     isSelectedTabAll.value &&
     !isFetching.value &&
     !hasResultError.value &&
+    !hasEmptyMessageContinuation.value &&
     totalSearchResultsCount.value === 0
 );
 
@@ -205,7 +213,12 @@ const showResultsSection = computed(
 
 const showLoadMore = computed(() => {
   const results = searchStore.results[selectedTab.value];
-  return Boolean(results?.hasMore && !results.isFetching && !results.hasError);
+  return Boolean(
+    results?.hasMore &&
+      !results.isFetching &&
+      !results.hasError &&
+      !hasEmptyMessageContinuation.value
+  );
 });
 
 const showViewMore = type => {
@@ -288,11 +301,11 @@ const fetchResults = (type, page = 1) =>
     )
   );
 
-const fetchPreview = type =>
+const fetchPreview = (type, page = 1) =>
   requests.previews[type].run(signal =>
     searchStore.fetchResults(
       type,
-      buildSearchPayload({ q: query.value }, type),
+      buildSearchPayload({ q: query.value, page }, type),
       { signal, preview: true }
     )
   );
@@ -314,7 +327,7 @@ const retryResults = () => {
     .filter(type => resultsOf(type).hasError)
     .forEach(type =>
       isSelectedTabAll.value
-        ? fetchPreview(type)
+        ? fetchPreview(type, resultsOf(type).page + 1)
         : fetchResults(type, resultsOf(type).page + 1)
     );
 };
@@ -361,6 +374,15 @@ const loadMore = () => {
     selectedTab.value,
     searchStore.results[selectedTab.value].page + 1
   );
+};
+
+const continueMessageSearch = () => {
+  const page = resultsOf('messages').page + 1;
+  if (isSelectedTabAll.value) {
+    fetchPreview('messages', page);
+  } else {
+    fetchResults('messages', page);
+  }
 };
 
 const onTabChange = tab => {
@@ -499,15 +521,38 @@ onUnmounted(() => {
               class="flex flex-col justify-center"
             >
               <SearchResultMessagesList
-                v-if="filterMessages && showList('messages')"
+                v-if="
+                  filterMessages &&
+                  showList('messages') &&
+                  (!hasEmptyMessageContinuation ||
+                    resultsOf('messages').isFetching)
+                "
                 :is-fetching="resultsOf('messages').isFetching"
                 :messages="messages"
                 :query="query"
                 :show-title="isSelectedTabAll"
                 :class="searchResultSectionClass"
               />
+              <div
+                v-if="
+                  hasEmptyMessageContinuation &&
+                  !resultsOf('messages').isFetching &&
+                  !resultsOf('messages').hasError
+                "
+                class="flex flex-col items-center gap-3 py-6 text-center text-n-slate-11"
+              >
+                <p role="status">{{ t('SEARCH.MORE_MESSAGES_TO_SEARCH') }}</p>
+                <NextButton
+                  :label="t('SEARCH.LOAD_MORE')"
+                  icon="i-lucide-cloud-download"
+                  slate
+                  sm
+                  faded
+                  @click="continueMessageSearch"
+                />
+              </div>
               <NextButton
-                v-if="showViewMore('messages')"
+                v-if="showViewMore('messages') && !hasEmptyMessageContinuation"
                 :label="t(`SEARCH.VIEW_MORE`)"
                 icon="i-lucide-eye"
                 slate

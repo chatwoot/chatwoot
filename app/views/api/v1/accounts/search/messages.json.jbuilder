@@ -8,4 +8,5 @@ end
 
 json.meta do
   json.message_backend @message_backend
+  json.message_pagination @message_pagination if @message_pagination
 end

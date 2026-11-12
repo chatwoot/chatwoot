@@ -31,11 +31,22 @@ class Api::V1::Accounts::SearchController < Api::V1::Accounts::BaseController
 
   def search(search_type)
     service = search_service(search_type)
+    validate_message_cursor(service) if params.key?(:cursor)
     result = service.perform
     @message_backend = service.message_backend
+    @message_pagination = service.message_pagination
     result
   rescue ArgumentError => e
     render json: { error: e.message }, status: :unprocessable_entity
+  rescue CustomExceptions::MessageSearchUnavailable => e
+    render json: { error: e.message }, status: :service_unavailable
+  end
+
+  def validate_message_cursor(service)
+    cursor = params[:cursor]
+    return if cursor.is_a?(String) && cursor.present? && cursor.bytesize <= 2048 && service.supports_message_cursor?
+
+    raise ArgumentError, 'Invalid message search cursor'
   end
 
   def search_service(search_type)

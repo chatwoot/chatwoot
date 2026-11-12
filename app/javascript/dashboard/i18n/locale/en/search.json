@@ -22,6 +22,7 @@
     "RETRY": "Retry",
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",
+    "MORE_MESSAGES_TO_SEARCH": "No matching messages found yet. Load more to continue searching.",
     "SEARCHING_DATA": "Searching",
     "LOADING_DATA": "Loading",
     "EMPTY_STATE": "No {item} found for query '{query}'",

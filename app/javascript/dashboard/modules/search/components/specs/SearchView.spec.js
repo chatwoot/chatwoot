@@ -46,7 +46,16 @@ describe('SearchView URL navigation', () => {
       });
     });
     wrapper = shallowMount(SearchView, {
-      global: { stubs: { FluentIcon: true } },
+      global: {
+        stubs: {
+          FluentIcon: true,
+          Policy: { template: '<div><slot /></div>' },
+          NextButton: {
+            props: ['label'],
+            template: '<button>{{ label }}</button>',
+          },
+        },
+      },
     });
     await flushPromises();
   });
@@ -84,5 +93,47 @@ describe('SearchView URL navigation', () => {
       { signal: expect.any(AbortSignal) }
     );
     expect(SearchAPI.counts).toHaveBeenCalledTimes(2);
+  });
+
+  it.each([
+    ['messages', 15],
+    ['all', 5],
+  ])('offers continuation after an empty %s search', async (tab, perPage) => {
+    SearchAPI.messages
+      .mockResolvedValueOnce({
+        data: {
+          payload: { messages: [] },
+          meta: {
+            message_backend: 'opensearch',
+            message_pagination: { next_cursor: 'continue-search' },
+          },
+        },
+      })
+      .mockResolvedValueOnce({
+        data: {
+          payload: { messages: [] },
+          meta: {
+            message_backend: 'opensearch',
+            message_pagination: { next_cursor: null },
+          },
+        },
+      });
+    route.params.tab = tab;
+    route.query.q = 'receipt';
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('SEARCH.MORE_MESSAGES_TO_SEARCH');
+    expect(wrapper.text()).not.toContain('SEARCH.EMPTY_STATE_FULL');
+    const loadMore = wrapper
+      .findAll('button')
+      .find(button => button.text() === 'SEARCH.LOAD_MORE');
+    await loadMore.trigger('click');
+    await flushPromises();
+
+    expect(SearchAPI.messages).toHaveBeenLastCalledWith(
+      { q: 'receipt', page: 2, perPage, cursor: 'continue-search' },
+      { signal: expect.any(AbortSignal) }
+    );
+    expect(wrapper.text()).not.toContain('SEARCH.MORE_MESSAGES_TO_SEARCH');
   });
 });

@@ -109,7 +109,7 @@ describe('#SearchAPI', () => {
       });
     });
 
-    it('#messages with all filters', () => {
+    it('#messages forwards filters and the continuation cursor', () => {
       searchAPI.messages({
         q: 'test',
         page: 1,
@@ -117,6 +117,7 @@ describe('#SearchAPI', () => {
         until: 1732000000,
         from: 'contact:42',
         inboxId: 10,
+        cursor: 'continue-search',
       });
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/search/messages', {
         params: {
@@ -126,6 +127,7 @@ describe('#SearchAPI', () => {
           until: 1732000000,
           from: 'contact:42',
           inbox_id: 10,
+          cursor: 'continue-search',
         },
       });
     });

@@ -31,6 +31,7 @@ const emptyResults = () =>
         isFetching: false,
         hasError: false,
         backend: null,
+        nextCursor: null,
       },
     ])
   );
@@ -87,13 +88,12 @@ export const useSearchStore = defineStore('search', {
     ) {
       const results = preview ? this.previews[type] : this.results[type];
       const perPage = preview ? PREVIEW_PER_PAGE : PER_PAGE;
+      const request = { ...params, page, perPage };
+      if (page > 1 && results.nextCursor) request.cursor = results.nextCursor;
       results.isFetching = true;
       results.hasError = false;
       try {
-        const { data } = await SearchAPI[type](
-          { ...params, page, perPage },
-          { signal }
-        );
+        const { data } = await SearchAPI[type](request, { signal });
         if (signal?.aborted) return;
         // Backend changes can change both matching records and ordering.
         // Restart pagination instead of appending an incompatible page.
@@ -113,9 +113,12 @@ export const useSearchStore = defineStore('search', {
         results.records =
           page === 1 ? records : appendUniqueRecords(results.records, records);
         results.page = page;
-        // hasMore uses the raw page size: the records above may shrink on
-        // dedupe, so stored counts cannot signal whether more pages exist
-        results.hasMore = records.length === perPage;
+        // Restricted indexed pages may have more candidates even with no visible rows.
+        const messagePagination = data.meta?.message_pagination;
+        results.nextCursor = messagePagination?.next_cursor ?? null;
+        results.hasMore = messagePagination
+          ? Boolean(results.nextCursor)
+          : records.length === perPage;
         if (type === 'messages') results.backend = data.meta.message_backend;
       } catch (error) {
         if (!signal?.aborted) results.hasError = true;

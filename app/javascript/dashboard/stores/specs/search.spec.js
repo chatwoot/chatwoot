@@ -36,6 +36,7 @@ describe('search store', () => {
       isFetching: false,
       hasError: false,
       backend: null,
+      nextCursor: null,
     });
   });
 
@@ -155,6 +156,46 @@ describe('search store', () => {
   });
 
   describe('fetchResults', () => {
+    it('continues an empty indexed page and reuses its cursor when a request fails', async () => {
+      SearchAPI.messages
+        .mockResolvedValueOnce({
+          data: {
+            payload: { messages: [] },
+            meta: {
+              message_backend: 'opensearch',
+              message_pagination: { next_cursor: 'first-cursor' },
+            },
+          },
+        })
+        .mockRejectedValueOnce(new Error('index unavailable'))
+        .mockResolvedValueOnce({
+          data: {
+            payload: { messages: page(1) },
+            meta: {
+              message_backend: 'opensearch',
+              message_pagination: { next_cursor: null },
+            },
+          },
+        });
+      const store = useSearchStore();
+
+      await store.fetchResults('messages', { q: 'invoice' });
+      expect(store.results.messages.records).toEqual([]);
+      expect(store.results.messages.hasMore).toBe(true);
+
+      await store.fetchResults('messages', { q: 'invoice', page: 2 });
+      expect(store.results.messages.hasError).toBe(true);
+      expect(store.results.messages.page).toBe(1);
+
+      await store.fetchResults('messages', { q: 'invoice', page: 2 });
+      expect(SearchAPI.messages).toHaveBeenLastCalledWith(
+        { q: 'invoice', page: 2, perPage: 15, cursor: 'first-cursor' },
+        { signal: undefined }
+      );
+      expect(store.results.messages.records).toEqual(page(1));
+      expect(store.results.messages.hasMore).toBe(false);
+    });
+
     it('stores full pages and restarts pagination when the backend changes', async () => {
       SearchAPI.messages.mockResolvedValue({
         data: {
@@ -179,6 +220,7 @@ describe('search store', () => {
         isFetching: false,
         hasError: false,
         backend: 'gin',
+        nextCursor: null,
       });
       expect(store.results.messages.backend).toBe('gin');
 
@@ -240,6 +282,7 @@ describe('search store', () => {
         isFetching: false,
         hasError: true,
         backend: null,
+        nextCursor: null,
       });
     });
 
@@ -262,6 +305,7 @@ describe('search store', () => {
         isFetching: false,
         hasError: false,
         backend: null,
+        nextCursor: null,
       });
       expect(store.results.contacts.page).toBe(0);
     });
@@ -312,6 +356,7 @@ describe('search store', () => {
       isFetching: false,
       hasError: false,
       backend: null,
+      nextCursor: null,
     });
   });
 });

@@ -8,7 +8,7 @@ class SearchService
   SEARCH_TYPES = { 'contacts' => 'Contact', 'conversations' => 'Conversation', 'messages' => 'Message', 'articles' => 'Article' }.freeze
   PAGE_SIZES = [5, 15].freeze
 
-  attr_reader :message_backend
+  attr_reader :message_backend, :message_pagination
 
   def perform
     types = search_type == 'all' ? SEARCH_TYPES.keys : [SEARCH_TYPES.key(search_type)]
@@ -29,6 +29,10 @@ class SearchService
 
   def countable_types
     available_types
+  end
+
+  def supports_message_cursor?
+    false
   end
 
   private
@@ -59,21 +63,20 @@ class SearchService
   end
 
   def filter_messages(count: false)
-    @messages = if use_gin_search
-                  filter_messages_with_gin
-                elsif should_run_advanced_search?
-                  advanced_search_with_fallback(count: count)
-                else
-                  filter_messages_with_like
-                end
+    return filter_messages_with_gin if use_gin_search
+    return advanced_search_with_fallback(count: count) if should_run_advanced_search?
+
+    filter_messages_with_like
   end
 
   def advanced_search_with_fallback(count: false)
     @message_backend = 'opensearch'
     advanced_search(count: count)
   rescue Faraday::Error, Searchkick::Error, OpenSearch::Transport::Transport::Error => e
-    Rails.logger.warn("Elasticsearch unavailable, falling back to SQL search: #{e.message}")
     ChatwootExceptionTracker.new(e, user: current_user, account: current_account).capture_exception
+    raise CustomExceptions::MessageSearchUnavailable, 'Message search is unavailable' if supports_message_cursor?
+
+    Rails.logger.warn("Elasticsearch unavailable, falling back to SQL search: #{e.message}")
     use_gin_search ? filter_messages_with_gin : filter_messages_with_like
   end
 

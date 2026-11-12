@@ -32,7 +32,7 @@ class SearchAPI extends ApiClient {
   }
 
   messages(
-    { q, page = 1, perPage, since, until, from, inboxId },
+    { q, page = 1, perPage, since, until, from, inboxId, cursor },
     { signal } = {}
   ) {
     return axios.get(`${this.url}/messages`, {
@@ -45,6 +45,7 @@ class SearchAPI extends ApiClient {
         until,
         from,
         inbox_id: inboxId,
+        cursor,
       },
     });
   }
