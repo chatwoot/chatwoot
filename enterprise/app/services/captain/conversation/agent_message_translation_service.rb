@@ -17,7 +17,12 @@ class Captain::Conversation::AgentMessageTranslationService
   # A failed translation sends the reply as written and flags it instead.
   def translate_message
     detect_contact_language
-    translate_reply if conversation.language.present?
+    if conversation.language.present?
+      translate_reply
+    elsif translator.failed?
+      # Detection failed, so the contact's language is unknown and the reply goes out as written.
+      message.translation_failed = true
+    end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: account).capture_exception
     message.translation_failed = true
@@ -25,7 +30,10 @@ class Captain::Conversation::AgentMessageTranslationService
 
   def detect_contact_language
     contact_message = conversation.messages.incoming.where(content_type: %w[text incoming_email]).where.not(content: [nil, '']).order(:id).last
-    Captain::Conversation::MessageLanguageService.new(conversation: conversation, message: contact_message).perform if contact_message
+    return unless contact_message
+
+    Captain::Conversation::MessageLanguageService.new(conversation: conversation, message: contact_message,
+                                                      translator: translator).perform
   end
 
   def translate_reply

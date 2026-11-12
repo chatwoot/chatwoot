@@ -11,7 +11,7 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
   end
   let(:llm_response) { { message: 'Bonjour' } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
-  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil) }
+  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil, failed?: false) }
 
   before do
     allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service)
@@ -197,6 +197,29 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(message.reload.content).to eq('Hello there')
     expect(message.content_attributes).to eq('translation_failed' => true)
     expect(tracker).to have_received(:capture_exception)
+  end
+
+  context 'when the conversation has no language yet' do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+    before do
+      create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Hola, necesito ayuda')
+    end
+
+    it 'flags the reply when detecting the contact language fails' do
+      allow(detection).to receive(:failed?).and_return(true)
+
+      described_class.new(message: message).perform
+
+      expect(message.reload.content).to eq('Hello there')
+      expect(message.content_attributes).to eq('translation_failed' => true)
+    end
+
+    it 'sends the reply without a flag when the contact message is too short to tell its language' do
+      described_class.new(message: message).perform
+
+      expect(message.reload.content_attributes).to eq({})
+    end
   end
 
   it 'sends the reply as written and reports the error when Captain raises' do
