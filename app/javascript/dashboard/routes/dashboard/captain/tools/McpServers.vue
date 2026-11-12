@@ -12,12 +12,16 @@ import McpServersAPI from 'dashboard/api/captain/mcpServers';
 import ToolsPageLayout from 'dashboard/components-next/captain/pageComponents/tools/ToolsPageLayout.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import McpServerCard from 'dashboard/components-next/captain/pageComponents/mcpServer/McpServerCard.vue';
 import ConnectMcpServerDialog from 'dashboard/components-next/captain/pageComponents/mcpServer/ConnectMcpServerDialog.vue';
 import ManageMcpServerPanel from 'dashboard/components-next/captain/pageComponents/mcpServer/ManageMcpServerPanel.vue';
 import { SERVER_ACTIONS } from 'dashboard/components-next/captain/pageComponents/mcpServer/mcpTools';
 
 const SIGN_IN_RESULTS = { SUCCESS: 'success', FAILED: 'failed' };
+// Getting a sign-in link can take seconds, because Chatwoot first sets up the sign-in with the server. A dialog shows the
+// wait when it lasts longer than this.
+const SIGN_IN_DIALOG_DELAY_MS = 500;
 
 const route = useRoute();
 const router = useRouter();
@@ -38,6 +42,8 @@ const serverForToken = ref(null);
 const newToken = ref('');
 const isSavingToken = ref(false);
 const pendingToggleIds = ref(new Set());
+const signInDialogRef = ref(null);
+const serverSigningIn = ref(null);
 
 const showPaywall = computed(() =>
   shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
@@ -61,7 +67,14 @@ const fetchServers = async () => {
 const openConnectDialog = () => connectDialogRef.value.open();
 const openManagePanel = server => managePanelRef.value.open(server);
 
+// The page leaves for the server's sign-in page, so the dialog stays open until it does
 const startSignIn = async server => {
+  if (serverSigningIn.value) return;
+  serverSigningIn.value = server;
+  const dialogTimer = setTimeout(
+    () => signInDialogRef.value?.open(),
+    SIGN_IN_DIALOG_DELAY_MS
+  );
   try {
     const { data } = await McpServersAPI.authorizationUrl({
       id: server.id,
@@ -69,6 +82,9 @@ const startSignIn = async server => {
     });
     window.location.href = data.url;
   } catch (error) {
+    clearTimeout(dialogTimer);
+    signInDialogRef.value?.close();
+    serverSigningIn.value = null;
     useAlert(
       parseAPIErrorResponse(error) || t('CAPTAIN.MCP_SERVERS.SIGN_IN.ERROR')
     );
@@ -277,5 +293,21 @@ watch(
       :label="t('CAPTAIN.MCP_SERVERS.DIALOG.TOKEN_LABEL')"
       :disabled="isSavingToken"
     />
+  </Dialog>
+
+  <Dialog
+    ref="signInDialogRef"
+    :title="
+      t('CAPTAIN.MCP_SERVERS.SIGN_IN.OPENING_TITLE', {
+        name: serverSigningIn?.name,
+      })
+    "
+    :description="t('CAPTAIN.MCP_SERVERS.SIGN_IN.OPENING_DESCRIPTION')"
+    :show-cancel-button="false"
+    :show-confirm-button="false"
+  >
+    <div class="flex justify-center py-2">
+      <Spinner />
+    </div>
   </Dialog>
 </template>
