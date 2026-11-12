@@ -81,6 +81,13 @@ const rolePromptMap = {
   administrator: ['WAITING_ON_ME', 'TEAM_WORKLOAD', 'TOP_QUESTIONS'],
 };
 
+// Copilot reads the open conversation, so summarizing it comes first for every role. Admins looking at a conversation
+// get their team prompts in place of what is waiting on them.
+const conversationRolePromptMap = {
+  agent: ['SUMMARIZE', 'WAITING_ON_ME', 'RECENT_CONVERSATIONS'],
+  administrator: ['SUMMARIZE', 'TEAM_WORKLOAD', 'TOP_QUESTIONS'],
+};
+
 const getCurrentRoute = () => {
   const path = route.path;
   if (path.includes('/conversations')) return 'conversations';
@@ -91,9 +98,10 @@ const getCurrentRoute = () => {
 const promptOptions = computed(() => {
   let keys = routePromptMap[getCurrentRoute()];
   if (props.isWorkflowsEnabled) {
-    const roleKeys = rolePromptMap[currentRole.value] || rolePromptMap.agent;
-    // Copilot reads the open conversation, so summarizing it comes first for every role.
-    keys = currentChat.value.id ? ['SUMMARIZE', ...roleKeys] : roleKeys;
+    const promptMap = currentChat.value.id
+      ? conversationRolePromptMap
+      : rolePromptMap;
+    keys = promptMap[currentRole.value] || promptMap.agent;
   }
 
   return keys

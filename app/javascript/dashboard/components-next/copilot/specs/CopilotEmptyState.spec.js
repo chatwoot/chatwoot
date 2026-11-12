@@ -88,15 +88,16 @@ describe('CopilotEmptyState', () => {
       expect(promptLabels(wrapper)).toEqual(labelsFor(keys));
     });
 
-    it.each(['agent', 'administrator'])(
-      'offers the %s a summary of the open conversation first',
-      role => {
+    it.each([
+      ['agent', ['SUMMARIZE', 'WAITING_ON_ME', 'RECENT_CONVERSATIONS']],
+      ['administrator', ['SUMMARIZE', 'TEAM_WORKLOAD', 'TOP_QUESTIONS']],
+    ])(
+      'offers the %s a summary first when a conversation is open',
+      (role, keys) => {
         currentRole.value = role;
         const wrapper = mountComponent({ isWorkflowsEnabled: true });
 
-        expect(promptLabels(wrapper)[0]).toBe(
-          'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL'
-        );
+        expect(promptLabels(wrapper)).toEqual(labelsFor(keys));
       }
     );
 
