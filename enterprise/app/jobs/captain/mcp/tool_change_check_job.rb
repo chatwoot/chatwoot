@@ -1,5 +1,5 @@
 # Lists the tools of every enabled MCP server with approved tools, so admins see a changed tool before a customer asks.
-# Captain already skips a changed tool at the start of each run. This job only records each approved tool's review state.
+# Each Captain run already offers a changed tool as unavailable. This job only records each approved tool's review state.
 #
 # Known limit: one run lists every server in turn. A slow server delays the servers after it, and an error that is not
 # a Connection error ends the run. As the number of servers grows, this job should enqueue one job per server instead,
