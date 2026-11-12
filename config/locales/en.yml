@@ -135,6 +135,7 @@ en:
       call_timed_out: 'The call timed out before you could join.'
       invalid_hold: "Couldn't update the call. Please try again."
       not_handling_agent: 'Only the agent on the call can hold or resume it.'
+      cannot_end_call: 'Only the agent handling the call can end it.'
       hold_failed: 'Could not update the hold. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
