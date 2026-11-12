@@ -12,8 +12,19 @@ export const AUTH_TYPES = { NONE: 'none', OAUTH: 'oauth', TOKEN: 'token' };
 export const SERVER_ACTIONS = {
   MANAGE: 'manage',
   SIGN_IN: 'sign_in',
+  UPDATE_TOKEN: 'update_token',
   DELETE: 'delete',
 };
+
+// Remote MCP servers with one fixed URL, so picking one always fills a URL that works
+export const POPULAR_SERVERS = [
+  { name: 'Calendly', url: 'https://mcp.calendly.com' },
+  { name: 'Cal.com', url: 'https://mcp.cal.com/mcp' },
+  { name: 'Notion', url: 'https://mcp.notion.com/mcp' },
+];
+
+// The URL field starts with this, since every MCP server Captain connects to uses HTTPS
+export const URL_PREFIX = 'https://';
 
 const DIGEST_PREFIX = 'sha256:';
 const FINGERPRINT_LENGTH = 8;
@@ -30,6 +41,15 @@ export const schemaParams = schema => {
     description: property.description || '',
     required: required.includes(name),
   }));
+};
+
+// The parameter types a fixed value can fill. The API converts the text to a number or true or false, and refuses a list
+// or an object. A parameter with no single type besides null is left for the API to check.
+const FIXED_VALUE_TYPES = ['string', 'integer', 'number', 'boolean'];
+
+export const canTakeFixedValue = param => {
+  const types = [param.type].flat().filter(type => type !== 'null');
+  return types.length !== 1 || FIXED_VALUE_TYPES.includes(types[0]);
 };
 
 // The API keeps only Chatwoot-filled parameters. Captain fills every other one.

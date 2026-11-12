@@ -56,11 +56,29 @@ const menuItems = computed(() => [
   },
   ...(props.server.auth_type === AUTH_TYPES.OAUTH
     ? [
+        // A connected server signs in again to switch accounts or refresh its access
+        props.server.status === NEEDS_CREDENTIALS
+          ? {
+              label: t('CAPTAIN.MCP_SERVERS.ACTIONS.SIGN_IN'),
+              value: SERVER_ACTIONS.SIGN_IN,
+              action: SERVER_ACTIONS.SIGN_IN,
+              icon: 'i-lucide-log-in',
+            }
+          : {
+              label: t('CAPTAIN.MCP_SERVERS.ACTIONS.RECONNECT'),
+              value: SERVER_ACTIONS.SIGN_IN,
+              action: SERVER_ACTIONS.SIGN_IN,
+              icon: 'i-lucide-refresh-cw',
+            },
+      ]
+    : []),
+  ...(props.server.auth_type === AUTH_TYPES.TOKEN
+    ? [
         {
-          label: t('CAPTAIN.MCP_SERVERS.ACTIONS.SIGN_IN'),
-          value: SERVER_ACTIONS.SIGN_IN,
-          action: SERVER_ACTIONS.SIGN_IN,
-          icon: 'i-lucide-log-in',
+          label: t('CAPTAIN.MCP_SERVERS.ACTIONS.UPDATE_TOKEN'),
+          value: SERVER_ACTIONS.UPDATE_TOKEN,
+          action: SERVER_ACTIONS.UPDATE_TOKEN,
+          icon: 'i-lucide-key-round',
         },
       ]
     : []),
@@ -90,6 +108,12 @@ const handleAction = ({ action }) => {
         </span>
       </div>
       <div class="flex items-center gap-2 shrink-0">
+        <span
+          v-if="server.needs_review"
+          class="text-xs font-medium px-2 py-0.5 rounded-full bg-n-amber-3 text-n-amber-11"
+        >
+          {{ t('CAPTAIN.MCP_SERVERS.NEEDS_REVIEW') }}
+        </span>
         <span
           v-if="server.last_error"
           v-tooltip.top="server.last_error"
