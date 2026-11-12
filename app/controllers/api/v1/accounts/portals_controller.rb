@@ -19,7 +19,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal = Current.account.portals.build(portal_params.merge(live_chat_widget_params))
     @portal.custom_domain = parsed_custom_domain
     @portal.save!
-    process_attached_logo if params[:blob_id].present?
+    process_attached_logos
   end
 
   def update
@@ -29,7 +29,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
       @portal.lock!
       @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
-      process_attached_logo if params[:blob_id].present?
+      process_attached_logos
     rescue ActiveRecord::RecordInvalid => e
       render_record_invalid(e)
     end
@@ -46,8 +46,17 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def logo
-    @portal.logo.purge if @portal.logo.attached?
+    logo = ActiveModel::Type::Boolean.new.cast(params[:dark]) ? @portal.dark_logo : @portal.logo
+    logo.purge if logo.attached?
     head :ok
+  end
+
+  def remove_locale
+    locale = params.permit(:locale).require(:locale)
+    return render_could_not_create_error(I18n.t('portals.remove_locale.default_locale')) if locale == @portal.default_locale
+
+    @portal.remove_locale!(locale)
+    render :update
   end
 
   def send_instructions
@@ -64,12 +73,17 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     render json: { message: I18n.t('portals.send_instructions.instructions_sent_successfully') }, status: :ok
   end
 
-  def process_attached_logo
-    blob = ActiveStorage::Blob.find_signed(params[:blob_id].to_s)
-    @portal.logo.attach(blob) if blob
+  def process_attached_logos
+    attach_blob(@portal.logo, params[:blob_id]) if params[:blob_id].present?
+    attach_blob(@portal.dark_logo, params[:dark_logo_blob_id]) if params[:dark_logo_blob_id].present?
   end
 
   private
+
+  def attach_blob(attachment, blob_id)
+    blob = ActiveStorage::Blob.find_signed(blob_id.to_s)
+    attachment.attach(blob) if blob
+  end
 
   def fetch_portal
     @portal = Current.account.portals.find_by!(slug: permitted_params[:id])
@@ -100,7 +114,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def config_param_keys
-    keys = [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
+    keys = [:default_locale, :layout, :disable_search_indexing, { allowed_locales: [] }, { draft_locales: [] },
             { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
             { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } },
             { popular_content: popular_content_keys.index_with { { category_ids: [], article_ids: [] } } }]

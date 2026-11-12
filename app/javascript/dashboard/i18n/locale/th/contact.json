@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ไม่มีการสนทนาก่อนหน้านี้ที่เชื่อมโยงกับผู้ติดต่อนี้",
-      "TITLE": "การสนทนาก่อนหน้า"
+      "TITLE": "การสนทนาก่อนหน้า",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

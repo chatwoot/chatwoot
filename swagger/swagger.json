@@ -1126,6 +1126,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         }
       ],
       "post": {
@@ -1214,6 +1217,9 @@
           "$ref": "#/components/parameters/public_contact_identifier"
         },
         {
+          "$ref": "#/components/parameters/public_identifier_hash"
+        },
+        {
           "$ref": "#/components/parameters/conversation_id"
         }
       ],
@@ -1268,6 +1274,9 @@
           "$ref": "#/components/parameters/public_contact_identifier"
         },
         {
+          "$ref": "#/components/parameters/public_identifier_hash"
+        },
+        {
           "$ref": "#/components/parameters/conversation_id"
         }
       ],
@@ -1320,6 +1329,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         },
         {
           "$ref": "#/components/parameters/conversation_id"
@@ -1401,6 +1413,9 @@
           "$ref": "#/components/parameters/public_contact_identifier"
         },
         {
+          "$ref": "#/components/parameters/public_identifier_hash"
+        },
+        {
           "$ref": "#/components/parameters/conversation_id"
         }
       ],
@@ -1446,6 +1461,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         },
         {
           "$ref": "#/components/parameters/conversation_id"
@@ -1535,6 +1553,9 @@
         },
         {
           "$ref": "#/components/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/components/parameters/public_identifier_hash"
         },
         {
           "$ref": "#/components/parameters/conversation_id"
@@ -4286,13 +4307,13 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/portals/{id}": {
+    "/api/v1/accounts/{account_id}/portals/{portal_slug}": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
         },
         {
-          "$ref": "#/components/parameters/portal_id"
+          "$ref": "#/components/parameters/portal_slug"
         }
       ],
       "get": {
@@ -4315,7 +4336,7 @@
             "$ref": "#/components/parameters/account_id"
           },
           {
-            "$ref": "#/components/parameters/portal_id"
+            "$ref": "#/components/parameters/portal_slug"
           }
         ],
         "responses": {
@@ -4397,7 +4418,7 @@
             }
           },
           "404": {
-            "description": "The given portal ID does not exist in the account",
+            "description": "The given portal slug does not exist in the account",
             "content": {
               "application/json": {
                 "schema": {
@@ -4428,7 +4449,7 @@
             "$ref": "#/components/parameters/account_id"
           },
           {
-            "$ref": "#/components/parameters/portal_id"
+            "$ref": "#/components/parameters/portal_slug"
           }
         ],
         "requestBody": {
@@ -4534,13 +4555,13 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/portals/{id}/categories": {
+    "/api/v1/accounts/{account_id}/portals/{portal_slug}/categories": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
         },
         {
-          "$ref": "#/components/parameters/portal_id"
+          "$ref": "#/components/parameters/portal_slug"
         }
       ],
       "post": {
@@ -4592,13 +4613,13 @@
         }
       }
     },
-    "/api/v1/accounts/{account_id}/portals/{id}/articles": {
+    "/api/v1/accounts/{account_id}/portals/{portal_slug}/articles": {
       "parameters": [
         {
           "$ref": "#/components/parameters/account_id"
         },
         {
-          "$ref": "#/components/parameters/portal_id"
+          "$ref": "#/components/parameters/portal_slug"
         }
       ],
       "post": {
@@ -6412,7 +6433,8 @@
                       "provider_config": {
                         "api_key": "your-api-key",
                         "phone_number_id": "your-phone-number-id",
-                        "business_account_id": "your-business-account-id"
+                        "business_account_id": "your-business-account-id",
+                        "app_secret": "your-app-secret"
                       }
                     }
                   }
@@ -6430,8 +6452,8 @@
                       "type": "sms",
                       "phone_number": "+15551234567",
                       "provider_config": {
-                        "api_key": "your-api-key",
-                        "api_secret": "your-api-secret",
+                        "client_id": "your-client-id",
+                        "client_secret": "your-client-secret",
                         "application_id": "your-application-id",
                         "account_id": "your-account-id"
                       }
@@ -6683,7 +6705,8 @@
                       "provider_config": {
                         "api_key": "your-api-key",
                         "phone_number_id": "your-phone-number-id",
-                        "business_account_id": "your-business-account-id"
+                        "business_account_id": "your-business-account-id",
+                        "app_secret": "your-app-secret"
                       }
                     }
                   }
@@ -7725,7 +7748,7 @@
         ],
         "operationId": "create-a-new-message-in-a-conversation",
         "summary": "Create New Message",
-        "description": "Create a new message in the conversation.\n\nUse `application/json` for text messages and `multipart/form-data` when the\nmessage includes file attachments.\n\n### Multipart attachment request\n\nSend files with the `attachments[]` form field. `curl -F` sets the\n`multipart/form-data` content type and boundary automatically.\n\n```bash\ncurl -X POST \"https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages\" \\\n  -H \"Authorization: Bearer <your-api-token>\" \\\n  -F \"content=Here is the screenshot\" \\\n  -F \"message_type=outgoing\" \\\n  -F \"private=false\" \\\n  -F \"attachments[]=@/path/to/screenshot.png\"\n```\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\nBy default, `content` is treated as the already-rendered transcript text for\ncompatibility with existing API and mobile clients. To submit the original\ntemplate body instead, set `template_params.content_mode` to `raw_template`;\nChatwoot will substitute `processed_params.body` before saving the transcript.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
+        "description": "Create a new message in the conversation.\n\nUse `application/json` for text messages and `multipart/form-data` when the\nmessage includes file attachments.\n\n### Multipart attachment request\n\nSend files with the `attachments[]` form field. `curl -F` sets the\n`multipart/form-data` content type and boundary automatically.\n\n```bash\ncurl -X POST \"https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages\" \\\n  -H \"Authorization: Bearer <your-api-token>\" \\\n  -F \"content=Here is the screenshot\" \\\n  -F \"message_type=outgoing\" \\\n  -F \"private=false\" \\\n  -F \"attachments[]=@/path/to/screenshot.png\"\n```\n\n### Replying to a message\n\nSet `content_attributes.in_reply_to` to a Chatwoot message ID in this conversation,\nor `content_attributes.in_reply_to_external_id` to its `source_id`.\nChatwoot resolves the other reference and displays the quoted message.\n\n```json\n{\n  \"content\": \"Yes, that one is in stock\",\n  \"content_attributes\": {\n    \"in_reply_to_external_id\": \"external-message-123\"\n  }\n}\n```\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\nBy default, `content` is treated as the already-rendered transcript text for\ncompatibility with existing API and mobile clients. To submit the original\ntemplate body instead, set `template_params.content_mode` to `raw_template`;\nChatwoot will substitute `processed_params.body` before saving the transcript.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
         "security": [
           {
             "userBearerAuth": []
@@ -13863,7 +13886,7 @@
           },
           "content_attributes": {
             "type": "object",
-            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n",
+            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n\nFor replies, set `in_reply_to` to a Chatwoot message ID in this conversation,\nor `in_reply_to_external_id` to its `source_id`.\n",
             "example": {
               "items": [
                 {
@@ -13873,6 +13896,29 @@
                 }
               ]
             }
+          },
+          "source_id": {
+            "type": "string",
+            "description": "External message ID, returned as `source_id`. Use it with\n`content_attributes.in_reply_to_external_id` to reference this message in a reply.\n",
+            "example": "external-message-123"
+          },
+          "sender_type": {
+            "type": "string",
+            "enum": [
+              "AgentBot"
+            ],
+            "description": "Use `AgentBot` with `sender_id` to send an outgoing message as that bot.\n",
+            "example": "AgentBot"
+          },
+          "sender_id": {
+            "type": "integer",
+            "description": "Agent bot ID when `sender_type` is `AgentBot`.",
+            "example": 1
+          },
+          "echo_id": {
+            "type": "string",
+            "description": "Client-generated ID returned in the response and real-time event to match an optimistic message.\n",
+            "example": "client-message-123"
           },
           "campaign_id": {
             "type": "integer",
@@ -14684,7 +14730,8 @@
                 "required": [
                   "api_key",
                   "phone_number_id",
-                  "business_account_id"
+                  "business_account_id",
+                  "app_secret"
                 ],
                 "properties": {
                   "api_key": {
@@ -14701,12 +14748,18 @@
                     "type": "string",
                     "description": "Business account ID for WhatsApp Cloud",
                     "example": "your-business-account-id"
+                  },
+                  "app_secret": {
+                    "type": "string",
+                    "description": "App secret of your Meta app, from App settings > Basic. Used to verify incoming webhook signatures.",
+                    "example": "your-app-secret"
                   }
                 },
                 "example": {
                   "api_key": "your-api-key",
                   "phone_number_id": "your-phone-number-id",
-                  "business_account_id": "your-business-account-id"
+                  "business_account_id": "your-business-account-id",
+                  "app_secret": "your-app-secret"
                 }
               }
             }
@@ -14768,7 +14821,8 @@
         "title": "SMS channel",
         "required": [
           "type",
-          "phone_number"
+          "phone_number",
+          "provider_config"
         ],
         "properties": {
           "type": {
@@ -14785,10 +14839,38 @@
           },
           "provider_config": {
             "type": "object",
-            "description": "Provider-specific SMS configuration",
+            "description": "Bandwidth OAuth configuration. New SMS inboxes require client credentials.",
+            "required": [
+              "account_id",
+              "application_id",
+              "client_id",
+              "client_secret"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "account_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "application_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "client_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "client_secret": {
+                "type": "string",
+                "minLength": 1,
+                "writeOnly": true
+              }
+            },
             "example": {
               "account_id": "your-account-id",
-              "application_id": "your-application-id"
+              "application_id": "your-application-id",
+              "client_id": "your-client-id",
+              "client_secret": "your-client-secret"
             }
           }
         }
@@ -15066,7 +15148,7 @@
           },
           "provider_config": {
             "type": "object",
-            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, and `business_account_id`; legacy 360dialog channels use `api_key`.",
+            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, `business_account_id`, and `app_secret`; legacy 360dialog channels use `api_key`.",
             "properties": {
               "api_key": {
                 "type": "string",
@@ -15082,12 +15164,18 @@
                 "type": "string",
                 "description": "Business account ID for WhatsApp Cloud",
                 "example": "your-business-account-id"
+              },
+              "app_secret": {
+                "type": "string",
+                "description": "App secret of your Meta app, used to verify incoming webhook signatures. Required for manually configured Cloud channels that already have one, when moving an embedded signup channel to manual setup, and when switching a channel to `whatsapp_cloud`. It cannot be removed once set.",
+                "example": "your-app-secret"
               }
             },
             "example": {
               "api_key": "your-api-key",
               "phone_number_id": "your-phone-number-id",
-              "business_account_id": "your-business-account-id"
+              "business_account_id": "your-business-account-id",
+              "app_secret": "your-app-secret"
             }
           }
         }
@@ -17894,14 +17982,24 @@
         "required": true,
         "description": "The source id of contact obtained on contact create"
       },
-      "portal_id": {
+      "public_identifier_hash": {
+        "in": "query",
+        "name": "identifier_hash",
+        "schema": {
+          "type": "string"
+        },
+        "required": false,
+        "description": "HMAC-SHA256 of the contact identifier, signed with the inbox HMAC token. Required when the inbox enforces identity validation."
+      },
+      "portal_slug": {
         "in": "path",
-        "name": "id",
+        "name": "portal_slug",
         "schema": {
           "type": "string"
         },
         "required": true,
-        "description": "The slug identifier of the portal"
+        "description": "The slug of the portal. The numeric portal ID is not accepted.",
+        "example": "handbook"
       }
     },
     "securitySchemes": {

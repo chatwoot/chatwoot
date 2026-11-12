@@ -1,3 +1,4 @@
+# Shared by all Jev callers. Retain the existing storage to preserve account usage during rollout.
 class ConversationMonitors::Usage
   def initialize(account_id)
     @account_id = account_id
@@ -23,10 +24,10 @@ class ConversationMonitors::Usage
     Account.find(@account_id).with_lock do
       now = Time.current.utc
       usage = snapshot(now)
-      raise CustomExceptions::MonitorEvaluationError.new('monthly_limit', retry_after: (usage[:resets_at] - now.to_f).ceil) if usage[:limit_reached]
+      raise CustomExceptions::JevQuotaError.new('monthly_limit', retry_after: (usage[:resets_at] - now.to_f).ceil) if usage[:limit_reached]
 
       if usage[:daily].last[:calls] >= ConversationMonitors::Configuration::DAILY_CALL_LIMIT
-        raise CustomExceptions::MonitorEvaluationError.new('budget_limit', retry_after: (now.tomorrow.beginning_of_day - now).ceil)
+        raise CustomExceptions::JevQuotaError.new('budget_limit', retry_after: (now.tomorrow.beginning_of_day - now).ceil)
       end
 
       limit_reached = usage[:remaining] == 1

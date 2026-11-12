@@ -802,6 +802,15 @@ RSpec.describe ConversationReplyMailer do
 
           expect(mail['from'].value).to eq "#{conversation.inbox.business_name} <#{smtp_channel.email}>"
         end
+
+        it 'quotes a business_name containing a comma so the sender parses to a single address' do
+          conversation.inbox.update(business_name: 'Care Team, Billing')
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "\"Care Team, Billing\" <#{smtp_channel.email}>"
+          expect(mail.smtp_envelope_from).to eq smtp_channel.email
+        end
       end
     end
 

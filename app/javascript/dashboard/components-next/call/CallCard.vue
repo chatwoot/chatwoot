@@ -1,12 +1,16 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
+import {
+  VOICE_CALL_DIRECTION,
+  VOICE_CALL_STATUS,
+} from 'dashboard/components-next/message/constants';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { formatPhoneNumber } from 'shared/helpers/PhoneNumberHelper';
+import CallKeypad from './CallKeypad.vue';
 
 const props = defineProps({
   call: {
@@ -34,6 +38,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showKeypad: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 defineEmits([
@@ -43,9 +51,29 @@ defineEmits([
   'toggleMute',
   'goToConversation',
   'dismiss',
+  'sendDigit',
 ]);
 
 const { t } = useI18n();
+const isKeypadOpen = ref(false);
+
+const toggleKeypad = () => {
+  isKeypadOpen.value = !isKeypadOpen.value;
+};
+
+watch(
+  () => props.showKeypad,
+  showKeypad => {
+    if (!showKeypad) isKeypadOpen.value = false;
+  }
+);
+
+watch(
+  () => props.call?.callSid,
+  () => {
+    isKeypadOpen.value = false;
+  }
+);
 
 const isOngoing = computed(() => props.state === VOICE_CALL_DIRECTION.ONGOING);
 const isIncoming = computed(
@@ -55,8 +83,23 @@ const isOutgoing = computed(
   () => props.state === VOICE_CALL_DIRECTION.OUTGOING
 );
 
+const isWhatsapp = computed(
+  () => props.call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
+);
+// A muted Twilio call plays hold music to the caller, who the agent still hears
+const isOnHold = computed(() => isOngoing.value && !!props.call?.onHold);
+// A Twilio caller can be held only once connected; an outbound call still rings before that
+const canMute = computed(
+  () =>
+    isOngoing.value &&
+    props.showMute &&
+    (isWhatsapp.value || props.call?.status === VOICE_CALL_STATUS.IN_PROGRESS)
+);
+
 const statusIcon = computed(() => {
-  if (isOngoing.value) return 'i-ph-phone-call-bold';
+  if (isOngoing.value) {
+    return isOnHold.value ? 'i-ph-pause-circle-bold' : 'i-ph-phone-call-bold';
+  }
   if (isOutgoing.value) return 'i-ph-phone-outgoing-bold';
   return 'i-ph-phone-incoming-bold';
 });
@@ -66,16 +109,22 @@ const formattedPhoneNumber = computed(() =>
 );
 
 const statusLabel = computed(() => {
-  if (isOngoing.value) return t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS');
+  if (isOngoing.value) {
+    return isOnHold.value
+      ? t('CONVERSATION.VOICE_WIDGET.ON_HOLD')
+      : t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS');
+  }
   if (isOutgoing.value) return t('CONVERSATION.VOICE_WIDGET.OUTGOING_CALL');
   return t('CONVERSATION.VOICE_WIDGET.INCOMING_CALL');
 });
 
-const channelIcon = computed(() => {
-  if (props.call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP)
-    return 'i-ri-whatsapp-fill';
-  return 'i-ph-phone-bold';
-});
+const statusColorClass = computed(() =>
+  isOnHold.value ? 'text-n-amber-11' : 'text-n-teal-9'
+);
+
+const channelIcon = computed(() =>
+  isWhatsapp.value ? 'i-ri-whatsapp-fill' : 'i-ph-phone-bold'
+);
 </script>
 
 <template>
@@ -88,8 +137,15 @@ const channelIcon = computed(() => {
       <div class="flex items-center gap-2 px-4">
         <!-- Ongoing: status badge on left -->
         <div v-if="isOngoing" class="flex items-center gap-1.5 shrink-0">
-          <Icon :icon="statusIcon" class="size-3.5 text-n-teal-9 shrink-0" />
-          <span class="text-xs font-medium text-n-teal-9 tracking-tight">
+          <Icon
+            :icon="statusIcon"
+            class="size-3.5 shrink-0"
+            :class="statusColorClass"
+          />
+          <span
+            class="text-xs font-medium tracking-tight"
+            :class="statusColorClass"
+          >
             {{ statusLabel }}
           </span>
         </div>
@@ -168,9 +224,9 @@ const channelIcon = computed(() => {
 
         <!-- Actions -->
         <div class="flex items-center gap-2 shrink-0">
-          <!-- Mute toggle (WhatsApp ongoing only) -->
+          <!-- Mute toggle: WhatsApp mutes the mic, Twilio also plays hold music to the caller -->
           <NextButton
-            v-if="isOngoing && showMute"
+            v-if="canMute"
             v-tooltip.top="
               isMuted
                 ? $t('CONVERSATION.VOICE_WIDGET.UNMUTE')
@@ -195,6 +251,28 @@ const channelIcon = computed(() => {
             @click="$emit('accept')"
           />
 
+          <NextButton
+            v-if="isOngoing && showKeypad"
+            v-tooltip.top="
+              isKeypadOpen
+                ? $t('CONVERSATION.VOICE_WIDGET.HIDE_KEYPAD')
+                : $t('CONVERSATION.VOICE_WIDGET.SHOW_KEYPAD')
+            "
+            icon="i-ph-dots-nine-bold"
+            :variant="isKeypadOpen ? 'solid' : 'faded'"
+            color="teal"
+            class="!rounded-full"
+            aria-controls="voice-call-keypad"
+            :aria-expanded="isKeypadOpen"
+            :aria-label="
+              isKeypadOpen
+                ? $t('CONVERSATION.VOICE_WIDGET.HIDE_KEYPAD')
+                : $t('CONVERSATION.VOICE_WIDGET.SHOW_KEYPAD')
+            "
+            data-test-id="voice-call-keypad-toggle"
+            @click="toggleKeypad"
+          />
+
           <!-- Reject / end call (all states) -->
           <NextButton
             v-tooltip.top="
@@ -210,6 +288,8 @@ const channelIcon = computed(() => {
         </div>
       </div>
     </div>
+
+    <CallKeypad v-if="isKeypadOpen" @digit="$emit('sendDigit', $event)" />
 
     <!-- Footer: go to conversation thread -->
     <NextButton

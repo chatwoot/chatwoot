@@ -13,9 +13,41 @@ RSpec.describe Captain::ConversationCompletionService do
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:with_schema).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_thinking).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_model).and_return(mock_chat)
     allow(account).to receive(:feature_enabled?).and_call_original
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
     allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
+  end
+
+  describe 'request protocol' do
+    let(:context) { RubyLLM.context { |config| config.openai_api_key = 'test-key' } }
+    let(:messages) { [{ role: 'system', content: 'Evaluate the conversation.' }, { role: 'user', content: 'Customer: Thanks!' }] }
+
+    %w[gpt-5-mini gpt-5.2].each do |model|
+      it "renders a Responses schema request for #{model} without specifying effort" do
+        chat = service.send(:build_chat, context, model: model, messages: messages, schema: described_class::RESPONSE_SCHEMA)
+        chat.add_message(role: :user, content: messages.last[:content])
+
+        payload = chat.render
+
+        expect(payload).to include(model: model, input: an_instance_of(Array), text: include(format: include(type: 'json_schema')))
+        expect(payload).not_to have_key(:messages)
+        expect(payload).not_to have_key(:reasoning)
+        expect(service.send(:build_instrumentation_params, model, messages)[:metadata]).to include(api_protocol: 'responses')
+      end
+    end
+
+    it 'retains Chat Completions for a custom OpenAI endpoint' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
+      context.config.openai_protocol = :chat_completions
+      chat = service.send(:build_chat, context, model: 'gpt-6-luna', messages: messages, schema: described_class::RESPONSE_SCHEMA)
+      chat.add_message(role: :user, content: messages.last[:content])
+
+      expect(chat.render).to include(messages: an_instance_of(Array), response_format: include(type: 'json_schema'))
+      expect(chat.render).not_to have_key(:input)
+      expect(service.send(:build_instrumentation_params, 'gpt-6-luna', messages)[:metadata]).to include(api_protocol: 'chat_completions')
+    end
   end
 
   describe '#perform' do
@@ -29,11 +61,11 @@ RSpec.describe Captain::ConversationCompletionService do
         allow(mock_chat).to receive(:ask).and_return(mock_response)
       end
 
-      it 'uses the internal GPT-4.1 route on Chatwoot Cloud' do
+      it 'uses the internal GPT-6 Luna route on Chatwoot Cloud' do
         allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(false)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         account.enable_features!('captain_integration')
-        allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
+        allow(mock_context).to receive(:chat).with(model: 'gpt-6-luna').and_return(mock_chat)
 
         expect(service.perform).to include(complete: true)
       end
@@ -55,10 +87,10 @@ RSpec.describe Captain::ConversationCompletionService do
         expect(service.perform).to include(complete: true)
       end
 
-      it 'falls back to the internal GPT-4.1 route when the self-hosted installation model is blank' do
+      it 'falls back to the internal GPT-6 Luna route when the self-hosted installation model is blank' do
         allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: '')
-        allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
+        allow(mock_context).to receive(:chat).with(model: 'gpt-6-luna').and_return(mock_chat)
 
         expect(service.perform).to include(complete: true)
       end

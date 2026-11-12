@@ -174,12 +174,15 @@ export default {
       />
       <span
         v-if="renderedValue"
-        v-dompurify-html="renderedValue"
         class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
-      />
+        :title="renderedValue"
+      >
+        {{ renderedValue }}
+      </span>
       <span v-else class="text-sm text-n-slate-11">
         {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
       </span>
+      <slot v-if="renderedValue" />
       <NextButton
         v-if="showCopy"
         ghost

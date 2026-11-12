@@ -242,7 +242,7 @@ RSpec.describe 'Profile API', type: :request do
       it 'populates the unconfirmed email' do
         new_email = Faker::Internet.email
         put '/api/v1/profile',
-            params: { profile: { email: new_email } },
+            params: { profile: { email: new_email, current_password: 'Test123!' } },
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -250,6 +250,52 @@ RSpec.describe 'Profile API', type: :request do
         agent.reload
 
         expect(agent.unconfirmed_email).to eq(new_email)
+      end
+
+      it 'rejects the change when current password is missing' do
+        put '/api/v1/profile',
+            params: { profile: { email: Faker::Internet.email } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agent.reload.unconfirmed_email).to be_nil
+      end
+
+      it 'rejects the change when current password is invalid' do
+        put '/api/v1/profile',
+            params: { profile: { email: Faker::Internet.email, name: 'new name', current_password: 'wrong' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        agent.reload
+        expect(agent.unconfirmed_email).to be_nil
+        expect(agent.name).not_to eq('new name')
+      end
+
+      it 'rejects a change to an address that differs only by unicode case folding' do
+        user = create(:user, email: 'jess@example.com', password: 'Test123!', account: account, role: :agent)
+
+        put '/api/v1/profile',
+            params: { profile: { email: 'jeß@example.com' } },
+            headers: user.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(user.reload.unconfirmed_email).to be_nil
+      end
+
+      it 'does not require current password when the email is unchanged' do
+        put '/api/v1/profile',
+            params: { profile: { email: " #{agent.email.upcase} ", name: 'new name' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+        expect(agent.name).to eq('new name')
+        expect(agent.unconfirmed_email).to be_nil
       end
     end
   end
@@ -326,6 +372,52 @@ RSpec.describe 'Profile API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['accounts'].first['auto_offline']).to be(false)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/profile/work_preferences' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/work_preferences'
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, password: 'Test123!', account: account, role: :agent) }
+
+      it 'updates the work preferences' do
+        post '/api/v1/profile/work_preferences',
+             params: { profile: { accepts_calls: false, account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['accounts'].first).to include('accepts_conversations' => true, 'accepts_calls' => false)
+      end
+
+      it 'rejects turning off the last preference' do
+        agent.account_users.find_by(account: account).update!(accepts_calls: false)
+
+        post '/api/v1/profile/work_preferences',
+             params: { profile: { accepts_conversations: false, account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agent.account_users.find_by(account: account).accepts_conversations).to be(true)
+      end
+
+      it 'rejects a value that is not a boolean' do
+        post '/api/v1/profile/work_preferences',
+             params: { profile: { accepts_calls: 'no', account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agent.account_users.find_by(account: account).accepts_calls).to be(true)
       end
     end
   end

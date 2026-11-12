@@ -47,7 +47,9 @@
       "REGENERATE": "צור מחדש קודי גיבוי",
       "DISABLE_MFA": "השבת אימות דו-שלבי (2FA)",
       "DISABLE_MFA_DESC": "Remove two-factor authentication from your account",
-      "DISABLE_BUTTON": "Disable Two-Factor Authentication"
+      "DISABLE_BUTTON": "Disable Two-Factor Authentication",
+      "ENFORCED_TITLE": "Required by your account",
+      "ENFORCED_NOTE": "Your account requires two-factor authentication, so it cannot be disabled here. Contact your administrator if you need help."
     },
     "LOW_BACKUP_CODES": {
       "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
@@ -90,6 +92,9 @@
   "MFA_VERIFICATION": {
     "TITLE": "Two-Factor Authentication",
     "DESCRIPTION": "הזן את קוד האימות שלך כדי להמשיך",
+    "EMAIL_TITLE": "Check your email",
+    "EMAIL_DESCRIPTION": "You're signing in from a new device.",
+    "ENTER_EMAIL_CODE": "Enter the 6-digit code from your email",
     "AUTHENTICATOR_APP": "אפליקציית אימות",
     "BACKUP_CODE": "קוד גיבוי",
     "ENTER_OTP_CODE": "Enter 6-digit code from your authenticator app",
@@ -110,6 +115,11 @@
       "CONTACT_DESC_CLOUD": "אם איבדת גישה גם לאפליקציית האימות וגם לקודי הגיבוי שלך, אנא פנה לתמיכה של Chatwoot לקבלת סיוע.",
       "CONTACT_DESC_SELF_HOSTED": "אם איבדת גישה גם לאפליקציית האימות וגם לקודי הגיבוי שלך, אנא פנה למנהל המערכת שלך לקבלת סיוע."
     },
-    "VERIFICATION_FAILED": "האימות נכשל. אנא נסה שוב."
+    "VERIFICATION_FAILED": "האימות נכשל. אנא נסה שוב.",
+    "REMEMBER_DEVICE": "Don't ask again on this device for 30 days"
+  },
+  "MFA_ENFORCED_SETUP": {
+    "TITLE": "Set up two-factor authentication",
+    "DESCRIPTION": "Your account requires two-factor authentication. Scan the QR code with your authenticator app and enter the code to continue."
   }
 }

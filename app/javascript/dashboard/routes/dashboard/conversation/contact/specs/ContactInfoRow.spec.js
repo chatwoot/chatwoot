@@ -10,19 +10,17 @@ vi.mock('shared/helpers/clipboard', () => ({
   copyTextToClipboard: vi.fn(),
 }));
 
-const mountComponent = (props = {}) =>
+const mountComponent = (props = {}, slots = {}) =>
   shallowMount(ContactInfoRow, {
     props: {
       icon: 'call',
       emoji: '📞',
       ...props,
     },
+    slots,
     global: {
       mocks: {
         $t: key => key,
-      },
-      directives: {
-        'dompurify-html': () => {},
       },
     },
   });
@@ -69,5 +67,25 @@ describe('ContactInfoRow', () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.editValue).toBe('+1 800 FLOWERS');
+  });
+
+  const markup = '<form><input name="field"></form><img src="x">Acme';
+
+  it('renders values without a link as plain text', () => {
+    const wrapper = mountComponent({ value: markup });
+
+    expect(wrapper.find('form').exists()).toBe(false);
+    expect(wrapper.find('input').exists()).toBe(false);
+    expect(wrapper.find('img').exists()).toBe(false);
+    expect(wrapper.text()).toContain(markup);
+  });
+
+  it('renders slot content next to the value', () => {
+    const wrapper = mountComponent(
+      { value: 'Northtown, Northland' },
+      { default: '<span class="flag" />' }
+    );
+
+    expect(wrapper.find('.flag').exists()).toBe(true);
   });
 });

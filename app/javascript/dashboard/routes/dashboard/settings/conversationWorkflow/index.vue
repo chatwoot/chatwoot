@@ -2,11 +2,13 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useTranslationPlan } from 'dashboard/composables/useTranslationPlan';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ConversationRequiredAttributes from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributes.vue';
 import AutoResolve from 'dashboard/routes/dashboard/settings/account/components/AutoResolve.vue';
+import Translation from 'dashboard/routes/dashboard/settings/account/components/Translation.vue';
 
 const { accountId } = useAccount();
 const isFeatureEnabledonAccount = useMapGetter(
@@ -19,6 +21,9 @@ const showAutoResolutionConfig = computed(() => {
     FEATURE_FLAGS.AUTO_RESOLVE_CONVERSATIONS
   );
 });
+
+const { isAvailable, needsUpgrade } = useTranslationPlan();
+const showTranslation = computed(() => isAvailable.value || needsUpgrade.value);
 
 const showRequiredAttributes = computed(() => {
   return isFeatureEnabledonAccount.value(
@@ -41,6 +46,7 @@ const showRequiredAttributes = computed(() => {
     <template #body>
       <div class="flex flex-col gap-6 mt-4">
         <AutoResolve v-if="showAutoResolutionConfig" />
+        <Translation v-if="showTranslation" />
         <ConversationRequiredAttributes :is-enabled="showRequiredAttributes" />
       </div>
     </template>

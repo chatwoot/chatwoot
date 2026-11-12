@@ -141,7 +141,8 @@ class CaptainChatSession
   end
 
   def generate_assistant_response
-    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(callbacks: build_callbacks)
+    # An admin runs this, so tools run the way they do in the playground
+    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(callbacks: build_callbacks, source: 'playground')
     runner = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, run_options: run_options)
     runner.generate_response(message_history: @message_history)
   end
