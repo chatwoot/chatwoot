@@ -1,7 +1,8 @@
 # The agents a call rings: those online, taking calls and able to open the conversation.
 # Socket presence is not consulted, since a locked phone is exactly what a ring push is for.
-# A Twilio call orders them for routing (free assignee, then longest idle, with agents in
-# cooldown or on a call held back); a WhatsApp call rings the assignee or everyone.
+# A Twilio call rings only free agents, those not on a call or in wrap-up time, and picks them
+# up as they free up, since each ring step asks again; the assignee rings alone first, then
+# everyone or the longest idle agent. A WhatsApp call rings the assignee or everyone.
 class Voice::RingRecipients
   pattr_initialize [:inbox!, :conversation!, :dismissed_user_ids]
 
@@ -11,21 +12,15 @@ class Voice::RingRecipients
   # The agents the ring starts with
   def agents
     return whatsapp_agents unless inbox.channel.is_a?(Channel::TwilioSms)
-    return ordered.first(1) if inbox.channel.sequential_ringing?
     return [assignee] if assignee_first?
+    return ordered.first(1) if inbox.channel.sequential_ringing?
 
-    team
+    available
   end
 
-  # The agents a ring for everyone at once reaches: the free ones outside cooldown, or every
-  # eligible agent when there are none
-  def team = eligible.reject { |user| deprioritized?(user) }.presence || eligible
-
-  # The agents a ring for everyone at once adds next: the team it has not rung, and once it
-  # rings the whole team, the agents it held back
+  # The agents a ring for everyone at once adds next: the free agents it has not rung
   def next_group(rung_ids)
-    unrung = ->(users) { users.reject { |user| rung_ids.include?(user.id) } }
-    unrung.call(team).presence || unrung.call(eligible)
+    available.reject { |user| rung_ids.include?(user.id) }
   end
 
   # The agent a ring in turn adds next: the first in routing order it has not rung
@@ -47,21 +42,26 @@ class Voice::RingRecipients
     @eligible ||= openers(assignable).reject { |user| dismissed_user_ids.to_a.include?(user.id) }
   end
 
+  # Agents on a call or in wrap-up time are left out until they free up
+  def available
+    @available ||= eligible.reject { |user| on_call_ids.include?(user.id) || in_cooldown?(user) }
+  end
+
+  # The assignee first, then the free agents by idle time, an agent with no call in the day first
   def ordered
     @ordered ||= begin
       first = assignee_first? ? [assignee] : []
-      first + (eligible - first).sort_by { |user| [deprioritized?(user) ? 1 : 0, last_calls[user.id]&.ended_at.to_i] }
+      first + (available - first).sort_by { |user| last_calls[user.id]&.ended_at.to_i }
     end
   end
 
-  # The assignee rings first even in cooldown, so a customer who calls straight back stays with them
-  def assignee_first? = eligible.include?(assignee) && on_call_ids.exclude?(assignee.id)
-
-  def deprioritized?(user)
-    (inbox.channel.prefer_free_agents? && on_call_ids.include?(user.id)) || in_cooldown?(user)
+  # The assignee rings first even in wrap-up time, so a customer who calls straight back stays
+  # with them
+  def assignee_first?
+    inbox.channel.assignee_rings_first? && eligible.include?(assignee) && on_call_ids.exclude?(assignee.id)
   end
 
-  # Resolving the conversation of the agent's last call ends their cooldown early
+  # Resolving the conversation of the agent's last call ends their wrap-up time early
   def in_cooldown?(user)
     cooldown = inbox.channel.call_cooldown_seconds
     return false unless cooldown.positive?

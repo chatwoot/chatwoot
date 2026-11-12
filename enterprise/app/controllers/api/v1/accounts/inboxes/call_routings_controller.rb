@@ -8,7 +8,7 @@ class Api::V1::Accounts::Inboxes::CallRoutingsController < Api::V1::Accounts::Ba
     channel.with_lock do
       channel.update!(provider_config: channel.provider_config.merge(
         'ring_strategy' => params[:ring_strategy], 'ring_step_seconds' => params[:ring_step_seconds],
-        'prefer_free_agents' => params[:prefer_free_agents], 'call_cooldown_seconds' => params[:call_cooldown_seconds]
+        'assignee_rings_first' => params[:assignee_rings_first], 'call_cooldown_seconds' => params[:call_cooldown_seconds]
       ))
     end
     @inbox.update_account_cache

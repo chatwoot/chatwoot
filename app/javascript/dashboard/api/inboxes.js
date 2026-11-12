@@ -96,12 +96,12 @@ class Inboxes extends CacheEnabledApiClient {
 
   setCallRouting(
     inboxId,
-    { ringStrategy, ringStepSeconds, preferFreeAgents, callCooldownSeconds }
+    { ringStrategy, ringStepSeconds, assigneeRingsFirst, callCooldownSeconds }
   ) {
     return axios.patch(`${this.url}/${inboxId}/call_routing`, {
       ring_strategy: ringStrategy,
       ring_step_seconds: ringStepSeconds,
-      prefer_free_agents: preferFreeAgents,
+      assignee_rings_first: assigneeRingsFirst,
       call_cooldown_seconds: callCooldownSeconds,
     });
   }

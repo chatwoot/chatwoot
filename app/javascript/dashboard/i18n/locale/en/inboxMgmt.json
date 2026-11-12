@@ -823,24 +823,24 @@
         "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
       },
       "ROUTING": {
-        "TITLE": "Incoming call routing",
-        "DESCRIPTION": "Calls ring agents who are online and can open the conversation. The conversation's assignee rings first when they aren't on another call.",
+        "TITLE": "Who rings",
+        "DESCRIPTION": "Calls ring agents who are online and can open the conversation.",
         "STRATEGY": {
-          "LABEL": "Ringing order",
-          "SIMULTANEOUS": "Ring everyone at once",
-          "SEQUENTIAL": "Ring one more agent at a time, longest idle first"
+          "SIMULTANEOUS": "Everyone available, at once",
+          "SIMULTANEOUS_HELP": "The first agent to answer gets the call.",
+          "SEQUENTIAL": "One agent at a time",
+          "SEQUENTIAL_HELP": "The agent who has waited longest since their last call rings first. If nobody answers, the next agent is added."
         },
-        "STEP": {
-          "LABEL": "Ring interval",
-          "HELP_SIMULTANEOUS": "Every interval, agents who become available start ringing too. A free assignee rings alone for the first interval.",
-          "HELP_SEQUENTIAL": "Every interval, one more agent starts ringing. The agents already ringing keep ringing."
+        "STEP": "Add the next agent every",
+        "ASSIGNEE_FIRST": "Ring a repeat caller's agent first",
+        "WRAP_UP": {
+          "LABEL": "Wrap-up time",
+          "HELP": "After a call, the agent isn't rung for this long, or until they resolve the conversation. A repeat caller still reaches them."
         },
-        "UNIT": "seconds",
-        "PREFER_FREE": "Ring agents who aren't on a call first",
-        "COOLDOWN": {
-          "LABEL": "Cooldown after a call",
-          "HELP": "After answering a call, an agent rings after the others for this long, or until they resolve that conversation. Set to 0 to turn it off."
-        },
+        "BUSY_AGENTS": "Agents on a call or in wrap-up time are never rung. The caller keeps waiting, and the first agent who frees up starts ringing.",
+        "OFF": "Off",
+        "SECONDS": "{seconds} seconds",
+        "MINUTES": "{n} minute | {n} minutes",
         "SAVE": "Save"
       },
       "TRANSCRIPTION": {

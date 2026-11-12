@@ -20,61 +20,73 @@ const inbox = {
   id: 387,
   ring_strategy: 'simultaneous',
   ring_step_seconds: 20,
-  prefer_free_agents: false,
+  assignee_rings_first: true,
   call_cooldown_seconds: 0,
 };
 
-const mountComponent = () =>
+const mountComponent = (overrides = {}) =>
   mount(CallRoutingSettings, {
-    props: { inbox },
+    props: { inbox: { ...inbox, ...overrides } },
     global: { stubs: { Icon: true, Spinner: true } },
   });
+
+const save = wrapper => wrapper.findAll('button').at(-1);
 
 describe('CallRoutingSettings', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('explains the ring interval for the chosen ringing order', async () => {
+  it('shows the ring interval only when agents are added one at a time', async () => {
     const wrapper = mountComponent();
-    expect(wrapper.text()).toContain('STEP.HELP_SIMULTANEOUS');
+    expect(wrapper.findAll('select')).toHaveLength(1);
 
-    await wrapper.find('select').setValue('sequential');
+    await wrapper.find('#call-routing-sequential-387').setValue(true);
 
-    expect(wrapper.text()).toContain('STEP.HELP_SEQUENTIAL');
+    expect(wrapper.findAll('select')).toHaveLength(2);
   });
 
-  it('saves every setting together as numbers and refreshes the inbox', async () => {
+  it('saves every setting together and refreshes the inbox', async () => {
     InboxesAPI.setCallRouting.mockResolvedValue({});
     const wrapper = mountComponent();
-    const save = () => wrapper.findAll('button').at(-1);
-    expect(save().attributes('disabled')).toBeDefined();
+    expect(save(wrapper).attributes('disabled')).toBeDefined();
 
-    await wrapper.find('select').setValue('sequential');
-    await wrapper.find('#call-routing-step-387').setValue('15');
-    await wrapper.find('input[type="checkbox"]').setValue(true);
-    await wrapper.find('#call-routing-cooldown-387').setValue('30');
-    await save().trigger('click');
+    await wrapper.find('#call-routing-sequential-387').setValue(true);
+    const [step, wrapUp] = wrapper.findAll('select');
+    await step.setValue('15');
+    await wrapper.find('input[type="checkbox"]').setValue(false);
+    await wrapUp.setValue('120');
+    await save(wrapper).trigger('click');
     await flushPromises();
 
     expect(InboxesAPI.setCallRouting).toHaveBeenCalledWith(387, {
       ringStrategy: 'sequential',
       ringStepSeconds: 15,
-      preferFreeAgents: true,
-      callCooldownSeconds: 30,
+      assigneeRingsFirst: false,
+      callCooldownSeconds: 120,
     });
     expect(dispatch).toHaveBeenCalledWith('inboxes/get', 387);
   });
 
+  it('keeps a saved wrap-up time that is not one of the choices', () => {
+    const wrapper = mountComponent({ call_cooldown_seconds: 45 });
+    const values = wrapper
+      .find('select')
+      .findAll('option')
+      .map(option => option.element.value);
+
+    expect(values).toEqual(['0', '30', '45', '60', '120', '300', '600']);
+  });
+
   it("shows the server's error when the settings are refused", async () => {
     InboxesAPI.setCallRouting.mockRejectedValue({
-      response: { data: { message: 'Choose a step of 5 to 60 seconds' } },
+      response: { data: { message: 'Choose a wrap-up time of 0 to 600' } },
     });
     const wrapper = mountComponent();
 
-    await wrapper.find('#call-routing-cooldown-387').setValue('5');
-    await wrapper.findAll('button').at(-1).trigger('click');
+    await wrapper.find('select').setValue('30');
+    await save(wrapper).trigger('click');
     await flushPromises();
 
-    expect(alert).toHaveBeenCalledWith('Choose a step of 5 to 60 seconds');
+    expect(alert).toHaveBeenCalledWith('Choose a wrap-up time of 0 to 600');
     expect(dispatch).not.toHaveBeenCalled();
   });
 });

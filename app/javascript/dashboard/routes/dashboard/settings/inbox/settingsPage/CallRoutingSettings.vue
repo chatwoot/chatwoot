@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import InboxesAPI from 'dashboard/api/inboxes';
 import Select from 'dashboard/components-next/select/Select.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SettingsCheckboxOption from './SettingsCheckboxOption.vue';
 
@@ -15,9 +16,10 @@ const props = defineProps({
   },
 });
 
-// The bounds the server accepts
-const RING_STEP_SECONDS = { min: 10, max: 60 };
-const COOLDOWN_SECONDS = { min: 0, max: 600 };
+// Choices within the bounds the server accepts (10–60 s interval, 0–600 s wrap-up)
+const RING_STEP_PRESETS = [10, 15, 20, 30, 45, 60];
+const WRAP_UP_PRESETS = [0, 30, 60, 120, 300, 600];
+const SIMULTANEOUS = 'simultaneous';
 const SEQUENTIAL = 'sequential';
 
 const store = useStore();
@@ -26,7 +28,7 @@ const { t } = useI18n();
 const saved = () => ({
   ringStrategy: props.inbox.ring_strategy,
   ringStepSeconds: props.inbox.ring_step_seconds,
-  preferFreeAgents: !!props.inbox.prefer_free_agents,
+  assigneeRingsFirst: props.inbox.assignee_rings_first !== false,
   callCooldownSeconds: props.inbox.call_cooldown_seconds,
 });
 const form = ref(saved());
@@ -37,7 +39,7 @@ watch(
     props.inbox.id,
     props.inbox.ring_strategy,
     props.inbox.ring_step_seconds,
-    props.inbox.prefer_free_agents,
+    props.inbox.assignee_rings_first,
     props.inbox.call_cooldown_seconds,
   ],
   () => {
@@ -45,38 +47,53 @@ watch(
   }
 );
 
-const strategyOptions = computed(() => [
+const durationLabel = seconds => {
+  if (seconds === 0) return t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.OFF');
+  if (seconds % 60 === 0) {
+    return t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.MINUTES', seconds / 60);
+  }
+  return t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.SECONDS', { seconds });
+};
+
+// A value saved before the presets existed stays selectable
+const durationOptions = (presets, savedValue) =>
+  [...new Set([...presets, savedValue])]
+    .sort((a, b) => a - b)
+    .map(seconds => ({ value: seconds, label: durationLabel(seconds) }));
+
+const ringStepOptions = computed(() =>
+  durationOptions(RING_STEP_PRESETS, props.inbox.ring_step_seconds)
+);
+const wrapUpOptions = computed(() =>
+  durationOptions(WRAP_UP_PRESETS, props.inbox.call_cooldown_seconds)
+);
+
+const strategies = computed(() => [
   {
-    value: 'simultaneous',
+    id: SIMULTANEOUS,
     label: t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STRATEGY.SIMULTANEOUS'),
+    description: t(
+      'INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STRATEGY.SIMULTANEOUS_HELP'
+    ),
   },
   {
-    value: SEQUENTIAL,
+    id: SEQUENTIAL,
     label: t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STRATEGY.SEQUENTIAL'),
+    description: t(
+      'INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STRATEGY.SEQUENTIAL_HELP'
+    ),
   },
 ]);
-const stepHelp = computed(() =>
-  form.value.ringStrategy === SEQUENTIAL
-    ? t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STEP.HELP_SEQUENTIAL')
-    : t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STEP.HELP_SIMULTANEOUS')
-);
-// A cleared seconds field is not read as 0
+
 const canSave = computed(
-  () =>
-    form.value.ringStepSeconds !== '' &&
-    form.value.callCooldownSeconds !== '' &&
-    JSON.stringify(form.value) !== JSON.stringify(saved())
+  () => JSON.stringify(form.value) !== JSON.stringify(saved())
 );
 
 const save = async () => {
   if (isSaving.value) return;
   isSaving.value = true;
   try {
-    await InboxesAPI.setCallRouting(props.inbox.id, {
-      ...form.value,
-      ringStepSeconds: Number(form.value.ringStepSeconds),
-      callCooldownSeconds: Number(form.value.callCooldownSeconds),
-    });
+    await InboxesAPI.setCallRouting(props.inbox.id, form.value);
     await store.dispatch('inboxes/get', props.inbox.id);
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (error) {
@@ -102,75 +119,55 @@ const save = async () => {
         {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.DESCRIPTION') }}
       </span>
     </div>
-    <div class="flex flex-col gap-1">
-      <span class="text-body-main text-n-slate-12">
-        {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STRATEGY.LABEL') }}
-      </span>
-      <Select
-        v-model="form.ringStrategy"
-        :options="strategyOptions"
-        :aria-label="t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STRATEGY.LABEL')"
-        :disabled="isSaving"
+    <div class="flex flex-col gap-2">
+      <RadioCard
+        v-for="strategy in strategies"
+        :id="`call-routing-${strategy.id}-${inbox.id}`"
+        :key="strategy.id"
+        :name="`call-routing-strategy-${inbox.id}`"
+        :label="strategy.label"
+        :description="strategy.description"
+        :is-active="form.ringStrategy === strategy.id"
+        @select="form.ringStrategy = strategy.id"
       />
     </div>
-    <div class="flex flex-col gap-1">
-      <label
-        :for="`call-routing-step-${inbox.id}`"
-        class="flex items-center gap-2 mb-0 text-body-main text-n-slate-12"
-      >
-        {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STEP.LABEL') }}
-        <span
-          class="flex items-center gap-2 h-8 px-3 rounded-lg bg-n-alpha-black2 outline outline-1 -outline-offset-1 outline-n-weak focus-within:outline-n-brand"
-        >
-          <input
-            :id="`call-routing-step-${inbox.id}`"
-            v-model="form.ringStepSeconds"
-            type="number"
-            :min="RING_STEP_SECONDS.min"
-            :max="RING_STEP_SECONDS.max"
-            :disabled="isSaving"
-            class="w-10 reset-base !mb-0 !p-0 !border-0 !bg-transparent text-sm text-n-slate-12"
-          />
-          <span class="text-sm text-n-slate-11">{{
-            t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.UNIT')
-          }}</span>
-        </span>
-      </label>
-      <span class="text-body-main text-n-slate-11">
-        {{ stepHelp }}
-      </span>
-    </div>
+    <label
+      v-if="form.ringStrategy === SEQUENTIAL"
+      class="flex items-center gap-2 mb-0 text-body-main text-n-slate-12"
+    >
+      {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STEP') }}
+      <Select
+        v-model="form.ringStepSeconds"
+        :options="ringStepOptions"
+        :aria-label="t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.STEP')"
+        :disabled="isSaving"
+      />
+    </label>
     <SettingsCheckboxOption
-      v-model="form.preferFreeAgents"
-      :header="t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.PREFER_FREE')"
+      v-model="form.assigneeRingsFirst"
+      :header="t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.ASSIGNEE_FIRST')"
     />
     <div class="flex flex-col gap-1">
       <label
-        :for="`call-routing-cooldown-${inbox.id}`"
         class="flex items-center gap-2 mb-0 text-body-main text-n-slate-12"
       >
-        {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.COOLDOWN.LABEL') }}
-        <span
-          class="flex items-center gap-2 h-8 px-3 rounded-lg bg-n-alpha-black2 outline outline-1 -outline-offset-1 outline-n-weak focus-within:outline-n-brand"
-        >
-          <input
-            :id="`call-routing-cooldown-${inbox.id}`"
-            v-model="form.callCooldownSeconds"
-            type="number"
-            :min="COOLDOWN_SECONDS.min"
-            :max="COOLDOWN_SECONDS.max"
-            :disabled="isSaving"
-            class="w-10 reset-base !mb-0 !p-0 !border-0 !bg-transparent text-sm text-n-slate-12"
-          />
-          <span class="text-sm text-n-slate-11">{{
-            t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.UNIT')
-          }}</span>
-        </span>
+        {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.WRAP_UP.LABEL') }}
+        <Select
+          v-model="form.callCooldownSeconds"
+          :options="wrapUpOptions"
+          :aria-label="
+            t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.WRAP_UP.LABEL')
+          "
+          :disabled="isSaving"
+        />
       </label>
       <span class="text-body-main text-n-slate-11">
-        {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.COOLDOWN.HELP') }}
+        {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.WRAP_UP.HELP') }}
       </span>
     </div>
+    <p class="text-body-main text-n-slate-11">
+      {{ t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.BUSY_AGENTS') }}
+    </p>
     <div class="flex justify-end">
       <NextButton
         :label="t('INBOX_MGMT.VOICE_CONFIGURATION.ROUTING.SAVE')"
