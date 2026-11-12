@@ -5,11 +5,16 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   # holder finishes and silently drop its message.
   retry_on LockAcquisitionError, wait: 2.seconds, attempts: 20
 
+  # account_update changes are WABA-level and carry no phone metadata, so they are handled apart from the other
+  # changes in the delivery, and after them so a message sent before Meta removed our access is still processed.
   def perform(params = {})
-    # account_update events are WABA-level and carry no phone metadata, so they never resolve to a channel.
-    account_updates = account_update_changes(params)
-    return account_updates.each { |change| handle_account_update(change[:value]) } if account_updates.any?
+    phone_number_events = Whatsapp::AccountUpdates.without(params)
+    process_phone_number_events(phone_number_events) if phone_number_events.present?
 
+    Whatsapp::AccountUpdates.changes(params).each { |change| handle_account_update(change[:value]) }
+  end
+
+  def process_phone_number_events(params)
     channel = find_channel_from_whatsapp_business_payload(params)
 
     if channel_is_inactive?(channel)
@@ -160,13 +165,6 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 
   def embedded_signup_channel?(channel)
     (channel.provider_config || {}).to_h['source'] == 'embedded_signup'
-  end
-
-  # Meta can batch several entries and changes into one delivery, e.g. removals from two WABAs.
-  def account_update_changes(params)
-    return [] unless params[:object] == 'whatsapp_business_account'
-
-    Array(params[:entry]).flat_map { |entry| Array(entry[:changes]) }.select { |change| change[:field] == 'account_update' }
   end
 
   # Only PARTNER_REMOVED is acted on today; other account_update events are ignored as before.

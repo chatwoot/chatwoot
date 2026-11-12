@@ -557,6 +557,22 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       end
     end
 
+    context 'with a message batched before PARTNER_REMOVED' do
+      let(:event) { 'PARTNER_REMOVED' }
+
+      it 'processes the message, then prompts reauthorization' do
+        allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+        message_entry = params[:entry].first
+        account_update_params[:entry].unshift(message_entry)
+
+        job.perform_now(account_update_params)
+
+        expect(Whatsapp::IncomingMessageWhatsappCloudService).to have_received(:new)
+          .with(inbox: channel.inbox, params: hash_including(entry: [message_entry]))
+        expect(channel.reload.reauthorization_required?).to be true
+      end
+    end
+
     context 'with another account_update event' do
       let(:event) { 'PARTNER_ADDED' }
 
