@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.5.1
+# Script Version: 3.5.2
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,Upgrade:,webserver,version,web-only,worker-only,convert:
 OPTIONS=cdhiI:l:rsuU:wvWK
-CWCTL_VERSION="3.5.1"
+CWCTL_VERSION="3.5.2"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -228,9 +228,59 @@ function install_dependencies() {
       postgresql-client-16 redis-tools \
       nodejs patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
-      libvips python3-pip
+      python3-pip
   npm install -g pnpm
 }
+
+# Check the native API that Rails requires through ruby-vips.
+function libvips_supports_operation_blocking() {
+  python3 -c 'from ctypes import CDLL; CDLL("libvips.so.42").vips_block_untrusted_set' 2>/dev/null
+}
+
+function install_libvips() (
+  if libvips_supports_operation_blocking; then
+    return
+  fi
+
+  apt-get update
+  apt-get install -y libvips
+  if libvips_supports_operation_blocking; then
+    return
+  fi
+
+  # Ubuntu 20.04 and 22.04 package libvips versions below Rails' 8.13 minimum.
+  local vips_version=8.18.7 build_dir archive
+  build_dir=$(mktemp -d)
+  trap 'rm -rf -- "$build_dir"' EXIT
+  archive="$build_dir/vips-$vips_version.tar.xz"
+
+  apt-get install -y --no-install-recommends build-essential ca-certificates curl ninja-build pkg-config python3-venv xz-utils \
+    libglib2.0-dev libexpat1-dev libjpeg-dev libpng-dev libwebp-dev libtiff-dev \
+    libheif-dev libexif-dev liblcms2-dev
+
+  curl --fail --location --silent --show-error \
+    "https://github.com/libvips/libvips/releases/download/v$vips_version/vips-$vips_version.tar.xz" --output "$archive"
+  printf '%s  %s\n' '5baaead3b0bb20ffdb9e9ff09aa9fda08620923df77b63b436654cb5e0b3bf94' "$archive" | sha256sum --check
+  tar -xf "$archive" -C "$build_dir"
+
+  # Focal's Meson package is too old. Use a verified wheel that supports its Python.
+  python3 -m venv "$build_dir/venv"
+  printf '%s\n' 'meson==1.8.5 --hash=sha256:15ab2cca08271bc055bc33a4929b7c58f15ad67df4c1fa65dc223e822b882bef' | \
+    "$build_dir/venv/bin/python" -m pip install --require-hashes --only-binary=:all: -r /dev/stdin
+  local meson="$build_dir/venv/bin/meson"
+  "$meson" setup "$build_dir/build" "$build_dir/vips-$vips_version" \
+    --prefix=/usr/local --libdir=lib/chatwoot-libvips --buildtype=release --wrap-mode=nodownload -Dintrospection=disabled
+  "$meson" compile -C "$build_dir/build" -j 2
+  "$meson" install -C "$build_dir/build"
+  # Resolve the newer library before Ubuntu's copy with the same SONAME.
+  printf '%s\n' '/usr/local/lib/chatwoot-libvips' >| /etc/ld.so.conf.d/00-chatwoot-libvips.conf
+  ldconfig
+
+  if ! libvips_supports_operation_blocking; then
+    echo "Unable to load libvips with operation blocking. Chatwoot requires libvips 8.13 or later." >&2
+    return 1
+  fi
+)
 
 ##############################################################################
 # Install postgres and redis
@@ -630,6 +680,7 @@ EOF
 
   echo -en "\n➥ 1/9 Installing dependencies. This takes a while.\n"
   install_dependencies &>> "${LOG_FILE}"
+  install_libvips &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]; then
     echo "➥ 2/9 Installing databases."
@@ -849,7 +900,6 @@ EOF
 
 ##############################################################################
 # Update redis to v7+ for Rails 7 support(-u/--upgrade)
-# and install libvips for image processing support in Rails 7
 # Globals:
 #   None
 # Arguments:
@@ -886,7 +936,6 @@ function upgrade_redis() {
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   apt-get update -y
   apt-get upgrade redis-server -y
-  apt-get install libvips -y
 }
 
 
@@ -1011,6 +1060,7 @@ EOF
   fi
 
   upgrade_prereq
+  install_libvips
   upgrade_redis
   upgrade_node
   get_pnpm
