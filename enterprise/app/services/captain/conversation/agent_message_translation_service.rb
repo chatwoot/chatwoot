@@ -4,9 +4,7 @@ class Captain::Conversation::AgentMessageTranslationService
   pattr_initialize [:message!]
 
   def perform
-    detect_contact_language
-    translate_reply if conversation.language.present?
-
+    translate_message
     message.content_attributes.delete('translation_pending')
     message.save!
   end
@@ -14,6 +12,16 @@ class Captain::Conversation::AgentMessageTranslationService
   private
 
   delegate :conversation, :account, :inbox, to: :message
+
+  # SendReplyJob runs this before the channel send, so an error here would hold the reply back for good.
+  # A failed translation sends the reply as written and flags it instead.
+  def translate_message
+    detect_contact_language
+    translate_reply if conversation.language.present?
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
+    message.translation_failed = true
+  end
 
   def detect_contact_language
     contact_message = conversation.messages.incoming.where(content_type: %w[text incoming_email]).where.not(content: [nil, '']).order(:id).last

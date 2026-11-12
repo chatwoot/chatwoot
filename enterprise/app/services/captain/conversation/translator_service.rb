@@ -30,18 +30,25 @@ class Captain::Conversation::TranslatorService
     Captain::Llm::LanguageDetectionService.new(account: account, text: text).language
   end
 
+  # The account owns the Google key. A broken key fails in Google's auth library with errors outside
+  # Google::Cloud::Error, such as Signet, OpenSSL or a bare RuntimeError. Any of them must leave the reply
+  # untranslated instead of stopping the job that sends it.
   def translate_with_google(text, target_language)
     google.translate(text, target_language).presence
-  rescue Google::Cloud::Error => e
-    Rails.logger.warn("[AutoTranslate] Google translation failed: #{e.message}")
+  rescue StandardError => e
+    log_google_failure('translation', e)
     nil
   end
 
   def detect_with_google(text)
     google.detect(text)
-  rescue Google::Cloud::Error => e
-    Rails.logger.warn("[AutoTranslate] Google language detection failed: #{e.message}")
+  rescue StandardError => e
+    log_google_failure('language detection', e)
     nil
+  end
+
+  def log_google_failure(operation, error)
+    Rails.logger.error("[AutoTranslate] Google #{operation} failed for account #{account.id}: #{error.class}: #{error.message}")
   end
 
   def google
