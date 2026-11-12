@@ -5,10 +5,11 @@ RSpec.describe Channels::Whatsapp::EmbeddedSignupSetupJob do
     create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
   end
   let(:health_service) { instance_double(Whatsapp::HealthService) }
+  let(:webhook_setup) { instance_double(Whatsapp::WebhookSetupService, perform: true, registration_error: nil) }
   let(:healthy) { { platform_type: 'CLOUD_API', throughput: { 'level' => 'STANDARD' } } }
 
   before do
-    allow(channel).to receive(:setup_webhooks)
+    allow(Whatsapp::WebhookSetupService).to receive(:new).with(channel, is_coexistence: anything).and_return(webhook_setup)
     allow(Whatsapp::HealthService).to receive(:new).with(channel).and_return(health_service)
     allow(health_service).to receive(:fetch_health_status).and_return(healthy)
   end
@@ -21,7 +22,8 @@ RSpec.describe Channels::Whatsapp::EmbeddedSignupSetupJob do
   it 'sets up webhooks with the coexistence signal' do
     described_class.perform_now(channel, is_coexistence: true, check_health: false)
 
-    expect(channel).to have_received(:setup_webhooks).with(is_coexistence: true)
+    expect(Whatsapp::WebhookSetupService).to have_received(:new).with(channel, is_coexistence: true)
+    expect(webhook_setup).to have_received(:perform)
   end
 
   it 'does not check health when asked not to' do
@@ -53,12 +55,28 @@ RSpec.describe Channels::Whatsapp::EmbeddedSignupSetupJob do
   end
 
   it 'prompts reauthorization when webhook setup fails' do
-    allow(channel).to receive(:setup_webhooks).and_call_original
-    allow(channel).to receive(:perform_webhook_setup).and_raise('Webhook setup error')
+    allow(webhook_setup).to receive(:perform).and_raise('Webhook setup error')
 
     described_class.perform_now(channel, is_coexistence: false, check_health: false)
 
     expect(channel.reauthorization_required?).to be true
+  end
+
+  # A reconnect has already cleared the reconnect banner, and skips the health check.
+  it 'prompts reauthorization when registration fails even though the webhook was subscribed' do
+    allow(webhook_setup).to receive(:registration_error).and_return(StandardError.new('(#133005) Two step verification PIN mismatch'))
+
+    described_class.perform_now(channel, is_coexistence: false, check_health: false)
+
+    expect(channel.reauthorization_required?).to be true
+  end
+
+  it 'skips the health check after a failed setup' do
+    allow(webhook_setup).to receive(:perform).and_raise('Webhook setup error')
+
+    described_class.perform_now(channel, is_coexistence: false, check_health: true)
+
+    expect(Whatsapp::HealthService).not_to have_received(:new)
   end
 
   it 'does not raise when the health check itself fails' do
