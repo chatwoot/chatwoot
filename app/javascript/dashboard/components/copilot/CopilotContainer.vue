@@ -7,6 +7,7 @@ import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useCopilotDot } from 'dashboard/composables/useCopilotDot';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useWindowSize } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
@@ -122,6 +123,17 @@ const shouldShowCopilotPanel = computed(() => {
     !uiFlags.value.fetchingList
   );
 });
+
+// The panel can already be open on load, for someone who used Copilot before the dot existed. They have seen Copilot,
+// so the dot is used up here too, not only when an entry point opens the panel.
+const { showDot } = useCopilotDot();
+watch(
+  () => shouldShowCopilotPanel.value && showDot.value,
+  isOpenWithDot => {
+    if (isOpenWithDot) updateUISettings({ copilot_dot_dismissed: true });
+  },
+  { immediate: true }
+);
 
 // Expanded, the panel covers the conversation area. It opens at its normal width every time. It stays below the
 // sidebar's z-40, so the sidebar menus open over it.

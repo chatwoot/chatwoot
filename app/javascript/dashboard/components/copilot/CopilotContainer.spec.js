@@ -7,6 +7,8 @@ const testState = vi.hoisted(() => ({
   getThreads: vi.fn(),
   refs: {},
   route: {},
+  uiSettings: null,
+  updateUISettings: vi.fn(),
 }));
 
 vi.mock('vue-router', async () => {
@@ -25,10 +27,11 @@ vi.mock('dashboard/composables/useConfig', () => ({
 }));
 vi.mock('dashboard/composables/useUISettings', async () => {
   const { ref: createRef } = await import('vue');
+  testState.uiSettings = createRef({});
   return {
     useUISettings: () => ({
-      uiSettings: createRef({ is_copilot_panel_open: true }),
-      updateUISettings: vi.fn(),
+      uiSettings: testState.uiSettings,
+      updateUISettings: testState.updateUISettings,
     }),
   };
 });
@@ -101,6 +104,8 @@ describe('CopilotContainer', () => {
     testState.getThreads.mockResolvedValue({
       data: { payload: [], meta: { total_count: 0, page: 1 } },
     });
+    testState.uiSettings.value = { is_copilot_panel_open: true };
+    testState.updateUISettings.mockReset();
     testState.route.path = '/app/accounts/1/conversations/1';
     testState.refs.getSelectedChat.value = { id: 1 };
     testState.refs.getCurrentAccountId.value = 1;
@@ -117,6 +122,29 @@ describe('CopilotContainer', () => {
     await flushPromises();
 
     expect(testState.getThreads).not.toHaveBeenCalled();
+  });
+
+  it('uses up the dot when the panel is already open with workflows', async () => {
+    testState.refs['accounts/isFeatureEnabledonAccount'].value = (
+      accountId,
+      flag
+    ) => ['captain_integration', 'copilot_workflows'].includes(flag);
+
+    mountComponent();
+    await flushPromises();
+
+    expect(testState.updateUISettings).toHaveBeenCalledWith({
+      copilot_dot_dismissed: true,
+    });
+  });
+
+  it('keeps the dot when the older Copilot is open', async () => {
+    mountComponent();
+    await flushPromises();
+
+    expect(testState.updateUISettings).not.toHaveBeenCalledWith({
+      copilot_dot_dismissed: true,
+    });
   });
 
   it('returns an expanded panel to its normal width when another page opens', async () => {
