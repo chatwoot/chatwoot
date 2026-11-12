@@ -62,6 +62,40 @@ describe('#actions', () => {
     });
   });
 
+  describe('#createWhatsAppEmbeddedSignup', () => {
+    const signupResponse = {
+      success: true,
+      id: 42,
+      name: 'Shop WhatsApp',
+      channel_type: 'whatsapp',
+    };
+
+    it('adds a newly created inbox', async () => {
+      axios.post.mockResolvedValue({ data: signupResponse });
+      await actions.createWhatsAppEmbeddedSignup(
+        { commit, state: { records: [] } },
+        { code: 'code' }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
+        [types.default.ADD_INBOXES, signupResponse],
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+
+    it('does not add an inbox the signup reconnected', async () => {
+      axios.post.mockResolvedValue({ data: signupResponse });
+      await actions.createWhatsAppEmbeddedSignup(
+        { commit, state: { records: [{ id: 42 }] } },
+        { code: 'code' }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: true }],
+        [types.default.SET_INBOXES_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+  });
+
   describe('#createVoiceChannel', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({ data: inboxList[0] });
