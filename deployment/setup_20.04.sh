@@ -234,7 +234,8 @@ function install_dependencies() {
 
 # Check Rails' required API and the GIF encoder used for image variants.
 function libvips_is_compatible() {
-  python3 - 2>/dev/null <<'PY'
+  python3 - "${1:-}" 2>/dev/null <<'PY'
+import sys
 from ctypes import CDLL, c_char_p, c_size_t
 
 vips = CDLL('libvips.so.42')
@@ -244,23 +245,36 @@ if vips.vips_init(b'chatwoot-libvips-check') != 0:
 vips.vips_block_untrusted_set(1)
 vips.vips_type_find.argtypes = [c_char_p, c_char_p]
 vips.vips_type_find.restype = c_size_t
-raise SystemExit(0 if vips.vips_type_find(b'VipsOperation', b'gifsave') else 1)
+if not vips.vips_type_find(b'VipsOperation', b'gifsave'):
+    raise SystemExit(1)
+
+if sys.argv[1]:
+    installed = tuple(vips.vips_version(part) for part in range(3))
+    minimum = tuple(map(int, sys.argv[1].split('.')))
+    if installed < minimum:
+        raise SystemExit(1)
 PY
 }
 
 function install_libvips() (
-  if libvips_is_compatible; then
+  local vips_version=8.18.7 build_dir archive
+  local loader_config=/etc/ld.so.conf.d/00-chatwoot-libvips.conf minimum_version=
+  # APT maintains distro packages. Apply the pin to the source build that cwctl activates.
+  if [[ -f "$loader_config" ]]; then
+    minimum_version="$vips_version"
+  fi
+
+  if libvips_is_compatible "$minimum_version"; then
     return
   fi
 
   apt-get update
   apt-get install -y libvips
-  if libvips_is_compatible; then
+  if libvips_is_compatible "$minimum_version"; then
     return
   fi
 
   # Ubuntu 20.04 and 22.04 package libvips versions below Rails' 8.13 minimum.
-  local vips_version=8.18.7 build_dir archive
   build_dir=$(mktemp -d)
   trap 'rm -rf -- "$build_dir"' EXIT
   archive="$build_dir/vips-$vips_version.tar.xz"
@@ -303,11 +317,11 @@ function install_libvips() (
   VIPS_BLOCK_UNTRUSTED=1 "$build_dir/build/tools/vips" black "$build_dir/probe.gif" 2 2 --bands 3
   "$meson" install -C "$build_dir/build"
   # Resolve the newer library before Ubuntu's copy with the same SONAME.
-  printf '%s\n' '/usr/local/lib/chatwoot-libvips' >| /etc/ld.so.conf.d/00-chatwoot-libvips.conf
+  printf '%s\n' '/usr/local/lib/chatwoot-libvips' >| "$loader_config"
   ldconfig
 
-  if ! libvips_is_compatible; then
-    echo "Chatwoot requires libvips 8.13 or later with operation blocking and GIF encoding." >&2
+  if ! libvips_is_compatible "$vips_version"; then
+    echo "Unable to load libvips $vips_version or later with operation blocking and GIF encoding." >&2
     return 1
   fi
 )
