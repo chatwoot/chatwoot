@@ -51,18 +51,23 @@ class Captain::Mcp::Connection
   end
 
   # The tool definitions for a run or the hourly check, reused for LISTING_TTL. The tools page and approval list the
-  # server live, because an admin compares what it offers now. A failed listing is not kept, so the next run tries again.
+  # server live with live_tool_definitions, because an admin compares what it offers now, and that listing replaces the
+  # reused one, so the next run sees what the admin saw. A failed listing is not kept, so the next run tries again.
   #
   # Known limit: while a server hangs, every run waits for the timeouts (about 40 seconds, RubyLLM's 10 second discovery
   # plus TIMEOUT) before it skips the server, and holds a Sidekiq thread meanwhile. Runs also list servers that need new
   # credentials, and the MCP session is never closed. A short Redis mark after a failed listing, skipping needs_credentials
   # servers in Captain::Mcp::AgentTools, and closing the connections after a run would remove these costs.
   def recent_tool_definitions
-    key = format(::Redis::RedisKeys::CAPTAIN_MCP_TOOL_LISTING, server_id: @server.id)
-    cached = ::Redis::Alfred.get(key)
+    cached = ::Redis::Alfred.get(listing_key)
     return JSON.parse(cached) if cached
 
-    track_status { tool_definitions }.tap { |definitions| ::Redis::Alfred.setex(key, definitions.to_json, LISTING_TTL) }
+    live_tool_definitions
+  end
+
+  # Lists the server now with the saved credentials, and keeps the listing for the runs that follow
+  def live_tool_definitions
+    track_status { tool_definitions }.tap { |definitions| ::Redis::Alfred.setex(listing_key, definitions.to_json, LISTING_TTL) }
   end
 
   # RubyLLM exposes the server's name only through its private server info
@@ -90,6 +95,10 @@ class Captain::Mcp::Connection
   end
 
   private
+
+  def listing_key
+    format(::Redis::RedisKeys::CAPTAIN_MCP_TOOL_LISTING, server_id: @server.id)
+  end
 
   # Each server has its own context, because RubyLLM reads the credential store from the context config
   def context
