@@ -5,7 +5,55 @@ require 'json'
 module RailsUpgrade
 end
 
+module RailsUpgrade::Rails8Compatibility
+  private
+
+  def check_rails_8_compatibility
+    version = Gem::Version.new(Rails.version)
+    return report('rails_8.compatibility', true, skipped: true) if version < Gem::Version.new('8.0')
+
+    check_gem_version('administrate', '= 1.0.0')
+    check_gem_version('groupdate', '>= 6.8.0')
+    check_gem_version('rails-i18n', '~> 8.0')
+
+    route = Rails.application.routes.url_helpers.app_account_path(1)
+    check('rails_8.mailer_route', expected: '/app/accounts/1', actual: route) { route == '/app/accounts/1' }
+
+    return check_rails_8_1_compatibility if version >= Gem::Version.new('8.1')
+
+    time_behavior = ActiveSupport.to_time_preserves_timezone
+    check('rails_8.to_time_preserves_timezone', expected: 'zone', actual: time_behavior.to_s) { time_behavior == :zone }
+  end
+
+  def check_rails_8_1_compatibility
+    check_gem_version('acts-as-taggable-on', '>= 13.0.0')
+    check_gem_version('devise-two-factor', '>= 6.4.0')
+    check_gem_version('devise_token_auth', '>= 1.2.6')
+    check_gem_version('omniauth-rails_csrf_protection', '>= 2.0.1')
+    check_gem_version('azure-blob', '>= 0.8.0')
+    check_time_conversion
+    check_sidekiq_adapter
+  end
+
+  def check_time_conversion
+    offsets = Time.use_zone('America/New_York') do
+      [Time.zone.local(2025, 1, 15, 12), Time.zone.local(2025, 7, 15, 12)].map do |time|
+        [time.utc_offset, time.to_time.utc_offset]
+      end
+    end
+    check('rails_8_1.to_time_preserves_receiver_zone', offsets: offsets) { offsets.all? { |receiver, converted| receiver == converted } }
+  end
+
+  def check_sidekiq_adapter
+    adapter_source = ActiveJob::Base.queue_adapter.method(:enqueue).source_location&.first
+    sidekiq_path = Gem.loaded_specs.fetch('sidekiq').full_gem_path
+    check('rails_8_1.sidekiq_adapter', source: adapter_source) { adapter_source&.start_with?("#{sidekiq_path}/") }
+  end
+end
+
 class RailsUpgrade::Preflight
+  include RailsUpgrade::Rails8Compatibility
+
   def initialize
     @failures = 0
   end
@@ -47,20 +95,6 @@ class RailsUpgrade::Preflight
 
     check('sidekiq.version', expected: expected_sidekiq, actual: Sidekiq::VERSION) { expected_sidekiq == Sidekiq::VERSION }
     check('sidekiq.connection_pool', actual: connection_pool.to_s, constraint: '< 3') { connection_pool < Gem::Version.new('3') }
-  end
-
-  def check_rails_8_compatibility
-    return report('rails_8.compatibility', true, skipped: true) if Gem::Version.new(Rails.version) < Gem::Version.new('8.0')
-
-    check_gem_version('administrate', '= 1.0.0')
-    check_gem_version('groupdate', '>= 6.8.0')
-    check_gem_version('rails-i18n', '~> 8.0')
-
-    route = Rails.application.routes.url_helpers.app_account_path(1)
-    check('rails_8.mailer_route', expected: '/app/accounts/1', actual: route) { route == '/app/accounts/1' }
-
-    time_behavior = ActiveSupport.to_time_preserves_timezone
-    check('rails_8.to_time_preserves_timezone', expected: 'zone', actual: time_behavior.to_s) { time_behavior == :zone }
   end
 
   def check_gem_version(name, requirement)

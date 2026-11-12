@@ -25,6 +25,22 @@ RSpec.describe 'Confirmations API', type: :request do
       expect(Current.user).to be_nil
     end
 
+    it 'keeps the current email until the new address is confirmed' do
+      user.confirm
+      original_email = user.email
+      new_email = 'new-address@example.com'
+
+      user.update!(email: new_email)
+
+      expect(user.reload).to have_attributes(email: original_email, unconfirmed_email: new_email)
+      expect(user.confirmation_token).to be_present
+
+      confirm_user(user)
+
+      expect(response).to have_http_status(:success)
+      expect(user.reload).to have_attributes(email: new_email, unconfirmed_email: nil)
+    end
+
     context 'when account enforces MFA' do
       before do
         skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?

@@ -1,6 +1,6 @@
 # Rails 8.1 Upgrade Assessment
 
-> November 12, 2026 update. The Rails 8.0 checkpoint targets **8.0.5.2**, the latest published Rails 8.0 security patch as of this update. It was [released November 4, 2026](https://rubyonrails.org/2026/11/4/Rails-8.0.5.2-and-8.1.4.1-have-been-released). The assessment, target versions, and validation counts below describe the original upgrade work. See the [Rails 8.0 rollout guide](rails_upgrades/8_0.md) for current compatibility and rollout requirements.
+> November 12, 2026 update. The Rails 8.0 checkpoint shipped on **8.0.5.2**, and the Rails 8.1 checkpoint targets **8.1.4.1**. Rails published both [security releases on November 4, 2026](https://rubyonrails.org/2026/11/4/Rails-8.0.5.2-and-8.1.4.1-have-been-released). The versions and validation counts below describe the original assessment. See the [Rails 8.0 rollout guide](rails_upgrades/8_0.md) and the [Rails 8.1 rollout guide](rails_upgrades/8_1.md) for the current procedures.
 
 Date: 2026-07-24
 Repository revision assessed: `56e72eff8d67`

@@ -190,10 +190,10 @@ class User < ApplicationRecord
     }
   end
 
-  # https://github.com/lynndylanhurley/devise_token_auth/blob/6d7780ee0b9750687e7e2871b9a1c6368f2085a9/app/models/devise_token_auth/concerns/user.rb#L45
-  # Since this method is overriden in devise_token_auth it breaks the email reconfirmation flow.
-  def will_save_change_to_email?
-    mutations_from_database.changed?('email')
+  # devise_token_auth disables Devise's email dirty check. Delegate to Active Record
+  # so Devise keeps the current email until the new address is confirmed.
+  def devise_will_save_change_to_email?
+    will_save_change_to_email?
   end
 
   def self.from_email(email)
@@ -236,9 +236,7 @@ class User < ApplicationRecord
   # to confirm an email they don't own. Fixed in Devise 5.0.3 by persisting
   # unconfirmed_email before regenerating the confirmation token.
   #
-  # We can't upgrade to Devise 5.0.3 because devise-two-factor only added Devise 5
-  # support in v6.4.0, which simultaneously raised its Rails minimum to 7.2+.
-  # No released version supports both Devise 5 and Rails 7.1.
+  # devise-secure_password 2.2.1 constrains Devise to versions below 5.
   #
   # This override applies the same fix locally: force-mark unconfirmed_email
   # as dirty before assignment so ActiveRecord always writes it, keeping it
