@@ -555,8 +555,14 @@ function configure_systemd_services() {
   fi
 
   cp /home/chatwoot/chatwoot/deployment/chatwoot /etc/sudoers.d/chatwoot
-  cp /home/chatwoot/chatwoot/deployment/setup_20.04.sh /usr/local/bin/cwctl
-  chmod +x /usr/local/bin/cwctl
+
+  # Bash may still be reading the installed script during a conversion.
+  (
+    cwctl_tmp=$(mktemp /usr/local/bin/.cwctl.XXXXXX)
+    trap 'rm -f -- "$cwctl_tmp"' EXIT
+    command install -m 0755 /home/chatwoot/chatwoot/deployment/setup_20.04.sh "$cwctl_tmp"
+    mv -fT -- "$cwctl_tmp" /usr/local/bin/cwctl
+  )
 }
 
 ##############################################################################
