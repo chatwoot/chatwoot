@@ -12,6 +12,14 @@ Rails.application.config.active_storage.content_types_allowed_inline += %w[
   audio/x-wav
 ]
 
+# Rails blocks the libvips loaders for these formats. Keep the originals downloadable
+# without generating representation URLs that fail when the thumbnail is processed.
+Rails.application.config.active_storage.variable_content_types -= %w[
+  image/bmp
+  image/vnd.microsoft.icon
+  image/vnd.adobe.photoshop
+]
+
 module ActiveStorageDirectUploadMetadataFilter
   INTERNAL_METADATA_KEYS = %w[identified analyzed composed].freeze
 
