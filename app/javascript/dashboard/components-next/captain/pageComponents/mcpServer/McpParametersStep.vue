@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Switch from 'dashboard/components-next/switch/Switch.vue';
@@ -11,7 +12,7 @@ import {
   requiresVerification,
 } from './mcpTools';
 
-defineProps({
+const props = defineProps({
   tools: { type: Array, required: true },
   selections: { type: Object, required: true },
   toolSchema: { type: Function, required: true },
@@ -24,6 +25,18 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+
+// A server can offer many tools, so each tool's parameters fold away. The first tool starts open.
+const openTools = ref(new Set(props.tools.slice(0, 1).map(tool => tool.name)));
+
+const isOpen = tool => openTools.value.has(tool.name);
+
+const toggleTool = tool => {
+  const names = new Set(openTools.value);
+  if (names.has(tool.name)) names.delete(tool.name);
+  else names.add(tool.name);
+  openTools.value = names;
+};
 </script>
 
 <template>
@@ -49,13 +62,29 @@ const { t } = useI18n();
       :key="tool.name"
       class="overflow-hidden rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
     >
-      <header
-        class="flex items-center justify-between gap-3 px-4 py-3 bg-n-alpha-1"
+      <button
+        type="button"
+        class="flex items-center justify-between w-full gap-3 px-4 py-3 text-start bg-n-alpha-1"
+        :aria-expanded="isOpen(tool)"
+        @click="toggleTool(tool)"
       >
-        <span
-          class="font-mono text-[0.8125rem] font-medium truncate text-n-slate-12"
-        >
-          {{ tool.name }}
+        <span class="flex items-center min-w-0 gap-2">
+          <i
+            class="i-lucide-chevron-right size-4 shrink-0 text-n-slate-11 transition-transform rtl:rotate-180"
+            :class="{ 'rotate-90 rtl:rotate-90': isOpen(tool) }"
+          />
+          <span
+            class="font-mono text-[0.8125rem] font-medium truncate text-n-slate-12"
+          >
+            {{ tool.name }}
+          </span>
+          <span class="text-xs shrink-0 text-n-slate-11">
+            {{
+              t('CAPTAIN.MCP_SERVERS.DIALOG.PARAM_COUNT', {
+                n: schemaParams(toolSchema(tool)).length,
+              })
+            }}
+          </span>
         </span>
         <span
           class="inline-flex items-center gap-1 text-xs shrink-0"
@@ -79,9 +108,9 @@ const { t } = useI18n();
               : t('CAPTAIN.MCP_SERVERS.WHO.ANYONE')
           }}
         </span>
-      </header>
+      </button>
 
-      <div class="divide-y divide-n-weak">
+      <div v-if="isOpen(tool)" class="divide-y divide-n-weak">
         <p
           v-if="!schemaParams(toolSchema(tool)).length"
           class="px-4 py-3.5 m-0 text-sm text-n-slate-11"
@@ -107,6 +136,7 @@ const { t } = useI18n();
       </div>
 
       <label
+        v-if="isOpen(tool)"
         class="flex items-center justify-between gap-4 px-4 py-3 border-t cursor-pointer border-n-weak"
       >
         <span class="flex flex-col gap-0.5">
