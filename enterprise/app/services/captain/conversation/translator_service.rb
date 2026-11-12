@@ -30,25 +30,24 @@ class Captain::Conversation::TranslatorService
     Captain::Llm::LanguageDetectionService.new(account: account, text: text).language
   end
 
-  # The account owns the Google key. A broken key fails in Google's auth library with errors outside
-  # Google::Cloud::Error, such as Signet, OpenSSL or a bare RuntimeError. Any of them must leave the reply
-  # untranslated instead of stopping the job that sends it.
   def translate_with_google(text, target_language)
-    google.translate(text, target_language).presence
-  rescue StandardError => e
-    log_google_failure('translation', e)
-    nil
+    with_google_fallback('translation') { google.translate(text, target_language).presence }
   end
 
   def detect_with_google(text)
-    google.detect(text)
-  rescue StandardError => e
-    log_google_failure('language detection', e)
-    nil
+    with_google_fallback('language detection') { google.detect(text) }
   end
 
-  def log_google_failure(operation, error)
-    Rails.logger.error("[AutoTranslate] Google #{operation} failed for account #{account.id}: #{error.class}: #{error.message}")
+  # A failed Google call leaves the text untranslated instead of stopping the job that sends the reply.
+  # The account owns the key, so key errors are only logged. Any other error is ours and is reported.
+  def with_google_fallback(operation)
+    yield
+  rescue *Integrations::GoogleTranslate::CredentialsValidator::KEY_ERRORS => e
+    Rails.logger.error("[AutoTranslate] Google #{operation} failed for account #{account.id}: #{e.class}: #{e.message}")
+    nil
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
+    nil
   end
 
   def google

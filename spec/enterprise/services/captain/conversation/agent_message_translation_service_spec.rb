@@ -182,6 +182,23 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(message.content_attributes).to eq('translation_failed' => true)
   end
 
+  it 'sends the reply as written and reports an error from Google that is not about the key' do
+    allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+    create(:integrations_hook, :google_translate, account: account)
+    account.update!(translation_provider: 'google_translate')
+    google = instance_double(Integrations::GoogleTranslate::ProcessorService, detect: 'en')
+    allow(google).to receive(:translate).and_raise(NoMethodError, "undefined method 'translated_text' for nil")
+    allow(Integrations::GoogleTranslate::ProcessorService).to receive(:new).and_return(google)
+    tracker = instance_double(ChatwootExceptionTracker, capture_exception: true)
+    allow(ChatwootExceptionTracker).to receive(:new).and_return(tracker)
+
+    described_class.new(message: message).perform
+
+    expect(message.reload.content).to eq('Hello there')
+    expect(message.content_attributes).to eq('translation_failed' => true)
+    expect(tracker).to have_received(:capture_exception)
+  end
+
   it 'sends the reply as written and reports the error when Captain raises' do
     allow(llm_service).to receive(:perform).and_raise(NoMethodError, "undefined method '[]' for nil")
     tracker = instance_double(ChatwootExceptionTracker, capture_exception: true)
