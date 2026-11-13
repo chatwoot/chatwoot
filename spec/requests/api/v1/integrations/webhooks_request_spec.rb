@@ -13,14 +13,24 @@ RSpec.describe 'Api::V1::Integrations::Webhooks' do
     context 'when no signing secret is configured' do
       before { allow(GlobalConfigService).to receive(:load).with('SLACK_SIGNING_SECRET', nil).and_return(nil) }
 
-      it 'skips verification and processes the webhook' do
+      it 'rejects an unsigned webhook' do
         with_modified_env SLACK_SIGNING_SECRET: nil do
-          builder = instance_double(Integrations::Slack::IncomingMessageBuilder, perform: true)
-          allow(Integrations::Slack::IncomingMessageBuilder).to receive(:new).and_return(builder)
+          expect(Integrations::Slack::IncomingMessageBuilder).not_to receive(:new)
 
           post '/api/v1/integrations/webhooks', params: {}
 
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+
+      it 'rejects a webhook signed with any secret' do
+        with_modified_env SLACK_SIGNING_SECRET: '' do
+          expect(Integrations::Slack::IncomingMessageBuilder).not_to receive(:new)
+          body = payload.to_json
+
+          post '/api/v1/integrations/webhooks', params: body, headers: slack_headers(body)
+
+          expect(response).to have_http_status(:unauthorized)
         end
       end
     end
