@@ -61,14 +61,14 @@ RSpec.describe DataImports::Intercom::RetryService do
     expect(data_import.reload).to be_processing
   end
 
-  it 'allows an active legacy import to continue alongside the retry' do
+  it 'does not retry while a legacy contact import is active' do
     data_import.update!(updated_at: 16.minutes.ago)
     create(:data_import, account: account, status: :processing)
 
     result = described_class.new(account: account, data_import: data_import).perform
 
-    expect(result).to eq(:enqueue)
-    expect(data_import.reload).to be_pending
+    expect(result).to eq(:active_import_exists)
+    expect(data_import.reload).to be_processing
   end
 
   it 'does not retry when the stored access key is unavailable' do

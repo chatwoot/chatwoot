@@ -16,6 +16,14 @@ json.started_at data_import.started_at
 json.completed_at data_import.completed_at
 json.abandoned_at data_import.abandoned_at
 json.initiated_by data_import.initiated_by&.slice(:id, :name, :email)
+json.file_name data_import.import_file.filename.to_s if data_import.import_file.attached?
+json.rejected_rows_available data_import.failed_records.attached?
+json.artifacts_expired_at data_import.source_metadata['artifacts_expired_at'] if data_import.csv_import?
+json.allowed_actions do
+  json.abandon data_import.abandonable?
+  json.retry data_import.stalled? && data_import.source_available?
+  json.start data_import.managed_import? && data_import.restartable? && data_import.source_available?
+end
 if @import_errors_counts
   json.import_errors_count @import_errors_counts.fetch(data_import.id, 0)
   json.skip_logs_count (@skip_logs_counts || {}).fetch(data_import.id, 0)
