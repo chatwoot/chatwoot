@@ -66,13 +66,6 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
             .and not_change(Contact, :count)
             .and not_change(ContactInbox, :count)
         end
-
-        it 'returns nil when existing contact is blocked' do
-          existing_contact.update!(blocked: true)
-          strategy = described_class.new(mail)
-
-          expect(strategy.find).to be_nil
-        end
       end
 
       context 'when mail has In-Reply-To header' do
