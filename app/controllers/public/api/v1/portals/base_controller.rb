@@ -69,7 +69,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def disallow_search_indexing
-    response.headers['X-Robots-Tag'] = 'noindex' if @portal&.search_indexing_disabled? || @article&.noindex?
+    response.headers['X-Robots-Tag'] = 'noindex' if @portal&.search_indexing_disabled? || @article&.noindex? || @is_internal_preview
   end
 
   def render_404

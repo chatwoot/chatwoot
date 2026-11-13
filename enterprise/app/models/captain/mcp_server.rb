@@ -11,7 +11,6 @@
 #  name              :string           not null
 #  oauth_credentials :jsonb
 #  status            :string           default("active"), not null
-#  tools_changed_at  :datetime
 #  url               :text             not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -69,6 +68,7 @@ class Captain::McpServer < ApplicationRecord
   validate :validate_token
 
   scope :enabled, -> { where(enabled: true) }
+  scope :for_enabled_accounts, -> { joins(:account).merge(Account.feature_captain_mcp_servers) }
 
   # Returns the server an OAuth sign-in with this state started for, once. Every server shares one callback URL, so the
   # state is the only way to find the server, and a used state is deleted so a repeated callback finds nothing.

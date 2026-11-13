@@ -24,7 +24,7 @@ RSpec.describe Captain::ConversationCompletionService do
     let(:context) { RubyLLM.context { |config| config.openai_api_key = 'test-key' } }
     let(:messages) { [{ role: 'system', content: 'Evaluate the conversation.' }, { role: 'user', content: 'Customer: Thanks!' }] }
 
-    %w[gpt-5-mini gpt-5.2].each do |model|
+    %w[gpt-5.1 gpt-5.2].each do |model|
       it "renders a Responses schema request for #{model} without specifying effort" do
         chat = service.send(:build_chat, context, model: model, messages: messages, schema: described_class::RESPONSE_SCHEMA)
         chat.add_message(role: :user, content: messages.last[:content])

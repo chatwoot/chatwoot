@@ -54,7 +54,7 @@ class DataImport < ApplicationRecord
   validate :validate_import_types
   validate :validate_integration_provider
 
-  enum status: { pending: 0, processing: 1, completed: 2, failed: 3, completed_with_errors: 6, abandoned: 7 }
+  enum :status, { pending: 0, processing: 1, completed: 2, failed: 3, completed_with_errors: 6, abandoned: 7 }
 
   scope :active_intercom, -> { where(data_type: 'intercom', source_provider: 'intercom', status: [:pending, :processing]) }
   scope :active_integrations, lambda {

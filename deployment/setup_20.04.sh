@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.5.1
+# Script Version: 3.5.2
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,Upgrade:,webserver,version,web-only,worker-only,convert:
 OPTIONS=cdhiI:l:rsuU:wvWK
-CWCTL_VERSION="3.5.1"
+CWCTL_VERSION="3.5.2"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -228,9 +228,103 @@ function install_dependencies() {
       postgresql-client-16 redis-tools \
       nodejs patch ruby-dev zlib1g-dev liblzma-dev \
       libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
-      libvips python3-pip
+      python3-pip
   npm install -g pnpm
 }
+
+# Check Rails' required API and the GIF encoder used for image variants.
+function libvips_is_compatible() {
+  python3 - "${1:-}" 2>/dev/null <<'PY'
+import sys
+from ctypes import CDLL, c_char_p, c_size_t
+
+vips = CDLL('libvips.so.42')
+if vips.vips_init(b'chatwoot-libvips-check') != 0:
+    raise SystemExit(1)
+
+vips.vips_block_untrusted_set(1)
+vips.vips_type_find.argtypes = [c_char_p, c_char_p]
+vips.vips_type_find.restype = c_size_t
+if not vips.vips_type_find(b'VipsOperation', b'gifsave'):
+    raise SystemExit(1)
+
+if sys.argv[1]:
+    installed = tuple(vips.vips_version(part) for part in range(3))
+    minimum = tuple(map(int, sys.argv[1].split('.')))
+    if installed < minimum:
+        raise SystemExit(1)
+PY
+}
+
+function install_libvips() (
+  local vips_version=8.18.7 build_dir archive
+  local loader_config=/etc/ld.so.conf.d/00-chatwoot-libvips.conf minimum_version=
+  # APT maintains distro packages. Apply the pin to the source build that cwctl activates.
+  if [[ -f "$loader_config" ]]; then
+    minimum_version="$vips_version"
+  fi
+
+  if libvips_is_compatible "$minimum_version"; then
+    return
+  fi
+
+  apt-get update
+  apt-get install -y libvips
+  if libvips_is_compatible "$minimum_version"; then
+    return
+  fi
+
+  # Ubuntu 20.04 and 22.04 package libvips versions below Rails' 8.13 minimum.
+  build_dir=$(mktemp -d)
+  trap 'rm -rf -- "$build_dir"' EXIT
+  archive="$build_dir/vips-$vips_version.tar.xz"
+
+  apt-get install -y --no-install-recommends build-essential ca-certificates curl ninja-build pkg-config python3-venv xz-utils \
+    libglib2.0-dev libexpat1-dev libjpeg-dev libpng-dev libwebp-dev libtiff-dev \
+    libheif-dev libexif-dev liblcms2-dev libimagequant-dev
+
+  curl --fail --location --silent --show-error \
+    "https://github.com/libvips/libvips/releases/download/v$vips_version/vips-$vips_version.tar.xz" --output "$archive"
+  printf '%s  %s\n' '5baaead3b0bb20ffdb9e9ff09aa9fda08620923df77b63b436654cb5e0b3bf94' "$archive" | sha256sum --check
+  tar -xf "$archive" -C "$build_dir"
+
+  # Focal's Meson package is too old. Use a verified wheel that supports its Python.
+  python3 -m venv "$build_dir/venv"
+  printf '%s\n' 'meson==1.8.5 --hash=sha256:15ab2cca08271bc055bc33a4929b7c58f15ad67df4c1fa65dc223e822b882bef' | \
+    "$build_dir/venv/bin/python" -m pip install --require-hashes --only-binary=:all: -r /dev/stdin
+  local meson="$build_dir/venv/bin/meson"
+
+  if apt-cache show libcgif-dev >/dev/null 2>&1; then
+    apt-get install -y --no-install-recommends libcgif-dev
+  else
+    # Ubuntu 20.04 has no libcgif-dev. Link cgif statically into libvips.
+    local cgif_version=0.5.4 cgif_archive="$build_dir/cgif.tar.gz"
+    curl --fail --location --silent --show-error \
+      "https://codeload.github.com/dloebl/cgif/tar.gz/refs/tags/v$cgif_version" --output "$cgif_archive"
+    printf '%s  %s\n' '83a70a15bc2da41f081a44ebc58ee48e2e1d524a6d3fdb4a24064afa08d5ad4d' "$cgif_archive" | sha256sum --check
+    tar -xf "$cgif_archive" -C "$build_dir"
+    "$meson" setup "$build_dir/cgif-build" "$build_dir/cgif-$cgif_version" \
+      --prefix="$build_dir/cgif" --libdir=lib --buildtype=release --default-library=static --wrap-mode=nodownload
+    "$meson" install -C "$build_dir/cgif-build"
+    export PKG_CONFIG_PATH="$build_dir/cgif/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+  fi
+
+  "$meson" setup "$build_dir/build" "$build_dir/vips-$vips_version" \
+    --prefix=/usr/local --libdir=lib/chatwoot-libvips --buildtype=release --wrap-mode=nodownload \
+    -Dintrospection=disabled -Dcgif=enabled -Dimagequant=enabled
+  "$meson" compile -C "$build_dir/build" -j 2
+  # Use the new build before replacing any installed library.
+  VIPS_BLOCK_UNTRUSTED=1 "$build_dir/build/tools/vips" black "$build_dir/probe.gif" 2 2 --bands 3
+  "$meson" install -C "$build_dir/build"
+  # Resolve the newer library before Ubuntu's copy with the same SONAME.
+  printf '%s\n' '/usr/local/lib/chatwoot-libvips' >| "$loader_config"
+  ldconfig
+
+  if ! libvips_is_compatible "$vips_version"; then
+    echo "Unable to load libvips $vips_version or later with operation blocking and GIF encoding." >&2
+    return 1
+  fi
+)
 
 ##############################################################################
 # Install postgres and redis
@@ -505,8 +599,14 @@ function configure_systemd_services() {
   fi
 
   cp /home/chatwoot/chatwoot/deployment/chatwoot /etc/sudoers.d/chatwoot
-  cp /home/chatwoot/chatwoot/deployment/setup_20.04.sh /usr/local/bin/cwctl
-  chmod +x /usr/local/bin/cwctl
+
+  # Bash may still be reading the installed script during a conversion.
+  (
+    cwctl_tmp=$(mktemp /usr/local/bin/.cwctl.XXXXXX)
+    trap 'rm -f -- "$cwctl_tmp"' EXIT
+    command install -m 0755 /home/chatwoot/chatwoot/deployment/setup_20.04.sh "$cwctl_tmp"
+    mv -fT -- "$cwctl_tmp" /usr/local/bin/cwctl
+  )
 }
 
 ##############################################################################
@@ -630,6 +730,7 @@ EOF
 
   echo -en "\n➥ 1/9 Installing dependencies. This takes a while.\n"
   install_dependencies &>> "${LOG_FILE}"
+  install_libvips &>> "${LOG_FILE}"
 
   if [ "$install_pg_redis" != "no" ]; then
     echo "➥ 2/9 Installing databases."
@@ -849,7 +950,6 @@ EOF
 
 ##############################################################################
 # Update redis to v7+ for Rails 7 support(-u/--upgrade)
-# and install libvips for image processing support in Rails 7
 # Globals:
 #   None
 # Arguments:
@@ -886,7 +986,6 @@ function upgrade_redis() {
   echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
   apt-get update -y
   apt-get upgrade redis-server -y
-  apt-get install libvips -y
 }
 
 
@@ -1011,6 +1110,7 @@ EOF
   fi
 
   upgrade_prereq
+  install_libvips
   upgrade_redis
   upgrade_node
   get_pnpm

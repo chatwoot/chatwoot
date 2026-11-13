@@ -13,6 +13,11 @@ class Captain::Conversation::TranslatorService
     google? ? detect_with_google(text) : detect_with_captain(text)
   end
 
+  # True once a call to the provider has failed. A blank language alone can also mean the text was too short to tell.
+  def failed?
+    @failed.present?
+  end
+
   private
 
   def google?
@@ -27,20 +32,31 @@ class Captain::Conversation::TranslatorService
   end
 
   def detect_with_captain(text)
-    Captain::Llm::LanguageDetectionService.new(account: account, text: text).language
+    detection = Captain::Llm::LanguageDetectionService.new(account: account, text: text)
+    language = detection.language
+    @failed = true if detection.failed?
+    language
   end
 
   def translate_with_google(text, target_language)
-    google.translate(text, target_language).presence
-  rescue Google::Cloud::Error => e
-    Rails.logger.warn("[AutoTranslate] Google translation failed: #{e.message}")
-    nil
+    with_google_fallback('translation') { google.translate(text, target_language).presence }
   end
 
   def detect_with_google(text)
-    google.detect(text)
-  rescue Google::Cloud::Error => e
-    Rails.logger.warn("[AutoTranslate] Google language detection failed: #{e.message}")
+    with_google_fallback('language detection') { google.detect(text) }
+  end
+
+  # A failed Google call leaves the text untranslated instead of stopping the job that sends the reply.
+  # The account owns the key, so key errors are only logged. Any other error is ours and is reported.
+  def with_google_fallback(operation)
+    yield
+  rescue *Integrations::GoogleTranslate::CredentialsValidator::KEY_ERRORS => e
+    @failed = true
+    Rails.logger.error("[AutoTranslate] Google #{operation} failed for account #{account.id}: #{e.class}: #{e.message}")
+    nil
+  rescue StandardError => e
+    @failed = true
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
     nil
   end
 

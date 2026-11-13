@@ -17,7 +17,7 @@ class AgentBotDashboard < Administrate::BaseDashboard
     ),
     id: Field::Number,
     name: Field::String,
-    account: Field::BelongsTo.with_options(searchable: true, searchable_field: 'name', order: 'id DESC'),
+    account: Field::BelongsTo.with_options(searchable: true, searchable_fields: [:name], order: 'id DESC'),
     description: Field::String,
     outgoing_url: Field::String,
     created_at: Field::DateTime,

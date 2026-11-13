@@ -63,7 +63,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
 
       context 'when GPT-5 Mini is configured' do
         before do
-          InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5-mini')
+          InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         end
 
         it 'omits temperature' do
