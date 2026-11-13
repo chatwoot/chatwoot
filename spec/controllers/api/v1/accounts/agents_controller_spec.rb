@@ -66,7 +66,7 @@ RSpec.describe 'Agents API', type: :request do
       it 'deletes the agent and user object if associated with only one account' do
         expect(account.users).to include(other_agent)
 
-        perform_enqueued_jobs(only: DeleteObjectJob) do
+        perform_enqueued_jobs(only: Agents::DeleteOrphanedUserJob) do
           delete "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
                  headers: admin.create_new_auth_token,
                  as: :json
@@ -80,7 +80,7 @@ RSpec.describe 'Agents API', type: :request do
         other_account = create(:account)
         create(:account_user, account_id: other_account.id, user_id: other_agent.id)
 
-        perform_enqueued_jobs(only: DeleteObjectJob) do
+        perform_enqueued_jobs(only: Agents::DeleteOrphanedUserJob) do
           delete "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
                  headers: admin.create_new_auth_token,
                  as: :json
