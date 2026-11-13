@@ -51,11 +51,13 @@ const isGoogleSelected = computed(
   () => googleConnected.value && provider.value === TRANSLATION_PROVIDERS.GOOGLE
 );
 
-const isOtherProvidersOpen = ref(null);
-const showOtherProviders = computed(
-  () =>
-    isOtherProvidersOpen.value ??
-    (isGoogleSelected.value || !captainEnabled.value)
+const isOtherProvidersOpen = ref(false);
+watch(
+  isGoogleSelected,
+  isSelected => {
+    isOtherProvidersOpen.value = isSelected;
+  },
+  { immediate: true }
 );
 const isAutoTranslateFeatureEnabled = computed(() =>
   isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.AUTO_TRANSLATE)
@@ -167,16 +169,19 @@ const toggleAutoTranslate = () =>
           slate
           class="self-start ms-1"
           :icon="
-            showOtherProviders
+            isOtherProvidersOpen
               ? 'i-lucide-chevron-down'
               : 'i-lucide-chevron-right'
           "
           :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.OTHER_PROVIDERS')"
-          :aria-expanded="showOtherProviders"
-          @click="isOtherProvidersOpen = !showOtherProviders"
+          :aria-expanded="isOtherProvidersOpen"
+          @click="isOtherProvidersOpen = !isOtherProvidersOpen"
         />
 
-        <div v-if="showOtherProviders" class="relative group">
+        <div
+          v-if="isOtherProvidersOpen || !captainEnabled"
+          class="relative group"
+        >
           <RadioCard
             :id="TRANSLATION_PROVIDERS.GOOGLE"
             name="translation-provider"

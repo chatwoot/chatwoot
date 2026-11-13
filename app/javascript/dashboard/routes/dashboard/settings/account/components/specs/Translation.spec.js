@@ -79,6 +79,28 @@ describe('Translation', () => {
     expect(wrapper.find('#google_translate').exists()).toBe(false);
   });
 
+  it('collapses other providers after switching from Google back to Captain', async () => {
+    const currentAccount = ref({
+      id: 1,
+      settings: { translation_provider: 'captain' },
+    });
+    const wrapper = mountTranslation({ currentAccount });
+
+    await findButton(wrapper, OTHER_PROVIDERS).trigger('click');
+    currentAccount.value = {
+      id: 1,
+      settings: { translation_provider: 'google_translate' },
+    };
+    await nextTick();
+    currentAccount.value = {
+      id: 1,
+      settings: { translation_provider: 'captain' },
+    };
+    await nextTick();
+
+    expect(wrapper.find('#google_translate').exists()).toBe(false);
+  });
+
   it('opens with Google selected and switches back to Captain', async () => {
     const wrapper = mountTranslation({ provider: 'google_translate' });
 
