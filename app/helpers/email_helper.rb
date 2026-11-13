@@ -10,6 +10,48 @@ module EmailHelper
     ChatwootMarkdownRenderer.new(content).render_message(hardbreaks: true).to_s
   end
 
+  # Recipient lists reach us comma, semicolon or space separated. Mail::AddressList handles the
+  # first two along with display name forms such as `Jane Smith <jane@example.com>`, but not a
+  # plain space separated list, so collapse the separators unless a display name needs its spaces.
+  def process_email_string(email_string)
+    return [] if email_string.blank?
+
+    normalized = email_string.match?(/[<"]/) ? email_string : email_string.strip.gsub(/[\s,;]+/, ',')
+    addresses = Mail::AddressList.new(normalized).addresses
+    raise StandardError, 'Invalid email address' if addresses.any? { |address| swallowed_address?(address) }
+
+    addresses.map(&:address)
+  rescue Mail::Field::ParseError
+    raise StandardError, 'Invalid email address'
+  end
+
+  # Does this recipient name an address that is not being sent to? `a@example.com Jane Doe
+  # <b@example.com>` parses as one recipient with the first address swallowed into the display
+  # name, and `"Team" jane@example.com John Doe <john@example.com>` drops it from `display_name`
+  # altogether -- both lose a recipient silently, so the question is asked of the address's own
+  # `raw` source rather than of the parsed name.
+  #
+  # One pass, ignoring anything inside a quoted display name: an `@` before the `<` that opens
+  # the address is a swallowed recipient, while an `@` or a `<` inside quotes is part of the
+  # name (`"support@example.com" <agent@example.org>`, `"Ops <West>" <ops@example.org>`). Only
+  # an odd run of backslashes escapes the quote after it, so `"Ops \\"` closes. A bare address
+  # reaches the end with no `<` and has no display name to swallow anything into.
+  def swallowed_address?(address)
+    quoted = false
+    backslashes = 0
+    at = false
+    address.raw.to_s.each_char do |c|
+      quoted = !quoted if c == '"' && backslashes.even?
+      unless quoted
+        return at if c == '<'
+
+        at = true if c == '@'
+      end
+      backslashes = c == '\\' ? backslashes + 1 : 0
+    end
+    false
+  end
+
   # Raise a standard error if any email address is invalid
   def validate_email_addresses(emails_to_test)
     emails_to_test&.each do |email|
