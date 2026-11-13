@@ -16,7 +16,13 @@ class Enterprise::Webhooks::FirecrawlController < ActionController::API
   end
 
   def validate_token
-    render json: { error: 'Invalid access_token' }, status: :unauthorized if assistant_token != permitted_params[:token]
+    render json: { error: 'Invalid access_token' }, status: :unauthorized unless valid_token?
+  end
+
+  def valid_token?
+    token = permitted_params[:token]
+    expected = assistant_token
+    token.is_a?(String) && expected.present? && ActiveSupport::SecurityUtils.secure_compare(expected, token)
   end
 
   def assistant

@@ -201,7 +201,7 @@ const selectMeasure = ({ value }) => {
         :height="232"
         :point-radius="3"
         :aria-label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.ARIA_LABEL')"
-        class="[--cw-viz-line-label-color:rgb(var(--slate-11))] [--cw-viz-line-axis-color:rgb(var(--slate-4))] [--cw-viz-line-axis-font-size:0.75rem] [--cw-viz-line-value-font-size:0.75rem] [--cw-viz-line-width:0.0625rem] [--cw-viz-line-point-border-width:0.25rem] [--cw-viz-line-tooltip-background:rgb(var(--solid-2))] [--cw-viz-line-tooltip-color:rgb(var(--slate-12))] [--cw-viz-line-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-line__axis-label]:font-[440] [&_.cw-viz-line__axis-label]:tracking-[-0.015rem] [&_.cw-viz-line__value]:font-[440] [&_.cw-viz-line__value]:tracking-[-0.015rem]"
+        class="[--cw-viz-line-label-color:rgb(var(--slate-11))] [--cw-viz-line-axis-color:rgb(var(--slate-4))] [--cw-viz-line-axis-font-size:0.75rem] [--cw-viz-line-value-font-size:0.75rem] [--cw-viz-line-width:0.0625rem] [--cw-viz-line-point-border-width:0.25rem] [--cw-viz-line-tooltip-background:rgb(var(--solid-2))] [--cw-viz-line-tooltip-color:rgb(var(--slate-12))] [--cw-viz-line-tooltip-label-color:rgb(var(--slate-11))] [--cw-viz-line-tooltip-active-color:rgb(var(--slate-12))] [--cw-viz-line-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-line__axis-label]:font-[440] [&_.cw-viz-line__axis-label]:tracking-[-0.015rem] [&_.cw-viz-line__value]:font-[440] [&_.cw-viz-line__value]:tracking-[-0.015rem]"
       />
       <BarChart
         v-else-if="selectedMeasure === 'resolution_rate' && hasRateData"
@@ -214,7 +214,7 @@ const selectMeasure = ({ value }) => {
         :bar-gap="4"
         :max-bar-width="32"
         :aria-label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.RATE_ARIA_LABEL')"
-        class="[--cw-viz-bar-label-color:rgb(var(--slate-11))] [--cw-viz-bar-axis-color:rgb(var(--slate-4))] [--cw-viz-bar-axis-font-size:0.75rem] [--cw-viz-bar-value-font-size:0.75rem] [--cw-viz-bar-tooltip-background:rgb(var(--solid-2))] [--cw-viz-bar-tooltip-color:rgb(var(--slate-12))] [--cw-viz-bar-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-bar__axis-label]:font-[440] [&_.cw-viz-bar__axis-label]:tracking-[-0.015rem] [&_.cw-viz-bar__value]:font-[440] [&_.cw-viz-bar__value]:tracking-[-0.015rem]"
+        class="[--cw-viz-bar-label-color:rgb(var(--slate-11))] [--cw-viz-bar-axis-color:rgb(var(--slate-4))] [--cw-viz-bar-axis-font-size:0.75rem] [--cw-viz-bar-value-font-size:0.75rem] [--cw-viz-bar-tooltip-background:rgb(var(--solid-2))] [--cw-viz-bar-tooltip-color:rgb(var(--slate-12))] [--cw-viz-bar-tooltip-label-color:rgb(var(--slate-11))] [--cw-viz-bar-tooltip-active-color:rgb(var(--slate-12))] [--cw-viz-bar-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-bar__axis-label]:font-[440] [&_.cw-viz-bar__axis-label]:tracking-[-0.015rem] [&_.cw-viz-bar__value]:font-[440] [&_.cw-viz-bar__value]:tracking-[-0.015rem]"
       />
       <div
         v-else

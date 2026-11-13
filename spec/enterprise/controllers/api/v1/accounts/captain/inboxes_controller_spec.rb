@@ -63,6 +63,17 @@ RSpec.describe 'Api::V1::Accounts::Captain::Inboxes', type: :request do
         expect(json_response[:id]).to eq(inbox2.id)
       end
 
+      it 'returns a conflict message when another inbox bot is connected' do
+        create(:agent_bot_inbox, inbox: inbox2)
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/inboxes",
+             params: valid_params,
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:message]).to include('Disconnect Agent Bot before connecting Captain')
+      end
+
       context 'when inbox does not exist' do
         it 'returns not found status' do
           post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/inboxes",

@@ -34,9 +34,15 @@ module Captain::Assistant::RunnerStateHelper
     state[:conversation][:label_list] = @conversation.label_list.to_a
     state[:channel_type] = @conversation.inbox&.channel_type
     state[:message_length_limit] = Captain::MessageLengthLimit.for(@conversation)
+    state[:can_verify_email] = can_verify_email?
     state[:contact] = slice_attrs(@conversation.contact, CONTACT_STATE_ATTRIBUTES) if @conversation.contact
     state[:campaign] = slice_attrs(@conversation.campaign, CAMPAIGN_STATE_ATTRIBUTES) if @conversation.campaign
-    state[:contact_inbox] = slice_attrs(@conversation.contact_inbox, CONTACT_INBOX_STATE_ATTRIBUTES) if @conversation.contact_inbox
+    build_contact_inbox_state(state) if @conversation.contact_inbox
+  end
+
+  def build_contact_inbox_state(state)
+    state[:contact_inbox] = slice_attrs(@conversation.contact_inbox, CONTACT_INBOX_STATE_ATTRIBUTES)
+    state[:verified_email] = Captain::EmailVerification.new(@conversation).verified_email
   end
 
   def slice_attrs(record, keys)

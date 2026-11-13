@@ -9,6 +9,8 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
 
   def create
     authorize @inbox, :create?
+    return render_could_not_create_error('Invalid User IDs') unless valid_member_ids?
+
     ActiveRecord::Base.transaction do
       @inbox.add_members(agents_to_be_added_ids)
     end
@@ -17,6 +19,8 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
 
   def update
     authorize @inbox, :update?
+    return render_could_not_create_error('Invalid User IDs') unless valid_member_ids?
+
     update_agents_list
     fetch_updated_agents
   end
@@ -30,6 +34,13 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
   end
 
   private
+
+  def valid_member_ids?
+    user_ids = params[:user_ids]
+    return false unless user_ids.is_a?(Array) && user_ids.all?(Integer)
+
+    (user_ids - Current.account.users.where(id: user_ids).pluck(:id)).empty?
+  end
 
   def fetch_updated_agents
     @agents = Current.account.users.where(id: @inbox.members.select(:user_id))

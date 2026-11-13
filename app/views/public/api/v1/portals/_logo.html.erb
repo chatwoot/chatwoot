@@ -1,0 +1,5 @@
+<%# locals: (portal:, css_class:) %>
+<img src="<%= url_for(portal.logo) %>" class="<%= css_class %> <%= 'dark:hidden' if portal.dark_logo.present? %>" draggable="false">
+<% if portal.dark_logo.present? %>
+  <img src="<%= url_for(portal.dark_logo) %>" class="<%= css_class %> hidden dark:block" draggable="false">
+<% end %>

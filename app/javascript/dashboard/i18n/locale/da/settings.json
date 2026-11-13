@@ -87,20 +87,20 @@
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
       "SESSIONS_SECTION": {
-        "TITLE": "Active Sessions",
-        "NOTE": "These are the devices currently logged in to your account.",
-        "CURRENT": "Current session",
-        "REVOKE": "Revoke",
-        "REVOKE_SUCCESS": "Session revoked successfully",
-        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
-        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
-        "LAST_ACTIVE": "Last active",
-        "UNKNOWN_DEVICE": "Unknown device"
+        "TITLE": "Aktive Sessioner",
+        "NOTE": "Dette er de enheder, der i øjeblikket er logget ind på din konto.",
+        "CURRENT": "Nuværende session",
+        "REVOKE": "Tilbagekald",
+        "REVOKE_SUCCESS": "Sessionen er blevet tilbagekaldt",
+        "REVOKE_ERROR": "Kunne ikke tilbagekalde sessionen. Prøv venligst igen.",
+        "FETCH_ERROR": "Kunne ikke hente sessioner. Prøv venligst igen.",
+        "LAST_ACTIVE": "Sidst aktiv",
+        "UNKNOWN_DEVICE": "Ukendt enhed"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Adgangs Token",
         "NOTE": "Denne token kan bruges, hvis du bygger en API-baseret integration",
-        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
+        "PAID_PLAN_NOTE": "API-adgangstokens er tilgængelige i betalte abonnementer.",
         "COPY": "Kopiér",
         "RESET": "Reset",
         "CONFIRM_RESET": "Are you sure?",
@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Notification preferences",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
           "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Aktivér push-notifikationer",
         "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbillede"
@@ -262,10 +265,14 @@
     "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
     "RESEND_VERIFICATION_MAIL": "Resend verification email",
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "IMPERSONATION": {
+      "MESSAGE": "Du optræder som {name} ({email}). Alle handlinger, du foretager dig, vil fremstå, som om de er udført af denne bruger.",
+      "STOP": "Stop med at udgive dig for at være denne bruger"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Konto Suspenderet",
-      "MESSAGE": "Din konto er suspenderet. Gå ud til supportteamet for mere information.",
-      "MANAGE_BILLING": "Manage billing"
+      "MESSAGE": "Din konto er blevet suspenderet på grund af aktivitet, der kan være i strid med vores retningslinjer. Hvis du mener, at der er tale om en fejl, bedes du kontakte vores supportteam.",
+      "MANAGE_BILLING": "Administrer fakturering"
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -278,7 +285,8 @@
     "CODE": {
       "BUTTON_TEXT": "Kopiér",
       "CODEPEN": "Open in CodePen",
-      "COPY_SUCCESSFUL": "Kode kopieret til udklipsholder med succes"
+      "COPY_SUCCESSFUL": "Kode kopieret til udklipsholder med succes",
+      "COPY_ERROR": "Kunne ikke kopiere til udklipsholderen. Prøv venligst igen."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Vis Mere",
@@ -325,7 +333,7 @@
     "COMPANIES": "Companies",
     "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
-    "CALLS": "Calls",
+    "CALLS": "Opkald",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_OVERVIEW": "Oversigt",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -340,7 +348,7 @@
     "AGENT_BOTS": "Bots",
     "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Indbakker",
-    "WHATSAPP_TEMPLATES": "Templates",
+    "WHATSAPP_TEMPLATES": "Skabeloner",
     "NOTIFICATIONS": "Notifikationer",
     "CANNED_RESPONSES": "Standardsvar Svar",
     "INTEGRATIONS": "Integrationer",
@@ -399,17 +407,17 @@
     "SORT_TOOLTIP": "Sort",
     "SORT_BY": "Sorter efter",
     "SORT_GROUPS": {
-      "CREATED": "Sort by date of creation",
-      "ALPHABETICAL": "Sort in alphabetical order",
-      "UNREAD_COUNT": "Sort by unread count"
+      "CREATED": "Sorter efter oprettelsesdato",
+      "ALPHABETICAL": "Sorter i alfabetisk rækkefølge",
+      "UNREAD_COUNT": "Sorter efter ulæst antal"
     },
     "SORT_OPTIONS": {
-      "CREATED_DESC": "Newest first",
-      "CREATED_ASC": "Oldest first",
-      "ALPHABETICAL_ASC": "Ascending (A - Z)",
-      "ALPHABETICAL_DESC": "Descending (Z - A)",
-      "UNREAD_COUNT_DESC": "Highest first",
-      "UNREAD_COUNT_ASC": "Lowest first"
+      "CREATED_DESC": "Nyeste først",
+      "CREATED_ASC": "Ældste først",
+      "ALPHABETICAL_ASC": "Stigende (A - Å)",
+      "ALPHABETICAL_DESC": "Faldende (Å - A)",
+      "UNREAD_COUNT_DESC": "Højeste først",
+      "UNREAD_COUNT_ASC": "Laveste først"
     },
     "DOCS": "Læs dokumenter",
     "SECURITY": "Security",
@@ -418,16 +426,16 @@
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",
-    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
-    "LOADING": "Fetching imports",
-    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "DESCRIPTION": "Overfør dine eksisterende kontakter og tidligere samtaler til denne konto fra et andet supportværktøj. Hver import kører i baggrunden, så du kan fortsætte arbejdet, mens den færdiggøres, følge fremdriften og gennemgå eventuelle elementer, der blev sprunget over undervejs.",
+    "LOADING": "Henter imports",
+    "DEFAULT_IMPORT_NAME": "Import fra Intercom",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Intercom import",
+      "INTERCOM": "Import fra Intercom",
       "FRESHDESK": "Freshdesk import"
     },
     "TABS": {
       "IMPORT": "Importér",
-      "EXPORT": "Export"
+      "EXPORT": "Eksporter"
     },
     "TYPES": {
       "CONTACTS": "Kontakter",
@@ -435,96 +443,96 @@
       "MESSAGES": "Beskeder"
     },
     "DRAWER": {
-      "TITLE": "New import",
-      "SOURCE": "Source",
-      "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July support migration",
-      "ACCESS_KEY": "Intercom access key",
-      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "INTERCOM_ACCESS_KEY": "Intercom access key",
-      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "FRESHDESK_API_KEY": "Freshdesk API key",
-      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
-      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "TITLE": "Ny import",
+      "SOURCE": "Kilde",
+      "NAME": "Import navn",
+      "NAME_PLACEHOLDER": "Migrering af support i juli",
+      "ACCESS_KEY": "Intercom Adgangsnøgle",
+      "ACCESS_KEY_PLACEHOLDER": "Indsæt din Intercom-adgangsnøgle",
+      "INTERCOM_ACCESS_KEY": "Intercom Adgangsnøgle",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Indsæt din Intercom-adgangsnøgle",
+      "FRESHDESK_API_KEY": "Freshdesk API nøgle",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Indsæt din Freshdesk API-nøgle",
+      "FRESHDESK_DOMAIN": "Freshdesk domæne",
       "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
-      "DATA_TYPES": "Data to import",
-      "VALIDATING": "Validating access key...",
-      "VALID_KEY": "Access key validated.",
-      "INVALID_KEY": "Could not validate this access key.",
-      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "DATA_TYPES": "Data der skal importeres",
+      "VALIDATING": "Validerer adgangsnøgle...",
+      "VALID_KEY": "Adgangsnøgle valideret.",
+      "INVALID_KEY": "Kunne ikke validere denne adgangsnøgle.",
+      "ACTIVE_IMPORT": "Vent til den aktive import er færdig, før du starter en anden.",
       "CANCEL": "Annuller",
       "IMPORT": "Importér"
     },
     "EXPORT": {
-      "TITLE": "Exports are on the way",
-      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
-      "COMING_SOON": "Coming soon"
+      "TITLE": "Eksports er på vej",
+      "DESCRIPTION": "Eksportér dine kontakter og samtaler fra denne konto. Denne funktion bliver tilgængelig snart.",
+      "COMING_SOON": "Kommer snart"
     },
     "TABLE": {
-      "TITLE": "Recent imports",
-      "EMPTY": "No imports yet",
-      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "TITLE": "Seneste imports",
+      "EMPTY": "Ingen imports endnu",
+      "EMPTY_DESCRIPTION": "Start en import for at overføre din eksisterende kundehistorik til denne konto.",
       "NEW_IMPORT": "Importér",
       "COUNT": "{count} imports",
-      "UNNAMED": "Untitled import",
-      "IMPORTED_COUNT": "{count} imported",
-      "VIEW": "View import",
+      "UNNAMED": "Ikke-navngivet import",
+      "IMPORTED_COUNT": "{count} importeret",
+      "VIEW": "Se import",
       "NAME": "Navn",
       "TYPE": "Type",
       "STATUS": "Status",
-      "IMPORTED": "Imported",
-      "CREATED": "Created",
-      "RETRY": "Retry",
-      "ABANDON": "Abandon"
+      "IMPORTED": "Importeret",
+      "CREATED": "Oprettet",
+      "RETRY": "Prøv igen",
+      "ABANDON": "Opgiv"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
-      "ERRORS": "Errors",
-      "SKIP_LOGS": "Skip logs",
-      "SOURCE": "Source",
-      "IMPORT_TYPES": "Import types",
+      "BACK": "Tilbage til import",
+      "ERRORS": "Fejl",
+      "SKIP_LOGS": "Spring over logs",
+      "SOURCE": "Kilde",
+      "IMPORT_TYPES": "Import typer",
       "CREATED": "Created",
       "DURATION": "Varighed",
-      "INITIATED_BY": "Started by",
-      "PROGRESS": "Import progress",
-      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
-      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
-      "PROGRESS_OF_TOTAL": "of {total} imported",
-      "PROGRESS_IMPORTED": "imported",
-      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
-      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
-      "DOWNLOAD_SKIP_LOGS": "Download CSV",
-      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "INITIATED_BY": "Startet af",
+      "PROGRESS": "Import fremskridt",
+      "PROGRESS_WITH_TOTAL": "{imported} af {total} importeret",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} importeret",
+      "PROGRESS_OF_TOTAL": "af {total} importeret",
+      "PROGRESS_IMPORTED": "importeret",
+      "LAST_UPDATED_TOOLTIP": "Sidst opdateret {time}",
+      "NO_SKIP_LOGS": "Ingen oversprungne eller mislykkede posteringer registreret.",
+      "DOWNLOAD_SKIP_LOGS": "Hent CSV",
+      "DOWNLOAD_ERROR_LOGS": "Hent CSV",
       "ALL_SKIP_LOGS": "Alle",
-      "KIND": "Kind",
-      "NO_ERRORS": "No errors recorded.",
-      "ERROR_CODE": "Code",
-      "SOURCE_OBJECT": "Source object",
+      "KIND": "Slags",
+      "NO_ERRORS": "Ingen fejl registreret.",
+      "ERROR_CODE": "Kode",
+      "SOURCE_OBJECT": "Kilde objekt",
       "MESSAGE": "Besked"
     },
     "MONITOR": {
-      "LIVE": "Live updates every {seconds}s",
-      "LAST_UPDATED": "Last updated {time}",
+      "LIVE": "Live opdateringer hver {seconds}s",
+      "LAST_UPDATED": "Sidst opdateret {time}",
       "REFRESH": "Opdater",
-      "REFRESHING": "Refreshing",
+      "REFRESHING": "Opdaterer",
       "STAGES": {
-        "unknown": "Waiting for update",
-        "queued": "Queued",
-        "contacts": "Importing contacts",
-        "conversations": "Importing conversations",
-        "finalizing": "Finalizing import",
+        "unknown": "Venter på opdatering",
+        "queued": "I Kø",
+        "contacts": "Importerer kontakter",
+        "conversations": "Importerer samtaler",
+        "finalizing": "Afslutter import",
         "completed": "Afsluttet",
-        "completed_with_errors": "Completed with errors",
-        "failed": "Failed",
-        "abandoned": "Abandoned"
+        "completed_with_errors": "Afsluttet med fejl",
+        "failed": "Fejlet",
+        "abandoned": "Opgivet"
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Import has started.",
-      "IMPORT_RETRIED": "Import has been queued to resume.",
-      "IMPORT_RETRY_FAILED": "Could not retry the import.",
-      "IMPORT_ABANDONED": "Import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the import."
+      "IMPORT_STARTED": "Import er startet.",
+      "IMPORT_RETRIED": "Importen er sat i kø til genoptagelse.",
+      "IMPORT_RETRY_FAILED": "Kunne ikke genprøve importen.",
+      "IMPORT_ABANDONED": "Import er blevet opgivet.",
+      "IMPORT_FAILED": "Kunne ikke starte importen."
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -558,18 +566,12 @@
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Audio Transcription",
         "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts.",
-        "MODEL_TITLE": "Audio Transcription Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
+        "MODEL_TITLE": "Lyd Transskription Model",
+        "MODEL_DESCRIPTION": "Vælg den AI model der skal bruges til at konvertere lyd-beskeder til tekst transkripter"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
@@ -578,6 +580,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Din betaling er forfalden. Opdater din betalingsmetode, eller betal den udestående faktura i faktureringsportalen for at holde dit abonnement aktivt.",
+      "ACTION": "Afklar betaling"
+    },
     "TITLE": "Fakturering",
     "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
@@ -585,16 +591,17 @@
       "PLAN_NOTE": "Du abonnerer i øjeblikket på **{plan}** planen med **{quantity}** licenser",
       "SEAT_COUNT": "Number of seats",
       "RENEWS_ON": "Renews on",
-      "CURRENCY": "Currency"
+      "CANCELS_ON": "Opsiges den",
+      "CURRENCY": "Valuta"
     },
     "CURRENCY": {
       "SELECT": {
-        "TITLE": "Choose your billing currency",
-        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+        "TITLE": "Vælg din faktureringsvaluta",
+        "DESCRIPTION": "Vælg den valuta, du ønsker at blive faktureret i. Dette kan ikke ændres, når dit abonnement er oprettet."
       },
       "OPTIONS": {
-        "USD": "US Dollar (USD)",
-        "BRL": "Brazilian Real (BRL)"
+        "USD": "Amerikansk dollar (USD)",
+        "BRL": "Brasiliansk Real (BRL)"
       }
     },
     "VIEW_PRICING": "View Pricing",
@@ -618,6 +625,38 @@
       "BUTTON_TXT": "Chat med os"
     },
     "NO_BILLING_USER": "Din faktureringskonto er ved at blive konfigureret. Opdater venligst siden og prøv igen.",
+    "SHOPIFY": {
+      "TITLE": "Fakturering gennem Shopify",
+      "DESCRIPTION": "Dit Chatwoot-abonnement faktureres og administreres sikkert via Shopify.",
+      "UNAVAILABLE": "Shopify-fakturering er ikke tilgængelig i øjeblikket. Kontakt venligst support, hvis problemet fortsætter.",
+      "LOADING": "Kontrollerer dit Shopify abonnement...",
+      "PLAN_TITLE": "Shopify abonnement",
+      "PLAN_DESCRIPTION": "Vælg eller administrer din Chatwoot-plan sikkert i Shopify.",
+      "CURRENT_PLAN": "Nuværende abonnement",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Pris",
+      "PER_MONTH": "{price} / måned",
+      "PER_YEAR": "{price} / år",
+      "TRIAL_ENDS_ON": "Prøveperioden slutter den",
+      "RENEWS_ON": "Renews on",
+      "ACCESS_UNTIL": "Adgang indtil",
+      "LAST_VERIFIED": "Sidst verificeret",
+      "VIEW_PLANS": "Se abonnementer i Shopify",
+      "MANAGE_PLAN": "Administrer i Shopify",
+      "RETRY": "Prøv igen",
+      "ERROR_TITLE": "Vi kunne ikke bekræfte dit Shopify abonnement",
+      "ERROR_DESCRIPTION": "Prøv igen om et øjeblik. Din seneste verificerede adgang er ikke blevet ændret.",
+      "STALE_TITLE": "Viser dit seneste bekræftede abonnement",
+      "STALE_DESCRIPTION": "Der kunne ikke oprettes forbindelse til Shopify. Din adgang er ikke blevet ændret.",
+      "STATUS": {
+        "PENDING": "Afventer",
+        "ACTIVE": "Aktiv",
+        "TRIALING": "Prøve",
+        "CANCELLED": "Annullering planlagt",
+        "EXPIRED": "Udløbet",
+        "MISSING": "Intet aktivt abonnement"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Buy more credits",
       "MODAL_TITLE": "Buy AI Credits",
@@ -631,7 +670,7 @@
       "PURCHASE": "Purchase Credits",
       "LOADING": "Loading options...",
       "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "RETRY": "Retry",
+      "RETRY": "Prøv igen",
       "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
@@ -648,6 +687,7 @@
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "NO_SETTINGS_AVAILABLE": "Der er ingen sikkerhedsindstillinger tilgængelige for denne installation. Konfigurer MFA-krypteringsnøgler for at aktivere håndhævelse af to-faktor autentificering.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
@@ -929,13 +969,13 @@
         },
         "FAIR_DISTRIBUTION": {
           "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "DESCRIPTION": "Begræns antallet af samtaler pr. agent inden for et tidsinterval for at undgå overbelastning. Standardværdien er 100 pr. time.",
           "INPUT_MAX": "Assign max",
           "DURATION": "Conversations per agent in every"
         },
         "EXCLUDE_OLDER_THAN": {
-          "LABEL": "Skip stale conversations",
-          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
+          "LABEL": "Spring forældede samtaler over",
+          "DESCRIPTION": "Spring ikke-tildelte samtaler over, der er ældre end dette. Standardværdien er 7 dage; ryd feltet for at deaktivere."
         },
         "INBOXES": {
           "LABEL": "Added inboxes",

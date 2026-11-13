@@ -20,6 +20,18 @@ RSpec.describe 'Super Admin agent-bots API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(agent_bot.name)
       end
+
+      it 'finds an agent bot by its account name' do
+        account = create(:account, name: 'Searchable workspace')
+        matching_bot = create(:agent_bot, account: account, name: 'Matching bot')
+        sign_in(super_admin, scope: :super_admin)
+
+        get '/super_admin/agent_bots', params: { search: 'Searchable workspace' }
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(matching_bot.name)
+        expect(response.body).not_to include(agent_bot.name)
+      end
     end
   end
 

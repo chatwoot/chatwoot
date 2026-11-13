@@ -15,10 +15,10 @@ export function useKbd(keys) {
   const keySymbols = {
     $mod: isMacOS() ? '⌘' : 'Ctrl',
     shift: '⇧',
-    alt: '⌥',
+    alt: isMacOS() ? '⌥' : 'Alt',
     ctrl: 'Ctrl',
     cmd: '⌘',
-    option: '⌥',
+    option: isMacOS() ? '⌥' : 'Alt',
     enter: '↵',
     tab: '⇥',
     esc: '⎋',

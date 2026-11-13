@@ -3,6 +3,7 @@ tags:
 operationId: delete-a-team
 summary: Delete a team
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Delete a team from the account
 responses:

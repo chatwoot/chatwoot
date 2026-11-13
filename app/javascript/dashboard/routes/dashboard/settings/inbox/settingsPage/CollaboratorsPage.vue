@@ -7,6 +7,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { minValue } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useConfig } from 'dashboard/composables/useConfig';
+import { useAccount } from 'dashboard/composables/useAccount';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import SettingsAccordion from 'dashboard/components-next/Settings/SettingsAccordion.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -28,7 +29,15 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const { isEnterprise } = useConfig();
+const { isEnterprise, enterprisePlanName } = useConfig();
+const { isOnChatwootCloud } = useAccount();
+
+const isLicensedSelfHosted = computed(
+  () =>
+    !isOnChatwootCloud.value &&
+    isEnterprise &&
+    enterprisePlanName !== 'community'
+);
 
 const selectedAgentIds = ref([]);
 const isAgentListUpdating = ref(false);
@@ -310,7 +319,16 @@ const navigateToAssignmentPolicyEdit = () => {
   });
 };
 
-const navigateToBilling = () => {
+const handleUpgrade = () => {
+  if (!isOnChatwootCloud.value) {
+    window.open(
+      'https://www.chatwoot.com/pricing/self-hosted-plans',
+      '_blank',
+      'noopener,noreferrer'
+    );
+    return;
+  }
+
   const accountId = route.params.accountId;
   router.push({
     name: 'billing_settings_index',
@@ -618,17 +636,32 @@ onMounted(() => {
 
                   <div class="w-full h-px bg-n-weak my-4" />
 
-                  <!-- Upgrade prompt when advanced_assignment is not enabled -->
+                  <!-- Enablement guidance when advanced_assignment is not enabled -->
                   <div v-if="!hasAdvancedAssignment">
-                    <p class="text-body-main text-n-slate-11 mb-1">
-                      {{ $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_PROMPT') }}
+                    <p
+                      v-if="isLicensedSelfHosted"
+                      class="text-body-main text-n-slate-11 mb-1"
+                    >
+                      {{ $t('INBOX_MGMT.ASSIGNMENT.FEATURE_DISABLED_PROMPT') }}
+                    </p>
+                    <p v-else class="text-body-main text-n-slate-11 mb-1">
+                      {{
+                        isOnChatwootCloud
+                          ? $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_PROMPT')
+                          : $t('INBOX_MGMT.ASSIGNMENT.SELF_HOSTED_PROMPT')
+                      }}
                     </p>
                     <NextButton
-                      :label="$t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_BUSINESS')"
+                      v-if="!isLicensedSelfHosted"
+                      :label="
+                        isOnChatwootCloud
+                          ? $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_BUSINESS')
+                          : $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_PREMIUM')
+                      "
                       icon="i-lucide-arrow-right"
                       trailing-icon
                       link
-                      @click="navigateToBilling"
+                      @click="handleUpgrade"
                     />
                   </div>
                 </div>

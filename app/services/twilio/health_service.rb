@@ -13,7 +13,7 @@ class Twilio::HealthService
   # looks connected but silently drops traffic (wrong method, trunk, foreign TwiML app) is visible.
   # Errors (bad credentials, unknown number) bubble up to the controller as a 422.
   def perform
-    webhooks = channel.messaging_service_sid? ? messaging_service_webhooks : phone_number_webhooks
+    webhooks = messaging_webhooks
     account = account_details
     sender = sender_details
 
@@ -22,6 +22,7 @@ class Twilio::HealthService
       account: account,
       sender: sender,
       voice_enabled: channel.voice_enabled?,
+      medium: channel.medium,
       webhooks: webhooks
     }
   end
@@ -31,7 +32,7 @@ class Twilio::HealthService
   # Correct webhooks are not enough: a suspended account or a number missing a capability the inbox
   # needs still drops traffic, and reporting that as healthy contradicts the details rendered beside it.
   def healthy?(account, sender, webhooks)
-    webhooks.all? { |webhook| webhook[:configured] } && account_usable?(account) && capabilities_present?(sender)
+    webhooks.all? { |webhook| webhook[:configured] } && account_usable?(account) && sender_usable?(sender)
   end
 
   # Restricted API keys cannot read the account at all, which is not itself a health problem.
@@ -39,7 +40,8 @@ class Twilio::HealthService
     account.nil? || account[:status].to_s.casecmp?('active')
   end
 
-  def capabilities_present?(sender)
+  def sender_usable?(sender)
+    return sender[:status] == 'ONLINE' if sender[:type] == 'whatsapp_sender'
     return true unless sender[:type] == 'phone_number'
 
     required_capabilities.all? { |capability| sender[:capabilities][capability] }
@@ -63,6 +65,7 @@ class Twilio::HealthService
 
   def sender_details
     return messaging_service_details if channel.messaging_service_sid?
+    return whatsapp_sender_details if channel.whatsapp?
 
     {
       type: 'phone_number',
@@ -72,6 +75,28 @@ class Twilio::HealthService
       # Twilio returns these capitalised in its docs but lowercased over the wire.
       capabilities: (number.capabilities || {}).transform_keys { |key| key.to_s.downcase }
     }
+  end
+
+  def whatsapp_sender_details
+    {
+      type: 'whatsapp_sender',
+      sid: whatsapp_sender.sid,
+      label: whatsapp_sender.sender_id.delete_prefix('whatsapp:'),
+      status: whatsapp_sender.status,
+      friendly_name: whatsapp_sender.profile&.dig('name'),
+      quality_rating: whatsapp_sender.properties&.dig('quality_rating'),
+      messaging_limit: whatsapp_sender.properties&.dig('messaging_limit')
+    }
+  end
+
+  def whatsapp_sender
+    return @whatsapp_sender if @whatsapp_sender
+
+    @whatsapp_sender = channel.client.messaging.v2.channels_senders.stream(channel: 'whatsapp')
+                              .find { |sender| sender.sender_id == channel.phone_number }
+    raise "WhatsApp sender #{channel.phone_number} was not found in the connected Twilio account" if @whatsapp_sender.nil?
+
+    @whatsapp_sender
   end
 
   def messaging_service_details
@@ -89,6 +114,18 @@ class Twilio::HealthService
     raise "Phone number #{channel.phone_number} was not found in the connected Twilio account" if @number.nil?
 
     @number
+  end
+
+  def messaging_webhooks
+    return messaging_service_webhooks if channel.messaging_service_sid?
+    return whatsapp_sender_webhooks if channel.whatsapp?
+
+    phone_number_webhooks
+  end
+
+  def whatsapp_sender_webhooks
+    config = whatsapp_sender.webhook || {}
+    [webhook('messaging', twilio_callback_index_url, config['callback_url'], method: config['callback_method'])]
   end
 
   def messaging_service_webhooks

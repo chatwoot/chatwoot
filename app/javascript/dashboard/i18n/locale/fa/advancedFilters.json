@@ -19,6 +19,8 @@
       "OR": "یا"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
     "CONTACT_SEARCH_PLACEHOLDER": "جستجوی مخاطبین",
     "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
@@ -31,6 +33,8 @@
       "is_less_than": "کوچکتر از",
       "days_before": "x روز قبل است",
       "starts_with": "شروع می‌‌شود با",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "مساوی با",
       "notEqualTo": "مساوی نیست با",
       "contains": "شامل",

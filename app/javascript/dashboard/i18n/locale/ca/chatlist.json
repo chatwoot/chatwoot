@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Creat",
         "OLDEST": "Creat per:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Darrera activitat:",
-        "ACTIVE": "Darrera activitat"
+        "NOT_ACTIVE": "Darrera activitat:"
       }
     },
     "SORT_ORDER_ITEMS": {

@@ -23,19 +23,25 @@ const handleButtonClick = button => {
     class="flex items-center justify-between px-4 py-2 border-b border-n-weak h-12"
   >
     <div class="flex items-center justify-between gap-2 flex-1">
-      <span class="font-medium text-sm text-n-slate-12">{{ title }}</span>
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="font-medium text-sm text-n-slate-12">{{ title }}</span>
+        <slot name="titleBadge" />
+      </div>
       <div class="flex items-center">
         <Button
           v-for="button in buttons"
           :key="button.key"
           v-tooltip="button.tooltip"
+          :aria-label="button.tooltip"
           :icon="button.icon"
+          :class="button.class"
           ghost
           sm
           @click="handleButtonClick(button)"
         />
         <Button
           v-tooltip="$t('GENERAL.CLOSE')"
+          :aria-label="$t('GENERAL.CLOSE')"
           icon="i-lucide-x"
           ghost
           sm

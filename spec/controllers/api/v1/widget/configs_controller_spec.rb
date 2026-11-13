@@ -48,6 +48,23 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response_data['contact']['pubsub_token']).to eq(contact_inbox.pubsub_token)
       end
 
+      it 'returns only presence flags for the contact details' do
+        contact.update!(name: 'Jane', email: 'jane@example.com', phone_number: '+15555550100', identifier: 'jane-id')
+
+        post '/api/v1/widget/config',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response.parsed_body['contact']).to eq(
+          'id' => contact.id,
+          'has_email' => true,
+          'has_name' => true,
+          'has_phone_number' => true,
+          'pubsub_token' => contact_inbox.pubsub_token
+        )
+      end
+
       it 'returns 401 if account is suspended' do
         account.update!(status: :suspended)
 

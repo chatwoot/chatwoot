@@ -35,9 +35,7 @@ RSpec.describe Integrations::Hook do
     let(:account) { create(:account) }
 
     before do
-      allow(GlobalConfigService).to receive(:load)
-        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-        .and_return(true)
+      InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
       account.enable_features!('shopify_integration')
     end
 
@@ -180,10 +178,9 @@ RSpec.describe Integrations::Hook do
 
     it 'skips validation when an enabled openai hook is saved without changing the api key' do
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
-      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good', 'label_suggestion' => false })
+      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good' })
 
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(false)
-      hook.settings['label_suggestion'] = true
 
       expect(hook.save).to be true
     end
@@ -215,6 +212,26 @@ RSpec.describe Integrations::Hook do
       hook = build(:integrations_hook, account: account, app_id: 'slack')
 
       expect(hook).to be_valid
+    end
+  end
+
+  describe 'google translate credential validation' do
+    let!(:hook) do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+      create(:integrations_hook, :google_translate)
+    end
+
+    it 'rejects a broken key saved on an existing hook' do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(false)
+
+      expect(hook.update(settings: { project_id: 'test', credentials: { 'private_key' => 'sample' } })).to be(false)
+      expect(hook.errors[:base]).to include(I18n.t('errors.google_translate.invalid_credentials'))
+    end
+
+    it 'does not call Google when only the status changes' do
+      expect(Integrations::GoogleTranslate::CredentialsValidator).not_to receive(:valid?)
+
+      hook.update!(status: :disabled)
     end
   end
 

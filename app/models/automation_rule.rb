@@ -2,21 +2,24 @@
 #
 # Table name: automation_rules
 #
-#  id              :bigint           not null, primary key
-#  actions         :jsonb            not null
-#  active          :boolean          default(TRUE), not null
-#  conditions      :jsonb            not null
-#  description     :text
-#  event_name      :string           not null
-#  execution_delay :integer
-#  name            :string           not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :bigint           not null
+#  id                         :bigint           not null, primary key
+#  actions                    :jsonb            not null
+#  active                     :boolean          default(TRUE), not null
+#  conditions                 :jsonb            not null
+#  description                :text
+#  event_name                 :string           not null
+#  execution_delay            :integer
+#  monitor_event_activated_at :datetime
+#  name                       :string           not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  account_id                 :bigint           not null
+#  monitor_id                 :bigint
 #
 # Indexes
 #
 #  index_automation_rules_on_account_id  (account_id)
+#  index_automation_rules_on_monitor_id  (monitor_id)
 #
 class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
@@ -32,6 +35,9 @@ class AutomationRule < ApplicationRecord
   has_many_attached :files
 
   validate :json_conditions_format
+  validate :captain_conditions_feature
+  validate :captain_conditions_operator
+  validate :captain_conditions_description
   validate :json_actions_format
   validate :query_operator_presence
   validate :query_operator_value
@@ -48,7 +54,7 @@ class AutomationRule < ApplicationRecord
 
   def conditions_attributes
     %w[content email country_code status message_type browser_language assignee_id team_id referer city company_name inbox_id
-       mail_subject phone_number priority conversation_language labels private_note]
+       mail_subject phone_number priority conversation_language labels private_note captain_condition]
   end
 
   def actions_attributes
@@ -81,6 +87,47 @@ class AutomationRule < ApplicationRecord
     conditions = attributes - conditions_attributes
     conditions -= account.custom_attribute_definitions.pluck(:attribute_key)
     errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
+  end
+
+  def captain_conditions(rule_conditions = conditions)
+    rule_conditions.select { |obj| obj['attribute_key'] == Captain::AutomationConditionService::ATTRIBUTE_KEY }
+  end
+
+  def captain_judgments(rule_conditions)
+    captain_conditions(rule_conditions).map { |obj| [obj['filter_operator'], obj['values']] }
+  end
+
+  # Only adding or changing a Captain condition needs the feature, so a rule saved before the
+  # feature was revoked can still be deactivated, edited or cleaned up.
+  def captain_conditions_feature
+    return if account.feature_enabled?(Captain::AutomationConditionService::FEATURE)
+
+    saved = new_record? ? {} : captain_judgments(conditions_was).tally
+    return if captain_judgments(conditions).tally.all? { |judgment, count| count <= saved.fetch(judgment, 0) }
+
+    errors.add(:conditions, 'Captain conditions require the Captain Classifier feature.')
+  end
+
+  def captain_conditions_operator
+    return if captain_conditions.all? { |obj| Captain::AutomationConditionService::OPERATORS.include?(obj['filter_operator']) }
+
+    errors.add(:conditions, 'Captain conditions support only the detects and does_not_detect operators.')
+  end
+
+  def captain_conditions_description
+    values = captain_conditions.pluck('values')
+    limit = Captain::AutomationConditionService::MAX_DESCRIPTION_LENGTH
+
+    unless values.all? { |value| captain_description?(value) }
+      return errors.add(:conditions, 'Captain conditions need exactly one description of what to detect.')
+    end
+    return if values.all? { |value| value.first.length <= limit }
+
+    errors.add(:conditions, "Captain condition descriptions can have at most #{limit} characters.")
+  end
+
+  def captain_description?(value)
+    value.is_a?(Array) && value.size == 1 && value.first.is_a?(String) && value.first.present?
   end
 
   def json_actions_format

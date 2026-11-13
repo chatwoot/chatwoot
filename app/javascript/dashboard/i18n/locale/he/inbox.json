@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "הודעה חדשה בשיחה שבה אתה משתתף",
       "SLA_MISSED_FIRST_RESPONSE": "יעד SLA - תגובה ראשונה הוחמץ עבור שיחה",
       "SLA_MISSED_NEXT_RESPONSE": "יעד SLA - תגובה הבאה הוחמץ עבור שיחה",
-      "SLA_MISSED_RESOLUTION": "יעד SLA - סגירה הוחמץ עבור שיחה"
+      "SLA_MISSED_RESOLUTION": "יעד SLA - סגירה הוחמץ עבור שיחה",
+      "VOICE_CALL_MISSED": "שיחה שלא נענתה"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "אוזכר",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "הפרת SLA",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "הודעה חדשה",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "הודעה חדשה",
+      "VOICE_CALL_MISSED": "שיחה שלא נענתה",
       "SNOOZED_UNTIL": "מושתק למשך {time}",
       "SNOOZED_ENDS": "ההשתקה הסתיימה"
     },

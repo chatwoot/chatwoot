@@ -1,4 +1,5 @@
 import MessageFormatter from '../helpers/MessageFormatter';
+import { escapeHtml } from '../helpers/HTMLSanitizer';
 
 /**
  * A composable providing utility functions for message formatting.
@@ -69,10 +70,14 @@ export const useMessageFormatter = () => {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
     const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    return plainTextContent.replace(
-      new RegExp(`(${escapedSearchTerm})`, 'ig'),
-      `<span class="${highlightClass}">$1</span>`
-    );
+    return plainTextContent
+      .split(new RegExp(`(${escapedSearchTerm})`, 'ig'))
+      .map((part, index) =>
+        index % 2
+          ? `<span class="${highlightClass}">${escapeHtml(part)}</span>`
+          : escapeHtml(part)
+      )
+      .join('');
   };
 
   return {

@@ -26,4 +26,4 @@ components:
       type: apiKey
       in: header
       name: api_access_token
-      description: This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels. 
+      description: 'Find your API token in **Profile Settings**. The `api_access_token` header remains supported, but will be deprecated in a future release. For new integrations, use Bearer authentication.'

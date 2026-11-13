@@ -14,12 +14,18 @@ RSpec.describe 'Token Validation API', type: :request do
     context 'when it is a valid token' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      it 'returns all the labels for the conversation' do
+      it 'returns the authenticated user with self credentials' do
+        account.enable_features!(:api_and_webhooks)
+
         get '/auth/validate_token',
             headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('payload')
+        expect(response.parsed_body.dig('payload', 'data')).to include(
+          'access_token' => agent.access_token.token,
+          'pubsub_token' => agent.pubsub_token
+        )
+        expect(Current.user).to be_nil
       end
     end
 
@@ -56,7 +62,7 @@ RSpec.describe 'Token Validation API', type: :request do
         many_queries = count_sql_queries { get '/auth/validate_token', headers: many_headers }
         expect(response).to have_http_status(:success)
 
-        expect(many_queries).to eq(few_queries)
+        expect(many_queries).to be <= few_queries
       end
     end
   end

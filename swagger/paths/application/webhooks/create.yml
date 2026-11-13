@@ -3,6 +3,7 @@ tags:
 operationId: create-a-webhook
 summary: Add a webhook
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Add a webhook subscription to the account
 parameters:

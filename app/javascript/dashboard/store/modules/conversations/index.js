@@ -17,12 +17,14 @@ const state = {
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
+  appliedFiltersSortBy: null,
   contextMenuChatId: null,
   conversationParticipants: [],
   conversationLastSeen: null,
   syncConversationsMessages: {},
   conversationFilters: {},
   copilotAssistant: {},
+  autoTranslating: {},
 };
 
 const getConversationById = _state => conversationId => {
@@ -263,6 +265,13 @@ export const mutations = {
     }
   },
 
+  [types.SET_AUTO_TRANSLATING](_state, { locale, messageIds, translating }) {
+    _state.autoTranslating[locale] ??= {};
+    messageIds.forEach(id => {
+      _state.autoTranslating[locale][id] = translating;
+    });
+  },
+
   [types.ADD_CONVERSATION](_state, conversation) {
     const exists = _state.allConversations.some(c => c.id === conversation.id);
     if (!exists) {
@@ -382,8 +391,13 @@ export const mutations = {
     _state.appliedFilters = data;
   },
 
+  [types.SET_CONVERSATION_FILTERS_SORT](_state, sortBy) {
+    _state.appliedFiltersSortBy = sortBy;
+  },
+
   [types.CLEAR_CONVERSATION_FILTERS](_state) {
     _state.appliedFilters = [];
+    _state.appliedFiltersSortBy = null;
   },
 
   [types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION](

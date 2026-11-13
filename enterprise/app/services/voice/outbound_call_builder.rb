@@ -33,6 +33,8 @@ class Voice::OutboundCallBuilder
       call = create_call!(conversation, call_sid)
       message = Voice::CallMessageBuilder.new(call).perform!
       call.update!(message_id: message.id)
+      # Status callbacks that arrived before this commit found no call to update
+      ActiveRecord.after_all_transactions_commit { Voice::SyncProviderStatusJob.perform_later(call.id) }
       call
     end
   end

@@ -51,6 +51,63 @@ describe('#validateRouteAccess', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
+  it('preserves the session and opens the workspace picker for Shopify signup', () => {
+    vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
+
+    validateRouteAccess(
+      {
+        name: 'auth_signup',
+        query: { shopify_pending_install: 'a'.repeat(32) },
+      },
+      next
+    );
+
+    expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
+    expect(replaceRouteWithReload).toHaveBeenCalledWith(
+      `/app/shopify/select-account?shopify_pending_install=${'a'.repeat(32)}`
+    );
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it.each(['login', 'auth_signup'])(
+    'does not clear a session for malformed Shopify tokens on %s',
+    name => {
+      vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
+
+      validateRouteAccess(
+        {
+          name,
+          query: { shopify_pending_install: 'untrusted-token' },
+        },
+        next
+      );
+
+      expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
+      expect(replaceRouteWithReload).toHaveBeenCalledWith('/app/');
+      expect(next).not.toHaveBeenCalled();
+    }
+  );
+
+  it('preserves a Shopify pricing return for an authenticated user', () => {
+    vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
+
+    validateRouteAccess(
+      {
+        name: 'login',
+        query: {
+          plan_handle: 'growth',
+          shop: 'store.myshopify.com',
+        },
+      },
+      next
+    );
+
+    expect(replaceRouteWithReload).toHaveBeenCalledWith(
+      '/app/?redirect_url=settings%2Fbilling%3Fplan_handle%3Dgrowth%26shop%3Dstore.myshopify.com'
+    );
+    expect(next).not.toHaveBeenCalled();
+  });
+
   it('redirects to login if route is empty', () => {
     validateRouteAccess({}, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
@@ -63,6 +120,21 @@ describe('#validateRouteAccess', () => {
     });
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
     expect(next).toHaveBeenCalledWith('/app/login');
+  });
+
+  it('continues to a pending Shopify signup when general signup is disabled', () => {
+    validateRouteAccess(
+      {
+        name: 'auth_signup',
+        query: { shopify_pending_install: 'a'.repeat(32) },
+        meta: { requireSignupEnabled: true },
+      },
+      next,
+      { signupEnabled: 'false' }
+    );
+
+    expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith();
   });
 
   it('continues to the route in every other case', () => {

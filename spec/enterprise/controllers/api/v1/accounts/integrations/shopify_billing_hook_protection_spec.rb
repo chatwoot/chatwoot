@@ -15,9 +15,7 @@ RSpec.describe 'Shopify billing hook protection', type: :request do
 
   before do
     account.enable_features!('shopify_integration')
-    allow(GlobalConfigService).to receive(:load)
-      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-      .and_return(true)
+    create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
   end
 
   it 'does not disable the billing-owned hook through the generic hooks API' do

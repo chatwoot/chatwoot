@@ -1,6 +1,7 @@
 import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { cleanupWhatsappSession } from 'dashboard/composables/useWhatsappCallSession';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
+import { VOICE_CALL_STATUS } from 'dashboard/components-next/message/constants';
 import { TERMINAL_STATUSES } from 'dashboard/helper/voice';
 import { defineStore } from 'pinia';
 
@@ -15,6 +16,9 @@ const teardownByProvider = call => {
 export const useCallsStore = defineStore('calls', {
   state: () => ({
     calls: [],
+    // Statuses that arrived before their call was added, e.g. an outbound call
+    // answered before its created event; addCall applies them
+    pendingStatuses: {},
   }),
 
   getters: {
@@ -26,9 +30,21 @@ export const useCallsStore = defineStore('calls', {
 
   actions: {
     handleCallStatusChanged({ callSid, status }) {
-      if (!TERMINAL_STATUSES.includes(status)) return;
-
       const call = this.calls.find(c => c.callSid === callSid);
+      if (!TERMINAL_STATUSES.includes(status)) {
+        // A connected call never rings again, so a late ringing update is stale
+        const current = call ? call.status : this.pendingStatuses[callSid];
+        if (
+          status === VOICE_CALL_STATUS.RINGING &&
+          current === VOICE_CALL_STATUS.IN_PROGRESS
+        )
+          return;
+        if (call) call.status = status;
+        else this.pendingStatuses[callSid] = status;
+        return;
+      }
+      delete this.pendingStatuses[callSid];
+
       // WhatsApp recordings live in the in-memory recorder until voice_call.ended
       // uploads them; tearing down here would race-wipe those chunks.
       if (call?.provider === 'whatsapp') {
@@ -54,10 +70,13 @@ export const useCallsStore = defineStore('calls', {
         return;
       }
 
+      const status = this.pendingStatuses[callData.callSid];
+      delete this.pendingStatuses[callData.callSid];
       // Prepend so the newest call surfaces as the primary card (incomingCalls[0])
       // and older calls drop into the stack below it.
       this.calls.unshift({
         ...callData,
+        ...(status && { status }),
         isActive: false,
       });
     },
@@ -74,7 +93,14 @@ export const useCallsStore = defineStore('calls', {
       this.calls = this.calls.map(call => ({
         ...call,
         isActive: call.callSid === callSid,
+        onHold: false,
       }));
+    },
+
+    // Flipped only after Twilio confirmed the hold, so the card never shows a hold that failed
+    setCallOnHold(callSid, onHold) {
+      const call = this.calls.find(c => c.callSid === callSid);
+      if (call) call.onHold = onHold;
     },
 
     clearActiveCall() {

@@ -1,0 +1,91 @@
+<%# locals: (scope:, readiness:) -%>
+<%
+  calls = "#{scope}.calls"
+  availability_tones = { "online" => :success, "busy" => :warning, "offline" => :neutral }
+  platform_icons = { "apple" => "i-ri-apple-fill", "android" => "i-ri-android-fill" }
+%>
+
+<%= render "card", title: t("#{calls}.heading") do %>
+  <p class="flex items-start gap-1.5 px-4 py-3 text-label-small text-n-slate-11">
+    <span class="i-lucide-phone-incoming size-3.5 shrink-0 translate-y-px"></span>
+    <%= t("#{calls}.description") %>
+  </p>
+
+  <h3 class="border-t border-n-weak px-4 pb-2 pt-3 text-label-small font-medium text-n-slate-12"><%= t("#{calls}.setup.heading") %></h3>
+  <div class="overflow-x-auto">
+    <%= render "table" do %>
+      <thead>
+        <tr>
+          <% %w[platform installation devices].each do |column| %>
+            <th><%= t("#{calls}.setup.columns.#{column}") %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% { "apple" => readiness.apple, "android" => readiness.android }.each do |platform, state| %>
+          <tr>
+            <td>
+              <span class="inline-flex items-center gap-1.5">
+                <span class="<%= platform_icons.fetch(platform) %> size-4 shrink-0 text-n-slate-11"></span>
+                <%= t("#{calls}.platforms.#{platform}") %>
+              </span>
+            </td>
+            <td>
+              <% if state.configured %>
+                <%= render "badge", label: t("#{calls}.configured"), tone: :success %>
+              <% else %>
+                <span class="inline-flex flex-wrap items-center gap-1.5">
+                  <%= render "badge", label: t("#{calls}.not_configured"), tone: :danger %>
+                  <span class="text-label-small text-n-slate-11"><%= t(state.problem == "environment" ? "#{calls}.invalid_environment" : "#{calls}.credentials.#{platform}") %></span>
+                </span>
+              <% end %>
+            </td>
+            <td class="tabular-nums"><%= state.devices %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    <% end %>
+  </div>
+
+  <% if readiness.memberships.any? %>
+    <h3 class="border-t border-n-weak px-4 pb-2 pt-3 text-label-small font-medium text-n-slate-12"><%= t("#{calls}.accounts_heading") %></h3>
+    <div class="overflow-x-auto">
+      <%= render "table" do %>
+        <thead>
+          <tr>
+            <% %w[account voice ringing inboxes status rings].each do |column| %>
+              <th><%= t("#{calls}.account_columns.#{column}") %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% readiness.memberships.each do |membership| %>
+            <tr>
+              <td>
+                <span class="inline-flex items-center gap-1.5">
+                  <span class="max-w-60 truncate"><%= membership.account.name %></span>
+                  <span class="shrink-0 text-n-slate-9"><%= t("#{scope}.user.id", id: membership.account.id) %></span>
+                </span>
+              </td>
+              <% [membership.voice_enabled, membership.ringing_enabled].each do |enabled| %>
+                <td><%= render "badge", label: t("#{calls}.#{enabled ? 'on' : 'off'}"), tone: enabled ? :success : :neutral %></td>
+              <% end %>
+              <td class="tabular-nums"><%= membership.voice_inboxes %></td>
+              <td><%= render "badge", label: t("#{calls}.availability.#{membership.availability}"), tone: availability_tones.fetch(membership.availability, :neutral) %></td>
+              <td>
+                <% if readiness.rings_assigned_only?(membership) %>
+                  <%= render "badge", label: t("#{calls}.assigned_only"), tone: :success %>
+                <% elsif readiness.rings?(membership) %>
+                  <%= render "badge", label: t("#{calls}.rings"), tone: :success %>
+                <% else %>
+                  <% blocker = readiness.blocker(membership) %>
+                  <%= render "badge", label: t("#{calls}.blockers.#{blocker}"), tone: blocker == "push_unavailable" ? :warning : :neutral %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

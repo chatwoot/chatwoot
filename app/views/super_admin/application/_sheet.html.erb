@@ -1,0 +1,16 @@
+<%# Opened by any control with `data-dialog-open="<id>"`. %>
+<%# locals: (id:, title:) -%>
+<dialog id="<%= id %>" aria-labelledby="<%= id %>-title" data-backdrop-close
+        class="m-0 w-full max-w-none rounded-b-2xl border-b border-n-weak bg-n-solid-1 p-0 text-n-slate-12 shadow-xl backdrop:bg-modal-backdrop-light open:animate-sheet-in motion-reduce:animate-none dark:backdrop:bg-modal-backdrop-dark">
+  <div class="mx-auto max-h-[85dvh] w-full max-w-[120rem] overflow-y-auto px-[clamp(1rem,3vw,3rem)] pb-4 pt-2">
+    <div class="flex h-11 items-center justify-between">
+      <h2 class="text-xs font-medium uppercase tracking-wider text-n-slate-10" id="<%= id %>-title"><%= title %></h2>
+      <form method="dialog">
+        <%= render "icon_button", extra: "-me-2", type: "submit", aria: { label: t("super_admin.actions.close") } do %>
+          <span class="i-lucide-x size-4"></span>
+        <% end %>
+      </form>
+    </div>
+    <%= yield %>
+  </div>
+</dialog>

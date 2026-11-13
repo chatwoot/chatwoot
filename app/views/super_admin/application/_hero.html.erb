@@ -1,0 +1,43 @@
+<%# locals: (title:, back:, facts:, avatar: nil, badges: nil, details: {}) -%>
+<% content_for(:head) { render "font_preload", file: "InterDisplay/InterDisplay-SemiBold.woff2" } %>
+<header class="pb-5 pt-6 lg:pt-8">
+  <%= render "back_link", label: back %>
+
+  <div class="rounded-xl border border-n-weak bg-n-solid-1">
+    <div class="h-16 rounded-t-[calc(theme(borderRadius.xl)-1px)] bg-pixel-band opacity-80"></div>
+    <div class="relative flex flex-wrap items-start gap-x-4 gap-y-3 px-5">
+      <% if avatar %>
+        <%= image_tag avatar, alt: "", class: "-mt-7 size-14 shrink-0 rounded-full bg-n-solid-1 object-cover ring-4 ring-n-solid-1" %>
+      <% else %>
+        <span class="-mt-7 grid size-14 shrink-0 place-items-center rounded-xl bg-n-slate-3 font-interDisplay text-xl font-semibold uppercase text-n-slate-11 ring-4 ring-n-solid-1"><%= title.to_s.first %></span>
+      <% end %>
+      <div class="min-w-0 flex-1 pt-3">
+        <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+          <h1 class="text-heading-1 text-n-slate-12"><%= title %></h1>
+          <%= badges %>
+        </div>
+        <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-body-main text-n-slate-11">
+          <% details.each do |icon, text| %>
+            <span class="inline-flex min-w-0 items-center gap-1">
+              <span class="<%= icon %> size-3.5 shrink-0"></span>
+              <span class="truncate"><%= text %></span>
+            </span>
+          <% end %>
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 pt-3"><%= yield %></div>
+    </div>
+
+    <dl class="m-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-n-weak bg-n-weak lg:grid-cols-4">
+      <% facts.each do |fact| %>
+        <div class="min-w-0 bg-n-solid-1 px-4 py-3">
+          <dt class="flex items-center gap-1.5 text-label-small text-n-slate-11">
+            <span class="<%= fact[:icon] %> size-3.5"></span>
+            <%= fact[:label] %>
+          </dt>
+          <dd class="mt-1 font-interDisplay text-lg font-semibold tabular-nums tracking-tight text-n-slate-12"><%= fact[:value] %></dd>
+        </div>
+      <% end %>
+    </dl>
+  </div>
+</header>

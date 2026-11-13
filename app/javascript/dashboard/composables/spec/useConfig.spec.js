@@ -10,6 +10,7 @@ describe('useConfig', () => {
       enabledLanguages: ['en', 'fr'],
       isEnterprise: 'true',
       enterprisePlanName: 'enterprise',
+      searchTimeRangeLimitDays: 180,
     };
   });
 
@@ -25,6 +26,7 @@ describe('useConfig', () => {
     expect(config.enabledLanguages).toEqual(['en', 'fr']);
     expect(config.isEnterprise).toBe(true);
     expect(config.enterprisePlanName).toBe('enterprise');
+    expect(config.searchTimeRangeLimitDays).toBe(180);
   });
 
   it('handles missing configuration values', () => {
@@ -36,6 +38,7 @@ describe('useConfig', () => {
     expect(config.enabledLanguages).toBeUndefined();
     expect(config.isEnterprise).toBe(false);
     expect(config.enterprisePlanName).toBeUndefined();
+    expect(config.searchTimeRangeLimitDays).toBeUndefined();
   });
 
   it('handles undefined window.chatwootConfig', () => {
@@ -47,5 +50,6 @@ describe('useConfig', () => {
     expect(config.enabledLanguages).toBeUndefined();
     expect(config.isEnterprise).toBe(false);
     expect(config.enterprisePlanName).toBeUndefined();
+    expect(config.searchTimeRangeLimitDays).toBeUndefined();
   });
 });

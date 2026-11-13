@@ -3,6 +3,9 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
+import filterQueryGenerator, {
+  withTimestampTimezone,
+} from 'dashboard/helper/filterQueryGenerator';
 import {
   buildConversationList,
   isOnMentionsView,
@@ -19,6 +22,14 @@ import {
   handleVoiceCallUpdated,
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
+import { applyRoleFilter } from './helpers';
+import {
+  getUserPermissions,
+  getUserRole,
+} from 'dashboard/helper/permissionsHelper';
+
+// Page size MessageFinder uses when walking backwards through a conversation.
+const MESSAGES_PER_PAGE = 20;
 
 const pendingHistoryRequests = new Map();
 
@@ -121,7 +132,11 @@ const actions = {
         sortBy = state.chatSortFilter,
         ...requestParams
       } = params;
-      const filterRequestParams = { ...requestParams, sortBy };
+      // The contact scope pins its own order to match the in-thread navigation.
+      const filterRequestParams = {
+        ...requestParams,
+        sortBy: state.appliedFiltersSortBy || sortBy,
+      };
       const countRequest = await dispatch(
         'conversationStats/onListRequestStarted',
         filterRequestParams
@@ -159,7 +174,7 @@ const actions = {
     commit(types.CLEAR_CURRENT_CHAT_WINDOW);
   },
 
-  fetchPreviousMessages: ({ commit }, data) => {
+  fetchPreviousMessages: ({ commit, dispatch }, data) => {
     const requestKey = JSON.stringify([
       MessageApi.url,
       data.conversationId,
@@ -180,7 +195,12 @@ const actions = {
           id: data.conversationId,
           data: payload,
         });
-        if (!payload.length) {
+        dispatch('autoTranslateMessages', data.conversationId);
+        // A short backward page means the start is reached; `after` requests only prove it when empty.
+        const hasReachedFirstMessage = data.after
+          ? !payload.length
+          : payload.length < MESSAGES_PER_PAGE;
+        if (hasReachedFirstMessage) {
           commit(types.SET_ALL_MESSAGES_LOADED, data.conversationId);
         }
       })
@@ -252,6 +272,7 @@ const actions = {
         conversationId,
         messageId: null,
       });
+      dispatch('autoTranslateMessages', conversationId);
       dispatch('markMessagesRead', { id: conversationId }, { root: true });
     } catch (error) {
       // Handle error
@@ -278,12 +299,14 @@ const actions = {
 
   async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
-    commit(types.CLEAR_ALL_MESSAGES_LOADED, data.id);
     if (data.dataFetched === undefined) {
+      // Reset only when refetching — a re-activated short conversation has no scroll to earn it back.
+      commit(types.CLEAR_ALL_MESSAGES_LOADED, data.id);
       try {
         await dispatch('fetchPreviousMessages', {
           after,
-          before: data.messages[0].id,
+          // A conversation created without an initial message has nothing to anchor on.
+          before: data.messages[0]?.id,
           conversationId: data.id,
         });
         commit(types.SET_CHAT_DATA_FETCHED, data.id);
@@ -413,13 +436,23 @@ const actions = {
     }
   },
 
+  getContactInfoRequestAvailability: async (_, { conversationId, signal }) => {
+    const { data } = await ConversationApi.getContactInfoRequestAvailability(
+      conversationId,
+      {
+        signal,
+      }
+    );
+    return data;
+  },
+
   requestContactInfo: async ({ commit }, conversationId) => {
     const { data } = await ConversationApi.requestContactInfo(conversationId);
     commit(types.ADD_MESSAGE, data);
     return data;
   },
 
-  addMessage({ commit, rootGetters }, message) {
+  addMessage({ commit, dispatch, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
       commit(types.SET_CONVERSATION_CAN_REPLY, {
@@ -427,11 +460,12 @@ const actions = {
         canReply: true,
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
+      dispatch('autoTranslateMessages', message.conversation_id);
     }
     handleVoiceCallCreated(
       message,
       rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
+      rootGetters?.getCurrentUserReceivesCalls
     );
   },
 
@@ -458,7 +492,7 @@ const actions = {
       commit,
       message,
       rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
+      rootGetters?.getCurrentUserReceivesCalls
     );
   },
 
@@ -523,7 +557,28 @@ const actions = {
     const sender = conversation.meta?.sender;
 
     commit(types.UPDATE_CONVERSATION, conversation);
-    syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
+    syncConversationCallVisibility(
+      conversation,
+      rootGetters?.getCurrentUserID,
+      () => {
+        const currentUser = rootGetters.getCurrentUser;
+        const accountId = rootGetters.getCurrentAccountId;
+        const permissions = getUserPermissions(currentUser, accountId);
+        // Participants keep access once assigned away, and the client does not know who they
+        // are, so the card stays; joining or dismissing it drops it if the server refuses
+        return (
+          permissions.includes('conversation_participating_manage') ||
+          applyRoleFilter(
+            conversation,
+            getUserRole(currentUser, accountId),
+            permissions,
+            rootGetters.getCurrentUserID
+          )
+        );
+      }
+    );
+    // The contact language can change after a message arrived; the action skips anything already handled.
+    dispatch('autoTranslateMessages', conversation.id);
 
     dispatch('conversationLabels/setConversationLabel', {
       id: conversation.id,
@@ -609,6 +664,23 @@ const actions = {
 
   setConversationFilters({ commit }, data) {
     commit(types.SET_CONVERSATION_FILTERS, data);
+  },
+
+  // Replaces the list with page 1 of the snake_case filters; sortBy overrides the activity order.
+  applyConversationFilters: (
+    { commit, dispatch },
+    { filters, sortBy = null }
+  ) => {
+    const appliedFilters = filters.map(withTimestampTimezone);
+    commit(types.SET_CONVERSATION_FILTERS, appliedFilters);
+    commit(types.SET_CONVERSATION_FILTERS_SORT, sortBy);
+    commit(types.EMPTY_ALL_CONVERSATION);
+    dispatch('conversationPage/reset', {}, { root: true });
+
+    return dispatch('fetchFilteredConversations', {
+      queryData: filterQueryGenerator(appliedFilters),
+      page: 1,
+    });
   },
 
   clearConversationFilters({ commit }) {

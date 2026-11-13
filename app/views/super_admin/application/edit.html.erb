@@ -1,0 +1,13 @@
+<% content_for(:title) { t("administrate.actions.edit_resource", name: page.page_title) } %>
+<% content_for(:commands) { render "command_group", label: page.page_title, commands: record_commands(page.resource) } %>
+
+<%= render "page_header", title: content_for(:title), back: display_resource_name(page.resource_name) do %>
+  <%= render(
+    "button",
+    label: t("administrate.actions.show_resource", name: page.page_title),
+    url: [namespace, page.resource],
+    variant: :secondary
+  ) if accessible_action?(page.resource, :show) %>
+<% end %>
+
+<%= render "form", page: page %>

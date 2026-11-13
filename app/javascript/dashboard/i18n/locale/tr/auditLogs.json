@@ -7,6 +7,37 @@
     "LEARN_MORE": "Denetim kayıtları hakkında daha fazla bilgi edinin",
     "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
     "SIDEBAR_TXT": "<p><b>Denetim Kayıtları</b></p><p>Denetim Kayıtları, Chatwoot Sistemi'ndeki olaylar ve eylemler için izlerdir.</p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Ad veya e-posta adresine göre ara",
+      "ALL_EVENTS": "Tüm olaylar",
+      "DATE_RANGE": "Tarih aralığı",
+      "CLEAR_ALL": "Filtreleri Temizle",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Erişim",
+        "AGENTS_TEAMS": "Temsilciler & ekipler",
+        "CONFIGURATION": "Yapılandırma",
+        "CONVERSATIONS": "Konuşmalar"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Giriş yap / Çıkış yap",
+        "AGENTS": "Kullanıcılar",
+        "TEAMS": "Ekipler",
+        "TEAM_MEMBERS": "Ekip üyeleri",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "Hesap Ayarları",
+        "INBOXES": "Gelen kutuları",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Otomasyon kuralları",
+        "MACROS": "Kısayollar",
+        "CONVERSATION_DELETIONS": "Sohbet silme işlemleri",
+        "MESSAGE_DELETIONS": "Mesaj silme işlemleri"
+      },
+      "SORT": {
+        "NEWEST": "Önce en yeniler",
+        "OLDEST": "Önce en eskiler"
+      }
+    },
     "LIST": {
       "404": "Bu hesapta kullanılabilir denetim kaydı yok.",
       "TITLE": "Denetim Kayıtlarını Yönet",
@@ -14,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "Etkinlik",
         "TIME": "Zaman",
-        "IP_ADDRESS": "IP Adresi"
+        "IP_ADDRESS": "IP Adresi",
+        "LOCATION": "Yer"
       }
     },
     "API": {
@@ -72,6 +104,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} #{id} numaralı sohbeti sildi"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

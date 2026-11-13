@@ -1,0 +1,36 @@
+// Selectize is the one widget whose markup we do not render, so it cannot take
+// utilities in the templates. These selectors mirror its own specificity.
+
+.selectize-control .selectize-input,
+.selectize-control.single .selectize-input.input-active {
+  @apply flex min-h-9 items-center rounded-lg border border-n-slate-6 bg-n-solid-1 px-3 py-1.5 text-body-main text-n-slate-12 shadow-none hover:border-n-slate-8 touch:min-h-11 touch:text-base;
+  background-image: none;
+
+  &.focus {
+    @apply border-n-brand ring-2 ring-n-brand/25;
+  }
+
+  &.dropdown-active::before {
+    @apply hidden;
+  }
+
+  > input {
+    @apply text-body-main text-n-slate-12 touch:text-base;
+  }
+}
+
+.selectize-control.single .selectize-input::after {
+  @apply end-3 border-x-4 border-b-0 border-t-4 border-x-transparent border-t-n-slate-10;
+}
+
+.selectize-dropdown {
+  @apply mt-1 overflow-hidden rounded-lg border border-n-weak bg-n-solid-2 text-body-main text-n-slate-12 shadow-lg;
+
+  .option {
+    @apply px-3 py-2;
+  }
+
+  .active {
+    @apply bg-n-alpha-2 text-n-slate-12;
+  }
+}

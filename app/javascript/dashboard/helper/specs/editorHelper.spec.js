@@ -16,6 +16,7 @@ import {
   findNodeToInsertImage,
   findSignatureInBody,
   getAgentVariables,
+  getReplyVariables,
   getContactVariables,
   getContentNode,
   getFormattingForEditor,
@@ -1310,6 +1311,26 @@ describe('Menu positioning helpers', () => {
       expect(result).toHaveProperty('width', 300);
       expect(result.left).toBeGreaterThanOrEqual(0);
     });
+  });
+});
+
+describe('getReplyVariables', () => {
+  it('resolves contact, conversation and sender variables', () => {
+    const variables = getReplyVariables({
+      conversation: {
+        id: 7,
+        meta: { sender: { name: 'jane doe' }, assignee: { name: 'Bot' } },
+      },
+      contact: { name: 'jane doe' },
+      inbox: { id: 3, name: 'Support' },
+      user: { name: 'john doe', email: 'john@example.com' },
+    });
+
+    expect(variables['contact.name']).toBe('Jane Doe');
+    expect(variables['conversation.id']).toBe(7);
+    expect(variables['inbox.name']).toBe('Support');
+    expect(variables['agent.name']).toBe('John Doe');
+    expect(variables['agent.email']).toBe('john@example.com');
   });
 });
 

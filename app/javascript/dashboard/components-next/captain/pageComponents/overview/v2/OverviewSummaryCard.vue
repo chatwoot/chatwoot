@@ -12,8 +12,8 @@ const props = defineProps({
   summaryLoading: { type: Boolean, default: false },
 });
 
+const emit = defineEmits(['metricClick']);
 const AUTO_ROTATION_DELAY = 15000;
-
 const activePointIndex = ref(0);
 let rotationTimer = null;
 
@@ -60,9 +60,11 @@ onUnmounted(stopAutoRotation);
 
 <template>
   <section
-    class="overflow-hidden border rounded-2xl bg-n-weak border-n-container shadow-[0_0.0625rem_0.0625rem_rgba(27,28,29,0.04)]"
+    class="overflow-hidden border rounded-2xl bg-n-weak dark:bg-n-strong border-n-container dark:border-n-strong shadow-[0_0.0625rem_0.0625rem_rgba(27,28,29,0.04)]"
   >
-    <div class="grid gap-px border-b lg:grid-cols-6 border-n-weak">
+    <div
+      class="grid gap-px border-b lg:grid-cols-6 border-n-weak dark:border-n-strong"
+    >
       <div
         class="flex flex-col min-h-[8.6875rem] gap-3 p-5 bg-n-card lg:col-span-4"
       >
@@ -132,10 +134,12 @@ onUnmounted(stopAutoRotation);
         v-for="metric in featuredMetrics"
         :key="metric.key"
         v-bind="metric"
+        :clickable="metric.clickable && !loading"
         :loading="loading"
         layout="headline"
         value-size-class="text-2xl"
         class="min-h-[8.6875rem] lg:col-span-1"
+        @click="emit('metricClick', metric)"
       />
     </div>
     <div class="grid gap-px sm:grid-cols-2 lg:grid-cols-3">
@@ -143,10 +147,12 @@ onUnmounted(stopAutoRotation);
         v-for="metric in metrics"
         :key="metric.key"
         v-bind="metric"
+        :clickable="metric.clickable && !loading"
         :loading="loading"
         compact
         value-size-class="text-2xl"
         class="min-h-[6.3125rem]"
+        @click="emit('metricClick', metric)"
       />
     </div>
   </section>

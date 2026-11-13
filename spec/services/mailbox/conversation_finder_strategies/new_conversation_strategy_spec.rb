@@ -81,6 +81,29 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
         end
       end
 
+      context 'when a conversation already replied to the same message' do
+        let(:sender) { create(:contact, email: 'sender@example.com', account: account) }
+        let!(:existing_conversation) do
+          create(:conversation, account: account, inbox: email_channel.inbox, contact: sender,
+                                additional_attributes: { in_reply_to: '<previous-message@example.com>' })
+        end
+
+        before do
+          create(:contact_inbox, contact: sender, inbox: email_channel.inbox)
+          mail['In-Reply-To'] = '<previous-message@example.com>'
+        end
+
+        it 'reuses the conversation when it belongs to the sender' do
+          expect(described_class.new(mail).find).to eq(existing_conversation)
+        end
+
+        it 'builds a new conversation when it belongs to another contact' do
+          mail.from = 'other@example.com'
+
+          expect(described_class.new(mail).find).to be_new_record
+        end
+      end
+
       context 'when mail is auto reply' do
         before do
           mail['X-Autoreply'] = 'yes'

@@ -130,5 +130,11 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
       expect(service.valid_feature_list).to include(*business_features)
       expect(service.valid_feature_list).to include(*enterprise_features)
     end
+
+    it 'keeps data import outside billing overrides' do
+      service.manually_managed_features = %w[data_import sla]
+
+      expect(account.reload.internal_attributes['manually_managed_features']).to eq(%w[sla])
+    end
   end
 end

@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
       "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
       "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
-      "SLA_MISSED_RESOLUTION": "Target penyelesaian SLA terlewatkan untuk percakapan"
+      "SLA_MISSED_RESOLUTION": "Target penyelesaian SLA terlewatkan untuk percakapan",
+      "VOICE_CALL_MISSED": "Missed call"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "Disebutkan",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "SLA breach",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Pesan baru",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pesan baru",
+      "VOICE_CALL_MISSED": "Missed call",
       "SNOOZED_UNTIL": "Snoozed for {time}",
       "SNOOZED_ENDS": "Snooze ended"
     },

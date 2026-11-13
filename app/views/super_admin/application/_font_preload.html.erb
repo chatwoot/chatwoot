@@ -1,0 +1,3 @@
+<%# Fetched alongside the stylesheet rather than after it, so the page does not paint in the fallback font first. %>
+<%# locals: (file:) -%>
+<%= preload_link_tag vite_asset_path("shared/assets/fonts/#{file}"), as: "font", type: "font/woff2" %>

@@ -20,10 +20,13 @@ export const isActiveIntegrationImport = dataImport =>
   isIntegrationImport(dataImport) && isActiveImport(dataImport);
 
 export const isAbandonableImport = dataImport =>
-  isActiveIntegrationImport(dataImport);
+  dataImport?.allowed_actions?.abandon ?? isActiveIntegrationImport(dataImport);
 
 export const importedCount = dataImport => {
-  if (!isIntegrationImport(dataImport)) {
+  if (
+    !isIntegrationImport(dataImport) &&
+    dataImport?.source_provider !== 'csv'
+  ) {
     return Number(dataImport?.processed_records || 0);
   }
 
@@ -43,6 +46,11 @@ export const importStageKey = dataImport => {
   if (dataImport.status === 'failed') return 'failed';
   if (dataImport.status === 'abandoned') return 'abandoned';
   if (dataImport.status === 'pending') return 'queued';
+  if (
+    dataImport.source_provider === 'csv' &&
+    !dataImport.cursor?.preparation?.completed
+  )
+    return 'preparing';
 
   const importTypes = dataImport.import_types?.length
     ? dataImport.import_types
@@ -63,8 +71,6 @@ export const importStageKey = dataImport => {
   return 'finalizing';
 };
 
-export const formatStatus = value => value?.replaceAll('_', ' ') || '-';
-
 export const sourceObjectLabel = record =>
   [record.source_object_type, record.source_object_id]
     .filter(Boolean)
@@ -77,15 +83,3 @@ export const formatDate = value => {
     timeStyle: 'short',
   }).format(new Date(value));
 };
-
-const STATUS_DOT_CLASS = {
-  pending: 'bg-n-amber-9',
-  processing: 'bg-n-blue-9',
-  completed: 'bg-n-teal-9',
-  completed_with_errors: 'bg-n-amber-9',
-  failed: 'bg-n-ruby-9',
-  abandoned: 'bg-n-slate-9',
-};
-
-export const statusDotClass = status =>
-  STATUS_DOT_CLASS[status] || 'bg-n-slate-9';

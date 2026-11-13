@@ -6,8 +6,8 @@ class InboxHealthAPI extends ApiClient {
     super('inboxes', { accountScoped: true });
   }
 
-  getHealthStatus(inboxId) {
-    return axios.get(`${this.url}/${inboxId}/health`);
+  getHealthStatus(inboxId, { signal } = {}) {
+    return axios.get(`${this.url}/${inboxId}/health`, { signal });
   }
 
   registerWebhook(inboxId) {

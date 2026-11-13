@@ -20,24 +20,43 @@ RSpec.describe 'Webhooks::InstagramController', type: :request do
     GlobalConfig.clear_cache
   end
 
-  describe 'GET /webhooks/verify' do
-    it 'returns 401 when valid params are not present' do
-      get '/webhooks/instagram/verify'
-      expect(response).to have_http_status(:not_found)
-    end
-
-    it 'returns 401 when invalid params' do
-      with_modified_env IG_VERIFY_TOKEN: '123456' do
-        get '/webhooks/instagram/verify', params: { 'hub.challenge' => '123456', 'hub.mode' => 'subscribe', 'hub.verify_token' => 'invalid' }
-        expect(response).to have_http_status(:not_found)
+  describe 'GET /webhooks/instagram' do
+    def verify_with(params, env)
+      with_modified_env env do
+        get '/webhooks/instagram', params: { 'hub.challenge' => 'test-challenge', 'hub.mode' => 'subscribe' }.merge(params)
       end
     end
 
-    it 'returns challenge when valid params' do
-      with_modified_env IG_VERIFY_TOKEN: '123456' do
-        get '/webhooks/instagram/verify', params: { 'hub.challenge' => '123456', 'hub.mode' => 'subscribe', 'hub.verify_token' => '123456' }
-        expect(response.body).to include '123456'
-      end
+    it 'returns the challenge when the token matches IG_VERIFY_TOKEN' do
+      verify_with({ 'hub.verify_token' => 'ig-token' }, { IG_VERIFY_TOKEN: 'ig-token' })
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include 'test-challenge'
+    end
+
+    it 'returns the challenge when the token matches INSTAGRAM_VERIFY_TOKEN' do
+      verify_with({ 'hub.verify_token' => 'instagram-token' }, { INSTAGRAM_VERIFY_TOKEN: 'instagram-token' })
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include 'test-challenge'
+    end
+
+    it 'returns unauthorized when the token is wrong' do
+      verify_with({ 'hub.verify_token' => 'invalid' }, { IG_VERIFY_TOKEN: 'ig-token' })
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns unauthorized when the token is missing and only one verify token is configured' do
+      verify_with({}, { IG_VERIFY_TOKEN: 'ig-token' })
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns unauthorized when no verify token is configured' do
+      verify_with({ 'hub.verify_token' => '' }, { IG_VERIFY_TOKEN: '', INSTAGRAM_VERIFY_TOKEN: '' })
+
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 

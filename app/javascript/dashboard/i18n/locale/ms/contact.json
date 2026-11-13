@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Tidak Tersedia",
     "EMAIL_ADDRESS": "Emel",
     "PHONE_NUMBER": "Phone number",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tiada perbualan terdahulu yang berkaitan dengan kenalan ini.",
-      "TITLE": "Perbualan Terdahulu"
+      "TITLE": "Perbualan Terdahulu",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -460,6 +462,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

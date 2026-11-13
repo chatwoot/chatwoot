@@ -45,9 +45,14 @@
         "TITLE": "छवि अपलोड गर्नुहोस्",
         "UPLOADING": "अपलोड गर्दै...",
         "SUCCESS": "छवि सफलतापूर्वक अपलोड गरियो।",
-        "ERROR": "छवि अपलोड गर्दा त्रुटि।",
-        "UN_AUTHORIZED_ERROR": "तपाईंलाई तस्बिरहरू अपलोड गर्न अनुमति छैन",
+        "UPLOAD_FAILED": "Upload failed",
+        "RATE_LIMITED": "Upload limit reached. Try again in a few minutes.",
+        "RETRY": "Retry",
+        "REMOVE": "हटाउनुहोस्",
+        "CANCEL": "Cancel upload",
         "ERROR_FILE_SIZE": "छवि आकार {size}MB भन्दा कम हुनुपर्छ।",
+        "ERROR_ATTACHMENT_FILE_SIZE": "File size should be less than {size}MB",
+        "ERROR_UNSUPPORTED_TYPE": "This file type is not supported",
         "ERROR_FILE_FORMAT": "छवि ढाँचा jpg, jpeg वा png हुनुपर्छ।",
         "ERROR_FILE_DIMENSIONS": "छवि आयाम 2000 x 2000 भन्दा कम हुनुपर्छ।"
       }
@@ -800,7 +805,9 @@
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
         "PUBLISH_CHANGES_ERROR": "Could not publish changes",
-        "SAVE_IN_PROGRESS": "Still saving your latest changes — please try again in a moment.",
+        "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
+        "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
+        "CREATE_IN_PROGRESS": "The article is still being created. Add files again in a moment.",
         "DISCARD_CHANGES": "Discard changes",
         "DISCARD_CHANGES_SUCCESS": "Changes discarded",
         "DISCARD_CHANGES_ERROR": "Could not discard changes",
@@ -833,7 +840,14 @@
         "META_TITLE": "मेटा शीर्षक",
         "META_TITLE_PLACEHOLDER": "मेटा शीर्षक थप्नुहोस्",
         "META_TAGS": "मेटा ट्यागहरू",
-        "META_TAGS_PLACEHOLDER": "मेटा ट्यागहरू थप्नुहोस्"
+        "META_TAGS_PLACEHOLDER": "मेटा ट्यागहरू थप्नुहोस्",
+        "SLUG": "स्लग",
+        "SLUG_PLACEHOLDER": "Add slug",
+        "SLUG_USE_TITLE": "Use title as slug",
+        "SLUG_WARNING": "The current URL will stop working, and existing links to it will break.",
+        "SLUG_UPDATE": "अपडेट गर्नु",
+        "SLUG_UPDATED": "Slug updated. The article is now available at the new URL.",
+        "SLUG_OPEN": "Open URL"
       },
       "API": {
         "ERROR": "लेख सेभ गर्दा त्रुटि"

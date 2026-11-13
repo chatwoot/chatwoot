@@ -93,7 +93,7 @@ const items = computed(() => [
     <div
       v-for="item in items"
       :key="item.key"
-      class="flex min-w-0 flex-col gap-1 bg-n-solid-1 px-4 py-3"
+      class="flex min-w-0 flex-col gap-2 bg-n-solid-1 px-5 py-4 last:col-span-2 lg:last:col-span-1"
     >
       <dt class="flex items-center gap-1.5 text-label-small text-n-slate-10">
         <Icon :icon="item.icon" class="size-3.5 shrink-0" />
@@ -101,7 +101,7 @@ const items = computed(() => [
       </dt>
       <dd
         v-tooltip.top="item.tooltip"
-        class="truncate text-heading-3 text-n-slate-12"
+        class="break-words text-body-main text-n-slate-12"
       >
         {{ item.value }}
       </dd>

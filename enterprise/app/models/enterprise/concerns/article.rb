@@ -68,7 +68,7 @@ module Enterprise::Concerns::Article
       { role: 'user', content: "title: #{title} \n description: #{description} \n content: #{content}" }
     ]
     headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{openai_api_key}" }
-    body = { model: 'gpt-4o', messages: messages, response_format: { type: 'json_object' } }.to_json
+    body = { model: 'gpt-6-luna', reasoning_effort: 'none', messages: messages, response_format: { type: 'json_object' } }.to_json
     Rails.logger.info "Requesting Chat GPT with body: #{body}"
     response = HTTParty.post(openai_api_url, headers: headers, body: body)
     Rails.logger.info "Chat GPT response: #{response.body}"

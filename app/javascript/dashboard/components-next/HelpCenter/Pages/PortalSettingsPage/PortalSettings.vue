@@ -10,6 +10,7 @@ import PortalGeneralSettings from './PortalGeneralSettings.vue';
 import PortalConfigurationSettings from './PortalConfigurationSettings.vue';
 import PortalLayoutContentSettings from './PortalLayoutContentSettings.vue';
 import PortalIntegrationsSettings from './PortalIntegrationsSettings.vue';
+import PortalSeoSettings from './PortalSeoSettings.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
@@ -51,6 +52,11 @@ const settingsTabs = computed(() => [
     id: 'appearance',
     label: t('HELP_CENTER.PORTAL_SETTINGS.NAV.APPEARANCE'),
     icon: 'i-lucide-palette',
+  },
+  {
+    id: 'seo',
+    label: t('HELP_CENTER.PORTAL_SETTINGS.NAV.SEO'),
+    icon: 'i-lucide-search',
   },
   {
     id: 'integrations',
@@ -131,6 +137,14 @@ const handleDeletePortal = portal => {
 
         <template #appearance>
           <PortalLayoutContentSettings
+            :active-portal="activePortal"
+            :is-fetching="isFetching"
+            @update-portal-configuration="handleUpdatePortalConfiguration"
+          />
+        </template>
+
+        <template #seo>
+          <PortalSeoSettings
             :active-portal="activePortal"
             :is-fetching="isFetching"
             @update-portal-configuration="handleUpdatePortalConfiguration"

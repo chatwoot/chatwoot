@@ -4,6 +4,6 @@ class Api::V1::Widget::InboxMembersController < Api::V1::Widget::BaseController
   reads_from_replica :index, max_lag: 10.seconds
 
   def index
-    @inbox_members = @web_widget.inbox.inbox_members.includes(user: { avatar_attachment: :blob })
+    @inbox_members = @web_widget.inbox.inbox_members.includes(user: [:account_users, { avatar_attachment: :blob }])
   end
 end

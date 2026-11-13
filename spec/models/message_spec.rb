@@ -154,6 +154,40 @@ RSpec.describe Message do
     end
   end
 
+  describe '#widget_sender_data' do
+    it 'returns only the type for a contact sender' do
+      message = create(:message, message_type: :incoming, sender: create(:contact, email: 'jane@example.com'))
+
+      expect(message.widget_sender_data).to eq(type: 'contact')
+    end
+
+    it 'returns the full event data for an agent sender' do
+      message = create(:message, sender: create(:user))
+
+      expect(message.widget_sender_data).to eq(message.sender.push_event_data)
+    end
+  end
+
+  describe '#widget_push_event_data' do
+    it 'keeps the message event and reduces a contact sender to its type' do
+      message = create(:message, message_type: :incoming, sender: create(:contact, email: 'jane@example.com'))
+
+      expect(message.widget_push_event_data).to eq(message.push_event_data.merge(sender: { type: 'contact' }))
+    end
+
+    it 'keeps an agent sender' do
+      message = create(:message, sender: create(:user))
+
+      expect(message.widget_push_event_data).to eq(message.push_event_data)
+    end
+
+    it 'keeps an agent bot sender with the inbox avatar fallback' do
+      message = create(:message, sender: create(:agent_bot))
+
+      expect(message.widget_push_event_data[:sender]).to eq(message.sender.push_event_data(message.inbox))
+    end
+  end
+
   describe 'message create event' do
     let!(:conversation) { create(:conversation) }
 
@@ -169,6 +203,20 @@ RSpec.describe Message do
 
       expect(conversation.first_reply_created_at).to eq outgoing_message.created_at
       expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'does not count a forwarded email as a reply to the contact' do
+      create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { forwarded_message_id: 1 })
+
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+    end
+
+    it 'records the first reply to the contact after a forwarded email' do
+      create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { forwarded_message_id: 1 })
+      reply = create(:message, message_type: :outgoing, conversation: conversation)
+
+      expect(conversation.first_reply_created_at).to eq reply.created_at
     end
 
     it 'does not update the conversation first reply created at if the message is incoming' do
@@ -241,15 +289,15 @@ RSpec.describe Message do
     let(:message) { build(:message, message_type: :incoming, conversation: conversation) }
 
     it 'reopens resolved conversation when the message is from a contact' do
-      conversation.resolved!
+      conversation.update!(status: :resolved, ai_assignee: create(:agent_bot, account: conversation.account))
       message.save!
-      expect(message.conversation.open?).to be true
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
     end
 
     it 'reopens snoozed conversation when the message is from a contact' do
-      conversation.snoozed!
+      conversation.update!(status: :snoozed, ai_assignee: create(:agent_bot, account: conversation.account))
       message.save!
-      expect(message.conversation.open?).to be true
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
     end
 
     it 'will not reopen if the conversation is muted' do
@@ -260,14 +308,15 @@ RSpec.describe Message do
     end
 
     it 'will mark the conversation as pending if the agent bot is active' do
-      agent_bot = create(:agent_bot)
+      agent_bot = create(:agent_bot, account: conversation.account)
       inbox = conversation.inbox
       inbox.agent_bot = agent_bot
       inbox.save!
-      conversation.resolved!
+      conversation.update!(status: :resolved, ai_assignee: agent_bot)
       message.save!
       expect(conversation.open?).to be false
       expect(conversation.pending?).to be true
+      expect(conversation.reload.ai_assignee).to eq(agent_bot)
     end
   end
 

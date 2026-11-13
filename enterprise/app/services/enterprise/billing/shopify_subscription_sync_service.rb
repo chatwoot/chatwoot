@@ -27,6 +27,11 @@ class Enterprise::Billing::ShopifySubscriptionSyncService
     raise
   end
 
+  def suspend_pending_signup!
+    suspend_account_for_billing
+    account.save!
+  end
+
   private
 
   attr_reader :account

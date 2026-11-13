@@ -12,7 +12,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   end
 
   before do
-    account.enable_features!('captain_integration_v2')
+    account.enable_features!('captain_integration')
     create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
   end
 
@@ -151,6 +151,12 @@ RSpec.describe Captain::ConversationOutcomeTracker do
         account: account, inbox: inbox, conversation: conversation,
         sender: agent, message_type: :outgoing, created_at: 15.minutes.ago,
         content_attributes: { automation_rule_id: 1 }
+      )
+      create(
+        :message,
+        account: account, inbox: inbox, conversation: conversation,
+        sender: agent, message_type: :outgoing, created_at: 12.minutes.ago,
+        content_attributes: { forwarded_message_id: 1 }
       )
       human_reply = create(
         :message,

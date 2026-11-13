@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Aangemaakt op",
         "OLDEST": "Aangemaakt op:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Laatste Activiteit:",
-        "ACTIVE": "Laatste Activiteit"
+        "NOT_ACTIVE": "Laatste Activiteit:"
       }
     },
     "SORT_ORDER_ITEMS": {

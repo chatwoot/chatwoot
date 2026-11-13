@@ -119,6 +119,28 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
         expect(data['name']).to eq('test')
         expect(platform_app.platform_app_permissibles.first.permissible_id).to eq data['id']
       end
+
+      it 'creates an agent bot for a permissible account' do
+        account = create(:account)
+        create(:platform_app_permissible, platform_app: platform_app, permissible: account)
+
+        post '/platform/api/v1/agent_bots/', params: { name: 'test', account_id: account.id },
+                                             headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['account_id']).to eq(account.id)
+      end
+
+      it 'returns unauthorized when the account is not a permissible object' do
+        account = create(:account)
+
+        expect do
+          post '/platform/api/v1/agent_bots/', params: { name: 'test', account_id: account.id },
+                                               headers: { api_access_token: platform_app.access_token.token }, as: :json
+        end.not_to change(AgentBot, :count)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 
@@ -154,6 +176,41 @@ RSpec.describe 'Platform Agent Bot API', type: :request do
         expect(response).to have_http_status(:success)
         data = response.parsed_body
         expect(data['name']).to eq('test123')
+      end
+
+      it 'moves the agent_bot to a permissible account' do
+        create(:platform_app_permissible, platform_app: platform_app, permissible: agent_bot)
+        account = create(:account)
+        create(:platform_app_permissible, platform_app: platform_app, permissible: account)
+
+        patch "/platform/api/v1/agent_bots/#{agent_bot.id}", params: { account_id: account.id },
+                                                             headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent_bot.reload.account_id).to eq(account.id)
+      end
+
+      it 'returns unauthorized when moving the agent_bot to an account that is not a permissible object' do
+        create(:platform_app_permissible, platform_app: platform_app, permissible: agent_bot)
+        account = create(:account)
+
+        patch "/platform/api/v1/agent_bots/#{agent_bot.id}", params: { account_id: account.id },
+                                                             headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(agent_bot.reload.account_id).to be_nil
+      end
+
+      it 'updates the agent_bot when the unchanged account_id is sent without account permission' do
+        account = create(:account)
+        account_bot = create(:agent_bot, account: account)
+        create(:platform_app_permissible, platform_app: platform_app, permissible: account_bot)
+
+        patch "/platform/api/v1/agent_bots/#{account_bot.id}", params: { name: 'test123', account_id: account.id },
+                                                               headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account_bot.reload.name).to eq('test123')
       end
 
       it 'updates avatar' do

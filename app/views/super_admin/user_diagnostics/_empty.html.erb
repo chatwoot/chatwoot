@@ -1,0 +1,8 @@
+<%# locals: (icon:, title:, description:) -%>
+<div class="flex flex-col items-center gap-3 px-4 py-10 text-center">
+  <%= render "icon_tile", icon: icon, tone: "bg-n-slate-3 text-n-slate-11" %>
+  <div class="max-w-md text-body-main">
+    <p class="font-medium text-n-slate-12"><%= title %></p>
+    <p class="mt-0.5 text-n-slate-11"><%= description %></p>
+  </div>
+</div>

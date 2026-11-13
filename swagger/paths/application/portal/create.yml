@@ -4,6 +4,7 @@ operationId: add-new-portal-to-account
 summary: Add a new portal
 description: Add a new portal to account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

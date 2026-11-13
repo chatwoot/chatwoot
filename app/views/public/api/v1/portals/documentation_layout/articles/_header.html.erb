@@ -5,10 +5,12 @@
     <h1 class="text-3xl md:text-4xl leading-snug font-620 tracking-tight text-n-slate-12 min-w-0">
       <%= article.title %>
     </h1>
-    <div class="shrink-0 mt-1">
-      <%= render 'public/api/v1/portals/documentation_layout/articles/actions',
-                 portal: portal, article: article %>
-    </div>
+    <% if article.published? %>
+      <div class="shrink-0 mt-1">
+        <%= render 'public/api/v1/portals/documentation_layout/articles/actions',
+                   portal: portal, article: article %>
+      </div>
+    <% end %>
   </div>
   <% if article.author.present? %>
     <div class="mt-6 flex items-center gap-3">

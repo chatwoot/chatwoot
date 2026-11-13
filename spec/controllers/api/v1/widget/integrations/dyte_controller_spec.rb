@@ -71,6 +71,29 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
           )
         end
       end
+
+      context 'when message belongs to another contact conversation in the same inbox' do
+        let(:other_contact) { create(:contact, account: account) }
+        let(:other_contact_inbox) { create(:contact_inbox, contact: other_contact, inbox: web_widget.inbox) }
+        let(:other_conversation) do
+          create(:conversation, contact: other_contact, account: account, inbox: web_widget.inbox, contact_inbox: other_contact_inbox)
+        end
+        let(:other_integration_message) do
+          create(:message, content_type: 'integrations',
+                           content_attributes: { type: 'dyte', data: { meeting_id: 'other_m_id' } },
+                           conversation: other_conversation, account: account, inbox: web_widget.inbox)
+        end
+
+        it 'returns not found without adding a participant' do
+          post add_participant_to_meeting_api_v1_widget_integrations_dyte_url,
+               headers: { 'X-Auth-Token' => token },
+               params: { website_token: web_widget.website_token, message_id: other_integration_message.id },
+               as: :json
+
+          expect(response).to have_http_status(:not_found)
+          expect(a_request(:any, %r{/meetings/other_m_id/participants})).not_to have_been_made
+        end
+      end
     end
   end
 end

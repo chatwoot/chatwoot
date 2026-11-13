@@ -88,7 +88,7 @@ export class DashboardAudioNotificationHelper {
       tone: audioAlertTone,
     };
 
-    if (previousAudioTone !== audioAlertTone) {
+    if (!this.audioConfig.audio || previousAudioTone !== audioAlertTone) {
       this.intializeAudio();
     }
 
@@ -168,12 +168,37 @@ export class DashboardAudioNotificationHelper {
     return shouldPlayAudio.some(Boolean);
   };
 
-  onNewMessage = message => {
-    // If the user does not have the permission to view the conversation, then dismiss the alert
-    // FIX ME: There shouldn't be a new message if the user has no access to the conversation.
-    if (!this.store.hasConversationPermission(this.currentUser)) {
-      return;
+  triggerAlert = message => {
+    if (!this.store.hasConversationPermission(this.currentUser)) return;
+    if (!this.shouldNotifyOnMessage(message)) return;
+    if (WindowVisibilityHelper.isWindowVisible()) {
+      if (this.store.isMessageFromCurrentConversation(message)) return;
+      if (this.notificationConfig.playAlertOnlyWhenHidden) return;
     }
+
+    this.playAudioAlert();
+    showBadgeOnFavicon();
+    this.playAudioEvery30Seconds();
+  };
+
+  onConversationBotHandoff = conversation => {
+    // Adapt the handoff once to the existing audio-filter contract. Bot IDs
+    // must not be treated as human assignees, even when their IDs overlap.
+    this.triggerAlert({
+      conversation_id: conversation.id,
+      conversation: {
+        assignee_id:
+          conversation.meta?.assignee_type === 'User'
+            ? conversation.meta.assignee?.id
+            : null,
+      },
+    });
+  };
+
+  onNewMessage = message => {
+    // Captain notes are context, not requests for attention. Only the dedicated
+    // handoff event alerts agents, regardless of when its explanatory note arrives.
+    if (message.private && message.sender?.type === 'captain_assistant') return;
 
     // If the conversation status is pending, then dismiss the alert
     // This case is common for all audio event types
@@ -186,31 +211,13 @@ export class DashboardAudioNotificationHelper {
       return;
     }
 
-    if (!this.shouldNotifyOnMessage(message)) {
-      return;
-    }
-
     // If the message type is not incoming or private, then dismiss the alert
     const { message_type: messageType, private: isPrivate } = message;
     if (messageType !== MESSAGE_TYPE.INCOMING && !isPrivate) {
       return;
     }
 
-    if (WindowVisibilityHelper.isWindowVisible()) {
-      // If the user looking at the conversation, then dismiss the alert
-      if (this.store.isMessageFromCurrentConversation(message)) {
-        return;
-      }
-
-      // If the user has disabled alerts when active on the dashboard, the dismiss the alert
-      if (this.notificationConfig.playAlertOnlyWhenHidden) {
-        return;
-      }
-    }
-
-    this.playAudioAlert();
-    showBadgeOnFavicon();
-    this.playAudioEvery30Seconds();
+    this.triggerAlert(message);
   };
 }
 

@@ -78,6 +78,19 @@ RSpec.describe Attachment do
       expect(attachment.thumb_url).to be_present
     end
 
+    %w[image/bmp image/vnd.microsoft.icon image/vnd.adobe.photoshop].each do |content_type|
+      it "preserves the original download without a thumbnail for #{content_type}" do
+        attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(
+          io: StringIO.new('original image'), filename: 'image', content_type: content_type, identify: false
+        )
+
+        expect(attachment.thumb_url).to eq('')
+        expect(attachment.file_url).to be_present
+        expect(attachment.file.download).to eq('original image')
+      end
+    end
+
     it 'handles unrepresentable images gracefully' do
       attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
       attachment.file.attach(io: StringIO.new('fake image'), filename: 'test.jpg', content_type: 'image/jpeg')

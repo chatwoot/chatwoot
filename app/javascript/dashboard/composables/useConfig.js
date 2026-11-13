@@ -42,6 +42,12 @@ export function useConfig() {
    */
   const inboxEventsEnabled = config.inboxEventsEnabled === 'true';
 
+  /**
+   * How many days back search looks (SEARCH_TIME_RANGE_LIMIT_DAYS).
+   * @type {number|undefined}
+   */
+  const searchTimeRangeLimitDays = config.searchTimeRangeLimitDays;
+
   return {
     hostURL,
     vapidPublicKey,
@@ -49,5 +55,6 @@ export function useConfig() {
     isEnterprise,
     enterprisePlanName,
     inboxEventsEnabled,
+    searchTimeRangeLimitDays,
   };
 }

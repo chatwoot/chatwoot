@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "सहभागी कुराकानीमा नयाँ सन्देश सिर्जना हुँदा इमेल सूचनाहरू पठाउनु",
         "SLA_MISSED_FIRST_RESPONSE": "कुनै कुराकानीले पहिलो प्रतिक्रिया SLA छुटाउँदा इमेल सूचनाहरू पठाउनु",
         "SLA_MISSED_NEXT_RESPONSE": "कुनै कुराकानीले अर्को प्रतिक्रिया SLA छुटाउँदा इमेल सूचनाहरू पठाउनु",
-        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा इमेल सूचनाहरू पठाउनु"
+        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा इमेल सूचनाहरू पठाउनु",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "सूचना प्राथमिकताहरू",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "भाग लिइरहेको कुराकानीमा नयाँ सन्देश सिर्जना भयो",
           "SLA_MISSED_FIRST_RESPONSE": "कुराकानीले पहिलो प्रतिक्रिया SLA छुटायो",
           "SLA_MISSED_NEXT_RESPONSE": "कुराकानीले अर्को प्रतिक्रिया SLA छुटायो",
-          "SLA_MISSED_RESOLUTION": "कुराकानीले समाधान SLA छुटायो"
+          "SLA_MISSED_RESOLUTION": "कुराकानीले समाधान SLA छुटायो",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "तपाईंको ब्राउजरका लागि पुश सूचनाहरू सक्षम गर्नुहोस् ताकि तपाईं तिनीहरू प्राप्त गर्न सक्नुहुन्छ"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "पुष सूचनाहरू सक्षम गर्नुहोस्",
         "SLA_MISSED_FIRST_RESPONSE": "कुनै कुराकानीले पहिलो प्रतिक्रिया SLA छुटाउँदा पुश सूचनाहरू पठाउनु",
         "SLA_MISSED_NEXT_RESPONSE": "कुनै कुराकानीले अर्को प्रतिक्रिया SLA छुटाउँदा पुश सूचनाहरू पठाउनु",
-        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा पुश सूचनाहरू पठाउनु"
+        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा पुश सूचनाहरू पठाउनु",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "प्रोफाइल छवि"
@@ -262,6 +265,10 @@
     "EMAIL_VERIFICATION_PENDING": "तपाईंले अझै आफ्नो इमेल ठेगाना प्रमाणित गर्नुभएको छैन जस्तो देखिन्छ। कृपया प्रमाणिकरण इमेलको लागि आफ्नो इनबक्स जाँच गर्नुहोस्।",
     "RESEND_VERIFICATION_MAIL": "प्रमाणिकरण इमेल पुन: पठाउनु",
     "EMAIL_VERIFICATION_SENT": "प्रमाणिकरण इमेल पठाइएको छ। कृपया आफ्नो इनबक्स जाँच गर्नुहोस्।",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "खाता निलम्बित",
       "MESSAGE": "तपाईंको खाता निलम्बित गरिएको छ। थप जानकारीका लागि कृपया समर्थन टोलीलाई सम्पर्क गर्नुहोस्।",
@@ -278,7 +285,8 @@
     "CODE": {
       "BUTTON_TEXT": "प्रतिलिपि गर्नुहोस्",
       "CODEPEN": "CodePen मा खोल्नु",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "थप देखाउनु",
@@ -564,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "हेल्प सेन्टर खोज अनुक्रमणिका",
         "DESCRIPTION": "तपाईंका हेल्प सेन्टर लेखहरूमा सन्दर्भअनुसार खोजका लागि एआई प्रयोग गर्नुहोस्।"
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "लेबल सुझाव",
-        "DESCRIPTION": "सामग्री विश्लेषण र सन्दर्भका आधारमा संवादका लागि उपयुक्त लेबल र ट्यागहरू स्वचालित रूपमा सुझाव दिनुहोस्।",
-        "MODEL_TITLE": "लेबल सुझाव मोडेल",
-        "MODEL_DESCRIPTION": "संवाद विश्लेषण र उपयुक्त लेबल सुझावका लागि प्रयोग हुने एआई मोडेल चयन गर्नुहोस्"
       }
     },
     "API": {
@@ -578,6 +580,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "बिलिङ",
     "DESCRIPTION": "यहाँ तपाईंको सदस्यता व्यवस्थापन गर्नुहोस्, योजना अपग्रेड गर्नुहोस् र तपाईंको टिमका लागि थप प्राप्त गर्नुहोस्।",
     "CURRENT_PLAN": {
@@ -585,6 +591,7 @@
       "PLAN_NOTE": "तपाईं हाल **{plan}** योजना र **{quantity}** लाइसेन्सहरूसँग सदस्यता लिनुभएको छ",
       "SEAT_COUNT": "सिटहरूको संख्या",
       "RENEWS_ON": "नवीकरण मिति",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +625,38 @@
       "BUTTON_TXT": "हामीसँग कुराकानी गर्नुहोस्"
     },
     "NO_BILLING_USER": "तपाईंको बिलिङ खाता सेटअप हुँदैछ। कृपया पृष्ठ रिफ्रेस गरेर पुनः प्रयास गर्नुहोस्।",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "नवीकरण मिति",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "थप क्रेडिट किन्नुहोस्",
       "MODAL_TITLE": "AI क्रेडिट किन्नुहोस्",
@@ -648,6 +687,7 @@
     "DESCRIPTION": "आफ्नो खाताको सुरक्षा सेटिङहरू व्यवस्थापन गर्नुहोस्।",
     "LINK_TEXT": "SAML SSO को बारेमा थप जान्नुहोस्",
     "SAML_DISABLED_MESSAGE": "SAML SSO हाल असक्षम छ। कृपया यो सुविधा सक्षम गर्न आफ्नो प्रशासकलाई सम्पर्क गर्नुहोस्।",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "आफ्नो खाताका लागि SAML सिंगल साइन-इन कन्फिगर गर्नुहोस्। प्रयोगकर्ताहरूले इमेल/पासवर्डको सट्टा तपाईंको आइडेन्टिटी प्रोभाइडरमार्फत प्रमाणिकरण गर्नेछन्।",

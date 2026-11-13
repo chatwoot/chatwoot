@@ -9,6 +9,10 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: { FormInput, NextButton },
+  props: {
+    redirectUrl: { type: String, default: '' },
+    ssoAccountId: { type: String, default: '' },
+  },
   setup() {
     const { replaceInstallationName } = useBranding();
     return { v$: useVuelidate(), replaceInstallationName };
@@ -34,6 +38,22 @@ export default {
       },
     };
   },
+  computed: {
+    loginRoute() {
+      const route = { name: 'login' };
+      return this.redirectUrl
+        ? {
+            ...route,
+            query: {
+              redirect_url: this.redirectUrl,
+              ...(this.ssoAccountId
+                ? { sso_account_id: this.ssoAccountId }
+                : {}),
+            },
+          }
+        : route;
+    },
+  },
   methods: {
     showAlertMessage(message) {
       // Reset loading, current selected agent
@@ -42,7 +62,11 @@ export default {
     },
     submit() {
       this.resetPassword.showLoading = true;
-      resetPassword(this.credentials)
+      resetPassword({
+        ...this.credentials,
+        redirectUrl: this.redirectUrl,
+        ssoAccountId: this.ssoAccountId,
+      })
         .then(res => {
           let successMessage = this.$t('RESET_PASSWORD.API.SUCCESS_MESSAGE');
           if (res.data && res.data.message) {
@@ -101,7 +125,7 @@ export default {
       </div>
       <p class="mt-4 -mb-1 text-sm text-n-slate-11">
         {{ $t('RESET_PASSWORD.GO_BACK_TO_LOGIN') }}
-        <router-link to="/auth/login" class="text-link text-n-brand">
+        <router-link :to="loginRoute" class="text-link text-n-brand">
           {{ $t('COMMON.CLICK_HERE') }}.
         </router-link>
       </p>

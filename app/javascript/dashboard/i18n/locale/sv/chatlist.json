@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Skapad",
         "OLDEST": "Skapad den:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Senaste aktivitet:",
-        "ACTIVE": "Senaste aktivitet"
+        "NOT_ACTIVE": "Senaste aktivitet:"
       }
     },
     "SORT_ORDER_ITEMS": {

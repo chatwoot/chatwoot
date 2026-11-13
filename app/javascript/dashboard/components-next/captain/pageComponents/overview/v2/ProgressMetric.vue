@@ -29,8 +29,10 @@ const chartData = computed(() => ({
 <template>
   <div class="flex flex-col gap-2">
     <div class="flex items-center justify-between gap-3 text-body-main">
-      <span class="text-n-slate-11">
-        <span v-if="showLabel">{{ label }} </span>
+      <span
+        class="inline-flex flex-wrap items-baseline gap-x-1 text-n-slate-11"
+      >
+        <span v-if="showLabel">{{ label }}</span>
         <span v-if="usageLabel" :class="{ 'text-n-teal-11': showLabel }">
           {{ usageLabel }}
         </span>
@@ -50,6 +52,7 @@ const chartData = computed(() => ({
       :bar-radius="999"
       :show-legend="false"
       :show-tooltip="false"
+      class="[--cw-viz-percentage-remainder-color:rgb(var(--slate-3))] [--cw-viz-percentage-remainder-border-color:rgb(var(--slate-6))]"
     />
     <div v-else class="w-full h-[0.5625rem] rounded-full bg-n-alpha-2" />
   </div>

@@ -5,6 +5,7 @@ RSpec.describe 'Search', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
 
   before do
+    account.enable_features!('help_center')
     contact = create(:contact, email: 'test@example.com', account: account)
     conversation = create(:conversation, account: account, contact_id: contact.id)
     create(:message, conversation: conversation, account: account, content: 'test1')
@@ -195,14 +196,26 @@ RSpec.describe 'Search', type: :request do
           allow(ApplicationRecord).to receive(:connected_to).and_call_original
           expect(ApplicationRecord).to receive(:connected_to)
             .with(role: :reading, prevent_writes: true)
-            .and_yield
+            .and_call_original
 
           get "/api/v1/accounts/#{account.id}/search/conversations",
               headers: agent.create_new_auth_token,
-              params: { q: 'test' },
+              params: { q: 'test', per_page: 5 },
               as: :json
 
           expect(response).to have_http_status(:success)
+          expect(response.parsed_body.dig('payload', 'conversations').length).to eq(1)
+        end
+
+        it 'rejects an invalid page size before routing to the replica' do
+          expect(ApplicationRecord).not_to receive(:connected_to).with(role: :reading, prevent_writes: true)
+
+          get "/api/v1/accounts/#{account.id}/search/conversations",
+              headers: agent.create_new_auth_token,
+              params: { q: 'test', per_page: 10 },
+              as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
 

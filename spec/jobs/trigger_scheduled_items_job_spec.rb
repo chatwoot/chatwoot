@@ -20,8 +20,8 @@ RSpec.describe TriggerScheduledItemsJob do
     described_class.perform_now
   end
 
-  it 'triggers Account::ConversationsResolutionSchedulerJob' do
-    expect(Account::ConversationsResolutionSchedulerJob).to receive(:perform_later).once
+  it 'does not trigger Account::ConversationsResolutionSchedulerJob' do
+    expect(Account::ConversationsResolutionSchedulerJob).not_to receive(:perform_later)
     described_class.perform_now
   end
 

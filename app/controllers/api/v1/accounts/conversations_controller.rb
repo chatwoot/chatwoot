@@ -3,9 +3,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include DateRangeHelper
   include HmacConcern
   include ConversationCustomAttributesConcern
+  include ConversationAssignmentTargetsConcern
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
-  before_action :inbox, :contact, :contact_inbox, only: [:create]
+  before_action :validate_assignment_targets, :inbox, :contact, :contact_inbox, only: [:create]
 
   ATTACHMENT_RESULTS_PER_PAGE = 100
 
@@ -228,8 +229,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def conversation_finder
-    @conversation_finder ||= ConversationFinder.new(Current.user, params, account: Current.account,
-                                                                          access_context: @read_replica_access_context)
+    @conversation_finder ||= ConversationFinder.new(Current.user, params, account: Current.account, access_context: @read_replica_access_context)
   end
 
   def assignee?

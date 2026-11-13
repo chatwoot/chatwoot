@@ -2,9 +2,9 @@
 import { ref, computed, unref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useRouter } from 'vue-router';
-import { useAlert, useTrack } from 'dashboard/composables';
-import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { useRoute, useRouter } from 'vue-router';
+import { useAlert } from 'dashboard/composables';
+import { saveExportDraft } from 'dashboard/routes/dashboard/settings/data/exportDraft';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import contactFilterItems from 'dashboard/routes/dashboard/contacts/contactFilterItems';
 import {
@@ -20,11 +20,11 @@ import {
 
 import ContactsHeader from 'dashboard/components-next/Contacts/ContactsHeader/ContactHeader.vue';
 import CreateNewContactDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateNewContactDialog.vue';
-import ContactExportDialog from 'dashboard/components-next/Contacts/ContactsForm/ContactExportDialog.vue';
-import ContactImportDialog from 'dashboard/components-next/Contacts/ContactsForm/ContactImportDialog.vue';
 import CreateSegmentDialog from 'dashboard/components-next/Contacts/ContactsForm/CreateSegmentDialog.vue';
 import DeleteSegmentDialog from 'dashboard/components-next/Contacts/ContactsForm/DeleteSegmentDialog.vue';
 import ContactsFilter from 'dashboard/components-next/filter/ContactsFilter.vue';
+import { usePageCommands } from 'dashboard/modules/command-bar/composables/usePageCommands';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 
 const props = defineProps({
   showSearch: { type: Boolean, default: true },
@@ -47,12 +47,13 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+const { checkPermissions } = usePolicy();
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
+const accountId = useMapGetter('getCurrentAccountId');
 
 const createNewContactDialogRef = ref(null);
-const contactExportDialogRef = ref(null);
-const contactImportDialogRef = ref(null);
 const createSegmentDialogRef = ref(null);
 const deleteSegmentDialogRef = ref(null);
 
@@ -72,9 +73,39 @@ const openCreateNewContactDialog = () => {
   createNewContactDialogRef.value?.dialogRef.open();
 };
 const openContactImportDialog = () =>
-  contactImportDialogRef.value?.dialogRef.open();
-const openContactExportDialog = () =>
-  contactExportDialogRef.value?.dialogRef.open();
+  router.push({
+    name: 'settings_data_imports',
+    params: { accountId: accountId.value },
+    query: { tab: 'import', action: 'import', source: 'csv' },
+  });
+const openContactExportDialog = () => {
+  try {
+    if (props.segmentsId && !props.activeSegment) {
+      throw new Error('Unavailable segment');
+    }
+    const query =
+      props.activeSegment?.query ||
+      (props.hasAppliedFilters
+        ? filterQueryGenerator(useSnakeCase(appliedFilters.value))
+        : { payload: [] });
+    const draft = saveExportDraft(accountId.value, {
+      ...query,
+      label: route.params.label || '',
+      scope_name:
+        props.activeSegment?.name ||
+        (props.hasAppliedFilters
+          ? t('DATA_EXPORTS.FILTERED_CONTACTS')
+          : route.params.label || t('DATA_EXPORTS.ALL_CONTACTS')),
+    });
+    router.push({
+      name: 'settings_data_imports',
+      params: { accountId: accountId.value },
+      query: { tab: 'export', action: 'export', draft },
+    });
+  } catch {
+    useAlert(t('DATA_EXPORTS.DRAFT_UNAVAILABLE'));
+  }
+};
 const openCreateSegmentDialog = () =>
   createSegmentDialogRef.value?.dialogRef.open();
 const openDeleteSegmentDialog = () =>
@@ -100,37 +131,6 @@ const onCreate = async contact => {
     } else {
       useAlert(t(`${i18nPrefix}.ERROR_MESSAGE`));
     }
-  }
-};
-
-const onImport = async file => {
-  try {
-    await store.dispatch('contacts/import', file);
-    contactImportDialogRef.value?.dialogRef.close();
-    useAlert(
-      t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.SUCCESS_MESSAGE')
-    );
-    useTrack(CONTACTS_EVENTS.IMPORT_SUCCESS);
-  } catch (error) {
-    useAlert(
-      error.message ??
-        t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.ERROR_MESSAGE')
-    );
-    useTrack(CONTACTS_EVENTS.IMPORT_FAILURE);
-  }
-};
-
-const onExport = async query => {
-  try {
-    await store.dispatch('contacts/export', query);
-    useAlert(
-      t('CONTACTS_LAYOUT.HEADER.ACTIONS.EXPORT_CONTACT.SUCCESS_MESSAGE')
-    );
-  } catch (error) {
-    useAlert(
-      error.message ||
-        t('CONTACTS_LAYOUT.HEADER.ACTIONS.EXPORT_CONTACT.ERROR_MESSAGE')
-    );
   }
 };
 
@@ -234,6 +234,7 @@ const initializeSegmentToFilterModal = segment => {
 
     return {
       attributeKey: transformed.attributeKey,
+      timezone: transformed.timezone,
       attributeModel: transformed.attributeModel,
       customAttributeType: transformed.customAttributeType,
       filterOperator: transformed.filterOperator,
@@ -268,6 +269,26 @@ const onToggleFilters = () => {
 defineExpose({
   onToggleFilters,
 });
+
+usePageCommands(() => [
+  {
+    id: 'new_contact',
+    title: t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.ADD_CONTACT'),
+    run: openCreateNewContactDialog,
+  },
+  ...(checkPermissions(['administrator', 'contact_manage'])
+    ? [
+        {
+          id: 'import_contacts',
+          title: t(
+            'CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.IMPORT_CONTACT'
+          ),
+          icon: 'i-lucide-upload',
+          run: openContactImportDialog,
+        },
+      ]
+    : []),
+]);
 </script>
 
 <template>
@@ -310,8 +331,6 @@ defineExpose({
   </ContactsHeader>
 
   <CreateNewContactDialog ref="createNewContactDialogRef" @create="onCreate" />
-  <ContactExportDialog ref="contactExportDialogRef" @export="onExport" />
-  <ContactImportDialog ref="contactImportDialogRef" @import="onImport" />
   <CreateSegmentDialog ref="createSegmentDialogRef" @create="onCreateSegment" />
   <DeleteSegmentDialog ref="deleteSegmentDialogRef" @delete="onDeleteSegment" />
 </template>

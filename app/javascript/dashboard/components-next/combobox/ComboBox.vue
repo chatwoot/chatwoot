@@ -23,7 +23,14 @@ const props = defineProps({
   emptyState: { type: String, default: '' },
   message: { type: String, default: '' },
   hasError: { type: Boolean, default: false },
+  loading: { type: Boolean, default: false },
   useApiResults: { type: Boolean, default: false }, // useApiResults prop to determine if search is handled by API
+  // `up` opens the dropdown above the button, for comboboxes near the bottom of a page.
+  direction: {
+    type: String,
+    default: 'down',
+    validator: value => ['up', 'down'].includes(value),
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'search', 'open']);
@@ -124,6 +131,8 @@ watch(
         :search-placeholder="searchPlaceholder"
         :empty-state="emptyState"
         :selected-values="selectedValue"
+        :direction="direction"
+        :loading="loading"
         @search="emit('search', $event)"
         @select="selectOption"
       />

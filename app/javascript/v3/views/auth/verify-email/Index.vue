@@ -13,6 +13,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  redirectUrl: {
+    type: String,
+    default: '',
+  },
 });
 
 const { t } = useI18n();
@@ -34,6 +38,7 @@ const performResend = async () => {
     await resendConfirmation({
       email: props.email,
       hCaptchaClientResponse: captchaToken,
+      redirectUrl: props.redirectUrl,
     });
     useAlert(t('REGISTER.VERIFY_EMAIL.RESEND_SUCCESS'));
   } catch {

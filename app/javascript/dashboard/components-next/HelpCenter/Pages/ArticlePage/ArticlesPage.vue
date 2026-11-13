@@ -50,6 +50,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  authorId: {
+    type: String,
+    default: '',
+  },
   isCategoryArticles: {
     type: Boolean,
     default: false,
@@ -128,18 +132,22 @@ const shouldShowPaginationFooter = computed(() => {
   return !(isFetching.value || isSwitchingPortal.value || hasNoArticles.value);
 });
 
-const updateRoute = newParams => {
+const updateRoute = (newParams, newQuery = {}) => {
   const { portalSlug, locale, tab, categorySlug } = route.params;
   router.push({
     name: 'portals_articles_index',
     params: {
       portalSlug,
-      locale: newParams.locale ?? locale,
-      tab: newParams.tab ?? tab,
-      categorySlug: newParams.categorySlug ?? categorySlug,
+      locale,
+      tab: tab === ARTICLE_TABS.MINE ? '' : tab,
+      categorySlug,
       ...newParams,
     },
-    query: route.query,
+    query: {
+      ...route.query,
+      author_id: props.authorId || undefined,
+      ...newQuery,
+    },
   });
 };
 
@@ -148,11 +156,10 @@ const articlesCount = computed(() => {
   const { meta } = props;
   const countMap = {
     '': meta.articlesCount,
-    mine: meta.mineArticlesCount,
     draft: meta.draftArticlesCount,
     archived: meta.archivedArticlesCount,
   };
-  return Number(countMap[tab] || countMap['']);
+  return Number(countMap[tab] ?? countMap[''] ?? 0);
 });
 
 const totalPages = computed(() => Math.ceil(articlesCount.value / 25) || 1);
@@ -171,6 +178,11 @@ const getEmptyStateText = type => {
   if (isSearching.value) {
     return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.SEARCH.${type}`);
   }
+  if (props.authorId) {
+    return type === 'TITLE'
+      ? t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.AUTHOR.TITLE')
+      : t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.AUTHOR.SUBTITLE');
+  }
   if (props.isCategoryArticles) {
     return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.${type}`);
   }
@@ -187,11 +199,21 @@ const handleTabChange = tab =>
 const handleCategoryAction = value =>
   updateRoute({ categorySlug: value === CATEGORY_ALL ? '' : value });
 
+const handleAuthorAction = authorId =>
+  updateRoute({}, { author_id: authorId || undefined });
+
 const handleLocaleAction = value => {
   updateRoute({ locale: value, categorySlug: '' });
   emit('fetchPortal', value);
 };
 const handlePageChange = page => emit('pageChange', page);
+
+watch(
+  () => route.query.search,
+  value => {
+    searchQuery.value = value || '';
+  }
+);
 
 const navigateToNewArticlePage = () => {
   const { categorySlug, locale } = route.params;
@@ -368,9 +390,11 @@ watch(
           :categories="categories"
           :allowed-locales="allowedLocales"
           :meta="meta"
+          :author-id="authorId"
           @tab-change="handleTabChange"
           @locale-change="handleLocaleAction"
           @category-change="handleCategoryAction"
+          @author-change="handleAuthorAction"
           @new-article="navigateToNewArticlePage"
         />
         <CategoryHeaderControls
@@ -497,6 +521,7 @@ watch(
           :current-page="Number(meta.currentPage)"
           :total-pages="totalPages"
           class="relative z-0"
+          @refresh-articles="emit('refreshArticles')"
           @translate-article="handleTranslateArticle"
           @toggle-select="handleToggleSelect"
           @navigate-page="handlePageChange"

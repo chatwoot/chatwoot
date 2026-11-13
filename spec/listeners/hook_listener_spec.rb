@@ -79,6 +79,7 @@ describe HookListener do
       end
 
       it 'enqueues the job for google_translate' do
+        allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
         hook = create(:integrations_hook, :google_translate, account: account)
         expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message, previous_changes: nil)
 

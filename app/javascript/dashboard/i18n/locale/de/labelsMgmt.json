@@ -43,20 +43,6 @@
       "DELETE": "Löschen",
       "CANCEL": "Abbrechen"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Label zur Konversation hinzufügen",
-        "MULTIPLE_SUGGESTION": "Dieses Label auswählen",
-        "DESELECT": "Label abwählen",
-        "DISMISS": "Vorschlag verwerfen"
-      },
-      "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Verwerfen",
-      "ADD_SELECTED_LABELS": "Ausgewählte Labels hinzufügen",
-      "ADD_SELECTED_LABEL": "Ausgewähltes Label hinzufügen",
-      "ADD_ALL_LABELS": "Alle Labels hinzufügen",
-      "SUGGESTED_LABELS": "Vorgeschlagene Labels"
-    },
     "ADD": {
       "TITLE": "Label hinzufügen",
       "DESC": "Mit Labels lassen sich Unterhaltungen zusammenfassen.",
