@@ -163,6 +163,17 @@ describe('VoiceConfigurationPage', () => {
     expect(wrapUp.element.value).toBe('45');
   });
 
+  it('shows transcription off while recording is off', () => {
+    const wrapper = mountPage({
+      recording_enabled: false,
+      transcription_enabled: true,
+    });
+    const transcribe = wrapper.findAll('input[type="checkbox"]').at(-1);
+
+    expect(transcribe.element.checked).toBe(false);
+    expect(transcribe.attributes('disabled')).toBeDefined();
+  });
+
   it('greys out the settings while calling is off', () => {
     const wrapper = mountPage({ voice_enabled: false });
 
