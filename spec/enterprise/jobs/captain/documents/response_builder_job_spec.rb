@@ -42,6 +42,16 @@ RSpec.describe Captain::Documents::ResponseBuilderJob, type: :job do
       end
     end
 
+    context 'when standard FAQ generation has a transport failure' do
+      before do
+        allow(faq_generator).to receive(:generate).and_raise(Faraday::TimeoutError.new('execution expired'))
+      end
+
+      it 're-raises the error so the job can retry' do
+        expect { described_class.new.perform(document) }.to raise_error(Faraday::TimeoutError, 'execution expired')
+      end
+    end
+
     context 'with different locales' do
       let(:spanish_account) { create(:account, locale: 'pt') }
       let(:spanish_assistant) { create(:captain_assistant, account: spanish_account) }
