@@ -31,6 +31,11 @@ module Enterprise::Message
 
   private
 
+  def set_conversation_activity
+    super
+    ::SearchIndexing::Producer.enqueue(entity: 'conversations', account_id: account_id, ids: [conversation_id])
+  end
+
   def validate_anonymous_caller_reply
     return if private? || voice_call? || (!outgoing? && !template?)
     return unless conversation.contact_inbox.anonymous_caller?

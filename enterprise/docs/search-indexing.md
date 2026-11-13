@@ -36,3 +36,13 @@ No entity lifecycle or search read is enabled by the infrastructure alone.
 
 Backlogged streams rotate behind streams still awaiting a turn, so the bounded
 dispatch page does not repeatedly select the same accounts.
+
+Enable the default-off `conversation_search_indexing` account flag to index
+conversation identity, inbox, activity timestamps, email subject, and associated
+contact search fields. Cloud also requires `advanced_search_indexing`.
+This does not index contacts or change contact search.
+
+Message activity and silent historical imports explicitly submit committed
+conversation IDs. Contact identity edits/deletions refresh dependent conversation
+documents in resumable pages of 500. Contact activity-only changes do not fan out.
+The `contact_conversations` buffer stores dependency work, not contact documents.

@@ -30,4 +30,21 @@ module Enterprise::DataImports::Importer
       monitor.eligible_imported_activity?(conversation, activity_times)
     end
   end
+
+  def update_existing_contact(contact, contact_payload)
+    super.tap do |updated_contact|
+      ::SearchIndexing::Producer.enqueue(entity: 'contact_conversations', account_id: updated_contact.account_id, ids: [updated_contact.id])
+    end
+  end
+
+  def create_conversation(...)
+    super.tap do |conversation|
+      ::SearchIndexing::Producer.enqueue(entity: 'conversations', account_id: conversation.account_id, ids: [conversation.id])
+    end
+  end
+
+  def update_conversation_activity(conversation)
+    super
+    ::SearchIndexing::Producer.enqueue(entity: 'conversations', account_id: conversation.account_id, ids: [conversation.id])
+  end
 end
