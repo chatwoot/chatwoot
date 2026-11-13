@@ -56,9 +56,13 @@ class Llm::BaseAiService
 
   def setup_model
     route = feature_route
-    return @model = route[:model] if account_override_route?(route) || captain_assistant?
+    return @model = route[:model] if route_ahead_of_installation_model?(route)
 
     @model = @fallback_model.presence || installation_model.presence || route&.dig(:model) || DEFAULT_MODEL
+  end
+
+  def route_ahead_of_installation_model?(route)
+    account_override_route?(route) || captain_assistant? || cloud_copilot_workflows?
   end
 
   def feature_route
@@ -73,6 +77,12 @@ class Llm::BaseAiService
 
   def captain_assistant?
     @llm_feature.to_s == 'assistant' && @llm_account&.feature_enabled?('captain_integration')
+  end
+
+  # On Cloud, Copilot workflows uses its own config/llm.yml default. Self-hosted installs keep the Super Admin model,
+  # because their endpoint may not serve that default.
+  def cloud_copilot_workflows?
+    @llm_feature.to_s == 'copilot_workflows' && ChatwootApp.chatwoot_cloud?
   end
 
   def installation_model
