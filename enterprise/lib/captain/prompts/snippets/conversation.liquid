@@ -7,15 +7,16 @@
 - Labels: {{ conversation.label_list | join: ", " }}
 {% endif -%}
 {% if conversation.custom_attributes -%}
-  {% for attribute in conversation.custom_attributes -%}
+{% for attribute in conversation.custom_attributes -%}
 - {{ attribute[0] }}: {{ attribute[1] }}
-  {% endfor -%}
+{% endfor -%}
 {% endif -%}
-{% comment %}Leave out browser_language: the model replies in it even when the customer writes in another language.{% endcomment -%}
+{% comment %}Leave out language hints: the model replies in them even when the customer writes in another language.{% endcomment -%}
+{% assign language_hints = 'browser_language,widget_language,initiated_at' | split: ',' -%}
 {% if conversation.additional_attributes -%}
-  {% for attribute in conversation.additional_attributes -%}
-    {% unless attribute[0] == 'browser_language' -%}
+{% for attribute in conversation.additional_attributes -%}
+{% unless language_hints contains attribute[0] -%}
 - {{ attribute[0] }}: {{ attribute[1] }}
-    {% endunless -%}
-  {% endfor -%}
+{% endunless -%}
+{% endfor -%}
 {% endif -%}
