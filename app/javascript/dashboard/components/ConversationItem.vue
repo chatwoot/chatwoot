@@ -55,6 +55,7 @@ const currentChat = useMapGetter('getSelectedChat');
 const inboxesList = useMapGetter('inboxes/getInboxes');
 const activeInbox = useMapGetter('getSelectedInbox');
 const accountId = useMapGetter('getCurrentAccountId');
+const chatSortFilter = useMapGetter('getEffectiveChatSortFilter');
 
 const chatMetadata = computed(() => props.source.meta || {});
 const assignee = computed(() => chatMetadata.value.assignee || {});
@@ -183,6 +184,7 @@ const onDeleteConversation = () => {
   <ConversationCardExpanded
     v-if="showExpanded"
     :chat="source"
+    :sort-by="chatSortFilter"
     :current-contact="currentContact"
     :assignee="assignee"
     :inbox="inbox"
@@ -201,6 +203,7 @@ const onDeleteConversation = () => {
   <ConversationCard
     v-else
     :chat="source"
+    :sort-by="chatSortFilter"
     :current-contact="currentContact"
     :assignee="assignee"
     :inbox="inbox"
