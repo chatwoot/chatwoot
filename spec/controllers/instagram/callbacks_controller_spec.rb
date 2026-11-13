@@ -60,6 +60,17 @@ RSpec.describe Instagram::CallbacksController do
         expect(connection.accounts.pluck('id')).to eq(%w[12345 67890])
       end
 
+      it 'returns an onboarding connection to the onboarding picker without creating an inbox' do
+        allow(controller).to receive(:instagram_token_return_to).and_return('onboarding')
+        expect { get :show, params: valid_params }.not_to change(Inbox, :count)
+
+        location = URI(response.location)
+        query = Rack::Utils.parse_query(location.query)
+        expect(location.path).to eq("/app/accounts/#{account.id}/onboarding/inbox-setup")
+        connection = Instagram::PendingConnection.new(account: account, token: query.fetch('connection_token'))
+        expect(connection.accounts.pluck('id')).to eq(%w[12345 67890])
+      end
+
       it 'only offers the original Instagram account when reconnecting' do
         channel = create(:channel_instagram, account: account, instagram_id: '12345')
         allow(controller).to receive(:instagram_token_inbox_id).and_return(channel.inbox.id)

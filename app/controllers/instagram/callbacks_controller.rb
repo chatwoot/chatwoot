@@ -37,7 +37,11 @@ class Instagram::CallbacksController < ApplicationController
       account_id: account_id, token_response: token_response, accounts: unified_accounts(token_response.fetch('access_token')),
       configuration_id: instagram_token_configuration_id(params[:state]), return_to: return_to, inbox_id: reauthorization_inbox&.id
     )
-    redirect_to app_new_instagram_inbox_url(account_id: account_id, connection_token: connection_token)
+    if return_to == 'onboarding'
+      redirect_to app_onboarding_inbox_setup_url(account_id: account_id, connection_token: connection_token)
+    else
+      redirect_to app_new_instagram_inbox_url(account_id: account_id, connection_token: connection_token)
+    end
   end
 
   def unified_accounts(access_token)
