@@ -40,23 +40,33 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     process_initiate_call_response(response)
   end
 
-  # Sets WABA calling status ('ENABLED'/'DISABLED'). Returns true, or raises with
-  # Meta's user-facing message on failure so the caller can surface it.
+  # Sets WABA calling status ('ENABLED'/'DISABLED')
   def update_calling_status(status)
+    update_calling_settings(status: status)
+  end
+
+  # Sets whether WhatsApp offers a caller nobody answered to request a callback ('ENABLED'/'DISABLED')
+  def update_callback_permission_status(status)
+    update_calling_settings(callback_permission_status: status)
+  end
+
+  private
+
+  # Updates the given calling settings only. Returns true, or raises with Meta's user-facing
+  # message on failure so the caller can surface it.
+  def update_calling_settings(settings)
     response = HTTParty.post(
       "#{calls_phone_id_path}/settings",
       headers: api_headers,
-      body: { calling: { status: status } }.to_json
+      body: { calling: settings }.to_json
     )
     return true if response.success?
 
     parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
     error = parsed['error'].is_a?(Hash) ? parsed['error'] : {}
-    Rails.logger.error "[WHATSAPP CALL] update_calling_status failed: status=#{response.code} body=#{response.body}"
-    raise meta_error_message(error, 'Failed to update calling status')
+    Rails.logger.error "[WHATSAPP CALL] update_calling_settings failed: keys=#{settings.keys.join(',')} status=#{response.code} body=#{response.body}"
+    raise meta_error_message(error, 'Failed to update calling settings')
   end
-
-  private
 
   def calls_phone_id_path
     base = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')

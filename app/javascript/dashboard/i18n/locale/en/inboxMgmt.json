@@ -800,20 +800,6 @@
       "CSAT": "CSAT",
       "CALLS": "Calls"
     },
-    "VOICE_CONFIGURATION": {
-      "INBOUND": {
-        "LABEL": "Allow incoming calls",
-        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
-      },
-      "RECORDING": {
-        "LABEL": "Record calls",
-        "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
-      },
-      "TRANSCRIPTION": {
-        "LABEL": "Transcribe recordings",
-        "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
-      }
-    },
     "CALL_SETTINGS": {
       "SAVE": "Save changes",
       "OPTIONAL": "(optional)",
@@ -832,7 +818,12 @@
         "TWILIO_ACCOUNT": "Twilio account {sid}",
         "MANAGE_CONNECTION": "Manage connection",
         "HIDE_CONNECTION": "Hide connection",
-        "UPDATE_CONNECTION": "Update connection"
+        "UPDATE_CONNECTION": "Update connection",
+        "WHATSAPP_ENABLE": "Turn on WhatsApp calling",
+        "WHATSAPP_ENABLE_HELP": "Customers can call this number from WhatsApp. Agents answer in the browser, which needs microphone access.",
+        "META_ON": "Calling on at Meta",
+        "META_HELP": "Calls ring on this WhatsApp number",
+        "TURN_OFF": "Turn off calling"
       },
       "INCOMING": {
         "TITLE": "When a call comes in",
@@ -849,7 +840,8 @@
         "ASSIGNEE_FIRST_HELP": "Turn off for line-staffed teams on rotation.",
         "ALWAYS": "Always:",
         "ALWAYS_NOTE": "agents who are on a call, in wrap-up, or not taking calls are never rung. The caller waits, and the first agent who frees up rings.",
-        "ROUTING": "How calls are routed"
+        "ROUTING": "How calls are routed",
+        "WHATSAPP_DESCRIPTION": "Who rings, and in what order."
       },
       "UNANSWERED": {
         "TITLE": "If nobody answers",
@@ -873,7 +865,10 @@
         "EDIT_HOURS": "Edit hours",
         "MESSAGE": "Out-of-hours message",
         "SAME": "Same as the missed-call message",
-        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends."
+        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
+        "DECLINE": "Don't accept calls",
+        "DECLINE_HELP": "Nobody rings, and the call is declined.",
+        "RING": "Ring as usual"
       },
       "AFTER_CALL": {
         "TITLE": "After a call",
@@ -886,27 +881,19 @@
         "RECORD_HELP": "The recording is attached to the conversation."
       },
       "PLAY": "Play",
-      "STOP": "Stop"
+      "STOP": "Stop",
+      "CALLING_CUSTOMERS": {
+        "TITLE": "Calling customers",
+        "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
+        "CALLBACK": "Ask callers if we can call them back",
+        "CALLBACK_HELP": "WhatsApp asks at the end of each call, so missed calls can be returned.",
+        "PERMISSION_MESSAGE": "Permission request message",
+        "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
+        "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
+      }
     },
     "WHATSAPP_CALLING": {
-      "ENABLE": {
-        "LABEL": "Enable WhatsApp Calling",
-        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
-      },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
-      "PHONE_NUMBER": {
-        "LABEL": "Business phone number",
-        "HELP_TEXT": "WhatsApp number that customers will call."
-      },
-      "HOW_IT_WORKS": {
-        "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
-      },
-      "PERMISSION_REQUEST_BODY": {
-        "LABEL": "Call permission request message",
-        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
-        "PLACEHOLDER": "We would like to call you regarding your conversation."
-      }
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again."
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",

@@ -5,7 +5,6 @@ import {
 } from 'dashboard/components-next/message/constants';
 import CallsAPI from 'dashboard/api/calls';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { useCallsStore } from 'dashboard/stores/calls';
 import types from 'dashboard/store/mutation-types';
 
@@ -66,8 +65,8 @@ const isAssignedToAnotherAgent = (assigneeId, currentUserId) => {
 
 // The server picks the agents an inbound Twilio call rings and names them on the
 // call's message, so its assignee no longer decides who sees the ringing card.
-const isRoutedCall = (provider, callDirection) =>
-  provider === VOICE_CALL_PROVIDERS.TWILIO &&
+// Every inbound call, Twilio or WhatsApp, rings the agents its routing picked
+const isRoutedCall = callDirection =>
   callDirection === VOICE_CALL_DIRECTION.INBOUND;
 
 const shouldShowCall = ({
@@ -75,7 +74,6 @@ const shouldShowCall = ({
   senderId,
   assigneeId,
   currentUserId,
-  provider,
   status,
   ringUserIds,
 }) => {
@@ -85,7 +83,7 @@ const shouldShowCall = ({
   // skip the assignee filter for outbound to avoid hiding the caller's own widget.
   if (callDirection === 'outbound') return true;
   // Once the ring is over the accepted/ended broadcasts decide what each tab keeps
-  if (isRoutedCall(provider, callDirection)) {
+  if (isRoutedCall(callDirection)) {
     return (
       status !== VOICE_CALL_STATUS.RINGING ||
       (ringUserIds || []).includes(currentUserId)
@@ -168,7 +166,6 @@ export function handleVoiceCallCreated(message, currentUserId, receivesCalls) {
       senderId,
       assigneeId,
       currentUserId,
-      provider,
       status,
       ringUserIds,
     })
@@ -212,7 +209,7 @@ export async function loadRingingCalls(currentUserId) {
     data.payload
       .filter(
         call =>
-          isRoutedCall(call.provider, call.direction) &&
+          isRoutedCall(call.direction) &&
           (!call.agent || call.agent.id === currentUserId) &&
           !dismissedCallSids.has(call.call_id)
       )
@@ -279,14 +276,13 @@ export function handleVoiceCallUpdated(
       senderId,
       assigneeId,
       currentUserId,
-      provider,
       status,
       ringUserIds,
     })
   ) {
     // Out of the ring: dismissed, perhaps from another tab, or not reached yet, which only a
     // dismiss keeps closed. The call this tab is joining or on stays, as for the accepted broadcast.
-    if (isRoutedCall(provider, callDirection)) {
+    if (isRoutedCall(callDirection)) {
       if (isLocalCall(callSid)) return;
       if ((dismissedUserIds || []).includes(currentUserId))
         markCallDismissed(callSid);
@@ -297,8 +293,7 @@ export function handleVoiceCallUpdated(
 
   if (status === 'ringing') {
     // A ring that reached another agent re-sends the call, which a dismiss here must survive
-    if (isRoutedCall(provider, callDirection) && dismissedCallSids.has(callSid))
-      return;
+    if (isRoutedCall(callDirection) && dismissedCallSids.has(callSid)) return;
     if (!shouldRingInbound(callDirection, receivesCalls)) return;
 
     callsStore.addCall({
@@ -333,7 +328,7 @@ export function syncConversationCallVisibility(
   const callsToRemove = callsStore.calls.filter(
     call =>
       call.conversationId === conversation.id &&
-      (isRoutedCall(call.provider, call.callDirection)
+      (isRoutedCall(call.callDirection)
         ? !isLocalCall(call.callSid) && !canOpenConversation()
         : !shouldShowCall({
             callDirection: call.callDirection,
@@ -344,8 +339,7 @@ export function syncConversationCallVisibility(
   );
   callsToRemove.forEach(call => {
     // A later re-send of the ring would otherwise bring back a card the agent cannot act on
-    if (isRoutedCall(call.provider, call.callDirection))
-      markCallDismissed(call.callSid);
+    if (isRoutedCall(call.callDirection)) markCallDismissed(call.callSid);
     callsStore.removeCall(call.callSid);
   });
 }

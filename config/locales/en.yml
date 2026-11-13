@@ -45,7 +45,7 @@ en:
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
     voice_settings:
-      unsupported_inbox: 'This setting requires a Twilio voice inbox'
+      unsupported_inbox: 'This setting requires an inbox with calling turned on'
     call_announcements:
       invalid_settings: 'Provide a boolean for enabled and text for the announcement'
       message_required: 'Add the message callers hear'
@@ -53,6 +53,7 @@ en:
       message_too_long: 'The announcement must be 1000 characters or fewer'
       invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
     call_routing:
+      invalid_callback_permission: 'Choose whether callers can be asked for a callback'
       invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
     saml:

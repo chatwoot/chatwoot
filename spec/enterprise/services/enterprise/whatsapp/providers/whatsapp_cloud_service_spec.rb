@@ -29,6 +29,33 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
+  describe 'calling settings' do
+    let(:settings_url) { 'https://graph.facebook.com/v22.0/123456789/settings' }
+
+    it 'sends only the callback permission setting' do
+      request = stub_request(:post, settings_url).with(body: { calling: { callback_permission_status: 'ENABLED' } }.to_json)
+                                                 .to_return(status: 200, body: '{}', headers: headers)
+
+      expect(service.update_callback_permission_status('ENABLED')).to be true
+      expect(request).to have_been_requested
+    end
+
+    it 'sends only the calling status' do
+      request = stub_request(:post, settings_url).with(body: { calling: { status: 'ENABLED' } }.to_json)
+                                                 .to_return(status: 200, body: '{}', headers: headers)
+
+      service.update_calling_status('ENABLED')
+      expect(request).to have_been_requested
+    end
+
+    it "raises Meta's message when the setting is refused" do
+      error = { error: { message: 'Calling is not enabled', error_user_msg: 'Turn calling on first' } }
+      stub_request(:post, settings_url).to_return(status: 400, headers: headers, body: error.to_json)
+
+      expect { service.update_callback_permission_status('ENABLED') }.to raise_error(StandardError)
+    end
+  end
+
   describe '#send_call_permission_request' do
     it 'returns the parsed body on success' do
       stub_request(:post, messages_url)

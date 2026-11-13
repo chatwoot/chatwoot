@@ -90,6 +90,25 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/dismiss' do
+    it 'stops the ring for this agent only, without telling Meta' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/dismiss", headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(call.reload).to have_attributes(status: 'ringing', dismissed_user_ids: [agent.id])
+    end
+
+    it 'does not find a call the agent cannot open' do
+      outsider = create(:user, account: account, role: :agent)
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/dismiss", headers: outsider.create_new_auth_token
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
   describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/reject' do
     it 'rejects the call via Meta and returns its new status' do
       allow(provider_service).to receive(:reject_call).and_return(true)
