@@ -42,7 +42,7 @@ export const actions = {
       // Ignore error
     }
   },
-  setUser: async ({ dispatch }, { identifier, user: userObject }) => {
+  setUser: async ({ commit, dispatch }, { identifier, user: userObject }) => {
     try {
       const {
         email,
@@ -72,10 +72,10 @@ export const actions = {
         },
         custom_attributes,
       };
-      const {
-        data: { widget_auth_token: widgetAuthToken },
-      } = await ContactsAPI.setUser(identifier, user);
+      const { data } = await ContactsAPI.setUser(identifier, user);
+      const { widget_auth_token: widgetAuthToken } = data;
       updateWidgetAuthToken(widgetAuthToken);
+      commit(SET_CURRENT_USER, data);
       dispatch('get');
       if (identifierHash || widgetAuthToken) {
         dispatch('conversation/clearConversations', {}, { root: true });
