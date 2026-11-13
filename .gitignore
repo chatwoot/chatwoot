@@ -61,7 +61,7 @@ coverage
 # ignore packages
 node_modules
 package-lock.json
-
+.pnpm-store/
 *.dump
 
 
