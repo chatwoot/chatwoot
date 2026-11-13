@@ -15,6 +15,7 @@ const props = defineProps({
   showEndOfListMessage: { type: Boolean, default: false },
   label: { type: String, default: '' },
   teamId: { type: [String, Number], default: 0 },
+  channelGroupId: { type: [String, Number], default: 0 },
   foldersId: { type: [String, Number], default: 0 },
   conversationType: { type: String, default: '' },
   showAssignee: { type: Boolean, default: false },
@@ -73,6 +74,7 @@ defineExpose({ conversationListRef });
         :source="item"
         :label="label"
         :team-id="teamId"
+        :channel-group-id="channelGroupId"
         :folders-id="foldersId"
         :conversation-type="conversationType"
         :show-assignee="showAssignee"
