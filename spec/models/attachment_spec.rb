@@ -359,4 +359,107 @@ RSpec.describe Attachment do
       expect(attachment.errors[:file]).to include('size is too big')
     end
   end
+
+  describe 'inbound Ogg audio transcoding' do
+    let(:voice_path) { Rails.root.join('spec/assets/sample_voice.oga') }
+    let(:voice_io) { voice_path.open('rb') }
+
+    def build_audio(target_message, file)
+      target_message.attachments.new(account_id: target_message.account_id, file_type: :audio, file: file)
+    end
+
+    context 'with ffmpeg installed' do
+      before { skip 'ffmpeg is not installed' unless Audio::TranscoderService.ffmpeg_available? }
+
+      it 'stores an incoming voice note attached as an io hash as mp3' do
+        attachment = build_audio(message, { io: voice_io, filename: 'voice.oga', content_type: 'audio/ogg' })
+        attachment.save!
+
+        expect(attachment.reload.file.content_type).to eq('audio/mpeg')
+        expect(attachment.file.filename.to_s).to eq('voice.mp3')
+        expect(attachment.extension).to eq('mp3')
+        expect(attachment.file.download.bytesize).to be > 0
+      end
+
+      it 'stores an incoming voice note attached with file.attach as mp3' do
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :audio)
+        attachment.file.attach(io: voice_io, filename: 'voice.oga', content_type: 'audio/ogg')
+        attachment.save!
+
+        expect(attachment.reload.file.content_type).to eq('audio/mpeg')
+      end
+
+      it 'stores an incoming uploaded file as mp3' do
+        upload = Rack::Test::UploadedFile.new(voice_path, 'audio/ogg')
+        attachment = build_audio(message, upload)
+        attachment.save!
+
+        expect(attachment.reload.file.content_type).to eq('audio/mpeg')
+      end
+
+      it 'replaces and purges a direct upload blob' do
+        source_blob = ActiveStorage::Blob.create_and_upload!(io: voice_io, filename: 'voice.oga', content_type: 'audio/ogg')
+        attachment = build_audio(message, source_blob.signed_id)
+
+        expect { attachment.save! }.to have_enqueued_job(ActiveStorage::PurgeJob).with(source_blob)
+        expect(attachment.reload.file.content_type).to eq('audio/mpeg')
+        expect(attachment.file.blob.id).not_to eq(source_blob.id)
+      end
+
+      it 'keeps a blob that still belongs to another attachment' do
+        original = build_audio(create(:message, message_type: :outgoing), { io: voice_io, filename: 'voice.oga', content_type: 'audio/ogg' })
+        original.save!
+        attachment = build_audio(message, original.file.blob)
+
+        expect { attachment.save! }.not_to have_enqueued_job(ActiveStorage::PurgeJob)
+        expect(attachment.reload.file.content_type).to eq('audio/mpeg')
+        expect(original.reload.file.content_type).to eq('audio/ogg')
+      end
+
+      it 'converts an echo of a message sent from the phone app' do
+        echo = create(:message, message_type: :outgoing, status: :delivered, source_id: 'wamid.echo')
+        attachment = build_audio(echo, { io: voice_io, filename: 'voice.oga', content_type: 'audio/ogg' })
+        attachment.save!
+
+        expect(attachment.reload.file.content_type).to eq('audio/mpeg')
+      end
+
+      it 'leaves agent replies as ogg so WhatsApp still shows them as voice notes' do
+        reply = create(:message, message_type: :outgoing)
+        attachment = build_audio(reply, { io: voice_io, filename: 'voice.oga', content_type: 'audio/ogg' })
+        attachment.save!
+
+        expect(attachment.reload.file.content_type).to eq('audio/ogg')
+      end
+
+      it 'does not touch the file on later updates' do
+        attachment = build_audio(message, { io: voice_io, filename: 'voice.oga', content_type: 'audio/ogg' })
+        attachment.save!
+        allow(Audio::TranscoderService).to receive(:new).and_call_original
+
+        attachment.update!(meta: { transcribed_text: 'hello' })
+
+        expect(Audio::TranscoderService).not_to have_received(:new)
+      end
+    end
+
+    it 'stores mp3 audio unchanged' do
+      mp3_io = Rails.root.join('spec/assets/sample.mp3').open('rb')
+      attachment = build_audio(message, { io: mp3_io, filename: 'voice.mp3', content_type: 'audio/mpeg' })
+      attachment.save!
+
+      expect(attachment.reload.file.filename.to_s).to eq('voice.mp3')
+    end
+
+    it 'keeps the original ogg when transcoding fails' do
+      allow(Audio::TranscoderService).to receive(:ffmpeg_available?).and_return(false)
+
+      attachment = build_audio(message, { io: voice_io, filename: 'voice.oga', content_type: 'audio/ogg' })
+      attachment.save!
+
+      expect(attachment.reload.file.content_type).to eq('audio/ogg')
+      expect(attachment.extension).to eq('oga')
+      expect(attachment.file.byte_size).to eq(File.size(voice_path))
+    end
+  end
 end
