@@ -780,6 +780,10 @@
         "YES": "Yes, Delete ",
         "NO": "No, Keep "
       },
+      "RELEASE_WHATSAPP_NUMBER": {
+        "LABEL": "Also release this number from the WhatsApp Cloud API",
+        "HELP": "Do this only if you are moving the number back to the WhatsApp Business app. It stops the number working with Cloud API for every provider, including other platforms connected to it. Leave it unchecked if you will reconnect the number to Chatwoot."
+      },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
         "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",

@@ -14,6 +14,7 @@ import {
 import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import { getInboxIdentifier, searchInboxes } from 'dashboard/helper/inbox';
 
 const IDENTIFIER_SEPARATOR = '·';
@@ -25,6 +26,7 @@ const { isAdmin } = useAdmin();
 
 const showDeletePopup = ref(false);
 const selectedInbox = ref({});
+const releaseWhatsappNumber = ref(false);
 const searchQuery = ref('');
 
 const inboxes = useMapGetter('inboxes/getInboxes');
@@ -68,21 +70,40 @@ const confirmPlaceHolderText = computed(
     })}`
 );
 
-const deleteInbox = async ({ id }) => {
+// Only numbers connected through Quick setup with Meta run on Chatwoot's Meta app, so only they can be released.
+const canReleaseWhatsappNumber = computed(
+  () =>
+    selectedInbox.value.provider === 'whatsapp_cloud' &&
+    selectedInbox.value.provider_config?.source === 'embedded_signup'
+);
+
+const deleteInbox = async (id, shouldReleaseNumber) => {
   try {
-    await store.dispatch('inboxes/delete', id);
+    await store.dispatch('inboxes/delete', {
+      id,
+      releaseWhatsappNumber: shouldReleaseNumber,
+    });
     useAlert(t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    useAlert(t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
+    // When Meta refuses the release the inbox is kept, so show Meta's reason; the admin can delete without releasing.
+    useAlert(
+      shouldReleaseNumber
+        ? error.message
+        : t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE')
+    );
   }
 };
 const closeDelete = () => {
   showDeletePopup.value = false;
   selectedInbox.value = {};
+  releaseWhatsappNumber.value = false;
 };
 
 const confirmDeletion = () => {
-  deleteInbox(selectedInbox.value);
+  deleteInbox(
+    selectedInbox.value.id,
+    canReleaseWhatsappNumber.value && releaseWhatsappNumber.value
+  );
   closeDelete();
 };
 const openDelete = inbox => {
@@ -232,6 +253,21 @@ const openDelete = inbox => {
       :confirm-place-holder-text="confirmPlaceHolderText"
       @on-confirm="confirmDeletion"
       @on-close="closeDelete"
-    />
+    >
+      <label
+        v-if="canReleaseWhatsappNumber"
+        class="flex items-start gap-2 mb-4 cursor-pointer"
+      >
+        <Checkbox v-model="releaseWhatsappNumber" class="mt-0.5 shrink-0" />
+        <span class="flex flex-col gap-1">
+          <span class="text-sm font-medium text-n-slate-12">
+            {{ $t('INBOX_MGMT.DELETE.RELEASE_WHATSAPP_NUMBER.LABEL') }}
+          </span>
+          <span class="text-sm text-n-slate-11">
+            {{ $t('INBOX_MGMT.DELETE.RELEASE_WHATSAPP_NUMBER.HELP') }}
+          </span>
+        </span>
+      </label>
+    </woot-confirm-delete-modal>
   </SettingsLayout>
 </template>

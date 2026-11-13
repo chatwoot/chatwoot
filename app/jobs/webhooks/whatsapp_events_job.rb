@@ -5,7 +5,16 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   # holder finishes and silently drop its message.
   retry_on LockAcquisitionError, wait: 2.seconds, attempts: 20
 
+  # account_update changes are WABA-level and carry no phone metadata, so they are handled apart from the other
+  # changes in the delivery, and after them so a message sent before Meta removed our access is still processed.
   def perform(params = {})
+    phone_number_events = Whatsapp::AccountUpdates.without(params)
+    process_phone_number_events(phone_number_events) if phone_number_events.present?
+
+    Whatsapp::AccountUpdates.changes(params).each { |change| handle_account_update(change[:value]) }
+  end
+
+  def process_phone_number_events(params)
     channel = find_channel_from_whatsapp_business_payload(params)
 
     if channel_is_inactive?(channel)
@@ -156,6 +165,13 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 
   def embedded_signup_channel?(channel)
     (channel.provider_config || {}).to_h['source'] == 'embedded_signup'
+  end
+
+  # Only PARTNER_REMOVED is acted on today; other account_update events are ignored as before.
+  def handle_account_update(value)
+    return unless value&.dig(:event) == 'PARTNER_REMOVED'
+
+    Whatsapp::PartnerRemovedService.new(value.dig(:waba_info, :waba_id)).perform
   end
 
   def find_channel_by_url_param(params)

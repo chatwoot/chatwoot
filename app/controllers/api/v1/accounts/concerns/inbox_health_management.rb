@@ -5,6 +5,7 @@ module Api::V1::Accounts::Concerns::InboxHealthManagement
     skip_before_action :check_authorization, only: [:health, :register_webhook]
     before_action :check_admin_authorization?, only: [:register_webhook]
     before_action :validate_health_supported_channel, only: [:health, :register_webhook]
+    before_action :release_whatsapp_number, only: [:destroy], if: -> { ActiveModel::Type::Boolean.new.cast(params[:release_whatsapp_number]) }
   end
 
   def sync_templates
@@ -66,6 +67,12 @@ module Api::V1::Accounts::Concerns::InboxHealthManagement
   end
 
   private
+
+  # Runs before the delete job, while the inbox's access token still works. If Meta refuses, the
+  # WhatsappNumberReleaseError response stops the deletion, so the inbox is kept.
+  def release_whatsapp_number
+    Whatsapp::PhoneNumberReleaseService.new(@inbox.channel).perform
+  end
 
   def fetch_health_data
     return Whatsapp::HealthService.new(@inbox.channel).sync_health_status!(include_business_profile: true) if whatsapp_cloud_channel?
