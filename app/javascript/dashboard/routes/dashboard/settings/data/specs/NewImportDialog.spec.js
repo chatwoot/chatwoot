@@ -1,5 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
+import { OnClickOutside } from '@vueuse/components';
 import DataImportsAPI from 'dashboard/api/dataImports';
 import NewImportDialog from '../NewImportDialog.vue';
 
@@ -131,5 +132,88 @@ describe('NewImportDialog', () => {
     expect(
       wrapper.findAll('input[type="radio"]').map(option => option.element.value)
     ).toEqual(['csv']);
+  });
+});
+
+describe('import submission dismissal', () => {
+  let wrapper;
+
+  const dismiss = async method => {
+    if (method === 'Cancel') {
+      await wrapper
+        .findAll('button')
+        .find(button => button.text() === 'DATA_IMPORTS.DRAWER.CANCEL')
+        .trigger('click');
+    } else if (method === 'Escape') {
+      const event = new Event('cancel', { cancelable: true });
+      wrapper.get('dialog').element.dispatchEvent(event);
+      expect(event.defaultPrevented).toBe(true);
+    } else {
+      wrapper.findComponent(OnClickOutside).vm.$emit('trigger');
+    }
+    await nextTick();
+  };
+
+  beforeEach(async () => {
+    wrapper = mount(NewImportDialog, {
+      attachTo: document.body,
+      props: { show: false, initialSource: 'csv' },
+      global: {
+        stubs: {
+          TeleportWithDirection: { template: '<div><slot /></div>' },
+          CsvPreview: true,
+        },
+        mocks: { $t: key => key },
+      },
+    });
+    const dialog = wrapper.get('dialog').element;
+    dialog.showModal = () => dialog.setAttribute('open', '');
+    dialog.close = () => dialog.removeAttribute('open');
+    await wrapper.setProps({ show: true });
+
+    const file = new File(
+      ['name,email\nJane,jane@example.com'],
+      'contacts.csv'
+    );
+    const input = wrapper.get('input[type="file"]');
+    Object.defineProperty(input.element, 'files', { value: [file] });
+    await input.trigger('change');
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  it.each(['Cancel', 'Escape', 'backdrop'])(
+    'blocks %s during upload and allows it again after failure',
+    async method => {
+      let rejectUpload;
+      DataImportsAPI.createFile.mockReturnValue(
+        new Promise((resolve, reject) => {
+          rejectUpload = reject;
+        })
+      );
+      await wrapper.get('form').trigger('submit');
+      await dismiss(method);
+
+      expect(wrapper.get('dialog').attributes('open')).toBeDefined();
+      expect(wrapper.emitted('close')).toBeUndefined();
+      expect(DataImportsAPI.createFile).toHaveBeenCalledTimes(1);
+
+      rejectUpload(new Error('Upload failed'));
+      await flushPromises();
+      await dismiss(method);
+      expect(wrapper.get('dialog').attributes('open')).toBeUndefined();
+      expect(wrapper.emitted('close')).toHaveLength(1);
+    }
+  );
+
+  it('allows the parent to close the dialog after successful creation', async () => {
+    DataImportsAPI.createFile.mockResolvedValue({ data: { id: 43 } });
+    await wrapper.get('form').trigger('submit');
+    await flushPromises();
+    expect(wrapper.emitted('created')).toEqual([[43]]);
+    await wrapper.setProps({ show: false });
+    expect(wrapper.get('dialog').attributes('open')).toBeUndefined();
   });
 });

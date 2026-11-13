@@ -95,6 +95,26 @@ describe('data import polling lifecycle', () => {
     vi.clearAllMocks();
   });
 
+  it('explains the 30-day removal in the expired CSV file card', async () => {
+    DataImportsAPI.show.mockResolvedValue({
+      data: {
+        id: 1,
+        source_provider: 'csv',
+        status: 'completed',
+        artifacts_expired_at: '2026-11-13T00:00:00Z',
+        skip_logs_filters: {},
+      },
+    });
+    const wrapper = mountKeptAlive(Show);
+    try {
+      await flushPromises();
+      expect(wrapper.text()).toContain('DATA_IMPORTS.CSV.FILE_REMOVED');
+      expect(wrapper.text()).toContain('DATA_IMPORTS.CSV.FILE');
+    } finally {
+      wrapper.unmount();
+    }
+  });
+
   it.each(['pending', 'processing'])(
     'blocks creation during a %s contact import and re-enables it after completion',
     async status => {

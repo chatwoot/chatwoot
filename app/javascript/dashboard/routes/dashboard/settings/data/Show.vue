@@ -268,7 +268,13 @@ onBeforeUnmount(() => {
             <span class="text-label-small text-n-slate-11">{{
               $t('DATA_IMPORTS.CSV.FILE')
             }}</span>
-            <span class="break-words text-heading-3 text-n-slate-12">{{
+            <span
+              v-if="dataImport.artifacts_expired_at"
+              class="text-body-main text-n-slate-11"
+            >
+              {{ $t('DATA_IMPORTS.CSV.FILE_REMOVED') }}
+            </span>
+            <span v-else class="break-words text-heading-3 text-n-slate-12">{{
               dataImport.file_name
             }}</span>
           </div>

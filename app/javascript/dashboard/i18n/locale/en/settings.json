@@ -488,6 +488,7 @@
       "REJECTED_HELP": "Download the rejected rows, make corrections, and upload them as a new import. Files are available for 30 days.",
       "DOWNLOAD_REJECTED": "Download rejected rows",
       "EXPIRED": "The source and rejected-row files have expired. Upload a new file to import these contacts again.",
+      "FILE_REMOVED": "This file was removed after 30 days.",
       "CHOOSE_FILE": "Click to upload or drag and drop",
       "FILE_LIMIT": "CSV only · up to 50 MiB",
       "REMOVE_FILE": "Remove file",
