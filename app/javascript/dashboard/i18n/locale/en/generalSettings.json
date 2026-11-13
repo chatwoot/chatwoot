@@ -49,12 +49,16 @@
         "NOTE": "Speak every customer's language, whatever languages your team knows.",
         "CAPTAIN": {
           "TITLE": "Captain",
-          "NOTE": "AI translations that sound natural and keep your tone."
+          "NOTE": "Reads the whole conversation, so short replies like \"ok\" or \"gracias\" stay in the right language. Keeps your tone and formality.",
+          "RECOMMENDED": "Recommended",
+          "BILLING": "Uses Captain credits from your plan"
         },
+        "OTHER_PROVIDERS": "Use other providers",
         "GOOGLE": {
           "TITLE": "Google Translate",
-          "NOTE": "Quick, reliable translations from Google.",
-          "SHORT_MESSAGE_WARNING": "May misread the language of very short messages.",
+          "NOTE": "Translates each message on its own, so short messages can be detected as the wrong language.",
+          "BILLING": "Billed separately by Google on your Google Cloud account",
+          "SWITCH_BUTTON": "Switch to Captain",
           "NOT_CONNECTED": "Not connected",
           "CONNECT": "Connect",
           "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."

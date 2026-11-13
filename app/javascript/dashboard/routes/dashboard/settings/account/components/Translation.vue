@@ -15,6 +15,7 @@ import {
 import Switch from 'next/switch/Switch.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 
 const GOOGLE_LOGO = '/dashboard/images/integrations/google_translate.png';
 const GOOGLE_LOGO_DARK =
@@ -48,6 +49,13 @@ const isCaptainSelected = computed(
 );
 const isGoogleSelected = computed(
   () => googleConnected.value && provider.value === TRANSLATION_PROVIDERS.GOOGLE
+);
+
+const isOtherProvidersOpen = ref(null);
+const showOtherProviders = computed(
+  () =>
+    isOtherProvidersOpen.value ??
+    (isGoogleSelected.value || !captainEnabled.value)
 );
 const isAutoTranslateFeatureEnabled = computed(() =>
   isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.AUTO_TRANSLATE)
@@ -118,12 +126,11 @@ const toggleAutoTranslate = () =>
       />
     </div>
     <div v-else class="flex flex-col gap-4 px-5 py-4">
-      <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+      <div class="flex flex-col gap-3">
         <RadioCard
           v-if="captainEnabled"
           :id="TRANSLATION_PROVIDERS.CAPTAIN"
           name="translation-provider"
-          class="h-full"
           :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.TITLE')"
           :description="t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.NOTE')"
           :is-active="isCaptainSelected"
@@ -131,17 +138,48 @@ const toggleAutoTranslate = () =>
         >
           <template #icon>
             <span
-              class="flex flex-shrink-0 justify-center items-center rounded-lg size-12 bg-n-alpha-2"
+              class="flex flex-shrink-0 justify-center items-center rounded-lg size-10 bg-n-alpha-2"
             >
-              <span class="i-woot-captain size-6 text-n-slate-12" />
+              <span class="i-woot-captain size-5 text-n-slate-12" />
             </span>
           </template>
+          <template #badge>
+            <Label
+              :label="
+                t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.RECOMMENDED')
+              "
+              color="blue"
+              compact
+            />
+          </template>
+          <span
+            class="flex gap-1.5 items-center text-label-small text-n-slate-10"
+          >
+            <span class="flex-shrink-0 i-lucide-coins size-3" />
+            {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.BILLING') }}
+          </span>
         </RadioCard>
-        <div class="relative group">
+
+        <NextButton
+          v-if="captainEnabled"
+          sm
+          link
+          slate
+          class="self-start ms-1"
+          :icon="
+            showOtherProviders
+              ? 'i-lucide-chevron-down'
+              : 'i-lucide-chevron-right'
+          "
+          :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.OTHER_PROVIDERS')"
+          :aria-expanded="showOtherProviders"
+          @click="isOtherProvidersOpen = !showOtherProviders"
+        />
+
+        <div v-if="showOtherProviders" class="relative group">
           <RadioCard
             :id="TRANSLATION_PROVIDERS.GOOGLE"
             name="translation-provider"
-            class="h-full"
             :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.TITLE')"
             :description="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.NOTE')"
             :is-active="isGoogleSelected"
@@ -153,20 +191,34 @@ const toggleAutoTranslate = () =>
           >
             <template #icon>
               <span
-                class="flex flex-shrink-0 justify-center items-center rounded-lg size-12 bg-n-alpha-2"
+                class="flex flex-shrink-0 justify-center items-center rounded-lg size-10 bg-n-alpha-2"
               >
                 <img
                   :src="GOOGLE_LOGO"
-                  class="object-contain size-6 dark:hidden"
+                  class="object-contain size-5 dark:hidden"
                   alt=""
                 />
                 <img
                   :src="GOOGLE_LOGO_DARK"
-                  class="hidden object-contain size-6 dark:block"
+                  class="hidden object-contain size-5 dark:block"
                   alt=""
                 />
               </span>
             </template>
+            <template v-if="isGoogleSelected && captainEnabled" #actions>
+              <NextButton
+                xs
+                faded
+                slate
+                :label="
+                  t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.SWITCH_BUTTON')
+                "
+                @click="selectProvider(TRANSLATION_PROVIDERS.CAPTAIN)"
+              />
+            </template>
+            <span class="text-label-small text-n-slate-10">
+              {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.BILLING') }}
+            </span>
           </RadioCard>
           <div
             v-if="!googleConnected"
@@ -192,15 +244,6 @@ const toggleAutoTranslate = () =>
             </router-link>
           </div>
         </div>
-        <p
-          v-if="isGoogleSelected"
-          class="flex gap-1.5 items-center px-4 mb-0 md:col-start-2 text-label-small text-n-amber-11"
-        >
-          <span class="flex-shrink-0 i-lucide-triangle-alert size-3.5" />
-          {{
-            t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.SHORT_MESSAGE_WARNING')
-          }}
-        </p>
       </div>
 
       <div
