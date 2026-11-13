@@ -115,6 +115,7 @@ Rails.application.routes.draw do
             resources :message_reports, only: [:create]
             resources :bulk_actions, only: [:create]
             resources :copilot_threads, only: [:index, :create] do
+              post :stop, on: :member
               resources :copilot_messages, only: [:index, :create]
             end
             resources :copilot_runs, only: [] do
@@ -123,6 +124,14 @@ Rails.application.routes.draw do
             end
             resources :custom_tools do
               post :test, on: :collection
+            end
+            resources :mcp_servers, only: [:index, :show, :create, :update, :destroy] do
+              post :discover, on: :collection
+              member do
+                get :live_tools
+                get :authorization_url
+                post :approve_tool
+              end
             end
             resource :tools_manifest, only: [] do
               get :installed
@@ -349,6 +358,7 @@ Rails.application.routes.draw do
             if ChatwootApp.enterprise?
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
+                post :dismiss, on: :member
                 patch :hold, on: :member
               end
               post :enable_whatsapp_calling, on: :member
@@ -356,6 +366,7 @@ Rails.application.routes.draw do
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
               resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
+              resource :call_routing, only: [:update], controller: 'inboxes/call_routings'
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
@@ -488,6 +499,7 @@ Rails.application.routes.draw do
             member do
               patch :archive
               delete :logo
+              delete :remove_locale
               post :send_instructions
               get :ssl_status
             end
@@ -504,6 +516,7 @@ Rails.application.routes.draw do
             end
             resources :articles do
               post :reorder, on: :collection
+              get :preview_token, on: :member
             end
           end
 
@@ -712,15 +725,15 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
-  resource :app, only: [:index] do
-    resources :accounts do
+  scope path: 'app', as: 'app' do
+    resources :accounts, only: [:show] do
       resources :conversations, only: [:show]
     end
   end
 
   # ----------------------------------------------------------------------
   # Routes for channel integrations
-  mount Facebook::Messenger::Server, at: 'bot'
+  mount Integrations::Facebook::WebhookServer, at: 'bot'
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
@@ -770,6 +783,7 @@ Rails.application.routes.draw do
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
+  get 'captain/mcp/callback', to: 'captain/mcp_callbacks#show' if ChatwootApp.enterprise?
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
@@ -782,7 +796,8 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
 
-  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
+  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' },
+                            skip: [:passwords, :registrations, :confirmations]
   devise_scope :super_admin do
     get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
     namespace :super_admin do
@@ -792,7 +807,6 @@ Rails.application.routes.draw do
       resource :user_diagnostics, only: [:show, :create] do
         post :destroy_subscriptions, on: :collection
       end
-      get 'push_diagnostics', to: redirect { |_params, request| "/super_admin/user_diagnostics?tab=push&#{request.query_string}" }
 
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do

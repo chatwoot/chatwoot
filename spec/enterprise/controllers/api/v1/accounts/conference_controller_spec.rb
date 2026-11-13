@@ -16,7 +16,8 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       ensure_conference_sid: 'CF123',
       mark_agent_joined: true,
       terminate_call: true,
-      end_conference: true
+      end_conference: true,
+      dismiss: nil
     )
   end
 
@@ -97,7 +98,8 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
              headers: agent.create_new_auth_token,
              params: { conversation_id: conversation.display_id, call_sid: 'CALL123', attempt_id: '1760000000-abc123' }
 
-        expect(conference_service).to have_received(:mark_agent_joined).with(user: agent, attempt: '1760000000-abc123')
+        expect(conference_service).to have_received(:mark_agent_joined)
+          .with(user: agent, agent_client: { 'platform' => 'web' }, attempt: '1760000000-abc123')
       end
 
       it 'refuses an attempt id that is not a short token' do
@@ -161,6 +163,34 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
 
         expect(response).to have_http_status(:not_found)
       end
+    end
+  end
+
+  describe 'POST /conference/dismiss' do
+    before { create(:inbox_member, inbox: voice_inbox, user: agent) }
+
+    it 'stops the ring for the agent only' do
+      call = create(:call, account: account, inbox: voice_inbox, conversation: conversation, contact: conversation.contact,
+                           provider_call_id: 'CALL123')
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/dismiss",
+           headers: agent.create_new_auth_token, params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(Voice::Provider::Twilio::ConferenceService).to have_received(:new).with(call: call)
+      expect(conference_service).to have_received(:dismiss).with(agent)
+    end
+
+    it 'does not find a call the agent cannot open' do
+      other_conversation = create(:conversation, account: account, inbox: create(:inbox, account: account))
+      create(:call, account: account, inbox: other_conversation.inbox, conversation: other_conversation, contact: other_conversation.contact,
+                    provider_call_id: 'OTHER123')
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference/dismiss",
+           headers: agent.create_new_auth_token, params: { conversation_id: other_conversation.display_id, call_sid: 'OTHER123' }, as: :json
+
+      expect(response).to have_http_status(:not_found)
+      expect(conference_service).not_to have_received(:dismiss)
     end
   end
 
@@ -294,6 +324,62 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.status).to eq('no_answer')
         expect(call.end_reason).to eq('agent_hangup')
         expect(call.terminal?).to be true
+      end
+
+      it 'allows the initiating agent to cancel an outgoing call before it connects' do
+        call = Call.find_by!(provider_call_id: 'CALL123')
+        call.update!(direction: :outgoing, accepted_by_agent: agent)
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:ok)
+        expect(conference_service).to have_received(:terminate_call)
+        expect(conference_service).to have_received(:end_conference)
+        expect(call.reload).to have_attributes(status: 'no_answer', accepted_by_agent_id: agent.id, end_reason: 'agent_hangup')
+      end
+
+      %i[incoming outgoing].product(%w[ringing in_progress]).each do |direction, status|
+        it "forbids ending another agent's #{direction} call while #{status}" do
+          handling_agent = create(:user, account: account, role: :agent)
+          create(:inbox_member, inbox: voice_inbox, user: handling_agent)
+          call = Call.find_by!(provider_call_id: 'CALL123')
+          call.update!(direction: direction, status: status, accepted_by_agent: handling_agent)
+          original_attributes = call.attributes
+
+          delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+                 headers: agent.create_new_auth_token,
+                 params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+          expect(response).to have_http_status(:forbidden)
+          expect(conference_service).not_to have_received(:terminate_call)
+          expect(conference_service).not_to have_received(:end_conference)
+          expect(call.reload.attributes).to eq(original_attributes)
+        end
+      end
+
+      it 'checks the current owner after locking a call that another agent claimed' do
+        handling_agent = create(:user, account: account, role: :agent)
+        create(:inbox_member, inbox: voice_inbox, user: handling_agent)
+        call = Call.find_by!(provider_call_id: 'CALL123')
+        call_scope = Call.where(id: call.id)
+        allow(Call).to receive(:where).and_call_original
+        allow(Call).to receive(:where).with(inbox_id: voice_inbox.id, provider: :twilio, conversation_id: conversation.id).and_return(call_scope)
+        allow(call_scope).to receive(:find_by!).with(provider_call_id: 'CALL123').and_return(call)
+        allow(call).to receive(:with_lock).and_wrap_original do |original, &block|
+          Call.find(call.id).update!(accepted_by_agent: handling_agent)
+          original.call(&block)
+        end
+
+        delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:forbidden)
+        expect(conference_service).not_to have_received(:terminate_call)
+        expect(conference_service).not_to have_received(:end_conference)
+        expect(call.reload).to have_attributes(status: 'ringing', accepted_by_agent_id: handling_agent.id, end_reason: nil)
       end
 
       it 'leaves the call repairable when hanging up the provider leg fails' do

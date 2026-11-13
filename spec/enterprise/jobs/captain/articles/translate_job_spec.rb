@@ -58,6 +58,17 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
     )
   end
 
+  it 'preserves an original linked while the translation is queued' do
+    spanish_original = create(:article, portal: portal, category: category_es, account: account, author: user,
+                                        title: 'Original Spanish title', content: 'Original Spanish content')
+    job = described_class.perform_later(account, article.id, 'es', category_es.id, user)
+    article.update!(associated_article_id: spanish_original.id)
+
+    expect do
+      job.perform_now
+    end.not_to(change { spanish_original.reload.attributes.slice('title', 'content') })
+  end
+
   it 'keeps the original article as the root when translating a translation' do
     portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
     category_fr = create(:category, portal: portal, account: account, locale: 'fr', slug: 'premiers-pas')
@@ -90,6 +101,14 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
 
     expect(Captain::Llm::ArticleTranslationService).to have_received(:new).with(
       hash_including(target_language: 'Portuguese (Brazil)', type: :title)
+    )
+  end
+
+  it 'resolves the Norwegian locale code to a language name' do
+    described_class.perform_now(account, article.id, 'no', category_es.id, user)
+
+    expect(Captain::Llm::ArticleTranslationService).to have_received(:new).with(
+      hash_including(target_language: 'Norwegian', type: :content)
     )
   end
 

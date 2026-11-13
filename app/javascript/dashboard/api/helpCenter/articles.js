@@ -34,10 +34,11 @@ class ArticlesAPI extends PortalsAPI {
     return axios.get(url, { signal });
   }
 
-  searchArticles({ portalSlug, query }) {
+  searchArticles({ portalSlug, query, status }) {
     const url = getArticleSearchURL({
       portalSlug,
       query,
+      status,
       host: this.url,
     });
     return axios.get(url);
@@ -45,6 +46,10 @@ class ArticlesAPI extends PortalsAPI {
 
   getArticle({ id, portalSlug }) {
     return axios.get(`${this.url}/${portalSlug}/articles/${id}`);
+  }
+
+  getPreviewToken({ id, portalSlug }) {
+    return axios.get(`${this.url}/${portalSlug}/articles/${id}/preview_token`);
   }
 
   updateArticle({ portalSlug, articleId, articleObj }) {

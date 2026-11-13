@@ -4,9 +4,30 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
-  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
+  let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id, config: { allowed_locales: %w[en es fr] }) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'en', slug: 'category_slug') }
+  let(:spanish_category) { create(:category, portal: portal, locale: 'es') }
+  let(:french_category) { create(:category, portal: portal, locale: 'fr') }
   let!(:article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id) }
+
+  describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/articles/{article.id}/preview_token' do
+    let(:draft_article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, status: :draft) }
+
+    it 'returns a preview token for the article' do
+      get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{draft_article.id}/preview_token",
+          headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+      expect(Article.find_signed(response.parsed_body['preview_token'], purpose: :preview)).to eq(draft_article)
+    end
+
+    it 'returns unauthorized for an agent without help center access' do
+      get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{draft_article.id}/preview_token",
+          headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
 
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles' do
     context 'when it is an unauthenticated user' do
@@ -121,12 +142,12 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
       it 'associate to the root article' do
         root_article = create(:article, category: category, slug: 'root-article', portal: portal, account_id: account.id, author_id: agent.id,
                                         associated_article_id: nil)
-        parent_article = create(:article, category: category, slug: 'parent-article', portal: portal, account_id: account.id, author_id: agent.id,
-                                          associated_article_id: root_article.id)
+        parent_article = create(:article, category: spanish_category, slug: 'parent-article', portal: portal, account_id: account.id,
+                                          author_id: agent.id, associated_article_id: root_article.id)
 
         article_params = {
           article: {
-            category_id: category.id,
+            category_id: french_category.id,
             description: 'test description',
             title: 'MyTitle',
             slug: 'MyTitle',
@@ -152,7 +173,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         article_params = {
           article: {
-            category_id: category.id,
+            category_id: spanish_category.id,
             description: 'test description',
             title: 'MyTitle',
             slug: 'MyTitle',
@@ -204,6 +225,55 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['title']).to eql(article_params[:article][:title])
         expect(json_response['payload']['status']).to eql(article_params[:article][:status])
         expect(json_response['payload']['position']).to eql(article_params[:article][:position])
+      end
+
+      it 'normalizes a selected translation to its root article' do
+        root_article = create(:article, category: french_category, portal: portal, account_id: account.id, author_id: agent.id)
+        translation = create(:article, category: spanish_category, portal: portal, account_id: account.id, author_id: agent.id,
+                                       associated_article_id: root_article.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { associated_article_id: translation.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.associated_article_id).to eq(root_article.id)
+        expect(response.parsed_body['payload']).to include(
+          'associated_article_id' => root_article.id,
+          'root_article' => include('id' => root_article.id)
+        )
+      end
+
+      it 'returns a null root article when an article is unlinked' do
+        root_article = create(:article, category: spanish_category, portal: portal, account_id: account.id, author_id: agent.id)
+        article.update!(associated_article_id: root_article.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { associated_article_id: nil } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.associated_article_id).to be_nil
+        expect(response.parsed_body['payload']).to include(
+          'associated_article_id' => nil,
+          'root_article' => nil
+        )
+      end
+
+      it 'keeps a root article unlinked when one of its translations is selected' do
+        translation = create(:article, category: spanish_category, portal: portal, account_id: account.id, author_id: agent.id,
+                                       associated_article_id: article.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { associated_article_id: translation.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.associated_article_id).to be_nil
+        expect(response.parsed_body['payload']).to include(
+          'associated_article_id' => nil,
+          'root_article' => nil
+        )
       end
 
       it 'ignores a cross-account author while updating other attributes' do
@@ -404,9 +474,9 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
       it 'get associated articles' do
         root_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: nil)
-        child_article_1 = create(:article, slug: 'child-1', category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_1 = create(:article, slug: 'child-1', category: spanish_category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
-        child_article_2 = create(:article, slug: 'child-2', category: category, portal: portal, account_id: account.id, author_id: agent.id,
+        child_article_2 = create(:article, slug: 'child-2', category: french_category, portal: portal, account_id: account.id, author_id: agent.id,
                                            associated_article_id: root_article.id)
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{root_article.id}",

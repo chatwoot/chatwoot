@@ -86,6 +86,25 @@ RSpec.describe 'Shopify custom app setup', type: :request do
     expect(response.parsed_body.fetch('orders').first.fetch('id')).to eq(456)
   end
 
+  context 'with a Shopify installation link without a store path' do
+    let(:install_url) { 'https://admin.shopify.com/oauth/install_custom_app?client_id=test-client&signature=test-signature' }
+
+    it 'saves the configuration and redirects to the original installation link' do
+      skip('encryption keys missing; see run_mfa_spec workflow') unless Chatwoot.encryption_configured?
+
+      post configuration_url, params: configuration, headers: headers, as: :json
+      expect(response).to have_http_status(:ok)
+      expect(account.reload.shopify_custom_app.install_url).to eq(install_url)
+
+      patch configuration_url, params: { enabled: true }, headers: headers, as: :json
+      expect(response).to have_http_status(:ok)
+
+      post "#{integration_url}/auth", params: { shop_domain: shop_domain }, headers: headers, as: :json
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body.fetch('redirect_url')).to eq(install_url)
+    end
+  end
+
   context 'with a supported development store' do
     let(:shop_domain) { 'test-store.myshopify.io' }
 

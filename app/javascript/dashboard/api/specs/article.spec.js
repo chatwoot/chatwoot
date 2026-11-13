@@ -90,9 +90,10 @@ describe('#PortalAPI', () => {
       articlesAPI.searchArticles({
         query: 'test',
         portalSlug: 'room-rental',
+        status: 'published',
       });
       expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/portals/room-rental/articles?query=test'
+        '/api/v1/portals/room-rental/articles?status=published&query=test'
       );
     });
   });

@@ -140,4 +140,46 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       expect(conversation.reload.contact_last_seen_at).not_to eq contact_last_seen_at
     end
   end
+
+  context 'when the inbox requires HMAC' do
+    let(:contact) { create(:contact, account: api_channel.account, identifier: 'contact-identifier') }
+    let!(:conversation) { create(:conversation, contact_inbox: contact_inbox, contact: contact) }
+    let(:conversations_path) { "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations" }
+    let(:identifier_hash) { OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, contact.identifier) }
+
+    before { api_channel.update!(hmac_mandatory: true) }
+
+    it 'rejects requests without an identifier hash' do
+      get conversations_path
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'rejects a hash computed for a different identifier' do
+      other_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, 'other-identifier')
+
+      post "#{conversations_path}/#{conversation.display_id}/toggle_status",
+           params: { identifier: 'other-identifier', identifier_hash: other_hash }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(conversation.reload).to be_open
+    end
+
+    it 'rejects requests for a contact without an identifier' do
+      contact.update!(identifier: nil)
+
+      expect do
+        post conversations_path, params: { identifier_hash: OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, '') }
+      end.not_to change(Conversation, :count)
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'allows requests with the identifier hash of the contact' do
+      get conversations_path, params: { identifier: contact.identifier, identifier_hash: identifier_hash }
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body.pluck('id')).to eq([conversation.display_id])
+    end
+  end
 end

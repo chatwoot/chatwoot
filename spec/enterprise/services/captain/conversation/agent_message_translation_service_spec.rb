@@ -11,7 +11,7 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
   end
   let(:llm_response) { { message: 'Bonjour' } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
-  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil) }
+  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil, failed?: false) }
 
   before do
     allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service)
@@ -63,6 +63,8 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
   end
 
   it 'follows the contact when they switch language midway' do
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Guten Morgen',
+                     content_attributes: { source_language: 'de' })
     switched = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Hallo')
     allow(detection).to receive(:language).and_return('de', nil)
     allow(llm_service).to receive(:perform).and_return(message: 'Guten Tag')
@@ -162,5 +164,73 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     described_class.new(message: message).perform
 
     expect(message.reload.content_attributes).to eq('translation_failed' => true)
+  end
+
+  it 'sends the reply as written when the Google key is broken' do
+    allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+    create(:integrations_hook, :google_translate, account: account)
+    account.update!(translation_provider: 'google_translate')
+    google = instance_double(Integrations::GoogleTranslate::ProcessorService)
+    allow(google).to receive(:detect).and_raise(Signet::AuthorizationError, 'invalid_grant')
+    allow(google).to receive(:translate).and_raise(OpenSSL::PKey::RSAError, 'Neither PUB key nor PRIV key')
+    allow(Integrations::GoogleTranslate::ProcessorService).to receive(:new).and_return(google)
+    expect(ChatwootExceptionTracker).not_to receive(:new)
+
+    described_class.new(message: message).perform
+
+    expect(message.reload.content).to eq('Hello there')
+    expect(message.content_attributes).to eq('translation_failed' => true)
+  end
+
+  it 'sends the reply as written and reports an error from Google that is not about the key' do
+    allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+    create(:integrations_hook, :google_translate, account: account)
+    account.update!(translation_provider: 'google_translate')
+    google = instance_double(Integrations::GoogleTranslate::ProcessorService, detect: 'en')
+    allow(google).to receive(:translate).and_raise(NoMethodError, "undefined method 'translated_text' for nil")
+    allow(Integrations::GoogleTranslate::ProcessorService).to receive(:new).and_return(google)
+    tracker = instance_double(ChatwootExceptionTracker, capture_exception: true)
+    allow(ChatwootExceptionTracker).to receive(:new).and_return(tracker)
+
+    described_class.new(message: message).perform
+
+    expect(message.reload.content).to eq('Hello there')
+    expect(message.content_attributes).to eq('translation_failed' => true)
+    expect(tracker).to have_received(:capture_exception)
+  end
+
+  context 'when the conversation has no language yet' do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+    before do
+      create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Hola, necesito ayuda')
+    end
+
+    it 'flags the reply when detecting the contact language fails' do
+      allow(detection).to receive(:failed?).and_return(true)
+
+      described_class.new(message: message).perform
+
+      expect(message.reload.content).to eq('Hello there')
+      expect(message.content_attributes).to eq('translation_failed' => true)
+    end
+
+    it 'sends the reply without a flag when the contact message is too short to tell its language' do
+      described_class.new(message: message).perform
+
+      expect(message.reload.content_attributes).to eq({})
+    end
+  end
+
+  it 'sends the reply as written and reports the error when Captain raises' do
+    allow(llm_service).to receive(:perform).and_raise(NoMethodError, "undefined method '[]' for nil")
+    tracker = instance_double(ChatwootExceptionTracker, capture_exception: true)
+    allow(ChatwootExceptionTracker).to receive(:new).and_return(tracker)
+
+    described_class.new(message: message).perform
+
+    expect(message.reload.content).to eq('Hello there')
+    expect(message.content_attributes).to eq('translation_failed' => true)
+    expect(tracker).to have_received(:capture_exception)
   end
 end

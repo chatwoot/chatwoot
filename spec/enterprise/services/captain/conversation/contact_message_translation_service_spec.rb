@@ -6,7 +6,7 @@ RSpec.describe Captain::Conversation::ContactMessageTranslationService do
   let(:conversation) { create(:conversation, account: account, inbox: inbox, additional_attributes: { 'conversation_language' => 'en' }) }
   let(:message) { create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Bonjour') }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: { message: 'Hello' }) }
-  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: 'fr') }
+  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: 'fr', failed?: false) }
 
   before do
     allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service)
@@ -14,6 +14,7 @@ RSpec.describe Captain::Conversation::ContactMessageTranslationService do
   end
 
   it 'detects the language, stores the translation next to the ones other agents made and follows the contact' do
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Salut', source_language: 'fr')
     message.update!(translations: { 'de' => 'Hallo' })
 
     described_class.new(message: message, target_language: 'en').perform

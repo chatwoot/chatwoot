@@ -19,7 +19,9 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
     conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
     conference_sid = conference_service.ensure_conference_sid
-    conference_service.mark_agent_joined(user: current_user, attempt: params[:attempt_id].presence)
+    conference_service.mark_agent_joined(
+      user: current_user, agent_client: RequestDeviceInfo.new(request).client_details, attempt: params[:attempt_id].presence
+    )
     # voice_call.accepted broadcasts from Voice::Conference::Manager#join_agent! once
     # Twilio confirms the leg joined, not here — joinClientCall can still fail after this.
 
@@ -31,11 +33,19 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     }
   end
 
+  # Stops the ring for this agent only; the caller keeps waiting for the others
+  def dismiss
+    Voice::Provider::Twilio::ConferenceService.new(call: resolve_call!).dismiss(Current.user)
+    head :ok
+  end
+
   def destroy
     call = resolve_call!
     # Teardown holds the row lock so the status callbacks it triggers can't finalize the call first;
     # a teardown failure rolls back and leaves the call repairable.
     call.with_lock do
+      return render json: { error: I18n.t('errors.voice.cannot_end_call') }, status: :forbidden unless can_end_call?(call)
+
       conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
       conference_service.terminate_call
       conference_service.end_conference
@@ -54,6 +64,12 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   private
+
+  def can_end_call?(call)
+    return call.accepted_by_agent_id == Current.user.id if call.accepted_by_agent_id.present?
+
+    call.incoming? && call.ringing?
+  end
 
   def validate_hold
     return if [true, false].include?(params[:hold])

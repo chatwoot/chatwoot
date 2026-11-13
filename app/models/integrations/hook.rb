@@ -38,18 +38,18 @@ class Integrations::Hook < ApplicationRecord
   validate :ensure_exclusive_bot_provider, if: -> { dialogflow? && enabled? }
   validate :validate_openai_api_key, if: :validate_openai_api_key?
   validate :validate_cloudflare_realtimekit_credentials, if: :validate_cloudflare_realtimekit_credentials?
-  validate :validate_google_translate_credentials, on: :create, if: :google_translate?
+  validate :validate_google_translate_credentials, if: -> { google_translate? && will_save_change_to_settings? }
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   # TODO: This seems to be only used for slack at the moment
   # We can add a validator when storing the integration settings and toggle this in future
-  enum status: { disabled: 0, enabled: 1 }
+  enum :status, { disabled: 0, enabled: 1 }
 
   belongs_to :account
   belongs_to :inbox, optional: true
   has_secure_token :access_token
 
-  enum hook_type: { account: 0, inbox: 1 }
+  enum :hook_type, { account: 0, inbox: 1 }
 
   def shopify_custom_app
     account.shopify_custom_app if app_id == 'shopify' && settings['custom_app_id'].present?
@@ -228,3 +228,4 @@ class Integrations::Hook < ApplicationRecord
     %w[leadsquared].include?(app_id)
   end
 end
+Integrations::Hook.include_mod_with('Concerns::IntegrationsHook')
