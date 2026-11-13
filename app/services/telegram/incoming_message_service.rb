@@ -147,6 +147,11 @@ class Telegram::IncomingMessageService
     file_download_path = inbox.channel.get_telegram_file_path(file[:file_id])
     if file_download_path.blank?
       Rails.logger.info "Telegram file download path is blank for #{file[:file_id]} : inbox_id: #{inbox.id}"
+      # Telegram only lets bots download files up to 20 MB, so a larger file (or any other
+      # failed download) would otherwise leave a blank or caption-only message behind.
+      # Flag it as unsupported, like the other channels, so agents and webhook consumers
+      # can tell an attachment was dropped. The caption stays in the message content.
+      @message.content_attributes = @message.content_attributes.merge(is_unsupported: true)
       return
     end
 
