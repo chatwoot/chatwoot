@@ -132,10 +132,88 @@ describe('#timeSlotTransform', () => {
 });
 
 describe('#timeZoneOptions', () => {
+  // Labels carry the daylight offset where a zone keeps one, so an option is
+  // only wrong when it matches neither half of the year.
+  const offsetAt = (timeZone, instant) => {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      timeZoneName: 'longOffset',
+    }).formatToParts(instant);
+    const offset = parts
+      .find(part => part.type === 'timeZoneName')
+      .value.replace('GMT', '');
+    return offset === '' ? '+00:00' : offset;
+  };
+
+  const hourAt = (timeZone, instant) =>
+    new Intl.DateTimeFormat('en-GB', {
+      timeZone,
+      hour: '2-digit',
+      hour12: false,
+    }).format(instant);
+
   it('returns transforms correctly', () => {
     expect(timeZoneOptions()[0]).toStrictEqual({
       value: 'Etc/GMT+12',
       label: 'International Date Line West (GMT−12:00)',
     });
+  });
+
+  it('only offers zones the Intl API accepts', () => {
+    const rejected = timeZoneOptions()
+      .map(option => option.value)
+      .filter(value => {
+        try {
+          // Called without `new` so eslint's no-new rule stays happy; it
+          // validates the zone either way.
+          Intl.DateTimeFormat('en-US', { timeZone: value });
+          return false;
+        } catch {
+          return true;
+        }
+      });
+
+    expect(rejected).toStrictEqual([]);
+  });
+
+  it('labels every option with an offset its zone observes', () => {
+    const january = new Date('2026-01-15T12:00:00Z');
+    const july = new Date('2026-07-15T12:00:00Z');
+
+    const mismatched = timeZoneOptions()
+      .filter(({ label, value }) => {
+        const labelled = label.match(/\(GMT([+\u2212-]\d{2}:\d{2})\)/)?.[1];
+        if (!labelled) return false;
+        const normalised = labelled.replace('\u2212', '-');
+        return ![offsetAt(value, january), offsetAt(value, july)].includes(
+          normalised
+        );
+      })
+      .map(({ label, value }) => `${label} -> ${value}`);
+
+    expect(mismatched).toStrictEqual([]);
+  });
+
+  it('resolves a saved zone to the city that names it', () => {
+    // Several cities share one zone, and the editor resolves a saved value
+    // with find(), so whichever option comes first is the one an admin sees.
+    const resolved = value =>
+      timeZoneOptions().find(option => option.value === value).label;
+
+    expect(resolved('Asia/Almaty')).toMatch(/^Almaty/);
+    expect(resolved('Asia/Dhaka')).toMatch(/^Dhaka/);
+  });
+
+  it('puts Astana on Kazakhstan time, not Dhaka', () => {
+    // Kazakhstan left UTC+6 on 2024-03-01, so an Astana option pointing at
+    // Asia/Dhaka now reads an hour ahead of the city it names.
+    const instant = new Date('2026-07-15T12:00:00Z');
+    const astana = timeZoneOptions().find(option =>
+      option.label.startsWith('Astana')
+    );
+
+    expect(hourAt(astana.value, instant)).toStrictEqual(
+      hourAt('Asia/Almaty', instant)
+    );
   });
 });
