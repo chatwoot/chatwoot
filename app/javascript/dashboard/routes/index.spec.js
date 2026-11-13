@@ -1,4 +1,4 @@
-import { validateAuthenticateRoutePermission } from './index';
+import { router, validateAuthenticateRoutePermission } from './index';
 import store from '../store'; // This import will be mocked
 import { vi } from 'vitest';
 
@@ -173,6 +173,22 @@ describe('#validateAuthenticateRoutePermission', () => {
         await validateAuthenticateRoutePermission({ query: {}, ...to }, next);
 
         expect(next).toHaveBeenCalledWith();
+      });
+
+      it('allows the Instagram onboarding callback route without dropping its pending connection', async () => {
+        store.getters.getCurrentUser.accounts[0].onboarding_step =
+          'inbox_setup';
+        const callback = router.resolve(
+          '/app/accounts/1/onboarding/inbox-setup?connection_token=pending-instagram-connection'
+        );
+
+        await validateAuthenticateRoutePermission(callback, next);
+
+        expect(callback.name).toBe('onboarding_inbox_setup');
+        expect(next).toHaveBeenCalledWith();
+        expect(callback.query.connection_token).toBe(
+          'pending-instagram-connection'
+        );
       });
 
       it('redirects a pending Shopify account to billing before onboarding', async () => {

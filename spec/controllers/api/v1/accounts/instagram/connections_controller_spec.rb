@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Instagram Unified Login connections', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
+  let(:return_to) { nil }
   let(:token) do
     Instagram::PendingConnection.create(account_id: account.id, accounts: [{ 'id' => 'ig1', 'username' => 'test' }],
-                                        token_response: { 'access_token' => 'secret_token' }, configuration_id: 'config1')
+                                        token_response: { 'access_token' => 'secret_token' }, configuration_id: 'config1', return_to: return_to)
   end
   let(:path) { "/api/v1/accounts/#{account.id}/instagram" }
 
@@ -62,6 +63,20 @@ RSpec.describe 'Instagram Unified Login connections', type: :request do
     Redis::SecureStorage.delete(key)
     post "#{path}/accounts", headers: admin.create_new_auth_token, params: { connection_token: saved_token }, as: :json
     expect(response).to have_http_status(:unprocessable_entity)
+  end
+
+  context 'when connecting during onboarding' do
+    let(:return_to) { 'onboarding' }
+
+    it 'creates the selected inbox and returns to onboarding without the consumed token' do
+      stub_request(:post, 'https://graph.facebook.com/v22.0/ig1/subscribed_apps')
+        .with(query: { subscribed_fields: 'messages,message_reactions,messaging_seen' }).to_return(body: { success: true }.to_json)
+      expect do
+        post "#{path}/connections", headers: admin.create_new_auth_token,
+                                    params: { connection_token: token, instagram_id: 'ig1' }, as: :json
+      end.to change(account.inboxes, :count).by(1)
+      expect(response.parsed_body['redirect_url']).to end_with("/app/accounts/#{account.id}/onboarding/inbox-setup")
+    end
   end
 
   context 'when reconnecting an inbox' do
