@@ -32,6 +32,7 @@ import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import TwilioHealth from './components/TwilioHealth.vue';
+import WhatsappHistorySyncStatus from './settingsPage/WhatsappHistorySyncStatus.vue';
 import WhatsappManualMigrationDialog from './components/WhatsappManualMigrationDialog.vue';
 import WhatsappManualMigrationBanner from './components/WhatsappManualMigrationBanner.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
@@ -53,7 +54,9 @@ import SelectInput from 'dashboard/components-next/select/Select.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
+import globalConstants, {
+  META_RESTRICTION_STATUS_URL,
+} from 'dashboard/constants/globals';
 
 export default {
   components: {
@@ -91,6 +94,7 @@ export default {
     SelectInput,
     AccountHealth,
     TwilioHealth,
+    WhatsappHistorySyncStatus,
     WhatsappManualMigrationDialog,
     WhatsappManualMigrationBanner,
     Widget,
@@ -99,7 +103,7 @@ export default {
   },
   mixins: [inboxMixin],
   setup() {
-    return { v$: useVuelidate() };
+    return { globalConstants, v$: useVuelidate() };
   },
   data() {
     return {
@@ -414,6 +418,11 @@ export default {
     },
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
+    },
+    whatsAppHistorySync() {
+      if (!this.isEmbeddedSignupWhatsApp) return null;
+
+      return this.inbox.history_sync || null;
     },
     whatsappUnauthorized() {
       return (
@@ -892,6 +901,13 @@ export default {
           :whatsapp-registration-incomplete="whatsappRegistrationIncomplete"
           :inbox="inbox"
           class="mb-4"
+          :class="bannerMaxWidth"
+        />
+        <WhatsappHistorySyncStatus
+          v-if="whatsAppHistorySync"
+          :sync="whatsAppHistorySync"
+          :learn-more-url="globalConstants.WHATSAPP_HISTORY_SYNC_DOCS_URL"
+          class="mx-6 mb-4"
           :class="bannerMaxWidth"
         />
         <DuplicateInboxBanner
