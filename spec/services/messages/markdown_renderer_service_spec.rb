@@ -526,6 +526,33 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
       end
     end
 
+    context 'when a list contains a nested list' do
+      {
+        'Channel::Whatsapp' => '-',
+        'Channel::Instagram' => '-',
+        'Channel::Sms' => '-',
+        'Channel::Telegram' => '•'
+      }.each do |channel_type, bullet|
+        it "keeps the outer numbering after a nested bullet list for #{channel_type}" do
+          content = "1. first\n   - detail a\n   - detail b\n2. second\n3. third"
+          result = described_class.new(content, channel_type).render
+          expect(result).to eq("1. first\n#{bullet} detail a\n#{bullet} detail b\n2. second\n3. third")
+        end
+
+        it "keeps the outer numbering after a nested ordered list for #{channel_type}" do
+          content = "1. first\n   1. inner one\n   2. inner two\n2. second\n3. third"
+          result = described_class.new(content, channel_type).render
+          expect(result).to eq("1. first\n1. inner one\n2. inner two\n2. second\n3. third")
+        end
+
+        it "keeps bullet markers when the items contain ordered lists for #{channel_type}" do
+          content = "- 1. alpha\n- 2. beta\n- 3. gamma"
+          result = described_class.new(content, channel_type).render
+          expect(result).to eq("#{bullet} 1. alpha\n#{bullet} 2. beta\n#{bullet} 3. gamma")
+        end
+      end
+    end
+
     context 'when channel is unknown' do
       let(:channel_type) { 'Channel::Unknown' }
 

@@ -41,9 +41,12 @@ class Messages::MarkdownRenderers::TelegramRenderer < Messages::MarkdownRenderer
   end
 
   def list(node)
+    # Save the enclosing list's state so a nested list doesn't change its markers or numbering
+    enclosing_list = [@list_type, @list_item_number]
     @list_type = node.list_type
     @list_item_number = @list_type == :ordered_list ? node.list_start : 0
     out(:children)
+    @list_type, @list_item_number = enclosing_list
     cr
   end
 
