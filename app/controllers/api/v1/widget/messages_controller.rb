@@ -22,7 +22,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
         retain_original_contact_name: true
       )
       @contact = identify_action.perform
-      Conversations::UnverifiedContactNoteService.new(conversation: @message.conversation, matches: identify_action.unverified_matches).perform
+      Conversations::UnverifiedContactMatchService.new(conversation: @message.conversation, matches: identify_action.unverified_matches).perform
     else
       @message.update!(message_update_params[:message])
     end

@@ -355,6 +355,43 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(note.content).to include('customer@test.com')
         expect(note.content).to include("/contacts/#{identified_contact.id}")
       end
+
+      it 'links only the conversation to the identified contact and keeps the visitor messaging in it' do
+        message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
+        identified_contact = create(:contact, account: account, identifier: 'customer-1', name: 'Real Customer', email: 'customer@test.com')
+
+        put api_v1_widget_message_url(message.id),
+            params: { website_token: web_widget.website_token, contact: { email: 'customer@test.com' } },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.contact_id).to eq identified_contact.id
+        expect(contact_inbox.reload.contact_id).to eq contact.id
+        expect(identified_contact.reload).to have_attributes(name: 'Real Customer', email: 'customer@test.com')
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: { content: 'still here', timestamp: Time.current } },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(conversation.messages.incoming.last).to have_attributes(content: 'still here', sender: contact)
+      end
+
+      it 'adds one note when the visitor submits the same email twice' do
+        create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com')
+        2.times do
+          message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
+          put api_v1_widget_message_url(message.id),
+              params: { website_token: web_widget.website_token, contact: { email: 'customer@test.com' } },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+        end
+
+        notes = conversation.messages.where(private: true)
+        expect(notes.count).to eq 1
+        expect(notes.first.content).to include('We linked this conversation')
+      end
     end
 
     context 'when put request is made with invalid email' do

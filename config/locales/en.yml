@@ -386,6 +386,12 @@ en:
         %{matches}
 
         If you confirm this visitor is the same person, merge the contacts from the contact panel.
+      linked_note: |-
+        This visitor entered contact details that belong to an existing contact. We linked this conversation to that contact, but we couldn't verify the visitor's identity, so we didn't save these details.
+
+        %{matches}
+
+        Check that this visitor is the same person before you share any account details. If you confirm it, merge the contacts from the contact panel.
       email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
       phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
     messages:
