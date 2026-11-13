@@ -1,7 +1,7 @@
-<p>Hi {{user.available_name}},</p>
+<p>{{'.greeting' | val: 'agent_name', user.available_name | t)}}</p>
 
-<p>You have received a new message in your assigned conversation.</p>
+<p>{{'.content' | t}}</p>
 
 <p>
-Click <a href="{{action_url}}">here</a> to get cracking.
+  <a href="{{action_url}}">{{'.action' | t}}</a>
 </p>
