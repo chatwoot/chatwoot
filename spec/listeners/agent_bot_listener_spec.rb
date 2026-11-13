@@ -7,6 +7,36 @@ describe AgentBotListener do
   let!(:agent_bot) { create(:agent_bot) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
+  describe 'performed_by' do
+    after { Current.reset }
+
+    %w[
+      conversation_updated conversation_status_changed conversation_opened conversation_resolved message_created message_updated
+    ].each do |event_name|
+      it "forwards the captured actor for #{event_name} after Current has changed" do
+        actor = { type: 'user', id: user.id }
+        message = create(:message, message_type: :outgoing, account: account, inbox: inbox, conversation: conversation)
+        resource = event_name.start_with?('message') ? { message: message } : { conversation: conversation }
+        event = Events::Base.new(event_name.sub('_', '.'), Time.zone.now, **resource, webhook_actor: actor)
+        Current.user = create(:user)
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(listener).to receive(:process_webhook_bot_event).with(agent_bot, hash_including(event: event_name, performed_by: actor))
+
+        listener.public_send(event_name, event)
+      end
+    end
+
+    it 'does not read the worker Current or infer the sender when no actor was captured' do
+      message = create(:message, message_type: :outgoing, account: account, inbox: inbox, conversation: conversation)
+      Current.user = user
+      event = Events::Base.new('message.created', Time.zone.now, message: message)
+      create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+      expect(listener).to receive(:process_webhook_bot_event).with(agent_bot, hash_including(performed_by: nil))
+
+      listener.message_created(event)
+    end
+  end
+
   describe '#message_created' do
     let(:event_name) { 'message.created' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message) }
@@ -26,7 +56,7 @@ describe AgentBotListener do
       it 'sends message to agent bot' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(
-          agent_bot.outgoing_url, message.webhook_data.merge(event: 'message_created'),
+          agent_bot.outgoing_url, message.webhook_data.merge(event: 'message_created', performed_by: nil),
           :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
         ).once
         listener.message_created(event)
@@ -48,7 +78,7 @@ describe AgentBotListener do
         end
 
         it 'sends message to both bots exactly once' do
-          payload = message.webhook_data.merge(event: 'message_created')
+          payload = message.webhook_data.merge(event: 'message_created', performed_by: nil)
 
           expect(AgentBots::WebhookJob).to receive(:perform_later).with(
             agent_bot.outgoing_url, payload, :agent_bot_webhook,
@@ -126,7 +156,7 @@ describe AgentBotListener do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(
           agent_bot.outgoing_url,
-          conversation.webhook_data.merge(event: 'conversation_updated', changed_attributes: nil),
+          conversation.webhook_data.merge(event: 'conversation_updated', performed_by: nil, changed_attributes: nil),
           :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
         ).once
         listener.conversation_updated(event)
@@ -148,7 +178,7 @@ describe AgentBotListener do
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(
           agent_bot.outgoing_url,
           conversation.webhook_data.merge(
-            event: 'conversation_updated',
+            event: 'conversation_updated', performed_by: nil,
             changed_attributes: expected_changed_attributes
           ),
           :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
