@@ -14,7 +14,10 @@ class Whatsapp::IncomingMessageBaseService
     return process_statuses if processed_params.try(:[], :statuses).present?
 
     process_identity_change_messages
-    return process_messages if messages_data.present?
+    return if messages_data.blank?
+    return process_message_edit if message_type == 'edit'
+
+    process_messages
   end
 
   # Returns messages array for both regular messages and echo events
@@ -46,6 +49,29 @@ class Whatsapp::IncomingMessageBaseService
       set_conversation
       create_messages
     end
+  end
+
+  # Meta delivers message edits (currently a coexistence feature) as a webhook message
+  # with type: edit - the original wamid is under edit.original_message_id and the
+  # updated payload under edit.message. The create pipeline below can't handle that
+  # shape: the dedupe lookup runs against the edit event's own fresh id, and content
+  # is read from the top level, so edits were silently dropped. Mirror
+  # Telegram::UpdateMessageService instead: find the original message and update
+  # its content (text body or media caption).
+  def process_message_edit
+    edit = messages_data.first[:edit]
+    return if edit.blank?
+
+    original_message = inbox.messages.find_by(source_id: edit[:original_message_id])
+    return if original_message.blank?
+
+    edited_message = edit[:message] || {}
+    new_content = message_content(edited_message)
+    edited_type = edited_message[:type]
+    new_content ||= edited_message[edited_type.to_sym].try(:[], :caption) if edited_type.present?
+    return if new_content.blank?
+
+    original_message.update!(content: new_content)
   end
 
   def process_statuses
