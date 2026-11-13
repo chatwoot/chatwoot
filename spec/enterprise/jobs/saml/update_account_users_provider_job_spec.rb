@@ -77,10 +77,10 @@ RSpec.describe Saml::UpdateAccountUsersProviderJob, type: :job do
           user1.account_users.create!(account: other_account, role: :agent)
         end
 
-        it 'resets users with other SAML accounts to email provider' do
+        it 'preserves SAML provider for users with other SAML accounts' do
           described_class.new.perform(account.id, 'email')
 
-          expect(user1.reload.provider).to eq('email')
+          expect(user1.reload.provider).to eq('saml')
           expect(user2.reload.provider).to eq('email')
           expect(user3.reload.provider).to eq('email')
         end
