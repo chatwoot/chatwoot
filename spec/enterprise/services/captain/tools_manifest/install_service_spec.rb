@@ -67,7 +67,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
     end
 
     it 'installs tools without email verification unless the manifest asks for it' do
-      expect(install.map(&:requires_email_verification?)).to eq([false, false])
+      expect(install.map(&:requires_verified_customer?)).to eq([false, false])
     end
 
     context 'when a tool in the manifest requires email verification' do
@@ -77,7 +77,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       end
 
       it 'installs that tool with email verification required' do
-        expect(install.map(&:requires_email_verification?)).to eq([true, false])
+        expect(install.map(&:requires_verified_customer?)).to eq([true, false])
       end
 
       it 'keeps a setting the user changed when the same commit is installed again' do
@@ -87,7 +87,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
         parsed_manifest = Captain::ToolsManifest::Manifest.parse(manifest.to_yaml)
 
         expect(described_class.complete?(assistant.custom_tools.to_a, parsed_manifest, latest_revision)).to be(true)
-        expect(install.map(&:requires_email_verification?)).to eq([false, false])
+        expect(install.map(&:requires_verified_customer?)).to eq([false, false])
       end
     end
 
@@ -213,7 +213,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
         updated = install.find { |tool| tool.source_metadata['tool_id'] == 'get_order' }
 
         expect(updated.id).to eq(installed_tools.first.id)
-        expect(updated.requires_email_verification?).to be(false)
+        expect(updated.requires_verified_customer?).to be(false)
       end
 
       it 'creates tools added to the manifest and deletes tools it dropped' do

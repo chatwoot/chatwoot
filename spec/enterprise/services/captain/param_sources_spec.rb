@@ -31,6 +31,31 @@ RSpec.describe Captain::ParamSources do
       expect(errors_for({ 'limit' => { 'source' => 'fixed', 'value' => ' ' } })).to eq(['list_invoices parameter limit needs a fixed value'])
     end
 
+    it 'rejects a fixed value that is not of its parameter type' do
+      properties.merge!('ratio' => { 'type' => 'number' }, 'paid' => { 'type' => 'boolean' })
+      entries = { 'limit' => 'twenty', 'ratio' => '1.5x', 'paid' => 'yes' }.transform_values { |value| { 'source' => 'fixed', 'value' => value } }
+
+      expect(errors_for(entries)).to eq(['list_invoices parameter limit needs a fixed value of type integer',
+                                         'list_invoices parameter ratio needs a fixed value of type number',
+                                         'list_invoices parameter paid needs a fixed value of type boolean'])
+    end
+
+    it 'rejects a fixed value on a list or object parameter, which a fixed text cannot fill' do
+      properties.merge!('ids' => { 'type' => 'array' }, 'filter' => { 'type' => %w[object null] })
+      entries = { 'ids' => '[1,2]', 'filter' => '{"status":"open"}' }.transform_values { |value| { 'source' => 'fixed', 'value' => value } }
+
+      expect(errors_for(entries)).to eq(['list_invoices parameter ids is of type array and cannot take a fixed value',
+                                         'list_invoices parameter filter is of type object and cannot take a fixed value'])
+    end
+
+    it 'checks a fixed value against the one type of a nullable parameter' do
+      properties.merge!('page' => { 'type' => %w[integer null] }, 'paid' => { 'anyOf' => [{ 'type' => 'boolean' }, { 'type' => 'null' }] })
+      entries = { 'page' => 'two', 'paid' => 'yes' }.transform_values { |value| { 'source' => 'fixed', 'value' => value } }
+
+      expect(errors_for(entries)).to eq(['list_invoices parameter page needs a fixed value of type integer',
+                                         'list_invoices parameter paid needs a fixed value of type boolean'])
+    end
+
     it 'rejects a verified email on a parameter that is not a string' do
       expect(errors_for({ 'limit' => { 'source' => 'verified.email' } }))
         .to eq(['list_invoices parameter limit must be a string to take the verified email'])
@@ -49,6 +74,13 @@ RSpec.describe Captain::ParamSources do
 
     it 'returns a fixed value as stored' do
       expect(described_class.resolve({ 'source' => 'fixed', 'value' => '20' }, conversation)).to eq('20')
+    end
+
+    it 'returns a fixed value in the type of its parameter' do
+      resolve = ->(value, type) { described_class.resolve({ 'source' => 'fixed', 'value' => value }, conversation, type: type) }
+
+      expect([resolve.call('20', 'integer'), resolve.call('2.5', 'number'), resolve.call('True', 'boolean'), resolve.call('20', 'string')])
+        .to eq([20, 2.5, true, '20'])
     end
 
     it 'reads the email the customer verified' do

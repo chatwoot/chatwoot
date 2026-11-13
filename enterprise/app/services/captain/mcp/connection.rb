@@ -30,8 +30,8 @@ class Captain::Mcp::Connection
 
   # Tools the server offers to models, as the definitions Captain approves and compares.
   # A reply the MCP client cannot parse, such as a string where it expects an object, raises InvalidResponse, so one
-  # server's bad reply is handled like a failed request. The original error is logged, not sent to Sentry, because a
-  # broken server would report it on every listing.
+  # server's bad reply is handled like a failed request and never stops a run. The original error is logged, not sent
+  # to Sentry, because a broken server would report it on every listing.
   def tool_definitions
     mcp.tools.select { |tool| tool.visibility.include?(:model) }.map do |tool|
       {
@@ -46,6 +46,16 @@ class Captain::Mcp::Connection
   rescue StandardError => e
     Rails.logger.warn("Captain MCP server #{@server.id} sent a tool list Captain could not read: #{e.class} - #{e.message}")
     raise InvalidResponse, "The server sent a tool list Captain could not read (#{e.class})"
+  end
+
+  # Lists the server with the saved credentials and records what the request says about them. RubyLLM keeps the
+  # listing for the life of this connection, so a run that calls several tools on one server lists it once.
+  #
+  # Known limit: while a server hangs, the call that lists it waits for the timeouts (about 40 seconds, RubyLLM's
+  # 10 second discovery plus TIMEOUT) and holds a Sidekiq thread meanwhile. Only a run that calls one of the server's
+  # tools pays this. The MCP session is never closed.
+  def live_tool_definitions
+    track_status { tool_definitions }
   end
 
   # RubyLLM exposes the server's name only through its private server info

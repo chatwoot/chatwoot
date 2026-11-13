@@ -295,19 +295,19 @@ RSpec.describe Captain::CustomTool, type: :model do
       tool = create(:captain_custom_tool, account: account)
 
       expect(tool.settings).to eq({})
-      expect(tool.requires_email_verification?).to be(false)
+      expect(tool.requires_verified_customer?).to be(false)
     end
 
     it 'requires email verification when the setting is true' do
       tool = create(:captain_custom_tool, account: account, settings: { 'requires_email_verification' => true })
 
-      expect(tool.reload.requires_email_verification?).to be(true)
+      expect(tool.reload.requires_verified_customer?).to be(true)
     end
 
     it 'does not require email verification when the setting is false' do
       tool = create(:captain_custom_tool, account: account, settings: { 'requires_email_verification' => false })
 
-      expect(tool.requires_email_verification?).to be(false)
+      expect(tool.requires_verified_customer?).to be(false)
     end
 
     it 'is invalid when the setting is not a boolean' do
@@ -356,20 +356,20 @@ RSpec.describe Captain::CustomTool, type: :model do
     it 'requires email verification when a parameter takes the verified email' do
       tool = build(:captain_custom_tool, account: account, param_schema: [email_param])
 
-      expect(tool.requires_email_verification?).to be(true)
+      expect(tool.requires_verified_customer?).to be(true)
     end
 
     it 'requires email verification for a verified email parameter with a blank name' do
       tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('name' => '')])
 
-      expect(tool.requires_email_verification?).to be(true)
+      expect(tool.requires_verified_customer?).to be(true)
     end
 
     it 'has no verified email parameter when every parameter comes from the model' do
       tool = build(:captain_custom_tool, account: account, param_schema: [order_param])
 
       expect(tool.verified_email_param).to be_nil
-      expect(tool.requires_email_verification?).to be(false)
+      expect(tool.requires_verified_customer?).to be(false)
     end
   end
 

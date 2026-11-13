@@ -33,7 +33,7 @@ class Captain::Mcp::ServerUpdateService
   # admin reviewed.
   def fetch_live_definitions
     connection = Captain::Mcp::Connection.new(@server)
-    definitions = @server.will_save_change_to_auth_config? ? connection.tool_definitions : connection.track_status { connection.tool_definitions }
+    definitions = @server.will_save_change_to_auth_config? ? connection.tool_definitions : connection.live_tool_definitions
     definitions.index_by { |definition| definition['name'] }
   end
 
