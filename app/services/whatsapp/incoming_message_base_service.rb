@@ -5,6 +5,7 @@ class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
   include ::Whatsapp::IncomingContactMessageHandler
+  include ::Whatsapp::IncomingRevokeHandler
 
   pattr_initialize [:inbox!, :params!, :outgoing_echo, { locked_sender_id: nil }]
 
@@ -14,7 +15,11 @@ class Whatsapp::IncomingMessageBaseService
     return process_statuses if processed_params.try(:[], :statuses).present?
 
     process_identity_change_messages
-    return process_messages if messages_data.present?
+    return if messages_data.blank?
+    return process_revoke if revoke_event?
+
+    process_messages
+    apply_pending_revoke
   end
 
   # Returns messages array for both regular messages and echo events
