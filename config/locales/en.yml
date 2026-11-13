@@ -30,6 +30,14 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  whatsapp:
+    display_name:
+      unsupported_channel: 'Applying a display name is only available for WhatsApp Cloud API inboxes.'
+      unsupported_number: 'This action requires a connected Cloud API number that is not using the WhatsApp Business app.'
+      approval_changed: 'The requested name is no longer approved or has changed. Refresh Account Health before trying again.'
+      pin_unavailable: 'Meta could not confirm the two-step verification status. Contact support to apply this name.'
+      oba_restricted: 'This action requires a confirmed OBA status of Not started. Check the status in WhatsApp Manager. For Official Business Accounts, contact Meta support to change the display name.'
+      registration_failed: 'Meta did not accept the registration request. Refresh Account Health before trying again.'
   hello: 'Hello world'
   administrator_notifications:
     captain:

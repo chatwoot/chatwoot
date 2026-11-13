@@ -70,6 +70,10 @@ class InboxPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def apply_display_name?
+    @account_user.administrator?
+  end
+
   def health?
     @account_user.administrator?
   end
