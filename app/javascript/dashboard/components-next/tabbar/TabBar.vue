@@ -92,7 +92,10 @@ const showDivider = index => {
       >
         <span v-if="tab.icon" :class="tab.icon" class="size-4 shrink-0" />
         <span class="truncate">
-          {{ tab.label }} {{ tab.count ? `(${tab.count})` : '' }}
+          {{ tab.label }}
+          <slot name="count" :tab="tab">
+            {{ tab.count ? `(${tab.count})` : '' }}
+          </slot>
         </span>
       </button>
       <div
