@@ -57,9 +57,13 @@ class SearchService
                                               'conversations.last_activity_at')
     end
 
-    @conversations = conversations_query.order('conversations.created_at DESC')
-                                        .page(params[:page])
-                                        .per(page_size)
+    @conversations = conversation_search_candidates(conversations_query).order(created_at: :desc, id: :desc)
+                                                                        .page(params[:page])
+                                                                        .per(page_size)
+  end
+
+  def conversation_search_candidates(scope)
+    scope
   end
 
   def filter_messages(count: false)

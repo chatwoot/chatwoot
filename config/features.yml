@@ -333,3 +333,8 @@
   enabled: false
   chatwoot_internal: true
   column: feature_flags_ext_1
+- name: conversation_search
+  display_name: Conversation Search
+  enabled: false
+  chatwoot_internal: true
+  column: feature_flags_ext_1

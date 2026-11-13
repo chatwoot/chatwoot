@@ -34,6 +34,14 @@ module Enterprise::SearchService
 
   private
 
+  def conversation_search_candidates(scope)
+    return scope unless current_account.feature_enabled?('conversation_search')
+    return scope unless ::SearchIndexing::Producer.eligible?('conversations', current_account)
+
+    ::SearchIndexing::Search.new(account: current_account, query: search_query,
+                                 inbox_ids: should_skip_inbox_filtering? ? nil : accessable_inbox_ids).narrow(scope)
+  end
+
   def advanced_search_options(count:)
     return { limit: 0, load: false, body_options: { track_total_hits: true } } if count
 
