@@ -17,6 +17,20 @@ module EmailHelper
     end
   end
 
+  def process_email_string(email_string)
+    Array(email_string).flat_map do |value|
+      value.to_s.split(/[,;]+/).flat_map do |part|
+        if part.count('@') > 1
+          # Attach any whitespace around `@` to its address first, so the
+          # remaining whitespace only separates addresses.
+          part.gsub(/\s*@\s*/, '@').split(/\s+/)
+        else
+          part.gsub(/\s+/, '')
+        end
+      end
+    end.map(&:strip).reject(&:blank?)
+  end
+
   # ref: https://www.rfc-editor.org/rfc/rfc5233.html
   # This is not a  mandatory requirement for email addresses, but it is a common practice.
   # john+test@xyc.com is the same as john@xyc.com
