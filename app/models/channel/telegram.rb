@@ -69,7 +69,10 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def chat_id(message)
-    message.conversation[:additional_attributes]['chat_id']
+    conversation = message.conversation
+    explicit_chat_id_from(conversation) ||
+      telegram_fallback_chat_id_from_contact_inbox(conversation) ||
+      telegram_fallback_chat_id_from_contact(conversation.contact)
   end
 
   def business_connection_id(message)
@@ -81,6 +84,24 @@ class Channel::Telegram < ApplicationRecord
   end
 
   private
+
+  # Conversations created from Contacts use ConversationBuilder, which does not copy Telegram
+  # chat_id into additional_attributes. For private chats, contact_inbox.source_id matches Telegram chat id.
+  def explicit_chat_id_from(conversation)
+    attrs = conversation.additional_attributes || {}
+    attrs['chat_id'].presence || attrs[:chat_id].presence
+  end
+
+  def telegram_fallback_chat_id_from_contact_inbox(conversation)
+    conversation.contact_inbox&.source_id.presence
+  end
+
+  def telegram_fallback_chat_id_from_contact(contact)
+    return unless contact
+
+    contact.additional_attributes&.dig('social_telegram_user_id').presence ||
+      contact.identifier.presence
+  end
 
   def ensure_valid_bot_token
     response = HTTParty.get("#{telegram_api_url}/getMe")
