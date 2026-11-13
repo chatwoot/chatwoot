@@ -251,6 +251,7 @@ watch(
     :confirm-button-label="$t('DATA_IMPORTS.DRAWER.IMPORT')"
     :cancel-button-label="$t('DATA_IMPORTS.DRAWER.CANCEL')"
     :disable-confirm-button="!canCreate"
+    :disable-close="isCreating"
     :is-loading="isCreating || validationState === 'validating'"
     width="2xl"
     overflow-y-auto

@@ -102,7 +102,7 @@ const rows = computed(() =>
           </span>
           <Icon
             icon="i-lucide-chevron-right"
-            class="hidden size-4 text-n-slate-10 group-hover:text-n-slate-12 lg:block"
+            class="hidden size-4 text-n-slate-10 group-hover:text-n-slate-12 rtl:rotate-180 lg:block"
           />
         </button>
       </li>
