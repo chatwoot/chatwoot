@@ -146,6 +146,27 @@ RSpec.describe DataImports::Csv::Importer do
     end
   end
 
+  context 'when an appended row has no rejected-file format marker' do
+    let(:csv) do
+      "name,identifier,__chatwoot_csv_format\nUpdated,'+external-42,rejected-contacts-v1\nNew,'+external-43,\n"
+    end
+
+    it 'reports the affected record without writing any staged contacts' do
+      existing = create(:contact, account: account, identifier: '+external-42', name: 'Original')
+      stub_const('DataImports::Csv::PreparationJob::BATCH_SIZE', 1)
+
+      expect { DataImports::Csv::PreparationJob.perform_now(data_import, run_id) }.not_to change(Contact, :count)
+
+      expect(data_import.reload).to be_failed
+      expect(data_import.items.pending.count).to eq(1)
+      expect(data_import.import_errors.last.message).to include(
+        'Record 2 has a blank __chatwoot_csv_format value.', 'Import new contacts in a separate CSV without this column.'
+      )
+      expect(existing.reload.name).to eq('Original')
+      expect(DataImports::Csv::ImportJob).not_to have_been_enqueued
+    end
+  end
+
   context 'when the CSV has a BOM, multiline fields, emoji, and invalid bytes' do
     let(:csv) { "\uFEFFname,email\n\"Hi 😄\nthere\",person@example.com\nBad\xFF,bad@example.com\n".b }
 

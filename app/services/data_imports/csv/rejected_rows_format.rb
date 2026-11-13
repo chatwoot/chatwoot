@@ -16,9 +16,13 @@ class DataImports::Csv::RejectedRowsFormat
     headers.excluding(VERSION_COLUMN).map { |header| header.delete_prefix("'") }
   end
 
-  def self.decode_row(fields)
+  def self.decode_row(fields, row_number:)
     return fields unless fields.key?(VERSION_COLUMN)
 
+    if fields[VERSION_COLUMN].blank?
+      raise CustomExceptions::DataImport::InvalidCsvError,
+            I18n.t('errors.data_import.csv.blank_format_marker', row_number: row_number, column: VERSION_COLUMN, version: VERSION)
+    end
     raise CustomExceptions::DataImport::InvalidCsvError, 'Unsupported rejected contacts CSV format.' unless fields[VERSION_COLUMN] == VERSION
 
     fields.except(VERSION_COLUMN).transform_keys { |key| key.delete_prefix("'") }.transform_values { |value| value&.delete_prefix("'") }
