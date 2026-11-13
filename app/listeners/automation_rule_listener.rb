@@ -75,7 +75,11 @@ class AutomationRuleListener < BaseListener
 
       AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation, message: message)
     else
-      ::AutomationRules::ActionService.new(rule, account, conversation).perform
+      # Only forward :message when we have one (message_created rules) so conversation-level
+      # rules (conversation_created/updated/opened/resolved, which have no single triggering
+      # message) construct ActionService exactly as before.
+      message_kwargs = message ? { message: message } : {}
+      ::AutomationRules::ActionService.new(rule, account, conversation, **message_kwargs).perform
     end
   end
 
