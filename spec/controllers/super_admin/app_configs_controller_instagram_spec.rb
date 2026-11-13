@@ -42,4 +42,33 @@ RSpec.describe SuperAdmin::AppConfigsController, type: :request do
     expect(GlobalConfigService.load('INSTAGRAM_UNIFIED_APP_SECRET', nil)).to eq('meta-secret')
     expect(GlobalConfigService.load('INSTAGRAM_CONFIGURATION_ID', nil)).to eq('config1')
   end
+
+  it 'saves separate optional app names and preserves them when switching login methods' do
+    sign_in(super_admin, scope: :super_admin)
+    post path, params: { app_config: { INSTAGRAM_LOGIN_METHOD: 'instagram_login', INSTAGRAM_APP_NAME: 'Legacy app' } }
+    post path, params: { app_config: { INSTAGRAM_LOGIN_METHOD: 'unified_login', INSTAGRAM_UNIFIED_APP_NAME: 'Unified app' } }
+    get path
+
+    document = Nokogiri::HTML(response.body)
+    legacy_name = document.at_css('#app_config_INSTAGRAM_APP_NAME')
+    unified_name = document.at_css('#app_config_INSTAGRAM_UNIFIED_APP_NAME')
+    expect(legacy_name['value']).to eq('Legacy app')
+    expect(unified_name['value']).to eq('Unified app')
+    expect(legacy_name.ancestors('fieldset').first['disabled']).not_to be_nil
+    expect(unified_name.ancestors('fieldset').first['disabled']).to be_nil
+
+    post path, params: { app_config: { INSTAGRAM_LOGIN_METHOD: 'instagram_login' } }
+    expect(InstallationConfig.find_by!(name: 'INSTAGRAM_APP_NAME').value).to eq('Legacy app')
+    expect(InstallationConfig.find_by!(name: 'INSTAGRAM_UNIFIED_APP_NAME').value).to eq('Unified app')
+  end
+
+  it 'allows either app name to be left blank' do
+    sign_in(super_admin, scope: :super_admin)
+    post path, params: { app_config: { INSTAGRAM_APP_NAME: '', INSTAGRAM_UNIFIED_APP_NAME: '' } }
+
+    expect(response).to redirect_to(path)
+    expect(flash[:alert]).to be_nil
+    expect(InstallationConfig.find_by!(name: 'INSTAGRAM_APP_NAME').value).to eq('')
+    expect(InstallationConfig.find_by!(name: 'INSTAGRAM_UNIFIED_APP_NAME').value).to eq('')
+  end
 end

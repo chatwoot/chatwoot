@@ -561,6 +561,11 @@
   options:
     instagram_login: 'Instagram Login'
     unified_login: 'Unified Login (recommended for new Meta apps)'
+- name: INSTAGRAM_APP_NAME
+  display_title: 'Instagram App Name (optional)'
+  description: 'A label to help you identify this app. Does not affect the connection.'
+  instagram_login_method: instagram_login
+  locked: false
 - name: INSTAGRAM_APP_ID
   display_title: 'Instagram App ID'
   instagram_login_method: instagram_login
@@ -571,6 +576,11 @@
   description: 'The App Secret used for Instagram authentication'
   locked: false
   type: secret
+- name: INSTAGRAM_UNIFIED_APP_NAME
+  display_title: 'Instagram Unified Login Meta App Name (optional)'
+  description: 'A label to help you identify this app. Does not affect the connection.'
+  instagram_login_method: unified_login
+  locked: false
 - name: INSTAGRAM_UNIFIED_APP_ID
   instagram_login_method: unified_login
   display_title: 'Instagram Unified Login Meta App ID'
