@@ -65,7 +65,7 @@ RSpec.describe 'Instagram Unified Login connections', type: :request do
   end
 
   context 'when reconnecting an inbox' do
-    let(:channel) { create(:channel_instagram, account: account, instagram_id: 'ig1', auth_type: 'unified_login') }
+    let(:channel) { create(:channel_instagram, account: account, instagram_id: 'ig1') }
     let(:token) do
       Instagram::PendingConnection.create(
         account_id: account.id, inbox_id: channel.inbox.id,

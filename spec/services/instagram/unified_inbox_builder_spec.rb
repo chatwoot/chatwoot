@@ -26,8 +26,10 @@ RSpec.describe Instagram::UnifiedInboxBuilder do
   end
 
   it 'reauthorizes an existing Instagram inbox without changing its identity or name' do
-    channel = create(:channel_instagram, account: account, instagram_id: 'ig1', auth_type: 'unified_login')
+    channel = create(:channel_instagram, account: account, instagram_id: 'ig1')
     channel.inbox.update!(name: 'Support')
+    conversation = create(:conversation, account: account, inbox: channel.inbox)
+    message = create(:message, account: account, inbox: channel.inbox, conversation: conversation, content: 'Original message')
     channel.authorization_error!
 
     expect { builder.perform }.not_to change(Inbox, :count)
@@ -36,10 +38,12 @@ RSpec.describe Instagram::UnifiedInboxBuilder do
     expect(channel).to be_unified_login
     expect(channel).not_to be_reauthorization_required
     expect(channel.inbox.name).to eq('Support')
+    expect(channel.inbox.conversations.pluck(:id)).to eq([conversation.id])
+    expect(channel.inbox.messages.pluck(:id, :content)).to eq([[message.id, 'Original message']])
   end
 
   it 'does not create an inbox or change credentials when subscription fails' do
-    channel = create(:channel_instagram, account: account, instagram_id: 'ig1', auth_type: 'unified_login')
+    channel = create(:channel_instagram, account: account, instagram_id: 'ig1')
     old_token = channel[:access_token]
     stub_request(:post, 'https://graph.facebook.com/v22.0/ig1/subscribed_apps')
       .with(query: { subscribed_fields: 'messages,message_reactions,messaging_seen' })
@@ -47,17 +51,7 @@ RSpec.describe Instagram::UnifiedInboxBuilder do
 
     expect { builder.perform }.to raise_error(Instagram::UnifiedLoginService::Error, 'Permission denied')
     expect(channel.reload[:access_token]).to eq(old_token)
-    expect(channel).to be_unified_login
-  end
-
-  it 'does not switch an existing Instagram Login inbox through new inbox creation' do
-    channel = create(:channel_instagram, account: account, instagram_id: 'ig1')
-    original_token = channel[:access_token]
-
-    expect { builder.perform }.to raise_error(Instagram::UnifiedLoginService::Error, I18n.t('instagram.existing_login_method'))
-    expect(channel.reload).to be_instagram_login
-    expect(channel[:access_token]).to eq(original_token)
-    expect(subscription).not_to have_been_requested
+    expect(channel).to be_instagram_login
   end
 
   it 'does not connect an Instagram account owned by another Chatwoot account' do

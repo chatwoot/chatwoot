@@ -50,27 +50,29 @@ RSpec.describe 'Instagram Authorization API', type: :request do
           expect(response.parsed_body['error']).to eq(I18n.t('instagram.missing_credentials'))
         end
 
-        it 'keeps an existing Instagram Login inbox on its original method and signs its inbox ID' do
+        it 'uses the selected Unified Login method when reconnecting an Instagram Login inbox' do
           channel = create(:channel_instagram, account: account)
           post "/api/v1/accounts/#{account.id}/instagram/authorization", headers: administrator.create_new_auth_token,
                                                                          params: { inbox_id: channel.inbox.id }, as: :json
           query = Rack::Utils.parse_query(URI(response.parsed_body.fetch('url')).query)
           payload = JWT.decode(query.fetch('state'), 'state_secret', true, algorithm: 'HS256').first
           expect(payload).to include('sub' => account.id, 'inbox_id' => channel.inbox.id)
-          expect(payload).not_to have_key('configuration_id')
-          expect(URI(response.parsed_body.fetch('url')).host).to eq('www.instagram.com')
+          expect(payload.fetch('configuration_id')).to eq('config1')
+          expect(URI(response.parsed_body.fetch('url')).host).to eq('www.facebook.com')
         end
 
-        it 'keeps a Unified Login inbox on its saved configuration when the default changes' do
+        it 'uses Instagram Login when it is selected for reconnecting a Unified Login inbox' do
           channel = create(:channel_instagram, account: account, auth_type: 'unified_login', configuration_id: 'saved_config')
           allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_LOGIN_METHOD', nil).and_return('instagram_login')
           post "/api/v1/accounts/#{account.id}/instagram/authorization", headers: administrator.create_new_auth_token,
                                                                          params: { inbox_id: channel.inbox.id }, as: :json
 
           query = Rack::Utils.parse_query(URI(response.parsed_body.fetch('url')).query)
-          expect(query.fetch('config_id')).to eq('saved_config')
+          expect(URI(response.parsed_body.fetch('url')).host).to eq('www.instagram.com')
+          expect(query).not_to have_key('config_id')
           payload = JWT.decode(query.fetch('state'), 'state_secret', true, algorithm: 'HS256').first
-          expect(payload).to include('inbox_id' => channel.inbox.id, 'configuration_id' => 'saved_config')
+          expect(payload).to include('inbox_id' => channel.inbox.id)
+          expect(payload).not_to have_key('configuration_id')
         end
 
         it 'rejects reconnecting an inbox from another account' do

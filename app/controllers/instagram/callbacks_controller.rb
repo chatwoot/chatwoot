@@ -158,8 +158,6 @@ class Instagram::CallbacksController < ApplicationController
   end
 
   def update_channel(channel_instagram, user_details)
-    raise Instagram::ConnectionError, I18n.t('instagram.existing_login_method') if channel_instagram.unified_login?
-
     expires_at = Time.current + @long_lived_token_response['expires_in'].seconds
 
     channel_instagram.update!(

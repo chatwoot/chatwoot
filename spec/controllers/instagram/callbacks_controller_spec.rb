@@ -135,16 +135,6 @@ RSpec.describe Instagram::CallbacksController do
         expect(Rack::Utils.parse_query(URI(response.location).query)['error_type']).to eq('Instagram::ConnectionError')
       end
 
-      it 'does not switch an existing Unified Login inbox through Instagram Login creation' do
-        channel = create(:channel_instagram, account: account, instagram_id: '12345', auth_type: 'unified_login')
-        old_token = channel[:access_token]
-
-        expect { get :show, params: valid_params }.not_to change(Inbox, :count)
-        expect(channel.reload).to be_unified_login
-        expect(channel[:access_token]).to eq(old_token)
-        expect(Rack::Utils.parse_query(URI(response.location).query)['error_message']).to eq(I18n.t('instagram.existing_login_method'))
-      end
-
       it 'creates instagram channel and inbox' do
         expect do
           get :show, params: valid_params

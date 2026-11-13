@@ -33,20 +33,8 @@ class Api::V1::Accounts::Instagram::AuthorizationsController < Api::V1::Accounts
   private
 
   def authorization_state
-    generate_instagram_token(Current.account.id, params[:return_to], inbox_id: reauthorization_inbox&.id)
-  end
-
-  def reauthorization_inbox
-    return if params[:inbox_id].blank?
-
-    @reauthorization_inbox ||= Current.account.inboxes.where(channel_type: 'Channel::Instagram').find(params[:inbox_id])
-  end
-
-  def instagram_configuration_id
-    return super unless reauthorization_inbox
-    return unless reauthorization_inbox.channel.unified_login?
-
-    reauthorization_inbox.channel.configuration_id
+    inbox = Current.account.inboxes.where(channel_type: 'Channel::Instagram').find(params[:inbox_id]) if params[:inbox_id].present?
+    generate_instagram_token(Current.account.id, params[:return_to], inbox_id: inbox&.id)
   end
 
   def unified_login_url
