@@ -9,8 +9,6 @@ class Instagram::UnifiedInboxBuilder
   def perform
     channel = @account.instagram_channels.find_or_initialize_by(instagram_id: @instagram_account.fetch('id'))
     already_exists = channel.persisted?
-    raise Instagram::UnifiedLoginService::Error, I18n.t('instagram.existing_login_method') if already_exists && channel.instagram_login?
-
     channel.assign_attributes(channel_attributes)
     channel.validate!
     # Subscribe before writing: a denied subscription must not create a working-looking inbox.

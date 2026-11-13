@@ -22,7 +22,7 @@ RSpec.describe Instagram::UnifiedInboxBuilder do
   end
 
   it 'allows reauthorization when the account is already at its inbox limit' do
-    channel = create(:channel_instagram, account: account, instagram_id: 'ig1', auth_type: 'unified_login')
+    channel = create(:channel_instagram, account: account, instagram_id: 'ig1')
 
     inbox, already_exists = builder.perform
 
