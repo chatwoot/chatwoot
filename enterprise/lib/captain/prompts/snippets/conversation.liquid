@@ -11,8 +11,11 @@
 - {{ attribute[0] }}: {{ attribute[1] }}
   {% endfor -%}
 {% endif -%}
+{% comment %}Leave out browser_language: the model replies in it even when the customer writes in another language.{% endcomment -%}
 {% if conversation.additional_attributes -%}
   {% for attribute in conversation.additional_attributes -%}
+    {% unless attribute[0] == 'browser_language' -%}
 - {{ attribute[0] }}: {{ attribute[1] }}
+    {% endunless -%}
   {% endfor -%}
 {% endif -%}

@@ -413,6 +413,16 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(instructions).to include('Email verified by one-time code: No', 'captain--tools--send_email_verification_code')
     end
 
+    it 'leaves the browser language out of the conversation context' do
+      additional_attributes = { 'browser_language' => 'fr', 'referer' => 'https://example.com/help' }
+      state = { conversation: { id: 1, display_id: 7, additional_attributes: additional_attributes }, assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('- referer: https://example.com/help')
+      expect(instructions).not_to include('browser_language')
+    end
+
     it 'leaves out the verification steps when Captain cannot verify the customer' do
       state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, assistant_config: {} }
 
