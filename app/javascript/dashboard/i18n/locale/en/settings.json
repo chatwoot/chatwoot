@@ -95,7 +95,8 @@
         "REVOKE_ERROR": "Unable to revoke session. Please try again.",
         "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
         "LAST_ACTIVE": "Last active",
-        "UNKNOWN_DEVICE": "Unknown device"
+        "UNKNOWN_DEVICE": "Unknown device",
+        "EMPTY": "No active sessions found."
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
