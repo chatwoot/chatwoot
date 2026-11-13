@@ -1,4 +1,16 @@
 module Enterprise::Account
+  def shopify_install_eligible?
+    return true if super
+    return false unless [billing_provider == 'stripe', active?].all?
+
+    attributes = custom_attributes
+    return false unless attributes['subscription_status'] == 'active'
+    return false unless %w[stripe_customer_id stripe_price_id].all? { |key| attributes[key].present? }
+
+    plan = Enterprise::Billing::PlanConfiguration.current_plan(self)
+    plan.present? && plan != Enterprise::Billing::PlanConfiguration.default_plan(self)
+  end
+
   class << self
     def captain_document_sync_intervals
       parse_captain_document_sync_intervals(InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')&.value)
