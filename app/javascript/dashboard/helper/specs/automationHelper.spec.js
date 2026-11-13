@@ -21,9 +21,7 @@ describe('getCustomAttributeInputType', () => {
       'some_random_value'
     );
     expect(helpers.getCustomAttributeInputType('text')).toEqual('plain_text');
-    expect(helpers.getCustomAttributeInputType('list')).toEqual(
-      'search_select'
-    );
+    expect(helpers.getCustomAttributeInputType('list')).toEqual('multi_select');
     expect(helpers.getCustomAttributeInputType('checkbox')).toEqual(
       'search_select'
     );
