@@ -3,7 +3,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
   def ensure_contact(ig_scope_id)
     result = fetch_instagram_user(ig_scope_id)
-    find_or_create_contact(result) if result.present?
+    return if result.blank?
+
+    find_or_create_contact(result)
+    hydrate_unknown_contact(result)
   end
 
   def fetch_instagram_user(ig_scope_id)
@@ -18,6 +21,25 @@ class Instagram::MessageText < Instagram::BaseMessageText
   end
 
   private
+
+  # A contact created from an outgoing echo before profile consent keeps the fallback name.
+  # Refetch the profile once the recipient replies, since their reply grants consent.
+  def contacts_first_message?(ig_scope_id)
+    super || unknown_contact_replied?
+  end
+
+  def unknown_contact_replied?
+    return false if @contact_inbox.blank? || agent_message_via_echo?
+
+    @contact_inbox.contact.name == unknown_user(@contact_inbox.source_id)['name']
+  end
+
+  def hydrate_unknown_contact(user)
+    return if user['username'].blank? || @contact.name != unknown_user(user['id'])['name']
+
+    @contact.update!(name: user['name'].presence || user['username'])
+    Avatar::AvatarFromUrlJob.perform_later(@contact, user['profile_pic']) if user['profile_pic']
+  end
 
   def process_successful_response(response)
     result = JSON.parse(response.body).with_indifferent_access
@@ -43,14 +65,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
     # Access token has expired or become invalid.
     channel.authorization_error! if error_code == 190
 
-    # TODO: Remove this once we have a better way to handle this error.
     # https://developers.facebook.com/docs/messenger-platform/instagram/features/user-profile/#user-consent
-    # The error typically occurs when the connected Instagram account attempts to send a message to a user
-    # who has never messaged this Instagram account before.
-    # We can only get consent to access a user's profile if they have previously sent a message to the connected Instagram account.
-    # In such cases, we receive the error "User consent is required to access user profile".
-    # We can safely ignore this error.
-    return if error_code == 230
+    # Profile consent may be missing when messaging a user who has not contacted the connected account before.
+    # Preserve the already-received message with an unknown contact when the profile is unavailable.
+    return unknown_user(ig_scope_id) if error_code == 230
 
     # The error occurs when Facebook tries to validate the Facebook App created to authorize Instagram integration.
     # The Facebook's agent uses a Bot to make tests on the App where is not a valid user via API,
