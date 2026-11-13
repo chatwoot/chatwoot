@@ -27,7 +27,6 @@ export default {
       {{ message }}
       <br />
     </span>
-    <slot />
     <!-- Cmd bar, keyboard shortcuts placeholder -->
     <FeaturePlaceholder />
   </div>
