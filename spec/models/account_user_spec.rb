@@ -17,6 +17,17 @@ RSpec.describe AccountUser do
     end
   end
 
+  describe 'work preferences' do
+    it 'allows turning off one of conversations or calls' do
+      expect(account_user.update(accepts_calls: false)).to be(true)
+    end
+
+    it 'rejects turning off both conversations and calls' do
+      expect(account_user.update(accepts_conversations: false, accepts_calls: false)).to be(false)
+      expect(account_user.errors[:base]).to include('Receive conversations or Receive voice calls must stay on')
+    end
+  end
+
   describe 'permissions' do
     it 'returns the right permissions' do
       expect(account_user.permissions).to eq(['agent'])

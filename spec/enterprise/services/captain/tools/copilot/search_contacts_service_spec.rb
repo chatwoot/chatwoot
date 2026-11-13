@@ -18,9 +18,9 @@ RSpec.describe Captain::Tools::Copilot::SearchContactsService do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'defines email, phone_number, and name parameters' do
-      expect(service.parameters.keys).to contain_exactly(:email, :phone_number, :name)
+      expect(service.parameters_schema.fetch('properties').keys).to contain_exactly('email', 'phone_number', 'name')
     end
   end
 
@@ -70,6 +70,10 @@ RSpec.describe Captain::Tools::Copilot::SearchContactsService do
         result = service.execute(email: 'test1@example.com')
         expect(result).to include(contact1.to_llm_text)
         expect(result).not_to include(contact2.to_llm_text)
+      end
+
+      it 'searches by one field when called the way the model calls it' do
+        expect(service.call(email: 'test1@example.com')).to include(contact1.to_llm_text)
       end
 
       it 'returns contacts when filtered by phone number' do

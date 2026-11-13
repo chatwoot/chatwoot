@@ -1,0 +1,71 @@
+# Help center article for each feature.
+# The dashboard reads this through `getHelpUrlForFeature` (dashboard/helper/featureHelper.js) and
+# Super Admin through `SuperAdmin::AccountFeaturesHelper`.
+#
+# A key is one of:
+#   - a feature flag name from config/features.yml
+#   - the name a dashboard page passes as `feature-name`
+#   - an integration id from config/integration/apps.yml
+
+# Feature flags
+advanced_assignment: https://chwt.app/hc/agent-capacity
+agent_bots: https://chwt.app/hc/agent-bots
+agent_management: https://chwt.app/hc/agents
+api_and_webhooks: https://chwt.app/hc/webhooks
+assignment_v2: https://chwt.app/hc/assignment-policies
+audit_log_ip_address: https://chwt.app/hc/audit-logs
+audit_logs: https://chwt.app/hc/audit-logs
+automations: https://chwt.app/hc/automation
+campaigns: https://chwt.app/hc/campaigns
+canned_responses: https://chwt.app/hc/canned
+captain_integration: https://chwt.app/captain-docs
+channel_email: https://chwt.app/hc/email
+channel_facebook: https://chwt.app/hc/fb
+channel_instagram: https://chwt.app/hc/instagram
+channel_tiktok: https://chwt.app/hc/tiktok
+channel_voice: https://chwt.app/hc/voice
+channel_website: https://chwt.app/hc/live-chat
+conversation_required_attributes: https://chwt.app/hc/required-attributes
+crm: https://chwt.app/hc/contacts
+csat_review_notes: https://chwt.app/hc/csat-review-notes
+custom_attributes: https://chwt.app/hc/custom-attributes
+custom_roles: https://chwt.app/hc/custom-roles
+custom_tools: https://chwt.app/hc/captain-tools
+data_import: https://chwt.app/hc/migrations
+help_center: https://chwt.app/hc/help-center
+inbound_emails: https://chwt.app/hc/email-continuity
+inbox_management: https://chwt.app/hc/inboxes
+integrations: https://chwt.app/hc/integrations
+labels: https://chwt.app/hc/labels
+linear_integration: https://chwt.app/linear-app
+macros: https://chwt.app/hc/macros
+reports: https://chwt.app/hc/reports
+saml: https://chwt.app/hc/saml
+shopify_integration: https://chwt.app/hc/shopify
+sla: https://chwt.app/hc/sla
+team_management: https://chwt.app/hc/teams
+whatsapp_embedded_signup_inbox_creation: https://chwt.app/hc/whatsapp-embedded-signup
+whatsapp_manual_transfer: https://chwt.app/migrate-whatsapp
+
+# Dashboard pages
+agents: https://chwt.app/hc/agents
+assignment-policy: https://chwt.app/hc/assignment-policies
+automation: https://chwt.app/hc/automation
+billing: https://chwt.app/pricing
+captain: https://chwt.app/captain-docs
+captain_billing: https://chwt.app/hc/captain_billing
+conversation-workflow: https://chwt.app/hc/required-attributes
+inboxes: https://chwt.app/hc/inboxes
+slack_integration: https://chwt.app/hc/slack
+webhook: https://chwt.app/hc/webhooks
+whatsapp_templates: https://chwt.app/hc/whatsapp-templates
+
+# Integrations
+dashboard_apps: https://chwt.app/hc/dashboard-apps
+dialogflow: https://chwt.app/hc/dialogflow
+dyte: https://chwt.app/hc/realtimekit
+google_translate: https://chwt.app/hc/google-translate
+linear: https://chwt.app/linear-app
+openai: https://chwt.app/hc/openai
+shopify: https://chwt.app/hc/shopify
+slack: https://chwt.app/hc/slack

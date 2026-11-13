@@ -3,13 +3,13 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import DataOperationStatus from './DataOperationStatus.vue';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
 import {
   POLL_INTERVAL_MS,
   importStageKey,
   isAbandonableImport,
   isActiveImport,
-  statusDotClass as getStatusDotClass,
 } from '../importStatus';
 
 const props = defineProps({
@@ -35,7 +35,7 @@ const props = defineProps({
   },
 });
 
-defineEmits(['refresh', 'retry', 'abandon']);
+defineEmits(['refresh', 'retry', 'abandon', 'start']);
 
 const { t } = useI18n();
 
@@ -48,6 +48,7 @@ const title = computed(
 const stageLabels = computed(() => ({
   unknown: t('DATA_IMPORTS.MONITOR.STAGES.unknown'),
   queued: t('DATA_IMPORTS.MONITOR.STAGES.queued'),
+  preparing: t('DATA_IMPORTS.MONITOR.STAGES.preparing'),
   contacts: t('DATA_IMPORTS.MONITOR.STAGES.contacts'),
   conversations: t('DATA_IMPORTS.MONITOR.STAGES.conversations'),
   finalizing: t('DATA_IMPORTS.MONITOR.STAGES.finalizing'),
@@ -63,10 +64,6 @@ const monitorTitle = computed(
     stageLabels.value.unknown
 );
 
-const statusDotClass = computed(() =>
-  getStatusDotClass(props.dataImport?.status)
-);
-
 const hasActiveImport = computed(() => isActiveImport(props.dataImport));
 
 const canAbandonImport = computed(() => isAbandonableImport(props.dataImport));
@@ -78,8 +75,10 @@ const canAbandonImport = computed(() => isAbandonableImport(props.dataImport));
     :back-button-label="$t('DATA_IMPORTS.DETAIL.BACK')"
   >
     <template #title>
-      <div class="flex w-full items-center justify-between gap-4">
-        <h1 class="min-w-0 truncate text-heading-1 text-n-slate-12">
+      <div class="flex w-full flex-wrap items-center justify-between gap-4">
+        <h1
+          class="min-w-0 max-w-full break-words text-heading-1 text-n-slate-12"
+        >
           {{ title }}
         </h1>
         <div class="flex shrink-0 items-center gap-2">
@@ -95,7 +94,7 @@ const canAbandonImport = computed(() => isAbandonableImport(props.dataImport));
             @click="$emit('refresh')"
           />
           <Button
-            v-if="dataImport?.stalled"
+            v-if="dataImport?.allowed_actions?.retry ?? dataImport?.stalled"
             outline
             slate
             size="sm"
@@ -104,6 +103,15 @@ const canAbandonImport = computed(() => isAbandonableImport(props.dataImport));
             :disabled="isAbandoning"
             :label="$t('DATA_IMPORTS.TABLE.RETRY')"
             @click="$emit('retry')"
+          />
+          <Button
+            v-if="dataImport?.allowed_actions?.start"
+            outline
+            slate
+            size="sm"
+            :is-loading="isRetrying"
+            :label="$t('DATA_IMPORTS.TABLE.RESUME')"
+            @click="$emit('start')"
           />
           <Button
             v-if="canAbandonImport"
@@ -118,18 +126,12 @@ const canAbandonImport = computed(() => isAbandonableImport(props.dataImport));
       </div>
     </template>
     <template #description>
-      <span class="inline-flex items-center gap-1.5 align-middle">
-        <span
-          class="size-2 rounded-full"
-          :class="[statusDotClass, { 'animate-pulse': hasActiveImport }]"
-        />
-        {{ monitorTitle }}
-      </span>
+      <DataOperationStatus :status="dataImport?.status" :label="monitorTitle" />
       <template v-if="hasActiveImport">
         <span
           class="mx-2 inline-block h-3 w-px rounded-lg bg-n-strong align-middle"
         />
-        <span class="text-n-teal-11">
+        <span class="text-n-slate-11">
           {{
             isPolling
               ? $t('DATA_IMPORTS.MONITOR.REFRESHING')

@@ -8,6 +8,7 @@ get:
   description: Get open, unassigned and all Conversation counts
   summary: Get Conversation Counts
   security:
+    - userBearerAuth: []
     - userApiKey: []
   parameters:
     - name: status

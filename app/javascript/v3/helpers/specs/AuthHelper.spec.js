@@ -1,6 +1,53 @@
-import { getLoginRedirectURL, getCredentialsFromEmail } from '../AuthHelper';
+import {
+  getShopifyBillingRedirect,
+  getLoginRedirectURL,
+  getCredentialsFromEmail,
+  getSignupRoute,
+  getTargetAccount,
+  isShopifyBillingAccount,
+  requiresShopifyBilling,
+} from '../AuthHelper';
 
 describe('#URL Helpers', () => {
+  describe('getShopifyBillingRedirect', () => {
+    it('preserves Shopify App Pricing return parameters', () => {
+      expect(
+        getShopifyBillingRedirect({
+          plan_handle: 'growth',
+          shop: 'store.myshopify.com',
+        })
+      ).toBe('settings/billing?plan_handle=growth&shop=store.myshopify.com');
+      expect(getShopifyBillingRedirect({ shop: 'store.myshopify.com' })).toBe(
+        'settings/billing?shop=store.myshopify.com'
+      );
+    });
+
+    it('ignores unrelated login parameters', () => {
+      expect(getShopifyBillingRedirect({ email: 'user@example.com' })).toBe('');
+    });
+  });
+
+  describe('getSignupRoute', () => {
+    it('carries a pending Shopify install token into signup', () => {
+      expect(
+        getSignupRoute(
+          'settings/integrations/shopify?shopify_pending_install=0123456789abcdef0123456789abcdef'
+        )
+      ).toEqual({
+        name: 'auth_signup',
+        query: {
+          shopify_pending_install: '0123456789abcdef0123456789abcdef',
+        },
+      });
+    });
+
+    it('uses the regular signup route for other login redirects', () => {
+      expect(getSignupRoute('accounts/1/dashboard')).toEqual({
+        name: 'auth_signup',
+      });
+    });
+  });
+
   describe('getLoginRedirectURL', () => {
     it('should return correct Account URL if account id is present', () => {
       expect(
@@ -38,6 +85,250 @@ describe('#URL Helpers', () => {
         })
       ).toBe('/app/accounts/7501/dashboard');
       expect(getLoginRedirectURL('7500', null)).toBe('/app/');
+    });
+
+    it('sends a pending feature-enabled Shopify account to billing', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: 'pending',
+            shopify_shop_domain: 'store.myshopify.com',
+          },
+        ],
+      };
+
+      expect(getLoginRedirectURL({ user })).toBe(
+        '/app/accounts/7500/settings/billing'
+      );
+    });
+
+    it('preserves a Shopify pricing redirect for a pending account after login', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: 'pending',
+            shopify_shop_domain: 'store.myshopify.com',
+          },
+        ],
+      };
+
+      expect(
+        getLoginRedirectURL({
+          redirectUrl:
+            'settings/billing?plan_handle=growth&shop=store.myshopify.com',
+          user,
+        })
+      ).toBe(
+        '/app/accounts/7500/settings/billing?plan_handle=growth&shop=store.myshopify.com'
+      );
+    });
+
+    it('routes a Shopify pricing return to the account connected to that shop', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            shopify_shop_domain: 'first-store.myshopify.com',
+          },
+          {
+            id: 7501,
+            shopify_shop_domain: 'second-store.myshopify.com',
+          },
+        ],
+      };
+
+      expect(
+        getLoginRedirectURL({
+          redirectUrl:
+            'settings/billing?plan_handle=growth&shop=second-store.myshopify.com',
+          user,
+        })
+      ).toBe(
+        '/app/accounts/7501/settings/billing?plan_handle=growth&shop=second-store.myshopify.com'
+      );
+    });
+
+    it('does not route a Shopify pricing return to an unrelated account', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            shopify_shop_domain: 'first-store.myshopify.com',
+          },
+        ],
+      };
+
+      expect(
+        getLoginRedirectURL({
+          redirectUrl:
+            'settings/billing?plan_handle=growth&shop=unknown-store.myshopify.com',
+          user,
+        })
+      ).toBe('/app/');
+    });
+
+    it('uses an explicit matching account for a Shopify billing redirect after login', () => {
+      const user = {
+        account_id: 1,
+        accounts: [
+          { id: 1 },
+          {
+            id: 7500,
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: 'pending',
+            shopify_shop_domain: 'store.myshopify.com',
+          },
+        ],
+      };
+
+      expect(
+        getLoginRedirectURL({
+          ssoAccountId: '7500',
+          redirectUrl: 'settings/billing?shop=store.myshopify.com',
+          user,
+        })
+      ).toBe('/app/accounts/7500/settings/billing?shop=store.myshopify.com');
+    });
+
+    it('preserves the regular redirect when the Shopify feature is disabled', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            billing_provider: 'shopify',
+            shopify_integration: false,
+            subscription_status: 'pending',
+          },
+        ],
+      };
+
+      expect(getLoginRedirectURL({ user })).toBe(
+        '/app/accounts/7500/dashboard'
+      );
+    });
+
+    it('requires workspace selection for a pending Shopify install', () => {
+      const token = 'a'.repeat(32);
+      expect(
+        getLoginRedirectURL({
+          redirectUrl: `settings/integrations/shopify?shopify_pending_install=${token}`,
+          user: {
+            account_id: 1,
+            accounts: [
+              { id: 1, role: 'agent', status: 'active' },
+              { id: 2, role: 'administrator', status: 'active' },
+            ],
+          },
+        })
+      ).toBe(`/app/shopify/select-account?shopify_pending_install=${token}`);
+    });
+
+    it('retains the token when no account can manage the install', () => {
+      const token = 'a'.repeat(32);
+      expect(
+        getLoginRedirectURL({
+          redirectUrl: `settings/integrations/shopify?shopify_pending_install=${token}`,
+          user: {
+            account_id: 1,
+            accounts: [{ id: 1, role: 'agent', status: 'active' }],
+          },
+        })
+      ).toBe(`/app/shopify/select-account?shopify_pending_install=${token}`);
+    });
+  });
+
+  describe('requiresShopifyBilling', () => {
+    it.each(['active', 'trialing', 'cancelled'])(
+      'allows the entitled %s state into the product',
+      subscriptionStatus => {
+        expect(
+          requiresShopifyBilling({
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: subscriptionStatus,
+          })
+        ).toBe(false);
+      }
+    );
+
+    it.each(['pending', 'missing', 'expired'])(
+      'requires billing for the %s state',
+      subscriptionStatus => {
+        expect(
+          requiresShopifyBilling({
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: subscriptionStatus,
+          })
+        ).toBe(true);
+      }
+    );
+  });
+
+  describe('getTargetAccount', () => {
+    it('matches Shopify shop domains case-insensitively', () => {
+      const shopifyAccount = {
+        id: 7501,
+        shopify_shop_domain: 'store.myshopify.com',
+      };
+
+      expect(
+        getTargetAccount({
+          redirectUrl: 'settings/billing?shop=Store.MyShopify.Com',
+          user: { accounts: [{ id: 7500 }, shopifyAccount] },
+        })
+      ).toBe(shopifyAccount);
+    });
+
+    it('prioritizes an explicitly preserved account over Shopify shop matching', () => {
+      const preservedAccount = { id: 7500 };
+      const shopifyAccount = {
+        id: 7501,
+        shopify_shop_domain: 'store.myshopify.com',
+      };
+
+      expect(
+        getTargetAccount({
+          ssoAccountId: preservedAccount.id,
+          redirectUrl: 'settings/billing?shop=store.myshopify.com',
+          user: { accounts: [preservedAccount, shopifyAccount] },
+        })
+      ).toBe(preservedAccount);
+    });
+  });
+
+  describe('isShopifyBillingAccount', () => {
+    it('requires both Shopify billing ownership and the account feature gate', () => {
+      expect(
+        isShopifyBillingAccount({
+          billing_provider: 'shopify',
+          shopify_integration: true,
+        })
+      ).toBe(true);
+      expect(
+        isShopifyBillingAccount({
+          billing_provider: 'shopify',
+          shopify_integration: false,
+        })
+      ).toBe(false);
+      expect(
+        isShopifyBillingAccount({
+          billing_provider: 'stripe',
+          shopify_integration: true,
+        })
+      ).toBe(false);
     });
   });
 

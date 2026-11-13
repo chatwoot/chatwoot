@@ -105,6 +105,7 @@
       "MUTE_CONVERSATION": "会話をミュート",
       "SNOOZE_CONVERSATION": "会話をスヌーズ",
       "RESOLVE_CONVERSATION": "会話を解決",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "優先度を変更",

@@ -2,6 +2,8 @@ module Enterprise::Concerns::Attachment
   extend ActiveSupport::Concern
 
   included do
+    include ConversationMonitors::AttachmentTracking
+
     after_create_commit :enqueue_audio_transcription
     # Broadcast the message update so the FE bubble picks up the new audio
     # attachment immediately. Without this, the FE has to wait until Whisper

@@ -4,6 +4,7 @@ operationId: delete-automation-rule-from-account
 summary: Remove a automation rule from account
 description: Remove a automation rule from account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - in: path

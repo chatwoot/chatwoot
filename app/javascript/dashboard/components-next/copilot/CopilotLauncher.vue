@@ -1,14 +1,20 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
+import CopilotNudge from 'dashboard/components-next/copilot/CopilotNudge.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import {
+  useCopilotDot,
+  COPILOT_OPEN_SOURCES,
+} from 'dashboard/composables/useCopilotDot';
 import { useMapGetter } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 const route = useRoute();
 
-const { uiSettings, updateUISettings } = useUISettings();
+const { uiSettings } = useUISettings();
+const { showDot, trackDotShown, openCopilot } = useCopilotDot();
 
 const isConversationRoute = computed(() => {
   const CONVERSATION_ROUTES = [
@@ -41,12 +47,14 @@ const showCopilotLauncher = computed(() => {
     !isConversationRoute.value
   );
 });
-const toggleSidebar = () => {
-  updateUISettings({
-    is_copilot_panel_open: !uiSettings.value.is_copilot_panel_open,
-    is_contact_sidebar_open: false,
-  });
-};
+
+watch(
+  () => showCopilotLauncher.value && showDot.value,
+  isDotVisible => {
+    if (isDotVisible) trackDotShown(COPILOT_OPEN_SOURCES.LAUNCHER);
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -55,15 +63,17 @@ const toggleSidebar = () => {
     class="fixed bottom-4 ltr:right-4 rtl:left-4 z-50"
   >
     <ButtonGroup
-      class="rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow hover:shadow-md"
+      class="relative rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow hover:shadow-md"
     >
-      <Button
-        icon="i-woot-captain"
-        no-animation
-        class="!rounded-full !bg-n-solid-3 dark:!bg-n-alpha-2 !text-n-slate-12 text-xl transition-all duration-200 ease-out hover:brightness-110"
-        lg
-        @click="toggleSidebar"
-      />
+      <CopilotNudge :show="showDot">
+        <Button
+          icon="i-woot-captain"
+          no-animation
+          class="!rounded-full !bg-n-solid-3 dark:!bg-n-alpha-2 !text-n-slate-12 text-xl transition-all duration-200 ease-out hover:brightness-110"
+          lg
+          @click="openCopilot(COPILOT_OPEN_SOURCES.LAUNCHER)"
+        />
+      </CopilotNudge>
     </ButtonGroup>
   </div>
   <template v-else />

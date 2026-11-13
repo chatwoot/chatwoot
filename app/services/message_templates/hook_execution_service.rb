@@ -4,6 +4,8 @@ class MessageTemplates::HookExecutionService
   def perform
     return if conversation.last_incoming_message.blank?
     return if message.auto_reply_email?
+    # A call is not a chat message; greetings, out-of-office and bot replies would reach the caller as SMS.
+    return if message.voice_call?
 
     trigger_templates
   end

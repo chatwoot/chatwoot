@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nouveau message dans une conversation à laquelle vous participez",
       "SLA_MISSED_FIRST_RESPONSE": "Première réponse de SLA manquante pour la conversation",
       "SLA_MISSED_NEXT_RESPONSE": "SLA cible de la prochaine réponse manquée pour la conversation",
-      "SLA_MISSED_RESOLUTION": "Résolution cible du SLA manquante pour la conversation"
+      "SLA_MISSED_RESOLUTION": "Résolution cible du SLA manquante pour la conversation",
+      "VOICE_CALL_MISSED": "Appel manqué"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "Mentionné",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "Violation du SLA",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nouveau message",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nouveau message",
+      "VOICE_CALL_MISSED": "Appel manqué",
       "SNOOZED_UNTIL": "Reporté pour {time}",
       "SNOOZED_ENDS": "Remise en veille terminée"
     },

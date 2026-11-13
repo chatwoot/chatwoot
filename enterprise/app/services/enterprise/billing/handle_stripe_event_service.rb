@@ -10,6 +10,7 @@ class Enterprise::Billing::HandleStripeEventService
 
   def perform(event:)
     @event = event
+    log_event
 
     case @event.type
     when 'customer.subscription.updated'
@@ -23,7 +24,17 @@ class Enterprise::Billing::HandleStripeEventService
 
   private
 
+  def log_event
+    object = @event.data.object
+    Rails.logger.info("Stripe event: id=#{@event.id} type=#{@event.type} customer=#{object['customer']} status=#{object['status']}")
+  end
+
   def process_subscription_updated
+    # A cancelled subscription keeps emitting updates that still carry its old plan.
+    # Acting on one re-applies that plan over the downgrade customer.subscription.deleted
+    # just made, so the account keeps paid features it no longer pays for.
+    return if subscription['status'] == 'canceled'
+
     plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
 
     # skipping self hosted plan events
@@ -34,6 +45,7 @@ class Enterprise::Billing::HandleStripeEventService
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
     sync_subscription_credits(plan, previous_usage)
     track_marketing_plan_activation(previous_plan_name, plan['name']) if plan_changed?
+    broadcast_billing_updated
   end
 
   def sync_subscription_credits(plan, previous_usage)
@@ -110,6 +122,13 @@ class Enterprise::Billing::HandleStripeEventService
       adjust_captain_credits(previous_usage, new_plan_credits: 0)
       account.reset_response_usage
     end
+    broadcast_billing_updated
+  end
+
+  # Stripe returns the admin from the billing portal before this webhook lands, so push the
+  # refreshed status to any dashboard already open instead of waiting for another reload.
+  def broadcast_billing_updated
+    ActionCableBroadcastJob.perform_later(["account_#{account.id}"], 'account.billing_updated', { account_id: account.id })
   end
 
   def handle_subscription_credits(plan, previous_usage)

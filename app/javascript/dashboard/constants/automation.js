@@ -2,7 +2,7 @@ export const DEFAULT_MESSAGE_CREATED_CONDITION = [
   {
     attribute_key: 'message_type',
     filter_operator: 'equal_to',
-    values: '',
+    values: {},
     query_operator: 'and',
     custom_attribute_type: '',
   },
@@ -12,7 +12,7 @@ export const DEFAULT_CONVERSATION_CONDITION = [
   {
     attribute_key: 'browser_language',
     filter_operator: 'equal_to',
-    values: '',
+    values: {},
     query_operator: 'and',
     custom_attribute_type: '',
   },

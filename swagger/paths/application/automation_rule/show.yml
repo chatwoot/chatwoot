@@ -4,6 +4,7 @@ operationId: get-details-of-a-single-automation-rule
 summary: Get a automation rule details
 description: Get the details of a automation rule in the account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - in: path

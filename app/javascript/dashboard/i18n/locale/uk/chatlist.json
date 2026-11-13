@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Створено",
         "OLDEST": "Створений в:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Остання активність:",
-        "ACTIVE": "Остання активність"
+        "NOT_ACTIVE": "Остання активність:"
       }
     },
     "SORT_ORDER_ITEMS": {

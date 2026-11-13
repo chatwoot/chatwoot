@@ -11,6 +11,9 @@ by providing a `content_for(:javascript)` block.
   <%= javascript_include_tag js_path %>
 <% end %>
 
+<%= javascript_include_tag 'rails-ujs' %>
+<%= javascript_include_tag 'belongsToSearchField' %>
+
 <%= yield :javascript %>
 
 <% if Rails.env.test? %>
@@ -20,6 +23,7 @@ by providing a `content_for(:javascript)` block.
   <% end %>
 <% end %>
 
+<% support_user = SuperAdmin.first %>
 <script>
 window.chatwootSettings = {
   hideMessageBubble: true,
@@ -42,9 +46,8 @@ window.chatwootSettings = {
 window.addEventListener('chatwoot:ready', function() {
   window.$chatwoot.setUser('<%= ChatwootHub.installation_identifier %>', {
     identifier_hash: '<%= ChatwootHub.support_config[:support_identifier_hash] %>',
-    email: '<%= SuperAdmin.first.email %>',
-    name: '<%= SuperAdmin.first.name %>'
+    email: '<%= support_user.email %>',
+    name: '<%= support_user.name %>'
   });
 })
-
 </script>

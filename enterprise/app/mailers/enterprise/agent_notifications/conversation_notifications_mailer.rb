@@ -30,6 +30,17 @@ module Enterprise::AgentNotifications::ConversationNotificationsMailer
     send_mail_with_liquid(to: @agent.email, subject: "Conversation [ID - #{@conversation.display_id}] missed SLA for resolution time") and return
   end
 
+  def voice_call_missed(conversation, agent, message)
+    return unless smtp_config_set_or_development?
+
+    @agent = agent
+    @conversation = conversation
+    @message = message
+    subject = "#{@agent.available_name}, Missed call from #{@conversation.contact&.name.presence || 'a contact'} in #{@conversation.inbox.name}"
+    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
+    send_mail_with_liquid(to: @agent.email, subject: subject) and return
+  end
+
   def liquid_droppables
     super.merge({
                   sla_policy: @sla_policy

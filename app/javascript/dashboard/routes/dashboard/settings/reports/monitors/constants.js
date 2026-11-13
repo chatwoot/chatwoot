@@ -1,0 +1,1 @@
+export const MAX_MONITOR_CONDITION_LENGTH = 500;

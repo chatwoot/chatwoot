@@ -4,6 +4,7 @@ operationId: list-all-account-users
 summary: List all Account Users
 description: List all account users
 security:
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 responses:
   '200':

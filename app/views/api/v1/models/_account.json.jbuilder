@@ -1,4 +1,5 @@
 json.settings resource.settings
+json.reporting_timezone ActiveSupport::TimeZone[resource.reporting_timezone].tzinfo.name if resource.reporting_timezone.present?
 json.created_at resource.created_at
 if resource.custom_attributes.present?
   json.custom_attributes do

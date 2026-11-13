@@ -7,22 +7,27 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def create
+    identify_action = nil
     ActiveRecord::Base.transaction do
-      process_update_contact
+      identify_action = process_update_contact
       @conversation = create_conversation
       conversation.messages.create!(message_params)
-      # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer
-      conversation.reload
     end
+    # Added after the first message commits, so the greeting hook does not count the note as a reply
+    Conversations::UnverifiedContactNoteService.new(conversation: conversation, matches: identify_action.unverified_matches).perform
+    # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer
+    conversation.reload
   end
 
   def process_update_contact
-    @contact = ContactIdentifyAction.new(
+    identify_action = ContactIdentifyAction.new(
       contact: @contact,
       params: { email: contact_email, phone_number: contact_phone_number, name: contact_name, custom_attributes: contact_custom_attributes },
       retain_original_contact_name: true,
       discard_invalid_attrs: true
-    ).perform
+    )
+    @contact = identify_action.perform
+    identify_action
   end
 
   def update_last_seen
@@ -71,7 +76,6 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def destroy_custom_attributes
     conversation.custom_attributes = conversation.custom_attributes.excluding(params[:custom_attribute])
     conversation.save!
-    render json: conversation
   end
 
   private

@@ -3,6 +3,8 @@ class Api::V1::Accounts::Actions::ContactMergesController < Api::V1::Accounts::B
   before_action :set_mergee_contact, only: [:create]
 
   def create
+    Rails.logger.info "[CONTACT_MERGE] Agent #{Current.user&.id} merging contact #{@mergee_contact.id} into contact #{@base_contact.id} " \
+                      "in account #{Current.account.id}"
     contact_merge_action = ContactMergeAction.new(
       account: Current.account,
       base_contact: @base_contact,

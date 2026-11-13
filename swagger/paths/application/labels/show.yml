@@ -3,6 +3,7 @@ tags:
 operationId: get-details-of-a-single-label
 summary: Get a label
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Get the details of a label in the account
 responses:

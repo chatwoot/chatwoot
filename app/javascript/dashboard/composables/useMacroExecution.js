@@ -10,7 +10,7 @@ import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 // stored as raw JSON, so the status can be the enum name or its integer value.
 const RESOLVED_STATUSES = ['resolved', 1];
 
-const resolvesConversation = macro =>
+export const resolvesConversation = macro =>
   macro.actions.some(
     ({ action_name: name, action_params: params }) =>
       name === 'resolve_conversation' ||

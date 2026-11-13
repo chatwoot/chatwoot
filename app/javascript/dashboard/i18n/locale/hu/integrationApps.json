@@ -46,7 +46,7 @@
           "PLACEHOLDER": "Válassz fiókot"
         },
         "SUBMIT": "Létrehozás",
-        "VALIDATING_OPENAI": "Validating with OpenAI...",
+        "VALIDATING_OPENAI": "Ellenőrzés az OpenAI segítségével...",
         "CANCEL": "Mégse"
       },
       "API": {

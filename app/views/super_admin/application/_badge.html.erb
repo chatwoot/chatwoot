@@ -1,0 +1,19 @@
+<%# locals: (label:, tone: nil) -%>
+<%
+  dot = "before:size-1.5 before:rounded-full before:bg-current before:content-['']"
+  tones = {
+    neutral: "border-n-slate-6 bg-n-slate-3 text-n-slate-11",
+    success: "#{dot} border-n-teal-6 bg-n-teal-3 text-n-teal-11",
+    danger: "#{dot} border-n-ruby-6 bg-n-ruby-3 text-n-ruby-11",
+    warning: "#{dot} border-n-amber-6 bg-n-amber-3 text-n-amber-11",
+    info: "border-n-blue-6 bg-n-blue-3 text-n-blue-11",
+    accent: "border-n-violet-6 bg-n-violet-3 text-n-violet-11"
+  }
+  # Without a tone the label picks it: these are the values select fields show (account status, role, user type, banner type).
+  value_tones = {
+    "Active" => :success, "Suspended" => :danger, "Error" => :danger, "Warning" => :warning,
+    "Info" => :info, "Administrator" => :info, "Super Admin" => :accent, "Feature Announcement" => :accent
+  }
+  tone ||= value_tones.fetch(label.to_s, :neutral)
+%>
+<span class="<%= class_names("inline-flex h-5 items-center gap-1 whitespace-nowrap rounded-md border px-1.5 text-label-small", tones.fetch(tone)) %>"><%= label %></span>

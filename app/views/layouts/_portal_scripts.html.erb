@@ -93,7 +93,8 @@ html.light {
     tocHeader: '<%= I18n.t('public_portal.toc_header') %>'
   };
 </script>
-<% if @portal.channel_web_widget.present? && !@is_plain_layout_enabled %>
+<%# The widget reports the page URL, which carries the token on signed article previews. %>
+<% if @portal.channel_web_widget.present? && !@is_plain_layout_enabled && !@is_internal_preview %>
 <script>
   window.chatwootSettings = window.chatwootSettings || {};
   window.chatwootSettings.locale = '<%= @locale %>';

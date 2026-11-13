@@ -73,6 +73,13 @@ class Category < ApplicationRecord
     params[:page] || 1
   end
 
+  def translation_family
+    root_id = associated_category_id || id
+    categories = portal.categories
+
+    categories.where(id: root_id).or(categories.where(associated_category_id: root_id))
+  end
+
   def self.update_positions(portal:, positions_hash:)
     return if positions_hash.blank?
 

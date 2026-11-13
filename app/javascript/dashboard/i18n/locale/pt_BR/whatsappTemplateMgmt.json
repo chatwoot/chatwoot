@@ -3,8 +3,11 @@
     "TITLE": "Modelos",
     "DESCRIPTION": "Visualize os modelos de mensagens sincronizados das suas caixas de entrada do WhatsApp. Para criar ou editar um modelo, gerencie-o com seu provedor.",
     "COUNT": "{n} modelo | {n} modelos",
-    "KNOW_MORE": "Saiba mais",
-    "NEW_TEMPLATE": "Novo modelo",
+    "LEARN_MORE": "Saiba mais sobre os modelos do WhatsApp",
+    "SYNC_TEMPLATES": "Sincronizar modelos",
+    "SYNC_SUCCESS": "A sincronização de modelos foi iniciada para todas as caixas de entrada do WhatsApp. As atualizações podem levar alguns minutos.",
+    "PARTIAL_SYNC_ERROR": "A sincronização de modelos foi iniciada para algumas caixas de entrada do WhatsApp, mas outras não puderam ser sincronizadas.",
+    "SYNC_ERROR": "Não foi possível iniciar a sincronização de modelos. Por favor, Tente novamente.",
     "SEARCH_PLACEHOLDER": "Pesquisar por conteúdo ou nome...",
     "MANAGE_IN_META": "Gerenciar na Meta",
     "MANAGE_IN_TWILIO": "Gerenciar no Twilio",
@@ -15,9 +18,13 @@
     "PARTIAL_FETCH_ERROR": "Alguns modelos do WhatsApp não puderam ser carregados. Por favor, tente novamente.",
     "LAST_SYNC_ATTEMPT": "Última tentativa de sincronização em {date}",
     "MORE_INBOXES": "+{n}",
+    "STATUSES": {
+      "UNSUBMITTED": "Não enviado para aprovação do WhatsApp"
+    },
     "FILTERS": {
       "ALL_INBOXES": "Todas as caixas de entrada",
-      "ALL_LANGUAGES": "Todos os idiomas"
+      "ALL_LANGUAGES": "Todos os idiomas",
+      "ALL_TYPES": "Todos os tipos"
     },
     "TYPES": {
       "TEXT": "Texto",
@@ -40,8 +47,7 @@
       "TYPE": "Tipo de conteúdo",
       "CATEGORY": "Categoria",
       "LANGUAGE": "Idioma",
-      "INBOXES": "Caixas de Entrada",
-      "LAST_SYNC_ATTEMPT": "Última tentativa de sincronização"
+      "INBOXES": "Caixas de Entrada"
     }
   }
 }

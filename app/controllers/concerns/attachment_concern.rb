@@ -20,13 +20,20 @@ module AttachmentConcern
   private
 
   def process_attachment_action(action, record, blobs)
-    blob_id = action[:action_params].first
-    blob = ActiveStorage::Blob.find_signed(blob_id.to_s)
+    blob_ids = action[:action_params].map do |blob_id|
+      blob = ActiveStorage::Blob.find_signed(blob_id.to_s)
 
-    return action.merge(action_params: [blob.id]).tap { blobs << blob } if blob.present?
-    return action if blob_already_attached?(record, blob_id)
+      if blob.present?
+        blobs << blob
+        blob.id
+      elsif blob_already_attached?(record, blob_id)
+        blob_id
+      else
+        return nil
+      end
+    end
 
-    nil
+    action.merge(action_params: blob_ids) if blob_ids.present?
   end
 
   def blob_already_attached?(record, blob_id)

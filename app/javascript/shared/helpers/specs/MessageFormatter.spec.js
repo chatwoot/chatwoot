@@ -16,6 +16,24 @@ describe('#MessageFormatter', () => {
         '<p>Chatwoot is an opensource tool. <a href="https://www.chatwoot.com" class="link" rel="noreferrer noopener nofollow" target="_blank">https://www.chatwoot.com</a></p>'
       );
     });
+    it('keeps the hard break backslash out of a bare URL', () => {
+      const message = 'https://example.com/trip/\\\nNext line';
+      expect(new MessageFormatter(message).formattedMessage).toBe(
+        '<p><a href="https://example.com/trip/" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com/trip/</a><br />\nNext line</p>\n'
+      );
+    });
+    it('keeps trailing punctuation out of a bare URL before a hard break', () => {
+      const message = 'Book here: https://example.com/trip.\\\nThanks';
+      expect(new MessageFormatter(message).formattedMessage).toBe(
+        '<p>Book here: <a href="https://example.com/trip" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com/trip</a>.<br />\nThanks</p>\n'
+      );
+    });
+    it('keeps a backslash inside a bare URL', () => {
+      const message = 'https://example.com/a\\b';
+      expect(new MessageFormatter(message).formattedMessage).toBe(
+        '<p><a href="https://example.com/a%5Cb" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com/a\\b</a></p>\n'
+      );
+    });
     it('should not convert template variables to links when linkify is disabled', () => {
       const message = 'Hey {{customer.name}}, check https://chatwoot.com';
       const formatter = new MessageFormatter(message, false, false, false);
@@ -84,6 +102,24 @@ After`;
       expect(formatter.formattedMessage).not.toContain('<img');
       expect(formatter.formattedMessage).toContain('Before');
       expect(formatter.formattedMessage).toContain('After');
+    });
+  });
+
+  describe('user mentions', () => {
+    it('should render the mention label inside a mention node', () => {
+      const message = 'Hey [@Pranav](mention://user/1/Pranav)';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Hey <span class="prosemirror-mention-node">@Pranav</span></p>'
+      );
+    });
+
+    it('should escape HTML in the mention label', () => {
+      const message = '[<img src=x onerror="alert(1)">](mention://user/1/x)';
+      const html = new MessageFormatter(message).formattedMessage;
+      expect(html).not.toContain('<img');
+      expect(html).toMatch(
+        '<p><span class="prosemirror-mention-node">&lt;img src=x onerror=&quot;alert(1)&quot;&gt;</span></p>'
+      );
     });
   });
 

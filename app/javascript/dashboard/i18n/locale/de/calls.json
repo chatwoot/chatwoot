@@ -39,7 +39,8 @@
       "NO_AGENT": "Kein Agent hat diesen Anruf angenommen",
       "NO_CONTACT_ANSWER": "Der Kontakt hat nicht geantwortet",
       "FAILED": "Dieser Anruf konnte nicht verbunden werden",
-      "YESTERDAY": "Gestern"
+      "YESTERDAY": "Gestern",
+      "DELETED_CONTACT": "Deleted contact"
     }
   }
 }

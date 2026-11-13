@@ -148,8 +148,8 @@ const blockClass = type => {
           {{ t('HELP_CENTER.EDIT_ARTICLE_PAGE.DIFF_DIALOG.TITLE_LABEL') }}
         </span>
         <h1
+          v-dompurify-html="titleDiff"
           class="text-lg font-semibold leading-snug text-n-slate-12"
-          v-html="titleDiff"
         />
       </div>
 
@@ -160,9 +160,9 @@ const blockClass = type => {
         <div
           v-for="(block, index) in contentBlocks"
           :key="index"
+          v-dompurify-html="renderMarkdown(block.md)"
           class="px-3 py-1.5 overflow-x-auto text-sm leading-relaxed break-words border-s-[3px] rounded-e-md text-n-slate-12 prose-sm prose dark:prose-invert max-w-none [&_p]:my-0 [&>:first-child]:mt-0 [&>:last-child]:mb-0"
           :class="blockClass(block.type)"
-          v-html="renderMarkdown(block.md)"
         />
       </div>
     </div>

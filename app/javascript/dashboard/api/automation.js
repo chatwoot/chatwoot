@@ -9,6 +9,10 @@ class AutomationsAPI extends ApiClient {
   clone(automationId) {
     return axios.post(`${this.url}/${automationId}/clone`);
   }
+
+  linkedToMonitor(monitorId, signal) {
+    return axios.get(this.url, { params: { monitor_id: monitorId }, signal });
+  }
 }
 
 export default new AutomationsAPI();

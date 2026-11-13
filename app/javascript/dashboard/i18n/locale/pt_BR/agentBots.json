@@ -95,7 +95,7 @@
       },
       "WEBHOOK_URL": {
         "LABEL": "URL do Webhook",
-        "PLACEHOLDER": "https://example.com/webhook",
+        "PLACEHOLDER": "https://exemplo.com.br/webhook",
         "REQUIRED": "URL Webhook é necessária"
       },
       "ERRORS": {

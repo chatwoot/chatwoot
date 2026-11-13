@@ -1,0 +1,152 @@
+require 'rails_helper'
+
+RSpec.describe CopilotRun do
+  let(:account) { create(:account) }
+  let(:user) { create(:user, account: account) }
+  let(:thread) { create(:captain_copilot_thread, account: account, user: user) }
+  let(:message) { create(:captain_copilot_message, account: account, copilot_thread: thread) }
+  let(:turn) { CopilotRun::Turn.create!(account: account, user: user, copilot_thread: thread, copilot_message: message) }
+  let(:tool_call) { turn.tool_calls.create!(call_id: 'review-1', name: 'review_conversations') }
+  let(:collection) do
+    CopilotRun::Collection.create!(account: account, user: user, copilot_thread: thread, status: :completed,
+                                   context: { resource: 'conversations', selected_ids: [1, 2, 3, 4], as_of: Time.current.iso8601 })
+  end
+  let(:review) do
+    CopilotRun::Review.create!(account: account, user: user, copilot_thread: thread, copilot_tool_call: tool_call, source_run: collection,
+                               context: { criteria: 'Is this about billing?', turn_start: 0, turn_start_matched: 0, turn_start_failed: 0,
+                                          turn_limit: 3 })
+  end
+
+  describe 'validations' do
+    it 'refuses a status that belongs to another kind of run' do
+      expect(review.update(status: :awaiting_background_run)).to be false
+      expect(collection.update(status: :running)).to be false
+      expect(turn.update(status: :awaiting_approval)).to be false
+    end
+
+    it 'requires the details each kind of run reads' do
+      review_without_criteria = CopilotRun::Review.new(account: account, user: user, copilot_thread: thread, source_run: collection,
+                                                       context: { turn_start: 0 })
+      collection_without_date = CopilotRun::Collection.new(account: account, user: user, copilot_thread: thread, status: :completed,
+                                                           context: { resource: 'conversations' })
+      action_without_change = CopilotRun::Action.new(account: account, user: user, copilot_thread: thread, status: :awaiting_approval)
+
+      expect(review_without_criteria).not_to be_valid
+      expect(review_without_criteria.errors.attribute_names).to contain_exactly(:criteria, :turn_limit)
+      expect(collection_without_date).not_to be_valid
+      expect(collection_without_date.errors.attribute_names).to contain_exactly(:as_of)
+      expect(action_without_change).not_to be_valid
+      expect(action_without_change.errors.attribute_names).to contain_exactly(:action, :target_ids)
+    end
+
+    it 'refuses review text that is not a string, is blank or is too long, and allows leaving out question and reference' do
+      expect(review).to be_valid
+      expect(review.update(context: review.context.merge('criteria' => 42, 'question' => ' ', 'reference' => 'a' * 20_001))).to be false
+      expect(review.errors.attribute_names).to contain_exactly(:criteria, :question, :reference)
+    end
+  end
+
+  describe '#review_budget!' do
+    before { stub_const('CopilotRun::CONVERSATIONS_PER_TURN', 3) }
+
+    it 'leaves a later review in the same turn only what is left, then refuses more' do
+      review.findings.create!(conversation_id: 1, status: :screened_out)
+      review.findings.create!(conversation_id: 2, status: :reviewed)
+      review.findings.create!(conversation_id: 3, status: :awaiting_review)
+
+      expect(turn.review_budget!).to eq(1)
+
+      review.findings.find_by!(conversation_id: 3).update!(status: :failed)
+      expect { turn.review_budget! }.to raise_error(ArgumentError, /already reviewed 3 conversations/)
+    end
+
+    it 'counts a continued review only from where this turn took it' do
+      review.update!(turn_start: 2)
+      [1, 2, 3].each { |id| review.findings.create!(conversation_id: id, status: :screened_out) }
+
+      expect(turn.review_budget!).to eq(2)
+    end
+  end
+
+  describe '#claim' do
+    it 'leaves a review alone while its conversations are being reviewed' do
+      review.update!(status: :reviewing)
+
+      expect(review.claim).to be_nil
+      expect(review.reload).to be_reviewing
+    end
+  end
+
+  describe 'review progress' do
+    let(:next_turn) do
+      CopilotRun::Turn.create!(account: account, user: user, copilot_thread: thread,
+                               copilot_message: create(:captain_copilot_message, account: account, copilot_thread: thread))
+    end
+    let(:cards) { thread.copilot_messages.assistant_progress.order(:id) }
+
+    it 'updates one card per turn, and a continued review starts a new card that counts only its own turn' do
+      review.update!(status: :running)
+      review.publish_progress
+      review.findings.create!(conversation_id: 1, status: :reviewed, matched: true)
+      review.findings.create!(conversation_id: 2, status: :failed)
+      review.publish_progress
+
+      expect(cards.reload.map { |card| card.message['progress'] }).to eq(
+        [{ 'finished' => false, 'done' => 2, 'total' => 3, 'matched' => 1, 'failed' => 1 }]
+      )
+
+      review.update!(status: :incomplete)
+      review.continue_review(next_turn.tool_calls.create!(call_id: 'continue-1', name: 'continue_review'))
+      review.update!(status: :running)
+      review.publish_progress
+      expect(cards.reload.last.message['progress']).to eq('finished' => false, 'done' => 0, 'total' => 2, 'matched' => 0, 'failed' => 0)
+
+      review.findings.create!(conversation_id: 3, status: :reviewed, matched: true)
+      review.publish_progress
+      expect(cards.reload.map { |card| card.message['progress'].slice('done', 'matched', 'failed') }).to eq(
+        [{ 'done' => 2, 'matched' => 1, 'failed' => 1 }, { 'done' => 1, 'matched' => 1, 'failed' => 0 }]
+      )
+    end
+  end
+
+  describe 'stopping a turn' do
+    it 'changes nothing when a step fails, so a turn never ends while its change can still be approved' do
+      turn.update!(status: :awaiting_background_run)
+      # The change has no approval card, so rejecting it raises after the turn has been released.
+      action = CopilotRun::Action.create!(
+        account: account, user: user, copilot_thread: thread, status: :awaiting_approval,
+        copilot_tool_call: turn.tool_calls.create!(call_id: 'act-1', name: 'act'),
+        context: { action: 'add_labels', arguments: { labels: ['billing'] }, target_ids: [1], approval_message_id: 0 }
+      )
+
+      expect { turn.stop }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(turn.reload).to be_awaiting_background_run
+      expect(action.reload).to be_awaiting_approval
+      expect(message.reload.message).not_to include('status')
+    end
+  end
+
+  describe '#record_cost!' do
+    it 'adds provider costs to the user turn' do
+      turn.record_cost!(0.0123456789)
+      turn.record_cost!(0.0000000001)
+
+      expect(turn.reload.total_cost_usd).to eq(BigDecimal('0.012345679'))
+      expect(turn.cost_complete).to be true
+    end
+
+    it 'records a background review cost on the turn that started it' do
+      review.record_cost!(0.05)
+
+      expect(turn.reload.total_cost_usd).to eq(BigDecimal('0.05'))
+      expect(review.reload.total_cost_usd).to be_zero
+    end
+
+    it 'marks the total incomplete when a provider does not report cost' do
+      turn.record_cost!(nil)
+
+      expect(turn.reload.cost_complete).to be false
+      expect(turn.total_cost_usd).to be_zero
+    end
+  end
+end

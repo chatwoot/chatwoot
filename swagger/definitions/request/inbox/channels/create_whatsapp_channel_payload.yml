@@ -27,6 +27,7 @@ oneOf:
           - api_key
           - phone_number_id
           - business_account_id
+          - app_secret
         properties:
           api_key:
             type: string
@@ -40,10 +41,15 @@ oneOf:
             type: string
             description: Business account ID for WhatsApp Cloud
             example: your-business-account-id
+          app_secret:
+            type: string
+            description: App secret of your Meta app, from App settings > Basic. Used to verify incoming webhook signatures.
+            example: your-app-secret
         example:
           api_key: your-api-key
           phone_number_id: your-phone-number-id
           business_account_id: your-business-account-id
+          app_secret: your-app-secret
   - type: object
     title: Legacy 360dialog WhatsApp channel
     deprecated: true

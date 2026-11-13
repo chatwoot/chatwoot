@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Ej tillgänglig",
     "EMAIL_ADDRESS": "E-postadress",
     "PHONE_NUMBER": "Telefonnummer",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Kopierat till urklipp",
     "COMPANY": "Företag",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Det finns inga tidigare konversationer kopplade till denna kontakt.",
-      "TITLE": "Tidigare konversationer"
+      "TITLE": "Tidigare konversationer",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -460,6 +462,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

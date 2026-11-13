@@ -11,15 +11,64 @@ describe Notification::FcmService do
   end
 
   before do
+    described_class::TOKENS.clear
     allow(FCM).to receive(:new).and_return(fcm_double)
     allow(fcm_service).to receive(:generate_token).and_return(token_info)
     allow(Google::Auth::ServiceAccountCredentials).to receive(:make_creds).and_return(creds_double)
   end
 
   describe '#fcm_client' do
+    it 'fails at once for a while after a token request fails, instead of each caller retrying it' do
+      allow(fcm_service).to receive(:generate_token).and_raise(Faraday::TimeoutError)
+      other = described_class.new(project_id, credentials)
+      allow(other).to receive(:generate_token)
+
+      expect { fcm_service.fcm_client }.to raise_error(Faraday::TimeoutError)
+      expect { other.fcm_client }.to raise_error(described_class::TokenUnavailable)
+      expect(other).not_to have_received(:generate_token)
+    end
+
+    it 'gives up a token refresh that runs past its budget, retries included' do
+      stub_const('Notification::FcmService::TOKEN_REFRESH_BUDGET_SECONDS', 0.1)
+      allow(fcm_service).to receive(:generate_token).and_call_original
+      allow(creds_double).to receive(:fetch_access_token!) { sleep 1 }
+
+      started = Time.zone.now
+      expect { fcm_service.fcm_client }.to raise_error(Timeout::Error)
+      expect(Time.zone.now - started).to be < 1
+    end
+
+    it 'bounds the token request to Google by a timeout' do
+      allow(fcm_service).to receive(:generate_token).and_call_original
+
+      fcm_service.fcm_client
+
+      expect(creds_double).to have_received(:fetch_access_token!).with(
+        connection: having_attributes(options: having_attributes(timeout: described_class::TOKEN_REQUEST_TIMEOUT_SECONDS))
+      )
+    end
+
     it 'returns an FCM client' do
       expect(fcm_service.fcm_client).to eq(fcm_double)
       expect(FCM).to have_received(:new).with('test_token', anything, project_id)
+    end
+
+    it 'gives the client the cached token instead of letting it fetch one per send' do
+      client = fcm_service.fcm_client
+
+      expect(client.jwt_token).to eq('test_token')
+    end
+
+    it 'shares the token across instances in the process without writing it to the Rails cache' do
+      allow(Rails.cache).to receive(:write)
+      fcm_service.fcm_client
+      other = described_class.new(project_id, credentials)
+      allow(other).to receive(:generate_token)
+
+      other.fcm_client
+
+      expect(other).not_to have_received(:generate_token)
+      expect(Rails.cache).not_to have_received(:write)
     end
 
     it 'generates a new token if expired' do

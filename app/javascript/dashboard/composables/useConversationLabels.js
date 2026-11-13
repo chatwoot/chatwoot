@@ -38,11 +38,13 @@ export function useConversationLabels() {
   });
 
   /**
-   * Labels currently active on the conversation
+   * Labels currently active on the conversation, in the order they were applied
    * @type {import('vue').ComputedRef<Array>}
    */
   const activeLabels = computed(() =>
-    accountLabels.value.filter(({ title }) => savedLabels.value.includes(title))
+    savedLabels.value
+      .map(title => accountLabels.value.find(label => label.title === title))
+      .filter(Boolean)
   );
 
   /**

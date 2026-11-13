@@ -1,11 +1,13 @@
 <script setup>
-import { ref, computed, onMounted, reactive } from 'vue';
+import { ref, computed, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { debounce } from '@chatwoot/utils';
 import { useCompaniesStore } from 'dashboard/stores/companies';
+import { useCompaniesPaywall } from 'dashboard/composables/useCompaniesPaywall';
+import Paywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 
 import CompaniesListLayout from 'dashboard/components-next/Companies/CompaniesListLayout.vue';
 import CompaniesCard from 'dashboard/components-next/Companies/CompaniesCard/CompaniesCard.vue';
@@ -150,7 +152,9 @@ const handleSort = async ({ sort, order }) => {
   fetchCompanies(1, searchValue.value, buildSortAttr());
 };
 
-onMounted(() => {
+const { isReady, showPaywall } = useCompaniesPaywall();
+
+const loadCompanies = () => {
   searchValue.value = searchQuery.value;
 
   if (!route.query.sort && sortParam.value !== DEFAULT_SORT_FIELD) {
@@ -158,11 +162,31 @@ onMounted(() => {
   }
 
   fetchCompanies();
-});
+};
+
+watch(
+  [isReady, showPaywall],
+  ([ready, paywalled]) => {
+    if (ready && !paywalled) loadCompanies();
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
+  <section
+    v-if="showPaywall"
+    class="flex flex-col w-full h-full px-6 overflow-y-auto bg-n-surface-1"
+  >
+    <h1
+      class="w-full max-w-5xl py-6 mx-auto text-xl font-medium text-n-slate-12"
+    >
+      {{ t('COMPANIES.HEADER') }}
+    </h1>
+    <Paywall feature-prefix="COMPANIES" />
+  </section>
   <CompaniesListLayout
+    v-else
     :search-value="searchValue"
     :header-title="t('COMPANIES.HEADER')"
     :current-page="pageNumber"
@@ -176,7 +200,10 @@ onMounted(() => {
     @search="onSearch"
     @create="openCreateCompanyDialog"
   >
-    <div v-if="isFetchingList" class="flex items-center justify-center p-8">
+    <div
+      v-if="isFetchingList || !isReady"
+      class="flex items-center justify-center p-8"
+    >
       <span class="text-n-slate-11 text-base">{{
         t('COMPANIES.LOADING')
       }}</span>
@@ -189,7 +216,7 @@ onMounted(() => {
         t('COMPANIES.EMPTY_STATE.TITLE')
       }}</span>
     </div>
-    <div v-else class="flex flex-col gap-4">
+    <div v-else class="divide-y divide-n-weak">
       <CompaniesCard
         v-for="company in companies"
         :id="company.id"
@@ -199,6 +226,8 @@ onMounted(() => {
         :contacts-count="company.contactsCount || 0"
         :avatar-url="company.avatarUrl"
         :last-activity-at="company.lastActivityAt"
+        :description="company.description"
+        :additional-attributes="company.additionalAttributes"
         @show-company="showCompany"
       />
     </div>

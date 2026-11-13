@@ -10,7 +10,7 @@ RSpec.describe Enterprise::Whatsapp::IncomingMessageBaseService do
     }
   end
 
-  before { channel.account.enable_features!(:whatsapp_campaign) }
+  before { channel.account.enable_features!(:campaigns) }
 
   it 'defers a campaign status when neither a recipient nor a message is persisted yet' do
     expect do

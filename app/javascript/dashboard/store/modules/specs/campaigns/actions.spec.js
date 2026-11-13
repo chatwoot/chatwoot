@@ -15,7 +15,10 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: true }],
         [types.default.SET_CAMPAIGNS, campaignList],
-        [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: false }],
+        [
+          types.default.SET_CAMPAIGN_UI_FLAG,
+          { isFetching: false, hasFetched: true },
+        ],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -23,7 +26,10 @@ describe('#actions', () => {
       await actions.get({ commit }, { inboxId: 23 });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: true }],
-        [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: false }],
+        [
+          types.default.SET_CAMPAIGN_UI_FLAG,
+          { isFetching: false, hasFetched: true },
+        ],
       ]);
     });
   });

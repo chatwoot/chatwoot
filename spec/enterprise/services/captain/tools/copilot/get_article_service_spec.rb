@@ -18,9 +18,9 @@ RSpec.describe Captain::Tools::Copilot::GetArticleService do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'defines article_id parameter' do
-      expect(service.parameters.keys).to contain_exactly(:article_id)
+      expect(service.parameters_schema.fetch('properties').keys).to contain_exactly('article_id')
     end
   end
 

@@ -40,6 +40,7 @@ describe('#mutations', () => {
       expect(state.records).toEqual([
         {
           id: 'dialogflow',
+          enabled: true,
           hooks: [hookRecord],
         },
       ]);
@@ -73,6 +74,7 @@ describe('#mutations', () => {
       expect(state.records).toEqual([
         {
           id: 'dialogflow',
+          enabled: false,
           hooks: [],
         },
       ]);

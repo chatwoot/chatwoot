@@ -16,6 +16,7 @@ Layout/LineLength:
 Metrics/ClassLength:
   Max: 175
   Exclude:
+    - 'app/builders/messages/message_builder.rb'
     - 'app/models/message.rb'
     - 'app/models/conversation.rb'
     - 'config/initializers/rack_attack.rb'
@@ -285,6 +286,11 @@ FactoryBot/AssociationStyle:
   Enabled: false
 
 Rails/EnumSyntax:
+  Enabled: false
+
+# Rails 8 retains require/permit. Migrate to expect separately because it changes
+# request rejection semantics across every API controller.
+Rails/StrongParametersExpect:
   Enabled: false
 
 Lint/RedundantTypeConversion:

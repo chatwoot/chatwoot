@@ -4,6 +4,7 @@ operationId: create-an-integration-hook
 summary: Create an integration hook
 description: Create an integration hook
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'

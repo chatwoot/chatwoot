@@ -21,7 +21,7 @@ const props = defineProps({
 const { t } = useI18n();
 
 const iframe = useTemplateRef('iframe');
-const isLoading = ref(true);
+const isLoading = ref(!!props.url);
 const showEmptyState = ref(!props.url);
 
 const direction = computed(() => (props.isRtl ? 'rtl' : 'ltr'));

@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "שלח הודעות דחיפה כאשר נוצרת הודעה חדשה בשיחה המיועדת עבורי",
         "SLA_MISSED_FIRST_RESPONSE": "שלח התראות בדוא\"ל כאשר שיחה לא עומדת בהסכם תנאי השירות (SLA) של התגובה הראשונה",
         "SLA_MISSED_NEXT_RESPONSE": "שלח התראות בדוא\"ל כאשר שיחה לא עומדת ב-הסכם תנאי השירות (SLA) של התגובה הבאה",
-        "SLA_MISSED_RESOLUTION": "שלח התראות דוא\"ל כאשר שיחה מחמיצה SLA סגירה"
+        "SLA_MISSED_RESOLUTION": "שלח התראות דוא\"ל כאשר שיחה מחמיצה SLA סגירה",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "העדפות התראות",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "נוצרה הודעה חדשה בשיחה שבה אתה משתתף",
           "SLA_MISSED_FIRST_RESPONSE": "שיחה מחמיצה SLA תגובה ראשונה",
           "SLA_MISSED_NEXT_RESPONSE": "שיחה מחמיצה SLA תגובה הבאה",
-          "SLA_MISSED_RESOLUTION": "שיחה מחמיצה SLA סגירה"
+          "SLA_MISSED_RESOLUTION": "שיחה מחמיצה SLA סגירה",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "אפשר הודעות דחיפה",
         "SLA_MISSED_FIRST_RESPONSE": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA תגובה ראשונה",
         "SLA_MISSED_NEXT_RESPONSE": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA תגובה הבאה",
-        "SLA_MISSED_RESOLUTION": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA סגירה"
+        "SLA_MISSED_RESOLUTION": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA סגירה",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "תמונת פרופיל"
@@ -262,6 +265,10 @@
     "EMAIL_VERIFICATION_PENDING": "נראה שעדיין לא אימתת את כתובת הדוא\"ל שלך. אנא בדוק את תיבת הדואר הנכנס שלך עבור דוא\"ל האימות.",
     "RESEND_VERIFICATION_MAIL": "שלח מחדש דוא\"ל אימות",
     "EMAIL_VERIFICATION_SENT": "דוא\"ל האימות נשלח. אנא בדוק את תיבת הדואר הנכנס שלך.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "חשבון מושעה",
       "MESSAGE": "החשבון שלך מושעה. אנא פנה לצוות התמיכה לקבלת מידע נוסף.",
@@ -278,7 +285,8 @@
     "CODE": {
       "BUTTON_TEXT": "עותק",
       "CODEPEN": "פתח ב-CodePen",
-      "COPY_SUCCESSFUL": "הקוד הועתק ללוח בהצלחה"
+      "COPY_SUCCESSFUL": "הקוד הועתק ללוח בהצלחה",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "להראות יותר",
@@ -324,7 +332,7 @@
     "ACTIVE": "פעיל",
     "COMPANIES": "Companies",
     "ALL_COMPANIES": "All Companies",
-    "CAPTAIN": "קפטן",
+    "CAPTAIN": "Captain",
     "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "עוזרים",
     "CAPTAIN_OVERVIEW": "סקירה כללית",
@@ -564,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
@@ -578,6 +580,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "חיוב",
     "DESCRIPTION": "נהל את המנוי שלך כאן, שדרג את התוכנית שלך וקבל יותר עבור הצוות שלך.",
     "CURRENT_PLAN": {
@@ -585,6 +591,7 @@
       "PLAN_NOTE": "אתה רשום כעת לתוכנית **{plan}** עם רישיונות **{quantity}**",
       "SEAT_COUNT": "מספר מושבים",
       "RENEWS_ON": "מתחדש ב-",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +625,38 @@
       "BUTTON_TXT": "דבר איתנו"
     },
     "NO_BILLING_USER": "חשבון החיוב שלך מוגדר. אנא רענן את הדף ונסה שוב.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "מצב",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "מתחדש ב-",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "ממתין ל",
+        "ACTIVE": "פעיל",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "קנה עוד זיכויים",
       "MODAL_TITLE": "Buy AI Credits",
@@ -648,6 +687,7 @@
     "DESCRIPTION": "נהל את הגדרות האבטחה של חשבונך.",
     "LINK_TEXT": "למד עוד על SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

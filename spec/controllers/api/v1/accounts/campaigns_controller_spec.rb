@@ -192,6 +192,53 @@ RSpec.describe 'Campaigns API', type: :request do
     end
   end
 
+  describe 'updating a one-off campaign' do
+    let(:administrator) { create(:user, account: account, role: :administrator) }
+    let(:channel) { create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false) }
+    let(:inbox) { create(:inbox, channel: channel, account: account) }
+    let(:campaign) { create(:campaign, account: account, inbox: inbox, campaign_status: status) }
+
+    %w[processing completed].each do |campaign_status|
+      context "when #{campaign_status}" do
+        let(:status) { campaign_status }
+
+        it 'rejects edits after sending has started' do
+          original_title = campaign.title
+          patch "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
+                params: { title: 'Changed after sending' }, headers: administrator.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(campaign.reload.title).to eq(original_title)
+        end
+      end
+    end
+
+    context 'when active' do
+      let(:status) { 'active' }
+
+      it 'allows editing before sending starts' do
+        patch "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
+              params: { title: 'Updated before sending' }, headers: administrator.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(campaign.reload.title).to eq('Updated before sending')
+      end
+    end
+  end
+
+  describe 'an unavailable campaign' do
+    let(:administrator) { create(:user, account: account, role: :administrator) }
+
+    it 'returns not found for reads and edits instead of a server error' do
+      get "/api/v1/accounts/#{account.id}/campaigns/999999999", headers: administrator.create_new_auth_token
+      expect(response).to have_http_status(:not_found)
+
+      patch "/api/v1/accounts/#{account.id}/campaigns/999999999",
+            params: { title: 'Unauthorized edit' }, headers: administrator.create_new_auth_token, as: :json
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe 'DELETE /api/v1/accounts/{account.id}/campaigns/:id' do
     let(:inbox) { create(:inbox, account: account) }
     let!(:campaign) { create(:campaign, account: account, trigger_rules: { url: 'https://test.com' }) }

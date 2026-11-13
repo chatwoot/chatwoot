@@ -1,0 +1,17 @@
+<%# locals: (f:, field:, attribute: field.attribute, wide: false) -%>
+<div class="<%= class_names("grid gap-x-8 gap-y-1.5 px-5 py-4", "sm:grid-cols-[16rem_minmax(0,1fr)]" => !wide) %>" data-field>
+  <div class="text-label text-n-slate-12 sm:pt-1.5">
+    <%# A wide field holds several controls, so its label names the group and points at none of them. %>
+    <% if wide %>
+      <%= f.label attribute, for: nil %>
+    <% else %>
+      <%= f.label attribute %>
+    <% end %>
+    <% if field.required? %>
+      <span class="text-n-ruby-9" aria-hidden="true">*</span>
+    <% end %>
+  </div>
+  <div class="<%= class_names("min-w-0 text-body-main text-n-slate-12", "max-w-2xl" => !wide) %>">
+    <%= yield %>
+  </div>
+</div>

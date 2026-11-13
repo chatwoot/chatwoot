@@ -3,6 +3,7 @@ tags:
 operationId: get-inbox-label-matrix
 summary: Get inbox-label matrix report
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: |
   Get a matrix showing the count of conversations for each inbox-label combination.

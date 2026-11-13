@@ -5,6 +5,7 @@ json.certificate account_saml_settings.certificate
 json.fingerprint account_saml_settings.certificate_fingerprint
 json.idp_entity_id account_saml_settings.idp_entity_id
 json.sp_entity_id account_saml_settings.sp_entity_id
+json.metadata_url account_saml_settings.metadata_url
 json.role_mappings account_saml_settings.role_mappings || {}
 json.created_at account_saml_settings.created_at
 json.updated_at account_saml_settings.updated_at

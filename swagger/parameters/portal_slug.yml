@@ -1,0 +1,7 @@
+in: path
+name: portal_slug
+schema:
+  type: string
+required: true
+description: The slug of the portal. The numeric portal ID is not accepted.
+example: handbook

@@ -83,22 +83,15 @@ const messageClasses = computed(() => ({
     : getMessageClasses.normal,
 }));
 
-const formatPushMessage = message => {
-  if (message.startsWith(': ')) {
-    return message.slice(2);
+const messageParts = computed(() => {
+  const body = props.inboxItem?.pushMessageBody || '';
+  if (body.startsWith(': ')) {
+    return { senderLabel: '', message: body.slice(2) };
   }
 
-  return message.replace(/^([^:]+):/g, (match, name) => {
-    return `<span class="${messageClasses.value.emphasis}">${name}:</span>`;
-  });
-};
-
-const formattedMessage = computed(() => {
-  const messageContent = `<span class="${messageClasses.value.normal}">${formatPushMessage(props.inboxItem?.pushMessageBody || '')}</span>`;
-
-  return isUnread.value
-    ? `<span class="inline-flex flex-shrink-0 w-2 h-2 mb-px rounded-full bg-n-iris-10 ltr:mr-1 rtl:ml-1"></span> ${messageContent}`
-    : messageContent;
+  const match = body.match(/^[^:]+:/);
+  const senderLabel = match ? match[0] : '';
+  return { senderLabel, message: body.slice(senderLabel.length) };
 });
 
 const notificationDetails = computed(() => {
@@ -169,7 +162,22 @@ onBeforeMount(contextMenuActions.close);
         rounded-full
         class="mt-1"
       />
-      <p v-dompurify-html="formattedMessage" class="mb-0 line-clamp-2" />
+      <p class="mb-0 line-clamp-2">
+        <template v-if="isUnread">
+          <span
+            class="inline-flex flex-shrink-0 w-2 h-2 mb-px rounded-full bg-n-iris-10 ltr:mr-1 rtl:ml-1"
+          />{{ ' ' }}
+        </template>
+        <span :class="messageClasses.normal">
+          <span
+            v-if="messageParts.senderLabel"
+            :class="messageClasses.emphasis"
+          >
+            {{ messageParts.senderLabel }}
+          </span>
+          <span>{{ messageParts.message }}</span>
+        </span>
+      </p>
     </div>
     <div class="flex items-center justify-between h-6 gap-2">
       <div class="flex items-center flex-1 min-w-0 gap-1">

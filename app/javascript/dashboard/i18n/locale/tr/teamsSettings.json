@@ -96,7 +96,7 @@
         "ERROR_MESSAGE": "Ekip silinemiyor. Tekrar deneyin."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "Ekibi silmek istediğinizden emin misiniz?",
         "PLACE_HOLDER": "Onaylamak için lütfen {teamName} yazınız",
         "MESSAGE": "Ekibi silmek aynı zamanda görüşmelere atanmış ekipleri de temizler.",
         "YES": "Sil ",

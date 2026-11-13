@@ -19,9 +19,9 @@ RSpec.describe Captain::Tools::SearchDocumentationService do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'defines query parameter' do
-      expect(service.parameters.keys).to contain_exactly(:query)
+      expect(service.parameters_schema.fetch('properties').keys).to contain_exactly('query')
     end
   end
 

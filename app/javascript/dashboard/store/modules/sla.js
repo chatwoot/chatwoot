@@ -43,8 +43,9 @@ export const actions = {
       const response = await SlaAPI.create(slaObj);
       AnalyticsHelper.track(SLA_EVENTS.CREATE);
       commit(types.ADD_SLA, response.data.payload);
+      return response.data.payload;
     } catch (error) {
-      throwErrorMessage(error);
+      return throwErrorMessage(error);
     } finally {
       commit(types.SET_SLA_UI_FLAG, { isCreating: false });
     }

@@ -10,6 +10,17 @@ RSpec.describe 'MFA API', type: :request do
   let(:user) { create(:user, account: account, password: 'Test@123456') }
 
   describe 'GET /api/v1/profile/mfa' do
+    context 'with api access token authentication' do
+      it 'rejects mfa management via access token' do
+        post '/api/v1/profile/mfa',
+             headers: { api_access_token: user.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(user.reload.otp_secret).to be_nil
+      end
+    end
+
     context 'when 2FA is disabled' do
       it 'returns MFA disabled status' do
         get '/api/v1/profile/mfa',
@@ -122,7 +133,7 @@ RSpec.describe 'MFA API', type: :request do
     context 'with invalid OTP code' do
       it 'returns error message' do
         post '/api/v1/profile/mfa/verify',
-             params: { otp_code: '000000' },
+             params: { otp_code: 'invalid' },
              headers: user.create_new_auth_token,
              as: :json
 
@@ -151,6 +162,44 @@ RSpec.describe 'MFA API', type: :request do
   end
 
   describe 'DELETE /api/v1/profile/mfa' do
+    context 'when the account enforces MFA' do
+      before do
+        account.update!(enforce_mfa: true)
+        user.enable_two_factor!
+        user.update!(otp_required_for_login: true)
+        user.generate_backup_codes!
+      end
+
+      it 'refuses to disable 2FA even with valid credentials' do
+        delete '/api/v1/profile/mfa',
+               params: { password: 'Test@123456', otp_code: user.current_otp },
+               headers: user.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.enforced_cannot_disable'))
+        expect(user.reload.otp_required_for_login).to be_truthy
+      end
+
+      it 'still allows regenerating backup codes' do
+        post '/api/v1/profile/mfa/backup_codes',
+             params: { otp_code: user.current_otp },
+             headers: user.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['backup_codes'].length).to eq(10)
+      end
+
+      it 'exposes the enforced flag on show' do
+        get '/api/v1/profile/mfa',
+            headers: user.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body['enforced']).to be(true)
+      end
+    end
+
     context 'when 2FA is enabled' do
       before do
         user.enable_two_factor!
@@ -196,7 +245,7 @@ RSpec.describe 'MFA API', type: :request do
       context 'with invalid OTP' do
         it 'returns error message' do
           delete '/api/v1/profile/mfa',
-                 params: { password: 'Test@123456', otp_code: '000000' },
+                 params: { password: 'Test@123456', otp_code: 'invalid' },
                  headers: user.create_new_auth_token,
                  as: :json
 
@@ -264,7 +313,7 @@ RSpec.describe 'MFA API', type: :request do
       context 'with invalid OTP' do
         it 'returns error message' do
           post '/api/v1/profile/mfa/backup_codes',
-               params: { otp_code: '000000' },
+               params: { otp_code: 'invalid' },
                headers: user.create_new_auth_token,
                as: :json
 
