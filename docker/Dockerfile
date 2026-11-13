@@ -120,6 +120,9 @@ ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
+# Ruby 3.4.4 ships net-imap 0.5.8 as a bundled gem, which has known CVEs
+# (e.g. CVE-2026-42257). The app loads net-imap from Gemfile.lock via Bundler,
+# so remove the unused vulnerable copy from Ruby's own gem directory.
 RUN apk update && apk add --no-cache \
   build-base \
   openssl \
@@ -128,7 +131,8 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
-  && gem install bundler -v "$BUNDLER_VERSION"
+  && gem install bundler -v "$BUNDLER_VERSION" \
+  && gem uninstall --install-dir "$(ruby -e 'print Gem.default_dir')" --all --executables --ignore-dependencies net-imap
 
 # Restrict libvips to its trusted image loaders when generating variants
 ENV VIPS_BLOCK_UNTRUSTED=1
