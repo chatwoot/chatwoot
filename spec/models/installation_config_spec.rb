@@ -7,6 +7,12 @@ RSpec.describe InstallationConfig do
 
   it { is_expected.to validate_presence_of(:name) }
 
+  it 'rejects an unsupported Instagram login method' do
+    config = described_class.new(name: 'INSTAGRAM_LOGIN_METHOD', value: 'facebook_login')
+    expect(config).not_to be_valid
+    expect(config.errors[:value]).to be_present
+  end
+
   describe 'new record defaults' do
     it 'initializes serialized_value with indifferent access' do
       expect(installation_config.serialized_value).to eq({}.with_indifferent_access)

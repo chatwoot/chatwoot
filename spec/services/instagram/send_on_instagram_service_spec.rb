@@ -50,6 +50,19 @@ describe Instagram::SendOnInstagramService do
   end
 
   describe '#perform' do
+    it 'sends Unified Login messages through the Instagram account on Facebook Graph' do
+      instagram_channel.update!(auth_type: 'unified_login', expires_at: nil)
+      message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+      request = stub_request(:post, 'https://graph.facebook.com/v22.0/instagram-message-id-123/messages')
+                .with(query: { access_token: instagram_channel.access_token })
+                .to_return(body: { message_id: 'unified-message' }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      described_class.new(message: message).perform
+
+      expect(request).to have_been_requested.once
+      expect(message.reload.source_id).to eq('unified-message')
+    end
+
     context 'with reply' do
       before do
         allow(HTTParty).to receive(:post).and_return(mock_response)

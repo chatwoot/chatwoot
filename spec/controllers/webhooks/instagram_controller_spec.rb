@@ -16,7 +16,8 @@ RSpec.describe 'Webhooks::InstagramController', type: :request do
   end
 
   before do
-    InstallationConfig.where(name: %w[FB_APP_SECRET IG_VERIFY_TOKEN INSTAGRAM_APP_SECRET INSTAGRAM_VERIFY_TOKEN]).delete_all
+    InstallationConfig.where(name: %w[FB_APP_SECRET IG_VERIFY_TOKEN INSTAGRAM_APP_SECRET INSTAGRAM_UNIFIED_APP_SECRET
+                                      INSTAGRAM_VERIFY_TOKEN]).delete_all
     GlobalConfig.clear_cache
   end
 
@@ -84,6 +85,15 @@ RSpec.describe 'Webhooks::InstagramController', type: :request do
       )
 
       expect(response).to have_http_status(:success)
+    end
+
+    it 'accepts the separate Unified Login Meta app secret' do
+      allow(Webhooks::InstagramEventsJob).to receive(:perform_later)
+      secret = 'unified-app-secret'
+      post_instagram_webhook(body, signature: signature_for(body, secret), env: { INSTAGRAM_UNIFIED_APP_SECRET: secret })
+
+      expect(response).to have_http_status(:success)
+      expect(Webhooks::InstagramEventsJob).to have_received(:perform_later)
     end
 
     it 'returns unauthorized when signature is missing' do

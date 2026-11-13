@@ -11,14 +11,18 @@
       <% @allowed_configs.each do |key| %>
         <% config = @installation_configs[key] || {} %>
         <% field_id = "app_config_#{key}" %>
-        <div class="<%= class_names("grid gap-x-8 gap-y-1.5 px-5 py-4", "sm:grid-cols-2" => config['type'] != 'code') %>">
+        <% login_method = config['instagram_login_method'] %>
+        <% visible = login_method.blank? || login_method == @app_config['INSTAGRAM_LOGIN_METHOD'] %>
+        <div data-instagram-login-method="<%= login_method %>"
+             class="<%= class_names("gap-x-8 gap-y-1.5 px-5 py-4", "grid" => visible, "hidden" => !visible,
+                                    "sm:grid-cols-2" => config['type'] != 'code') %>">
           <div class="text-label text-n-slate-12">
             <%= form.label "app_config[#{key}]", config['display_title'] || key, for: field_id %>
             <% if config['description'].present? %>
               <p class="mt-0.5 max-w-xl text-label-small text-n-slate-11"><%= config['description'] %></p>
             <% end %>
           </div>
-          <div class="min-w-0">
+          <fieldset class="min-w-0" <%= 'disabled' unless visible %>>
             <% if config['type'] == 'boolean' %>
               <%= form.select "app_config[#{key}]",
                               [["True", true], ["False", false]],
@@ -50,7 +54,7 @@
             <% else %>
               <%= form.text_field "app_config[#{key}]", value: @app_config[key], id: field_id, class: ui(:input) %>
             <% end %>
-          </div>
+          </fieldset>
         </div>
       <% end %>
 

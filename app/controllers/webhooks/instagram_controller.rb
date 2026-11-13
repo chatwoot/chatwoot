@@ -50,6 +50,7 @@ class Webhooks::InstagramController < ActionController::API
     [
       *instagram_channel_meta_app_secrets,
       GlobalConfigService.load('INSTAGRAM_APP_SECRET', nil),
+      GlobalConfigService.load('INSTAGRAM_UNIFIED_APP_SECRET', nil),
       GlobalConfigService.load('FB_APP_SECRET', nil)
     ]
   end

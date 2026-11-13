@@ -55,6 +55,9 @@
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "SELECT_ACCOUNT": "Choose an Instagram account",
+        "CONNECT_ACCOUNT": "Connect account",
+        "START_AGAIN": "Start again",
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",

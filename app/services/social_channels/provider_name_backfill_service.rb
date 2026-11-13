@@ -122,12 +122,20 @@ class SocialChannels::ProviderNameBackfillService
   def fetch_provider_name(provider_name, channel)
     case provider_name
     when :instagram
-      Instagram::UserDetailsService.new(access_token: channel.access_token).perform['username']
+      instagram_provider_name(channel)
     when :tiktok
       Tiktok::Client.new(business_id: channel.business_id, access_token: channel.validated_access_token)
                     .business_account_details[:username]
     when :facebook
       Facebook::PageDetailsService.new(access_token: channel.page_access_token).perform[:provider_name]
+    end
+  end
+
+  def instagram_provider_name(channel)
+    if channel.unified_login?
+      Instagram::UnifiedLoginService.new(access_token: channel.access_token).account_details(channel.instagram_id).fetch('username')
+    else
+      Instagram::UserDetailsService.new(access_token: channel.access_token).perform['username']
     end
   end
 
