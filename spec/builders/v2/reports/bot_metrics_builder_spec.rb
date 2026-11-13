@@ -8,8 +8,10 @@ RSpec.describe V2::Reports::BotMetricsBuilder do
   let(:until_time) { Time.now.to_i.to_s }
   let(:params) { { since: since, until: until_time } }
 
+  let(:agent_bot) { create(:agent_bot, account: inbox.account) }
+
   before do
-    create(:agent_bot_inbox, inbox: inbox)
+    create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
   end
 
   describe '#metrics' do
@@ -18,7 +20,8 @@ RSpec.describe V2::Reports::BotMetricsBuilder do
       let!(:handoff_conversation) { create(:conversation, account: inbox.account, inbox: inbox, created_at: 2.days.ago) }
 
       before do
-        create(:message, account: inbox.account, conversation: resolved_conversation, created_at: 2.days.ago, message_type: 'outgoing')
+        create(:message, account: inbox.account, conversation: resolved_conversation, created_at: 2.days.ago, message_type: 'outgoing',
+                         sender: agent_bot)
         create(:reporting_event, account_id: inbox.account.id, name: 'conversation_bot_resolved',
                                  conversation_id: resolved_conversation.id, created_at: 2.days.ago)
         create(:reporting_event, account_id: inbox.account.id, name: 'conversation_bot_handoff',
@@ -32,6 +35,32 @@ RSpec.describe V2::Reports::BotMetricsBuilder do
         expect(metrics[:message_count]).to eq(1)
         expect(metrics[:resolution_rate]).to eq(50)
         expect(metrics[:handoff_rate]).to eq(50)
+      end
+    end
+
+    context 'when counting messages' do
+      let(:conversation) { create(:conversation, account: inbox.account, inbox: inbox, created_at: 2.days.ago) }
+      let(:agent) { create(:user, account: inbox.account) }
+
+      it 'counts public messages sent by an agent bot' do
+        create(:message, account: inbox.account, conversation: conversation, created_at: 2.days.ago, message_type: 'outgoing', sender: agent_bot)
+
+        expect(bot_metrics_builder.metrics[:message_count]).to eq(1)
+      end
+
+      it 'does not count replies sent by a human agent' do
+        create(:message, account: inbox.account, conversation: conversation, created_at: 2.days.ago, message_type: 'outgoing', sender: agent)
+
+        expect(bot_metrics_builder.metrics[:message_count]).to eq(0)
+      end
+
+      it 'does not count private notes' do
+        create(:message, account: inbox.account, conversation: conversation, created_at: 2.days.ago, message_type: 'outgoing', sender: agent,
+                         private: true)
+        create(:message, account: inbox.account, conversation: conversation, created_at: 2.days.ago, message_type: 'outgoing', sender: agent_bot,
+                         private: true)
+
+        expect(bot_metrics_builder.metrics[:message_count]).to eq(0)
       end
     end
 
