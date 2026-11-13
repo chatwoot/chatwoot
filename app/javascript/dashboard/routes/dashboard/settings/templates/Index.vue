@@ -7,7 +7,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
-import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
+import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM, getInboxDisplayName } from 'dashboard/helper/inbox';
 import InboxesAPI from 'dashboard/api/inboxes';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -92,7 +92,7 @@ const inboxOptions = computed(() => [
   },
   ...whatsappInboxes.value.map(inbox => ({
     value: String(inbox.id),
-    label: inbox.name,
+    label: getInboxDisplayName(inbox),
   })),
 ]);
 

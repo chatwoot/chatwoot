@@ -7,6 +7,7 @@ import { FormKit } from '@formkit/vue';
 import { useBranding } from 'shared/composables/useBranding';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 export default {
   components: {
@@ -48,7 +49,7 @@ export default {
           }
           return !this.connectedDialogflowInboxIds.includes(inbox.id);
         })
-        .map(inbox => ({ label: inbox.name, value: inbox.id }));
+        .map(inbox => ({ label: getInboxDisplayName(inbox), value: inbox.id }));
     },
 
     connectedDialogflowInboxIds() {
