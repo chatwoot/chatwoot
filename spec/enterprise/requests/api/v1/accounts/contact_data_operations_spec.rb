@@ -8,13 +8,16 @@ RSpec.describe 'Contact manager data operations', type: :request do
 
   before { create(:account_user, user: agent, account: account, role: :agent, custom_role: custom_role) }
 
-  it 'allows contact CSV imports but hides integration imports' do
+  it 'allows CSV and exports but hides integration imports' do
     account.enable_features!('data_import')
     create(:data_import, :intercom, account: account, status: :completed)
     get "/api/v1/accounts/#{account.id}/data_imports", headers: headers
     expect(response).to have_http_status(:ok)
     expect(response.parsed_body['payload']).to be_empty
     expect(response.parsed_body['integration_imports_enabled']).to be(false)
+
+    post "/api/v1/accounts/#{account.id}/data_exports", headers: headers, params: {}, as: :json
+    expect(response).to have_http_status(:ok)
 
     file = fixture_file_upload(Rails.root.join('spec/assets/contacts.csv'), 'text/csv')
     post "/api/v1/accounts/#{account.id}/data_imports", headers: headers, params: { source_provider: 'csv', import_file: file }
@@ -23,5 +26,22 @@ RSpec.describe 'Contact manager data operations', type: :request do
     post "/api/v1/accounts/#{account.id}/data_imports", headers: headers,
                                                         params: { source_provider: 'intercom', access_token: 'test' }, as: :json
     expect(response).to have_http_status(:unauthorized)
+  end
+
+  it 'reports permission loss when a custom role loses contact access during an export' do
+    create(:contact, account: account, email: 'person@example.com')
+    post "/api/v1/accounts/#{account.id}/data_exports", headers: headers, params: {}, as: :json
+    expect(response).to have_http_status(:ok)
+    record = account.data_exports.find(response.parsed_body['id'])
+    job = DataExports::ContactsJob.new
+    allow(job).to receive(:write_batch).and_wrap_original do |method, *args|
+      method.call(*args)
+      custom_role.update!(permissions: [])
+    end
+
+    expect { job.perform(record, record.active_run_id) }.to raise_error(Pundit::NotAuthorizedError)
+    expect(record.reload).to be_failed
+    expect(record.error_message).to eq('The requesting user no longer has export access.')
+    expect(record.export_file).not_to be_attached
   end
 end
