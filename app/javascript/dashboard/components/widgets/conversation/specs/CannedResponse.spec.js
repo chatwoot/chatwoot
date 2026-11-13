@@ -6,16 +6,20 @@ import CannedResponse from '../CannedResponse.vue';
 
 const markup = '<form><input name=field></form><img src=x>';
 
-const mountPicker = ({ searchKey = '', contactName = 'Jane Doe' } = {}) => {
+const greeting = {
+  id: 1,
+  short_code: 'greet',
+  content: 'Hello {{contact.name}}, thanks for writing in.',
+};
+
+const mountPicker = ({
+  searchKey = '',
+  contactName = 'Jane Doe',
+  cannedResponses = [greeting],
+} = {}) => {
   const store = createStore({
     getters: {
-      getCannedResponses: () => [
-        {
-          id: 1,
-          short_code: 'greet',
-          content: 'Hello {{contact.name}}, thanks for writing in.',
-        },
-      ],
+      getCannedResponses: () => cannedResponses,
       getUIFlags: () => ({ fetchingList: false }),
       'accounts/isRTL': () => false,
     },
@@ -45,6 +49,20 @@ describe('CannedResponse', () => {
       'Hello Jane Doe, thanks for writing in.'
     );
   });
+
+  it.each(['', 'reply'])(
+    'renders at most 50 matching responses (search: "%s")',
+    searchKey => {
+      const cannedResponses = Array.from({ length: 60 }, (_, index) => ({
+        id: index + 1,
+        short_code: `reply${index}`,
+        content: `Reply number ${index}`,
+      }));
+      const wrapper = mountPicker({ searchKey, cannedResponses });
+
+      expect(wrapper.findAll('li[role="option"]')).toHaveLength(50);
+    }
+  );
 
   it.each(['', 'hello'])(
     'renders markup in variable values as text (search: "%s")',
