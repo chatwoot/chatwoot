@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 const props = defineProps({
   busiestDay: {
@@ -10,11 +11,14 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const assetUrl = useAssetUrl();
 
-const coffeeImage =
-  '/assets/images/dashboard/year-in-review/third-frame-coffee.png';
-const doubleQuotesImage =
-  '/assets/images/dashboard/year-in-review/double-quotes.png';
+const coffeeImage = assetUrl(
+  '/assets/images/dashboard/year-in-review/third-frame-coffee.png'
+);
+const doubleQuotesImage = assetUrl(
+  '/assets/images/dashboard/year-in-review/double-quotes.png'
+);
 
 const performanceHelperText = computed(() => {
   const count = props.busiestDay.count;

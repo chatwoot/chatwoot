@@ -1,8 +1,12 @@
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
+
+const assetUrl = useAssetUrl();
+
 export const IMPORT_SOURCES = [
   {
     value: 'intercom',
     label: 'Intercom',
-    icon: '/dashboard/images/integrations/intercom.png',
+    icon: assetUrl('/dashboard/images/integrations/intercom.png'),
   },
   {
     value: 'freshdesk',
