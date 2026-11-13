@@ -124,6 +124,23 @@ RSpec.describe 'Shopify Integration API', type: :request do
         expect(response).to have_http_status(:not_found)
         expect(shopify_client).not_to have_received(:get)
       end
+
+      it 'searches Shopify with Brazil phone candidates when contact has Brazil mobile number' do
+        brazil_contact = create(:contact, account: account, email: 'brazil@example.com', phone_number: '+5511988887777')
+        expected_query = 'email:brazil@example.com OR phone:+5511988887777 OR phone:+551188887777 OR phone:5511988887777 OR phone:551188887777'
+
+        allow(shopify_client).to receive(:get).with(
+          path: 'customers/search.json',
+          query: { query: expected_query, fields: 'id,email,phone' }
+        ).and_return(customers_response)
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: brazil_contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:ok)
+      end
       # rubocop:enable RSpec/AnyInstance
     end
 

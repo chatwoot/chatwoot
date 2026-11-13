@@ -2,8 +2,33 @@
 # Currently supports Brazil, Argentina, and Mexico phone number format variations
 # Supports both WhatsApp Cloud API and Twilio WhatsApp providers
 class Whatsapp::PhoneNumberNormalizationService
-  def initialize(inbox)
+  def initialize(inbox = nil)
     @inbox = inbox
+  end
+
+  def self.phone_number_candidates(phone_number)
+    return [] if phone_number.blank?
+
+    raw_phone = phone_number.to_s
+    clean_number = raw_phone.delete_prefix('+').gsub(/\D/, '')
+    normalizer = NORMALIZERS.map(&:new).find { |n| n.handles_country?(clean_number) }
+    return [phone_number] unless normalizer
+
+    variants = normalizer.variants(clean_number)
+    candidates = variants.map { |v| "+#{v}" } + variants
+    ([phone_number] + candidates).uniq
+  end
+
+  def self.normalize(phone_number)
+    return phone_number if phone_number.blank?
+
+    raw_phone = phone_number.to_s
+    clean_number = raw_phone.delete_prefix('+').gsub(/\D/, '')
+    normalizer = NORMALIZERS.map(&:new).find { |n| n.handles_country?(clean_number) }
+    return phone_number unless normalizer
+
+    normalized = normalizer.normalize(clean_number)
+    raw_phone.start_with?('+') ? "+#{normalized}" : normalized
   end
 
   # @param raw_number [String] The phone number in provider-specific format

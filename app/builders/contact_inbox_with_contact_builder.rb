@@ -108,7 +108,8 @@ class ContactInboxWithContactBuilder
   end
 
   def find_contact_by_phone_numbers
-    phone_numbers = [contact_attributes[:phone_number], *Array(contact_attributes[:phone_number_candidates])].compact_blank.uniq
+    raw_numbers = [contact_attributes[:phone_number], *Array(contact_attributes[:phone_number_candidates])].compact_blank.uniq
+    phone_numbers = raw_numbers.flat_map { |phone| Whatsapp::PhoneNumberNormalizationService.phone_number_candidates(phone) }.uniq
 
     phone_numbers.each do |phone_number|
       contact = account.contacts.find_by(phone_number: phone_number)
