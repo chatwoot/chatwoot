@@ -208,6 +208,36 @@ describe('#mutations', () => {
       ]);
       expect(emitter.emit).not.toHaveBeenCalled();
     });
+
+    it.each([
+      ['delivered', 'sent', 'delivered'],
+      ['read', 'sent', 'read'],
+      ['delivered', 'progress', 'delivered'],
+      ['sent', 'delivered', 'delivered'],
+      ['sent', 'failed', 'failed'],
+      ['failed', 'progress', 'progress'],
+    ])(
+      'with stored status %s and incoming status %s, keeps %s',
+      (storedStatus, incomingStatus, expectedStatus) => {
+        const state = {
+          allConversations: [
+            {
+              id: 1,
+              messages: [{ id: 5, conversation_id: 1, status: storedStatus }],
+            },
+          ],
+          selectedChatId: 1,
+        };
+        mutations[types.ADD_MESSAGE](state, {
+          id: 5,
+          conversation_id: 1,
+          status: incomingStatus,
+        });
+        expect(state.allConversations[0].messages[0].status).toBe(
+          expectedStatus
+        );
+      }
+    );
   });
 
   describe('#CHANGE_CONVERSATION_STATUS', () => {
