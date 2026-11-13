@@ -1,6 +1,8 @@
 import { initializeCommandBar } from '../superadmin/commandBar';
+import { initializeInstagramLoginSettings } from '../superadmin/instagramLoginSettings';
 
 // This module is deferred, so the document is already parsed when it runs.
+initializeInstagramLoginSettings();
 
 const swapIcons = button =>
   button.querySelectorAll('span').forEach(icon => {

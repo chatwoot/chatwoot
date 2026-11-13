@@ -13,6 +13,7 @@ RSpec.describe Instagram::CallbacksController do
 
   before do
     allow(controller).to receive(:verify_instagram_token).and_return(account.id)
+    allow(controller).to receive(:instagram_token_inbox_id).and_return(nil)
     allow(controller).to receive(:instagram_client).and_return(oauth_client)
     allow(controller).to receive(:base_url).and_return('https://app.chatwoot.com')
     allow(controller).to receive(:account).and_return(account)
@@ -35,9 +36,117 @@ RSpec.describe Instagram::CallbacksController do
   end
 
   describe '#show' do
+    context 'with Unified Login state' do
+      around do |example|
+        with_modified_env(ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: 'primary', ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: 'deterministic',
+                          ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: 'salt') { example.run }
+      end
+
+      before do
+        allow(controller).to receive(:instagram_token_configuration_id).and_return('config1')
+        allow(Instagram::UnifiedLoginService).to receive(:credentials).and_return(client_id: 'meta_app', client_secret: 'meta_secret')
+        stub_request(:get, 'https://graph.facebook.com/v22.0/oauth/access_token')
+          .with(query: hash_including(code: 'valid_code', redirect_uri: 'https://app.chatwoot.com/instagram/callback'))
+          .to_return(body: { access_token: 'system_token' }.to_json)
+        stub_request(:get, 'https://graph.facebook.com/v22.0/me/assigned_instagram_accounts')
+          .with(query: { fields: 'id,username', limit: 100 }, headers: { 'Authorization' => 'Bearer system_token' })
+          .to_return(body: { data: [{ id: '12345', username: 'test_user' }, { id: '67890', username: 'second_user' }] }.to_json)
+      end
+
+      it 'keeps credentials on the server and lets the administrator select an account' do
+        expect { get :show, params: valid_params }.not_to change(Inbox, :count)
+        location = URI(response.location)
+        query = Rack::Utils.parse_query(location.query)
+        expect(location.path).to eq("/app/accounts/#{account.id}/settings/inboxes/new/instagram")
+        expect(query.fetch('connection_token')).to match(/\A[0-9a-f]{64}\z/)
+        expect(response.location).not_to include('system_token')
+        connection = Instagram::PendingConnection.new(account: account, token: query.fetch('connection_token'))
+        expect(connection.accounts.pluck('id')).to eq(%w[12345 67890])
+      end
+
+      it 'only offers the original Instagram account when reconnecting' do
+        channel = create(:channel_instagram, account: account, instagram_id: '12345')
+        allow(controller).to receive(:instagram_token_inbox_id).and_return(channel.inbox.id)
+        expect { get :show, params: valid_params }.not_to change(Inbox, :count)
+        query = Rack::Utils.parse_query(URI(response.location).query)
+        connection = Instagram::PendingConnection.new(account: account, token: query.fetch('connection_token'))
+        expect(connection.accounts.pluck('id')).to eq(['12345'])
+      end
+
+      it 'rejects a different Instagram account when reconnecting without creating an inbox' do
+        channel = create(:channel_instagram, account: account, instagram_id: 'original')
+        allow(controller).to receive(:instagram_token_inbox_id).and_return(channel.inbox.id)
+        expect { get :show, params: valid_params }.not_to change(Inbox, :count)
+        query = Rack::Utils.parse_query(URI(response.location).query)
+        expect(query['error_message']).to eq(I18n.t('instagram.wrong_account'))
+        expect(query['error_type']).to eq('Instagram::ConnectionError')
+        expect(channel.reload[:access_token]).not_to eq('system_token')
+      end
+    end
+
+    context 'with expired signed state' do
+      before do
+        allow(controller).to receive(:verify_instagram_token).and_call_original
+        allow(controller).to receive(:client_secret).and_return('state_secret')
+      end
+
+      it 'redirects an expired legacy connection to the retry page without exchanging its code' do
+        state = JWT.encode({ sub: account.id, exp: 1.minute.ago.to_i }, 'state_secret', 'HS256')
+        expect(auth_code_object).not_to receive(:get_token)
+        get :show, params: { code: 'valid_code', state: state }
+        expected_url = app_new_instagram_inbox_url(
+          account_id: account.id, error_type: 'authorization_expired', code: 400,
+          error_message: I18n.t('instagram.authorization_expired')
+        )
+        expect(response).to redirect_to(expected_url)
+      end
+
+      it 'does not use the account ID from a state with an invalid signature' do
+        state = JWT.encode({ sub: account.id, exp: 1.minute.ago.to_i }, 'wrong_secret', 'HS256')
+        expect(auth_code_object).not_to receive(:get_token)
+        get :show, params: { code: 'valid_code', state: state }
+        expect(response).to have_http_status(:bad_request)
+      end
+
+      it 'does not exchange an expired Unified Login code' do
+        state = JWT.encode({ sub: account.id, exp: 1.minute.ago.to_i, configuration_id: 'config1' }, 'state_secret', 'HS256')
+        expect(Instagram::UnifiedLoginService).not_to receive(:new)
+        get :show, params: { code: 'valid_code', state: state }
+        expect(response).to have_http_status(:redirect)
+        expect(Rack::Utils.parse_query(URI(response.location).query)['error_message']).to eq(I18n.t('instagram.authorization_expired'))
+      end
+    end
+
+    it 'rejects invalid state before exchanging an authorization code' do
+      allow(controller).to receive(:verify_instagram_token).and_return(nil)
+      expect(auth_code_object).not_to receive(:get_token)
+      get :show, params: valid_params
+      expect(response).to have_http_status(:bad_request)
+    end
+
     context 'when authorization is successful' do
       before do
         allow(auth_code_object).to receive(:get_token).and_return(access_token)
+      end
+
+      it 'rejects the wrong account when reconnecting through Instagram Login' do
+        channel = create(:channel_instagram, account: account, instagram_id: 'original')
+        old_token = channel[:access_token]
+        allow(controller).to receive(:instagram_token_inbox_id).and_return(channel.inbox.id)
+        expect { get :show, params: valid_params }.not_to change(Inbox, :count)
+        expect(channel.reload[:access_token]).to eq(old_token)
+        expect(Rack::Utils.parse_query(URI(response.location).query)['error_message']).to eq(I18n.t('instagram.wrong_account'))
+        expect(Rack::Utils.parse_query(URI(response.location).query)['error_type']).to eq('Instagram::ConnectionError')
+      end
+
+      it 'does not switch an existing Unified Login inbox through Instagram Login creation' do
+        channel = create(:channel_instagram, account: account, instagram_id: '12345', auth_type: 'unified_login')
+        old_token = channel[:access_token]
+
+        expect { get :show, params: valid_params }.not_to change(Inbox, :count)
+        expect(channel.reload).to be_unified_login
+        expect(channel[:access_token]).to eq(old_token)
+        expect(Rack::Utils.parse_query(URI(response.location).query)['error_message']).to eq(I18n.t('instagram.existing_login_method'))
       end
 
       it 'creates instagram channel and inbox' do
@@ -57,6 +166,7 @@ RSpec.describe Instagram::CallbacksController do
       it 'updates existing channel with new token' do
         existing_channel = create(:channel_instagram, account: account, instagram_id: '12345', access_token: 'old_token')
         existing_channel.inbox.update!(name: 'Custom Inbox Name')
+        allow(controller).to receive(:instagram_token_inbox_id).and_return(existing_channel.inbox.id)
 
         expect do
           get :show, params: valid_params

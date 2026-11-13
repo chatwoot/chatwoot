@@ -16,6 +16,42 @@ RSpec.describe Channel::Instagram do
     expect(channel.name).to eq('Instagram')
   end
 
+  it 'keeps the existing length limit for Instagram Login tokens' do
+    channel = build(:channel_instagram, account: create(:account), access_token: 'a' * 256)
+    expect(channel).not_to be_valid
+    expect(channel.errors[:access_token]).to be_present
+  end
+
+  context 'with Unified Login' do
+    let(:channel) { build(:channel_instagram, account: create(:account), auth_type: 'unified_login', access_token: 'system_token', expires_at: nil) }
+
+    it 'returns the non-expiring token without attempting an Instagram refresh' do
+      expect(Instagram::RefreshOauthTokenService).not_to receive(:new)
+      expect(channel.access_token).to eq('system_token')
+      expect(channel.base_uri).to eq('https://graph.facebook.com/v22.0')
+    end
+
+    it 'does not return an expired system user token' do
+      channel.expires_at = 1.minute.ago
+      expect(channel.access_token).to be_nil
+    end
+
+    it 'accepts long system-user tokens while retaining a bounded length validation' do
+      channel.access_token = 'a' * 1500
+      expect(channel).to be_valid
+      channel.access_token = 'a' * (ApplicationRecord::MAX_TEXT_COLUMN_LENGTH + 1)
+      expect(channel).not_to be_valid
+      expect(channel.errors[:access_token]).to be_present
+    end
+
+    it 'unsubscribes using the correct Graph host' do
+      request = stub_request(:delete, "#{channel.base_uri}/#{channel.instagram_id}/subscribed_apps")
+                .with(query: { access_token: 'system_token' }).to_return(body: { success: true }.to_json)
+      channel.unsubscribe
+      expect(request).to have_been_requested.once
+    end
+  end
+
   describe 'concerns' do
     it_behaves_like 'reauthorizable'
 

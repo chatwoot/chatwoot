@@ -3,6 +3,8 @@ class Instagram::CallbacksController < ApplicationController
   include Instagram::IntegrationHelper
 
   def show
+    return handle_invalid_state if account_id.blank?
+
     # Check if Instagram redirected with an error (user canceled authorization)
     # See: https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#canceled-authorization
     if params[:error].present?
@@ -10,7 +12,7 @@ class Instagram::CallbacksController < ApplicationController
       return
     end
 
-    process_successful_authorization
+    instagram_token_configuration_id(params[:state]).present? ? process_unified_authorization : process_successful_authorization
   rescue CustomExceptions::Inbox::LimitExceeded => e
     handle_limit_error(e)
   rescue StandardError => e
@@ -18,6 +20,36 @@ class Instagram::CallbacksController < ApplicationController
   end
 
   private
+
+  def handle_invalid_state
+    expired_account_id = instagram_expired_token_account_id(params[:state])
+    return head :bad_request if expired_account_id.blank?
+
+    redirect_to app_new_instagram_inbox_url(
+      account_id: expired_account_id, error_type: 'authorization_expired', code: 400,
+      error_message: I18n.t('instagram.authorization_expired')
+    )
+  end
+
+  def process_unified_authorization
+    token_response = Instagram::UnifiedLoginService.new.exchange_code(oauth_code, "#{base_url}/instagram/callback")
+    connection_token = Instagram::PendingConnection.create(
+      account_id: account_id, token_response: token_response, accounts: unified_accounts(token_response.fetch('access_token')),
+      configuration_id: instagram_token_configuration_id(params[:state]), return_to: return_to, inbox_id: reauthorization_inbox&.id
+    )
+    redirect_to app_new_instagram_inbox_url(account_id: account_id, connection_token: connection_token)
+  end
+
+  def unified_accounts(access_token)
+    accounts = Instagram::UnifiedLoginService.new(access_token: access_token).accounts
+    raise Instagram::UnifiedLoginService::Error, I18n.t('instagram.no_accounts') if accounts.empty?
+    return accounts unless reauthorization_inbox
+
+    accounts.select! { |item| item.fetch('id') == reauthorization_inbox.channel.instagram_id }
+    raise Instagram::ConnectionError, I18n.t('instagram.wrong_account') if accounts.empty?
+
+    accounts
+  end
 
   # Process the authorization code and create inbox
   def process_successful_authorization
@@ -63,7 +95,7 @@ class Instagram::CallbacksController < ApplicationController
       begin
         # Instagram returns JSON error response which we parse to extract error details
         JSON.parse(error.message)
-      rescue JSON::ParseError
+      rescue JSON::ParserError
         # Fall back to a generic OAuth error if JSON parsing fails
         { 'error_type' => 'OAuthException', 'code' => 400, 'error_message' => error.message }
       end
@@ -101,7 +133,11 @@ class Instagram::CallbacksController < ApplicationController
 
   def find_or_create_inbox
     user_details = fetch_instagram_user_details(@long_lived_token_response['access_token'])
-    channel_instagram = find_channel_by_instagram_id(user_details['user_id'].to_s)
+    if reauthorization_inbox && reauthorization_inbox.channel.instagram_id != user_details['user_id'].to_s
+      raise Instagram::ConnectionError, I18n.t('instagram.wrong_account')
+    end
+
+    channel_instagram = reauthorization_inbox&.channel || find_channel_by_instagram_id(user_details['user_id'].to_s)
     channel_exists = channel_instagram.present?
 
     if channel_instagram
@@ -122,11 +158,15 @@ class Instagram::CallbacksController < ApplicationController
   end
 
   def update_channel(channel_instagram, user_details)
+    raise Instagram::ConnectionError, I18n.t('instagram.existing_login_method') if channel_instagram.unified_login?
+
     expires_at = Time.current + @long_lived_token_response['expires_in'].seconds
 
     channel_instagram.update!(
       access_token: @long_lived_token_response['access_token'],
       expires_at: expires_at,
+      auth_type: 'instagram_login',
+      configuration_id: nil,
       provider_name: user_details['username']
     )
 
@@ -171,6 +211,11 @@ class Instagram::CallbacksController < ApplicationController
 
   def account
     @account ||= Account.find(account_id)
+  end
+
+  def reauthorization_inbox
+    inbox_id = instagram_token_inbox_id(params[:state])
+    @reauthorization_inbox ||= account.inboxes.where(channel_type: 'Channel::Instagram').find(inbox_id) if inbox_id.present?
   end
 
   def provider_name

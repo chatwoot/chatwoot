@@ -552,14 +552,41 @@
 # ------- End of Shopify Related Config ------- #
 
 # ------- Instagram Channel Related Config ------- #
+- name: INSTAGRAM_LOGIN_METHOD
+  value: 'instagram_login'
+  display_title: 'Login method for new connections'
+  description: 'Applies when creating an Instagram inbox. Existing inboxes reconnect using their current login method.'
+  locked: false
+  type: select
+  options:
+    instagram_login: 'Instagram Login'
+    unified_login: 'Unified Login (recommended for new Meta apps)'
 - name: INSTAGRAM_APP_ID
   display_title: 'Instagram App ID'
+  instagram_login_method: instagram_login
   locked: false
 - name: INSTAGRAM_APP_SECRET
+  instagram_login_method: instagram_login
   display_title: 'Instagram App Secret'
   description: 'The App Secret used for Instagram authentication'
   locked: false
   type: secret
+- name: INSTAGRAM_UNIFIED_APP_ID
+  instagram_login_method: unified_login
+  display_title: 'Instagram Unified Login Meta App ID'
+  description: 'The Meta app ID for Instagram API with Unified Login.'
+  locked: false
+- name: INSTAGRAM_UNIFIED_APP_SECRET
+  instagram_login_method: unified_login
+  display_title: 'Instagram Unified Login Meta App Secret'
+  description: 'The Meta app secret for Instagram API with Unified Login.'
+  locked: false
+  type: secret
+- name: INSTAGRAM_CONFIGURATION_ID
+  instagram_login_method: unified_login
+  display_title: 'Instagram Unified Login Configuration ID'
+  description: 'The Facebook Login for Business configuration ID from your Meta app.'
+  locked: false
 - name: INSTAGRAM_VERIFY_TOKEN
   display_title: 'Instagram Verify Token'
   description: 'The verify token used for Instagram Webhook'
