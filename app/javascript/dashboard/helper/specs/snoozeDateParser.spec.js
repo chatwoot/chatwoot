@@ -1062,6 +1062,14 @@ describe('golden tests: pinned phrase → exact date/time', () => {
     ['tonight 8', 2023, 5, 16, 20, 0],
     ['tonite 7', 2023, 5, 16, 19, 0],
     ['tonight 11', 2023, 5, 16, 23, 0],
+    ['tonight 12', 2023, 5, 17, 0, 0],
+    ['tonight 12:30', 2023, 5, 17, 0, 30],
+    ['night 12', 2023, 5, 17, 0, 0],
+    ['midnight 12', 2023, 5, 17, 0, 0],
+    ['evening 12', 2023, 5, 17, 0, 0],
+    ['morning 12', 2023, 5, 16, 12, 0],
+    ['noon 12', 2023, 5, 16, 12, 0],
+    ['afternoon 12', 2023, 5, 16, 12, 0],
     ['today 8', 2023, 5, 17, 8, 0], // 8am is past → rolls to next day
 
     // ── Shorthand durations ──
