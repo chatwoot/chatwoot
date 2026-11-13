@@ -60,6 +60,50 @@ RSpec.describe 'Webhooks API', type: :request do
         expect(response.parsed_body['payload']['webhook']['url']).to eql 'https://hello.com'
       end
 
+      it 'rejects a future inbox ID before it can disclose another account inbox' do
+        victim_account = create(:account)
+        headers = administrator.create_new_auth_token
+        next_inbox_id = inbox.id + 1
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/webhooks",
+               params: { webhook: { inbox_id: next_inbox_id, url: 'https://hello.com' } },
+               headers: headers, as: :json
+        end.not_to change(Webhook, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        victim_inbox = create(:inbox, account: victim_account, name: 'Private future inbox')
+        expect(victim_inbox.id).to eq(next_inbox_id)
+
+        get "/api/v1/accounts/#{account.id}/webhooks", headers: headers, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.fetch('payload').fetch('webhooks')).to be_empty
+      end
+
+      it 'rejects a foreign inbox without creating a webhook or disclosing its name' do
+        victim_inbox = create(:inbox, name: 'Private victim inbox')
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/webhooks",
+               params: { webhook: { inbox_id: victim_inbox.id, url: 'https://hello.com' } },
+               headers: administrator.create_new_auth_token, as: :json
+        end.not_to change(Webhook, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include('Inbox must belong to the same account as the webhook')
+        expect(response.parsed_body.to_s).not_to include(victim_inbox.name)
+      end
+
+      it 'creates account-wide webhooks without an inbox' do
+        post "/api/v1/accounts/#{account.id}/webhooks",
+             params: { webhook: { url: 'https://hello.com' } },
+             headers: administrator.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.webhooks.last.inbox).to be_nil
+      end
+
       it 'creates webhook with name' do
         post "/api/v1/accounts/#{account.id}/webhooks",
              params: { account_id: account.id, inbox_id: inbox.id, url: 'https://hello.com', name: 'My Webhook' },
@@ -122,6 +166,43 @@ RSpec.describe 'Webhooks API', type: :request do
     end
 
     context 'when it is an authenticated admin user' do
+      it 'rejects reassignment to a nonexistent inbox and preserves the original webhook' do
+        original_inbox_id = webhook.inbox_id
+        missing_inbox_id = create(:inbox, account: account).id + 1
+
+        put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
+            params: { webhook: { inbox_id: missing_inbox_id, name: 'Changed' } },
+            headers: administrator.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(webhook.reload.inbox_id).to eq(original_inbox_id)
+        expect(webhook.name).to eq('My Webhook')
+      end
+
+      it 'rejects reassignment to a foreign inbox and preserves the original webhook' do
+        victim_inbox = create(:inbox, name: 'Private victim inbox')
+
+        put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
+            params: { webhook: { inbox_id: victim_inbox.id, name: 'Changed' } },
+            headers: administrator.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(webhook.reload.inbox_id).to eq(inbox.id)
+        expect(webhook.name).to eq('My Webhook')
+        expect(response.parsed_body.to_s).not_to include(victim_inbox.name)
+      end
+
+      it 'allows reassignment to another inbox in the same account' do
+        other_inbox = create(:inbox, account: account)
+
+        put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
+            params: { webhook: { inbox_id: other_inbox.id } },
+            headers: administrator.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(webhook.reload.inbox).to eq(other_inbox)
+      end
+
       it 'updates webhook' do
         put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
             params: { url: 'https://hello.com', name: 'Another Webhook' },

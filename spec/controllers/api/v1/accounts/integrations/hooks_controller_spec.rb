@@ -66,6 +66,42 @@ RSpec.describe 'Integration Hooks API', type: :request do
         expect(data['app_id']).to eq params[:app_id]
       end
 
+      it 'rejects a future inbox ID before it can attach to another account' do
+        victim_account = create(:account)
+        headers = admin.create_new_auth_token
+        next_inbox_id = inbox.id + 1
+
+        expect do
+          post api_v1_account_integrations_hooks_url(account_id: account.id),
+               params: { hook: params.merge(inbox_id: next_inbox_id) }, headers: headers, as: :json
+        end.not_to change(Integrations::Hook, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        victim_inbox = create(:inbox, account: victim_account)
+        expect(victim_inbox.id).to eq(next_inbox_id)
+        expect(victim_inbox.external_bot_active?).to be false
+        expect(create(:conversation, account: victim_account, inbox: victim_inbox).status).to eq('open')
+      end
+
+      it 'rejects a foreign inbox without exposing it or changing its bot routing' do
+        victim_inbox = create(:inbox, name: 'Private victim inbox')
+        headers = admin.create_new_auth_token
+
+        get api_v1_account_inbox_url(account_id: account.id, id: victim_inbox.id), headers: headers, as: :json
+        expect(response).to have_http_status(:not_found)
+
+        expect do
+          post api_v1_account_integrations_hooks_url(account_id: account.id),
+               params: { hook: params.merge(inbox_id: victim_inbox.id) }, headers: headers, as: :json
+        end.not_to change(Integrations::Hook, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include('Inbox must belong to the same account as the hook')
+        expect(response.parsed_body.to_s).not_to include(victim_inbox.name)
+        expect(victim_inbox.reload.external_bot_active?).to be false
+        expect(create(:conversation, account: victim_inbox.account, inbox: victim_inbox).status).to eq('open')
+      end
+
       it 'validates Cloudflare RealtimeKit credentials before creating the hook' do
         allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
           .and_return(Integrations::Cloudflare::RealtimeKitCredentialsValidator::Result.new(false, :invalid_api_token))
