@@ -98,7 +98,11 @@ class Webhooks::Trigger
   end
 
   def update_message_status(error)
-    Messages::StatusUpdateService.new(message, 'failed', error.message).perform
+    return if message.blank?
+
+    message.with_lock do
+      Messages::StatusUpdateService.new(message, 'failed', error.message).perform unless %w[delivered read failed].include?(message.status)
+    end
   end
 
   def message
