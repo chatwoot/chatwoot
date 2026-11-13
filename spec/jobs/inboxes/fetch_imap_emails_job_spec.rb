@@ -69,6 +69,56 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       end
     end
 
+    context 'when an OAuth channel was switched back to password IMAP' do
+      let(:switched_back_channel) do
+        create(:channel_email, :microsoft_email, imap_password: 'app-password',
+                                                 provider_config: { access_token: 'expired-token' })
+      end
+      let(:switched_back_google_channel) do
+        create(:channel_email, :microsoft_email, provider: 'google', imap_password: 'app-password',
+                                                 provider_config: {})
+      end
+
+      it 'falls back to the plain IMAP fetch service instead of crashing on the missing refresh token' do
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: switched_back_channel, interval: 1).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+
+        expect(Imap::MicrosoftFetchEmailService).not_to receive(:new)
+
+        described_class.perform_now(switched_back_channel)
+        expect(fetch_service).to have_received(:perform)
+      end
+
+      it 'falls back to the plain IMAP fetch service for a google channel without OAuth credentials' do
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new)
+          .with(channel: switched_back_google_channel, interval: 1)
+          .and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+
+        expect(Imap::GoogleFetchEmailService).not_to receive(:new)
+
+        described_class.perform_now(switched_back_google_channel)
+        expect(fetch_service).to have_received(:perform)
+      end
+
+      it 'still uses the OAuth fetch service while an access token without a refresh token is unexpired' do
+        live_token_channel = create(:channel_email, :microsoft_email,
+                                    provider_config: { access_token: 'live-token', expires_on: 1.hour.from_now.utc.to_s })
+        fetch_service = double
+        allow(Imap::MicrosoftFetchEmailService).to receive(:new)
+          .with(channel: live_token_channel, interval: 1)
+          .and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+
+        expect(Imap::FetchEmailService).not_to receive(:new)
+
+        described_class.perform_now(live_token_channel)
+        expect(fetch_service).to have_received(:perform)
+      end
+    end
+
     context 'when IMAP OAuth errors out' do
       it 'marks the connection as requiring authorization' do
         error_response = double
