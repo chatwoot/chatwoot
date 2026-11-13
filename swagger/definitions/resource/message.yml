@@ -86,7 +86,7 @@ properties:
     type:
       - object
       - 'null'
-    description: The file object attached to the image
+    description: The file object attached to the message
   sender:
     type: object
     description: User/Agent/AgentBot object
