@@ -286,6 +286,23 @@ RSpec.describe AccountSamlSettings, type: :model do
     end
   end
 
+  describe '#trusts_identity_provider_of?' do
+    let(:settings) { create(:account_saml_settings, account: account) }
+    let(:rotated_certificate) { build(:account_saml_settings).certificate }
+
+    it 'trusts settings whose certificates it also trusts' do
+      other = create(:account_saml_settings, certificate: "#{settings.certificate}\n#{rotated_certificate}")
+
+      expect(other.trusts_identity_provider_of?(settings)).to be(true)
+    end
+
+    it 'does not trust settings with a certificate it does not trust' do
+      other = create(:account_saml_settings, certificate: "#{settings.certificate}\n#{rotated_certificate}")
+
+      expect(settings.trusts_identity_provider_of?(other)).to be(false)
+    end
+  end
+
   describe 'callbacks' do
     describe 'after_create_commit' do
       it 'queues job to set account users to saml provider' do
