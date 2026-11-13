@@ -7,6 +7,12 @@ class SearchIndexing::IndexState < ApplicationRecord
   validates :status, inclusion: { in: %w[running paused ready failed stale purged] }
   validates :phase, inclusion: { in: %w[scan verify_source verify_index drain] }
 
+  def self.invalidate_index!(entity, epoch)
+    # An empty replacement affects every tenant; invalidate readiness in one statement before creating it.
+    attributes = { status: 'stale', ready_at: nil, run_token: SecureRandom.hex(16), updated_at: Time.current }
+    where(entity: entity, epoch: epoch).where.not(ready_at: nil).update_all(attributes) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   def self.purge_for(account_id)
     buffer = SearchIndexing::Buffer.new(entity: 'conversations', account_id: account_id)
     state = find_by(account_id: account_id, entity: 'conversations')

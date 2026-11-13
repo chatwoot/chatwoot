@@ -74,3 +74,30 @@ ready manually. These commands schedule work; deploying the PR does not start
 production backfills. Redis epoch rotation makes old indices inaccessible to
 current readers; operators must remove retired indices under the deployment's
 data-retention policy.
+
+## Conversation search rollout
+
+After a canary backfill is ready, enable the separate default-off
+`conversation_search` flag. Only global conversation search and its count use
+this path. Contact search, message search, and conversation-list message-body
+search retain their existing backends.
+
+OpenSearch supplies all candidates (up to 1,000), then the existing SQL relation
+applies current tenant/inbox/custom-role permissions, substring matching, time
+filters, ordering, counts, and pagination. The projection includes email subject
+alongside contact identity and conversation number. Counts and page sizes follow
+the existing API. A valid empty engine response remains empty.
+
+Unsupported queries (shorter than three characters, longer than 256, non-ASCII,
+or containing SQL wildcard/escape characters), broad matches, partial responses,
+unready generations, pending work older than two minutes, permanent failures,
+and known transport failures fall back to SQL. Missing physical indices
+invalidate readiness before recreation. This is eventually consistent search;
+the healthy path may lag until the next flush and refresh.
+
+Monitor `search.search_indexing`, `fallback.search_indexing`, buffer age,
+pending/failed counts, and backfill progress. Disable `conversation_search` for
+immediate SQL rollback while keeping writes active. Disabling indexing makes
+readiness stale and requires a backfill before reads resume. Start with one
+account, compare results/counts and latency, then expand gradually. Do not enable
+reads globally or run production backfills as part of deployment.
