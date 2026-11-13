@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useMediaQuery } from '@vueuse/core';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -29,6 +30,12 @@ const emit = defineEmits(['update:modelValue']);
 const isOpen = ref(false);
 
 const labelValue = computed(() => props.label);
+
+// A side menu does not fit next to its button on a phone, so it opens below it there.
+const isSmUp = useMediaQuery('(min-width: 640px)');
+const position = computed(() =>
+  isSmUp.value ? props.subMenuPosition : 'bottom'
+);
 
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
@@ -60,11 +67,9 @@ const handleSelect = value => {
       v-if="isOpen"
       class="absolute select-none max-w-64 flex flex-col gap-1 bg-n-alpha-3 backdrop-blur-[100px] p-1 top-0 shadow-lg z-40 rounded-lg border border-n-weak dark:border-n-strong/50"
       :class="{
-        'ltr:left-full rtl:right-full ltr:ml-1 rtl:mr-1':
-          subMenuPosition === 'right',
-        'ltr:right-full rtl:left-full ltr:mr-1 rtl:ml-1':
-          subMenuPosition === 'left',
-        'top-full mt-1 ltr:right-0 rtl:left-0': subMenuPosition === 'bottom',
+        'ltr:left-full rtl:right-full ltr:ml-1 rtl:mr-1': position === 'right',
+        'ltr:right-full rtl:left-full ltr:mr-1 rtl:ml-1': position === 'left',
+        'top-full mt-1 ltr:right-0 rtl:left-0': position === 'bottom',
       }"
     >
       <Button
