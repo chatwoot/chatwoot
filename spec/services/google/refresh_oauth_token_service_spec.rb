@@ -40,9 +40,8 @@ RSpec.describe Google::RefreshOauthTokenService do
     context 'when token is invalid' do
       it 'fetches new access token and refresh tokens' do
         with_modified_env GOOGLE_OAUTH_CLIENT_ID: SecureRandom.uuid, GOOGLE_OAUTH_CLIENT_SECRET: SecureRandom.hex do
-          provider_config = google_channel_with_expired_token.provider_config
           service = described_class.new(channel: google_channel_with_expired_token)
-          expect(service.access_token).not_to eq(provider_config['access_token'])
+          expect(service.access_token).to eq(new_tokens[:access_token])
 
           new_provider_config = google_channel_with_expired_token.reload.provider_config
           expect(new_provider_config['access_token']).to eq(new_tokens[:access_token])
@@ -57,9 +56,8 @@ RSpec.describe Google::RefreshOauthTokenService do
         with_modified_env GOOGLE_OAUTH_CLIENT_ID: SecureRandom.uuid, GOOGLE_OAUTH_CLIENT_SECRET: SecureRandom.hex do
           google_channel_with_expired_token.provider_config['expires_on'] = nil
           google_channel_with_expired_token.save!
-          provider_config = google_channel_with_expired_token.provider_config
           service = described_class.new(channel: google_channel_with_expired_token)
-          expect(service.access_token).not_to eq(provider_config['access_token'])
+          expect(service.access_token).to eq(new_tokens[:access_token])
 
           new_provider_config = google_channel_with_expired_token.reload.provider_config
           expect(new_provider_config['access_token']).to eq(new_tokens[:access_token])
