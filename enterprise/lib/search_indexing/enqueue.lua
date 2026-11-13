@@ -1,5 +1,6 @@
 if redis.call('GET', KEYS[7]) ~= ARGV[1] or not redis.call('GET', KEYS[6]) then return 'stale' end
 local now = tonumber(ARGV[3])
+redis.call('SET', KEYS[11], 1)
 for i = 4, #ARGV do
   local id = ARGV[i]
   local revision = redis.call('INCR', KEYS[6])
