@@ -187,6 +187,33 @@ describe('#actions', () => {
     });
   });
 
+  describe('#toggleUserTyping', () => {
+    it('sends typing status when a conversation exists', async () => {
+      API.post.mockResolvedValue({ data: { success: true } });
+      await actions.toggleUserTyping(
+        {
+          rootGetters: {
+            'conversationAttributes/getConversationParams': { id: 123 },
+          },
+        },
+        { typingStatus: 'on' }
+      );
+      expect(API.post).toHaveBeenCalled();
+    });
+    it('skips the request when no conversation exists', async () => {
+      API.post.mockResolvedValue({ data: { success: true } });
+      await actions.toggleUserTyping(
+        {
+          rootGetters: {
+            'conversationAttributes/getConversationParams': { id: '' },
+          },
+        },
+        { typingStatus: 'on' }
+      );
+      expect(API.post).not.toHaveBeenCalled();
+    });
+  });
+
   describe('#setUserLastSeen', () => {
     it('sends correct mutations', async () => {
       API.post.mockResolvedValue({ data: { success: true } });
