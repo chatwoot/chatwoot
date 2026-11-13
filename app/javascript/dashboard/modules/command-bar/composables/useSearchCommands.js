@@ -74,7 +74,7 @@ export function useSearchCommands() {
   const searchConversations = async ({ text, signal }) => {
     if (!canSearchConversations()) return [];
 
-    const { data } = await SearchAPI.conversations({ q: text, signal });
+    const { data } = await SearchAPI.conversations({ q: text }, { signal });
     return data.payload.conversations.slice(0, LIMIT).map(result =>
       conversationItem({
         id: result.id,
@@ -89,7 +89,7 @@ export function useSearchCommands() {
   const searchContacts = async ({ text, signal }) => {
     if (!canSearchContacts()) return [];
 
-    const { data } = await SearchAPI.contacts({ q: text, signal });
+    const { data } = await SearchAPI.contacts({ q: text }, { signal });
     return data.payload.contacts.slice(0, LIMIT).map(contact => ({
       id: `contact-${contact.id}`,
       title: contact.name,
@@ -106,7 +106,7 @@ export function useSearchCommands() {
   const searchArticles = async ({ text, signal }) => {
     if (!canSearchArticles()) return [];
 
-    const { data } = await SearchAPI.articles({ q: text, signal });
+    const { data } = await SearchAPI.articles({ q: text }, { signal });
     return data.payload.articles.slice(0, LIMIT).map(article => ({
       id: `article-${article.id}`,
       title: article.title,

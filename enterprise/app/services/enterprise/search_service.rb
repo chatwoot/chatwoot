@@ -1,21 +1,69 @@
 module Enterprise::SearchService
-  def advanced_search
+  # ID breaks created_at ties. The unmapped type also allows searches on older indices.
+  MESSAGE_ORDER = { created_at: :desc, id: { order: :desc, unmapped_type: 'long' }.freeze }.freeze
+
+  def available_types
+    permissions = account_user.permissions
+    return super if permissions.intersect?(%w[agent administrator])
+
+    allowed = []
+    allowed << 'contacts' if permissions.include?('contact_manage')
+    allowed << 'articles' if permissions.include?('knowledge_base_manage')
+    allowed.push('conversations', 'messages') if permissions.intersect?(%w[conversation_manage conversation_unassigned_manage
+                                                                           conversation_participating_manage])
+    super & allowed
+  end
+
+  def countable_types
+    restricted_conversation_access? ? super - %w[conversations messages] : super
+  end
+
+  def supports_message_cursor?
+    search_type.in?(%w[all Message]) && restricted_conversation_access? &&
+      available_types.include?('messages') && should_run_advanced_search? && !use_gin_search
+  end
+
+  def advanced_search(count: false)
     where_conditions = build_where_conditions
     apply_filters(where_conditions)
+    return restricted_advanced_search(where_conditions) if !count && restricted_conversation_access?
 
-    Message.search(
-      search_query,
-      fields: %w[content attachments.transcribed_text content_attributes.email.subject],
-      where: where_conditions,
-      # id breaks created_at ties so results stay stable across page fetches;
-      # unmapped_type covers documents indexed before id was added
-      order: { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } },
-      page: params[:page] || 1,
-      per_page: 15
-    )
+    results = indexed_message_search(where_conditions, **advanced_search_options(count: count))
+    count ? results.total_count : results.to_a
   end
 
   private
+
+  def advanced_search_options(count:)
+    return { limit: 0, load: false, body_options: { track_total_hits: true } } if count
+
+    { order: MESSAGE_ORDER, page: params[:page] || 1, per_page: page_size }
+  end
+
+  def indexed_message_search(where_conditions, **)
+    Message.search(search_query, fields: %w[content attachments.transcribed_text content_attributes.email.subject], where: where_conditions, **)
+  end
+
+  def restricted_advanced_search(where_conditions)
+    cursor = Search::MessageSearchCursor.new(current_account.id)
+    continuation = cursor.read(params[:cursor])
+    scope = current_account.messages.where(conversation_id: accessible_conversations.select(:id))
+    search = ->(**options) { indexed_message_search(where_conditions, order: MESSAGE_ORDER, **options) }
+    scanner = Search::PermissionScopedMessages.new(search: search, scope: scope)
+    records = scanner.records(page: params[:page], per_page: page_size, continuation: continuation)
+    @message_pagination = { next_cursor: cursor.write(after: scanner.next_sort, offset: scanner.remaining_offset) }
+    records
+  end
+
+  def message_base_query
+    query = super
+    restricted_conversation_access? ? query.where(conversation_id: accessible_conversations.select(:id)) : query
+  end
+
+  def restricted_conversation_access?
+    permissions = account_user.permissions
+    permissions.include?('custom_role') && permissions.exclude?('conversation_manage')
+  end
 
   def build_where_conditions
     conditions = { account_id: current_account.id }

@@ -1,12 +1,17 @@
 import { nextTick, ref } from 'vue';
 import { flushPromises, shallowMount } from '@vue/test-utils';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CopilotContainer from './CopilotContainer.vue';
 
 const testState = vi.hoisted(() => ({
   dispatch: vi.fn(),
+  track: vi.fn(),
   getThreads: vi.fn(),
   refs: {},
   route: {},
+  uiSettings: null,
+  updateUISettings: vi.fn(),
 }));
 
 vi.mock('vue-router', async () => {
@@ -16,7 +21,10 @@ vi.mock('vue-router', async () => {
 
   return { useRoute: () => route };
 });
-vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
+vi.mock('dashboard/composables', () => ({
+  useAlert: vi.fn(),
+  useTrack: testState.track,
+}));
 vi.mock('dashboard/api/captain/copilotThreads', () => ({
   default: { get: testState.getThreads },
 }));
@@ -25,10 +33,11 @@ vi.mock('dashboard/composables/useConfig', () => ({
 }));
 vi.mock('dashboard/composables/useUISettings', async () => {
   const { ref: createRef } = await import('vue');
+  testState.uiSettings = createRef({});
   return {
     useUISettings: () => ({
-      uiSettings: createRef({ is_copilot_panel_open: true }),
-      updateUISettings: vi.fn(),
+      uiSettings: testState.uiSettings,
+      updateUISettings: testState.updateUISettings,
     }),
   };
 });
@@ -101,6 +110,8 @@ describe('CopilotContainer', () => {
     testState.getThreads.mockResolvedValue({
       data: { payload: [], meta: { total_count: 0, page: 1 } },
     });
+    testState.uiSettings.value = { is_copilot_panel_open: true };
+    testState.updateUISettings.mockReset();
     testState.route.path = '/app/accounts/1/conversations/1';
     testState.refs.getSelectedChat.value = { id: 1 };
     testState.refs.getCurrentAccountId.value = 1;
@@ -119,6 +130,29 @@ describe('CopilotContainer', () => {
     expect(testState.getThreads).not.toHaveBeenCalled();
   });
 
+  it('uses up the dot when the panel is already open with workflows', async () => {
+    testState.refs['accounts/isFeatureEnabledonAccount'].value = (
+      accountId,
+      flag
+    ) => ['captain_integration', 'copilot_workflows'].includes(flag);
+
+    mountComponent();
+    await flushPromises();
+
+    expect(testState.updateUISettings).toHaveBeenCalledWith({
+      copilot_dot_dismissed: true,
+    });
+  });
+
+  it('keeps the dot when the older Copilot is open', async () => {
+    mountComponent();
+    await flushPromises();
+
+    expect(testState.updateUISettings).not.toHaveBeenCalledWith({
+      copilot_dot_dismissed: true,
+    });
+  });
+
   it('returns an expanded panel to its normal width when another page opens', async () => {
     const wrapper = mountComponent();
     await flushPromises();
@@ -132,6 +166,36 @@ describe('CopilotContainer', () => {
     await nextTick();
 
     expect(copilot.props('isExpanded')).toBe(false);
+  });
+
+  it('starts a new expanded chat for a prompt picked outside the panel', async () => {
+    const thread = { id: 42, title: 'Older question', assistant: { id: 7 } };
+    testState.getThreads.mockResolvedValue({
+      data: { payload: [thread], meta: { total_count: 1, page: 1 } },
+    });
+    testState.dispatch.mockImplementation(action =>
+      action === 'copilotThreads/create'
+        ? Promise.resolve({ id: 99, title: 'Picked prompt' })
+        : Promise.resolve()
+    );
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+    copilot.vm.$emit('selectThread', thread);
+    await flushPromises();
+
+    emitter.emit(BUS_EVENTS.ASK_COPILOT, 'Picked prompt');
+    await flushPromises();
+
+    expect(testState.dispatch).toHaveBeenCalledWith('copilotThreads/create', {
+      assistant_id: 7,
+      conversation_id: 1,
+      message: 'Picked prompt',
+    });
+    expect(copilot.props('selectedThreadId')).toBe(99);
+    expect(copilot.props('isExpanded')).toBe(true);
+    expect(testState.track).toHaveBeenCalledWith('Copilot: Sent a message');
+    wrapper.unmount();
   });
 
   it('lists and opens a past chat', async () => {
