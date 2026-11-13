@@ -5,17 +5,11 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import InboxesAPI from 'dashboard/api/inboxes';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
-import SettingsCheckboxOption from './SettingsCheckboxOption.vue';
 
 const props = defineProps({
   inbox: {
     type: Object,
     required: true,
-  },
-  // Renders one-line checkboxes instead of toggle cards
-  checkbox: {
-    type: Boolean,
-    default: false,
   },
 });
 
@@ -61,32 +55,23 @@ const toggleRecording = value => save(value, transcriptionEnabled.value);
 
 const toggleTranscription = value => save(recordingEnabled.value, value);
 
-const option = key =>
-  props.checkbox
-    ? { header: t(`INBOX_MGMT.VOICE_CONFIGURATION.OPTIONS.${key}`) }
-    : {
-        header: t(`INBOX_MGMT.VOICE_CONFIGURATION.${key}.LABEL`),
-        description: t(`INBOX_MGMT.VOICE_CONFIGURATION.${key}.DESCRIPTION`),
-      };
+const option = key => ({
+  header: t(`INBOX_MGMT.VOICE_CONFIGURATION.${key}.LABEL`),
+  description: t(`INBOX_MGMT.VOICE_CONFIGURATION.${key}.DESCRIPTION`),
+});
 </script>
 
 <template>
   <div
-    class="relative flex flex-col"
-    :class="{
-      'pointer-events-none opacity-60': isSaving,
-      'gap-3': checkbox,
-      'gap-6': !checkbox,
-    }"
+    class="relative flex flex-col gap-6"
+    :class="{ 'pointer-events-none opacity-60': isSaving }"
   >
-    <component
-      :is="checkbox ? SettingsCheckboxOption : SettingsToggleSection"
+    <SettingsToggleSection
       v-bind="option('RECORDING')"
       :model-value="recordingEnabled"
       @update:model-value="toggleRecording"
     />
-    <component
-      :is="checkbox ? SettingsCheckboxOption : SettingsToggleSection"
+    <SettingsToggleSection
       v-if="recordingEnabled"
       v-bind="option('TRANSCRIPTION')"
       :model-value="transcriptionEnabled"

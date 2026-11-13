@@ -227,8 +227,10 @@ export default {
         ];
       }
 
+      // A Twilio SMS or voice inbox's webhooks are checked on its Health tab; Twilio WhatsApp
+      // keeps this tab for template sync
       if (
-        this.isATwilioChannel ||
+        this.isATwilioWhatsAppChannel ||
         this.isBandwidthInbox ||
         this.isALineChannel ||
         this.isAPIInbox ||
@@ -289,7 +291,7 @@ export default {
           ...visibleToAllChannelTabs,
           {
             key: 'voice-configuration',
-            name: this.$t('INBOX_MGMT.TABS.VOICE'),
+            name: this.$t('INBOX_MGMT.TABS.CALLS'),
           },
         ];
       }
@@ -1475,7 +1477,12 @@ export default {
           v-if="selectedTabKey === 'voice-configuration'"
           class="mx-6 max-w-4xl"
         >
-          <VoiceConfigurationPage :inbox="inbox" />
+          <VoiceConfigurationPage
+            :inbox="inbox"
+            @open-business-hours="
+              onTabChange(tabs.findIndex(tab => tab.key === 'business-hours'))
+            "
+          />
         </div>
         <div
           v-if="selectedTabKey === 'calls-configuration'"

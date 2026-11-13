@@ -12,14 +12,14 @@ class Api::V1::Accounts::Inboxes::CallAnnouncementsController < Api::V1::Account
   end
 
   def update
-    @announcement.save!(enabled: params[:enabled], message: @message, config: @config.to_h)
+    @announcement.save!(enabled: @enabled, message: @message, config: @config.to_h)
     @inbox.update_account_cache
     render 'api/v1/accounts/inboxes/show'
   end
 
   private
 
-  # The ring time is saved with the no-answer announcement, whether or not it is on
+  # The ring time is saved with the missed-call message
   def validate_timeout
     timeout = params[:timeout_seconds]
     unless timeout.is_a?(Integer) && TIMEOUT_SECONDS.cover?(timeout)
@@ -43,17 +43,28 @@ class Api::V1::Accounts::Inboxes::CallAnnouncementsController < Api::V1::Account
     @announcement = Voice::CallAnnouncement.new(@inbox, params[:kind])
   end
 
+  # The greeting is switched on or off and needs its text when on. The missed-call and out-of-hours
+  # messages are always on: an empty missed-call message is the default text, and an empty
+  # out-of-hours message is the missed-call message.
   def validate_settings
-    enabled = params[:enabled]
+    @enabled = enabled_param
     message = params[:message]
-    unless [true, false].include?(enabled) && message.is_a?(String)
+    unless [true, false].include?(@enabled) && message.is_a?(String)
       return render_could_not_create_error(I18n.t('inbox.call_announcements.invalid_settings'))
     end
 
     @message = message.strip
-    return render_could_not_create_error(I18n.t('inbox.call_announcements.message_required')) if enabled && @message.empty?
+    if @enabled && @message.empty? && @announcement.kind == 'greeting'
+      return render_could_not_create_error(I18n.t('inbox.call_announcements.message_required'))
+    end
     return unless @message.length > Voice::CallAnnouncement::MESSAGE_MAX_LENGTH
 
     render_could_not_create_error(I18n.t('inbox.call_announcements.message_too_long'))
+  end
+
+  def enabled_param
+    return true unless @announcement.kind == 'greeting'
+
+    params[:enabled]
   end
 end

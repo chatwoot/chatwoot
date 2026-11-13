@@ -1,327 +1,230 @@
-<script>
-import { useAlert } from 'dashboard/composables';
+<script setup>
+import { computed, toRef } from 'vue';
+import { useI18n } from 'vue-i18n';
 import InboxesAPI from 'dashboard/api/inboxes';
-import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
-import NextInput from 'dashboard/components-next/input/Input.vue';
+import Select from 'dashboard/components-next/select/Select.vue';
+import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import CallRecordingSettings from './CallRecordingSettings.vue';
-import CallAnnouncementSettings from './CallAnnouncementSettings.vue';
-import CallRoutingSettings from './CallRoutingSettings.vue';
-import SettingsCheckboxOption from './SettingsCheckboxOption.vue';
+import CallSettingsSection from './calls/CallSettingsSection.vue';
+import CallSettingsOption from './calls/CallSettingsOption.vue';
+import CallWhoRings from './calls/CallWhoRings.vue';
+import CallOutOfHours from './calls/CallOutOfHours.vue';
+import CallAfterCall from './calls/CallAfterCall.vue';
+import CallMessagePlay from './calls/CallMessagePlay.vue';
+import TwilioCallingCard from './calls/TwilioCallingCard.vue';
+import { durationOptions } from './calls/callDurations';
+import {
+  useCallSettingsForm,
+  sharedSavedValues,
+  sharedSteps,
+} from './calls/useCallSettingsForm';
 
-export default {
-  components: {
-    SettingsToggleSection,
-    NextInput,
-    NextButton,
-    Spinner,
-    CallRecordingSettings,
-    CallAnnouncementSettings,
-    CallRoutingSettings,
-    SettingsCheckboxOption,
+// The Calls tab of a Twilio inbox. Calling is turned on and off, and its connection managed, on
+// their own; every other setting is saved together with Save changes. While calling is off the rest
+// of the page is greyed out.
+const props = defineProps({
+  inbox: {
+    type: Object,
+    default: () => ({}),
   },
-  props: {
-    inbox: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  data() {
-    return {
-      voiceEnabled: this.inbox.voice_enabled || false,
-      inboundCallsEnabled: this.inbox.inbound_calls_enabled !== false,
-      apiKeySid: this.inbox.api_key_sid || '',
-      apiKeySecret: '',
-      authToken: '',
-      isUpdating: false,
-      isTogglingInbound: false,
-    };
-  },
-  computed: {
-    hasApiKeySid() {
-      return !!this.inbox.api_key_sid;
-    },
-    hasExistingCredentials() {
-      return this.hasApiKeySid && !!this.inbox.has_api_key_secret;
-    },
-    needsCredentials() {
-      return this.voiceEnabled && !this.hasExistingCredentials;
-    },
-    needsAccountAuthToken() {
-      return (
-        this.voiceEnabled &&
-        this.hasApiKeySid &&
-        !this.inbox.account_auth_token_configured
-      );
-    },
-    needsApiKeySid() {
-      return this.needsCredentials && !this.hasApiKeySid;
-    },
-    webhookUrls() {
-      return [
-        {
-          key: 'VOICE',
-          url: this.inbox.voice_call_webhook_url,
-        },
-        {
-          key: 'STATUS',
-          url: this.inbox.voice_status_webhook_url,
-        },
-      ];
-    },
-    isSubmitDisabled() {
-      if (!this.voiceEnabled) return false;
-      if (this.needsAccountAuthToken && !this.authToken) return true;
-      if (this.needsCredentials) {
-        if (this.needsApiKeySid && !this.apiKeySid) return true;
-        return !this.apiKeySecret;
-      }
-      return false;
-    },
-  },
-  watch: {
-    'inbox.voice_enabled'(val) {
-      this.voiceEnabled = val || false;
-    },
-    'inbox.api_key_sid'(val) {
-      this.apiKeySid = val || '';
-    },
-    'inbox.inbound_calls_enabled'(val) {
-      this.inboundCallsEnabled = val !== false;
-    },
-  },
-  methods: {
-    async copyUrl(url) {
-      try {
-        await copyTextToClipboard(url);
-        useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
-      } catch (_) {
-        useAlert(this.$t('COMPONENTS.CODE.COPY_ERROR'));
-      }
-    },
-    async handleInboundToggle(newValue) {
-      if (this.isTogglingInbound) return;
-      const previousValue = this.inboundCallsEnabled;
-      this.inboundCallsEnabled = newValue;
-      this.isTogglingInbound = true;
-      try {
-        await InboxesAPI.setInboundCalls(this.inbox.id, newValue);
-        await this.$store.dispatch('inboxes/get', this.inbox.id);
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-      } catch (_) {
-        this.inboundCallsEnabled = previousValue;
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
-      } finally {
-        this.isTogglingInbound = false;
-      }
-    },
-    // SMS upgrades collect the account token separately from API key credentials.
-    async handleVoiceToggle(newValue) {
-      if (this.isUpdating) return;
-      const previousValue = this.voiceEnabled;
-      this.voiceEnabled = newValue;
+});
 
-      if (this.needsAccountAuthToken || this.needsCredentials) return;
+const emit = defineEmits(['openBusinessHours']);
 
-      try {
-        await this.updateVoiceSettings();
-      } catch (_) {
-        this.voiceEnabled = previousValue;
-      }
-    },
-    async submitVoiceCredentials() {
-      try {
-        await this.updateVoiceSettings();
-      } catch (_) {
-        this.voiceEnabled = this.inbox.voice_enabled || false;
-      }
-    },
-    async updateVoiceSettings() {
-      this.isUpdating = true;
-      try {
-        const channelPayload = { voice_enabled: this.voiceEnabled };
-        if (this.needsAccountAuthToken) {
-          channelPayload.auth_token = this.authToken;
-        }
+const MESSAGE_MAX_LENGTH = 1000;
+// Within the 10–300 s ring time the server accepts
+const RING_TIME_PRESETS = [30, 60, 120, 300];
 
-        if (this.needsCredentials) {
-          if (this.needsApiKeySid) {
-            channelPayload.api_key_sid = this.apiKeySid;
-          }
-          channelPayload.api_key_secret = this.apiKeySecret;
-        }
+const { t } = useI18n();
+const label = key => t(`INBOX_MGMT.CALL_SETTINGS.${key}`);
 
-        await this.$store.dispatch('inboxes/updateInbox', {
-          id: this.inbox.id,
-          formData: false,
-          channel: channelPayload,
-        });
-        this.apiKeySecret = '';
-        this.authToken = '';
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-      } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
-        throw error;
-      } finally {
-        this.isUpdating = false;
-      }
-    },
-  },
+// A greeting switched off keeps its text on the server; the empty box is what turns it off here
+const savedValues = () => ({
+  ...sharedSavedValues(props.inbox),
+  greeting: props.inbox.call_greeting_enabled
+    ? props.inbox.call_greeting_message || ''
+    : '',
+  ringTimeSeconds: props.inbox.unanswered_call_timeout_seconds,
+  missedCallMessage: props.inbox.unanswered_call_message || '',
+  outOfHoursMessage: props.inbox.out_of_hours_call_message || '',
+});
+
+const buildSteps = (changed, values) => {
+  const { id } = props.inbox;
+  const steps = sharedSteps(id, changed, values);
+  if (changed(['greeting'])) {
+    const message = values.greeting.trim();
+    steps.push(() =>
+      InboxesAPI.setCallAnnouncement(id, 'greeting', {
+        enabled: !!message,
+        message,
+      })
+    );
+  }
+  if (changed(['ringTimeSeconds', 'missedCallMessage'])) {
+    steps.push(() =>
+      InboxesAPI.setCallAnnouncement(id, 'unanswered', {
+        enabled: true,
+        message: values.missedCallMessage.trim(),
+        timeoutSeconds: values.ringTimeSeconds,
+      })
+    );
+  }
+  if (changed(['outOfHoursMessage'])) {
+    steps.push(() =>
+      InboxesAPI.setCallAnnouncement(id, 'out_of_hours', {
+        enabled: true,
+        message: values.outOfHoursMessage.trim(),
+      })
+    );
+  }
+  return steps;
 };
+
+const { form, isSaving, isDirty, save } = useCallSettingsForm(
+  toRef(props, 'inbox'),
+  savedValues,
+  buildSteps
+);
+
+const ringTimeOptions = computed(() =>
+  durationOptions(
+    t,
+    RING_TIME_PRESETS,
+    props.inbox.unanswered_call_timeout_seconds
+  )
+);
 </script>
 
 <template>
   <div class="flex flex-col gap-4">
-    <div :class="{ 'pointer-events-none opacity-60': isUpdating }">
-      <SettingsToggleSection
-        :model-value="voiceEnabled"
-        :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.LABEL')"
-        :description="
-          $t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.DESCRIPTION')
-        "
-        :hide-toggle="isUpdating"
-        @update:model-value="handleVoiceToggle"
-      >
-        <template v-if="isUpdating" #hiddenToggle>
-          <Spinner class="size-4 text-n-slate-11" />
-        </template>
-        <template v-if="needsAccountAuthToken || needsCredentials" #editor>
-          <div class="flex flex-col gap-4 pt-2">
-            <p class="text-body-main text-n-slate-11">
-              {{ $t('INBOX_MGMT.VOICE_CONFIGURATION.CREDENTIALS.DESCRIPTION') }}
-            </p>
-            <NextInput
-              v-if="needsApiKeySid"
-              v-model="apiKeySid"
-              :label="$t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.LABEL')"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER')
-              "
-            />
-            <NextInput
-              v-if="needsAccountAuthToken"
-              v-model="authToken"
-              type="password"
-              :label="$t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL')"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')
-              "
-            />
-            <NextInput
-              v-if="needsCredentials"
-              v-model="apiKeySecret"
-              type="password"
-              :label="$t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.LABEL')"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.PLACEHOLDER')
-              "
-            />
-            <div class="flex justify-end">
-              <NextButton
-                :disabled="isSubmitDisabled"
-                :is-loading="isUpdating"
-                :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-                sm
-                @click="submitVoiceCredentials"
-              />
-            </div>
-          </div>
-        </template>
-        <template v-else-if="inbox.voice_enabled" #editor>
-          <div class="flex flex-col gap-3 pt-2">
-            <CallAnnouncementSettings
-              :inbox="inbox"
-              kind="out_of_hours"
-              i18n-key="BUSINESS_HOURS"
-              :enabled="!!inbox.business_hours_calls_enabled"
-              :message="inbox.out_of_hours_call_message || ''"
-              :audio-url="inbox.out_of_hours_call_audio_url || ''"
-              checkbox
-            >
-              <template v-if="!inbox.working_hours_enabled" #notice>
-                <p class="text-body-main text-n-amber-11">
-                  {{
-                    $t(
-                      'INBOX_MGMT.VOICE_CONFIGURATION.BUSINESS_HOURS.HOURS_NOT_ENABLED'
-                    )
-                  }}
-                </p>
-              </template>
-            </CallAnnouncementSettings>
-            <SettingsCheckboxOption
-              :model-value="inboundCallsEnabled"
-              :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.OPTIONS.INBOUND')"
-              :class="{ 'pointer-events-none opacity-60': isTogglingInbound }"
-              @update:model-value="handleInboundToggle"
-            />
-            <CallRecordingSettings :inbox="inbox" checkbox />
-          </div>
-        </template>
-      </SettingsToggleSection>
-    </div>
-
-    <CallRoutingSettings v-if="inbox.voice_enabled" :inbox="inbox" />
-
-    <CallAnnouncementSettings
-      v-if="inbox.voice_enabled"
-      :inbox="inbox"
-      kind="greeting"
-      i18n-key="GREETING"
-      :enabled="!!inbox.call_greeting_enabled"
-      :message="inbox.call_greeting_message || ''"
-      :audio-url="inbox.call_greeting_audio_url || ''"
-    />
-
-    <CallAnnouncementSettings
-      v-if="inbox.voice_enabled"
-      :inbox="inbox"
-      kind="unanswered"
-      i18n-key="UNANSWERED"
-      :enabled="!!inbox.unanswered_calls_enabled"
-      :message="inbox.unanswered_call_message || ''"
-      :audio-url="inbox.unanswered_call_audio_url || ''"
-      :timeout-seconds="inbox.unanswered_call_timeout_seconds"
-    />
+    <TwilioCallingCard :inbox="inbox">
+      <CallSettingsOption
+        v-model="form.inboundCallsEnabled"
+        :label="label('CALLING.TAKE_INCOMING')"
+        :help="label('CALLING.TAKE_INCOMING_HELP')"
+      />
+    </TwilioCallingCard>
 
     <div
-      v-if="inbox.voice_enabled && inbox.voice_call_webhook_url"
-      class="flex flex-col outline outline-1 -outline-offset-1 outline-n-weak rounded-xl divide-y divide-n-weak"
+      class="flex flex-col divide-y outline outline-1 -outline-offset-1 outline-n-weak rounded-xl divide-n-weak"
+      :class="{
+        'pointer-events-none opacity-50': isSaving || !inbox.voice_enabled,
+      }"
     >
-      <div
-        v-for="webhook in webhookUrls"
-        :key="webhook.key"
-        class="flex flex-col gap-1 px-4 py-3"
+      <CallSettingsSection
+        :title="label('INCOMING.TITLE')"
+        :description="label('INCOMING.DESCRIPTION')"
       >
-        <span class="text-heading-3 text-n-slate-12">
-          {{
-            $t(
-              `INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_${webhook.key}_URL_TITLE`
-            )
-          }}
-        </span>
-        <span class="text-body-main text-n-slate-11">
-          {{
-            $t(
-              `INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_${webhook.key}_URL_SUBTITLE`
-            )
-          }}
-        </span>
-        <div class="flex items-center gap-2 mt-2">
-          <code
-            class="flex-1 min-w-0 px-3 py-2 text-sm truncate rounded-lg bg-n-alpha-black2 text-n-teal-11"
-          >
-            {{ webhook.url }}
-          </code>
-          <NextButton
-            :label="$t('COMPONENTS.CODE.BUTTON_TEXT')"
-            slate
-            outline
-            sm
-            @click="copyUrl(webhook.url)"
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between gap-2">
+            <label
+              :for="`call-greeting-${inbox.id}`"
+              class="mb-0 text-heading-3 text-n-slate-12"
+            >
+              {{ label('INCOMING.GREETING') }}
+              <span class="text-n-slate-11">{{ label('OPTIONAL') }}</span>
+            </label>
+            <CallMessagePlay
+              :text="form.greeting"
+              :audio-url="inbox.call_greeting_audio_url || ''"
+              :saved-text="inbox.call_greeting_message || ''"
+            />
+          </div>
+          <TextArea
+            :id="`call-greeting-${inbox.id}`"
+            v-model="form.greeting"
+            :placeholder="label('INCOMING.GREETING_PLACEHOLDER')"
+            :max-length="MESSAGE_MAX_LENGTH"
+            auto-height
           />
+          <p class="text-body-main text-n-slate-11">
+            {{ label('INCOMING.GREETING_HELP') }}
+          </p>
         </div>
+        <CallWhoRings
+          v-model:ring-strategy="form.ringStrategy"
+          v-model:ring-step-seconds="form.ringStepSeconds"
+          v-model:assignee-rings-first="form.assigneeRingsFirst"
+          :inbox-id="inbox.id"
+          :saved-step-seconds="inbox.ring_step_seconds"
+        />
+      </CallSettingsSection>
+
+      <CallSettingsSection
+        :title="label('UNANSWERED.TITLE')"
+        :description="label('UNANSWERED.DESCRIPTION')"
+      >
+        <label
+          class="flex flex-wrap items-center gap-2 mb-0 text-body-main text-n-slate-12"
+        >
+          {{ label('UNANSWERED.WAIT') }}
+          <Select
+            v-model="form.ringTimeSeconds"
+            :options="ringTimeOptions"
+            :aria-label="label('UNANSWERED.WAIT')"
+          />
+          {{ label('UNANSWERED.THEN') }}
+        </label>
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between gap-2">
+            <label
+              :for="`call-missed-message-${inbox.id}`"
+              class="mb-0 text-heading-3 text-n-slate-12"
+            >
+              {{ label('UNANSWERED.MESSAGE') }}
+            </label>
+            <CallMessagePlay
+              :text="form.missedCallMessage"
+              :audio-url="inbox.unanswered_call_audio_url || ''"
+              :saved-text="inbox.unanswered_call_message || ''"
+            />
+          </div>
+          <TextArea
+            :id="`call-missed-message-${inbox.id}`"
+            v-model="form.missedCallMessage"
+            :max-length="MESSAGE_MAX_LENGTH"
+            auto-height
+          />
+          <p class="text-body-main text-n-slate-11">
+            {{ label('UNANSWERED.MESSAGE_HELP') }}
+          </p>
+        </div>
+      </CallSettingsSection>
+
+      <CallSettingsSection
+        :title="label('OUT_OF_HOURS.TITLE')"
+        :description="label('OUT_OF_HOURS.DESCRIPTION')"
+      >
+        <CallOutOfHours
+          v-model:apply-hours="form.businessHoursCallsEnabled"
+          v-model:message="form.outOfHoursMessage"
+          :inbox="inbox"
+          :missed-call-message="form.missedCallMessage"
+          :max-length="MESSAGE_MAX_LENGTH"
+          @open-business-hours="emit('openBusinessHours')"
+        />
+      </CallSettingsSection>
+
+      <CallSettingsSection
+        :title="label('AFTER_CALL.TITLE')"
+        :description="label('AFTER_CALL.DESCRIPTION')"
+      >
+        <CallAfterCall
+          v-model:call-cooldown-seconds="form.callCooldownSeconds"
+          v-model:recording-enabled="form.recordingEnabled"
+          v-model:transcription-enabled="form.transcriptionEnabled"
+          :saved-cooldown-seconds="inbox.call_cooldown_seconds"
+        />
+      </CallSettingsSection>
+
+      <div class="flex justify-end px-5 py-4">
+        <NextButton
+          :label="label('SAVE')"
+          :is-loading="isSaving"
+          :disabled="!isDirty || !inbox.voice_enabled"
+          @click="save"
+        />
       </div>
     </div>
   </div>

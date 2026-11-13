@@ -798,22 +798,9 @@
       "BOT_CONFIGURATION": "Bot Configuration",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
-      "VOICE": "Voice",
       "CALLS": "Calls"
     },
     "VOICE_CONFIGURATION": {
-      "ENABLE_VOICE": {
-        "LABEL": "Enable voice calling",
-        "DESCRIPTION": "Agents can make and receive phone calls on this inbox."
-      },
-      "CREDENTIALS": {
-        "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
-      },
-      "OPTIONS": {
-        "INBOUND": "Allow incoming calls to this number; when off, they're declined but agents can still call out",
-        "RECORDING": "Record calls and attach the recording to the conversation",
-        "TRANSCRIPTION": "Transcribe call recordings into text using Captain"
-      },
       "INBOUND": {
         "LABEL": "Allow incoming calls",
         "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
@@ -822,57 +809,84 @@
         "LABEL": "Record calls",
         "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
       },
-      "ROUTING": {
-        "TITLE": "Incoming call routing",
-        "DESCRIPTION": "Calls ring agents who are online and can open the conversation. The conversation's assignee rings first when they aren't on another call.",
-        "STRATEGY": {
-          "LABEL": "Ringing order",
-          "SIMULTANEOUS": "Ring everyone at once",
-          "SEQUENTIAL": "Ring one more agent at a time, longest idle first"
-        },
-        "STEP": {
-          "LABEL": "Ring interval",
-          "HELP_SIMULTANEOUS": "Every interval, agents who become available start ringing too. A free assignee rings alone for the first interval.",
-          "HELP_SEQUENTIAL": "Every interval, one more agent starts ringing. The agents already ringing keep ringing."
-        },
-        "UNIT": "seconds",
-        "PREFER_FREE": "Ring agents who aren't on a call first",
-        "COOLDOWN": {
-          "LABEL": "Cooldown after a call",
-          "HELP": "After answering a call, an agent rings after the others for this long, or until they resolve that conversation. Set to 0 to turn it off."
-        },
-        "SAVE": "Save"
-      },
       "TRANSCRIPTION": {
         "LABEL": "Transcribe recordings",
         "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
+      }
+    },
+    "CALL_SETTINGS": {
+      "SAVE": "Save changes",
+      "OPTIONAL": "(optional)",
+      "OFF": "Off",
+      "SECONDS": "{seconds} seconds",
+      "MINUTES": "{n} minute | {n} minutes",
+      "CALLING": {
+        "TITLE": "Calling",
+        "DESCRIPTION": "Whether voice calling is enabled for this inbox",
+        "TAKE_INCOMING": "Taking incoming calls",
+        "TAKE_INCOMING_HELP": "Turn off to stop calls ringing without disconnecting the number. Outgoing calls still work.",
+        "CREDENTIALS_HELP": "Calling needs an API key from your Twilio account, and the account's auth token to check Twilio's requests.",
+        "REPLACE_HELP": "Enter a new API key to replace the one this inbox uses.",
+        "CONNECT": "Turn on calling",
+        "CONNECTED": "Connected",
+        "TWILIO_ACCOUNT": "Twilio account {sid}",
+        "MANAGE_CONNECTION": "Manage connection",
+        "HIDE_CONNECTION": "Hide connection",
+        "UPDATE_CONNECTION": "Update connection"
       },
-      "ANNOUNCEMENT": {
-        "TWILIO_HELP": "Saving generates the spoken announcement using one Captain response credit. You can listen to the saved audio below.",
-        "READ_BY_TWILIO": "Without saved audio, Twilio reads the announcement text aloud.",
-        "ACTIVE": "Current announcement",
-        "SAVE": "Save announcement"
-      },
-      "BUSINESS_HOURS": {
-        "LABEL": "Apply business hours, so calls outside them don't ring agents and are logged as missed",
-        "HOURS_NOT_ENABLED": "Business hours are turned off for this inbox, so calls keep ringing. Turn them on in the Business Hours tab.",
-        "PLACEHOLDER": "Our support team is available Monday through Friday, from 9 AM to 6 PM. Please call again during business hours."
-      },
-      "GREETING": {
-        "LABEL": "Play a greeting",
-        "DESCRIPTION": "Plays once while agents are being rung, and stops when one answers.",
-        "PLACEHOLDER": "Thank you for calling. Please hold while we connect you to the next available agent."
+      "INCOMING": {
+        "TITLE": "When a call comes in",
+        "DESCRIPTION": "What the caller hears and who rings.",
+        "GREETING": "Greeting",
+        "GREETING_PLACEHOLDER": "Thanks for calling. Connecting you to the team.",
+        "GREETING_HELP": "Played before agents ring. Leave empty for no greeting.",
+        "SIMULTANEOUS": "Ring everyone at once",
+        "SIMULTANEOUS_HELP": "All available agents ring together. The first to answer gets the call.",
+        "SEQUENTIAL": "Ring one agent at a time",
+        "SEQUENTIAL_HELP": "Starts with the longest-idle agent, then adds the next if nobody answers.",
+        "STEP": "Move to the next agent after",
+        "ASSIGNEE_FIRST": "Connect returning callers to their previous agent first",
+        "ASSIGNEE_FIRST_HELP": "Turn off for line-staffed teams on rotation.",
+        "ALWAYS": "Always:",
+        "ALWAYS_NOTE": "agents who are on a call, in wrap-up, or not taking calls are never rung. The caller waits, and the first agent who frees up rings.",
+        "ROUTING": "How calls are routed"
       },
       "UNANSWERED": {
-        "LABEL": "Play a message when unanswered",
-        "DESCRIPTION": "Plays if no one answers within the ring time, then the call ends as missed. Until then, the call rings any agent who becomes available.",
-        "PLACEHOLDER": "Sorry, nobody is available to take your call right now. Please try again later.",
-        "TIMEOUT": {
-          "LABEL": "Ring time",
-          "UNIT": "sec",
-          "RANGE": "10–300 sec"
-        }
-      }
+        "TITLE": "If nobody answers",
+        "DESCRIPTION": "Also used straight away when no agent is available.",
+        "WAIT": "Wait",
+        "THEN": "then play the message and hang up",
+        "MESSAGE": "Missed-call message",
+        "MESSAGE_HELP": "Read out to the caller."
+      },
+      "OUT_OF_HOURS": {
+        "TITLE": "Outside business hours",
+        "DESCRIPTION": "Uses the inbox's hours from the Business hours tab.",
+        "APPLY": "Apply business hours to calls",
+        "APPLY_HELP": "When on, calls outside business hours follow the rule below.",
+        "HOURS_OFF": "Business hours are off for this inbox. Turn them on for the inbox first, then calls can follow them.",
+        "HOURS_OFF_APPLIED": "Business hours are off for this inbox, so calls will keep ringing as usual at all times. Turn business hours on for the inbox to apply this.",
+        "GO_TO_HOURS": "Go to Business hours",
+        "INBOX_HOURS": "Inbox hours:",
+        "ALL_DAY": "all day",
+        "ALWAYS_CLOSED": "Closed every day",
+        "EDIT_HOURS": "Edit hours",
+        "MESSAGE": "Out-of-hours message",
+        "SAME": "Same as the missed-call message",
+        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends."
+      },
+      "AFTER_CALL": {
+        "TITLE": "After a call",
+        "DESCRIPTION": "Wrap-up and records.",
+        "WRAP_UP": "Wrap-up time",
+        "WRAP_UP_HELP": "Agents in wrap-up aren't rung; resolving the conversation also ends it.",
+        "RECORD": "Record calls",
+        "TRANSCRIBE": "Transcribe recordings",
+        "TRANSCRIBE_HELP": "Turned into text with Captain and shown with the call. Needs recording on.",
+        "RECORD_HELP": "The recording is attached to the conversation."
+      },
+      "PLAY": "Play",
+      "STOP": "Stop"
     },
     "WHATSAPP_CALLING": {
       "ENABLE": {

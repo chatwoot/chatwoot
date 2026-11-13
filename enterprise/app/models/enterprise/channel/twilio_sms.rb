@@ -4,7 +4,7 @@ module Enterprise::Channel::TwilioSms
   include Concerns::CallRecordingSettings
   include Concerns::CallRoutingSettings
 
-  # The ring time offered before an inbox saves its own
+  # How long a call rings before the caller hears the missed-call message, until the inbox saves its own
   DEFAULT_RING_TIMEOUT_SECONDS = 60
 
   def self.prepended(base)
@@ -21,11 +21,6 @@ module Enterprise::Channel::TwilioSms
 
   def business_hours_calls_enabled?
     provider_config['business_hours_calls_enabled'] == true
-  end
-
-  # A call nobody answers within the ring time ends with the no-answer announcement
-  def unanswered_calls_enabled?
-    provider_config['unanswered_calls_enabled'] == true
   end
 
   def unanswered_call_timeout_seconds
