@@ -38,6 +38,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -51,6 +55,7 @@ const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
 const agentCredentials = ref({ email: props.email });
+const agentActive = ref(props.active !== false);
 
 const rules = {
   agentName: { required, minLength: minLength(1) },
@@ -126,6 +131,7 @@ const editAgent = async () => {
       id: props.id,
       name: agentName.value,
       availability: agentAvailability.value,
+      active: agentActive.value,
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -201,6 +207,20 @@ const resetPassword = async () => {
           <span v-if="v$.agentAvailability.$error" class="message">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
           </span>
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label>
+          {{ $t('AGENT_MGMT.EDIT.FORM.STATUS.LABEL') }}
+          <select v-model="agentActive">
+            <option :value="true">
+              {{ $t('AGENT_MGMT.EDIT.FORM.STATUS.ACTIVE') }}
+            </option>
+            <option :value="false">
+              {{ $t('AGENT_MGMT.EDIT.FORM.STATUS.SUSPENDED') }}
+            </option>
+          </select>
         </label>
       </div>
 

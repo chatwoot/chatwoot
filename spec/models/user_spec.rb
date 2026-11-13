@@ -343,4 +343,23 @@ RSpec.describe User do
       expect { user_with_tokens.save! }.to change(user_with_tokens.user_sessions, :count).by(-2)
     end
   end
+
+  describe '#active_for_authentication?' do
+    let(:test_user) { create(:user) }
+    let(:account) { create(:account) }
+
+    it 'returns true when user has no account_users' do
+      expect(test_user.active_for_authentication?).to be(true)
+    end
+
+    it 'returns true when user has an active account_user' do
+      create(:account_user, user: test_user, account: account, active: true)
+      expect(test_user.active_for_authentication?).to be(true)
+    end
+
+    it 'returns false when user has only suspended account_users' do
+      create(:account_user, user: test_user, account: account, active: false)
+      expect(test_user.active_for_authentication?).to be(false)
+    end
+  end
 end

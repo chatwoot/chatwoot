@@ -14,10 +14,18 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
   private
 
   def render_confirmation_success
+    return render_suspended_sign_in_blocked unless @confirmable.active_for_authentication?
     return render_mfa_sign_in_required if mfa_sign_in_required?(@confirmable)
 
     send_auth_headers(@confirmable)
     render partial: 'devise/auth', formats: [:json], locals: { resource: @confirmable }
+  end
+
+  def render_suspended_sign_in_blocked
+    render json: {
+      message: I18n.t('devise.failure.suspended'),
+      redirect_url: '/app/login'
+    }, status: :ok
   end
 
   def render_confirmation_error
