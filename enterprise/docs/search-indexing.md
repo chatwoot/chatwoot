@@ -33,7 +33,6 @@ This is at-least-once processing, not a transactional outbox. Process death
 between a database commit and Redis enqueue requires reconciliation/backfill.
 No entity lifecycle or search read is enabled by the infrastructure alone.
 
-
 Backlogged streams rotate behind streams still awaiting a turn, so the bounded
 dispatch page does not repeatedly select the same accounts.
 
@@ -46,3 +45,32 @@ Message activity and silent historical imports explicitly submit committed
 conversation IDs. Contact identity edits/deletions refresh dependent conversation
 documents in resumable pages of 500. Contact activity-only changes do not fan out.
 The `contact_conversations` buffer stores dependency work, not contact documents.
+
+## Conversation backfills and recovery
+
+Keep `conversation_search_indexing` enabled before starting a backfill. Run
+`bundle exec rails search:backfill ACCOUNT_ID=123` for a canary account, or omit
+`ACCOUNT_ID` to schedule eligible accounts in pages of 25. `ENTITY=contacts`
+is unsupported. Use separate `search_backfill` workers so rebuilds cannot
+consume the live-indexing worker capacity.
+
+Each account persists a run token, generation, cursor, counters, and readiness.
+Pages contain at most 500 records; producers pause above 2,000 pending IDs.
+Source verification repairs missing/stale documents; an index sweep removes
+orphans. Readiness requires a drained queue, successful refresh, complete
+verification responses, and no permanent item failures. Reconciliation runs
+daily. Account deletion starts a purge even when live indexing ran without a
+backfill, and uses the current generation.
+
+- Inspect: `bundle exec rails search:indexing_status ACCOUNT_ID=123`
+- Pause: `bundle exec rails search:pause_backfill STATE_ID=1`
+- Resume: `bundle exec rails search:resume_backfill STATE_ID=1`
+- Repair the cause of permanent errors, then run
+  `bundle exec rails search:retry_failed_writes STATE_ID=1 CURSOR=0` until the
+  returned cursor is zero; resume the backfill afterward.
+
+An epoch/schema change requires restarting the backfill. Never mark an account
+ready manually. These commands schedule work; deploying the PR does not start
+production backfills. Redis epoch rotation makes old indices inaccessible to
+current readers; operators must remove retired indices under the deployment's
+data-retention policy.
