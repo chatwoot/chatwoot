@@ -187,6 +187,8 @@ en:
     messages:
       search:
         time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+      telegram_delete:
+        failed: 'Could not delete the message on Telegram: %{reason}'
     categories:
       locale:
         unique: should be unique in the category and portal

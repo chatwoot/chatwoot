@@ -5,7 +5,17 @@ summary: Delete a message
 security:
   - userBearerAuth: []
   - userApiKey: []
-description: Delete a message and it's attachments from the conversation.
+description: |
+  Delete a message and it's attachments from the conversation.
+  With `delete_on_channel`, an outgoing message is also deleted for the customer on the channel, if the channel supports it and still allows deleting the message.
+  If the channel refuses, the message is kept and a 422 error is returned.
+parameters:
+  - name: delete_on_channel
+    in: query
+    description: Also delete the message for the customer on the channel, where the channel supports it.
+    schema:
+      type: boolean
+      default: false
 responses:
   '200':
     description: Success
@@ -17,6 +27,12 @@ responses:
           $ref: '#/components/schemas/bad_request_error'
   '404':
     description: The message or conversation does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: The channel refused to delete the message, so it was not deleted in Chatwoot either
     content:
       application/json:
         schema:

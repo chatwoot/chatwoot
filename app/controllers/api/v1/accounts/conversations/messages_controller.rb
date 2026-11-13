@@ -19,6 +19,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def destroy
+    # opt-in: deletes the message for the customer first, so a refusal from the channel keeps it in Chatwoot too
+    Messages::DeleteOnChannelService.new(message: message).perform if delete_on_channel?
     ActiveRecord::Base.transaction do
       # keeps the forward marker so replies to a deleted forward stay out of this conversation
       message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text,
@@ -88,7 +90,11 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id, :target_language, :status, :external_error)
+    params.permit(:id, :target_language, :status, :external_error, :delete_on_channel)
+  end
+
+  def delete_on_channel?
+    ActiveModel::Type::Boolean.new.cast(permitted_params[:delete_on_channel])
   end
 
   def already_translated_content_available?

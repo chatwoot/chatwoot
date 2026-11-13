@@ -8014,7 +8014,18 @@
             "userApiKey": []
           }
         ],
-        "description": "Delete a message and it's attachments from the conversation.",
+        "description": "Delete a message and it's attachments from the conversation.\nWith `delete_on_channel`, an outgoing message is also deleted for the customer on the channel, if the channel supports it and still allows deleting the message.\nIf the channel refuses, the message is kept and a 422 error is returned.\n",
+        "parameters": [
+          {
+            "name": "delete_on_channel",
+            "in": "query",
+            "description": "Also delete the message for the customer on the channel, where the channel supports it.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -8031,6 +8042,16 @@
           },
           "404": {
             "description": "The message or conversation does not exist in the account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The channel refused to delete the message, so it was not deleted in Chatwoot either",
             "content": {
               "application/json": {
                 "schema": {
@@ -11865,6 +11886,13 @@
               "null"
             ],
             "description": "Telegram bot name associated with the inbox"
+          },
+          "message_delete_window": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Seconds after sending in which a message can also be deleted for the customer on the channel, null when the channel does not support it"
           },
           "inbox_identifier": {
             "type": [

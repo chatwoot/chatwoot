@@ -17,10 +17,10 @@ RSpec.describe Telegram::SendAttachmentsService do
         .to_return(status: 200, body: { ok: true, result: { message_id: 'document' } }.to_json, headers: { 'Content-Type' => 'application/json' })
     end
 
-    it 'sends all types of attachments in seperate groups and returns the last successful message ID from the batch' do
+    it 'sends all types of attachments in seperate groups and returns the message IDs of every group' do
       attach_files(message)
       result = service.perform
-      expect(result).to eq('document')
+      expect(result).to eq(%w[media media document])
       # videos and images are sent in a media group
       # audio is sent in another group
       expect(a_request(:post, "#{telegram_api_url}/sendMediaGroup")).to have_been_made.times(2)
@@ -33,9 +33,9 @@ RSpec.describe Telegram::SendAttachmentsService do
         message.save!
       end
 
-      it 'sends documents individually and returns the message ID of the first successful document' do
+      it 'sends documents individually and returns the message ID of each document' do
         result = service.perform
-        expect(result).to eq('document')
+        expect(result).to eq(%w[document document])
         expect(a_request(:post, "#{telegram_api_url}/sendDocument")).to have_been_made.times(2)
       end
     end
@@ -65,9 +65,13 @@ RSpec.describe Telegram::SendAttachmentsService do
         message.save!
       end
 
-      it 'sends in a single media group and returns the message ID' do
+      it 'sends in a single media group and returns the message ID of every item in the group' do
+        stub_request(:post, "#{telegram_api_url}/sendMediaGroup")
+          .to_return(status: 200, body: { ok: true, result: [{ message_id: 1 }, { message_id: 2 }, { message_id: 3 }] }.to_json,
+                     headers: { 'Content-Type' => 'application/json' })
+
         result = service.perform
-        expect(result).to eq('media')
+        expect(result).to eq([1, 2, 3])
         expect(a_request(:post, "#{telegram_api_url}/sendMediaGroup")).to have_been_made.once
       end
     end
@@ -80,7 +84,7 @@ RSpec.describe Telegram::SendAttachmentsService do
 
       it 'sends audio messages in single media group and returns the message ID' do
         result = service.perform
-        expect(result).to eq('media')
+        expect(result).to eq(['media'])
         expect(a_request(:post, "#{telegram_api_url}/sendMediaGroup")).to have_been_made.once
       end
     end
@@ -95,7 +99,7 @@ RSpec.describe Telegram::SendAttachmentsService do
 
       it 'sends photos and videos in a media group and audio in a separate group' do
         result = service.perform
-        expect(result).to eq('media')
+        expect(result).to eq(%w[media media])
         expect(a_request(:post, "#{telegram_api_url}/sendMediaGroup")).to have_been_made.times(2)
       end
     end
@@ -107,12 +111,29 @@ RSpec.describe Telegram::SendAttachmentsService do
                                           description: 'Internal server error' }.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
-      it 'logs an error, stops processing, and returns nil' do
+      it 'logs an error, stops processing, and returns the message IDs sent before the failure' do
         attach_files(message)
         expect(Rails.logger).to receive(:error).at_least(:once)
         result = service.perform
-        expect(result).to be_nil
+        expect(result).to eq(%w[media media])
         expect(a_request(:post, "#{telegram_api_url}/sendDocument")).to have_been_made.once
+      end
+    end
+
+    context 'when a later document fails to send' do
+      before do
+        2.times { attach_file_to_message(message, 'file', 'sample.pdf', 'application/pdf') }
+        message.save!
+
+        stub_request(:post, "#{telegram_api_url}/sendDocument")
+          .to_return({ status: 200, body: { ok: true, result: { message_id: 'document' } }.to_json,
+                       headers: { 'Content-Type' => 'application/json' } },
+                     { status: 400, body: { ok: false, description: 'Bad Request' }.to_json, headers: { 'Content-Type' => 'application/json' } })
+      end
+
+      it 'returns the message ID of the documents sent before the failure' do
+        expect(service.perform).to eq(['document'])
+        expect(message.reload.status).to eq('failed')
       end
     end
 

@@ -46,6 +46,22 @@ RSpec.describe 'Enterprise Conversation Messages API', type: :request do
       expect(response).to have_http_status(:not_found)
     end
 
+    it 'does not create an audit log when the channel refuses to delete the message' do
+      channel_service = instance_double(Messages::DeleteOnChannelService)
+      allow(Messages::DeleteOnChannelService).to receive(:new).with(message: message).and_return(channel_service)
+      allow(channel_service).to receive(:perform)
+        .and_raise(CustomExceptions::ChannelMessageDeleteFailed.new(message: 'Could not delete the message on the channel'))
+
+      expect do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}?delete_on_channel=true",
+               headers: agent.create_new_auth_token,
+               as: :json
+      end.not_to change(Enterprise::AuditLog, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(message.reload.deleted).to be_nil
+    end
+
     it 'does not create a duplicate audit log when an already-deleted message is deleted again' do
       path = "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}"
 
