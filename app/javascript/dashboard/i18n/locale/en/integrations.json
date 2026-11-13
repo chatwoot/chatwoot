@@ -792,35 +792,35 @@
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
         },
         "RECENT_CONVERSATIONS": {
-          "LABEL": "Recap recent conversations",
+          "LABEL": "What's new in recent conversations?",
           "CONTENT": "Summarize the 10 most recent conversations: what each customer asked and where it stands."
         },
         "TEAM_WORKLOAD": {
-          "LABEL": "Open conversations by agent",
+          "LABEL": "How busy is each agent right now?",
           "CONTENT": "How many open conversations does each agent have? Include how many open conversations have no one assigned."
         },
         "CUSTOMER_HISTORY": {
-          "LABEL": "This customer's history",
+          "LABEL": "Has this customer written before?",
           "CONTENT": "Find this customer's earlier conversations with us and summarize what they contacted us about each time and how it ended."
         },
         "CAN_CLOSE": {
-          "LABEL": "What can I resolve?",
+          "LABEL": "Which conversations can I resolve?",
           "CONTENT": "Review my open conversations and find the ones where the customer's question was answered and nothing is left to do. Give a one-line reason for each, and ask me before resolving any."
         },
         "FOLLOW_UPS": {
-          "LABEL": "Did I promise any follow-ups?",
+          "LABEL": "Did I promise anyone a follow-up?",
           "CONTENT": "Review my conversations from the last 14 days and find any where I promised the customer an update or a follow-up that I haven't sent yet. Link each one and say what I promised."
         },
         "UPSET_CUSTOMERS": {
-          "LABEL": "Which customers are upset?",
+          "LABEL": "Which of my customers are upset?",
           "CONTENT": "Review my 20 most recent conversations and find customers who sound frustrated or upset. For each, link the conversation and say what went wrong."
         },
         "COMPARE_PERIODS": {
-          "LABEL": "Compare the last 30 days",
+          "LABEL": "How did the last 30 days compare?",
           "CONTENT": "Compare the last 30 days with the 30 days before: conversations, resolutions, average first response time, and average resolution time. Point out the biggest changes."
         },
         "SLOWEST_REPLIES": {
-          "LABEL": "Who is slowest to reply?",
+          "LABEL": "Who replies slowest to customers?",
           "CONTENT": "Over the last 30 days, which agents and which inboxes had the slowest average first response time? Show the five slowest of each with how many conversations they handled."
         },
         "LOW_RATINGS": {
@@ -828,15 +828,15 @@
           "CONTENT": "Find the customer satisfaction ratings of 1 or 2 from the last 30 days, read those conversations, and group the reasons customers were unhappy into a few distinct reasons. Link an example for each reason."
         },
         "MONTHLY_VOLUME": {
-          "LABEL": "Volume by month",
+          "LABEL": "How has volume changed by month?",
           "CONTENT": "Show conversations and resolutions for each of the last six months as a chart."
         },
         "COMPARE_INBOXES": {
-          "LABEL": "Compare inboxes, last 30 days",
+          "LABEL": "Which inbox is busiest this month?",
           "CONTENT": "For each inbox, show conversations, resolutions, and average first response time over the last 30 days."
         },
         "LOW_RATINGS_BY_AGENT": {
-          "LABEL": "Low ratings by agent",
+          "LABEL": "Why did agents get low ratings?",
           "CONTENT": "Count the customer satisfaction ratings of 1 or 2 from the last 30 days by assigned agent. Then read those conversations and say, for each agent, what went wrong most often."
         },
         "LABEL_RESOLVED": {
@@ -844,7 +844,7 @@
           "CONTENT": "Find conversations resolved in the last 7 days that have no labels, and suggest one of our existing labels for each. Ask me before adding any labels."
         },
         "CAPTAIN_HANDOFFS": {
-          "LABEL": "Captain handoffs and reasons",
+          "LABEL": "Why did Captain hand off to agents?",
           "CONTENT": "Which conversations did Captain hand off to a human in the last 7 days? Read them and group the reasons it could not finish on its own, with an example for each."
         }
       },
