@@ -14,6 +14,10 @@ class Instagram::ReadStatusService
   def message
     return unless params[:read][:mid]
 
-    @message ||= @channel.inbox.messages.find_by(source_id: params[:read][:mid])
+    @message ||= if channel.is_a?(Channel::Instagram)
+                   channel.find_message_by_source_id(params[:read][:mid])
+                 else
+                   channel.inbox.messages.find_by(source_id: params[:read][:mid])
+                 end
   end
 end

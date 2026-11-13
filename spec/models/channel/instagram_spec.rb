@@ -52,6 +52,32 @@ RSpec.describe Channel::Instagram do
     end
   end
 
+  describe '#find_message_by_source_id' do
+    let(:channel) { create(:channel_instagram, auth_type: 'unified_login', expires_at: nil) }
+    let(:ids) { JSON.parse(Rails.root.join('spec/fixtures/instagram/unified_login_message_ids.json').read) }
+    let(:conversation) { create(:conversation, account: channel.account, inbox: channel.inbox) }
+    let!(:message) do
+      create(:message, account: channel.account, inbox: channel.inbox, conversation: conversation,
+                       message_type: :outgoing, source_id: ids.fetch('first_send'))
+    end
+
+    it 'finds the original message using either provider ID' do
+      expect(channel.find_message_by_source_id(ids.fetch('first_send'))).to eq(message)
+      expect(channel.find_message_by_source_id(ids.fetch('first_echo'))).to eq(message)
+    end
+
+    it 'does not match an equivalent ID in a different inbox' do
+      other_channel = create(:channel_instagram, auth_type: 'unified_login', expires_at: nil)
+      expect(other_channel.find_message_by_source_id(ids.fetch('first_echo'))).to be_nil
+    end
+
+    it 'keeps exact ID matching for Instagram Login' do
+      channel.update!(auth_type: 'instagram_login', expires_at: 60.days.from_now)
+      expect(channel.find_message_by_source_id(ids.fetch('first_echo'))).to be_nil
+      expect(channel.find_message_by_source_id(ids.fetch('first_send'))).to eq(message)
+    end
+  end
+
   describe 'concerns' do
     it_behaves_like 'reauthorizable'
 

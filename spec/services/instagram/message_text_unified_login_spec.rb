@@ -28,4 +28,20 @@ RSpec.describe Instagram::MessageText do
     expect(builder.send(:get_story_object_from_source_id, 'story-message')).to include('story' => { 'id' => 'story1' })
     expect(request).to have_been_requested.once
   end
+
+  it 'unsends the original outgoing message when Meta supplies its echo ID' do
+    ids = JSON.parse(Rails.root.join('spec/fixtures/instagram/unified_login_message_ids.json').read)
+    inbox = channel.inbox
+    conversation = create(:conversation, account: inbox.account, inbox: inbox)
+    message = create(:message, account: inbox.account, inbox: inbox, conversation: conversation,
+                               message_type: :outgoing, source_id: ids.fetch('first_send'))
+    messaging = {
+      sender: { id: channel.instagram_id }, recipient: { id: 'contact-ig' },
+      message: { mid: ids.fetch('first_echo'), is_echo: true, is_deleted: true }
+    }.with_indifferent_access
+    described_class.new(messaging, channel).perform
+
+    expect(message.reload.deleted).to be(true)
+    expect(message.content).to eq(I18n.t('conversations.messages.deleted'))
+  end
 end
