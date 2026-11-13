@@ -11,7 +11,7 @@ describe Messages::Instagram::MessageBuilder do
 
   let!(:account) { create(:account) }
   let!(:instagram_channel) { create(:channel_instagram, account: account, instagram_id: 'chatwoot-app-user-id-1') }
-  let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
+  let!(:instagram_inbox) { instagram_channel.inbox.tap { |inbox| inbox.update!(greeting_enabled: false) } }
   let!(:dm_params) { build(:instagram_message_create_event).with_indifferent_access }
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
   let!(:shared_reel_params) { build(:instagram_shared_reel_event).with_indifferent_access }
@@ -86,6 +86,71 @@ describe Messages::Instagram::MessageBuilder do
       described_class.new(messaging, instagram_inbox).perform
 
       expect(instagram_inbox.messages.count).to eq initial_message_count
+    end
+
+    context 'with Unified Login echo IDs' do
+      let(:ids) { JSON.parse(Rails.root.join('spec/fixtures/instagram/unified_login_message_ids.json').read) }
+      let(:messaging) { dm_params[:entry][0][:messaging][0] }
+      let(:contact) { create_instagram_contact_for_sender(messaging[:sender][:id], instagram_inbox) }
+      let(:conversation) { create(:conversation, account: account, inbox: instagram_inbox, contact: contact) }
+      let!(:outgoing) do
+        create(:message, account: account, inbox: instagram_inbox, conversation: conversation,
+                         message_type: :outgoing, content: 'Repeated reply', source_id: ids.fetch('first_send'))
+      end
+
+      before do
+        instagram_channel.update!(auth_type: 'unified_login', expires_at: nil)
+      end
+
+      def echo_for(source_id)
+        {
+          sender: { id: instagram_channel.instagram_id }, recipient: { id: contact.contact_inboxes.find_by!(inbox: instagram_inbox).source_id },
+          message: { mid: source_id, text: 'Repeated reply', is_echo: true }
+        }.with_indifferent_access
+      end
+
+      it 'discards an echo with a different encoding and preserves the send API ID' do
+        echo = echo_for(ids.fetch('first_echo'))
+        expect { 2.times { described_class.new(echo, instagram_inbox, outgoing_echo: true).perform } }
+          .not_to change(instagram_inbox.messages, :count)
+        expect(outgoing.reload.source_id).to eq(ids.fetch('first_send'))
+      end
+
+      it 'keeps two identical replies while discarding both echoes' do
+        create(:message, account: account, inbox: instagram_inbox, conversation: conversation,
+                         message_type: :outgoing, content: outgoing.content, source_id: ids.fetch('second_send'))
+        expect do
+          [ids.fetch('first_echo'), ids.fetch('second_echo')].each do |source_id|
+            described_class.new(echo_for(source_id), instagram_inbox, outgoing_echo: true).perform
+          end
+        end.not_to change(instagram_inbox.messages, :count)
+        expect(conversation.messages.outgoing.count).to eq(2)
+      end
+
+      it 'keeps a message sent outside Chatwoot even if its text is identical' do
+        expect do
+          described_class.new(echo_for(ids.fetch('second_echo')), instagram_inbox, outgoing_echo: true).perform
+        end.to change(instagram_inbox.messages, :count).by(1)
+        expect(conversation.messages.last.content_attributes['external_echo']).to be(true)
+      end
+
+      it 'discards an attachment echo before downloading its media' do
+        echo = echo_for(ids.fetch('first_echo'))
+        echo[:message].delete(:text)
+        echo[:message][:attachments] = [{ type: 'image', payload: { url: 'https://www.example.com/test.jpeg' } }]
+        expect { described_class.new(echo, instagram_inbox, outgoing_echo: true).perform }
+          .not_to change(instagram_inbox.messages, :count)
+        expect(a_request(:get, 'https://www.example.com/test.jpeg')).not_to have_been_made
+      end
+
+      it 'links an incoming quoted reply to the original outgoing message' do
+        messaging[:message][:reply_to] = { mid: ids.fetch('first_echo') }
+        described_class.new(messaging, instagram_inbox).perform
+
+        reply = conversation.messages.last
+        expect(reply.content_attributes['in_reply_to']).to eq(outgoing.id)
+        expect(reply.content_attributes['in_reply_to_external_id']).to eq(outgoing.source_id)
+      end
     end
 
     it 'creates message for shared reel' do

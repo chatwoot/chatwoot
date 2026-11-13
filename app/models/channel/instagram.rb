@@ -86,6 +86,13 @@ class Channel::Instagram < ApplicationRecord
     Instagram::RefreshOauthTokenService.new(channel: self).access_token
   end
 
+  def find_message_by_source_id(source_id)
+    return if source_id.blank?
+
+    source_ids = unified_login? ? Instagram::MessageId.aliases(source_id) : [source_id]
+    inbox.messages.find_by(source_id: source_ids)
+  end
+
   def base_uri
     host = unified_login? ? 'graph.facebook.com' : 'graph.instagram.com'
     "https://#{host}/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
