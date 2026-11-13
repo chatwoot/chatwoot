@@ -127,7 +127,13 @@ const toggleDropdown = toggle => {
           :placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         />
       </div>
-      <DropdownSection class="[&>ul]:max-h-72">
+      <DropdownSection
+        :class="
+          showSearch
+            ? '[&>ul]:h-72 [&>ul]:max-h-[50dvh] [&>ul]:content-start'
+            : '[&>ul]:max-h-72'
+        "
+      >
         <template v-for="option in searchResults" :key="option.value">
           <li
             v-if="option.disabled"
