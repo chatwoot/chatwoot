@@ -8,9 +8,13 @@ class ConversationBuilder
   private
 
   def look_up_exising_conversation
-    return unless @contact_inbox.inbox.lock_to_single_conversation?
+    return @contact_inbox.conversations.last if @contact_inbox.inbox.lock_to_single_conversation?
+    return unless @contact_inbox.inbox.allow_messages_after_resolved
 
-    @contact_inbox.conversations.last
+    # Mirrors incoming message services (e.g. Whatsapp::IncomingMessageBaseService#set_conversation):
+    # when the inbox reopens existing conversations, agent-initiated messages should land in the
+    # contact's last non-resolved conversation instead of spawning a duplicate.
+    @contact_inbox.conversations.where.not(status: :resolved).last
   end
 
   def create_new_conversation
