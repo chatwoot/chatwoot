@@ -14,11 +14,14 @@ import GalleryView from 'dashboard/components/widgets/conversation/components/Ga
 
 const { t } = useI18n();
 
-const { filteredCurrentChatAttachments, attachments } = useMessageContext();
+const { filteredCurrentChatAttachments, attachments, contentAttributes } =
+  useMessageContext();
 
 const attachment = computed(() => {
   return attachments.value[0];
 });
+
+const isHd = computed(() => contentAttributes?.value?.imageQuality === 'hd');
 
 const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry();
 
@@ -67,6 +70,13 @@ const handleImageError = () => {
         :width="attachment.width"
         :height="attachment.height"
       />
+      <span
+        v-if="isHd"
+        class="absolute start-2 bottom-2 px-1.5 py-0.5 rounded text-xs font-semibold leading-none pointer-events-none bg-n-slate-12/60 text-n-slate-1"
+        data-testid="hd-badge"
+      >
+        {{ $t('COMPONENTS.MEDIA.HD_BADGE') }}
+      </span>
       <div
         class="inset-0 p-2 pointer-events-none absolute bg-gradient-to-tl from-n-slate-12/30 dark:from-n-slate-1/50 via-transparent to-transparent hidden group-hover:flex"
       />
