@@ -28,6 +28,7 @@
   - purgable
   - housekeeping
   - async_database_migration
+  - search_indexing
   - bulk_reindex_low
   - monitors_backfill
   - active_storage_analysis
