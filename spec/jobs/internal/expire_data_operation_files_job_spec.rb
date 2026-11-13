@@ -22,6 +22,74 @@ RSpec.describe Internal::ExpireDataOperationFilesJob do
     expect(export.reload.artifacts_expired_at).to be_nil
   end
 
+  context 'when cleaning up a large import' do
+    let(:record) do
+      create(:data_import, source_provider: 'csv', source_type: 'file', import_types: ['contacts'],
+                           status: :failed, updated_at: 31.days.ago)
+    end
+    let!(:items) do
+      Array.new(3) do |index|
+        item = record.items.create!(source_provider: 'csv', source_object_type: 'contact', source_object_id: "row:#{index}", status: :failed,
+                                    metadata: { fields: { email: 'invalid' }, row_number: index }, last_error_message: 'Invalid email')
+        record.import_errors.create!(data_import_item: item, error_code: 'InvalidCsv', message: 'Invalid email')
+        item
+      end
+    end
+
+    before do
+      stub_const('Internal::ExpireDataOperationFilesJob::CLEANUP_BATCH_SIZE', 2)
+      record.update!(updated_at: 31.days.ago)
+    end
+
+    it 'bounds row and error cleanup without holding the import transaction open', :aggregate_failures do
+      writes = []
+      transaction_depth = ActiveRecord::Base.connection.open_transactions
+      subscriber = lambda do |event|
+        sql = event.payload[:sql]
+        next unless sql.start_with?('UPDATE "data_import_items"', 'DELETE FROM "data_import_errors"')
+
+        writes << sql
+        expect(ActiveRecord::Base.connection.open_transactions).to eq(transaction_depth)
+        expect(record.reload).not_to be_source_available
+        expect(DataImports::RestartService.new(account: record.account, data_import: record).perform).to eq(:access_token_missing)
+      end
+
+      ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record') { described_class.perform_now }
+
+      expect(writes.count { |sql| sql.start_with?('UPDATE') }).to eq(2)
+      expect(writes.count { |sql| sql.start_with?('DELETE') }).to eq(2)
+      expect(record.items.order(:id).pluck(:metadata)).to eq([{ 'row_number' => 0 }, { 'row_number' => 1 }, { 'row_number' => 2 }])
+      expect(record.import_errors).to be_empty
+      expect(record.reload.source_metadata).not_to have_key('artifacts_cleanup_pending')
+    end
+
+    it 'retries unfinished batches after expiry without restoring source access', :aggregate_failures do
+      updates = 0
+      allow(DataImportItem.connection).to receive(:exec_update).and_wrap_original do |method, *args|
+        if args[1] == 'DataImportItem Update All'
+          updates += 1
+          raise ActiveRecord::StatementInvalid, 'Interrupted cleanup' if updates == 2
+        end
+        method.call(*args)
+      end
+
+      expect { described_class.perform_now }.to raise_error(ActiveRecord::StatementInvalid, 'Interrupted cleanup')
+      expect(items.first.reload.metadata).not_to have_key('fields')
+      expect(items.last.reload.metadata).to have_key('fields')
+      expired_at = record.reload.source_metadata.fetch('artifacts_expired_at')
+      expect(record.source_metadata['artifacts_cleanup_pending']).to be(true)
+      expect(record).not_to be_source_available
+
+      described_class.perform_now
+
+      expect(record.items.order(:id).pluck(:metadata)).to eq([{ 'row_number' => 0 }, { 'row_number' => 1 }, { 'row_number' => 2 }])
+      expect(record.items.pluck(:last_error_message)).to all(be_nil)
+      expect(record.import_errors).to be_empty
+      expect(record.reload.source_metadata.fetch('artifacts_expired_at')).to eq(expired_at)
+      expect(record.source_metadata).not_to have_key('artifacts_cleanup_pending')
+    end
+  end
+
   it 'expires completed exports without deleting their history or saved selection' do
     account = create(:account)
     export = account.data_exports.create!(name: 'Done', status: :completed, completed_at: 31.days.ago,

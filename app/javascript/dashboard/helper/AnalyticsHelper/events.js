@@ -49,9 +49,6 @@ export const CONTACTS_EVENTS = Object.freeze({
   SEARCH: 'Searched contacts list',
   CREATE_CONTACT: 'Created a contact',
   MERGED_CONTACTS: 'Used merge contact option',
-  IMPORT_MODAL_OPEN: 'Opened import contacts modal',
-  IMPORT_FAILURE: 'Import contacts failed',
-  IMPORT_SUCCESS: 'Imported contacts successfully',
 });
 
 // CAMPAIGN EVENTS

@@ -16,8 +16,6 @@ const state = {
     isUpdating: false,
     isMerging: false,
     isDeleting: false,
-    isExporting: false,
-    isImporting: false,
     isInitiatingCall: false,
   },
   sortOrder: [],
