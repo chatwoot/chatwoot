@@ -16,6 +16,19 @@ RSpec.describe Channel::Instagram do
     expect(channel.name).to eq('Instagram')
   end
 
+  describe '#subscribe' do
+    let(:channel) { build(:channel_instagram) }
+
+    it 'logs an error when the subscription fails' do
+      allow(HTTParty).to receive(:post).and_raise(StandardError, 'boom')
+      allow(Rails.logger).to receive(:error)
+
+      channel.subscribe
+
+      expect(Rails.logger).to have_received(:error).with(a_string_including("Failed to subscribe account #{channel.instagram_id}"))
+    end
+  end
+
   describe 'concerns' do
     it_behaves_like 'reauthorizable'
 
