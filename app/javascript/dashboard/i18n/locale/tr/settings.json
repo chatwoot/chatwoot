@@ -829,6 +829,7 @@
     "TOGGLE_MODAL": "Tüm kısayolları görüntüle",
     "TITLE": {
       "OPEN_CONVERSATION": "Görüşmeyi aç",
+      "CLOSE_CONVERSATION": "Aktif görüşmeyi kapat",
       "RESOLVE_AND_NEXT": "Çöz ve bir sonrakine geç",
       "NAVIGATE_DROPDOWN": "Açılır menü öğelerine git",
       "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
