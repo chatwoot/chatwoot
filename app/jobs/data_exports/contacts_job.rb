@@ -97,6 +97,7 @@ class DataExports::ContactsJob < ApplicationJob
 
       @data_export.export_file.attach(blob)
       @data_export.update!(status: :completed, completed_at: Time.current, total_records: @data_export.processed_records)
+      DataExports::NotificationJob.perform_later(@data_export)
     end
   ensure
     blob&.purge_later if blob && !blob.attachments.exists?

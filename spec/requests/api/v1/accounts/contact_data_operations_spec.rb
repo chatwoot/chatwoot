@@ -67,7 +67,36 @@ RSpec.describe 'Contact data operations API', type: :request do
       post "#{base_url}/data_exports", headers: headers, params: { column_names: %w[email name], scope_name: 'All contacts' }, as: :json
     end.to have_enqueued_job(DataExports::ContactsJob)
     expect(response).to have_http_status(:ok)
+    expect(response).to conform_schema(200)
     expect(response.parsed_body['export_options']).to include('column_names' => %w[email name])
+  end
+
+  it 'uses body options even when the query string contains conflicting export options' do
+    query = { column_names: ['phone_number'], scope_name: 'Query scope' }.to_query
+    options = { column_names: %w[email name], scope_name: 'Body scope' }
+
+    post "#{base_url}/data_exports?#{query}", headers: headers, params: options, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(account.data_exports.last.export_options).to eq(options.stringify_keys)
+  end
+
+  it 'ignores query-only export options and uses the defaults for an empty body' do
+    post "#{base_url}/data_exports?label=unavailable&scope_name=Query&unexpected=true", headers: headers, params: {}, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(account.data_exports.last.export_options).to eq('column_names' => %w[id name email phone_number labels])
+  end
+
+  it 'rejects unknown options in the request body before queuing an export' do
+    expect do
+      post "#{base_url}/data_exports", headers: headers, params: { unexpected: true }, as: :json
+    end.not_to have_enqueued_job(DataExports::ContactsJob)
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).not_to conform_request_schema
+    expect(response.parsed_body['message']).to eq('Unsupported export options: unexpected.')
+    expect(account.data_exports).to be_empty
   end
 
   it 'rejects malformed filters instead of exporting all contacts' do

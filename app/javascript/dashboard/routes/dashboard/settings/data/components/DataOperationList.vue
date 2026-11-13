@@ -8,9 +8,11 @@ import { formatDate, importedCount } from '../importStatus';
 
 const props = defineProps({
   items: { type: Array, default: () => [] },
+  type: { type: String, default: 'import' },
 });
 defineEmits(['open']);
 const { t } = useI18n();
+const isExport = computed(() => props.type === 'export');
 const rows = computed(() =>
   props.items.map(item => {
     const source = importSourceFor(item);
@@ -21,17 +23,24 @@ const rows = computed(() =>
       contacts: t('DATA_IMPORTS.TYPES.CONTACTS'),
       conversations: t('DATA_IMPORTS.TYPES.CONVERSATIONS'),
     };
-    const subtitle = [
-      source.label,
-      types.map(type => typeLabels[type] || type).join(', '),
-    ].join(' · ');
+    const subtitle = isExport.value
+      ? item.export_options.scope_name ||
+        item.export_options.label ||
+        t('DATA_EXPORTS.ALL_CONTACTS')
+      : [
+          source.label,
+          types.map(type => typeLabels[type] || type).join(', '),
+        ].join(' · ');
     return {
       ...item,
       title: item.name || t('DATA_IMPORTS.TABLE.UNNAMED'),
       subtitle,
-      icon: source.icon,
-      iconClass: source.iconClass,
-      count: importedCount(item).toLocaleString(),
+      icon: isExport.value ? null : source.icon,
+      iconClass: isExport.value ? 'i-lucide-file-output' : source.iconClass,
+      count: (isExport.value
+        ? item.processed_records
+        : importedCount(item)
+      ).toLocaleString(),
       date: formatDate(item.created_at),
     };
   })
@@ -46,7 +55,11 @@ const rows = computed(() =>
     >
       <span>{{ $t('DATA_IMPORTS.TABLE.NAME') }}</span>
       <span>{{ $t('DATA_IMPORTS.TABLE.STATUS') }}</span>
-      <span>{{ $t('DATA_IMPORTS.TABLE.IMPORTED') }}</span>
+      <span>{{
+        isExport
+          ? $t('DATA_EXPORTS.TABLE.EXPORTED')
+          : $t('DATA_IMPORTS.TABLE.IMPORTED')
+      }}</span>
       <span>{{ $t('DATA_IMPORTS.TABLE.CREATED') }}</span>
       <span />
     </div>
@@ -92,7 +105,9 @@ const rows = computed(() =>
           >
             {{ item.count }}
             <span class="text-label-small text-n-slate-11 lg:hidden">{{
-              $t('DATA_IMPORTS.TABLE.IMPORTED')
+              isExport
+                ? $t('DATA_EXPORTS.TABLE.EXPORTED')
+                : $t('DATA_IMPORTS.TABLE.IMPORTED')
             }}</span>
           </span>
           <span
