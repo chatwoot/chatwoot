@@ -2,12 +2,15 @@
 #
 # Table name: channel_telegram
 #
-#  id         :bigint           not null, primary key
-#  bot_name   :string
-#  bot_token  :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  account_id :integer          not null
+#  id                         :bigint           not null, primary key
+#  bot_name                   :string
+#  bot_token                  :string           not null
+#  business_config            :jsonb            not null
+#  business_config_checked_at :datetime
+#  business_config_error      :string(500)
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  account_id                 :integer          not null
 #
 # Indexes
 #
@@ -22,8 +25,9 @@ class Channel::Telegram < ApplicationRecord
 
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
+  MULTIPLE_ACTIVE_CONNECTIONS_ERROR = 'Multiple active Telegram Business connections detected'.freeze
 
-  before_validation :ensure_valid_bot_token, on: :create
+  before_validation :ensure_valid_bot_token, if: :will_save_change_to_bot_token?
   validates :bot_token, presence: true, uniqueness: true
   before_save :setup_telegram_webhook
 
@@ -76,20 +80,84 @@ class Channel::Telegram < ApplicationRecord
     message.conversation[:additional_attributes]['business_connection_id']
   end
 
+  def refresh_business_config!
+    request_bot_token = bot_token
+    response = HTTParty.get("https://api.telegram.org/bot#{request_bot_token}/getMe")
+    payload = response.parsed_response
+
+    unless response.success? && payload['ok'] == true
+      persist_business_config_error(
+        payload['description'].presence || 'Unable to fetch Telegram bot information',
+        request_bot_token
+      )
+      return false
+    end
+
+    persist_refreshed_business_config(payload, request_bot_token)
+  rescue StandardError => e
+    persist_business_config_error(e.message, request_bot_token)
+    false
+  end
+
   def reply_to_message_id(message)
     message.content_attributes['in_reply_to_external_id']
   end
 
   private
 
+  def persist_refreshed_business_config(payload, request_bot_token)
+    with_lock do
+      next false unless bot_token == request_bot_token
+
+      config = business_config.deep_dup
+      config['can_connect_to_business'] = payload['result']['can_connect_to_business'] == true
+      config['connections'] ||= {}
+      active_connection_count = config['connections'].count { |_id, connection| connection['is_enabled'] == true }
+      error = MULTIPLE_ACTIVE_CONNECTIONS_ERROR if active_connection_count > 1
+
+      update_business_config_columns(
+        bot_name: payload['result']['username'],
+        business_config: config,
+        business_config_checked_at: Time.current,
+        business_config_error: error
+      )
+      true
+    end
+  end
+
   def ensure_valid_bot_token
     response = HTTParty.get("#{telegram_api_url}/getMe")
-    unless response.success?
+    payload = response.parsed_response
+    unless response.success? && payload['ok'] == true
       errors.add(:bot_token, 'invalid token')
       return
     end
 
-    self.bot_name = response.parsed_response['result']['username']
+    self.bot_name = payload['result']['username']
+    self.business_config = {
+      'can_connect_to_business' => payload['result']['can_connect_to_business'] == true,
+      'connections' => {}
+    }
+    self.business_config_checked_at = Time.current
+    self.business_config_error = nil
+  end
+
+  def persist_business_config_error(error, request_bot_token)
+    with_lock do
+      next false unless bot_token == request_bot_token
+
+      update_business_config_columns(
+        business_config_checked_at: Time.current,
+        business_config_error: error.to_s.truncate(500)
+      )
+    end
+  end
+
+  def update_business_config_columns(attributes)
+    # Provider state updates must not revalidate the token or re-register the webhook.
+    # rubocop:disable Rails/SkipsModelValidations
+    update_columns(attributes)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def setup_telegram_webhook
