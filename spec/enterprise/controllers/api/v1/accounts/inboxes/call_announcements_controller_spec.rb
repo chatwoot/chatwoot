@@ -64,12 +64,31 @@ RSpec.describe 'Call announcements API', type: :request do
     end
   end
 
-  it 'is not found for an announcement that does not exist, including the old out-of-hours one' do
-    %w[voicemail out_of_hours].each do |kind|
-      patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_announcements/#{kind}",
-            headers: admin.create_new_auth_token, params: params, as: :json
+  it 'is not found for an announcement that does not exist' do
+    patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_announcements/voicemail",
+          headers: admin.create_new_auth_token, params: params, as: :json
 
-      expect(response).to have_http_status(:not_found)
+    expect(response).to have_http_status(:not_found)
+  end
+
+  describe 'the out-of-hours message' do
+    let(:out_of_hours_url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_announcements/out_of_hours" }
+
+    it 'saves its own text' do
+      patch out_of_hours_url, headers: admin.create_new_auth_token, params: { message: ' We are closed. ' }, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to include('out_of_hours_call_message' => 'We are closed.')
+    end
+
+    it 'goes back to the missed-call message when saved empty' do
+      channel.update!(provider_config: channel.provider_config.merge('out_of_hours_call_message' => 'We are closed.'))
+
+      patch out_of_hours_url, headers: admin.create_new_auth_token, params: { message: '' }, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to include('out_of_hours_call_message' => '')
+      expect(Voice::CallAnnouncement.new(inbox.reload, :out_of_hours).message).to eq(I18n.t('inbox.call_announcements.default_unanswered'))
     end
   end
 

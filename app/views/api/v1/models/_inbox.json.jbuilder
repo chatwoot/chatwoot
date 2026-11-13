@@ -177,6 +177,10 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     json.unanswered_call_message unanswered.message
     json.unanswered_call_audio_url unanswered.audio.attached? ? url_for(unanswered.audio) : nil
     json.unanswered_call_timeout_seconds resource.channel.unanswered_call_timeout_seconds
+    # Empty while out-of-hours callers hear the missed-call message
+    out_of_hours = Voice::CallAnnouncement.new(resource, :out_of_hours)
+    json.out_of_hours_call_message out_of_hours.saved_message.to_s
+    json.out_of_hours_call_audio_url out_of_hours.audio.attached? ? url_for(out_of_hours.audio) : nil
     json.ring_strategy resource.channel.sequential_ringing? ? 'sequential' : 'simultaneous'
     json.ring_step_seconds resource.channel.ring_step_seconds
     json.assignee_rings_first resource.channel.assignee_rings_first?

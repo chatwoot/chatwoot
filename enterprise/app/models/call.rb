@@ -37,8 +37,8 @@ class Call < ApplicationRecord
   OUTSIDE_WORKING_HOURS = 'outside_working_hours'.freeze
   NO_AGENTS_AVAILABLE = 'no_agents_available'.freeze
   RING_TIMEOUT = 'ring_timeout'.freeze
-  # Calls ended before anyone was rung; the caller hears the inbox's missed-call message
-  ANNOUNCED_END_REASONS = [OUTSIDE_WORKING_HOURS, NO_AGENTS_AVAILABLE].freeze
+  # Calls ended before anyone was rung, and the announcement that tells the caller why
+  ANNOUNCED_END_REASONS = { OUTSIDE_WORKING_HOURS => :out_of_hours, NO_AGENTS_AVAILABLE => :unanswered }.freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
                  :accepted_broadcast_at, :recording_enabled, :provider_status

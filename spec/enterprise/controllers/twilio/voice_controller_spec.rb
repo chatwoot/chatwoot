@@ -82,11 +82,11 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
         channel.update!(provider_config: channel.provider_config.merge(
           'business_hours_calls_enabled' => true,
-          'unanswered_call_message' => 'Please call during business hours.'
+          'out_of_hours_call_message' => 'Please call during business hours.'
         ))
       end
 
-      it 'plays the missed-call message and hangs up without ringing agents, including on retries' do
+      it 'plays the out-of-hours message and hangs up without ringing agents, including on retries' do
         account.enable_features!('channel_voice', 'mobile_voice_push')
         expect(Voice::VoipPushService).not_to receive(:recipients_for)
 
@@ -103,7 +103,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       end
 
       it 'plays the saved generated audio before hanging up' do
-        inbox.unanswered_call_audio.attach(io: StringIO.new('audio'), filename: 'announcement.mp3', content_type: 'audio/mpeg')
+        inbox.out_of_hours_call_audio.attach(io: StringIO.new('audio'), filename: 'announcement.mp3', content_type: 'audio/mpeg')
 
         post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params)
 
@@ -115,13 +115,22 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
       it 'reads the text fallback using the account language' do
         account.update!(locale: 'de')
-        channel.update!(provider_config: channel.provider_config.merge('unanswered_call_message' => 'Bitte rufen Sie morgen an.'))
+        channel.update!(provider_config: channel.provider_config.merge('out_of_hours_call_message' => 'Bitte rufen Sie morgen an.'))
 
         post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params)
 
         announcement = Nokogiri::XML(response.body).at_xpath('//Say')
         expect(announcement.text).to eq('Bitte rufen Sie morgen an.')
         expect(announcement['language']).to eq('de-DE')
+      end
+
+      it 'plays the missed-call message while no out-of-hours message is set' do
+        channel.update!(provider_config: channel.provider_config.merge('out_of_hours_call_message' => '',
+                                                                       'unanswered_call_message' => 'Nobody can take your call.'))
+
+        post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params)
+
+        expect(Nokogiri::XML(response.body).at_xpath('//Say').text).to eq('Nobody can take your call.')
       end
 
       it 'uses a supported default for account languages unavailable in the basic Twilio voice' do

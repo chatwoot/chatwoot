@@ -51,8 +51,9 @@ const mountPage = (overrides = {}) =>
 
 const saveButton = wrapper => wrapper.findAll('button').at(-1);
 const greeting = wrapper => wrapper.find('#call-greeting-387');
-const radio = (wrapper, value) =>
-  wrapper.find(`input[type="radio"][value="${value}"]`);
+// The Calling card's switch comes first, then the business hours one
+const businessHoursSwitch = wrapper =>
+  wrapper.findAll('button[role="switch"]').at(1);
 
 describe('VoiceConfigurationPage', () => {
   beforeEach(() => {
@@ -71,7 +72,7 @@ describe('VoiceConfigurationPage', () => {
     const wrapper = mountPage();
     const selectCount = wrapper.findAll('select').length;
 
-    await radio(wrapper, 'sequential').setValue(true);
+    await wrapper.find('#call-routing-sequential-387').setValue(true);
 
     expect(wrapper.findAll('select')).toHaveLength(selectCount + 1);
   });
@@ -89,7 +90,7 @@ describe('VoiceConfigurationPage', () => {
     const wrapper = mountPage();
 
     await greeting(wrapper).setValue(' Welcome to Acme ');
-    await radio(wrapper, 'true').setValue(true);
+    await businessHoursSwitch(wrapper).trigger('click');
     await saveButton(wrapper).trigger('click');
     await flushPromises();
 
@@ -158,14 +159,112 @@ describe('VoiceConfigurationPage', () => {
 
     expect(
       wrapUp.findAll('option').map(option => option.element.value)
-    ).toEqual(['0', '30', '45', '60', '120', '300', '600']);
+    ).toEqual(['0', '30', '45', '60', '120', '300']);
     expect(wrapUp.element.value).toBe('45');
   });
 
-  it('only shows the connection while calling is off', () => {
+  it('greys out the settings while calling is off', () => {
     const wrapper = mountPage({ voice_enabled: false });
 
-    expect(wrapper.find('#call-greeting-387').exists()).toBe(false);
-    expect(wrapper.findAll('button')).toHaveLength(0);
+    expect(wrapper.find('#call-greeting-387').exists()).toBe(true);
+    expect(saveButton(wrapper).attributes('disabled')).toBeDefined();
+    expect(
+      wrapper.find('button[role="switch"]').attributes('aria-checked')
+    ).toBe('false');
+  });
+
+  it('turns calling off straight away from its switch', async () => {
+    const wrapper = mountPage();
+
+    await wrapper.find('button[role="switch"]').trigger('click');
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateInbox', {
+      id: 387,
+      formData: false,
+      channel: { voice_enabled: false },
+    });
+  });
+
+  describe('outside business hours', () => {
+    const outOfHoursBox = wrapper =>
+      wrapper.find('#call-out-of-hours-message-387');
+    const appliedInbox = { business_hours_calls_enabled: true };
+
+    it('plays the missed-call message until the box is unticked', async () => {
+      const wrapper = mountPage(appliedInbox);
+
+      expect(outOfHoursBox(wrapper).element.value).toBe(
+        'Sorry, we missed you.'
+      );
+      expect(outOfHoursBox(wrapper).attributes('disabled')).toBeDefined();
+
+      const same = wrapper.findAll('input[type="checkbox"]').at(-3);
+      await same.setValue(false);
+      await outOfHoursBox(wrapper).setValue('We are closed.');
+      await saveButton(wrapper).trigger('click');
+      await flushPromises();
+
+      expect(InboxesAPI.setCallAnnouncement).toHaveBeenCalledWith(
+        387,
+        'out_of_hours',
+        { enabled: true, message: 'We are closed.' }
+      );
+    });
+
+    it('goes back to the missed-call message when ticked again', async () => {
+      const wrapper = mountPage({
+        ...appliedInbox,
+        out_of_hours_call_message: 'We are closed.',
+      });
+
+      expect(outOfHoursBox(wrapper).element.value).toBe('We are closed.');
+      await wrapper.findAll('input[type="checkbox"]').at(-3).setValue(true);
+      await saveButton(wrapper).trigger('click');
+      await flushPromises();
+
+      expect(InboxesAPI.setCallAnnouncement).toHaveBeenCalledWith(
+        387,
+        'out_of_hours',
+        { enabled: true, message: '' }
+      );
+    });
+
+    it('summarises the inbox hours, grouping the days that share them', () => {
+      const day = (dayOfWeek, closed = false) => ({
+        day_of_week: dayOfWeek,
+        closed_all_day: closed,
+        open_all_day: false,
+        open_hour: 9,
+        open_minutes: 0,
+        close_hour: 18,
+        close_minutes: 0,
+      });
+      const wrapper = mountPage({
+        ...appliedInbox,
+        timezone: 'Europe/Berlin',
+        working_hours: [
+          day(0, true),
+          day(1),
+          day(2),
+          day(3),
+          day(4),
+          day(5),
+          day(6, true),
+        ],
+      });
+
+      expect(wrapper.text()).toContain('Mon–Fri 09:00–18:00 · Europe/Berlin');
+    });
+
+    it('warns and links to Business hours while the inbox has them off', async () => {
+      const wrapper = mountPage({ working_hours_enabled: false });
+      // The link sits just before Save, the page's last button
+      const linkToHours = wrapper.findAll('button').at(-2);
+
+      await linkToHours.trigger('click');
+
+      expect(wrapper.emitted('openBusinessHours')).toHaveLength(1);
+    });
   });
 });
