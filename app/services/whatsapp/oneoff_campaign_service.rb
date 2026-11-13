@@ -128,27 +128,11 @@ class Whatsapp::OneoffCampaignService
   def campaign_destination(contact)
     return [contact.phone_number, nil] if contact.phone_number.present?
 
-    bsuid_contact_inboxes = bsuid_contact_inboxes_for(contact)
-    return [nil, 'Phone number and BSUID are missing'] if bsuid_contact_inboxes.empty?
-
-    bsuid_recipient = preferred_bsuid_recipient(bsuid_contact_inboxes)
-    return [bsuid_recipient, nil] if bsuid_recipient.present?
+    finder = Whatsapp::BsuidRecipientFinder.new(contact: contact, inbox: inbox)
+    return [nil, 'Phone number and BSUID are missing'] if finder.source_ids.empty?
+    return [finder.recipient, nil] if finder.recipient.present?
 
     [nil, 'Multiple WhatsApp identities found; refusing to choose a destination']
-  end
-
-  def bsuid_contact_inboxes_for(contact)
-    contact.contact_inboxes.where(inbox_id: inbox.id).select do |contact_inbox|
-      bsuid_source_id?(contact_inbox.source_id)
-    end
-  end
-
-  def preferred_bsuid_recipient(contact_inboxes)
-    return contact_inboxes.first.source_id if contact_inboxes.one?
-  end
-
-  def bsuid_source_id?(source_id)
-    source_id.to_s.delete_prefix('whatsapp:').match?(RegexHelper::WHATSAPP_BSUID_REGEX)
   end
 
   def whatsapp_cloud_channel?
