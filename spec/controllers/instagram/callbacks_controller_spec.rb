@@ -37,12 +37,8 @@ RSpec.describe Instagram::CallbacksController do
 
   describe '#show' do
     context 'with Unified Login state' do
-      around do |example|
-        with_modified_env(ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: 'primary', ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: 'deterministic',
-                          ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: 'salt') { example.run }
-      end
-
       before do
+        allow(Redis::SecureStorage).to receive(:ensure_encryption_configured!)
         allow(controller).to receive(:instagram_token_configuration_id).and_return('config1')
         allow(Instagram::UnifiedLoginService).to receive(:credentials).and_return(client_id: 'meta_app', client_secret: 'meta_secret')
         stub_request(:get, 'https://graph.facebook.com/v22.0/oauth/access_token')

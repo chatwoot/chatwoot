@@ -6,10 +6,7 @@ RSpec.describe Instagram::UnifiedLoginService do
   let(:base_url) { 'https://graph.facebook.com/v22.0' }
   let(:headers) { { 'Authorization' => 'Bearer system_user_token' } }
 
-  around do |example|
-    with_modified_env(ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: 'primary', ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: 'deterministic',
-                      ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: 'salt') { example.run }
-  end
+  before { allow(Chatwoot).to receive(:encryption_configured?).and_return(true) }
 
   it 'exchanges a code using the Meta app credentials without an Instagram token exchange' do
     allow(GlobalConfigService).to receive(:load).and_call_original
@@ -25,6 +22,20 @@ RSpec.describe Instagram::UnifiedLoginService do
     expect(result.fetch('access_token')).to eq('system_user_token')
     expect(result).not_to have_key('expires_in')
     expect(request).to have_been_requested.once
+  end
+
+  it 'rejects missing Meta app credentials' do
+    allow(GlobalConfigService).to receive(:load).and_call_original
+    allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_UNIFIED_APP_ID', nil).and_return('meta_app')
+    allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_UNIFIED_APP_SECRET', nil).and_return(nil)
+
+    expect { described_class.credentials }.to raise_error(described_class::Error, I18n.t('instagram.missing_credentials'))
+  end
+
+  it 'requires encryption before exchanging provider credentials' do
+    allow(Chatwoot).to receive(:encryption_configured?).and_return(false)
+
+    expect { described_class.credentials }.to raise_error(described_class::Error, I18n.t('instagram.encryption_required'))
   end
 
   it 'discovers Instagram accounts across pages without using the system user as the Instagram ID' do

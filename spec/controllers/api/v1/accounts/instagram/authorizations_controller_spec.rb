@@ -17,12 +17,8 @@ RSpec.describe 'Instagram Authorization API', type: :request do
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
       context 'when Unified Login is configured' do
-        around do |example|
-          with_modified_env(ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: 'primary', ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: 'deterministic',
-                            ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: 'salt') { example.run }
-        end
-
         before do
+          allow(Instagram::UnifiedLoginService).to receive(:credentials).and_return(client_id: 'meta_app', client_secret: 'meta_secret')
           allow(GlobalConfigService).to receive(:load).and_call_original
           allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_LOGIN_METHOD', nil).and_return('unified_login')
           allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_CONFIGURATION_ID', nil).and_return('config1')
@@ -46,7 +42,8 @@ RSpec.describe 'Instagram Authorization API', type: :request do
         end
 
         it 'rejects an incomplete configuration before redirecting to Meta' do
-          allow(GlobalConfigService).to receive(:load).with('INSTAGRAM_UNIFIED_APP_SECRET', nil).and_return(nil)
+          allow(Instagram::UnifiedLoginService).to receive(:credentials)
+            .and_raise(Instagram::UnifiedLoginService::Error, I18n.t('instagram.missing_credentials'))
           post "/api/v1/accounts/#{account.id}/instagram/authorization", headers: administrator.create_new_auth_token, as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)

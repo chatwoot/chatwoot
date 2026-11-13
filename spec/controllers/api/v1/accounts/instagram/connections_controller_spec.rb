@@ -9,9 +9,8 @@ RSpec.describe 'Instagram Unified Login connections', type: :request do
   end
   let(:path) { "/api/v1/accounts/#{account.id}/instagram" }
 
-  around do |example|
-    with_modified_env(ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: 'primary', ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: 'deterministic',
-                      ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: 'salt') { example.run }
+  before do
+    allow(Redis::SecureStorage).to receive(:ensure_encryption_configured!)
   end
 
   it 'returns account choices without exposing the access token' do
