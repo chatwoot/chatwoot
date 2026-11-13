@@ -170,6 +170,32 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect { builder.perform }.not_to raise_error
         expect(conversation.messages.last.attachments).to be_any
       end
+
+      it 'types audio files as audio so channels render them as voice notes' do
+        expect(hook).not_to be_nil
+        audio_attachment_params = message_with_attachments.deep_dup
+        audio_attachment_params[:event][:files][0][:filetype] = 'mp3'
+        audio_attachment_params[:event][:files][0][:mimetype] = 'audio/mpeg'
+
+        builder = described_class.new(audio_attachment_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        builder.perform
+
+        expect(conversation.messages.last.attachments.last.file_type).to eql('audio')
+      end
+
+      it 'falls back to the mimetype when the slack filetype is not recognised' do
+        expect(hook).not_to be_nil
+        audio_attachment_params = message_with_attachments.deep_dup
+        audio_attachment_params[:event][:files][0][:filetype] = 'binary'
+        audio_attachment_params[:event][:files][0][:mimetype] = 'audio/wav'
+
+        builder = described_class.new(audio_attachment_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        builder.perform
+
+        expect(conversation.messages.last.attachments.last.file_type).to eql('audio')
+      end
     end
 
     context 'when resolving slack sender' do
