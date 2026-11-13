@@ -14,13 +14,11 @@ module SuperAdmin::UserDiagnosticsHelper
   PUSH_NOTIFICATION_TYPES = (PUSH_TYPE_ORDER + Notification::NOTIFICATION_TYPES.keys).uniq.freeze
   # Available only on accounts with the SLA feature.
   SLA_PUSH_TYPES = %i[sla_missed_first_response sla_missed_next_response sla_missed_resolution].freeze
-  # Available only on accounts that take calls and ring phones, as on the agent preferences screen.
   CALL_PUSH_TYPES = %i[voice_call_missed].freeze
   CALL_FEATURES = %w[channel_voice mobile_voice_push].freeze
   # Subscription attributes rendered on the page. Excludes push_token, device_id and web push keys.
   DEVICE_DETAIL_KEYS = %w[devicePlatform deviceName brandName apiLevel buildNumber].freeze
 
-  # SLA and call types are included only when an account has their features.
   def push_types(settings)
     types = PUSH_NOTIFICATION_TYPES
     types -= SLA_PUSH_TYPES unless settings.any? { |setting| sla_enabled?(setting) }

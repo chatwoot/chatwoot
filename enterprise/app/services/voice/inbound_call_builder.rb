@@ -7,10 +7,6 @@ class Voice::InboundCallBuilder
     new(inbox: inbox, call_sid: call_sid, caller: caller, provider: provider, extra_meta: extra_meta).perform!
   end
 
-  # Queues the ring of a call that recorded who it rings and has no outcome for that ring
-  # yet: when the call is created, and again when a retried inbound event finds it, as when
-  # queueing the first job failed or its worker stopped. A ring still under way makes the
-  # extra job wait for it.
   def self.queue_ring(call)
     return unless call.ringing? && call.ring_state.key?('ring_recipient_ids') && !call.ring_state.key?('unreached_user_ids')
     return if call.ring_state['rings_phones'] == false
@@ -91,9 +87,6 @@ class Voice::InboundCallBuilder
     end
   end
 
-  # Registered in the transaction that records the audience, so the job is queued with it.
-  # The job runs once the call row is visible to the worker, which otherwise finds nothing
-  # to ring for.
   def ring_phones(call) = self.class.queue_ring(call)
 
   # The caller is told nobody answered once the inbox's ring time is up; a call answered or

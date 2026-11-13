@@ -87,8 +87,6 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def render_call_failed(error) = render_could_not_create_error(error.message)
 
-  # An attempt id is the short token a client makes for one connection and sends to Twilio
-  # as well, so only that shape is kept
   ATTEMPT_ID_FORMAT = /\A[\w-]{1,64}\z/
 
   def valid_attempt_id?

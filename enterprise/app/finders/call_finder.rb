@@ -21,9 +21,6 @@ class CallFinder
 
   private
 
-  # Admins and report managers see the whole account; everyone else only sees calls they
-  # handled within conversations they can still access. A request for ringing calls is
-  # the ring's recovery, so everyone gets only their own calls and the rings meant for them.
   def filter_by_visibility
     own = @calls.where(accepted_by_agent_id: @current_user.id, conversation_id: accessible_conversations)
     if ringing_requested?

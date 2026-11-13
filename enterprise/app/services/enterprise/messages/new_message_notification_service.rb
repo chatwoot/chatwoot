@@ -1,6 +1,5 @@
 module Enterprise::Messages::NewMessageNotificationService
-  # A call message is notified by its own job and again once its ring settles. Both run
-  # under the message's row lock, so the later one sees what the earlier one created.
+  # The message job and push completion both notify; the lock prevents duplicate notifications.
   def perform
     return super unless message.voice_call?
 
@@ -13,11 +12,7 @@ module Enterprise::Messages::NewMessageNotificationService
     super || rung_for_call?(user)
   end
 
-  # Where a call entered the ring, the agents whose phone the ring reaches, and who get
-  # missed calls by push or email, get those in place of the new-message notification;
-  # anyone else, such as an assignee who is busy or has no phone that can ring, keeps it.
-  # The call's recorded audience decides, so turning the feature off mid-call does not add
-  # a second alert to a ring already under way.
+  # The recorded ring audience remains authoritative if the feature is disabled mid-call.
   def rung_for_call?(user)
     return false unless message.voice_call?
 

@@ -66,10 +66,9 @@ class Call < ApplicationRecord
   validates :provider, presence: true
   validates :direction, presence: true
 
-  # Phones that were rung learn the ring is over; see Voice::VoipPushService
   after_update_commit :cancel_phone_ring, if: :ring_just_ended?
   include Concerns::CallAssignmentHold
-  # On create too: a call whose end arrived before its start is created and ended in one transaction
+  # Out-of-order webhooks can create and end a call in the same transaction.
   after_commit :notify_missed_call, on: %i[create update], if: :missed_just_now?
   validates :status, presence: true, inclusion: { in: STATUSES }
 
@@ -83,18 +82,14 @@ class Call < ApplicationRecord
 
   def announcement_kind = ANNOUNCED_END_REASONS[end_reason]
 
-  # An inbound call nobody answered, however it ended: unanswered, or completed or failed
-  # with no agent on it, as when the caller hangs up during the ring and the provider
-  # reports that leg completed
+  # Providers can report a caller hangup during ringing as completed or failed.
   def missed?
     return false unless incoming?
 
     status == 'no_answer' || (%w[completed failed].include?(status) && !answered_by_agent?)
   end
 
-  # A Twilio claim counts once the agent's leg joined the conference: the join moves an
-  # inbound call to in progress and stamps started_at in the same update, before its
-  # broadcast is marked. A claim whose leg never joined leaves the caller unanswered.
+  # An inbound Twilio claim can precede the agent's actual join.
   def answered_by_agent?
     return false if accepted_by_agent_id.nil?
 
@@ -143,40 +138,25 @@ class Call < ApplicationRecord
     TERMINAL_STATUSES.include?(status)
   end
 
-  # Merges keys into `meta` in the database, leaving the other keys as they are there. A
-  # save of `meta` from a copy loaded earlier would otherwise drop keys written since.
-  # The agents' connections to the Twilio conference, keyed by call SID: joining from when
-  # Twilio asks for the leg's instructions, then joined, or gone once it leaves or could
-  # not be added. Each carries the time it last changed.
   def agent_legs
     meta&.fetch('agent_legs', nil) || {}
   end
 
-  # How long an agent's connection counts as on its way into the conference; one not in by
-  # then is taken to have failed
   AGENT_LEG_JOIN_GRACE_SECONDS = 30
 
-  # Seconds until the last of the connections still on its way in, other than the one
-  # given, runs out of time to join; nil when there is none
   def agent_leg_join_wait(except: nil)
     now = Time.zone.now.to_i
     joining = agent_legs.except(except.to_s).values.select { |leg| leg['state'] == 'joining' && leg['at'].to_i > now - AGENT_LEG_JOIN_GRACE_SECONDS }
     joining.map { |leg| leg['at'].to_i + AGENT_LEG_JOIN_GRACE_SECONDS - now }.max&.clamp(1..)
   end
 
-  # Whether another connection is in the conference, or joined it at or after the time given
   def agent_leg_joined?(except: nil, since: nil)
     agent_legs.except(except.to_s).values.any? { |leg| leg['state'] == 'joined' && (since.nil? || leg['at'].to_i >= since) }
   end
 
-  # A join accepted with an attempt id holds a place for its connection, until Twilio asks
-  # for that connection's instructions with the same id or its time to join runs out
+  # The attempt ID links an API reservation to its matching TwiML request.
   def self.pending_agent_leg(attempt) = "pending:#{attempt}"
 
-  # Records an agent's connection as joining unless the call has ended, under the row lock,
-  # so a decision that ends the call either sees the connection or is seen by it. The place
-  # its own attempt held is given up to it. A repeated request for a connection keeps the
-  # state its callbacks already reached: one that joined stays joined, one that left is refused.
   def open_agent_leg!(sid, attempt: nil)
     with_lock do
       leg_state = agent_legs.dig(sid.to_s, 'state')
@@ -191,8 +171,7 @@ class Call < ApplicationRecord
     end
   end
 
-  # Called under the row lock. A leg that has gone stays gone, since Twilio's callbacks for
-  # one leg can arrive out of order. Merged in place, so other webhooks' meta keys stay.
+  # The caller holds the row lock; out-of-order callbacks cannot revive a gone leg.
   def record_agent_leg!(sid, state)
     return if sid.blank? || agent_legs.dig(sid, 'state') == 'gone'
 
@@ -203,8 +182,6 @@ class Call < ApplicationRecord
     reload
   end
 
-  # Ended unanswered because the agent's leg could not be added; the contact's answer may
-  # still be reported after it
   def unanswered_by_failed_join? = status == 'no_answer' && meta&.dig('unanswered_by_failed_join').present?
 
   # Called under the row lock
@@ -219,8 +196,6 @@ class Call < ApplicationRecord
     reload
   end
 
-  # The ring timeout is hanging the caller up. A mark left by an attempt that died long ago
-  # no longer counts, so a later sweep can finish the job.
   def ring_timeout_in_progress? = ring_timeout_wait.present?
 
   # Seconds until the ring timeout's mark goes stale, or nil when no attempt is in progress
@@ -288,8 +263,7 @@ class Call < ApplicationRecord
     }
   end
 
-  # The devices are read from the row, since the ring may have recorded them after this
-  # instance was loaded
+  # Push delivery can record devices after this instance is loaded.
   def ring_just_ended?
     return false unless saved_change_to_status? && status_before_last_save == 'ringing'
 
@@ -300,8 +274,6 @@ class Call < ApplicationRecord
     Voice::VoipPushJob.perform_later(id, 'cancel')
   end
 
-  # Only a call that rang phones has a missed-call notice: the agents rung were recorded
-  # as its ring started
   def missed_just_now?
     saved_change_to_status? && ring_state.key?('ring_recipient_ids') && ring_state['rings_phones'] != false && missed?
   end
