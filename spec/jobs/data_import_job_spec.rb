@@ -146,6 +146,20 @@ RSpec.describe DataImportJob do
         end
       end
 
+      context 'when the import data changes the city of an existing record' do
+        it 'updates the location along with the city attribute' do
+          city_import = create(:data_import, import_file: generate_csv_file([%w[email city], ['city@example.com', 'New City']]))
+          contact = Contact.create!(account_id: city_import.account_id, email: 'city@example.com', additional_attributes: { city: 'Old City' })
+          expect(contact.reload.location).to eq('Old City')
+
+          described_class.perform_now(city_import)
+
+          contact.reload
+          expect(contact.additional_attributes['city']).to eq('New City')
+          expect(contact.location).to eq('New City')
+        end
+      end
+
       context 'when the existing record has a phone_number in import data' do
         it 'updates the existing record with new data' do
           contact = Contact.create!(account_id: existing_data_import.account_id, phone_number: csv_data[1]['phone_number'])
