@@ -89,6 +89,24 @@ describe ContactMergeAction do
       end
     end
 
+    context 'when mergee contact is blocked' do
+      let(:mergee_contact) { create(:contact, account: account, email: 'new@new.com', blocked: true) }
+
+      it 'marks base contact as blocked' do
+        contact_merge
+        expect(base_contact.reload.blocked).to be true
+      end
+    end
+
+    context 'when base contact is blocked' do
+      let(:base_contact) { create(:contact, account: account, email: 'old@old.com', blocked: true) }
+
+      it 'keeps base contact as blocked' do
+        contact_merge
+        expect(base_contact.reload.blocked).to be true
+      end
+    end
+
     context 'when contacts belong to a different account' do
       it 'throws an exception' do
         new_account = create(:account)

@@ -30,6 +30,22 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when the email is from a blocked contact' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'blocked@gmail.com', to: 'imap@gmail.com', subject: 'Hello from blocked!') }
+
+      before do
+        create(:contact, email: 'blocked@gmail.com', account: account, blocked: true)
+      end
+
+      it 'does not create a conversation or message' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to not_change(Conversation, :count)
+          .and not_change(Message, :count)
+          .and not_change(Attachment, :count)
+      end
+    end
+
     context 'when reply-to contains an empty quoted address' do
       let(:inbound_mail) { create_inbound_email_from_fixture('malformed_reply_to.eml') }
       let(:mail) { inbound_mail.mail }

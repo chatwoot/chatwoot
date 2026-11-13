@@ -272,6 +272,23 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   end
 
   describe 'PUT /api/v1/widget/messages' do
+    context 'when contact is blocked' do
+      it 'returns forbidden and does not update message' do
+        contact.update!(blocked: true)
+        message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
+        original_email = message.submitted_email
+
+        put api_v1_widget_message_url(message.id),
+            params: { website_token: web_widget.website_token, contact: { email: 'new@example.com' } },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+        expect(message.reload.submitted_email).to eq(original_email)
+      end
+    end
+
     context 'when put request targets a message from another visitor in the same inbox' do
       it 'does not update the foreign message' do
         other_contact = create(:contact, account: account, email: nil)
