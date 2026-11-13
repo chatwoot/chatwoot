@@ -103,6 +103,37 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
     end
 
+    context 'when the contact is blocked and no conversation exists' do
+      before do
+        contact.update!(blocked: true)
+        conversation.destroy!
+      end
+
+      it 'rejects the message with forbidden and does not create message or conversation' do
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: { content: 'hello world' } },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.to not_change(Message, :count).and not_change(Conversation, :count)
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+      end
+
+      it 'rejects message with attachments and does not store attachment or create message' do
+        attachment = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: { content: 'hello', attachments: [attachment] } },
+               headers: { 'X-Auth-Token' => token }
+        end.to not_change(Attachment, :count).and not_change(Message, :count)
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+      end
+    end
+
     context 'when post request is made' do
       it 'creates message in conversation' do
         conversation.destroy! # Test all params

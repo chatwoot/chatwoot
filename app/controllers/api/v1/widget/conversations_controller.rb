@@ -1,5 +1,6 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
+  before_action :ensure_contact_not_blocked, only: [:create, :toggle_typing, :toggle_status]
   before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
   def index
@@ -10,9 +11,16 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     identify_action = nil
     ActiveRecord::Base.transaction do
       identify_action = process_update_contact
+      if blocked_contact?(identify_action)
+        render_contact_blocked
+        raise ActiveRecord::Rollback
+      end
+
       @conversation = create_conversation
       conversation.messages.create!(message_params)
     end
+    return if performed?
+
     # Added after the first message commits, so the greeting hook does not count the note as a reply
     Conversations::UnverifiedContactNoteService.new(conversation: conversation, matches: identify_action.unverified_matches).perform
     # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer
@@ -79,6 +87,10 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   private
+
+  def blocked_contact?(identify_action)
+    @contact&.blocked? || identify_action&.unverified_matches&.any? { |m| m[:contact]&.blocked? }
+  end
 
   def send_transcript_email
     return if conversation.contact&.email.blank?
