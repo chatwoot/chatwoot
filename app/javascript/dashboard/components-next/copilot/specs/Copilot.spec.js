@@ -88,6 +88,23 @@ describe('Copilot', () => {
     expect(wrapper.emitted('reset')).toHaveLength(1);
   });
 
+  it('leaves the history view when a chat is selected from outside the panel', async () => {
+    const thread = { id: 42, title: 'Older question' };
+    const wrapper = mountComponent({ threads: [thread] });
+    const header = wrapper.findComponent(SidebarActionsHeader);
+    const historyRow = () =>
+      wrapper
+        .findAll('button')
+        .find(button => button.text().includes(thread.title));
+
+    await header.vm.$emit('click', 'history');
+    expect(historyRow()).toBeDefined();
+
+    await wrapper.setProps({ selectedThreadId: 99 });
+
+    expect(historyRow()).toBeUndefined();
+  });
+
   it('hides the assistant selector for a saved chat', () => {
     const assistants = [
       { id: 7, name: 'Support' },

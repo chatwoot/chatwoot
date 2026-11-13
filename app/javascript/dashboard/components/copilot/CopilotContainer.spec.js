@@ -6,6 +6,7 @@ import CopilotContainer from './CopilotContainer.vue';
 
 const testState = vi.hoisted(() => ({
   dispatch: vi.fn(),
+  track: vi.fn(),
   getThreads: vi.fn(),
   refs: {},
   route: {},
@@ -20,7 +21,10 @@ vi.mock('vue-router', async () => {
 
   return { useRoute: () => route };
 });
-vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
+vi.mock('dashboard/composables', () => ({
+  useAlert: vi.fn(),
+  useTrack: testState.track,
+}));
 vi.mock('dashboard/api/captain/copilotThreads', () => ({
   default: { get: testState.getThreads },
 }));
@@ -190,6 +194,7 @@ describe('CopilotContainer', () => {
     });
     expect(copilot.props('selectedThreadId')).toBe(99);
     expect(copilot.props('isExpanded')).toBe(true);
+    expect(testState.track).toHaveBeenCalledWith('Copilot: Sent a message');
     wrapper.unmount();
   });
 

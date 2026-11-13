@@ -412,6 +412,13 @@ const openThread = thread => {
   emit('selectThread', thread);
   showHistory.value = false;
 };
+// A chat selected from outside the panel, such as a starter prompt on the empty screen, replaces the history view.
+watch(
+  () => props.selectedThreadId,
+  threadId => {
+    if (threadId) showHistory.value = false;
+  }
+);
 // The store refreshes the message list for every thread's update, so only a new last message in this chat counts.
 // Watchers run before the DOM updates, so the position checked is the one the agent was reading.
 watch(

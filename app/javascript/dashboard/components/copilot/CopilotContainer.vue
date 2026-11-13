@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
@@ -16,6 +16,7 @@ import wootConstants from 'dashboard/constants/globals';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import CopilotThreadsAPI from 'dashboard/api/captain/copilotThreads';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const store = useStore();
 const route = useRoute();
@@ -316,11 +317,12 @@ const sendMessage = async payload => {
 };
 
 // A prompt picked outside the panel starts a new chat. The panel opens expanded, because no conversation is open
-// beside it and the answer gets the room.
+// beside it and the answer gets the room. It skips the panel's own send, so it records the send here.
 useEmitter(BUS_EVENTS.ASK_COPILOT, message => {
   handleReset();
   isExpanded.value = true;
   sendMessage(message);
+  useTrack(COPILOT_EVENTS.SEND_MESSAGE);
 });
 
 const stopCopilot = async () => {
