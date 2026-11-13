@@ -325,6 +325,15 @@ RSpec.describe MailPresenter do
           expect(presenter.notification_email_from_chatwoot?).to be(false)
         end
       end
+
+      it 'returns true for unmarked mail with a Chatwoot conversation message-id' do
+        mail_from_shared_sender.message_id = '<conversation/uuid-1/messages/42@example.com>'
+
+        with_modified_env MAILER_SENDER_EMAIL: 'Acme <noreply@example.com>' do
+          presenter = described_class.new(mail_from_shared_sender)
+          expect(presenter.notification_email_from_chatwoot?).to be(true)
+        end
+      end
     end
   end
 end
