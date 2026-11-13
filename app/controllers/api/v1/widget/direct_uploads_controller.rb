@@ -6,6 +6,7 @@ class Api::V1::Widget::DirectUploadsController < ActiveStorage::DirectUploadsCon
 
   def create
     return if @contact.nil? || @current_account.nil?
+    return render json: { error: I18n.t('errors.contacts.blocked', default: 'Contact is blocked') }, status: :forbidden if @contact.blocked?
 
     super
   end

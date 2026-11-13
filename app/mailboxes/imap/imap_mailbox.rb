@@ -21,6 +21,8 @@ class Imap::ImapMailbox
       next if duplicate_email?
 
       find_or_create_contact
+      next if @contact&.blocked?
+
       find_or_create_conversation
       create_message
       add_attachments_to_message

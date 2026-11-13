@@ -42,6 +42,41 @@ RSpec.describe ReplyMailbox do
       end
     end
 
+    context 'when contact is blocked' do
+      before do
+        conversation.uuid = '6bdc3f4d-0bec-4515-a284-5d916fdde489'
+        conversation.save!
+        conversation.contact.update!(blocked: true)
+      end
+
+      it 'does not create a message or attachments' do
+        expect do
+          described_subject
+        end.to not_change(Message, :count).and not_change(Attachment, :count)
+      end
+    end
+
+    context 'when contact is blocked on a new conversation email' do
+      let(:new_mail) { create_inbound_email_from_fixture('reply_mail_without_uuid.eml') }
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:blocked_contact) { create(:contact, account: account, email: 'sender@example.com', blocked: true) }
+
+      before do
+        email_channel
+        blocked_contact
+        new_mail.mail.to = ['test@example.com']
+        new_mail.mail.from = ['sender@example.com']
+      end
+
+      it 'does not create a conversation, message or attachments' do
+        expect do
+          described_class.receive new_mail
+        end.to not_change(Conversation, :count)
+          .and not_change(Message, :count)
+          .and not_change(Attachment, :count)
+      end
+    end
+
     context 'with in reply to email' do
       let(:reply_mail_without_uuid) { create_inbound_email_from_fixture('reply_mail_without_uuid.eml') }
       let(:described_subject) { described_class.receive reply_mail_without_uuid }

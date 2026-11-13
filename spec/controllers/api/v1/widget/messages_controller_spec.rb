@@ -75,6 +75,32 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
     end
 
+    context 'when the contact is blocked' do
+      it 'returns forbidden and does not create message' do
+        contact.update!(blocked: true)
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: { content: 'hello' } },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+      end
+
+      it 'rejects message with attachments and does not store attachment or create message' do
+        contact.update!(blocked: true)
+        attachment = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: { content: 'hello', attachments: [attachment] } },
+               headers: { 'X-Auth-Token' => token }
+        end.to not_change(Attachment, :count).and not_change(Message, :count)
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+      end
+    end
+
     context 'when post request is made' do
       it 'creates message in conversation' do
         conversation.destroy! # Test all params
@@ -246,6 +272,23 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   end
 
   describe 'PUT /api/v1/widget/messages' do
+    context 'when contact is blocked' do
+      it 'returns forbidden and does not update message' do
+        contact.update!(blocked: true)
+        message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
+        original_email = message.submitted_email
+
+        put api_v1_widget_message_url(message.id),
+            params: { website_token: web_widget.website_token, contact: { email: 'new@example.com' } },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+        expect(message.reload.submitted_email).to eq(original_email)
+      end
+    end
+
     context 'when put request targets a message from another visitor in the same inbox' do
       it 'does not update the foreign message' do
         other_contact = create(:contact, account: account, email: nil)

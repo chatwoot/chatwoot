@@ -1,5 +1,6 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
+  before_action :ensure_contact_not_blocked, only: [:create, :toggle_typing, :toggle_status]
   before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
   def index
@@ -9,6 +10,11 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def create
     ActiveRecord::Base.transaction do
       process_update_contact
+      if @contact&.blocked?
+        render_contact_blocked
+        raise ActiveRecord::Rollback
+      end
+
       @conversation = create_conversation
       conversation.messages.create!(message_params)
       # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer

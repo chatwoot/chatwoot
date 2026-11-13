@@ -62,6 +62,53 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   end
 
   describe 'POST /api/v1/widget/conversations' do
+    it 'returns forbidden and does not create a conversation when contact is blocked' do
+      contact.update!(blocked: true)
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: conversation_params,
+             as: :json
+      end.to not_change(Conversation, :count).and not_change(Message, :count)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+    end
+
+    it 'returns forbidden when blocked contact supplies an email of an unblocked contact' do
+      existing_unblocked_contact = create(:contact, account: account, email: 'unblocked@example.com', blocked: false)
+      contact.update!(blocked: true)
+
+      params_with_unblocked_email = conversation_params.deep_merge(contact: { email: existing_unblocked_contact.email })
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: params_with_unblocked_email,
+             as: :json
+      end.to not_change(Conversation, :count).and not_change(Message, :count)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+    end
+
+    it 'returns forbidden when contact supplies an email of a blocked contact' do
+      create(:contact, account: account, email: 'blocked_target@example.com', blocked: true)
+
+      params_with_blocked_email = conversation_params.deep_merge(contact: { email: 'blocked_target@example.com' })
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: params_with_blocked_email,
+             as: :json
+      end.to not_change(Conversation, :count).and not_change(Message, :count)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+    end
+
     it 'creates a conversation with correct details' do
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },

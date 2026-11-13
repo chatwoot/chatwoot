@@ -59,6 +59,7 @@ class ContactMergeAction
     # attributes in base contact are given preference
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
     merged_attributes['contact_type'] = higher_contact_type
+    merged_attributes['blocked'] = true if base_contact.blocked? || mergee_contact.blocked?
 
     @mergee_contact.reload.destroy!
     Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact)

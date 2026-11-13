@@ -11,6 +11,22 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
   describe 'PATCH /api/v1/widget/contact' do
     let(:params) { { website_token: web_widget.website_token, identifier: 'test' } }
 
+    context 'when contact is blocked' do
+      before do
+        contact.update!(blocked: true)
+      end
+
+      it 'returns forbidden' do
+        patch '/api/v1/widget/contact',
+              params: params,
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.contacts.blocked'))
+      end
+    end
+
     context 'with invalid website token' do
       it 'returns unauthorized' do
         patch '/api/v1/widget/contact', params: { website_token: '' }
