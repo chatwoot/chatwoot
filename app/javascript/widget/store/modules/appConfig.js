@@ -14,6 +14,10 @@ const state = {
   showUnreadMessagesDialog: true,
   isWebWidgetTriggered: false,
   isWidgetOpen: false,
+  // Distinct from `isWidgetOpen` — true only when the widget was opened by
+  // a real user click on the bubble (not by `window.$chatwoot.toggle('open')`).
+  // Resets to false when the widget is closed.
+  isWidgetOpenedByUser: false,
   position: 'right',
   referrerHost: '',
   showPopoutButton: false,
@@ -35,6 +39,7 @@ export const getters = {
   isRightAligned: $state => $state.position === 'right',
   getHideMessageBubble: $state => $state.hideMessageBubble,
   getIsWidgetOpen: $state => $state.isWidgetOpen,
+  getIsWidgetOpenedByUser: $state => $state.isWidgetOpenedByUser,
   getWidgetColor: $state => $state.widgetColor,
   getReferrerHost: $state => $state.referrerHost,
   isWidgetStyleFlat: $state => $state.widgetStyle === 'flat',
@@ -85,8 +90,22 @@ export const actions = {
       enableEndConversation,
     });
   },
-  toggleWidgetOpen({ commit }, isWidgetOpen) {
-    commit(TOGGLE_WIDGET_OPEN, isWidgetOpen);
+  // Accepts either the legacy boolean form (`isWidgetOpen`) or an object
+  // `{ isWidgetOpen, isUserInitiated }`. When the widget is being opened
+  // programmatically via `window.$chatwoot.toggle('open')` (no user click),
+  // we track that separately so features like campaign triggering can
+  // differentiate "user is actively using the widget" from "widget was
+  // pre-opened by an integrator script" (see #14022).
+  toggleWidgetOpen({ commit }, payload) {
+    const isWidgetOpen =
+      typeof payload === 'object' && payload !== null
+        ? payload.isWidgetOpen
+        : payload;
+    const isUserInitiated =
+      typeof payload === 'object' && payload !== null
+        ? Boolean(payload.isUserInitiated)
+        : false;
+    commit(TOGGLE_WIDGET_OPEN, { isWidgetOpen, isUserInitiated });
   },
   setWidgetColor({ commit }, widgetColor) {
     commit(SET_WIDGET_COLOR, widgetColor);
@@ -126,8 +145,15 @@ export const mutations = {
     $state.enableEmojiPicker = data.enableEmojiPicker;
     $state.enableEndConversation = data.enableEndConversation;
   },
-  [TOGGLE_WIDGET_OPEN]($state, isWidgetOpen) {
+  [TOGGLE_WIDGET_OPEN]($state, { isWidgetOpen, isUserInitiated }) {
     $state.isWidgetOpen = isWidgetOpen;
+    if (!isWidgetOpen) {
+      // Any close event clears the "opened by user" flag so the next
+      // open is evaluated fresh.
+      $state.isWidgetOpenedByUser = false;
+    } else if (isUserInitiated) {
+      $state.isWidgetOpenedByUser = true;
+    }
   },
   [SET_WIDGET_COLOR]($state, widgetColor) {
     $state.widgetColor = widgetColor;
