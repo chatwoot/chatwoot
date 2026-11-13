@@ -75,7 +75,7 @@ const hasActiveOperation = computed(
   () =>
     canCreateImport.value === false ||
     dataImports.value.some(isActiveImport) ||
-    recentExports.value.some(isActiveImport)
+    recentExports.value.some(item => isActiveImport(item) && !item.stalled)
 );
 
 const updateRecentExports = ({ payload, has_more: hasMore }) => {

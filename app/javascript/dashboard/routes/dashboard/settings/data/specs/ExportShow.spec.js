@@ -102,6 +102,36 @@ describe('export detail loading', () => {
     vi.useRealTimers();
   });
 
+  it.each(['pending', 'processing'])(
+    'stops polling a stalled %s export and resumes after a manual refresh',
+    async status => {
+      const activeRecord = { ...record, status, stalled: false };
+      DataExportsAPI.show
+        .mockResolvedValueOnce({ data: activeRecord })
+        .mockResolvedValue({
+          data: { ...activeRecord, stalled: true, can_rerun: true },
+        });
+      wrapper = mountDetail();
+      await flushPromises();
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(DataExportsAPI.show).toHaveBeenCalledTimes(2);
+      await vi.advanceTimersByTimeAsync(60_000);
+      expect(DataExportsAPI.show).toHaveBeenCalledTimes(2);
+      expect(wrapper.text()).toContain('DATA_EXPORTS.RERUN');
+
+      DataExportsAPI.show.mockResolvedValueOnce({ data: activeRecord });
+      await wrapper
+        .get('[aria-label="DATA_IMPORTS.MONITOR.REFRESH"]')
+        .trigger('click');
+      await flushPromises();
+      expect(DataExportsAPI.show).toHaveBeenCalledTimes(3);
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(DataExportsAPI.show).toHaveBeenCalledTimes(4);
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(DataExportsAPI.show).toHaveBeenCalledTimes(4);
+    }
+  );
+
   it('shows a persistent error with Retry after an initial failure and recovers on success', async () => {
     DataExportsAPI.show.mockRejectedValueOnce(new Error('Unavailable'));
     wrapper = mountDetail();

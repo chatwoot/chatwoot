@@ -4,6 +4,7 @@ describe('contact export selection transfer', () => {
   afterEach(() => {
     sessionStorage.clear();
     vi.useRealTimers();
+    vi.unstubAllGlobals();
   });
 
   it('preserves a filtered selection exactly and consumes it once', () => {
@@ -33,5 +34,15 @@ describe('contact export selection transfer', () => {
     const token = saveExportDraft(1, { label: 'vip' });
     vi.advanceTimersByTime(31 * 60 * 1000);
     expect(() => consumeExportDraft(1, token)).toThrow();
+  });
+
+  it('keeps drafts independent when randomUUID is unavailable on plain HTTP', () => {
+    vi.stubGlobal('crypto', {});
+    const first = saveExportDraft(1, { label: 'vip' });
+    const second = saveExportDraft(1, { label: 'customers' });
+
+    expect(first).not.toBe(second);
+    expect(consumeExportDraft(1, first)).toEqual({ label: 'vip' });
+    expect(consumeExportDraft(1, second)).toEqual({ label: 'customers' });
   });
 });

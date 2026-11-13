@@ -123,7 +123,8 @@ onActivated(() => {
   active = true;
   refresh();
   timer = window.setInterval(() => {
-    if (!document.hidden && running.value) refresh();
+    if (!document.hidden && running.value && !dataExport.value.stalled)
+      refresh();
   }, POLL_INTERVAL_MS);
 });
 onDeactivated(stop);

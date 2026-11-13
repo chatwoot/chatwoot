@@ -613,7 +613,7 @@
     "IN_PROGRESS": "Preparing your CSV. You can leave this page while the export runs.",
     "TABLE": {
       "EXPORTED": "Exported",
-      "COUNT": "Showing {count} exports"
+      "COUNT": "Showing {count} export | Showing {count} exports"
     }
   },
   "CAPTAIN_SETTINGS": {

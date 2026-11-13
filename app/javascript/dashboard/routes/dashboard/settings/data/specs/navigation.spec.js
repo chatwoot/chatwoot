@@ -97,6 +97,35 @@ describe('data operation navigation', () => {
     expect(DataImportsAPI.get).toHaveBeenCalledTimes(1);
   });
 
+  it.each(['pending', 'processing'])(
+    'stops polling a %s export when stalled and resumes after a manual refresh',
+    async status => {
+      const record = { id: 2, status, stalled: false };
+      DataExportsAPI.get
+        .mockResolvedValueOnce({ data: { payload: [record] } })
+        .mockResolvedValue({
+          data: { payload: [{ ...record, stalled: true }] },
+        });
+      await openPage({ tab: 'export' });
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(DataExportsAPI.get).toHaveBeenCalledTimes(2);
+      await vi.advanceTimersByTimeAsync(60_000);
+      expect(DataExportsAPI.get).toHaveBeenCalledTimes(2);
+      expect(DataImportsAPI.get).toHaveBeenCalledTimes(2);
+
+      DataExportsAPI.get.mockResolvedValueOnce({ data: { payload: [record] } });
+      await wrapper
+        .get('[aria-label="DATA_IMPORTS.MONITOR.REFRESH"]')
+        .trigger('click');
+      await flushPromises();
+      expect(DataExportsAPI.get).toHaveBeenCalledTimes(3);
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(DataExportsAPI.get).toHaveBeenCalledTimes(4);
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(DataExportsAPI.get).toHaveBeenCalledTimes(4);
+    }
+  );
+
   it('keeps older rows when a new export arrives during a load-more request', async () => {
     vi.useFakeTimers();
     const page = (ids, hasMore) => ({

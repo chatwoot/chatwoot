@@ -2,7 +2,9 @@ const MAX_AGE_MS = 30 * 60 * 1000;
 const keyFor = (accountId, token) => `contact-export:${accountId}:${token}`;
 
 export const saveExportDraft = (accountId, selection) => {
-  const token = crypto.randomUUID();
+  const token =
+    globalThis.crypto?.randomUUID?.() ||
+    `export-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   sessionStorage.setItem(
     keyFor(accountId, token),
     JSON.stringify({ selection, createdAt: Date.now() })

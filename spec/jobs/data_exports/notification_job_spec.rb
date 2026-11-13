@@ -19,6 +19,7 @@ RSpec.describe DataExports::NotificationJob do
       2.times { described_class.perform_now(record) }
     end.to change { ActionMailer::Base.deliveries.size }.by(1)
     expect(ActionMailer::Base.deliveries.last.body.encoded).to include("settings/data/exports/#{record.id}")
+    expect(ActionMailer::Base.deliveries.last.body.decoded).to include('View your export')
     expect(record.reload.notification_sent_at).to be_present
   end
 
