@@ -35,11 +35,24 @@ const {
   contentAttributes,
 } = useMessageContext();
 
+// Imported messages carry their original timestamp in
+// content_attributes.external_created_at. The API stores it as a datetime
+// string while createdAt is a unix timestamp, so parse it before use and
+// fall back to createdAt when it is absent or unparseable.
+const displayCreatedAt = computed(() => {
+  const external = contentAttributes.value?.externalCreatedAt;
+  if (typeof external === 'number' && Number.isFinite(external)) {
+    return external;
+  }
+  const parsed = Math.floor(Date.parse(external || '') / 1000);
+  return Number.isFinite(parsed) ? parsed : createdAt.value;
+});
+
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  messageTimestamp(displayCreatedAt.value, 'LLL d, h:mm a')
 );
 
-const exactTime = computed(() => exactTimestamp(createdAt.value));
+const exactTime = computed(() => exactTimestamp(displayCreatedAt.value));
 
 const showStatusIndicator = computed(() => {
   if (isPrivate.value) return false;
