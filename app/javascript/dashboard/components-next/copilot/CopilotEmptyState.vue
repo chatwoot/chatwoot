@@ -1,12 +1,8 @@
 <script setup>
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useTrack } from 'dashboard/composables';
-import { useMapGetter } from 'dashboard/composables/store';
-import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { useCopilotPrompts } from 'dashboard/composables/useCopilotPrompts';
 import Icon from '../icon/Icon.vue';
-import Button from '../button/Button.vue';
+import CopilotPromptPills from './CopilotPromptPills.vue';
 
 const props = defineProps({
   hasAssistants: {
@@ -24,104 +20,14 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['useSuggestion']);
-const { t } = useI18n();
 const route = useRoute();
-const currentRole = useMapGetter('getCurrentRole');
-const currentChat = useMapGetter('getSelectedChat');
-
-const PROMPTS = {
-  SUMMARIZE: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
-  },
-  SUGGEST: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
-    requestType: 'reply_suggestion',
-  },
-  RATE: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
-  },
-  HIGH_PRIORITY: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.CONTENT',
-  },
-  LIST_CONTACTS: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.CONTENT',
-  },
-  WAITING_ON_ME: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.WAITING_ON_ME.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.WAITING_ON_ME.CONTENT',
-  },
-  RECENT_CONVERSATIONS: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.RECENT_CONVERSATIONS.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.RECENT_CONVERSATIONS.CONTENT',
-  },
-  TEAM_WORKLOAD: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.TEAM_WORKLOAD.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.TEAM_WORKLOAD.CONTENT',
-  },
-  TOP_QUESTIONS: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.TOP_QUESTIONS.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.TOP_QUESTIONS.CONTENT',
-  },
-};
-
-const routePromptMap = {
-  conversations: ['SUMMARIZE', 'SUGGEST', 'RATE'],
-  dashboard: ['HIGH_PRIORITY', 'LIST_CONTACTS'],
-};
-
-// Workflows answers across many conversations, so most of its prompts follow the person's role. Each one
-// reads only conversations the person can open, and still has an answer on a quiet account.
-const rolePromptMap = {
-  agent: ['WAITING_ON_ME', 'RECENT_CONVERSATIONS'],
-  administrator: ['WAITING_ON_ME', 'TEAM_WORKLOAD', 'TOP_QUESTIONS'],
-};
-
-// Copilot reads the open conversation, so summarizing it comes first for every role. Admins looking at a conversation
-// get their team prompts in place of what is waiting on them.
-const conversationRolePromptMap = {
-  agent: ['SUMMARIZE', 'WAITING_ON_ME', 'RECENT_CONVERSATIONS'],
-  administrator: ['SUMMARIZE', 'TEAM_WORKLOAD', 'TOP_QUESTIONS'],
-};
-
-const getCurrentRoute = () => {
-  const path = route.path;
-  if (path.includes('/conversations')) return 'conversations';
-  if (path.includes('/dashboard')) return 'dashboard';
-  return 'dashboard';
-};
-
-const promptOptions = computed(() => {
-  let keys = routePromptMap[getCurrentRoute()];
-  if (props.isWorkflowsEnabled) {
-    const promptMap = currentChat.value.id
-      ? conversationRolePromptMap
-      : rolePromptMap;
-    keys = promptMap[currentRole.value] || promptMap.agent;
-  }
-
-  return keys
-    .map(key => ({ key, ...PROMPTS[key] }))
-    .filter(
-      prompt =>
-        prompt.requestType !== 'reply_suggestion' || props.canSuggestReply
-    );
+const { prompts, selectPrompt } = useCopilotPrompts({
+  isWorkflowsEnabled: () => props.isWorkflowsEnabled,
+  canSuggestReply: () => props.canSuggestReply,
 });
 
-const handleSuggestion = prompt => {
-  useTrack(COPILOT_EVENTS.SEND_SUGGESTED, {
-    prompt: prompt.key,
-    role: currentRole.value,
-  });
-  const message = t(prompt.content);
-  emit(
-    'useSuggestion',
-    prompt.requestType ? { message, requestType: prompt.requestType } : message
-  );
+const handleSuggestion = key => {
+  emit('useSuggestion', selectPrompt(key));
 };
 </script>
 
@@ -161,30 +67,24 @@ const handleSuggestion = prompt => {
       </router-link>
     </div>
     <!-- Next to the avatar the prompts sit above the input as pills. Without it, Copilot keeps the list. -->
-    <div v-else-if="$slots.logo" class="flex flex-wrap gap-2 mt-auto">
-      <Button
-        v-for="prompt in promptOptions"
-        :key="prompt.key"
-        :label="t(prompt.label)"
-        faded
-        slate
-        sm
-        class="!rounded-full"
-        @click="handleSuggestion(prompt)"
-      />
-    </div>
+    <CopilotPromptPills
+      v-else-if="$slots.logo"
+      :prompts="prompts"
+      class="mt-auto"
+      @select="handleSuggestion"
+    />
     <div v-else class="w-full space-y-2">
       <span class="text-xs text-n-slate-10 block">
         {{ $t('CAPTAIN.COPILOT.TRY_THESE_PROMPTS') }}
       </span>
       <div class="space-y-1">
         <button
-          v-for="prompt in promptOptions"
+          v-for="prompt in prompts"
           :key="prompt.key"
           class="w-full px-3 py-2 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center justify-between hover:bg-n-slate-3 transition-colors"
-          @click="handleSuggestion(prompt)"
+          @click="handleSuggestion(prompt.key)"
         >
-          <span>{{ t(prompt.label) }}</span>
+          <span>{{ prompt.label }}</span>
           <Icon icon="i-lucide-chevron-right" />
         </button>
       </div>

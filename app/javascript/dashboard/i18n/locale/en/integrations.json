@@ -746,6 +746,7 @@
       "TITLE": "Copilot",
       "AVATAR_LABEL": "Captain",
       "TRY_THESE_PROMPTS": "Try these prompts",
+      "ASK_COPILOT": "Ask Copilot",
       "DISCLAIMER": "Copilot can make mistakes. Check important info.",
       "PANEL_TITLE": "Get started with Copilot",
       "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
@@ -799,9 +800,53 @@
           "LABEL": "Who has the most open conversations?",
           "CONTENT": "How many open conversations does each agent have? Include how many open conversations have no one assigned."
         },
-        "TOP_QUESTIONS": {
-          "LABEL": "What are customers asking about?",
-          "CONTENT": "What do customers ask about most in the 20 most recent conversations? Group them into topics and link an example for each."
+        "CUSTOMER_HISTORY": {
+          "LABEL": "Has this customer contacted us before?",
+          "CONTENT": "Find this customer's earlier conversations with us and summarize what they contacted us about each time and how it ended."
+        },
+        "CAN_CLOSE": {
+          "LABEL": "Which of my conversations can I close?",
+          "CONTENT": "Review my open conversations and find the ones where the customer's question was answered and nothing is left to do. Give a one-line reason for each, and ask me before resolving any."
+        },
+        "FOLLOW_UPS": {
+          "LABEL": "Did I promise anyone a follow-up?",
+          "CONTENT": "Review my conversations from the last 14 days and find any where I promised the customer an update or a follow-up that I haven't sent yet. Link each one and say what I promised."
+        },
+        "UPSET_CUSTOMERS": {
+          "LABEL": "Which of my customers are upset?",
+          "CONTENT": "Review my 20 most recent conversations and find customers who sound frustrated or upset. For each, link the conversation and say what went wrong."
+        },
+        "COMPARE_PERIODS": {
+          "LABEL": "How did the last 30 days compare?",
+          "CONTENT": "Compare the last 30 days with the 30 days before: conversations, resolutions, average first response time, and average resolution time. Point out the biggest changes."
+        },
+        "SLOWEST_REPLIES": {
+          "LABEL": "Which agents and inboxes are slowest to reply?",
+          "CONTENT": "Over the last 30 days, which agents and which inboxes had the slowest average first response time? Show the five slowest of each with how many conversations they handled."
+        },
+        "LOW_RATINGS": {
+          "LABEL": "Why did customers rate us low?",
+          "CONTENT": "Find the customer satisfaction ratings of 1 or 2 from the last 30 days, read those conversations, and group the reasons customers were unhappy into a few distinct reasons. Link an example for each reason."
+        },
+        "MONTHLY_VOLUME": {
+          "LABEL": "How has volume changed month by month?",
+          "CONTENT": "Show conversations and resolutions for each of the last six months as a chart."
+        },
+        "COMPARE_INBOXES": {
+          "LABEL": "Compare inboxes over the last 30 days",
+          "CONTENT": "For each inbox, show conversations, resolutions, and average first response time over the last 30 days."
+        },
+        "LOW_RATINGS_BY_AGENT": {
+          "LABEL": "Which agents got low ratings, and why?",
+          "CONTENT": "Count the customer satisfaction ratings of 1 or 2 from the last 30 days by assigned agent. Then read those conversations and say, for each agent, what went wrong most often."
+        },
+        "LABEL_RESOLVED": {
+          "LABEL": "Label recently resolved conversations",
+          "CONTENT": "Find conversations resolved in the last 7 days that have no labels, and suggest one of our existing labels for each. Ask me before adding any labels."
+        },
+        "CAPTAIN_HANDOFFS": {
+          "LABEL": "Why did Captain hand conversations to a human?",
+          "CONTENT": "Which conversations did Captain hand off to a human in the last 7 days? Read them and group the reasons it could not finish on its own, with an example for each."
         }
       },
       "APPROVAL": {

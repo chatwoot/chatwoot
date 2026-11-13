@@ -4,11 +4,13 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAccount } from 'dashboard/composables/useAccount';
 import OnboardingView from '../OnboardingView.vue';
 import EmptyStateMessage from './EmptyStateMessage.vue';
+import CopilotEmptyStatePrompts from 'dashboard/components-next/copilot/CopilotEmptyStatePrompts.vue';
 
 export default {
   components: {
     OnboardingView,
     EmptyStateMessage,
+    CopilotEmptyStatePrompts,
   },
   props: {
     isOnExpandedLayout: {
@@ -88,11 +90,15 @@ export default {
       <EmptyStateMessage
         v-if="!allConversations.length"
         :message="$t('CONVERSATION.NO_MESSAGE_1')"
-      />
+      >
+        <CopilotEmptyStatePrompts />
+      </EmptyStateMessage>
       <EmptyStateMessage
         v-else-if="allConversations.length && !currentChat.id"
         :message="conversationMissingMessage"
-      />
+      >
+        <CopilotEmptyStatePrompts />
+      </EmptyStateMessage>
     </div>
   </div>
 </template>

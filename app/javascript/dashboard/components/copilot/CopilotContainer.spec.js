@@ -1,5 +1,7 @@
 import { nextTick, ref } from 'vue';
 import { flushPromises, shallowMount } from '@vue/test-utils';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CopilotContainer from './CopilotContainer.vue';
 
 const testState = vi.hoisted(() => ({
@@ -160,6 +162,35 @@ describe('CopilotContainer', () => {
     await nextTick();
 
     expect(copilot.props('isExpanded')).toBe(false);
+  });
+
+  it('starts a new expanded chat for a prompt picked outside the panel', async () => {
+    const thread = { id: 42, title: 'Older question', assistant: { id: 7 } };
+    testState.getThreads.mockResolvedValue({
+      data: { payload: [thread], meta: { total_count: 1, page: 1 } },
+    });
+    testState.dispatch.mockImplementation(action =>
+      action === 'copilotThreads/create'
+        ? Promise.resolve({ id: 99, title: 'Picked prompt' })
+        : Promise.resolve()
+    );
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+    copilot.vm.$emit('selectThread', thread);
+    await flushPromises();
+
+    emitter.emit(BUS_EVENTS.ASK_COPILOT, 'Picked prompt');
+    await flushPromises();
+
+    expect(testState.dispatch).toHaveBeenCalledWith('copilotThreads/create', {
+      assistant_id: 7,
+      conversation_id: 1,
+      message: 'Picked prompt',
+    });
+    expect(copilot.props('selectedThreadId')).toBe(99);
+    expect(copilot.props('isExpanded')).toBe(true);
+    wrapper.unmount();
   });
 
   it('lists and opens a past chat', async () => {

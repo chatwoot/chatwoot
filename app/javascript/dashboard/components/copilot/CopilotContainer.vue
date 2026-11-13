@@ -315,6 +315,14 @@ const sendMessage = async payload => {
   }
 };
 
+// A prompt picked outside the panel starts a new chat. The panel opens expanded, because no conversation is open
+// beside it and the answer gets the room.
+useEmitter(BUS_EVENTS.ASK_COPILOT, message => {
+  handleReset();
+  isExpanded.value = true;
+  sendMessage(message);
+});
+
 const stopCopilot = async () => {
   try {
     await CopilotThreadsAPI.stop(selectedCopilotThreadId.value);

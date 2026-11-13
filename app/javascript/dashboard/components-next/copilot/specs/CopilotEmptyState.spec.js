@@ -67,53 +67,113 @@ describe('CopilotEmptyState', () => {
   });
 
   describe('with workflows', () => {
+    const AGENT_PROMPTS = [
+      'CAN_CLOSE',
+      'FOLLOW_UPS',
+      'UPSET_CUSTOMERS',
+      'WAITING_ON_ME',
+      'RECENT_CONVERSATIONS',
+    ];
+    const ADMIN_PROMPTS = [
+      'COMPARE_PERIODS',
+      'SLOWEST_REPLIES',
+      'LOW_RATINGS',
+      'TEAM_WORKLOAD',
+      'MONTHLY_VOLUME',
+      'COMPARE_INBOXES',
+      'LOW_RATINGS_BY_AGENT',
+      'LABEL_RESOLVED',
+      'CAPTAIN_HANDOFFS',
+    ];
+    const ROLE_PROMPTS = { agent: AGENT_PROMPTS, administrator: ADMIN_PROMPTS };
+
     beforeEach(() => {
       useTrack.mockClear();
       currentChat.value = { id: 1 };
     });
 
-    const promptLabels = wrapper =>
-      wrapper.findAll('button').map(button => button.text());
-    const labelsFor = keys =>
-      keys.map(key => `CAPTAIN.COPILOT.PROMPTS.${key}.LABEL`);
+    const promptKeys = wrapper =>
+      wrapper
+        .findAll('button')
+        .map(button =>
+          button.text().replace(/^CAPTAIN\.COPILOT\.PROMPTS\.|\.LABEL$/g, '')
+        );
 
-    it.each([
-      ['agent', ['WAITING_ON_ME', 'RECENT_CONVERSATIONS']],
-      ['administrator', ['WAITING_ON_ME', 'TEAM_WORKLOAD', 'TOP_QUESTIONS']],
-    ])('offers the %s prompts when no conversation is open', (role, keys) => {
-      currentRole.value = role;
-      currentChat.value = {};
-      const wrapper = mountComponent({ isWorkflowsEnabled: true });
-
-      expect(promptLabels(wrapper)).toEqual(labelsFor(keys));
-    });
-
-    it.each([
-      ['agent', ['SUMMARIZE', 'WAITING_ON_ME', 'RECENT_CONVERSATIONS']],
-      ['administrator', ['SUMMARIZE', 'TEAM_WORKLOAD', 'TOP_QUESTIONS']],
-    ])(
-      'offers the %s a summary first when a conversation is open',
-      (role, keys) => {
+    it.each(['agent', 'administrator'])(
+      'offers the %s three prompts from their role when no conversation is open',
+      role => {
         currentRole.value = role;
-        const wrapper = mountComponent({ isWorkflowsEnabled: true });
+        currentChat.value = {};
+        const keys = promptKeys(mountComponent({ isWorkflowsEnabled: true }));
 
-        expect(promptLabels(wrapper)).toEqual(labelsFor(keys));
+        expect(keys).toHaveLength(3);
+        expect(new Set(keys).size).toBe(3);
+        keys.forEach(key => expect(ROLE_PROMPTS[role]).toContain(key));
       }
     );
+
+    it.each(['agent', 'administrator'])(
+      'offers the %s a summary and a reply first when a conversation is open',
+      role => {
+        currentRole.value = role;
+        const keys = promptKeys(mountComponent({ isWorkflowsEnabled: true }));
+
+        expect(keys).toHaveLength(4);
+        expect(keys.slice(0, 2)).toEqual(['SUMMARIZE', 'SUGGEST']);
+        keys
+          .slice(2)
+          .forEach(key =>
+            expect(['CUSTOMER_HISTORY', ...ROLE_PROMPTS[role]]).toContain(key)
+          );
+      }
+    );
+
+    it('leaves out the reply when the customer did not speak last', () => {
+      currentRole.value = 'agent';
+      const keys = promptKeys(
+        mountComponent({ isWorkflowsEnabled: true, canSuggestReply: false })
+      );
+
+      expect(keys).toHaveLength(4);
+      expect(keys[0]).toBe('SUMMARIZE');
+      expect(keys).not.toContain('SUGGEST');
+    });
+
+    it('keeps the same prompts for the whole page load', () => {
+      currentRole.value = 'administrator';
+      currentChat.value = {};
+      const first = promptKeys(mountComponent({ isWorkflowsEnabled: true }));
+      const second = promptKeys(mountComponent({ isWorkflowsEnabled: true }));
+
+      expect(second).toEqual(first);
+    });
+
+    it('sends the reply suggestion through the Assistant', async () => {
+      currentRole.value = 'agent';
+      const wrapper = mountComponent({ isWorkflowsEnabled: true });
+
+      await wrapper.findAll('button')[1].trigger('click');
+
+      expect(wrapper.emitted('useSuggestion')[0][0]).toEqual({
+        message: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
+        requestType: 'reply_suggestion',
+      });
+    });
 
     it('records which prompt was clicked and the role of the person', async () => {
       currentRole.value = 'administrator';
       currentChat.value = {};
       const wrapper = mountComponent({ isWorkflowsEnabled: true });
+      const [key] = promptKeys(wrapper);
 
-      await wrapper.findAll('button')[1].trigger('click');
+      await wrapper.findAll('button')[0].trigger('click');
 
       expect(useTrack).toHaveBeenCalledWith('Copilot: Send suggested message', {
-        prompt: 'TEAM_WORKLOAD',
+        prompt: key,
         role: 'administrator',
       });
       expect(wrapper.emitted('useSuggestion')[0][0]).toBe(
-        'CAPTAIN.COPILOT.PROMPTS.TEAM_WORKLOAD.CONTENT'
+        `CAPTAIN.COPILOT.PROMPTS.${key}.CONTENT`
       );
     });
   });

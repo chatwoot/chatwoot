@@ -9,6 +9,7 @@ export const COPILOT_OPEN_SOURCES = Object.freeze({
   LAUNCHER: 'launcher',
   SIDEBAR_TAB: 'sidebar_tab',
   REPLY_EDITOR: 'reply_editor',
+  EMPTY_STATE: 'empty_state',
 });
 
 // The floating button and the sidebar tab both show the dot, so it counts as shown once per page load.
