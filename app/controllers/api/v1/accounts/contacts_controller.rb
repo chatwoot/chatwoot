@@ -1,4 +1,6 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
+  wrap_parameters format: []
+
   include Sift
   sort_on :email, type: :string
   sort_on :name, internal_name: :order_on_name, type: :scope, scope_params: [:direction]
@@ -44,10 +46,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def export
-    column_names = params['column_names']
-    filter_params = { :payload => params.permit!['payload'], :label => params.permit!['label'] }
-    Account::ContactsExportJob.perform_later(Current.account.id, Current.user.id, column_names, filter_params)
+    DataExports::CreationService.new(account: Current.account, initiated_by: Current.user, options: request.POST.merge(request.GET)).perform
     head :ok, message: I18n.t('errors.contacts.export.success')
+  rescue ArgumentError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   # returns online contacts

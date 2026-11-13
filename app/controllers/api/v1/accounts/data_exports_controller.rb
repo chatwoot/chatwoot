@@ -19,7 +19,7 @@ class Api::V1::Accounts::DataExportsController < Api::V1::Accounts::BaseControll
   def show; end
 
   def create
-    @data_export = creation_service(request.POST.merge(request.GET)).perform
+    @data_export = creation_service(request.request_parameters).perform
     render :show
   end
 
