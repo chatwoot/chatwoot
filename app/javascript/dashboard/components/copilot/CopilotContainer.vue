@@ -1,12 +1,13 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useCopilotDot } from 'dashboard/composables/useCopilotDot';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useWindowSize } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
@@ -15,6 +16,7 @@ import wootConstants from 'dashboard/constants/globals';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import CopilotThreadsAPI from 'dashboard/api/captain/copilotThreads';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const store = useStore();
 const route = useRoute();
@@ -122,6 +124,17 @@ const shouldShowCopilotPanel = computed(() => {
     !uiFlags.value.fetchingList
   );
 });
+
+// The panel can already be open on load, for someone who used Copilot before the dot existed. They have seen Copilot,
+// so the dot is used up here too, not only when an entry point opens the panel.
+const { showDot } = useCopilotDot();
+watch(
+  () => shouldShowCopilotPanel.value && showDot.value,
+  isOpenWithDot => {
+    if (isOpenWithDot) updateUISettings({ copilot_dot_dismissed: true });
+  },
+  { immediate: true }
+);
 
 // Expanded, the panel covers the conversation area. It opens at its normal width every time. It stays below the
 // sidebar's z-40, so the sidebar menus open over it.
@@ -303,6 +316,15 @@ const sendMessage = async payload => {
   }
 };
 
+// A prompt picked outside the panel starts a new chat. The panel opens expanded, because no conversation is open
+// beside it and the answer gets the room. It skips the panel's own send, so it records the send here.
+useEmitter(BUS_EVENTS.ASK_COPILOT, message => {
+  handleReset();
+  isExpanded.value = true;
+  sendMessage(message);
+  useTrack(COPILOT_EVENTS.SEND_MESSAGE);
+});
+
 const stopCopilot = async () => {
   try {
     await CopilotThreadsAPI.stop(selectedCopilotThreadId.value);
@@ -347,6 +369,7 @@ onMounted(() => {
       :can-use-reply="canUseReply"
       :is-expanded="isExpanded"
       :can-show-avatar="isWorkflowsEnabled"
+      :is-workflows-enabled="isWorkflowsEnabled"
       :on-send-message="sendMessage"
       :can-stop="isWorkflowsEnabled"
       :on-stop="stopCopilot"

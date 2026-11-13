@@ -33,6 +33,24 @@ describe('#SearchAPI', () => {
       });
     });
 
+    it.each(['contacts', 'conversations', 'messages', 'articles'])(
+      '#%s forwards the page size and abort signal',
+      type => {
+        const signal = new AbortController().signal;
+
+        searchAPI[type]({ q: 'test', page: 2, perPage: 5 }, { signal });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(`/api/v1/search/${type}`, {
+          signal,
+          params: expect.objectContaining({
+            q: 'test',
+            page: 2,
+            per_page: 5,
+          }),
+        });
+      }
+    );
+
     it('#contacts', () => {
       searchAPI.contacts({ q: 'test', page: 1 });
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/search/contacts', {
@@ -91,7 +109,7 @@ describe('#SearchAPI', () => {
       });
     });
 
-    it('#messages with all filters', () => {
+    it('#messages forwards filters and the continuation cursor', () => {
       searchAPI.messages({
         q: 'test',
         page: 1,
@@ -99,6 +117,7 @@ describe('#SearchAPI', () => {
         until: 1732000000,
         from: 'contact:42',
         inboxId: 10,
+        cursor: 'continue-search',
       });
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/search/messages', {
         params: {
@@ -108,6 +127,7 @@ describe('#SearchAPI', () => {
           until: 1732000000,
           from: 'contact:42',
           inbox_id: 10,
+          cursor: 'continue-search',
         },
       });
     });
