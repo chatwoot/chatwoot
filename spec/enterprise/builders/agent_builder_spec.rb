@@ -79,6 +79,7 @@ RSpec.describe AgentBuilder do
       before do
         account.enable_features!('saml')
         other_account.enable_features!('saml')
+        create(:account_user, account: other_account, user: inviter, role: :administrator)
       end
 
       it 'adds the user when the other account trusts the same identity provider' do
@@ -99,6 +100,22 @@ RSpec.describe AgentBuilder do
       end
 
       it 'refuses the user when the other account does not trust the same identity provider' do
+        expect { builder.perform }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(existing_user.reload.accounts).not_to include(account)
+      end
+
+      it 'refuses the user when the inviter does not administer the other account' do
+        create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+        inviter.account_users.find_by(account: other_account).destroy!
+
+        expect { builder.perform }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(existing_user.reload.accounts).not_to include(account)
+      end
+
+      it 'refuses the user when the inviter is only an agent in the other account' do
+        create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+        inviter.account_users.find_by(account: other_account).update!(role: :agent)
+
         expect { builder.perform }.to raise_error(ActiveRecord::RecordInvalid)
         expect(existing_user.reload.accounts).not_to include(account)
       end

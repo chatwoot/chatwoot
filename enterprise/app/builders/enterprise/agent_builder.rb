@@ -14,11 +14,19 @@ module Enterprise::AgentBuilder
 
     existing_user = User.from_email(email)
     return unless existing_user
-    return unless existing_user.account_users.where.not(account_id: account.id).exists?
-    return if account.feature_enabled?('saml') && account.saml_settings.trusted_by_accounts_of?(existing_user)
+
+    other_account_users = existing_user.account_users.where.not(account_id: account.id)
+    return unless other_account_users.exists?
+    return if saml_invitation_allowed?(existing_user, other_account_users)
 
     existing_user.errors.add(:base, I18n.t('errors.saml.multi_account_invitation_not_allowed'))
     raise ActiveRecord::RecordInvalid, existing_user
+  end
+
+  def saml_invitation_allowed?(existing_user, other_account_users)
+    account.feature_enabled?('saml') &&
+      other_account_users.where.not(account_id: inviter.account_users.administrator.select(:account_id)).none? &&
+      account.saml_settings.trusted_by_accounts_of?(existing_user)
   end
 
   def convert_to_saml_provider(user)
