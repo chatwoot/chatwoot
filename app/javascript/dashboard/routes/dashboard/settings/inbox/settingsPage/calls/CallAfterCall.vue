@@ -31,7 +31,7 @@ const wrapUpOptions = computed(() =>
   durationOptions(t, WRAP_UP_PRESETS, props.savedCooldownSeconds)
 );
 
-// A call that isn't recorded has nothing to transcribe
+// A call that isn't recorded has nothing to transcribe, so transcription shows off while recording is
 watch(recordingEnabled, recording => {
   if (!recording) transcriptionEnabled.value = false;
 });
@@ -63,10 +63,11 @@ watch(recordingEnabled, recording => {
         :help="label('RECORD_HELP')"
       />
       <CallSettingsOption
-        v-model="transcriptionEnabled"
+        :model-value="recordingEnabled && transcriptionEnabled"
         :disabled="!recordingEnabled"
         :label="label('TRANSCRIBE')"
         :help="label('TRANSCRIBE_HELP')"
+        @update:model-value="transcriptionEnabled = $event"
       />
     </div>
   </div>
