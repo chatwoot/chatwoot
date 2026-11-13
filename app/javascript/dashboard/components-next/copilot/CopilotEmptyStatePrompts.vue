@@ -52,7 +52,7 @@ const askCopilot = key => {
   <CopilotPromptPills
     v-if="showPrompts"
     :prompts="prompts"
-    class="fixed bottom-20 end-4 z-50 flex-col items-end [&>button]:shadow-sm"
+    class="fixed bottom-20 end-4 z-50 flex-col items-end max-w-xs [&>button]:shadow-sm"
     @select="askCopilot"
   />
   <template v-else />
