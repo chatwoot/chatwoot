@@ -128,12 +128,18 @@ class Conversations::UnreadCounts::FilterQueryCounter < Conversations::FilterSer
     when 'numeric'
       BigDecimal(value.to_s, exception: false).present?
     when *TEXT_DATA_TYPES
-      value.is_a?(String)
+      valid_text_value?(value)
     else
       Integer(value.to_s, exception: false).present?
     end
   rescue ArgumentError
     false
+  end
+
+  # ponytail: FilterService#coerce_text_attribute_values turns any Numeric into a string
+  # before the query runs, so a numeric value here is still a valid text filter input.
+  def valid_text_value?(value)
+    value.is_a?(String) || value.is_a?(Numeric)
   end
 
   def unread_conversations

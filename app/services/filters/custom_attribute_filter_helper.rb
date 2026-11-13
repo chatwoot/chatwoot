@@ -22,6 +22,7 @@ module Filters::CustomAttributeFilterHelper
   end
 
   def build_custom_attr_query(query_hash, current_index)
+    coerce_text_attribute_values(query_hash) if @attribute_data_type == 'text'
     validate_custom_attribute_values!(query_hash)
     validate_numeric_filter_operator!(query_hash[:filter_operator])
     filter_operator_value = filter_operation(query_hash, current_index)
