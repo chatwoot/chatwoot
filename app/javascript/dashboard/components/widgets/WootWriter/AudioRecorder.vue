@@ -4,7 +4,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import WaveSurfer from 'wavesurfer.js';
 import RecordPlugin from 'wavesurfer.js/dist/plugins/record.js';
 import { format, intervalToDuration } from 'date-fns';
-import { convertAudio } from './utils/audioConversionUtils';
+import { convertAudio, convertToWav } from './utils/audioConversionUtils';
 
 const props = defineProps({
   audioRecordFormat: {
@@ -82,35 +82,50 @@ const initWaveSurfer = () => {
     isPlaying.value = false;
   });
 
-  record.value.on('record-end', async blob => {
+  // Fall back from the requested format to WAV, and finally to the original
+  // blob, so a conversion failure never loses the recording.
+  const buildAudioBlob = async blob => {
     try {
-      const audioBlob = await convertAudio(blob, props.audioRecordFormat);
-      // Use the converted blob's actual type, which may differ from the
-      // requested format when the browser can't produce it (e.g. Safari falls
-      // back to MP3 instead of OGG). This keeps the filename, content type, and
-      // voice-note flag consistent with the real bytes.
-      const audioType = audioBlob.type || props.audioRecordFormat;
-      const ext = AUDIO_EXTENSION_MAP[audioType] || 'mp3';
-      const fileName = `${getUuid()}.${ext}`;
-      const file = new File([audioBlob], fileName, {
-        type: audioType,
-      });
-      if (recordedAudioUrl.value) URL.revokeObjectURL(recordedAudioUrl.value);
-      recordedAudioUrl.value = URL.createObjectURL(audioBlob);
-      wavesurfer.value.load(recordedAudioUrl.value);
-      emit('finishRecord', {
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        file,
-      });
-      hasRecording.value = true;
-      isRecording.value = false;
-    } catch (error) {
-      isRecording.value = false;
-      hasRecording.value = false;
-      emit('recordError', { error });
+      return await convertAudio(blob, props.audioRecordFormat);
+    } catch (conversionError) {
+      try {
+        return await convertToWav(blob);
+      } catch (wavError) {
+        return blob;
+      }
     }
+  };
+
+  record.value.on('record-end', async blob => {
+    isRecording.value = false;
+
+    if (!blob || blob.size === 0) {
+      hasRecording.value = false;
+      emit('recordError', { error: new Error('Empty recording') });
+      return;
+    }
+
+    const audioBlob = await buildAudioBlob(blob);
+    // Use the converted blob's actual type, which may differ from the
+    // requested format when the browser can't produce it (e.g. Safari falls
+    // back to MP3 instead of OGG). This keeps the filename, content type, and
+    // voice-note flag consistent with the real bytes.
+    const audioType = audioBlob.type.split(';')[0] || props.audioRecordFormat;
+    const ext = AUDIO_EXTENSION_MAP[audioType] || 'mp3';
+    const fileName = `${getUuid()}.${ext}`;
+    const file = new File([audioBlob], fileName, {
+      type: audioType,
+    });
+    if (recordedAudioUrl.value) URL.revokeObjectURL(recordedAudioUrl.value);
+    recordedAudioUrl.value = URL.createObjectURL(audioBlob);
+    wavesurfer.value.load(recordedAudioUrl.value);
+    emit('finishRecord', {
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      file,
+    });
+    hasRecording.value = true;
   });
 
   record.value.on('record-progress', time => {
