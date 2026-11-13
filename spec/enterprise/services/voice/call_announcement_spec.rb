@@ -145,6 +145,23 @@ RSpec.describe Voice::CallAnnouncement do
       expect(Nokogiri::XML(twiml.to_s).at_xpath('/Response/Say').text).to eq(I18n.t('inbox.call_announcements.default_unanswered'))
     end
 
+    it 'plays the missed-call message, recording included, for an out-of-hours message left empty' do
+      inbox.unanswered_call_audio.attach(io: StringIO.new('audio'), filename: 'missed.mp3', content_type: 'audio/mpeg')
+
+      described_class.new(inbox, :out_of_hours).speak(twiml)
+
+      expect(Nokogiri::XML(twiml.to_s).at_xpath('/Response/Play').text).to end_with('/missed.mp3')
+    end
+
+    it 'reads its own out-of-hours text once one is saved' do
+      inbox.unanswered_call_audio.attach(io: StringIO.new('audio'), filename: 'missed.mp3', content_type: 'audio/mpeg')
+      channel.update!(provider_config: { 'out_of_hours_call_message' => 'We are closed.' })
+
+      described_class.new(inbox, :out_of_hours).speak(twiml)
+
+      expect(Nokogiri::XML(twiml.to_s).at_xpath('/Response/Say').text).to eq('We are closed.')
+    end
+
     it 'has Twilio read a greeting' do
       channel.update!(provider_config: { 'call_greeting_message' => 'Welcome' })
 

@@ -1,11 +1,11 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Select from 'dashboard/components-next/select/Select.vue';
 import CallSettingsOption from './CallSettingsOption.vue';
 import { durationOptions } from './callDurations';
 
-// Wrap-up time and what is kept from each call, the same for Twilio and WhatsApp
+// Wrap-up time and what is kept from each call
 const props = defineProps({
   // The wrap-up time the inbox saved, kept selectable when it is not a preset
   savedCooldownSeconds: {
@@ -23,13 +23,18 @@ const transcriptionEnabled = defineModel('transcriptionEnabled', {
 });
 
 // Within the 0–600 s wrap-up the server accepts
-const WRAP_UP_PRESETS = [0, 30, 60, 120, 300, 600];
+const WRAP_UP_PRESETS = [0, 30, 60, 120, 300];
 
 const { t } = useI18n();
 const label = key => t(`INBOX_MGMT.CALL_SETTINGS.AFTER_CALL.${key}`);
 const wrapUpOptions = computed(() =>
   durationOptions(t, WRAP_UP_PRESETS, props.savedCooldownSeconds)
 );
+
+// A call that isn't recorded has nothing to transcribe
+watch(recordingEnabled, recording => {
+  if (!recording) transcriptionEnabled.value = false;
+});
 </script>
 
 <template>
@@ -49,12 +54,20 @@ const wrapUpOptions = computed(() =>
         {{ label('WRAP_UP_HELP') }}
       </p>
     </div>
-    <CallSettingsOption v-model="recordingEnabled" :label="label('RECORD')" />
-    <CallSettingsOption
-      v-if="recordingEnabled"
-      v-model="transcriptionEnabled"
-      :label="label('TRANSCRIBE')"
-      :help="label('TRANSCRIBE_HELP')"
-    />
+    <div
+      class="flex flex-col divide-y divide-n-weak rounded-xl outline outline-1 -outline-offset-1 outline-n-weak [&>label]:px-4 [&>label]:py-3"
+    >
+      <CallSettingsOption
+        v-model="recordingEnabled"
+        :label="label('RECORD')"
+        :help="label('RECORD_HELP')"
+      />
+      <CallSettingsOption
+        v-model="transcriptionEnabled"
+        :disabled="!recordingEnabled"
+        :label="label('TRANSCRIBE')"
+        :help="label('TRANSCRIBE_HELP')"
+      />
+    </div>
   </div>
 </template>

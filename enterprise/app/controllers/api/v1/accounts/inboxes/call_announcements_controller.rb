@@ -43,8 +43,9 @@ class Api::V1::Accounts::Inboxes::CallAnnouncementsController < Api::V1::Account
     @announcement = Voice::CallAnnouncement.new(@inbox, params[:kind])
   end
 
-  # The greeting is switched on or off and needs its text when on; the missed-call message is
-  # always on and an empty one falls back to the default text
+  # The greeting is switched on or off and needs its text when on. The missed-call and out-of-hours
+  # messages are always on: an empty missed-call message is the default text, and an empty
+  # out-of-hours message is the missed-call message.
   def validate_settings
     @enabled = enabled_param
     message = params[:message]

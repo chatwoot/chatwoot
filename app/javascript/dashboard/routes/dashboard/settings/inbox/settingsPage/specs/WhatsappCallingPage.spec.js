@@ -74,7 +74,7 @@ describe('WhatsappCallingPage', () => {
     const wrapper = mountPage();
     expect(saveButton(wrapper).attributes('disabled')).toBeDefined();
 
-    await radio(wrapper, 'sequential').setValue(true);
+    await wrapper.find('#call-routing-sequential-52').setValue(true);
     await radio(wrapper, 'true').setValue(true);
     await saveButton(wrapper).trigger('click');
     await flushPromises();

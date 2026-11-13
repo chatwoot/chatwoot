@@ -1477,7 +1477,12 @@ export default {
           v-if="selectedTabKey === 'voice-configuration'"
           class="mx-6 max-w-4xl"
         >
-          <VoiceConfigurationPage :inbox="inbox" />
+          <VoiceConfigurationPage
+            :inbox="inbox"
+            @open-business-hours="
+              onTabChange(tabs.findIndex(tab => tab.key === 'business-hours'))
+            "
+          />
         </div>
         <div
           v-if="selectedTabKey === 'calls-configuration'"
