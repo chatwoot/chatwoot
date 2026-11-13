@@ -28,9 +28,9 @@ module Filters::FilterHelper
   end
 
   def build_condition_query_string(current_filter, query_hash, current_index)
-    filter_operator_value = filter_operation(query_hash, current_index)
-
     return handle_nil_filter(query_hash, current_index) if current_filter.nil?
+
+    filter_operator_value = filter_operation(query_hash, current_index)
 
     case current_filter['attribute_type']
     when 'additional_attributes'

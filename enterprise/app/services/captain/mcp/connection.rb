@@ -2,9 +2,12 @@
 # Every MCP and OAuth request goes through the SafeFetch address checks.
 class Captain::Mcp::Connection
   TIMEOUT = 30
+  # The server answered, but the MCP client could not read the answer
+  class InvalidResponse < StandardError; end
+
   # The server or the network failed: a bad answer, a refused address or a lost connection. Callers handle these as
   # expected failures, and anything else is a bug that should reach Sentry.
-  ERRORS = [RubyLLM::Error, SafeFetch::Error, Faraday::Error].freeze
+  ERRORS = [RubyLLM::Error, SafeFetch::Error, Faraday::Error, InvalidResponse].freeze
 
   def self.oauth_redirect_uri
     "#{ENV.fetch('FRONTEND_URL', '')}/captain/mcp/callback"
@@ -25,7 +28,10 @@ class Captain::Mcp::Connection
     raise
   end
 
-  # Tools the server offers to models, as the definitions Captain approves and compares
+  # Tools the server offers to models, as the definitions Captain approves and compares.
+  # A reply the MCP client cannot parse, such as a string where it expects an object, raises InvalidResponse, so one
+  # server's bad reply is handled like a failed request. The original error is logged, not sent to Sentry, because a
+  # broken server would report it on every listing.
   def tool_definitions
     mcp.tools.select { |tool| tool.visibility.include?(:model) }.map do |tool|
       {
@@ -35,6 +41,11 @@ class Captain::Mcp::Connection
         'read_only' => tool.read_only?
       }
     end
+  rescue *ERRORS
+    raise
+  rescue StandardError => e
+    Rails.logger.warn("Captain MCP server #{@server.id} sent a tool list Captain could not read: #{e.class} - #{e.message}")
+    raise InvalidResponse, "The server sent a tool list Captain could not read (#{e.class})"
   end
 
   # RubyLLM exposes the server's name only through its private server info

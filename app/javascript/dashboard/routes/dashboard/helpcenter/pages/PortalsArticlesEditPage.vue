@@ -194,14 +194,39 @@ const loadLatestVersion = async () => {
 useEventListener(document, 'visibilitychange', checkForNewerVersion);
 useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, checkForNewerVersion);
 
-const previewArticle = () => {
-  window.open(articleLink.value, '_blank');
-  useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
-    status: article.value?.status,
-  });
+const previewArticle = async () => {
+  const id = articleSlug.value;
+  const portalId = portalSlug.value;
+  const status = article.value.status;
+  const previewUrl = new URL(articleLink.value);
+
+  // Open during the click so a slow token request cannot trigger popup blocking.
+  const previewTab = window.open('about:blank', '_blank');
+  if (!previewTab) {
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW_POPUP_BLOCKED'));
+    return;
+  }
+
+  previewTab.opener = null;
+
+  try {
+    if (status !== ARTICLE_STATUSES.PUBLISHED) {
+      const { data } = await ArticlesAPI.getPreviewToken({
+        id,
+        portalSlug: portalId,
+      });
+      previewUrl.searchParams.set('preview_token', data.preview_token);
+    }
+
+    previewTab.location.replace(previewUrl.toString());
+    useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, { status });
+  } catch {
+    previewTab.close();
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.PREVIEW_ERROR'));
+  }
 };
 
-watch(articleSlug, fetchArticleDetails, { immediate: true });
+watch([articleSlug, portalSlug], fetchArticleDetails, { immediate: true });
 </script>
 
 <template>

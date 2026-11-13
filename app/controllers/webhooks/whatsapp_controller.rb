@@ -2,6 +2,7 @@ class Webhooks::WhatsappController < ActionController::API
   include MetaTokenVerifyConcern
 
   before_action :verify_meta_signature!, only: :process_payload
+  before_action :verify_webhook_token!, only: :process_payload
 
   def process_payload
     if inactive_whatsapp_number?
@@ -12,7 +13,7 @@ class Webhooks::WhatsappController < ActionController::API
 
     return head :ok if tracking_events_only?
 
-    Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash)
+    Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash.except(:webhook_token))
     head :ok
   end
 
@@ -58,6 +59,18 @@ class Webhooks::WhatsappController < ActionController::API
 
   def app_secret_pending?
     whatsapp_channel&.app_secret_pending? && channel_meta_app_secrets(whatsapp_channel).blank?
+  end
+
+  def verify_webhook_token!
+    return unless whatsapp_channel&.provider == 'default'
+
+    expected_token = whatsapp_channel.provider_config['webhook_token']
+    if expected_token.blank?
+      Rails.logger.warn("[WHATSAPP] Accepted webhook without a webhook token for channel #{whatsapp_channel.id}")
+      return
+    end
+
+    head :unauthorized unless ActiveSupport::SecurityUtils.secure_compare(params[:webhook_token].to_s, expected_token)
   end
 
   def whatsapp_business_payload_channel

@@ -44,6 +44,8 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     # Teardown holds the row lock so the status callbacks it triggers can't finalize the call first;
     # a teardown failure rolls back and leaves the call repairable.
     call.with_lock do
+      return render json: { error: I18n.t('errors.voice.cannot_end_call') }, status: :forbidden unless can_end_call?(call)
+
       conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
       conference_service.terminate_call
       conference_service.end_conference
@@ -62,6 +64,12 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   private
+
+  def can_end_call?(call)
+    return call.accepted_by_agent_id == Current.user.id if call.accepted_by_agent_id.present?
+
+    call.incoming? && call.ringing?
+  end
 
   def validate_hold
     return if [true, false].include?(params[:hold])

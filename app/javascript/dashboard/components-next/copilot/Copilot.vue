@@ -23,6 +23,7 @@ import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import CopilotEmptyState from './CopilotEmptyState.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -71,6 +72,11 @@ const props = defineProps({
     default: false,
   },
   canShowAvatar: {
+    type: Boolean,
+    default: false,
+  },
+  // Workflows is in a test with a few accounts, so the panel labels it beta and offers its starter prompts.
+  isWorkflowsEnabled: {
     type: Boolean,
     default: false,
   },
@@ -310,14 +316,27 @@ const { start: startReaction } = useTimeoutFn(
   { immediate: false }
 );
 // A turn that ends with a reply shows the happy face for a moment, and one that ends with a failed reply shows the
-// error face. Opening a past chat shows neither, because no turn was running.
-watch(turnAvatarState, (state, previousState) => {
-  if (previousState && !state && isLastMessageFromAssistant.value) {
-    const hasFailed = props.messages.at(-1).message.status === 'failed';
+// error face. Opening a past chat shows neither, even while a turn runs in the chat it leaves, because no turn ended.
+watch(
+  [turnAvatarState, () => props.selectedThreadId],
+  ([state, threadId], [previousState, previousThreadId]) => {
+    if (threadId !== previousThreadId) return;
+    if (!previousState || state || !isLastMessageFromAssistant.value) return;
+
+    const lastMessage = props.messages.at(-1).message;
+    const hasFailed = lastMessage.status === 'failed';
     reaction.value = hasFailed ? 'error' : 'happy';
     startReaction();
+    // Only a workflow turn saves its run ID on the answer.
+    if (lastMessage.run_id) {
+      useTrack(
+        hasFailed
+          ? COPILOT_EVENTS.WORKFLOW_TURN_FAILED
+          : COPILOT_EVENTS.WORKFLOW_TURN_FINISHED
+      );
+    }
   }
-});
+);
 
 const awakeAvatarState = computed(() => {
   if (turnAvatarState.value) return turnAvatarState.value;
@@ -393,6 +412,13 @@ const openThread = thread => {
   emit('selectThread', thread);
   showHistory.value = false;
 };
+// A chat selected from outside the panel, such as a starter prompt on the empty screen, replaces the history view.
+watch(
+  () => props.selectedThreadId,
+  threadId => {
+    if (threadId) showHistory.value = false;
+  }
+);
 // The store refreshes the message list for every thread's update, so only a new last message in this chat counts.
 // Watchers run before the DOM updates, so the position checked is the one the agent was reading.
 watch(
@@ -421,7 +447,11 @@ watch(
       :buttons="copilotButtons"
       @click="handleSidebarAction"
       @close="closeCopilotPanel"
-    />
+    >
+      <template v-if="isWorkflowsEnabled" #titleBadge>
+        <Label :label="t('GENERAL.BETA')" color="blue" compact />
+      </template>
+    </SidebarActionsHeader>
     <div v-if="showHistory" class="flex-1 overflow-y-auto px-3 py-3">
       <div class="w-full max-w-3xl mx-auto">
         <div class="mb-3 flex items-center justify-between">
@@ -518,6 +548,7 @@ watch(
         class="max-w-3xl mx-auto"
         :has-assistants="hasAssistants"
         :can-suggest-reply="canSuggestReply"
+        :is-workflows-enabled="isWorkflowsEnabled"
         @use-suggestion="sendSuggestion"
       >
         <template v-if="showAvatar" #logo>
@@ -574,6 +605,12 @@ watch(
         @focusin="wakeAvatar"
         @input="onDraftInput"
       />
+      <p
+        v-if="hasAssistants"
+        class="w-full max-w-3xl mx-auto mb-0 text-center text-xs text-n-slate-10"
+      >
+        {{ $t('CAPTAIN.COPILOT.DISCLAIMER') }}
+      </p>
     </div>
   </div>
 </template>

@@ -130,6 +130,7 @@ Rails.application.routes.draw do
               member do
                 get :live_tools
                 get :authorization_url
+                post :approve_tool
               end
             end
             resource :tools_manifest, only: [] do
@@ -242,6 +243,7 @@ Rails.application.routes.draw do
 
           resources :search, only: [:index] do
             collection do
+              get :counts
               get :conversations
               get :messages
               get :contacts
@@ -372,6 +374,7 @@ Rails.application.routes.draw do
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
               resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
+              resource :call_routing, only: [:update], controller: 'inboxes/call_routings'
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
@@ -504,6 +507,7 @@ Rails.application.routes.draw do
             member do
               patch :archive
               delete :logo
+              delete :remove_locale
               post :send_instructions
               get :ssl_status
             end
@@ -520,6 +524,7 @@ Rails.application.routes.draw do
             end
             resources :articles do
               post :reorder, on: :collection
+              get :preview_token, on: :member
             end
           end
 
@@ -728,15 +733,15 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
-  resource :app, only: [:index] do
-    resources :accounts do
+  scope path: 'app', as: 'app' do
+    resources :accounts, only: [:show] do
       resources :conversations, only: [:show]
     end
   end
 
   # ----------------------------------------------------------------------
   # Routes for channel integrations
-  mount Facebook::Messenger::Server, at: 'bot'
+  mount Integrations::Facebook::WebhookServer, at: 'bot'
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
