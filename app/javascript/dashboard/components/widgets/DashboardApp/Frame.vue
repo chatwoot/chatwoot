@@ -1,5 +1,26 @@
-<script>
+<script setup>
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { useStore } from 'vuex';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
+
+const props = defineProps({
+  config: {
+    type: Array,
+    default: () => [],
+  },
+  currentChat: {
+    type: Object,
+    default: () => ({}),
+  },
+  isVisible: {
+    type: Boolean,
+    default: false,
+  },
+  position: {
+    type: Number,
+    required: true,
+  },
+});
 
 const FETCH_INFO_MESSAGE = 'chatwoot-dashboard-app:fetch-info';
 const APP_CONTEXT_EVENT = 'appContext';
@@ -9,125 +30,107 @@ const LIGHT_THEME = 'light';
 const getCurrentTheme = () =>
   document.body.classList.contains(DARK_THEME) ? DARK_THEME : LIGHT_THEME;
 
-export default {
-  components: {
-    LoadingState,
-  },
-  props: {
-    config: {
-      type: Array,
-      default: () => [],
-    },
-    currentChat: {
-      type: Object,
-      default: () => ({}),
-    },
-    isVisible: {
-      type: Boolean,
-      default: false,
-    },
-    position: {
-      type: Number,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      hasOpenedAtleastOnce: false,
-      iframeLoading: true,
-      currentTheme: getCurrentTheme(),
-      themeObserver: null,
-    };
-  },
-  computed: {
-    dashboardAppContext() {
-      return {
-        conversation: this.currentChat,
-        contact: this.$store.getters['contacts/getContact'](this.contactId),
-        currentAgent: this.currentAgent,
-        customAttributes: this.customAttributes,
-        theme: this.currentTheme,
-      };
-    },
-    customAttributes() {
-      return this.$store.getters['attributes/getAttributes'];
-    },
-    contactId() {
-      return this.currentChat?.meta?.sender?.id;
-    },
-    currentAgent() {
-      const { id, name, email } = this.$store.getters.getCurrentUser;
-      return { id, name, email };
-    },
-  },
-  watch: {
-    isVisible(isVisible) {
-      if (isVisible) {
-        const hasOpened = this.hasOpenedAtleastOnce;
-        this.hasOpenedAtleastOnce = true;
-        if (hasOpened) this.sendContextToFrames();
-      }
-    },
-    customAttributes() {
-      this.sendContextToFrames();
-    },
-  },
-  mounted() {
-    window.addEventListener('message', this.triggerEvent);
-    this.themeObserver = new MutationObserver(this.onThemeChange);
-    this.themeObserver.observe(document.body, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-  },
-  unmounted() {
-    window.removeEventListener('message', this.triggerEvent);
-    this.themeObserver.disconnect();
-  },
-  methods: {
-    triggerEvent(event) {
-      if (!this.isVisible) return;
-      if (event.data !== FETCH_INFO_MESSAGE) return;
+const store = useStore();
+const hasOpenedAtLeastOnce = ref(false);
+const iframeLoading = ref(true);
+const currentTheme = ref(getCurrentTheme());
+const hasPendingContextUpdate = ref(false);
+let themeObserver;
 
-      const frameIndex = this.config.findIndex((_, index) => {
-        const frameElement = document.getElementById(this.getFrameId(index));
-        return frameElement?.contentWindow === event.source;
-      });
-      if (frameIndex >= 0) this.sendContext(frameIndex);
-    },
-    onThemeChange() {
-      const theme = getCurrentTheme();
-      if (theme === this.currentTheme) return;
+const customAttributes = computed(
+  () => store.getters['attributes/getAttributes']
+);
+const contactId = computed(() => props.currentChat?.meta?.sender?.id);
+const currentAgent = computed(() => {
+  const { id, name, email } = store.getters.getCurrentUser;
+  return { id, name, email };
+});
+const dashboardAppContext = computed(() => ({
+  conversation: props.currentChat,
+  contact: store.getters['contacts/getContact'](contactId.value),
+  currentAgent: currentAgent.value,
+  customAttributes: customAttributes.value,
+  theme: currentTheme.value,
+}));
 
-      this.currentTheme = theme;
-      this.sendContextToFrames();
-    },
-    getFrameId(index) {
-      return `dashboard-app--frame-${this.position}-${index}`;
-    },
-    sendContextToFrames() {
-      if (!this.isVisible || this.iframeLoading) return;
-      this.config.forEach((_, index) => this.sendContext(index));
-    },
-    sendContext(index) {
-      // A possible alternative is to use ref instead of document.getElementById
-      // However, when ref is used together with v-for, the ref you get will be
-      // an array containing the child components mirroring the data source.
-      const frameElement = document.getElementById(this.getFrameId(index));
-      const eventData = {
-        event: APP_CONTEXT_EVENT,
-        data: this.dashboardAppContext,
-      };
-      frameElement.contentWindow.postMessage(JSON.stringify(eventData), '*');
-      this.iframeLoading = false;
-    },
-  },
+const getFrameId = index => `dashboard-app--frame-${props.position}-${index}`;
+
+const sendContext = index => {
+  // A possible alternative is to use ref instead of document.getElementById.
+  // A ref used with v-for returns an array mirroring the data source.
+  const frameElement = document.getElementById(getFrameId(index));
+  const eventData = {
+    event: APP_CONTEXT_EVENT,
+    data: dashboardAppContext.value,
+  };
+  frameElement.contentWindow.postMessage(JSON.stringify(eventData), '*');
+  iframeLoading.value = false;
+  hasPendingContextUpdate.value = false;
 };
+
+const sendContextToFrames = () => {
+  if (!props.isVisible || iframeLoading.value) return;
+  props.config.forEach((_, index) => sendContext(index));
+};
+
+const syncContext = () => {
+  if (!props.isVisible) {
+    hasPendingContextUpdate.value = true;
+    return;
+  }
+  sendContextToFrames();
+};
+
+const triggerEvent = event => {
+  if (!props.isVisible || event.data !== FETCH_INFO_MESSAGE) return;
+
+  const frameIndex = props.config.findIndex((_, index) => {
+    const frameElement = document.getElementById(getFrameId(index));
+    return frameElement?.contentWindow === event.source;
+  });
+  if (frameIndex >= 0) sendContext(frameIndex);
+};
+
+const onThemeChange = () => {
+  const theme = getCurrentTheme();
+  if (theme === currentTheme.value) return;
+
+  currentTheme.value = theme;
+  syncContext();
+};
+
+watch(
+  () => props.isVisible,
+  isVisible => {
+    if (!isVisible) return;
+
+    const hasOpened = hasOpenedAtLeastOnce.value;
+    hasOpenedAtLeastOnce.value = true;
+    if (hasOpened && hasPendingContextUpdate.value) sendContextToFrames();
+  }
+);
+watch(customAttributes, syncContext);
+
+onMounted(() => {
+  window.addEventListener('message', triggerEvent);
+  themeObserver = new MutationObserver(onThemeChange);
+  themeObserver.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class'],
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('message', triggerEvent);
+  themeObserver.disconnect();
+});
+
+defineExpose({ triggerEvent });
 </script>
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
-  <div v-if="hasOpenedAtleastOnce" class="dashboard-app--container">
+  <div v-if="hasOpenedAtLeastOnce" class="dashboard-app--container">
     <div
       v-for="(configItem, index) in config"
       :key="index"
