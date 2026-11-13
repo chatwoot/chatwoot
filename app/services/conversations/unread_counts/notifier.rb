@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Conversations::UnreadCounts::Notifier
   include Events::Types
 
@@ -8,9 +10,12 @@ class Conversations::UnreadCounts::Notifier
     @changed_attributes = changed_attributes
   end
 
-  def perform
+  def perform(reconcile_only: false)
     return false unless conversation.account.feature_enabled?('conversation_unread_counts')
-    return dispatch_unread_count_changed if ::Conversations::UnreadCounts::Refresher.new(conversation, changed_attributes: changed_attributes).perform
+
+    membership_changed = ::Conversations::UnreadCounts::Refresher.new(conversation, changed_attributes: changed_attributes).perform
+    return dispatch_unread_count_changed if membership_changed
+    return false if reconcile_only
     return false unless conversation.account.feature_enabled?(filtered_count_feature_flag)
 
     dispatch_unread_count_changed
