@@ -5,13 +5,11 @@ require 'agents'
 Rails.application.config.after_initialize do
   api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
   model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || LlmConstants::DEFAULT_MODEL
-  api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || LlmConstants::OPENAI_API_ENDPOINT
 
   Agents.configure do |config|
-    config.openai_api_key = api_key if api_key.present?
-    if api_key.present? && api_endpoint.present?
-      api_base = "#{api_endpoint.chomp('/')}/v1"
-      config.openai_api_base = api_base
+    if api_key.present?
+      config.openai_api_key = api_key
+      config.openai_api_base = Llm::Config.openai_api_base
     end
     config.default_model = model
     config.openai_protocol = :chat_completions

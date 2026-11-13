@@ -37,10 +37,12 @@ module Llm::Models
       model_config(model_name)&.dig('provider')
     end
 
-    # config/llm.yml can override the registry, which `rake ruby_llm:refresh_models` regenerates.
+    # config/llm.yml can override the registry, which `rake ruby_llm:refresh_models` regenerates. A model in
+    # neither, such as a custom CAPTAIN_OPEN_AI_MODEL on another OpenAI-compatible provider, keeps the
+    # requested temperature instead of failing the registry lookup.
     def temperature_for(model_name, temperature)
       supported = model_config(model_name)&.dig('temperature')
-      supported = RubyLLM.models.find(model_name).metadata[:temperature] if supported.nil?
+      supported = registry_temperature(model_name) if supported.nil?
       temperature unless supported == false
     end
 
@@ -61,6 +63,14 @@ module Llm::Models
         end,
         default: feature['default']
       }
+    end
+
+    private
+
+    def registry_temperature(model_name)
+      RubyLLM.models.find(model_name).metadata[:temperature]
+    rescue RubyLLM::ModelNotFoundError
+      nil
     end
   end
 end
