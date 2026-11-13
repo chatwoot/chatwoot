@@ -1,7 +1,13 @@
 class ApplicationMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
+  # Marks every email this instance generates so inbound processing can tell our own
+  # mail apart from third-party mail that shares the MAILER_SENDER_EMAIL address.
+  # See MailPresenter#notification_email_from_chatwoot?
+  CHATWOOT_NOTIFICATION_HEADER = 'X-Chatwoot-Notification'
+
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  default CHATWOOT_NOTIFICATION_HEADER => 'true'
   before_action { ensure_current_account(params.try(:[], :account)) }
   around_action :switch_locale
   layout 'mailer/base'

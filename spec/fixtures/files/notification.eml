@@ -44,6 +44,7 @@ From: accounts@chatwoot.com
 To: sojan@chatwoot.com
 Message-ID: <0101017000ec0605-2b97eb32-482d-4357-8715-29b1d4a7c38b-000000@us-west-2.amazonses.com>
 Subject: Sojan, A new conversation [ID - 873] has been assigned to you.
+X-Chatwoot-Notification: true
 Mime-Version: 1.0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 7bit
