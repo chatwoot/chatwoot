@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_04_085110) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_04_085633) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1243,6 +1243,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_04_085110) do
     t.index ["user_id"], name: "index_dashboard_apps_on_user_id"
   end
 
+  create_table "data_exports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "initiated_by_id"
+    t.string "name", null: false
+    t.string "data_type", default: "contacts", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "export_options", default: {}, null: false
+    t.string "active_run_id"
+    t.integer "processed_records", default: 0, null: false
+    t.integer "total_records"
+    t.text "error_message"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "notification_sent_at"
+    t.datetime "artifacts_expired_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "id"], name: "index_data_exports_on_account_id_and_id"
+    t.index ["account_id"], name: "index_data_exports_on_account_id"
+    t.index ["completed_at"], name: "index_data_exports_on_unexpired_completion", where: "(artifacts_expired_at IS NULL)"
+    t.index ["initiated_by_id"], name: "index_data_exports_on_initiated_by_id"
+  end
+
   create_table "data_import_errors", force: :cascade do |t|
     t.bigint "data_import_id", null: false
     t.bigint "data_import_item_id"
@@ -1870,6 +1893,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_04_085110) do
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
+  add_foreign_key "data_exports", "accounts"
+  add_foreign_key "data_exports", "users", column: "initiated_by_id", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
   add_foreign_key "shopify_custom_apps", "accounts"
   add_foreign_key "user_sessions", "users"
