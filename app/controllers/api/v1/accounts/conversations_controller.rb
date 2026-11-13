@@ -175,7 +175,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def set_conversation_status
     @conversation.status = params[:status]
-    @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
+    # "Until next reply" sends no deadline, so a deadline from an earlier snooze must not be kept
+    @conversation.snoozed_until = (parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until].present?)
   end
 
   def handle_human_open
