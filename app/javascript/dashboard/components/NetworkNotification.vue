@@ -23,6 +23,11 @@ const isReconnecting = ref(false);
 const isReconnected = ref(false);
 let reconnectTimeout = null;
 
+const clearReconnectTimeout = () => {
+  clearTimeout(reconnectTimeout);
+  reconnectTimeout = null;
+};
+
 const bannerText = computed(() => {
   if (isReconnecting.value) return t('NETWORK.NOTIFICATION.RECONNECTING');
   if (isReconnected.value) return t('NETWORK.NOTIFICATION.RECONNECT_SUCCESS');
@@ -41,7 +46,7 @@ const refreshPage = () => {
 const closeNotification = () => {
   showNotification.value = false;
   isReconnected.value = false;
-  clearTimeout(reconnectTimeout);
+  clearReconnectTimeout();
 };
 
 const isInAnyOfTheRoutes = routeName => {
@@ -51,11 +56,14 @@ const isInAnyOfTheRoutes = routeName => {
 };
 
 const updateWebsocketStatus = () => {
+  clearReconnectTimeout();
   isDisconnected.value = true;
+  isReconnected.value = false;
   showNotification.value = true;
 };
 
 const handleReconnectionCompleted = () => {
+  clearReconnectTimeout();
   isDisconnected.value = false;
   isReconnecting.value = false;
   isReconnected.value = true;
@@ -64,6 +72,7 @@ const handleReconnectionCompleted = () => {
 };
 
 const handleReconnecting = () => {
+  clearReconnectTimeout();
   if (isInAnyOfTheRoutes(route.name)) {
     isReconnecting.value = true;
     isReconnected.value = false;
@@ -100,7 +109,7 @@ useEmitter(
 useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
 
 onBeforeUnmount(() => {
-  clearTimeout(reconnectTimeout);
+  clearReconnectTimeout();
 });
 </script>
 
