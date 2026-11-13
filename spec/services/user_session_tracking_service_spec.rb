@@ -221,6 +221,13 @@ RSpec.describe UserSessionTrackingService do
   end
 
   describe '#update_activity!' do
+    it 'runs session activity writes on the writer role' do
+      user.user_sessions.create!(client_id: client_id, last_activity_at: 10.minutes.ago)
+      expect(ApplicationRecord).to receive(:connected_to).with(role: :writing).and_call_original
+
+      service.update_activity!
+    end
+
     it 'does nothing when no session exists for the client_id' do
       expect { service.update_activity! }.not_to change(user.user_sessions, :count)
     end
@@ -261,14 +268,14 @@ RSpec.describe UserSessionTrackingService do
         }
       end
 
-      it 'refreshes the stored version so an in-place app upgrade is reflected' do
+      it 'refreshes the stored version on the writer during a replica read' do
         session = user.user_sessions.create!(
           client_id: client_id, browser_name: 'Chatwoot Mobile', browser_version: '4.8.5',
           device_name: 'iPhone', platform_name: 'iPhone 15', platform_version: '26.5.2',
           last_activity_at: 10.minutes.ago
         )
 
-        service.update_activity!
+        ApplicationRecord.connected_to(role: :reading, prevent_writes: true) { service.update_activity! }
 
         expect(session.reload.browser_version).to eq('4.9.1')
       end

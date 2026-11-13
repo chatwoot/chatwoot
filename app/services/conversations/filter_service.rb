@@ -1,8 +1,9 @@
 class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
 
-  def initialize(params, user, account)
+  def initialize(params, user, account, access_context: nil)
     @account = account
+    @access_context = access_context
     super(params, user)
   end
 
@@ -38,7 +39,8 @@ class Conversations::FilterService < FilterService
       conversations,
       @user,
       @account,
-      plan_hint_selective_filter: label_filter_present?
+      plan_hint_selective_filter: label_filter_present?,
+      access_context: @access_context
     ).perform
   end
 

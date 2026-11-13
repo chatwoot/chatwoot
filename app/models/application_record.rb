@@ -4,6 +4,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   include Events::Types
   self.abstract_class = true
+  connects_to database: { writing: :primary, reading: :primary_replica }
 
   before_validation :validates_column_content_length
 

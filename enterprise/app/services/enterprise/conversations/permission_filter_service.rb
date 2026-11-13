@@ -8,10 +8,14 @@ module Enterprise::Conversations::PermissionFilterService
   private
 
   def user_has_custom_role?
+    return user_role == 'agent' && access_context.custom_role_id.present? if access_context
+
     user_role == 'agent' && account_user&.custom_role_id.present?
   end
 
   def permissions
+    return access_context.permissions if access_context
+
     account_user&.permissions || []
   end
 
@@ -31,7 +35,11 @@ module Enterprise::Conversations::PermissionFilterService
 
   def filter_participating_and_mine
     conversations = accessible_conversations
-    participant_conversation_ids = ConversationParticipant.where(account_id: account.id, user_id: user.id).select(:conversation_id)
+    participant_conversation_ids = if access_context
+                                     access_context.participant_conversation_ids
+                                   else
+                                     ConversationParticipant.where(account_id: account.id, user_id: user.id).select(:conversation_id)
+                                   end
 
     conversations
       .where(assignee_id: user.id)
