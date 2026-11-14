@@ -25,6 +25,7 @@
 class Channel::Whatsapp < ApplicationRecord
   include Channelable
   include Reauthorizable
+  include OmittedBlobCalculable
 
   self.table_name = 'channel_whatsapp'
 

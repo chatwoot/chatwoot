@@ -29,6 +29,7 @@
 class Channel::TwilioSms < ApplicationRecord
   include Channelable
   include Rails.application.routes.url_helpers
+  include OmittedBlobCalculable
 
   self.table_name = 'channel_twilio_sms'
 

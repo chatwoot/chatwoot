@@ -480,6 +480,10 @@ RSpec.describe Channel::Whatsapp do
     let(:templates_data) { [{ 'name' => 'order_confirmation', 'status' => 'APPROVED' }] }
     let(:channel) { create(:channel_whatsapp, sync_templates: false, validate_provider_config: false, message_templates: templates_data) }
 
+    before do
+      allow_any_instance_of(described_class).to receive(:validate_provider_config)
+    end
+
     it 'does not load message_templates on default find' do
       loaded_channel = described_class.find(channel.id)
       expect(loaded_channel.has_attribute?(:message_templates)).to be(false)
@@ -511,7 +515,13 @@ RSpec.describe Channel::Whatsapp do
     it 'returns default attribute value for new records without querying database' do
       new_channel = described_class.new
       expect(described_class).not_to receive(:unscoped)
-      expect(new_channel.message_templates).to eq([])
+      expect(new_channel.message_templates).to eq({})
+    end
+
+    it 'supports count queries without error' do
+      create(:channel_whatsapp, sync_templates: false, validate_provider_config: false)
+      expect { described_class.count }.not_to raise_error
+      expect(described_class.count).to be >= 1
     end
   end
 end

@@ -120,5 +120,11 @@ RSpec.describe Channel::TwilioSms do
       expect(described_class).not_to receive(:unscoped)
       expect(new_channel.content_templates).to eq({})
     end
+
+    it 'supports count queries without error' do
+      create(:channel_twilio_sms)
+      expect { described_class.count }.not_to raise_error
+      expect(described_class.count).to be >= 1
+    end
   end
 end
