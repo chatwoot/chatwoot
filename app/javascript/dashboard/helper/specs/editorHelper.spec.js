@@ -183,6 +183,102 @@ describe('appendSignature', () => {
     ).toBe(`${cleanedSignature}\n\n${body}`);
   });
 
+  describe('with the none separator', () => {
+    const signature = 'Acme Support';
+    const appendNone = (body, position) =>
+      appendSignature(body, signature, { position, separator: 'none' });
+
+    // A lone newline is a markdown soft break, which the Email and Line
+    // renderers turn into a space, so plain lines are joined by a hard break.
+    it('puts the signature on its own line above the message', () => {
+      expect(appendNone('Hello there', 'top')).toBe(
+        'Acme Support  \nHello there'
+      );
+    });
+
+    it('puts the signature on its own line below the message', () => {
+      expect(appendNone('Hello there', 'bottom')).toBe(
+        'Hello there  \nAcme Support'
+      );
+    });
+
+    // A `\` + newline break would be escaped by this backslash.
+    it('keeps the hard break after an authored trailing backslash', () => {
+      expect(appendNone('Open C:\\', 'bottom')).toBe(
+        'Open C:\\  \nAcme Support'
+      );
+    });
+
+    // Next to a markdown block only a blank line keeps the signature out of
+    // it: a single line continues a list, quote or table, joins an ordered
+    // item to the paragraph, or turns the paragraph into a heading.
+    it.each([
+      ['a list', '- first\n- second'],
+      ['an ordered list that cannot interrupt a paragraph', '2. second'],
+      ['a heading', '# Title\nSome text'],
+      ['a quote', '> quoted'],
+      ['a table', '| a | b |\n|---|---|\n| 1 | 2 |'],
+      ['a code fence', '```\ncode\n```'],
+      ['a setext underline', '===\ntext'],
+      ['a thematic break', '***'],
+      ['an HTML block', '<div>x</div>'],
+    ])('keeps a blank line when the message starts with %s', (_, body) => {
+      expect(appendNone(body, 'top')).toBe(`Acme Support\n\n${body}`);
+    });
+
+    it.each([
+      ['a list', '- first\n- second'],
+      ['a list item with a continuation line', '- first\n  continuation'],
+      ['a quote', '> quoted'],
+      ['a table', '| a | b |\n|---|---|\n| 1 | 2 |'],
+      ['a code fence', '```\ncode\n```'],
+      ['an indented code block', 'Text\n\n    code'],
+    ])('keeps a blank line when the message ends with %s', (_, body) => {
+      expect(appendNone(body, 'bottom')).toBe(`${body}\n\nAcme Support`);
+    });
+
+    it('keeps the hard break when only the far end of the message is a block', () => {
+      const body = '- first\n\nThanks';
+      expect(appendNone(body, 'bottom')).toBe(`${body}  \nAcme Support`);
+    });
+
+    it('keeps a blank line when emphasis markers would pair across the join', () => {
+      expect(
+        appendSignature('Hello*', '*Acme', {
+          position: 'top',
+          separator: 'none',
+        })
+      ).toBe('*Acme\n\nHello*');
+    });
+
+    it('keeps a blank line when the joined lines would form a table', () => {
+      expect(
+        appendSignature('|---|---|', '| a | b', {
+          position: 'top',
+          separator: 'none',
+        })
+      ).toBe('| a | b\n\n|---|---|');
+    });
+
+    it('keeps a blank line when the signature itself ends with a block', () => {
+      expect(
+        appendSignature('Hello there', 'Acme\n\n- Support', {
+          position: 'top',
+          separator: 'none',
+        })
+      ).toMatch(/Support\n\nHello there$/);
+    });
+  });
+
+  it('falls back to the blank separator for an unknown value', () => {
+    expect(
+      appendSignature('Hello there', 'Acme Support', {
+        position: 'bottom',
+        separator: 'custom',
+      })
+    ).toBe('Hello there\n\nAcme Support');
+  });
+
   it.skip('does not append signature if already present - SKIP(#78): Due to changes on append signature logic', () => {
     Object.keys(HAS_SIGNATURE).forEach(key => {
       const { body, signature } = HAS_SIGNATURE[key];

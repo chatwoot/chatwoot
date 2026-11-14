@@ -1,6 +1,7 @@
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { appendSignature } from 'dashboard/helper/editorHelper';
+import { DEFAULT_SIGNATURE_SEPARATOR } from 'dashboard/constants/signatureSeparators';
 import camelcaseKeys from 'camelcase-keys';
 import ContactAPI from 'dashboard/api/contacts';
 
@@ -140,7 +141,9 @@ export const prepareNewMessagePayload = ({
   if (sendWithSignature && messageSignature) {
     const settings = signatureSettings || {
       position: currentUser?.ui_settings?.signature_position || 'top',
-      separator: currentUser?.ui_settings?.signature_separator || 'blank',
+      separator:
+        currentUser?.ui_settings?.signature_separator ||
+        DEFAULT_SIGNATURE_SEPARATOR,
     };
     finalMessage = appendSignature(message, messageSignature, settings);
   }

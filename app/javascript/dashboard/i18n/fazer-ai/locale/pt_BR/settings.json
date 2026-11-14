@@ -20,7 +20,8 @@
           "LABEL": "Separador da assinatura",
           "OPTIONS": {
             "BLANK": "Linha em branco",
-            "HORIZONTAL_LINE": "Linha horizontal (--)"
+            "HORIZONTAL_LINE": "Linha horizontal (--)",
+            "NONE": "Sem linha em branco"
           }
         },
         "PREVIEW": {

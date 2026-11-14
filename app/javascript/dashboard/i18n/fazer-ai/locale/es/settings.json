@@ -20,7 +20,8 @@
           "LABEL": "Separador de la firma",
           "OPTIONS": {
             "BLANK": "Línea en blanco",
-            "HORIZONTAL_LINE": "Línea horizontal (--)"
+            "HORIZONTAL_LINE": "Línea horizontal (--)",
+            "NONE": "Sin línea en blanco"
           }
         },
         "PREVIEW": {

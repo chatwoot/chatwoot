@@ -20,7 +20,8 @@
           "LABEL": "Signature Separator",
           "OPTIONS": {
             "BLANK": "Blank line",
-            "HORIZONTAL_LINE": "Horizontal line (--)"
+            "HORIZONTAL_LINE": "Horizontal line (--)",
+            "NONE": "No blank line"
           }
         },
         "PREVIEW": {

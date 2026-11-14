@@ -18,6 +18,6 @@ RSpec.describe InboxSignature do
     it { is_expected.to validate_presence_of(:message_signature) }
     it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:inbox_id) }
     it { is_expected.to validate_inclusion_of(:signature_position).in_array(%w[top bottom]) }
-    it { is_expected.to validate_inclusion_of(:signature_separator).in_array(%w[blank --]) }
+    it { is_expected.to validate_inclusion_of(:signature_separator).in_array(%w[blank -- none]) }
   end
 end

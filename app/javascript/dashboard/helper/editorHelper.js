@@ -11,6 +11,7 @@ import camelcaseKeys from 'camelcase-keys';
 import { getMessageVariables } from '@chatwoot/utils';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
+import { findSignatureSeparator } from 'dashboard/constants/signatureSeparators';
 
 /**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
@@ -192,23 +193,20 @@ export function getEffectiveChannelType(channelType, medium) {
  */
 export function appendSignature(body, signature, settings = {}) {
   const position = settings.position || 'top';
-  const separator = settings.separator || 'blank';
   const cleanedSignature = cleanSignature(signature);
   // if signature is already present, return body
   if (findSignatureInBody(body, cleanedSignature).index > -1) {
     return body;
   }
 
-  const delimiter =
-    {
-      blank: '\n\n',
-      '--': '\n\n--\n\n',
-    }[separator] || separator;
+  const { delimiter } = findSignatureSeparator(settings.separator);
 
   if (position === 'top') {
-    return `${cleanedSignature}${delimiter}${body.trimStart()}`;
+    const message = body.trimStart();
+    return `${cleanedSignature}${delimiter(cleanedSignature, message)}${message}`;
   }
-  return `${body.trimEnd()}${delimiter}${cleanedSignature}`;
+  const message = body.trimEnd();
+  return `${message}${delimiter(message, cleanedSignature)}${cleanedSignature}`;
 }
 
 /**

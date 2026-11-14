@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import inboxSignaturesAPI from 'dashboard/api/inboxSignatures';
+import { DEFAULT_SIGNATURE_SEPARATOR } from 'dashboard/constants/signatureSeparators';
 
 const inboxSignatures = ref({});
 const isFetching = ref(false);
@@ -72,13 +73,13 @@ export function useInboxSignatures() {
     if (inboxSig) {
       return {
         position: inboxSig.signature_position || 'top',
-        separator: inboxSig.signature_separator || 'blank',
+        separator: inboxSig.signature_separator || DEFAULT_SIGNATURE_SEPARATOR,
       };
     }
     const uiSettings = currentUser.value?.ui_settings || {};
     return {
       position: uiSettings.signature_position || 'top',
-      separator: uiSettings.signature_separator || 'blank',
+      separator: uiSettings.signature_separator || DEFAULT_SIGNATURE_SEPARATOR,
     };
   };
 

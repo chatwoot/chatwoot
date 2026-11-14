@@ -24,6 +24,7 @@ import MfaSettingsCard from './MfaSettingsCard.vue';
 import ActiveSessions from './ActiveSessions.vue';
 import Policy from 'dashboard/components/policy.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
+import { DEFAULT_SIGNATURE_SEPARATOR } from 'dashboard/constants/signatureSeparators';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
@@ -148,7 +149,8 @@ export default {
       const { signature_position, signature_separator } =
         this.currentUser.ui_settings || {};
       this.signaturePosition = signature_position || 'top';
-      this.signatureSeparator = signature_separator || 'blank';
+      this.signatureSeparator =
+        signature_separator || DEFAULT_SIGNATURE_SEPARATOR;
     },
     async dispatchUpdate(payload, successMessage, errorMessage) {
       let alertMessage = '';

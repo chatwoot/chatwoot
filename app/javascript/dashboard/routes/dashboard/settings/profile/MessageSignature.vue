@@ -7,6 +7,11 @@ import { useInboxSignatures } from 'dashboard/composables/useInboxSignatures';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
+import {
+  DEFAULT_SIGNATURE_SEPARATOR,
+  SIGNATURE_SEPARATORS,
+} from 'dashboard/constants/signatureSeparators';
+import { appendSignature } from 'dashboard/helper/editorHelper';
 
 const props = defineProps({
   messageSignature: {
@@ -20,8 +25,7 @@ const props = defineProps({
   },
   signatureSeparator: {
     type: String,
-    // NOTE: 'blank' or '--'
-    default: 'blank',
+    default: DEFAULT_SIGNATURE_SEPARATOR,
   },
 });
 
@@ -95,41 +99,27 @@ const positionOptions = computed(() => [
   },
 ]);
 
-const separatorOptions = computed(() => [
-  {
-    value: 'blank',
-    label: t(
-      'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.SIGNATURE_SEPARATOR.OPTIONS.BLANK'
-    ),
-  },
-  {
-    value: '--',
-    label: t(
-      'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.SIGNATURE_SEPARATOR.OPTIONS.HORIZONTAL_LINE'
-    ),
-  },
-]);
-
-const sampleMessage = computed(
-  () =>
-    `<p>${t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.PREVIEW.SAMPLE_MESSAGE')}</p>`
+const separatorOptions = computed(() =>
+  SIGNATURE_SEPARATORS.map(({ value, labelKey }) => ({
+    value,
+    label: t(labelKey),
+  }))
 );
 
-const formattedSignature = computed(() => {
-  if (!signature.value) return '';
-  return formatMessage(signature.value, false, false);
-});
+const sampleMessage = computed(() =>
+  t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.PREVIEW.SAMPLE_MESSAGE')
+);
 
+// Rendered from what appendSignature sends, so the preview shows the same
+// separator the message gets, including its fallback next to a block.
 const messagePreview = computed(() => {
-  if (!signature.value) return sampleMessage.value;
-
-  const separator =
-    signatureSeparator.value === 'blank' ? '<p></p>' : '<p>--</p>';
-
-  if (signaturePosition.value === 'top') {
-    return `${formattedSignature.value}${separator}${sampleMessage.value}`;
-  }
-  return `${sampleMessage.value}${separator}${formattedSignature.value}`;
+  const message = signature.value
+    ? appendSignature(sampleMessage.value, signature.value, {
+        position: signaturePosition.value,
+        separator: signatureSeparator.value,
+      })
+    : sampleMessage.value;
+  return formatMessage(message, false, false);
 });
 
 const loadSignatureForSelection = () => {
@@ -144,7 +134,8 @@ const loadSignatureForSelection = () => {
   if (inboxSig) {
     signature.value = inboxSig.message_signature ?? '';
     signaturePosition.value = inboxSig.signature_position || 'top';
-    signatureSeparator.value = inboxSig.signature_separator || 'blank';
+    signatureSeparator.value =
+      inboxSig.signature_separator || DEFAULT_SIGNATURE_SEPARATOR;
   } else {
     // Pre-fill with global signature for convenience
     signature.value = props.messageSignature ?? '';

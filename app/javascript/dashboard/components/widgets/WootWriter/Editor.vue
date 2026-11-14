@@ -78,6 +78,7 @@ import { createTypingIndicator } from '@chatwoot/utils';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { findSignatureSeparator } from 'dashboard/constants/signatureSeparators';
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -460,13 +461,13 @@ const signaturePosition = computed(() => {
   );
 });
 
-const signatureSeparator = computed(() => {
-  return (
-    props.signatureSeparatorOverride ||
-    currentUser.value?.ui_settings?.signature_separator ||
-    'blank'
-  );
-});
+const signatureEditorLine = computed(
+  () =>
+    findSignatureSeparator(
+      props.signatureSeparatorOverride ||
+        currentUser.value?.ui_settings?.signature_separator
+    ).editorLine
+);
 
 const shouldShowSignaturePreview = computed(() => {
   return sendWithSignature.value && props.signature;
@@ -1093,8 +1094,8 @@ defineExpose({ focusEditorInputField, insertMentionTrigger });
         {{ t('CONVERSATION.FOOTER.SIGNATURE_LABEL_TOP') }}
       </div>
       <div v-dompurify-html="formattedSignature" class="signature-content" />
-      <div v-if="signatureSeparator === '--'" class="signature-separator">
-        {{ signatureSeparator }}
+      <div v-if="signatureEditorLine" class="signature-separator">
+        {{ signatureEditorLine }}
       </div>
     </div>
     <div ref="editor" class="editor-mount" />
@@ -1107,8 +1108,8 @@ defineExpose({ focusEditorInputField, insertMentionTrigger });
       <div class="signature-label">
         {{ t('CONVERSATION.FOOTER.SIGNATURE_LABEL_BOTTOM') }}
       </div>
-      <div v-if="signatureSeparator === '--'" class="signature-separator">
-        {{ signatureSeparator }}
+      <div v-if="signatureEditorLine" class="signature-separator">
+        {{ signatureEditorLine }}
       </div>
       <div v-dompurify-html="formattedSignature" class="signature-content" />
     </div>
