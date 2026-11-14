@@ -24,6 +24,17 @@ module Whatsapp::IncomingMessageServiceHelpers
     messages_data.first[:type]
   end
 
+  # Meta sends the message timestamp as a Unix epoch (seconds). Fall back to the current time when
+  # it is missing or malformed so a bad payload never blocks persisting the message.
+  def message_created_at(message)
+    epoch = message[:timestamp].presence
+    return Time.current if epoch.blank?
+
+    Time.zone.at(Integer(epoch))
+  rescue ArgumentError, TypeError
+    Time.current
+  end
+
   def message_content(message)
     return I18n.t('conversations.messages.whatsapp.flow_response') if message.dig(:interactive, :nfm_reply).present?
 
