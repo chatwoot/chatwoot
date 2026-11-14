@@ -1,40 +1,26 @@
----
+# Gem advisories that `bundle-audit check` must not fail on, each with the reason it is safe.
+#
+# Decide every new advisory with this rule, in order:
+# 1. A compatible patched version exists: bump the gem. No entry here.
+# 2. Upstream chatwoot/chatwoot already decided it: copy that decision.
+# 3. No patched version, and the vulnerable path is reachable here: backport the fix under
+#    config/initializers/monkey_patches/, registered with SecurityBackport (it stops applying and
+#    its spec fails once the gem ships the fix), and ignore the ids below with a pointer to it.
+# 4. No patched version, and the path is not reachable here: ignore the ids below, with the
+#    reason and the issue that assessed it.
+#
+# Entries expire on their own: the security-scan job runs
+# `ruby scripts/security/bundler_audit.rb stale`, which fails while an id below matches no
+# vulnerable gem in Gemfile.lock, so a bump that fixes an advisory also has to delete its entry.
+# The daily security_audit.yml workflow opens an issue when a new advisory needs this rule.
 ignore:
-  - CVE-2021-41098 # https://github.com/chatwoot/chatwoot/issues/3097 (update once azure blob storage is updated)
   - GHSA-57hq-95w6-v4fc # Devise confirmable race condition — patched locally in User model (remove once on Devise 5+)
   # Devise 5 is currently blocked by devise-secure_password/devise_token_auth/devise-two-factor.
   # Chatwoot does not enable Timeoutable, so the timeout redirect path is not reachable.
   - GHSA-jp94-3292-c3xv
-  # Rails 7.1 has no patched release for the Active Storage proxy range
-  # advisories. Chatwoot limits proxy range requests locally.
-  - CVE-2026-33658
-  # Rails 7.1 has no patched release for this Active Storage direct-upload
-  # advisory. Chatwoot filters internal metadata keys locally.
-  - CVE-2026-33173
-  - CVE-2026-33174
-  # Rails 7.1 has no patched release for these Rails advisories. These are not
-  # reachable through Chatwoot's current usage patterns and should be removed
-  # once we upgrade to Rails 7.2.3.1+.
-  - CVE-2026-33168
-  - CVE-2026-33169
-  - CVE-2026-33170
-  - CVE-2026-33176
-  - CVE-2026-33195
-  - CVE-2026-33202
-  # No Rails 7.1 patch for this Active Storage advisory; mitigated locally.
-  # Remove once on Rails 7.2.3.1+.
+  # Active Storage variant processing; mitigated locally, patched in Rails 7.2.3.2.
+  # Remove once on Rails 7.2.3.2+.
   - CVE-2026-66066
-  # RubyLLM's name-normalization ReDoS is reported on Ruby 3.1; we require Ruby 3.4.4.
-  # Built-in tool names are fixed; custom tools use bounded slugs and override normalization.
-  # Patched 2.0 releases need an ai-agents migration (currently constrained to RubyLLM 1.x).
-  # Remove when a supported patched RubyLLM/ai-agents combination is adopted.
-  - CVE-2026-67991
-  # Think-tag parsing and Mistral matching ReDoS are reported on Ruby 3.1.
-  # We pin Ruby 3.4.4, where the affected regexes are linear-time.
-  # Remove when a supported patched RubyLLM/ai-agents combination is adopted;
-  # reassess if the supported Ruby runtime changes.
-  - CVE-2026-67987
-  - CVE-2026-67989
   # Rails advisories published 2026-11-04, patched only in 8.0.5.2 and 8.1.4.1 (no 7.2 release).
   # Reachability for this install is assessed in https://github.com/fazer-ai/chatwoot/issues/930.
   # Remove all of them once on Rails >= 8.0.5.2.
@@ -47,17 +33,17 @@ ignore:
   # Not reachable: no code passes the return value of params.each_key to mass assignment.
   - GHSA-wm3x-v3qw-4jh3
   # Medium and low, assessed in the issue above:
-  - GHSA-5957-c7qm-m469
-  - GHSA-2586-8ghr-69fj
-  - GHSA-gmj8-hvj3-49mw
-  - GHSA-r9jg-fmfx-2gv6
-  - GHSA-rwvh-fw6r-pwvp
-  - GHSA-x6mj-8jx9-qhqv
-  - GHSA-2p2f-4rq4-gjwc
-  - GHSA-68p9-83h6-5wpj
-  - GHSA-rq8q-p985-fjq7
-  - GHSA-v6rj-xm57-3p59
-  - GHSA-3f4q-8x5m-76v8
-  - GHSA-3w93-6hmw-whh4
-  - GHSA-hfr4-8rjc-97m2
-  - GHSA-p2pm-g2h6-7j5j
+  - GHSA-5957-c7qm-m469 # Mailgun ingress signature replay: only with RAILS_INBOUND_EMAIL_SERVICE=mailgun
+  - GHSA-2586-8ghr-69fj # CacheStore sessions: the session store is :cookie_store
+  - GHSA-gmj8-hvj3-49mw # missing SameSite: the session cookie sets same_site: :lax explicitly
+  - GHSA-r9jg-fmfx-2gv6 # missing Vary: Accept: only matters behind a shared cache of API responses
+  - GHSA-rwvh-fw6r-pwvp # ActionController::Live DoS: no controller includes ActionController::Live
+  - GHSA-x6mj-8jx9-qhqv # session cookie on Active Storage proxy: needs rotated secrets or a hybrid serializer
+  - GHSA-2p2f-4rq4-gjwc # Action View XSS (highlight with an attribute highlighter): not used that way
+  - GHSA-68p9-83h6-5wpj # Action View XSS (simple_format with the HTML5 sanitizer): not used that way
+  - GHSA-rq8q-p985-fjq7 # Action View XSS (strip_tags in an HTML attribute): the one use renders into JSON
+  - GHSA-v6rj-xm57-3p59 # Action View XSS (whitespace Symbol attribute names): not used that way
+  - GHSA-3f4q-8x5m-76v8 # HLS playlist read by ffprobe: uploads go through authenticated endpoints; low
+  - GHSA-3w93-6hmw-whh4 # GCS direct uploads: only with the GCS storage service
+  - GHSA-hfr4-8rjc-97m2 # GCS direct uploads: only with the GCS storage service
+  - GHSA-p2pm-g2h6-7j5j # NUL in filename: needs a database that stores NUL bytes; Postgres rejects them

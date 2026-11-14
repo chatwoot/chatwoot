@@ -1,5 +1,5 @@
 # Backport of the Rails 8.0.5.2 fix for GHSA-v924-7rp8-4mxh (rails/rails@8106938), which has no
-# 7.2 release. Remove once on Rails >= 8.0.5.2.
+# 7.2 release. Remove once on Rails >= 8.0.5.2 (8.0.x) or 8.1.4.1.
 #
 # `Blob#open` names its tempfile with the uploaded filename's extension and hands that path to
 # ffprobe (VideoAnalyzer, AudioAnalyzer) and libvips (ImageAnalyzer::Vips) on attach. Those tools
@@ -36,6 +36,9 @@ module ActiveStorageBlobTempfileExtension
   end
 end
 
-ActiveSupport.on_load(:active_storage_blob) do
-  prepend(ActiveStorageBlobTempfileExtension) unless self < ActiveStorageBlobTempfileExtension
+if SecurityBackport.register(advisory: 'GHSA-v924-7rp8-4mxh', gem_name: 'activestorage',
+                             patched: ['~> 8.0.5, >= 8.0.5.2', '>= 8.1.4.1'])
+  ActiveSupport.on_load(:active_storage_blob) do
+    prepend(ActiveStorageBlobTempfileExtension) unless self < ActiveStorageBlobTempfileExtension
+  end
 end
