@@ -138,4 +138,11 @@ describe('#timeZoneOptions', () => {
       label: 'International Date Line West (GMT−12:00)',
     });
   });
+
+  it('includes Canadian zones that no longer follow US daylight saving', () => {
+    const values = timeZoneOptions().map(option => option.value);
+    expect(values).toEqual(
+      expect.arrayContaining(['America/Vancouver', 'America/Edmonton'])
+    );
+  });
 });
