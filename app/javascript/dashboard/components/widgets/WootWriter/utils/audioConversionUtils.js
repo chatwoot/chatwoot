@@ -67,16 +67,37 @@ export const convertToWav = async audioBlob => {
 };
 
 /**
- * Encodes audio samples to MP3 format.
- * @param {number} channels - Number of audio channels.
+ * Mixes every channel of a decoded buffer into a single 16-bit track.
+ * The MP3 path always encodes mono: lamejs's stereo encoder wants each
+ * channel as its own array, and a voice note gains nothing from stereo.
+ * @param {AudioBuffer} audioBuffer - The decoded audio.
+ * @returns {Int16Array} - One sample per frame, averaged across channels.
+ */
+export const downmixToMono = audioBuffer => {
+  const { length, numberOfChannels } = audioBuffer;
+  const channels = Array.from({ length: numberOfChannels }, (_, channel) =>
+    audioBuffer.getChannelData(channel)
+  );
+  const samples = new Int16Array(length);
+  for (let i = 0; i < length; i += 1) {
+    const mixed =
+      channels.reduce((sum, data) => sum + data[i], 0) / numberOfChannels;
+    const sample = Math.max(-1, Math.min(1, mixed));
+    samples[i] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
+  }
+  return samples;
+};
+
+/**
+ * Encodes mono audio samples to MP3 format.
  * @param {number} sampleRate - Sample rate in Hz.
- * @param {Int16Array} samples - Audio samples to be encoded.
+ * @param {Int16Array} samples - Mono audio samples, from downmixToMono.
  * @param {number} bitrate - MP3 bitrate (default: 128)
  * @returns {Blob} - The MP3 encoded audio as a Blob.
  */
-export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
+export const encodeToMP3 = (sampleRate, samples, bitrate = 128) => {
   const outputBuffer = [];
-  const encoder = new lamejs.Mp3Encoder(channels, sampleRate, bitrate);
+  const encoder = new lamejs.Mp3Encoder(1, sampleRate, bitrate);
   const maxSamplesPerFrame = 1152;
 
   for (let offset = 0; offset < samples.length; offset += maxSamplesPerFrame) {
@@ -106,28 +127,9 @@ export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
 export const convertToMp3 = async (audioBlob, bitrate = 128) => {
   try {
     const audioBuffer = await decodeAudioData(audioBlob);
-    const samples = new Int16Array(
-      audioBuffer.length * audioBuffer.numberOfChannels
-    );
-    let offset = 0;
-    for (let i = 0; i < audioBuffer.length; i += 1) {
-      for (
-        let channel = 0;
-        channel < audioBuffer.numberOfChannels;
-        channel += 1
-      ) {
-        const sample = Math.max(
-          -1,
-          Math.min(1, audioBuffer.getChannelData(channel)[i])
-        );
-        samples[offset] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
-        offset += 1;
-      }
-    }
     return encodeToMP3(
-      audioBuffer.numberOfChannels,
       audioBuffer.sampleRate,
-      samples,
+      downmixToMono(audioBuffer),
       bitrate
     );
   } catch (error) {
