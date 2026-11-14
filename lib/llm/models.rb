@@ -17,13 +17,13 @@ module Llm::Models
       features.key?(feature.to_s)
     end
 
-    # Self-hosted installations with no key for the default model's provider use the default of a provider they configured.
-    def default_model_for(feature)
+    # Self-hosted installations with no key for the default model's provider use a listed model from a provider they configured.
+    def default_model_for(feature, account: nil)
       default_model = features.dig(feature.to_s, 'default')
       return default_model unless provider_models?(feature)
-      return default_model if Llm::Config.api_key_for(provider_for(default_model)).present?
+      return default_model if provider_key_available?(provider_for(default_model), account)
 
-      configured_provider_default || default_model
+      listed_provider_default || default_model
     end
 
     def models_for(feature)
@@ -79,11 +79,24 @@ module Llm::Models
 
     private
 
-    def configured_provider_default
-      _provider, config = providers.find do |provider, provider_config|
-        provider_config['default_model'].present? && Llm::Config.api_key_for(provider).present?
+    # Accounts can bring their own OpenAI key through the OpenAI integration.
+    def provider_key_available?(provider, account)
+      return true if Llm::Config.api_key_for(provider).present?
+
+      provider == 'openai' && account.present? &&
+        account.hooks.where(app_id: 'openai', status: 'enabled').any? { |hook| hook.settings&.dig('api_key').present? }
+    end
+
+    # Prefers the provider's default_model from config/llm.yml, else its newest listed model.
+    def listed_provider_default
+      provider_models = Llm::ProviderModels.all
+      providers.each do |provider, config|
+        listed_ids = provider_models.select { |model| model['provider'] == provider }.pluck('id')
+        next if listed_ids.empty?
+
+        return listed_ids.include?(config['default_model']) ? config['default_model'] : listed_ids.first
       end
-      config&.dig('default_model')
+      nil
     end
 
     # Models listed live by a provider are not in the bundled registry.

@@ -63,6 +63,21 @@ RSpec.describe Llm::ProviderModels do
       end
     end
 
+    it 'keeps the last listed models when a refresh fails' do
+      request = stub_request(:get, models_url)
+                .to_return(status: 200, body: models_response, headers: { 'Content-Type' => 'application/json' })
+                .then.to_return(status: 529, body: { type: 'error', error: { type: 'overloaded_error', message: 'Overloaded' } }.to_json,
+                                headers: { 'Content-Type' => 'application/json' })
+
+      listed = described_class.all
+
+      travel_to(13.hours.from_now) do
+        expect(described_class.all).to eq(listed)
+        expect(described_class.find('claude-haiku-5-5')).to include('provider' => 'anthropic')
+        expect(request).to have_been_made.at_least_twice
+      end
+    end
+
     it 'returns no models without an Anthropic key' do
       InstallationConfig.find_by(name: 'CAPTAIN_ANTHROPIC_API_KEY').update!(value: '')
 

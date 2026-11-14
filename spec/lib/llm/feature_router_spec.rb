@@ -172,6 +172,26 @@ RSpec.describe Llm::FeatureRouter do
         expect(resolved).to eq(feature: 'editor', provider: 'anthropic', model: 'claude-haiku-5-5', source: :default)
       end
 
+      it 'keeps the OpenAI default for an account that brings its own OpenAI key' do
+        InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_API_KEY').destroy_all
+        allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
+        create(:integrations_hook, account: account, app_id: 'openai', status: 'enabled', settings: { 'api_key' => 'hook-key' })
+
+        expect(described_class.resolve(feature: 'editor', account: account)).to include(provider: 'openai', model: 'gpt-6-luna')
+      end
+
+      it 'defaults to the newest listed Anthropic model when the key cannot see the configured default' do
+        InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_API_KEY').destroy_all
+        allow(Llm::ProviderModels).to receive(:all).and_return(
+          [{ 'id' => 'claude-sonnet-5-5', 'display_name' => 'Claude Sonnet 5.5', 'provider' => 'anthropic' },
+           { 'id' => 'claude-opus-5-5', 'display_name' => 'Claude Opus 5.5', 'provider' => 'anthropic' }]
+        )
+
+        resolved = described_class.resolve(feature: 'editor', account: account)
+
+        expect(resolved).to eq(feature: 'editor', provider: 'anthropic', model: 'claude-sonnet-5-5', source: :default)
+      end
+
       it 'keeps the OpenAI default when an OpenAI key is configured' do
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'openai-key')
 

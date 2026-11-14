@@ -30,8 +30,15 @@ module Llm::ProviderModels
       return cached unless cached.nil?
 
       models = fetch(provider, api_key)
-      Rails.cache.write(key, models || [], expires_in: models ? CACHE_TTL : FAILURE_CACHE_TTL)
-      models || []
+      if models
+        Rails.cache.write(key, models, expires_in: CACHE_TTL)
+        Rails.cache.write(last_listed_key(key), models)
+      else
+        # A failed listing keeps the last good list, so saved model choices stay valid through a provider outage.
+        models = Rails.cache.read(last_listed_key(key)) || []
+        Rails.cache.write(key, models, expires_in: FAILURE_CACHE_TTL)
+      end
+      models
     end
 
     def fetch(provider, api_key)
@@ -51,6 +58,10 @@ module Llm::ProviderModels
     # The key digest keeps a rotated key from serving the previous key's list.
     def cache_key(provider, api_key)
       "llm:provider_models:#{provider}:#{Digest::SHA256.hexdigest(api_key)[0, 16]}"
+    end
+
+    def last_listed_key(key)
+      "#{key}:last_listed"
     end
   end
 end

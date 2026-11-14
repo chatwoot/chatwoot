@@ -39,7 +39,7 @@ module Llm::FeatureRouter
       installation_model = installation_model_override(feature_key)
       return [installation_model, :installation_override] if installation_model.present?
 
-      [captain_assistant_model(account, feature_key) || Llm::Models.default_model_for(feature_key), :default]
+      [captain_assistant_model(account, feature_key) || Llm::Models.default_model_for(feature_key, account: account), :default]
     end
 
     def account_model_override(account, feature_key)
