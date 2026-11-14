@@ -200,6 +200,36 @@ RSpec.describe Captain::BaseTaskService do
       service.send(:make_api_call, feature: 'help_center_article_generation', model: 'gpt-5.2', messages: messages)
     end
 
+    context 'when the editor runs on an Anthropic model' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+        allow(Llm::ProviderModels).to receive(:all)
+          .and_return([{ 'id' => 'claude-haiku-5-5', 'display_name' => 'Claude Haiku 5.5', 'provider' => 'anthropic' }])
+        account.update!(captain_models: { 'editor' => 'claude-haiku-5-5' })
+      end
+
+      it 'sends the request to Anthropic with the installation Anthropic key' do
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_ANTHROPIC_API_KEY').update!(value: 'anthropic-key')
+
+        expect(Llm::Config).to receive(:with_api_key)
+          .with('anthropic-key', api_base: anything, provider: 'anthropic').and_yield(mock_context)
+        expect(mock_context).to receive(:chat)
+          .with(model: 'claude-haiku-5-5', provider: :anthropic, assume_model_exists: true).and_return(mock_chat)
+
+        result = service.send(:make_api_call, feature: 'editor', messages: messages)
+
+        expect(result[:message]).to eq('Response')
+      end
+
+      it 'returns api key missing error without an Anthropic key' do
+        expect(Llm::Config).not_to receive(:with_api_key)
+
+        result = service.send(:make_api_call, feature: 'editor', messages: messages)
+
+        expect(result).to include(error: I18n.t('captain.api_key_missing'), error_code: 401)
+      end
+    end
+
     it 'returns formatted response with tokens' do
       result = service.send(:make_api_call, model: model, messages: messages)
 
@@ -312,7 +342,7 @@ RSpec.describe Captain::BaseTaskService do
     it 'tracks exceptions against the system key when an account hook exists' do
       create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'hook-key' })
 
-      expect(Llm::Config).to receive(:with_api_key).with('test-key', api_base: anything).and_raise(error)
+      expect(Llm::Config).to receive(:with_api_key).with('test-key', api_base: anything, provider: 'openai').and_raise(error)
       expect(ChatwootExceptionTracker).to receive(:new).with(error, account: account).and_return(exception_tracker)
       expect(exception_tracker).to receive(:capture_exception)
 

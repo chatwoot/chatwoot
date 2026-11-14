@@ -1,6 +1,7 @@
 class Captain::BaseTaskService
   include Integrations::LlmInstrumentation
   include Captain::ToolInstrumentation
+  include Captain::LlmCredentials
   include Llm::ExceptionTrackable
 
   # Sized for a 128,000-token context window
@@ -41,9 +42,11 @@ class Captain::BaseTaskService
     # Community edition prerequisite checks
     # Enterprise module handles these with more specific error messages (cloud vs self-hosted)
     return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
-    return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
 
     model = resolved_model(model: model, feature: feature)
+    @llm_provider = Llm::Models.provider_for(model)
+    return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
+
     instrumentation_params = build_instrumentation_params(model, messages, feature: feature)
     instrumentation_method = tools.any? ? :instrument_tool_session : :instrument_llm_call
 
@@ -68,7 +71,7 @@ class Captain::BaseTaskService
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [], feature: nil)
     credential = llm_credential
 
-    Llm::Config.with_api_key(credential[:api_key], api_base: api_base) do |context|
+    Llm::Config.with_api_key(credential[:api_key], api_base: api_base, provider: llm_provider) do |context|
       chat = build_chat(context, model: model, messages: messages, schema: schema, tools: tools, feature: feature)
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
@@ -85,7 +88,7 @@ class Captain::BaseTaskService
   def build_chat(context, model:, messages:, **request)
     tools = request.fetch(:tools, [])
     options = Captain::ResponsesConfig.options(model: model, temperature: nil, feature: request[:feature])
-    chat = context.chat(model: model, **options.slice(:protocol))
+    chat = context.chat(model: model, **chat_model_options, **options.slice(:protocol))
     chat.with_thinking(**options[:thinking]) if options[:thinking]
     system_msg = messages.find { |m| m[:role] == 'system' }
     chat.with_instructions(system_msg[:content]) if system_msg
@@ -97,6 +100,13 @@ class Captain::BaseTaskService
     end
 
     chat
+  end
+
+  # Anthropic models listed live by the provider are not in the bundled model registry.
+  def chat_model_options
+    return { provider: :anthropic, assume_model_exists: true } if llm_provider == 'anthropic'
+
+    {}
   end
 
   def add_messages_if_needed(chat, conversation_messages)
@@ -170,43 +180,6 @@ class Captain::BaseTaskService
   # participates in the quota system in neither direction.
   def counts_toward_usage?
     llm_credential&.dig(:source) != :hook
-  end
-
-  def api_key_configured?
-    llm_credential.present?
-  end
-
-  def api_key
-    llm_credential&.dig(:api_key)
-  end
-
-  def llm_credential
-    @llm_credential ||= if use_account_openai_hook?
-                          hook_llm_credential || system_llm_credential
-                        else
-                          system_llm_credential
-                        end
-  end
-
-  def use_account_openai_hook?
-    false
-  end
-
-  def hook_llm_credential
-    key = openai_hook&.settings&.dig('api_key').presence
-    { api_key: key, source: :hook } if key
-  end
-
-  def system_llm_credential
-    { api_key: system_api_key, source: :system } if system_api_key.present?
-  end
-
-  def openai_hook
-    @openai_hook ||= account.hooks.find_by(app_id: 'openai', status: 'enabled')
-  end
-
-  def system_api_key
-    @system_api_key ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
   end
 
   def exception_tracking_account

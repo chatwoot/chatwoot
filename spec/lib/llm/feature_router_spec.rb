@@ -147,6 +147,44 @@ RSpec.describe Llm::FeatureRouter do
       expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-5.2')).to be_nil
     end
 
+    context 'when a self-hosted installation has an Anthropic key' do
+      let(:haiku) { { 'id' => 'claude-haiku-5-5', 'display_name' => 'Claude Haiku 5.5', 'provider' => 'anthropic' } }
+
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+        allow(Llm::ProviderModels).to receive(:all).and_return([haiku])
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_ANTHROPIC_API_KEY').update!(value: 'anthropic-key')
+      end
+
+      it 'routes an account override to a listed Anthropic model' do
+        account.update!(captain_models: { 'editor' => 'claude-haiku-5-5' })
+
+        resolved = described_class.resolve(feature: 'editor', account: account)
+
+        expect(resolved).to eq(feature: 'editor', provider: 'anthropic', model: 'claude-haiku-5-5', source: :account_override)
+      end
+
+      it 'defaults the editor to the Anthropic default model when there is no OpenAI key' do
+        InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_API_KEY').destroy_all
+
+        resolved = described_class.resolve(feature: 'editor', account: account)
+
+        expect(resolved).to eq(feature: 'editor', provider: 'anthropic', model: 'claude-haiku-5-5', source: :default)
+      end
+
+      it 'keeps the OpenAI default when an OpenAI key is configured' do
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'openai-key')
+
+        expect(described_class.resolve(feature: 'editor', account: account)).to include(provider: 'openai', model: 'gpt-6-luna')
+      end
+
+      it 'does not route features without provider models to Anthropic' do
+        InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_API_KEY').destroy_all
+
+        expect(described_class.resolve(feature: 'message_translation', account: account)).to include(model: 'gpt-6-luna')
+      end
+    end
+
     it 'raises for unknown features' do
       expect { described_class.resolve(feature: 'unknown_feature') }
         .to raise_error(described_class::UnknownFeatureError, 'Unknown LLM feature: unknown_feature')
