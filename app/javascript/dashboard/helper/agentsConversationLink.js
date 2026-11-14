@@ -18,6 +18,22 @@ export const parseAgentsWebhook = outgoingUrl => {
   };
 };
 
+// The address Chatwoot calls the agents on can be private (fazer-ai/agents#1687), so the agents
+// writes its public console address on the bot as `bot_config.console_url`. It is admin-editable
+// and ends up in `window.open`, so only an http(s) URL replaces the webhook origin.
+const LINKABLE_PROTOCOLS = ['http:', 'https:'];
+
+export const agentsConsoleBase = (consoleUrl, webhookBase) => {
+  let url;
+  try {
+    url = new URL(consoleUrl);
+  } catch {
+    return webhookBase;
+  }
+  if (!LINKABLE_PROTOCOLS.includes(url.protocol)) return webhookBase;
+  return `${url.origin}${url.pathname.replace(/\/+$/, '')}`;
+};
+
 // fazer.ai agents keys each bot by the SHA-256 of its route token, so the hash names the Chatwoot
 // server without the token travelling. `crypto.subtle` exists only in a secure context: a dashboard
 // served over plain HTTP gets no hash, and its link falls back to account and inbox.

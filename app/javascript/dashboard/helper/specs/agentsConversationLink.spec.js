@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import {
+  agentsConsoleBase,
   agentsConversationUrl,
   parseAgentsWebhook,
   routeTokenHash,
@@ -66,5 +67,37 @@ describe('agentsConversationLink', () => {
     expect(agentsConversationUrl('https://agents.example.com', null, ref)).toBe(
       'https://agents.example.com/chatwoot/accounts/3/conversations/42?inbox=9'
     );
+  });
+
+  describe('agentsConsoleBase', () => {
+    const WEBHOOK_BASE = 'http://10.40.10.20:3000';
+
+    it('opens the console at the public address the bot carries, keeping port and path prefix', () => {
+      expect(
+        agentsConsoleBase('https://console.example.com', WEBHOOK_BASE)
+      ).toBe('https://console.example.com');
+      expect(
+        agentsConsoleBase('https://console.example.com:8443/', WEBHOOK_BASE)
+      ).toBe('https://console.example.com:8443');
+      expect(
+        agentsConsoleBase('http://example.com/agents/?x=1#top', WEBHOOK_BASE)
+      ).toBe('http://example.com/agents');
+    });
+
+    it('keeps the webhook origin when the bot carries no public address, or one a link must not open', () => {
+      [
+        undefined,
+        null,
+        '',
+        // eslint-disable-next-line no-script-url
+        'javascript:alert(1)',
+        'data:text/html,hi',
+        'ftp://console.example.com',
+        'console.example.com',
+        42,
+      ].forEach(consoleUrl => {
+        expect(agentsConsoleBase(consoleUrl, WEBHOOK_BASE)).toBe(WEBHOOK_BASE);
+      });
+    });
   });
 });

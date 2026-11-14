@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import InboxesAPI from 'dashboard/api/inboxes';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import {
+  agentsConsoleBase,
   agentsConversationUrl,
   parseAgentsWebhook,
   routeTokenHash,
@@ -23,11 +24,15 @@ watch(
     target.value = null;
     if (!inboxId) return;
     const { data } = await InboxesAPI.getAgentBot(inboxId);
-    const webhook = parseAgentsWebhook(data?.agent_bot?.outgoing_url);
+    const agentBot = data?.agent_bot;
+    const webhook = parseAgentsWebhook(agentBot?.outgoing_url);
     const botHash = webhook ? await routeTokenHash(webhook.routeToken) : null;
     // A reply for an inbox the panel has already left must not light the button up on the next one.
     if (props.conversation?.inbox_id !== inboxId || !webhook) return;
-    target.value = { base: webhook.base, botHash };
+    target.value = {
+      base: agentsConsoleBase(agentBot.bot_config?.console_url, webhook.base),
+      botHash,
+    };
   },
   { immediate: true }
 );

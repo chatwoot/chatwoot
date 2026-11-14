@@ -10,8 +10,13 @@ vi.mock('dashboard/api/inboxes', () => ({
 
 const AGENTS = 'https://agents.example.com/api/v1/chatwoot/webhook/tok';
 const tokSha256 = createHash('sha256').update('tok').digest('hex');
-const botReply = outgoingUrl => ({
-  data: { agent_bot: outgoingUrl ? { outgoing_url: outgoingUrl } : {} },
+// `bot_config` defaults to {} but the column is nullable, and an API client can null it.
+const botReply = (outgoingUrl, botConfig = null) => ({
+  data: {
+    agent_bot: outgoingUrl
+      ? { outgoing_url: outgoingUrl, bot_config: botConfig }
+      : {},
+  },
 });
 
 const mountWith = conversation =>
@@ -35,6 +40,25 @@ describe('AgentsConversationButton', () => {
     await wrapper.find('button').trigger('click');
     expect(open).toHaveBeenCalledWith(
       `https://agents.example.com/chatwoot/accounts/3/conversations/42?inbox=9&bot=${tokSha256}`,
+      '_blank',
+      'noopener'
+    );
+    open.mockRestore();
+  });
+
+  it('opens the public console address the bot carries instead of the address Chatwoot calls', async () => {
+    mocks.getAgentBot.mockResolvedValue(
+      botReply('http://10.40.10.20:3000/api/v1/chatwoot/webhook/tok', {
+        console_url: 'https://console.example.com',
+      })
+    );
+    const open = vi.spyOn(window, 'open').mockImplementation(() => null);
+    const wrapper = mountWith({ id: 42, account_id: 3, inbox_id: 9 });
+    await vi.waitFor(() => expect(wrapper.find('button').exists()).toBe(true));
+
+    await wrapper.find('button').trigger('click');
+    expect(open).toHaveBeenCalledWith(
+      `https://console.example.com/chatwoot/accounts/3/conversations/42?inbox=9&bot=${tokSha256}`,
       '_blank',
       'noopener'
     );
