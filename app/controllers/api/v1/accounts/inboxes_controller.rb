@@ -226,23 +226,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     channel_type.constantize.const_defined?(:EDITABLE_ATTRS) ? channel_type.constantize::EDITABLE_ATTRS.presence : []
   end
 
-  def preload_channel_templates(inboxes)
-    whatsapp_channels = inboxes.filter_map { |i| i.channel if i.channel.is_a?(Channel::Whatsapp) && !i.channel.has_attribute?(:message_templates) }
-    if whatsapp_channels.present?
-      templates_by_id = Channel::Whatsapp.unscoped.where(id: whatsapp_channels.map(&:id)).pluck(:id, :message_templates).to_h
-      whatsapp_channels.each do |channel|
-        channel[:message_templates] = templates_by_id[channel.id]
-      end
-    end
-
-    twilio_channels = inboxes.filter_map { |i| i.channel if i.channel.is_a?(Channel::TwilioSms) && !i.channel.has_attribute?(:content_templates) }
-    return if twilio_channels.blank?
-
-    templates_by_id = Channel::TwilioSms.unscoped.where(id: twilio_channels.map(&:id)).pluck(:id, :content_templates).to_h
-    twilio_channels.each do |channel|
-      channel[:content_templates] = templates_by_id[channel.id]
-    end
-  end
 end
 
 Api::V1::Accounts::InboxesController.prepend_mod_with('Api::V1::Accounts::InboxesController')
