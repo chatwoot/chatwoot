@@ -171,6 +171,24 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
       end
 
+      it 'sets message created_at from the Meta timestamp instead of the processing time' do
+        travel_to('2021-10-10 12:00:00 UTC') do
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        end
+
+        message = whatsapp_channel.inbox.messages.first
+        expect(message.created_at).to eq(Time.zone.at(1_633_034_394))
+      end
+
+      it 'falls back to the current time when the Meta timestamp is missing or malformed' do
+        params[:messages].first[:timestamp] = 'not-a-timestamp'
+
+        travel_to('2021-10-10 12:00:00 UTC') do
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+          expect(whatsapp_channel.inbox.messages.first.created_at).to eq(Time.current)
+        end
+      end
+
       it 'appends to last conversation when if conversation already exists' do
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
         2.times.each { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact) }
