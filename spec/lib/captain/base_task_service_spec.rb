@@ -221,6 +221,18 @@ RSpec.describe Captain::BaseTaskService do
         expect(result[:message]).to eq('Response')
       end
 
+      it 'sends an installation model to the OpenAI endpoint even when Anthropic lists the same ID' do
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'claude-haiku-5-5')
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_ANTHROPIC_API_KEY').update!(value: 'anthropic-key')
+
+        expect(Llm::Config).to receive(:with_api_key)
+          .with('test-key', api_base: anything, provider: 'openai').and_yield(mock_context)
+        expect(mock_context).to receive(:chat).with(model: 'claude-haiku-5-5').and_return(mock_chat)
+
+        service.send(:make_api_call, feature: 'conversation_completion', messages: messages)
+      end
+
       it 'returns api key missing error without an Anthropic key' do
         expect(Llm::Config).not_to receive(:with_api_key)
 

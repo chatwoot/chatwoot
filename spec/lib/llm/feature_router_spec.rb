@@ -198,6 +198,15 @@ RSpec.describe Llm::FeatureRouter do
         expect(described_class.resolve(feature: 'editor', account: account)).to include(provider: 'openai', model: 'gpt-6-luna')
       end
 
+      it 'keeps an installation model on the OpenAI endpoint even when Anthropic lists the same ID' do
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'claude-haiku-5-5')
+
+        resolved = described_class.resolve(feature: 'conversation_completion', account: account)
+
+        expect(resolved).to include(provider: 'openai', model: 'claude-haiku-5-5', source: :installation_override)
+      end
+
       it 'does not route features without provider models to Anthropic' do
         InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_API_KEY').destroy_all
 

@@ -55,8 +55,11 @@ module Llm::FeatureRouter
       InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence
     end
 
+    # CAPTAIN_OPEN_AI_MODEL is served by the OpenAI endpoint, even when another provider lists a model with the same ID.
     def provider_for(model, source)
-      Llm::Models.provider_for(model) || ('openai' if source == :installation_override)
+      return 'openai' if source == :installation_override
+
+      Llm::Models.provider_for(model)
     end
 
     def captain_assistant_model(account, feature_key)

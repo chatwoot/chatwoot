@@ -43,8 +43,7 @@ class Captain::BaseTaskService
     # Enterprise module handles these with more specific error messages (cloud vs self-hosted)
     return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
 
-    model = resolved_model(model: model, feature: feature)
-    @llm_provider = Llm::Models.provider_for(model)
+    model, @llm_provider = resolved_model_and_provider(model: model, feature: feature)
     return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
 
     instrumentation_params = build_instrumentation_params(model, messages, feature: feature)
@@ -59,13 +58,18 @@ class Captain::BaseTaskService
     response.merge(follow_up_context: build_follow_up_context(messages, response))
   end
 
-  def resolved_model(model:, feature:)
-    return model if feature.blank?
+  def resolved_model_and_provider(model:, feature:)
+    return [model, curated_provider_for(model)] if feature.blank?
 
     route = Llm::FeatureRouter.resolve(feature: feature, account: account)
-    return model if model.present? && route[:source] == :default
+    return [model, curated_provider_for(model)] if model.present? && route[:source] == :default
 
-    route[:model]
+    [route[:model], route[:provider]]
+  end
+
+  # A model passed in by the service is named in config/llm.yml, not discovered from a provider.
+  def curated_provider_for(model)
+    Llm::Models.models.dig(model.to_s, 'provider')
   end
 
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [], feature: nil)
