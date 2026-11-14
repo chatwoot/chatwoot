@@ -523,7 +523,11 @@ export default {
     },
     async handleMessageRetry(message) {
       if (!message) return;
-      const payload = useSnakeCase(message);
+      // The camelCased list copy loses conversationId and file blobs, so retry the stored message.
+      const storedMessage = this.currentChat.messages?.find(
+        m => m.id === message.id
+      );
+      const payload = storedMessage || useSnakeCase(message);
       await this.$store.dispatch('sendMessageWithData', payload);
     },
     toggleReplyEditorSize() {
