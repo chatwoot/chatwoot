@@ -171,6 +171,9 @@ class Whatsapp::IncomingMessageBaseService
       status: outgoing_echo ? :delivered : :sent,
       sender: outgoing_echo ? nil : @contact,
       source_id: (source_id || message[:id]).to_s,
+      # Use the timestamp from Meta's webhook payload so the message reflects when it was actually
+      # sent on WhatsApp, not when our webhook happened to process it.
+      created_at: message_created_at(message),
       content_attributes: message_content_attributes(content_attributes_source)
     )
   end
