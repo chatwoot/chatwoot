@@ -16,8 +16,15 @@ import SuggestedScenarios from 'dashboard/components-next/captain/assistant/Sugg
 import ScenariosCard from 'dashboard/components-next/captain/assistant/ScenariosCard.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import AddNewScenariosDialog from 'dashboard/components-next/captain/assistant/AddNewScenariosDialog.vue';
+import { requestErrorMessage } from 'dashboard/helper/requestErrorMessage';
 
 const { t } = useI18n();
+
+const FIELD_LABELS = {
+  title: 'CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.TITLE.LABEL',
+  description: 'CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.DESCRIPTION.LABEL',
+  instruction: 'CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.INSTRUCTION.LABEL',
+};
 const route = useRoute();
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
@@ -116,9 +123,12 @@ const updateScenario = async scenario => {
     });
     useAlert(t('CAPTAIN.ASSISTANTS.SCENARIOS.API.UPDATE.SUCCESS'));
   } catch (error) {
-    const errorMessage =
-      error?.response?.message ||
-      t('CAPTAIN.ASSISTANTS.SCENARIOS.API.UPDATE.ERROR');
+    const errorMessage = requestErrorMessage(
+      error,
+      t,
+      'CAPTAIN.ASSISTANTS.SCENARIOS.API.UPDATE.ERROR',
+      FIELD_LABELS
+    );
     useAlert(errorMessage);
   }
 };
@@ -152,9 +162,12 @@ const deleteScenario = async id => {
     });
     useAlert(t('CAPTAIN.ASSISTANTS.SCENARIOS.API.DELETE.SUCCESS'));
   } catch (error) {
-    const errorMessage =
-      error?.response?.message ||
-      t('CAPTAIN.ASSISTANTS.SCENARIOS.API.DELETE.ERROR');
+    const errorMessage = requestErrorMessage(
+      error,
+      t,
+      'CAPTAIN.ASSISTANTS.SCENARIOS.API.DELETE.ERROR',
+      FIELD_LABELS
+    );
     useAlert(errorMessage);
   }
 };
@@ -183,9 +196,12 @@ const addScenario = async scenario => {
     });
     useAlert(t('CAPTAIN.ASSISTANTS.SCENARIOS.API.ADD.SUCCESS'));
   } catch (error) {
-    const errorMessage =
-      error?.response?.message ||
-      t('CAPTAIN.ASSISTANTS.SCENARIOS.API.ADD.ERROR');
+    const errorMessage = requestErrorMessage(
+      error,
+      t,
+      'CAPTAIN.ASSISTANTS.SCENARIOS.API.ADD.ERROR',
+      FIELD_LABELS
+    );
     useAlert(errorMessage);
   }
 };
@@ -200,9 +216,12 @@ const addAllExampleScenarios = async () => {
     });
     useAlert(t('CAPTAIN.ASSISTANTS.SCENARIOS.API.ADD.SUCCESS'));
   } catch (error) {
-    const errorMessage =
-      error?.response?.message ||
-      t('CAPTAIN.ASSISTANTS.SCENARIOS.API.ADD.ERROR');
+    const errorMessage = requestErrorMessage(
+      error,
+      t,
+      'CAPTAIN.ASSISTANTS.SCENARIOS.API.ADD.ERROR',
+      FIELD_LABELS
+    );
     useAlert(errorMessage);
   }
 };

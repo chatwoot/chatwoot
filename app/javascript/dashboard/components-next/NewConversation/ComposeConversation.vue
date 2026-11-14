@@ -6,7 +6,10 @@ import { useRouter, useRoute } from 'vue-router';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useInboxSignatures } from 'dashboard/composables/useInboxSignatures';
 import { useAlert } from 'dashboard/composables';
-import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
+import {
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { debounce } from '@chatwoot/utils';
 import { emitter } from 'shared/helpers/mitt';
@@ -153,11 +156,13 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
       isCreatingContact.value = false;
     } catch (error) {
       isCreatingContact.value = false;
-      const message = parseAPIErrorResponse(error);
       useAlert(
-        typeof message === 'string'
-          ? message
-          : t('COMPOSE_NEW_CONVERSATION.CONTACT_CREATE.ERROR_MESSAGE')
+        requestErrorMessage(
+          error,
+          t,
+          'COMPOSE_NEW_CONVERSATION.CONTACT_CREATE.ERROR_MESSAGE',
+          CONTACT_FIELD_LABELS
+        )
       );
       return;
     }

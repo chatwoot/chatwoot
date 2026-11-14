@@ -110,7 +110,8 @@ module RequestExceptionHandler
     log_handled_error(exception)
     render json: {
       message: exception.record.errors.full_messages.join(', '),
-      attributes: exception.record.errors.attribute_names
+      attributes: exception.record.errors.attribute_names,
+      details: exception.record.errors.details
     }, status: :unprocessable_entity
   end
 

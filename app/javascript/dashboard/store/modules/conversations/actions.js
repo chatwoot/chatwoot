@@ -1,4 +1,5 @@
 import types from '../../mutation-types';
+import { rethrowWithResponse } from 'dashboard/store/utils/api';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
@@ -875,7 +876,7 @@ const actions = {
         customAttributes: custom_attributes,
       });
     } catch (error) {
-      throw new Error(error);
+      rethrowWithResponse(error);
     }
   },
 

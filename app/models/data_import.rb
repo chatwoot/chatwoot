@@ -49,7 +49,8 @@ class DataImport < ApplicationRecord
   has_many :mappings, class_name: 'DataImportMapping', dependent: :destroy_async
   has_many :import_errors, class_name: 'DataImportError', dependent: :destroy_async
 
-  validates :data_type, inclusion: { in: LEGACY_DATA_TYPES + INTEGRATION_DATA_TYPES, message: I18n.t('errors.data_import.data_type.invalid') }
+  validates :data_type, inclusion: { in: LEGACY_DATA_TYPES + INTEGRATION_DATA_TYPES,
+                                     message: ->(*) { I18n.t('errors.data_import.data_type.invalid') } }
   validates :access_token, presence: true, on: :create, if: :integration_import?
   validate :validate_import_types
   validate :validate_integration_provider

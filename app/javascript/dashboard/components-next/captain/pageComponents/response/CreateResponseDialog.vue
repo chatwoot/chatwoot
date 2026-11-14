@@ -7,6 +7,7 @@ import { useRoute } from 'vue-router';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ResponseForm from './ResponseForm.vue';
+import { requestErrorMessage } from 'dashboard/helper/requestErrorMessage';
 
 const props = defineProps({
   selectedResponse: {
@@ -21,6 +22,11 @@ const props = defineProps({
 });
 const emit = defineEmits(['close']);
 const { t } = useI18n();
+
+const FIELD_LABELS = {
+  question: 'CAPTAIN.RESPONSES.FORM.QUESTION.LABEL',
+  answer: 'CAPTAIN.RESPONSES.FORM.ANSWER.LABEL',
+};
 const store = useStore();
 const route = useRoute();
 
@@ -54,8 +60,12 @@ const handleSubmit = async updatedResponse => {
     useAlert(t(`${i18nKey.value}.SUCCESS_MESSAGE`));
     dialogRef.value.close();
   } catch (error) {
-    const errorMessage =
-      error?.response?.message || t(`${i18nKey.value}.ERROR_MESSAGE`);
+    const errorMessage = requestErrorMessage(
+      error,
+      t,
+      `${i18nKey.value}.ERROR_MESSAGE`,
+      FIELD_LABELS
+    );
     useAlert(errorMessage);
   }
 };

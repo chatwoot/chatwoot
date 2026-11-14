@@ -7,9 +7,9 @@ import { useMessageContext } from '../provider.js';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 
 import {
-  DuplicateContactException,
-  ExceptionWithMessage,
-} from 'shared/helpers/CustomErrors';
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 
 const { attachments } = useMessageContext();
 
@@ -82,15 +82,14 @@ async function addContact() {
     }
     openContactNewTab(contact.id);
   } catch (error) {
-    if (error instanceof DuplicateContactException) {
-      if (error.data.includes('phone_number')) {
-        useAlert(t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
-      }
-    } else if (error instanceof ExceptionWithMessage) {
-      useAlert(error.data);
-    } else {
-      useAlert(t('CONTACT_FORM.ERROR_MESSAGE'));
-    }
+    useAlert(
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACT_FORM.ERROR_MESSAGE',
+        CONTACT_FIELD_LABELS
+      )
+    );
   }
 }
 

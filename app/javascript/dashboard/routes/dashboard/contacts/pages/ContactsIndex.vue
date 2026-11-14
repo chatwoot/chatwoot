@@ -4,6 +4,10 @@ import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import {
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 import { debounce } from '@chatwoot/utils';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
@@ -426,7 +430,22 @@ const handleSort = async ({ sort, order }) => {
 };
 
 const createContact = async contact => {
-  await store.dispatch('contacts/create', contact);
+  try {
+    await store.dispatch('contacts/create', contact);
+  } catch (error) {
+    useAlert(
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.ERROR_MESSAGE',
+        CONTACT_FIELD_LABELS
+      )
+    );
+    return;
+  }
+  useAlert(
+    t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.SUCCESS_MESSAGE')
+  );
   await fetchContactsBasedOnContext(pageNumber.value, {
     clearSelection: false,
   });

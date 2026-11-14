@@ -6,11 +6,17 @@ import { CAMPAIGN_TYPES } from 'shared/constants/campaign.js';
 import { CAMPAIGNS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events.js';
 
 import LiveChatCampaignForm from 'dashboard/components-next/Campaigns/Pages/CampaignPage/LiveChatCampaign/LiveChatCampaignForm.vue';
+import { requestErrorMessage } from 'dashboard/helper/requestErrorMessage';
 
 const emit = defineEmits(['close']);
 
 const store = useStore();
 const { t } = useI18n();
+
+const FIELD_LABELS = {
+  title: 'CAMPAIGN.LIVE_CHAT.CREATE.FORM.TITLE.LABEL',
+  message: 'CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.LABEL',
+};
 
 const addCampaign = async campaignDetails => {
   try {
@@ -23,9 +29,12 @@ const addCampaign = async campaignDetails => {
 
     useAlert(t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    const errorMessage =
-      error?.response?.message ||
-      t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.ERROR_MESSAGE');
+    const errorMessage = requestErrorMessage(
+      error,
+      t,
+      'CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.ERROR_MESSAGE',
+      FIELD_LABELS
+    );
     useAlert(errorMessage);
   }
 };

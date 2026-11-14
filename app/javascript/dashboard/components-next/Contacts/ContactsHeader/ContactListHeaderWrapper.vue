@@ -8,9 +8,9 @@ import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import contactFilterItems from 'dashboard/routes/dashboard/contacts/contactFilterItems';
 import {
-  DuplicateContactException,
-  ExceptionWithMessage,
-} from 'shared/helpers/CustomErrors';
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 import countries from 'shared/constants/countries';
 import {
@@ -101,18 +101,14 @@ const onCreate = async contact => {
     );
     emit('contactCreated');
   } catch (error) {
-    const i18nPrefix = 'CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION';
-    if (error instanceof DuplicateContactException) {
-      if (error.data.includes('email')) {
-        useAlert(t(`${i18nPrefix}.EMAIL_ADDRESS_DUPLICATE`));
-      } else if (error.data.includes('phone_number')) {
-        useAlert(t(`${i18nPrefix}.PHONE_NUMBER_DUPLICATE`));
-      }
-    } else if (error instanceof ExceptionWithMessage) {
-      useAlert(error.data);
-    } else {
-      useAlert(t(`${i18nPrefix}.ERROR_MESSAGE`));
-    }
+    useAlert(
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.ERROR_MESSAGE',
+        CONTACT_FIELD_LABELS
+      )
+    );
   }
 };
 

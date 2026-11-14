@@ -18,6 +18,7 @@ import {
 } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { requestErrorMessage } from 'dashboard/helper/requestErrorMessage';
 
 const { t } = useI18n();
 
@@ -107,8 +108,11 @@ const confirmDeleteAttribute = async () => {
     useAlert(t('ATTRIBUTES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
     closeDelete();
   } catch (error) {
-    const errorMessage =
-      error?.response?.message || t('ATTRIBUTES_MGMT.DELETE.API.ERROR_MESSAGE');
+    const errorMessage = requestErrorMessage(
+      error,
+      t,
+      'ATTRIBUTES_MGMT.DELETE.API.ERROR_MESSAGE'
+    );
     useAlert(errorMessage);
   }
 };

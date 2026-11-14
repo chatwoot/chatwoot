@@ -39,7 +39,7 @@ class CustomAttributeDefinition < ApplicationRecord
   validates :attribute_key,
             presence: true,
             uniqueness: { scope: [:account_id, :attribute_model] },
-            format: { with: /\A[\p{L}\p{N}_.\-]+\z/, message: I18n.t('errors.custom_attribute_definition.attribute_key_format') }
+            format: { with: /\A[\p{L}\p{N}_.\-]+\z/, message: ->(*) { I18n.t('errors.custom_attribute_definition.attribute_key_format') } }
 
   validates :attribute_display_type, presence: true
   validates :attribute_model, presence: true

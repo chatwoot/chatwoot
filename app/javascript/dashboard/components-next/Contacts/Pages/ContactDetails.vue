@@ -3,6 +3,10 @@ import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import {
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
@@ -99,7 +103,14 @@ const updateContact = async () => {
     );
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
   } catch (error) {
-    useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.ERROR_MESSAGE'));
+    useAlert(
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.ERROR_MESSAGE',
+        CONTACT_FIELD_LABELS
+      )
+    );
   }
 };
 
@@ -118,8 +129,15 @@ const handleAvatarUpload = async ({ file, url }) => {
       isFormData: true,
     });
     useAlert(t('CONTACTS_LAYOUT.DETAILS.AVATAR.UPLOAD.SUCCESS_MESSAGE'));
-  } catch {
-    useAlert(t('CONTACTS_LAYOUT.DETAILS.AVATAR.UPLOAD.ERROR_MESSAGE'));
+  } catch (error) {
+    useAlert(
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACTS_LAYOUT.DETAILS.AVATAR.UPLOAD.ERROR_MESSAGE',
+        CONTACT_FIELD_LABELS
+      )
+    );
   }
 };
 

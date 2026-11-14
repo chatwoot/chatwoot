@@ -29,7 +29,7 @@ class Company < ApplicationRecord
   validates :name, presence: true, length: { maximum: Limits::COMPANY_NAME_LENGTH_LIMIT }
   validates :domain, allow_blank: true, format: {
     with: /\A[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)+\z/,
-    message: I18n.t('errors.companies.domain.invalid')
+    message: ->(*) { I18n.t('errors.companies.domain.invalid') }
   }
   validates :domain, uniqueness: { scope: :account_id }, if: -> { domain.present? }
   validates :description, length: { maximum: Limits::COMPANY_DESCRIPTION_LENGTH_LIMIT }

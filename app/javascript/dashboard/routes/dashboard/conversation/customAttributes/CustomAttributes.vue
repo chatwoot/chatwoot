@@ -11,6 +11,10 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import {
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 
 const props = defineProps({
   attributeType: {
@@ -204,15 +208,19 @@ const onUpdate = async (key, value) => {
         customAttributes: updatedAttributes,
       });
     } else {
-      store.dispatch('contacts/update', {
+      await store.dispatch('contacts/update', {
         id: props.contactId,
         customAttributes: updatedAttributes,
       });
     }
     useAlert(t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
   } catch (error) {
-    const errorMessage =
-      error?.response?.message || t('CUSTOM_ATTRIBUTES.FORM.UPDATE.ERROR');
+    const errorMessage = requestErrorMessage(
+      error,
+      t,
+      'CUSTOM_ATTRIBUTES.FORM.UPDATE.ERROR',
+      CONTACT_FIELD_LABELS
+    );
     useAlert(errorMessage);
   }
 };
@@ -226,15 +234,19 @@ const onDelete = async key => {
         customAttributes: updatedAttributes,
       });
     } else {
-      store.dispatch('contacts/deleteCustomAttributes', {
+      await store.dispatch('contacts/deleteCustomAttributes', {
         id: props.contactId,
         customAttributes: [key],
       });
     }
     useAlert(t('CUSTOM_ATTRIBUTES.FORM.DELETE.SUCCESS'));
   } catch (error) {
-    const errorMessage =
-      error?.response?.message || t('CUSTOM_ATTRIBUTES.FORM.DELETE.ERROR');
+    const errorMessage = requestErrorMessage(
+      error,
+      t,
+      'CUSTOM_ATTRIBUTES.FORM.DELETE.ERROR',
+      CONTACT_FIELD_LABELS
+    );
     useAlert(errorMessage);
   }
 };

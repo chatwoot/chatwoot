@@ -8,6 +8,7 @@ import ContactAPI from '../../../api/contacts';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import types from '../../mutation-types';
+import { rethrowWithResponse } from 'dashboard/store/utils/api';
 
 const buildContactFormData = contactParams => {
   const formData = new FormData();
@@ -39,17 +40,18 @@ const buildContactFormData = contactParams => {
 };
 
 export const handleContactOperationErrors = error => {
+  let exception;
   if (error.response?.status === 422) {
-    const exception = new DuplicateContactException(
-      error.response.data.attributes
-    );
+    exception = new DuplicateContactException(error.response.data.attributes);
     exception.message = error.response.data.message || exception.message;
-    throw exception;
   } else if (error.response?.data?.message) {
-    throw new ExceptionWithMessage(error.response.data.message);
+    exception = new ExceptionWithMessage(error.response.data.message);
   } else {
-    throw new Error(error);
+    exception = new Error(error);
   }
+  // requestErrorMessage reads the answer, so it has to survive the rethrow
+  exception.response = error.response;
+  throw exception;
 };
 
 export const actions = {
@@ -228,7 +230,7 @@ export const actions = {
       );
       commit(types.EDIT_CONTACT, response.data.payload);
     } catch (error) {
-      throw new Error(error);
+      rethrowWithResponse(error);
     }
   },
 
@@ -275,7 +277,7 @@ export const actions = {
       const response = await AccountActionsAPI.merge(parentId, childId);
       commit(types.SET_CONTACT_ITEM, response.data);
     } catch (error) {
-      throw new Error(error);
+      rethrowWithResponse(error);
     } finally {
       commit(types.SET_CONTACT_UI_FLAG, { isMerging: false });
     }

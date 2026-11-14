@@ -10,6 +10,7 @@ require:
   - ./rubocop/attachment_download.rb
   - ./rubocop/one_class_per_file.rb
   - ./rubocop/feature_access_role_check.rb
+  - ./rubocop/eager_validation_message.rb
 
 Layout/LineLength:
   Max: 150

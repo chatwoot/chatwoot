@@ -12,6 +12,10 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import {
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 import ContactAPI from 'dashboard/api/contacts';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -116,8 +120,15 @@ const settle = async (claim, attributes, successMessage) => {
         : {},
       claimKey: claim.camelKey,
     });
-  } catch {
-    useAlert(t('CONTACT_PANEL.UNVERIFIED_DETAILS.ERROR'));
+  } catch (error) {
+    useAlert(
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACT_PANEL.UNVERIFIED_DETAILS.ERROR',
+        CONTACT_FIELD_LABELS
+      )
+    );
   } finally {
     updatingField.value = null;
   }

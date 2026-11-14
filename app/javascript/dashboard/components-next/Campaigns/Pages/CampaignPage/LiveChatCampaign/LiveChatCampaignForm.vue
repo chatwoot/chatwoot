@@ -11,6 +11,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import { requestErrorMessage } from 'dashboard/helper/requestErrorMessage';
 
 const props = defineProps({
   mode: {
@@ -126,8 +127,11 @@ const handleInboxChange = async inboxId => {
   } catch (error) {
     senderList.value = [];
     useAlert(
-      error?.response?.message ??
-        t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.ERROR_MESSAGE')
+      requestErrorMessage(
+        error,
+        t,
+        'CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.ERROR_MESSAGE'
+      )
     );
   }
 };
