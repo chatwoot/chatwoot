@@ -82,4 +82,43 @@ RSpec.describe Channel::TwilioSms do
       end
     end
   end
+
+  describe '#content_templates' do
+    let(:templates_data) { { 'templates' => [{ 'friendly_name' => 'order_update', 'status' => 'approved' }] } }
+    let(:channel) { create(:channel_twilio_sms, content_templates: templates_data) }
+
+    it 'does not load content_templates on default find' do
+      loaded_channel = described_class.find(channel.id)
+      expect(loaded_channel.has_attribute?(:content_templates)).to be(false)
+    end
+
+    it 'lazy-loads content_templates on access' do
+      loaded_channel = described_class.find(channel.id)
+      expect(loaded_channel.content_templates).to eq(templates_data)
+      expect(loaded_channel.has_attribute?(:content_templates)).to be(true)
+    end
+
+    it 'caches content_templates after first access' do
+      loaded_channel = described_class.find(channel.id)
+      loaded_channel.content_templates
+
+      expect(described_class).not_to receive(:unscoped)
+      expect(loaded_channel.content_templates).to eq(templates_data)
+    end
+
+    it 'allows updating content_templates' do
+      loaded_channel = described_class.find(channel.id)
+      new_templates = { 'templates' => [{ 'friendly_name' => 'shipping_update' }] }
+
+      loaded_channel.update!(content_templates: new_templates)
+
+      expect(loaded_channel.reload.content_templates).to eq(new_templates)
+    end
+
+    it 'returns default attribute value for new records without querying database' do
+      new_channel = described_class.new
+      expect(described_class).not_to receive(:unscoped)
+      expect(new_channel.content_templates).to eq({})
+    end
+  end
 end

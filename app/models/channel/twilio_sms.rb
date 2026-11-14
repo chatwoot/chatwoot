@@ -32,6 +32,14 @@ class Channel::TwilioSms < ApplicationRecord
 
   self.table_name = 'channel_twilio_sms'
 
+  default_scope do
+    select(columns_without_content_templates)
+  end
+
+  def self.columns_without_content_templates
+    @columns_without_content_templates ||= (column_names.map { |col| "#{table_name}.#{col}" } - ["#{table_name}.content_templates"]).freeze
+  end
+
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
   encrypts :auth_token if Chatwoot.encryption_configured?
 
@@ -53,6 +61,12 @@ class Channel::TwilioSms < ApplicationRecord
 
   def name
     medium == 'sms' ? 'Twilio SMS' : 'Whatsapp'
+  end
+
+  def content_templates
+    return super if new_record? || has_attribute?(:content_templates)
+
+    self[:content_templates] = self.class.unscoped.where(id: id).pick(:content_templates)
   end
 
   # Mutes only the incoming side of calling; default on, so only an explicit false disables inbound.

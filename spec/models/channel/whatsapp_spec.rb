@@ -475,4 +475,43 @@ RSpec.describe Channel::Whatsapp do
       expect(channel.inbound_calls_enabled?).to be false
     end
   end
+
+  describe '#message_templates' do
+    let(:templates_data) { [{ 'name' => 'order_confirmation', 'status' => 'APPROVED' }] }
+    let(:channel) { create(:channel_whatsapp, sync_templates: false, validate_provider_config: false, message_templates: templates_data) }
+
+    it 'does not load message_templates on default find' do
+      loaded_channel = described_class.find(channel.id)
+      expect(loaded_channel.has_attribute?(:message_templates)).to be(false)
+    end
+
+    it 'lazy-loads message_templates on access' do
+      loaded_channel = described_class.find(channel.id)
+      expect(loaded_channel.message_templates).to eq(templates_data)
+      expect(loaded_channel.has_attribute?(:message_templates)).to be(true)
+    end
+
+    it 'caches message_templates after first access' do
+      loaded_channel = described_class.find(channel.id)
+      loaded_channel.message_templates
+
+      expect(described_class).not_to receive(:unscoped)
+      expect(loaded_channel.message_templates).to eq(templates_data)
+    end
+
+    it 'allows updating message_templates' do
+      loaded_channel = described_class.find(channel.id)
+      new_templates = [{ 'name' => 'shipping_confirmation' }]
+
+      loaded_channel.update!(message_templates: new_templates)
+
+      expect(loaded_channel.reload.message_templates).to eq(new_templates)
+    end
+
+    it 'returns default attribute value for new records without querying database' do
+      new_channel = described_class.new
+      expect(described_class).not_to receive(:unscoped)
+      expect(new_channel.message_templates).to eq([])
+    end
+  end
 end
