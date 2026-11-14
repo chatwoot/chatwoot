@@ -59,6 +59,44 @@ RSpec.describe Llm::Models do
     end
   end
 
+  describe '.models_for' do
+    let(:haiku) { { 'id' => 'claude-haiku-5-5', 'display_name' => 'Claude Haiku 5.5', 'provider' => 'anthropic' } }
+
+    before do
+      allow(Llm::ProviderModels).to receive(:all).and_return([haiku])
+    end
+
+    it 'replaces curated Anthropic models with the listed ones for provider model features on self-hosted installations' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+
+      expect(described_class.models_for('editor')).to eq(%w[gpt-6-luna gpt-5.1 gpt-5.2 gemini-3-flash gemini-3-pro claude-haiku-5-5])
+      expect(described_class.valid_model_for?('editor', 'claude-haiku-5-5')).to be(true)
+      expect(described_class.feature_config('editor')[:models].last).to include(
+        id: 'claude-haiku-5-5', display_name: 'Claude Haiku 5.5', provider: 'anthropic'
+      )
+    end
+
+    it 'keeps features without provider models on the curated list' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+
+      expect(described_class.models_for('copilot')).to include('claude-sonnet-4.5')
+      expect(described_class.valid_model_for?('copilot', 'claude-haiku-5-5')).to be(false)
+    end
+
+    it 'keeps Chatwoot Cloud on the curated list' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+
+      expect(described_class.models_for('editor')).to include('claude-haiku-4.5')
+      expect(described_class.models_for('editor')).not_to include('claude-haiku-5-5')
+    end
+  end
+
+  describe '.temperature_for' do
+    it 'passes the temperature through for a model missing from the bundled registry' do
+      expect(described_class.temperature_for('claude-haiku-5-5', 0.3)).to eq(0.3)
+    end
+  end
+
   describe '.feature_config' do
     it 'returns model metadata for a feature' do
       config = described_class.feature_config('editor')

@@ -3,6 +3,8 @@ providers:
     display_name: 'OpenAI'
   anthropic:
     display_name: 'Anthropic'
+    # Used for provider_models features when Anthropic is the only provider with a key.
+    default_model: claude-haiku-5-5
   gemini:
     display_name: 'Gemini'
 
@@ -70,6 +72,8 @@ features:
     default: gpt-6-luna
     internal: true
   editor:
+    # Self-hosted installations also offer the models listed by each provider that has an API key.
+    provider_models: true
     models:
       [
         gpt-6-luna,

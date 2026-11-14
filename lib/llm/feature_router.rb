@@ -39,7 +39,7 @@ module Llm::FeatureRouter
       installation_model = installation_model_override(feature_key)
       return [installation_model, :installation_override] if installation_model.present?
 
-      [captain_assistant_model(account, feature_key) || Llm::Models.default_model_for(feature_key), :default]
+      [captain_assistant_model(account, feature_key) || Llm::Models.default_model_for(feature_key, account: account), :default]
     end
 
     def account_model_override(account, feature_key)
@@ -55,8 +55,11 @@ module Llm::FeatureRouter
       InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence
     end
 
+    # CAPTAIN_OPEN_AI_MODEL is served by the OpenAI endpoint, even when another provider lists a model with the same ID.
     def provider_for(model, source)
-      Llm::Models.provider_for(model) || ('openai' if source == :installation_override)
+      return 'openai' if source == :installation_override
+
+      Llm::Models.provider_for(model)
     end
 
     def captain_assistant_model(account, feature_key)
