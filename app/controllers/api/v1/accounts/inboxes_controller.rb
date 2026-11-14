@@ -8,6 +8,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::Accounts::Concerns::InboxHealthManagement
   include Api::V1::Accounts::Concerns::InboxSecretManagement
   include Api::V1::Accounts::Concerns::BandwidthConfiguration
+  include Api::V1::Accounts::Concerns::InboxTemplatePreloader
   before_action :prepare_bandwidth_configuration, only: [:create, :update]
 
   def index
@@ -23,13 +24,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   # Deprecated: This API will be removed in 2.7.0
-  def assignable_agents
-    @assignable_agents = @inbox.assignable_agents
-  end
+  def assignable_agents = @assignable_agents = @inbox.assignable_agents
 
-  def campaigns
-    @campaigns = @inbox.campaigns
-  end
+  def campaigns = @campaigns = @inbox.campaigns
 
   def avatar
     @inbox.avatar.attachment.destroy! if @inbox.avatar.attached?
@@ -68,9 +65,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     return unless continue_update
   end
 
-  def agent_bot
-    @agent_bot = @inbox.agent_bot
-  end
+  def agent_bot = @agent_bot = @inbox.agent_bot
 
   def set_agent_bot
     if @agent_bot
@@ -225,7 +220,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def get_channel_attributes(channel_type)
     channel_type.constantize.const_defined?(:EDITABLE_ATTRS) ? channel_type.constantize::EDITABLE_ATTRS.presence : []
   end
-
 end
 
 Api::V1::Accounts::InboxesController.prepend_mod_with('Api::V1::Accounts::InboxesController')
