@@ -5,6 +5,7 @@ import WaveSurfer from 'wavesurfer.js';
 import RecordPlugin from 'wavesurfer.js/dist/plugins/record.js';
 import { format, intervalToDuration } from 'date-fns';
 import { convertAudio } from './utils/audioConversionUtils';
+import { getAudioFileExtension } from './utils/audioFileExtension';
 
 const props = defineProps({
   audioRecordFormat: {
@@ -35,14 +36,6 @@ const formatTimeProgress = time => {
     new Date(0, 0, 0, 0, duration.minutes, duration.seconds),
     'mm:ss'
   );
-};
-
-const AUDIO_EXTENSION_MAP = {
-  'audio/ogg': 'ogg',
-  'audio/mp3': 'mp3',
-  'audio/mpeg': 'mp3',
-  'audio/wav': 'wav',
-  'audio/webm': 'webm',
 };
 
 const getRecordPluginOptions = audioFormat => {
@@ -90,7 +83,7 @@ const initWaveSurfer = () => {
       // back to MP3 instead of OGG). This keeps the filename, content type, and
       // voice-note flag consistent with the real bytes.
       const audioType = audioBlob.type || props.audioRecordFormat;
-      const ext = AUDIO_EXTENSION_MAP[audioType] || 'mp3';
+      const ext = getAudioFileExtension(audioType);
       const fileName = `${getUuid()}.${ext}`;
       const file = new File([audioBlob], fileName, {
         type: audioType,
