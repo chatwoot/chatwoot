@@ -72,6 +72,8 @@ class Channel::TwilioSms < ApplicationRecord
     return super if new_record? || has_attribute?(:content_templates)
 
     self[:content_templates] = self.class.unscoped.where(id: id).pick(:content_templates)
+    clear_attribute_changes([:content_templates])
+    self[:content_templates]
   end
 
   def content_templates=(value)

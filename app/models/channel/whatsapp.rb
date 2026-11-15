@@ -67,6 +67,8 @@ class Channel::Whatsapp < ApplicationRecord
     return super if new_record? || has_attribute?(:message_templates)
 
     self[:message_templates] = self.class.unscoped.where(id: id).pick(:message_templates)
+    clear_attribute_changes([:message_templates])
+    self[:message_templates]
   end
 
   def message_templates=(value)

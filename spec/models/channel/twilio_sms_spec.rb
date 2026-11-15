@@ -128,13 +128,13 @@ RSpec.describe Channel::TwilioSms do
     end
 
     it 'preserves custom projection in count query' do
-      create(:channel_twilio_sms, phone_number: '+15555550111')
+      create(:channel_twilio_sms, :with_phone_number, phone_number: '+15555550111')
       create(:channel_twilio_sms, phone_number: nil, messaging_service_sid: 'MG1234567890abcdef')
       expect(described_class.reselect(:phone_number).count).to eq(1)
     end
 
     it 'preserves predicate blocks in count query' do
-      create(:channel_twilio_sms, phone_number: '+15555550111', medium: 'sms')
+      create(:channel_twilio_sms, :with_phone_number, phone_number: '+15555550111', medium: 'sms')
       expect(described_class.count { |c| c.medium == 'sms' }).to be >= 1
     end
 
