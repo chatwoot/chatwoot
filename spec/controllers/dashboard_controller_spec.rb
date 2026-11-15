@@ -68,6 +68,26 @@ describe '/app/login', type: :request do
       expect(user.encrypted_password).not_to eq(old_password_digest)
     end
 
+    it 'preserves the post-login continuation the dashboard router passed to the login page' do
+      user = create(:user)
+      redirect_url = "settings/integrations/shopify?shopify_pending_install=#{'a' * 32}"
+
+      get '/app/login', params: { redirect_url: redirect_url, sso_account_id: '42' }, headers: { header => user.email }
+
+      query = Rack::Utils.parse_query(URI.parse(response.location).query)
+      expect(query).to include('redirect_url' => redirect_url, 'sso_account_id' => '42')
+      expect(user.valid_sso_auth_token?(query['sso_auth_token'])).to be(true)
+    end
+
+    it 'drops continuation params that are not in the shapes the dashboard produces' do
+      user = create(:user)
+
+      get '/app/login', params: { redirect_url: 'https://evil.example.com', sso_account_id: 'abc' }, headers: { header => user.email }
+
+      query = Rack::Utils.parse_query(URI.parse(response.location).query)
+      expect(query.keys).to contain_exactly('email', 'sso_auth_token')
+    end
+
     it 'renders the login page when no user matches the header' do
       get '/app/login', headers: { header => 'nobody@example.com' }
 
