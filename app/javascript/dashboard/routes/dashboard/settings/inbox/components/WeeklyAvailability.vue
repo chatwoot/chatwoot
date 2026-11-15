@@ -13,6 +13,7 @@ import {
   timeZoneOptions,
 } from '../helpers/businessHour';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { weekdayName } from 'shared/helpers/localizedDate';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
 const DEFAULT_TIMEZONE = {
@@ -42,20 +43,14 @@ export default {
       restrictAssignment: false,
       unavailableMessage: '',
       timeZone: DEFAULT_TIMEZONE,
-      dayNames: {
-        0: 'Sunday',
-        1: 'Monday',
-        2: 'Tuesday',
-        3: 'Wednesday',
-        4: 'Thursday',
-        5: 'Friday',
-        6: 'Saturday',
-      },
       timeSlots: [...defaultTimeSlot],
     };
   },
   computed: {
     ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    dayNames() {
+      return [0, 1, 2, 3, 4, 5, 6].map(weekdayName);
+    },
     hasError() {
       if (!this.isBusinessHoursEnabled) return false;
       return this.timeSlots.filter(slot => slot.from && !slot.valid).length > 0;

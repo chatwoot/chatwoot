@@ -5,6 +5,7 @@ import { useStore } from 'dashboard/composables/store';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useI18n } from 'vue-i18n';
 import { TWILIO_CONTENT_TEMPLATE_TYPES } from 'shared/constants/messages';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   inboxId: {
@@ -137,7 +138,7 @@ const refreshTemplates = async () => {
                 <p class="text-sm">{{ template.category || 'utility' }}</p>
               </div>
               <div class="text-xs text-n-slate-11">
-                {{ new Date(template.created_at).toLocaleDateString() }}
+                {{ formatLocalized(new Date(template.created_at), 'M/d/yyyy') }}
               </div>
             </div>
           </div>

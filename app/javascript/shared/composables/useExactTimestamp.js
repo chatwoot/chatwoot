@@ -1,5 +1,6 @@
 import { fromUnixTime } from 'date-fns';
 import { useLocale } from './useLocale';
+import { dateTimeFormat } from 'shared/helpers/localizedDate';
 
 // Cache formatters by locale since this runs in the render path.
 const formatters = new Map();
@@ -8,7 +9,7 @@ const formatterFor = locale => {
   if (!formatters.has(locale)) {
     formatters.set(
       locale,
-      new Intl.DateTimeFormat(locale, {
+      dateTimeFormat(locale, {
         dateStyle: 'medium',
         timeStyle: 'short',
         // `fa` and `th` would otherwise use the Solar Hijri and Buddhist
@@ -25,10 +26,7 @@ const formatterFor = locale => {
 const zoneFormatterFor = locale => {
   const key = `${locale}/zone`;
   if (!formatters.has(key)) {
-    formatters.set(
-      key,
-      new Intl.DateTimeFormat(locale, { timeZoneName: 'short' })
-    );
+    formatters.set(key, dateTimeFormat(locale, { timeZoneName: 'short' }));
   }
   return formatters.get(key);
 };

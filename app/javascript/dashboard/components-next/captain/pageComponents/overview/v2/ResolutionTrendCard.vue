@@ -8,30 +8,34 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import MetricHint from 'dashboard/components-next/captain/pageComponents/overview/MetricHint.vue';
 import OverviewPanel from './OverviewPanel.vue';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   trend: { type: Object, default: null },
   loading: { type: Boolean, default: false },
 });
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const [showDropdown, toggleDropdown] = useToggle();
 
 const selectedMeasure = ref('conversation_count');
 
 const formatDate = value =>
-  new Intl.DateTimeFormat(locale.value, {
+  dateTimeFormat(currentDateLocale(), {
     month: 'short',
     day: '2-digit',
   }).format(new Date(`${value}T00:00:00`));
 
 const formatDay = value =>
-  new Intl.DateTimeFormat(locale.value, {
+  dateTimeFormat(currentDateLocale(), {
     day: '2-digit',
   }).format(new Date(`${value}T00:00:00`));
 
 const comparisonDateLabel = (start, end) => {
-  const formatter = new Intl.DateTimeFormat(locale.value, {
+  const formatter = dateTimeFormat(currentDateLocale(), {
     weekday: 'short',
     month: 'short',
     day: 'numeric',

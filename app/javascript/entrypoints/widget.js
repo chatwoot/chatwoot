@@ -10,6 +10,7 @@ import router from '../widget/router';
 import { directive as onClickaway } from 'vue3-click-away';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import { plugin, defaultConfig } from '@formkit/vue';
+import { bindDateLocale } from 'shared/helpers/localizedDate';
 
 import {
   startsWithPlus,
@@ -21,6 +22,7 @@ const i18n = createI18n({
   locale: 'en',
   messages: i18nMessages,
 });
+bindDateLocale(i18n);
 
 const app = createApp(App);
 app.use(i18n);

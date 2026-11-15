@@ -1,5 +1,6 @@
 <script>
 import DatePicker from 'vue-datepicker-next';
+import { currentDatePickerLang } from 'dashboard/helper/datePickerLocale';
 export default {
   components: { DatePicker },
   props: {
@@ -17,6 +18,11 @@ export default {
     },
   },
   emits: ['change'],
+  computed: {
+    pickerLang() {
+      return currentDatePickerLang();
+    },
+  },
   methods: {
     handleChange(value) {
       this.$emit('change', value);
@@ -29,6 +35,7 @@ export default {
   <div class="date-picker">
     <DatePicker
       range
+      :lang="pickerLang"
       confirm
       :clearable="false"
       :editable="false"

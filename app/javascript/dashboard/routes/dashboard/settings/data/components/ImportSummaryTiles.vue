@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import formatDistanceStrict from 'date-fns/formatDistanceStrict';
+import { formatElapsed } from 'shared/helpers/localizedDate';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { formatDate, isActiveImport } from '../importStatus';
@@ -43,7 +43,7 @@ const runDuration = computed(() => {
       : props.dataImport?.updated_at);
   if (!finishedAt) return '-';
 
-  return formatDistanceStrict(new Date(startedAt), new Date(finishedAt));
+  return formatElapsed(new Date(startedAt), new Date(finishedAt));
 });
 
 const items = computed(() => [

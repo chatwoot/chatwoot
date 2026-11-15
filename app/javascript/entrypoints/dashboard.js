@@ -30,6 +30,8 @@ import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
+import { bindDateLocale } from 'shared/helpers/localizedDate';
+import { bindDatePickerLocale } from 'dashboard/helper/datePickerLocale';
 
 import 'floating-vue/dist/style.css';
 import '@chatwoot/viz/style.css';
@@ -39,6 +41,8 @@ const i18n = createI18n({
   locale: 'en',
   messages: i18nMessages,
 });
+bindDateLocale(i18n);
+bindDatePickerLocale();
 
 sync(store, router);
 

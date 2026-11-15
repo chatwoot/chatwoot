@@ -1,5 +1,6 @@
-import { format, isValid as isValidDate, parseISO } from 'date-fns';
+import { isValid as isValidDate, parseISO } from 'date-fns';
 import DOMPurify from 'dompurify';
+import { formatFixed } from 'shared/helpers/localizedDate';
 
 const NON_CONTENT_TAGS = new Set(['STYLE', 'SCRIPT', 'HEAD', 'TITLE']);
 const BLOCK_TAGS = new Set([
@@ -185,11 +186,11 @@ export const getEmailDate = lastEmail => {
  */
 export const formatQuotedEmailDate = date => {
   try {
-    return format(date, "EEE, MMM d, yyyy 'at' p");
+    return formatFixed(date, "EEE, MMM d, yyyy 'at' p");
   } catch (error) {
     const fallbackDate = new Date(date);
     if (!Number.isNaN(fallbackDate.getTime())) {
-      return format(fallbackDate, "EEE, MMM d, yyyy 'at' p");
+      return formatFixed(fallbackDate, "EEE, MMM d, yyyy 'at' p");
     }
   }
 

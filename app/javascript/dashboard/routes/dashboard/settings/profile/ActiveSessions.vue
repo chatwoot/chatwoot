@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { formatDistanceToNow, getUnixTime, parseISO } from 'date-fns';
+import { getUnixTime, parseISO } from 'date-fns';
+import { formatRelative } from 'shared/helpers/localizedDate';
 import { useAlert } from 'dashboard/composables';
 import authAPI from 'dashboard/api/auth';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
@@ -17,7 +18,7 @@ const loading = ref(false);
 
 const relativeTime = dateStr => {
   if (!dateStr) return '';
-  return formatDistanceToNow(parseISO(dateStr), { addSuffix: true });
+  return formatRelative(parseISO(dateStr));
 };
 
 const exactTime = dateStr =>

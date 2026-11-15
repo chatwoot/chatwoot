@@ -1,15 +1,26 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 
 defineProps({ usage: { type: Object, default: null } });
 
 const { t } = useI18n();
 const formatTime = timestamp =>
-  new Date(timestamp * 1000).toLocaleString(undefined, {
+  // The fields toLocaleString fills in when only the zone is asked for.
+  dateTimeFormat(currentDateLocale(), {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
     timeZone: 'UTC',
     timeZoneName: 'short',
-  });
+  }).format(new Date(timestamp * 1000));
 </script>
 
 <template>

@@ -10,6 +10,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Label from 'dashboard/components-next/label/Label.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 const store = useStore();
 const { replaceInstallationName } = useBranding();
@@ -185,7 +186,9 @@ onMounted(async () => {
                 {{ $t('STRIPE_INTEGRATION.CONNECTED_ON') }}
               </dt>
               <dd class="m-0">
-                {{ new Date(account.connected_at).toLocaleDateString() }}
+                {{
+                  formatLocalized(new Date(account.connected_at), 'M/d/yyyy')
+                }}
               </dd>
             </dl>
             <div class="px-6 pb-6">

@@ -8,6 +8,7 @@ import ButtonV4 from 'next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useAlert } from 'dashboard/composables';
+import { dateTimeFormat } from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   healthData: {
@@ -96,7 +97,7 @@ const formatDateTime = value => {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
 
-  return new Intl.DateTimeFormat(resolvedLocale.value, {
+  return dateTimeFormat(resolvedLocale.value, {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(date);

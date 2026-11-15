@@ -1,3 +1,8 @@
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
+
 export const POLL_INTERVAL_MS = 5000;
 
 export const ACTIVE_IMPORT_STATUSES = ['pending', 'processing'];
@@ -72,7 +77,7 @@ export const sourceObjectLabel = record =>
 
 export const formatDate = value => {
   if (!value) return '-';
-  return new Intl.DateTimeFormat(undefined, {
+  return dateTimeFormat(currentDateLocale(), {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(new Date(value));

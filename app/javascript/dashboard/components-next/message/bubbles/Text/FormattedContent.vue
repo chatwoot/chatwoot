@@ -7,6 +7,10 @@ import { useFunctionGetter } from 'dashboard/composables/store';
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import { MESSAGE_VARIANTS } from '../../constants';
 import Icon from 'next/icon/Icon.vue';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   content: {
@@ -15,7 +19,7 @@ const props = defineProps({
   },
 });
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const {
   variant,
@@ -101,7 +105,7 @@ const scheduledAtLabel = computed(() => {
     options.year = 'numeric';
   }
 
-  return date.toLocaleString(locale.value.replace('_', '-'), options);
+  return dateTimeFormat(currentDateLocale(), options).format(date);
 });
 
 const scheduledByLabel = computed(() => {

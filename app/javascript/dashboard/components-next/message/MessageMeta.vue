@@ -11,6 +11,10 @@ import { useInbox } from 'dashboard/composables/useInbox';
 import { useMessageContext } from './provider.js';
 
 import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 
 const exactTimestamp = useExactTimestamp();
 
@@ -28,7 +32,7 @@ const {
   isATiktokChannel,
 } = useInbox();
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const {
   status,
@@ -94,7 +98,7 @@ const scheduledAtLabel = computed(() => {
     options.year = 'numeric';
   }
 
-  return date.toLocaleString(locale.value.replace('_', '-'), options);
+  return dateTimeFormat(currentDateLocale(), options).format(date);
 });
 
 const scheduledByLabel = computed(() => {

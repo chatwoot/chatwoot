@@ -5,6 +5,7 @@ import { useStore } from 'dashboard/composables/store';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import InternalChatChannelsAPI from 'dashboard/api/internalChatChannels';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 import { vOnClickOutside } from '@vueuse/components';
 import { useBreakpoints, breakpointsTailwind } from '@vueuse/core';
 
@@ -101,7 +102,7 @@ const channelTypeIcon = computed(() => {
 
 const createdAt = computed(() => {
   if (!props.channel.created_at) return '';
-  return new Date(props.channel.created_at).toLocaleDateString();
+  return formatLocalized(new Date(props.channel.created_at), 'M/d/yyyy');
 });
 
 function handleMuteToggle() {

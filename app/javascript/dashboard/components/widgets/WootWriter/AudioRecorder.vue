@@ -3,8 +3,9 @@ import getUuid from 'widget/helpers/uuid';
 import { ref, onMounted, onUnmounted } from 'vue';
 import WaveSurfer from 'wavesurfer.js';
 import RecordPlugin from 'wavesurfer.js/dist/plugins/record.js';
-import { format, intervalToDuration } from 'date-fns';
+import { intervalToDuration } from 'date-fns';
 import { convertAudio } from './utils/audioConversionUtils';
+import { formatFixed } from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   audioRecordFormat: {
@@ -31,7 +32,7 @@ const recordedAudioUrl = ref(null);
 
 const formatTimeProgress = time => {
   const duration = intervalToDuration({ start: 0, end: time });
-  return format(
+  return formatFixed(
     new Date(0, 0, 0, 0, duration.minutes, duration.seconds),
     'mm:ss'
   );

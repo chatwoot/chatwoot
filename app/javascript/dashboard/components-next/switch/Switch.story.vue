@@ -14,7 +14,7 @@ const eventValue = ref(false);
 const lastChange = ref('No changes yet');
 
 const onChange = value => {
-  lastChange.value = `Changed to: ${value} at ${new Date().toLocaleTimeString()}`;
+  lastChange.value = `Changed to: ${value} at ${new Date().toLocaleTimeString('en-US')}`;
 };
 </script>
 

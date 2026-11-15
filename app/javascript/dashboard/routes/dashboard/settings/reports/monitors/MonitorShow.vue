@@ -22,6 +22,7 @@ import MonitorDrilldown from './MonitorDrilldown.vue';
 import MonitorActionDialog from './MonitorActionDialog.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
 import { useMonitorRefresh } from './useMonitorRefresh';
+import { dateTimeFormat } from 'shared/helpers/localizedDate';
 
 const DAY_IN_SECONDS = 86400;
 const CHART_TICK_COUNT = 5;
@@ -102,7 +103,7 @@ const timezone = computed(
 );
 
 const formatTimestamp = (timestamp, options) =>
-  new Intl.DateTimeFormat(resolvedLocale.value, {
+  dateTimeFormat(resolvedLocale.value, {
     timeZone: timezone.value,
     ...options,
   }).format(new Date(timestamp * 1000));

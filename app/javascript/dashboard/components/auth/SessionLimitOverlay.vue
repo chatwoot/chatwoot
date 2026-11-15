@@ -1,10 +1,11 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { format, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   sessions: {
@@ -27,12 +28,12 @@ const sortedSessions = computed(() =>
 
 const formatDate = dateStr => {
   if (!dateStr) return '';
-  return format(parseISO(dateStr), 'MMMM d, yyyy');
+  return formatLocalized(parseISO(dateStr), 'MMMM d, yyyy');
 };
 
 const formatTime = dateStr => {
   if (!dateStr) return '';
-  return format(parseISO(dateStr), 'hh:mma');
+  return formatLocalized(parseISO(dateStr), 'hh:mma');
 };
 
 const isUnknown = val => !val || val === 'Unknown' || val === 'Unknown Browser';

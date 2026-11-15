@@ -2,7 +2,7 @@
 import OverviewReportFilters from './OverviewReportFilters.vue';
 import SummaryDistribution from './SummaryDistribution.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import { formatTime } from '@chatwoot/utils';
+import { formatDuration } from 'shared/helpers/localizedDate';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import Table from 'dashboard/components/table/Table.vue';
@@ -80,7 +80,7 @@ const { t } = useI18n();
 
 // The row carries the raw number so sorting compares numbers; the cell is what
 // turns it into "28 Min 40 Sec" or "--".
-const renderAvgTime = value => (value ? formatTime(value) : '--');
+const renderAvgTime = value => (value ? formatDuration(value) : '--');
 
 const renderCount = value => (value ? value.toLocaleString() : '--');
 

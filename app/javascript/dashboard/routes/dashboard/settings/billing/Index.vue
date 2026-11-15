@@ -5,7 +5,6 @@ import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { usePaymentStatus } from 'dashboard/composables/usePaymentStatus';
-import { format } from 'date-fns';
 import sessionStorage from 'shared/helpers/sessionStorage';
 
 import BillingMeter from './components/BillingMeter.vue';
@@ -19,6 +18,7 @@ import ButtonV4 from 'next/button/Button.vue';
 import Banner from 'next/banner/Banner.vue';
 import { getCurrencyConfig } from 'dashboard/constants/billing';
 import { useI18n } from 'vue-i18n';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 const router = useRouter();
 const { currentAccount, isOnChatwootCloud } = useAccount();
@@ -82,14 +82,14 @@ const subscriptionRenewsOn = computed(() => {
   if (!customAttributes.value.subscription_ends_on) return '';
   const endDate = new Date(customAttributes.value.subscription_ends_on);
   // return date as 12 Jan, 2034
-  return format(endDate, 'dd MMM, yyyy');
+  return formatLocalized(endDate, 'dd MMM, yyyy');
 });
 
 // Set only while a cancellation is scheduled; the plan stays active until this date.
 const subscriptionCancelsOn = computed(() => {
   if (!customAttributes.value.subscription_cancels_on) return '';
   const cancelDate = new Date(customAttributes.value.subscription_cancels_on);
-  return format(cancelDate, 'dd MMM, yyyy');
+  return formatLocalized(cancelDate, 'dd MMM, yyyy');
 });
 
 /**

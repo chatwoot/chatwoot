@@ -1,5 +1,5 @@
 import { useMapGetter } from 'dashboard/composables/store';
-import { formatTime } from '@chatwoot/utils';
+import { formatDuration } from 'shared/helpers/localizedDate';
 
 /**
  * A composable function for report metrics calculations and display.
@@ -48,7 +48,7 @@ export function useReportMetrics(
    */
   const displayMetric = key => {
     if (isAverageMetricType(key)) {
-      return formatTime(accountSummary.value[key]);
+      return formatDuration(accountSummary.value[key]);
     }
     return Number(accountSummary.value[key] || '').toLocaleString();
   };

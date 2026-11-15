@@ -10,6 +10,10 @@ import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { buildRecurrenceDescription } from 'dashboard/helper/recurrenceHelpers';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   scheduledMessage: {
@@ -150,7 +154,7 @@ const formattedScheduledTime = computed(() => {
     options.year = 'numeric';
   }
 
-  return date.toLocaleString(normalizedLocale.value, options);
+  return dateTimeFormat(currentDateLocale(), options).format(date);
 });
 
 const templateName = computed(() => {
@@ -208,7 +212,7 @@ const formatChildTime = childScheduledAt => {
   if (date.getFullYear() !== now.getFullYear()) {
     options.year = 'numeric';
   }
-  return date.toLocaleString(normalizedLocale.value, options);
+  return dateTimeFormat(currentDateLocale(), options).format(date);
 };
 
 const canNavigateToChild = child =>

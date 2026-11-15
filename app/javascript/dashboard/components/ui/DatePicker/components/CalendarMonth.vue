@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { format, getMonth, setMonth, startOfMonth } from 'date-fns';
+import { getMonth, setMonth, startOfMonth } from 'date-fns';
 import {
   yearName,
   CALENDAR_TYPES,
@@ -8,6 +8,7 @@ import {
 } from '../helpers/DatePickerHelper';
 
 import CalendarAction from './CalendarAction.vue';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   calendarType: {
@@ -23,7 +24,7 @@ const { START_CALENDAR } = CALENDAR_TYPES;
 const { MONTH, YEAR } = CALENDAR_PERIODS;
 
 const months = Array.from({ length: 12 }, (_, index) =>
-  format(setMonth(startOfMonth(new Date()), index), 'MMM')
+  formatLocalized(setMonth(startOfMonth(new Date()), index), 'MMM')
 );
 
 const activeMonthIndex = computed(() => {

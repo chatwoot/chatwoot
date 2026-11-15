@@ -4,7 +4,7 @@ import { useEventListener } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
-import { formatTime } from '@chatwoot/utils';
+import { formatDuration } from 'shared/helpers/localizedDate';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
@@ -58,7 +58,7 @@ const bucketValue = computed(() => {
   if (props.bucketValue === null) return '';
 
   return props.isAverageMetric
-    ? formatTime(props.bucketValue)
+    ? formatDuration(props.bucketValue)
     : `${props.bucketValue}`;
 });
 

@@ -1,5 +1,5 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
-import format from 'date-fns/format';
+import { formatFixed } from 'shared/helpers/localizedDate';
 
 export const downloadCsvFile = (fileName, content) => {
   const contentType = 'data:text/csv;charset=utf-8;';
@@ -41,7 +41,7 @@ export const generateFileName = ({
   filteredBy = '',
   filterId = '',
 }) => {
-  let name = `${type}-report-${format(fromUnixTime(to), 'dd-MM-yyyy')}`;
+  let name = `${type}-report-${formatFixed(fromUnixTime(to), 'dd-MM-yyyy')}`;
   const filterSuffix = buildFilterSuffix(filteredBy, filterId);
   if (filterSuffix) {
     name = `${name}-${filterSuffix}`;

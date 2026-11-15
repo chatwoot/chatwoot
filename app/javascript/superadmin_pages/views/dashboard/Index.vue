@@ -1,8 +1,8 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import BarChart from 'shared/components/charts/BarChart.vue';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   componentData: {
@@ -74,7 +74,7 @@ const chartData = computed(() => {
   const sourceData = stats.value?.chartData || [];
   return {
     categories: sourceData.map(([label]) =>
-      format(parseISO(label), AXIS_DATE_FORMAT)
+      formatLocalized(parseISO(label), AXIS_DATE_FORMAT)
     ),
     series: [
       {
@@ -110,7 +110,7 @@ const chartSummary = computed(() => {
     },
     {
       label: 'Busiest day',
-      value: format(parseISO(busiestDay), AXIS_DATE_FORMAT),
+      value: formatLocalized(parseISO(busiestDay), AXIS_DATE_FORMAT),
     },
   ];
 });

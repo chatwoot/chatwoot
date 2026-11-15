@@ -3,13 +3,12 @@ import { mapGetters } from 'vuex';
 import { useReportMetrics } from 'dashboard/composables/useReportMetrics';
 import { GROUP_BY_FILTER } from './constants';
 import fromUnixTime from 'date-fns/fromUnixTime';
-import format from 'date-fns/format';
-import { formatTime } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import ChartStats from './components/ChartElements/ChartStats.vue';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import ReportDrilldownDrawer from './components/ReportDrilldownDrawer.vue';
 import { metricHintKey } from './helpers/conversationMetrics';
+import { formatDuration, formatLocalized } from 'shared/helpers/localizedDate';
 
 const METRIC_HINTS = {
   CONVERSATIONS: 'conversations',
@@ -144,18 +143,18 @@ export default {
           const last_day = first_day + 6;
           const week_first_date = new Date(week_date.setDate(first_day));
           const week_last_date = new Date(week_date.setDate(last_day));
-          return `${format(week_first_date, 'dd-MMM')} - ${format(
+          return `${formatLocalized(week_first_date, 'dd-MMM')} - ${formatLocalized(
             week_last_date,
             'dd-MMM'
           )}`;
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[3].period) {
-          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+          return formatLocalized(fromUnixTime(element.timestamp), 'MMM-yyyy');
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[4].period) {
-          return format(fromUnixTime(element.timestamp), 'yyyy');
+          return formatLocalized(fromUnixTime(element.timestamp), 'yyyy');
         }
-        return format(fromUnixTime(element.timestamp), 'dd-MMM');
+        return formatLocalized(fromUnixTime(element.timestamp), 'dd-MMM');
       });
 
       return {
@@ -190,7 +189,7 @@ export default {
       return (value, dataPoint) => {
         if (!dataPoint && value === 0) return '0';
 
-        return formatTime(value || 0);
+        return formatDuration(value || 0);
       };
     },
     getPointDescription(metric) {

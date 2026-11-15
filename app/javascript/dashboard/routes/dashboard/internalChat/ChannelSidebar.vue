@@ -11,6 +11,10 @@ import CreateCategoryModal from './CreateCategoryModal.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Draggable from 'vuedraggable';
 import { emitter } from 'shared/helpers/mitt';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 import ProFeatureNudge from './ProFeatureNudge.vue';
 import {
   useBreakpoints,
@@ -251,15 +255,15 @@ function formatMessageTime(createdAt) {
       : new Date(createdAt);
   const now = new Date();
   if (date.toDateString() === now.toDateString()) {
-    return date.toLocaleTimeString(undefined, {
+    return dateTimeFormat(currentDateLocale(), {
       hour: '2-digit',
       minute: '2-digit',
-    });
+    }).format(date);
   }
-  return date.toLocaleDateString(undefined, {
+  return dateTimeFormat(currentDateLocale(), {
     month: 'short',
     day: 'numeric',
-  });
+  }).format(date);
 }
 
 const collapsedSections = ref(

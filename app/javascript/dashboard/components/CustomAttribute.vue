@@ -1,5 +1,5 @@
 <script>
-import { format, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { required, url } from '@vuelidate/validators';
 import { vOnClickOutside } from '@vueuse/components';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -11,6 +11,11 @@ import { useVuelidate } from '@vuelidate/core';
 import { emitter } from 'shared/helpers/mitt';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import {
+  formatFixed,
+  formatLocalized,
+  attributeCalendarDate,
+} from 'shared/helpers/localizedDate';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
@@ -53,7 +58,7 @@ export default {
     displayValue() {
       if (this.isAttributeTypeDate) {
         return this.value
-          ? new Date(this.value || new Date()).toLocaleDateString()
+          ? formatLocalized(attributeCalendarDate(this.value), 'M/d/yyyy')
           : '---';
       }
       if (this.isAttributeTypeCheckbox) {
@@ -63,7 +68,10 @@ export default {
     },
     formattedValue() {
       return this.isAttributeTypeDate
-        ? format(this.value ? new Date(this.value) : new Date(), DATE_FORMAT)
+        ? formatFixed(
+            this.value ? attributeCalendarDate(this.value) : new Date(),
+            DATE_FORMAT
+          )
         : this.value;
     },
     listOptions() {

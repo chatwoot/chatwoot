@@ -10,6 +10,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import MetricHint from '../MetricHint.vue';
 import { DRILLDOWN_METRICS } from './drilldownMetrics';
+import { dateTimeFormat } from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   assistantId: { type: [String, Number], required: true },
@@ -42,7 +43,7 @@ const fetchRecords = () =>
   });
 
 const formatStartedAt = timestamp =>
-  new Intl.DateTimeFormat(resolvedLocale.value, {
+  dateTimeFormat(resolvedLocale.value, {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(new Date(timestamp * 1000));

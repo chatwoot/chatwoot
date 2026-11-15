@@ -7,20 +7,24 @@ import {
   isWhatsappMissingRecheckDue,
   whatsappMissingCheckedAt,
 } from 'dashboard/helper/whatsappNumberMissing';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   conversation: { type: Object, required: true },
 });
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const checkedAt = computed(() => whatsappMissingCheckedAt(props.conversation));
 
 // Dated, because it is the answer of one lookup and the number may have registered since.
 const message = computed(() =>
   t('CONVERSATION.WHATSAPP_NUMBER_MISSING_BANNER', {
-    date: new Date(checkedAt.value * 1000).toLocaleDateString(
-      locale.value.replace('_', '-')
+    date: dateTimeFormat(currentDateLocale()).format(
+      new Date(checkedAt.value * 1000)
     ),
   })
 );

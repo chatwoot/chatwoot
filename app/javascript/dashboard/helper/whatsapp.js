@@ -1,4 +1,5 @@
-import { format, isValid } from 'date-fns';
+import { isValid } from 'date-fns';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 /**
  * Whether a session inbox should surface the offline banner.
@@ -61,18 +62,20 @@ export const isSendStalled = (sendStall, connection) =>
 
 /**
  * Local-timezone deadline label for the restriction banner, or '' when no deadline is set.
- * `new Date(isoUtc)` parses the UTC instant and `format` renders it in the browser's
- * timezone automatically.
+ * `new Date(isoUtc)` parses the UTC instant and `formatLocalized` renders it in the browser's
+ * timezone automatically, in the app language.
  *
  * @param {{time_enforcement_ends?: string}|null|undefined} lock
  * @returns {string}
  */
 export const reachoutRestrictionDeadline = lock => {
   if (!lock?.time_enforcement_ends) return '';
-  // format() throws RangeError on an Invalid Date; fall back to '' so the banner
+  // Formatting throws RangeError on an Invalid Date; fall back to '' so the banner
   // renders the generic (deadline-less) copy instead of crashing.
   const deadline = new Date(lock.time_enforcement_ends);
-  return isValid(deadline) ? format(deadline, 'dd/MM/yyyy HH:mm') : '';
+  return isValid(deadline)
+    ? formatLocalized(deadline, 'MM/dd/yyyy h:mm a')
+    : '';
 };
 
 // capping_status values that warrant a banner (NONE / absent => no banner).

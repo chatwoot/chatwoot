@@ -2,6 +2,20 @@
 const airbnbRestrictedSyntax = require('eslint-config-airbnb-base/rules/style')
   .rules['no-restricted-syntax'];
 
+const localizedDatesSyntax = require('./.eslintrc.localized-dates.syntax.js');
+
+const restrictedSyntax = [
+  ...airbnbRestrictedSyntax,
+  {
+    // The stores rethrow axios errors, whose answer is `response.data`; `response.message`
+    // is always undefined, so the toast silently falls back to "try again later".
+    selector:
+      "MemberExpression[property.name='message'][object.type='MemberExpression'][object.property.name='response']",
+    message:
+      'Build the toast with requestErrorMessage (dashboard/helper/requestErrorMessage); error.response.message is always undefined.',
+  },
+];
+
 module.exports = {
   extends: [
     'airbnb-base/legacy',
@@ -10,6 +24,7 @@ module.exports = {
     'plugin:vitest-globals/recommended',
     // use recommended-legacy when upgrading the plugin to v4
     'plugin:@intlify/vue-i18n/recommended',
+    './.eslintrc.localized-dates.js',
   ],
   overrides: [
     {
@@ -17,6 +32,9 @@ module.exports = {
       env: {
         'vitest-globals/env': true,
       },
+      // Specs compare against Intl directly; exempt from the date syntax
+      // rules, as from the date imports in .eslintrc.localized-dates.js.
+      rules: { 'no-restricted-syntax': ['error', ...restrictedSyntax] },
     },
     {
       files: ['**/*.story.vue'],
@@ -29,6 +47,8 @@ module.exports = {
         ],
         // Story files can have static strings, it doesn't need to handle i18n always.
         'vue/no-bare-strings-in-template': 'off',
+        // Exempt from the date syntax rules, as from the date imports.
+        'no-restricted-syntax': ['error', ...restrictedSyntax],
         'no-console': 'off',
       },
     },
@@ -236,17 +256,7 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 'off',
     'import/extensions': ['off'],
     'no-console': 'error',
-    'no-restricted-syntax': [
-      ...airbnbRestrictedSyntax,
-      {
-        // The stores rethrow axios errors, whose answer is `response.data`; `response.message`
-        // is always undefined, so the toast silently falls back to "try again later".
-        selector:
-          "MemberExpression[property.name='message'][object.type='MemberExpression'][object.property.name='response']",
-        message:
-          'Build the toast with requestErrorMessage (dashboard/helper/requestErrorMessage); error.response.message is always undefined.',
-      },
-    ],
+    'no-restricted-syntax': [...restrictedSyntax, ...localizedDatesSyntax],
     '@intlify/vue-i18n/no-dynamic-keys': 'warn',
     '@intlify/vue-i18n/no-unused-keys': [
       'warn',

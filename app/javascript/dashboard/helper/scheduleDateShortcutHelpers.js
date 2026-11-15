@@ -7,6 +7,7 @@ import {
   isBefore,
 } from 'date-fns';
 import * as chrono from 'chrono-node';
+import { dateTimeFormat } from 'shared/helpers/localizedDate';
 
 export const SHORTCUT_KEYS = {
   TOMORROW_MORNING: 'tomorrow_morning',
@@ -54,7 +55,7 @@ export const applyHour = (date, hour) =>
  */
 export const formatHour = (hour, locale = 'en') => {
   const date = new Date(2023, 0, 1, hour, 0, 0);
-  return new Intl.DateTimeFormat(toBcp47(locale), {
+  return dateTimeFormat(toBcp47(locale), {
     hour: 'numeric',
     minute: '2-digit',
   }).format(date);
@@ -64,7 +65,7 @@ export const formatHour = (hour, locale = 'en') => {
  * Format a date as a locale-aware short date with month name (e.g. '11 de mar.' / 'Mar 11').
  */
 export const formatShortDate = (date, locale = 'en') =>
-  new Intl.DateTimeFormat(toBcp47(locale), {
+  dateTimeFormat(toBcp47(locale), {
     day: 'numeric',
     month: 'short',
   }).format(date);
@@ -198,7 +199,7 @@ export const parseNaturalDate = (text, locale = 'en', now = new Date()) => {
  * e.g. '17 de mar. de 2026, 08:00' (pt-BR) or 'Mar 17, 2026, 8:00 AM' (en)
  */
 export const formatFullDateTime = (date, locale = 'en') =>
-  new Intl.DateTimeFormat(toBcp47(locale), {
+  dateTimeFormat(toBcp47(locale), {
     day: 'numeric',
     month: 'short',
     year: 'numeric',

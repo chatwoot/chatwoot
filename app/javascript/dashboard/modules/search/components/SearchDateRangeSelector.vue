@@ -10,7 +10,6 @@ import {
   subYears,
   startOfDay,
   endOfDay,
-  format,
   getUnixTime,
   fromUnixTime,
 } from 'date-fns';
@@ -18,6 +17,7 @@ import { DATE_RANGE_TYPES } from '../helpers/searchHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import { formatFixed, formatLocalized } from 'shared/helpers/localizedDate';
 
 const emit = defineEmits(['change']);
 const modelValue = defineModel({
@@ -36,9 +36,9 @@ const { searchTimeRangeLimitDays } = useConfig();
 
 // Calculate min date (start of the search window) for date inputs
 const minDate = computed(() =>
-  format(subDays(new Date(), searchTimeRangeLimitDays), 'yyyy-MM-dd')
+  formatFixed(subDays(new Date(), searchTimeRangeLimitDays), 'yyyy-MM-dd')
 );
-const maxDate = computed(() => format(new Date(), 'yyyy-MM-dd'));
+const maxDate = computed(() => formatFixed(new Date(), 'yyyy-MM-dd'));
 
 // Check if both custom date inputs have values
 const hasCustomDates = computed(() => customFrom.value && customTo.value);
@@ -150,7 +150,8 @@ const clearCustomRange = () => {
   customTo.value = '';
 };
 
-const formatDate = timestamp => format(fromUnixTime(timestamp), 'MMM d, yyyy'); // (e.g., "Jan 15, 2024")
+const formatDate = timestamp =>
+  formatLocalized(fromUnixTime(timestamp), 'MMM d, yyyy'); // (e.g., "Jan 15, 2024")
 
 const selectedLabel = computed(() => {
   const prefix = t('SEARCH.DATE_RANGE.TIME_RANGE');
@@ -179,8 +180,10 @@ const onToggleDropdown = () => {
 
     if (CUSTOM_RANGE_TYPES.includes(type)) {
       try {
-        customFrom.value = from ? format(fromUnixTime(from), 'yyyy-MM-dd') : '';
-        customTo.value = to ? format(fromUnixTime(to), 'yyyy-MM-dd') : '';
+        customFrom.value = from
+          ? formatFixed(fromUnixTime(from), 'yyyy-MM-dd')
+          : '';
+        customTo.value = to ? formatFixed(fromUnixTime(to), 'yyyy-MM-dd') : '';
       } catch {
         customFrom.value = '';
         customTo.value = '';

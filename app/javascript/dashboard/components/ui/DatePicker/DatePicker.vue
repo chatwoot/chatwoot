@@ -25,6 +25,7 @@ import {
   setYear,
   getWeek,
 } from 'date-fns';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 import { useAlert } from 'dashboard/composables';
 import DatePickerButton from './components/DatePickerButton.vue';
 import CalendarDateInput from './components/CalendarDateInput.vue';
@@ -101,9 +102,7 @@ const canNavigateNext = computed(() => {
 const navigationLabel = computed(() => {
   const range = selectedRange.value;
   if (range === DATE_RANGE_TYPES.MONTH_TO_DATE) {
-    return new Intl.DateTimeFormat(navigator.language, {
-      month: 'long',
-    }).format(selectedStartDate.value);
+    return formatLocalized(selectedStartDate.value, 'MMMM');
   }
   if (range === DATE_RANGE_TYPES.THIS_WEEK) {
     const currentWeekRange = getActiveDateRange(range, currentDate.value);

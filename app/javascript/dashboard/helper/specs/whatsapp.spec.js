@@ -81,11 +81,12 @@ describe('#reachoutRestrictionDeadline', () => {
     expect(reachoutRestrictionDeadline({ is_active: true })).toBe('');
   });
 
-  it('formats the deadline as dd/MM/yyyy HH:mm', () => {
+  it('formats the deadline as a numeric date and time in the app language', () => {
     const formatted = reachoutRestrictionDeadline({
       time_enforcement_ends: '2026-06-19T21:52:39.000Z',
     });
-    expect(formatted).toMatch(/^\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}$/);
+    // English, the default when no i18n instance is bound.
+    expect(formatted).toMatch(/^\d{2}\/\d{2}\/\d{4} \d{1,2}:\d{2} (AM|PM)$/);
   });
 
   it('returns an empty string when the deadline is malformed', () => {

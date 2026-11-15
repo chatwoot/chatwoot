@@ -5,6 +5,7 @@ const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
 
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
+import { currentDateLocale } from 'shared/helpers/localizedDate';
 
 export default {
   name: 'TimeAgo',
@@ -37,6 +38,10 @@ export default {
     };
   },
   computed: {
+    // The relative strings are stored, so a language switch has to redo them.
+    dateLocale() {
+      return currentDateLocale();
+    },
     lastActivityTime() {
       return shortTimestamp(this.lastActivityAtTimeAgo);
     },
@@ -62,6 +67,10 @@ export default {
       this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
     },
     createdAtTimestamp() {
+      this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
+    },
+    dateLocale() {
+      this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
       this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
     },
     conversationId() {

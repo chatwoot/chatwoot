@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { parse, isValid, isAfter, isBefore } from 'date-fns';
 import {
+  formatCalendarInput,
   getIntlDateFormatForLocale,
   CALENDAR_TYPES,
 } from '../helpers/DatePickerHelper';
@@ -23,7 +24,7 @@ const { START_CALENDAR, END_CALENDAR } = CALENDAR_TYPES;
 const dateFormat = computed(() => getIntlDateFormatForLocale()?.toUpperCase());
 
 const localDateValue = computed({
-  get: () => props.dateValue?.toLocaleDateString(navigator.language) || '',
+  get: () => (props.dateValue ? formatCalendarInput(props.dateValue) : ''),
   set: newValue => {
     const format = getIntlDateFormatForLocale();
     const parsedDate = parse(newValue, format, new Date());

@@ -2,7 +2,6 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { format } from 'date-fns';
 import { useStore } from 'dashboard/composables/store';
 import EnterpriseAccountAPI from 'dashboard/api/enterprise/account';
 import { useBranding } from 'shared/composables/useBranding';
@@ -12,6 +11,7 @@ import DetailItem from './components/DetailItem.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 const route = useRoute();
 const router = useRouter();
@@ -26,7 +26,7 @@ const hasError = ref(false);
 const isStale = ref(false);
 
 const formatDate = (value, pattern = 'dd MMM, yyyy') => {
-  return format(new Date(value), pattern);
+  return formatLocalized(new Date(value), pattern);
 };
 
 const isShopifyReturn = computed(
