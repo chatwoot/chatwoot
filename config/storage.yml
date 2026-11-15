@@ -38,6 +38,10 @@ s3_compatible:
   bucket: <%= ENV.fetch('STORAGE_BUCKET_NAME', '') %>
   endpoint: <%= ENV.fetch('STORAGE_ENDPOINT', '') %>
   force_path_style: <%= ENV.fetch('STORAGE_FORCE_PATH_STYLE', false) %>
+  # aws-sdk-s3 >= 1.178 adds a CRC32 checksum to every PUT; alongside Active Storage's Content-MD5,
+  # S3-compatible stores such as Cloudflare R2 reject the upload ("only specify one non-default checksum").
+  request_checksum_calculation: when_required
+  response_checksum_validation: when_required
 
 # mirror:
 #   service: Mirror
