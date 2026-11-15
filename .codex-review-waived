@@ -209,3 +209,4 @@ app/javascript/dashboard/helper/actionCable.js: Preserve early lifecycle events 
 # (100 MB): only a download slower than ~330 KB/s outlives the lease, and then one more history
 # job can start until it ends. Renewing the lease would need a token API on ImportSlots for that.
 app/jobs/whatsapp/session/history_media_job.rb: Keep downloads within the history-slot lease  # PR#939
+.bundler-audit.yml: Mitigate slow-client attacks before suppressing the advisories  # PR#991, user accepted the reachable DoS until the upstream sync

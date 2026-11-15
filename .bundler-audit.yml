@@ -2,9 +2,10 @@
 #
 # Dependency versions are upstream's: a fixed gem reaches the fork through the upstream sync, not
 # through a bump of our own. So a new advisory is ignored here with the reason and the issue that
-# assessed it, and when the vulnerable path is reachable on this install the fix is also backported
-# under config/initializers/monkey_patches/ with a spec. When the upstream sync brings the fixed
-# version, its entry (and any backport) goes.
+# assessed it. When the vulnerable path is reachable on this install, the entry says so, and the fix
+# is backported under config/initializers/monkey_patches/ with a spec when a local patch is practical;
+# when it is not (a server's internals, for example), the advisory stays ignored until the sync.
+# When the upstream sync brings the fixed version, its entry (and any backport) goes.
 ignore:
   - GHSA-57hq-95w6-v4fc # Devise confirmable race condition — patched locally in User model (remove once on Devise 5+)
   # Devise 5 is currently blocked by devise-secure_password/devise_token_auth/devise-two-factor.
@@ -41,3 +42,15 @@ ignore:
   - GHSA-p2pm-g2h6-7j5j # NUL in filename: needs a database that stores NUL bytes; Postgres rejects them
   # msgpack JRuby decoder allocation (2026-11-14): only the JRuby extension is affected; this install runs MRI.
   - GHSA-73v3-wf97-vpgj
+  # Puma 7.2.1 advisories (2026-11-15), fixed in 7.2.2; upstream is still on 7.2.1 and the version comes with the sync.
+  # Not reachable: pumactl's SSL control server and ssl_cipher_filter are not used (Puma serves plain HTTP behind the proxy).
+  - GHSA-86xc-wrr9-xmmq
+  - GHSA-r885-m39c-939g
+  # Reachable: slow-client and resource-exhaustion DoS. The Coolify/Traefik deploy streams request bodies to Puma
+  # without buffering, so a client can trickle a body or stop reading. No practical local backport (Puma's reactor);
+  # accepted until the upstream sync brings Puma >= 7.2.2.
+  - GHSA-jm4r-w4xx-qxw7
+  - GHSA-m5xw-3hrw-qcmf
+  - GHSA-rf6g-xhmp-gm7v
+  - GHSA-x646-wp7c-h9mg
+  - GHSA-xw3h-pgr9-3vg7
