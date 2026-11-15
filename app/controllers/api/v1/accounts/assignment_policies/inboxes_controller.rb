@@ -1,9 +1,11 @@
 class Api::V1::Accounts::AssignmentPolicies::InboxesController < Api::V1::Accounts::BaseController
+  include Api::V1::Accounts::Concerns::InboxTemplatePreloader
   before_action :fetch_assignment_policy
   before_action -> { check_authorization(AssignmentPolicy) }
 
   def index
-    @inboxes = @assignment_policy.inboxes
+    @inboxes = @assignment_policy.inboxes.includes(:channel)
+    preload_channel_templates(@inboxes)
   end
 
   private

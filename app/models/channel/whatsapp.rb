@@ -37,7 +37,9 @@ class Channel::Whatsapp < ApplicationRecord
     @columns_without_message_templates ||= (column_names.map { |col| "#{table_name}.#{col}" } - ["#{table_name}.message_templates"]).freeze
   end
 
-  def self.omitted_blob_columns = columns_without_message_templates
+  def self.omitted_blob_columns
+    columns_without_message_templates
+  end
 
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
   encrypts :business_management_token if Chatwoot.encryption_configured?

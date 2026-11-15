@@ -526,6 +526,11 @@ RSpec.describe Channel::Whatsapp do
       expect(described_class.reselect(:phone_number).count).to be >= 1
     end
 
+    it 'preserves predicate blocks in count query' do
+      create(:channel_whatsapp, phone_number: '+15555550111', provider: 'default', sync_templates: false, validate_provider_config: false)
+      expect(described_class.count { |c| c.provider == 'default' }).to be >= 1
+    end
+
     it 'loads persisted templates before assigning new ones' do
       loaded_channel = described_class.find(channel.id)
       expect(loaded_channel.has_attribute?(:message_templates)).to be(false)
