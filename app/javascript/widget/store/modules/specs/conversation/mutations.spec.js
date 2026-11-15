@@ -116,6 +116,27 @@ describe('#mutations', () => {
       mutations.toggleAgentTypingStatus(state, { status: 'off' });
       expect(state.uiFlags.isAgentTyping).toEqual(false);
     });
+
+    it('remembers the last message when typing is dismissed', () => {
+      const state = {
+        uiFlags: { isAgentTyping: true, typingDismissedForMessageId: null },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.toggleAgentTypingStatus(state, {
+        status: 'off',
+        dismiss: true,
+      });
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(2);
+    });
+
+    it('keeps the dismissed message when typing is not dismissed', () => {
+      const state = {
+        uiFlags: { isAgentTyping: true, typingDismissedForMessageId: 1 },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.toggleAgentTypingStatus(state, { status: 'off' });
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(1);
+    });
   });
 
   describe('#updateAttachmentMessageStatus', () => {

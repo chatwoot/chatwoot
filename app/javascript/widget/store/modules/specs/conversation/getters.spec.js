@@ -61,6 +61,22 @@ describe('#getters', () => {
     expect(getters.getIsAgentTyping(state)).toEqual(false);
   });
 
+  it('getIsTypingDismissed', () => {
+    const state = {
+      uiFlags: { typingDismissedForMessageId: 2 },
+      conversations: { 1: { id: 1 }, 2: { id: 2 } },
+    };
+    expect(getters.getIsTypingDismissed(state)).toEqual(true);
+
+    state.conversations[3] = { id: 3 };
+    expect(getters.getIsTypingDismissed(state)).toEqual(false);
+
+    state.uiFlags.typingDismissedForMessageId = null;
+    expect(
+      getters.getIsTypingDismissed({ ...state, conversations: {} })
+    ).toEqual(false);
+  });
+
   it('getGroupedConversation', () => {
     expect(
       getters.getGroupedConversation({
