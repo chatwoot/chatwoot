@@ -46,6 +46,12 @@
     "COMMANDS": {
       "PIN_CONVERSATION": "Fijar la conversación",
       "UNPIN_CONVERSATION": "Dejar de fijar la conversación"
+    },
+    "FOOTER": {
+      "SELECT": "para seleccionar",
+      "NAVIGATE": "para navegar",
+      "CLOSE": "para cerrar",
+      "PARENT": "para volver al nivel anterior"
     }
   }
 }

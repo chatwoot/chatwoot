@@ -156,6 +156,12 @@ describe('commandbar', () => {
   });
 
   describe('command data', () => {
+    it('replaces the built-in English footer of ninja-keys', async () => {
+      await mountCommandBar();
+
+      expect(element.querySelector('[slot="footer"]')).not.toBeNull();
+    });
+
     it('hands every hotkey source to ninja-keys on mount', async () => {
       await mountCommandBar();
 

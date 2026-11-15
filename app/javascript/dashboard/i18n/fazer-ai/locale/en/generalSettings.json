@@ -46,6 +46,12 @@
     "COMMANDS": {
       "PIN_CONVERSATION": "Pin conversation",
       "UNPIN_CONVERSATION": "Unpin conversation"
+    },
+    "FOOTER": {
+      "SELECT": "to select",
+      "NAVIGATE": "to navigate",
+      "CLOSE": "to close",
+      "PARENT": "move to parent"
     }
   }
 }

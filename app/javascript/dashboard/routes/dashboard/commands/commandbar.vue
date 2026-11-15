@@ -11,6 +11,7 @@ import { useGoToCommandHotKeys } from 'dashboard/composables/commands/useGoToCom
 import { useBulkActionsHotKeys } from 'dashboard/composables/commands/useBulkActionsHotKeys';
 import { useConversationHotKeys } from 'dashboard/composables/commands/useConversationHotKeys';
 import { useMacroHotKeys } from 'dashboard/composables/commands/useMacroHotKeys';
+import CommandBarFooter from './CommandBarFooter.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import wootConstants from 'dashboard/constants/globals';
 import {
@@ -259,7 +260,9 @@ onMounted(() => {
     @change="onCommandBarChange"
     @selected="onSelected"
     @closed="onClosed"
-  />
+  >
+    <CommandBarFooter />
+  </ninja-keys>
   <ConversationResolveAttributesModal
     ref="resolveAttributesModalRef"
     @submit="submitPendingAttributes"
