@@ -1,5 +1,5 @@
 # Backport of the Rails 8.0.5.2 fix for GHSA-8474-xrp6-wh69 (rails/rails@210ac22), which has no
-# 7.2 release. Remove once on Rails >= 8.0.5.2 (8.0.x) or 8.1.4.1.
+# 7.2 release. Remove once on Rails >= 8.0.5.2.
 #
 # On a LoadError, `safe_constantize` built a regular expression from the requested name without
 # escaping it. Action Cable passes the `channel` of every `subscribe` command to it before any
@@ -21,8 +21,5 @@ module ActiveSupportSafeConstantizeLiteralMatch
   end
 end
 
-if SecurityBackport.register(advisory: 'GHSA-8474-xrp6-wh69', gem_name: 'activesupport',
-                             patched: ['~> 8.0.5, >= 8.0.5.2', '>= 8.1.4.1']) &&
-   !(ActiveSupport::Inflector.singleton_class < ActiveSupportSafeConstantizeLiteralMatch)
-  ActiveSupport::Inflector.singleton_class.prepend(ActiveSupportSafeConstantizeLiteralMatch)
-end
+ActiveSupport::Inflector.singleton_class.prepend(ActiveSupportSafeConstantizeLiteralMatch) unless
+  ActiveSupport::Inflector.singleton_class < ActiveSupportSafeConstantizeLiteralMatch

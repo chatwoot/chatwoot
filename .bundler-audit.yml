@@ -1,18 +1,10 @@
 # Gem advisories that `bundle-audit check` must not fail on, each with the reason it is safe.
 #
-# Decide every new advisory with this rule, in order:
-# 1. A compatible patched version exists: bump the gem. No entry here.
-# 2. Upstream chatwoot/chatwoot already decided it: copy that decision.
-# 3. No patched version, and the vulnerable path is reachable here: backport the fix under
-#    config/initializers/monkey_patches/, registered with SecurityBackport (it stops applying and
-#    its spec fails once the gem ships the fix), and ignore the ids below with a pointer to it.
-# 4. No patched version, and the path is not reachable here: ignore the ids below, with the
-#    reason and the issue that assessed it.
-#
-# Entries expire on their own: the security-scan job runs
-# `ruby scripts/security/bundler_audit.rb stale`, which fails while an id below matches no
-# vulnerable gem in Gemfile.lock, so a bump that fixes an advisory also has to delete its entry.
-# The daily security_audit.yml workflow opens an issue when a new advisory needs this rule.
+# Dependency versions are upstream's: a fixed gem reaches the fork through the upstream sync, not
+# through a bump of our own. So a new advisory is ignored here with the reason and the issue that
+# assessed it, and when the vulnerable path is reachable on this install the fix is also backported
+# under config/initializers/monkey_patches/ with a spec. When the upstream sync brings the fixed
+# version, its entry (and any backport) goes.
 ignore:
   - GHSA-57hq-95w6-v4fc # Devise confirmable race condition — patched locally in User model (remove once on Devise 5+)
   # Devise 5 is currently blocked by devise-secure_password/devise_token_auth/devise-two-factor.
@@ -47,3 +39,5 @@ ignore:
   - GHSA-3w93-6hmw-whh4 # GCS direct uploads: only with the GCS storage service
   - GHSA-hfr4-8rjc-97m2 # GCS direct uploads: only with the GCS storage service
   - GHSA-p2pm-g2h6-7j5j # NUL in filename: needs a database that stores NUL bytes; Postgres rejects them
+  # msgpack JRuby decoder allocation (2026-11-14): only the JRuby extension is affected; this install runs MRI.
+  - GHSA-73v3-wf97-vpgj
