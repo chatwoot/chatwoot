@@ -574,6 +574,23 @@ describe('#mutations', () => {
       expect(state.attachments[1]).toEqual(message.attachments);
     });
 
+    it('carries the sender and time of the message, like the attachments endpoint', () => {
+      const state = { allConversations: [{ id: 1 }], attachments: {} };
+      const sender = { id: 3, name: 'Bruno', type: 'contact' };
+      const message = {
+        conversation_id: 1,
+        status: 'sent',
+        created_at: 1_700_000_000,
+        sender,
+        attachments: [{ id: 1, message_id: 9 }],
+      };
+
+      mutations[types.ADD_CONVERSATION_ATTACHMENTS](state, message);
+      expect(state.attachments[1]).toEqual([
+        { id: 1, message_id: 9, created_at: 1_700_000_000, sender },
+      ]);
+    });
+
     it('should not add duplicate attachments', () => {
       const state = {
         allConversations: [{ id: 1 }],

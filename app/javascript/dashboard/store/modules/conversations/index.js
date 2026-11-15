@@ -248,13 +248,21 @@ export const mutations = {
     const id = message.conversation_id;
     const existingAttachments = _state.attachments[id] || [];
 
-    const attachmentsToAdd = message.attachments.filter(attachment => {
-      // if the attachment is not already in the store, add it
-      // this is to prevent duplicates
-      return !existingAttachments.some(
-        existingAttachment => existingAttachment.id === attachment.id
-      );
-    });
+    const attachmentsToAdd = message.attachments
+      .filter(attachment => {
+        // if the attachment is not already in the store, add it
+        // this is to prevent duplicates
+        return !existingAttachments.some(
+          existingAttachment => existingAttachment.id === attachment.id
+        );
+      })
+      // The gallery header reads these, which the attachments endpoint adds
+      // and a message's own attachments lack.
+      .map(attachment => ({
+        ...attachment,
+        created_at: message.created_at,
+        sender: message.sender,
+      }));
 
     // replace the attachments in the store
     _state.attachments[id] = [...existingAttachments, ...attachmentsToAdd];

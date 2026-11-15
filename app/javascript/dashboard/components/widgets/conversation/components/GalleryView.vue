@@ -44,11 +44,13 @@ const ALLOWED_FILE_TYPES = {
 const isDownloading = ref(false);
 const activeAttachment = ref({});
 const activeFileType = ref('');
-const activeImageIndex = ref(
-  props.allAttachments.findIndex(
-    attachment => attachment.message_id === props.attachment.message_id
-  ) || 0
+// A bubble opens the gallery with the attachment from its message payload,
+// which has no sender and no time; the listed entry for it has both.
+const openedIndex = props.allAttachments.findIndex(
+  attachment => attachment.id === props.attachment.id
 );
+const openedAttachment = props.allAttachments[openedIndex] || props.attachment;
+const activeImageIndex = ref(Math.max(openedIndex, 0));
 
 const imageRef = useTemplateRef('imageRef');
 
@@ -95,10 +97,13 @@ const senderDetails = computed(() => {
     avatar_url,
     thumbnail,
     id,
+    type,
   } = activeAttachment.value?.sender || props.attachment?.sender || {};
+  // Contacts and agents have separate id sequences, so only a user can be "You".
+  const isCurrentUser = type === 'user' && currentUser.value?.id === id;
 
   return {
-    name: currentUser.value?.id === id ? 'You' : name || availableName || '',
+    name: isCurrentUser ? 'You' : name || availableName || '',
     avatar: thumbnail || avatar_url || '',
   };
 });
@@ -166,7 +171,7 @@ const keyboardEvents = {
 useKeyboardEvents(keyboardEvents);
 
 onMounted(() => {
-  setImageAndVideoSrc(props.attachment);
+  setImageAndVideoSrc(openedAttachment);
 });
 </script>
 
