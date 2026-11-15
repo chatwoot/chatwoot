@@ -520,5 +520,18 @@ RSpec.describe Channel::Whatsapp do
       expect { described_class.count }.not_to raise_error
       expect(described_class.count).to be >= 1
     end
+
+    it 'preserves custom projection in count query' do
+      create(:channel_whatsapp, phone_number: '+15555550111', sync_templates: false, validate_provider_config: false)
+      expect(described_class.reselect(:phone_number).count).to be >= 1
+    end
+
+    it 'loads persisted templates before assigning new ones' do
+      loaded_channel = described_class.find(channel.id)
+      expect(loaded_channel.has_attribute?(:message_templates)).to be(false)
+
+      loaded_channel.message_templates = templates_data
+      expect(loaded_channel.message_templates_changed?).to be(false)
+    end
   end
 end

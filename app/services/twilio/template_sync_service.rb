@@ -17,6 +17,7 @@ class Twilio::TemplateSyncService
   end
 
   def update_channel_templates
+    channel.content_templates unless channel.has_attribute?(:content_templates)
     formatted_templates = @templates.map { |template| format_template(template) }
 
     channel.update!(content_templates: { templates: formatted_templates })

@@ -126,5 +126,19 @@ RSpec.describe Channel::TwilioSms do
       expect { described_class.count }.not_to raise_error
       expect(described_class.count).to be >= 1
     end
+
+    it 'preserves custom projection in count query' do
+      create(:channel_twilio_sms, phone_number: '+15555550111')
+      create(:channel_twilio_sms, phone_number: nil, messaging_service_sid: 'MG1234567890abcdef')
+      expect(described_class.reselect(:phone_number).count).to eq(1)
+    end
+
+    it 'loads persisted templates before assigning new ones' do
+      loaded_channel = described_class.find(channel.id)
+      expect(loaded_channel.has_attribute?(:content_templates)).to be(false)
+
+      loaded_channel.content_templates = templates_data
+      expect(loaded_channel.content_templates_changed?).to be(false)
+    end
   end
 end

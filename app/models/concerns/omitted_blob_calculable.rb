@@ -5,11 +5,21 @@ module OmittedBlobCalculable
 
   module RelationCalculations
     def calculate(operation, column_name = nil)
-      if operation.to_s.casecmp('count').zero? && (column_name.nil? || column_name == :all) && select_values.present?
+      if count_operation?(operation, column_name) && default_blob_select?
         unscope(:select).calculate(operation, column_name)
       else
         super
       end
+    end
+
+    def default_blob_select?
+      klass.respond_to?(:omitted_blob_columns) && select_values == klass.omitted_blob_columns
+    end
+
+    private
+
+    def count_operation?(operation, column_name)
+      operation.to_s.casecmp('count').zero? && (column_name.nil? || column_name == :all)
     end
   end
 
@@ -20,7 +30,7 @@ module OmittedBlobCalculable
 
   class_methods do
     def count(column_name = nil)
-      if (column_name.nil? || column_name == :all) && all.select_values.present?
+      if (column_name.nil? || column_name == :all) && all.default_blob_select?
         unscope(:select).count(column_name)
       else
         super
