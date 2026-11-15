@@ -62,7 +62,7 @@ const handleImgClick = () => {
       <img
         :src="card.feature_image"
         :alt="`${card.title} preview image`"
-        class="object-cover w-full h-24 rounded-md cursor-pointer"
+        class="block w-full h-auto rounded-md cursor-pointer"
         loading="lazy"
         @click.stop="handleImgClick"
       />
@@ -74,7 +74,7 @@ const handleImgClick = () => {
       <img
         :src="card.feature_image"
         :alt="`${card.title} preview image`"
-        class="object-cover w-full h-24 rounded-md cursor-pointer"
+        class="block w-full h-auto rounded-md cursor-pointer"
         loading="lazy"
         @click.stop="handleImgClick"
       />

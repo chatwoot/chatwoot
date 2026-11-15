@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
@@ -48,6 +48,11 @@ const getInitialContactData = () => ({
 });
 
 const contactData = ref(getInitialContactData());
+
+watch(
+  () => props.companyId,
+  () => Object.assign(contactData.value, getInitialContactData())
+);
 
 const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
 

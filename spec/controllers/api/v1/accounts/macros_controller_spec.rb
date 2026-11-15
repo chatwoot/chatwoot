@@ -298,6 +298,61 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
     end
   end
 
+  describe 'attachment authorization' do
+    let(:blob) { get_blob_for('spec/assets/avatar.png', 'image/png') }
+    let(:new_blob) { get_blob_for('spec/assets/avatar.png', 'image/png') }
+    let(:foreign_message) { create(:message, :with_attachment) }
+    let(:foreign_blob) { foreign_message.attachments.first.file.blob }
+    let(:macro) do
+      create(:macro, account: account, created_by: agent, updated_by: agent,
+                     actions: [{ action_name: 'send_attachment', action_params: [blob.id] }])
+    end
+
+    before { macro.files.attach(blob) }
+
+    it 'rejects a foreign raw blob id after an existing attachment without changing the macro' do
+      put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+          params: { actions: [{ action_name: 'send_attachment', action_params: [blob.id, foreign_blob.id] }] },
+          headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.attachments.invalid'))
+      expect(macro.reload.actions.first['action_params']).to eq([blob.id])
+      expect(macro.files.blobs.pluck(:id)).to eq([blob.id])
+    end
+
+    it 'rejects a foreign raw blob id after a signed upload when creating a macro' do
+      expect do
+        post "/api/v1/accounts/#{account.id}/macros",
+             params: { name: 'Attachments', visibility: 'personal',
+                       actions: [{ action_name: 'send_attachment', action_params: [new_blob.signed_id, foreign_blob.id] }] },
+             headers: agent.create_new_auth_token, as: :json
+      end.not_to change(Macro, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.attachments.invalid'))
+    end
+
+    it 'retains existing attachments and attaches every signed upload in an action' do
+      put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+          params: { actions: [{ action_name: 'send_attachment', action_params: [blob.id, new_blob.signed_id] }] },
+          headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(macro.reload.actions.first['action_params']).to eq([blob.id, new_blob.id])
+      expect(macro.files.blobs.pluck(:id)).to contain_exactly(blob.id, new_blob.id)
+    end
+
+    it 'rejects attachment actions without any file ids' do
+      put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+          params: { actions: [{ action_name: 'send_attachment', action_params: [] }] },
+          headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.attachments.invalid'))
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/macros/{macro.id}' do
     let!(:macro) { create(:macro, account: account, created_by: administrator, updated_by: administrator) }
 

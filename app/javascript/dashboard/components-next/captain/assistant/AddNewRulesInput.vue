@@ -12,6 +12,10 @@ defineProps({
     type: String,
     default: '',
   },
+  maxLength: {
+    type: Number,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['add']);
@@ -30,13 +34,14 @@ const onClickAdd = () => {
 
 <template>
   <div
-    class="flex py-3 ltr:pl-3 h-16 rtl:pr-3 ltr:pr-4 rtl:pl-4 items-center gap-3 rounded-xl bg-n-solid-2 outline-1 outline outline-n-container"
+    class="flex h-16 items-center gap-3 rounded-xl bg-n-solid-2 py-3 ps-3 pe-4 outline outline-1 outline-n-container -outline-offset-1"
   >
     <Icon icon="i-lucide-plus" class="text-n-slate-10 size-5 flex-shrink-0" />
 
     <InlineInput
       v-model="modelValue"
       :placeholder="placeholder"
+      :max-length="maxLength"
       @keyup.enter="onClickAdd"
     />
     <Button

@@ -105,6 +105,7 @@
       "MUTE_CONVERSATION": "Заглушить диалог",
       "SNOOZE_CONVERSATION": "Включить звук диалога",
       "RESOLVE_CONVERSATION": "Решить диалог",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Отправить вложение",
       "SEND_MESSAGE": "Отправить сообщение",
       "CHANGE_PRIORITY": "Изменить приоритет",

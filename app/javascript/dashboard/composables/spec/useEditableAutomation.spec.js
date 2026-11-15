@@ -67,6 +67,31 @@ describe('useEditableAutomation', () => {
     ]);
   });
 
+  it('rehydrates a long text condition as its text', () => {
+    const automation = {
+      event_name: 'message_created',
+      conditions: [
+        {
+          attribute_key: 'captain_condition',
+          filter_operator: 'detects',
+          values: ['the customer wants a refund'],
+          query_operator: null,
+        },
+      ],
+      actions: [],
+    };
+    const automationTypes = {
+      message_created: {
+        conditions: [{ key: 'captain_condition', inputType: 'long_text' }],
+      },
+    };
+
+    const { formatAutomation } = useEditableAutomation();
+    const result = formatAutomation(automation, [], automationTypes, []);
+
+    expect(result.conditions[0].values).toBe('the customer wants a refund');
+  });
+
   it('rehydrates last responding agent as a selected action option', () => {
     const automation = {
       event_name: 'conversation_created',

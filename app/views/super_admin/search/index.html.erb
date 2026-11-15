@@ -1,0 +1,4 @@
+<% @result.each do |resource, records| %>
+  <% next if records.blank? %>
+  <%= render "command_group", label: display_resource_name(resource), commands: result_commands(resource, records) %>
+<% end %>

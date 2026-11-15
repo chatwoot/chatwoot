@@ -68,7 +68,7 @@ class Whatsapp::TemplateParameterConverterService
     return true if buttons.nil?
     return false unless buttons.is_a?(Array)
 
-    buttons.all? { |b| b.is_a?(Hash) && b['type'] }
+    buttons.all? { |button| button.nil? || (button.is_a?(Hash) && button['type']) }
   end
 
   def convert_legacy_to_enhanced(legacy_params, _template)

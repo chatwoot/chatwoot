@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { ATTACHMENT_TYPES } from 'dashboard/components-next/message/constants.js';
@@ -42,6 +43,8 @@ const props = defineProps({
     default: () => [],
   },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const { inbox } = useInbox(props.inboxId);
 

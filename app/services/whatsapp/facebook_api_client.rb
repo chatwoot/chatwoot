@@ -30,6 +30,73 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'WABA phone numbers fetch failed')
   end
 
+  def fetch_all_phone_numbers(waba_id)
+    phone_numbers = []
+    after_cursor = nil
+
+    loop do
+      response = HTTParty.get(
+        "#{BASE_URI}/#{@api_version}/#{waba_id}/phone_numbers",
+        headers: request_headers,
+        query: after_cursor.present? ? { after: after_cursor } : {}
+      )
+      data = handle_response(response, 'WABA phone numbers fetch failed')
+      phone_numbers.concat(data['data'] || [])
+      after_cursor = data.dig('paging', 'next').present? ? data.dig('paging', 'cursors', 'after') : nil
+      break if after_cursor.blank?
+    end
+
+    phone_numbers
+  end
+
+  def fetch_message_templates(waba_id)
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/#{waba_id}/message_templates",
+      headers: request_headers,
+      query: { limit: 1 }
+    )
+
+    handle_response(response, 'WABA message templates fetch failed')
+  end
+
+  def fetch_business_profile(phone_number_id)
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}/whatsapp_business_profile",
+      headers: request_headers,
+      query: { fields: 'about' }
+    )
+
+    handle_response(response, 'WhatsApp business profile fetch failed')
+  end
+
+  def fetch_permissions
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/me/permissions",
+      headers: request_headers
+    )
+
+    handle_response(response, 'Token permissions fetch failed')
+  end
+
+  def fetch_subscribed_apps(waba_id)
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
+      headers: request_headers
+    )
+
+    handle_response(response, 'WABA webhook subscription fetch failed')
+  end
+
+  def fetch_phone_number(phone_number_id, fields: nil)
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}",
+      headers: request_headers,
+      query: fields.present? ? { fields: fields } : {}
+    )
+
+    handle_response(response, 'Phone number fetch failed')
+  end
+
   def debug_token(input_token)
     response = HTTParty.get(
       "#{BASE_URI}/#{@api_version}/debug_token",
@@ -66,11 +133,12 @@ class Whatsapp::FacebookApiClient
   def phone_number_verified?(phone_number_id)
     response = HTTParty.get(
       "#{BASE_URI}/#{@api_version}/#{phone_number_id}",
-      headers: request_headers
+      headers: request_headers,
+      query: { fields: 'status,code_verification_status' }
     )
 
     data = handle_response(response, 'Phone status check failed')
-    data['code_verification_status'] == 'VERIFIED'
+    data['status'] == 'CONNECTED' || data['code_verification_status'] == 'VERIFIED'
   end
 
   def subscribe_phone_number_webhook(waba_id, phone_number_id, callback_url, verify_token, subscribed_fields: nil)

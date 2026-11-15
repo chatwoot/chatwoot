@@ -3,6 +3,8 @@ module Captain::ChatHelper
   include Captain::ChatResponseHelper
   include Captain::ChatGenerationRecorder
 
+  attr_reader :llm_protocol
+
   def request_chat_completion
     log_chat_completion_request
     chat = build_chat
@@ -23,19 +25,19 @@ module Captain::ChatHelper
   private
 
   def build_chat
-    llm_chat = chat(model: @model, temperature: temperature)
-    llm_chat = llm_chat.with_params(response_format: { type: 'json_object' })
-
-    llm_chat = setup_tools(llm_chat)
-    llm_chat = setup_system_instructions(llm_chat)
-    setup_event_handlers(llm_chat)
-  end
-
-  def setup_tools(llm_chat)
-    @tools&.each do |tool|
-      llm_chat = llm_chat.with_tool(tool)
+    options = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: @llm_feature)
+    @llm_protocol = options[:protocol]
+    llm_chat = chat(model: @model, **options)
+    format = { type: 'json_object' }
+    # Responses JSON mode requires "json" in input, excluding system instructions.
+    if options[:protocol] == :responses
+      format = { type: 'json_schema', name: 'copilot_response', schema: { type: 'object', additionalProperties: true }, strict: false }
     end
-    llm_chat
+    provider_options = Captain::ResponsesConfig.json_format_options(protocol: options[:protocol], format: format)
+    llm_chat = llm_chat.with_provider_options(**provider_options)
+
+    llm_chat = setup_system_instructions(llm_chat.with_tools(*Array(@tools)))
+    setup_event_handlers(llm_chat)
   end
 
   def setup_system_instructions(chat)
@@ -45,13 +47,13 @@ module Captain::ChatHelper
   end
 
   def setup_event_handlers(chat)
-    # NOTE: We only use on_end_message to record the generation with token counts.
+    # We use after_message to record the generation with token counts.
     # RubyLLM callbacks fire after chunks arrive, not around the API call, so
     # span timing won't reflect actual API latency. But Langfuse calculates costs
     # from model + token counts, so this is sufficient for cost tracking.
-    chat.on_end_message { |message| record_llm_generation(chat, message) }
-    chat.on_tool_call { |tool_call| handle_tool_call(tool_call) }
-    chat.on_tool_result { |result| handle_tool_result(result) }
+    chat.after_message { |message| record_llm_generation(chat, message) }
+    chat.before_tool_call { |tool_call| handle_tool_call(tool_call) }
+    chat.after_tool_result { |result| handle_tool_result(result) }
     chat
   end
 
@@ -69,8 +71,7 @@ module Captain::ChatHelper
   def add_messages_to_chat(chat)
     conversation_messages[0...-1].each do |msg|
       text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(msg[:content])
-      content = attachments.any? ? RubyLLM::Content.new(text, attachments) : text
-      chat.add_message(role: msg[:role].to_sym, content: content)
+      chat.add_message(role: msg[:role].to_sym, content: text, attachments: attachments)
     end
   end
 

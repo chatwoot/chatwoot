@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Magpadala ng email na abiso kapag may bagong mensahe sa isang kalahok na pag-uusap",
         "SLA_MISSED_FIRST_RESPONSE": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa unang tugon na SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa susunod na tugon na SLA",
-        "SLA_MISSED_RESOLUTION": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa resolusyon na SLA"
+        "SLA_MISSED_RESOLUTION": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa resolusyon na SLA",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Mga kagustuhan sa abiso",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "May bagong mensahe sa isang kalahok na pag-uusap",
           "SLA_MISSED_FIRST_RESPONSE": "Hindi naabot ng pag-uusap ang unang tugon na SLA",
           "SLA_MISSED_NEXT_RESPONSE": "Hindi naabot ng pag-uusap ang susunod na tugon na SLA",
-          "SLA_MISSED_RESOLUTION": "Hindi naabot ng pag-uusap ang resolusyon na SLA"
+          "SLA_MISSED_RESOLUTION": "Hindi naabot ng pag-uusap ang resolusyon na SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Paganahin ang push notifications para sa iyong browser upang matanggap mo ang mga ito"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "I-enable ang push notifications",
         "SLA_MISSED_FIRST_RESPONSE": "Magpadala ng mga push na abiso kapag ang isang pag-uusap ay hindi nakasunod sa unang tugon na SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Magpadala ng mga push na abiso kapag ang isang pag-uusap ay hindi nakasunod sa susunod na tugon na SLA",
-        "SLA_MISSED_RESOLUTION": "Magpadala ng push notification kapag ang isang pag-uusap ay hindi naabot ang resolution SLA"
+        "SLA_MISSED_RESOLUTION": "Magpadala ng push notification kapag ang isang pag-uusap ay hindi naabot ang resolution SLA",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Larawan ng Profile"
@@ -262,6 +265,10 @@
     "EMAIL_VERIFICATION_PENDING": "Mukhang hindi mo pa na-verify ang iyong email address. Paki-check ang iyong inbox para sa verification email.",
     "RESEND_VERIFICATION_MAIL": "Muling ipadala ang email ng beripikasyon",
     "EMAIL_VERIFICATION_SENT": "Naipadala na ang email ng beripikasyon. Pakisuri ang iyong inbox.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Na-suspend ang Account",
       "MESSAGE": "Na-suspend ang iyong account. Mangyaring makipag-ugnayan sa support team para sa karagdagang impormasyon.",
@@ -278,7 +285,8 @@
     "CODE": {
       "BUTTON_TEXT": "Kopyahin",
       "CODEPEN": "Buksan sa CodePen",
-      "COPY_SUCCESSFUL": "Nakopya sa clipboard"
+      "COPY_SUCCESSFUL": "Nakopya sa clipboard",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Ipakita Pa",
@@ -564,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Pag-index ng Paghahanap sa Help Center",
         "DESCRIPTION": "Gamitin ang AI para sa kontekstuwal na paghahanap sa loob ng iyong mga artikulo sa help center."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Mungkahi ng Label",
-        "DESCRIPTION": "Awtomatikong magmungkahi ng mga kaugnay na label at tag para sa mga pag-uusap batay sa pagsusuri ng nilalaman at konteksto.",
-        "MODEL_TITLE": "Modelo ng Mungkahi ng Label",
-        "MODEL_DESCRIPTION": "Piliin ang AI na modelo na gagamitin para sa pagsusuri ng mga pag-uusap at pagmumungkahi ng angkop na mga label"
       }
     },
     "API": {
@@ -578,6 +580,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Pagsingil",
     "DESCRIPTION": "Pamahalaan ang iyong subscription dito, i-upgrade ang iyong plano at makakuha ng higit pa para sa iyong koponan.",
     "CURRENT_PLAN": {
@@ -585,6 +591,7 @@
       "PLAN_NOTE": "Kasulukuyan kang naka-subscribe sa planong **{plan}** na may **{quantity}** lisensya",
       "SEAT_COUNT": "Bilang ng mga upuan",
       "RENEWS_ON": "Magre-renew sa",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +625,38 @@
       "BUTTON_TXT": "Makipag-chat sa amin"
     },
     "NO_BILLING_USER": "Inaayos pa ang iyong billing account. Pakipag-refresh ang pahina at subukang muli.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Magre-renew sa",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Bumili ng karagdagang kredito",
       "MODAL_TITLE": "Bumili ng AI Credits",
@@ -648,6 +687,7 @@
     "DESCRIPTION": "Pamahalaan ang mga setting ng seguridad ng iyong account.",
     "LINK_TEXT": "Alamin pa tungkol sa SAML SSO",
     "SAML_DISABLED_MESSAGE": "Kasulukuyang naka-disable ang SAML SSO. Mangyaring kontakin ang iyong administrator upang paganahin ang tampok na ito.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "I-configure ang SAML single sign-on para sa iyong account. Magpapatunay ang mga user sa pamamagitan ng iyong identity provider sa halip na gumamit ng email/password.",

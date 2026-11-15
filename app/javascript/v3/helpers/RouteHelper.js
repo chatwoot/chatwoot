@@ -1,6 +1,6 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { clearBrowserSessionCookies } from 'dashboard/store/utils/api';
-import { hasAuthCookie } from './AuthHelper';
+import { getShopifyBillingRedirect, hasAuthCookie } from './AuthHelper';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { replaceRouteWithReload } from './CommonHelper';
 
@@ -26,10 +26,35 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
     return;
   }
 
+  const pendingInstallToken = to.query?.shopify_pending_install;
+  const isPendingShopifySignup =
+    to.name === 'auth_signup' &&
+    typeof pendingInstallToken === 'string' &&
+    /^[0-9a-f]{32}$/.test(pendingInstallToken);
+
   // Redirect to dashboard if a cookie is present, the cookie
   // cleanup and token validation happens in the application pack.
   if (hasAuthCookie()) {
-    replaceRouteWithReload(DEFAULT_REDIRECT_URL);
+    const { redirect_url: requestedRedirectUrl } = to.query || {};
+    if (isPendingShopifySignup) {
+      replaceRouteWithReload(
+        frontendURL(
+          `shopify/select-account?shopify_pending_install=${pendingInstallToken}`
+        )
+      );
+      return;
+    }
+
+    const redirectUrl =
+      requestedRedirectUrl || getShopifyBillingRedirect(to.query);
+    const redirectTarget = redirectUrl
+      ? `${DEFAULT_REDIRECT_URL}?redirect_url=${encodeURIComponent(redirectUrl)}`
+      : DEFAULT_REDIRECT_URL;
+    const accountId = to.query?.sso_account_id;
+    const accountQuery = accountId
+      ? `${redirectUrl ? '&' : '?'}sso_account_id=${encodeURIComponent(accountId)}`
+      : '';
+    replaceRouteWithReload(`${redirectTarget}${accountQuery}`);
     return;
   }
 
@@ -37,6 +62,7 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
   // Disable navigation to signup page if signups are disabled
   // Signup route has an attribute (requireSignupEnabled) in it's definition
   const isAnInalidSignupNavigation =
+    !isPendingShopifySignup &&
     chatwootConfig.signupEnabled !== 'true' &&
     to.meta &&
     to.meta.requireSignupEnabled;

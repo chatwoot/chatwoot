@@ -1,0 +1,26 @@
+<%# Enterprise adds limits, feature flags and Captain model overrides to the account form, so it is split into tabs. %>
+<%# locals: (page:) -%>
+
+<%
+  fields = page.attributes(controller.action_name).values.flatten.index_by(&:name)
+  tabs = [
+    { key: "general", label: t("super_admin.accounts.general"), attributes: fields.values_at("name", "locale", "status", "limits") },
+    { key: "features", label: t("super_admin.features.title"), attributes: fields.values_at("all_features", "manually_managed_features") },
+    { key: "captain-models", label: t("super_admin.accounts.captain_models"), attributes: fields.values_at("captain_models") }
+  ].select { |tab| tab[:attributes].any? }
+  active = active_tab(tabs)
+%>
+
+<%= render "form_card", page: page do |f| %>
+  <% if tabs.many? %>
+    <%= render "tabs", inset: true, tabs: tabs, active: active %>
+  <% end %>
+
+  <% tabs.each do |tab| %>
+    <%= tag.div class: "divide-y divide-n-weak", role: "tabpanel", id: "panel-#{tab[:key]}", aria: { labelledby: "tab-#{tab[:key]}" }, hidden: tab[:key] != active, data: { tab_panel: tab[:key] } do %>
+      <% tab[:attributes].compact.each do |attribute| %>
+        <%= render_field attribute, f: f %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

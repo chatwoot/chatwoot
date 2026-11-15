@@ -55,13 +55,34 @@ module Enterprise::Account
 
   def captain_document_sync_interval(sync_intervals = Enterprise::Account.captain_document_sync_intervals)
     plan = custom_attributes['plan_name']
-    plan = 'enterprise' if plan.blank? && ChatwootApp.self_hosted_enterprise?
+    plan = 'enterprise' if plan.blank? && ChatwootApp.self_hosted_paid?
     return nil if plan.blank?
 
     interval_hours = sync_intervals[plan.downcase]
     return nil unless interval_hours.is_a?(Integer) && interval_hours.positive?
 
     interval_hours.hours
+  end
+
+  def auto_translate_enabled?
+    feature_enabled?('auto_translate') && auto_translate == true && translation_service_available?
+  end
+
+  def translation_service
+    translation_provider.presence || 'captain'
+  end
+
+  # The zone Copilot cuts report days in. An account without a reporting time zone reports in UTC.
+  def report_time_zone
+    reporting_timezone.presence || 'UTC'
+  end
+
+  def google_translate_hook
+    hooks.find_by(app_id: 'google_translate')
+  end
+
+  def translation_service_available?
+    translation_service == 'google_translate' ? google_translate_hook.present? : feature_enabled?('captain_tasks')
   end
 
   def saml_enabled?
@@ -102,7 +123,7 @@ module Enterprise::Account
 
   def enable_default_features
     super
-    enable_features('captain_integration', 'captain_integration_v2') if ChatwootApp.self_hosted_enterprise?
+    enable_features('captain_integration') if ChatwootApp.self_hosted_paid?
   end
 
   def sync_assignment_features
@@ -116,6 +137,10 @@ module Enterprise::Account
   end
 
   def business_or_enterprise_plan?
+    if billing_provider == 'shopify'
+      return Enterprise::Billing::PlanConfiguration.current_plan(self)&.fetch('features', [])&.include?('advanced_assignment')
+    end
+
     plan_name = custom_attributes['plan_name']
     %w[Business Enterprise].include?(plan_name)
   end

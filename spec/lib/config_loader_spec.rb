@@ -15,6 +15,13 @@ describe ConfigLoader do
         subject
         expect(InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')).to be_truthy
       end
+
+      it 'creates a locked Shopify plan catalog' do
+        trigger
+
+        shopify_plans = InstallationConfig.find_by!(name: 'CHATWOOT_SHOPIFY_PLANS')
+        expect(shopify_plans).to have_attributes(value: [], locked: true)
+      end
     end
 
     context 'with reconcile_only_new option' do

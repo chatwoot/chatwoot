@@ -21,6 +21,14 @@ describe Enterprise::Billing::TopupFulfillmentService do
       expect(account.reload.limits['captain_responses']).to eq(2000)
     end
 
+    it 'does not rearm a response usage alert in the current billing period' do
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage_alerted' => true))
+
+      service.fulfill(credits: 1000, amount_cents: 2000, currency: 'usd')
+
+      expect(account.reload.custom_attributes['captain_responses_usage_alerted']).to be(true)
+    end
+
     it 'creates a Stripe credit grant' do
       service.fulfill(credits: 1000, amount_cents: 2000, currency: 'usd')
 

@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa na qual você participa",
       "SLA_MISSED_FIRST_RESPONSE": "Primeira resposta da meta de SLA perdida na conversa",
       "SLA_MISSED_NEXT_RESPONSE": "Próxima resposta da meta de SLA perdida na conversa",
-      "SLA_MISSED_RESOLUTION": "A resolução da meta de SLA foi perdida na conversa"
+      "SLA_MISSED_RESOLUTION": "A resolução da meta de SLA foi perdida na conversa",
+      "VOICE_CALL_MISSED": "Chamada perdida"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "Mencionado",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "Quebra SLA",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova Mensagem",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova Mensagem",
+      "VOICE_CALL_MISSED": "Chamada perdida",
       "SNOOZED_UNTIL": "Adiado para {time}",
       "SNOOZED_ENDS": "Adiamento encerrado"
     },

@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Indisponível",
     "EMAIL_ADDRESS": "Endereço de e-mail",
     "PHONE_NUMBER": "Número de telefone",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identificador",
     "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
     "COMPANY": "Empresa",
@@ -28,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contacto.",
-      "TITLE": "Conversas anteriores"
+      "TITLE": "Conversas anteriores",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
@@ -460,6 +462,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

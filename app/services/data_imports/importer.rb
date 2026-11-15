@@ -30,6 +30,7 @@ class DataImports::Importer
   def initialize(data_import:, run_id: nil, source: nil)
     @data_import = data_import
     @run_id = run_id
+    @run_state = DataImports::RunState.new(data_import, run_id)
     @account = data_import.account
     @source = source || DataImports::Source.for(data_import)
     @placeholder_inboxes = @source.placeholder_inbox_builder(account: @account)
@@ -51,15 +52,11 @@ class DataImports::Importer
   end
 
   def start!
-    return if @data_import.reload.abandoned?
-
-    @data_import.update!(status: :processing, started_at: @data_import.started_at || Time.current)
+    @run_state.start!
   end
 
   def finish!
-    @data_import.with_lock do
-      next if @data_import.abandoned? || stale_import_run?
-
+    @run_state.with_lock do
       error_count = @data_import.import_errors.non_skip_logs.count + @data_import.import_errors.failed.count
       @stats['errors']['count'] = error_count
       status = error_count.positive? ? :completed_with_errors : :completed
@@ -74,9 +71,7 @@ class DataImports::Importer
   end
 
   def fail!(error)
-    @data_import.with_lock do
-      next if @data_import.abandoned? || stale_import_run?
-
+    @run_state.with_lock do
       record_run_error(error)
       @data_import.update!(status: :failed, last_error_at: Time.current)
     end
@@ -309,9 +304,7 @@ class DataImports::Importer
     updates[:last_activity_at] = attrs[:last_activity_at] if contact.last_activity_at.blank? && attrs[:last_activity_at].present?
     updates[:additional_attributes] = contact.additional_attributes.to_h.deep_merge(attrs[:additional_attributes])
     updates[:custom_attributes] = contact.custom_attributes.to_h.deep_merge(attrs[:custom_attributes])
-    if contact.visitor? && attrs[:contact_type].present? && contact_resolved_after_update?(contact, updates)
-      updates[:contact_type] = attrs[:contact_type]
-    end
+    updates[:contact_type] = attrs[:contact_type] if contact.visitor?
     updates[:updated_at] = Time.current
     contact.update_columns(updates) if updates.present?
     contact.reload
@@ -327,10 +320,6 @@ class DataImports::Importer
     return false if contact.phone_number.present? || phone_number.blank?
 
     @account.contacts.where.not(id: contact.id).where(phone_number: phone_number).empty?
-  end
-
-  def contact_resolved_after_update?(contact, updates)
-    contact.email.present? || contact.phone_number.present? || updates[:email].present? || updates[:phone_number].present?
   end
 
   def find_existing_contact(contact_payload)
@@ -353,7 +342,7 @@ class DataImports::Importer
   end
 
   def contact_attributes(contact_payload)
-    attrs = {
+    {
       account_id: @account.id,
       name: contact_payload['name'].presence || contact_payload['email'].presence || '',
       email: normalized_email(contact_payload),
@@ -363,10 +352,9 @@ class DataImports::Importer
       additional_attributes: {
         source: @source.contact_source_metadata(contact_payload).merge(provider: @source.provider)
       },
-      custom_attributes: @source.contact_custom_attributes(contact_payload)
+      custom_attributes: @source.contact_custom_attributes(contact_payload),
+      contact_type: Contact.contact_types[:lead]
     }
-    attrs[:contact_type] = Contact.contact_types[:lead] if attrs[:email].present? || attrs[:phone_number].present?
-    attrs
   end
 
   def create_conversation(conversation, contact, contact_inbox, inbox, source_type)
@@ -1348,3 +1336,5 @@ class DataImports::Importer
   end
 end
 # rubocop:enable Metrics/ClassLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Rails/SkipsModelValidations
+
+DataImports::Importer.prepend_mod_with('DataImports::Importer')

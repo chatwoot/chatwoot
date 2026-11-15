@@ -9,7 +9,9 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
     context 'when CAPTAIN_FIRECRAWL_API_KEY is configured' do
       let(:firecrawl_service) { instance_double(Captain::Tools::FirecrawlService) }
       let(:account) { document.account }
-      let(:token) { Digest::SHA256.hexdigest("-key#{document.assistant_id}#{document.account_id}") }
+      let(:token) do
+        OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "firecrawl:test-key:#{document.assistant_id}:#{document.account_id}")
+      end
 
       before do
         allow(Captain::Tools::FirecrawlService).to receive(:new).and_return(firecrawl_service)

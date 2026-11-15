@@ -7,6 +7,10 @@ RSpec.describe Captain::AssistantResolutionFlowBuilder do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
 
+  before do
+    allow(Captain::OutcomeTrackingHistory).to receive(:started_at).and_return(90.days.ago)
+  end
+
   context 'with no outcomes' do
     it 'returns an empty flow with stable nodes and links' do
       expect(resolution_flow).to eq(

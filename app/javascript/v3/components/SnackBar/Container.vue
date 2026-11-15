@@ -26,14 +26,21 @@ export default {
   },
   methods: {
     onNewToastMessage({ message, action }) {
-      this.snackbarAlertMessages.push({
+      const duration = action?.duration || this.duration;
+      const snackbarAlertMessage = {
         key: new Date().getTime(),
         message,
         action,
-      });
+      };
+
+      this.snackbarAlertMessages.push(snackbarAlertMessage);
       window.setTimeout(() => {
-        this.snackbarAlertMessages.splice(0, 1);
-      }, this.duration);
+        const messageIndex =
+          this.snackbarAlertMessages.indexOf(snackbarAlertMessage);
+        if (messageIndex !== -1) {
+          this.snackbarAlertMessages.splice(messageIndex, 1);
+        }
+      }, duration);
     },
   },
 };

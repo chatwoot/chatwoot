@@ -1,0 +1,27 @@
+<%# locals: (page:) -%>
+<%= form_for([namespace, page.resource]) do |f| %>
+  <% if page.resource.errors.any? %>
+    <%= render "alert", extra: "mb-3", id: "error_explanation" do %>
+      <h2 class="text-heading-3">
+        <%= t(
+          "administrate.form.errors",
+          pluralized_errors: pluralize(page.resource.errors.count, t("administrate.form.error")),
+          resource_name: display_resource_name(page.resource_name, singular: true)
+        ) %>
+      </h2>
+      <ul class="mt-1 list-inside list-disc">
+        <% page.resource.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+
+  <div class="rounded-xl border border-n-weak bg-n-solid-1">
+    <%= yield f %>
+
+    <div class="sticky bottom-0 z-10 flex items-center gap-2 rounded-b-xl border-t border-n-weak bg-n-solid-1 px-5 py-3" data-form-actions>
+      <%= render "button", submit: f %>
+    </div>
+  </div>
+<% end %>

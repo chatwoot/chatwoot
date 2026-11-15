@@ -78,6 +78,19 @@ RSpec.describe Attachment do
       expect(attachment.thumb_url).to be_present
     end
 
+    %w[image/bmp image/vnd.microsoft.icon image/vnd.adobe.photoshop].each do |content_type|
+      it "preserves the original download without a thumbnail for #{content_type}" do
+        attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(
+          io: StringIO.new('original image'), filename: 'image', content_type: content_type, identify: false
+        )
+
+        expect(attachment.thumb_url).to eq('')
+        expect(attachment.file_url).to be_present
+        expect(attachment.file.download).to eq('original image')
+      end
+    end
+
     it 'handles unrepresentable images gracefully' do
       attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
       attachment.file.attach(io: StringIO.new('fake image'), filename: 'test.jpg', content_type: 'image/jpeg')
@@ -248,6 +261,21 @@ RSpec.describe Attachment do
 
       event_data = attachment.push_event_data
       expect(event_data[:data_url]).to be_present
+    end
+  end
+
+  describe 'push_event_data for audio attachments' do
+    let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :audio) }
+
+    before do
+      attachment.file.attach(io: StringIO.new('fake audio'), filename: 'voice.ogg', content_type: 'audio/ogg')
+      attachment.save!
+    end
+
+    it 'honours resolve_model_to_route when the proxy route is configured' do
+      allow(ActiveStorage).to receive(:resolve_model_to_route).and_return(:rails_storage_proxy)
+
+      expect(attachment.push_event_data[:data_url]).to include('/rails/active_storage/blobs/proxy/')
     end
   end
 

@@ -2,7 +2,7 @@ class Integrations::LlmBaseService
   include Integrations::LlmInstrumentation
   include Llm::ExceptionTrackable
 
-  # gpt-4o-mini supports 128,000 tokens
+  # Sized for a 128,000-token context window
   # 1 token is approx 4 characters
   # sticking with 120000 to be safe
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
@@ -146,9 +146,9 @@ class Integrations::LlmBaseService
     {
       message: response.content,
       usage: {
-        'prompt_tokens' => response.input_tokens,
-        'completion_tokens' => response.output_tokens,
-        'total_tokens' => (response.input_tokens || 0) + (response.output_tokens || 0)
+        'prompt_tokens' => response.tokens.input,
+        'completion_tokens' => response.tokens.output,
+        'total_tokens' => (response.tokens.input || 0) + (response.tokens.output || 0)
       },
       request_messages: messages
     }

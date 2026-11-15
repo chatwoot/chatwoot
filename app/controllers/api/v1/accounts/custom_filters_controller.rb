@@ -2,6 +2,7 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
   before_action :check_authorization
   before_action :fetch_custom_filters, only: [:index]
   before_action :fetch_custom_filter, only: [:show, :update, :destroy]
+  before_action :validate_query_timezones, only: [:create, :update]
   DEFAULT_FILTER_TYPE = 'conversation'.freeze
 
   def index; end
@@ -45,6 +46,22 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
       :filter_type,
       query: {}
     )
+  end
+
+  def validate_query_timezones
+    query = permitted_payload.fetch(:query, {})
+    return unless query.key?(:payload)
+
+    payload = query[:payload]
+    unless payload.is_a?(Array) && payload.all?(ActionController::Parameters)
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: 'payload')
+    end
+
+    payload.each do |condition|
+      ::Filters::DateFilterHelper.timezone(condition[:timezone]) if condition.key?(:timezone)
+    end
+  rescue CustomExceptions::CustomFilter::InvalidValue => e
+    render_could_not_create_error(e.message)
   end
 
   def permitted_params

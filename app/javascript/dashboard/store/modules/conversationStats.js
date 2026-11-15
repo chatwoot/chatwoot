@@ -12,14 +12,50 @@ export const getters = {
   getStats: $state => $state,
 };
 
-// Create a debounced version of the actual API call function
-const fetchMetaData = async (commit, params) => {
+// Counts are shared across assignee tabs, pages, and sort orders.
+const getViewKey = ({
+  inboxId,
+  status,
+  labels,
+  teamId,
+  conversationType,
+  queryData,
+}) =>
+  JSON.stringify([
+    ConversationApi.url,
+    queryData || {
+      inboxId,
+      status,
+      labels,
+      teamId,
+      conversationType,
+    },
+  ]);
+
+let activeView = { key: null, params: {}, committedRequestId: 0 };
+let requestId = 0;
+
+const isCurrentRequest = request =>
+  request.view === activeView && request.id >= activeView.committedRequestId;
+
+const commitCounts = (commit, meta, request) => {
+  if (!isCurrentRequest(request)) return;
+
+  activeView.committedRequestId = request.id;
+  commit(types.SET_CONV_TAB_META, meta);
+};
+
+const fetchMetaData = async (commit, params, request) => {
+  if (!isCurrentRequest(request)) return;
+
   try {
-    const response = await ConversationApi.meta(params);
+    const response = params.queryData
+      ? await ConversationApi.filter({ queryData: params.queryData, page: 1 })
+      : await ConversationApi.meta(params);
     const {
       data: { meta },
     } = response;
-    commit(types.SET_CONV_TAB_META, meta);
+    commitCounts(commit, meta, request);
   } catch (error) {
     // ignore
   }
@@ -49,11 +85,25 @@ export const getMetaDebounceKey = allCount => {
 };
 
 export const actions = {
-  get: ({ commit, state: $state }, params) => {
-    metaDebouncers[getMetaDebounceKey($state.allCount)](commit, params);
+  get: ({ commit, state: $state }, params = activeView.params) => {
+    if (getViewKey(params) !== activeView.key) return;
+
+    requestId += 1;
+    metaDebouncers[getMetaDebounceKey($state.allCount)](commit, params, {
+      view: activeView,
+      id: requestId,
+    });
   },
-  set({ commit }, meta) {
-    commit(types.SET_CONV_TAB_META, meta);
+  onListRequestStarted(_, params) {
+    const key = getViewKey(params);
+    if (key !== activeView.key) {
+      activeView = { key, params, committedRequestId: 0 };
+    }
+    requestId += 1;
+    return { view: activeView, id: requestId };
+  },
+  set({ commit }, { meta, request }) {
+    commitCounts(commit, meta, request);
   },
 };
 

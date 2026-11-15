@@ -105,6 +105,7 @@
       "MUTE_CONVERSATION": "საუბრის დადუმება",
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "მიბმული ფაილის გაგზავნა",
       "SEND_MESSAGE": "შეტყობინების გაგზავნა",
       "CHANGE_PRIORITY": "Change Priority",

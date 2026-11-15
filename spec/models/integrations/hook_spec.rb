@@ -31,6 +31,44 @@ RSpec.describe Integrations::Hook do
     end
   end
 
+  describe 'Shopify shop identity' do
+    let(:account) { create(:account) }
+
+    before do
+      InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
+      account.enable_features!('shopify_integration')
+    end
+
+    it 'normalizes the shop domain before validation' do
+      hook = create(:integrations_hook, :shopify, account: account, reference_id: 'My-Store.MyShopify.Com')
+
+      expect(hook.reference_id).to eq('my-store.myshopify.com')
+    end
+
+    it 'rejects invalid shop domains' do
+      hook = build(:integrations_hook, :shopify, account: account, reference_id: 'example.com')
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:reference_id]).to be_present
+    end
+
+    it 'enforces global case-insensitive shop uniqueness across accounts' do
+      create(:integrations_hook, :shopify, account: account, reference_id: 'my-store.myshopify.com')
+      second_account = create(:account)
+      second_account.enable_features!('shopify_integration')
+
+      duplicate_hook = build(
+        :integrations_hook,
+        :shopify,
+        account: second_account,
+        reference_id: 'MY-STORE.MYSHOPIFY.COM'
+      )
+
+      expect(duplicate_hook).not_to be_valid
+      expect(duplicate_hook.errors[:reference_id]).to include('has already been taken')
+    end
+  end
+
   describe 'scopes' do
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }
@@ -140,10 +178,9 @@ RSpec.describe Integrations::Hook do
 
     it 'skips validation when an enabled openai hook is saved without changing the api key' do
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
-      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good', 'label_suggestion' => false })
+      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good' })
 
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(false)
-      hook.settings['label_suggestion'] = true
 
       expect(hook.save).to be true
     end
@@ -175,6 +212,26 @@ RSpec.describe Integrations::Hook do
       hook = build(:integrations_hook, account: account, app_id: 'slack')
 
       expect(hook).to be_valid
+    end
+  end
+
+  describe 'google translate credential validation' do
+    let!(:hook) do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+      create(:integrations_hook, :google_translate)
+    end
+
+    it 'rejects a broken key saved on an existing hook' do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(false)
+
+      expect(hook.update(settings: { project_id: 'test', credentials: { 'private_key' => 'sample' } })).to be(false)
+      expect(hook.errors[:base]).to include(I18n.t('errors.google_translate.invalid_credentials'))
+    end
+
+    it 'does not call Google when only the status changes' do
+      expect(Integrations::GoogleTranslate::CredentialsValidator).not_to receive(:valid?)
+
+      hook.update!(status: :disabled)
     end
   end
 

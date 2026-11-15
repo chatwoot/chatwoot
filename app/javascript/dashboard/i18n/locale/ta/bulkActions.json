@@ -41,6 +41,12 @@
       "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
+    },
+    "MACROS": {
+      "EXECUTE_MACRO": "Execute macro",
+      "EXECUTE_CONFIRMATION_LABEL": "Are you sure you want to run {macroName} on {n} conversation? | Are you sure you want to run {macroName} on {n} conversations?",
+      "QUEUED": "Macro queued for {count} conversation. | Macro queued for {count} conversations.",
+      "QUEUED_WITH_MISSING_ATTRIBUTES": "Macro queued for {count} conversation. It currently lacks required attributes and may remain open. | Macro queued for {count} conversations. At least one currently lacks required attributes and may remain open."
     }
   }
 }

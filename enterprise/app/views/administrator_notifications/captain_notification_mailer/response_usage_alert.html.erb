@@ -1,0 +1,22 @@
+<p><%= I18n.t('administrator_notifications.captain.response_usage_alert.greeting') %></p>
+
+<p>
+  <%= sanitize(
+        I18n.t(
+          'administrator_notifications.captain.response_usage_alert.usage_html',
+          account_name: content_tag(:strong, @meta['account_name'])
+        )
+      ) %>
+</p>
+
+<p>
+  <strong>
+    <%= I18n.t(
+          'administrator_notifications.captain.response_usage_alert.balance',
+          consumed: @meta['consumed'],
+          remaining: @meta['remaining']
+        ) %>
+  </strong>
+</p>
+
+<p><%= link_to I18n.t('administrator_notifications.captain.response_usage_alert.action'), @action_url %></p>

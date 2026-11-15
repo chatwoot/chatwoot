@@ -1,16 +1,16 @@
 module Enterprise::Conversations::AssignmentService
   def perform
     return super unless assignee_type.to_s == 'Captain::Assistant'
-    return if conversation.inbox.external_bot_active?
-
-    # Keep Captain ownership writes off until typed-assignee readers are deployed to every web and worker process.
-    # Remove this guard in the follow-up rollout after all legacy AgentBot readers have been drained.
-    return unless GlobalConfigService.load('ENABLE_CAPTAIN_CONVERSATION_ASSIGNMENT', false)
+    return unless conversation.account.feature_enabled?('captain_integration')
 
     assign_ai_assignee(captain_assistant)
   end
 
   private
+
+  def open_on_assignment?
+    super || conversation.ai_assignee_type == 'Captain::Assistant'
+  end
 
   def captain_assistant
     assistant = conversation.inbox.captain_assistant

@@ -1,6 +1,4 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
-  include Captain::Conversation::V1ActionClassifier
-  include Captain::Conversation::V1FalsePromiseHandler
   include Captain::Conversation::V2LifecycleEvents
   include Captain::Conversation::MessageBuilder
   include Captain::Conversation::ResponseLifecycleLogging
@@ -13,13 +11,11 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @conversation = conversation
     @inbox = conversation.inbox
     @assistant = assistant
-    @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
+    @responding_to_message_id = responding_to_message_id
 
     return log_non_pending unless conversation_pending?
 
     Current.executed_by = @assistant
-
-    return generate_and_process_response unless captain_v2_enabled?
 
     return log_pre_generation_discard if newer_customer_message_arrived?
 
@@ -37,16 +33,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   delegate :account, :inbox, to: :@conversation
 
-  def generate_and_process_response
-    message_history = collect_previous_messages
-    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant, conversation: @conversation).generate_response(
-      message_history: message_history
-    )
-    classify_v1_response_action(message_history) if conversation_pending?
-    repair_v1_false_promise_response(message_history) if conversation_pending?
-    process_response
-  end
-
   def generate_response_with_v2
     runner_service = v2_runner_service
     message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
@@ -61,9 +47,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def v2_runner_service
-    runner_args = { assistant: @assistant, conversation: @conversation }
-    runner_args[:responding_to_message_id] = @responding_to_message_id if @responding_to_message_id.present?
-    Captain::Assistant::AgentRunnerService.new(**runner_args)
+    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(
+      responding_to_message_id: @responding_to_message_id
+    )
+    Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation, run_options: run_options)
   end
 
   def process_response
@@ -74,27 +61,17 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
     if v2_handoff_tool_fired?
       process_v2_handoff_response
-    elsif v1_handoff_requested?
-      process_v1_handoff_request
+    elsif v2_generation_errored?
+      process_error_handoff
     elsif conversation_pending?
       process_standard_response
     end
   end
 
-  def process_v1_handoff_request
-    # V1 only signals via the response string — no state has been touched yet. If
-    # the conversation isn't pending anymore, a human took over mid-run; bail out
-    # rather than posting a stale handoff message on top of their reply.
-    return unless conversation_pending?
-
-    process_v1_handoff
-    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE) if v2_generation_errored?
-  end
-
   def process_standard_response
     message = nil
     ActiveRecord::Base.transaction do
-      next if captain_v2_enabled? && newer_customer_message_arrived?
+      next if newer_customer_message_arrived?
 
       message = create_messages
       Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
@@ -103,48 +80,29 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return unless message
 
     capture_assistant_session(result_message: message, credits_consumed: 1.0)
-    record_v2_response_completed(message) if captain_v2_enabled?
+    record_v2_response_completed(message)
   end
 
   def process_v2_handoff_response
-    # Captain V1 infers completion from status. Captain V2 uses the completion
-    # marker set inside the locked handoff.
-    if captain_v2_enabled?
-      return unless v2_handoff_tool_completed? || conversation_pending?
+    return unless v2_handoff_tool_completed? || conversation_pending?
 
-      v2_handoff_tool_completed? ? process_v2_handoff : process_v1_handoff
-      record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TOOL) unless v2_handoff_tool_completed?
-    else
-      conversation_pending? ? process_v1_handoff : process_v2_handoff
-    end
+    v2_handoff_tool_completed? ? process_v2_handoff : process_failure_handoff
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TOOL) unless v2_handoff_tool_completed?
 
     capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
-  end
-
-  def v1_handoff_requested?
-    legacy_v1_handoff_token? || classifier_v1_handoff_requested?
-  end
-
-  def classifier_v1_handoff_requested?
-    @response['action'] == 'handoff'
-  end
-
-  def legacy_v1_handoff_token?
-    @response['response'] == 'conversation_handoff'
   end
 
   def v2_handoff_tool_fired? = @response['handoff_tool_called']
   def v2_handoff_tool_completed? = @v2_handoff_tool_completed == true
 
-  def process_v1_handoff
+  def process_failure_handoff
     I18n.with_locale(@assistant.account.locale) do
       Rails.logger.info(
-        "[CAPTAIN][ResponseBuilderJob] V1 handoff requested for account=#{account.id} conversation=#{@conversation.display_id} " \
-        "source=#{@response&.dig('action_source') || 'legacy'} reason=#{@response&.dig('action_reason')}"
+        "[CAPTAIN][ResponseBuilderJob] Failure handoff for account=#{account.id} conversation=#{@conversation.display_id} " \
+        "reason=#{@response&.dig('action_reason')}"
       )
       create_handoff_message
       @conversation.bot_handoff!
-      report_v1_handoff_not_executed if conversation_pending?
       send_out_of_office_message_if_applicable
     end
   end
@@ -185,17 +143,17 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response ||= {}
     @response['action_source'] ||= 'error'
     @response['action_reason'] ||= error_action_reason(error)
-    record_v2_response_failure(error_action_reason(error)) if captain_v2_enabled?
+    record_v2_response_failure(error_action_reason(error))
     process_error_handoff
     true
   end
 
   def process_error_handoff
     return unless conversation_pending?
-    return if captain_v2_enabled? && newer_customer_message_arrived?
+    return if newer_customer_message_arrived?
 
-    process_v1_handoff
-    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE) if captain_v2_enabled?
+    process_failure_handoff
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE)
   end
 
   def log_error(error)
@@ -204,19 +162,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def error_action_reason(error)
     error.class.name.underscore.tr('/', '_')
-  end
-
-  def captain_v2_enabled?
-    account.feature_enabled?('captain_integration_v2')
-  end
-
-  def report_v1_handoff_not_executed
-    error = StandardError.new("Captain V1 handoff requested but conversation #{@conversation.display_id} is still pending")
-    ChatwootExceptionTracker.new(error, account: account).capture_exception
-    Rails.logger.error(
-      "[CAPTAIN][ResponseBuilderJob] V1 handoff requested but not executed for account=#{account.id} " \
-      "conversation=#{@conversation.display_id}"
-    )
   end
 
   def newer_customer_message_arrived?

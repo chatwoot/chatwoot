@@ -6,6 +6,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { BarChart, LineChart } from '@chatwoot/viz';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import MetricHint from 'dashboard/components-next/captain/pageComponents/overview/MetricHint.vue';
 import OverviewPanel from './OverviewPanel.vue';
 
 const props = defineProps({
@@ -28,6 +29,17 @@ const formatDay = value =>
   new Intl.DateTimeFormat(locale.value, {
     day: '2-digit',
   }).format(new Date(`${value}T00:00:00`));
+
+const comparisonDateLabel = (start, end) => {
+  const formatter = new Intl.DateTimeFormat(locale.value, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  });
+  const startsOn = formatter.format(new Date(`${start}T00:00:00`));
+  const endsOn = formatter.format(new Date(`${end}T00:00:00`));
+  return start === end ? startsOn : `${startsOn} - ${endsOn}`;
+};
 
 const bucketLabel = bucket => {
   const start = formatDate(bucket.starts_on);
@@ -59,38 +71,54 @@ const countChartData = computed(() => {
       {
         id: 'resolved',
         label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.RESOLVED'),
-        color: 'rgb(var(--teal-9))',
+        color: 'rgb(var(--iris-9))',
         pointBorderColor: 'rgb(var(--card-color))',
-        valueColor: 'rgb(var(--teal-11))',
+        valueColor: 'rgb(var(--iris-11))',
         data: buckets.map(bucket => bucket.resolved_by_captain),
       },
     ],
   };
 });
 
-const rateChartData = computed(() => ({
-  categories: (props.trend?.buckets || []).map(bucketLabel),
-  series: [
+const hasComparison = computed(() =>
+  (props.trend?.buckets || []).some(bucket =>
+    Number.isFinite(bucket.previous_resolution_rate)
+  )
+);
+
+const rateChartData = computed(() => {
+  const buckets = props.trend?.buckets || [];
+  const series = [
     {
       id: 'current_resolution_rate',
       label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.CURRENT_PERIOD'),
-      color: 'rgb(var(--teal-9))',
-      valueColor: 'rgb(var(--teal-11))',
-      data: (props.trend?.buckets || []).map(
-        bucket => bucket.current_resolution_rate ?? undefined
-      ),
+      color: 'rgb(var(--iris-9))',
+      valueColor: 'rgb(var(--iris-11))',
+      data: buckets.map(bucket => ({
+        value: bucket.current_resolution_rate ?? undefined,
+        description: comparisonDateLabel(bucket.starts_on, bucket.ends_on),
+      })),
     },
-    {
+  ];
+
+  if (hasComparison.value) {
+    series.push({
       id: 'previous_resolution_rate',
       label: t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.PREVIOUS_PERIOD'),
-      color: 'rgb(var(--slate-7))',
+      color: 'rgb(var(--iris-4))',
       valueColor: 'rgb(var(--slate-10))',
-      data: (props.trend?.buckets || []).map(
-        bucket => bucket.previous_resolution_rate ?? undefined
-      ),
-    },
-  ],
-}));
+      data: buckets.map(bucket => ({
+        value: bucket.previous_resolution_rate ?? undefined,
+        description: comparisonDateLabel(
+          bucket.previous_starts_on,
+          bucket.previous_ends_on
+        ),
+      })),
+    });
+  }
+
+  return { categories: buckets.map(bucketLabel), series };
+});
 
 const measureOptions = computed(() =>
   [
@@ -116,7 +144,7 @@ const selectedMeasureLabel = computed(
 const hasCountData = computed(() => countChartData.value.categories.length > 0);
 const hasRateData = computed(() =>
   rateChartData.value.series.some(series =>
-    series.data.some(value => Number.isFinite(value))
+    series.data.some(point => Number.isFinite(point.value))
   )
 );
 const formatCount = value => Number(value).toLocaleString();
@@ -131,24 +159,34 @@ const selectMeasure = ({ value }) => {
 <template>
   <OverviewPanel :title="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.TITLE')">
     <template #actions>
-      <div
-        v-on-click-outside="() => toggleDropdown(false)"
-        class="relative flex items-center"
-      >
-        <Button
-          sm
-          slate
-          trailing-icon
-          icon="i-lucide-chevron-down"
-          :label="selectedMeasureLabel"
-          @click="toggleDropdown()"
+      <div class="flex items-center gap-2">
+        <MetricHint
+          v-if="selectedMeasure === 'resolution_rate' && hasComparison"
+          :label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.COMPARISON_LABEL')"
+          :description="
+            $t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.COMPARISON_HINT')
+          "
+          :note="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.COMPARISON_NOTE')"
         />
-        <DropdownMenu
-          v-if="showDropdown"
-          :menu-items="measureOptions"
-          class="mt-1 min-w-48 end-0 top-full"
-          @action="selectMeasure($event)"
-        />
+        <div
+          v-on-click-outside="() => toggleDropdown(false)"
+          class="relative flex items-center"
+        >
+          <Button
+            sm
+            slate
+            trailing-icon
+            icon="i-lucide-chevron-down"
+            :label="selectedMeasureLabel"
+            @click="toggleDropdown()"
+          />
+          <DropdownMenu
+            v-if="showDropdown"
+            :menu-items="measureOptions"
+            class="mt-1 min-w-48 end-0 top-full"
+            @action="selectMeasure($event)"
+          />
+        </div>
       </div>
     </template>
     <div class="min-w-0 px-5 pb-5 pt-8">
@@ -163,7 +201,7 @@ const selectMeasure = ({ value }) => {
         :height="232"
         :point-radius="3"
         :aria-label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.ARIA_LABEL')"
-        class="[--cw-viz-line-label-color:rgb(var(--slate-11))] [--cw-viz-line-axis-color:rgb(var(--slate-4))] [--cw-viz-line-axis-font-size:0.75rem] [--cw-viz-line-value-font-size:0.75rem] [--cw-viz-line-width:0.0625rem] [--cw-viz-line-point-border-width:0.25rem] [--cw-viz-line-tooltip-background:rgb(var(--solid-2))] [--cw-viz-line-tooltip-color:rgb(var(--slate-12))] [--cw-viz-line-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-line__axis-label]:font-[440] [&_.cw-viz-line__axis-label]:tracking-[-0.015rem] [&_.cw-viz-line__value]:font-[440] [&_.cw-viz-line__value]:tracking-[-0.015rem]"
+        class="[--cw-viz-line-label-color:rgb(var(--slate-11))] [--cw-viz-line-axis-color:rgb(var(--slate-4))] [--cw-viz-line-axis-font-size:0.75rem] [--cw-viz-line-value-font-size:0.75rem] [--cw-viz-line-width:0.0625rem] [--cw-viz-line-point-border-width:0.25rem] [--cw-viz-line-tooltip-background:rgb(var(--solid-2))] [--cw-viz-line-tooltip-color:rgb(var(--slate-12))] [--cw-viz-line-tooltip-label-color:rgb(var(--slate-11))] [--cw-viz-line-tooltip-active-color:rgb(var(--slate-12))] [--cw-viz-line-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-line__axis-label]:font-[440] [&_.cw-viz-line__axis-label]:tracking-[-0.015rem] [&_.cw-viz-line__value]:font-[440] [&_.cw-viz-line__value]:tracking-[-0.015rem]"
       />
       <BarChart
         v-else-if="selectedMeasure === 'resolution_rate' && hasRateData"
@@ -176,7 +214,7 @@ const selectMeasure = ({ value }) => {
         :bar-gap="4"
         :max-bar-width="32"
         :aria-label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.RATE_ARIA_LABEL')"
-        class="[--cw-viz-bar-label-color:rgb(var(--slate-11))] [--cw-viz-bar-axis-color:rgb(var(--slate-4))] [--cw-viz-bar-axis-font-size:0.75rem] [--cw-viz-bar-value-font-size:0.75rem] [--cw-viz-bar-tooltip-background:rgb(var(--solid-2))] [--cw-viz-bar-tooltip-color:rgb(var(--slate-12))] [--cw-viz-bar-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-bar__axis-label]:font-[440] [&_.cw-viz-bar__axis-label]:tracking-[-0.015rem] [&_.cw-viz-bar__value]:font-[440] [&_.cw-viz-bar__value]:tracking-[-0.015rem]"
+        class="[--cw-viz-bar-label-color:rgb(var(--slate-11))] [--cw-viz-bar-axis-color:rgb(var(--slate-4))] [--cw-viz-bar-axis-font-size:0.75rem] [--cw-viz-bar-value-font-size:0.75rem] [--cw-viz-bar-tooltip-background:rgb(var(--solid-2))] [--cw-viz-bar-tooltip-color:rgb(var(--slate-12))] [--cw-viz-bar-tooltip-label-color:rgb(var(--slate-11))] [--cw-viz-bar-tooltip-active-color:rgb(var(--slate-12))] [--cw-viz-bar-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-bar__axis-label]:font-[440] [&_.cw-viz-bar__axis-label]:tracking-[-0.015rem] [&_.cw-viz-bar__value]:font-[440] [&_.cw-viz-bar__value]:tracking-[-0.015rem]"
       />
       <div
         v-else

@@ -1,5 +1,6 @@
 module Enterprise::ActivityMessageHandler
   def automation_status_change_activity_content
+    return user_status_change_activity_content(Current.user.name) if Current.executed_by.instance_of?(CopilotRun::Action)
     return super unless Current.executed_by.instance_of?(Captain::Assistant)
 
     locale = Current.executed_by.account.locale
@@ -10,6 +11,13 @@ module Enterprise::ActivityMessageHandler
   end
 
   private
+
+  # Every activity message is built here, whichever concern creates it, so this one override covers them all.
+  def activity_message_params(content, content_attributes: nil)
+    return super unless Current.executed_by.instance_of?(CopilotRun::Action)
+
+    super(I18n.t('conversations.activity.via_copilot', activity: content), content_attributes: content_attributes)
+  end
 
   def captain_status_reason
     captain_activity_reason.presence

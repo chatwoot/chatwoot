@@ -20,7 +20,7 @@ const emit = defineEmits(['connected']);
 
 const { t } = useI18n();
 const { connectViaOAuth, connectWhatsapp } = useChannelConnect();
-const { isConfigured } = useChannelConfig();
+const { isConfigured, isEnabled } = useChannelConfig();
 
 // Maps the dialog's display types to the OAuth client key the flow expects.
 // Types without an entry (manual-setup channels) are no-ops for now.
@@ -38,8 +38,11 @@ const OAUTH_PROVIDERS = {
 // (see channelCards), so they never reach this state.
 // `connected` (a real inbox already backs it) is orthogonal and tracked
 // separately, since a connected channel can still be in any of these states.
-const channelAvailability = channel =>
-  channel.setupLater ? 'setupLater' : 'available';
+const channelAvailability = channel => {
+  return channel.setupLater || !isEnabled(channel.type)
+    ? 'setupLater'
+    : 'available';
+};
 
 const CARD_CLASS = {
   available: 'bg-n-solid-1 hover:outline-n-slate-6 cursor-pointer',

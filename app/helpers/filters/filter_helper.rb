@@ -28,9 +28,9 @@ module Filters::FilterHelper
   end
 
   def build_condition_query_string(current_filter, query_hash, current_index)
-    filter_operator_value = filter_operation(query_hash, current_index)
-
     return handle_nil_filter(query_hash, current_index) if current_filter.nil?
+
+    filter_operator_value = filter_operation(query_hash, current_index)
 
     case current_filter['attribute_type']
     when 'additional_attributes'
@@ -110,11 +110,12 @@ module Filters::FilterHelper
   end
 
   def validate_single_condition(condition)
-    return if condition['query_operator'].nil?
-    return if condition['query_operator'].empty?
+    values = Array.wrap(condition['values'])
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: condition['attribute_key']) if values.any? { |v| v.respond_to?(:to_h) }
 
-    operator = condition['query_operator'].upcase
-    raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(operator)
+    return if condition['query_operator'].to_s.empty?
+
+    raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) unless %w[AND OR].include?(condition['query_operator'].to_s.upcase)
   end
 
   def conversation_status_values(values)

@@ -4,10 +4,10 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import {
   dynamicTime,
-  exactTimestamp,
   formatDuration,
   shortTimestamp,
 } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { downloadFile } from '@chatwoot/utils';
 import {
   ATTACHMENT_TYPES,
@@ -24,6 +24,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['select', 'jumpToMessage']);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 

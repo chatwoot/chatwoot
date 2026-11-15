@@ -38,7 +38,7 @@ watch(
 
 // Thin coverage paired with a large review backlog: approving FAQ suggestions
 // is the quickest lever to lift auto-resolution, so nudge the team to act.
-const COVERAGE_THRESHOLD = 85;
+const COVERAGE_THRESHOLD = 75;
 const SUGGESTION_THRESHOLD = 100;
 
 const showBanner = computed(
@@ -66,7 +66,7 @@ const goToSuggestions = () => {
 
 <template>
   <div
-    class="flex items-center justify-between gap-3 px-3 py-2 text-sm border rounded-xl bg-n-amber-3 border-n-amber-4 text-n-amber-11"
+    class="flex items-center justify-between gap-3 px-3 py-2 text-sm border rounded-xl bg-n-amber-2 border-n-amber-4 text-n-amber-11"
     :class="{ hidden: !showBanner }"
   >
     <div class="flex items-center gap-2 min-w-0">
@@ -88,6 +88,7 @@ const goToSuggestions = () => {
       >
         {{ $t('CAPTAIN.OVERVIEW.COVERAGE_BANNER.ACTION') }}
       </button>
+      <span aria-hidden="true" class="w-px h-5 mx-1 bg-n-amber-4" />
       <button
         type="button"
         class="grid rounded-lg size-7 place-content-center hover:bg-n-amber-4"

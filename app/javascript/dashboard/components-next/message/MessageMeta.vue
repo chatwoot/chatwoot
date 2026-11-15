@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
-import { exactTimestamp, messageTimestamp } from 'shared/helpers/timeHelper';
+import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -8,6 +9,8 @@ import { useInbox } from 'dashboard/composables/useInbox';
 import { useMessageContext } from './provider.js';
 
 import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
+
+const exactTimestamp = useExactTimestamp();
 
 const {
   isAFacebookInbox,

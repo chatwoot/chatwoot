@@ -22,12 +22,19 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'returns the correct parameters' do
-      expect(tool.parameters).to have_key(:query)
-      expect(tool.parameters[:query].name).to eq(:query)
-      expect(tool.parameters[:query].type).to eq('string')
-      expect(tool.parameters[:query].description).to eq('The question or topic to search for in the FAQ database')
+      properties = tool.parameters_schema.fetch('properties')
+
+      expect(properties).to have_key('query')
+      expect(properties['query']['type']).to eq('string')
+      expect(properties['query']['description']).to eq('The question or topic to search for in the FAQ database')
+    end
+  end
+
+  describe '#read_only?' do
+    it 'is true, because looking up an FAQ changes nothing' do
+      expect(tool.read_only?).to be(true)
     end
   end
 
@@ -188,12 +195,6 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         result = tool.perform(tool_context, query: '')
         expect(result).to eq('No relevant FAQs found for: ')
       end
-    end
-  end
-
-  describe '#active?' do
-    it 'returns true for public tools' do
-      expect(tool.active?).to be true
     end
   end
 end

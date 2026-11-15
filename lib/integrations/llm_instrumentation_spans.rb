@@ -105,7 +105,7 @@ module Integrations::LlmInstrumentationSpans
   end
 
   def set_llm_turn_usage_attributes(span, message)
-    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, message.input_tokens) if message.respond_to?(:input_tokens) && message.input_tokens
-    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, message.output_tokens) if message.respond_to?(:output_tokens) && message.output_tokens
+    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, message.tokens.input) if message.tokens.input
+    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, message.tokens.output) if message.tokens.output
   end
 end

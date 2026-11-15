@@ -39,7 +39,8 @@
       "NO_AGENT": "Nenhum atendente atendeu esta chamada",
       "NO_CONTACT_ANSWER": "O contato não atendeu",
       "FAILED": "Não foi possível conectar esta chamada",
-      "YESTERDAY": "Ontem"
+      "YESTERDAY": "Ontem",
+      "DELETED_CONTACT": "Contato excluído"
     }
   }
 }

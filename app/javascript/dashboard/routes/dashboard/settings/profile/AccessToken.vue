@@ -80,6 +80,7 @@ const onReset = () => {
         :disabled="disabled"
         @click="onReset"
       />
+      <slot name="actions" />
     </div>
   </div>
 </template>

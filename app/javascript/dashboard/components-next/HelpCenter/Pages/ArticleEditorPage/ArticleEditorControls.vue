@@ -18,7 +18,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['saveArticle', 'setAuthor', 'setCategory']);
+const emit = defineEmits([
+  'saveArticle',
+  'setAuthor',
+  'setCategory',
+  'previewArticle',
+]);
 
 const { t } = useI18n();
 const route = useRoute();
@@ -152,10 +157,6 @@ const handleArticleAction = ({ action, value }) => {
   actions[action]?.();
 };
 
-const updateMeta = meta => {
-  emit('saveArticle', { meta });
-};
-
 onMounted(() => {
   if (categorySlugFromRoute.value && isNewArticle.value) {
     // Assign category from slug if there is one
@@ -255,7 +256,8 @@ onMounted(() => {
           v-if="openProperties"
           :article="article"
           class="right-0 z-[100] mt-2 xl:left-0 top-full"
-          @save-article="updateMeta"
+          @save-article="values => emit('saveArticle', values)"
+          @preview-article="emit('previewArticle')"
           @close="openProperties = false"
         />
       </OnClickOutside>

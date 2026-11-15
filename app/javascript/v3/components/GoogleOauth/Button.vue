@@ -1,5 +1,12 @@
 <script>
 export default {
+  props: {
+    ssoAccountId: { type: String, default: '' },
+    redirectUrl: {
+      type: String,
+      default: '',
+    },
+  },
   methods: {
     getGoogleAuthUrl() {
       // Ideally a request to /auth/google_oauth2 should be made
@@ -13,12 +20,22 @@ export default {
       const scope = 'email profile';
 
       // Build the query string
-      const queryString = new URLSearchParams({
+      const query = {
         client_id: clientId,
         redirect_uri: redirectUri,
         response_type: responseType,
         scope: scope,
-      }).toString();
+      };
+      if (this.redirectUrl) {
+        query.state = this.redirectUrl;
+      }
+      if (this.ssoAccountId) {
+        query.state = JSON.stringify({
+          redirect_url: this.redirectUrl,
+          sso_account_id: this.ssoAccountId,
+        });
+      }
+      const queryString = new URLSearchParams(query).toString();
 
       // Construct the full URL
       return `${baseUrl}?${queryString}`;

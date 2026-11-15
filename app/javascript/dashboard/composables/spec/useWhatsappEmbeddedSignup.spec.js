@@ -5,17 +5,21 @@ import {
   createMessageHandler,
 } from 'dashboard/routes/dashboard/settings/inbox/channels/whatsapp/utils';
 
+// The event classifier is exercised through the composable rather than stubbed, so
+// these specs cover the real v3/v4 event-name handling.
 vi.mock(
   'dashboard/routes/dashboard/settings/inbox/channels/whatsapp/utils',
-  () => ({
+  async importOriginal => ({
+    ...(await importOriginal()),
     setupFacebookSdk: vi.fn(),
     initWhatsAppEmbeddedSignup: vi.fn(),
     createMessageHandler: vi.fn(),
-    isValidBusinessData: vi.fn(data =>
-      Boolean(data && data.business_id && data.waba_id)
-    ),
   })
 );
+
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({ t: key => key }),
+}));
 
 const flushPromises = () =>
   new Promise(resolve => {
@@ -79,6 +83,7 @@ describe('useWhatsappEmbeddedSignup', () => {
       business_id: 'biz-1',
       waba_id: 'waba-1',
       phone_number_id: 'phone-1',
+      is_coexistence: false,
     });
     expect(setupFacebookSdk).toHaveBeenCalledWith('app-id', 'v22.0');
     expect(initWhatsAppEmbeddedSignup).toHaveBeenCalledWith('config-id');
@@ -103,6 +108,28 @@ describe('useWhatsappEmbeddedSignup', () => {
       business_id: 'biz-1',
       waba_id: 'waba-1',
       phone_number_id: 'phone-1',
+      is_coexistence: true,
+    });
+  });
+
+  it('resolves a coexistence completion that only carries waba_id', async () => {
+    initWhatsAppEmbeddedSignup.mockResolvedValue('auth-code');
+
+    const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
+    const result = runEmbeddedSignup();
+
+    await flushPromises();
+    emit({
+      event: 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
+      data: { waba_id: 'waba-1' },
+    });
+
+    await expect(result).resolves.toEqual({
+      code: 'auth-code',
+      business_id: '',
+      waba_id: 'waba-1',
+      phone_number_id: '',
+      is_coexistence: true,
     });
   });
 
@@ -140,15 +167,65 @@ describe('useWhatsappEmbeddedSignup', () => {
     await expect(result).resolves.toBeNull();
   });
 
-  it('rejects with the Meta error message on an error event', async () => {
+  it.each(['error', 'ERROR'])(
+    'rejects with the Meta error message on a %s event',
+    async event => {
+      initWhatsAppEmbeddedSignup.mockReturnValue(createDeferred().promise);
+
+      const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
+      const result = runEmbeddedSignup();
+
+      emit({ event, error_message: 'WABA not eligible' });
+
+      await expect(result).rejects.toThrow('WABA not eligible');
+    }
+  );
+
+  it('rejects a CANCEL that carries an error message rather than treating it as a dismissal', async () => {
     initWhatsAppEmbeddedSignup.mockReturnValue(createDeferred().promise);
 
     const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
     const result = runEmbeddedSignup();
 
-    emit({ event: 'error', error_message: 'WABA not eligible' });
+    emit({ event: 'CANCEL', error_message: 'Phone number already in use' });
 
-    await expect(result).rejects.toThrow('WABA not eligible');
+    await expect(result).rejects.toThrow('Phone number already in use');
+  });
+
+  it.each([
+    'FINISH_ONLY_WABA',
+    'FINISH_OBO_MIGRATION',
+    'FINISH_GRANT_ONLY_API_ACCESS',
+  ])('rejects the %s completion instead of hanging', async event => {
+    initWhatsAppEmbeddedSignup.mockReturnValue(createDeferred().promise);
+
+    const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
+    const result = runEmbeddedSignup();
+
+    emit({ event, data: { waba_id: 'waba-1' } });
+
+    await expect(result).rejects.toThrow(
+      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.UNSUPPORTED_COMPLETION'
+    );
+  });
+
+  it('stays pending on a non-terminal event', async () => {
+    initWhatsAppEmbeddedSignup.mockResolvedValue('auth-code');
+
+    const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
+    const result = runEmbeddedSignup();
+    const pending = Symbol('pending');
+
+    await flushPromises();
+    emit({ event: 'SOMETHING_ELSE', current_step: 'PHONE_NUMBER_SELECTION' });
+
+    await expect(
+      Promise.race([result, Promise.resolve(pending)])
+    ).resolves.toBe(pending);
+
+    // Let the run finish so it doesn't leak into the next test.
+    emit({ event: 'FINISH', data: VALID_BUSINESS });
+    await result;
   });
 
   it('rejects when the business data is invalid', async () => {
@@ -159,7 +236,9 @@ describe('useWhatsappEmbeddedSignup', () => {
 
     emit({ event: 'FINISH', data: { business_id: 'biz-1' } }); // no waba_id
 
-    await expect(result).rejects.toThrow('Invalid business data');
+    await expect(result).rejects.toThrow(
+      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA'
+    );
   });
 
   it('rejects when the SDK or login fails for a non-cancel reason', async () => {

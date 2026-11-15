@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Dibuat",
         "OLDEST": "Dibuat pada:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Aktivitas terakhir:",
-        "ACTIVE": "Aktivitas terakhir"
+        "NOT_ACTIVE": "Aktivitas terakhir:"
       }
     },
     "SORT_ORDER_ITEMS": {

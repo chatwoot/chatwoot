@@ -67,22 +67,6 @@ class TasksAPI extends ApiClient {
   }
 
   /**
-   * Gets label suggestions for a conversation.
-   * @param {string} conversationId - The conversation ID.
-   * @param {AbortSignal} [signal] - AbortSignal to cancel the request.
-   * @returns {Promise} A promise that resolves with label suggestions.
-   */
-  labelSuggestion(conversationId, signal) {
-    return axios.post(
-      `${this.url}/label_suggestion`,
-      {
-        conversation_display_id: conversationId,
-      },
-      { signal }
-    );
-  }
-
-  /**
    * Sends a follow-up message to continue refining a previous task result.
    * @param {Object} options - The follow-up options.
    * @param {Object} options.followUpContext - The follow-up context from a previous task.

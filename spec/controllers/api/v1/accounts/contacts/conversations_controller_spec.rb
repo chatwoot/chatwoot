@@ -60,6 +60,58 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
           expect(json_response['payload'].length).to eq 0
         end
       end
+
+      it 'includes older conversations with recent activity within the 25 conversation limit' do
+        create_list(:conversation, 25, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1,
+                                       created_at: 1.day.ago, last_activity_at: 1.day.ago)
+        older_conversation = create(:conversation, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1,
+                                                   created_at: 1.year.ago, last_activity_at: Time.current)
+
+        get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations", headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload'].length).to eq 25
+        expect(response.parsed_body['payload'].first['id']).to eq older_conversation.display_id
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/contacts/:id/conversations with a conversation id' do
+    let!(:older) do
+      create(:conversation, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1, created_at: 3.days.ago)
+    end
+    let!(:current) do
+      create(:conversation, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1, created_at: 2.days.ago)
+    end
+    let!(:newer) do
+      create(:conversation, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1, created_at: 1.day.ago)
+    end
+
+    it 'returns the conversation with the ones created around it' do
+      get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+          params: { conversation_id: current.display_id }, headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+
+      expect(response.parsed_body['payload'].pluck('id')).to eq [older.display_id, current.display_id, newer.display_id]
+    end
+
+    it 'returns no earlier conversation for the first one' do
+      get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+          params: { conversation_id: older.display_id }, headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+
+      expect(response.parsed_body['payload'].pluck('id')).to eq [older.display_id, current.display_id]
+    end
+
+    it 'skips conversations the agent cannot access' do
+      create(:conversation, account: account, inbox: inbox_2, contact: contact, contact_inbox: contact_inbox_2, created_at: 36.hours.ago)
+
+      get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations",
+          params: { conversation_id: current.display_id }, headers: agent.create_new_auth_token
+
+      expect(response.parsed_body['payload'].pluck('id')).to eq [older.display_id, current.display_id, newer.display_id]
     end
   end
 end

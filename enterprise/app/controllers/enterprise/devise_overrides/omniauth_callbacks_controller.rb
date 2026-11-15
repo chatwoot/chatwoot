@@ -1,4 +1,6 @@
 module Enterprise::DeviseOverrides::OmniauthCallbacksController
+  SHOPIFY_BILLING_REDIRECT_PATTERN = %r{\Asettings/billing(?:\?[^#]*)?\z}
+
   def redirect_callbacks
     return omniauth_success if params[:provider] == 'saml'
 
@@ -23,11 +25,15 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     if for_mobile?(relay_state)
       redirect_to_mobile_error(error)
     else
-      redirect_to login_page_url(error: "saml-#{error}")
+      redirect_to login_page_url(error: "saml-#{error}", redirect_url: saml_redirect_url(relay_state), sso_account_id: extract_saml_account_id)
     end
   end
 
   private
+
+  def allowed_google_oauth_redirect?(redirect_url)
+    super || redirect_url.match?(SHOPIFY_BILLING_REDIRECT_PATTERN)
+  end
 
   def create_account_for_user
     super
@@ -69,6 +75,12 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     request.env['omniauth.auth'] || super
   end
 
+  def omniauth_frontend_url
+    return super unless params[:provider] == 'saml' || params[:strategy] == 'saml'
+
+    GlobalConfigService.load('FRONTEND_URL', 'http://localhost:3000')
+  end
+
   def for_mobile?(relay_state)
     relay_state.to_s.casecmp('mobile').zero?
   end
@@ -76,13 +88,17 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   def sign_in_saml_user(relay_state)
     return sign_in_user_on_mobile if for_mobile?(relay_state)
 
-    sign_in_user
+    sign_in_user(redirect_url: saml_redirect_url(relay_state), sso_account_id: extract_saml_account_id)
   end
 
   def handle_saml_auth_error(relay_state, error)
     return redirect_to_mobile_error(error) if for_mobile?(relay_state)
 
-    redirect_to login_page_url(error: error)
+    redirect_to login_page_url(error: error, redirect_url: saml_redirect_url(relay_state), sso_account_id: extract_saml_account_id)
+  end
+
+  def saml_redirect_url(relay_state)
+    relay_state unless relay_state.blank? || relay_state == 'web'
   end
 
   def redirect_to_mobile_error(error)
