@@ -24,15 +24,11 @@ module Whatsapp::IncomingMessageServiceHelpers
     messages_data.first[:type]
   end
 
-  # Meta sends the message timestamp as a Unix epoch (seconds). Fall back to the current time when
-  # it is missing or malformed so a bad payload never blocks persisting the message.
-  def message_created_at(message)
-    epoch = message[:timestamp].presence
-    return Time.current if epoch.blank?
-
-    Time.zone.at(Integer(epoch))
-  rescue ArgumentError, TypeError
-    Time.current
+  # Unix epoch (seconds) at which the message was sent on WhatsApp. created_at stays the time we
+  # stored it, since unread counts, activity and history paging rely on that order.
+  def external_created_at(message)
+    epoch = Integer(message[:timestamp], exception: false)
+    epoch&.positive? ? { external_created_at: epoch } : {}
   end
 
   def message_content(message)
