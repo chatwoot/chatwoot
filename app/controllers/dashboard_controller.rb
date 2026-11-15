@@ -35,8 +35,8 @@ class DashboardController < ActionController::Base
   around_action :switch_locale
   before_action :ensure_installation_onboarding, only: [:index]
   before_action :render_hc_if_custom_domain, only: [:index]
-  before_action :process_trusted_proxy_auth, only: [:index]
   before_action :ensure_html_format
+  before_action :process_trusted_proxy_auth, only: [:index]
   layout 'vueapp'
 
   def index; end
@@ -78,7 +78,10 @@ class DashboardController < ActionController::Base
     user = User.from_email(email.strip)
     return if user.blank?
 
-    redirect_to "/app/login?email=#{ERB::Util.url_encode(user.email)}&sso_auth_token=#{user.generate_sso_auth_token}"
+    # Pre-encode the email before to_query, matching the OAuth callback: the router decodes
+    # the query once and the login page calls decodeURIComponent on the email again.
+    query = { email: ERB::Util.url_encode(user.email), sso_auth_token: user.generate_sso_auth_token }.to_query
+    redirect_to "/app/login?#{query}"
   end
 
   # Plain ENV reads (no InstallationConfig): the env var stays authoritative on every
