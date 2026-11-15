@@ -11,6 +11,11 @@ overrides:
   minimatch@>=9.0.0 <9.0.7: 9.0.9
   rollup: '>=4.59.0'
 
+patchedDependencies:
+  prosemirror-menu@1.2.4:
+    hash: c07ea148c988799bedb91638e12ea11f921629e6d679cddcc9ea10b8b23ee6f4
+    path: patches/prosemirror-menu.patch
+
 importers:
 
   .:
@@ -5209,7 +5214,7 @@ snapshots:
       prosemirror-inputrules: 1.4.0
       prosemirror-keymap: 1.2.2
       prosemirror-markdown: 1.13.0
-      prosemirror-menu: 1.2.4
+      prosemirror-menu: 1.2.4(patch_hash=c07ea148c988799bedb91638e12ea11f921629e6d679cddcc9ea10b8b23ee6f4)
       prosemirror-model: 1.22.3
       prosemirror-schema-list: 1.5.1
       prosemirror-state: 1.4.3
@@ -9105,7 +9110,7 @@ snapshots:
       markdown-it: 14.3.2
       prosemirror-model: 1.22.3
 
-  prosemirror-menu@1.2.4:
+  prosemirror-menu@1.2.4(patch_hash=c07ea148c988799bedb91638e12ea11f921629e6d679cddcc9ea10b8b23ee6f4):
     dependencies:
       crelt: 1.0.5
       prosemirror-commands: 1.7.1
