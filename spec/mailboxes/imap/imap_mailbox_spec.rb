@@ -34,7 +34,7 @@ RSpec.describe Imap::ImapMailbox do
       let(:inbound_mail) { create_inbound_email_from_mail(from: 'blocked@gmail.com', to: 'imap@gmail.com', subject: 'Hello from blocked!') }
 
       before do
-        create(:contact, email: 'blocked@gmail.com', account: account, blocked: true)
+        create(:contact, email: 'blocked@gmail.com', account: channel.account, blocked: true)
       end
 
       it 'does not create a conversation or message' do

@@ -35,5 +35,23 @@ RSpec.describe '/api/v1/widget/events', type: :request do
                                          event_info: { test_id: 'test', browser_language: nil, widget_language: nil, browser: anything })
       end
     end
+
+    context 'when contact is blocked' do
+      let(:contact) { create(:contact, account: account, blocked: true) }
+
+      before do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+      end
+
+      it 'returns forbidden and does not dispatch the event' do
+        post '/api/v1/widget/events',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+      end
+    end
   end
 end

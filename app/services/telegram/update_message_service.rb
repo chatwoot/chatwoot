@@ -7,6 +7,8 @@ class Telegram::UpdateMessageService
   def perform
     transform_business_message!
     find_contact_inbox
+    return if @contact_inbox.contact.blocked? && !business_message_outgoing?
+
     find_conversation
     find_message
     update_message
@@ -15,6 +17,15 @@ class Telegram::UpdateMessageService
   end
 
   private
+
+  def business_message_outgoing?
+    return false if params[:edited_business_message].blank?
+
+    edited_msg = params[:edited_message]
+    return false if edited_msg.blank? || edited_msg[:chat].blank? || edited_msg[:from].blank?
+
+    edited_msg[:chat][:id].to_s != edited_msg[:from][:id].to_s
+  end
 
   def find_contact_inbox
     @contact_inbox = inbox.contact_inboxes.find_by!(source_id: params[:edited_message][:chat][:id])
