@@ -397,7 +397,8 @@ RSpec.describe Captain::Scenario, type: :model do
 
   describe '#agent_instructions' do
     it 'renders the current time and context after the static instructions so they can be prompt-cached' do
-      scenario = create(:captain_scenario, guardrails: ['Never share internal pricing.'])
+      scenario = create(:captain_scenario)
+      scenario.assistant.update!(guardrails: ['Never share internal pricing.'])
       state = { conversation: { id: 1, display_id: 7 }, assistant_config: {} }
 
       instructions = scenario.agent_instructions(Struct.new(:context).new({ state: state }))
