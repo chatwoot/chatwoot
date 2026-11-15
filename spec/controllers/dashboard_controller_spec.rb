@@ -55,6 +55,19 @@ describe '/app/login', type: :request do
       expect(CGI.unescape(query['email'])).to eq(user.email)
     end
 
+    it 'confirms an unconfirmed invitee and rotates their password before issuing a token' do
+      user = create(:user, skip_confirmation: false)
+      old_password_digest = user.encrypted_password
+      expect(user.reload.confirmed?).to be(false)
+
+      get '/app/login', headers: { header => user.email }
+
+      expect(response).to have_http_status(:redirect)
+      user.reload
+      expect(user.confirmed?).to be(true)
+      expect(user.encrypted_password).not_to eq(old_password_digest)
+    end
+
     it 'renders the login page when no user matches the header' do
       get '/app/login', headers: { header => 'nobody@example.com' }
 

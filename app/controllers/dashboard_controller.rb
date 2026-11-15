@@ -79,11 +79,24 @@ class DashboardController < ActionController::Base
 
     user = User.from_email(email.strip)
     return if user.blank?
+    return unless confirm_trusted_proxy_user(user)
 
     # Pre-encode the email before to_query, matching the OAuth callback: the router decodes
     # the query once and the login page calls decodeURIComponent on the email again.
     query = { email: ERB::Util.url_encode(user.email), sso_auth_token: user.generate_sso_auth_token }.to_query
     redirect_to "/app/login?#{query}"
+  end
+
+  # The proxy has verified the email, so treat it like the OAuth callback does: confirm a
+  # pending invitee (the SSO session flow never checks confirmation, and unconfirmed users
+  # are skipped by notifications and assignment) and rotate the password so one set before
+  # confirmation, e.g. by someone who pre-registered the address, can no longer be used.
+  def confirm_trusted_proxy_user(user)
+    return true if user.confirmed?
+
+    user.skip_confirmation!
+    user.password = "#{SecureRandom.hex(16)}aA1!"
+    user.save
   end
 
   # Plain ENV reads (no InstallationConfig): the env var stays authoritative on every
