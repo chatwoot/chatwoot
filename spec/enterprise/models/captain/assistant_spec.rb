@@ -353,6 +353,16 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(instructions).not_to include('You are drafting a reply for a support agent to review.')
     end
 
+    it 'renders the current time and context after the static instructions so they can be prompt-cached' do
+      state = { conversation: { id: 1, display_id: 7 }, assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      last_static_section = instructions.index('# Human Handoff Protocol')
+      expect(instructions.index('# Current Time')).to be > last_static_section
+      expect(instructions.index('# Current Context')).to be > instructions.index('# Current Time')
+    end
+
     it 'renders the separate Copilot reply suggestion prompt when requested' do
       assistant.update!(
         response_guidelines: ['Include the raw guide URL https://yc.ms/eglb1H.'],
