@@ -18,8 +18,6 @@ common: &default_settings
   distributed_tracing:
     enabled: true
 
-  simplify_action_cable_broadcast_metrics: true
-
   ai_monitoring:
     enabled: false
 
