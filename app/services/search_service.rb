@@ -5,34 +5,19 @@ class SearchService
     @account_user ||= current_account.account_users.find_by(user: current_user)
   end
 
-  SEARCH_TYPES = { 'contacts' => 'Contact', 'conversations' => 'Conversation', 'messages' => 'Message', 'articles' => 'Article' }.freeze
-  PAGE_SIZES = [5, 15].freeze
-
-  attr_reader :message_backend, :message_pagination
-
   def perform
-    types = search_type == 'all' ? SEARCH_TYPES.keys : [SEARCH_TYPES.key(search_type)]
-    types.to_h { |type| [type.to_sym, available_types.include?(type) ? send("filter_#{type}") : []] }
-  end
-
-  def counts(types)
-    (types & countable_types).to_h do |type|
-      results = type == 'messages' ? filter_messages(count: true) : send("filter_#{type}")
-      total = results.is_a?(ActiveRecord::Relation) ? results.except(:limit, :offset, :order).count : results
-      [type, total]
+    case search_type
+    when 'Message'
+      { messages: filter_messages }
+    when 'Conversation'
+      { conversations: filter_conversations }
+    when 'Contact'
+      { contacts: filter_contacts }
+    when 'Article'
+      { articles: filter_articles }
+    else
+      { contacts: filter_contacts, messages: filter_messages, conversations: filter_conversations, articles: filter_articles }
     end
-  end
-
-  def available_types
-    current_account.feature_enabled?('help_center') ? SEARCH_TYPES.keys : SEARCH_TYPES.keys - ['articles']
-  end
-
-  def countable_types
-    available_types
-  end
-
-  def supports_message_cursor?
-    false
   end
 
   private
@@ -46,9 +31,9 @@ class SearchService
   end
 
   def filter_conversations
-    conversations_query = accessible_conversations
-                          .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                          .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
+    conversations_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
+                                         .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                                         .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
                             ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search
                             OR conversations.additional_attributes->>'mail_subject' ILIKE :search", search: "%#{search_query}%")
 
@@ -59,24 +44,24 @@ class SearchService
 
     @conversations = conversations_query.order('conversations.created_at DESC')
                                         .page(params[:page])
-                                        .per(page_size)
+                                        .per(15)
   end
 
-  def filter_messages(count: false)
-    return filter_messages_with_gin if use_gin_search
-    return advanced_search_with_fallback(count: count) if should_run_advanced_search?
-
-    filter_messages_with_like
+  def filter_messages
+    @messages = if use_gin_search
+                  filter_messages_with_gin
+                elsif should_run_advanced_search?
+                  advanced_search_with_fallback
+                else
+                  filter_messages_with_like
+                end
   end
 
-  def advanced_search_with_fallback(count: false)
-    @message_backend = 'opensearch'
-    advanced_search(count: count)
+  def advanced_search_with_fallback
+    advanced_search.load
   rescue Faraday::Error, Searchkick::Error, OpenSearch::Transport::Transport::Error => e
-    ChatwootExceptionTracker.new(e, user: current_user, account: current_account).capture_exception
-    raise CustomExceptions::MessageSearchUnavailable, 'Message search is unavailable' if supports_message_cursor?
-
     Rails.logger.warn("Elasticsearch unavailable, falling back to SQL search: #{e.message}")
+    ChatwootExceptionTracker.new(e, user: current_user, account: current_account).capture_exception
     use_gin_search ? filter_messages_with_gin : filter_messages_with_like
   end
 
@@ -84,18 +69,9 @@ class SearchService
     ChatwootApp.advanced_search_allowed? && current_account.feature_enabled?('advanced_search')
   end
 
-  def advanced_search(count: false); end
-
-  def page_size
-    params[:per_page]&.to_i || 15
-  end
-
-  def accessible_conversations
-    @accessible_conversations ||= Conversations::PermissionFilterService.new(current_account.conversations, current_user, current_account).perform
-  end
+  def advanced_search; end
 
   def filter_messages_with_gin
-    @message_backend = 'gin'
     base_query = message_base_query
     base_query = apply_message_filters(base_query)
 
@@ -113,22 +89,21 @@ class SearchService
       base_query.where('content @@ to_tsquery(?)', tsquery)
                 .reorder('messages.created_at DESC, messages.id DESC')
                 .page(params[:page])
-                .per(page_size)
+                .per(15)
     else
       base_query.reorder('messages.created_at DESC, messages.id DESC')
                 .page(params[:page])
-                .per(page_size)
+                .per(15)
     end
   end
 
   def filter_messages_with_like
-    @message_backend = 'like'
     base_query = message_base_query
     base_query = apply_message_filters(base_query)
     base_query.where('messages.content ILIKE :search', search: "%#{search_query}%")
               .reorder('messages.created_at DESC, messages.id DESC')
               .page(params[:page])
-              .per(page_size)
+              .per(15)
   end
 
   def message_base_query
@@ -198,14 +173,14 @@ class SearchService
 
     @contacts = contacts_query.resolved_contacts(
       use_crm_v2: current_account.feature_enabled?('crm_v2')
-    ).order_on_last_activity_at('desc').page(params[:page]).per(page_size)
+    ).order_on_last_activity_at('desc').page(params[:page]).per(15)
   end
 
   def filter_articles
     articles_query = current_account.articles.text_search(search_query)
     articles_query = apply_time_filter(articles_query, 'updated_at') if current_account.feature_enabled?('advanced_search')
 
-    @articles = articles_query.page(params[:page]).per(page_size)
+    @articles = articles_query.page(params[:page]).per(15)
   end
 
   def apply_time_filter(query, column_name)
