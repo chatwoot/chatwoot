@@ -64,7 +64,24 @@ class Conversations::MessageWindowService
     GlobalConfigService.load(config_key, nil) ? MESSAGING_WINDOW_7_DAYS : MESSAGING_WINDOW_24_HOURS
   end
 
+  # Messaging windows (e.g. Meta's 24h customer service window) are tied to the
+  # contact on the channel, not to a single Chatwoot conversation. When the contact
+  # writes again, the window reopens for every conversation in the same contact inbox,
+  # including older/resolved ones from which the agent may want to reply.
   def last_incoming_message
-    @last_incoming_message ||= @conversation.messages.where(account_id: @conversation.account_id).incoming&.last
+    @last_incoming_message ||= Message.where(
+      account_id: @conversation.account_id,
+      conversation_id: contact_inbox_conversation_ids
+    ).incoming.reorder(created_at: :desc, id: :desc).first
+  end
+
+  def contact_inbox_conversation_ids
+    return [@conversation.id] if @conversation.contact_inbox_id.blank?
+
+    Conversation.where(
+      account_id: @conversation.account_id,
+      inbox_id: @conversation.inbox_id,
+      contact_inbox_id: @conversation.contact_inbox_id
+    ).select(:id)
   end
 end

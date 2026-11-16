@@ -109,6 +109,30 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#SET_CONTACT_CONVERSATIONS_CAN_REPLY', () => {
+    it('sets canReply for every conversation of the contact in the inbox', () => {
+      const state = {
+        allConversations: [
+          { id: 1, inbox_id: 1, meta: { sender: { id: 10 } }, can_reply: false },
+          { id: 2, inbox_id: 1, meta: { sender: { id: 10 } }, can_reply: false },
+          { id: 3, inbox_id: 2, meta: { sender: { id: 10 } }, can_reply: false },
+          { id: 4, inbox_id: 1, meta: { sender: { id: 11 } }, can_reply: false },
+        ],
+      };
+      mutations[types.SET_CONTACT_CONVERSATIONS_CAN_REPLY](state, {
+        inboxId: 1,
+        contactId: 10,
+        canReply: true,
+      });
+      expect(state.allConversations.map(c => c.can_reply)).toEqual([
+        true,
+        true,
+        false,
+        false,
+      ]);
+    });
+  });
+
   describe('#ADD_MESSAGE', () => {
     it('does not add message to the store if conversation does not exist', () => {
       const state = { allConversations: [] };

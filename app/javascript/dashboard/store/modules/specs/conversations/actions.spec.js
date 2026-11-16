@@ -406,6 +406,28 @@ describe('#actions', () => {
       ]);
       expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
     });
+    it('reopens the reply window for all conversations of the contact in the inbox', () => {
+      const message = {
+        id: 1,
+        message_type: 0,
+        conversation_id: 1,
+        inbox_id: 2,
+        sender: { id: 3 },
+      };
+      actions.addMessage({ commit, dispatch }, message);
+      expect(commit.mock.calls).toEqual([
+        [types.ADD_MESSAGE, message],
+        [
+          types.SET_CONVERSATION_CAN_REPLY,
+          { conversationId: 1, canReply: true },
+        ],
+        [
+          types.SET_CONTACT_CONVERSATIONS_CAN_REPLY,
+          { inboxId: 2, contactId: 3, canReply: true },
+        ],
+        [types.ADD_CONVERSATION_ATTACHMENTS, message],
+      ]);
+    });
     it('sends correct mutations if message is not an incoming message', () => {
       const message = {
         id: 1,
