@@ -22,6 +22,9 @@ class Whatsapp::HealthService
     display_phone_number
     verified_name
     name_status
+    new_display_name
+    new_name_status
+    official_business_account
     quality_rating
     messaging_limit_tier
     status
@@ -110,6 +113,9 @@ class Whatsapp::HealthService
       account_mode
       display_phone_number
       name_status
+      new_display_name
+      new_name_status
+      official_business_account
       verified_name
       webhook_configuration
       throughput
@@ -143,24 +149,7 @@ class Whatsapp::HealthService
   end
 
   def format_phone_health_response(phone_response)
-    {
-      id: phone_response['id'],
-      display_phone_number: phone_response['display_phone_number'],
-      verified_name: phone_response['verified_name'],
-      name_status: phone_response['name_status'],
-      quality_rating: phone_response['quality_rating'],
-      messaging_limit_tier: phone_response['whatsapp_business_manager_messaging_limit'],
-      status: phone_response['status'],
-      account_mode: phone_response['account_mode'],
-      code_verification_status: phone_response['code_verification_status'],
-      webhook_configuration: phone_response['webhook_configuration'],
-      expected_webhook_url: build_expected_webhook_url,
-      throughput: phone_response['throughput'],
-      throughput_level: phone_response.dig('throughput', 'level'),
-      last_onboarded_time: phone_response['last_onboarded_time'],
-      is_on_biz_app: phone_response['is_on_biz_app'],
-      platform_type: phone_response['platform_type']
-    }
+    Whatsapp::PhoneHealthPresenter.new(phone_response, expected_webhook_url: build_expected_webhook_url).perform
   end
 
   def format_business_account_response(business_account_response)

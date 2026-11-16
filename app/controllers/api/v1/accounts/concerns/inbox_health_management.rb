@@ -1,6 +1,8 @@
 module Api::V1::Accounts::Concerns::InboxHealthManagement
   extend ActiveSupport::Concern
 
+  include Api::V1::Accounts::Concerns::InboxDisplayNameManagement
+
   included do
     skip_before_action :check_authorization, only: [:health, :register_webhook]
     before_action :check_admin_authorization?, only: [:register_webhook]

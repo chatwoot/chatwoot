@@ -1063,7 +1063,7 @@
           "TOOLTIP": "Phone number displayed to customers"
         },
         "VERIFIED_NAME": {
-          "LABEL": "WhatsApp display name",
+          "LABEL": "Current display name",
           "TOOLTIP": "Display name associated with this phone number on WhatsApp"
         },
         "PHONE_NUMBER_ID": {
@@ -1075,7 +1075,7 @@
           "TOOLTIP": "This number is connected to both the WhatsApp Business app and Cloud API"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Display name status",
+          "LABEL": "Current name status",
           "TOOLTIP": "Whether Meta has reviewed and approved the WhatsApp display name",
           "DESCRIPTIONS": {
             "APPROVED": "The display name is approved and can appear at the top of WhatsApp chats. A name saved by the recipient can appear instead.",
@@ -1198,6 +1198,24 @@
         "EXPECTED_URL": "Expected URL",
         "COPY_URL": "Copy webhook URL",
         "COPY_SUCCESS": "Webhook URL copied to clipboard"
+      },
+      "DISPLAY_NAME": {
+        "TITLE": "WhatsApp display name",
+        "APPLY": "Apply approved name",
+        "OBA_RESTRICTED": "Applying this name requires a confirmed OBA status of Not started. Check the status in WhatsApp Manager. For Official Business Accounts, contact Meta support to change the display name.",
+        "SUCCESS": "The approved display name is now active.",
+        "SUBMITTED": "Meta accepted the registration request. Refresh Account Health to confirm the new name is active.",
+        "ERROR": "Could not apply the approved name. Refresh Account Health before trying again.",
+        "DESCRIPTIONS": {
+          "APPROVED": "Meta approved this name. Apply it to activate it on your WhatsApp number. The number and inbox stay the same.",
+          "PENDING_REVIEW": "Meta is reviewing this name. It can be applied once approved.",
+          "DECLINED": "Meta did not approve the requested name. Review the name in WhatsApp Manager.",
+          "REJECTED": "Meta did not approve the requested name. Review the name in WhatsApp Manager.",
+          "EXPIRED": "Approval for this name has expired. Submit it for review again in WhatsApp Manager.",
+          "AVAILABLE_WITHOUT_REVIEW": "Meta has made this name available without review. Review its current state in WhatsApp Manager.",
+          "UNKNOWN": "The review status of this name is unavailable. Check WhatsApp Manager for details."
+        },
+        "REQUESTED_NAME": "Requested display name"
       }
     },
     "SETTINGS": "Settings",

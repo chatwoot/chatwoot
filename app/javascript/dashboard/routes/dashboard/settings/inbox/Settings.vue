@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import { useAlert } from 'dashboard/composables';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useVuelidate } from '@vuelidate/core';
 import Avatar from 'next/avatar/Avatar.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
@@ -99,7 +100,8 @@ export default {
   },
   mixins: [inboxMixin],
   setup() {
-    return { v$: useVuelidate() };
+    const { isAdmin } = useAdmin();
+    return { v$: useVuelidate(), isAdmin };
   },
   data() {
     return {
@@ -127,6 +129,7 @@ export default {
       isLoadingHealth: false,
       healthError: null,
       isRegisteringWebhook: false,
+      isApplyingDisplayName: false,
       isTransferringWhatsAppToManual: false,
       widgetBubblePosition: 'right',
       widgetBubbleType: 'standard',
@@ -630,6 +633,36 @@ export default {
       );
       if (configurationTabIndex !== -1) {
         this.onTabChange(configurationTabIndex);
+      }
+    },
+    async applyDisplayName(displayName) {
+      if (this.isApplyingDisplayName) return;
+
+      const inboxId = this.inbox.id;
+      this.isApplyingDisplayName = true;
+      try {
+        await InboxHealthAPI.applyDisplayName(inboxId, displayName);
+        if (this.inbox?.id !== inboxId) return;
+
+        await this.fetchHealthData();
+        if (this.inbox?.id !== inboxId) return;
+        const nameApplied =
+          !this.healthError &&
+          this.healthData?.verified_name === displayName &&
+          this.healthData?.name_status === 'APPROVED' &&
+          this.healthData?.new_name_status === 'NONE';
+        useAlert(
+          nameApplied
+            ? this.$t('INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.SUCCESS')
+            : this.$t('INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.SUBMITTED')
+        );
+      } catch (error) {
+        useAlert(
+          error.response?.data?.error ||
+            this.$t('INBOX_MGMT.ACCOUNT_HEALTH.DISPLAY_NAME.ERROR')
+        );
+      } finally {
+        this.isApplyingDisplayName = false;
       }
     },
     async registerWebhook() {
@@ -1501,6 +1534,9 @@ export default {
             :health-error="healthError"
             :is-embedded-signup="isEmbeddedSignupWhatsApp"
             :is-registering-webhook="isRegisteringWebhook"
+            :can-manage="isAdmin"
+            :is-applying-display-name="isApplyingDisplayName"
+            @apply-display-name="applyDisplayName"
             @register-webhook="registerWebhook"
             @go-to-configuration="goToWhatsAppConfiguration"
           />
