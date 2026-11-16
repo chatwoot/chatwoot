@@ -1,5 +1,6 @@
 <script setup>
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 import { useBranding } from 'shared/composables/useBranding';
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -11,6 +12,7 @@ const emit = defineEmits(['click']);
 
 const { isOnChatwootCloud } = useAccount();
 const { replaceInstallationName } = useBranding();
+const assetUrl = useAssetUrl();
 
 const onClick = () => {
   emit('click');
@@ -21,8 +23,12 @@ const onClick = () => {
   <FeatureSpotlight
     :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
     :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
-    fallback-thumbnail="/assets/images/dashboard/captain/faqs-light.svg"
-    fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-dark.svg"
+    :fallback-thumbnail="
+      assetUrl('/assets/images/dashboard/captain/faqs-light.svg')
+    "
+    :fallback-thumbnail-dark="
+      assetUrl('/assets/images/dashboard/captain/faqs-dark.svg')
+    "
     learn-more-url="https://chwt.app/captain-faq"
     :hide-actions="!isOnChatwootCloud"
     class="mb-8"

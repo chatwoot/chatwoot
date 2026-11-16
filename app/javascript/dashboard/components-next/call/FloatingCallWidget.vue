@@ -22,8 +22,9 @@ import {
 import WindowVisibilityHelper from 'dashboard/helper/AudioAlerts/WindowVisibilityHelper';
 import CallCard from 'dashboard/components-next/call/CallCard.vue';
 import countriesList from 'shared/constants/countries.js';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
-const RINGTONE_URL = '/audio/dashboard/ringtone.mp3';
+const RINGTONE_URL = useAssetUrl()('/audio/dashboard/ringtone.mp3');
 
 const route = useRoute();
 const router = useRouter();
