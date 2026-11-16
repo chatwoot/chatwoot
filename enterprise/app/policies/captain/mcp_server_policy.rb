@@ -31,4 +31,8 @@ class Captain::McpServerPolicy < ApplicationPolicy
   def authorization_url?
     @account_user.administrator?
   end
+
+  def approve_tool?
+    @account_user.administrator?
+  end
 end

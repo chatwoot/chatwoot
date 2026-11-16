@@ -38,8 +38,12 @@ class Webhooks::InstagramController < ActionController::API
   def valid_token?(token)
     # Validates against both IG_VERIFY_TOKEN (Instagram channel via Facebook page) and
     # INSTAGRAM_VERIFY_TOKEN (Instagram channel via direct Instagram login)
-    token == GlobalConfigService.load('IG_VERIFY_TOKEN', '') ||
-      token == GlobalConfigService.load('INSTAGRAM_VERIFY_TOKEN', '')
+    return false if token.blank?
+
+    %w[IG_VERIFY_TOKEN INSTAGRAM_VERIFY_TOKEN].any? do |key|
+      expected_token = GlobalConfigService.load(key, nil)
+      expected_token.present? && ActiveSupport::SecurityUtils.secure_compare(token.to_s, expected_token.to_s)
+    end
   end
 
   def meta_app_secrets
