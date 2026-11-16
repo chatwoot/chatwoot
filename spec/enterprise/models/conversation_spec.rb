@@ -235,6 +235,52 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
+  describe 'activity messages for auto-translate changes' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account) }
+
+    before do
+      conversation
+      Current.user = agent
+    end
+
+    after { Current.reset }
+
+    it 'names the agent who turned auto-translate off' do
+      expect { conversation.update!(auto_translate_disabled: true) }
+        .to have_enqueued_job(Conversations::ActivityMessageJob)
+        .with(conversation, hash_including(content: "#{agent.name} turned off auto-translate for this conversation"))
+    end
+
+    it 'names the agent who turned auto-translate back on' do
+      conversation.update!(auto_translate_disabled: true)
+
+      expect { conversation.update!(auto_translate_disabled: false) }
+        .to have_enqueued_job(Conversations::ActivityMessageJob)
+        .with(conversation, hash_including(content: "#{agent.name} turned on auto-translate for this conversation"))
+    end
+
+    it 'does not post when the value goes from unset to on' do
+      expect { conversation.update!(auto_translate_disabled: false) }
+        .not_to have_enqueued_job(Conversations::ActivityMessageJob)
+    end
+
+    it 'does not post when another additional attribute changes' do
+      conversation.update!(auto_translate_disabled: true)
+
+      expect { conversation.update!(additional_attributes: conversation.additional_attributes.merge('conversation_language' => 'tr')) }
+        .not_to have_enqueued_job(Conversations::ActivityMessageJob)
+    end
+
+    it 'does not post when no agent made the change' do
+      Current.user = nil
+
+      expect { conversation.update!(auto_translate_disabled: true) }
+        .not_to have_enqueued_job(Conversations::ActivityMessageJob)
+    end
+  end
+
   describe 'activity messages for changes made through Copilot' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, account: account, role: :administrator) }
