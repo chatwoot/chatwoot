@@ -10,6 +10,7 @@ import ConversationResolveAttributesModal from 'dashboard/components-next/Conver
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import {
   SNOOZE_CONVERSATION_PAGE,
+  SNOOZE_PAGES,
   pathScopes,
 } from 'dashboard/modules/command-bar/commands';
 import {
@@ -36,6 +37,7 @@ const props = defineProps({
 
 const PREFIXES = ['@', '#', '/', '?'];
 const atRoot = ({ page }) => !page;
+const onSnoozePage = ({ page }) => Boolean(SNOOZE_PAGES[page]);
 
 const store = useStore();
 const route = useRoute();
@@ -130,7 +132,12 @@ const sources = computed(() => {
     ...general,
     { id: 'account', commands: () => accountCommands.value },
     { id: 'help', commands: () => helpCommands.value },
-    { id: 'snooze_suggestions', search: searchSnoozeSuggestions },
+    {
+      id: 'snooze_suggestions',
+      minQuery: 1,
+      when: onSnoozePage,
+      search: searchSnoozeSuggestions,
+    },
     ...[
       {
         id: 'loaded_conversations',

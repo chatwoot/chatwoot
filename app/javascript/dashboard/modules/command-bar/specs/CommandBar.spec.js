@@ -230,6 +230,22 @@ describe('CommandBar', () => {
     expect(ids()).toEqual(['parsed_date']);
   });
 
+  it('looks for snooze suggestions only on a snooze page with something typed', async () => {
+    await mountCommandBar();
+    bar.open();
+    expect(bar.isLoading.value).toBe(false);
+
+    bar.open({ page: 'appearance' });
+    bar.setQuery('dark');
+    expect(bar.isLoading.value).toBe(false);
+
+    bar.open({ page: 'snooze_conversation' });
+    expect(bar.isLoading.value).toBe(false);
+
+    bar.setQuery('tomorrow');
+    expect(bar.isLoading.value).toBe(true);
+  });
+
   it('adds remote results after the commands at the root', async () => {
     await mountCommandBar();
     bar.open({ query: 'sar' });
