@@ -174,6 +174,51 @@ RSpec.describe 'Search', type: :request do
     end
 
     context 'when it is an authenticated user' do
+      context 'when replica routing is eligible' do
+        around do |example|
+          with_modified_env POSTGRES_REPLICA_ENABLED: 'true' do
+            example.run
+          end
+        end
+
+        before do
+          allow(ReadReplica::WriterStickiness).to receive(:sticky?).and_return(false)
+          allow(ReadReplica::Health).to receive(:status).and_return(
+            ReadReplica::Health::Status.new(healthy: true, lag_seconds: 0.5, checked_at: 0)
+          )
+        end
+
+        it 'builds authorization context on the writer before running the search on the reader' do
+          allow(ReadReplica::AccessContext).to receive(:build).and_wrap_original do |method, *args, **kwargs|
+            expect(ApplicationRecord.current_role).to eq(:writing)
+            method.call(*args, **kwargs)
+          end
+          allow(ApplicationRecord).to receive(:connected_to).and_call_original
+          expect(ApplicationRecord).to receive(:connected_to)
+            .with(role: :reading, prevent_writes: true)
+            .and_call_original
+
+          get "/api/v1/accounts/#{account.id}/search/conversations",
+              headers: agent.create_new_auth_token,
+              params: { q: 'test', per_page: 5 },
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body.dig('payload', 'conversations').length).to eq(1)
+        end
+
+        it 'rejects an invalid page size before routing to the replica' do
+          expect(ApplicationRecord).not_to receive(:connected_to).with(role: :reading, prevent_writes: true)
+
+          get "/api/v1/accounts/#{account.id}/search/conversations",
+              headers: agent.create_new_auth_token,
+              params: { q: 'test', per_page: 10 },
+              as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+
       it 'returns all conversations with messages containing the search query' do
         get "/api/v1/accounts/#{account.id}/search/conversations",
             headers: agent.create_new_auth_token,

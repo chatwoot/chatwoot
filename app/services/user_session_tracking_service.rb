@@ -18,11 +18,13 @@ class UserSessionTrackingService
   end
 
   def update_activity!
-    session = @user.user_sessions.find_by(client_id: @client_id)
-    return unless session&.should_update_activity?
+    ApplicationRecord.connected_to(role: :writing) do
+      session = @user.user_sessions.find_by(client_id: @client_id)
+      return unless session&.should_update_activity?
 
-    attributes = { last_activity_at: Time.current }.merge(changed_client_metadata(session))
-    session.update_columns(attributes) # rubocop:disable Rails/SkipsModelValidations
+      attributes = { last_activity_at: Time.current }.merge(changed_client_metadata(session))
+      session.update_columns(attributes) # rubocop:disable Rails/SkipsModelValidations
+    end
   end
 
   private

@@ -4,6 +4,8 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   before_action :validate_hmac, only: [:set_user]
   before_action :validate_hmac_for_identified_update, only: [:update]
 
+  reads_from_replica :show, max_lag: 10.seconds
+
   def show; end
 
   def update

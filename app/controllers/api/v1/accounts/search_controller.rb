@@ -2,6 +2,9 @@ class Api::V1::Accounts::SearchController < Api::V1::Accounts::BaseController
   before_action :validate_page_size
   before_action :validate_count_types, only: :counts
 
+  reads_from_replica :contacts, max_lag: 10.seconds
+  reads_from_replica :conversations, max_lag: 10.seconds, access_context: true
+
   def counts
     service = search_service('all')
     render json: { payload: { counts: service.counts(params[:types]) }, meta: { message_backend: service.message_backend } }
@@ -54,7 +57,8 @@ class Api::V1::Accounts::SearchController < Api::V1::Accounts::BaseController
       current_user: Current.user,
       current_account: Current.account,
       search_type: search_type,
-      params: params
+      params: params,
+      access_context: @read_replica_access_context
     )
   end
 

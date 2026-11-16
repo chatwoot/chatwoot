@@ -3,7 +3,7 @@ module Enterprise::SearchService
   MESSAGE_ORDER = { created_at: :desc, id: { order: :desc, unmapped_type: 'long' }.freeze }.freeze
 
   def available_types
-    permissions = account_user.permissions
+    permissions = search_permissions
     return super if permissions.intersect?(%w[agent administrator])
 
     allowed = []
@@ -61,8 +61,14 @@ module Enterprise::SearchService
   end
 
   def restricted_conversation_access?
-    permissions = account_user.permissions
+    permissions = search_permissions
     permissions.include?('custom_role') && permissions.exclude?('conversation_manage')
+  end
+
+  def search_permissions
+    return access_context.permissions if access_context
+
+    @search_permissions ||= ApplicationRecord.connected_to(role: :writing) { account_user.permissions }
   end
 
   def build_where_conditions
