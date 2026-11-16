@@ -157,7 +157,7 @@ defineExpose({
       />
       <ExclusionRules
         v-model:excluded-labels="state.exclusionRules.excludedLabels"
-        v-model:exclude-older-than-minutes="
+        v-model:exclude-older-than-hours="
           state.exclusionRules.excludeOlderThanHours
         "
         :tags-list="labelList"
