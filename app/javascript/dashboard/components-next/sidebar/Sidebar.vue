@@ -117,13 +117,6 @@ const hasCaptainMcpServers = computed(() => {
   );
 });
 
-const hasDataImport = computed(() => {
-  return isFeatureEnabledonAccount.value(
-    accountId.value,
-    FEATURE_FLAGS.DATA_IMPORT
-  );
-});
-
 const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
   if (!currentAccountId) return;
 
@@ -938,16 +931,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-blocks',
           to: accountScopedRoute('settings_applications'),
         },
-        ...(hasDataImport.value
-          ? [
-              {
-                name: 'Settings Data',
-                label: t('SIDEBAR.DATA'),
-                icon: 'i-lucide-database',
-                to: accountScopedRoute('settings_data_imports'),
-              },
-            ]
-          : []),
+        {
+          name: 'Settings Data',
+          label: t('SIDEBAR.DATA'),
+          icon: 'i-lucide-database',
+          to: accountScopedRoute('settings_data_imports'),
+        },
         {
           name: 'Settings Audit Logs',
           label: t('SIDEBAR.AUDIT_LOGS'),

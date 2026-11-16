@@ -30,6 +30,7 @@ class DataImports::Importer
   def initialize(data_import:, run_id: nil, source: nil)
     @data_import = data_import
     @run_id = run_id
+    @run_state = DataImports::RunState.new(data_import, run_id)
     @account = data_import.account
     @source = source || DataImports::Source.for(data_import)
     @placeholder_inboxes = @source.placeholder_inbox_builder(account: @account)
@@ -51,15 +52,11 @@ class DataImports::Importer
   end
 
   def start!
-    return if @data_import.reload.abandoned?
-
-    @data_import.update!(status: :processing, started_at: @data_import.started_at || Time.current)
+    @run_state.start!
   end
 
   def finish!
-    @data_import.with_lock do
-      next if @data_import.abandoned? || stale_import_run?
-
+    @run_state.with_lock do
       error_count = @data_import.import_errors.non_skip_logs.count + @data_import.import_errors.failed.count
       @stats['errors']['count'] = error_count
       status = error_count.positive? ? :completed_with_errors : :completed
@@ -74,9 +71,7 @@ class DataImports::Importer
   end
 
   def fail!(error)
-    @data_import.with_lock do
-      next if @data_import.abandoned? || stale_import_run?
-
+    @run_state.with_lock do
       record_run_error(error)
       @data_import.update!(status: :failed, last_error_at: Time.current)
     end
