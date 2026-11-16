@@ -76,6 +76,24 @@ export const isValidPassword = value => {
 export const isNumber = value => /^\d+$/.test(value);
 
 /**
+ * Matches webhook URLs that target a local address: an IPv4 or IPv6 literal
+ * (private ranges included) or `localhost`, with an optional port.
+ * e.g. http://192.168.1.10:8000/hook, http://[::1]:3000/hook, http://localhost:3000
+ * Lets self-hosted users point webhooks at services on their own network
+ * without tunnelling. Anything else (public hosts, other schemes) is left to
+ * the standard URL validation.
+ * @param {string} value - The URL to check.
+ * @returns {boolean} True if the URL targets a local address, false otherwise.
+ */
+const IPV4_OCTET = '(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)';
+const LOCAL_WEBHOOK_URL_PATTERN = new RegExp(
+  `^https?://(?:\\[(?:[0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}\\]|localhost|(?:${IPV4_OCTET}\\.){3}${IPV4_OCTET})(?::\\d{1,5})?(?:[/?#][^\\s]*)?$`,
+  'i'
+);
+
+export const isLocalWebhookUrl = value => LOCAL_WEBHOOK_URL_PATTERN.test(value);
+
+/**
  * Validates a domain name.
  * @param {string} value - The domain name to validate.
  * @returns {boolean} True if the domain is valid or empty, false otherwise.
