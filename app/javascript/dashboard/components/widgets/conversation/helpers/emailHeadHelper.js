@@ -3,7 +3,15 @@ import { email as emailValidator } from '@vuelidate/validators';
 
 export const validEmailsByComma = value => {
   if (!value.length) return true;
-  const emails = value.replace(/\s+/g, '').split(',');
+  const emails = value
+    .split(/[,;]+/)
+    .flatMap(part => {
+      if ((part.match(/@/g) || []).length > 1) {
+        return part.replace(/\s*@\s*/g, '@').split(/\s+/);
+      }
+      return part.replace(/\s+/g, '');
+    })
+    .filter(Boolean);
   return emails.every(email => emailValidator.$validator(email));
 };
 
