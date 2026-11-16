@@ -1,4 +1,4 @@
-<% headers = [
+﻿<% headers = [
   I18n.t('reports.sla_csv.conversation_id'),
   I18n.t('reports.sla_csv.sla_policy_breached'),
   I18n.t('reports.sla_csv.assignee'),
@@ -7,7 +7,7 @@
   I18n.t('reports.sla_csv.labels'),
   I18n.t('reports.sla_csv.conversation_link'),
   I18n.t('reports.sla_csv.breached_events')
-] %>
+] -%>
 <%= CSV.generate_line headers %>
 
 <% @missed_applied_slas.each do |sla| %>
