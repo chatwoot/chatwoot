@@ -1,6 +1,6 @@
 # Answers an agent's Copilot message with the workflow tools. Each step is saved on the turn's run, so a retried or resumed
-# turn continues where it stopped. Captain::Copilot::ChatService answers when the copilot_workflows flag is off, with the
-# same base prompt.
+# turn continues where it stopped. Captain::Copilot::ChatService answers with the old Copilot prompt when the
+# copilot_workflows flag is off.
 class Captain::Copilot::TurnService < Llm::BaseAiService
   include Captain::ChatHelper
   include Captain::Copilot::ConversationAccess
@@ -60,17 +60,18 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     tools.select(&:active?).each { |tool| wrap_tool(tool) }
   end
 
-  # Copilot's base prompt and tool list, then the workflow instructions. They explain Chatwoot's fields, because without
-  # them the model treats status and priority as content. The current time is the turn's own, so a retried or resumed turn
-  # reads the same dates. It is in the reporting time zone, where reports cut their days, so today is the account's date.
+  # The workflow instructions are the whole prompt. The old Copilot prompt in ChatService was written for a helper
+  # without tools, and its rules to ask before acting, keep answers short and cite sources worked against them. The
+  # instructions explain Chatwoot's fields, because without them the model treats status and priority as content. The
+  # current time is the turn's own, so a retried or resumed turn reads the same dates. It is in the reporting time zone,
+  # where reports cut their days, so today is the account's date.
   def system_message
-    tools = @tools.map { |tool| "- #{tool.class.name}: #{tool.description}" }.join("\n")
-    # Without the assistant's config the base prompt leaves out its numbered citations; answers link to records instead.
-    base = Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], tools)
-    instructions = Captain::PromptRenderer.render('copilot_workflows', conversations_per_turn: CopilotRun::CONVERSATIONS_PER_TURN,
+    instructions = Captain::PromptRenderer.render('copilot_workflows', product_name: @assistant.config['product_name'],
+                                                                       conversations_per_turn: CopilotRun::CONVERSATIONS_PER_TURN,
                                                                        user_name: @user.name, user_id: @user.id,
                                                                        current_time: @run.created_at.in_time_zone(@account.report_time_zone).iso8601)
-    { role: 'system', content: "#{base}\n\n#{instructions}" }
+    tools = @tools.map { |tool| "- #{tool.name}: #{tool.description}" }.join("\n")
+    { role: 'system', content: "#{instructions}\n\nTools:\n#{tools}" }
   end
 
   def account_message

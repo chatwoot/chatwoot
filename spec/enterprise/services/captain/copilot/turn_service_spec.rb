@@ -13,6 +13,15 @@ RSpec.describe Captain::Copilot::TurnService do
     InstallationConfig.find_or_create_by(name: 'CAPTAIN_OPEN_AI_API_KEY') { |config| config.value = 'test-key' }
   end
 
+  it 'answers with its own prompt, which names the business and leaves out the old prompt and its citation rule' do
+    thread.assistant.update!(config: thread.assistant.config.merge('product_name' => 'Acme Travel', 'feature_citation' => true))
+    prompt = service.instance_variable_get(:@messages).first[:content]
+
+    expect(prompt).to start_with('You are Copilot').and include('support the customers of Acme Travel')
+    expect(prompt).not_to include('[Identity]')
+    expect(prompt).not_to include('URL')
+  end
+
   # RubyLLM calls these around every tool call.
   it 'writes one plain line per step, marks a failed step, and adds a warning line for a failed tool without a step line' do
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'search_contacts', arguments: {}))
