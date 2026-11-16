@@ -444,6 +444,9 @@ en:
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
+      auto_translate:
+        disabled: '%{user_name} turned off auto-translate for this conversation'
+        enabled: '%{user_name} turned on auto-translate for this conversation'
       linear:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
