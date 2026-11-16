@@ -67,9 +67,9 @@ RSpec.describe Captain::Copilot::ChatService do
 
     it 'uses the account model ahead of the Copilot default and installation model' do
       InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-6-luna')
-      account.update!(captain_models: { 'copilot' => 'gpt-5-mini' })
+      account.update!(captain_models: { 'copilot' => 'gpt-5.1' })
 
-      expect(described_class.new(assistant, config).model).to eq('gpt-5-mini')
+      expect(described_class.new(assistant, config).model).to eq('gpt-5.1')
     end
   end
 

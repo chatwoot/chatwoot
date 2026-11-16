@@ -32,6 +32,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  disableClose: {
+    type: Boolean,
+    default: false,
+  },
   isLoading: {
     type: Boolean,
     default: false,
@@ -95,19 +99,31 @@ const open = () => {
 
 const close = () => {
   emit('close');
-  dialogRef.value?.close();
   isOpen.value = false;
+  dialogRef.value?.close();
+};
+
+const requestClose = () => {
+  if (!props.disableClose) close();
+};
+
+const handleDialogCancel = event => {
+  if (event.target !== dialogRef.value) return;
+
+  event.preventDefault();
+  requestClose();
 };
 
 // Only close if the close event originated from this dialog,
 // not from a child dialog (e.g. ProseMirror prompt) bubbling up.
-const handleDialogClose = e => e.target === dialogRef.value && close();
+const handleDialogClose = e =>
+  e.target === dialogRef.value && isOpen.value && close();
 
 // Only close on click-outside if this dialog is the topmost one.
 // If another dialog (e.g. ProseMirror prompt) is open on top, ignore.
 const handleClickOutside = () => {
   const dialogs = document.querySelectorAll('dialog[open]');
-  if (dialogs[dialogs.length - 1] === dialogRef.value) close();
+  if (dialogs[dialogs.length - 1] === dialogRef.value) requestClose();
 };
 
 const confirm = () => {
@@ -128,6 +144,7 @@ defineExpose({ open, close });
         overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
       ]"
       @close.prevent="handleDialogClose"
+      @cancel="handleDialogCancel"
     >
       <OnClickOutside @trigger="handleClickOutside">
         <form
@@ -160,7 +177,8 @@ defineExpose({ open, close });
                 :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
                 class="w-full"
                 type="button"
-                @click="close"
+                :disabled="disableClose"
+                @click="requestClose"
               />
               <Button
                 v-if="showConfirmButton"
