@@ -25,6 +25,7 @@ const props = defineProps({
   isInboxView: { type: Boolean, default: false },
   selectable: { type: Boolean, default: true },
   conversationFirst: { type: Boolean, default: false },
+  sortBy: { type: String, default: 'last_activity_at_desc' },
 });
 
 const emit = defineEmits([
@@ -256,13 +257,16 @@ const selectedModel = computed({
       </div>
 
       <div
-        class="flex-shrink-0 w-[4.375rem] text-end"
+        class="flex-shrink-0 min-w-[4.375rem] text-end"
         :class="orderClass('time')"
       >
         <TimeAgo
           :conversation-id="chat.id"
           :last-activity-timestamp="chat.timestamp"
           :created-at-timestamp="chat.created_at"
+          :last-message-timestamp="chat.last_message_at"
+          :waiting-since-timestamp="chat.waiting_since"
+          :sort-by="sortBy"
           class="font-440 !text-xs text-n-slate-11"
         />
       </div>

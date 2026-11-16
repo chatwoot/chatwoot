@@ -76,6 +76,11 @@ properties:
   last_activity_at:
     type: number
     description: The last activity at of the conversation
+  last_message_at:
+    type:
+      - number
+      - 'null'
+    description: Unix timestamp of the latest public message, including bot replies. Excludes private notes and activity messages. Null when no public message exists.
   priority:
     type:
       - string

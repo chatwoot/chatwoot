@@ -49,7 +49,11 @@
       },
       "LAST_ACTIVITY": {
         "NOT_ACTIVE": "Last activity:"
-      }
+      },
+      "LAST_MESSAGE": "Last message:",
+      "WAITING_SINCE": "Waiting since:",
+      "NO_MESSAGES": "No messages",
+      "NOT_WAITING": "Not waiting"
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
@@ -57,6 +61,12 @@
       },
       "last_activity_at_desc": {
         "TEXT": "Last activity: Newest first"
+      },
+      "last_message_at_asc": {
+        "TEXT": "Last message: Oldest first"
+      },
+      "last_message_at_desc": {
+        "TEXT": "Last message: Newest first"
       },
       "created_at_desc": {
         "TEXT": "Created at: Newest first"
