@@ -16,7 +16,10 @@ class Captain::Copilot::ReportService
   MAX_CHECKED = 50
   MAX_EACH = 20
   SUMMARY_COUNTS = { 'conversations_count' => :conversations, 'resolutions_count' => :resolved }.freeze
-  SUMMARY_METRICS = SUMMARY_COUNTS.keys + %w[avg_first_response_time avg_resolution_time reply_time]
+  # The summary column behind each metric, so the rows come ranked by the metric the agent asked about. The model
+  # misordered written durations such as "1 week and 13 hours" against "1 week and 2 days".
+  SUMMARY_COLUMNS = { 'resolutions_count' => :resolved_conversations_count, 'reply_time' => :avg_reply_time }
+                    .merge(%w[conversations_count avg_first_response_time avg_resolution_time].index_with(&:to_sym)).freeze
   # Chart titles and bar labels name the metric in plain words.
   METRIC_NAMES = {
     'conversations_count' => 'Conversations', 'incoming_messages_count' => 'Messages received',
@@ -121,10 +124,10 @@ class Captain::Copilot::ReportService
       raise ArgumentError, "A chart by #{dimension} needs conversations_count or resolutions_count in metrics"
     end
 
-    all = summary_rows(dimension)
+    all = summary_rows(dimension, (metrics & SUMMARY_COLUMNS.keys).first || 'conversations_count')
     rows = active(all)
     result = { by: dimension, rows: rows, without_activity: all.size - rows.size, time_zone: @time_zone }
-    missing = metrics - SUMMARY_METRICS
+    missing = metrics - SUMMARY_COLUMNS.keys
     if missing.any?
       result[:note] = "The summary has no #{missing.join(', ')}. For them per #{dimension}, call get_report by day, week, month or " \
                       "year with each set to #{dimension}."
@@ -134,15 +137,15 @@ class Captain::Copilot::ReportService
     result.merge(Captain::Copilot::Chart.for(@tool_call, (metrics & SUMMARY_COUNTS.keys).map { |metric| summary_chart(dimension, metric, rows) }))
   end
 
-  # Every agent, inbox, team or label the builder lists, busiest first.
-  def summary_rows(dimension)
+  # Every agent, inbox, team or label the builder lists, highest first by the metric; those without a value for it come last.
+  def summary_rows(dimension, ranked_by = 'conversations_count')
     builder = SUMMARY_BUILDERS.fetch(dimension) do
       raise ArgumentError, "by must be one of: #{([RANGE] + PERIODS + SUMMARY_BUILDERS.keys).join(', ')}"
     end
     names = dimension_names(dimension)
     rows = builder.new(account: @account, params: params.merge(type: dimension.to_sym)).build
     rows = rows.map { |row| row.merge(row.slice(*LABEL_TIMES).transform_values(&:nonzero?)) } if dimension == 'label'
-    rows.sort_by { |row| -row[:conversations_count] }.map { |row| summary_row(row, names) }
+    rows.sort_by { |row| -row[SUMMARY_COLUMNS.fetch(ranked_by)].to_f }.map { |row| summary_row(row, names) }
   end
 
   # The rows with conversations, resolutions or response times in the range. Times come from replies sent in the range,

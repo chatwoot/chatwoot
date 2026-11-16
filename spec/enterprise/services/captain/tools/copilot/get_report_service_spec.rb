@@ -135,6 +135,21 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(result[:without_activity]).to eq(1)
     end
 
+    it 'ranks the summary by the first metric asked for, so the model never sorts written durations' do
+      slow = create(:user, account: account)
+      slow_conversation = create(:conversation, account: account, inbox: inbox, assignee: slow, created_at: Time.zone.parse('2026-09-10 10:00'))
+      { slow => [slow_conversation, 3_600], agent => [Conversation.where(assignee: agent).first, 600] }.each do |user, (conversation, seconds)|
+        create(:reporting_event, name: 'first_response', value: seconds, account: account, inbox: inbox, user: user,
+                                 conversation: conversation, created_at: Time.zone.parse('2026-09-10 11:00'))
+      end
+
+      by_time = service.execute(by: 'agent', metrics: %w[avg_first_response_time], **week)
+      by_count = service.execute(by: 'agent', metrics: %w[conversations_count], **week)
+
+      expect(by_time[:rows].pluck(:id)).to eq([slow.id, agent.id])
+      expect(by_count[:rows].pluck(:id)).to eq([agent.id, slow.id])
+    end
+
     it 'counts a label without activity instead of listing it with zero times' do
       create(:label, account: account, title: 'unused')
 
