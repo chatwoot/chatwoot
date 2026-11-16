@@ -7,9 +7,11 @@ export const validEmailsByComma = value => {
     .split(/[,;]+/)
     .flatMap(part => {
       if ((part.match(/@/g) || []).length > 1) {
-        return part.replace(/\s*@\s*/g, '@').split(/\s+/);
+        return part
+          .replace(/[\s\u0085]*@[\s\u0085]*/g, '@')
+          .split(/[\s\u0085]+/);
       }
-      return part.replace(/\s+/g, '');
+      return part.replace(/[\s\u0085]+/g, '');
     })
     .filter(Boolean);
   return emails.every(email => emailValidator.$validator(email));

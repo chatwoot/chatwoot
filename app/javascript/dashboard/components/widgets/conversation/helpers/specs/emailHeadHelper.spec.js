@@ -19,6 +19,11 @@ describe('#validEmailsByComma', () => {
     'first@example.com\nsecond@example.com\tthird@example.com',
     'first @ example.com; second @ example.com third@example.com',
     ' ; first@example.com,,; second@example.com; ',
+    'first@example.com\u00a0second\u00a0@\u00a0example.com',
+    'first@example.com\u0085second\u0085@\u0085example.com',
+    'first@example.com\u202fsecond@example.com',
+    'first@example.com\u3000second@example.com',
+    'first@example.com\ufeffsecond@example.com',
   ])('accepts the backend recipient delimiters: %s', value => {
     expect(validEmailsByComma(value)).toEqual(true);
   });

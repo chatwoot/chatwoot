@@ -23,9 +23,9 @@ module EmailHelper
         if part.count('@') > 1
           # Attach any whitespace around `@` to its address first, so the
           # remaining whitespace only separates addresses.
-          part.gsub(/\s*@\s*/, '@').split(/\s+/)
+          part.gsub(/[[:space:]\uFEFF]*@[[:space:]\uFEFF]*/, '@').split(/[[:space:]\uFEFF]+/)
         else
-          part.gsub(/\s+/, '')
+          part.gsub(/[[:space:]\uFEFF]+/, '')
         end
       end
     end.map(&:strip).reject(&:blank?)
