@@ -34,6 +34,13 @@ RSpec.describe Integrations::Hook do
       expect(record.errors[:inbox_id]).to include('must belong to the same account as the hook')
     end
 
+    it 'rejects new disabled hooks with a foreign inbox' do
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: create(:inbox), status: :disabled)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include('must belong to the same account as the hook')
+    end
+
     it 'preserves account integrations without an inbox' do
       expect(build(:integrations_hook, account: account, inbox: nil)).to be_valid
     end

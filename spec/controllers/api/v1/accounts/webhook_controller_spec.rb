@@ -7,6 +7,25 @@ RSpec.describe 'Webhooks API', type: :request do
   let(:administrator) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
+  describe 'existing cross-account webhooks' do
+    it 'hides the foreign inbox and allows deleting the invalid webhook' do
+      foreign_inbox = create(:inbox, name: 'Private foreign inbox')
+      # Reproduce rows accepted before inbox ownership validation was added.
+      webhook.update_column(:inbox_id, foreign_inbox.id) # rubocop:disable Rails/SkipsModelValidations
+      headers = administrator.create_new_auth_token
+
+      get "/api/v1/accounts/#{account.id}/webhooks", headers: headers, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include(foreign_inbox.name)
+      expect(response.parsed_body.fetch('payload').fetch('webhooks').first).not_to have_key('inbox')
+
+      delete "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}", headers: headers
+      expect(response).to have_http_status(:success)
+      expect(Webhook.exists?(webhook.id)).to be false
+    end
+  end
+
   describe 'GET /api/v1/accounts/<account_id>/webhooks' do
     context 'when it is an authenticated agent' do
       it 'returns unauthorized' do

@@ -52,6 +52,10 @@ class Integrations::Hook < ApplicationRecord
 
   enum hook_type: { account: 0, inbox: 1 }
 
+  def inbox_belongs_to_account?
+    inbox.present? && inbox.account_id == account_id
+  end
+
   def shopify_custom_app
     account.shopify_custom_app if app_id == 'shopify' && settings['custom_app_id'].present?
   end
@@ -124,14 +128,18 @@ class Integrations::Hook < ApplicationRecord
   private
 
   def inbox_must_belong_to_account
+    # Existing invalid links must remain disableable; their inbox and account are readonly.
+    return if persisted? && disabled?
     return if inbox_id.blank? && inbox.blank?
-    return if inbox&.account_id == account_id
+    return if inbox_belongs_to_account?
 
     errors.add(:inbox_id, 'must belong to the same account as the hook')
   end
 
   def ensure_exclusive_bot_provider
-    provider = inbox&.conflicting_bot_provider(:dialogflow)
+    return unless inbox_belongs_to_account?
+
+    provider = inbox.conflicting_bot_provider(:dialogflow)
     errors.add(:base, I18n.t('errors.inboxes.bot_provider_conflict', current_provider: provider, requested_provider: 'Dialogflow')) if provider
   end
 

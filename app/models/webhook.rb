@@ -34,11 +34,15 @@ class Webhook < ApplicationRecord
                               message_created message_updated webwidget_triggered inbox_created inbox_updated
                               conversation_typing_on conversation_typing_off].freeze
 
+  def inbox_belongs_to_account?
+    inbox.present? && inbox.account_id == account_id
+  end
+
   private
 
   def inbox_must_belong_to_account
     return if inbox_id.blank? && inbox.blank?
-    return if inbox&.account_id == account_id
+    return if inbox_belongs_to_account?
 
     errors.add(:inbox_id, 'must belong to the same account as the webhook')
   end
