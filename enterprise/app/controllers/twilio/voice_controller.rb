@@ -6,7 +6,7 @@ class Twilio::VoiceController < ApplicationController
     /conference-end/i => 'end'
   }.freeze
 
-  include Concerns::TwilioWebhookVerification
+  include TwilioWebhookVerification
 
   before_action :set_inbox!
   before_action { verify_twilio_signature!(inbox_channel.auth_token) }
@@ -41,6 +41,11 @@ class Twilio::VoiceController < ApplicationController
   # Fetched by Twilio for an inbound caller waiting in the conference
   def wait_twiml
     render xml: twiml.wait
+  end
+
+  # Announced to a held caller to end the hold music the mute started
+  def resume_twiml
+    render xml: Twilio::TwiML::VoiceResponse.new.to_s
   end
 
   def conference_status

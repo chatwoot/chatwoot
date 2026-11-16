@@ -98,7 +98,7 @@ class Sms::IncomingMessageService
   # internal addresses.
   def download_media(media_url)
     if provider_hosted?(media_url)
-      file = Down.download(media_url, http_basic_authentication: provider_credentials, max_redirects: 0)
+      file = Down.download(media_url, **channel.media_download_options, max_redirects: 0)
       yield file, file.original_filename, file.content_type
     else
       # SafeFetch closes its tempfile when the block returns, but the attachment is
@@ -111,10 +111,6 @@ class Sms::IncomingMessageService
     # so the job retries, as before this change.
   rescue SafeFetch::UnsafeUrlError, SafeFetch::InvalidUrlError, SafeFetch::FileTooLargeError, SafeFetch::UnsupportedContentTypeError => e
     Rails.logger.warn("[SMS] skipping media download: #{e.class}")
-  end
-
-  def provider_credentials
-    [channel.provider_config['api_key'], channel.provider_config['api_secret']]
   end
 
   # Copy the streamed download into a tempfile that outlives the SafeFetch block

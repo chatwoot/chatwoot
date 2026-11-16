@@ -166,9 +166,9 @@ class Captain::Assistant::AgentRunnerService
     with_email_verification_tools(agent)
   end
 
-  # Custom tools are built for customers by default. Here an admin or an agent is the user, so they are rebuilt for Copilot.
+  # Tools are built for customers by default. Here an admin or an agent is the user, so each tool gives its Copilot version.
   def copilot_tools(tools)
-    tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool) : tool }
+    tools.map(&:for_copilot)
   end
 
   # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it
@@ -187,14 +187,8 @@ class Captain::Assistant::AgentRunnerService
     agent = @assistant.agent
     agent.clone(
       instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
-      tools: copilot_tools(agent.tools.select { |tool| available_in_reply_suggestion?(tool) })
+      tools: copilot_tools(agent.tools.select(&:read_only?))
     )
-  end
-
-  def available_in_reply_suggestion?(tool)
-    return true if tool.is_a?(Captain::Tools::FaqLookupTool)
-
-    tool.is_a?(Captain::Tools::HttpTool) && tool.available_in_reply_suggestion?
   end
 
   def reply_suggestion? = @source == REPLY_SUGGESTION_SOURCE

@@ -26,6 +26,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hasNewerVersion: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -35,6 +39,7 @@ const emit = defineEmits([
   'setCategory',
   'previewArticle',
   'createArticle',
+  'reloadArticle',
 ]);
 
 const { t } = useI18n();
@@ -188,6 +193,12 @@ const previewArticle = () => {
   emit('previewArticle');
 };
 
+// Drop the queued save first, or it can land during the fetch and overwrite the newer version being loaded.
+const reloadArticle = () => {
+  cancelSave();
+  emit('reloadArticle');
+};
+
 const handleCreateArticle = event => {
   if (!isNewArticle.value) return;
   const title = event?.target?.value || '';
@@ -200,6 +211,8 @@ const handleCreateArticle = event => {
   }
   emit('createArticle', { title, content: localContent.value });
 };
+
+defineExpose({ syncLocalState });
 </script>
 
 <template>
@@ -213,9 +226,11 @@ const handleCreateArticle = event => {
         :pending-changes="hasPendingChanges"
         :is-saving="isSaving"
         :has-pending-uploads="hasPendingUploads"
+        :has-newer-version="hasNewerVersion"
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
         @show-diff="diffPanelRef?.open()"
+        @reload-article="reloadArticle"
       />
       <ArticleDiffPanel ref="diffPanelRef" :article="article" />
     </template>

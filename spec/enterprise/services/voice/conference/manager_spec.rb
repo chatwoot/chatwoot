@@ -18,6 +18,7 @@ RSpec.describe Voice::Conference::Manager do
     allow(conference).to receive(:complete_unless_agent_joining) do |leaving_call_sid:, since:|
       real.complete_unless_agent_joining(leaving_call_sid: leaving_call_sid, since: since)
     end
+    allow(conference).to receive(:release_claim!) { |user_id| real.release_claim!(user_id) }
     allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference)
   end
 

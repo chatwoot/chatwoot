@@ -97,4 +97,23 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
       expect(response.parsed_body['latest_chatwoot_version']).to eq('4.16.1')
     end
   end
+
+  describe 'PATCH /api/v1/accounts/{account.id}' do
+    let(:account) { create(:account) }
+    let(:admin) { create(:user, account: account, role: :administrator) }
+
+    it 'keeps the billing fields the account show response returns' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+      InstallationConfig.create!(name: 'INSTALLATION_SUBSCRIPTION_STATUS', value: 'past_due', locked: true)
+
+      patch "/api/v1/accounts/#{account.id}",
+            params: { name: 'Renamed' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to include('billing_provider', 'subscribed_features')
+      expect(response.parsed_body['installation_subscription_status']).to eq('past_due')
+    end
+  end
 end

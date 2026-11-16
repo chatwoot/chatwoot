@@ -9,6 +9,7 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   # Each pass shares one character budget, 1,500 per message on average, so short messages leave room for long ones.
   FIRST_PASS = { opening: 3, latest: 5, characters: 12_000 }.freeze
   DEEP_PASS = { opening: 10, latest: 40, characters: 75_000 }.freeze
+  KNOWN_CATEGORIES = 20
 
   def initialize(run)
     @run = run
@@ -19,16 +20,27 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   def review(conversation, deep: false)
     @run.ensure_can_continue!
     evidence = conversation_for_review(conversation, deep)
-    prompt = { product: @run.copilot_thread.assistant.config['product_name'], request: @run.request, question: @run.question,
-               criteria: @run.criteria, as_of: @run.as_of.iso8601, conversation: evidence }.compact.to_json
     input = { conversation_id: conversation.id, deep: deep }
     content = with_copilot_trace('llm.captain.copilot_review', trace_params(conversation), turn: @run.turn, input: input) do
-      build_chat.ask(prompt).content
+      build_chat.ask(review_prompt(evidence)).content
     end
     parse_result(JSON.parse(sanitize_json_response(content)), evidence, deep)
   end
 
   private
+
+  # The parts that stay the same for every conversation come first, so the provider can cache them across the review.
+  def review_prompt(evidence)
+    { product: @run.copilot_thread.assistant.config['product_name'], request: @run.request, selection: @run.source_run.selection,
+      question: @run.question, criteria: @run.criteria, reference: @run.reference,
+      as_of: @run.as_of.iso8601, known_categories: known_categories, conversation: evidence }.compact.to_json
+  end
+
+  # Each conversation is reviewed alone, so the categories earlier ones got are passed on to keep the wording the same and
+  # make the counts per category meaningful.
+  def known_categories
+    @run.findings.ranked_categories.limit(KNOWN_CATEGORIES).pluck(:category).presence
+  end
 
   def trace_params(conversation)
     { account_id: @run.account_id, feature_name: 'copilot_review', model: model, metadata: { run_id: @run.id, conversation_id: conversation.id } }
@@ -97,22 +109,30 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   def parse_result(row, evidence, deep)
     reviewed_ids = evidence[:messages].pluck(:id)
     evidence_ids = row['evidence_message_ids']
-    validate_result!(row, evidence_ids, reviewed_ids)
-    # The reviewer sometimes rules a conversation out on text it never saw, so a first-pass no on a cut message goes to
-    # the deep pass, which has room for more of it.
-    more = row['needs_more_history'] || (!deep && !row['matched'] && evidence[:messages].any? { |message| message[:content_truncated] })
+    more = more_history?(row, evidence, deep)
+    validate_result!(row, evidence_ids, reviewed_ids, more)
     { status: more ? :needs_more_history : :reviewed, matched: more ? false : row['matched'],
       category: row['category'].to_s.first(80), reason: row['reason'].to_s.first(500), evidence_message_ids: evidence_ids,
       reviewed_message_ids: reviewed_ids, history_truncated: evidence[:history_truncated] }
   end
 
-  def validate_result!(row, evidence_ids, reviewed_ids)
+  # More history helps only when messages or text were left out, so a reviewer that saw the whole conversation keeps its
+  # result. The reviewer sometimes rules a conversation out on text it never saw, so a first-pass no on a cut message goes
+  # to the deep pass, which has room for more of it.
+  def more_history?(row, evidence, deep)
+    cut = evidence[:messages].any? { |message| message[:content_truncated] }
+    return false unless evidence[:history_truncated] || cut
+
+    row['needs_more_history'] || (!deep && !row['matched'] && cut)
+  end
+
+  def validate_result!(row, evidence_ids, reviewed_ids, more)
     unless row.values_at('matched', 'needs_more_history').all? { |value| [true, false].include?(value) }
       raise ArgumentError, 'Review verdicts must be booleans'
     end
 
     validate_evidence!(evidence_ids, reviewed_ids)
-    return if row['needs_more_history']
+    return if more
 
     validate_explanation!(row, evidence_ids)
   end

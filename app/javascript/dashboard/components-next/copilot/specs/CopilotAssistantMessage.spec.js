@@ -60,3 +60,33 @@ describe('CopilotAssistantMessage conversation links', () => {
     wrapper.unmount();
   });
 });
+
+describe('CopilotAssistantMessage charts', () => {
+  it('draws the charts a marker names from message.charts', () => {
+    const chart = {
+      title: 'Conversations by day',
+      categories: ['2023-09-04', '2023-09-05'],
+      series: [{ id: 'value', label: 'Conversations', data: [2, 6] }],
+    };
+    const wrapper = shallowMount(CopilotAssistantMessage, {
+      props: {
+        message: {
+          content: 'Before\n\n[copilot-chart:41]\n\nAfter [copilot-chart:42]',
+          charts: { 41: [chart] },
+        },
+      },
+      global: { plugins: [[VueDOMPurifyHTML, domPurifyConfig]] },
+    });
+
+    const barChart = wrapper.findComponent({ name: 'BarChart' });
+    expect(barChart.props('data')).toEqual({
+      categories: chart.categories,
+      series: chart.series,
+    });
+    expect(wrapper.text()).toContain('Before');
+    expect(wrapper.text()).toContain('After');
+    expect(wrapper.findAllComponents({ name: 'BarChart' })).toHaveLength(1);
+    expect(wrapper.text()).not.toContain('copilot-chart');
+    wrapper.unmount();
+  });
+});

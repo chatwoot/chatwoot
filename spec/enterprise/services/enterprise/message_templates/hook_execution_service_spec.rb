@@ -8,10 +8,20 @@ RSpec.describe MessageTemplates::HookExecutionService do
   let(:assistant) { create(:captain_assistant, account: account) }
 
   before do
+    account.enable_features!('captain_integration')
     create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
   end
 
   context 'when captain assistant is configured' do
+    it 'hands off a pending Captain conversation when the feature is disabled' do
+      conversation.update!(ai_assignee: assistant)
+      account.disable_features!('captain_integration')
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
+    end
+
     context 'when within business hours' do
       before do
         inbox.update!(working_hours_enabled: true)

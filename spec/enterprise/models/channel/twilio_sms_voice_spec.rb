@@ -24,6 +24,15 @@ RSpec.describe Channel::TwilioSms do
       channel.valid?
       expect(channel.errors[:base]).to include('Voice calling requires a phone number and cannot be used with messaging service SID')
     end
+
+    it 'rejects routing settings outside the values the inbox accepts, however they are written' do
+      channel = create(:channel_twilio_sms, :with_voice, account: account)
+
+      expect { channel.update!(provider_config: channel.provider_config.merge('ring_step_seconds' => '15')) }
+        .to raise_error(ActiveRecord::RecordInvalid)
+      expect(channel.update(provider_config: channel.reload.provider_config.merge('ring_strategy' => 'sequential', 'ring_step_seconds' => 15)))
+        .to be(true)
+    end
   end
 
   describe '#voice_enabled?' do

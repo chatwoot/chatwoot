@@ -3,6 +3,8 @@
 # Table name: account_users
 #
 #  id                       :bigint           not null, primary key
+#  accepts_calls            :boolean          default(TRUE), not null
+#  accepts_conversations    :boolean          default(TRUE), not null
 #  active_at                :datetime
 #  auto_offline             :boolean          default(TRUE), not null
 #  availability             :integer          default("online"), not null
@@ -31,8 +33,8 @@ class AccountUser < ApplicationRecord
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
 
-  enum role: { agent: 0, administrator: 1 }
-  enum availability: { online: 0, offline: 1, busy: 2 }
+  enum :role, { agent: 0, administrator: 1 }
+  enum :availability, { online: 0, offline: 1, busy: 2 }
 
   accepts_nested_attributes_for :account
 
@@ -43,6 +45,7 @@ class AccountUser < ApplicationRecord
   after_update_commit :invalidate_filtered_unread_count_visibility_update, if: :filtered_unread_count_visibility_changed?
 
   validates :user_id, uniqueness: { scope: :account_id }
+  validate :accepts_conversations_or_calls
 
   def create_notification_setting
     setting = user.notification_settings.new(account_id: account.id)
@@ -96,6 +99,12 @@ class AccountUser < ApplicationRecord
 
   def dispatch_account_cache_invalidated
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, account: account, cache_keys: account.cache_keys)
+  end
+
+  def accepts_conversations_or_calls
+    return if accepts_conversations || accepts_calls
+
+    errors.add(:base, I18n.t('errors.account_user.no_work_preference'))
   end
 end
 

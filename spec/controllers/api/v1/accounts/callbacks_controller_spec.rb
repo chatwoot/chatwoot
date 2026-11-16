@@ -23,6 +23,7 @@ RSpec.describe 'Callbacks API', type: :request do
   let!(:facebook_page) { create(:channel_facebook_page, inbox: inbox, account: account) }
   let(:valid_params) { attributes_for(:channel_facebook_page).merge(inbox_name: 'Test Inbox') }
   let(:inbox) { create(:inbox, account: account) }
+  let(:agent) { create(:user, account: account, role: :agent) }
 
   # Doubles
   let(:koala_api) { instance_double(Koala::Facebook::API) }
@@ -32,6 +33,19 @@ RSpec.describe 'Callbacks API', type: :request do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/callbacks/register_facebook_page"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'returns unauthorized' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/callbacks/register_facebook_page",
+               headers: agent.create_new_auth_token,
+               params: valid_params,
+               as: :json
+        end.not_to change(Channel::FacebookPage, :count)
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -90,6 +104,16 @@ RSpec.describe 'Callbacks API', type: :request do
       end
     end
 
+    context 'when it is an agent' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/callbacks/facebook_pages",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
@@ -108,6 +132,19 @@ RSpec.describe 'Callbacks API', type: :request do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/callbacks/reauthorize_page"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'returns unauthorized' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/callbacks/reauthorize_page",
+               headers: agent.create_new_auth_token,
+               params: { inbox_id: inbox.id },
+               as: :json
+        end.not_to(change { facebook_page.reload.page_access_token })
 
         expect(response).to have_http_status(:unauthorized)
       end

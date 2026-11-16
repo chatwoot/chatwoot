@@ -79,6 +79,64 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'super_admin_login/ip' do
+    it 'counts password sign-ins by ip' do
+      env = form_env({ 'super_admin' => { 'email' => 'a@b.com', 'password' => 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to eq(ip)
+    end
+
+    it 'skips code submissions' do
+      env = form_env({ 'super_admin' => { 'otp_code' => '123456' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to be_nil
+    end
+
+    it 'counts a JSON sign-in with a null code as a password sign-in' do
+      env = json_env({ super_admin: { email: 'a@b.com', password: 'x', otp_code: nil } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to eq(ip)
+    end
+  end
+
+  describe 'super_admin_mfa/ip' do
+    it 'counts code submissions by ip' do
+      env = form_env({ 'super_admin' => { 'otp_code' => '123456' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_mfa/ip', env)).to eq(ip)
+    end
+
+    it 'skips password sign-ins' do
+      env = form_env({ 'super_admin' => { 'email' => 'a@b.com', 'password' => 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_mfa/ip', env)).to be_nil
+    end
+  end
+
+  describe 'super_admin_login/email' do
+    def super_admin_env(params)
+      form_env(params, '/super_admin/sign_in')
+    end
+
+    it 'keys password sign-ins by the normalized super admin email' do
+      key = throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => { 'email' => ' Admin@Example.COM ', 'password' => 'x' } }))
+      expect(key).to eq('admin@example.com')
+    end
+
+    it 'keys JSON password sign-ins by the normalized super admin email' do
+      env = json_env({ super_admin: { email: ' Admin@Example.COM ', password: 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/email', env)).to eq('admin@example.com')
+    end
+
+    it 'skips malformed JSON bodies without raising' do
+      env = build_env('/super_admin/sign_in', '{"super_admin": broken', 'application/json')
+      expect(throttle_key('super_admin_login/email', env)).to be_nil
+    end
+
+    it 'skips code submissions instead of sharing a blank key' do
+      expect(throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => { 'otp_code' => '123456' } }))).to be_nil
+    end
+
+    it 'skips a non-hash super_admin param' do
+      expect(throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => 'email' }))).to be_nil
+    end
+  end
+
   describe 'malformed query strings' do
     it 'falls back to the per-ip throttle instead of raising on an over-nested query' do
       env = build_env('/auth/sign_in', '{}', 'application/json')

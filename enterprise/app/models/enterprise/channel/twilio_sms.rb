@@ -2,6 +2,7 @@ module Enterprise::Channel::TwilioSms
   extend ActiveSupport::Concern
 
   include Concerns::CallRecordingSettings
+  include Concerns::CallRoutingSettings
 
   # The ring time offered before an inbox saves its own
   DEFAULT_RING_TIMEOUT_SECONDS = 60
@@ -11,6 +12,7 @@ module Enterprise::Channel::TwilioSms
       encrypts :api_key_secret if Chatwoot.encryption_configured?
 
       validate :voice_requires_phone_number, if: :voice_enabled?
+      validate :call_routing_settings_valid
       before_validation :provision_twiml_app, on: :create, if: :voice_enabled?
       before_validation :provision_twiml_app_on_update, on: :update, if: :voice_enabled_changed_to_true?
       after_commit :teardown_voice, on: :update, if: :voice_disabled?
