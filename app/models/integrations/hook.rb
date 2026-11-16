@@ -17,6 +17,11 @@
 class Integrations::Hook < ApplicationRecord
   include Reauthorizable
 
+  # Stripe stores its OAuth token pair as JSON in this string column, so its
+  # bound must stay independent of MAX_TEXT_COLUMN_LENGTH, which self-hosted
+  # installations can lower below the serialized credential size.
+  MAX_STRIPE_ACCESS_TOKEN_LENGTH = 20_000
+
   attr_readonly :app_id, :account_id, :inbox_id, :hook_type
   before_validation :ensure_hook_type, on: :create
   before_validation :normalize_shopify_reference_id, if: :shopify?
@@ -27,7 +32,7 @@ class Integrations::Hook < ApplicationRecord
 
   validates :account_id, presence: true
   validates :app_id, presence: true
-  validates :access_token, length: { maximum: ->(hook) { hook.app_id == 'stripe' ? MAX_TEXT_COLUMN_LENGTH : MAX_STRING_COLUMN_LENGTH } }
+  validates :access_token, length: { maximum: ->(hook) { hook.app_id == 'stripe' ? MAX_STRIPE_ACCESS_TOKEN_LENGTH : MAX_STRING_COLUMN_LENGTH } }
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
   validates :reference_id, presence: true, format: { with: Shopify::ShopDomain::FORMAT }, if: :shopify?
   validates :reference_id,
