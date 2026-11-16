@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Conversations::ReopenSnoozedConversationsJob do
   let!(:snoozed_till_5_minutes_ago) { create(:conversation, status: :snoozed, snoozed_until: 5.minutes.ago) }
+  let!(:snoozed_till_4_days_ago) { create(:conversation, status: :snoozed, snoozed_until: 4.days.ago) }
   let!(:snoozed_till_tomorrow) { create(:conversation, status: :snoozed, snoozed_until: 1.day.from_now) }
   let!(:snoozed_indefinitely) { create(:conversation, status: :snoozed) }
 
@@ -18,6 +19,7 @@ RSpec.describe Conversations::ReopenSnoozedConversationsJob do
       described_class.perform_now
 
       expect(snoozed_till_5_minutes_ago.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
+      expect(snoozed_till_4_days_ago.reload.status).to eq 'open'
       expect(snoozed_till_tomorrow.reload.status).to eq 'snoozed'
       expect(snoozed_indefinitely.reload.status).to eq 'snoozed'
     end
