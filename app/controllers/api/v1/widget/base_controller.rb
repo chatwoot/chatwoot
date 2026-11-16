@@ -62,6 +62,13 @@ class Api::V1::Widget::BaseController < ApplicationController
     permitted_params.dig(:contact, :custom_attributes)&.to_h
   end
 
+  # Attributes stored on contacts the widget creates, so every creation path records the IP.
+  def contact_additional_attributes
+    return {} unless @web_widget.inbox.account.feature_enabled?('ip_lookup')
+
+    { created_at_ip: request.remote_ip }
+  end
+
   def browser_params
     {
       browser_name: browser.name,

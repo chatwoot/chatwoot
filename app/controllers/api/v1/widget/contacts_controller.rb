@@ -14,7 +14,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     contact = nil
 
     if a_different_contact?
-      @contact_inbox, @widget_auth_token = build_contact_inbox_with_token(@web_widget)
+      @contact_inbox, @widget_auth_token = build_contact_inbox_with_token(@web_widget, contact_additional_attributes)
       contact = @contact_inbox.contact
     else
       contact = @contact
