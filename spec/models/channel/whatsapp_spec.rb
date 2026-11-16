@@ -237,6 +237,62 @@ RSpec.describe Channel::Whatsapp do
     end
   end
 
+  describe 'webhook_token' do
+    let(:webhook_url) { 'https://waba.360dialog.io/v1/configs/webhook' }
+    let(:channel) do
+      existing = create(:channel_whatsapp, provider: 'default', sync_templates: false, validate_provider_config: false)
+      existing.update_column(:provider_config, existing.provider_config.except('webhook_token')) # rubocop:disable Rails/SkipsModelValidations
+      described_class.find(existing.id)
+    end
+
+    it 'registers the webhook url with a new webhook token on save' do
+      stub_request(:post, webhook_url)
+
+      channel.update!(message_templates: [])
+
+      token = channel.reload.provider_config['webhook_token']
+      expect(token).to be_present
+      expect(a_request(:post, webhook_url).with { |req| JSON.parse(req.body)['url'].end_with?("?webhook_token=#{token}") }).to have_been_made
+    end
+
+    it 'registers the same webhook token from overlapping saves' do
+      registered_urls = []
+      stub_request(:post, webhook_url).with { |req| registered_urls << JSON.parse(req.body)['url'] }
+      stale_channel = described_class.find(channel.id)
+
+      channel.update!(message_templates: [])
+      stale_channel.update!(message_templates: [])
+
+      token = channel.reload.provider_config['webhook_token']
+      expect(registered_urls.map { |url| url.split('?webhook_token=').last }).to eq([token, token])
+    end
+
+    it 'does not store the webhook token when the webhook url is not accepted' do
+      stub_request(:post, webhook_url).to_return(status: 401)
+
+      expect(channel.update(message_templates: [])).to be(false)
+      expect(channel.reload.provider_config['webhook_token']).to be_nil
+    end
+
+    it 'does not register the webhook url when the channel is invalid' do
+      stub_request(:post, webhook_url)
+      duplicate = described_class.new(account: channel.account, provider: 'default', phone_number: channel.phone_number,
+                                      provider_config: { 'api_key' => 'test_key' })
+
+      expect(duplicate.save).to be(false)
+      expect(a_request(:post, webhook_url)).not_to have_been_made
+    end
+
+    it 'keeps an existing webhook token' do
+      stub_request(:post, webhook_url)
+      channel.update!(provider_config: channel.provider_config.merge('webhook_token' => 'existing-token'))
+
+      channel.update!(message_templates: [])
+
+      expect(channel.reload.provider_config['webhook_token']).to eq('existing-token')
+    end
+  end
+
   describe 'webhook setup after creation' do
     let(:account) { create(:account) }
     let(:webhook_service) { instance_double(Whatsapp::WebhookSetupService) }

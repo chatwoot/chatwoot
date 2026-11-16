@@ -26,7 +26,9 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
   def contact_import_complete(resource)
     subject = 'Contact Import Completed'
 
-    action_url = if resource.failed_records.attached?
+    action_url = if resource.csv_import?
+                   settings_url("data/#{resource.id}")
+                 elsif resource.failed_records.attached?
                    Rails.application.routes.url_helpers.rails_blob_url(resource.failed_records)
                  else
                    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{resource.account.id}/contacts"

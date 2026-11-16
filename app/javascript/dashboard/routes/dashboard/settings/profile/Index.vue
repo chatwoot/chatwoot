@@ -152,17 +152,17 @@ export default {
       }
     },
     async updateProfile(userAttributes) {
-      const { name, email, displayName } = userAttributes;
+      const { name, email, displayName, currentPassword } = userAttributes;
       const hasEmailChanged = this.currentUser.email !== email;
       this.name = name || this.name;
-      this.email = email || this.email;
       this.displayName = displayName || this.displayName;
 
       const updatePayload = {
         name: this.name,
-        email: this.email,
+        email: email || this.email,
         displayName: this.displayName,
         avatar: this.avatarFile,
+        current_password: hasEmailChanged ? currentPassword : undefined,
       };
 
       const success = await this.dispatchUpdate(

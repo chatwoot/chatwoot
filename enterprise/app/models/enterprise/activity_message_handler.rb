@@ -12,6 +12,25 @@ module Enterprise::ActivityMessageHandler
 
   private
 
+  def create_activity
+    super
+    handle_auto_translate_change(determine_user_name)
+  end
+
+  def handle_auto_translate_change(user_name)
+    return unless user_name && saved_change_to_additional_attributes?
+
+    before, after = previous_changes['additional_attributes']
+    # nil (never set) and false both mean auto-translate is on, so nil -> false is not a change
+    was_disabled = (before || {})['auto_translate_disabled'] == true
+    now_disabled = (after || {})['auto_translate_disabled'] == true
+    return if was_disabled == now_disabled
+
+    change_type = now_disabled ? 'disabled' : 'enabled'
+    content = I18n.t("conversations.activity.auto_translate.#{change_type}", user_name: user_name)
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content))
+  end
+
   # Every activity message is built here, whichever concern creates it, so this one override covers them all.
   def activity_message_params(content, content_attributes: nil)
     return super unless Current.executed_by.instance_of?(CopilotRun::Action)
