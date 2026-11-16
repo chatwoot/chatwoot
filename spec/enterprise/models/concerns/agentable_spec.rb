@@ -44,14 +44,15 @@ RSpec.describe Concerns::Agentable do
 
   describe '#agent' do
     it 'omits unsupported temperature for the account model override' do
-      account.update!(captain_models: { 'assistant' => 'gpt-5-mini' })
+      account.update!(captain_models: { 'assistant' => 'gpt-5.1' })
 
       expect(Agents::Agent).to receive(:new).with(
         name: 'Test Agent',
         instructions: instance_of(Proc),
         tools: [],
-        model: 'gpt-5-mini',
+        model: 'gpt-5.1',
         temperature: nil,
+        thinking: { effort: :none },
         protocol: :responses,
         response_schema: Captain::ResponseSchema
       )
@@ -179,20 +180,20 @@ RSpec.describe Concerns::Agentable do
     end
 
     it 'returns account override model when present' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
       account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
 
       expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')
     end
 
     it 'returns the installation model when account override is absent' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-5-mini')
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-5.1')
     end
 
     it 'returns the Captain V2 default when Captain V2 is enabled' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
       account.enable_features!('captain_integration')
 
       expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')

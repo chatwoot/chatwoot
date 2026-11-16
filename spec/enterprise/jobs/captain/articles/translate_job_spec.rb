@@ -104,6 +104,14 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
     )
   end
 
+  it 'resolves the Norwegian locale code to a language name' do
+    described_class.perform_now(account, article.id, 'no', category_es.id, user)
+
+    expect(Captain::Llm::ArticleTranslationService).to have_received(:new).with(
+      hash_including(target_language: 'Norwegian', type: :content)
+    )
+  end
+
   context 'when a translation already exists' do
     let!(:existing_translation) do
       create(:article, portal: portal, category: category_es, account: account, author: user,

@@ -112,6 +112,6 @@ RSpec.describe Captain::Mcp::ServerUpdateService do
 
   it 'rejects the same tool twice' do
     expect { update({}, [{ 'name' => 'get_customer' }, { 'name' => 'get_customer' }]) }
-      .to raise_error(ActiveRecord::RecordInvalid, /cannot list the same tool twice/)
+      .to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Each tool can be selected only once.')
   end
 end
