@@ -65,7 +65,8 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   # reads the same dates. It is in the reporting time zone, where reports cut their days, so today is the account's date.
   def system_message
     tools = @tools.map { |tool| "- #{tool.class.name}: #{tool.description}" }.join("\n")
-    base = Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], tools, @assistant.config)
+    # Without the assistant's config the base prompt leaves out its numbered citations; answers link to records instead.
+    base = Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], tools)
     instructions = Captain::PromptRenderer.render('copilot_workflows', conversations_per_turn: CopilotRun::CONVERSATIONS_PER_TURN,
                                                                        user_name: @user.name, user_id: @user.id,
                                                                        current_time: @run.created_at.in_time_zone(@account.report_time_zone).iso8601)
@@ -73,7 +74,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   end
 
   def account_message
-    { role: 'system', content: "The current account id is #{@account.id}. The account is using #{@account.locale_english_name} as the language." }
+    { role: 'system', content: "Account ID #{@account.id}. If the agent's message has no clear language, answer in #{@account.locale_english_name}." }
   end
 
   def viewed_conversation_message
