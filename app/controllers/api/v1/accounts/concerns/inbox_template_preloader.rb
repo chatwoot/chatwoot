@@ -12,13 +12,13 @@ module Api::V1::Accounts::Concerns::InboxTemplatePreloader
   end
 
   def extract_channels(items)
-    Array(items).map do |item|
+    Array(items).filter_map do |item|
       case item
       when Channel::Whatsapp, Channel::TwilioSms then item
       when Inbox then item.channel
       else item.try(:channel) || item.try(:inbox)&.channel
       end
-    end.compact
+    end
   end
 
   def preload_whatsapp_templates(channels)

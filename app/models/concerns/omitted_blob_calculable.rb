@@ -29,8 +29,8 @@ module OmittedBlobCalculable
   end
 
   class_methods do
-    def count(column_name = nil, &block)
-      return super(&block) if block_given?
+    def count(column_name = nil, &)
+      return super(&) if block_given?
 
       if (column_name.nil? || column_name == :all) && all.default_blob_select?
         unscope(:select).count(column_name)
