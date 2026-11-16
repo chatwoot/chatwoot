@@ -57,10 +57,9 @@ class Account < ApplicationRecord
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
 
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label, :auto_translate, :translation_provider
-  store_accessor :settings, :captain_models, :captain_features
+  store_accessor :settings, :captain_models, :captain_features, :captain_auto_resolve_mode
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
-  store_accessor :settings, :captain_auto_resolve_mode
   store_accessor :settings, :enforce_mfa
   include AccountCaptainAutoResolve
 
@@ -84,6 +83,7 @@ class Account < ApplicationRecord
   has_many :custom_filters, dependent: :destroy_async
   has_many :dashboard_apps, dependent: :destroy_async
   has_many :data_imports, dependent: :destroy_async
+  has_many :data_exports, dependent: :destroy
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
   has_many :instagram_channels, dependent: :destroy_async, class_name: '::Channel::Instagram'

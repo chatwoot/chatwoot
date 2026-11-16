@@ -2127,6 +2127,277 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/data_exports": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactExportCreate",
+        "summary": "Create Contact Export",
+        "description": "Create a tracked CSV export of contacts and queue it for background processing.\nRequires an administrator or a user with the `contact_manage` permission.\n\nSend export options only in the JSON request body. Query-string parameters are\nignored: they neither supply options nor override body values. An empty body\nuses the default columns and exports all resolved contacts in the account.\nUnknown body options and invalid option values return 422 without creating\nan export or queuing a job.\n",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "column_names": {
+                    "type": "array",
+                    "description": "Contact column names to export. Omitted or empty uses the default columns.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "default": [
+                      "id",
+                      "name",
+                      "email",
+                      "phone_number",
+                      "labels"
+                    ]
+                  },
+                  "payload": {
+                    "type": "array",
+                    "description": "Contact filters, using the same format as POST /contacts/filter. A non-empty payload takes precedence over label.",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "attribute_key",
+                        "filter_operator",
+                        "values"
+                      ],
+                      "properties": {
+                        "attribute_key": {
+                          "type": "string"
+                        },
+                        "attribute_model": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "filter_operator": {
+                          "type": "string"
+                        },
+                        "query_operator": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "custom_attribute_type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "values": {
+                          "type": "array",
+                          "description": "Values must match the selected attribute and operator; text attributes require strings.",
+                          "items": {
+                            "type": [
+                              "string",
+                              "number",
+                              "boolean"
+                            ]
+                          }
+                        },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for date filters. Omit to use UTC."
+                        }
+                      }
+                    }
+                  },
+                  "label": {
+                    "type": "string",
+                    "description": "An existing account label to select contacts when payload is absent or empty. Empty selects all resolved contacts."
+                  },
+                  "scope_name": {
+                    "type": "string",
+                    "description": "Display name for the selection. Does not filter contacts."
+                  }
+                }
+              },
+              "example": {
+                "column_names": [
+                  "name",
+                  "email",
+                  "phone_number"
+                ],
+                "payload": [
+                  {
+                    "attribute_key": "email",
+                    "filter_operator": "contains",
+                    "values": [
+                      "example.com"
+                    ],
+                    "query_operator": null
+                  }
+                ],
+                "scope_name": "Example customers"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Export created and queued. The CSV becomes downloadable after processing completes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "name",
+                    "data_type",
+                    "status",
+                    "export_options",
+                    "processed_records",
+                    "downloadable"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Contacts - 2026-11-09"
+                    },
+                    "data_type": {
+                      "type": "string",
+                      "enum": [
+                        "contacts"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "processing",
+                        "completed",
+                        "failed"
+                      ]
+                    },
+                    "export_options": {
+                      "type": "object",
+                      "description": "Validated body options with default columns filled in and duplicate columns removed."
+                    },
+                    "processed_records": {
+                      "type": "integer"
+                    },
+                    "total_records": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "error_message": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "initiated_by": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "started_at": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date-time"
+                    },
+                    "completed_at": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date-time"
+                    },
+                    "artifacts_expired_at": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date-time"
+                    },
+                    "stalled": {
+                      "type": "boolean"
+                    },
+                    "downloadable": {
+                      "type": "boolean"
+                    },
+                    "can_rerun": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required or insufficient permission to export contacts."
+          },
+          "422": {
+            "description": "Invalid export options. No export is created or queued.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Unsupported export options: unexpected."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/actions/contact_merge": {
       "parameters": [
         {

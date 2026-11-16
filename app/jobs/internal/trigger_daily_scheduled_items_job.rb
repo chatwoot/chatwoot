@@ -5,6 +5,7 @@ class Internal::TriggerDailyScheduledItemsJob < ApplicationJob
     # Schedule daily deferred jobs here so each installation can spread load
     # across the day without changing its slot on deploys or restarts.
     schedule_version_check
+    Internal::ExpireDataOperationFilesJob.perform_later
   end
 
   private

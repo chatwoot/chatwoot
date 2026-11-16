@@ -17,6 +17,7 @@ describe SearchService do
   end
 
   before do
+    account.enable_features!('help_center')
     create(:inbox_member, user: user, inbox: inbox)
     Current.account = account
   end
@@ -286,6 +287,7 @@ describe SearchService do
         params = { q: 'order ON HOLD' }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
         expect(search.perform[:conversations].map(&:id)).to eq([email_conversation.id])
+        expect(search.counts(['conversations'])).to eq('conversations' => 1)
       end
     end
 
@@ -497,7 +499,7 @@ describe SearchService do
   describe '#advanced_search with filters', if: Message.respond_to?(:search) do
     let(:params) { { q: 'test' } }
     let(:search_type) { 'Message' }
-    let(:search_results) { instance_double(Searchkick::Relation, load: []) }
+    let(:search_results) { instance_double(Searchkick::Results, to_a: []) }
 
     before do
       allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
@@ -531,9 +533,9 @@ describe SearchService do
           )
         ).and_return(search_results)
 
-        expect(search_results).to receive(:load).and_return(search_results)
+        expect(search_results).to receive(:to_a).and_return([message])
         expect(ChatwootExceptionTracker).not_to receive(:new)
-        expect(search_service.perform[:messages]).to eq(search_results)
+        expect(search_service.perform[:messages]).to eq([message])
       end
     end
 
@@ -824,20 +826,22 @@ describe SearchService do
         expect { search_service.perform }.not_to raise_error
       end
 
-      it 'falls back to LIKE search when the request times out' do
+      it 'falls back to LIKE search for results and counts when the request times out' do
         allow(account).to receive(:feature_enabled?).and_call_original
         allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
         allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
 
         search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+        matching_message = create(:message, account: account, inbox: inbox, content: 'test message')
 
         error = Faraday::TimeoutError.new('timeout')
-        expect(query).to receive(:execute).and_raise(error)
-        expect(ChatwootExceptionTracker).to receive(:new).with(error, user: user, account: account).and_return(exception_tracker)
-        expect(exception_tracker).to receive(:capture_exception)
+        expect(query).to receive(:execute).twice.and_raise(error)
+        expect(ChatwootExceptionTracker).to receive(:new).with(error, user: user, account: account).twice.and_return(exception_tracker)
+        expect(exception_tracker).to receive(:capture_exception).twice
 
-        expect(search_service).to receive(:filter_messages_with_like).and_call_original
-        expect { search_service.perform }.not_to raise_error
+        expect(search_service.perform[:messages]).to eq([matching_message])
+        expect(search_service.counts(['messages'])).to eq('messages' => 1)
+        expect(search_service.message_backend).to eq('like')
       end
 
       it 'falls back to LIKE search when OpenSearch returns an error response' do

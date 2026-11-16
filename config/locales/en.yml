@@ -135,6 +135,7 @@ en:
       call_timed_out: 'The call timed out before you could join.'
       invalid_hold: "Couldn't update the call. Please try again."
       not_handling_agent: 'Only the agent on the call can hold or resume it.'
+      cannot_end_call: 'Only the agent handling the call can end it.'
       hold_failed: 'Could not update the hold. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
@@ -649,9 +650,11 @@ en:
       not_oauth: 'This server does not use OAuth sign-in'
       reserved_header: '%{name} is set by the MCP connection and cannot carry the token'
       tools:
-        duplicate: 'cannot list the same tool twice'
+        duplicate: 'Each tool can be selected only once.'
         invalid_selection: 'Each tool selection must be an object with the tool name, and its settings must be an object'
         missing: 'The server no longer offers %{tool}.'
+        not_approved: '%{tool} is not approved yet. Select it in the tools list to approve it.'
+        changed_again: '%{tool} changed again on the server. Review the new version before you approve it.'
         name_clash: 'Captain cannot tell these tools apart: %{names}. Select only one of them.'
     tools_manifest:
       invalid_source: 'Enter a toolset from the Captain tools catalog as chatwoot/tools/folder'
