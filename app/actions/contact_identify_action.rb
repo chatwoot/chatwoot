@@ -7,7 +7,7 @@
 
 class ContactIdentifyAction
   include UrlHelper
-  # contact_inbox is the session that sent the request. ContactInbox#can_edit? decides whether it may change the contact.
+  # contact_inbox is the session that sent the request. session_can_edit? decides whether it may change a contact.
   pattr_initialize [:contact!, :params!, :contact_inbox!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
 
   def perform
@@ -17,7 +17,7 @@ class ContactIdentifyAction
       merge_if_existing_identified_contact
       merge_if_existing_email_contact
       merge_if_existing_phone_number_contact
-      update_contact if contact_inbox.can_edit?(@contact)
+      update_contact if session_can_edit?(@contact)
     end
     @contact
   end
@@ -49,7 +49,7 @@ class ContactIdentifyAction
 
   def process_contact_merge(mergee_contact)
     # Merging removes the session's current contact, which is also an edit
-    return unless contact_inbox.can_edit?(@contact)
+    return unless session_can_edit?(@contact)
 
     @contact = merge_contact(mergee_contact, @contact)
     @attributes_to_update.delete(:name) if retain_original_contact_name
@@ -86,6 +86,11 @@ class ContactIdentifyAction
     end
 
     true
+  end
+
+  # A session that did not pass identity validation cannot change a contact that another session verified
+  def session_can_edit?(contact)
+    contact_inbox.hmac_verified? || !contact.verified?
   end
 
   # An anonymous visitor can join an identified contact by entering its email or phone number.
@@ -135,7 +140,7 @@ class ContactIdentifyAction
       base_contact: base_contact,
       mergee_contact: merge_contact,
       # The session can join a contact it cannot edit, but it must not add its details to that contact
-      keep_base_attributes: !contact_inbox.can_edit?(base_contact)
+      keep_base_attributes: !session_can_edit?(base_contact)
     ).perform
   end
 

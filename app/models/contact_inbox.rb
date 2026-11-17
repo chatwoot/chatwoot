@@ -55,11 +55,6 @@ class ContactInbox < ApplicationRecord
     false
   end
 
-  # A session that did not pass identity validation cannot change a contact that another session verified
-  def can_edit?(contact)
-    hmac_verified? || !contact.verified?
-  end
-
   def current_conversation
     conversations.last
   end
