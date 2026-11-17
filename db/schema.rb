@@ -686,12 +686,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_16_211055) do
 
   create_table "channel_instagram", force: :cascade do |t|
     t.string "access_token", null: false
-    t.datetime "expires_at", null: false
+    t.datetime "expires_at"
     t.integer "account_id", null: false
     t.string "instagram_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "provider_name"
+    t.string "auth_type", default: "instagram_login", null: false
+    t.string "configuration_id"
     t.index ["instagram_id"], name: "index_channel_instagram_on_instagram_id", unique: true
   end
 

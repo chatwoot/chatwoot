@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -20,11 +20,23 @@ import { useChannelConnect } from './inbox-setup/useChannelConnect';
 import { useDetectedChannels } from './inbox-setup/useDetectedChannels';
 import { DIALOG_CHANNELS } from './inbox-setup/constants';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
+import InstagramAccountPicker from '../settings/inbox/channels/instagram/AccountPicker.vue';
 import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
+const instagramConnectionToken = computed(() =>
+  typeof route.query.connection_token === 'string'
+    ? route.query.connection_token
+    : ''
+);
+const cancelInstagramConnection = () => {
+  const query = { ...route.query };
+  delete query.connection_token;
+  router.replace({ query });
+};
 const {
   accountId,
   currentAccount,
@@ -131,6 +143,18 @@ const connectChannel = channel => {
       </OnboardingSection>
 
       <OnboardingSection
+        v-if="instagramConnectionToken"
+        :title="t('ONBOARDING_INBOX_SETUP.CHANNELS.TITLE')"
+        icon="i-ri-instagram-line"
+      >
+        <InstagramAccountPicker
+          :connection-token="instagramConnectionToken"
+          class="mx-auto p-4"
+          @cancel="cancelInstagramConnection"
+        />
+      </OnboardingSection>
+      <OnboardingSection
+        v-else
         :title="t('ONBOARDING_INBOX_SETUP.CHANNELS.TITLE')"
         icon="i-lucide-inbox"
       >
