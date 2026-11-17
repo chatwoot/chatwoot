@@ -178,9 +178,12 @@ class Captain::Assistant::AgentRunnerService
     agent.clone(tools: agent.tools + EMAIL_VERIFICATION_TOOLS.map { |tool_class| tool_class.new(@assistant) })
   end
 
-  # A customer is the user, and a tool needs their verified email. The prompt reads this from the state.
+  # A customer is the user, and a custom tool or an MCP tool needs their verified email. The prompt reads this from the state.
   def can_verify_email?
-    @conversation.present? && COPILOT_SOURCES.exclude?(@source) && @assistant.custom_tools.enabled.any?(&:requires_email_verification?)
+    return false unless @conversation.present? && COPILOT_SOURCES.exclude?(@source)
+
+    @assistant.custom_tools.enabled.any?(&:requires_verified_customer?) ||
+      @assistant.mcp_agent_tools.requires_verified_customer?
   end
 
   def reply_suggestion_agent

@@ -1,6 +1,7 @@
 # A small MCP server for specs, served through WebMock's to_rack, so the RubyLLM client talks to it over real HTTP
 # messages without a network. It speaks the 2026-07-28 revision, which RubyLLM tries first, so it answers
-# server/discover and tools/list. A spec changes its tools, its sign-in and its failures between requests.
+# server/discover, tools/list and tools/call. A call answers with the tool's name, or with call_text when a spec sets it.
+# A spec changes its tools, its sign-in and its failures between requests.
 class FakeMcpServer
   VERSION = '2026-07-28'.freeze
   METHOD_NOT_FOUND = -32_601
@@ -8,7 +9,7 @@ class FakeMcpServer
 
   # token: the token a request must carry, nil for none. auth_header: the header that carries it, nil for Bearer.
   # rejects: answer every request with 401. oauth_challenge: the 401 names OAuth metadata. fails: answer 500.
-  attr_accessor :tools, :token, :auth_header, :rejects, :oauth_challenge, :fails
+  attr_accessor :tools, :token, :auth_header, :rejects, :oauth_challenge, :fails, :call_text
 
   def initialize(name: 'Invoicely')
     @name = name
@@ -44,6 +45,7 @@ class FakeMcpServer
     result = case message['method']
              when 'server/discover' then { supportedVersions: [VERSION], serverInfo: { name: @name, version: '1.0' }, capabilities: { tools: {} } }
              when 'tools/list' then { tools: tools }
+             when 'tools/call' then { content: [{ type: 'text', text: call_text || "Called #{message.dig('params', 'name')}" }] }
              end
     body = result ? { result: result } : { error: { code: METHOD_NOT_FOUND, message: 'Method not found' } }
     [200, { 'Content-Type' => 'application/json' }, [JSON.generate(body.merge(jsonrpc: '2.0', id: message['id']))]]
