@@ -76,7 +76,7 @@ class ContactIdentifyAction
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
 
-    return true if params[:identifier].blank? && anonymous_visitor_on_open_inbox?
+    return true if params[:identifier].blank? && anonymous_widget_visitor_on_open_inbox?
 
     # we want to prevent merging contacts with different identifiers
     if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
@@ -93,11 +93,12 @@ class ContactIdentifyAction
     contact_inbox.hmac_verified? || !contact.verified?
   end
 
-  # An anonymous visitor can join an identified contact by entering its email or phone number.
+  # An anonymous widget visitor can join an identified contact by entering its email or phone number.
   # A contact that already has an identifier never joins a different one, and inboxes that require
-  # identity validation keep visitors apart until they pass it.
-  def anonymous_visitor_on_open_inbox?
-    @contact.identifier.blank? && !contact_inbox.inbox.channel.hmac_mandatory
+  # identity validation keep visitors apart until they pass it. Client API responses return the
+  # contact's details to the session, so API inboxes never join an identified contact this way.
+  def anonymous_widget_visitor_on_open_inbox?
+    @contact.identifier.blank? && contact_inbox.inbox.web_widget? && !contact_inbox.inbox.channel.hmac_mandatory
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789
