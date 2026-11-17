@@ -42,14 +42,17 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
     result
   end
 
+  # The listing and the call share one deadline, so a slow server cannot hold the run for longer than one DEADLINE
   def call_tool(tool_context, arguments)
-    return failure_result(UNAVAILABLE, tool_context.state) unless approved_definition_live?
+    @connection.within_deadline do
+      return failure_result(UNAVAILABLE, tool_context.state) unless approved_definition_live?
 
-    # The call records what it says about the credentials, as a listing does, so a refused call reaches the server card
-    result = @connection.track_status { @connection.call(@mcp_tool.name, arguments) }
-    return reported_failure(result, tool_context) if result.error?
+      # The call records what it says about the credentials, as a listing does, so a refused call reaches the server card
+      result = @connection.track_status { @connection.call(@mcp_tool.name, arguments) }
+      return reported_failure(result, tool_context) if result.error?
 
-    result_text(result)
+      result_text(result)
+    end
   rescue *Captain::Mcp::Connection::ERRORS => e
     Rails.logger.error("McpTool error for #{name}: #{e.class} - #{e.message}")
     failure_result('An error occurred while calling the tool', tool_context.state)

@@ -20,6 +20,7 @@ RSpec.describe Captain::Tools::McpTool do
   let(:connection) do
     instance_double(Captain::Mcp::Connection, call: ok_result, live_tool_definitions: [definition]).tap do |double|
       allow(double).to receive(:track_status).and_yield
+      allow(double).to receive(:within_deadline).and_yield
     end
   end
   let(:tool) { Captain::Mcp::AgentTools.build(assistant, mcp_tool, connection, base_class: base_class) }

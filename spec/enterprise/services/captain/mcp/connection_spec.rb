@@ -52,4 +52,47 @@ RSpec.describe Captain::Mcp::Connection do
       expect(connection.call('get_customer', {}).text).to eq('a' * 1000)
     end
   end
+
+  describe 'deadline' do
+    let(:fake) { FakeMcpServer.new }
+
+    before do
+      allow(SsrfFilter::DEFAULT_RESOLVER).to receive(:call).and_return([IPAddr.new('93.184.216.34')])
+      stub_request(:any, server.url).to_rack(fake)
+      fake.tools = [{ name: 'get_customer', description: 'Find a customer', inputSchema: { type: 'object', properties: {} } }]
+    end
+
+    # The server answers the method only after the time passed, as a server that sends its answer slowly in chunks does
+    def answer_slowly(method_name, seconds)
+      allow(fake).to receive(:call).and_wrap_original do |original, env|
+        message = env['rack.input'].read
+        env['rack.input'].rewind
+        travel(seconds) if JSON.parse(message)['method'] == method_name
+        original.call(env)
+      end
+    end
+
+    it 'stops a tool call that is still answering after the deadline, however the answer is spread' do
+      answer_slowly('tools/call', described_class::DEADLINE + 1)
+
+      expect { connection.call('get_customer', {}) }.to raise_error(described_class::DeadlineExceeded)
+    end
+
+    it 'gives a listing and a call inside one deadline a single budget' do
+      answer_slowly('tools/list', 20)
+      connection.tool_definitions
+      answer_slowly('tools/call', 20)
+      expect(connection.call('get_customer', {}).text).to eq('Called get_customer')
+
+      shared = described_class.new(server)
+      answer_slowly('tools/list', 20)
+      expect do
+        shared.within_deadline do
+          shared.tool_definitions
+          answer_slowly('tools/call', 20)
+          shared.call('get_customer', {})
+        end
+      end.to raise_error(described_class::DeadlineExceeded)
+    end
+  end
 end

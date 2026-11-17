@@ -1,13 +1,19 @@
 # Talks to the MCP server of a Captain::McpServer through the RubyLLM MCP client.
 # Every MCP and OAuth request goes through the SafeFetch address checks.
 class Captain::Mcp::Connection
+  # The longest one read may wait for the server. A server that keeps sending resets it, so DEADLINE bounds the total.
   TIMEOUT = 30
+  # The longest one operation may take, however the server spreads its answer. RubyLLM checks it on every chunk it
+  # receives, so a server that stops sending is still cut only by TIMEOUT: an operation takes at most DEADLINE plus
+  # one TIMEOUT.
+  DEADLINE = 30
   # The server answered, but the MCP client could not read the answer
   class InvalidResponse < StandardError; end
+  class DeadlineExceeded < StandardError; end
 
   # The server or the network failed: a bad answer, a refused address or a lost connection. Callers handle these as
   # expected failures, and anything else is a bug that should reach Sentry.
-  ERRORS = [RubyLLM::Error, SafeFetch::Error, Faraday::Error, InvalidResponse,
+  ERRORS = [RubyLLM::Error, SafeFetch::Error, Faraday::Error, InvalidResponse, DeadlineExceeded,
             Captain::Mcp::SafeFaradayAdapter::ResponseTooLarge].freeze
 
   def self.oauth_redirect_uri
@@ -34,13 +40,15 @@ class Captain::Mcp::Connection
   # server's bad reply is handled like a failed request and never stops a run. The original error is logged, not sent
   # to Sentry, because a broken server would report it on every listing.
   def tool_definitions
-    mcp.tools.select { |tool| tool.visibility.include?(:model) }.map do |tool|
-      {
-        'name' => tool.server_name,
-        'description' => tool.description,
-        'input_schema' => tool.parameters_schema,
-        'read_only' => tool.read_only?
-      }
+    within_deadline do
+      mcp.tools.select { |tool| tool.visibility.include?(:model) }.map do |tool|
+        {
+          'name' => tool.server_name,
+          'description' => tool.description,
+          'input_schema' => tool.parameters_schema,
+          'read_only' => tool.read_only?
+        }
+      end
     end
   rescue *ERRORS
     raise
@@ -52,30 +60,35 @@ class Captain::Mcp::Connection
   # Lists the server with the saved credentials and records what the request says about them. RubyLLM keeps the
   # listing for the life of this connection, so a run that calls several tools on one server lists it once.
   #
-  # Known limit: while a server hangs, the call that lists it waits for the timeouts (about 40 seconds, RubyLLM's
-  # 10 second discovery plus TIMEOUT) and holds a Sidekiq thread meanwhile. Only a run that calls one of the server's
-  # tools pays this. The MCP session is never closed.
+  # Known limit: while a server is slow, the call that lists it waits up to DEADLINE plus one TIMEOUT and holds a
+  # Sidekiq thread meanwhile. Only a run that calls one of the server's tools pays this. The MCP session is never closed.
   def live_tool_definitions
     track_status { tool_definitions }
   end
 
   # RubyLLM exposes the server's name only through its private server info
   def server_name
-    mcp.send(:server_info)['name']
+    within_deadline { mcp.send(:server_info)['name'] }
   end
 
   def call(server_tool_name, arguments)
-    mcp.call(server_tool_name, **arguments)
+    within_deadline { mcp.call(server_tool_name, **arguments) }
   end
 
   def authorization_url
-    url = mcp.authorization_url(redirect_uri: self.class.oauth_redirect_uri)
+    url = within_deadline { mcp.authorization_url(redirect_uri: self.class.oauth_redirect_uri) }
     @server.remember_oauth_state(Rack::Utils.parse_query(URI(url).query)['state'])
     url
   end
 
   def authorize(params)
-    mcp.authorize(params)
+    within_deadline { mcp.authorize(params) }
+  end
+
+  # Runs the block within one DEADLINE. Inside another deadline the earlier one still applies, so a tool run that lists
+  # the server and then calls the tool waits at most one DEADLINE for both.
+  def within_deadline(&)
+    RubyLLM::Support::Cancellation.watch(deadline_checkpoint, &)
   end
 
   def mcp
@@ -84,6 +97,17 @@ class Captain::Mcp::Connection
   end
 
   private
+
+  # RubyLLM keeps one checkpoint per thread, so this one also runs the checkpoint it replaces: an earlier deadline or a
+  # chat's cancellation
+  def deadline_checkpoint
+    deadline = DEADLINE.seconds.from_now
+    previous = Thread.current[RubyLLM::Support::Cancellation::KEY]
+    lambda do
+      previous&.call
+      raise DeadlineExceeded, "#{URI(@server.url).host} did not finish within #{DEADLINE} seconds" if Time.current > deadline
+    end
+  end
 
   # Each server has its own context, because RubyLLM reads the credential store from the context config
   def context
