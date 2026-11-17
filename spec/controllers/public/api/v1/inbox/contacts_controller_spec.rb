@@ -102,6 +102,20 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       expect(contact_inbox.reload.hmac_verified).to be(false)
     end
 
+    it 'does not merge an anonymous session into an identified contact with the same email' do
+      anonymous_contact = create(:contact, account: api_channel.account)
+      anonymous_session = create(:contact_inbox, contact: anonymous_contact, inbox: api_channel.inbox)
+      create(:contact, account: api_channel.account, identifier: 'customer-1', email: 'customer@test.com', name: 'Customer',
+                       phone_number: '+919999888877')
+
+      patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{anonymous_session.source_id}",
+            params: { email: 'customer@test.com' }
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to include('id' => anonymous_contact.id, 'name' => anonymous_contact.name, 'phone_number' => nil)
+      expect(anonymous_session.reload.contact_id).to eq anonymous_contact.id
+    end
+
     context 'when an unverified session belongs to a verified contact' do
       before do
         contact.update!(name: 'Customer')
