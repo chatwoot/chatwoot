@@ -20,7 +20,6 @@ RSpec.describe Captain::Tools::McpTool do
   let(:connection) do
     instance_double(Captain::Mcp::Connection, call: ok_result, live_tool_definitions: [definition]).tap do |double|
       allow(double).to receive(:track_status).and_yield
-      allow(double).to receive(:within_deadline).and_yield
     end
   end
   let(:tool) { Captain::Mcp::AgentTools.build(assistant, mcp_tool, connection, base_class: base_class) }
@@ -95,6 +94,28 @@ RSpec.describe Captain::Tools::McpTool do
       tool.perform(tool_context, status: 'open')
 
       expect(server.reload).to have_attributes(status: 'active', last_error: 'connection refused')
+    end
+
+    it 'reads as an error when the answer of a tool that changes nothing stops arriving' do
+      allow(connection).to receive(:call).and_raise(Captain::Mcp::Connection::DeadlineExceeded, 'too slow')
+
+      expect(tool.perform(tool_context, status: 'open')).to eq('An error occurred while calling the tool')
+    end
+
+    context 'when the tool changes data' do
+      let(:definition) { super().merge('read_only' => false) }
+
+      it 'says the tool may have run when its answer stops arriving, so the model does not call it again' do
+        allow(connection).to receive(:call).and_raise(Captain::Mcp::Connection::DeadlineExceeded, 'too slow')
+
+        expect(tool.perform(tool_context, status: 'open')).to eq(described_class::OUTCOME_UNKNOWN)
+      end
+
+      it 'reads as an error when the listing before the call fails' do
+        allow(connection).to receive(:live_tool_definitions).and_raise(Captain::Mcp::Connection::DeadlineExceeded, 'too slow')
+
+        expect(tool.perform(tool_context, status: 'open')).to eq('An error occurred while calling the tool')
+      end
     end
   end
 

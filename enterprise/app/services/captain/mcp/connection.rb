@@ -9,7 +9,9 @@ class Captain::Mcp::Connection
   DEADLINE = 30
   # The server answered, but the MCP client could not read the answer
   class InvalidResponse < StandardError; end
-  class DeadlineExceeded < StandardError; end
+  # A CancelledError, so RubyLLM tells a server on an older MCP revision that Captain stopped waiting. On the current
+  # revision the closed stream tells it.
+  class DeadlineExceeded < RubyLLM::CancelledError; end
 
   # The server or the network failed: a bad answer, a refused address or a lost connection. Callers handle these as
   # expected failures, and anything else is a bug that should reach Sentry.
@@ -60,7 +62,7 @@ class Captain::Mcp::Connection
   # Lists the server with the saved credentials and records what the request says about them. RubyLLM keeps the
   # listing for the life of this connection, so a run that calls several tools on one server lists it once.
   #
-  # Known limit: while a server is slow, the call that lists it waits up to DEADLINE plus one TIMEOUT and holds a
+  # Known limit: while a server is slow, a listing and a call each wait up to DEADLINE plus one TIMEOUT and hold a
   # Sidekiq thread meanwhile. Only a run that calls one of the server's tools pays this. The MCP session is never closed.
   def live_tool_definitions
     track_status { tool_definitions }
@@ -85,12 +87,6 @@ class Captain::Mcp::Connection
     within_deadline { mcp.authorize(params) }
   end
 
-  # Runs the block within one DEADLINE. Inside another deadline the earlier one still applies, so a tool run that lists
-  # the server and then calls the tool waits at most one DEADLINE for both.
-  def within_deadline(&)
-    RubyLLM::Support::Cancellation.watch(deadline_checkpoint, &)
-  end
-
   def mcp
     @mcp ||= context.mcp(url: @server.url, name: "#{Captain::McpServer::TOOL_NAME_PREFIX}_#{@server.id}",
                          timeout: TIMEOUT, **auth_settings)
@@ -98,8 +94,12 @@ class Captain::Mcp::Connection
 
   private
 
-  # RubyLLM keeps one checkpoint per thread, so this one also runs the checkpoint it replaces: an earlier deadline or a
-  # chat's cancellation
+  def within_deadline(&)
+    RubyLLM::Support::Cancellation.watch(deadline_checkpoint, &)
+  end
+
+  # RubyLLM keeps one checkpoint per thread, so this one also runs the checkpoint it replaces, such as a chat's
+  # cancellation
   def deadline_checkpoint
     deadline = DEADLINE.seconds.from_now
     previous = Thread.current[RubyLLM::Support::Cancellation::KEY]

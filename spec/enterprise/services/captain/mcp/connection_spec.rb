@@ -78,21 +78,25 @@ RSpec.describe Captain::Mcp::Connection do
       expect { connection.call('get_customer', {}) }.to raise_error(described_class::DeadlineExceeded)
     end
 
-    it 'gives a listing and a call inside one deadline a single budget' do
+    it 'gives a listing and a call each their own deadline' do
       answer_slowly('tools/list', 20)
       connection.tool_definitions
       answer_slowly('tools/call', 20)
-      expect(connection.call('get_customer', {}).text).to eq('Called get_customer')
 
-      shared = described_class.new(server)
-      answer_slowly('tools/list', 20)
+      expect(connection.call('get_customer', {}).text).to eq('Called get_customer')
+    end
+
+    it 'still stops when the chat it runs in is cancelled' do
+      chat_cancelled = -> { raise RubyLLM::CancelledError }
+
       expect do
-        shared.within_deadline do
-          shared.tool_definitions
-          answer_slowly('tools/call', 20)
-          shared.call('get_customer', {})
-        end
-      end.to raise_error(described_class::DeadlineExceeded)
+        RubyLLM::Support::Cancellation.watch(chat_cancelled) { connection.call('get_customer', {}) }
+      end.to raise_error(RubyLLM::CancelledError) { |error| expect(error).not_to be_a(described_class::DeadlineExceeded) }
+    end
+
+    # RubyLLM sends notifications/cancelled to a server on an older MCP revision only for a CancelledError
+    it 'raises a deadline that RubyLLM treats as a cancellation' do
+      expect(described_class::DeadlineExceeded.new('late')).to be_a(RubyLLM::CancelledError)
     end
   end
 end

@@ -4,6 +4,10 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
   # The most characters of a tool result the model sees
   MAX_RESULT_CHARACTERS = 1.megabyte
   UNAVAILABLE = 'This tool is unavailable right now. Do not call it again in this conversation.'.freeze
+  OUTCOME_UNKNOWN = 'The tool did not finish answering, and it may have run. Do not call it again in this conversation.'.freeze
+  # Failures that come after the server received the call, so a tool that changes data may have run
+  UNREAD_ANSWER_ERRORS = [Captain::Mcp::Connection::DeadlineExceeded, Captain::Mcp::SafeFaradayAdapter::ResponseTooLarge,
+                          Faraday::TimeoutError].freeze
 
   # Whether the model sees and fills a verified parameter. Each subclass answers for the user it serves.
   def self.model_fills_verified_values?
@@ -42,22 +46,31 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
     result
   end
 
-  # The listing and the call share one deadline, so a slow server cannot hold the run for longer than one DEADLINE
+  # The listing and the call each have their own deadline, so a slow listing never cuts the answer of a call the
+  # server already ran
   def call_tool(tool_context, arguments)
-    @connection.within_deadline do
-      return failure_result(UNAVAILABLE, tool_context.state) unless approved_definition_live?
-      # The listing can take a while, so a tool that changes data checks again right before it runs
-      return failure_result(NEWER_MESSAGE_ARRIVED, tool_context.state) if !read_only? && newer_customer_message_arrived?(tool_context.state)
+    return failure_result(UNAVAILABLE, tool_context.state) unless approved_definition_live?
+    # The listing can take a while, so a tool that changes data checks again right before it runs
+    return failure_result(NEWER_MESSAGE_ARRIVED, tool_context.state) if !read_only? && newer_customer_message_arrived?(tool_context.state)
 
-      # The call records what it says about the credentials, as a listing does, so a refused call reaches the server card
-      result = @connection.track_status { @connection.call(@mcp_tool.name, arguments) }
-      return reported_failure(result, tool_context) if result.error?
-
-      result_text(result)
-    end
+    call_server(tool_context, arguments)
   rescue *Captain::Mcp::Connection::ERRORS => e
     Rails.logger.error("McpTool error for #{name}: #{e.class} - #{e.message}")
     failure_result('An error occurred while calling the tool', tool_context.state)
+  end
+
+  # The call records what it says about the credentials, as a listing does, so a refused call reaches the server card.
+  # A tool that changes data may have run when its answer stops arriving, so the model must not call it again.
+  def call_server(tool_context, arguments)
+    result = @connection.track_status { @connection.call(@mcp_tool.name, arguments) }
+    return reported_failure(result, tool_context) if result.error?
+
+    result_text(result)
+  rescue *UNREAD_ANSWER_ERRORS => e
+    raise if read_only?
+
+    Rails.logger.error("McpTool #{name} may have run without an answer: #{e.class} - #{e.message}")
+    failure_result(OUTCOME_UNKNOWN, tool_context.state)
   end
 
   # The server must still offer the definition the admin approved, so a change on the server never reaches Captain. The
