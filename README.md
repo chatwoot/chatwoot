@@ -29,7 +29,7 @@ O fork acompanha as versões do Chatwoot oficial e acrescenta recursos para quem
 ### WhatsApp
 
 - Conexão pelo QR code do celular, sem API paga de terceiros, ou pela API oficial, inclusive em coexistência com o app WhatsApp Business.
-- Provedor próprio para QR code, “WhatsApp (nativo)”, em beta. Roda no servidor da instalação, sem serviço de terceiros, com um [conector de código aberto em Go](https://github.com/fazer-ai/whatsapp-connector) mantido pela fazer.ai.
+- Provedor próprio para QR code, “WhatsApp (nativo)”. Roda no servidor da instalação, sem serviço de terceiros, com um [conector de código aberto em Go](https://github.com/fazer-ai/whatsapp-connector) mantido pela fazer.ai.
 - Troca do modo de conexão da caixa de entrada sem perder o histórico.
 - Importação do histórico do celular ao conectar.
 - Grupos do WhatsApp.

@@ -27,7 +27,6 @@ module Whatsapp::Session::Registry # rubocop:disable Metrics/ModuleLength
     Descriptor.new(
       key: 'native',
       backend: 'Whatsapp::Session::Backends::Connector::Backend',
-      beta: true,
       pairing_modes: %w[qr code],
       # No session_import: that is the Baileys credential import, which whatsmeow cannot
       # consume, and there is no such command in the contract. Its replacement for the

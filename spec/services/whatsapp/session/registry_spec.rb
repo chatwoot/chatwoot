@@ -29,12 +29,12 @@ RSpec.describe Whatsapp::Session::Registry do
   end
 
   # The badge follows the descriptor, so this is what decides whether the picker warns the
-  # admin. Ending the beta is flipping these two, and the frozen providers were never in
-  # one.
-  it 'marks the new session providers as beta and nothing else' do
+  # admin. The native connector left the beta with its 1.0.0, uazapi is still in it, and the
+  # frozen providers were never in one.
+  it 'marks only uazapi as beta' do
     beta = described_class.descriptors.select(&:beta?).map(&:key)
 
-    expect(beta).to contain_exactly('native', 'uazapi')
+    expect(beta).to contain_exactly('uazapi')
   end
 
   # The settings page leaves a secret input empty and never saves an empty one, so a secret
