@@ -5,6 +5,7 @@ import instagramClient from 'dashboard/api/channel/instagramClient';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import AccountPicker from './instagram/AccountPicker.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
@@ -12,6 +13,7 @@ const { t } = useI18n();
 const { isMetaInboxCreationDisabled } = useAccount();
 
 const hasError = ref(false);
+const connectionToken = ref('');
 const errorStateMessage = ref('');
 const errorStateDescription = ref('');
 const isRequestingAuthorization = ref(false);
@@ -21,6 +23,7 @@ const isInstagramConnectionDisabled = computed(
 
 onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search);
+  connectionToken.value = urlParams.get('connection_token') || '';
   //  TODO: Handle error type
   // const errorType = urlParams.get('error_type');
   const errorCode = urlParams.get('code');
@@ -64,6 +67,11 @@ const requestAuthorization = async () => {
           v-dompurify-html="errorStateDescription"
         />
       </div>
+      <AccountPicker
+        v-else-if="connectionToken"
+        :connection-token="connectionToken"
+        @cancel="connectionToken = ''"
+      />
       <div
         v-else
         class="flex flex-col items-center justify-center w-full px-8 py-10 text-center rounded-2xl outline outline-1 outline-n-weak"
