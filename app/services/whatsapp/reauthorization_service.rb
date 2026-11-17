@@ -36,7 +36,7 @@ class Whatsapp::ReauthorizationService
       channel.message_templates = {}
     end
 
-    channel.provider_config = current_config.merge(
+    channel.provider_config = current_config.except('disconnection_reason').merge(
       'api_key' => access_token,
       'phone_number_id' => resolved_phone_number_id,
       'business_account_id' => @waba_id,

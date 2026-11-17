@@ -41,11 +41,32 @@ const actionLabel = computed(() => {
   return '';
 });
 
+// Meta's PARTNER_REMOVED reasons, stored by Whatsapp::PartnerRemovedService.
+const disconnectionReasonMessages = computed(() => ({
+  ACCOUNT_DISCONNECTED: t(
+    'INBOX_MGMT.WHATSAPP_DISCONNECTION_REASON.ACCOUNT_DISCONNECTED'
+  ),
+  BUSINESS_DOWNGRADE: t(
+    'INBOX_MGMT.WHATSAPP_DISCONNECTION_REASON.BUSINESS_DOWNGRADE'
+  ),
+  CHANGE_NUMBER: t('INBOX_MGMT.WHATSAPP_DISCONNECTION_REASON.CHANGE_NUMBER'),
+  COMPANION_INACTIVITY: t(
+    'INBOX_MGMT.WHATSAPP_DISCONNECTION_REASON.COMPANION_INACTIVITY'
+  ),
+  PRIMARY_INACTIVITY: t(
+    'INBOX_MGMT.WHATSAPP_DISCONNECTION_REASON.PRIMARY_INACTIVITY'
+  ),
+  USER_RE_REGISTERED: t(
+    'INBOX_MGMT.WHATSAPP_DISCONNECTION_REASON.USER_RE_REGISTERED'
+  ),
+}));
+
 const description = computed(() => {
   if (props.whatsappRegistrationIncomplete) {
     return t('INBOX_MGMT.WHATSAPP_REGISTRATION_INCOMPLETE');
   }
-  return '';
+  const reason = props.inbox.provider_config?.disconnection_reason;
+  return disconnectionReasonMessages.value[reason] || '';
 });
 
 const reauthorizeWhatsApp = async params => {

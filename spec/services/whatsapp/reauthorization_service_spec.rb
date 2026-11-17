@@ -11,7 +11,8 @@ RSpec.describe Whatsapp::ReauthorizationService do
         'api_key' => 'old-token',
         'phone_number_id' => 'old-phone-id',
         'business_account_id' => 'old-waba-id',
-        'source' => 'embedded_signup'
+        'source' => 'embedded_signup',
+        'disconnection_reason' => 'PRIMARY_INACTIVITY'
       },
       business_management_token: 'business-token',
       message_templates: [{ 'name' => 'old_template' }],
@@ -49,6 +50,17 @@ RSpec.describe Whatsapp::ReauthorizationService do
     ).perform('new-token', phone_info)
 
     expect(channel.reload.business_management_token).to eq('business-token')
+  end
+
+  it 'clears the disconnection reason Meta sent when it removed our access' do
+    described_class.new(
+      account: account,
+      inbox_id: inbox.id,
+      phone_number_id: 'new-phone-id',
+      waba_id: channel.provider_config['business_account_id']
+    ).perform('new-token', phone_info)
+
+    expect(channel.reload.provider_config).not_to have_key('disconnection_reason')
   end
 
   context 'with templates synced from the previous Messaging account' do

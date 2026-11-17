@@ -11,7 +11,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     phone_number_events = Whatsapp::AccountUpdates.without(params)
     process_phone_number_events(phone_number_events) if phone_number_events.present?
 
-    Whatsapp::AccountUpdates.changes(params).each { |change| handle_account_update(change[:value]) }
+    Whatsapp::AccountUpdates.changes(params).each { |change| Whatsapp::AccountUpdates.process(change) }
   end
 
   def process_phone_number_events(params)
@@ -165,13 +165,6 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 
   def embedded_signup_channel?(channel)
     (channel.provider_config || {}).to_h['source'] == 'embedded_signup'
-  end
-
-  # Only PARTNER_REMOVED is acted on today; other account_update events are ignored as before.
-  def handle_account_update(value)
-    return unless value&.dig(:event) == 'PARTNER_REMOVED'
-
-    Whatsapp::PartnerRemovedService.new(value.dig(:waba_info, :waba_id)).perform
   end
 
   def find_channel_by_url_param(params)
