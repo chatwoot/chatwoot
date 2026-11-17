@@ -37,6 +37,6 @@ class Messages::Instagram::MessageBuilder < Messages::Instagram::BaseMessageBuil
   end
 
   def base_uri
-    "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
+    @inbox.channel.base_uri
   end
 end

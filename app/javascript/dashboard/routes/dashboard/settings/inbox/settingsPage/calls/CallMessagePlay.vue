@@ -1,19 +1,19 @@
 <script setup>
-import { ref, onBeforeUnmount } from 'vue';
+import { ref, computed, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
-// Plays a message the way callers hear it: the recording Captain saved for it while the text is
-// unchanged, otherwise the browser reads the text aloud
+// Plays the recording Captain saved for a message, which is what callers hear. Playable only while
+// the text is unchanged since it was saved; saving the new text records it again. Parents show it
+// only when a recording exists.
 const props = defineProps({
   text: {
     type: String,
     default: '',
   },
-  // The saved recording, played only while `text` is still the saved text
   audioUrl: {
     type: String,
-    default: '',
+    required: true,
   },
   savedText: {
     type: String,
@@ -25,27 +25,18 @@ const { t } = useI18n();
 const isPlaying = ref(false);
 let audio = null;
 
+const isEdited = computed(() => props.text.trim() !== props.savedText.trim());
+
 const stop = () => {
   audio?.pause();
   audio = null;
-  window.speechSynthesis?.cancel();
   isPlaying.value = false;
 };
 
 const play = () => {
-  const text = props.text.trim();
-  if (props.audioUrl && text === props.savedText.trim()) {
-    audio = new Audio(props.audioUrl);
-    audio.onended = stop;
-    audio.play().catch(stop);
-  } else if (window.speechSynthesis && text) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.onend = stop;
-    utterance.onerror = stop;
-    window.speechSynthesis.speak(utterance);
-  } else {
-    return;
-  }
+  audio = new Audio(props.audioUrl);
+  audio.onended = stop;
+  audio.play().catch(stop);
   isPlaying.value = true;
 };
 
@@ -56,13 +47,16 @@ onBeforeUnmount(stop);
 
 <template>
   <NextButton
+    v-tooltip.top="
+      isEdited ? t('INBOX_MGMT.CALL_SETTINGS.PLAY_AFTER_SAVE') : ''
+    "
     :label="
       isPlaying
         ? t('INBOX_MGMT.CALL_SETTINGS.STOP')
         : t('INBOX_MGMT.CALL_SETTINGS.PLAY')
     "
     :icon="isPlaying ? 'i-ph-stop-fill' : 'i-ph-play-fill'"
-    :disabled="!text.trim()"
+    :disabled="isEdited"
     slate
     outline
     xs

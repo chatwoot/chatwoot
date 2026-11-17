@@ -1,4 +1,6 @@
 import { mount, flushPromises } from '@vue/test-utils';
+import { createI18n } from 'vue-i18n';
+import FloatingVue from 'floating-vue';
 import VoiceConfigurationPage from '../VoiceConfigurationPage.vue';
 import InboxesAPI from 'dashboard/api/inboxes';
 
@@ -153,6 +155,51 @@ describe('VoiceConfigurationPage', () => {
     expect(alert).toHaveBeenCalledWith('Add the message callers hear');
   });
 
+  it('keeps the edits that were not saved when a later step fails', async () => {
+    InboxesAPI.setCallAnnouncement
+      .mockResolvedValueOnce({})
+      .mockRejectedValueOnce({ response: { data: { error: 'Too long' } } });
+    const wrapper = mountPage();
+    // The refetch returns the inbox with the greeting saved and the missed-call message not
+    dispatch.mockImplementation(() =>
+      wrapper.setProps({
+        inbox: {
+          ...inbox,
+          call_greeting_enabled: true,
+          call_greeting_message: 'Welcome',
+        },
+      })
+    );
+
+    await greeting(wrapper).setValue('Welcome');
+    await wrapper.find('#call-missed-message-387').setValue('Call back later');
+    await saveButton(wrapper).trigger('click');
+    await flushPromises();
+
+    expect(greeting(wrapper).element.value).toBe('Welcome');
+    expect(wrapper.find('#call-missed-message-387').element.value).toBe(
+      'Call back later'
+    );
+    expect(saveButton(wrapper).attributes('disabled')).toBeUndefined();
+    dispatch.mockReset();
+  });
+
+  it('shows calling off again when turning it on fails', async () => {
+    dispatch.mockRejectedValueOnce(new Error('Twilio refused'));
+    const wrapper = mountPage({ voice_enabled: false });
+    const callingSwitch = wrapper.find('button[role="switch"]');
+
+    await callingSwitch.trigger('click');
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateInbox', {
+      id: 387,
+      formData: false,
+      channel: { voice_enabled: true },
+    });
+    expect(callingSwitch.attributes('aria-checked')).toBe('false');
+  });
+
   it('keeps a saved wrap-up time that is not one of the choices', () => {
     const wrapper = mountPage({ call_cooldown_seconds: 45 });
     const wrapUp = wrapper.findAll('select').at(-1);
@@ -194,6 +241,43 @@ describe('VoiceConfigurationPage', () => {
       id: 387,
       formData: false,
       channel: { voice_enabled: false },
+    });
+  });
+
+  describe('playing a message', () => {
+    // Only the greeting has a recording in these examples
+    const playButton = wrapper =>
+      wrapper
+        .findAll('button')
+        .find(
+          button =>
+            button.attributes('label') === 'INBOX_MGMT.CALL_SETTINGS.PLAY'
+        );
+
+    it('offers Play only for a message Captain has recorded', () => {
+      expect(playButton(mountPage({ call_greeting_enabled: true }))).toBe(
+        undefined
+      );
+      expect(
+        playButton(
+          mountPage({
+            call_greeting_enabled: true,
+            call_greeting_audio_url: 'https://example.com/greeting.mp3',
+          })
+        )
+      ).toBeDefined();
+    });
+
+    it('turns Play off once the recorded text is edited, until it is saved', async () => {
+      const wrapper = mountPage({
+        call_greeting_enabled: true,
+        call_greeting_audio_url: 'https://example.com/greeting.mp3',
+      });
+      expect(playButton(wrapper).attributes('disabled')).toBeUndefined();
+
+      await greeting(wrapper).setValue('A new greeting');
+
+      expect(playButton(wrapper).attributes('disabled')).toBeDefined();
     });
   });
 
@@ -266,6 +350,32 @@ describe('VoiceConfigurationPage', () => {
       });
 
       expect(wrapper.text()).toContain('Mon–Fri 09:00–18:00 · Europe/Berlin');
+    });
+
+    it('names the days in a dashboard language with a region, such as pt_BR', () => {
+      const i18n = createI18n({ legacy: false, locale: 'pt_BR', messages: {} });
+      const wrapper = mount(VoiceConfigurationPage, {
+        props: {
+          inbox: {
+            ...inbox,
+            ...appliedInbox,
+            timezone: 'America/Sao_Paulo',
+            working_hours: [
+              {
+                day_of_week: 1,
+                closed_all_day: false,
+                open_all_day: true,
+              },
+            ],
+          },
+        },
+        global: {
+          plugins: [i18n, FloatingVue],
+          stubs: { Icon: true, Spinner: true },
+        },
+      });
+
+      expect(wrapper.text()).toContain('seg.');
     });
 
     it('warns and links to Business hours while the inbox has them off', async () => {

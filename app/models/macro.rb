@@ -26,7 +26,7 @@ class Macro < ApplicationRecord
              class_name: :User, optional: true
   has_many_attached :files
 
-  enum visibility: { personal: 0, global: 1 }
+  enum :visibility, { personal: 0, global: 1 }
 
   validate :json_actions_format
 

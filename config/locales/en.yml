@@ -30,6 +30,17 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  instagram:
+    no_accounts: 'No Instagram accounts were shared. Connect again and select an Instagram professional account.'
+    connection_expired: 'This Instagram connection has expired. Please start again.'
+    authorization_expired: 'This Instagram authorization has expired. Please start the connection again.'
+    existing_login_method: 'This Instagram account uses another login method. Reconnect it from its existing inbox settings.'
+    wrong_account: 'Please reconnect using the Instagram account already linked to this inbox.'
+    invalid_account: 'Please select an Instagram account shared during this connection.'
+    subscription_failed: 'Instagram messaging could not be enabled. Please check the app permissions and connect again.'
+    missing_credentials: 'Configure the Unified Login Meta app ID, secret, and configuration ID in Super Admin before connecting Instagram.'
+    request_failed: 'Instagram could not complete the request. Please try again.'
+    encryption_required: 'Configure the Active Record encryption keys before enabling Instagram Unified Login.'
   hello: 'Hello world'
   administrator_notifications:
     captain:
@@ -137,6 +148,7 @@ en:
       call_timed_out: 'The call timed out before you could join.'
       invalid_hold: "Couldn't update the call. Please try again."
       not_handling_agent: 'Only the agent on the call can hold or resume it.'
+      cannot_end_call: 'Only the agent handling the call can end it.'
       hold_failed: 'Could not update the hold. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
@@ -164,6 +176,8 @@ en:
     data_import:
       data_type:
         invalid: Invalid data type
+      csv:
+        blank_format_marker: 'Record %{row_number} has a blank %{column} value. Keep %{version} in this column for every row. Import new contacts in a separate CSV without this column.'
     contacts:
       import:
         failed: File is blank
@@ -445,6 +459,9 @@ en:
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
+      auto_translate:
+        disabled: '%{user_name} turned off auto-translate for this conversation'
+        enabled: '%{user_name} turned on auto-translate for this conversation'
       linear:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
@@ -643,6 +660,8 @@ en:
       unknown_param: '%{tool} has no parameters named %{names}'
       invalid_source: '%{tool} parameter %{name} has an invalid source'
       fixed_value_blank: '%{tool} parameter %{name} needs a fixed value'
+      fixed_value_type: '%{tool} parameter %{name} needs a fixed value of type %{type}'
+      fixed_value_unsupported: '%{tool} parameter %{name} is of type %{type} and cannot take a fixed value'
       one_verified_email: '%{tool} can have one verified email parameter only'
       verified_email_type: '%{tool} parameter %{name} must be a string to take the verified email'
     mcp_server:
