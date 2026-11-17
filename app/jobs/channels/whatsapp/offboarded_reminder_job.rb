@@ -6,7 +6,10 @@ class Channels::Whatsapp::OffboardedReminderJob < ApplicationJob
   def perform(waba_id, offboarded_at)
     return unless Whatsapp::CoexistenceOffboarding.still_offboarded?(waba_id, offboarded_at)
 
-    Channel::Whatsapp.embedded_signup_on_waba(waba_id).includes(:account, :inbox).find_each do |channel|
+    channels = Channel::Whatsapp.embedded_signup_on_waba(waba_id)
+    Rails.logger.warn("[WHATSAPP] WABA #{waba_id} is still offboarded, but no embedded signup inbox uses it") unless channels.exists?
+
+    channels.includes(:account, :inbox).find_each do |channel|
       # Meta has already removed our access, so the reconnect banner and email have taken over.
       next if channel.reauthorization_required? || channel.inbox.blank?
 

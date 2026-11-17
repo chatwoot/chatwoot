@@ -1,7 +1,7 @@
 # Meta offboards a coexistence number from Cloud API when its WhatsApp Business app is registered again or moved to a
-# new device. Finishing the app's registration with the connected-products option kept on usually restores it within
-# a few minutes (ACCOUNT_RECONNECTED). Otherwise Meta removes our access about 30 minutes later, so admins are warned
-# after REMINDER_DELAY, while the app can still restore the connection.
+# new device (ACCOUNT_OFFBOARDED). If the business keeps the pre-checked connected-products option while finishing the
+# app's registration, Meta reconnects it, typically within a few minutes (ACCOUNT_RECONNECTED). Admins are emailed if
+# the number is still offboarded after REMINDER_DELAY, so a reconnect that is still in progress sends no email.
 module Whatsapp::CoexistenceOffboarding
   REMINDER_DELAY = 10.minutes
   STATE_EXPIRY = 1.hour
