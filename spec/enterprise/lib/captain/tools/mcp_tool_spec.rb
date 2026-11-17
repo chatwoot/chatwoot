@@ -143,6 +143,36 @@ RSpec.describe Captain::Tools::McpTool do
     end
   end
 
+  describe 'a customer message that arrives while the server is listed' do
+    let(:base_class) { Captain::Tools::PublicMcpTool }
+    let(:stale_context) do
+      responding_to = create(:message, conversation: conversation, account: account, message_type: :incoming)
+      Struct.new(:state).new({ account_id: account.id, conversation: { id: conversation.id }, responding_to_message_id: responding_to.id })
+    end
+
+    before do
+      allow(connection).to receive(:live_tool_definitions) do
+        create(:message, conversation: conversation, account: account, message_type: :incoming, content: 'Stop, do not do that')
+        [definition]
+      end
+    end
+
+    context 'when the tool changes data' do
+      let(:definition) { super().merge('read_only' => false) }
+
+      it 'does not call the tool' do
+        expect(tool.execute(stale_context, status: 'open')).to eq(Captain::Tools::BasePublicTool::NEWER_MESSAGE_ARRIVED)
+        expect(connection).not_to have_received(:call)
+      end
+    end
+
+    it 'still calls a tool that changes nothing' do
+      tool.execute(stale_context, status: 'open')
+
+      expect(connection).to have_received(:call)
+    end
+  end
+
   describe '#read_only?' do
     let(:base_class) { Captain::Tools::PublicMcpTool }
 

@@ -46,6 +46,8 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
   def call_tool(tool_context, arguments)
     @connection.within_deadline do
       return failure_result(UNAVAILABLE, tool_context.state) unless approved_definition_live?
+      # The listing can take a while, so a tool that changes data checks again right before it runs
+      return failure_result(NEWER_MESSAGE_ARRIVED, tool_context.state) if !read_only? && newer_customer_message_arrived?(tool_context.state)
 
       # The call records what it says about the credentials, as a listing does, so a refused call reaches the server card
       result = @connection.track_status { @connection.call(@mcp_tool.name, arguments) }
