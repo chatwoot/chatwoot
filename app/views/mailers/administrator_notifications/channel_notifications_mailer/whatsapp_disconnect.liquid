@@ -1,6 +1,9 @@
 <p>Hello,</p>
 
 <p>Your Whatsapp Access has expired. </p>
+{% if meta['disconnection_reason'] %}
+<p>{{meta['disconnection_reason']}}</p>
+{% endif %}
 <p>Please reconnect Whatsapp to continue receiving messages.</p>
 
 <p>

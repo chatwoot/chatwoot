@@ -39,6 +39,16 @@ en:
         usage_html: '%{account_name} has used more than 80% of its AI response credits for the current billing period.'
         balance: '%{consumed} credits have been used, and %{remaining} credits remain.'
         action: 'View usage and add credits'
+    whatsapp:
+      disconnection_reasons:
+        account_disconnected: 'Meta disconnected this number because the WhatsApp account was deleted or restricted.'
+        business_downgrade: 'Meta disconnected this number because it was registered on the regular WhatsApp app instead of WhatsApp Business.'
+        change_number: 'Meta disconnected this number because the WhatsApp Business app account was moved to a different phone number.'
+        companion_inactivity: 'Meta disconnected this number because a linked device was inactive for about 30 days.'
+        primary_inactivity: 'Meta disconnected this number because the WhatsApp Business app on the phone was not used for about 14 days. Open the app on the phone before you reconnect.'
+        user_re_registered: 'Meta disconnected this number because the WhatsApp Business app was registered again or moved to a new phone.'
+      offboarded:
+        subject: 'Finish setting up the WhatsApp Business app to keep your WhatsApp inbox connected'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'

@@ -48,6 +48,20 @@ RSpec.describe Whatsapp::PartnerRemovedService do
       expect(manual_channel.reauthorization_required?).to be false
     end
 
+    it "stores Meta's disconnection reason on each disconnected channel" do
+      described_class.new(waba_id, reason: 'PRIMARY_INACTIVITY').perform
+
+      expect(first_channel.reload.provider_config['disconnection_reason']).to eq('PRIMARY_INACTIVITY')
+      expect(second_channel.reload.provider_config['disconnection_reason']).to eq('PRIMARY_INACTIVITY')
+    end
+
+    it 'ignores a reason Meta does not document' do
+      described_class.new(waba_id, reason: 'SOMETHING_NEW').perform
+
+      expect(first_channel.reload.provider_config).not_to have_key('disconnection_reason')
+      expect(first_channel.reauthorization_required?).to be true
+    end
+
     it 'does not email again for a channel that already needs reauthorization' do
       first_channel.prompt_reauthorization!
       second_channel.prompt_reauthorization!

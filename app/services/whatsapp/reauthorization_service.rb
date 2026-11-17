@@ -32,7 +32,7 @@ class Whatsapp::ReauthorizationService
     messaging_account_changed = current_config['business_account_id'] != @waba_id
     reset_messaging_account_data(channel) if messaging_account_changed
 
-    channel.provider_config = current_config.merge(
+    channel.provider_config = current_config.except('disconnection_reason').merge(
       'api_key' => access_token,
       'phone_number_id' => resolved_phone_number_id,
       'business_account_id' => @waba_id,

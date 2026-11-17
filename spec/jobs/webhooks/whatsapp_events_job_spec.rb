@@ -573,6 +573,45 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       end
     end
 
+    context 'with PARTNER_REMOVED carrying a coexistence disconnection reason' do
+      let(:event) { 'PARTNER_REMOVED' }
+
+      it 'stores the reason on the channel' do
+        account_update_params[:entry].first[:changes].first[:value][:disconnection_info] = { reason: 'USER_RE_REGISTERED', initiated_by: 'USER' }
+
+        job.perform_now(account_update_params)
+
+        expect(channel.reload.provider_config['disconnection_reason']).to eq('USER_RE_REGISTERED')
+      end
+    end
+
+    # ACCOUNT_OFFBOARDED and ACCOUNT_RECONNECTED name the WABA in entry.id and carry no waba_info.
+    context 'with ACCOUNT_OFFBOARDED' do
+      let(:event) { 'ACCOUNT_OFFBOARDED' }
+
+      before do
+        account_update_params[:entry].first[:id] = waba_id
+        account_update_params[:entry].first[:changes].first[:value] = { event: event }
+      end
+
+      it 'schedules the offboarding reminder without disconnecting the inbox' do
+        expect { job.perform_now(account_update_params) }
+          .to have_enqueued_job(Channels::Whatsapp::OffboardedReminderJob).with(waba_id, kind_of(Integer))
+
+        expect(channel.reload.reauthorization_required?).to be false
+      end
+
+      it 'cancels the reminder when ACCOUNT_RECONNECTED follows' do
+        job.perform_now(account_update_params)
+        offboarded_at = enqueued_jobs.find { |queued| queued[:job] == Channels::Whatsapp::OffboardedReminderJob }[:args].last
+        account_update_params[:entry].first[:changes].first[:value] = { event: 'ACCOUNT_RECONNECTED' }
+
+        job.perform_now(account_update_params)
+
+        expect(Whatsapp::CoexistenceOffboarding.still_offboarded?(waba_id, offboarded_at)).to be false
+      end
+    end
+
     context 'with another account_update event' do
       let(:event) { 'PARTNER_ADDED' }
 

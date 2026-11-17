@@ -16,7 +16,15 @@ class AdministratorNotifications::ChannelNotificationsMailer < AdministratorNoti
 
   def whatsapp_disconnect(inbox)
     subject = 'Your Whatsapp connection has expired'
-    send_notification(subject, action_url: inbox_url(inbox))
+    reason = inbox.channel.provider_config['disconnection_reason']
+    meta = {}
+    meta['disconnection_reason'] = I18n.t("administrator_notifications.whatsapp.disconnection_reasons.#{reason.downcase}") if reason.present?
+    send_notification(subject, action_url: inbox_url(inbox), meta: meta)
+  end
+
+  def whatsapp_offboarded(inbox)
+    subject = I18n.t('administrator_notifications.whatsapp.offboarded.subject')
+    send_notification(subject, action_url: inbox_url(inbox), meta: { 'phone_number' => inbox.channel.phone_number })
   end
 
   def email_disconnect(inbox)

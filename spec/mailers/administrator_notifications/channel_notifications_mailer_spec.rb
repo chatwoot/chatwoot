@@ -44,6 +44,25 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
     it 'renders the receiver email' do
       expect(mail.to).to contain_exactly(administrator.email, another_administrator.email)
     end
+
+    it "explains Meta's disconnection reason when there is one" do
+      whatsapp_channel.provider_config = whatsapp_channel.provider_config.merge('disconnection_reason' => 'PRIMARY_INACTIVITY')
+      whatsapp_channel.save!(validate: false)
+
+      expect(mail.body.encoded).to include('not used for about 14 days')
+    end
+  end
+
+  describe 'whatsapp_offboarded' do
+    let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
+    let!(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
+    let(:mail) { described_class.with(account: account).whatsapp_offboarded(whatsapp_inbox).deliver_now }
+
+    it 'tells the admins how to keep the number connected' do
+      expect(mail.subject).to eq('Finish setting up the WhatsApp Business app to keep your WhatsApp inbox connected')
+      expect(mail.to).to contain_exactly(administrator.email, another_administrator.email)
+      expect(mail.body.encoded).to include(whatsapp_channel.phone_number)
+    end
   end
 
   describe 'instagram_disconnect' do

@@ -69,6 +69,8 @@ module Redis::RedisKeys
   # Used to track token expiry and such issues for facebook slack integrations etc
   AUTHORIZATION_ERROR_COUNT = 'AUTHORIZATION_ERROR_COUNT:%<obj_type>s:%<obj_id>d'.freeze
   REAUTHORIZATION_REQUIRED =  'REAUTHORIZATION_REQUIRED:%<obj_type>s:%<obj_id>d'.freeze
+  # Set while a WhatsApp coexistence number is offboarded from Cloud API and waiting for Meta to reconnect it
+  WHATSAPP_COEXISTENCE_OFFBOARDED = 'WHATSAPP_COEXISTENCE_OFFBOARDED:%<waba_id>s'.freeze
 
   ## Internal Installation related keys
   CHATWOOT_INSTALLATION_ONBOARDING = 'CHATWOOT_INSTALLATION_ONBOARDING'.freeze

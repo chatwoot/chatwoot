@@ -9,6 +9,14 @@
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "WHATSAPP_DISCONNECTION_REASON": {
+      "ACCOUNT_DISCONNECTED": "Meta disconnected this number because the WhatsApp account was deleted or restricted. Reconnect to receive new messages.",
+      "BUSINESS_DOWNGRADE": "Meta disconnected this number because it was registered on the regular WhatsApp app instead of WhatsApp Business. Move it back to WhatsApp Business, then reconnect.",
+      "CHANGE_NUMBER": "Meta disconnected this number because the WhatsApp Business app account was moved to a different phone number. Reconnect to receive new messages.",
+      "COMPANION_INACTIVITY": "Meta disconnected this number because a linked device was inactive for about 30 days. Reconnect to receive new messages.",
+      "PRIMARY_INACTIVITY": "Meta disconnected this number because the WhatsApp Business app on the phone wasn’t used for about 14 days. Open the app on the phone, then reconnect.",
+      "USER_RE_REGISTERED": "Meta disconnected this number because the WhatsApp Business app was registered again or moved to a new phone. Reconnect to receive new messages."
+    },
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
       "404": "There are no inboxes attached to this account."
