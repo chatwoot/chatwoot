@@ -36,6 +36,8 @@ module ArticleEventDispatcher
   end
 
   def dispatch_update_event
+    return if previous_changes.except('position', 'updated_at').empty?
+
     Rails.configuration.dispatcher.dispatch(ARTICLE_UPDATED, Time.zone.now, article: self, changed_attributes: previous_changes)
   end
 

@@ -365,6 +365,15 @@ RSpec.describe Article do
       )
     end
 
+    it 'does not dispatch article.updated when articles are reordered' do
+      neighbour = create(:article, portal: portal_1, category: category_1, author: user, account: account)
+
+      described_class.update_positions(portal: portal_1, positions_hash: { article.id => neighbour.position + 5 })
+
+      expect([neighbour.reload.position, article.reload.position]).to eq([10, 20])
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with('article.updated', any_args)
+    end
+
     it 'dispatches article.deleted with the article payload' do
       article_data = article.webhook_data
       article.destroy!
