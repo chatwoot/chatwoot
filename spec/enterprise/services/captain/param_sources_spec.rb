@@ -61,6 +61,14 @@ RSpec.describe Captain::ParamSources do
         .to eq(['list_invoices parameter limit must be a string to take the verified email'])
     end
 
+    it 'accepts a verified email on a nullable string parameter' do
+      properties.merge!('backup_email' => { 'type' => %w[string null] },
+                        'work_email' => { 'anyOf' => [{ 'type' => 'string' }, { 'type' => 'null' }] })
+
+      expect(errors_for({ 'backup_email' => { 'source' => 'verified.email' } })).to be_empty
+      expect(errors_for({ 'work_email' => { 'source' => 'verified.email' } })).to be_empty
+    end
+
     it 'rejects a second verified email' do
       properties['backup_email'] = { 'type' => 'string' }
 

@@ -1,13 +1,13 @@
-# The MCP tools of one run, built from each approved tool's stored review state without calling any server. Every
-# enabled tool is offered, so a scenario that names a tool always matches the tools its agent has. A tool the last
-# listing found changed or missing, or whose server rejected its credentials, answers that it is unavailable. A current
-# tool still compares the server's live definition with the approved one when the model calls it, so a server cannot
-# change what Captain sends without an admin approving the change. Each server gets one connection per run.
+# The MCP tools of one run, built without calling any server. Every enabled tool is offered, so a scenario that names a
+# tool always matches the tools its agent has. A tool whose server rejected its credentials answers that it is
+# unavailable. Every other tool compares the server's live definition with the approved one when the model calls it,
+# so a server cannot change what Captain sends without an admin approving the change, and a tool the last listing found
+# changed works again once the server offers the approved definition. Each server gets one connection per run.
 class Captain::Mcp::AgentTools
   # Isolated namespace for the generated tool classes, as Concerns::Toolable does for custom tools
   module Generated; end
 
-  # An approved tool, with the run's connection to its server when the tool is current, or nil when it is not
+  # An approved tool, with the run's connection to its server, or nil when the server rejected its credentials
   Entry = Struct.new(:mcp_tool, :connection) do
     def usable?
       connection.present?
@@ -75,6 +75,6 @@ class Captain::Mcp::AgentTools
   # A server that rejected its credentials cannot answer until an admin signs in again, so its tools are unavailable
   def entries_on(server)
     connection = Captain::Mcp::Connection.new(server) unless server.needs_credentials?
-    server.available_tools.map { |mcp_tool| Entry.new(mcp_tool, mcp_tool.review_current? ? connection : nil) }
+    server.available_tools.map { |mcp_tool| Entry.new(mcp_tool, connection) }
   end
 end

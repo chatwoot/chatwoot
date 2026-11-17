@@ -1,4 +1,4 @@
-# An approved MCP tool that Captain cannot use in this run, because the last listing found it changed or missing. The
+# An approved MCP tool that Captain cannot use in this run, because its server rejected the saved credentials. The
 # agent keeps the tool, so a scenario that names it still matches the tools the agent has, and a call answers that the
 # tool is unavailable. The call never reaches the server.
 #

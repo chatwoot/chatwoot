@@ -109,7 +109,7 @@ module Captain::ParamSources
     verified = entries.select { |_param, entry| proven?(entry) }.keys
     return [I18n.t('captain.param_sources.one_verified_email', tool: tool_name)] if verified.size > 1
     # Verified values are text, so a parameter that takes one must be a string
-    return [] if verified.none? || properties.dig(verified.first, 'type') == 'string'
+    return [] if verified.none? || property_type(properties[verified.first]) == 'string'
 
     [I18n.t('captain.param_sources.verified_email_type', tool: tool_name, name: verified.first)]
   end

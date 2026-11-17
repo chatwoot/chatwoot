@@ -74,7 +74,8 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
   end
 
   # The server must still offer the definition the admin approved, so a change on the server never reaches Captain. The
-  # listing also records each approved tool's review state, so the next run offers a changed tool as unavailable.
+  # listing also records each approved tool's review state, so the server card shows a change and clears it once the
+  # server offers the approved definition again.
   def approved_definition_live?
     definitions = @connection.live_tool_definitions
     @mcp_tool.mcp_server.record_live_tools(definitions)
