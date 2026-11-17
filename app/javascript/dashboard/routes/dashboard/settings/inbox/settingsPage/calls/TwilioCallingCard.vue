@@ -85,6 +85,9 @@ const save = async voiceEnabled => {
     isManaging.value = false;
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (_) {
+    // Turned on straight away from saved credentials: show the switch off again. An open
+    // credentials form stays open with what was typed, to correct and retry.
+    if (!showsForm.value) wantsVoice.value = false;
     useAlert(t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
   } finally {
     isSaving.value = false;

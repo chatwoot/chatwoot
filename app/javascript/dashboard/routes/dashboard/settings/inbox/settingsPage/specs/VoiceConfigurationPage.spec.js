@@ -155,6 +155,51 @@ describe('VoiceConfigurationPage', () => {
     expect(alert).toHaveBeenCalledWith('Add the message callers hear');
   });
 
+  it('keeps the edits that were not saved when a later step fails', async () => {
+    InboxesAPI.setCallAnnouncement
+      .mockResolvedValueOnce({})
+      .mockRejectedValueOnce({ response: { data: { error: 'Too long' } } });
+    const wrapper = mountPage();
+    // The refetch returns the inbox with the greeting saved and the missed-call message not
+    dispatch.mockImplementation(() =>
+      wrapper.setProps({
+        inbox: {
+          ...inbox,
+          call_greeting_enabled: true,
+          call_greeting_message: 'Welcome',
+        },
+      })
+    );
+
+    await greeting(wrapper).setValue('Welcome');
+    await wrapper.find('#call-missed-message-387').setValue('Call back later');
+    await saveButton(wrapper).trigger('click');
+    await flushPromises();
+
+    expect(greeting(wrapper).element.value).toBe('Welcome');
+    expect(wrapper.find('#call-missed-message-387').element.value).toBe(
+      'Call back later'
+    );
+    expect(saveButton(wrapper).attributes('disabled')).toBeUndefined();
+    dispatch.mockReset();
+  });
+
+  it('shows calling off again when turning it on fails', async () => {
+    dispatch.mockRejectedValueOnce(new Error('Twilio refused'));
+    const wrapper = mountPage({ voice_enabled: false });
+    const callingSwitch = wrapper.find('button[role="switch"]');
+
+    await callingSwitch.trigger('click');
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateInbox', {
+      id: 387,
+      formData: false,
+      channel: { voice_enabled: true },
+    });
+    expect(callingSwitch.attributes('aria-checked')).toBe('false');
+  });
+
   it('keeps a saved wrap-up time that is not one of the choices', () => {
     const wrapper = mountPage({ call_cooldown_seconds: 45 });
     const wrapUp = wrapper.findAll('select').at(-1);
