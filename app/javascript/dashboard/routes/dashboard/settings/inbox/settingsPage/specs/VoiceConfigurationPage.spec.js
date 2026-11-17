@@ -111,7 +111,7 @@ describe('VoiceConfigurationPage', () => {
     );
     expect(InboxesAPI.setInboundCalls).not.toHaveBeenCalled();
     expect(InboxesAPI.setCallRecording).not.toHaveBeenCalled();
-    expect(dispatch).toHaveBeenCalledWith('inboxes/get', 387);
+    expect(dispatch).toHaveBeenCalledWith('inboxes/getItem', 387);
   });
 
   it('turns the greeting off when its text is cleared', async () => {

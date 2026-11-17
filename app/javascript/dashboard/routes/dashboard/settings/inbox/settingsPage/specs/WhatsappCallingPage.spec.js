@@ -120,7 +120,7 @@ describe('WhatsappCallingPage', () => {
       })
     );
     expect(InboxesAPI.setCallbackPermission).not.toHaveBeenCalled();
-    expect(dispatch).toHaveBeenCalledWith('inboxes/get', 52);
+    expect(dispatch).toHaveBeenCalledWith('inboxes/getItem', 52);
   });
 
   it('saves the callback setting and the permission message', async () => {
@@ -195,7 +195,7 @@ describe('WhatsappCallingPage', () => {
       await flushPromises();
 
       expect(InboxesAPI.syncWhatsappCallHours).toHaveBeenCalledWith(52);
-      expect(dispatch).toHaveBeenCalledWith('inboxes/get', 52);
+      expect(dispatch).toHaveBeenCalledWith('inboxes/getItem', 52);
     });
 
     describe('while a sync is in progress', () => {
@@ -221,7 +221,7 @@ describe('WhatsappCallingPage', () => {
         }
 
         const refetches = dispatch.mock.calls.filter(
-          ([action]) => action === 'inboxes/get'
+          ([action]) => action === 'inboxes/getItem'
         );
         expect(refetches).toHaveLength(10);
       });

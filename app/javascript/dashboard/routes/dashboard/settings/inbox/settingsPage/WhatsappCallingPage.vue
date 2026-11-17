@@ -96,7 +96,7 @@ const toggleCalling = async value => {
     } else {
       await InboxesAPI.disableWhatsappCalling(props.inbox.id);
     }
-    await store.dispatch('inboxes/get', props.inbox.id);
+    await store.dispatch('inboxes/getItem', props.inbox.id);
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (_) {
     callingEnabled.value = !value;
@@ -135,7 +135,7 @@ watch(
     if (callHoursPolls >= CALL_HOURS_POLL_LIMIT) return;
     callHoursPollTimer = setTimeout(() => {
       callHoursPolls += 1;
-      store.dispatch('inboxes/get', inbox.id);
+      store.dispatch('inboxes/getItem', inbox.id);
     }, CALL_HOURS_POLL_INTERVAL_MS);
   },
   { immediate: true }
@@ -149,7 +149,7 @@ const retryCallHoursSync = async () => {
   try {
     await InboxesAPI.syncWhatsappCallHours(props.inbox.id);
     callHoursPolls = 0;
-    await store.dispatch('inboxes/get', props.inbox.id);
+    await store.dispatch('inboxes/getItem', props.inbox.id);
   } catch (_) {
     useAlert(t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
   } finally {
