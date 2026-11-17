@@ -18,7 +18,7 @@ import {
   mockTeamsList,
   mockActiveLabels,
   mockInactiveLabels,
-} from 'dashboard/composables/commands/spec/fixtures';
+} from './fixtures';
 
 vi.mock('dashboard/composables/store');
 vi.mock('vue-i18n');

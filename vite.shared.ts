@@ -12,11 +12,3 @@ export const aliases = {
   widget: path.resolve('./app/javascript/widget'),
   assets: path.resolve('./app/javascript/dashboard/assets'),
 };
-
-export const vueOptions = {
-  template: {
-    compilerOptions: {
-      isCustomElement: (tag: string) => ['ninja-keys'].includes(tag),
-    },
-  },
-};

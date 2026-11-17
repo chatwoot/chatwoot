@@ -4,7 +4,6 @@ import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
-import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useCommandBar } from '@chatwoot/jumpbar';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
@@ -79,11 +78,6 @@ const isMonitorsAvailable = computed(
     [FEATURE_FLAGS.REPORTS, FEATURE_FLAGS.CONVERSATION_MONITORS].every(flag =>
       isFeatureEnabledonAccount.value(accountId.value, flag)
     )
-);
-
-const { uiSettings } = useUISettings();
-const hasCommandBarV2 = computed(
-  () => uiSettings.value.command_bar_v2 === true
 );
 
 const hasAdvancedAssignment = computed(() => {
@@ -1037,7 +1031,7 @@ const menuItems = computed(() => {
         :class="isEffectivelyCollapsed ? 'flex-col items-center' : 'px-2'"
       >
         <div
-          v-if="hasCommandBarV2 && !isEffectivelyCollapsed"
+          v-if="!isEffectivelyCollapsed"
           class="flex items-center w-full min-w-0 h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
         >
           <RouterLink
@@ -1060,21 +1054,6 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </button>
         </div>
-        <RouterLink
-          v-else-if="!isEffectivelyCollapsed"
-          :to="{ name: 'search' }"
-          class="flex gap-2 items-center px-2 py-1 w-full min-w-0 h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
-        >
-          <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-10" />
-          <span class="flex-grow min-w-0 truncate text-start text-n-slate-10">
-            {{ t('COMBOBOX.SEARCH_PLACEHOLDER') }}
-          </span>
-          <span
-            class="hidden tracking-wide pointer-events-none select-none text-n-slate-10"
-          >
-            {{ searchShortcut }}
-          </span>
-        </RouterLink>
         <RouterLink
           v-else
           :to="{ name: 'search' }"
