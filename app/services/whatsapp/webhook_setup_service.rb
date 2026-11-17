@@ -24,31 +24,21 @@ class Whatsapp::WebhookSetupService
 
   private
 
-  # Meta: a number that also uses the WhatsApp Business app is already registered, so onboarding must skip
-  # registration. @is_coexistence comes from the signup FINISH event; otherwise a number is registered only when it
-  # needs it and Meta confirms it is not on the Business app.
+  # Meta: skip registration for a number that also uses the WhatsApp Business app (@is_coexistence comes from the
+  # signup FINISH event). Otherwise register only when needed and Meta confirms the number is not on the app.
   def should_register_phone_number?
     return false if @is_coexistence
     return false unless registration_needed?
+    raise 'Could not confirm with Meta whether the number uses the WhatsApp Business app' if health_data[:is_on_biz_app].nil?
 
-    !on_business_app?
+    health_data[:is_on_biz_app] == false
   end
 
-  # Meta asks partners to register a number after Embedded Signup, and re-registering an already registered number
-  # succeeds without resetting its PIN, so embedded signup always registers. Other setups register only a number that
-  # is not yet verified or still pending provisioning.
+  # Re-registering an already registered number succeeds without resetting its PIN, so embedded signup always registers.
   def registration_needed?
     return true if @channel.provider_config['source'] == 'embedded_signup'
 
     !phone_number_verified? || phone_number_needs_registration?
-  end
-
-  # Without Meta's answer the number could be a Business app one, so setup fails and the caller reports it.
-  def on_business_app?
-    is_on_biz_app = health_data[:is_on_biz_app]
-    raise 'Could not confirm with Meta whether the number uses the WhatsApp Business app' unless [true, false].include?(is_on_biz_app)
-
-    is_on_biz_app
   end
 
   def validate_parameters!
@@ -68,8 +58,7 @@ class Whatsapp::WebhookSetupService
     Rails.logger.warn("[WHATSAPP] Phone registration failed but continuing: #{e.message}")
   end
 
-  # The PIN is stored before /register: Meta can apply it even when our side fails afterwards, and a PIN we
-  # lose locks the number's next registration out with 133005.
+  # Stored before /register so a failure after Meta applies it can't lose it.
   def fetch_or_create_pin
     existing_pin = @channel.provider_config['verification_pin']
     return existing_pin.to_i if existing_pin.present?
@@ -79,8 +68,7 @@ class Whatsapp::WebhookSetupService
     pin
   end
 
-  # Skips validation: the PIN is not a credential, and validating provider_config re-checks the token
-  # against Meta with extra Graph calls.
+  # Skips validation, which re-checks the token against Meta.
   def store_pin(pin)
     @channel.provider_config['verification_pin'] = pin
     @channel.save!(validate: false)

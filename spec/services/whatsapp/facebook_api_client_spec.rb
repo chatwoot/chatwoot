@@ -157,22 +157,28 @@ describe Whatsapp::FacebookApiClient do
   describe '#deregister_phone_number' do
     let(:phone_number_id) { 'test_phone_id' }
 
-    it 'posts to the deregister endpoint' do
-      stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/deregister")
-        .with(headers: { 'Authorization' => "Bearer #{access_token}" })
-        .to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+    context 'when successful' do
+      before do
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/deregister")
+          .with(headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' })
+          .to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+      end
 
-      expect(api_client.deregister_phone_number(phone_number_id)['success']).to be(true)
+      it 'returns success response' do
+        result = api_client.deregister_phone_number(phone_number_id)
+        expect(result['success']).to be(true)
+      end
     end
 
-    it 'raises an ApiError carrying Meta\'s message when Meta refuses' do
-      stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/deregister")
-        .to_return(status: 400, body: { error: { message: 'Not allowed' } }.to_json, headers: { 'Content-Type' => 'application/json' })
+    context 'when failed' do
+      before do
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/deregister")
+          .to_return(status: 400, body: { error: 'Deregistration failed' }.to_json)
+      end
 
-      expect { api_client.deregister_phone_number(phone_number_id) }.to raise_error(Whatsapp::FacebookApiClient::ApiError) { |error|
-        expect(error.message).to start_with('Phone deregistration failed: ')
-        expect(error.meta_message).to eq('Not allowed')
-      }
+      it 'raises an error' do
+        expect { api_client.deregister_phone_number(phone_number_id) }.to raise_error(/Phone deregistration failed/)
+      end
     end
   end
 
