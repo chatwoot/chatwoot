@@ -790,7 +790,7 @@
       },
       "RELEASE_WHATSAPP_NUMBER": {
         "LABEL": "Also release this number from the WhatsApp Cloud API",
-        "HELP": "This stops the number working with the Cloud API for every provider, including other platforms connected to it. Leave it unchecked if you will reconnect the number to Chatwoot. Numbers that also use the WhatsApp Business app can't be released here; disconnect them in the app under Settings > Account > Business Platform."
+        "HELP": "Release it only if nobody should use this number with the Cloud API any more. Releasing stops the number for every provider, including other platforms and your own integrations, until it is registered again. Leave it unchecked if you will reconnect the number to Chatwoot or another platform still uses it. Numbers that also use the WhatsApp Business app can't be released here; disconnect them in the app under Settings > Account > Business Platform."
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
