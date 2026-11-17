@@ -32,6 +32,19 @@ describe Whatsapp::Providers::WhatsappCloudService do
   describe 'calling settings' do
     let(:settings_url) { 'https://graph.facebook.com/v22.0/123456789/settings' }
 
+    it 'bounds reading and updating the settings, so a call hours sync fits inside its lock' do
+      stub_request(:get, settings_url).to_return(status: 200, headers: headers, body: { calling: {} }.to_json)
+      stub_request(:post, settings_url).to_return(status: 200, headers: headers, body: '{}')
+      allow(HTTParty).to receive(:get).and_call_original
+      allow(HTTParty).to receive(:post).and_call_original
+
+      service.calling_settings
+      service.update_call_hours('status' => 'DISABLED')
+
+      expect(HTTParty).to have_received(:get).with(settings_url, hash_including(timeout: 15))
+      expect(HTTParty).to have_received(:post).with(settings_url, hash_including(timeout: 15))
+    end
+
     it 'sends only the callback permission setting' do
       request = stub_request(:post, settings_url).with(body: { calling: { callback_permission_status: 'ENABLED' } }.to_json)
                                                  .to_return(status: 200, body: '{}', headers: headers)

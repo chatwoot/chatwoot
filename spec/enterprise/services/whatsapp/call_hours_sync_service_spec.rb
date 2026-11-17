@@ -82,6 +82,53 @@ RSpec.describe Whatsapp::CallHoursSyncService do
                                               call_hours_last_payload: nil)
   end
 
+  def stub_update_with_change
+    stub_request(:post, settings_url).to_return do
+      yield
+      { status: 200, headers: headers, body: { success: true }.to_json }
+    end
+  end
+
+  it 'sends again when call hours were turned off while Meta was being updated' do
+    stub_meta_settings(nil)
+    # Saved the way the routing settings save it, without the remote credential check
+    stub_update_with_change do
+      saved = Channel::Whatsapp.find(channel.id)
+      saved.provider_config = saved.provider_config.merge('business_hours_calls_enabled' => false)
+      saved.save!(validate: false)
+    end
+
+    expect { sync }.to have_enqueued_job(Whatsapp::SyncCallHoursJob).with(channel)
+    expect(channel.reload.call_hours_sync_status).to eq('pending')
+  end
+
+  it 'sends again when the timezone changed while Meta was being updated' do
+    stub_meta_settings(nil)
+    stub_update_with_change { Inbox.find(channel.inbox.id).update!(timezone: 'Asia/Kolkata') }
+
+    expect { sync }.to have_enqueued_job(Whatsapp::SyncCallHoursJob).with(channel)
+    expect(channel.reload.call_hours_sync_status).to eq('pending')
+  end
+
+  it 'tries settings saved during a refused update on their own' do
+    stub_meta_settings(nil)
+    stub_request(:post, settings_url).to_return do
+      Inbox.find(channel.inbox.id).update!(timezone: 'Asia/Kolkata')
+      { status: 400, headers: headers, body: { error: { message: 'Invalid timezone_id' } }.to_json }
+    end
+
+    expect { sync }.to have_enqueued_job(Whatsapp::SyncCallHoursJob).with(channel)
+    expect(channel.reload).to have_attributes(call_hours_sync_status: 'pending', call_hours_sync_error: nil)
+  end
+
+  it 'does not retry a refused update on its own when nothing changed' do
+    stub_meta_settings(nil)
+    stub_request(:post, settings_url).to_return(status: 400, headers: headers, body: { error: { message: 'Invalid' } }.to_json)
+
+    expect { sync }.not_to have_enqueued_job(Whatsapp::SyncCallHoursJob)
+    expect(channel.reload.call_hours_sync_status).to eq('failed')
+  end
+
   it 'sends again when the hours changed while Meta was being updated' do
     stub_meta_settings(nil)
     stub_request(:post, settings_url).to_return do

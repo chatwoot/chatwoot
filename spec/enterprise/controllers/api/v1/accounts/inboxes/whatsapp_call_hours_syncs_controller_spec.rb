@@ -34,7 +34,18 @@ RSpec.describe 'WhatsApp call hours sync API', type: :request do
     expect(response).to have_http_status(:unauthorized)
   end
 
-  it 'refuses an inbox with calling off' do
+  it 'retries turning off hours Chatwoot already sent while calling is off' do
+    channel.update!(call_hours_last_payload: channel.desired_call_hours,
+                    provider_config: channel.provider_config.merge('calling_enabled' => false, 'business_hours_calls_enabled' => false))
+
+    expect do
+      post url, headers: admin.create_new_auth_token, as: :json
+    end.to have_enqueued_job(Whatsapp::SyncCallHoursJob).with(channel)
+
+    expect(response).to have_http_status(:ok)
+  end
+
+  it 'refuses an inbox with calling off that never sent hours to Meta' do
     channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => false))
 
     post url, headers: admin.create_new_auth_token, as: :json

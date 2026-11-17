@@ -4,8 +4,9 @@ class Whatsapp::SyncCallHoursJob < MutexApplicationJob
   queue_as :default
   retry_on_lock_conflict wait: 2.seconds, attempts: 10
 
-  # Covers reading and updating the settings at Meta
-  LOCK_TIMEOUT = 1.minute
+  # Outlasts reading and updating the settings at Meta, whose connect, send, and read steps are each
+  # bounded by SETTINGS_REQUEST_TIMEOUT_SECONDS
+  LOCK_TIMEOUT = 2.minutes
 
   def perform(channel)
     with_lock(format(Redis::Alfred::WHATSAPP_CALL_HOURS_SYNC_MUTEX, channel_id: channel.id), LOCK_TIMEOUT) do

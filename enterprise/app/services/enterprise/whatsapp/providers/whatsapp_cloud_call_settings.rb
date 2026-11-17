@@ -1,6 +1,10 @@
 # The number's calling settings at Meta: calling itself, callback requests, and call hours. Part of
 # Enterprise::Whatsapp::Providers::WhatsappCloudService, whose request helpers it uses.
 module Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
+  # Bounds connecting, sending, and reading each settings request, so a call hours sync finishes
+  # inside its lock (Whatsapp::SyncCallHoursJob::LOCK_TIMEOUT)
+  SETTINGS_REQUEST_TIMEOUT_SECONDS = 15
+
   # Sets WABA calling status ('ENABLED'/'DISABLED')
   def update_calling_status(status)
     update_calling_settings(status: status)
@@ -18,7 +22,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
 
   # The number's calling settings as Meta holds them, or raises with Meta's message
   def calling_settings
-    response = HTTParty.get("#{calls_phone_id_path}/settings", headers: api_headers)
+    response = HTTParty.get(
+      "#{calls_phone_id_path}/settings", headers: api_headers, timeout: SETTINGS_REQUEST_TIMEOUT_SECONDS
+    )
     return response.parsed_response if response.success?
 
     Rails.logger.error "[WHATSAPP CALL] calling_settings failed: status=#{response.code} body=#{response.body}"
@@ -33,7 +39,8 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
     response = HTTParty.post(
       "#{calls_phone_id_path}/settings",
       headers: api_headers,
-      body: { calling: settings }.to_json
+      body: { calling: settings }.to_json,
+      timeout: SETTINGS_REQUEST_TIMEOUT_SECONDS
     )
     return true if response.success?
 
