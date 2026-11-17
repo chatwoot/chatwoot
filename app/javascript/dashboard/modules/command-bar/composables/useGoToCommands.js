@@ -11,6 +11,8 @@ import {
 import { isUpgradePageBypassRoute } from 'dashboard/helper/routeHelpers';
 
 const SECTION_GENERAL = 'COMMAND_BAR.SECTIONS.GENERAL';
+const SECTION_CAPTAIN = 'SIDEBAR.CAPTAIN';
+const SECTION_HELP_CENTER = 'SIDEBAR.HELP_CENTER.TITLE';
 const SECTION_REPORTS = 'COMMAND_BAR.SECTIONS.REPORTS';
 const SECTION_SETTINGS = 'COMMAND_BAR.SECTIONS.SETTINGS';
 const SECTION_CREATE = 'COMMAND_BAR.SECTIONS.CREATE';
@@ -32,6 +34,27 @@ const GO_TO_COMMANDS = [
     shortcut: 'Alt+KeyC',
   },
   {
+    id: 'goto_mentions',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_MENTIONS',
+    section: SECTION_GENERAL,
+    icon: 'i-lucide-at-sign',
+    routeName: 'conversation_mentions',
+  },
+  {
+    id: 'goto_participating',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_PARTICIPATING',
+    section: SECTION_GENERAL,
+    icon: 'i-lucide-user-round-check',
+    routeName: 'conversation_participating',
+  },
+  {
+    id: 'goto_unattended',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_UNATTENDED',
+    section: SECTION_GENERAL,
+    icon: 'i-lucide-clock-alert',
+    routeName: 'conversation_unattended',
+  },
+  {
     id: 'goto_contacts_dashboard',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_CONTACTS_DASHBOARD',
     section: SECTION_GENERAL,
@@ -40,12 +63,82 @@ const GO_TO_COMMANDS = [
     shortcut: 'Alt+KeyV',
   },
   {
+    id: 'goto_active_contacts',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_ACTIVE_CONTACTS',
+    section: SECTION_GENERAL,
+    icon: 'i-lucide-contact',
+    routeName: 'contacts_dashboard_active',
+  },
+  {
+    id: 'goto_companies',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_COMPANIES',
+    section: SECTION_GENERAL,
+    icon: 'i-lucide-building-2',
+    routeName: 'companies_dashboard_index',
+  },
+  {
     id: 'goto_captain',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN',
-    section: SECTION_GENERAL,
+    section: SECTION_CAPTAIN,
     icon: 'i-woot-captain',
     routeName: 'captain_assistants_index',
     params: { navigationPath: 'captain_assistants_overview_index' },
+  },
+  {
+    id: 'goto_captain_faqs',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN_FAQS',
+    section: SECTION_CAPTAIN,
+    icon: 'i-woot-captain',
+    routeName: 'captain_assistants_index',
+    params: { navigationPath: 'captain_assistants_responses_index' },
+  },
+  {
+    id: 'goto_captain_documents',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN_DOCUMENTS',
+    section: SECTION_CAPTAIN,
+    icon: 'i-woot-captain',
+    routeName: 'captain_assistants_index',
+    params: { navigationPath: 'captain_assistants_documents_index' },
+  },
+  {
+    id: 'goto_captain_scenarios',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN_SCENARIOS',
+    section: SECTION_CAPTAIN,
+    icon: 'i-woot-captain',
+    routeName: 'captain_assistants_index',
+    params: { navigationPath: 'captain_assistants_scenarios_index' },
+  },
+  {
+    id: 'goto_captain_playground',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN_PLAYGROUND',
+    section: SECTION_CAPTAIN,
+    icon: 'i-woot-captain',
+    routeName: 'captain_assistants_index',
+    params: { navigationPath: 'captain_assistants_playground_index' },
+  },
+  {
+    id: 'goto_captain_inboxes',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN_INBOXES',
+    section: SECTION_CAPTAIN,
+    icon: 'i-woot-captain',
+    routeName: 'captain_assistants_index',
+    params: { navigationPath: 'captain_assistants_inboxes_index' },
+  },
+  {
+    id: 'goto_captain_tools',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN_TOOLS',
+    section: SECTION_CAPTAIN,
+    icon: 'i-woot-captain',
+    routeName: 'captain_assistants_index',
+    params: { navigationPath: 'captain_tools_index' },
+  },
+  {
+    id: 'goto_captain_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN_SETTINGS',
+    section: SECTION_CAPTAIN,
+    icon: 'i-woot-captain',
+    routeName: 'captain_assistants_index',
+    params: { navigationPath: 'captain_assistants_settings_index' },
   },
   {
     id: 'goto_calls_dashboard',
@@ -62,12 +155,50 @@ const GO_TO_COMMANDS = [
     routeName: 'campaigns_livechat_index',
   },
   {
+    id: 'goto_sms_campaigns',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SMS_CAMPAIGNS',
+    section: SECTION_GENERAL,
+    icon: 'i-lucide-megaphone',
+    routeName: 'campaigns_sms_index',
+  },
+  {
+    id: 'goto_whatsapp_campaigns',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_WHATSAPP_CAMPAIGNS',
+    section: SECTION_GENERAL,
+    icon: 'i-lucide-megaphone',
+    routeName: 'campaigns_whatsapp_index',
+  },
+  {
     id: 'goto_help_center',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_HELP_CENTER',
-    section: SECTION_GENERAL,
+    section: SECTION_HELP_CENTER,
     icon: 'i-lucide-library',
     routeName: 'portals_index',
     params: { navigationPath: 'portals_articles_index' },
+  },
+  {
+    id: 'goto_help_center_categories',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_HELP_CENTER_CATEGORIES',
+    section: SECTION_HELP_CENTER,
+    icon: 'i-lucide-library',
+    routeName: 'portals_index',
+    params: { navigationPath: 'portals_categories_index' },
+  },
+  {
+    id: 'goto_help_center_locales',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_HELP_CENTER_LOCALES',
+    section: SECTION_HELP_CENTER,
+    icon: 'i-lucide-library',
+    routeName: 'portals_index',
+    params: { navigationPath: 'portals_locales_index' },
+  },
+  {
+    id: 'goto_help_center_settings',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_HELP_CENTER_SETTINGS',
+    section: SECTION_HELP_CENTER,
+    icon: 'i-lucide-library',
+    routeName: 'portals_index',
+    params: { navigationPath: 'portals_settings_index' },
   },
   {
     id: 'open_agent_settings',
@@ -274,6 +405,13 @@ const GO_TO_COMMANDS = [
     icon: 'i-lucide-clock-alert',
     routeName: 'sla_reports',
   },
+  {
+    id: 'open_monitor_reports',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_MONITOR_REPORTS',
+    section: SECTION_REPORTS,
+    icon: 'i-lucide-activity',
+    routeName: 'monitor_reports_index',
+  },
 ];
 
 const CREATE_COMMANDS = [
@@ -297,13 +435,6 @@ const CREATE_COMMANDS = [
     section: SECTION_CREATE,
     icon: 'i-lucide-plus',
     routeName: 'macros_new',
-  },
-  {
-    id: 'new_campaign',
-    title: 'COMMAND_BAR.COMMANDS.NEW_CAMPAIGN',
-    section: SECTION_CREATE,
-    icon: 'i-lucide-plus',
-    routeName: 'campaigns_whatsapp_new',
   },
 ];
 
@@ -348,6 +479,45 @@ const TARGET_PAGES = [
       params: { label: label.title },
     }),
   },
+  {
+    id: 'goto_folder',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_FOLDER',
+    icon: 'i-lucide-folder',
+    routeName: 'folder_conversations',
+    getter: 'customViews/getConversationCustomViews',
+    target: folder => ({
+      id: `folder-${folder.id}`,
+      title: folder.name,
+      icon: 'i-lucide-folder',
+      params: { id: folder.id },
+    }),
+  },
+  {
+    id: 'goto_segment',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_SEGMENT',
+    icon: 'i-lucide-group',
+    routeName: 'contacts_dashboard_segments_index',
+    getter: 'customViews/getContactCustomViews',
+    target: segment => ({
+      id: `segment-${segment.id}`,
+      title: segment.name,
+      icon: 'i-lucide-group',
+      params: { segmentId: segment.id },
+    }),
+  },
+  {
+    id: 'goto_tagged_contacts',
+    title: 'COMMAND_BAR.COMMANDS.GO_TO_TAGGED_CONTACTS',
+    icon: 'i-lucide-tag',
+    routeName: 'contacts_dashboard_labels_index',
+    getter: 'labels/getLabelsOnSidebar',
+    target: label => ({
+      id: `tagged-${label.title}`,
+      title: label.title,
+      icon: 'i-lucide-tag',
+      params: { label: label.title },
+    }),
+  },
 ];
 
 export function useGoToCommands(isPaywalled = ref(false)) {
@@ -368,20 +538,31 @@ export function useGoToCommands(isPaywalled = ref(false)) {
       params: { accountId: currentAccountId.value, ...params },
     });
 
-  const isAvailable = route => {
-    const { meta } = route;
+  const landingRoute = ({ params }) => {
+    if (!params?.navigationPath) return null;
+    return router
+      .getRoutes()
+      .find(route => route.name === params.navigationPath);
+  };
 
+  const isPermitted = meta => {
     if (!isFeatureFlagEnabled(meta?.featureFlag)) return false;
     if (!checkPermissions(meta?.permissions)) return false;
-    if (!checkInstallationType(meta?.installationTypes)) return false;
+    return checkInstallationType(meta?.installationTypes);
+  };
 
+  const isAvailable = route => {
+    if (!isPermitted(route.meta)) return false;
     return !isPaywalled.value || isUpgradePageBypassRoute(route.name);
   };
 
   const pageCommands = computed(() =>
     [...GO_TO_COMMANDS, ...CREATE_COMMANDS].flatMap(command => {
       const route = resolveRoute(command);
-      if (!isAvailable(route) || route.name === currentRoute.name) return [];
+      const landing = landingRoute(command);
+      if (!isAvailable(route)) return [];
+      if (landing && !isPermitted(landing.meta)) return [];
+      if ((landing ?? route).name === currentRoute.name) return [];
 
       const section = t(command.section);
       return {
