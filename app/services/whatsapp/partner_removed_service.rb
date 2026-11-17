@@ -7,11 +7,7 @@ class Whatsapp::PartnerRemovedService
   end
 
   def perform
-    channels = Channel::Whatsapp.embedded_signup_on_waba(@waba_id)
-    # Logged so an event that reaches no inbox, for example one whose stored WABA id is out of date, is visible.
-    Rails.logger.warn("[WHATSAPP] Partner removed for WABA #{@waba_id}, but no embedded signup inbox uses it") unless channels.exists?
-
-    channels.find_each do |channel|
+    Channel::Whatsapp.embedded_signup_on_waba(@waba_id).find_each do |channel|
       # Meta retries webhooks, so skip channels already flagged to avoid repeat disconnect emails.
       next if channel.reauthorization_required?
 

@@ -11,7 +11,7 @@ RSpec.describe Whatsapp::PhoneNumberReleaseService do
     allow(health_service).to receive(:fetch_health_status).and_return(health_data)
   end
 
-  it 'deregisters an embedded signup number' do
+  it 'deregisters an embedded signup number that Meta confirms is not on the WhatsApp Business app' do
     stub_request(:post, deregister_url).to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
 
     described_class.new(channel).perform
@@ -19,13 +19,11 @@ RSpec.describe Whatsapp::PhoneNumberReleaseService do
     expect(a_request(:post, deregister_url)).to have_been_made.once
   end
 
-  it "raises with Meta's reason when Meta refuses" do
-    stub_request(:post, deregister_url).to_return(
-      status: 400, body: { error: { message: 'Phone number is not currently linked' } }.to_json, headers: { 'Content-Type' => 'application/json' }
-    )
+  it 'raises when Meta refuses' do
+    stub_request(:post, deregister_url).to_return(status: 400, body: { error: { message: 'Not allowed' } }.to_json)
 
     expect { described_class.new(channel).perform }.to raise_error(CustomExceptions::WhatsappNumberReleaseError) { |error|
-      expect(error.message).to include('Phone number is not currently linked')
+      expect(error.message).to eq('Meta could not release the number, so the inbox was not deleted. Please try again.')
     }
   end
 
@@ -41,13 +39,11 @@ RSpec.describe Whatsapp::PhoneNumberReleaseService do
     end
   end
 
-  context 'when Meta does not report whether the number uses the WhatsApp Business app' do
+  context 'when Meta does not say whether the number uses the WhatsApp Business app' do
     let(:health_data) { { is_on_biz_app: nil } }
 
     it 'refuses without calling deregister' do
-      expect { described_class.new(channel).perform }.to raise_error(CustomExceptions::WhatsappNumberReleaseError) { |error|
-        expect(error.message).to include('Could not confirm with Meta')
-      }
+      expect { described_class.new(channel).perform }.to raise_error(CustomExceptions::WhatsappNumberReleaseError)
       expect(a_request(:post, deregister_url)).not_to have_been_made
     end
   end
