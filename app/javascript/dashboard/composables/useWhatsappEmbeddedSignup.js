@@ -5,12 +5,13 @@ import {
   initWhatsAppEmbeddedSignup,
   createMessageHandler,
   isValidBusinessData,
+  getMessagingAccountId,
   classifySignupEvent,
   SIGNUP_RESULT,
 } from 'dashboard/routes/dashboard/settings/inbox/channels/whatsapp/utils';
 
 // Drives Meta's WhatsApp embedded-signup popup (Facebook JS SDK). FB.login()
-// resolves an auth `code` while the WABA identifiers (waba_id, phone_number_id)
+// resolves an auth `code` while the account identifiers (messaging_account_ids, phone_number_id)
 // arrive separately over a postMessage event — order isn't guaranteed, so we
 // hold both and resolve once both are present.
 //
@@ -50,7 +51,7 @@ export function useWhatsappEmbeddedSignup() {
         settle(resolve, {
           code: authCode,
           business_id: businessData.business_id || '',
-          waba_id: businessData.waba_id,
+          waba_id: getMessagingAccountId(businessData),
           phone_number_id: businessData.phone_number_id || '',
           is_coexistence: isCoexistence,
         });
