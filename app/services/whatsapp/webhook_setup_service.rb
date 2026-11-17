@@ -24,28 +24,31 @@ class Whatsapp::WebhookSetupService
 
   private
 
-  # Coexistence numbers come pre-registered, so /register is redundant. @is_coexistence (from the
-  # FE's FINISH event) skips the health API call entirely; the is_on_biz_app fallback only runs for
-  # callers that pass no signal at all (nil) — manual setup, voice toggle, direct webhook
-  # re-registration — since an explicit `false` already means the FE positively ruled out coexistence.
-  # Otherwise register only when the number is neither connected nor ownership-verified, or when
-  # Meta still reports a pending provisioning state.
+  # Meta: a number that also uses the WhatsApp Business app is already registered, so onboarding must skip
+  # registration. @is_coexistence comes from the signup FINISH event; otherwise a number is registered only when it
+  # needs it and Meta confirms it is not on the Business app.
   def should_register_phone_number?
     return false if @is_coexistence
-    return false if @is_coexistence.nil? && health_data[:is_on_biz_app]
-    return embedded_signup_number_needs_registration? if @channel.provider_config['source'] == 'embedded_signup'
+    return false unless registration_needed?
+
+    !on_business_app?
+  end
+
+  # Meta asks partners to register a number after Embedded Signup, and re-registering an already registered number
+  # succeeds without resetting its PIN, so embedded signup always registers. Other setups register only a number that
+  # is not yet verified or still pending provisioning.
+  def registration_needed?
+    return true if @channel.provider_config['source'] == 'embedded_signup'
 
     !phone_number_verified? || phone_number_needs_registration?
   end
 
-  # Meta can keep reporting a deregistered number as CONNECTED, so a reconnect that trusts that status never
-  # re-registers it. Re-registering a registered number succeeds and keeps its PIN, so embedded signup always does,
-  # except for a number still on the WhatsApp Business app: Meta says coexistence numbers must not be registered.
-  # Without health data the two can't be told apart, so the setup fails and the inbox shows the reconnect banner.
-  def embedded_signup_number_needs_registration?
-    raise 'Could not check whether the number is on the WhatsApp Business app' if health_data.blank?
+  # Without Meta's answer the number could be a Business app one, so setup fails and the caller reports it.
+  def on_business_app?
+    is_on_biz_app = health_data[:is_on_biz_app]
+    raise 'Could not confirm with Meta whether the number uses the WhatsApp Business app' unless [true, false].include?(is_on_biz_app)
 
-    !health_data[:is_on_biz_app]
+    is_on_biz_app
   end
 
   def validate_parameters!
@@ -147,7 +150,6 @@ class Whatsapp::WebhookSetupService
     @health_data ||= Whatsapp::HealthService.new(@channel).fetch_health_status
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Health status check failed: #{e.message}")
-    # If health check fails, assume registration is not needed to avoid errors
     {}
   end
 end
