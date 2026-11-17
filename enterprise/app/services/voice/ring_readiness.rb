@@ -1,6 +1,7 @@
 # Whether a call rings an agent's phones while the app is in the background or closed: the
 # installation's push settings, the devices the app registered for rings, and on each
-# account the call features, the voice inboxes the agent is rung for, and their status.
+# account the call features, the voice inboxes the agent is rung for, their status and
+# whether they take calls.
 # Shown in the Super Admin diagnostics.
 class Voice::RingReadiness
   pattr_initialize [:user!]
@@ -12,7 +13,7 @@ class Voice::RingReadiness
   # voice_inboxes: inboxes whose calls ring the agent; assigned_only_inboxes: of those, the ones
   # where their role limits it to calls already assigned to them
   Membership = Struct.new(:account, :voice_enabled, :ringing_enabled, :voice_inboxes, :assigned_only_inboxes, :availability,
-                          keyword_init: true)
+                          :accepts_calls, keyword_init: true)
 
   def apple
     @apple ||= Platform.new(problem: apple_problem, devices: user.notification_subscriptions.apns_voip.count)
@@ -29,26 +30,20 @@ class Voice::RingReadiness
       Membership.new(account: account, voice_enabled: account.feature_enabled?('channel_voice'),
                      ringing_enabled: account.feature_enabled?('mobile_voice_push'),
                      voice_inboxes: reach.size, assigned_only_inboxes: reach.count(:assigned),
-                     availability: account_user.availability)
+                     availability: account_user.availability, accepts_calls: account_user.accepts_calls)
     end
   end
 
-  # A call rings the agents its inbox can be assigned to, when they are online, on
+  # A call rings the agents its inbox can be assigned to, when they are online and take calls, on
   # accounts with both features, on a platform the installation can push to
   def rings?(membership)
     blocker(membership).nil?
   end
 
   # The first reason a call does not ring the agent's phone on the account, nil when it rings:
-  # 'voice_off', 'ringing_off', 'no_inboxes', 'not_online', 'no_device' or 'push_unavailable'
+  # 'voice_off', 'ringing_off', 'no_inboxes', 'not_online', 'calls_off', 'no_device' or 'push_unavailable'
   def blocker(membership)
-    return 'voice_off' unless membership.voice_enabled
-    return 'ringing_off' unless membership.ringing_enabled
-    return 'no_inboxes' unless membership.voice_inboxes.positive?
-    return 'not_online' unless membership.availability == 'online'
-    return 'no_device' unless registered_device?
-
-    'push_unavailable' unless ringable_device?
+    membership_blocker(membership) || device_blocker
   end
 
   # Rings, but only for calls in conversations already assigned to the agent
@@ -57,6 +52,21 @@ class Voice::RingReadiness
   end
 
   private
+
+  def membership_blocker(membership)
+    return 'voice_off' unless membership.voice_enabled
+    return 'ringing_off' unless membership.ringing_enabled
+    return 'no_inboxes' unless membership.voice_inboxes.positive?
+    return 'not_online' unless membership.availability == 'online'
+
+    'calls_off' unless membership.accepts_calls
+  end
+
+  def device_blocker
+    return 'no_device' unless registered_device?
+
+    'push_unavailable' unless ringable_device?
+  end
 
   def registered_device?
     apple.devices.positive? || android.devices.positive?

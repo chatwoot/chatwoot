@@ -1,8 +1,8 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Integrations::BaseController
   include Shopify::IntegrationHelper
   before_action :ensure_shopify_enabled
-  before_action -> { Shopify::ApiContext.setup! }, only: [:orders]
   before_action :fetch_hook, except: [:auth, :complete_install]
+  before_action -> { Shopify::ApiContext.setup!(custom_app: @hook.shopify_custom_app) }, only: [:orders]
   before_action :check_authorization, only: [:auth, :complete_install, :destroy]
   before_action :validate_contact, only: [:orders]
 
@@ -11,6 +11,8 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
     unless shop_domain.is_a?(String) && Shopify::ShopDomain.valid?(shop_domain)
       return render json: { error: 'Invalid Shopify shop domain' }, status: :unprocessable_entity
     end
+
+    return authorize_custom_app(shop_domain) if Shopify::FeatureGate.custom_apps_enabled?(account: Current.account)
 
     state = generate_shopify_token(Current.account.id)
     raise 'Shopify OAuth is not configured' if client_id.blank? || state.blank?
@@ -54,7 +56,10 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   def destroy
-    @hook.destroy!
+    Current.account.with_lock do
+      @hook.destroy!
+      Current.account.shopify_custom_app&.destroy!
+    end
     head :ok
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -62,8 +67,22 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
   private
 
+  def authorize_custom_app(shop_domain)
+    custom_app = Current.account.shopify_custom_app
+    return head :not_found unless custom_app&.enabled?
+
+    unless Shopify::ShopDomain.normalize(shop_domain) == custom_app.shop_domain
+      return render json: { error: 'This account is configured for a different Shopify store' }, status: :unprocessable_entity
+    end
+    if Current.account.internal_attributes['billing_provider'] == 'shopify'
+      return render json: { error: 'Shopify billing cannot use a custom app' }, status: :unprocessable_entity
+    end
+
+    render json: { redirect_url: custom_app.install_url }
+  end
+
   def ensure_shopify_enabled
-    head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
+    head :not_found unless Shopify::FeatureGate.available?(account: Current.account)
   end
 
   def contact

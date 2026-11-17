@@ -26,7 +26,7 @@ const route = useRoute();
 const router = useRouter();
 const assistantId = computed(() => route.params.assistantId);
 const { t } = useI18n();
-const { shouldShowPaywall } = usePolicy();
+const { shouldShowPaywall, isFeatureFlagEnabled } = usePolicy();
 const { isAdmin } = useAdmin();
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
@@ -91,6 +91,15 @@ const onPageChange = page => fetchCustomTools(page);
 const openCatalog = () =>
   router.push({
     name: 'captain_tools_explore',
+    params: {
+      accountId: route.params.accountId,
+      assistantId: assistantId.value,
+    },
+  });
+
+const openMcpServers = () =>
+  router.push({
+    name: 'captain_mcp_servers_index',
     params: {
       accountId: route.params.accountId,
       assistantId: assistantId.value,
@@ -254,6 +263,15 @@ watch(
     @click="openCreateDialog"
   >
     <template #headerActions>
+      <Button
+        v-if="isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_MCP_SERVERS)"
+        :label="$t('CAPTAIN.MCP_SERVERS.BUTTON')"
+        icon="i-lucide-server"
+        size="sm"
+        faded
+        slate
+        @click="openMcpServers"
+      />
       <Policy
         v-if="
           globalConfig.captainToolsManifestEnabled &&

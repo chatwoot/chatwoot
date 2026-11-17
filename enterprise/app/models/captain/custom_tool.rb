@@ -34,6 +34,7 @@ class Captain::CustomTool < ApplicationRecord
 
   include Concerns::Toolable
   include Concerns::SafeEndpointValidatable
+  include Concerns::VerifiedCustomerRequirement
 
   self.table_name = 'captain_custom_tools'
 
@@ -139,15 +140,13 @@ class Captain::CustomTool < ApplicationRecord
     }
   end
 
-  # The tool only runs for a customer who verified an email with a one-time code.
-  # A tool with a parameter that takes the verified email cannot run without one, so it needs no setting.
-  def requires_email_verification?
-    settings['requires_email_verification'] == true || param_schema.any? { |param_def| param_def['source'] == 'verified.email' }
+  def takes_verified_email?
+    param_schema.any? { |param_def| param_def['source'] == Captain::ParamSources::VERIFIED_EMAIL }
   end
 
   # The name of the parameter Chatwoot fills with the verified email, if the tool has one
   def verified_email_param
-    param_schema.find { |param_def| param_def['source'] == 'verified.email' }&.dig('name')
+    param_schema.find { |param_def| param_def['source'] == Captain::ParamSources::VERIFIED_EMAIL }&.dig('name')
   end
 
   def enabled_scenarios_count

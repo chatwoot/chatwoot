@@ -32,6 +32,12 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
     end
   end
 
+  describe '#read_only?' do
+    it 'is true, because looking up an FAQ changes nothing' do
+      expect(tool.read_only?).to be(true)
+    end
+  end
+
   describe '#perform' do
     context 'when FAQs exist' do
       let(:document) { create(:captain_document, assistant: assistant) }
@@ -189,12 +195,6 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         result = tool.perform(tool_context, query: '')
         expect(result).to eq('No relevant FAQs found for: ')
       end
-    end
-  end
-
-  describe '#active?' do
-    it 'returns true for public tools' do
-      expect(tool.active?).to be true
     end
   end
 end

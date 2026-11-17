@@ -12,17 +12,27 @@ import { BILLING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
-const { accountId, isPastDue, canManagePayment } = usePaymentStatus();
+const { accountId, isPastDue, canManagePayment, isOnChatwootCloud } =
+  usePaymentStatus();
 
-const bannerMessage = computed(() =>
-  canManagePayment.value
+const bannerMessage = computed(() => {
+  if (!isOnChatwootCloud.value) {
+    return canManagePayment.value
+      ? t('GENERAL_SETTINGS.INSTALLATION_PAYMENT_PENDING')
+      : t('GENERAL_SETTINGS.INSTALLATION_PAYMENT_PENDING_MEMBER');
+  }
+  return canManagePayment.value
     ? t('GENERAL_SETTINGS.PAYMENT_PENDING')
-    : t('GENERAL_SETTINGS.PAYMENT_PENDING_AGENT')
-);
+    : t('GENERAL_SETTINGS.PAYMENT_PENDING_AGENT');
+});
 
 const openBilling = () => {
   if (!canManagePayment.value) return;
   useTrack(BILLING_EVENTS.OPEN_BILLING_FROM_PAST_DUE_BANNER);
+  if (!isOnChatwootCloud.value) {
+    window.location.assign('/super_admin/settings');
+    return;
+  }
   router.push({
     name: 'billing_settings_index',
     params: { accountId: accountId.value },
@@ -32,8 +42,9 @@ const openBilling = () => {
 // Only the recovery direction needs a focus check: the admin returns from the
 // billing portal before the webhook lands, and isPastDue stays true until we
 // refetch. Becoming past due arrives over the cable, or on reconnect.
+// Self-hosted status only changes on a Hub sync, which broadcasts to every account.
 useEventListener(window, 'focus', () => {
-  if (!isPastDue.value || !accountId.value) return;
+  if (!isOnChatwootCloud.value || !isPastDue.value || !accountId.value) return;
 
   store.dispatch('accounts/get', {
     accountId: accountId.value,

@@ -76,6 +76,13 @@ describe CallFinder do
       expect(perform(other_agent, status: 'ringing')[:calls]).to be_empty
     end
 
+    it 'hides a ringing call from an agent who dismissed it' do
+      call = ringing_call(conversation)
+      call.update!(ring_state: call.ring_state.merge('dismissed_user_ids' => [agent.id]))
+
+      expect(perform(agent, status: 'ringing')[:calls]).to be_empty
+    end
+
     it 'shows an inbox member an unassigned call still ringing in their inbox' do
       call = ringing_call(conversation)
 
@@ -126,6 +133,13 @@ describe CallFinder do
     it 'hides a ringing call from an agent who is not online' do
       ringing_call(conversation)
       account.account_users.find_by(user_id: agent.id).update!(availability: :busy)
+
+      expect(perform(agent, status: 'ringing')[:calls]).to be_empty
+    end
+
+    it 'hides a ringing call from an agent who turned calls off' do
+      ringing_call(conversation)
+      account.account_users.find_by(user_id: agent.id).update!(accepts_calls: false)
 
       expect(perform(agent, status: 'ringing')[:calls]).to be_empty
     end

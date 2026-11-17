@@ -11,14 +11,6 @@ models:
     provider: openai
     display_name: 'GPT-5.1'
     credit_multiplier: 2
-  gpt-5-mini:
-    provider: openai
-    display_name: 'GPT-5 Mini'
-    credit_multiplier: 1
-  gpt-5-nano:
-    provider: openai
-    display_name: 'GPT-5 Nano'
-    credit_multiplier: 1
   gpt-5.2:
     provider: openai
     display_name: 'GPT-5.2'
@@ -58,9 +50,9 @@ models:
     provider: openai
     display_name: 'GPT Transcribe'
     credit_multiplier: 1
-  gpt-4o-mini-tts-2025-12-15:
+  gpt-audio-1.5:
     provider: openai
-    display_name: 'GPT-4o Mini TTS'
+    display_name: 'GPT-Audio 1.5'
     credit_multiplier: 1
   text-embedding-3-small:
     provider: openai
@@ -72,7 +64,6 @@ features:
     models:
       [
         gpt-6-luna,
-        gpt-5-mini,
         gpt-5.1,
         gpt-5.2,
       ]
@@ -82,7 +73,6 @@ features:
     models:
       [
         gpt-6-luna,
-        gpt-5-mini,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -95,7 +85,6 @@ features:
     models:
       [
         gpt-6-luna,
-        gpt-5-mini,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -109,7 +98,6 @@ features:
     models:
       [
         gpt-6-luna,
-        gpt-5-mini,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -118,12 +106,27 @@ features:
         gemini-3-pro,
       ]
     default: gpt-5.2
+  # Copilot workflows, behind the copilot_workflows account flag. Reasoning stays off: at medium the model asked agents
+  # for a scope instead of reviewing, and reviews ran two to three times slower with no gain in the eval.
+  copilot_workflows:
+    reasoning_effort: none
+    models:
+      [
+        gpt-6-luna,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        claude-sonnet-4.5,
+        gemini-3-flash,
+        gemini-3-pro,
+      ]
+    default: gpt-5.2
+    internal: true
   document_faq_generation:
     reasoning_effort: medium
     models:
       [
         gpt-6-luna,
-        gpt-5-mini,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -136,7 +139,6 @@ features:
     models:
       [
         gpt-6-luna,
-        gpt-5-mini,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -149,7 +151,6 @@ features:
     models:
       [
         gpt-6-luna,
-        gpt-5-mini,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -159,13 +160,12 @@ features:
       ]
     default: gpt-6-luna
   pdf_faq_generation:
-    models: [gpt-6-luna, gpt-5-mini, gpt-5.1, gpt-5.2]
+    models: [gpt-6-luna, gpt-5.1, gpt-5.2]
     default: gpt-6-luna
   help_center_article_generation:
     models:
       [
         gpt-6-luna,
-        gpt-5-mini,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -176,23 +176,23 @@ features:
     default: gpt-5.2
   onboarding_content_generation:
     models:
-      [gpt-6-luna, gpt-5-mini, gpt-5.1, gpt-5.2]
+      [gpt-6-luna, gpt-5.1, gpt-5.2]
     default: gpt-6-luna
   help_center_query_translation:
-    models: [gpt-6-luna, gpt-5-mini]
+    models: [gpt-6-luna]
     default: gpt-6-luna
   message_translation:
-    models: [gpt-6-luna, gpt-6.1-sol, gpt-5.2, gpt-5-mini]
+    models: [gpt-6-luna, gpt-6.1-sol, gpt-5.2]
     default: gpt-6-luna
   language_detection:
-    models: [gpt-5-mini, gpt-5-nano]
-    default: gpt-5-mini
+    models: [gpt-6-luna]
+    default: gpt-6-luna
   audio_transcription:
     models: [gpt-transcribe]
     default: gpt-transcribe
   call_announcement:
-    models: [gpt-4o-mini-tts-2025-12-15]
-    default: gpt-4o-mini-tts-2025-12-15
+    models: [gpt-audio-1.5]
+    default: gpt-audio-1.5
   help_center_search:
     models: [text-embedding-3-small]
     default: text-embedding-3-small

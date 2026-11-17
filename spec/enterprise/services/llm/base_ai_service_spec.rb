@@ -12,26 +12,26 @@ RSpec.describe Llm::BaseAiService do
 
   describe '#initialize' do
     it 'uses the installation model when no feature is provided' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
 
-      expect(described_class.new.model).to eq('gpt-5-mini')
+      expect(described_class.new.model).to eq('gpt-5.1')
     end
 
     it 'uses the account override when feature context is provided' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
       account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
 
       expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.2')
     end
 
     it 'uses the installation model when feature context has no account override' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
 
-      expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5-mini')
+      expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.1')
     end
 
     it 'uses the Captain V2 assistant default ahead of the installation model' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
       account.enable_features!('captain_integration')
 
       expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.2')

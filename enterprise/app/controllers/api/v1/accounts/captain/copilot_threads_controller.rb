@@ -30,6 +30,13 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     end
   end
 
+  # Stops what Copilot is working on in the thread. The panel learns of the stop from the agent's message, which the stop
+  # marks.
+  def stop
+    Current.account.copilot_threads.find_by!(id: params[:id], user: Current.user).stop
+    head :ok
+  end
+
   private
 
   def build_copilot_response(copilot_message)
@@ -38,7 +45,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     else
       copilot_message.copilot_thread.copilot_messages.create!(
         message_type: :assistant,
-        message: { content: I18n.t('captain.copilot_limit') }
+        message: { content: I18n.t('captain.copilot_limit'), status: 'failed' }
       )
     end
   end

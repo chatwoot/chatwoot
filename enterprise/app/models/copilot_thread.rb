@@ -21,6 +21,7 @@ class CopilotThread < ApplicationRecord
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :copilot_messages, dependent: :destroy_async
+  has_many :copilot_runs, dependent: :destroy_async
 
   validates :title, presence: true
 
@@ -32,6 +33,28 @@ class CopilotThread < ApplicationRecord
       user: user.push_event_data,
       account_id: account_id
     }
+  end
+
+  # A turn waiting on a change the agent has not approved does not count, because the agent's next message rejects it.
+  def working?
+    CopilotRun::Turn.unfinished.exists?(copilot_thread: self) && !CopilotRun::Action.awaiting_approval.exists?(copilot_thread: self)
+  end
+
+  # A reply suggestion, or a message the old Copilot never answered, has no turn to stop, so it is marked stopped instead,
+  # and the panel lets the agent write again. A reply suggestion checks the mark under the same lock before it is saved.
+  def stop
+    turns = CopilotRun::Turn.unfinished.where(copilot_thread: self)
+    return turns.find_each(&:stop) if turns.exists?
+
+    with_lock do
+      request = copilot_messages.user.order(:id).last
+      request.update!(message: request.message.merge('status' => 'stopped')) unless request.copilot_run
+    end
+  end
+
+  # A collection or review saved in this thread, which a Copilot tool call can read from.
+  def saved_set(id, types: [CopilotRun::Collection, CopilotRun::Review])
+    copilot_runs.where(account: account, user: user, type: types.map(&:sti_name)).find(id)
   end
 
   def previous_history

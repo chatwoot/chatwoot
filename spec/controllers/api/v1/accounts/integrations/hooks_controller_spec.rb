@@ -7,6 +7,69 @@ RSpec.describe 'Integration Hooks API', type: :request do
   let(:inbox) { create(:inbox, account: account) }
   let(:params) { { app_id: 'dialogflow', inbox_id: inbox.id, settings: { project_id: 'xx', credentials: { test: 'test' }, region: 'europe-west1' } } }
 
+  describe 'existing cross-account hooks' do
+    let(:foreign_inbox) { create(:inbox, name: 'Private foreign inbox') }
+    let(:hook) { create(:integrations_hook, :dialogflow, account: account, inbox: inbox) }
+
+    before do
+      # Reproduce rows accepted before inbox ownership validation was added.
+      Integrations::Hook.where(id: hook.id).update_all(inbox_id: foreign_inbox.id) # rubocop:disable Rails/SkipsModelValidations
+    end
+
+    it 'hides the foreign inbox in integration responses' do
+      get "/api/v1/accounts/#{account.id}/integrations/apps/dialogflow", headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include(foreign_inbox.name)
+      expect(response.parsed_body.fetch('hooks').first.fetch('inbox')).to be_nil
+    end
+
+    it 'does not activate the foreign inbox bot or change new conversation routing' do
+      expect(foreign_inbox.external_bot_active?).to be false
+      expect(create(:conversation, account: foreign_inbox.account, inbox: foreign_inbox).status).to eq('open')
+    end
+
+    it 'allows disabling but rejects re-enabling the invalid hook' do
+      path = api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id)
+      headers = admin.create_new_auth_token
+
+      patch path, params: { hook: { status: 'disabled' } }, headers: headers, as: :json
+      expect(response).to have_http_status(:success)
+      expect(hook.reload).to be_disabled
+      expect(response.body).not_to include(foreign_inbox.name)
+
+      patch path, params: { hook: { status: 'enabled' } }, headers: headers, as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(hook.reload).to be_disabled
+
+      delete path, headers: headers
+      expect(response).to have_http_status(:success)
+      expect(Integrations::Hook.exists?(hook.id)).to be false
+    end
+  end
+
+  describe 'foreign inbox bot configuration' do
+    it 'returns the same error for an Agent Bot inbox and a nonexistent inbox' do
+      foreign_inbox = create(:inbox)
+      create(:agent_bot_inbox, inbox: foreign_inbox, agent_bot: create(:agent_bot, account: foreign_inbox.account))
+      headers = admin.create_new_auth_token
+
+      get api_v1_account_inbox_url(account_id: account.id, id: foreign_inbox.id), headers: headers, as: :json
+      expect(response).to have_http_status(:not_found)
+
+      post api_v1_account_integrations_hooks_url(account_id: account.id),
+           params: { hook: params.merge(inbox_id: foreign_inbox.id) }, headers: headers, as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      foreign_response = response.parsed_body
+
+      post api_v1_account_integrations_hooks_url(account_id: account.id),
+           params: { hook: params.merge(inbox_id: Inbox.maximum(:id) + 1) }, headers: headers, as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(foreign_response).to eq(response.parsed_body)
+      expect(foreign_response.to_s).not_to include('Agent Bot')
+    end
+  end
+
   describe 'Stripe hooks' do
     before do
       account.enable_features!('stripe_integration')
@@ -64,6 +127,42 @@ RSpec.describe 'Integration Hooks API', type: :request do
         expect(response).to have_http_status(:success)
         data = response.parsed_body
         expect(data['app_id']).to eq params[:app_id]
+      end
+
+      it 'rejects a future inbox ID before it can attach to another account' do
+        victim_account = create(:account)
+        headers = admin.create_new_auth_token
+        next_inbox_id = inbox.id + 1
+
+        expect do
+          post api_v1_account_integrations_hooks_url(account_id: account.id),
+               params: { hook: params.merge(inbox_id: next_inbox_id) }, headers: headers, as: :json
+        end.not_to change(Integrations::Hook, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        victim_inbox = create(:inbox, account: victim_account)
+        expect(victim_inbox.id).to eq(next_inbox_id)
+        expect(victim_inbox.external_bot_active?).to be false
+        expect(create(:conversation, account: victim_account, inbox: victim_inbox).status).to eq('open')
+      end
+
+      it 'rejects a foreign inbox without exposing it or changing its bot routing' do
+        victim_inbox = create(:inbox, name: 'Private victim inbox')
+        headers = admin.create_new_auth_token
+
+        get api_v1_account_inbox_url(account_id: account.id, id: victim_inbox.id), headers: headers, as: :json
+        expect(response).to have_http_status(:not_found)
+
+        expect do
+          post api_v1_account_integrations_hooks_url(account_id: account.id),
+               params: { hook: params.merge(inbox_id: victim_inbox.id) }, headers: headers, as: :json
+        end.not_to change(Integrations::Hook, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include('Inbox must belong to the same account as the hook')
+        expect(response.parsed_body.to_s).not_to include(victim_inbox.name)
+        expect(victim_inbox.reload.external_bot_active?).to be false
+        expect(create(:conversation, account: victim_inbox.account, inbox: victim_inbox).status).to eq('open')
       end
 
       it 'validates Cloudflare RealtimeKit credentials before creating the hook' do

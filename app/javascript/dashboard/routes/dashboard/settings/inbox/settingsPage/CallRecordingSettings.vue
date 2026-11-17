@@ -54,6 +54,11 @@ const save = async (recording, transcription) => {
 const toggleRecording = value => save(value, transcriptionEnabled.value);
 
 const toggleTranscription = value => save(recordingEnabled.value, value);
+
+const option = key => ({
+  header: t(`INBOX_MGMT.VOICE_CONFIGURATION.${key}.LABEL`),
+  description: t(`INBOX_MGMT.VOICE_CONFIGURATION.${key}.DESCRIPTION`),
+});
 </script>
 
 <template>
@@ -62,18 +67,14 @@ const toggleTranscription = value => save(recordingEnabled.value, value);
     :class="{ 'pointer-events-none opacity-60': isSaving }"
   >
     <SettingsToggleSection
+      v-bind="option('RECORDING')"
       :model-value="recordingEnabled"
-      :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.RECORDING.LABEL')"
-      :description="$t('INBOX_MGMT.VOICE_CONFIGURATION.RECORDING.DESCRIPTION')"
       @update:model-value="toggleRecording"
     />
     <SettingsToggleSection
       v-if="recordingEnabled"
+      v-bind="option('TRANSCRIPTION')"
       :model-value="transcriptionEnabled"
-      :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.TRANSCRIPTION.LABEL')"
-      :description="
-        $t('INBOX_MGMT.VOICE_CONFIGURATION.TRANSCRIPTION.DESCRIPTION')
-      "
       @update:model-value="toggleTranscription"
     />
   </div>
