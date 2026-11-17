@@ -150,6 +150,17 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(by_count[:rows].pluck(:id)).to eq([agent.id, slow.id])
     end
 
+    it 'lists an agent with conversations and no first response time after the agents with one' do
+      replied = create(:user, account: account)
+      conversation = create(:conversation, account: account, inbox: inbox, assignee: replied, created_at: Time.zone.parse('2026-09-10 10:00'))
+      create(:reporting_event, name: 'first_response', value: 600, account: account, inbox: inbox, user: replied,
+                               conversation: conversation, created_at: Time.zone.parse('2026-09-10 11:00'))
+
+      rows = service.execute(by: 'agent', metrics: %w[avg_first_response_time], **week)[:rows]
+
+      expect(rows.map { |row| row.values_at(:id, :avg_first_response_time) }).to eq([[replied.id, '10 minutes'], [agent.id, nil]])
+    end
+
     it 'counts a label without activity instead of listing it with zero times' do
       create(:label, account: account, title: 'unused')
 

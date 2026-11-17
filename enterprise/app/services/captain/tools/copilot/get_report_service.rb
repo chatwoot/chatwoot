@@ -22,7 +22,7 @@ class Captain::Tools::Copilot::GetReportService < Captain::Tools::BaseTool
               'returns each requested metric per period for the account or for one agent, inbox, team or label, and its ' \
               'total_or_average over exactly since to before. With by set to agent, inbox, team or label, returns for each of them ' \
               'the conversations, resolved conversations and average first response, resolution and reply times, listed highest first ' \
-              'by the first of these in metrics, or by conversations. Days start at ' \
+              'by the first of these in metrics, or by conversations, with the rows without a value for it last. Days start at ' \
               'midnight in the account reporting time zone, and weeks run Sunday to Saturday as on the reports pages; a period cut ' \
               'by since or before is marked partial. With by set to range, returns ' \
               'each metric over exactly since to before; to compare date ranges, call once per range. ' \
