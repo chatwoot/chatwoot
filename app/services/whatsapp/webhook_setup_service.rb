@@ -24,15 +24,19 @@ class Whatsapp::WebhookSetupService
 
   private
 
-  # Coexistence numbers come pre-registered, so /register is redundant. @is_coexistence (from the
-  # FE's FINISH event) skips the health API call entirely; the is_on_biz_app fallback only runs for
-  # callers that pass no signal at all (nil) — manual setup, voice toggle, direct webhook
-  # re-registration — since an explicit `false` already means the FE positively ruled out coexistence.
-  # Otherwise register only when the number is neither connected nor ownership-verified, or when
-  # Meta still reports a pending provisioning state.
+  # Meta: skip registration for a number that also uses the WhatsApp Business app (@is_coexistence comes from the
+  # signup FINISH event). Otherwise register only when needed and Meta confirms the number is not on the app.
   def should_register_phone_number?
     return false if @is_coexistence
-    return false if @is_coexistence.nil? && health_data[:is_on_biz_app]
+    return false unless registration_needed?
+    raise 'Could not confirm with Meta whether the number uses the WhatsApp Business app' if health_data[:is_on_biz_app].nil?
+
+    health_data[:is_on_biz_app] == false
+  end
+
+  # Re-registering an already registered number succeeds without resetting its PIN, so embedded signup always registers.
+  def registration_needed?
+    return true if @channel.provider_config['source'] == 'embedded_signup'
 
     !phone_number_verified? || phone_number_needs_registration?
   end
@@ -49,25 +53,25 @@ class Whatsapp::WebhookSetupService
     pin = fetch_or_create_pin
 
     @api_client.register_phone_number(phone_number_id, pin)
-    store_pin(pin)
   rescue StandardError => e
     @registration_error = e
     Rails.logger.warn("[WHATSAPP] Phone registration failed but continuing: #{e.message}")
   end
 
+  # Stored before /register so a failure after Meta applies it can't lose it.
   def fetch_or_create_pin
-    # Check if we have a stored PIN for this phone number
     existing_pin = @channel.provider_config['verification_pin']
     return existing_pin.to_i if existing_pin.present?
 
-    # Generate a new 6-digit PIN if none exists
-    SecureRandom.random_number(900_000) + 100_000
+    pin = SecureRandom.random_number(900_000) + 100_000
+    store_pin(pin)
+    pin
   end
 
+  # Skips validation, which re-checks the token against Meta.
   def store_pin(pin)
-    # Store the PIN in provider_config for future use
     @channel.provider_config['verification_pin'] = pin
-    @channel.save!
+    @channel.save!(validate: false)
   end
 
   def setup_webhook
@@ -134,7 +138,6 @@ class Whatsapp::WebhookSetupService
     @health_data ||= Whatsapp::HealthService.new(@channel).fetch_health_status
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Health status check failed: #{e.message}")
-    # If health check fails, assume registration is not needed to avoid errors
     {}
   end
 end

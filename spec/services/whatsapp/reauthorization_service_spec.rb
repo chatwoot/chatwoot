@@ -14,6 +14,7 @@ RSpec.describe Whatsapp::ReauthorizationService do
         'source' => 'embedded_signup'
       },
       business_management_token: 'business-token',
+      message_templates: [{ 'name' => 'old_template' }],
       validate_provider_config: false,
       sync_templates: false
     )
@@ -48,5 +49,33 @@ RSpec.describe Whatsapp::ReauthorizationService do
     ).perform('new-token', phone_info)
 
     expect(channel.reload.business_management_token).to eq('business-token')
+  end
+
+  context 'with templates synced from the previous Messaging account' do
+    it 'clears them and resyncs when the Messaging account changes' do
+      expect do
+        described_class.new(
+          account: account,
+          inbox_id: inbox.id,
+          phone_number_id: 'new-phone-id',
+          waba_id: 'new-waba-id'
+        ).perform('new-token', phone_info)
+      end.to have_enqueued_job(Channels::Whatsapp::TemplatesSyncJob).with(channel)
+
+      expect(channel.reload.message_templates).to eq({})
+    end
+
+    it 'keeps them when the Messaging account does not change' do
+      expect do
+        described_class.new(
+          account: account,
+          inbox_id: inbox.id,
+          phone_number_id: 'new-phone-id',
+          waba_id: channel.provider_config['business_account_id']
+        ).perform('new-token', phone_info)
+      end.not_to have_enqueued_job(Channels::Whatsapp::TemplatesSyncJob)
+
+      expect(channel.reload.message_templates).to eq([{ 'name' => 'old_template' }])
+    end
   end
 end

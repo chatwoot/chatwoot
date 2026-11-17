@@ -238,11 +238,20 @@ export const actions = {
       throw error;
     }
   },
-  createWhatsAppEmbeddedSignup: async ({ commit }, params) => {
+  createWhatsAppEmbeddedSignup: async (
+    { commit, state: inboxState },
+    params
+  ) => {
     try {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
       const response = await WhatsappChannel.createEmbeddedSignup(params);
-      commit(types.default.ADD_INBOXES, response.data);
+      // Signing up a number this account already has reconnects that inbox, so don't list it twice.
+      const isExistingInbox = inboxState.records.some(
+        inbox => inbox.id === response.data.id
+      );
+      if (!isExistingInbox) {
+        commit(types.default.ADD_INBOXES, response.data);
+      }
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
       sendAnalyticsEvent('whatsapp');
       return response.data;

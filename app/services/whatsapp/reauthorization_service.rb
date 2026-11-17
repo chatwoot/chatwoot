@@ -29,7 +29,12 @@ class Whatsapp::ReauthorizationService
     current_config = channel.provider_config || {}
     # Legacy clients may omit phone_number_id; fall back to the value just fetched from Meta.
     resolved_phone_number_id = @phone_number_id.presence || phone_info[:phone_number_id]
-    channel.business_management_token = nil if current_config['business_account_id'] != @waba_id
+    messaging_account_changed = current_config['business_account_id'] != @waba_id
+    if messaging_account_changed
+      # The WABA id is the Messaging account, which owns templates, so drop the old account's and sync the new one's.
+      channel.business_management_token = nil
+      channel.message_templates = {}
+    end
 
     channel.provider_config = current_config.merge(
       'api_key' => access_token,
@@ -38,6 +43,7 @@ class Whatsapp::ReauthorizationService
       'source' => 'embedded_signup'
     )
     channel.save!
+    Channels::Whatsapp::TemplatesSyncJob.perform_later(channel) if messaging_account_changed
 
     # Update inbox name if business name changed
     business_name = phone_info[:business_name] || phone_info[:verified_name]
