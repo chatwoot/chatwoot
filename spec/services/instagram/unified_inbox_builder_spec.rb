@@ -75,7 +75,8 @@ RSpec.describe Instagram::UnifiedInboxBuilder do
         inbox, = builder.perform
         expect(inbox.channel.expires_at).to eq(1.hour.from_now)
         travel 2.hours
-        expect(inbox.channel.access_token).to be_nil
+        expect(inbox.channel.access_token).to eq('system_token')
+        expect(inbox.channel.reauthorization_required?).to be(true)
       end
     end
   end

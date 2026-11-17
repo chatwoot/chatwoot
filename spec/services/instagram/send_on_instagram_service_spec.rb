@@ -63,6 +63,22 @@ describe Instagram::SendOnInstagramService do
       expect(message.reload.source_id).to eq('unified-message')
     end
 
+    it 'shows reconnect for an expired Unified Login token even when Meta returns a non-190 error' do
+      instagram_channel.update!(auth_type: 'unified_login', expires_at: 1.hour.from_now)
+      message = create(:message, message_type: :outgoing, inbox: instagram_inbox, account: account, conversation: conversation)
+      error = { error: { code: 2500, message: 'Authentication failed' } }
+      request = stub_request(:post, 'https://graph.facebook.com/v22.0/instagram-message-id-123/messages')
+                .with(query: hash_including('access_token' => /.*/))
+                .to_return(status: 400, body: error.to_json, headers: { 'Content-Type' => 'application/json' })
+      travel_to(2.hours.from_now) do
+        described_class.new(message: message).perform
+        expect(instagram_channel.reauthorization_required?).to be(true)
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('2500 - Authentication failed')
+      end
+      expect(request).to have_been_requested.once
+    end
+
     context 'with reply' do
       before do
         allow(HTTParty).to receive(:post).and_return(mock_response)
