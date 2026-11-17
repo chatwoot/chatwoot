@@ -129,6 +129,19 @@ describe('ActionCableConnector - Copilot Tests', () => {
     });
   });
 
+  describe('article.bulk_action_completed', () => {
+    it('tells the article list that the background work is done', () => {
+      actionCable.onReceived({
+        event: 'article.bulk_action_completed',
+        data: { account_id: 1 },
+      });
+
+      expect(emitter.emit).toHaveBeenCalledWith(
+        BUS_EVENTS.ARTICLE_BULK_ACTION_COMPLETED
+      );
+    });
+  });
+
   describe('presence.update', () => {
     it('updates the work preferences of the current user', () => {
       const workPreferences = {
