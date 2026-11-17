@@ -176,6 +176,51 @@ RSpec.describe Instagram::CallbacksController do
         expect(existing_channel.inbox.reload.name).to eq('Custom Inbox Name')
         expect(existing_channel.reauthorization_required?).to be false
       end
+
+      context 'when migrating an existing Unified Login inbox to Instagram Login' do
+        let(:channel) do
+          create(:channel_instagram, account: account, instagram_id: '12345', auth_type: 'unified_login',
+                                     access_token: 'system_token', configuration_id: 'config1', expires_at: nil)
+        end
+        let(:subscription) do
+          stub_request(:post, 'https://graph.instagram.com/v22.0/12345/subscribed_apps')
+            .with(query: { access_token: 'long_lived_test_token', subscribed_fields: %w[messages message_reactions messaging_seen] })
+        end
+
+        before do
+          channel.inbox.update!(name: 'Custom Inbox Name')
+          channel.authorization_error!
+          allow(controller).to receive(:instagram_token_inbox_id).and_return(channel.inbox.id)
+        end
+
+        it 'subscribes the destination app before replacing the connection' do
+          subscription.to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+          expect { get :show, params: valid_params }.not_to change(Inbox, :count)
+
+          expect(subscription).to have_been_requested.once
+          expect(channel.reload).to be_instagram_login
+          expect(channel[:access_token]).to eq('long_lived_test_token')
+          expect(channel.configuration_id).to be_nil
+          expect(channel.inbox.reload.name).to eq('Custom Inbox Name')
+          expect(channel.reauthorization_required?).to be false
+        end
+
+        [200, 400].each do |status|
+          it "preserves the connection when subscription fails with HTTP #{status}" do
+            subscription.to_return(status: status, body: { success: false }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+            expect { get :show, params: valid_params }.not_to change(Inbox, :count)
+
+            expect(subscription).to have_been_requested.once
+            expect(channel.reload).to be_unified_login
+            expect(channel[:access_token]).to eq('system_token')
+            expect(channel.configuration_id).to eq('config1')
+            expect(channel.reauthorization_required?).to be true
+            expect(Rack::Utils.parse_query(URI(response.location).query)['error_message']).to eq(I18n.t('instagram.subscription_failed'))
+          end
+        end
+      end
     end
 
     context 'when user denies authorization' do
