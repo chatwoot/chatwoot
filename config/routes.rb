@@ -243,7 +243,6 @@ Rails.application.routes.draw do
 
           resources :search, only: [:index] do
             collection do
-              get :counts
               get :conversations
               get :messages
               get :contacts
@@ -435,6 +434,8 @@ Rails.application.routes.draw do
 
           namespace :instagram do
             resource :authorization, only: [:create]
+            post 'accounts', to: 'connections#accounts'
+            resources :connections, only: [:create]
           end
 
           namespace :tiktok do

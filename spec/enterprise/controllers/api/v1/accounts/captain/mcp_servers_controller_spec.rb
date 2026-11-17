@@ -100,8 +100,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::McpServers', type: :request do
 
     it 'marks each live tool as approved or changed, and lists the approved tools the server dropped' do
       server.sync_tools({ 'get_customer' => {}, 'gone' => {} }, { 'get_customer' => definition, 'gone' => definition.merge('name' => 'gone') })
-      allow(connection).to receive(:track_status).and_yield
-      allow(connection).to receive(:tool_definitions).and_return([definition.merge('description' => 'Changed')])
+      allow(connection).to receive(:live_tool_definitions).and_return([definition.merge('description' => 'Changed')])
 
       get "#{base_url}/#{server.id}/live_tools", params: { assistant_id: assistant.id }, headers: admin.create_new_auth_token, as: :json
 
@@ -111,7 +110,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::McpServers', type: :request do
     end
 
     it 'answers 422 with the reason when the server fails' do
-      allow(connection).to receive(:track_status).and_raise(Faraday::ConnectionFailed, 'connection refused')
+      allow(connection).to receive(:live_tool_definitions).and_raise(Faraday::ConnectionFailed, 'connection refused')
 
       get "#{base_url}/#{server.id}/live_tools", params: { assistant_id: assistant.id }, headers: admin.create_new_auth_token, as: :json
 

@@ -73,6 +73,8 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     let(:from_number) { '+15550003333' }
     let(:to_number) { channel.phone_number }
     let(:inbound_call_params) { { 'CallSid' => call_sid, 'From' => from_number, 'To' => to_number, 'Direction' => 'inbound' } }
+    # An inbound call rings only while someone who can answer is online
+    let!(:online_agent) { create(:user, account: account, role: :agent).tap { |agent| create(:inbox_member, inbox: inbox, user: agent) } }
 
     context 'when outside business hours' do
       before do
@@ -84,7 +86,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         ))
       end
 
-      it 'announces closure and hangs up without ringing agents, including on retries' do
+      it 'plays the out-of-hours message and hangs up without ringing agents, including on retries' do
         account.enable_features!('channel_voice', 'mobile_voice_push')
         expect(Voice::VoipPushService).not_to receive(:recipients_for)
 
@@ -122,6 +124,15 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         expect(announcement['language']).to eq('de-DE')
       end
 
+      it 'plays the missed-call message while no out-of-hours message is set' do
+        channel.update!(provider_config: channel.provider_config.merge('out_of_hours_call_message' => '',
+                                                                       'unanswered_call_message' => 'Nobody can take your call.'))
+
+        post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params)
+
+        expect(Nokogiri::XML(response.body).at_xpath('//Say').text).to eq('Nobody can take your call.')
+      end
+
       it 'uses a supported default for account languages unavailable in the basic Twilio voice' do
         account.update!(locale: 'ml')
 
@@ -152,27 +163,32 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       end
     end
 
-    context 'when unanswered calls end and nobody is online to ring' do
+    context 'when nobody who can answer is online' do
       before do
-        channel.update!(provider_config: channel.provider_config.merge(
-          'unanswered_calls_enabled' => true, 'unanswered_call_timeout_seconds' => 30, 'unanswered_call_message' => 'Nobody is available right now.'
-        ))
+        online_agent.account_users.first.update!(availability: :offline)
+        channel.update!(provider_config: channel.provider_config.merge('unanswered_call_message' => 'Nobody is available right now.'))
       end
 
-      it 'puts the caller in the conference to wait for an agent to come online' do
+      it 'plays the missed-call message straight away and logs the call as missed' do
+        expect do
+          post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params)
+        end.not_to have_enqueued_job(Voice::EndUnansweredCallJob)
+
+        xml = Nokogiri::XML(response.body)
+        expect(xml.at_xpath('//Say').text).to eq('Nobody is available right now.')
+        expect(xml.at_xpath('//Hangup')).to be_present
+        expect(xml.at_xpath('//Dial')).to be_nil
+        expect(inbox.calls.sole).to have_attributes(status: 'no_answer', end_reason: 'no_agents_available')
+      end
+
+      it 'keeps a caller waiting when the agents are online but busy' do
+        online_agent.account_users.first.update!(availability: :online)
+        create(:call, account: account, inbox: inbox, status: 'in_progress', accepted_by_agent_id: online_agent.id)
+
         expect { post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params) }.to have_enqueued_job(Voice::EndUnansweredCallJob)
 
         expect(Nokogiri::XML(response.body).at_xpath('//Conference')).to be_present
-        expect(inbox.calls.sole).to be_ringing
-      end
-
-      it 'rings an online agent and times the ring instead' do
-        agent = create(:user, account: account, role: :agent)
-        create(:inbox_member, inbox: inbox, user: agent)
-
-        expect { post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params) }.to have_enqueued_job(Voice::EndUnansweredCallJob)
-        expect(Nokogiri::XML(response.body).at_xpath('//Conference')).to be_present
-        expect(inbox.calls.sole).to be_ringing
+        expect(inbox.calls.find_by(provider_call_id: call_sid)).to be_ringing
       end
     end
 
