@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Conversations::ReopenSnoozedConversationsJob do
   let!(:snoozed_till_5_minutes_ago) { create(:conversation, status: :snoozed, snoozed_until: 5.minutes.ago) }
+  let!(:snoozed_till_4_days_ago) { create(:conversation, status: :snoozed, snoozed_until: 4.days.ago) }
   let!(:snoozed_till_tomorrow) { create(:conversation, status: :snoozed, snoozed_until: 1.day.from_now) }
   let!(:snoozed_indefinitely) { create(:conversation, status: :snoozed) }
 
@@ -18,8 +19,40 @@ RSpec.describe Conversations::ReopenSnoozedConversationsJob do
       described_class.perform_now
 
       expect(snoozed_till_5_minutes_ago.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
+      expect(snoozed_till_4_days_ago.reload.status).to eq 'open'
       expect(snoozed_till_tomorrow.reload.status).to eq 'snoozed'
       expect(snoozed_indefinitely.reload.status).to eq 'snoozed'
+    end
+
+    it 'reopens up to the batch limit and re-enqueues for remaining conversations' do
+      expect do
+        described_class.perform_now(1)
+      end.to have_enqueued_job(described_class).with(1).on_queue('low')
+
+      expect(snoozed_till_4_days_ago.reload.status).to eq 'open'
+      expect(snoozed_till_5_minutes_ago.reload.status).to eq 'snoozed'
+    end
+
+    it 'does not reopen conversations while another worker holds the Redis lock' do
+      manager = Redis::LockManager.new
+      expect(manager.lock(Redis::Alfred::REOPEN_SNOOZED_CONVERSATIONS_MUTEX, described_class::LOCK_TIMEOUT)).to be(true)
+
+      described_class.perform_now
+
+      expect(snoozed_till_4_days_ago.reload.status).to eq 'snoozed'
+      expect(snoozed_till_5_minutes_ago.reload.status).to eq 'snoozed'
+    ensure
+      manager.unlock(Redis::Alfred::REOPEN_SNOOZED_CONVERSATIONS_MUTEX)
+    end
+
+    it 'skips conversations that have already been reopened concurrently' do
+      allow_any_instance_of(Conversation).to receive(:snoozed?).and_return(false)
+
+      expect do
+        described_class.perform_now
+      end.not_to have_enqueued_job(described_class)
+
+      expect(snoozed_till_4_days_ago.reload.status).to eq 'snoozed'
     end
   end
 end
