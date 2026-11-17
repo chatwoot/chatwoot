@@ -782,7 +782,7 @@
       },
       "RELEASE_WHATSAPP_NUMBER": {
         "LABEL": "Also release this number from the WhatsApp Cloud API",
-        "HELP": "Do this only if you are moving the number back to the WhatsApp Business app. It stops the number working with Cloud API for every provider, including other platforms connected to it. Leave it unchecked if you will reconnect the number to Chatwoot."
+        "HELP": "This stops the number working with the Cloud API for every provider, including other platforms connected to it. Leave it unchecked if you will reconnect the number to Chatwoot. Numbers that also use the WhatsApp Business app can't be released here; disconnect them in the app under Settings > Account > Business Platform."
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
