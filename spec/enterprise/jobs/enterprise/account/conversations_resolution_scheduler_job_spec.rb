@@ -46,6 +46,19 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
+    it 'schedules Captain auto-resolution despite an existing cross-account Dialogflow hook' do
+      regular_inbox = create(:inbox, account: account)
+      create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
+      foreign_account = create(:account)
+      hook = create(:integrations_hook, :dialogflow, account: foreign_account, inbox: create(:inbox, account: foreign_account))
+      # Reproduce rows accepted before inbox ownership validation was added.
+      Integrations::Hook.where(id: hook.id).update_all(inbox_id: regular_inbox.id) # rubocop:disable Rails/SkipsModelValidations
+
+      expect do
+        described_class.perform_now
+      end.to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob).with(regular_inbox).exactly(:once)
+    end
+
     context 'when account uses legacy disabled settings key' do
       let!(:regular_inbox) { create(:inbox, account: account) }
 
