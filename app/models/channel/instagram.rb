@@ -49,21 +49,28 @@ class Channel::Instagram < ApplicationRecord
   end
 
   def subscribe
+    subscribe!
+  rescue StandardError => e
+    raise if unified_login?
+
+    Rails.logger.debug { "Rescued: #{e.inspect}" }
+    true
+  end
+
+  def subscribe!
     return Instagram::UnifiedLoginService.new(access_token: access_token).subscribe(instagram_id) if unified_login?
 
     # ref https://developers.facebook.com/docs/instagram-platform/webhooks#enable-subscriptions
-    HTTParty.post(
+    response = HTTParty.post(
       "#{base_uri}/#{instagram_id}/subscribed_apps",
       query: {
         subscribed_fields: %w[messages message_reactions messaging_seen],
         access_token: access_token
       }
     )
-  rescue StandardError => e
-    raise if unified_login?
+    raise Instagram::ConnectionError, I18n.t('instagram.subscription_failed') unless response.success? && response.parsed_response['success'] == true
 
-    Rails.logger.debug { "Rescued: #{e.inspect}" }
-    true
+    response
   end
 
   def unsubscribe
