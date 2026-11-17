@@ -46,7 +46,7 @@ RSpec.describe Conversations::ReopenSnoozedConversationsJob do
     end
 
     it 'skips conversations that have already been reopened concurrently' do
-      allow_any_instance_of(Conversation).to receive(:snoozed?).and_return(false)
+      allow_any_instance_of(Conversation).to receive(:snoozed?).and_return(false) # rubocop:disable RSpec/AnyInstance
 
       expect do
         described_class.perform_now
