@@ -2,14 +2,20 @@
 import { ref, computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
+import { usePortalSwitcher } from 'dashboard/components-next/HelpCenter/PortalSwitcher/usePortalSwitcher';
+import {
+  usePageCommands,
+  recordCommands,
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import PortalSwitcher from 'dashboard/components-next/HelpCenter/PortalSwitcher/PortalSwitcher.vue';
 import CreatePortalDialog from 'dashboard/components-next/HelpCenter/PortalSwitcher/CreatePortalDialog.vue';
 
-defineProps({
+const props = defineProps({
   currentPage: {
     type: Number,
     default: 1,
@@ -38,7 +44,9 @@ defineProps({
 
 const emit = defineEmits(['update:currentPage']);
 
+const { t } = useI18n();
 const route = useRoute();
+const { switchPortal } = usePortalSwitcher();
 
 const createPortalDialogRef = ref(null);
 
@@ -60,6 +68,21 @@ const updateCurrentPage = page => {
 const togglePortalSwitcher = () => {
   showPortalSwitcher.value = !showPortalSwitcher.value;
 };
+
+usePageCommands(() => {
+  if (!props.showHeaderTitle) return [];
+
+  return recordCommands({
+    id: 'switch_portal',
+    title: t('COMMAND_BAR.COMMANDS.SWITCH_PORTAL'),
+    icon: 'i-lucide-library',
+    records: portals.value.filter(
+      portal => portal.slug !== currentPortalSlug.value
+    ),
+    label: portal => portal.name,
+    run: switchPortal,
+  });
+});
 </script>
 
 <template>

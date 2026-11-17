@@ -28,6 +28,11 @@ class InstallationConfig < ApplicationRecord
     OTEL_PROVIDER
   ]).freeze
 
+  MOBILE_APP_VERSION_CONFIG_KEYS = %w[MOBILE_APP_MIN_IOS_VERSION MOBILE_APP_MIN_ANDROID_VERSION].freeze
+  # MAJOR.MINOR.PATCH without leading zeros, as semantic versioning requires.
+  # Valid: 4.9.12, 10.0.0. Invalid: 4.9, 4.09.1, v4.9.12, 4.9.12-beta.
+  MOBILE_APP_VERSION_FORMAT = /\A(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\z/
+
   # https://stackoverflow.com/questions/72970170/upgrading-to-rails-6-1-6-1-causes-psychdisallowedclass-tried-to-load-unspecif
   # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
   # FIX ME : fixes breakage of installation config. we need to migrate.
@@ -37,6 +42,7 @@ class InstallationConfig < ApplicationRecord
   before_validation :set_lock
   validates :name, presence: true
   validate :saml_sso_users_check, if: -> { name == 'ENABLE_SAML_SSO_LOGIN' }
+  validate :mobile_app_version_format, if: -> { name.in?(MOBILE_APP_VERSION_CONFIG_KEYS) }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -70,5 +76,11 @@ class InstallationConfig < ApplicationRecord
     return unless User.exists?(provider: 'saml')
 
     errors.add(:base, 'Cannot disable SAML SSO login while users are using SAML authentication')
+  end
+
+  def mobile_app_version_format
+    return if value.blank? || value.to_s.match?(MOBILE_APP_VERSION_FORMAT)
+
+    errors.add(:base, "#{value} is not a valid app version. Use a version like 4.10.0.")
   end
 end

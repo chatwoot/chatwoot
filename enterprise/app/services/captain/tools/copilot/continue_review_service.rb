@@ -3,7 +3,8 @@ class Captain::Tools::Copilot::ContinueReviewService < Captain::Tools::Copilot::
     'continue_review'
   end
   description "Review the next #{CopilotRun::CONVERSATIONS_PER_TURN} conversations of an unfinished review with the same criteria. " \
-              'Returns its coverage once the batch has finished. Findings stay on the same review ID.'
+              'Returns its coverage once the batch has finished. Findings stay on the same review ID. ' \
+              'Call it only when the agent asks to continue after seeing the coverage, never in the reply that reviewed the last batch.'
   parameter :review_id, type: :integer, description: 'ID of a review whose summary reports remaining conversations'
 
   def execute(review_id:)

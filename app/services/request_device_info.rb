@@ -9,6 +9,10 @@ class RequestDeviceInfo
   ].freeze
   private_constant :LEGACY_MOBILE_UAS
 
+  MOBILE_PLATFORMS = %w[ios android].freeze
+  APP_VERSION_FORMAT = /\A\d+(\.\d+){1,3}\z/
+  private_constant :MOBILE_PLATFORMS, :APP_VERSION_FORMAT
+
   def initialize(request)
     @request = request
   end
@@ -20,6 +24,22 @@ class RequestDeviceInfo
 
   def browser_name
     to_h[:browser_name]
+  end
+
+  # The client a request came from: web, or the Chatwoot mobile app with its platform, app version and device
+  # model. nil when the app reports a platform other than ios or android.
+  def client_details
+    return { 'platform' => 'web' } if @request.headers['X-Chatwoot-Client-Name'].blank?
+
+    platform = @request.headers['X-Chatwoot-Platform']
+    return unless MOBILE_PLATFORMS.include?(platform)
+
+    app_version = @request.headers['X-Chatwoot-Client-Version']
+    {
+      'platform' => platform,
+      'app_version' => (app_version if app_version.to_s.match?(APP_VERSION_FORMAT)),
+      'device_model' => @request.headers['X-Chatwoot-Device-Model'].presence
+    }.compact
   end
 
   # A clean "on X" label: the device for mobile clients, the OS for desktop browsers.

@@ -15,6 +15,7 @@ import {
   DropdownItem,
 } from 'next/dropdown-menu/base';
 import CustomBrandPolicyWrapper from '../../components/CustomBrandPolicyWrapper.vue';
+import { openCommandBar } from 'dashboard/modules/command-bar/openCommandBar';
 
 defineProps({
   isCollapsed: { type: Boolean, default: false },
@@ -84,10 +85,7 @@ const menuItems = computed(() => {
       showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.APPEARANCE'),
       icon: 'i-lucide-palette',
-      click: () => {
-        const ninja = document.querySelector('ninja-keys');
-        ninja.open({ parent: 'appearance_settings' });
-      },
+      click: () => openCommandBar({ page: 'appearance_settings' }),
     },
     {
       show: true,

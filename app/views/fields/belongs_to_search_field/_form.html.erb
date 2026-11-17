@@ -1,0 +1,9 @@
+<%= render "field", f: f, field: field, attribute: field.permitted_attribute do %>
+  <%= f.select(
+        field.permitted_attribute,
+        options_for_select(field.associated_resource_options, field.selected_option),
+        { include_blank: field.include_blank_option },
+        class: 'js-belongs-to-search-field',
+        data: { url: polymorphic_url([namespace, field.associated_class], format: :json) }
+      ) %>
+<% end %>

@@ -16,7 +16,8 @@ RSpec.describe 'Auto translate messages API', type: :request do
   before do
     account.enable_features!(:auto_translate, :captain_tasks)
     create(:inbox_member, inbox: inbox, user: agent)
-    allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(instance_double(Captain::Llm::LanguageDetectionService, language: 'fr'))
+    detection = instance_double(Captain::Llm::LanguageDetectionService, language: 'fr', failed?: false)
+    allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(detection)
     allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service)
   end
 
@@ -50,6 +51,16 @@ RSpec.describe 'Auto translate messages API', type: :request do
 
     expect(response).to have_http_status(:forbidden)
     expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
+  end
+
+  it 'refuses when auto translate is off for the conversation' do
+    conversation.update!(auto_translate_disabled: true)
+
+    expect do
+      post url, params: { message_ids: [message.id] }, headers: agent.create_new_auth_token, as: :json
+    end.not_to have_enqueued_job(Captain::Conversation::ContactMessageTranslationJob)
+
+    expect(response).to have_http_status(:forbidden)
   end
 
   it 'rejects message ids from another conversation' do

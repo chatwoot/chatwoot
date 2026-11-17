@@ -1,5 +1,5 @@
 class ConversationMonitors::Configuration
-  MODEL = 'typesafe/jev-1.13'.freeze
+  MODEL = Captain::JevClient::DEFAULT_MODEL
   ENDPOINT = Captain::JevClient::ENDPOINT
   THRESHOLD = 0.6
   MAX_MONITORS = 20

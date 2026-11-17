@@ -9,9 +9,11 @@ class Captain::Copilot::ActionJob < ApplicationJob
   private
 
   # Current.user makes activity messages, such as "added the label", name the agent who approved the change.
+  # Current.executed_by makes them say the change came through Copilot.
   def process_batch(run, token)
     run.ensure_can_continue!(credits: false)
     Current.user = run.user
+    Current.executed_by = run
     action = build_action(run, token)
     return unless action
 
@@ -37,9 +39,11 @@ class Captain::Copilot::ActionJob < ApplicationJob
   end
 
   # The change and its item commit together, so a worker stopped in between saves neither, and the retry makes the change
-  # instead of finding it done and counting it as skipped.
+  # instead of finding it done and counting it as skipped. A change that no longer fits the record fails it without a retry.
   def apply(run, token, action, id, record)
     run.with_lease(token) { save_item(run, id, record ? action.perform(record) : :failed, record ? nil : 'Record is no longer accessible') }
+  rescue Captain::Copilot::ActionNotApplicableError => e
+    run.with_lease(token) { save_item(run, id, :failed, e.message) }
   rescue Captain::Copilot::LeaseLostError
     raise
   rescue StandardError => e
@@ -47,11 +51,15 @@ class Captain::Copilot::ActionJob < ApplicationJob
     run.with_lease(token) { save_item(run, id, :awaiting_retry, "Change failed (#{e.class.name})") }
   end
 
+  # An applied record stays applied. A callback that fails after the change commits, such as queueing a reply's delivery,
+  # must not mark the record for a retry that makes the change twice.
   def save_item(run, id, status, error)
     item = run.action_items.find_or_initialize_by(record_id: id)
+    return if item.applied?
+
     attempts = item.attempts + 1
     status = :failed if status == :awaiting_retry && attempts >= MAX_ATTEMPTS
-    item.update!(status: status, error: error, attempts: attempts)
+    item.update!(status: status, error: error&.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH), attempts: attempts)
   end
 
   def incomplete?(run)

@@ -1,5 +1,5 @@
 class Captain::AutomationConditionService
-  MODEL = 'jev-latest'.freeze
+  MODEL = Captain::JevClient::DEFAULT_MODEL
   FEATURE = 'captain_classifier'.freeze
   ATTRIBUTE_KEY = 'captain_condition'.freeze
   OPERATORS = %w[detects does_not_detect].freeze

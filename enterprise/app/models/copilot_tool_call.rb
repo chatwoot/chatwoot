@@ -23,6 +23,9 @@ class CopilotToolCall < ApplicationRecord
   # A run this tool call started in the background, such as a review; the calling run waits for it to finish.
   has_one :background_run, class_name: 'CopilotRun', dependent: nil, inverse_of: :copilot_tool_call
 
+  # The tool calls of every run in a Copilot thread.
+  scope :of_thread, ->(thread_id) { joins(:copilot_run).where(copilot_runs: { copilot_thread_id: thread_id }) }
+
   validates :call_id, :name, presence: true
   enum :status, { queued: 'queued', running: 'running', completed: 'completed', failed: 'failed' }, validate: true
 

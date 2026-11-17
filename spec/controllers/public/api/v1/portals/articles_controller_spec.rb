@@ -117,6 +117,19 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(5)
     end
 
+    it 'excludes unpublished translations from associated articles' do
+      draft_translation = create(:article, locale: 'fr', portal: portal, author: agent, associated_article_id: article.id,
+                                           status: :draft, content: 'Unreleased pricing')
+
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json"
+
+      expect(response).to have_http_status(:success)
+      payload = JSON.parse(response.body, symbolize_names: true)[:payload]
+      associated_ids = payload.find { |entry| entry[:id] == article.id }[:associated_articles].pluck(:id)
+      expect(associated_ids).to eq([translated_article.id])
+      expect(response.body).not_to include(draft_translation.content)
+    end
+
     it 'uses default items per page if per_page is less than 1' do
       get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { per_page: 0 }
 
@@ -134,11 +147,119 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(article.reload.views).to eq 0 # View count should not increment on show
     end
 
-    it 'does not increment the view count if the article is not published' do
-      draft_article = create(:article, category: category, status: :draft, portal: portal, account_id: account.id, author_id: agent.id, views: 0)
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}"
-      expect(response).to have_http_status(:success)
-      expect(draft_article.reload.views).to eq 0
+    %i[draft archived].each do |status|
+      it "returns not found for a #{status} article without a preview token" do
+        unpublished_article = create(:article, category: category, status: status, portal: portal, author: agent)
+
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}"
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include(I18n.t('public_portal.404.title'))
+
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}.json"
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "renders a #{status} article with its preview token" do
+        unpublished_article = create(:article, category: category, status: status, portal: portal, author: agent, content: 'Unreleased content')
+
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}", params: { preview_token: unpublished_article.preview_token }
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Unreleased content')
+      end
+    end
+
+    it 'returns not found for a preview token of an article in another portal' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      foreign_article = create(:article, status: :draft)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: foreign_article.preview_token }
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns not found for a preview token used on another article URL' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      other_draft = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{other_draft.slug}", params: { preview_token: draft_article.preview_token }
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns not found when the preview token has expired' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      preview_token = draft_article.preview_token
+
+      travel(Article::PREVIEW_TOKEN_EXPIRY + 1.minute) do
+        get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: preview_token }
+      end
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'skips portal analytics on a preview of an unpublished article' do
+      portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
+      expect(response.body).not_to include('G-TEST123')
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.body).to include('G-TEST123')
+    end
+
+    it 'skips portal analytics on a preview link after the article is published' do
+      portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}", params: { preview_token: article.preview_token }
+
+      expect(response.body).not_to include('G-TEST123')
+    end
+
+    it 'treats a published article with an invalid preview token as a normal public page' do
+      portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
+      other_draft = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      ['junk', other_draft.preview_token].each do |preview_token|
+        get "/hc/#{portal.slug}/articles/#{article.slug}", params: { preview_token: preview_token }
+
+        expect(response.body).to include('G-TEST123')
+        expect(response.headers['X-Robots-Tag']).to be_nil
+      end
+    end
+
+    it 'marks a preview of an unpublished article as noindex' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.headers['X-Robots-Tag']).to be_nil
+    end
+
+    it 'skips the web widget on a preview of an unpublished article' do
+      web_widget = create(:channel_widget, account: account)
+      portal.update!(channel_web_widget: web_widget)
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
+      expect(response.body).not_to include(web_widget.website_token)
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.body).to include(web_widget.website_token)
+    end
+
+    it 'hides the article actions menu on a preview of an unpublished article' do
+      portal.update!(config: portal.config.merge('layout' => 'documentation'))
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
+      expect(response.body).not_to include(I18n.t('public_portal.article_actions.view_markdown'))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.body).to include(I18n.t('public_portal.article_actions.view_markdown'))
     end
 
     it 'returns the article with the id with a different locale' do
@@ -199,7 +320,8 @@ RSpec.describe 'Public Articles API', type: :request do
     it 'excludes translations from other portals' do
       portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
       foreign_portal = create(:portal, config: { allowed_locales: ['fr'] })
-      foreign_article = create(:article, portal: foreign_portal, locale: 'fr', associated_article_id: article.id)
+      foreign_article = create(:article, portal: foreign_portal, locale: 'fr')
+      foreign_article.update_column(:associated_article_id, article.id) # rubocop:disable Rails/SkipsModelValidations
 
       get "/hc/#{portal.slug}/articles/#{article.slug}"
 

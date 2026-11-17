@@ -8,6 +8,7 @@ import {
   stripUnsupportedFormatting,
 } from 'dashboard/helper/editorHelper';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { escapeHtml } from 'shared/helpers/HTMLSanitizer';
 import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
 
 const props = defineProps({
@@ -51,7 +52,7 @@ const searchTerm = computed(() => searchQuery.value.trim());
 const highlightMatches = text =>
   searchTerm.value
     ? highlightContent(text, searchTerm.value, HIGHLIGHT_CLASS)
-    : text;
+    : escapeHtml(text);
 
 const buildSnippet = text => {
   const term = searchTerm.value;

@@ -1,8 +1,11 @@
 import {
   CONTENT_TYPES,
+  VOICE_CALL_DIRECTION,
   VOICE_CALL_STATUS,
 } from 'dashboard/components-next/message/constants';
+import CallsAPI from 'dashboard/api/calls';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { useCallsStore } from 'dashboard/stores/calls';
 import types from 'dashboard/store/mutation-types';
 
@@ -61,17 +64,33 @@ const isAssignedToAnotherAgent = (assigneeId, currentUserId) => {
   return !!assigneeId && assigneeId !== currentUserId;
 };
 
+// The server picks the agents an inbound Twilio call rings and names them on the
+// call's message, so its assignee no longer decides who sees the ringing card.
+const isRoutedCall = (provider, callDirection) =>
+  provider === VOICE_CALL_PROVIDERS.TWILIO &&
+  callDirection === VOICE_CALL_DIRECTION.INBOUND;
+
 const shouldShowCall = ({
   callDirection,
   senderId,
   assigneeId,
   currentUserId,
+  provider,
+  status,
+  ringUserIds,
 }) => {
   if (shouldSkipCall(callDirection, senderId, currentUserId)) return false;
   // Outbound calls are scoped to the initiator via shouldSkipCall; the
   // conversation may be auto-assigned to a different agent on creation, so
   // skip the assignee filter for outbound to avoid hiding the caller's own widget.
   if (callDirection === 'outbound') return true;
+  // Once the ring is over the accepted/ended broadcasts decide what each tab keeps
+  if (isRoutedCall(provider, callDirection)) {
+    return (
+      status !== VOICE_CALL_STATUS.RINGING ||
+      (ringUserIds || []).includes(currentUserId)
+    );
+  }
   return !isAssignedToAnotherAgent(assigneeId, currentUserId);
 };
 
@@ -114,6 +133,8 @@ function extractCallData(message) {
     inboxId: message?.inbox_id ?? message?.conversation?.inbox_id,
     assigneeId: extractAssigneeId(message?.conversation),
     senderId: message?.sender?.id,
+    ringUserIds: message?.content_attributes?.data?.ring_user_ids,
+    dismissedUserIds: message?.content_attributes?.data?.dismissed_user_ids,
     caller: extractCallerSnapshot(message),
   };
 }
@@ -131,6 +152,7 @@ export function handleVoiceCallCreated(message, currentUserId, receivesCalls) {
     inboxId,
     assigneeId,
     senderId,
+    ringUserIds,
   } = extractCallData(message);
 
   if (callSid && dismissedCallSids.has(callSid)) return;
@@ -146,6 +168,9 @@ export function handleVoiceCallCreated(message, currentUserId, receivesCalls) {
       senderId,
       assigneeId,
       currentUserId,
+      provider,
+      status,
+      ringUserIds,
     })
   ) {
     return;
@@ -166,6 +191,52 @@ export function handleVoiceCallCreated(message, currentUserId, receivesCalls) {
   });
 }
 
+// Pages of 25 the ring recovery reads at most, well past the calls one agent can have ringing
+const MAX_RINGING_CALL_PAGES = 4;
+
+// A routed call rings agents whose conversation list may not hold its conversation, and the
+// call widget mounts only once a call is in the store, so a page load asks the server for the
+// calls ringing for this agent. A call this agent claimed stays ringing until their
+// connection joins, and only they can retry it, so it is restored as well.
+export async function loadRingingCalls(currentUserId) {
+  const callsStore = useCallsStore();
+  let page = 1;
+  let totalPages;
+  do {
+    // eslint-disable-next-line no-await-in-loop
+    const { data } = await CallsAPI.get({
+      status: VOICE_CALL_STATUS.RINGING,
+      direction: VOICE_CALL_DIRECTION.INBOUND,
+      page,
+    });
+    data.payload
+      .filter(
+        call =>
+          isRoutedCall(call.provider, call.direction) &&
+          (!call.agent || call.agent.id === currentUserId) &&
+          !dismissedCallSids.has(call.call_id)
+      )
+      .forEach(call => {
+        callsStore.addCall({
+          callSid: call.call_id,
+          callId: call.id,
+          provider: call.provider,
+          conversationId: call.conversation.display_id,
+          inboxId: call.inbox.id,
+          callDirection: call.direction,
+          caller: call.contact && {
+            name: call.contact.name,
+            phone: call.contact.phone_number,
+            avatar: call.contact.avatar,
+            additionalAttributes: {},
+          },
+        });
+      });
+    totalPages = data.meta.total_pages;
+    page += 1;
+  } while (page <= Math.min(totalPages, MAX_RINGING_CALL_PAGES));
+}
+
 export function handleVoiceCallUpdated(
   commit,
   message,
@@ -184,6 +255,8 @@ export function handleVoiceCallUpdated(
     inboxId,
     assigneeId,
     senderId,
+    ringUserIds,
+    dismissedUserIds,
   } = extractCallData(message);
 
   const callsStore = useCallsStore();
@@ -206,13 +279,26 @@ export function handleVoiceCallUpdated(
       senderId,
       assigneeId,
       currentUserId,
+      provider,
+      status,
+      ringUserIds,
     })
   ) {
+    // Out of the ring: dismissed, perhaps from another tab, or not reached yet, which only a
+    // dismiss keeps closed. The call this tab is joining or on stays, as for the accepted broadcast.
+    if (isRoutedCall(provider, callDirection)) {
+      if (isLocalCall(callSid)) return;
+      if ((dismissedUserIds || []).includes(currentUserId))
+        markCallDismissed(callSid);
+    }
     callsStore.removeCall(callSid);
     return;
   }
 
   if (status === 'ringing') {
+    // A ring that reached another agent re-sends the call, which a dismiss here must survive
+    if (isRoutedCall(provider, callDirection) && dismissedCallSids.has(callSid))
+      return;
     if (!shouldRingInbound(callDirection, receivesCalls)) return;
 
     callsStore.addCall({
@@ -228,7 +314,14 @@ export function handleVoiceCallUpdated(
   }
 }
 
-export function syncConversationCallVisibility(conversation, currentUserId) {
+// `canOpenConversation` turns false once the agent's role no longer reaches the conversation,
+// which also blocks joining or dismissing a call that still rings for them. The call this tab
+// is joining or on stays: removing it would hang it up.
+export function syncConversationCallVisibility(
+  conversation,
+  currentUserId,
+  canOpenConversation = () => true
+) {
   const assigneeId = extractAssigneeId(conversation);
   if (!isAssignedToAnotherAgent(assigneeId, currentUserId)) return;
 
@@ -240,12 +333,19 @@ export function syncConversationCallVisibility(conversation, currentUserId) {
   const callsToRemove = callsStore.calls.filter(
     call =>
       call.conversationId === conversation.id &&
-      !shouldShowCall({
-        callDirection: call.callDirection,
-        senderId: call.senderId,
-        assigneeId,
-        currentUserId,
-      })
+      (isRoutedCall(call.provider, call.callDirection)
+        ? !isLocalCall(call.callSid) && !canOpenConversation()
+        : !shouldShowCall({
+            callDirection: call.callDirection,
+            senderId: call.senderId,
+            assigneeId,
+            currentUserId,
+          }))
   );
-  callsToRemove.forEach(call => callsStore.removeCall(call.callSid));
+  callsToRemove.forEach(call => {
+    // A later re-send of the ring would otherwise bring back a card the agent cannot act on
+    if (isRoutedCall(call.provider, call.callDirection))
+      markCallDismissed(call.callSid);
+    callsStore.removeCall(call.callSid);
+  });
 }

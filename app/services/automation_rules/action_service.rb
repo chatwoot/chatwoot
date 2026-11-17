@@ -53,7 +53,7 @@ class AutomationRules::ActionService < ActionService
   end
 
   def send_email_to_team(params)
-    teams = Team.where(id: params[0][:team_ids])
+    teams = @account.teams.where(id: params[0][:team_ids])
 
     teams.each do |team|
       break unless @account.within_email_rate_limit?

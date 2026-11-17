@@ -6,7 +6,7 @@ class Twilio::VoiceController < ApplicationController
     /conference-end/i => 'end'
   }.freeze
 
-  include Concerns::TwilioWebhookVerification
+  include TwilioWebhookVerification
 
   before_action :set_inbox!
   before_action { verify_twilio_signature!(inbox_channel.auth_token) }
@@ -30,7 +30,7 @@ class Twilio::VoiceController < ApplicationController
     return render xml: twiml.reject if reject_inbound?
 
     call = resolve_call
-    return render xml: twiml.announcement(call.announcement_kind) if announce_end?(call)
+    return render xml: twiml.announcement(Call::ANNOUNCED_END_REASONS[call.end_reason]) if announce_end?(call)
 
     # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
     return render xml: twiml.hangup unless open_leg?(call)
@@ -41,6 +41,11 @@ class Twilio::VoiceController < ApplicationController
   # Fetched by Twilio for an inbound caller waiting in the conference
   def wait_twiml
     render xml: twiml.wait
+  end
+
+  # Announced to a held caller to end the hold music the mute started
+  def resume_twiml
+    render xml: Twilio::TwiML::VoiceResponse.new.to_s
   end
 
   def conference_status
@@ -113,7 +118,7 @@ class Twilio::VoiceController < ApplicationController
 
   # A caller nobody was rung for is told why instead of waiting for a conference; see Call::ANNOUNCED_END_REASONS
   def announce_end?(call)
-    call.announcement_kind.present? && !agent_leg?(twilio_from)
+    Call::ANNOUNCED_END_REASONS.key?(call.end_reason) && !agent_leg?(twilio_from)
   end
 
   def resolve_call

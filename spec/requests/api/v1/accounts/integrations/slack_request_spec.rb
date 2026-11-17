@@ -80,7 +80,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
     context 'when it is an authenticated user' do
       it 'updates hook if the channel id is correct' do
         channel_builder = double
-        expect(channel_builder).to receive(:fetch_channels).and_return([{ 'id' => '1', 'name' => 'channel-1' }])
+        expect(channel_builder).to receive(:fetch_channels).and_return([{ 'id' => '1', 'name' => 'channel-1', 'is_private' => true }])
         expect(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder)
 
         get "/api/v1/accounts/#{account.id}/integrations/slack/list_all_channels",
@@ -89,7 +89,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks' do
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
-        expect(json_response).to eql([{ 'id' => '1', 'name' => 'channel-1' }])
+        expect(json_response).to eql([{ 'id' => '1', 'name' => 'channel-1', 'is_private' => true }])
       end
     end
   end

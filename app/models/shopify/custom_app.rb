@@ -40,9 +40,12 @@ class Shopify::CustomApp < ApplicationRecord
   def validate_install_url
     uri = URI.parse(install_url.to_s)
     query = Rack::Utils.parse_query(uri.query)
-    expected_url = "https://admin.shopify.com/store/#{shop_domain.to_s.sub(/\.myshopify\.(com|io)\z/, '')}/oauth/install_custom_app"
+    expected_urls = [
+      'https://admin.shopify.com/oauth/install_custom_app',
+      "https://admin.shopify.com/store/#{shop_domain.to_s.sub(/\.myshopify\.(com|io)\z/, '')}/oauth/install_custom_app"
+    ]
     uri.query = nil
-    valid = uri.to_s == expected_url && query['client_id'] == client_id && query['signature'].present?
+    valid = expected_urls.include?(uri.to_s) && query['client_id'] == client_id && query['signature'].present?
     errors.add(:install_url, 'must be the Shopify-generated install link for this app and store') unless valid
   rescue URI::InvalidURIError
     errors.add(:install_url, 'is invalid')
