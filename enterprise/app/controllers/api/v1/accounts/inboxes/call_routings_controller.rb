@@ -18,6 +18,8 @@ class Api::V1::Accounts::Inboxes::CallRoutingsController < Api::V1::Accounts::Ba
 
       channel.save!(validate: false)
     end
+    # WhatsApp itself turns away calls outside business hours once Meta has them
+    channel.schedule_call_hours_sync if channel.is_a?(Channel::Whatsapp)
     @inbox.update_account_cache
     render 'api/v1/accounts/inboxes/show'
   end

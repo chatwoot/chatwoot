@@ -1,15 +1,18 @@
 <script setup>
-import { ref, toRef, watch } from 'vue';
+import { computed, onBeforeUnmount, ref, toRef, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import InboxesAPI from 'dashboard/api/inboxes';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CallSettingsSection from './calls/CallSettingsSection.vue';
 import CallSettingsOption from './calls/CallSettingsOption.vue';
 import CallWhoRings from './calls/CallWhoRings.vue';
 import CallAfterCall from './calls/CallAfterCall.vue';
+import CallBusinessHours from './calls/CallBusinessHours.vue';
 import {
   useCallSettingsForm,
   sharedSavedValues,
@@ -24,6 +27,12 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
+const emit = defineEmits(['openBusinessHours']);
+
+// How often, and how many times, the page rechecks a call hours sync that is still in progress
+const CALL_HOURS_POLL_INTERVAL_MS = 3000;
+const CALL_HOURS_POLL_LIMIT = 10;
 
 const store = useStore();
 const { t } = useI18n();
@@ -100,6 +109,53 @@ const toggleCalling = async value => {
     isTogglingCalling.value = false;
   }
 };
+
+// Whether Meta has the inbox's business hours as the number's call hours. Shown while a sync is in
+// progress or failed, and once Meta has the hours being applied.
+const callHoursSyncStatus = computed(() => props.inbox.call_hours_sync_status);
+const callHoursApplied = computed(
+  () =>
+    !!props.inbox.business_hours_calls_enabled &&
+    !!props.inbox.working_hours_enabled
+);
+const showCallHoursSynced = computed(
+  () => callHoursSyncStatus.value === 'synced' && callHoursApplied.value
+);
+
+let callHoursPollTimer = null;
+let callHoursPolls = 0;
+watch(
+  () => props.inbox,
+  inbox => {
+    clearTimeout(callHoursPollTimer);
+    if (inbox.call_hours_sync_status !== 'pending') {
+      callHoursPolls = 0;
+      return;
+    }
+    if (callHoursPolls >= CALL_HOURS_POLL_LIMIT) return;
+    callHoursPollTimer = setTimeout(() => {
+      callHoursPolls += 1;
+      store.dispatch('inboxes/get', inbox.id);
+    }, CALL_HOURS_POLL_INTERVAL_MS);
+  },
+  { immediate: true }
+);
+onBeforeUnmount(() => clearTimeout(callHoursPollTimer));
+
+const isRetryingCallHours = ref(false);
+const retryCallHoursSync = async () => {
+  if (isRetryingCallHours.value) return;
+  isRetryingCallHours.value = true;
+  try {
+    await InboxesAPI.syncWhatsappCallHours(props.inbox.id);
+    callHoursPolls = 0;
+    await store.dispatch('inboxes/get', props.inbox.id);
+  } catch (_) {
+    useAlert(t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+  } finally {
+    isRetryingCallHours.value = false;
+  }
+};
 </script>
 
 <template>
@@ -170,27 +226,47 @@ const toggleCalling = async value => {
           :title="label('OUT_OF_HOURS.TITLE')"
           :description="label('OUT_OF_HOURS.DESCRIPTION')"
         >
-          <CallSettingsOption
+          <CallBusinessHours
             v-model="form.businessHoursCallsEnabled"
-            value
-            :name="`call-out-of-hours-${inbox.id}`"
-            :label="label('OUT_OF_HOURS.DECLINE')"
-            :help="label('OUT_OF_HOURS.DECLINE_HELP')"
-          />
-          <CallSettingsOption
-            v-model="form.businessHoursCallsEnabled"
-            :value="false"
-            :name="`call-out-of-hours-${inbox.id}`"
-            :label="label('OUT_OF_HOURS.RING')"
-          />
-          <p
-            v-if="
-              form.businessHoursCallsEnabled && !inbox.working_hours_enabled
-            "
-            class="text-body-main text-n-amber-11"
+            :inbox="inbox"
+            :help="label('OUT_OF_HOURS.WHATSAPP_APPLY_HELP')"
+            @open-business-hours="emit('openBusinessHours')"
           >
-            {{ label('OUT_OF_HOURS.HOURS_OFF') }}
-          </p>
+            <template #status>
+              <span
+                v-if="callHoursSyncStatus === 'pending'"
+                class="flex items-center gap-1.5 text-label-small text-n-slate-11"
+              >
+                <Spinner class="size-3.5" />
+                {{ label('OUT_OF_HOURS.WHATSAPP_SYNC_PENDING') }}
+              </span>
+              <span
+                v-else-if="showCallHoursSynced"
+                class="flex items-center gap-1.5 text-label-small text-n-teal-11"
+              >
+                <Icon icon="i-lucide-circle-check" class="size-3.5" />
+                {{ label('OUT_OF_HOURS.WHATSAPP_SYNC_DONE') }}
+              </span>
+            </template>
+          </CallBusinessHours>
+          <div
+            v-if="callHoursSyncStatus === 'failed'"
+            class="flex flex-col items-start gap-1 px-3 py-2 rounded-lg bg-n-ruby-2 outline outline-1 -outline-offset-1 outline-n-ruby-6 text-body-main text-n-slate-12"
+          >
+            {{
+              t('INBOX_MGMT.CALL_SETTINGS.OUT_OF_HOURS.WHATSAPP_SYNC_FAILED', {
+                error: inbox.call_hours_sync_error,
+              })
+            }}
+            <NextButton
+              :label="label('OUT_OF_HOURS.WHATSAPP_SYNC_RETRY')"
+              :is-loading="isRetryingCallHours"
+              link
+              ruby
+              sm
+              @click="retryCallHoursSync"
+            />
+          </div>
         </CallSettingsSection>
 
         <CallSettingsSection

@@ -200,5 +200,10 @@ if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(
   if ChatwootApp.enterprise?
     json.partial! 'api/v1/models/call_routing', channel: resource.channel
     json.callback_permission_enabled resource.channel.callback_permission_enabled?
+    if Current.account_user&.administrator?
+      json.call_hours_sync_status resource.channel.call_hours_sync_status
+      json.call_hours_sync_error resource.channel.call_hours_sync_error
+      json.call_hours_synced_at resource.channel.call_hours_synced_at&.to_i
+    end
   end
 end

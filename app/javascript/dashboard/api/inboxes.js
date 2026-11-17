@@ -77,6 +77,10 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.post(`${this.url}/${inboxId}/enable_whatsapp_calling`);
   }
 
+  syncWhatsappCallHours(inboxId) {
+    return axios.post(`${this.url}/${inboxId}/whatsapp_call_hours_sync`);
+  }
+
   disableWhatsappCalling(inboxId) {
     return axios.post(`${this.url}/${inboxId}/disable_whatsapp_calling`);
   }
