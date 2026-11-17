@@ -40,7 +40,7 @@ RSpec.describe Captain::Mcp::AgentTools do
 
   # What the last listing found, as the tools page, an approval or the hourly check records it
   def record_listing
-    server.record_live_tools(Captain::Mcp::Connection.new(server).live_tool_definitions)
+    server.refresh_live_tools(Captain::Mcp::Connection.new(server))
   end
 
   it 'builds the tools from the stored review states without calling the server' do
@@ -109,7 +109,12 @@ RSpec.describe Captain::Mcp::AgentTools do
     WebMock.reset_executed_requests!
     agent_tools = described_class.new(Captain::Assistant.find(assistant.id))
 
+    tool = agent_tools.tool(captain_name)
+
     expect(agent_tools.tools).to all(be_a(Captain::Tools::UnavailableMcpTool))
+    expect(tool.description).to eq('Find a customer')
+    expect(tool.perform(customer_context, email: 'jane@example.com')).to eq(Captain::Tools::McpTool::UNAVAILABLE)
+    expect(tool.for_copilot).to be(tool)
     expect(agent_tools.requires_verified_customer?).to be(false)
     expect(a_request(:post, mcp_url)).not_to have_been_made
   end

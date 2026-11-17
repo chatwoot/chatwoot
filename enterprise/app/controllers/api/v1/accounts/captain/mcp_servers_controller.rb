@@ -36,8 +36,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
 
   # The live tools, marked with whether an admin approved each one and whether it changed since
   def live_tools
-    @live_tools = connection.live_tool_definitions
-    @mcp_server.record_live_tools(@live_tools)
+    @live_tools = @mcp_server.refresh_live_tools(connection)
   end
 
   def approve_tool

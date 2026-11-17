@@ -7,7 +7,8 @@ class Captain::Mcp::AgentTools
   # Isolated namespace for the generated tool classes, as Concerns::Toolable does for custom tools
   module Generated; end
 
-  # An approved tool, with the run's connection to its server, or nil when the server rejected its credentials
+  # An approved tool, with the run's connection to its server. A server that rejected its credentials gets no
+  # connection, so its tools are not usable.
   Entry = Struct.new(:mcp_tool, :connection) do
     def usable?
       connection.present?

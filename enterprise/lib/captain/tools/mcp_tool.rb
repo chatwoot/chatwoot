@@ -49,7 +49,8 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
   # The listing and the call each have their own deadline, so a slow listing never cuts the answer of a call the
   # server already ran
   def call_tool(tool_context, arguments)
-    return failure_result(UNAVAILABLE, tool_context.state) unless approved_definition_live?
+    definitions = @mcp_tool.mcp_server.refresh_live_tools(@connection)
+    return failure_result(UNAVAILABLE, tool_context.state) unless approved_definition_in?(definitions)
     # The listing can take a while, so a tool that changes data checks again right before it runs
     return failure_result(NEWER_MESSAGE_ARRIVED, tool_context.state) if !read_only? && newer_customer_message_arrived?(tool_context.state)
 
@@ -73,12 +74,10 @@ class Captain::Tools::McpTool < Captain::Tools::BasePublicTool
     failure_result(OUTCOME_UNKNOWN, tool_context.state)
   end
 
-  # The server must still offer the definition the admin approved, so a change on the server never reaches Captain. The
-  # listing also records each approved tool's review state, so the server card shows a change and clears it once the
-  # server offers the approved definition again.
-  def approved_definition_live?
-    definitions = @connection.live_tool_definitions
-    @mcp_tool.mcp_server.record_live_tools(definitions)
+  # The server must still offer the definition the admin approved, so a change on the server never reaches Captain.
+  # The listing before this records each approved tool's review state, so the server card shows a change and clears it
+  # once the server offers the approved definition again.
+  def approved_definition_in?(definitions)
     live_definition = definitions.find { |definition| definition['name'] == @mcp_tool.name }
     @mcp_tool.review_state_for(live_definition) == 'current'
   end

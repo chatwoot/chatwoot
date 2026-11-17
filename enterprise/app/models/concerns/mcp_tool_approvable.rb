@@ -24,6 +24,11 @@ module Concerns::McpToolApprovable
     tools.reset
   end
 
+  # Lists the server's live tools through the connection and records each approved tool's review state from them
+  def refresh_live_tools(connection)
+    connection.live_tool_definitions.tap { |definitions| record_live_tools(definitions) }
+  end
+
   # Stores how each approved tool compares with a live listing. Captain, the tools page and the server's Needs review
   # badge read these states. Captain runs, the live tools page, approve_tool and the hourly check record their listings
   # here. ServerUpdateService does not, because it lists the server only to pin newly selected tools. A tool is written
