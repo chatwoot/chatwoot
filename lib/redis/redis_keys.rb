@@ -93,6 +93,7 @@ module Redis::RedisKeys
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
   CAPTAIN_DOCUMENT_SYNC_MUTEX = 'CAPTAIN_DOCUMENT_SYNC_LOCK::%<document_id>s'.freeze
   CAPTAIN_CONVERSATION_FAQ_MUTEX = 'CAPTAIN_CONVERSATION_FAQ_LOCK::%<assistant_id>s::%<language>s'.freeze
+  REOPEN_SNOOZED_CONVERSATIONS_MUTEX = 'REOPEN_SNOOZED_CONVERSATIONS_LOCK'.freeze
 
   ## Auto Assignment Keys
   # Sorted set of conversation ids assigned to an agent, scored by assignment time, for rate limiting

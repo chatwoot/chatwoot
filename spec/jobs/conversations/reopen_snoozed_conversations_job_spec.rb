@@ -32,5 +32,27 @@ RSpec.describe Conversations::ReopenSnoozedConversationsJob do
       expect(snoozed_till_4_days_ago.reload.status).to eq 'open'
       expect(snoozed_till_5_minutes_ago.reload.status).to eq 'snoozed'
     end
+
+    it 'does not reopen conversations while another worker holds the Redis lock' do
+      manager = Redis::LockManager.new
+      expect(manager.lock(Redis::Alfred::REOPEN_SNOOZED_CONVERSATIONS_MUTEX, described_class::LOCK_TIMEOUT)).to be(true)
+
+      described_class.perform_now
+
+      expect(snoozed_till_4_days_ago.reload.status).to eq 'snoozed'
+      expect(snoozed_till_5_minutes_ago.reload.status).to eq 'snoozed'
+    ensure
+      manager.unlock(Redis::Alfred::REOPEN_SNOOZED_CONVERSATIONS_MUTEX)
+    end
+
+    it 'skips conversations that have already been reopened concurrently' do
+      allow_any_instance_of(Conversation).to receive(:snoozed?).and_return(false)
+
+      expect do
+        described_class.perform_now
+      end.not_to have_enqueued_job(described_class)
+
+      expect(snoozed_till_4_days_ago.reload.status).to eq 'snoozed'
+    end
   end
 end
