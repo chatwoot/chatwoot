@@ -215,9 +215,8 @@ class Whatsapp::FacebookApiClient
   end
 
   def handle_response(response, error_message)
-    return response.parsed_response if response.success?
+    raise "#{error_message}: #{response.body}" unless response.success?
 
-    meta_message = response.parsed_response.dig('error', 'message') if response.parsed_response.is_a?(Hash)
-    raise ApiError.new("#{error_message}: #{response.body}", meta_message: meta_message || response.body)
+    response.parsed_response
   end
 end

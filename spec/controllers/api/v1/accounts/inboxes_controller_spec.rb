@@ -568,21 +568,14 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(a_request(:post, deregister_url)).to have_been_made.once
       end
 
-      it "keeps the inbox and returns Meta's reason when Meta refuses" do
-        stub_request(:post, deregister_url).to_return(
-          status: 400,
-          body: { error: { message: 'Deregister endpoint is not available for API solution for SMB businesses.' } }.to_json,
-          headers: { 'Content-Type' => 'application/json' }
-        )
+      it 'keeps the inbox when Meta refuses' do
+        stub_request(:post, deregister_url).to_return(status: 400, body: { error: { message: 'Not allowed' } }.to_json)
         expect(DeleteObjectJob).not_to receive(:perform_later)
 
         delete_inbox(whatsapp_inbox, release: true)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['message']).to eq(
-          'Meta could not release the number, so the inbox was not deleted: ' \
-          'Deregister endpoint is not available for API solution for SMB businesses.'
-        )
+        expect(response.parsed_body['message']).to eq('Meta could not release the number, so the inbox was not deleted. Please try again.')
       end
 
       it 'keeps the inbox without calling deregister when the number also uses the WhatsApp Business app' do
