@@ -79,8 +79,12 @@ class Captain::McpServer < ApplicationRecord
   # state is the only way to find the server, and a used state is deleted so a repeated callback finds nothing.
   def self.for_oauth_state(state)
     key = format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state.to_s)
-    server_id = ::Redis::Alfred.get(key)
-    ::Redis::Alfred.delete(key)
+    server_id = ::Redis::Alfred.with do |connection|
+      connection.multi do |transaction|
+        transaction.get(key)
+        transaction.del(key)
+      end.first
+    end
     find_by(id: server_id) if server_id
   end
 
