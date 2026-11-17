@@ -65,6 +65,15 @@ class Category < ApplicationRecord
 
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
 
+  def webhook_data
+    {
+      id: id,
+      locale: locale,
+      name: name,
+      slug: slug
+    }
+  end
+
   def self.search(params)
     search_by_locale(params[:locale]).page(current_page(params)).order(position: :asc)
   end
