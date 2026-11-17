@@ -71,7 +71,7 @@ module Chatwoot
     # Disable PDF/video preview generation as we don't use them
     config.active_storage.previewers = []
 
-    # Compress JSON responses. Sits inside Rack::ETag so ETags and 304s are computed on the uncompressed body.
+    # Compress JSON responses. Sits outside Rack::ETag so ETags and 304s are computed on the uncompressed body.
     config.middleware.insert_before Rack::ETag, Rack::Deflater,
                                     if: ->(_env, _status, headers, _body) { headers[Rack::CONTENT_TYPE].to_s.start_with?('application/json') }
 
