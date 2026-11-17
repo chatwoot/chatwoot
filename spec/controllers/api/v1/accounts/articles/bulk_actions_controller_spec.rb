@@ -137,7 +137,7 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
               params: { select_all: true, filters: { locale: 'en', category_slug: category.slug }, category_id: target_category.id },
               as: :json
       end.to have_enqueued_job(Articles::BulkActionJob)
-        .with(portal, admin, { 'locale' => 'en', 'category_slug' => category.slug }, 'update_category', target_category.id)
+        .with(portal, admin, contain_exactly(article_one.id, article_two.id, article_three.id), 'update_category', target_category.id)
 
       expect(response).to have_http_status(:accepted)
     end
@@ -200,10 +200,23 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
                  headers: admin.create_new_auth_token,
                  params: { select_all: true, filters: { locale: 'en', status: 0 } },
                  as: :json
-        end.to have_enqueued_job(Articles::BulkActionJob).with(portal, admin, { 'locale' => 'en', 'status' => 0 }, 'delete', nil)
+        end.to have_enqueued_job(Articles::BulkActionJob).with(portal, admin, contain_exactly(article_one.id, article_two.id), 'delete', nil)
 
         expect(response).to have_http_status(:accepted)
         expect(Article.count).to eq(3)
+      end
+
+      it 'leaves an article created after the request untouched when select_all is set' do
+        delete destroy_url,
+               headers: admin.create_new_auth_token,
+               params: { select_all: true, filters: { locale: 'en', status: 0 } },
+               as: :json
+        created_later = create(:article, category: category, portal: portal, account: account, author: admin, status: :draft)
+
+        perform_enqueued_jobs
+
+        expect(Article.exists?(created_later.id)).to be(true)
+        expect(Article.exists?(article_one.id)).to be(false)
       end
     end
   end

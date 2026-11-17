@@ -51,7 +51,7 @@ class Api::V1::Accounts::Articles::BulkActionsController < Api::V1::Accounts::Ba
 
   def perform_bulk_action(action, value = nil)
     if select_all?
-      Articles::BulkActionJob.perform_later(@portal, Current.user, article_filters, action, value)
+      Articles::BulkActionJob.perform_later(@portal, Current.user, @articles.ids, action, value)
       head :accepted
     else
       ActiveRecord::Base.transaction do
