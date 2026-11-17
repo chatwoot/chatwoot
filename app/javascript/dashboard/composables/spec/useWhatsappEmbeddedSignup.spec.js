@@ -6,7 +6,7 @@ import {
 } from 'dashboard/routes/dashboard/settings/inbox/channels/whatsapp/utils';
 
 // The event classifier is exercised through the composable rather than stubbed, so
-// these specs cover the real v3/v4 event-name handling.
+// these specs cover the real event-name handling and the v5 payload shape.
 vi.mock(
   'dashboard/routes/dashboard/settings/inbox/channels/whatsapp/utils',
   async importOriginal => ({
@@ -36,9 +36,10 @@ const createDeferred = () => {
   return { promise, resolve, reject };
 };
 
+// Embedded Signup v5 session info: waba_id is replaced by messaging_account_ids.
 const VALID_BUSINESS = {
   business_id: 'biz-1',
-  waba_id: 'waba-1',
+  messaging_account_ids: ['waba-1'],
   phone_number_id: 'phone-1',
 };
 
@@ -112,7 +113,7 @@ describe('useWhatsappEmbeddedSignup', () => {
     });
   });
 
-  it('resolves a coexistence completion that only carries waba_id', async () => {
+  it('resolves a coexistence completion that only carries the Messaging account ID', async () => {
     initWhatsAppEmbeddedSignup.mockResolvedValue('auth-code');
 
     const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
@@ -121,7 +122,7 @@ describe('useWhatsappEmbeddedSignup', () => {
     await flushPromises();
     emit({
       event: 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
-      data: { waba_id: 'waba-1' },
+      data: { messaging_account_ids: ['waba-1'] },
     });
 
     await expect(result).resolves.toEqual({
@@ -142,7 +143,7 @@ describe('useWhatsappEmbeddedSignup', () => {
     await flushPromises();
     emit({
       event: 'FINISH',
-      data: { business_id: 'biz-1', waba_id: 'waba-1' },
+      data: { business_id: 'biz-1', messaging_account_ids: ['waba-1'] },
     });
 
     await expect(result).resolves.toMatchObject({ phone_number_id: '' });
@@ -213,7 +214,7 @@ describe('useWhatsappEmbeddedSignup', () => {
     const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
     const result = runEmbeddedSignup();
 
-    emit({ event, data: { waba_id: 'waba-1' } });
+    emit({ event, data: { messaging_account_ids: ['waba-1'] } });
 
     await expect(result).rejects.toThrow(
       'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.UNSUPPORTED_COMPLETION'
@@ -245,7 +246,20 @@ describe('useWhatsappEmbeddedSignup', () => {
     const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
     const result = runEmbeddedSignup();
 
-    emit({ event: 'FINISH', data: { business_id: 'biz-1' } }); // no waba_id
+    emit({ event: 'FINISH', data: { business_id: 'biz-1' } }); // no messaging_account_ids
+
+    await expect(result).rejects.toThrow(
+      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA'
+    );
+  });
+
+  it('rejects a v4 payload that only carries waba_id', async () => {
+    initWhatsAppEmbeddedSignup.mockReturnValue(createDeferred().promise);
+
+    const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
+    const result = runEmbeddedSignup();
+
+    emit({ event: 'FINISH', data: { waba_id: 'waba-1' } });
 
     await expect(result).rejects.toThrow(
       'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA'

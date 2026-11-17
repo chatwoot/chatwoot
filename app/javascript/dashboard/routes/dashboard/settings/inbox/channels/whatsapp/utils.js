@@ -29,10 +29,16 @@ export const initializeFacebook = (appId, apiVersion) => {
   });
 };
 
-// Only waba_id is guaranteed: Meta's coexistence FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING
-// event documents data: { waba_id } alone — no business_id or phone_number_id.
+// Embedded Signup v5 returns the Messaging account (formerly WABA) IDs as
+// messaging_account_ids, holding the IDs waba_id returned before. A signup connects one number.
+export const getMessagingAccountId = businessData => {
+  return businessData?.messaging_account_ids?.[0];
+};
+
+// Only the Messaging account ID is required; the backend looks up the phone number
+// when phone_number_id is missing.
 export const isValidBusinessData = businessData => {
-  return Boolean(businessData && businessData.waba_id);
+  return Boolean(getMessagingAccountId(businessData));
 };
 
 const COEXISTENCE_FINISH_EVENT = 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING';
@@ -40,7 +46,7 @@ const COEXISTENCE_FINISH_EVENT = 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING';
 const FINISH_EVENTS = ['FINISH', COEXISTENCE_FINISH_EVENT];
 
 // Terminal events that end the flow without a Cloud API phone number we can build an
-// inbox from. Embedded Signup v4 can emit any of them depending on the products
+// inbox from. Embedded Signup can emit any of them depending on the products
 // enabled on the configuration; without an explicit branch the popup simply closes
 // and the caller waits on a promise that never settles.
 const UNSUPPORTED_FINISH_EVENTS = [
@@ -131,11 +137,10 @@ export const initWhatsAppEmbeddedSignup = configId => {
         config_id: configId,
         response_type: 'code',
         override_default_response_type: true,
-        // No `version`: Meta serves v4 by default and has no explicit `v4` value. v4 ignores
-        // `sessionInfoVersion` and still uses `featureType` to offer coexistence onboarding.
+        // v5 offers WhatsApp Business app onboarding by default, so no featureType is needed.
         extras: {
           setup: {},
-          featureType: 'whatsapp_business_app_onboarding',
+          version: 'v5',
         },
       }
     );

@@ -9,6 +9,7 @@ import {
   initWhatsAppEmbeddedSignup,
   createMessageHandler,
   isValidBusinessData,
+  getMessagingAccountId,
   classifySignupEvent,
   SIGNUP_RESULT,
 } from './utils';
@@ -100,13 +101,13 @@ const handleEmbeddedSignupEvents = async (data, authCode) => {
   if (result.type === SIGNUP_RESULT.FINISH) {
     const businessData = data.data;
 
-    // phone_number_id isn't required here: the backend resolves it from the WABA
+    // phone_number_id isn't required here: the backend resolves it from the Messaging account
     // (PhoneInfoService) when omitted, which coexistence completions sometimes do.
     if (isValidBusinessData(businessData)) {
       await reauthorizeWhatsApp({
         code: authCode,
         business_id: businessData.business_id || '',
-        waba_id: businessData.waba_id,
+        waba_id: getMessagingAccountId(businessData),
         phone_number_id: businessData.phone_number_id || '',
         is_coexistence: result.isCoexistence,
       });
