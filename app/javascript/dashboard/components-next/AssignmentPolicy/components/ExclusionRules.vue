@@ -39,6 +39,7 @@ const excludeOlderThanMinutes = computed({
 // Duration limits: 1 hour to 999 days (in minutes)
 const MIN_DURATION_MINUTES = 60;
 const MAX_DURATION_MINUTES = 1438560; // 999 days * 24 hours * 60 minutes
+const UNITS = [DURATION_UNITS.HOURS, DURATION_UNITS.DAYS];
 
 const { t } = useI18n();
 
@@ -151,6 +152,7 @@ onMounted(() => {
           v-model:model-value="excludeOlderThanMinutes"
           :min="MIN_DURATION_MINUTES"
           :max="MAX_DURATION_MINUTES"
+          :units="UNITS"
         />
       </div>
     </div>

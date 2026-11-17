@@ -8,9 +8,19 @@ const props = defineProps({
   min: { type: Number, default: 0 },
   max: { type: Number, default: Infinity },
   disabled: { type: Boolean, default: false },
+  // The units offered; a value stored in whole hours leaves out minutes
+  units: { type: Array, default: () => Object.values(DURATION_UNITS) },
 });
 
 const { t } = useI18n();
+const unitOptions = computed(() => {
+  const labels = {
+    [DURATION_UNITS.MINUTES]: t('DURATION_INPUT.MINUTES'),
+    [DURATION_UNITS.HOURS]: t('DURATION_INPUT.HOURS'),
+    [DURATION_UNITS.DAYS]: t('DURATION_INPUT.DAYS'),
+  };
+  return props.units.map(value => ({ value, label: labels[value] }));
+});
 const duration = defineModel('modelValue', { type: Number, default: null });
 const unit = defineModel('unit', {
   type: String,
@@ -84,14 +94,12 @@ watch(unit, () => {
     :disabled="disabled"
     class="mb-0 text-sm disabled:outline-n-weak disabled:opacity-40"
   >
-    <option :value="DURATION_UNITS.MINUTES">
-      {{ t('DURATION_INPUT.MINUTES') }}
-    </option>
-    <option :value="DURATION_UNITS.HOURS">
-      {{ t('DURATION_INPUT.HOURS') }}
-    </option>
-    <option :value="DURATION_UNITS.DAYS">
-      {{ t('DURATION_INPUT.DAYS') }}
+    <option
+      v-for="option in unitOptions"
+      :key="option.value"
+      :value="option.value"
+    >
+      {{ option.label }}
     </option>
   </select>
 </template>

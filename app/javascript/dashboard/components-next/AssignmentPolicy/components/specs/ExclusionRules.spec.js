@@ -58,4 +58,12 @@ describe('ExclusionRules', () => {
     expect(durationInput(hoursWrapper).props('unit')).toBe('hours');
     expect(hoursWrapper.find('input[type="number"]').element.value).toBe('20');
   });
+
+  it('offers only hours and days, since the policy stores whole hours', () => {
+    const units = mountExclusionRules()
+      .findAll('option')
+      .map(option => option.element.value);
+
+    expect(units).toEqual(['hours', 'days']);
+  });
 });
