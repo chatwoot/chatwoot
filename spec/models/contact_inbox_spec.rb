@@ -128,4 +128,25 @@ RSpec.describe ContactInbox do
       end
     end
   end
+
+  describe '#can_edit?' do
+    let(:contact) { create(:contact) }
+    let(:contact_inbox) { create(:contact_inbox, contact: contact) }
+
+    it 'lets an unverified session edit a contact that no session verified' do
+      expect(contact_inbox.can_edit?(contact)).to be(true)
+    end
+
+    it 'stops an unverified session from editing a verified contact' do
+      create(:contact_inbox, contact: contact, hmac_verified: true)
+
+      expect(contact_inbox.can_edit?(contact)).to be(false)
+    end
+
+    it 'lets a verified session edit the contact' do
+      contact_inbox.update!(hmac_verified: true)
+
+      expect(contact_inbox.can_edit?(contact)).to be(true)
+    end
+  end
 end

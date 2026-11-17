@@ -341,19 +341,22 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
     end
 
-    context 'when put request is made with the email of an identified contact' do
-      it 'adds a private note to the conversation' do
+    context 'when put request is made with the email of a verified contact' do
+      it 'merges the visitor into the verified contact without changing it' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
-        identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com')
+        verified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com',
+                                            custom_attributes: { plan: 'pro' })
+        create(:contact_inbox, contact: verified_contact, hmac_verified: true)
+        contact.update!(name: 'Visitor', phone_number: '+919999888877', custom_attributes: { plan: 'free', referrer: 'ad' })
+
         put api_v1_widget_message_url(message.id),
             params: { website_token: web_widget.website_token, contact: { email: 'customer@test.com' } },
             headers: { 'X-Auth-Token' => token },
             as: :json
 
         expect(response).to have_http_status(:success)
-        note = conversation.messages.find_by(private: true)
-        expect(note.content).to include('customer@test.com')
-        expect(note.content).to include("/contacts/#{identified_contact.id}")
+        expect(conversation.reload.contact_id).to eq verified_contact.id
+        expect(verified_contact.reload).to have_attributes(phone_number: nil, custom_attributes: { 'plan' => 'pro' })
       end
     end
 
