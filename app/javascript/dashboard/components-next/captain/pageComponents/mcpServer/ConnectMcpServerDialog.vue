@@ -32,9 +32,7 @@ const SCHEME_PATTERN = /^\s*https?:\/\//i;
 
 const dialogRef = ref(null);
 const url = ref(URL_PREFIX);
-// The token fields show only when the server answers that it needs a token
 const showHeader = ref(false);
-const needsToken = ref(false);
 const token = ref('');
 const authHeader = ref('');
 const isBusy = ref(false);
@@ -42,6 +40,13 @@ const isBusy = ref(false);
 const check = ref(null);
 
 const serverUrl = computed(() => url.value.trim());
+const currentCheck = computed(() =>
+  check.value?.url === serverUrl.value ? check.value : null
+);
+// The token fields show only while the check for the current URL says the server needs a token
+const needsToken = computed(
+  () => currentCheck.value?.authType === AUTH_TYPES.TOKEN
+);
 // A token typed for another URL is kept but not sent
 const tokenValue = computed(() => (needsToken.value ? token.value.trim() : ''));
 const canConnect = computed(() => serverUrl.value !== URL_PREFIX);
@@ -88,13 +93,8 @@ const discover = async checkedUrl => {
     authType: response.data.auth_type,
     name: serverName(checkedUrl, response.data),
   };
-  needsToken.value = check.value.authType === AUTH_TYPES.TOKEN;
   return check.value;
 };
-
-const currentCheck = computed(() =>
-  check.value?.url === serverUrl.value ? check.value : null
-);
 
 // The background check only sets the button label. Continue checks again if this one failed.
 const checkInBackground = async () => {
@@ -107,10 +107,7 @@ const checkInBackground = async () => {
 };
 const checkLater = useDebounceFn(checkInBackground, CHECK_DELAY_MS);
 
-watch(serverUrl, () => {
-  needsToken.value = false;
-  checkLater();
-});
+watch(serverUrl, checkLater);
 
 const pickSuggestion = suggestion => {
   url.value = suggestion.url;
@@ -121,7 +118,6 @@ const isPicked = suggestion => suggestion.url === serverUrl.value;
 const open = () => {
   url.value = URL_PREFIX;
   showHeader.value = false;
-  needsToken.value = false;
   token.value = '';
   authHeader.value = '';
   check.value = null;
