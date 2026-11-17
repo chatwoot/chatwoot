@@ -1,6 +1,5 @@
 <script setup>
 import { computed, watch, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 
 const props = defineProps({
@@ -8,7 +7,6 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  isFetchingCounts: { type: Boolean, default: false },
   selectedTab: {
     type: Number,
     default: 0,
@@ -16,8 +14,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['tabChange']);
-
-const { t } = useI18n();
 
 const activeTab = ref(props.selectedTab);
 
@@ -33,8 +29,7 @@ watch(
 const tabBarTabs = computed(() => {
   return props.tabs.map(tab => ({
     label: tab.name,
-    count: tab.count,
-    showBadge: tab.showBadge,
+    count: tab.showBadge ? tab.count : null,
   }));
 });
 
@@ -51,24 +46,6 @@ const onTabChange = selectedTab => {
       :tabs="tabBarTabs"
       :initial-active-tab="activeTab"
       @tab-changed="onTabChange"
-    >
-      <template #count="{ tab }">
-        <span v-if="tab.showBadge && tab.count !== null">
-          {{ t('SEARCH.COUNT_BADGE', { count: tab.count }) }}
-        </span>
-        <span
-          v-else-if="tab.showBadge && isFetchingCounts"
-          :aria-label="t('SEARCH.COUNTS_LOADING')"
-        >
-          {{ t('SEARCH.COUNT_PENDING') }}
-        </span>
-        <span
-          v-else-if="tab.showBadge"
-          :aria-label="t('SEARCH.COUNTS_UNAVAILABLE')"
-        >
-          {{ t('SEARCH.COUNT_UNKNOWN') }}
-        </span>
-      </template>
-    </TabBar>
+    />
   </div>
 </template>

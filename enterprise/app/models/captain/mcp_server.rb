@@ -70,6 +70,11 @@ class Captain::McpServer < ApplicationRecord
   scope :enabled, -> { where(enabled: true) }
   scope :for_enabled_accounts, -> { joins(:account).merge(Account.feature_captain_mcp_servers) }
 
+  # The servers Captain may use for an assistant: none while the account does not have MCP servers turned on
+  def self.enabled_for(assistant)
+    assistant.account.feature_enabled?(FEATURE_FLAG) ? assistant.mcp_servers.enabled : none
+  end
+
   # Returns the server an OAuth sign-in with this state started for, once. Every server shares one callback URL, so the
   # state is the only way to find the server, and a used state is deleted so a repeated callback finds nothing.
   def self.for_oauth_state(state)
@@ -87,6 +92,11 @@ class Captain::McpServer < ApplicationRecord
   # Approved tools Captain may use. A caller must still compare each digest with the live definition.
   def available_tools
     enabled? ? tools.where(enabled: true) : Captain::McpTool.none
+  end
+
+  # Scenarios list and reference these tools by their Captain name
+  def tool_metadata
+    available_tools.map { |tool| { id: tool.captain_name, title: tool.name, description: tool.description, mcp: true } }
   end
 
   # The two status changes after create write only when the value changes, with update_columns and not save:
