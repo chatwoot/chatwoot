@@ -85,7 +85,7 @@ const deleteInbox = async (id, shouldReleaseNumber) => {
     });
     useAlert(t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    // When Meta refuses the release the inbox is kept, so show Meta's reason; the admin can delete without releasing.
+    // A refused release keeps the inbox, so show why; the admin can delete without releasing.
     useAlert(
       shouldReleaseNumber
         ? error.message
