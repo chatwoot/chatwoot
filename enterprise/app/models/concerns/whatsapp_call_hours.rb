@@ -20,6 +20,15 @@ module Concerns::WhatsappCallHours
     }
   end
 
+  # Applying business hours to calls needs at least one open day, or WhatsApp would turn away every
+  # call. Run where hours get applied (saving the toggle or the inbox's hours) rather than on every
+  # channel save, so an inbox already in that state can still save unrelated channel settings.
+  def call_hours_schedule_valid
+    return unless apply_call_hours? && weekly_operating_hours.empty?
+
+    errors.add(:base, I18n.t('inbox.call_hours.closed_every_day'))
+  end
+
   # Queues a sync when Meta may hold something other than the inbox's current hours. A number
   # Chatwoot never sent call hours to is left alone until they're applied, and turning them on waits
   # while calling is off; turning them off never waits. `force` resends a synced schedule.

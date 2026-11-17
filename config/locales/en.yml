@@ -63,6 +63,8 @@ en:
       default_unanswered: "Sorry, we can't take your call right now. We'll get back to you as soon as we can."
       message_too_long: 'The announcement must be 1000 characters or fewer'
       invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
+    call_hours:
+      closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
     call_routing:
       invalid_callback_permission: 'Choose whether callers can be asked for a callback'
       invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'

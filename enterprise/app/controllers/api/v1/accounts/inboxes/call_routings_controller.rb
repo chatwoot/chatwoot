@@ -13,9 +13,7 @@ class Api::V1::Accounts::Inboxes::CallRoutingsController < Api::V1::Accounts::Ba
         'assignee_rings_first' => params[:assignee_rings_first], 'call_cooldown_seconds' => params[:call_cooldown_seconds],
         'business_hours_calls_enabled' => params[:business_hours_calls_enabled]
       )
-      channel.call_routing_settings_valid
-      raise ActiveRecord::RecordInvalid, channel if channel.errors.any?
-
+      validate_settings!(channel)
       channel.save!(validate: false)
     end
     # WhatsApp itself turns away calls outside business hours once Meta has them
@@ -25,6 +23,13 @@ class Api::V1::Accounts::Inboxes::CallRoutingsController < Api::V1::Accounts::Ba
   end
 
   private
+
+  # The routing settings, and for WhatsApp, that business hours applied to calls leave an open day
+  def validate_settings!(channel)
+    channel.call_routing_settings_valid
+    channel.call_hours_schedule_valid if channel.is_a?(Channel::Whatsapp)
+    raise ActiveRecord::RecordInvalid, channel if channel.errors.any?
+  end
 
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:inbox_id])

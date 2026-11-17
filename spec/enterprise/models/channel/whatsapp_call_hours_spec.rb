@@ -47,6 +47,35 @@ RSpec.describe Channel::Whatsapp do
     end
   end
 
+  describe '#call_hours_schedule_valid' do
+    before { inbox.working_hours.update_all(closed_all_day: true) } # rubocop:disable Rails/SkipsModelValidations
+
+    it 'needs an open day while business hours apply to calls' do
+      apply_business_hours(true)
+
+      channel.call_hours_schedule_valid
+
+      expect(channel.errors.full_messages).to eq([I18n.t('inbox.call_hours.closed_every_day')])
+    end
+
+    it 'allows a closed week while business hours are not applied to calls' do
+      apply_business_hours(false)
+
+      channel.call_hours_schedule_valid
+
+      expect(channel.errors).to be_empty
+    end
+
+    it 'allows a closed week while the inbox business hours are off' do
+      apply_business_hours(true)
+      inbox.update!(working_hours_enabled: false)
+
+      channel.reload.call_hours_schedule_valid
+
+      expect(channel.errors).to be_empty
+    end
+  end
+
   describe '#schedule_call_hours_sync' do
     it 'leaves a number alone until business hours are applied to calls' do
       expect { channel.schedule_call_hours_sync }.not_to have_enqueued_job(Whatsapp::SyncCallHoursJob)

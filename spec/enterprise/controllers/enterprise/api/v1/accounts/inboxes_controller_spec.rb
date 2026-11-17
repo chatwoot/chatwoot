@@ -257,6 +257,39 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       end.to have_enqueued_job(Whatsapp::SyncCallHoursJob)
     end
 
+    def closed_week
+      (0..6).map { |day| { day_of_week: day, closed_all_day: true } }
+    end
+
+    it 'rejects closing every day and rolls the whole save back' do
+      expect do
+        patch url, headers: admin.create_new_auth_token, params: { name: 'Renamed', working_hours: closed_week }, as: :json
+      end.not_to have_enqueued_job(Whatsapp::SyncCallHoursJob)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.closed_every_day'))
+      expect(inbox.reload.name).not_to eq('Renamed')
+      expect(inbox.working_hours.find_by(day_of_week: 1).closed_all_day).to be(false)
+    end
+
+    it 'rejects turning business hours on for a closed week' do
+      inbox.update!(working_hours_enabled: false)
+      inbox.working_hours.update_all(closed_all_day: true) # rubocop:disable Rails/SkipsModelValidations
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours_enabled: true }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(inbox.reload.working_hours_enabled).to be(false)
+    end
+
+    it 'allows closing every day once business hours no longer apply to calls' do
+      channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: closed_week }, as: :json
+
+      expect(response).to have_http_status(:success)
+    end
+
     it 'leaves WhatsApp alone when nothing about the hours changed' do
       expect do
         patch url, headers: admin.create_new_auth_token, params: { name: 'Support line' }, as: :json

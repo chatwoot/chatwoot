@@ -30,6 +30,17 @@ module Concerns::WhatsappCallingActions
 
   private
 
+  # Runs inside the inbox save's transaction once the hours are written, so a week with no open day
+  # rolls the whole save back with 422 while business hours apply to WhatsApp calls
+  def update_inbox_working_hours
+    super
+    return unless @inbox.whatsapp? && (params.key?(:working_hours) || @inbox.saved_change_to_working_hours_enabled?)
+
+    channel = @inbox.channel.reload
+    channel.call_hours_schedule_valid
+    raise ActiveRecord::RecordInvalid, channel if channel.errors.any?
+  end
+
   def ensure_whatsapp_calling_supported
     channel = @inbox.channel
     return true if channel.is_a?(Channel::Whatsapp) && channel.voice_calling_supported?
