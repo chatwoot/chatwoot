@@ -37,6 +37,7 @@ describe Whatsapp::WebhookSetupService do
     # Default stubs for phone_number_verified? and health service
     allow(api_client).to receive(:phone_number_verified?).and_return(false)
     allow(health_service).to receive(:fetch_health_status).and_return({
+                                                                        is_on_biz_app: false,
                                                                         platform_type: 'APPLICABLE',
                                                                         throughput_level: 'APPLICABLE'
                                                                       })
@@ -181,6 +182,7 @@ describe Whatsapp::WebhookSetupService do
       before do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
+                                                                            is_on_biz_app: false,
                                                                             platform_type: 'APPLICABLE',
                                                                             throughput_level: 'APPLICABLE'
                                                                           })
@@ -204,6 +206,7 @@ describe Whatsapp::WebhookSetupService do
       before do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
+                                                                            is_on_biz_app: false,
                                                                             platform_type: 'NOT_APPLICABLE',
                                                                             throughput_level: 'APPLICABLE'
                                                                           })
@@ -230,6 +233,7 @@ describe Whatsapp::WebhookSetupService do
       before do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
+                                                                            is_on_biz_app: false,
                                                                             platform_type: 'APPLICABLE',
                                                                             throughput_level: 'NOT_APPLICABLE'
                                                                           })
@@ -256,6 +260,7 @@ describe Whatsapp::WebhookSetupService do
       before do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_raise('API down')
         allow(health_service).to receive(:fetch_health_status).and_return({
+                                                                            is_on_biz_app: false,
                                                                             platform_type: 'APPLICABLE',
                                                                             throughput_level: 'APPLICABLE'
                                                                           })
@@ -287,6 +292,19 @@ describe Whatsapp::WebhookSetupService do
           expect(api_client).to receive(:subscribe_phone_number_webhook)
           expect { service.perform }.not_to raise_error
         end
+      end
+    end
+
+    context 'when an unverified number needs registration but health data is unavailable' do
+      before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(false)
+        allow(health_service).to receive(:fetch_health_status).and_raise('Health API down')
+        allow(api_client).to receive(:register_phone_number)
+      end
+
+      it 'fails without registering, since the number could be on the WhatsApp Business app' do
+        expect { service.perform }.to raise_error('Could not confirm with Meta whether the number uses the WhatsApp Business app')
+        expect(api_client).not_to have_received(:register_phone_number)
       end
     end
 
@@ -426,6 +444,7 @@ describe Whatsapp::WebhookSetupService do
       before do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
+                                                                            is_on_biz_app: false,
                                                                             platform_type: 'APPLICABLE',
                                                                             throughput_level: 'APPLICABLE'
                                                                           })
@@ -435,7 +454,7 @@ describe Whatsapp::WebhookSetupService do
         allow(api_client).to receive(:register_phone_number).and_return({ 'success' => true })
       end
 
-      # Meta can report a deregistered number as CONNECTED, so the reconnect must not trust that status.
+      # Re-registering an already registered number succeeds without resetting its PIN, so a reconnect always registers.
       it 'registers the number again even when Meta reports it as connected' do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           service_reauth.perform
@@ -460,7 +479,15 @@ describe Whatsapp::WebhookSetupService do
         allow(health_service).to receive(:fetch_health_status).and_raise('Graph error')
         service = described_class.new(existing_channel, waba_id, new_access_token, is_coexistence: false)
 
-        expect { service.perform }.to raise_error('Could not check whether the number is on the WhatsApp Business app')
+        expect { service.perform }.to raise_error('Could not confirm with Meta whether the number uses the WhatsApp Business app')
+        expect(api_client).not_to have_received(:register_phone_number)
+      end
+
+      it 'fails without registering when Meta does not say whether the number is on the WhatsApp Business app' do
+        allow(health_service).to receive(:fetch_health_status).and_return({ platform_type: 'CLOUD_API' })
+        service = described_class.new(existing_channel, waba_id, new_access_token, is_coexistence: false)
+
+        expect { service.perform }.to raise_error('Could not confirm with Meta whether the number uses the WhatsApp Business app')
         expect(api_client).not_to have_received(:register_phone_number)
       end
 
@@ -487,6 +514,7 @@ describe Whatsapp::WebhookSetupService do
       before do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(health_service).to receive(:fetch_health_status).and_return({
+                                                                            is_on_biz_app: false,
                                                                             platform_type: 'APPLICABLE',
                                                                             throughput_level: 'APPLICABLE'
                                                                           })

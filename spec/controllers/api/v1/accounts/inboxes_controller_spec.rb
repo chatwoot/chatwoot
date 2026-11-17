@@ -546,6 +546,11 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:whatsapp_inbox) { whatsapp_channel.inbox }
       let(:deregister_url) { %r{graph\.facebook\.com/v[\d.]+/#{whatsapp_channel.provider_config['phone_number_id']}/deregister\z} }
 
+      before do
+        health_service = instance_double(Whatsapp::HealthService, fetch_health_status: { is_on_biz_app: false })
+        allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
+      end
+
       def delete_inbox(target_inbox, release:)
         delete "/api/v1/accounts/#{account.id}/inboxes/#{target_inbox.id}",
                params: { release_whatsapp_number: release },
@@ -578,6 +583,18 @@ RSpec.describe 'Inboxes API', type: :request do
           'Meta could not release the number, so the inbox was not deleted: ' \
           'Deregister endpoint is not available for API solution for SMB businesses.'
         )
+      end
+
+      it 'keeps the inbox without calling deregister when the number also uses the WhatsApp Business app' do
+        business_app_health = instance_double(Whatsapp::HealthService, fetch_health_status: { is_on_biz_app: true })
+        allow(Whatsapp::HealthService).to receive(:new).and_return(business_app_health)
+        expect(DeleteObjectJob).not_to receive(:perform_later)
+
+        delete_inbox(whatsapp_inbox, release: true)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include('Settings > Account > Business Platform')
+        expect(a_request(:post, deregister_url)).not_to have_been_made
       end
 
       it 'keeps an inbox that was not connected with embedded signup' do

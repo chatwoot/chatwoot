@@ -1,6 +1,6 @@
 # Finishes an Embedded Signup after the inbox exists: registers the number, subscribes webhooks and checks health.
-# These Meta calls take several seconds (/register alone can take most of them), so running them inside the
-# authorization request could push it past the request timeout and leave a half-set-up inbox.
+# These are several Meta calls in a row, so running them inside the authorization request could push it past the
+# request timeout and leave a half-set-up inbox.
 # Failures here prompt reauthorization on the inbox, which shows the reconnect banner and emails the admins.
 class Channels::Whatsapp::EmbeddedSignupSetupJob < ApplicationJob
   queue_as :high
