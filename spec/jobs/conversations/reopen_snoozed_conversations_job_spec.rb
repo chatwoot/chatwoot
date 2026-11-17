@@ -23,5 +23,14 @@ RSpec.describe Conversations::ReopenSnoozedConversationsJob do
       expect(snoozed_till_tomorrow.reload.status).to eq 'snoozed'
       expect(snoozed_indefinitely.reload.status).to eq 'snoozed'
     end
+
+    it 'reopens up to the batch limit and re-enqueues for remaining conversations' do
+      expect do
+        described_class.perform_now(1)
+      end.to have_enqueued_job(described_class).with(1).on_queue('low')
+
+      expect(snoozed_till_4_days_ago.reload.status).to eq 'open'
+      expect(snoozed_till_5_minutes_ago.reload.status).to eq 'snoozed'
+    end
   end
 end
