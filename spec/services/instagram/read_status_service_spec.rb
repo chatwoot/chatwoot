@@ -56,11 +56,11 @@ describe Instagram::ReadStatusService do
 
     it 'marks the original send API message as read when the webhook uses its echo ID' do
       message = create(:message, account: account, inbox: instagram_inbox, conversation: conversation,
-                                 message_type: :outgoing, source_id: ids.fetch('first_send'))
+                                 message_type: :outgoing, source_id: ids.fetch('first_send'), created_at: Time.current.change(nsec: 123_456_789))
       allow(Conversations::UpdateMessageStatusJob).to receive(:perform_later)
       described_class.new(params: { read: { mid: ids.fetch('first_echo') } }, channel: instagram_channel).perform
 
-      expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(conversation.id, message.created_at)
+      expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(conversation.id, message.reload.created_at)
     end
   end
 end
