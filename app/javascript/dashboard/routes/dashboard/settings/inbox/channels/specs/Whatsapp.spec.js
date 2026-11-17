@@ -238,6 +238,85 @@ describe('Whatsapp.vue (convert mode)', () => {
     ]);
   });
 
+  // Native without a running connector stays on the list, disabled and saying why, rather
+  // than vanishing: the administrator who opens the picker is rarely the one who can start it.
+  describe('native while no connector is running', () => {
+    const unavailable = detail => ({
+      data: {
+        payload: [
+          {
+            key: 'native',
+            creatable: false,
+            beta: true,
+            unavailable_reason: 'connector_not_running',
+            unavailable_detail: detail,
+            fields: [],
+          },
+          { key: 'baileys', creatable: true, legacy: true, fields: [] },
+        ],
+      },
+    });
+    const createMode = { mode: 'create', inbox: null };
+    const nativeCard = wrapper =>
+      wrapper
+        .findAllComponents(ChannelSelectorStub)
+        .find(
+          selector =>
+            selector.attributes('title') ===
+            'INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.NATIVE'
+        );
+
+    it('lists it disabled, with the reason and what the server last saw fail', async () => {
+      WhatsappChannel.getSessionProviders.mockResolvedValue(
+        unavailable('schema whatsapp_connector does not exist')
+      );
+      const wrapper = mountWhatsapp(createMode);
+      await flushPromises();
+
+      const card = nativeCard(wrapper);
+      expect(card.attributes('disabled')).toBe('true');
+      expect(card.attributes('description')).toBe(
+        'INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.NATIVE_CONNECTOR_NOT_RUNNING schema whatsapp_connector does not exist'
+      );
+      const cloud = wrapper
+        .findAllComponents(ChannelSelectorStub)
+        .find(
+          selector =>
+            selector.attributes('title') ===
+            'INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD'
+        );
+      expect(cloud.attributes('disabled')).toBe('false');
+    });
+
+    it('gives the reason alone when no failed start was published', async () => {
+      WhatsappChannel.getSessionProviders.mockResolvedValue(unavailable(null));
+      const wrapper = mountWhatsapp(createMode);
+      await flushPromises();
+
+      expect(nativeCard(wrapper).attributes('description')).toBe(
+        'INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.NATIVE_CONNECTOR_NOT_RUNNING'
+      );
+    });
+
+    it('does not open its form from a hand-typed URL, nor recommend it from the legacy banner', async () => {
+      WhatsappChannel.getSessionProviders.mockResolvedValue(unavailable(null));
+      setRouteProvider('native');
+      const wrapper = mountWhatsapp(createMode);
+      await flushPromises();
+
+      expect(wrapper.find('.SessionWhatsapp-stub').exists()).toBe(false);
+      expect(wrapper.find('.ChannelSelector-stub').exists()).toBe(true);
+
+      setRouteProvider('baileys');
+      await flushPromises();
+      expect(
+        wrapper
+          .findComponent(WhatsappLegacyProviderBanner)
+          .props('nativeAvailable')
+      ).toBe(false);
+    });
+  });
+
   describe('legacy providers', () => {
     const catalog = keys => ({
       data: {

@@ -87,21 +87,37 @@ RSpec.describe 'WhatsApp Session Providers API', type: :request do
 
           with_modified_env WHATSAPP_CONNECTOR_ENABLED: nil do
             expect(native).to include('available' => true, 'creatable' => true)
+            expect(native).not_to have_key('unavailable_reason')
           end
         end
 
         # On by default is not the same as started: the Docker image runs the connector next
         # to Sidekiq, and an installation from source has nothing that does. An inbox created
         # with nobody to pair it would never connect.
-        it 'keeps it uncreatable while no connector is running' do
+        it 'keeps it uncreatable while no connector is running, and says so' do
           with_modified_env WHATSAPP_CONNECTOR_ENABLED: nil do
-            expect(native).to include('available' => true, 'creatable' => false)
+            expect(native).to include('available' => true, 'creatable' => false,
+                                      'unavailable_reason' => 'connector_not_running', 'unavailable_detail' => nil)
+          end
+        end
+
+        it 'carries the reason the newest failed start published' do
+          # listed in the opposite order of their times, so the order of the keys decides nothing
+          { 'a-worker' => ['connector exited (status 1)', '2026-11-17T10:00:00Z'],
+            'b-worker' => ['schema whatsapp_connector does not exist', '2026-11-17T11:00:00Z'] }.each do |id, (error, at)|
+            redis.set("#{prefix}embedded:#{id}", { error: error, at: at }.to_json)
+            redis.zadd("#{prefix}embedded", Time.now.to_i + 120, id)
+          end
+
+          with_modified_env WHATSAPP_CONNECTOR_ENABLED: nil do
+            expect(native['unavailable_detail']).to eq('schema whatsapp_connector does not exist')
           end
         end
 
         it 'keeps it uncreatable while the connector is turned off, whatever the account says' do
           with_modified_env WHATSAPP_CONNECTOR_ENABLED: 'false' do
             expect(native).to include('available' => false, 'creatable' => false)
+            expect(native).not_to have_key('unavailable_reason')
           end
         end
 
@@ -111,6 +127,14 @@ RSpec.describe 'WhatsApp Session Providers API', type: :request do
 
           with_modified_env WHATSAPP_CONNECTOR_ENABLED: nil do
             expect(native).to include('available' => true, 'creatable' => false)
+          end
+        end
+
+        it 'gives no reason to an account it was withdrawn from, so the picker leaves it out' do
+          account.update!(whatsapp_native_disabled: true)
+
+          with_modified_env WHATSAPP_CONNECTOR_ENABLED: nil do
+            expect(native).not_to have_key('unavailable_reason')
           end
         end
       end

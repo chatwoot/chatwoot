@@ -182,6 +182,14 @@ es:
       avg_customer_waiting_time: Tiempo promedio de espera del cliente
       resolution_count: Recuento de resoluciones
   super_admin:
+    instance_status:
+      whatsapp_connector:
+        label: 'Conector de WhatsApp (nativo)'
+        running: 'en ejecución'
+        not_running: 'detenido'
+        unreachable: 'no se pudo leer: %{error}'
+        instance: 'Conector de WhatsApp %{id}'
+        start_error: 'Error al iniciar el conector de WhatsApp (%{instance})'
     accounts:
       agent_restrictions: 'Restricciones de agente'
       agent_restrictions_hint: 'Se guardan junto con el formulario de arriba.'

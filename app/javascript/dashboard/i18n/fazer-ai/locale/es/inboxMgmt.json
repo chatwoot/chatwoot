@@ -10,6 +10,7 @@
           "ZAPI_DESC": "Conectar mediante la API no oficial Z-API",
           "NATIVE": "WhatsApp (nativo)",
           "NATIVE_DESC": "Conectar mediante una API no oficial, vinculando como en WhatsApp Web, sin proveedor externo",
+          "NATIVE_CONNECTOR_NOT_RUNNING": "El conector de WhatsApp no está en ejecución en esta instalación, así que no se puede crear una bandeja nativa ahora. Quien administra el servidor puede ver el motivo en la página de salud del Super Admin.",
           "UAZAPI": "Uazapi",
           "UAZAPI_DESC": "Conectar mediante la API no oficial de Uazapi, en tu propia instancia"
         },

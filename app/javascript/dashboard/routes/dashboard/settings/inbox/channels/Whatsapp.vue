@@ -198,8 +198,12 @@ const CONVERT_PICKER_KEYS = [
 // withdraws the legacy ones) and per account, and the server is what knows both. Offering
 // a choice it would then refuse is worse than not offering it, and withdrawing one
 // becomes a server-side change.
-const { creatableProviders, descriptorFor, fetchProviders } =
-  useWhatsappSessionProviders();
+const {
+  creatableProviders,
+  unavailableProviders,
+  descriptorFor,
+  fetchProviders,
+} = useWhatsappSessionProviders();
 onMounted(fetchProviders);
 
 const creatableSessionKeys = computed(() =>
@@ -216,10 +220,27 @@ const isBetaProvider = key => Boolean(descriptorFor(key)?.beta);
 // Legacy the same way: the catalog says so, and a provider's withdrawal is a server change.
 const isLegacyProvider = key => Boolean(descriptorFor(key)?.legacy);
 
+const unavailableSessionKeys = computed(() =>
+  unavailableProviders.value.map(({ key }) => key)
+);
+const isUnavailableProvider = key => unavailableSessionKeys.value.includes(key);
+
+// Why a provider on the list cannot be opened now: the translated reason, followed by
+// what the server last saw go wrong (the statement to run, for a missing schema or
+// database), which is technical and stays as the server wrote it.
+const unavailableDescription = key => {
+  const detail = descriptorFor(key)?.unavailable_detail;
+  const reason = t(
+    'INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.NATIVE_CONNECTOR_NOT_RUNNING'
+  );
+  return detail ? `${reason} ${detail}` : reason;
+};
+
 const availableProviders = computed(() => {
   const allowed = [
     ...(isConvertMode.value ? CONVERT_PICKER_KEYS : CREATE_PICKER_KEYS),
     ...creatableSessionKeys.value,
+    ...unavailableSessionKeys.value,
   ];
   return PROVIDER_CATALOG.value
     .filter(p => allowed.includes(p.key))
@@ -229,8 +250,10 @@ const availableProviders = computed(() => {
 // What this screen could actually open, not only what the catalog offers the account: a
 // conversion leaves out the inbox's own provider, so a native inbox being converted to a
 // legacy one has no native target to recommend.
-const isNativeAvailable = computed(() =>
-  availableProviders.value.some(({ key }) => key === PROVIDER_TYPES.NATIVE)
+const isNativeAvailable = computed(
+  () =>
+    !isUnavailableProvider(PROVIDER_TYPES.NATIVE) &&
+    availableProviders.value.some(({ key }) => key === PROVIDER_TYPES.NATIVE)
 );
 
 const currentProviderLabel = computed(() => {
@@ -250,6 +273,9 @@ const isValidSelectedProvider = computed(() => {
     if (selectedProvider.value === PROVIDER_TYPES.THREE_SIXTY_DIALOG)
       return true;
   }
+  // Listed so the picker can say why, never opened: `?provider=native` typed by hand
+  // while no connector runs stays on the picker.
+  if (isUnavailableProvider(selectedProvider.value)) return false;
   return availableProviders.value.some(
     ({ key }) => key === selectedProvider.value
   );
@@ -404,10 +430,15 @@ const requestEmbeddedSignupAccess = () => {
           v-for="provider in availableProviders"
           :key="provider.key"
           :title="provider.title"
-          :description="provider.description"
+          :description="
+            isUnavailableProvider(provider.key)
+              ? unavailableDescription(provider.key)
+              : provider.description
+          "
           :icon="provider.icon"
           :is-beta="isBetaProvider(provider.key)"
           :is-legacy="isLegacyProvider(provider.key)"
+          :disabled="isUnavailableProvider(provider.key)"
           @click="selectProvider(provider.key)"
         />
       </div>

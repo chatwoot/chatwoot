@@ -182,6 +182,14 @@ en:
       avg_customer_waiting_time: Avg customer waiting time
       resolution_count: Resolution Count
   super_admin:
+    instance_status:
+      whatsapp_connector:
+        label: 'WhatsApp (native) connector'
+        running: 'running'
+        not_running: 'not running'
+        unreachable: 'could not be read: %{error}'
+        instance: 'WhatsApp connector %{id}'
+        start_error: 'WhatsApp connector start error (%{instance})'
     accounts:
       agent_restrictions: 'Agent restrictions'
       agent_restrictions_hint: 'Saved with the form above.'

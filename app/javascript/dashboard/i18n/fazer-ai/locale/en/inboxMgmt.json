@@ -10,6 +10,7 @@
           "ZAPI_DESC": "Connect via non-official API Z-API",
           "NATIVE": "WhatsApp (native)",
           "NATIVE_DESC": "Connect through an unofficial API, pairing as with WhatsApp Web, with no outside provider",
+          "NATIVE_CONNECTOR_NOT_RUNNING": "The WhatsApp connector is not running on this installation, so a native inbox cannot be created now. Whoever runs the server can see why on the Super Admin health page.",
           "UAZAPI": "Uazapi",
           "UAZAPI_DESC": "Connect through the unofficial Uazapi API, on your own instance"
         },

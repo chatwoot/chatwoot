@@ -10,6 +10,7 @@
           "ZAPI_DESC": "Conectar via API não oficial Z-API",
           "NATIVE": "WhatsApp (nativo)",
           "NATIVE_DESC": "Conectar via API não oficial, pareando como no WhatsApp Web, sem provedor externo",
+          "NATIVE_CONNECTOR_NOT_RUNNING": "O conector do WhatsApp não está rodando nesta instalação, então não dá para criar uma caixa nativa agora. Quem cuida do servidor vê o motivo na página de saúde do Super Admin.",
           "UAZAPI": "Uazapi",
           "UAZAPI_DESC": "Conectar via API não oficial Uazapi, na sua própria instância"
         },

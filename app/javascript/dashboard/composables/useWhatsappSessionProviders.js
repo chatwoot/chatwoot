@@ -38,11 +38,19 @@ export const useWhatsappSessionProviders = () => {
     providers.value.filter(p => p.creatable)
   );
 
+  // Offered but not openable right now, with the server's reason (today only `native`
+  // while no connector is running). The picker shows these disabled instead of leaving
+  // them out, so an administrator learns why rather than assuming the feature is missing.
+  const unavailableProviders = computed(() =>
+    providers.value.filter(p => !p.creatable && p.unavailable_reason)
+  );
+
   return {
     providers,
     isFetching,
     fetchProviders,
     descriptorFor,
     creatableProviders,
+    unavailableProviders,
   };
 };
