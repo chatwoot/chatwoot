@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Captain::Mcp::ToolChangeCheckJob do
   let(:definition) { { 'name' => 'list_invoices', 'description' => 'List invoices', 'input_schema' => {}, 'read_only' => true } }
-  let(:connection) { instance_double(Captain::Mcp::Connection, tool_definitions: [definition]) }
+  let(:connection) { instance_double(Captain::Mcp::Connection, live_tool_definitions: [definition]) }
 
   def create_server_with_tool(account)
     assistant = create(:captain_assistant, account: account)
@@ -13,7 +13,6 @@ RSpec.describe Captain::Mcp::ToolChangeCheckJob do
 
   before do
     allow(Captain::Mcp::Connection).to receive(:new).and_return(connection)
-    allow(connection).to receive(:track_status).and_yield
   end
 
   it 'checks the tools of a server whose account has MCP servers turned on' do

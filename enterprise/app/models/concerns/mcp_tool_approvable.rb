@@ -24,11 +24,16 @@ module Concerns::McpToolApprovable
     tools.reset
   end
 
-  # Stores how each approved tool compares with a live listing. The tools page and the server's Needs review badge read
-  # these states. The live tools page, approve_tool and the hourly check record their listings here. ServerUpdateService
-  # does not, because it lists the server only to pin newly selected tools. A tool is written only when its state changes.
-  # update_columns skips validations: a tool saved under older rules may fail today's, and that must not stop Chatwoot
-  # from flagging a change.
+  # Lists the server's live tools through the connection and records each approved tool's review state from them
+  def refresh_live_tools(connection)
+    connection.live_tool_definitions.tap { |definitions| record_live_tools(definitions) }
+  end
+
+  # Stores how each approved tool compares with a live listing. Captain, the tools page and the server's Needs review
+  # badge read these states. Captain runs, the live tools page, approve_tool and the hourly check record their listings
+  # here. ServerUpdateService does not, because it lists the server only to pin newly selected tools. A tool is written
+  # only when its state changes. update_columns skips validations: a tool saved under older rules may fail today's, and
+  # that must not stop Chatwoot from flagging a change.
   def record_live_tools(live_definitions)
     live = live_definitions.index_by { |definition| definition['name'] }
     tools.each do |tool|

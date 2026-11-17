@@ -49,10 +49,11 @@ en:
     call_announcements:
       invalid_settings: 'Provide a boolean for enabled and text for the announcement'
       message_required: 'Add the message callers hear'
+      default_unanswered: "Sorry, we can't take your call right now. We'll get back to you as soon as we can."
       message_too_long: 'The announcement must be 1000 characters or fewer'
       invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
     call_routing:
-      invalid_settings: 'Choose a ringing order, a ring interval of %{step_min} to %{step_max} seconds and a cooldown of 0 to %{cooldown_max} seconds'
+      invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
     saml:
       invalid_email: 'Please enter a valid email address'
@@ -446,6 +447,9 @@ en:
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
+      auto_translate:
+        disabled: '%{user_name} turned off auto-translate for this conversation'
+        enabled: '%{user_name} turned on auto-translate for this conversation'
       linear:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
@@ -644,6 +648,8 @@ en:
       unknown_param: '%{tool} has no parameters named %{names}'
       invalid_source: '%{tool} parameter %{name} has an invalid source'
       fixed_value_blank: '%{tool} parameter %{name} needs a fixed value'
+      fixed_value_type: '%{tool} parameter %{name} needs a fixed value of type %{type}'
+      fixed_value_unsupported: '%{tool} parameter %{name} is of type %{type} and cannot take a fixed value'
       one_verified_email: '%{tool} can have one verified email parameter only'
       verified_email_type: '%{tool} parameter %{name} must be a string to take the verified email'
     mcp_server:
