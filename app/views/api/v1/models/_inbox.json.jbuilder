@@ -197,8 +197,5 @@ if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(
   json.inbound_calls_enabled resource.channel.inbound_calls_enabled?
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
-  if ChatwootApp.enterprise?
-    json.partial! 'api/v1/models/call_routing', channel: resource.channel
-    json.callback_permission_enabled resource.channel.callback_permission_enabled?
-  end
+  json.partial! 'api/v1/models/call_routing', channel: resource.channel if ChatwootApp.enterprise?
 end

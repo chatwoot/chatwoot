@@ -31,7 +31,6 @@ const label = key => t(`INBOX_MGMT.CALL_SETTINGS.${key}`);
 
 const savedValues = () => ({
   ...sharedSavedValues(props.inbox),
-  callbackPermissionEnabled: !!props.inbox.callback_permission_enabled,
   permissionRequestBody:
     props.inbox.provider_config?.call_permission_request_body || '',
 });
@@ -39,11 +38,6 @@ const savedValues = () => ({
 const buildSteps = (changed, values) => {
   const { id } = props.inbox;
   const steps = sharedSteps(id, changed, values);
-  if (changed(['callbackPermissionEnabled'])) {
-    steps.push(() =>
-      InboxesAPI.setCallbackPermission(id, values.callbackPermissionEnabled)
-    );
-  }
   if (changed(['permissionRequestBody'])) {
     steps.push(() =>
       store.dispatch('inboxes/updateInbox', {
@@ -209,11 +203,6 @@ const toggleCalling = async value => {
           :title="label('CALLING_CUSTOMERS.TITLE')"
           :description="label('CALLING_CUSTOMERS.DESCRIPTION')"
         >
-          <CallSettingsOption
-            v-model="form.callbackPermissionEnabled"
-            :label="label('CALLING_CUSTOMERS.CALLBACK')"
-            :help="label('CALLING_CUSTOMERS.CALLBACK_HELP')"
-          />
           <div class="flex flex-col gap-1.5">
             <label
               :for="`call-permission-request-${inbox.id}`"
