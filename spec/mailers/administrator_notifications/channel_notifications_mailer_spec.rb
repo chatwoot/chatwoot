@@ -51,6 +51,14 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
 
       expect(mail.body.encoded).to include('not used for about 14 days')
     end
+
+    it 'leaves out a reason it has no text for' do
+      whatsapp_channel.provider_config = whatsapp_channel.provider_config.merge('disconnection_reason' => 'SOMETHING_NEW')
+      whatsapp_channel.save!(validate: false)
+
+      expect(mail.body.encoded).not_to include('translation missing')
+      expect(mail.body.encoded).not_to include('SOMETHING_NEW')
+    end
   end
 
   describe 'whatsapp_offboarded' do

@@ -9,16 +9,12 @@ module Whatsapp::CoexistenceOffboarding
   module_function
 
   def offboarded(waba_id)
-    return if waba_id.blank?
-
     offboarded_at = Time.current.to_i
     Redis::Alfred.setex(state_key(waba_id), offboarded_at, STATE_EXPIRY)
     Channels::Whatsapp::OffboardedReminderJob.set(wait: REMINDER_DELAY).perform_later(waba_id, offboarded_at)
   end
 
   def reconnected(waba_id)
-    return if waba_id.blank?
-
     Redis::Alfred.delete(state_key(waba_id))
   end
 
