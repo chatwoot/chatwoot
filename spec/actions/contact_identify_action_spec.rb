@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 describe ContactIdentifyAction do
-  subject(:contact_identify) { described_class.new(contact: contact, params: params).perform }
+  subject(:contact_identify) { described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform }
 
   let!(:account) { create(:account) }
   let(:custom_attributes) { { test: 'test', test1: 'test1' } }
   let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
+  let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: create(:inbox, account: account)) }
   let(:params) do
     { name: 'test', identifier: 'test_id', additional_attributes: { location: 'Bengaulru', company_name: 'Meta' },
       custom_attributes: { test: 'new test', test2: 'test2' } }
@@ -32,20 +33,20 @@ describe ContactIdentifyAction do
       create(:contact, account: account, identifier: '', email: 'test@test.com',
                        additional_attributes: { location: 'Bengaulru', company_name: 'Meta', social_profiles: { linkedin: 'saras' } })
       params = { email: 'test@test.com', additional_attributes: { social_profiles: { twitter: 'saras' } } }
-      result = described_class.new(contact: contact, params: params).perform
+      result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
       expect(result.additional_attributes['social_profiles']).to eq({ 'linkedin' => 'saras', 'twitter' => 'saras' })
     end
 
     it 'enqueues avatar job when valid avatar url parameter is passed' do
       params = { name: 'test', avatar_url: 'https://chatwoot-assets.local/sample.png' }
       expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
-      described_class.new(contact: contact, params: params).perform
+      described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
     end
 
     it 'does not enqueue avatar job when invalid avatar url parameter is passed' do
       params = { name: 'test', avatar_url: 'invalid-url' }
       expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later)
-      described_class.new(contact: contact, params: params).perform
+      described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
     end
 
     context 'when contact with same identifier exists' do
@@ -62,7 +63,7 @@ describe ContactIdentifyAction do
       it 'merges the current contact to email contact' do
         existing_email_contact = create(:contact, account: account, email: 'test@test.com', name: 'old name')
         params = { name: 'new name', email: 'test@test.com' }
-        result = described_class.new(contact: contact, params: params).perform
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
         expect(result.id).to eq existing_email_contact.id
         expect(result.name).to eq 'new name'
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
@@ -71,7 +72,7 @@ describe ContactIdentifyAction do
       it 'will not merge the current contact to email contact if identifier of email contact is different' do
         existing_email_contact = create(:contact, account: account, identifier: '1', email: 'test@test.com')
         params = { identifier: '2', email: 'test@test.com' }
-        result = described_class.new(contact: contact, params: params).perform
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
         expect(result.id).not_to eq existing_email_contact.id
         expect(result.identifier).to eq params[:identifier]
         expect(result.email).to be_nil
@@ -82,7 +83,7 @@ describe ContactIdentifyAction do
       it 'merges the current contact to phone_number contact' do
         existing_phone_number_contact = create(:contact, account: account, phone_number: '+919999888877')
         params = { phone_number: '+919999888877' }
-        result = described_class.new(contact: contact, params: params).perform
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
         expect(result.id).to eq existing_phone_number_contact.id
         expect(result.name).to eq existing_phone_number_contact.name
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
@@ -91,7 +92,7 @@ describe ContactIdentifyAction do
       it 'will not merge the current contact to phone contact if identifier of phone contact is different' do
         existing_phone_number_contact = create(:contact, account: account, identifier: '1', phone_number: '+919999888877')
         params = { identifier: '2', phone_number: '+919999888877' }
-        result = described_class.new(contact: contact, params: params).perform
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
         expect(result.id).not_to eq existing_phone_number_contact.id
         expect(result.identifier).to eq params[:identifier]
         expect(result.email).to be_nil
@@ -100,55 +101,101 @@ describe ContactIdentifyAction do
       it 'will not overide the phone contacts email when params contains different email' do
         existing_phone_number_contact = create(:contact, account: account, email: '1@test.com', phone_number: '+919999888877')
         params = { email: '2@test.com', phone_number: '+919999888877' }
-        result = described_class.new(contact: contact, params: params).perform
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
         expect(result.id).not_to eq existing_phone_number_contact.id
         expect(result.email).to eq params[:email]
         expect(result.phone_number).to be_nil
       end
     end
 
-    context 'when a request without an identifier matches an already identified contact' do
-      it 'does not merge into the identified contact via a matching email' do
-        victim = create(:contact, account: account, identifier: 'victim_id', email: 'victim@test.com', name: 'Victim')
-        params = { email: 'victim@test.com', name: 'Attacker' }
-        result = described_class.new(contact: contact, params: params).perform
-        expect(result.id).not_to eq victim.id
-        expect(victim.reload.name).to eq 'Victim'
+    context 'when a request without an identifier matches an identified contact' do
+      it 'merges into the identified contact via a matching email' do
+        identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com', name: 'Customer')
+        params = { email: 'customer@test.com', name: 'New name' }
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
+        expect(result.id).to eq identified_contact.id
+        expect(identified_contact.reload.name).to eq 'New name'
       end
 
-      it 'does not merge into the identified contact via a matching phone_number' do
-        victim = create(:contact, account: account, identifier: 'victim_id', phone_number: '+919999888877', name: 'Victim')
-        params = { phone_number: '+919999888877', name: 'Attacker' }
-        result = described_class.new(contact: contact, params: params).perform
-        expect(result.id).not_to eq victim.id
-        expect(victim.reload.name).to eq 'Victim'
+      it 'merges into the identified contact via a matching phone_number' do
+        identified_contact = create(:contact, account: account, identifier: 'customer-1', phone_number: '+919999888877')
+        params = { phone_number: '+919999888877' }
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
+        expect(result.id).to eq identified_contact.id
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
-      it 'records the details it did not save and the contacts they matched' do
-        email_contact = create(:contact, account: account, identifier: 'email_id', email: 'victim@test.com')
-        phone_contact = create(:contact, account: account, identifier: 'phone_id', phone_number: '+919999888877')
-        action = described_class.new(contact: contact, params: { email: 'victim@test.com', phone_number: '+919999888877' })
-        action.perform
-        expect(action.unverified_matches).to eq(
-          [
-            { key: :email, value: 'victim@test.com', contact: email_contact },
-            { key: :phone_number, value: '+919999888877', contact: phone_contact }
-          ]
-        )
+      it 'does not merge into the identified contact on an inbox that requires identity validation' do
+        contact_inbox.inbox.channel.update!(hmac_mandatory: true)
+        identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com', name: 'Customer')
+
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: { email: 'customer@test.com', name: 'Visitor' }).perform
+
+        expect(result.id).to eq contact.id
+        expect(result.email).to be_nil
+        expect(identified_contact.reload.name).to eq 'Customer'
       end
 
-      it 'records nothing when the details match the contact itself' do
-        contact.update!(identifier: 'customer-1', email: 'customer@test.com')
-        action = described_class.new(contact: contact, params: { email: 'customer@test.com' })
-        action.perform
-        expect(action.unverified_matches).to be_empty
+      it 'does not merge a contact that has its own identifier into another identified contact' do
+        contact.update!(identifier: 'visitor-1')
+        contact_inbox.update!(hmac_verified: true)
+        identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com')
+
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: { email: 'customer@test.com' }).perform
+
+        expect(result.id).to eq contact.id
+        expect(contact_inbox.reload.contact_id).to eq contact.id
+        expect(identified_contact.reload).to be_present
+      end
+    end
+
+    context 'when an unverified session sends details of a verified contact' do
+      let!(:verified_contact) do
+        create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com', name: 'Customer',
+                         custom_attributes: { plan: 'pro' })
       end
 
-      it 'records nothing when the match merges' do
-        create(:contact, account: account, email: 'test@test.com')
-        action = described_class.new(contact: contact, params: { email: 'test@test.com' })
-        action.perform
-        expect(action.unverified_matches).to be_empty
+      before { create(:contact_inbox, contact: verified_contact, hmac_verified: true) }
+
+      it 'merges the visitor into the verified contact without changing it' do
+        contact.update!(phone_number: '+919999888877', additional_attributes: { city: 'Pune' })
+        params = { email: 'customer@test.com', name: 'Visitor', custom_attributes: { plan: 'free' }, avatar_url: 'https://chatwoot-assets.local/sample.png' }
+        expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later)
+
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
+
+        expect(result.id).to eq verified_contact.id
+        expect(contact_inbox.reload.contact_id).to eq verified_contact.id
+        expect(verified_contact.reload).to have_attributes(name: 'Customer', phone_number: nil, custom_attributes: { 'plan' => 'pro' },
+                                                           additional_attributes: {})
+      end
+
+      it 'does not change the verified contact after the merge' do
+        contact_inbox.update!(contact: verified_contact)
+        params = { email: 'visitor@test.com', name: 'Visitor', custom_attributes: { plan: 'free' } }
+
+        described_class.new(contact: verified_contact, contact_inbox: contact_inbox, params: params).perform
+
+        expect(verified_contact.reload).to have_attributes(email: 'customer@test.com', name: 'Customer', custom_attributes: { 'plan' => 'pro' })
+      end
+
+      it 'does not merge the verified contact into another contact' do
+        contact_inbox.update!(contact: verified_contact)
+        other_contact = create(:contact, account: account, phone_number: '+919999888877')
+
+        result = described_class.new(contact: verified_contact, contact_inbox: contact_inbox, params: { phone_number: '+919999888877' }).perform
+
+        expect(result.id).to eq verified_contact.id
+        expect(other_contact.reload).to be_present
+        expect(verified_contact.reload.phone_number).to be_nil
+      end
+
+      it 'lets a verified session change the verified contact' do
+        contact_inbox.update!(contact: verified_contact, hmac_verified: true)
+
+        described_class.new(contact: verified_contact, contact_inbox: contact_inbox, params: { name: 'New name' }).perform
+
+        expect(verified_contact.reload.name).to eq 'New name'
       end
     end
 
@@ -156,7 +203,7 @@ describe ContactIdentifyAction do
       it 'updates the attributes of contact passed in to identify action' do
         create(:contact, account: account, identifier: '')
         params = { identifier: '', name: 'new name' }
-        result = described_class.new(contact: contact, params: params).perform
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
         expect(result.id).to eq contact.id
         expect(result.name).to eq 'new name'
       end
@@ -166,7 +213,7 @@ describe ContactIdentifyAction do
       it 'will not update the name of the existing contact' do
         existing_email_contact = create(:contact, account: account, name: 'old name', email: 'test@test.com')
         params = { email: 'test@test.com', name: 'new name' }
-        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true).perform
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params, retain_original_contact_name: true).perform
         expect(result.id).to eq existing_email_contact.id
         expect(result.name).to eq 'old name'
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
@@ -177,7 +224,7 @@ describe ContactIdentifyAction do
       it 'will not update the name of the existing contact' do
         params = { email: 'blah blah blah', name: 'new name' }
         expect do
-          described_class.new(contact: contact, params: params, retain_original_contact_name: true).perform
+          described_class.new(contact: contact, contact_inbox: contact_inbox, params: params, retain_original_contact_name: true).perform
         end.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
@@ -185,14 +232,14 @@ describe ContactIdentifyAction do
     context 'when discard_invalid_attrs is set to true' do
       it 'will not update the name of the existing contact' do
         params = { phone_number: 'blahblah blah', name: 'new name' }
-        described_class.new(contact: contact, params: params, discard_invalid_attrs: true).perform
+        described_class.new(contact: contact, contact_inbox: contact_inbox, params: params, discard_invalid_attrs: true).perform
         expect(contact.reload.name).to eq 'new name'
         expect(contact.phone_number).to be_nil
       end
 
       it 'discards a phone number that has text prefixed to a valid number' do
         params = { phone_number: 'abc+12312312321', name: 'new name' }
-        described_class.new(contact: contact, params: params, discard_invalid_attrs: true).perform
+        described_class.new(contact: contact, contact_inbox: contact_inbox, params: params, discard_invalid_attrs: true).perform
         expect(contact.reload.name).to eq 'new name'
         expect(contact.phone_number).to be_nil
       end
@@ -205,7 +252,7 @@ describe ContactIdentifyAction do
 
         # any_instance is needed because merge lookup can reassign @contact to a different Ruby object
         expect_any_instance_of(Contact).not_to receive(:save!) # rubocop:disable RSpec/AnyInstance
-        described_class.new(contact: contact, params: params).perform
+        described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
       end
 
       it 'still enqueues avatar job even when attributes have not changed' do
@@ -213,7 +260,7 @@ describe ContactIdentifyAction do
         params = { name: 'test', avatar_url: 'https://chatwoot-assets.local/sample.png' }
 
         expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
-        described_class.new(contact: contact, params: params).perform
+        described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
       end
     end
   end

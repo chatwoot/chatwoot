@@ -124,6 +124,23 @@ RSpec.describe Contact do
     end
   end
 
+  describe '#verified?' do
+    let(:contact) { create(:contact) }
+
+    it 'is false when no session of the contact passed identity validation' do
+      create(:contact_inbox, contact: contact)
+
+      expect(contact.verified?).to be(false)
+    end
+
+    it 'is true when any session of the contact passed identity validation' do
+      create(:contact_inbox, contact: contact)
+      create(:contact_inbox, contact: contact, hmac_verified: true)
+
+      expect(contact.verified?).to be(true)
+    end
+  end
+
   describe '#widget_presence_data' do
     it 'returns which details the contact has without their values' do
       contact = create(:contact, name: 'Jane', email: 'jane@example.com', phone_number: nil)

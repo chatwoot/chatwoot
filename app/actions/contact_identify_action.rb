@@ -7,20 +7,17 @@
 
 class ContactIdentifyAction
   include UrlHelper
-  pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
-
-  # Details the request sent that matched another identified contact, so they were not saved
-  attr_reader :unverified_matches
+  # contact_inbox is the session that sent the request. ContactInbox#can_edit? decides whether it may change the contact.
+  pattr_initialize [:contact!, :params!, :contact_inbox!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
 
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
-    @unverified_matches = []
 
     ActiveRecord::Base.transaction do
       merge_if_existing_identified_contact
       merge_if_existing_email_contact
       merge_if_existing_phone_number_contact
-      update_contact
+      update_contact if contact_inbox.can_edit?(@contact)
     end
     @contact
   end
@@ -51,6 +48,9 @@ class ContactIdentifyAction
   end
 
   def process_contact_merge(mergee_contact)
+    # Merging removes the session's current contact, which is also an edit
+    return unless contact_inbox.can_edit?(@contact)
+
     @contact = merge_contact(mergee_contact, @contact)
     @attributes_to_update.delete(:name) if retain_original_contact_name
   end
@@ -76,23 +76,23 @@ class ContactIdentifyAction
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
 
-    # Never merge into a contact that already owns an identifier unless the request
-    # supplies the matching one. This also covers the blank-identifier case: an
-    # unverified/anonymous request must not take over an identified contact just by
-    # matching its email or phone_number. Merges into non-identified contacts
-    # (anonymous dedup) are still allowed.
+    return true if params[:identifier].blank? && anonymous_visitor_on_open_inbox?
+
+    # we want to prevent merging contacts with different identifiers
     if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
       # we will remove attribute from update list
       @attributes_to_update.delete(key)
-      unless existing_contact == @contact
-        @unverified_matches << { key: key, value: params[key], contact: existing_contact }
-        Rails.logger.info "[CONTACT_IDENTIFY] Held off merge on #{key}: contact #{@contact.id} matched identified contact #{existing_contact.id} " \
-                          "in account #{account.id}"
-      end
       return false
     end
 
     true
+  end
+
+  # An anonymous visitor can join an identified contact by entering its email or phone number.
+  # A contact that already has an identifier never joins a different one, and inboxes that require
+  # identity validation keep visitors apart until they pass it.
+  def anonymous_visitor_on_open_inbox?
+    @contact.identifier.blank? && !contact_inbox.inbox.channel.hmac_mandatory
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789
@@ -133,7 +133,9 @@ class ContactIdentifyAction
     ContactMergeAction.new(
       account: account,
       base_contact: base_contact,
-      mergee_contact: merge_contact
+      mergee_contact: merge_contact,
+      # The session can join a contact it cannot edit, but it must not add its details to that contact
+      keep_base_attributes: !contact_inbox.can_edit?(base_contact)
     ).perform
   end
 
