@@ -7,7 +7,8 @@ class Captain::Mcp::Connection
 
   # The server or the network failed: a bad answer, a refused address or a lost connection. Callers handle these as
   # expected failures, and anything else is a bug that should reach Sentry.
-  ERRORS = [RubyLLM::Error, SafeFetch::Error, Faraday::Error, InvalidResponse].freeze
+  ERRORS = [RubyLLM::Error, SafeFetch::Error, Faraday::Error, InvalidResponse,
+            Captain::Mcp::SafeFaradayAdapter::ResponseTooLarge].freeze
 
   def self.oauth_redirect_uri
     "#{ENV.fetch('FRONTEND_URL', '')}/captain/mcp/callback"

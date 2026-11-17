@@ -23,4 +23,33 @@ RSpec.describe Captain::Mcp::Connection do
       expect(ChatwootExceptionTracker).not_to have_received(:new)
     end
   end
+
+  describe 'response size' do
+    let(:fake) { FakeMcpServer.new }
+    let(:limit) { Captain::Mcp::SafeFaradayAdapter::MAX_RESPONSE_BYTES }
+
+    before do
+      allow(SsrfFilter::DEFAULT_RESOLVER).to receive(:call).and_return([IPAddr.new('93.184.216.34')])
+      stub_request(:any, server.url).to_rack(fake)
+      fake.tools = [{ name: 'get_customer', description: 'Find a customer', inputSchema: { type: 'object', properties: {} } }]
+    end
+
+    it 'stops reading a tool result that is larger than the limit' do
+      fake.call_text = 'a' * (limit + 1)
+
+      expect { connection.call('get_customer', {}) }.to raise_error(Captain::Mcp::SafeFaradayAdapter::ResponseTooLarge)
+    end
+
+    it 'stops reading a tool list that is larger than the limit' do
+      fake.tools = [fake.tools.first.merge(description: 'a' * (limit + 1))]
+
+      expect { connection.tool_definitions }.to raise_error(Captain::Mcp::SafeFaradayAdapter::ResponseTooLarge)
+    end
+
+    it 'reads a tool result within the limit' do
+      fake.call_text = 'a' * 1000
+
+      expect(connection.call('get_customer', {}).text).to eq('a' * 1000)
+    end
+  end
 end
