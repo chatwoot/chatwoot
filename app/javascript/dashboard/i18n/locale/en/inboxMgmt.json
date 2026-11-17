@@ -839,13 +839,13 @@
         "DESCRIPTION": "What the caller hears and who rings.",
         "GREETING": "Greeting",
         "GREETING_PLACEHOLDER": "Thanks for calling. Connecting you to the team.",
-        "GREETING_HELP": "Played before agents ring. Leave empty for no greeting.",
+        "GREETING_HELP": "Played once to the caller while agents ring, followed by hold music. Leave empty for no greeting.",
         "SIMULTANEOUS": "Ring everyone at once",
         "SIMULTANEOUS_HELP": "All available agents ring together. The first to answer gets the call.",
         "SEQUENTIAL": "Ring one agent at a time",
         "SEQUENTIAL_HELP": "Starts with the longest-idle agent, then adds the next if nobody answers.",
-        "STEP": "Move to the next agent after",
-        "ASSIGNEE_FIRST": "Connect returning callers to their previous agent first",
+        "STEP": "Add another agent after",
+        "ASSIGNEE_FIRST": "Ring the conversation assignee first for returning callers",
         "ASSIGNEE_FIRST_HELP": "Turn off for line-staffed teams on rotation.",
         "ALWAYS": "Always:",
         "ALWAYS_NOTE": "agents who are on a call, in wrap-up, or not taking calls are never rung. The caller waits, and the first agent who frees up rings.",
@@ -886,6 +886,7 @@
         "RECORD_HELP": "The recording is attached to the conversation."
       },
       "PLAY": "Play",
+      "PLAY_AFTER_SAVE": "Save changes to record and play the new message",
       "STOP": "Stop"
     },
     "WHATSAPP_CALLING": {

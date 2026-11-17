@@ -7,6 +7,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import CallSettingsOption from './CallSettingsOption.vue';
 import CallMessagePlay from './CallMessagePlay.vue';
 import { businessHoursSummary } from './businessHours';
+import { useLocale } from 'shared/composables/useLocale';
 
 // Whether calls follow the inbox's business hours, and what a caller hears outside them. An empty
 // out-of-hours message is the missed-call message.
@@ -30,13 +31,14 @@ const emit = defineEmits(['openBusinessHours']);
 const applyHours = defineModel('applyHours', { type: Boolean });
 const message = defineModel('message', { type: String });
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
+const { resolvedLocale } = useLocale();
 const label = key => t(`INBOX_MGMT.CALL_SETTINGS.OUT_OF_HOURS.${key}`);
 
 const hoursOn = computed(() => !!props.inbox.working_hours_enabled);
 const hoursSummary = computed(() =>
   businessHoursSummary(props.inbox.working_hours, {
-    locale: locale.value,
+    locale: resolvedLocale.value,
     allDayLabel: label('ALL_DAY'),
   })
 );
@@ -50,6 +52,18 @@ const sameAsMissed = computed({
 });
 const shownMessage = computed(() =>
   sameAsMissed.value ? props.missedCallMessage : message.value
+);
+// The recording and saved text of whichever message callers hear outside business hours
+const recording = computed(() =>
+  sameAsMissed.value
+    ? {
+        url: props.inbox.unanswered_call_audio_url,
+        savedText: props.inbox.unanswered_call_message || '',
+      }
+    : {
+        url: props.inbox.out_of_hours_call_audio_url,
+        savedText: props.inbox.out_of_hours_call_message || '',
+      }
 );
 </script>
 
@@ -109,17 +123,10 @@ const shownMessage = computed(() =>
           {{ label('MESSAGE') }}
         </label>
         <CallMessagePlay
+          v-if="recording.url"
           :text="shownMessage"
-          :audio-url="
-            sameAsMissed
-              ? inbox.unanswered_call_audio_url || ''
-              : inbox.out_of_hours_call_audio_url || ''
-          "
-          :saved-text="
-            sameAsMissed
-              ? inbox.unanswered_call_message || ''
-              : inbox.out_of_hours_call_message || ''
-          "
+          :audio-url="recording.url"
+          :saved-text="recording.savedText"
         />
       </div>
       <TextArea

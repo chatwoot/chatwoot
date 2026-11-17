@@ -1,4 +1,6 @@
 import { mount, flushPromises } from '@vue/test-utils';
+import { createI18n } from 'vue-i18n';
+import FloatingVue from 'floating-vue';
 import VoiceConfigurationPage from '../VoiceConfigurationPage.vue';
 import InboxesAPI from 'dashboard/api/inboxes';
 
@@ -197,6 +199,43 @@ describe('VoiceConfigurationPage', () => {
     });
   });
 
+  describe('playing a message', () => {
+    // Only the greeting has a recording in these examples
+    const playButton = wrapper =>
+      wrapper
+        .findAll('button')
+        .find(
+          button =>
+            button.attributes('label') === 'INBOX_MGMT.CALL_SETTINGS.PLAY'
+        );
+
+    it('offers Play only for a message Captain has recorded', () => {
+      expect(playButton(mountPage({ call_greeting_enabled: true }))).toBe(
+        undefined
+      );
+      expect(
+        playButton(
+          mountPage({
+            call_greeting_enabled: true,
+            call_greeting_audio_url: 'https://example.com/greeting.mp3',
+          })
+        )
+      ).toBeDefined();
+    });
+
+    it('turns Play off once the recorded text is edited, until it is saved', async () => {
+      const wrapper = mountPage({
+        call_greeting_enabled: true,
+        call_greeting_audio_url: 'https://example.com/greeting.mp3',
+      });
+      expect(playButton(wrapper).attributes('disabled')).toBeUndefined();
+
+      await greeting(wrapper).setValue('A new greeting');
+
+      expect(playButton(wrapper).attributes('disabled')).toBeDefined();
+    });
+  });
+
   describe('outside business hours', () => {
     const outOfHoursBox = wrapper =>
       wrapper.find('#call-out-of-hours-message-387');
@@ -266,6 +305,32 @@ describe('VoiceConfigurationPage', () => {
       });
 
       expect(wrapper.text()).toContain('Mon–Fri 09:00–18:00 · Europe/Berlin');
+    });
+
+    it('names the days in a dashboard language with a region, such as pt_BR', () => {
+      const i18n = createI18n({ legacy: false, locale: 'pt_BR', messages: {} });
+      const wrapper = mount(VoiceConfigurationPage, {
+        props: {
+          inbox: {
+            ...inbox,
+            ...appliedInbox,
+            timezone: 'America/Sao_Paulo',
+            working_hours: [
+              {
+                day_of_week: 1,
+                closed_all_day: false,
+                open_all_day: true,
+              },
+            ],
+          },
+        },
+        global: {
+          plugins: [i18n, FloatingVue],
+          stubs: { Icon: true, Spinner: true },
+        },
+      });
+
+      expect(wrapper.text()).toContain('seg.');
     });
 
     it('warns and links to Business hours while the inbox has them off', async () => {

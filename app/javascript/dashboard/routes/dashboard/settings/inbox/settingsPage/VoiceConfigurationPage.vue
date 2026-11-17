@@ -126,8 +126,9 @@ const ringTimeOptions = computed(() =>
               <span class="text-n-slate-11">{{ label('OPTIONAL') }}</span>
             </label>
             <CallMessagePlay
+              v-if="inbox.call_greeting_audio_url"
               :text="form.greeting"
-              :audio-url="inbox.call_greeting_audio_url || ''"
+              :audio-url="inbox.call_greeting_audio_url"
               :saved-text="inbox.call_greeting_message || ''"
             />
           </div>
@@ -175,8 +176,9 @@ const ringTimeOptions = computed(() =>
               {{ label('UNANSWERED.MESSAGE') }}
             </label>
             <CallMessagePlay
+              v-if="inbox.unanswered_call_audio_url"
               :text="form.missedCallMessage"
-              :audio-url="inbox.unanswered_call_audio_url || ''"
+              :audio-url="inbox.unanswered_call_audio_url"
               :saved-text="inbox.unanswered_call_message || ''"
             />
           </div>
