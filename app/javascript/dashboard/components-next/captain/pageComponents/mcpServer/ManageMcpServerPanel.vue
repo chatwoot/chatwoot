@@ -54,8 +54,11 @@ const selectedNames = computed(() =>
   selectedTools.value.map(tool => tool.name)
 );
 
+// A tool the admin already chose for keeps that choice, so reloading the tools after an approval keeps unsaved edits
 const buildSelections = () => {
   liveTools.value.forEach(tool => {
+    if (selections[tool.name]) return;
+
     const approved = approvedTool(tool.name);
     selections[tool.name] = {
       selected: !!approved,
