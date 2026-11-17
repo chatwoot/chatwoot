@@ -31,9 +31,11 @@ RSpec.describe Channel::Instagram do
       expect(channel.base_uri).to eq('https://graph.facebook.com/v22.0')
     end
 
-    it 'does not return an expired system user token' do
+    it 'keeps the stored token when validating an unsaved expired channel without prompting reauthorization' do
       channel.expires_at = 1.minute.ago
-      expect(channel.access_token).to be_nil
+      expect(channel).not_to receive(:prompt_reauthorization!)
+      expect(channel.access_token).to eq('system_token')
+      expect(channel).to be_valid
     end
 
     it 'accepts long system-user tokens while retaining a bounded length validation' do
@@ -75,6 +77,61 @@ RSpec.describe Channel::Instagram do
       channel.update!(auth_type: 'instagram_login', expires_at: 60.days.from_now)
       expect(channel.find_message_by_source_id(ids.fetch('first_echo'))).to be_nil
       expect(channel.find_message_by_source_id(ids.fetch('first_send'))).to eq(message)
+    end
+  end
+
+  context 'when a persisted Unified Login token expires' do
+    let(:channel) { create(:channel_instagram, auth_type: 'unified_login', access_token: 'system_token', expires_at: 1.hour.from_now) }
+
+    before do
+      allow(channel).to receive(:send_channel_reauthorization_email)
+      allow(channel).to receive(:dispatch_inbox_reauthorization_event)
+    end
+
+    it 'marks the inbox for reconnection at expiry and preserves the stored token' do
+      expiry = channel.reload.expires_at
+      travel_to(expiry, with_usec: true) do
+        expect(channel.access_token).to eq('system_token')
+        expect(channel.reauthorization_required?).to be(true)
+        expect(channel).to have_received(:dispatch_inbox_reauthorization_event).with(true)
+        expect(channel).to be_valid
+      end
+    end
+
+    it 'notifies once across repeated reads and provider authorization errors' do
+      expiry = channel.reload.expires_at
+      travel_to(expiry, with_usec: true) do
+        2.times { channel.access_token }
+        channel.authorization_error!
+        expect(channel).to have_received(:send_channel_reauthorization_email).with(:instagram_disconnect).once
+      end
+    end
+
+    it 'allows reconnection and detects a later expiry again' do
+      expiry = channel.reload.expires_at
+      travel_to(expiry, with_usec: true) do
+        channel.access_token
+        channel.update!(access_token: 'replacement_token', expires_at: 1.hour.from_now)
+        channel.reauthorized!
+        expect(channel.reauthorization_required?).to be(false)
+        expect(channel.access_token).to eq('replacement_token')
+      end
+      travel_to(expiry + 1.hour, with_usec: true) do
+        expect(channel.access_token).to eq('replacement_token')
+        expect(channel.reauthorization_required?).to be(true)
+        expect(channel).to have_received(:send_channel_reauthorization_email).twice
+      end
+    end
+
+    it 'does not prompt for reconnection while removing an expired app subscription' do
+      expiry = channel.reload.expires_at
+      stub_request(:delete, "#{channel.base_uri}/#{channel.instagram_id}/subscribed_apps")
+        .with(query: { access_token: 'system_token' }).to_return(body: { success: true }.to_json)
+      travel_to(expiry, with_usec: true) do
+        channel.unsubscribe
+        expect(channel.reauthorization_required?).to be(false)
+        expect(channel).not_to have_received(:send_channel_reauthorization_email)
+      end
     end
   end
 

@@ -67,10 +67,11 @@ class Channel::Instagram < ApplicationRecord
   end
 
   def unsubscribe
+    token = unified_login? ? self[:access_token] : access_token
     HTTParty.delete(
       "#{base_uri}/#{instagram_id}/subscribed_apps",
       query: {
-        access_token: access_token
+        access_token: token
       }
     )
     true
@@ -80,10 +81,16 @@ class Channel::Instagram < ApplicationRecord
   end
 
   def access_token
-    return self[:access_token] if unified_login? && (expires_at.nil? || expires_at.future?)
-    return if unified_login?
+    return Instagram::RefreshOauthTokenService.new(channel: self).access_token unless unified_login?
 
-    Instagram::RefreshOauthTokenService.new(channel: self).access_token
+    prompt_reauthorization! if persisted? && expires_at.present? && expires_at <= Time.current && !reauthorization_required?
+    self[:access_token]
+  end
+
+  def authorization_error!
+    return if unified_login? && reauthorization_required?
+
+    super
   end
 
   def find_message_by_source_id(source_id)
