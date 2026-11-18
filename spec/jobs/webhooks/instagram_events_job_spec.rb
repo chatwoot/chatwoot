@@ -361,6 +361,7 @@ describe Webhooks::InstagramEventsJob do
         it 'hydrates the unknown contact with the profile once the recipient replies' do
           instagram_webhook.perform_now(echo_event[:entry])
           contact = instagram_inbox.contacts.last
+          contact.update!(additional_attributes: { 'social_profiles' => { 'github' => 'jane-gh' } })
 
           stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/#{recipient_id}\?.*})
             .to_return(status: 200, body: { name: 'Jane', username: 'some_user_name', profile_pic: 'https://chatwoot-assets.local/sample.png',
@@ -373,6 +374,7 @@ describe Webhooks::InstagramEventsJob do
 
           expect(instagram_inbox.contacts).to contain_exactly(contact)
           expect(contact.reload).to have_attributes(name: 'Jane', additional_attributes: include('social_instagram_user_name' => 'some_user_name'))
+          expect(contact.additional_attributes['social_profiles']).to eq('github' => 'jane-gh', 'instagram' => 'some_user_name')
           expect(instagram_inbox.messages.last).to have_attributes(source_id: 'incoming-reply-id', sender: contact)
         end
       end
