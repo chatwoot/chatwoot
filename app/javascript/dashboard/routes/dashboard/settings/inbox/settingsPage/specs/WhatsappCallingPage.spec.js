@@ -20,6 +20,8 @@ vi.mock('dashboard/api/inboxes', () => ({
     setCallRecording: vi.fn(),
     enableWhatsappCalling: vi.fn(),
     disableWhatsappCalling: vi.fn(),
+    getWhatsappCallHours: vi.fn(),
+    applyWhatsappCallHours: vi.fn(),
   },
 }));
 
@@ -151,5 +153,61 @@ describe('WhatsappCallingPage', () => {
 
     expect(wrapper.findAll('input[type="checkbox"]')).toHaveLength(1);
     expect(wrapper.findAll('button')).toHaveLength(0);
+  });
+
+  describe('when WhatsApp may have other hours', () => {
+    const applied = { business_hours_calls_enabled: true };
+    const differKey = outOfHoursKey('WHATSAPP_HOURS_DIFFER');
+
+    it('checks WhatsApp when the tab opens and offers to apply the inbox hours', async () => {
+      InboxesAPI.getWhatsappCallHours.mockResolvedValue({
+        data: { matches_whatsapp: false },
+      });
+      const wrapper = mountPage(applied);
+      await flushPromises();
+
+      expect(InboxesAPI.getWhatsappCallHours).toHaveBeenCalledWith(52);
+      expect(wrapper.text()).toContain(differKey);
+
+      await wrapper.find('.bg-n-amber-2 button').trigger('click');
+      await flushPromises();
+
+      expect(InboxesAPI.applyWhatsappCallHours).toHaveBeenCalledWith(52);
+      expect(wrapper.text()).not.toContain(differKey);
+    });
+
+    it('says nothing when WhatsApp has the inbox hours', async () => {
+      InboxesAPI.getWhatsappCallHours.mockResolvedValue({
+        data: { matches_whatsapp: true },
+      });
+      const wrapper = mountPage(applied);
+      await flushPromises();
+
+      expect(wrapper.text()).not.toContain(differKey);
+    });
+
+    it('does not check while business hours are not applied to calls', async () => {
+      mountPage();
+      await flushPromises();
+
+      expect(InboxesAPI.getWhatsappCallHours).not.toHaveBeenCalled();
+    });
+
+    it('keeps the note when WhatsApp refuses the inbox hours', async () => {
+      InboxesAPI.getWhatsappCallHours.mockResolvedValue({
+        data: { matches_whatsapp: false },
+      });
+      InboxesAPI.applyWhatsappCallHours.mockRejectedValue({
+        response: { data: { message: 'Invalid timezone_id' } },
+      });
+      const wrapper = mountPage(applied);
+      await flushPromises();
+
+      await wrapper.find('.bg-n-amber-2 button').trigger('click');
+      await flushPromises();
+
+      expect(alert).toHaveBeenCalledWith('Invalid timezone_id');
+      expect(wrapper.text()).toContain(differKey);
+    });
   });
 });

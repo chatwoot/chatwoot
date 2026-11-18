@@ -1,5 +1,5 @@
 <script setup>
-import { ref, toRef, watch } from 'vue';
+import { onMounted, ref, toRef, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -97,6 +97,47 @@ const toggleCalling = async value => {
     isTogglingCalling.value = false;
   }
 };
+
+const callHoursDiffer = ref(false);
+const isApplyingCallHours = ref(false);
+
+const callHoursApplied = () =>
+  callingEnabled.value &&
+  !!props.inbox.business_hours_calls_enabled &&
+  !!props.inbox.working_hours_enabled;
+
+onMounted(async () => {
+  if (!callHoursApplied()) return;
+  try {
+    const { data } = await InboxesAPI.getWhatsappCallHours(props.inbox.id);
+    callHoursDiffer.value = !data.matches_whatsapp;
+  } catch (_) {
+    callHoursDiffer.value = false;
+  }
+});
+
+watch(
+  () => props.inbox.business_hours_calls_enabled,
+  () => {
+    callHoursDiffer.value = false;
+  }
+);
+
+const applyInboxHours = async () => {
+  if (isApplyingCallHours.value) return;
+  isApplyingCallHours.value = true;
+  try {
+    await InboxesAPI.applyWhatsappCallHours(props.inbox.id);
+    callHoursDiffer.value = false;
+    useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+  } catch (error) {
+    useAlert(
+      error?.response?.data?.message || t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+    );
+  } finally {
+    isApplyingCallHours.value = false;
+  }
+};
 </script>
 
 <template>
@@ -173,6 +214,20 @@ const toggleCalling = async value => {
             :help="label('OUT_OF_HOURS.WHATSAPP_APPLY_HELP')"
             @open-business-hours="emit('openBusinessHours')"
           />
+          <div
+            v-if="callHoursDiffer && form.businessHoursCallsEnabled"
+            class="flex flex-col items-start gap-1 px-3 py-2 rounded-lg bg-n-amber-2 outline outline-1 -outline-offset-1 outline-n-amber-6 text-body-main text-n-slate-12"
+          >
+            {{ label('OUT_OF_HOURS.WHATSAPP_HOURS_DIFFER') }}
+            <NextButton
+              :label="label('OUT_OF_HOURS.WHATSAPP_APPLY_INBOX_HOURS')"
+              :is-loading="isApplyingCallHours"
+              link
+              amber
+              sm
+              @click="applyInboxHours"
+            />
+          </div>
         </CallSettingsSection>
 
         <CallSettingsSection

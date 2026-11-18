@@ -869,7 +869,9 @@
         "MESSAGE": "Out-of-hours message",
         "SAME": "Same as the missed-call message",
         "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
-        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead."
+        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead.",
+        "WHATSAPP_HOURS_DIFFER": "WhatsApp is using different hours, changed in WhatsApp Manager.",
+        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours"
       },
       "AFTER_CALL": {
         "TITLE": "After a call",

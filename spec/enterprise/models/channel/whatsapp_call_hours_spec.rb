@@ -108,4 +108,38 @@ RSpec.describe Channel::Whatsapp do
       end
     end
   end
+
+  describe '#call_hours_match_whatsapp?' do
+    it 'matches when WhatsApp has the inbox hours, in any order and with its own holidays' do
+      stub_meta_settings(call_hours('ENABLED', weekdays.reverse).merge('holiday_schedule' => holidays))
+
+      expect(channel.call_hours_match_whatsapp?).to be(true)
+    end
+
+    it 'does not match hours changed in WhatsApp Manager' do
+      edited = weekdays.map { |day| day.merge('close_time' => '1800') }
+      stub_meta_settings(call_hours('ENABLED', edited))
+
+      expect(channel.call_hours_match_whatsapp?).to be(false)
+    end
+
+    it 'does not match another timezone' do
+      stub_meta_settings(call_hours('ENABLED').merge('timezone_id' => 'Asia/Kolkata'))
+
+      expect(channel.call_hours_match_whatsapp?).to be(false)
+    end
+
+    it 'does not match call hours turned off in WhatsApp Manager' do
+      stub_meta_settings(call_hours('DISABLED'))
+
+      expect(channel.call_hours_match_whatsapp?).to be(false)
+    end
+
+    it 'matches no call hours at WhatsApp while business hours are not applied to calls' do
+      channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
+      stub_meta_settings(nil)
+
+      expect(channel.call_hours_match_whatsapp?).to be(true)
+    end
+  end
 end

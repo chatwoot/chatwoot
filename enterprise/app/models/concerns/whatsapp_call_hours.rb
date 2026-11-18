@@ -14,6 +14,15 @@ module Concerns::WhatsappCallHours
     send_call_hours
   end
 
+  def call_hours_match_whatsapp?
+    current = provider_service.calling_settings.dig('calling', 'call_hours') || {}
+    desired = desired_call_hours
+    return current['status'] != 'ENABLED' if desired['status'] == 'DISABLED'
+
+    current.slice('status', 'timezone_id') == desired.slice('status', 'timezone_id') &&
+      sorted_hours(current['weekly_operating_hours']) == sorted_hours(desired['weekly_operating_hours'])
+  end
+
   private
 
   def send_call_hours
@@ -24,14 +33,22 @@ module Concerns::WhatsappCallHours
     raise ActiveRecord::RecordInvalid, self
   end
 
-  def call_hours_with_holidays
-    call_hours = {
+  def desired_call_hours
+    {
       'status' => apply_call_hours? ? 'ENABLED' : 'DISABLED',
       'timezone_id' => inbox.timezone,
       'weekly_operating_hours' => weekly_operating_hours
     }
+  end
+
+  def call_hours_with_holidays
     holidays = provider_service.calling_settings.dig('calling', 'call_hours', 'holiday_schedule')
-    holidays.nil? ? call_hours : call_hours.merge('holiday_schedule' => holidays)
+    holidays.nil? ? desired_call_hours : desired_call_hours.merge('holiday_schedule' => holidays)
+  end
+
+  def sorted_hours(hours)
+    Array(hours).map { |day| day.slice('day_of_week', 'open_time', 'close_time') }
+                .sort_by { |day| [META_DAYS.index(day['day_of_week']).to_i, day['open_time'].to_s] }
   end
 
   def weekly_operating_hours
