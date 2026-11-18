@@ -1719,6 +1719,211 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
+  context 'with prepared message batches' do
+    it 'does not write a prepared batch after a newer run takes over', :aggregate_failures do
+      data_import.update!(source_metadata: { DataImport::ACTIVE_IMPORT_RUN_ID_KEY => 'run-1' })
+      importer = described_class.new(data_import: data_import, run_id: 'run-1')
+      replaced = false
+      allow(importer).to receive(:content_for).and_wrap_original do |method, part|
+        content = method.call(part)
+        unless replaced
+          DataImport.find(data_import.id).update!(source_metadata: { DataImport::ACTIVE_IMPORT_RUN_ID_KEY => 'run-2' })
+          replaced = true
+        end
+        content
+      end
+
+      importer.perform
+
+      expect(account.messages).to be_empty
+      expect(data_import.reload.active_import_run_id).to eq('run-2')
+      expect(data_import).to be_processing
+      expect(data_import.import_errors).to be_empty
+    end
+
+    %w[bulk timeout fallback prefetch].each do |path|
+      it "prepares each message once outside write transactions through #{path}", :aggregate_failures do
+        importer = described_class.new(data_import: data_import)
+        depths = []
+        original_depth = Message.connection.open_transactions
+        allow(importer).to receive(:sleep)
+        allow(importer).to receive(:content_for).and_wrap_original do |method, part|
+          depths << Message.connection.open_transactions
+          method.call(part)
+        end
+        if path == 'timeout'
+          attempts = 0
+          allow(DataImportMapping).to receive(:upsert_all).and_wrap_original do |method, *args, **kwargs|
+            attempts += 1
+            raise ActiveRecord::QueryCanceled, 'statement timeout' if attempts == 1
+
+            method.call(*args, **kwargs)
+          end
+        elsif path == 'fallback'
+          allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid, 'bulk unavailable')
+        elsif path == 'prefetch'
+          allow(DataImports::Intercom::MessageBatchBuilder).to receive(:new).and_wrap_original do |method, **kwargs|
+            method.call(**kwargs).tap do |builder|
+              allow(builder).to receive(:perform).and_wrap_original do |perform, *args|
+                raise ActiveRecord::QueryCanceled, 'prefetch timeout' if args.empty?
+
+                perform.call(*args)
+              end
+            end
+          end
+        end
+
+        importer.perform
+
+        expect(data_import.reload).to be_completed
+        expect(account.messages.count).to eq(3)
+        expect(depths).to eq([original_depth] * 3)
+        expect(data_import.mappings.where(source_object_type: 'message').count).to eq(3)
+      end
+    end
+
+    %w[bulk fallback prefetch].each do |path|
+      it "repairs a message deleted after classification through #{path} without preparing under the write lock", :aggregate_failures do
+        described_class.new(data_import: data_import).perform
+        original_message = account.messages.find_by!(source_id: 'intercom:conversation:conversation_1:source:source_1')
+        data_import.update!(status: :processing, cursor: {})
+        importer = described_class.new(data_import: data_import)
+        depths = []
+        original_depth = Message.connection.open_transactions
+        deleted = false
+        allow(importer).to receive(:sleep)
+        allow(importer).to receive(:prepare_message_entries).and_wrap_original do |method, *args|
+          result = method.call(*args)
+          unless deleted
+            original_message.destroy!
+            deleted = true
+          end
+          result
+        end
+        allow(importer).to receive(:content_for).and_wrap_original do |method, part|
+          depths << Message.connection.open_transactions
+          method.call(part)
+        end
+        if path == 'fallback'
+          allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid, 'bulk unavailable')
+        elsif path == 'prefetch'
+          allow(DataImports::Intercom::MessageBatchBuilder).to receive(:new).and_wrap_original do |method, **kwargs|
+            method.call(**kwargs).tap do |builder|
+              allow(builder).to receive(:perform).and_wrap_original do |perform, *args|
+                raise ActiveRecord::QueryCanceled, 'prefetch timeout' if args.empty?
+
+                perform.call(*args)
+              end
+            end
+          end
+        end
+
+        importer.perform
+
+        repaired = account.messages.find_by!(source_id: 'intercom:conversation:conversation_1:source:source_1')
+        expect(repaired.id).not_to eq(original_message.id)
+        expect(repaired.content).to eq("Need help\n\nHello there")
+        expect(depths).to eq([original_depth])
+        expect(account.messages.count).to eq(3)
+        expect(data_import.reload).to be_completed
+        expect(data_import.import_errors).to be_empty
+      end
+    end
+  end
+
+  %w[bulk fallback prefetch].each do |path|
+    it "rolls back and retries a connection failure through #{path} without recording a bad message", :aggregate_failures do
+      connection = ApplicationRecord.connection
+      allow(connection).to receive(:disconnect!) { connection.execute('SELECT pg_advisory_unlock_all()') }
+      data_import.update!(status: :processing)
+      importer = described_class.new(data_import: data_import)
+      allow(importer).to receive(:sleep)
+      if path == 'bulk'
+        allow(DataImportMapping).to receive(:upsert_all).and_raise(ActiveRecord::ConnectionNotEstablished, 'database disconnected')
+      else
+        allow(importer).to receive(:record_message_mapping).and_raise(ActiveRecord::ConnectionNotEstablished, 'database disconnected')
+        if path == 'fallback'
+          allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid, 'bulk unavailable')
+        else
+          allow(DataImports::Intercom::MessageBatchBuilder).to receive(:new).and_wrap_original do |method, **kwargs|
+            method.call(**kwargs).tap do |builder|
+              allow(builder).to receive(:perform).and_wrap_original do |perform, *args|
+                raise ActiveRecord::QueryCanceled, 'prefetch timeout' if args.empty?
+
+                perform.call(*args)
+              end
+            end
+          end
+        end
+      end
+
+      expect { importer.import_conversations_page }.to raise_error do |error|
+        expect(error.class.name).to eq('ActiveRecord::ConnectionNotEstablished')
+      end
+
+      expect(account.messages).to be_empty
+      expect(data_import.reload).to be_processing
+      expect(data_import.import_errors).to be_empty
+      expect(connection).to have_received(:disconnect!).once
+      retry_importer = described_class.new(data_import: DataImport.find(data_import.id))
+      allow(DataImportMapping).to receive(:upsert_all).and_call_original
+
+      retry_importer.import_conversations_page
+      retry_importer.finish!
+
+      expect(account.messages.count).to eq(3)
+      expect(data_import.reload).to be_completed
+      expect(data_import.stats.dig('messages', 'imported')).to eq(3)
+    end
+  end
+
+  context 'when a connection fails after the message transaction commits' do
+    it 'reuses persisted messages, reconciles counts, and repairs search indexing on retry', :aggregate_failures do
+      allow(ChatwootApp).to receive_messages(advanced_search_allowed?: true, chatwoot_cloud?: false)
+      reindexed_ids = []
+      indexing_depths = []
+      original_reindex = Message.instance_method(:reindex_for_search)
+      Message.define_method(:reindex_for_search) do
+        reindexed_ids << id
+        indexing_depths << self.class.connection.open_transactions
+      end
+      Message.__send__(:private, :reindex_for_search)
+      connection = ApplicationRecord.connection
+      original_depth = connection.open_transactions
+      # Simulate closing a session without discarding the spec's fixture transaction.
+      allow(connection).to receive(:disconnect!) { connection.execute('SELECT pg_advisory_unlock_all()') }
+      data_import.update!(status: :processing)
+      importer = described_class.new(data_import: data_import)
+      allow(importer).to receive(:bulk_write_message_entries).and_wrap_original do |method, *args|
+        method.call(*args)
+        raise ActiveRecord::ConnectionFailed, 'connection lost after commit'
+      end
+
+      expect { importer.import_conversations_page }.to raise_error do |error|
+        expect(error.class.name).to eq('ActiveRecord::ConnectionFailed')
+      end
+      message_ids = account.messages.pluck(:id)
+      expect(message_ids.size).to eq(3)
+      expect(data_import.reload).to be_processing
+      expect(data_import.import_errors).to be_empty
+      clear_enqueued_jobs
+      retry_importer = described_class.new(data_import: DataImport.find(data_import.id))
+
+      retry_importer.import_conversations_page
+      retry_importer.finish!
+
+      expect(reindexed_ids).to match_array(message_ids)
+      expect(indexing_depths).to all(eq(original_depth))
+      expect(account.messages.pluck(:id)).to match_array(message_ids)
+      expect(data_import.reload).to be_completed
+      expect(data_import.stats.dig('messages', 'imported')).to eq(3)
+      expect(data_import.stats.dig('conversations', 'imported')).to eq(1)
+    ensure
+      Message.define_method(:reindex_for_search, original_reindex)
+      Message.__send__(:private, :reindex_for_search)
+    end
+  end
+
   context 'when a specific Intercom message part fails to persist' do
     let(:insert_attempts) { [] }
 
