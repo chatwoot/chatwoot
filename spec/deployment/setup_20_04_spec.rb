@@ -5,7 +5,7 @@ require 'tmpdir'
 # This exercises a Bash installer function, which has no Ruby class to describe.
 RSpec.describe 'Linux installer Ruby selection' do # rubocop:disable RSpec/DescribeClass
   let(:installer_path) { File.expand_path('../../deployment/setup_20.04.sh', __dir__) }
-  let(:setup_function) { File.read(installer_path).match(/^function setup_chatwoot\(\) \{.*?^\}/m)[0] }
+  let(:setup_function) { File.read(installer_path, encoding: 'UTF-8').match(/^function setup_chatwoot\(\) \{.*?^\}/m)[0] }
   let(:installation_commands) do
     <<~'BASH'
       BRANCH=selected-branch
