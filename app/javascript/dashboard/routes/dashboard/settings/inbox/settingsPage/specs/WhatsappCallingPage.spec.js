@@ -1,6 +1,7 @@
 import { mount, flushPromises } from '@vue/test-utils';
 import WhatsappCallingPage from '../WhatsappCallingPage.vue';
 import CallBusinessHours from '../calls/CallBusinessHours.vue';
+import CallSettingsOption from '../calls/CallSettingsOption.vue';
 import InboxesAPI from 'dashboard/api/inboxes';
 
 const { dispatch, alert } = vi.hoisted(() => ({
@@ -68,11 +69,57 @@ describe('WhatsappCallingPage', () => {
     dispatch.mockResolvedValue({});
   });
 
-  it('shows no greeting or missed-call message, which WhatsApp calls cannot play', () => {
+  it('shows no greeting, which WhatsApp calls cannot play', () => {
     const wrapper = mountPage();
 
     expect(wrapper.find('#call-greeting-52').exists()).toBe(false);
+  });
+
+  it('sends a missed-call message only once turned on', async () => {
+    const wrapper = mountPage();
+    const sendMessage = wrapper
+      .findAllComponents(CallSettingsOption)
+      .find(
+        option =>
+          option.props('label') ===
+          'INBOX_MGMT.CALL_SETTINGS.UNANSWERED.WHATSAPP_SEND'
+      );
+
     expect(wrapper.find('#call-missed-message-52').exists()).toBe(false);
+
+    await sendMessage.find('input').setValue(true);
+    await wrapper
+      .find('#call-missed-message-52')
+      .setValue(' We missed you, reply here. ');
+    await saveButton(wrapper).trigger('click');
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateInbox', {
+      id: 52,
+      formData: false,
+      channel: {
+        provider_config: {
+          ...inbox.provider_config,
+          call_permission_request_body: null,
+          missed_call_message_enabled: true,
+          missed_call_message: 'We missed you, reply here.',
+        },
+      },
+    });
+  });
+
+  it('shows the saved missed-call message', () => {
+    const wrapper = mountPage({
+      provider_config: {
+        calling_enabled: true,
+        missed_call_message_enabled: true,
+        missed_call_message: 'Reply here',
+      },
+    });
+
+    expect(wrapper.find('#call-missed-message-52').element.value).toBe(
+      'Reply here'
+    );
   });
 
   it('applies business hours with the toggle Twilio uses, without an out-of-hours message', () => {
@@ -180,6 +227,8 @@ describe('WhatsappCallingPage', () => {
         provider_config: {
           ...inbox.provider_config,
           call_permission_request_body: 'Can we call?',
+          missed_call_message_enabled: false,
+          missed_call_message: null,
         },
       },
     });

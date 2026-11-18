@@ -70,8 +70,7 @@ class Call < ApplicationRecord
   # Phones that were rung learn the ring is over; see Voice::VoipPushService
   after_update_commit :cancel_phone_ring, if: :ring_just_ended?
   include Concerns::CallAssignmentHold
-  # On create too: a call whose end arrived before its start is created and ended in one transaction
-  after_commit :notify_missed_call, on: %i[create update], if: :missed_just_now?
+  include Concerns::MissedCallFollowUps
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }
@@ -297,15 +296,5 @@ class Call < ApplicationRecord
 
   def cancel_phone_ring
     Voice::VoipPushJob.perform_later(id, 'cancel')
-  end
-
-  # Only a call that rang phones has a missed-call notice: the agents rung were recorded
-  # as its ring started
-  def missed_just_now?
-    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && ring_state['rings_phones'] != false && missed?
-  end
-
-  def notify_missed_call
-    Voice::MissedCallNotificationJob.perform_later(id)
   end
 end

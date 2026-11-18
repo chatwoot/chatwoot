@@ -852,7 +852,12 @@
         "WAIT": "Wait",
         "THEN": "then play the message and hang up",
         "MESSAGE": "Missed-call message",
-        "MESSAGE_HELP": "Read out to the caller."
+        "MESSAGE_HELP": "Read out to the caller.",
+        "WHATSAPP_DESCRIPTION": "When a call ends without being answered, including when no agent is available.",
+        "WHATSAPP_SEND": "Send a WhatsApp message",
+        "WHATSAPP_SEND_HELP": "Sent after each missed call, in the call's conversation, so the caller can reply there.",
+        "WHATSAPP_PLACEHOLDER": "Sorry we missed your call. Reply here and we'll get back to you as soon as we can.",
+        "WHATSAPP_MESSAGE_HELP": "Leave empty to send the text shown. Only sent within WhatsApp's 24-hour messaging window."
       },
       "OUT_OF_HOURS": {
         "TITLE": "Outside business hours",
