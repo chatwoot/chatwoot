@@ -8,12 +8,35 @@ RSpec.describe Saml::UpdateAccountUsersProviderJob, type: :job do
 
   describe '#perform' do
     context 'when setting provider to saml' do
+      let!(:saml_settings) { create(:account_saml_settings, account: account) }
+      let(:other_account) { create(:account) }
+
+      before { other_account.enable_features!('saml') }
+
       it 'updates all account users to saml provider' do
         described_class.new.perform(account.id, 'saml')
 
         expect(user1.reload.provider).to eq('saml')
         expect(user2.reload.provider).to eq('saml')
         expect(user3.reload.provider).to eq('saml')
+      end
+
+      it 'updates users whose other accounts trust the same identity provider' do
+        create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+        user1.account_users.create!(account: other_account, role: :agent)
+
+        described_class.new.perform(account.id, 'saml')
+
+        expect(user1.reload.provider).to eq('saml')
+      end
+
+      it 'skips users whose other accounts do not trust the same identity provider' do
+        user1.account_users.create!(account: other_account, role: :agent)
+
+        described_class.new.perform(account.id, 'saml')
+
+        expect(user1.reload.provider).to eq('email')
+        expect(user2.reload.provider).to eq('saml')
       end
     end
 
@@ -24,6 +47,16 @@ RSpec.describe Saml::UpdateAccountUsersProviderJob, type: :job do
         user2.update_column(:provider, 'saml')
         user3.update_column(:provider, 'saml')
         # rubocop:enable Rails/SkipsModelValidations
+      end
+
+      context 'when SAML settings were created again before the job ran' do
+        before { create(:account_saml_settings, account: account) }
+
+        it 'keeps users on saml provider' do
+          described_class.new.perform(account.id, 'email')
+
+          expect(user1.reload.provider).to eq('saml')
+        end
       end
 
       context 'when users have no other SAML accounts' do

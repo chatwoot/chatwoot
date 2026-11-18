@@ -714,6 +714,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_16_211055) do
     t.jsonb "provider_config", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "secret"
+    t.boolean "callback_auth_enforced", default: true, null: false
     t.index ["phone_number"], name: "index_channel_sms_on_phone_number", unique: true
   end
 
