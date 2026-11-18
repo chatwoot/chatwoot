@@ -42,6 +42,7 @@ const { t } = useI18n();
 const store = useStore();
 const {
   call,
+  attachments,
   contentAttributes,
   conversationId,
   currentUserId,
@@ -111,6 +112,11 @@ const displayAgentName = computed(() => {
   }
   return conversationAssignee.value?.name || null;
 });
+
+// Legacy WhatsApp recordings stay on the message until the backfill moves them to the call
+const audioAttachment = computed(() =>
+  (attachments?.value || []).find(a => a.fileType === ATTACHMENT_TYPES.AUDIO)
+);
 
 const durationSeconds = computed(() => {
   const fromCall = call.value?.durationSeconds || call.value?.duration_seconds;
@@ -223,6 +229,7 @@ const canJoinCall = computed(() => {
 });
 
 const recordingAttachment = computed(() => {
+  if (audioAttachment.value) return audioAttachment.value;
   const url = call.value?.recordingUrl;
   if (!url) return null;
   return {
