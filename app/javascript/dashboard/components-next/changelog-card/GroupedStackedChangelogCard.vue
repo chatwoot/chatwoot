@@ -53,12 +53,12 @@ const getCardClasses = index => {
 </script>
 
 <template>
-  <div class="overflow-hidden group">
+  <div class="overflow-hidden group" tabindex="-1">
     <div class="relative grid grid-cols-1 pt-8 pb-1 px-2">
       <button
         v-if="posts.length > 1"
         type="button"
-        class="absolute top-1 inset-x-0 mx-auto w-fit z-[60] flex items-center gap-1 h-5 px-2 rounded-full text-xs bg-n-solid-3 text-n-slate-10 outline outline-1 outline-n-weak opacity-0 transition-all duration-200 hover:text-n-slate-12 group-hover:opacity-100 focus-visible:opacity-100"
+        class="absolute top-1 inset-x-0 mx-auto w-fit z-[60] flex items-center gap-1 h-5 px-2 rounded-full text-xs bg-n-solid-3 text-n-slate-10 outline outline-1 outline-n-weak opacity-0 pointer-events-none transition-all duration-200 hover:text-n-slate-12 group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto"
         @click.stop="emit('dismissAll')"
       >
         <span class="i-lucide-x size-3" />
