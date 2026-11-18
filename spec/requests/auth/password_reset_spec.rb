@@ -35,9 +35,11 @@ RSpec.describe 'Password reset', type: :request do
   end
 
   # An agent invitation links to this same flow with a token minted when the email goes out,
-  # and the reset is what confirms the invitee: an unconfirmed account holds an invitation.
+  # and the reset is what confirms the invitee: an unconfirmed account that someone invited holds an invitation.
   context 'when the account was invited and never confirmed' do
     let(:user) { create(:user, password: 'Password1!', password_confirmation: 'Password1!', skip_confirmation: false) }
+
+    before { create(:account_user, user: user, inviter: create(:user)) }
 
     it 'accepts the invitation days after it was sent' do
       user.update_column(:reset_password_sent_at, 2.days.ago) # rubocop:disable Rails/SkipsModelValidations

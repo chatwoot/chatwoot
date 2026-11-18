@@ -186,41 +186,19 @@ RSpec.describe 'Webhooks API', type: :request do
     end
 
     context 'when it is an authenticated admin user' do
-      it 'rejects reassignment to a nonexistent inbox and preserves the original webhook' do
-        original_inbox_id = webhook.inbox_id
-        missing_inbox_id = create(:inbox, account: account).id + 1
-
-        put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
-            params: { webhook: { inbox_id: missing_inbox_id, name: 'Changed' } },
-            headers: administrator.create_new_auth_token, as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(webhook.reload.inbox_id).to eq(original_inbox_id)
-        expect(webhook.name).to eq('My Webhook')
-      end
-
-      it 'rejects reassignment to a foreign inbox and preserves the original webhook' do
+      # The fork keeps a webhook's inbox fixed after creation (the edit form disables it), so a
+      # reassignment is dropped instead of validated, and a foreign inbox never reaches the record.
+      it 'ignores reassignment to a foreign inbox' do
         victim_inbox = create(:inbox, name: 'Private victim inbox')
 
         put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
             params: { webhook: { inbox_id: victim_inbox.id, name: 'Changed' } },
             headers: administrator.create_new_auth_token, as: :json
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(webhook.reload.inbox_id).to eq(inbox.id)
-        expect(webhook.name).to eq('My Webhook')
-        expect(response.parsed_body.to_s).not_to include(victim_inbox.name)
-      end
-
-      it 'allows reassignment to another inbox in the same account' do
-        other_inbox = create(:inbox, account: account)
-
-        put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
-            params: { webhook: { inbox_id: other_inbox.id } },
-            headers: administrator.create_new_auth_token, as: :json
-
         expect(response).to have_http_status(:success)
-        expect(webhook.reload.inbox).to eq(other_inbox)
+        expect(webhook.reload.inbox_id).to eq(inbox.id)
+        expect(webhook.name).to eq('Changed')
+        expect(response.parsed_body.to_s).not_to include(victim_inbox.name)
       end
 
       it 'updates webhook' do
