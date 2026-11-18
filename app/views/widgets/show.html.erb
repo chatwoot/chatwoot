@@ -27,6 +27,10 @@
         utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset %>',
         timezone: '<%= @web_widget.inbox.timezone %>',
         allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>,
+        attachmentEditorEnabled: <%= @web_widget.attachment_editor_enabled %>,
+        screenCaptureEnabled: <%= @web_widget.screen_capture_enabled %>,
+        screenCaptureEditorEnabled: <%= @web_widget.screen_capture_editor_enabled %>,
+        sendAttachmentsWithMessage: <%= @web_widget.send_attachments_with_message %>,
         disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>,
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'

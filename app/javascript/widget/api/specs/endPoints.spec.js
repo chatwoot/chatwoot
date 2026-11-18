@@ -196,3 +196,20 @@ describe('#getConversation', () => {
     spy.mockRestore();
   });
 });
+
+describe('#sendAttachment', () => {
+  it('sends every attachment and the text in one message', () => {
+    const photo = new File(['png'], 'photo.png', { type: 'image/png' });
+    const { params } = endPoints.sendAttachment({
+      attachments: [{ file: photo }, { file: 'signed-blob-id' }],
+      content: 'see the screen',
+    });
+
+    const files = params.getAll('message[attachments][]');
+    expect(files.map(file => file.name || file)).toEqual([
+      'photo.png',
+      'signed-blob-id',
+    ]);
+    expect(params.get('message[content]')).toBe('see the screen');
+  });
+});

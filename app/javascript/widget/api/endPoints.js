@@ -44,18 +44,22 @@ const sendMessage = (content, replyTo, { customAttributes, labels } = {}) => {
 };
 
 const sendAttachment = (
-  { attachment, replyTo = null },
+  { attachments, content, replyTo = null },
   { customAttributes, labels } = {}
 ) => {
   const { referrerURL = '' } = window;
   const timestamp = new Date().toString();
-  const { file } = attachment;
 
   const formData = new FormData();
-  if (typeof file === 'string') {
-    formData.append('message[attachments][]', file);
-  } else {
-    formData.append('message[attachments][]', file, file.name);
+  attachments.forEach(({ file }) => {
+    if (typeof file === 'string') {
+      formData.append('message[attachments][]', file);
+    } else {
+      formData.append('message[attachments][]', file, file.name);
+    }
+  });
+  if (content) {
+    formData.append('message[content]', content);
   }
 
   formData.append('message[referer_url]', referrerURL);
