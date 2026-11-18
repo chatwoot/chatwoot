@@ -108,9 +108,14 @@ describe('ChatInputWrap', () => {
     wrapper.unmount();
   });
 
-  it('puts the files and the text back when the grouped message fails', async () => {
+  it('keeps the failed message apart from what the visitor does while it sends', async () => {
     window.chatwootWebChannel.sendAttachmentsWithMessage = true;
-    onSendAttachment.mockResolvedValue(false);
+    let finishSend;
+    onSendAttachment.mockReturnValue(
+      new Promise(resolve => {
+        finishSend = resolve;
+      })
+    );
     const wrapper = mountInput();
 
     await attach(wrapper, photo);
@@ -118,8 +123,34 @@ describe('ChatInputWrap', () => {
     wrapper.findComponent({ name: 'ChatSendButton' }).vm.$emit('click');
     await flushPromises();
 
+    // While the message sends, the composer cannot start a second one.
+    expect(wrapper.find('textarea').attributes('readonly')).toBeDefined();
+    expect(
+      wrapper.findComponent({ name: 'ChatAttachmentButton' }).exists()
+    ).toBe(false);
+    wrapper.findComponent({ name: 'ChatSendButton' }).vm.$emit('click');
+    expect(onSendAttachment).toHaveBeenCalledTimes(1);
+
+    finishSend(false);
+    await flushPromises();
+
     expect(wrapper.findAll('li')).toHaveLength(1);
     expect(wrapper.find('textarea').element.value).toBe('see the screen');
+    expect(wrapper.find('textarea').attributes('readonly')).toBeUndefined();
+  });
+
+  it('clears the composer once the grouped message is sent', async () => {
+    window.chatwootWebChannel.sendAttachmentsWithMessage = true;
+    onSendAttachment.mockResolvedValue(true);
+    const wrapper = mountInput();
+
+    await attach(wrapper, photo);
+    await wrapper.find('textarea').setValue('see the screen');
+    wrapper.findComponent({ name: 'ChatSendButton' }).vm.$emit('click');
+    await flushPromises();
+
+    expect(wrapper.findAll('li')).toHaveLength(0);
+    expect(wrapper.find('textarea').element.value).toBe('');
   });
 
   it('waits for an attachment still uploading before it sends', async () => {

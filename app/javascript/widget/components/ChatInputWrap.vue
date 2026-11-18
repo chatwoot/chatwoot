@@ -53,6 +53,7 @@ export default {
       userInput: '',
       pendingAttachments: [],
       uploadsInFlight: 0,
+      isSendingAttachments: false,
       showEmojiPicker: false,
       isFocused: false,
     };
@@ -67,6 +68,7 @@ export default {
     showAttachment() {
       return (
         this.canHandleAttachments &&
+        !this.isSendingAttachments &&
         (this.sendAttachmentsWithMessage || this.userInput.length === 0)
       );
     },
@@ -101,24 +103,32 @@ export default {
     handleButtonClick() {
       // An attachment still uploading belongs to this message; sending now would leave it out.
       if (this.sendAttachmentsWithMessage && this.uploadsInFlight) return;
+      if (this.isSendingAttachments) return;
       if (this.pendingAttachments.length) {
         this.sendPendingAttachments();
-      } else if (this.userInput && this.userInput.trim()) {
+        return;
+      }
+      if (this.userInput && this.userInput.trim()) {
         this.onSendMessage(this.userInput);
       }
       this.userInput = '';
       this.focusInput();
     },
-    // A failed message with attachments has no retry, so the files and the text come back to
-    // the composer for the visitor to send again.
+    // A failed message with attachments has no retry, so the composer keeps the files and the
+    // text until the request succeeds. It is read-only meanwhile: a newer draft would
+    // otherwise mix with the one that failed.
     async sendPendingAttachments() {
-      const attachments = this.pendingAttachments;
-      const content = this.userInput.trim();
-      this.pendingAttachments = [];
-      const sent = await this.onSendAttachment(attachments, content);
-      if (sent !== false) return;
-      this.pendingAttachments = [...attachments, ...this.pendingAttachments];
-      if (!this.userInput) this.userInput = content;
+      this.isSendingAttachments = true;
+      const sent = await this.onSendAttachment(
+        this.pendingAttachments,
+        this.userInput.trim()
+      );
+      this.isSendingAttachments = false;
+      if (sent !== false) {
+        this.pendingAttachments = [];
+        this.userInput = '';
+      }
+      this.$nextTick(this.focusInput);
     },
     onAttach(attachment) {
       if (this.sendAttachmentsWithMessage) {
@@ -181,6 +191,7 @@ export default {
     <PendingAttachments
       v-if="pendingAttachments.length"
       :attachments="pendingAttachments"
+      :disabled="isSendingAttachments"
       @remove="removePendingAttachment"
     />
     <div class="flex items-center">
@@ -188,6 +199,7 @@ export default {
         id="chat-input"
         ref="chatInput"
         v-model="userInput"
+        :readonly="isSendingAttachments"
         :rows="1"
         :aria-label="$t('CHAT_PLACEHOLDER')"
         :placeholder="$t('CHAT_PLACEHOLDER')"

@@ -4,6 +4,8 @@ import { useI18n } from 'vue-i18n';
 defineProps({
   // Each item comes from ChatAttachment: { file, thumbUrl, fileType, fileName }.
   attachments: { type: Array, required: true },
+  // True while the message is sending: the files it carries cannot change.
+  disabled: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['remove']);
@@ -32,6 +34,7 @@ const { t } = useI18n();
         <span class="text-xs truncate">{{ attachment.fileName }}</span>
       </template>
       <button
+        v-if="!disabled"
         type="button"
         class="absolute flex items-center justify-center rounded-full -top-1.5 -end-1.5 size-5 bg-n-slate-12 text-n-background"
         :aria-label="

@@ -86,7 +86,8 @@ export default {
         content,
         replyTo: this.inReplyTo ? this.inReplyTo.id : null,
       });
-      this.inReplyTo = null;
+      // A failed message goes back to the composer, so it keeps its reply target for the retry.
+      if (sent !== false) this.inReplyTo = null;
       return sent;
     },
     startNewConversation() {
