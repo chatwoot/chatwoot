@@ -18,7 +18,6 @@ vi.mock('dashboard/api/inboxes', () => ({
     setInboundCalls: vi.fn(),
     setCallRouting: vi.fn(),
     setCallRecording: vi.fn(),
-    setCallbackPermission: vi.fn(),
     enableWhatsappCalling: vi.fn(),
     disableWhatsappCalling: vi.fn(),
     syncWhatsappCallHours: vi.fn(),
@@ -50,7 +49,6 @@ const inbox = {
   call_cooldown_seconds: 0,
   recording_enabled: true,
   transcription_enabled: true,
-  callback_permission_enabled: false,
   provider_config: { calling_enabled: true, call_permission_request_body: '' },
 };
 
@@ -119,22 +117,17 @@ describe('WhatsappCallingPage', () => {
         businessHoursCallsEnabled: true,
       })
     );
-    expect(InboxesAPI.setCallbackPermission).not.toHaveBeenCalled();
     expect(dispatch).toHaveBeenCalledWith('inboxes/getItem', 52);
   });
 
-  it('saves the callback setting and the permission message', async () => {
+  it('saves the permission message', async () => {
     const wrapper = mountPage();
-    const checkboxes = wrapper.findAll('input[type="checkbox"]');
-
-    await checkboxes.at(-1).setValue(true);
     await wrapper
       .find('#call-permission-request-52')
       .setValue(' Can we call? ');
     await saveButton(wrapper).trigger('click');
     await flushPromises();
 
-    expect(InboxesAPI.setCallbackPermission).toHaveBeenCalledWith(52, true);
     expect(dispatch).toHaveBeenCalledWith('inboxes/updateInbox', {
       id: 52,
       formData: false,

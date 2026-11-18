@@ -66,7 +66,6 @@ en:
     call_hours:
       closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
     call_routing:
-      invalid_callback_permission: 'Choose whether callers can be asked for a callback'
       invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
     saml:

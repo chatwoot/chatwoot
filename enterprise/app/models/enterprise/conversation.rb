@@ -1,6 +1,6 @@
 module Enterprise::Conversation
   attr_accessor :captain_activity_reason, :captain_activity_reason_type
-  # Set on the conversation an inbound Twilio call opens, before the call that rings exists
+  # Set on the conversation an inbound call opens, before the call that rings exists
   attr_writer :call_ringing
 
   def can_reply?
@@ -46,10 +46,10 @@ module Enterprise::Conversation
 
   private
 
-  # Auto-assignment, the inbox's or a team's, holds off while an inbound Twilio call rings, so the
-  # agent who answers gets the conversation
+  # Auto-assignment, the inbox's or a team's, holds off while an inbound call rings, so the agent
+  # who answers gets the conversation
   def call_ringing?
-    return false unless inbox.twilio?
+    return false unless inbox.rings_for_calls?
 
     @call_ringing || calls.holding_assignment.exists?
   end

@@ -1,4 +1,4 @@
-# The number's calling settings at Meta: calling itself, callback requests, and call hours. Part of
+# The number's calling settings at Meta: calling itself and call hours. Part of
 # Enterprise::Whatsapp::Providers::WhatsappCloudService, whose request helpers it uses.
 module Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
   # Bounds connecting, sending, and reading each settings request, so a call hours sync finishes
@@ -8,11 +8,6 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
   # Sets WABA calling status ('ENABLED'/'DISABLED')
   def update_calling_status(status)
     update_calling_settings(status: status)
-  end
-
-  # Sets whether WhatsApp offers a caller nobody answered to request a callback ('ENABLED'/'DISABLED')
-  def update_callback_permission_status(status)
-    update_calling_settings(callback_permission_status: status)
   end
 
   # Replaces the hours WhatsApp puts calls through, holidays included

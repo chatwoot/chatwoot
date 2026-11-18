@@ -170,6 +170,70 @@ describe Whatsapp::IncomingCallService do
       end
     end
 
+    context 'when the inbox auto-assigns conversations' do
+      let!(:teammate) { create(:user, account: account) }
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+      let(:provider_service) do
+        instance_double(Whatsapp::Providers::WhatsappCloudService, pre_accept_call: true, accept_call: true, reject_call: true)
+      end
+
+      before do
+        create(:inbox_member, inbox: inbox, user: teammate)
+        inbox.update!(enable_auto_assignment: true)
+        [agent, teammate].each do |user|
+          OnlineStatusTracker.update_presence(account.id, 'User', user.id)
+          OnlineStatusTracker.set_status(account.id, user.id, 'online')
+        end
+        allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new).and_return(provider_service)
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      def ring_call
+        described_class.new(inbox: inbox, params: params).perform
+        Call.find_by!(provider_call_id: provider_call_id)
+      end
+
+      it 'leaves a new caller unassigned while the call rings, so every free agent rings' do
+        call = ring_call
+
+        expect(call.conversation.reload.assignee).to be_nil
+        expect(call.ring_state['ring_recipient_ids']).to contain_exactly(agent.id, teammate.id)
+      end
+
+      it 'assigns the conversation once the call goes unanswered' do
+        call = ring_call
+        described_class.new(inbox: inbox, params: call_payload(event: 'terminate', duration: 0, terminate_reason: 'missed')).perform
+
+        expect(call.reload).to have_attributes(status: 'no_answer')
+        expect(call.conversation.reload.assignee).to be_in([agent, teammate])
+      end
+
+      it 'gives the conversation to the agent who answers' do
+        call = ring_call
+        Whatsapp::CallService.new(call: call, agent: teammate, sdp_answer: "v=0\r\n").accept
+
+        expect(call.conversation.reload.assignee).to eq(teammate)
+      end
+
+      it 'keeps a ringing call out of a V2 bulk assignment run until it goes unanswered' do
+        account.enable_features!('assignment_v2')
+        call = ring_call
+        service = AutoAssignment::AssignmentService.new(inbox: inbox.reload)
+
+        expect(service.perform_bulk_assignment).to eq(0)
+        expect { Call.find(call.id).update!(status: 'no_answer') }.to have_enqueued_job(AutoAssignment::AssignmentJob)
+        expect(service.perform_bulk_assignment).to eq(1)
+      end
+
+      it 'assigns a call declined outside business hours as it arrives' do
+        channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => true))
+        inbox.update!(working_hours_enabled: true)
+        inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
+
+        expect(ring_call.conversation.reload.assignee).to be_in([agent, teammate])
+      end
+    end
+
     context 'when outside business hours' do
       let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
       let(:provider_service) { instance_double(Whatsapp::Providers::WhatsappCloudService, reject_call: true) }

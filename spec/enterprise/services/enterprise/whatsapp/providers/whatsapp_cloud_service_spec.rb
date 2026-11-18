@@ -45,14 +45,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
       expect(HTTParty).to have_received(:post).with(settings_url, hash_including(timeout: 15))
     end
 
-    it 'sends only the callback permission setting' do
-      request = stub_request(:post, settings_url).with(body: { calling: { callback_permission_status: 'ENABLED' } }.to_json)
-                                                 .to_return(status: 200, body: '{}', headers: headers)
-
-      expect(service.update_callback_permission_status('ENABLED')).to be true
-      expect(request).to have_been_requested
-    end
-
     it 'sends only the calling status' do
       request = stub_request(:post, settings_url).with(body: { calling: { status: 'ENABLED' } }.to_json)
                                                  .to_return(status: 200, body: '{}', headers: headers)
@@ -65,7 +57,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
       error = { error: { message: 'Calling is not enabled', error_user_msg: 'Turn calling on first' } }
       stub_request(:post, settings_url).to_return(status: 400, headers: headers, body: error.to_json)
 
-      expect { service.update_callback_permission_status('ENABLED') }.to raise_error(StandardError)
+      expect { service.update_calling_status('ENABLED') }.to raise_error(StandardError)
     end
   end
 
