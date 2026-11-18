@@ -694,7 +694,7 @@
           "UNSUPPORTED_REQUEST": "Unsupported request",
           "POLICY_RESTRICTION": "Policy restriction",
           "TOOL_FAILURE": "Tool failure",
-          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PENDING_CLARIFICATION": "Unresolved after inactivity",
           "PERCENTAGE": "({value}%)",
           "USAGE_LIMIT": "Usage limit",
           "UNCLASSIFIED": "Unclassified"
@@ -1111,7 +1111,7 @@
             },
             "EVALUATED": {
               "LABEL": "Let Captain review it (recommended)",
-              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+              "DESCRIPTION": "Captain decides whether to resolve the conversation, follow up with the customer, or hand it off."
             }
           },
           "DURATION_HOURS_ARIA_LABEL": "Hours before action",

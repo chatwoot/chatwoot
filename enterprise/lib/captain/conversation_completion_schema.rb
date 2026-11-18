@@ -1,4 +1,6 @@
 class Captain::ConversationCompletionSchema < Schematist::Schema
-  boolean :complete, description: 'Whether the conversation is complete and can be closed'
-  string :reason, description: 'Brief explanation of why the conversation is complete or incomplete'
+  OUTCOMES = %w[complete waiting_on_customer needs_human].freeze
+
+  string :outcome, enum: OUTCOMES, description: 'What should happen to the inactive conversation next'
+  string :reason, description: 'Brief explanation of the chosen outcome'
 end

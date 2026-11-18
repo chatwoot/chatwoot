@@ -13,7 +13,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
 
   def perform
     content = format_evaluation_input
-    return default_incomplete_response('No messages found') if content.blank?
+    return default_needs_human_response('No messages found') if content.blank?
 
     response = make_api_call(
       feature: 'conversation_completion',
@@ -24,7 +24,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
       schema: RESPONSE_SCHEMA
     )
 
-    return default_incomplete_response(response[:error]) if response[:error].present?
+    return default_needs_human_response(response[:error]) if response[:error].present?
 
     parse_response(response[:message])
   end
@@ -91,16 +91,18 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
   end
 
   def parse_response(message)
-    return default_incomplete_response('Invalid response format') unless message.is_a?(Hash)
+    return default_needs_human_response('Invalid response format') unless message.is_a?(Hash)
+    return default_needs_human_response('Invalid outcome') unless RESPONSE_SCHEMA::OUTCOMES.include?(message['outcome'])
 
     {
-      complete: message['complete'] == true,
+      outcome: message['outcome'],
       reason: message['reason'] || 'No reason provided'
     }
   end
 
-  def default_incomplete_response(reason)
-    { complete: false, reason: reason }
+  # Anything other than a valid model decision hands the conversation to a human.
+  def default_needs_human_response(reason)
+    { outcome: 'needs_human', reason: reason }
   end
 
   # This is an internal operational evaluation, not a customer-triggered feature,
