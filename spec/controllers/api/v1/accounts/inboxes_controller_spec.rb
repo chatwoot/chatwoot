@@ -1004,6 +1004,19 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.parsed_body['callback_auth_password']).to eq(sms_inbox.channel.secret)
       end
 
+      it 'resets the bandwidth sms callback password when administrator' do
+        sms_inbox = create(:channel_sms, account: account).inbox
+        old_secret = sms_inbox.channel.secret
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{sms_inbox.id}/reset_secret",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(sms_inbox.channel.reload.secret).not_to eq(old_secret)
+        expect(response.parsed_body['callback_auth_password']).to eq(sms_inbox.channel.secret)
+      end
+
       it 'updates email inbox with imap when administrator' do
         email_channel = create(:channel_email, account: account)
         email_inbox = create(:inbox, channel: email_channel, account: account)

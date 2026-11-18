@@ -208,6 +208,8 @@
           "CALLBACK_AUTH": {
             "TITLE": "Callback credentials",
             "DESCRIPTION": "Add these as the inbound and outbound callback credentials in your Bandwidth application. If several inboxes share one Bandwidth application, use the callback URL and credentials of one of them.",
+            "RESET_SUCCESS": "Callback password reset. Update it in your Bandwidth application.",
+            "RESET_ERROR": "Could not reset the callback password. Please try again.",
             "USERNAME": "Username",
             "PASSWORD": "Password",
             "ENFORCE": "Require callback credentials",

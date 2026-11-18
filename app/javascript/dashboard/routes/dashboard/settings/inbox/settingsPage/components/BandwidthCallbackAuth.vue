@@ -29,6 +29,15 @@ const copyPassword = async () => {
   }
 };
 
+const resetPassword = async () => {
+  try {
+    await store.dispatch('inboxes/resetSecret', props.inbox.id);
+    useAlert(t('INBOX_MGMT.ADD.SMS.BANDWIDTH.CALLBACK_AUTH.RESET_SUCCESS'));
+  } catch (error) {
+    useAlert(t('INBOX_MGMT.ADD.SMS.BANDWIDTH.CALLBACK_AUTH.RESET_ERROR'));
+  }
+};
+
 const updateEnforced = async value => {
   isUpdating.value = true;
   try {
@@ -61,9 +70,10 @@ const updateEnforced = async value => {
         {{ t('INBOX_MGMT.ADD.SMS.BANDWIDTH.CALLBACK_AUTH.PASSWORD') }}
       </span>
       <AccessToken
+        :key="inbox.callback_auth_password"
         :value="inbox.callback_auth_password"
-        :show-reset-button="false"
         @on-copy="copyPassword"
+        @on-reset="resetPassword"
       />
     </div>
   </SettingsFieldSection>
