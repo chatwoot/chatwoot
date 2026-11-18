@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AddDataDropdown from 'dashboard/components-next/AssignmentPolicy/components/AddDataDropdown.vue';
 import LabelItem from 'dashboard/components-next/label/LabelItem.vue';
@@ -43,8 +43,14 @@ const UNITS = [DURATION_UNITS.HOURS, DURATION_UNITS.DAYS];
 
 const { t } = useI18n();
 
+const detectUnit = hours => {
+  if (hours && hours % 24 === 0) return DURATION_UNITS.DAYS;
+  return DURATION_UNITS.HOURS;
+};
+
 const hoveredLabel = ref(null);
-const windowUnit = ref(DURATION_UNITS.HOURS);
+// Set at setup: a unit change after mount makes DurationInput clamp the saved value
+const windowUnit = ref(detectUnit(excludeOlderThanHours.value));
 
 const addedTags = computed(() =>
   props.tagsList
@@ -58,11 +64,6 @@ const filteredTags = computed(() =>
   )
 );
 
-const detectUnit = hours => {
-  if (hours && hours % 24 === 0) return DURATION_UNITS.DAYS;
-  return DURATION_UNITS.HOURS;
-};
-
 const onClickAddTag = tag => {
   excludedLabels.value = [...excludedLabels.value, tag.name];
 };
@@ -72,10 +73,6 @@ const onClickRemoveTag = tag => {
     name => name !== tag.title
   );
 };
-
-onMounted(() => {
-  windowUnit.value = detectUnit(excludeOlderThanHours.value);
-});
 </script>
 
 <template>
