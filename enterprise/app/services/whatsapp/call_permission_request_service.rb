@@ -1,11 +1,12 @@
-# Meta error 138006 means the contact hasn't opted in to calls yet; send a free-form (non-template) permission request.
+# Meta error 138006 means the contact hasn't opted in to calls yet; ask for permission. Inside the 24h window
+# the request is a free-form message; outside it, only the inbox's call permission template reaches the contact.
 class Whatsapp::CallPermissionRequestService
   THROTTLE = 5.minutes
   REQUESTS_KEY = 'call_permission_requests'.freeze
   REQUESTED_AT_KEY = 'call_permission_requested_at'.freeze
   MESSAGE_ID_KEY = 'call_permission_request_message_id'.freeze
 
-  pattr_initialize [:conversation!, :recipient!]
+  pattr_initialize [:conversation!, :recipient!, :window_open!]
 
   # Locked so two agents calling the same contact can't both send a request.
   def perform
@@ -13,7 +14,7 @@ class Whatsapp::CallPermissionRequestService
       next 'permission_pending' if throttled?
 
       sent = send_request_safely
-      next 'failed' if sent.blank?
+      next(window_open ? 'failed' : 'template_unavailable') if sent.blank?
 
       record_wamid(sent)
       emit_activity
@@ -28,8 +29,15 @@ class Whatsapp::CallPermissionRequestService
     last_requested.present? && Time.zone.parse(last_requested) > THROTTLE.ago
   end
 
-  # Treat transport errors as a falsy return so the caller renders 422 rather than 500.
+  def template
+    @template ||= conversation.inbox.channel.call_permission_template
+  end
+
+  # Treat transport errors as a falsy return so the caller renders 422 rather than 500. A template Meta
+  # hasn't approved yet fails to send the same way.
   def send_request_safely
+    return provider_service.send_call_permission_template(recipient, name: template.name, language: template.language) unless window_open
+
     provider_service.send_call_permission_request(recipient, *body_args)
   rescue StandardError => e
     Rails.logger.warn "[WHATSAPP CALL] permission_request failed: #{e.class} #{e.message}"

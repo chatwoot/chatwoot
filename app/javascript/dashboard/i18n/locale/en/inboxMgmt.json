@@ -908,7 +908,7 @@
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
-        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default. If they haven't messaged in the last 24 hours, Chatwoot sends it as a WhatsApp template it creates from this message, which Meta must approve first.",
         "PLACEHOLDER": "We would like to call you regarding your conversation."
       }
     },

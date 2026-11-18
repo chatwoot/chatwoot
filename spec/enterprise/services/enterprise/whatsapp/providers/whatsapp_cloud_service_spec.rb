@@ -29,6 +29,43 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
+  describe 'call permission template' do
+    let(:templates_url) { 'https://graph.facebook.com/v22.0/123456789/message_templates' }
+
+    it 'creates a utility template with the body and a call permission request component' do
+      request = stub_request(:post, templates_url).with(
+        body: { name: 'chatwoot_call_permission_abc', language: 'pt_BR', category: 'UTILITY',
+                components: [{ type: 'body', text: 'Podemos ligar?' }, { type: 'call_permission_request' }] }.to_json
+      ).to_return(status: 200, body: { id: '1', status: 'PENDING' }.to_json, headers: headers)
+
+      expect(service.create_call_permission_template(name: 'chatwoot_call_permission_abc', language: 'pt_BR', body: 'Podemos ligar?')).to be true
+      expect(request).to have_been_requested
+    end
+
+    it 'returns false when Meta refuses the template' do
+      stub_request(:post, templates_url).to_return(status: 400, body: { error: { message: 'Invalid parameter' } }.to_json, headers: headers)
+
+      expect(service.create_call_permission_template(name: 'chatwoot_call_permission_abc', language: 'en', body: 'Can we call?')).to be false
+    end
+
+    it 'sends the template by name and exact language, and returns the parsed body' do
+      stub_request(:post, messages_url).with(
+        body: { messaging_product: 'whatsapp', recipient_type: 'individual', to: '15550001111', type: 'template',
+                template: { name: 'chatwoot_call_permission_abc', language: { policy: 'deterministic', code: 'en' } } }.to_json
+      ).to_return(status: 200, body: { messages: [{ id: 'wamid.t' }] }.to_json, headers: headers)
+
+      result = service.send_call_permission_template('15550001111', name: 'chatwoot_call_permission_abc', language: 'en')
+
+      expect(result.dig('messages', 0, 'id')).to eq('wamid.t')
+    end
+
+    it 'returns nil when Meta refuses to send it, as for a template not approved yet' do
+      stub_request(:post, messages_url).to_return(status: 400, body: { error: { code: 132_001 } }.to_json, headers: headers)
+
+      expect(service.send_call_permission_template('15550001111', name: 'chatwoot_call_permission_abc', language: 'en')).to be_nil
+    end
+  end
+
   describe '#send_call_permission_request' do
     it 'returns the parsed body on success' do
       stub_request(:post, messages_url)
