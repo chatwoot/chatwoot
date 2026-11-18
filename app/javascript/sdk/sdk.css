@@ -364,3 +364,7 @@
   width: 100% !important;
   z-index: 2147483647 !important;
 }
+
+.woot-widget-holder.woot-widget-holder--capture-hidden {
+  visibility: hidden !important;
+}
