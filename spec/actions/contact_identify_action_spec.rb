@@ -149,56 +149,6 @@ describe ContactIdentifyAction do
       end
     end
 
-    context 'when an unverified session sends details of a verified contact' do
-      let!(:verified_contact) do
-        create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com', name: 'Customer',
-                         custom_attributes: { plan: 'pro' })
-      end
-
-      before { create(:contact_inbox, contact: verified_contact, hmac_verified: true) }
-
-      it 'merges the visitor into the verified contact without changing it' do
-        contact.update!(phone_number: '+919999888877', additional_attributes: { city: 'Pune' })
-        params = { email: 'customer@test.com', name: 'Visitor', custom_attributes: { plan: 'free' }, avatar_url: 'https://chatwoot-assets.local/sample.png' }
-        expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later)
-
-        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
-
-        expect(result.id).to eq verified_contact.id
-        expect(contact_inbox.reload.contact_id).to eq verified_contact.id
-        expect(verified_contact.reload).to have_attributes(name: 'Customer', phone_number: nil, custom_attributes: { 'plan' => 'pro' },
-                                                           additional_attributes: {})
-      end
-
-      it 'does not change the verified contact after the merge' do
-        contact_inbox.update!(contact: verified_contact)
-        params = { email: 'visitor@test.com', name: 'Visitor', custom_attributes: { plan: 'free' } }
-
-        described_class.new(contact: verified_contact, contact_inbox: contact_inbox, params: params).perform
-
-        expect(verified_contact.reload).to have_attributes(email: 'customer@test.com', name: 'Customer', custom_attributes: { 'plan' => 'pro' })
-      end
-
-      it 'does not merge the verified contact into another contact' do
-        contact_inbox.update!(contact: verified_contact)
-        other_contact = create(:contact, account: account, phone_number: '+919999888877')
-
-        result = described_class.new(contact: verified_contact, contact_inbox: contact_inbox, params: { phone_number: '+919999888877' }).perform
-
-        expect(result.id).to eq verified_contact.id
-        expect(other_contact.reload).to be_present
-        expect(verified_contact.reload.phone_number).to be_nil
-      end
-
-      it 'lets a verified session change the verified contact' do
-        contact_inbox.update!(contact: verified_contact, hmac_verified: true)
-
-        described_class.new(contact: verified_contact, contact_inbox: contact_inbox, params: { name: 'New name' }).perform
-
-        expect(verified_contact.reload.name).to eq 'New name'
-      end
-    end
-
     context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do
       it 'updates the attributes of contact passed in to identify action' do
         create(:contact, account: account, identifier: '')

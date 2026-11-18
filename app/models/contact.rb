@@ -156,11 +156,6 @@ class Contact < ApplicationRecord
     data
   end
 
-  # A contact is verified once any of its sessions passes identity validation
-  def verified?
-    contact_inboxes.exists?(hmac_verified: true)
-  end
-
   # The widget learns which details the contact has, not their values
   def widget_presence_data
     { has_email: email.present?, has_name: name.present?, has_phone_number: phone_number.present? }

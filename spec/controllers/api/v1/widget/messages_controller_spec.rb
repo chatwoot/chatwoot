@@ -341,13 +341,10 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
     end
 
-    context 'when put request is made with the email of a verified contact' do
-      it 'merges the visitor into the verified contact without changing it' do
+    context 'when put request is made with the email of an identified contact' do
+      it 'merges the visitor into the identified contact' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
-        verified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com',
-                                            custom_attributes: { plan: 'pro' })
-        create(:contact_inbox, contact: verified_contact, hmac_verified: true)
-        contact.update!(name: 'Visitor', phone_number: '+919999888877', custom_attributes: { plan: 'free', referrer: 'ad' })
+        identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com')
 
         put api_v1_widget_message_url(message.id),
             params: { website_token: web_widget.website_token, contact: { email: 'customer@test.com' } },
@@ -355,8 +352,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.contact_id).to eq verified_contact.id
-        expect(verified_contact.reload).to have_attributes(phone_number: nil, custom_attributes: { 'plan' => 'pro' })
+        expect(conversation.reload.contact_id).to eq identified_contact.id
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

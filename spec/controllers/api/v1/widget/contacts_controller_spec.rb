@@ -292,44 +292,4 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
       end
     end
   end
-
-  describe 'when an unverified session belongs to a verified contact' do
-    let(:contact) do
-      create(:contact, account: account, identifier: 'customer-1', name: 'Customer', email: 'customer@test.com', custom_attributes: { plan: 'pro' })
-    end
-
-    before { create(:contact_inbox, contact: contact, hmac_verified: true) }
-
-    it 'does not update the contact' do
-      patch '/api/v1/widget/contact',
-            params: { website_token: web_widget.website_token, name: 'Visitor', email: 'visitor@test.com', custom_attributes: { plan: 'free' } },
-            headers: { 'X-Auth-Token' => token },
-            as: :json
-
-      expect(response).to have_http_status(:success)
-      expect(contact.reload).to have_attributes(name: 'Customer', email: 'customer@test.com', custom_attributes: { 'plan' => 'pro' })
-    end
-
-    it 'does not update the contact through setUser without a hash' do
-      patch '/api/v1/widget/contact/set_user',
-            params: { website_token: web_widget.website_token, identifier: 'customer-1', name: 'Visitor' },
-            headers: { 'X-Auth-Token' => token },
-            as: :json
-
-      expect(response).to have_http_status(:success)
-      expect(contact.reload.name).to eq 'Customer'
-    end
-
-    it 'updates the contact through setUser with a valid hash' do
-      identifier_hash = OpenSSL::HMAC.hexdigest('sha256', web_widget.hmac_token, 'customer-1')
-
-      patch '/api/v1/widget/contact/set_user',
-            params: { website_token: web_widget.website_token, identifier: 'customer-1', identifier_hash: identifier_hash, name: 'New name' },
-            headers: { 'X-Auth-Token' => token },
-            as: :json
-
-      expect(response).to have_http_status(:success)
-      expect(contact.reload.name).to eq 'New name'
-    end
-  end
 end

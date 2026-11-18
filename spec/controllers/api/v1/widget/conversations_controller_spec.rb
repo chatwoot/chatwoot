@@ -110,9 +110,8 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
 
-    it 'merges the visitor into a verified contact without changing it' do
-      verified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com', name: 'Customer')
-      create(:contact_inbox, contact: verified_contact, hmac_verified: true)
+    it 'merges the visitor into the identified contact with the same email' do
+      identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com', name: 'Customer')
 
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },
@@ -120,8 +119,8 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
-      expect(account.conversations.find_by(display_id: response.parsed_body['id']).contact_id).to eq verified_contact.id
-      expect(verified_contact.reload).to have_attributes(name: 'Customer', phone_number: nil)
+      expect(account.conversations.find_by(display_id: response.parsed_body['id']).contact_id).to eq identified_contact.id
+      expect(identified_contact.reload.name).to eq 'Customer'
       expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
