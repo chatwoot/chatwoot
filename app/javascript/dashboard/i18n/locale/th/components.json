@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "tag"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "ปิด"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "เรียนรู้เพิ่มเติม",
     "WATCH_VIDEO": "Watch video"

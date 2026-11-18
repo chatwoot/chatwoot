@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "標籤"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "上一頁",
+    "NEXT": "下一頁",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "關閉"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "瞭解更多",
     "WATCH_VIDEO": "觀看影片"

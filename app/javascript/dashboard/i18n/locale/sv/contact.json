@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Det finns inga tidigare konversationer kopplade till denna kontakt.",
-      "TITLE": "Tidigare konversationer"
+      "TITLE": "Tidigare konversationer",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

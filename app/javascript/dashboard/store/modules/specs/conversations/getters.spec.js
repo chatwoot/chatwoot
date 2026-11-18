@@ -879,6 +879,26 @@ describe('#getters', () => {
         sameLanguage: false,
         language: 'French',
         agentLanguage: 'English',
+        disabledInConversation: false,
+      });
+    });
+
+    it('reports a conversation where an agent switched it off', () => {
+      const switchedOff = {
+        getSelectedChat: {
+          additional_attributes: {
+            conversation_language: 'tr',
+            auto_translate_disabled: true,
+          },
+        },
+      };
+
+      expect(
+        getters.getAutoTranslate({}, switchedOff, {}, rootGetters)
+      ).toMatchObject({
+        enabled: true,
+        language: 'Turkish',
+        disabledInConversation: true,
       });
     });
 
@@ -925,6 +945,35 @@ describe('#getters', () => {
           getSelectedChat: { messages },
         }
       );
+
+    it('shows no translating state for a reply in a conversation switched off', () => {
+      const translationState = getters.getMessageTranslationState(
+        { autoTranslating: {} },
+        {
+          getAutoTranslate: {
+            enabled: true,
+            locale: 'en',
+            language: 'French',
+            sameLanguage: false,
+            disabledInConversation: true,
+          },
+          getSelectedChat: {
+            messages: [
+              {
+                id: 3,
+                message_type: 1,
+                content_type: 'text',
+                status: 'progress',
+                content: 'Hi',
+                content_attributes: {},
+              },
+            ],
+          },
+        }
+      );
+
+      expect(translationState(3).pending).toBe(false);
+    });
 
     it('treats the text reply of a bot like a contact message', () => {
       const translationState = stateFor(
@@ -1081,42 +1130,6 @@ describe('#getters', () => {
       expect(translationState(1)).toMatchObject({
         sourceLanguage: 'French',
         originalLanguage: 'Malayalam',
-      });
-    });
-
-    it('treats untranslated messages of a translated thread that switched to the agent language as already in it', () => {
-      const messages = [
-        {
-          id: 1,
-          message_type: 0,
-          content_type: 'text',
-          content: 'ok thanks',
-          content_attributes: {},
-        },
-        {
-          id: 2,
-          message_type: 0,
-          content_type: 'text',
-          content: 'Bonjour',
-          content_attributes: { translations: { en: 'Hello' } },
-        },
-      ];
-      const translationState = getters.getMessageTranslationState(
-        { autoTranslating: {} },
-        {
-          getAutoTranslate: {
-            enabled: true,
-            locale: 'en',
-            language: 'English',
-            sameLanguage: true,
-          },
-          getSelectedChat: { messages },
-        }
-      );
-
-      expect(translationState(1)).toMatchObject({
-        pending: false,
-        sameLanguage: true,
       });
     });
 

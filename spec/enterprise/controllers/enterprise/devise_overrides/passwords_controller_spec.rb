@@ -33,4 +33,19 @@ RSpec.describe 'Enterprise Passwords Controller', type: :request do
       end
     end
   end
+
+  describe 'PUT /auth/password' do
+    let!(:user) { create(:user, password: 'Test@123456', account: account) }
+
+    it 'revokes trusted devices on reset' do
+      raw, enc = Devise.token_generator.generate(User, :reset_password_token)
+      user.update!(reset_password_token: enc, reset_password_sent_at: Time.current)
+
+      expect do
+        put user_password_path,
+            params: { reset_password_token: raw, password: 'NewPassword1!', password_confirmation: 'NewPassword1!' },
+            as: :json
+      end.to change { user.reload.device_trust_version }.by(1)
+    end
+  end
 end

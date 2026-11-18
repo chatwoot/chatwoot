@@ -9,6 +9,10 @@
     "OAUTH": {
       "GOOGLE_SIGNUP": "با گوگل ثبت نام کنید"
     },
+    "SHOPIFY": {
+      "TITLE": "Set up Chatwoot for your Shopify store",
+      "DESCRIPTION": "Create your account to continue to Shopify App Pricing and choose a plan."
+    },
     "COMPANY_NAME": {
       "LABEL": "نام شرکت",
       "PLACEHOLDER": "نام شرکت خود را وارد کنید. به عنوان مثال: شرکت وین",

@@ -17,18 +17,15 @@ defineEmits(['toggle']);
 defineOptions({ inheritAttrs: false });
 
 const { t } = useI18n();
-const { id, contentAttributes, messageType, contactSide, shouldGroupWithNext } =
-  useMessageContext();
+const { id, contentAttributes, messageType, contactSide } = useMessageContext();
 const { hasTranslations } = useTranslations(contentAttributes, contactSide);
 const autoTranslate = useMapGetter('getAutoTranslate');
 const translationState = useMapGetter('getMessageTranslationState');
 
 const state = computed(() => translationState.value(id.value));
-// "Already in X" reads once per group, on its last message, like the timestamp.
 const visible = computed(() => {
   if (state.value.pending || state.value.failed) return true;
-  if (state.value.sameLanguage) return !shouldGroupWithNext.value;
-  return hasTranslations.value;
+  return hasTranslations.value && !state.value.sameLanguage;
 });
 const isOutgoing = computed(
   () =>
@@ -81,7 +78,7 @@ const toggleLabel = computed(() => {
     />
     <span
       v-if="state.pending"
-      class="bg-clip-text text-transparent bg-gradient-to-r from-n-slate-11 from-40% via-n-iris-9 to-n-slate-11 to-60% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none truncate"
+      class="bg-clip-text text-transparent bg-gradient-to-r from-n-iris-9 from-30% via-n-iris-12 to-n-iris-9 to-70% dark:from-n-slate-12 dark:from-40% dark:via-n-iris-9 dark:to-n-slate-12 dark:to-60% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none truncate"
     >
       {{
         isOutgoing
@@ -96,13 +93,6 @@ const toggleLabel = computed(() => {
         isOutgoing
           ? $t('CONVERSATION.TRANSLATION_FAILED')
           : $t('CONVERSATION.CONTACT_TRANSLATION_FAILED')
-      }}
-    </span>
-    <span v-else-if="state.sameLanguage" class="truncate">
-      {{
-        $t('CONVERSATION.ALREADY_IN_LANGUAGE', {
-          language: autoTranslate.agentLanguage,
-        })
       }}
     </span>
     <span

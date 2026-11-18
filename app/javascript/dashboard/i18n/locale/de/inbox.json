@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Neue Nachricht in einer Unterhaltung, an dem Sie teilnehmen",
       "SLA_MISSED_FIRST_RESPONSE": "SLA-Ziel für die erste Antwort in der Unterhaltung verpasst",
       "SLA_MISSED_NEXT_RESPONSE": "SLA-Ziel für die nächste Antwort in der Unterhaltung verpasst",
-      "SLA_MISSED_RESOLUTION": "SLA-Ziel zur Lösung der Unterhaltung verpasst"
+      "SLA_MISSED_RESOLUTION": "SLA-Ziel zur Lösung der Unterhaltung verpasst",
+      "VOICE_CALL_MISSED": "Entgangener Anruf"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "Mentioned",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "SLA breach",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Neue Nachricht",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Neue Nachricht",
+      "VOICE_CALL_MISSED": "Entgangener Anruf",
       "SNOOZED_UNTIL": "Snoozed for {time}",
       "SNOOZED_ENDS": "Snooze ended"
     },

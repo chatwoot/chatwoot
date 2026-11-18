@@ -44,6 +44,35 @@
         "TITLE": "Fiók Azonosító",
         "NOTE": "Ez a személyazonosság akkor használható, ha API-alapú integrációt építesz"
       },
+      "TRANSLATION": {
+        "TITLE": "Fordítás",
+        "NOTE": "Beszéljen az ügyfelek nyelvén, bármilyen nyelveket ismer is a csapata.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "Természetes hangzású AI fordítások, amelyek megőrzik az Ön hangnemét."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Fordító",
+          "NOTE": "Gyors és megbízható fordítások a Google-től.",
+          "NOT_CONNECTED": "Nincs csatlakoztatva",
+          "CONNECT": "Kapcsolódás",
+          "NOT_CONNECTED_HINT": "A Google Fordító még nincs csatlakoztatva."
+        },
+        "UPGRADE": {
+          "NOTE": "Váltson fizetős csomagra, hogy a Captain vagy a Google Fordító segítségével lefordíthassa a beszélgetéseket.",
+          "BUTTON": "Frissítés"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Beszélgetések automatikus fordítása",
+          "NOTE": "Olvassa el az összes üzenetet a saját nyelvén. Az ügyfelek a saját nyelvükön kapják a válaszokat.",
+          "LOCKED": "A bekapcsoláshoz válasszon egy szolgáltatást.",
+          "NOT_AVAILABLE": "Az automatikus fordítás még nincs engedélyezve ehhez a fiókhoz."
+        },
+        "API": {
+          "SUCCESS": "A fordítási beállítások frissítése sikerült",
+          "ERROR": "Nem sikerült frissíteni a fordítási beállításokat"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
         "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
@@ -51,7 +80,7 @@
           "LABEL": "Inactivity duration",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Auto resolve settings updated successfully",
             "ERROR": "Failed to update auto resolve settings"
@@ -104,6 +133,14 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Kétlépcsős hitelesítés megkövetelése",
+        "NOTE": "Kötelezővé teheti, hogy a fiók minden tagja beállítsa a kétlépcsős hitelesítést. Akik ezt még nem tették meg, a következő jelszavas bejelentkezéskor felszólítást kapnak a beállítására. A Google- vagy SAML-bejelentkezés kivételt képez. Azon tagok API-hozzáférési tokenjei, akik nem állították be a kétlépcsős hitelesítést, leállnak a fiókban, amíg el nem végzik a beállítást.",
+        "API": {
+          "SUCCESS": "A kétlépcsős hitelesítés megkövetelésének frissítése sikerült",
+          "ERROR": "Nem sikerült frissíteni a kétlépcsős hitelesítés megkövetelését"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Egy frissítés elérhető a Chatwoothoz {latestChatwootVersion}. Kérjük frissítsd a telepítésed.",
     "LEARN_MORE": "Tudj meg többet",
-    "PAYMENT_PENDING": "A fizetésed folyamatban van. Kérlek, frissítsd fizetési adataitat a Chatwoot használatának folytatásához",
+    "PAYMENT_PENDING": "A fiók befizetése lejárt. A szolgáltatás lemondásának elkerülése érdekében frissítse a fizetési adatokat.",
+    "PAYMENT_PENDING_AGENT": "A fiók befizetése lejárt. A rendezéshez forduljon a rendszergazdához.",
     "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "A fiókod túllépte a használati korlátokat. Kérjük, frissítsd tervedet a Chatwoot használatának folytatásához",
     "OPEN_BILLING": "Számlázási beállítások megnyitása"
@@ -161,7 +199,7 @@
       "CHANGE_PRIORITY": "Prioritás megváltoztatása",
       "CHANGE_TEAM": "Csapat megváltoztatása",
       "SNOOZE_CONVERSATION": "Beszélgetés alvómódba",
-      "EXECUTE_MACRO": "Execute Macro",
+      "EXECUTE_MACRO": "Makró végrehajtása",
       "ADD_LABEL": "Címke hozzáadása a beszélgetéshez",
       "REMOVE_LABEL": "Címke eltávolítása a beszélgetésről",
       "SETTINGS": "Beállítások",
@@ -170,36 +208,36 @@
       "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
-      "GO_TO_MY_INBOX": "Go to My Inbox",
+      "GO_TO_MY_INBOX": "Ugrás a saját postafiókba",
       "GO_TO_CONVERSATION_DASHBOARD": "Ugrás a beszélgetések kezdőoldalára",
       "GO_TO_CONTACTS_DASHBOARD": "Ugrás a kapcsolatok kezdőoldalára",
-      "GO_TO_CAPTAIN": "Go to Captain",
-      "GO_TO_CALLS_DASHBOARD": "Go to Calls Dashboard",
-      "GO_TO_CAMPAIGNS": "Go to Campaigns",
-      "GO_TO_HELP_CENTER": "Go to Help Center",
+      "GO_TO_CAPTAIN": "Ugrás a Captainhez",
+      "GO_TO_CALLS_DASHBOARD": "Ugrás a hívások irányítópultjára",
+      "GO_TO_CAMPAIGNS": "Ugrás a kampányokhoz",
+      "GO_TO_HELP_CENTER": "Ugrás a súgóközpontba",
       "GO_TO_REPORTS_OVERVIEW": "Ugrás a jelentések áttekintésére",
       "GO_TO_CONVERSATION_REPORTS": "Ugrás a beszélgetések kezdőoldalára",
       "GO_TO_AGENT_REPORTS": "Ugrás ügynök jelentésére",
       "GO_TO_LABEL_REPORTS": "Ugrás címke jelentésére",
       "GO_TO_INBOX_REPORTS": "Ugrás beérkező levelek jelentésére",
       "GO_TO_TEAM_REPORTS": "Ugrás csapat jelentésére",
-      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
-      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
-      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
+      "GO_TO_CSAT_REPORTS": "Ugrás a CSAT-jelentésekhez",
+      "GO_TO_BOT_REPORTS": "Ugrás a botjelentésekhez",
+      "GO_TO_SLA_REPORTS": "Ugrás az SLA-jelentésekhez",
       "GO_TO_SETTINGS_AGENTS": "Ugrás az ügynük beállításaira",
       "GO_TO_SETTINGS_TEAMS": "Csapat beállítások megnyitása",
       "GO_TO_SETTINGS_INBOXES": "Fiók beállítások megnyitása",
-      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
+      "GO_TO_SETTINGS_TEMPLATES": "Ugrás a sablonokhoz",
       "GO_TO_SETTINGS_LABELS": "Cimke beállítások megnyitása",
-      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
-      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
-      "GO_TO_SETTINGS_MACROS": "Go to Macros",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Ugrás az egyéni attribútumokhoz",
+      "GO_TO_SETTINGS_AUTOMATION": "Ugrás az automatizáláshoz",
+      "GO_TO_SETTINGS_MACROS": "Ugrás a makrókhoz",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Sablonválasz beállítások megnyitása",
-      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
+      "GO_TO_SETTINGS_SLA": "Ugrás az SLA-beállításokhoz",
       "GO_TO_SETTINGS_APPLICATIONS": "Alkalmazás beállítások megnyitása",
-      "GO_TO_SETTINGS_DATA": "Go to Data",
-      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
-      "GO_TO_SETTINGS_BILLING": "Go to Billing",
+      "GO_TO_SETTINGS_DATA": "Ugrás az adatokhoz",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Ugrás az auditnaplókhoz",
+      "GO_TO_SETTINGS_BILLING": "Ugrás a számlázáshoz",
       "GO_TO_SETTINGS_ACCOUNT": "Fiók szintű beállítások megnyitása",
       "GO_TO_SETTINGS_PROFILE": "Profil beállítások megnyitása",
       "ADD_LABELS_TO_CONVERSATION": "Cimke hozzáadása a beszélgetéshez",
@@ -207,7 +245,7 @@
       "AI_ASSIST": "AI segítség",
       "ASSIGN_PRIORITY": "Prioritás beállítása",
       "ASSIGN_A_TEAM": "Csapat hozzárendelése",
-      "EXECUTE_A_MACRO": "Execute a macro",
+      "EXECUTE_A_MACRO": "Makró végrehajtása",
       "MUTE_CONVERSATION": "Beszélgetés némítása",
       "UNMUTE_CONVERSATION": "Beszélgetés némításának feloldása",
       "REMOVE_LABEL_FROM_CONVERSATION": "Cimke eltávolítása a beszélgetésről",

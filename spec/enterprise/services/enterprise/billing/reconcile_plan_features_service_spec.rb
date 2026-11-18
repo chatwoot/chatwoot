@@ -13,6 +13,30 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
   end
 
   describe '#perform' do
+    context 'with data import' do
+      it 'keeps data import enabled after downgrading to the free plan' do
+        account.enable_features!('data_import')
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+        described_class.new(account: account).perform
+
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('data_import')
+        expect(account).not_to be_feature_enabled('campaign_analytics')
+      end
+
+      it 'keeps an operator-disabled data import flag off on a paid plan' do
+        account.disable_features!('data_import')
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('data_import')
+        expect(account).to be_feature_enabled('campaign_analytics')
+      end
+    end
+
     context 'with campaigns and analytics' do
       %w[Business Enterprise].each do |plan|
         it "enables campaigns and analytics for #{plan}" do
@@ -177,6 +201,47 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         allow(GlobalConfigService).to receive(:load).and_call_original
         InstallationConfig.find_or_initialize_by(name: 'ENABLE_SHOPIFY_INTEGRATION').update!(value: true)
         account.enable_features!('shopify_integration')
+      end
+
+      it 'keeps an operator-disabled data import flag off on a Shopify plan' do
+        shopify_config.update!(value: [shopify_plans.first])
+        account.update!(internal_attributes: account.internal_attributes.merge(
+          'shopify_managed_features' => %w[audit_logs],
+          'manually_managed_features' => %w[custom_tools]
+        ))
+
+        account.disable_features!('data_import')
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('data_import')
+        expect(account).to be_feature_enabled('audit_logs')
+        expect(account).to be_feature_enabled('custom_tools')
+        expect(account.internal_attributes['shopify_managed_features']).to eq(%w[audit_logs])
+      end
+
+      it 'keeps data import enabled after a Shopify downgrade' do
+        account.enable_features!('data_import')
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
+        described_class.new(account: account).perform
+
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Basic' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('data_import')
+        expect(account).not_to be_feature_enabled('saml')
+      end
+
+      it 'keeps data import enabled during subscription cancellation cleanup' do
+        account.enable_features!('data_import', 'audit_logs')
+        account.disable_features!('shopify_integration')
+        account.update!(custom_attributes: { 'plan_name' => nil }, internal_attributes: account.internal_attributes.merge(
+          'shopify_managed_features' => %w[audit_logs]
+        ))
+
+        described_class.new(account: account, shopify_lifecycle_cleanup: true).perform
+
+        expect(account.reload).to be_feature_enabled('data_import')
+        expect(account).not_to be_feature_enabled('audit_logs')
       end
 
       it 'enables catalog features and Captain Classifier, but not monitors, on Shopify Basic' do

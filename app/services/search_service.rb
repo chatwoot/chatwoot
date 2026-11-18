@@ -58,9 +58,10 @@ class SearchService
   end
 
   def advanced_search_with_fallback
-    advanced_search
-  rescue Faraday::ConnectionFailed, Searchkick::Error, Elasticsearch::Transport::Transport::Error => e
+    advanced_search.load
+  rescue Faraday::Error, Searchkick::Error, OpenSearch::Transport::Transport::Error => e
     Rails.logger.warn("Elasticsearch unavailable, falling back to SQL search: #{e.message}")
+    ChatwootExceptionTracker.new(e, user: current_user, account: current_account).capture_exception
     use_gin_search ? filter_messages_with_gin : filter_messages_with_like
   end
 

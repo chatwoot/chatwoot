@@ -1,0 +1,28 @@
+# OAuth sign-in for a Captain MCP server ends here. The state finds the server the sign-in started for.
+# RubyLLM then checks the state and the issuer against the pending sign-in before it exchanges the code.
+class Captain::McpCallbacksController < ApplicationController
+  CALLBACK_PARAMS = %w[code state iss error error_description].freeze
+
+  def show
+    server = Captain::McpServer.for_oauth_state(params[:state])
+    return redirect_to('/app') unless server&.account&.feature_enabled?(Captain::McpServer::FEATURE_FLAG)
+
+    redirect_to servers_page_path(server, sign_in_result(server))
+  end
+
+  private
+
+  # A failed or cancelled sign-in leaves the saved credentials as they were, so it leaves the status alone too
+  def sign_in_result(server)
+    Captain::Mcp::Connection.new(server).authorize(params.to_unsafe_h.slice(*CALLBACK_PARAMS))
+    server.credentials_accepted!
+    'success'
+  rescue *Captain::Mcp::Connection::ERRORS => e
+    Rails.logger.warn("Captain MCP sign-in failed for server #{server.id}: #{e.message}")
+    'failed'
+  end
+
+  def servers_page_path(server, result)
+    "/app/accounts/#{server.account_id}/captain/#{server.assistant_id}/tools/mcp?mcp_server_id=#{server.id}&sign_in=#{result}"
+  end
+end

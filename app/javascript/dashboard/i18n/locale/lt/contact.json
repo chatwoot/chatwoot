@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Su šiuo kontaktu nėra susietų ankstesnių pokalbių.",
-      "TITLE": "Ankstesni pokalbiai"
+      "TITLE": "Ankstesni pokalbiai",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

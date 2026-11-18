@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tähän yhteystietoon ei liity aikaisempia keskusteluja.",
-      "TITLE": "Edelliset keskustelut"
+      "TITLE": "Edelliset keskustelut",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

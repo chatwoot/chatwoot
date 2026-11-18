@@ -1,46 +1,46 @@
 {
   "CALLS_PAGE": {
-    "HEADER": "Calls",
-    "ALL_CALLS": "All Calls",
-    "ALL_CALLS_COUNT": "All Calls ({count})",
-    "EMPTY_STATE": "No calls found",
+    "HEADER": "Opkald",
+    "ALL_CALLS": "Alle Opkald",
+    "ALL_CALLS_COUNT": "Alle Opkald ({count})",
+    "EMPTY_STATE": "Ingen opkald fundet",
     "SETUP": {
-      "TITLE": "Make and receive calls in one place",
-      "SUBTITLE": "Set up a voice channel to start handling calls with your team. Every call, along with its recording, will appear here.",
-      "ACTION": "Set up voice channel"
+      "TITLE": "Foretag og modtag opkald på ét sted",
+      "SUBTITLE": "Konfigurer en stemmekanal for at begynde at håndtere opkald med dit team. Hvert opkald vil sammen med dets optagelse blive vist her.",
+      "ACTION": "Konfigurer stemmekanal"
     },
     "FILTERS": {
-      "MISSED": "Missed",
-      "NO_REPLY": "No reply",
-      "OTHER_ACTIVITY": "Other activity",
-      "INCOMING": "Incoming",
-      "OUTGOING": "Outgoing",
-      "IN_PROGRESS": "In progress",
-      "ASSIGNEE": "Assignee",
-      "ALL_ASSIGNEES": "All assignees",
-      "MORE_FILTERS": "More filters",
+      "MISSED": "Ubesvarede",
+      "NO_REPLY": "Intet svar",
+      "OTHER_ACTIVITY": "Anden aktivitet",
+      "INCOMING": "Indgående",
+      "OUTGOING": "Udgående",
+      "IN_PROGRESS": "Igangværende",
+      "ASSIGNEE": "Ansvarlig",
+      "ALL_ASSIGNEES": "Alle ansvarlige",
+      "MORE_FILTERS": "Flere filtre",
       "INBOX": "Indbakke",
-      "ALL_INBOXES": "All inboxes"
+      "ALL_INBOXES": "Alle indbakker"
     },
     "STATUS": {
       "ONGOING": "Igangværende",
-      "INCOMING": "Incoming",
-      "OUTGOING": "Outgoing",
-      "MISSED": "Missed",
-      "NO_REPLY": "No reply",
+      "INCOMING": "Indgående",
+      "OUTGOING": "Udgående",
+      "MISSED": "Ubesvarede",
+      "NO_REPLY": "Intet svar",
       "FAILED": "Failed"
     },
     "ROW": {
-      "PICKED_BY": "Picked by",
-      "DIALED_BY": "Dialed by",
-      "ANSWERED": "Answered",
-      "RINGING": "Ringing",
-      "IN_PROGRESS": "In progress",
-      "NO_AGENT": "No agent answered this call",
-      "NO_CONTACT_ANSWER": "Contact did not answer",
-      "FAILED": "This call could not be connected",
+      "PICKED_BY": "Håndteres af",
+      "DIALED_BY": "Opringet af",
+      "ANSWERED": "Besvaret",
+      "RINGING": "Ringer",
+      "IN_PROGRESS": "Igangværende",
+      "NO_AGENT": "Ingen agent besvarede dette opkald",
+      "NO_CONTACT_ANSWER": "Kontakten svarede ikke",
+      "FAILED": "Dette opkald kunne ikke forbindes",
       "YESTERDAY": "I går",
-      "DELETED_CONTACT": "Deleted contact"
+      "DELETED_CONTACT": "Slettet kontakt"
     }
   }
 }

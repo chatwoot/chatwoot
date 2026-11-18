@@ -1,5 +1,6 @@
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
+import { subDays } from 'date-fns';
 import FeatureAnnouncement from './FeatureAnnouncement.vue';
 
 const testState = vi.hoisted(() => ({
@@ -21,6 +22,13 @@ vi.mock('dashboard/composables/store', async () => {
         key
       ],
   };
+});
+
+vi.mock('dashboard/composables/useAccount', async () => {
+  const { ref } = await import('vue');
+  testState.currentAccount = ref({});
+
+  return { useAccount: () => ({ currentAccount: testState.currentAccount }) };
 });
 
 vi.mock('dashboard/composables/useUISettings', async () => {
@@ -110,12 +118,36 @@ describe('FeatureAnnouncement', () => {
     testState.announcements.value = [voiceCalls, macros, automations];
     testState.isRTL.value = false;
     testState.uiSettings.value = {};
+    testState.currentAccount.value = {
+      created_at: subDays(new Date(), 30).toISOString(),
+    };
   });
 
   it('renders nothing when there are no announcements', () => {
     testState.announcements.value = [];
 
     expect(mountComponent().find('dialog').exists()).toBe(false);
+  });
+
+  it('renders nothing for accounts created in the last 3 days', () => {
+    testState.currentAccount.value = {
+      created_at: subDays(new Date(), 2).toISOString(),
+    };
+
+    expect(mountComponent().find('dialog').exists()).toBe(false);
+  });
+
+  it('waits for the account to load before showing', async () => {
+    testState.currentAccount.value = {};
+    const wrapper = mountComponent();
+    expect(wrapper.find('dialog').exists()).toBe(false);
+
+    testState.currentAccount.value = {
+      created_at: subDays(new Date(), 30).toISOString(),
+    };
+    await nextTick();
+
+    expect(currentTitle(wrapper)).toBe(voiceCalls.title);
   });
 
   it('renders nothing when every announcement is dismissed', () => {

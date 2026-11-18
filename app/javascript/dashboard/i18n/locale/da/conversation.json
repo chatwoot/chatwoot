@@ -1,11 +1,11 @@
 {
   "CONVERSATION": {
     "REFERRAL": {
-      "AD_LABEL": "Ad",
-      "POST_LABEL": "Post",
-      "VIEW_AD": "View ad",
-      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
-      "REPLIED_BELOW": "Customer replied below"
+      "AD_LABEL": "Annonce",
+      "POST_LABEL": "Indlæg",
+      "VIEW_AD": "Vis annonce",
+      "WELCOME_MESSAGE_LABEL": "Forudfyldt meddelelse: ",
+      "REPLIED_BELOW": "Kunden svarede nedenfor"
     },
     "SELECT_A_CONVERSATION": "Vælg venligst en samtale fra venstre rude",
     "CSAT_REPLY_MESSAGE": "Bedøm venligst samtalen",
@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Søg efter beskeder i samtaler",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -34,6 +40,15 @@
     },
     "UNREAD_MESSAGES": "Ulæste Beskeder",
     "UNREAD_MESSAGE": "Ulæst Besked",
+    "CONTACT_HISTORY": {
+      "OLDER": "Tidligere samtale",
+      "NEWER": "Næste samtale",
+      "OLDER_WITH": "Forrige samtale med {name} · {time}",
+      "NEWER_WITH": "Næste samtale med {name} · {time}",
+      "CUSTOMER": "denne kunde",
+      "REPLY_TO_OLDER": "Svar på denne ældre samtale",
+      "GO_TO_LATEST": "Gå til seneste samtale"
+    },
     "CLICK_HERE": "Klik her",
     "LOADING_INBOXES": "Indlæser indbakker",
     "LOADING_CONVERSATIONS": "Indlæser Samtaler",
@@ -43,17 +58,17 @@
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Denne samtale er ikke tildelt dig. Vil du tildele denne samtale til dig selv?",
     "ASSIGN_TO_ME": "Tildel til mig",
-    "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
-    "BOT_HANDOFF_ACTION": "Take over",
+    "BOT_HANDOFF_MESSAGE": "Denne samtale håndteres i øjeblikket af {assigneeName}.",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "en AI agent",
+    "BOT_HANDOFF_ACTION": "Tag over",
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kan kun svare på denne samtale ved hjælp af en skabelon besked på grund af",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 timers beskedvindue begrænsning",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
-    "INSTAGRAM_RESTRICTION_BANNER": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
-    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status updates",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram messaging er i øjeblikket påvirket af en API-niveau problem på Metas side, ikke et problem med Chatwoot. Nogle beskeder eller handlinger kan være forsinkede eller utilgængelige. Vi arbejder tæt sammen med Meta for at løse det så hurtigt som muligt.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Vis statusopdateringer",
     "REPLYING_TO": "Du svarer til:",
     "REMOVE_SELECTION": "Fjern Markering",
     "DOWNLOAD": "Download",
@@ -72,58 +87,70 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
-    "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
+    "WHATSAPP_FLOW_RESPONSE": "Indsendte et flowrespons",
     "WHATSAPP_REFERRAL": {
-      "AD": "Ad"
+      "AD": "Annonce"
     },
     "SUCCESS_DELETE_MESSAGE": "Besked slettet",
     "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
     "NO_RESPONSE": "Intet svar",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Bed kunden om at dele deres WhatsApp telefonnummer",
+      "PENDING_ACTION": "Anmodning om kontaktinformation afventer",
+      "STATES": {
+        "PENDING": "Venter på kontaktinformation",
+        "SHARED": "Telefonnummer delt",
+        "IDENTITY_CONFLICT": "Telefonnummer skal gennemgås"
+      }
+    },
     "RESPONSE": "Response",
     "RATING_TITLE": "Bedømmelse",
     "FEEDBACK_TITLE": "Tilbagemelding",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CAPTAIN_GENERATION": {
-      "TITLE": "How was this reply generated?",
-      "GENERATED_BY": "Generated by Captain",
-      "LOADING": "Loading details…",
-      "EMPTY": "No generation details available for this message.",
-      "TIMELINE": "Generation steps",
-      "STEP_TOOL": "Called {name}",
-      "STEP_HANDOFF": "Handed off to {name}",
+      "TITLE": "Hvordan blev dette svar genereret?",
+      "GENERATED_BY": "Genereret af Captain",
+      "LOADING": "Indlæser detaljer…",
+      "EMPTY": "Ingen generationsdetaljer tilgængelig for denne besked.",
+      "TIMELINE": "Generering trin",
+      "STEP_TOOL": "Kaldte {name}",
+      "STEP_HANDOFF": "Afgivet til {name}",
       "REASONING": "Reasoning",
-      "SOURCES": "Knowledge base",
-      "SOURCES_SUMMARY": "{count} result | {count} results",
-      "MODEL": "Generated with {model}",
-      "CREDITS": "Credits: {credits}"
+      "SOURCES": "Vidensbase",
+      "SOURCES_SUMMARY": "{count} resultat | {count} resultater",
+      "MODEL": "Genereret med {model}",
+      "CREDITS": "Kreditter: {credits}"
     },
     "CARD": {
       "SHOW_LABELS": "Vis etiketter",
       "HIDE_LABELS": "Skjul etiketter",
-      "LABELS_COUNT": "{count} labels"
+      "LABELS_COUNT": "{count} etiketter"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
       "OUTGOING_CALL": "Outgoing call",
       "CALL_IN_PROGRESS": "Call in progress",
       "NO_ANSWER": "No answer",
-      "NO_ANSWER_OUTBOUND_LABEL": "No answer",
-      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
+      "NO_ANSWER_OUTBOUND_LABEL": "Intet svar",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Kontakten svarede ikke",
       "MISSED_CALL": "Missed call",
-      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
-      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
+      "MISSED_CALL_INBOUND_SUBTEXT": "Ingen agent svarede",
+      "MISSED_CALL_DECLINED_BY": "Afvist af {agentName}",
       "CALL_ENDED": "Call ended",
-      "HANDLED_BY": "Handled by {agentName}",
+      "HANDLED_BY": "Håndteret af {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
-      "CALLING": "Calling…",
+      "CALLING": "Ringer…",
       "THEY_ANSWERED": "They answered",
       "YOU_ANSWERED": "You answered",
-      "AGENT_ANSWERED": "{agentName} answered",
-      "JOIN_CALL": "Join call",
-      "CALL_BACK": "Call back",
-      "TRANSCRIPT_SHOW_MORE": "Show more",
-      "TRANSCRIPT_SHOW_LESS": "Show less"
+      "AGENT_ANSWERED": "{agentName} svarede",
+      "JOIN_CALL": "Tilslut opkald",
+      "CALL_BACK": "Ring tilbage",
+      "TRANSCRIPT_SHOW_MORE": "Vis mere",
+      "TRANSCRIPT_SHOW_LESS": "Vis færre"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Løs",
@@ -133,17 +160,17 @@
       "OPEN": "Mere",
       "CLOSE": "Luk",
       "DETAILS": "detaljer",
-      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
+      "COPY_ID_SUCCESS": "Samtale ID kopieret til udklipsholder",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Udsat til i morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Udsat indtil næste uge",
       "SNOOZED_UNTIL_NEXT_REPLY": "Udsat indtil næste svar",
-      "WHATSAPP_CALL": "Start WhatsApp call",
-      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
-      "VOICE_CALL": "Start call",
-      "VOICE_CALL_FAILED": "Could not start the call.",
-      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+      "WHATSAPP_CALL": "Start WhatsApp opkald",
+      "WHATSAPP_CALL_FAILED": "Kunne ikke starte WhatsApp opkaldet.",
+      "VOICE_CALL": "Start opkald",
+      "VOICE_CALL_FAILED": "Kunne ikke starte opkaldet.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sendte en anmodning om opkaldstilladelse til kontakten. Prøv igen, når de accepterer.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Anmodning om opkaldstilladelse er allerede sendt for nylig. Prøv igen, når kontakten accepterer.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -168,36 +195,46 @@
     },
     "PICKER": {
       "VARIABLE": {
-        "SEARCH_PLACEHOLDER": "Search variables",
+        "SEARCH_PLACEHOLDER": "Søg i variabler",
         "DESCRIPTION": "Beskrivelse",
-        "VALUE": "Value",
-        "NO_VALUE": "No value for this conversation"
+        "VALUE": "Værdi",
+        "NO_VALUE": "Ingen værdi for denne samtale"
       },
       "EMOJI": {
         "SEARCH_PLACEHOLDER": "Søg emojis",
-        "EMPTY_STATE": "Type to search emojis"
+        "EMPTY_STATE": "Skriv for at søge efter emojis"
       },
       "MACRO": {
         "SEARCH_PLACEHOLDER": "Search macros",
-        "ACTION_COUNT": "1 action | {count} actions"
+        "ACTION_COUNT": "1 handling | {count} handlinger"
       },
       "MENTION": {
-        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "SEARCH_PLACEHOLDER": "Søg agenter og teams",
         "FILTER": {
           "ALL": "Alle"
         },
         "AVAILABILITY": "Tilgængelighed",
         "ROLE": "Rolle",
-        "AUTO_ASSIGN": "Auto assign",
+        "AUTO_ASSIGN": "Tildel automatisk",
         "ENABLED": "Aktiveret",
         "DISABLED": "Deaktiveret",
-        "YOU_ARE_A_MEMBER": "You are a member of this team"
+        "YOU_ARE_A_MEMBER": "Du er medlem af dette team"
       }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Udsæt til",
       "APPLY": "Udsæt",
       "CANCEL": "Annuller"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Foreslå med Captain",
+      "EMPTY": "Ingen nye forslag",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Klik for at anvende",
+      "REJECT": "Luk",
+      "ACCEPT_ALL": "Accepter alle",
+      "ERROR": "Kunne ikke indlæse forslag. Prøv venligst igen.",
+      "APPLY_ERROR": "Kunne ikke anvende de foreslåede etiketter. Prøv venligst igen."
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -289,24 +326,27 @@
       "TIP_AUDIORECORDER_ICON": "Optag lyd",
       "TIP_AUDIORECORDER_PERMISSION": "Tillad adgang til lyd",
       "TIP_AUDIORECORDER_ERROR": "Kunne ikke åbne lyden",
-      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
+      "AUDIO_CONVERSION_FAILED": "Lydkonvertering mislykkedes. Prøv venligst igen.",
       "DRAG_DROP": "Træk og slip her for at vedhæfte",
       "IMAGE_UPLOAD_SUCCESS": "Billede blev uploadet",
       "START_AUDIO_RECORDING": "Start lydoptagelse",
       "STOP_AUDIO_RECORDING": "Stop lydoptagelse",
       "COPILOT_THINKING": "Copilot tænker",
       "EMAIL_HEAD": {
-        "TO": "TO",
-        "ADD_BCC": "Tilføj bcc",
+        "TO": "Til",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "E-mails adskilt af kommaer",
           "ERROR": "Indtast venligst gyldige e-mailadresser"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Bcc",
           "PLACEHOLDER": "E-mails adskilt af kommaer",
           "ERROR": "Indtast venligst gyldige e-mailadresser"
+        },
+        "SUBJECT": {
+          "LABEL": "Emne",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
@@ -318,11 +358,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "SHOW_TOOLTIP": "Vis trimmet indhold",
+        "HIDE_TOOLTIP": "Skjul trimmet indhold",
+        "REMOVE": "Fjern citeret tekst"
       }
     },
     "VISIBLE_TO_AGENTS": "Privat Note: Kun synlig for dig og dit team",
@@ -352,6 +390,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopiér",
       "REPLY_TO": "Reply to this message",
+      "FORWARD_EMAIL": "Videresend e-mail",
       "DELETE": "Slet",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
@@ -364,22 +403,22 @@
         "CANCEL": "Annuller"
       },
       "REPORT_MESSAGE": {
-        "LABEL": "Report message",
-        "TITLE": "Report Captain message",
-        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "LABEL": "Rapportér besked",
+        "TITLE": "Rapporter Captain besked",
+        "DESCRIPTION": "Fundet et problem med denne AI svar? Lad os vide, hvad der gik galt, og vores team vil gennemgå det for at hjælpe med at forbedre Captain's nøjagtighed.",
         "PROBLEM_TYPE": "Problem type",
-        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Vælg en problemtype",
         "DESCRIPTION_LABEL": "Beskrivelse",
-        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
-        "SUBMIT": "Report",
-        "SUCCESS": "Thanks for reporting. Our team will take a look.",
-        "ERROR": "Could not report this message. Please try again.",
+        "DESCRIPTION_PLACEHOLDER": "Beskriv problemet i detaljer",
+        "SUBMIT": "Rapport",
+        "SUCCESS": "Tak for din rapportering. Vores team vil tage et kig.",
+        "ERROR": "Kunne ikke rapportere denne besked. Prøv venligst igen.",
         "REASONS": {
-          "incorrect_information": "Incorrect information",
-          "inappropriate_response": "Inappropriate response",
-          "incomplete_response": "Incomplete response",
-          "outdated_information": "Outdated information",
-          "other": "Other"
+          "incorrect_information": "Forkert information",
+          "inappropriate_response": "Upassende respons",
+          "incomplete_response": "Ufuldstændigt svar",
+          "outdated_information": "Forældet information",
+          "other": "Andet"
         }
       }
     },
@@ -394,13 +433,13 @@
       "NOT_ANSWERED_YET": "Not answered yet",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
-      "DISMISS_CALL": "Dismiss",
+      "DISMISS_CALL": "Luk",
       "JOIN_CALL": "Join call",
       "END_CALL": "End call",
-      "MUTE": "Mute mic",
-      "UNMUTE": "Unmute mic",
-      "VIEW_CHAT_HISTORY": "View chat history",
-      "GO_TO_CONVERSATION": "Go to conversation thread"
+      "MUTE": "Lydløs mikrofon",
+      "UNMUTE": "Aktiver mikrofon",
+      "VIEW_CHAT_HISTORY": "Se chathistorik",
+      "GO_TO_CONVERSATION": "Gå til samtaletråden"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -467,19 +506,19 @@
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders",
-      "SHARED_FILES": "Attachments"
+      "SHARED_FILES": "Vedhæftede Filer"
     },
     "SHARED_FILES": {
-      "EMPTY": "No attachments yet",
-      "DOWNLOAD": "Download file",
-      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "EMPTY": "Ingen vedhæftede filer endnu",
+      "DOWNLOAD": "Download fil",
+      "DOWNLOAD_ERROR": "Kunne ikke hente filen. Prøv venligst igen.",
       "MEDIA_HEADING": "Media",
-      "FILES_HEADING": "Files",
-      "VIEW_ALL": "View all",
-      "SHOW_LESS": "Show less",
+      "FILES_HEADING": "Filer",
+      "VIEW_ALL": "Vis alle",
+      "SHOW_LESS": "Vis færre",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file",
-      "JUMP_TO_MESSAGE": "Jump to message"
+      "UNTITLED_FILE": "Unavngiven fil",
+      "JUMP_TO_MESSAGE": "Gå til besked"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
@@ -529,7 +568,16 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Emne",
+    "DATE": "Dato",
     "EXPAND": "Expand email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Videresendt besked ---------",
+    "TO_LABEL": "Til:",
+    "TO_PLACEHOLDER": "Indtast mindst 2 tegn for at søge via e-mail",
+    "MESSAGE_PLACEHOLDER": "Tilføj en besked (valgfri)",
+    "FORWARDED_TO": "Videresendt til {emails}",
+    "CONTACT_CANNOT_SEE": "{name} kan ikke se dette"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",

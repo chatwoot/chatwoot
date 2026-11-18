@@ -1298,5 +1298,43 @@ describe('#addMentions', () => {
         expect.anything()
       );
     });
+
+    it('requests nothing in a conversation switched off', async () => {
+      const localCommit = vi.fn();
+
+      await actions.autoTranslateMessages(
+        {
+          state,
+          commit: localCommit,
+          getters: {
+            ...getters,
+            getAutoTranslate: {
+              ...getters.getAutoTranslate,
+              disabledInConversation: true,
+            },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).not.toHaveBeenCalled();
+      expect(localCommit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#setConversationAutoTranslate', () => {
+    it('saves the switch on the conversation', async () => {
+      axios.patch.mockResolvedValue({ data: {} });
+
+      await actions.setConversationAutoTranslate(
+        {},
+        { conversationId: 7, disabled: true }
+      );
+
+      expect(axios.patch).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7'),
+        { auto_translate_disabled: true }
+      );
+    });
   });
 });

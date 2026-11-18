@@ -41,6 +41,12 @@
       "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Tem certeza de que deseja remover a atribuição de {n} conversa? | Tem certeza de que deseja remover a atribuição de {n} conversas?",
       "ASSIGN_SUCCESFUL": "Times atribuídos com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir time. Por favor, tente novamente."
+    },
+    "MACROS": {
+      "EXECUTE_MACRO": "Executar macro",
+      "EXECUTE_CONFIRMATION_LABEL": "Tem certeza de que deseja executar {macroName} em {n} conversa? | Tem certeza de que deseja executar {macroName} em {n} conversas?",
+      "QUEUED": "Macro adicionada à fila para {count} conversa. | Macro adicionada à fila para {count} conversas.",
+      "QUEUED_WITH_MISSING_ATTRIBUTES": "Macro adicionada à fila para {count} conversa. No momento, ela não tem os atributos obrigatórios e pode permanecer aberta. | Macro adicionada à fila para {count} conversas. No momento, pelo menos uma delas não tem os atributos obrigatórios e pode permanecer aberta."
     }
   }
 }

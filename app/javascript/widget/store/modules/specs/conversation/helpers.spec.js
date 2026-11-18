@@ -2,6 +2,7 @@ import {
   findUndeliveredMessage,
   createTemporaryMessage,
   getNonDeletedMessages,
+  groupConversationBySender,
 } from '../../conversation/helpers';
 
 describe('#findUndeliveredMessage', () => {
@@ -77,5 +78,26 @@ describe('#getNonDeletedMessages', () => {
         content_attributes: {},
       },
     ]);
+  });
+});
+
+describe('#groupConversationBySender', () => {
+  it('starts a new group when a person replies after an assistant with the same name', () => {
+    const messages = [
+      {
+        id: 1,
+        message_type: 1,
+        sender: { id: 1, name: 'Alex', type: 'captain_assistant' },
+      },
+      {
+        id: 2,
+        message_type: 1,
+        sender: { id: 1, name: 'Alex', type: 'user' },
+      },
+    ];
+
+    expect(
+      groupConversationBySender(messages).map(message => message.showAvatar)
+    ).toEqual([true, true]);
   });
 });

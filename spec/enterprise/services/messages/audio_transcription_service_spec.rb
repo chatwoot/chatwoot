@@ -9,7 +9,7 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
   before do
     # Create required installation configs
     InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_API_KEY') { |config| config.value = 'test-api-key' }
-    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-4o-mini' }
+    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-6-luna' }
 
     # Mock usage limits for transcription to be available
     allow(account).to receive(:usage_limits).and_return(
@@ -79,6 +79,20 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       it 'returns error for transcription limit exceeded' do
         result = service.perform
         expect(result).to eq({ error: 'Transcription limit exceeded' })
+      end
+    end
+
+    context 'when the transcription API rejects the audio' do
+      let(:speech_to_text) { instance_double(Llm::SpeechToTextService) }
+
+      before do
+        allow(Llm::SpeechToTextService).to receive_messages(available_for?: true, new: speech_to_text)
+        allow(speech_to_text).to receive(:perform).and_raise(Faraday::BadRequestError.new('bad request', { status: 400 }))
+      end
+
+      it 'returns an error instead of raising, so Captain can still answer the conversation' do
+        expect(service.perform).to eq({ error: 'Audio rejected by the transcription API' })
+        expect(attachment.reload.meta).to be_blank
       end
     end
 

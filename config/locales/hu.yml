@@ -18,6 +18,14 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 hu:
   hello: 'Szia világ'
+  administrator_notifications:
+    captain:
+      response_usage_alert:
+        subject: 'Fogytán vannak a Captain-kreditek'
+        greeting: 'Hello,'
+        usage_html: '%{account_name} fiókja a jelenlegi számlázási időszakban az AI-válaszokhoz rendelkezésre álló kreditek több mint 80%-át használta fel.'
+        balance: '%{consumed} kredit felhasználva, %{remaining} kredit maradt.'
+        action: 'Használat megtekintése és kreditek hozzáadása'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'
@@ -32,35 +40,38 @@ hu:
     reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
     login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
     saml_not_available: SAML authentication is not available in this installation.
+    mfa_sign_in_required: A fiókjához kétlépcsős hitelesítés szükséges. A folytatáshoz jelentkezzen be.
     inbox_deletetion_response: A beérkező üzeneteid törlésére vonatkozó kérésed nem sokára feldolgozásra kerül.
   data_imports:
     intercom:
       activities:
-        assignment: '%{actor} assigned the conversation'
-        assignment_with_target: '%{actor} assigned the conversation to %{target}'
-        assign_and_reopen: '%{actor} assigned and reopened the conversation'
-        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
-        open: '%{actor} opened the conversation'
-        close: '%{actor} closed the conversation'
-        snoozed: '%{actor} snoozed the conversation'
-        participant_added: '%{actor} added a participant'
-        participant_added_with_target: '%{actor} added %{target} as a participant'
-        participant_removed: '%{actor} removed a participant'
-        participant_removed_with_target: '%{actor} removed %{target} as a participant'
-        conversation_attribute_updated: '%{actor} updated conversation attributes'
-        ticket_attribute_updated: '%{actor} updated ticket attributes'
-        ticket_state_updated: '%{actor} updated the ticket state'
-        custom_action_started: '%{actor} started a custom action'
-        custom_action_finished: '%{actor} finished a custom action'
-        quick_reply: '%{actor} used a quick reply'
-        generic: '%{actor} recorded %{event}'
+        assignment: 'A beszélgetést %{actor} rendelte hozzá'
+        assignment_with_target: 'A beszélgetést %{actor} %{target} számára rendelte hozzá'
+        assign_and_reopen: '%{actor} hozzárendelte és újranyitotta a beszélgetést'
+        assign_and_reopen_with_target: '%{actor} hozzárendelte a beszélgetést %{target} számára, és újranyitotta'
+        open: '%{actor} megnyitotta a beszélgetést'
+        close: '%{actor} lezárta a beszélgetést'
+        snoozed: '%{actor} elhalasztotta a beszélgetést'
+        participant_added: '%{actor} résztvevőt adott hozzá'
+        participant_added_with_target: '%{actor} hozzáadta %{target} résztvevőt'
+        participant_removed: '%{actor} eltávolított egy résztvevőt'
+        participant_removed_with_target: '%{actor} eltávolította %{target} résztvevőt'
+        conversation_attribute_updated: '%{actor} módosította a beszélgetés attribútumait'
+        ticket_attribute_updated: '%{actor} módosította a jegy attribútumait'
+        ticket_state_updated: '%{actor} módosította a jegy állapotát'
+        custom_action_started: '%{actor} elindított egy egyéni műveletet'
+        custom_action_finished: '%{actor} befejezett egy egyéni műveletet'
+        quick_reply: '%{actor} gyorsválaszt használt'
+        generic: '%{actor} rögzítette: %{event}'
   profile_settings:
     sessions:
-      cannot_revoke_current: You cannot revoke the current session.
+      cannot_revoke_current: A jelenlegi munkamenet visszavonása nem lehetséges.
   errors:
+    notification_subscription:
+      voip_attributes_required: A VoIP push-előfizetéshez device_id és push_token szükséges.
     account:
-      not_authorized: You are not authorized to access this account
-      email_limit_exceeded: The daily email limit for this account has been reached
+      not_authorized: Nincs jogosultsága ehhez a fiókhoz
+      email_limit_exceeded: Elérte a fiók napi e-mail-küldési korlátját
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
@@ -77,7 +88,7 @@ hu:
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Feliratkozás sikertelen
     voice:
-      call_already_accepted: '%{agent_name} is already handling the call.'
+      call_already_accepted: '%{agent_name} már kezeli a hívást.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -91,15 +102,15 @@ hu:
       unsupported_content_type: 'File type not supported (only images and videos are allowed)'
       unexpected: 'An unexpected error occurred'
     database:
-      query_canceled: 'The request took too long to complete. Please try again.'
+      query_canceled: 'A kérés végrehajtása túl sokáig tartott. Próbálja újra.'
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
-      multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
+      multi_account_invitation_not_allowed: SAML használata esetén nem adhat hozzá másik fiókhoz tartozó felhasználót
     conversations:
-      resolved: Conversation is resolved and does not accept new messages
+      resolved: A lezárt beszélgetés nem fogad új üzeneteket
       unread_counts:
-        feature_not_enabled: Conversation unread counts feature not enabled for this account
+        feature_not_enabled: A beszélgetések olvasatlanüzenet-számlálója nincs engedélyezve ehhez a fiókhoz
     data_import:
       data_type:
         invalid: Hibás adattípus
@@ -117,6 +128,13 @@ hu:
         invalid: must be a valid domain name
       search:
         query_missing: Specify search string with parameter q
+      social_profiles:
+        invalid: A közösségi profilok hivatkozásainak http:// vagy https:// kezdetűnek kell lenniük
+      enrichment:
+        plan_required: A vállalatok adatainak kiegészítése Business és Enterprise csomagban érhető el
+        not_configured: A vállalatok adatainak kiegészítése nincs beállítva ennél a telepítésnél
+        domain_missing: A profil frissítése előtt adjon meg egy domaint a vállalatnál
+        not_found: Nem található profilinformáció ehhez a vállalati domainhez
     messages:
       search:
         time_range_limit_exceeded: 'Search is limited to the last %{days} days'
@@ -125,15 +143,15 @@ hu:
         unique: egyedinek kell lennie a kategóriában a portálon
     dyte:
       invalid_message_type: 'Hibás üzenet típus. Kérés elutasítva'
-      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+      realtimekit_credentials_required: 'Cloudflare RealtimeKit hitelesítő adatok szükségesek. Törölje a meglévő Dyte integrációt, majd hozza létre újra Cloudflare RealtimeKit hitelesítő adatokkal.'
     cloudflare:
       realtimekit:
-        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
-        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
-        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
-        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
-        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
-        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
+        invalid_credentials: 'A Cloudflare RealtimeKit hitelesítő adatok érvénytelenek. Ellenőrizze a fiókazonosítót, a RealtimeKit alkalmazásazonosítót és az API token jogosultságait.'
+        missing_credentials: 'A Cloudflare fiókazonosító, a RealtimeKit alkalmazásazonosító és az API token megadása kötelező.'
+        invalid_api_token: 'A Cloudflare API token érvénytelen vagy inaktív. Hozzon létre új tokent Realtime Admin jogosultsággal.'
+        invalid_account_or_permissions: 'A Cloudflare fiókazonosító érvénytelen, vagy az API token nem rendelkezik Realtime Admin hozzáféréssel ehhez a fiókhoz.'
+        app_not_found: 'A RealtimeKit alkalmazásazonosító nem található ebben a Cloudflare fiókban. Ellenőrizze, hogy a megfelelő alkalmazást választotta-e.'
+        verification_failed: 'A Cloudflare RealtimeKit hitelesítő adatok ellenőrzése most nem sikerült. Próbálja újra.'
     slack:
       invalid_channel_id: 'Érvénytelen Slack csatorna. Kérjük, próbálja újra'
     whatsapp:
@@ -141,22 +159,33 @@ hu:
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
-      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
+      message_outside_messaging_window: 'Az üzenet küldése nem sikerült, mert lejárt a WhatsApp 24 órás ügyfélszolgálati időszaka, és nem adott meg sablonparamétereket. Küldjön helyette jóváhagyott sablonüzenetet.'
+      authentication_template_requires_phone: 'Hitelesítési sablon csak WhatsApp telefonszámmal rendelkező kontaktoknak küldhető; kizárólag BSUID-val azonosított kontaktoknak nem.'
+      template_category_required_for_bsuid: 'A BSUID alapján azonosított kontaktnál nem sikerült ellenőrizni a sablon kategóriáját.'
+      contact_info_request:
+        unsupported_provider: 'Kontaktadatok kérése jelenleg csak WhatsApp Cloud bejövő postafiókoknál érhető el.'
+        phone_already_available: 'Ennek a kontaktnak már van telefonszáma.'
+        invalid_identifier: 'Kontaktadat csak üzleti fiókhoz tartozó WhatsApp-felhasználótól kérhető.'
+        outside_messaging_window: 'Kontaktadat csak a WhatsApp 24 órás ügyfélszolgálati időszakán belül kérhető.'
+        template_not_configured: 'A 24 órás ügyfélszolgálati időszakon kívül csak jóváhagyott WhatsApp sablonnal kérhető kontaktadat, amely tartalmazza a kontaktadat-kérés gombot.'
+        pending_request: 'Már van függőben lévő kontaktadat-kérés.'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
       calls:
-        not_enabled: 'Calling is not enabled for this inbox'
-        already_ended: 'This call has already ended'
-        already_accepted: 'Call already accepted by another agent'
-        no_recording: 'No recording file provided'
-        recording_disabled: 'Call recording is disabled for this inbox'
-        no_message: 'Call has no associated message'
-        sdp_offer_required: 'sdp_offer is required'
-        contact_phone_required: 'Contact phone number is required'
-        permission_request_failed: 'Failed to send call permission request'
+        not_enabled: 'A hívás nincs engedélyezve ebben a bejövő postafiókban'
+        already_ended: 'A hívás már véget ért'
+        already_accepted: 'A hívást már elfogadta egy másik ügynök'
+        no_recording: 'Nincs megadva felvételfájl'
+        recording_disabled: 'A hívásrögzítés nincs engedélyezve ennél a bejövő postafióknál'
+        no_message: 'A híváshoz nem tartozik üzenet'
+        sdp_offer_required: 'az sdp_offer megadása kötelező'
+        contact_phone_required: 'A kontakt telefonszáma kötelező'
+        permission_request_failed: 'A hívásengedélyezési kérést nem sikerült elküldeni'
+    google_translate:
+      invalid_credentials: 'Ez a Google Cloud-kulcs nem működik. Ellenőrizze a projektazonosítót és a kulcsfájlt, majd próbálja újra.'
     openai:
-      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
+      invalid_api_key: 'Az OpenAI API kulcs érvénytelen vagy visszavonták. Ellenőrizze a kulcsot az OpenAI irányítópultján.'
     inboxes:
       imap:
         socket_error: Kérlek ellenőrizd a hálózati kapcsolatot, az IMAP címet, majd próbáld újra.
@@ -188,9 +217,26 @@ hu:
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
+      setup_required: A fiókjához kétlépcsős hitelesítés szükséges. Állítsa be a folytatáshoz.
+      enrollment_required: Ehhez a fiókhoz kétlépcsős hitelesítés szükséges. Az API hozzáférés visszaállításához állítsa be a profilbeállításoknál.
+      interactive_session_required: Kétlépcsős hitelesítés beállításai API hozzáférési tokennel nem kezelhetők. Jelentkezzen be az irányítópulton.
+      enforced_cannot_disable: A fiókja megköveteli a kétlépcsős hitelesítést, ezért az nem kapcsolható ki.
+    auto_translate:
+      invalid_messages: Érvénytelen üzenetek
+    device_verification:
+      invalid_token: A megerősítő token érvénytelen vagy lejárt. Jelentkezzen be újra új kód igényléséhez
+      invalid_code: Hibás kód. Adja meg az e-mailben küldött 6 számjegyű kódot.
+      expired: A megerősítő kód lejárt. Jelentkezzen be újra új kód igényléséhez
+      locked: Túl sok hibás kódot adott meg. Jelentkezzen be újra új kód igényléséhez
+      stale: A fiókja megváltozott a kód kiadása óta. Jelentkezzen be újra
+      rate_limited: Túl sokszor próbálkozott a megerősítéssel. Próbálja újra később, vagy állítsa vissza a jelszavát
+      code_field_required: Az e-mailben kapott 6 számjegyű kódot a megerősítő kód mezőbe írja, ne a tartalékkód mezőbe
     billing:
-      invalid_currency: Invalid billing currency
-      currency_locked: Billing currency cannot be changed after billing has been set up
+      invalid_currency: Érvénytelen számlázási pénznem
+      currency_locked: A számlázási pénznem a számlázás beállítása után nem módosítható
+      provider_action_unavailable: Ez a számlázási művelet Shopifyon keresztül számlázott fiókoknál nem érhető el
+      shopify_pricing_unavailable: A Shopify alkalmazás díjszabása jelenleg nem érhető el
+      shopify_verification_failed: A Shopify számlázását jelenleg nem sikerült ellenőrizni
     topup:
       credits_required: Credits amount is required
       invalid_credits: Invalid credits amount
@@ -276,6 +322,7 @@ hu:
       sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
       sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
       sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
+      voice_call_missed: '%{inbox_name} ellenőrzőkód'
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
@@ -289,12 +336,13 @@ hu:
       deleted: Az üzenet törölve lett
       whatsapp:
         list_button_label: 'Choose an item'
-        call_permission_request_body: 'We would like to call you regarding your conversation.'
-        flow_response: 'Submitted a flow response'
-        unsupported_message: 'This message is unavailable.'
+        call_permission_request_body: 'Szeretnénk felhívni a beszélgetéssel kapcsolatban.'
+        flow_response: 'Űrlapválasz beküldve'
+        request_contact_info: 'Megosztaná velünk a telefonszámát?'
+        unsupported_message: 'Ez az üzenet nem érhető el.'
       voice_call:
-        twilio: 'Voice Call'
-        whatsapp: 'WhatsApp Call'
+        twilio: 'Hanghívás'
+        whatsapp: 'WhatsApp hívás'
       delivery_status:
         error_code: 'Hibakód: %{error_code}'
     activity:
@@ -340,8 +388,8 @@ hu:
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       whatsapp_call:
-        permission_requested: 'Sent a call permission request to %{contact_name}.'
-        permission_granted: '%{contact_name} accepted the call permission request.'
+        permission_requested: 'Hívásengedélyezési kérés elküldve %{contact_name} kontaktnak.'
+        permission_granted: '%{contact_name} elfogadta a hívásengedélyezési kérést.'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
@@ -361,19 +409,29 @@ hu:
           from_with_name: '%{assignee_name} innen %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} innen %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} innen %{business_name} <%{from_email}>'
-          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
           reply_with_name: '%{assignee_name} innen %{inbox_name} <%{from_email}>'
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: 'Új üzenet a beszélgetésben'
       transcript_subject: 'Beszélgetés kivonat'
+      greeting: 'Kedves %{name},'
+      new_messages: 'Új üzenetei érkeztek a beszélgetésben.'
+      contact_label: 'Ön'
+      bot_label: 'Bot'
+      attachments: 'Mellékletek:'
+      rate_conversation_html: 'A beszélgetés értékeléséhez kattintson ide: %{link}.'
+      rate_conversation_link: 'ide'
     survey:
       response: 'Kérlek értékeld a beszélgetést, %{link}'
   contacts:
     online:
       delete: '%{contact_name} elérhető, kérjük, próbálja meg később újra'
   integration_apps:
+    stripe:
+      name: 'Stripe'
+      short_description: 'Tekintse meg az ügyfelek számlázási adatait a beszélgetésekben.'
+      description: 'Beszélgetés közben megtekintheti az ügyfél adatait, előfizetéseit és legutóbbi számláit a Stripe felületéről.'
     #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Kezdőlap applikációi'
@@ -401,12 +459,12 @@ hu:
     openai:
       name: 'OpenAI'
       short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
-      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
+      description: 'Használja ki az OpenAI nagy nyelvi modelljeit olyan funkciókhoz, mint a válaszjavaslatok, összefoglalás, üzenetek átfogalmazása és helyesírás-ellenőrzés.'
     linear:
       name: 'Linear'
       short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
-      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
+      attachment_link_title: 'Beszélgetés (#%{conversation_id}) – %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integrate databases, documents and pages directly with Captain.'
@@ -431,15 +489,19 @@ hu:
       completed_tool_call: 'Befejezett %{function_name} eszközhívás'
       invalid_tool_call: 'Érvénytelen eszközhívás'
       tool_not_available: 'Eszköz nem elérhető'
-      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
-      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
+      reply_suggestion_discarded: 'A beszélgetés megváltozott a Copilot válaszjavaslatának készítése közben, ezért a javaslatot elvetettük.'
+      reply_suggestion_failed: "A Copilot nem tudott válaszjavaslatot készíteni. Próbálja újra."
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
       pdf_size_error: 'must be less than 10MB'
-      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
-      sync_only_available_documents: 'Sync is only available for processed documents'
-      sync_already_in_progress: 'Document sync is already in progress'
+      markdown_format_error: 'markdown fájlnak kell lennie'
+      markdown_size_error: 'legfeljebb 10 000 karaktert tartalmazhat'
+      multiple_files_error: 'Egy dokumentumhoz csak egy feltöltött fájl tartozhat'
+      sync_not_supported_for_pdf: 'PDF dokumentumok szinkronizálása nem támogatott'
+      sync_not_supported_for_file: 'Feltöltött dokumentumok szinkronizálása nem támogatott'
+      sync_only_available_documents: 'Szinkronizálás csak feldolgozott dokumentumoknál érhető el'
+      sync_already_in_progress: 'A dokumentum szinkronizálása már folyamatban van'
       pdf_upload_failed: 'Failed to upload PDF to OpenAI'
       pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
       pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
@@ -456,9 +518,32 @@ hu:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    email_verification:
+      subject: 'A(z) %{inbox_name} ellenőrzőkódja'
+      heading: 'Az ellenőrzőkód'
+      instructions: 'E-mail-címe megerősítéséhez írja be ezt a kódot a következő csevegésbe: %{inbox_name}. A kód %{minutes} perc múlva lejár.'
+      ignore: 'Ha nem Ön kérte ezt a kódot, hagyja figyelmen kívül ezt az e-mailt. Ne ossza meg a kódot senkivel.'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
-      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
+      limit_exceeded: 'Asszisztensenként legfeljebb %{limit} egyéni eszköz hozható létre'
+      installed_read_only: 'A manifestből telepített eszközök csak olvashatók. Csak be- vagy kikapcsolhatja őket, illetve módosíthatja az e-mail-cím ellenőrzését.'
+      headers:
+        invalid: 'a fejlécneveknek és fejlécértékeknek objektumnak kell lenniük'
+        too_many: 'legfeljebb %{limit} bejegyzést tartalmazhat'
+        duplicate: 'a fejléc neve nem ismétlődhet'
+        invalid_name: '%{name} nem érvényes fejlécnév'
+        reserved: '%{name} fejlécet a Chatwoot kezeli, ezért nem lehet beállítani'
+        invalid_value: 'a %{name} értéke legfeljebb 1 KiB hosszúságú rögzített szöveg lehet, helyőrzők és vezérlőkarakterek nélkül'
+      param_schema:
+        invalid: 'Az ismert mezőkkel és egyszerű értékekkel rendelkező paramétereket kell felsorolni.'
+      settings:
+        invalid: 'Objektumnak kell lennie.'
+        unknown: 'Ismeretlen beállítások: %{names}'
+        not_boolean: 'Az értékek csak true vagy false lehetnek.'
+    tools_manifest:
+      invalid_source: 'Válasszon eszközkészletet a Captain eszközkatalógusából, például: chatwoot/tools/folder'
+      invalid_configuration: 'Érvénytelen beállítás'
+      disabled: 'Jegyzékből történő eszköztelepítés nincs engedélyezve'
   public_portal:
     search:
       search_placeholder: Keress a bejegyzések címében és tartalmában...
@@ -466,32 +551,32 @@ hu:
       loading_placeholder: Keresés...
       results_title: Keresés eredménye
       results: Keresés eredménye
-      results_for: "Search Results for '%{query}'"
-      no_results: "No results found for '%{query}'"
+      results_for: "Keresési találatok erre: „%{query}”"
+      no_results: "Nincs találat erre: „%{query}”"
       found_results:
-        one: Found 1 result
-        other: 'Found %{count} results'
+        one: 1 találat
+        other: '%{count} találat'
       submit: Keresés
     toc_header: 'Ezen az oldalon'
     sidebar:
       help_center: Súgóközpont
       categories: Kategóriák
       language: Nyelv
-      theme: Theme
+      theme: Téma
       open_sidebar: Oldalsáv megnyitása
       close_sidebar: Oldalsáv becsukás
-      browse: Browse
-      back_to_category: Back to %{name}
-      browse_by_topic: Browse by topic
-      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
-      popular_articles: Popular articles
-      popular_articles_subtitle: What other people are reading right now.
-      recommended: Recommended articles
-      recommended_subtitle: Hand-picked articles to get you started.
-      popular_label: 'Popular topics:'
-      recommended_label: 'Recommended topics:'
-      authors_others: "%{names} and %{count} others"
-      primary_nav: Primary
+      browse: Böngészés
+      back_to_category: 'Vissza ide: %{name}'
+      browse_by_topic: Böngészés témakör szerint
+      browse_by_topic_subtitle: Kategóriák szerint kereshet útmutatókat, oktatóanyagokat és válaszokat.
+      popular_articles: Népszerű cikkek
+      popular_articles_subtitle: Ezeket a cikkeket olvassák most mások.
+      recommended: Ajánlott cikkek
+      recommended_subtitle: Válogatott cikkek az induláshoz.
+      popular_label: 'Népszerű témakörök:'
+      recommended_label: 'Ajánlott témakörök:'
+      authors_others: "%{names} és még %{count} fő"
+      primary_nav: Elsődleges
     hero:
       sub_title: Keress bejegyzéseket, vagy válassz a kategóriákból lejjebb.
     common:
@@ -509,11 +594,11 @@ hu:
       previous: Previous
       next: Next
     article_actions:
-      label: Open in
-      view_markdown: View as Markdown
-      open_in_chatgpt: Open in ChatGPT
-      open_in_claude: Open in Claude
-      llm_prompt: "Read the following article and help me understand it: %{url}"
+      label: Megnyitás itt
+      view_markdown: Megtekintés Markdown-formátumban
+      open_in_chatgpt: Megnyitás a ChatGPT-ben
+      open_in_claude: Megnyitás a Claude-ban
+      llm_prompt: "Olvassa el a következő cikket, és segítsen megérteni: %{url}"
     footer:
       made_with: 'Ezzel készítve: '
     header:
@@ -525,7 +610,7 @@ hu:
         light: Világos mód
         dark: Sötét mód
       featured_articles: Kiemelt cikkek
-      recommended: Recommended articles
+      recommended: Ajánlott cikkek
       uncategorized: Kategorizálhatatlan
     404:
       title: Az oldal nem található
@@ -586,13 +671,13 @@ hu:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
     analytics:
-      invalid_configuration: 'Invalid analytics configuration'
+      invalid_configuration: 'Érvénytelen analitikai beállítás'
     articles:
-      captain_not_available: 'Translation requires Captain to be enabled for this account'
-      locale_not_available: 'Locale not available in this portal'
-      category_not_found: 'Category not found in this portal'
-      no_articles_found: 'No articles found to process'
-      invalid_status: 'Invalid status value'
+      captain_not_available: 'A fordításhoz engedélyeznie kell a Captain funkciót ehhez a fiókhoz'
+      locale_not_available: 'Ez a portál nem támogatja ezt a nyelvet'
+      category_not_found: 'Nem található ilyen kategória a portálon'
+      no_articles_found: 'Nincs feldolgozható cikk'
+      invalid_status: 'Érvénytelen állapotérték'
     send_instructions:
       email_required: 'Email is required'
       invalid_email_format: 'Invalid email format'
@@ -601,60 +686,405 @@ hu:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  installation:
+    onboarding:
+      heading: 'Üdvözöljük a Chatwootban 👋'
+      name: 'Név'
+      name_placeholder: 'Add meg a teljes neved. Pl.: Kovács János'
+      company: 'Cégnév'
+      company_placeholder: 'Adja meg a vállalat nevét. Például: Wayne Enterprises'
+      email: 'Work Email'
+      email_placeholder: 'Add meg munkahelyi e-mailcímed. Pl. kovacs.janos@email.hu'
+      password: 'Jelszó'
+      password_placeholder: 'Legalább 6 karakteres jelszót adjon meg.'
+      subscribe: 'Feliratkozás a kiadási hírekre, hírlevelekre és termékvisszajelzési felmérésekre.'
+      submit: 'Előkészületek befejezése'
   super_admin:
     account_suspension:
       categories:
         spam: 'Spam'
-        non_payment: 'Non-payment'
-        other: 'Other'
+        non_payment: 'Fizetés elmaradása'
+        other: 'Egyéb'
       form:
-        category: 'Suspension category'
+        category: 'Felfüggesztés kategóriája'
         category_prompt: 'Válassz kategóriát'
-        reason: 'Suspension reason'
-        reason_hint: 'Enter a reason of up to 256 characters.'
+        reason: 'Felfüggesztés oka'
+        reason_hint: 'Legfeljebb 256 karakterben adja meg az okot.'
       history:
-        suspended_at: 'Suspended at'
+        suspended_at: 'Felfüggesztés időpontja'
         category: 'Kategória'
-        reason: 'Reason'
-        empty: 'No suspension history recorded.'
+        reason: 'Indok'
+        suspended_by: 'Felfüggesztette'
+        unknown_user: 'Ismeretlen felhasználó'
+        empty: 'Nincs rögzített felfüggesztési előzmény.'
+    accounts:
+      users: 'Felhasználók'
+      conversations: 'Beszélgetések'
+      maintenance: 'Karbantartás'
+      general: 'Általános'
+      limits: 'Korlátok'
+      suspension_history: 'Felfüggesztési előzmények'
+      custom_attributes: 'Egyéni tulajdonságok'
+      manually_managed_features: 'Manuálisan kezelt funkciók'
+      captain_models: 'Captain modellek'
+      add_user: 'Felhasználó hozzáadása ehhez a fiókhoz'
+      seed_data: 'Mintaadatok létrehozása'
+      reset_cache: 'Frontend gyorsítótár ürítése'
+      reset_cache_description: 'Ez törli az IndexedDB gyorsítótárkulcsait a Redisből. A következő betöltéskor az adatok a háttérrendszerből töltődnek be.'
+      reset_cache_button: 'Frontend gyorsítótár ürítése'
+      seed_data_description: 'Kattintson a gombra, ha bemutatóhoz szükséges mintaadatokat szeretne létrehozni ebben a fiókban.'
+      seed_data_warning: 'Megjegyzés: ezzel törli az összes meglévő adatot ebből a fiókból.'
+      seed_data_button: 'Mintaadatok létrehozása'
+    actions:
+      save_changes: 'Save changes'
+      select_all: 'Összes kijelölése'
+      clear: 'Clear'
+      close: 'Bezárás'
+      more: 'Tovább'
+      copy: 'Másolás'
+      toggle_secret: 'Megjelenítés vagy elrejtés'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
-        customer_features: 'Customer features'
-        internal_features: 'Internal features'
-        use_default: 'Use default: %{model} (%{model_id})'
-        use_installation_model: 'Use installation model: %{model} (%{model_id})'
+        helper_text: 'Hagyja üresen a modell mezőjét, ha az adott MI funkció alapértelmezett útválasztását szeretné használni.'
+        customer_features: 'Ügyfélfunkciók'
+        internal_features: 'Belső funkciók'
+        use_default: 'Alapértelmezett használata: %{model} (%{model_id})'
+        use_installation_model: 'Telepítési modell használata: %{model} (%{model_id})'
       show:
-        summary: 'View model routing'
-        provider: 'Provider'
-        model: 'Model'
+        summary: 'Modellek útválasztásának megtekintése'
+        provider: 'Szolgáltató'
+        model: 'Modell'
       sources:
-        account_override: 'Account override'
-        installation_override: 'Installation setting'
+        account_override: 'Fiókszintű felülbírálás'
+        installation_override: 'Telepítési beállítás'
         default: 'Alapértelmezett'
       features:
-        conversation_completion: 'Inactive conversation completion evaluator'
-        editor: 'Editor'
+        conversation_completion: 'Inaktív beszélgetések lezárásának értékelője'
+        editor: 'Szerkesztő'
         assistant: 'Asszisztens'
         copilot: 'Copilot'
-        label_suggestion: 'Label suggestion'
-        document_faq_generation: 'Document FAQ generation'
-        conversation_faq_generation: 'Conversation FAQ generation'
-        conversation_faq_matching: 'Conversation FAQ matching'
-        help_center_article_generation: 'Help center article generation'
-        onboarding_content_generation: 'Onboarding content generation'
-        help_center_query_translation: 'Help center query translation'
-        audio_transcription: 'Audio transcription'
-        help_center_search: 'Help center search'
-    push_diagnostics:
-      user_not_found: 'User not found.'
-      no_subscriptions_to_test: 'Select at least one subscription to test.'
-      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted:
-        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
-        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+        document_faq_generation: 'GYIK létrehozása dokumentumból'
+        conversation_faq_generation: 'GYIK létrehozása beszélgetésből'
+        conversation_faq_matching: 'GYIK egyeztetése beszélgetéssel'
+        help_center_article_generation: 'Súgóközponti cikkek létrehozása'
+        onboarding_content_generation: 'Betanító tartalmak létrehozása'
+        help_center_query_translation: 'Súgóközponti lekérdezések fordítása'
+        message_translation: 'Üzenetfordítás'
+        language_detection: 'Nyelvfelismerés'
+        audio_transcription: 'Hangátirat készítése'
+        help_center_search: 'Súgóközponti keresés'
+    collection:
+      actions: 'Műveletek'
+      empty: 'Nem található %{resource}.'
+      showing: '%{from}–%{to} / %{total} megjelenítése'
+    command_bar:
+      label: 'Parancssáv'
+      trigger: 'Keresés'
+      placeholder: 'Keresés vagy parancs futtatása'
+      empty: 'Nincs találat.'
+      go_to: 'Ugrás'
+      create: 'Létrehozás'
+      open: 'Megnyitás'
+      see_all: 'Összes találat erre: %{resource}'
+      navigate: 'Navigálás'
+      select: 'Kiválasztás'
+    dashboard:
+      description: 'Fiókok, felhasználók és a telepítésen belüli beszélgetések száma.'
+      new_user: 'Új felhasználó'
+      new_account: 'Új fiók'
+      installation: 'Telepítés'
+      version: 'Verzió'
+      plan: 'Csomag'
+      shortcuts: 'Billentyűparancsok'
+    features:
+      title: 'Lehetőségek'
+      premium: 'Prémium funkciók'
+      filter: 'Szűrőfunkciók'
+      no_match: 'Nincs a szűrőnek megfelelő funkció.'
+      enabled: 'Engedélyezve'
+      disabled: 'Letiltva'
+      enabled_count: '%{enabled} / %{total} engedélyezve'
+      selected: 'Kijelölve'
+      not_selected: 'Nincs kijelölve'
+      selected_count: '%{selected} / %{total} kijelölve'
+      help_article: 'Súgócikk'
+      manually_managed_hint: 'A fiók csomagjának alacsonyabbra váltása után is engedélyezve maradó funkciók'
+      manually_managed_empty: 'Nincsenek manuálisan kezelt funkciók beállítva'
+    filters:
+      label: 'Szűrés'
+      all: 'Mind'
+    instance_status:
+      description: 'A telepítésben futó szolgáltatások verziói és kapcsolati állapota.'
+      details: 'Részletek'
+    login:
+      heading: 'Üdvözöljük, admin 👋'
+      email: 'Email cím'
+      email_placeholder: 'E-mail pl.: valaki@példa.hu'
+      password: 'Jelszó'
+      password_placeholder: 'Jelszó'
+      submit: 'Bejelentkezés'
+    navigation:
+      label: 'Szuperadminisztrátor'
+      suffix: 'Szuperadminisztrátori felület'
+      back: 'Vissza'
+      groups:
+        manage: 'Kezelés'
+        instance: 'Példány'
+      release_notes: 'Kiadási jegyzetek'
+      update_available: 'v%{version} érhető el'
+      dashboard: 'Irányítópult'
+      settings: 'Beállítások'
+      monitor: 'Figyelő'
+      more: 'Tovább'
+      agent_dashboard: 'Ügynöki irányítópult'
+      account: 'Fiók'
+      profile: 'Profil'
+      logout: 'Kilépés'
+      overview: 'Áttekintés'
+      instance_health: 'Példány állapota'
+      user_diagnostics: 'Felhasználói diagnosztika'
+      sidekiq_dashboard: 'Sidekiq irányítópult'
+      tabs:
+        agent_bots: 'Botok'
+        platform_apps: 'Alkalmazások'
+        platform_banners: 'Promóciós sávok'
+      settings_groups:
+        product: 'Termék'
+        channels: 'Csatornák'
+        authentication: 'Autentikáció'
+        integrations: 'Integrációk'
+      theme:
+        label: 'Téma'
+        system: 'Rendszerbeállítás követése'
+        light: 'Világos mód'
+        dark: 'Sötét mód'
+    user_diagnostics:
+      description: 'Keressen rá a felhasználóra a jelzett probléma kivizsgálásához. Minden lap a beállítás egy-egy részét mutatja.'
+      user_not_found: 'Nem található felhasználó.'
+      tabs:
+        label: 'Diagnosztikai szakaszok'
+        mobile: 'Mobilalkalmazás'
+        push: 'Push értesítések kézbesítése'
+        web: 'Web'
+      search:
+        title: 'Felhasználó keresése'
+        placeholder: 'user@example.com vagy numerikus felhasználói azonosító'
+        submit: 'Keresés'
+        not_found: 'Nem található felhasználó ezzel: „%{query}”.'
+      user:
+        id: 'Azonosító: %{id}'
+        accounts: 'Fiókok'
+        details_link: 'Felhasználói adatok'
+      sessions:
+        heading: 'Mobilmunkamenetek'
+        description: 'Az alkalmazás minden kérésnél elküldött X-Chatwoot-* fejléceiből származó adat, így az eszközre jelenleg telepített verziót tükrözi.'
+        empty:
+          title: 'Nincs rögzített mobilmunkamenet.'
+          description: 'Ez a felhasználó sem az iOS alkalmazásból, sem az Android alkalmazásból nem jelentkezett be.'
+        legacy_build: 'Régi verzió'
+        legacy_note: 'A „régi verzió” azt jelenti, hogy a munkamenet az alkalmazás 4.8.0-s verziója előtti időből származik. Ettől a verziótól kezdve küldi az alkalmazás az X-Chatwoot-Client-Version fejlécet. A pontos verzió nem ismert.'
+        columns:
+          app_version: 'Alkalmazásverzió'
+          platform: 'Platform'
+          os_version: 'Operációs rendszer verziója'
+          device: 'Eszköz'
+          first_seen: 'Első észlelés'
+          last_active: 'Utoljára aktív'
+      web_sessions:
+        heading: 'Webes munkamenetek'
+        description: 'Bejelentkezéskor a böngésző felhasználói azonosítójából olvassa ki az adatot, és használat közben frissíti, így az éppen használt böngészőt tükrözi. A listában csak olyan munkamenetek jelennek meg, amelyekbe még be van jelentkezve.'
+        empty:
+          title: 'Nincs rögzített webes munkamenet.'
+          description: 'Ez a felhasználó nincs bejelentkezve egyetlen böngészőből sem.'
+        columns:
+          browser: 'Böngésző'
+          browser_version: 'Verzió'
+          os: 'Operációs rendszer'
+          os_version: 'Operációs rendszer verziója'
+          first_seen: 'Első észlelés'
+          last_active: 'Utoljára aktív'
+      devices:
+        heading: 'Regisztrált eszközök'
+        empty:
+          title: 'Nincs regisztrált eszköz.'
+          description: 'Ennek a felhasználónak nincs regisztrált eszköze push értesítések fogadásához.'
+        build_number_note: 'itt a buildNumber a natív build számát jelöli, nem a Mobilalkalmazás lapon látható alkalmazásverziót.'
+        columns:
+          id: 'Azonosító'
+          type: 'Típus'
+          device: 'Eszköz'
+          token: 'Token'
+          details: 'Eszközadatok'
+          registered: 'Regisztrálva'
+          last_updated: 'Utoljára frissítve'
+      push_settings:
+        heading: 'Push értesítési beállítások'
+        description: 'Fiókonként állítható be, és minden előfizetés megkísérlése előtt egyszer ellenőrzi a rendszer. Ha minden típus ki van kapcsolva, a felhasználó egyetlen eszközére sem érkezik push értesítés, még akkor sem, ha az alábbi regisztrációk rendben vannak.'
+        review_link: 'Push értesítési beállítások áttekintése →'
+        empty:
+          title: 'Nincsenek rögzített értesítési beállítások.'
+          description: 'Ez a felhasználó egyetlen fiókhoz sem tartozik.'
+        notification_type: 'Notification type'
+        unnamed_account: 'Fiók: %{id}'
+        sla_unavailable: 'Az SLA nincs engedélyezve ennél a fióknál'
+        calls_unavailable: 'A Hangcsatorna és a mobilhívások funkció nincs egyaránt bekapcsolva ezen a fiókon.'
+        none_enabled:
+          one: 'A következő felhasználóknál nincs bekapcsolva push típus: %{names}. Ettől a fióktól nem kap push értesítést.'
+          other: 'A következő felhasználóknál nincs bekapcsolva push típus: %{names}. Ezekből a fiókokból nem érkezik push értesítés.'
+      calls:
+        heading: 'Bejövő hívások'
+        description: 'A beállítás határozza meg, hogy a hívás kicseng-e a felhasználó telefonján, amikor az alkalmazás a háttérben fut vagy be van zárva. Nyitott alkalmazás esetén a hívások az alkalmazás aktív kapcsolatán keresztül csengenek ki.'
+        accounts_heading: 'Fiókok'
+        setup:
+          heading: 'Pushbeállítás'
+          columns:
+            platform: 'Platform'
+            installation: 'Telepítés'
+            devices: 'Hívásra regisztrált eszközök'
+        platforms:
+          apple: 'iPhone'
+          android: 'Android'
+        configured: 'Beállítva'
+        not_configured: 'Nincs beállítva'
+        credentials:
+          apple: 'A következőkre van szükség: APNS_VOIP_KEY, APNS_VOIP_KEY_ID és APNS_VOIP_TEAM_ID'
+          android: 'A következőkre van szükség: FIREBASE_PROJECT_ID és FIREBASE_CREDENTIALS'
+        invalid_environment: 'Az APNS_VOIP_ENVIRONMENT értéke development vagy production lehet.'
+        account_columns:
+          account: 'Fiók'
+          voice: 'Voice Channel'
+          ringing: 'Hívások mobilon'
+          inboxes: 'Hangpostafiókok'
+          status: 'Státusz'
+          rings: 'Kicsengések'
+        'on': 'Be'
+        'off': 'Ki'
+        availability:
+          online: 'Online'
+          busy: 'Foglalt'
+          offline: 'Offline'
+        rings: 'Igen'
+        blockers:
+          voice_off: 'Nem, a Hangcsatorna ki van kapcsolva'
+          ringing_off: 'Nem, a mobilhívások ki vannak kapcsolva'
+          no_inboxes: 'Nem, nincs hangpostafiók'
+          not_online: 'Nem, a felhasználó nincs online'
+          no_device: 'Nem, nincs regisztrált telefon'
+          push_unavailable: 'Csak nyitott alkalmazás esetén'
+        assigned_only: 'A hozzá rendelt hívások'
+      push_types:
+        conversation_creation: 'A new conversation is created'
+        conversation_assignment: 'Beszélgetés van hozzárendelve a felhasználóhoz'
+        conversation_mention: 'A felhasználót megemlítették egy beszélgetésben'
+        assigned_conversation_new_message: 'A new message is created in an assigned conversation'
+        participating_conversation_new_message: 'A new message is created in a participating conversation'
+        sla_missed_first_response: 'A conversation misses first response SLA'
+        sla_missed_next_response: 'A conversation misses next response SLA'
+        sla_missed_resolution: 'A conversation misses resolution SLA'
+        voice_call_missed: 'A felhasználónak kicsengetett hívás nem fogadott hívásként jelenik meg.'
+      push:
+        real_push_warning: 'Ez valódi push értesítést küld minden kijelölt eszközre. Csak bejelentett probléma kivizsgálásakor használja.'
+        title_label: 'Cím'
+        body_label: 'Body'
+        body_hint: 'Az ügyfelek ezt a szöveget valódi push értesítésként látják az eszközükön.'
+        send_test: 'Teszt push értesítés küldése a kijelölt eszközökre'
+        delete_selected: 'Kijelölt előfizetések törlése'
+        delete_confirm: "Törli a kijelölt előfizetést (előfizetéseket)? A felhasználó ezeken az eszközökön nem kap push értesítést, amíg az alkalmazás újra nem regisztrál."
+        no_subscriptions_to_test: 'A teszteléshez jelöljön ki legalább egy előfizetést.'
+        no_subscriptions_to_delete: 'A törléshez jelöljön ki legalább egy előfizetést.'
+        subscriptions_deleted:
+          one: "Törölve %{count} előfizetés. A felhasználó eszköze az alkalmazás következő indításakor újra regisztrál."
+          other: "Törölve %{count} előfizetés. A felhasználók eszközei az alkalmazás következő indításakor újra regisztrálnak."
+        results_heading: 'Eredmények'
+        results_columns:
+          id: 'Előfizetés azonosítója'
+          type: 'Típus'
+          device: 'Eszköz'
+          token: 'Push értesítési token'
+          status: 'Státusz'
+          details: 'Részletek'
+    record:
+      overview: 'Áttekintés'
+      profile: 'Profil'
+      created: 'Létrehozva'
+      last_updated: 'Utoljára frissítve'
+      time_ago: '%{time} ezelőtt'
+    settings:
+      pages:
+        general: 'Általános'
+        internal: 'Belső'
+        internal_description: 'A Chatwoot Cloud által használt kulcsok és kapcsolók'
+      configure: 'Beállítások'
+      enterprise_badge: 'Nagyvállalati kiadás'
+      included: 'Tartalmazza'
+      locked: 'Zárolva'
+      installation_identifier_description: 'A telepítés egyedi azonosítója.'
+      default_description: 'Példányszintű beállítások'
+      description: 'A telepítés beállításainak módosítása és a számlázási portál megnyitása'
+      configure_title: 'Beállítások konfigurálása – %{config}'
+      alert: 'Figyelem!'
+      unauthorized_changes: 'Jogosulatlan prémium módosításokat észleltünk a Chatwootban. A használatuk folytatásához váltson magasabb csomagra.'
+      contact_for_help: 'Segítségért forduljon hozzánk:'
+      agents_over_limit: 'Jelenleg %{count} ügynököt használ. További felhasználók hozzáadásához bővítse a licencek számát.'
+      current_plan: 'Jelenlegi csomag'
+      refresh: 'Frissítés'
+      manage: 'Kezelés'
+      installation_identifier: 'Telepítésazonosító'
+      need_help: 'Kell segítség?'
+      need_help_description: 'Problémába ütközött? Segítünk.'
+      community_support: 'Közösségi támogatás'
+      chat_support: 'Csevegéses támogatás'
+      switch_to_enterprise: 'Váltás az Enterprise kiadásra'
+      upgrade_now: 'Upgrade now'
     users:
+      impersonate: 'Felhasználóként való bejelentkezés'
+      copy_impersonation_link: 'Hivatkozás másolása'
+      impersonation_link_copied: 'Másolva'
+      impersonation_link_failed: 'A másolás nem sikerült'
+      support: 'Támogatás'
+      impersonate_dialog:
+        title: 'Bejelentkezik %{name} felhasználóként?'
+        private_window_hint: 'Ezzel a böngészőben az adott felhasználóként jelentkezik be az irányítópultra, és lecseréli a saját munkamenetét. Ha meg szeretné tartani a sajátját, másolja a hivatkozást, és nyissa meg privát ablakban.'
+      impersonate_caution: 'A műveletek úgy jelennek meg, mintha %{name} végezte volna őket.'
+      accounts: 'Fiókok'
+      confirmed: 'Megerősítve'
+      unconfirmed: 'Nincs megerősítve'
+      mfa: 'MFA'
+      mfa_enabled: 'Engedélyezve'
+      mfa_disabled: 'Letiltva'
+      add_account: 'Felhasználó hozzáadása egy fiókhoz'
       resend_confirmation:
-        button: 'Resend confirmation email'
-        sent: 'Confirmation email sent.'
-        already_confirmed: 'User is already confirmed.'
+        button: 'Megerősítő e-mail újraküldése'
+        sent: 'A megerősítő e-mail elküldve.'
+        already_confirmed: 'A felhasználó megerősítése már megtörtént.'
+      email_suppression:
+        menu: 'E-mail'
+        check_button: 'E-mail-kézbesítés ellenőrzése'
+        clear_button: 'E-mail-cím tiltásának feloldása'
+        clear_dialog:
+          title: 'Feloldja a tiltást ennél az e-mail-címnél: %{email}?'
+          body: 'A %{brand_name} ismét küld majd e-maileket erre a címre. Ha a következő kézbesítés is sikertelen lesz, a címet újra letiltjuk.'
+          cancel: 'Mégse'
+          confirm: 'Tiltás feloldása'
+        complaint_hint: 'Spam bejelentés miatt letiltva. Továbbítsa a mérnöki csapatnak.'
+        check_first_hint: 'Először ellenőrizze az e-mail kézbesítését.'
+        not_blocked_hint: 'Az erre a címre küldött e-mailek nincsenek letiltva.'
+        test_email_blocked_hint:
+          bounce: 'Először oldja fel a cím tiltását. A letiltott címekre küldött e-mailek nem érkeznek meg.'
+          complaint: 'Spam bejelentés miatt letiltva. Az erre a címre küldött e-mailek nem érkeznek meg.'
+        test_email_button: 'Teszt e-mail küldése'
+        pending:
+          check: 'Ellenőrzés…'
+          clear: 'Tiltás feloldása…'
+          send: 'Küldés…'
+        check:
+          not_suppressed: 'A %{email} címre küldött e-mailek nincsenek letiltva.'
+          bounce: 'A %{email} címre küldött e-maileket %{since} óta letiltottuk, mert a címről visszapattant az üzenet. Oldja fel a tiltást, majd kérje meg a felhasználót az újbóli próbálkozásra.'
+          complaint: 'A %{email} címre küldött e-maileket %{since} óta letiltottuk spambejelentés miatt. Továbbítsa az ügyet a mérnöki csapatnak.'
+          unavailable: "Nem sikerült ellenőrizni az e-mail kézbesítését a %{email} címnél. Próbálja újra, vagy továbbítsa az ügyet a mérnöki csapatnak."
+        clear:
+          success: 'A %{email} cím tiltását feloldottuk. Kérje meg a felhasználót az újbóli próbálkozásra, vagy küldjön teszt e-mailt a kézbesítés ellenőrzéséhez.'
+          failed: "Nem sikerült feloldani a %{email} cím tiltását (%{error}). Továbbítsa az ügyet a mérnöki csapatnak."
+        test_email:
+          queued: 'Teszt e-mailt küldtünk a %{email} címre. Kérje meg a felhasználót a bejövő és a spam mappa ellenőrzésére.'
+          subject: 'Teszt e-mail a %{brand_name} ügyfélszolgálatától'

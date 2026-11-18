@@ -47,7 +47,9 @@
       "REGENERATE": "백업 코드 재생성",
       "DISABLE_MFA": "2FA 비활성화",
       "DISABLE_MFA_DESC": "계정에서 2단계 인증을 제거합니다",
-      "DISABLE_BUTTON": "2단계 인증 비활성화"
+      "DISABLE_BUTTON": "2단계 인증 비활성화",
+      "ENFORCED_TITLE": "Required by your account",
+      "ENFORCED_NOTE": "Your account requires two-factor authentication, so it cannot be disabled here. Contact your administrator if you need help."
     },
     "LOW_BACKUP_CODES": {
       "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
@@ -90,6 +92,9 @@
   "MFA_VERIFICATION": {
     "TITLE": "2단계 인증",
     "DESCRIPTION": "계속하려면 인증 코드를 입력하십시오",
+    "EMAIL_TITLE": "Check your email",
+    "EMAIL_DESCRIPTION": "You're signing in from a new device.",
+    "ENTER_EMAIL_CODE": "Enter the 6-digit code from your email",
     "AUTHENTICATOR_APP": "인증 앱",
     "BACKUP_CODE": "백업 코드",
     "ENTER_OTP_CODE": "인증 앱에서 6자리 코드를 입력하십시오",
@@ -110,6 +115,11 @@
       "CONTACT_DESC_CLOUD": "인증 앱과 백업 코드 모두에 접근할 수 없는 경우 Chatwoot 지원팀에 문의하십시오.",
       "CONTACT_DESC_SELF_HOSTED": "인증 앱과 백업 코드 모두에 접근할 수 없는 경우 관리자에게 문의하십시오."
     },
-    "VERIFICATION_FAILED": "인증에 실패했습니다. 다시 시도해 주십시오."
+    "VERIFICATION_FAILED": "인증에 실패했습니다. 다시 시도해 주십시오.",
+    "REMEMBER_DEVICE": "Don't ask again on this device for 30 days"
+  },
+  "MFA_ENFORCED_SETUP": {
+    "TITLE": "Set up two-factor authentication",
+    "DESCRIPTION": "Your account requires two-factor authentication. Scan the QR code with your authenticator app and enter the code to continue."
   }
 }

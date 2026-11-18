@@ -40,12 +40,12 @@ describe('integration settings routes', () => {
     mocks.isFeatureEnabled.mockReset();
   });
 
-  it('protects the Shopify route with the Shopify feature flag', () => {
+  it('protects the Shopify route with the shared availability guard', () => {
     const shopifyRoute = integrationsRoutes.routes
       .flatMap(route => route.children || [])
       .find(route => route.name === 'settings_integrations_shopify');
 
-    expect(shopifyRoute.meta.featureFlag).toBe(FEATURE_FLAGS.SHOPIFY);
+    expect(shopifyRoute.meta.featureFlag).toBeUndefined();
     expect(shopifyRoute.beforeEnter).toBe(redirectShopifyIfUnavailable);
   });
 
@@ -69,8 +69,14 @@ describe('integration settings routes', () => {
     );
   });
 
-  it('allows direct navigation when Shopify is enabled', async () => {
-    mocks.isFeatureEnabled.mockReturnValue(true);
+  it.each([
+    [true, false],
+    [false, true],
+    [true, true],
+  ])('allows navigation with main=%s and custom=%s', async (main, custom) => {
+    mocks.isFeatureEnabled.mockImplementation((accountId, flag) =>
+      flag === FEATURE_FLAGS.SHOPIFY ? main : custom
+    );
     const next = vi.fn();
 
     await redirectShopifyIfUnavailable(

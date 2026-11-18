@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hi han converses prèvies associades a aquest contacte.",
-      "TITLE": "Converses prèvies"
+      "TITLE": "Converses prèvies",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

@@ -44,6 +44,35 @@
         "TITLE": "ID da Conta",
         "NOTE": "Este ID é necessário se você está construindo uma integração baseada em API"
       },
+      "TRANSLATION": {
+        "TITLE": "Tradução",
+        "NOTE": "Fale o idioma de cada cliente, independentemente dos idiomas que sua equipe domina.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "Traduções por IA que soam naturais e preservam seu tom."
+        },
+        "GOOGLE": {
+          "TITLE": "Tradutor do Google",
+          "NOTE": "Traduções rápidas e confiáveis do Google.",
+          "NOT_CONNECTED": "Não conectado",
+          "CONNECT": "Conectar",
+          "NOT_CONNECTED_HINT": "O Google Translate ainda não está conectado."
+        },
+        "UPGRADE": {
+          "NOTE": "Faça upgrade para um plano pago e traduza conversas com o Captain ou o Google Translate.",
+          "BUTTON": "Atualize"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Traduzir conversas automaticamente",
+          "NOTE": "Leia todas as mensagens no seu idioma. Os clientes recebem as respostas no idioma deles.",
+          "LOCKED": "Escolha um serviço para ativar esse recurso.",
+          "NOT_AVAILABLE": "A tradução automática ainda não está ativada nesta conta."
+        },
+        "API": {
+          "SUCCESS": "Configurações de tradução atualizadas com sucesso",
+          "ERROR": "Falha ao atualizar as configurações de tradução"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Resolver conversas automaticamente",
         "NOTE": "Essa configuração permitirá que você resolva automaticamente a conversa após um determinado período de inatividade.",
@@ -51,7 +80,7 @@
           "LABEL": "Duração da inatividade",
           "HELP": "Período de tempo de inatividade após o qual a conversa é resolvida automaticamente",
           "PLACEHOLDER": "30",
-          "ERROR": "O tempo decorrido para resolução automática deve ser entre 10 minutos e 999 dias",
+          "ERROR": "O tempo de resolução automática deve estar entre {minDuration} minutos e 999 dias",
           "API": {
             "SUCCESS": "Configurações de resolução automática atualizadas com sucesso",
             "ERROR": "Falha ao atualizar as configurações de resolução automática"
@@ -104,6 +133,14 @@
           "ERROR": "Falha ao atualizar configuração de transcrição de áudio"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Exigir autenticação de dois fatores",
+        "NOTE": "Exija que todos os membros desta conta configurem a autenticação de dois fatores. Quem ainda não a tiver configurado será solicitado a fazê-lo no próximo acesso com senha. Acessos pelo Google ou SAML ficam isentos. Os tokens de acesso à API de membros que não configuraram a autenticação de dois fatores deixarão de funcionar nesta conta até que façam a configuração.",
+        "API": {
+          "SUCCESS": "Exigência de autenticação de dois fatores atualizada com sucesso",
+          "ERROR": "Não foi possível atualizar a exigência de autenticação de dois fatores"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Tempo de inatividade para resolução",
         "HELP": "Tempo de inatividade após o qual a conversa deve ser encerrada automaticamente",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Uma atualização {latestChatwootVersion} para o Chatwoot está disponível. Por favor, atualize sua instância.",
     "LEARN_MORE": "Saiba mais",
-    "PAYMENT_PENDING": "Seu pagamento está pendente. Por favor, atualize suas informações de pagamento para continuar usando o Chatwoot",
+    "PAYMENT_PENDING": "O pagamento da sua conta está em atraso. Atualize suas informações de pagamento para evitar o cancelamento da assinatura.",
+    "PAYMENT_PENDING_AGENT": "O pagamento da sua conta está em atraso. Por favor, entre em contato com o seu administrador para resolver isso.",
     "UPGRADE": "Atualize para continuar usando o Chatwoot",
     "LIMITS_UPGRADE": "Sua conta excedeu os limites de uso. Por favor, faça um upgrade do seu plano para continuar usando o Chatwoot",
     "OPEN_BILLING": "Abrir faturamento"
