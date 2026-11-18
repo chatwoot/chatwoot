@@ -1,6 +1,8 @@
 class Webhooks::SmsController < ActionController::API
   include ActionController::HttpAuthentication::Basic::ControllerMethods
 
+  APPLICATION_CREDENTIAL_LIMIT = 25
+
   def process_payload
     return head :ok if target_channel.blank? || !routable?
     return request_http_basic_authentication unless callback_authorized?
@@ -48,6 +50,7 @@ class Webhooks::SmsController < ActionController::API
     Channel::Sms.where(account_id: target_channel.account_id)
                 .on_bandwidth_application(application_id)
                 .where.not(id: callback_channels.map(&:id))
+                .limit(APPLICATION_CREDENTIAL_LIMIT)
   end
 
   def callback_authorized?
