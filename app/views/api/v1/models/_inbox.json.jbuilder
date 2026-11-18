@@ -201,3 +201,10 @@ if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(
     json.partial! 'api/v1/models/call_routing', channel: resource.channel
   end
 end
+
+## Bandwidth SMS callback authentication
+if resource.sms? && Current.account_user&.administrator?
+  json.callback_auth_username Channel::Sms::CALLBACK_USERNAME
+  json.callback_auth_password resource.channel.secret
+  json.callback_auth_enforced resource.channel.callback_auth_enforced
+end
