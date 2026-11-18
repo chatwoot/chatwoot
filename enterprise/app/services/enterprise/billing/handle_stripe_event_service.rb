@@ -164,8 +164,10 @@ class Enterprise::Billing::HandleStripeEventService
     config[plan_name.downcase]&.symbolize_keys
   end
 
+  # Stripe delivers events out of order and retries a failed one for days, so a payload can be older
+  # than state already applied. Read the subscription as it is now, in the payload's API version.
   def subscription
-    @subscription ||= @event.data.object
+    @subscription ||= Stripe::Subscription.retrieve(@event.data.object.id, { stripe_version: @event.api_version })
   end
 
   def previous_attributes
