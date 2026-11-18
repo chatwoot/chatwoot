@@ -133,6 +133,11 @@ export const GENERAL_EVENTS = Object.freeze({
   COMMAND_BAR: 'Used commandbar',
 });
 
+export const COMMAND_BAR_EVENTS = Object.freeze({
+  OPENED: 'Command bar: Opened',
+  COMMAND_SELECTED: 'Command bar: Selected a command',
+});
+
 export const INBOX_EVENTS = Object.freeze({
   OPEN_CONVERSATION_VIA_INBOX: 'Opened conversation via inbox',
   MARK_NOTIFICATION_AS_READ: 'Marked notification as read',
