@@ -179,6 +179,22 @@ RSpec.describe AutomationRule do
 
       expect(rule.update(active: false)).to be true
     end
+
+    it 'cannot be reactivated after its bot was deleted' do
+      rule = create(:automation_rule, account: account, actions: [{ 'action_name' => 'assign_agent_bot', 'action_params' => [bot.id] }])
+      rule.update!(active: false)
+      bot.destroy!
+
+      expect(rule.update(active: true)).to be false
+      expect(rule.errors[:actions]).to eq(['Automation action assign_agent_bot needs the id of one agent bot of the account.'])
+    end
+
+    it 'can still be renamed after its bot was deleted' do
+      rule = create(:automation_rule, account: account, actions: [{ 'action_name' => 'assign_agent_bot', 'action_params' => [bot.id] }])
+      bot.destroy!
+
+      expect(rule.update(name: 'Renamed')).to be true
+    end
   end
 
   describe 'Captain conditions' do

@@ -140,14 +140,18 @@ class AutomationRule < ApplicationRecord
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
   end
 
-  # Checked only when the actions change, so a rule whose bot was deleted later can still be deactivated.
+  # Checked when the actions change or the rule is activated, so a rule whose bot was deleted later can still be deactivated.
   def agent_bot_actions
-    return if actions.blank? || !will_save_change_to_actions?
+    return if actions.blank? || !agent_bot_check_due?
 
     bot_actions = actions.select { |obj| obj['action_name'] == 'assign_agent_bot' }
     return if bot_actions.all? { |obj| single_account_agent_bot?(obj['action_params']) }
 
     errors.add(:actions, 'Automation action assign_agent_bot needs the id of one agent bot of the account.')
+  end
+
+  def agent_bot_check_due?
+    will_save_change_to_actions? || (will_save_change_to_active? && active?)
   end
 
   def single_account_agent_bot?(ids)
