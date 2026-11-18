@@ -1,12 +1,18 @@
 module Enterprise::Channel::TwilioSms
   extend ActiveSupport::Concern
+
   include Concerns::CallRecordingSettings
+  include Concerns::CallRoutingSettings
+
+  # How long a call rings before the caller hears the missed-call message, until the inbox saves its own
+  DEFAULT_RING_TIMEOUT_SECONDS = 60
 
   def self.prepended(base)
     base.class_eval do
       encrypts :api_key_secret if Chatwoot.encryption_configured?
 
       validate :voice_requires_phone_number, if: :voice_enabled?
+      validate :call_routing_settings_valid
       before_validation :provision_twiml_app, on: :create, if: :voice_enabled?
       before_validation :provision_twiml_app_on_update, on: :update, if: :voice_enabled_changed_to_true?
       after_commit :teardown_voice, on: :update, if: :voice_disabled?
@@ -17,8 +23,8 @@ module Enterprise::Channel::TwilioSms
     provider_config['business_hours_calls_enabled'] == true
   end
 
-  def out_of_hours_call_message
-    provider_config['out_of_hours_call_message']
+  def unanswered_call_timeout_seconds
+    provider_config.fetch('unanswered_call_timeout_seconds', DEFAULT_RING_TIMEOUT_SECONDS)
   end
 
   def account_auth_token_configured?

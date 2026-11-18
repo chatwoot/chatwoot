@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useAutomationRoute } from 'dashboard/composables/useAutomationRoute';
 import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import HoverActions from 'dashboard/components-next/hover-actions/HoverActions.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -18,6 +19,7 @@ const emit = defineEmits(['action']);
 const { t } = useI18n();
 const router = useRouter();
 const { accountScopedRoute } = useAccount();
+const { createAutomation } = useAutomationRoute();
 const isPaused = computed(() => Boolean(props.monitor.paused_at));
 const monitorRoute = computed(() =>
   accountScopedRoute('monitor_reports_show', { monitorId: props.monitor.id })
@@ -49,9 +51,7 @@ const onAction = key => {
     emit('action', key);
     return;
   }
-  router.push(
-    accountScopedRoute('automation_list', {}, { monitor_id: props.monitor.id })
-  );
+  createAutomation({ monitorId: props.monitor.id });
 };
 </script>
 

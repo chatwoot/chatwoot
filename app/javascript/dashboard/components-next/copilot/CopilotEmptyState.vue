@@ -1,8 +1,8 @@
 <script setup>
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { useCopilotPrompts } from 'dashboard/composables/useCopilotPrompts';
 import Icon from '../icon/Icon.vue';
+import CopilotPromptPills from './CopilotPromptPills.vue';
 
 const props = defineProps({
   hasAssistants: {
@@ -13,69 +13,34 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isWorkflowsEnabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['useSuggestion']);
-const { t } = useI18n();
 const route = useRoute();
-
-const routePromptMap = {
-  conversations: [
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
-    },
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
-      requestType: 'reply_suggestion',
-    },
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
-    },
-  ],
-  dashboard: [
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.CONTENT',
-    },
-    {
-      label: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.LABEL',
-      prompt: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.CONTENT',
-    },
-  ],
-};
-
-const getCurrentRoute = () => {
-  const path = route.path;
-  if (path.includes('/conversations')) return 'conversations';
-  if (path.includes('/dashboard')) return 'dashboard';
-  return 'dashboard';
-};
-
-const promptOptions = computed(() => {
-  const currentRoute = getCurrentRoute();
-  const prompts = routePromptMap[currentRoute] || routePromptMap.conversations;
-
-  return prompts.filter(
-    prompt => prompt.requestType !== 'reply_suggestion' || props.canSuggestReply
-  );
+const { prompts, selectPrompt } = useCopilotPrompts({
+  isWorkflowsEnabled: () => props.isWorkflowsEnabled,
+  canSuggestReply: () => props.canSuggestReply,
 });
 
-const handleSuggestion = opt => {
-  const message = t(opt.prompt);
-  emit(
-    'useSuggestion',
-    opt.requestType ? { message, requestType: opt.requestType } : message
-  );
+const handleSuggestion = key => {
+  emit('useSuggestion', selectPrompt(key));
 };
 </script>
 
 <template>
-  <div class="flex-1 flex flex-col gap-6 px-2">
-    <div class="flex flex-col space-y-4 py-4">
-      <Icon icon="i-woot-captain" class="text-n-slate-9 text-4xl" />
+  <div class="flex-1 self-stretch flex flex-col gap-6 px-2">
+    <!-- The avatar fills the logo slot, so the title and description center under it. -->
+    <div
+      class="flex flex-col space-y-4 py-4"
+      :class="{ 'items-center text-center': $slots.logo }"
+    >
+      <slot name="logo">
+        <Icon icon="i-woot-captain" class="text-n-slate-9 text-4xl" />
+      </slot>
       <div class="space-y-1">
         <h3 class="text-base font-medium text-n-slate-12 leading-8">
           {{ $t('CAPTAIN.COPILOT.PANEL_TITLE') }}
@@ -101,18 +66,25 @@ const handleSuggestion = opt => {
         {{ $t('CAPTAIN.ASSISTANTS.ADD_NEW') }}
       </router-link>
     </div>
+    <!-- Next to the avatar the prompts sit above the input as pills. Without it, Copilot keeps the list. -->
+    <CopilotPromptPills
+      v-else-if="$slots.logo"
+      :prompts="prompts"
+      class="mt-auto"
+      @select="handleSuggestion"
+    />
     <div v-else class="w-full space-y-2">
       <span class="text-xs text-n-slate-10 block">
         {{ $t('CAPTAIN.COPILOT.TRY_THESE_PROMPTS') }}
       </span>
       <div class="space-y-1">
         <button
-          v-for="prompt in promptOptions"
-          :key="prompt.label"
+          v-for="prompt in prompts"
+          :key="prompt.key"
           class="w-full px-3 py-2 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center justify-between hover:bg-n-slate-3 transition-colors"
-          @click="handleSuggestion(prompt)"
+          @click="handleSuggestion(prompt.key)"
         >
-          <span>{{ t(prompt.label) }}</span>
+          <span>{{ prompt.label }}</span>
           <Icon icon="i-lucide-chevron-right" />
         </button>
       </div>

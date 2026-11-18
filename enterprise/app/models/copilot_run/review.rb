@@ -34,25 +34,33 @@
 # Reads the conversations of a collection in batches and saves a finding for each. A turn reviews at most
 # CONVERSATIONS_PER_TURN of them, and the agent asks to continue for the rest.
 class CopilotRun::Review < CopilotRun
-  include Concerns::CopilotRunProgress
-
   # A review that hits errors still hands its findings to the turn, so it ends incomplete rather than failed.
-  STATUSES = %w[queued running completed incomplete].freeze
+  STATUSES = %w[queued running reviewing completed incomplete].freeze
+  # A conversation whose review fails this many times is marked failed instead of retried.
+  MAX_ATTEMPTS = 2
 
   has_many :findings, class_name: 'CopilotReviewFinding', dependent: :delete_all, inverse_of: :copilot_run
   # request: the agent's message the review follows. turn_start and turn_limit: where the current turn took the review,
-  # and how far it may go.
-  store_accessor :context, :request, :criteria, :question, :turn_start, :turn_limit
+  # and how far it may go. reference: the material every conversation is judged against, when the turn gave it.
+  # pending_ids: while reviewing, the conversations whose jobs have not finished.
+  store_accessor :context, :request, :criteria, :question, :turn_start, :turn_limit, :turn_start_matched, :turn_start_failed,
+                 :progress_message_id, :reference, :pending_ids
 
   validates :status, inclusion: { in: STATUSES }
   validates :source_run_id, :criteria, :turn_start, :turn_limit, presence: true
+  validate :text_within_limits
 
   # A review reads the selection saved on the collection it reviews instead of keeping its own copy.
-  delegate :selected_ids, :as_of, :filters, :selection_truncated?, to: :source_run
+  delegate :selected_ids, :as_of, :filters, :selection_truncated?, :source_incomplete?, to: :source_run
 
   # A review's records are always conversations.
   def resource
     'conversations'
+  end
+
+  # A step from a review starts from the conversations it matched so far, never from its collection's filters.
+  def rebuilt?
+    false
   end
 
   # The matched conversations, or every conversation it decided on, including those screened out.
@@ -63,7 +71,8 @@ class CopilotRun::Review < CopilotRun
     decided.order(:conversation_id).pluck(:conversation_id)
   end
 
-  # Moves an unfinished review to the tool call that continues it, with room for what is left of that turn's limit.
+  # Moves an unfinished review to the tool call that continues it, with room for what is left of that turn's limit. The
+  # new turn gets its own progress card, so the earlier turn's card keeps its counts.
   def continue_review(tool_call)
     with_lock do
       return if copilot_tool_call_id == tool_call.id
@@ -71,10 +80,64 @@ class CopilotRun::Review < CopilotRun
       raise ArgumentError, 'The review has no conversations left to review' if remaining_ids.empty?
       raise ArgumentError, 'This turn already reviewed a batch. Ask the agent before continuing.' if turn.id == tool_call.copilot_run_id
 
-      start = processed_count
-      update!(copilot_tool_call: tool_call, status: :queued, error: nil,
-              turn_start: start, turn_limit: start + tool_call.copilot_run.review_budget!)
+      # The same counts turn_progress subtracts from, so a continued turn's card starts at 0.
+      base = summary
+      update!(copilot_tool_call: tool_call, status: :queued, error: nil, progress_message_id: nil, turn_start: base[:processed],
+              turn_start_matched: base[:matched], turn_start_failed: base[:failed],
+              turn_limit: base[:processed] + tool_call.copilot_run.review_budget!)
     end
+  end
+
+  def publish_progress
+    progress = turn_progress.as_json
+    card = copilot_thread.copilot_messages.find_by(id: progress_message_id)
+    return if card&.message&.dig('progress') == progress
+    return card.update!(message: card.message.merge('progress' => progress)) if card
+
+    card = copilot_thread.copilot_messages.create!(message_type: :assistant_progress, message: { run_id: id, progress: progress })
+    update!(progress_message_id: card.id)
+  end
+
+  def pending?(conversation_id)
+    reviewing? && pending_ids.to_a.include?(conversation_id)
+  end
+
+  # Runs the block that saves a conversation's result, under the run's lock and only while the conversation is pending,
+  # then takes it off the list. Returns true for the last one, which hands the run back to Captain::Copilot::ReviewJob. A
+  # repeated job, or one that ends after recovery took the batch back, saves nothing.
+  def finish_pending(conversation_id)
+    with_lock do
+      next false unless pending?(conversation_id)
+
+      yield
+      remaining = pending_ids - [conversation_id]
+      update!(pending_ids: remaining, status: remaining.empty? ? :queued : :reviewing)
+      publish_progress
+      remaining.empty?
+    end
+  end
+
+  # For a review whose conversation jobs stopped coming back, such as after a worker crashed. The conversations not
+  # reviewed yet go into the next batch.
+  def take_back_reviews!
+    with_lock { update!(pending_ids: [], status: :queued) if reviewing? }
+  end
+
+  # Saves a conversation's review. A conversation already reviewed keeps its first result.
+  def save_finding(conversation_id, attributes)
+    finding = findings.find_or_initialize_by(conversation_id: conversation_id)
+    return if finding.reviewed?
+
+    finding.update!(error: nil, **attributes, attempts: finding.attempts + 1)
+  end
+
+  # A failed review is retried in a later batch, until it has failed MAX_ATTEMPTS times.
+  def record_failure(conversation_id, error)
+    finding = findings.find_or_initialize_by(conversation_id: conversation_id)
+    return if finding.reviewed?
+
+    attempts = finding.attempts + 1
+    finding.update!(status: attempts >= MAX_ATTEMPTS ? :failed : :awaiting_retry, error: error, attempts: attempts)
   end
 
   def left_this_turn
@@ -95,14 +158,26 @@ class CopilotRun::Review < CopilotRun
     processed = counts.values_at(*CopilotReviewFinding::FINISHED_STATUSES).sum(&:to_i)
     super.merge(filters: filters, question: question, selected: selected, processed: processed, remaining: selected - processed,
                 screened_out: counts['screened_out'].to_i, reviewed: counts['reviewed'].to_i, matched: findings.where(matched: true).count,
-                failed: counts['failed'].to_i, selection_truncated: selection_truncated?)
+                failed: counts['failed'].to_i, selection_truncated: selection_truncated?, source_incomplete: source_incomplete?)
   end
 
   private
 
-  def progress_text(progress)
-    not_matched = progress[:screened_out] + progress[:reviewed] - progress[:matched]
-    "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
-      "#{not_matched} didn't match, #{progress[:failed]} couldn't be reviewed."
+  # Reviews started before the progress card saved no matched or failed baseline, and their first turn started at 0.
+  def turn_progress
+    progress = summary
+    { finished: finished?, done: progress[:processed] - turn_start, total: [turn_limit, progress[:selected]].min - turn_start,
+      matched: progress[:matched] - turn_start_matched.to_i, failed: progress[:failed] - turn_start_failed.to_i }
+  end
+
+  # The text the turn writes for the reviewer. question and reference may be left out, but text that is given must be a
+  # nonempty string within its limit.
+  def text_within_limits
+    { criteria: 4000, question: 500, reference: 20_000 }.each do |name, limit|
+      value = public_send(name)
+      next if value.nil? || (value.is_a?(String) && value.present? && value.size <= limit)
+
+      errors.add(name, "must be a nonempty string of at most #{limit} characters")
+    end
   end
 end

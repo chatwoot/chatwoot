@@ -357,6 +357,57 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     end
   end
 
+  describe 'avatar upload and removal' do
+    let(:assistant) { create(:captain_assistant, account: account) }
+    let(:avatar_file) { fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png') }
+
+    it 'lets an admin upload an avatar that replies then show' do
+      patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+            params: { assistant: { avatar: avatar_file } },
+            headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+      expect(assistant.reload.avatar).to be_attached
+      expect(json_response[:avatar_url]).to be_present
+      expect(assistant.push_event_data[:avatar_url]).to eq(assistant.avatar_url)
+    end
+
+    it 'rejects a file type the avatar does not support' do
+      pdf_file = fixture_file_upload(Rails.root.join('spec/assets/sample.pdf'), 'application/pdf')
+
+      patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+            params: { assistant: { avatar: pdf_file } },
+            headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(assistant.reload.avatar).not_to be_attached
+    end
+
+    it 'lets an admin remove the avatar and restores the default one' do
+      assistant.avatar.attach(avatar_file)
+
+      delete "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/avatar",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(assistant.reload.avatar).not_to be_attached
+      expect(json_response[:avatar_url]).to be_blank
+      expect(assistant.push_event_data[:avatar_url]).to end_with('/assets/images/dashboard/captain/logo.svg')
+    end
+
+    it 'does not let an agent remove the avatar' do
+      assistant.avatar.attach(avatar_file)
+
+      delete "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/avatar",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(assistant.reload.avatar).to be_attached
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/faq_stats' do
     let(:assistant) { create(:captain_assistant, account: account) }
 

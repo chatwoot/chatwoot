@@ -9,6 +9,9 @@ class Platform::Api::V1::UsersController < PlatformController
 
   def create
     @resource = (User.from_email(user_params[:email]) || User.new(user_params))
+    validate_platform_app_permissible if @resource.persisted?
+    return if performed?
+
     @resource.skip_confirmation!
     @resource.save!
     @platform_app.platform_app_permissibles.find_or_create_by!(permissible: @resource)

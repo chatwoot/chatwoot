@@ -127,10 +127,6 @@ export const ARTICLE_TABS_OPTIONS = [
     value: 'all',
   },
   {
-    key: 'MINE',
-    value: 'mine',
-  },
-  {
     key: 'DRAFT',
     value: 'draft',
   },

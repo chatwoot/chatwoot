@@ -111,6 +111,16 @@ describe Messages::NewMessageNotificationService do
     described_class.new(message: message).perform
   end
 
+  it 'keeps notifying for a Twilio call that rings agents on the web but not their phones' do
+    subscribe_phone(assignee)
+    Call.find_by(message_id: message.id).update!(ring_state: { 'ring_recipient_ids' => [assignee.id], 'rings_phones' => false })
+
+    expect(NotificationBuilder).to receive(:new)
+      .with(hash_including(notification_type: 'assigned_conversation_new_message', user: assignee))
+      .and_call_original
+    described_class.new(message: message).perform
+  end
+
   it 'keeps notifying for call messages on accounts without mobile voice push, whose calls never enter the ring' do
     subscribe_phone(assignee)
     Call.find_by(message_id: message.id).update!(ring_state: {})

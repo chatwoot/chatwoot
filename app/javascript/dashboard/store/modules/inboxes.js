@@ -153,6 +153,15 @@ const sendAnalyticsEvent = channelType => {
 };
 
 export const actions = {
+  getItem: async ({ commit }, inboxId) => {
+    try {
+      const { data } = await InboxesAPI.show(inboxId);
+      commit(types.default.EDIT_INBOXES, data);
+      return data;
+    } catch (error) {
+      return throwErrorMessage(error);
+    }
+  },
   revalidate: async ({ commit }, { newKey }) => {
     try {
       const isExistingKeyValid = await InboxesAPI.validateCacheKey(newKey);
@@ -261,13 +270,6 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: false });
       throwErrorMessage(error);
     }
-  },
-  updateCallBusinessHours: async ({ commit }, { id, enabled, message }) => {
-    const response = await InboxesAPI.setCallBusinessHours(id, {
-      enabled,
-      message,
-    });
-    commit(types.default.EDIT_INBOXES, response.data);
   },
   updateInboxIMAP: async ({ commit }, { id, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: true });

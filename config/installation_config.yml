@@ -96,6 +96,19 @@
   locked: false
 # ------- End of Account Related Config ------- #
 
+# ------- Mobile App Config ------- #
+- name: MOBILE_APP_MIN_IOS_VERSION
+  value:
+  display_title: 'Minimum iOS app version'
+  description: 'Oldest version of the Chatwoot iOS app that can use this installation, e.g. 4.10.0. Older apps must update before they can continue. Set it only after that version is live in the store. Leave blank to allow all versions.'
+  locked: false
+- name: MOBILE_APP_MIN_ANDROID_VERSION
+  value:
+  display_title: 'Minimum Android app version'
+  description: 'Oldest version of the Chatwoot Android app that can use this installation, e.g. 4.10.0. Older apps must update before they can continue. Set it only after that version is live in the store. Leave blank to allow all versions.'
+  locked: false
+# ------- End of Mobile App Config ------- #
+
 # ------- Email Related Config ------- #
 - name: MAILER_INBOUND_EMAIL_DOMAIN
   display_title: 'Inbound Email Domain'
@@ -539,14 +552,51 @@
 # ------- End of Shopify Related Config ------- #
 
 # ------- Instagram Channel Related Config ------- #
+- name: INSTAGRAM_LOGIN_METHOD
+  value: 'instagram_login'
+  display_title: 'Login method for new connections'
+  description: 'Applies when creating or reconnecting an Instagram inbox. Existing inboxes keep their current connection.'
+  locked: false
+  type: select
+  options:
+    instagram_login: 'Instagram Login'
+    unified_login: 'Unified Login (recommended for new Meta apps)'
+- name: INSTAGRAM_APP_NAME
+  display_title: 'Instagram App Name (optional)'
+  description: 'A label to help you identify this app. Does not affect the connection.'
+  instagram_login_method: instagram_login
+  locked: false
 - name: INSTAGRAM_APP_ID
   display_title: 'Instagram App ID'
+  instagram_login_method: instagram_login
   locked: false
 - name: INSTAGRAM_APP_SECRET
+  instagram_login_method: instagram_login
   display_title: 'Instagram App Secret'
   description: 'The App Secret used for Instagram authentication'
   locked: false
   type: secret
+- name: INSTAGRAM_UNIFIED_APP_NAME
+  display_title: 'Instagram Unified Login Meta App Name (optional)'
+  description: 'A label to help you identify this app. Does not affect the connection.'
+  instagram_login_method: unified_login
+  locked: false
+- name: INSTAGRAM_UNIFIED_APP_ID
+  instagram_login_method: unified_login
+  display_title: 'Instagram Unified Login Meta App ID'
+  description: 'The Meta app ID for Instagram API with Unified Login.'
+  locked: false
+- name: INSTAGRAM_UNIFIED_APP_SECRET
+  instagram_login_method: unified_login
+  display_title: 'Instagram Unified Login Meta App Secret'
+  description: 'The Meta app secret for Instagram API with Unified Login.'
+  locked: false
+  type: secret
+- name: INSTAGRAM_CONFIGURATION_ID
+  instagram_login_method: unified_login
+  display_title: 'Instagram Unified Login Configuration ID'
+  description: 'The Facebook Login for Business configuration ID from your Meta app.'
+  locked: false
 - name: INSTAGRAM_VERIFY_TOKEN
   display_title: 'Instagram Verify Token'
   description: 'The verify token used for Instagram Webhook'
