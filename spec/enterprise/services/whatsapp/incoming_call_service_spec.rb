@@ -142,6 +142,17 @@ describe Whatsapp::IncomingCallService do
         expect(incoming_streams).to contain_exactly(agent.pubsub_token, teammate.pubsub_token)
       end
 
+      it "stops widening once the sweep ends a ring whose terminate never arrived, after Meta's ring" do
+        described_class.new(inbox: inbox, params: params).perform
+        call = Call.last
+        expect(call.ring_state['rings_phones']).to be(false)
+
+        travel(61.seconds) { Voice::RingingTimeoutJob.perform_now }
+
+        expect(call.reload).to have_attributes(status: 'no_answer', end_reason: Call::RING_TIMEOUT)
+        expect { Voice::RingNextAgentJob.perform_now(call.id, call.ring_step) }.not_to have_enqueued_job(Voice::RingNextAgentJob)
+      end
+
       it 'leaves out an agent who is on another call' do
         busy = create(:conversation, account: account, inbox: inbox)
         create(:call, account: account, inbox: inbox, conversation: busy, contact: busy.contact, provider: :whatsapp,
@@ -591,6 +602,21 @@ describe Whatsapp::IncomingCallService do
 
       expect { described_class.new(inbox: inbox, params: params).perform }
         .to have_enqueued_job(Voice::VoipPushJob).with(call.id, 'ring')
+    end
+
+    it 'queues the widening again at the step the call is on, in case the first enqueue failed' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [1], 'ring_step' => 2 })
+      params = call_payload(event: 'connect', session: { sdp: 'sdp_x', sdp_type: 'offer' })
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to have_enqueued_job(Voice::RingNextAgentJob).with(call.id, 2)
+    end
+
+    it 'queues nothing for a call that has stopped ringing' do
+      call.update!(status: 'no_answer', ring_state: { 'ring_recipient_ids' => [1] })
+      params = call_payload(event: 'connect', session: { sdp: 'sdp_x', sdp_type: 'offer' })
+
+      expect { described_class.new(inbox: inbox, params: params).perform }.not_to have_enqueued_job
     end
   end
 
