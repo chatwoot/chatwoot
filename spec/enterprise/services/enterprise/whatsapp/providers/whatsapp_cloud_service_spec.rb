@@ -32,7 +32,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
   describe 'calling settings' do
     let(:settings_url) { 'https://graph.facebook.com/v22.0/123456789/settings' }
 
-    it 'bounds reading and updating the settings, so a call hours sync fits inside its lock' do
+    it 'bounds reading and updating the settings, so saving business hours never hangs on WhatsApp' do
       stub_request(:get, settings_url).to_return(status: 200, headers: headers, body: { calling: {} }.to_json)
       stub_request(:post, settings_url).to_return(status: 200, headers: headers, body: '{}')
       allow(HTTParty).to receive(:get).and_call_original

@@ -74,25 +74,64 @@ RSpec.describe 'Call routing API', type: :request do
       expect(whatsapp.reload).to have_attributes(sequential_ringing?: true, business_hours_calls_enabled?: true)
     end
 
-    it 'sends the business hours to WhatsApp once applied' do
-      whatsapp.inbox.update!(working_hours_enabled: true)
+    context 'when the inbox has business hours' do
+      let(:settings_url) { 'https://graph.facebook.com/v22.0/123456789/settings' }
 
-      expect do
+      before do
+        whatsapp.inbox.update!(working_hours_enabled: true)
+        stub_request(:get, settings_url).to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: { calling: {} }.to_json)
+      end
+
+      it 'sends them to WhatsApp when they are applied to calls' do
+        update = stub_request(:post, settings_url).with { |request| JSON.parse(request.body).dig('calling', 'call_hours', 'status') == 'ENABLED' }
+                                                  .to_return(status: 200, body: '{}')
+
         patch whatsapp_url, headers: admin.create_new_auth_token, params: params, as: :json
-      end.to have_enqueued_job(Whatsapp::SyncCallHoursJob).with(whatsapp)
 
-      expect(response.parsed_body['call_hours_sync_status']).to eq('pending')
-    end
+        expect(response).to have_http_status(:ok)
+        expect(update).to have_been_requested
+      end
 
-    it 'refuses to apply business hours to a week with no open day' do
-      whatsapp.inbox.update!(working_hours_enabled: true)
-      whatsapp.inbox.working_hours.update_all(closed_all_day: true) # rubocop:disable Rails/SkipsModelValidations
+      it 'turns them off at WhatsApp when they no longer apply to calls' do
+        whatsapp.update!(provider_config: whatsapp.provider_config.merge('business_hours_calls_enabled' => true))
+        update = stub_request(:post, settings_url).with { |request| JSON.parse(request.body).dig('calling', 'call_hours', 'status') == 'DISABLED' }
+                                                  .to_return(status: 200, body: '{}')
 
-      patch whatsapp_url, headers: admin.create_new_auth_token, params: params, as: :json
+        patch whatsapp_url, headers: admin.create_new_auth_token, params: params.merge(business_hours_calls_enabled: false), as: :json
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.closed_every_day'))
-      expect(whatsapp.reload.business_hours_calls_enabled?).to be(false)
+        expect(response).to have_http_status(:ok)
+        expect(update).to have_been_requested
+      end
+
+      it 'leaves WhatsApp alone when only who rings changes' do
+        whatsapp.update!(provider_config: whatsapp.provider_config.merge('business_hours_calls_enabled' => true))
+
+        patch whatsapp_url, headers: admin.create_new_auth_token, params: params.merge(ring_step_seconds: 25), as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(a_request(:any, settings_url)).not_to have_been_made
+      end
+
+      it "keeps the setting off when WhatsApp refuses the hours, with WhatsApp's reason" do
+        stub_request(:post, settings_url).to_return(status: 400, headers: { 'Content-Type' => 'application/json' },
+                                                    body: { error: { error_user_msg: 'Invalid timezone_id' } }.to_json)
+
+        patch whatsapp_url, headers: admin.create_new_auth_token, params: params, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.whatsapp_failed', error: 'Invalid timezone_id'))
+        expect(whatsapp.reload.business_hours_calls_enabled?).to be(false)
+      end
+
+      it 'refuses to apply them to a week with no open day' do
+        whatsapp.inbox.working_hours.update_all(closed_all_day: true) # rubocop:disable Rails/SkipsModelValidations
+
+        patch whatsapp_url, headers: admin.create_new_auth_token, params: params, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.closed_every_day'))
+        expect(whatsapp.reload.business_hours_calls_enabled?).to be(false)
+      end
     end
 
     it 'rejects invalid settings' do

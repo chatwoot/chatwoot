@@ -9,11 +9,6 @@ module Enterprise::Channel::Whatsapp
     end
   end
 
-  def enable_voice_calling!
-    super
-    schedule_call_hours_sync
-  end
-
   attr_reader :last_provider_error
 
   def send_template(...)

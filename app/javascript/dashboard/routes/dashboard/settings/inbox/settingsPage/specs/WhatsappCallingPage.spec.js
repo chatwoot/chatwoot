@@ -20,7 +20,6 @@ vi.mock('dashboard/api/inboxes', () => ({
     setCallRecording: vi.fn(),
     enableWhatsappCalling: vi.fn(),
     disableWhatsappCalling: vi.fn(),
-    syncWhatsappCallHours: vi.fn(),
   },
 }));
 
@@ -44,8 +43,6 @@ const inbox = {
       close_minutes: 0,
     },
   ],
-  call_hours_sync_status: null,
-  call_hours_sync_error: null,
   call_cooldown_seconds: 0,
   recording_enabled: true,
   transcription_enabled: true,
@@ -154,80 +151,5 @@ describe('WhatsappCallingPage', () => {
 
     expect(wrapper.findAll('input[type="checkbox"]')).toHaveLength(1);
     expect(wrapper.findAll('button')).toHaveLength(0);
-  });
-
-  describe('call hours on WhatsApp', () => {
-    const applied = { business_hours_calls_enabled: true };
-
-    it('says when WhatsApp is using the hours', () => {
-      const wrapper = mountPage({
-        ...applied,
-        call_hours_sync_status: 'synced',
-      });
-
-      expect(wrapper.text()).toContain(outOfHoursKey('WHATSAPP_SYNC_DONE'));
-    });
-
-    it('says nothing once the hours are no longer applied', () => {
-      const wrapper = mountPage({ call_hours_sync_status: 'synced' });
-
-      expect(wrapper.text()).not.toContain(outOfHoursKey('WHATSAPP_SYNC_DONE'));
-    });
-
-    it('shows a failed sync and retries it', async () => {
-      const wrapper = mountPage({
-        ...applied,
-        call_hours_sync_status: 'failed',
-        call_hours_sync_error: 'Invalid timezone_id',
-      });
-      expect(wrapper.text()).toContain(outOfHoursKey('WHATSAPP_SYNC_FAILED'));
-
-      const retry = wrapper.find('.bg-n-ruby-2 button');
-      await retry.trigger('click');
-      await flushPromises();
-
-      expect(InboxesAPI.syncWhatsappCallHours).toHaveBeenCalledWith(52);
-      expect(dispatch).toHaveBeenCalledWith('inboxes/getItem', 52);
-    });
-
-    describe('while a sync is in progress', () => {
-      beforeEach(() => vi.useFakeTimers());
-      afterEach(() => vi.useRealTimers());
-
-      it('rechecks the inbox a limited number of times', async () => {
-        const wrapper = mountPage({
-          ...applied,
-          call_hours_sync_status: 'pending',
-        });
-        expect(wrapper.text()).toContain(
-          outOfHoursKey('WHATSAPP_SYNC_PENDING')
-        );
-
-        for (let poll = 0; poll < 12; poll += 1) {
-          vi.advanceTimersByTime(3000);
-          // eslint-disable-next-line no-await-in-loop
-          await wrapper.setProps({
-            inbox: { ...wrapper.props('inbox'), ...applied },
-          });
-        }
-
-        const refetches = dispatch.mock.calls.filter(
-          ([action]) => action === 'inboxes/getItem'
-        );
-        expect(refetches).toHaveLength(10);
-      });
-
-      it('stops rechecking when the page closes', () => {
-        const wrapper = mountPage({
-          ...applied,
-          call_hours_sync_status: 'pending',
-        });
-
-        wrapper.unmount();
-        vi.advanceTimersByTime(3000);
-
-        expect(dispatch).not.toHaveBeenCalled();
-      });
-    });
   });
 });

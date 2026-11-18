@@ -17,22 +17,19 @@ module Concerns::WhatsappCallingActions
     render_could_not_create_error(e.message)
   end
 
-  def update
-    super
-    return if performed? || !@inbox.whatsapp?
-
-    @inbox.channel.reload.schedule_call_hours_sync
-  end
-
   private
 
   def update_inbox_working_hours
     super
-    return unless @inbox.whatsapp? && (params.key?(:working_hours) || @inbox.saved_change_to_working_hours_enabled?)
+    return unless @inbox.whatsapp? && call_hours_inputs_changed?
 
     channel = @inbox.channel.reload
-    channel.call_hours_schedule_valid
-    raise ActiveRecord::RecordInvalid, channel if channel.errors.any?
+    hours_were_applied = channel.business_hours_calls_enabled? && @inbox.working_hours_enabled_before_last_save
+    channel.apply_call_hours! if hours_were_applied || channel.apply_call_hours?
+  end
+
+  def call_hours_inputs_changed?
+    params.key?(:working_hours) || @inbox.saved_change_to_timezone? || @inbox.saved_change_to_working_hours_enabled?
   end
 
   def ensure_whatsapp_calling_supported

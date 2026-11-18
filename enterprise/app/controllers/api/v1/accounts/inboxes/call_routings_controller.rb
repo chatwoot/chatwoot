@@ -8,25 +8,26 @@ class Api::V1::Accounts::Inboxes::CallRoutingsController < Api::V1::Accounts::Ba
   def update
     channel = @inbox.channel
     channel.with_lock do
+      hours_were_applied = call_hours_applied?(channel)
       channel.provider_config = channel.provider_config.merge(
         'ring_strategy' => params[:ring_strategy], 'ring_step_seconds' => params[:ring_step_seconds],
         'assignee_rings_first' => params[:assignee_rings_first], 'call_cooldown_seconds' => params[:call_cooldown_seconds],
         'business_hours_calls_enabled' => params[:business_hours_calls_enabled]
       )
-      validate_settings!(channel)
+      channel.call_routing_settings_valid
+      raise ActiveRecord::RecordInvalid, channel if channel.errors.any?
+
+      channel.apply_call_hours! if call_hours_applied?(channel) != hours_were_applied
       channel.save!(validate: false)
     end
-    channel.schedule_call_hours_sync if channel.is_a?(Channel::Whatsapp)
     @inbox.update_account_cache
     render 'api/v1/accounts/inboxes/show'
   end
 
   private
 
-  def validate_settings!(channel)
-    channel.call_routing_settings_valid
-    channel.call_hours_schedule_valid if channel.is_a?(Channel::Whatsapp)
-    raise ActiveRecord::RecordInvalid, channel if channel.errors.any?
+  def call_hours_applied?(channel)
+    channel.is_a?(Channel::Whatsapp) && channel.apply_call_hours?
   end
 
   def fetch_inbox

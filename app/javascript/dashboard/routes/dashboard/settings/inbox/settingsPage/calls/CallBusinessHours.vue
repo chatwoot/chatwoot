@@ -63,22 +63,18 @@ const hoursSummary = computed(() =>
     </div>
     <div
       v-else-if="applyHours"
-      class="flex flex-col gap-2 px-3 py-2 rounded-lg bg-n-alpha-black2 text-body-main text-n-slate-12"
+      class="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 rounded-lg bg-n-alpha-black2 text-body-main text-n-slate-12"
     >
-      <div class="flex items-start justify-between gap-3">
-        <span>
-          <span class="font-medium">{{ label('INBOX_HOURS') }}</span>
-          {{ hoursSummary || label('ALWAYS_CLOSED') }} · {{ inbox.timezone }}
-        </span>
-        <NextButton
-          :label="label('EDIT_HOURS')"
-          class="shrink-0"
-          link
-          sm
-          @click="emit('openBusinessHours')"
-        />
-      </div>
-      <slot name="status" />
+      <span>
+        <span class="font-medium">{{ label('INBOX_HOURS') }}</span>
+        {{ hoursSummary || label('ALWAYS_CLOSED') }} · {{ inbox.timezone }}
+      </span>
+      <NextButton
+        :label="label('EDIT_HOURS')"
+        link
+        sm
+        @click="emit('openBusinessHours')"
+      />
     </div>
   </div>
 </template>
