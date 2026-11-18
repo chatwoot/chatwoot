@@ -9,6 +9,7 @@
 #  enabled             :boolean          default(TRUE), not null
 #  name                :string           not null
 #  param_sources       :jsonb            not null
+#  review_state        :string           default("current"), not null
 #  settings            :jsonb            not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
@@ -30,8 +31,14 @@ class Captain::McpTool < ApplicationRecord
   INVALID_NAME_CHARACTERS = /[^a-zA-Z0-9_-]/
   MAX_CAPTAIN_NAME_LENGTH = Captain::CustomTool::MAX_SLUG_LENGTH
 
+  include Concerns::VerifiedCustomerRequirement
+
   belongs_to :account
   belongs_to :mcp_server, class_name: 'Captain::McpServer'
+
+  # How the tool compared with the server's last listing: current still matches the approved digest, changed differs,
+  # and missing means the server no longer lists it. Captain::McpServer#record_live_tools writes it from each listing.
+  enum :review_state, %w[current changed missing].index_by(&:itself), prefix: :review, validate: true
 
   # Set once, so scenarios that reference the tool keep working if the naming rule changes later
   before_validation :assign_captain_name, on: :create
@@ -64,10 +71,18 @@ class Captain::McpTool < ApplicationRecord
   def approve(definition)
     self.approved_definition = definition.except('name')
     self.approved_digest = self.class.definition_digest(definition)
+    self.review_state = :current
   end
 
   def approval_current?(live_definition)
     approved_digest == self.class.definition_digest(live_definition)
+  end
+
+  # The review state a listing gives this tool. A nil definition means the server did not list the tool.
+  def review_state_for(live_definition)
+    return 'missing' unless live_definition
+
+    approval_current?(live_definition) ? 'current' : 'changed'
   end
 
   def description
@@ -78,15 +93,12 @@ class Captain::McpTool < ApplicationRecord
     approved_definition['input_schema']
   end
 
-  # The admin set the tool to run only for a customer who verified an email with a one-time code
-  def requires_email_verification?
-    settings['requires_email_verification'] == true
+  def read_only?
+    approved_definition['read_only']
   end
 
-  # The tool runs only for a customer who proved who they are, so Captain offers email verification.
-  # A parameter that takes a proven value cannot be filled without that proof, so it needs no setting.
-  def requires_verified_customer?
-    requires_email_verification? || param_sources.values.any? { |entry| Captain::ParamSources.proven?(entry) }
+  def takes_verified_email?
+    param_sources.values.any? { |entry| Captain::ParamSources.proven?(entry) }
   end
 
   private

@@ -8,7 +8,10 @@ import SearchHeader from './Header.vue';
 import SearchResults from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
-import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
+import {
+  buildPortalArticleURL,
+  ARTICLE_STATUSES,
+} from 'dashboard/helper/portalHelper';
 
 export default {
   name: 'ArticleSearchPopover',
@@ -106,6 +109,7 @@ export default {
           portalSlug: this.selectedPortalSlug,
           query,
           sort,
+          status: ARTICLE_STATUSES.PUBLISHED,
         });
         this.searchResults = data.payload;
         this.isLoading = true;

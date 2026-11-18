@@ -1,4 +1,4 @@
-comparison = @mcp_server.compare_live_tools(@live_tools)
+comparison = @mcp_server.live_tool_entries(@live_tools)
 json.payload do
   json.array! comparison[:tools] do |entry|
     tool = entry[:definition]

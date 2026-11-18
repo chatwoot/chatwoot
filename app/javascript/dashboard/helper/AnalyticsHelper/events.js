@@ -49,9 +49,6 @@ export const CONTACTS_EVENTS = Object.freeze({
   SEARCH: 'Searched contacts list',
   CREATE_CONTACT: 'Created a contact',
   MERGED_CONTACTS: 'Used merge contact option',
-  IMPORT_MODAL_OPEN: 'Opened import contacts modal',
-  IMPORT_FAILURE: 'Import contacts failed',
-  IMPORT_SUCCESS: 'Imported contacts successfully',
 });
 
 // CAMPAIGN EVENTS
@@ -119,9 +116,13 @@ export const CAPTAIN_EVENTS = Object.freeze({
 });
 
 export const COPILOT_EVENTS = Object.freeze({
+  DOT_SHOWN: 'Copilot: Dot shown',
+  OPEN: 'Copilot: Opened',
   SEND_SUGGESTED: 'Copilot: Send suggested message',
   SEND_MESSAGE: 'Copilot: Sent a message',
   USE_CAPTAIN_RESPONSE: 'Copilot: Used captain response',
+  WORKFLOW_TURN_FINISHED: 'Copilot: Workflow turn finished',
+  WORKFLOW_TURN_FAILED: 'Copilot: Workflow turn failed',
 });
 
 export const SNOOZE_EVENTS = Object.freeze({
@@ -130,6 +131,11 @@ export const SNOOZE_EVENTS = Object.freeze({
 
 export const GENERAL_EVENTS = Object.freeze({
   COMMAND_BAR: 'Used commandbar',
+});
+
+export const COMMAND_BAR_EVENTS = Object.freeze({
+  OPENED: 'Command bar: Opened',
+  COMMAND_SELECTED: 'Command bar: Selected a command',
 });
 
 export const INBOX_EVENTS = Object.freeze({

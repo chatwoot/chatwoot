@@ -41,6 +41,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
     Avatar::AvatarFromUrlJob.perform_later(@contact, user['profile_pic']) if user['profile_pic']
   end
 
+  def find_message_by_source_id(source_id)
+    channel.find_message_by_source_id(source_id)
+  end
+
   def process_successful_response(response)
     result = JSON.parse(response.body).with_indifferent_access
     {
@@ -94,7 +98,7 @@ class Instagram::MessageText < Instagram::BaseMessageText
   end
 
   def base_uri
-    "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
+    @inbox.channel.base_uri
   end
 
   def create_message

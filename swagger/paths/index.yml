@@ -287,6 +287,13 @@
 /api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:
   $ref: ./application/contactable_inboxes/get.yml
 
+# Contact exports
+/api/v1/accounts/{account_id}/data_exports:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/data_exports/create.yml
+
 # Contact Merge
 /api/v1/accounts/{account_id}/actions/contact_merge:
   parameters:
