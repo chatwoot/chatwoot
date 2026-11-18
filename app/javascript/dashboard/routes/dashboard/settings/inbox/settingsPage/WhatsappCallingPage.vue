@@ -40,6 +40,8 @@ const savedValues = () => ({
     props.inbox.provider_config?.call_permission_request_body || '',
 });
 
+// The permission message is saved with the whole provider_config, which replaces the stored one,
+// so it goes first: the call settings saved after it merge into what it wrote
 const buildSteps = (changed, values) => {
   const { id } = props.inbox;
   const steps = [];
