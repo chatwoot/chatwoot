@@ -41,9 +41,17 @@ class Webhooks::SmsController < ActionController::API
     [target_channel, route_channel].compact.uniq
   end
 
+  def credential_channels
+    application_id = target_channel.bandwidth_application_id
+    return callback_channels if application_id.blank?
+
+    callback_channels | Channel::Sms.where(account_id: target_channel.account_id)
+                                    .where("provider_config->>'application_id' = ?", application_id).to_a
+  end
+
   def callback_authorized?
     authenticated = authenticate_with_http_basic do |username, password|
-      callback_channels.any? { |channel| channel.valid_callback_credentials?(username, password) }
+      credential_channels.any? { |channel| channel.valid_callback_credentials?(username, password) }
     end
     return true if authenticated
     return false if callback_channels.any?(&:callback_auth_enforced?)

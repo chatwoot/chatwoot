@@ -53,6 +53,22 @@ RSpec.describe 'Webhooks::SmsController', type: :request do
       end
     end
 
+    context 'when inboxes share a Bandwidth application' do
+      let(:sibling) { create(:channel_sms, account: channel.account) }
+
+      it 'accepts the credentials of another inbox on the application' do
+        headers = { 'HTTP_AUTHORIZATION' => basic_auth(Channel::Sms::CALLBACK_USERNAME, sibling.secret) }
+        expect { post_event('15550001111', event, headers) }.to have_enqueued_job(Webhooks::SmsEventsJob)
+      end
+
+      it 'rejects the credentials of an inbox on another application' do
+        other = create(:channel_sms, account: channel.account, provider_config: provider_config('app-2'))
+        headers = { 'HTTP_AUTHORIZATION' => basic_auth(Channel::Sms::CALLBACK_USERNAME, other.secret) }
+        expect { post_event('15550001111', event, headers) }.not_to have_enqueued_job(Webhooks::SmsEventsJob)
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when the event number does not match the route' do
       it 'accepts an inbox from the same account authenticated with the routed inbox credentials' do
         sibling = create(:channel_sms, account: channel.account)
