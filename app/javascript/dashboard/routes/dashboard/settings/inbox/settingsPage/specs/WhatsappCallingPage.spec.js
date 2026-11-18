@@ -118,6 +118,53 @@ describe('WhatsappCallingPage', () => {
     expect(dispatch).toHaveBeenCalledWith('inboxes/getItem', 52);
   });
 
+  it('can save again when refreshing the inbox fails', async () => {
+    dispatch.mockRejectedValue(new Error('offline'));
+    const wrapper = mountPage();
+
+    await wrapper.find('#call-routing-sequential-52').setValue(true);
+    await saveButton(wrapper).trigger('click');
+    await flushPromises();
+    await saveButton(wrapper).trigger('click');
+    await flushPromises();
+
+    expect(InboxesAPI.setCallRouting).toHaveBeenCalledTimes(2);
+  });
+
+  it('keeps calling off once turned off, even if refreshing the inbox fails', async () => {
+    dispatch.mockRejectedValue(new Error('offline'));
+    const wrapper = mountPage();
+
+    await wrapper.findAll('button').at(0).trigger('click');
+    await flushPromises();
+
+    expect(alert).toHaveBeenCalledWith('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE');
+    expect(wrapper.find('#call-routing-sequential-52').exists()).toBe(false);
+  });
+
+  it('saves the permission message before business hours, so it cannot undo them', async () => {
+    const order = [];
+    dispatch.mockImplementation(action => {
+      order.push(action);
+      return Promise.resolve({});
+    });
+    InboxesAPI.setCallRouting.mockImplementation(() => {
+      order.push('setCallRouting');
+      return Promise.resolve({});
+    });
+    const wrapper = mountPage();
+
+    await businessHoursSwitch(wrapper).trigger('click');
+    await wrapper.find('#call-permission-request-52').setValue('Can we call?');
+    await saveButton(wrapper).trigger('click');
+    await flushPromises();
+
+    expect(order.slice(0, 2)).toEqual([
+      'inboxes/updateInbox',
+      'setCallRouting',
+    ]);
+  });
+
   it('saves the permission message', async () => {
     const wrapper = mountPage();
     await wrapper

@@ -42,7 +42,7 @@ const savedValues = () => ({
 
 const buildSteps = (changed, values) => {
   const { id } = props.inbox;
-  const steps = sharedSteps(id, changed, values);
+  const steps = [];
   if (changed(['permissionRequestBody'])) {
     steps.push(() =>
       store.dispatch('inboxes/updateInbox', {
@@ -58,7 +58,7 @@ const buildSteps = (changed, values) => {
       })
     );
   }
-  return steps;
+  return [...steps, ...sharedSteps(id, changed, values)];
 };
 
 const { form, isSaving, isDirty, save } = useCallSettingsForm(
@@ -86,7 +86,7 @@ const toggleCalling = async value => {
     } else {
       await InboxesAPI.disableWhatsappCalling(props.inbox.id);
     }
-    await store.dispatch('inboxes/getItem', props.inbox.id);
+    await store.dispatch('inboxes/getItem', props.inbox.id).catch(() => {});
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (_) {
     callingEnabled.value = !value;
