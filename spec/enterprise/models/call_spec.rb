@@ -139,6 +139,13 @@ RSpec.describe Call do
       expect(call.reload.agent_legs).to be_empty
     end
 
+    it 'refuses a connection while the ring timeout is moving the caller out' do
+      call.update!(status: 'ringing', ring_state: { 'timing_out_at' => Time.zone.now.to_i })
+
+      expect(call.open_agent_leg!('CA-1')).to be(false)
+      expect(call.reload.agent_legs).to be_empty
+    end
+
     it 'keeps a joined connection joined when its instructions are asked for again' do
       call.with_lock { call.record_agent_leg!('CA-1', 'joined') }
 

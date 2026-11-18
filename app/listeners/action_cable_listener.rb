@@ -67,19 +67,11 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
   end
 
   def message_created(event)
-    message, account = extract_message_and_account(event)
-    conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
-
-    broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
+    broadcast_message_event(event.data[:message], MESSAGE_CREATED)
   end
 
   def message_updated(event)
-    message, account = extract_message_and_account(event)
-    conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
-
-    broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data.merge(previous_changes: event.data[:previous_changes]))
+    broadcast_message_event(event.data[:message], MESSAGE_UPDATED, previous_changes: event.data[:previous_changes])
   end
 
   def scheduled_message_created(event)
@@ -139,13 +131,7 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
   end
 
   def conversation_created(event)
-    conversation, account = extract_conversation_and_account(event)
-    # Built once and shared: `push_event_data` is several queries deep, and the
-    # contact's copy is a subset of the agents', never a fresher read.
-    payload = conversation.push_event_data
-
-    broadcast(account, user_tokens(account, conversation.inbox.members), CONVERSATION_CREATED, payload)
-    broadcast_to_contact(account, conversation, CONVERSATION_CREATED, payload)
+    broadcast_conversation_event(event.data[:conversation], CONVERSATION_CREATED)
   end
 
   def conversation_bot_handoff(event)
@@ -157,22 +143,12 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
   end
 
   def conversation_status_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    payload = conversation.push_event_data
-
-    broadcast(account, user_tokens(account, conversation.inbox.members), CONVERSATION_STATUS_CHANGED, payload)
-    broadcast_to_contact(account, conversation, CONVERSATION_STATUS_CHANGED, payload)
+    broadcast_conversation_event(event.data[:conversation], CONVERSATION_STATUS_CHANGED)
   end
 
   def conversation_updated(event)
-    conversation, account = extract_conversation_and_account(event)
-
-    payload = conversation.push_event_data
     metadata = event.data[:broadcast_metadata]
-    payload = payload.merge(event_metadata: metadata) if metadata.present?
-
-    broadcast(account, user_tokens(account, conversation.inbox.members), CONVERSATION_UPDATED, payload)
-    broadcast_to_contact(account, conversation, CONVERSATION_UPDATED, payload)
+    broadcast_conversation_event(event.data[:conversation], CONVERSATION_UPDATED, metadata.present? ? { event_metadata: metadata } : {})
   end
 
   def conversation_unread_count_changed(event)
@@ -185,51 +161,15 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
   end
 
   def conversation_typing_on(event)
-    conversation = event.data[:conversation]
-    account = conversation.account
-    user = event.data[:user]
-    tokens = typing_event_listener_tokens(account, conversation, user)
-
-    broadcast(
-      account,
-      tokens,
-      CONVERSATION_TYPING_ON,
-      { conversation: typing_conversation_data(conversation),
-        user: user.push_event_data,
-        is_private: event.data[:is_private] || false }
-    )
+    broadcast_typing_event(event, CONVERSATION_TYPING_ON)
   end
 
   def conversation_recording(event)
-    conversation = event.data[:conversation]
-    account = conversation.account
-    user = event.data[:user]
-    tokens = typing_event_listener_tokens(account, conversation, user)
-
-    broadcast(
-      account,
-      tokens,
-      CONVERSATION_RECORDING,
-      { conversation: typing_conversation_data(conversation),
-        user: user.push_event_data,
-        is_private: event.data[:is_private] || false }
-    )
+    broadcast_typing_event(event, CONVERSATION_RECORDING)
   end
 
   def conversation_typing_off(event)
-    conversation = event.data[:conversation]
-    account = conversation.account
-    user = event.data[:user]
-    tokens = typing_event_listener_tokens(account, conversation, user)
-
-    broadcast(
-      account,
-      tokens,
-      CONVERSATION_TYPING_OFF,
-      { conversation: typing_conversation_data(conversation),
-        user: user.push_event_data,
-        is_private: event.data[:is_private] || false }
-    )
+    broadcast_typing_event(event, CONVERSATION_TYPING_OFF)
   end
 
   def assignee_changed(event)
@@ -336,40 +276,75 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
     "account_#{account.id}"
   end
 
-  # The contact subscribes to the same conversation events as the agents, but
-  # `push_event_data` is an agent payload. It gets its own broadcast built from
-  # the contact allowlist instead of riding along on the agents' hash.
-  # `payload` is passed in rather than re-derived so per-event extras the caller
-  # merged in (eg. `event_metadata`) survive the narrowing.
-  # ActionCableBroadcastJob preserves the shape it is handed; without that, the
-  # refresh would rebuild the full agent payload and undo this.
-  def broadcast_to_contact(account, conversation, event_name, payload)
-    # `performer` is skipped rather than allowlisted: it is merged in below,
-    # after the narrowing, and carries the acting agent's name and availability
-    # status. The widget never reads it. Typing events keep it — they already
-    # send `user` on purpose so the widget can render "agent is typing".
-    broadcast(account, contact_inbox_tokens(conversation.contact_inbox), event_name,
-              Conversations::EventDataPresenter.contact_slice(payload), include_performer: false)
+  def broadcast_message_event(message, event_name, **extra)
+    conversation = message.conversation
+    widget_tokens, client_tokens = split_contact_tokens(message_contact_inboxes(conversation, message))
+    data = message.push_event_data.merge(extra)
+
+    broadcast(conversation.account, inbox_user_tokens(conversation) + client_tokens, event_name, data,
+              widget: { tokens: widget_tokens, data: message.widget_push_event_data(data) })
   end
 
-  # Typing events reach agents and the contact in a single payload, and no
-  # subscriber reads more than the conversation id here — the dashboard handlers
-  # key their timers off `conversation.id` and nothing else. So this ships the
-  # contact-sized payload to everyone rather than doubling the jobs on a
-  # per-keystroke path.
-  def typing_conversation_data(conversation)
-    conversation.contact_push_event_data
+  # Built once and shared: `push_event_data` is several queries deep, and the contact's copy is a
+  # subset of the agents', never a fresher read. `metadata` is per-event (eg. `event_metadata`)
+  # and survives the contact's narrowing.
+  def broadcast_conversation_event(conversation, event_name, metadata = {})
+    widget_tokens, client_tokens = split_contact_tokens(session_contact_inboxes(conversation.contact_inbox))
+    # The web widget has no handler for conversation.updated
+    widget_tokens = [] if event_name == CONVERSATION_UPDATED
+    payload = conversation.push_event_data.merge(metadata)
+
+    broadcast(conversation.account, inbox_user_tokens(conversation), event_name, payload,
+              widget: { tokens: widget_tokens, data: conversation.widget_push_event_data })
+    broadcast_to_client_sessions(conversation.account, client_tokens, event_name, payload)
   end
 
-  def typing_event_listener_tokens(account, conversation, user)
-    current_user_token = if user.is_a?(Contact)
-                           conversation.contact_inbox.pubsub_token
-                         elsif user.respond_to?(:pubsub_token)
-                           user.pubsub_token
-                         end
+  # Upstream hands Client API sessions the agents' payload. The fork keeps them to the contact
+  # allowlist: a Client API session is the contact's own browser as much as the widget is, and
+  # `push_event_data` carries labels, custom attributes, the assignee and the last private note.
+  # `performer` is skipped for the same reason: it is the acting agent's name and status.
+  # ActionCableBroadcastJob refreshes the values but keeps the keys it is handed, so the
+  # narrowing survives the refresh.
+  def broadcast_to_client_sessions(account, client_tokens, event_name, payload)
+    return if client_tokens.blank?
 
-    tokens = user_tokens(account, conversation.inbox.members) + [conversation.contact_inbox.pubsub_token]
-    current_user_token.present? ? tokens - [current_user_token] : tokens
+    data = Conversations::EventDataPresenter.contact_slice(payload).merge(account_id: account.id)
+    ::ActionCableBroadcastJob.perform_later(client_tokens.uniq, event_name, data)
+  end
+
+  # Client API sessions get the contact's copy of the conversation, like every other conversation
+  # event that reaches them (see #broadcast_to_client_sessions). `user` stays: it is what renders
+  # "agent is typing".
+  def broadcast_typing_event(event, event_name)
+    conversation = event.data[:conversation]
+    user = event.data[:user]
+    widget_tokens, client_tokens = split_contact_tokens(typing_contact_inboxes(conversation, user))
+    data = { conversation: conversation.push_event_data, user: user.push_event_data, is_private: event.data[:is_private] || false }
+
+    broadcast(conversation.account, typing_user_tokens(conversation, user), event_name, data,
+              widget: { tokens: widget_tokens, data: data.merge(conversation: conversation.widget_push_event_data) })
+    broadcast(conversation.account, client_tokens, event_name, data.merge(conversation: conversation.contact_push_event_data))
+  end
+
+  # Web widget sessions get the widget payload.
+  # Client API sessions get the same full payload as agents and admins.
+  def split_contact_tokens(contact_inboxes)
+    widget_inboxes, client_inboxes = contact_inboxes.partition { |contact_inbox| contact_inbox.inbox.web_widget? }
+    [widget_inboxes.filter_map(&:pubsub_token), client_inboxes.filter_map(&:pubsub_token)]
+  end
+
+  def inbox_user_tokens(conversation)
+    user_tokens(conversation.account, conversation.inbox.members)
+  end
+
+  # Whoever is typing does not get their own typing event
+  def typing_user_tokens(conversation, user)
+    tokens = inbox_user_tokens(conversation)
+    user.respond_to?(:pubsub_token) ? tokens - [user.pubsub_token] : tokens
+  end
+
+  def typing_contact_inboxes(conversation, user)
+    user.is_a?(Contact) ? [] : [conversation.contact_inbox]
   end
 
   def user_tokens(account, agents)
@@ -378,18 +353,17 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
     (agent_tokens + admin_tokens).uniq
   end
 
-  def contact_tokens(contact_inbox, message)
-    return [] if message.private?
-    return [] if message.activity?
-    return [] if contact_inbox.nil?
+  def message_contact_inboxes(conversation, message)
+    return [] if message.private? || message.activity? || conversation.contact_inbox.nil?
 
-    contact_inbox_tokens(contact_inbox)
+    session_contact_inboxes(conversation.contact_inbox)
   end
 
-  def contact_inbox_tokens(contact_inbox)
-    contact = contact_inbox.contact
+  # A verified session also reaches the contact's other verified sessions, in any inbox that still exists
+  def session_contact_inboxes(contact_inbox)
+    return [contact_inbox] unless contact_inbox.hmac_verified?
 
-    contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
+    contact_inbox.contact.contact_inboxes.where(hmac_verified: true).where.associated(:inbox).includes(:inbox).to_a
   end
 
   def group_members_data(contact, _account)
@@ -402,15 +376,22 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
     end
   end
 
-  def broadcast(account, tokens, event_name, data, include_performer: true)
-    return if tokens.blank?
+  # widget: { tokens:, data: } sends web widget sessions their payload in the same job
+  def broadcast(account, tokens, event_name, data, widget: {})
+    widget_tokens = widget[:tokens].to_a
+    return if tokens.blank? && widget_tokens.blank?
 
+    widget_options = {}
+    widget_options = { widget_members: widget_tokens.uniq, widget_data: broadcast_payload(account, widget[:data]) } if widget_tokens.present?
+    ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, broadcast_payload(account, data), **widget_options)
+  end
+
+  def broadcast_payload(account, data)
     payload = data.merge(account_id: account.id)
     # So the frondend knows who performed the action.
     # Useful in cases like conversation assignment for generating a notification with assigner name.
-    payload[:performer] = Current.user&.push_event_data if include_performer && Current.user.present?
-
-    ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
+    payload[:performer] = Current.user&.push_event_data if Current.user.present?
+    payload
   end
 end
 

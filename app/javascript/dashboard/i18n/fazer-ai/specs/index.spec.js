@@ -1,10 +1,21 @@
 import { createI18n } from 'vue-i18n';
 import messages from 'dashboard/i18n';
 import { forkMessages, withForkMessages } from 'dashboard/i18n/fazer-ai';
-import upstreamEn from 'dashboard/i18n/locale/en';
-import upstreamPtBr from 'dashboard/i18n/locale/pt_BR';
-import upstreamEs from 'dashboard/i18n/locale/es';
-import upstreamFr from 'dashboard/i18n/locale/fr';
+
+// Upstream's locale folders have no index since 4.20.0: dashboard/i18n/index.js globs the JSON
+// files, so the spec builds each upstream tree the same way.
+const upstreamFiles = import.meta.glob('../../locale/{en,pt_BR,es,fr}/*.json', {
+  eager: true,
+  import: 'default',
+});
+const upstreamLocale = locale =>
+  Object.entries(upstreamFiles)
+    .filter(([path]) => path.split('/')[3] === locale)
+    .reduce((merged, [, translations]) => ({ ...merged, ...translations }), {});
+const upstreamEn = upstreamLocale('en');
+const upstreamPtBr = upstreamLocale('pt_BR');
+const upstreamEs = upstreamLocale('es');
+const upstreamFr = upstreamLocale('fr');
 
 describe('fazer.ai translation overlay', () => {
   it('exposes a fork tree for every language we translate', () => {

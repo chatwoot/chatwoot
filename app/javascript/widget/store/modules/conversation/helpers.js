@@ -15,11 +15,12 @@ export const createTemporaryMessage = ({ attachments, content, replyTo }) => {
   };
 };
 
-const getSenderName = message => (message.sender ? message.sender.name : '');
+const getSenderIdentity = ({ sender }) =>
+  sender ? `${sender.type}:${sender.id}` : '';
 
 const shouldShowAvatar = (message, nextMessage) => {
-  const currentSender = getSenderName(message);
-  const nextSender = getSenderName(nextMessage);
+  const currentSender = getSenderIdentity(message);
+  const nextSender = getSenderIdentity(nextMessage);
 
   return (
     currentSender !== nextSender ||

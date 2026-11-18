@@ -60,6 +60,10 @@ class ContactInbox < ApplicationRecord
     }
   end
 
+  def anonymous_caller?
+    false
+  end
+
   def current_conversation
     conversations.last
   end
@@ -266,3 +270,5 @@ class ContactInbox < ApplicationRecord
     validate_whatsapp_source_id if inbox.channel_type == 'Channel::Whatsapp'
   end
 end
+
+ContactInbox.prepend_mod_with('ContactInbox')

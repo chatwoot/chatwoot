@@ -38,7 +38,8 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   def validate_provider_config?
     url = "#{api_base_path}/configs/webhook"
     headers = { 'D360-API-KEY': whatsapp_channel.provider_config['api_key'], 'Content-Type': 'application/json' }
-    body = { url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{whatsapp_channel.phone_number}" }.to_json
+    body = { url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{whatsapp_channel.phone_number}" \
+                  "?webhook_token=#{whatsapp_channel.provider_config['webhook_token']}" }.to_json
     response = credential_check_request { HTTParty.post(url, headers: headers, body: body, **DIALOG360_REQUEST_OPTIONS) }
     ensure_credential_verdict!(response)
     response.success?

@@ -4,6 +4,9 @@ export const CMD_SWITCH_TAB = 'CMD_SWITCH_TAB';
 // General Actions - Switch conversation status
 export const CMD_SWITCH_STATUS = 'CMD_SWITCH_STATUS';
 
+// General Actions - Sort the conversation list
+export const CMD_SWITCH_SORT = 'CMD_SWITCH_SORT';
+
 // Conversation Actions
 export const CMD_MUTE_CONVERSATION = 'CMD_MUTE_CONVERSATION';
 export const CMD_UNMUTE_CONVERSATION = 'CMD_UNMUTE_CONVERSATION';
@@ -11,6 +14,7 @@ export const CMD_PIN_CONVERSATION = 'CMD_PIN_CONVERSATION';
 export const CMD_UNPIN_CONVERSATION = 'CMD_UNPIN_CONVERSATION';
 export const CMD_SEND_TRANSCRIPT = 'CMD_SEND_TRANSCRIPT';
 export const CMD_TOGGLE_CONTACT_SIDEBAR = 'CMD_TOGGLE_CONTACT_SIDEBAR';
+export const CMD_MARK_UNREAD = 'CMD_MARK_UNREAD';
 
 // Status Commands
 export const CMD_REOPEN_CONVERSATION = 'CMD_REOPEN_CONVERSATION';

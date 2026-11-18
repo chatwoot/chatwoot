@@ -37,6 +37,7 @@ class Portal < ApplicationRecord
   has_many :folders,  through: :categories
   has_many :articles, dependent: :destroy_async
   has_one_attached :logo
+  has_one_attached :dark_logo
   has_many :inboxes, dependent: :nullify
   belongs_to :channel_web_widget, class_name: 'Channel::WebWidget', optional: true
 
@@ -71,7 +72,7 @@ class Portal < ApplicationRecord
 
   # TODO: 'website_token' is an unused reserved key; remove with a migration that scrubs it from existing portals' config
   CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout
-                        locale_translations show_author popular_content analytics].freeze
+                        locale_translations show_author popular_content analytics disable_search_indexing].freeze
 
   def analytics
     value = config_value('analytics')
@@ -83,6 +84,16 @@ class Portal < ApplicationRecord
     define_method(key) { analytics[key].presence }
   end
 
+  def search_indexing_disabled?
+    config_value('disable_search_indexing') == true
+  end
+
+  def search_indexable_articles
+    return [] if search_indexing_disabled?
+
+    articles.published.reject(&:noindex?)
+  end
+
   # Max number of recommended categories/articles shown per locale.
   POPULAR_CATEGORY_LIMIT = 3
   POPULAR_ARTICLE_LIMIT = 6
@@ -91,15 +102,15 @@ class Portal < ApplicationRecord
     !ActiveModel::Type::Boolean.new.cast(config['show_author']).equal?(false)
   end
 
-  def file_base_data
+  def file_base_data(attachment = logo)
     {
-      id: logo.id,
+      id: attachment.id,
       portal_id: id,
-      file_type: logo.content_type,
+      file_type: attachment.content_type,
       account_id: account_id,
-      file_url: url_for(logo),
-      blob_id: logo.blob.signed_id,
-      filename: logo.filename.to_s
+      file_url: url_for(attachment),
+      blob_id: attachment.blob.signed_id,
+      filename: attachment.filename.to_s
     }
   end
 
@@ -161,6 +172,14 @@ class Portal < ApplicationRecord
 
   def social_profiles
     config_value('social_profiles') || {}
+  end
+
+  def remove_locale!(locale)
+    transaction do
+      update!(config: { allowed_locales: allowed_locale_codes - [locale] })
+      articles.where(locale: locale).destroy_all
+      categories.where(locale: locale).destroy_all
+    end
   end
 
   private

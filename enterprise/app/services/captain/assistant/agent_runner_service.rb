@@ -166,9 +166,9 @@ class Captain::Assistant::AgentRunnerService
     with_email_verification_tools(agent)
   end
 
-  # Custom tools are built for customers by default. Here an admin or an agent is the user, so they are rebuilt for Copilot.
+  # Tools are built for customers by default. Here an admin or an agent is the user, so each tool gives its Copilot version.
   def copilot_tools(tools)
-    tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool) : tool }
+    tools.map(&:for_copilot)
   end
 
   # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it
@@ -178,23 +178,20 @@ class Captain::Assistant::AgentRunnerService
     agent.clone(tools: agent.tools + EMAIL_VERIFICATION_TOOLS.map { |tool_class| tool_class.new(@assistant) })
   end
 
-  # A customer is the user, and a tool needs their verified email. The prompt reads this from the state.
+  # A customer is the user, and a custom tool or an MCP tool needs their verified email. The prompt reads this from the state.
   def can_verify_email?
-    @conversation.present? && COPILOT_SOURCES.exclude?(@source) && @assistant.custom_tools.enabled.any?(&:requires_email_verification?)
+    return false unless @conversation.present? && COPILOT_SOURCES.exclude?(@source)
+
+    @assistant.custom_tools.enabled.any?(&:requires_verified_customer?) ||
+      @assistant.mcp_agent_tools.requires_verified_customer?
   end
 
   def reply_suggestion_agent
     agent = @assistant.agent
     agent.clone(
       instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
-      tools: copilot_tools(agent.tools.select { |tool| available_in_reply_suggestion?(tool) })
+      tools: copilot_tools(agent.tools.select(&:read_only?))
     )
-  end
-
-  def available_in_reply_suggestion?(tool)
-    return true if tool.is_a?(Captain::Tools::FaqLookupTool)
-
-    tool.is_a?(Captain::Tools::HttpTool) && tool.available_in_reply_suggestion?
   end
 
   def reply_suggestion? = @source == REPLY_SUGGESTION_SOURCE

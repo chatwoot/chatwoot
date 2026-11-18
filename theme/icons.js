@@ -145,6 +145,11 @@ export const icons = {
     width: 16,
     height: 16,
   },
+  messages: {
+    body: `<g fill="none" stroke="currentColor"><path d="M10.133 6.933a1.067 1.067 0 0 1-1.067 1.067H5.242a1.067 1.067 0 0 0-0.754 0.313l-1.174 1.174A0.379 0.379 0 0 1 2.667 9.219V3.733a1.067 1.067 0 0 1 1.067-1.067h5.333a1.067 1.067 0 0 1 1.067 1.067zm2.133-0.533a1.067 1.067 0 0 1 1.067 1.067v5.486a0.379 0.379 0 0 1-0.646 0.268l-1.174-1.174A1.067 1.067 0 0 0 10.758 11.733H6.933a1.067 1.067 0 0 1-1.067-1.067v-0.533" stroke="currentColor" stroke-width="1.06667" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
   clone: {
     body: `<g fill="none" stroke="currentColor"><path d="M6.08345 10.1669C8.33867 10.1669 10.1669 8.33867 10.1669 6.08345C10.1669 3.82822 8.33867 2 6.08345 2C3.82822 2 2 3.82822 2 6.08345C2 8.33867 3.82822 10.1669 6.08345 10.1669Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.58357 13.6669C11.8388 13.6669 13.667 11.8387 13.667 9.58345C13.667 7.32822 11.8388 5.5 9.58357 5.5C7.32834 5.5 5.50012 7.32822 5.50012 9.58345C5.50012 11.8387 7.32834 13.6669 9.58357 13.6669Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></g>`,
     width: 16,

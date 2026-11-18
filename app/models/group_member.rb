@@ -26,7 +26,7 @@ class GroupMember < ApplicationRecord
   belongs_to :group_contact, class_name: 'Contact'
   belongs_to :contact
 
-  enum role: { member: 0, admin: 1 }
+  enum :role, { member: 0, admin: 1 }
 
   validates :group_contact_id, uniqueness: { scope: :contact_id }
 

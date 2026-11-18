@@ -9,6 +9,50 @@ RSpec.describe Integrations::Hook do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  describe 'inbox ownership' do
+    let(:account) { create(:account) }
+
+    it 'rejects a nonexistent inbox ID' do
+      missing_inbox_id = create(:inbox, account: account).id + 1
+      record = build(:integrations_hook, :dialogflow, account: account, inbox_id: missing_inbox_id)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include('must belong to the same account as the hook')
+    end
+
+    it 'allows an inbox belonging to the same account' do
+      inbox = create(:inbox, account: account)
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: inbox)
+
+      expect(record).to be_valid
+    end
+
+    it 'rejects an inbox belonging to another account' do
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: create(:inbox))
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include('must belong to the same account as the hook')
+    end
+
+    it 'rejects new disabled hooks with a foreign inbox' do
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: create(:inbox), status: :disabled)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include('must belong to the same account as the hook')
+    end
+
+    it 'preserves account integrations without an inbox' do
+      expect(build(:integrations_hook, account: account, inbox: nil)).to be_valid
+    end
+
+    it 'still requires an inbox for Dialogflow' do
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: nil)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include("can't be blank")
+    end
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
   end
@@ -212,6 +256,26 @@ RSpec.describe Integrations::Hook do
       hook = build(:integrations_hook, account: account, app_id: 'slack')
 
       expect(hook).to be_valid
+    end
+  end
+
+  describe 'google translate credential validation' do
+    let!(:hook) do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+      create(:integrations_hook, :google_translate)
+    end
+
+    it 'rejects a broken key saved on an existing hook' do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(false)
+
+      expect(hook.update(settings: { project_id: 'test', credentials: { 'private_key' => 'sample' } })).to be(false)
+      expect(hook.errors[:base]).to include(I18n.t('errors.google_translate.invalid_credentials'))
+    end
+
+    it 'does not call Google when only the status changes' do
+      expect(Integrations::GoogleTranslate::CredentialsValidator).not_to receive(:valid?)
+
+      hook.update!(status: :disabled)
     end
   end
 

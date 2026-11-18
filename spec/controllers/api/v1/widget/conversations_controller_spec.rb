@@ -107,8 +107,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(response).to have_http_status(:success)
       json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
-      expect(json_response['contact']['email']).to be_nil
-      expect(json_response['contact']['name']).to eq 'alphy'
+      expect(contact.reload).to have_attributes(email: nil, name: 'alphy')
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
 
@@ -205,8 +204,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
-      json_response = response.parsed_body
-      expect(json_response['contact']['phone_number']).to be_nil
+      expect(contact_inbox.reload.contact.phone_number).to be_nil
     end
   end
 
@@ -371,7 +369,8 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
              params: params,
              as: :json
 
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:no_content)
+        expect(response.body).to be_empty
         conversation.reload
         # conversation custom attributes should not have "product_name" key with value "Chatwoot"
         expect(conversation.custom_attributes).not_to include('product_name' => 'Chatwoot')

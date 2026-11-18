@@ -53,7 +53,7 @@ class ScheduledMessage < ApplicationRecord
 
   has_one_attached :attachment
 
-  enum status: { draft: 0, pending: 1, sent: 2, failed: 3, held: 4 }
+  enum :status, { draft: 0, pending: 1, sent: 2, failed: 3, held: 4 }
 
   before_validation :process_message_variables, if: :content_changed?
 

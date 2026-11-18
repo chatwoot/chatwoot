@@ -29,7 +29,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   def destroy_custom_attributes
     @contact.custom_attributes = @contact.custom_attributes.excluding(params[:custom_attributes])
     @contact.save!
-    render json: @contact
+    render :update
   end
 
   private

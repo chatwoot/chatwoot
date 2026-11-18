@@ -2,7 +2,7 @@ module Api::V1::Accounts::Concerns::InboxSecretManagement
   extend ActiveSupport::Concern
 
   def reset_secret
-    return head :not_found unless @inbox.api?
+    return head :not_found unless @inbox.api? || @inbox.sms?
 
     @inbox.channel.reset_secret!
   end

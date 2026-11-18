@@ -31,7 +31,7 @@ REFERENCE_LOCALE = 'en'
 
 # The Chatwoot release whose translations this fork currently carries.
 # The sync-fork flow bumps it together with the upstream merge.
-UPSTREAM_BASE = 'v4.19.0'
+UPSTREAM_BASE = 'v4.20.0'
 
 class ForkTranslations # rubocop:disable Metrics/ClassLength
   def initialize

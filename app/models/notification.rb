@@ -54,7 +54,7 @@ class Notification < ApplicationRecord
   # delivery is deferred (see #process_notification_delivery).
   INTERNAL_CHAT_NOTIFICATION_TYPES = %w[internal_chat_mention internal_chat_new_message].freeze
 
-  enum notification_type: NOTIFICATION_TYPES
+  enum :notification_type, NOTIFICATION_TYPES
 
   before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event

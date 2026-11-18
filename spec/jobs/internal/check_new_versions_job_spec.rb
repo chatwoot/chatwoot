@@ -20,7 +20,7 @@ RSpec.describe Internal::CheckNewVersionsJob do
       end
 
       it 'updates the latest chatwoot version in redis with v prefix removed' do
-        job
+        expect(job).to be(true)
         expect(Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)).to eq '1.2.3'
       end
     end
@@ -67,6 +67,10 @@ RSpec.describe Internal::CheckNewVersionsJob do
       it 'does not update redis when response is not successful' do
         expect { job }.not_to change { Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION) }.from(nil)
         expect(Rails.logger).to have_received(:error).with(/Failed to fetch latest GitHub release: HTTP 404 - /)
+      end
+
+      it 'answers false, so the Super Admin refresh reports the failure' do
+        expect(job).to be(false)
       end
     end
 

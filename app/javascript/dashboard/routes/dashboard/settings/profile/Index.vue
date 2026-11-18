@@ -171,7 +171,7 @@ export default {
       }
     },
     async updateProfile(userAttributes) {
-      const { name, email, displayName } = userAttributes;
+      const { name, email, displayName, currentPassword } = userAttributes;
       // Taken before the request and compared as Devise stores them (downcased and
       // stripped), so a second save in flight or a change of case alone cannot read as
       // a new address.
@@ -189,6 +189,7 @@ export default {
         email: submittedEmail,
         displayName: this.displayName,
         avatar: this.avatarFile,
+        current_password: hasEmailChanged ? currentPassword : undefined,
       };
 
       // With Devise's reconfirmable on, the current email stays in effect until the link

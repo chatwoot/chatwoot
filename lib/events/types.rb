@@ -92,6 +92,7 @@ module Events::Types
 
   # copilot events
   COPILOT_MESSAGE_CREATED = 'copilot.message.created'
+  COPILOT_MESSAGE_UPDATED = 'copilot.message.updated'
 
   # internal chat events
   INTERNAL_CHAT_MESSAGE_CREATED = 'internal_chat.message.created'

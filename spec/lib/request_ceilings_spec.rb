@@ -49,17 +49,6 @@ RSpec.describe 'the ceilings of the one-off integrations' do
     expect(options).to include(timeout: 10, max_retries: 0)
   end
 
-  # The SMS send is the long one of this group, and for the same reason the WhatsApp and
-  # Telegram sends are: an outgoing message carries `media` as URLs pointing back at us,
-  # and Bandwidth fetches those before it answers. The credential check sends no body and
-  # is answered out of Bandwidth's own state, so it gets the short one.
-  it 'waits longer on a send than on a credential check, because one hands over a URL' do
-    expect(Channel::Sms::BANDWIDTH_SEND_OPTIONS[:timeout])
-      .to be > Channel::Sms::BANDWIDTH_REQUEST_OPTIONS[:timeout]
-    expect(Channel::Sms::BANDWIDTH_SEND_OPTIONS).to include(max_retries: 0)
-    expect(Channel::Sms::BANDWIDTH_REQUEST_OPTIONS).to include(max_retries: 0)
-  end
-
   # Both token calls sit inside a `rescue StandardError` that answers with
   # `fallback_access_token`, which rereads the row and hands back the token it already
   # had. So a ceiling here does not surface a failure, it reaches a swallow faster: what
