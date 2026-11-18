@@ -560,4 +560,125 @@ describe('ReplyBox', () => {
       wrapper.unmount();
     });
   });
+
+  it('replaces a staged image with the edited one', async () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::Whatsapp' },
+    });
+    await nextTick();
+    const original = new File(['png'], 'photo.jpg', { type: 'image/jpeg' });
+    wrapper.vm.onFileUpload({
+      name: 'photo.jpg',
+      type: original.type,
+      file: original,
+    });
+    await vi.waitUntil(() => wrapper.vm.attachedFiles.length > 0);
+
+    wrapper.vm.editAttachment(wrapper.vm.attachedFiles[0]);
+    expect(wrapper.vm.fileToEdit.name).toBe('photo.jpg');
+
+    const edited = new File(['edited'], 'photo.png', { type: 'image/png' });
+    wrapper.vm.onAttachmentEdited(edited);
+    // Until the edited image lands, a send would carry the original.
+    expect(wrapper.vm.isReplyButtonDisabled).toBe(true);
+    await vi.waitUntil(
+      () => wrapper.vm.attachedFiles[0]?.resource.name === 'photo.png'
+    );
+
+    expect(wrapper.vm.attachedFiles).toHaveLength(1);
+    expect(wrapper.vm.fileToEdit).toBeNull();
+    expect(wrapper.vm.isReplyButtonDisabled).toBe(false);
+  });
+
+  it('keeps the staged image when the edited one is refused', async () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::Whatsapp' },
+    });
+    await nextTick();
+    const original = new File(['png'], 'photo.jpg', { type: 'image/jpeg' });
+    wrapper.vm.onFileUpload({
+      name: 'photo.jpg',
+      type: original.type,
+      file: original,
+    });
+    await vi.waitUntil(() => wrapper.vm.attachedFiles.length > 0);
+    const staged = wrapper.vm.attachedFiles[0];
+
+    wrapper.vm.editAttachment(staged);
+    const tooLarge = new File(['edited'], 'photo.png', { type: 'image/png' });
+    Object.defineProperty(tooLarge, 'size', { value: 1024 ** 4 });
+    wrapper.vm.onAttachmentEdited(tooLarge);
+    await flushPromises();
+
+    expect(wrapper.vm.attachedFiles).toEqual([staged]);
+    expect(wrapper.vm.isReplyButtonDisabled).toBe(false);
+  });
+
+  it('blocks a second edit of an image until the first one lands', async () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::Whatsapp' },
+    });
+    await nextTick();
+    const original = new File(['png'], 'photo.jpg', { type: 'image/jpeg' });
+    wrapper.vm.onFileUpload({
+      name: 'photo.jpg',
+      type: original.type,
+      file: original,
+    });
+    await vi.waitUntil(() => wrapper.vm.attachedFiles.length > 0);
+    const staged = wrapper.vm.attachedFiles[0];
+
+    wrapper.vm.editAttachment(staged);
+    wrapper.vm.onAttachmentEdited(
+      new File(['edited'], 'photo.png', { type: 'image/png' })
+    );
+    wrapper.vm.editAttachment(staged);
+
+    expect(wrapper.vm.fileToEdit).toBeNull();
+  });
+
+  it('drops an edit whose original the agent removed while it uploaded', async () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::Whatsapp' },
+    });
+    await nextTick();
+    const original = new File(['png'], 'photo.jpg', { type: 'image/jpeg' });
+    wrapper.vm.onFileUpload({
+      name: 'photo.jpg',
+      type: original.type,
+      file: original,
+    });
+    await vi.waitUntil(() => wrapper.vm.attachedFiles.length > 0);
+
+    wrapper.vm.editAttachment(wrapper.vm.attachedFiles[0]);
+    wrapper.vm.onAttachmentEdited(
+      new File(['edited'], 'photo.png', { type: 'image/png' })
+    );
+    wrapper.vm.removeAttachment([]);
+    // The removed image no longer holds the send while its edit finishes uploading.
+    expect(wrapper.vm.hasPendingReplacement).toBe(false);
+    await vi.waitUntil(() => wrapper.vm.pendingReplacements.length === 0);
+
+    expect(wrapper.vm.attachedFiles).toEqual([]);
+  });
+
+  it('closes the image editor when the composer resets', async () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::Whatsapp' },
+    });
+    await nextTick();
+    const original = new File(['png'], 'photo.jpg', { type: 'image/jpeg' });
+    wrapper.vm.onFileUpload({
+      name: 'photo.jpg',
+      type: original.type,
+      file: original,
+    });
+    await vi.waitUntil(() => wrapper.vm.attachedFiles.length > 0);
+    wrapper.vm.editAttachment(wrapper.vm.attachedFiles[0]);
+
+    wrapper.vm.resetRecorderAndClearAttachments();
+
+    expect(wrapper.vm.fileToEdit).toBeNull();
+    expect(wrapper.vm.attachmentToEdit).toBeNull();
+  });
 });

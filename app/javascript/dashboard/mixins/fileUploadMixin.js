@@ -70,6 +70,7 @@ export default {
 
       if (!checkFileSizeLimit(file, maxSizeMB)) {
         this.alertOverLimit(maxSizeMB);
+        this.onFileUploadRefused?.(file);
         return;
       }
 
@@ -86,6 +87,7 @@ export default {
       upload.create((error, blob) => {
         if (error) {
           useAlert(error);
+          this.onFileUploadRefused?.(file);
         } else {
           this.attachFile({ file, blob });
         }
@@ -100,6 +102,7 @@ export default {
 
       if (!checkFileSizeLimit(file, maxSizeMB)) {
         this.alertOverLimit(maxSizeMB);
+        this.onFileUploadRefused?.(file);
         return;
       }
 
