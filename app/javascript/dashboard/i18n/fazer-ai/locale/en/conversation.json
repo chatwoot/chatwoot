@@ -133,6 +133,9 @@
       "HIDE_ORDER": "Hide items",
       "QUANTITY": "Quantity: {quantity}",
       "QUANTITY_PRICE": "Quantity: {quantity} · {price}"
+    },
+    "RICH": {
+      "VIEW_OPTIONS": "View options"
     }
   },
   "CONVERSATION_SIDEBAR": {

@@ -4,6 +4,7 @@ import { computed } from 'vue';
 import MessageMeta from '../MessageMeta.vue';
 import ReferralCard from './ReferralCard.vue';
 import QuotedProduct from '../catalog/QuotedProduct.vue';
+import { hasText } from '../catalog/catalogHelpers';
 import CaptainGenerationDetails from '../CaptainGenerationDetails.vue';
 import TranslationToggle from '../TranslationToggle.vue';
 
@@ -129,8 +130,17 @@ const shouldShowMeta = computed(
 const replyToPreview = computed(() => {
   if (!inReplyTo) return '';
 
-  const { content, attachments } = inReplyTo.value;
+  const { content, attachments, contentAttributes: quoted } = inReplyTo.value;
 
+  // WhatsApp quotes a card by its body, or its title, never by the flattened text
+  // stored as content (which ends in the "▸ option" lines). A catalog product or
+  // order keeps its content: that text is already written from the card's data.
+  const rich = quoted?.rich;
+  const cardText =
+    rich && !['product', 'order'].includes(rich.type)
+      ? [rich.body, rich.title].find(hasText)
+      : null;
+  if (cardText) return new MessageFormatter(cardText).formattedMessage;
   if (content) return new MessageFormatter(content).formattedMessage;
   if (attachments?.length) {
     const firstAttachment = attachments[0];
