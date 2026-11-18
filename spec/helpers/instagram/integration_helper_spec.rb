@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe Instagram::IntegrationHelper do
   include described_class
 
+  before do
+    allow(GlobalConfigService).to receive(:load).and_call_original
+  end
+
   describe '#generate_instagram_token' do
     let(:account_id) { 1 }
     let(:client_secret) { 'test_secret' }

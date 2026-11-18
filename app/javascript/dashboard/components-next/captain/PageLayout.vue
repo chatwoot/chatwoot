@@ -12,6 +12,11 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Policy from 'dashboard/components/policy.vue';
 import AssistantSwitcher from 'dashboard/components-next/captain/pageComponents/switcher/AssistantSwitcher.vue';
 import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
+import { useAssistantSwitcher } from 'dashboard/components-next/captain/pageComponents/switcher/useAssistantSwitcher';
+import {
+  usePageCommands,
+  recordCommands,
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 
 const props = defineProps({
   currentPage: {
@@ -78,6 +83,7 @@ const { t } = useI18n();
 
 const route = useRoute();
 const { shouldShowPaywall } = usePolicy();
+const { switchAssistant } = useAssistantSwitcher();
 
 const showAssistantSwitcherDropdown = ref(false);
 const createAssistantDialogRef = ref(null);
@@ -116,6 +122,21 @@ const handleCreateAssistant = () => {
   showAssistantSwitcherDropdown.value = false;
   createAssistantDialogRef.value.dialogRef.open();
 };
+
+usePageCommands(() => {
+  if (!props.showAssistantSwitcher || showPaywall.value) return [];
+
+  return recordCommands({
+    id: 'switch_assistant',
+    title: t('COMMAND_BAR.COMMANDS.SWITCH_ASSISTANT'),
+    icon: 'i-woot-captain',
+    records: assistants.value.filter(
+      assistant => assistant.id !== Number(currentAssistantId.value)
+    ),
+    label: assistant => assistant.name,
+    run: switchAssistant,
+  });
+});
 </script>
 
 <template>

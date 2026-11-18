@@ -205,6 +205,21 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
       end
 
+      it 'exposes reconnect for a Unified Login inbox after its finite token expires' do
+        channel = create(:channel_instagram, account: account, auth_type: 'unified_login', expires_at: 1.hour.from_now)
+        headers = admin.create_new_auth_token
+        url = "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}"
+        get url, headers: headers, as: :json
+        expect(response.parsed_body['reauthorization_required']).to be(false)
+
+        travel_to(2.hours.from_now) do
+          channel.access_token
+          get url, headers: headers, as: :json
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['reauthorization_required']).to be(true)
+        end
+      end
+
       it 'returns reauthorization_required for embedded signup whatsapp channel when reauth required' do
         whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
                                                      validate_provider_config: false)
