@@ -54,5 +54,33 @@ RSpec.describe Conversations::ReopenSnoozedConversationsJob do
 
       expect(snoozed_till_4_days_ago.reload.status).to eq 'snoozed'
     end
+
+    it 'skips conversations that were re-snoozed to a future time concurrently' do
+      allow_any_instance_of(Conversation).to receive(:snoozed_until).and_return(2.hours.from_now) # rubocop:disable RSpec/AnyInstance
+
+      expect do
+        described_class.perform_now
+      end.not_to have_enqueued_job(described_class)
+
+      expect(snoozed_till_4_days_ago.reload.status).to eq 'snoozed'
+    end
+
+    it 'releases the Redis lock before re-enqueuing continuation' do
+      lock_manager = instance_double(Redis::LockManager)
+      allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
+      allow(lock_manager).to receive(:lock).and_return(true)
+
+      unlocked = false
+      allow(lock_manager).to receive(:unlock) do
+        unlocked = true
+        true
+      end
+
+      allow(described_class).to receive(:perform_later) do
+        expect(unlocked).to be(true)
+      end
+
+      described_class.perform_now(1)
+    end
   end
 end
