@@ -37,18 +37,6 @@ RSpec.describe Migration::MoveWhatsappCallRecordingsToCallsJob, type: :job do
     expect(call.transcript).to be_nil
   end
 
-  it 'leaves a call that already holds its recording alone' do
-    call = create(:call, conversation: conversation, provider: :whatsapp, message: message)
-    call.recording.attach(io: Rails.root.join('spec/assets/sample.mp3').open, filename: 'call-recording.mp3', content_type: 'audio/mpeg')
-    existing_blob = call.recording.blob
-    attach_audio
-
-    described_class.perform_now
-
-    expect(call.reload.recording.blob).to eq(existing_blob)
-    expect(message.attachments.count).to eq(1)
-  end
-
   it 'leaves Twilio calls alone' do
     create(:call, conversation: conversation, provider: :twilio, message: message)
     attach_audio

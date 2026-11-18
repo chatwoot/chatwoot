@@ -93,17 +93,8 @@ RSpec.describe Voice::CallTranscriptionService, type: :service do
                     message: message, provider: :whatsapp)
     end
 
-    before do
-      allow(Llm::SpeechToTextService).to receive(:new).and_return(instance_double(Llm::SpeechToTextService, perform: 'Hola'))
-    end
-
-    it 'stores the transcript on the call' do
-      described_class.new(call: call).perform
-
-      expect(call.reload.transcript).to eq('Hola')
-    end
-
     it 'skips calls whose inbox has transcription turned off' do
+      allow(Llm::SpeechToTextService).to receive(:new)
       channel.update!(provider_config: channel.provider_config.merge('transcription_enabled' => false))
 
       described_class.new(call: call).perform

@@ -222,19 +222,14 @@ const canJoinCall = computed(() => {
   return true;
 });
 
-// The blob URL ends in the stored filename: .wav or .mp3 from Twilio, .ogg or .webm from WhatsApp
-const recordingExtension = url => {
-  const filename = new URL(url).pathname.split('/').pop();
-  return filename.includes('.') ? filename.split('.').pop() : 'wav';
-};
-
 const recordingAttachment = computed(() => {
   const url = call.value?.recordingUrl;
   if (!url) return null;
   return {
     dataUrl: url,
     fileType: ATTACHMENT_TYPES.AUDIO,
-    extension: recordingExtension(url),
+    // The URL ends in the stored filename, e.g. .wav from Twilio or .ogg from WhatsApp
+    extension: new URL(url).pathname.split('.').pop(),
     transcribedText: call.value?.transcript || '',
   };
 });
