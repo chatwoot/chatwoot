@@ -9,7 +9,7 @@ json.started_at call.started_at&.to_i
 json.created_at call.created_at.to_i
 json.message_id call.message_id
 json.recording_url call.recording_url
-json.transcript call.recording_transcript
+json.transcript call.transcript
 
 json.conversation do
   json.id call.conversation_id

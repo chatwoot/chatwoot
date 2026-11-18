@@ -42,7 +42,6 @@ const { t } = useI18n();
 const store = useStore();
 const {
   call,
-  attachments,
   contentAttributes,
   conversationId,
   currentUserId,
@@ -112,10 +111,6 @@ const displayAgentName = computed(() => {
   }
   return conversationAssignee.value?.name || null;
 });
-
-const audioAttachment = computed(() =>
-  (attachments?.value || []).find(a => a.fileType === ATTACHMENT_TYPES.AUDIO)
-);
 
 const durationSeconds = computed(() => {
   const fromCall = call.value?.durationSeconds || call.value?.duration_seconds;
@@ -227,14 +222,19 @@ const canJoinCall = computed(() => {
   return true;
 });
 
+// The blob URL ends in the stored filename: .wav or .mp3 from Twilio, .ogg or .webm from WhatsApp
+const recordingExtension = url => {
+  const filename = new URL(url).pathname.split('/').pop();
+  return filename.includes('.') ? filename.split('.').pop() : 'wav';
+};
+
 const recordingAttachment = computed(() => {
-  if (audioAttachment.value) return audioAttachment.value;
   const url = call.value?.recordingUrl;
   if (!url) return null;
   return {
     dataUrl: url,
     fileType: ATTACHMENT_TYPES.AUDIO,
-    extension: 'wav',
+    extension: recordingExtension(url),
     transcribedText: call.value?.transcript || '',
   };
 });

@@ -58,7 +58,7 @@ class Call < ApplicationRecord
   belongs_to :message, optional: true, inverse_of: :call
   belongs_to :accepted_by_agent, class_name: 'User', optional: true
 
-  include Concerns::CallRecording
+  has_one_attached :recording
 
   # Snapshot the inbox's "Record calls" setting so every leg of a call agrees and a mid-call toggle can't change it.
   before_create { self.recording_enabled = inbox.channel.try(:recording_enabled?) }
@@ -259,6 +259,12 @@ class Call < ApplicationRecord
     incoming? ? inbox.channel&.phone_number : contact&.phone_number
   end
 
+  def recording_url
+    return nil unless recording.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_url(recording)
+  end
+
   def push_event_data
     {
       id: id,
@@ -277,7 +283,7 @@ class Call < ApplicationRecord
       from_number: from_number,
       to_number: to_number,
       recording_url: recording_url,
-      transcript: recording_transcript
+      transcript: transcript
     }
   end
 

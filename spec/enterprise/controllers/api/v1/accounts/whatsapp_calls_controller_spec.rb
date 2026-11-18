@@ -300,27 +300,27 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       call.update!(message_id: message.id)
     end
 
-    it 'attaches the recording to the call message' do
-      file = fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg')
-
-      expect do
-        post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/upload_recording",
-             params: { recording: file }, headers: agent.create_new_auth_token
-      end.to change { call.message.attachments.count }.by(1)
+    it 'stores the recording on the call and queues its transcription' do
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/upload_recording",
+           params: { recording: fixture_file_upload(Rails.root.join('spec/assets/sample.ogg'), 'audio/ogg') },
+           headers: agent.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body['status']).to eq('uploaded')
+      expect(call.reload.recording).to be_attached
+      expect(call.message.attachments).to be_empty
+      expect(Voice::CallTranscriptionJob).to have_been_enqueued.with(call.id)
     end
 
-    it 'is idempotent: returns already_uploaded if an audio attachment exists' do
-      call.message.attachments.create!(account_id: account.id, file_type: :audio,
-                                       file: fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg'))
+    it 'is idempotent: returns already_uploaded if the call already has a recording' do
+      call.recording.attach(io: Rails.root.join('spec/assets/sample.ogg').open, filename: 'call-recording.ogg', content_type: 'audio/ogg')
 
       post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/upload_recording",
-           params: { recording: fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg') },
+           params: { recording: fixture_file_upload(Rails.root.join('spec/assets/sample.ogg'), 'audio/ogg') },
            headers: agent.create_new_auth_token
 
       expect(response.parsed_body['status']).to eq('already_uploaded')
+      expect(Voice::CallTranscriptionJob).not_to have_been_enqueued
     end
 
     # The browser gate ships in JS, so a stale tab could still post audio for a call that decided not to record.
@@ -331,9 +331,10 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
         post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/upload_recording",
              params: { recording: fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg') },
              headers: agent.create_new_auth_token
-      end.not_to(change { call.message.attachments.count })
+      end.not_to have_enqueued_job(Voice::CallTranscriptionJob)
 
       expect(response).to have_http_status(:unprocessable_entity)
+      expect(call.reload.recording).not_to be_attached
     end
   end
 end

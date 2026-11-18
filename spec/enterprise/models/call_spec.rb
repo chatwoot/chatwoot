@@ -124,57 +124,6 @@ RSpec.describe Call do
     end
   end
 
-  describe 'recording and transcript' do
-    let(:conversation) { create(:conversation) }
-    let(:message) { create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox) }
-
-    def attach_audio(transcribed_text: nil)
-      message.attachments.create!(account: conversation.account, file_type: :audio, meta: { transcribed_text: transcribed_text }.compact,
-                                  file: fixture_file_upload(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg'))
-    end
-
-    context 'with a WhatsApp call' do
-      let(:call) { create(:call, conversation: conversation, provider: :whatsapp, message: message) }
-
-      it 'reads the recording and transcript from the audio attachment on its message' do
-        attachment = attach_audio(transcribed_text: 'hello from whatsapp')
-
-        expect(call.recording_url).to eq(Rails.application.routes.url_helpers.rails_blob_url(attachment.file))
-        expect(call.recording_transcript).to eq('hello from whatsapp')
-      end
-
-      it 'returns nil before the recording is uploaded or transcribed' do
-        expect(call.recording_url).to be_nil
-        expect(call.recording_transcript).to be_nil
-
-        attach_audio
-        expect(call.reload.recording_url).to be_present
-        expect(call.recording_transcript).to be_nil
-      end
-
-      it 'returns nil for a call that has no message' do
-        call.update!(message: nil)
-
-        expect(call.recording_url).to be_nil
-        expect(call.recording_transcript).to be_nil
-      end
-    end
-
-    context 'with a Twilio call' do
-      let(:call) { create(:call, conversation: conversation, provider: :twilio, message: message, transcript: 'hello from twilio') }
-
-      it 'reads the recording and transcript from the call, not its message' do
-        attach_audio(transcribed_text: 'attachment text')
-
-        expect(call.recording_url).to be_nil
-        expect(call.recording_transcript).to eq('hello from twilio')
-
-        call.recording.attach(io: Rails.root.join('spec/assets/sample.mp3').open, filename: 'recording.mp3', content_type: 'audio/mpeg')
-        expect(call.recording_url).to eq(Rails.application.routes.url_helpers.rails_blob_url(call.recording))
-      end
-    end
-  end
-
   describe 'agent legs' do
     let(:call) { create(:call, conversation: create(:conversation)) }
 
