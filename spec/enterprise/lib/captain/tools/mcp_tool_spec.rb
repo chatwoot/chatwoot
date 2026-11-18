@@ -42,6 +42,25 @@ RSpec.describe Captain::Tools::McpTool do
       expect(connection).to have_received(:call).with('list_invoices', { email: 'jane@example.com', limit: '20', status: 'open' })
     end
 
+    context 'with a numeric fixed parameter' do
+      let(:schema) { super().deep_merge('properties' => { 'limit' => { 'type' => 'number' } }) }
+
+      it 'sends a finite fixed value as a number' do
+        mcp_tool.param_sources['limit']['value'] = '2.5'
+
+        tool.perform(tool_context, limit: 500)
+
+        expect(connection).to have_received(:call).with('list_invoices', { email: 'jane@example.com', limit: 2.5 })
+      end
+
+      it 'does not call the server when a previously saved fixed value overflows' do
+        mcp_tool.param_sources['limit']['value'] = '1e309'
+
+        expect(tool.perform(tool_context)).to eq(Captain::ParamSources::NON_FINITE_FIXED_NUMBER)
+        expect(connection).not_to have_received(:call)
+      end
+    end
+
     context 'when the customer has not verified an email' do
       let(:verified_email) { nil }
 
