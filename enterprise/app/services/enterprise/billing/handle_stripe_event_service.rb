@@ -40,20 +40,27 @@ class Enterprise::Billing::HandleStripeEventService
     # skipping self hosted plan events
     return if plan.blank? || !stripe_billed_account?
 
-    previous_usage = capture_previous_usage
-    update_account_attributes(subscription, plan)
-    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
-    sync_subscription_credits(plan, previous_usage)
+    apply_subscription(plan)
     track_marketing_plan_activation(previous_plan_name) if event_changed_plan?
     broadcast_billing_updated
   end
 
+  # Credits are settled by diffing the stored account against the current subscription, so the plan and
+  # credit writes commit together: a failed delivery leaves the old state for its retry to diff again,
+  # and concurrent deliveries can't both settle the same change.
+  def apply_subscription(plan)
+    account.with_lock do
+      previous_usage = capture_previous_usage
+      update_account_attributes(subscription, plan)
+      Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+      sync_subscription_credits(plan, previous_usage)
+    end
+  end
+
   def sync_subscription_credits(plan, previous_usage)
-    if billing_period_renewed?
-      ActiveRecord::Base.transaction do
-        handle_subscription_credits(plan, previous_usage)
-        account.reset_response_usage
-      end
+    if billing_period_renewed?(previous_usage)
+      handle_subscription_credits(plan, previous_usage)
+      account.reset_response_usage
     # Compare with the stored plan, not the event: whichever event first applies a new plan settles its credits.
     elsif previous_usage[:plan_name] != plan['name']
       handle_plan_change_credits(plan, previous_usage)
@@ -64,7 +71,8 @@ class Enterprise::Billing::HandleStripeEventService
     {
       responses: account.custom_attributes['captain_responses_usage'].to_i,
       monthly: current_plan_credits[:responses],
-      plan_name: account.custom_attributes['plan_name']
+      plan_name: account.custom_attributes['plan_name'],
+      period_ends_on: account.custom_attributes['subscription_ends_on']
     }
   end
 
@@ -193,10 +201,12 @@ class Enterprise::Billing::HandleStripeEventService
     previous_plan_id != current_plan_id
   end
 
-  def billing_period_renewed?
-    return false if previous_attributes['current_period_start'].blank?
+  # Like the plan, a renewal is detected against the stored period, so whichever event first sees the
+  # new period settles it with the old plan's allowance, even if that event isn't the renewal itself.
+  def billing_period_renewed?(previous_usage)
+    return false if previous_usage[:period_ends_on].blank?
 
-    previous_attributes['current_period_start'] != subscription['current_period_start']
+    Time.zone.parse(previous_usage[:period_ends_on].to_s) != subscription_ends_on(subscription)
   end
 
   def account

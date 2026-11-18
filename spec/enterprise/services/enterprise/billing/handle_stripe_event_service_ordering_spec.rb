@@ -4,7 +4,8 @@ describe Enterprise::Billing::HandleStripeEventService do
   let(:prices) do
     {
       hacker: { id: 'price_hacker', product: 'prod_hacker', amount: 0, currency: 'usd' },
-      startups: { id: 'price_startups', product: 'prod_startups', amount: 1900, currency: 'usd' }
+      startups: { id: 'price_startups', product: 'prod_startups', amount: 1900, currency: 'usd' },
+      business: { id: 'price_business', product: 'prod_business', amount: 3900, currency: 'usd' }
     }
   end
   let!(:account) do
@@ -13,23 +14,26 @@ describe Enterprise::Billing::HandleStripeEventService do
            limits: { 'captain_responses' => 0 })
   end
 
-  def subscription_on(plan)
+  let(:period_end) { 1_790_845_600 }
+  let(:next_period_end) { 1_793_437_600 }
+
+  def subscription_on(plan, period_ends_at = period_end)
     {
       id: 'sub_123', object: 'subscription', customer: 'cus_123', status: 'active', quantity: 1,
-      current_period_end: 1_790_845_600, cancel_at: nil, cancel_at_period_end: false, plan: prices.fetch(plan)
+      current_period_end: period_ends_at, cancel_at: nil, cancel_at_period_end: false, plan: prices.fetch(plan)
     }
   end
 
   # Delivers an event whose payload is on payload_plan while Stripe's subscription is now on current_plan.
-  def deliver(payload_plan:, current_plan:, previous:)
+  def deliver(payload_plan:, current_plan:, previous:, payload_period_end: period_end, current_period_end: period_end)
     allow(Stripe::Subscription).to receive(:retrieve)
       .with('sub_123', { stripe_version: '2024-06-20' })
-      .and_return(Stripe::Subscription.construct_from(subscription_on(current_plan)))
+      .and_return(Stripe::Subscription.construct_from(subscription_on(current_plan, current_period_end)))
     event = Stripe::Event.construct_from(
       type: 'customer.subscription.updated',
       api_version: '2024-06-20',
       created: 1_763_000_000,
-      data: { object: subscription_on(payload_plan), previous_attributes: previous }
+      data: { object: subscription_on(payload_plan, payload_period_end), previous_attributes: previous }
     )
     described_class.new.perform(event: event)
     account.reload
@@ -39,10 +43,11 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     create(:installation_config, name: 'CHATWOOT_CLOUD_PLANS', value: [
              { 'name' => 'Hacker', 'product_id' => ['prod_hacker'], 'price_ids' => ['price_hacker'] },
-             { 'name' => 'Startups', 'product_id' => ['prod_startups'], 'price_ids' => ['price_startups'] }
+             { 'name' => 'Startups', 'product_id' => ['prod_startups'], 'price_ids' => ['price_startups'] },
+             { 'name' => 'Business', 'product_id' => ['prod_business'], 'price_ids' => ['price_business'] }
            ])
     create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: {
-             'hacker' => { 'responses' => 0 }, 'startups' => { 'responses' => 300 }
+             'hacker' => { 'responses' => 0 }, 'startups' => { 'responses' => 300 }, 'business' => { 'responses' => 500 }
            })
     conversion_service = instance_double(Internal::Accounts::CloudPlanActivationConversionService, perform: nil)
     allow(Internal::Accounts::CloudPlanActivationConversionService).to receive(:new).and_return(conversion_service)
@@ -63,6 +68,39 @@ describe Enterprise::Billing::HandleStripeEventService do
     deliver(payload_plan: :startups, current_plan: :startups, previous: { plan: prices[:hacker] })
 
     expect(account.custom_attributes['plan_name']).to eq('Startups')
+    expect(account.limits['captain_responses']).to eq(300)
+  end
+
+  it 'settles the plan change once a retry succeeds after a failed delivery' do
+    reconcile = Enterprise::Billing::ReconcilePlanFeaturesService
+    allow(reconcile).to receive(:new).and_raise(ActiveRecord::RecordInvalid)
+
+    expect do
+      deliver(payload_plan: :startups, current_plan: :startups, previous: { plan: prices[:hacker] })
+    end.to raise_error(ActiveRecord::RecordInvalid)
+    expect(account.reload.custom_attributes['plan_name']).to eq('Hacker')
+
+    allow(reconcile).to receive(:new).and_call_original
+    deliver(payload_plan: :startups, current_plan: :startups, previous: { plan: prices[:hacker] })
+
+    expect(account.custom_attributes['plan_name']).to eq('Startups')
+    expect(account.limits['captain_responses']).to eq(300)
+  end
+
+  it 'renews against the old plan when an older event arrives before the renewal onto a new plan' do
+    account.update!(
+      custom_attributes: account.custom_attributes.merge(
+        'plan_name' => 'Business', 'captain_responses_usage' => 450, 'subscription_ends_on' => Time.zone.at(period_end)
+      ),
+      limits: { 'captain_responses' => 500 }
+    )
+
+    deliver(payload_plan: :business, current_plan: :startups, previous: { default_payment_method: nil },
+            current_period_end: next_period_end)
+    deliver(payload_plan: :startups, current_plan: :startups, previous: { plan: prices[:business], current_period_start: 1 },
+            payload_period_end: next_period_end, current_period_end: next_period_end)
+
+    expect(account.custom_attributes).to include('plan_name' => 'Startups', 'captain_responses_usage' => 0)
     expect(account.limits['captain_responses']).to eq(300)
   end
 end
