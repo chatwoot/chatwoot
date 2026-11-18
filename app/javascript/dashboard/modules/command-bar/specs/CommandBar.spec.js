@@ -3,7 +3,7 @@ import { flushPromises, mount } from '@vue/test-utils';
 import { useRoute } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useCommandBar } from '@chatwoot/jumpbar';
-import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { COMMAND_BAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import CommandBar from '../CommandBar.vue';
 
 const track = vi.fn();
@@ -257,6 +257,16 @@ describe('CommandBar', () => {
     );
   });
 
+  it('tracks opening the bar with the page it opened on', async () => {
+    await mountCommandBar();
+    bar.open({ page: 'snooze_conversation' });
+    await flushPromises();
+
+    expect(track).toHaveBeenCalledWith(COMMAND_BAR_EVENTS.OPENED, {
+      page: 'snooze_conversation',
+    });
+  });
+
   it('tracks the selected command', async () => {
     await mountCommandBar();
     bar.open();
@@ -269,7 +279,7 @@ describe('CommandBar', () => {
       })
     );
 
-    expect(track).toHaveBeenCalledWith(GENERAL_EVENTS.COMMAND_BAR, {
+    expect(track).toHaveBeenCalledWith(COMMAND_BAR_EVENTS.COMMAND_SELECTED, {
       section: 'General',
       action: 'Go to inbox',
     });
