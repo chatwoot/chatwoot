@@ -14,7 +14,7 @@ class Whatsapp::HealthService
     end
   end
 
-  BASE_URI = 'https://graph.facebook.com'.freeze
+  BASE_URI = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com').delete_suffix('/').freeze
   MINIMUM_HEALTH_API_VERSION = 24.0
   BUSINESS_HEALTH_FIELDS = %i[business_account_id business_account_name business_portfolio_id business_portfolio_name].freeze
   PERSISTED_FIELDS = %i[
