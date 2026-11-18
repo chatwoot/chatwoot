@@ -305,6 +305,24 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       expect(a_request(:any, settings_url)).not_to have_been_made
     end
 
+    it 'leaves WhatsApp alone when the rest of the save fails' do
+      working_hours = [{ day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 18, close_minutes: 0 }]
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: working_hours, channel: { phone_number: '' } }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(a_request(:post, settings_url)).not_to have_been_made
+    end
+
+    it 'leaves WhatsApp alone while calling is off, so closing every day is allowed' do
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => false))
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: closed_week }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(a_request(:any, settings_url)).not_to have_been_made
+    end
+
     it 'leaves WhatsApp alone when nothing about the hours changed' do
       patch url, headers: admin.create_new_auth_token, params: { name: 'Support line' }, as: :json
 

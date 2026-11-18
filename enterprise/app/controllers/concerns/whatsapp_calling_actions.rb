@@ -24,7 +24,7 @@ module Concerns::WhatsappCallingActions
     return unless @inbox.whatsapp? && call_hours_inputs_changed?
 
     channel = @inbox.channel
-    channel.with_lock { channel.apply_call_hours! if channel.business_hours_calls_enabled? }
+    channel.with_lock { channel.apply_call_hours! if channel.business_hours_calls_enabled? && channel.voice_enabled? }
   end
 
   def call_hours_inputs_changed?
