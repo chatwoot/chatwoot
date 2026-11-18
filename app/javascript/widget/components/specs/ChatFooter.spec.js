@@ -54,7 +54,9 @@ describe('ChatFooter', () => {
   });
 
   it('keeps the reply target when the attachment message fails', async () => {
-    sendAttachment = vi.fn().mockResolvedValue(false);
+    sendAttachment = vi
+      .fn()
+      .mockResolvedValue({ sent: false, failedMessageId: 'temp-1' });
     const wrapper = mountFooter();
     const message = { id: 42, content: 'Which page?' };
     wrapper.vm.toggleReplyTo(message);
@@ -62,7 +64,7 @@ describe('ChatFooter', () => {
     await sendWith(wrapper);
     expect(wrapper.vm.inReplyTo).toEqual(message);
 
-    sendAttachment.mockResolvedValue(true);
+    sendAttachment.mockResolvedValue({ sent: true });
     await sendWith(wrapper);
     expect(sendAttachment).toHaveBeenLastCalledWith(
       expect.objectContaining({ replyTo: 42 })

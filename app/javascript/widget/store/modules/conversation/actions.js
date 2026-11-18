@@ -90,6 +90,8 @@ export const actions = {
       content,
       replyTo: params.replyTo,
     });
+    // A retry takes the place of the failed message instead of adding a second one.
+    if (params.retryOf) tempMessage.id = params.retryOf;
     const { pendingCustomAttributes, pendingLabels } = conversationState;
     const hasPendingMetadata =
       Object.keys(pendingCustomAttributes).length > 0 ||
@@ -111,7 +113,7 @@ export const actions = {
         tempId: tempMessage.id,
       });
       commit('pushMessageToConversation', { ...data, status: 'sent' });
-      return true;
+      return { sent: true };
     } catch (error) {
       commit('pushMessageToConversation', { ...tempMessage, status: 'failed' });
       commit('updateMessageMeta', {
@@ -119,7 +121,7 @@ export const actions = {
         meta: { ...meta, error: '' },
       });
       // Show error
-      return false;
+      return { sent: false, failedMessageId: tempMessage.id };
     }
   },
   fetchOldConversations: async ({ commit }, { before } = {}) => {

@@ -54,6 +54,8 @@ export default {
       pendingAttachments: [],
       uploadsInFlight: 0,
       isSendingAttachments: false,
+      // The failed message the draft in the composer retries.
+      failedMessageId: null,
       showEmojiPicker: false,
       isFocused: false,
     };
@@ -110,6 +112,7 @@ export default {
       }
       if (this.userInput && this.userInput.trim()) {
         this.onSendMessage(this.userInput);
+        this.failedMessageId = null;
       }
       this.userInput = '';
       this.focusInput();
@@ -119,12 +122,14 @@ export default {
     // otherwise mix with the one that failed.
     async sendPendingAttachments() {
       this.isSendingAttachments = true;
-      const sent = await this.onSendAttachment(
+      const { sent, failedMessageId } = await this.onSendAttachment(
         this.pendingAttachments,
-        this.userInput.trim()
+        this.userInput.trim(),
+        this.failedMessageId
       );
       this.isSendingAttachments = false;
-      if (sent !== false) {
+      this.failedMessageId = sent ? null : failedMessageId;
+      if (sent) {
         this.pendingAttachments = [];
         this.userInput = '';
       }

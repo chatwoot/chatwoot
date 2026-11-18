@@ -45,7 +45,7 @@ describe('ChatInputWrap', () => {
   };
 
   beforeEach(() => {
-    onSendAttachment = vi.fn();
+    onSendAttachment = vi.fn().mockResolvedValue({ sent: true });
     onSendMessage = vi.fn();
     window.chatwootWebChannel = {
       enabledFeatures: ['attachments'],
@@ -78,7 +78,11 @@ describe('ChatInputWrap', () => {
     wrapper.findComponent({ name: 'ChatSendButton' }).vm.$emit('click');
     await flushPromises();
 
-    expect(onSendAttachment).toHaveBeenCalledWith([photo], 'see the screen');
+    expect(onSendAttachment).toHaveBeenCalledWith(
+      [photo],
+      'see the screen',
+      null
+    );
     expect(onSendMessage).not.toHaveBeenCalled();
     expect(wrapper.find('li').exists()).toBe(false);
   });
@@ -131,17 +135,26 @@ describe('ChatInputWrap', () => {
     wrapper.findComponent({ name: 'ChatSendButton' }).vm.$emit('click');
     expect(onSendAttachment).toHaveBeenCalledTimes(1);
 
-    finishSend(false);
+    finishSend({ sent: false, failedMessageId: 'temp-1' });
     await flushPromises();
 
     expect(wrapper.findAll('li')).toHaveLength(1);
     expect(wrapper.find('textarea').element.value).toBe('see the screen');
     expect(wrapper.find('textarea').attributes('readonly')).toBeUndefined();
+
+    // The retry replaces the failed message instead of adding another one.
+    onSendAttachment.mockResolvedValue({ sent: true });
+    wrapper.findComponent({ name: 'ChatSendButton' }).vm.$emit('click');
+    await flushPromises();
+    expect(onSendAttachment).toHaveBeenLastCalledWith(
+      [photo],
+      'see the screen',
+      'temp-1'
+    );
   });
 
   it('clears the composer once the grouped message is sent', async () => {
     window.chatwootWebChannel.sendAttachmentsWithMessage = true;
-    onSendAttachment.mockResolvedValue(true);
     const wrapper = mountInput();
 
     await attach(wrapper, photo);
@@ -166,6 +179,10 @@ describe('ChatInputWrap', () => {
     attachment.vm.$emit('uploadsChange', 0);
     await attach(wrapper, invoice);
     wrapper.findComponent({ name: 'ChatSendButton' }).vm.$emit('click');
-    expect(onSendAttachment).toHaveBeenCalledWith([invoice], 'see the invoice');
+    expect(onSendAttachment).toHaveBeenCalledWith(
+      [invoice],
+      'see the invoice',
+      null
+    );
   });
 });

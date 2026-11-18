@@ -161,15 +161,38 @@ describe('#actions', () => {
         attachments: [{ file: 'signed-id', thumbUrl: '', fileType: 'file' }],
       };
 
+      getUuid.mockImplementationOnce(() => 'temp-1');
       API.post.mockRejectedValueOnce(new Error('offline'));
       expect(
         await actions.sendAttachment({ commit, dispatch, state }, params)
-      ).toBe(false);
+      ).toEqual({ sent: false, failedMessageId: 'temp-1' });
 
       API.post.mockResolvedValueOnce({ data: { id: 1 } });
       expect(
         await actions.sendAttachment({ commit, dispatch, state }, params)
-      ).toBe(true);
+      ).toEqual({ sent: true });
+    });
+
+    it('puts a retry in the place of the failed message', async () => {
+      const state = { pendingCustomAttributes: {}, pendingLabels: [] };
+      API.post.mockResolvedValueOnce({ data: { id: 1 } });
+
+      await actions.sendAttachment(
+        { commit, dispatch, state },
+        {
+          attachments: [{ file: 'signed-id', thumbUrl: '', fileType: 'file' }],
+          retryOf: 'failed-temp-id',
+        }
+      );
+
+      expect(commit).toHaveBeenCalledWith(
+        'pushMessageToConversation',
+        expect.objectContaining({ id: 'failed-temp-id', status: 'in_progress' })
+      );
+      expect(commit).toHaveBeenCalledWith('updateAttachmentMessageStatus', {
+        message: { id: 1 },
+        tempId: 'failed-temp-id',
+      });
     });
 
     it('sends correct mutations', () => {
