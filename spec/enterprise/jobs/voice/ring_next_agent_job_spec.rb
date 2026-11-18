@@ -190,4 +190,38 @@ RSpec.describe Voice::RingNextAgentJob do
     described_class.perform_now(call.id, 2)
     expect(Voice::AddedRingPushService).to have_received(:new).with(call: an_instance_of(Call), users: [bob])
   end
+
+  context 'with a WhatsApp inbox' do
+    let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+    let(:cara) { create(:user, account: account, role: :agent) }
+    let(:call) do
+      create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, message: message,
+                    provider: :whatsapp, ring_state: { 'ring_recipient_ids' => [alice.id], 'rings_phones' => false })
+    end
+
+    before do
+      inbox.channel.provider_config = inbox.channel.provider_config.merge('ring_strategy' => 'sequential', 'ring_step_seconds' => 10)
+      inbox.channel.save!(validate: false)
+      create(:inbox_member, user: cara, inbox: inbox)
+    end
+
+    it 'adds one agent per step on the interval the inbox sets, and names them on the message' do
+      expect { described_class.perform_now(call.id, 1) }
+        .to have_enqueued_job(described_class).with(call.id, 2).at(a_value_within(2.seconds).of(10.seconds.from_now))
+      expect(call.reload.ring_state['ring_recipient_ids'].size).to eq(2)
+
+      described_class.perform_now(call.id, 2)
+      expect(call.reload.ring_state['ring_recipient_ids']).to contain_exactly(alice.id, bob.id, cara.id)
+      expect(message.reload.content_attributes.dig('data', 'ring_user_ids')).to contain_exactly(alice.id, bob.id, cara.id)
+    end
+
+    it 'never adds back an agent who dismissed the call' do
+      call.update!(ring_state: call.ring_state.merge('dismissed_user_ids' => [bob.id]))
+      inbox.channel.provider_config = inbox.channel.provider_config.merge('ring_strategy' => 'simultaneous')
+      inbox.channel.save!(validate: false)
+
+      described_class.perform_now(call.id, 1)
+      expect(call.reload.ring_state['ring_recipient_ids']).to contain_exactly(alice.id, cara.id)
+    end
+  end
 end

@@ -127,7 +127,7 @@ class Voice::InboundCallBuilder
     return reusable if reusable
 
     conversation = account.conversations.new(contact_inbox_id: contact_inbox.id, inbox_id: inbox.id, contact_id: contact.id, status: :open)
-    conversation.call_ringing = provider == :twilio && announced_end_reason(conversation).nil?
+    conversation.call_ringing = announced_end_reason(conversation).nil?
     conversation.save!
     conversation
   end
