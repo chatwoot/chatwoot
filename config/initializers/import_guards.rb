@@ -125,13 +125,21 @@ module ImportGuards
   # from a request carries the operator in `Current.user`, and then every tagged ticket
   # fires. The guard costs an early return on a callback that would not have run; not having
   # it costs an archive of activity lines nobody can take back.
+  #
+  # It guards the four lines CE's create_activity writes, not create_activity itself:
+  # Enterprise refines that one (and prepends its refinement on ActivityMessageHandler), and
+  # a fork module must not stand in front of a method Enterprise defines
+  # (spec/lint/enterprise_isolation_spec.rb). Enterprise's own line, the auto-translate
+  # toggle, only follows a change an import never makes.
   module SilentActivityMessages
     private
 
-    def create_activity
-      return if Import::SilentWrite.on?
+    %i[handle_status_change handle_priority_change handle_label_change handle_sla_policy_change].each do |handler|
+      define_method(handler) do |*args|
+        return if Import::SilentWrite.on?
 
-      super
+        super(*args)
+      end
     end
   end
 
