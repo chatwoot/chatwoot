@@ -22,7 +22,7 @@ class CustomFilter < ApplicationRecord
   belongs_to :user
   belongs_to :account
 
-  enum filter_type: { conversation: 0, contact: 1, report: 2 }
+  enum :filter_type, { conversation: 0, contact: 1, report: 2 }
   # Declared so older migrations that load this model still run before the visibility column exists.
   attribute :visibility, :integer, default: 0
   enum :visibility, { personal: 0, global: 1 }, validate: true

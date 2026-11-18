@@ -47,6 +47,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.json "role_mappings", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "metadata_url"
+    t.datetime "metadata_refreshed_at"
     t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
   end
 
@@ -62,6 +64,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.boolean "auto_offline", default: true, null: false
     t.bigint "custom_role_id"
     t.bigint "agent_capacity_policy_id"
+    t.boolean "accepts_conversations", default: true, null: false
+    t.boolean "accepts_calls", default: true, null: false
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["agent_capacity_policy_id"], name: "index_account_users_on_agent_capacity_policy_id"
@@ -392,6 +396,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "contact_inbox_id"
+    t.datetime "send_attempted_at"
     t.index ["account_id", "campaign_id"], name: "index_campaign_recipients_on_account_id_and_campaign_id"
     t.index ["account_id"], name: "index_campaign_recipients_on_account_id"
     t.index ["campaign_id", "contact_id"], name: "index_campaign_recipients_on_campaign_id_and_contact_id", unique: true
@@ -423,6 +428,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.jsonb "template_params"
     t.datetime "started_at"
     t.datetime "completed_at"
+    t.bigint "whatsapp_cursor"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
@@ -556,6 +562,42 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
   end
 
+  create_table "captain_mcp_servers", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.text "url", null: false
+    t.string "name", null: false
+    t.string "auth_type", default: "none", null: false
+    t.string "auth_header"
+    t.jsonb "auth_config", default: {}
+    t.jsonb "oauth_credentials", default: {}
+    t.string "status", default: "active", null: false
+    t.text "last_error"
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_mcp_servers_on_account_id"
+    t.index ["assistant_id", "url"], name: "index_captain_mcp_servers_on_assistant_id_and_url", unique: true
+  end
+
+  create_table "captain_mcp_tools", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "mcp_server_id", null: false
+    t.string "name", null: false
+    t.string "captain_name", null: false
+    t.jsonb "approved_definition", default: {}, null: false
+    t.string "approved_digest", null: false
+    t.jsonb "param_sources", default: {}, null: false
+    t.jsonb "settings", default: {}, null: false
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "review_state", default: "current", null: false
+    t.index ["account_id"], name: "index_captain_mcp_tools_on_account_id"
+    t.index ["captain_name"], name: "index_captain_mcp_tools_on_captain_name", unique: true
+    t.index ["mcp_server_id", "name"], name: "index_captain_mcp_tools_on_mcp_server_id_and_name", unique: true
+  end
+
   create_table "captain_message_reports", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
@@ -668,12 +710,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
 
   create_table "channel_instagram", force: :cascade do |t|
     t.string "access_token", null: false
-    t.datetime "expires_at", null: false
+    t.datetime "expires_at"
     t.integer "account_id", null: false
     t.string "instagram_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "provider_name"
+    t.string "auth_type", default: "instagram_login", null: false
+    t.string "configuration_id"
     t.index ["instagram_id"], name: "index_channel_instagram_on_instagram_id", unique: true
   end
 
@@ -694,6 +738,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.jsonb "provider_config", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "secret"
+    t.boolean "callback_auth_enforced", default: true, null: false
     t.index ["phone_number"], name: "index_channel_sms_on_phone_number", unique: true
   end
 
@@ -820,6 +866,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.datetime "group_left_at"
     t.datetime "whatsapp_missing_checked_at"
     t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
+    t.index ["contact_id", "inbox_id"], name: "index_contact_inboxes_on_contact_id_and_inbox_id"
     t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
     t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
     t.index ["pubsub_token"], name: "index_contact_inboxes_on_pubsub_token", unique: true
@@ -968,6 +1015,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.datetime "updated_at", null: false
     t.string "icon", default: "chat-3-line", null: false
     t.string "icon_color", default: "#3B82F6", null: false
+    t.string "slack_channel_id"
     t.index ["account_id"], name: "index_conversation_monitors_on_account_id"
     t.index ["user_id"], name: "index_conversation_monitors_on_user_id"
   end
@@ -1073,11 +1121,23 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.index ["inbox_id", "group_type"], name: "index_conversations_on_inbox_id_and_group_type"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
     t.index ["priority"], name: "index_conversations_on_priority"
+    t.index ["sla_policy_id"], name: "index_conversations_on_sla_policy_id", where: "(sla_policy_id IS NOT NULL)"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["status", "priority"], name: "index_conversations_on_status_and_priority"
     t.index ["team_id"], name: "index_conversations_on_team_id"
     t.index ["uuid"], name: "index_conversations_on_uuid", unique: true
     t.index ["waiting_since"], name: "index_conversations_on_waiting_since"
+  end
+
+  create_table "copilot_action_items", force: :cascade do |t|
+    t.bigint "copilot_run_id", null: false
+    t.bigint "record_id", null: false
+    t.string "status", null: false
+    t.string "error"
+    t.integer "attempts", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_run_id", "record_id"], name: "index_copilot_action_items_on_copilot_run_id_and_record_id", unique: true
   end
 
   create_table "copilot_messages", force: :cascade do |t|
@@ -1091,6 +1151,53 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.index ["copilot_thread_id"], name: "index_copilot_messages_on_copilot_thread_id"
   end
 
+  create_table "copilot_review_findings", force: :cascade do |t|
+    t.bigint "copilot_run_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "status", null: false
+    t.boolean "matched", default: false, null: false
+    t.string "category"
+    t.text "reason"
+    t.float "screening_score"
+    t.jsonb "evidence_message_ids", default: [], null: false
+    t.jsonb "reviewed_message_ids", default: [], null: false
+    t.boolean "history_truncated", default: false, null: false
+    t.integer "attempts", default: 0, null: false
+    t.string "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_run_id", "conversation_id"], name: "index_copilot_findings_on_run_and_conversation", unique: true
+  end
+
+  create_table "copilot_runs", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "copilot_thread_id", null: false
+    t.bigint "copilot_message_id"
+    t.bigint "copilot_tool_call_id"
+    t.bigint "source_run_id"
+    t.string "type", null: false
+    t.string "status", default: "queued", null: false
+    t.jsonb "context", default: {}, null: false
+    t.jsonb "transcript", default: {}, null: false
+    t.decimal "total_cost_usd", precision: 16, scale: 10, default: "0.0", null: false
+    t.boolean "cost_complete", default: true, null: false
+    t.datetime "lease_until"
+    t.string "lease_token"
+    t.integer "attempts", default: 0, null: false
+    t.string "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_copilot_runs_on_account_id"
+    t.index ["copilot_message_id"], name: "index_copilot_runs_on_copilot_message_id", unique: true
+    t.index ["copilot_thread_id"], name: "index_copilot_runs_on_copilot_thread_id"
+    t.index ["copilot_tool_call_id"], name: "index_copilot_runs_on_copilot_tool_call_id", unique: true
+    t.index ["source_run_id"], name: "index_copilot_runs_on_source_run_id"
+    t.index ["status"], name: "index_copilot_runs_awaiting_approval", where: "((status)::text = 'awaiting_approval'::text)"
+    t.index ["status"], name: "index_copilot_runs_claimable", where: "((status)::text = ANY ((ARRAY['queued'::character varying, 'running'::character varying])::text[]))"
+    t.index ["user_id"], name: "index_copilot_runs_on_user_id"
+  end
+
   create_table "copilot_threads", force: :cascade do |t|
     t.string "title", null: false
     t.bigint "user_id", null: false
@@ -1101,6 +1208,21 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
     t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
+  end
+
+  create_table "copilot_tool_calls", force: :cascade do |t|
+    t.bigint "copilot_run_id", null: false
+    t.string "call_id", null: false
+    t.string "name", null: false
+    t.string "status", default: "queued", null: false
+    t.jsonb "arguments", default: {}, null: false
+    t.jsonb "result"
+    t.integer "attempts", default: 0, null: false
+    t.string "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_run_id", "call_id"], name: "index_copilot_tool_calls_on_copilot_run_id_and_call_id", unique: true
+    t.index ["status"], name: "index_copilot_tool_calls_running", where: "((status)::text = 'running'::text)"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|
@@ -1177,6 +1299,28 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.index ["user_id"], name: "index_dashboard_apps_on_user_id"
   end
 
+  create_table "data_exports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "initiated_by_id"
+    t.string "name", null: false
+    t.string "data_type", default: "contacts", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "export_options", default: {}, null: false
+    t.string "active_run_id"
+    t.integer "processed_records", default: 0, null: false
+    t.integer "total_records"
+    t.text "error_message"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "notification_sent_at"
+    t.datetime "artifacts_expired_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "id"], name: "index_data_exports_on_account_id_and_id"
+    t.index ["completed_at"], name: "index_data_exports_on_unexpired_completion", where: "(artifacts_expired_at IS NULL)"
+    t.index ["initiated_by_id"], name: "index_data_exports_on_initiated_by_id"
+  end
+
   create_table "data_import_errors", force: :cascade do |t|
     t.bigint "data_import_id", null: false
     t.bigint "data_import_item_id"
@@ -1206,6 +1350,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["data_import_id", "id"], name: "index_pending_data_import_items", where: "(status = 0)"
     t.index ["chatwoot_record_type", "chatwoot_record_id"], name: "idx_data_import_items_on_record"
     t.index ["data_import_id", "source_object_type", "source_object_id"], name: "idx_data_import_items_on_import_and_source", unique: true
     t.index ["data_import_id"], name: "index_data_import_items_on_data_import_id"
@@ -1841,6 +1986,21 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
     t.index ["status", "scheduled_at"], name: "index_scheduled_messages_on_status_and_scheduled_at"
   end
 
+  create_table "shopify_custom_apps", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "shop_domain", null: false
+    t.string "client_id", null: false
+    t.text "client_secret", null: false
+    t.text "install_url", null: false
+    t.boolean "enabled", default: true, null: false
+    t.integer "installation_generation", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_shopify_custom_apps_on_account_id", unique: true
+    t.index ["client_id"], name: "index_shopify_custom_apps_on_client_id", unique: true
+    t.index ["shop_domain"], name: "index_shopify_custom_apps_on_shop_domain", unique: true
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
@@ -2026,6 +2186,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
+  add_foreign_key "data_exports", "accounts"
+  add_foreign_key "data_exports", "users", column: "initiated_by_id", on_delete: :nullify
   add_foreign_key "group_members", "contacts"
   add_foreign_key "group_members", "contacts", column: "group_contact_id"
   add_foreign_key "inboxes", "portals"
@@ -2056,6 +2218,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_11_17_164815) do
   add_foreign_key "scheduled_messages", "inboxes"
   add_foreign_key "scheduled_messages", "messages"
   add_foreign_key "scheduled_messages", "recurring_scheduled_messages"
+  add_foreign_key "shopify_custom_apps", "accounts"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

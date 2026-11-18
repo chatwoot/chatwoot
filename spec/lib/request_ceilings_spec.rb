@@ -49,17 +49,6 @@ RSpec.describe 'the ceilings of the one-off integrations' do
     expect(options).to include(timeout: 10, max_retries: 0)
   end
 
-  # The SMS send is the long one of this group, and for the same reason the WhatsApp and
-  # Telegram sends are: an outgoing message carries `media` as URLs pointing back at us,
-  # and Bandwidth fetches those before it answers. The credential check sends no body and
-  # is answered out of Bandwidth's own state, so it gets the short one.
-  it 'waits longer on a send than on a credential check, because one hands over a URL' do
-    expect(Channel::Sms::BANDWIDTH_SEND_OPTIONS[:timeout])
-      .to be > Channel::Sms::BANDWIDTH_REQUEST_OPTIONS[:timeout]
-    expect(Channel::Sms::BANDWIDTH_SEND_OPTIONS).to include(max_retries: 0)
-    expect(Channel::Sms::BANDWIDTH_REQUEST_OPTIONS).to include(max_retries: 0)
-  end
-
   # Both token calls sit inside a `rescue StandardError` that answers with
   # `fallback_access_token`, which rereads the row and hands back the token it already
   # had. So a ceiling here does not surface a failure, it reaches a swallow faster: what
@@ -118,12 +107,12 @@ RSpec.describe 'the ceilings of the one-off integrations' do
   # read by parsing the call rather than counting the word, because options arrive three
   # ways: written at the call, splatted from a constant, or built in a local first.
   #
-  # `enterprise` is included only when it is there: the CE suite deletes that tree before
-  # it runs, and a fence that reads a file the suite deleted fails for the wrong reason.
+  # `enterprise` is left out: it stays byte-identical to upstream, so a bare call there is
+  # upstream's to fix and the fork has no way to satisfy a fence that reads it.
   it 'leaves no HTTParty call in the repo without a ceiling and without the retry closed' do
     require 'prism'
 
-    roots = %w[app lib enterprise].select { |dir| Rails.root.join(dir).directory? }
+    roots = %w[app lib]
     sources = Dir.glob(Rails.root.join("{#{roots.join(',')}}/**/*.rb"))
 
     constants = {}

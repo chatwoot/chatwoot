@@ -9,6 +9,7 @@ import {
   requestErrorMessage,
 } from 'dashboard/helper/requestErrorMessage';
 import { debounce } from '@chatwoot/utils';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 
@@ -37,6 +38,12 @@ const customViewsUiFlags = useMapGetter('customViews/getUIFlags');
 const segments = useMapGetter('customViews/getContactCustomViews');
 const appliedFilters = useMapGetter('contacts/getAppliedContactFilters');
 const meta = useMapGetter('contacts/getMeta');
+const filterError = ref('');
+const {
+  run: runFilterRequest,
+  abort: abortFilterRequest,
+  isPending: isFiltering,
+} = useAbortableRequest();
 
 const searchQuery = computed(() => route.query?.search);
 const searchValue = ref(searchQuery.value || '');
@@ -65,8 +72,11 @@ const sortState = reactive({
 
 const activeLabel = computed(() => route.params.label);
 const activeSegmentId = computed(() => route.params.segmentId);
-const isFetchingList = computed(
+const isFetchingContacts = computed(
   () => uiFlags.value.isFetching || customViewsUiFlags.value.isFetching
+);
+const isFetchingList = computed(
+  () => isFetchingContacts.value || isFiltering.value
 );
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
@@ -201,7 +211,13 @@ const getCommonFetchParams = (page = 1) => ({
   label: activeLabel.value,
 });
 
+const resetFilterRequest = () => {
+  abortFilterRequest();
+  filterError.value = '';
+};
+
 const fetchContacts = async (page = 1, options = {}) => {
+  resetFilterRequest();
   const { clearSelection: shouldClearSelection = true } = options;
   if (shouldClearSelection) {
     clearSelection();
@@ -223,14 +239,27 @@ const fetchSavedOrAppliedFilteredContact = async (
     clearSelection();
   }
 
-  await store.dispatch('contacts/filter', {
-    ...getCommonFetchParams(page),
-    queryPayload: payload,
-  });
-  updatePageParam(page);
+  filterError.value = '';
+  try {
+    const results = await runFilterRequest(signal =>
+      store.dispatch('contacts/filter', {
+        ...getCommonFetchParams(page),
+        queryPayload: payload,
+        signal,
+      })
+    );
+    if (results) updatePageParam(page);
+  } catch (error) {
+    clearSelection();
+    filterError.value =
+      activeSegmentId.value && error?.response?.status === 422
+        ? t('CONTACTS_LAYOUT.FILTER.INVALID_SEGMENT')
+        : t('CONTACTS_LAYOUT.FILTER.LOAD_ERROR');
+  }
 };
 
 const fetchActiveContacts = async (page = 1, options = {}) => {
+  resetFilterRequest();
   const { clearSelection: shouldClearSelection = true } = options;
   if (shouldClearSelection) {
     clearSelection();
@@ -246,6 +275,7 @@ const fetchActiveContacts = async (page = 1, options = {}) => {
 
 const searchContacts = debounce(
   async (value, page = 1, append = false, options = {}) => {
+    resetFilterRequest();
     const { clearSelection: shouldClearSelection = true } = options;
 
     if (!append) {
@@ -297,7 +327,7 @@ const fetchContactsBasedOnContext = async (page, options = {}) => {
     clearSelection();
   }
   updatePageParam(page, searchValue.value);
-  if (isFetchingList.value) return;
+  if (isFetchingContacts.value) return;
   if (searchQuery.value) {
     await searchContacts(searchQuery.value, page, false, {
       clearSelection: shouldClearSelection,
@@ -553,6 +583,14 @@ onMounted(async () => {
       >
         <Spinner />
       </div>
+
+      <p
+        v-else-if="filterError"
+        role="alert"
+        class="py-10 text-center text-base text-n-ruby-11"
+      >
+        {{ filterError }}
+      </p>
 
       <template v-else>
         <ContactsBulkActionBar

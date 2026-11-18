@@ -167,10 +167,13 @@ const onListItemSelection = index => {
   onSelect();
 };
 
-watch(items, () => {
-  selectedIndex.value = 0;
-  adjustScroll();
-});
+watch(
+  () => items.value.map(item => item.id).join(),
+  () => {
+    selectedIndex.value = 0;
+    adjustScroll();
+  }
+);
 
 // The search field takes every keystroke while the picker is open, so a picker that cannot
 // complete what was typed must not keep it: once the search matches nothing (a closing brace, a

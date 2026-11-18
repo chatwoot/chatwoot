@@ -48,7 +48,7 @@ class RecurringScheduledMessage < ApplicationRecord
   has_many :scheduled_messages, dependent: :destroy
   has_one_attached :attachment
 
-  enum status: { draft: 0, active: 1, completed: 2, cancelled: 3 }
+  enum :status, { draft: 0, active: 1, completed: 2, cancelled: 3 }
 
   validates :author_type, inclusion: { in: ['User'] }
   validates :content, presence: true, unless: :content_optional?

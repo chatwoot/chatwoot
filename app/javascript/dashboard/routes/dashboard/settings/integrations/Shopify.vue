@@ -12,7 +12,10 @@ import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
 import { isShopifyBillingAccount } from 'v3/helpers/AuthHelper';
 import shopifyAPI from 'dashboard/api/integrations/shopify';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Integration from './Integration.vue';
+import ShopifyCustomApp from './ShopifyCustomApp.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -28,6 +31,12 @@ defineProps({
 });
 
 const store = useStore();
+const { isCloudFeatureEnabled } = useAccount();
+const isCustomAppSetupEnabled = computed(
+  () =>
+    !isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY_CUSTOM_APPS)
+);
 const integrationLoaded = ref(false);
 const dialogRef = ref(null);
 const storeUrl = ref('');
@@ -140,13 +149,18 @@ onMounted(() => {
       <BaseSettingsHeader
         :title="$t('INTEGRATION_SETTINGS.SHOPIFY.HEADER')"
         description=""
-        feature-name="shopify_integration"
+        :feature-name="
+          isCustomAppSetupEnabled
+            ? FEATURE_FLAGS.SHOPIFY_CUSTOM_APPS
+            : FEATURE_FLAGS.SHOPIFY
+        "
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       />
     </template>
     <template #body>
       <div class="flex flex-col gap-6">
         <Integration
+          v-if="!isCustomAppSetupEnabled || integration.enabled"
           :integration-id="integration.id"
           :integration-logo="integration.logo"
           :integration-name="integration.name"
@@ -168,6 +182,14 @@ onMounted(() => {
             />
           </template>
         </Integration>
+
+        <ShopifyCustomApp
+          v-if="
+            isCustomAppSetupEnabled &&
+            !isShopifyBillingManaged &&
+            !integration.enabled
+          "
+        />
 
         <Dialog
           ref="dialogRef"

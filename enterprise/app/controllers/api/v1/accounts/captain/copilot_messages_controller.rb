@@ -10,7 +10,10 @@ class Api::V1::Accounts::Captain::CopilotMessagesController < Api::V1::Accounts:
                         .per(1000)
   end
 
+  # Copilot answers one message at a time, so a message sent while it works is refused instead of waiting in line.
   def create
+    return render_could_not_create_error(I18n.t('captain.copilot.still_working')) if @copilot_thread.working?
+
     @copilot_message = @copilot_thread.copilot_messages.create!(
       message: { content: params[:message] },
       message_type: :user

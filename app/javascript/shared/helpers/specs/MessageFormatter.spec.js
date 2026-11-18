@@ -16,6 +16,24 @@ describe('#MessageFormatter', () => {
         '<p>Chatwoot is an opensource tool. <a href="https://www.chatwoot.com" class="link" rel="noreferrer noopener nofollow" target="_blank">https://www.chatwoot.com</a></p>'
       );
     });
+    it('keeps the hard break backslash out of a bare URL', () => {
+      const message = 'https://example.com/trip/\\\nNext line';
+      expect(new MessageFormatter(message).formattedMessage).toBe(
+        '<p><a href="https://example.com/trip/" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com/trip/</a><br />\nNext line</p>\n'
+      );
+    });
+    it('keeps trailing punctuation out of a bare URL before a hard break', () => {
+      const message = 'Book here: https://example.com/trip.\\\nThanks';
+      expect(new MessageFormatter(message).formattedMessage).toBe(
+        '<p>Book here: <a href="https://example.com/trip" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com/trip</a>.<br />\nThanks</p>\n'
+      );
+    });
+    it('keeps a backslash inside a bare URL', () => {
+      const message = 'https://example.com/a\\b';
+      expect(new MessageFormatter(message).formattedMessage).toBe(
+        '<p><a href="https://example.com/a%5Cb" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com/a\\b</a></p>\n'
+      );
+    });
     it('should not convert template variables to links when linkify is disabled', () => {
       const message = 'Hey {{customer.name}}, check https://chatwoot.com';
       const formatter = new MessageFormatter(message, false, false, false);

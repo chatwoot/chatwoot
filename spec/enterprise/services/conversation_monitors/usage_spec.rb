@@ -50,7 +50,7 @@ RSpec.describe ConversationMonitors::Usage do
     daily = ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current, calls_count: 499_999)
     usage.reserve!
 
-    expect { usage.reserve! }.to raise_error(CustomExceptions::MonitorEvaluationError) { |error|
+    expect { usage.reserve! }.to raise_error(CustomExceptions::JevQuotaError) { |error|
       expect(error).to have_attributes(code: 'budget_limit', retry_after: 12.hours.to_i)
     }
     expect(daily.reload).to have_attributes(calls_count: 500_000, limit_reached_at: nil)
@@ -73,7 +73,7 @@ RSpec.describe ConversationMonitors::Usage do
     expect(ConversationMonitors::BroadcastJob).to have_received(:schedule).with(monitor.id).once
     reached_at = ConversationMonitors::DailyUsage.find_by!(account_id: account_id, usage_date: Date.current).limit_reached_at
 
-    expect { usage.reserve! }.to raise_error(CustomExceptions::MonitorEvaluationError) { |error|
+    expect { usage.reserve! }.to raise_error(CustomExceptions::JevQuotaError) { |error|
       expect(error).to have_attributes(code: 'monthly_limit', retry_after: (Time.utc(2026, 10, 1) - Time.current).to_i)
     }
     expect(ConversationMonitors::DailyUsage.find_by!(account_id: account_id, usage_date: Date.current))
@@ -110,7 +110,7 @@ RSpec.describe ConversationMonitors::Usage do
 
   it 'starts a fresh daily allowance at midnight UTC while keeping the monthly usage' do
     daily = ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current, calls_count: 500_000)
-    expect { usage.reserve! }.to raise_error(CustomExceptions::MonitorEvaluationError, 'budget_limit')
+    expect { usage.reserve! }.to raise_error(CustomExceptions::JevQuotaError, 'budget_limit')
     travel_to Time.utc(2026, 9, 23)
     usage.reserve!
 

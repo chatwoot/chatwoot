@@ -4,6 +4,11 @@ import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useEmitter } from 'dashboard/composables/emitter';
+import {
+  CMD_SWITCH_SORT,
+  CMD_SWITCH_STATUS,
+} from 'dashboard/helper/commandbar/events';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import wootConstants from 'dashboard/constants/globals';
 import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
@@ -172,6 +177,8 @@ const handleGroupTypeChange = value => {
   store.dispatch('setChatGroupTypeFilter', value);
   saveSelectedFilter('group_type', value);
 };
+useEmitter(CMD_SWITCH_STATUS, handleStatusChange);
+useEmitter(CMD_SWITCH_SORT, handleSortChange);
 </script>
 
 <template>

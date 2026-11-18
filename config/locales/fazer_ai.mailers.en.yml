@@ -104,7 +104,7 @@ en:
         contact_export_complete:
           subject: Your contact's export file is available to download.
           body: Your contact export file is ready to download.
-          action: Click <a href="%{url}">here</a> to download the export file.
+          action: <a href="%{url}">View your export</a>.
         account_deletion_user_initiated:
           subject: Your %{brand_name} account deletion has been scheduled
           body: An account administrator has requested deletion of the %{brand_name} account <strong>%{account_name}</strong>. The account is scheduled for deletion on <strong>%{deletion_date}</strong>.

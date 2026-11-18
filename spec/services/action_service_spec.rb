@@ -19,9 +19,23 @@ describe ActionService do
     let(:action_service) { described_class.new(conversation) }
 
     it 'opens the conversation' do
+      conversation.update!(ai_assignee: create(:agent_bot, account: conversation.account))
       expect(conversation.status).to eq('resolved')
       action_service.open_conversation(nil)
-      expect(conversation.reload.status).to eq('open')
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
+    end
+  end
+
+  describe '#change_status' do
+    let(:conversation) { create(:conversation, status: :pending) }
+    let(:action_service) { described_class.new(conversation) }
+
+    it 'clears AgentBot ownership when changing the status to open' do
+      conversation.update!(ai_assignee: create(:agent_bot, account: conversation.account))
+
+      described_class.new(conversation).change_status(['open'])
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
     end
 
     # Opening is handing the conversation to people. An agent bot left as the assignee keeps it out
@@ -70,7 +84,7 @@ describe ActionService do
     end
   end
 
-  describe '#change_status' do
+  describe '#change_status with an agent bot assignee' do
     let(:agent_bot) { create(:agent_bot, account: account) }
     let(:conversation) { create(:conversation, account: account, status: :pending) }
     let(:action_service) { described_class.new(conversation) }

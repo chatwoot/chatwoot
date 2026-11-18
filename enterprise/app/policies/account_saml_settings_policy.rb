@@ -14,4 +14,8 @@ class AccountSamlSettingsPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def refresh?
+    @account_user.administrator?
+  end
 end

@@ -11,6 +11,8 @@ vi.mock('dashboard/composables', async () => {
   return { ...actual, useAlert: (...args) => mockAlert(...args) };
 });
 import WhatsappTemplates from '../WhatsappTemplates/Modal.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const CHANNELS = [
   { name: 'WhatsApp Cloud', inbox: { channel_type: 'Channel::Whatsapp' } },
@@ -48,6 +50,7 @@ const buildStore = ({
   inboxes,
   isMetaMessageSendingDisabled = false,
   uiSettings = {},
+  signature = '',
 }) =>
   createStore({
     state: {
@@ -75,7 +78,7 @@ const buildStore = ({
       getSelectedChat: s => s.chat,
       getCurrentUser: () => ({ id: 7, name: 'Agent', accounts: [] }),
       getCurrentAccountId: () => 1,
-      getMessageSignature: () => '',
+      getMessageSignature: () => signature,
       getUISettings: () => uiSettings,
       getLastEmailInSelectedChat: () => null,
       'globalConfig/get': () => ({}),
@@ -112,6 +115,7 @@ const mountWith = ({
   inboxes,
   isMetaMessageSendingDisabled,
   uiSettings,
+  signature,
 }) => {
   const store = buildStore({
     inbox,
@@ -121,6 +125,7 @@ const mountWith = ({
     inboxes,
     isMetaMessageSendingDisabled,
     uiSettings,
+    signature,
   });
   const wrapper = shallowMount(ReplyBox, {
     global: {
@@ -1172,6 +1177,54 @@ describe('ReplyBox', () => {
       pressEnter({});
       expect(onSendReply).toHaveBeenCalledTimes(1);
 
+      wrapper.unmount();
+    });
+  });
+
+  describe('inserting content while a Copilot draft is open', () => {
+    it('dismisses the draft and appends the text to the reply', async () => {
+      const { wrapper } = mountWith({ chat: REPLIABLE });
+      await flushPromises();
+      wrapper.vm.message = 'Hello';
+      wrapper.vm.copilot.showEditor.value = true;
+
+      emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, 'Thanks for writing');
+      await nextTick();
+
+      expect(wrapper.vm.copilot.isActive.value).toBe(false);
+      expect(wrapper.vm.message).toBe('Hello\nThanks for writing');
+      wrapper.unmount();
+    });
+
+    it('strips formatting the channel cannot carry', async () => {
+      const { wrapper } = mountWith({
+        chat: REPLIABLE,
+        inbox: { channel_type: 'Channel::Api' },
+      });
+      await flushPromises();
+      wrapper.vm.copilot.showEditor.value = true;
+
+      emitter.emit(
+        BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+        'See [the docs](https://example.com) for `details`'
+      );
+      await nextTick();
+
+      expect(wrapper.vm.message).toBe(
+        'See the docs: https://example.com for details'
+      );
+      wrapper.unmount();
+    });
+
+    it('leaves the reply alone when the editor is showing', async () => {
+      const { wrapper } = mountWith({ chat: REPLIABLE });
+      await flushPromises();
+      wrapper.vm.message = 'Hello';
+
+      emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, 'Thanks for writing');
+      await nextTick();
+
+      expect(wrapper.vm.message).toBe('Hello');
       wrapper.unmount();
     });
   });

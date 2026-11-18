@@ -22,16 +22,21 @@ class Webhooks::WhatsappController < ActionController::API
     perform_sync if params[:awaitResponse].present?
     return if performed?
 
-    Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash)
+    Webhooks::WhatsappEventsJob.perform_later(webhook_params)
     head :ok
   end
 
   def perform_sync
-    Webhooks::WhatsappEventsJob.perform_now(params.to_unsafe_hash)
+    Webhooks::WhatsappEventsJob.perform_now(webhook_params)
   rescue Whatsapp::IncomingMessageBaileysService::InvalidWebhookVerifyToken
     head :unauthorized
   rescue Whatsapp::IncomingMessageBaileysService::MessageNotFoundError
     head :not_found
+  end
+
+  # The 360dialog token travels in the query string and is only the door's key.
+  def webhook_params
+    params.to_unsafe_hash.except(:webhook_token)
   end
 
   # Providers Meta does not sign authenticate with a token of their own, and it has to be
@@ -46,11 +51,30 @@ class Webhooks::WhatsappController < ActionController::API
     case whatsapp_channel&.provider
     when 'baileys'
       head :unauthorized unless matches_webhook_verify_token?(params[:webhookVerifyToken])
+    when 'default'
+      verify_360dialog_webhook_token!
     when 'zapi'
-      head :unauthorized if Whatsapp::Providers::WhatsappZapiService.new(whatsapp_channel: whatsapp_channel).webhook_url_confirmed?
+      refuse_confirmed_zapi_route!
     when *Whatsapp::Session::PROVIDERS
       head :unauthorized
     end
+  end
+
+  def refuse_confirmed_zapi_route!
+    head :unauthorized if Whatsapp::Providers::WhatsappZapiService.new(whatsapp_channel: whatsapp_channel).webhook_url_confirmed?
+  end
+
+  # 360dialog posts to the URL registered in `validate_provider_config?`, which carries the
+  # channel's `webhook_token`. A channel saved before the token existed has none until its next
+  # save, and is taken without one meanwhile.
+  def verify_360dialog_webhook_token!
+    expected_token = whatsapp_channel.provider_config['webhook_token']
+    if expected_token.blank?
+      Rails.logger.warn("[WHATSAPP] Accepted webhook without a webhook token for channel #{whatsapp_channel.id}")
+      return
+    end
+
+    head :unauthorized unless ActiveSupport::SecurityUtils.secure_compare(params[:webhook_token].to_s, expected_token)
   end
 
   def matches_webhook_verify_token?(given)

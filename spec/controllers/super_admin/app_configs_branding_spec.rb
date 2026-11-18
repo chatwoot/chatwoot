@@ -47,9 +47,14 @@ RSpec.describe 'Super Admin branding settings', type: :request do
   end
 
   # Enterprise has its own page for these keys, and puts them back to the defaults on its
-  # community plan, so a second page here would save values that do not last.
+  # community plan, so a second page here would save values that do not last. The settings page
+  # calls Enterprise's own ChatwootHub methods, so this needs the tree loaded, not just the flag:
+  # the CE workflow deletes enterprise/ before the suite.
   context 'with enterprise/' do
-    before { allow(ChatwootApp).to receive(:enterprise?).and_return(true) }
+    before do
+      skip 'needs enterprise/ loaded' unless Rails.root.join('enterprise').exist?
+      allow(ChatwootApp).to receive(:enterprise?).and_return(true)
+    end
 
     it 'does not offer the page, and does not save brand keys through it' do
       get '/super_admin/settings'

@@ -1,2 +1,3 @@
 json.billing_provider account.billing_provider
+json.installation_subscription_status ChatwootHub.subscription_status unless ChatwootApp.chatwoot_cloud?
 json.subscribed_features account.subscribed_features

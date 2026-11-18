@@ -5,7 +5,6 @@
         would rename the tab of every unbranded survey -- and of an unknown uuid -- from the
         installation's own title to its public brand, which are allowed to differ. %>
     <title><%= @global_config['BRAND_FROM_ACCOUNT'] ? @global_config['BRAND_NAME'] : @global_config['INSTALLATION_NAME'] %></title>
-    <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <%# Rendered server side so the brand is painted on the first frame. Reaching this through
         window.globalConfig would show the Chatwoot blue and then swap it, on a page the
