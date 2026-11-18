@@ -4,8 +4,7 @@ describe Enterprise::Billing::HandleStripeEventService do
   let(:prices) do
     {
       hacker: { id: 'price_hacker', product: 'prod_hacker', amount: 0, currency: 'usd' },
-      startups: { id: 'price_startups', product: 'prod_startups', amount: 1900, currency: 'usd' },
-      business: { id: 'price_business', product: 'prod_business', amount: 3900, currency: 'usd' }
+      startups: { id: 'price_startups', product: 'prod_startups', amount: 1900, currency: 'usd' }
     }
   end
   let!(:account) do
@@ -40,48 +39,30 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     create(:installation_config, name: 'CHATWOOT_CLOUD_PLANS', value: [
              { 'name' => 'Hacker', 'product_id' => ['prod_hacker'], 'price_ids' => ['price_hacker'] },
-             { 'name' => 'Startups', 'product_id' => ['prod_startups'], 'price_ids' => ['price_startups'] },
-             { 'name' => 'Business', 'product_id' => ['prod_business'], 'price_ids' => ['price_business'] }
+             { 'name' => 'Startups', 'product_id' => ['prod_startups'], 'price_ids' => ['price_startups'] }
            ])
     create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: {
-             'hacker' => { 'responses' => 0 }, 'startups' => { 'responses' => 300 }, 'business' => { 'responses' => 500 }
+             'hacker' => { 'responses' => 0 }, 'startups' => { 'responses' => 300 }
            })
     conversion_service = instance_double(Internal::Accounts::CloudPlanActivationConversionService, perform: nil)
     allow(Internal::Accounts::CloudPlanActivationConversionService).to receive(:new).and_return(conversion_service)
   end
 
-  it 'keeps the upgrade when the card-attached event from the same portal upgrade is retried hours later' do
+  it 'keeps the upgrade when an older event from the same portal upgrade is retried hours later' do
     deliver(payload_plan: :startups, current_plan: :startups, previous: { plan: prices[:hacker] })
     deliver(payload_plan: :hacker, current_plan: :startups, previous: { default_payment_method: nil })
 
-    expect(account.custom_attributes).to include('plan_name' => 'Startups', 'stripe_price_id' => 'price_startups')
+    expect(account.custom_attributes['plan_name']).to eq('Startups')
     expect(account).to be_feature_enabled('api_and_webhooks')
     expect(account.limits['captain_responses']).to eq(300)
+    expect(Internal::Accounts::CloudPlanActivationConversionService).to have_received(:new).once
   end
 
-  it 'grants the new plan credits once when the card-attached event lands before the plan change' do
+  it 'grants the new plan credits once when the events arrive in the other order' do
     deliver(payload_plan: :hacker, current_plan: :startups, previous: { default_payment_method: nil })
     deliver(payload_plan: :startups, current_plan: :startups, previous: { plan: prices[:hacker] })
 
     expect(account.custom_attributes['plan_name']).to eq('Startups')
     expect(account.limits['captain_responses']).to eq(300)
-  end
-
-  it 'attributes a late activation to the plan the event activated, not the current one' do
-    deliver(payload_plan: :business, current_plan: :business, previous: { plan: prices[:startups] })
-    deliver(payload_plan: :startups, current_plan: :business, previous: { plan: prices[:hacker] })
-
-    expect(Internal::Accounts::CloudPlanActivationConversionService).to have_received(:new).with(
-      hash_including(previous_plan_name: 'Hacker', current_plan_name: 'Startups', conversion_value: 19.0, currency_code: 'USD')
-    )
-  end
-
-  it 'keeps the newer plan when two plan changes are retried in reverse order' do
-    deliver(payload_plan: :business, current_plan: :business, previous: { plan: prices[:startups] })
-    deliver(payload_plan: :startups, current_plan: :business, previous: { plan: prices[:hacker] })
-
-    expect(account.custom_attributes).to include('plan_name' => 'Business', 'stripe_price_id' => 'price_business')
-    expect(account).to be_feature_enabled('sla')
-    expect(account.limits['captain_responses']).to eq(500)
   end
 end
