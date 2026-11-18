@@ -155,6 +155,31 @@ RSpec.describe Captain::McpServer do
     it 'finds nothing for a state it never saw' do
       expect(described_class.for_oauth_state('unknown')).to be_nil
     end
+
+    it 'allows only one callback to consume a state when callbacks overlap' do
+      server = described_class.create!(attributes.merge(auth_type: 'oauth'))
+      server.remember_oauth_state('overlapping-state')
+      allow(Redis::Alfred).to receive(:get).and_wrap_original do |original, key|
+        value = original.call(key)
+        Fiber.yield
+        value
+      end
+      callbacks = Array.new(2) { Fiber.new { described_class.for_oauth_state('overlapping-state') } }
+      results = callbacks.map(&:resume)
+      callbacks.each_with_index { |callback, index| results[index] = callback.resume if callback.alive? }
+
+      expect(results.compact).to eq([server])
+      expect(described_class.for_oauth_state('overlapping-state')).to be_nil
+    end
+
+    it 'finds nothing after the state expires' do
+      server = described_class.create!(attributes.merge(auth_type: 'oauth'))
+      server.remember_oauth_state('expired-state')
+
+      travel(described_class::OAUTH_STATE_TTL + 1.second) do
+        expect(described_class.for_oauth_state('expired-state')).to be_nil
+      end
+    end
   end
 
   describe 'tools' do
