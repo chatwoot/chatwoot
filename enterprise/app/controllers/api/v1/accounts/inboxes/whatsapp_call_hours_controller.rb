@@ -8,7 +8,7 @@ class Api::V1::Accounts::Inboxes::WhatsappCallHoursController < Api::V1::Account
   end
 
   def update
-    @channel.apply_call_hours!
+    @channel.with_lock { @channel.apply_call_hours! }
     render json: { matches_whatsapp: true }
   end
 

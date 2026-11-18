@@ -68,6 +68,23 @@ RSpec.describe 'WhatsApp call hours API', type: :request do
       expect(update).to have_been_requested
     end
 
+    it 'sends the setting as saved when the lock is taken, so a disable saved meanwhile wins' do
+      stub_meta_call_hours('status' => 'ENABLED')
+      sent = []
+      stub_request(:post, settings_url).with { |request| sent << JSON.parse(request.body).dig('calling', 'call_hours', 'status') }
+                                       .to_return(status: 200, body: '{}')
+      allow_any_instance_of(Channel::Whatsapp).to receive(:lock!).and_wrap_original do |original, *args| # rubocop:disable RSpec/AnyInstance
+        saved = Channel::Whatsapp.find(channel.id)
+        saved.provider_config = saved.provider_config.merge('business_hours_calls_enabled' => false)
+        saved.save!(validate: false)
+        original.call(*args)
+      end
+
+      patch url, headers: admin.create_new_auth_token, as: :json
+
+      expect(sent).to eq(['DISABLED'])
+    end
+
     it "returns WhatsApp's reason when it refuses the hours" do
       stub_meta_call_hours('status' => 'DISABLED')
       stub_request(:post, settings_url).to_return(status: 400, headers: headers, body: { error: { error_user_msg: 'Invalid timezone_id' } }.to_json)

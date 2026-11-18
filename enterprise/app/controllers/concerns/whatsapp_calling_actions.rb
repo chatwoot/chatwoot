@@ -23,9 +23,11 @@ module Concerns::WhatsappCallingActions
     super
     return unless @inbox.whatsapp? && call_hours_inputs_changed?
 
-    channel = @inbox.channel.reload
-    hours_were_applied = channel.business_hours_calls_enabled? && @inbox.working_hours_enabled_before_last_save
-    channel.apply_call_hours! if hours_were_applied || channel.apply_call_hours?
+    channel = @inbox.channel
+    channel.with_lock do
+      hours_were_applied = channel.business_hours_calls_enabled? && @inbox.working_hours_enabled_before_last_save
+      channel.apply_call_hours! if hours_were_applied || channel.apply_call_hours?
+    end
   end
 
   def call_hours_inputs_changed?
