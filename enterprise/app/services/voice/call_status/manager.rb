@@ -6,6 +6,8 @@ class Voice::CallStatus::Manager
 
     # Guards run on the locked row, not the caller's copy, so a callback racing an agent hangup can't overwrite its outcome.
     call.with_lock do
+      status = 'no_answer' if caller_left_while_ringing?(status)
+
       if late_answer?(status)
         record_late_answer!(timestamp)
       else
@@ -20,6 +22,12 @@ class Voice::CallStatus::Manager
   end
 
   private
+
+  # A caller who hangs up before any agent claims the call is reported completed, by their own
+  # status callback or the conference ending, whichever arrives first; either way it is a missed call
+  def caller_left_while_ringing?(status)
+    status == 'completed' && call.incoming? && call.ringing? && call.accepted_by_agent_id.nil?
+  end
 
   # A call ended unanswered because the agent's leg could not be added, whose contact had
   # in fact answered: the answer reported after it records the call as failed, with when it

@@ -23,7 +23,7 @@ class DataImports::Csv::Reader
         while row
           number += 1
           validate_row!(row, number)
-          yield DataImports::Csv::RejectedRowsFormat.decode_row(row.to_h), number
+          yield DataImports::Csv::RejectedRowsFormat.decode_row(row.to_h, row_number: number), number
           row = csv.shift
         end
       end

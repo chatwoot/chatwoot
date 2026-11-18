@@ -31,6 +31,8 @@ class Captain::McpTool < ApplicationRecord
   INVALID_NAME_CHARACTERS = /[^a-zA-Z0-9_-]/
   MAX_CAPTAIN_NAME_LENGTH = Captain::CustomTool::MAX_SLUG_LENGTH
 
+  include Concerns::VerifiedCustomerRequirement
+
   belongs_to :account
   belongs_to :mcp_server, class_name: 'Captain::McpServer'
 
@@ -95,15 +97,8 @@ class Captain::McpTool < ApplicationRecord
     approved_definition['read_only']
   end
 
-  # The admin set the tool to run only for a customer who verified an email with a one-time code
-  def requires_email_verification?
-    settings['requires_email_verification'] == true
-  end
-
-  # The tool runs only for a customer who proved who they are, so Captain offers email verification.
-  # A parameter that takes a proven value cannot be filled without that proof, so it needs no setting.
-  def requires_verified_customer?
-    requires_email_verification? || param_sources.values.any? { |entry| Captain::ParamSources.proven?(entry) }
+  def takes_verified_email?
+    param_sources.values.any? { |entry| Captain::ParamSources.proven?(entry) }
   end
 
   private

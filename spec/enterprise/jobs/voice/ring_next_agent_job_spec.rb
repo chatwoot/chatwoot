@@ -148,15 +148,15 @@ RSpec.describe Voice::RingNextAgentJob do
       expect(call.reload.ring_state['ring_recipient_ids']).to eq([alice.id, bob.id])
     end
 
-    it 'rings an agent it held back one step after the rest of the team' do
-      channel.update!(provider_config: channel.provider_config.merge('prefer_free_agents' => true))
-      create(:call, account: account, inbox: inbox, conversation: create(:conversation, account: account, inbox: inbox),
-                    contact: conversation.contact, provider_call_id: 'CA-ON-CALL', status: 'in_progress', accepted_by_agent: bob)
+    it 'rings an agent on a call once their call ends' do
+      busy_call = create(:call, account: account, inbox: inbox, conversation: create(:conversation, account: account, inbox: inbox),
+                                contact: conversation.contact, provider_call_id: 'CA-ON-CALL', status: 'in_progress', accepted_by_agent: bob)
       call.update!(ring_state: call.ring_state.merge('ring_recipient_ids' => []))
 
       described_class.perform_now(call.id, 1)
       expect(call.reload.ring_state['ring_recipient_ids']).to eq([alice.id])
 
+      busy_call.update!(status: 'completed', started_at: 1.minute.ago, meta: { 'ended_at' => Time.current.to_i })
       described_class.perform_now(call.id, 2)
       expect(call.reload.ring_state['ring_recipient_ids']).to eq([alice.id, bob.id])
     end
