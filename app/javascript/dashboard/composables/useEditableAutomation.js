@@ -1,3 +1,4 @@
+import { useI18n } from 'vue-i18n';
 import useAutomationValues from './useAutomationValues';
 
 import {
@@ -8,6 +9,7 @@ import {
 } from 'dashboard/helper/automationHelper';
 
 export function useEditableAutomation() {
+  const { t } = useI18n();
   const { getConditionDropdownValues, getActionDropdownValues } =
     useAutomationValues();
 
@@ -86,8 +88,14 @@ export function useEditableAutomation() {
       item => item.key === action.action_name
     ).inputType;
     if (inputType === 'multi_select' || inputType === 'search_select') {
-      return [...getActionDropdownValues(action.action_name)].filter(item =>
-        params.map(String).includes(String(item.id))
+      const options = getActionDropdownValues(action.action_name);
+      // A saved id with no option (e.g. a deleted bot) stays, so saving without touching it resubmits the same action.
+      return params.map(
+        param =>
+          options.find(item => String(item.id) === String(param)) || {
+            id: param,
+            name: t('AUTOMATION.EDIT.UNAVAILABLE_OPTION', { id: param }),
+          }
       );
     }
     if (inputType === 'team_message') {

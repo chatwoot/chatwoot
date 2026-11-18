@@ -129,6 +129,7 @@
       "TITLE": "Edit Automation Rule",
       "SUBMIT": "Update",
       "CANCEL_BUTTON_TEXT": "Cancel",
+      "UNAVAILABLE_OPTION": "Unavailable ({id})",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
         "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
