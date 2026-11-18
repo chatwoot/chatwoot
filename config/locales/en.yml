@@ -34,7 +34,6 @@ en:
     no_accounts: 'No Instagram accounts were shared. Connect again and select an Instagram professional account.'
     connection_expired: 'This Instagram connection has expired. Please start again.'
     authorization_expired: 'This Instagram authorization has expired. Please start the connection again.'
-    existing_login_method: 'This Instagram account uses another login method. Reconnect it from its existing inbox settings.'
     wrong_account: 'Please reconnect using the Instagram account already linked to this inbox.'
     invalid_account: 'Please select an Instagram account shared during this connection.'
     subscription_failed: 'Instagram messaging could not be enabled. Please check the app permissions and connect again.'
