@@ -4,6 +4,8 @@ module Concerns::WhatsappCallingActions
 
     @inbox.channel.enable_voice_calling!
     head :ok
+  rescue ActiveRecord::RecordInvalid
+    raise
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end

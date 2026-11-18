@@ -323,6 +323,18 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       expect(a_request(:any, settings_url)).not_to have_been_made
     end
 
+    it 'keeps calling off and says why when WhatsApp refuses the hours on turning calling back on' do
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => false))
+      stub_request(:post, settings_url).to_return(status: 400, headers: { 'Content-Type' => 'application/json' },
+                                                  body: { error: { error_user_msg: 'Invalid timezone_id' } }.to_json)
+
+      post "#{url}/enable_whatsapp_calling", headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.whatsapp_failed', error: 'Invalid timezone_id'))
+      expect(channel.reload.voice_enabled?).to be(false)
+    end
+
     it 'leaves WhatsApp alone when nothing about the hours changed' do
       patch url, headers: admin.create_new_auth_token, params: { name: 'Support line' }, as: :json
 

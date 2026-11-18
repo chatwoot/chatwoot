@@ -212,6 +212,18 @@ describe('WhatsappCallingPage', () => {
     expect(InboxesAPI.disableWhatsappCalling).toHaveBeenCalledWith(52);
   });
 
+  it("explains why calling couldn't be turned on when WhatsApp refuses the hours", async () => {
+    InboxesAPI.enableWhatsappCalling.mockRejectedValue({
+      response: { data: { message: 'Invalid timezone_id' } },
+    });
+    const wrapper = mountPage({ provider_config: { calling_enabled: false } });
+
+    await wrapper.find('input[type="checkbox"]').setValue(true);
+    await flushPromises();
+
+    expect(alert).toHaveBeenCalledWith('Invalid timezone_id');
+  });
+
   it('only offers to turn calling on while it is off', () => {
     const wrapper = mountPage({ provider_config: { calling_enabled: false } });
 

@@ -142,4 +142,42 @@ RSpec.describe Channel::Whatsapp do
       expect(channel.call_hours_match_whatsapp?).to be(true)
     end
   end
+
+  describe '#enable_voice_calling!' do
+    before do
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => false))
+      allow(channel).to receive(:webhook_setup_service).and_return(instance_double(Whatsapp::WebhookSetupService, register_callback: true))
+      stub_request(:post, settings_url).with { |request| JSON.parse(request.body).dig('calling', 'status') == 'ENABLED' }
+                                       .to_return(status: 200, headers: headers, body: '{}')
+    end
+
+    it 'turns call hours off at WhatsApp when business hours were turned off while calling was off' do
+      inbox.update!(working_hours_enabled: false)
+      stub_meta_settings(call_hours('ENABLED'))
+      update = stub_update(call_hours('DISABLED'))
+
+      channel.reload.enable_voice_calling!
+
+      expect(update).to have_been_requested
+      expect(channel.reload.voice_enabled?).to be(true)
+    end
+
+    it 'keeps calling off when WhatsApp refuses the hours' do
+      stub_meta_settings(nil)
+      stub_request(:post, settings_url).with { |request| JSON.parse(request.body)['calling'].key?('call_hours') }
+                                       .to_return(status: 400, headers: headers, body: { error: { error_user_msg: 'Invalid timezone_id' } }.to_json)
+
+      expect { channel.enable_voice_calling! }.to raise_error(ActiveRecord::RecordInvalid)
+      expect(channel.reload.voice_enabled?).to be(false)
+    end
+
+    it 'leaves call hours alone when business hours are not applied to calls' do
+      channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
+
+      channel.enable_voice_calling!
+
+      expect(a_request(:get, settings_url)).not_to have_been_made
+      expect(channel.reload.voice_enabled?).to be(true)
+    end
+  end
 end

@@ -9,6 +9,11 @@ module Enterprise::Channel::Whatsapp
     end
   end
 
+  def enable_voice_calling!
+    apply_call_hours! if business_hours_calls_enabled?
+    super
+  end
+
   attr_reader :last_provider_error
 
   def send_template(...)

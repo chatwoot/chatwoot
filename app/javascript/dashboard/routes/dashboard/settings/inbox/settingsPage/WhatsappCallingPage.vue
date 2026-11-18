@@ -90,11 +90,12 @@ const toggleCalling = async value => {
     }
     await store.dispatch('inboxes/getItem', props.inbox.id).catch(() => {});
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-  } catch (_) {
+  } catch (error) {
     callingEnabled.value = !value;
+    const hoursError = error?.response?.data?.message;
     useAlert(
       value
-        ? t('INBOX_MGMT.WHATSAPP_CALLING.ENABLE_FAILED')
+        ? hoursError || t('INBOX_MGMT.WHATSAPP_CALLING.ENABLE_FAILED')
         : t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
     );
   } finally {
