@@ -87,13 +87,13 @@ export function useEditableAutomation() {
     ).inputType;
     if (inputType === 'multi_select' || inputType === 'search_select') {
       return [...getActionDropdownValues(action.action_name)].filter(item =>
-        [...params].includes(item.id)
+        params.map(String).includes(String(item.id))
       );
     }
     if (inputType === 'team_message') {
       return {
         team_ids: [...getActionDropdownValues(action.action_name)].filter(
-          item => [...params[0].team_ids].includes(item.id)
+          item => params[0].team_ids.map(String).includes(String(item.id))
         ),
         message: params[0].message,
       };

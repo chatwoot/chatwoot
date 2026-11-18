@@ -213,6 +213,61 @@ RSpec.describe AutomationRules::ActionService do
       end
     end
 
+    describe '#perform with assign_agent_bot action and a triggering message' do
+      let(:bot) { create(:agent_bot, account: account, outgoing_url: 'https://bot.example.com/hook') }
+      let!(:message) { create(:message, conversation: conversation, account: account, message_type: :incoming, content: 'I need help') }
+
+      before do
+        rule.update!(actions: [{ action_name: 'assign_agent_bot', action_params: [bot.id] }])
+      end
+
+      it 'sends the triggering message to the newly assigned bot' do
+        allow(AgentBots::WebhookJob).to receive(:perform_later)
+
+        described_class.new(rule, account, conversation, message: message).perform
+
+        expect(AgentBots::WebhookJob).to have_received(:perform_later).once.with(
+          'https://bot.example.com/hook', message.webhook_data.merge(event: 'message_created'),
+          :agent_bot_webhook, secret: bot.secret, delivery_id: instance_of(String)
+        )
+      end
+
+      it 'does not resend the message when the bot was already assigned' do
+        conversation.update!(ai_assignee: bot, assignee: nil)
+        allow(AgentBots::WebhookJob).to receive(:perform_later)
+
+        described_class.new(rule, account, conversation, message: message).perform
+
+        expect(AgentBots::WebhookJob).not_to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args)
+      end
+
+      it 'sends nothing without a triggering message' do
+        allow(AgentBots::WebhookJob).to receive(:perform_later)
+
+        described_class.new(rule, account, conversation).perform
+
+        expect(AgentBots::WebhookJob).not_to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args)
+      end
+
+      it 'sends nothing when the bot has no outgoing url' do
+        bot.update!(outgoing_url: '')
+        allow(AgentBots::WebhookJob).to receive(:perform_later)
+
+        described_class.new(rule, account, conversation, message: message).perform
+
+        expect(AgentBots::WebhookJob).not_to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args)
+      end
+
+      it 'sends nothing for a message that is not webhook sendable' do
+        activity = create(:message, conversation: conversation, account: account, message_type: :activity)
+        allow(AgentBots::WebhookJob).to receive(:perform_later)
+
+        described_class.new(rule, account, conversation, message: activity).perform
+
+        expect(AgentBots::WebhookJob).not_to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args)
+      end
+    end
+
     describe '#perform with send_email_transcript action' do
       before do
         allow(account).to receive(:email_transcript_enabled?).and_return(true)

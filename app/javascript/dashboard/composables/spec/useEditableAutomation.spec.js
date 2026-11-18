@@ -30,6 +30,13 @@ describe('useEditableAutomation', () => {
           ];
         }
 
+        if (actionName === 'assign_agent_bot') {
+          return [
+            { id: 7, name: 'Bot 7' },
+            { id: 8, name: 'Bot 8' },
+          ];
+        }
+
         return [];
       }),
     });
@@ -119,6 +126,27 @@ describe('useEditableAutomation', () => {
             name: 'Last Responding Agent',
           },
         ],
+      },
+    ]);
+  });
+
+  it('rehydrates ids stored as strings as selected action options', () => {
+    const automation = {
+      event_name: 'conversation_created',
+      conditions: [],
+      actions: [{ action_name: 'assign_agent_bot', action_params: ['7'] }],
+    };
+    const automationActionTypes = [
+      { key: 'assign_agent_bot', inputType: 'search_select' },
+    ];
+
+    const { formatAutomation } = useEditableAutomation();
+    const result = formatAutomation(automation, [], {}, automationActionTypes);
+
+    expect(result.actions).toEqual([
+      {
+        action_name: 'assign_agent_bot',
+        action_params: [{ id: 7, name: 'Bot 7' }],
       },
     ]);
   });

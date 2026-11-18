@@ -1,7 +1,8 @@
 class AutomationRules::ActionService < ActionService
-  def initialize(rule, account, conversation)
+  def initialize(rule, account, conversation, message: nil)
     super(conversation)
     @rule = rule
+    @message = message
     @account = account
     Current.executed_by = rule
   end
@@ -21,6 +22,18 @@ class AutomationRules::ActionService < ActionService
   end
 
   private
+
+  # The sync AgentBotListener already ran for this message against the previous bot, so a bot assigned
+  # here would never receive the message that routed the conversation to it.
+  def assign_agent_bot(agent_bot_ids = [])
+    previous_bot_id = @conversation.assignee_agent_bot_id
+    bot = super
+    return if @message.nil? || bot.nil? || bot.id == previous_bot_id
+    return unless @message.webhook_sendable? && bot.outgoing_url.present?
+
+    AgentBots::WebhookJob.perform_later(bot.outgoing_url, @message.webhook_data.merge(event: 'message_created'),
+                                        :agent_bot_webhook, secret: bot.secret, delivery_id: SecureRandom.uuid)
+  end
 
   def send_attachment(blob_ids)
     return if conversation_a_tweet?
