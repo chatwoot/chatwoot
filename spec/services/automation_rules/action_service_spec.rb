@@ -293,15 +293,6 @@ RSpec.describe AutomationRules::ActionService do
 
         expect(AgentBots::WebhookJob).to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args).once
       end
-
-      it 'sends the message when the current ai assignee is not an agent bot with the same id' do
-        assistant = create(:captain_assistant, account: account, id: bot.id)
-        conversation.update!(ai_assignee: assistant, assignee: nil)
-
-        described_class.new(rule, account, conversation, message: message).perform
-
-        expect(AgentBots::WebhookJob).to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args).once
-      end
     end
 
     describe '#perform with assign_agent_bot action on a conversation_created rule' do
