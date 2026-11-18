@@ -49,10 +49,9 @@ RSpec.describe Instagram::RefreshOauthTokenService do
 
     context 'when token is eligible for refresh' do
       before do
-        instagram_channel.update!(
-          expires_at: 5.days.from_now, # Within 10 days window
-          updated_at: 25.hours.ago     # More than 24 hours old
-        )
+        travel_to(25.hours.ago) do
+          instagram_channel.update!(expires_at: 6.days.from_now, updated_at: Time.current)
+        end
       end
 
       it 'refreshes the token and updates channel' do
@@ -60,6 +59,36 @@ RSpec.describe Instagram::RefreshOauthTokenService do
         instagram_channel.reload
         expect(instagram_channel.access_token).to eq('new_refreshed_token')
         expect(instagram_channel.expires_at).to be_within(1.second).of(5_184_000.seconds.from_now)
+      end
+
+      it 'preserves a Unified Login connection completed while the refresh was in flight' do
+        stub_request(:get, 'https://graph.instagram.com/refresh_access_token')
+          .with(query: hash_including(access_token: fixed_token))
+          .to_return do
+            instagram_channel.class.find(instagram_channel.id).update!(
+              auth_type: 'unified_login', access_token: 'system_token', expires_at: nil, configuration_id: 'config1'
+            )
+            { status: 200, body: refresh_response.to_json }
+          end
+
+        expect(service.access_token).to eq('system_token')
+        expect(instagram_channel.reload).to be_unified_login
+        expect(instagram_channel[:access_token]).to eq('system_token')
+        expect(instagram_channel.expires_at).to be_nil
+        expect(instagram_channel.configuration_id).to eq('config1')
+      end
+
+      it 'preserves Instagram Login credentials replaced while the refresh was in flight' do
+        expiry = 60.days.from_now.change(usec: 0)
+        stub_request(:get, 'https://graph.instagram.com/refresh_access_token')
+          .with(query: hash_including(access_token: fixed_token))
+          .to_return do
+            instagram_channel.class.find(instagram_channel.id).update!(access_token: 'reauthorized_token', expires_at: expiry)
+            { status: 200, body: refresh_response.to_json }
+          end
+
+        expect(service.access_token).to eq('reauthorized_token')
+        expect(instagram_channel.reload.expires_at).to eq(expiry)
       end
     end
   end
