@@ -281,8 +281,9 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
     widget_tokens, client_tokens = split_contact_tokens(message_contact_inboxes(conversation, message))
     data = message.push_event_data.merge(extra)
 
-    broadcast(conversation.account, inbox_user_tokens(conversation) + client_tokens, event_name, data,
+    broadcast(conversation.account, inbox_user_tokens(conversation), event_name, data,
               widget: { tokens: widget_tokens, data: message.widget_push_event_data(data) })
+    broadcast_to_client_sessions(conversation.account, client_tokens, event_name, Conversations::EventDataPresenter.contact_message(data))
   end
 
   # Built once and shared: `push_event_data` is several queries deep, and the contact's copy is a
@@ -296,20 +297,19 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
 
     broadcast(conversation.account, inbox_user_tokens(conversation), event_name, payload,
               widget: { tokens: widget_tokens, data: conversation.widget_push_event_data })
-    broadcast_to_client_sessions(conversation.account, client_tokens, event_name, payload)
+    broadcast_to_client_sessions(conversation.account, client_tokens, event_name, Conversations::EventDataPresenter.contact_slice(payload))
   end
 
-  # Upstream hands Client API sessions the agents' payload. The fork keeps them to the contact
-  # allowlist: a Client API session is the contact's own browser as much as the widget is, and
-  # `push_event_data` carries labels, custom attributes, the assignee and the last private note.
-  # `performer` is skipped for the same reason: it is the acting agent's name and status.
-  # ActionCableBroadcastJob refreshes the values but keeps the keys it is handed, so the
-  # narrowing survives the refresh.
-  def broadcast_to_client_sessions(account, client_tokens, event_name, payload)
+  # Upstream hands Client API sessions the agents' payload. The fork gives them the contact's
+  # copy, narrowed by the caller: a Client API session is the contact's own browser as much as
+  # the widget is, and the agents' conversation payload carries labels, custom attributes, the
+  # assignee and the last private note. `performer` is skipped for the same reason: it is the
+  # acting agent's name and status. ContactSessionBroadcastJob narrows the conversation it
+  # refreshes the same way.
+  def broadcast_to_client_sessions(account, client_tokens, event_name, data)
     return if client_tokens.blank?
 
-    data = Conversations::EventDataPresenter.contact_slice(payload).merge(account_id: account.id)
-    ::ActionCableBroadcastJob.perform_later(client_tokens.uniq, event_name, data)
+    ::ContactSessionBroadcastJob.perform_later(client_tokens.uniq, event_name, data.merge(account_id: account.id))
   end
 
   # Client API sessions get the contact's copy of the conversation, like every other conversation
@@ -323,11 +323,10 @@ class ActionCableListener < BaseListener # rubocop:disable Metrics/ClassLength
 
     broadcast(conversation.account, typing_user_tokens(conversation, user), event_name, data,
               widget: { tokens: widget_tokens, data: data.merge(conversation: conversation.widget_push_event_data) })
-    broadcast(conversation.account, client_tokens, event_name, data.merge(conversation: conversation.contact_push_event_data))
+    broadcast_to_client_sessions(conversation.account, client_tokens, event_name, data.merge(conversation: conversation.contact_push_event_data))
   end
 
-  # Web widget sessions get the widget payload.
-  # Client API sessions get the same full payload as agents and admins.
+  # Web widget sessions get the widget payload, Client API sessions the contact's copy.
   def split_contact_tokens(contact_inboxes)
     widget_inboxes, client_inboxes = contact_inboxes.partition { |contact_inbox| contact_inbox.inbox.web_widget? }
     [widget_inboxes.filter_map(&:pubsub_token), client_inboxes.filter_map(&:pubsub_token)]

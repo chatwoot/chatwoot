@@ -1,14 +1,18 @@
 class Internal::CheckNewVersionsJob < ApplicationJob
   queue_as :scheduled_jobs
 
-  # The fork reads its newest release from GitHub instead of syncing with Chatwoot's hub, so there
-  # is no billing to refresh: the keyword the Super Admin refresh and Enterprise's override pass
-  # (`refresh_billing:`) is taken and has nothing to act on. Truthy when the version was read.
-  def perform(**)
+  # The fork's newest version comes from its own GitHub releases, not from Chatwoot's hub, whose
+  # version is upstream's. An install running Enterprise still holds a Chatwoot plan, and that plan
+  # only comes from the hub: Enterprise's override reads `@instance_info` to store it, so the hub
+  # sync stays there and only there. Truthy when everything this install depends on was read.
+  def perform(refresh_billing: false)
     return unless Rails.env.production?
 
+    @instance_info = ChatwootHub.sync_with_hub(refresh_billing: refresh_billing) if ChatwootApp.enterprise?
     latest_version = fetch_latest_github_release
     ::Redis::Alfred.set(::Redis::Alfred::LATEST_CHATWOOT_VERSION, latest_version) if latest_version.present?
+    return @instance_info.present? if ChatwootApp.enterprise?
+
     latest_version.present?
   end
 
