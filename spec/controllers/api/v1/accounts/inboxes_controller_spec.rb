@@ -655,6 +655,9 @@ RSpec.describe 'Inboxes API', type: :request do
           stub_request(:get, %r{graph\.facebook\.com/v14\.0/654321/phone_numbers})
             .to_return(status: 200, body: { data: [{ id: '123456' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
           allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_setup_service)
+          # The fork checks the app secret against the token with an appsecret_proof call.
+          stub_request(:get, %r{graph\.facebook\.com/v\d+\.\d+/me})
+            .to_return(status: 200, body: { id: '1' }.to_json, headers: { 'Content-Type' => 'application/json' })
         end
 
         it 'creates the inbox with the app secret and conforms to the documented contract' do
@@ -871,6 +874,9 @@ RSpec.describe 'Inboxes API', type: :request do
         stub_request(:get, %r{graph\.facebook\.com/v14\.0/.*/phone_numbers})
           .to_return(status: 200, body: { data: [{ id: '123456' }] }.to_json,
                      headers: { 'Content-Type' => 'application/json' })
+        # The fork checks the app secret against the token with an appsecret_proof call.
+        stub_request(:get, %r{graph\.facebook\.com/v\d+\.\d+/me})
+          .to_return(status: 200, body: { id: '1' }.to_json, headers: { 'Content-Type' => 'application/json' })
         # An existing manual inbox created before the app secret was required.
         whatsapp_channel = build(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
                                                     validate_provider_config: false,
@@ -2681,7 +2687,7 @@ RSpec.describe 'Inboxes API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to eq('param is missing or the value is empty: phone_number')
+        expect(response.parsed_body['error']).to eq('param is missing or the value is empty or invalid: phone_number')
       end
 
       it 'calls on_whatsapp when supported and returns provider response' do

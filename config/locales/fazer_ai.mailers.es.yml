@@ -104,7 +104,7 @@ es:
         contact_export_complete:
           subject: El archivo de exportación de sus contactos está listo para descargar.
           body: Su archivo de exportación de contactos está listo para descargar.
-          action: Haga clic <a href="%{url}">aquí</a> para descargar el archivo de exportación.
+          action: <a href="%{url}">Ver su exportación</a>.
         account_deletion_user_initiated:
           subject: Se programó la eliminación de su cuenta de %{brand_name}
           body: Un administrador de la cuenta solicitó la eliminación de la cuenta de %{brand_name} <strong>%{account_name}</strong>. La eliminación está programada para el <strong>%{deletion_date}</strong>.

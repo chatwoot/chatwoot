@@ -32,7 +32,7 @@ RSpec.describe Instagram::CallbacksController do
           'User-Agent' => 'Ruby'
         }
       )
-      .to_return(status: 200, body: '', headers: {})
+      .to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
   end
 
   # Authorizing and being subscribed are two different things. The callback used to clear

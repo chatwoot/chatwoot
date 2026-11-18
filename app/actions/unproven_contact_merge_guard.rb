@@ -10,7 +10,9 @@
 # Inside those requests a value that already belongs to another contact is therefore not used to
 # find or merge one. It stays on the visitor as an unverified claim in additional_attributes
 # (`claimed_email`, `claimed_phone_number`), which the contact panel shows so an agent can confirm
-# it or merge the contacts by hand.
+# it or merge the contacts by hand. When the value belongs to another contact, it is also handed to
+# upstream's unverified matches, so the conversation gets upstream's private note pointing the agent
+# at that contact (Conversations::UnverifiedContactNoteService).
 #
 # A phone number is held back as a claim even when nobody holds it yet. Saved on the contact it is
 # the visitor's verified phone to everything downstream: an agent bot's tools get it as
@@ -80,6 +82,7 @@ module UnprovenContactMergeGuard
     def merge_if_existing_email_contact
       return super unless UnprovenContactMergeGuard.unproven? && someone_else?(existing_email_contact)
 
+      record_unverified_match(:email, existing_email_contact)
       hold_back_claim(:email)
     end
 
@@ -90,11 +93,18 @@ module UnprovenContactMergeGuard
       return if phone_number.blank? || phone_number == @contact.phone_number
 
       # A value that is not a phone number is left to upstream, which discards or rejects it.
-      hold_back_claim(:phone_number) if UnprovenContactMergeGuard.claimable_phone_number?(phone_number)
+      return unless UnprovenContactMergeGuard.claimable_phone_number?(phone_number)
+
+      record_unverified_match(:phone_number, existing_phone_number_contact) if someone_else?(existing_phone_number_contact)
+      hold_back_claim(:phone_number)
     end
 
     def someone_else?(existing_contact)
       existing_contact.present? && existing_contact.id != @contact.id
+    end
+
+    def record_unverified_match(key, existing_contact)
+      @unverified_matches << { key: key, value: params[key], contact: existing_contact }
     end
 
     def hold_back_claim(key)

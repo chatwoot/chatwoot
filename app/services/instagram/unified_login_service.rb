@@ -57,7 +57,7 @@ class Instagram::UnifiedLoginService
   def request(method, path, query)
     version = GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')
     response = HTTParty.public_send(method, "https://graph.facebook.com/#{version}/#{path}",
-                                    query: query, headers: headers, timeout: 30)
+                                    query: query, headers: headers, timeout: 30, max_retries: 0)
     data = JSON.parse(response.body)
     unless response.success? && data['error'].blank?
       raise Error.new(data.dig('error', 'message') || I18n.t('instagram.request_failed'), response.code)

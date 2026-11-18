@@ -7,13 +7,6 @@ describe ActionCableListener do
   let!(:agent) { create(:user, account: account, role: :agent) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: agent) }
 
-  # Typing payloads reach the contact, so they ship the contact-sized hash.
-  # Building the expectation from the same allowlist the listener uses keeps
-  # this honest: changing CONTACT_PUSH_KEYS updates both sides at once.
-  let(:redacted_conversation_data) do
-    conversation.push_event_data.slice(*Conversations::EventDataPresenter::CONTACT_PUSH_KEYS)
-  end
-
   before do
     create(:inbox_member, inbox: inbox, user: agent)
     Current.user = nil
@@ -466,100 +459,104 @@ describe ActionCableListener do
       )
       listener.conversation_updated(tagged_event)
     end
-
-    # The contact still needs the event (the widget refreshes its own state off
-    # it), so the fix is a narrower payload, not a dropped broadcast.
-    it 'still reaches the contact when metadata is present' do
-      metadata = { source: 'reaction_toggle' }
-      tagged_event = Events::Base.new(event_name, Time.zone.now, conversation: conversation, broadcast_metadata: metadata)
-
-      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [conversation.contact_inbox.pubsub_token],
-        'conversation.updated',
-        redacted_conversation_data.merge(account_id: account.id, event_metadata: metadata)
-      )
-      listener.conversation_updated(tagged_event)
-    end
   end
 
-  # The bug this guards: `last_non_activity_message` filters `message_type` but
-  # not `private`, so a trailing private note is exactly what it resolves to —
-  # and these three events broadcast to `contact_inbox_tokens`. Assert on the
-  # note's literal content so the example fails loudly if the payload is ever
-  # re-unified, whatever key the content ends up under.
+  # The bug this guards: `last_non_activity_message` filters `message_type` but not `private`, so a
+  # trailing private note is exactly what it resolves to. A web widget session gets upstream's widget
+  # payload (`widget_data`), and a Client API session gets the contact allowlist instead of the
+  # agents' payload. Assert on the note's literal content so the example fails loudly if either copy
+  # is ever re-unified with the agents' one, whatever key the content ends up under.
   #
-  # The `agent context` example below is the general guard: the private note is
-  # only the leak that was found first, and asserting on the allowlist catches
-  # the next field someone adds to `push_data` without asserting on each by name.
+  # The allowlist example is the general guard: the private note is only the leak that was found
+  # first, and asserting on the shape catches the next field someone adds to `push_data`.
   describe 'private note leakage to the contact' do
     let(:secret) { 'Internal only: customer has an overdue invoice' }
-    let(:contact_token) { conversation.contact_inbox.pubsub_token }
 
-    before do
-      create(:message, conversation: conversation, account: account, inbox: inbox,
-                       message_type: :outgoing, private: true, content: secret)
-    end
-
-    it 'keeps the private note out of every contact-bound conversation payload' do
+    def contact_bound_payloads(token)
       payloads = []
-      allow(ActionCableBroadcastJob).to receive(:perform_later) do |tokens, _event, payload|
-        payloads << payload if tokens.include?(contact_token)
+      allow(ActionCableBroadcastJob).to receive(:perform_later) do |tokens, _event, payload, **options|
+        payloads << payload if tokens.include?(token)
+        payloads << options[:widget_data] if options[:widget_members].to_a.include?(token)
       end
+      yield
+      payloads
+    end
 
+    def broadcast_every_conversation_event(conversation)
       listener.conversation_created(Events::Base.new(:'conversation.created', Time.zone.now, conversation: conversation))
       listener.conversation_status_changed(Events::Base.new(:'conversation.status_changed', Time.zone.now, conversation: conversation))
       listener.conversation_updated(Events::Base.new(:'conversation.updated', Time.zone.now, conversation: conversation))
-      # All three typing events share `typing_conversation_data`, so all three
-      # belong here — they are also the highest-frequency vector, firing per
-      # keystroke rather than per status change.
-      listener.conversation_typing_on(Events::Base.new(:'conversation.typing_on', Time.zone.now,
-                                                       conversation: conversation, user: agent, is_private: true))
-      listener.conversation_recording(Events::Base.new(:'conversation.recording', Time.zone.now,
-                                                       conversation: conversation, user: agent, is_private: true))
-      listener.conversation_typing_off(Events::Base.new(:'conversation.typing_off', Time.zone.now,
-                                                        conversation: conversation, user: agent, is_private: true))
-
-      expect(payloads.size).to eq(6)
-      expect(payloads.to_s).not_to include(secret)
+      # The typing events are the highest-frequency vector, firing per keystroke rather than per status change.
+      %i[conversation_typing_on conversation_recording conversation_typing_off].each do |method_name|
+        listener.public_send(method_name, Events::Base.new(method_name, Time.zone.now, conversation: conversation, user: agent, is_private: true))
+      end
     end
 
-    # The general guard, and the whole point of the allowlist. It asserts on the
-    # SHAPE of the contact payload instead of on any one field, so the next key
-    # added to `push_data` — CE, Enterprise or Pro — fails here rather than
-    # shipping to the contact's browser. `last_non_activity_message` and Pro's
-    # `kanban_task` both got in because the previous denylist only knew about
-    # the fields someone had remembered to name.
-    it 'never sends the contact a key outside the allowlist' do
-      keys = []
-      allow(ActionCableBroadcastJob).to receive(:perform_later) do |tokens, _event, payload|
-        keys.concat(payload.keys) if tokens.include?(contact_token)
+    context 'with a web widget session' do
+      before do
+        create(:message, conversation: conversation, account: account, inbox: inbox,
+                         message_type: :outgoing, private: true, content: secret)
       end
 
-      listener.conversation_created(Events::Base.new(:'conversation.created', Time.zone.now, conversation: conversation))
-      listener.conversation_status_changed(Events::Base.new(:'conversation.status_changed', Time.zone.now, conversation: conversation))
-      listener.conversation_updated(Events::Base.new(:'conversation.updated', Time.zone.now, conversation: conversation))
+      it 'keeps the private note out of every payload the widget gets' do
+        payloads = contact_bound_payloads(conversation.contact_inbox.pubsub_token) { broadcast_every_conversation_event(conversation) }
 
-      allowed = Conversations::EventDataPresenter::CONTACT_PUSH_KEYS +
-                Conversations::EventDataPresenter::CONTACT_SAFE_EVENT_KEYS +
-                %i[account_id]
-      expect(keys.uniq - allowed).to be_empty
+        # conversation.updated does not reach the widget, which has no handler for it.
+        expect(payloads.size).to eq(5)
+        expect(payloads.to_s).not_to include(secret)
+      end
     end
 
-    it 'keeps the operational fields agents work with out of the contact copy' do
-      conversation.update!(custom_attributes: { internal_score: 'high risk' }, priority: 'urgent')
-      conversation.add_labels(['inadimplente'])
+    context 'with a Client API session' do
+      let(:api_inbox) { create(:inbox, account: account, channel: create(:channel_api, account: account)) }
+      let(:api_conversation) { create(:conversation, account: account, inbox: api_inbox, assignee: agent) }
+      let(:client_token) { api_conversation.contact_inbox.pubsub_token }
 
-      payload = nil
-      allow(ActionCableBroadcastJob).to receive(:perform_later) do |tokens, _event, data|
-        payload = data if tokens.include?(contact_token)
+      before do
+        create(:inbox_member, inbox: api_inbox, user: agent)
+        create(:message, conversation: api_conversation, account: account, inbox: api_inbox,
+                         message_type: :outgoing, private: true, content: secret)
       end
-      listener.conversation_updated(Events::Base.new(:'conversation.updated', Time.zone.now, conversation: conversation))
 
-      expect(payload.keys).not_to include(:labels, :custom_attributes, :priority, :meta, :additional_attributes)
-      expect(payload.to_s).not_to include('inadimplente', 'high risk')
+      it 'keeps the private note out of every payload the session gets' do
+        payloads = contact_bound_payloads(client_token) { broadcast_every_conversation_event(api_conversation) }
+
+        expect(payloads.size).to eq(6)
+        expect(payloads.to_s).not_to include(secret)
+      end
+
+      # Asserts on the SHAPE of the contact payload instead of on any one field, so the next key added
+      # to `push_data` (CE, Enterprise or Pro) fails here rather than shipping to the contact's browser.
+      it 'never sends the session a conversation key outside the allowlist' do
+        payloads = contact_bound_payloads(client_token) do
+          listener.conversation_created(Events::Base.new(:'conversation.created', Time.zone.now, conversation: api_conversation))
+          listener.conversation_status_changed(Events::Base.new(:'conversation.status_changed', Time.zone.now, conversation: api_conversation))
+          listener.conversation_updated(Events::Base.new(:'conversation.updated', Time.zone.now, conversation: api_conversation))
+        end
+
+        allowed = Conversations::EventDataPresenter::CONTACT_PUSH_KEYS +
+                  Conversations::EventDataPresenter::CONTACT_SAFE_EVENT_KEYS +
+                  %i[account_id]
+        expect(payloads.size).to eq(3)
+        expect(payloads.flat_map(&:keys).uniq - allowed).to be_empty
+      end
+
+      it 'keeps the operational fields agents work with out of the session copy' do
+        api_conversation.update!(custom_attributes: { internal_score: 'high risk' }, priority: 'urgent')
+        api_conversation.add_labels(['inadimplente'])
+
+        payloads = contact_bound_payloads(client_token) do
+          listener.conversation_updated(Events::Base.new(:'conversation.updated', Time.zone.now, conversation: api_conversation))
+        end
+
+        expect(payloads.first.keys).not_to include(:labels, :custom_attributes, :priority, :meta, :additional_attributes, :performer)
+        expect(payloads.to_s).not_to include('inadimplente', 'high risk')
+      end
     end
 
     it 'still gives the agents the private note as the chat list preview' do
+      create(:message, conversation: conversation, account: account, inbox: inbox,
+                       message_type: :outgoing, private: true, content: secret)
       allow(ActionCableBroadcastJob).to receive(:perform_later)
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         a_collection_including(agent.pubsub_token),

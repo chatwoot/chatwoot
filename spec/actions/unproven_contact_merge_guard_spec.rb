@@ -344,4 +344,27 @@ RSpec.describe 'Unproven contact merge on public channels', type: :request do
 
     expect(response).to have_http_status(:unauthorized)
   end
+
+  # Upstream turns these into a private note that points the agent at the contact the visitor's
+  # value belongs to (Conversations::UnverifiedContactNoteService).
+  describe 'the unverified matches handed to upstream' do
+    def identify(params)
+      action = ContactIdentifyAction.new(contact: visitor, params: params)
+      UnprovenContactMergeGuard.unproven { action.perform }
+      action
+    end
+
+    it 'names the contact that holds the typed phone number' do
+      action = identify(phone_number: customer.phone_number)
+
+      expect(action.unverified_matches).to eq([{ key: :phone_number, value: customer.phone_number, contact: customer }])
+    end
+
+    it 'names nobody for a phone number no contact holds, and still keeps it as a claim' do
+      action = identify(phone_number: '+5511988887777')
+
+      expect(action.unverified_matches).to be_empty
+      expect(visitor.reload.additional_attributes['claimed_phone_number']).to eq('+5511988887777')
+    end
+  end
 end

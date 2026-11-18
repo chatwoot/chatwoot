@@ -104,7 +104,7 @@ pt_BR:
         contact_export_complete:
           subject: Seu arquivo de exportação de contatos está disponível para download.
           body: Seu arquivo de exportação de contatos está pronto para download.
-          action: Clique <a href="%{url}">aqui</a> para baixar o arquivo de exportação.
+          action: <a href="%{url}">Ver sua exportação</a>.
         account_deletion_user_initiated:
           subject: A exclusão da sua conta %{brand_name} foi agendada
           body: Um administrador da conta solicitou a exclusão da conta %{brand_name} <strong>%{account_name}</strong>. A conta está agendada para exclusão em <strong>%{deletion_date}</strong>.

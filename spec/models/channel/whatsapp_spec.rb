@@ -377,12 +377,15 @@ RSpec.describe Channel::Whatsapp do
       end
     end
 
+    # The fork keeps the stored secret over an update that leaves it out (keep_app_secret), so a
+    # configured secret cannot be removed by an update at all.
     it 'cannot be removed once configured' do
       channel = build_manual_channel(manual_config.merge('app_secret' => 'secret'))
       channel.save!
       channel.provider_config = channel.provider_config.except('app_secret')
 
-      expect(channel).not_to be_valid
+      expect(channel).to be_valid
+      expect(channel.provider_config['app_secret']).to eq('secret')
     end
 
     it 'is required when a 360dialog channel switches to whatsapp cloud' do

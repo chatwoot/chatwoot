@@ -28,6 +28,7 @@ describe ActionService do
 
   describe '#change_status' do
     let(:conversation) { create(:conversation, status: :pending) }
+    let(:action_service) { described_class.new(conversation) }
 
     it 'clears AgentBot ownership when changing the status to open' do
       conversation.update!(ai_assignee: create(:agent_bot, account: conversation.account))

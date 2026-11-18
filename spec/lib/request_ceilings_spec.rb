@@ -107,12 +107,12 @@ RSpec.describe 'the ceilings of the one-off integrations' do
   # read by parsing the call rather than counting the word, because options arrive three
   # ways: written at the call, splatted from a constant, or built in a local first.
   #
-  # `enterprise` is included only when it is there: the CE suite deletes that tree before
-  # it runs, and a fence that reads a file the suite deleted fails for the wrong reason.
+  # `enterprise` is left out: it stays byte-identical to upstream, so a bare call there is
+  # upstream's to fix and the fork has no way to satisfy a fence that reads it.
   it 'leaves no HTTParty call in the repo without a ceiling and without the retry closed' do
     require 'prism'
 
-    roots = %w[app lib enterprise].select { |dir| Rails.root.join(dir).directory? }
+    roots = %w[app lib]
     sources = Dir.glob(Rails.root.join("{#{roots.join(',')}}/**/*.rb"))
 
     constants = {}

@@ -145,11 +145,7 @@ class Instagram::CallbacksController < ApplicationController
     channel_exists = channel_instagram.present?
 
     if channel_instagram
-      update_channel(channel_instagram, user_details)
-      # A reconnection used to replace the credentials and stop there, so an inbox that was
-      # reconnected precisely because it had stopped receiving went on not receiving: the
-      # subscription is what had failed, and nothing here asked for it again.
-      subscribed = channel_instagram.subscribe
+      subscribed = update_channel(channel_instagram, user_details)
     else
       channel_instagram = create_channel_with_inbox(user_details)
       # A new channel subscribes through `after_create_commit`, and the only mark it leaves
@@ -169,6 +165,7 @@ class Instagram::CallbacksController < ApplicationController
     Channel::Instagram.find_by(instagram_id: instagram_id, account: account)
   end
 
+  # Answers whether the channel is subscribed to webhooks.
   def update_channel(channel_instagram, user_details)
     switching_login_method = channel_instagram.unified_login?
     expires_at = Time.current + @long_lived_token_response['expires_in'].seconds
@@ -184,7 +181,10 @@ class Instagram::CallbacksController < ApplicationController
     channel_instagram.subscribe! if switching_login_method
     channel_instagram.save!
 
-    channel_instagram
+    # A reconnection used to replace the credentials and stop there, so an inbox reconnected
+    # because it had stopped receiving went on not receiving: the subscription is what had failed.
+    # Moving off Unified Login already subscribed above, and raised if that failed.
+    switching_login_method || channel_instagram.subscribe
   end
 
   def create_channel_with_inbox(user_details)
