@@ -147,13 +147,17 @@ RSpec.describe AutomationRules::ActionService do
     describe 'team ownership for stored email actions' do
       let(:foreign_team) { create(:team) }
 
+      # The fork sends this mail through `.with(account:)`, so the expectations sit on that mailer.
+      let(:mailer) { TeamNotifications::AutomationNotificationMailer.with(account: account) }
+
       before do
         allow(account).to receive(:within_email_rate_limit?).and_return(true)
+        allow(TeamNotifications::AutomationNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
       end
 
       it 'does not email another account team from an existing rule' do
         rule.update!(actions: [{ action_name: 'send_email_to_team', action_params: [{ team_ids: [foreign_team.id], message: 'Hello' }] }])
-        expect(TeamNotifications::AutomationNotificationMailer).not_to receive(:conversation_creation)
+        expect(mailer).not_to receive(:conversation_creation)
         expect(account).not_to receive(:increment_email_sent_count)
 
         described_class.new(rule.reload, account, conversation).perform
@@ -164,7 +168,7 @@ RSpec.describe AutomationRules::ActionService do
         rule.update!(actions: [{ action_name: 'send_email_to_team',
                                  action_params: [{ team_ids: [own_team.id, foreign_team.id], message: 'Hello' }] }])
         delivery = instance_double(ActionMailer::MessageDelivery, deliver_now: true)
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
+        expect(mailer).to receive(:conversation_creation)
           .with(conversation, own_team, 'Hello').once.and_return(delivery)
         expect(account).to receive(:increment_email_sent_count).once
 
@@ -175,7 +179,7 @@ RSpec.describe AutomationRules::ActionService do
         own_team = create(:team, account: account)
         rule.update!(actions: [{ action_name: 'send_email_to_team', action_params: [{ team_ids: [own_team.id], message: 'Hello' }] }])
         allow(account).to receive(:within_email_rate_limit?).and_return(false)
-        expect(TeamNotifications::AutomationNotificationMailer).not_to receive(:conversation_creation)
+        expect(mailer).not_to receive(:conversation_creation)
         expect(account).not_to receive(:increment_email_sent_count)
 
         described_class.new(rule.reload, account, conversation).perform
