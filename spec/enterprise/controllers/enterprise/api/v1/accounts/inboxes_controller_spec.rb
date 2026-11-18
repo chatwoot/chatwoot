@@ -225,4 +225,77 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/inboxes/:id with WhatsApp call hours' do
+    let(:channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:inbox) { channel.inbox }
+    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}" }
+
+    before do
+      account.enable_features!('channel_voice')
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => true, 'business_hours_calls_enabled' => true))
+      inbox.update!(working_hours_enabled: true)
+      channel.record_call_hours_synced(channel.desired_call_hours)
+    end
+
+    it 'sends edited business hours to WhatsApp' do
+      working_hours = [{ day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 18, close_minutes: 0 }]
+
+      expect do
+        patch url, headers: admin.create_new_auth_token, params: { working_hours: working_hours }, as: :json
+      end.to have_enqueued_job(Whatsapp::SyncCallHoursJob).with(channel)
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['call_hours_sync_status']).to eq('pending')
+    end
+
+    it 'sends a new timezone to WhatsApp' do
+      expect do
+        patch url, headers: admin.create_new_auth_token, params: { timezone: 'Asia/Kolkata' }, as: :json
+      end.to have_enqueued_job(Whatsapp::SyncCallHoursJob)
+    end
+
+    def closed_week
+      (0..6).map { |day| { day_of_week: day, closed_all_day: true } }
+    end
+
+    it 'rejects closing every day and rolls the whole save back' do
+      expect do
+        patch url, headers: admin.create_new_auth_token, params: { name: 'Renamed', working_hours: closed_week }, as: :json
+      end.not_to have_enqueued_job(Whatsapp::SyncCallHoursJob)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.closed_every_day'))
+      expect(inbox.reload.name).not_to eq('Renamed')
+      expect(inbox.working_hours.find_by(day_of_week: 1).closed_all_day).to be(false)
+    end
+
+    it 'rejects turning business hours on for a closed week' do
+      inbox.update!(working_hours_enabled: false)
+      inbox.working_hours.update_all(closed_all_day: true) # rubocop:disable Rails/SkipsModelValidations
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours_enabled: true }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(inbox.reload.working_hours_enabled).to be(false)
+    end
+
+    it 'allows closing every day once business hours no longer apply to calls' do
+      channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: closed_week }, as: :json
+
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'leaves WhatsApp alone when nothing about the hours changed' do
+      expect do
+        patch url, headers: admin.create_new_auth_token, params: { name: 'Support line' }, as: :json
+      end.not_to have_enqueued_job(Whatsapp::SyncCallHoursJob)
+
+      expect(response.parsed_body['call_hours_sync_status']).to eq('synced')
+    end
+  end
 end

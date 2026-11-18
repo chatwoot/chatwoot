@@ -197,5 +197,12 @@ if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(
   json.inbound_calls_enabled resource.channel.inbound_calls_enabled?
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
-  json.partial! 'api/v1/models/call_routing', channel: resource.channel if ChatwootApp.enterprise?
+  if ChatwootApp.enterprise?
+    json.partial! 'api/v1/models/call_routing', channel: resource.channel
+    if Current.account_user&.administrator?
+      json.call_hours_sync_status resource.channel.call_hours_sync_status
+      json.call_hours_sync_error resource.channel.call_hours_sync_error
+      json.call_hours_synced_at resource.channel.call_hours_synced_at&.to_i
+    end
+  end
 end
