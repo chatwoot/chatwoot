@@ -6,6 +6,10 @@ RSpec.describe 'Webhooks::SmsController', type: :request do
     let(:event) { { type: 'message-received', to: channel.phone_number, message: { id: 'msg-1', from: '+15559990000', text: 'hello' } } }
     let(:credentials) { { 'HTTP_AUTHORIZATION' => basic_auth(Channel::Sms::CALLBACK_USERNAME, channel.secret) } }
 
+    def provider_config(application_id)
+      { 'account_id' => '1', 'application_id' => application_id, 'api_key' => '1', 'api_secret' => '1' }
+    end
+
     def basic_auth(username, password)
       ActionController::HttpAuthentication::Basic.encode_credentials(username, password)
     end
@@ -54,6 +58,12 @@ RSpec.describe 'Webhooks::SmsController', type: :request do
         sibling = create(:channel_sms, account: channel.account)
         expect { post_event('15550001111', event.merge(to: sibling.phone_number), credentials) }
           .to have_enqueued_job(Webhooks::SmsEventsJob).with(hash_including('to' => sibling.phone_number))
+      end
+
+      it 'drops events for an inbox in the same account on another Bandwidth application' do
+        other = create(:channel_sms, account: channel.account, provider_config: provider_config('app-2'), callback_auth_enforced: false)
+        expect { post_event('15550001111', event.merge(to: other.phone_number), credentials) }.not_to have_enqueued_job(Webhooks::SmsEventsJob)
+        expect(response).to have_http_status(:success)
       end
 
       it 'drops events for an inbox in another account' do

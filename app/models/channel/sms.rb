@@ -62,6 +62,15 @@ class Channel::Sms < ApplicationRecord
     { http_basic_authentication: provider_config.values_at('api_key', 'api_secret') }
   end
 
+  def bandwidth_application_id
+    provider_config['application_id'].presence if provider_config.is_a?(Hash)
+  end
+
+  def shares_bandwidth_application?(other)
+    account_id == other.account_id && bandwidth_application_id.present? &&
+      bandwidth_application_id == other.bandwidth_application_id
+  end
+
   def valid_callback_credentials?(username, password)
     return false if secret.blank?
 

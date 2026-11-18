@@ -31,7 +31,7 @@ class Webhooks::SmsController < ActionController::API
   # Inboxes sharing one Bandwidth application share its single callback URL.
   def routable?
     return true if route_channel.blank? || route_channel == target_channel
-    return true if route_channel.account_id == target_channel.account_id
+    return true if route_channel.shares_bandwidth_application?(target_channel)
 
     Rails.logger.warn("[SMS] callback for channel #{target_channel.id} dropped: routed to channel #{route_channel.id}")
     false
