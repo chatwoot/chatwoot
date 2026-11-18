@@ -29,7 +29,13 @@ class Channel::Sms < ApplicationRecord
   CALLBACK_USERNAME = 'chatwoot'.freeze
 
   validates :phone_number, presence: true, uniqueness: true
+
   validate :validate_provider_config
+
+  scope :on_bandwidth_application, lambda { |application_id|
+    application_id_field = Arel::Nodes::InfixOperation.new('->>', arel_table[:provider_config], Arel::Nodes.build_quoted('application_id'))
+    where(application_id_field.eq(application_id))
+  }
 
   def name
     'Sms'

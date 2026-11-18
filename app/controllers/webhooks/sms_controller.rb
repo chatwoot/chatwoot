@@ -46,7 +46,7 @@ class Webhooks::SmsController < ActionController::API
     return Channel::Sms.none if application_id.blank?
 
     Channel::Sms.where(account_id: target_channel.account_id)
-                .where("provider_config->>'application_id' = ?", application_id)
+                .on_bandwidth_application(application_id)
                 .where.not(id: callback_channels.map(&:id))
   end
 
