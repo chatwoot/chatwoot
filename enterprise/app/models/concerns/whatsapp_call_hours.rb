@@ -48,7 +48,7 @@ module Concerns::WhatsappCallHours
 
   def sorted_hours(hours)
     Array(hours).map { |day| day.slice('day_of_week', 'open_time', 'close_time') }
-                .sort_by { |day| [META_DAYS.index(day['day_of_week']).to_i, day['open_time'].to_s] }
+                .sort_by { |day| [META_DAYS.index(day['day_of_week']), day['open_time']] }
   end
 
   def weekly_operating_hours
