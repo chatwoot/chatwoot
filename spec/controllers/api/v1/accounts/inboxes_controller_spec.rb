@@ -1048,21 +1048,6 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(inbox.reload.weekly_schedule.find { |schedule| schedule['day_of_week'] == 0 }['open_hour']).to eq 9
       end
 
-      it 'rejects working hours that close before they open, and keeps the rest of the save' do
-        params = {
-          name: 'Renamed inbox',
-          working_hours: [{ 'day_of_week' => 1, 'open_hour' => 17, 'open_minutes' => 0, 'close_hour' => 9, 'close_minutes' => 0 }]
-        }
-        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
-              params: params,
-              headers: admin.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(inbox.reload.name).not_to eq('Renamed inbox')
-        expect(inbox.working_hours.find_by(day_of_week: 1)).to have_attributes(open_hour: 9, close_hour: 17)
-      end
-
       it 'updates the webwidget inbox to disallow the messages after conversation is resolved' do
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
               headers: admin.create_new_auth_token,

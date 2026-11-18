@@ -74,27 +74,6 @@ RSpec.describe 'Call routing API', type: :request do
       expect(whatsapp.reload).to have_attributes(sequential_ringing?: true, business_hours_calls_enabled?: true)
     end
 
-    it 'sends the business hours to WhatsApp once applied' do
-      whatsapp.inbox.update!(working_hours_enabled: true)
-
-      expect do
-        patch whatsapp_url, headers: admin.create_new_auth_token, params: params, as: :json
-      end.to have_enqueued_job(Whatsapp::SyncCallHoursJob).with(whatsapp)
-
-      expect(response.parsed_body['call_hours_sync_status']).to eq('pending')
-    end
-
-    it 'refuses to apply business hours to a week with no open day' do
-      whatsapp.inbox.update!(working_hours_enabled: true)
-      whatsapp.inbox.working_hours.update_all(closed_all_day: true) # rubocop:disable Rails/SkipsModelValidations
-
-      patch whatsapp_url, headers: admin.create_new_auth_token, params: params, as: :json
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.closed_every_day'))
-      expect(whatsapp.reload.business_hours_calls_enabled?).to be(false)
-    end
-
     it 'rejects invalid settings' do
       patch whatsapp_url, headers: admin.create_new_auth_token, params: params.merge(ring_step_seconds: 5), as: :json
 

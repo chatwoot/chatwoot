@@ -4,10 +4,6 @@
 #
 #  id                             :bigint           not null, primary key
 #  business_management_token      :text
-#  call_hours_last_payload        :jsonb
-#  call_hours_sync_error          :text
-#  call_hours_sync_status         :string
-#  call_hours_synced_at           :datetime
 #  message_templates              :jsonb
 #  message_templates_last_updated :datetime
 #  phone_number                   :string           not null
