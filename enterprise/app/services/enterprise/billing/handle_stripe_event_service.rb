@@ -44,7 +44,7 @@ class Enterprise::Billing::HandleStripeEventService
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
     sync_subscription_credits(plan, previous_usage)
-    track_marketing_plan_activation(previous_plan_name, plan['name']) if plan_changed?
+    track_marketing_plan_activation if event_changed_plan?
     broadcast_billing_updated
   end
 
@@ -54,13 +54,18 @@ class Enterprise::Billing::HandleStripeEventService
         handle_subscription_credits(plan, previous_usage)
         account.reset_response_usage
       end
-    elsif plan_changed?
+    # Compare against the stored plan, not this event: whichever event first applies a new plan settles its credits.
+    elsif previous_usage[:plan_name] != plan['name']
       handle_plan_change_credits(plan, previous_usage)
     end
   end
 
   def capture_previous_usage
-    { responses: account.custom_attributes['captain_responses_usage'].to_i, monthly: current_plan_credits[:responses] }
+    {
+      responses: account.custom_attributes['captain_responses_usage'].to_i,
+      monthly: current_plan_credits[:responses],
+      plan_name: account.custom_attributes['plan_name']
+    }
   end
 
   def current_plan_credits
@@ -93,21 +98,23 @@ class Enterprise::Billing::HandleStripeEventService
     Enterprise::Billing::Currencies.to_supported(subscription['plan']['currency'])
   end
 
-  def track_marketing_plan_activation(previous_plan_name, current_plan_name)
-    subscription_plan = subscription['plan']
+  # Attribution records the activation this event describes, so it reads the event's snapshot, not the current subscription.
+  def track_marketing_plan_activation
+    event_plan = event_subscription['plan']
 
     Internal::Accounts::CloudPlanActivationConversionService.new(
       account: account,
       previous_plan_name: previous_plan_name,
-      current_plan_name: current_plan_name,
+      current_plan_name: find_plan(event_plan['product'])&.dig('name'),
       activated_at: Time.zone.at(@event.created),
-      conversion_value: subscription_conversion_value(subscription_plan),
-      currency_code: subscription_plan['currency'].upcase
+      conversion_value: subscription_conversion_value(event_subscription),
+      currency_code: event_plan['currency'].upcase
     ).perform
   end
 
-  def subscription_conversion_value(subscription_plan)
-    ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription['quantity'].to_i / 100).to_f
+  def subscription_conversion_value(stripe_subscription)
+    stripe_plan = stripe_subscription['plan']
+    ((stripe_plan['amount'] || stripe_plan['amount_decimal']).to_d * stripe_subscription['quantity'].to_i / 100).to_f
   end
 
   def process_subscription_deleted
@@ -167,20 +174,22 @@ class Enterprise::Billing::HandleStripeEventService
   # Stripe delivers events out of order and retries a failed one for days, so a payload can be older
   # than state already applied. Read the subscription as it is now, in the payload's API version.
   def subscription
-    @subscription ||= Stripe::Subscription.retrieve(@event.data.object.id, { stripe_version: @event.api_version })
+    @subscription ||= Stripe::Subscription.retrieve(event_subscription.id, { stripe_version: @event.api_version })
+  end
+
+  # The subscription as this event saw it; use it only for what the event itself changed.
+  def event_subscription
+    @event.data.object
   end
 
   def previous_attributes
     @previous_attributes ||= JSON.parse((@event.data.previous_attributes || {}).to_json)
   end
 
-  def plan_changed?
+  def event_changed_plan?
     return false if previous_attributes['plan'].blank?
 
-    previous_plan_id = previous_attributes.dig('plan', 'id')
-    current_plan_id = subscription['plan']['id']
-
-    previous_plan_id != current_plan_id
+    previous_attributes.dig('plan', 'id') != event_subscription['plan']['id']
   end
 
   def billing_period_renewed?

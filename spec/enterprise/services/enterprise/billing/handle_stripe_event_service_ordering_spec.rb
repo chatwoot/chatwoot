@@ -59,6 +59,23 @@ describe Enterprise::Billing::HandleStripeEventService do
     expect(account.limits['captain_responses']).to eq(300)
   end
 
+  it 'grants the new plan credits once when the card-attached event lands before the plan change' do
+    deliver(payload_plan: :hacker, current_plan: :startups, previous: { default_payment_method: nil })
+    deliver(payload_plan: :startups, current_plan: :startups, previous: { plan: prices[:hacker] })
+
+    expect(account.custom_attributes['plan_name']).to eq('Startups')
+    expect(account.limits['captain_responses']).to eq(300)
+  end
+
+  it 'attributes a late activation to the plan the event activated, not the current one' do
+    deliver(payload_plan: :business, current_plan: :business, previous: { plan: prices[:startups] })
+    deliver(payload_plan: :startups, current_plan: :business, previous: { plan: prices[:hacker] })
+
+    expect(Internal::Accounts::CloudPlanActivationConversionService).to have_received(:new).with(
+      hash_including(previous_plan_name: 'Hacker', current_plan_name: 'Startups', conversion_value: 19.0, currency_code: 'USD')
+    )
+  end
+
   it 'keeps the newer plan when two plan changes are retried in reverse order' do
     deliver(payload_plan: :business, current_plan: :business, previous: { plan: prices[:startups] })
     deliver(payload_plan: :startups, current_plan: :business, previous: { plan: prices[:hacker] })
