@@ -91,7 +91,6 @@ RSpec.describe Whatsapp::CallHoursSyncService do
 
   it 'sends again when call hours were turned off while Meta was being updated' do
     stub_meta_settings(nil)
-    # Saved the way the routing settings save it, without the remote credential check
     stub_update_with_change do
       saved = Channel::Whatsapp.find(channel.id)
       saved.provider_config = saved.provider_config.merge('business_hours_calls_enabled' => false)

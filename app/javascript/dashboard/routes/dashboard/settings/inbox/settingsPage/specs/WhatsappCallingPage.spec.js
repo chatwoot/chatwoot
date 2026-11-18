@@ -89,7 +89,6 @@ describe('WhatsappCallingPage', () => {
 
   it('opens the Business hours tab from the hours summary', async () => {
     const wrapper = mountPage({ business_hours_calls_enabled: true });
-    // The hours summary's only button is Edit hours, after the switch
     const editHours = wrapper
       .findComponent(CallBusinessHours)
       .findAll('button')
@@ -204,7 +203,6 @@ describe('WhatsappCallingPage', () => {
           outOfHoursKey('WHATSAPP_SYNC_PENDING')
         );
 
-        // Each refetch hands the page a new inbox that is still pending
         for (let poll = 0; poll < 12; poll += 1) {
           vi.advanceTimersByTime(3000);
           // eslint-disable-next-line no-await-in-loop

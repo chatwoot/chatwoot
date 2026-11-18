@@ -6,8 +6,7 @@ import InboxesAPI from 'dashboard/api/inboxes';
 
 // The form behind a Calls tab, Twilio or WhatsApp. `savedValues` reads the inbox's saved settings,
 // and `buildSteps(changed, values)` returns the requests for the groups that changed. Steps run one
-// at a time, since each write merges into the same provider_config; the inbox is refetched after,
-// on its own, as refetching every inbox swaps the whole settings page for a spinner.
+// at a time, since each write merges into the same provider_config; the inbox is refetched after.
 // When a step fails, the edits are kept: the groups saved before it now match the refetched inbox,
 // and the rest stay unsaved for another try.
 export const useCallSettingsForm = (inbox, savedValues, buildSteps) => {

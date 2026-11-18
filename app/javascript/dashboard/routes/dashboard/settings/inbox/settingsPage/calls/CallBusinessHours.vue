@@ -6,8 +6,6 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import { businessHoursSummary } from './businessHours';
 import { useLocale } from 'shared/composables/useLocale';
 
-// Whether calls follow the inbox's business hours, with a summary of those hours, for Twilio and
-// WhatsApp alike. `help` explains what applying them does on this provider.
 const props = defineProps({
   inbox: {
     type: Object,
@@ -80,7 +78,6 @@ const hoursSummary = computed(() =>
           @click="emit('openBusinessHours')"
         />
       </div>
-      <!-- Where the provider has these hours, such as whether WhatsApp is using them -->
       <slot name="status" />
     </div>
   </div>

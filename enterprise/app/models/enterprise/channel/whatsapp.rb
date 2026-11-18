@@ -9,7 +9,6 @@ module Enterprise::Channel::Whatsapp
     end
   end
 
-  # Business hours edited while calling was off are sent to Meta once it's back on
   def enable_voice_calling!
     super
     schedule_call_hours_sync

@@ -1,4 +1,3 @@
-# Sends a WhatsApp inbox's call hours to Meta again, after a sync failed
 class Api::V1::Accounts::Inboxes::WhatsappCallHoursSyncsController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox
 
@@ -17,7 +16,6 @@ class Api::V1::Accounts::Inboxes::WhatsappCallHoursSyncsController < Api::V1::Ac
     render_could_not_create_error(I18n.t('inbox.voice_settings.unsupported_inbox'))
   end
 
-  # Hours Chatwoot already sent to Meta can still be turned off there while calling is off
   def retryable?(channel)
     channel.is_a?(Channel::Whatsapp) && (channel.voice_enabled? || channel.call_hours_last_payload.present?)
   end

@@ -1,8 +1,4 @@
-# The number's calling settings at Meta: calling itself and call hours. Part of
-# Enterprise::Whatsapp::Providers::WhatsappCloudService, whose request helpers it uses.
 module Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
-  # Bounds connecting, sending, and reading each settings request, so a call hours sync finishes
-  # inside its lock (Whatsapp::SyncCallHoursJob::LOCK_TIMEOUT)
   SETTINGS_REQUEST_TIMEOUT_SECONDS = 15
 
   # Sets WABA calling status ('ENABLED'/'DISABLED')
@@ -10,12 +6,10 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
     update_calling_settings(status: status)
   end
 
-  # Replaces the hours WhatsApp puts calls through, holidays included
   def update_call_hours(call_hours)
     update_calling_settings(call_hours: call_hours)
   end
 
-  # The number's calling settings as Meta holds them, or raises with Meta's message
   def calling_settings
     response = HTTParty.get(
       "#{calls_phone_id_path}/settings", headers: api_headers, timeout: SETTINGS_REQUEST_TIMEOUT_SECONDS

@@ -30,7 +30,6 @@ const props = defineProps({
 
 const emit = defineEmits(['openBusinessHours']);
 
-// How often, and how many times, the page rechecks a call hours sync that is still in progress
 const CALL_HOURS_POLL_INTERVAL_MS = 3000;
 const CALL_HOURS_POLL_LIMIT = 10;
 
@@ -104,8 +103,6 @@ const toggleCalling = async value => {
   }
 };
 
-// Whether Meta has the inbox's business hours as the number's call hours. Shown while a sync is in
-// progress or failed, and once Meta has the hours being applied.
 const callHoursSyncStatus = computed(() => props.inbox.call_hours_sync_status);
 const callHoursApplied = computed(
   () =>
