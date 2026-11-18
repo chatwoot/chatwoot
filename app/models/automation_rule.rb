@@ -39,6 +39,7 @@ class AutomationRule < ApplicationRecord
   validate :captain_conditions_operator
   validate :captain_conditions_description
   validate :json_actions_format
+  validate :agent_bot_actions
   validate :query_operator_presence
   validate :query_operator_value
   validates :account_id, presence: true
@@ -137,6 +138,20 @@ class AutomationRule < ApplicationRecord
     actions = attributes - actions_attributes
 
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
+  end
+
+  # Checked only when the actions change, so a rule whose bot was deleted later can still be deactivated.
+  def agent_bot_actions
+    return if actions.blank? || !will_save_change_to_actions?
+
+    bot_actions = actions.select { |obj| obj['action_name'] == 'assign_agent_bot' }
+    return if bot_actions.all? { |obj| single_account_agent_bot?(obj['action_params']) }
+
+    errors.add(:actions, 'Automation action assign_agent_bot needs the id of one agent bot of the account.')
+  end
+
+  def single_account_agent_bot?(ids)
+    ids.is_a?(Array) && ids.one? && AgentBot.accessible_to(account).exists?(id: ids.first)
   end
 
   def query_operator_presence

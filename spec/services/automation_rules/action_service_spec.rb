@@ -198,10 +198,11 @@ RSpec.describe AutomationRules::ActionService do
 
       it 'still runs the next action when the agent bot belongs to another account' do
         foreign_bot = create(:agent_bot, account: create(:account))
-        rule.update!(actions: [
-                       { action_name: 'assign_agent_bot', action_params: [foreign_bot.id] },
-                       { action_name: 'add_label', action_params: ['support'] }
-                     ])
+        rule.actions = [
+          { action_name: 'assign_agent_bot', action_params: [foreign_bot.id] },
+          { action_name: 'add_label', action_params: ['support'] }
+        ]
+        rule.save!(validate: false)
 
         expect { described_class.new(rule, account, conversation).perform }.not_to raise_error
 

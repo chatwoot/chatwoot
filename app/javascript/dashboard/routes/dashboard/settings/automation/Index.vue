@@ -137,6 +137,7 @@ const isSLAEnabled = computed(() =>
 );
 
 let slaFetchPromise;
+let agentBotsFetchPromise;
 
 // Account feature flags may load after this page mounts, so watch the SLA flag
 // to ensure its options are fetched after a hard refresh.
@@ -159,7 +160,7 @@ const showDelayDisabledBanner = computed(
 onMounted(() => {
   store.dispatch('inboxes/get');
   store.dispatch('agents/get');
-  store.dispatch('agentBots/get');
+  agentBotsFetchPromise = store.dispatch('agentBots/get');
   store.dispatch('contacts/get');
   store.dispatch('teams/get');
   store.dispatch('labels/get');
@@ -168,6 +169,7 @@ onMounted(() => {
 });
 
 const ensureOptionsLoaded = async () => {
+  await agentBotsFetchPromise;
   if (!isSLAEnabled.value) return;
   slaFetchPromise ||= store.dispatch('sla/get');
   await slaFetchPromise;
