@@ -1,11 +1,12 @@
 <script setup>
-import { onMounted, ref, toRef, watch } from 'vue';
+import { ref, toRef, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import InboxesAPI from 'dashboard/api/inboxes';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import CallSettingsSection from './calls/CallSettingsSection.vue';
 import CallSettingsOption from './calls/CallSettingsOption.vue';
 import CallWhoRings from './calls/CallWhoRings.vue';
@@ -98,29 +99,34 @@ const toggleCalling = async value => {
   }
 };
 
-const callHoursDiffer = ref(false);
+const callHoursMatch = ref(null);
 const isApplyingCallHours = ref(false);
 
-const callHoursApplied = () =>
-  callingEnabled.value &&
-  !!props.inbox.business_hours_calls_enabled &&
-  !!props.inbox.working_hours_enabled;
-
-onMounted(async () => {
-  if (!callHoursApplied()) return;
+const checkCallHours = async () => {
+  callHoursMatch.value = null;
+  const { id, business_hours_calls_enabled, working_hours_enabled } =
+    props.inbox;
+  const applied =
+    callingEnabled.value &&
+    business_hours_calls_enabled &&
+    working_hours_enabled;
+  if (!applied) return;
   try {
-    const { data } = await InboxesAPI.getWhatsappCallHours(props.inbox.id);
-    callHoursDiffer.value = !data.matches_whatsapp;
+    const { data } = await InboxesAPI.getWhatsappCallHours(id);
+    callHoursMatch.value = data.matches_whatsapp;
   } catch (_) {
-    callHoursDiffer.value = false;
+    callHoursMatch.value = null;
   }
-});
+};
 
 watch(
-  () => props.inbox.business_hours_calls_enabled,
-  () => {
-    callHoursDiffer.value = false;
-  }
+  () => [
+    callingEnabled.value,
+    props.inbox.business_hours_calls_enabled,
+    props.inbox.working_hours_enabled,
+  ],
+  checkCallHours,
+  { immediate: true }
 );
 
 const applyInboxHours = async () => {
@@ -128,7 +134,7 @@ const applyInboxHours = async () => {
   isApplyingCallHours.value = true;
   try {
     await InboxesAPI.applyWhatsappCallHours(props.inbox.id);
-    callHoursDiffer.value = false;
+    callHoursMatch.value = true;
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(
@@ -214,8 +220,17 @@ const applyInboxHours = async () => {
             :help="label('OUT_OF_HOURS.WHATSAPP_APPLY_HELP')"
             @open-business-hours="emit('openBusinessHours')"
           />
+          <span
+            v-if="callHoursMatch === true && form.businessHoursCallsEnabled"
+            class="flex items-center gap-1.5 text-label-small text-n-teal-11"
+          >
+            <Icon icon="i-lucide-circle-check" class="size-3.5" />
+            {{ label('OUT_OF_HOURS.WHATSAPP_HOURS_APPLIED') }}
+          </span>
           <div
-            v-if="callHoursDiffer && form.businessHoursCallsEnabled"
+            v-else-if="
+              callHoursMatch === false && form.businessHoursCallsEnabled
+            "
             class="flex flex-col items-start gap-1 px-3 py-2 rounded-lg bg-n-amber-2 outline outline-1 -outline-offset-1 outline-n-amber-6 text-body-main text-n-slate-12"
           >
             {{ label('OUT_OF_HOURS.WHATSAPP_HOURS_DIFFER') }}

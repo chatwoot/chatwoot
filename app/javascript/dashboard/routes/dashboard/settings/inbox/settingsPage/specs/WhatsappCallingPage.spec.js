@@ -158,6 +158,7 @@ describe('WhatsappCallingPage', () => {
   describe('when WhatsApp may have other hours', () => {
     const applied = { business_hours_calls_enabled: true };
     const differKey = outOfHoursKey('WHATSAPP_HOURS_DIFFER');
+    const appliedKey = outOfHoursKey('WHATSAPP_HOURS_APPLIED');
 
     it('checks WhatsApp when the tab opens and offers to apply the inbox hours', async () => {
       InboxesAPI.getWhatsappCallHours.mockResolvedValue({
@@ -174,15 +175,26 @@ describe('WhatsappCallingPage', () => {
 
       expect(InboxesAPI.applyWhatsappCallHours).toHaveBeenCalledWith(52);
       expect(wrapper.text()).not.toContain(differKey);
+      expect(wrapper.text()).toContain(appliedKey);
     });
 
-    it('says nothing when WhatsApp has the inbox hours', async () => {
+    it('says the hours are applied when WhatsApp has the inbox hours', async () => {
       InboxesAPI.getWhatsappCallHours.mockResolvedValue({
         data: { matches_whatsapp: true },
       });
       const wrapper = mountPage(applied);
       await flushPromises();
 
+      expect(wrapper.text()).toContain(appliedKey);
+      expect(wrapper.text()).not.toContain(differKey);
+    });
+
+    it('claims nothing when WhatsApp cannot be reached', async () => {
+      InboxesAPI.getWhatsappCallHours.mockRejectedValue(new Error('down'));
+      const wrapper = mountPage(applied);
+      await flushPromises();
+
+      expect(wrapper.text()).not.toContain(appliedKey);
       expect(wrapper.text()).not.toContain(differKey);
     });
 
