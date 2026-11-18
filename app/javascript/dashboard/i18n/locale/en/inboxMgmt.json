@@ -869,9 +869,11 @@
         "MESSAGE": "Out-of-hours message",
         "SAME": "Same as the missed-call message",
         "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
-        "DECLINE": "Don't accept calls",
-        "DECLINE_HELP": "Nobody rings, and the call is declined.",
-        "RING": "Ring as usual"
+        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead.",
+        "WHATSAPP_SYNC_PENDING": "Applying on WhatsApp…",
+        "WHATSAPP_SYNC_DONE": "Applied on WhatsApp",
+        "WHATSAPP_SYNC_FAILED": "Couldn't apply on WhatsApp: {error}",
+        "WHATSAPP_SYNC_RETRY": "Try again"
       },
       "AFTER_CALL": {
         "TITLE": "After a call",
