@@ -1,5 +1,5 @@
 <script setup>
-import { ref, toRef, watch } from 'vue';
+import { computed, ref, toRef, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -7,6 +7,7 @@ import InboxesAPI from 'dashboard/api/inboxes';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CallSettingsSection from './calls/CallSettingsSection.vue';
 import CallSettingsOption from './calls/CallSettingsOption.vue';
 import CallWhoRings from './calls/CallWhoRings.vue';
@@ -100,6 +101,7 @@ const toggleCalling = async value => {
 };
 
 const callHoursMatch = ref(null);
+const isCheckingCallHours = ref(false);
 const isApplyingCallHours = ref(false);
 
 const checkCallHours = async () => {
@@ -111,13 +113,24 @@ const checkCallHours = async () => {
     business_hours_calls_enabled &&
     working_hours_enabled;
   if (!applied) return;
+  isCheckingCallHours.value = true;
   try {
     const { data } = await InboxesAPI.getWhatsappCallHours(id);
     callHoursMatch.value = data.matches_whatsapp;
   } catch (_) {
     callHoursMatch.value = null;
+  } finally {
+    isCheckingCallHours.value = false;
   }
 };
+
+const isSavingCallHours = computed(
+  () =>
+    isApplyingCallHours.value ||
+    (isSaving.value &&
+      form.value.businessHoursCallsEnabled !==
+        !!props.inbox.business_hours_calls_enabled)
+);
 
 watch(
   () => [
@@ -220,29 +233,39 @@ const applyInboxHours = async () => {
             :help="label('OUT_OF_HOURS.WHATSAPP_APPLY_HELP')"
             @open-business-hours="emit('openBusinessHours')"
           />
-          <span
-            v-if="callHoursMatch === true && form.businessHoursCallsEnabled"
-            class="flex items-center gap-1.5 text-label-small text-n-teal-11"
-          >
-            <Icon icon="i-lucide-circle-check" class="size-3.5" />
-            {{ label('OUT_OF_HOURS.WHATSAPP_HOURS_APPLIED') }}
-          </span>
-          <div
-            v-else-if="
-              callHoursMatch === false && form.businessHoursCallsEnabled
-            "
-            class="flex flex-col items-start gap-1 px-3 py-2 rounded-lg bg-n-amber-2 outline outline-1 -outline-offset-1 outline-n-amber-6 text-body-main text-n-slate-12"
-          >
-            {{ label('OUT_OF_HOURS.WHATSAPP_HOURS_DIFFER') }}
-            <NextButton
-              :label="label('OUT_OF_HOURS.WHATSAPP_APPLY_INBOX_HOURS')"
-              :is-loading="isApplyingCallHours"
-              link
-              amber
-              sm
-              @click="applyInboxHours"
-            />
-          </div>
+          <template v-if="form.businessHoursCallsEnabled">
+            <span
+              v-if="isSavingCallHours || isCheckingCallHours"
+              class="flex items-center gap-1.5 text-label-small text-n-slate-11"
+            >
+              <Spinner class="size-3.5" />
+              {{
+                isSavingCallHours
+                  ? label('OUT_OF_HOURS.WHATSAPP_HOURS_APPLYING')
+                  : label('OUT_OF_HOURS.WHATSAPP_HOURS_CHECKING')
+              }}
+            </span>
+            <span
+              v-else-if="callHoursMatch === true"
+              class="flex items-center gap-1.5 text-label-small text-n-teal-11"
+            >
+              <Icon icon="i-lucide-circle-check" class="size-3.5" />
+              {{ label('OUT_OF_HOURS.WHATSAPP_HOURS_APPLIED') }}
+            </span>
+            <div
+              v-else-if="callHoursMatch === false"
+              class="flex flex-col items-start gap-1 px-3 py-2 rounded-lg bg-n-amber-2 outline outline-1 -outline-offset-1 outline-n-amber-6 text-body-main text-n-slate-12"
+            >
+              {{ label('OUT_OF_HOURS.WHATSAPP_HOURS_DIFFER') }}
+              <NextButton
+                :label="label('OUT_OF_HOURS.WHATSAPP_APPLY_INBOX_HOURS')"
+                link
+                amber
+                sm
+                @click="applyInboxHours"
+              />
+            </div>
+          </template>
         </CallSettingsSection>
 
         <CallSettingsSection

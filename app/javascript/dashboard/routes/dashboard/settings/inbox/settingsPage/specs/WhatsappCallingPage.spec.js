@@ -189,6 +189,31 @@ describe('WhatsappCallingPage', () => {
       expect(wrapper.text()).not.toContain(differKey);
     });
 
+    it('shows the check and the update while they run', async () => {
+      let finishCheck;
+      InboxesAPI.getWhatsappCallHours.mockReturnValue(
+        new Promise(resolve => {
+          finishCheck = resolve;
+        })
+      );
+      const wrapper = mountPage(applied);
+      await flushPromises();
+
+      expect(wrapper.text()).toContain(
+        outOfHoursKey('WHATSAPP_HOURS_CHECKING')
+      );
+
+      finishCheck({ data: { matches_whatsapp: false } });
+      await flushPromises();
+      InboxesAPI.applyWhatsappCallHours.mockReturnValue(new Promise(() => {}));
+      await wrapper.find('.bg-n-amber-2 button').trigger('click');
+
+      expect(wrapper.text()).toContain(
+        outOfHoursKey('WHATSAPP_HOURS_APPLYING')
+      );
+      expect(wrapper.text()).not.toContain(differKey);
+    });
+
     it('claims nothing when WhatsApp cannot be reached', async () => {
       InboxesAPI.getWhatsappCallHours.mockRejectedValue(new Error('down'));
       const wrapper = mountPage(applied);
