@@ -277,25 +277,6 @@ RSpec.describe Captain::ConversationCompletionService do
       end
     end
 
-    context 'when LLM returns an unknown outcome' do
-      let(:mock_response) do
-        instance_double(
-          RubyLLM::Message,
-          parsed: { 'outcome' => 'resolved', 'reason' => 'Done' },
-          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
-        )
-      end
-
-      before do
-        create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')
-        allow(mock_chat).to receive(:ask).and_return(mock_response)
-      end
-
-      it 'hands off as safe default' do
-        expect(service.perform).to eq(outcome: 'needs_human', reason: 'Invalid outcome')
-      end
-    end
-
     context 'when API call fails' do
       before do
         create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')

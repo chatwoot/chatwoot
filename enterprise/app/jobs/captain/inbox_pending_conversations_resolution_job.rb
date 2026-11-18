@@ -39,47 +39,18 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     Current.executed_by = captain_assistant
 
     resolvable_pending_conversations(inbox).each do |conversation|
-      if inactivity_messages(conversation).follow_up_unanswered?
-        resolve_conversation(conversation, CAPTAIN_INFERENCE_WAITING_ACTIVITY_REASON, 'Auto-resolved: no reply to the follow-up')
-        next
-      end
-
       evaluation = evaluate_conversation(conversation, inbox)
       next unless still_resolvable_after_evaluation?(conversation)
 
-      apply_evaluation(conversation, evaluation)
+      case evaluation[:outcome]
+      when 'complete'
+        resolve_conversation(conversation, CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON, "Auto-resolved: #{evaluation[:reason]}")
+      when 'waiting_on_customer'
+        resolve_conversation(conversation, CAPTAIN_INFERENCE_WAITING_ACTIVITY_REASON, "Auto-resolved, waiting on customer: #{evaluation[:reason]}")
+      else
+        handoff_conversation(conversation, evaluation[:reason])
+      end
     end
-  end
-
-  def apply_evaluation(conversation, evaluation)
-    case evaluation[:outcome]
-    when 'complete'
-      resolve_conversation(conversation, CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON, "Auto-resolved: #{evaluation[:reason]}")
-    when 'waiting_on_customer'
-      follow_up_or_resolve(conversation, evaluation[:reason])
-    else
-      handoff_conversation(conversation, evaluation[:reason])
-    end
-  end
-
-  # The customer owes the next step, so Captain asks once instead of handing off. If the follow-up stays
-  # unanswered for another inactivity window, the next run resolves the conversation without a new evaluation.
-  def follow_up_or_resolve(conversation, reason)
-    unless follow_up_allowed?(conversation)
-      return resolve_conversation(conversation, CAPTAIN_INFERENCE_WAITING_ACTIVITY_REASON, "Auto-resolved, waiting on customer: #{reason}")
-    end
-
-    perform_locked_transition(conversation) do
-      inactivity_messages(conversation).private_note("Follow-up sent, waiting on customer: #{reason}")
-      inactivity_messages(conversation).follow_up
-    end
-  rescue ActiveRecord::RecordNotFound
-    nil
-  end
-
-  # Respect an assistant that sends no inactivity messages, and skip channels whose reply window has closed.
-  def follow_up_allowed?(conversation)
-    captain_assistant.send_inactivity_resolution_message? && conversation.can_reply?
   end
 
   def evaluate_conversation(conversation, inbox)
@@ -110,7 +81,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       conversation.reload
       next unless conversation.pending? && inactive_for_initial_action?(conversation)
 
-      inactivity_messages(conversation).resolution
+      create_resolution_message(conversation)
       conversation.resolved!
       resolved = true
     end
@@ -130,8 +101,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     resolved = with_inference_activity_context(conversation, activity_reason) do
       perform_locked_transition(conversation) do
         conversation.resolved!
-        inactivity_messages(conversation).private_note(note)
-        inactivity_messages(conversation).resolution
+        create_private_note(conversation, note)
+        create_resolution_message(conversation)
       end
     end
     record_inference_resolution(conversation) if resolved
@@ -152,8 +123,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     handed_off = with_inference_activity_context(conversation, CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON) do
       perform_locked_transition(conversation) do
         conversation.bot_handoff!(dispatch_event: false)
-        inactivity_messages(conversation).private_note("Auto-handoff: #{reason}")
-        inactivity_messages(conversation).handoff
+        create_private_note(conversation, "Auto-handoff: #{reason}")
+        create_handoff_message(conversation)
       end
     end
     return unless handed_off
@@ -189,7 +160,35 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation) if conversation.campaign.blank?
   end
 
-  def inactivity_messages(conversation)
-    Captain::Conversation::InactivityMessageService.new(conversation: conversation, assistant: captain_assistant)
+  def create_private_note(conversation, content)
+    conversation.messages.create!(
+      message_type: :outgoing,
+      private: true,
+      sender: captain_assistant,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      content: content
+    )
+  end
+
+  def create_resolution_message(conversation)
+    Captain::Conversation::ResolutionMessageService.new(
+      conversation: conversation,
+      assistant: captain_assistant
+    ).perform(use_default_message: true)
+  end
+
+  def create_handoff_message(conversation)
+    handoff_message = captain_assistant.config['handoff_message']
+    return if handoff_message.blank?
+
+    conversation.messages.create!(
+      message_type: :outgoing,
+      sender: captain_assistant,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      content: handoff_message,
+      preserve_waiting_since: true
+    )
   end
 end

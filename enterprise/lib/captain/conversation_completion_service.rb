@@ -1,6 +1,5 @@
-# Evaluates whether a conversation is complete and can be auto-resolved.
-# Used by InboxPendingConversationsResolutionJob to determine if inactive
-# conversations should be resolved or handed off to human agents.
+# Decides what happens to an inactive pending conversation next: complete, waiting_on_customer, or needs_human.
+# Used by InboxPendingConversationsResolutionJob.
 #
 # NOTE: This service intentionally does NOT count toward Captain usage limits.
 # The response excludes the :message key that Enterprise::Captain::BaseTaskService
@@ -92,7 +91,6 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
 
   def parse_response(message)
     return default_needs_human_response('Invalid response format') unless message.is_a?(Hash)
-    return default_needs_human_response('Invalid outcome') unless RESPONSE_SCHEMA::OUTCOMES.include?(message['outcome'])
 
     {
       outcome: message['outcome'],
@@ -100,7 +98,6 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
     }
   end
 
-  # Anything other than a valid model decision hands the conversation to a human.
   def default_needs_human_response(reason)
     { outcome: 'needs_human', reason: reason }
   end

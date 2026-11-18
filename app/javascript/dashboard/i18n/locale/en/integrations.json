@@ -1111,7 +1111,7 @@
             },
             "EVALUATED": {
               "LABEL": "Let Captain review it (recommended)",
-              "DESCRIPTION": "Captain decides whether to resolve the conversation, follow up with the customer, or hand it off."
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
             }
           },
           "DURATION_HOURS_ARIA_LABEL": "Hours before action",

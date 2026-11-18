@@ -252,77 +252,26 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
     end
 
-    let(:follow_up_content) { I18n.t('conversations.activity.captain_follow_up_message') }
-
-    def public_outgoing_contents
-      resolvable_pending_conversation.messages.where(private: false).outgoing.pluck(:content)
-    end
-
-    it 'sends a follow-up and keeps the conversation pending instead of handing off' do
+    it 'resolves the conversation and sends the closing message' do
       expect(Captain::ConversationEvents).not_to receive(:handed_off)
-      expect(Captain::ConversationEvents).not_to receive(:resolved)
-
-      described_class.perform_now(inbox)
-
-      expect(resolvable_pending_conversation.reload.status).to eq('pending')
-      expect(resolvable_pending_conversation.messages.where(private: true).last.content)
-        .to eq('Follow-up sent, waiting on customer: Captain asked for the order number')
-      expect(public_outgoing_contents).to eq([follow_up_content])
-    end
-
-    it 'resolves on the next run without a new evaluation when the follow-up stays unanswered' do
-      described_class.perform_now(inbox)
-      resolvable_pending_conversation.reload.update!(last_activity_at: 2.hours.ago)
-
       expect(Captain::ConversationEvents).to receive(:resolved)
         .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'inference', at: kind_of(Time))
-      described_class.perform_now(inbox)
-
-      expect(Captain::ConversationCompletionService).to have_received(:new).once
-      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
-      expect(resolvable_pending_conversation.messages.where(private: true).last.content).to eq('Auto-resolved: no reply to the follow-up')
-      expect(public_outgoing_contents).to eq([follow_up_content, I18n.t('conversations.activity.auto_resolution_message')])
-      expected_activity = I18n.t('conversations.activity.captain.resolved_with_reason', user_name: captain_assistant.name,
-                                                                                        reason: 'no reply from customer')
-      expect(Conversations::ActivityMessageJob)
-        .to have_been_enqueued.with(resolvable_pending_conversation, hash_including(content: expected_activity))
-    end
-
-    it 'evaluates again when the customer replied to the follow-up' do
-      described_class.perform_now(inbox)
-      create(:message, conversation: resolvable_pending_conversation.reload, message_type: :incoming, content: 'Here is my order number')
-      resolvable_pending_conversation.reload.update!(last_activity_at: 2.hours.ago)
-
-      described_class.perform_now(inbox)
-
-      expect(Captain::ConversationCompletionService).to have_received(:new).twice
-      expect(public_outgoing_contents).to eq([follow_up_content, follow_up_content])
-    end
-
-    it 'resolves right away when the assistant sends no inactivity messages' do
-      captain_assistant.update!(config: captain_assistant.config.merge('send_inactivity_resolution_message' => false))
 
       described_class.perform_now(inbox)
 
       expect(resolvable_pending_conversation.reload.status).to eq('resolved')
       expect(resolvable_pending_conversation.messages.where(private: true).last.content)
         .to eq('Auto-resolved, waiting on customer: Captain asked for the order number')
-      expect(public_outgoing_contents).to be_empty
-    end
-
-    it 'resolves right away when the channel reply window has closed' do
-      allow(Conversations::MessageWindowService).to receive(:new).and_return(instance_double(Conversations::MessageWindowService, can_reply?: false))
-
-      described_class.perform_now(inbox)
-
-      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
-      expect(public_outgoing_contents).not_to include(follow_up_content)
+      expect(resolvable_pending_conversation.messages.where(private: false).outgoing.pluck(:content))
+        .to eq([I18n.t('conversations.activity.auto_resolution_message')])
+      expected_activity = I18n.t('conversations.activity.captain.resolved_with_reason', user_name: captain_assistant.name,
+                                                                                        reason: 'no reply from customer')
+      expect(Conversations::ActivityMessageJob)
+        .to have_been_enqueued.with(resolvable_pending_conversation, hash_including(content: expected_activity))
     end
 
     it 'returns the conversation to Captain when the customer replies after it was resolved' do
       inbox.account.enable_features!('captain_integration')
-      described_class.perform_now(inbox)
-      resolvable_pending_conversation.reload.update!(last_activity_at: 2.hours.ago)
       described_class.perform_now(inbox)
 
       create(:message, conversation: resolvable_pending_conversation.reload, message_type: :incoming, content: 'Here is my order number')

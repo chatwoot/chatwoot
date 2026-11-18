@@ -1,7 +1,7 @@
 module Enterprise::Concerns::Message
   extend ActiveSupport::Concern
 
-  # Set on fixed texts that a bot sends, such as Captain's follow-up and closing messages, which are not written in the contact language.
+  # Marks a fixed bot message, written in the account language, for translation into the contact language.
   TRANSLATE_FOR_CONTACT_ATTRIBUTE = 'translate_for_contact'.freeze
 
   included do
