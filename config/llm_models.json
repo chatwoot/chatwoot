@@ -28810,6 +28810,104 @@
     }
   },
   {
+    "id": "us.openai.gpt-6.2-astra",
+    "name": "GPT-6.2 Astra",
+    "provider": "bedrock",
+    "family": "GPT-6",
+    "created_at": null,
+    "context_window": null,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "streaming",
+      "function_calling"
+    ],
+    "pricing": {},
+    "metadata": {
+      "provider_name": "OpenAI",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/openai.gpt-6.2-astra",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"reasoning_config\":{\"type\":\"enum\",\"default\":\"medium\",\"enum\":[\"low\",\"medium\",\"high\",\"xhigh\",\"max\"]},\"hideSamplingParameter\":true}",
+        "maxTokensDefault": null,
+        "maxTokensMaximum": 128000,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      }
+    }
+  },
+  {
+    "id": "us.openai.gpt-6.2-sol",
+    "name": "GPT-6.2 Sol",
+    "provider": "bedrock",
+    "family": "GPT-6",
+    "created_at": null,
+    "context_window": null,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "streaming",
+      "function_calling"
+    ],
+    "pricing": {},
+    "metadata": {
+      "provider_name": "OpenAI",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/openai.gpt-6.2-sol",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"reasoning_config\":{\"type\":\"enum\",\"default\":\"medium\",\"enum\":[\"low\",\"medium\",\"high\",\"xhigh\",\"max\"]},\"hideSamplingParameter\":true}",
+        "maxTokensDefault": null,
+        "maxTokensMaximum": 128000,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      }
+    }
+  },
+  {
     "id": "us.stability.stable-conservative-upscale-v1:0",
     "name": "Stable Image Conservative Upscale",
     "provider": "bedrock",
@@ -54945,6 +55043,206 @@
     }
   },
   {
+    "id": "gpt-6.2-astra",
+    "name": "GPT-6.2 Astra",
+    "provider": "openai",
+    "family": "gpt-astra",
+    "created_at": "2026-11-17 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-05-18",
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 8,
+          "output_per_million": 40,
+          "cache_read_input_per_million": 0.4,
+          "cache_write_input_per_million": 10
+        },
+        "long_context": {
+          "input_per_million": 16,
+          "output_per_million": 60,
+          "cache_read_input_per_million": 0.8,
+          "cache_write_input_per_million": 20
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "object": "model",
+      "owned_by": "system",
+      "source": "models.dev",
+      "provider_id": "openai",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-17",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 8,
+        "output": 40,
+        "cache_read": 0.4,
+        "cache_write": 10,
+        "tiers": [
+          {
+            "input": 16,
+            "output": 60,
+            "cache_read": 0.8,
+            "cache_write": 20,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 16,
+          "output": 60,
+          "cache_read": 0.8,
+          "cache_write": 20
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-05-18"
+    }
+  },
+  {
+    "id": "gpt-6.2-sol",
+    "name": "GPT-6.2 Sol",
+    "provider": "openai",
+    "family": "gpt-sol",
+    "created_at": "2026-11-17 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-06-01",
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 2.5
+        },
+        "long_context": {
+          "input_per_million": 4,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "object": "model",
+      "owned_by": "system",
+      "source": "models.dev",
+      "provider_id": "openai",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-17",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2,
+        "output": 10,
+        "cache_read": 0.1,
+        "cache_write": 2.5,
+        "tiers": [
+          {
+            "input": 4,
+            "output": 15,
+            "cache_read": 0.2,
+            "cache_write": 5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 4,
+          "output": 15,
+          "cache_read": 0.2,
+          "cache_write": 5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-06-01"
+    }
+  },
+  {
     "id": "gpt-audio",
     "name": "gpt-audio",
     "provider": "openai",
@@ -58018,7 +58316,7 @@
       "top_provider": {
         "context_length": 1000000,
         "max_completion_tokens": 128000,
-        "is_moderated": true
+        "is_moderated": false
       },
       "per_request_limits": null,
       "supported_parameters": [
@@ -59137,7 +59435,7 @@
       "top_provider": {
         "context_length": 1000000,
         "max_completion_tokens": 128000,
-        "is_moderated": false
+        "is_moderated": true
       },
       "per_request_limits": null,
       "supported_parameters": [
@@ -61187,6 +61485,7 @@
             "1:1",
             "4:3",
             "3:4",
+            "4:5",
             "3:2",
             "2:3",
             "16:9",
@@ -61729,6 +62028,7 @@
           "type": "enum",
           "values": [
             "1K",
+            "1.5K",
             "2K"
           ]
         },
@@ -61921,6 +62221,7 @@
           "type": "enum",
           "values": [
             "1K",
+            "1.5K",
             "2K"
           ]
         },
@@ -63529,7 +63830,7 @@
     "family": "deepseek",
     "created_at": "2025-12-01 00:00:00 UTC",
     "context_window": 163840,
-    "max_output_tokens": 16384,
+    "max_output_tokens": 16000,
     "knowledge_cutoff": "2024-07-31",
     "modalities": {
       "input": [
@@ -63548,8 +63849,8 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.32,
-          "output_per_million": 0.89
+          "input_per_million": 0.2574,
+          "output_per_million": 1.0287
         }
       }
     },
@@ -63600,12 +63901,12 @@
       "structured_output": true,
       "reasoning": false,
       "cost": {
-        "input": 0.32,
-        "output": 0.89
+        "input": 0.2574,
+        "output": 1.0287
       },
       "limit": {
         "context": 163840,
-        "output": 16384
+        "output": 16000
       },
       "knowledge": "2025-09"
     }
@@ -63844,8 +64145,8 @@
         "instruct_type": "deepseek-r1"
       },
       "top_provider": {
-        "context_length": 163840,
-        "max_completion_tokens": 32768,
+        "context_length": 128000,
+        "max_completion_tokens": 32000,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -64290,7 +64591,7 @@
     "family": "deepseek-flash",
     "created_at": "2026-07-31 00:00:00 UTC",
     "context_window": 1048576,
-    "max_output_tokens": 943718,
+    "max_output_tokens": 384000,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -64311,9 +64612,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.0434,
-          "output_per_million": 0.3,
-          "cache_read_input_per_million": 0.035
+          "input_per_million": 0.06,
+          "output_per_million": 0.18,
+          "cache_read_input_per_million": 0.015
         }
       }
     },
@@ -64382,13 +64683,13 @@
         }
       ],
       "cost": {
-        "input": 0.0434,
-        "output": 0.3,
-        "cache_read": 0.035
+        "input": 0.06,
+        "output": 0.18,
+        "cache_read": 0.015
       },
       "limit": {
         "context": 1048576,
-        "output": 943718
+        "output": 384000
       },
       "knowledge": "2025-05"
     }
@@ -64822,9 +65123,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.3,
-          "output_per_million": 1.2,
-          "cache_read_input_per_million": 0.006
+          "input_per_million": 0.051,
+          "output_per_million": 0.567,
+          "cache_read_input_per_million": 0.018
         }
       }
     },
@@ -64844,7 +65145,7 @@
       },
       "top_provider": {
         "context_length": 1048576,
-        "max_completion_tokens": 393216,
+        "max_completion_tokens": 943718,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -64894,9 +65195,9 @@
         }
       ],
       "cost": {
-        "input": 0.3,
-        "output": 1.2,
-        "cache_read": 0.006
+        "input": 0.051,
+        "output": 0.567,
+        "cache_read": 0.018
       },
       "limit": {
         "context": 1048576,
@@ -64935,7 +65236,7 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.038,
+          "input_per_million": 0.036,
           "output_per_million": 0.5,
           "cache_read_input_per_million": 0.01
         }
@@ -65007,7 +65308,7 @@
         }
       ],
       "cost": {
-        "input": 0.038,
+        "input": 0.036,
         "output": 0.5,
         "cache_read": 0.01
       },
@@ -65046,8 +65347,8 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.037,
-          "output_per_million": 0.325,
+          "input_per_million": 0.036,
+          "output_per_million": 0.15,
           "cache_read_input_per_million": 0.003
         }
       }
@@ -70910,7 +71211,7 @@
       "text_tokens": {
         "standard": {
           "input_per_million": 0.08,
-          "output_per_million": 0.35,
+          "output_per_million": 0.45,
           "cache_read_input_per_million": 0.04
         }
       }
@@ -70966,7 +71267,7 @@
       "reasoning": false,
       "cost": {
         "input": 0.08,
-        "output": 0.35,
+        "output": 0.45,
         "cache_read": 0.04
       },
       "limit": {
@@ -71768,7 +72069,8 @@
     "modalities": {
       "input": [
         "text",
-        "image"
+        "image",
+        "video"
       ],
       "output": [
         "judgment"
@@ -71776,6 +72078,7 @@
     },
     "capabilities": [
       "vision",
+      "video",
       "judgment"
     ],
     "pricing": {
@@ -71786,12 +72089,13 @@
       }
     },
     "metadata": {
-      "description": "HeyGen Decision 1 is a decision model from HeyGen. It reads text and images and answers a set of named questions in one request, returning typed answers with probabilities: a...",
+      "description": "HeyGen Decision 1 is a decision model from HeyGen. It reads text, images, and video and answers a set of named questions in one request, returning typed answers with probabilities:...",
       "architecture": {
-        "modality": "text+image->decisions",
+        "modality": "text+image+video->decisions",
         "input_modalities": [
           "text",
-          "image"
+          "image",
+          "video"
         ],
         "output_modalities": [
           "decisions"
@@ -71821,7 +72125,8 @@
     "modalities": {
       "input": [
         "text",
-        "image"
+        "image",
+        "video"
       ],
       "output": [
         "judgment"
@@ -71829,6 +72134,7 @@
     },
     "capabilities": [
       "vision",
+      "video",
       "judgment"
     ],
     "pricing": {
@@ -71839,12 +72145,13 @@
       }
     },
     "metadata": {
-      "description": "HeyGen Decision 1 Turbo is a lower-cost variant of [HeyGen Decision 1](/heygen/heygen-decision-1) from HeyGen, with the same question types (`noul`, `choice`, and `score`) over text and images. It suits high-volume...",
+      "description": "HeyGen Decision 1 Turbo is a lower-cost variant of [HeyGen Decision 1](/heygen/heygen-decision-1) from HeyGen, with the same question types (`noul`, `choice`, and `score`) over text, images, and video. It suits...",
       "architecture": {
-        "modality": "text+image->decisions",
+        "modality": "text+image+video->decisions",
         "input_modalities": [
           "text",
-          "image"
+          "image",
+          "video"
         ],
         "output_modalities": [
           "decisions"
@@ -72037,7 +72344,7 @@
       "text_tokens": {
         "standard": {
           "input_per_million": 0.06,
-          "output_per_million": 0.25,
+          "output_per_million": 0.15,
           "cache_read_input_per_million": 0.015
         }
       }
@@ -72105,7 +72412,7 @@
       ],
       "cost": {
         "input": 0.06,
-        "output": 0.25,
+        "output": 0.15,
         "cache_read": 0.015
       },
       "limit": {
@@ -72505,10 +72812,10 @@
   },
   {
     "id": "inclusionai/ling-3.2-flash:free",
-    "name": "inclusionAI: Ling 3.2 Flash (free)",
+    "name": "Ling 3.2 Flash (free)",
     "provider": "openrouter",
-    "family": "inclusionai",
-    "created_at": "2026-11-13 17:45:58 UTC",
+    "family": "ling",
+    "created_at": "2026-11-13 00:00:00 UTC",
     "context_window": 1048576,
     "max_output_tokens": 262144,
     "knowledge_cutoff": null,
@@ -72522,13 +72829,21 @@
       ]
     },
     "capabilities": [
-      "streaming",
       "function_calling",
-      "tool_choice",
       "structured_output",
-      "vision"
+      "reasoning",
+      "vision",
+      "streaming",
+      "tool_choice"
     ],
-    "pricing": {},
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0,
+          "output_per_million": 0
+        }
+      }
+    },
     "metadata": {
       "description": "Ling 3.2 Flash is a hybrid reasoning model from inclusionAI that accepts text and image input, with a 1M-token context window and up to 200 images per request. Thinking can...",
       "architecture": {
@@ -72565,7 +72880,29 @@
         "top_k",
         "top_p"
       ],
-      "expiration_date": null
+      "expiration_date": null,
+      "source": "models.dev",
+      "provider_id": "openrouter",
+      "open_weights": true,
+      "attachment": true,
+      "temperature": true,
+      "last_updated": "2026-11-13",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "toggle"
+        }
+      ],
+      "cost": {
+        "input": 0,
+        "output": 0
+      },
+      "limit": {
+        "context": 1048576,
+        "output": 262144
+      }
     }
   },
   {
@@ -73058,7 +73395,9 @@
             "4:3",
             "3:2",
             "16:9",
+            "2.35:1",
             "4:5",
+            "3:4",
             "2:3",
             "9:16"
           ]
@@ -73126,7 +73465,9 @@
             "4:3",
             "3:2",
             "16:9",
+            "2.35:1",
             "4:5",
+            "3:4",
             "2:3",
             "9:16"
           ]
@@ -73194,7 +73535,9 @@
             "4:3",
             "3:2",
             "16:9",
+            "2.35:1",
             "4:5",
+            "3:4",
             "2:3",
             "9:16"
           ]
@@ -73411,7 +73754,7 @@
       },
       "per_request_limits": null,
       "supported_parameters": [],
-      "expiration_date": null
+      "expiration_date": "2026-11-24"
     }
   },
   {
@@ -73446,6 +73789,112 @@
     },
     "metadata": {
       "description": "d1.1 is Liquid AI's structured decision model, served as a System One endpoint and the successor to d1. Send a state along with typed questions, and it returns a choice,...",
+      "architecture": {
+        "modality": "text+image->decisions",
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "output_modalities": [
+          "decisions"
+        ],
+        "tokenizer": "Other",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 65536,
+        "max_completion_tokens": 58982,
+        "is_moderated": false
+      },
+      "per_request_limits": null,
+      "supported_parameters": [],
+      "expiration_date": "2026-11-24"
+    }
+  },
+  {
+    "id": "liquid/d1.2",
+    "name": "LiquidAI: d1.2",
+    "provider": "openrouter",
+    "family": "liquid",
+    "created_at": "2026-11-16 20:38:25 UTC",
+    "context_window": 65536,
+    "max_output_tokens": 58982,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "judgment"
+      ]
+    },
+    "capabilities": [
+      "vision",
+      "judgment"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.02
+        }
+      }
+    },
+    "metadata": {
+      "description": "d1.2 is Liquid AI's fast, cost-efficient omnimodal decision model. Built for classification, routing, information extraction, object detection, and automated decision-making at scale.",
+      "architecture": {
+        "modality": "text+image->decisions",
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "output_modalities": [
+          "decisions"
+        ],
+        "tokenizer": "Other",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 65536,
+        "max_completion_tokens": 58982,
+        "is_moderated": false
+      },
+      "per_request_limits": null,
+      "supported_parameters": [],
+      "expiration_date": null
+    }
+  },
+  {
+    "id": "liquid/d1.2-ultra",
+    "name": "LiquidAI: d1.2-ultra",
+    "provider": "openrouter",
+    "family": "liquid",
+    "created_at": "2026-11-16 20:45:18 UTC",
+    "context_window": 65536,
+    "max_output_tokens": 58982,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "judgment"
+      ]
+    },
+    "capabilities": [
+      "vision",
+      "judgment"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.041999999999999996
+        }
+      }
+    },
+    "metadata": {
+      "description": "d1.2-ultra is Liquid AI's most capable omnimodal decision model. Designed for complex classification, multimodal understanding, information extraction, and high-stakes automated decision-making.",
       "architecture": {
         "modality": "text+image->decisions",
         "input_modalities": [
@@ -74192,7 +74641,7 @@
     "family": "llama",
     "created_at": "2024-09-25 00:00:00 UTC",
     "context_window": 131072,
-    "max_output_tokens": 117964,
+    "max_output_tokens": 72000,
     "knowledge_cutoff": "2023-12-31",
     "modalities": {
       "input": [
@@ -74209,8 +74658,8 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.05,
-          "output_per_million": 0.33
+          "input_per_million": 0.0509,
+          "output_per_million": 0.335
         }
       }
     },
@@ -74260,12 +74709,12 @@
       "structured_output": true,
       "reasoning": false,
       "cost": {
-        "input": 0.05,
-        "output": 0.33
+        "input": 0.0509,
+        "output": 0.335
       },
       "limit": {
         "context": 131072,
-        "output": 117964
+        "output": 72000
       },
       "knowledge": "2023-12"
     }
@@ -74749,7 +75198,7 @@
     "family": "muse",
     "created_at": "2026-08-10 00:00:00 UTC",
     "context_window": 131072,
-    "max_output_tokens": 16384,
+    "max_output_tokens": 117964,
     "knowledge_cutoff": "2026-01-04",
     "modalities": {
       "input": [
@@ -74771,8 +75220,8 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.3,
-          "output_per_million": 1.2,
+          "input_per_million": 0.35,
+          "output_per_million": 1.5,
           "cache_read_input_per_million": 0.04
         }
       }
@@ -74793,7 +75242,7 @@
       },
       "top_provider": {
         "context_length": 131072,
-        "max_completion_tokens": 16384,
+        "max_completion_tokens": 117964,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -74841,13 +75290,13 @@
         }
       ],
       "cost": {
-        "input": 0.3,
-        "output": 1.2,
+        "input": 0.35,
+        "output": 1.5,
         "cache_read": 0.04
       },
       "limit": {
         "context": 131072,
-        "output": 16384
+        "output": 117964
       },
       "knowledge": "2026-01-04"
     }
@@ -75972,6 +76421,150 @@
     }
   },
   {
+    "id": "microsoft/mai-image-2.7",
+    "name": "Microsoft AI: MAI-Image-2.7",
+    "provider": "openrouter",
+    "family": "microsoft",
+    "created_at": "2026-11-17 17:57:41 UTC",
+    "context_window": null,
+    "max_output_tokens": null,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "image"
+      ]
+    },
+    "capabilities": [
+      "streaming",
+      "vision",
+      "image_generation"
+    ],
+    "pricing": {},
+    "metadata": {
+      "description": "MAI-Image-2.7 is an image generation and editing model from Microsoft AI, the precision tier of the MAI-Image-2.7 family alongside the faster [MAI-Image-2.7 Flash](/microsoft/mai-image-2.7-flash). It is suited for design-ready visuals and...",
+      "architecture": {
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "output_modalities": [
+          "image"
+        ]
+      },
+      "top_provider": null,
+      "per_request_limits": null,
+      "supported_parameters": {
+        "aspect_ratio": {
+          "type": "enum",
+          "values": [
+            "1:1",
+            "4:3",
+            "3:4",
+            "16:9",
+            "9:16",
+            "3:2",
+            "2:3",
+            "auto"
+          ]
+        },
+        "background": {
+          "type": "enum",
+          "values": [
+            "opaque",
+            "transparent"
+          ]
+        },
+        "n": {
+          "type": "range",
+          "min": 1,
+          "max": 1
+        },
+        "input_references": {
+          "type": "range",
+          "min": 0,
+          "max": 5
+        }
+      },
+      "expiration_date": null
+    }
+  },
+  {
+    "id": "microsoft/mai-image-2.7-flash",
+    "name": "Microsoft AI: MAI-Image-2.7 Flash",
+    "provider": "openrouter",
+    "family": "microsoft",
+    "created_at": "2026-11-17 17:57:45 UTC",
+    "context_window": null,
+    "max_output_tokens": null,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "image"
+      ]
+    },
+    "capabilities": [
+      "streaming",
+      "vision",
+      "image_generation"
+    ],
+    "pricing": {},
+    "metadata": {
+      "description": "MAI-Image-2.7 Flash is the lower-latency, lower-cost member of the [MAI-Image-2.7](/microsoft/mai-image-2.7) family from Microsoft AI, built for latency-sensitive, high-throughput image generation and editing at comparable quality to the precision tier. It...",
+      "architecture": {
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "output_modalities": [
+          "image"
+        ]
+      },
+      "top_provider": null,
+      "per_request_limits": null,
+      "supported_parameters": {
+        "aspect_ratio": {
+          "type": "enum",
+          "values": [
+            "1:1",
+            "4:3",
+            "3:4",
+            "16:9",
+            "9:16",
+            "3:2",
+            "2:3",
+            "auto"
+          ]
+        },
+        "background": {
+          "type": "enum",
+          "values": [
+            "opaque",
+            "transparent"
+          ]
+        },
+        "n": {
+          "type": "range",
+          "min": 1,
+          "max": 1
+        },
+        "input_references": {
+          "type": "range",
+          "min": 0,
+          "max": 5
+        }
+      },
+      "expiration_date": null
+    }
+  },
+  {
     "id": "microsoft/mai-transcribe-1.5",
     "name": "Microsoft AI: MAI-Transcribe 1.5",
     "provider": "openrouter",
@@ -76328,6 +76921,59 @@
     }
   },
   {
+    "id": "microsoft/microsoft-decision-1.1",
+    "name": "Microsoft: Microsoft-Decision-1.1",
+    "provider": "openrouter",
+    "family": "microsoft",
+    "created_at": "2026-11-17 17:57:35 UTC",
+    "context_window": 32768,
+    "max_output_tokens": 29491,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "judgment"
+      ]
+    },
+    "capabilities": [
+      "vision",
+      "judgment"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.041999999999999996
+        }
+      }
+    },
+    "metadata": {
+      "description": "Microsoft-Decision-1.1 is a model from Microsoft built for fast decision-making, and the successor to Microsoft-Decision-1. Instead of generating text, it reads the provided content and returns a calibrated probability for...",
+      "architecture": {
+        "modality": "text+image->decisions",
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "output_modalities": [
+          "decisions"
+        ],
+        "tokenizer": "Other",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 32768,
+        "max_completion_tokens": 29491,
+        "is_moderated": false
+      },
+      "per_request_limits": null,
+      "supported_parameters": [],
+      "expiration_date": null
+    }
+  },
+  {
     "id": "microsoft/phi-4",
     "name": "Phi 4",
     "provider": "openrouter",
@@ -76618,7 +77264,7 @@
     "family": "minimax",
     "created_at": "2026-02-12 00:00:00 UTC",
     "context_window": 198000,
-    "max_output_tokens": 32768,
+    "max_output_tokens": 176947,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -76638,9 +77284,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.27,
-          "output_per_million": 0.95,
-          "cache_read_input_per_million": 0.03
+          "input_per_million": 0.295,
+          "output_per_million": 1.2,
+          "cache_read_input_per_million": 0.06
         }
       }
     },
@@ -76699,13 +77345,13 @@
       "reasoning": true,
       "reasoning_options": [],
       "cost": {
-        "input": 0.27,
-        "output": 0.95,
-        "cache_read": 0.03
+        "input": 0.295,
+        "output": 1.2,
+        "cache_read": 0.06
       },
       "limit": {
         "context": 198000,
-        "output": 32768
+        "output": 176947
       }
     }
   },
@@ -76930,9 +77576,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.075,
-          "output_per_million": 0.3,
-          "cache_read_input_per_million": 0.0075
+          "input_per_million": 0.15,
+          "output_per_million": 0.6,
+          "cache_read_input_per_million": 0.015
         }
       }
     },
@@ -77002,9 +77648,9 @@
         }
       ],
       "cost": {
-        "input": 0.075,
-        "output": 0.3,
-        "cache_read": 0.0075
+        "input": 0.15,
+        "output": 0.6,
+        "cache_read": 0.015
       },
       "limit": {
         "context": 1048576,
@@ -78136,9 +78782,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.4,
-          "output_per_million": 2,
-          "cache_read_input_per_million": 0.04
+          "input_per_million": 0.44,
+          "output_per_million": 2.2,
+          "cache_read_input_per_million": 0.044
         }
       }
     },
@@ -78187,9 +78833,9 @@
       "structured_output": true,
       "reasoning": false,
       "cost": {
-        "input": 0.4,
-        "output": 2,
-        "cache_read": 0.04
+        "input": 0.44,
+        "output": 2.2,
+        "cache_read": 0.044
       },
       "limit": {
         "context": 131072,
@@ -78270,7 +78916,7 @@
         "tools",
         "top_p"
       ],
-      "expiration_date": null,
+      "expiration_date": "2027-01-31",
       "source": "models.dev",
       "provider_id": "openrouter",
       "open_weights": false,
@@ -78402,9 +79048,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.4,
-          "output_per_million": 2,
-          "cache_read_input_per_million": 0.04
+          "input_per_million": 0.44,
+          "output_per_million": 2.2,
+          "cache_read_input_per_million": 0.044
         }
       }
     },
@@ -78453,9 +79099,9 @@
       "structured_output": true,
       "reasoning": false,
       "cost": {
-        "input": 0.4,
-        "output": 2,
-        "cache_read": 0.04
+        "input": 0.44,
+        "output": 2.2,
+        "cache_read": 0.044
       },
       "limit": {
         "context": 131072,
@@ -78928,7 +79574,7 @@
     "family": "mistral-small",
     "created_at": "2025-06-20 00:00:00 UTC",
     "context_window": 256000,
-    "max_output_tokens": 26214,
+    "max_output_tokens": 16384,
     "knowledge_cutoff": "2023-10-31",
     "modalities": {
       "input": [
@@ -78949,9 +79595,8 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.1,
-          "output_per_million": 0.3,
-          "cache_read_input_per_million": 0.01
+          "input_per_million": 0.075,
+          "output_per_million": 0.2
         }
       }
     },
@@ -78970,8 +79615,8 @@
         "instruct_type": null
       },
       "top_provider": {
-        "context_length": 32768,
-        "max_completion_tokens": 26214,
+        "context_length": 128000,
+        "max_completion_tokens": 16384,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -79005,13 +79650,12 @@
       "structured_output": true,
       "reasoning": false,
       "cost": {
-        "input": 0.1,
-        "output": 0.3,
-        "cache_read": 0.01
+        "input": 0.075,
+        "output": 0.2
       },
       "limit": {
         "context": 256000,
-        "output": 26214
+        "output": 16384
       },
       "knowledge": "2023-10-31"
     }
@@ -80709,9 +81353,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.6,
-          "output_per_million": 3.5,
-          "cache_read_input_per_million": 0.16
+          "input_per_million": 0.7,
+          "output_per_million": 3.75,
+          "cache_read_input_per_million": 0.17
         }
       }
     },
@@ -80769,9 +81413,9 @@
       "reasoning": true,
       "reasoning_options": [],
       "cost": {
-        "input": 0.6,
-        "output": 3.5,
-        "cache_read": 0.16
+        "input": 0.7,
+        "output": 3.75,
+        "cache_read": 0.17
       },
       "limit": {
         "context": 262144,
@@ -80806,8 +81450,7 @@
       "vision",
       "video",
       "streaming",
-      "tool_choice",
-      "parallel_tool_calls"
+      "tool_choice"
     ],
     "pricing": {
       "text_tokens": {
@@ -80844,10 +81487,8 @@
         "include_reasoning",
         "logit_bias",
         "logprobs",
-        "max_completion_tokens",
         "max_tokens",
         "min_p",
-        "parallel_tool_calls",
         "presence_penalty",
         "reasoning",
         "reasoning_effort",
@@ -80926,8 +81567,8 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 2,
-          "output_per_million": 10,
+          "input_per_million": 0.2403,
+          "output_per_million": 8.4023,
           "cache_read_input_per_million": 0.2
         }
       }
@@ -80997,8 +81638,8 @@
         }
       ],
       "cost": {
-        "input": 2,
-        "output": 10,
+        "input": 0.2403,
+        "output": 8.4023,
         "cache_read": 0.2
       },
       "limit": {
@@ -81034,8 +81675,8 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.7,
-          "output_per_million": 6.0,
+          "input_per_million": 0.372,
+          "output_per_million": 5.582999999999999,
           "cache_read_input_per_million": 0.09999999999999999
         }
       }
@@ -81064,14 +81705,18 @@
       "supported_parameters": [
         "frequency_penalty",
         "include_reasoning",
+        "logit_bias",
         "max_tokens",
+        "min_p",
         "presence_penalty",
         "reasoning",
         "reasoning_effort",
+        "repetition_penalty",
         "seed",
         "stop",
         "temperature",
-        "top_k"
+        "top_k",
+        "top_p"
       ],
       "expiration_date": null
     }
@@ -82174,100 +82819,6 @@
     }
   },
   {
-    "id": "nvidia/llama-nemotron-embed-vl-1b-v2:free",
-    "name": "NVIDIA: Llama Nemotron Embed VL 1B V2 (free)",
-    "provider": "openrouter",
-    "family": "nvidia",
-    "created_at": "2026-02-25 18:43:37 UTC",
-    "context_window": 131072,
-    "max_output_tokens": null,
-    "knowledge_cutoff": null,
-    "modalities": {
-      "input": [
-        "text",
-        "image"
-      ],
-      "output": [
-        "embeddings"
-      ]
-    },
-    "capabilities": [
-      "streaming",
-      "vision"
-    ],
-    "pricing": {},
-    "metadata": {
-      "description": "The Llama Nemotron Embed VL 1B V2 embedding model is optimized for multimodal question-answering retrieval. The model can embed 'documents' in the form of image, text, or image and text...",
-      "architecture": {
-        "modality": "text+image->embeddings",
-        "input_modalities": [
-          "text",
-          "image"
-        ],
-        "output_modalities": [
-          "embeddings"
-        ],
-        "tokenizer": "Other",
-        "instruct_type": null
-      },
-      "top_provider": {
-        "context_length": 131072,
-        "max_completion_tokens": null,
-        "is_moderated": false
-      },
-      "per_request_limits": null,
-      "supported_parameters": [],
-      "expiration_date": "2026-11-16"
-    }
-  },
-  {
-    "id": "nvidia/llama-nemotron-rerank-vl-1b-v2:free",
-    "name": "NVIDIA: Llama Nemotron Rerank VL 1B V2 (free)",
-    "provider": "openrouter",
-    "family": "nvidia",
-    "created_at": "2026-06-09 20:14:14 UTC",
-    "context_window": 10240,
-    "max_output_tokens": 9216,
-    "knowledge_cutoff": null,
-    "modalities": {
-      "input": [
-        "text",
-        "image"
-      ],
-      "output": [
-        "rerank"
-      ]
-    },
-    "capabilities": [
-      "streaming",
-      "vision"
-    ],
-    "pricing": {},
-    "metadata": {
-      "description": "Llama Nemotron Rerank VL 1B V2 is a 1.7B multimodal reranking model from NVIDIA. It evaluates the relevance of document images and text against user queries, designed for vision RAG...",
-      "architecture": {
-        "modality": "text+image->rerank",
-        "input_modalities": [
-          "text",
-          "image"
-        ],
-        "output_modalities": [
-          "rerank"
-        ],
-        "tokenizer": "Other",
-        "instruct_type": null
-      },
-      "top_provider": {
-        "context_length": 10240,
-        "max_completion_tokens": 9216,
-        "is_moderated": false
-      },
-      "per_request_limits": null,
-      "supported_parameters": [],
-      "expiration_date": null
-    }
-  },
-  {
     "id": "nvidia/nemotron-3-embed-1b:free",
     "name": "NVIDIA: Nemotron 3 Embed 1B (free)",
     "provider": "openrouter",
@@ -82618,7 +83169,7 @@
     "family": "nemotron",
     "created_at": "2026-06-04 00:00:00 UTC",
     "context_window": 262144,
-    "max_output_tokens": 182520,
+    "max_output_tokens": 16384,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -82638,9 +83189,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.6,
-          "output_per_million": 2.4,
-          "cache_read_input_per_million": 0.12
+          "input_per_million": 0.5,
+          "output_per_million": 2.2,
+          "cache_read_input_per_million": 0.1
         }
       }
     },
@@ -82658,8 +83209,8 @@
         "instruct_type": null
       },
       "top_provider": {
-        "context_length": 202800,
-        "max_completion_tokens": 182520,
+        "context_length": 262144,
+        "max_completion_tokens": 16384,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -82709,13 +83260,13 @@
         }
       ],
       "cost": {
-        "input": 0.6,
-        "output": 2.4,
-        "cache_read": 0.12
+        "input": 0.5,
+        "output": 2.2,
+        "cache_read": 0.1
       },
       "limit": {
         "context": 262144,
-        "output": 182520
+        "output": 16384
       },
       "knowledge": "2025-09"
     }
@@ -83057,7 +83608,7 @@
     "provider": "openrouter",
     "family": "nemotron",
     "created_at": "2026-08-11 00:00:00 UTC",
-    "context_window": 262144,
+    "context_window": 1048576,
     "max_output_tokens": 235929,
     "knowledge_cutoff": null,
     "modalities": {
@@ -83145,7 +83696,7 @@
         "cache_read": 0.04
       },
       "limit": {
-        "context": 262144,
+        "context": 1048576,
         "output": 235929
       },
       "knowledge": "2025-09"
@@ -83291,7 +83842,7 @@
     "family": "nemotron",
     "created_at": "2026-10-15 00:00:00 UTC",
     "context_window": 1048576,
-    "max_output_tokens": 943718,
+    "max_output_tokens": 235929,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -83316,7 +83867,7 @@
       "text_tokens": {
         "standard": {
           "input_per_million": 0.15,
-          "output_per_million": 0.47,
+          "output_per_million": 0.5,
           "cache_read_input_per_million": 0.02
         }
       }
@@ -83380,12 +83931,12 @@
       ],
       "cost": {
         "input": 0.15,
-        "output": 0.47,
+        "output": 0.5,
         "cache_read": 0.02
       },
       "limit": {
         "context": 1048576,
-        "output": 943718
+        "output": 235929
       }
     }
   },
@@ -90439,6 +90990,818 @@
     }
   },
   {
+    "id": "openai/gpt-6.2-astra",
+    "name": "GPT-6.2 Astra",
+    "provider": "openrouter",
+    "family": "gpt-astra",
+    "created_at": "2026-11-17 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-05-18",
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming",
+      "tool_choice"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 8,
+          "output_per_million": 40,
+          "cache_read_input_per_million": 0.4,
+          "cache_write_input_per_million": 10
+        },
+        "long_context": {
+          "input_per_million": 16,
+          "output_per_million": 60,
+          "cache_read_input_per_million": 0.8,
+          "cache_write_input_per_million": 20
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "description": "GPT-6.2 Astra is the flagship model in the GPT-6.2 series from OpenAI, built for the hardest projects. It is suited for real-world engineering, professional work and scientific research, with stronger...",
+      "architecture": {
+        "modality": "text+image+file->text",
+        "input_modalities": [
+          "file",
+          "image",
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "GPT",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1050000,
+        "max_completion_tokens": 128000,
+        "is_moderated": true
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "include_reasoning",
+        "max_completion_tokens",
+        "max_tokens",
+        "reasoning",
+        "reasoning_effort",
+        "response_format",
+        "seed",
+        "structured_outputs",
+        "tool_choice",
+        "tools",
+        "verbosity"
+      ],
+      "expiration_date": null,
+      "source": "models.dev",
+      "provider_id": "openrouter",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-17",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 8,
+        "output": 40,
+        "cache_read": 0.4,
+        "cache_write": 10,
+        "tiers": [
+          {
+            "input": 16,
+            "output": 60,
+            "cache_read": 0.8,
+            "cache_write": 20,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 16,
+          "output": 60,
+          "cache_read": 0.8,
+          "cache_write": 20
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-05-18"
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-astra-pro",
+    "name": "GPT-6.2 Astra Pro",
+    "provider": "openrouter",
+    "family": "gpt",
+    "created_at": "2026-11-17 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "pdf",
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming",
+      "tool_choice"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 8,
+          "output_per_million": 40,
+          "cache_read_input_per_million": 0.4,
+          "cache_write_input_per_million": 10
+        },
+        "long_context": {
+          "input_per_million": 16,
+          "output_per_million": 60,
+          "cache_read_input_per_million": 0.8,
+          "cache_write_input_per_million": 20
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "description": "GPT-6.2 Astra Pro is the same underlying model as [GPT-6.2 Astra](https://openrouter.ai/openai/gpt-6.2-astra), served with `reasoning.mode` set to `pro` for higher-quality responses on complex tasks. **Cost note:** pro mode spends far more...",
+      "architecture": {
+        "modality": "text+image+file->text",
+        "input_modalities": [
+          "file",
+          "image",
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "GPT",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1050000,
+        "max_completion_tokens": 128000,
+        "is_moderated": true
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "include_reasoning",
+        "max_completion_tokens",
+        "max_tokens",
+        "reasoning",
+        "reasoning_effort",
+        "response_format",
+        "seed",
+        "structured_outputs",
+        "tool_choice",
+        "tools",
+        "verbosity"
+      ],
+      "expiration_date": null,
+      "source": "models.dev",
+      "provider_id": "openrouter",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-17",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 8,
+        "output": 40,
+        "cache_read": 0.4,
+        "cache_write": 10,
+        "tiers": [
+          {
+            "input": 16,
+            "output": 60,
+            "cache_read": 0.8,
+            "cache_write": 20,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 16,
+          "output": 60,
+          "cache_read": 0.8,
+          "cache_write": 20
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "output": 128000
+      }
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-astra-pro:batch",
+    "name": "OpenAI: GPT-6.2 Astra Pro (batch)",
+    "provider": "openrouter",
+    "family": "openai",
+    "created_at": "2026-11-17 18:00:32 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "file",
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "streaming",
+      "function_calling",
+      "tool_choice",
+      "structured_output",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 4.0,
+          "output_per_million": 20.0,
+          "cache_read_input_per_million": 0.19999999999999998,
+          "cache_write_input_per_million": 5.0
+        }
+      }
+    },
+    "metadata": {
+      "description": "GPT-6.2 Astra Pro is the same underlying model as [GPT-6.2 Astra](https://openrouter.ai/openai/gpt-6.2-astra), served with `reasoning.mode` set to `pro` for higher-quality responses on complex tasks. **Cost note:** pro mode spends far more...",
+      "architecture": {
+        "modality": "text+image+file->text",
+        "input_modalities": [
+          "file",
+          "image",
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "GPT",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1050000,
+        "max_completion_tokens": 128000,
+        "is_moderated": true
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "include_reasoning",
+        "max_tokens",
+        "reasoning",
+        "reasoning_effort",
+        "response_format",
+        "seed",
+        "structured_outputs",
+        "tool_choice",
+        "tools",
+        "verbosity"
+      ],
+      "expiration_date": null
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-astra:batch",
+    "name": "OpenAI: GPT-6.2 Astra (batch)",
+    "provider": "openrouter",
+    "family": "openai",
+    "created_at": "2026-11-17 18:00:23 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "file",
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "streaming",
+      "function_calling",
+      "tool_choice",
+      "structured_output",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 4.0,
+          "output_per_million": 20.0,
+          "cache_read_input_per_million": 0.19999999999999998,
+          "cache_write_input_per_million": 5.0
+        }
+      }
+    },
+    "metadata": {
+      "description": "GPT-6.2 Astra is the flagship model in the GPT-6.2 series from OpenAI, built for the hardest projects. It is suited for real-world engineering, professional work and scientific research, with stronger...",
+      "architecture": {
+        "modality": "text+image+file->text",
+        "input_modalities": [
+          "file",
+          "image",
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "GPT",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1050000,
+        "max_completion_tokens": 128000,
+        "is_moderated": true
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "include_reasoning",
+        "max_tokens",
+        "reasoning",
+        "reasoning_effort",
+        "response_format",
+        "seed",
+        "structured_outputs",
+        "tool_choice",
+        "tools",
+        "verbosity"
+      ],
+      "expiration_date": null
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-sol",
+    "name": "GPT-6.2 Sol",
+    "provider": "openrouter",
+    "family": "gpt-sol",
+    "created_at": "2026-11-17 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-06-01",
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming",
+      "tool_choice"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 2.5
+        },
+        "long_context": {
+          "input_per_million": 4,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "description": "GPT-6.2 Sol is an upgrade to GPT-6.1 Sol from OpenAI, positioned below the flagship GPT-6.2 Astra in the GPT-6.2 series. It is an efficient, versatile model for everyday work, suited...",
+      "architecture": {
+        "modality": "text+image+file->text",
+        "input_modalities": [
+          "file",
+          "image",
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "GPT",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1050000,
+        "max_completion_tokens": 128000,
+        "is_moderated": true
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "include_reasoning",
+        "max_completion_tokens",
+        "max_tokens",
+        "reasoning",
+        "reasoning_effort",
+        "response_format",
+        "seed",
+        "structured_outputs",
+        "tool_choice",
+        "tools",
+        "verbosity"
+      ],
+      "expiration_date": null,
+      "source": "models.dev",
+      "provider_id": "openrouter",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-17",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2,
+        "output": 10,
+        "cache_read": 0.1,
+        "cache_write": 2.5,
+        "tiers": [
+          {
+            "input": 4,
+            "output": 15,
+            "cache_read": 0.2,
+            "cache_write": 5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 4,
+          "output": 15,
+          "cache_read": 0.2,
+          "cache_write": 5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-06-01"
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-sol-pro",
+    "name": "GPT-6.2 Sol Pro",
+    "provider": "openrouter",
+    "family": "gpt",
+    "created_at": "2026-11-17 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "pdf",
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming",
+      "tool_choice"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 2.5
+        },
+        "long_context": {
+          "input_per_million": 4,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "description": "GPT-6.2 Sol Pro is the same underlying model as [GPT-6.2 Sol](https://openrouter.ai/openai/gpt-6.2-sol), served with `reasoning.mode` set to `pro` for higher-quality responses on complex tasks. **Cost note:** pro mode spends far more...",
+      "architecture": {
+        "modality": "text+image+file->text",
+        "input_modalities": [
+          "file",
+          "image",
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "GPT",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1050000,
+        "max_completion_tokens": 128000,
+        "is_moderated": false
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "include_reasoning",
+        "max_completion_tokens",
+        "max_tokens",
+        "reasoning",
+        "reasoning_effort",
+        "response_format",
+        "seed",
+        "structured_outputs",
+        "tool_choice",
+        "tools",
+        "verbosity"
+      ],
+      "expiration_date": null,
+      "source": "models.dev",
+      "provider_id": "openrouter",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-17",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2,
+        "output": 10,
+        "cache_read": 0.1,
+        "cache_write": 2.5,
+        "tiers": [
+          {
+            "input": 4,
+            "output": 15,
+            "cache_read": 0.2,
+            "cache_write": 5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 4,
+          "output": 15,
+          "cache_read": 0.2,
+          "cache_write": 5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "output": 128000
+      }
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-sol-pro:batch",
+    "name": "OpenAI: GPT-6.2 Sol Pro (batch)",
+    "provider": "openrouter",
+    "family": "openai",
+    "created_at": "2026-11-17 18:00:09 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "file",
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "streaming",
+      "function_calling",
+      "tool_choice",
+      "structured_output",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.0,
+          "output_per_million": 5.0,
+          "cache_read_input_per_million": 0.049999999999999996,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "metadata": {
+      "description": "GPT-6.2 Sol Pro is the same underlying model as [GPT-6.2 Sol](https://openrouter.ai/openai/gpt-6.2-sol), served with `reasoning.mode` set to `pro` for higher-quality responses on complex tasks. **Cost note:** pro mode spends far more...",
+      "architecture": {
+        "modality": "text+image+file->text",
+        "input_modalities": [
+          "file",
+          "image",
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "GPT",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1050000,
+        "max_completion_tokens": 128000,
+        "is_moderated": true
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "include_reasoning",
+        "max_tokens",
+        "reasoning",
+        "reasoning_effort",
+        "response_format",
+        "seed",
+        "structured_outputs",
+        "tool_choice",
+        "tools",
+        "verbosity"
+      ],
+      "expiration_date": null
+    }
+  },
+  {
+    "id": "openai/gpt-6.2-sol:batch",
+    "name": "OpenAI: GPT-6.2 Sol (batch)",
+    "provider": "openrouter",
+    "family": "openai",
+    "created_at": "2026-11-17 17:59:31 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "file",
+        "image",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "streaming",
+      "function_calling",
+      "tool_choice",
+      "structured_output",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.0,
+          "output_per_million": 5.0,
+          "cache_read_input_per_million": 0.049999999999999996,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "metadata": {
+      "description": "GPT-6.2 Sol is an upgrade to GPT-6.1 Sol from OpenAI, positioned below the flagship GPT-6.2 Astra in the GPT-6.2 series. It is an efficient, versatile model for everyday work, suited...",
+      "architecture": {
+        "modality": "text+image+file->text",
+        "input_modalities": [
+          "file",
+          "image",
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "GPT",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1050000,
+        "max_completion_tokens": 128000,
+        "is_moderated": true
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "include_reasoning",
+        "max_tokens",
+        "reasoning",
+        "reasoning_effort",
+        "response_format",
+        "seed",
+        "structured_outputs",
+        "tool_choice",
+        "tools",
+        "verbosity"
+      ],
+      "expiration_date": null
+    }
+  },
+  {
     "id": "openai/gpt-audio",
     "name": "GPT-Audio",
     "provider": "openrouter",
@@ -90944,7 +92307,13 @@
             "16:9",
             "9:16",
             "21:9",
-            "auto"
+            "auto",
+            "4:5",
+            "5:4",
+            "2:1",
+            "1:2",
+            "3:1",
+            "1:3"
           ]
         },
         "output_format": {
@@ -91039,7 +92408,13 @@
             "16:9",
             "9:16",
             "21:9",
-            "auto"
+            "auto",
+            "4:5",
+            "5:4",
+            "2:1",
+            "1:2",
+            "3:1",
+            "1:3"
           ]
         },
         "output_format": {
@@ -91137,7 +92512,13 @@
             "16:9",
             "9:16",
             "21:9",
-            "auto"
+            "auto",
+            "4:5",
+            "5:4",
+            "2:1",
+            "1:2",
+            "3:1",
+            "1:3"
           ]
         },
         "output_format": {
@@ -91235,7 +92616,13 @@
             "16:9",
             "9:16",
             "21:9",
-            "auto"
+            "auto",
+            "4:5",
+            "5:4",
+            "2:1",
+            "1:2",
+            "3:1",
+            "1:3"
           ]
         },
         "output_format": {
@@ -91334,7 +92721,13 @@
             "16:9",
             "9:16",
             "21:9",
-            "auto"
+            "auto",
+            "4:5",
+            "5:4",
+            "2:1",
+            "1:2",
+            "3:1",
+            "1:3"
           ]
         },
         "output_format": {
@@ -91591,9 +92984,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.03,
-          "output_per_million": 0.13,
-          "cache_read_input_per_million": 0.03
+          "input_per_million": 0.018,
+          "output_per_million": 0.09,
+          "cache_read_input_per_million": 0.009
         }
       }
     },
@@ -91612,7 +93005,7 @@
       },
       "top_provider": {
         "context_length": 131072,
-        "max_completion_tokens": 65536,
+        "max_completion_tokens": 117964,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -91659,9 +93052,9 @@
         }
       ],
       "cost": {
-        "input": 0.03,
-        "output": 0.13,
-        "cache_read": 0.03
+        "input": 0.018,
+        "output": 0.09,
+        "cache_read": 0.009
       },
       "limit": {
         "context": 131072,
@@ -93019,7 +94412,7 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.05,
+          "input_per_million": 0.06,
           "output_per_million": 0.5,
           "cache_read_input_per_million": 0.003
         }
@@ -93091,7 +94484,7 @@
         }
       ],
       "cost": {
-        "input": 0.05,
+        "input": 0.06,
         "output": 0.5,
         "cache_read": 0.003
       },
@@ -94659,7 +96052,9 @@
             "4:5",
             "5:4",
             "9:16",
-            "16:9"
+            "16:9",
+            "21:9",
+            "9:21"
           ]
         },
         "n": {
@@ -94670,7 +96065,7 @@
         "input_references": {
           "type": "range",
           "min": 0,
-          "max": 4
+          "max": 10
         },
         "seed": {
           "type": "boolean"
@@ -94739,7 +96134,9 @@
             "4:5",
             "5:4",
             "9:16",
-            "16:9"
+            "16:9",
+            "21:9",
+            "9:21"
           ]
         },
         "n": {
@@ -94750,7 +96147,7 @@
         "input_references": {
           "type": "range",
           "min": 0,
-          "max": 4
+          "max": 10
         },
         "seed": {
           "type": "boolean"
@@ -95925,8 +97322,11 @@
       },
       "per_request_limits": null,
       "supported_parameters": [
+        "frequency_penalty",
         "max_tokens",
+        "response_format",
         "stop",
+        "structured_outputs",
         "temperature",
         "tool_choice",
         "tools",
@@ -96270,7 +97670,7 @@
     "family": "qwen",
     "created_at": "2025-09-01 00:00:00 UTC",
     "context_window": 262144,
-    "max_output_tokens": 16384,
+    "max_output_tokens": 235929,
     "knowledge_cutoff": "2025-09-30",
     "modalities": {
       "input": [
@@ -96289,8 +97689,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.09,
-          "output_per_million": 1.1
+          "input_per_million": 0.1,
+          "output_per_million": 1.1,
+          "cache_read_input_per_million": 0.07
         }
       }
     },
@@ -96309,7 +97710,7 @@
       },
       "top_provider": {
         "context_length": 262144,
-        "max_completion_tokens": 16384,
+        "max_completion_tokens": 235929,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -96343,12 +97744,13 @@
       "structured_output": true,
       "reasoning": false,
       "cost": {
-        "input": 0.09,
-        "output": 1.1
+        "input": 0.1,
+        "output": 1.1,
+        "cache_read": 0.07
       },
       "limit": {
         "context": 262144,
-        "output": 16384
+        "output": 235929
       },
       "knowledge": "2025-04"
     }
@@ -96629,60 +98031,6 @@
     }
   },
   {
-    "id": "qwen/qwen3-vl-30b-a3b-thinking",
-    "name": "Qwen3 VL 30B A3B Thinking",
-    "provider": "openrouter",
-    "family": "qwen",
-    "created_at": "2025-10-06 00:00:00 UTC",
-    "context_window": 262144,
-    "max_output_tokens": 235929,
-    "knowledge_cutoff": "2025-03-31",
-    "modalities": {
-      "input": [
-        "text",
-        "image"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "capabilities": [
-      "function_calling",
-      "structured_output",
-      "reasoning",
-      "vision"
-    ],
-    "pricing": {
-      "text_tokens": {
-        "standard": {
-          "input_per_million": 0.29,
-          "output_per_million": 1
-        }
-      }
-    },
-    "metadata": {
-      "source": "models.dev",
-      "provider_id": "openrouter",
-      "open_weights": true,
-      "attachment": true,
-      "temperature": true,
-      "last_updated": "2025-10-06",
-      "tool_call": true,
-      "structured_output": true,
-      "reasoning": true,
-      "reasoning_options": [],
-      "cost": {
-        "input": 0.29,
-        "output": 1
-      },
-      "limit": {
-        "context": 262144,
-        "output": 235929
-      },
-      "knowledge": "2025-03-31"
-    }
-  },
-  {
     "id": "qwen/qwen3-vl-8b-instruct",
     "name": "Qwen3 VL 8B Instruct",
     "provider": "openrouter",
@@ -96885,7 +98233,7 @@
     "family": "qwen",
     "created_at": "2026-02-23 00:00:00 UTC",
     "context_window": 262144,
-    "max_output_tokens": 81920,
+    "max_output_tokens": 65536,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -96909,8 +98257,8 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.26,
-          "output_per_million": 2.6
+          "input_per_million": 0.3,
+          "output_per_million": 2.4
         }
       }
     },
@@ -96931,7 +98279,7 @@
       },
       "top_provider": {
         "context_length": 262144,
-        "max_completion_tokens": 81920,
+        "max_completion_tokens": 65536,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -96972,12 +98320,12 @@
         }
       ],
       "cost": {
-        "input": 0.26,
-        "output": 2.6
+        "input": 0.3,
+        "output": 2.4
       },
       "limit": {
         "context": 262144,
-        "output": 81920
+        "output": 65536
       }
     }
   },
@@ -97093,7 +98441,7 @@
     "family": "qwen",
     "created_at": "2026-02-15 00:00:00 UTC",
     "context_window": 262144,
-    "max_output_tokens": 64000,
+    "max_output_tokens": 81920,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -97117,9 +98465,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.6,
-          "output_per_million": 3.6,
-          "cache_read_input_per_million": 0.12
+          "input_per_million": 0.45,
+          "output_per_million": 3,
+          "cache_read_input_per_million": 0.22
         }
       }
     },
@@ -97181,13 +98529,13 @@
         }
       ],
       "cost": {
-        "input": 0.6,
-        "output": 3.6,
-        "cache_read": 0.12
+        "input": 0.45,
+        "output": 3,
+        "cache_read": 0.22
       },
       "limit": {
         "context": 262144,
-        "output": 64000
+        "output": 81920
       }
     }
   },
@@ -97222,9 +98570,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.141,
-          "output_per_million": 0.208,
-          "cache_read_input_per_million": 0.127
+          "input_per_million": 0.17,
+          "output_per_million": 0.25,
+          "cache_read_input_per_million": 0.153
         }
       }
     },
@@ -97288,9 +98636,9 @@
         }
       ],
       "cost": {
-        "input": 0.141,
-        "output": 0.208,
-        "cache_read": 0.127
+        "input": 0.17,
+        "output": 0.25,
+        "cache_read": 0.153
       },
       "limit": {
         "context": 262144,
@@ -98637,7 +99985,7 @@
     "provider": "openrouter",
     "family": "qwen",
     "created_at": "2026-08-14 00:00:00 UTC",
-    "context_window": 1048575,
+    "context_window": 1024000,
     "max_output_tokens": 235929,
     "knowledge_cutoff": null,
     "modalities": {
@@ -98662,9 +100010,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.15,
-          "output_per_million": 1.875,
-          "cache_read_input_per_million": 0.0375
+          "input_per_million": 0.06,
+          "output_per_million": 2.2,
+          "cache_read_input_per_million": 0.059
         }
       }
     },
@@ -98734,12 +100082,12 @@
         }
       ],
       "cost": {
-        "input": 0.15,
-        "output": 1.875,
-        "cache_read": 0.0375
+        "input": 0.06,
+        "output": 2.2,
+        "cache_read": 0.059
       },
       "limit": {
-        "context": 1048575,
+        "context": 1024000,
         "output": 235929
       }
     }
@@ -99336,12 +100684,12 @@
   },
   {
     "id": "qwen/qwen4-max",
-    "name": "Qwen: Qwen4 Max",
+    "name": "Qwen4 Max",
     "provider": "openrouter",
     "family": "qwen",
-    "created_at": "2026-11-16 02:18:46 UTC",
+    "created_at": "2026-11-16 00:00:00 UTC",
     "context_window": 1000000,
-    "max_output_tokens": 393216,
+    "max_output_tokens": 131072,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -99354,20 +100702,21 @@
       ]
     },
     "capabilities": [
-      "streaming",
       "function_calling",
-      "tool_choice",
       "structured_output",
+      "reasoning",
       "vision",
-      "video"
+      "video",
+      "streaming",
+      "tool_choice"
     ],
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 1.5,
-          "output_per_million": 4.5,
-          "cache_read_input_per_million": 0.075,
-          "cache_write_input_per_million": 1.875
+          "input_per_million": 1.425,
+          "output_per_million": 4.275,
+          "cache_read_input_per_million": 0.07125,
+          "cache_write_input_per_million": 1.78125
         }
       }
     },
@@ -99388,7 +100737,7 @@
       },
       "top_provider": {
         "context_length": 1000000,
-        "max_completion_tokens": 393216,
+        "max_completion_tokens": 131072,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -99411,7 +100760,37 @@
         "top_logprobs",
         "top_p"
       ],
-      "expiration_date": null
+      "expiration_date": null,
+      "source": "models.dev",
+      "provider_id": "openrouter",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": true,
+      "last_updated": "2026-11-16",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "high",
+            "xhigh"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 1.425,
+        "output": 4.275,
+        "cache_read": 0.07125,
+        "cache_write": 1.78125
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 131072
+      }
     }
   },
   {
@@ -99460,6 +100839,12 @@
             "3:4",
             "16:9",
             "9:16",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
+            "5:4",
+            "4:5",
             "auto"
           ]
         },
@@ -99519,8 +100904,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -99582,8 +100973,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -99645,8 +101042,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -100002,8 +101405,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -100071,8 +101480,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -100131,8 +101546,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -100186,8 +101607,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -100244,8 +101671,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -100307,8 +101740,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -100376,8 +101815,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -100439,8 +101884,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -100502,8 +101953,14 @@
           "type": "enum",
           "values": [
             "1:1",
+            "2:1",
+            "1:2",
+            "3:2",
+            "2:3",
             "4:3",
             "3:4",
+            "5:4",
+            "4:5",
             "16:9",
             "9:16",
             "auto"
@@ -102883,57 +104340,6 @@
     }
   },
   {
-    "id": "stepfun/step-3.5-flash",
-    "name": "Step 3.5 Flash",
-    "provider": "openrouter",
-    "family": "step",
-    "created_at": "2026-01-29 00:00:00 UTC",
-    "context_window": 262144,
-    "max_output_tokens": 65536,
-    "knowledge_cutoff": null,
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "capabilities": [
-      "function_calling",
-      "reasoning"
-    ],
-    "pricing": {
-      "text_tokens": {
-        "standard": {
-          "input_per_million": 0.1,
-          "output_per_million": 0.3
-        }
-      }
-    },
-    "metadata": {
-      "source": "models.dev",
-      "provider_id": "openrouter",
-      "open_weights": true,
-      "attachment": false,
-      "temperature": true,
-      "last_updated": "2026-02-13",
-      "tool_call": true,
-      "structured_output": false,
-      "reasoning": true,
-      "reasoning_options": [],
-      "cost": {
-        "input": 0.1,
-        "output": 0.3
-      },
-      "limit": {
-        "context": 262144,
-        "output": 65536
-      },
-      "knowledge": "2025-01"
-    }
-  },
-  {
     "id": "stepfun/step-3.7-flash",
     "name": "Step 3.7 Flash",
     "provider": "openrouter",
@@ -103153,61 +104559,6 @@
         "input": 1000000,
         "output": 64000
       }
-    }
-  },
-  {
-    "id": "tencent/hunyuan-a13b-instruct",
-    "name": "Hunyuan A13B Instruct",
-    "provider": "openrouter",
-    "family": "hunyuan",
-    "created_at": "2025-07-08 00:00:00 UTC",
-    "context_window": 131072,
-    "max_output_tokens": 117964,
-    "knowledge_cutoff": "2025-03-31",
-    "modalities": {
-      "input": [
-        "text"
-      ],
-      "output": [
-        "text"
-      ]
-    },
-    "capabilities": [
-      "structured_output",
-      "reasoning"
-    ],
-    "pricing": {
-      "text_tokens": {
-        "standard": {
-          "input_per_million": 0.14,
-          "output_per_million": 0.57
-        }
-      }
-    },
-    "metadata": {
-      "source": "models.dev",
-      "provider_id": "openrouter",
-      "open_weights": true,
-      "attachment": false,
-      "temperature": true,
-      "last_updated": "2025-07-08",
-      "tool_call": false,
-      "structured_output": true,
-      "reasoning": true,
-      "reasoning_options": [
-        {
-          "type": "toggle"
-        }
-      ],
-      "cost": {
-        "input": 0.14,
-        "output": 0.57
-      },
-      "limit": {
-        "context": 131072,
-        "output": 117964
-      },
-      "knowledge": "2025-03-31"
     }
   },
   {
@@ -103591,9 +104942,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.0825,
-          "output_per_million": 0.33,
-          "cache_read_input_per_million": 0.020625
+          "input_per_million": 0.132,
+          "output_per_million": 0.528,
+          "cache_read_input_per_million": 0.033
         }
       }
     },
@@ -103619,10 +104970,8 @@
       "supported_parameters": [
         "frequency_penalty",
         "include_reasoning",
-        "logit_bias",
         "max_completion_tokens",
         "max_tokens",
-        "min_p",
         "presence_penalty",
         "reasoning",
         "reasoning_effort",
@@ -103658,9 +105007,9 @@
         }
       ],
       "cost": {
-        "input": 0.0825,
-        "output": 0.33,
-        "cache_read": 0.020625
+        "input": 0.132,
+        "output": 0.528,
+        "cache_read": 0.033
       },
       "limit": {
         "context": 262144,
@@ -103863,6 +105212,100 @@
     }
   },
   {
+    "id": "tencent/hy4-flash",
+    "name": "Hy4 flash",
+    "provider": "openrouter",
+    "family": "Hy",
+    "created_at": "2026-11-16 00:00:00 UTC",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming",
+      "tool_choice"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.035,
+          "output_per_million": 0.1405,
+          "cache_read_input_per_million": 0.0015
+        }
+      }
+    },
+    "metadata": {
+      "description": "Hy4 flash is a cost-efficient variant of [Hy4](https://openrouter.ai/tencent/hy4) from Tencent, served with roughly a quarter of the flagship's parameter count for lower latency and cost. It targets code assistance, agent...",
+      "architecture": {
+        "modality": "text+image->text",
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "Other",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1048576,
+        "max_completion_tokens": 65536,
+        "is_moderated": false
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "include_reasoning",
+        "max_completion_tokens",
+        "max_tokens",
+        "reasoning",
+        "response_format",
+        "stop",
+        "structured_outputs",
+        "temperature",
+        "tool_choice",
+        "tools"
+      ],
+      "expiration_date": null,
+      "source": "models.dev",
+      "provider_id": "openrouter",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": true,
+      "last_updated": "2026-11-16",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "toggle"
+        }
+      ],
+      "cost": {
+        "input": 0.035,
+        "output": 0.1405,
+        "cache_read": 0.0015
+      },
+      "limit": {
+        "context": 1048576,
+        "input": 983040,
+        "output": 65536
+      }
+    }
+  },
+  {
     "id": "tencent/hy4-preview",
     "name": "Hy4 preview",
     "provider": "openrouter",
@@ -103889,9 +105332,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.7506,
-          "output_per_million": 2.2509,
-          "cache_read_input_per_million": 0.0378
+          "input_per_million": 0.834,
+          "output_per_million": 2.501,
+          "cache_read_input_per_million": 0.042
         }
       }
     },
@@ -103958,9 +105401,9 @@
         }
       ],
       "cost": {
-        "input": 0.7506,
-        "output": 2.2509,
-        "cache_read": 0.0378
+        "input": 0.834,
+        "output": 2.501,
+        "cache_read": 0.042
       },
       "limit": {
         "context": 1048576,
@@ -104606,7 +106049,7 @@
         "tools",
         "top_p"
       ],
-      "expiration_date": null,
+      "expiration_date": "2026-11-19",
       "source": "models.dev",
       "provider_id": "openrouter",
       "open_weights": true,
@@ -106931,25 +108374,28 @@
             "20:9",
             "1:2",
             "2:1",
-            "auto"
+            "auto",
+            "21:9",
+            "5:2"
           ]
         },
         "quality": {
           "type": "enum",
           "values": [
             "low",
-            "medium"
+            "medium",
+            "auto"
           ]
         },
         "n": {
           "type": "range",
           "min": 1,
-          "max": 1
+          "max": 10
         },
         "input_references": {
           "type": "range",
           "min": 0,
-          "max": 3
+          "max": 5
         }
       },
       "expiration_date": null
@@ -107210,8 +108656,8 @@
         "instruct_type": null
       },
       "top_provider": {
-        "context_length": 1024000,
-        "max_completion_tokens": 131072,
+        "context_length": 262144,
+        "max_completion_tokens": 235929,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -107691,9 +109137,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.2,
-          "output_per_million": 1.1,
-          "cache_read_input_per_million": 0.03
+          "input_per_million": 0.13,
+          "output_per_million": 0.85,
+          "cache_read_input_per_million": 0.025
         }
       }
     },
@@ -107747,9 +109193,9 @@
         }
       ],
       "cost": {
-        "input": 0.2,
-        "output": 1.1,
-        "cache_read": 0.03
+        "input": 0.13,
+        "output": 0.85,
+        "cache_read": 0.025
       },
       "limit": {
         "context": 131072,
@@ -107985,7 +109431,7 @@
         "standard": {
           "input_per_million": 0.3,
           "output_per_million": 0.9,
-          "cache_read_input_per_million": 0.055
+          "cache_read_input_per_million": 0.05
         }
       }
     },
@@ -108044,7 +109490,7 @@
       "cost": {
         "input": 0.3,
         "output": 0.9,
-        "cache_read": 0.055
+        "cache_read": 0.05
       },
       "limit": {
         "context": 131072,
@@ -108080,9 +109526,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.6,
-          "output_per_million": 2.2,
-          "cache_read_input_per_million": 0.11
+          "input_per_million": 0.4,
+          "output_per_million": 1.75,
+          "cache_read_input_per_million": 0.08
         }
       }
     },
@@ -108144,9 +109590,9 @@
         }
       ],
       "cost": {
-        "input": 0.6,
-        "output": 2.2,
-        "cache_read": 0.11
+        "input": 0.4,
+        "output": 1.75,
+        "cache_read": 0.08
       },
       "limit": {
         "context": 204800,
@@ -108454,7 +109900,7 @@
     "family": "glm",
     "created_at": "2026-04-07 00:00:00 UTC",
     "context_window": 204800,
-    "max_output_tokens": 131072,
+    "max_output_tokens": 182476,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -108545,7 +109991,7 @@
       },
       "limit": {
         "context": 204800,
-        "output": 131072
+        "output": 182476
       }
     }
   },
@@ -108571,8 +110017,7 @@
       "structured_output",
       "reasoning",
       "streaming",
-      "tool_choice",
-      "parallel_tool_calls"
+      "tool_choice"
     ],
     "pricing": {
       "text_tokens": {
@@ -108609,7 +110054,6 @@
         "logprobs",
         "max_tokens",
         "min_p",
-        "parallel_tool_calls",
         "presence_penalty",
         "reasoning",
         "reasoning_effort",
@@ -108660,6 +110104,82 @@
     }
   },
   {
+    "id": "z-ai/glm-5.2:batch",
+    "name": "Z.ai: GLM 5.2 (batch)",
+    "provider": "openrouter",
+    "family": "z-ai",
+    "created_at": "2026-06-16 17:45:30 UTC",
+    "context_window": 1048576,
+    "max_output_tokens": 943718,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "streaming",
+      "function_calling",
+      "tool_choice",
+      "structured_output"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.322,
+          "output_per_million": 0.989,
+          "cache_read_input_per_million": 0.109
+        }
+      }
+    },
+    "metadata": {
+      "description": "GLM 5.2 is a large-scale reasoning model from Z.ai. It supports text input and output with a 1M-token context window, and is suited for long-horizon agent workflows, project-level software engineering,...",
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "Other",
+        "instruct_type": null
+      },
+      "top_provider": {
+        "context_length": 1048576,
+        "max_completion_tokens": 943718,
+        "is_moderated": false
+      },
+      "per_request_limits": null,
+      "supported_parameters": [
+        "frequency_penalty",
+        "include_reasoning",
+        "logit_bias",
+        "logprobs",
+        "max_tokens",
+        "min_p",
+        "presence_penalty",
+        "reasoning",
+        "reasoning_effort",
+        "repetition_penalty",
+        "response_format",
+        "seed",
+        "stop",
+        "structured_outputs",
+        "temperature",
+        "tool_choice",
+        "tools",
+        "top_k",
+        "top_logprobs",
+        "top_p"
+      ],
+      "expiration_date": null
+    }
+  },
+  {
     "id": "z-ai/glm-5.3",
     "name": "GLM-5.3",
     "provider": "openrouter",
@@ -108687,9 +110207,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.084,
-          "output_per_million": 3.6,
-          "cache_read_input_per_million": 0.079
+          "input_per_million": 0.0699,
+          "output_per_million": 1.4,
+          "cache_read_input_per_million": 0.0689
         }
       }
     },
@@ -108756,9 +110276,9 @@
         }
       ],
       "cost": {
-        "input": 0.084,
-        "output": 3.6,
-        "cache_read": 0.079
+        "input": 0.0699,
+        "output": 1.4,
+        "cache_read": 0.0689
       },
       "limit": {
         "context": 1048576,
@@ -108820,8 +110340,8 @@
         "instruct_type": null
       },
       "top_provider": {
-        "context_length": 1048576,
-        "max_completion_tokens": 131072,
+        "context_length": 1048575,
+        "max_completion_tokens": 943717,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -108886,7 +110406,7 @@
     "family": "z-ai",
     "created_at": "2026-08-26 13:59:01 UTC",
     "context_window": 1048576,
-    "max_output_tokens": 131072,
+    "max_output_tokens": 943718,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -108909,8 +110429,8 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.049999999999999996,
-          "output_per_million": 0.18,
+          "input_per_million": 0.024,
+          "output_per_million": 0.06899999999999999,
           "cache_read_input_per_million": 0.01
         }
       }
@@ -108932,7 +110452,7 @@
       },
       "top_provider": {
         "context_length": 1048576,
-        "max_completion_tokens": 131072,
+        "max_completion_tokens": 943718,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -109191,9 +110711,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 2.8,
-          "output_per_million": 8.8,
-          "cache_read_input_per_million": 0.56
+          "input_per_million": 1.68,
+          "output_per_million": 5.28,
+          "cache_read_input_per_million": 0.336
         }
       }
     },
@@ -109255,9 +110775,9 @@
         }
       ],
       "cost": {
-        "input": 2.8,
-        "output": 8.8,
-        "cache_read": 0.56
+        "input": 1.68,
+        "output": 5.28,
+        "cache_read": 0.336
       },
       "limit": {
         "context": 1000000,
@@ -109272,7 +110792,7 @@
     "family": "z-ai",
     "created_at": "2026-08-18 20:57:35 UTC",
     "context_window": 1048576,
-    "max_output_tokens": 131072,
+    "max_output_tokens": 943718,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -109291,9 +110811,9 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.44999999999999996,
-          "output_per_million": 2.0,
-          "cache_read_input_per_million": 0.09999999999999999
+          "input_per_million": 0.28099999999999997,
+          "output_per_million": 1.25,
+          "cache_read_input_per_million": 0.062
         }
       }
     },
@@ -109312,7 +110832,7 @@
       },
       "top_provider": {
         "context_length": 1048576,
-        "max_completion_tokens": 131072,
+        "max_completion_tokens": 943718,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -109906,7 +111426,7 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.038,
+          "input_per_million": 0.036,
           "output_per_million": 0.5,
           "cache_read_input_per_million": 0.01
         }
@@ -109978,7 +111498,7 @@
         }
       ],
       "cost": {
-        "input": 0.038,
+        "input": 0.036,
         "output": 0.5,
         "cache_read": 0.01
       },
@@ -110487,8 +112007,7 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.02,
-          "cache_read_input_per_million": 0.02
+          "input_per_million": 0.02
         }
       }
     },
@@ -110522,8 +112041,8 @@
     "provider": "openrouter",
     "family": "~liquid",
     "created_at": "2026-10-27 18:57:57 UTC",
-    "context_window": 32768,
-    "max_output_tokens": 29491,
+    "context_window": 65536,
+    "max_output_tokens": 58982,
     "knowledge_cutoff": null,
     "modalities": {
       "input": [
@@ -110541,8 +112060,7 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 0.041999999999999996,
-          "cache_read_input_per_million": 0.041999999999999996
+          "input_per_million": 0.041999999999999996
         }
       }
     },
@@ -110561,8 +112079,8 @@
         "instruct_type": null
       },
       "top_provider": {
-        "context_length": 32768,
-        "max_completion_tokens": 29491,
+        "context_length": 65536,
+        "max_completion_tokens": 58982,
         "is_moderated": false
       },
       "per_request_limits": null,
@@ -110596,8 +112114,7 @@
       "vision",
       "video",
       "streaming",
-      "tool_choice",
-      "parallel_tool_calls"
+      "tool_choice"
     ],
     "pricing": {
       "text_tokens": {
@@ -110634,10 +112151,8 @@
         "include_reasoning",
         "logit_bias",
         "logprobs",
-        "max_completion_tokens",
         "max_tokens",
         "min_p",
-        "parallel_tool_calls",
         "presence_penalty",
         "reasoning",
         "reasoning_effort",
@@ -110715,16 +112230,16 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 10,
-          "output_per_million": 50,
-          "cache_read_input_per_million": 1,
-          "cache_write_input_per_million": 12.5
+          "input_per_million": 8,
+          "output_per_million": 40,
+          "cache_read_input_per_million": 0.4,
+          "cache_write_input_per_million": 10
         },
         "long_context": {
-          "input_per_million": 20,
-          "output_per_million": 75,
-          "cache_read_input_per_million": 2,
-          "cache_write_input_per_million": 25
+          "input_per_million": 16,
+          "output_per_million": 60,
+          "cache_read_input_per_million": 0.8,
+          "cache_write_input_per_million": 20
         },
         "long_context_threshold": 272000
       }
@@ -110786,16 +112301,16 @@
         }
       ],
       "cost": {
-        "input": 10,
-        "output": 50,
-        "cache_read": 1,
-        "cache_write": 12.5,
+        "input": 8,
+        "output": 40,
+        "cache_read": 0.4,
+        "cache_write": 10,
         "tiers": [
           {
-            "input": 20,
-            "output": 75,
-            "cache_read": 2,
-            "cache_write": 25,
+            "input": 16,
+            "output": 60,
+            "cache_read": 0.8,
+            "cache_write": 20,
             "tier": {
               "type": "context",
               "size": 272000
@@ -110803,10 +112318,10 @@
           }
         ],
         "context_over_200k": {
-          "input": 20,
-          "output": 75,
-          "cache_read": 2,
-          "cache_write": 25
+          "input": 16,
+          "output": 60,
+          "cache_read": 0.8,
+          "cache_write": 20
         }
       },
       "limit": {
