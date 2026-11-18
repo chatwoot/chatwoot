@@ -61,6 +61,7 @@ describe('VoiceConfigurationPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     Object.values(InboxesAPI).forEach(fn => fn.mockResolvedValue({}));
+    dispatch.mockResolvedValue({});
   });
 
   it('shows a greeting that is off as an empty box', () => {
