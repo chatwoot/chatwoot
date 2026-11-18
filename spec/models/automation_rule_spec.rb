@@ -60,6 +60,12 @@ RSpec.describe AutomationRule do
       expect(rule.valid?).to be true
     end
 
+    it 'allows assign_agent_bot as a valid action' do
+      params[:actions] = [{ action_name: :assign_agent_bot, action_params: [1] }]
+      rule = FactoryBot.build(:automation_rule, params)
+      expect(rule.valid?).to be true
+    end
+
     it 'returns invalid record' do
       params[:conditions][0].delete('query_operator')
       rule = FactoryBot.build(:automation_rule, params)

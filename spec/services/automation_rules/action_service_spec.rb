@@ -179,6 +179,39 @@ RSpec.describe AutomationRules::ActionService do
       end
     end
 
+    describe '#perform with assign_agent_bot action' do
+      before do
+        conversation.update!(assignee: agent)
+      end
+
+      it 'assigns the agent bot to the conversation' do
+        bot = create(:agent_bot, account: account)
+        rule.update!(actions: [{ action_name: 'assign_agent_bot', action_params: [bot.id] }])
+
+        described_class.new(rule, account, conversation).perform
+
+        conversation.reload
+        expect(conversation.ai_assignee).to eq(bot)
+        expect(conversation.assignee).to be_nil
+        expect(conversation.status).to eq('pending')
+      end
+
+      it 'still runs the next action when the agent bot belongs to another account' do
+        foreign_bot = create(:agent_bot, account: create(:account))
+        rule.update!(actions: [
+                       { action_name: 'assign_agent_bot', action_params: [foreign_bot.id] },
+                       { action_name: 'add_label', action_params: ['support'] }
+                     ])
+
+        expect { described_class.new(rule, account, conversation).perform }.not_to raise_error
+
+        conversation.reload
+        expect(conversation.ai_assignee).to be_nil
+        expect(conversation.assignee).to eq(agent)
+        expect(conversation.label_list).to eq(['support'])
+      end
+    end
+
     describe '#perform with send_email_transcript action' do
       before do
         allow(account).to receive(:email_transcript_enabled?).and_return(true)

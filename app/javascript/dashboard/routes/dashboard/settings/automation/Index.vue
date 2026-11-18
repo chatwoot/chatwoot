@@ -159,6 +159,7 @@ const showDelayDisabledBanner = computed(
 onMounted(() => {
   store.dispatch('inboxes/get');
   store.dispatch('agents/get');
+  store.dispatch('agentBots/get');
   store.dispatch('contacts/get');
   store.dispatch('teams/get');
   store.dispatch('labels/get');

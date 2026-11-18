@@ -204,6 +204,7 @@
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_AGENT_BOT": "Assign a Bot",
       "ASSIGN_TEAM": "Assign a Team",
       "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",

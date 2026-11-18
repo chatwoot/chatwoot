@@ -89,6 +89,7 @@ export const generateCustomAttributeTypes = (customAttributes, type) => {
 // Leading icon per action key, shared by the automation and macro action pickers.
 const ACTION_ICONS = {
   assign_agent: 'i-lucide-user-round',
+  assign_agent_bot: 'i-lucide-bot',
   assign_team: 'i-lucide-users-round',
   remove_assigned_agent: 'i-lucide-user-round-x',
   remove_assigned_team: 'i-lucide-users',
@@ -147,6 +148,7 @@ export const generateLabelOptions = labels =>
 
 export const getActionOptions = ({
   agents,
+  agentBots,
   teams,
   labels,
   slaPolicies,
@@ -156,6 +158,7 @@ export const getActionOptions = ({
 }) => {
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
+    assign_agent_bot: agentBots,
     assign_team: addNoneToListFn
       ? addNoneToListFn(generateTeamOptions(teams))
       : generateTeamOptions(teams),
