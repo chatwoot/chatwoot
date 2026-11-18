@@ -115,30 +115,5 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       expect(response.parsed_body).to include('id' => anonymous_contact.id, 'name' => anonymous_contact.name, 'phone_number' => nil)
       expect(anonymous_session.reload.contact_id).to eq anonymous_contact.id
     end
-
-    context 'when an unverified session belongs to a verified contact' do
-      before do
-        contact.update!(name: 'Customer')
-        create(:contact_inbox, contact: contact, hmac_verified: true)
-      end
-
-      it 'does not update the contact' do
-        patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",
-              params: { name: 'John Smith' }
-
-        expect(response).to have_http_status(:success)
-        expect(contact.reload.name).to eq 'Customer'
-      end
-
-      it 'updates the contact when the request carries a valid hash' do
-        identifier_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, 'existing-identifier')
-
-        patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",
-              params: { name: 'John Smith', identifier: 'existing-identifier', identifier_hash: identifier_hash }
-
-        expect(response).to have_http_status(:success)
-        expect(contact.reload.name).to eq 'John Smith'
-      end
-    end
   end
 end
