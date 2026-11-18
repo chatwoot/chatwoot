@@ -40,7 +40,7 @@ class CopilotThread < ApplicationRecord
     CopilotRun::Turn.unfinished.exists?(copilot_thread: self) && !CopilotRun::Action.awaiting_approval.exists?(copilot_thread: self)
   end
 
-  # A reply suggestion, or a message the old Copilot never answered, has no turn to stop, so it is marked stopped instead,
+  # A reply suggestion, or a message saved before every message got a turn, has no turn to stop, so it is marked stopped instead,
   # and the panel lets the agent write again. A reply suggestion checks the mark under the same lock before it is saved.
   def stop
     turns = CopilotRun::Turn.unfinished.where(copilot_thread: self)
@@ -55,17 +55,5 @@ class CopilotThread < ApplicationRecord
   # A collection or review saved in this thread, which a Copilot tool call can read from.
   def saved_set(id, types: [CopilotRun::Collection, CopilotRun::Review])
     copilot_runs.where(account: account, user: user, type: types.map(&:sti_name)).find(id)
-  end
-
-  def previous_history
-    copilot_messages
-      .where(message_type: %w[user assistant])
-      .order(created_at: :asc)
-      .map do |copilot_message|
-        {
-          content: copilot_message.message['content'],
-          role: copilot_message.message_type
-        }
-      end
   end
 end

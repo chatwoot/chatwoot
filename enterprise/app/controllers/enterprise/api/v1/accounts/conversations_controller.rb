@@ -22,10 +22,4 @@ module Enterprise::Api::V1::Accounts::ConversationsController
     permitted = permitted.merge(params.permit(:auto_translate_disabled)) if Current.account.auto_translate_enabled?
     permitted
   end
-
-  private
-
-  def copilot_params
-    params.permit(:previous_history, :message, :assistant_id)
-  end
 end

@@ -53,7 +53,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   def enqueue_copilot_response(copilot_message)
     return enqueue_reply_suggestion if reply_suggestion?
 
-    copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+    copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id])
   end
 
   def enqueue_reply_suggestion

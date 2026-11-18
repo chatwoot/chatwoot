@@ -9,7 +9,7 @@ RSpec.describe Captain::Copilot::TurnJob do
   let(:service) { instance_double(Captain::Copilot::TurnService) }
 
   before do
-    account.enable_features!('copilot_workflows')
+    account.enable_features!('captain_integration')
     allow(Captain::Copilot::TurnService).to receive(:new).and_return(service)
   end
 

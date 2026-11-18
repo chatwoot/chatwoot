@@ -141,14 +141,23 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
 
           message = thread.copilot_messages.last
           expect(message.message).to eq({ 'content' => valid_params[:message] })
+        end
 
-          expect(Captain::Copilot::ResponseJob).to have_been_enqueued.with(
-            assistant: assistant,
-            conversation_id: valid_params[:conversation_id],
-            user_id: agent.id,
-            copilot_thread_id: thread.id,
-            message: valid_params[:message]
-          )
+        it 'answers with a workflow turn without the old copilot_workflows flag' do
+          account.limits = { captain_responses: 2 }
+          account.custom_attributes = { captain_responses_usage: 0 }
+          account.save!
+
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: valid_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          thread = CopilotThread.last
+          turn = CopilotRun::Turn.find_by!(copilot_message: thread.copilot_messages.last)
+          expect(account.reload).not_to be_feature_enabled('copilot_workflows')
+          expect(turn).to have_attributes(user_id: agent.id, copilot_thread_id: thread.id, conversation_id: valid_params[:conversation_id])
+          expect(Captain::Copilot::TurnJob).to have_been_enqueued.with(turn.id)
         end
 
         it 'truncates the thread title but stores the full message when the message exceeds 255 characters' do
