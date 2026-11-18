@@ -268,6 +268,79 @@ RSpec.describe AutomationRules::ActionService do
       end
     end
 
+    describe '#perform with assign_agent_bot action and a bot that already got the message' do
+      let(:bot) { create(:agent_bot, account: account, outgoing_url: 'https://bot.example.com/hook') }
+      let!(:message) { create(:message, conversation: conversation, account: account, message_type: :incoming, content: 'I need help') }
+
+      before do
+        conversation.update!(assignee: agent)
+        rule.update!(actions: [{ action_name: 'assign_agent_bot', action_params: [bot.id] }])
+        allow(AgentBots::WebhookJob).to receive(:perform_later)
+      end
+
+      it 'does not resend the message when the active inbox bot already got it' do
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: bot)
+
+        described_class.new(rule, account, conversation, message: message).perform
+
+        expect(AgentBots::WebhookJob).not_to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args)
+      end
+
+      it 'sends the message when the inbox bot is inactive' do
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: bot, status: 'inactive')
+
+        described_class.new(rule, account, conversation, message: message).perform
+
+        expect(AgentBots::WebhookJob).to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args).once
+      end
+
+      it 'sends the message when the current ai assignee is not an agent bot with the same id' do
+        assistant = create(:captain_assistant, account: account, id: bot.id)
+        conversation.update!(ai_assignee: assistant, assignee: nil)
+
+        described_class.new(rule, account, conversation, message: message).perform
+
+        expect(AgentBots::WebhookJob).to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args).once
+      end
+    end
+
+    describe '#perform with assign_agent_bot action on a conversation_created rule' do
+      let(:bot) { create(:agent_bot, account: account, outgoing_url: 'https://bot.example.com/hook') }
+
+      before do
+        rule.update!(event_name: 'conversation_created', actions: [{ action_name: 'assign_agent_bot', action_params: [bot.id] }])
+        allow(AgentBots::WebhookJob).to receive(:perform_later)
+      end
+
+      it 'sends the first incoming message to the newly assigned bot' do
+        create(:message, conversation: conversation, account: account, message_type: :incoming, content: 'Hello')
+        create(:message, conversation: conversation, account: account, message_type: :incoming, content: 'Anyone there?')
+
+        described_class.new(rule, account, conversation).perform
+
+        expect(AgentBots::WebhookJob).to have_received(:perform_later).once.with(
+          'https://bot.example.com/hook', hash_including(event: 'message_created', content: 'Hello'),
+          :agent_bot_webhook, secret: bot.secret, delivery_id: instance_of(String)
+        )
+        expect(AgentBots::WebhookJob).not_to have_received(:perform_later).with(anything, hash_including(content: 'Anyone there?'), any_args)
+      end
+
+      it 'sends nothing when the conversation has no messages' do
+        described_class.new(rule, account, conversation).perform
+
+        expect(AgentBots::WebhookJob).not_to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args)
+      end
+
+      it 'does not resend the first message when the active inbox bot already got it' do
+        create(:message, conversation: conversation, account: account, message_type: :incoming, content: 'Hello')
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: bot)
+
+        described_class.new(rule, account, conversation).perform
+
+        expect(AgentBots::WebhookJob).not_to have_received(:perform_later).with(anything, hash_including(event: 'message_created'), any_args)
+      end
+    end
+
     describe '#perform with send_email_transcript action' do
       before do
         allow(account).to receive(:email_transcript_enabled?).and_return(true)
