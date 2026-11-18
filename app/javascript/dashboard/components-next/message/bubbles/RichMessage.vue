@@ -3,6 +3,8 @@ import { computed } from 'vue';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
 import AttachmentChips from '../chips/AttachmentChips.vue';
+import ProductCard from '../catalog/ProductCard.vue';
+import OrderCard from '../catalog/OrderCard.vue';
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import { useMessageContext } from '../provider.js';
 
@@ -11,6 +13,23 @@ const { contentAttributes, attachments } = useMessageContext();
 // content_attributes keys are deep-camelized by MessageList (useCamelCase), so the
 // rich payload arrives as { type, title, body, footer, buttons: [{ text, url, phone }] }.
 const rich = computed(() => contentAttributes.value?.rich ?? {});
+
+// A catalog product or order is a card of its own kind, drawn from its data and not
+// from the connector's English title and footer. An empty product still is one.
+const product = computed(() =>
+  rich.value.type === 'product' && rich.value.product
+    ? rich.value.product
+    : null
+);
+const order = computed(() =>
+  rich.value.type === 'order' && rich.value.order ? rich.value.order : null
+);
+// The product's photo arrives as the message's image once the connector delivers it.
+const productImage = computed(
+  () =>
+    attachments.value?.find(attachment => attachment.fileType === 'image') ??
+    null
+);
 
 const formattedBody = computed(() =>
   rich.value.body ? new MessageFormatter(rich.value.body).formattedMessage : ''
@@ -56,7 +75,9 @@ const buttons = computed(() => {
 
 <template>
   <BaseBubble class="px-4 py-3 text-sm" data-bubble-name="rich">
-    <div class="flex flex-col gap-2">
+    <ProductCard v-if="product" :product="product" :attachment="productImage" />
+    <OrderCard v-else-if="order" :order="order" :note="rich.body || ''" />
+    <div v-else class="flex flex-col gap-2">
       <AttachmentChips
         v-if="attachments?.length"
         :attachments="attachments"

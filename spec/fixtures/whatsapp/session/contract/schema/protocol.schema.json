@@ -179,12 +179,50 @@
       "additionalProperties": true
     },
 
+    "order": {
+      "type": "object",
+      "description": "An order placed from a business's catalog. Amounts are integers in thousandths of the currency's unit. items comes from WhatsApp's catalog API and is absent when it did not answer. An item's price_1000 is absent when its scale could not be proved against total_1000.",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": ["string", "null"], "description": "the order's title as WhatsApp carried it, the seller account's name. WhatsApp does not show it on the card" },
+        "status": { "type": ["string", "null"], "description": "WhatsApp's name, passed through: INQUIRY, ACCEPTED or DECLINED today" },
+        "surface": { "type": ["string", "null"], "description": "WhatsApp's name, passed through: CATALOG today" },
+        "item_count": { "type": ["integer", "null"], "minimum": 0 },
+        "total_1000": { "type": ["integer", "null"] },
+        "currency": { "type": ["string", "null"] },
+        "subtotal_1000": { "type": ["integer", "null"] },
+        "seller": { "description": "the seller account's address as the order names it, a number or a LID", "oneOf": [{ "$ref": "#/definitions/address" }, { "type": "null" }] },
+        "thumbnail": { "type": ["string", "null"], "description": "data: URI, at most 32 KiB" },
+        "items": {
+          "type": ["array", "null"],
+          "items": { "$ref": "#/definitions/order_item" }
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": true
+    },
+
+    "order_item": {
+      "type": "object",
+      "properties": {
+        "product_id": { "type": ["string", "null"] },
+        "name": { "type": "string" },
+        "quantity": { "type": "integer", "minimum": 0 },
+        "price_1000": { "type": ["integer", "null"] },
+        "currency": { "type": ["string", "null"] },
+        "variant": { "type": ["string", "null"] },
+        "image": { "type": ["string", "null"], "description": "the product's picture, a URL on WhatsApp's media host" }
+      },
+      "required": ["name", "quantity"],
+      "additionalProperties": true
+    },
+
     "content_rich": {
       "type": "object",
       "description": "Interactive or templated card (template, buttons, list, interactive). Carries the rendered parts as the dashboard shows them; the message preview text is derived from those parts, not sent separately.",
       "properties": {
         "type": { "const": "rich" },
-        "kind": { "type": ["string", "null"], "description": "template, interactive, buttons, list or flow" },
+        "kind": { "type": ["string", "null"], "description": "template, interactive, buttons, list, flow or order" },
         "title": { "type": ["string", "null"] },
         "body": { "type": ["string", "null"] },
         "footer": { "type": ["string", "null"] },
@@ -201,9 +239,17 @@
             "additionalProperties": true
           }
         },
+        "product": {
+          "description": "The catalog product a card of kind product is, the kind a product sent on its own arrives as. Present, possibly empty, on every such card (#426).",
+          "oneOf": [{ "$ref": "#/definitions/product" }, { "type": "null" }]
+        },
         "media": {
           "description": "Media in the header of the card, if any.",
           "oneOf": [{ "$ref": "#/definitions/content_media" }, { "type": "null" }]
+        },
+        "order": {
+          "description": "The catalog order a card of kind order is about. It travels inside the card, not as content of its own, because a client refuses a content type it does not know.",
+          "oneOf": [{ "$ref": "#/definitions/order" }, { "type": "null" }]
         }
       },
       "required": ["type"],
@@ -218,6 +264,25 @@
         "detail": { "type": "string", "minLength": 1 }
       },
       "required": ["type", "reason"],
+      "additionalProperties": true
+    },
+
+    "product": {
+      "type": "object",
+      "description": "A product from a business's catalog, as WhatsApp carries it in a message. Every field is what WhatsApp sent: one it left out is absent, never zero or a default. An empty object is a product WhatsApp sent nothing readable about, still shown as one (#426).",
+      "properties": {
+        "id": { "type": ["string", "null"] },
+        "title": { "type": ["string", "null"] },
+        "description": { "type": ["string", "null"] },
+        "price_1000": { "type": ["integer", "null"], "description": "in thousandths of the currency's unit" },
+        "sale_price_1000": { "type": ["integer", "null"], "description": "in thousandths of the currency's unit" },
+        "currency": { "type": ["string", "null"], "description": "ISO 4217 code, as WhatsApp sent it" },
+        "retailer_id": { "type": ["string", "null"], "description": "the business's own code for the product" },
+        "url": { "type": ["string", "null"], "description": "the product's page, when the business filled it in" },
+        "image_count": { "type": ["integer", "null"], "minimum": 0, "description": "how many pictures the product has in the catalog" },
+        "owner": { "description": "the account whose catalog the product is from", "oneOf": [{ "$ref": "#/definitions/address" }, { "type": "null" }] },
+        "thumbnail": { "type": ["string", "null"], "description": "inline preview of the product's picture, a data: URI" }
+      },
       "additionalProperties": true
     },
 
@@ -243,6 +308,7 @@
         "timestamp": { "$ref": "#/definitions/timestamp_ms" },
         "content": { "$ref": "#/definitions/content" },
         "quoted_id": { "type": ["string", "null"] },
+        "quoted_product": { "description": "the catalog product the message quotes, which is what a question asked from a business's catalog does: quoted_id then names no message. Present, possibly empty, whenever the quote is a product (#426)", "oneOf": [{ "$ref": "#/definitions/product" }, { "type": "null" }] },
         "mentions": { "type": "array", "items": { "$ref": "#/definitions/address" } },
         "referral": { "type": ["object", "null"], "description": "Click-to-WhatsApp ad context" },
         "entry_point": { "type": ["object", "null"] },

@@ -6,6 +6,16 @@
 #
 # Adding a language means adding fazer_ai.<locale>.yml. Nothing else changes.
 es:
+  whatsapp_catalog:
+    price: '%{number} %{unit}'
+    separator: ','
+    delimiter: '.'
+    product_unreadable: Mensaje con un producto del catálogo. Míralo en WhatsApp.
+    order_title: Pedido %{id}
+    item_count:
+      one: 1 artículo
+      other: '%{count} artículos'
+    estimated_total: '%{total} (total estimado)'
   internal_chat:
     default_category_name: Canales
     default_channel_name: General

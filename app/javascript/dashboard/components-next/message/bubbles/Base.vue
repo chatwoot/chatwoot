@@ -3,6 +3,7 @@ import { computed } from 'vue';
 
 import MessageMeta from '../MessageMeta.vue';
 import ReferralCard from './ReferralCard.vue';
+import QuotedProduct from '../catalog/QuotedProduct.vue';
 import CaptainGenerationDetails from '../CaptainGenerationDetails.vue';
 import TranslationToggle from '../TranslationToggle.vue';
 
@@ -153,6 +154,7 @@ const replyToPreview = computed(() => {
     ]"
   >
     <ReferralCard v-if="referral" :referral="referral" />
+    <QuotedProduct />
     <div
       v-if="inReplyTo"
       class="p-2 -mx-1 mb-2 rounded-lg cursor-pointer bg-n-alpha-black1"

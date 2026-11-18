@@ -247,7 +247,9 @@ class Whatsapp::Session::Inbound::MessageWriter
     case content_type
     when 'text' then convert_mentions(content.body)
     when 'media' then content.caption
-    when 'rich' then content.preview_text
+    # In the account's language: a catalog card's text is written from its data here, and
+    # this runs in Sidekiq, whose locale is the installation's default.
+    when 'rich' then I18n.with_locale(inbox.account.locale) { content.preview_text }
     end
   end
 

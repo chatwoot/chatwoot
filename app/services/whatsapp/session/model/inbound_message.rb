@@ -2,7 +2,7 @@
 # handler reads; the provider payload only survives in `raw`, which exists for the
 # rich-message parser and for debugging.
 class Whatsapp::Session::Model::InboundMessage < Data.define(
-  :id, :chat, :sender, :from_me, :timestamp, :content, :quoted_id, :mentions,
+  :id, :chat, :sender, :from_me, :timestamp, :content, :quoted_id, :quoted_product, :mentions,
   :referral, :entry_point, :client_ref, :ephemeral, :raw
 )
   include Whatsapp::Session::Model::Serializable
@@ -10,6 +10,7 @@ class Whatsapp::Session::Model::InboundMessage < Data.define(
   coerce chat: Whatsapp::Session::Model::Address,
          sender: Whatsapp::Session::Model::Party,
          content: Whatsapp::Session::Model::Content,
+         quoted_product: Whatsapp::Session::Model::Product,
          mentions: [Whatsapp::Session::Model::Address]
   defaults from_me: false
 

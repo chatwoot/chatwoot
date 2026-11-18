@@ -121,6 +121,18 @@
       "DOWNLOAD_ALL": "Descargar archivos del historial",
       "DOWNLOAD_ALL_REQUESTED": "Descargando los archivos del historial de esta conversación. Aparecerán a medida que lleguen.",
       "DOWNLOAD_ALL_ERROR": "No se pudieron solicitar los archivos del historial. Inténtalo de nuevo."
+    },
+    "CATALOG": {
+      "PRODUCT_LABEL": "Producto del catálogo",
+      "PRODUCT_UNREADABLE": "Mensaje con un producto del catálogo. Míralo en WhatsApp.",
+      "VIEW": "Ver",
+      "ORDER_LABEL": "Pedido",
+      "ITEM_COUNT": "{count} artículo | {count} artículos",
+      "ESTIMATED_TOTAL": "{total} (total estimado)",
+      "VIEW_ORDER": "Ver pedido",
+      "HIDE_ORDER": "Ocultar artículos",
+      "QUANTITY": "Cantidad: {quantity}",
+      "QUANTITY_PRICE": "Cantidad: {quantity} · {price}"
     }
   },
   "CONVERSATION_SIDEBAR": {

@@ -29,7 +29,7 @@ class Whatsapp::Session::Inbound::MessageAttributes
   end
 
   def to_h
-    origin.merge(body).compact
+    origin.merge(quote, body).compact
   end
 
   # A rich card with no text and no media header renders as an empty bubble, which is
@@ -79,7 +79,6 @@ class Whatsapp::Session::Inbound::MessageAttributes
       # rewriting it, both of which move what the contact answers to without moving who
       # wrote the message.
       external_author: author_identity,
-      in_reply_to_external_id: inbound.quoted_id.presence,
       referral: inbound.referral.presence,
       # Not the same statement as `external_created_at`, which every session message
       # carries: this one says the row was filed after the fact, which is what a report
@@ -90,6 +89,15 @@ class Whatsapp::Session::Inbound::MessageAttributes
       # Read off the level the importer writes it under, which is where that is decided.
       history_archive: (true if imported && Import::SilentWrite.archive?)
     }
+  end
+
+  # What the message quotes. A question asked from a catalog quotes a product, and its
+  # quoted_id (product_inquiry_<id>) names no message: following it would draw a "quoted
+  # message not found" box over every such question. The product, empty or not, is the quote.
+  def quote
+    return { quoted_product: inbound.quoted_product.to_h } if inbound.quoted_product
+
+    { in_reply_to_external_id: inbound.quoted_id.presence }
   end
 
   # What the row says about a body it does not have, and what a later fetch would need to

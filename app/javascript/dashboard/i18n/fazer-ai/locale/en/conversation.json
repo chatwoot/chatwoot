@@ -121,6 +121,18 @@
       "DOWNLOAD_ALL": "Download history files",
       "DOWNLOAD_ALL_REQUESTED": "Downloading the history files of this conversation. They will show up as they arrive.",
       "DOWNLOAD_ALL_ERROR": "Could not request the history files. Try again."
+    },
+    "CATALOG": {
+      "PRODUCT_LABEL": "Catalog product",
+      "PRODUCT_UNREADABLE": "Message with a catalog product. See it on WhatsApp.",
+      "VIEW": "View",
+      "ORDER_LABEL": "Order",
+      "ITEM_COUNT": "{count} item | {count} items",
+      "ESTIMATED_TOTAL": "{total} (estimated total)",
+      "VIEW_ORDER": "View order",
+      "HIDE_ORDER": "Hide items",
+      "QUANTITY": "Quantity: {quantity}",
+      "QUANTITY_PRICE": "Quantity: {quantity} · {price}"
     }
   },
   "CONVERSATION_SIDEBAR": {

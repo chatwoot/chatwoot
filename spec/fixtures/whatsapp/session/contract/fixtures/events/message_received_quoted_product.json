@@ -1,0 +1,44 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-00000000002b",
+  "type": "message.received",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 43,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "message": {
+      "id": "3EB0A1B2C3D4E5F6072B",
+      "chat": {
+        "kind": "lid",
+        "id": "182736451928374"
+      },
+      "sender": {
+        "phone": "5541999990000",
+        "lid": "182736451928374",
+        "push_name": "Ana Souza"
+      },
+      "from_me": false,
+      "timestamp": 1755440000123,
+      "content": {
+        "type": "text",
+        "body": "Qual o prazo de entrega desse?"
+      },
+      "quoted_id": "product_inquiry_3EB0A1B2C3D4E5F60700",
+      "quoted_product": {
+        "id": "70000000000000101",
+        "title": "Camiseta básica",
+        "description": "Algodão, tamanhos P a GG",
+        "price_1000": 59900,
+        "currency": "BRL",
+        "image_count": 1,
+        "owner": {
+          "kind": "lid",
+          "id": "918273645546372"
+        },
+        "thumbnail": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA=="
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+# escopo: repo github.com/fazer-ai/chatwoot
+# anterior: nenhuma
+# fazer-ai/chatwoot: preços fictícios dos specs de catálogo do WhatsApp (#996 e #953)
+spec/fixtures/whatsapp/session/catalog/* [valor]
+spec/services/whatsapp/session/inbound/handlers/message_received_catalog_spec.rb [valor]
+app/javascript/dashboard/components-next/message/catalog/specs/* [valor]

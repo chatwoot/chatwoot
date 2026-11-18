@@ -1,0 +1,66 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-00000000002b",
+  "type": "message.received",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 42,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "message": {
+      "id": "3EB0A1B2C3D4E5F6072B",
+      "chat": {
+        "kind": "phone",
+        "id": "5541999990000"
+      },
+      "sender": {
+        "phone": "5541999990000",
+        "lid": "182736451928374",
+        "push_name": "Ana Souza"
+      },
+      "from_me": false,
+      "timestamp": 1755440000123,
+      "content": {
+        "type": "rich",
+        "kind": "order",
+        "title": "2 items",
+        "body": "Pode entregar amanhã?",
+        "footer": "€25.00 (estimated total)",
+        "order": {
+          "id": "9847261538204715",
+          "title": "Pedido Loja Central",
+          "status": "INQUIRY",
+          "surface": "CATALOG",
+          "item_count": 2,
+          "total_1000": 25000,
+          "currency": "EUR",
+          "subtotal_1000": 25000,
+          "seller": {
+            "kind": "phone",
+            "id": "5541988887777"
+          },
+          "thumbnail": "data:image/jpeg;base64,/9j/4A==",
+          "items": [
+            {
+              "product_id": "7310825967412",
+              "name": "Camiseta",
+              "quantity": 1,
+              "price_1000": 10000,
+              "currency": "EUR",
+              "variant": "Tamanho: M",
+              "image": "https://example.invalid/catalog/camiseta.jpg"
+            },
+            {
+              "product_id": "7310825967413",
+              "name": "Caneca",
+              "quantity": 1,
+              "price_1000": 15000,
+              "currency": "EUR"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
