@@ -48,11 +48,11 @@ class Instagram::RefreshOauthTokenService
   # Makes an API request to refresh the long-lived token
   # @return [Hash] Response data containing new access_token and expires_in values
   # @raise [RuntimeError] If API request fails
-  def refresh_long_lived_token
+  def refresh_long_lived_token(expected_token)
     endpoint = 'https://graph.instagram.com/refresh_access_token'
     params = {
       grant_type: 'ig_refresh_token',
-      access_token: channel[:access_token]
+      access_token: expected_token
     }
 
     response = HTTParty.get(endpoint, query: params, headers: { 'Accept' => 'application/json' })
@@ -65,17 +65,24 @@ class Instagram::RefreshOauthTokenService
     JSON.parse(response.body)
   end
 
-  def update_channel_tokens(token_data)
-    channel.update!(
-      access_token: token_data['access_token'],
-      expires_at: Time.current + token_data['expires_in'].seconds
-    )
+  def update_channel_tokens(token_data, expected_token)
+    Channel::Instagram.transaction do
+      current_channel = Channel::Instagram.where(account_id: channel.account_id).lock.find(channel.id)
+      next unless current_channel.instagram_login? && current_channel[:access_token] == expected_token
+
+      current_channel.update!(
+        access_token: token_data['access_token'],
+        expires_at: Time.current + token_data['expires_in'].seconds,
+        updated_at: Time.current
+      )
+    end
   end
 
   # Attempts to refresh the token, returning either the new or existing token
   def attempt_token_refresh
-    refreshed_token_data = refresh_long_lived_token
-    update_channel_tokens(refreshed_token_data)
+    expected_token = channel[:access_token]
+    refreshed_token_data = refresh_long_lived_token(expected_token)
+    update_channel_tokens(refreshed_token_data, expected_token)
     channel.reload[:access_token]
   rescue StandardError => e
     Rails.logger.error("Token refresh failed: #{e.message}")

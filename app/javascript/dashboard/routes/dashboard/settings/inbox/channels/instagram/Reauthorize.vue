@@ -7,6 +7,10 @@ import instagramClient from 'dashboard/api/channel/instagramClient';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 
+const props = defineProps({
+  inbox: { type: Object, required: true },
+});
+
 const { t } = useI18n();
 
 const isRequestingAuthorization = ref(false);
@@ -14,7 +18,9 @@ const isRequestingAuthorization = ref(false);
 async function requestAuthorization() {
   try {
     isRequestingAuthorization.value = true;
-    const response = await instagramClient.generateAuthorization();
+    const response = await instagramClient.generateAuthorization({
+      inbox_id: props.inbox.id,
+    });
 
     const {
       data: { url },

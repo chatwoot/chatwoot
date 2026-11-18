@@ -26,10 +26,14 @@ export const shortcutKeys = binding =>
     binding.split('+').map(key => KEY_LABELS[key] ?? key.replace(/^Key/, ''))
   ).value.split(' ');
 
-const PATH_SCOPES = { reports: '/reports', settings: '/settings' };
+const AREA_PATTERN = /^\/app\/accounts\/\d+\/([^/?#]+)/;
 
-export const pathScopes = path =>
-  Object.keys(PATH_SCOPES).filter(scope => path?.includes(PATH_SCOPES[scope]));
+export const pathArea = path => path?.match(AREA_PATTERN)?.[1];
+
+export const pathScopes = path => {
+  const area = pathArea(path);
+  return area ? [area] : [];
+};
 
 export const commandPage = ({ id, title, section, icon, children }) => [
   { id, title, section, icon, page: true },
