@@ -5,8 +5,8 @@ class Voice::RingNextAgentJob < ApplicationJob
   queue_as :critical
 
   # Steps go on until the call stops ringing, or at the latest Twilio's default four-hour dial
-  # limit, never forever for a call whose end was never reported. Meta ends a WhatsApp ring itself
-  # after about a minute.
+  # limit, never forever for a call whose end was never reported. A WhatsApp ring whose end Meta
+  # never reports is ended after Meta's minute by Voice::RingingTimeoutJob, which stops its steps.
   MAX_RING_SECONDS = 4.hours.to_i
 
   def perform(call_id, step)

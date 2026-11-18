@@ -139,6 +139,23 @@ describe('WhatsappCallingPage', () => {
     expect(InboxesAPI.setCallRouting).not.toHaveBeenCalled();
   });
 
+  it('saves the permission message before the call settings, so its whole provider_config does not overwrite them', async () => {
+    const wrapper = mountPage();
+    await wrapper.find('#call-routing-sequential-52').setValue(true);
+    await wrapper.find('#call-permission-request-52').setValue('Can we call?');
+    await saveButton(wrapper).trigger('click');
+    await flushPromises();
+
+    const updateInboxOrder =
+      dispatch.mock.invocationCallOrder[
+        dispatch.mock.calls.findIndex(
+          ([action]) => action === 'inboxes/updateInbox'
+        )
+      ];
+    const [routingOrder] = InboxesAPI.setCallRouting.mock.invocationCallOrder;
+    expect(updateInboxOrder).toBeLessThan(routingOrder);
+  });
+
   it('turns WhatsApp calling off straight away', async () => {
     const wrapper = mountPage();
     // The first button turns calling off; the last saves the form
