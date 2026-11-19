@@ -76,6 +76,17 @@ describe('TagInput email lists', () => {
     ]);
   });
 
+  it('keeps a malformed whitespace-delimited list on Enter', async () => {
+    const wrapper = mountInput();
+    const input = wrapper.find('input');
+    await input.setValue('invalid second@example.com');
+    await input.trigger('keydown', { key: 'Enter' });
+    await flushPromises();
+
+    expect(wrapper.emitted('add')).toBeUndefined();
+    expect(input.element.value).toBe('invalid second@example.com');
+  });
+
   it('uses a semicolon keypress to finish an email tag', async () => {
     const wrapper = mountInput();
     await wrapper.find('input').setValue('first@example.com');
