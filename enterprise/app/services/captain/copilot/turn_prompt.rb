@@ -21,7 +21,8 @@ module Captain::Copilot::TurnPrompt
   end
 
   def account_message
-    { role: 'system', content: "Account ID #{@account.id}. If the agent's message has no clear language, answer in #{@account.locale_english_name}." }
+    { role: 'system', content: "Account ID #{@account.id}. Answer in the language of the agent's latest message. Only when that message " \
+                               "has no clear language, answer in #{@account.locale_english_name}." }
   end
 
   def viewed_conversation_message
