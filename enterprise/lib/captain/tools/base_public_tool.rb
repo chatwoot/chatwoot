@@ -1,6 +1,8 @@
 require 'agents'
 
 class Captain::Tools::BasePublicTool < Agents::Tool
+  NEWER_MESSAGE_ARRIVED = 'Tool skipped because a newer customer message arrived'.freeze
+
   # A tool class built at runtime needs a constant, or Class#name is nil and the LLM request gets an empty function name.
   # Registering a name again replaces the class an earlier build left there.
   def self.register_generated(namespace, class_name, tool_class)
@@ -15,9 +17,7 @@ class Captain::Tools::BasePublicTool < Agents::Tool
 
   def execute(tool_context, **params)
     return super if read_only?
-    if newer_customer_message_arrived?(tool_context.state)
-      return failure_result('Tool skipped because a newer customer message arrived', tool_context.state)
-    end
+    return failure_result(NEWER_MESSAGE_ARRIVED, tool_context.state) if newer_customer_message_arrived?(tool_context.state)
 
     super
   end

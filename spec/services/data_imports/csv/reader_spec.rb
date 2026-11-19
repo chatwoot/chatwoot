@@ -52,4 +52,24 @@ RSpec.describe DataImports::Csv::Reader do
       )
     end
   end
+
+  [nil, '', '   '].each do |marker|
+    context "when a rejected CSV has a blank format marker (#{marker.inspect})" do
+      let(:contents) do
+        CSV.generate do |csv|
+          csv << %w[identifier __chatwoot_csv_format]
+          csv << ["'+external-42", 'rejected-contacts-v1']
+          csv << ["'+external-43", marker]
+        end
+      end
+
+      it 'identifies the record and explains how to preserve the rejected-file format' do
+        expect { described_class.new(blob).each.to_a }.to raise_error(
+          CustomExceptions::DataImport::InvalidCsvError,
+          'Record 2 has a blank __chatwoot_csv_format value. Keep rejected-contacts-v1 in this column for every row. ' \
+          'Import new contacts in a separate CSV without this column.'
+        )
+      end
+    end
+  end
 end

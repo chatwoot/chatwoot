@@ -3,7 +3,7 @@ import { flushPromises, mount } from '@vue/test-utils';
 import { useRoute } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useCommandBar } from '@chatwoot/jumpbar';
-import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { COMMAND_BAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import CommandBar from '../CommandBar.vue';
 
 const track = vi.fn();
@@ -230,6 +230,22 @@ describe('CommandBar', () => {
     expect(ids()).toEqual(['parsed_date']);
   });
 
+  it('looks for snooze suggestions only on a snooze page with something typed', async () => {
+    await mountCommandBar();
+    bar.open();
+    expect(bar.isLoading.value).toBe(false);
+
+    bar.open({ page: 'appearance' });
+    bar.setQuery('dark');
+    expect(bar.isLoading.value).toBe(false);
+
+    bar.open({ page: 'snooze_conversation' });
+    expect(bar.isLoading.value).toBe(false);
+
+    bar.setQuery('tomorrow');
+    expect(bar.isLoading.value).toBe(true);
+  });
+
   it('adds remote results after the commands at the root', async () => {
     await mountCommandBar();
     bar.open({ query: 'sar' });
@@ -239,6 +255,16 @@ describe('CommandBar', () => {
     expect(ids().indexOf('goto')).toBeLessThan(
       ids().indexOf('remote_conversation')
     );
+  });
+
+  it('tracks opening the bar with the page it opened on', async () => {
+    await mountCommandBar();
+    bar.open({ page: 'snooze_conversation' });
+    await flushPromises();
+
+    expect(track).toHaveBeenCalledWith(COMMAND_BAR_EVENTS.OPENED, {
+      page: 'snooze_conversation',
+    });
   });
 
   it('tracks the selected command', async () => {
@@ -253,7 +279,7 @@ describe('CommandBar', () => {
       })
     );
 
-    expect(track).toHaveBeenCalledWith(GENERAL_EVENTS.COMMAND_BAR, {
+    expect(track).toHaveBeenCalledWith(COMMAND_BAR_EVENTS.COMMAND_SELECTED, {
       section: 'General',
       action: 'Go to inbox',
     });
