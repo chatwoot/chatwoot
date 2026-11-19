@@ -178,6 +178,50 @@ RSpec.describe 'Profile API', type: :request do
         expect(agent.reload.valid_password?('Test1234!')).to be true
       end
 
+      it 'signs out other sessions and keeps the current one when the password changes' do
+        current_headers = agent.create_new_auth_token
+        other_clients = travel(1.minute) { Array.new(2) { agent.create_new_auth_token['client'] } }
+        other_clients.each { |client| agent.user_sessions.create!(client_id: client, last_activity_at: Time.current) }
+
+        put '/api/v1/profile',
+            params: { profile: { current_password: 'Test123!', password: 'Test1234!', password_confirmation: 'Test1234!' } },
+            headers: current_headers,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+        expect(agent.tokens.keys).to eq([current_headers['client']])
+        expect(agent.user_sessions).to be_empty
+
+        get '/api/v1/profile', headers: current_headers, as: :json
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'signs out all sessions when the password changes through an access token' do
+        agent.create_new_auth_token
+
+        put '/api/v1/profile',
+            params: { profile: { current_password: 'Test123!', password: 'Test1234!', password_confirmation: 'Test1234!' } },
+            headers: { api_access_token: agent.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.reload.tokens).to be_empty
+      end
+
+      it 'keeps other sessions when the password is not changed' do
+        current_headers = agent.create_new_auth_token
+        other_client = agent.create_new_auth_token['client']
+
+        put '/api/v1/profile',
+            params: { profile: { name: 'test' } },
+            headers: current_headers,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.reload.tokens.keys).to contain_exactly(current_headers['client'], other_client)
+      end
+
       it 'does not reset the display name if updates the password' do
         display_name = agent.display_name
 

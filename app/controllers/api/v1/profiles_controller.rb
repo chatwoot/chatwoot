@@ -11,7 +11,7 @@ class Api::V1::ProfilesController < Api::BaseController
   def update
     return render_could_not_create_error('Invalid current password') unless current_password_verified?
 
-    @user.update!(password_params.except(:current_password)) if password_params[:password].present?
+    update_password! if password_params[:password].present?
 
     @user.assign_attributes(profile_params)
     @user.custom_attributes.merge!(custom_attributes_params)
@@ -59,6 +59,16 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def set_user
     @user = current_user
+  end
+
+  def update_password!
+    @user.update!(password_params.except(:current_password).merge(tokens: tokens_kept_after_password_change))
+  end
+
+  def tokens_kept_after_password_change
+    return {} if authenticate_by_access_token?
+
+    @user.tokens.slice(@token.client)
   end
 
   def current_password_verified?

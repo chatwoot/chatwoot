@@ -49,6 +49,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
     recoverable.reset_password_token = nil
     recoverable.confirmation_token = nil
     recoverable.reset_password_sent_at = nil
+    recoverable.tokens = {}
     recoverable.save!
     recoverable.confirm unless recoverable.confirmed? # confirm if user resets password without confirming anytime before
     true
