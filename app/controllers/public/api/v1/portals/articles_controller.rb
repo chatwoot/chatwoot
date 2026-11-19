@@ -22,6 +22,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def show
+    @is_internal_preview = @preview_article.present?
     set_locale_switch_urls
     @og_image_url = helpers.set_og_image_url(@portal.name, @article.title)
     @parsed_content = render_article_content(@article.content.to_s)
@@ -71,7 +72,10 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def set_article
-    @article = @portal.articles.not_archived.find_by!(slug: permitted_params[:article_slug])
+    articles = @portal.articles.where(slug: permitted_params[:article_slug])
+    @preview_article = articles.find_signed(permitted_params[:preview_token], purpose: :preview)
+    @article = articles.published.first || @preview_article
+    render_404 if @article.blank?
   end
 
   def set_locale_switch_urls
@@ -99,7 +103,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def permitted_params
-    params.permit(:slug, :category_slug, :locale, :id, :article_slug)
+    params.permit(:slug, :category_slug, :locale, :id, :article_slug, :preview_token)
   end
 
   def render_article_content(content)

@@ -11,7 +11,6 @@
 #  name              :string           not null
 #  oauth_credentials :jsonb
 #  status            :string           default("active"), not null
-#  tools_changed_at  :datetime
 #  url               :text             not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -69,13 +68,23 @@ class Captain::McpServer < ApplicationRecord
   validate :validate_token
 
   scope :enabled, -> { where(enabled: true) }
+  scope :for_enabled_accounts, -> { joins(:account).merge(Account.feature_captain_mcp_servers) }
+
+  # The servers Captain may use for an assistant: none while the account does not have MCP servers turned on
+  def self.enabled_for(assistant)
+    assistant.account.feature_enabled?(FEATURE_FLAG) ? assistant.mcp_servers.enabled : none
+  end
 
   # Returns the server an OAuth sign-in with this state started for, once. Every server shares one callback URL, so the
   # state is the only way to find the server, and a used state is deleted so a repeated callback finds nothing.
   def self.for_oauth_state(state)
     key = format(::Redis::RedisKeys::CAPTAIN_MCP_OAUTH_STATE, state: state.to_s)
-    server_id = ::Redis::Alfred.get(key)
-    ::Redis::Alfred.delete(key)
+    server_id = ::Redis::Alfred.with do |connection|
+      connection.multi do |transaction|
+        transaction.get(key)
+        transaction.del(key)
+      end.first
+    end
     find_by(id: server_id) if server_id
   end
 
@@ -87,6 +96,11 @@ class Captain::McpServer < ApplicationRecord
   # Approved tools Captain may use. A caller must still compare each digest with the live definition.
   def available_tools
     enabled? ? tools.where(enabled: true) : Captain::McpTool.none
+  end
+
+  # Scenarios list and reference these tools by their Captain name
+  def tool_metadata
+    available_tools.map { |tool| { id: tool.captain_name, title: tool.name, description: tool.description, mcp: true } }
   end
 
   # The two status changes after create write only when the value changes, with update_columns and not save:

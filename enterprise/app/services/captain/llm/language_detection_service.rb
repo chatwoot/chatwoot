@@ -7,9 +7,14 @@ class Captain::Llm::LanguageDetectionService < Captain::BaseTaskService
 
   def language
     response = perform
-    Rails.logger.warn("[AutoTranslate] language detection failed: #{response[:error]}") if response[:error]
+    @failed = response[:error].present?
+    Rails.logger.warn("[AutoTranslate] language detection failed: #{response[:error]}") if @failed
     code = response.dig(:message, 'language')
     code unless code.blank? || code == 'und'
+  end
+
+  def failed?
+    @failed
   end
 
   private

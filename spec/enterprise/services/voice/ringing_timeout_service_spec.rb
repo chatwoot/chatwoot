@@ -113,15 +113,6 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(call.reload.status).to eq('no_answer')
     end
 
-    it 'leaves a Twilio caller waiting on hold when the inbox does not end unanswered calls' do
-      call.update!(provider: :twilio, created_at: 5.minutes.ago)
-
-      described_class.new(call: call).perform
-
-      expect(call.reload.status).to eq('ringing')
-      expect(conference).not_to have_received(:terminate_call)
-    end
-
     it 'does not touch a call that was answered in the meantime' do
       call.update!(status: 'in_progress')
 
@@ -152,7 +143,7 @@ RSpec.describe Voice::RingingTimeoutService do
       allow(Twilio::REST::Client).to receive(:new).and_return(twilio_client)
       allow(twilio_call).to receive(:update) { |twiml:| sent_twiml << twiml }
       channel.update!(provider_config: channel.provider_config.merge(
-        'unanswered_calls_enabled' => true, 'unanswered_call_timeout_seconds' => 30, 'unanswered_call_message' => 'Nobody is available right now.'
+        'unanswered_call_timeout_seconds' => 30, 'unanswered_call_message' => 'Nobody is available right now.'
       ))
     end
 
@@ -247,12 +238,12 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(call).to be_ring_timeout_in_progress
     end
 
-    it 'leaves the caller waiting when the inbox does not end unanswered calls' do
+    it 'ends the ring for an inbox that had turned the old no-answer message off' do
       channel.update!(provider_config: channel.provider_config.merge('unanswered_calls_enabled' => false))
 
       expect(service.perform).to be_nil
-      expect(sent_twiml).to be_empty
-      expect(call.reload).to be_ringing
+      expect(sent_twiml).to be_present
+      expect(call.reload.status).to eq('no_answer')
     end
   end
 end

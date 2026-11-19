@@ -73,13 +73,21 @@ const ROUTE_META = {
   profile_settings_index: {
     permissions: ['administrator', 'agent', 'custom_role'],
   },
+  captain_assistants_responses_index: {
+    permissions: ['administrator', 'agent'],
+  },
+  captain_assistants_scenarios_index: { permissions: ['administrator'] },
+  captain_tools_index: {
+    featureFlag: 'captain_custom_tools',
+    permissions: ['administrator', 'agent'],
+  },
 };
 
 const DEFAULT_META = { permissions: ['administrator', 'agent'] };
 
 const ROUTE_PATHS = {
   settings_inbox_new: '/app/accounts/1/settings/inboxes/new',
-  campaigns_whatsapp_new: '/app/accounts/1/campaigns/whatsapp/new',
+  portals_index: '/app/accounts/1/portals/portals_settings_index',
 };
 
 describe('useGoToCommands', () => {
@@ -100,6 +108,9 @@ describe('useGoToCommands', () => {
         ],
         'teams/getTeams': [{ id: 3, name: 'Sales' }],
         'labels/getLabels': [{ id: 9, title: 'billing', color: '#ff0000' }],
+        'labels/getLabelsOnSidebar': [{ id: 9, title: 'billing' }],
+        'customViews/getConversationCustomViews': [{ id: 4, name: 'VIP' }],
+        'customViews/getContactCustomViews': [{ id: 5, name: 'Leads' }],
       },
     };
 
@@ -118,6 +129,9 @@ describe('useGoToCommands', () => {
         path: ROUTE_PATHS[name] ?? '',
         meta: ROUTE_META[name] || DEFAULT_META,
       })),
+      getRoutes: vi.fn(() =>
+        Object.entries(ROUTE_META).map(([name, meta]) => ({ name, meta }))
+      ),
     });
     usePolicy.mockReturnValue({
       isFeatureFlagEnabled: vi.fn(
@@ -258,19 +272,77 @@ describe('useGoToCommands', () => {
     );
   });
 
+  it('should offer folders, contact segments and contact labels as pages of jump targets', () => {
+    const { goToCommands } = useGoToCommands();
+    const byId = id => goToCommands.value.find(cmd => cmd.id === id);
+
+    expect(byId('goto_folder').page).toBe(true);
+    expect(byId('folder-4')).toEqual(
+      expect.objectContaining({ parent: 'goto_folder', title: 'VIP' })
+    );
+    expect(byId('segment-5')).toEqual(
+      expect.objectContaining({ parent: 'goto_segment', title: 'Leads' })
+    );
+    expect(byId('tagged-billing')).toEqual(
+      expect.objectContaining({ parent: 'goto_tagged_contacts' })
+    );
+
+    byId('segment-5').run();
+    expect(useRouter().push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'contacts_dashboard_segments_index',
+        params: expect.objectContaining({ segmentId: 5 }),
+      })
+    );
+  });
+
+  it('should offer a sub-page only when the page it lands on allows the user', () => {
+    userPermissions = ['agent'];
+    disabledFeatures = ['captain_custom_tools'];
+    const { goToCommands } = useGoToCommands();
+    const byId = id => goToCommands.value.find(cmd => cmd.id === id);
+
+    expect(byId('goto_captain_scenarios')).toBeUndefined();
+    expect(byId('goto_captain_tools')).toBeUndefined();
+
+    byId('goto_captain_faqs').run();
+    expect(useRouter().push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'captain_assistants_index',
+        params: expect.objectContaining({
+          navigationPath: 'captain_assistants_responses_index',
+        }),
+      })
+    );
+  });
+
+  it('should hide the sub-page the user is already on', () => {
+    useRoute.mockReturnValue({ name: 'captain_assistants_responses_index' });
+    const { goToCommands } = useGoToCommands();
+
+    const ids = goToCommands.value.map(cmd => cmd.id);
+    expect(ids).not.toContain('goto_captain_faqs');
+    expect(ids).toContain('goto_captain');
+  });
+
   it('should offer create shortcuts that lead to the new-record routes', () => {
     const { goToCommands } = useGoToCommands();
     const newInbox = goToCommands.value.find(cmd => cmd.id === 'new_inbox');
 
     expect(newInbox.scopes).toEqual(['settings']);
-    const newCampaign = goToCommands.value.find(
-      cmd => cmd.id === 'new_campaign'
-    );
-    expect(newCampaign.scopes).toEqual([]);
     newInbox.run();
     expect(useRouter().push).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'settings_inbox_new' })
     );
+  });
+
+  it('should tag a destination with the area it leads to', () => {
+    const { goToCommands } = useGoToCommands();
+    const helpCenterSettings = goToCommands.value.find(
+      cmd => cmd.id === 'goto_help_center_settings'
+    );
+
+    expect(helpCenterSettings.scopes).toEqual(['portals']);
   });
 
   it('should show the keyboard shortcut of pages that have one', () => {
