@@ -13,8 +13,11 @@ class StoreCaptainResponseEmbeddingsInRow < ActiveRecord::Migration[8.0]
 
   def down
     change_embedding_storage('EXTERNAL')
+    # Building an IVFFlat index over every embedding takes far longer than the default statement timeout.
+    execute 'SET statement_timeout = 0'
     add_index :captain_assistant_responses, :embedding, using: :ivfflat, opclass: :vector_l2_ops, name: INDEX_NAME,
                                                         algorithm: :concurrently
+    execute 'RESET statement_timeout'
   end
 
   private
