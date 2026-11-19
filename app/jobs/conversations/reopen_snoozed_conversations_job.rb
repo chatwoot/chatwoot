@@ -3,29 +3,36 @@ class Conversations::ReopenSnoozedConversationsJob < ApplicationJob
 
   MAX_PROCESS_LIMIT = 500
   LOCK_TIMEOUT = 10.minutes
+  MAX_EXECUTION_TIME = 8.minutes
 
   def perform(limit = MAX_PROCESS_LIMIT)
     lock_manager = Redis::LockManager.new
     return unless lock_manager.lock(Redis::Alfred::REOPEN_SNOOZED_CONVERSATIONS_MUTEX, LOCK_TIMEOUT)
 
+    start_time = Time.current
     should_re_enqueue = false
 
     begin
-      reopened_count = 0
+      batch = snoozed_conversations.order(:snoozed_until).limit(limit).to_a
+      timed_out = false
 
-      snoozed_conversations.order(:snoozed_until).limit(limit).each do |conversation|
+      batch.each do |conversation|
+        if Time.current - start_time >= MAX_EXECUTION_TIME
+          timed_out = true
+          break
+        end
+
         conversation.with_lock do
           conversation.reload
           next unless conversation.snoozed? && conversation.snoozed_until.present? && conversation.snoozed_until <= Time.current
 
           conversation.open!
-          reopened_count += 1
         end
       end
 
-      should_re_enqueue = reopened_count >= limit && snoozed_conversations.exists?
+      should_re_enqueue = (batch.size >= limit || timed_out) && snoozed_conversations.exists?
     ensure
-      lock_manager.unlock(Redis::Alfred::REOPEN_SNOOZED_CONVERSATIONS_MUTEX)
+      lock_manager.unlock(Redis::Alfred::REOPEN_SNOOZED_CONVERSATIONS_MUTEX) if Time.current - start_time < LOCK_TIMEOUT
     end
 
     self.class.perform_later(limit) if should_re_enqueue

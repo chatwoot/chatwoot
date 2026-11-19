@@ -82,5 +82,22 @@ RSpec.describe Conversations::ReopenSnoozedConversationsJob do
 
       described_class.perform_now(1)
     end
+
+    it 're-enqueues continuation when a full batch has a concurrently skipped conversation' do
+      allow(snoozed_till_4_days_ago).to receive(:snoozed?).and_return(false)
+
+      expect do
+        described_class.perform_now(1)
+      end.to have_enqueued_job(described_class).with(1).on_queue('low')
+    end
+
+    it 'stops processing and re-enqueues when execution time exceeds MAX_EXECUTION_TIME' do
+      start_time = Time.zone.now
+      allow(Time).to receive(:current).and_return(start_time, start_time + 9.minutes)
+
+      expect do
+        described_class.perform_now(500)
+      end.to have_enqueued_job(described_class).with(500).on_queue('low')
+    end
   end
 end
