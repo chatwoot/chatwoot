@@ -74,17 +74,17 @@ RSpec.describe Whatsapp::HealthService do
     }
   end
 
-  it 'uses the configured base URL or the default without a trailing slash' do
-    expected_base_uri = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com').delete_suffix('/')
-
-    expect(described_class::BASE_URI).to eq(expected_base_uri)
-  end
-
   before do
     stub_request(:get, %r{\A#{Regexp.escape(base_uri)}/v24\.0/test_phone_number_id\?})
       .to_return(status: 200, body: phone_health_response.to_json, headers: { 'Content-Type' => 'application/json' })
     stub_request(:get, %r{\A#{Regexp.escape(base_uri)}/v24\.0/test_waba_id\?})
       .to_return(status: 200, body: business_account_response.to_json, headers: { 'Content-Type' => 'application/json' })
+  end
+
+  it 'uses the configured base URL or the default without a trailing slash' do
+    expected_base_uri = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com').delete_suffix('/')
+
+    expect(described_class::BASE_URI).to eq(expected_base_uri)
   end
 
   describe '#fetch_health_status' do
@@ -128,7 +128,7 @@ RSpec.describe Whatsapp::HealthService do
     it 'fetches the business profile only when requested' do
       profile_request = stub_request(
         :get,
-        %r{\A#{Regexp.escape(Whatsapp::BusinessProfileService::BASE_URI)}/v24\.0/test_phone_number_id/whatsapp_business_profile\?}
+        %r{\A#{Regexp.escape(Whatsapp::BusinessProfileService::BASE_URI)}/v24\.0/test_phone_number_id/whatsapp_business_profile\?}o
       ).to_return(status: 200, body: business_profile_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
       result = service.fetch_health_status(include_business_profile: true)

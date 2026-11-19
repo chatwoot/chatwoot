@@ -8,16 +8,16 @@ describe Whatsapp::FacebookApiClient do
   let(:app_id) { 'test_app_id' }
   let(:app_secret) { 'test_app_secret' }
 
-  it 'uses the configured base URL or the default without a trailing slash' do
-    expected_base_uri = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com').delete_suffix('/')
-
-    expect(described_class::BASE_URI).to eq(expected_base_uri)
-  end
-
   before do
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v22.0').and_return(api_version)
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_ID', '').and_return(app_id)
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_SECRET', '').and_return(app_secret)
+  end
+
+  it 'uses the configured base URL or the default without a trailing slash' do
+    expected_base_uri = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com').delete_suffix('/')
+
+    expect(described_class::BASE_URI).to eq(expected_base_uri)
   end
 
   describe '#exchange_code_for_token' do
