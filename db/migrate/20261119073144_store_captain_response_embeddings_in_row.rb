@@ -1,0 +1,30 @@
+class StoreCaptainResponseEmbeddingsInRow < ActiveRecord::Migration[8.0]
+  disable_ddl_transaction!
+
+  INDEX_NAME = 'vector_idx_knowledge_entries_embedding'.freeze
+
+  # FAQ search reads every embedding of an assistant. Stored out of row in TOAST, each one costs about five pages;
+  # stored in the row, it costs one. Existing rows move when Migration::MoveCaptainResponseEmbeddingsInRowJob rewrites them.
+  def up
+    # This index uses L2 distance, but FAQ search orders by cosine distance, so Postgres never uses it.
+    remove_index :captain_assistant_responses, name: INDEX_NAME, algorithm: :concurrently, if_exists: true
+    change_embedding_storage('PLAIN')
+  end
+
+  def down
+    change_embedding_storage('EXTERNAL')
+    add_index :captain_assistant_responses, :embedding, using: :ivfflat, opclass: :vector_l2_ops, name: INDEX_NAME,
+                                                        algorithm: :concurrently
+  end
+
+  private
+
+  # Rails has no API for column storage. SET STORAGE only changes the catalog, but it takes an ACCESS EXCLUSIVE lock,
+  # so the short lock timeout stops it from queueing behind a long query and blocking FAQ searches. Rerun it if it times out.
+  def change_embedding_storage(storage)
+    transaction do
+      execute "SET LOCAL lock_timeout = '5s'"
+      execute "ALTER TABLE captain_assistant_responses ALTER COLUMN embedding SET STORAGE #{storage}"
+    end
+  end
+end
