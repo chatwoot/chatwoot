@@ -9,6 +9,9 @@ class Email::SendOnEmailService < Base::SendOnChannelService
     return unless message.email_notifiable_message?
 
     reply_mail = ConversationReplyMailer.with(account: message.account).email_reply(message).deliver_now
+    # ApplicationMailer rescues SMTP exceptions, so deliver_now returns the exception instead of the mail
+    raise reply_mail if reply_mail.is_a?(Exception)
+
     Rails.logger.info("Email message #{message.id} sent with source_id: #{reply_mail.message_id}")
     message.update(source_id: reply_mail.message_id)
   rescue StandardError => e

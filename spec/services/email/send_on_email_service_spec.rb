@@ -110,6 +110,30 @@ describe Email::SendOnEmailService do
       end
     end
 
+    context 'when the mailer swallows an SMTP exception' do
+      let(:smtp_error) { Net::SMTPSyntaxError.new('501 Syntax error in parameters or arguments') }
+      let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: true) }
+
+      before do
+        allow(mailer_context).to receive(:email_reply).with(message).and_return(delivery)
+        allow(delivery).to receive(:deliver_now).and_return(smtp_error)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+      end
+
+      it 'captures the original SMTP exception' do
+        expect(ChatwootExceptionTracker).to receive(:new).with(smtp_error, account: message.account)
+
+        service.perform
+      end
+
+      it 'stores the original SMTP error on the message' do
+        service.perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq('501 Syntax error in parameters or arguments')
+      end
+    end
+
     context 'when an error occurs' do
       let(:error_message) { 'SMTP connection failed' }
       let(:error) { StandardError.new(error_message) }
