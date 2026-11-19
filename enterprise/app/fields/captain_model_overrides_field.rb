@@ -40,7 +40,7 @@ class CaptainModelOverridesField < Administrate::Field::Base
   def default_model_id(feature_key)
     return Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL if feature_key == 'assistant' && resource.feature_enabled?('captain_integration')
 
-    Llm::Models.default_model_for(feature_key)
+    Llm::Models.default_model_for(feature_key, account: resource)
   end
 
   def model_options(feature_key)
