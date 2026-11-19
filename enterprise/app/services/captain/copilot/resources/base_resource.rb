@@ -18,7 +18,8 @@ class Captain::Copilot::Resources::BaseResource
   # newest is only for a number the agent states, e.g. "the last 20 conversations". A generic limit let the model cap
   # selections the agent asked for in full, so without newest Ruby selects everything up to MAX_SELECTION.
   COMMON_FILTERS = {
-    since: { type: 'string', format: 'date-time' }, before: { type: 'string', format: 'date-time' },
+    since: { type: 'string', anyOf: [{ format: 'date-time' }, { format: 'date' }] },
+    before: { type: 'string', anyOf: [{ format: 'date-time' }, { format: 'date' }] },
     newest: { type: 'integer', minimum: 1, maximum: CopilotRun::MAX_SELECTION, description: 'The number of records to select by date_field' },
     oldest_first: { type: 'boolean', description: 'Select and review the oldest records by date_field first' },
     sample: { type: 'integer', minimum: 1, maximum: CopilotRun::MAX_SELECTION, description: 'Select this many records spread evenly by date_field' }
@@ -167,16 +168,23 @@ class Captain::Copilot::Resources::BaseResource
     ids.filter_map { |id| found[id] && row(found[id]) }
   end
 
+  # The query runs at as_of, so a before after it, such as the end of the current week, stops at as_of.
   def date_range(filters, as_of)
-    since = Time.iso8601(filters['since']) if filters['since']
-    before = filters['before'] ? Time.iso8601(filters['before']) : as_of
+    since = time_bound(filters['since']) if filters['since']
+    before = filters['before'] ? [time_bound(filters['before']), as_of].min : as_of
     raise ArgumentError, 'since must be earlier than before' if since && since >= before
-    raise ArgumentError, 'before cannot be in the future' if before > as_of
 
     [since, before]
   end
 
   private
+
+  # A date without a time starts that day in the account's reporting time zone, as get_report reads dates.
+  def time_bound(value)
+    return Time.iso8601(value) if value.upcase.include?('T')
+
+    Date.iso8601(value).in_time_zone(@account.report_time_zone)
+  end
 
   def linked(set)
     path = self.class.sources[set.resource]
