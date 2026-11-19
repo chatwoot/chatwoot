@@ -2,13 +2,15 @@
 #
 # Table name: channel_sms
 #
-#  id              :bigint           not null, primary key
-#  phone_number    :string           not null
-#  provider        :string           default("default")
-#  provider_config :jsonb
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :integer          not null
+#  id                     :bigint           not null, primary key
+#  callback_auth_enforced :boolean          default(TRUE), not null
+#  phone_number           :string           not null
+#  provider               :string           default("default")
+#  provider_config        :jsonb
+#  secret                 :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :integer          not null
 #
 # Indexes
 #
@@ -17,15 +19,23 @@
 
 class Channel::Sms < ApplicationRecord
   include Channelable
+  include WebhookSecretable
 
   self.table_name = 'channel_sms'
-  EDITABLE_ATTRS = [:phone_number, { provider_config: {} }].freeze
+  EDITABLE_ATTRS = [:phone_number, :callback_auth_enforced, { provider_config: {} }].freeze
   CONFIG_KEYS = %w[account_id application_id api_key api_secret client_id client_secret].freeze
   OAUTH_REQUIRED_KEYS = %w[account_id application_id client_id client_secret].freeze
   LEGACY_REQUIRED_KEYS = %w[account_id application_id api_key api_secret].freeze
+  CALLBACK_USERNAME = 'chatwoot'.freeze
 
   validates :phone_number, presence: true, uniqueness: true
+
   validate :validate_provider_config
+
+  scope :on_bandwidth_application, lambda { |application_id|
+    application_id_field = Arel::Nodes::InfixOperation.new('->>', arel_table[:provider_config], Arel::Nodes.build_quoted('application_id'))
+    where(application_id_field.eq(application_id))
+  }
 
   def name
     'Sms'
@@ -56,6 +66,22 @@ class Channel::Sms < ApplicationRecord
     return { headers: authorization_headers } if oauth?
 
     { http_basic_authentication: provider_config.values_at('api_key', 'api_secret') }
+  end
+
+  def bandwidth_application_id
+    provider_config['application_id'].presence if provider_config.is_a?(Hash)
+  end
+
+  def shares_bandwidth_application?(other)
+    account_id == other.account_id && bandwidth_application_id.present? &&
+      bandwidth_application_id == other.bandwidth_application_id
+  end
+
+  def valid_callback_credentials?(username, password)
+    return false if secret.blank?
+
+    ActiveSupport::SecurityUtils.secure_compare(username.to_s, CALLBACK_USERNAME) &
+      ActiveSupport::SecurityUtils.secure_compare(password.to_s, secret)
   end
 
   private

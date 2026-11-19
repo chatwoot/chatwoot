@@ -76,6 +76,21 @@ class AccountSamlSettings < ApplicationRecord
     restore_attributes
   end
 
+  def trusted_by_accounts_of?(user)
+    user.accounts.where.not(id: account_id).includes(:saml_settings).all? do |other_account|
+      other_account.feature_enabled?('saml') && other_account.saml_settings&.trusts_identity_provider_of?(self)
+    end
+  end
+
+  def trusts_identity_provider_of?(other)
+    saml_enabled? && idp_entity_id == other.idp_entity_id &&
+      (other.certificate_fingerprints - certificate_fingerprints).empty?
+  end
+
+  def certificate_fingerprints
+    parsed_certificates.map { |cert| OpenSSL::Digest::SHA256.hexdigest(cert.to_der) }
+  end
+
   # Reads the metadata again right away, for the refresh button in the settings form
   def refresh_metadata
     if metadata_url.blank?

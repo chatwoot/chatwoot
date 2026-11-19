@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_11_031108) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_16_211055) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -686,12 +686,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_11_031108) do
 
   create_table "channel_instagram", force: :cascade do |t|
     t.string "access_token", null: false
-    t.datetime "expires_at", null: false
+    t.datetime "expires_at"
     t.integer "account_id", null: false
     t.string "instagram_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "provider_name"
+    t.string "auth_type", default: "instagram_login", null: false
+    t.string "configuration_id"
     t.index ["instagram_id"], name: "index_channel_instagram_on_instagram_id", unique: true
   end
 
@@ -712,6 +714,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_11_031108) do
     t.jsonb "provider_config", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "secret"
+    t.boolean "callback_auth_enforced", default: true, null: false
     t.index ["phone_number"], name: "index_channel_sms_on_phone_number", unique: true
   end
 
@@ -832,6 +836,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_11_031108) do
     t.boolean "hmac_verified", default: false
     t.string "pubsub_token"
     t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
+    t.index ["contact_id", "inbox_id"], name: "index_contact_inboxes_on_contact_id_and_inbox_id"
     t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
     t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
     t.index ["pubsub_token"], name: "index_contact_inboxes_on_pubsub_token", unique: true
@@ -1262,7 +1267,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_11_031108) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id", "id"], name: "index_data_exports_on_account_id_and_id"
-    t.index ["account_id"], name: "index_data_exports_on_account_id"
     t.index ["completed_at"], name: "index_data_exports_on_unexpired_completion", where: "(artifacts_expired_at IS NULL)"
     t.index ["initiated_by_id"], name: "index_data_exports_on_initiated_by_id"
   end

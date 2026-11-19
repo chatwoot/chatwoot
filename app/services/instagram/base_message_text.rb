@@ -49,13 +49,15 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
   end
 
   def unsend_message
-    message_to_delete = @inbox.messages.find_by(
-      source_id: @messaging[:message][:mid]
-    )
+    message_to_delete = find_message_by_source_id(@messaging[:message][:mid])
     return if message_to_delete.blank?
 
     message_to_delete.attachments.destroy_all
     message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
+  end
+
+  def find_message_by_source_id(source_id)
+    @inbox.messages.find_by(source_id: source_id)
   end
 
   # Methods to be implemented by subclasses

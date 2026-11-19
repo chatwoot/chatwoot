@@ -397,6 +397,16 @@ class Rack::Attack
     "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
   end
 
+  throttle('/api/v1/accounts/:account_id/conversations/user',
+           limit: ENV.fetch('RATE_LIMIT_CONVERSATIONS_LIST', '1000').to_i, period: 1.minute) do |req|
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/conversations\z}.match(req.path_without_extensions)
+    next unless match_data.present? && req.get?
+
+    user_identifier = req.api_user_identifier
+
+    "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
+  end
+
   ## ----------------------------------------------- ##
 end
 
