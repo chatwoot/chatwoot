@@ -41,7 +41,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
   let!(:conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
 
   before do
-    stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
+    stub_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png').to_return(
       status: 200,
       body: File.read('spec/assets/sample.png'),
       headers: {}
@@ -144,6 +144,47 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
         expect(conversation.messages.last.attachments).to be_any
+      end
+
+      it 'sends the hook token when downloading from the Slack file host' do
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        builder.perform
+
+        expect(
+          a_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png')
+            .with(headers: { 'Authorization' => "Bearer #{hook.access_token}" })
+        ).to have_been_made.once
+      end
+
+      [
+        'https://files.example.com/sample.png',
+        'https://files.slack.com.example.com/sample.png',
+        'http://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png',
+        'https://files.slack.com:8443/files-pri/TLST3048H-F0000000001/sample.png',
+        'https://user@files.slack.com/files-pri/TLST3048H-F0000000001/sample.png',
+        'not a url'
+      ].each do |url|
+        it "skips the attachment without fetching for #{url}" do
+          message_with_attachments[:event][:files][0][:url_private] = url
+          builder = described_class.new(message_with_attachments)
+          allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+          expect { builder.perform }.to change(conversation.messages, :count).by(1)
+          expect(conversation.messages.last.attachments).to be_empty
+          expect(a_request(:any, /.*/)).not_to have_been_made
+        end
+      end
+
+      it 'skips the attachment when the Slack file host redirects' do
+        stub_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png')
+          .to_return(status: 302, headers: { 'Location' => 'https://files.example.com/sample.png' })
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.to change(conversation.messages, :count).by(1)
+        expect(conversation.messages.last.attachments).to be_empty
+        expect(a_request(:get, 'https://files.example.com/sample.png')).not_to have_been_made
       end
 
       it 'ignore message if it is postback of CW attachment message' do
