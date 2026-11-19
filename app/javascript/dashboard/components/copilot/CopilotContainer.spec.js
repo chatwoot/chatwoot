@@ -10,16 +10,17 @@ const testState = vi.hoisted(() => ({
   getThreads: vi.fn(),
   refs: {},
   route: {},
+  router: { push: vi.fn(), replace: vi.fn(), back: vi.fn() },
   uiSettings: null,
   updateUISettings: vi.fn(),
 }));
 
 vi.mock('vue-router', async () => {
   const { reactive } = await import('vue');
-  const route = reactive({ path: '/app/accounts/1/conversations/1' });
+  const route = reactive({ name: 'home', params: {} });
   testState.route = route;
 
-  return { useRoute: () => route };
+  return { useRoute: () => route, useRouter: () => testState.router };
 });
 vi.mock('dashboard/composables', () => ({
   useAlert: vi.fn(),
@@ -96,6 +97,7 @@ const mountComponent = () =>
             'selectThread',
             'loadMoreThreads',
             'toggleExpand',
+            'close',
           ],
           template: '<div />',
         },
@@ -113,7 +115,10 @@ describe('CopilotContainer', () => {
     });
     testState.uiSettings.value = { is_copilot_panel_open: true };
     testState.updateUISettings.mockReset();
-    testState.route.path = '/app/accounts/1/conversations/1';
+    testState.route.name = 'home';
+    testState.route.params = {};
+    Object.values(testState.router).forEach(navigate => navigate.mockReset());
+    window.history.replaceState(null, '');
     testState.refs.getSelectedChat.value = { id: 1 };
     testState.refs.getCurrentAccountId.value = 1;
     testState.refs['accounts/isFeatureEnabledonAccount'].value = (
@@ -140,22 +145,119 @@ describe('CopilotContainer', () => {
     });
   });
 
-  it('returns an expanded panel to its normal width when another page opens', async () => {
+  it('opens its own page from the expand button', async () => {
     const wrapper = mountComponent();
     await flushPromises();
     const copilot = wrapper.findComponent({ name: 'Copilot' });
+    expect(copilot.props('isExpanded')).toBe(false);
 
     copilot.vm.$emit('toggleExpand');
-    await nextTick();
-    expect(copilot.props('isExpanded')).toBe(true);
 
-    testState.route.path = '/app/accounts/1/conversations/2';
-    await nextTick();
-
-    expect(copilot.props('isExpanded')).toBe(false);
+    expect(testState.router.push).toHaveBeenCalledWith({
+      name: 'copilot_index',
+      params: { threadId: '' },
+    });
   });
 
-  it('starts a new expanded chat for a prompt picked outside the panel', async () => {
+  it('takes the open chat along when it expands', async () => {
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+    copilot.vm.$emit('selectThread', { id: 42 });
+    await flushPromises();
+
+    copilot.vm.$emit('toggleExpand');
+
+    expect(testState.router.push).toHaveBeenCalledWith({
+      name: 'copilot_index',
+      params: { threadId: 42 },
+    });
+  });
+
+  it('opens the chat named in the address of its page', async () => {
+    testState.route.name = 'copilot_index';
+    testState.route.params = { threadId: '42' };
+
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    expect(testState.dispatch).toHaveBeenCalledWith(
+      'copilotMessages/fetchThread',
+      { threadId: 42 }
+    );
+    expect(
+      wrapper.findComponent({ name: 'Copilot' }).props('selectedThreadId')
+    ).toBe(42);
+  });
+
+  it('puts a new chat in the address of its page', async () => {
+    testState.route.name = 'copilot_index';
+    testState.dispatch.mockImplementation(action =>
+      action === 'copilotThreads/create'
+        ? Promise.resolve({ id: 99 })
+        : Promise.resolve()
+    );
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    await wrapper.findComponent({ name: 'Copilot' }).props('onSendMessage')(
+      'New question'
+    );
+
+    expect(testState.router.replace).toHaveBeenCalledWith({
+      name: 'copilot_index',
+      params: { threadId: 99 },
+    });
+  });
+
+  it('shows Copilot full screen on its page, even with the panel closed', async () => {
+    testState.uiSettings.value = { is_copilot_panel_open: false };
+    testState.route.name = 'copilot_index';
+
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    expect(wrapper.findComponent({ name: 'Copilot' }).props('isExpanded')).toBe(
+      true
+    );
+  });
+
+  it('returns beside the page the person came from when it shrinks', async () => {
+    testState.route.name = 'copilot_index';
+    window.history.replaceState({ back: '/app/accounts/1/dashboard' }, '');
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    wrapper.findComponent({ name: 'Copilot' }).vm.$emit('toggleExpand');
+
+    expect(testState.updateUISettings).toHaveBeenCalledWith({
+      is_contact_sidebar_open: false,
+      is_copilot_panel_open: true,
+    });
+    expect(testState.router.back).toHaveBeenCalled();
+  });
+
+  it('goes to the conversations when its page is closed with no page to return to', async () => {
+    testState.route.name = 'copilot_index';
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    wrapper.findComponent({ name: 'Copilot' }).vm.$emit('close');
+
+    expect(testState.router.replace).toHaveBeenCalledWith({ name: 'home' });
+  });
+
+  it('stays on the page it is beside when the panel is closed', async () => {
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    wrapper.findComponent({ name: 'Copilot' }).vm.$emit('close');
+
+    expect(testState.router.back).not.toHaveBeenCalled();
+    expect(testState.router.replace).not.toHaveBeenCalled();
+  });
+
+  it('starts a new chat on its own page for a question asked outside the panel', async () => {
     const thread = { id: 42, title: 'Older question', assistant: { id: 7 } };
     testState.getThreads.mockResolvedValue({
       data: { payload: [thread], meta: { total_count: 1, page: 1 } },
@@ -180,7 +282,9 @@ describe('CopilotContainer', () => {
       message: 'Picked prompt',
     });
     expect(copilot.props('selectedThreadId')).toBe(99);
-    expect(copilot.props('isExpanded')).toBe(true);
+    expect(testState.router.push).toHaveBeenCalledWith({
+      name: 'copilot_index',
+    });
     expect(testState.track).toHaveBeenCalledWith('Copilot: Sent a message');
     wrapper.unmount();
   });

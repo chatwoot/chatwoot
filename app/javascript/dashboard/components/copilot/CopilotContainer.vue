@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useStore } from 'dashboard/composables/store';
@@ -20,6 +20,7 @@ import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 const { uiSettings, updateUISettings } = useUISettings();
 const { isEnterprise } = useConfig();
 const { width: windowWidth } = useWindowSize();
@@ -116,11 +117,21 @@ const setAssistant = async assistant => {
   });
 };
 
+const isExpanded = computed(() => route.name === 'copilot_index');
+
+const copilotPage = () => ({
+  name: 'copilot_index',
+  params: { threadId: selectedCopilotThreadId.value || '' },
+});
+watch(selectedCopilotThreadId, () => {
+  if (isExpanded.value) router.replace(copilotPage());
+});
+
 const shouldShowCopilotPanel = computed(() => {
   const { is_copilot_panel_open: isCopilotPanelOpen } = uiSettings.value;
   return (
     isCopilotAvailable.value &&
-    isCopilotPanelOpen &&
+    (isCopilotPanelOpen || isExpanded.value) &&
     !uiFlags.value.fetchingList
   );
 });
@@ -136,20 +147,24 @@ watch(
   { immediate: true }
 );
 
-// Expanded, the panel covers the conversation area. It opens at its normal width every time. It stays below the
-// sidebar's z-40, so the sidebar menus open over it.
-const isExpanded = ref(false);
-watch(shouldShowCopilotPanel, isOpen => {
-  if (!isOpen) isExpanded.value = false;
-});
-// A page opened while expanded, from a Copilot link or the sidebar, would load behind the panel, so the panel returns
-// to its normal width beside it.
-watch(
-  () => route.path,
-  () => {
-    isExpanded.value = false;
+const leaveCopilotPage = () => {
+  if (!isExpanded.value) return;
+
+  if (window.history.state?.back) router.back();
+  else router.replace({ name: 'home' });
+};
+
+const toggleExpand = () => {
+  if (isExpanded.value) {
+    updateUISettings({
+      is_contact_sidebar_open: false,
+      is_copilot_panel_open: true,
+    });
+    leaveCopilotPage();
+  } else {
+    router.push(copilotPage());
   }
-);
+};
 
 const handleReset = () => {
   selectionVersion += 1;
@@ -233,6 +248,14 @@ const selectThread = async thread => {
   }
 };
 
+const openThreadInAddress = () => {
+  const threadId = Number(route.params.threadId);
+  if (threadId && threadId !== selectedCopilotThreadId.value) {
+    selectThread({ id: threadId });
+  }
+};
+watch(() => route.params.threadId, openThreadInAddress);
+
 watch(
   [currentAccountId, isCopilotAvailable],
   ([, isAvailable]) => {
@@ -244,7 +267,10 @@ watch(
     historyPage.value = 0;
     hasMoreThreads.value = false;
     isLoadingThreads.value = false;
-    if (isAvailable) loadThreads();
+    if (isAvailable) {
+      loadThreads();
+      openThreadInAddress();
+    }
   },
   { immediate: true }
 );
@@ -299,7 +325,7 @@ const sendMessage = async payload => {
 // beside it and the answer gets the room. It skips the panel's own send, so it records the send here.
 useEmitter(BUS_EVENTS.ASK_COPILOT, message => {
   handleReset();
-  isExpanded.value = true;
+  router.push({ name: 'copilot_index' });
   sendMessage(message);
   useTrack(COPILOT_EVENTS.SEND_MESSAGE);
 });
@@ -323,15 +349,15 @@ onMounted(() => {
   <div
     v-if="shouldShowCopilotPanel"
     v-on-click-outside="() => closeCopilotPanel()"
-    class="bg-n-surface-2 h-full overflow-hidden flex-col fixed top-0 end-0 z-40 w-full max-w-sm transition-transform duration-300 ease-in-out border-s border-n-weak shadow-lg md:shadow-none"
+    class="bg-n-surface-2 h-full overflow-hidden flex-col fixed top-0 end-0 z-40 w-full transition-transform duration-300 ease-in-out border-s border-n-weak shadow-lg md:shadow-none"
     :class="[
       {
         'md:flex': shouldShowCopilotPanel,
         'md:hidden': !shouldShowCopilotPanel,
       },
       isExpanded
-        ? 'md:absolute md:inset-0 md:max-w-none md:z-30'
-        : 'md:static md:w-80 md:min-w-80 2xl:w-[22.5rem] 2xl:min-w-[22.5rem]',
+        ? 'md:absolute md:inset-0 md:z-30 md:border-s-0 md:animate-zoom-in motion-reduce:animate-none'
+        : 'max-w-sm md:static md:w-80 md:min-w-80 2xl:w-[22.5rem] 2xl:min-w-[22.5rem]',
     ]"
   >
     <Copilot
@@ -353,7 +379,8 @@ onMounted(() => {
       @select-thread="selectThread"
       @load-more-threads="loadThreads(historyPage + 1)"
       @reset="handleReset"
-      @toggle-expand="isExpanded = !isExpanded"
+      @toggle-expand="toggleExpand"
+      @close="leaveCopilotPage"
     />
   </div>
   <template v-else />
