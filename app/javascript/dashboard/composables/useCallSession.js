@@ -9,6 +9,7 @@ import {
   useWhatsappCallSession,
   sendWhatsappTerminateBeacon,
   cleanupWhatsappSession,
+  setWhatsappCallOnHold,
 } from 'dashboard/composables/useWhatsappCallSession';
 import {
   handleVoiceCallCreated,
@@ -255,13 +256,19 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     callsStore.dismissCall(callSid);
   };
 
-  // Twilio's mute: the caller hears hold music while the agent still hears them
+  // Mute holds the caller: they hear hold music while the agent still hears them
   const holdCall = async ({ conversationId, inboxId, callSid, hold }) => {
     try {
-      await VoiceAPI.setHold({ inboxId, conversationId, callSid, hold });
+      if (isWhatsappCall(findCall(callSid))) {
+        await setWhatsappCallOnHold(hold);
+      } else {
+        await VoiceAPI.setHold({ inboxId, conversationId, callSid, hold });
+      }
       // The mic now belongs to whichever call is active, so a late reply for an ended call leaves it alone
       if (callsStore.activeCall?.callSid !== callSid) return;
-      TwilioVoiceClient.setMuted(hold);
+      if (!isWhatsappCall(callsStore.activeCall)) {
+        TwilioVoiceClient.setMuted(hold);
+      }
       callsStore.setCallOnHold(callSid, hold);
     } catch (error) {
       // Keep the shown state: the request sets the hold rather than toggling it, so a retry is safe
