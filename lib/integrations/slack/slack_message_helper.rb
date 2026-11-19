@@ -1,6 +1,4 @@
 module Integrations::Slack::SlackMessageHelper
-  SLACK_FILE_HOST = 'files.slack.com'.freeze
-
   def process_message_payload
     return unless conversation
 
@@ -53,7 +51,7 @@ module Integrations::Slack::SlackMessageHelper
 
   def process_attachments(attachments)
     attachments.each do |attachment|
-      tempfile = download_slack_file(attachment[:url_private])
+      tempfile = Integrations::Slack::FileDownloadService.new(url: attachment[:url_private], access_token: integration_hook.access_token).perform
       next unless tempfile
 
       attachment_params = {
@@ -70,21 +68,6 @@ module Integrations::Slack::SlackMessageHelper
       attachment_obj = @message.attachments.new(attachment_params)
       attachment_obj.file.content_type = attachment[:mimetype]
     end
-  end
-
-  def download_slack_file(url)
-    return unless slack_file_url?(url)
-
-    Down::NetHttp.download(url, headers: { 'Authorization' => "Bearer #{integration_hook.access_token}" }, max_redirects: 0)
-  rescue Down::TooManyRedirects
-    nil
-  end
-
-  def slack_file_url?(url)
-    uri = URI.parse(url.to_s)
-    uri.is_a?(URI::HTTPS) && uri.host&.downcase == SLACK_FILE_HOST && uri.port == 443 && uri.userinfo.nil?
-  rescue URI::InvalidURIError
-    false
   end
 
   def file_type(attachment)
