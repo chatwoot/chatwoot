@@ -30,31 +30,33 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def process_subscription_updated
-    # A cancelled subscription keeps emitting updates that still carry its old plan.
-    # Acting on one re-applies that plan over the downgrade customer.subscription.deleted
-    # just made, so the account keeps paid features it no longer pays for.
-    return if subscription['status'] == 'canceled'
-
-    plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
-
     # skipping self hosted plan events
-    return if plan.blank? || !stripe_billed_account?
+    return unless stripe_billed_account?
+    return unless account.with_lock { apply_subscription }
 
-    apply_subscription(plan)
     track_marketing_plan_activation(previous_plan_name) if event_changed_plan?
     broadcast_billing_updated
   end
 
-  # Credits are settled by diffing the stored account against the current subscription, so the plan and
-  # credit writes commit together: a failed delivery leaves the old state for its retry to diff again,
-  # and concurrent deliveries can't both settle the same change.
-  def apply_subscription(plan)
-    account.with_lock do
-      previous_usage = capture_previous_usage
-      update_account_attributes(subscription, plan)
-      Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
-      sync_subscription_credits(plan, previous_usage)
-    end
+  # Runs under the account lock. Credits are settled by diffing the stored account against the current
+  # subscription, so the plan and credit writes commit together: a failed delivery leaves the old state for
+  # its retry to diff again, and concurrent deliveries can't both settle the same change. The subscription
+  # is read under the lock too, so a delivery can't commit a snapshot older than one already applied.
+  def apply_subscription
+    # A cancelled subscription keeps emitting updates that still carry its old plan.
+    # Acting on one re-applies that plan over the downgrade customer.subscription.deleted
+    # just made, so the account keeps paid features it no longer pays for.
+    return false if subscription['status'] == 'canceled'
+
+    plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
+    # skipping self hosted plan events
+    return false if plan.blank?
+
+    previous_usage = capture_previous_usage
+    update_account_attributes(subscription, plan)
+    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    sync_subscription_credits(plan, previous_usage)
+    true
   end
 
   def sync_subscription_credits(plan, previous_usage)
@@ -179,7 +181,8 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   # Stripe delivers events out of order and retries a failed one for days, so a payload can be older
-  # than state already applied. Read the subscription as it is now, in the payload's API version.
+  # than state already applied. Read the subscription as it is now, in the payload's API version, and only
+  # under the account lock (see apply_subscription).
   def subscription
     @subscription ||= Stripe::Subscription.retrieve(event_subscription.id, { stripe_version: @event.api_version })
   end
@@ -210,7 +213,8 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def account
-    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
+    # A subscription never changes customer, so the payload finds the account without a Stripe read.
+    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", event_subscription.customer).first
   end
 
   def stripe_billed_account?

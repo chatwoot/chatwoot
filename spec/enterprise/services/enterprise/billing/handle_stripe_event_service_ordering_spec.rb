@@ -71,6 +71,25 @@ describe Enterprise::Billing::HandleStripeEventService do
     expect(account.limits['captain_responses']).to eq(300)
   end
 
+  it 'reads the subscription only after locking the account, so concurrent deliveries apply reads in order' do
+    steps = []
+    record_lock = ->(*, payload) { steps << :lock if payload[:sql].match?(/FROM "accounts".*FOR UPDATE/) }
+    allow(Stripe::Subscription).to receive(:retrieve) do
+      steps << :retrieve
+      Stripe::Subscription.construct_from(subscription_on(:startups))
+    end
+    event = Stripe::Event.construct_from(
+      type: 'customer.subscription.updated', api_version: '2024-06-20', created: 1_763_000_000,
+      data: { object: subscription_on(:startups), previous_attributes: { plan: prices[:hacker] } }
+    )
+
+    ActiveSupport::Notifications.subscribed(record_lock, 'sql.active_record') do
+      described_class.new.perform(event: event)
+    end
+
+    expect(steps).to eq(%i[lock retrieve])
+  end
+
   it 'settles the plan change once a retry succeeds after a failed delivery' do
     reconcile = Enterprise::Billing::ReconcilePlanFeaturesService
     allow(reconcile).to receive(:new).and_raise(ActiveRecord::RecordInvalid)
