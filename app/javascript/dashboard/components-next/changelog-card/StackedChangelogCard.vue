@@ -56,25 +56,13 @@ const handleImgClick = () => {
     </div>
 
     <div
-      v-if="card.feature_image"
-      class="block overflow-hidden my-3 rounded-md border border-n-weak/40"
+      class="block overflow-hidden my-3 rounded-md border aspect-video border-n-weak/40 bg-n-alpha-1"
     >
       <img
+        v-if="card.feature_image"
         :src="card.feature_image"
         :alt="`${card.title} preview image`"
-        class="block w-full h-auto rounded-md cursor-pointer"
-        loading="lazy"
-        @click.stop="handleImgClick"
-      />
-    </div>
-    <div
-      v-else
-      class="block overflow-hidden my-3 rounded-md border border-n-weak/40"
-    >
-      <img
-        :src="card.feature_image"
-        :alt="`${card.title} preview image`"
-        class="block w-full h-auto rounded-md cursor-pointer"
+        class="block object-cover size-full rounded-md cursor-pointer"
         loading="lazy"
         @click.stop="handleImgClick"
       />

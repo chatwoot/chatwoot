@@ -162,17 +162,19 @@ class Instagram::CallbacksController < ApplicationController
   end
 
   def update_channel(channel_instagram, user_details)
-    raise Instagram::ConnectionError, I18n.t('instagram.existing_login_method') if channel_instagram.unified_login?
-
+    switching_login_method = channel_instagram.unified_login?
     expires_at = Time.current + @long_lived_token_response['expires_in'].seconds
 
-    channel_instagram.update!(
+    channel_instagram.assign_attributes(
       access_token: @long_lived_token_response['access_token'],
       expires_at: expires_at,
       auth_type: 'instagram_login',
       configuration_id: nil,
       provider_name: user_details['username']
     )
+    channel_instagram.validate!
+    channel_instagram.subscribe! if switching_login_method
+    channel_instagram.save!
 
     channel_instagram
   end
