@@ -20,6 +20,7 @@ class Captain::Copilot::Resources::BaseResource
   COMMON_FILTERS = {
     since: { type: 'string', anyOf: [{ format: 'date-time' }, { format: 'date' }] },
     before: { type: 'string', anyOf: [{ format: 'date-time' }, { format: 'date' }] },
+    last_days: { type: 'integer', minimum: 1 },
     newest: { type: 'integer', minimum: 1, maximum: CopilotRun::MAX_SELECTION, description: 'The number of records to select by date_field' },
     oldest_first: { type: 'boolean', description: 'Select and review the oldest records by date_field first' },
     sample: { type: 'integer', minimum: 1, maximum: CopilotRun::MAX_SELECTION, description: 'Select this many records spread evenly by date_field' }
@@ -104,7 +105,7 @@ class Captain::Copilot::Resources::BaseResource
     raise ArgumentError, "Invalid #{self.class::NAME} filters: #{errors.join('; ')}. Allowed: #{self.class.all_filters_help}" if errors.any?
     raise ArgumentError, 'Pass newest or sample, not both' if filters['newest'] && filters['sample']
 
-    filters = filters.reverse_merge('date_field' => self.class::DATE_FIELDS.first)
+    filters = last_days_as_since(filters).reverse_merge('date_field' => self.class::DATE_FIELDS.first)
     unused = Captain::Copilot::Resources::Columns.unused(scope, filters)
     @note = "No #{self.class::NAME} record has a value for #{unused.join(', ')}. Pass describe for the fields records use." if unused.any?
     filters
@@ -178,6 +179,15 @@ class Captain::Copilot::Resources::BaseResource
   end
 
   private
+
+  # The last N days become their first day, so every reader of since sees the dates the reports pages use.
+  def last_days_as_since(filters)
+    return filters unless filters['last_days']
+    raise ArgumentError, 'Pass last_days, or since and before, not both' if filters['since'] || filters['before']
+
+    first_day, = Captain::Copilot::LastDays.dates(filters['last_days'], @account.report_time_zone)
+    filters.except('last_days').merge('since' => first_day.iso8601)
+  end
 
   # A date without a time starts that day in the account's reporting time zone, as get_report reads dates.
   def time_bound(value)
