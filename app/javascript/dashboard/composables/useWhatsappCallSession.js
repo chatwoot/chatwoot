@@ -533,8 +533,13 @@ export const setWhatsappCallOnHold = async onHold => {
     return;
   }
   holdMusic = music;
+  try {
+    await sender.replaceTrack(music.track);
+  } catch (error) {
+    stopHoldMusic();
+    throw error;
+  }
   micTrack.enabled = false;
-  await sender.replaceTrack(music.track);
 };
 
 export const sendWhatsappDigits = digit => {

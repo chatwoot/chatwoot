@@ -292,6 +292,20 @@ describe('setWhatsappCallOnHold', () => {
     expect(audioContexts[0].close).toHaveBeenCalledOnce();
   });
 
+  it('keeps the mic live and drops the music when the track swap fails', async () => {
+    sender.replaceTrack.mockRejectedValue(new Error('swap failed'));
+    await useWhatsappCallSession().prepareOutboundOffer();
+
+    await expect(setWhatsappCallOnHold(true)).rejects.toThrow('swap failed');
+
+    expect(micTrack.enabled).toBe(true);
+    expect(audioContexts[0].close).toHaveBeenCalledOnce();
+
+    sender.replaceTrack.mockResolvedValue();
+    await setWhatsappCallOnHold(true);
+    expect(audioContexts).toHaveLength(2);
+  });
+
   it('rejects when there is no live call', async () => {
     await expect(setWhatsappCallOnHold(true)).rejects.toThrow();
   });
