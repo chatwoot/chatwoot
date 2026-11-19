@@ -91,6 +91,16 @@ describe Enterprise::Billing::HandleStripeEventService do
     expect(account.limits['captain_responses']).to eq(500)
   end
 
+  it 'orders reads by the database clock, so a host clock running ahead cannot block a newer read' do
+    travel_to(1.hour.from_now) do
+      deliver(payload_plan: :startups, current_plan: :startups, previous: { plan: prices[:hacker] })
+    end
+    deliver(payload_plan: :business, current_plan: :business, previous: { plan: prices[:startups] })
+
+    expect(account.custom_attributes['plan_name']).to eq('Business')
+    expect(account.limits['captain_responses']).to eq(500)
+  end
+
   it 'settles the plan change once a retry succeeds after a failed delivery' do
     reconcile = Enterprise::Billing::ReconcilePlanFeaturesService
     allow(reconcile).to receive(:new).and_raise(ActiveRecord::RecordInvalid)
