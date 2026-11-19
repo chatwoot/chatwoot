@@ -3,7 +3,8 @@ class Captain::Tools::Copilot::GetReportService < Captain::Tools::BaseTool
   attr_accessor :tool_call
 
   METRICS = {
-    'conversations_count' => 'conversations created in the period; for an agent, inbox or team, those currently assigned to it',
+    'conversations_count' => 'conversations created in the period; for an agent, inbox or team, those currently assigned to it. ' \
+                             'Not the conversations open now',
     'incoming_messages_count' => 'messages received from customers',
     'outgoing_messages_count' => 'replies and private notes sent by agents and bots; for an agent, the ones that agent sent',
     'resolutions_count' => 'conversations resolved in the period; for an agent, the ones that agent resolved',
