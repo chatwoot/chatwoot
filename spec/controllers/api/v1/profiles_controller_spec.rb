@@ -32,7 +32,7 @@ RSpec.describe 'Profile API', type: :request do
 
       it 'returns nil for inviter_id when the inviter user has been deleted' do
         inviter = create(:user, account: account, role: :administrator)
-        agent.current_account_user.update!(inviter: inviter)
+        agent.account_users.first.update!(inviter: inviter)
 
         get '/api/v1/profile',
             headers: agent.create_new_auth_token,
