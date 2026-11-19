@@ -555,7 +555,7 @@
 - name: INSTAGRAM_LOGIN_METHOD
   value: 'instagram_login'
   display_title: 'Login method for new connections'
-  description: 'Applies when creating an Instagram inbox. Existing inboxes reconnect using their current login method.'
+  description: 'Applies when creating or reconnecting an Instagram inbox. Existing inboxes keep their current connection.'
   locked: false
   type: select
   options:

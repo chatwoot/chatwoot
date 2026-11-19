@@ -75,6 +75,28 @@ describe('voice call ringing', () => {
     );
   });
 
+  it('rings an inbound WhatsApp call only for the agents the server names', () => {
+    handleVoiceCallCreated(
+      callMessage({ sid: 'WA1', provider: 'whatsapp', ringUserIds: [ME] }),
+      ME,
+      true
+    );
+    handleVoiceCallCreated(
+      callMessage({
+        sid: 'WA2',
+        provider: 'whatsapp',
+        ringUserIds: [TEAMMATE],
+      }),
+      ME,
+      true
+    );
+
+    expect(callsStore.addCall).toHaveBeenCalledTimes(1);
+    expect(callsStore.addCall).toHaveBeenCalledWith(
+      expect.objectContaining({ callSid: 'WA1', provider: 'whatsapp' })
+    );
+  });
+
   it('adds the card when the ring reaches this agent and drops it when they leave the ring', () => {
     const commit = vi.fn();
     handleVoiceCallUpdated(
@@ -236,7 +258,7 @@ describe('voice call ringing', () => {
     expect(callsStore.addCall).not.toHaveBeenCalled();
   });
 
-  it('restores the Twilio calls ringing for this agent on page load', async () => {
+  it('restores the calls ringing for this agent on page load, Twilio and WhatsApp', async () => {
     const ringing = (sid, extra = {}) => ({
       id: 1,
       call_id: sid,
@@ -272,9 +294,12 @@ describe('voice call ringing', () => {
       direction: 'inbound',
       page: 2,
     });
-    expect(callsStore.addCall).toHaveBeenCalledTimes(3);
+    expect(callsStore.addCall).toHaveBeenCalledTimes(4);
     expect(callsStore.addCall).toHaveBeenCalledWith(
       expect.objectContaining({ callSid: 'CA10' })
+    );
+    expect(callsStore.addCall).toHaveBeenCalledWith(
+      expect.objectContaining({ callSid: 'WA2', provider: 'whatsapp' })
     );
     expect(callsStore.addCall).toHaveBeenCalledWith(
       expect.objectContaining({ callSid: 'CA11' })

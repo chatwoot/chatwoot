@@ -13,6 +13,14 @@ describe Channel::Whatsapp do
     channel.save!(validate: false)
   end
 
+  # The routing validation and the template callback share one prepended hook
+  it 'still rejects routing settings outside the values the inbox accepts' do
+    channel.provider_config = channel.provider_config.merge('ring_step_seconds' => 5)
+
+    expect(channel).not_to be_valid
+    expect(channel.errors[:base]).to include(I18n.t('inbox.call_routing.invalid_settings', step_min: 10, step_max: 60, cooldown_max: 600))
+  end
+
   describe 'the call permission template' do
     it 'is created once calling is turned on' do
       expect { save_provider_config('calling_enabled' => true) }

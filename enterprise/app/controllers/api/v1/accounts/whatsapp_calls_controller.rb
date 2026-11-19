@@ -1,5 +1,5 @@
 class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseController
-  before_action :set_call, only: %i[show accept reject terminate upload_recording]
+  before_action :set_call, only: %i[show accept reject dismiss terminate upload_recording]
   before_action :set_call_context, only: :initiate
   before_action :ensure_calling_enabled, only: :initiate
   before_action :ensure_sdp_offer, only: :initiate
@@ -22,6 +22,12 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def reject
     call_service.reject
+  end
+
+  # Stops the ring for this agent only; the caller keeps ringing for the others
+  def dismiss
+    Voice::RingDismissService.new(call: @call, user: Current.user).perform
+    head :ok
   end
 
   def terminate

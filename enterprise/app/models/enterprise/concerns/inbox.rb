@@ -16,8 +16,13 @@ module Enterprise::Concerns::Inbox
     before_create :ensure_create_permitted
   end
 
+  # Twilio and WhatsApp inboxes, whose inbound calls ring agents and hold off auto-assignment while they do
+  def rings_for_calls?
+    twilio? || whatsapp?
+  end
+
   def closed_for_calls?
-    twilio? && channel.business_hours_calls_enabled? && out_of_office?
+    channel.respond_to?(:business_hours_calls_enabled?) && channel.business_hours_calls_enabled? && out_of_office?
   end
 
   def ensure_create_permitted

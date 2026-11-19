@@ -1,8 +1,8 @@
 # The agents a call rings: those online, taking calls and able to open the conversation.
 # Socket presence is not consulted, since a locked phone is exactly what a ring push is for.
-# A Twilio call rings only free agents, those not on a call or in wrap-up time, and picks them
-# up as they free up, since each ring step asks again; the assignee rings alone first, then
-# everyone or the longest idle agent. A WhatsApp call rings the assignee or everyone.
+# A call, Twilio or WhatsApp, rings only free agents, those not on a call or in wrap-up time, and
+# picks them up as they free up, since each ring step asks again; the assignee rings alone first,
+# then everyone or the longest idle agent.
 class Voice::RingRecipients
   pattr_initialize [:inbox!, :conversation!, :dismissed_user_ids]
 
@@ -11,7 +11,6 @@ class Voice::RingRecipients
 
   # The agents the ring starts with
   def agents
-    return whatsapp_agents unless inbox.channel.is_a?(Channel::TwilioSms)
     return [assignee] if assignee_first?
     return ordered.first(1) if inbox.channel.sequential_ringing?
 
@@ -38,10 +37,6 @@ class Voice::RingRecipients
   def assignee = conversation.assignee
 
   def assignable = (@assignable ||= inbox.assignable_agents.to_a)
-
-  def whatsapp_agents
-    openers(assignable.include?(assignee) ? [assignee] : assignable)
-  end
 
   def eligible
     @eligible ||= openers(assignable).reject { |user| dismissed_user_ids.to_a.include?(user.id) }

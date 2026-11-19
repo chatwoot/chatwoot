@@ -133,21 +133,12 @@ RSpec.describe Inbox do
       agent.account_users.find_by(account: account).update!(accepts_conversations: false)
 
       expect(inbox.available_agents.map(&:user)).to contain_exactly(teammate)
-      expect(inbox.available_call_agents.map(&:user)).to contain_exactly(agent, teammate)
     end
 
-    it 'leaves agents who do not take calls out of the available call agents' do
-      agent.account_users.find_by(account: account).update!(accepts_calls: false)
-
-      expect(inbox.available_call_agents.map(&:user)).to contain_exactly(teammate)
-      expect(inbox.available_agents.map(&:user)).to contain_exactly(agent, teammate)
-    end
-
-    it 'leaves agents who are not online out of both' do
+    it 'leaves agents who are not online out of the available agents' do
       allow(OnlineStatusTracker).to receive(:get_available_users).and_return(teammate.id.to_s => 'online', agent.id.to_s => 'busy')
 
       expect(inbox.available_agents.map(&:user)).to contain_exactly(teammate)
-      expect(inbox.available_call_agents.map(&:user)).to contain_exactly(teammate)
     end
   end
 
