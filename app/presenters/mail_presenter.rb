@@ -178,20 +178,17 @@ class MailPresenter < SimpleDelegator
     # A matching sender alone is not proof that this instance generated the email:
     # other systems commonly share the MAILER_SENDER_EMAIL address. Only drop the
     # email when it also carries the marker header our mailers set on outgoing mail.
-    original_sender_matches_mailer_sender? && (chatwoot_marker? || chatwoot_generated_message_id?)
+    # Mail generated before the marker existed cannot be told apart from third-party
+    # mail, so during a rolling deploy an old pod's mail may be imported once; that
+    # is bounded and cannot loop because the follow-up notification is generated
+    # by upgraded code and carries the marker.
+    original_sender_matches_mailer_sender? && chatwoot_marker?
   end
 
   private
 
   def chatwoot_marker?
-    @mail[ApplicationMailer::CHATWOOT_NOTIFICATION_HEADER].present?
-  end
-
-  # Mail generated before the marker header existed has no marker but still
-  # carries the structured Message-IDs our conversation mailers stamp, so the
-  # loop guard keeps recognizing it through a rolling deploy.
-  def chatwoot_generated_message_id?
-    @mail.message_id.to_s.start_with?('conversation/', 'account/', 'forward/')
+    @mail[ApplicationMailer::CHATWOOT_NOTIFICATION_HEADER]&.value.to_s.casecmp?('true')
   end
 
   def original_sender_matches_mailer_sender?
