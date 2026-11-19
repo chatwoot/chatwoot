@@ -3,6 +3,7 @@ class Enterprise::Billing::HandleStripeEventService
 
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
   CAPTAIN_CLOUD_PLAN_LIMITS = 'CAPTAIN_CLOUD_PLAN_LIMITS'.freeze
+  SUBSCRIPTION_READ_STARTED_AT = 'stripe_subscription_read_started_at'.freeze
 
   STARTUP_PLAN_FEATURES = Enterprise::Billing::ReconcilePlanFeaturesService::STARTUP_PLAN_FEATURES
   BUSINESS_PLAN_FEATURES = Enterprise::Billing::ReconcilePlanFeaturesService::BUSINESS_PLAN_FEATURES
@@ -32,31 +33,39 @@ class Enterprise::Billing::HandleStripeEventService
   def process_subscription_updated
     # skipping self hosted plan events
     return unless stripe_billed_account?
-    return unless account.with_lock { apply_subscription }
 
+    # A cancelled subscription keeps emitting updates that still carry its old plan.
+    # Acting on one re-applies that plan over the downgrade customer.subscription.deleted
+    # just made, so the account keeps paid features it no longer pays for.
+    return if subscription['status'] == 'canceled'
+
+    plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
+
+    # skipping self hosted plan events
+    return if plan.blank?
+
+    account.with_lock { apply_subscription(plan) }
     track_marketing_plan_activation(previous_plan_name) if event_changed_plan?
     broadcast_billing_updated
   end
 
-  # Runs under the account lock. Credits are settled by diffing the stored account against the current
-  # subscription, so the plan and credit writes commit together: a failed delivery leaves the old state for
-  # its retry to diff again, and concurrent deliveries can't both settle the same change. The subscription
-  # is read under the lock too, so a delivery can't commit a snapshot older than one already applied.
-  def apply_subscription
-    # A cancelled subscription keeps emitting updates that still carry its old plan.
-    # Acting on one re-applies that plan over the downgrade customer.subscription.deleted
-    # just made, so the account keeps paid features it no longer pays for.
-    return false if subscription['status'] == 'canceled'
-
-    plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
-    # skipping self hosted plan events
-    return false if plan.blank?
+  # Credits are settled by diffing the stored account against the current subscription, so the plan and
+  # credit writes commit together: a failed delivery leaves the old state for its retry to diff again,
+  # and concurrent deliveries can't both settle the same change.
+  def apply_subscription(plan)
+    return if later_subscription_read_applied?
 
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
     sync_subscription_credits(plan, previous_usage)
-    true
+  end
+
+  # Stripe is read before taking the lock, so a slow call never holds it, but concurrent deliveries can then
+  # reach the lock out of order. A read that started after this one has seen a subscription at least as new.
+  def later_subscription_read_applied?
+    applied_read_started_at = account.internal_attributes[SUBSCRIPTION_READ_STARTED_AT]
+    applied_read_started_at.present? && Time.zone.parse(applied_read_started_at) > @subscription_read_started_at
   end
 
   def sync_subscription_credits(plan, previous_usage)
@@ -97,7 +106,8 @@ class Enterprise::Billing::HandleStripeEventService
         'subscription_ends_on' => subscription_ends_on(subscription),
         'subscription_cancels_on' => subscription_cancels_on(subscription),
         'billing_currency' => billing_currency_for(subscription, plan)
-      )
+      ),
+      internal_attributes: account.internal_attributes.merge(SUBSCRIPTION_READ_STARTED_AT => @subscription_read_started_at.iso8601(6))
     )
   end
 
@@ -181,10 +191,12 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   # Stripe delivers events out of order and retries a failed one for days, so a payload can be older
-  # than state already applied. Read the subscription as it is now, in the payload's API version, and only
-  # under the account lock (see apply_subscription).
+  # than state already applied. Read the subscription as it is now, in the payload's API version.
   def subscription
-    @subscription ||= Stripe::Subscription.retrieve(event_subscription.id, { stripe_version: @event.api_version })
+    @subscription ||= begin
+      @subscription_read_started_at = Time.current
+      Stripe::Subscription.retrieve(event_subscription.id, { stripe_version: @event.api_version })
+    end
   end
 
   def event_subscription

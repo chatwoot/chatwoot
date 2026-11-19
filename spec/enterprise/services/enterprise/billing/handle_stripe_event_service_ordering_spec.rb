@@ -24,18 +24,21 @@ describe Enterprise::Billing::HandleStripeEventService do
     }
   end
 
-  # Delivers an event whose payload is on payload_plan while Stripe's subscription is now on current_plan.
-  def deliver(payload_plan:, current_plan:, previous:, payload_period_end: period_end, current_period_end: period_end)
-    allow(Stripe::Subscription).to receive(:retrieve)
-      .with('sub_123', { stripe_version: '2024-06-20' })
-      .and_return(Stripe::Subscription.construct_from(subscription_on(current_plan, current_period_end)))
-    event = Stripe::Event.construct_from(
+  def updated_event(payload_plan, previous:, payload_period_end: period_end)
+    Stripe::Event.construct_from(
       type: 'customer.subscription.updated',
       api_version: '2024-06-20',
       created: 1_763_000_000,
       data: { object: subscription_on(payload_plan, payload_period_end), previous_attributes: previous }
     )
-    described_class.new.perform(event: event)
+  end
+
+  # Delivers an event whose payload is on payload_plan while Stripe's subscription is now on current_plan.
+  def deliver(payload_plan:, current_plan:, previous:, payload_period_end: period_end, current_period_end: period_end)
+    allow(Stripe::Subscription).to receive(:retrieve)
+      .with('sub_123', { stripe_version: '2024-06-20' })
+      .and_return(Stripe::Subscription.construct_from(subscription_on(current_plan, current_period_end)))
+    described_class.new.perform(event: updated_event(payload_plan, previous: previous, payload_period_end: payload_period_end))
     account.reload
   end
 
@@ -71,23 +74,21 @@ describe Enterprise::Billing::HandleStripeEventService do
     expect(account.limits['captain_responses']).to eq(300)
   end
 
-  it 'reads the subscription only after locking the account, so concurrent deliveries apply reads in order' do
-    steps = []
-    record_lock = ->(*, payload) { steps << :lock if payload[:sql].match?(/FROM "accounts".*FOR UPDATE/) }
+  it 'skips a slow subscription read once a read that started later has been applied' do
+    reads = 0
     allow(Stripe::Subscription).to receive(:retrieve) do
-      steps << :retrieve
+      reads += 1
+      next Stripe::Subscription.construct_from(subscription_on(:business)) if reads == 2
+
+      # While this read is still in flight, a later delivery reads Business and applies it
+      described_class.new.perform(event: updated_event(:business, previous: { plan: prices[:startups] }))
       Stripe::Subscription.construct_from(subscription_on(:startups))
     end
-    event = Stripe::Event.construct_from(
-      type: 'customer.subscription.updated', api_version: '2024-06-20', created: 1_763_000_000,
-      data: { object: subscription_on(:startups), previous_attributes: { plan: prices[:hacker] } }
-    )
 
-    ActiveSupport::Notifications.subscribed(record_lock, 'sql.active_record') do
-      described_class.new.perform(event: event)
-    end
+    described_class.new.perform(event: updated_event(:startups, previous: { plan: prices[:hacker] }))
 
-    expect(steps).to eq(%i[lock retrieve])
+    expect(account.reload.custom_attributes['plan_name']).to eq('Business')
+    expect(account.limits['captain_responses']).to eq(500)
   end
 
   it 'settles the plan change once a retry succeeds after a failed delivery' do
