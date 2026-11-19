@@ -8,6 +8,12 @@ RSpec.describe AccountUser do
   let!(:account_user) { create(:account_user) }
   let!(:inbox) { create(:inbox, account: account_user.account) }
 
+  context 'with associations' do
+    it { is_expected.to belong_to(:account) }
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:inviter).class_name('User').optional }
+  end
+
   describe 'notification_settings' do
     it 'gets created with the right default settings' do
       expect(account_user.user.notification_settings).not_to be_nil
