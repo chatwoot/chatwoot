@@ -23,7 +23,7 @@ FactoryBot.define do
                   13,
                   36
                 ],
-                'media_url' => 'https://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg',
+                'media_url' => 'http://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg',
                 'media_url_https' => 'https://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg',
                 'sizes' => {
                   'thumb' => {

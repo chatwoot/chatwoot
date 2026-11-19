@@ -45,7 +45,9 @@ describe Webhooks::Twitter do
 
       it 'does not download media from hosts other than twitter media hosts' do
         other_request = stub_request(:get, 'https://example.com/image.jpg').to_return(status: 200, body: 'image')
-        dm_image_params[:direct_message_events][0][:message_create][:message_data][:attachment][:media][:media_url] = 'https://example.com/image.jpg'
+        dm_image_params[:direct_message_events][0][:message_create][:message_data][:attachment][:media].merge!(
+          media_url: 'https://example.com/image.jpg', media_url_https: 'https://example.com/image.jpg'
+        )
 
         twitter_webhook.new(dm_image_params).consume
 
@@ -56,7 +58,7 @@ describe Webhooks::Twitter do
 
       it 'does not download media over plain http' do
         http_request = stub_request(:get, 'http://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg').to_return(status: 200, body: 'image')
-        dm_image_params[:direct_message_events][0][:message_create][:message_data][:attachment][:media][:media_url] = 'http://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg'
+        dm_image_params[:direct_message_events][0][:message_create][:message_data][:attachment][:media].delete(:media_url_https)
 
         twitter_webhook.new(dm_image_params).consume
 

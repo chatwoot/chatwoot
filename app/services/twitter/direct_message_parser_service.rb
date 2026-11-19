@@ -95,7 +95,7 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
   end
 
   def media_url
-    media['media_url'].to_s
+    (media['media_url_https'].presence || media['media_url']).to_s
   end
 
   def twitter_media_url?
