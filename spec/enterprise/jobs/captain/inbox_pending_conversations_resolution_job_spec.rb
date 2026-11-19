@@ -260,6 +260,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       described_class.perform_now(inbox)
 
       expect(resolvable_pending_conversation.reload.status).to eq('resolved')
+      expect(resolvable_pending_conversation.captain_waiting_close_without_reply?).to be(true)
       expect(resolvable_pending_conversation.messages.where(private: true).last.content)
         .to eq('Auto-resolved, waiting on customer: Captain asked for the order number')
       expect(resolvable_pending_conversation.messages.where(private: false).outgoing.pluck(:content))
