@@ -165,6 +165,20 @@ RSpec.describe 'Enterprise Portal API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq(['API token not found'])
       end
+
+      it 'retries the Cloudflare registration when the hostname is missing' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        mock_service = instance_double(Cloudflare::CheckCustomHostnameService)
+        allow(Cloudflare::CheckCustomHostnameService).to receive(:new).and_return(mock_service)
+        allow(mock_service).to receive(:perform).and_return({ errors: ['Hostname is missing in Cloudflare'] })
+        portal_with_domain
+
+        expect do
+          get "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/ssl_status",
+              headers: agent.create_new_auth_token,
+              as: :json
+        end.to have_enqueued_job(Enterprise::CloudflareVerificationJob).with(portal_with_domain.id)
+      end
     end
   end
 end
