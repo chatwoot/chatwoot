@@ -98,8 +98,12 @@ const applyVideoPreviews = doc => {
 
 const renderMarkdown = markdown => {
   if (!markdown) return '';
-  const html = new MessageFormatter(markdown).formattedMessage;
-  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const formatter = new MessageFormatter(markdown);
+  formatter.renderTableCellLists();
+  const doc = new DOMParser().parseFromString(
+    formatter.formattedMessage,
+    'text/html'
+  );
   const match = markdown.match(COLWIDTHS_RE);
   if (match) applyColumnWidths(doc, match[1].split(',').map(Number));
   applyVideoPreviews(doc);

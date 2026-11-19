@@ -14,6 +14,7 @@
             [&_th]:!bg-n-slate-2 [&_th]:!text-n-slate-12 [&_th]:!font-semibold [&_th]:!text-start [&_th]:!px-3 [&_th]:!py-2 [&_th]:!border-0 [&_th]:!border-b [&_th]:!border-solid [&_th]:!border-n-weak
             [&_td]:!text-n-slate-11 [&_td]:!align-top [&_td]:!text-start [&_td]:!px-3 [&_td]:!py-2 [&_td]:!border-0 [&_td]:!border-b [&_td]:!border-solid [&_td]:!border-n-weak
             [&_th:not(:last-child)]:!border-e [&_td:not(:last-child)]:!border-e
-            [&_tr:last-child_td]:!border-b-0">
+            [&_tr:last-child_td]:!border-b-0
+            [&_:is(th,td)_:is(ul,ol)]:my-0 [&_:is(th,td)_li]:my-0">
   <%= parsed_content %>
 </div>
