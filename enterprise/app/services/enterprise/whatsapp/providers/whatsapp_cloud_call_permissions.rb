@@ -27,6 +27,16 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudCallPermissions
     false
   end
 
+  # Finds a template made earlier, such as one for a message the inbox has switched back to
+  def call_permission_template_exists?(name:, language:)
+    response = HTTParty.get(
+      "#{calls_business_account_path}/message_templates", headers: api_headers, query: { name: name, fields: 'name,language' }
+    )
+    return false unless response.success?
+
+    Array(response.parsed_response['data']).any? { |template| template['name'] == name && template['language'] == language }
+  end
+
   def send_call_permission_template(recipient, name:, language:)
     response = HTTParty.post(
       "#{calls_phone_id_path}/messages", headers: api_headers, body: permission_template_message_body(recipient, name, language)

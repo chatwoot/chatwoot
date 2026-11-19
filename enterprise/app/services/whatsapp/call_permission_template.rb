@@ -31,16 +31,21 @@ class Whatsapp::CallPermissionTemplate
     channel.provider_config['call_permission_template_name'] == name
   end
 
-  # Meta reviews the template after this; a send before it approves fails like any unapproved template
+  # Meta reviews the template after this; a send before it approves fails like any unapproved template.
+  # Meta refuses a second template with the same name, so one that already exists is reused.
   def create!
     return if created?
-    return unless channel.provider_service.create_call_permission_template(name: name, language: language, body: body)
+    return unless exists_at_meta? || channel.provider_service.create_call_permission_template(name: name, language: language, body: body)
 
     channel.provider_config = channel.provider_config.merge('call_permission_template_name' => name)
     channel.save!(validate: false)
   end
 
   private
+
+  def exists_at_meta?
+    channel.provider_service.call_permission_template_exists?(name: name, language: language)
+  end
 
   def custom_body
     channel.provider_config['call_permission_request_body']

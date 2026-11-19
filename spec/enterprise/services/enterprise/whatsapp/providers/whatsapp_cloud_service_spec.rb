@@ -48,6 +48,22 @@ describe Whatsapp::Providers::WhatsappCloudService do
       expect(service.create_call_permission_template(name: 'chatwoot_call_permission_abc', language: 'en', body: 'Can we call?')).to be false
     end
 
+    it 'finds an existing template only by its exact name and language' do
+      templates = [{ name: 'chatwoot_call_permission_abc', language: 'pt_BR' }, { name: 'chatwoot_call_permission_abcd', language: 'en' }]
+      stub_request(:get, templates_url).with(query: { name: 'chatwoot_call_permission_abc', fields: 'name,language' })
+                                       .to_return(status: 200, body: { data: templates }.to_json, headers: headers)
+
+      expect(service.call_permission_template_exists?(name: 'chatwoot_call_permission_abc', language: 'pt_BR')).to be true
+      expect(service.call_permission_template_exists?(name: 'chatwoot_call_permission_abc', language: 'en')).to be false
+    end
+
+    it 'reports no existing template when Meta cannot list them' do
+      stub_request(:get, templates_url).with(query: hash_including(name: 'chatwoot_call_permission_abc'))
+                                       .to_return(status: 500, body: { error: { message: 'Unknown error' } }.to_json, headers: headers)
+
+      expect(service.call_permission_template_exists?(name: 'chatwoot_call_permission_abc', language: 'en')).to be false
+    end
+
     it 'sends the template by name and exact language, and returns the parsed body' do
       stub_request(:post, messages_url).with(
         body: { messaging_product: 'whatsapp', recipient_type: 'individual', to: '15550001111', type: 'template',

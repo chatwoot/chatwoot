@@ -36,7 +36,9 @@ describe Channel::Whatsapp do
   end
 
   describe Whatsapp::CreateCallPermissionTemplateJob do
-    let(:provider_service) { instance_double(Whatsapp::Providers::WhatsappCloudService, create_call_permission_template: true) }
+    let(:provider_service) do
+      instance_double(Whatsapp::Providers::WhatsappCloudService, call_permission_template_exists?: false, create_call_permission_template: true)
+    end
 
     before { allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new).and_return(provider_service) }
 
