@@ -11,8 +11,14 @@ class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::Conver
   # In these cases, we use a conversation-level identifier instead of a message-level one.
   FALLBACK_PATTERN = %r{account/(\d+)/conversation/([a-zA-Z0-9-]+)@}
 
+  def initialize(mail)
+    super(mail)
+    @channel = EmailChannelFinder.new(mail).perform
+  end
+
   def find
     return nil if mail.in_reply_to.blank?
+    return nil unless @channel
 
     in_reply_to_addresses = sanitize_mailbox_value(Array.wrap(mail.in_reply_to))
 
@@ -20,7 +26,7 @@ class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::Conver
       # Try extracting UUID from patterns
       uuid = extract_uuid_from_patterns(in_reply_to)
       if uuid
-        conversation = Conversation.find_by(uuid: uuid)
+        conversation = Conversation.find_by(uuid: uuid, inbox_id: @channel.inbox.id)
         return conversation if conversation
       end
 
@@ -36,7 +42,7 @@ class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::Conver
 
   # Replies to a forwarded email start a new conversation with the forward recipient
   def conversation_from_source_id(message_id)
-    message = Message.find_by(source_id: message_id)
+    message = Message.find_by(source_id: message_id, inbox_id: @channel.inbox.id)
     message&.conversation unless message&.forwarded?
   end
 
