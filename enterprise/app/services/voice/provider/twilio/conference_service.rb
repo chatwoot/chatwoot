@@ -8,8 +8,6 @@ class Voice::Provider::Twilio::ConferenceService
     call.conference_sid
   end
 
-  # `attempt` identifies the connection the agent is about to open, which passes the same id
-  # to Twilio; a client that sends none holds no place for it
   def mark_agent_joined(user:, agent_client:, attempt: nil)
     claim_call!(user, agent_client, attempt)
     assign_conversation!(user)
@@ -45,9 +43,7 @@ class Voice::Provider::Twilio::ConferenceService
     in_progress_conferences.each { |conf| client.conferences(conf.sid).update(status: 'completed') }
   end
 
-  # Whether an agent leg other than the one leaving is still on the conference. Legs are
-  # told apart by call SID: an agent who reconnected carries the same label as the leg
-  # that left.
+  # Reconnected legs share an agent label but have different call SIDs.
   def agents_remain?(leaving_call_sid:)
     return false if call.conference_sid.blank?
 
@@ -73,17 +69,12 @@ class Voice::Provider::Twilio::ConferenceService
     end
   end
 
-  # The conversation was assigned by this claim, so a leg Twilio then fails to add can
-  # give it back
   def remember_claim_assignment(user_id)
     Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', { 'assigned_by_claim' => user_id }.to_json]) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  # Completes the call once no agent connection is still on its way in, under the row lock
-  # that opening a connection takes, so a connection either counts here or finds the call
-  # over and is hung up. A connection that joined since the participants were looked up
-  # (`since`) is on the call. Returns 0 for a connection on the call, the seconds to wait
-  # for the connections still joining, or nil once the call is completed.
+  # The call completes under the same row lock used to open agent legs.
+  # Returns 0 for a joined leg, a delay for pending legs, or nil after completion.
   def complete_unless_agent_joining(leaving_call_sid:, since:)
     call.with_lock do
       next 0 if call.agent_leg_joined?(except: leaving_call_sid, since: since)
@@ -122,7 +113,6 @@ class Voice::Provider::Twilio::ConferenceService
     end
   end
 
-  # The agent's connection is on its way from here, before Twilio asks for its instructions
   def claim_call!(user, agent_client, attempt)
     call.with_lock do
       # The ring time is up and the caller is being told so; a join now would find nobody. The mark is checked on
@@ -134,7 +124,6 @@ class Voice::Provider::Twilio::ConferenceService
       call.merge_meta!('agent_client' => agent_client) if agent_client
       next if attempt.blank?
 
-      # A newer attempt replaces older ones, which may never have reached Twilio
       call.retire_pending_agent_legs!
       call.record_agent_leg!(Call.pending_agent_leg(attempt), 'joining')
     end

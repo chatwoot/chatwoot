@@ -89,6 +89,12 @@ RSpec.describe Inbox do
                                                                           cache_keys: inbox.account.cache_keys
                                                                         )
     end
+
+    it 'does not reset cache keys when no user ids are given' do
+      expect(inbox.account).not_to receive(:update_cache_key)
+
+      inbox.add_members([])
+    end
   end
 
   describe '#remove_members' do
@@ -113,6 +119,21 @@ RSpec.describe Inbox do
                                                                           account: inbox.account,
                                                                           cache_keys: inbox.account.cache_keys
                                                                         )
+    end
+
+    it 'does not reset cache keys when no user ids are given' do
+      expect(inbox.account).not_to receive(:update_cache_key)
+
+      inbox.remove_members([])
+      expect(inbox.reload.inbox_members.size).to eq(3)
+    end
+
+    it 'does not reset cache keys when users are not members' do
+      non_members = FactoryBot.create_list(:user, 2)
+      expect(inbox.account).not_to receive(:update_cache_key)
+
+      inbox.remove_members(non_members.map(&:id))
+      expect(inbox.reload.inbox_members.size).to eq(3)
     end
   end
 
