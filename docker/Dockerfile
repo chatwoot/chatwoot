@@ -10,7 +10,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   && rm -f /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack; \
   fi
 
-FROM ruby:3.4.12-alpine3.23 AS pre-builder
+FROM ruby:3.4.13-alpine3.23 AS pre-builder
 
 ARG NODE_VERSION="24.22.1"
 ARG PNPM_VERSION="10.2.0"
@@ -106,7 +106,7 @@ RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
   && rm .gitignore
 
 # final build stage
-FROM ruby:3.4.12-alpine3.23
+FROM ruby:3.4.13-alpine3.23
 
 ARG NODE_VERSION="24.22.1"
 ARG PNPM_VERSION="10.2.0"

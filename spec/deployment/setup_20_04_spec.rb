@@ -49,7 +49,7 @@ RSpec.describe 'Linux installer Ruby selection' do # rubocop:disable RSpec/Descr
     BASH
   end
 
-  %w[3.4.4 3.4.12].each do |ruby_version|
+  %w[3.4.4 3.4.13].each do |ruby_version|
     it "installs the selected branch with Ruby #{ruby_version}" do
       Dir.mktmpdir do |directory|
         # The invoking shell can have a different version from the selected checkout.
