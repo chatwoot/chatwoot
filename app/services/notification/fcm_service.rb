@@ -43,7 +43,9 @@ class Notification::FcmService
     end
   end
 
-  def before?(time, margin = 0) = time.present? && Time.zone.now < time - margin
+  def before?(time, margin = 0)
+    time.present? && Time.zone.now < time - margin
+  end
 
   def cache_key
     "fcm_access_token:#{@project_id}:#{Digest::SHA256.hexdigest(@credentials.to_s)[0, 12]}"
