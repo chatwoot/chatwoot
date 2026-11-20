@@ -39,6 +39,7 @@ export default {
       isFetchingList: 'conversation/getIsFetchingList',
       conversationSize: 'conversation/getConversationSize',
       isAgentTyping: 'conversation/getIsAgentTyping',
+      isTypingDismissed: 'conversation/getIsTypingDismissed',
       conversationAttributes: 'conversationAttributes/getConversationParams',
     }),
     colorSchemeClass() {
@@ -51,7 +52,9 @@ export default {
         this.lastMessage.message_type === MESSAGE_TYPE.INCOMING;
       return (
         this.isAgentTyping ||
-        (isConversationInPendingStatus && isLastMessageIncoming)
+        (isConversationInPendingStatus &&
+          isLastMessageIncoming &&
+          !this.isTypingDismissed)
       );
     },
   },

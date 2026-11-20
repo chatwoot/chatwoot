@@ -100,8 +100,14 @@ export const mutations = {
     // $state.conversations[id] = undefined;
   },
 
-  toggleAgentTypingStatus($state, { status }) {
+  toggleAgentTypingStatus($state, { status, dismiss = false }) {
     $state.uiFlags.isAgentTyping = status === 'on';
+    if (dismiss) {
+      const messages = Object.values($state.conversations);
+      $state.uiFlags.typingDismissedForMessageId = messages.length
+        ? messages[messages.length - 1].id
+        : null;
+    }
   },
 
   setMetaUserLastSeenAt($state, lastSeen) {
