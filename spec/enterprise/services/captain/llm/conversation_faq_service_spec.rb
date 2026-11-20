@@ -498,6 +498,48 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
     end
 
+    context 'when generated FAQ payloads have an invalid shape' do
+      [
+        nil, [], 'not an object', 42, true,
+        { faqs: nil }, { faqs: {} }, { faqs: 'not an array' },
+        { faqs: [nil] }, { faqs: ['not an object'] },
+        { faqs: [{ answer: 'An answer' }] },
+        { faqs: [{ question: 'A question' }] },
+        { faqs: [{ question: 42, answer: 'An answer' }] },
+        { faqs: [{ question: 'A question', answer: false }] },
+        { faqs: [{ question: ' ', answer: 'An answer' }] },
+        { faqs: [{ question: 'A question', answer: '' }] },
+        { faqs: [{ question: 'Valid question', answer: 'Valid answer' }, nil] }
+      ].each do |payload|
+        context "with #{payload.to_json}" do
+          let(:mock_response) { instance_double(RubyLLM::Message, content: payload.to_json) }
+
+          it 'rejects the whole response before embeddings or persistence' do
+            expect(embedding_service).not_to receive(:get_embedding)
+            expect(Rails.logger).to receive(:error).with(/Error in parsing GPT processed response:/)
+
+            expect(service.generate_suggestions).to eq([])
+            expect(captain_assistant.faq_suggestions.count).to be_zero
+            expect(Captain::FaqObservation.count).to be_zero
+          end
+        end
+      end
+    end
+
+    context 'when no FAQs are generated' do
+      [{}, { faqs: [] }].each do |payload|
+        context "with #{payload.to_json}" do
+          let(:mock_response) { instance_double(RubyLLM::Message, content: payload.to_json) }
+
+          it 'returns an empty result without reporting a parsing error' do
+            expect(Rails.logger).not_to receive(:error)
+            expect(embedding_service).not_to receive(:get_embedding)
+            expect(service.generate_suggestions).to eq([])
+          end
+        end
+      end
+    end
+
     context 'when response content is nil' do
       let(:nil_response) do
         instance_double(RubyLLM::Message, content: nil)
