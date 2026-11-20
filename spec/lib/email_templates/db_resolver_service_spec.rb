@@ -141,5 +141,24 @@ describe EmailTemplates::DbResolverService do
         expect(resolver.find_templates('base', 'layouts/mailer', false, { locale: [:fr] }).first.source).to eq(inbox_template.body)
       end
     end
+
+    context 'when another lookup runs in the middle of a lookup' do
+      let!(:alpha_template) { create(:email_template, name: 'race/alpha', body: 'alpha') }
+
+      before { create(:email_template, name: 'race/beta', body: 'beta') }
+
+      it 'returns the template for its own name' do
+        interleaved = false
+        allow(EmailTemplate).to receive(:locale_candidates).and_wrap_original do |original, locale|
+          unless interleaved
+            interleaved = true
+            resolver.find_templates('beta', 'race', false, { locale: [:en] })
+          end
+          original.call(locale)
+        end
+
+        expect(resolver.find_templates('alpha', 'race', false, { locale: [:en] }).first.source).to eq(alpha_template.body)
+      end
+    end
   end
 end
