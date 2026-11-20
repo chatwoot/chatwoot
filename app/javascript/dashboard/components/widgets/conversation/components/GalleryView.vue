@@ -6,8 +6,8 @@ import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useImageZoom } from 'dashboard/composables/useImageZoom';
+import { useFileDownload } from 'dashboard/composables/useFileDownload';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
-import { downloadFile } from '@chatwoot/utils';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
@@ -129,13 +129,15 @@ const onClickChangeAttachment = (attachment, index) => {
   resetZoomAndRotation();
 };
 
+const { download } = useFileDownload();
+
 const onClickDownload = async () => {
   const { file_type: type, data_url: url, extension } = activeAttachment.value;
   if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) return;
 
   try {
     isDownloading.value = true;
-    await downloadFile({ url, type, extension });
+    await download({ url, type, extension });
   } catch (error) {
     useAlert(t('GALLERY_VIEW.ERROR_DOWNLOADING'));
   } finally {
