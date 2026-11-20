@@ -299,11 +299,33 @@ describe('WhatsappCallingPage', () => {
       expect(wrapper.text()).not.toContain(differKey);
     });
 
-    it('does not check while business hours are not applied to calls', async () => {
-      mountPage();
+    it('does not check while calling is off', async () => {
+      mountPage({ provider_config: { calling_enabled: false } });
       await flushPromises();
 
       expect(InboxesAPI.getWhatsappCallHours).not.toHaveBeenCalled();
+    });
+
+    it('offers to turn call hours off when WhatsApp still applies them but the inbox does not', async () => {
+      InboxesAPI.getWhatsappCallHours.mockResolvedValue({
+        data: { matches_whatsapp: false },
+      });
+      const wrapper = mountPage();
+      await flushPromises();
+
+      expect(wrapper.text()).toContain(
+        outOfHoursKey('WHATSAPP_HOURS_STILL_ON')
+      );
+      expect(wrapper.text()).not.toContain(differKey);
+
+      await wrapper.find('.bg-n-amber-2 button').trigger('click');
+      await flushPromises();
+
+      expect(InboxesAPI.applyWhatsappCallHours).toHaveBeenCalledWith(52);
+      expect(wrapper.text()).not.toContain(
+        outOfHoursKey('WHATSAPP_HOURS_STILL_ON')
+      );
+      expect(wrapper.text()).not.toContain(appliedKey);
     });
 
     it('keeps the note when WhatsApp refuses the inbox hours', async () => {

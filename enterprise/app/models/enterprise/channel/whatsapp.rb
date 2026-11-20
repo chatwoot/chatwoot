@@ -10,8 +10,10 @@ module Enterprise::Channel::Whatsapp
   end
 
   def enable_voice_calling!
-    apply_call_hours! if business_hours_calls_enabled?
-    super
+    with_call_settings_lock do
+      apply_call_hours! if business_hours_calls_enabled?
+      super
+    end
   end
 
   attr_reader :last_provider_error

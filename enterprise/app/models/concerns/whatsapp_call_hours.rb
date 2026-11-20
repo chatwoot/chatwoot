@@ -26,7 +26,8 @@ module Concerns::WhatsappCallHours
   private
 
   def send_call_hours
-    provider_service.update_call_hours(call_hours_with_holidays)
+    call_hours = call_hours_for_whatsapp
+    provider_service.update_call_hours(call_hours) if call_hours['weekly_operating_hours'].present?
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP CALL HOURS] update failed for channel #{id}: #{e.message}"
     errors.add(:base, I18n.t('inbox.call_hours.whatsapp_failed', error: e.message))
@@ -41,9 +42,12 @@ module Concerns::WhatsappCallHours
     }
   end
 
-  def call_hours_with_holidays
-    holidays = provider_service.calling_settings.dig('calling', 'call_hours', 'holiday_schedule')
-    holidays.nil? ? desired_call_hours : desired_call_hours.merge('holiday_schedule' => holidays)
+  def call_hours_for_whatsapp
+    current = provider_service.calling_settings.dig('calling', 'call_hours') || {}
+    call_hours = desired_call_hours
+    call_hours['holiday_schedule'] = current['holiday_schedule'] unless current['holiday_schedule'].nil?
+    call_hours['weekly_operating_hours'] = Array(current['weekly_operating_hours']) if call_hours['weekly_operating_hours'].empty?
+    call_hours
   end
 
   def sorted_hours(hours)
