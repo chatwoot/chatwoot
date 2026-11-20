@@ -32,9 +32,7 @@ class Captain::BaseTaskService
   end
 
   def api_base
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
-    endpoint = endpoint.chomp('/')
-    "#{endpoint}/v1"
+    Llm::Config.openai_api_base
   end
 
   def make_api_call(messages:, model: nil, feature: nil, schema: nil, tools: [])
@@ -85,7 +83,7 @@ class Captain::BaseTaskService
   def build_chat(context, model:, messages:, **request)
     tools = request.fetch(:tools, [])
     options = Captain::ResponsesConfig.options(model: model, temperature: nil, feature: request[:feature])
-    chat = context.chat(model: model, **options.slice(:protocol))
+    chat = context.chat(**Llm::Config.chat_model_options(model), **options.slice(:protocol))
     chat.with_thinking(**options[:thinking]) if options[:thinking]
     system_msg = messages.find { |m| m[:role] == 'system' }
     chat.with_instructions(system_msg[:content]) if system_msg
