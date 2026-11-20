@@ -3,8 +3,14 @@ require Rails.root.join('lib/captain_response_dequeued_logger')
 
 schedule_file = 'config/schedule.yml'
 
+# Redis::Config pins `timeout: 1` for the app's redis-rb clients. Sidekiq's fetch is a blocking BRPOP
+# whose read deadline is that timeout plus the 2 s block, so passing it along makes a short Redis
+# hiccup surface as "Error fetching job: Waited 3 seconds". Leave the key out and let Sidekiq apply
+# its own default (3 s since 7.3). See https://github.com/chatwoot/chatwoot/issues/15597
+sidekiq_redis_config = Redis::Config.app.except(:timeout)
+
 Sidekiq.configure_client do |config|
-  config.redis = Redis::Config.app
+  config.redis = sidekiq_redis_config
 end
 
 # Logs whenever a job is pulled off Redis for execution.
@@ -17,7 +23,7 @@ class ChatwootDequeuedLogger
 end
 
 Sidekiq.configure_server do |config|
-  config.redis = Redis::Config.app
+  config.redis = sidekiq_redis_config
 
   config.server_middleware do |chain|
     chain.add CaptainResponseDequeuedLogger
