@@ -39,6 +39,7 @@ class AutomationRule < ApplicationRecord
   validate :captain_conditions_operator
   validate :captain_conditions_description
   validate :json_actions_format
+  validate :agent_bot_actions
   validate :query_operator_presence
   validate :query_operator_value
   validates :account_id, presence: true
@@ -58,7 +59,7 @@ class AutomationRule < ApplicationRecord
   end
 
   def actions_attributes
-    %w[send_message add_label remove_label send_email_to_team assign_team assign_agent remove_assigned_agent
+    %w[send_message add_label remove_label send_email_to_team assign_team assign_agent assign_agent_bot remove_assigned_agent
        remove_assigned_team send_webhook_event mute_conversation send_attachment change_status resolve_conversation
        open_conversation pending_conversation snooze_conversation change_priority send_email_transcript
        add_private_note].freeze
@@ -137,6 +138,24 @@ class AutomationRule < ApplicationRecord
     actions = attributes - actions_attributes
 
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
+  end
+
+  # Checked when the actions change or the rule is activated, so a rule whose bot was deleted later can still be deactivated.
+  def agent_bot_actions
+    return if actions.blank? || !agent_bot_check_due?
+
+    bot_actions = actions.select { |obj| obj['action_name'] == 'assign_agent_bot' }
+    return if bot_actions.all? { |obj| single_account_agent_bot?(obj['action_params']) }
+
+    errors.add(:actions, 'Automation action assign_agent_bot needs the id of one agent bot of the account.')
+  end
+
+  def agent_bot_check_due?
+    will_save_change_to_actions? || (will_save_change_to_active? && active?)
+  end
+
+  def single_account_agent_bot?(ids)
+    ids.is_a?(Array) && ids.one? && AgentBot.accessible_to(account).exists?(id: ids.first)
   end
 
   def query_operator_presence

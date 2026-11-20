@@ -99,6 +99,18 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(account.automation_rules.count).to eq(0)
       end
 
+      it 'rejects an assign_agent_bot action with the bot of another account' do
+        foreign_bot = create(:agent_bot, account: create(:account))
+        params[:actions] = [{ 'action_name': :assign_agent_bot, 'action_params': [foreign_bot.id] }]
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.automation_rules.count).to eq(0)
+      end
+
       it 'throws an error for unknown attributes in condtions' do
         expect(account.automation_rules.count).to eq(0)
         params[:conditions] << {

@@ -158,6 +158,27 @@ describe('getActionOptions', () => {
       })
     ).toEqual(agents);
   });
+
+  it('returns the agent bots as they are for assign_agent_bot', () => {
+    const agentBots = [
+      { id: 3, name: 'Support Bot' },
+      { id: 4, name: 'Sales Bot' },
+    ];
+
+    expect(
+      helpers.getActionOptions({
+        agentBots,
+        type: 'assign_agent_bot',
+        addNoneToListFn: list => [{ id: 'nil', name: 'None' }, ...(list || [])],
+      })
+    ).toEqual(agentBots);
+  });
+});
+
+describe('getActionIcon', () => {
+  it('returns the bot icon for assign_agent_bot', () => {
+    expect(helpers.getActionIcon('assign_agent_bot')).toBe('i-lucide-bot');
+  });
 });
 
 describe('getConditionOptions', () => {

@@ -127,6 +127,50 @@ describe ActionService do
     end
   end
 
+  describe '#assign_agent_bot' do
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account, assignee: agent, status: :open) }
+    let(:action_service) { described_class.new(conversation) }
+
+    it 'assigns the account agent bot, clears the human assignee and sets the conversation to pending' do
+      bot = create(:agent_bot, account: account)
+
+      action_service.assign_agent_bot([bot.id])
+
+      conversation.reload
+      expect(conversation.ai_assignee).to eq(bot)
+      expect(conversation.assignee).to be_nil
+      expect(conversation.status).to eq('pending')
+    end
+
+    it 'accepts a global agent bot' do
+      bot = create(:agent_bot)
+
+      action_service.assign_agent_bot([bot.id])
+
+      expect(conversation.reload.ai_assignee).to eq(bot)
+    end
+
+    it 'accepts the bot id as a string' do
+      bot = create(:agent_bot, account: account)
+
+      action_service.assign_agent_bot([bot.id.to_s])
+
+      expect(conversation.reload.ai_assignee).to eq(bot)
+    end
+
+    it 'ignores a bot of another account without raising or changing the conversation' do
+      foreign_bot = create(:agent_bot, account: create(:account))
+
+      expect { action_service.assign_agent_bot([foreign_bot.id]) }.not_to raise_error
+
+      conversation.reload
+      expect(conversation.ai_assignee).to be_nil
+      expect(conversation.assignee).to eq(agent)
+      expect(conversation.status).to eq('open')
+    end
+  end
+
   describe '#assign_team' do
     let(:agent) { create(:user, account: account, role: :agent) }
     let(:inbox_member) { create(:inbox_member, inbox: conversation.inbox, user: agent) }

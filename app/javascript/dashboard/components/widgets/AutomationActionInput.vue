@@ -98,6 +98,18 @@ export default {
         icon: a.icon,
       }));
     },
+    valueOptions() {
+      const selectedItems = [this.action_params]
+        .flat()
+        .filter(item => item?.id !== undefined);
+      const missingItems = selectedItems.filter(
+        item =>
+          !this.dropdownValues.some(
+            option => String(option.id) === String(item.id)
+          )
+      );
+      return [...this.dropdownValues, ...missingItems];
+    },
     isVerticalLayout() {
       return ['team_message', 'textarea', 'email'].includes(this.inputType);
     },
@@ -160,13 +172,13 @@ export default {
           <SingleSelect
             v-if="inputType === 'search_select'"
             v-model="action_params"
-            :options="dropdownValues"
+            :options="valueOptions"
             :dropdown-max-height="dropdownMaxHeight"
           />
           <MultiSelect
             v-else-if="inputType === 'multi_select'"
             v-model="action_params"
-            :options="dropdownValues"
+            :options="valueOptions"
             :dropdown-max-height="dropdownMaxHeight"
           />
           <NextInput

@@ -129,6 +129,14 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(pending_execution.reload).to be_executed
   end
 
+  it 'forwards the triggering message to the actions' do
+    allow(AutomationRules::ActionService).to receive(:new).and_call_original
+
+    job.perform(follow_up_execution.reload)
+
+    expect(AutomationRules::ActionService).to have_received(:new).with(follow_up_rule, account, conversation, message: agent_reply)
+  end
+
   it 'leaves the row executing and reports the error when an action blows up' do
     action_service = instance_double(AutomationRules::ActionService)
     allow(AutomationRules::ActionService).to receive(:new).and_return(action_service)

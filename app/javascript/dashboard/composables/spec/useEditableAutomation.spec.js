@@ -1,12 +1,17 @@
+import { useI18n } from 'vue-i18n';
 import { useEditableAutomation } from '../useEditableAutomation';
 import useAutomationValues from '../useAutomationValues';
 import { generateAutomationPayload } from 'dashboard/helper/automationHelper';
 import { AUTOMATIONS } from 'dashboard/routes/dashboard/settings/automation/constants';
 
 vi.mock('../useAutomationValues');
+vi.mock('vue-i18n');
 
 describe('useEditableAutomation', () => {
   beforeEach(() => {
+    useI18n.mockReturnValue({
+      t: (key, params) => `${key} ${params.id}`,
+    });
     useAutomationValues.mockReturnValue({
       getConditionDropdownValues: vi.fn(attributeKey => {
         if (attributeKey === 'private_note') {
@@ -27,6 +32,13 @@ describe('useEditableAutomation', () => {
               name: 'Last Responding Agent',
             },
             { id: 1, name: 'Agent 1' },
+          ];
+        }
+
+        if (actionName === 'assign_agent_bot') {
+          return [
+            { id: 7, name: 'Bot 7' },
+            { id: 8, name: 'Bot 8' },
           ];
         }
 
@@ -120,6 +132,53 @@ describe('useEditableAutomation', () => {
           },
         ],
       },
+    ]);
+  });
+
+  it('rehydrates ids stored as strings as selected action options', () => {
+    const automation = {
+      event_name: 'conversation_created',
+      conditions: [],
+      actions: [{ action_name: 'assign_agent_bot', action_params: ['7'] }],
+    };
+    const automationActionTypes = [
+      { key: 'assign_agent_bot', inputType: 'search_select' },
+    ];
+
+    const { formatAutomation } = useEditableAutomation();
+    const result = formatAutomation(automation, [], {}, automationActionTypes);
+
+    expect(result.actions).toEqual([
+      {
+        action_name: 'assign_agent_bot',
+        action_params: [{ id: 7, name: 'Bot 7' }],
+      },
+    ]);
+  });
+
+  it('keeps a saved id that no longer matches an option, with a placeholder', () => {
+    const automation = {
+      event_name: 'conversation_created',
+      conditions: [],
+      actions: [{ action_name: 'assign_agent_bot', action_params: ['99'] }],
+    };
+    const automationActionTypes = [
+      { key: 'assign_agent_bot', inputType: 'search_select' },
+    ];
+
+    const { formatAutomation } = useEditableAutomation();
+    const result = formatAutomation(automation, [], {}, automationActionTypes);
+
+    expect(result.actions).toEqual([
+      {
+        action_name: 'assign_agent_bot',
+        action_params: [
+          { id: '99', name: 'AUTOMATION.EDIT.UNAVAILABLE_OPTION 99' },
+        ],
+      },
+    ]);
+    expect(generateAutomationPayload(result).actions).toEqual([
+      { action_name: 'assign_agent_bot', action_params: ['99'] },
     ]);
   });
 

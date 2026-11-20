@@ -75,7 +75,7 @@ class AutomationRuleListener < BaseListener
 
       AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation, message: message)
     else
-      ::AutomationRules::ActionService.new(rule, account, conversation).perform
+      ::AutomationRules::ActionService.new(rule, account, conversation, message: message).perform
     end
   end
 
