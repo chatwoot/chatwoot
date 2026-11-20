@@ -94,7 +94,7 @@ export default {
       return this.countryCode ? cityAndCountry : `${cityAndCountry} 🌎`;
     },
     countryCode() {
-      const { country_code: countryCode } = this.additionalAttributes;
+      const countryCode = this.contact.country_code;
       const isValid =
         typeof countryCode === 'string' && /^[a-z]{2}$/i.test(countryCode);
       return isValid ? countryCode : '';
