@@ -175,12 +175,26 @@ class MailPresenter < SimpleDelegator
   end
 
   def notification_email_from_chatwoot?
-    # notification emails are send via mailer sender email address. so it should match
-    configured_sender = Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
-    original_sender.to_s.casecmp?(configured_sender)
+    # A matching sender alone is not proof that this instance generated the email:
+    # other systems commonly share the MAILER_SENDER_EMAIL address. Only drop the
+    # email when it also carries the marker header our mailers set on outgoing mail.
+    # Mail generated before the marker existed cannot be told apart from third-party
+    # mail, so during a rolling deploy an old pod's mail may be imported once; that
+    # is bounded and cannot loop because the follow-up notification is generated
+    # by upgraded code and carries the marker.
+    original_sender_matches_mailer_sender? && chatwoot_marker?
   end
 
   private
+
+  def chatwoot_marker?
+    @mail[ApplicationMailer::CHATWOOT_NOTIFICATION_HEADER]&.value.to_s.casecmp?('true')
+  end
+
+  def original_sender_matches_mailer_sender?
+    configured_sender = Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
+    original_sender.to_s.casecmp?(configured_sender)
+  end
 
   def parse_mail_address(email)
     return if email.blank?
