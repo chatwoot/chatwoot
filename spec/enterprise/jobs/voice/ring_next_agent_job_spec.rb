@@ -236,6 +236,21 @@ RSpec.describe Voice::RingNextAgentJob do
       expect(ActionCable.server).to have_received(:broadcast).with(admin.pubsub_token, hash_including(event: 'voice_call.incoming'))
       expect(ActionCable.server).not_to have_received(:broadcast).with(alice.pubsub_token, hash_including(event: 'voice_call.incoming'))
     end
+
+    it 'shows the card to the agents it adds before an accept that lands right after the step' do
+      inbox.channel.provider_config = inbox.channel.provider_config.merge('ring_strategy' => 'simultaneous')
+      inbox.channel.save!(validate: false)
+      events = []
+      allow(ActionCable.server).to receive(:broadcast) { |_stream, payload| events << payload[:event] }
+      job = described_class.new
+      allow(job).to receive(:widen_ring).and_wrap_original do |original, *args|
+        original.call(*args).tap { Call.find(call.id).broadcast_voice_call_event(:accepted) }
+      end
+
+      job.perform(call.id, 1)
+
+      expect(events.index('voice_call.incoming')).to be < events.index('voice_call.accepted')
+    end
   end
 
   it 'leaves the ringing card of a Twilio call to its message updates' do

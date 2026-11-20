@@ -16,18 +16,13 @@ class Voice::RingNextAgentJob < ApplicationJob
     added = widen_ring(call, step)
     return if added.nil?
 
-    ring_added_agents(call, added) if added.any?
+    Voice::AddedRingPushService.new(call: call, users: added).perform if added.any? && call.ring_state['rings_phones'] != false
     # A call still ringing past the dial limit lost its end callback, so it no longer holds off its
     # conversation's auto-assignment (see Concerns::CallAssignmentHold), which runs here instead
     call.conversation.auto_assign_after_call if dial_ended?(call)
   end
 
   private
-
-  def ring_added_agents(call, added)
-    Whatsapp::IncomingCallBroadcast.new(call: call, user_ids: added.map(&:id)).perform if call.whatsapp?
-    Voice::AddedRingPushService.new(call: call, users: added).perform if call.ring_state['rings_phones'] != false
-  end
 
   # The next step is queued under the lock that moves the step on, so a failed enqueue rolls
   # the move back and the retry runs this step again; a push that fails then stops nothing
@@ -51,7 +46,10 @@ class Voice::RingNextAgentJob < ApplicationJob
     rung = call.ring_state.fetch('ring_recipient_ids', [])
     added = agents_to_add(call, rung)
     call.update!(ring_state: call.ring_state.merge('ring_step' => step + 1, 'ring_recipient_ids' => rung + added.map(&:id)))
-    Voice::CallMessageBuilder.new(call).update_ring! if added.any?
+    if added.any?
+      Voice::CallMessageBuilder.new(call).update_ring!
+      Whatsapp::IncomingCallBroadcast.new(call: call, user_ids: added.map(&:id)).perform if call.whatsapp?
+    end
     added
   end
 
