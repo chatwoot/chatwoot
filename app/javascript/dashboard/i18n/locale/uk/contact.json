@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "Цей контакт успішно розблоковано",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Імпортувати контакти через файл CSV.",
-          "DOWNLOAD_LABEL": "Завантажити зразок csv.",
-          "LABEL": "Файл CSV:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Змінити",
-          "CANCEL": "Скасувати",
-          "IMPORT": "Імпорт",
-          "SUCCESS_MESSAGE": "Ви будете повідомлені по електронній пошті, коли завершиться імпорт.",
-          "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Експорт",
-          "SUCCESS_MESSAGE": "Триває експорт, з'явиться повідомлення коли він буде готовий для скачування.",
-          "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
-        },
         "SORT_BY": {
           "LABEL": "Сортувати за",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Фільтрувати контакти",
       "EDIT_SEGMENT": "Редагувати сегмент",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
