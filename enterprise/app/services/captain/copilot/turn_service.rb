@@ -1,11 +1,12 @@
 # Answers an agent's Copilot message with the workflow tools. Each step is saved on the turn's run, so a retried or resumed
-# turn continues where it stopped. Captain::Copilot::ChatService answers when the copilot_workflows flag is off, with the
-# same base prompt.
+# turn continues where it stopped. Captain::Copilot::ChatService answers with the old Copilot prompt when the
+# copilot_workflows flag is off.
 class Captain::Copilot::TurnService < Llm::BaseAiService
   include Captain::ChatHelper
   include Captain::Copilot::ConversationAccess
   include Captain::Copilot::Tracing
   include Captain::Copilot::NumberChecking
+  include Captain::Copilot::TurnPrompt
 
   MAX_MODEL_CALLS = 20
   # Copilot's tools without search_conversation, which dumps full transcripts into context; get_data and review_conversations replace it.
@@ -58,29 +59,6 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     tools = TOOLS.map { |tool| tool.new(@assistant, user: @user) } +
             WORKFLOW_TOOLS.map { |tool| tool.new(@assistant, user: @user, run: @run, lease_token: @token) }
     tools.select(&:active?).each { |tool| wrap_tool(tool) }
-  end
-
-  # Copilot's base prompt and tool list, then the workflow instructions. They explain Chatwoot's fields, because without
-  # them the model treats status and priority as content. The current time is the turn's own, so a retried or resumed turn
-  # reads the same dates. It is in the reporting time zone, where reports cut their days, so today is the account's date.
-  def system_message
-    tools = @tools.map { |tool| "- #{tool.class.name}: #{tool.description}" }.join("\n")
-    base = Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], tools, @assistant.config)
-    instructions = Captain::PromptRenderer.render('copilot_workflows', conversations_per_turn: CopilotRun::CONVERSATIONS_PER_TURN,
-                                                                       user_name: @user.name, user_id: @user.id,
-                                                                       current_time: @run.created_at.in_time_zone(@account.report_time_zone).iso8601)
-    { role: 'system', content: "#{base}\n\n#{instructions}" }
-  end
-
-  def account_message
-    { role: 'system', content: "The current account id is #{@account.id}. The account is using #{@account.locale_english_name} as the language." }
-  end
-
-  def viewed_conversation_message
-    return if @conversation.blank?
-
-    { role: 'system', content: "You are currently viewing the conversation with the following details:\n" \
-                               "Conversation ID: #{@conversation_id}\nContact ID: #{@conversation.contact_id}" }
   end
 
   def feature_name

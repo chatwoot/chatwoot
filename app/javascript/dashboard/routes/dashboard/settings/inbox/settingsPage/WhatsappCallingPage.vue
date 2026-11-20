@@ -119,18 +119,18 @@ const callHoursMatch = ref(null);
 const isCheckingCallHours = ref(false);
 const isApplyingCallHours = ref(false);
 
+const callHoursApplied = computed(
+  () =>
+    !!props.inbox.business_hours_calls_enabled &&
+    !!props.inbox.working_hours_enabled
+);
+
 const checkCallHours = async () => {
   callHoursMatch.value = null;
-  const { id, business_hours_calls_enabled, working_hours_enabled } =
-    props.inbox;
-  const applied =
-    callingEnabled.value &&
-    business_hours_calls_enabled &&
-    working_hours_enabled;
-  if (!applied) return;
+  if (!callingEnabled.value) return;
   isCheckingCallHours.value = true;
   try {
-    const { data } = await InboxesAPI.getWhatsappCallHours(id);
+    const { data } = await InboxesAPI.getWhatsappCallHours(props.inbox.id);
     callHoursMatch.value = data.matches_whatsapp;
   } catch (_) {
     callHoursMatch.value = null;
@@ -280,7 +280,21 @@ const applyInboxHours = async () => {
             :help="label('OUT_OF_HOURS.WHATSAPP_APPLY_HELP')"
             @open-business-hours="emit('openBusinessHours')"
           />
-          <template v-if="form.businessHoursCallsEnabled">
+          <div
+            v-if="callHoursMatch === false && !callHoursApplied"
+            class="flex flex-col items-start gap-1 px-3 py-2 rounded-lg bg-n-amber-2 outline outline-1 -outline-offset-1 outline-n-amber-6 text-body-main text-n-slate-12"
+          >
+            {{ label('OUT_OF_HOURS.WHATSAPP_HOURS_STILL_ON') }}
+            <NextButton
+              :label="label('OUT_OF_HOURS.WHATSAPP_TURN_OFF_HOURS')"
+              :is-loading="isApplyingCallHours"
+              link
+              amber
+              sm
+              @click="applyInboxHours"
+            />
+          </div>
+          <template v-else-if="form.businessHoursCallsEnabled">
             <span
               v-if="isSavingCallHours || isCheckingCallHours"
               class="flex items-center gap-1.5 text-label-small text-n-slate-11"

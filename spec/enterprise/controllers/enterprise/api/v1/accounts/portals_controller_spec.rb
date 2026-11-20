@@ -99,6 +99,20 @@ RSpec.describe 'Enterprise Portal API', type: :request do
     end
   end
 
+  describe 'PUT /api/v1/accounts/:account_id/portals/:portal_slug with a custom domain' do
+    it 'enqueues cloudflare verification when the logo is attached in the same request' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      blob = ActiveStorage::Blob.create_and_upload!(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png',
+                                                    content_type: 'image/png')
+
+      expect do
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { custom_domain: 'docs.example.com' }, blob_id: blob.signed_id },
+            headers: admin.create_new_auth_token
+      end.to have_enqueued_job(Enterprise::CloudflareVerificationJob).with(portal.id)
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/ssl_status' do
     let(:portal_with_domain) { create(:portal, slug: 'portal-with-domain', account_id: account.id, custom_domain: 'docs.example.com') }
 
@@ -164,6 +178,20 @@ RSpec.describe 'Enterprise Portal API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq(['API token not found'])
+      end
+
+      it 'retries the Cloudflare registration when the hostname is missing' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        mock_service = instance_double(Cloudflare::CheckCustomHostnameService)
+        allow(Cloudflare::CheckCustomHostnameService).to receive(:new).and_return(mock_service)
+        allow(mock_service).to receive(:perform).and_return({ errors: ['Hostname is missing in Cloudflare'] })
+        portal_with_domain
+
+        expect do
+          get "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/ssl_status",
+              headers: agent.create_new_auth_token,
+              as: :json
+        end.to have_enqueued_job(Enterprise::CloudflareVerificationJob).with(portal_with_domain.id)
       end
     end
   end

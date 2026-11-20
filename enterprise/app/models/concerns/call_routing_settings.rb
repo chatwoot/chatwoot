@@ -39,6 +39,10 @@ module Concerns::CallRoutingSettings
     provider_config.fetch('call_cooldown_seconds', 0)
   end
 
+  def with_call_settings_lock(&)
+    inbox.with_lock { with_lock(&) }
+  end
+
   # The channel's validation, also run on its own by a save that skips the others
   def call_routing_settings_valid
     return if CALL_ROUTING_SETTINGS.all? { |key, valid| !provider_config.key?(key) || valid.call(provider_config[key]) }

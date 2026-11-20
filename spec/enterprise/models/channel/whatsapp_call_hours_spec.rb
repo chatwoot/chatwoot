@@ -97,14 +97,23 @@ RSpec.describe Channel::Whatsapp do
         expect(a_request(:any, settings_url)).not_to have_been_made
       end
 
-      it 'still turns call hours off' do
+      it "still turns call hours off, sending WhatsApp's own week since it refuses an empty one" do
         channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
-        stub_meta_settings(nil)
-        update = stub_update(call_hours('DISABLED', []))
+        stub_meta_settings(call_hours('ENABLED').merge('holiday_schedule' => holidays))
+        update = stub_update(call_hours('DISABLED').merge('holiday_schedule' => holidays))
 
         channel.apply_call_hours!
 
         expect(update).to have_been_requested
+      end
+
+      it 'sends nothing when WhatsApp has no week, since call hours cannot be on there' do
+        channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
+        stub_meta_settings(nil)
+
+        channel.apply_call_hours!
+
+        expect(a_request(:post, settings_url)).not_to have_been_made
       end
     end
   end

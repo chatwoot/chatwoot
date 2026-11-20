@@ -889,7 +889,9 @@
         "WHATSAPP_HOURS_APPLYING": "Applying on WhatsApp…",
         "WHATSAPP_HOURS_APPLIED": "Applied on WhatsApp",
         "WHATSAPP_HOURS_DIFFER": "WhatsApp is using different call hours from this inbox. Calls follow WhatsApp's hours until you apply the inbox hours.",
-        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours"
+        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours",
+        "WHATSAPP_HOURS_STILL_ON": "WhatsApp is still applying call hours, but this inbox doesn't. Calls outside those hours won't go through until you turn them off.",
+        "WHATSAPP_TURN_OFF_HOURS": "Turn off on WhatsApp"
       },
       "AFTER_CALL": {
         "TITLE": "After a call",

@@ -7,7 +7,7 @@ class Api::V1::Accounts::Inboxes::CallRoutingsController < Api::V1::Accounts::Ba
   # the other call settings are, so WhatsApp's remote credential check can't reject the save.
   def update
     channel = @inbox.channel
-    channel.with_lock do
+    channel.with_call_settings_lock do
       hours_were_applied = call_hours_applied?(channel)
       channel.provider_config = channel.provider_config.merge(
         'ring_strategy' => params[:ring_strategy], 'ring_step_seconds' => params[:ring_step_seconds],

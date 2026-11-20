@@ -305,6 +305,22 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       expect(a_request(:any, settings_url)).not_to have_been_made
     end
 
+    it 'allows closing every day once the inbox business hours are off, keeping call hours off at WhatsApp' do
+      inbox.update!(working_hours_enabled: false)
+      whatsapp_week = [{ 'day_of_week' => 'MONDAY', 'open_time' => '0900', 'close_time' => '1700' }]
+      whatsapp_hours = { 'status' => 'ENABLED', 'timezone_id' => 'UTC', 'weekly_operating_hours' => whatsapp_week }
+      stub_request(:get, settings_url).to_return(status: 200, headers: { 'Content-Type' => 'application/json' },
+                                                 body: { calling: { call_hours: whatsapp_hours } }.to_json)
+      update = stub_request(:post, settings_url)
+               .with(body: { calling: { call_hours: whatsapp_hours.merge('status' => 'DISABLED') } }.to_json)
+               .to_return(status: 200, body: '{}')
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: closed_week }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(update).to have_been_requested
+    end
+
     it 'leaves WhatsApp alone when the rest of the save fails' do
       working_hours = [{ day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 18, close_minutes: 0 }]
 

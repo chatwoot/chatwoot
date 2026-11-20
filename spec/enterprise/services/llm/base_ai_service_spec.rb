@@ -41,6 +41,30 @@ RSpec.describe Llm::BaseAiService do
     it 'uses the feature default when feature context has no account override or installation model' do
       expect(described_class.new(feature: 'assistant', account: account).model).to eq(Llm::Models.default_model_for('assistant'))
     end
+
+    context 'with Copilot workflows and an installation model' do
+      before { create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-6-luna') }
+
+      it 'uses the Copilot workflows default ahead of the installation model on Cloud' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+
+        expect(described_class.new(feature: 'copilot_workflows', account: account).model).to eq('gpt-5.2')
+        expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-6-luna')
+      end
+
+      it 'uses the account override ahead of the Copilot workflows default on Cloud' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.update!(captain_models: { 'copilot_workflows' => 'gpt-5.1' })
+
+        expect(described_class.new(feature: 'copilot_workflows', account: account).model).to eq('gpt-5.1')
+      end
+
+      it 'keeps the installation model on self-hosted installs' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+
+        expect(described_class.new(feature: 'copilot_workflows', account: account).model).to eq('gpt-6-luna')
+      end
+    end
   end
 
   describe 'routed request format' do
@@ -94,14 +118,12 @@ RSpec.describe Llm::BaseAiService do
   end
 
   describe '#chat' do
-    %w[gpt-5.1 gpt-5.2].each do |model|
-      it "omits temperature for #{model} when the model registry marks it unsupported" do
-        llm_chat = instance_double(RubyLLM::Chat)
-        allow(RubyLLM).to receive(:chat).with(model: model, protocol: :responses).and_return(llm_chat)
+    it 'omits temperature when the model registry marks it unsupported' do
+      llm_chat = instance_double(RubyLLM::Chat)
+      allow(RubyLLM).to receive(:chat).with(model: 'gpt-6.1-sol', protocol: :responses).and_return(llm_chat)
 
-        expect(llm_chat).not_to receive(:with_temperature)
-        expect(service.chat(model: model)).to eq(llm_chat)
-      end
+      expect(llm_chat).not_to receive(:with_temperature)
+      expect(service.chat(model: 'gpt-6.1-sol')).to eq(llm_chat)
     end
 
     it 'sets temperature when the model registry marks it supported' do

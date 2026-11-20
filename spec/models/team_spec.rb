@@ -52,6 +52,22 @@ RSpec.describe Team do
                                                                           cache_keys: team.account.cache_keys
                                                                         )
     end
+
+    it 'does not reset cache keys when no user ids are given' do
+      expect(team.account).not_to receive(:update_cache_key)
+
+      team.add_members([])
+    end
+
+    it 'does not reset cache keys when users are already members' do
+      users = FactoryBot.create_list(:user, 2)
+      team.add_members(users.map(&:id))
+
+      expect(team.account).not_to receive(:update_cache_key)
+
+      team.add_members(users.map(&:id))
+      expect(team.reload.team_members.size).to eq(2)
+    end
   end
 
   describe '#remove_members' do
@@ -76,6 +92,21 @@ RSpec.describe Team do
                                                                           account: team.account,
                                                                           cache_keys: team.account.cache_keys
                                                                         )
+    end
+
+    it 'does not reset cache keys when no user ids are given' do
+      expect(team.account).not_to receive(:update_cache_key)
+
+      team.remove_members([])
+      expect(team.reload.team_members.size).to eq(3)
+    end
+
+    it 'does not reset cache keys when users are not members' do
+      non_members = FactoryBot.create_list(:user, 2)
+      expect(team.account).not_to receive(:update_cache_key)
+
+      team.remove_members(non_members.map(&:id))
+      expect(team.reload.team_members.size).to eq(3)
     end
   end
 end

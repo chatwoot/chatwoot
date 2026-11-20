@@ -10,10 +10,12 @@ module Captain::ParamSources
                'If that is not possible, ask whether they want to talk to a support agent.'.freeze
   # Added to a result when an admin or an agent passed a proven value the customer did not prove
   UNVERIFIED_VALUE_NOTE = 'The email passed to this tool was not verified by the customer.'.freeze
+  # A saved fixed number that overflows to infinity, which JSON cannot carry
+  NON_FINITE_FIXED_NUMBER = 'This tool has an invalid fixed value and cannot run. Do not call it again in this conversation.'.freeze
   # A fixed value is stored as text. A parameter of one of these JSON types gets the value in that type.
   FIXED_TYPES = {
     'integer' => ->(text) { Integer(text, 10) },
-    'number' => ->(text) { Float(text) },
+    'number' => ->(text) { fixed_number(text) },
     'boolean' => ->(text) { { 'true' => true, 'false' => false }.fetch(text.strip.downcase) }
   }.freeze
   # The types a fixed value can fill: text as typed, or text converted to one of FIXED_TYPES
@@ -21,6 +23,8 @@ module Captain::ParamSources
 
   # The message tells the model why the value is missing and what to do next
   class Unavailable < StandardError; end
+  class NonFiniteNumber < ArgumentError; end
+  private_constant :NonFiniteNumber
 
   # Errors for a tool's entries, checked against the parameters in its input schema
   def self.validate(entries, properties:, tool_name:)
@@ -52,12 +56,14 @@ module Captain::ParamSources
     types.first if types.one?
   end
 
-  # Raises Unavailable when the value cannot be read for this conversation. A fixed value takes the parameter's type.
+  # Raises Unavailable when a sourced value cannot be used. A fixed value takes the parameter's type.
   def self.resolve(entry, conversation, type: nil)
     case entry['source']
     when VERIFIED_EMAIL then verified_email(conversation)
     when FIXED then fixed_value(entry['value'], type)
     end
+  rescue NonFiniteNumber
+    raise Unavailable, NON_FINITE_FIXED_NUMBER
   end
 
   # The email the customer verified in this conversation, or nil. It is read from stored data on every call, never from
@@ -92,6 +98,14 @@ module Captain::ParamSources
     convert ? convert.call(text) : text
   end
   private_class_method :fixed_value
+
+  def self.fixed_number(text)
+    value = Float(text)
+    raise NonFiniteNumber unless value.finite?
+
+    value
+  end
+  private_class_method :fixed_number
 
   # A fixed value must convert to its parameter's type, so a call never sends a value of the wrong type
   def self.fixed_type_problem(entry, type)
