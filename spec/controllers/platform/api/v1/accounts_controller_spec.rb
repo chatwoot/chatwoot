@@ -111,6 +111,17 @@ RSpec.describe 'Platform Accounts API', type: :request do
         expect(json_response.size).to eq(2)
         expect(json_response.map { |acc| acc['name'] }).to include('Account A', 'Account B')
       end
+
+      it 'returns 200 and skips orphaned permissibles when an account no longer exists' do
+        # Skip validations so the permissible row points at an account that is gone.
+        missing_id = account2.id + 1000
+        PlatformAppPermissible.new(platform_app: platform_app, permissible_type: 'Account', permissible_id: missing_id).save!(validate: false)
+
+        get '/platform/api/v1/accounts', headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.map { |acc| acc['name'] }).to contain_exactly('Account A', 'Account B')
+      end
     end
   end
 
