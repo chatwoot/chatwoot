@@ -296,7 +296,7 @@ RSpec.describe MailPresenter do
         Mail.new do
           from 'Acme <noreply@example.com>'
           to 'Inbox <inbox@example.com>'
-          subject 'Monthly invoice'
+          subject :monthly_invoice
           body 'Hi'
         end
       end
