@@ -90,6 +90,21 @@ RSpec.describe 'Agents API', type: :request do
         expect(account.reload.users).not_to include(other_agent)
         expect(other_agent.account_users.count).to eq(1) # Should only be associated with other_account now
       end
+
+      it 'deletes only the account membership when the agent is a super admin' do
+        super_admin = create(:super_admin)
+        create(:account_user, account: account, user: super_admin, role: 'administrator')
+
+        perform_enqueued_jobs(only: DeleteObjectJob) do
+          delete "/api/v1/accounts/#{account.id}/agents/#{super_admin.id}",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+        end
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.users).not_to include(super_admin)
+        expect(User.exists?(super_admin.id)).to be(true)
+      end
     end
   end
 
