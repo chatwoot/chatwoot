@@ -48,6 +48,30 @@ RSpec.describe DataImports::Freshdesk::Normalizer do
     expect(parts.second['attachments'].first).to include('name' => 'browser-log.txt')
   end
 
+  it 'prefers provider plain text and marks it explicitly', :aggregate_failures do
+    ticket_fixture['ticket']['description_text'] = 'Literal <widget> &amp; text'
+    ticket_fixture['conversations'].first['body_text'] = 'Reply with 1 < 2'
+
+    ticket = described_class.new.ticket(ticket_fixture.fetch('ticket'), ticket_fixture.fetch('conversations'))
+
+    expect(ticket.fetch('source')).to include(
+      'body' => 'Literal <widget> &amp; text', 'body_format' => 'text', 'subject_format' => 'text'
+    )
+    reply = ticket.dig('conversation_parts', 'conversation_parts').find { |part| part['id'] == '3003' }
+    expect(reply).to include('body' => 'Reply with 1 < 2', 'body_format' => 'text')
+  end
+
+  it 'keeps HTML fallback explicit when provider plain text is missing or blank', :aggregate_failures do
+    ticket_fixture['ticket'].delete('description_text')
+    ticket_fixture['conversations'].first['body_text'] = ' '
+
+    ticket = described_class.new.ticket(ticket_fixture.fetch('ticket'), ticket_fixture.fetch('conversations'))
+
+    expect(ticket.fetch('source')).to include('body' => ticket_fixture.dig('ticket', 'description'), 'body_format' => 'html')
+    reply = ticket.dig('conversation_parts', 'conversation_parts').find { |part| part['id'] == '3003' }
+    expect(reply).to include('body' => ticket_fixture['conversations'].first.fetch('body'), 'body_format' => 'html')
+  end
+
   it 'preserves provider order for messages with equal timestamps' do
     conversations = ticket_fixture.fetch('conversations').map(&:deep_dup)
     conversations[0]['created_at'] = conversations[1]['created_at']
@@ -92,7 +116,7 @@ RSpec.describe DataImports::Freshdesk::Normalizer do
       'priority' => 1
     )
     expect(ticket.dig('source', 'type')).to eq('web_chat')
-    expect(ticket.fetch('source')).not_to include('subject', 'body')
+    expect(ticket.fetch('source')).not_to include('subject', 'body', 'subject_format', 'body_format')
     expect(DataImports::Freshdesk::MessageBatchBuilder.source_message_importable?(ticket.fetch('source'))).to be(false)
     expect(parts.pluck('id')).to eq(%w[3101 3102 3103 3104 3105 3106])
     expect(parts.map { |part| part.dig('author', 'type') }).to eq(%w[admin contact contact admin contact admin])

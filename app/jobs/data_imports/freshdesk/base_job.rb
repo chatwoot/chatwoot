@@ -1,6 +1,12 @@
 class DataImports::Freshdesk::BaseJob < DataImports::BaseJob
   DEFAULT_RATE_LIMIT_WAIT = 1.minute
 
+  retry_on(*DataImports::Importer::CONNECTION_ERRORS, wait: :polynomially_longer, attempts: 3) do |job, error|
+    raise error if job.arguments.empty?
+
+    job.fail_import!(error)
+  end
+
   retry_on DataImports::Freshdesk::Client::Error, wait: 1.minute, attempts: 3 do |job, error|
     job.fail_import!(error)
   end

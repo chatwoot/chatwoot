@@ -1,6 +1,13 @@
 class DataImports::BaseJob < ApplicationJob
   queue_as :low
 
+  def retry_job(options = {})
+    if DataImports::Importer::CONNECTION_ERRORS.any? { |error_class| options[:error].is_a?(error_class) }
+      ApplicationRecord.connection_pool.active_connection?&.disconnect!
+    end
+    super
+  end
+
   def fail_import!(error)
     data_import = arguments.first
     run_id = arguments.length > 1 ? arguments.last : nil
@@ -10,6 +17,15 @@ class DataImports::BaseJob < ApplicationJob
   end
 
   private
+
+  def deserialize_arguments(serialized_args)
+    super
+  rescue ActiveJob::DeserializationError => e
+    # Database outages during GlobalID lookup must reach the connection retry handler.
+    raise e.cause if DataImports::Importer::CONNECTION_ERRORS.any? { |error_class| e.cause.is_a?(error_class) }
+
+    raise
+  end
 
   def skip_import?(data_import, run_id = nil)
     data_import.reload
@@ -27,7 +43,8 @@ class DataImports::BaseJob < ApplicationJob
   end
 
   def fail_unexpected_error(importer, error)
-    raise error if source_class(arguments.first).client_error?(error)
+    raise error if source_class(arguments.first).client_error?(error) ||
+                   DataImports::Importer::CONNECTION_ERRORS.any? { |error_class| error.is_a?(error_class) }
 
     importer&.fail!(error)
     raise error
