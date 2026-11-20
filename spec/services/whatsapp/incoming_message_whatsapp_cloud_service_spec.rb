@@ -95,6 +95,64 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when the contact sends an Ogg/Opus voice note' do
+      let(:media_id) { 'b1c68f38-8734-4ad3-b4a1-ef0c10d683' }
+      let(:voice_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: sender_number }],
+                messages: [{
+                  from: sender_number,
+                  audio: { id: media_id, mime_type: 'audio/ogg; codecs=opus', voice: true },
+                  timestamp: '1664799904', type: 'audio'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      before do
+        stub_request(:get, whatsapp_channel.media_url(media_id)).to_return(
+          status: 200,
+          body: { messaging_product: 'whatsapp', url: 'https://chatwoot-assets.local/whatsapp_business/attachments/?mid=123',
+                  mime_type: 'audio/ogg; codecs=opus', id: media_id }.to_json,
+          headers: { 'content-type' => 'application/json' }
+        )
+        stub_request(:get, 'https://chatwoot-assets.local/whatsapp_business/attachments/?mid=123').to_return(
+          status: 200,
+          body: File.binread('spec/assets/sample_voice.oga'),
+          headers: { 'content-type' => 'audio/ogg; codecs=opus' }
+        )
+      end
+
+      it 'stores the voice note as mp3 so Safari can play it' do
+        skip 'ffmpeg is not installed' unless Audio::TranscoderService.ffmpeg_available?
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: voice_params).perform
+
+        attachment = whatsapp_channel.inbox.messages.first.attachments.first
+        expect(attachment.file_type).to eq('audio')
+        expect(attachment.file.content_type).to eq('audio/mpeg')
+        expect(attachment.file.filename.to_s).to end_with('.mp3')
+        expect(attachment.extension).to eq('mp3')
+      end
+
+      it 'keeps the original ogg when transcoding fails' do
+        allow(Audio::TranscoderService).to receive(:ffmpeg_available?).and_return(false)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: voice_params).perform
+
+        attachment = whatsapp_channel.inbox.messages.first.attachments.first
+        expect(attachment.file.content_type).to eq('audio/ogg')
+        expect(attachment.file.byte_size).to eq(File.size('spec/assets/sample_voice.oga'))
+      end
+    end
+
     context 'when a contact submits a WhatsApp Flow response' do
       let(:response_json) do
         {

@@ -71,6 +71,8 @@ RSpec.describe Llm::SpeechToTextService, type: :service do
   describe '#fetch_audio_file' do
     it 'normalizes .oga uploads without changing the audio bytes or stored filename' do
       audio_path = Rails.root.join('spec/assets/sample.ogg')
+      # Keep the Ogg as stored, as for attachments saved before transcoding existed or without ffmpeg.
+      allow(Audio::TranscoderService).to receive(:ffmpeg_available?).and_return(false)
       attachment.file.attach(io: File.open(audio_path), filename: 'voice.oga', content_type: 'audio/ogg')
 
       temp_file_path = service.send(:fetch_audio_file)
