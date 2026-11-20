@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "কন্টাক্ট আমদানি করুন",
-          "DESCRIPTION": "CSV ফাইলের মাধ্যমে কন্টাক্ট আমদানি করুন.",
-          "DOWNLOAD_LABEL": "একটি নমুনা CSV ডাউনলোড করুন.",
-          "LABEL": "CSV ফাইল:",
-          "CHOOSE_FILE": "ফাইল নির্বাচন করুন",
-          "CHANGE": "পরিবর্তন করুন",
-          "CANCEL": "বাতিল করুন",
-          "IMPORT": "আমদানি করুন",
-          "SUCCESS_MESSAGE": "আমদানি সম্পন্ন হলে আপনাকে ইমেইলে জানানো হবে.",
-          "ERROR_MESSAGE": "একটি সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "যোগাযোগসমূহ রপ্তানি করুন",
-          "DESCRIPTION": "আপনার পরিচিতিগুলোর বিস্তারিত তথ্যসহ দ্রুত একটি csv ফাইল রপ্তানি করুন",
-          "CONFIRM": "রপ্তানি করুন",
-          "SUCCESS_MESSAGE": "রপ্তানি চলছে. ডাউনলোডের জন্য ফাইল প্রস্তুত হলে আপনাকে ইমেইলে জানানো হবে.",
-          "ERROR_MESSAGE": "একটি ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
-        },
         "SORT_BY": {
           "LABEL": "সাজান",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "যোগাযোগ ফিল্টার করুন",
       "EDIT_SEGMENT": "সেগমেন্ট সম্পাদনা করুন",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "সেগমেন্টের নাম",
         "INPUT_PLACEHOLDER": "সেগমেন্টের নাম লিখুন"
