@@ -2,6 +2,7 @@ import { computed, readonly, ref, watch, onUnmounted, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import VoiceAPI from 'dashboard/api/channel/voice/voiceAPIClient';
+import WhatsappCallsAPI from 'dashboard/api/channel/whatsapp/whatsappCallsAPI';
 import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { useCallsStore } from 'dashboard/stores/calls';
 import { useAlert } from 'dashboard/composables';
@@ -9,6 +10,7 @@ import {
   useWhatsappCallSession,
   sendWhatsappTerminateBeacon,
   cleanupWhatsappSession,
+  isLocalWhatsappCall,
 } from 'dashboard/composables/useWhatsappCallSession';
 import {
   handleVoiceCallCreated,
@@ -227,20 +229,22 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     }
   };
 
-  // An inbound Twilio call is dismissed on the server first, which closes this agent's other
+  // An inbound call is dismissed on the server first, which closes this agent's other
   // tabs while the call keeps ringing everyone else; a failed request keeps the card for a retry
-  const dismissCall = async callSid => {
-    const call = findCall(callSid);
-    if (
-      !isWhatsappCall(call) &&
-      call?.callDirection === VOICE_CALL_DIRECTION.INBOUND
-    ) {
-      try {
-        await VoiceAPI.dismissRing({
+  const dismissRing = call =>
+    isWhatsappCall(call)
+      ? WhatsappCallsAPI.dismiss(call.callId)
+      : VoiceAPI.dismissRing({
           inboxId: call.inboxId,
           conversationId: call.conversationId,
-          callSid,
+          callSid: call.callSid,
         });
+
+  const dismissCall = async callSid => {
+    const call = findCall(callSid);
+    if (call?.callDirection === VOICE_CALL_DIRECTION.INBOUND) {
+      try {
+        await dismissRing(call);
       } catch (error) {
         // 401: the agent lost access to the conversation, so the card goes anyway
         if (error?.response?.status !== 401) {
@@ -249,7 +253,7 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
         }
       }
       // Joined while the request was on its way: the call stays with this tab
-      if (isLocalCall(callSid)) return;
+      if (isLocalCall(callSid) || isLocalWhatsappCall(call.callId)) return;
     }
     markCallDismissed(callSid);
     callsStore.dismissCall(callSid);
