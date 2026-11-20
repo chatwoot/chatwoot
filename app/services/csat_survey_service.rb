@@ -1,5 +1,7 @@
 class CsatSurveyService
-  pattr_initialize [:conversation!]
+  # assignee_id is the assignee as captured when the triggering event was
+  # dispatched; see CsatSurveyListener#conversation_status_changed.
+  pattr_initialize [:conversation!, :assignee_id]
 
   def perform
     return unless should_send_csat_survey?
@@ -9,7 +11,7 @@ class CsatSurveyService
     elsif inbox.twilio_whatsapp? && twilio_template_available_and_approved?
       send_twilio_whatsapp_template_survey
     elsif within_messaging_window?
-      ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform
+      ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation, assigned_agent_id: survey_agent_id).perform
     else
       create_csat_not_sent_activity_message
     end
@@ -18,6 +20,15 @@ class CsatSurveyService
   private
 
   delegate :inbox, :contact, to: :conversation
+
+  # Precedence: the assignee captured at event dispatch (before any
+  # unassign-on-resolve automation could run), then the conversation's own
+  # resolution - live assignee, else the last human agent who replied, for
+  # conversations that were already unassigned when they were resolved and
+  # for surveys enqueued before the event carried the assignee.
+  def survey_agent_id
+    @survey_agent_id ||= assignee_id || conversation.csat_survey_agent_id
+  end
 
   def should_send_csat_survey?
     conversation_allows_csat? && csat_enabled? && !csat_already_sent? && csat_allowed_by_survey_rules?
@@ -140,7 +151,11 @@ class CsatSurveyService
       inbox: inbox,
       message_type: :outgoing,
       content: inbox.csat_config&.dig('message') || 'Please rate this conversation',
-      content_type: :input_csat
+      content_type: :input_csat,
+      # Same snapshot MessageTemplates::Template::CsatSurvey takes: the agent
+      # must be captured when the survey goes out, or an unassign-on-resolve
+      # automation erases the attribution before the rating arrives (#14872).
+      content_attributes: { assigned_agent_id: survey_agent_id }
     )
   end
 
