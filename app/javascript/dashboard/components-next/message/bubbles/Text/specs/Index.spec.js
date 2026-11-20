@@ -3,12 +3,23 @@ import { mount } from '@vue/test-utils';
 import TextBubble from '../Index.vue';
 import { provideMessageContext } from '../../../provider.js';
 
+const mockTranslations = vi.hoisted(() => ({
+  hasTranslations: null,
+  translationContent: null,
+}));
+
 vi.mock('dashboard/composables/useTranslations', async () => {
-  const { computed: makeComputed } = await import('vue');
+  const { computed: makeComputed, ref: makeRef } = await import('vue');
+  mockTranslations.hasTranslations ??= makeRef(false);
+  mockTranslations.translationContent ??= makeRef(null);
   return {
     useTranslations: () => ({
-      hasTranslations: makeComputed(() => false),
-      translationContent: makeComputed(() => null),
+      hasTranslations: makeComputed(
+        () => mockTranslations.hasTranslations.value
+      ),
+      translationContent: makeComputed(
+        () => mockTranslations.translationContent.value
+      ),
     }),
   };
 });
@@ -94,6 +105,8 @@ const mountBubble = content => {
 describe('Text message bubble read-more control', () => {
   beforeEach(() => {
     resizeObservers.length = 0;
+    mockTranslations.hasTranslations.value = false;
+    mockTranslations.translationContent.value = null;
     vi.stubGlobal('ResizeObserver', TestResizeObserver);
     HTMLElement.prototype.animate = vi.fn(() => ({
       finished: Promise.resolve(),
@@ -151,6 +164,41 @@ describe('Text message bubble read-more control', () => {
     expect(message.classes()).toContain('max-h-40');
     expect(warning.text()).toBe('Could not translate, sent as typed');
     expect(warning.element.closest('.read-more-content')).toBeNull();
+  });
+
+  it('applies the collapsed height before animating to a long translation', async () => {
+    const { wrapper } = mountBubble('Short original message.');
+    await nextTick();
+    await nextTick();
+
+    const bubble = wrapper.get('[aria-busy]').element;
+    const animationFrames = [];
+    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockImplementation(
+      function offsetHeight() {
+        if (this.classList.contains('read-more-content')) {
+          return this.classList.contains('max-h-40') ? 160 : this.scrollHeight;
+        }
+
+        const content = this.querySelector('.read-more-content');
+        return content ? content.offsetHeight : 0;
+      }
+    );
+    vi.spyOn(bubble, 'animate').mockImplementation(frames => {
+      animationFrames.push(frames);
+      return {
+        finished: Promise.resolve(),
+        cancel: vi.fn(),
+        play: vi.fn(),
+      };
+    });
+
+    mockTranslations.translationContent.value = longContent;
+    mockTranslations.hasTranslations.value = true;
+
+    await vi.waitFor(() => expect(animationFrames.length).toBeGreaterThan(0));
+
+    expect(wrapper.get('.read-more-content').classes()).toContain('max-h-40');
+    expect(animationFrames[0].height).toEqual(['48px', '160px']);
   });
 
   it('reattaches the resize observer when rendered content is replaced', async () => {
