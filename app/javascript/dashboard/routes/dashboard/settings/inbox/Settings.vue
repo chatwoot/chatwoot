@@ -1488,7 +1488,12 @@ export default {
           v-if="selectedTabKey === 'calls-configuration'"
           class="mx-6 max-w-4xl"
         >
-          <WhatsappCallingPage :inbox="inbox" />
+          <WhatsappCallingPage
+            :inbox="inbox"
+            @open-business-hours="
+              onTabChange(tabs.findIndex(tab => tab.key === 'business-hours'))
+            "
+          />
         </div>
         <div v-if="selectedTabKey === 'csat'">
           <CustomerSatisfactionPage :inbox="inbox" />
