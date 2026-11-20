@@ -40,6 +40,28 @@ RSpec.describe Captain::ParamSources do
                                          'list_invoices parameter paid needs a fixed value of type boolean'])
     end
 
+    context 'with numeric fixed values' do
+      let(:properties) { { 'ratio' => { 'type' => 'number' }, 'maximum' => { 'type' => %w[number null] } } }
+
+      %w[1e309 -1e309].each do |value|
+        it "rejects #{value} for a number or nullable number" do
+          entry = { 'source' => 'fixed', 'value' => value }
+
+          expect(errors_for({ 'ratio' => entry, 'maximum' => entry }))
+            .to eq(['list_invoices parameter ratio needs a fixed value of type number',
+                    'list_invoices parameter maximum needs a fixed value of type number'])
+        end
+      end
+
+      it 'accepts normal and large finite numbers' do
+        %w[0 149.5 -1.5 1e308].each do |value|
+          entry = { 'source' => 'fixed', 'value' => value }
+
+          expect(errors_for({ 'ratio' => entry, 'maximum' => entry })).to be_empty
+        end
+      end
+    end
+
     it 'rejects a fixed value on a list or object parameter, which a fixed text cannot fill' do
       properties.merge!('ids' => { 'type' => 'array' }, 'filter' => { 'type' => %w[object null] })
       entries = { 'ids' => '[1,2]', 'filter' => '{"status":"open"}' }.transform_values { |value| { 'source' => 'fixed', 'value' => value } }

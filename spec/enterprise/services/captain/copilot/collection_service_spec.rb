@@ -122,4 +122,28 @@ RSpec.describe Captain::Copilot::CollectionService do
     expect(result[:time_zone]).to eq('America/Los_Angeles')
     expect(result[:aggregate][:groups].pluck(:group)).to eq(%w[2023-08-31 2023-09-01 2023-09-02 2023-09-03])
   end
+
+  it 'reads a date without a time as the start of that day in the account time zone' do
+    account.update!(reporting_timezone: 'Pacific/Pago_Pago')
+
+    result = collect(resource: 'conversations', filters: { 'date_field' => 'created_at', 'since' => '2023-09-02', 'before' => '2023-09-04' })
+
+    expect(result).to include(total: 2, dates: include(first: '2023-09-03T10:00:00Z', last: '2023-09-04T10:00:00Z'))
+  end
+
+  it 'selects the last N days as the reports pages count them, today included' do
+    travel_to Time.utc(2023, 9, 5, 12) do
+      result = collect(resource: 'conversations', filters: { 'date_field' => 'created_at', 'last_days' => 3 })
+
+      expect(result).to include(total: 3, dates: include(first: '2023-09-03T10:00:00Z', last: '2023-09-05T10:00:00Z'))
+    end
+  end
+
+  it 'stops a before later than now at now' do
+    travel_to Time.utc(2023, 9, 5, 12) do
+      result = collect(resource: 'conversations', filters: { 'date_field' => 'created_at', 'since' => '2023-09-04', 'before' => '2023-09-11' })
+
+      expect(result[:total]).to eq(2)
+    end
+  end
 end
