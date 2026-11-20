@@ -142,6 +142,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'returns a CSV file with breached conversations' do
+        sla_policy1.update!(name: 'Política 日本語')
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')
         conversation1.update(status: 'open')
@@ -151,14 +152,16 @@ RSpec.describe 'Applied SLAs API', type: :request do
             headers: administrator.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(response.headers['Content-Type']).to eq('text/csv')
+        expect(response.headers['Content-Type']).to eq('text/csv; charset=utf-8')
+        expect(response.body.bytes.first(3)).to eq([0xEF, 0xBB, 0xBF])
         expect(response.headers['Content-Disposition']).to include('attachment; filename=breached_conversation.csv')
 
-        csv_data = CSV.parse(response.body)
+        csv_data = CSV.parse(response.body.delete_prefix("\uFEFF"))
         csv_data.reject! { |row| row.all?(&:nil?) }
         expect(csv_data.size).to eq(3)
         conversation_ids = csv_data.drop(1).map { |row| row[0].to_i }
         expect(conversation_ids).to contain_exactly(conversation1.display_id, conversation2.display_id)
+        expect(csv_data.drop(1).map { |row| row[1] }).to contain_exactly('Política 日本語', 'Política 日本語')
       end
 
       it 'excludes conversations with blocked contacts from the CSV file' do
@@ -170,7 +173,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
             headers: administrator.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        csv_data = CSV.parse(response.body)
+        csv_data = CSV.parse(response.body.delete_prefix("\uFEFF"))
         csv_data.reject! { |row| row.all?(&:nil?) }
         expect(csv_data.size).to eq(2)
         expect(csv_data[1][0].to_i).to eq(conversation1.display_id)

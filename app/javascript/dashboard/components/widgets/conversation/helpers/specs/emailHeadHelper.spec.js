@@ -13,6 +13,27 @@ describe('#validEmailsByComma', () => {
   it('strips spaces between emails before validating', () => {
     expect(validEmailsByComma('1@test.com  , 2@test.com')).toEqual(true);
   });
+  it.each([
+    'first@example.com; second@example.com',
+    'first@example.com second@example.com',
+    'first@example.com\nsecond@example.com\tthird@example.com',
+    'first @ example.com; second @ example.com third@example.com',
+    ' ; first@example.com,,; second@example.com; ',
+    'first@example.com\u00a0second\u00a0@\u00a0example.com',
+    'first@example.com\u0085second\u0085@\u0085example.com',
+    'first@example.com\u202fsecond@example.com',
+    'first@example.com\u3000second@example.com',
+    'first@example.com\ufeffsecond@example.com',
+  ])('accepts the backend recipient delimiters: %s', value => {
+    expect(validEmailsByComma(value)).toEqual(true);
+  });
+  it.each([
+    'first@example.com; invalid',
+    'first@example.com invalid@',
+    'first@example.com; second@example.com invalid@',
+  ])('rejects invalid recipients with mixed delimiters: %s', value => {
+    expect(validEmailsByComma(value)).toEqual(false);
+  });
 });
 
 describe('#getDefaultSubject', () => {
