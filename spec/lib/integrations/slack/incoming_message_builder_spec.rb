@@ -38,7 +38,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
   let(:verification_params) { slack_url_verification_stub }
 
   let!(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
-  let!(:conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
+  let!(:conversation) { create(:conversation, account: account, identifier: message_params[:event][:thread_ts]) }
 
   before do
     stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
@@ -169,6 +169,49 @@ describe Integrations::Slack::IncomingMessageBuilder do
 
         expect { builder.perform }.not_to raise_error
         expect(conversation.messages.last.attachments).to be_any
+      end
+    end
+
+    context 'when the same thread identifier exists in another account' do
+      let(:other_conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
+      let!(:conversation) do
+        other_conversation
+        create(:conversation, account: account, identifier: message_params[:event][:thread_ts])
+      end
+
+      it 'creates the message only in the conversation of the hook account' do
+        builder = described_class.new(message_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.to change(conversation.messages, :count).by(1)
+        expect(other_conversation.messages.count).to eq(0)
+      end
+    end
+
+    context 'when the same slack channel is connected to two accounts' do
+      let!(:conversation) { create(:conversation, account: account) }
+      let!(:second_conversation) { create(:conversation, account: create(:account), identifier: message_params[:event][:thread_ts]) }
+
+      before do
+        create(:integrations_hook, account: second_conversation.account, reference_id: message_params[:event][:channel])
+      end
+
+      it 'creates the message in the conversation of the account that owns the thread' do
+        builder = described_class.new(message_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.to change(second_conversation.messages, :count).by(1)
+        expect(conversation.messages.count).to eq(0)
+      end
+    end
+
+    context 'when a non slack hook has the same reference id' do
+      let(:hook) { create(:integrations_hook, :linear, account: account, reference_id: message_params[:event][:channel]) }
+
+      it 'does not create a message' do
+        builder = described_class.new(message_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+        expect { builder.perform }.not_to change(Message, :count)
       end
     end
 
