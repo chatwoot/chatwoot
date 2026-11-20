@@ -17,13 +17,26 @@ const longContent = Array(35)
   .fill('This is a long customer message used to test the collapsed preview.')
   .join(' ');
 
+const resizeObservers = [];
+
+class TestResizeObserver {
+  constructor(callback) {
+    this.callback = callback;
+    this.observe = vi.fn();
+    this.unobserve = vi.fn();
+    this.disconnect = vi.fn();
+    resizeObservers.push(this);
+  }
+}
+
 const mountBubble = content => {
+  const messageContent = ref(content);
   const Host = defineComponent({
     components: { TextBubble },
     setup() {
       provideMessageContext({
         id: ref(1),
-        content: ref(content),
+        content: messageContent,
         attachments: ref([]),
         contentAttributes: ref({}),
         messageType: ref(0),
@@ -41,7 +54,7 @@ const mountBubble = content => {
     template: '<TextBubble />',
   });
 
-  return mount(Host, {
+  const wrapper = mount(Host, {
     global: {
       config: {
         globalProperties: {
@@ -66,15 +79,27 @@ const mountBubble = content => {
           props: ['content'],
           template: '<span>{{ content }}</span>',
         },
-        TranslationToggle: true,
+        TranslationToggle: {
+          template:
+            '<span class="translation-failure">Could not translate, sent as typed</span>',
+        },
         AttachmentChips: true,
       },
     },
   });
+
+  return { wrapper, messageContent };
 };
 
 describe('Text message bubble read-more control', () => {
   beforeEach(() => {
+    resizeObservers.length = 0;
+    vi.stubGlobal('ResizeObserver', TestResizeObserver);
+    HTMLElement.prototype.animate = vi.fn(() => ({
+      finished: Promise.resolve(),
+      cancel: vi.fn(),
+      play: vi.fn(),
+    }));
     vi.spyOn(HTMLElement.prototype, 'scrollHeight', 'get').mockImplementation(
       function scrollHeight() {
         return this.textContent.length > 200 ? 320 : 48;
@@ -84,22 +109,24 @@ describe('Text message bubble read-more control', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+    delete HTMLElement.prototype.animate;
   });
 
   it('keeps short messages expanded without a control', () => {
-    const wrapper = mountBubble('A short message.');
+    const { wrapper } = mountBubble('A short message.');
 
     expect(wrapper.find('button').exists()).toBe(false);
-    expect(wrapper.find('.overflow-hidden').classes()).not.toContain(
+    expect(wrapper.find('.read-more-content').classes()).not.toContain(
       'max-h-40'
     );
   });
 
   it('collapses long messages and lets the user expand them', async () => {
-    const wrapper = mountBubble(longContent);
+    const { wrapper } = mountBubble(longContent);
     await nextTick();
     await nextTick();
-    const content = wrapper.find('.overflow-hidden');
+    const content = wrapper.find('.read-more-content');
     const button = wrapper.get('button');
 
     expect(content.classes()).toContain('max-h-40');
@@ -111,5 +138,39 @@ describe('Text message bubble read-more control', () => {
     expect(content.classes()).not.toContain('max-h-40');
     expect(wrapper.get('button').text()).toBe('Show less');
     expect(wrapper.get('button').attributes('aria-expanded')).toBe('true');
+  });
+
+  it('keeps translation failure warnings outside collapsed message text', async () => {
+    const { wrapper } = mountBubble(longContent);
+    await nextTick();
+    await nextTick();
+
+    const message = wrapper.get('.read-more-content');
+    const warning = wrapper.get('.translation-failure');
+
+    expect(message.classes()).toContain('max-h-40');
+    expect(warning.text()).toBe('Could not translate, sent as typed');
+    expect(warning.element.closest('.read-more-content')).toBeNull();
+  });
+
+  it('reattaches the resize observer when rendered content is replaced', async () => {
+    const { wrapper, messageContent } = mountBubble(longContent);
+    await nextTick();
+    await nextTick();
+
+    const observer = resizeObservers[0];
+    const originalContent = wrapper.get('.read-more-content').element;
+    observer.observe.mockClear();
+    messageContent.value = `${longContent} replacement`;
+
+    await vi.waitFor(() => {
+      expect(wrapper.text()).toContain('replacement');
+      expect(observer.observe).toHaveBeenCalled();
+    });
+
+    const replacementContent = wrapper.get('.read-more-content').element;
+    expect(replacementContent).not.toBe(originalContent);
+    expect(observer.unobserve).toHaveBeenCalledWith(originalContent);
+    expect(observer.observe).toHaveBeenLastCalledWith(replacementContent);
   });
 });
