@@ -1201,6 +1201,13 @@
             ],
             "description": "Telegram bot name associated with the inbox"
           },
+          "message_delete_window": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Seconds after sending in which a message can also be deleted for the customer on the channel, null when the channel does not support it"
+          },
           "inbox_identifier": {
             "type": [
               "string",

@@ -70,7 +70,7 @@ RSpec.describe Channel::Telegram do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
+      expect(telegram_channel.send_message_on_telegram(message)).to eq(['telegram_123'])
     end
 
     it 'send message with markdown converted to telegram HTML' do
@@ -89,7 +89,7 @@ RSpec.describe Channel::Telegram do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
+      expect(telegram_channel.send_message_on_telegram(message)).to eq(['telegram_123'])
     end
 
     it 'sends raw HTML as escaped text' do
@@ -108,7 +108,7 @@ RSpec.describe Channel::Telegram do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
+      expect(telegram_channel.send_message_on_telegram(message)).to eq(['telegram_123'])
     end
 
     it 'send message with reply_markup' do
@@ -130,7 +130,7 @@ RSpec.describe Channel::Telegram do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
+      expect(telegram_channel.send_message_on_telegram(message)).to eq(['telegram_123'])
     end
 
     it 'sends message with business_connection_id' do
@@ -148,7 +148,7 @@ RSpec.describe Channel::Telegram do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
+      expect(telegram_channel.send_message_on_telegram(message)).to eq(['telegram_123'])
     end
 
     it 'send text message failed' do
@@ -186,8 +186,35 @@ RSpec.describe Channel::Telegram do
       attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
 
       allow(Telegram::SendAttachmentsService).to receive(:new).with(message: message).and_return(telegram_attachment_service)
-      allow(telegram_attachment_service).to receive(:perform).and_return('telegram_456')
-      expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_456')
+      allow(telegram_attachment_service).to receive(:perform).and_return(['telegram_456'])
+      expect(telegram_channel.send_message_on_telegram(message)).to eq(['telegram_456'])
+    end
+
+    it 'returns the text message id followed by the attachment ids' do
+      message.update!(content: 'test')
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      telegram_attachment_service = instance_double(Telegram::SendAttachmentsService, perform: [457, 458])
+      allow(Telegram::SendAttachmentsService).to receive(:new).with(message: message).and_return(telegram_attachment_service)
+
+      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+        .to_return(status: 200, body: { ok: true, result: { message_id: 456 } }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      expect(telegram_channel.send_message_on_telegram(message)).to eq([456, 457, 458])
+    end
+
+    it 'keeps the attachment ids when the text message fails' do
+      message.update!(content: 'test')
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      telegram_attachment_service = instance_double(Telegram::SendAttachmentsService, perform: [457])
+      allow(Telegram::SendAttachmentsService).to receive(:new).with(message: message).and_return(telegram_attachment_service)
+
+      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+        .to_return(status: 403, body: { ok: false, error_code: 403,
+                                        description: 'Forbidden' }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      expect(telegram_channel.send_message_on_telegram(message)).to eq([457])
     end
   end
 end

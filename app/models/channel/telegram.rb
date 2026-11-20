@@ -35,10 +35,12 @@ class Channel::Telegram < ApplicationRecord
     "https://api.telegram.org/bot#{bot_token}"
   end
 
+  # Returns the ids of every Telegram message created for this Chatwoot message, in send order
   def send_message_on_telegram(message)
-    message_id = send_message(message) if message.outgoing_content.present?
-    message_id = Telegram::SendAttachmentsService.new(message: message).perform if message.attachments.present?
-    message_id
+    message_ids = []
+    message_ids << send_message(message) if message.outgoing_content.present?
+    message_ids.concat(Telegram::SendAttachmentsService.new(message: message).perform) if message.attachments.present?
+    message_ids.compact
   end
 
   def get_telegram_profile_image(user_id)

@@ -15,35 +15,35 @@ require 'faraday/multipart'
 
 # The service will terminate if any of the attachment requests fail when the message has multiple attachments
 # We will create multiple messages in telegram if the message has multiple attachments (if its documents or mixed media).
+# It returns the ids of every telegram message that was sent, including those sent before a failure.
 class Telegram::SendAttachmentsService
   pattr_initialize [:message!]
 
   def perform
-    attachment_message_id = nil
+    @sent_message_ids = []
 
     group_attachments_by_type.each do |type, attachments|
-      attachment_message_id = process_attachments_by_type(type, attachments)
-      break if attachment_message_id.nil?
+      break unless send_attachments(type, attachments)
     end
 
-    attachment_message_id
+    @sent_message_ids
   end
 
   private
 
-  def process_attachments_by_type(type, attachments)
-    response = send_attachments(type, attachments)
-    return extract_attachment_message_id(response) if handle_response(response)
-
-    nil
-  end
-
   def send_attachments(type, attachments)
     if [:media, :audio].include?(type)
-      media_group_request(channel.chat_id(message), attachments, channel.reply_to_message_id(message))
+      record_response(media_group_request(channel.chat_id(message), attachments, channel.reply_to_message_id(message)))
     else
       send_individual_attachments(attachments)
     end
+  end
+
+  def record_response(response)
+    return false unless handle_response(response)
+
+    @sent_message_ids.concat(extract_attachment_message_ids(response))
+    true
   end
 
   def group_attachments_by_type
@@ -80,12 +80,9 @@ class Telegram::SendAttachmentsService
   end
 
   def send_individual_attachments(attachments)
-    response = nil
-    attachments.map do |attachment|
-      response = document_request(channel.chat_id(message), attachment, channel.reply_to_message_id(message))
-      break unless handle_response(response)
+    attachments.all? do |attachment|
+      record_response(document_request(channel.chat_id(message), attachment, channel.reply_to_message_id(message)))
     end
-    response
   end
 
   def document_request(chat_id, attachment, reply_to_message_id)
@@ -148,13 +145,10 @@ class Telegram::SendAttachmentsService
     false
   end
 
-  def extract_attachment_message_id(response)
-    return unless response.success?
-
-    result = response.parsed_response['result']
+  def extract_attachment_message_ids(response)
     # response will be an array if the request for media group
     # response will be a hash if the request for document
-    result.is_a?(Array) ? result.first['message_id'] : result['message_id']
+    Array.wrap(response.parsed_response['result']).pluck('message_id')
   end
 
   def channel

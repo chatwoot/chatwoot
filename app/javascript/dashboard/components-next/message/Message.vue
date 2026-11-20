@@ -12,6 +12,7 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
+import { canDeleteMessageOnChannel } from 'dashboard/helper/messageDeletion';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   MESSAGE_TYPES,
@@ -129,7 +130,7 @@ const props = defineProps({
     validator: value => Object.values(CONTENT_TYPES).includes(value),
   },
   conversationId: { type: Number, required: true },
-  createdAt: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
+  createdAt: { type: Number, required: true },
   currentUserId: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
   groupWithNext: { type: Boolean, default: false },
   inboxId: { type: Number, default: null }, // eslint-disable-line vue/no-unused-properties
@@ -141,7 +142,7 @@ const props = defineProps({
   sender: { type: Object, default: null },
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
-  sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
+  sourceId: { type: String, default: '' },
 });
 
 const emit = defineEmits(['retry']);
@@ -398,6 +399,15 @@ const isBubble = computed(() => {
 const isMessageDeleted = computed(() => {
   return props.contentAttributes?.deleted;
 });
+
+const canDeleteForCustomer = computed(() =>
+  canDeleteMessageOnChannel(inbox.value, {
+    messageType: props.messageType,
+    private: props.private,
+    sourceId: props.sourceId,
+    createdAt: props.createdAt,
+  })
+);
 
 const isForwardedEmail = computed(
   () => !!props.contentAttributes?.forwardedMessageId && !isMessageDeleted.value
@@ -664,6 +674,7 @@ provideMessageContext({
         :is-open="showContextMenu"
         :enabled-options="contextMenuEnabledOptions"
         :message="payloadForContextMenu"
+        :can-delete-for-customer="canDeleteForCustomer"
         hide-button
         @open="openContextMenu"
         @close="closeContextMenu"
