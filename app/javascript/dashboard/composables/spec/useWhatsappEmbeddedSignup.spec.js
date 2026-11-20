@@ -162,7 +162,7 @@ describe('useWhatsappEmbeddedSignup', () => {
     const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
     const result = runEmbeddedSignup();
 
-    emit({ event: 'CANCEL' });
+    emit({ event: 'CANCEL', data: { current_step: 'PHONE_NUMBER_SETUP' } });
 
     await expect(result).resolves.toBeNull();
   });
@@ -175,7 +175,15 @@ describe('useWhatsappEmbeddedSignup', () => {
       const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
       const result = runEmbeddedSignup();
 
-      emit({ event, error_message: 'WABA not eligible' });
+      // Meta nests the error fields inside `data`.
+      emit({
+        event,
+        data: {
+          error_message: 'WABA not eligible',
+          error_code: '524126',
+          session_id: 'session-1',
+        },
+      });
 
       await expect(result).rejects.toThrow('WABA not eligible');
     }
@@ -187,7 +195,10 @@ describe('useWhatsappEmbeddedSignup', () => {
     const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
     const result = runEmbeddedSignup();
 
-    emit({ event: 'CANCEL', error_message: 'Phone number already in use' });
+    emit({
+      event: 'CANCEL',
+      data: { error_message: 'Phone number already in use' },
+    });
 
     await expect(result).rejects.toThrow('Phone number already in use');
   });

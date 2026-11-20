@@ -45,6 +45,14 @@ class Channel::Whatsapp < ApplicationRecord
   before_destroy :teardown_webhooks
   after_commit :setup_webhooks, on: :create, if: :should_auto_setup_webhooks?
 
+  scope :embedded_signup_on_waba, lambda { |waba_id|
+    provider_config_value = ->(key) { Arel::Nodes::InfixOperation.new('->>', arel_table[:provider_config], Arel::Nodes.build_quoted(key)) }
+
+    where(provider: 'whatsapp_cloud')
+      .where(provider_config_value.call('source').eq('embedded_signup'))
+      .where(provider_config_value.call('business_account_id').eq(waba_id.to_s))
+  }
+
   def name
     'Whatsapp'
   end
