@@ -5,6 +5,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
   WHATSAPP_CALLING_API_VERSION_FALLBACK = 'v22.0'.freeze
 
   include Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
+  include Enterprise::Whatsapp::Providers::WhatsappCloudCallPermissions
 
   def pre_accept_call(call_id, sdp_answer)
     call_api('pre_accept_call', call_action_body(call_id, 'pre_accept', sdp_answer))
@@ -20,19 +21,6 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
   def terminate_call(call_id)
     call_api('terminate_call', call_action_body(call_id, 'terminate'))
-  end
-
-  def send_call_permission_request(recipient, body_text = I18n.t('conversations.messages.whatsapp.call_permission_request_body'))
-    response = HTTParty.post(
-      "#{calls_phone_id_path}/messages", headers: api_headers, body: permission_request_body(recipient, body_text)
-    )
-
-    unless response.success?
-      Rails.logger.error "[WHATSAPP CALL] send_call_permission_request failed: status=#{response.code} body=#{response.body}"
-      return nil
-    end
-
-    response.parsed_response
   end
 
   def initiate_call(recipient, sdp_offer)
@@ -62,18 +50,6 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     response = HTTParty.post(url, headers: api_headers, body: body.to_json)
     Rails.logger.error "[WHATSAPP CALL] #{action_name} failed: status=#{response.code} body=#{response.body}" unless response.success?
     response.success?
-  end
-
-  def permission_request_body(recipient, body_text)
-    {
-      messaging_product: 'whatsapp', recipient_type: 'individual', **recipient_params(recipient),
-      type: 'interactive',
-      interactive: {
-        type: 'call_permission_request',
-        action: { name: 'call_permission_request' },
-        body: { text: body_text }
-      }
-    }.to_json
   end
 
   def initiate_call_body(recipient, sdp_offer)

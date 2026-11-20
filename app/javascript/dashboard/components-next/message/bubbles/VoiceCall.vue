@@ -321,7 +321,9 @@ const handleCallBack = async () => {
     useAlert(
       error instanceof ExceptionWithMessage
         ? error.data
-        : error?.message || t('CONTACT_PANEL.CALL_FAILED')
+        : error?.response?.data?.error ||
+            error?.message ||
+            t('CONTACT_PANEL.CALL_FAILED')
     );
   }
 };

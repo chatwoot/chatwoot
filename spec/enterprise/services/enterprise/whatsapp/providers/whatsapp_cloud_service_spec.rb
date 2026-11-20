@@ -29,6 +29,77 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
+  describe 'call permission template' do
+    let(:templates_url) { 'https://graph.facebook.com/v22.0/123456789/message_templates' }
+
+    it 'creates a utility template with the body and a call permission request component' do
+      request = stub_request(:post, templates_url).with(
+        body: { name: 'chatwoot_call_permission_abc', language: 'pt_BR', category: 'UTILITY',
+                components: [{ type: 'BODY', text: 'Podemos ligar?' }, { type: 'call_permission_request' }] }.to_json
+      ).to_return(status: 200, body: { id: '1', status: 'PENDING' }.to_json, headers: headers)
+
+      expect(service.create_call_permission_template(name: 'chatwoot_call_permission_abc', language: 'pt_BR', body: 'Podemos ligar?')).to be true
+      expect(request).to have_been_requested
+    end
+
+    it 'returns false when Meta refuses the template' do
+      stub_request(:post, templates_url).to_return(status: 400, body: { error: { message: 'Invalid parameter' } }.to_json, headers: headers)
+
+      expect(service.create_call_permission_template(name: 'chatwoot_call_permission_abc', language: 'en', body: 'Can we call?')).to be false
+    end
+
+    it 'manages the template with the business management token and sends it with the API key' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      whatsapp_channel.business_management_token = 'business-token'
+      whatsapp_channel.provider_config['source'] = 'embedded_signup'
+      lookup = stub_request(:get, templates_url).with(query: hash_including({}), headers: { 'Authorization' => 'Bearer business-token' })
+                                                .to_return(status: 200, body: { data: [] }.to_json, headers: headers)
+      creation = stub_request(:post, templates_url).with(headers: { 'Authorization' => 'Bearer business-token' })
+                                                   .to_return(status: 200, body: { id: '1' }.to_json, headers: headers)
+      sending = stub_request(:post, messages_url).with(headers: { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}" })
+                                                 .to_return(status: 200, body: { messages: [{ id: 'wamid.t' }] }.to_json, headers: headers)
+
+      service.call_permission_template_exists?(name: 'chatwoot_call_permission_abc', language: 'en')
+      service.create_call_permission_template(name: 'chatwoot_call_permission_abc', language: 'en', body: 'Can we call?')
+      service.send_call_permission_template('15550001111', name: 'chatwoot_call_permission_abc', language: 'en')
+
+      expect([lookup, creation, sending]).to all(have_been_requested)
+    end
+
+    it 'finds an existing template only by its exact name and language' do
+      templates = [{ name: 'chatwoot_call_permission_abc', language: 'pt_BR' }, { name: 'chatwoot_call_permission_abcd', language: 'en' }]
+      stub_request(:get, templates_url).with(query: { name: 'chatwoot_call_permission_abc', fields: 'name,language' })
+                                       .to_return(status: 200, body: { data: templates }.to_json, headers: headers)
+
+      expect(service.call_permission_template_exists?(name: 'chatwoot_call_permission_abc', language: 'pt_BR')).to be true
+      expect(service.call_permission_template_exists?(name: 'chatwoot_call_permission_abc', language: 'en')).to be false
+    end
+
+    it 'reports no existing template when Meta cannot list them' do
+      stub_request(:get, templates_url).with(query: hash_including(name: 'chatwoot_call_permission_abc'))
+                                       .to_return(status: 500, body: { error: { message: 'Unknown error' } }.to_json, headers: headers)
+
+      expect(service.call_permission_template_exists?(name: 'chatwoot_call_permission_abc', language: 'en')).to be false
+    end
+
+    it 'sends the template by name and exact language, and returns the parsed body' do
+      stub_request(:post, messages_url).with(
+        body: { messaging_product: 'whatsapp', recipient_type: 'individual', to: '15550001111', type: 'template',
+                template: { name: 'chatwoot_call_permission_abc', language: { policy: 'deterministic', code: 'en' } } }.to_json
+      ).to_return(status: 200, body: { messages: [{ id: 'wamid.t' }] }.to_json, headers: headers)
+
+      result = service.send_call_permission_template('15550001111', name: 'chatwoot_call_permission_abc', language: 'en')
+
+      expect(result.dig('messages', 0, 'id')).to eq('wamid.t')
+    end
+
+    it 'returns nil when Meta refuses to send it, as for a template not approved yet' do
+      stub_request(:post, messages_url).to_return(status: 400, body: { error: { code: 132_001 } }.to_json, headers: headers)
+
+      expect(service.send_call_permission_template('15550001111', name: 'chatwoot_call_permission_abc', language: 'en')).to be_nil
+    end
+  end
+
   describe 'calling settings' do
     let(:settings_url) { 'https://graph.facebook.com/v22.0/123456789/settings' }
 
