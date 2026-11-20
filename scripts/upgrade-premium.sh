@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Atualização segura da branch premium para uma nova tag do upstream.
+# Uso: scripts/upgrade-premium.sh [v4.20.0]   (se omitir, usa a tag mais recente do upstream)
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+TARGET_TAG="${1:-}"
+
+# 1) Descobrir a tag alvo
+git fetch upstream --tags >/dev/null
+if [[ -z "$TARGET_TAG" ]]; then
+  TARGET_TAG=$(git tag -l 'v*' --sort=-v:refname | head -n1)
+  echo "Tag alvo detectada automaticamente: $TARGET_TAG"
+fi
+
+# 2) Validações de segurança
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$CURRENT_BRANCH" != "premium" ]]; then
+  echo "ERRO: você não está na branch premium (atual: $CURRENT_BRANCH)."
+  echo "      Rode: git checkout premium"
+  exit 1
+fi
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  echo "ERRO: working tree sujo. Commit ou stash antes de atualizar."
+  exit 1
+fi
+if ! git rev-parse "$TARGET_TAG" >/dev/null 2>&1; then
+  echo "ERRO: tag '$TARGET_TAG' não existe no upstream."
+  exit 1
+fi
+
+echo "=============================================="
+echo "  Upgrade premium -> $TARGET_TAG"
+echo "=============================================="
+read -r -p "Confirma a atualização? (s/N) " ans
+[[ "$ans" =~ ^[sS]$ ]] || { echo "Cancelado pelo usuário."; exit 0; }
+
+# 3) Backup do Postgres (se estiver rodando)
+BACKUP_FILE="/backup/chatwoot-pre-${TARGET_TAG}-$(date +%F-%H%M).sql.gz"
+if [[ -n "$(docker compose ps -q postgres 2>/dev/null)" ]]; then
+  echo "Gerando backup em $BACKUP_FILE ..."
+  mkdir -p /backup
+  docker compose exec -T postgres pg_dump -U postgres chatwoot_production | gzip > "$BACKUP_FILE"
+  echo "Backup OK: $BACKUP_FILE"
+else
+  echo "AVISO: postgres não está rodando; backup pulado. Continue por sua conta e risco."
+fi
+
+# 4) Merge (nunca rebase) do upstream na premium
+echo "Fazendo merge de $TARGET_TAG na premium ..."
+git merge --no-ff "$TARGET_TAG" -m "[premium] merge $TARGET_TAG"
+
+# 5) Tag e push
+git tag "premium-${TARGET_TAG}" 2>/dev/null || echo "Tag premium-${TARGET_TAG} já existia; pulando criação."
+git push origin premium --tags
+
+# 6) Build + subida + canário (reaproveita apply-premium.sh)
+./scripts/apply-premium.sh "$TARGET_TAG"
+
+# 7) Verificação do unlock
+echo "Verificando unlock ..."
+PLAN=$(docker compose exec -T rails bundle exec rails runner 'print ChatwootHub.pricing_plan')
+PAID=$(docker compose exec -T rails bundle exec rails runner 'print ChatwootApp.self_hosted_paid?')
+SLA=$(docker compose exec -T rails bundle exec rails runner 'print Account.first.feature_enabled?(:sla)')
+echo "canário: plano=$PLAN self_hosted_paid=$PAID sla=$SLA"
+
+if [[ "$PLAN" != "enterprise" || "$PAID" != "true" || "$SLA" != "true" ]]; then
+  echo "FALHOU na verificação do unlock."
+  echo "  - Consulte: docker compose logs rails --tail 100"
+  echo "  - Rollback rápido: git checkout premium && git reset --hard premium-${TARGET_TAG}^"
+  echo "  - Restaure o backup: $BACKUP_FILE"
+  exit 1
+fi
+
+echo "=============================================="
+echo "  OK — premium atualizada para $TARGET_TAG"
+echo "=============================================="
+echo "Rollback (se necessário):"
+echo "  git checkout premium && git reset --hard premium-${TARGET_TAG}^"
+echo "  # e restaure o backup: $BACKUP_FILE"
