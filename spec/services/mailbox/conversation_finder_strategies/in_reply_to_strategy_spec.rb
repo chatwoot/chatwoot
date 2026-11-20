@@ -102,13 +102,38 @@ RSpec.describe Mailbox::ConversationFinderStrategies::InReplyToStrategy do
     end
 
     context 'when in_reply_to does not match any pattern or source_id' do
+      let(:strategy) { described_class.new(mail) }
+
       before do
         mail.in_reply_to = 'random-message-id@gmail.com'
+        allow(strategy).to receive(:sleep)
       end
 
-      it 'returns nil' do
-        strategy = described_class.new(mail)
+      it 'returns nil after retrying the parent lookup' do
         expect(strategy.find).to be_nil
+        expect(strategy).to have_received(:sleep).twice
+      end
+    end
+
+    context 'when the parent message is committed by a parallel job after the first lookup' do
+      let(:strategy) { described_class.new(mail) }
+
+      before do
+        mail.in_reply_to = 'parallel-parent@example.com'
+        allow(strategy).to receive(:sleep) do
+          conversation.messages.create!(
+            source_id: 'parallel-parent@example.com',
+            account_id: account.id,
+            message_type: 'incoming',
+            inbox_id: email_channel.inbox.id,
+            content: 'Parent'
+          )
+        end
+      end
+
+      it 'finds the parent conversation instead of returning nil' do
+        expect(strategy.find).to eq(conversation)
+        expect(strategy).to have_received(:sleep).once
       end
     end
 
