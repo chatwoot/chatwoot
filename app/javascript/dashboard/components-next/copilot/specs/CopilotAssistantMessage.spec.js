@@ -1,6 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer';
+import Button from 'dashboard/components-next/button/Button.vue';
 import CopilotAssistantMessage from '../CopilotAssistantMessage.vue';
 
 const { push } = vi.hoisted(() => ({ push: vi.fn() }));
@@ -87,6 +88,45 @@ describe('CopilotAssistantMessage charts', () => {
     expect(wrapper.text()).toContain('After');
     expect(wrapper.findAllComponents({ name: 'BarChart' })).toHaveLength(1);
     expect(wrapper.text()).not.toContain('copilot-chart');
+    wrapper.unmount();
+  });
+});
+
+describe('CopilotAssistantMessage Use button', () => {
+  const mountReply = (message, conversationId) =>
+    shallowMount(CopilotAssistantMessage, {
+      props: {
+        message: { content: 'Thanks for waiting.', ...message },
+        isLastMessage: true,
+        conversationId,
+      },
+      global: { plugins: [[VueDOMPurifyHTML, domPurifyConfig]] },
+    });
+
+  it('offers a drafted reply in the conversation it was written for', () => {
+    const wrapper = mountReply(
+      { reply_suggestion: true, conversation_id: 2 },
+      2
+    );
+
+    expect(wrapper.findComponent(Button).exists()).toBe(true);
+    wrapper.unmount();
+  });
+
+  it('hides a reopened reply drafted for another conversation', () => {
+    const wrapper = mountReply(
+      { reply_suggestion: true, conversation_id: 1 },
+      2
+    );
+
+    expect(wrapper.findComponent(Button).exists()).toBe(false);
+    wrapper.unmount();
+  });
+
+  it('hides an older reply that does not say its conversation', () => {
+    const wrapper = mountReply({ reply_suggestion: true }, 2);
+
+    expect(wrapper.findComponent(Button).exists()).toBe(false);
     wrapper.unmount();
   });
 });

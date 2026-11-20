@@ -20,9 +20,9 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  canUseReply: {
-    type: Boolean,
-    default: true,
+  conversationId: {
+    type: Number,
+    default: null,
   },
 });
 
@@ -38,7 +38,7 @@ const showUseButton = computed(() => {
     !hasEmptyMessageContent.value &&
     props.message.reply_suggestion &&
     props.isLastMessage &&
-    props.canUseReply
+    props.message.conversation_id === props.conversationId
   );
 });
 

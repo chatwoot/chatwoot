@@ -281,6 +281,19 @@ RSpec.describe Captain::Copilot::ChatService do
       end
     end
 
+    context 'when the response is a drafted reply' do
+      it 'saves the conversation on screen in place of any conversation the model names' do
+        create(:inbox_member, user: user, inbox: inbox)
+        allow(mock_chat).to receive(:ask).and_return(
+          instance_double(RubyLLM::Message, content: '{ "content": "Thanks!", "reply_suggestion": true, "conversation_id": 999 }')
+        )
+
+        described_class.new(assistant, config).generate_response('Draft a reply')
+
+        expect(CopilotMessage.last.message['conversation_id']).to eq(conversation.display_id)
+      end
+    end
+
     context 'when copilot_thread is not present' do
       it 'does not create a copilot message' do
         expect do
