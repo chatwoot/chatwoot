@@ -38,6 +38,17 @@ describe Whatsapp::CallPermissionTemplate do
     end
   end
 
+  describe '#created?' do
+    it 'is false again once the inbox is reconnected to another WhatsApp Business Account' do
+      channel.provider_config = channel.provider_config.merge('call_permission_template_name' => template.name)
+      expect(template).to be_created
+
+      channel.provider_config = channel.provider_config.merge('business_account_id' => 'another_waba')
+
+      expect(template).not_to be_created
+    end
+  end
+
   describe '#create!' do
     it 'creates the template at Meta and remembers it' do
       allow(provider_service).to receive(:create_call_permission_template).and_return(true)

@@ -18,7 +18,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudCallPermissions
   # Creates a template whose call permission request can reach a contact outside the 24h window
   def create_call_permission_template(name:, language:, body:)
     response = HTTParty.post(
-      "#{calls_business_account_path}/message_templates", headers: api_headers,
+      "#{calls_business_account_path}/message_templates", headers: template_api_headers,
                                                           body: call_permission_template_body(name, language, body)
     )
     return true if response.success?
@@ -30,7 +30,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudCallPermissions
   # Finds a template made earlier, such as one for a message the inbox has switched back to
   def call_permission_template_exists?(name:, language:)
     response = HTTParty.get(
-      "#{calls_business_account_path}/message_templates", headers: api_headers, query: { name: name, fields: 'name,language' }
+      "#{calls_business_account_path}/message_templates", headers: template_api_headers, query: { name: name, fields: 'name,language' }
     )
     return false unless response.success?
 
@@ -59,10 +59,16 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudCallPermissions
     "#{base}/#{version}/#{whatsapp_channel.provider_config['business_account_id']}"
   end
 
+  # Managing templates can need a different token than sending messages, as in template sync
+  def template_api_headers
+    { 'Authorization' => "Bearer #{whatsapp_channel.template_access_token}", 'Content-Type' => 'application/json' }
+  end
+
+  # Component types as in Meta's call permission template example
   def call_permission_template_body(name, language, body)
     {
       name: name, language: language, category: 'UTILITY',
-      components: [{ type: 'body', text: body }, { type: 'call_permission_request' }]
+      components: [{ type: 'BODY', text: body }, { type: 'call_permission_request' }]
     }.to_json
   end
 

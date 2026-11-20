@@ -35,7 +35,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     it 'creates a utility template with the body and a call permission request component' do
       request = stub_request(:post, templates_url).with(
         body: { name: 'chatwoot_call_permission_abc', language: 'pt_BR', category: 'UTILITY',
-                components: [{ type: 'body', text: 'Podemos ligar?' }, { type: 'call_permission_request' }] }.to_json
+                components: [{ type: 'BODY', text: 'Podemos ligar?' }, { type: 'call_permission_request' }] }.to_json
       ).to_return(status: 200, body: { id: '1', status: 'PENDING' }.to_json, headers: headers)
 
       expect(service.create_call_permission_template(name: 'chatwoot_call_permission_abc', language: 'pt_BR', body: 'Podemos ligar?')).to be true
@@ -46,6 +46,24 @@ describe Whatsapp::Providers::WhatsappCloudService do
       stub_request(:post, templates_url).to_return(status: 400, body: { error: { message: 'Invalid parameter' } }.to_json, headers: headers)
 
       expect(service.create_call_permission_template(name: 'chatwoot_call_permission_abc', language: 'en', body: 'Can we call?')).to be false
+    end
+
+    it 'manages the template with the business management token and sends it with the API key' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      whatsapp_channel.business_management_token = 'business-token'
+      whatsapp_channel.provider_config['source'] = 'embedded_signup'
+      lookup = stub_request(:get, templates_url).with(query: hash_including({}), headers: { 'Authorization' => 'Bearer business-token' })
+                                                .to_return(status: 200, body: { data: [] }.to_json, headers: headers)
+      creation = stub_request(:post, templates_url).with(headers: { 'Authorization' => 'Bearer business-token' })
+                                                   .to_return(status: 200, body: { id: '1' }.to_json, headers: headers)
+      sending = stub_request(:post, messages_url).with(headers: { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}" })
+                                                 .to_return(status: 200, body: { messages: [{ id: 'wamid.t' }] }.to_json, headers: headers)
+
+      service.call_permission_template_exists?(name: 'chatwoot_call_permission_abc', language: 'en')
+      service.create_call_permission_template(name: 'chatwoot_call_permission_abc', language: 'en', body: 'Can we call?')
+      service.send_call_permission_template('15550001111', name: 'chatwoot_call_permission_abc', language: 'en')
+
+      expect([lookup, creation, sending]).to all(have_been_requested)
     end
 
     it 'finds an existing template only by its exact name and language' do

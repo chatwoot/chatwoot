@@ -1,7 +1,8 @@
 # The WhatsApp template a call permission request goes out as when the contact hasn't messaged in the
 # last 24 hours, since Meta delivers the free-form request only inside that window. Chatwoot creates it
 # at Meta from the inbox's permission request message, in the account's language. Its name follows its
-# language and text, so a changed message is a new template and Meta has to approve it again.
+# WhatsApp Business Account, language and text, so a changed message or a reconnect to another account is
+# a new template that Meta has to approve again.
 class Whatsapp::CallPermissionTemplate
   NAME_PREFIX = 'chatwoot_call_permission'.freeze
   # Account locales Meta lists under another template language code
@@ -13,7 +14,7 @@ class Whatsapp::CallPermissionTemplate
   pattr_initialize :channel
 
   def name
-    "#{NAME_PREFIX}_#{Digest::SHA256.hexdigest("#{language}:#{body}").first(12)}"
+    "#{NAME_PREFIX}_#{Digest::SHA256.hexdigest("#{channel.provider_config['business_account_id']}:#{language}:#{body}").first(12)}"
   end
 
   def language

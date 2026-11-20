@@ -34,6 +34,13 @@ describe Channel::Whatsapp do
         .to have_enqueued_job(Whatsapp::CreateCallPermissionTemplateJob)
     end
 
+    it 'is created again when the inbox is reconnected to another WhatsApp Business Account' do
+      save_provider_config('calling_enabled' => true, 'call_permission_template_name' => channel.call_permission_template.name)
+
+      expect { save_provider_config('business_account_id' => 'another_waba') }
+        .to have_enqueued_job(Whatsapp::CreateCallPermissionTemplateJob).with(channel)
+    end
+
     it 'is left alone while calling is off, or once it exists' do
       expect { save_provider_config('call_permission_request_body' => 'Can we call you?') }
         .not_to have_enqueued_job(Whatsapp::CreateCallPermissionTemplateJob)
