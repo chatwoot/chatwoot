@@ -38,8 +38,8 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
 
         expect(url).to start_with('https://login.microsoftonline.com/common/oauth2/v2.0/authorize')
         expected_scope = [
-          'offline_access https://outlook.office.com/IMAP.AccessAsUser.All ' \
-          'https://outlook.office.com/SMTP.Send openid profile email'
+          'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://graph.microsoft.com/Mail.Send ' \
+          'https://graph.microsoft.com/Mail.ReadWrite openid profile email'
         ]
         expect(params['scope']).to eq(expected_scope)
         expect(params['redirect_uri']).to eq(["#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback"])
