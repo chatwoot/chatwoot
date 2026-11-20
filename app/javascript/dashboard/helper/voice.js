@@ -63,9 +63,8 @@ const isAssignedToAnotherAgent = (assigneeId, currentUserId) => {
   return !!assigneeId && assigneeId !== currentUserId;
 };
 
-// The server picks the agents an inbound Twilio call rings and names them on the
+// The server picks the agents an inbound call rings and names them on the
 // call's message, so its assignee no longer decides who sees the ringing card.
-// Every inbound call, Twilio or WhatsApp, rings the agents its routing picked
 const isRoutedCall = callDirection =>
   callDirection === VOICE_CALL_DIRECTION.INBOUND;
 

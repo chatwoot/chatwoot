@@ -2,8 +2,9 @@ import { useCallActions } from 'dashboard/composables/useCallSession';
 import VoiceAPI from 'dashboard/api/channel/voice/voiceAPIClient';
 import WhatsappCallsAPI from 'dashboard/api/channel/whatsapp/whatsappCallsAPI';
 
-const { callsStore } = vi.hoisted(() => ({
+const { callsStore, isLocalWhatsappCall } = vi.hoisted(() => ({
   callsStore: { calls: [], dismissCall: vi.fn() },
+  isLocalWhatsappCall: vi.fn(),
 }));
 
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
@@ -13,6 +14,7 @@ vi.mock('dashboard/composables/useWhatsappCallSession', () => ({
   useWhatsappCallSession: () => ({}),
   sendWhatsappTerminateBeacon: vi.fn(),
   cleanupWhatsappSession: vi.fn(),
+  isLocalWhatsappCall,
 }));
 vi.mock('dashboard/api/channel/voice/twilioVoiceClient', () => ({
   default: { addEventListener: vi.fn(), removeEventListener: vi.fn() },
@@ -29,6 +31,7 @@ describe('dismissing a ringing call', () => {
     vi.clearAllMocks();
     VoiceAPI.dismissRing.mockResolvedValue({});
     WhatsappCallsAPI.dismiss.mockResolvedValue({});
+    isLocalWhatsappCall.mockReturnValue(false);
   });
 
   it('stops the ring for a WhatsApp call on the server, so it moves on to the next agent', async () => {
@@ -82,6 +85,23 @@ describe('dismissing a ringing call', () => {
 
     await useCallActions().dismissCall('wacid_2');
 
+    expect(callsStore.dismissCall).not.toHaveBeenCalled();
+  });
+
+  it('keeps a WhatsApp call this tab accepted while the dismiss was on its way', async () => {
+    callsStore.calls = [
+      {
+        callSid: 'wacid_3',
+        callId: 11,
+        provider: 'whatsapp',
+        callDirection: 'inbound',
+      },
+    ];
+    isLocalWhatsappCall.mockImplementation(callId => callId === 11);
+
+    await useCallActions().dismissCall('wacid_3');
+
+    expect(WhatsappCallsAPI.dismiss).toHaveBeenCalledWith(11);
     expect(callsStore.dismissCall).not.toHaveBeenCalled();
   });
 });

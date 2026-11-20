@@ -40,15 +40,14 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     process_initiate_call_response(response)
   end
 
-  # Sets WABA calling status ('ENABLED'/'DISABLED')
+  # Sets WABA calling status ('ENABLED'/'DISABLED'). Returns true, or raises with
+  # Meta's user-facing message on failure so the caller can surface it.
   def update_calling_status(status)
     update_calling_settings(status: status)
   end
 
   private
 
-  # Updates the given calling settings only. Returns true, or raises with Meta's user-facing
-  # message on failure so the caller can surface it.
   def update_calling_settings(settings)
     response = HTTParty.post(
       "#{calls_phone_id_path}/settings",

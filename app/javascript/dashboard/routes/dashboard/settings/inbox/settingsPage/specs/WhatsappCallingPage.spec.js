@@ -128,7 +128,6 @@ describe('WhatsappCallingPage', () => {
 
   it('turns WhatsApp calling off straight away', async () => {
     const wrapper = mountPage();
-    // The first button turns calling off; the last saves the form
     await wrapper.findAll('button').at(0).trigger('click');
     await flushPromises();
 

@@ -62,8 +62,8 @@ module Enterprise::Conversation
 
   private
 
-  # Auto-assignment, the inbox's or a team's, holds off while an inbound call rings, so the agent
-  # who answers gets the conversation
+  # Auto-assignment, the inbox's or a team's, holds off while an inbound call rings, so the
+  # agent who answers gets the conversation
   def call_ringing?
     return false unless inbox.rings_for_calls?
 

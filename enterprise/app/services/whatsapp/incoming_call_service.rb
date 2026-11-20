@@ -67,7 +67,6 @@ class Whatsapp::IncomingCallService
 
     return accept_outbound_call(call, payload) if call.outgoing?
 
-    # A retried connect restores the ring's jobs, in case queueing them failed the first time
     Rails.logger.info "[WHATSAPP CALL] Duplicate inbound connect for #{payload[:id]}; requeueing its ring"
     Voice::InboundCallBuilder.queue_ring_jobs(call)
   end
@@ -85,8 +84,7 @@ class Whatsapp::IncomingCallService
 
     sdp_offer = payload.dig(:session, :sdp)
     call = build_inbound_call(payload, sdp_offer)
-    # Outside business hours the call is declined at Meta, as nobody rings for it
-    inbox.channel.provider_service.reject_call(payload[:id]) if call.end_reason == Call::OUTSIDE_WORKING_HOURS
+    Whatsapp::DeclineCallJob.perform_later(inbox, payload[:id]) if call.end_reason == Call::OUTSIDE_WORKING_HOURS
     return if call.terminal? # terminated before pickup; no ringing widget to surface
 
     update_conversation(call)
@@ -215,11 +213,6 @@ class Whatsapp::IncomingCallService
     )
   end
 
-  # Ring the assignee if any, else online inbox agents who take calls, else fall back
-  # to the inbox's own agents and account admins who take calls. Never the
-  # whole-account stream, which would ring online agents from unrelated inboxes.
-  # Sent to the agents the call rings first, as Voice::RingRecipients picked them. Agents the ring
-  # adds later see it from the call message and fetch the offer when they answer.
   def broadcast_incoming(call, sdp_offer)
     contact = call.contact
     streams = User.where(id: call.ring_state.fetch('ring_recipient_ids', [])).pluck(:pubsub_token).compact
