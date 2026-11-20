@@ -1,6 +1,7 @@
 class DashboardController < ActionController::Base
   include SwitchLocale
   include PortalHomeData
+  include TrustedProxyAuthentication
 
   GLOBAL_CONFIG_KEYS = %w[
     LOGO
@@ -38,6 +39,7 @@ class DashboardController < ActionController::Base
   before_action :ensure_installation_onboarding, only: [:index]
   before_action :render_hc_if_custom_domain, only: [:index]
   before_action :ensure_html_format
+  before_action :process_trusted_proxy_auth, only: [:index]
   layout 'vueapp'
 
   def index; end
@@ -50,6 +52,9 @@ class DashboardController < ActionController::Base
 
   def set_global_config
     @global_config = GlobalConfig.get(*GLOBAL_CONFIG_KEYS).merge(app_config)
+    # Behind a trusted proxy the default post-logout target (/app/login) would sign the
+    # user straight back in, so logout must land on the proxy's own logout endpoint.
+    @global_config['LOGOUT_REDIRECT_LINK'] = trusted_proxy_logout_redirect_link if trusted_proxy_auth_enabled?
   end
 
   def set_dashboard_scripts
