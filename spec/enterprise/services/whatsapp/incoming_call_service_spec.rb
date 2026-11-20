@@ -247,21 +247,20 @@ describe Whatsapp::IncomingCallService do
 
     context 'when outside business hours' do
       let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
-      let(:provider_service) { instance_double(Whatsapp::Providers::WhatsappCloudService, reject_call: true) }
 
       before do
         inbox.update!(working_hours_enabled: true)
         inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
-        allow(inbox.channel).to receive(:provider_service).and_return(provider_service)
         allow(ActionCable.server).to receive(:broadcast)
       end
 
       it 'declines the call at Meta and logs it as missed, without ringing anyone' do
         channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => true))
 
-        expect { described_class.new(inbox: inbox, params: params).perform }.not_to have_enqueued_job(Voice::RingNextAgentJob)
+        expect { described_class.new(inbox: inbox, params: params).perform }
+          .to have_enqueued_job(Whatsapp::DeclineCallJob).with(inbox, provider_call_id)
 
-        expect(provider_service).to have_received(:reject_call).with(provider_call_id)
+        expect(Voice::RingNextAgentJob).not_to have_been_enqueued
         expect(Call.last).to have_attributes(status: 'no_answer', end_reason: 'outside_working_hours')
         expect(ActionCable.server).not_to have_received(:broadcast).with(anything, hash_including(event: 'voice_call.incoming'))
       end
@@ -269,7 +268,7 @@ describe Whatsapp::IncomingCallService do
       it 'rings as usual when the inbox does not apply business hours to calls' do
         described_class.new(inbox: inbox, params: params).perform
 
-        expect(provider_service).not_to have_received(:reject_call)
+        expect(Whatsapp::DeclineCallJob).not_to have_been_enqueued
         expect(Call.last).to be_ringing
       end
     end

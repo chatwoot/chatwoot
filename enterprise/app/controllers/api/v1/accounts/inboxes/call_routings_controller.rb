@@ -1,10 +1,9 @@
 class Api::V1::Accounts::Inboxes::CallRoutingsController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox
 
-  # Who rings and what happens outside business hours are sent together, as the form shows them,
-  # for a Twilio voice inbox or a WhatsApp inbox with calling on. The lock keeps another voice
-  # settings save from being lost in the merge. Saved without the channel's other validations, as
-  # the other call settings are, so WhatsApp's remote credential check can't reject the save.
+  # Who rings and what happens outside business hours are sent together, as the form shows them.
+  # The channel validates them, and the lock keeps another voice settings save from being lost in
+  # the merge.
   def update
     channel = @inbox.channel
     channel.with_call_settings_lock do

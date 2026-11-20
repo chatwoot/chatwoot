@@ -4,7 +4,7 @@ module Concerns::CallAssignmentHold
   extend ActiveSupport::Concern
 
   included do
-    # A call still ringing past the dial limit lost its end callback, so it holds nothing
+    # A call still ringing past Twilio's dial limit lost its end callback, so it holds nothing
     scope :holding_assignment, lambda {
       incoming.where(status: 'ringing', created_at: Voice::RingNextAgentJob::MAX_RING_SECONDS.seconds.ago..)
     }

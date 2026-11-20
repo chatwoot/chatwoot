@@ -1,10 +1,11 @@
-# Stops an inbound call ringing for one agent only, Twilio or WhatsApp: the caller keeps waiting and
-# the ring moves on to its next step at once
 class Voice::RingDismissService
   pattr_initialize [:call!, :user!]
 
-  # The step is moved on under the lock, with the next one queued, so a failed enqueue rolls the
-  # dismiss back and it can be retried
+  # Stops the ring for one agent only; the call keeps ringing for the others. The ring then
+  # widens at once, past the step the dismiss moved on from: a ring in turn adds the next agent,
+  # and one that rang only this agent rings the team. A dismiss by an agent the call does not
+  # ring, or a repeated one, changes nothing. The step is queued under the lock that moves it on,
+  # so a failed enqueue undoes the dismiss and the agent can retry it; the job waits for the lock.
   def perform
     call.with_lock do
       next unless call.ringing? && rings_for_user?

@@ -10,6 +10,7 @@ import {
   useWhatsappCallSession,
   sendWhatsappTerminateBeacon,
   cleanupWhatsappSession,
+  isLocalWhatsappCall,
 } from 'dashboard/composables/useWhatsappCallSession';
 import {
   handleVoiceCallCreated,
@@ -228,9 +229,8 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     }
   };
 
-  // An inbound call, Twilio or WhatsApp, is dismissed on the server first, which closes this
-  // agent's other tabs while the call keeps ringing everyone else; a failed request keeps the
-  // card for a retry
+  // An inbound call is dismissed on the server first, which closes this agent's other
+  // tabs while the call keeps ringing everyone else; a failed request keeps the card for a retry
   const dismissRing = call =>
     isWhatsappCall(call)
       ? WhatsappCallsAPI.dismiss(call.callId)
@@ -253,7 +253,7 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
         }
       }
       // Joined while the request was on its way: the call stays with this tab
-      if (isLocalCall(callSid)) return;
+      if (isLocalCall(callSid) || isLocalWhatsappCall(call.callId)) return;
     }
     markCallDismissed(callSid);
     callsStore.dismissCall(callSid);
