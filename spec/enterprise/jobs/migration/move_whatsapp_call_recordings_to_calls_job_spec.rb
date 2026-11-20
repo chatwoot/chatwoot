@@ -27,14 +27,35 @@ RSpec.describe Migration::MoveWhatsappCallRecordingsToCallsJob, type: :job do
     expect(ActiveStorage::Blob.exists?(blob.id)).to be(true)
   end
 
-  it 'moves a recording that was never transcribed' do
+  it 'moves a recording that was never transcribed and queues its transcription' do
     call = create(:call, conversation: conversation, provider: :whatsapp, message: message)
     attach_audio
 
-    described_class.perform_now
-
+    expect { described_class.perform_now }.to have_enqueued_job(Voice::CallTranscriptionJob).with(call.id)
     expect(call.reload.recording).to be_attached
     expect(call.transcript).to be_nil
+  end
+
+  it 'does not queue transcription for a recording that already has a transcript' do
+    create(:call, conversation: conversation, provider: :whatsapp, message: message)
+    attach_audio('transcribed_text' => 'hello from whatsapp')
+
+    expect { described_class.perform_now }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+  end
+
+  it 'leaves a call that already has a recording unchanged' do
+    call = create(:call, conversation: conversation, provider: :whatsapp, message: message, transcript: 'new transcript')
+    call.recording.attach(io: Rails.root.join('spec/assets/sample.ogg').open, filename: 'recording.ogg', content_type: 'audio/ogg')
+    recording_blob = call.recording.blob
+    attach_audio('transcribed_text' => 'legacy transcript')
+
+    expect { described_class.perform_now }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+
+    call.reload
+    expect(call.recording.blob).to eq(recording_blob)
+    expect(call.transcript).to eq('new transcript')
+    expect(ActiveStorage::Attachment.where(record: call, name: 'recording').count).to eq(1)
+    expect(message.attachments.reload.count).to eq(1)
   end
 
   it 'leaves Twilio calls alone' do

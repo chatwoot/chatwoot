@@ -13,11 +13,18 @@ class Migration::MoveWhatsappCallRecordingsToCallsJob < ApplicationJob
   private
 
   def move_recording(call, attachment)
-    Call.transaction do
+    # Same lock as the recording upload, so a recording uploaded the new way is never doubled or overwritten
+    moved = call.with_lock do
+      next false if call.recording.attached?
+
       attachment.file_attachment.update!(record: call, name: 'recording')
       call.update!(transcript: attachment.meta['transcribed_text'])
       # delete, not destroy: destroy would purge the file the call now holds
       attachment.delete
+      true
     end
+
+    # A legacy transcription job still in flight can no longer save its result, so the call transcribes itself
+    Voice::CallTranscriptionJob.perform_later(call.id) if moved && call.transcript.blank?
   end
 end
