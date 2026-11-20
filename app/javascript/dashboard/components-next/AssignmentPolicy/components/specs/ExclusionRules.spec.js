@@ -59,13 +59,17 @@ describe('ExclusionRules', () => {
     expect(hoursWrapper.find('input[type="number"]').element.value).toBe('20');
   });
 
-  it('keeps a saved value above the maximum when the form opens', async () => {
+  it('keeps a saved value above the maximum when the form opens and the field is left', async () => {
     // 28,800 is a legacy "20 days" that was saved as minutes into the hours field
     const wrapper = mountExclusionRules({ initialHours: 28800 });
     await nextTick();
 
     expect(durationInput(wrapper).props('unit')).toBe('days');
     expect(wrapper.find('input[type="number"]').element.value).toBe('1200');
+    expect(wrapper.find('[data-testid="hours"]').text()).toBe('28800');
+
+    await wrapper.find('input[type="number"]').trigger('blur');
+
     expect(wrapper.find('[data-testid="hours"]').text()).toBe('28800');
   });
 

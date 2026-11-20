@@ -30,6 +30,8 @@ const unit = defineModel('unit', {
   },
 });
 
+let hasTypedValue = false;
+
 const convertToMinutes = newValue => {
   if (unit.value === DURATION_UNITS.MINUTES) {
     return Math.floor(newValue);
@@ -52,6 +54,7 @@ const transformedValue = computed({
     return 0;
   },
   set(newValue) {
+    hasTypedValue = true;
     if (newValue == null || newValue === '') {
       duration.value = null;
       return;
@@ -60,9 +63,11 @@ const transformedValue = computed({
   },
 });
 
+// Clamp only what the user typed, so a saved value outside the range survives focus and blur
 const normalizeDuration = () => {
-  if (duration.value == null) return;
+  if (!hasTypedValue || duration.value == null) return;
 
+  hasTypedValue = false;
   duration.value = Math.min(Math.max(duration.value, props.min), props.max);
 };
 
