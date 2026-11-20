@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <% @portals.each do |portal| %>
+    <sitemap>
+      <loc><%= @base_url %>/hc/<%= portal.slug %>/sitemap.xml</loc>
+      <lastmod><%= portal.updated_at.to_date.iso8601 %></lastmod>
+    </sitemap>
+  <% end %>
+</sitemapindex>
