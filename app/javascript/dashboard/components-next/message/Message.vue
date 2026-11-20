@@ -46,6 +46,7 @@ import WhatsappFlowResponseBubble from './bubbles/WhatsappFlowResponse.vue';
 import WhatsappReferral from './bubbles/Text/WhatsappReferral.vue';
 
 import MessageError from './MessageError.vue';
+import { getMessageError } from './helpers/messageError';
 import ForwardEmailPanel from './forward/ForwardEmailPanel.vue';
 import ForwardedEmailBanner from './forward/ForwardedEmailBanner.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -102,6 +103,7 @@ import { useTranslations } from 'dashboard/composables/useTranslations';
  * @property {boolean} [groupWithNext=false] - Whether the message should be grouped with the next message
  * @property {Object|null} [inReplyTo=null] - The message to which this message is a reply
  * @property {boolean} [isEmailInbox=false] - Whether the message is from an email inbox
+ * @property {Object|null} [meta=null] - Client-side send state; `meta.error` is set when the send request failed
  * @property {number} conversationId - The ID of the conversation to which the message belongs
  * @property {number} inboxId - The ID of the inbox to which the message belongs
  */
@@ -136,6 +138,7 @@ const props = defineProps({
   inboxSupportsReplyTo: { type: Object, default: () => ({}) },
   inReplyTo: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
   isEmailInbox: { type: Boolean, default: false },
+  meta: { type: Object, default: null },
   private: { type: Boolean, default: false },
   additionalAttributes: { type: Object, default: () => ({}) }, // eslint-disable-line vue/no-unused-properties
   sender: { type: Object, default: null },
@@ -312,6 +315,17 @@ const shouldGroupWithNext = computed(() => {
 
   return props.groupWithNext;
 });
+
+const messageError = computed(() =>
+  getMessageError(
+    {
+      status: props.status,
+      contentAttributes: props.contentAttributes,
+      meta: props.meta,
+    },
+    t('CHAT_LIST.FAILED_TO_SEND_NETWORK')
+  )
+);
 
 const shouldShowAvatar = computed(() => {
   if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
@@ -616,7 +630,7 @@ provideMessageContext({
       :class="[
         gridClass,
         {
-          'gap-y-2': contentAttributes.externalError,
+          'gap-y-2': messageError,
           'w-full': variant === MESSAGE_VARIANTS.EMAIL,
         },
       ]"
@@ -650,10 +664,10 @@ provideMessageContext({
         <Component :is="componentToRender" />
       </div>
       <MessageError
-        v-if="contentAttributes.externalError"
+        v-if="messageError"
         class="[grid-area:meta]"
         :class="flexOrientationClass"
-        :error="contentAttributes.externalError"
+        :error="messageError"
         @retry="emit('retry')"
       />
     </div>
