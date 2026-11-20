@@ -4,6 +4,7 @@ class DataImports::Csv::ContactWriter
 
   def initialize(account, fields)
     @account = account
+    @companies_enabled = account.feature_enabled?('companies')
     @fields = fields.except(*DIAGNOSTIC_FIELDS)
     @fields['email'] = @fields['email'].strip.downcase if @fields['email'].present?
     phone = @fields['phone_number']&.strip&.delete_prefix("'")
@@ -18,7 +19,10 @@ class DataImports::Csv::ContactWriter
     raise ActiveRecord::RecordInvalid, contact unless contact.valid?
 
     Contacts::SyncAttributes.new(contact).perform
+    previous_company_id = contact.company_id
+    assign_company(contact)
     contact = persist(contact)
+    update_company_counts(previous_company_id, contact.company_id)
     apply_labels(contact, labels)
     [contact, outcome]
   end
@@ -39,10 +43,34 @@ class DataImports::Csv::ContactWriter
   def assign_fields(contact)
     contact.assign_attributes(@fields.slice(*STANDARD_FIELDS).compact_blank)
     contact.additional_attributes = contact.additional_attributes.to_h.merge(@fields.slice('company_name', 'city').compact_blank)
-    contact.custom_attributes = contact.custom_attributes.to_h.merge(@fields.except(*STANDARD_FIELDS, 'labels').compact_blank)
+    custom_fields = @fields.except(*STANDARD_FIELDS, 'labels').compact_blank
+    custom_fields.delete('company_domain') if @companies_enabled
+    contact.custom_attributes = contact.custom_attributes.to_h.merge(custom_fields)
     contact.updated_at = Time.current
     contact.created_at ||= Time.current
   end
+
+  def assign_company(contact)
+    return unless @companies_enabled
+
+    company = Contacts::CompanyAssociationService.new.find_or_create_by_details(
+      @account, name: @fields['company_name'], domain: @fields['company_domain']
+    )
+    return unless company
+
+    contact.company = company
+    contact.additional_attributes['company_name'] = company.name
+  end
+
+  # The silent contact write bypasses the counter-cache callbacks.
+  # rubocop:disable Rails/SkipsModelValidations
+  def update_company_counts(previous_company_id, company_id)
+    return if previous_company_id == company_id
+
+    Company.decrement_counter(:contacts_count, previous_company_id) if previous_company_id
+    Company.increment_counter(:contacts_count, company_id) if company_id
+  end
+  # rubocop:enable Rails/SkipsModelValidations
 
   def persist(contact)
     # Validation and normalization happen above; suppress normal contact callbacks during imports.

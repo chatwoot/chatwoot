@@ -64,6 +64,48 @@ RSpec.describe DataImports::Csv::Importer do
     end
   end
 
+  context 'when Companies is enabled' do
+    let(:csv) do
+      <<~CSV
+        name,email,company_name,company_domain
+        Updated,existing@example.com,Ignored, EXISTING.EXAMPLE
+        Same company,existing@example.com,,
+        New,new@example.com,,north-star.example
+        By name,by-name@example.com,north star,
+        Rejected,bad-domain@example.com,,invalid-domain
+        Invalid contact,invalid-email,,orphan.example
+      CSV
+    end
+
+    it 'links contacts silently, updates counts, and rejects invalid rows', :aggregate_failures do
+      account.enable_features!('companies')
+      old_company = create(:company, account: account)
+      target_company = create(:company, account: account, name: 'Existing', domain: 'Existing.example')
+      existing = create(:contact, account: account, company: old_company, email: 'existing@example.com')
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      importer.import_contacts_page
+      importer.import_contacts_page
+      importer.finish!
+
+      expect(existing.reload.company).to eq(target_company)
+      expect(existing.additional_attributes['company_name']).to eq('Existing')
+      expect(old_company.reload.contacts_count).to eq(0)
+      expect(target_company.reload.contacts_count).to eq(1)
+
+      company = account.companies.find_by!(domain: 'north-star.example')
+      expect(company.name).to eq('North Star')
+      expect(company.contacts.pluck(:email)).to contain_exactly('new@example.com', 'by-name@example.com')
+      expect(company.contacts_count).to eq(2)
+      expect(account.companies.count).to eq(3)
+      expect(data_import.reload).to be_completed_with_errors
+      expect(data_import.failed_records.download).to include('bad-domain@example.com', 'orphan.example')
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_CREATED, anything, anything)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
+    end
+  end
+
   context 'when publishing rejected rows' do
     before do
       DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
