@@ -1,6 +1,7 @@
 import {
   CONVERSATION_PRIORITY_ORDER,
   MESSAGE_TYPE,
+  MESSAGE_STATUS,
 } from 'shared/constants/messages';
 import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 
@@ -35,6 +36,39 @@ export const findPendingMessageIndex = (chat, message) => {
   return chat.messages.findIndex(
     m => m.id === message.id || m.id === tempMessageId
   );
+};
+
+const MESSAGE_STATUS_PRECEDENCE = {
+  [MESSAGE_STATUS.PROGRESS]: 0,
+  [MESSAGE_STATUS.SENT]: 1,
+  [MESSAGE_STATUS.DELIVERED]: 2,
+  [MESSAGE_STATUS.READ]: 3,
+};
+
+export const resolveMessageStatus = (currentStatus, incomingStatus) => {
+  if (!incomingStatus) return currentStatus;
+  if (!currentStatus) return incomingStatus;
+
+  // Authoritative server failure always wins so retry controls and error banners are enabled
+  if (incomingStatus === MESSAGE_STATUS.FAILED) {
+    return MESSAGE_STATUS.FAILED;
+  }
+
+  // If currently failed and retry is initiated (progress) or succeeded (sent/delivered/read)
+  if (currentStatus === MESSAGE_STATUS.FAILED) {
+    return incomingStatus;
+  }
+
+  const currentPrecedence = MESSAGE_STATUS_PRECEDENCE[currentStatus];
+  const incomingPrecedence = MESSAGE_STATUS_PRECEDENCE[incomingStatus];
+
+  if (currentPrecedence !== undefined && incomingPrecedence !== undefined) {
+    return incomingPrecedence >= currentPrecedence
+      ? incomingStatus
+      : currentStatus;
+  }
+
+  return incomingStatus;
 };
 
 export const filterByStatus = (chatStatus, filterStatus) =>
