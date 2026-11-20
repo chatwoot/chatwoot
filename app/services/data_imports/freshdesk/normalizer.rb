@@ -35,12 +35,14 @@ class DataImports::Freshdesk::Normalizer
       'id' => ticket['id'].to_s,
       'type' => DataImports::Freshdesk::SourceBucket.source_type(ticket['source']),
       'subject' => ticket['subject'],
-      'body' => ticket['description'].presence || ticket['description_text'],
+      'subject_format' => 'text',
+      'body' => ticket['description_text'].presence || ticket['description'],
+      'body_format' => ticket['description_text'].present? ? 'text' : 'html',
       'attachments' => ticket['attachments'],
       'author' => source_author(ticket)
     }.compact
 
-    source.except!('subject', 'body') if ticket['source'].to_i == WEB_CHAT_SOURCE
+    source.except!('subject', 'subject_format', 'body', 'body_format') if ticket['source'].to_i == WEB_CHAT_SOURCE
     source
   end
 
@@ -107,7 +109,8 @@ class DataImports::Freshdesk::Normalizer
     {
       'id' => conversation['id'].to_s,
       'part_type' => conversation['private'] ? 'note' : 'comment',
-      'body' => conversation['body'].presence || conversation['body_text'],
+      'body' => conversation['body_text'].presence || conversation['body'],
+      'body_format' => conversation['body_text'].present? ? 'text' : 'html',
       'attachments' => conversation['attachments'],
       'created_at' => unix_timestamp(conversation['created_at']),
       'updated_at' => unix_timestamp(conversation['updated_at']),
