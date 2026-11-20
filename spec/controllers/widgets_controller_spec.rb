@@ -16,6 +16,8 @@ describe '/widget', type: :request do
 
       expect(response).to be_successful
       expect(response.body).not_to include(token)
+      expect(response.body).to include('attachmentEditorEnabled: true', 'screenCaptureEnabled: false', 'screenCaptureEditorEnabled: true',
+                                       'sendAttachmentsWithMessage: false')
     end
 
     it 'renders the page correctly when called with website_token and cw_conversation' do
