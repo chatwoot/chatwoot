@@ -4,7 +4,6 @@ describe CallFinder do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  # Calls come from calling inboxes, whose channel decides who they ring
   let(:inbox) { create(:channel_twilio_sms, :with_voice, account: account).inbox }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
 
@@ -170,7 +169,6 @@ describe CallFinder do
     end
 
     it 'keeps the agent\'s own accepted ringing calls alongside' do
-      # Rung before the agent claimed their own call, which leaves them out of later rings
       waiting = ringing_call(conversation)
       own = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
                           status: 'ringing', accepted_by_agent: agent)

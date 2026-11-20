@@ -468,12 +468,15 @@ function setup_chatwoot() {
   sudo -i -u chatwoot << EOF
   rvm --version
   rvm autolibs disable
-  rvm install "ruby-3.4.4"
-  rvm use 3.4.4 --default
 
   git clone https://github.com/chatwoot/chatwoot.git
   cd chatwoot
   git checkout "$BRANCH"
+
+  ruby_version="\$(cat .ruby-version)"
+  rvm install "ruby-\$ruby_version"
+  rvm use "\$ruby_version" --default
+
   bundle
   pnpm i
 

@@ -32,7 +32,6 @@ class WhatsappCallsAPI extends ApiClient {
     return axios.post(`${this.url}/${callId}/reject`).then(r => r.data);
   }
 
-  // Stops the ring for this agent only; the call keeps ringing for the others
   dismiss(callId) {
     return axios.post(`${this.url}/${callId}/dismiss`);
   }

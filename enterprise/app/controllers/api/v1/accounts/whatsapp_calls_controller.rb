@@ -24,7 +24,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     call_service.reject
   end
 
-  # Stops the ring for this agent only; the caller keeps ringing for the others
   def dismiss
     Voice::RingDismissService.new(call: @call, user: Current.user).perform
     head :ok

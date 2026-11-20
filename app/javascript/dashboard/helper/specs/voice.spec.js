@@ -10,17 +10,21 @@ import {
 
 import CallsAPI from 'dashboard/api/calls';
 
-const { callsStore } = vi.hoisted(() => ({
+const { callsStore, isLocalWhatsappCall } = vi.hoisted(() => ({
   callsStore: {
     calls: [],
     addCall: vi.fn(),
     removeCall: vi.fn(),
     handleCallStatusChanged: vi.fn(),
   },
+  isLocalWhatsappCall: vi.fn(() => false),
 }));
 
 vi.mock('dashboard/stores/calls', () => ({ useCallsStore: () => callsStore }));
 vi.mock('dashboard/api/calls', () => ({ default: { get: vi.fn() } }));
+vi.mock('dashboard/composables/useWhatsappCallSession', () => ({
+  isLocalWhatsappCall,
+}));
 
 const ME = 7;
 const TEAMMATE = 8;
@@ -55,6 +59,7 @@ describe('voice call ringing', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     callsStore.calls = [];
+    isLocalWhatsappCall.mockReturnValue(false);
   });
 
   it('rings an inbound Twilio call for the agents the server names, whoever is assigned', () => {
@@ -181,6 +186,45 @@ describe('voice call ringing', () => {
       true
     );
     clearLocalCall('CA14');
+
+    expect(callsStore.removeCall).not.toHaveBeenCalled();
+  });
+
+  it('keeps the WhatsApp call this tab accepted when a stale ring update from another tab arrives', () => {
+    isLocalWhatsappCall.mockImplementation(callId => callId === 1);
+
+    handleVoiceCallUpdated(
+      vi.fn(),
+      callMessage({
+        sid: 'WA14',
+        provider: 'whatsapp',
+        ringUserIds: [],
+        dismissedUserIds: [ME],
+      }),
+      ME,
+      true
+    );
+
+    expect(callsStore.removeCall).not.toHaveBeenCalled();
+  });
+
+  it('keeps the WhatsApp call this tab is on once the agent can no longer open its conversation', () => {
+    callsStore.calls = [
+      {
+        callSid: 'WA15',
+        callId: 15,
+        conversationId: 42,
+        provider: 'whatsapp',
+        callDirection: 'inbound',
+      },
+    ];
+    isLocalWhatsappCall.mockImplementation(callId => callId === 15);
+
+    syncConversationCallVisibility(
+      { id: 42, assignee_id: TEAMMATE },
+      ME,
+      () => false
+    );
 
     expect(callsStore.removeCall).not.toHaveBeenCalled();
   });

@@ -1,4 +1,3 @@
-# Who a calling inbox rings and what happens outside business hours, for Twilio and WhatsApp alike
 json.ring_strategy channel.sequential_ringing? ? 'sequential' : 'simultaneous'
 json.ring_step_seconds channel.ring_step_seconds
 json.assignee_rings_first channel.assignee_rings_first?

@@ -6,6 +6,7 @@ import {
 import CallsAPI from 'dashboard/api/calls';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { useCallsStore } from 'dashboard/stores/calls';
+import { isLocalWhatsappCall } from 'dashboard/composables/useWhatsappCallSession';
 import types from 'dashboard/store/mutation-types';
 
 export const TERMINAL_STATUSES = [
@@ -43,6 +44,8 @@ export const isLocalCall = callSid =>
 export const clearLocalCall = callSid => {
   if (localCallSid === callSid) localCallSid = null;
 };
+const isThisTabsCall = (callSid, callId) =>
+  isLocalCall(callSid) || isLocalWhatsappCall(callId);
 
 export const isInbound = direction => direction === 'inbound';
 
@@ -63,9 +66,8 @@ const isAssignedToAnotherAgent = (assigneeId, currentUserId) => {
   return !!assigneeId && assigneeId !== currentUserId;
 };
 
-// The server picks the agents an inbound Twilio call rings and names them on the
+// The server picks the agents an inbound call rings and names them on the
 // call's message, so its assignee no longer decides who sees the ringing card.
-// Every inbound call, Twilio or WhatsApp, rings the agents its routing picked
 const isRoutedCall = callDirection =>
   callDirection === VOICE_CALL_DIRECTION.INBOUND;
 
@@ -283,7 +285,7 @@ export function handleVoiceCallUpdated(
     // Out of the ring: dismissed, perhaps from another tab, or not reached yet, which only a
     // dismiss keeps closed. The call this tab is joining or on stays, as for the accepted broadcast.
     if (isRoutedCall(callDirection)) {
-      if (isLocalCall(callSid)) return;
+      if (isThisTabsCall(callSid, callId)) return;
       if ((dismissedUserIds || []).includes(currentUserId))
         markCallDismissed(callSid);
     }
@@ -329,7 +331,7 @@ export function syncConversationCallVisibility(
     call =>
       call.conversationId === conversation.id &&
       (isRoutedCall(call.callDirection)
-        ? !isLocalCall(call.callSid) && !canOpenConversation()
+        ? !isThisTabsCall(call.callSid, call.callId) && !canOpenConversation()
         : !shouldShowCall({
             callDirection: call.callDirection,
             senderId: call.senderId,
