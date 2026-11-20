@@ -68,11 +68,11 @@ module SlackStubs
     [
       {
         mimetype: 'image/png',
-        url_private: 'https://chatwoot-assets.local/sample.png',
+        url_private: 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png',
         name: 'name_of_the_file',
         title: 'title_of_the_file',
         filetype: 'png',
-        url_private_download: 'https://chatwoot-assets.local/sample.png'
+        url_private_download: 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png'
       }
     ]
   end
