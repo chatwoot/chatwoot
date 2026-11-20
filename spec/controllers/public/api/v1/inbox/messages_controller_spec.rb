@@ -95,6 +95,21 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       expect(data['content_attributes']['submitted_values']['csat_survey_response']['rating']).to eq 4
     end
 
+    it 'rejects a CSAT update without a rating and keeps the stored response' do
+      message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, content_type: 'input_csat',
+                                 content_attributes: { submitted_values: { csat_survey_response: { rating: 5, feedback_message: 'original' } } })
+      csat_survey_response = create(:csat_survey_response, conversation: conversation, message: message, rating: 5, feedback_message: 'original')
+
+      patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/" \
+            "#{conversation.display_id}/messages/#{message.id}",
+            params: { submitted_values: { csat_survey_response: { feedback_message: 'replacement' } } },
+            as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(message.reload.submitted_values['csat_survey_response']['feedback_message']).to eq 'original'
+      expect(csat_survey_response.reload.feedback_message).to eq 'original'
+    end
+
     it 'returns update error if CSAT message sent more than 14 days' do
       message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, content_type: 'input_csat',
                                  created_at: 15.days.ago)
