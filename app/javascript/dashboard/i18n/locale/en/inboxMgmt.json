@@ -879,9 +879,14 @@
         "MESSAGE": "Out-of-hours message",
         "SAME": "Same as the missed-call message",
         "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
-        "DECLINE": "Don't accept calls",
-        "DECLINE_HELP": "Nobody rings, and the call is declined.",
-        "RING": "Ring as usual"
+        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead.",
+        "WHATSAPP_HOURS_CHECKING": "Checking WhatsApp…",
+        "WHATSAPP_HOURS_APPLYING": "Applying on WhatsApp…",
+        "WHATSAPP_HOURS_APPLIED": "Applied on WhatsApp",
+        "WHATSAPP_HOURS_DIFFER": "WhatsApp is using different call hours from this inbox. Calls follow WhatsApp's hours until you apply the inbox hours.",
+        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours",
+        "WHATSAPP_HOURS_STILL_ON": "WhatsApp is still applying call hours, but this inbox doesn't. Calls outside those hours won't go through until you turn them off.",
+        "WHATSAPP_TURN_OFF_HOURS": "Turn off on WhatsApp"
       },
       "AFTER_CALL": {
         "TITLE": "After a call",
