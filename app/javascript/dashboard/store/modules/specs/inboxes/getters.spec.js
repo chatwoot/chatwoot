@@ -404,4 +404,90 @@ describe('#getters', () => {
       expect(result[0].name).toBe('fallback_template');
     });
   });
+
+  describe('getInboxById', () => {
+    it('camelCases the record', () => {
+      const state = { records: inboxList };
+      expect(getters.getInboxById(state)(1).channelType).toEqual(
+        inboxList[0].channel_type
+      );
+    });
+
+    it('leaves message_templates out of the deep conversion', () => {
+      const messageTemplates = [
+        { name: 'order_update', language: 'en', status: 'APPROVED' },
+      ];
+      const record = {
+        id: 9,
+        name: 'WhatsApp',
+        channel_type: 'Channel::Whatsapp',
+        message_templates: messageTemplates,
+      };
+      const converted = getters.getInboxById({ records: [record] })(9);
+      // same reference: the array is neither copied nor walked
+      expect(converted.messageTemplates).toBe(messageTemplates);
+      expect(converted.channelType).toEqual('Channel::Whatsapp');
+    });
+
+    it('leaves a Twilio content template catalogue out of the deep conversion', () => {
+      // Twilio inboxes ship `content_templates` on the inbox payload itself
+      // (`_inbox.json.jbuilder`), up to ~1,000 nested templates per channel.
+      const contentTemplates = {
+        templates: [{ friendly_name: 'order_update', status: 'approved' }],
+      };
+      const record = {
+        id: 11,
+        name: 'Twilio',
+        channel_type: 'Channel::TwilioSms',
+        content_templates: contentTemplates,
+        greeting_enabled: true,
+      };
+      const converted = getters.getInboxById({ records: [record] })(11);
+      // same reference: lifted out of the walk, not copied
+      expect(converted.contentTemplates).toBe(contentTemplates);
+      // the rest of the record is still camelCased
+      expect(converted.greetingEnabled).toBe(true);
+    });
+
+    it('leaves an API inbox template catalogue out of the deep conversion', () => {
+      // `getWhatsAppTemplates` falls back to `additional_attributes.message_templates`
+      // for API-channel inboxes, so that catalogue needs the same treatment.
+      const apiTemplates = [
+        { name: 'api_template', language: 'en', status: 'APPROVED' },
+      ];
+      const record = {
+        id: 10,
+        name: 'API',
+        channel_type: 'Channel::Api',
+        additional_attributes: {
+          message_templates: apiTemplates,
+          auto_assignment_config: { enabled: true },
+        },
+      };
+      const converted = getters.getInboxById({ records: [record] })(10);
+      // same reference: lifted out of the walk, not copied
+      expect(converted.additionalAttributes.messageTemplates).toBe(
+        apiTemplates
+      );
+      // the rest of additional_attributes is still camelCased
+      expect(converted.additionalAttributes.autoAssignmentConfig).toEqual({
+        enabled: true,
+      });
+    });
+
+    it('reflects in-place changes to the record', () => {
+      // `Settings.vue` binds the raw record with v-model, so an inbox can be mutated without
+      // being replaced; the getter must not serve a cached copy.
+      const record = {
+        id: 1,
+        name: 'Website',
+        channel_type: 'Channel::WebWidget',
+        widget_color: '#111111',
+      };
+      const state = { records: [record] };
+      expect(getters.getInboxById(state)(1).widgetColor).toEqual('#111111');
+      record.widget_color = '#222222';
+      expect(getters.getInboxById(state)(1).widgetColor).toEqual('#222222');
+    });
+  });
 });
