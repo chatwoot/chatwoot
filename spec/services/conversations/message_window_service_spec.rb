@@ -138,7 +138,33 @@ RSpec.describe Conversations::MessageWindowService do
         end
       end
 
-      it 'considers only the last incoming message for determining time window' do
+      context 'when the contact reopens the window from another conversation' do
+      let(:old_conversation) do
+        create(:conversation, inbox: whatsapp_inbox, account: whatsapp_channel.account,
+                              contact: conversation.contact, contact_inbox: conversation.contact_inbox)
+      end
+
+      it 'allows replying in the older conversation of the same contact inbox' do
+        create(:message, account: conversation.account, inbox: whatsapp_inbox, conversation: old_conversation,
+                         message_type: :incoming, created_at: 3.days.ago)
+        create(:message, account: conversation.account, inbox: whatsapp_inbox, conversation: conversation,
+                         message_type: :incoming, created_at: 1.hour.ago)
+
+        expect(described_class.new(old_conversation).can_reply?).to be true
+      end
+
+      it 'does not consider incoming messages from other contacts' do
+        other_conversation = create(:conversation, inbox: whatsapp_inbox, account: whatsapp_channel.account)
+        create(:message, account: conversation.account, inbox: whatsapp_inbox, conversation: conversation,
+                         message_type: :incoming, created_at: 3.days.ago)
+        create(:message, account: conversation.account, inbox: whatsapp_inbox, conversation: other_conversation,
+                         message_type: :incoming, created_at: 1.hour.ago)
+
+        expect(described_class.new(conversation).can_reply?).to be false
+      end
+    end
+
+    it 'considers only the last incoming message for determining time window' do
         with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'true' do
           # Old message outside window
           create(
