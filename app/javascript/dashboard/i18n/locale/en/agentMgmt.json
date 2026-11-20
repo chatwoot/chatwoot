@@ -20,7 +20,9 @@
       "ACTIONS": "Actions",
       "VERIFIED": "Verified",
       "VERIFICATION_PENDING": "Verification Pending",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions",
+      "ACTIVE": "Active",
+      "SUSPENDED": "Suspended"
     },
     "ADD": {
       "TITLE": "Add agent to your team",
@@ -82,7 +84,12 @@
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Edit Agent",
+        "STATUS": {
+          "LABEL": "Account Status",
+          "ACTIVE": "Active",
+          "SUSPENDED": "Suspended (Cannot login, past messages preserved)"
+        }
       },
       "BUTTON_TEXT": "Edit",
       "CANCEL_BUTTON_TEXT": "Cancel",
