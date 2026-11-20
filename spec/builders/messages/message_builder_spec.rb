@@ -231,6 +231,11 @@ describe Messages::MessageBuilder do
         expect(message.content_attributes[:bcc_emails]).to eq ['test4@test.com', 'test5@test.com']
       end
 
+      it 'rejects a whitespace-delimited list containing a malformed recipient' do
+        params = ActionController::Parameters.new({ cc_emails: 'invalid second@example.com' })
+        expect { described_class.new(user, conversation, params).perform }.to raise_error 'Invalid email address'
+      end
+
       it 'normalizes incidental whitespace within individual email addresses' do
         cc_emails = 'user1 @example.com, user2@ example.com'
         bcc_emails = 'user3 @example.com'

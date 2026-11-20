@@ -19,16 +19,9 @@ module EmailHelper
 
   def process_email_string(email_string)
     Array(email_string).flat_map do |value|
-      value.to_s.split(/[,;]+/).flat_map do |part|
-        if part.count('@') > 1
-          # Attach any whitespace around `@` to its address first, so the
-          # remaining whitespace only separates addresses.
-          part.gsub(/[[:space:]\uFEFF]*@[[:space:]\uFEFF]*/, '@').split(/[[:space:]\uFEFF]+/)
-        else
-          part.gsub(/[[:space:]\uFEFF]+/, '')
-        end
-      end
-    end.map(&:strip).reject(&:blank?)
+      normalized = value.to_s.gsub(/[[:space:]\uFEFF]*@[[:space:]\uFEFF]*/, '@')
+      normalized.split(/[,;[:space:]\uFEFF]+/)
+    end.reject(&:empty?)
   end
 
   # ref: https://www.rfc-editor.org/rfc/rfc5233.html
