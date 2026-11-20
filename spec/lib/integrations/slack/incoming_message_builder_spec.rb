@@ -188,6 +188,23 @@ describe Integrations::Slack::IncomingMessageBuilder do
       end
     end
 
+    context 'when the same slack channel is connected to two accounts' do
+      let!(:conversation) { create(:conversation, account: account) }
+      let!(:second_conversation) { create(:conversation, account: create(:account), identifier: message_params[:event][:thread_ts]) }
+
+      before do
+        create(:integrations_hook, account: second_conversation.account, reference_id: message_params[:event][:channel])
+      end
+
+      it 'creates the message in the conversation of the account that owns the thread' do
+        builder = described_class.new(message_params)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.to change(second_conversation.messages, :count).by(1)
+        expect(conversation.messages.count).to eq(0)
+      end
+    end
+
     context 'when a non slack hook has the same reference id' do
       let(:hook) { create(:integrations_hook, :linear, account: account, reference_id: message_params[:event][:channel]) }
 
