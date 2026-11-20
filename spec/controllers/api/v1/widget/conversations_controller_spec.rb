@@ -110,7 +110,22 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
 
-    it 'adds a private note when the email matches an identified contact' do
+    it 'merges the visitor into the identified contact with the same email' do
+      identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com', name: 'Customer')
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: conversation_params,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(account.conversations.find_by(display_id: response.parsed_body['id']).contact_id).to eq identified_contact.id
+      expect(identified_contact.reload.name).to eq 'Customer'
+      expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it 'keeps the visitor apart from an identified contact on an inbox that requires identity validation' do
+      web_widget.update!(hmac_mandatory: true)
       identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com')
 
       post '/api/v1/widget/conversations',
@@ -119,24 +134,8 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
-      note = account.conversations.find_by(display_id: response.parsed_body['id']).messages.find_by(private: true)
-      expect(note.content).to include('contact-email@chatwoot.com')
-      expect(note.content).to include("/contacts/#{identified_contact.id}")
-      expect(response.parsed_body['messages'].pluck('content')).not_to include(note.content)
-    end
-
-    it 'still sends the greeting when it adds the private note' do
-      web_widget.inbox.update!(greeting_enabled: true, greeting_message: 'Hello from the team')
-      create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com')
-
-      post '/api/v1/widget/conversations',
-           headers: { 'X-Auth-Token' => token },
-           params: conversation_params,
-           as: :json
-
-      messages = account.conversations.find_by(display_id: response.parsed_body['id']).messages
-      expect(messages.where(private: true).count).to eq 1
-      expect(messages.pluck(:content)).to include('Hello from the team')
+      expect(account.conversations.find_by(display_id: response.parsed_body['id']).contact_id).to eq contact.id
+      expect(identified_contact.reload.conversations).to be_empty
     end
 
     it 'does not update the name if the contact already exist' do
