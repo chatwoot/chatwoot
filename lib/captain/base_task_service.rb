@@ -1,6 +1,7 @@
 class Captain::BaseTaskService
   include Integrations::LlmInstrumentation
   include Captain::ToolInstrumentation
+  include Captain::UrlPreserver
   include Llm::ExceptionTrackable
 
   # Sized for a 128,000-token context window
