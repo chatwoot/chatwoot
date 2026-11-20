@@ -32,6 +32,37 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       }.with_indifferent_access
     end
 
+    context 'when a valid text message is received' do
+      let(:text_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: sender_number }],
+                messages: [{
+                  from: sender_number,
+                  id: 'wamid.cloud-external-timestamp',
+                  text: { body: 'Hello' },
+                  timestamp: '1664799904',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'stores the provider timestamp as external_created_at' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: text_params).perform
+
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content_attributes['external_created_at']).to eq('1664799904')
+        expect(message.webhook_data[:content_attributes]['external_created_at']).to eq('1664799904')
+      end
+    end
+
     context 'when valid attachment message params' do
       it 'creates appropriate conversations, message and contacts' do
         stub_media_url_request
@@ -779,6 +810,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         conversation = whatsapp_channel.inbox.conversations.last
         expect(conversation.contact).to eq(existing_contact)
         expect(conversation.messages.last.content).to eq('Reply from the WhatsApp app')
+        expect(conversation.messages.last.content_attributes).not_to have_key('external_created_at')
       end
 
       it 'prefers an existing contact stored with the raw phone number' do
