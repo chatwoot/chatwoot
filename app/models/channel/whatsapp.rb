@@ -432,7 +432,11 @@ class Channel::Whatsapp < ApplicationRecord # rubocop:disable Metrics/ClassLengt
     provider_service.sync_group(conversation, soft: soft)
   end
 
+  # Only Baileys and the session providers manage groups. Every inbox payload asks, and building any
+  # other provider's service for a constant no is work the payload does not need.
   def allow_group_creation?
+    return false unless provider == 'baileys' || session_provider?
+
     provider_service.respond_to?(:allow_group_creation?) && provider_service.allow_group_creation?
   end
 
