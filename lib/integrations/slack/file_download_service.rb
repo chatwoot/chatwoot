@@ -11,7 +11,8 @@ class Integrations::Slack::FileDownloadService
       headers: { 'Authorization' => "Bearer #{access_token}" },
       validate_content_type: false
     ) { |result| retain_download(result) }
-  rescue SafeFetch::Error
+  rescue SafeFetch::InvalidUrlError, SafeFetch::UnsafeUrlError,
+         SafeFetch::FileTooLargeError, SafeFetch::UnsupportedContentTypeError
     nil
   end
 

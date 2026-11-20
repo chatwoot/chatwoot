@@ -209,6 +209,24 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(a_request(:get, 'https://files.example.com/sample.png')).not_to have_been_made
       end
 
+      it 'raises without creating the message when the Slack file host times out' do
+        stub_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png').to_timeout
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.to raise_error(SafeFetch::FetchError)
+          .and not_change(conversation.messages, :count)
+      end
+
+      it 'raises without creating the message when the Slack file host returns a server error' do
+        stub_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png').to_return(status: 503)
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.to raise_error(SafeFetch::HttpError)
+          .and not_change(conversation.messages, :count)
+      end
+
       it 'ignore message if it is postback of CW attachment message' do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count
