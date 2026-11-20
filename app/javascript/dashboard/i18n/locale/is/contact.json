@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Engin fyrri samtöl eru tengd þessum tengilið.",
-      "TITLE": "Fyrri samtöl"
+      "TITLE": "Fyrri samtöl",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

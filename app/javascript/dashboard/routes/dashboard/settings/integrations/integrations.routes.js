@@ -11,6 +11,7 @@ import Linear from './Linear.vue';
 import Stripe from './Stripe.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
+import GoogleTranslate from './GoogleTranslate.vue';
 
 export const redirectShopifyIfUnavailable = async (to, _from, next) => {
   const accountId = Number(to.params.accountId);
@@ -19,9 +20,11 @@ export const redirectShopifyIfUnavailable = async (to, _from, next) => {
     await store.dispatch('accounts/get', { accountId, silent: true });
   }
 
-  const isShopifyEnabled = store.getters['accounts/isFeatureEnabledonAccount'](
-    accountId,
-    FEATURE_FLAGS.SHOPIFY
+  const isShopifyEnabled = [
+    FEATURE_FLAGS.SHOPIFY,
+    FEATURE_FLAGS.SHOPIFY_CUSTOM_APPS,
+  ].some(feature =>
+    store.getters['accounts/isFeatureEnabledonAccount'](accountId, feature)
   );
 
   next(
@@ -102,6 +105,15 @@ export default {
           },
         },
         {
+          path: 'google_translate',
+          name: 'settings_integrations_google_translate',
+          component: GoogleTranslate,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+        },
+        {
           path: 'notion',
           name: 'settings_integrations_notion',
           component: Notion,
@@ -115,7 +127,6 @@ export default {
           name: 'settings_integrations_shopify',
           component: Shopify,
           meta: {
-            featureFlag: FEATURE_FLAGS.SHOPIFY,
             permissions: ['administrator'],
           },
           beforeEnter: redirectShopifyIfUnavailable,

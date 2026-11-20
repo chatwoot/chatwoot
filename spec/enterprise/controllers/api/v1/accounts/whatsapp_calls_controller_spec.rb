@@ -34,6 +34,16 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(body['provider']).to eq('whatsapp')
     end
 
+    it 'identifies the accepted answer by its digest, not its content' do
+      call.update!(meta: { 'sdp_answer' => 'v=0 answer' })
+
+      get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}", headers: agent.create_new_auth_token
+
+      body = response.parsed_body
+      expect(body['answer_digest']).to eq(Digest::SHA256.hexdigest('v=0 answer'))
+      expect(response.body).not_to include('v=0 answer')
+    end
+
     it 'returns 401 when unauthenticated' do
       get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}"
       expect(response).to have_http_status(:unauthorized)
@@ -77,6 +87,25 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            params: { sdp_answer: 'sdp_answer' }, headers: agent.create_new_auth_token
 
       expect(response).to have_http_status(:conflict)
+    end
+  end
+
+  describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/dismiss' do
+    it 'stops the ring for this agent only, without telling Meta' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/dismiss", headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(call.reload).to have_attributes(status: 'ringing', dismissed_user_ids: [agent.id])
+    end
+
+    it 'does not find a call the agent cannot open' do
+      outsider = create(:user, account: account, role: :agent)
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/dismiss", headers: outsider.create_new_auth_token
+
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 

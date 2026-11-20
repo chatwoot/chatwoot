@@ -13,6 +13,7 @@
 #  param_schema      :jsonb
 #  request_template  :text
 #  response_template :text
+#  settings          :jsonb            not null
 #  slug              :string           not null
 #  source_metadata   :jsonb
 #  title             :string           not null
@@ -33,6 +34,7 @@ class Captain::CustomTool < ApplicationRecord
 
   include Concerns::Toolable
   include Concerns::SafeEndpointValidatable
+  include Concerns::VerifiedCustomerRequirement
 
   self.table_name = 'captain_custom_tools'
 
@@ -52,6 +54,8 @@ class Captain::CustomTool < ApplicationRecord
   RESERVED_HEADERS = %w[authorization host content-length content-type].freeze
   # Any name starting with x-chatwoot, dash or not, is reserved for headers Chatwoot sets
   RESERVED_HEADER_PREFIX = 'x-chatwoot'.freeze
+  # Values Chatwoot fills into a parameter from what the customer verified: an email by one-time code
+  VERIFIED_SOURCES = %w[verified.email].freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -60,9 +64,13 @@ class Captain::CustomTool < ApplicationRecord
         'name': { 'type': 'string' },
         'type': { 'type': 'string' },
         'description': { 'type': 'string' },
-        'required': { 'type': 'boolean' }
+        'required': { 'type': 'boolean' },
+        'source': { 'enum': VERIFIED_SOURCES }
       },
       'required': %w[name type description],
+      # Verified values are text, so a parameter that takes one must be a string
+      'if': { 'required': ['source'] },
+      'then': { 'properties': { 'type': { 'const': 'string' } } },
       'additionalProperties': false
     }
   }.to_json.freeze
@@ -83,11 +91,21 @@ class Captain::CustomTool < ApplicationRecord
     'additionalProperties': false
   }.to_json.freeze
 
+  # Only known settings with boolean values are accepted, so a typo or a string can never switch a safety setting off
+  SETTING_KEYS = %w[requires_email_verification].freeze
+  SETTINGS_VALIDATION = {
+    'type': 'object',
+    'properties': SETTING_KEYS.index_with { { 'type': 'boolean' } },
+    'additionalProperties': false
+  }.to_json.freeze
+
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
 
   enum :http_method, %w[GET POST PUT PATCH DELETE].index_by(&:itself), validate: true
   enum :auth_type, %w[none bearer basic api_key].index_by(&:itself), default: :none, validate: true, prefix: :auth
+
+  encrypts :auth_config, :headers if Chatwoot.encryption_configured?
 
   before_validation :generate_slug
   before_create :ensure_within_limit
@@ -101,10 +119,16 @@ class Captain::CustomTool < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: SOURCE_METADATA_VALIDATION,
                  attribute_resolver: ->(record) { record.source_metadata }
+  validates_with JsonSchemaValidator,
+                 schema: SETTINGS_VALIDATION,
+                 attribute_resolver: ->(record) { record.settings }
   validate :validate_headers
   validate :validate_auth_config
 
   scope :enabled, -> { where(enabled: true) }
+  # Installed from the tools catalog, or written by the user
+  scope :installed, -> { where.not(source_metadata: nil) }
+  scope :user_defined, -> { where(source_metadata: nil) }
   scope :from_github, lambda { |repository, path|
     where("source_metadata->>'source' = 'github'")
       .where("source_metadata->>'repository' = ? AND source_metadata->>'path' = ?", repository, path)
@@ -117,6 +141,15 @@ class Captain::CustomTool < ApplicationRecord
       description: description,
       custom: true
     }
+  end
+
+  def takes_verified_email?
+    param_schema.any? { |param_def| param_def['source'] == Captain::ParamSources::VERIFIED_EMAIL }
+  end
+
+  # The name of the parameter Chatwoot fills with the verified email, if the tool has one
+  def verified_email_param
+    param_schema.find { |param_def| param_def['source'] == Captain::ParamSources::VERIFIED_EMAIL }&.dig('name')
   end
 
   def enabled_scenarios_count

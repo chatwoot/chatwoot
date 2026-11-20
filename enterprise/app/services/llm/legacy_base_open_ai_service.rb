@@ -5,10 +5,11 @@
 # - Captain::Llm::PdfProcessingService (files.upload for assistants)
 # - Captain::Llm::PaginatedFaqGeneratorService (uses file_id from uploaded files)
 # - Llm::SpeechToTextService (audio.transcribe)
+# - Llm::TextToSpeechService (chat audio output)
 #
 # For all other LLM operations, use Llm::BaseAiService with RubyLLM instead.
 class Llm::LegacyBaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4.1-mini'
+  DEFAULT_MODEL = Llm::Config::DEFAULT_MODEL
 
   attr_reader :client, :model
 

@@ -33,6 +33,8 @@
       "is_less_than": "קטן מ",
       "days_before": "הוא x ימים לפני",
       "starts_with": "מתחיל עם",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "שווה ל",
       "notEqualTo": "לא שווה ל",
       "contains": "מכיל",

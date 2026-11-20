@@ -17,8 +17,9 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login med Google",
-      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
-      "NO_ACCOUNT_FOUND": "Vi kunne ikke finde en konto til din e-mailadresse."
+      "BUSINESS_ACCOUNTS_ONLY": "Du kan ikke oprette en ny konto med en personlig e-mail-adresse. Opret venligst via din arbejdsmail.",
+      "NO_ACCOUNT_FOUND": "Vi kunne ikke finde en konto til din e-mailadresse.",
+      "SHOPIFY_INSTALLATION_FAILED": "Vi kunne ikke fuldføre din Shopify installation. Genstart installationen fra Shopify."
     },
     "FORGOT_PASSWORD": "Glemt din adgangskode?",
     "CREATE_NEW_ACCOUNT": "Opret ny konto",

@@ -4,7 +4,10 @@ module Enterprise::Api::V1::Accounts::PortalsController
 
     result = Cloudflare::CheckCustomHostnameService.new(portal: @portal).perform
 
-    return render_could_not_create_error(result[:errors]) if result[:errors].present?
+    if result[:errors].present?
+      @portal.enqueue_cloudflare_verification
+      return render_could_not_create_error(result[:errors])
+    end
 
     ssl_settings = @portal.ssl_settings || {}
     render json: {

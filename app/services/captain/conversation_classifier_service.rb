@@ -1,5 +1,5 @@
 class Captain::ConversationClassifierService
-  MODEL = 'jev-latest'.freeze
+  MODEL = Captain::JevClient::DEFAULT_MODEL
   MAX_LABEL_SUGGESTIONS = 3
   LABEL_THRESHOLD = 0.5
   PRIORITY_CRITERIA = {

@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "এই কন্টাক্টের সাথে পূর্বের কোনো আলাপ নেই।",
-      "TITLE": "পূর্বের আলাপ"
+      "TITLE": "পূর্বের আলাপ",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

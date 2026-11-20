@@ -4,7 +4,8 @@ account_users = account_users.includes(:custom_role) if ChatwootApp.enterprise?
 # full-precision timestamps, nils last, matching ORDER BY active_at DESC NULLS LAST
 active_account_user = account_users.max_by { |account_user| [account_user.active_at ? 1 : 0, account_user.active_at || Time.at(0).utc] }
 
-json.access_token resource.accounts.any?(&:api_and_webhooks_enabled?) ? resource.access_token.token : ''
+authenticated_resource = resource == local_assigns.fetch(:authenticated_user, Current.user)
+json.access_token resource.accounts.any?(&:api_and_webhooks_enabled?) ? resource.access_token.token : '' if authenticated_resource
 json.account_id active_account_user&.account_id
 json.available_name resource.available_name
 json.avatar_url resource.avatar_url
@@ -17,7 +18,7 @@ json.id resource.id
 json.inviter_id active_account_user&.inviter_id
 json.name resource.name
 json.provider resource.provider
-json.pubsub_token resource.pubsub_token
+json.pubsub_token resource.pubsub_token if authenticated_resource
 json.custom_attributes resource.custom_attributes if resource.custom_attributes.present?
 json.role active_account_user&.role
 json.ui_settings resource.ui_settings
@@ -46,6 +47,8 @@ json.accounts do
     # availability derived from presence
     json.availability_status account_user.availability_status
     json.auto_offline account_user.auto_offline
+    json.accepts_conversations account_user.accepts_conversations
+    json.accepts_calls account_user.accepts_calls
     json.api_and_webhooks account_user.account.feature_enabled?('api_and_webhooks')
     json.partial! 'api/v1/models/account_user', account_user: account_user if ChatwootApp.enterprise?
   end

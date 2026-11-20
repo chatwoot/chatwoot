@@ -44,6 +44,21 @@ describe('#ConversationAPI', () => {
       );
     });
   });
+  describe('#autoTranslate', () => {
+    it('posts the message ids', () => {
+      const originalAxios = window.axios;
+      window.axios = { post: vi.fn(() => Promise.resolve()) };
+
+      messageAPI.autoTranslate(12, [1, 2]);
+
+      expect(window.axios.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/12/messages/auto_translate',
+        { message_ids: [1, 2] }
+      );
+      window.axios = originalAxios;
+    });
+  });
+
   describe('#buildCreatePayload', () => {
     it('builds form payload if file is available', () => {
       const formPayload = buildCreatePayload({

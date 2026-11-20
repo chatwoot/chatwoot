@@ -7,10 +7,12 @@ import ChatArticle from './template/Article.vue';
 import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import IntegrationCard from './template/IntegrationCard.vue';
+import TranslatingContent from './TranslatingContent.vue';
 
 export default {
   name: 'AgentMessageBubble',
   components: {
+    TranslatingContent,
     ChatArticle,
     ChatCard,
     ChatForm,
@@ -21,6 +23,8 @@ export default {
   },
   props: {
     message: { type: String, default: null },
+    translating: { type: Boolean, default: false },
+    translated: { type: Boolean, default: false },
     contentType: { type: String, default: null },
     messageType: { type: Number, default: null },
     messageId: { type: Number, default: null },
@@ -39,7 +43,20 @@ export default {
       highlightContent,
     };
   },
+  data() {
+    return { showingOriginal: false };
+  },
   computed: {
+    originalText() {
+      const translations = this.messageContentAttributes?.translations || {};
+      return Object.values(translations)[0] || '';
+    },
+    hasOriginal() {
+      return this.translated && !this.translating && !!this.originalText;
+    },
+    displayedMessage() {
+      return this.showingOriginal ? this.originalText : this.message;
+    },
     isTemplate() {
       return this.messageType === 3;
     },
@@ -97,10 +114,22 @@ export default {
       "
       class="chat-bubble agent bg-n-background dark:bg-n-solid-3 text-n-slate-12"
     >
-      <div
-        v-dompurify-html="formatMessage(message, false)"
-        class="message-content text-n-slate-12 [&>ul:not(:last-child)]:mb-4 [&>ol:not(:last-child)]:mb-4"
-      />
+      <TranslatingContent :translating="translating" :translated="hasOriginal">
+        <div
+          v-dompurify-html="formatMessage(displayedMessage, false)"
+          class="message-content text-n-slate-12 [&>ul:not(:last-child)]:mb-4 [&>ol:not(:last-child)]:mb-4"
+        />
+      </TranslatingContent>
+      <button
+        v-if="hasOriginal"
+        type="button"
+        class="mt-1 flex items-center gap-1 text-xs text-n-iris-11"
+        @click="showingOriginal = !showingOriginal"
+      >
+        <span class="i-lucide-sparkles size-3" aria-hidden="true" />
+        <template v-if="showingOriginal">{{ $t('VIEW_TRANSLATION') }}</template>
+        <template v-else>{{ $t('VIEW_ORIGINAL') }}</template>
+      </button>
       <EmailInput
         v-if="isTemplateEmail"
         :message-id="messageId"

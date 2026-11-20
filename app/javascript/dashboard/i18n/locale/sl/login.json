@@ -18,7 +18,8 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "Prijavite se z Googlom",
       "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
-      "NO_ACCOUNT_FOUND": "Nismo mogli najti računa za vaš e-poštni naslov."
+      "NO_ACCOUNT_FOUND": "Nismo mogli najti računa za vaš e-poštni naslov.",
+      "SHOPIFY_INSTALLATION_FAILED": "We couldn't complete your Shopify installation. Please restart installation from Shopify."
     },
     "FORGOT_PASSWORD": "Ste pozabili geslo?",
     "CREATE_NEW_ACCOUNT": "Ustvarite nov račun",

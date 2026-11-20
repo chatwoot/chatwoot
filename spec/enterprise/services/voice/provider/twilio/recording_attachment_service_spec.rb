@@ -36,7 +36,7 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
   end
 
   let(:recording_sid) { 'RE9999' }
-  let(:recording_url) { 'https://api.twilio.com/2010-04-01/Accounts/AC1/Recordings/RE9999' }
+  let(:recording_url) { "https://api.twilio.com/2010-04-01/Accounts/#{channel.account_sid}/Recordings/#{recording_sid}" }
   let(:recording_duration) { '47' }
 
   let(:downloaded_tempfile) do

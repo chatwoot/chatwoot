@@ -33,6 +33,8 @@
       "is_less_than": "Lebih kecil dari",
       "days_before": "X hari sebelum",
       "starts_with": "Dimulai dengan",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Sama dengan",
       "notEqualTo": "Tidak sama dengan",
       "contains": "Berisi",

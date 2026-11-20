@@ -4,10 +4,23 @@ import BaseBubble from './Base.vue';
 import FormattedContent from './Text/FormattedContent.vue';
 import { useI18n } from 'vue-i18n';
 import { CSAT_RATINGS, CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
+import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 import { useMessageContext } from '../provider.js';
+import { useTranslations } from 'dashboard/composables/useTranslations';
 
-const { contentAttributes, content } = useMessageContext();
+const { contentAttributes, content, contactSide, showingOriginal } =
+  useMessageContext();
 const { t } = useI18n();
+const { hasTranslations, translationContent } = useTranslations(
+  contentAttributes,
+  contactSide
+);
+
+const renderContent = computed(() =>
+  hasTranslations.value && !showingOriginal.value
+    ? translationContent.value
+    : content.value
+);
 
 const response = computed(() => {
   return contentAttributes.value?.submittedValues?.csatSurveyResponse ?? {};
@@ -42,8 +55,13 @@ const starRatingValue = computed(() => {
 
 <template>
   <BaseBubble class="px-4 py-3" data-bubble-name="csat">
-    <FormattedContent v-if="content" :content="content" />
+    <FormattedContent v-if="renderContent" :content="renderContent" />
     <h4 v-else>{{ t('CONVERSATION.CSAT_REPLY_MESSAGE') }}</h4>
+    <TranslationToggle
+      class="mt-0.5"
+      :showing-original="showingOriginal"
+      @toggle="showingOriginal = !showingOriginal"
+    />
     <dl v-if="isRatingSubmitted" class="mt-4">
       <dt class="text-n-slate-11 italic">
         {{ t('CONVERSATION.RATING_TITLE') }}

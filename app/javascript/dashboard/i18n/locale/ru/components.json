@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "тег"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Понял",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Закрыть"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Узнайте больше",
     "WATCH_VIDEO": "Watch video"

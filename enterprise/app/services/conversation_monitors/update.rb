@@ -20,7 +20,7 @@ class ConversationMonitors::Update
 
   def update_monitor
     previous_version = @monitor.collection_version
-    @monitor.assign_attributes(@attributes.slice('name', 'condition', 'icon', 'icon_color'))
+    @monitor.assign_attributes(@attributes.slice('name', 'condition', 'icon', 'icon_color', 'slack_channel_id'))
     @condition_changed = @monitor.condition_changed?
     validate!
     update_collection

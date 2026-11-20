@@ -2,6 +2,7 @@ From: Sender <SENDER@EXAMPLE.COM>
 To: inbox@example.com
 Reply-To: <"">
 Subject: Empty Reply-To address
+Message-ID: <malformed-reply-to@example.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 

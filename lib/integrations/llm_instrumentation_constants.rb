@@ -12,6 +12,7 @@ module Integrations::LlmInstrumentationConstants
   ATTR_GEN_AI_COMPLETION_CONTENT = 'gen_ai.completion.0.content'
   ATTR_GEN_AI_USAGE_INPUT_TOKENS = 'gen_ai.usage.input_tokens'
   ATTR_GEN_AI_USAGE_OUTPUT_TOKENS = 'gen_ai.usage.output_tokens'
+  ATTR_GEN_AI_USAGE_REASONING_OUTPUT_TOKENS = 'gen_ai.usage.reasoning.output_tokens'
   ATTR_GEN_AI_USAGE_TOTAL_TOKENS = 'gen_ai.usage.total_tokens'
   ATTR_GEN_AI_RESPONSE_ERROR = 'gen_ai.response.error'
   ATTR_GEN_AI_RESPONSE_ERROR_CODE = 'gen_ai.response.error_code'

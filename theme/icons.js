@@ -145,6 +145,11 @@ export const icons = {
     width: 16,
     height: 16,
   },
+  messages: {
+    body: `<g fill="none" stroke="currentColor"><path d="M10.133 6.933a1.067 1.067 0 0 1-1.067 1.067H5.242a1.067 1.067 0 0 0-0.754 0.313l-1.174 1.174A0.379 0.379 0 0 1 2.667 9.219V3.733a1.067 1.067 0 0 1 1.067-1.067h5.333a1.067 1.067 0 0 1 1.067 1.067zm2.133-0.533a1.067 1.067 0 0 1 1.067 1.067v5.486a0.379 0.379 0 0 1-0.646 0.268l-1.174-1.174A1.067 1.067 0 0 0 10.758 11.733H6.933a1.067 1.067 0 0 1-1.067-1.067v-0.533" stroke="currentColor" stroke-width="1.06667" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
   clone: {
     body: `<g fill="none" stroke="currentColor"><path d="M6.08345 10.1669C8.33867 10.1669 10.1669 8.33867 10.1669 6.08345C10.1669 3.82822 8.33867 2 6.08345 2C3.82822 2 2 3.82822 2 6.08345C2 8.33867 3.82822 10.1669 6.08345 10.1669Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.58357 13.6669C11.8388 13.6669 13.667 11.8387 13.667 9.58345C13.667 7.32822 11.8388 5.5 9.58357 5.5C7.32834 5.5 5.50012 7.32822 5.50012 9.58345C5.50012 11.8387 7.32834 13.6669 9.58357 13.6669Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></g>`,
     width: 16,
@@ -489,6 +494,11 @@ export const icons = {
     body: `<path d="M10.5001 1.75H8.75008C8.42792 1.75 8.16675 2.01117 8.16675 2.33333V11.6667C8.16675 11.9888 8.42792 12.25 8.75008 12.25H10.5001C10.8222 12.25 11.0834 11.9888 11.0834 11.6667V2.33333C11.0834 2.01117 10.8222 1.75 10.5001 1.75Z" fill="currentColor"/><path d="M5.25008 1.75H3.50008C3.17792 1.75 2.91675 2.01117 2.91675 2.33333V11.6667C2.91675 11.9888 3.17792 12.25 3.50008 12.25H5.25008C5.57225 12.25 5.83342 11.9888 5.83342 11.6667V2.33333C5.83342 2.01117 5.57225 1.75 5.25008 1.75Z" fill="currentColor"/>`,
     width: 14,
     height: 14,
+  },
+  'stripe-color': {
+    body: `<rect width="24" height="24" rx="6" fill="#635BFF"/><path fill="#fff" stroke="#fff" stroke-width="0.8" stroke-linejoin="round" d="M5.9 9.5 18.1 7.4v7.1L5.9 16.6z"/>`,
+    width: 24,
+    height: 24,
   },
   plausible: {
     body: `<linearGradient id="SVGcy95AgrO" x1="189.056" x2="296.848" y1="470.428" y2="659.063" gradientTransform="translate(0 -278.024)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#909cf7"/><stop offset="1" stop-color="#4b38d8"/></linearGradient><path fill="url(#SVGcy95AgrO)" d="M448.6 192.9c-9.3 89.2-87.3 155.5-177 155.5H237v81.7c0 45.2-36.7 81.9-81.9 81.9h-64c-15.8 0-28.7-12.8-28.7-28.7V315.2l43-60.3c7.8-10.9 22.1-15 34.4-9.8l24.5 10.2c12.3 5.2 26.6 1.1 34.3-9.8l57.3-80.4c7.7-10.9 22-14.9 34.3-9.7l47.1 19.8c12.3 5.2 26.6 1.1 34.3-9.8l55.1-77.3c17.4 30.4 25.9 66.5 21.9 104.8"/><linearGradient id="SVGjYVYSdaH" x1="130.554" x2="241.634" y1="266.456" y2="460.846" gradientTransform="translate(0 -278.024)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#909cf7"/><stop offset="1" stop-color="#4b38d8"/></linearGradient><path fill="url(#SVGjYVYSdaH)" d="M90.6 246.4c7-9.9 17.2-17.4 29.1-19.7c9.3-1.8 18.4-.8 26.9 2.7l24.4 10.2c1.4.6 2.9.9 4.4.9c3.7 0 7.2-1.8 9.4-4.8l56.3-78.9c7-9.8 17.2-17.4 29.1-19.7c9.2-1.8 18.3-.8 26.7 2.7l47.1 19.8c1.4.6 2.9.9 4.4.9c3.7 0 7.2-1.8 9.4-4.8l59-82.8C385.3 28.7 333.7 0 275.3 0H91.1C75.3 0 62.5 12.8 62.5 28.7v257.1z"/>`,

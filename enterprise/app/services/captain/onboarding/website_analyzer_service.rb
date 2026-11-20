@@ -60,8 +60,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
 
   def extract_business_info
     response = instrument_llm_call(instrumentation_params) do
-      chat(temperature: 0.1)
-        .with_provider_options(response_format: { type: 'json_object' })
+      json_chat(temperature: 0.1)
         .with_max_output_tokens(1000)
         .with_instructions(build_analysis_prompt)
         .ask(@website_content)

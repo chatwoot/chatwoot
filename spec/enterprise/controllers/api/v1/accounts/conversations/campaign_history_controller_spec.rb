@@ -139,7 +139,7 @@ RSpec.describe 'Conversation campaign history API', type: :request do
                             created_at: next_start)
     end
 
-    it 'includes the start boundary and excludes campaigns before it and at or after the next conversation' do
+    it 'includes campaigns before the first conversation and keeps later conversations separate' do
       times = [conversation.created_at - 1.second, conversation.created_at, sent_at, next_start, next_start + 1.second]
       records = times.map do |time|
         CampaignRecipient.create!(account: account, campaign: create(:campaign, account: account, inbox: inbox), inbox: inbox,
@@ -147,7 +147,7 @@ RSpec.describe 'Conversation campaign history API', type: :request do
       end
 
       get url, headers: headers
-      expect(response.parsed_body['payload'].pluck('id')).to eq([records[2].id, records[1].id])
+      expect(response.parsed_body['payload'].pluck('id')).to eq([records[2].id, records[1].id, records[0].id])
       expect(response.parsed_body['meta']['next_before']).to be_nil
 
       get "/api/v1/accounts/#{account.id}/conversations/#{next_conversation.display_id}/campaign_history", headers: headers

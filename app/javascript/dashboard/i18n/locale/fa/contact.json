@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است.",
-      "TITLE": "گفتگوهای قبلی"
+      "TITLE": "گفتگوهای قبلی",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

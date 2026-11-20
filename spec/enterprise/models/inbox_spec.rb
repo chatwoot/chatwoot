@@ -157,6 +157,111 @@ RSpec.describe Inbox do
     end
   end
 
+  describe 'bot provider exclusivity' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:agent_bot) { create(:agent_bot, account: account) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+
+    context 'when an Agent Bot is connected' do
+      let!(:connection) { create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot) }
+
+      it 'rejects Captain and Dialogflow' do
+        captain_connection = build(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+        dialogflow_hook = build(:integrations_hook, :dialogflow, inbox: inbox, account: account)
+
+        expect(captain_connection).not_to be_valid
+        expect(captain_connection.errors[:base]).to include('Disconnect Agent Bot before connecting Captain')
+        expect(dialogflow_hook).not_to be_valid
+        expect(dialogflow_hook.errors[:base]).to include('Disconnect Agent Bot before connecting Dialogflow')
+      end
+
+      it 'allows Captain after the Agent Bot is disabled' do
+        connection.inactive!
+
+        expect(build(:captain_inbox, inbox: inbox, captain_assistant: assistant)).to be_valid
+      end
+
+      it 'ignores an Agent Bot connection whose bot was deleted' do
+        agent_bot.destroy!
+
+        expect(AgentBotInbox.exists?(inbox_id: inbox.id)).to be(true)
+        expect(inbox.reload.external_bot_active?).to be(false)
+        expect(build(:captain_inbox, inbox: inbox, captain_assistant: assistant)).to be_valid
+      end
+    end
+
+    context 'when Captain is connected' do
+      let!(:connection) { create(:captain_inbox, inbox: inbox, captain_assistant: assistant) }
+
+      it 'rejects Agent Bot and Dialogflow' do
+        agent_bot_connection = build(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        dialogflow_hook = build(:integrations_hook, :dialogflow, inbox: inbox, account: account)
+
+        expect(agent_bot_connection).not_to be_valid
+        expect(agent_bot_connection.errors[:base]).to include('Disconnect Captain before connecting Agent Bot')
+        expect(dialogflow_hook).not_to be_valid
+        expect(dialogflow_hook.errors[:base]).to include('Disconnect Captain before connecting Dialogflow')
+      end
+
+      it 'allows Dialogflow after Captain is disconnected' do
+        connection.destroy!
+
+        expect(build(:integrations_hook, :dialogflow, inbox: inbox, account: account)).to be_valid
+      end
+    end
+
+    context 'when Dialogflow is enabled' do
+      let!(:hook) { create(:integrations_hook, :dialogflow, inbox: inbox, account: account) }
+
+      it 'rejects Agent Bot and Captain' do
+        agent_bot_connection = build(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        captain_connection = build(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+
+        expect(agent_bot_connection).not_to be_valid
+        expect(agent_bot_connection.errors[:base]).to include('Disconnect Dialogflow before connecting Agent Bot')
+        expect(captain_connection).not_to be_valid
+        expect(captain_connection.errors[:base]).to include('Disconnect Dialogflow before connecting Captain')
+      end
+
+      it 'allows Agent Bot after Dialogflow is disabled' do
+        hook.disabled!
+
+        expect(build(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)).to be_valid
+      end
+    end
+
+    it 'rejects enabling an inactive Agent Bot while Captain is connected' do
+      connection = create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot, status: :inactive)
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+
+      expect { connection.active! }.to raise_error(ActiveRecord::RecordInvalid, /Disconnect Captain before connecting Agent Bot/)
+    end
+
+    it 'ignores a Captain connection whose assistant was deleted' do
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+      assistant.destroy!
+
+      expect(build(:agent_bot_inbox, inbox: inbox.reload, agent_bot: agent_bot)).to be_valid
+    end
+
+    it 'rejects enabling a disabled Dialogflow hook while Captain is connected' do
+      hook = create(:integrations_hook, :dialogflow, inbox: inbox, account: account, status: :disabled)
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+
+      expect { hook.enabled! }.to raise_error(ActiveRecord::RecordInvalid, /Disconnect Captain before connecting Dialogflow/)
+    end
+
+    it 'allows manual Agent Bot assignment on a Captain-connected inbox' do
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+      conversation = create(:conversation, account: account, inbox: inbox).reload
+
+      Conversations::AssignmentService.new(conversation: conversation, assignee_id: agent_bot.id, assignee_type: 'AgentBot').perform
+
+      expect(conversation.reload.ai_assignee).to eq(agent_bot)
+    end
+  end
+
   describe 'audit log' do
     context 'when inbox is created' do
       it 'has associated audit log created' do
@@ -365,6 +470,48 @@ RSpec.describe Inbox do
 
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
       end
+    end
+  end
+
+  describe '#closed_for_calls?' do
+    let(:account) { create(:account) }
+    let(:twilio_inbox) do
+      allow(Twilio::VoiceWebhookSetupService).to receive(:new)
+        .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
+      create(:channel_twilio_sms, :with_voice, account: account).inbox
+    end
+    let(:whatsapp_inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+
+    def configure(calls_inbox, business_hours_calls:, working_hours:, open_now:)
+      calls_inbox.channel.provider_config = calls_inbox.channel.provider_config.merge('business_hours_calls_enabled' => business_hours_calls)
+      calls_inbox.channel.save!(validate: false)
+      calls_inbox.update!(working_hours_enabled: working_hours)
+      calls_inbox.working_hours.each { |hours| hours.update!(closed_all_day: !open_now, open_all_day: open_now) }
+    end
+
+    it 'is closed for calls only outside the hours of an inbox that applies them to calls, on both providers' do
+      [twilio_inbox, whatsapp_inbox].each do |calls_inbox|
+        configure(calls_inbox, business_hours_calls: true, working_hours: true, open_now: false)
+        expect(calls_inbox.reload.closed_for_calls?).to be true
+
+        configure(calls_inbox, business_hours_calls: true, working_hours: true, open_now: true)
+        expect(calls_inbox.reload.closed_for_calls?).to be false
+
+        configure(calls_inbox, business_hours_calls: false, working_hours: true, open_now: false)
+        expect(calls_inbox.reload.closed_for_calls?).to be false
+      end
+    end
+
+    it 'rings as usual when the inbox has business hours turned off, even if calls follow them' do
+      [twilio_inbox, whatsapp_inbox].each do |calls_inbox|
+        configure(calls_inbox, business_hours_calls: true, working_hours: false, open_now: false)
+        expect(calls_inbox.reload.closed_for_calls?).to be false
+      end
+    end
+
+    it 'holds off auto-assignment for the calls of Twilio and WhatsApp inboxes only' do
+      expect([twilio_inbox, whatsapp_inbox].map(&:rings_for_calls?)).to eq([true, true])
+      expect(inbox.rings_for_calls?).to be false
     end
   end
 end

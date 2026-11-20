@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "Notandi",
         "TIME": "Aðgerð",
-        "IP_ADDRESS": "IP tala"
+        "IP_ADDRESS": "IP tala",
+        "LOCATION": "Staðsetning"
       }
     },
     "API": {

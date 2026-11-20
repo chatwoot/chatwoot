@@ -115,6 +115,36 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when another fetch job has already saved the email' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
+
+      it 'does not create a second conversation or message' do
+        create(:message, account: account, inbox: inbox, source_id: inbound_mail.mail.message_id)
+
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+      end
+    end
+
+    context 'when another fetch job saves the email after this job cached its fetch-stage duplicate check' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
+      let(:message_id) { inbound_mail.mail.message_id }
+
+      it 'does not create a second conversation or message' do
+        ActiveRecord::Base.cache do
+          inbox.messages.exists?(source_id: message_id)
+          # The other job writes on its own connection, so this job's query cache is not cleared
+          ActiveRecord::Base.uncached(dirties: false) { create(:message, account: account, inbox: inbox, source_id: message_id) }
+
+          class_instance.process(inbound_mail.mail, channel)
+        end
+
+        expect(inbox.messages.where(source_id: message_id).count).to eq(1)
+        expect(inbox.conversations.count).to eq(1)
+      end
+    end
+
     context 'when a new email contains null bytes' do
       let(:inbound_mail) do
         Mail.new.tap do |mail|

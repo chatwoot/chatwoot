@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
-      "TITLE": "Cuộc trò chuyện trước đó"
+      "TITLE": "Cuộc trò chuyện trước đó",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

@@ -21,8 +21,7 @@ class Captain::Llm::ContactNotesService < Llm::BaseAiService
 
   def generate_notes
     response = instrument_llm_call(instrumentation_params) do
-      chat
-        .with_provider_options(response_format: { type: 'json_object' })
+      json_chat
         .with_instructions(system_prompt)
         .ask(@content)
     end

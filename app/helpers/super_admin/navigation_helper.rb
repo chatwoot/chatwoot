@@ -25,7 +25,7 @@ module SuperAdmin::NavigationHelper
     'super_admin.navigation.settings_groups.product' => %w[saml custom_branding captain],
     'super_admin.navigation.settings_groups.channels' => %w[email messenger instagram tiktok],
     'super_admin.navigation.settings_groups.authentication' => %w[google microsoft],
-    'super_admin.navigation.settings_groups.integrations' => %w[linear notion slack whatsapp_embedded shopify]
+    'super_admin.navigation.settings_groups.integrations' => %w[stripe linear notion slack whatsapp_embedded shopify]
   }.freeze
 
   def settings_open?
@@ -33,7 +33,7 @@ module SuperAdmin::NavigationHelper
   end
 
   def monitor_open?
-    controller_name.in? %w[instance_statuses push_diagnostics]
+    controller_name.in? %w[instance_statuses user_diagnostics]
   end
 
   def settings_pages
@@ -90,8 +90,8 @@ module SuperAdmin::NavigationHelper
     [
       { label: t('super_admin.navigation.instance_health'), url: super_admin_instance_status_path, icon: 'i-lucide-heart-pulse',
         active: controller_name == 'instance_statuses' },
-      { label: t('super_admin.navigation.push_diagnostics'), url: super_admin_push_diagnostics_path, icon: 'i-lucide-bell-ring',
-        active: controller_name == 'push_diagnostics' },
+      { label: t('super_admin.navigation.user_diagnostics'), url: super_admin_user_diagnostics_path, icon: 'i-lucide-stethoscope',
+        active: controller_name == 'user_diagnostics' },
       { label: t('super_admin.navigation.sidekiq_dashboard'), url: sidekiq_web_path, icon: 'i-lucide-layers', external: true }
     ]
   end

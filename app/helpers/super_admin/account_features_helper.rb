@@ -43,8 +43,17 @@ module SuperAdmin::AccountFeaturesHelper
             .transform_keys { |key| [key, display_names[key]] }
   end
 
+  def self.hidden_features
+    account_features.select { |feature| feature['hidden'] }.pluck('name')
+  end
+
+  def self.with_hidden_features(flags, account)
+    flags + hidden_features.select { |feature| account&.feature_enabled?(feature) }.map { |feature| :"feature_#{feature}" }
+  end
+
   def self.partition_features(features)
-    filtered = filter_internal_features(features)
+    filtered = features.except(*hidden_features)
+    filtered = filter_internal_features(filtered)
     filtered = filter_deprecated_features(filtered)
     display_names = feature_display_names
 

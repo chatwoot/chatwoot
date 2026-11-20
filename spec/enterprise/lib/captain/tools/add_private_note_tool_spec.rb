@@ -160,10 +160,4 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
       expect(result).to eq('ERROR: Tool skipped because a newer customer message arrived')
     end
   end
-
-  describe '#active?' do
-    it 'returns true for public tools' do
-      expect(tool.active?).to be true
-    end
-  end
 end

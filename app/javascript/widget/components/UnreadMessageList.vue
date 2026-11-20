@@ -6,6 +6,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import UnreadMessage from 'widget/components/UnreadMessage.vue';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { emitter } from 'shared/helpers/mitt';
+import { isAutoTranslatedReply } from 'widget/helpers/translations';
 
 export default {
   name: 'Unread',
@@ -35,6 +36,7 @@ export default {
     },
   },
   methods: {
+    isAutoTranslatedReply,
     openConversationView() {
       emitter.emit(ON_UNREAD_MESSAGE_CLICK);
     },
@@ -74,6 +76,8 @@ export default {
         :show-sender="!index"
         :sender="message.sender"
         :message="getMessageContent(message)"
+        :translating="!!message.content_attributes?.translation_pending"
+        :translated="isAutoTranslatedReply(message)"
         :campaign-id="message.campaignId"
       />
     </div>

@@ -133,7 +133,7 @@
             "TITLE": "Portal Konfigürasyonları",
             "ITEMS": {
               "NAME": "İsim",
-              "DOMAIN": "Özel domain",
+              "DOMAIN": "Özel Alan Adı",
               "SLUG": "Slug",
               "TITLE": "Portal başlığı",
               "THEME": "Tema rengi",
@@ -807,6 +807,7 @@
         "PUBLISH_CHANGES_ERROR": "Could not publish changes",
         "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
         "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
+        "CREATE_IN_PROGRESS": "The article is still being created. Add files again in a moment.",
         "DISCARD_CHANGES": "Discard changes",
         "DISCARD_CHANGES_SUCCESS": "Changes discarded",
         "DISCARD_CHANGES_ERROR": "Could not discard changes",
@@ -828,9 +829,9 @@
         "TITLE_LABEL": "Başlık"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
+        "MORE_PROPERTIES": "Daha fazla özellik",
         "UNCATEGORIZED": "Kategorize Edilmemiş",
-        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
+        "EDITOR_PLACEHOLDER": "İçeriğinizi buraya yazın. Biçimlendirme seçenekleri için ‘/’ yazın."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
@@ -839,7 +840,14 @@
         "META_TITLE": "Meta Başlık",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta Etiketleri",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SLUG": "Slug",
+        "SLUG_PLACEHOLDER": "Add slug",
+        "SLUG_USE_TITLE": "Use title as slug",
+        "SLUG_WARNING": "The current URL will stop working, and existing links to it will break.",
+        "SLUG_UPDATE": "Güncelleme",
+        "SLUG_UPDATED": "Slug updated. The article is now available at the new URL.",
+        "SLUG_OPEN": "Open URL"
       },
       "API": {
         "ERROR": "Makale kaydedilirken hata oluştu"
@@ -909,11 +917,11 @@
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Özel domain",
-          "LABEL": "Özel domain:",
+          "HEADER": "Özel Alan Adı",
+          "LABEL": "Özel Alan Adı:",
           "DESCRIPTION": "Portalınızı özel bir alan adında barındırabilirsiniz. Örneğin, web siteniz yourdomain.com ise ve portalınızın docs.yourdomain.com adresinde erişilebilir olmasını istiyorsanız, bu alanı buna göre doldurmanız yeterlidir.",
           "STATUS_DESCRIPTION": "Özel portalınız, doğrulandıktan sonra hemen çalışmaya başlayacaktır.",
-          "PLACEHOLDER": "Portal özel domain",
+          "PLACEHOLDER": "Portal özel alan adı",
           "EDIT_BUTTON": "Düzenle",
           "ADD_BUTTON": "Özel Alan Adı Ekle",
           "STATUS": {
@@ -926,8 +934,8 @@
             "EDIT_HEADER": "Edit custom domain",
             "ADD_CONFIRM_BUTTON_LABEL": "Alan Adı Ekle",
             "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Özel domain",
-            "PLACEHOLDER": "Portal özel domain",
+            "LABEL": "Özel Alan Adı",
+            "PLACEHOLDER": "Portal özel alan adı",
             "ERROR": "Custom domain is required",
             "FORMAT_ERROR": "Lütfen geçerli bir alan adı URL'si girin, örneğin docs.yourdomain.com"
           },
@@ -980,23 +988,23 @@
       },
       "INTEGRATIONS": {
         "HEADER": "Entegrasyonlar",
-        "DESCRIPTION": "Connect tools that extend what your help center can do.",
+        "DESCRIPTION": "Yardım merkezinizin işlevlerini genişleten araçları entegre edin.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
-          "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
+          "TITLE": "Chatwoot ile canlı sohbet",
+          "DESCRIPTION": "Ziyaretçilerin içerikleri okurken sizinle iletişime geçebilmesi için yardım merkezinizde canlı sohbet bileşenini gösterin.",
           "PLACEHOLDER": "Select live chat widget",
           "NONE_OPTION": "Widget yok"
         },
         "GTM": {
           "TITLE": "Google Tag Manager",
-          "DESCRIPTION": "Add analytics and marketing tags by connecting your Tag Manager container.",
+          "DESCRIPTION": "Tag Manager container'ınızı bağlayarak analiz ve pazarlama etiketleri ekleyin.",
           "PLACEHOLDER": "GTM-XXXXXXX",
-          "HELP": "Find this in your Google Tag Manager workspace. Leave empty to disable.",
+          "HELP": "Bunu Google Tag Manager çalışma alanınızda bulun. Devre dışı bırakmak için boş bırakın.",
           "INVALID": "Enter a valid container ID, for example GTM-XXXXXXX."
         },
         "GA4": {
           "TITLE": "Google Analytics 4",
-          "DESCRIPTION": "Measure traffic and visitor behavior on your help center with Google Analytics.",
+          "DESCRIPTION": "Google Analytics ile yardım merkezinizdeki trafik ve ziyaretçi davranışlarını ölçün.",
           "PLACEHOLDER": "G-XXXXXXXXXX",
           "HELP": "Find the measurement ID under Admin → Data streams in Google Analytics. Leave empty to disable.",
           "INVALID": "Enter a valid measurement ID, for example G-XXXXXXXXXX."
@@ -1040,7 +1048,7 @@
       },
       "NAV": {
         "GENERAL": "Genel",
-        "DOMAIN": "Alan",
+        "DOMAIN": "Alan Adı",
         "APPEARANCE": "Görünüm",
         "INTEGRATIONS": "Entegrasyonlar"
       },

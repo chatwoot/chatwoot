@@ -1,5 +1,12 @@
 module Enterprise::Channel::Whatsapp
   include Concerns::CallRecordingSettings
+  include Concerns::CallRoutingSettings
+
+  def self.prepended(base)
+    base.class_eval do
+      validate :call_routing_settings_valid
+    end
+  end
 
   attr_reader :last_provider_error
 

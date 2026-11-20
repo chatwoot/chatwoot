@@ -189,6 +189,7 @@ RSpec.describe 'Integration Apps API', type: :request do
       end
 
       it 'hides credentials and keeps visible settings for google credential integrations' do
+        allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
         hook = create(:integrations_hook, :google_translate, account: account,
                                                              settings: { project_id: 'project-1',
                                                                          credentials: { private_key: 'secret' } })

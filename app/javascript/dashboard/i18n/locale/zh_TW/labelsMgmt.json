@@ -43,20 +43,6 @@
       "DELETE": "刪除",
       "CANCEL": "取消"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "新增標籤至對話",
-        "MULTIPLE_SUGGESTION": "選擇此標籤",
-        "DESELECT": "取消選擇標籤",
-        "DISMISS": "關閉建議"
-      },
-      "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "關閉",
-      "ADD_SELECTED_LABELS": "新增已選標籤",
-      "ADD_SELECTED_LABEL": "新增已選標籤",
-      "ADD_ALL_LABELS": "新增所有標籤",
-      "SUGGESTED_LABELS": "建議標籤"
-    },
     "ADD": {
       "TITLE": "新增標籤",
       "DESC": "標籤可讓您將對話分組管理。",

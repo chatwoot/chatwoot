@@ -12,6 +12,39 @@ RSpec.describe AutomationRules::ActionService do
                              ])
   end
 
+  describe 'attachment authorization for stored actions' do
+    before do
+      rule.files.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+    end
+
+    it 'only sends rule files when stored actions also reference another account attachment' do
+      foreign_message = create(:message, :with_attachment)
+      foreign_blob = foreign_message.attachments.first.file.blob
+      own_blob = rule.files.first.blob
+      rule.update!(actions: [{ action_name: 'send_attachment', action_params: [own_blob.id, foreign_blob.id] }])
+
+      described_class.new(rule, account, conversation).perform
+
+      expect(conversation.messages.last.attachments.map { |attachment| attachment.file.blob_id }).to eq([own_blob.id])
+    end
+
+    it 'does not send another account attachment when no requested blob belongs to the rule' do
+      foreign_message = create(:message, :with_attachment)
+      foreign_blob = foreign_message.attachments.first.file.blob
+      rule.update!(actions: [{ action_name: 'send_attachment', action_params: [foreign_blob.id] }])
+
+      expect { described_class.new(rule, account, conversation).perform }.not_to change(conversation.messages, :count)
+    end
+
+    it 'does not send files belonging to another rule in the same account' do
+      other_rule = create(:automation_rule, account: account)
+      other_rule.files.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      rule.update!(actions: [{ action_name: 'send_attachment', action_params: [other_rule.files.first.blob_id] }])
+
+      expect { described_class.new(rule, account, conversation).perform }.not_to change(conversation.messages, :count)
+    end
+  end
+
   describe '#perform' do
     context 'when actions are defined in the rule' do
       it 'will call the actions' do
@@ -85,6 +118,44 @@ RSpec.describe AutomationRules::ActionService do
       it 'will send email to team' do
         expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation).with(conversation, team, 'Hello').and_call_original
         described_class.new(rule, account, conversation).perform
+      end
+    end
+
+    describe 'team ownership for stored email actions' do
+      let(:foreign_team) { create(:team) }
+
+      before do
+        allow(account).to receive(:within_email_rate_limit?).and_return(true)
+      end
+
+      it 'does not email another account team from an existing rule' do
+        rule.update!(actions: [{ action_name: 'send_email_to_team', action_params: [{ team_ids: [foreign_team.id], message: 'Hello' }] }])
+        expect(TeamNotifications::AutomationNotificationMailer).not_to receive(:conversation_creation)
+        expect(account).not_to receive(:increment_email_sent_count)
+
+        described_class.new(rule.reload, account, conversation).perform
+      end
+
+      it 'only emails own teams when stored ids span accounts' do
+        own_team = create(:team, account: account)
+        rule.update!(actions: [{ action_name: 'send_email_to_team',
+                                 action_params: [{ team_ids: [own_team.id, foreign_team.id], message: 'Hello' }] }])
+        delivery = instance_double(ActionMailer::MessageDelivery, deliver_now: true)
+        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
+          .with(conversation, own_team, 'Hello').once.and_return(delivery)
+        expect(account).to receive(:increment_email_sent_count).once
+
+        described_class.new(rule.reload, account, conversation).perform
+      end
+
+      it 'stops before emailing when the account limit is exhausted' do
+        own_team = create(:team, account: account)
+        rule.update!(actions: [{ action_name: 'send_email_to_team', action_params: [{ team_ids: [own_team.id], message: 'Hello' }] }])
+        allow(account).to receive(:within_email_rate_limit?).and_return(false)
+        expect(TeamNotifications::AutomationNotificationMailer).not_to receive(:conversation_creation)
+        expect(account).not_to receive(:increment_email_sent_count)
+
+        described_class.new(rule.reload, account, conversation).perform
       end
     end
 

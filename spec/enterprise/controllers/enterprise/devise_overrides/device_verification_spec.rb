@@ -283,6 +283,16 @@ RSpec.describe 'Device verification on sign-in', type: :request do
       expect(emailed_codes).to be_empty
     end
 
+    it 'skips the challenge for emails on the exempt list' do
+      create(:installation_config, name: 'DEVICE_VERIFICATION_EXEMPT_EMAILS', value: "other@example.com\n  #{user.email.upcase}  ")
+
+      sign_in!
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['access-token']).to be_present
+      expect(emailed_codes).to be_empty
+    end
+
     it 'never challenges SSO token sign-ins' do
       sso_token = user.generate_sso_auth_token
 

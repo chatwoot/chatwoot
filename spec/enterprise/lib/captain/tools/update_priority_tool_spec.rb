@@ -119,10 +119,4 @@ RSpec.describe Captain::Tools::UpdatePriorityTool, type: :model do
       end
     end
   end
-
-  describe '#active?' do
-    it 'returns true for public tools' do
-      expect(tool.active?).to be true
-    end
-  end
 end

@@ -33,6 +33,8 @@
       "is_less_than": "أقل من",
       "days_before": "قبل x أيام",
       "starts_with": "يبدأ بـ",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "يساوي",
       "notEqualTo": "لا يساوي",
       "contains": "يحتوي",

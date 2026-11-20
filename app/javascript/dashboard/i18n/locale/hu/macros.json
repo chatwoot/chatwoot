@@ -50,7 +50,7 @@
       }
     },
     "VIEW": {
-      "TOOLTIP": "View macro"
+      "TOOLTIP": "Makró megtekintése"
     },
     "EDIT": {
       "TOOLTIP": "Makró szerkesztése",
@@ -70,7 +70,7 @@
         "GLOBAL": {
           "LABEL": "Nyilvános",
           "DESCRIPTION": "Ez a makró nyilvánosan elérhető minden ügynök számára ebben a fiókban.",
-          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "CREATE_DISABLED_DESCRIPTION": "Nyilvános makrót csak rendszergazda hozhat létre.",
           "EDIT_DISABLED_DESCRIPTION": "Csak adminisztrátorok tudnak publikus makrókat szerkeszteni."
         },
         "PERSONAL": {
@@ -83,7 +83,7 @@
       "BUTTON_TOOLTIP": "Futtatás",
       "PREVIEW": "Makró előnézet",
       "EXECUTED_SUCCESSFULLY": "Makró végrehajtása sikeres",
-      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
+      "EXECUTED_WITHOUT_RESOLVING": "A makró lefutott. A beszélgetés nem zárult le, mert hiányoznak a kötelező attribútumok."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
@@ -105,7 +105,7 @@
       "MUTE_CONVERSATION": "Beszélgetés elnémítása",
       "SNOOZE_CONVERSATION": "Beszélgetés alvómódba",
       "RESOLVE_CONVERSATION": "Beszélgetés megoldása",
-      "CHANGE_STATUS": "Change Status",
+      "CHANGE_STATUS": "Állapot módosítása",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Prioritás megváltoztatása",
