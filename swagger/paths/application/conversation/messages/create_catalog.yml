@@ -1,0 +1,91 @@
+tags:
+  - Messages
+operationId: create-a-catalog-message-in-a-conversation
+summary: Create Catalog Message
+description: |
+  Send a WhatsApp catalog message in the conversation. Only available for
+  WhatsApp Cloud inboxes. One request sends exactly one message.
+
+  ### Kinds and limits
+
+  - `carousel`: 2 to 10 products. `content` (body) is required.
+  - `product`: exactly 1 product. `content` is optional.
+  - `product_list`: 1 to 30 products. `content` (body) and `header` are required.
+
+  Maximum lengths: body 1024, footer 60, list header 60, section title 24 characters.
+
+  ### Examples
+
+  **Carousel:**
+  ```json
+  {
+    "kind": "carousel",
+    "content": "Check out our new arrivals",
+    "catalog_id": "1234567890",
+    "products": [
+      { "retailer_id": "SKU-001", "name": "Ceramic mug", "price": "12.50" },
+      { "retailer_id": "SKU-002", "name": "Glass bottle", "price": "8.00" }
+    ]
+  }
+  ```
+
+  **Single product:**
+  ```json
+  {
+    "kind": "product",
+    "content": "Our best seller",
+    "footer": "Free shipping",
+    "catalog_id": "1234567890",
+    "products": [{ "retailer_id": "SKU-001" }]
+  }
+  ```
+
+  **Product list:**
+  ```json
+  {
+    "kind": "product_list",
+    "header": "Kitchen",
+    "content": "Pick your favorites",
+    "catalog_id": "1234567890",
+    "products": [
+      { "retailer_id": "SKU-001", "section": "Mugs" },
+      { "retailer_id": "SKU-002", "section": "Bottles" }
+    ]
+  }
+  ```
+security:
+  - userBearerAuth: []
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/conversation_catalog_message_create_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: '#/components/schemas/generic_id'
+            - $ref: '#/components/schemas/message'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Invalid catalog message or inbox is not WhatsApp Cloud
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
