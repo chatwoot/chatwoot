@@ -2,7 +2,7 @@ class OauthCallbackController < ApplicationController
   def show
     @response = oauth_client.auth_code.get_token(
       oauth_code,
-      redirect_uri: "#{base_url}/#{provider_name}/callback"
+      token_params
     )
 
     handle_response
@@ -12,6 +12,10 @@ class OauthCallbackController < ApplicationController
   end
 
   private
+
+  def token_params
+    { redirect_uri: "#{base_url}/#{provider_name}/callback" }
+  end
 
   def handle_response
     inbox, already_exists = find_or_create_inbox
