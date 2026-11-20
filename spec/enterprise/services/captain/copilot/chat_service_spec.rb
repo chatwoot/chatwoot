@@ -124,6 +124,35 @@ RSpec.describe Captain::Copilot::ChatService do
       end.to(change { account.reload.custom_attributes['captain_responses_usage'].to_i }.by(1))
     end
 
+    it 'does not write prompts or conversation content to INFO logs' do
+      info_messages = []
+      allow(Rails.logger).to receive(:info) { |message| info_messages << message.to_s }
+      service.messages.unshift(role: 'system', content: 'FAKE_SYSTEM_PROMPT_456')
+      service.messages << { role: 'assistant', content: 'FAKE_PRIVATE_HISTORY_789' }
+
+      service.generate_response('FAKE_PRIVATE_TRANSCRIPT_123')
+
+      expect(info_messages.join("\n")).not_to include(
+        'FAKE_SYSTEM_PROMPT_456', 'FAKE_PRIVATE_HISTORY_789', 'FAKE_PRIVATE_TRANSCRIPT_123'
+      )
+      expect(mock_chat).to have_received(:with_instructions).with(include('FAKE_SYSTEM_PROMPT_456'))
+      expect(mock_chat).to have_received(:ask).with('FAKE_PRIVATE_TRANSCRIPT_123')
+    end
+
+    it 'logs only completion metadata while preserving the instrumented messages' do
+      allow(Rails.logger).to receive(:info)
+
+      service.generate_response('FAKE_PRIVATE_TRANSCRIPT_123')
+
+      expect(Rails.logger).to have_received(:info).with(
+        "#{described_class.name} Assistant: #{assistant.id}, " \
+        "messages: #{service.messages.length}, tools: #{service.instance_variable_get(:@tools).length}"
+      )
+      expect(service.send(:instrumentation_params)[:messages]).to include(
+        role: 'user', content: 'FAKE_PRIVATE_TRANSCRIPT_123'
+      )
+    end
+
     context 'when self-hosted' do
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)

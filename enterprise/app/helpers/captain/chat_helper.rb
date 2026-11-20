@@ -131,6 +131,6 @@ module Captain::ChatHelper
   end
 
   def log_chat_completion_request
-    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, requesting completion for #{@messages} with #{@tools&.length || 0} tools")
+    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, messages: #{@messages.length}, tools: #{@tools&.length || 0}")
   end
 end
