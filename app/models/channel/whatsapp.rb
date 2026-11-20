@@ -25,8 +25,22 @@
 class Channel::Whatsapp < ApplicationRecord
   include Channelable
   include Reauthorizable
+  include OmittedBlobCalculable
 
   self.table_name = 'channel_whatsapp'
+
+  default_scope do
+    select(columns_without_message_templates)
+  end
+
+  def self.columns_without_message_templates
+    @columns_without_message_templates ||= (column_names.map { |col| "#{table_name}.#{col}" } - ["#{table_name}.message_templates"]).freeze
+  end
+
+  def self.omitted_blob_columns
+    columns_without_message_templates
+  end
+
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
   encrypts :business_management_token if Chatwoot.encryption_configured?
 
@@ -47,6 +61,19 @@ class Channel::Whatsapp < ApplicationRecord
 
   def name
     'Whatsapp'
+  end
+
+  def message_templates
+    return super if new_record? || has_attribute?(:message_templates)
+
+    self[:message_templates] = self.class.unscoped.where(id: id).pick(:message_templates)
+    clear_attribute_changes([:message_templates])
+    self[:message_templates]
+  end
+
+  def message_templates=(value)
+    message_templates unless new_record? || has_attribute?(:message_templates)
+    super
   end
 
   # Mirrors Channel::TwilioSms#voice_enabled? so the call subsystem can duck-type across providers.

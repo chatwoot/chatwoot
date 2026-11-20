@@ -1,9 +1,11 @@
 class Api::V1::Accounts::Captain::InboxesController < Api::V1::Accounts::BaseController
+  include Api::V1::Accounts::Concerns::InboxTemplatePreloader
   before_action -> { check_authorization(Captain::Assistant) }
 
   before_action :set_assistant
   def index
-    @inboxes = @assistant.inboxes
+    @inboxes = @assistant.inboxes.includes(:channel)
+    preload_channel_templates(@inboxes)
   end
 
   def create
