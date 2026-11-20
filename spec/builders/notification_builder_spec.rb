@@ -100,6 +100,19 @@ describe NotificationBuilder do
       end.to change { user.notifications.count }.by(1)
     end
 
+    it 'does not create a notification if the conversation was deleted before the notification is built' do
+      primary_actor.destroy!
+
+      expect do
+        described_class.new(
+          notification_type: 'conversation_creation',
+          user: user,
+          account: account,
+          primary_actor: primary_actor
+        ).perform
+      end.not_to(change { user.notifications.count })
+    end
+
     context 'when the user does not have access to the conversation' do
       let!(:outsider) { create(:user, account: account) }
 
