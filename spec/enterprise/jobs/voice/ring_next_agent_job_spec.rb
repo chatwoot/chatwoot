@@ -223,5 +223,26 @@ RSpec.describe Voice::RingNextAgentJob do
       described_class.perform_now(call.id, 1)
       expect(call.reload.ring_state['ring_recipient_ids']).to contain_exactly(alice.id, cara.id)
     end
+
+    it 'shows the ringing card to the agents it adds, including an administrator outside the inbox' do
+      admin = create(:user, account: account, role: :administrator)
+      inbox.channel.provider_config = inbox.channel.provider_config.merge('ring_strategy' => 'simultaneous')
+      inbox.channel.save!(validate: false)
+      allow(ActionCable.server).to receive(:broadcast)
+
+      described_class.perform_now(call.id, 1)
+
+      expect(call.reload.ring_state['ring_recipient_ids']).to include(admin.id)
+      expect(ActionCable.server).to have_received(:broadcast).with(admin.pubsub_token, hash_including(event: 'voice_call.incoming'))
+      expect(ActionCable.server).not_to have_received(:broadcast).with(alice.pubsub_token, hash_including(event: 'voice_call.incoming'))
+    end
+  end
+
+  it 'leaves the ringing card of a Twilio call to its message updates' do
+    allow(ActionCable.server).to receive(:broadcast)
+
+    described_class.perform_now(call.id, 1)
+
+    expect(ActionCable.server).not_to have_received(:broadcast).with(anything, hash_including(event: 'voice_call.incoming'))
   end
 end

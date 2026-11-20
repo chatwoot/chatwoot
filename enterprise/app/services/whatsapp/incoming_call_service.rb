@@ -88,7 +88,7 @@ class Whatsapp::IncomingCallService
     return if call.terminal? # terminated before pickup; no ringing widget to surface
 
     update_conversation(call)
-    broadcast_incoming(call, sdp_offer)
+    Whatsapp::IncomingCallBroadcast.new(call: call, user_ids: call.ring_state.fetch('ring_recipient_ids', [])).perform
   end
 
   # If a terminate already arrived (caller hung up before pickup), finalize it in the
@@ -211,17 +211,6 @@ class Whatsapp::IncomingCallService
         'call_status' => call.display_status, 'call_direction' => call.direction_label
       )
     )
-  end
-
-  def broadcast_incoming(call, sdp_offer)
-    contact = call.contact
-    streams = User.where(id: call.ring_state.fetch('ring_recipient_ids', [])).pluck(:pubsub_token).compact
-    broadcast(call, 'voice_call.incoming',
-              streams: streams,
-              direction: call.direction_label, inbox_id: call.inbox_id,
-              sdp_offer: sdp_offer, ice_servers: Call.default_ice_servers,
-              recording_enabled: call.recording_enabled?,
-              caller: { name: contact.name, phone: contact.phone_number, avatar: contact.avatar_url })
   end
 
   def broadcast(call, event, streams: account_streams, **extra)
