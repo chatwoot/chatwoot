@@ -9,9 +9,13 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  showHdToggle: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['removeAttachment']);
+const emit = defineEmits(['removeAttachment', 'toggleHd']);
 
 const nonRecordedAudioAttachments = computed(() => {
   return props.attachments.filter(attachment => !attachment?.isVoiceMessage);
@@ -50,7 +54,8 @@ const fileName = file => {
     <div
       v-for="(attachment, index) in nonRecordedAudioAttachments"
       :key="attachment.id"
-      class="flex items-center p-1 bg-n-slate-3 gap-1 rounded-md w-[15rem]"
+      class="flex items-center p-1 bg-n-slate-3 gap-1 rounded-md"
+      :class="showHdToggle ? 'w-[18rem]' : 'w-[15rem]'"
     >
       <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img
@@ -62,19 +67,29 @@ const fileName = file => {
           📄
         </span>
       </div>
-      <div class="max-w-3/5 min-w-[50%] overflow-hidden text-ellipsis">
-        <span
-          class="h-4 overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap"
-        >
+      <div class="flex-1 min-w-0">
+        <span class="block h-4 text-sm font-medium truncate">
           {{ fileName(attachment.resource) }}
         </span>
       </div>
-      <div class="w-[30%] justify-center">
-        <span class="overflow-hidden text-xs text-ellipsis whitespace-nowrap">
+      <div class="flex-shrink-0">
+        <span class="text-xs whitespace-nowrap">
           {{ formatFileSize(attachment.resource) }}
         </span>
       </div>
-      <div class="flex items-center justify-center">
+      <div class="flex items-center justify-center flex-shrink-0 gap-1">
+        <Button
+          v-if="showHdToggle && attachment.canToggleHd"
+          v-tooltip.top="$t('CONVERSATION.REPLYBOX.TIP_HD_ATTACHMENT')"
+          xs
+          :label="$t('COMPONENTS.MEDIA.HD_BADGE')"
+          :variant="attachment.isHd ? 'solid' : 'ghost'"
+          :color="attachment.isHd ? 'blue' : 'slate'"
+          :aria-pressed="!!attachment.isHd"
+          :is-loading="!!attachment.isOptimizing"
+          :disabled="!!attachment.isOptimizing"
+          @click="emit('toggleHd', attachment)"
+        />
         <Button
           ghost
           slate
