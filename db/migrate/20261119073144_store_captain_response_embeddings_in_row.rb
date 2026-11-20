@@ -7,12 +7,16 @@ class StoreCaptainResponseEmbeddingsInRow < ActiveRecord::Migration[8.0]
   # stored in the row, it costs one. Existing rows move when Migration::MoveCaptainResponseEmbeddingsInRowJob rewrites them.
   def up
     # This index uses L2 distance, but FAQ search orders by cosine distance, so Postgres never uses it.
+    # A concurrent drop waits for running transactions, which can take longer than the default statement timeout.
+    execute 'SET statement_timeout = 0'
     remove_index :captain_assistant_responses, name: INDEX_NAME, algorithm: :concurrently, if_exists: true
+    execute 'RESET statement_timeout'
     change_embedding_storage('PLAIN')
   end
 
   def down
-    change_embedding_storage('EXTERNAL')
+    # Databases created with pgvector before 0.6.0, such as production, store embeddings as EXTENDED.
+    change_embedding_storage('EXTENDED')
     # Building an IVFFlat index over every embedding takes far longer than the default statement timeout.
     execute 'SET statement_timeout = 0'
     add_index :captain_assistant_responses, :embedding, using: :ivfflat, opclass: :vector_l2_ops, name: INDEX_NAME,
