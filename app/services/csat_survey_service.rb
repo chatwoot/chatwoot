@@ -179,3 +179,5 @@ class CsatSurveyService
     ::Conversations::ActivityMessageJob.perform_later(conversation, activity_message_params) if content
   end
 end
+
+CsatSurveyService.prepend_mod_with('CsatSurveyService')
