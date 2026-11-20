@@ -35,10 +35,12 @@ const emit = defineEmits(['replace', 'close', 'removeTrigger']);
 // Characters kept before the match when a snippet has to skip ahead
 const SNIPPET_LEAD = 24;
 const HIGHLIGHT_CLASS = 'text-n-blue-text';
+// Every rendered row is rebuilt and sanitized on each keystroke, so the list is capped
+const MAX_ITEMS = 50;
 
 const store = useStore();
 const { t } = useI18n();
-const { getPlainText, formatMessage, highlightContent } = useMessageFormatter();
+const { getPlainText, formatMessage } = useMessageFormatter();
 
 const cannedResponses = useMapGetter('getCannedResponses');
 const uiFlags = useMapGetter('getUIFlags');
@@ -47,12 +49,22 @@ const searchQuery = ref(props.searchKey);
 
 const searchTerm = computed(() => searchQuery.value.trim());
 
-// An empty term makes `highlightContent`'s regex match at every position, wrapping the
-// whole string in empty spans
-const highlightMatches = text =>
-  searchTerm.value
-    ? highlightContent(text, searchTerm.value, HIGHLIGHT_CLASS)
-    : escapeHtml(text);
+// The text is already plain, so it is split on the term directly. `highlightContent`
+// would render it through markdown and parse it back for every row on every keystroke.
+// An empty term would match at every position, wrapping the string in empty spans.
+const highlightMatches = text => {
+  if (!searchTerm.value) return escapeHtml(text);
+
+  const escapedTerm = searchTerm.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text
+    .split(new RegExp(`(${escapedTerm})`, 'ig'))
+    .map((part, index) =>
+      index % 2
+        ? `<span class="${HIGHLIGHT_CLASS}">${escapeHtml(part)}</span>`
+        : escapeHtml(part)
+    )
+    .join('');
+};
 
 const buildSnippet = text => {
   const term = searchTerm.value;
@@ -96,7 +108,7 @@ const filteredRecords = computed(() => {
 });
 
 const items = computed(() =>
-  filteredRecords.value.map(record => ({
+  filteredRecords.value.slice(0, MAX_ITEMS).map(record => ({
     id: record.id,
     content: record.content,
     resolved: record.resolved,
