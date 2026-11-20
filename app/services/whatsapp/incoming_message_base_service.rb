@@ -171,7 +171,7 @@ class Whatsapp::IncomingMessageBaseService
       status: outgoing_echo ? :delivered : :sent,
       sender: outgoing_echo ? nil : @contact,
       source_id: (source_id || message[:id]).to_s,
-      content_attributes: message_content_attributes(content_attributes_source)
+      content_attributes: message_content_attributes(content_attributes_source).merge(external_created_at(content_attributes_source))
     )
   end
 
