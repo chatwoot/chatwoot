@@ -7,31 +7,31 @@
     "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
     "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
-    "COUNT": "{n} event | {n} events",
+    "COUNT": "{n} hændelse | {n} hændelser",
     "FILTERS": {
-      "SEARCH_PLACEHOLDER": "Search by name or email",
-      "ALL_EVENTS": "All events",
-      "DATE_RANGE": "Date range",
+      "SEARCH_PLACEHOLDER": "Søg efter navn eller e-mail",
+      "ALL_EVENTS": "Alle hændelser",
+      "DATE_RANGE": "Datointerval",
       "CLEAR_ALL": "Clear filters",
       "EVENT_TYPE_GROUPS": {
-        "ACCESS": "Access",
-        "AGENTS_TEAMS": "Agents & teams",
+        "ACCESS": "Adgang",
+        "AGENTS_TEAMS": "Agenter & teams",
         "CONFIGURATION": "Konfiguration",
         "CONVERSATIONS": "Samtaler"
       },
       "EVENT_TYPES": {
-        "SIGN_IN_OUT": "Sign in / sign out",
+        "SIGN_IN_OUT": "Log ind / log ud",
         "AGENTS": "Agenter",
         "TEAMS": "Teams",
-        "TEAM_MEMBERS": "Team members",
-        "INBOX_MEMBERS": "Inbox collaborators",
+        "TEAM_MEMBERS": "Teammedlemmer",
+        "INBOX_MEMBERS": "Indbakke-samarbejdspartnere",
         "ACCOUNT": "Kontoindstillinger",
         "INBOXES": "Indbakker",
         "WEBHOOKS": "Webhooks",
-        "AUTOMATION_RULES": "Automation rules",
+        "AUTOMATION_RULES": "Automatiseringsregler",
         "MACROS": "Macros",
-        "CONVERSATION_DELETIONS": "Conversation deletions",
-        "MESSAGE_DELETIONS": "Message deletions"
+        "CONVERSATION_DELETIONS": "Sletning af samtaler",
+        "MESSAGE_DELETIONS": "Sletning af beskeder"
       },
       "SORT": {
         "NEWEST": "Nyeste først",
@@ -106,7 +106,7 @@
       "DELETE": "{agentName} deleted conversation #{id}"
     },
     "MESSAGE": {
-      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
+      "DELETE": "{agentName} slettede en besked i samtalen #{conversationId}"
     }
   }
 }
