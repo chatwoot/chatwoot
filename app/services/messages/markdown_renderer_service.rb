@@ -12,6 +12,10 @@ class Messages::MarkdownRendererService
     'Channel::TwilioSms' => :render_plain_text
   }.freeze
 
+  # Lines that start a list item, heading or blockquote, and ATX heading lines
+  BLOCK_START = /\A {0,3}(?:(?:[-+*]|\d{1,9}[.)]|\#{1,6})(?:[ \t]|\z)|>)/
+  HEADING = /\A {0,3}\#{1,6}(?:[ \t]|\z)/
+
   def initialize(content, channel_type, channel = nil)
     @content = content
     @channel_type = channel_type
@@ -98,16 +102,28 @@ class Messages::MarkdownRendererService
 
   # Preserve multiple consecutive newlines (2+) by replacing them with placeholders
   # Standard markdown treats 2 newlines as paragraph break which collapses to 1 newline, we preserve 2+
+  # When the blank lines separate blocks, the placeholder gets a paragraph of its own so CommonMark still
+  # sees the break; otherwise it stays inline so the surrounding text keeps its exact spacing
   def preserve_multiple_newlines(content)
     content.gsub(/\n{2,}/) do |match|
-      "{{PRESERVE_#{match.length}_NEWLINES}}"
+      if separates_blocks?(Regexp.last_match)
+        "\n\n{{PRESERVE_#{match.length}_NEWLINES_BETWEEN_BLOCKS}}\n\n"
+      else
+        "{{PRESERVE_#{match.length}_NEWLINES}}"
+      end
     end
   end
 
-  # Restore multiple newlines from placeholders
+  def separates_blocks?(match)
+    line_before = match.pre_match[/[^\n]*\z/]
+    line_after = match.post_match[/\A[^\n]*/]
+    line_before.present? && (BLOCK_START.match?(line_after) || HEADING.match?(line_before))
+  end
+
+  # Restore multiple newlines from placeholders, including the line breaks the renderer put around a block placeholder
   def restore_multiple_newlines(content)
-    content.gsub(/\{\{PRESERVE_(\d+)_NEWLINES\}\}/) do |_match|
-      "\n" * Regexp.last_match(1).to_i
+    content.gsub(/\n?\{\{PRESERVE_(\d+)_NEWLINES_BETWEEN_BLOCKS\}\}\n?|\{\{PRESERVE_(\d+)_NEWLINES\}\}/) do |_match|
+      "\n" * (Regexp.last_match(1) || Regexp.last_match(2)).to_i
     end
   end
 end
