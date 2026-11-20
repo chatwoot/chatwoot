@@ -1,6 +1,14 @@
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useRoute, useRouter } from 'vue-router';
+import { useConversationRoutePath } from 'dashboard/composables/useConversationRoutePath';
+import { isAConversationRoute } from 'dashboard/helper/routeHelpers';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export function useChatListKeyboardEvents(listRef) {
+  const route = useRoute();
+  const router = useRouter();
+  const { buildConversationListPath } = useConversationRoutePath();
+
   const getKeyboardListenerParams = () => {
     const allConversations = listRef.value.querySelectorAll(
       'div.conversations-list div.conversation'
@@ -45,6 +53,33 @@ export function useChatListKeyboardEvents(listRef) {
       allConversations[fallbackIndex].click();
     }
   };
+
+  const isModalOrPopupOpen = () => {
+    const modal = document.querySelector(
+      '.modal-mask, .woot-modal, [role="dialog"], [aria-modal="true"], .emoji-dialog'
+    );
+    const ninjaKeys = document.querySelector('ninja-keys');
+    if (ninjaKeys && ninjaKeys.opened) {
+      return true;
+    }
+    return Boolean(modal);
+  };
+
+  const handleCloseConversation = () => {
+    if (isModalOrPopupOpen()) {
+      return;
+    }
+
+    if (!isAConversationRoute(route.name, false, true)) {
+      return;
+    }
+
+    const listPath = buildConversationListPath();
+    if (listPath) {
+      router.push(frontendURL(listPath));
+    }
+  };
+
   const keyboardEvents = {
     'Alt+KeyJ': {
       action: () => handleConversationNavigation('previous'),
@@ -53,6 +88,10 @@ export function useChatListKeyboardEvents(listRef) {
     'Alt+KeyK': {
       action: () => handleConversationNavigation('next'),
       allowOnFocusedInput: true,
+    },
+    Escape: {
+      action: handleCloseConversation,
+      allowOnFocusedInput: false,
     },
   };
 
