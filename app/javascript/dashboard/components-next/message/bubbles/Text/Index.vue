@@ -1,5 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue';
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch,
+  nextTick,
+} from 'vue';
 import { usePreferredReducedMotion } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import BaseBubble from 'next/message/bubbles/Base.vue';
@@ -13,6 +20,7 @@ import { useTranslations } from 'dashboard/composables/useTranslations';
 
 const TEXT_SHIMMER_CLASS =
   'bg-clip-text bg-gradient-to-r from-n-iris-9 from-25% via-n-iris-12 to-n-iris-9 to-75% dark:from-n-slate-12 dark:from-35% dark:via-n-iris-10 dark:to-n-slate-12 dark:to-65% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none [&_*]:!text-transparent [&_*]:!bg-transparent';
+const COLLAPSED_CONTENT_HEIGHT = 160;
 const HEIGHT_MORPH = {
   duration: 300,
   easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
@@ -40,7 +48,7 @@ const translationState = useMapGetter('getMessageTranslationState');
 const isTranslating = computed(() => translationState.value(id.value).pending);
 
 const contentWrapper = ref(null);
-let heightBeforeChange = 0;
+const contentInner = ref(null);
 
 const renderContent = computed(() => {
   if (showingOriginal.value) {
@@ -53,6 +61,47 @@ const renderContent = computed(() => {
 
   return content.value;
 });
+
+const hasOverflowingContent = ref(false);
+const isExpanded = ref(false);
+let resizeObserver;
+let heightBeforeChange = 0;
+
+const updateContentOverflow = async () => {
+  await nextTick();
+  const inner = contentInner.value;
+  hasOverflowingContent.value =
+    !!inner && inner.scrollHeight > COLLAPSED_CONTENT_HEIGHT;
+  if (!hasOverflowingContent.value) isExpanded.value = false;
+};
+
+watch(
+  contentInner,
+  (inner, previousInner) => {
+    if (previousInner) resizeObserver?.unobserve(previousInner);
+    if (inner) resizeObserver?.observe(inner);
+    updateContentOverflow();
+  },
+  { flush: 'post' }
+);
+
+watch(
+  [id, renderContent],
+  () => {
+    isExpanded.value = false;
+    updateContentOverflow();
+  },
+  { flush: 'post' }
+);
+
+onMounted(() => {
+  updateContentOverflow();
+  if (typeof ResizeObserver === 'undefined') return;
+  resizeObserver = new ResizeObserver(updateContentOverflow);
+  if (contentInner.value) resizeObserver.observe(contentInner.value);
+});
+
+onBeforeUnmount(() => resizeObserver?.disconnect());
 
 const isTemplate = computed(() => {
   return messageType.value === MESSAGE_TYPES.TEMPLATE;
@@ -76,7 +125,9 @@ const measureHeight = () => {
   heightBeforeChange = contentWrapper.value.offsetHeight;
 };
 
-const morphHeight = () => {
+const morphHeight = async () => {
+  await updateContentOverflow();
+  await nextTick();
   if (reducedMotion.value === 'reduce') return;
 
   const wrapper = contentWrapper.value;
@@ -107,10 +158,20 @@ const morphHeight = () => {
           leave-to-class="opacity-0 blur-[0.125rem]"
           @before-leave="measureHeight"
           @enter="morphHeight"
+          @after-enter="updateContentOverflow"
         >
           <div :key="renderContent">
-            <div :class="{ [TEXT_SHIMMER_CLASS]: isTranslating }">
-              <FormattedContent :content="renderContent" />
+            <div
+              ref="contentInner"
+              class="read-more-content"
+              :class="{
+                'max-h-40 overflow-hidden':
+                  hasOverflowingContent && !isExpanded,
+              }"
+            >
+              <div :class="{ [TEXT_SHIMMER_CLASS]: isTranslating }">
+                <FormattedContent :content="renderContent" />
+              </div>
             </div>
             <TranslationToggle
               v-if="!isCaptainMessage"
@@ -121,6 +182,19 @@ const morphHeight = () => {
           </div>
         </Transition>
       </div>
+      <button
+        v-if="hasOverflowingContent"
+        type="button"
+        class="text-start text-n-brand text-sm font-medium hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand rounded"
+        :aria-expanded="isExpanded"
+        @click="isExpanded = !isExpanded"
+      >
+        {{
+          isExpanded
+            ? $t('CONVERSATION.READ_LESS')
+            : $t('CONVERSATION.READ_MORE')
+        }}
+      </button>
       <span
         v-if="contactInfoRequestState === 'pending'"
         class="text-xs font-medium text-n-slate-11"
