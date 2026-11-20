@@ -41,6 +41,8 @@ describe Integrations::Slack::IncomingMessageBuilder do
   let!(:conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
 
   before do
+    allow(Resolv).to receive(:getaddresses).and_call_original
+    allow(Resolv).to receive(:getaddresses).with('files.slack.com').and_return(['93.184.216.34'])
     stub_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png').to_return(
       status: 200,
       body: File.read('spec/assets/sample.png'),
@@ -176,7 +178,27 @@ describe Integrations::Slack::IncomingMessageBuilder do
         end
       end
 
-      it 'skips the attachment when the Slack file host redirects' do
+      it 'follows a redirect to another host without the hook token' do
+        allow(Resolv).to receive(:getaddresses).with('files.example.com').and_return(['93.184.216.34'])
+        stub_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png')
+          .to_return(status: 302, headers: { 'Location' => 'https://files.example.com/sample.png' })
+        redirected_authorization = :not_requested
+        stub_request(:get, 'https://files.example.com/sample.png')
+          .with do |request|
+            redirected_authorization = request.headers['Authorization']
+            true
+          end
+          .to_return(status: 200, body: File.read('spec/assets/sample.png'), headers: { 'Content-Type' => 'image/png' })
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.to change(conversation.messages, :count).by(1)
+        expect(conversation.messages.last.attachments.first.file.byte_size).to eq(File.size('spec/assets/sample.png'))
+        expect(redirected_authorization).to be_nil
+      end
+
+      it 'skips the attachment when the download is refused' do
+        allow(Resolv).to receive(:getaddresses).with('files.example.com').and_return(['192.0.2.10'])
         stub_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png')
           .to_return(status: 302, headers: { 'Location' => 'https://files.example.com/sample.png' })
         builder = described_class.new(message_with_attachments)
@@ -185,6 +207,24 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect { builder.perform }.to change(conversation.messages, :count).by(1)
         expect(conversation.messages.last.attachments).to be_empty
         expect(a_request(:get, 'https://files.example.com/sample.png')).not_to have_been_made
+      end
+
+      it 'raises without creating the message when the Slack file host times out' do
+        stub_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png').to_timeout
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.to raise_error(SafeFetch::FetchError)
+          .and not_change(conversation.messages, :count)
+      end
+
+      it 'raises without creating the message when the Slack file host returns a server error' do
+        stub_request(:get, 'https://files.slack.com/files-pri/TLST3048H-F0000000001/sample.png').to_return(status: 503)
+        builder = described_class.new(message_with_attachments)
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+        expect { builder.perform }.to raise_error(SafeFetch::HttpError)
+          .and not_change(conversation.messages, :count)
       end
 
       it 'ignore message if it is postback of CW attachment message' do
