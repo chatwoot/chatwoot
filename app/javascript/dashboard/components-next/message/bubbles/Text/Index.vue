@@ -125,7 +125,9 @@ const measureHeight = () => {
   heightBeforeChange = contentWrapper.value.offsetHeight;
 };
 
-const morphHeight = () => {
+const morphHeight = async () => {
+  await updateContentOverflow();
+  await nextTick();
   if (reducedMotion.value === 'reduce') return;
 
   const wrapper = contentWrapper.value;
@@ -183,7 +185,7 @@ const morphHeight = () => {
       <button
         v-if="hasOverflowingContent"
         type="button"
-        class="text-left text-n-brand text-sm font-medium hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand rounded"
+        class="text-start text-n-brand text-sm font-medium hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand rounded"
         :aria-expanded="isExpanded"
         @click="isExpanded = !isExpanded"
       >
