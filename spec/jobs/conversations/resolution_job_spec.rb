@@ -73,6 +73,36 @@ RSpec.describe Conversations::ResolutionJob do
     expect(conversation.reload.label_list).to include('auto-resolved')
   end
 
+  it 'rolls back side effects before retrying a failed resolution' do
+    account.update(
+      auto_resolve_after: 14_400,
+      auto_resolve_label: 'auto-resolved',
+      auto_resolve_message: 'This conversation was auto-resolved.'
+    )
+    conversation.update(last_activity_at: 13.days.ago)
+    attempts = 0
+
+    # rubocop:disable RSpec/AnyInstance
+    allow_any_instance_of(Conversation).to receive(:toggle_status).and_wrap_original do |method, *args|
+      attempts += 1
+      raise ActiveRecord::StatementInvalid, 'transient failure' if attempts == 1
+
+      method.call(*args)
+    end
+    # rubocop:enable RSpec/AnyInstance
+
+    expect { described_class.perform_now(account: account) }.to raise_error(ActiveRecord::StatementInvalid, 'transient failure')
+    expect(conversation.reload.status).to eq('open')
+    expect(conversation.label_list).not_to include('auto-resolved')
+    expect(conversation.messages.where(content: account.auto_resolve_message)).to be_empty
+
+    described_class.perform_now(account: account)
+
+    expect(conversation.reload.status).to eq('resolved')
+    expect(conversation.label_list).to include('auto-resolved')
+    expect(conversation.messages.where(content: account.auto_resolve_message).count).to eq(1)
+  end
+
   it 'resolves only a limited number of conversations in a single execution' do
     stub_const('Limits::BULK_ACTIONS_LIMIT', 2)
     account.update(auto_resolve_after: 14_400, auto_resolve_ignore_waiting: false) # 10 days in minutes
