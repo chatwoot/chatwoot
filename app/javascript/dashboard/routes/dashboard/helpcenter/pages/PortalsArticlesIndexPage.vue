@@ -2,6 +2,8 @@
 import { computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { useEmitter } from 'dashboard/composables/emitter';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import allLocales from 'shared/constants/locales.js';
 import { getArticleStatus } from 'dashboard/helper/portalHelper.js';
 import ArticlesPage from 'dashboard/components-next/HelpCenter/Pages/ArticlePage/ArticlesPage.vue';
@@ -69,15 +71,19 @@ const articles = computed(() =>
   isCategoryArticles.value ? articlesSortedByPosition.value : allArticles.value
 );
 
+const articleFilters = computed(() => ({
+  locale: activeLocale.value,
+  status: status.value,
+  authorId: author.value || undefined,
+  categorySlug: selectedCategorySlug.value,
+  query: searchQuery.value || undefined,
+}));
+
 const fetchArticles = (pageNumber = 1) =>
   store.dispatch('articles/index', {
     pageNumber,
     portalSlug: selectedPortalSlug.value,
-    locale: activeLocale.value,
-    status: status.value,
-    authorId: author.value || undefined,
-    categorySlug: selectedCategorySlug.value,
-    query: searchQuery.value || undefined,
+    ...articleFilters.value,
   });
 
 const onSearch = query => {
@@ -100,6 +106,8 @@ const fetchPortalAndItsCategories = async locale => {
 watch([() => route.params, author, searchQuery], () => fetchArticles(), {
   immediate: true,
 });
+
+useEmitter(BUS_EVENTS.ARTICLE_BULK_ACTION_COMPLETED, () => fetchArticles());
 </script>
 
 <template>
@@ -112,6 +120,7 @@ watch([() => route.params, author, searchQuery], () => fetchArticles(), {
       :allowed-locales="allowedLocales"
       :meta="meta"
       :author-id="author"
+      :filters="articleFilters"
       :portal-meta="portalMeta"
       :is-category-articles="isCategoryArticles"
       @page-change="fetchArticles"

@@ -183,5 +183,33 @@ describe('#PortalAPI', () => {
         { ids: [1, 2, 3], category_id: 7 }
       );
     });
+
+    it('#bulkUpdateStatus targets every article matching the list filters', () => {
+      articlesAPI.bulkUpdateStatus({
+        portalSlug: 'room-rental',
+        filters: {
+          locale: 'en',
+          status: 0,
+          authorId: '5',
+          categorySlug: 'billing',
+          query: 'refund',
+        },
+        status: 'published',
+      });
+      expect(axiosMock.patch).toHaveBeenCalledWith(
+        '/api/v1/portals/room-rental/articles/bulk_actions/update_status',
+        {
+          select_all: true,
+          filters: {
+            locale: 'en',
+            status: 0,
+            author_id: '5',
+            category_slug: 'billing',
+            query: 'refund',
+          },
+          status: 'published',
+        }
+      );
+    });
   });
 });

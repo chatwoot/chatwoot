@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Article Bulk Actions API', type: :request do
+  include ActiveJob::TestHelper
+
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
@@ -83,6 +85,61 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
+
+      it 'publishes none of the articles when one of them cannot be published' do
+        article_two.update!(content: nil)
+
+        patch update_status_url,
+              headers: admin.create_new_auth_token,
+              params: { ids: [article_one.id, article_two.id], status: 'published' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(article_one.reload.status).to eq('draft')
+        expect(article_two.reload.status).to eq('draft')
+      end
+
+      it 'updates every article matching the filters in the background when select_all is set' do
+        perform_enqueued_jobs do
+          patch update_status_url,
+                headers: admin.create_new_auth_token,
+                params: { select_all: true, filters: { locale: 'en', status: 0 }, status: 'archived' },
+                as: :json
+        end
+
+        expect(response).to have_http_status(:accepted)
+        expect(article_one.reload.status).to eq('archived')
+        expect(article_two.reload.status).to eq('archived')
+        expect(article_three.reload.status).to eq('published')
+      end
+
+      it 'returns unprocessable entity when the filters match no articles' do
+        expect do
+          patch update_status_url,
+                headers: admin.create_new_auth_token,
+                params: { select_all: true, filters: { locale: 'es' }, status: 'published' },
+                as: :json
+        end.not_to have_enqueued_job(Articles::BulkActionJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
+  describe 'PATCH articles/bulk_actions/update_category' do
+    let(:update_category_url) { "#{base_url}/update_category" }
+    let!(:target_category) { create(:category, portal: portal, account: account, locale: 'en', slug: 'billing') }
+
+    it 'queues the move for every article matching the filters when select_all is set' do
+      expect do
+        patch update_category_url,
+              headers: admin.create_new_auth_token,
+              params: { select_all: true, filters: { locale: 'en', category_slug: category.slug }, category_id: target_category.id },
+              as: :json
+      end.to have_enqueued_job(Articles::BulkActionJob)
+        .with(portal, admin, contain_exactly(article_one.id, article_two.id, article_three.id), 'update_category', target_category.id)
+
+      expect(response).to have_http_status(:accepted)
     end
   end
 
@@ -135,6 +192,31 @@ RSpec.describe 'Article Bulk Actions API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'queues the delete for every article matching the filters when select_all is set' do
+        expect do
+          delete destroy_url,
+                 headers: admin.create_new_auth_token,
+                 params: { select_all: true, filters: { locale: 'en', status: 0 } },
+                 as: :json
+        end.to have_enqueued_job(Articles::BulkActionJob).with(portal, admin, contain_exactly(article_one.id, article_two.id), 'delete', nil)
+
+        expect(response).to have_http_status(:accepted)
+        expect(Article.count).to eq(3)
+      end
+
+      it 'leaves an article created after the request untouched when select_all is set' do
+        delete destroy_url,
+               headers: admin.create_new_auth_token,
+               params: { select_all: true, filters: { locale: 'en', status: 0 } },
+               as: :json
+        created_later = create(:article, category: category, portal: portal, account: account, author: admin, status: :draft)
+
+        perform_enqueued_jobs
+
+        expect(Article.exists?(created_later.id)).to be(true)
+        expect(Article.exists?(article_one.id)).to be(false)
       end
     end
   end

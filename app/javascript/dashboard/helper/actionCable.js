@@ -69,6 +69,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       // The store upserts by ID, so an updated approval card replaces the old one.
       'copilot.message.updated': this.onCopilotMessageCreated,
       'captain.playground.response': this.onCaptainPlaygroundResponse,
+      'article.bulk_action_completed': this.onArticleBulkActionCompleted,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.accepted': this.onVoiceCallAccepted,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
@@ -85,6 +86,11 @@ class ActionCableConnector extends BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   onMonitorUpdated = data => {
     emitter.emit(BUS_EVENTS.MONITOR_UPDATED, data);
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onArticleBulkActionCompleted = () => {
+    emitter.emit(BUS_EVENTS.ARTICLE_BULK_ACTION_COMPLETED);
   };
 
   // eslint-disable-next-line class-methods-use-this
