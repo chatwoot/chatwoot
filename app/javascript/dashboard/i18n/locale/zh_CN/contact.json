@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "无法屏蔽联系人，请稍后再试。",
         "UNBLOCK_SUCCESS_MESSAGE": "此联系人已成功解除屏蔽",
         "UNBLOCK_ERROR_MESSAGE": "无法解除屏蔽联系人，请稍后再试。",
-        "IMPORT_CONTACT": {
-          "TITLE": "导入联系人",
-          "DESCRIPTION": "通过 CSV 文件导入联系人",
-          "DOWNLOAD_LABEL": "下载示例 CSV.",
-          "LABEL": "CSV 文件:",
-          "CHOOSE_FILE": "选择文件",
-          "CHANGE": "更改",
-          "CANCEL": "取消",
-          "IMPORT": "导入",
-          "SUCCESS_MESSAGE": "导入完成时将通过电子邮件通知您。",
-          "ERROR_MESSAGE": "出现错误，请重试"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "导出联系人",
-          "DESCRIPTION": "快速导出包含联系人详细信息的 CSV 文件",
-          "CONFIRM": "导出",
-          "SUCCESS_MESSAGE": "导出正在进行。当导出文件准备好下载时，您将收到电子邮件通知。",
-          "ERROR_MESSAGE": "出现错误，请重试"
-        },
         "SORT_BY": {
           "LABEL": "排序方式",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "过滤联系人",
       "EDIT_SEGMENT": "编辑分段",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "分段名称",
         "INPUT_PLACEHOLDER": "输入分段的名称"
