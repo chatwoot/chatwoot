@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import AddDataDropdown from 'dashboard/components-next/AssignmentPolicy/components/AddDataDropdown.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   inboxList: {
@@ -35,9 +36,12 @@ const selectedInboxIds = computed(
 );
 
 const availableInboxes = computed(() =>
-  props.inboxList.filter(
-    inbox => inbox && !selectedInboxIds.value.has(inbox.id)
-  )
+  props.inboxList
+    .filter(inbox => inbox && !selectedInboxIds.value.has(inbox.id))
+    .map(inbox => ({
+      ...inbox,
+      name: getInboxDisplayName(inbox),
+    }))
 );
 
 const isLimitValid = limit => {
@@ -70,7 +74,8 @@ const handleLimitChange = limit => {
 };
 
 const getInboxName = inboxId => {
-  return inboxMap.value.get(inboxId)?.name || '';
+  const inbox = inboxMap.value.get(inboxId);
+  return inbox ? getInboxDisplayName(inbox) : '';
 };
 </script>
 

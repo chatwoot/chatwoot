@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useChannelIcon } from 'next/icon/provider';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 import { createContactSearcher } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import {
@@ -167,6 +168,7 @@ export function useConversationFilterContext() {
       options: inboxes.value.map(inbox => {
         return {
           ...inbox,
+          name: getInboxDisplayName(inbox),
           icon: useChannelIcon(inbox).value,
         };
       }),

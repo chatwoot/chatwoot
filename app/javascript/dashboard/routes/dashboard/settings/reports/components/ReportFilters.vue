@@ -9,6 +9,7 @@ import differenceInDays from 'date-fns/differenceInDays';
 import ActiveFilterChip from './Filters/v3/ActiveFilterChip.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 import { GROUP_BY_FILTER } from '../constants';
 import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
 import {
@@ -54,7 +55,10 @@ const buildReportFilterList = (items, type) => {
 
   return items.map(item => ({
     id: item.id,
-    name: item.name || item.title,
+    name:
+      type === 'inboxes'
+        ? getInboxDisplayName(item)
+        : item.name || item.title,
     type,
   }));
 };

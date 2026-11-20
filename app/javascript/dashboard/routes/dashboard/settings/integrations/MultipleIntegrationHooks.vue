@@ -10,6 +10,7 @@ import {
 import { useI18n } from 'vue-i18n';
 import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   integrationId: {
@@ -67,7 +68,7 @@ const filteredHooks = computed(() => {
   );
 });
 
-const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
+const inboxName = hook => (hook.inbox ? getInboxDisplayName(hook.inbox) : '');
 </script>
 
 <template>
