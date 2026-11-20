@@ -32,11 +32,14 @@ describe('#actions', () => {
         },
       }));
       await actions.createConversation(
-        { commit },
+        // dispatch is supplied because the action calls it; omitting it threw a
+        // TypeError that the old catch-and-ignore hid, which is the very defect
+        //  removes.
+        { commit, dispatch },
         { contact: {}, message: 'This is a test message' }
       );
       expect(commit.mock.calls).toEqual([
-        ['setConversationUIFlag', { isCreating: true }],
+        ['setConversationUIFlag', { isCreating: true, isCreateFailed: false }],
         [
           'pushMessageToConversation',
           { id: 1, content: 'This is a test message' },
@@ -507,6 +510,81 @@ describe('#actions', () => {
       await actions.syncLatestMessages({ state, commit }, {});
 
       expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
+  // these two paths used to discard their errors entirely. Each test
+  // below fails if the swallow is reintroduced.
+  describe('#silent failure regressions', () => {
+    beforeEach(() => {
+      commit.mockClear();
+      dispatch.mockClear();
+    });
+
+    it('createConversation flags the failure instead of discarding it', async () => {
+      API.post.mockRejectedValue(new Error('network down'));
+      await actions.createConversation(
+        { commit, dispatch },
+        { contact: {}, message: 'hi' }
+      );
+
+      const flags = commit.mock.calls
+        .filter(([name]) => name === 'setConversationUIFlag')
+        .map(([, payload]) => payload);
+
+      expect(flags).toContainEqual(
+        expect.objectContaining({ isCreateFailed: true })
+      );
+      // the loading flag must still be cleared, or the widget spins forever
+      expect(flags).toContainEqual(
+        expect.objectContaining({ isCreating: false })
+      );
+    });
+
+    // The clear-on-retry path is covered by '#createConversation > sends correct
+    // mutations' above, which now asserts the opening commit is
+    // { isCreating: true, isCreateFailed: false }. A second test here would only
+    // duplicate that, plus the window scaffolding it needs.
+    it('syncLatestMessages flags the failure after every retry fails', async () => {
+      API.get.mockRejectedValue(new Error('gateway'));
+      const state = { lastMessageId: 1, conversations: {} };
+      await actions.syncLatestMessages({ state, commit }, {});
+
+      const flags = commit.mock.calls
+        .filter(([name]) => name === 'setConversationUIFlag')
+        .map(([, payload]) => payload);
+      expect(flags).toContainEqual(
+        expect.objectContaining({ isSyncFailed: true })
+      );
+      // Exactly the full retry budget: toBeGreaterThan(1) would also pass on a
+      // single retry, so it would not catch the budget being cut.
+      expect(API.get.mock.calls.length).toBe(3);
+    });
+
+    it('syncLatestMessages recovers on a retry and does not flag a failure', async () => {
+      API.get
+        .mockRejectedValueOnce(new Error('blip'))
+        .mockResolvedValue({ data: { payload: [], meta: {} } });
+      // start in the failed condition so the recovery is observable; a healthy
+      // sync deliberately emits no state change at all
+      const state = {
+        lastMessageId: 1,
+        conversations: {},
+        uiFlags: { isSyncFailed: true },
+      };
+      await actions.syncLatestMessages({ state, commit }, {});
+
+      const flags = commit.mock.calls
+        .filter(([name]) => name === 'setConversationUIFlag')
+        .map(([, payload]) => payload);
+      expect(flags).not.toContainEqual(
+        expect.objectContaining({ isSyncFailed: true })
+      );
+      expect(flags).toContainEqual(
+        expect.objectContaining({ isSyncFailed: false })
+      );
+      // one failure then success: exactly two attempts, no more
+      expect(API.get.mock.calls.length).toBe(2);
     });
   });
 });
