@@ -41,12 +41,15 @@ export const login = async ({
 
     setAuthCredentials(response);
     clearLocalStorageOnLogout();
-    window.location = getLoginRedirectURL({
-      ssoAccountId,
-      ssoConversationId,
-      redirectUrl,
-      user: response.data.data,
-    });
+    // replace() so the login URL, which can carry an SSO token, leaves history
+    window.location.replace(
+      getLoginRedirectURL({
+        ssoAccountId,
+        ssoConversationId,
+        redirectUrl,
+        user: response.data.data,
+      })
+    );
     return null;
   } catch (error) {
     // Check if it's an MFA required response

@@ -1,5 +1,10 @@
 import wootAPI from '../apiClient';
-import { register, resendConfirmation, verifyPasswordToken } from '../auth';
+import {
+  login,
+  register,
+  resendConfirmation,
+  verifyPasswordToken,
+} from '../auth';
 import { setAuthCredentials } from 'dashboard/store/utils/api';
 
 vi.mock('../apiClient', () => ({
@@ -80,5 +85,19 @@ describe('auth API', () => {
       h_captcha_client_response: 'captcha-token',
       redirect_url: redirectUrl,
     });
+  });
+
+  it('replaces the login entry in history after signing in', async () => {
+    const replace = vi.fn();
+    vi.stubGlobal('location', { ...window.location, replace });
+    wootAPI.post.mockResolvedValue({
+      status: 200,
+      data: { data: { id: 1, account_id: 2, accounts: [{ id: 2 }] } },
+    });
+
+    await login({ email: 'john@acme.com', sso_auth_token: 'token' });
+
+    expect(replace).toHaveBeenCalledTimes(1);
+    vi.unstubAllGlobals();
   });
 });
