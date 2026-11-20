@@ -494,6 +494,33 @@ describe('composeConversationHelper', () => {
         );
       });
 
+      it('keeps contacts that only have a WhatsApp username', async () => {
+        ContactAPI.search.mockResolvedValue({
+          data: {
+            payload: [
+              {
+                id: 1,
+                name: 'Wil Lim',
+                email: null,
+                phone_number: null,
+                additional_attributes: { social_whatsapp_user_name: 'wil_lim' },
+              },
+              {
+                id: 2,
+                name: 'Will Tan',
+                email: null,
+                phone_number: null,
+                additional_attributes: {},
+              },
+            ],
+          },
+        });
+
+        const result = await searchContacts('wil');
+
+        expect(result.map(contact => contact.id)).toEqual([1]);
+      });
+
       it('handles empty search results', async () => {
         ContactAPI.search.mockResolvedValue({
           data: { payload: [] },
