@@ -6,7 +6,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   def perform(channel, interval = 1)
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Job started for inbox #{channel.inbox.id}"
 
-    return log_skipped_fetch(channel) unless should_fetch_email?(channel)
+    return log_skipped_fetch(channel) unless channel.imap_fetchable?
 
     fetch_mails_with_lock(channel, interval)
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
@@ -21,10 +21,6 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   end
 
   private
-
-  def should_fetch_email?(channel)
-    channel.imap_enabled? && !channel.reauthorization_required?
-  end
 
   def handle_unexpected_error(error, channel)
     Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Unexpected error for inbox #{channel.inbox.id} : #{error.class} - #{error.message}"
