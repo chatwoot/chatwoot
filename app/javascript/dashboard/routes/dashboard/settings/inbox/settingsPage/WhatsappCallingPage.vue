@@ -32,16 +32,26 @@ const store = useStore();
 const { t } = useI18n();
 const label = key => t(`INBOX_MGMT.CALL_SETTINGS.${key}`);
 
+const MESSAGE_MAX_LENGTH = 1000;
+const PROVIDER_CONFIG_KEYS = [
+  'permissionRequestBody',
+  'missedCallMessageEnabled',
+  'missedCallMessage',
+];
+
 const savedValues = () => ({
   ...sharedSavedValues(props.inbox),
   permissionRequestBody:
     props.inbox.provider_config?.call_permission_request_body || '',
+  missedCallMessageEnabled:
+    props.inbox.provider_config?.missed_call_message_enabled === true,
+  missedCallMessage: props.inbox.provider_config?.missed_call_message || '',
 });
 
 const buildSteps = (changed, values) => {
   const { id } = props.inbox;
   const steps = [];
-  if (changed(['permissionRequestBody'])) {
+  if (changed(PROVIDER_CONFIG_KEYS)) {
     steps.push(() =>
       store.dispatch('inboxes/updateInbox', {
         id,
@@ -51,6 +61,8 @@ const buildSteps = (changed, values) => {
             ...props.inbox.provider_config,
             call_permission_request_body:
               values.permissionRequestBody.trim() || null,
+            missed_call_message_enabled: values.missedCallMessageEnabled,
+            missed_call_message: values.missedCallMessage.trim() || null,
           },
         },
       })
@@ -220,6 +232,39 @@ const applyInboxHours = async () => {
             :inbox-id="inbox.id"
             :saved-step-seconds="inbox.ring_step_seconds"
           />
+        </CallSettingsSection>
+
+        <CallSettingsSection
+          :title="label('UNANSWERED.TITLE')"
+          :description="label('UNANSWERED.WHATSAPP_DESCRIPTION')"
+        >
+          <CallSettingsOption
+            v-model="form.missedCallMessageEnabled"
+            :label="label('UNANSWERED.WHATSAPP_SEND')"
+            :help="label('UNANSWERED.WHATSAPP_SEND_HELP')"
+          />
+          <div
+            v-if="form.missedCallMessageEnabled"
+            class="flex flex-col gap-1.5"
+          >
+            <label
+              :for="`call-missed-message-${inbox.id}`"
+              class="mb-0 text-heading-3 text-n-slate-12"
+            >
+              {{ label('UNANSWERED.MESSAGE') }}
+            </label>
+            <TextArea
+              :id="`call-missed-message-${inbox.id}`"
+              v-model="form.missedCallMessage"
+              :placeholder="label('UNANSWERED.WHATSAPP_PLACEHOLDER')"
+              :max-length="MESSAGE_MAX_LENGTH"
+              show-character-count
+              auto-height
+            />
+            <p class="text-body-main text-n-slate-11">
+              {{ label('UNANSWERED.WHATSAPP_MESSAGE_HELP') }}
+            </p>
+          </div>
         </CallSettingsSection>
 
         <CallSettingsSection
