@@ -1,6 +1,11 @@
 class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
   RETRYABLE_AGENT_BOT_STATUSES = [429, 500].freeze
+  RETRYABLE_CONNECTION_ERRORS = [
+    Net::OpenTimeout, Net::ReadTimeout, SocketError, IOError,
+    Errno::ECONNABORTED, Errno::ECONNREFUSED, Errno::ECONNRESET,
+    Errno::EHOSTUNREACH, Errno::ENETUNREACH, Errno::EPIPE, Errno::ETIMEDOUT
+  ].freeze
 
   class RetryableError < StandardError
     attr_reader :status
@@ -26,7 +31,7 @@ class Webhooks::Trigger
   def execute
     perform_request
   rescue StandardError => e
-    raise RetryableError.new(status: http_status(e), message: e.message) if retryable_agent_bot_error?(e)
+    raise RetryableError.new(status: http_status(e), message: e.message) if retryable_error?(e)
 
     handle_failure(e)
   end
@@ -122,8 +127,15 @@ class Webhooks::Trigger
     timeout&.positive? ? timeout : 5
   end
 
-  def retryable_agent_bot_error?(error)
-    @webhook_type == :agent_bot_webhook && RETRYABLE_AGENT_BOT_STATUSES.include?(http_status(error))
+  def retryable_error?(error)
+    status = http_status(error)
+    return RETRYABLE_AGENT_BOT_STATUSES.include?(status) if @webhook_type == :agent_bot_webhook
+    return false unless %i[account_webhook api_inbox_webhook].include?(@webhook_type)
+    return true if status == 429 || (500..599).cover?(status)
+
+    # SafeFetch wraps network failures. Inspect the cause so TLS/configuration
+    # errors are not retried along with transient connection failures.
+    error.is_a?(SafeFetch::FetchError) && RETRYABLE_CONNECTION_ERRORS.any? { |type| error.cause.is_a?(type) }
   end
 
   def http_status(error)
