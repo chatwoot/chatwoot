@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
     "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_ERROR": "URL-ը դատարկ է կամ անվավեր։ Բովանդակությունը չի կարող ցուցադրվել։",
     "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
   },
   "ATTACHMENTS": {
