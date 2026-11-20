@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
+import SheetHandle from 'dashboard/components-next/sheet-handle/SheetHandle.vue';
 
 const props = defineProps({
   activeSort: {
@@ -95,8 +96,10 @@ const handleOrderChange = value => {
     <div
       v-if="isMenuOpen"
       v-on-clickaway="() => (isMenuOpen = false)"
-      class="absolute top-full mt-1 end-0 flex flex-col gap-4 bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak w-72 rounded-xl p-4"
+      data-mobile-sheet
+      class="fixed inset-x-0 bottom-0 max-h-[85dvh] min-h-[55dvh] overflow-y-auto rounded-t-xl p-4 pt-6 sm:pt-4 sm:absolute sm:inset-x-auto sm:bottom-auto sm:top-full sm:mt-1 sm:end-0 sm:w-72 sm:min-h-0 sm:max-h-none sm:overflow-visible sm:rounded-xl flex flex-col gap-4 bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak z-50"
     >
+      <SheetHandle @close="isMenuOpen = false" />
       <div class="flex items-center justify-between gap-2">
         <span class="text-sm text-n-slate-12">
           {{ t('COMPANIES.SORT_BY.LABEL') }}
