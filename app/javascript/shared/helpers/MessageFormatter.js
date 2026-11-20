@@ -66,9 +66,10 @@ const tableCellLists = md => {
       token.children.forEach(child => {
         if (child.type !== 'text') return;
         child.type = 'html_inline';
+        // The space keeps words apart when the result is read as plain text.
         child.content = md.utils
           .escapeHtml(child.content)
-          .replace(ESCAPED_LIST_TAG, '<$1>');
+          .replace(ESCAPED_LIST_TAG, ' <$1>');
       });
     });
   });

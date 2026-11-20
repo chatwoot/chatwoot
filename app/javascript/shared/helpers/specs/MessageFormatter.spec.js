@@ -123,6 +123,7 @@ After`;
         'One',
         'Two',
       ]);
+      expect(formatter.plainText).toMatch(/List:\s+One\s+Two/);
     });
 
     it.each([
