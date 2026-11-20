@@ -3,11 +3,11 @@ import yaml from '@rollup/plugin-yaml';
 import vue from '@vitejs/plugin-vue';
 import { defineConfig, type PluginOption } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { aliases, vueOptions } from './vite.shared';
+import { aliases } from './vite.shared';
 
 export default defineConfig({
   plugins: [
-    vue(vueOptions),
+    vue(),
     yaml(),
     visualizer({
       filename: path.resolve(__dirname, 'tmp/bundle-analysis/widget.html'),

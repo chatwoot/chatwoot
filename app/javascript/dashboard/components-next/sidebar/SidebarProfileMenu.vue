@@ -15,7 +15,7 @@ import {
   DropdownItem,
 } from 'next/dropdown-menu/base';
 import CustomBrandPolicyWrapper from '../../components/CustomBrandPolicyWrapper.vue';
-import { openCommandBar } from 'dashboard/modules/command-bar/openCommandBar';
+import { useCommandBar } from '@chatwoot/jumpbar';
 
 defineProps({
   isCollapsed: { type: Boolean, default: false },
@@ -28,6 +28,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const commandBar = useCommandBar();
 
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
@@ -85,7 +86,7 @@ const menuItems = computed(() => {
       showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.APPEARANCE'),
       icon: 'i-lucide-palette',
-      click: () => openCommandBar({ page: 'appearance_settings' }),
+      click: () => commandBar.open({ page: 'appearance_settings' }),
     },
     {
       show: true,

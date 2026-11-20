@@ -2,11 +2,11 @@
 import path from 'path';
 import { defineConfig } from 'vitest/config';
 import vue from '@vitejs/plugin-vue';
-import { aliases, vueOptions } from './vite.shared';
+import { aliases } from './vite.shared';
 import yaml from '@rollup/plugin-yaml';
 
 export default defineConfig({
-  plugins: [vue(vueOptions), yaml()],
+  plugins: [vue(), yaml()],
   resolve: {
     alias: { ...aliases, 'test-i18n': path.resolve('./vitest.i18n.js') },
   },
@@ -32,7 +32,7 @@ export default defineConfig({
     },
     server: {
       deps: {
-        inline: ['tinykeys', '@material/mwc-icon'],
+        inline: ['tinykeys'],
       },
     },
     setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
