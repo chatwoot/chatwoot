@@ -76,6 +76,16 @@ const updateContentOverflow = async () => {
 };
 
 watch(
+  contentInner,
+  (inner, previousInner) => {
+    if (previousInner) resizeObserver?.unobserve(previousInner);
+    if (inner) resizeObserver?.observe(inner);
+    updateContentOverflow();
+  },
+  { flush: 'post' }
+);
+
+watch(
   [id, renderContent],
   () => {
     isExpanded.value = false;
@@ -136,7 +146,6 @@ const morphHeight = () => {
         v-if="renderContent"
         ref="contentWrapper"
         class="overflow-hidden"
-        :class="{ 'max-h-40': hasOverflowingContent && !isExpanded }"
         :aria-busy="isTranslating"
       >
         <Transition
@@ -149,9 +158,18 @@ const morphHeight = () => {
           @enter="morphHeight"
           @after-enter="updateContentOverflow"
         >
-          <div ref="contentInner" :key="renderContent">
-            <div :class="{ [TEXT_SHIMMER_CLASS]: isTranslating }">
-              <FormattedContent :content="renderContent" />
+          <div :key="renderContent">
+            <div
+              ref="contentInner"
+              class="read-more-content"
+              :class="{
+                'max-h-40 overflow-hidden':
+                  hasOverflowingContent && !isExpanded,
+              }"
+            >
+              <div :class="{ [TEXT_SHIMMER_CLASS]: isTranslating }">
+                <FormattedContent :content="renderContent" />
+              </div>
             </div>
             <TranslationToggle
               v-if="!isCaptainMessage"
