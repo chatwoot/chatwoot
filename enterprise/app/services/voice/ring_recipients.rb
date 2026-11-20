@@ -1,8 +1,8 @@
 # The agents a call rings: those online, taking calls and able to open the conversation.
 # Socket presence is not consulted, since a locked phone is exactly what a ring push is for.
-# A call, Twilio or WhatsApp, rings only free agents, those not on a call or in wrap-up time, and
-# picks them up as they free up, since each ring step asks again; the assignee rings alone first,
-# then everyone or the longest idle agent.
+# A call rings only free agents, those not on a call or in wrap-up time, and picks them
+# up as they free up, since each ring step asks again; the assignee rings alone first, then
+# everyone or the longest idle agent.
 class Voice::RingRecipients
   pattr_initialize [:inbox!, :conversation!, :dismissed_user_ids]
 

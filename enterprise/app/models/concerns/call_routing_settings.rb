@@ -1,7 +1,6 @@
-# How a calling inbox (Twilio or WhatsApp) rings its agents, kept in provider_config. Incoming calls
-# ring every available agent at once, or one more agent every step. A plain module (no
-# ActiveSupport::Concern) so it can be included into a prepended Enterprise module, which registers
-# the validation.
+# How a calling inbox rings its agents, kept in provider_config. Incoming calls ring every available
+# agent at once, or one more agent every step. A plain module (no ActiveSupport::Concern) so it can
+# be included into a prepended Enterprise module, which registers the validation.
 module Concerns::CallRoutingSettings
   RING_STRATEGIES = %w[simultaneous sequential].freeze
   DEFAULT_RING_STEP_SECONDS = 20
@@ -16,7 +15,6 @@ module Concerns::CallRoutingSettings
     'business_hours_calls_enabled' => ->(value) { [true, false].include?(value) }
   }.freeze
 
-  # Outside the inbox's business hours nobody rings
   def business_hours_calls_enabled?
     provider_config['business_hours_calls_enabled'] == true
   end
@@ -43,7 +41,6 @@ module Concerns::CallRoutingSettings
     inbox.with_lock { with_lock(&) }
   end
 
-  # The channel's validation, also run on its own by a save that skips the others
   def call_routing_settings_valid
     return if CALL_ROUTING_SETTINGS.all? { |key, valid| !provider_config.key?(key) || valid.call(provider_config[key]) }
 

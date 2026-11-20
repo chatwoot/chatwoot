@@ -19,8 +19,6 @@ import {
   sharedSteps,
 } from './calls/useCallSettingsForm';
 
-// The Calls tab of a WhatsApp Cloud inbox. Turning calling on or off at Meta saves straight away;
-// every other setting is saved together with Save changes, through the same endpoints as Twilio.
 const props = defineProps({
   inbox: {
     type: Object,
@@ -40,8 +38,6 @@ const savedValues = () => ({
     props.inbox.provider_config?.call_permission_request_body || '',
 });
 
-// The permission message is saved with the whole provider_config, which replaces the stored one,
-// so it goes first: the call settings saved after it merge into what it wrote
 const buildSteps = (changed, values) => {
   const { id } = props.inbox;
   const steps = [];

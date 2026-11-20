@@ -7,10 +7,6 @@ class Voice::InboundCallBuilder
     new(inbox: inbox, call_sid: call_sid, caller: caller, provider: provider, extra_meta: extra_meta).perform!
   end
 
-  # Queues the jobs a ringing call needs: the ring of its phones, its widening and its ring time.
-  # Run as the call is created, and again when a retried inbound event, Twilio's or Meta's, finds
-  # it, in case queueing them failed or their worker stopped. Each is queued once the call row is
-  # visible to the worker, which otherwise finds nothing to ring for; a duplicate does nothing.
   def self.queue_ring_jobs(call)
     queue_ring(call)
     widen_ring_in_steps(call)
@@ -83,8 +79,7 @@ class Voice::InboundCallBuilder
   # The agents rung are recorded in the transaction that creates the call, so the web's
   # ringing card, the push and a missed-call notice go to the same agents even when the
   # conversation is reassigned before the job runs, and a call the caller ends as soon as it
-  # is visible still has them. They decide who sees the call's ringing card, and are recorded
-  # with whether its phones ring, which turning the feature off mid-call leaves as is.
+  # is visible still has them.
   def record_ring_audience(call)
     rings_phones = account.feature_enabled?('channel_voice') && account.feature_enabled?('mobile_voice_push')
     state = { 'ring_recipient_ids' => Voice::VoipPushService.recipients_for(call).map(&:id), 'rings_phones' => rings_phones }
@@ -161,11 +156,10 @@ class Voice::InboundCallBuilder
     { status: 'no_answer', end_reason: end_reason, meta: meta.merge('ended_at' => now) }
   end
 
-  # A call ends as it starts when the inbox is closed for calls: a Twilio caller hears the
-  # missed-call message, and a WhatsApp call is declined. A Twilio call also ends so when nobody who
-  # could answer is online; a WhatsApp call rings on for Meta's ring time, for an agent coming
-  # online. One whose agents are all busy waits. Read once, so a call that crosses a working-hours
-  # boundary or an agent's status change is not held for a ring it never gets.
+  # A call ends as it starts when the inbox is closed for calls, and a Twilio call also when nobody
+  # who could answer is online. One whose agents are all busy waits.
+  # Read once, so a call that crosses a working-hours boundary or an agent's status change is not
+  # held for a ring it never gets.
   def announced_end_reason(conversation)
     return @announced_end_reason if defined?(@announced_end_reason)
 
