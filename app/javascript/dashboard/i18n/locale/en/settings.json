@@ -256,6 +256,7 @@
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
     "CHANGELOG": "Changelog",
+    "CHANGELOG_DISMISS_ALL": "Dismiss all",
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
