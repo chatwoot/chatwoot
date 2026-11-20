@@ -690,4 +690,44 @@ describe Whatsapp::Providers::WhatsappCloudService do
       end
     end
   end
+
+  describe '#send_typing_indicator' do
+    let(:response_headers) { { 'Content-Type' => 'application/json' } }
+    let(:typing_url) { 'https://graph.facebook.com/v25.0/123456789/messages' }
+    let(:typing_body) do
+      {
+        messaging_product: 'whatsapp',
+        status: 'read',
+        message_id: 'wamid.abc',
+        typing_indicator: { type: 'text' }
+      }.to_json
+    end
+
+    it 'marks the incoming message as read and shows the typing indicator' do
+      stub = stub_request(:post, typing_url)
+             .with(body: typing_body, headers: { 'Authorization' => 'Bearer test_key' })
+             .to_return(status: 200, body: { success: true }.to_json, headers: response_headers)
+
+      expect(service.send_typing_indicator('wamid.abc')).to be(true)
+      expect(stub).to have_been_requested
+    end
+
+    it 'logs and returns false on a non-2xx response' do
+      stub_request(:post, typing_url)
+        .with(body: typing_body)
+        .to_return(status: 400, body: { error: { message: 'bad request' } }.to_json, headers: response_headers)
+      allow(Rails.logger).to receive(:warn)
+
+      expect(service.send_typing_indicator('wamid.abc')).to be(false)
+      expect(Rails.logger).to have_received(:warn).with(/WHATSAPP_TYPING.*http_status=400/)
+    end
+
+    it 'never raises when Meta times out' do
+      stub_request(:post, typing_url).to_timeout
+      allow(Rails.logger).to receive(:warn)
+
+      expect { service.send_typing_indicator('wamid.abc') }.not_to raise_error
+      expect(Rails.logger).to have_received(:warn).with(/WHATSAPP_TYPING.*error/)
+    end
+  end
 end
