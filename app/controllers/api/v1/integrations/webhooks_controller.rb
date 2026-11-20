@@ -9,11 +9,10 @@ class Api::V1::Integrations::WebhooksController < ApplicationController
 
   private
 
-  # Skip (rather than reject) when no secret is configured, so existing installs keep working.
   def verify_slack_signature!
     if Integrations::Slack::SignatureVerifier.signing_secret.blank?
-      Rails.logger.warn('[SLACK] SLACK_SIGNING_SECRET not configured; skipping webhook signature verification')
-      return
+      Rails.logger.warn('[SLACK] Rejected Slack webhook: SLACK_SIGNING_SECRET is not configured')
+      return head :unauthorized
     end
 
     head :unauthorized unless Integrations::Slack::SignatureVerifier.valid?(request)
