@@ -37,7 +37,8 @@ describe Whatsapp::GraphRequestOptions do
       'app/services/whatsapp/session/backends/uazapi/client.rb' => 'uazapi session client, ceilings already set per axis',
       # Upstream's Enterprise code, which the fork neither modifies nor patches: its Graph calls
       # carry whatever options upstream gives them.
-      'enterprise/app/services/enterprise/whatsapp/providers/whatsapp_cloud_service.rb' => 'upstream Enterprise, not ours to change'
+      'enterprise/app/services/enterprise/whatsapp/providers/whatsapp_cloud_service.rb' => 'upstream Enterprise, not ours to change',
+      'enterprise/app/services/enterprise/whatsapp/providers/whatsapp_cloud_call_settings.rb' => 'upstream Enterprise, not ours to change'
     }
   end
 
