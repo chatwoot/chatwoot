@@ -201,6 +201,16 @@ RSpec.describe Message do
       expect([template, reply].map { |message| message.content_attributes['translation_pending'] }).to eq([true, true])
     end
 
+    it 'marks fixed texts that a bot flags for the contact language' do
+      assistant = create(:captain_assistant, account: conversation.account)
+      fixed_text = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                                    sender: assistant, content: 'Hello', content_attributes: { 'translate_for_contact' => true })
+      reply = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                               sender: assistant, content: 'Hello')
+
+      expect([fixed_text, reply].map { |message| message.content_attributes.key?('translation_pending') }).to eq([true, false])
+    end
+
     it 'leaves contact messages, private notes, bot replies, activity and forwarded replies alone' do
       incoming = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
                                   content: 'Bonjour')

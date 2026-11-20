@@ -46,7 +46,7 @@ export const useCallSettingsForm = (inbox, savedValues, buildSteps) => {
         data?.message || data?.error || t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
       );
     } finally {
-      await store.dispatch('inboxes/get', inbox.value.id);
+      await store.dispatch('inboxes/getItem', inbox.value.id).catch(() => {});
       // Let the refetch reset the form first, then put the edits back
       await nextTick();
       if (failed) form.value = values;

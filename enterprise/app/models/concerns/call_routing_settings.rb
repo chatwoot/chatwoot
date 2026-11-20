@@ -1,4 +1,4 @@
-# How a Twilio inbox rings its agents, kept in provider_config. Incoming calls ring every available
+# How a calling inbox rings its agents, kept in provider_config. Incoming calls ring every available
 # agent at once, or one more agent every step. A plain module (no ActiveSupport::Concern) so it can
 # be included into a prepended Enterprise module, which registers the validation.
 module Concerns::CallRoutingSettings
@@ -12,9 +12,12 @@ module Concerns::CallRoutingSettings
     'ring_step_seconds' => ->(value) { value.is_a?(Integer) && RING_STEP_SECONDS.cover?(value) },
     'assignee_rings_first' => ->(value) { [true, false].include?(value) },
     'call_cooldown_seconds' => ->(value) { value.is_a?(Integer) && CALL_COOLDOWN_SECONDS.cover?(value) },
-    # Outside business hours nobody rings and the caller hears the missed-call message
     'business_hours_calls_enabled' => ->(value) { [true, false].include?(value) }
   }.freeze
+
+  def business_hours_calls_enabled?
+    provider_config['business_hours_calls_enabled'] == true
+  end
 
   def sequential_ringing?
     provider_config['ring_strategy'] == 'sequential'
@@ -34,7 +37,9 @@ module Concerns::CallRoutingSettings
     provider_config.fetch('call_cooldown_seconds', 0)
   end
 
-  private
+  def with_call_settings_lock(&)
+    inbox.with_lock { with_lock(&) }
+  end
 
   def call_routing_settings_valid
     return if CALL_ROUTING_SETTINGS.all? { |key, valid| !provider_config.key?(key) || valid.call(provider_config[key]) }

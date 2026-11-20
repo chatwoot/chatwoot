@@ -4,8 +4,10 @@ class CsatSurveyService
   # Returns why the survey did not go out, so the caller can tell a conversation that was never
   # eligible from one whose rule may still be waiting on a label another job is about to write.
   def perform
-    return :not_eligible unless eligible_for_csat?
-    return :blocked_by_survey_rules unless csat_allowed_by_survey_rules?
+    return :blocked_by_survey_rules if eligible_for_csat? && !csat_allowed_by_survey_rules?
+    # Upstream's single gate, which Enterprise refines (no survey after Captain closes a
+    # conversation that waited on the customer). Anything it adds is not a rule to retry on.
+    return :not_eligible unless should_send_csat_survey?
 
     deliver_survey
   end
@@ -24,6 +26,10 @@ class CsatSurveyService
     else
       create_csat_not_sent_activity_message
     end
+  end
+
+  def should_send_csat_survey?
+    eligible_for_csat? && csat_allowed_by_survey_rules?
   end
 
   def eligible_for_csat?
@@ -224,3 +230,5 @@ class CsatSurveyService
     ::Conversations::ActivityMessageJob.perform_later(conversation, activity_message_params) if content
   end
 end
+
+CsatSurveyService.prepend_mod_with('CsatSurveyService')

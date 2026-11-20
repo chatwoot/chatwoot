@@ -10,17 +10,21 @@ import {
 
 import CallsAPI from 'dashboard/api/calls';
 
-const { callsStore } = vi.hoisted(() => ({
+const { callsStore, isLocalWhatsappCall } = vi.hoisted(() => ({
   callsStore: {
     calls: [],
     addCall: vi.fn(),
     removeCall: vi.fn(),
     handleCallStatusChanged: vi.fn(),
   },
+  isLocalWhatsappCall: vi.fn(() => false),
 }));
 
 vi.mock('dashboard/stores/calls', () => ({ useCallsStore: () => callsStore }));
 vi.mock('dashboard/api/calls', () => ({ default: { get: vi.fn() } }));
+vi.mock('dashboard/composables/useWhatsappCallSession', () => ({
+  isLocalWhatsappCall,
+}));
 
 const ME = 7;
 const TEAMMATE = 8;
@@ -55,6 +59,7 @@ describe('voice call ringing', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     callsStore.calls = [];
+    isLocalWhatsappCall.mockReturnValue(false);
   });
 
   it('rings an inbound Twilio call for the agents the server names, whoever is assigned', () => {
@@ -72,6 +77,28 @@ describe('voice call ringing', () => {
     expect(callsStore.addCall).toHaveBeenCalledTimes(1);
     expect(callsStore.addCall).toHaveBeenCalledWith(
       expect.objectContaining({ callSid: 'CA1' })
+    );
+  });
+
+  it('rings an inbound WhatsApp call only for the agents the server names', () => {
+    handleVoiceCallCreated(
+      callMessage({ sid: 'WA1', provider: 'whatsapp', ringUserIds: [ME] }),
+      ME,
+      true
+    );
+    handleVoiceCallCreated(
+      callMessage({
+        sid: 'WA2',
+        provider: 'whatsapp',
+        ringUserIds: [TEAMMATE],
+      }),
+      ME,
+      true
+    );
+
+    expect(callsStore.addCall).toHaveBeenCalledTimes(1);
+    expect(callsStore.addCall).toHaveBeenCalledWith(
+      expect.objectContaining({ callSid: 'WA1', provider: 'whatsapp' })
     );
   });
 
@@ -163,6 +190,45 @@ describe('voice call ringing', () => {
     expect(callsStore.removeCall).not.toHaveBeenCalled();
   });
 
+  it('keeps the WhatsApp call this tab accepted when a stale ring update from another tab arrives', () => {
+    isLocalWhatsappCall.mockImplementation(callId => callId === 1);
+
+    handleVoiceCallUpdated(
+      vi.fn(),
+      callMessage({
+        sid: 'WA14',
+        provider: 'whatsapp',
+        ringUserIds: [],
+        dismissedUserIds: [ME],
+      }),
+      ME,
+      true
+    );
+
+    expect(callsStore.removeCall).not.toHaveBeenCalled();
+  });
+
+  it('keeps the WhatsApp call this tab is on once the agent can no longer open its conversation', () => {
+    callsStore.calls = [
+      {
+        callSid: 'WA15',
+        callId: 15,
+        conversationId: 42,
+        provider: 'whatsapp',
+        callDirection: 'inbound',
+      },
+    ];
+    isLocalWhatsappCall.mockImplementation(callId => callId === 15);
+
+    syncConversationCallVisibility(
+      { id: 42, assignee_id: TEAMMATE },
+      ME,
+      () => false
+    );
+
+    expect(callsStore.removeCall).not.toHaveBeenCalled();
+  });
+
   it('leaves an answered Twilio call to the accepted and ended broadcasts', () => {
     handleVoiceCallUpdated(
       vi.fn(),
@@ -236,7 +302,7 @@ describe('voice call ringing', () => {
     expect(callsStore.addCall).not.toHaveBeenCalled();
   });
 
-  it('restores the Twilio calls ringing for this agent on page load', async () => {
+  it('restores the calls ringing for this agent on page load, Twilio and WhatsApp', async () => {
     const ringing = (sid, extra = {}) => ({
       id: 1,
       call_id: sid,
@@ -272,9 +338,12 @@ describe('voice call ringing', () => {
       direction: 'inbound',
       page: 2,
     });
-    expect(callsStore.addCall).toHaveBeenCalledTimes(3);
+    expect(callsStore.addCall).toHaveBeenCalledTimes(4);
     expect(callsStore.addCall).toHaveBeenCalledWith(
       expect.objectContaining({ callSid: 'CA10' })
+    );
+    expect(callsStore.addCall).toHaveBeenCalledWith(
+      expect.objectContaining({ callSid: 'WA2', provider: 'whatsapp' })
     );
     expect(callsStore.addCall).toHaveBeenCalledWith(
       expect.objectContaining({ callSid: 'CA11' })

@@ -6,14 +6,23 @@ FROM ghcr.io/fazer-ai/whatsapp-connector:1.0.0 AS whatsapp-connector
 # The official enterprise/ for VERSION_CW, and the hash of its tree. The image never ships
 # that tree: the hash is what docker/entrypoints/helpers/enterprise.sh checks the copy it
 # downloads at boot against, and the tree itself only feeds the asset build below.
-FROM ruby:3.4.4-alpine3.21 AS enterprise-lock
+FROM ruby:3.4.13-alpine3.23 AS enterprise-lock
 RUN apk add --no-cache curl
 WORKDIR /lock
 COPY VERSION_CW ./
 COPY docker/entrypoints/helpers/enterprise.sh docker/entrypoints/helpers/
 RUN docker/entrypoints/helpers/enterprise.sh lock /lock/out
 
-FROM ruby:3.4.4-alpine3.21 AS pre-builder
+# npm and corepack are only needed to build assets and to install pnpm in
+# non-production images; production only runs the node binary
+FROM node AS node-modules
+ARG RAILS_ENV=production
+RUN if [ "$RAILS_ENV" = "production" ]; then \
+  rm -rf /usr/local/lib/node_modules/* \
+  && rm -f /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack; \
+  fi
+
+FROM ruby:3.4.13-alpine3.23 AS pre-builder
 
 ARG NODE_VERSION="24.22.1"
 ARG PNPM_VERSION="10.2.0"
@@ -115,7 +124,7 @@ RUN mkdir -p /app/log
 # generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
   SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
-  && rm -rf spec node_modules tmp/cache enterprise \
+  && rm -rf spec tests node_modules tmp/cache enterprise \
   && ln -s tmp/cw-enterprise enterprise; \
   fi
 
@@ -129,7 +138,7 @@ RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
   && rm .gitignore
 
 # final build stage
-FROM ruby:3.4.4-alpine3.21
+FROM ruby:3.4.13-alpine3.23
 
 ARG NODE_VERSION="24.22.1"
 ARG PNPM_VERSION="10.2.0"
@@ -153,7 +162,8 @@ ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
-RUN apk update && apk add --no-cache \
+# apk upgrade picks up Alpine security fixes released after the base image
+RUN apk update && apk upgrade --no-cache && apk add --no-cache \
   build-base \
   openssl \
   tzdata \
@@ -169,7 +179,7 @@ RUN apk update && apk add --no-cache \
 ENV VIPS_BLOCK_UNTRUSTED=1
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
-COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node-modules /usr/local/lib/node_modules /usr/local/lib/node_modules
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \
   ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
