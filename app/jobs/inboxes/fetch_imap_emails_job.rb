@@ -41,6 +41,9 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     with_lock(key, 5.minutes) do
       Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Lock acquired for inbox #{inbox_id}"
       success = process_email_for_channel(channel, interval)
+      # The mailbox authenticated, so earlier failures were not consecutive. Reset before the lock is
+      # released, or a newer run's refused refresh could be counted and then wiped by this reset.
+      channel.reset_authorization_errors! if success
     end
 
     duration = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at).round(1)
@@ -75,8 +78,15 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     true
   rescue OAuth2::Error => e
     Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] OAuth error for inbox #{channel.inbox.id} : #{e.message}"
-    channel.authorization_error!
+    record_refused_oauth_credentials(channel, e)
     false
+  end
+
+  # A 400/401 from the token endpoint refuses the refresh token or the OAuth client (invalid_grant,
+  # invalid_client, deleted_client, invalid_rapt, interaction_required, ...). A 429 or 5xx is the
+  # provider having a bad minute; the next run retries it.
+  def record_refused_oauth_credentials(channel, error)
+    channel.authorization_error! if [400, 401].include?(error.response.status)
   end
 
   def should_skip_email?(message_id)
