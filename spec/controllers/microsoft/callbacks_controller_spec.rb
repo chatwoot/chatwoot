@@ -53,6 +53,26 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
       expect(channel.email).to eq mailbox
     end
 
+    it 'falls back to preferred_username for the channel email when the id_token has no email claim' do
+      upn = 'testaccount@primary-domain.example'
+      response_body = {
+        id_token: JWT.encode({ preferred_username: upn, name: 'test' }, nil, 'none'),
+        access_token: SecureRandom.hex(10), token_type: 'Bearer', refresh_token: SecureRandom.hex(10)
+      }
+      stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
+        .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
+                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
+        .to_return(status: 200, body: response_body.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      get microsoft_callback_url, params: { code: code, state: state }
+
+      expect(response).to redirect_to app_email_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
+      expect(account.inboxes.count).to be 1
+      channel = account.inboxes.last.channel
+      expect(channel.email).to eq upn
+      expect(channel.imap_login).to eq upn
+    end
+
     it 'creates updates inbox channel config if inbox exists and authentication is successful' do
       inbox = create(:channel_email, account: account, email: email)&.inbox
       expect(inbox.channel.provider_config).to eq({})
