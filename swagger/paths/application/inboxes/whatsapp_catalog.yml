@@ -1,0 +1,78 @@
+get:
+  tags:
+    - Inboxes
+  operationId: getWhatsappInboxCatalog
+  summary: Get the WhatsApp catalog of an inbox
+  security:
+    - userBearerAuth: []
+    - userApiKey: []
+  description: |
+    Read the catalog of a WhatsApp Cloud inbox from Meta: its ID and its collections (without the default
+    "All Products" collection). The catalog saved as `catalog_id` in the inbox provider configuration is used
+    when present, otherwise the catalog connected to the WhatsApp Business account.
+
+    A failure to read the catalog is reported in `status` (`no_catalog`, `missing_permission` or `error`)
+    with a 200 response, not as an HTTP error. The access token is never returned.
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: number
+      description: ID of the WhatsApp Cloud inbox
+      required: true
+    - name: refresh
+      in: query
+      schema:
+        type: boolean
+      description: Skip the cache and read the catalog from Meta again
+      required: false
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - ok
+                  - no_catalog
+                  - missing_permission
+                  - error
+              catalog_id:
+                type: string
+                description: Present when status is ok
+              collections:
+                type: array
+                description: Present when status is ok
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    count:
+                      type: integer
+                      description: Number of products in the collection
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '404':
+      description: Inbox not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '422':
+      description: The inbox is not a WhatsApp Cloud inbox
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
