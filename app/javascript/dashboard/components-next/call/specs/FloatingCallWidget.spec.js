@@ -10,6 +10,7 @@ const mocks = vi.hoisted(() => ({
   whatsappConnected: null,
   sendDigits: vi.fn(),
   sendWhatsappDigits: vi.fn(),
+  holdCall: vi.fn(),
   useAlert: vi.fn(),
 }));
 
@@ -49,6 +50,7 @@ vi.mock('dashboard/composables/useCallSession', () => ({
     endCall: vi.fn(),
     rejectIncomingCall: vi.fn(),
     dismissCall: vi.fn(),
+    holdCall: mocks.holdCall,
     formattedCallDuration: ref('00:42'),
   }),
 }));
@@ -59,7 +61,6 @@ vi.mock('dashboard/composables/useWhatsappCallSession', async () => {
   return {
     isWhatsappCallConnected: mocks.whatsappConnected,
     sendWhatsappDigits: mocks.sendWhatsappDigits,
-    setWhatsappCallMuted: vi.fn(),
   };
 });
 
@@ -240,4 +241,43 @@ describe('FloatingCallWidget keypad', () => {
       expect(mocks.useAlert).toHaveBeenCalledWith('Could not send keypad tone');
     }
   );
+});
+
+describe('FloatingCallWidget mute', () => {
+  const PROVIDERS = [
+    VOICE_CALL_PROVIDERS.TWILIO,
+    VOICE_CALL_PROVIDERS.WHATSAPP,
+  ];
+
+  beforeEach(() => {
+    vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+    mocks.holdCall.mockReset().mockResolvedValue();
+  });
+
+  it.each(PROVIDERS)('puts a %s caller on hold from mute', provider => {
+    mocks.activeCall = activeCall(provider);
+    const card = mountWidget().findComponent(CallCard);
+
+    expect(card.props('isMuted')).toBe(false);
+    card.vm.$emit('toggleMute');
+
+    expect(mocks.holdCall).toHaveBeenCalledWith({
+      conversationId: 42,
+      inboxId: 7,
+      callSid: 'CA123',
+      hold: true,
+    });
+  });
+
+  it.each(PROVIDERS)('resumes a held %s caller from unmute', provider => {
+    mocks.activeCall = { ...activeCall(provider), onHold: true };
+    const card = mountWidget().findComponent(CallCard);
+
+    expect(card.props('isMuted')).toBe(true);
+    card.vm.$emit('toggleMute');
+
+    expect(mocks.holdCall).toHaveBeenCalledWith(
+      expect.objectContaining({ callSid: 'CA123', hold: false })
+    );
+  });
 });
