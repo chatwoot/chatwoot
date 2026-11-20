@@ -96,7 +96,8 @@ class Integrations::Slack::IncomingMessageBuilder
     thread_ts = params[:event][:thread_ts]
     return if thread_ts.blank? || hooks.size < 2
 
-    hooks.find { |hook| Conversation.exists?(account_id: hook.account_id, identifier: thread_ts) }
+    account_ids = Conversation.where(identifier: thread_ts, account_id: hooks.map(&:account_id)).distinct.pluck(:account_id)
+    hooks.find { |hook| account_ids.include?(hook.account_id) }
   end
 
   def slack_client
