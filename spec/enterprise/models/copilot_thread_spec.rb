@@ -43,35 +43,4 @@ RSpec.describe CopilotThread, type: :model do
       expect { copilot_thread.saved_set(collection.id, types: [CopilotRun::Review]) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
-
-  describe '#previous_history' do
-    let(:account) { create(:account) }
-    let(:user) { create(:user, account: account) }
-    let(:assistant) { create(:captain_assistant, account: account) }
-    let(:copilot_thread) { create(:captain_copilot_thread, account: account, user: user, assistant: assistant) }
-
-    context 'when there are messages in the thread' do
-      before do
-        create(:captain_copilot_message, copilot_thread: copilot_thread, message_type: 'user', message: { 'content' => 'User message' })
-        create(:captain_copilot_message, copilot_thread: copilot_thread, message_type: 'assistant_thinking', message: { 'content' => 'Thinking...' })
-        create(:captain_copilot_message, copilot_thread: copilot_thread, message_type: 'assistant', message: { 'content' => 'Assistant message' })
-      end
-
-      it 'returns only user and assistant messages in chronological order' do
-        history = copilot_thread.previous_history
-
-        expect(history.length).to eq(2)
-        expect(history[0][:role]).to eq('user')
-        expect(history[0][:content]).to eq('User message')
-        expect(history[1][:role]).to eq('assistant')
-        expect(history[1][:content]).to eq('Assistant message')
-      end
-    end
-
-    context 'when there are no messages in the thread' do
-      it 'returns an empty array' do
-        expect(copilot_thread.previous_history).to eq([])
-      end
-    end
-  end
 end

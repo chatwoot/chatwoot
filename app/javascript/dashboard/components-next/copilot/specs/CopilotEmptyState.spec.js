@@ -20,10 +20,6 @@ vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
 
-vi.mock('vue-router', () => ({
-  useRoute: () => ({ path: '/app/accounts/1/conversations/1' }),
-}));
-
 const mountComponent = (props = {}) =>
   shallowMount(CopilotEmptyState, {
     props: { hasAssistants: true, ...props },
@@ -60,13 +56,13 @@ describe('CopilotEmptyState', () => {
   it('hides the reply suggestion when the latest message is not incoming', () => {
     const wrapper = mountComponent({ canSuggestReply: false });
 
-    expect(wrapper.findAll('button')).toHaveLength(2);
+    expect(wrapper.findAll('button')).toHaveLength(4);
     expect(wrapper.text()).not.toContain(
       'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL'
     );
   });
 
-  describe('with workflows', () => {
+  describe('prompts by role', () => {
     const AGENT_PROMPTS = [
       'CAN_CLOSE',
       'FOLLOW_UPS',
@@ -104,7 +100,7 @@ describe('CopilotEmptyState', () => {
       role => {
         currentRole.value = role;
         currentChat.value = {};
-        const keys = promptKeys(mountComponent({ isWorkflowsEnabled: true }));
+        const keys = promptKeys(mountComponent());
 
         expect(keys).toHaveLength(3);
         expect(new Set(keys).size).toBe(3);
@@ -116,7 +112,7 @@ describe('CopilotEmptyState', () => {
       'offers the %s a summary and a reply first when a conversation is open',
       role => {
         currentRole.value = role;
-        const keys = promptKeys(mountComponent({ isWorkflowsEnabled: true }));
+        const keys = promptKeys(mountComponent());
 
         expect(keys).toHaveLength(4);
         expect(keys.slice(0, 2)).toEqual(['SUMMARIZE', 'SUGGEST']);
@@ -130,9 +126,7 @@ describe('CopilotEmptyState', () => {
 
     it('leaves out the reply when the customer did not speak last', () => {
       currentRole.value = 'agent';
-      const keys = promptKeys(
-        mountComponent({ isWorkflowsEnabled: true, canSuggestReply: false })
-      );
+      const keys = promptKeys(mountComponent({ canSuggestReply: false }));
 
       expect(keys).toHaveLength(4);
       expect(keys[0]).toBe('SUMMARIZE');
@@ -142,15 +136,15 @@ describe('CopilotEmptyState', () => {
     it('keeps the same prompts for the whole page load', () => {
       currentRole.value = 'administrator';
       currentChat.value = {};
-      const first = promptKeys(mountComponent({ isWorkflowsEnabled: true }));
-      const second = promptKeys(mountComponent({ isWorkflowsEnabled: true }));
+      const first = promptKeys(mountComponent());
+      const second = promptKeys(mountComponent());
 
       expect(second).toEqual(first);
     });
 
     it('sends the reply suggestion through the Assistant', async () => {
       currentRole.value = 'agent';
-      const wrapper = mountComponent({ isWorkflowsEnabled: true });
+      const wrapper = mountComponent();
 
       await wrapper.findAll('button')[1].trigger('click');
 
@@ -163,7 +157,7 @@ describe('CopilotEmptyState', () => {
     it('records which prompt was clicked and the role of the person', async () => {
       currentRole.value = 'administrator';
       currentChat.value = {};
-      const wrapper = mountComponent({ isWorkflowsEnabled: true });
+      const wrapper = mountComponent();
       const [key] = promptKeys(wrapper);
 
       await wrapper.findAll('button')[0].trigger('click');
