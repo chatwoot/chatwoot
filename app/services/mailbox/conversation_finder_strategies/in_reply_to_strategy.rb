@@ -11,13 +11,10 @@ class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::Conver
   # In these cases, we use a conversation-level identifier instead of a message-level one.
   FALLBACK_PATTERN = %r{account/(\d+)/conversation/([a-zA-Z0-9-]+)@}
 
-  def initialize(mail)
-    super(mail)
-    @channel = EmailChannelFinder.new(mail).perform
-  end
-
   def find
     return nil if mail.in_reply_to.blank?
+
+    @channel = EmailChannelFinder.new(mail).perform
     return nil unless @channel
 
     in_reply_to_addresses = sanitize_mailbox_value(Array.wrap(mail.in_reply_to))
