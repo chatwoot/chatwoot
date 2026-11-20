@@ -4,22 +4,26 @@ import BaseAttachmentBubble from './BaseAttachment.vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageContext } from '../provider.js';
 
-const { attachments } = useMessageContext();
+const { attachments, contentAttributes } = useMessageContext();
 const { t } = useI18n();
 
-const attachment = computed(() => {
-  return attachments.value[0];
-});
+const attachment = computed(() => attachments.value?.[0]);
+const sentLocation = computed(() => contentAttributes.value?.whatsappLocation);
 
-const lat = computed(() => {
-  return attachment.value.coordinatesLat;
-});
-const long = computed(() => {
-  return attachment.value.coordinatesLong;
-});
+const lat = computed(
+  () => attachment.value?.coordinatesLat ?? sentLocation.value?.latitude
+);
+const long = computed(
+  () => attachment.value?.coordinatesLong ?? sentLocation.value?.longitude
+);
 
 const title = computed(() => {
-  return attachment.value.fallbackTitle ?? attachment.value.fallback_title;
+  if (attachment.value) {
+    return attachment.value.fallbackTitle ?? attachment.value.fallback_title;
+  }
+  const { name, address } = sentLocation.value;
+  if (!name) return t('WHATSAPP_LOCATIONS.CURRENT_LOCATION');
+  return `${name}, ${address}`;
 });
 
 const mapUrl = computed(
