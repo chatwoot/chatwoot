@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AddDataDropdown from 'dashboard/components-next/AssignmentPolicy/components/AddDataDropdown.vue';
 import LabelItem from 'dashboard/components-next/label/LabelItem.vue';
@@ -18,19 +18,39 @@ const excludedLabels = defineModel('excludedLabels', {
   default: () => [],
 });
 
-const excludeOlderThanMinutes = defineModel('excludeOlderThanMinutes', {
+const excludeOlderThanHours = defineModel('excludeOlderThanHours', {
   type: Number,
   default: null,
 });
 
-// Duration limits: 1 minute to 999 days (in minutes)
-const MIN_DURATION_MINUTES = 1;
+// DurationInput works in minutes; the policy stores whole hours, so bridge the two
+const excludeOlderThanMinutes = computed({
+  get() {
+    return excludeOlderThanHours.value == null
+      ? null
+      : excludeOlderThanHours.value * 60;
+  },
+  set(minutes) {
+    excludeOlderThanHours.value =
+      minutes == null ? null : Math.round(minutes / 60);
+  },
+});
+
+// Duration limits: 1 hour to 999 days (in minutes)
+const MIN_DURATION_MINUTES = 60;
 const MAX_DURATION_MINUTES = 1438560; // 999 days * 24 hours * 60 minutes
+const UNITS = [DURATION_UNITS.HOURS, DURATION_UNITS.DAYS];
 
 const { t } = useI18n();
 
+const detectUnit = hours => {
+  if (hours && hours % 24 === 0) return DURATION_UNITS.DAYS;
+  return DURATION_UNITS.HOURS;
+};
+
 const hoveredLabel = ref(null);
-const windowUnit = ref(DURATION_UNITS.MINUTES);
+// Set at setup: a unit change after mount makes DurationInput clamp the saved value
+const windowUnit = ref(detectUnit(excludeOlderThanHours.value));
 
 const addedTags = computed(() =>
   props.tagsList
@@ -44,14 +64,6 @@ const filteredTags = computed(() =>
   )
 );
 
-const detectUnit = minutes => {
-  const m = Number(minutes) || 0;
-  if (m === 0) return DURATION_UNITS.MINUTES;
-  if (m % (24 * 60) === 0) return DURATION_UNITS.DAYS;
-  if (m % 60 === 0) return DURATION_UNITS.HOURS;
-  return DURATION_UNITS.MINUTES;
-};
-
 const onClickAddTag = tag => {
   excludedLabels.value = [...excludedLabels.value, tag.name];
 };
@@ -61,10 +73,6 @@ const onClickRemoveTag = tag => {
     name => name !== tag.title
   );
 };
-
-onMounted(() => {
-  windowUnit.value = detectUnit(excludeOlderThanMinutes.value);
-});
 </script>
 
 <template>
@@ -136,12 +144,12 @@ onMounted(() => {
       <div
         class="flex items-center gap-2 flex-1 [&>select]:!bg-n-alpha-2 [&>select]:!outline-none [&>select]:hover:brightness-110"
       >
-        <!-- allow 10 mins to 999 days -->
         <DurationInput
           v-model:unit="windowUnit"
           v-model:model-value="excludeOlderThanMinutes"
           :min="MIN_DURATION_MINUTES"
           :max="MAX_DURATION_MINUTES"
+          :units="UNITS"
         />
       </div>
     </div>
