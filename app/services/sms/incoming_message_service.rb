@@ -5,6 +5,8 @@ class Sms::IncomingMessageService
 
   def perform
     set_contact
+    return if @contact.blocked?
+
     set_conversation
     @message = @conversation.messages.create!(
       content: params[:text],

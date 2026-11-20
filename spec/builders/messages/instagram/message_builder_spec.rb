@@ -56,6 +56,29 @@ describe Messages::Instagram::MessageBuilder do
       expect(message.content).to eq('This is the first message from the customer')
     end
 
+    context 'when contact is blocked' do
+      it 'does not create a conversation or message for incoming message' do
+        messaging = dm_params[:entry][0]['messaging'][0]
+        contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+        contact.update!(blocked: true)
+
+        expect do
+          described_class.new(messaging, instagram_inbox).perform
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+      end
+
+      it 'allows outgoing echo message to be created' do
+        messaging = dm_params[:entry][0]['messaging'][0]
+        contact = create_instagram_contact_for_sender(messaging['recipient']['id'], instagram_inbox)
+        contact.update!(blocked: true)
+
+        messaging[:message][:mid] = 'echo-mid-blocked'
+        expect do
+          described_class.new(messaging, instagram_inbox, outgoing_echo: true).perform
+        end.to change(Message, :count).by(1)
+      end
+    end
+
     it 'discard echo message already sent by chatwoot' do
       messaging = dm_params[:entry][0]['messaging'][0]
       contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)

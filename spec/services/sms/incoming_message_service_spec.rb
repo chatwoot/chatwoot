@@ -30,6 +30,17 @@ describe Sms::IncomingMessageService do
       allow(Resolv).to receive(:getaddresses).with('internal.example').and_return(['169.254.169.254'])
     end
 
+    context 'when contact is blocked' do
+      it 'does not create a conversation or message' do
+        contact = create(:contact, account: sms_channel.account, phone_number: '+14234234234', blocked: true)
+        create(:contact_inbox, contact: contact, inbox: sms_channel.inbox, source_id: params[:from])
+
+        expect do
+          described_class.new(inbox: sms_channel.inbox, params: params).perform
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+      end
+    end
+
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
         described_class.new(inbox: sms_channel.inbox, params: params).perform
