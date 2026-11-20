@@ -11,6 +11,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  scrollable: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const menuRef = useTemplateRef('menuRef');
@@ -50,8 +54,13 @@ const submenuPosition = computed(() => [
     <fluent-icon icon="chevron-right" size="12" />
     <div
       v-if="subMenuAvailable"
-      class="submenu bg-n-alpha-3 backdrop-blur-[100px] p-1 shadow-lg rounded-md absolute hidden max-h-[15rem] overflow-y-auto overflow-x-hidden cursor-pointer"
-      :class="submenuPosition"
+      class="submenu bg-n-alpha-3 backdrop-blur-[100px] p-1 shadow-lg rounded-md absolute hidden overflow-x-hidden cursor-pointer"
+      :class="[
+        submenuPosition,
+        scrollable
+          ? 'max-h-[15rem] overflow-y-auto'
+          : 'max-h-[15rem] overflow-hidden flex flex-col',
+      ]"
     >
       <slot />
     </div>
@@ -62,7 +71,8 @@ const submenuPosition = computed(() => [
 .menu-with-submenu {
   min-width: calc(6.25rem * 2);
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     .submenu {
       @apply block;
     }
