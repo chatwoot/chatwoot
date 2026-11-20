@@ -5,10 +5,6 @@ module InboxAgentAvailability
     online_members.where(account_users: { accepts_conversations: true })
   end
 
-  def available_call_agents
-    online_members.where(account_users: { accepts_calls: true })
-  end
-
   def member_ids_with_assignment_capacity
     member_ids
   end

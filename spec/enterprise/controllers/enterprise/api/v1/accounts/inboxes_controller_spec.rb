@@ -225,4 +225,137 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/inboxes/:id with WhatsApp call hours' do
+    let(:channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:inbox) { channel.inbox }
+    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}" }
+    let(:settings_url) { 'https://graph.facebook.com/v22.0/123456789/settings' }
+    let(:closed_week) { (0..6).map { |day| { day_of_week: day, closed_all_day: true } } }
+
+    before do
+      account.enable_features!('channel_voice')
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => true, 'business_hours_calls_enabled' => true))
+      inbox.update!(working_hours_enabled: true)
+      stub_request(:get, settings_url).to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: { calling: {} }.to_json)
+    end
+
+    def stub_call_hours_update(status)
+      stub_request(:post, settings_url).with { |request| JSON.parse(request.body).dig('calling', 'call_hours', 'status') == status }
+                                       .to_return(status: 200, body: '{}')
+    end
+
+    it 'sends edited business hours to WhatsApp' do
+      update = stub_call_hours_update('ENABLED')
+      working_hours = [{ day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 18, close_minutes: 0 }]
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: working_hours }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(update).to have_been_requested
+    end
+
+    it 'sends a new timezone to WhatsApp' do
+      update = stub_call_hours_update('ENABLED')
+
+      patch url, headers: admin.create_new_auth_token, params: { timezone: 'Asia/Kolkata' }, as: :json
+
+      expect(update).to have_been_requested
+    end
+
+    it 'turns call hours off at WhatsApp when the inbox business hours are turned off' do
+      update = stub_call_hours_update('DISABLED')
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours_enabled: false }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(update).to have_been_requested
+    end
+
+    it 'rolls the whole save back when WhatsApp refuses the hours' do
+      stub_request(:post, settings_url).to_return(status: 400, headers: { 'Content-Type' => 'application/json' },
+                                                  body: { error: { error_user_msg: 'Invalid timezone_id' } }.to_json)
+
+      patch url, headers: admin.create_new_auth_token, params: { name: 'Renamed', timezone: 'Asia/Kolkata' }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.whatsapp_failed', error: 'Invalid timezone_id'))
+      expect(inbox.reload).to have_attributes(name: be_present, timezone: 'UTC')
+      expect(inbox.name).not_to eq('Renamed')
+    end
+
+    it 'rejects closing every day and rolls the whole save back' do
+      patch url, headers: admin.create_new_auth_token, params: { name: 'Renamed', working_hours: closed_week }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.closed_every_day'))
+      expect(inbox.reload.name).not_to eq('Renamed')
+      expect(inbox.working_hours.find_by(day_of_week: 1).closed_all_day).to be(false)
+      expect(a_request(:post, settings_url)).not_to have_been_made
+    end
+
+    it 'allows closing every day once business hours no longer apply to calls' do
+      channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: closed_week }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(a_request(:any, settings_url)).not_to have_been_made
+    end
+
+    it 'allows closing every day once the inbox business hours are off, keeping call hours off at WhatsApp' do
+      inbox.update!(working_hours_enabled: false)
+      whatsapp_week = [{ 'day_of_week' => 'MONDAY', 'open_time' => '0900', 'close_time' => '1700' }]
+      whatsapp_hours = { 'status' => 'ENABLED', 'timezone_id' => 'UTC', 'weekly_operating_hours' => whatsapp_week }
+      stub_request(:get, settings_url).to_return(status: 200, headers: { 'Content-Type' => 'application/json' },
+                                                 body: { calling: { call_hours: whatsapp_hours } }.to_json)
+      update = stub_request(:post, settings_url)
+               .with(body: { calling: { call_hours: whatsapp_hours.merge('status' => 'DISABLED') } }.to_json)
+               .to_return(status: 200, body: '{}')
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: closed_week }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(update).to have_been_requested
+    end
+
+    it 'leaves WhatsApp alone when the rest of the save fails' do
+      working_hours = [{ day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 18, close_minutes: 0 }]
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: working_hours, channel: { phone_number: '' } }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(a_request(:post, settings_url)).not_to have_been_made
+    end
+
+    it 'leaves WhatsApp alone while calling is off, so closing every day is allowed' do
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => false))
+
+      patch url, headers: admin.create_new_auth_token, params: { working_hours: closed_week }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(a_request(:any, settings_url)).not_to have_been_made
+    end
+
+    it 'keeps calling off and says why when WhatsApp refuses the hours on turning calling back on' do
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => false))
+      stub_request(:post, settings_url).to_return(status: 400, headers: { 'Content-Type' => 'application/json' },
+                                                  body: { error: { error_user_msg: 'Invalid timezone_id' } }.to_json)
+
+      post "#{url}/enable_whatsapp_calling", headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq(I18n.t('inbox.call_hours.whatsapp_failed', error: 'Invalid timezone_id'))
+      expect(channel.reload.voice_enabled?).to be(false)
+    end
+
+    it 'leaves WhatsApp alone when nothing about the hours changed' do
+      patch url, headers: admin.create_new_auth_token, params: { name: 'Support line' }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(a_request(:any, settings_url)).not_to have_been_made
+    end
+  end
 end

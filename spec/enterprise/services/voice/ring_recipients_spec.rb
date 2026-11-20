@@ -120,11 +120,78 @@ RSpec.describe Voice::RingRecipients do
   context 'with a WhatsApp inbox' do
     let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
 
-    it 'keeps ringing an assignable assignee alone, even when they are busy' do
+    it 'routes like a Twilio inbox: the free assignee alone first, then the free agents' do
+      conversation.update!(assignee: alice)
+
+      expect(recipients.agents).to eq([alice])
+      expect(recipients.next_group([alice.id])).to contain_exactly(bob, cara)
+    end
+
+    it 'leaves out an agent on a call, and rings the teammates of an assignee who is not online' do
       conversation.update!(assignee: alice)
       AccountUser.find_by(user: alice, account: account).update!(availability: :busy)
+      busy = create(:conversation, account: account, inbox: inbox)
+      create(:call, account: account, inbox: inbox, conversation: busy, contact: busy.contact, provider: :whatsapp, status: 'in_progress',
+                    accepted_by_agent: cara)
 
-      expect(recipients.agents).to be_empty
+      expect(recipients.agents).to eq([bob])
+    end
+
+    def configure(settings)
+      inbox.channel.provider_config = inbox.channel.provider_config.merge(settings)
+      inbox.channel.save!(validate: false)
+    end
+
+    def answered_call(agent, ended_ago:, conversation_status: :open)
+      done = create(:conversation, account: account, inbox: inbox, status: conversation_status)
+      create(:call, account: account, inbox: inbox, conversation: done, contact: done.contact, provider: :whatsapp, status: 'completed',
+                    accepted_by_agent: agent, started_at: (ended_ago + 60).seconds.ago, meta: { 'ended_at' => ended_ago.seconds.ago.to_i })
+    end
+
+    it 'rings one agent at a time when the inbox is set to' do
+      configure('ring_strategy' => 'sequential')
+
+      expect(recipients.agents.size).to eq(1)
+    end
+
+    it 'rings in turn from the longest idle agent, one who never answered a call ranking first' do
+      configure('ring_strategy' => 'sequential')
+      answered_call(alice, ended_ago: 3600)
+      answered_call(bob, ended_ago: 600)
+
+      expect(recipients.agents).to eq([cara])
+      expect(recipients.next_agent([cara.id])).to eq(alice)
+      expect(recipients.next_agent([cara.id, alice.id])).to eq(bob)
+    end
+
+    it 'rings everyone at once, the assignee included, when the inbox does not ring the assignee first' do
+      conversation.update!(assignee: alice)
+      configure('assignee_rings_first' => false)
+
+      expect(recipients.agents).to contain_exactly(alice, bob, cara)
+    end
+
+    it 'leaves out an agent in wrap-up time, and rings one who resolved that call' do
+      configure('call_cooldown_seconds' => 60)
+      answered_call(cara, ended_ago: 20)
+      answered_call(bob, ended_ago: 20, conversation_status: :resolved)
+
+      expect(recipients.agents).to contain_exactly(alice, bob)
+    end
+
+    it 'starts with the assignee even in wrap-up time' do
+      configure('call_cooldown_seconds' => 60)
+      conversation.update!(assignee: bob)
+      answered_call(bob, ended_ago: 20)
+
+      expect(recipients.agents).to eq([bob])
+    end
+
+    it 'leaves out an agent who cannot open the conversation' do
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+      AccountUser.find_by(account: account, user: cara).update!(custom_role: custom_role)
+
+      expect(recipients.agents).to contain_exactly(alice, bob)
     end
   end
 end
