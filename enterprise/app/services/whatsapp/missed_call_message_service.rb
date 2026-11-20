@@ -8,7 +8,8 @@ class Whatsapp::MissedCallMessageService
       next if call.meta&.key?('missed_call_message_id')
 
       message = call.conversation.messages.create!(
-        account_id: call.account_id, inbox_id: call.inbox_id, message_type: :template, content: message_text
+        account_id: call.account_id, inbox_id: call.inbox_id, message_type: :template, content: message_text,
+        additional_attributes: { 'missed_call_message' => true }
       )
       call.update!(meta: (call.meta || {}).merge('missed_call_message_id' => message.id))
     end

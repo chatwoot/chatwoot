@@ -23,6 +23,7 @@ RSpec.describe Whatsapp::MissedCallMessageService do
 
     expect(sent_messages.pluck(:content)).to eq([I18n.t('inbox.missed_call_message.default')])
     expect(call.reload.meta['missed_call_message_id']).to eq(sent_messages.last.id)
+    expect(sent_messages.last.additional_attributes).to include('missed_call_message' => true)
   end
 
   it "sends the inbox's own message" do

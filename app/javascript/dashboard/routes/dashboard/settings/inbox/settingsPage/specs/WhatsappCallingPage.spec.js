@@ -122,6 +122,21 @@ describe('WhatsappCallingPage', () => {
     );
   });
 
+  it('limits the missed-call message to what the server accepts and shows the count', () => {
+    const wrapper = mountPage({
+      provider_config: {
+        calling_enabled: true,
+        missed_call_message_enabled: true,
+        missed_call_message: 'Reply here',
+      },
+    });
+
+    expect(
+      wrapper.find('#call-missed-message-52').attributes('maxlength')
+    ).toBe('1000');
+    expect(wrapper.text()).toContain('10 / 1000');
+  });
+
   it('applies business hours with the toggle Twilio uses, without an out-of-hours message', () => {
     const wrapper = mountPage({ business_hours_calls_enabled: true });
 

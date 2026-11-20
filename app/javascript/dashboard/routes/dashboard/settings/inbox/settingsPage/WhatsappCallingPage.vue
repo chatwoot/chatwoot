@@ -262,6 +262,7 @@ const applyInboxHours = async () => {
               v-model="form.missedCallMessage"
               :placeholder="label('UNANSWERED.WHATSAPP_PLACEHOLDER')"
               :max-length="MESSAGE_MAX_LENGTH"
+              show-character-count
               auto-height
             />
             <p class="text-body-main text-n-slate-11">
