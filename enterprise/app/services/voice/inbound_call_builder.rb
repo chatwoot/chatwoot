@@ -18,8 +18,6 @@ class Voice::InboundCallBuilder
     call
   end
 
-  # Queues the ring of a call that recorded who it rings and has no outcome for that ring yet.
-  # A ring still under way makes the extra job wait for it.
   def self.queue_ring(call)
     return unless call.ringing? && call.ring_state.key?('ring_recipient_ids') && !call.ring_state.key?('unreached_user_ids')
     return if call.ring_state['rings_phones'] == false
