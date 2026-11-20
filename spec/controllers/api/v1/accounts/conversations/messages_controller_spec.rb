@@ -370,6 +370,42 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(message.content_attributes['external_error']).to be_nil
         expect(message.content_attributes['to_emails']).to eq(['vendor@example.com'])
       end
+
+      it 'keeps the reply context, translations and integration attributes of the message' do
+        quoted = create(:message, conversation: message.conversation, source_id: 'wamid.quoted')
+        message.update!(content_attributes: message.content_attributes.merge(
+          in_reply_to_external_id: 'wamid.quoted',
+          translations: { 'es' => 'hola' },
+          external_id: 'crm-42'
+        ))
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/#{message.id}/retry",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        content_attributes = message.reload.content_attributes
+        expect(content_attributes['external_error']).to be_nil
+        expect(content_attributes).to include(
+          'in_reply_to' => quoted.id,
+          'in_reply_to_external_id' => 'wamid.quoted',
+          'translations' => { 'es' => 'hola' },
+          'external_id' => 'crm-42'
+        )
+      end
+
+      it 'keeps a pending WhatsApp contact info request on the message' do
+        message.update!(content_attributes: message.content_attributes.merge(
+          whatsapp_contact_info: { 'type' => 'request', 'state' => 'pending' }
+        ))
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/#{message.id}/retry",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(message.reload.content_attributes['whatsapp_contact_info']).to eq('type' => 'request', 'state' => 'pending')
+      end
     end
 
     context 'when the message id is invalid' do
