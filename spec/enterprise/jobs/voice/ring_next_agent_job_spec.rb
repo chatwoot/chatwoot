@@ -190,4 +190,74 @@ RSpec.describe Voice::RingNextAgentJob do
     described_class.perform_now(call.id, 2)
     expect(Voice::AddedRingPushService).to have_received(:new).with(call: an_instance_of(Call), users: [bob])
   end
+
+  context 'with a WhatsApp inbox' do
+    let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+    let(:cara) { create(:user, account: account, role: :agent) }
+    let(:call) do
+      create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, message: message,
+                    provider: :whatsapp, ring_state: { 'ring_recipient_ids' => [alice.id], 'rings_phones' => false })
+    end
+
+    before do
+      inbox.channel.provider_config = inbox.channel.provider_config.merge('ring_strategy' => 'sequential', 'ring_step_seconds' => 10)
+      inbox.channel.save!(validate: false)
+      create(:inbox_member, user: cara, inbox: inbox)
+    end
+
+    it 'adds one agent per step on the interval the inbox sets, and names them on the message' do
+      expect { described_class.perform_now(call.id, 1) }
+        .to have_enqueued_job(described_class).with(call.id, 2).at(a_value_within(2.seconds).of(10.seconds.from_now))
+      expect(call.reload.ring_state['ring_recipient_ids'].size).to eq(2)
+
+      described_class.perform_now(call.id, 2)
+      expect(call.reload.ring_state['ring_recipient_ids']).to contain_exactly(alice.id, bob.id, cara.id)
+      expect(message.reload.content_attributes.dig('data', 'ring_user_ids')).to contain_exactly(alice.id, bob.id, cara.id)
+    end
+
+    it 'never adds back an agent who dismissed the call' do
+      call.update!(ring_state: call.ring_state.merge('dismissed_user_ids' => [bob.id]))
+      inbox.channel.provider_config = inbox.channel.provider_config.merge('ring_strategy' => 'simultaneous')
+      inbox.channel.save!(validate: false)
+
+      described_class.perform_now(call.id, 1)
+      expect(call.reload.ring_state['ring_recipient_ids']).to contain_exactly(alice.id, cara.id)
+    end
+
+    it 'shows the ringing card to the agents it adds, including an administrator outside the inbox' do
+      admin = create(:user, account: account, role: :administrator)
+      inbox.channel.provider_config = inbox.channel.provider_config.merge('ring_strategy' => 'simultaneous')
+      inbox.channel.save!(validate: false)
+      allow(ActionCable.server).to receive(:broadcast)
+
+      described_class.perform_now(call.id, 1)
+
+      expect(call.reload.ring_state['ring_recipient_ids']).to include(admin.id)
+      expect(ActionCable.server).to have_received(:broadcast).with(admin.pubsub_token, hash_including(event: 'voice_call.incoming'))
+      expect(ActionCable.server).not_to have_received(:broadcast).with(alice.pubsub_token, hash_including(event: 'voice_call.incoming'))
+    end
+
+    it 'shows the card to the agents it adds before an accept that lands right after the step' do
+      inbox.channel.provider_config = inbox.channel.provider_config.merge('ring_strategy' => 'simultaneous')
+      inbox.channel.save!(validate: false)
+      events = []
+      allow(ActionCable.server).to receive(:broadcast) { |_stream, payload| events << payload[:event] }
+      job = described_class.new
+      allow(job).to receive(:widen_ring).and_wrap_original do |original, *args|
+        original.call(*args).tap { Call.find(call.id).broadcast_voice_call_event(:accepted) }
+      end
+
+      job.perform(call.id, 1)
+
+      expect(events.index('voice_call.incoming')).to be < events.index('voice_call.accepted')
+    end
+  end
+
+  it 'leaves the ringing card of a Twilio call to its message updates' do
+    allow(ActionCable.server).to receive(:broadcast)
+
+    described_class.perform_now(call.id, 1)
+
+    expect(ActionCable.server).not_to have_received(:broadcast).with(anything, hash_including(event: 'voice_call.incoming'))
+  end
 end

@@ -338,6 +338,7 @@ Rails.application.routes.draw do
               member do
                 post :accept
                 post :reject
+                post :dismiss
                 post :terminate
                 post :upload_recording
               end

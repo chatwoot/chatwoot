@@ -55,7 +55,7 @@ en:
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
     voice_settings:
-      unsupported_inbox: 'This setting requires a Twilio voice inbox'
+      unsupported_inbox: 'This setting requires an inbox with calling turned on'
     call_announcements:
       invalid_settings: 'Provide a boolean for enabled and text for the announcement'
       message_required: 'Add the message callers hear'

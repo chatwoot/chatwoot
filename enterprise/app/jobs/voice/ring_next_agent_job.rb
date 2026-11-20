@@ -1,4 +1,4 @@
-# Widens the ring of a Twilio call every interval, so agents who come online meanwhile are
+# Widens the ring of an inbound call every interval, so agents who come online meanwhile are
 # reached. Each run carries the step it was queued for; a dismiss moves the step on, so a job
 # for a step already passed does nothing.
 class Voice::RingNextAgentJob < ApplicationJob
@@ -46,7 +46,10 @@ class Voice::RingNextAgentJob < ApplicationJob
     rung = call.ring_state.fetch('ring_recipient_ids', [])
     added = agents_to_add(call, rung)
     call.update!(ring_state: call.ring_state.merge('ring_step' => step + 1, 'ring_recipient_ids' => rung + added.map(&:id)))
-    Voice::CallMessageBuilder.new(call).update_ring! if added.any?
+    if added.any?
+      Voice::CallMessageBuilder.new(call).update_ring!
+      Whatsapp::IncomingCallBroadcast.new(call: call, user_ids: added.map(&:id)).perform if call.whatsapp?
+    end
     added
   end
 

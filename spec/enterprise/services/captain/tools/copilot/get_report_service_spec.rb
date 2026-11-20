@@ -7,7 +7,7 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
   let(:agent) { create(:user, account: account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:service) { described_class.new(assistant, user: admin).tap { |tool| tool.tool_call = instance_double(CopilotToolCall, id: 7) } }
-  let(:week) { { since: '2026-09-07', before: '2026-09-14' } }
+  let(:week) { { since: '2026-09-07', until: '2026-09-13' } }
 
   describe '#active?' do
     it 'is offered to administrators' do
@@ -61,7 +61,7 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
         create(:conversation, account: account, inbox: inbox, created_at: created_at)
       end
 
-      series = service.execute(by: 'day', metrics: %w[conversations_count], since: '2026-10-25', before: '2026-11-08')[:metrics].first
+      series = service.execute(by: 'day', metrics: %w[conversations_count], since: '2026-10-25', until: '2026-11-07')[:metrics].first
 
       expect(series[:points].first).to eq(period: '2026-10-25', value: 0)
       expect(series[:points]).to include({ period: '2026-10-31', value: 1 })
@@ -69,10 +69,22 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(series[:total_or_average]).to eq(2)
     end
 
-    it 'totals each metric over exactly the dates given' do
-      result = service.execute(by: 'range', metrics: %w[conversations_count], since: '2026-09-08', before: '2026-09-09')
+    it 'totals each metric over exactly the dates given, including the last day' do
+      result = service.execute(by: 'range', metrics: %w[conversations_count], since: '2026-09-08', until: '2026-09-08')
 
+      expect(result).to include(since: '2026-09-08', until: '2026-09-08')
       expect(result[:metrics]).to eq([{ metric: 'conversations_count', total_or_average: 1, data_from: '2026-09-08', data_to: '2026-09-08' }])
+    end
+
+    it 'reports the last N days as the reports pages count them, today included, and not together with dates' do
+      travel_to Time.zone.parse('2026-09-10 12:00') do
+        result = service.execute(by: 'range', metrics: %w[conversations_count], last_days: 3)
+
+        expect(result).to include(since: '2026-09-08', until: '2026-09-10')
+        expect(result[:metrics].first[:total_or_average]).to eq(3)
+        expect { service.execute(by: 'range', metrics: %w[conversations_count], last_days: 3, **week) }
+          .to raise_error(ArgumentError, /not both/)
+      end
     end
 
     it 'gives an average time in its two largest units' do
@@ -108,7 +120,7 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
       expect(series[:total_or_average]).to eq(1)
     end
 
-    it 'marks weeks cut by since or before as partial' do
+    it 'marks weeks cut by since or until as partial' do
       result = service.execute(by: 'week', metrics: %w[conversations_count], **week)
 
       expect(result[:metrics].first[:points]).to eq([{ period: '2026-09-07 to 2026-09-12', partial: true, value: 3 },
@@ -133,6 +145,40 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
 
       expect(result[:rows]).to include(include(id: replier.id, conversations: 0, avg_reply_time: '10 minutes'))
       expect(result[:without_activity]).to eq(1)
+    end
+
+    it 'ranks the summary by the first metric asked for, so the model never sorts written durations' do
+      slow = create(:user, account: account)
+      slow_conversation = create(:conversation, account: account, inbox: inbox, assignee: slow, created_at: Time.zone.parse('2026-09-10 10:00'))
+      { slow => [slow_conversation, 3_600], agent => [Conversation.where(assignee: agent).first, 600] }.each do |user, (conversation, seconds)|
+        create(:reporting_event, name: 'first_response', value: seconds, account: account, inbox: inbox, user: user,
+                                 conversation: conversation, created_at: Time.zone.parse('2026-09-10 11:00'))
+      end
+
+      by_time = service.execute(by: 'agent', metrics: %w[avg_first_response_time], **week)
+      by_count = service.execute(by: 'agent', metrics: %w[conversations_count], **week)
+
+      expect(by_time[:rows].pluck(:id)).to eq([slow.id, agent.id])
+      expect(by_count[:rows].pluck(:id)).to eq([agent.id, slow.id])
+    end
+
+    it 'ranks from the lowest when asked, and lists an agent without a first response time last either way' do
+      replied = create(:user, account: account)
+      conversation = create(:conversation, account: account, inbox: inbox, assignee: replied, created_at: Time.zone.parse('2026-09-10 10:00'))
+      create(:reporting_event, name: 'first_response', value: 600, account: account, inbox: inbox, user: replied,
+                               conversation: conversation, created_at: Time.zone.parse('2026-09-10 11:00'))
+
+      slow = create(:user, account: account)
+      slow_conversation = create(:conversation, account: account, inbox: inbox, assignee: slow, created_at: Time.zone.parse('2026-09-10 10:00'))
+      create(:reporting_event, name: 'first_response', value: 3_600, account: account, inbox: inbox, user: slow,
+                               conversation: slow_conversation, created_at: Time.zone.parse('2026-09-10 11:00'))
+
+      highest = service.execute(by: 'agent', metrics: %w[avg_first_response_time], **week)[:rows]
+      lowest = service.execute(by: 'agent', metrics: %w[avg_first_response_time], order: 'lowest', **week)[:rows]
+
+      expect(highest.pluck(:id)).to eq([slow.id, replied.id, agent.id])
+      expect(lowest.map { |row| row.values_at(:id, :avg_first_response_time) })
+        .to eq([[replied.id, '10 minutes'], [slow.id, '1 hour'], [agent.id, nil]])
     end
 
     it 'counts a label without activity instead of listing it with zero times' do
@@ -183,7 +229,7 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
     end
 
     it 'keeps the year in chart labels when the dates span years' do
-      result = service.execute(by: 'year', metrics: %w[conversations_count], chart: true, since: '2025-01-01', before: '2027-01-01')
+      result = service.execute(by: 'year', metrics: %w[conversations_count], chart: true, since: '2025-01-01', until: '2026-12-31')
 
       expect(result[:chart_data].first[:categories]).to eq(['1 Jan 2025', '1 Jan 2026'])
     end

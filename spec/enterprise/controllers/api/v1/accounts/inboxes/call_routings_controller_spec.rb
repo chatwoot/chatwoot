@@ -52,6 +52,45 @@ RSpec.describe 'Call routing API', type: :request do
     end
   end
 
+  context 'with a WhatsApp inbox' do
+    let(:whatsapp) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:whatsapp_url) { "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp.inbox.id}/call_routing" }
+
+    before do
+      account.enable_features!('channel_voice')
+      whatsapp.update!(provider_config: whatsapp.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+    end
+
+    it 'saves the same settings without checking the credentials with Meta again' do
+      expect(Whatsapp::Providers::WhatsappCloudService).not_to receive(:new)
+
+      patch whatsapp_url, headers: admin.create_new_auth_token, params: params, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to include('ring_strategy' => 'sequential', 'ring_step_seconds' => 15, 'assignee_rings_first' => false,
+                                              'call_cooldown_seconds' => 30, 'business_hours_calls_enabled' => true)
+      expect(whatsapp.reload).to have_attributes(sequential_ringing?: true, business_hours_calls_enabled?: true)
+    end
+
+    it 'rejects invalid settings' do
+      patch whatsapp_url, headers: admin.create_new_auth_token, params: params.merge(ring_step_seconds: 5), as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to include('a ring interval of 10 to 60 seconds')
+      expect(whatsapp.reload.sequential_ringing?).to be(false)
+    end
+
+    it 'refuses a WhatsApp inbox with calling off' do
+      whatsapp.update!(provider_config: whatsapp.provider_config.merge('calling_enabled' => false))
+
+      patch whatsapp_url, headers: admin.create_new_auth_token, params: params, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
   it 'does not let agents change the settings' do
     create(:inbox_member, user: agent, inbox: inbox)
     patch url, headers: agent.create_new_auth_token, params: params, as: :json

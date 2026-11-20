@@ -43,7 +43,7 @@ RSpec.describe Concerns::Agentable do
   end
 
   describe '#agent' do
-    it 'omits unsupported temperature for the account model override' do
+    it 'uses the account model override' do
       account.update!(captain_models: { 'assistant' => 'gpt-5.1' })
 
       expect(Agents::Agent).to receive(:new).with(
@@ -51,7 +51,7 @@ RSpec.describe Concerns::Agentable do
         instructions: instance_of(Proc),
         tools: [],
         model: 'gpt-5.1',
-        temperature: nil,
+        temperature: 0.8,
         thinking: { effort: :none },
         protocol: :responses,
         response_schema: Captain::ResponseSchema

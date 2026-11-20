@@ -13,7 +13,10 @@ class Enterprise::CloudflareVerificationJob < ApplicationJob
   private
 
   def create_hostname(portal)
-    Cloudflare::CreateCustomHostnameService.new(portal: portal).perform
+    result = Cloudflare::CreateCustomHostnameService.new(portal: portal).perform
+    return if result[:errors].blank?
+
+    Rails.logger.error("[CLOUDFLARE] Custom hostname create failed for portal #{portal.id} (#{portal.custom_domain}): #{result[:errors]}")
   end
 
   def check_hostname_status(portal)
