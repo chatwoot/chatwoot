@@ -1,6 +1,7 @@
 <script>
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
+import { formatAsYouTypeInput } from 'shared/helpers/PhoneNumberHelper';
 import {
   getActiveCountryCode,
   getActiveDialCode,
@@ -76,16 +77,42 @@ export default {
     },
   },
   watch: {
-    modelValue() {
-      const number = parsePhoneNumber(this.modelValue);
-      if (number) {
-        this.activeCountryCode = number.country;
-        this.activeDialCode = `+${number.countryCallingCode}`;
-        this.phoneNumber = this.modelValue.replace(
-          `+${number.countryCallingCode}`,
-          ''
-        );
-      }
+    modelValue: {
+      immediate: true,
+      handler() {
+        if (!this.modelValue) {
+          this.phoneNumber = '';
+          return;
+        }
+
+        // Prevent echo from parent ContactForm overwriting the active formatted display
+        const currentDigits = (this.phoneNumber || '').replace(/\D/g, '');
+        const newDigits = (this.modelValue || '').replace(/\D/g, '');
+        if (currentDigits === newDigits && this.phoneNumber) {
+          return;
+        }
+
+        const number = parsePhoneNumber(this.modelValue);
+        if (number) {
+          this.activeCountryCode = number.country;
+          this.activeDialCode = `+${number.countryCallingCode}`;
+          const rawNational = this.modelValue.replace(
+            `+${number.countryCallingCode}`,
+            ''
+          );
+          this.phoneNumber = formatAsYouTypeInput(
+            `+${number.countryCallingCode}`,
+            number.country,
+            rawNational
+          );
+        } else {
+          this.phoneNumber = formatAsYouTypeInput(
+            this.activeDialCode,
+            this.activeCountryCode,
+            this.modelValue
+          );
+        }
+      },
     },
   },
   mounted() {
@@ -102,8 +129,45 @@ export default {
       }
     },
     onChange(e) {
-      this.phoneNumber = e.target.value;
-      this.$emit('update:modelValue', e.target.value);
+      const rawInput = e.target.value;
+      if (rawInput && !/^[\d\s()+-]*$/.test(rawInput)) {
+        this.phoneNumber = rawInput;
+        this.$emit('update:modelValue', rawInput);
+        this.$emit('setCode', this.activeDialCode);
+        return;
+      }
+
+      // Handle pasted numbers with leading plus (e.g. +12025550123)
+      if (rawInput && rawInput.startsWith('+')) {
+        const number = parsePhoneNumber(rawInput);
+        if (number && number.countryCallingCode) {
+          if (number.country) {
+            this.activeCountryCode = number.country;
+          }
+          this.activeDialCode = `+${number.countryCallingCode}`;
+          const rawNational = rawInput
+            .replace(`+${number.countryCallingCode}`, '')
+            .trim();
+          this.phoneNumber = formatAsYouTypeInput(
+            this.activeDialCode,
+            number.country || '',
+            rawNational
+          );
+          const cleanDigits = (rawNational || '').replace(/\D/g, '');
+          this.$emit('update:modelValue', cleanDigits);
+          this.$emit('setCode', this.activeDialCode);
+          return;
+        }
+      }
+
+      const formatted = formatAsYouTypeInput(
+        this.activeDialCode,
+        this.activeCountryCode,
+        rawInput
+      );
+      this.phoneNumber = formatted;
+      const cleanDigits = (rawInput || '').replace(/\D/g, '');
+      this.$emit('update:modelValue', cleanDigits);
       this.$emit('setCode', this.activeDialCode);
     },
     onBlur(e) {
@@ -142,6 +206,19 @@ export default {
       this.activeCountryCode = country.id;
       this.searchCountry = '';
       this.activeDialCode = country.dial_code;
+      if (this.phoneNumber) {
+        if (!/^[\d\s()+-]*$/.test(this.phoneNumber)) {
+          this.$emit('update:modelValue', this.phoneNumber);
+        } else {
+          this.phoneNumber = formatAsYouTypeInput(
+            country.dial_code,
+            country.id,
+            this.phoneNumber
+          );
+          const cleanDigits = (this.phoneNumber || '').replace(/\D/g, '');
+          this.$emit('update:modelValue', cleanDigits);
+        }
+      }
       this.$emit('setCode', country.dial_code);
       this.closeDropdown();
       this.$refs.phoneNumberInput.focus();
