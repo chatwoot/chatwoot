@@ -42,10 +42,11 @@ read -r -p "Confirma a atualização? (s/N) " ans
 
 # 3) Backup do Postgres (se estiver rodando)
 BACKUP_FILE="/backup/chatwoot-pre-${TARGET_TAG}-$(date +%F-%H%M).sql.gz"
-if [[ -n "$(docker compose ps -q postgres 2>/dev/null)" ]]; then
+COMPOSE="docker compose -f $BASE -f docker-compose.premium.yml"
+if [[ -n "$($COMPOSE ps -q postgres 2>/dev/null)" ]]; then
   echo "Gerando backup em $BACKUP_FILE ..."
   mkdir -p /backup
-  docker compose exec -T postgres pg_dump -U postgres chatwoot_production | gzip > "$BACKUP_FILE"
+  $COMPOSE exec -T postgres pg_dump -U postgres chatwoot | gzip > "$BACKUP_FILE"
   echo "Backup OK: $BACKUP_FILE"
 else
   echo "AVISO: postgres não está rodando; backup pulado. Continue por sua conta e risco."
@@ -67,9 +68,9 @@ docker compose -f "$BASE" -f docker-compose.premium.yml exec -T rails bundle exe
 
 # 7) Verificação do unlock
 echo "Verificando unlock ..."
-PLAN=$(docker compose exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_PLAN=#{ChatwootHub.pricing_plan}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_PLAN=[^[:space:]]*' | head -n1 | cut -d= -f2)
-PAID=$(docker compose exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_PAID=#{ChatwootApp.self_hosted_paid?}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_PAID=[^[:space:]]*' | head -n1 | cut -d= -f2)
-SLA=$(docker compose exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_SLA=#{Account.first&.feature_enabled?(:sla)}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_SLA=[^[:space:]]*' | head -n1 | cut -d= -f2)
+PLAN=$($COMPOSE exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_PLAN=#{ChatwootHub.pricing_plan}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_PLAN=[^[:space:]]*' | head -n1 | cut -d= -f2)
+PAID=$($COMPOSE exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_PAID=#{ChatwootApp.self_hosted_paid?}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_PAID=[^[:space:]]*' | head -n1 | cut -d= -f2)
+SLA=$($COMPOSE exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_SLA=#{Account.first&.feature_enabled?(:sla)}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_SLA=[^[:space:]]*' | head -n1 | cut -d= -f2)
 echo "canário: plano=$PLAN self_hosted_paid=$PAID sla=$SLA"
 
 if [[ "$PLAN" != "enterprise" || "$PAID" != "true" || "$SLA" != "true" ]]; then

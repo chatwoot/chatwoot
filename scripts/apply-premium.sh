@@ -25,10 +25,10 @@ COMPOSE="docker compose -f $BASE -f docker-compose.premium.yml"
 $COMPOSE build rails
 $COMPOSE up -d --force-recreate
 sleep 25
-docker compose exec -T redis redis-cli -a "$REDIS_PASSWORD" --no-auth-warning FLUSHALL
+$COMPOSE exec -T redis redis-cli -a "$REDIS_PASSWORD" --no-auth-warning FLUSHALL
 
-PLAN=$(docker compose exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_PLAN=#{ChatwootHub.pricing_plan}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_PLAN=[^[:space:]]*' | head -n1 | cut -d= -f2)
-QTY=$(docker compose exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_QTY=#{ChatwootHub.pricing_plan_quantity}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_QTY=[^[:space:]]*' | head -n1 | cut -d= -f2)
+PLAN=$($COMPOSE exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_PLAN=#{ChatwootHub.pricing_plan}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_PLAN=[^[:space:]]*' | head -n1 | cut -d= -f2)
+QTY=$($COMPOSE exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_QTY=#{ChatwootHub.pricing_plan_quantity}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_QTY=[^[:space:]]*' | head -n1 | cut -d= -f2)
 echo "canário: plano=$PLAN qtd=$QTY"
 
 [ "$PLAN" = "enterprise" ] || { echo "FALHOU: plano voltou para $PLAN"; exit 1; }
