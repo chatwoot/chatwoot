@@ -38,6 +38,14 @@ export default {
 
 <style lang="scss" scoped>
 .chat-bubble.user {
+  :deep(ul) {
+    @apply list-disc ltr:pl-4 rtl:pr-4;
+  }
+
+  :deep(ol) {
+    @apply list-decimal ltr:pl-4 rtl:pr-4;
+  }
+
   :deep(p code) {
     @apply bg-n-alpha-2 dark:bg-n-alpha-1 text-white;
   }

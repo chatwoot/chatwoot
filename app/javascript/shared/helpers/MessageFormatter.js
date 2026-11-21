@@ -92,7 +92,7 @@ const COLWIDTHS_MARKER_REGEX =
 
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT = '$1[@$2](http://twitter.com/$2)';
-const TWITTER_HASH_REGEX = /(^|\s)#(\w+)/g;
+const TWITTER_HASH_REGEX = /(^|\s)#([\p{L}\p{N}\p{M}_]+)/gu;
 const TWITTER_HASH_REPLACEMENT = '$1[#$2](https://twitter.com/hashtag/$2)';
 
 class MessageFormatter {
