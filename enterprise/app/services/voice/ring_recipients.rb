@@ -104,15 +104,14 @@ class Voice::RingRecipients
     ConversationPolicy.new({ user: user, account: inbox.account, account_user: account_user }, conversation).show?
   end
 
-  # The agents the call can ring, by its team's widen_calls setting
+  # The agents the call can ring: the assignee, whatever their team, and who else the team's
+  # widen_calls setting allows. An assignee_only call with no assignee rings the team, so it stays answerable.
   def ring_pool
     return assignable if call_team.nil? || call_team.widen_calls_inbox_agents?
+    return assignable & [assignee] if assignee.present? && call_team.widen_calls_assignee_only?
 
-    member_ids = call_team.team_members.pluck(:user_id)
-    members = assignable.select { |user| member_ids.include?(user.id) }
-    return [assignee] if call_team.widen_calls_assignee_only? && members.include?(assignee)
-
-    members
+    member_ids = call_team.team_members.pluck(:user_id).to_set
+    assignable.select { |user| member_ids.include?(user.id) || user == assignee }
   end
 
   # The conversation's team, else the assignee's team when they are in exactly one

@@ -120,7 +120,7 @@
       },
       "WIDEN_CALLS": {
         "LABEL": "When the assignee misses a call",
-        "HELP": "Choose who else rings when a call's assignee is busy, offline or doesn't answer.",
+        "HELP": "Choose who rings for this team's calls when the assignee can't take them.",
         "OPTIONS": {
           "INBOX_AGENTS": "Ring everyone in the inbox (default)",
           "TEAM_MEMBERS": "Ring only this team",

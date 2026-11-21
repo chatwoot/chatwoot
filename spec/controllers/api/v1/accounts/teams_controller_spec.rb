@@ -178,6 +178,18 @@ RSpec.describe 'Teams API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(team.reload.widen_calls).to eq('inbox_agents')
       end
+
+      it 'returns unprocessable entity for a call widening value that is not one of the documented names' do
+        params = { widen_calls: 2 }
+
+        put "/api/v1/accounts/#{account.id}/teams/#{team.id}",
+            params: params,
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(team.reload.widen_calls).to eq('inbox_agents')
+      end
     end
   end
 

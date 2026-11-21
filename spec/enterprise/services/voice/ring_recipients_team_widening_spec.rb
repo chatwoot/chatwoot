@@ -80,11 +80,13 @@ RSpec.describe Voice::RingRecipients do
     expect(ring.next_agent([cass.id, cole.id, cora.id])).to be_nil
   end
 
-  it "uses the conversation's team over the assignee's" do
+  it "uses the conversation's team over the assignee's, ringing an assignee from outside it first" do
+    sales.update!(widen_calls: :team_members)
     conversation.update!(team: sales)
     conversation.update!(assignee: cass)
 
-    expect(recipients.agents).to contain_exactly(sam, sid, sue)
+    expect(recipients.agents).to eq([cass])
+    expect(recipients.next_group([cass.id])).to contain_exactly(sam, sid, sue)
   end
 
   it "uses the assignee's only team when the conversation has none" do
@@ -131,11 +133,27 @@ RSpec.describe Voice::RingRecipients do
     expect(recipients.nobody_online?).to be(true)
   end
 
-  it 'rings the whole assignee_only team when the assignee is outside it' do
+  it 'rings an assignee_only assignee from outside the team alone' do
     conversation.update!(team: sales)
     conversation.update!(assignee: mike)
 
+    expect(recipients.agents).to eq([mike])
+    expect(recipients.next_group([mike.id])).to eq([])
+  end
+
+  it 'rings the whole team for an assignee_only call with no assignee' do
+    conversation.update!(team: sales)
+
     expect(recipients.agents).to contain_exactly(sam, sid, sue)
+  end
+
+  it 'rings nobody for an assignee_only call whose assignee left the inbox' do
+    conversation.update!(team: sales)
+    conversation.update!(assignee: sam)
+    InboxMember.find_by!(inbox: inbox, user: sam).destroy!
+
+    expect(recipients.agents).to eq([])
+    expect(recipients.nobody_online?).to be(true)
   end
 
   it 'adds nobody once an assignee_only assignee dismisses' do
