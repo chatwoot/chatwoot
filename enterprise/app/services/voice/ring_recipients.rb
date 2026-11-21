@@ -2,18 +2,9 @@
 # Socket presence is not consulted, since a locked phone is exactly what a ring push is for.
 # A call rings only free agents, those not on a call or in wrap-up time, and picks them
 # up as they free up, since each ring step asks again; the assignee rings alone first, then
-# everyone or the longest idle agent.
-#
-# The call's team sets who everyone is, by its widen_calls setting: every agent in the inbox (the
-# default), only the team's members, or nobody past the assignee. The call's team is the
-# assignee's team when they are in exactly one team, else the conversation's team; a call with no
-# team rings every agent in the inbox. An assignee outside the call's team counts as no assignee,
-# so the whole team rings, and a team that rings nobody past its assignee rings as its members
-# do when the call has no assignee in it.
-# A team that rings nobody past its assignee holds a Twilio call for them alone, so the caller
-# hears the missed-call message when the assignee cannot ring. A WhatsApp call has no such
-# message and would ring nobody until it times out, so it holds for the assignee only while they
-# can ring, and otherwise rings the team's members.
+# everyone or the longest idle agent. The call's team (the conversation's, else the assignee's
+# only team) narrows who rings by its widen_calls setting: the whole inbox, only the team, or the
+# assignee alone when they are in the team.
 class Voice::RingRecipients
   pattr_initialize [:inbox!, :conversation!, :dismissed_user_ids]
 
@@ -22,7 +13,6 @@ class Voice::RingRecipients
 
   # The agents the ring starts with
   def agents
-    return held_agents if assignee_held?
     return [assignee] if assignee_first?
     return ordered.first(1) if inbox.channel.sequential_ringing?
 
@@ -31,23 +21,16 @@ class Voice::RingRecipients
 
   # The agents a ring for everyone at once adds next: the free agents it has not rung
   def next_group(rung_ids)
-    return [] if assignee_held? || team_changed?(rung_ids)
-
     available.reject { |user| rung_ids.include?(user.id) }
   end
 
   # The agent a ring in turn adds next: the first in routing order it has not rung
   def next_agent(rung_ids)
-    return if assignee_held? || team_changed?(rung_ids)
-
     ordered.find { |user| rung_ids.exclude?(user.id) }
   end
 
-  # Nobody who could answer is online, as opposed to everyone being busy, when the caller waits.
-  # A call held for its assignee has nobody else to wait for, so it ends at once when they cannot ring.
+  # Nobody who could answer is online, as opposed to everyone being busy, when the caller waits
   def nobody_online?
-    return !assignee_rings_now? if assignee_held?
-
     eligible.empty?
   end
 
@@ -57,9 +40,8 @@ class Voice::RingRecipients
 
   def assignable = (@assignable ||= inbox.assignable_agents.to_a)
 
-  # A call whose team rings only its members leaves everyone else out of the pool
   def eligible
-    @eligible ||= openers(team_scoped? ? team_pool : assignable).reject { |user| dismissed_user_ids.to_a.include?(user.id) }
+    @eligible ||= openers(ring_pool).reject { |user| dismissed_user_ids.to_a.include?(user.id) }
   end
 
   # Agents on a call or in wrap-up time are left out until they free up
@@ -78,13 +60,7 @@ class Voice::RingRecipients
   # The assignee rings first even in wrap-up time, so a customer who calls straight back stays
   # with them
   def assignee_first?
-    inbox.channel.assignee_rings_first? && assignee_rings_now?
-  end
-
-  # The assignee can ring now: eligible, not on another call, and a member of the call's team
-  # when that team rings only its members
-  def assignee_rings_now?
-    (!team_scoped? || assignee_in_team?) && eligible.include?(assignee) && on_call_ids.exclude?(assignee.id)
+    inbox.channel.assignee_rings_first? && eligible.include?(assignee) && on_call_ids.exclude?(assignee.id)
   end
 
   # Resolving the conversation of the agent's last call ends their wrap-up time early
@@ -128,59 +104,28 @@ class Voice::RingRecipients
     ConversationPolicy.new({ user: user, account: inbox.account, account_user: account_user }, conversation).show?
   end
 
-  # The team the call belongs to, read again at every ring step from the live conversation, so a
-  # reassignment moves the next step. Nil when neither the assignee nor the conversation names one.
+  # The agents the call can ring, by its team's widen_calls setting
+  def ring_pool
+    return assignable if call_team.nil? || call_team.widen_calls_inbox_agents?
+
+    member_ids = call_team.team_members.pluck(:user_id)
+    members = assignable.select { |user| member_ids.include?(user.id) }
+    return [assignee] if call_team.widen_calls_assignee_only? && members.include?(assignee)
+
+    members
+  end
+
+  # The conversation's team, else the assignee's team when they are in exactly one
   def call_team
     return @call_team if defined?(@call_team)
 
-    @call_team = assignee_team || conversation.team
+    @call_team = conversation.team || assignee_single_team
   end
 
-  # The assignee's team decides, unless they are in no team or in several
-  def assignee_team
+  def assignee_single_team
     return if assignee.blank?
 
     teams = assignee.teams.where(account_id: inbox.account_id).limit(2).to_a
     teams.first if teams.one?
-  end
-
-  # Who else rings when the assignee cannot take the call; a call with no team rings everyone
-  def widening
-    call_team&.widen_calls || 'inbox_agents'
-  end
-
-  # The call rings only its team's members, never the rest of the inbox
-  def team_scoped?
-    widening != 'inbox_agents'
-  end
-
-  def team_member_ids
-    @team_member_ids ||= call_team ? call_team.team_members.pluck(:user_id) : []
-  end
-
-  def team_pool
-    assignable.select { |user| team_member_ids.include?(user.id) }
-  end
-
-  # An assignee outside the call's team (one in no team who dialled out, or moved off the team)
-  # is treated as no assignee, so the whole team rings
-  def assignee_in_team?
-    call_team.present? && assignee.present? && team_member_ids.include?(assignee.id)
-  end
-
-  # The call rings its assignee alone and never widens, whatever the inbox's assignee-first
-  # setting. A WhatsApp call is held only while the assignee can ring; see the class comment.
-  def assignee_held?
-    widening == 'assignee_only' && assignee_in_team? && (inbox.channel.is_a?(Channel::TwilioSms) || assignee_rings_now?)
-  end
-
-  def held_agents
-    assignee_rings_now? ? [assignee] : []
-  end
-
-  # One team per call: once a call has rung someone outside the team it now belongs to (the
-  # conversation was reassigned mid-ring), it adds nobody, so it never rings two teams
-  def team_changed?(rung_ids)
-    team_scoped? && rung_ids.any? { |id| team_member_ids.exclude?(id) }
   end
 end

@@ -205,14 +205,19 @@ export default {
       <WithLabel
         v-if="isVoiceEnabled"
         name="widen_calls"
-        :label="$t('TEAMS_SETTINGS.FORM.WIDEN_CALLS.LABEL')"
         :help-message="$t('TEAMS_SETTINGS.FORM.WIDEN_CALLS.HELP')"
       >
-        <SelectInput
-          v-model="state.widenCalls"
-          :options="widenCallsOptions"
-          :aria-label="$t('TEAMS_SETTINGS.FORM.WIDEN_CALLS.LABEL')"
-        />
+        <!-- The select sits inside its label, since Select renders no id for a label to point at -->
+        <label
+          class="flex flex-col gap-1 w-full mb-0 text-sm font-medium leading-6 text-n-slate-12"
+        >
+          {{ $t('TEAMS_SETTINGS.FORM.WIDEN_CALLS.LABEL') }}
+          <SelectInput
+            v-model="state.widenCalls"
+            :options="widenCallsOptions"
+            :aria-label="$t('TEAMS_SETTINGS.FORM.WIDEN_CALLS.LABEL')"
+          />
+        </label>
       </WithLabel>
       <div class="w-full flex items-center gap-2">
         <input v-model="state.allowAutoAssign" type="checkbox" :value="true" />

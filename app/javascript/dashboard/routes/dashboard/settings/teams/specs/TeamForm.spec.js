@@ -48,6 +48,18 @@ describe('TeamForm call widening', () => {
     expect(onSubmit.mock.calls[0][0]).not.toHaveProperty('widen_calls');
   });
 
+  it('labels the select with its visible label, so clicking the label focuses it', () => {
+    state.voiceEnabled = true;
+    const wrapper = mountForm({ onSubmit });
+
+    const label = wrapper
+      .findAll('label')
+      .find(node =>
+        node.text().includes('TEAMS_SETTINGS.FORM.WIDEN_CALLS.LABEL')
+      );
+    expect(label.find('select').exists()).toBe(true);
+  });
+
   it('shows the setting with its three options when voice is on', () => {
     state.voiceEnabled = true;
     const wrapper = mountForm({ onSubmit });
