@@ -31,21 +31,13 @@ export default {
 <template>
   <div
     v-dompurify-html="formatMessage(message, false)"
-    class="chat-bubble user message-content"
+    class="chat-bubble user message-content [&_ul]:list-disc [&_ul]:ps-4 [&_ol]:list-decimal [&_ol]:ps-4"
     :style="{ background: widgetColor, color: textColor }"
   />
 </template>
 
 <style lang="scss" scoped>
 .chat-bubble.user {
-  :deep(ul) {
-    @apply list-disc ltr:pl-4 rtl:pr-4;
-  }
-
-  :deep(ol) {
-    @apply list-decimal ltr:pl-4 rtl:pr-4;
-  }
-
   :deep(p code) {
     @apply bg-n-alpha-2 dark:bg-n-alpha-1 text-white;
   }
