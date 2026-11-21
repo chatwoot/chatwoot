@@ -59,9 +59,9 @@ git push origin premium --tags
 
 # 7) Verificação do unlock
 echo "Verificando unlock ..."
-PLAN=$(docker compose exec -T rails bundle exec rails runner 'print ChatwootHub.pricing_plan')
-PAID=$(docker compose exec -T rails bundle exec rails runner 'print ChatwootApp.self_hosted_paid?')
-SLA=$(docker compose exec -T rails bundle exec rails runner 'print Account.first.feature_enabled?(:sla)')
+PLAN=$(docker compose exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_PLAN=#{ChatwootHub.pricing_plan}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_PLAN=[^[:space:]]*' | head -n1 | cut -d= -f2)
+PAID=$(docker compose exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_PAID=#{ChatwootApp.self_hosted_paid?}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_PAID=[^[:space:]]*' | head -n1 | cut -d= -f2)
+SLA=$(docker compose exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_SLA=#{Account.first&.feature_enabled?(:sla)}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_SLA=[^[:space:]]*' | head -n1 | cut -d= -f2)
 echo "canário: plano=$PLAN self_hosted_paid=$PAID sla=$SLA"
 
 if [[ "$PLAN" != "enterprise" || "$PAID" != "true" || "$SLA" != "true" ]]; then
