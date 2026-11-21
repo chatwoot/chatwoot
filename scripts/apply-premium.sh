@@ -12,7 +12,15 @@ else
   echo "CHATWOOT_TAG=$TAG" >> .env
 fi
 
-COMPOSE="docker compose -f docker-compose.yaml -f docker-compose.premium.yml"
+# Usa o compose de produção como base (evita o dev compose, que monta código)
+BASE="docker-compose.production.yaml"
+[ -f "$BASE" ] || BASE="docker-compose.yaml"
+
+# Ajustes específicos do servidor (não commitados): senha do Postgres e porta pública
+sed -i 's|      - POSTGRES_PASSWORD=.*|      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}|' "$BASE"
+sed -i "s|      - '127.0.0.1:3000:3000'|      - '3000:3000'|" "$BASE"
+
+COMPOSE="docker compose -f $BASE -f docker-compose.premium.yml"
 
 $COMPOSE build rails
 $COMPOSE up -d --force-recreate
