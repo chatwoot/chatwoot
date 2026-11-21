@@ -46,14 +46,14 @@ jobs:
 
       - name: Sync develop with upstream
         run: |
-          git checkout develop
+          git checkout -B develop origin/develop
           git merge --ff-only upstream/develop
           git push origin develop
 
       - name: Merge upstream tag into premium
         run: |
           TAG="${{ steps.tag.outputs.target_tag }}"
-          git checkout premium
+          git checkout -B premium origin/premium
           git merge --no-ff "$TAG" -m "[premium] merge $TAG (automated)"
           git tag "premium-$TAG" 2>/dev/null || true
           git push origin premium --tags
