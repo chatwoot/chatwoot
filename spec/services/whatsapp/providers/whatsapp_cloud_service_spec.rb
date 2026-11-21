@@ -517,6 +517,30 @@ describe Whatsapp::Providers::WhatsappCloudService do
         subject.sync_templates
         expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
       end
+
+      it 'does not overwrite message templates when a subsequent page fails' do
+        whatsapp_channel.update!(message_templates: [{ 'id' => 'existing_1', 'name' => 'existing_template' }])
+        request_headers = { 'Authorization' => 'Bearer test_key' }
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates')
+          .with(headers: request_headers)
+          .to_return(
+            status: 200,
+            headers: response_headers,
+            body: {
+              data: [{ id: '123456789', name: 'page_1_template' }],
+              paging: {
+                cursors: { after: 'cursor-1' }
+              }
+            }.to_json
+          )
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-1')
+          .with(headers: request_headers)
+          .to_return(status: 500)
+
+        expect(whatsapp_channel.account).not_to receive(:update_cache_key)
+        subject.sync_templates
+        expect(whatsapp_channel.reload.message_templates).to eq([{ 'id' => 'existing_1', 'name' => 'existing_template' }])
+      end
     end
   end
 
