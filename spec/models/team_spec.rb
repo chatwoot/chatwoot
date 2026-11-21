@@ -32,6 +32,30 @@ RSpec.describe Team do
     end
   end
 
+  describe 'widen_calls' do
+    let(:account) { create(:account) }
+
+    it 'defaults to inbox_agents for a new team' do
+      team = create(:team, account: account)
+      expect(team.reload.widen_calls).to eq('inbox_agents')
+    end
+
+    it 'persists every supported value' do
+      team = create(:team, account: account)
+
+      %w[inbox_agents team_members assignee_only].each do |value|
+        team.update!(widen_calls: value)
+        expect(team.reload.widen_calls).to eq(value)
+      end
+    end
+
+    it 'is invalid with an unknown value' do
+      team = build(:team, account: account, widen_calls: 'everyone')
+      expect(team).not_to be_valid
+      expect(team.errors[:widen_calls]).to be_present
+    end
+  end
+
   describe '#add_members' do
     let(:team) { FactoryBot.create(:team) }
 

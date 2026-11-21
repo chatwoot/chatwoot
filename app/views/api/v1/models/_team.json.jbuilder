@@ -4,5 +4,6 @@ json.description resource.description
 json.allow_auto_assign resource.allow_auto_assign
 json.icon resource.icon
 json.icon_color resource.icon_color
+json.widen_calls resource.widen_calls
 json.account_id resource.account_id
 json.is_member Current.user.is_a?(User) && Current.user.teams.include?(resource)

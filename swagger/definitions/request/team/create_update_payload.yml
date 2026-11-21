@@ -20,3 +20,11 @@ properties:
     type: string
     description: The color used for the team icon
     example: "#6C5CE7"
+  widen_calls:
+    type: string
+    enum:
+      - inbox_agents
+      - team_members
+      - assignee_only
+    description: "Who else rings when a voice call's assignee cannot take it: everyone in the inbox (default), only this team, or nobody else"
+    example: inbox_agents
