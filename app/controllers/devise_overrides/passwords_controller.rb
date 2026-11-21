@@ -41,7 +41,10 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
   end
 
   def pending_invitation?(recoverable)
-    !recoverable.confirmed? && recoverable.account_users.where.not(inviter_id: nil).exists?
+    !recoverable.confirmed? && (
+      recoverable.custom_attributes&.dig('invited_user') == true ||
+      recoverable.account_users.where.not(inviter_id: nil).exists?
+    )
   end
 
   def reset_password_and_confirmation(recoverable)
@@ -49,6 +52,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
     recoverable.reset_password_token = nil
     recoverable.confirmation_token = nil
     recoverable.reset_password_sent_at = nil
+    recoverable.custom_attributes&.delete('invited_user')
     recoverable.save!
     recoverable.confirm unless recoverable.confirmed? # confirm if user resets password without confirming anytime before
     true

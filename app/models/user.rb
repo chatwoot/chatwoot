@@ -119,6 +119,7 @@ class User < ApplicationRecord
   # rubocop:enable Rails/HasManyOrHasOneDependent
 
   before_validation :set_password_and_uid, on: :create
+  before_destroy :preserve_invitation_state_for_unconfirmed_invitees, prepend: true
   after_destroy :remove_macros
   after_save :sync_user_sessions, if: :saved_change_to_tokens?
 
@@ -258,6 +259,16 @@ class User < ApplicationRecord
 
   def remove_macros
     macros.personal.destroy_all
+  end
+
+  def preserve_invitation_state_for_unconfirmed_invitees
+    invited_account_users.includes(:user).find_each do |account_user|
+      invitee = account_user.user
+      next if invitee.blank? || invitee.confirmed?
+
+      invitee.custom_attributes = (invitee.custom_attributes || {}).merge('invited_user' => true)
+      invitee.save(validate: false)
+    end
   end
 end
 

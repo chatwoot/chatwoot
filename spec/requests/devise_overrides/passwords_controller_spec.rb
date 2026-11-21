@@ -49,6 +49,17 @@ RSpec.describe 'Passwords API', type: :request do
         expect(user.reload).to be_confirmed
       end
 
+      it 'accepts an invitation token even if the inviter was deleted before acceptance' do
+        inviter = user.account_users.first.inviter
+        inviter.destroy!
+        expect(user.reload.account_users.first.inviter_id).to be_nil
+
+        reset_password(reset_token_for(user, sent_at: 2.days.ago))
+
+        expect(response).to have_http_status(:success)
+        expect(user.reload).to be_confirmed
+      end
+
       it 'rejects an invitation token sent before the invitation window' do
         reset_password(reset_token_for(user, sent_at: 8.days.ago))
 

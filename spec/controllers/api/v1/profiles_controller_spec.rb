@@ -49,6 +49,16 @@ RSpec.describe 'Profile API', type: :request do
         expect(response.parsed_body['inviter_id']).to be_nil
       end
 
+      it 'returns nil for inviter_id when account_user references a non-existent user id' do
+        agent.account_users.first.update_column(:inviter_id, 999_999_999)
+
+        get '/api/v1/profile',
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body['inviter_id']).to be_nil
+      end
+
       it 'returns an empty access token when all accounts have API and webhook access disabled' do
         account.disable_features!('api_and_webhooks')
         allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)

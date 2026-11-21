@@ -1,5 +1,5 @@
 # loaded once here; per-row lookups below would otherwise cost a query per membership
-account_users = resource.account_users.includes(:account)
+account_users = resource.account_users.includes(:account, :inviter)
 account_users = account_users.includes(:custom_role) if ChatwootApp.enterprise?
 # full-precision timestamps, nils last, matching ORDER BY active_at DESC NULLS LAST
 active_account_user = account_users.max_by { |account_user| [account_user.active_at ? 1 : 0, account_user.active_at || Time.at(0).utc] }
@@ -15,7 +15,7 @@ json.message_signature resource.message_signature
 json.email resource.email
 json.hmac_identifier resource.hmac_identifier if GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY'].present?
 json.id resource.id
-json.inviter_id active_account_user&.inviter_id
+json.inviter_id active_account_user&.inviter&.id
 json.name resource.name
 json.provider resource.provider
 json.pubsub_token resource.pubsub_token if authenticated_resource
