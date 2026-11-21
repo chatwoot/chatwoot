@@ -2,7 +2,7 @@ name: Premium sync & deploy
 
 on:
   schedule:
-    - cron: '0 3 * * 1' # toda segunda-feira 03:00 UTC
+    - cron: '0 9 * * 1' # toda segunda-feira 06:00 (horário de São Paulo, UTC-3)
   workflow_dispatch:
     inputs:
       target_tag:
