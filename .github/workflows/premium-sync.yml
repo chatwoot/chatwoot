@@ -1,0 +1,79 @@
+name: Premium sync & deploy
+
+on:
+  schedule:
+    - cron: '0 9 * * 0' # todo domingo 06:00 (horário de São Paulo, UTC-3)
+  workflow_dispatch:
+    inputs:
+      target_tag:
+        description: 'Tag do upstream a mesclar (ex.: v4.21.0). Vazio = mais recente.'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  sync-and-merge:
+    runs-on: ubuntu-latest
+    outputs:
+      target_tag: ${{ steps.tag.outputs.target_tag }}
+    steps:
+      - name: Checkout premium (full history)
+        uses: actions/checkout@v4
+        with:
+          ref: premium
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/chatwoot/chatwoot.git || true
+          git fetch upstream --tags
+
+      - name: Determine target tag
+        id: tag
+        run: |
+          if [ -n "${{ github.event.inputs.target_tag }}" ]; then
+            TAG="${{ github.event.inputs.target_tag }}"
+          else
+            TAG=$(git tag -l 'v*' --sort=-v:refname | head -n1)
+          fi
+          echo "target_tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Tag alvo: $TAG"
+
+      - name: Sync develop with upstream
+        run: |
+          git checkout -B develop origin/develop
+          git merge --ff-only upstream/develop
+          git push origin develop
+
+      - name: Merge upstream tag into premium
+        run: |
+          TAG="${{ steps.tag.outputs.target_tag }}"
+          git checkout -B premium origin/premium
+          git merge --no-ff "$TAG" -m "[premium] merge $TAG (automated)"
+          git tag "premium-$TAG" 2>/dev/null || true
+          git push origin premium --tags
+
+  deploy:
+    needs: sync-and-merge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy on VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+            cd /opt/chatwoot
+            git fetch origin
+            git reset --hard origin/premium
+            git checkout premium
+            ./scripts/apply-premium.sh ${{ needs.sync-and-merge.outputs.target_tag }}
+            docker compose -f docker-compose.production.yaml -f docker-compose.premium.yml exec -T rails bundle exec rails db:chatwoot_prepare
+            echo "Deploy concluido"

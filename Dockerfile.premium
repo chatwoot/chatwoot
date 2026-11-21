@@ -1,0 +1,4 @@
+ARG CHATWOOT_TAG=v4.19.1
+FROM chatwoot/chatwoot:${CHATWOOT_TAG}
+
+COPY config/initializers/zzz_premium_unlock.rb /app/config/initializers/zzz_premium_unlock.rb
