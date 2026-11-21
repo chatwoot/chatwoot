@@ -3,8 +3,8 @@
 # A call rings only free agents, those not on a call or in wrap-up time, and picks them
 # up as they free up, since each ring step asks again; the assignee rings alone first, then
 # everyone or the longest idle agent. The call's team (the conversation's, else the assignee's
-# only team) narrows who rings by its widen_calls setting: the whole inbox, only the team, or the
-# assignee alone when they are in the team.
+# only team) narrows who else rings by its widen_calls setting: the whole inbox, only the team, or
+# nobody else. The assignee is always in the pool.
 class Voice::RingRecipients
   pattr_initialize [:inbox!, :conversation!, :dismissed_user_ids]
 

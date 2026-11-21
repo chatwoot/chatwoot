@@ -26,7 +26,8 @@ class Team < ApplicationRecord
   has_many :members, through: :team_members, source: :user
   has_many :conversations, dependent: :nullify
 
-  # Decides who else rings when a voice call's assignee cannot take it: every free agent in the inbox, only this team, or nobody else.
+  # Decides who else rings when a voice call's assignee cannot take it: every free agent in the inbox, only this team,
+  # or nobody else (the team when there is no assignee).
   enum :widen_calls, { inbox_agents: 0, team_members: 1, assignee_only: 2 }, prefix: true, validate: true
 
   before_destroy :capture_filtered_unread_count_member_ids, prepend: true

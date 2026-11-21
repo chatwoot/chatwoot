@@ -12801,7 +12801,7 @@
               "team_members",
               "assignee_only"
             ],
-            "description": "Who else rings when a voice call's assignee cannot take it: everyone in the inbox (default), only this team, or nobody else"
+            "description": "Who else rings when a voice call's assignee cannot take it: everyone in the inbox (default), only this team, or nobody else (this team when the call has no assignee). The call's team is the conversation's team, else the assignee's only team"
           },
           "account_id": {
             "type": "number",
@@ -15516,7 +15516,7 @@
               "team_members",
               "assignee_only"
             ],
-            "description": "Who else rings when a voice call's assignee cannot take it: everyone in the inbox (default), only this team, or nobody else",
+            "description": "Who else rings when a voice call's assignee cannot take it: everyone in the inbox (default), only this team, or nobody else (this team when the call has no assignee). The call's team is the conversation's team, else the assignee's only team",
             "example": "inbox_agents"
           }
         }
