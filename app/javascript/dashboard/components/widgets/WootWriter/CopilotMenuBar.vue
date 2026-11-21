@@ -28,6 +28,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  showGeneralMenu: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['executeCopilotAction']);
@@ -116,8 +120,12 @@ const menuItems = computed(() => {
 });
 
 const generalMenuItems = computed(() => {
+  if (!props.showGeneralMenu || !props.conversationId) {
+    return [];
+  }
+
   const items = [];
-  if (props.conversationId && replyMode.value === REPLY_EDITOR_MODES.REPLY) {
+  if (replyMode.value === REPLY_EDITOR_MODES.REPLY) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.SUGGESTION'),
       key: 'reply_suggestion',
@@ -125,10 +133,7 @@ const generalMenuItems = computed(() => {
     });
   }
 
-  if (
-    props.conversationId &&
-    (replyMode.value === REPLY_EDITOR_MODES.NOTE || true)
-  ) {
+  if (replyMode.value === REPLY_EDITOR_MODES.NOTE || true) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.SUMMARIZE'),
       key: 'summarize',
@@ -144,6 +149,10 @@ const generalMenuItems = computed(() => {
 
   return items;
 });
+
+const hasAnyMenuItems = computed(
+  () => menuItems.value.length > 0 || generalMenuItems.value.length > 0
+);
 
 const menuRef = useTemplateRef('menuRef');
 const { height: menuHeight } = useElementSize(menuRef);
@@ -189,6 +198,7 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
 
 <template>
   <DropdownBody
+    v-if="hasAnyMenuItems"
     ref="menuRef"
     class="min-w-56 [&>ul]:gap-3 z-50 [&>ul]:px-4 [&>ul]:py-3.5"
     :class="{ 'selection-menu': hasSelection && isEditorMenuPopover }"
@@ -240,9 +250,15 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
       </div>
     </div>
 
-    <div v-if="menuItems.length > 0" class="h-px w-full bg-n-strong" />
+    <div
+      v-if="menuItems.length > 0 && generalMenuItems.length > 0"
+      class="h-px w-full bg-n-strong"
+    />
 
-    <div class="flex flex-col items-start gap-3">
+    <div
+      v-if="generalMenuItems.length > 0"
+      class="flex flex-col items-start gap-3"
+    >
       <Button
         v-for="(item, index) in generalMenuItems"
         :key="index"

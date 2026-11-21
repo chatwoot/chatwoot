@@ -158,6 +158,7 @@ export function useCopilotReply() {
    */
   async function execute(action, data) {
     if (action === 'ask_copilot') {
+      if (!conversationId.value) return;
       openCopilot(COPILOT_OPEN_SOURCES.REPLY_EDITOR);
       return;
     }
