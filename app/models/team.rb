@@ -8,6 +8,7 @@
 #  icon              :string           default("")
 #  icon_color        :string           default("")
 #  name              :string           not null
+#  widen_calls       :integer          default("inbox_agents"), not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :bigint           not null
@@ -24,6 +25,10 @@ class Team < ApplicationRecord
   has_many :team_members, dependent: :destroy_async
   has_many :members, through: :team_members, source: :user
   has_many :conversations, dependent: :nullify
+
+  # Decides who else rings when a voice call's assignee cannot take it: every free agent in the inbox, only this team,
+  # or nobody else (the team when there is no assignee).
+  enum :widen_calls, { inbox_agents: 0, team_members: 1, assignee_only: 2 }, prefix: true, validate: true
 
   before_destroy :capture_filtered_unread_count_member_ids, prepend: true
   after_destroy_commit :invalidate_filtered_unread_counts_after_destroy

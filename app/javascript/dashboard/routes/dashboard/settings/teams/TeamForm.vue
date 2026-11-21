@@ -1,6 +1,9 @@
 <script>
+import { mapGetters } from 'vuex';
 import validations from './helpers/validations';
 import FormInput from 'v3/components/Form/Input.vue';
+import WithLabel from 'v3/components/Form/WithLabel.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { reactive, defineAsyncComponent } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 
@@ -8,6 +11,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Popover from 'dashboard/components-next/popover/Popover.vue';
 import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import SelectInput from 'dashboard/components-next/select/Select.vue';
 
 const EmojiIconPicker = defineAsyncComponent(
   () =>
@@ -19,6 +23,8 @@ export default {
     NextButton,
     Popover,
     FormInput,
+    WithLabel,
+    SelectInput,
     EmojiIcon,
     Icon,
     EmojiIconPicker,
@@ -49,6 +55,7 @@ export default {
       allow_auto_assign: allowAutoAssign = true,
       icon = '',
       icon_color: iconColor = '',
+      widen_calls: widenCalls = 'inbox_agents',
     } = formData;
 
     const state = reactive({
@@ -57,11 +64,46 @@ export default {
       allowAutoAssign,
       icon,
       iconColor,
+      widenCalls,
     });
 
     const rules = validations;
     const v$ = useVuelidate(rules, state);
     return { state, v$ };
+  },
+  computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
+    isVoiceEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.CHANNEL_VOICE
+      );
+    },
+    widenCallsOptions() {
+      return [
+        {
+          value: 'inbox_agents',
+          label: this.$t(
+            'TEAMS_SETTINGS.FORM.WIDEN_CALLS.OPTIONS.INBOX_AGENTS'
+          ),
+        },
+        {
+          value: 'team_members',
+          label: this.$t(
+            'TEAMS_SETTINGS.FORM.WIDEN_CALLS.OPTIONS.TEAM_MEMBERS'
+          ),
+        },
+        {
+          value: 'assignee_only',
+          label: this.$t(
+            'TEAMS_SETTINGS.FORM.WIDEN_CALLS.OPTIONS.ASSIGNEE_ONLY'
+          ),
+        },
+      ];
+    },
   },
   methods: {
     onSelectIcon({ type, value, color }) {
@@ -86,6 +128,7 @@ export default {
         allow_auto_assign: this.state.allowAutoAssign,
         icon: this.state.icon,
         icon_color: this.state.iconColor,
+        ...(this.isVoiceEnabled && { widen_calls: this.state.widenCalls }),
       });
     },
   },
@@ -159,6 +202,23 @@ export default {
         "
         @blur="v$.description.$touch"
       />
+      <WithLabel
+        v-if="isVoiceEnabled"
+        name="widen_calls"
+        :help-message="$t('TEAMS_SETTINGS.FORM.WIDEN_CALLS.HELP')"
+      >
+        <!-- The select sits inside its label, since Select renders no id for a label to point at -->
+        <label
+          class="flex flex-col gap-1 w-full mb-0 text-sm font-medium leading-6 text-n-slate-12"
+        >
+          {{ $t('TEAMS_SETTINGS.FORM.WIDEN_CALLS.LABEL') }}
+          <SelectInput
+            v-model="state.widenCalls"
+            :options="widenCallsOptions"
+            :aria-label="$t('TEAMS_SETTINGS.FORM.WIDEN_CALLS.LABEL')"
+          />
+        </label>
+      </WithLabel>
       <div class="w-full flex items-center gap-2">
         <input v-model="state.allowAutoAssign" type="checkbox" :value="true" />
         <label for="conversation_creation">

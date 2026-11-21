@@ -88,6 +88,19 @@ RSpec.describe 'Teams API', type: :request do
         expect(response).to conform_schema(200)
         expect(Team.count).to eq(2)
       end
+
+      it 'creates the team with inbox_agents call widening when the field is not sent' do
+        params = { name: 'call-team' }
+
+        post "/api/v1/accounts/#{account.id}/teams",
+             params: params,
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['widen_calls']).to eq('inbox_agents')
+        expect(Team.find(response.parsed_body['id']).widen_calls).to eq('inbox_agents')
+      end
     end
   end
 
@@ -126,6 +139,56 @@ RSpec.describe 'Teams API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response).to conform_schema(200)
         expect(team.reload.name).to eq('new-team')
+      end
+
+      it 'updates call widening when its an administrator' do
+        params = { widen_calls: 'team_members' }
+
+        put "/api/v1/accounts/#{account.id}/teams/#{team.id}",
+            params: params,
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
+        expect(response.parsed_body['widen_calls']).to eq('team_members')
+        expect(team.reload.widen_calls).to eq('team_members')
+      end
+
+      it 'does not let an agent change call widening' do
+        params = { widen_calls: 'assignee_only' }
+
+        put "/api/v1/accounts/#{account.id}/teams/#{team.id}",
+            params: params,
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(team.reload.widen_calls).to eq('inbox_agents')
+      end
+
+      it 'returns unprocessable entity for an unknown call widening value' do
+        params = { widen_calls: 'everyone' }
+
+        put "/api/v1/accounts/#{account.id}/teams/#{team.id}",
+            params: params,
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(team.reload.widen_calls).to eq('inbox_agents')
+      end
+
+      it 'returns unprocessable entity for a call widening value that is not one of the documented names' do
+        params = { widen_calls: 2 }
+
+        put "/api/v1/accounts/#{account.id}/teams/#{team.id}",
+            params: params,
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(team.reload.widen_calls).to eq('inbox_agents')
       end
     end
   end
