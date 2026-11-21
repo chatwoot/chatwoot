@@ -51,14 +51,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     unless response.success?
       Rails.logger.warn "[WHATSAPP] Template sync failed for account #{whatsapp_channel.account_id} " \
                         "inbox #{whatsapp_channel.inbox&.id}: #{response.code} #{error_message(response)}"
-      return []
+      return nil
     end
 
     next_cursor = response.dig('paging', 'cursors', 'after')
+    return response['data'] if next_cursor.blank?
 
-    return response['data'] + fetch_whatsapp_templates(after: next_cursor) if next_cursor.present?
+    rest = fetch_whatsapp_templates(after: next_cursor)
+    return nil if rest.nil?
 
-    response['data']
+    response['data'] + rest
   end
 
   def validate_provider_config?
