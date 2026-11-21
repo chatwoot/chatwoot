@@ -9,7 +9,7 @@ json.data do
   json.created_at resource.created_at
   json.pubsub_token resource.pubsub_token
   json.role resource.active_account_user&.role
-  json.inviter_id resource.active_account_user&.inviter_id
+  json.inviter_id resource.active_account_user&.inviter&.id
   json.confirmed resource.confirmed?
   json.avatar_url resource.avatar_url
   json.access_token resource.access_token.token

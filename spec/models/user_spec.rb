@@ -20,6 +20,8 @@ RSpec.describe User do
     it { is_expected.to have_many(:messages) }
     it { is_expected.to have_many(:reporting_events) }
     it { is_expected.to have_many(:teams) }
+    it { is_expected.to have_many(:invited_account_users).dependent(:nullify) }
+    it { is_expected.to have_many(:invitees).through(:invited_account_users).source(:user) }
   end
 
   describe 'concerns' do
@@ -341,6 +343,23 @@ RSpec.describe User do
       user_with_tokens.tokens = {}
 
       expect { user_with_tokens.save! }.to change(user_with_tokens.user_sessions, :count).by(-2)
+    end
+  end
+
+  describe '#destroy' do
+    it 'nullifies inviter_id on account_users invited by the user' do
+      inviter = create(:user)
+      invited_user = create(:user)
+      account = create(:account)
+      account_user = create(:account_user, user: invited_user, account: account, inviter: inviter)
+
+      expect(inviter.invited_account_users).to include(account_user)
+      expect(inviter.invitees).to include(invited_user)
+
+      inviter.destroy!
+
+      expect(account_user.reload.inviter_id).to be_nil
+      expect(account_user.inviter).to be_nil
     end
   end
 end
