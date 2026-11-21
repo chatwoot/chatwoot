@@ -57,6 +57,9 @@ git push origin premium --tags
 # 6) Build + subida + canário (reaproveita apply-premium.sh)
 ./scripts/apply-premium.sh "$TARGET_TAG"
 
+# 6.1) Migrar banco (caso a nova versão traga migrations)
+docker compose exec -T rails bundle exec rails db:chatwoot_prepare 2>&1 | tail -5
+
 # 7) Verificação do unlock
 echo "Verificando unlock ..."
 PLAN=$(docker compose exec -T rails bundle exec rails runner 'puts "PREMIUM_CANARY_PLAN=#{ChatwootHub.pricing_plan}"' 2>/dev/null | grep -o 'PREMIUM_CANARY_PLAN=[^[:space:]]*' | head -n1 | cut -d= -f2)
