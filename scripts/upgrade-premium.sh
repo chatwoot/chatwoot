@@ -60,7 +60,7 @@ git merge --no-ff "$TARGET_TAG" -m "[premium] merge $TARGET_TAG"
 
 # 5) Tag e push
 git tag "premium-${TARGET_TAG}" 2>/dev/null || echo "Tag premium-${TARGET_TAG} já existia; pulando criação."
-git push origin premium --tags
+git push origin premium --tags || echo "AVISO: push falhou (sem credenciais no servidor). Publique manualmente: git push origin premium --tags"
 
 # 6) Build + subida + canário (reaproveita apply-premium.sh)
 ./scripts/apply-premium.sh "$TARGET_TAG"
