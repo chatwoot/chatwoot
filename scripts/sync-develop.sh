@@ -10,7 +10,7 @@ for b in develop main; do
   if git show-ref --verify --quiet "refs/heads/$b"; then
     git checkout "$b"
     git merge --ff-only "upstream/$b"
-    git push origin "$b"
+    git push origin "$b" || echo "AVISO: push de $b falhou (sem credenciais no servidor)."
     echo "branch '$b' sincronizada com upstream."
   else
     echo "branch '$b' não existe localmente; pulando."
