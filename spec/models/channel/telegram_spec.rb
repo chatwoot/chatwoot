@@ -231,5 +231,13 @@ RSpec.describe Channel::Telegram do
 
       expect(message.reload.external_source_ids['telegram_message_ids']).to eq([99, 101, 102])
     end
+
+    it 'saves the ids without dispatching a message update' do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      telegram_channel.record_telegram_message_ids(message, [101])
+
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::MESSAGE_UPDATED, any_args)
+    end
   end
 end

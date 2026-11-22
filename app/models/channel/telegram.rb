@@ -45,9 +45,11 @@ class Channel::Telegram < ApplicationRecord
 
   # Saved right after each successful request, so an error later in the send (or a retry) can't lose the ids of what reached telegram.
   # A retry resends the whole message, so ids from earlier partial attempts are kept as well.
+  # update_columns skips the message update events and validations, the ids are internal bookkeeping only used for deletion.
   def record_telegram_message_ids(message, ids)
     telegram_message_ids = (Array(message.external_source_ids['telegram_message_ids']) + ids).uniq
-    message.update!(external_source_ids: message.external_source_ids.merge('telegram_message_ids' => telegram_message_ids))
+    external_source_ids = message.external_source_ids.merge('telegram_message_ids' => telegram_message_ids)
+    message.update_columns(external_source_ids: external_source_ids) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def get_telegram_profile_image(user_id)
