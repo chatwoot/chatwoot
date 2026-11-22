@@ -1,5 +1,8 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
+  DELETE_ON_CHANNEL_VALUES = %w[true false].freeze
+
   before_action :ensure_api_inbox, only: :update
+  before_action :validate_delete_on_channel, only: :destroy
 
   def index
     @messages = message_finder.perform
@@ -93,8 +96,16 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     params.permit(:id, :target_language, :status, :external_error, :delete_on_channel)
   end
 
+  # the deletion on the channel can't be undone, so only the documented boolean is accepted
+  def validate_delete_on_channel
+    value = permitted_params[:delete_on_channel]
+    return if value.nil? || DELETE_ON_CHANNEL_VALUES.include?(value.to_s)
+
+    render_could_not_create_error(I18n.t('errors.messages.delete_on_channel.invalid'))
+  end
+
   def delete_on_channel?
-    ActiveModel::Type::Boolean.new.cast(permitted_params[:delete_on_channel])
+    permitted_params[:delete_on_channel].to_s == 'true'
   end
 
   def already_translated_content_available?
