@@ -23,9 +23,9 @@ class Telegram::DeleteMessageService
 
   private
 
-  # source_id is set once anything was delivered to telegram
+  # ids are saved as each part reaches telegram, while source_id is only set once the whole send finished (and cleared on retry)
   def on_telegram?
-    message.outgoing? && !message.private? && !message.deleted && message.source_id.present?
+    message.outgoing? && !message.private? && !message.deleted && telegram_message_ids.present?
   end
 
   def raise_failed(error_message)
@@ -34,7 +34,7 @@ class Telegram::DeleteMessageService
 
   # Messages sent before all ids were recorded, and messages typed in the business account's own app, only have the source_id
   def telegram_message_ids
-    message.external_source_ids['telegram_message_ids'].presence || [message.source_id.to_i]
+    @telegram_message_ids ||= message.external_source_ids['telegram_message_ids'].presence || Array(message.source_id.presence&.to_i)
   end
 
   def request_deletion

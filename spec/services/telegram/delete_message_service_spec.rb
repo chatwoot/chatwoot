@@ -71,6 +71,15 @@ describe Telegram::DeleteMessageService do
       expect(a_request(:post, /#{telegram_api_url}/o)).not_to have_been_made
     end
 
+    it 'deletes the saved telegram messages when a retry cleared the source_id' do
+      message.update!(source_id: nil)
+      stub_request(:post, "#{telegram_api_url}/deleteMessages").to_return(status: 200, body: success_body, headers: json_headers)
+
+      service.perform
+
+      expect(a_request(:post, "#{telegram_api_url}/deleteMessages").with(body: hash_including(message_ids: '[101,102]'))).to have_been_made.once
+    end
+
     it 'does not call telegram for a message that never reached telegram' do
       message.update!(source_id: nil, external_source_ids: {})
 
