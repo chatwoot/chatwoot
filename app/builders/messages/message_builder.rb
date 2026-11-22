@@ -180,12 +180,15 @@ class Messages::MessageBuilder
   end
 
   def should_process_email_content?
-    email_inbox? && !@private && @message.content.present?
+    email_inbox? && !@private && (@message.content.present? || @params[:email_quoted_content].present?)
   end
 
   def build_email_attributes
     email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
-    normalized_content = normalize_email_body(@message.content)
+    # The quoted email thread arrives separately from the reply body so the
+    # stored content holds only what the agent wrote; it is re-appended here
+    # so the outgoing email still carries the full thread.
+    normalized_content = normalize_email_body(@message.content) + @params[:email_quoted_content].to_s
 
     # Process liquid templates in normalized content with code block protection
     processed_content = process_liquid_in_email_body(normalized_content)

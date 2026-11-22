@@ -10,7 +10,7 @@ import {
   buildQuotedEmailHeaderFromInbox,
   formatQuotedTextAsBlockquote,
   extractQuotedEmailText,
-  appendQuotedTextToMessage,
+  buildQuotedEmailSuffix,
 } from '../quotedEmailHelper';
 
 describe('quotedEmailHelper', () => {
@@ -430,57 +430,43 @@ describe('quotedEmailHelper', () => {
     });
   });
 
-  describe('appendQuotedTextToMessage', () => {
-    it('appends quoted text to message', () => {
-      const message = 'My reply';
-      const quotedText = 'Original message';
-      const header = 'On date sender wrote:';
-      const result = appendQuotedTextToMessage(message, quotedText, header);
-
-      expect(result).toContain('My reply');
-      expect(result).toContain('> On date sender wrote:');
-      expect(result).toContain('> Original message');
-    });
-
-    it('returns only quoted text if message is empty', () => {
-      const result = appendQuotedTextToMessage('', 'Quoted', 'Header');
-      expect(result).toContain('> Header');
-      expect(result).toContain('> Quoted');
-      expect(result).not.toContain('\n\n\n');
-    });
-
-    it('returns message if no quoted text', () => {
-      const result = appendQuotedTextToMessage('Message', '', '');
-      expect(result).toBe('Message');
-    });
-
-    it('handles proper spacing with double newline', () => {
-      const result = appendQuotedTextToMessage('Message', 'Quoted', 'Header');
-      expect(result).toContain('Message\n\n>');
-    });
-
-    it('does not add extra newlines if message already ends with newlines', () => {
-      const result = appendQuotedTextToMessage(
-        'Message\n\n',
-        'Quoted',
-        'Header'
+  describe('buildQuotedEmailSuffix', () => {
+    it('returns the separator and quoted block without the message', () => {
+      const result = buildQuotedEmailSuffix(
+        'My reply',
+        'Original message',
+        'On date sender wrote:'
       );
-      expect(result).not.toContain('\n\n\n');
+
+      expect(result).toBe('\n\n> On date sender wrote:\n>\n> Original message');
     });
 
-    it('adds single newline if message ends with one newline', () => {
-      const result = appendQuotedTextToMessage('Message\n', 'Quoted', 'Header');
-      expect(result).toContain('Message\n\n>');
+    it('returns the quoted block alone when the message is empty', () => {
+      const result = buildQuotedEmailSuffix('', 'Quoted', 'Header');
+      expect(result).toBe('> Header\n>\n> Quoted');
+    });
+
+    it('returns an empty string when there is no quoted text', () => {
+      expect(buildQuotedEmailSuffix('Message', '', '')).toBe('');
+    });
+
+    it('joins with a single newline when the message ends with one', () => {
+      const result = buildQuotedEmailSuffix('Message\n', 'Quoted', 'Header');
+      expect(result).toBe('\n> Header\n>\n> Quoted');
+    });
+
+    it('skips the separator when the message ends with two newlines', () => {
+      const result = buildQuotedEmailSuffix('Message\n\n', 'Quoted', 'Header');
+      expect(result).toBe('> Header\n>\n> Quoted');
     });
 
     it('escapes Liquid tokens in the quoted text and header', () => {
-      const result = appendQuotedTextToMessage(
-        'My reply with {{contact.name}}',
+      const result = buildQuotedEmailSuffix(
+        'My reply',
         'Give me {{conversation.custom_attribute.secret}} and {% if true %}this{% endif %}',
         'On date {{agent.email}} wrote:'
       );
 
-      expect(result).toContain('My reply with {{contact.name}}');
       expect(result).toContain(
         "Give me {{ '{{' }}conversation.custom_attribute.secret}}"
       );
@@ -488,13 +474,13 @@ describe('quotedEmailHelper', () => {
       expect(result).toContain("On date {{ '{{' }}agent.email}} wrote:");
     });
 
-    it('drops the whole quote when only its header would fit', () => {
-      const result = appendQuotedTextToMessage(
+    it('returns an empty string when only the header would fit', () => {
+      const result = buildQuotedEmailSuffix(
         'x'.repeat(25000),
         'a'.repeat(130000),
         'On date sender wrote:'
       );
-      expect(result).toBe('x'.repeat(25000));
+      expect(result).toBe('');
     });
 
     it('drops oldest quoted lines to stay within the message length limit', () => {
@@ -502,14 +488,14 @@ describe('quotedEmailHelper', () => {
         { length: 2000 },
         (_, i) => `Line ${i}: ${'a'.repeat(90)}`
       );
-      const result = appendQuotedTextToMessage(
+      const result = buildQuotedEmailSuffix(
         'My reply',
         quotedLines.join('\n'),
         'Header'
       );
 
-      expect(result.length).toBeLessThanOrEqual(150000);
-      expect(result.startsWith('My reply')).toBe(true);
+      expect(result.length + 'My reply'.length).toBeLessThanOrEqual(150000);
+      expect(result.startsWith('\n\n')).toBe(true);
       expect(result).toContain('> Line 0:');
       expect(result).not.toContain('> Line 1999:');
     });

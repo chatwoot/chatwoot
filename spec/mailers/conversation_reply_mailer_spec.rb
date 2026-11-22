@@ -535,6 +535,41 @@ RSpec.describe ConversationReplyMailer do
         end
       end
 
+      context 'when replies carry a quoted email thread' do
+        let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account).reload }
+        let(:quoted_block) do
+          "> On Tue, Nov 18, 2025 at 4:45 PM Jane <jane@example.com> wrote:\n>\n> How do I reset my password?"
+        end
+        let(:customer_message) do
+          create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                           content: 'How do I reset my password?')
+        end
+        let!(:reply) do
+          Messages::MessageBuilder.new(agent, conversation, ActionController::Parameters.new(
+                                                              content: 'Use the reset link on the login page',
+                                                              email_quoted_content: "\n\n#{quoted_block}"
+                                                            )).perform
+        end
+
+        before { customer_message }
+
+        it 'keeps the quoted thread in the email sent to the contact' do
+          mail = described_class.email_reply(reply).deliver_now
+
+          expect(mail.decoded).to include('Use the reset link on the login page')
+          expect(mail.decoded).to include('How do I reset my password?')
+        end
+
+        it 'lists each message once in the conversation transcript' do
+          transcript = described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now
+          body = transcript.decoded
+
+          expect(body).to include('Use the reset link on the login page')
+          expect(body.scan('How do I reset my password?').size).to eq(1)
+          expect(body).not_to include('On Tue, Nov 18, 2025 at 4:45 PM')
+        end
+      end
+
       context 'with custom email content' do
         it 'uses custom HTML content when available and creates multipart email' do
           message_with_custom_content = create(:message,

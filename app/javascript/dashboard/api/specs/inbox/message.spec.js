@@ -157,7 +157,23 @@ describe('#ConversationAPI', () => {
       });
 
       expect(formPayload.get('email_html_content')).toBeNull();
+      expect(formPayload.get('email_quoted_content')).toBeNull();
       expect(formPayload.getAll('forwarded_attachment_ids[]')).toEqual([]);
+    });
+
+    it('appends the quoted email content to the form payload', () => {
+      const formPayload = buildCreatePayload({
+        message: 'Reply text',
+        echoId: 45,
+        isPrivate: false,
+        emailQuotedContent: '\n\n> On date Jane wrote:\n>\n> Question',
+        files: [new Blob(['test-content'], { type: 'application/pdf' })],
+      });
+
+      expect(formPayload.get('content')).toEqual('Reply text');
+      expect(formPayload.get('email_quoted_content')).toEqual(
+        '\n\n> On date Jane wrote:\n>\n> Question'
+      );
     });
 
     it('includes the forwarded email fields in the object payload', () => {
@@ -177,6 +193,20 @@ describe('#ConversationAPI', () => {
         content_attributes: { forwarded_message_id: 501 },
         email_html_content: '<p>Edited body</p>',
         forwarded_attachment_ids: [7],
+      });
+    });
+
+    it('includes the quoted email content in the object payload', () => {
+      expect(
+        buildCreatePayload({
+          message: 'Reply text',
+          isPrivate: false,
+          echoId: 47,
+          emailQuotedContent: '\n\n> On date Jane wrote:\n>\n> Question',
+        })
+      ).toMatchObject({
+        content: 'Reply text',
+        email_quoted_content: '\n\n> On date Jane wrote:\n>\n> Question',
       });
     });
 

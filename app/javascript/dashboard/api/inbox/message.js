@@ -15,6 +15,7 @@ export const buildCreatePayload = ({
   templateParams,
   isVoiceMessage = false,
   emailHtmlContent,
+  emailQuotedContent,
   forwardedAttachmentIds,
 }) => {
   let payload;
@@ -46,6 +47,9 @@ export const buildCreatePayload = ({
     if (emailHtmlContent) {
       payload.append('email_html_content', emailHtmlContent);
     }
+    if (emailQuotedContent) {
+      payload.append('email_quoted_content', emailQuotedContent);
+    }
     forwardedAttachmentIds?.forEach(id => {
       payload.append('forwarded_attachment_ids[]', id);
     });
@@ -61,6 +65,7 @@ export const buildCreatePayload = ({
       subject,
       template_params: templateParams,
       email_html_content: emailHtmlContent,
+      email_quoted_content: emailQuotedContent,
       forwarded_attachment_ids: forwardedAttachmentIds,
     };
   }
@@ -86,6 +91,7 @@ class MessageApi extends ApiClient {
     templateParams,
     isVoiceMessage = false,
     emailHtmlContent,
+    emailQuotedContent,
     forwardedAttachmentIds,
   }) {
     return axios({
@@ -104,6 +110,7 @@ class MessageApi extends ApiClient {
         templateParams,
         isVoiceMessage,
         emailHtmlContent,
+        emailQuotedContent,
         forwardedAttachmentIds,
       }),
     });

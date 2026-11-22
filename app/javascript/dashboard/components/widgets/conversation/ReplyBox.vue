@@ -34,7 +34,7 @@ import wootConstants from 'dashboard/constants/globals';
 import {
   extractQuotedEmailText,
   buildQuotedEmailHeader,
-  appendQuotedTextToMessage,
+  buildQuotedEmailSuffix,
 } from 'dashboard/helper/quotedEmailHelper';
 import {
   CONVERSATION_EVENTS,
@@ -712,12 +712,12 @@ export default {
       this.isQuoteRemoved = false;
       return true;
     },
-    getMessageWithQuotedEmailText(message) {
+    getQuotedEmailSuffix(message) {
       if (!this.shouldIncludeQuotedEmail) {
-        return message;
+        return '';
       }
 
-      return appendQuotedTextToMessage(
+      return buildQuotedEmailSuffix(
         message,
         this.quotedEmailText,
         this.quotedEmailHeader
@@ -1230,14 +1230,17 @@ export default {
       return multipleMessagePayload;
     },
     getMessagePayload(message) {
-      const messageWithQuote = this.getMessageWithQuotedEmailText(message);
-
       let messagePayload = {
         conversationId: this.currentChat.id,
-        message: messageWithQuote,
+        message,
         private: this.isPrivate,
         sender: this.sender,
       };
+
+      const quotedEmailContent = this.getQuotedEmailSuffix(message);
+      if (quotedEmailContent) {
+        messagePayload.emailQuotedContent = quotedEmailContent;
+      }
       messagePayload = this.setReplyToInPayload(messagePayload);
 
       if (this.attachedFiles && this.attachedFiles.length) {

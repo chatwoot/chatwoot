@@ -402,19 +402,22 @@ const fitQuotedBlockWithinLimit = (quotedBlock, available) => {
 };
 
 /**
- * Appends quoted text to message, truncating the quote so the combined
- * content stays within the server-side message length limit.
- * @param {string} message - Original message
+ * Builds the quoted email block to append after a message, including the
+ * separator that joins it to the message. The quote is truncated so the
+ * combined content stays within the server-side message length limit.
+ * Keeping this separate from the message lets the quote live only in the
+ * email the customer receives, not in the stored message content.
+ * @param {string} message - Message the quote follows
  * @param {string} quotedText - Text to quote
  * @param {string} header - Quote header
- * @returns {string} Message with quoted text appended
+ * @returns {string} Separator and quoted block, or an empty string
  */
-export const appendQuotedTextToMessage = (message, quotedText, header) => {
+export const buildQuotedEmailSuffix = (message, quotedText, header) => {
   const baseMessage = message ? String(message) : '';
   let quotedBlock = formatQuotedTextAsBlockquote(quotedText, header);
 
   if (!quotedBlock) {
-    return baseMessage;
+    return '';
   }
   quotedBlock = escapeLiquidTokens(quotedBlock);
 
@@ -434,8 +437,8 @@ export const appendQuotedTextToMessage = (message, quotedText, header) => {
     formatQuotedTextAsBlockquote('', header)
   );
   if (quotedBlock.length <= headerOnlyBlock.length) {
-    return baseMessage;
+    return '';
   }
 
-  return `${baseMessage}${separator}${quotedBlock}`;
+  return `${separator}${quotedBlock}`;
 };

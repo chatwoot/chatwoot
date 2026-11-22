@@ -410,6 +410,44 @@ describe Messages::MessageBuilder do
           expect(message.content_attributes.dig('email', 'text_content')).to be_nil
         end
       end
+
+      context 'when a quoted email thread is provided' do
+        let(:quoted_thread) do
+          "\n\n> On Tue, Nov 18, 2025 at 4:45 PM Jane <jane@example.com> wrote:\n>\n> How do I reset my password?"
+        end
+        let(:params) do
+          ActionController::Parameters.new({
+                                             content: 'Use the reset link on the login page',
+                                             email_quoted_content: quoted_thread
+                                           })
+        end
+
+        it 'keeps the quoted thread out of the message content' do
+          message = message_builder
+
+          expect(message.content).to eq 'Use the reset link on the login page'
+          expect(message.processed_message_content).to eq 'Use the reset link on the login page'
+        end
+
+        it 'appends the quoted thread to the email content sent to the contact' do
+          message = message_builder
+          full_content = "Use the reset link on the login page#{quoted_thread}"
+
+          expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq full_content
+          expect(message.content_attributes.dig('email', 'text_content', 'reply')).to eq full_content
+          html_reply = message.content_attributes.dig('email', 'html_content', 'reply')
+          expect(html_reply).to include('Use the reset link on the login page')
+          expect(html_reply).to include('How do I reset my password?')
+        end
+
+        it 'ignores the quoted thread on a private note' do
+          params[:private] = true
+          message = message_builder
+
+          expect(message.content).to eq 'Use the reset link on the login page'
+          expect(message.content_attributes[:email]).to be_nil
+        end
+      end
     end
   end
 end
