@@ -54,8 +54,10 @@ class CopilotRun < ApplicationRecord
   # Each kind allows only some of these. Its STATUSES constant lists them.
   # awaiting_background_run: a turn parked until a background run started by one of its tool calls finishes.
   # awaiting_approval: an action run that writes nothing until the agent approves it.
+  # reviewing: a review whose conversations are being reviewed by one job each, with no job holding the run's lease.
   enum :status, { queued: 'queued', running: 'running', awaiting_background_run: 'awaiting_background_run', awaiting_approval: 'awaiting_approval',
-                  completed: 'completed', incomplete: 'incomplete', failed: 'failed', rejected: 'rejected', expired: 'expired' }, validate: true
+                  reviewing: 'reviewing', completed: 'completed', incomplete: 'incomplete', failed: 'failed', rejected: 'rejected',
+                  expired: 'expired' }, validate: true
 
   # Runs a job may pick up: waiting for a worker, or held by one whose lease may have expired.
   scope :claimable, -> { where(status: %i[queued running]) }
@@ -68,7 +70,7 @@ class CopilotRun < ApplicationRecord
 
   def claim
     with_lock do
-      return if finished? || awaiting_background_run? || awaiting_approval? || lease_until&.future?
+      return if finished? || awaiting_background_run? || awaiting_approval? || reviewing? || lease_until&.future?
 
       @taken_over = running?
       update!(status: :running, lease_until: Time.current + LEASE_DURATION, lease_token: SecureRandom.uuid)
@@ -97,6 +99,22 @@ class CopilotRun < ApplicationRecord
   # Ends the worker's hold, so the next job can claim the run.
   def release!(status, **attributes)
     update!(status: status, lease_token: nil, lease_until: nil, **attributes)
+  end
+
+  # Stops a review or an approved change when the agent stops its turn. What it finished stays. The lock waits for the
+  # record the job is working on, and the job finds its lease gone before the next one, so it saves nothing more.
+  def stop
+    stopped = with_lock do
+      next false if finished?
+
+      release!(:incomplete, error: I18n.t('captain.copilot.stopped'), context: context.merge('stopped' => true))
+      summary
+    end
+    return false unless stopped
+
+    turn.resume_with(copilot_tool_call, stopped)
+    publish_progress
+    true
   end
 
   # Checked before every model call and batch of changes, so turning the feature off or running out of credits also

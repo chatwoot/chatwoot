@@ -6,6 +6,8 @@ class Voice::CallStatus::Manager
 
     # Guards run on the locked row, not the caller's copy, so a callback racing an agent hangup can't overwrite its outcome.
     call.with_lock do
+      status = 'no_answer' if caller_left_while_ringing?(status)
+
       if late_answer?(status)
         record_late_answer!(timestamp)
       else
@@ -21,9 +23,12 @@ class Voice::CallStatus::Manager
 
   private
 
-  # A call ended unanswered because the agent's leg could not be added, whose contact had
-  # in fact answered: the answer reported after it records the call as failed, with when it
-  # was answered, instead of unanswered
+  # A caller hangup before any agent claims the call arrives as completed, from its own leg or the conference end.
+  def caller_left_while_ringing?(status)
+    status == 'completed' && call.incoming? && call.ringing? && call.accepted_by_agent_id.nil?
+  end
+
+  # A delayed answer can correct a failed join's no-answer outcome.
   def late_answer?(status) = status == 'in_progress' && call.unanswered_by_failed_join?
 
   def record_late_answer!(timestamp)
@@ -34,11 +39,7 @@ class Voice::CallStatus::Manager
 
   def keep_current_status?(status)
     call.status == status ||
-      # Don't overwrite a terminal status — Twilio's late `completed` events would
-      # otherwise clobber an agent-rejection reason.
       Call::TERMINAL_STATUSES.include?(call.status) ||
-      # A call that was answered does not ring again; a late or replayed ringing status
-      # would otherwise undo the answer
       (status == 'ringing' && call.in_progress?)
   end
 

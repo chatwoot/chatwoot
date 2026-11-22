@@ -19,10 +19,16 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       expect(response).to redirect_to("/hc/#{portal.slug}/#{portal.default_locale}")
     end
 
-    it 'Show portal and categories belonging to the portal' do
-      get "/hc/#{portal.slug}/en"
+    it 'shows portal categories with relative author avatars' do
+      category = create(:category, portal: portal, account: account, locale: 'en')
+      portal.articles.published.first.update!(category: category)
+      agent.avatar.attach(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
+      with_modified_env(FRONTEND_URL: 'http://localhost:3000', HELPCENTER_URL: 'http://help.example.test') do
+        get "/hc/#{portal.slug}/en"
 
-      expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:success)
+        expect(Nokogiri::HTML5(response.body).css('img').map { |image| image['src'] }).to include(URI.parse(agent.avatar_url).request_uri)
+      end
     end
 
     it 'does not set the session cookie' do
@@ -59,6 +65,16 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include('<link rel="icon" href=')
+      end
+
+      it 'swaps to the dark mode logo in dark mode' do
+        portal.logo.attach(io: Rails.root.join('spec/assets/sample.png').open, filename: 'sample.png', content_type: 'image/png')
+        portal.dark_logo.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+        get "/hc/#{portal.slug}/en"
+
+        expect(response.body).to match(/sample\.png" class="[^"]*dark:hidden"/)
+        expect(response.body).to match(/avatar\.png" class="[^"]*hidden dark:block"/)
       end
     end
 

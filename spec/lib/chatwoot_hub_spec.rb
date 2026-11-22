@@ -33,6 +33,13 @@ describe ChatwootHub do
       end
     end
 
+    it 'asks hub to refresh billing when requested' do
+      allow(RestClient).to receive(:post).and_return({ version: '1.1.1' }.to_json)
+      described_class.sync_with_hub(refresh_billing: true)
+      expect(RestClient).to have_received(:post).with(described_class.ping_url, described_class.instance_config
+        .merge(refresh_billing: true).merge(described_class.instance_metrics).to_json, { content_type: :json, accept: :json })
+    end
+
     it 'returns nil when chatwoot hub is down' do
       allow(RestClient).to receive(:post).and_raise(ExceptionList::REST_CLIENT_EXCEPTIONS.sample)
       expect(described_class.sync_with_hub).to be_nil

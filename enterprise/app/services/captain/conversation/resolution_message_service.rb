@@ -14,7 +14,8 @@ class Captain::Conversation::ResolutionMessageService
         account_id: conversation.account_id,
         inbox_id: conversation.inbox_id,
         content: resolution_message,
-        sender: assistant
+        sender: assistant,
+        content_attributes: { Enterprise::Concerns::Message::TRANSLATE_FOR_CONTACT_ATTRIBUTE => true }
       )
     end
   end

@@ -56,7 +56,8 @@ class Captain::Copilot::TurnJob < ApplicationJob
               else
                 'I could not finish this request. Completed steps were saved.'
               end
-    run.copilot_thread.copilot_messages.create!(message_type: :assistant, message: { run_id: run.id, content: content })
+    # Failed steps carry the same status. The panel reads it on the last message to show that the turn failed.
+    run.copilot_thread.copilot_messages.create!(message_type: :assistant, message: { run_id: run.id, content: content, status: 'failed' })
   end
 
   def terminal_failure?(attempts, exception)

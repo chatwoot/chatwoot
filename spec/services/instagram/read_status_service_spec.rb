@@ -48,4 +48,19 @@ describe Instagram::ReadStatusService do
       end
     end
   end
+
+  context 'with Unified Login' do
+    let(:instagram_channel) { create(:channel_instagram, account: account, auth_type: 'unified_login', expires_at: nil) }
+    let(:instagram_inbox) { instagram_channel.inbox }
+    let(:ids) { JSON.parse(Rails.root.join('spec/fixtures/instagram/unified_login_message_ids.json').read) }
+
+    it 'marks the original send API message as read when the webhook uses its echo ID' do
+      message = create(:message, account: account, inbox: instagram_inbox, conversation: conversation,
+                                 message_type: :outgoing, source_id: ids.fetch('first_send'), created_at: Time.current.change(nsec: 123_456_789))
+      allow(Conversations::UpdateMessageStatusJob).to receive(:perform_later)
+      described_class.new(params: { read: { mid: ids.fetch('first_echo') } }, channel: instagram_channel).perform
+
+      expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(conversation.id, message.reload.created_at)
+    end
+  end
 end

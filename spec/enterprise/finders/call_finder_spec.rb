@@ -4,10 +4,14 @@ describe CallFinder do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let(:inbox) { create(:inbox, account: account) }
+  let(:inbox) { create(:channel_twilio_sms, :with_voice, account: account).inbox }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
 
-  before { create(:inbox_member, user: agent, inbox: inbox) }
+  before do
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new)
+      .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
+    create(:inbox_member, user: agent, inbox: inbox)
+  end
 
   def perform(user, params = {})
     Current.account = account
@@ -58,7 +62,7 @@ describe CallFinder do
 
   describe 'ringing calls' do
     let(:other_agent) { create(:user, account: account, role: :agent) }
-    let(:other_inbox) { create(:inbox, account: account) }
+    let(:other_inbox) { create(:channel_twilio_sms, :with_voice, account: account).inbox }
 
     # The agents rung are recorded as the ring starts, as InboundCallBuilder does
     def ringing_call(conversation)
@@ -74,6 +78,13 @@ describe CallFinder do
 
       expect(perform(agent, status: 'ringing')[:calls].map(&:id)).to contain_exactly(call.id)
       expect(perform(other_agent, status: 'ringing')[:calls]).to be_empty
+    end
+
+    it 'hides a ringing call from an agent who dismissed it' do
+      call = ringing_call(conversation)
+      call.update!(ring_state: call.ring_state.merge('dismissed_user_ids' => [agent.id]))
+
+      expect(perform(agent, status: 'ringing')[:calls]).to be_empty
     end
 
     it 'shows an inbox member an unassigned call still ringing in their inbox' do
@@ -130,6 +141,13 @@ describe CallFinder do
       expect(perform(agent, status: 'ringing')[:calls]).to be_empty
     end
 
+    it 'hides a ringing call from an agent who turned calls off' do
+      ringing_call(conversation)
+      account.account_users.find_by(user_id: agent.id).update!(accepts_calls: false)
+
+      expect(perform(agent, status: 'ringing')[:calls]).to be_empty
+    end
+
     it 'hides a ringing call another agent has already claimed' do
       call = ringing_call(conversation)
       call.update!(accepted_by_agent: other_agent)
@@ -151,9 +169,9 @@ describe CallFinder do
     end
 
     it 'keeps the agent\'s own accepted ringing calls alongside' do
+      waiting = ringing_call(conversation)
       own = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
                           status: 'ringing', accepted_by_agent: agent)
-      waiting = ringing_call(conversation)
 
       expect(perform(agent, status: 'ringing')[:calls].map(&:id)).to contain_exactly(own.id, waiting.id)
     end

@@ -1,50 +1,50 @@
 class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseResource
   NAME = 'contacts'.freeze
+  MODEL = Contact
   DATE_FIELDS = %w[last_activity_at created_at].freeze
   FILTERS = {
     search: { type: 'string', minLength: 2, description: 'Matches name, email or phone number' },
-    labels: { type: 'array', items: { type: 'string' } }, company_id: { type: %w[integer null], minimum: 1, description: 'null for no company' },
-    country_code: { type: 'string' }, blocked: { type: 'boolean' }
+    labels: { type: 'array', minItems: 1, items: { type: 'string' }, description: 'Contacts with any of these labels' }
   }.freeze
-  SOURCES = {
-    'contacts' => ->(ids) { Contact.where(id: ids) },
-    'conversations' => ->(ids) { Contact.of_conversations(ids) },
-    'messages' => ->(ids) { Contact.of_messages(ids) }
-  }.freeze
+  # A message's sender is polymorphic, so the customers of messages are reached through their conversations.
+  SOURCES = { 'messages' => ->(messages) { Contact.of_conversations(messages.select(:conversation_id)) } }.freeze
   COLUMNS = %w[Email Phone Company Labels].freeze
   PRELOAD = [:company, :labels].freeze
-  GROUPS = %w[label country blocked].freeze
+  GROUPS = %w[label country].freeze
 
   # Contact details follow the same permission as the contacts page and the get_contact tool.
+  def readable?
+    permitted?('contact_manage')
+  end
+
   def scope
-    raise ArgumentError, 'You do not have permission to view contacts' unless permitted?('contact_manage')
+    raise ArgumentError, 'You do not have permission to view contacts' unless readable?
 
     @account.contacts
   end
 
   # Contacts asked about directly are the ones the contacts page lists, so counts match it. Contacts reached from
   # conversations or messages keep anonymous visitors, because they are the customers in those conversations.
-  def matching(filters, as_of:, source: nil)
+  def matching(filters, as_of:, source: nil, **)
     relation = super
     source ? relation : relation.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
   end
 
   def filter(relation, filters)
-    relation = relation.where(filters.slice('company_id', 'country_code', 'blocked'))
     relation = relation.tagged_with(filters['labels'], any: true) if filters['labels'].present?
     return relation if filters['search'].blank?
 
     term = "%#{Contact.sanitize_sql_like(filters['search'])}%"
-    relation.where('contacts.name ILIKE :term OR contacts.email ILIKE :term OR contacts.phone_number ILIKE :term', term: term)
+    table = Contact.arel_table
+    relation.where(table[:name].matches(term).or(table[:email].matches(term)).or(table[:phone_number].matches(term)))
   end
 
-  def counts_by(relation, group)
-    case group
-    when 'label' then label_counts(relation)
-    # Contacts saved before country_code was synced from additional_attributes store a missing country as an empty string.
-    when 'country' then column_counts(relation, Arel.sql("NULLIF(contacts.country_code, '')"))
-    when 'blocked' then column_counts(relation, :blocked)
-    end
+  # Contacts saved before country_code was synced from additional_attributes store a missing country as an empty string.
+  def group_field(name)
+    return unless name == 'country'
+
+    country_code = Contact.arel_table[:country_code]
+    { expression: Arel::Nodes::Case.new.when(country_code.not_eq('')).then(country_code) }
   end
 
   def row(contact)

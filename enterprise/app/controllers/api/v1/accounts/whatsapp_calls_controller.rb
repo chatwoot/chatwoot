@@ -1,5 +1,5 @@
 class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseController
-  before_action :set_call, only: %i[show accept reject terminate upload_recording]
+  before_action :set_call, only: %i[show accept reject dismiss terminate upload_recording]
   before_action :set_call_context, only: :initiate
   before_action :ensure_calling_enabled, only: :initiate
   before_action :ensure_sdp_offer, only: :initiate
@@ -22,6 +22,11 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def reject
     call_service.reject
+  end
+
+  def dismiss
+    Voice::RingDismissService.new(call: @call, user: Current.user).perform
+    head :ok
   end
 
   def terminate
@@ -49,7 +54,9 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   private
 
   def call_service
-    @call_service ||= Whatsapp::CallService.new(call: @call, agent: Current.user, sdp_answer: params[:sdp_answer])
+    @call_service ||= Whatsapp::CallService.new(
+      call: @call, agent: Current.user, sdp_answer: params[:sdp_answer], agent_client: RequestDeviceInfo.new(request).client_details
+    )
   end
 
   def provider_service
@@ -170,7 +177,8 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
       provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,
       provider_call_id: provider_call_id, direction: :outgoing, status: 'ringing',
       accepted_by_agent_id: Current.user.id,
-      meta: { 'sdp_offer' => params[:sdp_offer], 'ice_servers' => Call.default_ice_servers }
+      meta: { 'sdp_offer' => params[:sdp_offer], 'ice_servers' => Call.default_ice_servers,
+              'agent_client' => RequestDeviceInfo.new(request).client_details }.compact
     )
   rescue ActiveRecord::RecordNotUnique
     # A webhook inserted the row between the find_by above and this create; reconcile to it.

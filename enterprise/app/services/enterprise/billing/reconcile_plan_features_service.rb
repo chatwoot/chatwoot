@@ -22,7 +22,6 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_voice
     whatsapp_embedded_signup_inbox_creation
     api_and_webhooks
-    data_import
     companies
     auto_translate
   ] + PAID_PLAN_FEATURES).freeze
@@ -37,6 +36,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     custom_tools
     conversation_monitors
     company_enrichment
+    delayed_automations
   ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
