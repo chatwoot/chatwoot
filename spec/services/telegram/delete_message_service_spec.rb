@@ -25,6 +25,28 @@ describe Telegram::DeleteMessageService do
         .with(body: { chat_id: '123', message_ids: '[101,102]' })).to have_been_made.once
     end
 
+    it 'deletes more than 100 telegram messages in batches of 100' do
+      message.update!(external_source_ids: { 'telegram_message_ids' => (1..101).to_a })
+      stub_request(:post, "#{telegram_api_url}/deleteMessages").to_return(status: 200, body: success_body, headers: json_headers)
+
+      service.perform
+
+      expect(a_request(:post, "#{telegram_api_url}/deleteMessages").with(body: hash_including(message_ids: (1..100).to_a.to_json)))
+        .to have_been_made.once
+      expect(a_request(:post, "#{telegram_api_url}/deleteMessages").with(body: hash_including(message_ids: '[101]'))).to have_been_made.once
+    end
+
+    it 'raises when a later batch is refused' do
+      message.update!(external_source_ids: { 'telegram_message_ids' => (1..101).to_a })
+      stub_request(:post, "#{telegram_api_url}/deleteMessages")
+        .to_return({ status: 200, body: success_body, headers: json_headers },
+                   { status: 400, body: { ok: false, description: 'Bad Request: message to delete not found' }.to_json, headers: json_headers })
+
+      expect { service.perform }.to raise_error do |error|
+        expect(error.class.name).to eq('CustomExceptions::ChannelMessageDeleteFailed')
+      end
+    end
+
     it 'falls back to the source_id for messages sent before all ids were recorded' do
       message.update!(external_source_ids: {})
       stub_request(:post, "#{telegram_api_url}/deleteMessages").to_return(status: 200, body: success_body, headers: json_headers)

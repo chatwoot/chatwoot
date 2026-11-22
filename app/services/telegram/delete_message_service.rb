@@ -7,6 +7,8 @@
 class Telegram::DeleteMessageService
   # created_at is set before the message reaches telegram, the margin avoids hitting telegram's limit at the edge
   DELETE_WINDOW = 48.hours - 5.minutes
+  # telegram deletes at most 100 messages per request, retries of a partly sent message can save more ids than that
+  DELETE_BATCH_SIZE = 100
 
   pattr_initialize [:message!]
 
@@ -15,10 +17,13 @@ class Telegram::DeleteMessageService
 
     raise_failed(I18n.t('errors.messages.telegram_delete.expired')) if message.created_at <= DELETE_WINDOW.ago
 
-    response = request_deletion
-    return if response.success? && response.parsed_response['ok'] == true
+    # every batch has to succeed, otherwise the message is kept in Chatwoot. Telegram skips ids already deleted, so trying again is safe
+    telegram_message_ids.each_slice(DELETE_BATCH_SIZE) do |message_ids|
+      response = request_deletion(message_ids)
+      next if response.success? && response.parsed_response['ok'] == true
 
-    raise_failed(I18n.t('errors.messages.telegram_delete.failed', reason: response.parsed_response['description']))
+      raise_failed(I18n.t('errors.messages.telegram_delete.failed', reason: response.parsed_response['description']))
+    end
   end
 
   private
@@ -37,15 +42,14 @@ class Telegram::DeleteMessageService
     @telegram_message_ids ||= message.external_source_ids['telegram_message_ids'].presence || Array(message.source_id.presence&.to_i)
   end
 
-  def request_deletion
+  def request_deletion(message_ids)
     business_connection_id = channel.business_connection_id(message)
 
     if business_connection_id.present?
       HTTParty.post("#{channel.telegram_api_url}/deleteBusinessMessages",
-                    body: { business_connection_id: business_connection_id, message_ids: telegram_message_ids.to_json })
+                    body: { business_connection_id: business_connection_id, message_ids: message_ids.to_json })
     else
-      HTTParty.post("#{channel.telegram_api_url}/deleteMessages",
-                    body: { chat_id: channel.chat_id(message), message_ids: telegram_message_ids.to_json })
+      HTTParty.post("#{channel.telegram_api_url}/deleteMessages", body: { chat_id: channel.chat_id(message), message_ids: message_ids.to_json })
     end
   end
 
