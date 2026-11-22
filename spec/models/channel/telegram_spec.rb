@@ -217,4 +217,19 @@ RSpec.describe Channel::Telegram do
       expect(telegram_channel.send_message_on_telegram(message)).to eq([457])
     end
   end
+
+  describe '#record_telegram_message_ids' do
+    let(:message) do
+      create(:message, message_type: :outgoing, content: 'test',
+                       conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
+    end
+
+    it 'adds the ids to the ids from earlier attempts' do
+      message.update!(external_source_ids: { 'telegram_message_ids' => [99] })
+
+      telegram_channel.record_telegram_message_ids(message, [101, 99, 102])
+
+      expect(message.reload.external_source_ids['telegram_message_ids']).to eq([99, 101, 102])
+    end
+  end
 end

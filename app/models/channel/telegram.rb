@@ -43,6 +43,13 @@ class Channel::Telegram < ApplicationRecord
     message_ids.compact
   end
 
+  # Saved right after each successful request, so an error later in the send (or a retry) can't lose the ids of what reached telegram.
+  # A retry resends the whole message, so ids from earlier partial attempts are kept as well.
+  def record_telegram_message_ids(message, ids)
+    telegram_message_ids = (Array(message.external_source_ids['telegram_message_ids']) + ids).uniq
+    message.update!(external_source_ids: message.external_source_ids.merge('telegram_message_ids' => telegram_message_ids))
+  end
+
   def get_telegram_profile_image(user_id)
     # get profile image from telegram
     response = HTTParty.get("#{telegram_api_url}/getUserProfilePhotos", query: { user_id: user_id })
@@ -112,7 +119,11 @@ class Channel::Telegram < ApplicationRecord
       business_connection_id: business_connection_id(message)
     )
     process_error(message, response)
-    response.parsed_response['result']['message_id'] if response.success?
+    return unless response.success?
+
+    message_id = response.parsed_response['result']['message_id']
+    record_telegram_message_ids(message, [message_id])
+    message_id
   end
 
   def reply_markup(message)

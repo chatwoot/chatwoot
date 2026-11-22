@@ -42,7 +42,9 @@ class Telegram::SendAttachmentsService
   def record_response(response)
     return false unless handle_response(response)
 
-    @sent_message_ids.concat(extract_attachment_message_ids(response))
+    message_ids = extract_attachment_message_ids(response)
+    channel.record_telegram_message_ids(message, message_ids)
+    @sent_message_ids.concat(message_ids)
     true
   end
 

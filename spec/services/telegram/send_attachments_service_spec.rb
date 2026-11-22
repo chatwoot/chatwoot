@@ -137,6 +137,22 @@ RSpec.describe Telegram::SendAttachmentsService do
       end
     end
 
+    context 'when a later document request raises' do
+      before do
+        2.times { attach_file_to_message(message, 'file', 'sample.pdf', 'application/pdf') }
+        message.save!
+
+        stub_request(:post, "#{telegram_api_url}/sendDocument")
+          .to_return({ status: 200, body: { ok: true, result: { message_id: 201 } }.to_json, headers: { 'Content-Type' => 'application/json' } })
+          .then.to_raise(Faraday::ConnectionFailed.new('connection reset'))
+      end
+
+      it 'has already saved the ids of the documents sent before the error' do
+        expect { service.perform }.to raise_error(Faraday::ConnectionFailed)
+        expect(message.reload.external_source_ids['telegram_message_ids']).to eq([201])
+      end
+    end
+
     def attach_files(message)
       attach_file_to_message(message, 'file', 'sample.pdf', 'application/pdf')
       attach_file_to_message(message, 'image', 'sample.png', 'image/png')

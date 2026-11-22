@@ -23,19 +23,10 @@ describe Telegram::SendOnTelegramService do
         allow(message.inbox).to receive(:channel).and_return(telegram_channel)
       end
 
-      it 'stores the first id as source_id and keeps every id' do
+      it 'stores the first id as source_id' do
         described_class.new(message: message).perform
 
         expect(message.reload.source_id).to eq('101')
-        expect(message.external_source_ids['telegram_message_ids']).to eq([101, 102, 103])
-      end
-
-      it 'keeps the ids from an earlier attempt when the message is sent again' do
-        message.update!(external_source_ids: { 'telegram_message_ids' => [99] })
-
-        described_class.new(message: message).perform
-
-        expect(message.reload.external_source_ids['telegram_message_ids']).to eq([99, 101, 102, 103])
       end
     end
 
@@ -47,7 +38,6 @@ describe Telegram::SendOnTelegramService do
         described_class.new(message: message).perform
 
         expect(message.reload.source_id).to be_nil
-        expect(message.external_source_ids).not_to have_key('telegram_message_ids')
       end
     end
   end
