@@ -158,7 +158,8 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         before do
           allow(failure_tracker).to receive(:record_failure).with('message-id')
                                                             .and_return(Imap::FailedMessageTracker::MAX_FAILURES)
-          allow(inbound_mail).to receive(:without_attachments!).and_return(inbound_mail)
+          # without_attachments! mutates the mail; its return value is not the mail itself.
+          allow(inbound_mail).to receive(:without_attachments!).and_return(instance_double(Mail::PartsList))
           allow(exception_tracker).to receive(:capture_exception)
 
           # The first mailbox run raises; a later degraded import succeeds.

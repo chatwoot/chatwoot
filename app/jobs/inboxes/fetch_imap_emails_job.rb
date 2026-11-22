@@ -120,9 +120,9 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   def import_without_attachments(inbound_mail, channel)
     return if inbound_mail.attachments.blank?
 
-    stripped_mail = inbound_mail.without_attachments!
+    inbound_mail.without_attachments!
     Timeout.timeout(email_processing_timeout) do
-      Imap::ImapMailbox.new.process(stripped_mail, channel)
+      Imap::ImapMailbox.new.process(inbound_mail, channel)
     end
     add_degraded_import_activity_message(channel, inbound_mail.message_id)
   rescue StandardError => e
