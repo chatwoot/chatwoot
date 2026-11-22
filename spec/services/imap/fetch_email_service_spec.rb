@@ -141,6 +141,170 @@ RSpec.describe Imap::FetchEmailService do
         end
       end
 
+      it 'does not download emails that already failed processing the maximum number of times' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          email_object = create_inbound_email_from_fixture('only_text.eml')
+          email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
+          redis_key = format(Redis::RedisKeys::IMAP_FAILED_MESSAGE,
+                             inbox_id: imap_email_channel.inbox.id,
+                             message_id_digest: Digest::SHA256.hexdigest(email_object.message_id))
+          tracker = Imap::FailedMessageTracker.new(inbox: imap_email_channel.inbox)
+
+          Imap::FailedMessageTracker::MAX_FAILURES.times { tracker.record_failure(email_object.message_id) }
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
+          allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
+          allow(imap).to receive(:logout)
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result).to be_empty
+          expect(imap).to have_received(:fetch).with([1], 'BODY.PEEK[HEADER]')
+          expect(imap).not_to have_received(:fetch).with(1, 'BODY.PEEK[]')
+        ensure
+          Redis::Alfred.delete(redis_key) if redis_key
+        end
+      end
+
+      it 'does not download a recently failed email that is still backing off' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          email_object = create_inbound_email_from_fixture('only_text.eml')
+          email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
+          redis_key = format(Redis::RedisKeys::IMAP_FAILED_MESSAGE,
+                             inbox_id: imap_email_channel.inbox.id,
+                             message_id_digest: Digest::SHA256.hexdigest(email_object.message_id))
+          tracker = Imap::FailedMessageTracker.new(inbox: imap_email_channel.inbox)
+
+          tracker.record_failure(email_object.message_id)
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
+          allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
+          allow(imap).to receive(:logout)
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result).to be_empty
+          expect(imap).not_to have_received(:fetch).with(1, 'BODY.PEEK[]')
+        ensure
+          Redis::Alfred.delete(redis_key) if redis_key
+        end
+      end
+
+      it 'downloads a failed email again once the backoff has elapsed' do
+        email_object = create_inbound_email_from_fixture('only_text.eml')
+        tracker = Imap::FailedMessageTracker.new(inbox: imap_email_channel.inbox)
+
+        travel_to '26.10.2020 09:54'.to_datetime do
+          tracker.record_failure(email_object.message_id)
+        end
+
+        travel_to '26.10.2020 10:00'.to_datetime do
+          email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
+          imap_fetch_mail = Net::IMAP::FetchData.new(1, 'BODY[]' => eml_content_with_message_id)
+          redis_key = format(Redis::RedisKeys::IMAP_FAILED_MESSAGE,
+                             inbox_id: imap_email_channel.inbox.id,
+                             message_id_digest: Digest::SHA256.hexdigest(email_object.message_id))
+
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
+          allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
+          allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_return([imap_fetch_mail])
+          allow(imap).to receive(:logout)
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result.length).to eq 1
+          expect(imap).to have_received(:fetch).with(1, 'BODY.PEEK[]')
+        ensure
+          Redis::Alfred.delete(redis_key) if redis_key
+        end
+      end
+
+      it 'reconnects and continues fetching when the connection drops mid run' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          email_object = create_inbound_email_from_fixture('only_text.eml')
+          email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
+          imap_fetch_mail = Net::IMAP::FetchData.new(1, 'BODY[]' => eml_content_with_message_id)
+          reconnected_imap = instance_double(Net::IMAP)
+
+          allow(Net::IMAP).to receive(:new).with(
+            imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: imap_email_channel.imap_enable_ssl
+          ).and_return(imap, reconnected_imap)
+          allow(reconnected_imap).to receive(:authenticate).with(
+            'plain', imap_email_channel.imap_login, imap_email_channel.imap_password
+          )
+          allow(reconnected_imap).to receive(:select).with('INBOX')
+          allow(imap).to receive(:disconnect)
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
+          allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
+          allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_raise(IOError, 'closed stream')
+          allow(reconnected_imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_return([imap_fetch_mail])
+          allow(reconnected_imap).to receive(:logout)
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result.length).to eq 1
+          expect(result[0].message_id).to eq email_object.message_id
+          expect(imap).to have_received(:disconnect)
+          expect(reconnected_imap).to have_received(:select).with('INBOX')
+          expect(reconnected_imap).to have_received(:fetch).with(1, 'BODY.PEEK[]')
+        end
+      end
+
+      it 'keeps emails fetched before and after a dropped connection' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          email_object = create_inbound_email_from_fixture('only_text.eml')
+          email_header_one = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
+          email_header_two = Net::IMAP::FetchData.new(2, 'BODY[HEADER]' => eml_content_with_message_id)
+          imap_fetch_mail = Net::IMAP::FetchData.new(2, 'BODY[]' => eml_content_with_message_id)
+          reconnected_imap = instance_double(Net::IMAP)
+
+          allow(Net::IMAP).to receive(:new).with(
+            imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: imap_email_channel.imap_enable_ssl
+          ).and_return(imap, reconnected_imap)
+          allow(reconnected_imap).to receive(:authenticate).with(
+            'plain', imap_email_channel.imap_login, imap_email_channel.imap_password
+          )
+          allow(reconnected_imap).to receive(:select).with('INBOX')
+          allow(imap).to receive(:disconnect)
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1, 2])
+          allow(imap).to receive(:fetch).with([1, 2], 'BODY.PEEK[HEADER]').and_return([email_header_one, email_header_two])
+          allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_raise(IOError, 'closed stream')
+          allow(reconnected_imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_raise(IOError, 'closed stream')
+          allow(reconnected_imap).to receive(:fetch).with(2, 'BODY.PEEK[]').and_return([imap_fetch_mail])
+          allow(reconnected_imap).to receive(:logout)
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result.length).to eq 1
+          expect(result[0].message_id).to eq email_object.message_id
+          expect(reconnected_imap).to have_received(:fetch).with(2, 'BODY.PEEK[]')
+        end
+      end
+
+      it 'stops fetching once reconnect attempts are exhausted' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          email_headers = (1..4).map { |seq_no| Net::IMAP::FetchData.new(seq_no, 'BODY[HEADER]' => eml_content_with_message_id) }
+          connection_attempts = 0
+
+          allow(Net::IMAP).to receive(:new) do
+            connection_attempts += 1
+            raise IOError, 'closed stream' if connection_attempts > 1
+
+            imap
+          end
+          allow(imap).to receive(:disconnect)
+          allow(imap).to receive(:logout)
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1, 2, 3, 4])
+          allow(imap).to receive(:fetch).with([1, 2, 3, 4], 'BODY.PEEK[HEADER]').and_return(email_headers)
+          allow(imap).to receive(:fetch).with(anything, 'BODY.PEEK[]').and_raise(IOError, 'closed stream')
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result).to be_empty
+          expect(connection_attempts).to eq(Imap::BaseFetchEmailService::MAX_RECONNECT_ATTEMPTS + 1)
+          # No fetch is attempted once the connection is considered lost.
+          expect(imap).to have_received(:fetch).with(anything, 'BODY.PEEK[]').exactly(3).times
+        end
+      end
+
       it 'does not count emails without message ids toward the sync limit' do
         travel_to '26.10.2020 10:00'.to_datetime do
           email_object = create_inbound_email_from_fixture('only_text.eml')

@@ -2,6 +2,11 @@ require 'net/imap'
 
 class Imap::BaseFetchEmailService
   MAX_MESSAGES_PER_SYNC = 500
+  MAX_RECONNECT_ATTEMPTS = 3
+  TRANSIENT_IMAP_ERRORS = [
+    IOError, SystemCallError, SocketError, Timeout::Error,
+    OpenSSL::SSL::SSLError, Net::IMAP::Error
+  ].freeze
 
   pattr_initialize [:channel!, :interval]
 
@@ -47,6 +52,7 @@ class Imap::BaseFetchEmailService
   end
 
   def fetch_mail_for_channel
+    @reconnect_attempts = 0
     message_ids_with_seq = fetch_message_ids_with_sequence
     message_ids_with_seq.filter_map do |message_id_with_seq|
       process_message_id(message_id_with_seq)
@@ -61,11 +67,16 @@ class Imap::BaseFetchEmailService
       return
     end
 
+    return if connection_lost?
     return if email_already_present?(channel, message_id)
+
+    # A message that already failed processing is not downloaded again on every
+    # run. It is retried once the tracker's backoff has elapsed.
+    return if failed_message?(message_id)
 
     # Fetch the original mail content using the sequence no.
     # BODY.PEEK[] avoids RFC822 parser failures seen with some IMAP servers.
-    mail_str = imap_client.fetch(seq_no, 'BODY.PEEK[]')[0].attr['BODY[]']
+    mail_str = fetch_full_message(seq_no)
 
     if mail_str.blank?
       Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetch failed for #{channel.email} with message-id <#{message_id}>."
@@ -75,6 +86,67 @@ class Imap::BaseFetchEmailService
     inbound_mail = build_mail_from_string(mail_str)
     mail_info_logger(inbound_mail, seq_no)
     inbound_mail
+  end
+
+  def failed_message?(message_id)
+    return false unless failed_message_tracker.skip?(message_id)
+
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Skipping previously failed email for #{channel.email} " \
+                      "with message-id <#{message_id}>."
+    true
+  end
+
+  def failed_message_tracker
+    @failed_message_tracker ||= Imap::FailedMessageTracker.new(inbox: channel.inbox)
+  end
+
+  # When the IMAP connection drops mid-run (for example a server-side BYE),
+  # reconnect and retry the message instead of aborting the whole batch.
+  def fetch_full_message(seq_no)
+    fetch_body = -> { imap_client.fetch(seq_no, 'BODY.PEEK[]')&.first&.attr&.dig('BODY[]') }
+
+    fetch_body.call
+  rescue *TRANSIENT_IMAP_ERRORS => e
+    return log_fetch_failure(seq_no, e) unless reconnect_imap
+
+    begin
+      fetch_body.call
+    rescue *TRANSIENT_IMAP_ERRORS => e
+      log_fetch_failure(seq_no, e)
+    end
+  end
+
+  def reconnect_imap
+    return false if connection_lost?
+
+    @reconnect_attempts += 1
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Reconnecting IMAP for #{channel.email} " \
+                      "(attempt #{@reconnect_attempts}/#{MAX_RECONNECT_ATTEMPTS})"
+    disconnect_imap_client
+    @imap_client = build_imap_client
+    true
+  rescue OAuth2::Error
+    # Let the job mark the channel as requiring reauthorization.
+    raise
+  rescue StandardError => e
+    @connection_lost = true if @reconnect_attempts >= MAX_RECONNECT_ATTEMPTS
+    Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Reconnect failed for #{channel.email}: #{e.message}"
+    false
+  end
+
+  def connection_lost?
+    @connection_lost == true
+  end
+
+  def disconnect_imap_client
+    @imap_client&.disconnect
+  rescue StandardError
+    nil
+  end
+
+  def log_fetch_failure(seq_no, error)
+    Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Fetch failed for #{channel.email} with seq no. <#{seq_no}>: #{error.message}"
+    nil
   end
 
   # Sends a FETCH command to retrieve data associated with a message in the mailbox.
