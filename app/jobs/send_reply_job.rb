@@ -17,6 +17,9 @@ class SendReplyJob < ApplicationJob
 
   def perform(message_id)
     message = Message.find(message_id)
+    # a queued or retried send of a message deleted meanwhile would deliver the deleted placeholder to the customer
+    return if message.deleted
+
     channel_name = message.conversation.inbox.channel.class.to_s
 
     Captain::Conversation::AgentMessageTranslationService.new(message: message).perform if message.content_attributes['translation_pending']

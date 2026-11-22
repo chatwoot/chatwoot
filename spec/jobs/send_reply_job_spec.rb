@@ -59,6 +59,17 @@ RSpec.describe SendReplyJob do
       expect_mapped_service_to_perform(message, 'Telegram::SendOnTelegramService')
     end
 
+    it 'does not send a message that was deleted before the job ran' do
+      telegram_channel = create(:channel_telegram)
+      message = create(:message, conversation: create(:conversation, inbox: telegram_channel.inbox))
+      message.update!(content_attributes: { deleted: true })
+      allow(Telegram::SendOnTelegramService).to receive(:new)
+
+      described_class.perform_now(message.id)
+
+      expect(Telegram::SendOnTelegramService).not_to have_received(:new)
+    end
+
     it 'calls ::Line:SendOnLineService when its line message' do
       line_channel = create(:channel_line)
       message = create(:message, conversation: create(:conversation, inbox: line_channel.inbox))
