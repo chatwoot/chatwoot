@@ -192,6 +192,7 @@ class Messages::MessageBuilder
 
     # Process liquid templates in normalized content with code block protection
     processed_content = process_liquid_in_email_body(normalized_content)
+    validate_email_content_length(processed_content)
 
     # Use custom HTML content if provided, otherwise generate from message content
     email_attributes[:html_content] = if custom_email_content_provided?
@@ -202,6 +203,14 @@ class Messages::MessageBuilder
 
     email_attributes[:text_content] = build_text_content(processed_content)
     email_attributes
+  end
+
+  # Applies the same limit as the content length validation on Message so a
+  # quoted thread cannot push the stored email payload past it.
+  def validate_email_content_length(normalized_content)
+    return if normalized_content.length <= 150_000
+
+    raise StandardError, 'Email content is too long (maximum is 150000 characters)'
   end
 
   def build_html_content(normalized_content)

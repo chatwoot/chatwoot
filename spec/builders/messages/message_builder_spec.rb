@@ -447,6 +447,28 @@ describe Messages::MessageBuilder do
           expect(message.content).to eq 'Use the reset link on the login page'
           expect(message.content_attributes[:email]).to be_nil
         end
+
+        it 'stores a reply and quoted thread that reach the content length limit' do
+          params[:content] = 'a' * 149_000
+          params[:email_quoted_content] = 'b' * 1_000
+
+          message = message_builder
+
+          expect(message.content_attributes.dig('email', 'text_content', 'full').length).to eq 150_000
+        end
+
+        it 'rejects quoted content that is over the content length limit on its own' do
+          params[:email_quoted_content] = 'a' * 150_001
+
+          expect { message_builder }.to raise_error(StandardError, 'Email content is too long (maximum is 150000 characters)')
+        end
+
+        it 'rejects a reply and quoted thread that exceed the content length limit together' do
+          params[:content] = 'a' * 149_999
+          params[:email_quoted_content] = 'aa'
+
+          expect { message_builder }.to raise_error(StandardError, 'Email content is too long (maximum is 150000 characters)')
+        end
       end
     end
   end
