@@ -45,6 +45,9 @@ class AutomationRule < ApplicationRecord
   validates :execution_delay, numericality: { only_integer: true, in: EXECUTION_DELAY_RANGE }, allow_nil: true
   validate :execution_delay_supported_conditions
   validate :execution_delay_supported_event
+  # Rules saved through the API before this check existed may already carry 'self';
+  # gating on an actions change lets those rules still be deactivated or cleaned up.
+  validate :assign_agent_params_supported, if: :will_save_change_to_actions?
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
   # Discard rows armed under the old definition; they re-arm on the next matching event.
@@ -137,6 +140,18 @@ class AutomationRule < ApplicationRecord
     actions = attributes - actions_attributes
 
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
+  end
+
+  # 'self' resolves to the user running a macro; a rule has no executing user,
+  # so storing it would make assign_agent silently do nothing at run time.
+  def assign_agent_params_supported
+    return if actions.blank?
+
+    self_assignee = actions.any? do |action|
+      action['action_name'] == 'assign_agent' && Array(action['action_params']).map(&:to_s).include?('self')
+    end
+
+    errors.add(:actions, "'self' is only supported in macros.") if self_assignee
   end
 
   def query_operator_presence

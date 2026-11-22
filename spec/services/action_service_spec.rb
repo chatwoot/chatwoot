@@ -84,6 +84,47 @@ describe ActionService do
       end
     end
 
+    context 'when agent is not a member of the inbox' do
+      it 'leaves the conversation unchanged and records why the assignment was skipped' do
+        original_assignee = conversation.assignee
+        allow(Rails.logger).to receive(:warn)
+
+        expect do
+          action_service.assign_agent([agent.id])
+        end.to have_enqueued_job(Conversations::ActivityMessageJob)
+          .with(conversation, hash_including(message_type: :activity,
+                                             content: "Conversation could not be assigned to #{agent.name}: not a member of this inbox"))
+
+        expect(conversation.reload.assignee).to eq(original_assignee)
+        expect(Rails.logger).to have_received(:warn).with(/assign_agent skipped/)
+      end
+
+      it 'assigns the agent if they are an account administrator' do
+        administrator = create(:user, account: account, role: :administrator)
+
+        expect do
+          action_service.assign_agent([administrator.id])
+        end.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+          .with(conversation, hash_including(content: /could not be assigned/))
+
+        expect(conversation.reload.assignee).to eq(administrator)
+      end
+    end
+
+    context 'when the agent does not exist in the account' do
+      it 'leaves the conversation unchanged and records why the assignment was skipped' do
+        original_assignee = conversation.assignee
+
+        expect do
+          action_service.assign_agent([999_999_999])
+        end.to have_enqueued_job(Conversations::ActivityMessageJob)
+          .with(conversation, hash_including(message_type: :activity,
+                                             content: 'Conversation could not be assigned: the agent is unavailable or does not exist'))
+
+        expect(conversation.reload.assignee).to eq(original_assignee)
+      end
+    end
+
     context 'when assigning the last responding agent' do
       it 'assigns the last agent who replied publicly' do
         note_author = create(:user, account: account, role: :agent)

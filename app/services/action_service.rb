@@ -44,10 +44,12 @@ class ActionService
     return @conversation.with_lock { @conversation.update!(assignee_id: nil) } if agent_ids[0] == 'nil'
 
     agent_ids = [last_responding_agent_id] if agent_ids[0] == 'last_responding_agent'
-    return unless agent_belongs_to_inbox?(agent_ids)
+    # Nothing to resolve to (no public reply yet, empty params): a normal state, not a broken rule.
+    return if agent_ids[0].blank?
 
     @agent = @account.users.find_by(id: agent_ids)
-    return unless @agent.present? && @agent.confirmed?
+    return report_assign_agent_failure('unavailable', agent_ids) unless @agent.present? && @agent.confirmed?
+    return report_assign_agent_failure('not_inbox_member', @agent.id, assignee_name: @agent.name) unless agent_belongs_to_inbox?(@agent.id)
 
     Conversations::AssignmentService.new(conversation: @conversation, assignee_id: @agent.id).perform
   end
@@ -99,11 +101,26 @@ class ActionService
     @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id
   end
 
-  def agent_belongs_to_inbox?(agent_ids)
+  def agent_belongs_to_inbox?(agent_id)
     member_ids = @conversation.inbox.members.pluck(:user_id)
     assignable_agent_ids = member_ids + @account.administrators.ids
 
-    assignable_agent_ids.include?(agent_ids[0])
+    assignable_agent_ids.include?(agent_id)
+  end
+
+  # A skipped assignment must be visible: the macro toast only confirms the job was
+  # queued, so without an activity message there is no way to tell why nothing changed.
+  def report_assign_agent_failure(reason, agent_id, i18n_params = {})
+    Rails.logger.warn("[ActionService] assign_agent skipped for conversation #{@conversation.id}: #{reason} (agent: #{agent_id})")
+
+    content = I18n.t("conversations.activity.assignee.#{reason}", **i18n_params)
+    ::Conversations::ActivityMessageJob.perform_later(
+      @conversation,
+      account_id: @conversation.account_id,
+      inbox_id: @conversation.inbox_id,
+      message_type: :activity,
+      content: content
+    )
   end
 
   def team_belongs_to_account?(team_ids)

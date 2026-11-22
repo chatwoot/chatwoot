@@ -107,6 +107,49 @@ RSpec.describe AutomationRule do
     end
   end
 
+  describe 'assign_agent action params' do
+    let(:account) { create(:account) }
+    let(:assign_agent_action) { { 'action_name' => 'assign_agent', 'action_params' => action_params } }
+    let(:rule) { build(:automation_rule, account: account, actions: [assign_agent_action]) }
+
+    context "when action_params contains 'self'" do
+      let(:action_params) { ['self'] }
+
+      it 'is rejected because a rule has no executing user to resolve it to' do
+        expect(rule).not_to be_valid
+        expect(rule.errors[:actions]).to include("'self' is only supported in macros.")
+      end
+    end
+
+    context 'when action_params contains last_responding_agent' do
+      let(:action_params) { ['last_responding_agent'] }
+
+      it 'is accepted' do
+        expect(rule).to be_valid
+      end
+    end
+
+    context 'when the rule was saved before the check existed' do
+      before do
+        rule.save!
+        rule.update_column(:actions, [{ 'action_name' => 'assign_agent', 'action_params' => ['self'] }]) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      let(:action_params) { [1] }
+
+      it 'can still be deactivated' do
+        expect(rule.update(active: false)).to be(true)
+      end
+
+      it 'is rejected once its actions are edited' do
+        rule.actions = [{ 'action_name' => 'assign_agent', 'action_params' => ['self', 1] }]
+
+        expect(rule).not_to be_valid
+        expect(rule.errors[:actions]).to include("'self' is only supported in macros.")
+      end
+    end
+  end
+
   describe 'reauthorizable' do
     context 'when prompt_reauthorization!' do
       it 'marks the rule inactive' do
