@@ -45,11 +45,13 @@ describe Telegram::DeleteMessageService do
       end
     end
 
-    it 'does not call telegram for messages older than 48 hours' do
+    it 'raises without calling telegram for messages older than 48 hours' do
       message.update!(created_at: 49.hours.ago)
 
-      service.perform
-
+      expect { service.perform }.to raise_error do |error|
+        expect(error.class.name).to eq('CustomExceptions::ChannelMessageDeleteFailed')
+        expect(error.message).to eq('Telegram only allows deleting a message for the customer within 48 hours of sending it')
+      end
       expect(a_request(:post, /#{telegram_api_url}/o)).not_to have_been_made
     end
 

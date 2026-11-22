@@ -150,6 +150,8 @@ const emit = defineEmits(['retry']);
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
+// the delete-for-customer window is checked against the time the menu was opened, not when the message was rendered
+const contextMenuOpenedAt = ref(Date.now());
 const showForwardEmail = ref(false);
 const forwardEmailPosition = ref({});
 const { t } = useI18n();
@@ -401,12 +403,16 @@ const isMessageDeleted = computed(() => {
 });
 
 const canDeleteForCustomer = computed(() =>
-  canDeleteMessageOnChannel(inbox.value, {
-    messageType: props.messageType,
-    private: props.private,
-    sourceId: props.sourceId,
-    createdAt: props.createdAt,
-  })
+  canDeleteMessageOnChannel(
+    inbox.value,
+    {
+      messageType: props.messageType,
+      private: props.private,
+      sourceId: props.sourceId,
+      createdAt: props.createdAt,
+    },
+    contextMenuOpenedAt.value
+  )
 );
 
 const isForwardedEmail = computed(
@@ -506,6 +512,7 @@ function openContextMenu(e) {
     x: e.pageX || e.clientX,
     y: e.pageY || e.clientY,
   };
+  contextMenuOpenedAt.value = Date.now();
   showContextMenu.value = true;
 }
 

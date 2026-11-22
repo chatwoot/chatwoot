@@ -5,9 +5,10 @@ import { MESSAGE_TYPE } from 'shared/constants/messages';
  * @param {Object} inbox - Inbox with message_delete_window, the seconds after sending in which
  *   the channel allows deleting a message (null when the channel can't)
  * @param {Object} message - Message with messageType, private, sourceId and createdAt (in seconds)
+ * @param {number} now - Time to check the delete window against, in milliseconds
  * @returns {boolean}
  */
-export const canDeleteMessageOnChannel = (inbox, message) => {
+export const canDeleteMessageOnChannel = (inbox, message, now = Date.now()) => {
   const deleteWindow = inbox.message_delete_window;
   if (!deleteWindow) return false;
 
@@ -15,6 +16,6 @@ export const canDeleteMessageOnChannel = (inbox, message) => {
     message.messageType === MESSAGE_TYPE.OUTGOING &&
     !message.private &&
     !!message.sourceId &&
-    Date.now() / 1000 - message.createdAt < deleteWindow
+    now / 1000 - message.createdAt < deleteWindow
   );
 };

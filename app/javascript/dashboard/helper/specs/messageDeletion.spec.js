@@ -25,6 +25,12 @@ describe('canDeleteMessageOnChannel', () => {
     expect(canDeleteMessageOnChannel(inbox, message)).toBe(false);
   });
 
+  it('checks the delete window against the given time', () => {
+    const message = deliveredMessage();
+    const afterWindow = (message.createdAt + DELETE_WINDOW + 60) * 1000;
+    expect(canDeleteMessageOnChannel(inbox, message, afterWindow)).toBe(false);
+  });
+
   it('returns false for incoming messages', () => {
     const message = deliveredMessage({ messageType: MESSAGE_TYPE.INCOMING });
     expect(canDeleteMessageOnChannel(inbox, message)).toBe(false);

@@ -8285,7 +8285,7 @@
             "userApiKey": []
           }
         ],
-        "description": "Delete a message and it's attachments from the conversation.\nWith `delete_on_channel`, an outgoing message is also deleted for the customer on the channel, if the channel supports it and still allows deleting the message.\nIf the channel refuses, the message is kept and a 422 error is returned.\n",
+        "description": "Delete a message and it's attachments from the conversation.\nWith `delete_on_channel`, an outgoing message is also deleted for the customer on the channel, if the channel supports it.\nIf the channel no longer allows deleting the message or refuses, the message is kept and a 422 error is returned.\n",
         "parameters": [
           {
             "name": "delete_on_channel",
@@ -8322,7 +8322,7 @@
             }
           },
           "422": {
-            "description": "The channel refused to delete the message, so it was not deleted in Chatwoot either",
+            "description": "`delete_on_channel` is not `true` or `false`, or the channel no longer allows deleting the message or refused it,\nso it was not deleted in Chatwoot either\n",
             "content": {
               "application/json": {
                 "schema": {

@@ -1,6 +1,6 @@
 # Deletes an outgoing message for the customer on Telegram before Chatwoot soft-deletes it.
-# Telegram only allows this within 48 hours of sending, older messages are only deleted in Chatwoot.
-# Raises CustomExceptions::ChannelMessageDeleteFailed when Telegram refuses, so the message is kept in Chatwoot too.
+# Raises CustomExceptions::ChannelMessageDeleteFailed when Telegram refuses or the message is past Telegram's 48 hour limit,
+# so the message is kept in Chatwoot too.
 
 # ref: https://core.telegram.org/bots/api#deletemessages
 # ref: https://core.telegram.org/bots/api#deletebusinessmessages
@@ -11,21 +11,25 @@ class Telegram::DeleteMessageService
   pattr_initialize [:message!]
 
   def perform
-    return unless deletable_on_telegram?
+    return unless on_telegram?
+
+    raise_failed(I18n.t('errors.messages.telegram_delete.expired')) if message.created_at <= DELETE_WINDOW.ago
 
     response = request_deletion
     return if response.success? && response.parsed_response['ok'] == true
 
-    raise CustomExceptions::ChannelMessageDeleteFailed.new(
-      message: I18n.t('errors.messages.telegram_delete.failed', reason: response.parsed_response['description'])
-    )
+    raise_failed(I18n.t('errors.messages.telegram_delete.failed', reason: response.parsed_response['description']))
   end
 
   private
 
   # source_id is set once anything was delivered to telegram
-  def deletable_on_telegram?
-    message.outgoing? && !message.private? && !message.deleted && message.source_id.present? && message.created_at > DELETE_WINDOW.ago
+  def on_telegram?
+    message.outgoing? && !message.private? && !message.deleted && message.source_id.present?
+  end
+
+  def raise_failed(error_message)
+    raise CustomExceptions::ChannelMessageDeleteFailed.new(message: error_message)
   end
 
   # Messages sent before all ids were recorded, and messages typed in the business account's own app, only have the source_id
