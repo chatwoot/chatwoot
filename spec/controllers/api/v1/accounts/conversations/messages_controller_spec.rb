@@ -361,13 +361,15 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(message.reload.deleted).to be true
       end
 
-      it 'rejects a delete_on_channel value that is not a boolean' do
-        delete "#{message_path}?delete_on_channel=flase", headers: agent.create_new_auth_token, as: :json
+      %w[delete_on_channel=flase delete_on_channel[]=true delete_on_channel[value]=true].each do |query|
+        it "rejects #{query} as delete_on_channel is not a boolean" do
+          delete "#{message_path}?#{query}", headers: agent.create_new_auth_token, as: :json
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to eq('delete_on_channel must be true or false')
-        expect(Messages::DeleteOnChannelService).not_to have_received(:new)
-        expect(message.reload.deleted).to be_nil
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('delete_on_channel must be true or false')
+          expect(Messages::DeleteOnChannelService).not_to have_received(:new)
+          expect(message.reload.deleted).to be_nil
+        end
       end
     end
 

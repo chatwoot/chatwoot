@@ -94,9 +94,10 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     params.permit(:id, :target_language, :status, :external_error, :delete_on_channel)
   end
 
-  # the deletion on the channel can't be undone, so only the documented boolean is accepted
+  # the deletion on the channel can't be undone, so only the documented boolean is accepted.
+  # Reads the raw param, as permit drops arrays and hashes, which would then pass as if the flag was absent.
   def validate_delete_on_channel
-    value = permitted_params[:delete_on_channel]
+    value = params[:delete_on_channel]
     return if value.nil? || DELETE_ON_CHANNEL_VALUES.include?(value.to_s)
 
     render_could_not_create_error(I18n.t('errors.messages.delete_on_channel.invalid'))
