@@ -55,6 +55,7 @@
     "ANONYMOUS_CALLER_CANNOT_REPLY": "Messages cannot be sent because this caller’s phone number is unavailable.",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
+    "7_DAYS_WINDOW": "7 day message window restriction",
     "48_HOURS_WINDOW": "48 hour message window restriction",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",

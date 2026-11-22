@@ -28,6 +28,8 @@ const {
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DISABLE_META_INBOX_CREATION: disableMetaInboxCreation,
   DISABLE_META_MESSAGE_SENDING: disableMetaMessageSending,
+  ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: messengerHumanAgentEnabled,
+  ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT: instagramHumanAgentEnabled,
   DEPLOYMENT_ENV: deploymentEnv,
   ACTIVE_PLATFORM_BANNERS: activePlatformBanners,
   ACTIVE_FEATURE_ANNOUNCEMENTS: activeFeatureAnnouncements,
@@ -48,6 +50,8 @@ const state = {
   disableUserProfileUpdate: parseBoolean(disableUserProfileUpdate),
   disableMetaInboxCreation: parseBoolean(disableMetaInboxCreation),
   disableMetaMessageSending: parseBoolean(disableMetaMessageSending),
+  messengerHumanAgentEnabled: parseBoolean(messengerHumanAgentEnabled),
+  instagramHumanAgentEnabled: parseBoolean(instagramHumanAgentEnabled),
   displayManifest,
   gitSha,
   maximumFileUploadSize: resolveMaximumFileUploadSize(maximumFileUploadSize),
@@ -72,6 +76,8 @@ export const getters = {
     $state.deploymentEnv === 'cloud' && $state.disableMetaInboxCreation,
   isMetaMessageSendingDisabled: $state =>
     $state.deploymentEnv === 'cloud' && $state.disableMetaMessageSending,
+  isMessengerHumanAgentEnabled: $state => $state.messengerHumanAgentEnabled,
+  isInstagramHumanAgentEnabled: $state => $state.instagramHumanAgentEnabled,
   isACustomBrandedInstance: $state => $state.installationName !== 'Chatwoot',
   isAChatwootInstance: $state => $state.installationName === 'Chatwoot',
 };
