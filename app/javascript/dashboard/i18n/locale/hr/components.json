@@ -7,7 +7,7 @@
     "PLACEHOLDER": "Select an option...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Nisu pronađeni rezultati.",
-    "LOADING": "Loading...",
+    "LOADING": "Učitavanje...",
     "SEARCH_PLACEHOLDER": "Search...",
     "MORE": "+{count} more"
   },
@@ -44,11 +44,11 @@
   "FEATURE_ANNOUNCEMENT": {
     "BADGE": "Novo",
     "DISMISS": "U redu",
-    "PREVIOUS": "Previous",
-    "NEXT": "Next",
+    "PREVIOUS": "Prethodno",
+    "NEXT": "Dalje",
     "DISMISS_HINT": "Pritisnite {key} za zatvaranje",
     "ESCAPE_KEY": "Esc",
-    "CLOSE": "Close"
+    "CLOSE": "Zatvori"
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Learn more",
