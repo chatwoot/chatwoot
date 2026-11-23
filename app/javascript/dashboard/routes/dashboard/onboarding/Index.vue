@@ -12,6 +12,8 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import { languageOption } from 'shared/helpers/languageSearch';
 import OnboardingLayout from './shared/OnboardingLayout.vue';
 import OnboardingSection from './shared/OnboardingSection.vue';
 import OnboardingFormRow from './account-details/OnboardingFormRow.vue';
@@ -95,7 +97,7 @@ const languageOptions = computed(() => {
   const langs = [...(enabledLanguages || [])];
   return langs
     .sort((a, b) => a.iso_639_1_code.localeCompare(b.iso_639_1_code))
-    .map(l => ({ value: l.iso_639_1_code, label: l.name }));
+    .map(({ name, iso_639_1_code: code }) => languageOption(name, code));
 });
 
 const timezoneOptions = computed(() => {
@@ -305,10 +307,13 @@ const handleSubmit = async () => {
             :title="t('ONBOARDING_NEXT.FIELDS.LANGUAGE')"
             icon="i-lucide-languages"
           >
-            <OnboardingFormSelect
+            <ComboBox
               v-model="locale"
+              :aria-label="t('ONBOARDING_NEXT.FIELDS.LANGUAGE')"
               :has-error="showErrorOnFields && v$.locale.$error"
               :options="languageOptions"
+              :allow-deselect="false"
+              keyboard-navigation
             />
           </OnboardingFormRow>
           <OnboardingFormRow

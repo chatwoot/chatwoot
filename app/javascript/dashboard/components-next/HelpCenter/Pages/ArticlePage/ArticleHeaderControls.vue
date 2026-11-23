@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { languageOption } from 'shared/helpers/languageSearch';
 import { useRoute } from 'vue-router';
 import { OnClickOutside } from '@vueuse/components';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -153,8 +154,7 @@ const hasCategoryMenuItems = computed(() => {
 
 const localeMenuItems = computed(() => {
   return props.allowedLocales.map(locale => ({
-    label: locale.name,
-    value: locale.code,
+    ...languageOption(locale.name, locale.code),
     action: 'filter',
   }));
 });

@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, onMounted, ref, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { languageOption } from 'shared/helpers/languageSearch';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useInbox } from 'dashboard/composables/useInbox';
@@ -83,7 +84,7 @@ const labelOptions = computed(() =>
 );
 
 const languageOptions = computed(() =>
-  languages.map(({ name, id }) => ({ label: `${name} (${id})`, value: id }))
+  languages.map(({ name, id }) => languageOption(`${name} (${id})`, id))
 );
 
 const messagePreviewData = computed(() => ({

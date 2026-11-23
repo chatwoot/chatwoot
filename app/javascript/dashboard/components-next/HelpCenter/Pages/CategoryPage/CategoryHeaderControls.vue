@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { languageOption } from 'shared/helpers/languageSearch';
 import { OnClickOutside } from '@vueuse/components';
 import { useStoreGetters } from 'dashboard/composables/store.js';
 
@@ -68,8 +69,7 @@ const activeLocaleCode = computed(() => activeLocale.value?.code ?? '');
 
 const localeMenuItems = computed(() => {
   return props.allowedLocales.map(locale => ({
-    label: locale.name,
-    value: locale.code,
+    ...languageOption(locale.name, locale.code),
     action: 'filter',
   }));
 });
