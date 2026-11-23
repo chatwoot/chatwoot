@@ -440,9 +440,6 @@ const emitSaveAutomation = () => {
     if (!allowsDelayedExecution.value) {
       delete payload.execution_delay;
       delete payload.only_during_business_hours;
-    } else if (!isDelayed.value) {
-      // Business hours only shape a wait, so a rule that runs immediately never keeps it.
-      payload.only_during_business_hours = false;
     }
     emit('save', payload, props.mode);
   }

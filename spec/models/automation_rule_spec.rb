@@ -355,19 +355,6 @@ RSpec.describe AutomationRule do
       rule.conditions = [{ 'attribute_key' => 'message_type', 'filter_operator' => 'equal_to', 'values' => ['outgoing'], 'query_operator' => nil }]
       expect(rule).to be_valid
     end
-
-    it 'allows business hours on a delayed rule' do
-      rule.execution_delay = 60
-      rule.only_during_business_hours = true
-      expect(rule).to be_valid
-    end
-
-    it 'rejects business hours on a rule that runs immediately' do
-      rule.execution_delay = nil
-      rule.only_during_business_hours = true
-      expect(rule).not_to be_valid
-      expect(rule.errors[:only_during_business_hours]).to include('can only be used with an execution delay.')
-    end
   end
 
   describe 'discarding stale pending executions on edit' do

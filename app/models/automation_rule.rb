@@ -46,7 +46,6 @@ class AutomationRule < ApplicationRecord
   validates :execution_delay, numericality: { only_integer: true, in: EXECUTION_DELAY_RANGE }, allow_nil: true
   validate :execution_delay_supported_conditions
   validate :execution_delay_supported_event
-  validate :business_hours_require_execution_delay
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
   # Discard rows armed under the old definition; they re-arm on the next matching event.
@@ -172,12 +171,6 @@ class AutomationRule < ApplicationRecord
     return if conditions.all? { |obj| DELAYED_CONVERSATION_ATTRIBUTES.include?(obj['attribute_key']) }
 
     errors.add(:execution_delay, 'only supports status and inbox conditions for conversation-level events.')
-  end
-
-  def business_hours_require_execution_delay
-    return unless only_during_business_hours? && execution_delay.blank?
-
-    errors.add(:only_during_business_hours, 'can only be used with an execution delay.')
   end
 
   # Deactivating counts: without it a rule turned off and back on before its due time would still

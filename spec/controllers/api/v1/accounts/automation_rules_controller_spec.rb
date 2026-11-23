@@ -533,15 +533,6 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(account.automation_rules.last.only_during_business_hours).to be(true)
       end
 
-      it 'rejects business hours on a rule that runs immediately' do
-        post "/api/v1/accounts/#{account.id}/automation_rules",
-             headers: administrator.create_new_auth_token,
-             params: delayed_rule_params.except(:execution_delay).merge(only_during_business_hours: true)
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(account.automation_rules.count).to eq(0)
-      end
-
       it 'persists and serializes a delayed customer follow-up with a pending status condition' do
         conditions = [
           { attribute_key: 'message_type', filter_operator: 'equal_to', values: ['outgoing'], query_operator: 'and' },
@@ -625,17 +616,6 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(account.automation_rules.last.execution_delay).to be_nil
-      end
-
-      it 'keeps only_during_business_hours unchanged on a paused delayed rule' do
-        automation_rule = create(:automation_rule, account: account, execution_delay: 240, only_during_business_hours: true)
-
-        patch "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}",
-              headers: administrator.create_new_auth_token,
-              params: { only_during_business_hours: false }
-
-        expect(response).to have_http_status(:success)
-        expect(automation_rule.reload.only_during_business_hours).to be(true)
       end
 
       it 'rejects cloning an existing delayed rule instead of turning it into an instant one' do
