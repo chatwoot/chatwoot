@@ -776,18 +776,6 @@
           "LABEL": "Zaproponuj odpowiedź",
           "CONTENT": "Analizuj zapytanie klienta i przygotuj odpowiedź, która skutecznie odnosi się do jego obaw lub pytań. Upewnij się, że odpowiedź jest jasna, zwięzła i dostarcza pomocnych informacji."
         },
-        "RATE": {
-          "LABEL": "Oceń tę rozmowę",
-          "CONTENT": "Przejrzyj rozmowę, aby ocenić, jak dobrze spełnia potrzeby klienta. Podaj ocenę w skali od 1 do 5 na podstawie tonu, jasności i skuteczności."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Rozmowy o wysokim priorytecie",
-          "CONTENT": "Podaj podsumowanie wszystkich otwartych rozmów o wysokim priorytecie. Uwzględnij ID rozmowy, nazwę klienta (jeśli dostępna), zawartość ostatniej wiadomości oraz przypisanego agenta. Pogrupuj według statusu, jeśli to istotne."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Lista kontaktów",
-          "CONTENT": "Pokaż listę 10 najważniejszych kontaktów. Uwzględnij nazwę, email lub numer telefonu (jeśli dostępny), czas ostatniego widoku, tagi (jeśli są)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
