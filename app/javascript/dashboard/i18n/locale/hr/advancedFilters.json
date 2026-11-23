@@ -21,7 +21,7 @@
     "INPUT_PLACEHOLDER": "Unesite vrijednost",
     "MULTI_VALUE_INPUT_PLACEHOLDER": "Upišite vrijednost, zatim pritisnite Enter da biste dodali još",
     "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Unesite vrijednost",
-    "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",
+    "CONTACT_SEARCH_PLACEHOLDER": "Pretraži kontakte",
     "CONTACT_FALLBACK": "Kontakt #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Jednako",
@@ -55,7 +55,7 @@
       "ASSIGNEE_NAME": "Ime dodijeljenog",
       "INBOX_NAME": "Naziv sandučića",
       "TEAM_NAME": "Naziv tima",
-      "CONTACT": "Contact",
+      "CONTACT": "Kontakt",
       "CONVERSATION_IDENTIFIER": "Identifikator razgovora",
       "CAMPAIGN_NAME": "Naziv kampanje",
       "LABELS": "Oznake",
@@ -75,7 +75,7 @@
       "VALUE_REQUIRED": "Vrijednost je obavezna",
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
       "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "INVALID_FILTER_OPERATOR": "Select a valid operator for this attribute",
+      "INVALID_FILTER_OPERATOR": "Odaberite valjani operator za ovaj atribut",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
