@@ -47,7 +47,9 @@ module Imap::ConnectionRecovery
     seq_no
   rescue *TRANSIENT_IMAP_ERRORS => e
     Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Re-resolve failed for #{channel.email} with message-id <#{message_id}>: #{e.message}"
-    nil
+    return nil unless reconnect_imap
+
+    retry
   end
 
   def reconnect_imap
