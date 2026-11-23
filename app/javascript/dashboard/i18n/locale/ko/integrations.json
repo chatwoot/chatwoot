@@ -776,18 +776,6 @@
           "LABEL": "답변 제안",
           "CONTENT": "고객의 문의를 분석하고 우려 사항이나 질문에 효과적으로 대응하는 답변을 작성하십시오. 답변이 명확하고 간결하며 유용한 정보를 제공하도록 하십시오."
         },
-        "RATE": {
-          "LABEL": "이 대화 평가",
-          "CONTENT": "대화가 고객의 요구를 얼마나 잘 충족하는지 검토하십시오. 톤, 명확성 및 효과를 기준으로 5점 만점으로 평가하십시오."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "높은 우선순위 대화",
-          "CONTENT": "모든 높은 우선순위 열린 대화의 요약을 알려 주십시오. 대화 ID, 고객 이름(가능한 경우), 마지막 메시지 내용 및 배정된 상담원을 포함하십시오. 관련이 있는 경우 상태별로 그룹화하십시오."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "연락처 목록",
-          "CONTENT": "상위 10개 연락처 목록을 보여 주십시오. 이름, 이메일 또는 전화번호(가능한 경우), 마지막 접속 시간, 태그(있는 경우)를 포함하십시오."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
