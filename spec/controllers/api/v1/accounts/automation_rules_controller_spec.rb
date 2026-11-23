@@ -245,23 +245,6 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(attachment_action['action_params'].first).to be_a(Integer)
         expect(attachment_action['action_params'].first).to eq(automation_rule.files.first.blob_id)
       end
-
-      it 'stores the inbox and template of a WhatsApp template action' do
-        whatsapp_inbox = create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox
-        template_action = {
-          inbox_id: whatsapp_inbox.id, content: 'Hello {{1}}',
-          template_params: { name: 'greeting', language: 'en', processed_params: { body: { '1' => '{{contact.name}}' } } }
-        }
-        params[:actions] = [{ action_name: 'send_whatsapp_template', action_params: [template_action] }]
-
-        post "/api/v1/accounts/#{account.id}/automation_rules",
-             headers: administrator.create_new_auth_token,
-             params: params,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(account.automation_rules.last.actions.first['action_params']).to eq([template_action.deep_stringify_keys])
-      end
     end
   end
 

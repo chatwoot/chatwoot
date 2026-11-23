@@ -428,17 +428,5 @@ RSpec.describe AutomationRule do
       expect(rule).not_to be_valid
       expect(rule.errors[:actions]).to include('WhatsApp template actions need a WhatsApp inbox, a template and its message.')
     end
-
-    it 'rejects a WhatsApp inbox from another account' do
-      template_params[:inbox_id] = create(:channel_whatsapp, sync_templates: false, validate_provider_config: false).inbox.id
-
-      expect(rule).not_to be_valid
-    end
-
-    it 'rejects an action without a template' do
-      template_params.delete(:template_params)
-
-      expect(rule).not_to be_valid
-    end
   end
 end

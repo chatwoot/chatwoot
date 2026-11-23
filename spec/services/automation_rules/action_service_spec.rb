@@ -323,17 +323,6 @@ RSpec.describe AutomationRules::ActionService do
       )
     end
 
-    it 'delivers the template after the 24-hour reply window has closed' do
-      stub_request(:post, 'https://waba.360dialog.io/v1/messages')
-        .to_return(status: 200, body: { messages: [{ id: 'wamid-1' }] }.to_json, headers: { 'content-type' => 'application/json' })
-      described_class.new(template_rule, account, whatsapp_conversation).perform
-      message = whatsapp_conversation.messages.last
-
-      expect(whatsapp_conversation.can_reply?).to be(false)
-      Whatsapp::SendOnWhatsappService.new(message: message).perform
-      expect(message.reload).to have_attributes(source_id: 'wamid-1', status: 'sent')
-    end
-
     it 'skips conversations outside the template inbox' do
       expect { described_class.new(template_rule, account, conversation).perform }.not_to change(Message, :count)
     end

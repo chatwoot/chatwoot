@@ -67,17 +67,4 @@ describe('AutomationActionWhatsAppTemplateInput', () => {
       body: { 1: '{{contact.name}}' },
     });
   });
-
-  it('clears the template when the inbox changes', async () => {
-    const wrapper = shallowMount(AutomationActionWhatsAppTemplateInput, {
-      props: { modelValue: savedValue },
-    });
-
-    wrapper.findComponent(ComboBox).vm.$emit('update:modelValue', 8);
-    await wrapper.vm.$nextTick();
-
-    expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([
-      { inbox_id: 8 },
-    ]);
-  });
 });

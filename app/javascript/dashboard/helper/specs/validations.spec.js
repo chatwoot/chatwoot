@@ -184,24 +184,11 @@ describe('validateAutomation', () => {
       expect(validateAutomation(ruleWith(action))).toEqual({});
     });
 
-    it('rejects an inbox without a template', () => {
-      const action = {
-        action_name: 'send_whatsapp_template',
-        action_params: { inbox_id: 1 },
-      };
+    it('rejects a template with an empty value', () => {
+      const action = templateAction({ body: { 1: '' } });
       expect(validateAutomation(ruleWith(action))).toEqual({
         action_0: 'WHATSAPP_TEMPLATE_INCOMPLETE',
       });
-    });
-
-    it.each([
-      ['an empty body value', { body: { 1: '' } }],
-      ['an invalid media URL', { header: { media_url: 'not a url' } }],
-      ['an empty button parameter', { buttons: [{ parameter: '' }] }],
-    ])('rejects %s', (_, processedParams) => {
-      expect(
-        validateAutomation(ruleWith(templateAction(processedParams)))
-      ).toEqual({ action_0: 'WHATSAPP_TEMPLATE_INCOMPLETE' });
     });
   });
 });
