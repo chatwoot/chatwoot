@@ -1,5 +1,6 @@
 class DataImports::Csv::ContactWriter
   STANDARD_FIELDS = %w[name email identifier phone_number].freeze
+  COMPANY_FIELDS = %w[company_name company_domain].freeze
   DIAGNOSTIC_FIELDS = %w[errors].freeze
 
   def initialize(account, fields)
@@ -42,9 +43,10 @@ class DataImports::Csv::ContactWriter
 
   def assign_fields(contact)
     contact.assign_attributes(@fields.slice(*STANDARD_FIELDS).compact_blank)
-    contact.additional_attributes = contact.additional_attributes.to_h.merge(@fields.slice('company_name', 'city').compact_blank)
-    custom_fields = @fields.except(*STANDARD_FIELDS, 'labels').compact_blank
-    custom_fields.delete('company_domain') if @companies_enabled
+    additional_fields = @fields.slice('city')
+    additional_fields.merge!(@fields.slice(*COMPANY_FIELDS)) unless @companies_enabled
+    contact.additional_attributes = contact.additional_attributes.to_h.merge(additional_fields.compact_blank)
+    custom_fields = @fields.except(*STANDARD_FIELDS, *COMPANY_FIELDS, 'labels').compact_blank
     contact.custom_attributes = contact.custom_attributes.to_h.merge(custom_fields)
     contact.updated_at = Time.current
     contact.created_at ||= Time.current

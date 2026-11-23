@@ -91,6 +91,7 @@ RSpec.describe DataImports::Csv::Importer do
 
       expect(existing.reload.company).to eq(target_company)
       expect(existing.additional_attributes['company_name']).to eq('Existing')
+      expect(existing.custom_attributes).to eq({})
       expect(old_company.reload.contacts_count).to eq(0)
       expect(target_company.reload.contacts_count).to eq(1)
 
@@ -103,6 +104,22 @@ RSpec.describe DataImports::Csv::Importer do
       expect(data_import.failed_records.download).to include('bad-domain@example.com', 'orphan.example')
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_CREATED, anything, anything)
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
+    end
+  end
+
+  context 'when Companies is disabled' do
+    let(:csv) { "name,email,company_name,company_domain,tier\nNew,new@example.com,North Star,north-star.example,gold\n" }
+
+    it 'stores company fields as additional attributes without linking a company', :aggregate_failures do
+      account.disable_features!('companies')
+
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      expect { importer.import_contacts_page }.not_to change(Company, :count)
+
+      contact = account.contacts.find_by!(email: 'new@example.com')
+      expect(contact.company_id).to be_nil
+      expect(contact.additional_attributes).to include('company_name' => 'North Star', 'company_domain' => 'north-star.example')
+      expect(contact.custom_attributes).to eq('tier' => 'gold')
     end
   end
 

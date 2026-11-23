@@ -479,7 +479,7 @@
       "ROW_ERRORS": "Row errors",
       "SOURCE": "CSV file",
       "FILE": "Contact CSV file",
-      "HELP": "Use the sample column names and existing labels. If Companies is enabled, use company_name or company_domain to link contacts to companies. Up to 250,000 rows and 1 MiB per field.",
+      "HELP": "Use the sample column names and existing labels. Up to 250,000 rows and 1 MiB per field.",
       "SILENT_UPDATES": "Matching contacts are updated. Imports do not trigger contact automations or webhooks.",
       "INVALID_FILE": "Choose a nonempty CSV file of 50 MiB or smaller.",
       "SAMPLE": "Download sample CSV",
