@@ -35,7 +35,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   # Stops the ring for this agent only; the caller keeps waiting for the others
   def dismiss
-    Voice::Provider::Twilio::ConferenceService.new(call: resolve_call!).dismiss(Current.user)
+    Voice::RingDismissService.new(call: resolve_call!, user: Current.user).perform
     head :ok
   end
 
@@ -87,8 +87,6 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def render_call_failed(error) = render_could_not_create_error(error.message)
 
-  # An attempt id is the short token a client makes for one connection and sends to Twilio
-  # as well, so only that shape is kept
   ATTEMPT_ID_FORMAT = /\A[\w-]{1,64}\z/
 
   def valid_attempt_id?

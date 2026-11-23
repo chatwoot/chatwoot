@@ -114,6 +114,164 @@ describe Whatsapp::IncomingCallService do
         expect(ActionCable.server).not_to have_received(:broadcast).with(calls_off_agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
       end
     end
+
+    context 'with the inbox routing' do
+      let!(:teammate) { create(:user, account: account) }
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+
+      before do
+        create(:inbox_member, inbox: inbox, user: teammate)
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      def incoming_streams
+        streams = []
+        expect(ActionCable.server).to have_received(:broadcast).at_least(:once) do |stream, payload|
+          streams << stream if payload[:event] == 'voice_call.incoming'
+        end
+        streams
+      end
+
+      it 'rings the agents it picked, names them on the message, and widens the ring every step' do
+        expect { described_class.new(inbox: inbox, params: params).perform }
+          .to have_enqueued_job(Voice::RingNextAgentJob).with(kind_of(Integer), 1)
+
+        call = Call.last
+        expect(call.ring_state['ring_recipient_ids']).to contain_exactly(agent.id, teammate.id)
+        expect(call.message.content_attributes.dig('data', 'ring_user_ids')).to contain_exactly(agent.id, teammate.id)
+        expect(incoming_streams).to contain_exactly(agent.pubsub_token, teammate.pubsub_token)
+      end
+
+      it "stops widening once the sweep ends a ring whose terminate never arrived, after Meta's ring" do
+        described_class.new(inbox: inbox, params: params).perform
+        call = Call.last
+        expect(call.ring_state['rings_phones']).to be(false)
+
+        travel(61.seconds) { Voice::RingingTimeoutJob.perform_now }
+
+        expect(call.reload).to have_attributes(status: 'no_answer', end_reason: Call::RING_TIMEOUT)
+        expect { Voice::RingNextAgentJob.perform_now(call.id, call.ring_step) }.not_to have_enqueued_job(Voice::RingNextAgentJob)
+      end
+
+      it 'leaves out an agent who is on another call' do
+        busy = create(:conversation, account: account, inbox: inbox)
+        create(:call, account: account, inbox: inbox, conversation: busy, contact: busy.contact, provider: :whatsapp,
+                      status: 'in_progress', accepted_by_agent: teammate)
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(incoming_streams).to eq([agent.pubsub_token])
+      end
+
+      it 'rings one agent at a time when the inbox is set to' do
+        channel.update!(provider_config: channel.provider_config.merge('ring_strategy' => 'sequential'))
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(Call.last.ring_state['ring_recipient_ids'].size).to eq(1)
+        expect(incoming_streams.size).to eq(1)
+      end
+
+      it 'keeps ringing when nobody is online, for an agent coming online during the ring' do
+        [agent, teammate].each { |user| user.account_users.first.update!(availability: :offline) }
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(Call.last).to be_ringing
+      end
+    end
+
+    context 'when the inbox auto-assigns conversations' do
+      let!(:teammate) { create(:user, account: account) }
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+      let(:provider_service) do
+        instance_double(Whatsapp::Providers::WhatsappCloudService, pre_accept_call: true, accept_call: true, reject_call: true)
+      end
+
+      before do
+        create(:inbox_member, inbox: inbox, user: teammate)
+        inbox.update!(enable_auto_assignment: true)
+        [agent, teammate].each do |user|
+          OnlineStatusTracker.update_presence(account.id, 'User', user.id)
+          OnlineStatusTracker.set_status(account.id, user.id, 'online')
+        end
+        allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new).and_return(provider_service)
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      def ring_call
+        described_class.new(inbox: inbox, params: params).perform
+        Call.find_by!(provider_call_id: provider_call_id)
+      end
+
+      it 'leaves a new caller unassigned while the call rings, so every free agent rings' do
+        call = ring_call
+
+        expect(call.conversation.reload.assignee).to be_nil
+        expect(call.ring_state['ring_recipient_ids']).to contain_exactly(agent.id, teammate.id)
+      end
+
+      it 'assigns the conversation once the call goes unanswered' do
+        call = ring_call
+        described_class.new(inbox: inbox, params: call_payload(event: 'terminate', duration: 0, terminate_reason: 'missed')).perform
+
+        expect(call.reload).to have_attributes(status: 'no_answer')
+        expect(call.conversation.reload.assignee).to be_in([agent, teammate])
+      end
+
+      it 'gives the conversation to the agent who answers' do
+        call = ring_call
+        Whatsapp::CallService.new(call: call, agent: teammate, sdp_answer: "v=0\r\n").accept
+
+        expect(call.conversation.reload.assignee).to eq(teammate)
+      end
+
+      it 'keeps a ringing call out of a V2 bulk assignment run until it goes unanswered' do
+        account.enable_features!('assignment_v2')
+        call = ring_call
+        service = AutoAssignment::AssignmentService.new(inbox: inbox.reload)
+
+        expect(service.perform_bulk_assignment).to eq(0)
+        expect { Call.find(call.id).update!(status: 'no_answer') }.to have_enqueued_job(AutoAssignment::AssignmentJob)
+        expect(service.perform_bulk_assignment).to eq(1)
+      end
+
+      it 'assigns a call declined outside business hours as it arrives' do
+        channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => true))
+        inbox.update!(working_hours_enabled: true)
+        inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
+
+        expect(ring_call.conversation.reload.assignee).to be_in([agent, teammate])
+      end
+    end
+
+    context 'when outside business hours' do
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+
+      before do
+        inbox.update!(working_hours_enabled: true)
+        inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      it 'declines the call at Meta and logs it as missed, without ringing anyone' do
+        channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => true))
+
+        expect { described_class.new(inbox: inbox, params: params).perform }
+          .to have_enqueued_job(Whatsapp::DeclineCallJob).with(inbox, provider_call_id)
+
+        expect(Voice::RingNextAgentJob).not_to have_been_enqueued
+        expect(Call.last).to have_attributes(status: 'no_answer', end_reason: 'outside_working_hours')
+        expect(ActionCable.server).not_to have_received(:broadcast).with(anything, hash_including(event: 'voice_call.incoming'))
+      end
+
+      it 'rings as usual when the inbox does not apply business hours to calls' do
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(Whatsapp::DeclineCallJob).not_to have_been_enqueued
+        expect(Call.last).to be_ringing
+      end
+    end
   end
 
   describe 'inbound connect from a username (BSUID) caller' do
@@ -443,6 +601,21 @@ describe Whatsapp::IncomingCallService do
 
       expect { described_class.new(inbox: inbox, params: params).perform }
         .to have_enqueued_job(Voice::VoipPushJob).with(call.id, 'ring')
+    end
+
+    it 'queues the widening again at the step the call is on, in case the first enqueue failed' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [1], 'ring_step' => 2 })
+      params = call_payload(event: 'connect', session: { sdp: 'sdp_x', sdp_type: 'offer' })
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to have_enqueued_job(Voice::RingNextAgentJob).with(call.id, 2)
+    end
+
+    it 'queues nothing for a call that has stopped ringing' do
+      call.update!(status: 'no_answer', ring_state: { 'ring_recipient_ids' => [1] })
+      params = call_payload(event: 'connect', session: { sdp: 'sdp_x', sdp_type: 'offer' })
+
+      expect { described_class.new(inbox: inbox, params: params).perform }.not_to have_enqueued_job
     end
   end
 

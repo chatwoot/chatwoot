@@ -3,7 +3,8 @@ class Captain::Tools::Copilot::GetReportService < Captain::Tools::BaseTool
   attr_accessor :tool_call
 
   METRICS = {
-    'conversations_count' => 'conversations created in the period; for an agent, inbox or team, those currently assigned to it',
+    'conversations_count' => 'conversations created in the period; for an agent, inbox or team, those currently assigned to it. ' \
+                             'Not the conversations open now',
     'incoming_messages_count' => 'messages received from customers',
     'outgoing_messages_count' => 'replies and private notes sent by agents and bots; for an agent, the ones that agent sent',
     'resolutions_count' => 'conversations resolved in the period; for an agent, the ones that agent resolved',
@@ -19,20 +20,26 @@ class Captain::Tools::Copilot::GetReportService < Captain::Tools::BaseTool
   end
   description 'Read the numbers the dashboard reports show, computed by the same reports. With by set to day, week, month or year, ' \
               'returns each requested metric per period for the account or for one agent, inbox, team or label, and its ' \
-              'total_or_average over exactly since to before. With by set to agent, inbox, team or label, returns for each of them ' \
-              'the conversations, resolved conversations and average first response, resolution and reply times. Days start at ' \
+              'total_or_average over exactly since to until. With by set to agent, inbox, team or label, returns for each of them ' \
+              'the conversations, resolved conversations and average first response, resolution and reply times, ranked by the ' \
+              'first of these in metrics, or by conversations. Days start at ' \
               'midnight in the account reporting time zone, and weeks run Sunday to Saturday as on the reports pages; a period cut ' \
-              'by since or before is marked partial. With by set to range, returns ' \
-              'each metric over exactly since to before; to compare date ranges, call once per range. ' \
+              'by since or until is marked partial. With by set to range, returns ' \
+              'each metric over exactly since to until; to compare date ranges, call once per range. ' \
               "Metrics:\n#{METRICS.map { |name, meaning| "- #{name}: #{meaning}" }.join("\n")}"
-  parameters type: 'object', required: %w[by since before], additionalProperties: false,
+  parameters type: 'object', required: %w[by], additionalProperties: false,
              properties: {
                by: { type: 'string', enum: [Captain::Copilot::ReportService::RANGE] + Captain::Copilot::ReportService::PERIODS +
                                            Captain::Copilot::ReportService::SUMMARY_BUILDERS.keys },
                metrics: { type: 'array', items: { type: 'string', enum: METRICS.keys }, minItems: 1, uniqueItems: true,
                           description: 'Required by range or period. Every metric the request needs, in one call' },
                since: { type: 'string', format: 'date', description: 'First day' },
-               before: { type: 'string', format: 'date', description: 'The day after the last day' },
+               until: { type: 'string', format: 'date', description: 'Last day, included' },
+               last_days: { type: 'integer', minimum: 1,
+                            description: 'That many days, today included, as the reports pages count them. Instead of since and until' },
+               order: { type: 'string', enum: %w[highest lowest],
+                        description: 'With by agent, inbox, team or label, rank from the highest or the lowest value of the first ' \
+                                     'metric; for a time, the highest is the longest. Default highest. Rows without a value come last' },
                agent_id: { type: 'integer', minimum: 1 },
                inbox_id: { type: 'integer', minimum: 1 },
                team_id: { type: 'integer', minimum: 1 },
@@ -45,17 +52,33 @@ class Captain::Tools::Copilot::GetReportService < Captain::Tools::BaseTool
                chart: { type: 'boolean', description: 'Only when the agent asks for a graph or chart' }
              }
 
-  # options holds business_hours, chart and the agent, inbox, team or label filter.
-  def execute(by:, since:, before:, metrics: [], **options)
+  # options holds the dates (until is a word Ruby reserves), order, business_hours, chart and the agent, inbox, team or
+  # label filter.
+  def execute(by:, metrics: [], **options)
     options = options.stringify_keys
+    since, last_day = dates(options)
     Captain::Copilot::ReportService.new(account: @assistant.account, tool_call: tool_call, business_hours: options['business_hours'] == true,
                                         chart: options['chart'] == true)
-                                   .call(by: by, since: since, before: before, metrics: metrics, filters: options)
+                                   .call(by: by, since: since.to_s, last_day: last_day.to_s, metrics: metrics, filters: options)
   end
 
   # The same permission as the reports pages.
   def active?
     account_user = @assistant.account.account_users.find_by(user_id: @user&.id)
     account_user.present? && ReportPolicy.new({ user: @user, account: @assistant.account, account_user: account_user }, :report).view?
+  end
+
+  private
+
+  # Either the last N days, counted as the reports pages count them, or the first and last day given.
+  def dates(options)
+    last_days = options.delete('last_days')
+    since = options.delete('since')
+    last_day = options.delete('until')
+    raise ArgumentError, 'Pass last_days, or since and until, not both' if last_days && (since || last_day)
+    return Captain::Copilot::LastDays.dates(last_days, @assistant.account.report_time_zone) if last_days
+    raise ArgumentError, 'Pass since and until, or last_days' unless since && last_day
+
+    [since, last_day]
   end
 end

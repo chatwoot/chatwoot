@@ -1,17 +1,9 @@
-# Whether a call rings an agent's phones while the app is in the background or closed: the
-# installation's push settings, the devices the app registered for rings, and on each
-# account the call features, the voice inboxes the agent is rung for, their status and
-# whether they take calls.
-# Shown in the Super Admin diagnostics.
 class Voice::RingReadiness
   pattr_initialize [:user!]
 
-  # problem: nil when the platform can be pushed to, otherwise 'credentials' or 'environment'
   Platform = Struct.new(:problem, :devices, keyword_init: true) do
     def configured = problem.nil?
   end
-  # voice_inboxes: inboxes whose calls ring the agent; assigned_only_inboxes: of those, the ones
-  # where their role limits it to calls already assigned to them
   Membership = Struct.new(:account, :voice_enabled, :ringing_enabled, :voice_inboxes, :assigned_only_inboxes, :availability,
                           :accepts_calls, keyword_init: true)
 
@@ -34,19 +26,14 @@ class Voice::RingReadiness
     end
   end
 
-  # A call rings the agents its inbox can be assigned to, when they are online and take calls, on
-  # accounts with both features, on a platform the installation can push to
   def rings?(membership)
     blocker(membership).nil?
   end
 
-  # The first reason a call does not ring the agent's phone on the account, nil when it rings:
-  # 'voice_off', 'ringing_off', 'no_inboxes', 'not_online', 'calls_off', 'no_device' or 'push_unavailable'
   def blocker(membership)
     membership_blocker(membership) || device_blocker
   end
 
-  # Rings, but only for calls in conversations already assigned to the agent
   def rings_assigned_only?(membership)
     rings?(membership) && membership.assigned_only_inboxes == membership.voice_inboxes
   end
@@ -72,14 +59,13 @@ class Voice::RingReadiness
     apple.devices.positive? || android.devices.positive?
   end
 
-  # An APNs environment the push rejects stops the ring before either platform is sent to
+  # An invalid APNs environment prevents delivery to both platforms.
   def ringable_device?
     return false if apple.problem == 'environment'
 
     [apple, android].any? { |platform| platform.configured && platform.devices.positive? }
   end
 
-  # The checks the push itself makes: every credential set, and an environment it accepts
   def apple_problem
     return 'credentials' unless credentials?(:apple)
 
@@ -91,9 +77,6 @@ class Voice::RingReadiness
     Voice::VoipPushService::CREDENTIALS.fetch(platform).all? { |name| GlobalConfigService.load(name, nil).present? }
   end
 
-  # Which calls in the inbox ring the agent, as Voice::RingRecipients decides for a real call:
-  # :all when their role lets them open an unassigned call's conversation, :assigned when it
-  # only lets them open conversations assigned to them, nil when none ring them
   def rung_for(inbox, account_user)
     return unless inbox.assignable_agents.include?(user)
     return :all if opens?(Conversation.new(account: account_user.account, inbox: inbox), account_user)
@@ -105,7 +88,6 @@ class Voice::RingReadiness
     ConversationPolicy.new({ user: user, account: account_user.account, account_user: account_user }, conversation).show?
   end
 
-  # The inboxes that take incoming calls
   def voice_inboxes(account)
     account.inboxes.includes(:channel).select do |inbox|
       channel = inbox.channel

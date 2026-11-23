@@ -29,6 +29,38 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
+  describe 'calling settings' do
+    let(:settings_url) { 'https://graph.facebook.com/v22.0/123456789/settings' }
+
+    it 'bounds reading and updating the settings, so saving business hours never hangs on WhatsApp' do
+      stub_request(:get, settings_url).to_return(status: 200, headers: headers, body: { calling: {} }.to_json)
+      stub_request(:post, settings_url).to_return(status: 200, headers: headers, body: '{}')
+      allow(HTTParty).to receive(:get).and_call_original
+      allow(HTTParty).to receive(:post).and_call_original
+
+      service.calling_settings
+      service.update_call_hours('status' => 'DISABLED')
+
+      expect(HTTParty).to have_received(:get).with(settings_url, hash_including(timeout: 15))
+      expect(HTTParty).to have_received(:post).with(settings_url, hash_including(timeout: 15))
+    end
+
+    it 'sends only the calling status' do
+      request = stub_request(:post, settings_url).with(body: { calling: { status: 'ENABLED' } }.to_json)
+                                                 .to_return(status: 200, body: '{}', headers: headers)
+
+      service.update_calling_status('ENABLED')
+      expect(request).to have_been_requested
+    end
+
+    it "raises Meta's message when the setting is refused" do
+      error = { error: { message: 'Calling is not enabled', error_user_msg: 'Turn calling on first' } }
+      stub_request(:post, settings_url).to_return(status: 400, headers: headers, body: error.to_json)
+
+      expect { service.update_calling_status('ENABLED') }.to raise_error(StandardError)
+    end
+  end
+
   describe '#send_call_permission_request' do
     it 'returns the parsed body on success' do
       stub_request(:post, messages_url)
