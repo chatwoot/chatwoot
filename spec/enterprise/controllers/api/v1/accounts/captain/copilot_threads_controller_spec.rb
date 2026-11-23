@@ -101,6 +101,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
       end
 
       context 'with valid params' do
+        before { account.enable_features!('captain_integration') }
+
         it 'returns error when usage limit is exceeded' do
           account.limits = { captain_responses: 2 }
           account.custom_attributes = { captain_responses_usage: 2 }
@@ -141,14 +143,23 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
 
           message = thread.copilot_messages.last
           expect(message.message).to eq({ 'content' => valid_params[:message] })
+        end
 
-          expect(Captain::Copilot::ResponseJob).to have_been_enqueued.with(
-            assistant: assistant,
-            conversation_id: valid_params[:conversation_id],
-            user_id: agent.id,
-            copilot_thread_id: thread.id,
-            message: valid_params[:message]
-          )
+        it 'answers with a workflow turn without the old copilot_workflows flag' do
+          account.limits = { captain_responses: 2 }
+          account.custom_attributes = { captain_responses_usage: 0 }
+          account.save!
+
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: valid_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          thread = CopilotThread.last
+          turn = CopilotRun::Turn.find_by!(copilot_message: thread.copilot_messages.last)
+          expect(account.reload).not_to be_feature_enabled('copilot_workflows')
+          expect(turn).to have_attributes(user_id: agent.id, copilot_thread_id: thread.id, conversation_id: valid_params[:conversation_id])
+          expect(Captain::Copilot::TurnJob).to have_been_enqueued.with(turn.id)
         end
 
         it 'truncates the thread title but stores the full message when the message exceeds 255 characters' do
@@ -207,6 +218,27 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
           expect(response).to have_http_status(:not_found)
           expect(CopilotMessage.count).to be_zero
           expect(Captain::Copilot::ReplySuggestionJob).not_to have_been_enqueued
+        end
+      end
+
+      context 'when Captain is off for the account' do
+        before { account.disable_features!('captain_integration') }
+
+        it 'answers that Copilot is unavailable without starting any Copilot work' do
+          create(:inbox_member, user: agent, inbox: inbox)
+
+          ['reply_suggestion', nil].each do |request_type|
+            post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+                 params: valid_params.merge(request_type: request_type).compact,
+                 headers: agent.create_new_auth_token,
+                 as: :json
+
+            expect(response).to have_http_status(:success)
+            expect(CopilotMessage.last.message).to eq('content' => I18n.t('captain.copilot_disabled'), 'status' => 'failed')
+          end
+          expect(CopilotRun::Turn.count).to be_zero
+          expect(Captain::Copilot::ReplySuggestionJob).not_to have_been_enqueued
+          expect(Captain::Copilot::TurnJob).not_to have_been_enqueued
         end
       end
     end

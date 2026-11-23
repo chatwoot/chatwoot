@@ -40,6 +40,7 @@ class AccountUser < ApplicationRecord
 
   after_create_commit :notify_creation, :create_notification_setting
   after_destroy :notify_deletion, :remove_user_from_account
+  after_destroy_commit :close_account_streams
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
   after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
   after_update_commit :invalidate_filtered_unread_count_visibility_update, if: :filtered_unread_count_visibility_changed?
@@ -79,6 +80,10 @@ class AccountUser < ApplicationRecord
 
   def notify_deletion
     Rails.configuration.dispatcher.dispatch(AGENT_REMOVED, Time.zone.now, account: account)
+  end
+
+  def close_account_streams
+    ActionCable.server.broadcast(RoomChannel.account_user_stream(account_id, user_id), { event: 'account_user.removed' })
   end
 
   def update_presence_in_redis

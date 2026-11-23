@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "{locale} 삭제?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "포털에서 로케일이 성공적으로 제거되었습니다",
           "ERROR_MESSAGE": "포털에서 로케일을 제거할 수 없습니다. 다시 시도하십시오."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "모든 게시물",
-          "MINE": "나에게 할당",
           "DRAFT": "임시 저장",
           "PUBLISHED": "게시됨",
           "ARCHIVED": "보관됨"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "나",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "모든 카테고리"
@@ -574,9 +585,9 @@
           "SUBTITLE": "풍부한 게시물을 작성해 보세요!",
           "BUTTON_LABEL": "새 게시물"
         },
-        "MINE": {
-          "TITLE": "아직 작성한 게시물이 없습니다",
-          "SUBTITLE": "작성한 모든 게시물이 여기에 빠른 액세스를 위해 표시됩니다."
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "임시 저장된 게시물이 없습니다",
@@ -801,6 +812,8 @@
           "SAVED": "저장됨"
         },
         "PREVIEW": "미리보기",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "게시",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
@@ -816,6 +829,11 @@
         "DRAFT": "임시 저장",
         "ARCHIVE": "보관",
         "BACK_TO_ARTICLES": "게시물로 돌아가기"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "게시물 속성",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "게시물 검색...",
+        "ORIGINAL_ARTICLE_EMPTY": "게시물을 찾을 수 없습니다",
         "META_DESCRIPTION": "메타 설명",
         "META_DESCRIPTION_PLACEHOLDER": "메타 설명 추가",
         "META_TITLE": "메타 제목",
         "META_TITLE_PLACEHOLDER": "메타 제목 추가",
         "META_TAGS": "메타 태그",
         "META_TAGS_PLACEHOLDER": "메타 태그 추가",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "슬러그",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "로고",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "이미지를 업로드할 수 없습니다! 다시 시도하십시오",
           "IMAGE_UPLOAD_SUCCESS": "이미지가 성공적으로 추가되었습니다. 로고를 저장하려면 변경사항 저장을 클릭하십시오",
           "IMAGE_DELETE_SUCCESS": "로고가 성공적으로 삭제되었습니다",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "변경사항 저장"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "통합",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "일반",
         "DOMAIN": "도메인",
         "APPEARANCE": "외관",
+        "SEO": "SEO",
         "INTEGRATIONS": "통합"
       },
       "API": {

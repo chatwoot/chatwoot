@@ -124,6 +124,9 @@ class Message < ApplicationRecord
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   scope :not_forwarded, -> { where("(messages.content_attributes #>> '{}')::jsonb -> 'forwarded_message_id' IS NULL") }
   scope :voice_calls, -> { where(content_type: :voice_call) }
+  scope :without_missed_call_messages, lambda {
+    where(Arel::Nodes::InfixOperation.new('->>', arel_table[:additional_attributes], Arel::Nodes.build_quoted('missed_call_message')).eq(nil))
+  }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299

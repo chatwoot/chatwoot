@@ -88,6 +88,7 @@ const mountComponent = () =>
             'isLoadingThreads',
             'isLoadingSelectedThread',
             'isExpanded',
+            'canUseReply',
           ],
           emits: [
             'reset',
@@ -130,25 +131,11 @@ describe('CopilotContainer', () => {
     expect(testState.getThreads).not.toHaveBeenCalled();
   });
 
-  it('uses up the dot when the panel is already open with workflows', async () => {
-    testState.refs['accounts/isFeatureEnabledonAccount'].value = (
-      accountId,
-      flag
-    ) => ['captain_integration', 'copilot_workflows'].includes(flag);
-
+  it('uses up the dot when the panel is already open', async () => {
     mountComponent();
     await flushPromises();
 
     expect(testState.updateUISettings).toHaveBeenCalledWith({
-      copilot_dot_dismissed: true,
-    });
-  });
-
-  it('keeps the dot when the older Copilot is open', async () => {
-    mountComponent();
-    await flushPromises();
-
-    expect(testState.updateUISettings).not.toHaveBeenCalledWith({
       copilot_dot_dismissed: true,
     });
   });
@@ -255,7 +242,7 @@ describe('CopilotContainer', () => {
     ]);
   });
 
-  it('clears the selected thread when the conversation changes', async () => {
+  it('keeps the open thread when another conversation opens, and its reply only fits the first one', async () => {
     testState.dispatch.mockImplementation(action =>
       action === 'copilotThreads/create'
         ? Promise.resolve({ id: 99 })
@@ -268,14 +255,16 @@ describe('CopilotContainer', () => {
 
     expect(result).toBe(true);
     expect(copilot.props('messages')).toEqual([{ id: 99 }]);
+    expect(copilot.props('canUseReply')).toBe(true);
 
     testState.refs.getSelectedChat.value = { id: 2 };
     await nextTick();
 
-    expect(copilot.props('messages')).toEqual([]);
+    expect(copilot.props('messages')).toEqual([{ id: 99 }]);
+    expect(copilot.props('canUseReply')).toBe(false);
   });
 
-  it('ignores a thread created for a conversation that is no longer selected', async () => {
+  it('opens a thread created while another conversation was opened', async () => {
     let resolveRequest;
     testState.dispatch.mockImplementation(action => {
       if (action !== 'copilotThreads/create') return Promise.resolve();
@@ -293,8 +282,7 @@ describe('CopilotContainer', () => {
     resolveRequest({ id: 99 });
 
     expect(await sendPromise).toBe(true);
-
-    expect(copilot.props('messages')).toEqual([]);
+    expect(copilot.props('selectedThreadId')).toBe(99);
   });
 
   it('ignores a thread created for an account that is no longer selected', async () => {

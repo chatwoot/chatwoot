@@ -62,10 +62,9 @@ describe('Copilot', () => {
     const assistants = [{ id: 7, name: 'Support' }];
     const working = mountComponent({
       assistants,
-      canStop: true,
       messages: [{ id: 1, message_type: 'user', message: { content: 'Hi' } }],
     });
-    const empty = mountComponent({ assistants, canStop: true, messages: [] });
+    const empty = mountComponent({ assistants, messages: [] });
 
     expect(working.findComponent(CopilotInput).props('isWorking')).toBe(true);
     expect(empty.findComponent(CopilotInput).props('isWorking')).toBe(false);
@@ -203,12 +202,10 @@ describe('Copilot', () => {
     };
     const wrapper = mountComponent({
       assistants,
-      canStop: true,
       messages: [stopped, step(2, 'Finding matching records')],
     });
     const next = mountComponent({
       assistants,
-      canStop: true,
       messages: [
         stopped,
         { id: 3, message_type: 'user', message: { content: 'And now?' } },
@@ -370,18 +367,16 @@ describe('Copilot', () => {
     expect(useTrack).not.toHaveBeenCalled();
   });
 
-  it('labels Copilot beta only while workflows is in the test', () => {
-    const betaLabel = isWorkflowsEnabled =>
-      mount(Copilot, {
-        props: { onSendMessage: vi.fn(), isWorkflowsEnabled },
-        global: {
-          mocks: { $t: key => key },
-          stubs: { CopilotEmptyState: true, CopilotInput: true },
-        },
-      }).findComponent(Label);
+  it('labels Copilot beta', () => {
+    const wrapper = mount(Copilot, {
+      props: { onSendMessage: vi.fn() },
+      global: {
+        mocks: { $t: key => key },
+        stubs: { CopilotEmptyState: true, CopilotInput: true },
+      },
+    });
 
-    expect(betaLabel(true).props('label')).toBe('GENERAL.BETA');
-    expect(betaLabel(false).exists()).toBe(false);
+    expect(wrapper.findComponent(Label).props('label')).toBe('GENERAL.BETA');
   });
 
   it('preserves a draft while a saved chat is loading', async () => {

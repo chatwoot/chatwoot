@@ -17,6 +17,16 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 it:
+  instagram:
+    no_accounts: 'No Instagram accounts were shared. Connect again and select an Instagram professional account.'
+    connection_expired: 'This Instagram connection has expired. Please start again.'
+    authorization_expired: 'This Instagram authorization has expired. Please start the connection again.'
+    wrong_account: 'Please reconnect using the Instagram account already linked to this inbox.'
+    invalid_account: 'Please select an Instagram account shared during this connection.'
+    subscription_failed: 'Instagram messaging could not be enabled. Please check the app permissions and connect again.'
+    missing_credentials: 'Configure the Unified Login Meta app ID, secret, and configuration ID in Super Admin before connecting Instagram.'
+    request_failed: 'Instagram could not complete the request. Please try again.'
+    encryption_required: 'Configure the Active Record encryption keys before enabling Instagram Unified Login.'
   hello: 'Hello world'
   administrator_notifications:
     captain:
@@ -31,6 +41,22 @@ it:
       success: 'Canale riautorizzato con successo'
       not_required: 'Riautorizzazione non necessaria per questo canale'
       invalid_channel: 'Canale non valido per riautorizzazione'
+    voice_settings:
+      unsupported_inbox: 'This setting requires an inbox with calling turned on'
+    call_announcements:
+      invalid_settings: 'Provide a boolean for enabled and text for the announcement'
+      message_required: 'Add the message callers hear'
+      default_unanswered: "Sorry, we can't take your call right now. We'll get back to you as soon as we can."
+      message_too_long: 'The announcement must be 1000 characters or fewer'
+      invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
+    call_hours:
+      closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
+      whatsapp_failed: "Couldn't apply business hours to WhatsApp calls: %{error}"
+    missed_call_message:
+      default: "Sorry we missed your call. Reply here and we'll get back to you as soon as we can."
+      invalid: 'The missed-call message must be %{max} characters or fewer'
+    call_routing:
+      invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
     saml:
       invalid_email: 'Inserisci un indirizzo email valido'
@@ -67,8 +93,24 @@ it:
     sessions:
       cannot_revoke_current: Non puoi revocare la sessione attuale.
   errors:
+    bandwidth:
+      token_request_failed: "Unable to reach Bandwidth authentication. Please try again later."
+      invalid_configuration: 'Provide a valid Bandwidth account ID, application ID, client ID, and client secret.'
+      authentication_failed: 'Unable to authenticate with Bandwidth. Check your client ID and client secret, then try again.'
+    account_saml_settings:
+      invalid_certificate: deve essere un certificato X.509 valido in formato PEM
+      metadata_url:
+        invalid_url: must be a valid HTTPS URL
+        blocked_address: points to an address that cannot be reached. Use a public host name for your identity provider
+        http_error: returned an error. Check that it is the metadata URL from your identity provider
+        unreachable: could not be reached. Check that your identity provider is online and has a valid TLS certificate
+        too_large: returned a response too large to be SAML metadata
+        not_metadata: did not return SAML identity provider metadata
     notification_subscription:
       voip_attributes_required: Un'iscrizione push VoIP richiede device_id e push_token
+    account_user:
+      no_work_preference: Receive conversations or Receive voice calls must stay on
+      invalid_work_preference: Receive conversations and Receive voice calls must be true or false
     account:
       not_authorized: Non sei autorizzato ad accedere a questo account
       email_limit_exceeded: È stato raggiunto il limite giornaliero di email per questo account
@@ -89,6 +131,13 @@ it:
       failed: Registrazione non riuscita
     voice:
       call_already_accepted: '%{agent_name} sta già gestendo la chiamata.'
+      announcement_audio_mismatch: 'Generated audio did not match the announcement text. Your saved announcement has not changed. Please try again.'
+      announcement_generation_failed: "Couldn't generate announcement audio. Check your Captain AI configuration and try again. Your saved announcement has not changed."
+      call_timed_out: 'The call timed out before you could join.'
+      invalid_hold: "Couldn't update the call. Please try again."
+      not_handling_agent: 'Only the agent on the call can hold or resume it.'
+      cannot_end_call: 'Only the agent handling the call can end it.'
+      hold_failed: 'Could not update the hold. Please try again.'
     assignment_policy:
       not_found: Policy di assegnazione non trovata
     attachments:
@@ -108,12 +157,15 @@ it:
       sso_not_enabled: SAML SSO non è abilitato per questa installazione
       multi_account_invitation_not_allowed: Gli utenti associati a un altro account non possono essere aggiunti mentre SAML è attivo
     conversations:
+      anonymous_caller_reply: 'Messages cannot be sent because this caller’s phone number is unavailable.'
       resolved: La conversazione è risolta e non accetta nuovi messaggi
       unread_counts:
         feature_not_enabled: Funzione conteggio conversazioni non lette non abilitata per questo account
     data_import:
       data_type:
         invalid: Tipo di dato non valido
+      csv:
+        blank_format_marker: 'Record %{row_number} has a blank %{column} value. Keep %{version} in this column for every row. Import new contacts in a separate CSV without this column.'
     contacts:
       import:
         failed: Il file è vuoto
@@ -141,6 +193,9 @@ it:
     categories:
       locale:
         unique: deve essere unico nella categoria e nel portale
+    articles:
+      meta:
+        noindex_not_boolean: noindex must be true or false
     dyte:
       invalid_message_type: 'Tipo messaggio non valido. Azione non consentita'
       realtimekit_credentials_required: 'Servono le credenziali di Cloudflare RealtimeKit. Elimina l''integrazione Dyte esistente e ricreala con le credenziali di Cloudflare RealtimeKit.'
@@ -187,6 +242,7 @@ it:
     openai:
       invalid_api_key: 'La chiave API OpenAI non è valida o è revocata. Controlla la tua chiave nella dashboard OpenAI.'
     inboxes:
+      bot_provider_conflict: 'Disconnect %{current_provider} before connecting %{requested_provider}'
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
         no_response_error: Controlla le credenziali IMAP e riprova.
@@ -250,8 +306,6 @@ it:
     mfa:
       enabled: MFA attivata con successo
       disabled: MFA disattivata con successo
-    account_saml_settings:
-      invalid_certificate: deve essere un certificato X.509 valido in formato PEM
   reports:
     period: Periodo di segnalazione da %{since} a %{until}
     utc_warning: Il report generato è nel fuso orario UTC
@@ -328,6 +382,15 @@ it:
   conversations:
     captain:
       handoff: 'Trasferendo ad un altro operatore per ulteriore assistenza.'
+    unverified_contact_match:
+      note: |-
+        This visitor entered contact details that belong to an existing contact. We couldn't verify the visitor's identity, so we didn't link this conversation to that contact or save these details.
+
+        %{matches}
+
+        If you confirm this visitor is the same person, merge the contacts from the contact panel.
+      email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
+      phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
     messages:
       instagram_story_content: '%{story_sender} ti ha menzionato nella storia: '
       instagram_deleted_story_content: Questa storia non è più disponibile.
@@ -341,6 +404,7 @@ it:
         request_contact_info: 'Vuoi condividere con noi il tuo numero di telefono?'
         unsupported_message: 'Questo messaggio non è disponibile.'
       voice_call:
+        unknown_caller: 'Unknown caller'
         twilio: 'Chiamata Vocale'
         whatsapp: 'Chiamata WhatsApp'
       delivery_status:
@@ -383,6 +447,9 @@ it:
       sla:
         added: '%{user_name} ha aggiunto la policy SLA %{sla_name}'
         removed: '%{user_name} ha rimosso la policy SLA %{sla_name}'
+      auto_translate:
+        disabled: '%{user_name} turned off auto-translate for this conversation'
+        enabled: '%{user_name} turned on auto-translate for this conversation'
       linear:
         issue_created: 'Issue Linear %{issue_id} è stata creata da %{user_name}'
         issue_linked: 'Issue Linear %{issue_id} è stata collegata da %{user_name}'
@@ -396,6 +463,7 @@ it:
         not_sent_due_to_messaging_window: 'Messaggio di auto-risoluzione non inviato a causa di restrizioni sui messaggi in uscita'
       muted: '%{user_name} ha silenziato la conversazione'
       unmuted: '%{user_name} ha riattivato l''audio della conversazione'
+      via_copilot: '%{activity} via Copilot'
       auto_resolution_message: 'La conversazione sta per essere risolta per inattività. Avvia una nuova conversazione se hai bisogno di ulteriore assistenza.'
     templates:
       greeting_message_body: 'Solitamente %{account_name} risponde in poche ore.'
@@ -477,20 +545,55 @@ it:
       name: 'LeadSquared'
       short_description: 'Sincronizza contatti e conversazioni con LeadSquared CRM.'
       description: 'Sincronizza i contatti e conversazioni con il CRM LeadSquared. Questa integrazione crea automaticamente i lead in LeadSquared quando vengono aggiunti nuovi contatti e registra l''attività di conversazione per fornire al team di vendita un contesto completo.'
+  conversation_monitors:
+    slack_alert:
+      not_connected: needs a connected Slack integration
+      title: 'Monitor matched: %{name}'
+      matched: Monitor matched
+      summary: '%{conversation} with %{contact}'
+      conversation: 'Conversation #%{id}'
+      inbox: Inbox
+      assignee: Assegnatario
+      unassigned: Non assegnate
+      status: Stato
+      confidence: Confidence
+      unknown: Sconosciuto
+      condition: Condition
   captain:
     copilot_message_required: Messaggio richiesto
     copilot_error: 'Connetti un assistente a questa Inbox per usare Copilot'
     copilot_limit: 'Hai terminato i crediti Copilot. Puoi acquistare altri crediti dalla sezione fatturazione.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: 'Aggiorna il piano per attivare Captain AI'
     disabled: 'Captain AI è disattivato per questo account.'
     api_key_missing: 'La chiave API di Captain AI non è configurata.'
     copilot:
       using_tool: 'Utilizzando tool %{function_name}'
+      approval_superseded: 'The agent sent a new message instead of approving this change.'
+      approval_rejected: 'The agent rejected this change.'
+      approval_already_decided: 'This change has already been approved or rejected.'
+      approval_expired: 'The agent did not approve this change within %{minutes} minutes.'
+      approval_expired_notice: 'This change expired. Ask Copilot to propose it again.'
+      stopped: 'The agent stopped this before it finished.'
+      still_working: 'Copilot is still working on your last message. Stop it or wait for the answer.'
       completed_tool_call: 'Tool %{function_name} utilizzato'
       invalid_tool_call: 'Chiamata strumento non valida'
       tool_not_available: 'Strumento non disponibile'
       reply_suggestion_discarded: 'La conversazione è cambiata mentre Copilot scriveva la bozza, quindi il suggerimento è stato scartato.'
       reply_suggestion_failed: "Copilot non è riuscito a generare una risposta. Riprova."
+      step_failed: "Couldn't finish this step"
+      steps:
+        search_documentation: 'Searching the knowledge base'
+        search_articles: 'Searching help center articles'
+        get_article: 'Reading an article'
+        search_contacts: 'Searching contacts'
+        get_contact: 'Looking up a contact'
+        get_conversation: 'Reading a conversation'
+        search_linear_issues: 'Searching Linear issues'
+        get_data: 'Finding matching records'
+        display: 'Preparing the results'
+        get_report: 'Reading the reports'
+        get_account_directory: 'Looking up agents, inboxes and teams'
     documents:
       limit_exceeded: 'Raggiunto limite documenti'
       pdf_format_error: 'deve essere un file PDF'
@@ -526,6 +629,7 @@ it:
     custom_tool:
       slug_generation_failed: 'Impossibile generare slug univoco dopo 5 tentativi'
       limit_exceeded: 'Puoi creare al massimo %{limit} strumenti personalizzati per assistente'
+      invalid_source: 'Source must be installed or custom'
       installed_read_only: 'Gli strumenti installati da un manifest sono di sola lettura. Puoi solo attivarli o disattivarli, oppure cambiare la verifica dell''email.'
       headers:
         invalid: 'deve essere un oggetto con nomi e valori delle intestazioni'
@@ -540,6 +644,27 @@ it:
         invalid: 'deve essere un oggetto'
         unknown: 'contiene impostazioni sconosciute: %{names}'
         not_boolean: 'i valori devono essere true o false'
+    param_sources:
+      invalid: '%{tool} parameter sources must be an object'
+      unknown_param: '%{tool} has no parameters named %{names}'
+      invalid_source: '%{tool} parameter %{name} has an invalid source'
+      fixed_value_blank: '%{tool} parameter %{name} needs a fixed value'
+      fixed_value_type: '%{tool} parameter %{name} needs a fixed value of type %{type}'
+      fixed_value_unsupported: '%{tool} parameter %{name} is of type %{type} and cannot take a fixed value'
+      one_verified_email: '%{tool} can have one verified email parameter only'
+      verified_email_type: '%{tool} parameter %{name} must be a string to take the verified email'
+    mcp_server:
+      disabled: 'MCP servers are not enabled for this account'
+      token_rejected: 'The server rejected the token. Check the token and the header name.'
+      not_oauth: 'This server does not use OAuth sign-in'
+      reserved_header: '%{name} is set by the MCP connection and cannot carry the token'
+      tools:
+        duplicate: 'Each tool can be selected only once.'
+        invalid_selection: 'Each tool selection must be an object with the tool name, and its settings must be an object'
+        missing: 'The server no longer offers %{tool}.'
+        not_approved: '%{tool} is not approved yet. Select it in the tools list to approve it.'
+        changed_again: '%{tool} changed again on the server. Review the new version before you approve it.'
+        name_clash: 'Captain cannot tell these tools apart: %{names}. Select only one of them.'
     tools_manifest:
       invalid_source: 'Inserisci un set di strumenti del catalogo strumenti di Captain nel formato chatwoot/tools/folder'
       invalid_configuration: 'Configurazione non valida'
@@ -674,6 +799,7 @@ it:
       invalid_configuration: 'Configurazione di analisi non valida'
     articles:
       captain_not_available: 'La traduzione richiede che Captain sia abilitato per questo account'
+      cannot_overwrite_original: "Can't translate into the original article's language. Edit the original directly."
       locale_not_available: 'Lingua non disponibile in questo portale'
       category_not_found: 'Categoria non trovata in questo portale'
       no_articles_found: 'Nessun articolo trovato da elaborare'
@@ -686,6 +812,8 @@ it:
       subject: 'Termina la configurazione di %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Il dominio personalizzato non è configurato'
+    remove_locale:
+      default_locale: 'The default locale cannot be removed'
   installation:
     onboarding:
       heading: 'Ciao, benvenuto in Chatwoot 👋'
@@ -700,6 +828,9 @@ it:
       subscribe: 'Iscriviti a note di rilascio, newsletter e sondaggi sul prodotto.'
       submit: 'Completa Setup'
   super_admin:
+    billing:
+      past_due: Your installation payment is past due. Update your payment method or pay the outstanding invoice to avoid subscription cancellation.
+      resolve_payment: Risolvi il pagamento
     account_suspension:
       categories:
         spam: 'Spam'
@@ -762,7 +893,7 @@ it:
         conversation_completion: 'Valutatore di chiusura delle conversazioni inattive'
         editor: 'Editor'
         assistant: 'Assistente'
-        copilot: 'Copilot'
+        copilot_workflows: 'Copilot'
         document_faq_generation: 'Generazione di FAQ dai documenti'
         conversation_faq_generation: 'Generazione di FAQ dalle conversazioni'
         conversation_faq_matching: 'Abbinamento delle FAQ alle conversazioni'
@@ -823,6 +954,12 @@ it:
       password: 'Password'
       password_placeholder: 'Password'
       submit: 'Accedi'
+      mfa_code: 'Authentication code'
+      mfa_code_placeholder: '6-digit code or backup code'
+      mfa_submit: 'Verifica'
+      mfa_invalid: 'Invalid code. Please try again.'
+      mfa_expired: 'Your sign-in attempt expired. Please sign in again.'
+      mfa_attempts_exhausted: 'Too many invalid codes. Please try again in a few minutes.'
     navigation:
       label: 'Super Admin'
       suffix: 'Console Super Admin'
@@ -933,7 +1070,7 @@ it:
           other: 'Nessun tipo di push è attivo per %{names}. Questo utente non riceve notifiche push da quegli account.'
       calls:
         heading: 'Chiamate in arrivo'
-        description: 'Indica se una chiamata fa squillare il telefono dell''utente mentre l''app è in background o chiusa. Con l''app aperta, le chiamate squillano tramite la sua connessione attiva.'
+        description: "Whether this user's phone rings for incoming calls when the app is closed or in the background. With the app open, eligible calls ring over its live connection."
         accounts_heading: 'Account'
         setup:
           heading: 'Configurazione push'
@@ -969,6 +1106,7 @@ it:
           ringing_off: 'No, Chiamate su mobile è disattivato'
           no_inboxes: 'No, nessuna inbox vocale'
           not_online: 'No, non online'
+          calls_off: 'No, Receive voice calls is off'
           no_device: 'No, nessun telefono registrato'
           push_unavailable: 'Solo con l''app aperta'
         assigned_only: 'Chiamate assegnate all''utente'
@@ -1028,6 +1166,8 @@ it:
       agents_over_limit: 'Hai %{count} operatori. Aggiungi altre licenze per aggiungere altri utenti.'
       current_plan: 'Piano attuale'
       refresh: 'Aggiorna'
+      refresh_succeeded: 'Instance status refreshed'
+      refresh_failed: 'Could not reach Chatwoot Hub. Try again later.'
       manage: 'Gestione'
       installation_identifier: 'Identificativo installazione'
       need_help: 'Hai bisogno di aiuto?'

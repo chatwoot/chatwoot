@@ -79,18 +79,7 @@ features:
         gpt-5.2,
       ]
     default: gpt-6-luna
-  copilot:
-    reasoning_effort: none
-    models:
-      [
-        gpt-6-luna,
-        gpt-6.1-terra,
-        gpt-6-sol,
-        gpt-5.1,
-        gpt-5.2,
-      ]
-    default: gpt-5.2
-  # Copilot workflows, behind the copilot_workflows account flag. Reasoning stays off: at medium the model asked agents
+  # Copilot. Reasoning stays off: at medium the model asked agents
   # for a scope instead of reviewing, and reviews ran two to three times slower with no gain in the eval.
   copilot_workflows:
     reasoning_effort: none
@@ -103,7 +92,6 @@ features:
         gpt-5.2,
       ]
     default: gpt-5.2
-    internal: true
   document_faq_generation:
     reasoning_effort: medium
     models:

@@ -1,6 +1,6 @@
 {
   "CALLS_PAGE": {
-    "HEADER": "Calls",
+    "HEADER": "通话",
     "ALL_CALLS": "All Calls",
     "ALL_CALLS_COUNT": "All Calls ({count})",
     "EMPTY_STATE": "No calls found",

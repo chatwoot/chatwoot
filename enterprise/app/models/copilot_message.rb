@@ -40,25 +40,15 @@ class CopilotMessage < ApplicationRecord
     }
   end
 
-  def enqueue_response_job(conversation_id, user_id)
+  def enqueue_response_job(conversation_id)
     supersede_changes_awaiting_approval
-    if account.feature_enabled?('copilot_workflows')
-      run = CopilotRun::Turn.create_or_find_by!(copilot_message: self) do |record|
-        record.copilot_thread = copilot_thread
-        record.account = account
-        record.user = copilot_thread.user
-        record.context = { conversation_id: conversation_id }
-      end
-      return Captain::Copilot::TurnJob.perform_later(run.id)
+    run = CopilotRun::Turn.create_or_find_by!(copilot_message: self) do |record|
+      record.copilot_thread = copilot_thread
+      record.account = account
+      record.user = copilot_thread.user
+      record.context = { conversation_id: conversation_id }
     end
-
-    Captain::Copilot::ResponseJob.perform_later(
-      assistant: copilot_thread.assistant,
-      conversation_id: conversation_id,
-      user_id: user_id,
-      copilot_thread_id: copilot_thread.id,
-      message: message['content']
-    )
+    Captain::Copilot::TurnJob.perform_later(run.id)
   end
 
   private
@@ -77,7 +67,7 @@ class CopilotMessage < ApplicationRecord
   end
 
   # Turns run in order, so a change awaiting approval would hold this message back. Sending a new message declines it
-  # instead, whether or not workflows are still on.
+  # instead.
   def supersede_changes_awaiting_approval
     CopilotRun::Action.awaiting_approval.where(copilot_thread: copilot_thread).find_each(&:supersede)
   end

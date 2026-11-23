@@ -18,7 +18,7 @@ class Api::V1::Accounts::Captain::CopilotMessagesController < Api::V1::Accounts:
       message: { content: params[:message] },
       message_type: :user
     )
-    @copilot_message.enqueue_response_job(params[:conversation_id], Current.user.id)
+    @copilot_message.enqueue_response_job(params[:conversation_id])
   end
 
   private
