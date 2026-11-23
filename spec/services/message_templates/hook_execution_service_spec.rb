@@ -319,4 +319,34 @@ describe MessageTemplates::HookExecutionService do
       expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
     end
   end
+
+  context 'when the conversation has only a missed-call message' do
+    let(:conversation) { create(:conversation, contact: create(:contact)) }
+
+    before do
+      create(:message, conversation: conversation, account: conversation.account, message_type: :template,
+                       content: 'Sorry we missed your call', additional_attributes: { 'missed_call_message' => true })
+    end
+
+    it 'still sends the greeting' do
+      conversation.inbox.update!(greeting_enabled: true, greeting_message: 'Hi there')
+      greeting_service = instance_double(MessageTemplates::Template::Greeting, perform: true)
+      allow(MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
+
+      create(:message, conversation: conversation, account: conversation.account)
+
+      expect(greeting_service).to have_received(:perform)
+    end
+
+    it 'still sends the out-of-office message' do
+      conversation.inbox.update!(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+      conversation.inbox.working_hours.today.update!(closed_all_day: true)
+      out_of_office_service = instance_double(MessageTemplates::Template::OutOfOffice, perform: true)
+      allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+
+      create(:message, conversation: conversation, account: conversation.account)
+
+      expect(out_of_office_service).to have_received(:perform)
+    end
+  end
 end

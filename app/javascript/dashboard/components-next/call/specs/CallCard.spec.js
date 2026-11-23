@@ -70,11 +70,23 @@ describe('CallCard mute controls', () => {
     expect(muteButton(wrapper)).toBeUndefined();
   });
 
-  it('offers mute on a WhatsApp call without showing a hold', () => {
+  it('offers mute on a connected WhatsApp call', () => {
     const wrapper = mountCard({ provider: 'whatsapp', status: 'ringing' });
 
     expect(muteButton(wrapper)).toBeDefined();
-    expect(wrapper.text()).not.toContain('On hold');
+    expect(wrapper.text()).toContain('Call in progress');
+  });
+
+  it('shows a held WhatsApp call as on hold and muted', () => {
+    const wrapper = mountCard(
+      { provider: 'whatsapp', onHold: true },
+      { isMuted: true }
+    );
+
+    expect(wrapper.text()).toContain('On hold');
+    expect(muteButton(wrapper).attributes('icon')).toBe(
+      'i-ph-microphone-slash-bold'
+    );
   });
 });
 
