@@ -27,66 +27,75 @@ const mountCard = (call, props = {}) =>
       callInfo,
       state: 'ongoing',
       duration: '00:10',
-      showMute: true,
+      showCallControls: true,
       ...props,
     },
     global: { stubs: { Avatar: true, Icon: true } },
   });
 
 const muteButton = wrapper =>
-  wrapper
-    .findAll('button')
-    .find(button =>
-      ['i-ph-microphone-bold', 'i-ph-microphone-slash-bold'].includes(
-        button.attributes('icon')
-      )
-    );
+  wrapper.find('[data-test-id="voice-call-mute-toggle"]');
+const holdButton = wrapper =>
+  wrapper.find('[data-test-id="voice-call-hold-toggle"]');
 
-describe('CallCard mute controls', () => {
-  it('offers mute on a live Twilio call and emits toggleMute', async () => {
+describe('CallCard mute and hold controls', () => {
+  it('offers separate mute and hold on a live Twilio call', async () => {
     const wrapper = mountCard();
 
     expect(wrapper.text()).toContain('Call in progress');
     expect(muteButton(wrapper).attributes('icon')).toBe('i-ph-microphone-bold');
+    expect(holdButton(wrapper).attributes('icon')).toBe('i-ph-pause-bold');
 
     await muteButton(wrapper).trigger('click');
+    await holdButton(wrapper).trigger('click');
 
     expect(wrapper.emitted('toggleMute')).toHaveLength(1);
+    expect(wrapper.emitted('toggleHold')).toHaveLength(1);
   });
 
-  it('shows a held Twilio call as on hold and muted', () => {
-    const wrapper = mountCard({ onHold: true }, { isMuted: true });
+  it('shows a muted call as muted but still in progress', () => {
+    const wrapper = mountCard({}, { isMuted: true });
+
+    expect(wrapper.text()).toContain('Call in progress');
+    expect(muteButton(wrapper).attributes('icon')).toBe(
+      'i-ph-microphone-slash-bold'
+    );
+    expect(holdButton(wrapper).attributes('icon')).toBe('i-ph-pause-bold');
+  });
+
+  it('shows a held call as on hold with resume and the mute disabled', async () => {
+    const wrapper = mountCard({ onHold: true });
 
     expect(wrapper.text()).toContain('On hold');
     expect(wrapper.text()).not.toContain('Call in progress');
-    expect(muteButton(wrapper).attributes('icon')).toBe(
-      'i-ph-microphone-slash-bold'
-    );
+    expect(holdButton(wrapper).attributes('icon')).toBe('i-ph-play-bold');
+    expect(muteButton(wrapper).attributes('disabled')).toBeDefined();
+
+    await holdButton(wrapper).trigger('click');
+
+    expect(wrapper.emitted('toggleHold')).toHaveLength(1);
   });
 
-  it('has no mute control while an outbound Twilio call still rings the contact', () => {
+  it('has no mute or hold while an outbound Twilio call still rings the contact', () => {
     const wrapper = mountCard({ status: 'ringing' });
 
-    expect(muteButton(wrapper)).toBeUndefined();
+    expect(muteButton(wrapper).exists()).toBe(false);
+    expect(holdButton(wrapper).exists()).toBe(false);
   });
 
-  it('offers mute on a connected WhatsApp call', () => {
+  it('offers mute and hold on a connected WhatsApp call', () => {
     const wrapper = mountCard({ provider: 'whatsapp', status: 'ringing' });
 
-    expect(muteButton(wrapper)).toBeDefined();
+    expect(muteButton(wrapper).exists()).toBe(true);
+    expect(holdButton(wrapper).exists()).toBe(true);
     expect(wrapper.text()).toContain('Call in progress');
   });
 
-  it('shows a held WhatsApp call as on hold and muted', () => {
-    const wrapper = mountCard(
-      { provider: 'whatsapp', onHold: true },
-      { isMuted: true }
-    );
+  it('shows a held WhatsApp call as on hold', () => {
+    const wrapper = mountCard({ provider: 'whatsapp', onHold: true });
 
     expect(wrapper.text()).toContain('On hold');
-    expect(muteButton(wrapper).attributes('icon')).toBe(
-      'i-ph-microphone-slash-bold'
-    );
+    expect(holdButton(wrapper).attributes('icon')).toBe('i-ph-play-bold');
   });
 });
 

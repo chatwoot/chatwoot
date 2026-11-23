@@ -511,9 +511,16 @@ export const handleWhatsappRemoteEnd = async callId => {
   }
 };
 
+// Mute silences the agent's mic; the caller hears silence and the call stays live
+export const setWhatsappMicMuted = muted => {
+  const micTrack = localStream?.getAudioTracks()[0];
+  if (micTrack) micTrack.enabled = !muted;
+};
+
 // Hold sends music to the caller in place of the mic while the agent keeps hearing them.
 // The mic stays muted meanwhile, and the recorder mixes only the mic and the caller.
-export const setWhatsappCallOnHold = async onHold => {
+// Resume brings the mic back in the mute state the agent left it in.
+export const setWhatsappCallOnHold = async (onHold, micMuted = false) => {
   const connection = pc;
   const sender = findAudioSender();
   if (!sender) throw new Error('No live WhatsApp call to hold');
@@ -521,7 +528,7 @@ export const setWhatsappCallOnHold = async onHold => {
 
   if (!onHold) {
     await sender.replaceTrack(micTrack);
-    micTrack.enabled = true;
+    micTrack.enabled = !micMuted;
     stopHoldMusic();
     return;
   }

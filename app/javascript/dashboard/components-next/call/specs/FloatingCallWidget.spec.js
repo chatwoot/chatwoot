@@ -11,6 +11,7 @@ const mocks = vi.hoisted(() => ({
   sendDigits: vi.fn(),
   sendWhatsappDigits: vi.fn(),
   holdCall: vi.fn(),
+  muteCall: vi.fn(),
   useAlert: vi.fn(),
 }));
 
@@ -50,6 +51,7 @@ vi.mock('dashboard/composables/useCallSession', () => ({
     endCall: vi.fn(),
     rejectIncomingCall: vi.fn(),
     dismissCall: vi.fn(),
+    muteCall: mocks.muteCall,
     holdCall: mocks.holdCall,
     formattedCallDuration: ref('00:42'),
   }),
@@ -243,7 +245,7 @@ describe('FloatingCallWidget keypad', () => {
   );
 });
 
-describe('FloatingCallWidget mute', () => {
+describe('FloatingCallWidget mute and hold', () => {
   const PROVIDERS = [
     VOICE_CALL_PROVIDERS.TWILIO,
     VOICE_CALL_PROVIDERS.WHATSAPP,
@@ -252,14 +254,41 @@ describe('FloatingCallWidget mute', () => {
   beforeEach(() => {
     vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
     mocks.holdCall.mockReset().mockResolvedValue();
+    mocks.muteCall.mockReset();
   });
 
-  it.each(PROVIDERS)('puts a %s caller on hold from mute', provider => {
+  it.each(PROVIDERS)('mutes a %s call without holding it', provider => {
     mocks.activeCall = activeCall(provider);
     const card = mountWidget().findComponent(CallCard);
 
     expect(card.props('isMuted')).toBe(false);
     card.vm.$emit('toggleMute');
+
+    expect(mocks.muteCall).toHaveBeenCalledWith({
+      callSid: 'CA123',
+      muted: true,
+    });
+    expect(mocks.holdCall).not.toHaveBeenCalled();
+  });
+
+  it.each(PROVIDERS)('unmutes a muted %s call', provider => {
+    mocks.activeCall = { ...activeCall(provider), isMuted: true };
+    const card = mountWidget().findComponent(CallCard);
+
+    expect(card.props('isMuted')).toBe(true);
+    card.vm.$emit('toggleMute');
+
+    expect(mocks.muteCall).toHaveBeenCalledWith({
+      callSid: 'CA123',
+      muted: false,
+    });
+  });
+
+  it.each(PROVIDERS)('puts a %s caller on hold from hold', provider => {
+    mocks.activeCall = activeCall(provider);
+    const card = mountWidget().findComponent(CallCard);
+
+    card.vm.$emit('toggleHold');
 
     expect(mocks.holdCall).toHaveBeenCalledWith({
       conversationId: 42,
@@ -267,14 +296,14 @@ describe('FloatingCallWidget mute', () => {
       callSid: 'CA123',
       hold: true,
     });
+    expect(mocks.muteCall).not.toHaveBeenCalled();
   });
 
-  it.each(PROVIDERS)('resumes a held %s caller from unmute', provider => {
+  it.each(PROVIDERS)('resumes a held %s caller', provider => {
     mocks.activeCall = { ...activeCall(provider), onHold: true };
     const card = mountWidget().findComponent(CallCard);
 
-    expect(card.props('isMuted')).toBe(true);
-    card.vm.$emit('toggleMute');
+    card.vm.$emit('toggleHold');
 
     expect(mocks.holdCall).toHaveBeenCalledWith(
       expect.objectContaining({ callSid: 'CA123', hold: false })

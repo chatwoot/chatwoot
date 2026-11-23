@@ -103,16 +103,17 @@ const log =
       />
     </Variant>
 
-    <Variant title="Ongoing · WhatsApp (mute visible, unmuted)">
+    <Variant title="Ongoing · WhatsApp (mute and hold visible)">
       <CallCard
         :call="whatsappCall"
         :call-info="richCallInfo"
         :state="VOICE_CALL_DIRECTION.ONGOING"
         duration="01:23"
         :is-muted="false"
-        show-mute
+        show-call-controls
         @end="log('end')"
         @toggle-mute="log('toggleMute')"
+        @toggle-hold="log('toggleHold')"
         @go-to-conversation="log('goToConversation')"
       />
     </Variant>
@@ -124,9 +125,24 @@ const log =
         :state="VOICE_CALL_DIRECTION.ONGOING"
         duration="03:47"
         is-muted
-        show-mute
+        show-call-controls
         @end="log('end')"
         @toggle-mute="log('toggleMute')"
+        @toggle-hold="log('toggleHold')"
+        @go-to-conversation="log('goToConversation')"
+      />
+    </Variant>
+
+    <Variant title="Ongoing · WhatsApp on hold">
+      <CallCard
+        :call="{ ...whatsappCall, onHold: true }"
+        :call-info="richCallInfo"
+        :state="VOICE_CALL_DIRECTION.ONGOING"
+        duration="04:12"
+        show-call-controls
+        @end="log('end')"
+        @toggle-mute="log('toggleMute')"
+        @toggle-hold="log('toggleHold')"
         @go-to-conversation="log('goToConversation')"
       />
     </Variant>
@@ -137,16 +153,17 @@ const log =
         :call-info="richCallInfo"
         :state="VOICE_CALL_DIRECTION.ONGOING"
         duration="03:47"
-        show-mute
+        show-call-controls
         show-keypad
         @end="log('end')"
         @toggle-mute="log('toggleMute')"
+        @toggle-hold="log('toggleHold')"
         @send-digit="log('sendDigit')"
         @go-to-conversation="log('goToConversation')"
       />
     </Variant>
 
-    <Variant title="Ongoing · Twilio (no mute control)">
+    <Variant title="Ongoing · Twilio (no mute or hold control)">
       <CallCard
         :call="twilioCall"
         :call-info="richCallInfo"
@@ -163,10 +180,11 @@ const log =
         :call-info="richCallInfo"
         :state="VOICE_CALL_DIRECTION.ONGOING"
         duration="00:42"
-        show-mute
+        show-call-controls
         show-keypad
         @end="log('end')"
         @toggle-mute="log('toggleMute')"
+        @toggle-hold="log('toggleHold')"
         @send-digit="log('sendDigit')"
         @go-to-conversation="log('goToConversation')"
       />
@@ -200,9 +218,10 @@ const log =
         :call-info="richCallInfo"
         :state="VOICE_CALL_DIRECTION.ONGOING"
         duration="02:10"
-        show-mute
+        show-call-controls
         @end="log('end')"
         @toggle-mute="log('toggleMute')"
+        @toggle-hold="log('toggleHold')"
       />
     </Variant>
   </Story>

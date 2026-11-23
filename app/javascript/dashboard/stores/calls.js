@@ -94,7 +94,13 @@ export const useCallsStore = defineStore('calls', {
         ...call,
         isActive: call.callSid === callSid,
         onHold: false,
+        isMuted: false,
       }));
+    },
+
+    setCallMuted(callSid, isMuted) {
+      const call = this.calls.find(c => c.callSid === callSid);
+      if (call) call.isMuted = isMuted;
     },
 
     // Flipped only once the hold took effect, so the card never shows a hold that failed
