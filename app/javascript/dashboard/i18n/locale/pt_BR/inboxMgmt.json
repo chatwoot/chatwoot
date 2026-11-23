@@ -55,9 +55,9 @@
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continuar com o Instagram",
-        "SELECT_ACCOUNT": "Choose an Instagram account",
-        "CONNECT_ACCOUNT": "Connect account",
-        "START_AGAIN": "Start again",
+        "SELECT_ACCOUNT": "Escolha uma conta do Instagram",
+        "CONNECT_ACCOUNT": "Conectar conta",
+        "START_AGAIN": "Começar novamente",
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "Conecte seu perfil do Instagram",
         "HELP": "Para adicionar seu perfil do Instagram como um canal, você precisa autenticar seu perfil do Instagram clicando em 'Continuar com o Instagram' ",
         "ERROR_MESSAGE": "Houve um erro ao conectar ao Instagram, por favor, tente novamente",
@@ -206,14 +206,14 @@
         },
         "BANDWIDTH": {
           "CALLBACK_AUTH": {
-            "TITLE": "Callback credentials",
-            "DESCRIPTION": "Add these as the inbound and outbound callback credentials in your Bandwidth application. If several inboxes share one Bandwidth application, use the callback URL and credentials of one of them.",
-            "RESET_SUCCESS": "Callback password reset. Update it in your Bandwidth application.",
-            "RESET_ERROR": "Could not reset the callback password. Please try again.",
+            "TITLE": "Credenciais de callback",
+            "DESCRIPTION": "Adicione estas credenciais aos callbacks de entrada e de saída no seu aplicativo da Bandwidth. Se várias caixas de entrada compartilharem o mesmo aplicativo da Bandwidth, use a URL e as credenciais de callback de uma delas.",
+            "RESET_SUCCESS": "Senha de callback redefinida. Atualize-a no seu aplicativo da Bandwidth.",
+            "RESET_ERROR": "Não foi possível redefinir a senha de callback. Por favor, tente novamente.",
             "USERNAME": "Nome de usuário",
             "PASSWORD": "Senha",
-            "ENFORCE": "Require callback credentials",
-            "ENFORCE_DESCRIPTION": "Reject callbacks that do not use these credentials. Turn this on after adding the credentials to your Bandwidth application."
+            "ENFORCE": "Exigir credenciais de callback",
+            "ENFORCE_DESCRIPTION": "Rejeita callbacks que não usam estas credenciais. Ative esta opção depois de adicionar as credenciais ao aplicativo da Bandwidth."
           },
           "ACCOUNT_ID": {
             "LABEL": "ID da Conta",
@@ -254,28 +254,28 @@
             "SUBTITLE": "Você precisa configurar a URL de callback de mensagem no Bandwidth com a URL mencionada aqui."
           },
           "CLIENT_ID": {
-            "LABEL": "Client ID",
-            "PLACEHOLDER": "Enter your Bandwidth Client ID",
+            "LABEL": "ID do cliente",
+            "PLACEHOLDER": "Insira seu ID do cliente da Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "CLIENT_SECRET": {
-            "LABEL": "Client Secret",
-            "PLACEHOLDER": "Enter your Bandwidth Client Secret",
+            "LABEL": "Segredo do cliente",
+            "PLACEHOLDER": "Insira seu segredo do cliente da Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "OAUTH": {
-            "TITLE": "API credentials",
-            "MIGRATE": "Update credentials",
-            "READ_ONLY": "Read-only",
-            "SHOW_SECRET": "Show client secret",
-            "HIDE_SECRET": "Hide client secret",
-            "LEGACY_DESCRIPTION": "Update your Bandwidth credentials before December 2, 2026 to keep this inbox connected.",
-            "DESCRIPTION": "This inbox uses OAuth. Enter a new Client ID and Client Secret to replace its credentials.",
-            "SAVE": "Verify and save credentials",
-            "SUCCESS": "Bandwidth OAuth credentials saved.",
-            "LOAD_ERROR": "Unable to load Bandwidth credentials. Reload this page to try again.",
-            "ERROR": "Unable to save Bandwidth credentials. Please try again.",
-            "CALLBACK_DESCRIPTION": "Use this URL for inbound messages and delivery status callbacks in your Bandwidth application."
+            "TITLE": "Credenciais da API",
+            "MIGRATE": "Atualizar credenciais",
+            "READ_ONLY": "Somente leitura",
+            "SHOW_SECRET": "Mostrar segredo do cliente",
+            "HIDE_SECRET": "Ocultar segredo do cliente",
+            "LEGACY_DESCRIPTION": "Atualize suas credenciais da Bandwidth antes de 2 de dezembro de 2026 para manter esta caixa de entrada conectada.",
+            "DESCRIPTION": "Esta caixa de entrada usa OAuth. Insira um novo Client ID e um novo Client Secret para substituir as credenciais.",
+            "SAVE": "Verificar e salvar credenciais",
+            "SUCCESS": "Credenciais OAuth da Bandwidth salvas.",
+            "LOAD_ERROR": "Não foi possível carregar as credenciais da Bandwidth. Atualize esta página para tentar novamente.",
+            "ERROR": "Não foi possível salvar as credenciais da Bandwidth. Por favor, tente novamente.",
+            "CALLBACK_DESCRIPTION": "Use esta URL no seu aplicativo da Bandwidth para receber mensagens e notificações sobre o status de entrega."
           }
         }
       },
@@ -329,8 +329,8 @@
           "ERROR": "Por favor, insira um valor válido."
         },
         "APP_SECRET": {
-          "LABEL": "App secret",
-          "PLACEHOLDER": "App secret of your Meta app",
+          "LABEL": "Segredo do aplicativo",
+          "PLACEHOLDER": "Segredo do seu aplicativo da Meta",
           "ERROR": "Por favor, insira um valor válido."
         },
         "API_CALLBACK": {
@@ -387,9 +387,9 @@
             "PHONE_ID_PLACEHOLDER": "Informe o ID do número de telefone",
             "TOKEN_LABEL": "Token de acesso permanente",
             "TOKEN_PLACEHOLDER": "Colar token de acesso",
-            "APP_SECRET_LABEL": "App secret",
-            "APP_SECRET_PLACEHOLDER": "Paste app secret",
-            "APP_SECRET_HELP": "Find it in your Meta app under App settings > Basic. It is used to verify incoming webhooks."
+            "APP_SECRET_LABEL": "Segredo do aplicativo",
+            "APP_SECRET_PLACEHOLDER": "Cole o segredo do aplicativo",
+            "APP_SECRET_HELP": "Você encontra o segredo no seu aplicativo da Meta em Configurações do aplicativo > Básico. Ele é usado para verificar os webhooks recebidos."
           },
           "REVIEW": {
             "TITLE": "Crie sua caixa de entrada do WhatsApp",
@@ -433,7 +433,7 @@
           },
           "ERRORS": {
             "IDS_REQUIRED": "Insira o ID do número de telefone e o ID da conta do WhatsApp Business.",
-            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, permanent access token, and app secret.",
+            "REQUIRED": "Insira o ID do número de telefone, o ID da conta do WhatsApp Business, o token de acesso permanente e o segredo do aplicativo.",
             "INVALID_TOKEN": "Este token de acesso é inválido ou expirou. Gere um novo token permanente e tente novamente.",
             "GENERIC": "Não foi possível concluir a configuração do WhatsApp. Verifique os dados e tente novamente."
           }
@@ -821,92 +821,97 @@
       "MINUTES": "{n} minuto | {n} minutos",
       "CALLING": {
         "TITLE": "Chamando",
-        "DESCRIPTION": "Whether voice calling is enabled for this inbox",
-        "TAKE_INCOMING": "Taking incoming calls",
-        "TAKE_INCOMING_HELP": "Turn off to stop calls ringing without disconnecting the number. Outgoing calls still work.",
-        "CREDENTIALS_HELP": "Calling needs an API key from your Twilio account, and the account's auth token to check Twilio's requests.",
-        "REPLACE_HELP": "Enter a new API key to replace the one this inbox uses.",
-        "CONNECT": "Turn on calling",
+        "DESCRIPTION": "Indica se as chamadas de voz estão ativadas para esta caixa de entrada",
+        "TAKE_INCOMING": "Receber chamadas",
+        "TAKE_INCOMING_HELP": "Desative para interromper o toque das chamadas sem desconectar o número. As chamadas de saída continuam funcionando.",
+        "CREDENTIALS_HELP": "Para usar chamadas, você precisa de uma chave de API da sua conta Twilio e do token de autenticação da conta para verificar as solicitações da Twilio.",
+        "REPLACE_HELP": "Insira uma nova chave de API para substituir a que esta caixa de entrada usa.",
+        "CONNECT": "Ativar chamadas",
         "CONNECTED": "Conectado",
-        "TWILIO_ACCOUNT": "Twilio account {sid}",
-        "MANAGE_CONNECTION": "Manage connection",
-        "HIDE_CONNECTION": "Hide connection",
-        "UPDATE_CONNECTION": "Update connection",
-        "WHATSAPP_ENABLE": "Turn on WhatsApp calling",
-        "WHATSAPP_ENABLE_HELP": "Customers can call this number from WhatsApp. Agents answer in the browser, which needs microphone access.",
-        "META_ON": "Calling on at Meta",
-        "META_HELP": "Calls ring on this WhatsApp number",
-        "TURN_OFF": "Turn off calling"
+        "TWILIO_ACCOUNT": "Conta Twilio {sid}",
+        "MANAGE_CONNECTION": "Gerenciar conexão",
+        "HIDE_CONNECTION": "Ocultar conexão",
+        "UPDATE_CONNECTION": "Atualizar conexão",
+        "WHATSAPP_ENABLE": "Ativar chamadas do WhatsApp",
+        "WHATSAPP_ENABLE_HELP": "Os clientes podem ligar para este número pelo WhatsApp. Os agentes atendem pelo navegador, que precisa de acesso ao microfone.",
+        "META_ON": "Chamadas ativadas na Meta",
+        "META_HELP": "As chamadas tocam neste número do WhatsApp",
+        "TURN_OFF": "Desativar chamadas"
       },
       "INCOMING": {
-        "TITLE": "When a call comes in",
-        "DESCRIPTION": "What the caller hears and who rings.",
-        "GREETING": "Greeting",
-        "GREETING_PLACEHOLDER": "Thanks for calling. Connecting you to the team.",
-        "GREETING_HELP": "Played once to the caller while agents ring, followed by hold music. Leave empty for no greeting.",
-        "SIMULTANEOUS": "Ring everyone at once",
-        "SIMULTANEOUS_HELP": "All available agents ring together. The first to answer gets the call.",
-        "SEQUENTIAL": "Ring one agent at a time",
-        "SEQUENTIAL_HELP": "Starts with the longest-idle agent, then adds the next if nobody answers.",
-        "STEP": "Add another agent after",
-        "ASSIGNEE_FIRST": "Ring the conversation assignee first for returning callers",
-        "ASSIGNEE_FIRST_HELP": "Turn off for line-staffed teams on rotation.",
-        "ALWAYS": "Always:",
-        "ALWAYS_NOTE": "agents who are on a call, in wrap-up, or not taking calls are never rung. The caller waits, and the first agent who frees up rings.",
-        "ROUTING": "How calls are routed",
-        "WHATSAPP_DESCRIPTION": "Who rings, and in what order."
+        "TITLE": "Quando uma chamada chega",
+        "DESCRIPTION": "O que a pessoa ouve e quais agentes recebem o toque.",
+        "GREETING": "Saudação",
+        "GREETING_PLACEHOLDER": "Obrigado por ligar. Vamos conectar você à nossa equipe.",
+        "GREETING_HELP": "A pessoa ouve a saudação uma vez enquanto a chamada toca para os agentes, seguida da música de espera. Deixe em branco para não usar uma saudação.",
+        "SIMULTANEOUS": "Tocar para todos ao mesmo tempo",
+        "SIMULTANEOUS_HELP": "A chamada toca para todos os agentes disponíveis ao mesmo tempo. O primeiro a atender fica com a chamada.",
+        "SEQUENTIAL": "Tocar para um agente por vez",
+        "SEQUENTIAL_HELP": "Começa pelo agente que está ocioso há mais tempo. Se ninguém atender, o próximo agente também recebe o toque.",
+        "STEP": "Incluir outro agente após",
+        "ASSIGNEE_FIRST": "Tocar primeiro para o agente responsável pela conversa quando a pessoa ligar novamente",
+        "ASSIGNEE_FIRST_HELP": "Desative esta opção para equipes que atendem a linha em rodízio.",
+        "ALWAYS": "Sempre:",
+        "ALWAYS_NOTE": "agentes que estão em uma chamada, finalizando um atendimento ou com o recebimento de chamadas desativado não recebem o toque. A pessoa aguarda, e a chamada toca para o primeiro agente que ficar disponível.",
+        "ROUTING": "Como as chamadas são encaminhadas",
+        "WHATSAPP_DESCRIPTION": "Quais agentes recebem o toque e em que ordem."
       },
       "UNANSWERED": {
-        "TITLE": "If nobody answers",
-        "DESCRIPTION": "Also used straight away when no agent is available.",
-        "WAIT": "Wait",
-        "THEN": "then play the message and hang up",
-        "MESSAGE": "Missed-call message",
-        "MESSAGE_HELP": "Read out to the caller."
+        "TITLE": "Se ninguém atender",
+        "DESCRIPTION": "Também se aplica imediatamente quando nenhum agente está disponível.",
+        "WAIT": "Aguardar",
+        "THEN": "e depois reproduzir a mensagem e desligar",
+        "MESSAGE": "Mensagem de chamada perdida",
+        "MESSAGE_HELP": "A mensagem é reproduzida para a pessoa que ligou.",
+        "WHATSAPP_DESCRIPTION": "Quando uma chamada termina sem ser atendida, inclusive quando nenhum agente está disponível.",
+        "WHATSAPP_SEND": "Enviar uma mensagem pelo WhatsApp",
+        "WHATSAPP_SEND_HELP": "A mensagem é enviada após cada chamada perdida, na conversa da chamada, para que a pessoa possa responder por lá.",
+        "WHATSAPP_PLACEHOLDER": "Não conseguimos atender sua chamada. Responda por aqui e entraremos em contato assim que possível.",
+        "WHATSAPP_MESSAGE_HELP": "Deixe em branco para enviar o texto exibido. A mensagem só será enviada dentro da janela de 24 horas do WhatsApp."
       },
       "OUT_OF_HOURS": {
         "TITLE": "Fora do horário de atendimento",
-        "DESCRIPTION": "Uses the inbox's hours from the Business hours tab.",
-        "APPLY": "Apply business hours to calls",
-        "APPLY_HELP": "When on, calls outside business hours follow the rule below.",
-        "HOURS_OFF": "Business hours are off for this inbox. Turn them on for the inbox first, then calls can follow them.",
-        "HOURS_OFF_APPLIED": "Business hours are off for this inbox, so calls will keep ringing as usual at all times. Turn business hours on for the inbox to apply this.",
-        "GO_TO_HOURS": "Go to Business hours",
-        "INBOX_HOURS": "Inbox hours:",
-        "ALL_DAY": "all day",
-        "ALWAYS_CLOSED": "Closed every day",
-        "EDIT_HOURS": "Edit hours",
-        "MESSAGE": "Out-of-hours message",
-        "SAME": "Same as the missed-call message",
-        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
-        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead.",
-        "WHATSAPP_HOURS_CHECKING": "Checking WhatsApp…",
-        "WHATSAPP_HOURS_APPLYING": "Applying on WhatsApp…",
-        "WHATSAPP_HOURS_APPLIED": "Applied on WhatsApp",
-        "WHATSAPP_HOURS_DIFFER": "WhatsApp is using different call hours from this inbox. Calls follow WhatsApp's hours until you apply the inbox hours.",
-        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours",
-        "WHATSAPP_HOURS_STILL_ON": "WhatsApp is still applying call hours, but this inbox doesn't. Calls outside those hours won't go through until you turn them off.",
-        "WHATSAPP_TURN_OFF_HOURS": "Turn off on WhatsApp"
+        "DESCRIPTION": "Usa o horário da caixa de entrada definido na aba Horário de atendimento.",
+        "APPLY": "Aplicar horário de atendimento às chamadas",
+        "APPLY_HELP": "Com esta opção ativada, as chamadas fora do horário de atendimento seguem a regra abaixo.",
+        "HOURS_OFF": "O horário de atendimento está desativado nesta caixa de entrada. Ative-o na caixa de entrada para aplicá-lo às chamadas.",
+        "HOURS_OFF_APPLIED": "O horário de atendimento está desativado nesta caixa de entrada, então as chamadas continuarão tocando normalmente a qualquer hora. Ative o horário de atendimento da caixa de entrada para aplicar esta configuração.",
+        "GO_TO_HOURS": "Ir para Horário de atendimento",
+        "INBOX_HOURS": "Horário da caixa de entrada:",
+        "ALL_DAY": "o dia todo",
+        "ALWAYS_CLOSED": "Fechado todos os dias",
+        "EDIT_HOURS": "Editar horário",
+        "MESSAGE": "Mensagem fora do horário de atendimento",
+        "SAME": "Igual à mensagem de chamada perdida",
+        "MESSAGE_HELP": "Mensagem que a pessoa ouve fora do horário de atendimento, antes de a chamada ser encerrada.",
+        "WHATSAPP_APPLY_HELP": "O WhatsApp não completará chamadas fora desse horário. Quem ligar verá quando pode tentar novamente e terá a opção de enviar uma mensagem.",
+        "WHATSAPP_HOURS_CHECKING": "Verificando no WhatsApp…",
+        "WHATSAPP_HOURS_APPLYING": "Aplicando no WhatsApp…",
+        "WHATSAPP_HOURS_APPLIED": "Aplicado no WhatsApp",
+        "WHATSAPP_HOURS_DIFFER": "O WhatsApp usa um horário de chamadas diferente do horário desta caixa de entrada. As chamadas seguem o horário do WhatsApp até você aplicar o horário da caixa de entrada.",
+        "WHATSAPP_APPLY_INBOX_HOURS": "Aplicar horário da caixa de entrada",
+        "WHATSAPP_HOURS_STILL_ON": "O WhatsApp ainda aplica um horário de chamadas, mas esta caixa de entrada não. As chamadas fora desse horário só serão completadas depois que você desativá-lo no WhatsApp.",
+        "WHATSAPP_TURN_OFF_HOURS": "Desativar no WhatsApp"
       },
       "AFTER_CALL": {
-        "TITLE": "After a call",
-        "DESCRIPTION": "Wrap-up and records.",
-        "WRAP_UP": "Wrap-up time",
-        "WRAP_UP_HELP": "Agents in wrap-up aren't rung; resolving the conversation also ends it.",
+        "TITLE": "Após a chamada",
+        "DESCRIPTION": "Finalização do atendimento e registros.",
+        "WRAP_UP": "Tempo para finalizar o atendimento",
+        "WRAP_UP_HELP": "Agentes que estão finalizando um atendimento não recebem chamadas. Resolver a conversa também encerra essa etapa.",
         "RECORD": "Gravar chamadas",
         "TRANSCRIBE": "Transcrever gravações",
-        "TRANSCRIBE_HELP": "Turned into text with Captain and shown with the call. Needs recording on.",
-        "RECORD_HELP": "The recording is attached to the conversation."
+        "TRANSCRIBE_HELP": "O Captain transcreve a chamada e exibe o texto junto dela. Requer que a gravação esteja ativada.",
+        "RECORD_HELP": "A gravação é anexada à conversa."
       },
-      "PLAY": "Play",
-      "PLAY_AFTER_SAVE": "Save changes to record and play the new message",
-      "STOP": "Stop",
+      "PLAY": "Reproduzir",
+      "PLAY_AFTER_SAVE": "Salve as alterações para gravar e reproduzir a nova mensagem",
+      "STOP": "Parar",
       "CALLING_CUSTOMERS": {
-        "TITLE": "Calling customers",
-        "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
-        "PERMISSION_MESSAGE": "Permission request message",
-        "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
-        "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
+        "TITLE": "Chamadas para clientes",
+        "DESCRIPTION": "O WhatsApp exige a permissão do cliente antes que você possa ligar para ele.",
+        "PERMISSION_MESSAGE": "Mensagem de solicitação de permissão",
+        "PERMISSION_PLACEHOLDER": "Podemos ligar para você pelo WhatsApp para falar sobre sua solicitação?",
+        "PERMISSION_HELP": "Enviada quando um agente tenta ligar para um cliente que ainda não autorizou chamadas. Deixe em branco para usar a mensagem padrão."
       }
     },
     "WHATSAPP_CALLING": {
@@ -951,20 +956,20 @@
           "TOOLTIP": "Indica se as chamadas estão habilitadas para esta caixa de entrada"
         },
         "SENDER_STATUS": {
-          "LABEL": "WhatsApp sender status",
-          "TOOLTIP": "The sender must be online to send and receive WhatsApp messages"
+          "LABEL": "Status do remetente do WhatsApp",
+          "TOOLTIP": "O remetente precisa estar online para enviar e receber mensagens do WhatsApp"
         },
         "DISPLAY_NAME": {
           "LABEL": "Nome de exibição do WhatsApp",
-          "TOOLTIP": "The business name shown to customers on WhatsApp"
+          "TOOLTIP": "O nome da empresa exibido aos clientes no WhatsApp"
         },
         "QUALITY_RATING": {
           "LABEL": "Classificação de qualidade",
-          "TOOLTIP": "The WhatsApp sender quality rating reported by Twilio"
+          "TOOLTIP": "A classificação de qualidade do remetente do WhatsApp informada pela Twilio"
         },
         "MESSAGING_LIMIT": {
-          "LABEL": "Messaging limit",
-          "TOOLTIP": "The WhatsApp messaging limit reported by Twilio"
+          "LABEL": "Limite de mensagens",
+          "TOOLTIP": "O limite de mensagens do WhatsApp informado pela Twilio"
         }
       },
       "VALUES": {
@@ -984,17 +989,17 @@
         "SENDER_TYPES": {
           "PHONE_NUMBER": "Número de telefone",
           "MESSAGING_SERVICE": "Serviço de mensagens",
-          "WHATSAPP_SENDER": "WhatsApp sender"
+          "WHATSAPP_SENDER": "Remetente do WhatsApp"
         },
         "ENABLED": "Ativado",
         "DISABLED": "Desativado",
         "SENDER_STATUSES": {
           "ONLINE": "Online",
           "OFFLINE": "Offline",
-          "CREATING": "Creating",
+          "CREATING": "Criando",
           "VERIFYING": "Verificando",
           "UPDATING": "Atualizando",
-          "DELETING": "Deleting",
+          "DELETING": "Excluindo",
           "UNKNOWN": "Desconhecido"
         },
         "QUALITY_RATINGS": {
@@ -1219,7 +1224,7 @@
       }
     },
     "SETTINGS": "Configurações",
-    "VIEW_CONVERSATIONS": "View conversations",
+    "VIEW_CONVERSATIONS": "Ver conversas",
     "FEATURES": {
       "LABEL": "Funcionalidades",
       "DISPLAY_FILE_PICKER": "Exibir seletor de arquivos no widget",
@@ -1294,10 +1299,10 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atualizar Chave de API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave de API aqui",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualizar",
-      "WHATSAPP_APP_SECRET_TITLE": "App Secret",
-      "WHATSAPP_APP_SECRET_SUBHEADER": "Enter the app secret of your Meta app (App settings > Basic). It is used to verify that incoming webhooks come from Meta.",
-      "WHATSAPP_APP_SECRET_MISSING": "Incoming webhooks for this inbox are not verified yet. Add your Meta app secret to complete the setup.",
-      "WHATSAPP_APP_SECRET_PLACEHOLDER": "Enter the app secret here",
+      "WHATSAPP_APP_SECRET_TITLE": "Segredo do Aplicativo",
+      "WHATSAPP_APP_SECRET_SUBHEADER": "Insira o segredo do seu aplicativo da Meta (Configurações do aplicativo > Básico). Ele é usado para verificar se os webhooks recebidos vêm da Meta.",
+      "WHATSAPP_APP_SECRET_MISSING": "Os webhooks recebidos por esta caixa de entrada ainda não são verificados. Adicione o segredo do aplicativo da Meta para concluir a configuração.",
+      "WHATSAPP_APP_SECRET_PLACEHOLDER": "Insira o segredo do aplicativo aqui",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Adicionar Token de Gerenciamento de Negócios",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Substituir Token de Gerenciamento de Negócios",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Token de gerenciamento de negócios configurado",
@@ -1367,8 +1372,8 @@
           "DISPLAY_PHONE_NUMBER_HELP": "O número do WhatsApp exibido aos clientes. Ele não pode ser alterado durante a migração.",
           "ACCESS_TOKEN": "Token de acesso permanente ou token do usuário do sistema",
           "ACCESS_TOKEN_PLACEHOLDER": "Colar token de acesso",
-          "APP_SECRET": "App secret",
-          "APP_SECRET_PLACEHOLDER": "App secret from App settings > Basic in your Meta app",
+          "APP_SECRET": "Segredo do aplicativo",
+          "APP_SECRET_PLACEHOLDER": "Segredo do aplicativo em Configurações do aplicativo > Básico no seu aplicativo da Meta",
           "TOKEN_HELP_PREFIX": "O token deve incluir",
           "TOKEN_HELP_MIDDLE": "Adicionar",
           "TOKEN_HELP_SUFFIX": "para gerenciamento de modelos de sincronização e templates.",
@@ -1396,7 +1401,7 @@
           },
           "ACCESS_TOKEN": {
             "TITLE": "Token de acesso",
-            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions, and the app secret of your Meta app."
+            "DESCRIPTION": "Cole um token de acesso permanente ou um token de usuário do sistema com permissões do WhatsApp, além do segredo do seu aplicativo da Meta."
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Revisar a migração",
