@@ -776,18 +776,6 @@
           "LABEL": "Navrhni odpověď",
           "CONTENT": "Analyzuj dotaz zákazníka a vytvoř odpověď, která efektivně řeší jeho obavy nebo otázky. Zajisti, aby byla odpověď jasná, stručná a poskytovala užitečné informace."
         },
-        "RATE": {
-          "LABEL": "Ohodnoť tuto konverzaci",
-          "CONTENT": "Prohlédni konverzaci a zhodnoť, jak dobře odpovídá potřebám zákazníka. Sdílej hodnocení od 1 do 5 na základě tónu, srozumitelnosti a efektivity."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Konverzace s vysokou prioritou",
-          "CONTENT": "Dej mi shrnutí všech otevřených konverzací s vysokou prioritou. Uveď ID konverzace, jméno zákazníka (pokud je k dispozici), obsah poslední zprávy a přiděleného agenta. Pokud je relevantní, seskup je podle stavu."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Seznam kontaktů",
-          "CONTENT": "Ukázat seznam 10 nejlepších kontaktů. Uveď jméno, email nebo telefonní číslo (pokud je k dispozici), čas posledního přístupu, štítky (pokud jsou)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
