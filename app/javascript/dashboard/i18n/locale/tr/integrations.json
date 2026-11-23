@@ -776,18 +776,6 @@
           "LABEL": "Bir yanıt öner",
           "CONTENT": "Müşterinin sorusunu analiz edin ve endişelerini veya sorularını etkili bir şekilde ele alan bir yanıt taslağı oluşturun. Yanıtın açık, öz ve bilgilendirici olmasını sağlayın."
         },
-        "RATE": {
-          "LABEL": "Bu sohbeti değerlendir",
-          "CONTENT": "Sohbetin müşterinin ihtiyaçlarını ne kadar karşıladığını gözden geçirin. Ton, açıklık ve etkililik açısından 5 üzerinden bir puan verin."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Yüksek öncelikli konuşmalar",
-          "CONTENT": "Tüm yüksek öncelikli açık konuşmaların bir özetini verin. Konuşma kimliği, müşteri adı (varsa), son mesaj içeriği ve atanan temsilciyi ekleyin. Gerekirse duruma göre gruplayın."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Kişileri listele",
-          "CONTENT": "İlk 10 kişiyi göster. Ad, e-posta veya telefon numarası (varsa), son görülme zamanı ve etiketler (varsa) dahil olsun."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
