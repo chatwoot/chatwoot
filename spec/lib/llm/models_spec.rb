@@ -32,11 +32,11 @@ RSpec.describe Llm::Models do
       expect(described_class.default_model_for('conversation_faq_matching')).to eq('gpt-6-luna')
     end
 
-    it 'uses GPT-5.2 for Copilot workflows' do
-      expect(described_class.default_model_for('copilot')).to eq('gpt-5.2')
+    it 'offers one Copilot model setting to customers, defaulting to GPT-5.2' do
+      expect(described_class.feature?('copilot')).to be(false)
       expect(described_class.default_model_for('copilot_workflows')).to eq('gpt-5.2')
       expect(described_class.features.dig('copilot_workflows', 'reasoning_effort')).to eq('none')
-      expect(described_class.internal_feature?('copilot_workflows')).to be(true)
+      expect(described_class.feature_keys).to include('copilot_workflows')
     end
 
     it 'offers only supported OpenAI models for conversation completion' do

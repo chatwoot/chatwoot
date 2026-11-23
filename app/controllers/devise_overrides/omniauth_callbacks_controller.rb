@@ -3,6 +3,11 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   SHOPIFY_INSTALL_REDIRECT_PATTERN = %r{\Asettings/integrations/shopify\?shopify_pending_install=([0-9a-f]{32})\z}
 
+  def redirect_callbacks
+    super
+    keep_only_sign_in_fields_in_session if params[:provider] == 'google_oauth2'
+  end
+
   def omniauth_success
     get_resource_from_auth_hash
 
@@ -10,6 +15,16 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   private
+
+  # devise_token_auth carries Google's auth hash to omniauth_success in the cookie session.
+  # Its access token and profile fields can push that cookie past the browser's 4KB limit,
+  # which silently drops it. Signing in an existing user only reads the provider and email.
+  def keep_only_sign_in_fields_in_session
+    email = request.env['omniauth.auth'].dig('info', 'email')
+    return if resource_class.from_email(email).blank?
+
+    session['dta.omniauth.auth'] = { 'provider' => 'google_oauth2', 'info' => { 'email' => email } }
+  end
 
   def sign_in_user(redirect_url: nil, sso_account_id: nil)
     # Capture before skip_confirmation! sets confirmed_at, which would

@@ -21,7 +21,6 @@
 #  index_captain_assistant_responses_on_account_id    (account_id)
 #  index_captain_assistant_responses_on_assistant_id  (assistant_id)
 #  index_captain_assistant_responses_on_status        (status)
-#  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
 #
 class Captain::AssistantResponse < ApplicationRecord
   self.table_name = 'captain_assistant_responses'
