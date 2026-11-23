@@ -158,8 +158,14 @@ class AutomationRule < ApplicationRecord
   def whatsapp_template_complete?(template)
     return false unless template.is_a?(Hash) && template.values_at('name', 'language').all?(&:present?)
 
-    processed_params = template['processed_params'] || {}
-    processed_params.is_a?(Hash) && processed_params.fetch('body', {}).values.all?(&:present?)
+    whatsapp_template_values_filled?(template['processed_params'] || {})
+  end
+
+  def whatsapp_template_values_filled?(processed_params)
+    return false unless processed_params.is_a?(Hash)
+
+    body = processed_params['body'] || {}
+    body.is_a?(Hash) && body.values.all?(&:present?)
   end
 
   def query_operator_presence

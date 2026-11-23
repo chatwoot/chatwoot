@@ -429,8 +429,11 @@ RSpec.describe AutomationRule do
       expect(rule.errors[:actions]).to include('WhatsApp template actions need a WhatsApp inbox, a template and its message.')
     end
 
-    it 'rejects a template without a language or with an empty value' do
+    it 'rejects a template without a language or with an empty or malformed value' do
       template_params[:template_params][:processed_params] = { body: { '1' => '' } }
+      expect(rule).not_to be_valid
+
+      template_params[:template_params][:processed_params] = { body: ['Ana'] }
       expect(rule).not_to be_valid
 
       template_params[:template_params].merge!(processed_params: { body: { '1' => 'Ana' } }, language: nil)
