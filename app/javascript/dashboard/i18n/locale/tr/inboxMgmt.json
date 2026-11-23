@@ -827,7 +827,7 @@
         "CREDENTIALS_HELP": "Calling needs an API key from your Twilio account, and the account's auth token to check Twilio's requests.",
         "REPLACE_HELP": "Enter a new API key to replace the one this inbox uses.",
         "CONNECT": "Turn on calling",
-        "CONNECTED": "Connected",
+        "CONNECTED": "Bağlı",
         "TWILIO_ACCOUNT": "Twilio account {sid}",
         "MANAGE_CONNECTION": "Manage connection",
         "HIDE_CONNECTION": "Hide connection",
@@ -862,7 +862,12 @@
         "WAIT": "Wait",
         "THEN": "then play the message and hang up",
         "MESSAGE": "Missed-call message",
-        "MESSAGE_HELP": "Read out to the caller."
+        "MESSAGE_HELP": "Read out to the caller.",
+        "WHATSAPP_DESCRIPTION": "When a call ends without being answered, including when no agent is available.",
+        "WHATSAPP_SEND": "Send a WhatsApp message",
+        "WHATSAPP_SEND_HELP": "Sent after each missed call, in the call's conversation, so the caller can reply there.",
+        "WHATSAPP_PLACEHOLDER": "Sorry we missed your call. Reply here and we'll get back to you as soon as we can.",
+        "WHATSAPP_MESSAGE_HELP": "Leave empty to send the text shown. Only sent within WhatsApp's 24-hour messaging window."
       },
       "OUT_OF_HOURS": {
         "TITLE": "Çalışma saatleri dışında",
