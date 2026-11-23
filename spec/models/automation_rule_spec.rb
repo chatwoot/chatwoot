@@ -355,6 +355,43 @@ RSpec.describe AutomationRule do
       rule.conditions = [{ 'attribute_key' => 'message_type', 'filter_operator' => 'equal_to', 'values' => ['outgoing'], 'query_operator' => nil }]
       expect(rule).to be_valid
     end
+
+    it 'allows business hours on a delayed rule' do
+      rule.execution_delay = 60
+      rule.only_during_business_hours = true
+      expect(rule).to be_valid
+    end
+
+    it 'rejects business hours on a rule that runs immediately' do
+      rule.execution_delay = nil
+      rule.only_during_business_hours = true
+      expect(rule).not_to be_valid
+      expect(rule.errors[:only_during_business_hours]).to include('can only be used with an execution delay.')
+    end
+  end
+
+  describe '#execution_due_at' do
+    let(:account) { create(:account) }
+    # Default working hours: Mon-Fri 9:00-17:00.
+    let(:inbox) { create(:inbox, account: account, working_hours_enabled: true, timezone: 'UTC') }
+    let(:rule) { build(:automation_rule, account: account, execution_delay: 60) }
+    let(:friday_evening) { Time.zone.parse('2024-01-19 16:30:00') }
+
+    it 'counts wall-clock time when business hours are off' do
+      expect(rule.execution_due_at(friday_evening, inbox)).to eq(friday_evening + 60.minutes)
+    end
+
+    it 'counts only the time the inbox is open when business hours are on' do
+      rule.only_during_business_hours = true
+      # 30 minutes before Friday close, the remaining 30 minutes on Monday morning.
+      expect(rule.execution_due_at(friday_evening, inbox)).to eq(Time.zone.parse('2024-01-22 09:30:00'))
+    end
+
+    it 'counts wall-clock time for an inbox without working hours enabled' do
+      rule.only_during_business_hours = true
+      inbox.update!(working_hours_enabled: false)
+      expect(rule.execution_due_at(friday_evening, inbox)).to eq(friday_evening + 60.minutes)
+    end
   end
 
   describe 'discarding stale pending executions on edit' do
@@ -375,6 +412,11 @@ RSpec.describe AutomationRule do
 
     it 'discards armed rows when the delay changes' do
       rule.update!(execution_delay: 120)
+      expect(rule.pending_executions.pending).to be_empty
+    end
+
+    it 'discards armed rows when business hours are toggled, since their due time was counted the other way' do
+      rule.update!(only_during_business_hours: true)
       expect(rule.pending_executions.pending).to be_empty
     end
 

@@ -437,7 +437,13 @@ const emitSaveAutomation = () => {
   if (Object.keys(errors.value).length === 0 && conditionsValid) {
     const payload = generateAutomationPayload(automation.value);
     // The API rejects the param when the feature is off; existing values are kept server-side.
-    if (!allowsDelayedExecution.value) delete payload.execution_delay;
+    if (!allowsDelayedExecution.value) {
+      delete payload.execution_delay;
+      delete payload.only_during_business_hours;
+    } else if (!isDelayed.value) {
+      // Business hours only shape a wait, so a rule that runs immediately never keeps it.
+      payload.only_during_business_hours = false;
+    }
     emit('save', payload, props.mode);
   }
 };
@@ -487,6 +493,9 @@ defineExpose({ open, close });
         v-model:conditions="automation.conditions"
         v-model:delay="delayMinutes"
         v-model:unit="delayUnit"
+        v-model:only-during-business-hours="
+          automation.only_during_business_hours
+        "
         :status-options="statusOptions"
         :inbox-options="inboxOptions"
         :filter-types="filterTypes"

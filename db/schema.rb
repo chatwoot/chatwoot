@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_16_211055) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_23_031409) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -324,6 +324,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_16_211055) do
     t.integer "execution_delay"
     t.bigint "monitor_id"
     t.datetime "monitor_event_activated_at"
+    t.boolean "only_during_business_hours", default: false, null: false
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
     t.index ["monitor_id"], name: "index_automation_rules_on_monitor_id"
   end

@@ -75,6 +75,37 @@ RSpec.describe AutomationRulePendingExecution do
       expect(described_class.last.due_at).to be_within(5.seconds).of(30.minutes.from_now)
     end
 
+    context 'when the rule only counts business hours' do
+      # Default working hours: Mon-Fri 9:00-17:00.
+      let(:inbox) { create(:inbox, account: account, working_hours_enabled: true, timezone: 'UTC') }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+      before { rule.update!(only_during_business_hours: true) }
+
+      it 'pushes the part of the wait that falls after closing into the next open day' do
+        travel_to(Time.zone.parse('2024-01-19 16:30:00')) do
+          conversation.update!(status_changed_at: Time.current)
+          described_class.schedule(rule: rule, conversation: conversation)
+        end
+
+        expect(described_class.last.due_at).to eq(Time.zone.parse('2024-01-22 09:30:00'))
+      end
+
+      it 'counts business hours from the newest agent reply when a reply_chase episode moves' do
+        travel_to(Time.zone.parse('2024-01-19 10:00:00')) do
+          reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+          described_class.schedule(rule: rule, conversation: conversation, message: reply)
+        end
+        travel_to(Time.zone.parse('2024-01-19 16:45:00')) do
+          reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+          described_class.schedule(rule: rule, conversation: conversation, message: reply)
+        end
+
+        expect(described_class.count).to eq(1)
+        expect(described_class.last.due_at).to eq(Time.zone.parse('2024-01-22 09:45:00'))
+      end
+    end
+
     it 'does not arm a status episode on a conversation that predates status_changed_at' do
       conversation.status_changed_at = nil
 

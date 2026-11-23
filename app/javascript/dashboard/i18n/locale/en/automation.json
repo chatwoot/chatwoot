@@ -76,6 +76,10 @@
             "CUSTOMER_UNRESPONSIVE": "The clock starts when a teammate replies. If the customer hasn't written back {duration} later, the actions below run. If they do reply, nothing happens, and the next teammate reply starts the clock again.",
             "AGENT_UNRESPONSIVE": "The clock starts when a customer sends a message. If no teammate has replied {duration} later, the actions below run. If someone replies before then, nothing happens."
           },
+          "BUSINESS_HOURS": {
+            "LABEL": "Count only business hours",
+            "EXPLANATION": "Only time when the inbox is open counts toward the wait, using each inbox's business hours. One day of waiting is 24 open hours. Inboxes without business hours count all the time."
+          },
           "FOOTNOTE": "Only new activity starts a clock. Conversations already sitting in this state are picked up the next time something happens on them."
         },
         "CONDITIONS": {
@@ -105,6 +109,7 @@
         "DELAYED": "Runs after a wait"
       },
       "DELAY_BADGE": "Runs after {delay}",
+      "DELAY_BADGE_BUSINESS_HOURS": "Runs after {delay} of business hours",
       "MONITOR_PAUSED": "Monitor paused",
       "MONITOR_DELETED": "Monitor deleted",
       "MONITOR_UNAVAILABLE": "Monitor feature unavailable",

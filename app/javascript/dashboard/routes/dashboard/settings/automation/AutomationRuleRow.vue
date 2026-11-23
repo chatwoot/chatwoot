@@ -90,9 +90,12 @@ const automationActive = computed({
             v-if="automation.execution_delay"
             compact
             :label="
-              $t('AUTOMATION.LIST.DELAY_BADGE', {
-                delay: formatDelay(automation.execution_delay),
-              })
+              $t(
+                automation.only_during_business_hours
+                  ? 'AUTOMATION.LIST.DELAY_BADGE_BUSINESS_HOURS'
+                  : 'AUTOMATION.LIST.DELAY_BADGE',
+                { delay: formatDelay(automation.execution_delay) }
+              )
             "
           >
             <template #icon>

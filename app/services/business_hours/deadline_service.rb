@@ -1,4 +1,4 @@
-class Sla::BusinessHoursService
+class BusinessHours::DeadlineService
   pattr_initialize [:inbox!, :start_time!, :threshold_seconds!, { working_hours_by_day_cache: nil }]
 
   def deadline

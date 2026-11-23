@@ -68,7 +68,7 @@ class AutomationRulePendingExecution < ApplicationRecord
     anchor = arm_anchor_for(conversation, message)
     create!(
       automation_rule: rule, conversation: conversation, account_id: conversation.account_id,
-      message_id: message&.id, episode_key: key, due_at: rule.execution_delay.minutes.since(anchor)
+      message_id: message&.id, episode_key: key, due_at: rule.execution_due_at(anchor, conversation.inbox)
     )
   rescue ActiveRecord::RecordNotUnique
     rearm_or_advance_episode(rule, conversation, key, message, anchor)
@@ -79,7 +79,7 @@ class AutomationRulePendingExecution < ApplicationRecord
   def self.rearm_or_advance_episode(rule, conversation, key, message, anchor)
     return unless message
 
-    due_at = rule.execution_delay.minutes.since(anchor)
+    due_at = rule.execution_due_at(anchor, conversation.inbox)
     row = find_by!(automation_rule_id: rule.id, conversation_id: conversation.id, episode_key: key)
     # The lock (and the reload it does) makes the compare-and-write atomic. Two listeners racing on
     # the same episode would otherwise both read the old message_id and let whichever wrote last

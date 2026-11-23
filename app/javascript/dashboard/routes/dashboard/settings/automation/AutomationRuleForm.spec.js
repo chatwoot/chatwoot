@@ -346,6 +346,60 @@ describe('AutomationRuleForm', () => {
     expect(MonitorsAPI.get).not.toHaveBeenCalled();
   });
 
+  describe('business hours in the saved payload', () => {
+    const save = async wrapper => {
+      await wrapper.findAll('button').at(-1).trigger('click');
+      return wrapper.emitted('save')[0][0];
+    };
+
+    const buildBusinessHoursRule = () => ({
+      ...buildAutomation({ delayed: true }),
+      only_during_business_hours: true,
+      actions: [{ action_name: 'assign_agent', action_params: [1] }],
+    });
+
+    it('keeps business hours on a delayed rule', async () => {
+      const wrapper = mountComponent({
+        mode: 'edit',
+        automation: buildBusinessHoursRule(),
+      });
+      wrapper.vm.open(60);
+      await nextTick();
+
+      const payload = await save(wrapper);
+      expect(payload.execution_delay).toBe(60);
+      expect(payload.only_during_business_hours).toBe(true);
+    });
+
+    it('turns business hours off when the rule runs immediately', async () => {
+      const wrapper = mountComponent({
+        mode: 'edit',
+        automation: buildBusinessHoursRule(),
+      });
+      wrapper.vm.open(60);
+      await nextTick();
+      await selectRunType(wrapper, false);
+
+      const payload = await save(wrapper);
+      expect(payload.execution_delay).toBeNull();
+      expect(payload.only_during_business_hours).toBe(false);
+    });
+
+    it('leaves business hours out when delayed automations are off', async () => {
+      featureState.enabled.delete('delayed_automations');
+      const wrapper = mountComponent({
+        mode: 'edit',
+        automation: buildBusinessHoursRule(),
+      });
+      wrapper.vm.open(60);
+      await nextTick();
+
+      const payload = await save(wrapper);
+      expect(payload).not.toHaveProperty('execution_delay');
+      expect(payload).not.toHaveProperty('only_during_business_hours');
+    });
+  });
+
   it('hides the monitor event on a community installation', async () => {
     featureState.cloud.value = false;
     const wrapper = mountComponent({

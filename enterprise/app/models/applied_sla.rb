@@ -111,7 +111,7 @@ class AppliedSla < ApplicationRecord
   def calculate_due_at(start_time, threshold_seconds, working_hours_by_day_cache: nil)
     return (start_time + threshold_seconds.to_i.seconds).to_i unless sla_policy.only_during_business_hours?
 
-    Sla::BusinessHoursService.new(
+    BusinessHours::DeadlineService.new(
       inbox: conversation.inbox,
       start_time: start_time,
       threshold_seconds: threshold_seconds,

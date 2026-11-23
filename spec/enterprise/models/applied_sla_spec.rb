@@ -149,22 +149,22 @@ RSpec.describe AppliedSla, type: :model do
   end
 
   describe '#calculate_due_at' do
-    it 'uses BusinessHoursService when only_during_business_hours is true' do
+    it 'uses BusinessHours::DeadlineService when only_during_business_hours is true' do
       account = create(:account)
       inbox = create(:inbox, account: account, working_hours_enabled: true)
       sla_policy = create(:sla_policy, account: account, first_response_time_threshold: 3600, only_during_business_hours: true)
       conversation = create(:conversation, account: account, inbox: inbox)
       applied_sla = create(:applied_sla, sla_policy: sla_policy, conversation: conversation, account: account)
 
-      expect(Sla::BusinessHoursService).to receive(:new).and_call_original
+      expect(BusinessHours::DeadlineService).to receive(:new).and_call_original
       applied_sla.frt_due_at
     end
 
-    it 'does not use BusinessHoursService when only_during_business_hours is false' do
+    it 'does not use BusinessHours::DeadlineService when only_during_business_hours is false' do
       applied_sla = create(:applied_sla)
       applied_sla.sla_policy.update!(first_response_time_threshold: 3600, only_during_business_hours: false)
 
-      expect(Sla::BusinessHoursService).not_to receive(:new)
+      expect(BusinessHours::DeadlineService).not_to receive(:new)
       applied_sla.frt_due_at
     end
   end

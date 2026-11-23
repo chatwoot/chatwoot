@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Sla::BusinessHoursService do
+RSpec.describe BusinessHours::DeadlineService do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account, working_hours_enabled: true, timezone: 'UTC') }
 
