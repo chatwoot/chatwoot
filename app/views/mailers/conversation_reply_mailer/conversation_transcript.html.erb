@@ -29,8 +29,8 @@
   </tr>
   <tr>
     <td style="padding-bottom: 32px;">
-      <%# Agent email replies carry the earlier thread, which the transcript already lists. Customer emails can quote inline, so they stay whole. %>
-      <% content = message.outgoing? ? message.content_without_email_quoted_thread : message.content %>
+      <%# Agent email replies carry the earlier thread, which the transcript already lists. %>
+      <% content = message.content_without_email_quoted_thread %>
       <% if content %>
         <%= ChatwootMarkdownRenderer.new(content).render_message %>
       <% end %>

@@ -241,9 +241,11 @@ class Message < ApplicationRecord
   end
 
   # The email reply box appends the earlier thread after the reply: a "> On <date> <sender> wrote:" header, then only "> " lines.
-  # Matching that shape keeps blockquotes the agent wrote.
+  # Matching that shape keeps blockquotes the agent wrote. Customer emails can reply between quoted lines, so they are never matched.
   def email_quoted_thread
-    inbox.email? ? content.to_s[/^> On [^\n]* wrote:(?:\n>[^\n]*)*\s*\z/].to_s : ''
+    return '' unless outgoing? && inbox.email?
+
+    content.to_s[/^> On [^\n]* wrote:(?:\n>[^\n]*)*\s*\z/].to_s
   end
 
   def content_without_email_quoted_thread
