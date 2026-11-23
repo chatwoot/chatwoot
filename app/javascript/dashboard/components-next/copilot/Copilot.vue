@@ -63,9 +63,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  canUseReply: {
-    type: Boolean,
-    default: true,
+  // The display ID of the conversation on screen. A drafted reply offers Use only in the conversation it was written for.
+  conversationId: {
+    type: Number,
+    default: null,
   },
   isExpanded: {
     type: Boolean,
@@ -524,7 +525,7 @@ watch(
             v-else-if="item.message_type === 'assistant'"
             :message="item.message"
             :is-last-message="index === groupedMessages.length - 1"
-            :can-use-reply="canUseReply"
+            :conversation-id="conversationId"
           />
           <CopilotApprovalMessage
             v-else-if="item.message_type === 'assistant_approval'"

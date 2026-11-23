@@ -88,6 +88,7 @@ const mountComponent = () =>
             'isLoadingThreads',
             'isLoadingSelectedThread',
             'isExpanded',
+            'conversationId',
           ],
           emits: [
             'reset',
@@ -217,6 +218,28 @@ describe('CopilotContainer', () => {
       { threadId: 42 }
     );
     expect(copilot.props('selectedThreadId')).toBe(42);
+  });
+
+  it('gives a reopened past chat the conversation on screen, not the one it was opened in', async () => {
+    const thread = { id: 42, title: 'Older question', assistant: { id: 7 } };
+    testState.getThreads.mockResolvedValue({
+      data: { payload: [thread], meta: { total_count: 1, page: 1 } },
+    });
+    testState.refs['accounts/isFeatureEnabledonAccount'].value = (
+      accountId,
+      flag
+    ) => ['captain_integration', 'copilot_workflows'].includes(flag);
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    copilot.vm.$emit('selectThread', thread);
+    await flushPromises();
+    testState.refs.getSelectedChat.value = { id: 2 };
+    await nextTick();
+
+    expect(copilot.props('selectedThreadId')).toBe(42);
+    expect(copilot.props('conversationId')).toBe(2);
   });
 
   it('keeps a newly created chat when the initial history request finishes later', async () => {

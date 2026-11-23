@@ -164,6 +164,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   def finish(llm)
     @run.with_lease(@token) do
       response = parse_json_response(llm.messages.last.content).slice('content', 'reply_suggestion')
+      response['conversation_id'] = @conversation_id if response['reply_suggestion']
       # The instructions count as known, because an assistant's own instructions may give links to share.
       response['content'] = Captain::Copilot::LinkCheck.new(known_texts + @messages.pluck(:content), run_id: @run.id).strip(response['content'].to_s)
       persist_message(Captain::Copilot::Chart.attach(response, @run.copilot_thread_id))

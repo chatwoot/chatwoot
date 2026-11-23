@@ -55,6 +55,25 @@ RSpec.describe Captain::Copilot::TurnService do
     expect(Rails.logger).to have_received(:info).with("[Copilot] run #{run.id} number check found 1 unsupported numbers: 15")
   end
 
+  describe 'the conversation of a drafted reply' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    def finish_with(reply_suggestion)
+      run.update!(conversation_id: conversation.display_id)
+      content = { content: 'Thanks for waiting.', reply_suggestion: reply_suggestion }.to_json
+      service.send(:finish, instance_double(RubyLLM::Chat, messages: [RubyLLM::Message.new(role: :assistant, content: content)]))
+      thread.copilot_messages.assistant.last.message
+    end
+
+    it 'saves the conversation on screen with a drafted reply' do
+      expect(finish_with(true)).to include('reply_suggestion' => true, 'conversation_id' => conversation.display_id)
+    end
+
+    it 'saves no conversation with any other answer' do
+      expect(finish_with(false)).not_to have_key('conversation_id')
+    end
+  end
+
   it 'keeps the links a tool returned and removes the links it made up' do
     guide = 'https://help.example.com/hc/docs/articles/refunds?lang=en&ref=copilot'
     run.tool_calls.create!(call_id: 'call-1', name: 'get_data', status: :completed,

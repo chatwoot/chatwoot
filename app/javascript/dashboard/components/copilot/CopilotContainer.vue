@@ -41,12 +41,6 @@ const isSmallScreen = computed(
 
 const selectedCopilotThreadId = ref(null);
 const isLoadingSelectedThread = ref(false);
-// The conversation the open thread last answered about. A workflow thread stays open across conversations, so its
-// suggested reply can only be used in the conversation it was written for.
-const threadConversationId = ref(null);
-const canUseReply = computed(
-  () => threadConversationId.value === currentChat.value?.id
-);
 const threads = ref([]);
 const historyPage = ref(0);
 const hasMoreThreads = ref(false);
@@ -161,7 +155,6 @@ const isWorkflowsEnabled = computed(() =>
 const handleReset = () => {
   selectionVersion += 1;
   selectedCopilotThreadId.value = null;
-  threadConversationId.value = null;
   isLoadingSelectedThread.value = false;
 };
 
@@ -227,9 +220,7 @@ const selectThread = async thread => {
   const version = selectionVersion;
   const currentVersion = accountVersion;
   const previousThreadId = selectedCopilotThreadId.value;
-  const previousConversationId = threadConversationId.value;
   selectedCopilotThreadId.value = thread.id;
-  threadConversationId.value = currentChat.value?.id;
   isLoadingSelectedThread.value = true;
 
   try {
@@ -239,7 +230,6 @@ const selectThread = async thread => {
   } catch (error) {
     if (selectionVersion === version && accountVersion === currentVersion) {
       selectedCopilotThreadId.value = previousThreadId;
-      threadConversationId.value = previousConversationId;
       useAlert(error.message);
     }
   } finally {
@@ -281,7 +271,6 @@ const sendMessage = async payload => {
         threadId: selectedCopilotThreadId.value,
         message,
       });
-      threadConversationId.value = conversationId;
     } else {
       const currentVersion = accountVersion;
       const accountId = currentAccountId.value;
@@ -303,7 +292,6 @@ const sendMessage = async payload => {
         currentChat.value?.id === conversationId
       ) {
         selectedCopilotThreadId.value = response.id;
-        threadConversationId.value = conversationId;
       }
       if (!threads.value.some(thread => thread.id === response.id)) {
         threads.value.unshift(response);
@@ -366,7 +354,7 @@ onMounted(() => {
       :is-loading-threads="isLoadingThreads"
       :is-loading-selected-thread="isLoadingSelectedThread"
       :can-suggest-reply="canSuggestReply"
-      :can-use-reply="canUseReply"
+      :conversation-id="currentChat?.id"
       :is-expanded="isExpanded"
       :can-show-avatar="isWorkflowsEnabled"
       :is-workflows-enabled="isWorkflowsEnabled"

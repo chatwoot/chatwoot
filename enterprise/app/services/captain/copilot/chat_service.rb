@@ -124,9 +124,16 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
     return if @copilot_thread.blank?
 
     @copilot_thread.copilot_messages.create!(
-      message: message,
+      message: with_reply_conversation(message),
       message_type: message_type
     )
+  end
+
+  # The model's JSON is saved as it is, so the conversation of a drafted reply is set here and never taken from the model.
+  def with_reply_conversation(message)
+    return message unless message['reply_suggestion']
+
+    message.merge('conversation_id' => @conversation_id)
   end
 
   def feature_name

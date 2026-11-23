@@ -121,7 +121,7 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     )
   end
 
-  it 'persists a reply suggestion with trusted citations' do
+  it 'persists a reply suggestion with trusted citations and the conversation it was written for' do
     expect do
       service.generate_response
     end.to change(copilot_thread.copilot_messages, :count).by(1)
@@ -131,7 +131,8 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     expect(message.message).to eq(
       'content' => "Chatwoot's mascot is Bob the Builder. [[1](https://example.com/mascot)]",
       'reasoning' => 'Found the answer in the approved FAQ.',
-      'reply_suggestion' => true
+      'reply_suggestion' => true,
+      'conversation_id' => conversation.display_id
     )
   end
 
