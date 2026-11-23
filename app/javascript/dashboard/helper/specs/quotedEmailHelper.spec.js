@@ -378,6 +378,17 @@ describe('quotedEmailHelper', () => {
   });
 
   describe('extractQuotedEmailText', () => {
+    it('rebuilds the full body for a pending message with a separate quoted thread', () => {
+      const lastEmail = {
+        content: 'Reply text',
+        emailQuotedContent: '\n\n> On Monday, Camille wrote:\n> Bonjour',
+      };
+      const result = extractQuotedEmailText(lastEmail);
+      expect(result).toBe(
+        'Reply text\n\n> On Monday, Camille wrote:\n> Bonjour'
+      );
+    });
+
     it('prefers textContent.full over reply to preserve the thread history', () => {
       const lastEmail = {
         contentAttributes: {

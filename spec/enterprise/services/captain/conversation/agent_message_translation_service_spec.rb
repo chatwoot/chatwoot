@@ -122,6 +122,28 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(email.content_attributes.dig('email', 'html_content', 'reply')).to include('<p>Bonjour</p>').and include('<blockquote>')
   end
 
+  it 'keeps a separately stored quoted thread out of the translated content and in the sent email' do
+    email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
+    email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })
+    quoted_thread = "\n\n> On Monday, Camille wrote:\n> Bonjour"
+    email = create(:message, account: account, inbox: email_inbox, conversation: email_conversation, message_type: :outgoing, sender: user,
+                             content: 'Hello there',
+                             content_attributes: {
+                               translation_pending: true,
+                               email: {
+                                 subject: 'Re: Commande',
+                                 text_content: { full: "Hello there#{quoted_thread}", reply: 'Hello there' }
+                               }
+                             })
+
+    described_class.new(message: email).perform
+
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(text: 'Hello there'))
+    expect(email.reload.content).to eq('Bonjour')
+    expect(email.content_attributes.dig('email', 'text_content', 'full')).to eq("Bonjour#{quoted_thread}")
+    expect(email.content_attributes.dig('email', 'html_content', 'full')).to include('Bonjour').and include('Camille')
+  end
+
   it 'stores the rendered email html as plain strings so the update can be broadcast' do
     email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
     email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })

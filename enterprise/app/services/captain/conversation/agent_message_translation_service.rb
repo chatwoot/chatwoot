@@ -51,8 +51,10 @@ class Captain::Conversation::AgentMessageTranslationService
     message.translations = { original_language => original_text }
     message.source_language = conversation.language
     message.translation_provider = translator.provider
-    message.content = with_quoted_history(translated)
-    message.content_attributes['email'] = email_content(message.content) if email_reply?
+    # The reply content no longer carries the quoted thread, so keep it out of
+    # the stored content and append it only to the email that goes out.
+    message.content = legacy_quoted_history.present? ? with_quoted_history(translated) : translated
+    message.content_attributes['email'] = email_content(with_quoted_history(translated)) if email_reply?
   end
 
   def translate
@@ -88,7 +90,31 @@ class Captain::Conversation::AgentMessageTranslationService
   end
 
   def quoted_history
-    @quoted_history ||= inbox.email? ? message.content[/^>.*\z/m].to_s : ''
+    @quoted_history ||= legacy_quoted_history.presence || stored_quoted_history
+  end
+
+  # Replies created before the quoted thread was split out still carry it at
+  # the end of the content.
+  def legacy_quoted_history
+    inbox.email? ? message.content[/^>.*\z/m].to_s : ''
+  end
+
+  # Newer replies store the thread only in the email attributes: the full text
+  # is the reply followed by the quoted suffix.
+  def stored_quoted_history
+    return '' unless inbox.email?
+
+    stored_full = stored_email_text_content
+    reply = normalize_email_body(message.content)
+    return '' if stored_full.blank? || reply.blank? || !stored_full.start_with?(reply)
+
+    stored_full.delete_prefix(reply).sub(/\A\n+/, '')
+  end
+
+  def stored_email_text_content
+    email_attributes = message.content_attributes[:email] || message.content_attributes['email'] || {}
+    text_content = email_attributes[:text_content] || email_attributes['text_content'] || {}
+    text_content[:full] || text_content['full']
   end
 
   def with_quoted_history(translated)

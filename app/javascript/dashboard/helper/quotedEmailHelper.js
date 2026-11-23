@@ -346,6 +346,14 @@ export const extractQuotedEmailText = lastEmail => {
     return '';
   }
 
+  // Pending messages keep the quoted thread in a separate field so the
+  // optimistic record shows only the reply. Rebuild the full body here.
+  const pendingQuotedContent =
+    lastEmail.emailQuotedContent || lastEmail.email_quoted_content;
+  if (pendingQuotedContent) {
+    return `${lastEmail.content || ''}${pendingQuotedContent}`;
+  }
+
   const contentAttributes =
     lastEmail.contentAttributes || lastEmail.content_attributes || {};
   const emailContent = contentAttributes.email || {};
