@@ -17,7 +17,15 @@ module Imap::ConnectionRecovery
     loop do
       return fetch_body(seq_no)
     rescue *TRANSIENT_IMAP_ERRORS => e
-      return log_fetch_failure(seq_no, e) unless reconnect_imap
+      return log_fetch_failure(seq_no, e) if @connection_lost
+
+      unless reconnect_imap
+        # A failed setup does not always spend the budget; keep trying until it
+        # is actually exhausted.
+        return log_fetch_failure(seq_no, e) if @connection_lost
+
+        next
+      end
 
       # Sequence numbers can shift on reconnect when another client expunges
       # mail, so re-resolve the message by its Message-ID header.
