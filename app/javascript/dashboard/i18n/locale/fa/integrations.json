@@ -776,18 +776,6 @@
           "LABEL": "پیشنهاد پاسخ",
           "CONTENT": "درخواست مشتری را تحلیل کن و پاسخی بنویس که به طور مؤثر نگرانی‌ها یا سوالاتش را برطرف کند. مطمئن شو پاسخ واضح، مختصر و مفید باشد."
         },
-        "RATE": {
-          "LABEL": "امتیاز دادن به این مکالمه",
-          "CONTENT": "مکالمه را بررسی کن تا ببینی چقدر نیازهای مشتری را پاسخ داده است. امتیازی از ۵ بر اساس لحن، وضوح و اثربخشی بده."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "مکالمات با اولویت بالا",
-          "CONTENT": "خلاصه‌ای از همه مکالمات با اولویت بالا که باز هستند بدهید. شامل شناسه مکالمه، نام مشتری (در صورت موجود بودن)، محتوای پیام آخر و نماینده اختصاص داده شده. در صورت لزوم بر اساس وضعیت گروه‌بندی کنید."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "فهرست مخاطبین",
-          "CONTENT": "فهرست ۱۰ مخاطب برتر را نشان بده. شامل نام، ایمیل یا شماره تلفن (در صورت موجود بودن)، زمان آخرین حضور، برچسب‌ها (در صورت وجود)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
