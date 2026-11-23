@@ -776,18 +776,6 @@
           "LABEL": "回答を提案する",
           "CONTENT": "顧客の問い合わせを分析し、顧客の懸念や質問に効果的に対応する回答案を作成してください。返信は明確で簡潔かつ役立つ情報を提供するようにしてください。"
         },
-        "RATE": {
-          "LABEL": "この会話を評価する",
-          "CONTENT": "会話を確認して、顧客のニーズにどの程度応えているか評価してください。トーン、明確さ、有効性に基づき5点満点で評価を共有してください。"
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "高優先度の会話",
-          "CONTENT": "すべての高優先度の未解決会話の要約を教えてください。会話ID、顧客名（あれば）、最新メッセージの内容、および担当エージェントを含めてください。該当する場合はステータス別にグループ化してください。"
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "連絡先リスト",
-          "CONTENT": "上位10件の連絡先リストを表示してください。名前、メールまたは電話番号（あれば）、最終アクセス時間、タグ（あれば）を含めてください。"
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
