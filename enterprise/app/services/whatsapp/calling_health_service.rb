@@ -2,6 +2,7 @@
 # Each check degrades to 'unverified' on its own, so one failing Meta request doesn't hide the others.
 class Whatsapp::CallingHealthService
   UNVERIFIED = { status: 'unverified' }.freeze
+  REQUEST_TIMEOUT_SECONDS = 15
 
   pattr_initialize [:channel!]
 
@@ -79,7 +80,10 @@ class Whatsapp::CallingHealthService
 
   def graph_get(path, token)
     version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
-    response = HTTParty.get("https://graph.facebook.com/#{version}/#{path}", headers: { 'Authorization' => "Bearer #{token}" })
+    response = HTTParty.get(
+      "https://graph.facebook.com/#{version}/#{path}",
+      headers: { 'Authorization' => "Bearer #{token}" }, timeout: REQUEST_TIMEOUT_SECONDS
+    )
     raise "GET #{path} failed with status #{response.code}" unless response.success?
 
     response.parsed_response
