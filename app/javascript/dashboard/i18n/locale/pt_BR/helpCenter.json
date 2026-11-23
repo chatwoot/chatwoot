@@ -319,8 +319,8 @@
       "DELETE_LOCALE": {
         "DIALOG": {
           "TITLE": "Excluir {locale}?",
-          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
-          "CONFIRM": "Delete locale"
+          "DESCRIPTION": "Isso excluirá permanentemente {articles} e {categories} neste idioma. Esta ação não pode ser desfeita.",
+          "CONFIRM": "Excluir idioma"
         },
         "API": {
           "SUCCESS_MESSAGE": "Localização removida do portal com sucesso",
@@ -564,11 +564,11 @@
           "ARCHIVED": "Arquivado"
         },
         "AUTHOR": {
-          "LABEL": "Filter by author: {author}",
-          "ALL": "All authors",
+          "LABEL": "Filtrar por autor: {author}",
+          "ALL": "Todos os autores",
           "ME": "Eu",
-          "SELECTED": "Selected author",
-          "SEARCH_PLACEHOLDER": "Search teammates..."
+          "SELECTED": "Autor selecionado",
+          "SEARCH_PLACEHOLDER": "Buscar colegas de equipe..."
         },
         "CATEGORY": {
           "ALL": "Todas as categorias"
@@ -587,7 +587,7 @@
         },
         "AUTHOR": {
           "TITLE": "Nenhum artigo correspondente",
-          "SUBTITLE": "Try another author or change the selected filters."
+          "SUBTITLE": "Tente outro autor ou altere os filtros selecionados."
         },
         "DRAFT": {
           "TITLE": "Não há artigos nos rascunhos",
@@ -812,8 +812,8 @@
           "SAVED": "Salvo"
         },
         "PREVIEW": "Pré-visualizar",
-        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
-        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
+        "PREVIEW_ERROR": "Não foi possível abrir a prévia. Por favor, tente novamente.",
+        "PREVIEW_POPUP_BLOCKED": "Permita pop-ups para este site para abrir a prévia.",
         "PUBLISH": "Publicar",
         "PUBLISH_CHANGES": "Publicar alterações",
         "PUBLISH_CHANGES_SUCCESS": "Alterações publicadas com sucesso",
@@ -831,9 +831,9 @@
         "BACK_TO_ARTICLES": "Voltar aos artigos"
       },
       "NEWER_VERSION": {
-        "LABEL": "Load latest version",
-        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
-        "LOAD_ERROR": "Couldn't load the latest version. Try again."
+        "LABEL": "Carregar versão mais recente",
+        "TOOLTIP": "Este artigo foi alterado por um colega de equipe ou em outra aba. Clique para carregar a versão mais recente.",
+        "LOAD_ERROR": "Não foi possível carregar a versão mais recente. Tente novamente."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Alterações não publicadas",
@@ -853,8 +853,8 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Propriedades do artigo",
-        "ORIGINAL_ARTICLE": "Original article",
-        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE": "Artigo original",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "Este é o artigo original",
         "ORIGINAL_ARTICLE_SEARCH": "Pesquisar artigos...",
         "ORIGINAL_ARTICLE_EMPTY": "Nenhum artigo encontrado",
         "META_DESCRIPTION": "Meta descrição",
@@ -863,9 +863,9 @@
         "META_TITLE_PLACEHOLDER": "Adicionar meta título",
         "META_TAGS": "Meta tags",
         "META_TAGS_PLACEHOLDER": "Adicionar meta tags",
-        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
-        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
-        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
+        "SEARCH_ENGINE_VISIBILITY": "Mostrar nos resultados de pesquisa",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Desative esta opção para ocultar o artigo do Google e de outros mecanismos de busca. Ele continua publicado e visível na sua Central de Ajuda.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Esta opção está desativada porque a Central de Ajuda está oculta nos resultados de pesquisa. Altere isso em Configurações → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Adicionar slug",
         "SLUG_USE_TITLE": "Usar título como slug",
@@ -907,9 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logotipo",
-          "ADD_DARK_MODE": "Add dark mode logo",
-          "LIGHT_MODE": "Light mode",
-          "DARK_MODE": "Dark mode",
+          "ADD_DARK_MODE": "Adicionar logotipo para o modo escuro",
+          "LIGHT_MODE": "Modo claro",
+          "DARK_MODE": "Modo escuro",
           "IMAGE_UPLOAD_ERROR": "Não foi possível fazer o upload da imagem! Tente novamente",
           "IMAGE_UPLOAD_SUCCESS": "Imagem adicionada com sucesso. Por favor, clique em salvar as alterações para salvar o logotipo",
           "IMAGE_DELETE_SUCCESS": "Logo deletada com sucesso",
@@ -1016,10 +1016,10 @@
       },
       "SEO": {
         "HEADER": "SEO",
-        "DESCRIPTION": "Control how search engines discover your help center.",
+        "DESCRIPTION": "Controle como os mecanismos de busca encontram sua Central de Ajuda.",
         "SEARCH_ENGINE_VISIBILITY": {
-          "LABEL": "Show in search results",
-          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+          "LABEL": "Mostrar nos resultados de pesquisa",
+          "DESCRIPTION": "Permita que mecanismos de busca como o Google exibam esta Central de Ajuda. Se desativar a opção, a Central de Ajuda continuará funcionando normalmente para os visitantes. Ela deixará de aparecer nos resultados de pesquisa, o que pode levar alguns dias ou semanas."
         }
       },
       "INTEGRATIONS": {
