@@ -57,40 +57,40 @@
         "LOCATION": "Sjedište",
         "ADDED": "Dodano",
         "UNKNOWN": "Nepoznato",
-        "YES": "Yes",
-        "NO": "No"
+        "YES": "Da",
+        "NO": "Ne"
       },
       "PEOPLE": {
-        "ADD": "Add",
+        "ADD": "Dodaj",
         "SEARCH": "Pretraži kontakte",
         "EMPTY": "Još nema kontakata iz ove tvrtke.",
         "NO_MATCHES": "Nijedan kontakt ne odgovara vašoj pretrazi.",
         "DIALOG_TITLE": "Dodaj kontakte u tvrtku {name}"
       },
       "TABS": {
-        "CONVERSATIONS": "Conversations",
-        "NOTES": "Notes",
+        "CONVERSATIONS": "Razgovori",
+        "NOTES": "Bilješke",
         "PEOPLE": "Kontakti"
       },
       "ACTIVITY": {
         "TODAY": "Danas",
         "YESTERDAY": "Jučer",
-        "SYSTEM_AUTHOR": "System",
+        "SYSTEM_AUTHOR": "Sustav",
         "EMPTY_CONVERSATIONS": "Još nema razgovora. Prikazat će se ovdje kada se jave kontakti iz ove tvrtke.",
         "EMPTY_NOTES": "Još nema bilježaka. Ovdje će se prikazati bilješke dodane kontaktima iz ove tvrtke.",
-        "LOAD_MORE": "Load more",
+        "LOAD_MORE": "Učitaj više",
         "SEARCH_NOTES": "Pretraži bilješke",
         "NO_MATCHING_NOTES": "Nijedna bilješka ne odgovara vašoj pretrazi.",
         "NO_MATCHING_CONVERSATIONS": "Nijedan razgovor ne odgovara ovim filtrima."
       },
       "EDIT": {
         "TITLE": "Uredi tvrtku",
-        "SAVE": "Save changes",
-        "DESCRIPTION": "Description",
+        "SAVE": "Spremi promjene",
+        "DESCRIPTION": "Opis",
         "DETAILS": "Pojedinosti",
-        "CITY": "City",
-        "COUNTRY": "Country",
-        "PHONE": "Phone",
+        "CITY": "Grad",
+        "COUNTRY": "Država",
+        "PHONE": "Telefon",
         "SOCIAL": {
           "TITLE": "Profili na društvenim mrežama",
           "LINKEDIN": "LinkedIn",
@@ -124,7 +124,7 @@
         "LOADING": "Učitavanje kontakata…",
         "UNNAMED_CONTACT": "Kontakt bez imena",
         "ACTIONS": {
-          "ADD": "Add contact",
+          "ADD": "Dodaj kontakt",
           "REMOVE": "Ukloni kontakt"
         },
         "DIALOGS": {
@@ -135,8 +135,8 @@
             "EMPTY": "Nisu pronađeni kontakti.",
             "CONFIRM_TITLE": "Poveži kontakt",
             "CONFIRM_DESCRIPTION": "Prije povezivanja provjerite i potvrdite tvrtku i kontakt.",
-            "COMPANY_LABEL": "Company",
-            "CONTACT_LABEL": "Contact",
+            "COMPANY_LABEL": "Tvrtka",
+            "CONTACT_LABEL": "Kontakt",
             "CURRENT_COMPANY": "Trenutačno povezano s tvrtkom {companyName}",
             "ADD": "Poveži kontakt",
             "CANCEL": "Odustani"
@@ -171,7 +171,7 @@
         },
         "FIELDS": {
           "NAME": "Ime",
-          "DOMAIN": "Domain"
+          "DOMAIN": "Domena"
         }
       },
       "DELETE": {
@@ -206,8 +206,8 @@
       "TITLE": "Prijeđite na viši paket za korištenje značajke Tvrtke",
       "AVAILABLE_ON": "Značajka Tvrtke nije dostupna u besplatnom paketu.",
       "UPGRADE_PROMPT": "Prijeđite na viši paket kako biste grupirali kontakte prema tvrtki, pregledavali sve razgovore s pojedinom tvrtkom i čuvali njezine podatke na jednom mjestu.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "UPGRADE_NOW": "Nadogradi sada",
+      "CANCEL_ANYTIME": "Svoj paket možete promijeniti ili otkazati u bilo kojem trenutku"
     }
   },
   "COMPANIES_LAYOUT": {
