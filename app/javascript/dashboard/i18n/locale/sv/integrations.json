@@ -776,18 +776,6 @@
           "LABEL": "Föreslå ett svar",
           "CONTENT": "Analysera kundens förfrågan och utarbeta ett svar som effektivt tar itu med deras frågor eller bekymmer. Säkerställ att svaret är tydligt, koncist och ger hjälpsam information."
         },
-        "RATE": {
-          "LABEL": "Betygsätt denna konversation",
-          "CONTENT": "Granska konversationen för att se hur väl den uppfyller kundens behov. Dela en bedömning från 1 till 5 baserat på ton, tydlighet och effektivitet."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Konversationer med hög prioritet",
-          "CONTENT": "Ge mig en sammanfattning av alla öppna konversationer med hög prioritet. Inkludera konversations-ID, kundens namn (om tillgängligt), innehållet i sista meddelandet och tilldelad agent. Gruppera efter status om relevant."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Lista kontakter",
-          "CONTENT": "Visa listan på topp 10 kontakter. Inkludera namn, e-post eller telefonnummer (om tillgängligt), senaste inloggningstid, taggar (om några)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
