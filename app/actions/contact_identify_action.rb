@@ -12,6 +12,8 @@ class ContactIdentifyAction
 
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
+    # A visitor cannot change a verified value, so such a value takes no part in finding a matching contact.
+    @params = unverified_params
 
     ActiveRecord::Base.transaction do
       merge_if_existing_identified_contact
@@ -109,8 +111,13 @@ class ContactIdentifyAction
     true
   end
 
+  # The contact can be another one after a merge, so its verified values are checked again here.
+  def unverified_params
+    params.reject { |attribute, _value| @contact.attribute_verified?(attribute) }
+  end
+
   def update_contact
-    @contact.attributes = params.slice(*@attributes_to_update).reject do |_k, v|
+    @contact.attributes = unverified_params.slice(*@attributes_to_update).reject do |_k, v|
       v.blank?
     end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes })
     # blank identifier or email will throw unique index error
