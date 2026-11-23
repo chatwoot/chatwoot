@@ -63,6 +63,7 @@ class Inbox < ApplicationRecord
 
   has_many :campaigns, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
+  has_many :contact_identity_signing_keys, class_name: 'ContactIdentity::SigningKey', dependent: :destroy_async
   has_many :contacts, through: :contact_inboxes
 
   has_many :inbox_members, dependent: :destroy_async
