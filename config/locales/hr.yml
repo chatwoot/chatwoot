@@ -18,15 +18,15 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 hr:
   instagram:
-    no_accounts: 'No Instagram accounts were shared. Connect again and select an Instagram professional account.'
-    connection_expired: 'This Instagram connection has expired. Please start again.'
-    authorization_expired: 'This Instagram authorization has expired. Please start the connection again.'
-    wrong_account: 'Please reconnect using the Instagram account already linked to this inbox.'
-    invalid_account: 'Please select an Instagram account shared during this connection.'
-    subscription_failed: 'Instagram messaging could not be enabled. Please check the app permissions and connect again.'
-    missing_credentials: 'Configure the Unified Login Meta app ID, secret, and configuration ID in Super Admin before connecting Instagram.'
-    request_failed: 'Instagram could not complete the request. Please try again.'
-    encryption_required: 'Configure the Active Record encryption keys before enabling Instagram Unified Login.'
+    no_accounts: 'Nije podijeljen nijedan Instagram račun. Ponovno se povežite i odaberite profesionalni Instagram račun.'
+    connection_expired: 'Ova Instagram veza je istekla. Počnite ponovno.'
+    authorization_expired: 'Autorizacija za Instagram je istekla. Ponovno pokrenite povezivanje.'
+    wrong_account: 'Ponovno se povežite Instagram računom koji je već povezan s ovim pretincem.'
+    invalid_account: 'Odaberite Instagram račun podijeljen tijekom ovog povezivanja.'
+    subscription_failed: 'Omogućavanje Instagram poruka nije uspjelo. Provjerite dozvole aplikacije i ponovno se povežite.'
+    missing_credentials: 'Prije povezivanja Instagrama postavite ID Meta aplikacije, tajni ključ i ID konfiguracije za jedinstvenu prijavu u glavnoj administraciji.'
+    request_failed: 'Instagram nije mogao dovršiti zahtjev. Pokušajte ponovno.'
+    encryption_required: 'Prije omogućavanja jedinstvene prijave za Instagram konfigurirajte ključeve za Active Record šifriranje.'
   hello: 'Pozdrav svijet!'
   administrator_notifications:
     captain:
@@ -42,18 +42,21 @@ hr:
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
     voice_settings:
-      unsupported_inbox: 'This setting requires an inbox with calling turned on'
+      unsupported_inbox: 'Za ovu postavku potreban je pretinac s omogućenim pozivima'
     call_announcements:
-      invalid_settings: 'Provide a boolean for enabled and text for the announcement'
-      message_required: 'Add the message callers hear'
-      default_unanswered: "Sorry, we can't take your call right now. We'll get back to you as soon as we can."
-      message_too_long: 'The announcement must be 1000 characters or fewer'
-      invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
+      invalid_settings: 'Za uključivanje unesite logičku vrijednost, a za obavijest tekst'
+      message_required: 'Dodajte poruku koju pozivatelji čuju'
+      default_unanswered: "Žao nam je, trenutačno se ne možemo javiti na vaš poziv. Javit ćemo vam se što prije."
+      message_too_long: 'Obavijest smije imati najviše 1000 znakova'
+      invalid_timeout: 'Trajanje zvonjave mora biti cijeli broj sekundi između %{min} i %{max}'
     call_hours:
-      closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
-      whatsapp_failed: "Couldn't apply business hours to WhatsApp calls: %{error}"
+      closed_every_day: 'Postavite radno vrijeme pretinca za barem jedan dan prije njegove primjene na WhatsApp pozive'
+      whatsapp_failed: "Primjena radnog vremena na WhatsApp pozive nije uspjela: %{error}"
+    missed_call_message:
+      default: "Žao nam je što smo propustili vaš poziv. Odgovorite na ovu poruku i javit ćemo vam se što prije."
+      invalid: 'Poruka za propušteni poziv smije imati najviše %{max} znakova'
     call_routing:
-      invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
+      invalid_settings: 'Odaberite kome zvoni, razmak zvonjave od %{step_min} do %{step_max} sekundi, vrijeme završne obrade od 0 do %{cooldown_max} sekundi i postupanje izvan radnog vremena'
   auth:
     saml:
       invalid_email: 'Please enter a valid email address'
@@ -91,9 +94,9 @@ hr:
       cannot_revoke_current: Nije moguće opozvati trenutačnu sesiju.
   errors:
     bandwidth:
-      token_request_failed: "Unable to reach Bandwidth authentication. Please try again later."
-      invalid_configuration: 'Provide a valid Bandwidth account ID, application ID, client ID, and client secret.'
-      authentication_failed: 'Unable to authenticate with Bandwidth. Check your client ID and client secret, then try again.'
+      token_request_failed: "Nije moguće pristupiti Bandwidth autentifikaciji. Pokušajte ponovno kasnije."
+      invalid_configuration: 'Unesite valjani ID Bandwidth računa, ID aplikacije, ID klijenta i tajni ključ klijenta.'
+      authentication_failed: 'Autentifikacija s Bandwidthom nije uspjela. Provjerite ID klijenta i tajni ključ klijenta pa pokušajte ponovno.'
     account_saml_settings:
       invalid_certificate: mora biti valjan X.509 certifikat u PEM formatu
       metadata_url:
@@ -106,8 +109,8 @@ hr:
     notification_subscription:
       voip_attributes_required: VoIP push pretplata zahtijeva device_id i push_token
     account_user:
-      no_work_preference: Receive conversations or Receive voice calls must stay on
-      invalid_work_preference: Receive conversations and Receive voice calls must be true or false
+      no_work_preference: Primanje razgovora ili primanje glasovnih poziva mora ostati uključeno
+      invalid_work_preference: Primanje razgovora i primanje glasovnih poziva mora imati vrijednost true ili false
     account:
       not_authorized: Nemate ovlasti za pristup ovom računu
       email_limit_exceeded: Dosegnuto je dnevno ograničenje e-pošte za ovaj račun
@@ -128,13 +131,13 @@ hr:
       failed: Signup failed
     voice:
       call_already_accepted: 'Poziv već vodi %{agent_name}.'
-      announcement_audio_mismatch: 'Generated audio did not match the announcement text. Your saved announcement has not changed. Please try again.'
-      announcement_generation_failed: "Couldn't generate announcement audio. Check your Captain AI configuration and try again. Your saved announcement has not changed."
-      call_timed_out: 'The call timed out before you could join.'
-      invalid_hold: "Couldn't update the call. Please try again."
-      not_handling_agent: 'Only the agent on the call can hold or resume it.'
-      cannot_end_call: 'Only the agent handling the call can end it.'
-      hold_failed: 'Could not update the hold. Please try again.'
+      announcement_audio_mismatch: 'Generirani zvuk ne odgovara tekstu obavijesti. Spremljena obavijest nije promijenjena. Pokušajte ponovno.'
+      announcement_generation_failed: "Generiranje zvuka obavijesti nije uspjelo. Provjerite konfiguraciju Captain AI-ja i pokušajte ponovno. Spremljena obavijest nije promijenjena."
+      call_timed_out: 'Vrijeme za pridruživanje pozivu je isteklo.'
+      invalid_hold: "Ažuriranje poziva nije uspjelo. Pokušajte ponovno."
+      not_handling_agent: 'Samo agent koji sudjeluje u pozivu može ga staviti na čekanje ili nastaviti.'
+      cannot_end_call: 'Samo agent koji vodi poziv može ga završiti.'
+      hold_failed: 'Ažuriranje statusa čekanja nije uspjelo. Pokušajte ponovno.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -162,7 +165,7 @@ hr:
       data_type:
         invalid: Invalid data type
       csv:
-        blank_format_marker: 'Record %{row_number} has a blank %{column} value. Keep %{version} in this column for every row. Import new contacts in a separate CSV without this column.'
+        blank_format_marker: 'Zapis %{row_number} ima praznu vrijednost u stupcu %{column}. U svakom retku zadržite %{version} u tom stupcu. Nove kontakte uvezite zasebnom CSV datotekom bez tog stupca.'
     contacts:
       import:
         failed: File is blank
@@ -192,7 +195,7 @@ hr:
         unique: should be unique in the category and portal
     articles:
       meta:
-        noindex_not_boolean: noindex must be true or false
+        noindex_not_boolean: noindex mora biti true ili false
     dyte:
       invalid_message_type: 'Invalid message type. Action not permitted'
       realtimekit_credentials_required: 'Potrebni su pristupni podaci za Cloudflare RealtimeKit. Izbrišite postojeću Dyte integraciju i ponovno je izradite s pristupnim podacima za Cloudflare RealtimeKit.'
@@ -239,7 +242,7 @@ hr:
     openai:
       invalid_api_key: 'OpenAI API ključ nije valjan ili je opozvan. Provjerite ključ na svojoj OpenAI nadzornoj ploči.'
     inboxes:
-      bot_provider_conflict: 'Disconnect %{current_provider} before connecting %{requested_provider}'
+      bot_provider_conflict: 'Odspojite %{current_provider} prije povezivanja s %{requested_provider}'
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
         no_response_error: Please check the IMAP credentials and try again.
@@ -381,13 +384,13 @@ hr:
       handoff: 'Preusmjeravanje na drugog agenta za dodatnu pomoć.'
     unverified_contact_match:
       note: |-
-        This visitor entered contact details that belong to an existing contact. We couldn't verify the visitor's identity, so we didn't link this conversation to that contact or save these details.
+        Ovaj je posjetitelj unio kontaktne podatke koji pripadaju postojećem kontaktu. Nismo mogli potvrditi identitet posjetitelja pa razgovor nismo povezali s tim kontaktom niti smo spremili te podatke.
 
         %{matches}
 
-        If you confirm this visitor is the same person, merge the contacts from the contact panel.
-      email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
-      phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
+        Ako potvrdite da je riječ o istoj osobi, spojite kontakte na ploči kontakta.
+      email: '- E-pošta: `%{value}`, odgovara kontaktu [`%{contact_name}`](%{contact_url})'
+      phone_number: '- Telefon: `%{value}`, odgovara kontaktu [`%{contact_name}`](%{contact_url})'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
@@ -445,8 +448,8 @@ hr:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
       auto_translate:
-        disabled: '%{user_name} turned off auto-translate for this conversation'
-        enabled: '%{user_name} turned on auto-translate for this conversation'
+        disabled: '%{user_name} isključio/la je automatsko prevođenje za ovaj razgovor'
+        enabled: '%{user_name} uključio/la je automatsko prevođenje za ovaj razgovor'
       linear:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
@@ -460,7 +463,7 @@ hr:
         not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
-      via_copilot: '%{activity} via Copilot'
+      via_copilot: '%{activity} putem Copilota'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} typically replies in a few hours.'
@@ -502,9 +505,9 @@ hr:
       name: 'Dashboard Apps'
       description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
-      name: 'Dyte'
+      name: 'Cloudflare RealtimeKit'
       short_description: 'Start video/voice calls with customers directly from Chatwoot.'
-      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      description: 'Cloudflare RealtimeKit omogućuje vašim agentima da započnu video/glasovne pozive s vašim klijentima izravno iz Chatwoota.'
       meeting_name: '%{agent_name} has started a meeting'
     slack:
       name: 'Slack'
@@ -544,53 +547,53 @@ hr:
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   conversation_monitors:
     slack_alert:
-      not_connected: needs a connected Slack integration
-      title: 'Monitor matched: %{name}'
-      matched: Monitor matched
-      summary: '%{conversation} with %{contact}'
-      conversation: 'Conversation #%{id}'
-      inbox: Inbox
-      assignee: Assignee
-      unassigned: Unassigned
+      not_connected: potrebna je povezana Slack integracija
+      title: 'Nadzor je pronašao podudaranje: %{name}'
+      matched: Nadzor je pronašao podudaranje
+      summary: '%{conversation} s kontaktom %{contact}'
+      conversation: 'Razgovor br. %{id}'
+      inbox: Pretinac
+      assignee: Dodijeljeni agent
+      unassigned: Nedodijeljeno
       status: Status
-      confidence: Confidence
+      confidence: Pouzdanost
       unknown: Nepoznato
-      condition: Condition
+      condition: Uvjet
   captain:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
-    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: 'Nadogradite svoj plan da biste omogućili Captain AI'
     disabled: 'Captain AI je onemogućen za ovaj račun.'
     api_key_missing: 'Captain AI API ključ nije konfiguriran.'
     copilot:
       using_tool: 'Koristi alat %{function_name}'
-      approval_superseded: 'The agent sent a new message instead of approving this change.'
-      approval_rejected: 'The agent rejected this change.'
-      approval_already_decided: 'This change has already been approved or rejected.'
-      approval_expired: 'The agent did not approve this change within %{minutes} minutes.'
-      approval_expired_notice: 'This change expired. Ask Copilot to propose it again.'
-      stopped: 'The agent stopped this before it finished.'
-      still_working: 'Copilot is still working on your last message. Stop it or wait for the answer.'
+      approval_superseded: 'Agent je poslao novu poruku umjesto odobravanja ove promjene.'
+      approval_rejected: 'Agent je odbio ovu promjenu.'
+      approval_already_decided: 'Ova je promjena već odobrena ili odbijena.'
+      approval_expired: 'Agent nije odobrio promjenu u roku od %{minutes} minuta.'
+      approval_expired_notice: 'Ova je promjena istekla. Zatražite od Copilota novi prijedlog.'
+      stopped: 'Agent je zaustavio radnju prije dovršetka.'
+      still_working: 'Copilot još obrađuje vašu posljednju poruku. Zaustavite ga ili pričekajte odgovor.'
       completed_tool_call: 'Završeni poziv alata %{function_name}'
       invalid_tool_call: 'Nevažeći poziv alata'
       tool_not_available: 'Alat nije dostupan'
       reply_suggestion_discarded: 'Razgovor se promijenio dok je Copilot sastavljao odgovor pa je prijedlog odbačen.'
       reply_suggestion_failed: "Copilot nije mogao generirati odgovor. Pokušajte ponovno."
-      step_failed: "Couldn't finish this step"
+      step_failed: "Ovaj korak nije moguće dovršiti"
       steps:
-        search_documentation: 'Searching the knowledge base'
-        search_articles: 'Searching help center articles'
-        get_article: 'Reading an article'
-        search_contacts: 'Searching contacts'
-        get_contact: 'Looking up a contact'
-        get_conversation: 'Reading a conversation'
-        search_linear_issues: 'Searching Linear issues'
-        get_data: 'Finding matching records'
-        display: 'Preparing the results'
-        get_report: 'Reading the reports'
-        get_account_directory: 'Looking up agents, inboxes and teams'
+        search_documentation: 'Pretraživanje baze znanja'
+        search_articles: 'Pretraživanje članaka centra za pomoć'
+        get_article: 'Čitanje članka'
+        search_contacts: 'Pretraživanje kontakata'
+        get_contact: 'Dohvaćanje kontakta'
+        get_conversation: 'Čitanje razgovora'
+        search_linear_issues: 'Pretraživanje zadataka u Linearu'
+        get_data: 'Pronalaženje odgovarajućih zapisa'
+        display: 'Priprema rezultata'
+        get_report: 'Čitanje izvješća'
+        get_account_directory: 'Dohvaćanje agenata, pretinaca i timova'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -626,7 +629,7 @@ hr:
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
       limit_exceeded: 'Možete izraditi najviše %{limit} prilagođenih alata po asistentu'
-      invalid_source: 'Source must be installed or custom'
+      invalid_source: 'Izvor mora biti instaliran ili prilagođen'
       installed_read_only: 'Alati instalirani iz manifesta samo su za čitanje. Možete ih samo omogućiti ili onemogućiti ili promijeniti postavku potvrde e-pošte.'
       headers:
         invalid: 'mora biti objekt naziva i vrijednosti zaglavlja'
@@ -642,26 +645,26 @@ hr:
         unknown: 'sadrži nepoznate postavke: %{names}'
         not_boolean: 'vrijednosti moraju biti true ili false'
     param_sources:
-      invalid: '%{tool} parameter sources must be an object'
-      unknown_param: '%{tool} has no parameters named %{names}'
-      invalid_source: '%{tool} parameter %{name} has an invalid source'
-      fixed_value_blank: '%{tool} parameter %{name} needs a fixed value'
-      fixed_value_type: '%{tool} parameter %{name} needs a fixed value of type %{type}'
-      fixed_value_unsupported: '%{tool} parameter %{name} is of type %{type} and cannot take a fixed value'
-      one_verified_email: '%{tool} can have one verified email parameter only'
-      verified_email_type: '%{tool} parameter %{name} must be a string to take the verified email'
+      invalid: 'Izvori parametara alata %{tool} moraju biti objekt'
+      unknown_param: 'Alat %{tool} nema parametre naziva %{names}'
+      invalid_source: 'Parametar %{name} alata %{tool} ima nevaljan izvor'
+      fixed_value_blank: 'Parametar %{name} alata %{tool} zahtijeva fiksnu vrijednost'
+      fixed_value_type: 'Parametar %{name} alata %{tool} zahtijeva fiksnu vrijednost tipa %{type}'
+      fixed_value_unsupported: 'Parametar %{name} alata %{tool} tipa je %{type} i ne može imati fiksnu vrijednost'
+      one_verified_email: 'Alat %{tool} može imati samo jedan parametar potvrđene adrese e-pošte'
+      verified_email_type: 'Parametar %{name} alata %{tool} mora biti tekstualnog tipa kako bi mogao primiti potvrđenu adresu e-pošte'
     mcp_server:
-      disabled: 'MCP servers are not enabled for this account'
-      token_rejected: 'The server rejected the token. Check the token and the header name.'
-      not_oauth: 'This server does not use OAuth sign-in'
-      reserved_header: '%{name} is set by the MCP connection and cannot carry the token'
+      disabled: 'MCP poslužitelji nisu omogućeni za ovaj račun'
+      token_rejected: 'Poslužitelj je odbio token. Provjerite token i naziv zaglavlja.'
+      not_oauth: 'Ovaj poslužitelj ne koristi OAuth prijavu'
+      reserved_header: '%{name} postavlja MCP veza i ne može se koristiti za prijenos tokena'
       tools:
-        duplicate: 'Each tool can be selected only once.'
-        invalid_selection: 'Each tool selection must be an object with the tool name, and its settings must be an object'
-        missing: 'The server no longer offers %{tool}.'
-        not_approved: '%{tool} is not approved yet. Select it in the tools list to approve it.'
-        changed_again: '%{tool} changed again on the server. Review the new version before you approve it.'
-        name_clash: 'Captain cannot tell these tools apart: %{names}. Select only one of them.'
+        duplicate: 'Svaki alat može se odabrati samo jednom.'
+        invalid_selection: 'Svaki odabir alata mora biti objekt s nazivom alata, a njegove postavke također moraju biti objekt'
+        missing: 'Poslužitelj više ne nudi %{tool}.'
+        not_approved: '%{tool} još nije odobren. Odaberite ga na popisu alata kako biste ga odobrili.'
+        changed_again: '%{tool} ponovno je promijenjen na poslužitelju. Pregledajte novu verziju prije odobravanja.'
+        name_clash: 'Captain ne može razlikovati ove alate: %{names}. Odaberite samo jedan.'
     tools_manifest:
       invalid_source: 'Unesite skup alata iz Captainova kataloga alata u obliku chatwoot/tools/folder'
       invalid_configuration: 'Nevaljana konfiguracija'
@@ -679,11 +682,11 @@ hr:
         one: Pronađen je 1 rezultat
         few: 'Pronađeno je %{count} rezultata'
         other: 'Pronađeno je %{count} rezultata'
-      submit: Search
+      submit: Pretraži
     toc_header: 'On this page'
     sidebar:
       help_center: Centar za pomoć
-      categories: Categories
+      categories: Kategorije
       language: Jezik
       theme: Tema
       open_sidebar: Open sidebar
@@ -714,8 +717,8 @@ hr:
       others: others
       by: By
       no_articles: There are no articles here
-      previous: Previous
-      next: Next
+      previous: Prethodno
+      next: Dalje
     article_actions:
       label: Otvori u
       view_markdown: Prikaži kao Markdown
@@ -728,7 +731,7 @@ hr:
       go_to_homepage: Website
       visit_website: Visit website
       appearance:
-        title: Appearance
+        title: Izgled
         system: System
         light: Light
         dark: Dark
@@ -801,7 +804,7 @@ hr:
       invalid_configuration: 'Nevaljana konfiguracija analitike'
     articles:
       captain_not_available: 'Za prevođenje je potrebno omogućiti Captain za ovaj račun'
-      cannot_overwrite_original: "Can't translate into the original article's language. Edit the original directly."
+      cannot_overwrite_original: "Nije moguće prevesti na jezik izvornog članka. Uredite izvornik izravno."
       locale_not_available: 'Jezik nije dostupan na ovom portalu'
       category_not_found: 'Kategorija nije pronađena na ovom portalu'
       no_articles_found: 'Nisu pronađeni članci za obradu'
@@ -815,23 +818,23 @@ hr:
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
     remove_locale:
-      default_locale: 'The default locale cannot be removed'
+      default_locale: 'Zadani jezik nije moguće ukloniti'
   installation:
     onboarding:
       heading: 'Pozdrav, dobro došli u Chatwoot 👋'
       name: 'Ime'
       name_placeholder: 'Unesite svoje ime i prezime, npr. Bruce Wayne'
-      company: 'Company Name'
+      company: 'Naziv tvrtke'
       company_placeholder: 'Unesite naziv svoje tvrtke, npr. Wayne Enterprises'
       email: 'Work Email'
       email_placeholder: 'Unesite poslovnu adresu e-pošte, npr. bruce@wayne.enterprises'
-      password: 'Password'
+      password: 'Lozinka'
       password_placeholder: 'Unesite lozinku s najmanje 6 znakova.'
       subscribe: 'Pretplatite se na bilješke o izdanjima, novosti i ankete o proizvodu.'
       submit: 'Finish Setup'
   super_admin:
     billing:
-      past_due: Your installation payment is past due. Update your payment method or pay the outstanding invoice to avoid subscription cancellation.
+      past_due: Plaćanje instalacije kasni. Ažurirajte način plaćanja ili podmirite dospjeli račun kako biste izbjegli otkazivanje pretplate.
       resolve_payment: Podmiri plaćanje
     account_suspension:
       categories:
@@ -852,9 +855,9 @@ hr:
         empty: 'Nema zabilježene povijesti obustava.'
     accounts:
       users: 'Korisnici'
-      conversations: 'Conversations'
+      conversations: 'Razgovori'
       maintenance: 'Održavanje'
-      general: 'General'
+      general: 'Općenito'
       limits: 'Ograničenja'
       suspension_history: 'Povijest obustava'
       custom_attributes: 'Dodatni atributi'
@@ -869,12 +872,12 @@ hr:
       seed_data_warning: 'Napomena: time će se izbrisati svi postojeći podaci na ovom računu.'
       seed_data_button: 'Generiraj početne podatke'
     actions:
-      save_changes: 'Save changes'
+      save_changes: 'Spremi promjene'
       select_all: 'Odaberi sve'
-      clear: 'Clear'
-      close: 'Close'
+      clear: 'Očisti'
+      close: 'Zatvori'
       more: 'More'
-      copy: 'Copy'
+      copy: 'Kopiraj'
       toggle_secret: 'Prikaži ili sakrij'
     captain_model_overrides:
       form:
@@ -890,13 +893,12 @@ hr:
       sources:
         account_override: 'Prilagođena postavka računa'
         installation_override: 'Postavka instalacije'
-        default: 'Default'
+        default: 'Zadano'
       features:
         conversation_completion: 'Procjena dovršenosti neaktivnog razgovora'
         editor: 'Uređivač'
         assistant: 'Asistent'
-        copilot: 'Copilot'
-        copilot_workflows: 'Copilot workflows'
+        copilot_workflows: 'Copilot'
         document_faq_generation: 'Generiranje čestih pitanja iz dokumenata'
         conversation_faq_generation: 'Generiranje čestih pitanja iz razgovora'
         conversation_faq_matching: 'Povezivanje razgovora s čestim pitanjima'
@@ -913,15 +915,15 @@ hr:
       showing: 'Prikaz %{from}–%{to} od %{total}'
     command_bar:
       label: 'Naredbena traka'
-      trigger: 'Search'
+      trigger: 'Pretraži'
       placeholder: 'Pretraži ili pokreni naredbu'
-      empty: 'No results found.'
+      empty: 'Nema pronađenih rezultata.'
       go_to: 'Idi na'
-      create: 'Create'
-      open: 'Open'
+      create: 'Izradi'
+      open: 'Otvori'
       see_all: 'Prikaži sve odgovarajuće stavke: %{resource}'
       navigate: 'Navigacija'
-      select: 'Select'
+      select: 'Odaberi'
     dashboard:
       description: 'Računi, korisnici i broj razgovora u ovoj instalaciji.'
       new_user: 'Novi korisnik'
@@ -931,12 +933,12 @@ hr:
       plan: 'Paket'
       shortcuts: 'Prečaci'
     features:
-      title: 'Features'
+      title: 'Značajke'
       premium: 'Premium značajke'
       filter: 'Filtriraj značajke'
       no_match: 'Nijedna značajka ne odgovara ovom filtru.'
-      enabled: 'Enabled'
-      disabled: 'Disabled'
+      enabled: 'Omogućeno'
+      disabled: 'Onemogućeno'
       enabled_count: 'Omogućeno %{enabled} od %{total}'
       selected: 'Odabrano'
       not_selected: 'Nije odabrano'
@@ -946,7 +948,7 @@ hr:
       manually_managed_empty: 'Nisu postavljene ručno upravljane značajke'
     filters:
       label: 'Filter by'
-      all: 'All'
+      all: 'Sve'
     instance_status:
       description: 'Verzije i status veze usluga na kojima radi ova instalacija.'
       details: 'Pojedinosti'
@@ -954,26 +956,26 @@ hr:
       heading: 'Pozdrav, administratore 👋'
       email: 'Adresa e-pošte'
       email_placeholder: 'E-pošta, npr. someone@example.com'
-      password: 'Password'
-      password_placeholder: 'Password'
-      submit: 'Login'
-      mfa_code: 'Authentication code'
-      mfa_code_placeholder: '6-digit code or backup code'
+      password: 'Lozinka'
+      password_placeholder: 'Lozinka'
+      submit: 'Prijavi se'
+      mfa_code: 'Autentifikacijski kod'
+      mfa_code_placeholder: '6-znamenkasti ili pričuvni kod'
       mfa_submit: 'Verify'
-      mfa_invalid: 'Invalid code. Please try again.'
-      mfa_expired: 'Your sign-in attempt expired. Please sign in again.'
-      mfa_attempts_exhausted: 'Too many invalid codes. Please try again in a few minutes.'
+      mfa_invalid: 'Nevaljan kod. Pokušajte ponovno.'
+      mfa_expired: 'Vrijeme za prijavu je isteklo. Prijavite se ponovno.'
+      mfa_attempts_exhausted: 'Previše nevaljanih kodova. Pokušajte ponovno za nekoliko minuta.'
     navigation:
       label: 'Super administrator'
       suffix: 'Konzola super administratora'
-      back: 'Back'
+      back: 'Natrag'
       groups:
         manage: 'Upravljanje'
         instance: 'Instalacija'
       release_notes: 'Bilješke o izdanjima'
       update_available: 'Dostupna je verzija v%{version}'
       dashboard: 'Nadzorna ploča'
-      settings: 'Settings'
+      settings: 'Postavke'
       monitor: 'Monitor'
       more: 'More'
       agent_dashboard: 'Nadzorna ploča djelatnika'
@@ -990,9 +992,9 @@ hr:
         platform_banners: 'Natpisi'
       settings_groups:
         product: 'Proizvod'
-        channels: 'Channels'
+        channels: 'Kanali'
         authentication: 'Authentication'
-        integrations: 'Integrations'
+        integrations: 'Integracije'
       theme:
         label: 'Tema'
         system: 'Prema sustavu'
@@ -1037,7 +1039,7 @@ hr:
           title: 'Nema zabilježenih web-sesija.'
           description: 'Ovaj korisnik nije prijavljen iz preglednika.'
         columns:
-          browser: 'Browser'
+          browser: 'Preglednik'
           browser_version: 'Verzija'
           os: 'Operacijski sustav'
           os_version: 'Verzija OS-a'
@@ -1051,7 +1053,7 @@ hr:
         build_number_note: 'buildNumber ovdje označava broj izvornog izdanja aplikacije, a ne verziju aplikacije navedenu na kartici Mobilna aplikacija.'
         columns:
           id: 'ID'
-          type: 'Type'
+          type: 'Vrsta'
           device: 'Uređaj'
           token: 'Token'
           details: 'Podaci o uređaju'
@@ -1074,7 +1076,7 @@ hr:
           other: 'Za %{names} nije omogućena nijedna vrsta push obavijesti. Ovaj korisnik ne prima push obavijesti s tih računa.'
       calls:
         heading: 'Dolazni pozivi'
-        description: "Whether this user's phone rings for incoming calls when the app is closed or in the background. With the app open, eligible calls ring over its live connection."
+        description: "Određuje zvoni li korisnikov telefon za dolazne pozive kada je aplikacija zatvorena ili radi u pozadini. Kada je aplikacija otvorena, odgovarajući pozivi zvone putem aktivne veze."
         accounts_heading: 'Računi'
         setup:
           heading: 'Postavke push obavijesti'
@@ -1102,15 +1104,15 @@ hr:
         'off': 'Isključeno'
         availability:
           online: 'Online'
-          busy: 'Busy'
+          busy: 'Zauzet'
           offline: 'Offline'
-        rings: 'Yes'
+        rings: 'Da'
         blockers:
           voice_off: 'Ne, kanal za pozive je isključen'
           ringing_off: 'Ne, pozivi na mobitelu su isključeni'
           no_inboxes: 'Ne, nema pretinaca za pozive'
           not_online: 'Ne, korisnik nije na mreži'
-          calls_off: 'No, Receive voice calls is off'
+          calls_off: 'Ne, primanje glasovnih poziva je isključeno'
           no_device: 'Ne, nema registriranog telefona'
           push_unavailable: 'Samo kada je aplikacija otvorena'
         assigned_only: 'Pozivi dodijeljeni korisniku'
@@ -1126,8 +1128,8 @@ hr:
         voice_call_missed: 'Propušten je poziv za koji je korisniku zvonilo'
       push:
         real_push_warning: 'Time se šalje stvarna push obavijest na svaki odabrani uređaj. Koristite samo pri dijagnostici prijavljenog problema.'
-        title_label: 'Title'
-        body_label: 'Body'
+        title_label: 'Naslov'
+        body_label: 'Sadržaj'
         body_hint: 'Kupci će vidjeti ovaj tekst kao stvarnu push obavijest na svojem uređaju.'
         send_test: 'Pošalji probnu push obavijest odabranima'
         delete_selected: 'Izbriši odabrane pretplate'
@@ -1141,7 +1143,7 @@ hr:
         results_heading: 'Rezultati'
         results_columns:
           id: 'ID pretplate'
-          type: 'Type'
+          type: 'Vrsta'
           device: 'Uređaj'
           token: 'Token za push obavijesti'
           status: 'Status'
@@ -1149,12 +1151,12 @@ hr:
     record:
       overview: 'Pregled'
       profile: 'Profil'
-      created: 'Created'
+      created: 'Stvoreno'
       last_updated: 'Posljednje ažuriranje'
       time_ago: 'prije %{time}'
     settings:
       pages:
-        general: 'General'
+        general: 'Općenito'
         internal: 'Interno'
         internal_description: 'Ključevi i prekidači koje koristi Chatwoot Cloud'
       configure: 'Configure'
@@ -1170,9 +1172,9 @@ hr:
       contact_for_help: 'Kontakt za pomoć:'
       agents_over_limit: 'Imate %{count} djelatnika. Dodajte više licenci kako biste mogli dodati još korisnika.'
       current_plan: 'Trenutačni paket'
-      refresh: 'Refresh'
-      refresh_succeeded: 'Instance status refreshed'
-      refresh_failed: 'Could not reach Chatwoot Hub. Try again later.'
+      refresh: 'Osvježi'
+      refresh_succeeded: 'Status instance je osvježen'
+      refresh_failed: 'Nije moguće pristupiti Chatwoot Hubu. Pokušajte kasnije.'
       manage: 'Upravljaj'
       installation_identifier: 'Identifikator instalacije'
       need_help: 'Trebate pomoć?'
@@ -1180,7 +1182,7 @@ hr:
       community_support: 'Podrška zajednice'
       chat_support: 'Podrška putem chata'
       switch_to_enterprise: 'Prijeđi na izdanje Enterprise'
-      upgrade_now: 'Upgrade now'
+      upgrade_now: 'Nadogradi sada'
     users:
       impersonate: 'Djeluj kao korisnik'
       copy_impersonation_link: 'Kopiraj poveznicu'
@@ -1195,15 +1197,15 @@ hr:
       confirmed: 'Potvrđeno'
       unconfirmed: 'Nije potvrđeno'
       mfa: 'MFA'
-      mfa_enabled: 'Enabled'
-      mfa_disabled: 'Disabled'
+      mfa_enabled: 'Omogućeno'
+      mfa_disabled: 'Onemogućeno'
       add_account: 'Dodaj ovog korisnika računu'
       resend_confirmation:
         button: 'Ponovno pošalji e-poruku za potvrdu'
         sent: 'E-poruka za potvrdu je poslana.'
         already_confirmed: 'Korisnik je već potvrđen.'
       email_suppression:
-        menu: 'Email'
+        menu: 'E-pošta'
         check_button: 'Provjeri isporuku e-pošte'
         clear_button: 'Odblokiraj e-poštu'
         clear_dialog:
