@@ -776,18 +776,6 @@
           "LABEL": "جواب کی تجویز دیں",
           "CONTENT": "کسٹمر کی پوچھ گچھ کا تجزیہ کریں، اور ایسی جواب مسودہ تیار کریں جو مؤثر طریقے سے ان کے خدشات یا سوالات کو حل کرے۔ جواب واضح، مختصر، اور مددگار معلومات فراہم کرے۔"
         },
-        "RATE": {
-          "LABEL": "اس گفتگو کو درجہ دیں",
-          "CONTENT": "گفتگو کا جائزہ لیں تاکہ معلوم ہو سکے کہ یہ کسٹمر کی ضروریات کو کس حد تک پورا کرتی ہے۔ لہجہ، وضاحت، اور مؤثریت کی بنیاد پر 5 میں سے درجہ بندی شیئر کریں۔"
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "اعلی ترجیحی بات چیت",
-          "CONTENT": "تمام اعلی ترجیحی کھلی بات چیت کا خلاصہ دیں۔ بات چیت کی شناخت، کسٹمر کا نام (اگر دستیاب ہو)، آخری پیغام کا مواد، اور تفویض کردہ ایجنٹ شامل کریں۔ اگر مناسب ہو تو صورت حال کے مطابق گروپ بنائیں۔"
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "رابطے کی فہرست",
-          "CONTENT": "میرے لیے سب سے اوپر 10 رابطوں کی فہرست دکھائیں۔ نام، ای میل یا فون نمبر (اگر دستیاب ہو)، آخری بار دیکھا گیا وقت، ٹیگز (اگر کوئی ہوں) شامل کریں۔"
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
