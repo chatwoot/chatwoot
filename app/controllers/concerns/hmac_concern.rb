@@ -8,8 +8,7 @@ module HmacConcern
   private
 
   def hmac_verification_params_valid?
-    params[:identifier_hash].present? &&
-      @contact&.identifier.present? &&
+    @contact&.identifier.present? &&
       params[:identifier].to_s == @contact.identifier &&
       hmac_channel.present?
   end

@@ -10,7 +10,7 @@ RSpec.describe ContactIdentity::Verifier do
   end
 
   describe '#perform' do
-    it 'returns a proof with no status when the request carries no proof' do
+    it 'returns a none proof when the request carries no proof' do
       proof = proof_for({})
 
       expect(proof.none?).to be(true)

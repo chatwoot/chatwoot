@@ -61,11 +61,11 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   def validate_hmac
     return unless should_verify_hmac?
 
-    render json: { error: 'HMAC failed: Invalid Identifier Hash Provided' }, status: :unauthorized unless valid_hmac?
+    render json: { error: 'HMAC failed: Invalid Identifier Hash Provided' }, status: :unauthorized unless identity_proof.verified?
   end
 
   def should_verify_hmac?
-    return false if params[:identifier_hash].blank? && !@web_widget.hmac_mandatory
+    return false if identity_proof.none? && !@web_widget.hmac_mandatory
 
     # Taking an extra caution that the hmac is triggered whenever identifier is present
     return false if params[:custom_attributes].present? && params[:identifier].blank?
@@ -73,8 +73,8 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     true
   end
 
-  def valid_hmac?
-    ContactIdentity::Verifier.new(channel: @web_widget, identifier: params[:identifier], params: params).perform.verified?
+  def identity_proof
+    @identity_proof ||= ContactIdentity::Verifier.new(channel: @web_widget, identifier: params[:identifier], params: params).perform
   end
 
   def permitted_params
