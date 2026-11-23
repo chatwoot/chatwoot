@@ -776,18 +776,6 @@
           "LABEL": "Suggerir una resposta",
           "CONTENT": "Analitza la consulta del client i redacta una resposta que atiqui eficaçment les seves preocupacions o preguntes. Assegura que la resposta sigui clara, concisa i ofereixi informació útil."
         },
-        "RATE": {
-          "LABEL": "Valora aquesta conversa",
-          "CONTENT": "Revisa la conversa per veure com de bé s'adapta a les necessitats del client. Comparteix una valoració de 5 punts basada en to, claredat i efectivitat."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Converses d'alta prioritat",
-          "CONTENT": "Dóna'm un resum de totes les converses obertes d'alta prioritat. Inclou la ID de la conversa, nom del client (si està disponible), contingut de l'últim missatge i agent assignat. Agrupa per estat si és rellevant."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Llista de contactes",
-          "CONTENT": "Mostra'm la llista dels 10 contactes principals. Inclou nom, correu electrònic o telèfon (si està disponible), última vegada que es va veure, etiquetes (si n'hi ha)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
