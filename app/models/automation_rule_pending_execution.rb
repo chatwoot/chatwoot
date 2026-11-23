@@ -193,6 +193,16 @@ class AutomationRulePendingExecution < ApplicationRecord
   # The claim renews updated_at, so a processing row past the timeout means its worker died. Only
   # then may a re-arm take the row back: pulling a live worker's row to pending would let the sweep
   # claim it and run the same actions alongside the worker still executing them.
+  # Changes a due row without claiming it, so a re-arm racing the caller still sees a pending row.
+  def update_if_claimable!(attributes)
+    with_lock do
+      next false unless claimable?
+
+      update!(attributes)
+      true
+    end
+  end
+
   def stale_processing?
     processing? && updated_at < STALE_PROCESSING_TIMEOUT.ago
   end
