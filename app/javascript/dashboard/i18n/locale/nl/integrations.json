@@ -776,18 +776,6 @@
           "LABEL": "Stel een antwoord voor",
           "CONTENT": "Analyseer de vraag van de klant en stel een antwoord op dat hun zorgen of vragen effectief behandelt. Zorg dat het antwoord duidelijk, beknopt is en nuttige informatie biedt."
         },
-        "RATE": {
-          "LABEL": "Beoordeel dit gesprek",
-          "CONTENT": "Beoordeel het gesprek om te zien hoe goed aan de behoeften van de klant wordt voldaan. Geef een beoordeling tot 5 op basis van toon, duidelijkheid en effectiviteit."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Gesprekken met hoge prioriteit",
-          "CONTENT": "Geef me een samenvatting van alle open gesprekken met hoge prioriteit. Vermeld het gesprek-ID, klantnaam (indien beschikbaar), laatste berichtinhoud en toegewezen agent. Groepeer indien relevant op status."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Contacten weergeven",
-          "CONTENT": "Toon mij de lijst van top 10 contacten. Vermeld naam, e-mail of telefoonnummer (indien beschikbaar), laatst gezien tijd, tags (indien aanwezig)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
