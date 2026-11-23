@@ -776,18 +776,6 @@
           "LABEL": "Antwort vorschlagen",
           "CONTENT": "Analysiere die Anfrage des Kunden und entwerfe eine Antwort, die seine Anliegen oder Fragen effektiv beantwortet. Stelle sicher, dass die Antwort klar, prägnant und hilfreich ist."
         },
-        "RATE": {
-          "LABEL": "Bewerten Sie dieses Gespräch",
-          "CONTENT": "Bewerten Sie das Gespräch, um zu sehen, wie gut es die Bedürfnisse des Kunden erfüllt. Geben Sie eine Bewertung von 1 bis 5 basierend auf Ton, Klarheit und Effektivität ab."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Gespräche mit hoher Priorität",
-          "CONTENT": "Gib mir eine Zusammenfassung aller offenen Gespräche mit hoher Priorität. Bitte die Gesprächs-ID, den Kundennamen (falls vorhanden), den Inhalt der letzten Nachricht und den zugewiesenen Mitarbeiter einschließen. Gruppiere nach Status, wenn relevant."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Kontakte auflisten",
-          "CONTENT": "Zeige mir die Liste der Top 10 Kontakte. Bitte Name, E-Mail oder Telefonnummer (falls vorhanden), zuletzt gesehen Zeit, Tags (falls vorhanden) einschließen."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
