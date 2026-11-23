@@ -776,18 +776,6 @@
           "LABEL": "اقترح إجابة",
           "CONTENT": "حلل استفسار العميل وقم بصياغة رد يعالج مخاوفه أو أسئلته بفعالية. تأكد من أن الرد واضح، موجز، ويوفر معلومات مفيدة."
         },
-        "RATE": {
-          "LABEL": "قم بتقييم هذه المحادثة",
-          "CONTENT": "راجع المحادثة لترى مدى تلبيتها لاحتياجات العميل. شارك تقييمًا من 5 بناءً على النغمة، الوضوح، والفعالية."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "المحادثات ذات الأولوية العالية",
-          "CONTENT": "اعطني ملخصًا لجميع المحادثات المفتوحة ذات الأولوية العالية. تضمّن معرف المحادثة، اسم العميل (إن وُجد)، محتوى آخر رسالة، والوكيل المعين. قم بالتجميع حسب الحالة إذا كان ذلك مناسبًا."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "قائمة جهات الاتصال",
-          "CONTENT": "اعرض لي قائمة بأفضل 10 جهات اتصال. تضمّن الاسم، البريد الإلكتروني أو رقم الهاتف (إن وُجد)، آخر وقت مشاهدة، العلامات (إن وجدت)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
