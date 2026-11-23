@@ -776,18 +776,6 @@
           "LABEL": "Magmungkahi ng sagot",
           "CONTENT": "Suriin ang tanong ng customer, at gumawa ng draft ng sagot na epektibong tinutugunan ang kanilang mga alalahanin o tanong. Siguraduhing malinaw, maikli, at nagbibigay ng kapaki-pakinabang na impormasyon ang sagot."
         },
-        "RATE": {
-          "LABEL": "I-rate ang pag-uusap",
-          "CONTENT": "Suriin ang pag-uusap upang makita kung gaano ito kahusay na natutugunan ang pangangailangan ng customer. Magbigay ng rating mula 1 hanggang 5 batay sa tono, kalinawan, at bisa."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Mga usapang may mataas na prayoridad",
-          "CONTENT": "Bigyan ako ng buod ng lahat ng mataas na prayoridad na bukas na pag-uusap. Isama ang conversation ID, pangalan ng customer (kung mayroon), nilalaman ng huling mensahe, at naka-assign na ahente. I-grupo ayon sa status kung naaangkop."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Ilista ang mga kontak",
-          "CONTENT": "Ipakita sa akin ang listahan ng nangungunang 10 mga contact. Isama ang pangalan, email o numero ng telepono (kung mayroon), huling oras na nakita, mga tag (kung mayroon)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
