@@ -776,18 +776,6 @@
           "LABEL": "መልስ ይጠቅሙ",
           "CONTENT": "የደንበኛውን ጥያቄ ያስተካክሉ እና ችግሮቻቸውን ወይም ጥያቄዎቻቸውን በትክክል የሚያስተካክል መልስ ያዘጋጁ። መልሱ ግልጽ፣ አጭር እና አገልግሎት የሚሰጥ መሆን አለበት።"
         },
-        "RATE": {
-          "LABEL": "ይህን ውይይት ደረጃ ያድርጉ",
-          "CONTENT": "ውይይቱን እንዴት እንደሚሰራ እና የደንበኛው ፍላጎት እንደሚሰማ ይገምግሙ። በቃል ቅርጸት፣ ግልጽነት እና ተፅዕኖ መሠረት ከ<b>5</b> ውስጥ ደረጃ ያካፍሉ።"
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "ከፍተኛ ቅድሚያ ያላቸው ውይይቶች",
-          "CONTENT": "ሁሉንም ከፍተኛ ቅድሚያ ያላቸው ክፍተት ያሉ ውይይቶች ማጠቃለያ ስጠኝ። የውይይት መለያ, የደንበኛ ስም (ካለ), የመጨረሻ መልእክት ይዘት እና የተመደበው ወኪል አካትተው። በሁኔታ መሰብሰብ አድርግ።"
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "እያካተቱ ያሉ ሰዎችን ዝርዝር አሳይ",
-          "CONTENT": "ከፍተኛ 10 እያካተቱ ያሉ ሰዎችን ዝርዝር አሳይ። ስም, ኢሜል ወይም ስልክ ቁጥር (ካለ), የመጨረሻ ጊዜ እና መለያዎች (ካሉ) አካትተው።"
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
