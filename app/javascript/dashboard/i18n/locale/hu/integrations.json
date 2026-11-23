@@ -776,18 +776,6 @@
           "LABEL": "Javasoljon választ",
           "CONTENT": "Elemezze az ügyfél kérdését, és készítsen egy választ, amely hatékonyan kezeli az aggályokat vagy kérdéseket. Biztosítsa, hogy a válasz világos, tömör és hasznos információkat tartalmazzon."
         },
-        "RATE": {
-          "LABEL": "Értékelje ezt a beszélgetést",
-          "CONTENT": "Vizsgálja felül a beszélgetést, hogy mennyire felel meg az ügyfél igényeinek. Osszon meg egy értékelést 5 pontból a hangnem, világosság és hatékonyság alapján."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Nagy prioritású beszélgetések",
-          "CONTENT": "Adjon egy összefoglalót az összes nagy prioritású nyitott beszélgetésről. Tartalmazza a beszélgetés azonosítóját, az ügyfél nevét (ha elérhető), az utolsó üzenet tartalmát és a kijelölt ügynököt. Ha releváns, csoportosítsa státusz szerint."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Kapcsolatok listázása",
-          "CONTENT": "Mutassa meg a 10 legfontosabb kapcsolat listáját. Tartalmazza a nevet, e-mailt vagy telefonszámot (ha elérhető), az utolsó megtekintés idejét, címkéket (ha vannak)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
