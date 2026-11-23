@@ -13,6 +13,7 @@ import {
   VOICE_CALL_OUTBOUND_INIT_STATUS,
 } from 'dashboard/components-next/message/constants';
 import { useAlert } from 'dashboard/composables';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { useCallsStore } from 'dashboard/stores/calls';
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
@@ -168,13 +169,17 @@ const startCall = async (inboxId, conversationIdHint = null) => {
       conversationId,
       inboxId,
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+      provider: VOICE_CALL_PROVIDERS.TWILIO,
     });
 
     useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
     navigateToConversation(response?.conversation_id);
   } catch (error) {
-    const apiError = error?.message;
-    useAlert(apiError || t('CONTACT_PANEL.CALL_FAILED'));
+    useAlert(
+      error instanceof ExceptionWithMessage
+        ? error.data
+        : t('CONTACT_PANEL.CALL_FAILED')
+    );
   }
 };
 

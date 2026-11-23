@@ -24,13 +24,21 @@ import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
 import CustomToolsIndex from './tools/Index.vue';
+import ToolsLanding from './tools/Landing.vue';
+import { TOOL_SOURCES } from './tools/constants';
 import CustomToolsExplore from './tools/Explore.vue';
 import CustomToolsInstall from './tools/Install.vue';
+import McpServersIndex from './tools/McpServers.vue';
 
 const meta = {
   permissions: ['administrator', 'agent'],
   featureFlag: FEATURE_FLAGS.CAPTAIN,
   installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
+};
+
+const adminMeta = {
+  ...meta,
+  permissions: ['administrator'],
 };
 
 const faqSuggestionsMeta = {
@@ -71,8 +79,24 @@ const assistantRoutes = [
   },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/tools'),
-    component: CustomToolsIndex,
+    component: ToolsLanding,
     name: 'captain_tools_index',
+    meta: metaCustomTools,
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/tools/installed'
+    ),
+    component: CustomToolsIndex,
+    name: 'captain_tools_installed',
+    props: { source: TOOL_SOURCES.INSTALLED },
+    meta: metaCustomTools,
+  },
+  {
+    path: frontendURL('accounts/:accountId/captain/:assistantId/tools/custom'),
+    component: CustomToolsIndex,
+    name: 'captain_tools_custom',
+    props: { source: TOOL_SOURCES.CUSTOM },
     meta: metaCustomTools,
   },
   {
@@ -80,6 +104,15 @@ const assistantRoutes = [
     component: CustomToolsExplore,
     name: 'captain_tools_explore',
     meta: metaCustomTools,
+  },
+  {
+    path: frontendURL('accounts/:accountId/captain/:assistantId/tools/mcp'),
+    component: McpServersIndex,
+    name: 'captain_mcp_servers_index',
+    meta: {
+      ...metaCustomTools,
+      featureFlag: FEATURE_FLAGS.CAPTAIN_MCP_SERVERS,
+    },
   },
   {
     path: frontendURL('accounts/:accountId/captain/toolsets/install'),
@@ -91,7 +124,7 @@ const assistantRoutes = [
     path: frontendURL('accounts/:accountId/captain/:assistantId/scenarios'),
     component: AssistantScenariosIndex,
     name: 'captain_assistants_scenarios_index',
-    meta: metaV2,
+    meta: adminMeta,
   },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/playground'),
@@ -125,7 +158,7 @@ const assistantRoutes = [
     path: frontendURL('accounts/:accountId/captain/:assistantId/settings'),
     component: AssistantSettingsIndex,
     name: 'captain_assistants_settings_index',
-    meta,
+    meta: adminMeta,
   },
   // Settings sub-pages
   {
@@ -134,7 +167,7 @@ const assistantRoutes = [
     ),
     component: AssistantSystemSettingsIndex,
     name: 'captain_assistants_settings_system_index',
-    meta,
+    meta: adminMeta,
   },
   {
     path: frontendURL(
@@ -142,7 +175,7 @@ const assistantRoutes = [
     ),
     component: AssistantAudienceSettingsIndex,
     name: 'captain_assistants_settings_audience_index',
-    meta,
+    meta: adminMeta,
   },
   {
     path: frontendURL(
@@ -150,7 +183,7 @@ const assistantRoutes = [
     ),
     component: AssistantScheduleSettingsIndex,
     name: 'captain_assistants_settings_schedule_index',
-    meta,
+    meta: adminMeta,
   },
   {
     path: frontendURL(
@@ -158,7 +191,7 @@ const assistantRoutes = [
     ),
     component: AssistantGuardrailsIndex,
     name: 'captain_assistants_guardrails_index',
-    meta: metaV2,
+    meta: adminMeta,
   },
   {
     path: frontendURL(
@@ -166,7 +199,7 @@ const assistantRoutes = [
     ),
     component: AssistantGuidelinesIndex,
     name: 'captain_assistants_guidelines_index',
-    meta: metaV2,
+    meta: adminMeta,
   },
   {
     path: frontendURL('accounts/:accountId/captain/assistants'),

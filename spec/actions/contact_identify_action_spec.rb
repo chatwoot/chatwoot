@@ -107,6 +107,51 @@ describe ContactIdentifyAction do
       end
     end
 
+    context 'when a request without an identifier matches an already identified contact' do
+      it 'does not merge into the identified contact via a matching email' do
+        victim = create(:contact, account: account, identifier: 'victim_id', email: 'victim@test.com', name: 'Victim')
+        params = { email: 'victim@test.com', name: 'Attacker' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).not_to eq victim.id
+        expect(victim.reload.name).to eq 'Victim'
+      end
+
+      it 'does not merge into the identified contact via a matching phone_number' do
+        victim = create(:contact, account: account, identifier: 'victim_id', phone_number: '+919999888877', name: 'Victim')
+        params = { phone_number: '+919999888877', name: 'Attacker' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).not_to eq victim.id
+        expect(victim.reload.name).to eq 'Victim'
+      end
+
+      it 'records the details it did not save and the contacts they matched' do
+        email_contact = create(:contact, account: account, identifier: 'email_id', email: 'victim@test.com')
+        phone_contact = create(:contact, account: account, identifier: 'phone_id', phone_number: '+919999888877')
+        action = described_class.new(contact: contact, params: { email: 'victim@test.com', phone_number: '+919999888877' })
+        action.perform
+        expect(action.unverified_matches).to eq(
+          [
+            { key: :email, value: 'victim@test.com', contact: email_contact },
+            { key: :phone_number, value: '+919999888877', contact: phone_contact }
+          ]
+        )
+      end
+
+      it 'records nothing when the details match the contact itself' do
+        contact.update!(identifier: 'customer-1', email: 'customer@test.com')
+        action = described_class.new(contact: contact, params: { email: 'customer@test.com' })
+        action.perform
+        expect(action.unverified_matches).to be_empty
+      end
+
+      it 'records nothing when the match merges' do
+        create(:contact, account: account, email: 'test@test.com')
+        action = described_class.new(contact: contact, params: { email: 'test@test.com' })
+        action.perform
+        expect(action.unverified_matches).to be_empty
+      end
+    end
+
     context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do
       it 'updates the attributes of contact passed in to identify action' do
         create(:contact, account: account, identifier: '')

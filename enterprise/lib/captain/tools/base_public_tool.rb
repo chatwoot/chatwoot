@@ -1,7 +1,14 @@
 require 'agents'
 
 class Captain::Tools::BasePublicTool < Agents::Tool
-  STALE_RUN_MESSAGE = 'Tool skipped because a newer customer message arrived'.freeze
+  NEWER_MESSAGE_ARRIVED = 'Tool skipped because a newer customer message arrived'.freeze
+
+  # A tool class built at runtime needs a constant, or Class#name is nil and the LLM request gets an empty function name.
+  # Registering a name again replaces the class an earlier build left there.
+  def self.register_generated(namespace, class_name, tool_class)
+    namespace.send(:remove_const, class_name) if namespace.const_defined?(class_name, false)
+    namespace.const_set(class_name, tool_class)
+  end
 
   def initialize(assistant)
     @assistant = assistant
@@ -23,15 +30,14 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     end
   end
 
-  def active?
-    # Public tools are always active
-    true
+  # A tool that changes nothing can still run after a newer customer message, and can run for a reply suggestion
+  def read_only?
+    false
   end
 
-  def permissions
-    # Override in subclasses to specify required permissions
-    # Returns empty array for public tools (no permissions required)
-    []
+  # The tool to use when an admin or an agent is the user. A tool that fills verified values builds its Copilot version.
+  def for_copilot
+    self
   end
 
   private
@@ -41,7 +47,7 @@ class Captain::Tools::BasePublicTool < Agents::Tool
   end
 
   def stale_run?(tool_context)
-    return false if safe_to_run_after_new_customer_message?
+    return false if read_only?
 
     newer_customer_message_arrived?(tool_context.state)
   end
@@ -50,7 +56,7 @@ class Captain::Tools::BasePublicTool < Agents::Tool
   # discarded either way. Halting keeps the model from spending more tool calls on it.
   def halt_stale_run(guard, tool_context)
     log_run_guard('stale_run_halted', tool_context, guard)
-    guard.halt(Captain::Tools::RunGuard::STALE_RUN, failure_result(STALE_RUN_MESSAGE, tool_context.state))
+    guard.halt(Captain::Tools::RunGuard::STALE_RUN, failure_result(NEWER_MESSAGE_ARRIVED, tool_context.state))
   end
 
   def halt_exhausted_budget(guard, tool_context)
@@ -81,10 +87,6 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     return nil unless contact_id
 
     account_scoped(::Contact).find_by(id: contact_id)
-  end
-
-  def safe_to_run_after_new_customer_message?
-    false
   end
 
   def newer_customer_message_arrived?(state)

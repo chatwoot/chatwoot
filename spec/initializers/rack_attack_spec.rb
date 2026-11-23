@@ -79,6 +79,64 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'super_admin_login/ip' do
+    it 'counts password sign-ins by ip' do
+      env = form_env({ 'super_admin' => { 'email' => 'a@b.com', 'password' => 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to eq(ip)
+    end
+
+    it 'skips code submissions' do
+      env = form_env({ 'super_admin' => { 'otp_code' => '123456' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to be_nil
+    end
+
+    it 'counts a JSON sign-in with a null code as a password sign-in' do
+      env = json_env({ super_admin: { email: 'a@b.com', password: 'x', otp_code: nil } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/ip', env)).to eq(ip)
+    end
+  end
+
+  describe 'super_admin_mfa/ip' do
+    it 'counts code submissions by ip' do
+      env = form_env({ 'super_admin' => { 'otp_code' => '123456' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_mfa/ip', env)).to eq(ip)
+    end
+
+    it 'skips password sign-ins' do
+      env = form_env({ 'super_admin' => { 'email' => 'a@b.com', 'password' => 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_mfa/ip', env)).to be_nil
+    end
+  end
+
+  describe 'super_admin_login/email' do
+    def super_admin_env(params)
+      form_env(params, '/super_admin/sign_in')
+    end
+
+    it 'keys password sign-ins by the normalized super admin email' do
+      key = throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => { 'email' => ' Admin@Example.COM ', 'password' => 'x' } }))
+      expect(key).to eq('admin@example.com')
+    end
+
+    it 'keys JSON password sign-ins by the normalized super admin email' do
+      env = json_env({ super_admin: { email: ' Admin@Example.COM ', password: 'x' } }, '/super_admin/sign_in')
+      expect(throttle_key('super_admin_login/email', env)).to eq('admin@example.com')
+    end
+
+    it 'skips malformed JSON bodies without raising' do
+      env = build_env('/super_admin/sign_in', '{"super_admin": broken', 'application/json')
+      expect(throttle_key('super_admin_login/email', env)).to be_nil
+    end
+
+    it 'skips code submissions instead of sharing a blank key' do
+      expect(throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => { 'otp_code' => '123456' } }))).to be_nil
+    end
+
+    it 'skips a non-hash super_admin param' do
+      expect(throttle_key('super_admin_login/email', super_admin_env({ 'super_admin' => 'email' }))).to be_nil
+    end
+  end
+
   describe 'malformed query strings' do
     it 'falls back to the per-ip throttle instead of raising on an over-nested query' do
       env = build_env('/auth/sign_in', '{}', 'application/json')
@@ -139,6 +197,20 @@ describe 'Rack::Attack auth throttles' do
     it 'keys conversation meta by the bearer API token' do
       env = Rack::MockRequest.env_for('/api/v1/accounts/1/conversations/meta', 'HTTP_AUTHORIZATION' => 'Bearer api-token')
       expect(throttle_key('/api/v1/accounts/:account_id/conversations/meta/user', env)).to eq('api-token:1')
+    end
+
+    it 'keys the conversation list by the bearer API token' do
+      env = Rack::MockRequest.env_for('/api/v1/accounts/1/conversations?page=2', 'HTTP_AUTHORIZATION' => 'Bearer api-token')
+      expect(throttle_key('/api/v1/accounts/:account_id/conversations/user', env)).to eq('api-token:1')
+    end
+
+    it 'keeps other conversation routes and conversation creation out of the list throttle' do
+      name = '/api/v1/accounts/:account_id/conversations/user'
+      headers = { 'HTTP_AUTHORIZATION' => 'Bearer api-token' }
+      %w[/api/v1/accounts/1/conversations/meta /api/v1/accounts/1/conversations/5 /api/v1/accounts/1/contacts/5/conversations].each do |path|
+        expect(throttle_key(name, Rack::MockRequest.env_for(path, headers))).to be_nil
+      end
+      expect(throttle_key(name, Rack::MockRequest.env_for('/api/v1/accounts/1/conversations', headers.merge(method: 'POST')))).to be_nil
     end
 
     it 'gives the bearer token precedence over other identity headers' do

@@ -32,6 +32,10 @@ class WhatsappCallsAPI extends ApiClient {
     return axios.post(`${this.url}/${callId}/reject`).then(r => r.data);
   }
 
+  dismiss(callId) {
+    return axios.post(`${this.url}/${callId}/dismiss`);
+  }
+
   terminate(callId) {
     return axios.post(`${this.url}/${callId}/terminate`).then(r => r.data);
   }

@@ -9,6 +9,7 @@ import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
 import ContentTemplateSelector from './ContentTemplateSelector.vue';
 
@@ -230,6 +231,7 @@ useEventListener(document, 'paste', onPaste);
         :size="4096 * 4096"
         :accept="ALLOWED_FILE_TYPES"
         multiple
+        drop
         :drop-directory="false"
         :data="{
           direct_upload_url: '/rails/active_storage/direct_uploads',
@@ -273,6 +275,19 @@ useEventListener(document, 'paste', onPaste);
         :is-loading="isLoading"
         @click="emit('sendMessage')"
       />
+    </div>
+    <div
+      v-show="uploadAttachment?.dropActive"
+      class="fixed inset-0 z-20 flex p-0.5 rounded-xl bg-n-solid-1/70"
+    >
+      <div
+        class="flex flex-col items-center justify-center flex-1 gap-2 border-2 border-dashed rounded-lg border-n-brand/50 bg-n-brand/5"
+      >
+        <Icon icon="i-lucide-cloud-upload" class="size-8 text-n-brand" />
+        <h4 class="text-base font-medium">
+          {{ t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
+        </h4>
+      </div>
     </div>
   </div>
 </template>

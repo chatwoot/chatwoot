@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
@@ -42,7 +43,15 @@ const activeAssistantLabel = computed(() => {
           xs
           :class="{ 'bg-n-alpha-2': isOpen }"
           @click="toggle"
-        />
+        >
+          <template v-if="activeAssistant?.avatar_url" #icon>
+            <Avatar
+              :src="activeAssistant.avatar_url"
+              :name="activeAssistant.name"
+              :size="14"
+            />
+          </template>
+        </Button>
       </template>
       <DropdownBody class="bottom-9 min-w-64 z-50" strong>
         <DropdownSection class="[&>ul]:max-h-80">
@@ -55,9 +64,17 @@ const activeAssistantLabel = computed(() => {
             <template #label>
               <div class="flex gap-1 justify-between w-full">
                 <div class="items-start flex gap-1 flex-col">
-                  <span class="text-n-slate-12 text-sm">
-                    {{ assistant.name }}
-                  </span>
+                  <div class="flex items-center gap-1.5">
+                    <Avatar
+                      :src="assistant.avatar_url"
+                      :name="assistant.name"
+                      :size="14"
+                      icon-name="i-woot-captain"
+                    />
+                    <span class="text-n-slate-12 text-sm">
+                      {{ assistant.name }}
+                    </span>
+                  </div>
                   <span class="line-clamp-2 text-n-slate-11 text-xs">
                     {{ assistant.description }}
                   </span>

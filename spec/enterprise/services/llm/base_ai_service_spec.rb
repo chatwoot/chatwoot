@@ -12,26 +12,26 @@ RSpec.describe Llm::BaseAiService do
 
   describe '#initialize' do
     it 'uses the installation model when no feature is provided' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
 
-      expect(described_class.new.model).to eq('gpt-4.1-nano')
+      expect(described_class.new.model).to eq('gpt-5.1')
     end
 
     it 'uses the account override when feature context is provided' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
       account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
 
       expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.2')
     end
 
     it 'uses the installation model when feature context has no account override' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
 
-      expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-4.1-nano')
+      expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.1')
     end
 
     it 'uses the Captain V2 assistant default ahead of the installation model' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
       account.enable_features!('captain_integration')
 
       expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.2')
@@ -40,6 +40,30 @@ RSpec.describe Llm::BaseAiService do
 
     it 'uses the feature default when feature context has no account override or installation model' do
       expect(described_class.new(feature: 'assistant', account: account).model).to eq(Llm::Models.default_model_for('assistant'))
+    end
+
+    context 'with Copilot workflows and an installation model' do
+      before { create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-6-luna') }
+
+      it 'uses the Copilot workflows default ahead of the installation model on Cloud' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+
+        expect(described_class.new(feature: 'copilot_workflows', account: account).model).to eq('gpt-5.2')
+        expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-6-luna')
+      end
+
+      it 'uses the account override ahead of the Copilot workflows default on Cloud' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.update!(captain_models: { 'copilot_workflows' => 'gpt-5.1' })
+
+        expect(described_class.new(feature: 'copilot_workflows', account: account).model).to eq('gpt-5.1')
+      end
+
+      it 'keeps the installation model on self-hosted installs' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+
+        expect(described_class.new(feature: 'copilot_workflows', account: account).model).to eq('gpt-6-luna')
+      end
     end
   end
 
@@ -58,7 +82,7 @@ RSpec.describe Llm::BaseAiService do
 
     it 'retains the existing JSON format and protocol on custom endpoints' do
       InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
-      chat = described_class.new(feature: 'document_faq_generation', account: account).json_chat(model: 'gpt-4.1')
+      chat = described_class.new(feature: 'document_faq_generation', account: account).json_chat(model: 'gpt-6-luna')
       chat.add_message(role: :user, content: 'Generate JSON FAQs.')
 
       expect(chat.render).to include(messages: an_instance_of(Array), response_format: { type: 'json_object' })
@@ -94,23 +118,22 @@ RSpec.describe Llm::BaseAiService do
   end
 
   describe '#chat' do
-    %w[gpt-5.1 gpt-5.2].each do |model|
-      it "omits temperature for #{model} when the model registry marks it unsupported" do
-        llm_chat = instance_double(RubyLLM::Chat)
-        allow(RubyLLM).to receive(:chat).with(model: model, protocol: :responses).and_return(llm_chat)
+    it 'omits temperature when the model registry marks it unsupported' do
+      llm_chat = instance_double(RubyLLM::Chat)
+      allow(RubyLLM).to receive(:chat).with(model: 'gpt-6.1-sol', protocol: :responses).and_return(llm_chat)
 
-        expect(llm_chat).not_to receive(:with_temperature)
-        expect(service.chat(model: model)).to eq(llm_chat)
-      end
+      expect(llm_chat).not_to receive(:with_temperature)
+      expect(service.chat(model: 'gpt-6.1-sol')).to eq(llm_chat)
     end
 
     it 'sets temperature when the model registry marks it supported' do
       llm_chat = instance_double(RubyLLM::Chat)
       configured_chat = instance_double(RubyLLM::Chat)
-      allow(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini', protocol: :responses).and_return(llm_chat)
+      allow(RubyLLM).to receive(:chat).with(model: 'gpt-6-luna', protocol: :responses).and_return(llm_chat)
+      allow(llm_chat).to receive(:with_thinking).with(effort: :none).and_return(llm_chat)
       allow(llm_chat).to receive(:with_temperature).with(0.7).and_return(configured_chat)
 
-      expect(service.chat(model: 'gpt-4.1-mini', temperature: 0.7)).to eq(configured_chat)
+      expect(service.chat(model: 'gpt-6-luna', temperature: 0.7)).to eq(configured_chat)
     end
   end
 end

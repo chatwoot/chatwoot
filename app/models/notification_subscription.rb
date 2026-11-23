@@ -26,5 +26,5 @@ class NotificationSubscription < ApplicationRecord
     apns_voip: 3
   }.freeze
 
-  enum subscription_type: SUBSCRIPTION_TYPES
+  enum :subscription_type, SUBSCRIPTION_TYPES
 end

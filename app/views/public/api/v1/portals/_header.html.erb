@@ -3,7 +3,7 @@
     <div class="flex items-center w-full py-5 overflow-hidden">
       <a href="<%= generate_home_link(@portal.slug, @locale, @theme_from_params, false) %>" class="flex items-center min-w-0 h-10">
         <% if @portal.logo.present? %>
-          <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 ltr:mr-2 rtl:ml-2" draggable="false" />
+          <%= render 'public/api/v1/portals/logo', portal: @portal, css_class: 'w-auto h-10 ltr:mr-2 rtl:ml-2' %>
         <% end %>
         <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden lg:block' : 'hidden sm:block' %>"><%= @portal.localized_value('name', @locale) %></span>
       </a>
@@ -104,7 +104,7 @@
     <div class="flex items-center justify-between w-full py-5">
       <a href="<%= generate_home_link(@portal.slug, @locale, @theme_from_params, false) %>" class="flex items-center min-w-0 h-10 text-lg font-semibold text-slate-900 dark:text-white">
         <% if @portal.logo.present? %>
-          <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 ltr:mr-2 rtl:ml-2" draggable="false" />
+          <%= render 'public/api/v1/portals/logo', portal: @portal, css_class: 'w-auto h-10 ltr:mr-2 rtl:ml-2' %>
         <% end %>
          <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden' : 'sm:hidden block' %>"><%= @portal.localized_value('name', @locale) %></span>
       </a>

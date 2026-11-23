@@ -27,7 +27,7 @@ class CaptainScriptedLlmProvider
   def connection = nil
   def slug = 'captain_scripted'
   def name = self.class.name
-  def preprocess_message(message, **) = message
+  def preprocess_messages(messages, **) = messages
 
   def complete(*_args, **_kwargs)
     @completions += 1

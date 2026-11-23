@@ -21,6 +21,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
     allow(Captain::Tools::SimplePageCrawlService).to receive(:new).and_return(mock_crawler)
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_thinking).and_return(mock_chat)
     allow(mock_chat).to receive(:with_provider_options).and_return(mock_chat)
     allow(mock_chat).to receive(:add_message).with(role: :user, content: 'Respond with valid JSON.')
     allow(mock_chat).to receive(:with_max_output_tokens).and_return(mock_chat)
@@ -60,9 +61,9 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
         service.analyze
       end
 
-      context 'when GPT-5 Mini is configured' do
+      context 'when a model without temperature support is configured' do
         before do
-          InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5-mini')
+          InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-6.1-sol')
         end
 
         it 'omits temperature' do

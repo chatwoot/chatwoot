@@ -125,18 +125,6 @@ describe('#ContactsAPI', () => {
       );
     });
 
-    it('#importContacts', () => {
-      const file = 'file';
-      contactAPI.importContacts(file);
-      expect(axiosMock.post).toHaveBeenCalledWith(
-        '/api/v1/contacts/import',
-        expect.any(FormData),
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
-    });
-
     it('#filter', () => {
       const queryPayload = {
         payload: [

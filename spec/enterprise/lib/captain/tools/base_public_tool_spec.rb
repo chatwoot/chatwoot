@@ -67,7 +67,7 @@ RSpec.describe Captain::Tools::BasePublicTool do
         result = tool.execute(tool_context, label_name: 'sales')
 
         expect(tool).not_to have_received(:perform)
-        expect(result).to eq(Captain::Tools::BasePublicTool::STALE_RUN_MESSAGE)
+        expect(result).to eq(Captain::Tools::BasePublicTool::NEWER_MESSAGE_ARRIVED)
         expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::STALE_RUN)
       end
 

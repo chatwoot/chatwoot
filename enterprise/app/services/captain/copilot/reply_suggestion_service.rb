@@ -85,11 +85,19 @@ class Captain::Copilot::ReplySuggestionService
     @copilot_thread.with_lock do
       existing_message = @copilot_thread.copilot_messages.assistant.first
       return response_from(existing_message) if existing_message
+      return discard_stopped_request if @copilot_thread.copilot_messages.user.first.message['status'] == 'stopped'
       return create_failure_response unless conversation_accessible?(conversation)
       return create_discarded_response if latest_public_message(conversation)&.id != target_message.id
 
       create_reply_suggestion(response, content)
     end
+  end
+
+  # A reply suggestion has no turn, so Stop marks the agent's request instead. A stopped suggestion is dropped without a
+  # message or a credit, the same as the answer of a stopped turn.
+  def discard_stopped_request
+    @discarded = true
+    { 'discarded' => true }
   end
 
   def create_reply_suggestion(response, content)
@@ -131,7 +139,7 @@ class Captain::Copilot::ReplySuggestionService
     response = failure_response
     @copilot_thread.copilot_messages.create!(
       message_type: :assistant,
-      message: { content: response['response'] }
+      message: { content: response['response'], status: 'failed' }
     )
 
     response

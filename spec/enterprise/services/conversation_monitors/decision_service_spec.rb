@@ -14,7 +14,7 @@ RSpec.describe ConversationMonitors::DecisionService do
   end
   let(:endpoint) { "#{ConversationMonitors::Configuration::ENDPOINT}/v1/systemone" }
   let(:response_body) do
-    { id: 'gen-test', model: 'typesafe/jev-1.13-20260917', provider: 'TypeSafe',
+    { id: 'gen-test', model: 'typesafe/jev-1.14-20261014', provider: 'TypeSafe',
       answers: { monitor.id.to_s => { type: 'noul', noul: 0.9 } }, usage: { input_tokens: 100, output_tokens: 10, cost: 0.00003 } }
   end
 
@@ -61,14 +61,14 @@ RSpec.describe ConversationMonitors::DecisionService do
 
     expect(WebMock).to have_requested(:post, endpoint).with { |request|
       body = JSON.parse(request.body)
-      body['model'] == 'typesafe/jev-1.13' && body['state'] == state.as_json &&
+      body['model'] == 'typesafe/jev-1.14' && body['state'] == state.as_json &&
         body['questions'][monitor.id.to_s]['type'] == 'noul' &&
         body['questions'][monitor.id.to_s].dig('instructions', 'condition') == monitor.condition
     }.once
-    expect(result).to include('model' => 'typesafe/jev-1.13-20260917', 'provider' => 'TypeSafe')
+    expect(result).to include('model' => 'typesafe/jev-1.14-20261014', 'provider' => 'TypeSafe')
     expect(described_class.score(result['answers'][monitor.id.to_s])).to eq(0.9)
     expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
-    expect(ConversationMonitors::Configuration.model).to eq('typesafe/jev-1.13')
+    expect(ConversationMonitors::Configuration.model).to eq('typesafe/jev-1.14')
   end
 
   it 'records the provider call as a Jev generation when Langfuse is enabled' do
@@ -82,18 +82,20 @@ RSpec.describe ConversationMonitors::DecisionService do
 
     expect(result).to eq(response_body.deep_stringify_keys)
     expect(tracer).to have_received(:in_span).with('llm.jev.conversation_monitors', kind: :client)
-    expect(span).to have_received(:set_attribute).with('langfuse.observation.input', a_string_including('"model":"typesafe/jev-1.13"'))
+    expect(span).to have_received(:set_attribute).with('langfuse.observation.input', a_string_including('"model":"typesafe/jev-1.14"'))
     expect(span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 100)
     expect(WebMock).to have_requested(:post, endpoint).once
   end
 
-  it 'translates existing monitor model IDs without changing their definition or historical results' do
-    legacy_monitor = create(:conversation_monitor, account: account, model: 'jev-1.13.0')
+  %w[jev-1.13.0 typesafe/jev-1.13].each do |model|
+    it "upgrades existing #{model} monitors without changing their stored definition" do
+      legacy_monitor = create(:conversation_monitor, account: account, model: model)
 
-    client.evaluate(state: state, monitors: [legacy_monitor])
+      client.evaluate(state: state, monitors: [legacy_monitor])
 
-    expect(WebMock).to have_requested(:post, endpoint).with { |request| JSON.parse(request.body)['model'] == 'typesafe/jev-1.13' }.once
-    expect(legacy_monitor.reload.model).to eq('jev-1.13.0')
+      expect(WebMock).to have_requested(:post, endpoint).with { |request| JSON.parse(request.body)['model'] == 'typesafe/jev-1.14' }.once
+      expect(legacy_monitor.reload.model).to eq(model)
+    end
   end
 
   it 'reads changed credentials and endpoint from installation settings for subsequent calls' do

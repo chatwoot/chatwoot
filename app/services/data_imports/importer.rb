@@ -13,9 +13,14 @@ class DataImports::Importer
   HEARTBEAT_INTERVAL = 1.minute
   QUERY_TIMEOUT_RETRY_LIMIT = 1
   QUERY_TIMEOUT_RETRY_DELAY_RANGE = (0.2..0.5)
+  CONNECTION_ERRORS = [ActiveRecord::ConnectionNotEstablished, ActiveRecord::ConnectionFailed].freeze
+  HTML_PARSE_LIMIT_ERRORS = ['Document tree depth limit exceeded', 'Attributes per element limit exceeded'].freeze
+  WRITABLE_MESSAGE_CLASSIFICATIONS = %i[repairable_stale_mapping existing_message new_message].freeze
   MESSAGE_MAPPING_UNIQUE_INDEX = :idx_data_import_mappings_on_account_and_source
   E164_REGEX = /\A\+[1-9]\d{1,14}\z/
   PHONE_WITHOUT_PLUS_REGEX = /\A[1-9]\d{1,14}\z/
+
+  PreparedMessage = Struct.new(:content, :attributes, :error, keyword_init: true)
 
   MessageBatchResult = Struct.new(
     :imported_entries,
@@ -30,6 +35,7 @@ class DataImports::Importer
   def initialize(data_import:, run_id: nil, source: nil)
     @data_import = data_import
     @run_id = run_id
+    @run_state = DataImports::RunState.new(data_import, run_id)
     @account = data_import.account
     @source = source || DataImports::Source.for(data_import)
     @placeholder_inboxes = @source.placeholder_inbox_builder(account: @account)
@@ -45,21 +51,19 @@ class DataImports::Importer
     import_contacts if import_type?('contacts')
     import_conversations if import_type?('conversations')
     finish!
+  rescue *CONNECTION_ERRORS
+    raise
   rescue StandardError => e
     fail!(e)
     raise
   end
 
   def start!
-    return if @data_import.reload.abandoned?
-
-    @data_import.update!(status: :processing, started_at: @data_import.started_at || Time.current)
+    @run_state.start!
   end
 
   def finish!
-    @data_import.with_lock do
-      next if @data_import.abandoned? || stale_import_run?
-
+    @run_state.with_lock do
       error_count = @data_import.import_errors.non_skip_logs.count + @data_import.import_errors.failed.count
       @stats['errors']['count'] = error_count
       status = error_count.positive? ? :completed_with_errors : :completed
@@ -74,9 +78,7 @@ class DataImports::Importer
   end
 
   def fail!(error)
-    @data_import.with_lock do
-      next if @data_import.abandoned? || stale_import_run?
-
+    @run_state.with_lock do
       record_run_error(error)
       @data_import.update!(status: :failed, last_error_at: Time.current)
     end
@@ -165,12 +167,15 @@ class DataImports::Importer
     with_import_item_lock(item, already_handled: already_handled) do |locked_item, item_already_handled|
       import_conversation_item(locked_item, conversation_summary, conversation, source_id, item_already_handled)
     end
+  rescue *CONNECTION_ERRORS
+    connection_failed = true
+    raise
   rescue StandardError => e
     raise if @source.client_error?(e)
 
     fail_item(item, e)
   ensure
-    persist_stats unless @import_stopped
+    persist_stats unless @import_stopped || connection_failed
   end
 
   def import_conversation_item(item, conversation_summary, conversation, source_id, already_handled)
@@ -243,13 +248,16 @@ class DataImports::Importer
         import_contact_item(locked_item, contact_payload, source_id, item_already_handled)
       end
     end
+  rescue *CONNECTION_ERRORS
+    connection_failed = true
+    raise
   rescue StandardError => e
     raise if @source.client_error?(e)
 
     fail_item(item, e)
     raise if required_for_conversation
   ensure
-    persist_stats
+    persist_stats unless connection_failed
   end
 
   def import_contact_item(item, contact_payload, source_id, already_handled)
@@ -432,6 +440,7 @@ class DataImports::Importer
       reconcile_bulk_message_entry(conversation, entry) do
         reconcile_current_run_message_mapping(conversation, entry.mapping, entry.part)
       end
+      reindex_message_for_search(entry.message) if entry.message
     end
     result.previous_entries.each do |entry|
       reconcile_bulk_message_entry(conversation, entry) do
@@ -444,12 +453,16 @@ class DataImports::Importer
     Array(result.failed_entries).each { |entry, error| fail_message(conversation, entry.source_id, entry.part, error) }
     increment_stat('messages', 'imported', result.imported_entries.size)
     result.messages.each { |message| reindex_message_for_search(message) }
+  ensure
+    entries.each { |entry| entry.prepared_message = nil }
   end
 
   def bulk_message_batch_result(conversation, contact, batch_builder, entries)
     with_query_timeout_retry do
       bulk_write_message_entries(conversation, contact, batch_builder, entries)
     end
+  rescue *CONNECTION_ERRORS
+    raise
   rescue ActiveRecord::ActiveRecordError
     fallback_message_entries(conversation, contact, batch_builder, entries) unless @import_stopped
     nil
@@ -466,29 +479,50 @@ class DataImports::Importer
 
   def fallback_message_entry(conversation, contact, batch_builder, entry)
     with_query_timeout_retry do
-      @data_import.with_lock do
-        if inactive_import_run?
-          @import_stopped = true
-          next
-        end
-
-        refreshed_entry = batch_builder.refresh([entry]).entries.first
-        import_message(conversation, contact, refreshed_entry, reindex: false)
+      with_prepared_message_entries(conversation, contact, batch_builder, [entry]) do |refreshed_entries|
+        import_message(conversation, contact, refreshed_entries.first, reindex: false)
       end
     end
+  rescue *CONNECTION_ERRORS
+    raise
   rescue ActiveRecord::ActiveRecordError => e
     fail_message(conversation, entry.source_id, entry.part, e)
   end
 
   def bulk_write_message_entries(conversation, contact, batch_builder, entries)
-    @data_import.with_lock do
-      if inactive_import_run?
-        @import_stopped = true
-        next
-      end
+    with_prepared_message_entries(conversation, contact, batch_builder, entries) do |refreshed_entries|
+      persist_message_entries(conversation, refreshed_entries)
+    end
+  end
 
-      refreshed_entries = batch_builder.refresh(entries).entries
-      persist_message_entries(conversation, contact, refreshed_entries)
+  def with_prepared_message_entries(conversation, contact, batch_builder, entries)
+    loop do
+      prepare_message_entries(conversation, contact, entries)
+      needs_preparation = false
+      result = @data_import.with_lock do
+        if inactive_import_run?
+          @import_stopped = true
+          next
+        end
+
+        refreshed_entries = batch_builder.refresh(entries).entries
+        needs_preparation = refreshed_entries.any? do |entry|
+          WRITABLE_MESSAGE_CLASSIFICATIONS.include?(entry.classification) && entry.prepared_message.nil?
+        end
+        if needs_preparation
+          # A mapped message was deleted during preparation. Release the row lock
+          # before preparing its replacement, then refresh mappings again.
+          entries.zip(refreshed_entries).each do |entry, refreshed|
+            entry.mapping = refreshed.mapping
+            entry.message = refreshed.message
+            entry.classification = refreshed.classification
+          end
+          next
+        end
+
+        yield refreshed_entries
+      end
+      return result unless needs_preparation
     end
   end
 
@@ -497,27 +531,28 @@ class DataImports::Importer
       @data_import.completed_with_errors? || stale_import_run?
   end
 
-  def persist_message_entries(conversation, contact, entries)
-    grouped_entries = entries.group_by(&:classification)
-    writable_entries = entries.select do |entry|
-      %i[repairable_stale_mapping existing_message new_message].include?(entry.classification)
-    end
-    content_by_source_id = {}
-    attributes_by_source_id = {}
-    failed_entries = []
-    writable_entries.select! do |entry|
+  def prepare_message_entries(conversation, contact, entries)
+    entries.each do |entry|
+      next unless WRITABLE_MESSAGE_CLASSIFICATIONS.include?(entry.classification)
+      next if entry.prepared_message
+
       validate_message_payload!(entry.part)
       content = content_for(entry.part)
-      content_by_source_id[entry.source_id] = content
-      if content.present? && entry.message.blank?
-        attributes_by_source_id[entry.source_id] = message_attributes(conversation, contact, entry.part, entry.source_id, content)
-      end
-      true
+      attributes = message_attributes(conversation, contact, entry.part, entry.source_id, content) if content.present?
+      entry.prepared_message = PreparedMessage.new(content: content, attributes: attributes)
     rescue InvalidMessagePayloadError => e
-      failed_entries << [entry, e]
-      false
+      entry.prepared_message = PreparedMessage.new(error: e)
     end
-    skipped_entries, imported_entries = writable_entries.partition { |entry| content_by_source_id[entry.source_id].blank? }
+  end
+
+  def persist_message_entries(conversation, entries)
+    grouped_entries = entries.group_by(&:classification)
+    writable_entries = entries.select do |entry|
+      WRITABLE_MESSAGE_CLASSIFICATIONS.include?(entry.classification)
+    end
+    failed_entries, writable_entries = writable_entries.partition { |entry| entry.prepared_message.error }
+    skipped_entries, imported_entries = writable_entries.partition { |entry| entry.prepared_message.content.blank? }
+    attributes_by_source_id = imported_entries.to_h { |entry| [entry.source_id, entry.prepared_message.attributes] }
     messages = insert_messages(imported_entries, attributes_by_source_id)
     upsert_message_mappings(conversation, imported_entries, skipped_entries, messages)
 
@@ -527,7 +562,7 @@ class DataImports::Importer
       current_entries: grouped_entries.fetch(:current_import, []),
       previous_entries: grouped_entries.fetch(:previous_import, []),
       messages: messages,
-      failed_entries: failed_entries
+      failed_entries: failed_entries.map { |entry| [entry, entry.prepared_message.error] }
     )
   end
 
@@ -622,6 +657,8 @@ class DataImports::Importer
 
   def reconcile_bulk_message_entry(conversation, entry, &)
     with_query_timeout_retry(&)
+  rescue *CONNECTION_ERRORS
+    raise
   rescue StandardError => e
     fail_message(conversation, entry.source_id, entry.part, e)
   end
@@ -642,27 +679,27 @@ class DataImports::Importer
   end
 
   def import_unprepared_message(conversation, contact, batch_builder, source_entry)
-    with_query_timeout_retry do
-      @data_import.with_lock do
-        if inactive_import_run?
-          @import_stopped = true
-          next
-        end
-
-        entry = batch_builder.perform([source_entry]).entries.first
-        import_message(conversation, contact, entry)
+    message = with_query_timeout_retry do
+      entry = batch_builder.perform([source_entry]).entries.first
+      with_prepared_message_entries(conversation, contact, batch_builder, [entry]) do |refreshed_entries|
+        import_message(conversation, contact, refreshed_entries.first, reindex: false)
       end
     end
+    reindex_message_for_search(message) if message.is_a?(Message)
+  rescue *CONNECTION_ERRORS
+    raise
   rescue StandardError => e
     fail_message(conversation, source_entry[:source_id], source_entry[:part], e)
   end
 
   def import_message(conversation, contact, entry, reindex: true)
+    prepare_message_entries(conversation, contact, [entry])
     message = with_query_timeout_retry do
       Message.transaction(requires_new: true) do
         case entry.classification
         when :current_import
           reconcile_current_run_message_mapping(conversation, entry.mapping, entry.part)
+          entry.message
         when :previous_import
           skip_existing_message_mapping(conversation, entry.mapping, entry.part)
         when :repairable_stale_mapping, :existing_message, :new_message
@@ -674,19 +711,21 @@ class DataImports::Importer
     end
     reindex_message_for_search(message) if reindex && message.is_a?(Message)
     message
+  rescue *CONNECTION_ERRORS
+    raise
   rescue StandardError => e
     fail_message(conversation, entry.source_id, entry.part, e)
   end
 
-  def create_message(conversation, contact, entry)
-    validate_message_payload!(entry.part)
-    content = content_for(entry.part)
-    return record_skipped_message(conversation, entry) if content.blank?
+  def create_message(conversation, _contact, entry)
+    prepared = entry.prepared_message
+    raise prepared.error if prepared.error
 
-    attrs = message_attributes(conversation, contact, entry.part, entry.source_id, content)
+    return record_skipped_message(conversation, entry) if prepared.content.blank?
+
     message = entry.message
     unless message
-      result = Message.insert_all!([attrs], returning: %w[id])
+      result = Message.insert_all!([prepared.attributes], returning: %w[id])
       message = Message.find(result.rows.first.first)
     end
     record_message_mapping(entry, message)
@@ -784,8 +823,8 @@ class DataImports::Importer
   end
 
   def message_content(part)
-    body = sanitized_text(part['body'])
-    subject = sanitized_text(part['subject'])
+    body = message_text(part['body'], part['body_format'])
+    subject = message_text(part['subject'], part['subject_format'])
     attachments = Array(part['attachments'])
     content = [subject, body].reject(&:blank?).join("\n\n")
     return content if attachments.blank?
@@ -795,6 +834,14 @@ class DataImports::Importer
 
   def sanitized_text(value)
     Rails::HTML5::FullSanitizer.new.sanitize(value.to_s).squish
+  rescue ArgumentError => e
+    raise unless HTML_PARSE_LIMIT_ERRORS.include?(e.message)
+
+    raise InvalidMessagePayloadError, e.message
+  end
+
+  def message_text(value, format)
+    format == 'text' ? value.to_s.squish : sanitized_text(value)
   end
 
   def update_conversation_activity(conversation)
@@ -888,12 +935,17 @@ class DataImports::Importer
   def with_import_item_lock(item, already_handled:)
     ApplicationRecord.connection_pool.with_connection do |connection|
       lock_id = -item.id
-      connection.execute("SELECT pg_advisory_lock(#{lock_id})")
       begin
+        connection.execute("SELECT pg_advisory_lock(#{lock_id})")
         item.reload
         yield item, already_handled || item.imported? || item.skipped?
+      rescue *CONNECTION_ERRORS
+        connection_failed = true
+        # Closing the session also releases any advisory locks it acquired.
+        connection.disconnect!
+        raise
       ensure
-        connection.execute("SELECT pg_advisory_unlock(#{lock_id})")
+        connection.execute("SELECT pg_advisory_unlock(#{lock_id})") unless connection_failed
       end
     end
   end

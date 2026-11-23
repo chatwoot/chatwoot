@@ -55,6 +55,7 @@ module Redis::RedisKeys
   # SSO Auth Tokens
   USER_SSO_AUTH_TOKEN = 'USER_SSO_AUTH_TOKEN::%<user_id>d::%<token>s'.freeze
   USER_SSO_IMPERSONATOR = 'USER_SSO_IMPERSONATOR::%<user_id>d::%<token>s'.freeze
+  SUPER_ADMIN_MFA_FAILED_ATTEMPTS = 'SUPER_ADMIN_MFA_FAILED_ATTEMPTS::%<user_id>d'.freeze
 
   ## Online Status Keys
   # hash containing user_id key and status as value
@@ -88,6 +89,7 @@ module Redis::RedisKeys
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
   WHATSAPP_MESSAGE_MUTEX = 'WHATSAPP_MESSAGE_CREATE_LOCK::%<inbox_id>s::%<sender_id>s'.freeze
+  WHATSAPP_CAMPAIGN_MUTEX = 'WHATSAPP_CAMPAIGN_LOCK::%<campaign_id>s'.freeze
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
   CAPTAIN_DOCUMENT_SYNC_MUTEX = 'CAPTAIN_DOCUMENT_SYNC_LOCK::%<document_id>s'.freeze
   CAPTAIN_CONVERSATION_FAQ_MUTEX = 'CAPTAIN_CONVERSATION_FAQ_LOCK::%<assistant_id>s::%<language>s'.freeze
@@ -124,4 +126,8 @@ module Redis::RedisKeys
   CAPTAIN_EMAIL_VERIFICATION_EMAIL_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::EMAIL_SENDS::%<email_digest>s'.freeze
   # Email address verified in the conversation
   CAPTAIN_EMAIL_VERIFICATION_VERIFIED = 'CAPTAIN::EMAIL_VERIFICATION::VERIFIED::%<conversation_id>d'.freeze
+
+  ## Captain MCP servers
+  # MCP server an OAuth sign-in started for, keyed by the OAuth state, so the callback finds the server
+  CAPTAIN_MCP_OAUTH_STATE = 'CAPTAIN::MCP::OAUTH_STATE::%<state>s'.freeze
 end

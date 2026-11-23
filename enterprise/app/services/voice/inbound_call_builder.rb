@@ -7,15 +7,38 @@ class Voice::InboundCallBuilder
     new(inbox: inbox, call_sid: call_sid, caller: caller, provider: provider, extra_meta: extra_meta).perform!
   end
 
-  # Queues the ring of a call that recorded who it rings and has no outcome for that ring
-  # yet: when the call is created, and again when a retried inbound event finds it, as when
-  # queueing the first job failed or its worker stopped. A ring still under way makes the
-  # extra job wait for it.
+  def self.queue_ring_jobs(call)
+    queue_ring(call)
+    widen_ring_in_steps(call)
+    end_unanswered_in_time(call)
+    call
+  end
+
   def self.queue_ring(call)
     return unless call.ringing? && call.ring_state.key?('ring_recipient_ids') && !call.ring_state.key?('unreached_user_ids')
+    return if call.ring_state['rings_phones'] == false
 
     ActiveRecord.after_all_transactions_commit { Voice::VoipPushJob.perform_later(call.id, 'ring') }
   end
+
+  # A call widens its ring every step; see Voice::RingNextAgentJob
+  def self.widen_ring_in_steps(call)
+    return unless call.ringing?
+
+    ActiveRecord.after_all_transactions_commit do
+      Voice::RingNextAgentJob.set(wait: call.inbox.channel.ring_step_seconds.seconds).perform_later(call.id, call.ring_step)
+    end
+  end
+
+  # The caller hears the missed-call message once the inbox's ring time is up; a call answered or
+  # ended before then is left alone. See Voice::RingingTimeoutService.
+  def self.end_unanswered_in_time(call)
+    return unless call.twilio? && call.ringing?
+
+    ends_at = call.created_at + call.inbox.channel.unanswered_call_timeout_seconds.seconds
+    ActiveRecord.after_all_transactions_commit { Voice::EndUnansweredCallJob.set(wait_until: ends_at).perform_later(call.id) }
+  end
+  private_class_method :queue_ring, :widen_ring_in_steps, :end_unanswered_in_time
 
   def initialize(inbox:, call_sid:, caller:, provider: :twilio, extra_meta: {})
     @inbox = inbox
@@ -28,19 +51,18 @@ class Voice::InboundCallBuilder
 
   def perform!
     existing = find_existing_call
-    # A retry of the inbound event queues the ring again if the call recorded who it rings
-    # but its ring never went out
-    return existing.tap { |call| self.class.queue_ring(call) } if existing
+    return self.class.queue_ring_jobs(existing) if existing
 
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
       contact = contact_inbox.contact
       conversation = resolve_conversation!(contact, contact_inbox)
       created = create_call!(contact, conversation)
+      # Recorded before the message, which names the agents a Twilio call rings as it is created
+      record_ring_audience(created) unless created.terminal?
       message = Voice::CallMessageBuilder.new(created).perform!
       created.update!(message_id: message.id)
-      record_ring_audience(created)
-      ring_phones(created)
+      self.class.queue_ring_jobs(created) unless created.terminal?
       created
     end
   rescue ActiveRecord::RecordNotUnique
@@ -54,21 +76,15 @@ class Voice::InboundCallBuilder
     inbox.account
   end
 
-  # Phones without a live socket learn about the call through a push. The agents rung are
-  # recorded in the transaction that creates the call, so the push and a missed-call notice
-  # go to the same agents even when the conversation is reassigned before the job runs, and
-  # a call the caller ends as soon as it is visible still has them.
+  # The agents rung are recorded in the transaction that creates the call, so the web's
+  # ringing card, the push and a missed-call notice go to the same agents even when the
+  # conversation is reassigned before the job runs, and a call the caller ends as soon as it
+  # is visible still has them.
   def record_ring_audience(call)
-    return unless account.feature_enabled?('channel_voice') && account.feature_enabled?('mobile_voice_push')
-
-    recipient_ids = Voice::VoipPushService.recipients_for(call).map(&:id)
-    call.update_columns(ring_state: call.ring_state.merge('ring_recipient_ids' => recipient_ids)) # rubocop:disable Rails/SkipsModelValidations
+    rings_phones = account.feature_enabled?('channel_voice') && account.feature_enabled?('mobile_voice_push')
+    state = { 'ring_recipient_ids' => Voice::VoipPushService.recipients_for(call).map(&:id), 'rings_phones' => rings_phones }
+    call.update_columns(ring_state: call.ring_state.merge(state)) # rubocop:disable Rails/SkipsModelValidations
   end
-
-  # Registered in the transaction that records the audience, so the job is queued with it.
-  # The job runs once the call row is visible to the worker, which otherwise finds nothing
-  # to ring for.
-  def ring_phones(call) = self.class.queue_ring(call)
 
   def find_existing_call
     Call.where(account_id: account.id, inbox_id: inbox.id)
@@ -94,12 +110,10 @@ class Voice::InboundCallBuilder
     reusable = reusable_conversation(contact_inbox)
     return reusable if reusable
 
-    account.conversations.create!(
-      contact_inbox_id: contact_inbox.id,
-      inbox_id: inbox.id,
-      contact_id: contact.id,
-      status: :open
-    )
+    conversation = account.conversations.new(contact_inbox_id: contact_inbox.id, inbox_id: inbox.id, contact_id: contact.id, status: :open)
+    conversation.call_ringing = announced_end_reason(conversation).nil?
+    conversation.save!
+    conversation
   end
 
   # Scoped to the resolved ContactInbox, never to the contact. A dashboard merge leaves unrelated
@@ -125,12 +139,34 @@ class Voice::InboundCallBuilder
       contact: contact,
       provider: provider,
       direction: :incoming,
-      status: 'ringing',
       provider_call_id: call_sid,
-      meta: { 'initiated_at' => Time.zone.now.to_i }.merge(extra_meta.stringify_keys)
+      **initial_state(conversation)
     )
     # `conference_sid` is a Twilio bridging concept; WhatsApp goes browser↔Meta.
     call.update!(conference_sid: call.default_conference_sid) if call.twilio?
     call
+  end
+
+  def initial_state(conversation)
+    now = Time.zone.now.to_i
+    meta = { 'initiated_at' => now }.merge(extra_meta.stringify_keys)
+    end_reason = announced_end_reason(conversation)
+    return { status: 'ringing', meta: meta } unless end_reason
+
+    { status: 'no_answer', end_reason: end_reason, meta: meta.merge('ended_at' => now) }
+  end
+
+  # A call ends as it starts when the inbox is closed for calls, and a Twilio call also when nobody
+  # who could answer is online. One whose agents are all busy waits.
+  # Read once, so a call that crosses a working-hours boundary or an agent's status change is not
+  # held for a ring it never gets.
+  def announced_end_reason(conversation)
+    return @announced_end_reason if defined?(@announced_end_reason)
+
+    @announced_end_reason = if inbox.closed_for_calls?
+                              Call::OUTSIDE_WORKING_HOURS
+                            elsif provider == :twilio && Voice::RingRecipients.new(inbox: inbox, conversation: conversation).nobody_online?
+                              Call::NO_AGENTS_AVAILABLE
+                            end
   end
 end

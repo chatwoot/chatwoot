@@ -82,9 +82,9 @@ module Api::V1::Accounts::Concerns::InboxHealthManagement
   end
 
   def validate_health_supported_channel
-    return if whatsapp_cloud_channel? || twilio_sms_channel?
+    return if whatsapp_cloud_channel? || twilio_channel?
 
-    render json: { error: 'Health data only available for WhatsApp Cloud API and Twilio SMS channels' }, status: :bad_request
+    render json: { error: 'Health data only available for WhatsApp Cloud API and Twilio channels' }, status: :bad_request
   end
 
   def whatsapp_channel
@@ -98,8 +98,8 @@ module Api::V1::Accounts::Concerns::InboxHealthManagement
     @inbox.channel.is_a?(Channel::Whatsapp) && @inbox.channel.provider == 'whatsapp_cloud'
   end
 
-  def twilio_sms_channel?
-    @inbox.channel.is_a?(Channel::TwilioSms) && @inbox.channel.sms?
+  def twilio_channel?
+    @inbox.channel.is_a?(Channel::TwilioSms)
   end
 
   def whatsapp_channel?

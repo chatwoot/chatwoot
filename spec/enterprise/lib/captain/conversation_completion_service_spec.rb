@@ -13,6 +13,7 @@ RSpec.describe Captain::ConversationCompletionService do
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:with_schema).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_thinking).and_return(mock_chat)
     allow(mock_chat).to receive(:with_model).and_return(mock_chat)
     allow(account).to receive(:feature_enabled?).and_call_original
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
@@ -23,7 +24,7 @@ RSpec.describe Captain::ConversationCompletionService do
     let(:context) { RubyLLM.context { |config| config.openai_api_key = 'test-key' } }
     let(:messages) { [{ role: 'system', content: 'Evaluate the conversation.' }, { role: 'user', content: 'Customer: Thanks!' }] }
 
-    %w[gpt-4.1 gpt-5.2].each do |model|
+    %w[gpt-5.1 gpt-5.2].each do |model|
       it "renders a Responses schema request for #{model} without specifying effort" do
         chat = service.send(:build_chat, context, model: model, messages: messages, schema: described_class::RESPONSE_SCHEMA)
         chat.add_message(role: :user, content: messages.last[:content])
@@ -40,19 +41,19 @@ RSpec.describe Captain::ConversationCompletionService do
     it 'retains Chat Completions for a custom OpenAI endpoint' do
       InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
       context.config.openai_protocol = :chat_completions
-      chat = service.send(:build_chat, context, model: 'gpt-4.1', messages: messages, schema: described_class::RESPONSE_SCHEMA)
+      chat = service.send(:build_chat, context, model: 'gpt-6-luna', messages: messages, schema: described_class::RESPONSE_SCHEMA)
       chat.add_message(role: :user, content: messages.last[:content])
 
       expect(chat.render).to include(messages: an_instance_of(Array), response_format: include(type: 'json_schema'))
       expect(chat.render).not_to have_key(:input)
-      expect(service.send(:build_instrumentation_params, 'gpt-4.1', messages)[:metadata]).to include(api_protocol: 'chat_completions')
+      expect(service.send(:build_instrumentation_params, 'gpt-6-luna', messages)[:metadata]).to include(api_protocol: 'chat_completions')
     end
   end
 
   describe '#perform' do
     describe 'model routing' do
       let(:mock_response) do
-        instance_double(RubyLLM::Message, parsed: { 'complete' => true, 'reason' => 'Done' }, tokens: RubyLLM::Tokens.new(input: 10, output: 5))
+        instance_double(RubyLLM::Message, parsed: { 'outcome' => 'complete', 'reason' => 'Done' }, tokens: RubyLLM::Tokens.new(input: 10, output: 5))
       end
 
       before do
@@ -60,13 +61,13 @@ RSpec.describe Captain::ConversationCompletionService do
         allow(mock_chat).to receive(:ask).and_return(mock_response)
       end
 
-      it 'uses the internal GPT-4.1 route on Chatwoot Cloud' do
+      it 'uses the internal GPT-6 Luna route on Chatwoot Cloud' do
         allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(false)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         account.enable_features!('captain_integration')
-        allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
+        allow(mock_context).to receive(:chat).with(model: 'gpt-6-luna').and_return(mock_chat)
 
-        expect(service.perform).to include(complete: true)
+        expect(service.perform).to include(outcome: 'complete')
       end
 
       it 'uses the installation model on self-hosted Enterprise' do
@@ -74,7 +75,7 @@ RSpec.describe Captain::ConversationCompletionService do
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         allow(mock_context).to receive(:chat).with(model: 'gpt-5.1').and_return(mock_chat)
 
-        expect(service.perform).to include(complete: true)
+        expect(service.perform).to include(outcome: 'complete')
       end
 
       it 'uses the account override ahead of the installation model on self-hosted Enterprise' do
@@ -83,15 +84,15 @@ RSpec.describe Captain::ConversationCompletionService do
         account.update!(captain_models: { 'conversation_completion' => 'gpt-5.2' })
         allow(mock_context).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
 
-        expect(service.perform).to include(complete: true)
+        expect(service.perform).to include(outcome: 'complete')
       end
 
-      it 'falls back to the internal GPT-4.1 route when the self-hosted installation model is blank' do
+      it 'falls back to the internal GPT-6 Luna route when the self-hosted installation model is blank' do
         allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: '')
-        allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
+        allow(mock_context).to receive(:chat).with(model: 'gpt-6-luna').and_return(mock_chat)
 
-        expect(service.perform).to include(complete: true)
+        expect(service.perform).to include(outcome: 'complete')
       end
     end
 
@@ -99,7 +100,7 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          parsed: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
+          parsed: { 'outcome' => 'complete', 'reason' => 'Customer question was fully answered' },
           tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
@@ -111,19 +112,19 @@ RSpec.describe Captain::ConversationCompletionService do
         allow(mock_chat).to receive(:ask).and_return(mock_response)
       end
 
-      it 'returns complete: true with reason' do
+      it 'returns the complete outcome with reason' do
         result = service.perform
 
-        expect(result[:complete]).to be true
+        expect(result[:outcome]).to eq('complete')
         expect(result[:reason]).to eq('Customer question was fully answered')
       end
     end
 
-    context 'when conversation is incomplete' do
+    context 'when Captain is waiting on the customer' do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          parsed: { 'complete' => false, 'reason' => 'Assistant asked for order number but customer did not respond' },
+          parsed: { 'outcome' => 'waiting_on_customer', 'reason' => 'Assistant asked for order number but customer did not respond' },
           tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
@@ -134,10 +135,10 @@ RSpec.describe Captain::ConversationCompletionService do
         allow(mock_chat).to receive(:ask).and_return(mock_response)
       end
 
-      it 'returns complete: false with reason' do
+      it 'returns the waiting on customer outcome with reason' do
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:outcome]).to eq('waiting_on_customer')
         expect(result[:reason]).to eq('Assistant asked for order number but customer did not respond')
       end
     end
@@ -147,7 +148,7 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          parsed: { 'complete' => false, 'reason' => 'Human follow-up is still pending' },
+          parsed: { 'outcome' => 'needs_human', 'reason' => 'Human follow-up is still pending' },
           tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
@@ -178,7 +179,7 @@ RSpec.describe Captain::ConversationCompletionService do
 
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:outcome]).to eq('needs_human')
       end
 
       it 'includes pending captain handoff evidence in the transcript' do
@@ -205,7 +206,7 @@ RSpec.describe Captain::ConversationCompletionService do
 
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:outcome]).to eq('needs_human')
       end
 
       it 'reuses computed message content while formatting the transcript' do
@@ -246,10 +247,10 @@ RSpec.describe Captain::ConversationCompletionService do
     end
 
     context 'when conversation has no messages' do
-      it 'returns incomplete with appropriate reason' do
+      it 'hands off with appropriate reason' do
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:outcome]).to eq('needs_human')
         expect(result[:reason]).to eq('No messages found')
       end
     end
@@ -268,10 +269,10 @@ RSpec.describe Captain::ConversationCompletionService do
         allow(mock_chat).to receive(:ask).and_return(mock_response)
       end
 
-      it 'returns incomplete as safe default' do
+      it 'hands off as safe default' do
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:outcome]).to eq('needs_human')
         expect(result[:reason]).to eq('Invalid response format')
       end
     end
@@ -282,10 +283,10 @@ RSpec.describe Captain::ConversationCompletionService do
         allow(mock_chat).to receive(:ask).and_raise(StandardError.new('API Error'))
       end
 
-      it 'returns incomplete with error message' do
+      it 'hands off with error message' do
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:outcome]).to eq('needs_human')
         expect(result[:reason]).to eq('API Error')
       end
     end
@@ -299,7 +300,7 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'does not evaluate the conversation as complete' do
         result = service.perform
 
-        expect(result[:complete]).not_to be true
+        expect(result[:outcome]).not_to eq('complete')
       end
     end
 
@@ -312,7 +313,8 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'uses the system API key instead of the account hook key' do
         expect(Llm::Config).to receive(:with_api_key).with('test-key', api_base: anything).and_yield(mock_context)
         allow(mock_chat).to receive(:ask).and_return(
-          instance_double(RubyLLM::Message, parsed: { 'complete' => true, 'reason' => 'Done' }, tokens: RubyLLM::Tokens.new(input: 10, output: 5))
+          instance_double(RubyLLM::Message, parsed: { 'outcome' => 'complete', 'reason' => 'Done' },
+                                            tokens: RubyLLM::Tokens.new(input: 10, output: 5))
         )
 
         service.perform
@@ -325,7 +327,7 @@ RSpec.describe Captain::ConversationCompletionService do
 
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:outcome]).to eq('needs_human')
         expect(result[:reason]).to eq(I18n.t('captain.api_key_missing'))
       end
     end
@@ -334,7 +336,7 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          parsed: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
+          parsed: { 'outcome' => 'complete', 'reason' => 'Customer question was fully answered' },
           tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
@@ -357,7 +359,7 @@ RSpec.describe Captain::ConversationCompletionService do
         result = service.perform
 
         expect(result[:error]).to be_nil
-        expect(result[:complete]).to be true
+        expect(result[:outcome]).to eq('complete')
         expect(result[:reason]).to eq('Customer question was fully answered')
       end
 

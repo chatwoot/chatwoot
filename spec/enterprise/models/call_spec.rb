@@ -43,6 +43,32 @@ RSpec.describe Call do
     end
   end
 
+  describe 'messaging the caller after a missed WhatsApp call' do
+    let(:call) { create(:call, provider: :whatsapp) }
+
+    it 'queues the message when nobody answered, even if no phone rang' do
+      expect { call.update!(status: 'no_answer') }.to have_enqueued_job(Whatsapp::MissedCallMessageJob).with(call.id)
+    end
+
+    it 'does not for a call an agent answered' do
+      call.update!(status: 'in_progress', accepted_by_agent: create(:user, account: call.account))
+
+      expect { call.update!(status: 'completed') }.not_to have_enqueued_job(Whatsapp::MissedCallMessageJob)
+    end
+
+    it 'does not for a Twilio call' do
+      call.update!(provider: :twilio)
+
+      expect { call.update!(status: 'no_answer') }.not_to have_enqueued_job(Whatsapp::MissedCallMessageJob)
+    end
+
+    it 'does not again when a missed call is saved without a new status' do
+      call.update!(status: 'no_answer')
+
+      expect { call.update!(duration_seconds: 0) }.not_to have_enqueued_job(Whatsapp::MissedCallMessageJob)
+    end
+  end
+
   describe 'recording a missed call' do
     let(:account) { create(:account) }
     let(:rang) { { 'ring_recipient_ids' => [] } }
@@ -134,6 +160,13 @@ RSpec.describe Call do
 
     it 'refuses a connection to a call that has ended' do
       call.update!(status: 'completed')
+
+      expect(call.open_agent_leg!('CA-1')).to be(false)
+      expect(call.reload.agent_legs).to be_empty
+    end
+
+    it 'refuses a connection while the ring timeout is moving the caller out' do
+      call.update!(status: 'ringing', ring_state: { 'timing_out_at' => Time.zone.now.to_i })
 
       expect(call.open_agent_leg!('CA-1')).to be(false)
       expect(call.reload.agent_legs).to be_empty
