@@ -80,12 +80,16 @@ export default {
         this.getAttributes();
       }
     },
-    async handleSendAttachment(attachment) {
-      await this.sendAttachment({
-        attachment,
+    async handleSendAttachment(attachments, content = '', retryOf = null) {
+      const result = await this.sendAttachment({
+        attachments,
+        content,
+        retryOf,
         replyTo: this.inReplyTo ? this.inReplyTo.id : null,
       });
-      this.inReplyTo = null;
+      // A failed message goes back to the composer, so it keeps its reply target for the retry.
+      if (result.sent) this.inReplyTo = null;
+      return result;
     },
     startNewConversation() {
       this.router.replace({ name: 'prechat-form' });

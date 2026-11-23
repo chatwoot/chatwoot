@@ -1230,7 +1230,11 @@
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot",
+      "ATTACHMENT_EDITOR": "Open an editor before an image is sent",
+      "SCREEN_CAPTURE": "Show a button to capture the screen (desktop browsers)",
+      "SCREEN_CAPTURE_EDITOR": "Open the editor for screen captures",
+      "SEND_ATTACHMENTS_WITH_MESSAGE": "Send attachments together with the message (the visitor adds files and text, then sends them at once)"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",

@@ -1,0 +1,20 @@
+{
+  "IMAGE_EDITOR": {
+    "TITLE": "Edit image",
+    "TOOLS": {
+      "ARROW": "Arrow",
+      "RECTANGLE": "Rectangle",
+      "ELLIPSE": "Ellipse",
+      "BLUR": "Blur",
+      "CROP": "Crop"
+    },
+    "UNDO": "Undo",
+    "REDO": "Redo",
+    "CANCEL": "Cancel",
+    "SEND": "Send",
+    "EXPORT_ERROR": "Could not prepare the image. Try a smaller image.",
+    "EDIT_ATTACHMENT": "Edit image",
+    "DONE": "Done",
+    "TOO_LARGE": "The edited image is over {size} MB. Crop a smaller area."
+  }
+}

@@ -61,6 +61,8 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { emitter } from 'shared/helpers/mitt';
+import { dataUrlToFile } from 'shared/helpers/imageEditor';
+import ImageEditor from 'shared/components/ImageEditor.vue';
 const EmojiIconPicker = defineAsyncComponent(
   () =>
     import('dashboard/components-next/emoji-icon-picker/EmojiIconPicker.vue')
@@ -71,6 +73,7 @@ export default {
     ArticleSearchPopover,
     AttachmentPreview,
     AudioRecorder,
+    ImageEditor,
     ReplyBoxBanner,
     EmojiIconPicker,
     MessageSignatureMissingAlert,
@@ -170,6 +173,11 @@ export default {
       isFocused: false,
       showEmojiPicker: false,
       attachedFiles: [],
+      attachmentToEdit: null,
+      fileToEdit: null,
+      // Staged images whose edited version is still uploading. Sending now would send the
+      // original, without the blur or crop the agent just applied.
+      pendingReplacements: [],
       isRecordingAudio: false,
       recordingAudioState: '',
       recordingAudioDurationText: '',
@@ -330,8 +338,16 @@ export default {
     charactersRemaining() {
       return this.maxLength - this.message.length;
     },
+    // Only an image still staged can go out without its edit. One the agent removed while
+    // its edit uploaded does not hold the send.
+    hasPendingReplacement() {
+      return this.pendingReplacements.some(original =>
+        this.attachedFiles.includes(original)
+      );
+    },
     isReplyButtonDisabled() {
       if (this.isEditorDisabled) return true;
+      if (this.hasPendingReplacement) return true;
       if (this.isATwitterInbox) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
 
@@ -728,6 +744,8 @@ export default {
       this.resetAudioRecorderInput();
       // Reset attached files
       this.attachedFiles = [];
+      this.pendingReplacements = [];
+      this.closeAttachmentEditor();
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
@@ -810,6 +828,8 @@ export default {
     onPaste(e) {
       // Don't handle paste if compose new conversation modal is open
       if (this.newConversationModalActive) return;
+      // The image editor is open over the composer; a paste would stage a file unseen.
+      if (this.fileToEdit) return;
 
       // Don't handle paste if editor is disabled
       if (this.isEditorDisabled) return;
@@ -973,6 +993,7 @@ export default {
           });
     },
     async onSendReply() {
+      if (this.hasPendingReplacement) return;
       const undefinedVariables = getUndefinedVariablesInMessage({
         message: this.message,
         variables: this.messageVariables,
@@ -1070,6 +1091,8 @@ export default {
         );
       }
       this.attachedFiles = [];
+      this.pendingReplacements = [];
+      this.closeAttachmentEditor();
       this.isRecordingAudio = false;
       this.resetReplyToMessage();
       this.resetAudioRecorderInput();
@@ -1153,18 +1176,66 @@ export default {
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
       reader.onloadend = () => {
-        this.attachedFiles.push({
+        const staged = {
           currentChatId: this.currentChat.id,
           resource: blob || file,
           isPrivate: this.isPrivate,
           thumb: reader.result,
           blobSignedId: blob ? blob.signed_id : undefined,
           isVoiceMessage: file?.isVoiceMessage || false,
-        });
+        };
+        // An edited image takes the place of the one it was made from. If the agent removed
+        // that one while the edit uploaded, the edit is dropped too.
+        if (file?.replacesAttachment) {
+          const replaced = this.attachedFiles.indexOf(file.replacesAttachment);
+          if (replaced !== -1) this.attachedFiles.splice(replaced, 1, staged);
+        } else {
+          this.attachedFiles.push(staged);
+        }
+        this.settleReplacement(file);
       };
+    },
+    // Called by fileUploadMixin when it refuses a file or its upload fails.
+    onFileUploadRefused(file) {
+      this.settleReplacement(file);
+    },
+    settleReplacement(file) {
+      if (!file?.replacesAttachment) return;
+      this.pendingReplacements = this.pendingReplacements.filter(
+        original => original !== file.replacesAttachment
+      );
     },
     removeAttachment(attachments) {
       this.attachedFiles = attachments;
+    },
+    editAttachment(attachment) {
+      // One edit at a time per image: a second one could land before the first.
+      if (this.pendingReplacements.includes(attachment)) return;
+      const { resource } = attachment;
+      this.attachmentToEdit = attachment;
+      this.fileToEdit = dataUrlToFile(
+        attachment.thumb,
+        resource.filename || resource.name
+      );
+    },
+    closeAttachmentEditor() {
+      this.attachmentToEdit = null;
+      this.fileToEdit = null;
+    },
+    // The edited image goes through the same checks and upload as a new file. The staged one
+    // stays until the edited one is accepted, so a size limit or a failed upload keeps it.
+    onAttachmentEdited(file) {
+      if (file !== this.fileToEdit) {
+        this.pendingReplacements.push(this.attachmentToEdit);
+        this.onFileUpload({
+          file,
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          replacesAttachment: this.attachmentToEdit,
+        });
+      }
+      this.closeAttachmentEditor();
     },
     setReplyToInPayload(payload) {
       if (this.inReplyTo?.id) {
@@ -1511,7 +1582,17 @@ export default {
           <AttachmentPreview
             class="mt-2"
             :attachments="attachedFiles"
+            :locked-attachments="pendingReplacements"
             @remove-attachment="removeAttachment"
+            @edit-attachment="editAttachment"
+          />
+          <ImageEditor
+            v-if="fileToEdit"
+            :file="fileToEdit"
+            :confirm-label="$t('IMAGE_EDITOR.DONE')"
+            :max-size-mb="maxSizeFor('image/png')"
+            @save="onAttachmentEdited"
+            @cancel="closeAttachmentEditor"
           />
         </div>
         <MessageSignatureMissingAlert

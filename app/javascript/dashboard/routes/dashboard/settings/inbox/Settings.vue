@@ -36,6 +36,7 @@ import WhatsappManualMigrationDialog from './components/WhatsappManualMigrationD
 import WhatsappManualMigrationBanner from './components/WhatsappManualMigrationBanner.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
+import WidgetAttachmentOptions from './components/WidgetAttachmentOptions.vue';
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SpinnerLoader from 'dashboard/components-next/spinner/Spinner.vue';
@@ -75,6 +76,7 @@ export default {
     SettingsFieldSection,
     SettingsAccordion,
     WeeklyAvailability,
+    WidgetAttachmentOptions,
     SenderNameExamplePreview,
     LockToSingleConversationPreview,
     MicrosoftReauthorize,
@@ -119,6 +121,7 @@ export default {
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
+      widgetAttachmentOptions: {},
       replyTime: '',
       selectedTabIndex: 0,
       selectedPortalSlug: '',
@@ -581,6 +584,12 @@ export default {
       this.channelWelcomeTitle = this.inbox.welcome_title;
       this.channelWelcomeTagline = this.inbox.welcome_tagline || '';
       this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
+      this.widgetAttachmentOptions = {
+        attachment_editor_enabled: this.inbox.attachment_editor_enabled,
+        screen_capture_enabled: this.inbox.screen_capture_enabled,
+        screen_capture_editor_enabled: this.inbox.screen_capture_editor_enabled,
+        send_attachments_with_message: this.inbox.send_attachments_with_message,
+      };
       this.replyTime = this.inbox.reply_time;
       this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
       this.selectedPortalSlug = this.inbox.help_center
@@ -723,6 +732,7 @@ export default {
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
+            ...this.widgetAttachmentOptions,
             reply_time: this.replyTime || 'in_a_few_minutes',
             continuity_via_email:
               this.isInboundEmailEnabled && this.continuityViaEmail,
@@ -1335,6 +1345,7 @@ export default {
                       {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
                     </label>
                   </div>
+                  <WidgetAttachmentOptions v-model="widgetAttachmentOptions" />
                 </div>
               </SettingsFieldSection>
             </SettingsAccordion>

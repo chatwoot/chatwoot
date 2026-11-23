@@ -238,6 +238,23 @@ export const IFrameHelper = {
       popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
     },
 
+    // The image editor of the widget fills the page while it is open.
+    setFullscreen: ({ isFullscreen }) => {
+      widgetHolder.classList.toggle(
+        'woot-widget-holder--fullscreen',
+        isFullscreen
+      );
+    },
+
+    // Hides the widget for a screen capture without closing it, so the widget keeps its
+    // open state, its route and the visitor's draft.
+    setCaptureHidden: ({ isHidden }) => {
+      widgetHolder.classList.toggle(
+        'woot-widget-holder--capture-hidden',
+        isHidden
+      );
+    },
+
     closeWindow: () => {
       onBubbleClick({ toggleValue: false });
       removeUnreadClass();
