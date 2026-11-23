@@ -237,7 +237,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
       "PRIVATE_NOTE": "Private Note",
-      "MESSAGE_CONTAINS": "Uvjeti monitora su zadovoljeni",
+      "MESSAGE_CONTAINS": "Sadržaj poruke",
       "EMAIL": "Email",
       "INBOX": "Inbox",
       "CONVERSATION_LANGUAGE": "Conversation Language",
