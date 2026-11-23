@@ -31,7 +31,7 @@
       "IMAGE": "Slika",
       "VIDEO": "Video",
       "DOCUMENT": "Dokument",
-      "MEDIA": "Media",
+      "MEDIA": "Mediji",
       "QUICK_REPLY": "Brzi odgovor",
       "CALL_TO_ACTION": "Poziv na radnju",
       "CATALOG": "Katalog",
@@ -47,7 +47,7 @@
       "TYPE": "Vrsta sadržaja",
       "CATEGORY": "Kategorija",
       "LANGUAGE": "Jezik",
-      "INBOXES": "Inboxes"
+      "INBOXES": "Pretinci"
     }
   }
 }
