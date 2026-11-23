@@ -46,7 +46,9 @@ const isLoadingSelectedThread = ref(false);
 // reply can only be used in the conversation it was written for.
 const threadConversationId = ref(null);
 const canUseReply = computed(
-  () => threadConversationId.value === currentChat.value?.id
+  () =>
+    Boolean(currentChat.value?.id) &&
+    threadConversationId.value === currentChat.value.id
 );
 const threads = ref([]);
 const historyPage = ref(0);

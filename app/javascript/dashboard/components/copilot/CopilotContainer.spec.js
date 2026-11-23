@@ -190,6 +190,19 @@ describe('CopilotContainer', () => {
     ).toBe(42);
   });
 
+  it('does not offer a suggested reply for use when no conversation is open', async () => {
+    testState.refs.getSelectedChat.value = {};
+    testState.route.name = 'copilot_index';
+    testState.route.params = { threadId: '42' };
+
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    expect(
+      wrapper.findComponent({ name: 'Copilot' }).props('canUseReply')
+    ).toBe(false);
+  });
+
   it('puts a new chat in the address of its page', async () => {
     testState.route.name = 'copilot_index';
     testState.dispatch.mockImplementation(action =>
