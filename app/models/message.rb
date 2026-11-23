@@ -240,9 +240,10 @@ class Message < ApplicationRecord
     content_attributes['forwarded_message_id'].present?
   end
 
-  # The email reply box appends the earlier thread to the reply as "> " lines.
+  # The email reply box appends the earlier thread after the reply: a "> On <date> <sender> wrote:" header, then only "> " lines.
+  # Matching that shape keeps blockquotes the agent wrote.
   def email_quoted_thread
-    inbox.email? ? content.to_s[/^>.*\z/m].to_s : ''
+    inbox.email? ? content.to_s[/^> On [^\n]* wrote:(?:\n>[^\n]*)*\s*\z/].to_s : ''
   end
 
   def content_without_email_quoted_thread

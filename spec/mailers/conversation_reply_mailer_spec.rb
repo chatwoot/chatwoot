@@ -1001,6 +1001,14 @@ RSpec.describe ConversationReplyMailer do
         expect(transcript.scan('Where is my order?').size).to eq(1)
       end
 
+      it 'keeps blockquotes the agent wrote' do
+        create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                         content: "Here is our policy:\n\n> Returns accepted within 30 days.\n\nI have approved your refund.")
+
+        expect(transcript).to include('Returns accepted within 30 days.')
+        expect(transcript).to include('I have approved your refund.')
+      end
+
       it 'keeps quoted lines in customer emails' do
         create(:message, conversation: conversation, account: account, message_type: 'incoming',
                          content: "> Can you share the invoice?\n\nAttached it here.")
