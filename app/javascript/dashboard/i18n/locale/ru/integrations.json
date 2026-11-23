@@ -776,18 +776,6 @@
           "LABEL": "Предложить ответ",
           "CONTENT": "Анализируйте запрос клиента и составляйте ответ, который эффективно учитывает его проблемы или вопросы. Убедитесь, что ответ является четким, кратким и содержит полезную информацию."
         },
-        "RATE": {
-          "LABEL": "Оцените этот диалог",
-          "CONTENT": "Оцените разговор, чтобы узнать, насколько он соответствует потребностям клиента. Поделитесь оценкой из 5 на основе тона, ясности и эффективности."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Диалоги с высоким приоритетом",
-          "CONTENT": "Дайте мне суть всех высокоприоритетных открытых разговоров, включая идентификатор разговора, имя клиента (если есть), содержимое последнего сообщения и назначенный агент. Если нужно, группа по статусу."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Список контактов",
-          "CONTENT": "Покажите мне список 10 топ контактов. Включая имя, email или номер телефона (если доступно), последний просмотренный время, тэги (если есть)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
