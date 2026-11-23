@@ -776,18 +776,6 @@
           "LABEL": "Ieteikt atbildi",
           "CONTENT": "Analizējiet klienta pieprasījumu un sagatavojiet atbildi, kas efektīvi risina viņu bažas vai jautājumus. Pārliecinieties, ka atbilde ir skaidra, kodolīga un sniedz noderīgu informāciju."
         },
-        "RATE": {
-          "LABEL": "Novērtēt šo sarunu",
-          "CONTENT": "Pārskatiet sarunu, lai redzētu, cik labi tā atbilst klienta vajadzībām. Sniedziet vērtējumu no 5, balstoties uz toni, skaidrību un efektivitāti."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Augstas prioritātes sarunas",
-          "CONTENT": "Dodiet man kopsavilkumu par visām augstas prioritātes atvērtajām sarunām. Iekļaujiet sarunas ID, klienta vārdu (ja pieejams), pēdējā ziņojuma saturu un piešķirto aģentu. Ja nepieciešams, grupējiet pēc statusa."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Kontaktpersonu saraksts",
-          "CONTENT": "Parādiet man top 10 kontaktu sarakstu. Iekļaujiet vārdu, e-pastu vai tālruņa numuru (ja pieejams), pēdējās redzamības laiku, tagus (ja kādi ir)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
