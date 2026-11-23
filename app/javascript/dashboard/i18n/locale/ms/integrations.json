@@ -776,18 +776,6 @@
           "LABEL": "Cadangkan jawapan",
           "CONTENT": "Analisis pertanyaan pelanggan, dan drafkan jawapan yang berkesan menangani kebimbangan atau soalan mereka. Pastikan balasan jelas, ringkas, dan memberikan maklumat yang berguna."
         },
-        "RATE": {
-          "LABEL": "Nilai perbualan ini",
-          "CONTENT": "Semak perbualan untuk melihat sejauh mana ia memenuhi keperluan pelanggan. Berikan penilaian daripada 5 berdasarkan nada, kejelasan, dan keberkesanan."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Perbualan keutamaan tinggi",
-          "CONTENT": "Berikan saya ringkasan semua perbualan terbuka keutamaan tinggi. Sertakan ID perbualan, nama pelanggan (jika ada), kandungan mesej terakhir, dan ejen yang ditugaskan. Kumpulkan mengikut status jika berkaitan."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Senaraikan kenalan",
-          "CONTENT": "Tunjukkan saya senarai 10 kenalan teratas. Sertakan nama, emel atau nombor telefon (jika ada), masa terakhir dilihat, tag (jika ada)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
