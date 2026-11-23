@@ -28,7 +28,11 @@ import {
   CHATWOOT_READY,
 } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
-import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
+import {
+  getUserCookieName,
+  setAuthCookie,
+  setCookieWithDomain,
+} from './cookieHelpers';
 import {
   getAlertAudio,
   initOnEvents,
@@ -153,7 +157,9 @@ export const IFrameHelper = {
 
   events: {
     loaded: message => {
-      updateAuthCookie(message.config.authToken, window.$chatwoot.baseDomain);
+      setAuthCookie(message.config.authToken, {
+        baseDomain: window.$chatwoot.baseDomain,
+      });
       window.$chatwoot.hasLoaded = true;
       const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
       IFrameHelper.sendMessage('config-set', {

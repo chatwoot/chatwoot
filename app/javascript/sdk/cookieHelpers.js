@@ -76,3 +76,15 @@ export const setCookieWithDomain = (
 
   Cookies.set(name, value, cookieOptions);
 };
+
+export const setAuthCookie = (authToken, { baseDomain = undefined } = {}) => {
+  const previousAuthToken = Cookies.get('cw_conversation');
+  setCookieWithDomain('cw_conversation', authToken, { baseDomain });
+
+  if (previousAuthToken === authToken) return;
+
+  // A new token means the widget is bound to a different contact (e.g. the
+  // previous token expired). The stored user hash describes the old contact,
+  // so drop it to let the next setUser call identify the new one.
+  Cookies.remove(getUserCookieName(), { domain: baseDomain });
+};

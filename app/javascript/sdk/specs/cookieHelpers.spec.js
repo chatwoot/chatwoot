@@ -5,6 +5,7 @@ import {
   getUserCookieName,
   getUserString,
   hasUserKeys,
+  setAuthCookie,
   setCookieWithDomain,
 } from '../cookieHelpers';
 
@@ -385,6 +386,64 @@ describe('setCookieWithDomain', () => {
     expect(Cookies.set).toHaveBeenCalledWith('myCookie', 'cookieValue', {
       expires: 7,
       sameSite: 'Lax',
+      domain: 'example.com',
+    });
+  });
+});
+
+describe('setAuthCookie', () => {
+  const userCookieName = 'cw_user_123456';
+
+  beforeEach(() => {
+    global.$chatwoot = { websiteToken: '123456' };
+    Cookies.remove('cw_conversation');
+    Cookies.remove(userCookieName);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('stores the auth token', () => {
+    setAuthCookie('token-1');
+
+    expect(Cookies.get('cw_conversation')).toBe('token-1');
+  });
+
+  it('keeps the user cookie when the auth token is unchanged', () => {
+    Cookies.set('cw_conversation', 'token-1');
+    Cookies.set(userCookieName, 'user-hash');
+
+    setAuthCookie('token-1');
+
+    expect(Cookies.get(userCookieName)).toBe('user-hash');
+  });
+
+  it('removes the user cookie when the auth token changes', () => {
+    Cookies.set('cw_conversation', 'expired-token');
+    Cookies.set(userCookieName, 'user-hash');
+
+    setAuthCookie('token-2');
+
+    expect(Cookies.get('cw_conversation')).toBe('token-2');
+    expect(Cookies.get(userCookieName)).toBeUndefined();
+  });
+
+  it('removes the user cookie when there was no auth token', () => {
+    Cookies.set(userCookieName, 'user-hash');
+
+    setAuthCookie('token-1');
+
+    expect(Cookies.get(userCookieName)).toBeUndefined();
+  });
+
+  it('removes the user cookie on the base domain', () => {
+    vi.spyOn(Cookies, 'remove');
+    Cookies.set('cw_conversation', 'expired-token');
+
+    setAuthCookie('token-2', { baseDomain: 'example.com' });
+
+    expect(Cookies.remove).toHaveBeenCalledWith(userCookieName, {
       domain: 'example.com',
     });
   });
