@@ -318,9 +318,9 @@
       },
       "DELETE_LOCALE": {
         "DIALOG": {
-          "TITLE": "Delete {locale}?",
-          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
-          "CONFIRM": "Delete locale"
+          "TITLE": "Obriši {locale}?",
+          "DESCRIPTION": "Time ćete trajno izbrisati {articles} i {categories} za ovaj jezik. Radnju nije moguće poništiti.",
+          "CONFIRM": "Izbriši jezik"
         },
         "API": {
           "SUCCESS_MESSAGE": "Locale removed from portal successfully",
@@ -415,10 +415,10 @@
       }
     },
     "BREADCRUMB": {
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
+      "ARTICLES": "Članci",
+      "CATEGORIES": "Kategorije",
       "LOCALES": "Locales",
-      "SETTINGS": "Settings"
+      "SETTINGS": "Postavke"
     },
     "CATEGORY": {
       "ADD": {
@@ -541,7 +541,7 @@
             "PUBLISH": "Objavi",
             "DRAFT": "Skica",
             "ARCHIVE": "Archive",
-            "TRANSLATE": "Translate",
+            "TRANSLATE": "Prevedi",
             "DELETE": "Izbriši"
           },
           "STATUS": {
@@ -564,11 +564,11 @@
           "ARCHIVED": "Arhivirano"
         },
         "AUTHOR": {
-          "LABEL": "Filter by author: {author}",
-          "ALL": "All authors",
+          "LABEL": "Filtriraj prema autoru: {author}",
+          "ALL": "Svi autori",
           "ME": "Ja",
-          "SELECTED": "Selected author",
-          "SEARCH_PLACEHOLDER": "Search teammates..."
+          "SELECTED": "Odabrani autor",
+          "SEARCH_PLACEHOLDER": "Pretraži članove tima..."
         },
         "CATEGORY": {
           "ALL": "All categories"
@@ -587,7 +587,7 @@
         },
         "AUTHOR": {
           "TITLE": "Nema odgovarajućih članaka",
-          "SUBTITLE": "Try another author or change the selected filters."
+          "SUBTITLE": "Pokušajte s drugim autorom ili promijenite odabrane filtre."
         },
         "DRAFT": {
           "TITLE": "There are no articles in drafts",
@@ -618,11 +618,11 @@
         "CATEGORY_LABEL": "Ciljna kategorija",
         "CATEGORY_PLACEHOLDER": "Odaberi kategoriju",
         "OPTIONAL": "(neobavezno)",
-        "CONFIRM": "Translate",
-        "SELECT_ALL": "Select all ({count})",
-        "SELECTED_COUNT": "{count} selected",
-        "CLEAR_SELECTION": "Clear selection",
-        "TRANSLATE_BUTTON": "Translate",
+        "CONFIRM": "Prevedi",
+        "SELECT_ALL": "Odaberi sve ({count})",
+        "SELECTED_COUNT": "{count} odabrano",
+        "CLEAR_SELECTION": "Poništi odabir",
+        "TRANSLATE_BUTTON": "Prevedi",
         "CONFIRM_OVERWRITE": "Prepiši i prevedi",
         "DUPLICATE_WARNING": "Za ovaj članak već postoji prijevod na odabranom jeziku. | Za {count} članaka već postoje prijevodi na odabranom jeziku.",
         "DUPLICATE_CONFIRM_HINT": "Ponovno kliknite gumb za prevođenje kako biste prepisali postojeći prijevod.",
@@ -634,8 +634,8 @@
       "BULK_ACTIONS": {
         "PUBLISH": "Objavi",
         "DRAFT": "Skica",
-        "ARCHIVE": "Archive",
-        "TRANSLATE": "Translate",
+        "ARCHIVE": "Arhiva",
+        "TRANSLATE": "Prevedi",
         "MOVE_TO_CATEGORY": "Kategorija",
         "DELETE": "Izbriši",
         "STATUS_SUCCESS": "Članci su uspješno ažurirani",
@@ -749,7 +749,7 @@
       "POPULAR_CONTENT_DIALOG": {
         "TITLE": "Preporučeni sadržaj",
         "DESCRIPTION": "Odaberite najviše 3 kategorije i 6 članaka koje želite istaknuti na početnoj stranici centra za pomoć za ovaj jezik. Povucite ih u redoslijed kojim ih želite prikazati posjetiteljima.",
-        "SEARCH": "Search...",
+        "SEARCH": "Pretraži...",
         "EMPTY": "Nema odgovarajućih rezultata",
         "ADD_ANOTHER": "Dodaj još…",
         "SLOTS_LEFT": "Preostalo mjesta: {count}",
@@ -762,7 +762,7 @@
         "ARTICLES": {
           "LABEL": "Preporučeni članci",
           "IN_CATEGORY": "u kategoriji {category}",
-          "UNCATEGORIZED": "Uncategorized"
+          "UNCATEGORIZED": "Nekategorizirano"
         },
         "API": {
           "SUCCESS_MESSAGE": "Preporučeni sadržaj uspješno je ažuriran",
@@ -812,8 +812,8 @@
           "SAVED": "Saved"
         },
         "PREVIEW": "Pretpregled",
-        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
-        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
+        "PREVIEW_ERROR": "Otvaranje pregleda nije uspjelo. Pokušajte ponovno.",
+        "PREVIEW_POPUP_BLOCKED": "Dopustite skočne prozore na ovoj stranici kako biste otvorili pregled.",
         "PUBLISH": "Objavi",
         "PUBLISH_CHANGES": "Objavi promjene",
         "PUBLISH_CHANGES_SUCCESS": "Promjene su uspješno objavljene",
@@ -831,9 +831,9 @@
         "BACK_TO_ARTICLES": "Back to articles"
       },
       "NEWER_VERSION": {
-        "LABEL": "Load latest version",
-        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
-        "LOAD_ERROR": "Couldn't load the latest version. Try again."
+        "LABEL": "Učitaj najnoviju verziju",
+        "TOOLTIP": "Ovaj je članak promijenio član tima ili je izmijenjen u drugoj kartici. Kliknite za učitavanje najnovije verzije.",
+        "LOAD_ERROR": "Učitavanje najnovije verzije nije uspjelo. Pokušajte ponovno."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Neobjavljene promjene",
@@ -844,7 +844,7 @@
       "DIFF_DIALOG": {
         "TITLE": "Neobjavljene promjene",
         "DESCRIPTION": "Usporedite skicu s trenutačno objavljenom verzijom.",
-        "TITLE_LABEL": "Title"
+        "TITLE_LABEL": "Naslov"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
@@ -853,24 +853,24 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
-        "ORIGINAL_ARTICLE": "Original article",
-        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE": "Izvorni članak",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "Ovo je izvorni članak",
         "ORIGINAL_ARTICLE_SEARCH": "Pretraži članke…",
-        "ORIGINAL_ARTICLE_EMPTY": "No articles found",
+        "ORIGINAL_ARTICLE_EMPTY": "Nema pronađenih članaka",
         "META_DESCRIPTION": "Meta description",
         "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
         "META_TITLE": "Meta title",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta tags",
         "META_TAGS_PLACEHOLDER": "Add meta tags",
-        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
-        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
-        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
+        "SEARCH_ENGINE_VISIBILITY": "Prikaži u rezultatima pretraživanja",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Isključite kako se ovaj članak ne bi pojavljivao na Googleu i drugim tražilicama. I dalje ostaje objavljen i vidljiv u centru za pomoć.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Onemogućeno jer je ovaj centar za pomoć skriven iz rezultata pretraživanja. Promijenite to u odjeljku Postavke → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Dodaj URL oznaku",
         "SLUG_USE_TITLE": "Koristi naslov kao URL oznaku",
         "SLUG_WARNING": "Trenutačni URL prestat će raditi, a postojeće poveznice na njega više neće biti valjane.",
-        "SLUG_UPDATE": "Update",
+        "SLUG_UPDATE": "Ažuriraj",
         "SLUG_UPDATED": "URL oznaka je ažurirana. Članak je sada dostupan na novom URL-u.",
         "SLUG_OPEN": "Otvori URL"
       },
@@ -907,9 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
-          "ADD_DARK_MODE": "Add dark mode logo",
-          "LIGHT_MODE": "Light mode",
-          "DARK_MODE": "Dark mode",
+          "ADD_DARK_MODE": "Dodaj logotip za tamni način rada",
+          "LIGHT_MODE": "Svijetli način rada",
+          "DARK_MODE": "Tamni način rada",
           "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
           "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
           "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
@@ -993,7 +993,7 @@
         "EDIT_CONFIGURATION": "Edit configuration"
       },
       "LAYOUT_CONTENT": {
-        "HEADER": "Appearance",
+        "HEADER": "Izgled",
         "DESCRIPTION": "Odaberite raspored koji odgovara načinu na koji vaši posjetitelji čitaju.",
         "LAYOUT": {
           "CLASSIC": {
@@ -1012,18 +1012,18 @@
           "ADD": "Dodaj poveznicu na društvenu mrežu",
           "REMOVE": "Izbriši"
         },
-        "SAVE": "Save changes"
+        "SAVE": "Spremi promjene"
       },
       "SEO": {
         "HEADER": "SEO",
-        "DESCRIPTION": "Control how search engines discover your help center.",
+        "DESCRIPTION": "Odredite kako tražilice pronalaze vaš centar za pomoć.",
         "SEARCH_ENGINE_VISIBILITY": {
-          "LABEL": "Show in search results",
-          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+          "LABEL": "Prikaži u rezultatima pretraživanja",
+          "DESCRIPTION": "Dopustite tražilicama poput Googlea da prikazuju ovaj centar za pomoć. Kada je opcija isključena, centar za pomoć posjetiteljima radi jednako, ali se prestaje prikazivati u rezultatima pretraživanja, što može potrajati nekoliko dana ili tjedana."
         }
       },
       "INTEGRATIONS": {
-        "HEADER": "Integrations",
+        "HEADER": "Integracije",
         "DESCRIPTION": "Povežite alate koji proširuju mogućnosti vašeg centra za pomoć.",
         "LIVE_CHAT": {
           "TITLE": "Razgovor uživo uz Chatwoot",
@@ -1080,14 +1080,14 @@
           "HELP": "ID piksela pronađite u usluzi Meta Events Manager. Ostavite prazno za isključivanje.",
           "INVALID": "Unesite brojčani ID piksela."
         },
-        "SAVE": "Save changes"
+        "SAVE": "Spremi promjene"
       },
       "NAV": {
-        "GENERAL": "General",
-        "DOMAIN": "Domain",
-        "APPEARANCE": "Appearance",
+        "GENERAL": "Općenito",
+        "DOMAIN": "Domena",
+        "APPEARANCE": "Izgled",
         "SEO": "SEO",
-        "INTEGRATIONS": "Integrations"
+        "INTEGRATIONS": "Integracije"
       },
       "API": {
         "CREATE_PORTAL": {
