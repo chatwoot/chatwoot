@@ -125,7 +125,7 @@ const copilotPage = () => ({
   name: 'copilot_index',
   params: { threadId: selectedCopilotThreadId.value || '' },
 });
-watch(selectedCopilotThreadId, () => {
+watch([selectedCopilotThreadId, isExpanded], () => {
   if (isExpanded.value) router.replace(copilotPage());
 });
 

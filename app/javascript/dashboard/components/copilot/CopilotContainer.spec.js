@@ -174,6 +174,23 @@ describe('CopilotContainer', () => {
     });
   });
 
+  it('puts the open chat in the address when its page opens', async () => {
+    const wrapper = mountComponent();
+    await flushPromises();
+    wrapper
+      .findComponent({ name: 'Copilot' })
+      .vm.$emit('selectThread', { id: 42 });
+    await flushPromises();
+
+    testState.route.name = 'copilot_index';
+    await nextTick();
+
+    expect(testState.router.replace).toHaveBeenCalledWith({
+      name: 'copilot_index',
+      params: { threadId: 42 },
+    });
+  });
+
   it('opens the chat named in the address of its page', async () => {
     testState.route.name = 'copilot_index';
     testState.route.params = { threadId: '42' };
