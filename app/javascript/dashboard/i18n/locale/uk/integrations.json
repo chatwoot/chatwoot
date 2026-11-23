@@ -776,18 +776,6 @@
           "LABEL": "Запропонувати відповідь",
           "CONTENT": "Проаналізуйте питання клієнта і складіть відповідь, що ефективно вирішує їхні проблеми чи запитання. Відповідь має бути чіткою, лаконічною і містити корисну інформацію."
         },
-        "RATE": {
-          "LABEL": "Оцініть цю розмову",
-          "CONTENT": "Перегляньте розмову, щоб оцінити, наскільки добре вона відповідає потребам клієнта. Поставте оцінку від 1 до 5, базуючись на тоні, ясності та ефективності."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Розмови з високим пріоритетом",
-          "CONTENT": "Дайте мені підсумок усіх відкритих розмов з високим пріоритетом. Включіть ID розмови, ім’я клієнта (якщо є), зміст останнього повідомлення та призначеного агента. Групуйте за статусом, якщо це доречно."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Список контактів",
-          "CONTENT": "Покажіть список топ-10 контактів. Включіть ім’я, електронну пошту або номер телефону (якщо є), час останнього відвідування, теги (якщо є)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
