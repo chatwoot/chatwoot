@@ -54,7 +54,6 @@ export const FEATURE_FLAGS = {
   CAPTAIN_TASKS: 'captain_tasks',
   CAPTAIN_CLASSIFIER: 'captain_classifier',
   CAPTAIN_DOCUMENT_AUTO_SYNC: 'captain_document_auto_sync',
-  COPILOT_WORKFLOWS: 'copilot_workflows',
   CAPTAIN_MCP_SERVERS: 'captain_mcp_servers',
   SAML: 'saml',
   COMPANIES: 'companies',
