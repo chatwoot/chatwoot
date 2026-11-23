@@ -96,8 +96,9 @@ class AutomationRulePendingExecution < ApplicationRecord
       # unchanged). Re-anchoring a row whose worker died mid-run back to pending also keeps a stale
       # reclaim from firing the old clock instead of the latest one. A skipped row re-arms whatever
       # the reason: its key recurs while the customer stays quiet, so leaving it terminal would
-      # suppress every later message in the episode until the row is purged.
-      row.update!(status: :pending, skip_reason: nil, due_at: due_at, message_id: message.id)
+      # suppress every later message in the episode until the row is purged. due_at never moves earlier,
+      # so a business-hours deferral survives a later customer message instead of expiring.
+      row.update!(status: :pending, skip_reason: nil, due_at: [due_at, row.due_at].max, message_id: message.id)
     end
   end
 

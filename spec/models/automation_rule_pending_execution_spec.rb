@@ -147,6 +147,19 @@ RSpec.describe AutomationRulePendingExecution do
       expect(described_class.last).to be_executed
     end
 
+    it 'keeps a business-hours deferral when another customer message arrives' do
+      first_message = create(:message, conversation: conversation, account: account, message_type: :incoming)
+      described_class.schedule(rule: rule, conversation: conversation.reload, message: first_message)
+      deferred_until = 4.days.from_now
+      described_class.last.update!(due_at: deferred_until)
+
+      second_message = create(:message, conversation: conversation, account: account, message_type: :incoming)
+      described_class.schedule(rule: rule, conversation: conversation.reload, message: second_message)
+
+      expect(described_class.count).to eq(1)
+      expect(described_class.last.due_at).to be_within(1.second).of(deferred_until)
+    end
+
     it 're-arms a condition-skipped episode when a newer qualifying message arrives' do
       first_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
       described_class.schedule(rule: rule, conversation: conversation, message: first_reply)
