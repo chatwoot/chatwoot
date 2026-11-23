@@ -52,6 +52,9 @@ zh_TW:
     call_hours:
       closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
       whatsapp_failed: "Couldn't apply business hours to WhatsApp calls: %{error}"
+    missed_call_message:
+      default: "Sorry we missed your call. Reply here and we'll get back to you as soon as we can."
+      invalid: 'The missed-call message must be %{max} characters or fewer'
     call_routing:
       invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
@@ -560,7 +563,7 @@ zh_TW:
     copilot_message_required: 訊息為必填
     copilot_error: '請先為此收件匣連結助理以使用 Copilot'
     copilot_limit: '您的 Copilot 點數已用完。您可以在帳單區域購買更多點數。'
-    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: '請升級您的方案以啟用 Captain AI'
     disabled: '此帳號已停用 Captain AI。'
     api_key_missing: '尚未設定 Captain AI API 金鑰。'
@@ -885,8 +888,7 @@ zh_TW:
         conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: '助理'
-        copilot: 'Copilot'
-        copilot_workflows: 'Copilot workflows'
+        copilot_workflows: 'Copilot'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'
