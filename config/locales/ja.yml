@@ -52,6 +52,9 @@ ja:
     call_hours:
       closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
       whatsapp_failed: "Couldn't apply business hours to WhatsApp calls: %{error}"
+    missed_call_message:
+      default: "Sorry we missed your call. Reply here and we'll get back to you as soon as we can."
+      invalid: 'The missed-call message must be %{max} characters or fewer'
     call_routing:
       invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
@@ -560,7 +563,7 @@ ja:
     copilot_message_required: メッセージは必須です
     copilot_error: 'この受信トレイにアシスタントを接続してCopilotを使用してください'
     copilot_limit: 'Copilot残高がありません。課金セクションからクレジットを追加購入することができます。'
-    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: 'Captain AIを有効にするにはプランをアップグレードしてください。'
     disabled: 'このアカウントではCaptain AIが無効化されています。'
     api_key_missing: 'Captain AI APIキーが設定されていません。'
@@ -885,8 +888,7 @@ ja:
         conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'アシスタント'
-        copilot: 'コパイロット'
-        copilot_workflows: 'Copilot workflows'
+        copilot_workflows: 'コパイロット'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'
