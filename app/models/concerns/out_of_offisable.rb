@@ -27,6 +27,26 @@ module OutOfOffisable
     !out_of_office?
   end
 
+  # Returns `time` when the inbox is open then, otherwise the next time it opens.
+  # Inboxes without working hours, or closed every day, are treated as always open.
+  def next_working_time(time)
+    return time unless working_hours_enabled?
+
+    local_time = time.in_time_zone(timezone)
+    hours_by_day = working_hours.index_by(&:day_of_week)
+    # Eight days, so a time after closing on the only open day reaches the same day next week.
+    8.times do |offset|
+      day = local_time.beginning_of_day + offset.days
+      working_hour = hours_by_day[day.wday]
+      next if working_hour.nil? || working_hour.closed_all_day?
+
+      opens_at = day.change(hour: working_hour.open_hour, min: working_hour.open_minutes)
+      closes_at = day.change(hour: working_hour.close_hour, min: working_hour.close_minutes)
+      return [local_time, opens_at].max if local_time < closes_at
+    end
+    time
+  end
+
   def weekly_schedule
     working_hours.sort_by(&:day_of_week).map do |wh|
       {

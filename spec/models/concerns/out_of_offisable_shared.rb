@@ -22,4 +22,37 @@ shared_examples_for 'out_of_offisable' do
                                 'close_hour' => 17, 'close_minutes' => 0 }])
     expect(obj.reload.weekly_schedule.find { |schedule| schedule['day_of_week'] == 1 }['open_hour']).to eq 10
   end
+
+  describe '#next_working_time' do
+    # Default working hours: Mon-Fri 9:00-17:00, weekends closed.
+    before { obj.update!(timezone: 'Asia/Kolkata') }
+
+    let(:zone) { ActiveSupport::TimeZone['Asia/Kolkata'] }
+
+    it 'returns the same time while the inbox is open' do
+      time = zone.parse('2024-01-22 10:00')
+      expect(obj.next_working_time(time)).to eq(time)
+    end
+
+    it 'moves a time before opening to that morning' do
+      expect(obj.next_working_time(zone.parse('2024-01-22 07:30'))).to eq(zone.parse('2024-01-22 09:00'))
+    end
+
+    it 'moves a time after Friday closing to Monday opening, in the inbox timezone' do
+      expect(obj.next_working_time(zone.parse('2024-01-19 17:00'))).to eq(zone.parse('2024-01-22 09:00'))
+    end
+
+    it 'reaches the same weekday next week when that is the only open day' do
+      (0..6).reject { |day| day == 1 }.each do |day|
+        obj.working_hours.find_by(day_of_week: day).update!(closed_all_day: true)
+      end
+      expect(obj.next_working_time(zone.parse('2024-01-22 18:00'))).to eq(zone.parse('2024-01-29 09:00'))
+    end
+
+    it 'returns the same time when working hours are disabled' do
+      obj.update!(working_hours_enabled: false)
+      time = zone.parse('2024-01-20 12:00')
+      expect(obj.next_working_time(time)).to eq(time)
+    end
+  end
 end

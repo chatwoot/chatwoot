@@ -210,4 +210,54 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(row.skip_reason).to eq('episode_moved')
     expect(conversation.messages.outgoing.pluck(:content)).not_to include('Just checking in')
   end
+
+  context 'when the rule runs only during business hours' do
+    # Default working hours: Mon-Fri 9:00-17:00.
+    let(:saturday) { Time.zone.parse('2024-01-20 10:00:00') }
+    let(:monday_opening) { Time.zone.parse('2024-01-22 09:00:00') }
+
+    before do
+      conversation.inbox.update!(working_hours_enabled: true, timezone: 'UTC')
+      rule.update!(only_during_business_hours: true)
+    end
+
+    it 'waits for the inbox to open instead of acting while it is closed' do
+      travel_to(saturday) { job.perform(pending_execution.reload) }
+
+      expect(pending_execution.reload).to be_pending
+      expect(pending_execution.due_at).to eq(monday_opening)
+      expect(conversation.reload.label_list).to be_empty
+    end
+
+    it 'runs the deferred row once the inbox opens' do
+      travel_to(saturday) { job.perform(pending_execution.reload) }
+      travel_to(monday_opening + 1.minute) { described_class.new.perform(pending_execution.reload) }
+
+      expect(pending_execution.reload).to be_executed
+      expect(conversation.reload.label_list).to include('stale')
+    end
+
+    it 'runs right away while the inbox is open' do
+      travel_to(monday_opening + 1.hour) { job.perform(pending_execution.reload) }
+
+      expect(pending_execution.reload).to be_executed
+    end
+
+    it 'skips rather than defers when the episode already ended' do
+      travel_to(saturday) do
+        pending_execution
+        conversation.update!(status: :resolved)
+        job.perform(pending_execution.reload)
+      end
+
+      expect(pending_execution.reload.skip_reason).to eq('episode_moved')
+    end
+
+    it 'runs at any time for an inbox without working hours enabled' do
+      conversation.inbox.update!(working_hours_enabled: false)
+      travel_to(saturday) { job.perform(pending_execution.reload) }
+
+      expect(pending_execution.reload).to be_executed
+    end
+  end
 end

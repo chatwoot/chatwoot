@@ -66,14 +66,6 @@ class AutomationRule < ApplicationRecord
        add_private_note].freeze
   end
 
-  # Business-hours rules count only the time the inbox is open, the same way SLA business hours do.
-  # An inbox without working hours enabled counts all time.
-  def execution_due_at(anchor, inbox)
-    return execution_delay.minutes.since(anchor) unless only_during_business_hours?
-
-    BusinessHours::DeadlineService.new(inbox: inbox, start_time: anchor, threshold_seconds: execution_delay.minutes.to_i).deadline
-  end
-
   def file_base_data
     files.map do |file|
       {
@@ -191,8 +183,8 @@ class AutomationRule < ApplicationRecord
   # Deactivating counts: without it a rule turned off and back on before its due time would still
   # run the actions the admin turned it off to stop.
   def execution_config_changed?
-    saved_change_to_active? || saved_change_to_execution_delay? || saved_change_to_only_during_business_hours? ||
-      saved_change_to_event_name? || saved_change_to_conditions? || saved_change_to_actions?
+    saved_change_to_active? || saved_change_to_execution_delay? || saved_change_to_event_name? ||
+      saved_change_to_conditions? || saved_change_to_actions?
   end
 
   def discard_stale_pending_executions

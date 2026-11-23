@@ -539,7 +539,7 @@ describe('AutomationWaitCondition', () => {
     expect(wrapper.findComponent(NextButton).exists()).toBe(false);
   });
 
-  it('toggles business hours and explains what the wait counts', async () => {
+  it('toggles business hours and explains when the actions run', async () => {
     const wrapper = mountComponent();
     await nextTick();
     const explanationKey =

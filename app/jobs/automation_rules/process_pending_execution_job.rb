@@ -12,6 +12,10 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
     skip_reason = skip_reason_for(pending_execution)
     return pending_execution.update!(status: :skipped, skip_reason: skip_reason) if skip_reason
 
+    opens_at = business_hours_opening(pending_execution)
+    # Back to pending until the inbox opens; the guards above run again then.
+    return pending_execution.update!(status: :pending, due_at: opens_at) if opens_at
+
     execute(pending_execution)
   rescue StandardError => e
     # Row stays `processing`; the next sweep reclaims and retries it once the lock goes stale.
@@ -39,6 +43,16 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
     return 'conditions_changed' unless conditions_still_match?(pending_execution)
 
     nil
+  end
+
+  # Business-hours rules never act while the inbox is closed. Checked here rather than at arm time, so
+  # sweep lag, paused-account replays and working-hours edits after arming are all covered.
+  def business_hours_opening(pending_execution)
+    return unless pending_execution.automation_rule.only_during_business_hours?
+
+    now = Time.current
+    opens_at = pending_execution.conversation.inbox.next_working_time(now)
+    opens_at if opens_at > now
   end
 
   def conditions_still_match?(pending_execution)
