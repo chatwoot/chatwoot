@@ -1225,39 +1225,30 @@
       "CALLING": {
         "TITLE": "WhatsApp calling",
         "DESCRIPTION": "Checks that Meta has this number set up to make and receive calls through this inbox.",
-        "UNVERIFIED": "Unable to verify",
         "UNVERIFIED_HINT": "Meta didn't return this check. Reload the page to try again.",
-        "META_STATUS": {
-          "LABEL": "Calling at Meta",
-          "TOOLTIP": "Whether calling is turned on for this phone number in Meta's call settings",
+        "STATUSES": {
           "ENABLED": "Enabled",
           "DISABLED": "Disabled",
+          "CONFIGURED": "Configured",
+          "MISSING": "Missing",
+          "ELIGIBLE": "No restrictions",
+          "RESTRICTED": "Restricted",
+          "UNVERIFIED": "Unable to verify"
+        },
+        "META_STATUS": {
+          "LABEL": "Calling at Meta",
           "DISABLED_HINT": "Calling is turned off for this number at Meta, so customers can't call it and agents can't place calls.",
-          "FIX_BUTTON": "Enable calling at Meta",
-          "FIX_SUCCESS": "Calling enabled at Meta",
-          "FIX_ERROR": "Couldn't enable calling at Meta. Please try again."
+          "FIX_BUTTON": "Enable calling at Meta"
         },
         "WEBHOOK_SUBSCRIPTION": {
           "LABEL": "Call webhook subscription",
-          "TOOLTIP": "Whether Meta sends call events for this number to this inbox",
-          "CONFIGURED": "Configured",
-          "MISSING": "Missing",
-          "HINTS": {
-            "APP_NOT_SUBSCRIBED": "The Meta app isn't subscribed to this WhatsApp Business Account, so no calls or messages reach this inbox. Register the webhook to subscribe it again.",
-            "CALLS_FIELD_MISSING": "The Meta app connected to this inbox isn't subscribed to the \"calls\" webhook field. Add \"calls\" under WhatsApp Business Account in the app's Webhooks settings in the Meta App Dashboard."
-          }
+          "APP_NOT_SUBSCRIBED": "The Meta app isn't subscribed to this WhatsApp Business Account, so no calls or messages reach this inbox. Register the webhook to subscribe it again.",
+          "CALLS_FIELD_MISSING": "The Meta app connected to this inbox isn't subscribed to the \"calls\" webhook field. Add \"calls\" under WhatsApp Business Account in the app's Webhooks settings in the Meta App Dashboard."
         },
         "ELIGIBILITY": {
           "LABEL": "Calling eligibility",
-          "TOOLTIP": "Restrictions Meta has placed on calling for this number",
-          "ELIGIBLE": "No restrictions",
-          "RESTRICTED": "Restricted",
-          "RESTRICTION_HINT": "Meta pauses calling for 7 days when calls get too many blocks or reports from customers. It lifts on its own.",
-          "EXPIRES": "until {date}",
-          "TYPES": {
-            "RESTRICTED_BUSINESS_INITIATED_CALLING": "Outgoing calls and call permission requests are paused",
-            "RESTRICTED_USER_INITIATED_CALLING": "Incoming calls are paused and the call button is hidden"
-          }
+          "RESTRICTED_BUSINESS_INITIATED_CALLING": "Meta has paused outgoing calls and call permission requests until {date} because too many customers blocked or reported calls. It lifts on its own.",
+          "RESTRICTED_USER_INITIATED_CALLING": "Meta has paused incoming calls and hidden the call button until {date} because too many customers blocked or reported calls. It lifts on its own."
         }
       }
     },

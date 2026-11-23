@@ -659,14 +659,11 @@ export default {
       try {
         this.isEnablingCalling = true;
         await InboxesAPI.enableWhatsappCalling(this.inbox.id);
-        useAlert(
-          this.$t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.FIX_SUCCESS')
-        );
         await this.fetchHealthData();
       } catch (error) {
         useAlert(
           error.response?.data?.error ||
-            this.$t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.FIX_ERROR')
+            this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
         );
       } finally {
         this.isEnablingCalling = false;

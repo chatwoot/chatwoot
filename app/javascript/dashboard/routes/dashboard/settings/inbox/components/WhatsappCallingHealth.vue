@@ -23,8 +23,10 @@ const props = defineProps({
 
 const emit = defineEmits(['enableCalling', 'registerWebhook']);
 
-const { t, te } = useI18n();
+const { t } = useI18n();
 const { resolvedLocale } = useLocale();
+
+const HEALTHY_STATUSES = ['enabled', 'configured', 'eligible'];
 
 const formatDate = value =>
   new Intl.DateTimeFormat(resolvedLocale.value, {
@@ -32,147 +34,69 @@ const formatDate = value =>
     timeStyle: 'short',
   }).format(new Date(value));
 
-// Meta may add restriction types we have no copy for; show the raw type rather than a translation key.
-const restrictionLabel = ({ type, expires_at: expiresAt }) => {
-  const typeKey = `INBOX_MGMT.ACCOUNT_HEALTH.CALLING.ELIGIBILITY.TYPES.${type}`;
-  const label = te(typeKey) ? t(typeKey) : type;
-  if (!expiresAt) return label;
+const checks = computed(() => {
+  const {
+    meta_status: metaStatus,
+    webhook_subscription: webhook,
+    eligibility,
+  } = props.calling;
+  const isCallingDisabled = metaStatus.status === 'disabled';
 
-  const expiry = t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.ELIGIBILITY.EXPIRES', {
-    date: formatDate(expiresAt),
-  });
-  return `${label} ${expiry}`;
-};
-
-const unverifiedCheck = check => ({
-  ...check,
-  isHealthy: false,
-  statusLabel: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.UNVERIFIED'),
-  hints: [t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.UNVERIFIED_HINT')],
-  action: null,
-});
-
-const metaStatusCheck = computed(() => {
-  const check = {
-    key: 'metaStatus',
-    label: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.LABEL'),
-    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.TOOLTIP'),
-  };
-  const { status } = props.calling.meta_status || {};
-
-  if (status === 'enabled') {
-    return {
-      ...check,
-      isHealthy: true,
-      statusLabel: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.ENABLED'),
-      hints: [],
-      action: null,
-    };
-  }
-  if (status === 'disabled') {
-    return {
-      ...check,
-      isHealthy: false,
-      statusLabel: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.DISABLED'),
-      hints: [t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.DISABLED_HINT')],
-      action: {
+  return [
+    {
+      key: 'metaStatus',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.LABEL'),
+      status: metaStatus.status,
+      hints: isCallingDisabled
+        ? [t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.DISABLED_HINT')]
+        : [],
+      action: isCallingDisabled && {
         label: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.META_STATUS.FIX_BUTTON'),
         loading: props.isEnablingCalling,
         onClick: () => emit('enableCalling'),
       },
-    };
-  }
-  return unverifiedCheck(check);
-});
-
-const WEBHOOK_HINTS = {
-  app_not_subscribed:
-    'INBOX_MGMT.ACCOUNT_HEALTH.CALLING.WEBHOOK_SUBSCRIPTION.HINTS.APP_NOT_SUBSCRIBED',
-  calls_field_missing:
-    'INBOX_MGMT.ACCOUNT_HEALTH.CALLING.WEBHOOK_SUBSCRIPTION.HINTS.CALLS_FIELD_MISSING',
-};
-
-const webhookSubscriptionCheck = computed(() => {
-  const check = {
-    key: 'webhookSubscription',
-    label: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.WEBHOOK_SUBSCRIPTION.LABEL'),
-    tooltip: t(
-      'INBOX_MGMT.ACCOUNT_HEALTH.CALLING.WEBHOOK_SUBSCRIPTION.TOOLTIP'
+    },
+    {
+      key: 'webhookSubscription',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.WEBHOOK_SUBSCRIPTION.LABEL'),
+      status: webhook.status,
+      hints: webhook.reason
+        ? [
+            t(
+              `INBOX_MGMT.ACCOUNT_HEALTH.CALLING.WEBHOOK_SUBSCRIPTION.${webhook.reason.toUpperCase()}`
+            ),
+          ]
+        : [],
+      // The app's own webhook fields live in the Meta App Dashboard; only the WABA subscription is ours to repair.
+      action: webhook.reason === 'app_not_subscribed' && {
+        label: t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_BUTTON'),
+        loading: props.isRegisteringWebhook,
+        onClick: () => emit('registerWebhook'),
+      },
+    },
+    {
+      key: 'eligibility',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.ELIGIBILITY.LABEL'),
+      status: eligibility.status,
+      hints: (eligibility.restrictions || []).map(({ type, expires_at }) =>
+        t(`INBOX_MGMT.ACCOUNT_HEALTH.CALLING.ELIGIBILITY.${type}`, {
+          date: formatDate(expires_at),
+        })
+      ),
+      action: false,
+    },
+  ].map(check => ({
+    ...check,
+    isHealthy: HEALTHY_STATUSES.includes(check.status),
+    statusLabel: t(
+      `INBOX_MGMT.ACCOUNT_HEALTH.CALLING.STATUSES.${check.status.toUpperCase()}`
     ),
-  };
-  const { status, reason } = props.calling.webhook_subscription || {};
-
-  if (status === 'configured') {
-    return {
-      ...check,
-      isHealthy: true,
-      statusLabel: t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.CALLING.WEBHOOK_SUBSCRIPTION.CONFIGURED'
-      ),
-      hints: [],
-      action: null,
-    };
-  }
-  if (status === 'missing') {
-    return {
-      ...check,
-      isHealthy: false,
-      statusLabel: t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.CALLING.WEBHOOK_SUBSCRIPTION.MISSING'
-      ),
-      hints: WEBHOOK_HINTS[reason] ? [t(WEBHOOK_HINTS[reason])] : [],
-      // Only the WABA subscription is ours to repair; the app's webhook fields live in the Meta App Dashboard.
-      action:
-        reason === 'app_not_subscribed'
-          ? {
-              label: t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_BUTTON'),
-              loading: props.isRegisteringWebhook,
-              onClick: () => emit('registerWebhook'),
-            }
-          : null,
-    };
-  }
-  return unverifiedCheck(check);
+    hints:
+      check.status === 'unverified'
+        ? [t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.UNVERIFIED_HINT')]
+        : check.hints,
+  }));
 });
-
-const eligibilityCheck = computed(() => {
-  const check = {
-    key: 'eligibility',
-    label: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.ELIGIBILITY.LABEL'),
-    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.ELIGIBILITY.TOOLTIP'),
-    action: null,
-  };
-  const { status, restrictions = [] } = props.calling.eligibility || {};
-
-  if (status === 'eligible') {
-    return {
-      ...check,
-      isHealthy: true,
-      statusLabel: t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.ELIGIBILITY.ELIGIBLE'),
-      hints: [],
-    };
-  }
-  if (status === 'restricted') {
-    return {
-      ...check,
-      isHealthy: false,
-      statusLabel: t(
-        'INBOX_MGMT.ACCOUNT_HEALTH.CALLING.ELIGIBILITY.RESTRICTED'
-      ),
-      hints: [
-        ...restrictions.map(restrictionLabel),
-        t('INBOX_MGMT.ACCOUNT_HEALTH.CALLING.ELIGIBILITY.RESTRICTION_HINT'),
-      ],
-    };
-  }
-  return unverifiedCheck(check);
-});
-
-const checks = computed(() => [
-  metaStatusCheck.value,
-  webhookSubscriptionCheck.value,
-  eligibilityCheck.value,
-]);
 </script>
 
 <template>
@@ -190,16 +114,9 @@ const checks = computed(() => [
         class="flex flex-col gap-2 p-4 rounded-lg border border-n-weak bg-n-solid-1"
         :class="{ 'xs:col-span-2': check.hints.length }"
       >
-        <div class="flex gap-2 items-center">
-          <span class="text-body-main font-medium text-n-slate-11">
-            {{ check.label }}
-          </span>
-          <Icon
-            v-tooltip.top="check.tooltip"
-            icon="i-lucide-info"
-            class="flex-shrink-0 w-4 h-4 cursor-help text-n-slate-9"
-          />
-        </div>
+        <span class="text-body-main font-medium text-n-slate-11">
+          {{ check.label }}
+        </span>
         <div class="flex items-center justify-between gap-3">
           <span
             class="inline-flex items-center gap-1.5 px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2"
