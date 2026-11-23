@@ -52,6 +52,9 @@ fr:
     call_hours:
       closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
       whatsapp_failed: "Couldn't apply business hours to WhatsApp calls: %{error}"
+    missed_call_message:
+      default: "Sorry we missed your call. Reply here and we'll get back to you as soon as we can."
+      invalid: 'The missed-call message must be %{max} characters or fewer'
     call_routing:
       invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
@@ -560,7 +563,7 @@ fr:
     copilot_message_required: Le message est obligatoire
     copilot_error: 'Veuillez connecter un assistant à cette boîte de réception pour utiliser Copilot'
     copilot_limit: 'Vous êtes à court de crédits Copilot. Vous pouvez acheter plus de crédits dans la section de facturation.'
-    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: 'Passez à la version supérieure pour activer Captain AI'
     disabled: 'Captain AI est désactivé pour ce compte.'
     api_key_missing: 'La clé API de Captain AI n’est pas configurée.'
@@ -890,8 +893,7 @@ fr:
         conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Éditeur'
         assistant: 'Assistant'
-        copilot: 'Copilot'
-        copilot_workflows: 'Copilot workflows'
+        copilot_workflows: 'Copilot'
         document_faq_generation: 'Génération de la FAQ du document'
         conversation_faq_generation: 'Génération de la FAQ Conversation'
         conversation_faq_matching: 'Correspondance de la FAQ de la conversation'
