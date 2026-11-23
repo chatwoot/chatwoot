@@ -119,7 +119,9 @@ class Imap::BaseFetchEmailService
     end
   end
 
-  def fetch_body(seq_no) = imap_client.fetch(seq_no, 'BODY.PEEK[]')&.first&.attr&.dig('BODY[]')
+  def fetch_body(seq_no)
+    imap_client.fetch(seq_no, 'BODY.PEEK[]')&.first&.attr&.dig('BODY[]')
+  end
 
   def re_resolve_sequence_number(message_id)
     seq_no = imap_client.search(['HEADER', 'Message-ID', message_id])&.first
@@ -153,7 +155,9 @@ class Imap::BaseFetchEmailService
     false
   end
 
-  def connection_lost? = @connection_lost == true
+  def connection_lost?
+    @connection_lost == true
+  end
 
   def disconnect_imap_client
     @imap_client&.disconnect

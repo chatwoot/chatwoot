@@ -119,6 +119,9 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   # them and agents get a visible note in the conversation.
   def import_without_attachments(inbound_mail, channel)
     return if inbound_mail.attachments.blank?
+    # A retry after a committed import must not claim it was degraded: the
+    # stored message already exists and keeps its attachments.
+    return if channel.inbox.messages.exists?(source_id: inbound_mail.message_id)
 
     inbound_mail.without_attachments!
     Timeout.timeout(email_processing_timeout) do
@@ -139,8 +142,10 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
         account_id: conversation.account_id,
         inbox_id: conversation.inbox_id,
         message_type: :activity,
-        content: 'This email was imported without its attachments after repeated processing errors. ' \
-                 'The original email is still available on the mail server.'
+        content: I18n.t(
+          'conversations.activity.email.imported_without_attachments',
+          locale: conversation.account.locale
+        )
       }
     )
   end

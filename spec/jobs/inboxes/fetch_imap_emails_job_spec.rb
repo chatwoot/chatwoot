@@ -177,14 +177,31 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         end
 
         it 'enqueues an activity message when the degraded import succeeds' do
-          message = create(:message, source_id: 'message-id', account: account,
-                                     inbox: imap_email_channel.inbox, conversation: create(:conversation, account: account,
-                                                                                                          inbox: imap_email_channel.inbox))
+          allow(mailbox).to receive(:process).with(inbound_mail, imap_email_channel) do
+            process_calls << true
+            raise StandardError if process_calls.length == 1
+
+            create(:message, source_id: 'message-id', account: account,
+                             inbox: imap_email_channel.inbox,
+                             conversation: create(:conversation, account: account, inbox: imap_email_channel.inbox))
+          end
 
           expect(Conversations::ActivityMessageJob).to receive(:perform_later)
-            .with(message.conversation, hash_including(message_type: :activity))
+            .with(anything, hash_including(message_type: :activity))
 
           described_class.perform_now(imap_email_channel)
+        end
+
+        it 'does not claim a degraded import when the email was already imported' do
+          create(:message, source_id: 'message-id', account: account,
+                           inbox: imap_email_channel.inbox,
+                           conversation: create(:conversation, account: account, inbox: imap_email_channel.inbox))
+
+          expect(Conversations::ActivityMessageJob).not_to receive(:perform_later)
+
+          described_class.perform_now(imap_email_channel)
+
+          expect(inbound_mail).not_to have_received(:without_attachments!)
         end
 
         it 'does not retry when the email has no attachments' do

@@ -477,6 +477,8 @@ en:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
         not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
+      email:
+        imported_without_attachments: 'This email was imported without its attachments after repeated processing errors. The original email is still available on the mail server.'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
       via_copilot: '%{activity} via Copilot'
