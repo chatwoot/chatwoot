@@ -776,18 +776,6 @@
           "LABEL": "Cavab təklif et",
           "CONTENT": "Müştərinin sorğusunu analiz et və onların narahatlıqlarını və ya suallarını effektiv şəkildə cavablandıran bir cavab hazırla. Cavabın aydın, qısa və faydalı məlumat verdiyinə əmin ol."
         },
-        "RATE": {
-          "LABEL": "Bu söhbəti qiymətləndir",
-          "CONTENT": "Söhbəti nəzərdən keçir və müştərinin ehtiyaclarını nə dərəcədə qarşıladığını yoxla. Ton, aydınlıq və effektivliyə əsaslanaraq 5 üzərindən qiymət ver."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Yüksək prioritetli söhbətlər",
-          "CONTENT": "Bütün yüksək prioritetli açıq söhbətlərin xülasəsini ver. Söhbət ID-si, müştərinin adı (əgər varsa), son mesajın məzmunu və təyin olunmuş agenti daxil et. Əgər uyğun olarsa, statusa görə qrupla."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Əlaqələri siyahıla",
-          "CONTENT": "Ən yaxşı 10 əlaqənin siyahısını göstər. Ad, e-poçt və ya telefon nömrəsi (əgər varsa), son görülmə vaxtı, etiketlər (əgər varsa) daxil et."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
