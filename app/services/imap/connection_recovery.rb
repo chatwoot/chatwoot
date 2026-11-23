@@ -10,21 +10,19 @@ module Imap::ConnectionRecovery
   private
 
   # When the IMAP connection drops mid-run (for example a server-side BYE),
-  # reconnect and retry the message instead of aborting the whole batch.
+  # reconnect and retry the message instead of aborting the whole batch. A
+  # replacement session can drop too, so keep going until the reconnect budget
+  # is spent.
   def fetch_full_message(seq_no, message_id)
-    fetch_body(seq_no)
-  rescue *TRANSIENT_IMAP_ERRORS => e
-    return log_fetch_failure(seq_no, e) unless reconnect_imap
-
-    # Sequence numbers can shift on reconnect when another client expunges mail,
-    # so the retry re-resolves the message by its Message-ID header.
-    retry_seq_no = re_resolve_sequence_number(message_id)
-    return if retry_seq_no.nil?
-
-    begin
-      fetch_body(retry_seq_no)
+    loop do
+      return fetch_body(seq_no)
     rescue *TRANSIENT_IMAP_ERRORS => e
-      log_fetch_failure(retry_seq_no, e)
+      return log_fetch_failure(seq_no, e) unless reconnect_imap
+
+      # Sequence numbers can shift on reconnect when another client expunges
+      # mail, so re-resolve the message by its Message-ID header.
+      seq_no = re_resolve_sequence_number(message_id)
+      return if seq_no.nil?
     end
   end
 

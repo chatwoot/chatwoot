@@ -226,11 +226,12 @@ RSpec.describe Imap::FetchEmailService do
 
           allow(Net::IMAP).to receive(:new).with(
             imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: imap_email_channel.imap_enable_ssl
-          ).and_return(imap, reconnected_imap)
+          ).and_return(imap, *Array.new(5, reconnected_imap))
           allow(reconnected_imap).to receive(:authenticate).with(
             'plain', imap_email_channel.imap_login, imap_email_channel.imap_password
           )
           allow(reconnected_imap).to receive(:select).with('INBOX')
+          allow(reconnected_imap).to receive(:disconnect)
           allow(imap).to receive(:disconnect)
           allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
           allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
@@ -253,34 +254,44 @@ RSpec.describe Imap::FetchEmailService do
       it 'keeps emails fetched before and after a dropped connection' do
         travel_to '26.10.2020 10:00'.to_datetime do
           email_object = create_inbound_email_from_fixture('only_text.eml')
+          second_eml = eml_content_with_message_id.sub(/^Message-ID:.*$/, 'Message-ID: <second@example.com>')
           email_header_one = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
-          email_header_two = Net::IMAP::FetchData.new(2, 'BODY[HEADER]' => eml_content_with_message_id)
-          imap_fetch_mail = Net::IMAP::FetchData.new(2, 'BODY[]' => eml_content_with_message_id)
+          email_header_two = Net::IMAP::FetchData.new(2, 'BODY[HEADER]' => second_eml)
+          imap_fetch_mail = Net::IMAP::FetchData.new(1, 'BODY[]' => eml_content_with_message_id)
+          imap_fetch_mail_two = Net::IMAP::FetchData.new(2, 'BODY[]' => second_eml)
           reconnected_imap = instance_double(Net::IMAP)
+          fetch_one_calls = 0
 
           allow(Net::IMAP).to receive(:new).with(
             imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: imap_email_channel.imap_enable_ssl
-          ).and_return(imap, reconnected_imap)
+          ).and_return(imap, *Array.new(5, reconnected_imap))
           allow(reconnected_imap).to receive(:authenticate).with(
             'plain', imap_email_channel.imap_login, imap_email_channel.imap_password
           )
           allow(reconnected_imap).to receive(:select).with('INBOX')
+          allow(reconnected_imap).to receive(:disconnect)
           allow(imap).to receive(:disconnect)
           allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1, 2])
           allow(imap).to receive(:fetch).with([1, 2], 'BODY.PEEK[HEADER]').and_return([email_header_one, email_header_two])
           allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_raise(IOError, 'closed stream')
-          # The failed message is re-resolved to 1; the queued second message is
-          # re-resolved after the reconnect too and now sits at 2.
-          allow(reconnected_imap).to receive(:search)
-            .with(['HEADER', 'Message-ID', email_object.message_id]).and_return([1], [2])
-          allow(reconnected_imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_raise(IOError, 'closed stream')
-          allow(reconnected_imap).to receive(:fetch).with(2, 'BODY.PEEK[]').and_return([imap_fetch_mail])
+          # The retried message and the queued second message both re-resolve
+          # against the replacement session's renumbered mailbox.
+          allow(reconnected_imap).to receive(:search) do |args|
+            args.last.include?('second@example.com') ? [2] : [1]
+          end
+          allow(reconnected_imap).to receive(:fetch).with(1, 'BODY.PEEK[]') do
+            fetch_one_calls += 1
+            raise IOError, 'closed stream' if fetch_one_calls == 1
+
+            [imap_fetch_mail]
+          end
+          allow(reconnected_imap).to receive(:fetch).with(2, 'BODY.PEEK[]').and_return([imap_fetch_mail_two])
           allow(reconnected_imap).to receive(:logout)
 
           result = described_class.new(channel: imap_email_channel).perform
 
-          expect(result.length).to eq 1
-          expect(result[0].message_id).to eq email_object.message_id
+          expect(result.length).to eq 2
+          expect(result.map(&:message_id)).to include(email_object.message_id)
           expect(reconnected_imap).to have_received(:fetch).with(2, 'BODY.PEEK[]')
         end
       end
@@ -354,11 +365,12 @@ RSpec.describe Imap::FetchEmailService do
 
           allow(Net::IMAP).to receive(:new).with(
             imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: imap_email_channel.imap_enable_ssl
-          ).and_return(imap, reconnected_imap)
+          ).and_return(imap, *Array.new(5, reconnected_imap))
           allow(reconnected_imap).to receive(:authenticate).with(
             'plain', imap_email_channel.imap_login, imap_email_channel.imap_password
           )
           allow(reconnected_imap).to receive(:select).with('INBOX')
+          allow(reconnected_imap).to receive(:disconnect)
           allow(imap).to receive(:disconnect)
           allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
           allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
@@ -386,11 +398,12 @@ RSpec.describe Imap::FetchEmailService do
 
           allow(Net::IMAP).to receive(:new).with(
             imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: imap_email_channel.imap_enable_ssl
-          ).and_return(imap, reconnected_imap)
+          ).and_return(imap, *Array.new(5, reconnected_imap))
           allow(reconnected_imap).to receive(:authenticate).with(
             'plain', imap_email_channel.imap_login, imap_email_channel.imap_password
           )
           allow(reconnected_imap).to receive(:select).with('INBOX')
+          allow(reconnected_imap).to receive(:disconnect)
           allow(imap).to receive(:disconnect)
           allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
           allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])

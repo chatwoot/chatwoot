@@ -170,6 +170,11 @@ class Imap::BaseFetchEmailService
     imap.select('INBOX')
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] IMAP connection established for #{channel.email}"
     imap
+  rescue StandardError
+    # Authentication or select failed after the socket was created; close the
+    # client local to this call so it does not leak.
+    imap&.disconnect
+    raise
   end
 
   def terminate_imap_connection
