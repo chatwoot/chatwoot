@@ -679,7 +679,7 @@ hr:
       results_for: "Rezultati pretraživanja za „%{query}”"
       no_results: "Nisu pronađeni rezultati za „%{query}”"
       found_results:
-        one: Pronađen je 1 rezultat
+        one: 'Pronađen je %{count} rezultat'
         few: 'Pronađeno je %{count} rezultata'
         other: 'Pronađeno je %{count} rezultata'
       submit: Pretraži
