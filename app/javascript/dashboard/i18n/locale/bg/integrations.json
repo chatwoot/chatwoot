@@ -776,18 +776,6 @@
           "LABEL": "Предложете отговор",
           "CONTENT": "Анализирайте запитването на клиента и създайте отговор, който ефективно адресира техните притеснения или въпроси. Уверете се, че отговорът е ясен, кратък и предоставя полезна информация."
         },
-        "RATE": {
-          "LABEL": "Оценете този разговор",
-          "CONTENT": "Прегледайте разговора, за да видите доколко отговаря на нуждите на клиента. Споделете оценка от 5 въз основа на тон, яснота и ефективност."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Разговори с висок приоритет",
-          "CONTENT": "Дайте ми резюме на всички отворени разговори с висок приоритет. Включете ID на разговора, името на клиента (ако е налично), съдържанието на последното съобщение и назначен агент. Групирайте по статус, ако е приложимо."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Списък с контакти",
-          "CONTENT": "Покажете ми списък с топ 10 контакта. Включете име, имейл или телефонен номер (ако е наличен), време на последно виждане, етикети (ако има такива)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
