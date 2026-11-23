@@ -986,5 +986,28 @@ RSpec.describe ConversationReplyMailer do
         expect(transcript.decoded).to include(message.content)
       end
     end
+
+    context 'with a conversation transcript for an email inbox' do
+      let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account) }
+      let(:transcript) { described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now.decoded }
+
+      it 'leaves the quoted thread out of agent replies' do
+        create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Where is my order?')
+        create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                         content: "It ships today.\n\n> On Monday customer wrote:\n>\n> Where is my order?")
+
+        expect(transcript).to include('It ships today.')
+        expect(transcript).not_to include('customer wrote:')
+        expect(transcript.scan('Where is my order?').size).to eq(1)
+      end
+
+      it 'keeps quoted lines in customer emails' do
+        create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                         content: "> Can you share the invoice?\n\nAttached it here.")
+
+        expect(transcript).to include('Can you share the invoice?')
+        expect(transcript).to include('Attached it here.')
+      end
+    end
   end
 end

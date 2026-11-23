@@ -240,6 +240,16 @@ class Message < ApplicationRecord
     content_attributes['forwarded_message_id'].present?
   end
 
+  # The email reply box appends the earlier thread to the reply as "> " lines.
+  def email_quoted_thread
+    inbox.email? ? content.to_s[/^>.*\z/m].to_s : ''
+  end
+
+  def content_without_email_quoted_thread
+    quoted_thread = email_quoted_thread
+    quoted_thread.blank? ? content : content.delete_suffix(quoted_thread).strip
+  end
+
   def auto_reply_email?
     return false unless incoming_email? || inbox.email?
 
