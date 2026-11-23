@@ -14,21 +14,29 @@ const template = {
 };
 
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
-const inboxTemplates = vi.hoisted(() => ({ value: [] }));
+// Inboxes arrive from the store with their templates, possibly after the editor opens.
+const store = vi.hoisted(() => ({ state: null }));
 
 vi.mock('dashboard/composables/store', async () => {
   const { ref } = await import('vue');
-  inboxTemplates.value = ref([]);
+  store.state = ref({ inboxes: [], templates: [] });
   return {
     useMapGetter: getter =>
       computed(() => {
-        const loaded = inboxTemplates.value.value;
+        const { inboxes, templates } = store.state.value;
         return getter === 'inboxes/getWhatsAppInboxes'
-          ? [{ id: 7, name: 'Support WhatsApp' }]
-          : inboxId => (inboxId === 7 ? loaded : []);
+          ? inboxes
+          : inboxId => (inboxId === 7 ? templates : []);
       }),
   };
 });
+
+const loadInboxes = templates => {
+  store.state.value = {
+    inboxes: [{ id: 7, name: 'Support WhatsApp' }],
+    templates,
+  };
+};
 
 const savedValue = {
   inbox_id: 7,
@@ -44,7 +52,7 @@ const savedValue = {
 
 describe('AutomationActionWhatsAppTemplateInput', () => {
   beforeEach(() => {
-    inboxTemplates.value.value = [template];
+    loadInboxes([template]);
   });
 
   it('builds the action params from the picked inbox and template', async () => {
@@ -67,14 +75,14 @@ describe('AutomationActionWhatsAppTemplateInput', () => {
   });
 
   it('restores a saved template once the inbox templates load', async () => {
-    inboxTemplates.value.value = [];
+    store.state.value = { inboxes: [], templates: [] };
     const wrapper = shallowMount(AutomationActionWhatsAppTemplateInput, {
       props: { modelValue: savedValue },
     });
     const fields = wrapper.findComponent(TemplateFields);
     expect(fields.props('templateId')).toBeNull();
 
-    inboxTemplates.value.value = [template];
+    loadInboxes([template]);
     await wrapper.vm.$nextTick();
 
     expect(wrapper.findComponent(ComboBox).props('modelValue')).toBe(7);
@@ -82,5 +90,16 @@ describe('AutomationActionWhatsAppTemplateInput', () => {
     expect(fields.props('processedParams')).toEqual({
       body: { 1: '{{contact.name}}' },
     });
+  });
+
+  it('clears a saved template that is no longer approved', () => {
+    loadInboxes([]);
+    const wrapper = shallowMount(AutomationActionWhatsAppTemplateInput, {
+      props: { modelValue: savedValue },
+    });
+
+    expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([
+      { inbox_id: 7 },
+    ]);
   });
 });

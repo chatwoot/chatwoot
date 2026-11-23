@@ -34,23 +34,6 @@ const templates = computed(() =>
 const templateId = ref(null);
 let isRestoringSavedTemplate = Boolean(savedTemplate.name);
 
-// Inboxes can load after the editor opens, so restore the saved template once its templates arrive.
-watch(
-  templates,
-  list => {
-    if (!isRestoringSavedTemplate) return;
-    const match = list.find(
-      template =>
-        template.name === savedTemplate.name &&
-        template.language === savedTemplate.language
-    );
-    if (!match) return;
-    templateId.value = getTemplateKey(match);
-    isRestoringSavedTemplate = false;
-  },
-  { immediate: true }
-);
-
 const inboxOptions = computed(() =>
   whatsAppInboxes.value.map(inbox => ({ value: inbox.id, label: inbox.name }))
 );
@@ -86,6 +69,32 @@ const buildValue = () => {
     },
   };
 };
+
+// Inboxes and their templates can load after the editor opens. Once they have, restore the saved
+// template, or clear it when it was deleted or unapproved so the form asks for a new one.
+watch(
+  [whatsAppInboxes, templates],
+  ([inboxes, list]) => {
+    if (!isRestoringSavedTemplate || inboxes.length === 0) return;
+    isRestoringSavedTemplate = false;
+
+    const match = list.find(
+      template =>
+        template.name === savedTemplate.name &&
+        template.language === savedTemplate.language
+    );
+    if (match) {
+      templateId.value = getTemplateKey(match);
+      return;
+    }
+    if (!inboxes.some(inbox => inbox.id === inboxId.value)) {
+      inboxId.value = null;
+    }
+    processedParams.value = {};
+    modelValue.value = buildValue();
+  },
+  { immediate: true }
+);
 
 watch(
   [inboxId, templateId, processedParams],
