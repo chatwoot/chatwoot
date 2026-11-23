@@ -225,4 +225,13 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     travel_to(monday_opening + 1.minute) { described_class.new.perform(pending_execution.reload) }
     expect(pending_execution.reload).to be_executed
   end
+
+  it 'skips a business-hours rule when the inbox is closed every day' do
+    conversation.inbox.update!(working_hours_enabled: true)
+    conversation.inbox.working_hours.each { |hours| hours.update!(closed_all_day: true) }
+    rule.update!(only_during_business_hours: true)
+
+    job.perform(pending_execution.reload)
+    expect(pending_execution.reload.skip_reason).to eq('inbox_never_opens')
+  end
 end

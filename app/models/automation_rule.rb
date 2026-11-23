@@ -46,6 +46,7 @@ class AutomationRule < ApplicationRecord
   validates :execution_delay, numericality: { only_integer: true, in: EXECUTION_DELAY_RANGE }, allow_nil: true
   validate :execution_delay_supported_conditions
   validate :execution_delay_supported_event
+  validate :business_hours_require_execution_delay
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
   # Discard rows armed under the old definition; they re-arm on the next matching event.
@@ -173,11 +174,17 @@ class AutomationRule < ApplicationRecord
     errors.add(:execution_delay, 'only supports status and inbox conditions for conversation-level events.')
   end
 
+  def business_hours_require_execution_delay
+    return unless only_during_business_hours? && execution_delay.blank?
+
+    errors.add(:only_during_business_hours, 'can only be used with an execution delay.')
+  end
+
   # Deactivating counts: without it a rule turned off and back on before its due time would still
   # run the actions the admin turned it off to stop.
   def execution_config_changed?
-    saved_change_to_active? || saved_change_to_execution_delay? || saved_change_to_event_name? ||
-      saved_change_to_conditions? || saved_change_to_actions?
+    saved_change_to_active? || saved_change_to_execution_delay? || saved_change_to_only_during_business_hours? ||
+      saved_change_to_event_name? || saved_change_to_conditions? || saved_change_to_actions?
   end
 
   def discard_stale_pending_executions

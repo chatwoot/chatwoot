@@ -362,6 +362,25 @@ describe('AutomationRuleForm', () => {
     expect(wrapper.emitted('save')[0][0].only_during_business_hours).toBe(true);
   });
 
+  it('clears business hours when the rule switches to run instantly', async () => {
+    const wrapper = mountComponent({
+      mode: 'edit',
+      automation: {
+        ...buildAutomation({ delayed: true }),
+        only_during_business_hours: true,
+        actions: [{ action_name: 'assign_agent', action_params: [1] }],
+      },
+    });
+    wrapper.vm.open(60);
+    await nextTick();
+    await selectRunType(wrapper, false);
+
+    await wrapper.findAll('button').at(-1).trigger('click');
+    expect(wrapper.emitted('save')[0][0].only_during_business_hours).toBe(
+      false
+    );
+  });
+
   it('hides the monitor event on a community installation', async () => {
     featureState.cloud.value = false;
     const wrapper = mountComponent({

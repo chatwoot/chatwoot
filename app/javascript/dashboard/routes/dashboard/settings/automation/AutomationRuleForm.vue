@@ -440,6 +440,8 @@ const emitSaveAutomation = () => {
     if (!allowsDelayedExecution.value) {
       delete payload.execution_delay;
       delete payload.only_during_business_hours;
+    } else if (!isDelayed.value) {
+      payload.only_during_business_hours = false;
     }
     emit('save', payload, props.mode);
   }

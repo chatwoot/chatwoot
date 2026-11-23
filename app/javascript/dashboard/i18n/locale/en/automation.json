@@ -109,6 +109,7 @@
         "DELAYED": "Runs after a wait"
       },
       "DELAY_BADGE": "Runs after {delay}",
+      "DELAY_BADGE_BUSINESS_HOURS": "Runs after {delay}, in business hours",
       "MONITOR_PAUSED": "Monitor paused",
       "MONITOR_DELETED": "Monitor deleted",
       "MONITOR_UNAVAILABLE": "Monitor feature unavailable",
