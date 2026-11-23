@@ -16,20 +16,20 @@
       "EVENT_TYPE_GROUPS": {
         "ACCESS": "Pristup",
         "AGENTS_TEAMS": "Agenti i timovi",
-        "CONFIGURATION": "Configuration",
-        "CONVERSATIONS": "Conversations"
+        "CONFIGURATION": "Konfiguracija",
+        "CONVERSATIONS": "Razgovori"
       },
       "EVENT_TYPES": {
         "SIGN_IN_OUT": "Prijava / odjava",
         "AGENTS": "Agenti",
-        "TEAMS": "Teams",
+        "TEAMS": "Timovi",
         "TEAM_MEMBERS": "Članovi tima",
         "INBOX_MEMBERS": "Suradnici ulaznog sandučića",
-        "ACCOUNT": "Account settings",
-        "INBOXES": "Inboxes",
+        "ACCOUNT": "Postavke računa",
+        "INBOXES": "Pretinci",
         "WEBHOOKS": "Webhooks",
         "AUTOMATION_RULES": "Pravila automatizacije",
-        "MACROS": "Macros",
+        "MACROS": "Makronaredbe",
         "CONVERSATION_DELETIONS": "Brisanja razgovora",
         "MESSAGE_DELETIONS": "Brisanja poruka"
       },
@@ -46,7 +46,7 @@
         "ACTIVITY": "Korisnik",
         "TIME": "Akcija",
         "IP_ADDRESS": "IP adresa",
-        "LOCATION": "Location"
+        "LOCATION": "Lokacija"
       }
     },
     "API": {
