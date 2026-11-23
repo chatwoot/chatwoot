@@ -158,42 +158,42 @@
         }
       },
       "FORM": {
-        "CREATE_TITLE": "Create campaign",
+        "CREATE_TITLE": "Izradi kampanju",
         "LIVE_TEST": "Probno slanje",
         "LIVE_TEST_TOOLTIP": "Probno slanje uskoro će biti dostupno",
         "SCHEDULE": "Zakaži kampanju",
         "SCHEDULED_FOR": "Zakazano za {date}",
         "RESCHEDULE": "Promijeni termin",
         "DISCARD": "Odbaci promjene",
-        "SAVE": "Save changes",
+        "SAVE": "Spremi promjene",
         "BASIC_SETTINGS": {
           "TITLE": "Basic settings",
           "NAME": {
-            "LABEL": "Title",
+            "LABEL": "Naslov",
             "PLACEHOLDER": "Unesite naziv kampanje"
           },
           "INBOX": {
-            "LABEL": "Inbox",
-            "PLACEHOLDER": "Select an inbox"
+            "LABEL": "Pretinac",
+            "PLACEHOLDER": "Odaberite pretinac"
           }
         },
         "AUDIENCE": {
-          "TITLE": "Audience",
+          "TITLE": "Publika",
           "TIER_DESCRIPTION": "Vaš WhatsApp račun može slati poruke do {tier}.",
           "TIER_UNKNOWN": "Odaberite pretinac za prikaz ograničenja slanja poruka vašeg WhatsApp računa.",
-          "LEARN_MORE": "Learn more",
+          "LEARN_MORE": "Saznaj više",
           "LABELS": {
-            "LABEL": "Labels",
+            "LABEL": "Oznake",
             "PLACEHOLDER": "Select the customer labels"
           },
           "SELECTED_COUNT": "Broj odabranih kontakata: {count}",
-          "VIEW": "View",
+          "VIEW": "Prikaži",
           "EMPTY_STATE": "Odaberite barem jednu oznaku za odabir primatelja.",
           "CONTACTS": {
-            "TITLE": "Contacts",
+            "TITLE": "Kontakti",
             "TAGGED_WITH": "s oznakom",
             "SEARCH_PLACEHOLDER": "Pretraži prema imenu, e-pošti ili telefonskom broju",
-            "EMPTY_STATE": "No contacts found"
+            "EMPTY_STATE": "Nema pronađenih kontakata"
           }
         },
         "TEMPLATE": {
@@ -208,7 +208,7 @@
           "INVALID_MEDIA_URL": "Unesite valjan HTTP ili HTTPS URL.",
           "HEADER_PLACEHOLDER": "Unesite zaglavlje vrste {type}",
           "DOCUMENT_NAME_PLACEHOLDER": "Unesite naziv dokumenta",
-          "BODY_LABEL": "Body",
+          "BODY_LABEL": "Sadržaj",
           "BUTTONS_LABEL": "Buttons",
           "VARIABLE_PLACEHOLDER": "Unesite vrijednost varijable {variable}",
           "BUTTON_PLACEHOLDER": "Unesite parametar za gumb {index}"
@@ -221,7 +221,7 @@
           "STATUS_DESCRIPTION": "Trenutačni način rada ovog WhatsApp broja",
           "HEALTH_DESCRIPTION": "Ocjena kvalitete koju dodjeljuje Meta",
           "EMPTY_STATE": "Odaberite pretinac za prikaz podataka o pripadajućem WhatsApp računu.",
-          "UNAVAILABLE": "Not available",
+          "UNAVAILABLE": "Nije dostupno",
           "OPEN": "Otvori u WhatsApp Manageru"
         },
         "PREVIEW": {
@@ -232,13 +232,13 @@
         "SCHEDULE_POPOVER": {
           "LABEL": "Zakaži",
           "CANCEL": "Odustani",
-          "CREATE": "Create"
+          "CREATE": "Izradi"
         },
         "API": {
           "CREATE_SUCCESS": "WhatsApp kampanja uspješno je izrađena",
-          "CREATE_ERROR": "There was an error. Please try again.",
+          "CREATE_ERROR": "Došlo je do pogreške. Pokušajte ponovno.",
           "UPDATE_SUCCESS": "WhatsApp kampanja uspješno je ažurirana",
-          "UPDATE_ERROR": "There was an error. Please try again."
+          "UPDATE_ERROR": "Došlo je do pogreške. Pokušajte ponovno."
         }
       },
       "ANALYTICS": {
@@ -265,15 +265,15 @@
         "SENT_ON": "Poslano {date}",
         "PAGE_INFO": "Prikaz kontakta {startItem} - {endItem} od ukupno {totalItems} | Prikaz kontakata {startItem} - {endItem} od ukupno {totalItems}",
         "BREADCRUMB": {
-          "CAMPAIGNS": "Campaigns",
+          "CAMPAIGNS": "Kampanje",
           "WHATSAPP": "WhatsApp"
         },
         "FILTERS": {
-          "ALL": "All"
+          "ALL": "Sve"
         },
         "METRICS": {
           "AUDIENCE": {
-            "LABEL": "Audience",
+            "LABEL": "Publika",
             "HINT": "Kontakti uključeni u ovu kampanju."
           },
           "SENT": {
@@ -285,11 +285,11 @@
             "HINT": "Poruke koje su stigle na uređaj kontakta. Uključene su i pročitane poruke."
           },
           "READ": {
-            "LABEL": "Read",
+            "LABEL": "Pročitano",
             "HINT": "Poruke koje je kontakt otvorio."
           },
           "FAILED": {
-            "LABEL": "Failed",
+            "LABEL": "Neuspješno",
             "HINT": "Poruke koje WhatsApp nije mogao isporučiti."
           },
           "SKIPPED": {
@@ -301,24 +301,24 @@
           "QUEUED": "U redu čekanja",
           "SENT": "Čeka se ažuriranje statusa isporuke",
           "DELIVERED": "Isporučeno",
-          "READ": "Read",
-          "FAILED": "Failed",
+          "READ": "Pročitano",
+          "FAILED": "Neuspješno",
           "SKIPPED": "Preskočeno"
         },
         "BREAKDOWN": {
           "TITLE": "Pregled isporuke",
           "DELIVERY_RATE": "{value}% isporučeno",
           "LEGEND": {
-            "READ": "Read",
+            "READ": "Pročitano",
             "DELIVERED": "Isporučeno",
-            "FAILED": "Failed",
+            "FAILED": "Neuspješno",
             "SKIPPED": "Preskočeno",
             "PENDING": "U redu čekanja ili čeka ažuriranje"
           }
         },
         "TABLE": {
           "TITLE": "Isporuke",
-          "CONTACT": "Contact",
+          "CONTACT": "Kontakt",
           "STATUS": "Status",
           "MESSAGE": "Poruka",
           "MESSAGE_NOT_GENERATED": "Nije generirano",
