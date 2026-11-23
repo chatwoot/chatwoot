@@ -776,18 +776,6 @@
           "LABEL": "একটি উত্তর প্রস্তাব করুন",
           "CONTENT": "গ্রাহকের অনুসন্ধান বিশ্লেষণ করুন এবং এমন একটি উত্তর খসড়া করুন যা তাদের উদ্বেগ বা প্রশ্ন কার্যকরভাবে সমাধান করে। নিশ্চিত করুন যে উত্তরটি স্পষ্ট, সংক্ষিপ্ত এবং সহায়ক তথ্য প্রদান করে।"
         },
-        "RATE": {
-          "LABEL": "এই কথোপকথন মূল্যায়ন করুন",
-          "CONTENT": "কথোপকথন পর্যালোচনা করুন এবং দেখুন এটি গ্রাহকের চাহিদা কতটা পূরণ করে। স্বর, স্পষ্টতা এবং কার্যকারিতার ভিত্তিতে ৫ এর মধ্যে একটি রেটিং শেয়ার করুন।"
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "উচ্চ অগ্রাধিকার কথোপকথন",
-          "CONTENT": "আমাকে সব উচ্চ অগ্রাধিকার খোলা কথোপকথনের সারসংক্ষেপ দিন। কথোপকথন আইডি, গ্রাহকের নাম (যদি পাওয়া যায়), শেষ বার্তার বিষয়বস্তু এবং নিয়োগকৃত এজেন্ট অন্তর্ভুক্ত করুন। প্রাসঙ্গিক হলে স্থিতি অনুযায়ী গ্রুপ করুন।"
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "যোগাযোগের তালিকা",
-          "CONTENT": "আমাকে শীর্ষ 10 জন যোগাযোগের তালিকা দেখান। নাম, ইমেল বা ফোন নম্বর (যদি পাওয়া যায়), সর্বশেষ দেখা সময়, ট্যাগ (যদি থাকে) অন্তর্ভুক্ত করুন।"
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
