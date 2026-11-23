@@ -776,18 +776,6 @@
           "LABEL": "Suggerisci una risposta",
           "CONTENT": "Analizzare la richiesta del cliente e prepara una risposta che risponda efficacemente ai suoi dubbi o domande. Assicurati che la risposta sia chiara, concisa e fornisca informazioni utili."
         },
-        "RATE": {
-          "LABEL": "Valuta questa conversazione",
-          "CONTENT": "Valuta la conversazione per vedere quanto soddisfa le esigenze del cliente. Dai una valutazione da 1 a 5 in base al tono, alla chiarezza e all'efficacia."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Conversazioni ad alta priorità",
-          "CONTENT": "Dammi un riassunto di tutte le conversazioni aperte ad alta priorità. Includi l'ID della conversazione, il nome del cliente (se disponibile), il contenuto dell'ultimo messaggio e l'operatore assegnato. Raggruppa per stato se pertinente."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Elenca contatti",
-          "CONTENT": "Mostrami l'elenco dei primi 10 contatti. Includi nome, email o numero di telefono (se disponibile), orario di ultima lettura, tag (se presenti)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
