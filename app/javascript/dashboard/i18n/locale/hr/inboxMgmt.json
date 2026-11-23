@@ -55,9 +55,9 @@
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "SELECT_ACCOUNT": "Choose an Instagram account",
-        "CONNECT_ACCOUNT": "Connect account",
-        "START_AGAIN": "Start again",
+        "SELECT_ACCOUNT": "Odaberite Instagram račun",
+        "CONNECT_ACCOUNT": "Poveži račun",
+        "START_AGAIN": "Počni ispočetka",
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
@@ -206,14 +206,14 @@
         },
         "BANDWIDTH": {
           "CALLBACK_AUTH": {
-            "TITLE": "Callback credentials",
-            "DESCRIPTION": "Add these as the inbound and outbound callback credentials in your Bandwidth application. If several inboxes share one Bandwidth application, use the callback URL and credentials of one of them.",
-            "RESET_SUCCESS": "Callback password reset. Update it in your Bandwidth application.",
-            "RESET_ERROR": "Could not reset the callback password. Please try again.",
+            "TITLE": "Pristupni podaci za povratne pozive",
+            "DESCRIPTION": "Dodajte ih kao pristupne podatke za dolazne i odlazne povratne pozive u aplikaciji Bandwidth. Ako više pretinaca koristi istu Bandwidth aplikaciju, upotrijebite URL i pristupne podatke jednog od njih.",
+            "RESET_SUCCESS": "Lozinka za povratne pozive ponovno je postavljena. Ažurirajte je u aplikaciji Bandwidth.",
+            "RESET_ERROR": "Ponovno postavljanje lozinke za povratne pozive nije uspjelo. Pokušajte ponovno.",
             "USERNAME": "Username",
-            "PASSWORD": "Password",
-            "ENFORCE": "Require callback credentials",
-            "ENFORCE_DESCRIPTION": "Reject callbacks that do not use these credentials. Turn this on after adding the credentials to your Bandwidth application."
+            "PASSWORD": "Lozinka",
+            "ENFORCE": "Zahtijevaj pristupne podatke za povratne pozive",
+            "ENFORCE_DESCRIPTION": "Odbij povratne pozive koji ne koriste ove pristupne podatke. Uključite nakon što ih dodate u aplikaciju Bandwidth."
           },
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
@@ -254,28 +254,28 @@
             "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
           },
           "CLIENT_ID": {
-            "LABEL": "Client ID",
-            "PLACEHOLDER": "Enter your Bandwidth Client ID",
-            "ERROR": "This field is required"
+            "LABEL": "ID klijenta",
+            "PLACEHOLDER": "Unesite ID klijenta za Bandwidth",
+            "ERROR": "Ovo je polje obavezno"
           },
           "CLIENT_SECRET": {
-            "LABEL": "Client Secret",
-            "PLACEHOLDER": "Enter your Bandwidth Client Secret",
-            "ERROR": "This field is required"
+            "LABEL": "Tajni ključ klijenta",
+            "PLACEHOLDER": "Unesite tajni ključ klijenta za Bandwidth",
+            "ERROR": "Ovo je polje obavezno"
           },
           "OAUTH": {
-            "TITLE": "API credentials",
-            "MIGRATE": "Update credentials",
-            "READ_ONLY": "Read-only",
-            "SHOW_SECRET": "Show client secret",
-            "HIDE_SECRET": "Hide client secret",
-            "LEGACY_DESCRIPTION": "Update your Bandwidth credentials before December 2, 2026 to keep this inbox connected.",
-            "DESCRIPTION": "This inbox uses OAuth. Enter a new Client ID and Client Secret to replace its credentials.",
-            "SAVE": "Verify and save credentials",
-            "SUCCESS": "Bandwidth OAuth credentials saved.",
-            "LOAD_ERROR": "Unable to load Bandwidth credentials. Reload this page to try again.",
-            "ERROR": "Unable to save Bandwidth credentials. Please try again.",
-            "CALLBACK_DESCRIPTION": "Use this URL for inbound messages and delivery status callbacks in your Bandwidth application."
+            "TITLE": "API pristupni podaci",
+            "MIGRATE": "Ažuriraj pristupne podatke",
+            "READ_ONLY": "Samo za čitanje",
+            "SHOW_SECRET": "Prikaži tajni ključ klijenta",
+            "HIDE_SECRET": "Sakrij tajni ključ klijenta",
+            "LEGACY_DESCRIPTION": "Ažurirajte pristupne podatke za Bandwidth prije 2. prosinca 2026. kako bi ovaj pretinac ostao povezan.",
+            "DESCRIPTION": "Ovaj pretinac koristi OAuth. Unesite novi ID klijenta i tajni ključ klijenta kako biste zamijenili pristupne podatke.",
+            "SAVE": "Provjeri i spremi pristupne podatke",
+            "SUCCESS": "Bandwidth OAuth pristupni podaci su spremljeni.",
+            "LOAD_ERROR": "Nije moguće učitati pristupne podatke za Bandwidth. Ponovno učitajte stranicu.",
+            "ERROR": "Spremanje pristupnih podataka za Bandwidth nije uspjelo. Pokušajte ponovno.",
+            "CALLBACK_DESCRIPTION": "Upotrijebite ovaj URL za dolazne poruke i obavijesti o statusu dostave u aplikaciji Bandwidth."
           }
         }
       },
@@ -329,9 +329,9 @@
           "ERROR": "Please enter a valid value."
         },
         "APP_SECRET": {
-          "LABEL": "App secret",
-          "PLACEHOLDER": "App secret of your Meta app",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Tajni ključ aplikacije",
+          "PLACEHOLDER": "Tajni ključ vaše Meta aplikacije",
+          "ERROR": "Unesite valjanu vrijednost."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -387,19 +387,19 @@
             "PHONE_ID_PLACEHOLDER": "Unesite ID telefonskog broja",
             "TOKEN_LABEL": "Trajni pristupni token",
             "TOKEN_PLACEHOLDER": "Zalijepite pristupni token",
-            "APP_SECRET_LABEL": "App secret",
-            "APP_SECRET_PLACEHOLDER": "Paste app secret",
-            "APP_SECRET_HELP": "Find it in your Meta app under App settings > Basic. It is used to verify incoming webhooks."
+            "APP_SECRET_LABEL": "Tajni ključ aplikacije",
+            "APP_SECRET_PLACEHOLDER": "Zalijepite tajni ključ aplikacije",
+            "APP_SECRET_HELP": "Pronađite ga u svojoj Meta aplikaciji pod App settings > Basic. Služi za provjeru dolaznih webhook zahtjeva."
           },
           "REVIEW": {
             "TITLE": "Izradite svoj WhatsApp pretinac",
             "DESCRIPTION": "Provjerite podatke o broju i odaberite naziv pretinca.",
             "VERIFIED": "Vaš Meta broj i pristupni token su valjani.",
             "BUSINESS_NAME": "Naziv tvrtke",
-            "PHONE_NUMBER": "Phone number",
+            "PHONE_NUMBER": "Telefonski broj",
             "PHONE_ID": "ID telefonskog broja",
             "WABA_ID": "ID WhatsApp Business računa",
-            "INBOX_NAME": "Inbox name",
+            "INBOX_NAME": "Naziv pretinca",
             "INBOX_NAME_HELP": "Ovaj smo naziv generirali iz potvrđenog naziva vaše tvrtke u Meti. Možete ga promijeniti."
           },
           "VERIFY": {
@@ -410,30 +410,30 @@
             "CALLBACK": "Povratni poziv webhooka",
             "SUBSCRIPTION": "Pretplata na webhook",
             "WEBHOOK_URL": "Webhook URL",
-            "COPY": "Copy",
+            "COPY": "Kopiraj",
             "COPY_SUCCESS": "URL webhooka kopiran je u međuspremnik",
             "COMPLETE": "Potvrđen",
-            "PENDING": "Pending",
+            "PENDING": "Na čekanju",
             "SUCCESS": "Vaš WhatsApp broj je povezan i spreman za dodjelu djelatnika.",
             "RETRY_SUCCESS": "Ponovni pokušaj postavljanja webhooka uspješno je dovršen.",
             "RETRY_ERROR": "Ponovno postavljanje webhooka nije uspjelo. Pokušajte ponovno."
           },
           "ACTIONS": {
-            "BACK": "Back",
+            "BACK": "Natrag",
             "OPEN_META_APPS": "Otvori Meta aplikacije",
             "APP_READY": "Moja Meta aplikacija je spremna",
-            "NEXT": "Next",
+            "NEXT": "Dalje",
             "OPEN_BUSINESS_SETTINGS": "Otvori Meta Business Settings",
             "SHOW_TOKEN": "Prikaži token",
             "HIDE_TOKEN": "Sakrij token",
             "VERIFY_DETAILS": "Provjeri podatke",
-            "CONNECT": "Create inbox",
+            "CONNECT": "Izradi pretinac",
             "RETRY_WEBHOOK": "Ponovi postavljanje webhooka",
             "CONTINUE": "Nastavi na dodavanje djelatnika"
           },
           "ERRORS": {
             "IDS_REQUIRED": "Unesite ID telefonskog broja i ID WhatsApp Business računa.",
-            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, permanent access token, and app secret.",
+            "REQUIRED": "Unesite ID telefonskog broja, ID WhatsApp Business računa, trajni pristupni token i tajni ključ aplikacije.",
             "INVALID_TOKEN": "Ovaj pristupni token nije valjan ili je istekao. Generirajte novi trajni token i pokušajte ponovno.",
             "GENERIC": "Postavljanje WhatsAppa nije uspjelo. Provjerite podatke i pokušajte ponovno."
           }
@@ -475,7 +475,7 @@
             "FORM_DESCRIPTION": "Opišite svoju tvrtku i kako planirate koristiti WhatsApp. Pošaljite opis svoje namjene kako biste omogućili brzo postavljanje za svoj račun.",
             "USE_CASE_LABEL": "Poslovna namjena",
             "USE_CASE_PLACEHOLDER": "Primjerice, prodajemo opremu za dom i koristimo WhatsApp za odgovaranje na pitanja o proizvodima i pomoć kupcima s narudžbama.",
-            "SUBMIT": "Submit",
+            "SUBMIT": "Pošalji",
             "ERROR": "Omogućavanje pristupa nije uspjelo. Pokušajte ponovno."
           },
           "RESTRICTED_WARNING": "WhatsApp Embedded Signup privremeno nije dostupan zbog poteškoće s API-jem na strani Mete, a ne zbog problema s Chatwootom. Za podržane Cloud API brojeve možete koristiti ručno postavljanje. Blisko surađujemo s Metom kako bismo što prije riješili poteškoću.",
@@ -814,99 +814,104 @@
       "CALLS": "Pozivi"
     },
     "CALL_SETTINGS": {
-      "SAVE": "Save changes",
+      "SAVE": "Spremi promjene",
       "OPTIONAL": "(neobavezno)",
       "OFF": "Isključeno",
-      "SECONDS": "{seconds} seconds",
+      "SECONDS": "{seconds} sekundi",
       "MINUTES": "{n} minuta | {n} minute",
       "CALLING": {
         "TITLE": "Pozivanje",
-        "DESCRIPTION": "Whether voice calling is enabled for this inbox",
-        "TAKE_INCOMING": "Taking incoming calls",
-        "TAKE_INCOMING_HELP": "Turn off to stop calls ringing without disconnecting the number. Outgoing calls still work.",
-        "CREDENTIALS_HELP": "Calling needs an API key from your Twilio account, and the account's auth token to check Twilio's requests.",
-        "REPLACE_HELP": "Enter a new API key to replace the one this inbox uses.",
-        "CONNECT": "Turn on calling",
+        "DESCRIPTION": "Jesu li glasovni pozivi omogućeni za ovaj pretinac",
+        "TAKE_INCOMING": "Primanje dolaznih poziva",
+        "TAKE_INCOMING_HELP": "Isključite kako biste zaustavili zvonjavu dolaznih poziva bez odspajanja broja. Odlazni pozivi i dalje rade.",
+        "CREDENTIALS_HELP": "Za pozivanje su potrebni API ključ Twilio računa i autorizacijski token računa za provjeru Twilio zahtjeva.",
+        "REPLACE_HELP": "Unesite novi API ključ kako biste zamijenili postojeći ključ ovog pretinca.",
+        "CONNECT": "Uključi pozive",
         "CONNECTED": "Povezano",
-        "TWILIO_ACCOUNT": "Twilio account {sid}",
-        "MANAGE_CONNECTION": "Manage connection",
-        "HIDE_CONNECTION": "Hide connection",
-        "UPDATE_CONNECTION": "Update connection",
-        "WHATSAPP_ENABLE": "Turn on WhatsApp calling",
-        "WHATSAPP_ENABLE_HELP": "Customers can call this number from WhatsApp. Agents answer in the browser, which needs microphone access.",
-        "META_ON": "Calling on at Meta",
-        "META_HELP": "Calls ring on this WhatsApp number",
-        "TURN_OFF": "Turn off calling"
+        "TWILIO_ACCOUNT": "Twilio račun {sid}",
+        "MANAGE_CONNECTION": "Upravljaj vezom",
+        "HIDE_CONNECTION": "Sakrij vezu",
+        "UPDATE_CONNECTION": "Ažuriraj vezu",
+        "WHATSAPP_ENABLE": "Uključi WhatsApp pozive",
+        "WHATSAPP_ENABLE_HELP": "Kupci mogu nazvati ovaj broj putem WhatsAppa. Agenti odgovaraju u pregledniku kojem je potreban pristup mikrofonu.",
+        "META_ON": "Pozivi omogućeni u Meti",
+        "META_HELP": "Pozivi zvone na ovom WhatsApp broju",
+        "TURN_OFF": "Isključi pozive"
       },
       "INCOMING": {
-        "TITLE": "When a call comes in",
-        "DESCRIPTION": "What the caller hears and who rings.",
-        "GREETING": "Greeting",
-        "GREETING_PLACEHOLDER": "Thanks for calling. Connecting you to the team.",
-        "GREETING_HELP": "Played once to the caller while agents ring, followed by hold music. Leave empty for no greeting.",
-        "SIMULTANEOUS": "Ring everyone at once",
-        "SIMULTANEOUS_HELP": "All available agents ring together. The first to answer gets the call.",
-        "SEQUENTIAL": "Ring one agent at a time",
-        "SEQUENTIAL_HELP": "Starts with the longest-idle agent, then adds the next if nobody answers.",
-        "STEP": "Add another agent after",
-        "ASSIGNEE_FIRST": "Ring the conversation assignee first for returning callers",
-        "ASSIGNEE_FIRST_HELP": "Turn off for line-staffed teams on rotation.",
-        "ALWAYS": "Always:",
-        "ALWAYS_NOTE": "agents who are on a call, in wrap-up, or not taking calls are never rung. The caller waits, and the first agent who frees up rings.",
-        "ROUTING": "How calls are routed",
-        "WHATSAPP_DESCRIPTION": "Who rings, and in what order."
+        "TITLE": "Kada stigne poziv",
+        "DESCRIPTION": "Što pozivatelj čuje i kojim agentima zvoni.",
+        "GREETING": "Pozdravna poruka",
+        "GREETING_PLACEHOLDER": "Hvala na pozivu. Spajamo vas s našim timom.",
+        "GREETING_HELP": "Pozivatelju se reproducira jednom dok agentima zvoni, a zatim slijedi glazba na čekanju. Ostavite prazno ako ne želite pozdravnu poruku.",
+        "SIMULTANEOUS": "Zvoni svim agentima odjednom",
+        "SIMULTANEOUS_HELP": "Svim dostupnim agentima zvoni istodobno. Poziv preuzima prvi koji se javi.",
+        "SEQUENTIAL": "Zvoni jednom po jednom agentu",
+        "SEQUENTIAL_HELP": "Najprije zvoni agentu koji je najdulje slobodan, a ako se ne javi, uključuje se sljedeći.",
+        "STEP": "Dodaj sljedećeg agenta nakon",
+        "ASSIGNEE_FIRST": "Za ponovne pozivatelje najprije zvoni dodijeljenom agentu",
+        "ASSIGNEE_FIRST_HELP": "Isključite za timove koji se izmjenjuju u dežurstvu na telefonskoj liniji.",
+        "ALWAYS": "Uvijek:",
+        "ALWAYS_NOTE": "agentima koji razgovaraju, završavaju obradu poziva ili ne primaju pozive nikad ne zvoni. Pozivatelj čeka, a poziv se usmjerava prvom agentu koji postane dostupan.",
+        "ROUTING": "Način usmjeravanja poziva",
+        "WHATSAPP_DESCRIPTION": "Kojim agentima zvoni i kojim redoslijedom."
       },
       "UNANSWERED": {
-        "TITLE": "If nobody answers",
-        "DESCRIPTION": "Also used straight away when no agent is available.",
-        "WAIT": "Wait",
-        "THEN": "then play the message and hang up",
-        "MESSAGE": "Missed-call message",
-        "MESSAGE_HELP": "Read out to the caller."
+        "TITLE": "Ako se nitko ne javi",
+        "DESCRIPTION": "Primjenjuje se odmah i kada nijedan agent nije dostupan.",
+        "WAIT": "Čekaj",
+        "THEN": "zatim reproduciraj poruku i prekini poziv",
+        "MESSAGE": "Poruka za propušteni poziv",
+        "MESSAGE_HELP": "Čita se pozivatelju.",
+        "WHATSAPP_DESCRIPTION": "Kada poziv završi bez odgovora, uključujući slučajeve kada nijedan agent nije dostupan.",
+        "WHATSAPP_SEND": "Pošalji WhatsApp poruku",
+        "WHATSAPP_SEND_HELP": "Šalje se nakon svakog propuštenog poziva unutar pripadajućeg razgovora, kako bi pozivatelj ondje mogao odgovoriti.",
+        "WHATSAPP_PLACEHOLDER": "Žao nam je što smo propustili vaš poziv. Odgovorite na ovu poruku i javit ćemo vam se što prije.",
+        "WHATSAPP_MESSAGE_HELP": "Ostavite prazno za slanje prikazanog teksta. Šalje se samo unutar WhatsAppova 24-satnog razdoblja za razmjenu poruka."
       },
       "OUT_OF_HOURS": {
         "TITLE": "Izvan radnog vremena",
-        "DESCRIPTION": "Uses the inbox's hours from the Business hours tab.",
-        "APPLY": "Apply business hours to calls",
-        "APPLY_HELP": "When on, calls outside business hours follow the rule below.",
-        "HOURS_OFF": "Business hours are off for this inbox. Turn them on for the inbox first, then calls can follow them.",
-        "HOURS_OFF_APPLIED": "Business hours are off for this inbox, so calls will keep ringing as usual at all times. Turn business hours on for the inbox to apply this.",
-        "GO_TO_HOURS": "Go to Business hours",
-        "INBOX_HOURS": "Inbox hours:",
-        "ALL_DAY": "all day",
-        "ALWAYS_CLOSED": "Closed every day",
-        "EDIT_HOURS": "Edit hours",
-        "MESSAGE": "Out-of-hours message",
-        "SAME": "Same as the missed-call message",
-        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
-        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead.",
-        "WHATSAPP_HOURS_CHECKING": "Checking WhatsApp…",
-        "WHATSAPP_HOURS_APPLYING": "Applying on WhatsApp…",
-        "WHATSAPP_HOURS_APPLIED": "Applied on WhatsApp",
-        "WHATSAPP_HOURS_DIFFER": "WhatsApp is using different call hours from this inbox. Calls follow WhatsApp's hours until you apply the inbox hours.",
-        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours",
-        "WHATSAPP_HOURS_STILL_ON": "WhatsApp is still applying call hours, but this inbox doesn't. Calls outside those hours won't go through until you turn them off.",
-        "WHATSAPP_TURN_OFF_HOURS": "Turn off on WhatsApp"
+        "DESCRIPTION": "Koristi radno vrijeme pretinca s kartice Radno vrijeme.",
+        "APPLY": "Primijeni radno vrijeme na pozive",
+        "APPLY_HELP": "Kada je uključeno, za pozive izvan radnog vremena primjenjuje se pravilo u nastavku.",
+        "HOURS_OFF": "Radno vrijeme isključeno je za ovaj pretinac. Najprije ga uključite kako bi se moglo primjenjivati i na pozive.",
+        "HOURS_OFF_APPLIED": "Radno vrijeme isključeno je za ovaj pretinac pa će pozivi zvoniti kao i obično u bilo koje vrijeme. Uključite radno vrijeme pretinca kako biste primijenili ovo pravilo.",
+        "GO_TO_HOURS": "Otvori radno vrijeme",
+        "INBOX_HOURS": "Radno vrijeme pretinca:",
+        "ALL_DAY": "cijeli dan",
+        "ALWAYS_CLOSED": "Zatvoreno svaki dan",
+        "EDIT_HOURS": "Uredi radno vrijeme",
+        "MESSAGE": "Poruka izvan radnog vremena",
+        "SAME": "Isto kao poruka za propušteni poziv",
+        "MESSAGE_HELP": "Poruka koju pozivatelji čuju izvan radnog vremena, nakon čega poziv završava.",
+        "WHATSAPP_APPLY_HELP": "WhatsApp neće propuštati pozive izvan navedenog vremena. Pozivatelji mogu vidjeti kada ponovno mogu nazvati te umjesto toga poslati poruku.",
+        "WHATSAPP_HOURS_CHECKING": "Provjera WhatsAppa…",
+        "WHATSAPP_HOURS_APPLYING": "Primjena na WhatsAppu…",
+        "WHATSAPP_HOURS_APPLIED": "Primijenjeno na WhatsAppu",
+        "WHATSAPP_HOURS_DIFFER": "WhatsApp koristi drukčije vrijeme dostupnosti za pozive od ovog pretinca. Dok ne primijenite radno vrijeme pretinca, pozivi slijede raspored WhatsAppa.",
+        "WHATSAPP_APPLY_INBOX_HOURS": "Primijeni radno vrijeme pretinca",
+        "WHATSAPP_HOURS_STILL_ON": "WhatsApp i dalje primjenjuje ograničenje vremena pozivanja, ali ovaj pretinac ne. Pozivi izvan tog vremena neće prolaziti dok ograničenje ne isključite.",
+        "WHATSAPP_TURN_OFF_HOURS": "Isključi na WhatsAppu"
       },
       "AFTER_CALL": {
-        "TITLE": "After a call",
-        "DESCRIPTION": "Wrap-up and records.",
-        "WRAP_UP": "Wrap-up time",
-        "WRAP_UP_HELP": "Agents in wrap-up aren't rung; resolving the conversation also ends it.",
-        "RECORD": "Snimaj pozive",
+        "TITLE": "Nakon poziva",
+        "DESCRIPTION": "Završne radnje i zapisi.",
+        "WRAP_UP": "Vrijeme završne obrade",
+        "WRAP_UP_HELP": "Agentima tijekom završne obrade poziva neće zvoniti; rješavanjem razgovora završava i razdoblje završne obrade.",
+        "RECORD": "Snimi pozive",
         "TRANSCRIBE": "Izradi prijepise snimki",
-        "TRANSCRIBE_HELP": "Turned into text with Captain and shown with the call. Needs recording on.",
-        "RECORD_HELP": "The recording is attached to the conversation."
+        "TRANSCRIBE_HELP": "Captain pretvara snimku u tekst koji se prikazuje uz poziv. Snimanje mora biti uključeno.",
+        "RECORD_HELP": "Snimka je priložena razgovoru."
       },
-      "PLAY": "Play",
-      "PLAY_AFTER_SAVE": "Save changes to record and play the new message",
-      "STOP": "Stop",
+      "PLAY": "Reproduciraj",
+      "PLAY_AFTER_SAVE": "Spremite promjene kako biste snimili i reproducirali novu poruku",
+      "STOP": "Zaustavi",
       "CALLING_CUSTOMERS": {
-        "TITLE": "Calling customers",
-        "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
-        "PERMISSION_MESSAGE": "Permission request message",
-        "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
-        "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
+        "TITLE": "Pozivanje kupaca",
+        "DESCRIPTION": "WhatsApp zahtijeva dopuštenje kupca prije pozivanja.",
+        "PERMISSION_MESSAGE": "Poruka za traženje dopuštenja",
+        "PERMISSION_PLACEHOLDER": "Smijemo li vas nazvati putem WhatsAppa u vezi s vašim upitom?",
+        "PERMISSION_HELP": "Šalje se kada agent zove kupca koji još nije dao dopuštenje za pozive. Ostavite prazno za zadanu poruku."
       }
     },
     "WHATSAPP_CALLING": {
@@ -951,25 +956,25 @@
           "TOOLTIP": "Jesu li pozivi omogućeni za ovaj pretinac"
         },
         "SENDER_STATUS": {
-          "LABEL": "WhatsApp sender status",
-          "TOOLTIP": "The sender must be online to send and receive WhatsApp messages"
+          "LABEL": "Status WhatsApp pošiljatelja",
+          "TOOLTIP": "Pošiljatelj mora biti online kako bi mogao slati i primati WhatsApp poruke"
         },
         "DISPLAY_NAME": {
           "LABEL": "Prikazni naziv na WhatsAppu",
-          "TOOLTIP": "The business name shown to customers on WhatsApp"
+          "TOOLTIP": "Naziv tvrtke koji kupci vide na WhatsAppu"
         },
         "QUALITY_RATING": {
           "LABEL": "Quality rating",
-          "TOOLTIP": "The WhatsApp sender quality rating reported by Twilio"
+          "TOOLTIP": "Ocjena kvalitete WhatsApp pošiljatelja koju prijavljuje Twilio"
         },
         "MESSAGING_LIMIT": {
-          "LABEL": "Messaging limit",
-          "TOOLTIP": "The WhatsApp messaging limit reported by Twilio"
+          "LABEL": "Ograničenje slanja poruka",
+          "TOOLTIP": "Ograničenje slanja WhatsApp poruka koje prijavljuje Twilio"
         }
       },
       "VALUES": {
         "ACCOUNT_STATUSES": {
-          "ACTIVE": "Active",
+          "ACTIVE": "Aktivno",
           "SUSPENDED": "Obustavljen",
           "CLOSED": "Zatvoren"
         },
@@ -979,22 +984,22 @@
         },
         "CAPABILITIES": {
           "SMS": "SMS",
-          "VOICE": "Voice"
+          "VOICE": "Glasovni pozivi"
         },
         "SENDER_TYPES": {
-          "PHONE_NUMBER": "Phone number",
+          "PHONE_NUMBER": "Telefonski broj",
           "MESSAGING_SERVICE": "Usluga slanja poruka",
-          "WHATSAPP_SENDER": "WhatsApp sender"
+          "WHATSAPP_SENDER": "WhatsApp pošiljatelj"
         },
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled",
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno",
         "SENDER_STATUSES": {
           "ONLINE": "Online",
           "OFFLINE": "Offline",
-          "CREATING": "Creating",
-          "VERIFYING": "Verifying",
+          "CREATING": "U izradi",
+          "VERIFYING": "Provjeravam",
           "UPDATING": "Ažuriranje u tijeku",
-          "DELETING": "Deleting",
+          "DELETING": "Brisanje u tijeku",
           "UNKNOWN": "Nepoznato"
         },
         "QUALITY_RATINGS": {
@@ -1055,21 +1060,21 @@
       },
       "SECTIONS": {
         "BUSINESS_PROFILE": "Poslovni profil",
-        "PHONE_NUMBER": "Phone number",
+        "PHONE_NUMBER": "Telefonski broj",
         "HEALTH_AND_CAPACITY": "Stanje i kapacitet",
         "BUSINESS_ACCOUNT": "Poslovni račun"
       },
       "FIELDS": {
         "PROFILE_DESCRIPTION": {
-          "LABEL": "Description",
+          "LABEL": "Opis",
           "TOOLTIP": "Opis koji se prikazuje kupcima u WhatsApp poslovnom profilu"
         },
         "PROFILE_ADDRESS": {
-          "LABEL": "Address",
+          "LABEL": "Adresa",
           "TOOLTIP": "Poslovna adresa koja se prikazuje u WhatsApp poslovnom profilu"
         },
         "PROFILE_EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "E-pošta",
           "TOOLTIP": "Adresa e-pošte za kontakt koja se prikazuje u WhatsApp poslovnom profilu"
         },
         "PROFILE_WEBSITES": {
@@ -1152,7 +1157,7 @@
         }
       },
       "VALUES": {
-        "NOT_AVAILABLE": "Not available",
+        "NOT_AVAILABLE": "Nije dostupno",
         "TIERS": {
           "TIER_250": "250 customers per 24h",
           "TIER_1000": "1K customers per 24h",
@@ -1168,13 +1173,13 @@
           "CONNECTED": "Povezano",
           "VERIFIED": "Potvrđen",
           "STANDARD": "Standard",
-          "ACTIVE": "Active",
+          "ACTIVE": "Aktivno",
           "EXPIRED": "Isteklo",
           "FLAGGED": "Označeno za provjeru",
           "RESTRICTED": "Ograničeno",
           "BANNED": "Zabranjeno",
           "DISCONNECTED": "Veza prekinuta",
-          "UNKNOWN": "Not available",
+          "UNKNOWN": "Nije dostupno",
           "PENDING_REVIEW": "U pregledu",
           "AVAILABLE_WITHOUT_REVIEW": "Još nije pregledano",
           "REJECTED": "Nije odobreno",
@@ -1219,7 +1224,7 @@
       }
     },
     "SETTINGS": "Settings",
-    "VIEW_CONVERSATIONS": "View conversations",
+    "VIEW_CONVERSATIONS": "Prikaži razgovore",
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
@@ -1294,16 +1299,16 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
-      "WHATSAPP_APP_SECRET_TITLE": "App Secret",
-      "WHATSAPP_APP_SECRET_SUBHEADER": "Enter the app secret of your Meta app (App settings > Basic). It is used to verify that incoming webhooks come from Meta.",
-      "WHATSAPP_APP_SECRET_MISSING": "Incoming webhooks for this inbox are not verified yet. Add your Meta app secret to complete the setup.",
-      "WHATSAPP_APP_SECRET_PLACEHOLDER": "Enter the app secret here",
+      "WHATSAPP_APP_SECRET_TITLE": "Tajni ključ aplikacije",
+      "WHATSAPP_APP_SECRET_SUBHEADER": "Unesite tajni ključ Meta aplikacije (App settings > Basic). Služi za potvrdu da dolazni webhook zahtjevi potječu od Mete.",
+      "WHATSAPP_APP_SECRET_MISSING": "Dolazni webhook zahtjevi za ovaj pretinac još nisu provjereni. Dodajte tajni ključ Meta aplikacije kako biste dovršili postavljanje.",
+      "WHATSAPP_APP_SECRET_PLACEHOLDER": "Ovdje unesite tajni ključ aplikacije",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Dodaj token za upravljanje poslovnim računom",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Zamijeni token za upravljanje poslovnim računom",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Token za upravljanje poslovnim računom je postavljen",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Unesite token s pristupom ovom WhatsApp Business računu kada Chatwoot ne može dohvatiti njegove predloške poruka. Chatwoot koristi ovaj token samo za sinkronizaciju predložaka.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Unesite token za upravljanje poslovnim računom",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Add",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Dodaj",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Zamijeni",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "Token za upravljanje WhatsApp poslovnim računom uspješno je ažuriran.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Ažuriranje tokena za upravljanje poslovnim računom nije uspjelo. Provjerite njegovo dopuštenje WhatsApp Business Management i pristup računu, a zatim pokušajte ponovno.",
@@ -1348,7 +1353,7 @@
         "DIALOG": {
           "EYEBROW": "Ručna migracija WhatsAppa",
           "TITLE": "Ponovno poveži WhatsApp pretinac",
-          "CLOSE": "Close",
+          "CLOSE": "Zatvori",
           "ACTION_REQUIRED_TITLE": "Ponovno povežite putem vlastite Meta aplikacije",
           "ACTION_REQUIRED_DESCRIPTION": "Na pretince povezane putem vlastite Meta aplikacije ne utječu ograničenja zajedničke aplikacije za Embedded Signup. Ovaj vođeni postupak ažurira WhatsApp API vezu bez izrade novog pretinca.",
           "GUIDE_LINK": "Otvori vodič za ručno postavljanje",
@@ -1367,21 +1372,21 @@
           "DISPLAY_PHONE_NUMBER_HELP": "WhatsApp broj koji je vidljiv kupcima. Nije ga moguće promijeniti tijekom migracije.",
           "ACCESS_TOKEN": "Trajni pristupni token ili token sistemskog korisnika",
           "ACCESS_TOKEN_PLACEHOLDER": "Zalijepite pristupni token",
-          "APP_SECRET": "App secret",
-          "APP_SECRET_PLACEHOLDER": "App secret from App settings > Basic in your Meta app",
+          "APP_SECRET": "Tajni ključ aplikacije",
+          "APP_SECRET_PLACEHOLDER": "Tajni ključ iz odjeljka App settings > Basic vaše Meta aplikacije",
           "TOKEN_HELP_PREFIX": "Token mora sadržavati",
-          "TOKEN_HELP_MIDDLE": "Add",
+          "TOKEN_HELP_MIDDLE": "Dodaj",
           "TOKEN_HELP_SUFFIX": "za sinkronizaciju predložaka i upravljanje njima.",
           "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
           "MANAGEMENT_PERMISSION": "whatsapp_business_management",
           "REVIEW_TITLE": "Provjerite prije ponovnog povezivanja",
-          "INBOX": "Inbox",
-          "PHONE_NUMBER": "Phone number",
+          "INBOX": "Pretinac",
+          "PHONE_NUMBER": "Telefonski broj",
           "NOT_ENTERED": "Nije uneseno",
           "VERIFY_NOTICE": "Chatwoot će provjeriti ove pristupne podatke s Metom prije primjene promjena. Ako provjera ne uspije, trenutačna konfiguracija neće se promijeniti.",
-          "BACK": "Back",
+          "BACK": "Natrag",
           "CANCEL": "Odustani",
-          "CONTINUE": "Continue",
+          "CONTINUE": "Nastavi",
           "REVIEW_MIGRATION": "Pregledaj migraciju",
           "RECONNECT": "Ponovno poveži WhatsApp pretinac"
         },
@@ -1396,7 +1401,7 @@
           },
           "ACCESS_TOKEN": {
             "TITLE": "Pristupni token",
-            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions, and the app secret of your Meta app."
+            "DESCRIPTION": "Zalijepite trajni pristupni token ili token korisnika sustava s WhatsApp dozvolama te tajni ključ svoje Meta aplikacije."
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Pregledaj migraciju",
