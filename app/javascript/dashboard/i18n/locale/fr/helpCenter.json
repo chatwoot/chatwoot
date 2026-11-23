@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Supprimer {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "La langue a été supprimée du portail avec succès",
           "ERROR_MESSAGE": "Impossible de supprimer la langue du portail. Réessayez."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "Tous les articles",
-          "MINE": "Les miens",
           "DRAFT": "Brouillon",
           "PUBLISHED": "Publié",
           "ARCHIVED": "Archivé"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Me",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "Toutes les catégories"
@@ -574,9 +585,9 @@
           "SUBTITLE": "Écrivez un article riche, commençons !",
           "BUTTON_LABEL": "Nouvel article"
         },
-        "MINE": {
-          "TITLE": "Vous n'avez écrit aucun article ici",
-          "SUBTITLE": "Tous les articles que vous écrivez ici pour un accès rapide."
+        "AUTHOR": {
+          "TITLE": "Aucun article correspondant",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "Il n'y a aucun article dans les brouillons",
@@ -801,6 +812,8 @@
           "SAVED": "Enregistré"
         },
         "PREVIEW": "Aperçu",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "Publier",
         "PUBLISH_CHANGES": "Publier les modifications",
         "PUBLISH_CHANGES_SUCCESS": "Changements publiés avec succès",
@@ -816,6 +829,11 @@
         "DRAFT": "Brouillon",
         "ARCHIVE": "Archiver",
         "BACK_TO_ARTICLES": "Retour aux articles"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Modifications non publiées",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Propriétés de l'article",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Rechercher des articles...",
+        "ORIGINAL_ARTICLE_EMPTY": "Aucun article trouvé",
         "META_DESCRIPTION": "Méta description",
         "META_DESCRIPTION_PLACEHOLDER": "Ajouter une méta-description",
         "META_TITLE": "Méta titre",
         "META_TITLE_PLACEHOLDER": "Ajouter un méta-titre",
         "META_TAGS": "Balises méta",
         "META_TAGS_PLACEHOLDER": "Ajouter des balises méta",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "Impossible de télécharger l'image! Réessayez",
           "IMAGE_UPLOAD_SUCCESS": "Image ajoutée avec succès. Veuillez cliquer sur Enregistrer les modifications pour enregistrer le logo",
           "IMAGE_DELETE_SUCCESS": "Logo effacé",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "Enregistrer les modifications"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Intégrations",
         "DESCRIPTION": "Connectez des outils qui étendent ce que votre centre d'aide peut faire.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "Général",
         "DOMAIN": "Domaine",
         "APPEARANCE": "Apparence",
+        "SEO": "SEO",
         "INTEGRATIONS": "Intégrations"
       },
       "API": {

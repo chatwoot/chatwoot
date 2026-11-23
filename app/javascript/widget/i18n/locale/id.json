@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Artikel Populer",
     "VIEW_ALL_ARTICLES": "Lihat semua artikel",
+    "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
     "IFRAME_LOAD_ERROR": "Terjadi kesalahan saat memuat artikel, harap muat ulang halaman dan coba lagi."
   },
   "ATTACHMENTS": {

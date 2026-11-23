@@ -1,46 +1,46 @@
 {
   "CALLS_PAGE": {
-    "HEADER": "Calls",
-    "ALL_CALLS": "All Calls",
-    "ALL_CALLS_COUNT": "All Calls ({count})",
-    "EMPTY_STATE": "No calls found",
+    "HEADER": "Pozivi",
+    "ALL_CALLS": "Svi pozivi",
+    "ALL_CALLS_COUNT": "Svi pozivi ({count})",
+    "EMPTY_STATE": "Nisu pronađeni pozivi",
     "SETUP": {
-      "TITLE": "Make and receive calls in one place",
-      "SUBTITLE": "Set up a voice channel to start handling calls with your team. Every call, along with its recording, will appear here.",
-      "ACTION": "Set up voice channel"
+      "TITLE": "Upućujte i primajte pozive na jednom mjestu",
+      "SUBTITLE": "Postavite kanal za pozive kako biste sa svojim timom počeli upućivati i primati pozive. Svaki poziv, zajedno sa snimkom, prikazat će se ovdje.",
+      "ACTION": "Postavi kanal za pozive"
     },
     "FILTERS": {
-      "MISSED": "Missed",
-      "NO_REPLY": "No reply",
-      "OTHER_ACTIVITY": "Other activity",
-      "INCOMING": "Incoming",
-      "OUTGOING": "Outgoing",
-      "IN_PROGRESS": "In progress",
-      "ASSIGNEE": "Assignee",
-      "ALL_ASSIGNEES": "All assignees",
-      "MORE_FILTERS": "More filters",
-      "INBOX": "Inbox",
-      "ALL_INBOXES": "All inboxes"
+      "MISSED": "Propušteni",
+      "NO_REPLY": "Bez odgovora",
+      "OTHER_ACTIVITY": "Ostale aktivnosti",
+      "INCOMING": "Dolazni",
+      "OUTGOING": "Odlazni",
+      "IN_PROGRESS": "U tijeku",
+      "ASSIGNEE": "Dodijeljeni agent",
+      "ALL_ASSIGNEES": "Svi dodijeljeni djelatnici",
+      "MORE_FILTERS": "Više filtara",
+      "INBOX": "Pretinac",
+      "ALL_INBOXES": "Svi pretinci"
     },
     "STATUS": {
       "ONGOING": "Ongoing",
-      "INCOMING": "Incoming",
-      "OUTGOING": "Outgoing",
-      "MISSED": "Missed",
-      "NO_REPLY": "No reply",
-      "FAILED": "Failed"
+      "INCOMING": "Dolazni",
+      "OUTGOING": "Odlazni",
+      "MISSED": "Propušteni",
+      "NO_REPLY": "Bez odgovora",
+      "FAILED": "Neuspješno"
     },
     "ROW": {
-      "PICKED_BY": "Picked by",
-      "DIALED_BY": "Dialed by",
-      "ANSWERED": "Answered",
-      "RINGING": "Ringing",
-      "IN_PROGRESS": "In progress",
-      "NO_AGENT": "No agent answered this call",
-      "NO_CONTACT_ANSWER": "Contact did not answer",
-      "FAILED": "This call could not be connected",
+      "PICKED_BY": "Na poziv se javio",
+      "DIALED_BY": "Poziv je uputio",
+      "ANSWERED": "Odgovoreno",
+      "RINGING": "Zvoni",
+      "IN_PROGRESS": "U tijeku",
+      "NO_AGENT": "Nijedan djelatnik nije se javio na ovaj poziv",
+      "NO_CONTACT_ANSWER": "Kontakt se nije javio",
+      "FAILED": "Poziv nije bilo moguće uspostaviti",
       "YESTERDAY": "Jučer",
-      "DELETED_CONTACT": "Deleted contact"
+      "DELETED_CONTACT": "Izbrisani kontakt"
     }
   }
 }

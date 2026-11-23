@@ -87,6 +87,12 @@
     "ADD": {
       "TITLE": "SLAを追加",
       "DESC": "素晴らしいサービスのための友好的な約束！",
+      "SUCCESS": {
+        "TITLE": "SLA created",
+        "DESC": "SLAs are applied to conversations through automation rules. Create an automation to start tracking this SLA.",
+        "LATER": "Later",
+        "CREATE_AUTOMATION": "Create automation"
+      },
       "API": {
         "SUCCESS_MESSAGE": "SLAが正常に追加されました",
         "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"

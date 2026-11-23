@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Priljubljeni članki",
     "VIEW_ALL_ARTICLES": "Poglej vse članke",
+    "IFRAME_ERROR": "URL je prazen ali neveljaven. Vsebina ni prikazana.",
     "IFRAME_LOAD_ERROR": "Pri nalaganju članka je prišlo do napake, osvežite stran in poskusite znova."
   },
   "ATTACHMENTS": {

@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Artigos Populares",
     "VIEW_ALL_ARTICLES": "Ver todos os artigos",
+    "IFRAME_ERROR": "A URL está vazia ou é inválida. Não é possível exibir conteúdo.",
     "IFRAME_LOAD_ERROR": "Ocorreu um erro ao carregar o artigo. Por favor, atualize a página e tente novamente."
   },
   "ATTACHMENTS": {
