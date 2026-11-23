@@ -1,6 +1,14 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { findUndeliveredMessage } from './helpers';
 
+// typing_off can arrive before the server's copy of the contact's message
+// replaces the temporary one, so keep the dismissal on the replacement.
+const carryTypingDismissal = ($state, tempId, id) => {
+  if ($state.uiFlags?.typingDismissedForMessageId === tempId) {
+    $state.uiFlags.typingDismissedForMessageId = id;
+  }
+};
+
 export const mutations = {
   clearConversations($state) {
     $state.conversations = {};
@@ -31,6 +39,7 @@ export const mutations = {
       // messagesInbox[messageInConversation.id] = undefined;
       delete messagesInbox[messageInConversation.id];
       messagesInbox[id] = message;
+      carryTypingDismissal($state, messageInConversation.id, id);
     }
   },
 
@@ -46,6 +55,7 @@ export const mutations = {
       // messagesInbox[tempId] = undefined;
       delete messagesInbox[tempId];
       messagesInbox[id] = { ...message };
+      carryTypingDismissal($state, tempId, id);
     }
   },
 

@@ -137,6 +137,34 @@ describe('#mutations', () => {
       mutations.toggleAgentTypingStatus(state, { status: 'off' });
       expect(state.uiFlags.typingDismissedForMessageId).toEqual(1);
     });
+
+    it('keeps the dismissal when the server copy replaces the temporary message', () => {
+      const state = {
+        uiFlags: { isAgentTyping: true, typingDismissedForMessageId: null },
+        conversations: {
+          rand_id_123: { ...temporaryMessagePayload, id: 'rand_id_123' },
+        },
+      };
+      // typing_off overtakes the message.created broadcast.
+      mutations.toggleAgentTypingStatus(state, {
+        status: 'off',
+        dismiss: true,
+      });
+      mutations.pushMessageToConversation(state, incomingMessagePayload);
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(1);
+    });
+
+    it('keeps the dismissal when an attachment upload replaces the temporary message', () => {
+      const state = {
+        uiFlags: { typingDismissedForMessageId: 'rand_id_123' },
+        conversations: { rand_id_123: { id: 'rand_id_123' } },
+      };
+      mutations.updateAttachmentMessageStatus(state, {
+        message: { id: 5 },
+        tempId: 'rand_id_123',
+      });
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(5);
+    });
   });
 
   describe('#updateAttachmentMessageStatus', () => {
