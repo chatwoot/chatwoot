@@ -1,4 +1,4 @@
-import { getMessageError } from '../messageError';
+import { canRetryMessage, getMessageError } from '../messageError';
 
 const FALLBACK = 'Network fallback';
 
@@ -48,5 +48,44 @@ describe('getMessageError', () => {
 
   it('returns nothing for a sent message', () => {
     expect(getMessageError({ status: 'sent', contentAttributes: {} })).toBe('');
+  });
+});
+
+describe('canRetryMessage', () => {
+  const now = () => Math.floor(Date.now() / 1000);
+
+  it('allows retrying an attachment-only reply that failed in the browser', () => {
+    // ReplyBox sends captionless attachments as `files`, so the pending
+    // message has neither content nor attachment records.
+    expect(
+      canRetryMessage({
+        createdAt: now(),
+        content: null,
+        attachments: null,
+        meta: { error: undefined },
+      })
+    ).toBe(true);
+  });
+
+  it('allows retrying a server-reported failure that has content', () => {
+    expect(
+      canRetryMessage({ createdAt: now(), content: 'Hi', attachments: [] })
+    ).toBe(true);
+  });
+
+  it('does not offer retry for a server message with nothing to resend', () => {
+    expect(
+      canRetryMessage({ createdAt: now(), content: null, attachments: [] })
+    ).toBe(false);
+  });
+
+  it('does not offer retry once a day has passed', () => {
+    expect(
+      canRetryMessage({
+        createdAt: now() - 2 * 24 * 60 * 60,
+        content: 'Hi',
+        meta: { error: undefined },
+      })
+    ).toBe(false);
   });
 });

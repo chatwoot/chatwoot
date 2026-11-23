@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageContext } from './provider.js';
-import { hasOneDayPassed } from 'shared/helpers/timeHelper';
+import { canRetryMessage } from './helpers/messageError';
 import { ORIENTATION, MESSAGE_STATUS } from './constants';
 
 defineProps({
@@ -12,16 +12,19 @@ defineProps({
 
 const emit = defineEmits(['retry']);
 
-const { orientation, status, createdAt, content, attachments } =
+const { orientation, status, createdAt, content, attachments, meta } =
   useMessageContext();
 
 const { t } = useI18n();
 
-const canRetry = computed(() => {
-  const hasContent = content.value !== null;
-  const hasAttachments = attachments.value && attachments.value.length > 0;
-  return !hasOneDayPassed(createdAt.value) && (hasContent || hasAttachments);
-});
+const canRetry = computed(() =>
+  canRetryMessage({
+    createdAt: createdAt.value,
+    content: content.value,
+    attachments: attachments.value,
+    meta: meta?.value,
+  })
+);
 </script>
 
 <template>
