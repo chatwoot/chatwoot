@@ -776,18 +776,6 @@
           "LABEL": "Ehdota vastausta",
           "CONTENT": "Analysoi asiakkaan kysely ja laadi vastaus, joka käsittelee heidän huolensa tai kysymyksensä tehokkaasti. Varmista, että vastaus on selkeä, ytimekäs ja tarjoaa hyödyllistä tietoa."
         },
-        "RATE": {
-          "LABEL": "Arvioi tämä keskustelu",
-          "CONTENT": "Arvioi keskustelu sen perusteella, kuinka hyvin se täyttää asiakkaan tarpeet. Anna arvio 1–5 sävyn, selkeyden ja tehokkuuden perusteella."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Korkean prioriteetin keskustelut",
-          "CONTENT": "Anna yhteenveto kaikista korkean prioriteetin avoimista keskusteluista. Sisällytä keskustelun tunnus, asiakkaan nimi (jos saatavilla), viimeisen viestin sisältö ja nimetty agentti. Ryhmittele tilan mukaan, jos se on oleellista."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Näytä kontaktit",
-          "CONTENT": "Näytä minulle 10 parhaan kontaktin lista. Sisällytä nimi, sähköposti tai puhelinnumero (jos saatavilla), viimeinen nähty aika ja tagit (jos sellaisia on)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
