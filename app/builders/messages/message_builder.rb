@@ -188,7 +188,8 @@ class Messages::MessageBuilder
     # The quoted email thread arrives separately from the reply body so the
     # stored content holds only what the agent wrote; it is re-appended here
     # so the outgoing email still carries the full thread.
-    normalized_content = normalize_email_body(@message.content) + @params[:email_quoted_content].to_s
+    quoted_content = @params[:email_quoted_content].to_s
+    normalized_content = normalize_email_body(@message.content) + quoted_content
 
     # Process liquid templates in normalized content with code block protection
     processed_content = process_liquid_in_email_body(normalized_content)
@@ -202,6 +203,9 @@ class Messages::MessageBuilder
                                       end
 
     email_attributes[:text_content] = build_text_content(processed_content)
+    # Keep the suffix explicit: translation and other post-processing must not
+    # have to guess where the reply ends in the rendered full body.
+    email_attributes[:quoted_content] = quoted_content if quoted_content.present?
     email_attributes
   end
 

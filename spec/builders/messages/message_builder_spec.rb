@@ -435,6 +435,7 @@ describe Messages::MessageBuilder do
 
           expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq full_content
           expect(message.content_attributes.dig('email', 'text_content', 'reply')).to eq full_content
+          expect(message.content_attributes.dig('email', 'quoted_content')).to eq quoted_thread
           html_reply = message.content_attributes.dig('email', 'html_content', 'reply')
           expect(html_reply).to include('Use the reset link on the login page')
           expect(html_reply).to include('How do I reset my password?')

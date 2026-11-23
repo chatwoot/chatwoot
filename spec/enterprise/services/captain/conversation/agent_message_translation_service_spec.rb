@@ -132,6 +132,7 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
                                translation_pending: true,
                                email: {
                                  subject: 'Re: Commande',
+                                 quoted_content: quoted_thread,
                                  text_content: { full: "Hello there#{quoted_thread}", reply: 'Hello there' }
                                }
                              })
@@ -142,6 +143,30 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(email.reload.content).to eq('Bonjour')
     expect(email.content_attributes.dig('email', 'text_content', 'full')).to eq("Bonjour#{quoted_thread}")
     expect(email.content_attributes.dig('email', 'html_content', 'full')).to include('Bonjour').and include('Camille')
+  end
+
+  it 'skips a translation that would push the email body past the length limit' do
+    email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
+    email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })
+    quoted_thread = "\n\n> On Monday, Camille wrote:\n> #{'b' * 149_000}"
+    reply = 'a' * 1_000
+    email = create(:message, account: account, inbox: email_inbox, conversation: email_conversation, message_type: :outgoing, sender: user,
+                             content: reply,
+                             content_attributes: {
+                               translation_pending: true,
+                               email: {
+                                 subject: 'Re: Commande',
+                                 quoted_content: quoted_thread,
+                                 text_content: { full: "#{reply}#{quoted_thread}", reply: reply }
+                               }
+                             })
+    allow(llm_service).to receive(:perform).and_return(message: 'x' * 2_000)
+
+    described_class.new(message: email).perform
+
+    expect(email.reload.translation_failed).to be(true)
+    expect(email.content).to eq(reply)
+    expect(email.content_attributes.dig('email', 'html_content')).to be_nil
   end
 
   it 'stores the rendered email html as plain strings so the update can be broadcast' do

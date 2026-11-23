@@ -1,6 +1,8 @@
 class Captain::Conversation::AgentMessageTranslationService
   include EmailHelper
 
+  MAX_EMAIL_BODY_LENGTH = 150_000
+
   pattr_initialize [:message!]
 
   def perform
@@ -48,13 +50,21 @@ class Captain::Conversation::AgentMessageTranslationService
   end
 
   def use_translation(translated)
+    translated_body = with_quoted_history(translated)
+    if email_body_too_long?(translated_body)
+      # A translation that pushes the message past the limit is not sent; the
+      # reply goes out as written instead.
+      message.translation_failed = true
+      return
+    end
+
     message.translations = { original_language => original_text }
     message.source_language = conversation.language
     message.translation_provider = translator.provider
     # The reply content no longer carries the quoted thread, so keep it out of
     # the stored content and append it only to the email that goes out.
-    message.content = legacy_quoted_history.present? ? with_quoted_history(translated) : translated
-    message.content_attributes['email'] = email_content(with_quoted_history(translated)) if email_reply?
+    message.content = translated_content(translated, translated_body)
+    message.content_attributes['email'] = email_content(translated_body) if email_reply?
   end
 
   def translate
@@ -90,7 +100,7 @@ class Captain::Conversation::AgentMessageTranslationService
   end
 
   def quoted_history
-    @quoted_history ||= legacy_quoted_history.presence || stored_quoted_history
+    @quoted_history ||= stored_quoted_history.presence || legacy_quoted_history
   end
 
   # Replies created before the quoted thread was split out still carry it at
@@ -104,6 +114,9 @@ class Captain::Conversation::AgentMessageTranslationService
   def stored_quoted_history
     return '' unless inbox.email?
 
+    explicit = stored_email_attributes[:quoted_content] || stored_email_attributes['quoted_content']
+    return explicit.to_s.sub(/\A\n+/, '') if explicit.present?
+
     stored_full = stored_email_text_content
     reply = normalize_email_body(message.content)
     return '' if stored_full.blank? || reply.blank? || !stored_full.start_with?(reply)
@@ -111,9 +124,20 @@ class Captain::Conversation::AgentMessageTranslationService
     stored_full.delete_prefix(reply).sub(/\A\n+/, '')
   end
 
+  def stored_email_attributes
+    message.content_attributes[:email] || message.content_attributes['email'] || {}
+  end
+
+  def translated_content(translated, translated_body)
+    stored_quoted_history.present? ? translated : translated_body
+  end
+
+  def email_body_too_long?(body)
+    email_reply? && body.length > MAX_EMAIL_BODY_LENGTH
+  end
+
   def stored_email_text_content
-    email_attributes = message.content_attributes[:email] || message.content_attributes['email'] || {}
-    text_content = email_attributes[:text_content] || email_attributes['text_content'] || {}
+    text_content = stored_email_attributes[:text_content] || stored_email_attributes['text_content'] || {}
     text_content[:full] || text_content['full']
   end
 
