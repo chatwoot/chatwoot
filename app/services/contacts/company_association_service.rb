@@ -6,15 +6,16 @@ class Contacts::CompanyAssociationService
     name = contact.additional_attributes['company_name']&.strip
     return if name.blank? || name.length > Limits::COMPANY_NAME_LENGTH_LIMIT
 
-    contact.company = find_or_create_by_details(contact.account, name: name)
+    contact.company = find_or_create_by_name_or_domain(contact.account, name: name)
   end
 
-  def find_or_create_by_details(account, name:, domain: nil)
-    name = name.to_s.strip.presence
-    domain = domain.to_s.strip.downcase.presence
+  def find_or_create_by_name_or_domain(account, name:, domain: nil)
+    name = name&.strip.presence
+    domain = domain&.strip.presence
     companies = account.companies
 
     if domain
+      domain = domain.downcase
       existing_company = companies.where(Company.arel_table[:domain].lower.eq(domain)).first
       existing_company || companies.find_or_create_by!(domain: domain) do |company|
         company.name = name || company_name_from_domain(domain)

@@ -5,7 +5,6 @@ class DataImports::Csv::ContactWriter
 
   def initialize(account, fields)
     @account = account
-    @companies_enabled = account.feature_enabled?('companies')
     @fields = fields.except(*DIAGNOSTIC_FIELDS)
     @fields['email'] = @fields['email'].strip.downcase if @fields['email'].present?
     phone = @fields['phone_number']&.strip&.delete_prefix("'")
@@ -20,10 +19,10 @@ class DataImports::Csv::ContactWriter
     raise ActiveRecord::RecordInvalid, contact unless contact.valid?
 
     Contacts::SyncAttributes.new(contact).perform
-    previous_company_id = contact.company_id
-    assign_company(contact)
+    apply_company_fields(contact)
+    company_change = contact.company_id_change_to_be_saved
     contact = persist(contact)
-    update_company_counts(previous_company_id, contact.company_id)
+    update_company_counts(*company_change) if company_change
     apply_labels(contact, labels)
     [contact, outcome]
   end
@@ -43,20 +42,20 @@ class DataImports::Csv::ContactWriter
 
   def assign_fields(contact)
     contact.assign_attributes(@fields.slice(*STANDARD_FIELDS).compact_blank)
-    additional_fields = @fields.slice('city')
-    additional_fields.merge!(@fields.slice(*COMPANY_FIELDS)) unless @companies_enabled
-    contact.additional_attributes = contact.additional_attributes.to_h.merge(additional_fields.compact_blank)
+    contact.additional_attributes = contact.additional_attributes.to_h.merge(@fields.slice('city').compact_blank)
     custom_fields = @fields.except(*STANDARD_FIELDS, *COMPANY_FIELDS, 'labels').compact_blank
     contact.custom_attributes = contact.custom_attributes.to_h.merge(custom_fields)
     contact.updated_at = Time.current
     contact.created_at ||= Time.current
   end
 
-  def assign_company(contact)
-    return unless @companies_enabled
+  def apply_company_fields(contact)
+    fields = @fields.slice(*COMPANY_FIELDS).compact_blank
+    return if fields.empty?
+    return contact.additional_attributes.merge!(fields) unless @account.feature_enabled?('companies')
 
-    company = Contacts::CompanyAssociationService.new.find_or_create_by_details(
-      @account, name: @fields['company_name'], domain: @fields['company_domain']
+    company = Contacts::CompanyAssociationService.new.find_or_create_by_name_or_domain(
+      @account, name: fields['company_name'], domain: fields['company_domain']
     )
     return unless company
 
@@ -64,15 +63,13 @@ class DataImports::Csv::ContactWriter
     contact.additional_attributes['company_name'] = company.name
   end
 
-  # The silent contact write bypasses the counter-cache callbacks.
-  # rubocop:disable Rails/SkipsModelValidations
   def update_company_counts(previous_company_id, company_id)
-    return if previous_company_id == company_id
-
-    Company.decrement_counter(:contacts_count, previous_company_id) if previous_company_id
+    # Mirror the atomic counter-cache updates skipped by the silent contact write.
+    # rubocop:disable Rails/SkipsModelValidations
     Company.increment_counter(:contacts_count, company_id) if company_id
+    Company.decrement_counter(:contacts_count, previous_company_id) if previous_company_id
+    # rubocop:enable Rails/SkipsModelValidations
   end
-  # rubocop:enable Rails/SkipsModelValidations
 
   def persist(contact)
     # Validation and normalization happen above; suppress normal contact callbacks during imports.

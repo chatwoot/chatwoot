@@ -69,7 +69,8 @@ RSpec.describe DataImports::Csv::Importer do
       <<~CSV
         name,email,company_name,company_domain
         Updated,existing@example.com,Ignored, EXISTING.EXAMPLE
-        Same company,existing@example.com,,
+        Same company,existing@example.com,,existing.example
+        Blank company,existing@example.com,,
         New,new@example.com,,north-star.example
         By name,by-name@example.com,north star,
         Rejected,bad-domain@example.com,,invalid-domain
