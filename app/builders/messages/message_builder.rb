@@ -190,6 +190,8 @@ class Messages::MessageBuilder
     # so the outgoing email still carries the full thread.
     quoted_content = @params[:email_quoted_content].to_s
     normalized_content = normalize_email_body(@message.content) + quoted_content
+    # Check the raw payload too: Liquid can render it shorter than what is stored.
+    validate_email_content_length(normalized_content)
 
     # Process liquid templates in normalized content with code block protection
     processed_content = process_liquid_in_email_body(normalized_content)
@@ -204,8 +206,9 @@ class Messages::MessageBuilder
 
     email_attributes[:text_content] = build_text_content(processed_content)
     # Keep the suffix explicit: translation and other post-processing must not
-    # have to guess where the reply ends in the rendered full body.
-    email_attributes[:quoted_content] = quoted_content if quoted_content.present?
+    # have to guess where the reply ends in the rendered full body. Store the
+    # rendered form so escaped Liquid tokens come back as literal text.
+    email_attributes[:quoted_content] = process_liquid_in_email_body(quoted_content) if quoted_content.present?
     email_attributes
   end
 
