@@ -429,6 +429,13 @@ RSpec.describe AutomationRule do
       expect(rule.errors[:actions]).to include('WhatsApp template actions need a WhatsApp inbox, a template and its message.')
     end
 
+    it 'still deactivates a saved rule after its WhatsApp inbox is deleted' do
+      rule.save!
+      whatsapp_inbox.delete
+
+      expect(rule.reload.update(active: false)).to be(true)
+    end
+
     it 'rejects a template without a language or with an empty or malformed value' do
       template_params[:template_params][:processed_params] = { body: { '1' => '' } }
       expect(rule).not_to be_valid

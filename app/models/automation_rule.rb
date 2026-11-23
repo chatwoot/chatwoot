@@ -39,7 +39,8 @@ class AutomationRule < ApplicationRecord
   validate :captain_conditions_operator
   validate :captain_conditions_description
   validate :json_actions_format
-  validate :whatsapp_template_actions_format
+  # Only on action changes, so a rule whose WhatsApp inbox was deleted can still be deactivated or edited.
+  validate :whatsapp_template_actions_format, if: :actions_changed?
   validate :query_operator_presence
   validate :query_operator_value
   validates :account_id, presence: true
