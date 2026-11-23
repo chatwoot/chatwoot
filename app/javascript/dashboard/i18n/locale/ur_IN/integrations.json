@@ -776,18 +776,6 @@
           "LABEL": "جواب تجویز کریں",
           "CONTENT": "گاہک کی استفسار کا تجزیہ کریں، اور ایک ایسا جواب تیار کریں جو ان کے خدشات یا سوالات کو مؤثر طریقے سے حل کرے۔ جواب واضح، مختصر اور مددگار معلومات فراہم کرے۔"
         },
-        "RATE": {
-          "LABEL": "اس گفتگو کی درجہ بندی کریں",
-          "CONTENT": "گفتگو کا جائزہ لیں کہ یہ کس حد تک گاہک کی ضروریات کو پورا کرتی ہے۔ لہجے، وضاحت، اور مؤثریت کی بنیاد پر 5 میں سے درجہ بندی شیئر کریں۔"
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "اعلی ترجیحی گفتگو",
-          "CONTENT": "تمام اعلی ترجیحی کھلی گفتگوؤں کا خلاصہ دیں۔ گفتگو کا ID، گاہک کا نام (اگر دستیاب ہو)، آخری پیغام کا مواد، اور تفویض شدہ ایجنٹ شامل کریں۔ اگر متعلقہ ہو تو حیثیت کے مطابق گروپ بندی کریں۔"
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "رابطے کی فہرست",
-          "CONTENT": "مجھے ٹاپ 10 رابطوں کی فہرست دکھائیں۔ نام، ای میل یا فون نمبر (اگر دستیاب ہو)، آخری بار دیکھنے کا وقت، ٹیگز (اگر کوئی ہوں) شامل کریں۔"
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
