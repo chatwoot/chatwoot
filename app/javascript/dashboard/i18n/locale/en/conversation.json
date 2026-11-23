@@ -47,7 +47,12 @@
       "NEWER_WITH": "Next conversation with {name} · {time}",
       "CUSTOMER": "this customer",
       "REPLY_TO_OLDER": "Reply to this older conversation",
-      "GO_TO_LATEST": "Go to latest conversation"
+      "GO_TO_LATEST": "Go to latest conversation",
+      "LOAD_EARLIER": "Load earlier conversation",
+      "LOAD_ERROR": "Could not load the earlier conversation. Please try again.",
+      "PAST": "#{id} · {status} · {time}",
+      "CURRENT": "#{id} · Current conversation · {time}",
+      "OPEN": "Open"
     },
     "CLICK_HERE": "Click here",
     "LOADING_INBOXES": "Loading inboxes",
