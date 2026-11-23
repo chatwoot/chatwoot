@@ -776,18 +776,6 @@
           "LABEL": "Suggérer une réponse",
           "CONTENT": "Analysez la demande du client et rédigez une réponse qui traite efficacement ses préoccupations ou questions. Assurez-vous que la réponse soit claire, concise et fournisse des informations utiles."
         },
-        "RATE": {
-          "LABEL": "Évaluer cette conversation",
-          "CONTENT": "Revue de la conversation pour évaluer dans quelle mesure elle répond aux besoins du client. Partagez une note sur 5 en fonction du ton, de la clarté et de l'efficacité."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Conversations à haute priorité",
-          "CONTENT": "Fournissez-moi un résumé de toutes les conversations ouvertes à haute priorité. Incluez l’ID de la conversation, le nom du client (si disponible), le contenu du dernier message et l’agent assigné. Regroupez par statut si pertinent."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Lister les contacts",
-          "CONTENT": "Montrez-moi la liste des 10 contacts principaux. Incluez nom, email ou numéro de téléphone (si disponible), dernière connexion, étiquettes (le cas échéant)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
