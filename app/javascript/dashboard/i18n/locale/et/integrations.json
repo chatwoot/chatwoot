@@ -744,7 +744,7 @@
     },
     "COPILOT": {
       "TITLE": "Kaaslane",
-      "AVATAR_LABEL": "Kapten",
+      "AVATAR_LABEL": "Captain",
       "TRY_THESE_PROMPTS": "Proovi neid soovitusi",
       "MORE_PROMPTS": "More questions",
       "DISCLAIMER": "Copilot can make mistakes. Check important info.",
@@ -1899,7 +1899,7 @@
           "FINGERPRINT": "Sõrmejälg"
         },
         "SOURCE_SUMMARY": {
-          "MODEL": "Kapten",
+          "MODEL": "Captain",
           "VERIFIED_EMAIL": "verified email"
         },
         "BACK": "Back",

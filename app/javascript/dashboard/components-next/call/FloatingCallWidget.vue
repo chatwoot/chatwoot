@@ -8,7 +8,6 @@ import { useCallSession } from 'dashboard/composables/useCallSession';
 import {
   isWhatsappCallConnected,
   sendWhatsappDigits,
-  setWhatsappCallMuted,
 } from 'dashboard/composables/useWhatsappCallSession';
 import TwilioVoiceClient, {
   isTwilioCallConnected,
@@ -43,9 +42,6 @@ const {
   formattedCallDuration,
 } = useCallSession();
 
-// Mute routes by provider: WhatsApp toggles the local mic track, Twilio also plays
-// hold music to the caller while the agent keeps hearing them. Both surface the same button.
-const isWhatsappMuted = ref(false);
 const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
@@ -75,13 +71,12 @@ const handleSendDigit = digit => {
   }
 };
 
-const isMuted = computed(() =>
-  isWhatsappActive.value ? isWhatsappMuted.value : !!activeCall.value?.onHold
-);
+// Mute puts the caller on hold: they hear hold music while the agent keeps hearing them
+const isMuted = computed(() => !!activeCall.value?.onHold);
 
 // One hold or resume at a time, so a stale request can't land after a newer one
 const isHoldPending = ref(false);
-const toggleTwilioHold = async () => {
+const toggleMute = async () => {
   if (isHoldPending.value) return;
   const call = activeCall.value;
   isHoldPending.value = true;
@@ -121,19 +116,6 @@ const stackedCardState = call =>
   call?.callDirection === VOICE_CALL_DIRECTION.OUTBOUND
     ? VOICE_CALL_DIRECTION.OUTGOING
     : VOICE_CALL_DIRECTION.INCOMING;
-
-const toggleMute = () => {
-  if (!isWhatsappActive.value) {
-    toggleTwilioHold();
-    return;
-  }
-  isWhatsappMuted.value = !isWhatsappMuted.value;
-  setWhatsappCallMuted(isWhatsappMuted.value);
-};
-
-watch(hasActiveCall, active => {
-  if (!active) isWhatsappMuted.value = false;
-});
 
 // Convert ISO 3166-1 alpha-2 country code (e.g. "US") to its regional indicator
 // flag emoji. Returns empty string if the code is missing or malformed.

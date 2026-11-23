@@ -744,7 +744,7 @@
     },
     "COPILOT": {
       "TITLE": "Կոպիլոտ",
-      "AVATAR_LABEL": "Կապիտան",
+      "AVATAR_LABEL": "Captain",
       "TRY_THESE_PROMPTS": "Փորձեք այս հրահանգները",
       "MORE_PROMPTS": "More questions",
       "DISCLAIMER": "Copilot can make mistakes. Check important info.",
@@ -1899,7 +1899,7 @@
           "FINGERPRINT": "Բնութագիր"
         },
         "SOURCE_SUMMARY": {
-          "MODEL": "Կապիտան",
+          "MODEL": "Captain",
           "VERIFIED_EMAIL": "verified email"
         },
         "BACK": "Back",

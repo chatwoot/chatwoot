@@ -69,8 +69,7 @@ class Call < ApplicationRecord
 
   after_update_commit :cancel_phone_ring, if: :ring_just_ended?
   include Concerns::CallAssignmentHold
-  # Out-of-order webhooks can create and end a call in the same transaction.
-  after_commit :notify_missed_call, on: %i[create update], if: :missed_just_now?
+  include Concerns::MissedCallFollowUps
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }
@@ -271,13 +270,5 @@ class Call < ApplicationRecord
 
   def cancel_phone_ring
     Voice::VoipPushJob.perform_later(id, 'cancel')
-  end
-
-  def missed_just_now?
-    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && ring_state['rings_phones'] != false && missed?
-  end
-
-  def notify_missed_call
-    Voice::MissedCallNotificationJob.perform_later(id)
   end
 end

@@ -39,6 +39,10 @@ let recorderArmed = false;
 // This call's recording decision, snapshotted server-side at call creation and
 // carried on every payload that can start a call in this tab.
 let callRecordingEnabled = true;
+// While the caller is on hold, a looping music track replaces the mic on the outgoing sender
+let holdMusic = null;
+
+const HOLD_MUSIC_URL = '/audio/dashboard/hold-music.mp3';
 
 const ensureRemoteAudioElement = () => {
   if (remoteAudioEl) return remoteAudioEl;
@@ -128,8 +132,37 @@ const setupRecorder = () => {
   mediaRecorder.start(RECORDING_TIMESLICE_MS);
 };
 
+// Plays the hold loop into its own audio graph, so it reaches the caller but never the recorder's mix
+const startHoldMusic = async () => {
+  const context = new AudioContext();
+  try {
+    const response = await fetch(HOLD_MUSIC_URL);
+    const source = context.createBufferSource();
+    source.buffer = await context.decodeAudioData(await response.arrayBuffer());
+    source.loop = true;
+    const destination = context.createMediaStreamDestination();
+    source.connect(destination);
+    source.start();
+    await context.resume();
+    return { context, track: destination.stream.getAudioTracks()[0] };
+  } catch (error) {
+    context.close().catch(() => {});
+    throw error;
+  }
+};
+
+const stopHoldMusic = () => {
+  if (!holdMusic) return;
+  holdMusic.context.close().catch(() => {});
+  holdMusic = null;
+};
+
+const findAudioSender = () =>
+  pc?.getSenders().find(sender => sender.track?.kind === 'audio');
+
 const cleanup = () => {
   isConnected.value = false;
+  stopHoldMusic();
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     try {
       mediaRecorder.stop();
@@ -478,20 +511,39 @@ export const handleWhatsappRemoteEnd = async callId => {
   }
 };
 
-export const setWhatsappCallMuted = muted => {
-  if (!localStream) return false;
-  localStream.getAudioTracks().forEach(track => {
-    track.enabled = !muted;
-  });
-  return muted;
+// Hold sends music to the caller in place of the mic while the agent keeps hearing them.
+// The mic stays muted meanwhile, and the recorder mixes only the mic and the caller.
+export const setWhatsappCallOnHold = async onHold => {
+  const connection = pc;
+  const sender = findAudioSender();
+  if (!sender) throw new Error('No live WhatsApp call to hold');
+  const micTrack = localStream.getAudioTracks()[0];
+
+  if (!onHold) {
+    await sender.replaceTrack(micTrack);
+    micTrack.enabled = true;
+    stopHoldMusic();
+    return;
+  }
+
+  const music = holdMusic || (await startHoldMusic());
+  // The call ended while the music loaded
+  if (pc !== connection) {
+    music.context.close().catch(() => {});
+    return;
+  }
+  holdMusic = music;
+  try {
+    await sender.replaceTrack(music.track);
+  } catch (error) {
+    stopHoldMusic();
+    throw error;
+  }
+  micTrack.enabled = false;
 };
 
 export const sendWhatsappDigits = digit => {
-  if (!pc) return false;
-  const audioSender = pc
-    .getSenders()
-    .find(sender => sender.track?.kind === 'audio');
-  const dtmf = audioSender?.dtmf;
+  const dtmf = findAudioSender()?.dtmf;
   if (!dtmf?.canInsertDTMF) return false;
 
   try {
