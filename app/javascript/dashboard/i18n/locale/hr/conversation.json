@@ -142,7 +142,7 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "Nijedan djelatnik nije se javio",
       "MISSED_CALL_DECLINED_BY": "Poziv je odbio djelatnik {agentName}",
       "MISSED_CALL_OUTSIDE_HOURS": "Izvan radnog vremena",
-      "MISSED_CALL_NOBODY_ONLINE": "Nobody was online",
+      "MISSED_CALL_NOBODY_ONLINE": "Nitko nije bio online",
       "CALL_ENDED": "Call ended",
       "HANDLED_BY": "Poziv je vodio djelatnik {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
@@ -154,7 +154,7 @@
       "CALL_BACK": "Uzvrati poziv",
       "TRANSCRIPT_SHOW_MORE": "Prikaži više",
       "TRANSCRIPT_SHOW_LESS": "Prikaži manje",
-      "DISMISS_FAILED": "Couldn't dismiss the call. It may keep ringing in your other tabs."
+      "DISMISS_FAILED": "Nije moguće odbaciti poziv. Možda će nastaviti zvoniti u drugim karticama."
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
@@ -176,11 +176,11 @@
       "WHATSAPP_CALL_PERMISSION_REQUESTED": "Kontaktu je poslan zahtjev za dopuštenje poziva. Pokušajte ponovno kada ga prihvati.",
       "WHATSAPP_CALL_PERMISSION_PENDING": "Zahtjev za dopuštenje poziva već je nedavno poslan. Pokušajte ponovno kada ga kontakt prihvati.",
       "AUTO_TRANSLATE": {
-        "TURN_OFF": "Turn off auto-translate",
-        "TURN_ON": "Turn on auto-translate",
-        "TURNED_OFF": "Auto-translate is off for this conversation",
-        "TURNED_ON": "Auto-translate is on for this conversation",
-        "UPDATE_FAILED": "Could not change auto-translate for this conversation. Please try again."
+        "TURN_OFF": "Isključi automatsko prevođenje",
+        "TURN_ON": "Uključi automatsko prevođenje",
+        "TURNED_OFF": "Automatsko prevođenje isključeno je za ovaj razgovor",
+        "TURNED_ON": "Automatsko prevođenje uključeno je za ovaj razgovor",
+        "UPDATE_FAILED": "Promjena automatskog prevođenja za ovaj razgovor nije uspjela. Pokušajte ponovno."
       },
       "SLA_STATUS": {
         "FRT": "FRT {status}",
@@ -207,28 +207,28 @@
     "PICKER": {
       "VARIABLE": {
         "SEARCH_PLACEHOLDER": "Pretraži varijable",
-        "DESCRIPTION": "Description",
+        "DESCRIPTION": "Opis",
         "VALUE": "Vrijednost",
         "NO_VALUE": "Nema vrijednosti za ovaj razgovor"
       },
       "EMOJI": {
-        "SEARCH_PLACEHOLDER": "Search emojis",
+        "SEARCH_PLACEHOLDER": "Pretraži emoji",
         "EMPTY_STATE": "Upišite pojam za pretraživanje emotikona"
       },
       "MACRO": {
-        "SEARCH_PLACEHOLDER": "Search macros",
+        "SEARCH_PLACEHOLDER": "Traži makro",
         "ACTION_COUNT": "1 radnja | {count} radnji"
       },
       "MENTION": {
         "SEARCH_PLACEHOLDER": "Pretraži djelatnike i timove",
         "FILTER": {
-          "ALL": "All"
+          "ALL": "Sve"
         },
-        "AVAILABILITY": "Availability",
+        "AVAILABILITY": "Raspoloživost",
         "ROLE": "Uloga",
         "AUTO_ASSIGN": "Automatski dodijeli",
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled",
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno",
         "YOU_ARE_A_MEMBER": "Član ste ovog tima"
       }
     },
@@ -242,7 +242,7 @@
       "EMPTY": "Nema novih prijedloga",
       "ACCEPT": "Accept",
       "APPLY_HINT": "Kliknite za primjenu",
-      "REJECT": "Dismiss",
+      "REJECT": "Odbaci",
       "ACCEPT_ALL": "Prihvati sve",
       "ERROR": "Učitavanje prijedloga nije uspjelo. Pokušajte ponovno.",
       "APPLY_ERROR": "Primjena predloženih oznaka nije uspjela. Pokušajte ponovno."
@@ -283,8 +283,8 @@
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
-      "SEARCH_LABELS": "Search labels",
-      "NO_LABELS_FOUND": "No labels found",
+      "SEARCH_LABELS": "Pretraži oznake",
+      "NO_LABELS_FOUND": "Nema pronađenih oznaka",
       "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
       "DELETE": "Delete conversation",
@@ -344,19 +344,19 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "COPILOT_THINKING": "Copilot razmišlja",
       "EMAIL_HEAD": {
-        "TO": "To",
+        "TO": "Prima",
         "CC": {
-          "LABEL": "Cc",
+          "LABEL": "Kopija",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
         },
         "BCC": {
-          "LABEL": "Bcc",
+          "LABEL": "Skrivena kopija",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
         },
         "SUBJECT": {
-          "LABEL": "Subject",
+          "LABEL": "Predmet",
           "PLACEHOLDER": "Unesite predmet"
         }
       },
@@ -419,7 +419,7 @@
         "DESCRIPTION": "Primijetili ste problem s ovim AI odgovorom? Opišite što nije u redu, a naš će tim pregledati prijavu kako bi poboljšao točnost Captaina.",
         "PROBLEM_TYPE": "Vrsta problema",
         "PROBLEM_TYPE_PLACEHOLDER": "Odaberite vrstu problema",
-        "DESCRIPTION_LABEL": "Description",
+        "DESCRIPTION_LABEL": "Opis",
         "DESCRIPTION_PLACEHOLDER": "Detaljno opišite problem",
         "SUBMIT": "Prijavi",
         "SUCCESS": "Hvala na prijavi. Naš će je tim pregledati.",
@@ -444,19 +444,19 @@
       "NOT_ANSWERED_YET": "Not answered yet",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
-      "DISMISS_CALL": "Dismiss",
+      "DISMISS_CALL": "Odbaci",
       "JOIN_CALL": "Join call",
       "END_CALL": "End call",
       "MUTE": "Isključi mikrofon",
       "UNMUTE": "Uključi mikrofon",
-      "SHOW_KEYPAD": "Show keypad",
-      "HIDE_KEYPAD": "Hide keypad",
-      "KEYPAD": "Call keypad",
-      "STAR": "Star",
-      "POUND": "Pound",
-      "KEYPAD_SEND_FAILED": "Could not send keypad tone",
-      "ON_HOLD": "On hold",
-      "HOLD_FAILED": "Couldn't update the hold. Please try again.",
+      "SHOW_KEYPAD": "Prikaži tipkovnicu za biranje",
+      "HIDE_KEYPAD": "Sakrij tipkovnicu za biranje",
+      "KEYPAD": "Tipkovnica za biranje",
+      "STAR": "Zvjezdica",
+      "POUND": "Ljestve",
+      "KEYPAD_SEND_FAILED": "Slanje tona tipkovnice nije uspjelo",
+      "ON_HOLD": "Poziv na čekanju",
+      "HOLD_FAILED": "Promjena statusa čekanja nije uspjela. Pokušajte ponovno.",
       "VIEW_CHAT_HISTORY": "Prikaži povijest razgovora",
       "GO_TO_CONVERSATION": "Idi na razgovor"
     }
@@ -531,9 +531,9 @@
       "EMPTY": "Još nema privitaka",
       "DOWNLOAD": "Preuzmi datoteku",
       "DOWNLOAD_ERROR": "Preuzimanje datoteke nije uspjelo. Pokušajte ponovno.",
-      "MEDIA_HEADING": "Media",
+      "MEDIA_HEADING": "Mediji",
       "FILES_HEADING": "Datoteke",
-      "VIEW_ALL": "View all",
+      "VIEW_ALL": "Prikaži sve",
       "SHOW_LESS": "Prikaži manje",
       "MORE_COUNT": "+{count}",
       "UNTITLED_FILE": "Datoteka bez naziva",
@@ -587,13 +587,13 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject",
-    "DATE": "Date",
+    "DATE": "Datum",
     "EXPAND": "Expand email"
   },
   "FORWARD_EMAIL": {
     "HEADER_TITLE": "---------- Proslijeđena poruka ---------",
     "TO_LABEL": "To:",
-    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "TO_PLACEHOLDER": "Unesite najmanje 2 znaka za pretraživanje prema adresi e-pošte",
     "MESSAGE_PLACEHOLDER": "Dodajte poruku (neobavezno)",
     "FORWARDED_TO": "Proslijeđeno na {emails}",
     "CONTACT_CANNOT_SEE": "Ovo nije vidljivo kontaktu {name}"
@@ -607,7 +607,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
     "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
     "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!",
+    "NO_PARTICIPANTS_TEXT": "Nitko ne sudjeluje!",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
     "API": {
