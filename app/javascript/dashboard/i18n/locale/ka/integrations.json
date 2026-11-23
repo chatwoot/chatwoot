@@ -776,18 +776,6 @@
           "LABEL": "პასუხის შეთავაზება",
           "CONTENT": "ანალიზი გაუკეთეთ მომხმარებლის კითხვას და მოამზადეთ პასუხი, რომელიც ეფექტურად პასუხობს მათ შეშფოთებებს ან შეკითხვებს. დარწმუნდით, რომ პასუხი არის ნათელი, მოკლე და შეიცავს სასარგებლო ინფორმაციას."
         },
-        "RATE": {
-          "LABEL": "შეაფასეთ ეს საუბარი",
-          "CONTENT": "გაითვალისწინეთ საუბარი და შეაფასეთ, რამდენად აკმაყოფილებს ის მომხმარებლის საჭიროებებს. გაუზიარეთ შეფასება 5-დან ტონის, ნათლობის და ეფექტურობის მიხედვით."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "მაღალი პრიორიტეტის საუბრები",
-          "CONTENT": "მომეცი ყველა მაღალი პრიორიტეტის ღია საუბრის შეჯამება. ჩართე საუბრის ID, მომხმარებლის სახელი (თუ ხელმისაწვდომია), ბოლო შეტყობინების შინაარსი და დანიშნული აგენტი. ჯგუფი სტატუსის მიხედვით, თუ საჭიროა."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "კონტაქტების სია",
-          "CONTENT": "აჩვენე მოწონებული 10 კონტაქტის სია. ჩათვალე სახელი, ელ.ფოსტა ან ტელეფონის ნომერი (თუ გვაქვს), ბოლო აქტივობის დრო, ტეგები (თუ არის)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
