@@ -52,6 +52,9 @@ lv:
     call_hours:
       closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
       whatsapp_failed: "Couldn't apply business hours to WhatsApp calls: %{error}"
+    missed_call_message:
+      default: "Sorry we missed your call. Reply here and we'll get back to you as soon as we can."
+      invalid: 'The missed-call message must be %{max} characters or fewer'
     call_routing:
       invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
@@ -560,7 +563,7 @@ lv:
     copilot_message_required: Nepieciešams ziņojums
     copilot_error: 'Lai izmantotu Copilot, lūdzu, pievienojiet šai iesūtnei palīgu'
     copilot_limit: 'Jums ir beigušies Copilot kredīti. Vairāk kredītu varat iegādāties norēķinu sadaļā.'
-    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: 'Jauniniet savu plānu, lai iespējotu Captain AI'
     disabled: 'Captain AI šim kontam ir atspējots.'
     api_key_missing: 'Captain AI API atslēga nav konfigurēta.'
@@ -895,8 +898,7 @@ lv:
         conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'Asistents'
-        copilot: 'Kopilots'
-        copilot_workflows: 'Copilot workflows'
+        copilot_workflows: 'Kopilots'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'
