@@ -371,7 +371,7 @@
       "IDENTIFIER": "Identifier",
       "COUNTRY": "Country",
       "CITY": "City",
-      "COMPANY": "Company",
+      "COMPANY": "Tvrtka",
       "CREATED_AT": "Kreirano",
       "LAST_ACTIVITY": "Zadnja aktivnost",
       "REFERER_LINK": "Povezica preporuke",
@@ -386,8 +386,8 @@
       },
       "TITLE": "Filter contacts",
       "EDIT_SEGMENT": "Edit segment",
-      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
-      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
+      "INVALID_SEGMENT": "Ovaj segment sadrži nevaljan filtar. Uredite segment kako biste ga ispravili.",
+      "LOAD_ERROR": "Učitavanje filtriranih kontakata nije uspjelo. Pokušajte ponovno.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
@@ -498,7 +498,7 @@
         "ATTRIBUTES": "Attributes",
         "HISTORY": "History",
         "NOTES": "Notes",
-        "MEDIA": "Media",
+        "MEDIA": "Mediji",
         "MERGE": "Merge"
       },
       "HISTORY": {
