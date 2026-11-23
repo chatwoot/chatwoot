@@ -41,15 +41,7 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
     return false if expected_identifier.blank?
     return false unless params[:identifier].to_s == expected_identifier
 
-    expected_hash = OpenSSL::HMAC.hexdigest(
-      'sha256',
-      @inbox_channel.hmac_token,
-      expected_identifier
-    )
-    identifier_hash = params[:identifier_hash].to_s
-    return false unless identifier_hash.bytesize == expected_hash.bytesize
-
-    ActiveSupport::SecurityUtils.secure_compare(identifier_hash, expected_hash)
+    ContactIdentity::Verifier.new(channel: @inbox_channel, identifier: expected_identifier, params: params).perform.verified?
   end
 
   def hmac_identifier
