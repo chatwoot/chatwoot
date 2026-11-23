@@ -14,7 +14,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
            Captain::Tools::Copilot::GetContactService, Captain::Tools::Copilot::GetArticleService,
            Captain::Tools::Copilot::SearchArticlesService, Captain::Tools::Copilot::SearchContactsService,
            Captain::Tools::Copilot::SearchLinearIssuesService, Captain::Tools::Copilot::GetReportService,
-           Captain::Tools::Copilot::GetAccountDirectoryService].freeze
+           Captain::Tools::Copilot::GetAccountDirectoryService, Captain::Tools::Copilot::SearchChatwootDocsService].freeze
   WORKFLOW_TOOLS = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
                     Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService,
                     Captain::Tools::Copilot::ActService].freeze
