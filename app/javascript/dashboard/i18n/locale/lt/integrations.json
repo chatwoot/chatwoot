@@ -776,18 +776,6 @@
           "LABEL": "Pasiūlyti atsakymą",
           "CONTENT": "Analizuokite kliento užklausą ir parengkite atsakymą, kuris veiksmingai sprendžia jų rūpesčius ar klausimus. Įsitikinkite, kad atsakymas yra aiškus, glaustas ir pateikia naudingą informaciją."
         },
-        "RATE": {
-          "LABEL": "Įvertinkite šį pokalbį",
-          "CONTENT": "Peržiūrėkite pokalbį ir įvertinkite, kaip gerai jis atitinka kliento poreikius. Pasidalinkite įvertinimu iš 5, atsižvelgdami į toną, aiškumą ir efektyvumą."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Aukšto prioriteto pokalbiai",
-          "CONTENT": "Pateikite man santrauką apie visas aukšto prioriteto atviras pokalbių temas. Įtraukite pokalbio ID, kliento vardą (jei yra), paskutinio pranešimo turinį ir priskirtą agentą. Jei aktualu, grupuokite pagal būseną."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Rodyti kontaktus",
-          "CONTENT": "Rodykite top 10 kontaktų sąrašą. Įtraukite vardą, el. paštą arba telefono numerį (jei yra), paskutinio matymo laiką, žymas (jei yra)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
