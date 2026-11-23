@@ -100,6 +100,17 @@ describe('useSnoozeSuggestions', () => {
     );
   });
 
+  it('treats a bare number at the root as a search, not a snooze time', () => {
+    const { snoozeCommands, searchSnoozeSuggestions } = useSnoozeSuggestions();
+    const request = { page: null, context: { scopes: ['conversation'] } };
+
+    expect(snoozeCommands({ ...request, text: '32001' })).toEqual([]);
+    expect(snoozeCommands({ ...request, text: '30 m' })).toHaveLength(1);
+    expect(
+      searchSnoozeSuggestions({ page: 'snooze_conversation', text: '30' })
+    ).toHaveLength(1);
+  });
+
   it('stays quiet at the root away from an open conversation', () => {
     const { snoozeCommands } = useSnoozeSuggestions();
     const request = {
