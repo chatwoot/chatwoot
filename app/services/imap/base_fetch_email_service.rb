@@ -67,7 +67,7 @@ class Imap::BaseFetchEmailService
       return
     end
 
-    return if connection_lost?
+    return if @connection_lost
     return if email_already_present?(channel, message_id)
 
     # A message that already failed processing is not downloaded again on every
@@ -133,7 +133,7 @@ class Imap::BaseFetchEmailService
   end
 
   def reconnect_imap
-    return false if connection_lost?
+    return false if @connection_lost
 
     @reconnect_attempts += 1
     if @reconnect_attempts > MAX_RECONNECT_ATTEMPTS
@@ -141,8 +141,7 @@ class Imap::BaseFetchEmailService
       return false
     end
 
-    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Reconnecting IMAP for #{channel.email} " \
-                      "(attempt #{@reconnect_attempts}/#{MAX_RECONNECT_ATTEMPTS})"
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Reconnecting IMAP for #{channel.email} (attempt #{@reconnect_attempts}/#{MAX_RECONNECT_ATTEMPTS})"
     disconnect_imap_client
     @imap_client = build_imap_client
     true
@@ -153,10 +152,6 @@ class Imap::BaseFetchEmailService
     @connection_lost = true if @reconnect_attempts >= MAX_RECONNECT_ATTEMPTS
     Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Reconnect failed for #{channel.email}: #{e.message}"
     false
-  end
-
-  def connection_lost?
-    @connection_lost == true
   end
 
   def disconnect_imap_client
