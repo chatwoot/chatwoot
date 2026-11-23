@@ -776,18 +776,6 @@
           "LABEL": "Sugjero një përgjigje",
           "CONTENT": "Analizo pyetjen e klientit dhe harto një përgjigje që adreson në mënyrë efektive shqetësimet ose pyetjet e tyre. Sigurohu që përgjigjja të jetë e qartë, koncize dhe të ofrojë informacion të dobishëm."
         },
-        "RATE": {
-          "LABEL": "Vlerëso këtë bisedë",
-          "CONTENT": "Rishiko bisedën për të parë sa mirë i përmbush nevojat e klientit. Jep një vlerësim nga 5 bazuar në tonin, qartësinë dhe efektivitetin."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Biseda me prioritet të lartë",
-          "CONTENT": "Më jep një përmbledhje të të gjitha bisedave të hapura me prioritet të lartë. Përfshi ID-në e bisedës, emrin e klientit (nëse është i disponueshëm), përmbajtjen e mesazhit të fundit dhe agjentin e caktuar. Grupohu sipas statusit nëse është e rëndësishme."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Listo kontaktet",
-          "CONTENT": "Më trego listën e 10 kontakteve kryesore. Përfshi emrin, emailin ose numrin e telefonit (nëse është i disponueshëm), kohën e fundit kur janë parë, etiketat (nëse ka)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
