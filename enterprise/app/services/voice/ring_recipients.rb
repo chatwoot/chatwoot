@@ -2,7 +2,9 @@
 # Socket presence is not consulted, since a locked phone is exactly what a ring push is for.
 # A call rings only free agents, those not on a call or in wrap-up time, and picks them
 # up as they free up, since each ring step asks again; the assignee rings alone first, then
-# everyone or the longest idle agent.
+# everyone or the longest idle agent. The call's team (the conversation's, else the assignee's
+# only team) narrows who else rings by its widen_calls setting: the whole inbox, only the team, or
+# nobody else. The assignee is always in the pool.
 class Voice::RingRecipients
   pattr_initialize [:inbox!, :conversation!, :dismissed_user_ids]
 
@@ -39,7 +41,7 @@ class Voice::RingRecipients
   def assignable = (@assignable ||= inbox.assignable_agents.to_a)
 
   def eligible
-    @eligible ||= openers(assignable).reject { |user| dismissed_user_ids.to_a.include?(user.id) }
+    @eligible ||= openers(ring_pool).reject { |user| dismissed_user_ids.to_a.include?(user.id) }
   end
 
   # Agents on a call or in wrap-up time are left out until they free up
@@ -100,5 +102,29 @@ class Voice::RingRecipients
 
   def can_open_conversation?(user, account_user)
     ConversationPolicy.new({ user: user, account: inbox.account, account_user: account_user }, conversation).show?
+  end
+
+  # The agents the call can ring: the assignee, whatever their team, and who else the team's
+  # widen_calls setting allows. An assignee_only call with no assignee rings the team, so it stays answerable.
+  def ring_pool
+    return assignable if call_team.nil? || call_team.widen_calls_inbox_agents?
+    return assignable & [assignee] if assignee.present? && call_team.widen_calls_assignee_only?
+
+    member_ids = call_team.team_members.pluck(:user_id).to_set
+    assignable.select { |user| member_ids.include?(user.id) || user == assignee }
+  end
+
+  # The conversation's team, else the assignee's team when they are in exactly one
+  def call_team
+    return @call_team if defined?(@call_team)
+
+    @call_team = conversation.team || assignee_single_team
+  end
+
+  def assignee_single_team
+    return if assignee.blank?
+
+    teams = assignee.teams.where(account_id: inbox.account_id).limit(2).to_a
+    teams.first if teams.one?
   end
 end

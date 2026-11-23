@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_16_211055) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_21_065512) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1789,6 +1789,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_16_211055) do
     t.datetime "updated_at", null: false
     t.string "icon", default: ""
     t.string "icon_color", default: ""
+    t.integer "widen_calls", default: 0, null: false
     t.index ["account_id"], name: "index_teams_on_account_id"
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
