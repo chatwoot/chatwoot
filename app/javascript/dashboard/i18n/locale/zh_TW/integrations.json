@@ -776,18 +776,6 @@
           "LABEL": "建議回覆",
           "CONTENT": "請分析客戶的詢問，並草擬一份能有效解決其疑慮或問題的回覆。確保回覆清晰、簡潔且提供有用的資訊。"
         },
-        "RATE": {
-          "LABEL": "評分此對話",
-          "CONTENT": "請檢視此對話是否滿足客戶的需求。根據語氣、清晰度和有效性，提供 1 至 5 的評分。"
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "高優先程度對話",
-          "CONTENT": "請提供所有高優先程度未結對話的摘要。包含對話 ID、客戶名稱（如有）、最後一則訊息內容以及指派的客服人員。如相關請按狀態分組。"
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "列出聯絡人",
-          "CONTENT": "請顯示前 10 名聯絡人。包含名稱、電子郵件或電話號碼（如有）、最後上線時間、標籤（如有）。"
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
