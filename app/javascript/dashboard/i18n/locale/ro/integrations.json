@@ -776,18 +776,6 @@
           "LABEL": "Sugerați un răspuns",
           "CONTENT": "Analizați solicitarea clientului și redactați un răspuns care abordează eficient preocupările sau întrebările acestuia. Asigurați-vă că răspunsul este clar, concis și oferă informații utile."
         },
-        "RATE": {
-          "LABEL": "Evaluați această conversație",
-          "CONTENT": "Analizați conversația pentru a vedea cât de bine răspunde nevoilor clientului. Oferiți o evaluare din 5 pe baza tonului, clarității și eficacității."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Conversații cu prioritate ridicată",
-          "CONTENT": "Oferă-mi un rezumat al tuturor conversațiilor deschise cu prioritate ridicată. Include ID-ul conversației, numele clientului (dacă este disponibil), conținutul ultimului mesaj și agentul atribuit. Grupează după stare, dacă este relevant."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Listați contactele",
-          "CONTENT": "Arată-mi lista primelor 10 contacte. Include numele, e-mailul sau numărul de telefon (dacă sunt disponibile), ora ultimei activități și etichetele (dacă există)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
