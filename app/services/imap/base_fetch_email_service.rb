@@ -53,6 +53,7 @@ class Imap::BaseFetchEmailService
 
   def fetch_mail_for_channel
     @reconnect_attempts = 0
+    @sequences_stale = false
     message_ids_with_seq = fetch_message_ids_with_sequence
     message_ids_with_seq.filter_map do |message_id_with_seq|
       process_message_id(message_id_with_seq)
@@ -73,6 +74,13 @@ class Imap::BaseFetchEmailService
     # A message that already failed processing is not downloaded again on every
     # run. It is retried once the tracker's backoff has elapsed.
     return if failed_message?(message_id)
+
+    # A reconnect renumbers the mailbox, so later queued sequence numbers are
+    # stale even when they still point at a message.
+    if @sequences_stale
+      seq_no = re_resolve_sequence_number(message_id)
+      return if seq_no.nil?
+    end
 
     # Fetch the original mail content using the sequence no.
     # BODY.PEEK[] avoids RFC822 parser failures seen with some IMAP servers.
@@ -144,6 +152,7 @@ class Imap::BaseFetchEmailService
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Reconnecting IMAP for #{channel.email} (attempt #{@reconnect_attempts}/#{MAX_RECONNECT_ATTEMPTS})"
     disconnect_imap_client
     @imap_client = build_imap_client
+    @sequences_stale = true
     true
   rescue OAuth2::Error
     # Let the job mark the channel as requiring reauthorization.

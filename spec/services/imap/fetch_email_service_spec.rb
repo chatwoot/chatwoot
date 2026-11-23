@@ -269,8 +269,10 @@ RSpec.describe Imap::FetchEmailService do
           allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1, 2])
           allow(imap).to receive(:fetch).with([1, 2], 'BODY.PEEK[HEADER]').and_return([email_header_one, email_header_two])
           allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_raise(IOError, 'closed stream')
+          # The failed message is re-resolved to 1; the queued second message is
+          # re-resolved after the reconnect too and now sits at 2.
           allow(reconnected_imap).to receive(:search)
-            .with(['HEADER', 'Message-ID', email_object.message_id]).and_return([1])
+            .with(['HEADER', 'Message-ID', email_object.message_id]).and_return([1], [2])
           allow(reconnected_imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_raise(IOError, 'closed stream')
           allow(reconnected_imap).to receive(:fetch).with(2, 'BODY.PEEK[]').and_return([imap_fetch_mail])
           allow(reconnected_imap).to receive(:logout)
