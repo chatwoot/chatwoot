@@ -386,8 +386,8 @@
       },
       "TITLE": "Filtrar contatos",
       "EDIT_SEGMENT": "Alterar segmento",
-      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
-      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
+      "INVALID_SEGMENT": "Este segmento tem um filtro inválido. Edite o segmento para corrigi-lo.",
+      "LOAD_ERROR": "Não foi possível carregar os contatos filtrados. Tente novamente.",
       "SEGMENT": {
         "LABEL": "Nome do segmento",
         "INPUT_PLACEHOLDER": "Digite o nome do segmento"
