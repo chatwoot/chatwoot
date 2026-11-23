@@ -207,6 +207,37 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/:id/health with WhatsApp calling' do
+    let(:channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:health_service) { instance_double(Whatsapp::HealthService, sync_health_status!: { id: 'phone123' }) }
+    let(:calling_service) { instance_double(Whatsapp::CallingHealthService, perform: { meta_status: { status: 'disabled' } }) }
+
+    before do
+      account.enable_features!('channel_voice')
+      allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
+      allow(Whatsapp::CallingHealthService).to receive(:new).with(channel: channel).and_return(calling_service)
+    end
+
+    it 'adds the calling checks when calling is on' do
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => true))
+
+      get "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/health", headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to eq('id' => 'phone123', 'calling' => { 'meta_status' => { 'status' => 'disabled' } })
+    end
+
+    it 'leaves the calling checks out when calling is off' do
+      get "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/health", headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).not_to have_key('calling')
+      expect(Whatsapp::CallingHealthService).not_to have_received(:new)
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/{account.id}/inboxes/:id' do
     let(:inbox) { create(:inbox, account: account, auto_assignment_config: { max_assignment_limit: 5 }) }
 
