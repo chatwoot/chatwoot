@@ -1,12 +1,13 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useCopilotDot } from 'dashboard/composables/useCopilotDot';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useWindowSize } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
@@ -15,6 +16,7 @@ import wootConstants from 'dashboard/constants/globals';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import CopilotThreadsAPI from 'dashboard/api/captain/copilotThreads';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const store = useStore();
 const route = useRoute();
@@ -39,8 +41,8 @@ const isSmallScreen = computed(
 
 const selectedCopilotThreadId = ref(null);
 const isLoadingSelectedThread = ref(false);
-// The conversation the open thread last answered about. A workflow thread stays open across conversations, so its
-// suggested reply can only be used in the conversation it was written for.
+// The conversation the open thread last answered about. A thread stays open across conversations, so its suggested
+// reply can only be used in the conversation it was written for.
 const threadConversationId = ref(null);
 const canUseReply = computed(
   () => threadConversationId.value === currentChat.value?.id
@@ -123,6 +125,17 @@ const shouldShowCopilotPanel = computed(() => {
   );
 });
 
+// The panel can already be open on load, for someone who used Copilot before the dot existed. They have seen Copilot,
+// so the dot is used up here too, not only when an entry point opens the panel.
+const { showDot } = useCopilotDot();
+watch(
+  () => shouldShowCopilotPanel.value && showDot.value,
+  isOpenWithDot => {
+    if (isOpenWithDot) updateUISettings({ copilot_dot_dismissed: true });
+  },
+  { immediate: true }
+);
+
 // Expanded, the panel covers the conversation area. It opens at its normal width every time. It stays below the
 // sidebar's z-40, so the sidebar menus open over it.
 const isExpanded = ref(false);
@@ -138,28 +151,12 @@ watch(
   }
 );
 
-const isWorkflowsEnabled = computed(() =>
-  isFeatureEnabledonAccount.value(
-    currentAccountId.value,
-    FEATURE_FLAGS.COPILOT_WORKFLOWS
-  )
-);
-
 const handleReset = () => {
   selectionVersion += 1;
   selectedCopilotThreadId.value = null;
   threadConversationId.value = null;
   isLoadingSelectedThread.value = false;
 };
-
-// A workflow thread works across conversations, and its answers and approval cards link to them, so opening one
-// keeps the thread. Otherwise a thread is about the conversation it was started in.
-watch(
-  () => currentChat.value?.id,
-  () => {
-    if (!isWorkflowsEnabled.value) handleReset();
-  }
-);
 
 // Events sent while the cable was down are lost, so the open thread is read again from the server.
 useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, () => {
@@ -285,13 +282,8 @@ const sendMessage = async payload => {
       ) {
         return true;
       }
-      if (
-        isWorkflowsEnabled.value ||
-        currentChat.value?.id === conversationId
-      ) {
-        selectedCopilotThreadId.value = response.id;
-        threadConversationId.value = conversationId;
-      }
+      selectedCopilotThreadId.value = response.id;
+      threadConversationId.value = conversationId;
       if (!threads.value.some(thread => thread.id === response.id)) {
         threads.value.unshift(response);
       }
@@ -302,6 +294,15 @@ const sendMessage = async payload => {
     return false;
   }
 };
+
+// A prompt picked outside the panel starts a new chat. The panel opens expanded, because no conversation is open
+// beside it and the answer gets the room. It skips the panel's own send, so it records the send here.
+useEmitter(BUS_EVENTS.ASK_COPILOT, message => {
+  handleReset();
+  isExpanded.value = true;
+  sendMessage(message);
+  useTrack(COPILOT_EVENTS.SEND_MESSAGE);
+});
 
 const stopCopilot = async () => {
   try {
@@ -346,9 +347,7 @@ onMounted(() => {
       :can-suggest-reply="canSuggestReply"
       :can-use-reply="canUseReply"
       :is-expanded="isExpanded"
-      :can-show-avatar="isWorkflowsEnabled"
       :on-send-message="sendMessage"
-      :can-stop="isWorkflowsEnabled"
       :on-stop="stopCopilot"
       @set-assistant="setAssistant"
       @select-thread="selectThread"

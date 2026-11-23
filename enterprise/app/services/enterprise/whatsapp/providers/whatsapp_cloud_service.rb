@@ -4,6 +4,8 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
   # Use the configured global version (defaulting to v22.0) for call-flow endpoints.
   WHATSAPP_CALLING_API_VERSION_FALLBACK = 'v22.0'.freeze
 
+  include Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
+
   def pre_accept_call(call_id, sdp_answer)
     call_api('pre_accept_call', call_action_body(call_id, 'pre_accept', sdp_answer))
   end
@@ -40,22 +42,6 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     process_initiate_call_response(response)
   end
 
-  # Sets WABA calling status ('ENABLED'/'DISABLED'). Returns true, or raises with
-  # Meta's user-facing message on failure so the caller can surface it.
-  def update_calling_status(status)
-    response = HTTParty.post(
-      "#{calls_phone_id_path}/settings",
-      headers: api_headers,
-      body: { calling: { status: status } }.to_json
-    )
-    return true if response.success?
-
-    parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
-    error = parsed['error'].is_a?(Hash) ? parsed['error'] : {}
-    Rails.logger.error "[WHATSAPP CALL] update_calling_status failed: status=#{response.code} body=#{response.body}"
-    raise meta_error_message(error, 'Failed to update calling status')
-  end
-
   private
 
   def calls_phone_id_path
@@ -80,7 +66,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
   def permission_request_body(recipient, body_text)
     {
-      messaging_product: 'whatsapp', recipient_type: 'individual', **recipient_params(recipient), **messaging_account_params,
+      messaging_product: 'whatsapp', recipient_type: 'individual', **recipient_params(recipient),
       type: 'interactive',
       interactive: {
         type: 'call_permission_request',

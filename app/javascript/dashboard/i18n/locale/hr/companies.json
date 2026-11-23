@@ -23,76 +23,76 @@
     "UNNAMED": "Unnamed Company",
     "CONTACTS_COUNT": "{n} contact | {n} contacts",
     "ACTIONS": {
-      "CREATE": "Add company"
+      "CREATE": "Dodaj tvrtku"
     },
     "SELECTOR": {
-      "PLACEHOLDER": "Select company",
-      "CREATE_OPTION": "Add \"{name}\""
+      "PLACEHOLDER": "Odaberi tvrtku",
+      "CREATE_OPTION": "Dodaj „{name}”"
     },
     "CREATE": {
-      "TITLE": "Add company details",
+      "TITLE": "Dodaj podatke o tvrtki",
       "ACTIONS": {
-        "SAVE": "Add company"
+        "SAVE": "Dodaj tvrtku"
       },
       "MESSAGES": {
-        "SUCCESS": "Company created.",
-        "ERROR": "Could not create the company."
+        "SUCCESS": "Tvrtka je dodana.",
+        "ERROR": "Dodavanje tvrtke nije uspjelo."
       }
     },
     "DETAIL": {
       "EMPTY_STATE": {
-        "TITLE": "Company not found",
-        "SUBTITLE": "This company may have been removed or is no longer available in this account."
+        "TITLE": "Tvrtka nije pronađena",
+        "SUBTITLE": "Ova je tvrtka možda uklonjena ili više nije dostupna na ovom računu."
       },
       "HEADER": {
         "EDIT": "Uredi",
-        "MORE": "Show more",
-        "LESS": "Show less",
-        "OPEN_COUNT": "{count} open | {count} open",
-        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+        "MORE": "Prikaži više",
+        "LESS": "Prikaži manje",
+        "OPEN_COUNT": "{count} otvoren razgovor | {count} otvorenih razgovora",
+        "REFRESH_WITH_TIME": "Osvježi profil (ažurirano {time})"
       },
       "FACTS": {
-        "INDUSTRY": "Industry",
-        "SIZE": "Employees",
-        "LOCATION": "Based in",
-        "ADDED": "Added",
-        "UNKNOWN": "Unknown",
-        "YES": "Yes",
-        "NO": "No"
+        "INDUSTRY": "Djelatnost",
+        "SIZE": "Zaposlenici",
+        "LOCATION": "Sjedište",
+        "ADDED": "Dodano",
+        "UNKNOWN": "Nepoznato",
+        "YES": "Da",
+        "NO": "Ne"
       },
       "PEOPLE": {
-        "ADD": "Add",
-        "SEARCH": "Search people",
-        "EMPTY": "No one from this company yet.",
-        "NO_MATCHES": "No people match your search.",
-        "DIALOG_TITLE": "Add people to {name}"
+        "ADD": "Dodaj",
+        "SEARCH": "Pretraži kontakte",
+        "EMPTY": "Još nema kontakata iz ove tvrtke.",
+        "NO_MATCHES": "Nijedan kontakt ne odgovara vašoj pretrazi.",
+        "DIALOG_TITLE": "Dodaj kontakte u tvrtku {name}"
       },
       "TABS": {
-        "CONVERSATIONS": "Conversations",
-        "NOTES": "Notes",
-        "PEOPLE": "People"
+        "CONVERSATIONS": "Razgovori",
+        "NOTES": "Bilješke",
+        "PEOPLE": "Kontakti"
       },
       "ACTIVITY": {
         "TODAY": "Danas",
         "YESTERDAY": "Jučer",
-        "SYSTEM_AUTHOR": "System",
-        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
-        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
-        "LOAD_MORE": "Load more",
-        "SEARCH_NOTES": "Search notes",
-        "NO_MATCHING_NOTES": "No notes match your search.",
-        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+        "SYSTEM_AUTHOR": "Sustav",
+        "EMPTY_CONVERSATIONS": "Još nema razgovora. Prikazat će se ovdje kada se jave kontakti iz ove tvrtke.",
+        "EMPTY_NOTES": "Još nema bilježaka. Ovdje će se prikazati bilješke dodane kontaktima iz ove tvrtke.",
+        "LOAD_MORE": "Učitaj više",
+        "SEARCH_NOTES": "Pretraži bilješke",
+        "NO_MATCHING_NOTES": "Nijedna bilješka ne odgovara vašoj pretrazi.",
+        "NO_MATCHING_CONVERSATIONS": "Nijedan razgovor ne odgovara ovim filtrima."
       },
       "EDIT": {
-        "TITLE": "Edit company",
-        "SAVE": "Save changes",
-        "DESCRIPTION": "Description",
-        "DETAILS": "Details",
-        "CITY": "City",
-        "COUNTRY": "Country",
-        "PHONE": "Phone",
+        "TITLE": "Uredi tvrtku",
+        "SAVE": "Spremi promjene",
+        "DESCRIPTION": "Opis",
+        "DETAILS": "Pojedinosti",
+        "CITY": "Grad",
+        "COUNTRY": "Država",
+        "PHONE": "Telefon",
         "SOCIAL": {
-          "TITLE": "Social profiles",
+          "TITLE": "Profili na društvenim mrežama",
           "LINKEDIN": "LinkedIn",
           "X": "X",
           "FACEBOOK": "Facebook",
@@ -102,112 +102,112 @@
         },
         "PLACEHOLDERS": {
           "DOMAIN": "acme.com",
-          "INDUSTRY": "Software",
-          "EMPLOYEES": "51 to 200",
-          "USERNAME": "username"
+          "INDUSTRY": "Razvoj softvera",
+          "EMPLOYEES": "51 do 200",
+          "USERNAME": "korisničko ime"
         }
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search attributes...",
-        "EMPTY_STATE": "There are no company custom attributes configured yet.",
-        "NO_ATTRIBUTES": "No matching attributes found.",
-        "UNUSED_ATTRIBUTES": "{count} unused attribute | {count} unused attributes",
+        "EMPTY_STATE": "Još nisu postavljeni dodatni atributi za tvrtke.",
+        "NO_ATTRIBUTES": "Nisu pronađeni odgovarajući atributi.",
+        "UNUSED_ATTRIBUTES": "{count} neiskorišten atribut | {count} neiskorištenih atributa",
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company attribute updated.",
-          "UPDATE_ERROR": "Could not update company attribute.",
-          "DELETE_SUCCESS": "Company attribute removed.",
-          "DELETE_ERROR": "Could not remove company attribute."
+          "UPDATE_SUCCESS": "Atribut tvrtke je ažuriran.",
+          "UPDATE_ERROR": "Ažuriranje atributa tvrtke nije uspjelo.",
+          "DELETE_SUCCESS": "Atribut tvrtke je uklonjen.",
+          "DELETE_ERROR": "Uklanjanje atributa tvrtke nije uspjelo."
         },
         "TITLE": "Dodatni atributi"
       },
       "CONTACTS": {
-        "LOADING": "Loading contacts...",
-        "UNNAMED_CONTACT": "Unnamed contact",
+        "LOADING": "Učitavanje kontakata…",
+        "UNNAMED_CONTACT": "Kontakt bez imena",
         "ACTIONS": {
-          "ADD": "Add contact",
-          "REMOVE": "Remove contact"
+          "ADD": "Dodaj kontakt",
+          "REMOVE": "Ukloni kontakt"
         },
         "DIALOGS": {
           "ADD": {
-            "DESCRIPTION": "Search for an existing contact and link it to this company.",
-            "SEARCH_PLACEHOLDER": "Search contacts...",
-            "INITIAL": "Start typing to search contacts.",
-            "EMPTY": "No contacts found.",
-            "CONFIRM_TITLE": "Link contact",
-            "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
-            "COMPANY_LABEL": "Company",
-            "CONTACT_LABEL": "Contact",
-            "CURRENT_COMPANY": "Currently linked to {companyName}",
-            "ADD": "Link contact",
+            "DESCRIPTION": "Pronađite postojeći kontakt i povežite ga s ovom tvrtkom.",
+            "SEARCH_PLACEHOLDER": "Pretraži kontakte…",
+            "INITIAL": "Počnite upisivati za pretraživanje kontakata.",
+            "EMPTY": "Nisu pronađeni kontakti.",
+            "CONFIRM_TITLE": "Poveži kontakt",
+            "CONFIRM_DESCRIPTION": "Prije povezivanja provjerite i potvrdite tvrtku i kontakt.",
+            "COMPANY_LABEL": "Tvrtka",
+            "CONTACT_LABEL": "Kontakt",
+            "CURRENT_COMPANY": "Trenutačno povezano s tvrtkom {companyName}",
+            "ADD": "Poveži kontakt",
             "CANCEL": "Odustani"
           }
         },
         "MESSAGES": {
-          "ADD_SUCCESS": "Contact linked to company.",
-          "ADD_ERROR": "Could not link contact to company.",
-          "REASSIGN_SUCCESS": "Contact reassigned to company.",
-          "REASSIGN_ERROR": "Could not reassign contact to company.",
-          "REMOVE_SUCCESS": "Contact removed from company.",
-          "REMOVE_ERROR": "Could not remove contact from company."
+          "ADD_SUCCESS": "Kontakt je povezan s tvrtkom.",
+          "ADD_ERROR": "Povezivanje kontakta s tvrtkom nije uspjelo.",
+          "REASSIGN_SUCCESS": "Kontakt je povezan s novom tvrtkom.",
+          "REASSIGN_ERROR": "Povezivanje kontakta s novom tvrtkom nije uspjelo.",
+          "REMOVE_SUCCESS": "Kontakt je uklonjen iz tvrtke.",
+          "REMOVE_ERROR": "Uklanjanje kontakta iz tvrtke nije uspjelo."
         }
       },
       "AVATAR": {
-        "UPDATING": "Updating company avatar...",
-        "UPLOAD_SUCCESS": "Company avatar updated.",
-        "UPLOAD_ERROR": "Could not update the company avatar.",
-        "DELETE_SUCCESS": "Company avatar removed.",
-        "DELETE_ERROR": "Could not remove the company avatar."
+        "UPDATING": "Ažuriranje profilne slike tvrtke…",
+        "UPLOAD_SUCCESS": "Profilna slika tvrtke je ažurirana.",
+        "UPLOAD_ERROR": "Ažuriranje profilne slike tvrtke nije uspjelo.",
+        "DELETE_SUCCESS": "Profilna slika tvrtke je uklonjena.",
+        "DELETE_ERROR": "Uklanjanje profilne slike tvrtke nije uspjelo."
       },
       "PROFILE": {
-        "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
+        "DESCRIPTION_PLACEHOLDER": "Dodajte kratak opis ove tvrtke",
         "ACTIONS": {
-          "REFRESH": "Refresh profile"
+          "REFRESH": "Osvježi profil"
         },
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company.",
-          "REFRESH_SUCCESS": "Company profile refreshed.",
-          "REFRESH_ERROR": "Could not refresh the company profile."
+          "UPDATE_SUCCESS": "Podaci o tvrtki su ažurirani.",
+          "UPDATE_ERROR": "Ažuriranje podataka o tvrtki nije uspjelo.",
+          "REFRESH_SUCCESS": "Profil tvrtke je osvježen.",
+          "REFRESH_ERROR": "Osvježavanje profila tvrtke nije uspjelo."
         },
         "FIELDS": {
           "NAME": "Ime",
-          "DOMAIN": "Domain"
+          "DOMAIN": "Domena"
         }
       },
       "DELETE": {
-        "BUTTON": "Delete company",
-        "TITLE": "Delete company?",
-        "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
-        "DESCRIPTION_WITH_NAME": "This will remove {companyName} and unlink all associated contacts. Contacts themselves will be preserved.",
-        "CONFIRM": "Delete company",
+        "BUTTON": "Izbriši tvrtku",
+        "TITLE": "Izbrisati tvrtku?",
+        "DESCRIPTION": "Tvrtka će se izbrisati i uklonit će se njezine poveznice sa svim povezanim kontaktima. Sami kontakti ostat će sačuvani.",
+        "DESCRIPTION_WITH_NAME": "Tvrtka {companyName} će se izbrisati i uklonit će se njezine poveznice sa svim povezanim kontaktima. Sami kontakti ostat će sačuvani.",
+        "CONFIRM": "Izbriši tvrtku",
         "MESSAGES": {
-          "SUCCESS": "Company deleted.",
-          "ERROR": "Could not delete the company."
+          "SUCCESS": "Tvrtka je izbrisana.",
+          "ERROR": "Brisanje tvrtke nije uspjelo."
         }
       },
       "CONVERSATION_FILTERS": {
-        "BUTTON": "Filter",
-        "BUTTON_WITH_COUNT": "Filter ({count})",
-        "ANY": "Any"
+        "BUTTON": "Filtriraj",
+        "BUTTON_WITH_COUNT": "Filtriraj ({count})",
+        "ANY": "Bilo koji"
       },
       "ENRICHMENT_UPGRADE": {
-        "TITLE": "Enrich company profiles on the Business plan",
-        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
-        "UPGRADE": "See plans"
+        "TITLE": "Nadopunite profile tvrtki u paketu Business",
+        "DESCRIPTION": "Automatski popunite opis, djelatnost, broj zaposlenika, lokaciju i profile tvrtke na društvenim mrežama na temelju njezine domene. Dostupno u paketima Business i Enterprise.",
+        "UPGRADE": "Pogledaj pakete"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "No companies found"
     },
     "CARD": {
-      "EMPLOYEES": "{count} employees"
+      "EMPLOYEES": "Broj zaposlenika: {count}"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Companies",
-      "AVAILABLE_ON": "Companies is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Prijeđite na viši paket za korištenje značajke Tvrtke",
+      "AVAILABLE_ON": "Značajka Tvrtke nije dostupna u besplatnom paketu.",
+      "UPGRADE_PROMPT": "Prijeđite na viši paket kako biste grupirali kontakte prema tvrtki, pregledavali sve razgovore s pojedinom tvrtkom i čuvali njezine podatke na jednom mjestu.",
+      "UPGRADE_NOW": "Nadogradi sada",
+      "CANCEL_ANYTIME": "Svoj paket možete promijeniti ili otkazati u bilo kojem trenutku"
     }
   },
   "COMPANIES_LAYOUT": {

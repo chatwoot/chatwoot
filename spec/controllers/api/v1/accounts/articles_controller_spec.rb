@@ -10,6 +10,25 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
   let(:french_category) { create(:category, portal: portal, locale: 'fr') }
   let!(:article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id) }
 
+  describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/articles/{article.id}/preview_token' do
+    let(:draft_article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, status: :draft) }
+
+    it 'returns a preview token for the article' do
+      get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{draft_article.id}/preview_token",
+          headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+      expect(Article.find_signed(response.parsed_body['preview_token'], purpose: :preview)).to eq(draft_article)
+    end
+
+    it 'returns unauthorized for an agent without help center access' do
+      get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{draft_article.id}/preview_token",
+          headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

@@ -35,7 +35,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   # Stops the ring for this agent only; the caller keeps waiting for the others
   def dismiss
-    Voice::Provider::Twilio::ConferenceService.new(call: resolve_call!).dismiss(Current.user)
+    Voice::RingDismissService.new(call: resolve_call!, user: Current.user).perform
     head :ok
   end
 
@@ -44,6 +44,8 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     # Teardown holds the row lock so the status callbacks it triggers can't finalize the call first;
     # a teardown failure rolls back and leaves the call repairable.
     call.with_lock do
+      return render json: { error: I18n.t('errors.voice.cannot_end_call') }, status: :forbidden unless can_end_call?(call)
+
       conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
       conference_service.terminate_call
       conference_service.end_conference
@@ -63,6 +65,12 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   private
 
+  def can_end_call?(call)
+    return call.accepted_by_agent_id == Current.user.id if call.accepted_by_agent_id.present?
+
+    call.incoming? && call.ringing?
+  end
+
   def validate_hold
     return if [true, false].include?(params[:hold])
 
@@ -79,8 +87,6 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def render_call_failed(error) = render_could_not_create_error(error.message)
 
-  # An attempt id is the short token a client makes for one connection and sends to Twilio
-  # as well, so only that shape is kept
   ATTEMPT_ID_FORMAT = /\A[\w-]{1,64}\z/
 
   def valid_attempt_id?

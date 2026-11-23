@@ -75,6 +75,7 @@
       "VALUE_REQUIRED": "此欄位為必填",
       "ATTRIBUTE_KEY_REQUIRED": "屬性鍵值為必填",
       "FILTER_OPERATOR_REQUIRED": "篩選運算子為必填",
+      "INVALID_FILTER_OPERATOR": "Select a valid operator for this attribute",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "數值必須介於 1 到 998 之間"
     },
     "GROUPS": {

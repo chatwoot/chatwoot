@@ -130,12 +130,14 @@ Rails.application.routes.draw do
               member do
                 get :live_tools
                 get :authorization_url
+                post :approve_tool
               end
             end
             resource :tools_manifest, only: [] do
               get :installed
               post :preview
               post :install
+              delete :uninstall
             end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
@@ -294,6 +296,12 @@ Rails.application.routes.draw do
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
+          resources :data_exports, only: [:index, :show, :create] do
+            member do
+              get :download
+              post :rerun
+            end
+          end
           resources :data_imports, only: [:index, :show, :create] do
             collection do
               post :validate_source
@@ -304,6 +312,7 @@ Rails.application.routes.draw do
               post :abandon
               get :error_logs
               get :skip_logs
+              get :rejected_rows
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -329,6 +338,7 @@ Rails.application.routes.draw do
               member do
                 post :accept
                 post :reject
+                post :dismiss
                 post :terminate
                 post :upload_recording
               end
@@ -365,6 +375,8 @@ Rails.application.routes.draw do
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
               resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
+              resource :call_routing, only: [:update], controller: 'inboxes/call_routings'
+              resource :whatsapp_call_hours, only: [:show, :update], controller: 'inboxes/whatsapp_call_hours'
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
@@ -425,6 +437,8 @@ Rails.application.routes.draw do
 
           namespace :instagram do
             resource :authorization, only: [:create]
+            post 'accounts', to: 'connections#accounts'
+            resources :connections, only: [:create]
           end
 
           namespace :tiktok do
@@ -497,6 +511,7 @@ Rails.application.routes.draw do
             member do
               patch :archive
               delete :logo
+              delete :remove_locale
               post :send_instructions
               get :ssl_status
             end
@@ -513,6 +528,7 @@ Rails.application.routes.draw do
             end
             resources :articles do
               post :reorder, on: :collection
+              get :preview_token, on: :member
             end
           end
 
@@ -721,15 +737,15 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
-  resource :app, only: [:index] do
-    resources :accounts do
+  scope path: 'app', as: 'app' do
+    resources :accounts, only: [:show] do
       resources :conversations, only: [:show]
     end
   end
 
   # ----------------------------------------------------------------------
   # Routes for channel integrations
-  mount Facebook::Messenger::Server, at: 'bot'
+  mount Integrations::Facebook::WebhookServer, at: 'bot'
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'

@@ -39,7 +39,7 @@ RSpec.describe CaptainFeaturable do
       end
 
       it 'returns false for disabled features' do
-        expect(account.captain_copilot_enabled?).to be false
+        expect(account.captain_copilot_workflows_enabled?).to be false
         expect(account.captain_help_center_query_translation_enabled?).to be false
       end
     end
@@ -61,20 +61,20 @@ RSpec.describe CaptainFeaturable do
     context 'when models are explicitly configured' do
       before do
         account.update!(captain_models: {
-                          'editor' => 'gpt-5-mini',
+                          'editor' => 'gpt-5.1',
                           'assistant' => 'gpt-5.1',
-                          'help_center_query_translation' => 'gpt-5-mini'
+                          'help_center_query_translation' => 'gpt-6-luna'
                         })
       end
 
       it 'returns configured models for configured features' do
-        expect(account.captain_editor_model).to eq('gpt-5-mini')
+        expect(account.captain_editor_model).to eq('gpt-5.1')
         expect(account.captain_assistant_model).to eq('gpt-5.1')
-        expect(account.captain_help_center_query_translation_model).to eq('gpt-5-mini')
+        expect(account.captain_help_center_query_translation_model).to eq('gpt-6-luna')
       end
 
       it 'returns default models for unconfigured features' do
-        expect(account.captain_copilot_model).to eq(Llm::Models.default_model_for('copilot'))
+        expect(account.captain_copilot_workflows_model).to eq(Llm::Models.default_model_for('copilot_workflows'))
         expect(account.captain_audio_transcription_model).to eq(Llm::Models.default_model_for('audio_transcription'))
       end
     end
@@ -112,7 +112,7 @@ RSpec.describe CaptainFeaturable do
 
   describe 'integration with existing captain_preferences' do
     it 'enabled? methods use the same logic as captain_preferences[:features]' do
-      account.update!(captain_features: { 'editor' => true, 'copilot' => true })
+      account.update!(captain_features: { 'editor' => true, 'copilot_workflows' => true })
       prefs = account.captain_preferences
 
       Llm::Models.feature_keys.each do |feature_key|
@@ -121,7 +121,7 @@ RSpec.describe CaptainFeaturable do
     end
 
     it 'model methods use the same logic as captain_preferences[:models]' do
-      account.update!(captain_models: { 'editor' => 'gpt-5-mini', 'assistant' => 'gpt-5.2' })
+      account.update!(captain_models: { 'editor' => 'gpt-5.1', 'assistant' => 'gpt-5.2' })
       prefs = account.captain_preferences
 
       Llm::Models.feature_keys.each do |feature_key|

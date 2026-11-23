@@ -330,12 +330,6 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
     end
   end
 
-  describe '#active?' do
-    it 'returns true for public tools' do
-      expect(tool.active?).to be true
-    end
-  end
-
   describe 'out of office message after handoff' do
     context 'when outside business hours' do
       before do

@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "無法封鎖聯絡人，請稍後再試。",
         "UNBLOCK_SUCCESS_MESSAGE": "此聯絡人已成功解除封鎖",
         "UNBLOCK_ERROR_MESSAGE": "無法解除封鎖聯絡人，請稍後再試。",
-        "IMPORT_CONTACT": {
-          "TITLE": "匯入聯絡人",
-          "DESCRIPTION": "透過 CSV 檔案匯入聯絡人。",
-          "DOWNLOAD_LABEL": "下載 CSV 範例檔案。",
-          "LABEL": "CSV 檔案：",
-          "CHOOSE_FILE": "選擇檔案",
-          "CHANGE": "變更",
-          "CANCEL": "取消",
-          "IMPORT": "匯入",
-          "SUCCESS_MESSAGE": "匯入完成後，您將收到電子郵件通知。",
-          "ERROR_MESSAGE": "發生錯誤，請重試"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "匯出聯絡人",
-          "DESCRIPTION": "快速匯出包含聯絡人完整資訊的 CSV 檔案",
-          "CONFIRM": "匯出",
-          "SUCCESS_MESSAGE": "正在匯出中，匯出檔案準備就緒後，您將收到電子郵件通知。",
-          "ERROR_MESSAGE": "發生錯誤，請重試"
-        },
         "SORT_BY": {
           "LABEL": "排序方式",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "篩選聯絡人",
       "EDIT_SEGMENT": "編輯區段",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "區段名稱",
         "INPUT_PLACEHOLDER": "請輸入區段名稱"

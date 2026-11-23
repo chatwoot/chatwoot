@@ -174,6 +174,9 @@ const subtext = computed(() => {
     if (endReason.value === VOICE_CALL_END_REASON.OUTSIDE_WORKING_HOURS) {
       return t('CONVERSATION.VOICE_CALL.MISSED_CALL_OUTSIDE_HOURS');
     }
+    if (endReason.value === VOICE_CALL_END_REASON.NO_AGENTS_AVAILABLE) {
+      return t('CONVERSATION.VOICE_CALL.MISSED_CALL_NOBODY_ONLINE');
+    }
     if (wasDeclinedByAgent.value && displayAgentName.value) {
       return t('CONVERSATION.VOICE_CALL.MISSED_CALL_DECLINED_BY', {
         agentName: displayAgentName.value,
@@ -312,6 +315,7 @@ const handleCallBack = async () => {
       conversationId: response?.conversation_id ?? conversationId.value,
       inboxId: inboxId.value,
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+      provider: VOICE_CALL_PROVIDERS.TWILIO,
     });
   } catch (error) {
     useAlert(

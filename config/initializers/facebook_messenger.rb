@@ -2,8 +2,11 @@
 class ChatwootFbProvider < Facebook::Messenger::Configuration::Providers::Base
   CHANNEL_APP_SECRET_KEYS = %w[app_secret app_secret_key client_secret api_secret].freeze
 
-  def valid_verify_token?(_verify_token)
-    GlobalConfigService.load('FB_VERIFY_TOKEN', '')
+  def valid_verify_token?(verify_token)
+    expected_token = GlobalConfigService.load('FB_VERIFY_TOKEN', nil)
+    return false if expected_token.blank? || verify_token.blank?
+
+    ActiveSupport::SecurityUtils.secure_compare(verify_token.to_s, expected_token.to_s)
   end
 
   def app_secret_for(page_id)

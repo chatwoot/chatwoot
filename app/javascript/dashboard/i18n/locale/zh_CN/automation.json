@@ -93,12 +93,12 @@
       }
     },
     "LIST": {
-      "404": "未找到自动化规则",
       "TABLE_HEADER": {
         "NAME": "规则名称",
         "ACTIVE": "状态",
         "CREATED_ON": "创建时间"
       },
+      "404": "未找到自动化规则",
       "404_DELAYED": "No rules run after a wait yet",
       "TABS": {
         "INSTANT": "Runs instantly",

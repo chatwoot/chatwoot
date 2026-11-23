@@ -256,6 +256,7 @@
     "SUPER_ADMIN_CONSOLE": "SuperAdmin 콘솔",
     "DOCS": "문서 읽기",
     "CHANGELOG": "변경 이력",
+    "CHANGELOG_DISMISS_ALL": "Dismiss all",
     "LOGOUT": "로그아웃"
   },
   "APP_GLOBAL": {
@@ -339,6 +340,7 @@
     "CAPTAIN_DOCUMENTS": "문서",
     "CAPTAIN_RESPONSES": "FAQ",
     "CAPTAIN_TOOLS": "도구",
+    "CAPTAIN_TOOLS_AND_MCP": "Tools & MCP",
     "CAPTAIN_SCENARIOS": "시나리오",
     "CAPTAIN_PLAYGROUND": "플레이그라운드",
     "CAPTAIN_INBOXES": "받은 메시지함",
@@ -399,6 +401,15 @@
       "SETTINGS": "설정"
     },
     "CHANNELS": "채널",
+    "ACCEPT_CONVERSATIONS": {
+      "TEXT": "Receive conversations",
+      "INFO_SHORT": "Get new conversations assigned to you automatically."
+    },
+    "ACCEPT_CALLS": {
+      "TEXT": "Receive voice calls",
+      "INFO_SHORT": "Receive incoming calls on web and mobile."
+    },
+    "WORK_PAUSED": "You won't get new conversations or calls until you're back Online.",
     "SET_AUTO_OFFLINE": {
       "TEXT": "자동 오프라인 표시",
       "INFO_TEXT": "앱이나 대시보드를 사용하지 않을 때 시스템이 자동으로 오프라인으로 표시합니다.",
@@ -426,16 +437,17 @@
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",
-    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
-    "LOADING": "Fetching imports",
+    "DESCRIPTION": "Bring in your customer data and manage contact exports.",
+    "LOADING": "Fetching imports and exports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Intercom import",
-      "FRESHDESK": "Freshdesk import"
+      "CSV": "Contacts Import - {date}",
+      "INTERCOM": "Intercom Import - {date}",
+      "FRESHDESK": "Freshdesk Import - {date}"
     },
     "TABS": {
-      "IMPORT": "가져오기",
-      "EXPORT": "내보내기"
+      "IMPORT": "Imports",
+      "EXPORT": "Exports"
     },
     "TYPES": {
       "CONTACTS": "연락처",
@@ -459,20 +471,43 @@
       "VALIDATING": "Validating access key...",
       "VALID_KEY": "Access key validated.",
       "INVALID_KEY": "Could not validate this access key.",
-      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "ACTIVE_IMPORT": "There is already an active import in this account. Wait for it to finish before starting another one.",
       "CANCEL": "취소",
       "IMPORT": "가져오기"
     },
-    "EXPORT": {
-      "TITLE": "Exports are on the way",
-      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
-      "COMING_SOON": "곧 출시 예정"
+    "CSV": {
+      "ROW_ERRORS": "Row errors",
+      "SOURCE": "CSV file",
+      "FILE": "Contact CSV file",
+      "HELP": "Use the sample column names and existing labels. Up to 250,000 rows and 1 MiB per field.",
+      "SILENT_UPDATES": "Matching contacts are updated. Imports do not trigger contact automations or webhooks.",
+      "INVALID_FILE": "Choose a nonempty CSV file of 50 MiB or smaller.",
+      "SAMPLE": "Download sample CSV",
+      "UPLOADING": "Uploading {percent}%. Processing starts after the upload finishes.",
+      "OUTCOMES": "{created} created · {updated} updated · {failed} failed",
+      "PROCESSED": "of {total} processed",
+      "REJECTED_HELP": "Download the rejected rows, make corrections, and upload them as a new import. Files are available for 30 days.",
+      "DOWNLOAD_REJECTED": "Download rejected rows",
+      "EXPIRED": "The source and rejected-row files have expired. Upload a new file to import these contacts again.",
+      "FILE_REMOVED": "This file was removed after 30 days.",
+      "CHOOSE_FILE": "Click to upload or drag and drop",
+      "FILE_LIMIT": "CSV only · up to 50 MiB",
+      "REMOVE_FILE": "Remove file",
+      "PREVIEW_TITLE": "File preview",
+      "PREVIEW_DESCRIPTION": "Showing up to {count} rows. The file is uploaded when you start the import.",
+      "PREVIEW_LOADING": "Reading preview...",
+      "PREVIEW_ERROR": "We couldn't preview this CSV. You can still start the import to check the file.",
+      "PREVIEW_EMPTY": "No data rows found in this file.",
+      "REJECTED_TITLE": "Some rows need attention",
+      "CREATED": "생성일",
+      "UPDATED": "Updated",
+      "FAILED": "실패"
     },
     "TABLE": {
       "TITLE": "Recent imports",
       "EMPTY": "No imports yet",
-      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
-      "NEW_IMPORT": "가져오기",
+      "EMPTY_DESCRIPTION": "Import contacts from a CSV file or bring over customer history from another support tool.",
+      "NEW_IMPORT": "New import",
       "COUNT": "{count} imports",
       "UNNAMED": "Untitled import",
       "IMPORTED_COUNT": "{count} imported",
@@ -483,10 +518,11 @@
       "IMPORTED": "Imported",
       "CREATED": "생성일",
       "RETRY": "재시도",
+      "RESUME": "Resume",
       "ABANDON": "Abandon"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
+      "BACK": "Back to imports and exports",
       "ERRORS": "Errors",
       "SKIP_LOGS": "Skip logs",
       "SOURCE": "Source",
@@ -518,6 +554,7 @@
       "STAGES": {
         "unknown": "Waiting for update",
         "queued": "Queued",
+        "preparing": "Validating and preparing CSV",
         "contacts": "Importing contacts",
         "conversations": "Importing conversations",
         "finalizing": "Finalizing import",
@@ -528,11 +565,56 @@
       }
     },
     "ALERTS": {
+      "LOAD_FAILED": "Could not refresh imports and exports. Please try again.",
       "IMPORT_STARTED": "Import has started.",
       "IMPORT_RETRIED": "Import has been queued to resume.",
       "IMPORT_RETRY_FAILED": "Could not retry the import.",
       "IMPORT_ABANDONED": "Import has been abandoned.",
       "IMPORT_FAILED": "Could not start the import."
+    },
+    "STATUS": {
+      "PENDING": "Queued",
+      "PROCESSING": "In progress",
+      "COMPLETED": "완료됨",
+      "COMPLETED_WITH_ERRORS": "Completed with errors",
+      "FAILED": "실패",
+      "ABANDONED": "Abandoned"
+    }
+  },
+  "DATA_EXPORTS": {
+    "INITIATOR": "Started by {name} on {date}",
+    "TITLE": "Contact export",
+    "NEW": "연락처 내보내기",
+    "START": "Start export",
+    "EMPTY": "No exports yet",
+    "ALL_CONTACTS": "All contacts",
+    "FILTERED_CONTACTS": "Contacts matching the current filters",
+    "SCOPE": "Contacts to export: {scope}",
+    "DESCRIPTION": "Export the selected contacts to CSV. Data is captured when the export runs.",
+    "PROCESSED": "{count} contacts exported",
+    "ESTIMATE": "Estimated total: {count}. This can change while contacts are updated.",
+    "DOWNLOAD": "Download CSV",
+    "RERUN": "Run again",
+    "STALLED": "This export has stopped reporting progress. Run it again to create a new export.",
+    "EXPIRED": "This download has expired. Run the export again to create a new file.",
+    "RETENTION": "Export files are available for 30 days after completion.",
+    "ERROR": "Could not load or start this export. Please try again.",
+    "LOAD_ERROR": "Could not load this export. Please try again.",
+    "RETRY": "재시도",
+    "LOAD_OLDER": "Load older exports",
+    "LOAD_OLDER_ERROR": "Could not load older exports. Try again.",
+    "DOWNLOAD_ERROR": "This file is no longer available. Refresh the page to see its current status.",
+    "DRAFT_UNAVAILABLE": "The export selection is unavailable or expired. Return to Contacts and choose Export again. No export has been started.",
+    "EMPTY_DESCRIPTION": "Export your contacts to a CSV file. Your export history and downloads will appear here.",
+    "NOTIFICATION": "We’ll email you when your CSV is ready. You can also track progress and download it here.",
+    "FILE_FORMAT": "CSV file (.csv)",
+    "SELECTION": "연락처",
+    "PROGRESS": "Export progress",
+    "FILE_READY": "Your export is ready",
+    "IN_PROGRESS": "Preparing your CSV. You can leave this page while the export runs.",
+    "TABLE": {
+      "EXPORTED": "Exported",
+      "COUNT": "Showing {count} export | Showing {count} exports"
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -695,6 +777,15 @@
         "LABEL": "ACS URL",
         "TOOLTIP": "Assertion Consumer Service URL - SAML 응답 대상으로 IdP에서 이 URL을 구성하십시오"
       },
+      "SOURCE": {
+        "METADATA_URL": "Metadata URL",
+        "MANUAL": "Manual"
+      },
+      "METADATA_URL": {
+        "LABEL": "Metadata URL",
+        "HELP": "The SSO URL, Entity ID and signing certificate are read from this URL. They update automatically when your certificate is about to expire. If your identity provider changes them earlier, click Refresh metadata.",
+        "PLACEHOLDER": "https://sso.example.com/saml/metadata"
+      },
       "SSO_URL": {
         "LABEL": "SSO URL",
         "HELP": "SAML 인증 요청이 전송되는 URL",
@@ -721,14 +812,18 @@
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
       "UPDATE_BUTTON": "SAML 설정 업데이트",
+      "REFRESH_BUTTON": "Refresh metadata",
       "API": {
         "SUCCESS": "SAML 설정이 성공적으로 업데이트되었습니다",
+        "REFRESH_SUCCESS": "Metadata refreshed from your identity provider",
+        "REFRESH_ERROR": "Failed to refresh metadata",
         "ERROR": "SAML 설정 업데이트에 실패했습니다",
         "ERROR_LOADING": "SAML 설정을 로드하지 못했습니다",
         "DISABLED": "SAML 설정이 성공적으로 비활성화되었습니다"
       },
       "VALIDATION": {
         "REQUIRED_FIELDS": "SSO URL, ID 공급자 엔터티 ID 및 인증서는 필수 항목입니다",
+        "METADATA_URL_ERROR": "Please enter a valid metadata URL",
         "SSO_URL_ERROR": "올바른 SSO URL을 입력하십시오",
         "CERTIFICATE_ERROR": "인증서가 필요합니다",
         "IDP_ENTITY_ID_ERROR": "ID 공급자 엔터티 ID가 필요합니다"

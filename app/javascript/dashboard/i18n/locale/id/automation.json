@@ -30,8 +30,8 @@
         },
         "MONITOR": {
           "LABEL": "Monitor",
-          "PLACEHOLDER": "Select a live monitor",
-          "ERROR": "Select a live monitor",
+          "PLACEHOLDER": "Pilih monitor aktif",
+          "ERROR": "Pilih monitor aktif",
           "FETCH_FAILED": "Could not load monitors. Try again later.",
           "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
           "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
@@ -237,7 +237,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
       "PRIVATE_NOTE": "Catatan Pribadi",
-      "MESSAGE_CONTAINS": "Message Content",
+      "MESSAGE_CONTAINS": "Isi Pesan",
       "EMAIL": "Email",
       "INBOX": "Kotak masuk",
       "CONVERSATION_LANGUAGE": "Conversation Language",

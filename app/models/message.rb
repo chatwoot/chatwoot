@@ -44,6 +44,7 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+  BOT_SENDER_TYPES = %w[AgentBot Captain::Assistant].freeze
 
   TEMPLATE_PARAMS_SCHEMA = {
     'type': 'object',
@@ -85,8 +86,8 @@ class Message < ApplicationRecord
   # Transient flag used to skip waiting_since clearing for specific bot/system messages.
   attr_accessor :preserve_waiting_since
 
-  enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
-  enum content_type: {
+  enum :message_type, { incoming: 0, outgoing: 1, activity: 2, template: 3 }
+  enum :content_type, {
     text: 0,
     input_text: 1,
     input_textarea: 2,
@@ -101,7 +102,7 @@ class Message < ApplicationRecord
     sticker: 11,
     voice_call: 12
   }
-  enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
+  enum :status, { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
   # [:email] : Used by conversation_continuity incoming email messages
   # [:in_reply_to] : Used to reply to a particular tweet in threads
@@ -123,6 +124,9 @@ class Message < ApplicationRecord
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   scope :not_forwarded, -> { where("(messages.content_attributes #>> '{}')::jsonb -> 'forwarded_message_id' IS NULL") }
   scope :voice_calls, -> { where(content_type: :voice_call) }
+  scope :without_missed_call_messages, lambda {
+    where(Arel::Nodes::InfixOperation.new('->>', arel_table[:additional_attributes], Arel::Nodes.build_quoted('missed_call_message')).eq(nil))
+  }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -246,7 +250,7 @@ class Message < ApplicationRecord
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
     return false if conversation.messages.outgoing
-                                .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
+                                .where.not(sender_type: BOT_SENDER_TYPES)
                                 .where.not(private: true)
                                 .not_forwarded
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
@@ -396,7 +400,7 @@ class Message < ApplicationRecord
 
   def bot_response?
     # Check if this is a response from AgentBot or Captain::Assistant
-    outgoing? && sender_type.in?(['AgentBot', 'Captain::Assistant'])
+    outgoing? && sender_type.in?(BOT_SENDER_TYPES)
   end
 
   def dispatch_create_events

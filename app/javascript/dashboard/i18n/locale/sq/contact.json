@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Nuk mund të bllokohet kontakti. Ju lutemi provoni përsëri më vonë.",
         "UNBLOCK_SUCCESS_MESSAGE": "Ky kontakt është zhbllokuar me sukses",
         "UNBLOCK_ERROR_MESSAGE": "Nuk mund të zhbllokohet kontakti. Ju lutemi provoni përsëri më vonë.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Importo kontaktet",
-          "DESCRIPTION": "Importo kontaktet përmes një skedari CSV.",
-          "DOWNLOAD_LABEL": "Download a sample csv.",
-          "LABEL": "Skedari CSV:",
-          "CHOOSE_FILE": "Zgjidh skedarin",
-          "CHANGE": "Ndrysho",
-          "CANCEL": "Anulo",
-          "IMPORT": "Importo",
-          "SUCCESS_MESSAGE": "Do të njoftoheni me email kur importimi të përfundojë.",
-          "ERROR_MESSAGE": "Ndodhi një gabim, ju lutemi provoni përsëri"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Eksporto kontaktet",
-          "DESCRIPTION": "Eksporto shpejt një skedar csv me detaje të plota të kontakteve tuaja",
-          "CONFIRM": "Eksporto",
-          "SUCCESS_MESSAGE": "Eksportimi është në proces. Do të njoftoheni me email kur skedari i eksportit të jetë gati për shkarkim.",
-          "ERROR_MESSAGE": "Ndodhi një gabim, ju lutemi provoni përsëri"
-        },
         "SORT_BY": {
           "LABEL": "Rendit sipas",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Filtro kontaktet",
       "EDIT_SEGMENT": "Ndrysho segmentin",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Emri i segmentit",
         "INPUT_PLACEHOLDER": "Shkruani emrin e segmentit"

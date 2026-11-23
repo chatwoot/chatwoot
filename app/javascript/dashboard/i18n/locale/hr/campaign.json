@@ -146,7 +146,7 @@
         "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
       },
       "CARD": {
-        "ANALYTICS": "View analytics",
+        "ANALYTICS": "Prikaži analitiku",
         "STATUS": {
           "PROCESSING": "Processing",
           "COMPLETED": "Completed",
@@ -158,195 +158,195 @@
         }
       },
       "FORM": {
-        "CREATE_TITLE": "Create campaign",
-        "LIVE_TEST": "Live test",
-        "LIVE_TEST_TOOLTIP": "Live test will be available soon",
-        "SCHEDULE": "Schedule campaign",
-        "SCHEDULED_FOR": "Scheduled for {date}",
-        "RESCHEDULE": "Reschedule",
-        "DISCARD": "Discard changes",
-        "SAVE": "Save changes",
+        "CREATE_TITLE": "Izradi kampanju",
+        "LIVE_TEST": "Probno slanje",
+        "LIVE_TEST_TOOLTIP": "Probno slanje uskoro će biti dostupno",
+        "SCHEDULE": "Zakaži kampanju",
+        "SCHEDULED_FOR": "Zakazano za {date}",
+        "RESCHEDULE": "Promijeni termin",
+        "DISCARD": "Odbaci promjene",
+        "SAVE": "Spremi promjene",
         "BASIC_SETTINGS": {
           "TITLE": "Basic settings",
           "NAME": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter the title of the campaign"
+            "LABEL": "Naslov",
+            "PLACEHOLDER": "Unesite naziv kampanje"
           },
           "INBOX": {
-            "LABEL": "Inbox",
-            "PLACEHOLDER": "Select an inbox"
+            "LABEL": "Pretinac",
+            "PLACEHOLDER": "Odaberite pretinac"
           }
         },
         "AUDIENCE": {
-          "TITLE": "Audience",
-          "TIER_DESCRIPTION": "Your WhatsApp account can message up to {tier}.",
-          "TIER_UNKNOWN": "Select an inbox to see the messaging limit of your WhatsApp account.",
-          "LEARN_MORE": "Learn more",
+          "TITLE": "Publika",
+          "TIER_DESCRIPTION": "Vaš WhatsApp račun može slati poruke do {tier}.",
+          "TIER_UNKNOWN": "Odaberite pretinac za prikaz ograničenja slanja poruka vašeg WhatsApp računa.",
+          "LEARN_MORE": "Saznaj više",
           "LABELS": {
-            "LABEL": "Labels",
+            "LABEL": "Oznake",
             "PLACEHOLDER": "Select the customer labels"
           },
-          "SELECTED_COUNT": "{count} contacts selected",
-          "VIEW": "View",
-          "EMPTY_STATE": "Select at least one label to build the audience.",
+          "SELECTED_COUNT": "Broj odabranih kontakata: {count}",
+          "VIEW": "Prikaži",
+          "EMPTY_STATE": "Odaberite barem jednu oznaku za odabir primatelja.",
           "CONTACTS": {
-            "TITLE": "Contacts",
-            "TAGGED_WITH": "tagged with",
-            "SEARCH_PLACEHOLDER": "Search by name, email or phone number",
-            "EMPTY_STATE": "No contacts found"
+            "TITLE": "Kontakti",
+            "TAGGED_WITH": "s oznakom",
+            "SEARCH_PLACEHOLDER": "Pretraži prema imenu, e-pošti ili telefonskom broju",
+            "EMPTY_STATE": "Nema pronađenih kontakata"
           }
         },
         "TEMPLATE": {
-          "TITLE": "Template",
+          "TITLE": "Predložak",
           "SELECT": {
-            "LABEL": "Template",
-            "PLACEHOLDER": "Select a template"
+            "LABEL": "Predložak",
+            "PLACEHOLDER": "Odaberi predložak"
           },
-          "EMPTY_STATE": "Select an inbox to load its approved templates",
-          "NO_TEMPLATES": "This inbox has no approved templates that can be used in a campaign",
+          "EMPTY_STATE": "Odaberite pretinac za učitavanje njegovih odobrenih predložaka",
+          "NO_TEMPLATES": "Ovaj pretinac nema odobrenih predložaka koji se mogu koristiti u kampanji",
           "HEADER_LABEL": "Header",
-          "INVALID_MEDIA_URL": "Enter a valid HTTP or HTTPS URL.",
-          "HEADER_PLACEHOLDER": "Enter {type} header",
-          "DOCUMENT_NAME_PLACEHOLDER": "Enter document name",
-          "BODY_LABEL": "Body",
+          "INVALID_MEDIA_URL": "Unesite valjan HTTP ili HTTPS URL.",
+          "HEADER_PLACEHOLDER": "Unesite zaglavlje vrste {type}",
+          "DOCUMENT_NAME_PLACEHOLDER": "Unesite naziv dokumenta",
+          "BODY_LABEL": "Sadržaj",
           "BUTTONS_LABEL": "Buttons",
-          "VARIABLE_PLACEHOLDER": "Enter variable {variable}",
-          "BUTTON_PLACEHOLDER": "Enter parameter for button {index}"
+          "VARIABLE_PLACEHOLDER": "Unesite vrijednost varijable {variable}",
+          "BUTTON_PLACEHOLDER": "Unesite parametar za gumb {index}"
         },
         "ACCOUNT_INFORMATION": {
-          "TITLE": "Account information",
-          "MESSAGING_TIER": "Messaging tier",
-          "ACCOUNT_STATUS": "Account status",
-          "ACCOUNT_HEALTH": "Account health",
-          "STATUS_DESCRIPTION": "Current mode of this WhatsApp number",
-          "HEALTH_DESCRIPTION": "Quality rating assigned by Meta",
-          "EMPTY_STATE": "Select an inbox to see its WhatsApp account information.",
-          "UNAVAILABLE": "Not available",
-          "OPEN": "Open in WhatsApp Manager"
+          "TITLE": "Podaci o računu",
+          "MESSAGING_TIER": "Razina ograničenja slanja poruka",
+          "ACCOUNT_STATUS": "Status računa",
+          "ACCOUNT_HEALTH": "Kvaliteta računa",
+          "STATUS_DESCRIPTION": "Trenutačni način rada ovog WhatsApp broja",
+          "HEALTH_DESCRIPTION": "Ocjena kvalitete koju dodjeljuje Meta",
+          "EMPTY_STATE": "Odaberite pretinac za prikaz podataka o pripadajućem WhatsApp računu.",
+          "UNAVAILABLE": "Nije dostupno",
+          "OPEN": "Otvori u WhatsApp Manageru"
         },
         "PREVIEW": {
           "TITLE": "Message preview",
-          "EMPTY_STATE": "Select a template to preview the message.",
-          "FOOTNOTE": "This may vary slightly per OS. Perform a live test to confirm. Default values for the highlighted variables will be stored upon saving."
+          "EMPTY_STATE": "Odaberite predložak za pretpregled poruke.",
+          "FOOTNOTE": "Prikaz se može malo razlikovati ovisno o operacijskom sustavu. Provjerite ga probnim slanjem. Zadane vrijednosti istaknutih varijabli pohranit će se pri spremanju."
         },
         "SCHEDULE_POPOVER": {
-          "LABEL": "Schedule",
+          "LABEL": "Zakaži",
           "CANCEL": "Odustani",
-          "CREATE": "Create"
+          "CREATE": "Izradi"
         },
         "API": {
-          "CREATE_SUCCESS": "WhatsApp campaign created successfully",
-          "CREATE_ERROR": "There was an error. Please try again.",
-          "UPDATE_SUCCESS": "WhatsApp campaign updated successfully",
-          "UPDATE_ERROR": "There was an error. Please try again."
+          "CREATE_SUCCESS": "WhatsApp kampanja uspješno je izrađena",
+          "CREATE_ERROR": "Došlo je do pogreške. Pokušajte ponovno.",
+          "UPDATE_SUCCESS": "WhatsApp kampanja uspješno je ažurirana",
+          "UPDATE_ERROR": "Došlo je do pogreške. Pokušajte ponovno."
         }
       },
       "ANALYTICS": {
-        "LOADING": "Loading analytics...",
-        "EMPTY": "No delivery records found.",
-        "EMPTY_FILTER": "No {status} delivery records found.",
-        "DELIVERIES_ERROR": "Delivery records couldn't be loaded. Refresh the page to try again.",
+        "LOADING": "Učitavanje analitike…",
+        "EMPTY": "Nisu pronađeni zapisi o isporuci.",
+        "EMPTY_FILTER": "Nisu pronađeni zapisi o isporuci sa statusom: {status}.",
+        "DELIVERIES_ERROR": "Učitavanje zapisa o isporuci nije uspjelo. Osvježite stranicu i pokušajte ponovno.",
         "EMPTY_STATE": {
           "ERROR": {
-            "TITLE": "Analytics couldn't be loaded",
-            "DESCRIPTION": "Refresh the page to try again."
+            "TITLE": "Učitavanje analitike nije uspjelo",
+            "DESCRIPTION": "Osvježite stranicu i pokušajte ponovno."
           },
           "PENDING": {
-            "TITLE": "Delivery data will appear once sending begins",
-            "DESCRIPTION": "There are no delivery records for this campaign yet."
+            "TITLE": "Podaci o isporuci prikazat će se kada započne slanje",
+            "DESCRIPTION": "Još nema zapisa o isporuci za ovu kampanju."
           },
           "UNAVAILABLE": {
-            "TITLE": "Analytics aren't available for this campaign",
-            "DESCRIPTION": "No delivery data was recorded for this campaign. This can happen for campaigns sent before campaign analytics were introduced."
+            "TITLE": "Analitika nije dostupna za ovu kampanju",
+            "DESCRIPTION": "Za ovu kampanju nisu zabilježeni podaci o isporuci. To se može dogoditi za kampanje poslane prije uvođenja analitike kampanja."
           }
         },
-        "PROCESSING_NOTICE": "This campaign is still sending. Counts, percentages, and delivery records are partial and include only contacts processed so far. More contacts will appear as sending continues.",
-        "RATE": "{value}% of audience",
-        "SENT_ON": "Sent on {date}",
-        "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} contacts",
+        "PROCESSING_NOTICE": "Slanje poruka u ovoj kampanji još traje. Brojčani podaci, postotci i zapisi o isporuci nepotpuni su i obuhvaćaju samo dosad obrađene kontakte. Dodatni kontakti prikazivat će se kako slanje bude napredovalo.",
+        "RATE": "{value}% primatelja",
+        "SENT_ON": "Poslano {date}",
+        "PAGE_INFO": "Prikaz kontakta {startItem} - {endItem} od ukupno {totalItems} | Prikaz kontakata {startItem} - {endItem} od ukupno {totalItems}",
         "BREADCRUMB": {
-          "CAMPAIGNS": "Campaigns",
+          "CAMPAIGNS": "Kampanje",
           "WHATSAPP": "WhatsApp"
         },
         "FILTERS": {
-          "ALL": "All"
+          "ALL": "Sve"
         },
         "METRICS": {
           "AUDIENCE": {
-            "LABEL": "Audience",
-            "HINT": "Contacts included in this campaign."
+            "LABEL": "Publika",
+            "HINT": "Kontakti uključeni u ovu kampanju."
           },
           "SENT": {
-            "LABEL": "Submitted to WhatsApp",
-            "HINT": "Messages accepted by WhatsApp for delivery."
+            "LABEL": "Predano WhatsAppu",
+            "HINT": "Poruke koje je WhatsApp prihvatio za isporuku."
           },
           "DELIVERED": {
-            "LABEL": "Delivered",
-            "HINT": "Messages that reached the contact's device. Read messages are included."
+            "LABEL": "Isporučeno",
+            "HINT": "Poruke koje su stigle na uređaj kontakta. Uključene su i pročitane poruke."
           },
           "READ": {
-            "LABEL": "Read",
-            "HINT": "Messages opened by the contact."
+            "LABEL": "Pročitano",
+            "HINT": "Poruke koje je kontakt otvorio."
           },
           "FAILED": {
-            "LABEL": "Failed",
-            "HINT": "Messages WhatsApp could not deliver."
+            "LABEL": "Neuspješno",
+            "HINT": "Poruke koje WhatsApp nije mogao isporučiti."
           },
           "SKIPPED": {
-            "LABEL": "Skipped",
-            "HINT": "Contacts skipped before sending, usually because of a missing or invalid phone number."
+            "LABEL": "Preskočeno",
+            "HINT": "Kontakti preskočeni prije slanja, najčešće zbog nedostajućeg ili nevaljanog telefonskog broja."
           }
         },
         "STATUS": {
-          "QUEUED": "Queued",
-          "SENT": "Awaiting delivery update",
-          "DELIVERED": "Delivered",
-          "READ": "Read",
-          "FAILED": "Failed",
-          "SKIPPED": "Skipped"
+          "QUEUED": "U redu čekanja",
+          "SENT": "Čeka se ažuriranje statusa isporuke",
+          "DELIVERED": "Isporučeno",
+          "READ": "Pročitano",
+          "FAILED": "Neuspješno",
+          "SKIPPED": "Preskočeno"
         },
         "BREAKDOWN": {
-          "TITLE": "Delivery breakdown",
-          "DELIVERY_RATE": "{value}% delivered",
+          "TITLE": "Pregled isporuke",
+          "DELIVERY_RATE": "{value}% isporučeno",
           "LEGEND": {
-            "READ": "Read",
-            "DELIVERED": "Delivered",
-            "FAILED": "Failed",
-            "SKIPPED": "Skipped",
-            "PENDING": "Queued or awaiting update"
+            "READ": "Pročitano",
+            "DELIVERED": "Isporučeno",
+            "FAILED": "Neuspješno",
+            "SKIPPED": "Preskočeno",
+            "PENDING": "U redu čekanja ili čeka ažuriranje"
           }
         },
         "TABLE": {
-          "TITLE": "Deliveries",
-          "CONTACT": "Contact",
+          "TITLE": "Isporuke",
+          "CONTACT": "Kontakt",
           "STATUS": "Status",
           "MESSAGE": "Poruka",
-          "MESSAGE_NOT_GENERATED": "Not generated",
-          "REASON": "Reason",
-          "ERROR_CODE": "Code {code}"
+          "MESSAGE_NOT_GENERATED": "Nije generirano",
+          "REASON": "Razlog",
+          "ERROR_CODE": "Kod {code}"
         },
         "PAYWALL": {
-          "TITLE": "Unlock campaign analytics",
-          "AVAILABLE_ON": "Campaign analytics is available on Business and Enterprise plans.",
-          "UPGRADE_PROMPT": "Upgrade to track campaign delivery, read status, and failed messages.",
-          "UPGRADE_NOW": "View plans",
-          "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+          "TITLE": "Otključajte analitiku kampanja",
+          "AVAILABLE_ON": "Analitika kampanja dostupna je u paketima Business i Enterprise.",
+          "UPGRADE_PROMPT": "Prijeđite na viši paket za praćenje isporuke kampanja, statusa pročitanosti i neuspjelih poruka.",
+          "UPGRADE_NOW": "Pogledaj pakete",
+          "CANCEL_ANYTIME": "Paket možete promijeniti ili otkazati u bilo kojem trenutku."
         },
         "ENTERPRISE_PAYWALL": {
-          "AVAILABLE_ON": "Campaign analytics is available on paid self-hosted plans.",
-          "UPGRADE_PROMPT": "Upgrade your installation to track campaign delivery, read status, and failed messages.",
-          "ASK_ADMIN": "Contact your instance administrator to upgrade."
+          "AVAILABLE_ON": "Analitika kampanja dostupna je u plaćenim paketima za instalacije na vlastitom poslužitelju.",
+          "UPGRADE_PROMPT": "Nadogradite svoju instalaciju za praćenje isporuke kampanja, statusa pročitanosti i neuspjelih poruka.",
+          "ASK_ADMIN": "Za nadogradnju se obratite administratoru svoje instalacije."
         }
       }
     },
     "HISTORY": {
-      "LABEL": "Campaign",
-      "LOAD_MORE": "Load earlier campaigns"
+      "LABEL": "Kampanja",
+      "LOAD_MORE": "Učitaj ranije kampanje"
     },
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
-      "WHATSAPP_DESCRIPTION": "Deleting this campaign will also remove its saved message history and delivery details. Messages already sent on WhatsApp will remain. This cannot be undone.",
+      "WHATSAPP_DESCRIPTION": "Brisanjem ove kampanje uklonit će se i spremljena povijest njezinih poruka te podaci o isporuci. Poruke koje su već poslane putem WhatsAppa ostat će sačuvane. Ovu radnju nije moguće poništiti.",
       "CONFIRM": "Izbriši",
       "API": {
         "SUCCESS_MESSAGE": "Campaign deleted successfully",

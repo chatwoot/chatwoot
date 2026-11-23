@@ -47,6 +47,7 @@
 #  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_priority                    (priority)
+#  index_conversations_on_sla_policy_id               (sla_policy_id) WHERE (sla_policy_id IS NOT NULL)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
@@ -83,8 +84,8 @@ class Conversation < ApplicationRecord
   validates :uuid, uniqueness: true
   validate :validate_referer_url
 
-  enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
-  enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
+  enum :status, { open: 0, resolved: 1, pending: 2, snoozed: 3 }
+  enum :priority, { low: 0, medium: 1, high: 2, urgent: 3 }
 
   scope :unassigned, -> { where(assignee_id: nil, assignee_agent_bot_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil).or(where.not(assignee_agent_bot_id: nil)) }
@@ -308,7 +309,7 @@ class Conversation < ApplicationRecord
   end
 
   def clear_invalid_ai_assignee
-    self.ai_assignee = nil if assignee_id.present?
+    self.ai_assignee = nil if assignee_id.present? || (status_changed? && open?)
   end
 
   def determine_conversation_status

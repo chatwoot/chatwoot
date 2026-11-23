@@ -43,7 +43,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
               messaging_product: 'whatsapp',
               context: nil,
               to: '+123456789',
-              messaging_account_id: '123456789',
               text: { body: message.content },
               type: 'text'
             }.to_json
@@ -61,7 +60,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
               messaging_product: 'whatsapp',
               context: nil,
               to: '+123456789',
-              messaging_account_id: '123456789',
               text: { body: message.content },
               type: 'text'
             }.to_json
@@ -80,7 +78,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
                 message_id: message.source_id
               },
               to: '+123456789',
-              messaging_account_id: '123456789',
               text: { body: message_with_reply.content },
               type: 'text'
             }.to_json
@@ -99,7 +96,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
             body: hash_including({
                                    messaging_product: 'whatsapp',
                                    to: '+123456789',
-                                   messaging_account_id: '123456789',
                                    type: 'image',
                                    image: WebMock::API.hash_including({ caption: message.content, id: 'uploaded_media_id' })
                                  })
@@ -198,7 +194,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', context: nil, to: '+123456789', messaging_account_id: '123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'button',
                 body: {
@@ -235,7 +231,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', context: nil, to: '+123456789', messaging_account_id: '123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'list',
                 body: {
@@ -273,7 +269,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', context: nil, to: '+123456789', messaging_account_id: '123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'list',
                 body: {
@@ -305,7 +301,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
         stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', context: nil, to: '+123456789', messaging_account_id: '123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'cta_url',
                 body: { text: 'Check out our menu' },
@@ -327,7 +323,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
         stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', context: nil, to: '+123456789', messaging_account_id: '123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'cta_url',
                 body: { text: 'test' },
@@ -349,7 +345,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
         stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', context: { message_id: 'external_id' }, to: '+123456789', messaging_account_id: '123456789',
+              messaging_product: 'whatsapp', context: { message_id: 'external_id' }, to: '+123456789',
               interactive: {
                 type: 'cta_url',
                 body: { text: 'test' },
@@ -378,7 +374,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
         messaging_product: 'whatsapp',
         recipient_type: 'individual', # Added recipient_type field
         to: '+123456789',
-        messaging_account_id: '123456789',
         type: 'template',
         template: {
           name: template_info[:name],
@@ -417,7 +412,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
             context: nil,
             recipient_type: 'individual',
             recipient: bsuid,
-            messaging_account_id: '123456789',
             text: { body: message.content },
             type: 'text'
           }.to_json
@@ -435,7 +429,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
             context: nil,
             recipient_type: 'individual',
             recipient: parent_bsuid,
-            messaging_account_id: '123456789',
             text: { body: message.content },
             type: 'text'
           }.to_json

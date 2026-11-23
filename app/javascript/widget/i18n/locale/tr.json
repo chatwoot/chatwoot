@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Popüler Makaleler",
     "VIEW_ALL_ARTICLES": "Tüm makaleleri görüntüle",
+    "IFRAME_ERROR": "URL boş veya geçersiz. İçerik görüntülenemiyor.",
     "IFRAME_LOAD_ERROR": "Makale yüklenirken bir hata oluştu, lütfen sayfayı yenileyip tekrar deneyin."
   },
   "ATTACHMENTS": {
