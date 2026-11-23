@@ -59,7 +59,7 @@
           "WHEN_LABEL": "Kada",
           "STATUS_LABEL": "Status je",
           "FOR_LABEL": "U trajanju od",
-          "INBOX_LABEL": "Inbox",
+          "INBOX_LABEL": "Pretinac",
           "ERROR": "Vrijeme čekanja mora biti između 10 minuta i 30 dana",
           "OPTIONS": {
             "CONVERSATION_STATUS": "Razgovor ostaje u statusu",
@@ -246,7 +246,7 @@
       "BROWSER_LANGUAGE": "Browser Language",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Country",
-      "COMPANY_NAME": "Company",
+      "COMPANY_NAME": "Tvrtka",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Tim",
