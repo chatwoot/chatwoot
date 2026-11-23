@@ -1,3 +1,5 @@
+import { isValidTemplateMediaUrl } from 'dashboard/helper/templateHelper';
+
 export const ATTRIBUTE_KEY_REQUIRED = 'ATTRIBUTE_KEY_REQUIRED';
 export const FILTER_OPERATOR_REQUIRED = 'FILTER_OPERATOR_REQUIRED';
 export const VALUE_REQUIRED = 'VALUE_REQUIRED';
@@ -6,6 +8,7 @@ export const VALUE_MUST_BE_BETWEEN_1_AND_998 =
 export const ACTION_PARAMETERS_REQUIRED = 'ACTION_PARAMETERS_REQUIRED';
 export const ATLEAST_ONE_CONDITION_REQUIRED = 'ATLEAST_ONE_CONDITION_REQUIRED';
 export const ATLEAST_ONE_ACTION_REQUIRED = 'ATLEAST_ONE_ACTION_REQUIRED';
+export const WHATSAPP_TEMPLATE_INCOMPLETE = 'WHATSAPP_TEMPLATE_INCOMPLETE';
 
 export const isEmptyValue = value => {
   if (value === null || value === undefined || value === '') {
@@ -139,6 +142,24 @@ export const validateConditions = conditions => {
   return errors;
 };
 
+// Media headers need only a valid URL; every other template value must be filled in.
+const isWhatsAppTemplateComplete = params => {
+  const {
+    header = {},
+    body = {},
+    buttons = [],
+  } = params?.template_params?.processed_params ?? {};
+  const headerValues =
+    'media_url' in header ? [header.media_url] : Object.values(header);
+
+  return (
+    Boolean(params?.content) &&
+    [...headerValues, ...Object.values(body)].every(Boolean) &&
+    isValidTemplateMediaUrl(header.media_url) &&
+    buttons.every(button => !button || button.parameter)
+  );
+};
+
 /**
  * Validates a single action of an automation object.
  *
@@ -161,6 +182,13 @@ const validateSingleAction = action => {
     (!action.action_params || action.action_params.length === 0)
   ) {
     return ACTION_PARAMETERS_REQUIRED;
+  }
+
+  if (
+    action.action_name === 'send_whatsapp_template' &&
+    !isWhatsAppTemplateComplete(action.action_params)
+  ) {
+    return WHATSAPP_TEMPLATE_INCOMPLETE;
   }
 
   return null;

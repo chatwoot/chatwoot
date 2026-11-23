@@ -98,6 +98,10 @@ export function useEditableAutomation() {
         message: params[0].message,
       };
     }
+    // An object, not a one-item array: the payload builder maps arrays of objects to their ids.
+    if (inputType === 'whatsapp_template') {
+      return params[0];
+    }
     return [...params];
   };
 

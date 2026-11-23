@@ -6,6 +6,7 @@ import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue'
 import AutomationMonitorSelect from './components/AutomationMonitorSelect.vue';
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
 import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
+import AutomationActions from './components/AutomationActions.vue';
 import MonitorsAPI from 'dashboard/api/monitors';
 
 vi.mock('vue-i18n', () => ({
@@ -29,6 +30,12 @@ vi.mock('dashboard/composables/useAccount', () => ({
     isCloudFeatureEnabled: feature => featureState.enabled.has(feature),
     isOnChatwootCloud: featureState.cloud,
   }),
+}));
+
+const whatsAppInboxes = vi.hoisted(() => ({ value: [] }));
+
+vi.mock('dashboard/composables/store', () => ({
+  useMapGetter: () => whatsAppInboxes,
 }));
 
 vi.mock('dashboard/composables/useConfig', () => ({
@@ -188,6 +195,7 @@ describe('AutomationRuleForm', () => {
       'captain_classifier',
     ]);
     featureState.cloud.value = true;
+    whatsAppInboxes.value = [];
     MonitorsAPI.get.mockResolvedValue({
       data: { payload: [{ id: 7, name: 'Refunds' }], meta: { total_count: 1 } },
     });
@@ -362,5 +370,35 @@ describe('AutomationRuleForm', () => {
         .some(event => event.key === 'monitor_matched')
     ).toBe(false);
     expect(MonitorsAPI.get).not.toHaveBeenCalled();
+  });
+
+  describe('send WhatsApp template action', () => {
+    const actionKeys = wrapper =>
+      wrapper
+        .findComponent(AutomationActions)
+        .props('actionTypes')
+        .map(action => action.key);
+
+    it('is offered when the account has a WhatsApp inbox', () => {
+      whatsAppInboxes.value = [{ id: 7, name: 'Support WhatsApp' }];
+      const wrapper = mountComponent({
+        mode: 'create',
+        automation: buildAutomation(),
+      });
+
+      expect(actionKeys(wrapper)).toContain('send_whatsapp_template');
+    });
+
+    it('is hidden without a WhatsApp inbox unless the rule already uses it', () => {
+      const automation = buildAutomation();
+      const wrapper = mountComponent({ mode: 'create', automation });
+      expect(actionKeys(wrapper)).not.toContain('send_whatsapp_template');
+
+      automation.actions = [
+        { action_name: 'send_whatsapp_template', action_params: [] },
+      ];
+      const editWrapper = mountComponent({ mode: 'edit', automation });
+      expect(actionKeys(editWrapper)).toContain('send_whatsapp_template');
+    });
   });
 });

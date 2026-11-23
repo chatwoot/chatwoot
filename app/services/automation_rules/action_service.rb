@@ -45,6 +45,20 @@ class AutomationRules::ActionService < ActionService
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
+  def send_whatsapp_template(params)
+    template = params[0]
+    # Templates belong to the inbox they were picked from; the rule may match conversations in other inboxes.
+    return unless @conversation.inbox_id == template[:inbox_id]
+
+    message_params = {
+      content: template[:content],
+      private: false,
+      content_attributes: { automation_rule_id: @rule.id },
+      template_params: template[:template_params].merge(content_mode: 'raw_template')
+    }
+    Messages::MessageBuilder.new(nil, @conversation, message_params).perform
+  end
+
   def add_private_note(message)
     return if conversation_a_tweet?
 

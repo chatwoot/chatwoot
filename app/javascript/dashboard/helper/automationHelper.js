@@ -98,6 +98,7 @@ const ACTION_ICONS = {
   send_email_transcript: 'i-lucide-mail',
   send_message: 'i-lucide-message-square',
   add_private_note: 'i-lucide-sticky-note',
+  send_whatsapp_template: 'i-ri-whatsapp-line',
   send_attachment: 'i-lucide-paperclip',
   send_webhook_event: 'i-lucide-webhook',
   mute_conversation: 'i-lucide-bell-off',

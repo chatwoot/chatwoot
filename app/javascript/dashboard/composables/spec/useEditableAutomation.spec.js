@@ -92,6 +92,45 @@ describe('useEditableAutomation', () => {
     expect(result.conditions[0].values).toBe('the customer wants a refund');
   });
 
+  it('round trips a saved WhatsApp template action unchanged', () => {
+    const templateParams = {
+      inbox_id: 2,
+      content: 'Hi {{1}}',
+      template_params: {
+        name: 'order_followup',
+        language: 'en',
+        processed_params: { body: { 1: '{{contact.name}}' } },
+      },
+    };
+    const automation = {
+      name: 'Follow up',
+      description: 'Send a template',
+      event_name: 'conversation_updated',
+      conditions: [],
+      actions: [
+        {
+          action_name: 'send_whatsapp_template',
+          action_params: [templateParams],
+        },
+      ],
+    };
+    const automationActionTypes = [
+      { key: 'send_whatsapp_template', inputType: 'whatsapp_template' },
+    ];
+
+    const { formatAutomation } = useEditableAutomation();
+    const formatted = formatAutomation(
+      automation,
+      [],
+      {},
+      automationActionTypes
+    );
+
+    expect(generateAutomationPayload(formatted).actions).toEqual(
+      automation.actions
+    );
+  });
+
   it('rehydrates last responding agent as a selected action option', () => {
     const automation = {
       event_name: 'conversation_created',

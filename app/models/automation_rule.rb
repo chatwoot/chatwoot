@@ -39,6 +39,7 @@ class AutomationRule < ApplicationRecord
   validate :captain_conditions_operator
   validate :captain_conditions_description
   validate :json_actions_format
+  validate :whatsapp_template_actions_format
   validate :query_operator_presence
   validate :query_operator_value
   validates :account_id, presence: true
@@ -61,7 +62,7 @@ class AutomationRule < ApplicationRecord
     %w[send_message add_label remove_label send_email_to_team assign_team assign_agent remove_assigned_agent
        remove_assigned_team send_webhook_event mute_conversation send_attachment change_status resolve_conversation
        open_conversation pending_conversation snooze_conversation change_priority send_email_transcript
-       add_private_note].freeze
+       add_private_note send_whatsapp_template].freeze
   end
 
   def file_base_data
@@ -137,6 +138,21 @@ class AutomationRule < ApplicationRecord
     actions = attributes - actions_attributes
 
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
+  end
+
+  def whatsapp_template_actions_format
+    template_actions = actions.select { |obj| obj['action_name'] == 'send_whatsapp_template' }
+    return if template_actions.all? { |obj| whatsapp_template_params?(obj['action_params']) }
+
+    errors.add(:actions, 'WhatsApp template actions need a WhatsApp inbox, a template and its message.')
+  end
+
+  def whatsapp_template_params?(action_params)
+    params = action_params.is_a?(Array) && action_params.first
+    return false unless params.is_a?(Hash) && params['content'].present? && params.dig('template_params', 'name').present?
+    return false unless params['inbox_id'].is_a?(Integer)
+
+    account.inboxes.where(channel_type: 'Channel::Whatsapp').exists?(id: params['inbox_id'])
   end
 
   def query_operator_presence

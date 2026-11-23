@@ -162,7 +162,12 @@
       "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
       "URL_INPUT_PLACEHOLDER": "Enter URL",
-      "INSERT_CONTACT_EMAIL": "Use contact's email"
+      "INSERT_CONTACT_EMAIL": "Use contact's email",
+      "WHATSAPP_TEMPLATE": {
+        "INBOX_LABEL": "WhatsApp inbox",
+        "INBOX_PLACEHOLDER": "Select an inbox",
+        "INBOX_HELP": "The template is sent only on conversations in this inbox, even after the 24-hour reply window closes."
+      }
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
@@ -190,7 +195,8 @@
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required",
+      "WHATSAPP_TEMPLATE_INCOMPLETE": "Select an inbox and a template, and fill in every template value"
     },
     "NONE_OPTION": "None",
     "LAST_RESPONDING_AGENT": "Last Responding Agent",
@@ -218,6 +224,7 @@
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WHATSAPP_TEMPLATE": "Send a WhatsApp Template",
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",

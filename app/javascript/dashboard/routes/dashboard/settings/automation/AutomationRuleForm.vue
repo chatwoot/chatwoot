@@ -3,6 +3,7 @@ import { ref, computed, h, shallowRef, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useOperators } from 'dashboard/components-next/filter/operators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
@@ -90,6 +91,7 @@ const { t } = useI18n();
 const { accountId, isCloudFeatureEnabled, isOnChatwootCloud } = useAccount();
 const { isEnterprise } = useConfig();
 const { operators } = useOperators();
+const whatsAppInboxes = useMapGetter('inboxes/getWhatsAppInboxes');
 
 provideDropdownTeleport();
 
@@ -322,10 +324,22 @@ const hasAutomationMutated = computed(() => {
   );
 });
 
+// Rules that already send a template keep the type, so their saved row still renders.
+const isActionTypeAvailable = key => {
+  if (key === 'add_sla') return isCloudFeatureEnabled('sla');
+  if (key === 'send_whatsapp_template') {
+    return (
+      whatsAppInboxes.value.length > 0 ||
+      automation.value?.actions.some(action => action.action_name === key)
+    );
+  }
+  return true;
+};
+
 const automationActionTypes = computed(() => {
-  const actionTypes = isCloudFeatureEnabled('sla')
-    ? AUTOMATION_ACTION_TYPES
-    : AUTOMATION_ACTION_TYPES.filter(({ key }) => key !== 'add_sla');
+  const actionTypes = AUTOMATION_ACTION_TYPES.filter(({ key }) =>
+    isActionTypeAvailable(key)
+  );
 
   return actionTypes.map(action => ({
     ...action,

@@ -409,4 +409,36 @@ RSpec.describe AutomationRule do
       expect(rule.pending_executions.pending.count).to eq(1)
     end
   end
+
+  describe 'whatsapp template action validation' do
+    let(:account) { create(:account) }
+    let(:whatsapp_inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+    let(:template_params) do
+      { inbox_id: whatsapp_inbox.id, content: 'Hello', template_params: { name: 'greeting', language: 'en', processed_params: {} } }
+    end
+    let(:rule) { build(:automation_rule, account: account, actions: [{ action_name: 'send_whatsapp_template', action_params: [template_params] }]) }
+
+    it 'accepts a template from a WhatsApp inbox of the account' do
+      expect(rule).to be_valid
+    end
+
+    it 'rejects an inbox that is not a WhatsApp inbox of the account' do
+      template_params[:inbox_id] = create(:inbox, account: account).id
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:actions]).to include('WhatsApp template actions need a WhatsApp inbox, a template and its message.')
+    end
+
+    it 'rejects a WhatsApp inbox from another account' do
+      template_params[:inbox_id] = create(:channel_whatsapp, sync_templates: false, validate_provider_config: false).inbox.id
+
+      expect(rule).not_to be_valid
+    end
+
+    it 'rejects an action without a template' do
+      template_params.delete(:template_params)
+
+      expect(rule).not_to be_valid
+    end
+  end
 end
