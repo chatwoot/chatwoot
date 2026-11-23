@@ -326,5 +326,13 @@ RSpec.describe AutomationRules::ActionService do
     it 'skips conversations outside the template inbox' do
       expect { described_class.new(template_rule, account, conversation).perform }.not_to change(Message, :count)
     end
+
+    it 'skips the send when a value renders blank for the contact' do
+      contact.update!(email: nil)
+      template_rule.reload.actions[0]['action_params'][0]['template_params']['processed_params']['body']['name'] = '{{contact.email}}'
+      template_rule.save!
+
+      expect { described_class.new(template_rule, account, whatsapp_conversation).perform }.not_to change(Message, :count)
+    end
   end
 end
