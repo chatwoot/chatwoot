@@ -52,6 +52,9 @@ ne:
     call_hours:
       closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
       whatsapp_failed: "Couldn't apply business hours to WhatsApp calls: %{error}"
+    missed_call_message:
+      default: "Sorry we missed your call. Reply here and we'll get back to you as soon as we can."
+      invalid: 'The missed-call message must be %{max} characters or fewer'
     call_routing:
       invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
@@ -560,7 +563,7 @@ ne:
     copilot_message_required: सन्देश आवश्यक छ
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'तपाईंका Copilot क्रेडिट सकिएका छन्। तपाईं बिलिङ सेक्सनबाट थप क्रेडिट किन्न सक्नुहुन्छ।.'
-    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: 'Captain AI सक्षम गर्न आफ्नो योजना सुधार्नुहोस्'
     disabled: 'यस खातामा Captain AI अक्षम गरिएको छ।.'
     api_key_missing: 'Captain AI API कुञ्जी सेटअप गरिएको छैन।.'
@@ -890,8 +893,7 @@ ne:
         conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'सहायक'
-        copilot: 'Copilot'
-        copilot_workflows: 'Copilot workflows'
+        copilot_workflows: 'Copilot'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'
