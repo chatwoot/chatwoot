@@ -776,18 +776,6 @@
           "LABEL": "Gợi ý câu trả lời",
           "CONTENT": "Phân tích yêu cầu của khách hàng và soạn phản hồi hiệu quả giải quyết thắc mắc hoặc câu hỏi. Đảm bảo trả lời rõ ràng, ngắn gọn và cung cấp thông tin hữu ích."
         },
-        "RATE": {
-          "LABEL": "Đánh giá cuộc trò chuyện này",
-          "CONTENT": "Xem xét cuộc trò chuyện để đánh giá mức độ đáp ứng nhu cầu của khách hàng. Chia sẻ đánh giá từ 5 dựa trên tông giọng, độ rõ ràng và hiệu quả."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Các cuộc trò chuyện ưu tiên cao",
-          "CONTENT": "Cho tôi bản tóm tắt tất cả các cuộc trò chuyện mở có độ ưu tiên cao. Bao gồm ID cuộc trò chuyện, tên khách hàng (nếu có), nội dung tin nhắn cuối cùng và nhân viên phụ trách. Nhóm theo trạng thái nếu có liên quan."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Liệt kê liên hệ",
-          "CONTENT": "Hiển thị danh sách 10 liên hệ hàng đầu. Bao gồm tên, email hoặc số điện thoại (nếu có), thời gian truy cập cuối, thẻ (nếu có)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
