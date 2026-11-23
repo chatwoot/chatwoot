@@ -776,18 +776,6 @@
           "LABEL": "הצע תשובה",
           "CONTENT": "נתח את פניית הלקוח, ונסח תגובה המטפלת ביעילות בחששותיו או בשאלותיו. ודא שהתשובה ברורה, תמציתית ומספקת מידע מועיל."
         },
-        "RATE": {
-          "LABEL": "דרג שיחה זו",
-          "CONTENT": "סקור את השיחה כדי לראות עד כמה היא עונה על צרכי הלקוח. שתף דירוג מתוך 5 בהתבסס על טון, בהירות ויעילות."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "שיחות בעדיפות גבוהה",
-          "CONTENT": "תן לי סיכום של כל השיחות הפתוחות בעדיפות גבוהה. כלול את מזהה השיחה, שם הלקוח (אם זמין), תוכן ההודעה האחרונה והסוכן שהוקצה. קבץ לפי סטטוס אם רלוונטי."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "רשום אנשי קשר",
-          "CONTENT": "הצג לי את רשימת 10 אנשי הקשר המובילים. כלול שם, דוא\"ל או מספר טלפון (אם זמין), זמן נראה אחרון, תגים (אם יש)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
