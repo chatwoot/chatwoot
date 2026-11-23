@@ -1,8 +1,8 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} conversations selected",
-    "NONE": "None",
-    "CLEAR_SELECTION": "Clear",
+    "NONE": "Nijedno",
+    "CLEAR_SELECTION": "Očisti",
     "ASSIGN_AGENT_CONFIRMATION_LABEL": "Želite li dodijeliti {n} razgovor djelatniku {agentName}? | Želite li dodijeliti {n} razgovora djelatniku {agentName}?",
     "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Želite li ukloniti dodjelu djelatnika za {n} razgovor? | Želite li ukloniti dodjelu djelatnika za {n} razgovora?",
     "YES": "Yes",
