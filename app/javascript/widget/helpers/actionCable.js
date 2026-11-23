@@ -105,12 +105,22 @@ class ActionCableConnector extends BaseActionCableConnector {
     ActionCableConnector.refreshConnector(pubsubToken);
   };
 
+  getActiveConversationId = () =>
+    this.app.$store.getters['conversationAttributes/getConversationParams'].id;
+
   isForAnotherConversation = data => {
-    const activeConversationId =
-      this.app.$store.getters['conversationAttributes/getConversationParams']
-        .id;
-    return data.conversation && data.conversation.id !== activeConversationId;
+    return (
+      data.conversation &&
+      data.conversation.id !== this.getActiveConversationId()
+    );
   };
+
+  // The active id is still empty right after a conversation is created, while
+  // its attributes load; a bot can stop typing in that window.
+  shouldDismissTyping = data =>
+    !!data &&
+    !data.is_private &&
+    (!this.getActiveConversationId() || !this.isForAnotherConversation(data));
 
   onTypingOn = data => {
     if (this.isForAnotherConversation(data) || data.is_private) {
@@ -128,8 +138,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'off',
       // Only an explicit typing_off from an agent or bot, not the timeout below.
-      dismiss:
-        !!data && !data.is_private && !this.isForAnotherConversation(data),
+      dismiss: this.shouldDismissTyping(data),
     });
   };
 

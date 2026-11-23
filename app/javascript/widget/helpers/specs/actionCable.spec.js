@@ -74,6 +74,19 @@ describe('Widget ActionCableConnector', () => {
       );
     });
 
+    it('dismisses it while the active conversation id is still loading', () => {
+      app.$store.getters['conversationAttributes/getConversationParams'] = {
+        id: '',
+      };
+
+      connector.onTypingOff({ conversation: { id: 7 }, is_private: false });
+
+      expect(mockDispatch).toHaveBeenCalledWith(
+        'conversation/toggleAgentTyping',
+        { status: 'off', dismiss: true }
+      );
+    });
+
     it('does not dismiss it for a private note or another conversation', () => {
       connector.onTypingOff({ conversation: { id: 7 }, is_private: true });
       connector.onTypingOff({ conversation: { id: 8 }, is_private: false });
