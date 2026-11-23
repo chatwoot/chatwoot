@@ -41,6 +41,7 @@ const isSmallScreen = computed(
 );
 
 const selectedCopilotThreadId = ref(null);
+const draft = ref('');
 const isLoadingSelectedThread = ref(false);
 // The conversation the open thread last answered about. A thread stays open across conversations, so its suggested
 // reply can only be used in the conversation it was written for.
@@ -264,6 +265,7 @@ watch(
     accountVersion += 1;
     selectionVersion += 1;
     selectedCopilotThreadId.value = null;
+    draft.value = '';
     isLoadingSelectedThread.value = false;
     threads.value = [];
     historyPage.value = 0;
@@ -325,11 +327,13 @@ const sendMessage = async payload => {
 
 // A prompt picked outside the panel starts a new chat. The panel opens expanded, because no conversation is open
 // beside it and the answer gets the room. It skips the panel's own send, so it records the send here.
-useEmitter(BUS_EVENTS.ASK_COPILOT, message => {
+useEmitter(BUS_EVENTS.ASK_COPILOT, async message => {
   handleReset();
+  draft.value = '';
   router.push({ name: 'copilot_index' });
-  sendMessage(message);
+  const isSent = await sendMessage(message);
   useTrack(COPILOT_EVENTS.SEND_MESSAGE);
+  if (!isSent) draft.value = message;
 });
 
 const stopCopilot = async () => {
@@ -363,6 +367,7 @@ onMounted(() => {
     ]"
   >
     <Copilot
+      v-model:draft="draft"
       :messages="messages"
       :support-agent="currentUser"
       :assistants="assistants"

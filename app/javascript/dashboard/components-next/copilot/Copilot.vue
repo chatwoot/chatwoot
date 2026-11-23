@@ -107,7 +107,7 @@ const CopilotAvatar = defineAsyncComponent(() => import('./CopilotAvatar.vue'));
 const isAvatarSupported = ref(supportsCaptainAvatar());
 const showAvatar = computed(() => isAvatarSupported.value);
 
-const draft = ref('');
+const draft = defineModel('draft', { type: String, default: '' });
 const chatContainer = ref(null);
 const copilotInput = ref(null);
 // A paste only lands in a focused field, so actions that move focus off the input hand it back.

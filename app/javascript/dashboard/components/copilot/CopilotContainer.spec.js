@@ -90,6 +90,7 @@ const mountComponent = () =>
             'isLoadingSelectedThread',
             'isExpanded',
             'canUseReply',
+            'draft',
           ],
           emits: [
             'reset',
@@ -98,6 +99,7 @@ const mountComponent = () =>
             'loadMoreThreads',
             'toggleExpand',
             'close',
+            'update:draft',
           ],
           template: '<div />',
         },
@@ -316,6 +318,39 @@ describe('CopilotContainer', () => {
       name: 'copilot_index',
     });
     expect(testState.track).toHaveBeenCalledWith('Copilot: Sent a message');
+    wrapper.unmount();
+  });
+
+  it('keeps a question asked outside the panel when it could not be sent', async () => {
+    testState.dispatch.mockRejectedValue(new Error('Could not send'));
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    emitter.emit(BUS_EVENTS.ASK_COPILOT, 'Typed question');
+    await flushPromises();
+
+    expect(wrapper.findComponent({ name: 'Copilot' }).props('draft')).toBe(
+      'Typed question'
+    );
+    wrapper.unmount();
+  });
+
+  it('drops older unsent text when a question is asked outside the panel', async () => {
+    testState.dispatch.mockImplementation(action =>
+      action === 'copilotThreads/create'
+        ? Promise.resolve({ id: 99 })
+        : Promise.resolve()
+    );
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+    copilot.vm.$emit('update:draft', 'Older unsent text');
+    await nextTick();
+
+    emitter.emit(BUS_EVENTS.ASK_COPILOT, 'New question');
+    await flushPromises();
+
+    expect(copilot.props('draft')).toBe('');
     wrapper.unmount();
   });
 
