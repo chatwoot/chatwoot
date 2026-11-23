@@ -776,18 +776,6 @@
           "LABEL": "建议回答",
           "CONTENT": "分析客户的咨询，并起草一份有效回应其关切或问题的回复。确保回复内容清晰、简明，并提供有用的信息。"
         },
-        "RATE": {
-          "LABEL": "为此对话评分",
-          "CONTENT": "请审核对话，评估其在多大程度上满足了客户的需求。根据语气、清晰度和有效性进行 5 分制评分。"
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "高优先级对话",
-          "CONTENT": "请给我所有高优先级未结对话的摘要。包括对话 ID、客户姓名（如有）、最后一条消息内容和分配的客服人员。如有需要，请按状态分组。"
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "列出联系人",
-          "CONTENT": "显示我的前 10 位联系人列表。包括姓名、电子邮件或电话号码（如有）、最后在线时间、标签（如有）。"
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
