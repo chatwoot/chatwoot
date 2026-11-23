@@ -776,18 +776,6 @@
           "LABEL": "Leggðu til svar",
           "CONTENT": "Greindu fyrirspurn viðskiptavinarins og semdu svar sem tekur á áhyggjum eða spurningum þeirra. Gakktu úr skugga um að svarið sé skýrt, hnitmiðað og veiti gagnlegar upplýsingar."
         },
-        "RATE": {
-          "LABEL": "Gefðu einkunn fyrir þetta samtal",
-          "CONTENT": "Skoðaðu samtalið til að meta hversu vel það uppfyllir þarfir viðskiptavinarins. Gefðu einkunn frá 1 til 5 byggða á tóni, skýrleika og árangri."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Samtöl með háum forgangi",
-          "CONTENT": "Gefðu mér yfirlit yfir öll opnu samtöl með háum forgang. Hafðu með samtalsnúmerið, nafn viðskiptavinar (ef fáanlegt er), síðasta skilaboð og úthlutaða umboðsmanninn. Flokkaðu eftir stöðu ef við á."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Listi yfir tengiliði",
-          "CONTENT": "Sýndu mér lista yfir 10 efstu tengiliði. Hafðu með nafn, netfang eða símanúmer (ef fáanlegt), síðasta sýnnt tímabil, merki (ef einhver eru)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
