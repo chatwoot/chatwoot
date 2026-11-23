@@ -52,6 +52,7 @@
     "CLICK_HERE": "Clicca qui",
     "LOADING_INBOXES": "Caricamento inbox",
     "LOADING_CONVERSATIONS": "Caricamento Conversazioni",
+    "ANONYMOUS_CALLER_CANNOT_REPLY": "Messages cannot be sent because this caller’s phone number is unavailable.",
     "CANNOT_REPLY": "Non puoi rispondere a causa di",
     "24_HOURS_WINDOW": "Restrizione finestra messaggio 24 ore",
     "48_HOURS_WINDOW": "Restrizione finestra messaggio 48 ore",
@@ -140,6 +141,8 @@
       "MISSED_CALL": "Chiamata persa",
       "MISSED_CALL_INBOUND_SUBTEXT": "Nessun operatore ha risposto",
       "MISSED_CALL_DECLINED_BY": "Rifiutata da {agentName}",
+      "MISSED_CALL_OUTSIDE_HOURS": "Fuori dall'orario di lavoro",
+      "MISSED_CALL_NOBODY_ONLINE": "Nobody was online",
       "CALL_ENDED": "Chiamata terminata",
       "HANDLED_BY": "Gestita da {agentName}",
       "NOT_ANSWERED_YET": "Non ancora risposta",
@@ -150,7 +153,8 @@
       "JOIN_CALL": "Entra nella chiamata",
       "CALL_BACK": "Richiama",
       "TRANSCRIPT_SHOW_MORE": "Mostra di più",
-      "TRANSCRIPT_SHOW_LESS": "Mostra meno"
+      "TRANSCRIPT_SHOW_LESS": "Mostra meno",
+      "DISMISS_FAILED": "Couldn't dismiss the call. It may keep ringing in your other tabs."
     },
     "HEADER": {
       "RESOLVE_ACTION": "Risolvi",
@@ -171,6 +175,13 @@
       "VOICE_CALL_FAILED": "Impossibile avviare la chiamata.",
       "WHATSAPP_CALL_PERMISSION_REQUESTED": "Inviata una richiesta di autorizzazione di chiamata al contatto. Riprova una volta accettata.",
       "WHATSAPP_CALL_PERMISSION_PENDING": "Richiesta di autorizzazione chiamata già inviata di recente. Riprova una volta che il contatto accetta.",
+      "AUTO_TRANSLATE": {
+        "TURN_OFF": "Turn off auto-translate",
+        "TURN_ON": "Turn on auto-translate",
+        "TURNED_OFF": "Auto-translate is off for this conversation",
+        "TURNED_ON": "Auto-translate is on for this conversation",
+        "UPDATE_FAILED": "Could not change auto-translate for this conversation. Please try again."
+      },
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -438,6 +449,14 @@
       "END_CALL": "Termina chiamata",
       "MUTE": "Silenzia microfono",
       "UNMUTE": "Riattiva microfono",
+      "SHOW_KEYPAD": "Show keypad",
+      "HIDE_KEYPAD": "Hide keypad",
+      "KEYPAD": "Call keypad",
+      "STAR": "Star",
+      "POUND": "Pound",
+      "KEYPAD_SEND_FAILED": "Could not send keypad tone",
+      "ON_HOLD": "On hold",
+      "HOLD_FAILED": "Couldn't update the hold. Please try again.",
       "VIEW_CHAT_HISTORY": "Visualizza cronologia chat",
       "GO_TO_CONVERSATION": "Vai alla conversazione"
     }

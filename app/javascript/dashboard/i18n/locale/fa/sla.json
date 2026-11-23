@@ -87,6 +87,12 @@
     "ADD": {
       "TITLE": "اضافه کردن SLA",
       "DESC": "وعده های دوستانه برای خدمات عالی!",
+      "SUCCESS": {
+        "TITLE": "SLA created",
+        "DESC": "SLAs are applied to conversations through automation rules. Create an automation to start tracking this SLA.",
+        "LATER": "Later",
+        "CREATE_AUTOMATION": "Create automation"
+      },
       "API": {
         "SUCCESS_MESSAGE": "SLA با موفقیت اضافه شد",
         "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"

@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "よくある質問",
     "VIEW_ALL_ARTICLES": "すべてのヘルプを表示",
+    "IFRAME_ERROR": "URLが空または無効です。コンテンツを表示できません。",
     "IFRAME_LOAD_ERROR": "記事の読み込み中にエラーが発生しました。ページを更新して再試行してください。"
   },
   "ATTACHMENTS": {

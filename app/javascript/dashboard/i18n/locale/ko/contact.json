@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "연락처를 차단할 수 없습니다. 나중에 다시 시도하십시오.",
         "UNBLOCK_SUCCESS_MESSAGE": "이 연락처가 성공적으로 차단 해제되었습니다",
         "UNBLOCK_ERROR_MESSAGE": "연락처 차단을 해제할 수 없습니다. 나중에 다시 시도하십시오.",
-        "IMPORT_CONTACT": {
-          "TITLE": "연락처 가져오기",
-          "DESCRIPTION": "CSV 파일을 통해 연락처 가져오기",
-          "DOWNLOAD_LABEL": "샘플 CSV 파일 다운로드",
-          "LABEL": "CSV 파일:",
-          "CHOOSE_FILE": "파일 선택",
-          "CHANGE": "변경",
-          "CANCEL": "취소",
-          "IMPORT": "가져오기",
-          "SUCCESS_MESSAGE": "가져오기가 완료되면 이메일로 알림을 받으실 수 있습니다.",
-          "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "연락처 내보내기",
-          "DESCRIPTION": "연락처의 상세 정보가 포함된 CSV 파일을 빠르게 내보내기",
-          "CONFIRM": "내보내기",
-          "SUCCESS_MESSAGE": "내보내기가 진행 중입니다. 내보내기 파일이 다운로드 준비되면 이메일로 알림을 받으실 수 있습니다.",
-          "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
-        },
         "SORT_BY": {
           "LABEL": "정렬 기준",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "연락처 필터",
       "EDIT_SEGMENT": "세그먼트 수정",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "세그먼트 이름",
         "INPUT_PLACEHOLDER": "세그먼트 이름을 입력하십시오"

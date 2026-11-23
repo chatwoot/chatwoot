@@ -1,6 +1,5 @@
 {
   "CONVERSATION": {
-    "404": "抱歉，我们找不到对话。请重试",
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",
@@ -10,6 +9,7 @@
     },
     "SELECT_A_CONVERSATION": "请从左侧窗格选择一个对话",
     "CSAT_REPLY_MESSAGE": "请为会话评分",
+    "404": "抱歉，我们找不到对话。请重试",
     "SWITCH_VIEW_LAYOUT": "切换布局",
     "DASHBOARD_APP_TAB_MESSAGES": "消息",
     "UNVERIFIED_SESSION": "未验证此用户的身份",
@@ -52,6 +52,7 @@
     "CLICK_HERE": "点击这里",
     "LOADING_INBOXES": "正在加载收件箱",
     "LOADING_CONVERSATIONS": "加载更多对话",
+    "ANONYMOUS_CALLER_CANNOT_REPLY": "Messages cannot be sent because this caller’s phone number is unavailable.",
     "CANNOT_REPLY": "您不能回复，原因是：",
     "24_HOURS_WINDOW": "24 小时消息窗口限制",
     "48_HOURS_WINDOW": "48 小时消息窗口限制",
@@ -140,6 +141,8 @@
       "MISSED_CALL": "未接来电",
       "MISSED_CALL_INBOUND_SUBTEXT": "无客服接听",
       "MISSED_CALL_DECLINED_BY": "由 {agentName} 拒绝",
+      "MISSED_CALL_OUTSIDE_HOURS": "Outside business hours",
+      "MISSED_CALL_NOBODY_ONLINE": "Nobody was online",
       "CALL_ENDED": "通话结束",
       "HANDLED_BY": "由 {agentName} 处理",
       "NOT_ANSWERED_YET": "尚未回复",
@@ -150,7 +153,8 @@
       "JOIN_CALL": "加入通话",
       "CALL_BACK": "回拨",
       "TRANSCRIPT_SHOW_MORE": "显示更多",
-      "TRANSCRIPT_SHOW_LESS": "收起"
+      "TRANSCRIPT_SHOW_LESS": "收起",
+      "DISMISS_FAILED": "Couldn't dismiss the call. It may keep ringing in your other tabs."
     },
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
@@ -171,6 +175,13 @@
       "VOICE_CALL_FAILED": "无法发起通话。",
       "WHATSAPP_CALL_PERMISSION_REQUESTED": "已向联系人发送通话权限请求，请等待对方接受后重试。",
       "WHATSAPP_CALL_PERMISSION_PENDING": "通话权限请求最近已发送，请等待联系人接受后重试。",
+      "AUTO_TRANSLATE": {
+        "TURN_OFF": "Turn off auto-translate",
+        "TURN_ON": "Turn on auto-translate",
+        "TURNED_OFF": "Auto-translate is off for this conversation",
+        "TURNED_ON": "Auto-translate is on for this conversation",
+        "UPDATE_FAILED": "Could not change auto-translate for this conversation. Please try again."
+      },
       "SLA_STATUS": {
         "FRT": "第一响应时间 {status}",
         "NRT": "净响应时间 {status}",
@@ -438,6 +449,14 @@
       "END_CALL": "结束通话",
       "MUTE": "麦克风静音",
       "UNMUTE": "取消麦克风静音",
+      "SHOW_KEYPAD": "Show keypad",
+      "HIDE_KEYPAD": "Hide keypad",
+      "KEYPAD": "Call keypad",
+      "STAR": "Star",
+      "POUND": "Pound",
+      "KEYPAD_SEND_FAILED": "Could not send keypad tone",
+      "ON_HOLD": "On hold",
+      "HOLD_FAILED": "Couldn't update the hold. Please try again.",
       "VIEW_CHAT_HISTORY": "查看聊天记录",
       "GO_TO_CONVERSATION": "前往对话线程"
     }
@@ -568,13 +587,13 @@
     "BCC": "密送",
     "CC": "抄送",
     "SUBJECT": "主题",
-    "DATE": "Date",
+    "DATE": "日期",
     "EXPAND": "展开邮箱"
   },
   "FORWARD_EMAIL": {
     "HEADER_TITLE": "---------- Forwarded message ---------",
     "TO_LABEL": "发送至:",
-    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "TO_PLACEHOLDER": "输入至少 2 个字符，按电子邮件搜索",
     "MESSAGE_PLACEHOLDER": "Add a message (optional)",
     "FORWARDED_TO": "Forwarded to {emails}",
     "CONTACT_CANNOT_SEE": "{name} cannot see this"

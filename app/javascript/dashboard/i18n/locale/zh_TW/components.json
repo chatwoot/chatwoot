@@ -7,6 +7,7 @@
     "PLACEHOLDER": "請選擇一個選項...",
     "EMPTY_SEARCH_RESULTS": "找不到與搜尋詞「{searchTerm}」相符的項目",
     "EMPTY_STATE": "查無結果。",
+    "LOADING": "載入中...",
     "SEARCH_PLACEHOLDER": "搜尋...",
     "MORE": "還有 {count} 個"
   },

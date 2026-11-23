@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Ջնջել {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Լեզուն հաջողությամբ հեռացվեց պորտալից։",
           "ERROR_MESSAGE": "Չհաջողվեց հեռացնել լեզուն պորտալից։ Փորձեք կրկին։"
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "Բոլոր հոդվածները",
-          "MINE": "Իմը",
           "DRAFT": "Սևագիր",
           "PUBLISHED": "Հրապարակված",
           "ARCHIVED": "Արխիվացված"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Me",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "Բոլոր կատեգորիաները"
@@ -574,9 +585,9 @@
           "SUBTITLE": "Գրեք հարուստ հոդված։ Սկսենք։",
           "BUTTON_LABEL": "Նոր հոդված"
         },
-        "MINE": {
-          "TITLE": "Դուք այստեղ դեռ հոդվածներ չեք գրել",
-          "SUBTITLE": "Ձեր կողմից գրված բոլոր հոդվածները ցուցադրվում են այստեղ արագ հասանելիության համար։"
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "Սևագրերում հոդվածներ չկան",
@@ -801,6 +812,8 @@
           "SAVED": "Պահպանված է"
         },
         "PREVIEW": "Նախադիտում",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "Հրապարակել",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
@@ -816,6 +829,11 @@
         "DRAFT": "Սևագիր",
         "ARCHIVE": "Արխիվ",
         "BACK_TO_ARTICLES": "Վերադառնալ հոդվածներին"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Հոդվածի հատկություններ",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Որոնել հոդվածներ...",
+        "ORIGINAL_ARTICLE_EMPTY": "Հոդվածներ չեն գտնվել",
         "META_DESCRIPTION": "Մետա նկարագրություն",
         "META_DESCRIPTION_PLACEHOLDER": "Ավելացնել մետա նկարագրություն",
         "META_TITLE": "Մետա վերնագիր",
         "META_TITLE_PLACEHOLDER": "Ավելացնել մետա վերնագիր",
         "META_TAGS": "Մետա թեգեր",
         "META_TAGS_PLACEHOLDER": "Ավելացնել մետա թեգեր",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "Սլագ",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Լոգո",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "Չհաջողվեց պատկերն ուղարկել։ Փորձեք կրկին",
           "IMAGE_UPLOAD_SUCCESS": "Պատկերը հաջողությամբ ավելացվեց։ Խնդրում ենք սեղմել «Պահպանել փոփոխությունները»՝ լոգոն պահպանելու համար",
           "IMAGE_DELETE_SUCCESS": "Լոգոն հաջողությամբ ջնջվեց",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "Պահպանել փոփոխությունները"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Ինտեգրացիաներ",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "General",
         "DOMAIN": "Դոմեն",
         "APPEARANCE": "Appearance",
+        "SEO": "SEO",
         "INTEGRATIONS": "Ինտեգրացիաներ"
       },
       "API": {
