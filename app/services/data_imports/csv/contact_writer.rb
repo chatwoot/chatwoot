@@ -1,3 +1,5 @@
+require 'uri'
+
 class DataImports::Csv::ContactWriter
   STANDARD_FIELDS = %w[name email identifier phone_number].freeze
   COMPANY_FIELDS = %w[company_name company_domain].freeze
@@ -55,12 +57,21 @@ class DataImports::Csv::ContactWriter
     return contact.additional_attributes.merge!(fields) unless @account.feature_enabled?('companies')
 
     company = Contacts::CompanyAssociationService.new.find_or_create_by_name_or_domain(
-      @account, name: fields['company_name'], domain: fields['company_domain']
+      @account, name: fields['company_name'], domain: company_domain(fields['company_domain'])
     )
     return unless company
 
     contact.company = company
     contact.additional_attributes['company_name'] = company.name
+  end
+
+  def company_domain(value)
+    domain = value&.strip
+    return domain unless domain&.match?(%r{\Ahttps?://}i)
+
+    URI.parse(domain).host.presence || domain
+  rescue URI::InvalidURIError
+    domain
   end
 
   def update_company_counts(previous_company_id, company_id)

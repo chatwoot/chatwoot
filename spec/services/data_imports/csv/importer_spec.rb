@@ -68,12 +68,13 @@ RSpec.describe DataImports::Csv::Importer do
     let(:csv) do
       <<~CSV
         name,email,company_name,company_domain
-        Updated,existing@example.com,Ignored, EXISTING.EXAMPLE
+        Updated,existing@example.com,Ignored, HTTPS://EXISTING.EXAMPLE/about
         Same company,existing@example.com,,existing.example
         Blank company,existing@example.com,,
-        New,new@example.com,,north-star.example
+        New,new@example.com,,http://north-star.example/welcome?source=csv
         By name,by-name@example.com,north star,
-        Rejected,bad-domain@example.com,,invalid-domain
+        Rejected,bad-domain@example.com,,https://invalid-domain
+        Malformed,bad-url@example.com,,https://bad domain.example
         Invalid contact,invalid-email,,orphan.example
       CSV
     end
@@ -102,14 +103,14 @@ RSpec.describe DataImports::Csv::Importer do
       expect(company.contacts_count).to eq(2)
       expect(account.companies.count).to eq(3)
       expect(data_import.reload).to be_completed_with_errors
-      expect(data_import.failed_records.download).to include('bad-domain@example.com', 'orphan.example')
+      expect(data_import.failed_records.download).to include('bad-domain@example.com', 'bad-url@example.com', 'orphan.example')
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_CREATED, anything, anything)
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
     end
   end
 
   context 'when Companies is disabled' do
-    let(:csv) { "name,email,company_name,company_domain,tier\nNew,new@example.com,North Star,north-star.example,gold\n" }
+    let(:csv) { "name,email,company_name,company_domain,tier\nNew,new@example.com,North Star,https://north-star.example/about,gold\n" }
 
     it 'stores company fields as additional attributes without linking a company', :aggregate_failures do
       account.disable_features!('companies')
@@ -119,7 +120,7 @@ RSpec.describe DataImports::Csv::Importer do
 
       contact = account.contacts.find_by!(email: 'new@example.com')
       expect(contact.company_id).to be_nil
-      expect(contact.additional_attributes).to include('company_name' => 'North Star', 'company_domain' => 'north-star.example')
+      expect(contact.additional_attributes).to include('company_name' => 'North Star', 'company_domain' => 'https://north-star.example/about')
       expect(contact.custom_attributes).to eq('tier' => 'gold')
     end
   end
