@@ -665,7 +665,9 @@
           },
           "VOICE": {
             "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "DESCRIPTION": "Integrate with Twilio Voice",
+            "PLAN_REQUIRED": "Available on Business and Enterprise plans.",
+            "NOT_ENABLED": "Voice is not enabled for this account."
           }
         }
       },

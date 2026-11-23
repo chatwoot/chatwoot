@@ -72,13 +72,6 @@ const isActive = computed(() => {
   ].includes(key);
 });
 
-const isComingSoon = computed(() => {
-  const { key } = props.channel;
-  // Show "Coming Soon" only if the channel is marked as coming soon
-  // and the corresponding feature flag is not enabled yet.
-  return ['voice'].includes(key) && !isActive.value;
-});
-
 const isBeta = computed(() => {
   return ['tiktok', 'voice', 'whatsapp_call'].includes(props.channel.key);
 });
@@ -117,7 +110,6 @@ const onItemClick = () => {
     :title="channel.title"
     :description="channel.description"
     :icon="channel.icon"
-    :is-coming-soon="isComingSoon"
     :is-beta="isBeta"
     :has-voice-badge="hasVoiceBadge"
     :disabled="!isActive && !canRequestTiktokAccess"
