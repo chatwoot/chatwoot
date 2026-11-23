@@ -31,13 +31,24 @@ const templates = computed(() =>
   inboxId.value ? sendableTemplates.value(inboxId.value) : []
 );
 
-const savedTemplateMatch = templates.value.find(
-  template =>
-    template.name === savedTemplate.name &&
-    template.language === savedTemplate.language
-);
-const templateId = ref(
-  savedTemplateMatch ? getTemplateKey(savedTemplateMatch) : null
+const templateId = ref(null);
+let isRestoringSavedTemplate = Boolean(savedTemplate.name);
+
+// Inboxes can load after the editor opens, so restore the saved template once its templates arrive.
+watch(
+  templates,
+  list => {
+    if (!isRestoringSavedTemplate) return;
+    const match = list.find(
+      template =>
+        template.name === savedTemplate.name &&
+        template.language === savedTemplate.language
+    );
+    if (!match) return;
+    templateId.value = getTemplateKey(match);
+    isRestoringSavedTemplate = false;
+  },
+  { immediate: true }
 );
 
 const inboxOptions = computed(() =>
@@ -52,6 +63,7 @@ const selectedTemplate = computed(
 );
 
 const onInboxChange = value => {
+  isRestoringSavedTemplate = false;
   inboxId.value = value;
   templateId.value = null;
   processedParams.value = {};

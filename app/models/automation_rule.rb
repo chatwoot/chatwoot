@@ -149,10 +149,17 @@ class AutomationRule < ApplicationRecord
 
   def whatsapp_template_params?(action_params)
     params = action_params.is_a?(Array) && action_params.first
-    return false unless params.is_a?(Hash) && params['content'].present? && params.dig('template_params', 'name').present?
-    return false unless params['inbox_id'].is_a?(Integer)
+    return false unless params.is_a?(Hash) && params['content'].present? && params['inbox_id'].is_a?(Integer)
+    return false unless whatsapp_template_complete?(params['template_params'])
 
     account.inboxes.where(channel_type: 'Channel::Whatsapp').exists?(id: params['inbox_id'])
+  end
+
+  def whatsapp_template_complete?(template)
+    return false unless template.is_a?(Hash) && template.values_at('name', 'language').all?(&:present?)
+
+    processed_params = template['processed_params'] || {}
+    processed_params.is_a?(Hash) && processed_params.fetch('body', {}).values.all?(&:present?)
   end
 
   def query_operator_presence

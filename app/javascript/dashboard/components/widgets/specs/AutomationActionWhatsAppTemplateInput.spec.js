@@ -14,14 +14,21 @@ const template = {
 };
 
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
-vi.mock('dashboard/composables/store', () => ({
-  useMapGetter: getter =>
-    computed(() =>
-      getter === 'inboxes/getWhatsAppInboxes'
-        ? [{ id: 7, name: 'Support WhatsApp' }]
-        : inboxId => (inboxId === 7 ? [template] : [])
-    ),
-}));
+const inboxTemplates = vi.hoisted(() => ({ value: [] }));
+
+vi.mock('dashboard/composables/store', async () => {
+  const { ref } = await import('vue');
+  inboxTemplates.value = ref([]);
+  return {
+    useMapGetter: getter =>
+      computed(() => {
+        const loaded = inboxTemplates.value.value;
+        return getter === 'inboxes/getWhatsAppInboxes'
+          ? [{ id: 7, name: 'Support WhatsApp' }]
+          : inboxId => (inboxId === 7 ? loaded : []);
+      }),
+  };
+});
 
 const savedValue = {
   inbox_id: 7,
@@ -36,6 +43,10 @@ const savedValue = {
 };
 
 describe('AutomationActionWhatsAppTemplateInput', () => {
+  beforeEach(() => {
+    inboxTemplates.value.value = [template];
+  });
+
   it('builds the action params from the picked inbox and template', async () => {
     const wrapper = shallowMount(AutomationActionWhatsAppTemplateInput, {
       props: { modelValue: null },
@@ -55,12 +66,17 @@ describe('AutomationActionWhatsAppTemplateInput', () => {
     expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([savedValue]);
   });
 
-  it('restores a saved template for editing', () => {
+  it('restores a saved template once the inbox templates load', async () => {
+    inboxTemplates.value.value = [];
     const wrapper = shallowMount(AutomationActionWhatsAppTemplateInput, {
       props: { modelValue: savedValue },
     });
-
     const fields = wrapper.findComponent(TemplateFields);
+    expect(fields.props('templateId')).toBeNull();
+
+    inboxTemplates.value.value = [template];
+    await wrapper.vm.$nextTick();
+
     expect(wrapper.findComponent(ComboBox).props('modelValue')).toBe(7);
     expect(fields.props('templateId')).toBe('tpl-1');
     expect(fields.props('processedParams')).toEqual({
