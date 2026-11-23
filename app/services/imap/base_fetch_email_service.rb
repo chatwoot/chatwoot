@@ -149,6 +149,9 @@ class Imap::BaseFetchEmailService
     message_id = mail.message_id
     return nil if message_id.blank?
     return nil if email_already_present?(channel, message_id)
+    # Skip backed-off mail here so it does not consume the per-run sync cap;
+    # healthy messages later in the mailbox still get their turn.
+    return nil if failed_message?(message_id)
 
     [data.seqno, message_id]
   end
