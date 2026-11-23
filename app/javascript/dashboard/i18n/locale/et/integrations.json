@@ -776,18 +776,6 @@
           "LABEL": "Paku vastust",
           "CONTENT": "Analüüsi kliendi päringut ja koostage vastus, mis lahendab tema mured või küsimused. Veendu, et vastus oleks selge, lühike ja abistav."
         },
-        "RATE": {
-          "LABEL": "Hinda vestlust",
-          "CONTENT": "Vaata vestlust üle, et hinnata, kui hästi see vastab kliendi vajadustele. Anna hinnang viiepallisüsteemis, arvestades tooni, selgust ja tulemuslikkust."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Kõrge prioriteediga vestlused",
-          "CONTENT": "Koosta kokkuvõte kõigist kõrge prioriteediga avatud vestlustest. Lisa vestluse ID, kliendi nimi (kui on), viimase sõnumi sisu ja määratud agent. Vajadusel grupeerida staatuse järgi."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Kuva kontaktid",
-          "CONTENT": "Näita mulle 10 parima kontakti nimekirja. Lisa nimi, e-post või telefoninumber (kui on), viimane nähtud aeg, sildid (kui on)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
