@@ -12,8 +12,6 @@ class ContactIdentifyAction
 
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
-    # A visitor cannot change a verified value, so such a value takes no part in finding a matching contact.
-    @params = unverified_params
 
     ActiveRecord::Base.transaction do
       merge_if_existing_identified_contact
@@ -74,6 +72,9 @@ class ContactIdentifyAction
 
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
+    # A visitor cannot change a verified value, so the contact cannot join another one through it.
+    # The contact can change after each merge, so this asks the current one.
+    return false if @contact.attribute_verified?(key)
 
     return true if params[:identifier].blank? && anonymous_widget_visitor_on_open_inbox?
 
@@ -111,7 +112,8 @@ class ContactIdentifyAction
     true
   end
 
-  # The contact can be another one after a merge, so its verified values are checked again here.
+  # A visitor cannot change a verified value. The contact can be another one after a merge,
+  # so this reads the marks of the contact that is written.
   def unverified_params
     params.reject { |attribute, _value| @contact.attribute_verified?(attribute) }
   end
