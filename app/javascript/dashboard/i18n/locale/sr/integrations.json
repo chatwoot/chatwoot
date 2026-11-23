@@ -776,18 +776,6 @@
           "LABEL": "Predloži odgovor",
           "CONTENT": "Analizirajte upit kupca i sastavite odgovor koji efikasno rešava njihove brige ili pitanja. Osigurajte da odgovor bude jasan, sažet i da pruža korisne informacije."
         },
-        "RATE": {
-          "LABEL": "Ocenite ovaj razgovor",
-          "CONTENT": "Pregledajte razgovor da biste videli koliko dobro zadovoljava potrebe kupca. Podelite ocenu do 5 na osnovu tona, jasnoće i efikasnosti."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Razgovori visokog prioriteta",
-          "CONTENT": "Dajte mi rezime svih otvorenih razgovora sa visokim prioritetom. Uključite ID razgovora, ime kupca (ako je dostupno), sadržaj poslednje poruke i dodeljenog agenta. Grupisati po statusu ako je relevantno."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Lista kontakata",
-          "CONTENT": "Prikaži mi listu top 10 kontakata. Uključi ime, email ili broj telefona (ako je dostupan), vreme poslednjeg viđenja, oznake (ako ima)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
