@@ -160,6 +160,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
                                                             .and_return(Imap::FailedMessageTracker::MAX_FAILURES)
           # without_attachments! mutates the mail; its return value is not the mail itself.
           allow(inbound_mail).to receive(:without_attachments!).and_return(instance_double(Mail::PartsList))
+          allow(inbound_mail).to receive(:parts).and_return([])
           allow(exception_tracker).to receive(:capture_exception)
 
           # The first mailbox run raises; a later degraded import succeeds.
@@ -202,6 +203,16 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
           described_class.perform_now(imap_email_channel)
 
           expect(inbound_mail).not_to have_received(:without_attachments!)
+        end
+
+        it 'strips attachments nested in multipart parts from a real email' do
+          real_mail = Mail.read(Rails.root.join('spec/fixtures/files/in_reply_to.eml'))
+
+          expect(real_mail.attachments).not_to be_empty
+
+          described_class.new.send(:strip_attachments!, real_mail)
+
+          expect(real_mail.attachments).to be_empty
         end
 
         it 'does not retry when the email has no attachments' do

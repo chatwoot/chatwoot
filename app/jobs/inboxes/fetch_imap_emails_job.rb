@@ -123,13 +123,20 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     # stored message already exists and keeps its attachments.
     return if channel.inbox.messages.exists?(source_id: inbound_mail.message_id)
 
-    inbound_mail.without_attachments!
+    strip_attachments!(inbound_mail)
     Timeout.timeout(email_processing_timeout) do
       Imap::ImapMailbox.new.process(inbound_mail, channel)
     end
     add_degraded_import_activity_message(channel, inbound_mail.message_id)
   rescue StandardError => e
     Rails.logger.error "[IMAP] Failed to import email without attachments #{inbound_mail.message_id}: #{e.message}"
+  end
+
+  # Mail's bang method only strips the top level, leaving attachments nested in
+  # multipart/related parts; strip every multipart level before the retry.
+  def strip_attachments!(mail)
+    mail.parts.each { |part| strip_attachments!(part) if part.multipart? }
+    mail.without_attachments!
   end
 
   def add_degraded_import_activity_message(channel, message_id)
