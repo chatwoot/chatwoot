@@ -776,18 +776,6 @@
           "LABEL": "แนะนำคำตอบ",
           "CONTENT": "วิเคราะห์คำถามของลูกค้า และร่างคำตอบที่ตอบโจทย์ข้อกังวลหรือคำถามอย่างมีประสิทธิภาพ ให้คำตอบชัดเจน กระชับ และให้ข้อมูลที่เป็นประโยชน์"
         },
-        "RATE": {
-          "LABEL": "ให้คะแนนการสนทนานี้",
-          "CONTENT": "ตรวจสอบการสนทนาเพื่อดูว่าตรงตามความต้องการของลูกค้าอย่างไร ให้คะแนนจาก 5 โดยพิจารณาจากน้ำเสียง ความชัดเจน และประสิทธิผล"
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "การสนทนาความสำคัญสูง",
-          "CONTENT": "สรุปการสนทนาเปิดที่มีความสำคัญสูงทั้งหมด รวม ID การสนทนา ชื่อลูกค้า (ถ้ามี) เนื้อหาข้อความล่าสุด และเจ้าหน้าที่ที่รับผิดชอบ จัดกลุ่มตามสถานะถ้ามีความเกี่ยวข้อง"
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "รายชื่อติดต่อ",
-          "CONTENT": "แสดงรายชื่อ 10 ติดต่อยอดนิยม รวมชื่อ อีเมลหรือเบอร์โทรศัพท์ (ถ้ามี) เวลาที่เข้าชมล่าสุด ป้ายชื่อ (ถ้ามี)"
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
