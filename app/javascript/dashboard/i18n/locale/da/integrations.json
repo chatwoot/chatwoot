@@ -776,18 +776,6 @@
           "LABEL": "Foreslå et svar",
           "CONTENT": "Analyser kundens forespørgsel, og udarbejd et svar, der effektivt imødekommer deres bekymringer eller spørgsmål. Sørg for, at svaret er klart, præcist og giver nyttige oplysninger."
         },
-        "RATE": {
-          "LABEL": "Vurder denne samtale",
-          "CONTENT": "Gennemgå samtalen for at se, hvor godt den opfylder kundens behov. Del en vurdering ud af 5 baseret på tone, klarhed og effektivitet."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "Samtaler med høj prioritet",
-          "CONTENT": "Giv mig et sammendrag af alle åbne samtaler med høj prioritet. Inkluder samtale-ID, kundens navn (hvis tilgængeligt), indholdet af sidste besked og tildelt agent. Grupper efter status, hvis relevant."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "Liste over kontakter",
-          "CONTENT": "Vis mig listen over de 10 bedste kontakter. Inkluder navn, e-mail eller telefonnummer (hvis tilgængeligt), sidst set tidspunkt, tags (hvis nogen)."
-        },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
           "CONTENT": "Which of my open conversations need my attention? For each one, say what the customer needs and whether they are waiting on my reply, oldest first. If none are assigned to me, say so and list the open conversations that nobody is assigned to."
