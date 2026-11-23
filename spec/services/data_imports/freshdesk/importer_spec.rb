@@ -11,6 +11,11 @@ RSpec.describe DataImports::Freshdesk::Importer do
   let(:ticket_fixture) do
     JSON.parse(Rails.root.join('spec/fixtures/data_import/freshdesk/ticket_with_conversations.json').read)
   end
+  let(:deeply_nested_html) { "#{'<div>' * 600}nested text#{'</div>' * 600}" }
+  let(:attribute_limit_html) do
+    attributes = Array.new(Nokogiri::Gumbo::DEFAULT_MAX_ATTRIBUTES + 1) { |index| "attr-#{index}=\"value\"" }.join(' ')
+    "<div #{attributes}>text</div>"
+  end
 
   before do
     account.enable_features!('data_import')
@@ -86,6 +91,89 @@ RSpec.describe DataImports::Freshdesk::Importer do
     )
     expect(data_import.processed_records).to eq(6)
     expect(data_import.mappings.count).to eq(6)
+  end
+
+  it 'imports provider plain text literally without parsing its deeply nested HTML alternative', :aggregate_failures do
+    ticket_fixture['ticket']['subject'] = 'A <widget> question'
+    ticket_fixture['ticket']['description_text'] = '1 < 2 &amp; literal <widget>'
+    ticket_fixture['ticket']['description'] = deeply_nested_html
+    ticket_fixture['conversations'].first['body_text'] = 'Customer <reply> & details'
+
+    described_class.new(data_import: data_import).perform
+
+    expect(account.messages.find_by!(source_id: 'freshdesk:conversation:2001:source:2001').content).to eq(
+      "A <widget> question\n\n1 < 2 &amp; literal <widget>"
+    )
+    expect(account.messages.find_by!(source_id: 'freshdesk:conversation:2001:part:3003').content).to eq('Customer <reply> & details')
+    expect(account.messages.count).to eq(4)
+    expect(data_import.reload).to be_completed
+  end
+
+  %w[depth attributes].product(%w[source comment], %w[bulk fallback prefetch]).each do |limit, position, path|
+    it "isolates a #{limit} limit in a #{position} message through #{path} and continues to the next ticket", :aggregate_failures do
+      valid_fixture = ticket_fixture.deep_dup
+      html = limit == 'depth' ? deeply_nested_html : attribute_limit_html
+      if position == 'source'
+        ticket_fixture['ticket'].delete('description_text')
+        ticket_fixture['ticket']['description'] = html
+        failed_source_id = 'conversation:2001:source:2001'
+      else
+        ticket_fixture['conversations'].first.delete('body_text')
+        ticket_fixture['conversations'].first['body'] = html
+        failed_source_id = 'conversation:2001:part:3003'
+      end
+      second_ticket = valid_fixture.fetch('ticket').merge('id' => 2002)
+      allow(client).to receive(:list_tickets).with(page: 1, per_page: 100).and_return(
+        DataImports::Freshdesk::Client::Page.new(data: [ticket_fixture.fetch('ticket'), second_ticket], next_page: nil)
+      )
+      allow(client).to receive(:retrieve_ticket).with('2002').and_return(second_ticket)
+      allow(client).to receive(:list_conversations).with('2002', page: 1, per_page: 100).and_return(
+        DataImports::Freshdesk::Client::Page.new(data: valid_fixture.fetch('conversations'), next_page: nil)
+      )
+      importer = described_class.new(data_import: data_import)
+      allow(importer).to receive(:sleep)
+      if path == 'fallback'
+        allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid, 'bulk unavailable')
+      elsif path == 'prefetch'
+        allow(DataImports::Freshdesk::MessageBatchBuilder).to receive(:new).and_wrap_original do |method, **kwargs|
+          method.call(**kwargs).tap do |builder|
+            allow(builder).to receive(:perform).and_wrap_original do |perform, *args|
+              raise ActiveRecord::QueryCanceled, 'prefetch timeout' if args.empty?
+
+              perform.call(*args)
+            end
+          end
+        end
+      end
+
+      importer.perform
+
+      expect(account.messages.count).to eq(7)
+      expect(account.conversations.find_by!(identifier: 'freshdesk:2001').messages.count).to eq(3)
+      expect(account.conversations.find_by!(identifier: 'freshdesk:2002').messages.count).to eq(4)
+      expect(account.messages.exists?(source_id: "freshdesk:#{failed_source_id}")).to be(false)
+      expect(data_import.import_errors.sole).to have_attributes(
+        source_object_type: 'message', source_object_id: failed_source_id,
+        error_code: 'DataImports::Importer::InvalidMessagePayloadError'
+      )
+      expect(data_import.reload).to be_completed_with_errors
+      expect(data_import.stats.dig('messages', 'total')).to eq(8)
+      expect(data_import.stats.dig('messages', 'imported')).to eq(7)
+      expect(data_import.stats.dig('errors', 'count')).to eq(1)
+      expect(data_import.cursor.dig('conversations', 'completed')).to be(true)
+    end
+  end
+
+  it 'does not classify an unrelated ArgumentError as a bad source payload' do
+    sanitizer = instance_double(Rails::HTML5::FullSanitizer)
+    allow(Rails::HTML5::FullSanitizer).to receive(:new).and_return(sanitizer)
+    allow(sanitizer).to receive(:sanitize).and_raise(ArgumentError, 'unexpected sanitizer configuration')
+    importer = described_class.new(data_import: data_import)
+
+    expect { importer.send(:sanitized_text, '<p>Content</p>') }.to raise_error do |error|
+      expect(error.class.name).to eq('ArgumentError')
+      expect(error.message).to eq('unexpected sanitizer configuration')
+    end
   end
 
   it 'preserves the contact that authored an incoming reply' do
