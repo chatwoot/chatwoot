@@ -1118,13 +1118,15 @@ describe('#mutations', () => {
   });
 
   describe('#SET_LIST_LOADING_STATUS', () => {
-    it('should set listLoadingStatus to true', () => {
+    it('should set listLoadingStatus without hiding an existing error', () => {
       const state = {
         listLoadingStatus: false,
+        listFetchError: true,
       };
 
       mutations[types.SET_LIST_LOADING_STATUS](state);
       expect(state.listLoadingStatus).toBe(true);
+      expect(state.listFetchError).toBe(true);
     });
   });
 
@@ -1136,6 +1138,17 @@ describe('#mutations', () => {
 
       mutations[types.CLEAR_LIST_LOADING_STATUS](state);
       expect(state.listLoadingStatus).toBe(false);
+    });
+  });
+
+  describe('#SET_LIST_FETCH_ERROR', () => {
+    it('should set listFetchError to the supplied status', () => {
+      const state = {
+        listFetchError: false,
+      };
+
+      mutations[types.SET_LIST_FETCH_ERROR](state, true);
+      expect(state.listFetchError).toBe(true);
     });
   });
 
