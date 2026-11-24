@@ -84,6 +84,7 @@ RSpec.describe DataImports::Csv::Importer do
       old_company = create(:company, account: account)
       target_company = create(:company, account: account, name: 'Existing', domain: 'existing.example')
       existing = create(:contact, account: account, company: old_company, email: 'existing@example.com')
+      existing.update!(last_activity_at: 1.day.ago)
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
       DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
@@ -96,6 +97,7 @@ RSpec.describe DataImports::Csv::Importer do
       expect(existing.custom_attributes).to eq({})
       expect(old_company.reload.contacts_count).to eq(0)
       expect(target_company.reload.contacts_count).to eq(1)
+      expect(target_company.last_activity_at).to eq(existing.last_activity_at)
 
       company = account.companies.find_by!(domain: 'north-star.example')
       expect(company.name).to eq('North Star')
