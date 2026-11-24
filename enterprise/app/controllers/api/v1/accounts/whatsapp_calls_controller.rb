@@ -6,7 +6,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   before_action :ensure_call_recipient, only: :initiate
   before_action :ensure_recording_present, only: :upload_recording
   before_action :ensure_recording_enabled, only: :upload_recording
-  before_action :ensure_call_message, only: :upload_recording
 
   rescue_from Voice::CallErrors::NotRinging,
               Voice::CallErrors::CallFailed,
@@ -34,7 +33,12 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def upload_recording
-    @upload_status = @call.message.with_lock { attach_recording_idempotently }
+    @upload_status = @call.with_lock { attach_recording_idempotently }
+    return unless @upload_status == 'uploaded'
+
+    # As for a Twilio recording: rebroadcast the call bubble with its recording_url, then transcribe
+    @call.message&.send_update_event
+    Voice::CallTranscriptionJob.perform_later(@call.id)
   end
 
   def initiate
@@ -131,16 +135,10 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.recording_disabled'))
   end
 
-  def ensure_call_message
-    return if @call.message.present?
-
-    render_could_not_create_error(I18n.t('errors.whatsapp.calls.no_message'))
-  end
-
   def attach_recording_idempotently
-    return 'already_uploaded' if @call.message.attachments.exists?(file_type: :audio)
+    return 'already_uploaded' if @call.recording.attached?
 
-    @call.message.attachments.create!(account_id: @call.account_id, file_type: :audio, file: params[:recording])
+    @call.recording.attach(params[:recording])
     'uploaded'
   end
 
