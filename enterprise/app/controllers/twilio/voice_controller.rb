@@ -10,6 +10,7 @@ class Twilio::VoiceController < ApplicationController
 
   before_action :set_inbox!
   before_action { verify_twilio_signature!(inbox_channel.auth_token) }
+  before_action :answer_with_captain, only: :call_twiml
 
   def status
     Voice::StatusUpdateService.new(
@@ -114,6 +115,16 @@ class Twilio::VoiceController < ApplicationController
   # Reject it so no conference, conversation, or Call row is created.
   def reject_inbound?
     twilio_direction == 'inbound' && !agent_leg?(twilio_from) && !inbox.channel.inbound_calls_enabled?
+  end
+
+  # A new inbound caller on an inbox where Captain answers calls talks to Captain first. When Captain can't
+  # take the call, call_twiml runs and rings agents as usual.
+  def answer_with_captain
+    return unless twilio_direction == 'inbound' && !agent_leg?(twilio_from) && !reject_inbound?
+    return unless Voice::Captain::CallStarter.eligible?(inbox: inbox, call_sid: twilio_call_sid)
+
+    captain_twiml = Voice::Captain::CallStarter.new(inbox: inbox, call_sid: twilio_call_sid, from: twilio_from).perform
+    render xml: captain_twiml if captain_twiml
   end
 
   # A caller nobody was rung for is told why instead of waiting for a conference; see Call::ANNOUNCED_END_REASONS

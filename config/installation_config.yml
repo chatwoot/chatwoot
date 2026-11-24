@@ -242,6 +242,20 @@
   description: 'The FireCrawl API key for the Captain AI service'
   locked: false
   type: secret
+- name: CAPTAIN_VAPI_API_KEY
+  display_title: 'Vapi Private API Key'
+  description: 'The Vapi private API key Captain uses to answer phone calls on voice inboxes'
+  locked: false
+  type: secret
+- name: CAPTAIN_VAPI_PHONE_NUMBER_ID
+  display_title: 'Vapi Phone Number ID'
+  description: 'The ID of the Vapi phone number used when Captain answers calls'
+  locked: false
+- name: CAPTAIN_VAPI_WEBHOOK_SECRET
+  display_title: 'Vapi Webhook Secret'
+  description: 'A random secret that Vapi sends back on every Captain call webhook. Any long random string'
+  locked: false
+  type: secret
 - name: CAPTAIN_CLOUD_PLAN_LIMITS
   display_title: 'Captain Cloud Plan Limits'
   description: 'The limits for the Captain AI service for different plans'

@@ -23,6 +23,11 @@ module Enterprise::Channel::TwilioSms
     provider_config.fetch('unanswered_call_timeout_seconds', DEFAULT_RING_TIMEOUT_SECONDS)
   end
 
+  # Prototype switch (CW-7419): the inbox's Captain assistant answers inbound calls through Vapi
+  def captain_answers_calls?
+    provider_config['captain_answers_calls'] == true
+  end
+
   def account_auth_token_configured?
     provider_config['account_auth_token_configured'] == true
   end

@@ -790,6 +790,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post 'vapi/webhook', to: 'vapi/webhooks#create', as: :vapi_webhook if ChatwootApp.enterprise?
+
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
   get 'instagram/callback', to: 'instagram/callbacks#show'
