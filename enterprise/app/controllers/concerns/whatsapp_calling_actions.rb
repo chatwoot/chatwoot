@@ -21,6 +21,13 @@ module Concerns::WhatsappCallingActions
 
   private
 
+  def fetch_health_data
+    health = super
+    return health unless whatsapp_cloud_channel? && @inbox.channel.voice_enabled?
+
+    health.merge(calling: Whatsapp::CallingHealthService.new(channel: @inbox.channel).perform)
+  end
+
   def update_inbox_working_hours
     super
     return unless @inbox.whatsapp? && call_hours_inputs_changed?
