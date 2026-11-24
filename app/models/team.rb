@@ -87,3 +87,4 @@ class Team < ApplicationRecord
 end
 
 Team.include_mod_with('Audit::Team')
+Team.include_mod_with('SearchIndexing::Team')

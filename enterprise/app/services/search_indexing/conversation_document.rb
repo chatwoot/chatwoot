@@ -1,5 +1,7 @@
 class SearchIndexing::ConversationDocument
-  INDEXED_ATTRIBUTES = %w[contact_id inbox_id display_id created_at last_activity_at].freeze
+  VERSION = 2
+  FILTER_ATTRIBUTES = %w[status priority assignee_id assignee_agent_bot_id team_id].freeze
+  INDEXED_ATTRIBUTES = (%w[contact_id inbox_id display_id created_at last_activity_at] + FILTER_ATTRIBUTES).freeze
 
   def self.index_name
     "chatwoot_#{Rails.env}_conversations_searchkick_v1"
@@ -13,11 +15,13 @@ class SearchIndexing::ConversationDocument
   end
 
   def self.mappings
-    { dynamic: false, properties: {
+    { dynamic: false, _meta: { conversation_document_version: VERSION }, properties: {
       conversation_id: { type: 'alias', path: 'id' },
       id: { type: 'long' }, account_id: { type: 'long' }, contact_id: { type: 'long' }, inbox_id: { type: 'long' }, display_id: { type: 'long' },
       display_id_text: { type: 'text', analyzer: 'substring' }, mail_subject: { type: 'text', analyzer: 'substring' },
-      created_at: { type: 'date' }, last_activity_at: { type: 'date' }
+      created_at: { type: 'date' }, last_activity_at: { type: 'date' },
+      status: { type: 'keyword' }, priority: { type: 'keyword' },
+      assignee_id: { type: 'long' }, assignee_agent_bot_id: { type: 'long' }, team_id: { type: 'long' }
     } }
   end
 

@@ -17,6 +17,7 @@
 #  index_captain_assistants_on_account_id  (account_id)
 #
 class Captain::Assistant < ApplicationRecord
+  include ::Enterprise::SearchIndexing::AiAssignee
   DESCRIPTION_LENGTH_LIMIT = 500
   CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
   AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze

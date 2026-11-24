@@ -9,6 +9,9 @@ class Conversations::FilterService < FilterService
   def perform
     validate_query_operator
     @conversations = query_builder(@filters['conversations'])
+    indexed_result = indexed_filter_result
+    return indexed_result if indexed_result
+
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
@@ -59,6 +62,8 @@ class Conversations::FilterService < FilterService
 
   private
 
+  def indexed_filter_result; end
+
   # The planner hint only pays off when the label condition positively narrows the
   # result set: `equal_to` joined by AND. Negative/presence operators or an OR in the
   # payload leave the result broad, where the inbox index is the better driver.
@@ -69,3 +74,5 @@ class Conversations::FilterService < FilterService
     payload.any? { |query_hash| query_hash[:attribute_key] == 'labels' && query_hash[:filter_operator] == 'equal_to' }
   end
 end
+
+Conversations::FilterService.prepend_mod_with('Conversations::FilterService')

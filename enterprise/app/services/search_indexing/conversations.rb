@@ -28,6 +28,14 @@ module SearchIndexing::Conversations
     end
   end
 
+  def self.check_mapping!
+    name = Conversation.search_index.name
+    mapping = Searchkick.client.indices.get_mapping(index: name).fetch(name).fetch('mappings')
+    return if mapping.dig('_meta', 'conversation_document_version') == SearchIndexing::ConversationDocument::VERSION
+
+    raise Searchkick::Error, 'Run search:setup_conversations before backfilling and verifying the new document version'
+  end
+
   def self.reindex_account(account_id)
     account = Account.find(account_id)
     raise ArgumentError, 'Configure OpenSearch and enable advanced_search_conversations before reindexing' unless enabled?(account)

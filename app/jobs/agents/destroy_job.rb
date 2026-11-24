@@ -39,3 +39,5 @@ class Agents::DestroyJob < ApplicationJob
     ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).conversation_changed!
   end
 end
+
+Agents::DestroyJob.prepend_mod_with('Agents::DestroyJob')
