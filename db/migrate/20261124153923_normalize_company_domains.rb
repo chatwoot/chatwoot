@@ -3,10 +3,9 @@ class NormalizeCompanyDomains < ActiveRecord::Migration[7.2]
 
   def up
     company_model = Class.new(ActiveRecord::Base) { self.table_name = 'companies' }
-    domain = company_model.arel_table[:domain]
 
     # In ID order, the first company can claim an unused lowercase domain.
-    company_model.where(domain.not_eq(domain.lower)).find_each do |company|
+    company_model.where('domain <> LOWER(domain)').find_each do |company|
       company.with_lock do
         company.domain = company.domain&.downcase
         company.save!(touch: false)
