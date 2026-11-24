@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Hindi ma-block ang kontak. Pakisubukang muli mamaya.",
         "UNBLOCK_SUCCESS_MESSAGE": "Matagumpay na na-unblock ang kontak na ito",
         "UNBLOCK_ERROR_MESSAGE": "Hindi ma-unblock ang kontak. Pakisubukang muli mamaya.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Mag-import ng mga kontak",
-          "DESCRIPTION": "Mag-import ng mga kontak gamit ang isang CSV file.",
-          "DOWNLOAD_LABEL": "I-download ang isang halimbawang csv.",
-          "LABEL": "CSV File:",
-          "CHOOSE_FILE": "Pumili ng file",
-          "CHANGE": "Palitan",
-          "CANCEL": "Kanselahin",
-          "IMPORT": "I-import",
-          "SUCCESS_MESSAGE": "Ipapaalam sa iyo sa pamamagitan ng email kapag natapos na ang pag-import.",
-          "ERROR_MESSAGE": "Nagkaroon ng error, pakisubukang muli"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "I-export ang mga kontak",
-          "DESCRIPTION": "Mabilis na i-export ang isang csv file na may kumpletong detalye ng iyong mga kontak",
-          "CONFIRM": "I-export",
-          "SUCCESS_MESSAGE": "Nagsimula na ang pag-export. Makakatanggap ka ng abiso sa email kapag handa na ang export file para i-download.",
-          "ERROR_MESSAGE": "Nagkaroon ng error, pakisubukang muli"
-        },
         "SORT_BY": {
           "LABEL": "Ayusin ayon sa",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "I-filter ang mga kontak",
       "EDIT_SEGMENT": "I-edit ang bahagi",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Pangalan ng bahagi",
         "INPUT_PLACEHOLDER": "Ilagay ang pangalan ng bahagi"

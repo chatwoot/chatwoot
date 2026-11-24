@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Articles populaires",
     "VIEW_ALL_ARTICLES": "Voir tous les articles",
+    "IFRAME_ERROR": "L'URL est vide ou non valide. Impossible d'afficher le contenu.",
     "IFRAME_LOAD_ERROR": "Une erreur s'est produite lors du chargement de l'article, veuillez actualiser la page et réessayer."
   },
   "ATTACHMENTS": {

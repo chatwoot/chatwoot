@@ -6,7 +6,10 @@ class Captain::Tools::Copilot::GetDataService < Captain::Tools::Copilot::Workflo
               'of matching records) and the first and last dates of the matching records. Does not return the records. ' \
               'Pass from to select the records linked to an earlier collection or to the matched conversations of a finished review, ' \
               'and exclude_from to keep only the records not linked to one; any two linked resources can be chained this way. ' \
-              'Inside filters, every resource takes since and before, date_field (any of its date columns), newest, oldest_first, ' \
+              'Inside filters, every resource takes since and before (a date-time, or a date for the start of that day in the ' \
+              "account's reporting time zone; before is not included, and leaving it out selects up to now), last_days (that many " \
+              'days up to now, today included, as the reports pages count them; instead of since and before), ' \
+              'date_field (any of its date columns), newest, oldest_first, ' \
               'sample (that many records spread evenly across the matching set), a column name for its value or a list of values ' \
               '(null for no value), ' \
               'empty and not_empty (lists of columns, keys inside JSON columns, resources that point at this one, or labels, ' \

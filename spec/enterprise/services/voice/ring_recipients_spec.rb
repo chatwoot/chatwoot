@@ -38,22 +38,26 @@ RSpec.describe Voice::RingRecipients do
     expect(recipients.agents).to contain_exactly(bob, cara)
   end
 
-  it 'rings the whole team, not the assignee alone, when the assignee is on another call' do
+  it 'rings everyone at once, the assignee included, when the inbox does not ring the assignee first' do
     conversation.update!(assignee: alice)
-    create(:call, account: account, inbox: inbox, conversation: other_conversation, contact: other_conversation.contact,
-                  status: 'in_progress', accepted_by_agent: alice)
+    channel.update!(provider_config: channel.provider_config.merge('assignee_rings_first' => false))
 
     expect(recipients.agents).to contain_exactly(alice, bob, cara)
   end
 
-  context 'when the inbox prefers free agents' do
+  context 'when agents are on a call' do
     before do
-      channel.update!(provider_config: channel.provider_config.merge('prefer_free_agents' => true))
       create(:call, account: account, inbox: inbox, conversation: other_conversation, contact: other_conversation.contact,
                     status: 'in_progress', accepted_by_agent: bob)
     end
 
     it 'rings only the agents not on a call' do
+      expect(recipients.agents).to contain_exactly(alice, cara)
+    end
+
+    it 'rings the teammates, not the assignee alone, when the assignee is on another call' do
+      conversation.update!(assignee: bob)
+
       expect(recipients.agents).to contain_exactly(alice, cara)
     end
 
@@ -65,13 +69,13 @@ RSpec.describe Voice::RingRecipients do
       expect(recipients.agents).to eq([alice])
     end
 
-    it 'rings everyone when every agent is on a call' do
+    it 'rings nobody when every agent is on a call' do
       [alice, cara].each do |agent|
         busy = create(:conversation, account: account, inbox: inbox)
         create(:call, account: account, inbox: inbox, conversation: busy, contact: busy.contact, status: 'in_progress', accepted_by_agent: agent)
       end
 
-      expect(recipients.agents).to contain_exactly(alice, bob, cara)
+      expect(recipients.agents).to be_empty
     end
   end
 
@@ -91,7 +95,7 @@ RSpec.describe Voice::RingRecipients do
       expect(recipients.next_agent([cara.id, alice.id])).to eq(bob)
     end
 
-    it 'rings an agent in cooldown after the others, and one who resolved that call by idle time' do
+    it 'leaves out an agent in wrap-up time, and rings one who resolved that call by idle time' do
       [[cara, 40, :open, 'failed'], [bob, 30, :resolved, 'completed']].each do |agent, ended_ago, status, call_status|
         recent = create(:conversation, account: account, inbox: inbox, status: status)
         create(:call, account: account, inbox: inbox, conversation: recent, contact: recent.contact, status: call_status,
@@ -100,10 +104,10 @@ RSpec.describe Voice::RingRecipients do
 
       expect(recipients.agents).to eq([alice])
       expect(recipients.next_agent([alice.id])).to eq(bob)
-      expect(recipients.next_agent([alice.id, bob.id])).to eq(cara)
+      expect(recipients.next_agent([alice.id, bob.id])).to be_nil
     end
 
-    it 'starts with the assignee even in cooldown' do
+    it 'starts with the assignee even in wrap-up time' do
       conversation.update!(assignee: bob)
       cooling = create(:conversation, account: account, inbox: inbox)
       create(:call, account: account, inbox: inbox, conversation: cooling, contact: cooling.contact, status: 'completed',
@@ -116,11 +120,78 @@ RSpec.describe Voice::RingRecipients do
   context 'with a WhatsApp inbox' do
     let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
 
-    it 'keeps ringing an assignable assignee alone, even when they are busy' do
+    it 'routes like a Twilio inbox: the free assignee alone first, then the free agents' do
+      conversation.update!(assignee: alice)
+
+      expect(recipients.agents).to eq([alice])
+      expect(recipients.next_group([alice.id])).to contain_exactly(bob, cara)
+    end
+
+    it 'leaves out an agent on a call, and rings the teammates of an assignee who is not online' do
       conversation.update!(assignee: alice)
       AccountUser.find_by(user: alice, account: account).update!(availability: :busy)
+      busy = create(:conversation, account: account, inbox: inbox)
+      create(:call, account: account, inbox: inbox, conversation: busy, contact: busy.contact, provider: :whatsapp, status: 'in_progress',
+                    accepted_by_agent: cara)
 
-      expect(recipients.agents).to be_empty
+      expect(recipients.agents).to eq([bob])
+    end
+
+    def configure(settings)
+      inbox.channel.provider_config = inbox.channel.provider_config.merge(settings)
+      inbox.channel.save!(validate: false)
+    end
+
+    def answered_call(agent, ended_ago:, conversation_status: :open)
+      done = create(:conversation, account: account, inbox: inbox, status: conversation_status)
+      create(:call, account: account, inbox: inbox, conversation: done, contact: done.contact, provider: :whatsapp, status: 'completed',
+                    accepted_by_agent: agent, started_at: (ended_ago + 60).seconds.ago, meta: { 'ended_at' => ended_ago.seconds.ago.to_i })
+    end
+
+    it 'rings one agent at a time when the inbox is set to' do
+      configure('ring_strategy' => 'sequential')
+
+      expect(recipients.agents.size).to eq(1)
+    end
+
+    it 'rings in turn from the longest idle agent, one who never answered a call ranking first' do
+      configure('ring_strategy' => 'sequential')
+      answered_call(alice, ended_ago: 3600)
+      answered_call(bob, ended_ago: 600)
+
+      expect(recipients.agents).to eq([cara])
+      expect(recipients.next_agent([cara.id])).to eq(alice)
+      expect(recipients.next_agent([cara.id, alice.id])).to eq(bob)
+    end
+
+    it 'rings everyone at once, the assignee included, when the inbox does not ring the assignee first' do
+      conversation.update!(assignee: alice)
+      configure('assignee_rings_first' => false)
+
+      expect(recipients.agents).to contain_exactly(alice, bob, cara)
+    end
+
+    it 'leaves out an agent in wrap-up time, and rings one who resolved that call' do
+      configure('call_cooldown_seconds' => 60)
+      answered_call(cara, ended_ago: 20)
+      answered_call(bob, ended_ago: 20, conversation_status: :resolved)
+
+      expect(recipients.agents).to contain_exactly(alice, bob)
+    end
+
+    it 'starts with the assignee even in wrap-up time' do
+      configure('call_cooldown_seconds' => 60)
+      conversation.update!(assignee: bob)
+      answered_call(bob, ended_ago: 20)
+
+      expect(recipients.agents).to eq([bob])
+    end
+
+    it 'leaves out an agent who cannot open the conversation' do
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+      AccountUser.find_by(account: account, user: cara).update!(custom_role: custom_role)
+
+      expect(recipients.agents).to contain_exactly(alice, bob)
     end
   end
 end

@@ -168,23 +168,19 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
   if ChatwootApp.enterprise?
-    out_of_hours = Voice::CallAnnouncement.new(resource, :out_of_hours)
-    json.business_hours_calls_enabled out_of_hours.enabled?
-    json.out_of_hours_call_message out_of_hours.message
-    json.out_of_hours_call_audio_url out_of_hours.audio.attached? ? url_for(out_of_hours.audio) : nil
     greeting = Voice::CallAnnouncement.new(resource, :greeting)
     json.call_greeting_enabled greeting.enabled?
     json.call_greeting_message greeting.message
     json.call_greeting_audio_url greeting.audio.attached? ? url_for(greeting.audio) : nil
     unanswered = Voice::CallAnnouncement.new(resource, :unanswered)
-    json.unanswered_calls_enabled unanswered.enabled?
     json.unanswered_call_message unanswered.message
     json.unanswered_call_audio_url unanswered.audio.attached? ? url_for(unanswered.audio) : nil
     json.unanswered_call_timeout_seconds resource.channel.unanswered_call_timeout_seconds
-    json.ring_strategy resource.channel.sequential_ringing? ? 'sequential' : 'simultaneous'
-    json.ring_step_seconds resource.channel.ring_step_seconds
-    json.prefer_free_agents resource.channel.prefer_free_agents?
-    json.call_cooldown_seconds resource.channel.call_cooldown_seconds
+    # Empty while out-of-hours callers hear the missed-call message
+    out_of_hours = Voice::CallAnnouncement.new(resource, :out_of_hours)
+    json.out_of_hours_call_message out_of_hours.saved_message.to_s
+    json.out_of_hours_call_audio_url out_of_hours.audio.attached? ? url_for(out_of_hours.audio) : nil
+    json.partial! 'api/v1/models/call_routing', channel: resource.channel
   end
   json.account_auth_token_configured resource.channel.try(:account_auth_token_configured?) == true
   json.voice_configured resource.channel.try(:twiml_app_sid).present?
@@ -201,4 +197,12 @@ if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(
   json.inbound_calls_enabled resource.channel.inbound_calls_enabled?
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
+  json.partial! 'api/v1/models/call_routing', channel: resource.channel if ChatwootApp.enterprise?
+end
+
+## Bandwidth SMS callback authentication
+if resource.sms? && Current.account_user&.administrator?
+  json.callback_auth_username Channel::Sms::CALLBACK_USERNAME
+  json.callback_auth_password resource.channel.secret
+  json.callback_auth_enforced resource.channel.callback_auth_enforced
 end

@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Ni mogoče blokirati stika. Poskusite znova pozneje.",
         "UNBLOCK_SUCCESS_MESSAGE": "Blokada stika je bila uspešno odstranjena",
         "UNBLOCK_ERROR_MESSAGE": "Ni mogoče odstraniti blokade stika. Poskusite znova pozneje.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Uvozi stike",
-          "DESCRIPTION": "Uvozi stike prek CSV datoteke.",
-          "DOWNLOAD_LABEL": "Prenesite vzorčno datoteko za uvoz.",
-          "LABEL": "CSV datoteka:",
-          "CHOOSE_FILE": "Izberi datoteko",
-          "CHANGE": "Spremeni",
-          "CANCEL": "Prekliči",
-          "IMPORT": "Uvozi",
-          "SUCCESS_MESSAGE": "O uvozu boste obveščeni po e-pošti, ko bo postopek končan.",
-          "ERROR_MESSAGE": "Prišlo je do napake, prosimo, poskusite znova"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Izvozi stike",
-          "DESCRIPTION": "Hitro izvozite datoteko s podrobnimi podatki o svojih stikih",
-          "CONFIRM": "Izvozi",
-          "SUCCESS_MESSAGE": "Izvoz je v teku. O tem boste obveščeni po e-pošti, ko bo datoteka za izvoz pripravljena za prenos.",
-          "ERROR_MESSAGE": "Prišlo je do napake, prosimo, poskusite znova"
-        },
         "SORT_BY": {
           "LABEL": "Razvrsti po",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Filtriraj stike",
       "EDIT_SEGMENT": "Uredi segment",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Ime segmenta",
         "INPUT_PLACEHOLDER": "Vnesite ime segmenta"

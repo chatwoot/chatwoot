@@ -97,7 +97,23 @@ RSpec.describe Captain::Copilot::Aggregation do
     create_list(:conversation, 3, account: account, inbox: inbox, assignee: busier, created_at: Time.utc(2023, 9, 8))
 
     expect(aggregation.call(measure: 'count', group_by: ['assignee']))
-      .to include(groups: [{ group: "Muhsin (ID #{busier.id})", value: 3 }], without_value: 1, cut: be_present)
+      .to include(groups: [{ group: "Muhsin (ID #{busier.id})", value: 3 }], without_value: 1, cut: 'Showing the 1 largest of 2 groups.')
+  end
+
+  it 'counts every label when a label filter gives too many groups' do
+    stub_const("#{described_class}::MAX_GROUPS", 1)
+    account.conversations.find_each { |conversation| conversation.update!(label_list: %w[billing refund]) }
+    filtered = conversations.matching(conversations.normalize({ 'labels' => ['billing'] }), as_of: Time.current)
+
+    expect(described_class.new(conversations, filtered, time_zone: 'UTC', date_field: 'created_at')
+      .call(measure: 'count', group_by: ['label'])[:cut]).to eq('Showing the 1 largest of 2 groups.')
+  end
+
+  it 'counts every pair of values when two fields give too many groups' do
+    stub_const("#{described_class}::MAX_GROUPS", 1)
+    create(:conversation, account: account, inbox: inbox, assignee: agent, status: :resolved, created_at: Time.utc(2023, 9, 8))
+
+    expect(aggregation.call(measure: 'count', group_by: %w[assignee status])[:cut]).to eq('Showing the 1 largest of 3 groups.')
   end
 
   it 'ranks groups with nothing to measure after the measured groups' do

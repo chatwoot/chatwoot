@@ -2,7 +2,7 @@ class Api::V1::Accounts::Captain::CopilotRunsController < Api::V1::Accounts::Bas
   before_action :set_action_run
 
   def approve
-    return render_disabled unless Current.account.feature_enabled?('copilot_workflows')
+    return render_disabled unless Current.account.feature_enabled?('captain_integration')
     return render_already_decided unless @action_run.approve
 
     render json: @action_run.approval_card.push_event_data
@@ -21,10 +21,10 @@ class Api::V1::Accounts::Captain::CopilotRunsController < Api::V1::Accounts::Bas
     @action_run = CopilotRun::Action.find_by!(id: params[:id], account: Current.account, user: Current.user)
   end
 
-  # Turning the feature off rejects a change awaiting approval instead of applying it.
+  # Without Captain, a change awaiting approval is rejected instead of applied.
   def render_disabled
-    @action_run.reject(I18n.t('captain.copilot_workflows_disabled'))
-    render_already_decided(I18n.t('captain.copilot_workflows_disabled'))
+    @action_run.reject(I18n.t('captain.copilot_disabled'))
+    render_already_decided(I18n.t('captain.copilot_disabled'))
   end
 
   # The saved card lets the panel show what actually happened, e.g. that the change expired.

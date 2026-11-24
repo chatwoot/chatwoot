@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Uvezi kontakte uz pomoć CSV datoteke.",
-          "DOWNLOAD_LABEL": "Preuzmi csv primer.",
-          "LABEL": "CSV datoteka:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Promeni",
-          "CANCEL": "Otkaži",
-          "IMPORT": "Uvoz",
-          "SUCCESS_MESSAGE": "Bićete obavešteni putem e-poruke kada se uvoz završi.",
-          "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Export",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-          "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
-        },
         "SORT_BY": {
           "LABEL": "Sortirajte prema",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Filtriraj kontakte",
       "EDIT_SEGMENT": "Edit segment",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"

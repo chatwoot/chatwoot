@@ -44,7 +44,7 @@ class Team < ApplicationRecord
     created_members = team_members.create(team_members_to_create)
     added_users = created_members.filter_map(&:user)
 
-    update_account_cache
+    update_account_cache if created_members.any?(&:persisted?)
     added_users
   end
 
@@ -52,8 +52,8 @@ class Team < ApplicationRecord
   # @param user_ids [Array<Integer>] Array of user IDs to remove
   # @return [void]
   def remove_members(user_ids)
-    team_members.where(user_id: user_ids).destroy_all
-    update_account_cache
+    removed_members = team_members.where(user_id: user_ids).destroy_all
+    update_account_cache if removed_members.any?
   end
 
   def messages

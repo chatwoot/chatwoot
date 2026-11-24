@@ -87,6 +87,12 @@
     "ADD": {
       "TITLE": "Add SLA",
       "DESC": "Friendly promises for great service!",
+      "SUCCESS": {
+        "TITLE": "SLA je izrađen",
+        "DESC": "SLA pravila primjenjuju se na razgovore putem automatizacija. Izradite automatizaciju kako biste počeli pratiti ovaj SLA.",
+        "LATER": "Kasnije",
+        "CREATE_AUTOMATION": "Izradi automatizaciju"
+      },
       "API": {
         "SUCCESS_MESSAGE": "SLA added successfully",
         "ERROR_MESSAGE": "There was an error, please try again"

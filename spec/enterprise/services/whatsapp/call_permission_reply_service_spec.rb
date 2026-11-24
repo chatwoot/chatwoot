@@ -117,6 +117,40 @@ describe Whatsapp::CallPermissionReplyService do
     )
   end
 
+  describe 'the permission saved on the contact' do
+    def callback_reply(response:, context: nil, **reply)
+      message = { from: '15550001111', interactive: { type: 'call_permission_reply',
+                                                      call_permission_reply: { response: response, response_source: 'automatic', **reply } } }
+      message[:context] = { id: context } if context
+      { entry: [{ changes: [{ value: { messages: [message] } }] }] }
+    end
+
+    let(:saved_permission) { contact.reload.additional_attributes.dig('whatsapp_call_permissions', inbox.id.to_s) }
+
+    it 'saves the temporary permission WhatsApp got after the customer called, until it expires' do
+      expires_at = 7.days.from_now.change(usec: 0)
+
+      described_class.new(inbox: inbox, params: callback_reply(response: 'accept', context: 'wacid.missed_call',
+                                                               is_permanent: false, expiration_timestamp: expires_at.to_i.to_s)).perform
+
+      expect(saved_permission).to eq('permanent' => false, 'expires_at' => expires_at.iso8601)
+    end
+
+    it 'saves a permanent permission without an expiry' do
+      described_class.new(inbox: inbox, params: callback_reply(response: 'accept', is_permanent: true)).perform
+
+      expect(saved_permission).to eq('permanent' => true, 'expires_at' => nil)
+    end
+
+    it 'drops the permission when WhatsApp revokes it, keeping other inboxes' do
+      contact.update!(additional_attributes: { 'whatsapp_call_permissions' => { inbox.id.to_s => { 'permanent' => true }, '999' => {} } })
+
+      described_class.new(inbox: inbox, params: callback_reply(response: 'reject', is_permanent: false)).perform
+
+      expect(contact.reload.additional_attributes['whatsapp_call_permissions']).to eq('999' => {})
+    end
+  end
+
   it 'is a no-op when the reply has no context.id' do
     allow(ActionCable.server).to receive(:broadcast)
 

@@ -81,6 +81,28 @@ RSpec.describe Cloudflare::CreateCustomHostnameService do
         end
       end
 
+      context 'when a deleted record for the hostname blocks the create' do
+        it 'removes the deleted record and creates the hostname again' do
+          base = 'https://api.cloudflare.com/client/v4/zones/test-zone-id/custom_hostnames'
+          duplicate = { 'errors' => [{ 'code' => 1406, 'message' => 'Duplicate custom hostname found.' }] }
+          created = { 'result' => { 'id' => 'new-id', 'ssl' => { 'status' => 'initializing' } } }
+
+          stub_request(:post, base)
+            .to_return({ status: 409, body: duplicate.to_json, headers: { 'Content-Type' => 'application/json' } },
+                       { status: 200, body: created.to_json, headers: { 'Content-Type' => 'application/json' } })
+          stub_request(:get, "#{base}?hostname=test.example.com")
+            .to_return(status: 200, body: { 'result' => [{ 'id' => 'old-id', 'status' => 'deleted' }] }.to_json,
+                       headers: { 'Content-Type' => 'application/json' })
+          delete_request = stub_request(:delete, "#{base}/old-id").to_return(status: 200, body: {}.to_json)
+
+          result = described_class.new(portal: portal).perform
+
+          expect(delete_request).to have_been_requested
+          expect(result).to eq(data: created['result'])
+          expect(portal.reload.ssl_settings['cf_status']).to eq('initializing')
+        end
+      end
+
       context 'when API request succeeds and data is returned' do
         it 'updates portal SSL settings and returns success' do
           service = described_class.new(portal: portal)

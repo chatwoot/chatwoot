@@ -1,4 +1,4 @@
-import { h, nextTick } from 'vue';
+import { h, nextTick, ref } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -10,6 +10,7 @@ import AutomationWaitCondition from './AutomationWaitCondition.vue';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
+    locale: ref('en'),
     t: (key, { count } = {}) => (count === undefined ? key : `${key}:${count}`),
   }),
 }));

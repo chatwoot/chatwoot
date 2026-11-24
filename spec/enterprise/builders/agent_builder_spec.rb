@@ -72,6 +72,55 @@ RSpec.describe AgentBuilder do
       end
     end
 
+    context 'when user already belongs to another account' do
+      let(:other_account) { create(:account) }
+      let!(:existing_user) { create(:user, email: email, account: other_account) }
+
+      before do
+        account.enable_features!('saml')
+        other_account.enable_features!('saml')
+        create(:account_user, account: other_account, user: inviter, role: :administrator)
+      end
+
+      it 'adds the user when the other account trusts the same identity provider' do
+        create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+
+        builder.perform
+
+        expect(existing_user.reload.accounts).to include(account)
+        expect(existing_user.provider).to eq('saml')
+      end
+
+      it 'refuses the user when SAML is disabled for this account' do
+        create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+        account.disable_features!('saml')
+
+        expect { builder.perform }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(existing_user.reload.provider).to eq('email')
+      end
+
+      it 'refuses the user when the other account does not trust the same identity provider' do
+        expect { builder.perform }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(existing_user.reload.accounts).not_to include(account)
+      end
+
+      it 'refuses the user when the inviter does not administer the other account' do
+        create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+        inviter.account_users.find_by(account: other_account).destroy!
+
+        expect { builder.perform }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(existing_user.reload.accounts).not_to include(account)
+      end
+
+      it 'refuses the user when the inviter is only an agent in the other account' do
+        create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+        inviter.account_users.find_by(account: other_account).update!(role: :agent)
+
+        expect { builder.perform }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(existing_user.reload.accounts).not_to include(account)
+      end
+    end
+
     context 'when user already exists with SAML provider' do
       let!(:existing_user) { create(:user, email: email, provider: 'saml') }
 

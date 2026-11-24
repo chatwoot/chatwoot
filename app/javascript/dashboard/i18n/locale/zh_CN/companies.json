@@ -46,13 +46,13 @@
       },
       "HEADER": {
         "EDIT": "编辑",
-        "MORE": "Show more",
-        "LESS": "Show less",
+        "MORE": "显示更多",
+        "LESS": "收起",
         "OPEN_COUNT": "{count} open | {count} open",
         "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
       },
       "FACTS": {
-        "INDUSTRY": "Industry",
+        "INDUSTRY": "行业",
         "SIZE": "Employees",
         "LOCATION": "Based in",
         "ADDED": "Added",

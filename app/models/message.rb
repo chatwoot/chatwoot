@@ -44,6 +44,7 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+  BOT_SENDER_TYPES = %w[AgentBot Captain::Assistant].freeze
 
   TEMPLATE_PARAMS_SCHEMA = {
     'type': 'object',
@@ -109,6 +110,7 @@ class Message < ApplicationRecord
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
   # [:data] : Used for structured content types such as voice_call
+  # [:email_quote_appended] : Set by the email reply box to say whether it appended the earlier thread to the reply
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
                                          :translations, :translation_failed, :translation_provider, :source_language,
@@ -123,6 +125,9 @@ class Message < ApplicationRecord
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   scope :not_forwarded, -> { where("(messages.content_attributes #>> '{}')::jsonb -> 'forwarded_message_id' IS NULL") }
   scope :voice_calls, -> { where(content_type: :voice_call) }
+  scope :without_missed_call_messages, lambda {
+    where(Arel::Nodes::InfixOperation.new('->>', arel_table[:additional_attributes], Arel::Nodes.build_quoted('missed_call_message')).eq(nil))
+  }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -236,6 +241,22 @@ class Message < ApplicationRecord
     content_attributes['forwarded_message_id'].present?
   end
 
+  # The email reply box appends the earlier thread after the reply: a "> On <date> <sender> wrote:" header, then only "> " lines.
+  # It sets email_quote_appended to false when it added no thread, so a quote the agent wrote in that shape is kept.
+  # Replies without the key (older ones and API messages) are matched by shape alone.
+  # Customer emails can reply between quoted lines, so they are never matched.
+  def email_quoted_thread
+    return '' unless outgoing? && conversation.inbox.email?
+    return '' if content_attributes['email_quote_appended'] == false
+
+    content.to_s[/^> On [^\n]* wrote:(?:\n>[^\n]*)*\s*\z/].to_s
+  end
+
+  def content_without_email_quoted_thread
+    quoted_thread = email_quoted_thread
+    quoted_thread.blank? ? content : content.delete_suffix(quoted_thread).strip
+  end
+
   def auto_reply_email?
     return false unless incoming_email? || inbox.email?
 
@@ -246,7 +267,7 @@ class Message < ApplicationRecord
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
     return false if conversation.messages.outgoing
-                                .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
+                                .where.not(sender_type: BOT_SENDER_TYPES)
                                 .where.not(private: true)
                                 .not_forwarded
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
@@ -396,7 +417,7 @@ class Message < ApplicationRecord
 
   def bot_response?
     # Check if this is a response from AgentBot or Captain::Assistant
-    outgoing? && sender_type.in?(['AgentBot', 'Captain::Assistant'])
+    outgoing? && sender_type.in?(BOT_SENDER_TYPES)
   end
 
   def dispatch_create_events

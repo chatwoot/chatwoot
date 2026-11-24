@@ -43,6 +43,7 @@ RSpec.describe Voice::StatusUpdateService do
   end
 
   it 'updates the Call and touches the linked message on status transition' do
+    call.update!(status: 'in_progress', started_at: 1.minute.ago)
     previous_updated_at = message.updated_at
     travel 1.second
 
@@ -57,6 +58,13 @@ RSpec.describe Voice::StatusUpdateService do
 
     expect(call.status).to eq('completed')
     expect(message.updated_at).to be > previous_updated_at
+  end
+
+  it 'records a caller who hangs up during the ring as a missed call' do
+    described_class.new(account: account, call_sid: call_sid, call_status: 'completed').perform
+
+    expect(call.reload).to have_attributes(status: 'no_answer', missed?: true)
+    expect(call.provider_status).to eq('completed')
   end
 
   it 'normalizes busy to no_answer on the Call' do

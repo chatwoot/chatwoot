@@ -205,6 +205,21 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
       end
 
+      it 'exposes reconnect for a Unified Login inbox after its finite token expires' do
+        channel = create(:channel_instagram, account: account, auth_type: 'unified_login', expires_at: 1.hour.from_now)
+        headers = admin.create_new_auth_token
+        url = "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}"
+        get url, headers: headers, as: :json
+        expect(response.parsed_body['reauthorization_required']).to be(false)
+
+        travel_to(2.hours.from_now) do
+          channel.access_token
+          get url, headers: headers, as: :json
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['reauthorization_required']).to be(true)
+        end
+      end
+
       it 'returns reauthorization_required for embedded signup whatsapp channel when reauth required' do
         whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
                                                      validate_provider_config: false)
@@ -974,6 +989,32 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(twilio_sms_inbox.reload.channel.account_sid).to eq('account_sid')
         expect(twilio_sms_inbox.reload.channel.auth_token).to eq('new_auth_token')
+      end
+
+      it 'updates bandwidth sms callback authentication when administrator' do
+        sms_inbox = create(:channel_sms, account: account).inbox
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{sms_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { channel: { callback_auth_enforced: false } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(sms_inbox.channel.reload.callback_auth_enforced).to be(false)
+        expect(response.parsed_body['callback_auth_password']).to eq(sms_inbox.channel.secret)
+      end
+
+      it 'resets the bandwidth sms callback password when administrator' do
+        sms_inbox = create(:channel_sms, account: account).inbox
+        old_secret = sms_inbox.channel.secret
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{sms_inbox.id}/reset_secret",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(sms_inbox.channel.reload.secret).not_to eq(old_secret)
+        expect(response.parsed_body['callback_auth_password']).to eq(sms_inbox.channel.secret)
       end
 
       it 'updates email inbox with imap when administrator' do

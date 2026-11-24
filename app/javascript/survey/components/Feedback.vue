@@ -56,7 +56,7 @@ export default {
       class="my-5"
       :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')"
     />
-    <div class="flex items-center float-right font-medium">
+    <div class="flex items-center ltr:float-right rtl:float-left font-medium">
       <CustomButton :disabled="isSubmitDisabled" @click="onClick">
         <Spinner v-if="isUpdating" class="p-0" />
         {{ $t('SURVEY.FEEDBACK.BUTTON_TEXT') }}

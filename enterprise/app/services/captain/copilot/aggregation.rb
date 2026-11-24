@@ -21,7 +21,6 @@ class Captain::Copilot::Aggregation
                  'minimum' => Arel::Nodes::Min, 'maximum' => Arel::Nodes::Max }.freeze
   # Enough for every weekday and hour pair.
   MAX_GROUPS = 200
-  MEDIAN_ROWS = 100_000
 
   # A date field has a column and a part instead of an expression. names is the model the values are IDs of, and join
   # is set when the labels must be joined.
@@ -57,7 +56,7 @@ class Captain::Copilot::Aggregation
 
     value = value_expression(measure, column, duration)
     results = measure == 'median' ? medians(fields, value) : calculate(fields, measure, value)
-    { measure: measure, of: of(column, duration), unit: duration ? 'hours' : nil, **formatted(results, fields, duration),
+    { measure: measure, of: of(column, duration), unit: duration ? 'hours' : nil, **formatted(results, fields, duration, measure),
       without_date: without_date(fields, measure) }.compact
   end
 
@@ -149,49 +148,12 @@ class Captain::Copilot::Aggregation
     fields.any?(&:join) ? @relation.left_joins(:labels) : @relation
   end
 
-  # Medians are computed in Ruby, because ActiveRecord has no median.
   def medians(fields, value)
-    rows = median_rows(fields, value)
-    return median(rows.map(&:last)) if fields.empty?
-
-    in_order(rows.group_by { |row| median_key(row, fields) }.transform_values { |group| median(group.map(&:last)) }, fields)
-  end
-
-  # Whole numbers, such as hours, are padded so they sort as text with the other keys.
-  def in_order(medians, fields)
-    return medians.sort_by { |_, median| -median.to_f }.to_h unless fields.any?(&:date?)
-
-    medians.sort_by { |key, _| Array(key).map { |part| part.is_a?(Integer) ? format('%012d', part) : part.to_s } }.to_h
-  end
-
-  def median_rows(fields, value)
-    rows = joined(fields).where(value.not_eq(nil)).limit(MEDIAN_ROWS + 1).pluck(*fields.map(&:selected), value)
-    raise ArgumentError, "A median reads at most #{MEDIAN_ROWS} records. Narrow the filters." if rows.size > MEDIAN_ROWS
-
-    rows.map { |row| Array(row) }
-  end
-
-  def median_key(row, fields)
-    keys = fields.each_with_index.map { |field, index| field.date? && row[index] ? date_part(row[index], field.part) : row[index] }
-    fields.one? ? keys.first : keys
-  end
-
-  def date_part(time, part)
-    time = time.in_time_zone(@time_zone)
-    { 'hour_of_day' => time.hour, 'day_of_week' => time.wday, 'day' => time.to_date, 'week' => time.to_date.beginning_of_week(:sunday),
-      'month' => time.to_date.beginning_of_month, 'year' => time.to_date.beginning_of_year }.fetch(part)
-  end
-
-  def median(values)
-    return if values.empty?
-
-    sorted = values.sort
-    middle = sorted.size / 2
-    sorted.size.odd? ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2.0
+    Captain::Copilot::Aggregation::Medians.new(joined(fields), time_zone: @time_zone).call(fields, value)
   end
 
   # One field reports its group with no value as without_value, taken out before the largest groups are cut.
-  def formatted(results, fields, duration)
+  def formatted(results, fields, duration, measure)
     return { value: display_value(results, duration) } if fields.empty?
 
     check_periods(results, fields)
@@ -199,8 +161,19 @@ class Captain::Copilot::Aggregation
     rows = labeled(results.first(MAX_GROUPS).to_h, fields).map do |labels, value|
       { group: fields.one? ? labels.first : labels, value: display_value(value, duration) }
     end
-    cut = "Showing the #{MAX_GROUPS} largest groups; there are more." if results.size > MAX_GROUPS
+    cut = "Showing the #{MAX_GROUPS} largest of #{group_count(results, fields, measure)} groups." if results.size > MAX_GROUPS
     { groups: rows, without_value: display_value(without, duration), cut: cut }
+  end
+
+  # The query keeps only the largest groups, so the number of groups is counted apart. It is the number of distinct
+  # values, such as the conversations a set of messages belongs to. Medians already hold every group.
+  def group_count(results, fields, measure)
+    return results.size if measure == 'median'
+
+    expressions = fields.map(&:expression)
+    groups = joined(fields).unscope(:select, :order)
+    groups = groups.where(expressions.first.not_eq(nil)) if fields.one?
+    @model.unscoped.from(groups.group(expressions).select(expressions).arel.as('groups')).count
   end
 
   def check_periods(results, fields)

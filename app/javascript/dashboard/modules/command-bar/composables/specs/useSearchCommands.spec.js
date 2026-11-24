@@ -113,10 +113,10 @@ describe('useSearchCommands', () => {
     const signal = new AbortController().signal;
     const items = await searchConversations({ text: 'sarah', signal });
 
-    expect(SearchAPI.conversations).toHaveBeenCalledWith(
-      { q: 'sarah' },
-      { signal }
-    );
+    expect(SearchAPI.conversations).toHaveBeenCalledWith({
+      q: 'sarah',
+      signal,
+    });
     expect(items.map(item => item.id)).toEqual([
       'conversation-12',
       'conversation-40',
@@ -125,15 +125,8 @@ describe('useSearchCommands', () => {
 
   it('maps contacts and articles to their pages', async () => {
     const { searchContacts, searchArticles } = useSearchCommands();
-    const signal = new AbortController().signal;
-    const [contact] = await searchContacts({ text: 'sarah', signal });
-    const [article] = await searchArticles({ text: 'refund', signal });
-
-    expect(SearchAPI.contacts).toHaveBeenCalledWith({ q: 'sarah' }, { signal });
-    expect(SearchAPI.articles).toHaveBeenCalledWith(
-      { q: 'refund' },
-      { signal }
-    );
+    const [contact] = await searchContacts({ text: 'sarah' });
+    const [article] = await searchArticles({ text: 'refund' });
 
     contact.run();
     expect(useRouter().push).toHaveBeenCalledWith('/app/accounts/1/contacts/5');

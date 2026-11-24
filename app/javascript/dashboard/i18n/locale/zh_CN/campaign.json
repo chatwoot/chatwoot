@@ -164,7 +164,7 @@
         "SCHEDULE": "Schedule campaign",
         "SCHEDULED_FOR": "Scheduled for {date}",
         "RESCHEDULE": "Reschedule",
-        "DISCARD": "Discard changes",
+        "DISCARD": "放弃修改",
         "SAVE": "保存更改",
         "BASIC_SETTINGS": {
           "TITLE": "基本设置",
@@ -204,12 +204,12 @@
           },
           "EMPTY_STATE": "Select an inbox to load its approved templates",
           "NO_TEMPLATES": "This inbox has no approved templates that can be used in a campaign",
-          "HEADER_LABEL": "Header",
+          "HEADER_LABEL": "页头",
           "INVALID_MEDIA_URL": "Enter a valid HTTP or HTTPS URL.",
           "HEADER_PLACEHOLDER": "Enter {type} header",
           "DOCUMENT_NAME_PLACEHOLDER": "Enter document name",
-          "BODY_LABEL": "Body",
-          "BUTTONS_LABEL": "Buttons",
+          "BODY_LABEL": "正文",
+          "BUTTONS_LABEL": "按钮",
           "VARIABLE_PLACEHOLDER": "Enter variable {variable}",
           "BUTTON_PLACEHOLDER": "Enter parameter for button {index}"
         },
@@ -225,7 +225,7 @@
           "OPEN": "Open in WhatsApp Manager"
         },
         "PREVIEW": {
-          "TITLE": "Message preview",
+          "TITLE": "消息预览",
           "EMPTY_STATE": "Select a template to preview the message.",
           "FOOTNOTE": "This may vary slightly per OS. Perform a live test to confirm. Default values for the highlighted variables will be stored upon saving."
         },
@@ -298,7 +298,7 @@
           }
         },
         "STATUS": {
-          "QUEUED": "Queued",
+          "QUEUED": "已排队",
           "SENT": "Awaiting delivery update",
           "DELIVERED": "Delivered",
           "READ": "已读",
@@ -330,7 +330,7 @@
           "AVAILABLE_ON": "Campaign analytics is available on Business and Enterprise plans.",
           "UPGRADE_PROMPT": "Upgrade to track campaign delivery, read status, and failed messages.",
           "UPGRADE_NOW": "View plans",
-          "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+          "CANCEL_ANYTIME": "您可以随时更改或取消方案。"
         },
         "ENTERPRISE_PAYWALL": {
           "AVAILABLE_ON": "Campaign analytics is available on paid self-hosted plans.",

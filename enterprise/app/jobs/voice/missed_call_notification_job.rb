@@ -1,4 +1,3 @@
-# A missed call is recorded for the agents it rang, once, as its own notification type
 class Voice::MissedCallNotificationJob < ApplicationJob
   queue_as :default
 
@@ -21,8 +20,6 @@ class Voice::MissedCallNotificationJob < ApplicationJob
 
   private
 
-  # The agents the ring went to, as recorded when it was sent; a reassignment since then
-  # does not change who missed the call. A call with none recorded rang nobody's phone.
   def recipients(call)
     call.account.users.where(id: call.ring_state.fetch('ring_recipient_ids', []))
   end
