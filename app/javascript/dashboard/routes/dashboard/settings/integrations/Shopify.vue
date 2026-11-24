@@ -16,6 +16,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Integration from './Integration.vue';
 import ShopifyCustomApp from './ShopifyCustomApp.vue';
+import ShopifyStorefrontWidget from './ShopifyStorefrontWidget.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -66,6 +67,14 @@ const hook = computed(() => {
   const [firstHook] = hooks;
   return firstHook || {};
 });
+
+const canSetUpStorefront = computed(
+  () =>
+    integration.value.enabled &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY) &&
+    hook.value.status &&
+    !hook.value.custom_app
+);
 
 const storeDomain = computed(() => hook.value.reference_id || '');
 
@@ -182,6 +191,11 @@ onMounted(() => {
             />
           </template>
         </Integration>
+
+        <ShopifyStorefrontWidget
+          v-if="canSetUpStorefront"
+          :store-domain="storeDomain"
+        />
 
         <ShopifyCustomApp
           v-if="

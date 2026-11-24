@@ -79,6 +79,21 @@
         "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
         "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
       },
+      "STOREFRONT_WIDGET": {
+        "TITLE": "Storefront chat",
+        "DESCRIPTION": "Choose where messages from your Shopify storefront should go.",
+        "INBOX_LABEL": "Website inbox",
+        "SELECT_INBOX": "Select an inbox",
+        "CREATE_INBOX": "Create a Website inbox",
+        "SAVE": "Save inbox",
+        "OPEN_THEME_EDITOR": "Open Shopify theme editor",
+        "ENABLE_IN_SHOPIFY": "In Shopify, turn on Chatwoot chat under App embeds and click Save. Open your storefront to check that the chat bubble appears.",
+        "RECONNECT": "Reconnect Shopify",
+        "RECONNECT_HELP": "Shopify rejected the saved connection. Reconnect your store to continue setting up storefront chat.",
+        "LOAD_ERROR": "Could not load your storefront chat settings.",
+        "SAVE_ERROR": "Could not save the inbox for storefront chat.",
+        "RETRY": "Try again"
+      },
       "CUSTOM_APP": {
         "TITLE": "Connect using your own Shopify app",
         "ADVANCED": "Advanced setup",

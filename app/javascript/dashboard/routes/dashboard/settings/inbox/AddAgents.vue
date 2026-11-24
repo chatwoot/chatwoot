@@ -73,6 +73,11 @@ export default {
           inboxId,
           agentList: this.selectedAgentIds,
         });
+        if (this.$route.query.from === 'shopify') {
+          router.replace({ name: 'settings_integrations_shopify' });
+          return;
+        }
+
         router.replace({
           name: 'settings_inbox_finish',
           params: {
@@ -82,8 +87,9 @@ export default {
         });
       } catch (error) {
         useAlert(error.message);
+      } finally {
+        this.isCreating = false;
       }
-      this.isCreating = false;
     },
   },
 };

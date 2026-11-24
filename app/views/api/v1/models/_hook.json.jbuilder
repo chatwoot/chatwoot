@@ -9,6 +9,7 @@ if Current.account_user&.administrator?
   visible_properties = resource.app&.visible_properties || []
   settings = (resource.settings || {}).select { |key, _| visible_properties.include?(key.to_s) }
 
+  json.custom_app resource.settings&.fetch('custom_app_id', nil).present? if resource.shopify?
   json.settings settings
   json.reference_id resource.reference_id
 end
