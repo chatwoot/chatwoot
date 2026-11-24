@@ -61,6 +61,17 @@ describe('DurationInput', () => {
     expect(input.element.value).toBe('100');
   });
 
+  it('keeps a saved value outside the range when the field is left without editing', async () => {
+    const wrapper = mountDurationInput({ initialValue: 125 });
+    const input = wrapper.get('input');
+
+    await input.trigger('focus');
+    await input.trigger('blur');
+    await input.trigger('keydown', { key: 'Enter' });
+
+    expect(wrapper.get('[data-testid="duration"]').text()).toBe('125');
+  });
+
   it('normalizes the value before Enter submits the form', async () => {
     const wrapper = mountDurationInput();
     const input = wrapper.get('input');

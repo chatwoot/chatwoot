@@ -13,16 +13,11 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  isWorkflowsEnabled: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits(['useSuggestion']);
 const route = useRoute();
 const { prompts, selectPrompt } = useCopilotPrompts({
-  isWorkflowsEnabled: () => props.isWorkflowsEnabled,
   canSuggestReply: () => props.canSuggestReply,
 });
 

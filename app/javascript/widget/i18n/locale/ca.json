@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Articles populars",
     "VIEW_ALL_ARTICLES": "Veure tots els articles",
+    "IFRAME_ERROR": "L'URL és buit o no és vàlid. No es pot mostrar el contingut.",
     "IFRAME_LOAD_ERROR": "S'ha produït un error en carregar l'article, actualitza la pàgina i torna-ho a provar."
   },
   "ATTACHMENTS": {

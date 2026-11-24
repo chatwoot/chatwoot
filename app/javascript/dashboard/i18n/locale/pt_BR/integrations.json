@@ -54,7 +54,7 @@
       "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Excluir Integração com o Shopify",
-        "MESSAGE": "Tem certeza que você deseja excluir a integração com o Shopify?"
+        "MESSAGE": "Tem certeza de que deseja excluir a integração com a Shopify? As configurações e credenciais salvas do aplicativo personalizado deste espaço de trabalho também serão excluídas."
       },
       "STORE_URL": {
         "TITLE": "Conectar Loja Shopify",
@@ -78,6 +78,43 @@
         "TITLE": "Escolha um espaço de trabalho",
         "DESCRIPTION": "Selecione o espaço de trabalho para conectar à sua loja da Shopify. Para restaurar uma conexão anterior, escolha o espaço de trabalho original.",
         "UNAVAILABLE": "Nenhum espaço de trabalho elegível ou instalação válida foi encontrado. Reinicie a instalação ou entre como administrador do espaço de trabalho."
+      },
+      "CUSTOM_APP": {
+        "TITLE": "Conectar usando seu próprio aplicativo da Shopify",
+        "ADVANCED": "Configuração avançada",
+        "DESCRIPTION": "Conecte sua loja para ver os pedidos dos clientes junto às conversas usando um aplicativo criado por você na Shopify.",
+        "BEFORE_START": "Você precisa ter acesso de administrador a este espaço de trabalho e permissão para criar e instalar aplicativos na sua loja da Shopify. A integração conecta os dados de pedidos; ela não instala um widget de chat ao vivo nem altera sua assinatura.",
+        "CREATE_TITLE": "1. Crie seu aplicativo na Shopify",
+        "CREATE_HELP": "Abra Shopify Dev Dashboard → Apps → Create app → Start from Dev Dashboard. Dê um nome ao aplicativo e abra Settings → Credentials. Mantenha a Shopify aberta enquanto conclui a configuração.",
+        "OPEN_SHOPIFY": "Abrir o Shopify Dev Dashboard ↗",
+        "DISTRIBUTION_HELP": "Crie e publique uma versão inicial do aplicativo com a incorporação desativada. Se a Shopify exigir um App URL, use https://shopify.dev/apps/default-app-home temporariamente. Selecione Custom distribution, restrinja a distribuição à sua loja e copie o link de instalação gerado. Você substituirá o App URL na etapa 3.",
+        "DETAILS_TITLE": "2. Copie os dados do aplicativo aqui",
+        "STORE": "Domínio da loja da Shopify",
+        "STORE_HELP": "Use o endereço permanente .myshopify.com, sem https:// ou caminho. Você encontra esse endereço nas configurações da sua loja da Shopify.",
+        "CLIENT_ID": "ID do cliente",
+        "CREDENTIALS_HELP": "Copie o ID do cliente na seção Settings → Credentials do seu aplicativo na Shopify.",
+        "SECRET": "Segredo do cliente",
+        "SECRET_HELP": "Copie o segredo do cliente da mesma seção Credentials. Ele será armazenado de forma criptografada e não será exibido novamente.",
+        "SECRET_SAVED": "Já existe um segredo salvo. Deixe o campo em branco para mantê-lo ou cole um novo segredo da Shopify.",
+        "INSTALL_URL": "Link de instalação da Shopify",
+        "INSTALL_HELP": "Cole o link de instalação completo da página Custom distribution do aplicativo. Ele deve corresponder a este aplicativo e a esta loja. Para atualizar os dados salvos, cole o link de instalação novamente.",
+        "SAVE": "Salvar e obter URLs de configuração",
+        "UPDATE": "Atualizar dados do aplicativo",
+        "CONFIGURE_TITLE": "3. Conclua a configuração na Shopify",
+        "URL_HELP": "Na versão do seu aplicativo da Shopify, defina App URL e Allowed redirect URL com a URL abaixo. Desative a incorporação do aplicativo no admin da Shopify.",
+        "SCOPES_HELP": "Adicione estes escopos de acesso à API Admin à versão do aplicativo:",
+        "WEBHOOK_HELP": "Configure app/uninstalled e as assinaturas de webhook de privacidade aplicáveis para enviar eventos a esta URL de webhook:",
+        "RELEASE_HELP": "Salve e publique a versão do aplicativo na Shopify. Confira se ela está ativa e inclui as URLs e permissões acima. Depois, conecte a loja e aprove o acesso na Shopify.",
+        "CONNECT": "Conectar loja na Shopify",
+        "VERIFY_HELP": "Após a aprovação, volte aqui e abra uma conversa cujo e-mail corresponda ao de um cliente da Shopify para consultar os pedidos.",
+        "DOCUMENTATION": "Ler o guia de criação de aplicativos da Shopify ↗",
+        "LOAD_ERROR": "Não foi possível carregar a configuração do aplicativo. Atualize a página antes de continuar.",
+        "SAVE_ERROR": "Não foi possível salvar os dados do aplicativo. Confira o domínio da loja, as credenciais e o link de instalação gerado pela Shopify. O espaço de trabalho deve usar um sistema de cobrança externo à Shopify.",
+        "CONNECT_ERROR": "Não foi possível conectar o aplicativo. Confira se a versão está ativa e se o link de instalação está atualizado. Depois, tente novamente.",
+        "EDIT": "Editar dados do aplicativo",
+        "RESET": "Redefinir configuração",
+        "RESET_ERROR": "Não foi possível redefinir os dados do aplicativo. Por favor, tente novamente.",
+        "DETAILS_SAVED": "Dados do aplicativo salvos. Conclua as configurações da Shopify abaixo para conectar a loja."
       }
     },
     "HEADER": "Integrações",
@@ -508,7 +545,6 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
     "HEADER_KNOW_MORE": "Saiba mais",
     "OVERVIEW": {
       "HEADER": "Visão geral",
@@ -658,7 +694,7 @@
           "UNSUPPORTED_REQUEST": "Solicitação não suportada",
           "POLICY_RESTRICTION": "Restrição de política",
           "TOOL_FAILURE": "Falha na ferramenta",
-          "PENDING_CLARIFICATION": "Aguardando esclarecimento do cliente",
+          "PENDING_CLARIFICATION": "Não resolvida após inatividade",
           "PERCENTAGE": "({value}%)",
           "USAGE_LIMIT": "Limite de uso",
           "UNCLASSIFIED": "Não classificado"
@@ -708,17 +744,23 @@
     },
     "COPILOT": {
       "TITLE": "Copilot",
+      "AVATAR_LABEL": "Captain",
       "TRY_THESE_PROMPTS": "Experimente estes comandos",
+      "MORE_PROMPTS": "Mais perguntas",
+      "DISCLAIMER": "O Copilot pode cometer erros. Confira as informações importantes.",
       "PANEL_TITLE": "Comece a usar o Copilot",
       "KICK_OFF_MESSAGE": "Precisa de um resumo rápido, quer verificar conversas passadas ou redigir uma resposta melhor? O Copilot está aqui para acelerar as coisas.",
       "SEND_MESSAGE": "Enviar mensagem...",
+      "STOP": "Parar o Copilot",
       "EMPTY_MESSAGE": "Houve um erro ao gerar a resposta. Por favor, tente novamente.",
-      "LOADER": "O Captain está pensando",
+      "LOADER": "O Copilot está pensando",
       "YOU": "Você",
       "USE": "Use isto",
       "RESET": "Reiniciar",
       "NEW_CHAT": "Novo chat",
       "HISTORY": "Chats anteriores",
+      "EXPAND": "Expandir",
+      "SHRINK": "Reduzir",
       "NO_HISTORY": "Seus chats anteriores com o Copilot aparecerão aqui.",
       "LOAD_MORE": "Carregar mais chats",
       "LOADING_CHAT": "Carregando chat...",
@@ -734,18 +776,130 @@
           "LABEL": "Sugerir uma resposta",
           "CONTENT": "Analise a pergunta do cliente e elabore uma resposta que responda efetivamente às suas preocupações ou perguntas. Certifique-se de que a resposta seja clara, concisa e forneça informações úteis."
         },
-        "RATE": {
-          "LABEL": "Avaliar esta conversa",
-          "CONTENT": "Revise a conversa para ver o quanto ela atende às necessidades do cliente. Compartilhe uma classificação de 0 a 5 com base em tom, clareza e eficácia."
+        "WAITING_ON_ME": {
+          "LABEL": "Quais das minhas conversas estão aguardando minha resposta?",
+          "CONTENT": "Quais das minhas conversas abertas precisam da minha atenção? Para cada uma, diga o que o cliente precisa e se está aguardando minha resposta. Comece pelas mais antigas. Se nenhuma estiver atribuída a mim, informe isso e liste as conversas abertas que estão sem responsável."
         },
-        "HIGH_PRIORITY": {
-          "LABEL": "Conversas de alta prioridade",
-          "CONTENT": "Dê um resumo de todas as conversas abertas com prioridade alta. Incluir o ID da conversa, nome do cliente (se disponível), o conteúdo da última mensagem e o agente atribuído. O grupo por status, se relevante."
+        "RECENT_CONVERSATIONS": {
+          "LABEL": "O que aconteceu nas 10 conversas mais recentes?",
+          "CONTENT": "Resuma as 10 conversas mais recentes: o que cada cliente pediu e como está o atendimento."
         },
-        "LIST_CONTACTS": {
-          "LABEL": "Listar contatos",
-          "CONTENT": "Mostre-me a lista dos 10 contatos mais frequentes. Inclua nome, e-mail ou número de telefone (se disponível), visto por última vez, etiquetas (se houver)."
+        "TEAM_WORKLOAD": {
+          "LABEL": "Quantas conversas abertas cada agente tem agora?",
+          "CONTENT": "Quantas conversas abertas cada agente tem? Inclua quantas conversas abertas estão sem responsável."
+        },
+        "CUSTOMER_HISTORY": {
+          "LABEL": "Sobre o que este cliente já entrou em contato com a gente?",
+          "CONTENT": "Encontre as conversas anteriores deste cliente com a gente e resuma por que ele entrou em contato em cada uma e como o atendimento terminou."
+        },
+        "CAN_CLOSE": {
+          "LABEL": "Quais das minhas conversas abertas já podem ser resolvidas?",
+          "CONTENT": "Revise minhas conversas abertas e encontre aquelas em que a dúvida do cliente foi respondida e não há pendências. Dê um motivo de uma linha para cada uma e peça minha confirmação antes de resolver qualquer conversa."
+        },
+        "FOLLOW_UPS": {
+          "LABEL": "Prometi a algum cliente um retorno que ainda não enviei?",
+          "CONTENT": "Revise minhas conversas dos últimos 14 dias e encontre aquelas em que prometi uma atualização ou um retorno ao cliente e ainda não enviei. Inclua o link de cada uma e diga o que eu prometi."
+        },
+        "UPSET_CUSTOMERS": {
+          "LABEL": "Quais dos meus clientes parecem insatisfeitos e por quê?",
+          "CONTENT": "Revise minhas 20 conversas mais recentes e identifique os clientes que parecem frustrados ou insatisfeitos. Inclua o link de cada conversa e explique o que deu errado."
+        },
+        "COMPARE_PERIODS": {
+          "LABEL": "Como este mês se compara ao mês passado?",
+          "CONTENT": "Compare os últimos 30 dias com os 30 dias anteriores em número de conversas, resoluções, tempo médio de primeira resposta e tempo médio de resolução. Destaque as maiores mudanças."
+        },
+        "SLOWEST_REPLIES": {
+          "LABEL": "Quais agentes e caixas de entrada demoram mais para responder?",
+          "CONTENT": "Nos últimos 30 dias, quais agentes e caixas de entrada tiveram o maior tempo médio de primeira resposta? Mostre os cinco mais lentos de cada grupo e quantas conversas atenderam."
+        },
+        "LOW_RATINGS": {
+          "LABEL": "Por que os clientes nos deram notas baixas neste mês?",
+          "CONTENT": "Encontre as avaliações de satisfação com nota 1 ou 2 dos últimos 30 dias, leia as conversas e agrupe os principais motivos de insatisfação. Inclua um link de exemplo para cada motivo."
+        },
+        "MONTHLY_VOLUME": {
+          "LABEL": "Quantas conversas recebemos em cada um dos últimos seis meses?",
+          "CONTENT": "Mostre em um gráfico o número de conversas e resoluções de cada um dos últimos seis meses."
+        },
+        "COMPARE_INBOXES": {
+          "LABEL": "Qual foi o volume de cada caixa de entrada neste mês e com que rapidez respondemos?",
+          "CONTENT": "Para cada caixa de entrada, mostre o número de conversas, as resoluções e o tempo médio de primeira resposta nos últimos 30 dias."
+        },
+        "LOW_RATINGS_BY_AGENT": {
+          "LABEL": "Quais agentes receberam notas baixas neste mês e o que deu errado?",
+          "CONTENT": "Conte as avaliações de satisfação com nota 1 ou 2 dos últimos 30 dias por agente responsável. Depois, leia as conversas e diga o que deu errado com mais frequência para cada agente."
+        },
+        "LABEL_RESOLVED": {
+          "LABEL": "Adicionar etiquetas às conversas resolvidas nesta semana que ainda estão sem etiqueta",
+          "CONTENT": "Encontre as conversas resolvidas nos últimos 7 dias que estão sem etiqueta e sugira uma de nossas etiquetas existentes para cada uma. Peça minha confirmação antes de adicionar qualquer etiqueta."
+        },
+        "CAPTAIN_HANDOFFS": {
+          "LABEL": "Quantas conversas o Captain encaminhou nesta semana e por quê?",
+          "CONTENT": "Quais conversas o Captain encaminhou para um agente nos últimos 7 dias? Leia as conversas, agrupe os motivos pelos quais ele não conseguiu concluir o atendimento sozinho e dê um exemplo para cada motivo."
         }
+      },
+      "APPROVAL": {
+        "APPROVE": "Aprovar",
+        "CONFIRM": {
+          "SEND_REPLY": "Enviar resposta",
+          "ADD_NOTE": "Adicionar nota"
+        },
+        "EXPIRES_IN": "Expira em {time}",
+        "REJECT": "Recusar",
+        "STOPPED": "Interrompido",
+        "ERROR": "Não foi possível salvar sua decisão. Por favor, tente novamente.",
+        "MORE_TARGETS": "e mais {count}",
+        "PARTIAL_REVIEW": "Apenas {reviewed} de {total} conversas foram revisadas. As outras {remaining} ficam fora desta alteração.",
+        "ACTIONS": {
+          "ADD_LABELS": "Adicionar {labels} a {count} conversa | Adicionar {labels} a {count} conversas",
+          "ASSIGN_AGENT": "Atribuir {count} conversa a {agents} | Atribuir {count} conversas a {agents}",
+          "UNASSIGN_AGENT": "Remover o agente responsável de {count} conversa | Remover o agente responsável de {count} conversas",
+          "ASSIGN_TEAM": "Atribuir {count} conversa ao time {team} | Atribuir {count} conversas ao time {team}",
+          "REMOVE_TEAM": "Remover o time de {count} conversa | Remover o time de {count} conversas",
+          "SET_STATUS_OPEN": "Reabrir {count} conversa | Reabrir {count} conversas",
+          "SET_STATUS_RESOLVED": "Resolver {count} conversa | Resolver {count} conversas",
+          "SET_STATUS_PENDING": "Marcar {count} conversa como pendente | Marcar {count} conversas como pendentes",
+          "SET_STATUS_SNOOZED": "Adiar {count} conversa até a próxima resposta | Adiar {count} conversas até a próxima resposta",
+          "SET_STATUS_SNOOZED_UNTIL": "Adiar {count} conversa até {time} | Adiar {count} conversas até {time}",
+          "SET_PRIORITY_URGENT": "Definir a prioridade de {count} conversa como urgente | Definir a prioridade de {count} conversas como urgente",
+          "SET_PRIORITY_HIGH": "Definir a prioridade de {count} conversa como alta | Definir a prioridade de {count} conversas como alta",
+          "SET_PRIORITY_MEDIUM": "Definir a prioridade de {count} conversa como média | Definir a prioridade de {count} conversas como média",
+          "SET_PRIORITY_LOW": "Definir a prioridade de {count} conversa como baixa | Definir a prioridade de {count} conversas como baixa",
+          "REMOVE_PRIORITY": "Remover a prioridade de {count} conversa | Remover a prioridade de {count} conversas",
+          "ADD_PRIVATE_NOTE": "Adicionar esta nota privada a {count} conversa: | Adicionar esta nota privada a {count} conversas:",
+          "SEND_REPLY": "Enviar esta resposta para {count} conversa: | Enviar esta resposta para {count} conversas:",
+          "SET_CUSTOM_ATTRIBUTES": "Definir {attributes} em {count} conversa | Definir {attributes} em {count} conversas",
+          "ADD_PARTICIPANTS": "Adicionar {agents} aos participantes de {count} conversa | Adicionar {agents} aos participantes de {count} conversas",
+          "APPLY_SLA": "Aplicar o SLA {sla} a {count} conversa | Aplicar o SLA {sla} a {count} conversas",
+          "MUTE": "Silenciar {count} conversa | Silenciar {count} conversas",
+          "UNMUTE": "Reativar notificações de {count} conversa | Reativar notificações de {count} conversas",
+          "ADD_CONTACT_LABELS": "Adicionar {labels} a {count} contato | Adicionar {labels} a {count} contatos",
+          "SET_CONTACT_ATTRIBUTES": "Definir {attributes} em {count} contato | Definir {attributes} em {count} contatos",
+          "BLOCK_CONTACTS": "Bloquear {count} contato | Bloquear {count} contatos",
+          "UNBLOCK_CONTACTS": "Desbloquear {count} contato | Desbloquear {count} contatos",
+          "ADD_CONTACT_NOTE": "Adicionar esta nota a {count} contato: | Adicionar esta nota a {count} contatos:"
+        },
+        "WARNINGS": {
+          "SEND_REPLY": "O cliente receberá esta resposta, e o envio não poderá ser desfeito. | {count} clientes receberão esta resposta, e o envio não poderá ser desfeito.",
+          "CSAT_SURVEY": "Clientes de caixas de entrada com pesquisas de CSAT ativadas podem receber uma pesquisa.",
+          "MUTE": "Silenciar resolve estas conversas e bloqueia cada contato. Novas mensagens de um contato bloqueado não notificam sua equipe nem reabrem as conversas dele.",
+          "BLOCK_CONTACTS": "Novas mensagens de um contato bloqueado não notificam sua equipe nem reabrem as conversas dele."
+        },
+        "STATUS": {
+          "REJECTED": "Rejeitado",
+          "EXPIRED": "Expirado"
+        },
+        "EXPIRED_HINT": "Peça ao Copilot para propor a alteração novamente.",
+        "PROGRESS": "Aplicando {done} de {total}",
+        "APPLIED": "Aplicado a {count}",
+        "APPLIED_OF": "Aplicado a {applied} de {total}",
+        "NOT_CHANGED": "{count} sem alteração"
+      },
+      "REVIEW": {
+        "RUNNING": "Revisando conversas",
+        "FINISHED": "{count} conversa revisada | {count} conversas revisadas",
+        "PROGRESS": "{done} de {total}",
+        "MATCHED": "{count} correspondências",
+        "FAILED": "{count} não puderam ser revisados"
       }
     },
     "PLAYGROUND": {
@@ -880,6 +1034,14 @@
       },
       "FORM": {
         "UPDATE": "Atualizar",
+        "AVATAR": {
+          "LABEL": "Avatar",
+          "HELP_TEXT": "Aparece ao lado das respostas deste assistente. Use uma imagem quadrada em JPEG, PNG, GIF ou WebP.",
+          "UPLOAD_SUCCESS": "Avatar atualizado",
+          "UPLOAD_ERROR": "Não foi possível atualizar o avatar. Por favor, tente novamente.",
+          "DELETE_SUCCESS": "Avatar removido",
+          "DELETE_ERROR": "Não foi possível remover o avatar. Por favor, tente novamente."
+        },
         "SECTIONS": {
           "BASIC_INFO": "Informações Básicas",
           "SYSTEM_MESSAGES": "Mensagens do Sistema",
@@ -1365,12 +1527,39 @@
         }
       }
     },
+    "TOOLS_NAV": {
+      "INSTALLED": "Instalado",
+      "CUSTOM": "Ferramentas personalizadas",
+      "MCP_SERVERS": "Servidores MCP",
+      "CATALOG": "Catálogo de ferramentas"
+    },
+    "TOOLS_PAGES": {
+      "INSTALLED": {
+        "HEADING": "Instalado",
+        "DESCRIPTION": "Conjuntos instalados pelo catálogo de ferramentas. Suas ferramentas são somente leitura, mas você pode ativar ou desativar cada uma.",
+        "EMPTY": "Este assistente ainda não tem nenhum conjunto de ferramentas instalado.",
+        "REMOVE": {
+          "BUTTON": "Excluir",
+          "TITLE": "Remover {name}?",
+          "DESCRIPTION": "Isso remove todas as ferramentas do conjunto deste assistente. Os cenários que as usam deixarão de chamá-las. Você pode reinstalar o conjunto pelo catálogo de ferramentas.",
+          "CONFIRM": "Excluir",
+          "SUCCESS": "{name} removido.",
+          "ERROR": "Não foi possível remover o conjunto de ferramentas."
+        }
+      },
+      "CUSTOM": {
+        "HEADING": "Ferramentas personalizadas",
+        "DESCRIPTION": "Ferramentas que você define. Cada uma chama um endpoint de API configurado por você."
+      },
+      "MCP_SERVERS": {
+        "DESCRIPTION": "Servidores MCP conectados a este assistente e as ferramentas que o Captain pode usar em cada um."
+      }
+    },
     "CUSTOM_TOOLS": {
       "HEADER": "Ferramentas",
       "ADD_NEW": "Criar ferramenta",
       "CATALOG": {
         "BUTTON": "Catálogo de Ferramentas",
-        "HEADER": "Catálogo de Ferramentas",
         "DESCRIPTION": "Explore conjuntos de ferramentas do catálogo de ferramentas do Captain e instale-os neste assistente.",
         "ALL": "Todos",
         "EMPTY": "Ainda não há conjuntos de ferramentas nesta categoria.",
@@ -1598,6 +1787,162 @@
           "PARAM_NAME_REQUIRED": "O nome do parâmetro é obrigatório"
         }
       }
+    },
+    "MCP_SERVERS": {
+      "HEADER": "Servidores MCP",
+      "CONNECT": "Conectar servidor",
+      "EMPTY_STATE": {
+        "TITLE": "Nenhum servidor MCP conectado",
+        "SUBTITLE": "Conecte um servidor MCP e escolha quais ferramentas dele o Captain pode usar nas conversas."
+      },
+      "LOAD_ERROR": "Não foi possível carregar os servidores MCP.",
+      "STATUS": {
+        "ACTIVE": "Ativo",
+        "NEEDS_SIGN_IN": "Requer autenticação",
+        "TOKEN_REJECTED": "Token rejeitado",
+        "NEEDS_TOKEN": "Precisa de um token. Reconecte-o",
+        "LAST_REQUEST_FAILED": "A última solicitação falhou",
+        "TOGGLE": "Ativar ou desativar {name}"
+      },
+      "AUTH_TYPES": {
+        "NONE": "Sem autenticação",
+        "OAUTH": "OAuth",
+        "TOKEN": "Token de acesso"
+      },
+      "TOOL_COUNT": "{n} ferramenta | {n} ferramentas",
+      "NO_TOOLS": "Nenhuma ferramenta selecionada.",
+      "ACTIONS": {
+        "MANAGE_TOOLS": "Gerenciar ferramentas",
+        "SIGN_IN": "Entrar",
+        "RECONNECT": "Reconectar",
+        "UPDATE_TOKEN": "Atualizar token",
+        "DELETE": "Remover servidor"
+      },
+      "UPDATE_TOKEN": {
+        "TITLE": "Atualizar o token de {name}",
+        "DESCRIPTION": "O Chatwoot verifica o novo token com o servidor antes de salvá-lo.",
+        "CONFIRM": "Salvar token",
+        "SUCCESS": "Token atualizado.",
+        "ERROR": "Não foi possível atualizar o token."
+      },
+      "SIGN_IN": {
+        "SUCCESS": "Conexão com o servidor autenticada. Escolha as ferramentas que o Captain pode usar.",
+        "FAILED": "Não foi possível entrar no servidor. Tente novamente.",
+        "ERROR": "Não foi possível iniciar a autenticação.",
+        "OPENING_TITLE": "Abrindo a página de autenticação de {name}",
+        "OPENING_DESCRIPTION": "O Chatwoot está preparando a autenticação com o servidor. A página de login será aberta em instantes."
+      },
+      "DELETE": {
+        "TITLE": "Remover {name}?",
+        "DESCRIPTION": "O Captain deixará de usar as ferramentas deste servidor. Você pode reconectá-lo depois.",
+        "CONFIRM": "Excluir",
+        "SUCCESS": "Servidor removido.",
+        "ERROR": "Não foi possível remover o servidor."
+      },
+      "TOGGLE": {
+        "ENABLED": "Servidor ativado.",
+        "DISABLED": "Servidor desativado.",
+        "ERROR": "Não foi possível atualizar o servidor."
+      },
+      "WHO": {
+        "VERIFIED": "Clientes verificados",
+        "ANYONE": "Qualquer cliente"
+      },
+      "SUGGESTIONS": {
+        "TITLE": "Servidores populares"
+      },
+      "DIALOG": {
+        "CONNECT_TITLE": "Conectar um servidor MCP",
+        "MANAGE_TITLE": "Gerenciar ferramentas de {name}",
+        "STEPS": {
+          "TOOLS": "Ferramentas",
+          "PARAMETERS": "Parâmetros",
+          "REVIEW": "Revisar"
+        },
+        "TOKEN_LABEL": "Token de acesso",
+        "CHANGED": "Alterado pelo servidor",
+        "NO_LIVE_TOOLS": "O servidor não lista ferramentas.",
+        "PARAMS_TITLE": "Defina quem preenche cada parâmetro",
+        "PARAMS_DESCRIPTION": "O Captain preenche os parâmetros com base na conversa. Os parâmetros preenchidos pelo Chatwoot ficam ocultos para o Captain, o que impede que o cliente os altere.",
+        "NO_PARAMS": "Sem parâmetros. O Captain chama esta ferramenta como ela está.",
+        "PARAM_COUNT": "{n} parâmetro | {n} parâmetros",
+        "REQUIRED": "obrigatório",
+        "SOURCES": {
+          "MODEL": "O Captain preenche",
+          "VERIFIED_EMAIL": "E-mail verificado",
+          "FIXED": "Valor fixo"
+        },
+        "FIXED_PLACEHOLDER": "Valor",
+        "HINTS": {
+          "MODEL": "O Captain preenche este parâmetro com base na conversa.",
+          "VERIFIED_EMAIL": "O Chatwoot preenche este parâmetro com o e-mail que o cliente verificou usando um código de uso único.",
+          "FIXED": "O Chatwoot sempre envia este valor.",
+          "EMAIL": "Este e-mail não foi verificado. Um cliente pode informar o e-mail de outra pessoa.",
+          "ID": "O Captain preenche este ID. O cliente pode informar qualquer ID que conheça. O sistema não verifica se o registro pertence ao cliente."
+        },
+        "USE_VERIFIED_EMAIL": "Usar e-mail verificado",
+        "REQUIRE_VERIFICATION": "Exigir e-mail verificado antes de executar esta ferramenta",
+        "REQUIRE_VERIFICATION_LOCKED": "Ativado porque um parâmetro usa o e-mail verificado.",
+        "REVIEW_COLUMNS": {
+          "FINGERPRINT": "Impressão digital"
+        },
+        "SOURCE_SUMMARY": {
+          "MODEL": "Captain",
+          "VERIFIED_EMAIL": "e-mail verificado"
+        },
+        "BACK": "Anterior",
+        "CONTINUE": "Continuar",
+        "SAVE": "Salvar",
+        "SAVED": "Ferramentas salvas.",
+        "SAVE_ERROR": "Não foi possível salvar as ferramentas.",
+        "CHECK_ERROR": "Não foi possível verificar o servidor.",
+        "TOOLS_ERROR": "Não foi possível carregar as ferramentas do servidor.",
+        "FIXED_VALUE_MISSING": "Insira um valor fixo para {param} em {tool}.",
+        "REVIEW_CHANGE": "Revisar alteração",
+        "APPROVED_VERSION": "Aceito",
+        "LIVE_VERSION": "Versão atual no servidor",
+        "APPROVED_PARAMETERS": "Parâmetros aprovados",
+        "LIVE_PARAMETERS": "Parâmetros atuais no servidor",
+        "NOW_READ_ONLY": "O servidor agora indica que esta ferramenta é somente leitura. O Captain também a usará em sugestões de resposta e após uma nova mensagem do cliente.",
+        "NOW_WRITES": "O servidor agora indica que esta ferramenta altera dados. O Captain deixará de usá-la em sugestões de resposta.",
+        "CHANGE_WARNING": "O Captain só usa esta ferramenta depois que você aprovar a alteração. O servidor pode usar a descrição para orientar o Captain. Aprove apenas um texto que você escreveria.",
+        "APPROVE_CHANGE": "Aprovar alteração",
+        "KEEP_OFF": "Manter desativada",
+        "CHANGE_APPROVED": "Alteração aprovada.",
+        "APPROVE_ERROR": "Não foi possível aprovar a alteração.",
+        "MISSING_TOOLS": "O servidor não lista mais estas ferramentas aprovadas. Elas serão removidas ao salvar: {names}",
+        "SERVER": {
+          "DESCRIPTION": "Cole a URL de um servidor MCP remoto ou escolha um dos mais usados.",
+          "URL_LABEL": "URL do servidor",
+          "HEADER_PLACEHOLDER": "Nome do cabeçalho, como X-API-Key",
+          "URL_PLACEHOLDER": "mcp.exemplo.com/mcp",
+          "NEEDS_TOKEN": "Este servidor exige um token de acesso.",
+          "TOKEN_HELP": "O Chatwoot armazena o token de forma criptografada. Todas as conversas com clientes usam a mesma autenticação, então o servidor identifica as chamadas como originadas da sua empresa.",
+          "CUSTOM_HEADER": "Enviar em um cabeçalho personalizado",
+          "CONNECT": "Conectar",
+          "CONTINUE_TO": "Continuar para {name}",
+          "REDIRECT_HINT": "Entre em {name} e depois volte aqui."
+        },
+        "TOOLS": {
+          "TITLE": "Escolher ferramentas",
+          "DESCRIPTION": "O Captain usa apenas as ferramentas que você escolher. Cada ferramenta fica vinculada à definição que aparece aqui. As descrições vêm do servidor.",
+          "SELECTED": "{selected} de {total} selecionados",
+          "SELECT_ALL": "Selecionar todas as ferramentas",
+          "CLEAR": "Limpar seleção",
+          "SEARCH": "Buscar ferramentas"
+        },
+        "REVIEW": {
+          "TITLE": "Revisar",
+          "DESCRIPTION": "O Captain começa a usar essas ferramentas nas conversas assim que você salva.",
+          "NO_TOOLS": "Nenhuma ferramenta selecionada. Salvar remove todas as ferramentas deste servidor."
+        },
+        "ACTIONS": {
+          "REVIEW": "Revisar",
+          "SAVE": "Salvar {n} ferramenta | Salvar {n} ferramentas"
+        },
+        "PARAMS_NONE_SELECTED": "Volte e selecione pelo menos uma ferramenta."
+      },
+      "NEEDS_REVIEW": "Precisa de revisão"
     },
     "RESPONSES": {
       "HEADER": "FAQs",

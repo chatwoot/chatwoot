@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "לא ניתן לחסום איש קשר. אנא נסה שוב מאוחר יותר.",
         "UNBLOCK_SUCCESS_MESSAGE": "איש קשר זה בוטל חסימה בהצלחה",
         "UNBLOCK_ERROR_MESSAGE": "לא ניתן לבטל חסימת איש קשר. אנא נסה שוב מאוחר יותר.",
-        "IMPORT_CONTACT": {
-          "TITLE": "ייבא אנשי קשר",
-          "DESCRIPTION": "ייבא אנשי קשר באמצעות קובץ CSV.",
-          "DOWNLOAD_LABEL": "הורד קובץ csv לדוגמה.",
-          "LABEL": "קובץ CSV:",
-          "CHOOSE_FILE": "בחר קובץ",
-          "CHANGE": "שינוי",
-          "CANCEL": "ביטול",
-          "IMPORT": "ייבוא",
-          "SUCCESS_MESSAGE": "תקבלו התראה במייל כשהייבוא יסתיים.",
-          "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "ייצא אנשי קשר",
-          "DESCRIPTION": "ייצא במהירות קובץ CSV עם פרטים מקיפים על אנשי הקשר שלך",
-          "CONFIRM": "ייצא",
-          "SUCCESS_MESSAGE": "הייצוא מתבצע, תקבל הודעה בדוא\"ל כאשר קובץ הייצוא יהיה מוכן להורדה.",
-          "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
-        },
         "SORT_BY": {
           "LABEL": "מיין לפי",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "סינון אנשי קשר",
       "EDIT_SEGMENT": "ערוך מקטע",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "שם המקטע",
         "INPUT_PLACEHOLDER": "הזן את שם המקטע"

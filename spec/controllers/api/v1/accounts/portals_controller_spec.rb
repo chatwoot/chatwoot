@@ -416,6 +416,22 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(portal.articles).to contain_exactly(en_article)
       end
 
+      it 'removes the translations and popular content saved for the locale' do
+        portal.update!(config: {
+                         locale_translations: { en: { name: 'Help Center' }, es: { name: 'Centro de ayuda' } },
+                         popular_content: { en: { article_ids: [1] }, es: { article_ids: [2] } }
+                       })
+
+        delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/remove_locale",
+               params: { locale: 'es' },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(portal.reload.config['locale_translations']).to eq({ 'en' => { 'name' => 'Help Center' } })
+        expect(portal.config['popular_content']).to eq({ 'en' => { 'article_ids' => [1] } })
+      end
+
       it 'does not remove the default locale' do
         delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/remove_locale",
                params: { locale: 'en' },

@@ -11,7 +11,7 @@
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversation",
       "CONTACT": "Contact",
-      "COMPANY": "Company"
+      "COMPANY": "Tvrtka"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Tekst",
@@ -110,7 +110,7 @@
       "HEADER": "Custom Attributes",
       "CONVERSATION": "Conversation",
       "CONTACT": "Contact",
-      "COMPANY": "Company"
+      "COMPANY": "Tvrtka"
     },
     "LIST": {
       "TABLE_HEADER": {

@@ -249,10 +249,10 @@ en:
         already_accepted: 'Call already accepted by another agent'
         no_recording: 'No recording file provided'
         recording_disabled: 'Call recording is disabled for this inbox'
-        no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
         contact_phone_required: 'Contact phone number is required'
         permission_request_failed: 'Failed to send call permission request'
+        permission_window_closed: "This contact hasn't allowed calls and hasn't messaged you in the last 24 hours, so a call permission request can't be sent. Send them a message template first."
     google_translate:
       invalid_credentials: 'This Google Cloud key is not working. Check the project ID and key file and try again.'
     openai:
@@ -398,15 +398,6 @@ en:
   conversations:
     captain:
       handoff: 'Transferring to another agent for further assistance.'
-    unverified_contact_match:
-      note: |-
-        This visitor entered contact details that belong to an existing contact. We couldn't verify the visitor's identity, so we didn't link this conversation to that contact or save these details.
-
-        %{matches}
-
-        If you confirm this visitor is the same person, merge the contacts from the contact panel.
-      email: '- Email: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
-      phone_number: '- Phone: `%{value}`, matches [`%{contact_name}`](%{contact_url})'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
@@ -579,7 +570,7 @@ en:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
-    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: 'Upgrade your plan to enable Captain AI'
     disabled: 'Captain AI is disabled for this account.'
     api_key_missing: 'Captain AI API key is not configured.'
@@ -695,7 +686,7 @@ en:
       results_for: "Search Results for '%{query}'"
       no_results: "No results found for '%{query}'"
       found_results:
-        one: Found 1 result
+        one: 'Found %{count} result'
         other: 'Found %{count} results'
       submit: Search
     toc_header: 'On this page'
@@ -910,8 +901,7 @@ en:
         conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'Assistant'
-        copilot: 'Copilot'
-        copilot_workflows: 'Copilot workflows'
+        copilot_workflows: 'Copilot'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'

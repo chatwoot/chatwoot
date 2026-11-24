@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "删除 {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "语言环境从门户中移除成功",
           "ERROR_MESSAGE": "无法从门户中移除语言环境，请重试。"
@@ -336,8 +341,8 @@
       }
     },
     "TABLE": {
-      "404": "没有找到您要搜索的文章 🔍",
       "LOADING_MESSAGE": "正在加载文章...",
+      "404": "没有找到您要搜索的文章 🔍",
       "NO_ARTICLES": "没有可用的文章",
       "HEADERS": {
         "TITLE": "标题",
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "所有文章",
-          "MINE": "我的文章",
           "DRAFT": "草稿",
           "PUBLISHED": "已发布",
           "ARCHIVED": "已归档"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "我",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "所有类别"
@@ -574,9 +585,9 @@
           "SUBTITLE": "撰写一篇丰富的文章，让我们开始吧！",
           "BUTTON_LABEL": "新建文章"
         },
-        "MINE": {
-          "TITLE": "您尚未在此撰写任何文章",
-          "SUBTITLE": "您撰写的所有文章将显示在此处以便快速访问。"
+        "AUTHOR": {
+          "TITLE": "没有匹配的文章",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "草稿中没有文章",
@@ -801,6 +812,8 @@
           "SAVED": "保存成功"
         },
         "PREVIEW": "预览",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "发布",
         "PUBLISH_CHANGES": "发布修改",
         "PUBLISH_CHANGES_SUCCESS": "修改发布成功",
@@ -816,6 +829,11 @@
         "DRAFT": "草稿",
         "ARCHIVE": "归档",
         "BACK_TO_ARTICLES": "返回文章"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "未发布的修改",
@@ -835,13 +853,20 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "文章属性",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "搜索文章...",
+        "ORIGINAL_ARTICLE_EMPTY": "未找到文章",
         "META_DESCRIPTION": "Meta描述",
         "META_DESCRIPTION_PLACEHOLDER": "添加Meta描述",
         "META_TITLE": "Meta标题",
         "META_TITLE_PLACEHOLDER": "添加Meta标题",
         "META_TAGS": "Meta标签",
         "META_TAGS_PLACEHOLDER": "添加Meta标签",
-        "SLUG": "Slug",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
+        "SLUG": "路径标识（Slug）",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
         "SLUG_WARNING": "The current URL will stop working, and existing links to it will break.",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "徽标",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "无法上传图片！请再试一次",
           "IMAGE_UPLOAD_SUCCESS": "图片上传成功，请点击“保存更改”以保存徽标",
           "IMAGE_DELETE_SUCCESS": "徽标删除成功",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "保存更改"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "集成设置",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "一般",
         "DOMAIN": "域名",
         "APPEARANCE": "外观",
+        "SEO": "SEO",
         "INTEGRATIONS": "集成设置"
       },
       "API": {

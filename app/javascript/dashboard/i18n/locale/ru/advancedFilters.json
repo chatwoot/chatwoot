@@ -75,6 +75,7 @@
       "VALUE_REQUIRED": "Необходимо указать значение",
       "ATTRIBUTE_KEY_REQUIRED": "Необходимо ввести ключ атрибута",
       "FILTER_OPERATOR_REQUIRED": "Требуется оператор фильтра",
+      "INVALID_FILTER_OPERATOR": "Select a valid operator for this attribute",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "Значение должно быть между 1 и 998"
     },
     "GROUPS": {

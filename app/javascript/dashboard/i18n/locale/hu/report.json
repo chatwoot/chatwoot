@@ -1,6 +1,19 @@
 {
   "MONITORS": {
     "TITLE": "Figyelők",
+    "SLACK_ALERT": {
+      "TITLE": "Slack alerts",
+      "DESCRIPTION": "Post to a Slack channel when this monitor first matches a conversation from new live activity.",
+      "NONE": "Don't send alerts",
+      "PLACEHOLDER": "Csatorna kiválasztása",
+      "LOADING": "Loading channels…",
+      "CONNECT": "Connect Slack",
+      "ON": "Be",
+      "OFF": "Ki",
+      "SAVED": "Slack alerts updated.",
+      "FETCH_FAILED": "Could not load channels. Open to retry.",
+      "SAVE_FAILED": "Could not update Slack alerts. Try again."
+    },
     "AUTOMATIONS": {
       "TITLE": "Automatizációk",
       "DESCRIPTION": "Futtasson műveleteket, amikor ez a figyelő először találkozik egy beszélgetéssel az új élő tevékenységek között.",
@@ -131,8 +144,8 @@
     "COVERAGE_HELP": "Ez az időszak olyan szakaszokat is tartalmaz, amelyeket a rendszer nem ellenőrzött teljesen. A számok hiányosak lehetnek.",
     "REFRESHED": "Utolsó frissítés: {time}. Az adatok automatikusan frissülnek.",
     "USAGE": {
-      "LIMIT_REACHED": "Fiókja ebben a hónapban felhasználta mind a {limit} figyelőhívást.",
-      "RESETS": "Az új kiértékelések és előnézetek szünetelnek eddig: {time}. A meglévő eredmények továbbra is elérhetők.",
+      "LIMIT_REACHED": "This account has used its {limit} AI classification calls for this month. Monitors, automation Captain conditions, and label and priority suggestions share this allowance.",
+      "RESETS": "Monitor evaluations and previews, automation Captain conditions, and label and priority suggestions are unavailable until {time}. Existing results remain available.",
       "REACHED_AT": "Korlát elérve: {time}."
     },
     "STATES": {
@@ -156,7 +169,7 @@
       "PROVIDER_BUSY": "A kiértékelési szolgáltató foglalt. A függőben lévő beszélgetéseket újra kell értékelni.",
       "PROVIDER_UNAVAILABLE": "A kiértékelési szolgáltató átmenetileg nem érhető el. A frissítések késhetnek.",
       "BUDGET_LIMIT": "Elérte a napi kiértékelési keretet. A függőben lévő feladatok a keret visszaállítása után folytatódnak.",
-      "MONTHLY_LIMIT": "Fiókja elérte a figyelőkre vonatkozó havi keretet. A függőben lévő kiértékelések a következő hónapban folytatódnak.",
+      "MONTHLY_LIMIT": "This account has reached its shared monthly AI classification allowance. Pending evaluations will resume next month.",
       "CONTEXT_LIMIT": "Néhány beszélgetés túl hosszú a teljes kiértékeléshez, ezért ezek kimaradnak az eredményekből.",
       "INVALID_PARAMETERS": "Ellenőrizze a nevet, a feltételt, a dátumtartományt és az időközt.",
       "TOO_MANY_BUCKETS": "Válasszon rövidebb dátumtartományt vagy hosszabb időközt. A diagram legfeljebb 744 oszlopot jeleníthet meg.",

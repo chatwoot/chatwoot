@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Delete {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Ngôn ngữ đã được gỡ bỏ thành công khỏi cổng thông tin",
           "ERROR_MESSAGE": "Không thể gỡ ngôn ngữ khỏi cổng thông tin. Vui lòng thử lại."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "All articles",
-          "MINE": "Của tôi",
           "DRAFT": "Nháp",
           "PUBLISHED": "Đã phát hành",
           "ARCHIVED": "Đã lưu trữ"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Me",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "All categories"
@@ -574,9 +585,9 @@
           "SUBTITLE": "Write a rich article, let’s get started!",
           "BUTTON_LABEL": "New article"
         },
-        "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "There are no articles in drafts",
@@ -801,6 +812,8 @@
           "SAVED": "Đã lưu"
         },
         "PREVIEW": "Xem trước",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "Phát hành",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
@@ -816,6 +829,11 @@
         "DRAFT": "Nháp",
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Search articles...",
+        "ORIGINAL_ARTICLE_EMPTY": "Không có bài viết nào",
         "META_DESCRIPTION": "Mô tả meta",
         "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
         "META_TITLE": "Tiêu đề meta",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Các thẻ meta",
         "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
           "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
           "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "Save changes"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Tích hợp",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "Chung",
         "DOMAIN": "Miền",
         "APPEARANCE": "Appearance",
+        "SEO": "SEO",
         "INTEGRATIONS": "Tích hợp"
       },
       "API": {

@@ -87,6 +87,12 @@
     "ADD": {
       "TITLE": "添加SLA",
       "DESC": "友好承诺，提供优质服务！",
+      "SUCCESS": {
+        "TITLE": "SLA created",
+        "DESC": "SLAs are applied to conversations through automation rules. Create an automation to start tracking this SLA.",
+        "LATER": "Later",
+        "CREATE_AUTOMATION": "Create automation"
+      },
       "API": {
         "SUCCESS_MESSAGE": "SLA添加成功",
         "ERROR_MESSAGE": "出现错误，请重试"

@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populární články",
     "VIEW_ALL_ARTICLES": "Zobrazit všechny články",
+    "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
     "IFRAME_LOAD_ERROR": "Při načítání článku došlo k chybě, obnovte stránku a zkuste to znovu."
   },
   "ATTACHMENTS": {

@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Excluir {locale}?",
+          "DESCRIPTION": "Isso excluirá permanentemente {articles} e {categories} neste idioma. Esta ação não pode ser desfeita.",
+          "CONFIRM": "Excluir idioma"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Localização removida do portal com sucesso",
           "ERROR_MESSAGE": "Não é possível remover a localidade do portal. Tente novamente."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "Todos os artigos",
-          "MINE": "Minhas",
           "DRAFT": "Rascunho",
           "PUBLISHED": "Publicado",
           "ARCHIVED": "Arquivado"
+        },
+        "AUTHOR": {
+          "LABEL": "Filtrar por autor: {author}",
+          "ALL": "Todos os autores",
+          "ME": "Eu",
+          "SELECTED": "Autor selecionado",
+          "SEARCH_PLACEHOLDER": "Buscar colegas de equipe..."
         },
         "CATEGORY": {
           "ALL": "Todas as categorias"
@@ -574,9 +585,9 @@
           "SUBTITLE": "Escreva um artigo rico, vamos começar!",
           "BUTTON_LABEL": "Novo artigo"
         },
-        "MINE": {
-          "TITLE": "Você não escreveu nenhum artigo aqui",
-          "SUBTITLE": "Todos os artigos escritos por você aparecem aqui para acesso rápido."
+        "AUTHOR": {
+          "TITLE": "Nenhum artigo correspondente",
+          "SUBTITLE": "Tente outro autor ou altere os filtros selecionados."
         },
         "DRAFT": {
           "TITLE": "Não há artigos nos rascunhos",
@@ -801,6 +812,8 @@
           "SAVED": "Salvo"
         },
         "PREVIEW": "Pré-visualizar",
+        "PREVIEW_ERROR": "Não foi possível abrir a prévia. Por favor, tente novamente.",
+        "PREVIEW_POPUP_BLOCKED": "Permita pop-ups para este site para abrir a prévia.",
         "PUBLISH": "Publicar",
         "PUBLISH_CHANGES": "Publicar alterações",
         "PUBLISH_CHANGES_SUCCESS": "Alterações publicadas com sucesso",
@@ -816,6 +829,11 @@
         "DRAFT": "Rascunho",
         "ARCHIVE": "Arquivar",
         "BACK_TO_ARTICLES": "Voltar aos artigos"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Carregar versão mais recente",
+        "TOOLTIP": "Este artigo foi alterado por um colega de equipe ou em outra aba. Clique para carregar a versão mais recente.",
+        "LOAD_ERROR": "Não foi possível carregar a versão mais recente. Tente novamente."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Alterações não publicadas",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Propriedades do artigo",
+        "ORIGINAL_ARTICLE": "Artigo original",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "Este é o artigo original",
+        "ORIGINAL_ARTICLE_SEARCH": "Pesquisar artigos...",
+        "ORIGINAL_ARTICLE_EMPTY": "Nenhum artigo encontrado",
         "META_DESCRIPTION": "Meta descrição",
         "META_DESCRIPTION_PLACEHOLDER": "Adicionar meta descrição",
         "META_TITLE": "Meta título",
         "META_TITLE_PLACEHOLDER": "Adicionar meta título",
         "META_TAGS": "Meta tags",
         "META_TAGS_PLACEHOLDER": "Adicionar meta tags",
+        "SEARCH_ENGINE_VISIBILITY": "Mostrar nos resultados de pesquisa",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Desative esta opção para ocultar o artigo do Google e de outros mecanismos de busca. Ele continua publicado e visível na sua Central de Ajuda.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Esta opção está desativada porque a Central de Ajuda está oculta nos resultados de pesquisa. Altere isso em Configurações → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Adicionar slug",
         "SLUG_USE_TITLE": "Usar título como slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logotipo",
+          "ADD_DARK_MODE": "Adicionar logotipo para o modo escuro",
+          "LIGHT_MODE": "Modo claro",
+          "DARK_MODE": "Modo escuro",
           "IMAGE_UPLOAD_ERROR": "Não foi possível fazer o upload da imagem! Tente novamente",
           "IMAGE_UPLOAD_SUCCESS": "Imagem adicionada com sucesso. Por favor, clique em salvar as alterações para salvar o logotipo",
           "IMAGE_DELETE_SUCCESS": "Logo deletada com sucesso",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "Salvar Alterações"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Controle como os mecanismos de busca encontram sua Central de Ajuda.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Mostrar nos resultados de pesquisa",
+          "DESCRIPTION": "Permita que mecanismos de busca como o Google exibam esta Central de Ajuda. Se desativar a opção, a Central de Ajuda continuará funcionando normalmente para os visitantes. Ela deixará de aparecer nos resultados de pesquisa, o que pode levar alguns dias ou semanas."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Integrações",
         "DESCRIPTION": "Conecte ferramentas que ampliam os recursos da sua central de ajuda.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "Geral",
         "DOMAIN": "Domínio",
         "APPEARANCE": "Tema",
+        "SEO": "SEO",
         "INTEGRATIONS": "Integrações"
       },
       "API": {
