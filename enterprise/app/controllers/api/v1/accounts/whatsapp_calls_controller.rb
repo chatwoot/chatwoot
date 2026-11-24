@@ -186,28 +186,20 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def render_permission_request
-    # Meta delivers the free-form request only inside the 24h window; outside it, only the inbox's
-    # approved call permission template reaches the contact
-    window_open = permission_window_open?
-    return render_template_not_created unless window_open || @inbox.channel.call_permission_template.created?
+    # The request is a free-form message, which Meta only delivers inside the 24h window. Outside it Meta
+    # accepts the send and fails it later, silently.
+    return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_window_closed')) unless permission_window_open?
 
     # Raised mid-dial, so a fresh contact has no thread yet — open one for the permission request to land in.
     @conversation = open_conversation!
-    status = Whatsapp::CallPermissionRequestService.new(conversation: @conversation, recipient: call_recipient, window_open: window_open).perform
+    status = Whatsapp::CallPermissionRequestService.new(conversation: @conversation, recipient: call_recipient).perform
 
     return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_request_failed')) if status == 'failed'
-    return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_template_unavailable')) if status == 'template_unavailable'
 
     # 422 (not 200) so any client treating 2xx as "call placed" can't mistake
     # the permission-request path for a successful dial. The FE composable
     # detects this status and surfaces the banner instead of throwing.
     render json: { status: status, conversation_id: @conversation.display_id }, status: :unprocessable_entity
-  end
-
-  # Created now, so a later request can use it once Meta approves it
-  def render_template_not_created
-    @inbox.channel.queue_call_permission_template
-    render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_template_unavailable'))
   end
 
   # Meta's window follows the recipient, not the thread, so check every thread for that recipient, resolved ones included.

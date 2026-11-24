@@ -911,7 +911,7 @@
         "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
         "PERMISSION_MESSAGE": "Permission request message",
         "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
-        "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default. If the customer hasn't messaged in the last 24 hours, Chatwoot sends it as a WhatsApp template it creates from this message, which Meta must approve first."
+        "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
       }
     },
     "WHATSAPP_CALLING": {
