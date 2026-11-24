@@ -82,3 +82,49 @@ Rails.application.config.to_prepare do
 
   ActiveStorage::Streaming.prepend(ActiveStorageProxyRangeLimit) unless ActiveStorage::Streaming < ActiveStorageProxyRangeLimit
 end
+
+module ActiveStorageLegacySignedIdReader
+  extend self
+
+  FIXNUM = 'i'.ord
+  BIGNUM = 'l'.ord
+
+  def load(dumped)
+    bytes = dumped.b.bytes
+    value = read_integer(bytes) if bytes.shift(2) == [4, 8]
+    raise ArgumentError, 'Unsupported message format' unless value&.positive? && bytes.empty?
+
+    value
+  end
+
+  private
+
+  def read_integer(bytes)
+    case bytes.shift
+    when FIXNUM then read_long(bytes)
+    when BIGNUM then read_bignum(bytes)
+    end
+  end
+
+  def read_long(bytes)
+    head = bytes.shift.to_i
+    return head - 5 if head.between?(6, 127)
+
+    little_endian(bytes.shift(head)) if head.between?(1, 4) && bytes.size >= head
+  end
+
+  def read_bignum(bytes)
+    return unless bytes.shift == '+'.ord
+
+    shorts = read_long(bytes)
+    little_endian(bytes.shift(shorts * 2)) if shorts && bytes.size >= shorts * 2
+  end
+
+  def little_endian(bytes)
+    bytes.each_with_index.sum { |byte, index| byte << (8 * index) }
+  end
+end
+
+Rails.application.message_verifiers.rotate do |salt|
+  { serializer: ActiveStorageLegacySignedIdReader } if salt == 'ActiveStorage'
+end
