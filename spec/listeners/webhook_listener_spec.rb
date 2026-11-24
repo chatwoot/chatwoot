@@ -129,23 +129,25 @@ describe WebhookListener do
   describe '#message_updated' do
     let(:event_name) { :'message.updated' }
 
-    it 'includes the updated message status when a newer message exists' do
-      webhook = create(:webhook, subscriptions: ['message_updated'], inbox: inbox, account: account)
-      newer_message = create(:message, account: account, inbox: inbox, conversation: conversation)
+    context 'when webhook is configured and event is subscribed' do
+      it 'includes the updated message status when a newer message exists' do
+        webhook = create(:webhook, subscriptions: ['message_updated'], inbox: inbox, account: account)
+        newer_message = create(:message, account: account, inbox: inbox, conversation: conversation)
 
-      expect do
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          hash_including(
+            event: 'message_updated', id: message.id, status: 'delivered',
+            conversation: hash_including(messages: [hash_including(id: newer_message.id, status: 'sent')])
+          ),
+          :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+
         perform_enqueued_jobs(only: EventDispatcherJob) do
           message.update!(status: :delivered)
         end
-      end.to have_enqueued_job(WebhookJob).with(
-        webhook.url,
-        hash_including(
-          event: 'message_updated', id: message.id, status: 'delivered',
-          conversation: hash_including(messages: [hash_including(id: newer_message.id, status: 'sent')])
-        ),
-        :account_webhook,
-        secret: webhook.secret, delivery_id: instance_of(String)
-      ).exactly(:once)
+      end
     end
   end
 
