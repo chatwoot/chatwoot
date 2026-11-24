@@ -24,20 +24,11 @@ module Enterprise::SearchService
   end
 
   def filter_restricted_messages_with_like
-    base_query = apply_message_filters(message_base_query).joins(:conversation)
-    base_query.where(
-      "messages.content ILIKE :search OR
-       (messages.content_attributes #>> '{}')::jsonb #>> '{email,subject}' ILIKE :search OR
-       (NULLIF(BTRIM((messages.content_attributes #>> '{}')::jsonb #>> '{email,subject}'), '') IS NULL AND
-        conversations.additional_attributes ->> 'mail_subject' ILIKE :search) OR EXISTS (
-         SELECT 1 FROM attachments
-         WHERE attachments.message_id = messages.id AND attachments.meta ->> 'transcribed_text' ILIKE :search
-       ) OR (messages.content_type = :voice_call AND EXISTS (
-         SELECT 1 FROM calls
-         WHERE calls.message_id = messages.id AND calls.transcript ILIKE :search
-       ))",
-      search: "%#{search_query}%", voice_call: Message.content_types[:voice_call]
-    ).reorder('messages.created_at DESC, messages.id DESC').page(params[:page]).per(15)
+    apply_message_filters(message_base_query).joins(:conversation)
+                                             .where(Messages::SearchTextCondition.new("%#{search_query}%").build)
+                                             .reorder(created_at: :desc, id: :desc)
+                                             .page(params[:page])
+                                             .per(15)
   end
 
   def should_run_advanced_search?
