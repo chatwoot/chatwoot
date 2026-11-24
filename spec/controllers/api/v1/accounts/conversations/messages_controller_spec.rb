@@ -236,6 +236,34 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.first.content_type).to eq(params[:content_type])
       end
+
+      it 'does not create a message in a conversation from an inbox the bot is not connected to' do
+        create(:agent_bot_inbox, inbox: create(:inbox, account: account), agent_bot: agent_bot)
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { content: 'test-message' },
+             headers: { api_access_token: agent_bot.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(conversation.messages.count).to eq(0)
+      end
+    end
+
+    context 'when it is an authenticated agent bot assigned to the conversation' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+
+      it 'creates a new outgoing message without an inbox connection' do
+        conversation.update!(assignee: nil, ai_assignee: agent_bot)
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { content: 'test-message' },
+             headers: { api_access_token: agent_bot.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.messages.last.sender).to eq(agent_bot)
+      end
     end
   end
 

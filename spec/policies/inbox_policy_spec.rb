@@ -48,5 +48,11 @@ RSpec.describe InboxPolicy, type: :policy do
 
       expect(inbox_policy).not_to permit(agent_bot_context, inbox)
     end
+
+    it 'denies an agent bot whose inbox connection is inactive' do
+      create(:agent_bot_inbox, agent_bot: agent_bot, inbox: inbox, status: :inactive)
+
+      expect(inbox_policy).not_to permit(agent_bot_context, inbox)
+    end
   end
 end

@@ -402,6 +402,16 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
       end
+
+      it 'rejects a team-assigned conversation from an inbox the bot is not attached to' do
+        conversation.update!(team: team)
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: { api_access_token: agent_bot.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 
@@ -451,6 +461,34 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
+      end
+    end
+
+    context 'when it is an authenticated bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+
+      it 'updates a conversation from an inbox the bot is attached to' do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: conversation.inbox)
+
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: { api_access_token: agent_bot.access_token.token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.priority).to eq('high')
+      end
+
+      it 'does not update a conversation from an inbox the bot is not attached to' do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: create(:inbox, account: account))
+
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: { api_access_token: agent_bot.access_token.token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(conversation.reload.priority).to be_nil
       end
     end
   end
@@ -668,6 +706,34 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
       end
+
+      it 'creates a conversation for a contact in an inbox it is attached to' do
+        bot_inbox = create(:inbox, account: account)
+        create(:agent_bot_inbox, inbox: bot_inbox, agent_bot: bot)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: { api_access_token: bot.access_token.token },
+               params: { inbox_id: bot_inbox.id, contact_id: contact.id },
+               as: :json
+        end.to change(bot_inbox.conversations, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not create a conversation for a contact in an inbox it is not attached to' do
+        create(:agent_bot_inbox, inbox: create(:inbox, account: account), agent_bot: bot)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: { api_access_token: bot.access_token.token },
+               params: { inbox_id: inbox.id, contact_id: contact.id },
+               as: :json
+        end.not_to change(ContactInbox, :count)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(inbox.conversations.count).to eq(0)
+      end
     end
   end
 
@@ -800,6 +866,31 @@ RSpec.describe 'Conversations API', type: :request do
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
           .with(Events::Types::CONVERSATION_BOT_HANDOFF, kind_of(Time), conversation: pending_conversation, notifiable_assignee_change: false,
                                                                         changed_attributes: anything, performed_by: anything)
+      end
+
+      it 'hands off a pending conversation assigned to the bot without an inbox connection' do
+        pending_conversation.update!(assignee: nil, ai_assignee: agent_bot)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{pending_conversation.display_id}/toggle_status",
+             headers: { api_access_token: agent_bot.access_token.token },
+             params: { status: 'open' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(pending_conversation.reload.status).to eq('open')
+        expect(pending_conversation.ai_assignee).to be_nil
+      end
+
+      it 'does not change the status of a conversation from an inbox the bot is not connected to' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: { api_access_token: agent_bot.access_token.token },
+             params: { status: 'resolved' },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(conversation.reload.status).to eq('open')
       end
     end
   end

@@ -38,6 +38,7 @@ RSpec.describe 'API bearer authentication', type: :request do
   it 'preserves bot permissions for allowed and disallowed endpoints' do
     bot = create(:agent_bot, account: account)
     conversation = create(:conversation, account: account)
+    create(:agent_bot_inbox, agent_bot: bot, inbox: conversation.inbox)
     headers = { Authorization: "Bearer #{bot.access_token.token}" }
     get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: headers
     expect(response).to have_http_status(:ok)

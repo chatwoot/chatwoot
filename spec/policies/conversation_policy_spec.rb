@@ -87,5 +87,57 @@ RSpec.describe ConversationPolicy, type: :policy do
         expect(subject).not_to permit(agent_bot_context, conversation)
       end
     end
+
+    context 'when an agent bot is attached to the conversation inbox but inactive' do
+      before { create(:agent_bot_inbox, agent_bot: agent_bot, inbox: conversation.inbox, status: :inactive) }
+
+      it 'denies access' do
+        expect(subject).not_to permit(agent_bot_context, conversation)
+      end
+    end
+
+    context 'when an agent bot is not attached to the inbox and the conversation belongs to a team' do
+      let(:conversation) { create(:conversation, :with_team, account: account) }
+
+      it 'denies access' do
+        expect(subject).not_to permit(agent_bot_context, conversation)
+      end
+    end
+
+    context 'when the conversation is assigned to the agent bot' do
+      before { conversation.update!(assignee: nil, ai_assignee: agent_bot) }
+
+      it 'allows access' do
+        expect(subject).to permit(agent_bot_context, conversation)
+      end
+    end
+
+    context 'when the conversation is assigned to another agent bot' do
+      before { conversation.update!(assignee: nil, ai_assignee: create(:agent_bot, account: account)) }
+
+      it 'denies access' do
+        expect(subject).not_to permit(agent_bot_context, conversation)
+      end
+    end
+
+    context 'when a system agent bot is attached to the conversation inbox' do
+      let(:agent_bot) { create(:agent_bot, account: nil) }
+
+      before { create(:agent_bot_inbox, agent_bot: agent_bot, inbox: conversation.inbox) }
+
+      it 'allows access' do
+        expect(subject).to permit(agent_bot_context, conversation)
+      end
+    end
+
+    context 'when a system agent bot is only attached to another inbox' do
+      let(:agent_bot) { create(:agent_bot, account: nil) }
+
+      before { create(:agent_bot_inbox, agent_bot: agent_bot, inbox: create(:inbox, account: account)) }
+
+      it 'denies access' do
+        expect(subject).not_to permit(agent_bot_context, conversation)
+      end
+    end
   end
 end
