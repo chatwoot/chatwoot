@@ -991,7 +991,7 @@ RSpec.describe ConversationReplyMailer do
       let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account) }
       let(:transcript) { described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now.decoded }
 
-      it 'leaves the quoted thread out of agent replies' do
+      it 'leaves the quoted thread out of agent replies saved before the reply box flagged it' do
         create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Where is my order?')
         create(:message, conversation: conversation, account: account, message_type: 'outgoing',
                          content: "It ships today.\n\n> On Monday customer wrote:\n>\n> Where is my order?")
@@ -999,6 +999,25 @@ RSpec.describe ConversationReplyMailer do
         expect(transcript).to include('It ships today.')
         expect(transcript).not_to include('customer wrote:')
         expect(transcript.scan('Where is my order?').size).to eq(1)
+      end
+
+      it 'leaves only the appended thread out when the agent also quoted an email' do
+        create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                         content_attributes: { email_quote_appended: true },
+                         content: "See the terms:\n\n> On Tuesday supplier wrote:\n>\n> Warranty covers 2 years.\n\n" \
+                                  "> On Monday customer wrote:\n>\n> Where is my order?")
+
+        expect(transcript).to include('Warranty covers 2 years.')
+        expect(transcript).not_to include('Where is my order?')
+      end
+
+      it 'keeps a quote the agent wrote when the reply box added no thread' do
+        create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                         content_attributes: { email_quote_appended: false },
+                         content: "See the terms:\n\n> On Tuesday supplier wrote:\n>\n> Warranty covers 2 years.")
+
+        expect(transcript).to include('supplier wrote:')
+        expect(transcript).to include('Warranty covers 2 years.')
       end
 
       it 'keeps blockquotes the agent wrote' do
