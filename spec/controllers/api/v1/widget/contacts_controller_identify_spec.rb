@@ -183,6 +183,7 @@ RSpec.describe 'POST /api/v1/widget/contact/identify', type: :request do
 
     it 'takes the email from an identified contact whose email is not verified' do
       other_contact = create(:contact, account: account, identifier: 'user-9', email: 'priya@example.com')
+      allow(Rails.logger).to receive(:info)
 
       identify(identity_token(claims))
 
@@ -190,6 +191,8 @@ RSpec.describe 'POST /api/v1/widget/contact/identify', type: :request do
       expect(contact.reload.email).to eq('priya@example.com')
       expect(contact.verified_attributes['email']).to eq('jwt')
       expect(other_contact.reload).to have_attributes(identifier: 'user-9', email: nil)
+      expect(Rails.logger).to have_received(:info).with(/Moved email from contact #{other_contact.id} to contact #{contact.id}/)
+      expect(Rails.logger).not_to have_received(:info).with(/priya@example.com/)
     end
 
     it 'takes the phone number from an identified contact whose phone number is not verified' do
@@ -200,6 +203,20 @@ RSpec.describe 'POST /api/v1/widget/contact/identify', type: :request do
       expect(contact.reload.phone_number).to eq('+919999888877')
       expect(contact.verified_attributes['phone_number']).to eq('jwt')
       expect(other_contact.reload.phone_number).to be_nil
+    end
+
+    it 'leaves the phone number with a contact that has no identifier and another email' do
+      phone_contact = create(:contact, account: account, phone_number: '+919999888877', email: 'someone.else@example.com')
+      allow(Rails.logger).to receive(:info)
+
+      identify(identity_token(claims))
+
+      expect(response).to have_http_status(:success)
+      expect(contact.reload).to have_attributes(identifier: 'user-1', email: 'priya@example.com', phone_number: nil)
+      expect(contact.verified_attributes.keys).to contain_exactly('name', 'email')
+      expect(phone_contact.reload).to have_attributes(phone_number: '+919999888877', email: 'someone.else@example.com')
+      expect(Rails.logger).to have_received(:info)
+        .with(/Skipped verified phone_number of contact #{contact.id}: contact #{phone_contact.id} holds it with another email/)
     end
 
     it 'leaves the email with an identified contact whose email is verified' do

@@ -115,6 +115,8 @@ class ContactIdentifyAction
     end
 
     identified_contact.update!(key => nil)
+    Rails.logger.info "[CONTACT_IDENTIFY] Moved #{key} from contact #{identified_contact.id} to contact #{@contact.id} " \
+                      "in account #{account.id}"
     true
   end
 
@@ -132,10 +134,14 @@ class ContactIdentifyAction
   # case: contact 1: email: 1@test.com, phone: 123456789
   # params: email: 2@test.com, phone: 123456789
   # we don't want to overwrite 1@test.com since email parameter takes higer priority
+  #
+  # A phone number from a trusted source follows the same rule. The other contact may be a real WhatsApp or SMS contact,
+  # and channels do not mark the phone numbers they supply as verified yet. Until they do, the number stays with that contact.
   def mergable_phone_contact?
     return true if params[:email].blank?
 
     if existing_phone_number_contact.email.present? && existing_phone_number_contact.email != params[:email]
+      log_skipped_phone_number unless visitor_input?
       @attributes_to_update.delete(:phone_number)
       return false
     end
@@ -146,6 +152,11 @@ class ContactIdentifyAction
   # so this reads the marks of the contact that is written.
   def writable_params
     params.reject { |attribute, _value| protected_from_visitor?(attribute) }
+  end
+
+  def log_skipped_phone_number
+    Rails.logger.info "[CONTACT_IDENTIFY] Skipped verified phone_number of contact #{@contact.id}: " \
+                      "contact #{existing_phone_number_contact.id} holds it with another email in account #{account.id}"
   end
 
   def update_contact
