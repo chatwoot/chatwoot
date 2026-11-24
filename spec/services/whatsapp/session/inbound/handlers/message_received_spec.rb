@@ -211,6 +211,21 @@ RSpec.describe Whatsapp::Session::Inbound::Handlers::MessageReceived do
     end
   end
 
+  # The descriptor is all a later fetch has to rebuild the file from, so a video note
+  # recovered from it would otherwise come back as an ordinary video.
+  context 'with a video note whose bytes did not come with it' do
+    let(:content) { model::Content::Media.new(kind: 'video', mime: 'video/mp4', video_note: true) }
+
+    it 'keeps that it was a video note' do
+      expect(dispatch).to eq(:handled)
+
+      message = inbox.messages.find_by(source_id: '3EB0AAAA0001')
+      expect(message.content_attributes['pending_media']).to eq(
+        'type' => 'media', 'kind' => 'video', 'mime' => 'video/mp4', 'voice_note' => false, 'video_note' => true
+      )
+    end
+  end
+
   # A rich card's header image is the same downloadable reference a plain media message
   # carries, and the bubble renders it: without the fetch the card arrives text-only.
   context 'with a rich card carrying a media header' do

@@ -116,6 +116,8 @@
         "filename": { "type": ["string", "null"] },
         "caption": { "type": ["string", "null"] },
         "voice_note": { "type": "boolean" },
+        "video_note": { "type": "boolean",
+          "description": "a video recorded to play in a circle (WhatsApp's video message); only on a video, and absent reads as false" },
         "size": { "type": ["integer", "null"], "minimum": 0 },
         "duration": { "type": ["integer", "null"], "minimum": 0 },
         "width": { "type": ["integer", "null"], "minimum": 0,
@@ -129,7 +131,15 @@
         "ref": { "oneOf": [{ "$ref": "#/definitions/media_ref" }, { "type": "null" }] }
       },
       "required": ["type", "kind"],
-      "additionalProperties": true
+      "additionalProperties": true,
+      "if": { "properties": { "video_note": { "const": true } }, "required": ["video_note"] },
+      "then": {
+        "description": "a video note is a video, and the circle has nowhere to show a caption",
+        "properties": {
+          "kind": { "const": "video" },
+          "caption": { "anyOf": [{ "type": "null" }, { "type": "string", "maxLength": 0 }] }
+        }
+      }
     },
 
     "content_location": {

@@ -36,6 +36,7 @@ import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import VideoBubble from './bubbles/Video.vue';
+import VideoNoteBubble from './bubbles/VideoNote.vue';
 import EmbedBubble from './bubbles/Embed.vue';
 import FallbackBubble from './bubbles/Fallback.vue';
 import InstagramStoryBubble from './bubbles/InstagramStory.vue';
@@ -423,7 +424,9 @@ const componentToRender = computed(() => {
       if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
       if (fileType === ATTACHMENT_TYPES.FILE) return FileBubble;
       if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
-      if (fileType === ATTACHMENT_TYPES.VIDEO) return VideoBubble;
+      if (fileType === ATTACHMENT_TYPES.VIDEO) {
+        return props.attachments[0].isVideoNote ? VideoNoteBubble : VideoBubble;
+      }
       if (fileType === ATTACHMENT_TYPES.IG_REEL) return VideoBubble;
       if (fileType === ATTACHMENT_TYPES.EMBED) return EmbedBubble;
       if (fileType === ATTACHMENT_TYPES.LOCATION) return LocationBubble;

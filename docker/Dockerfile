@@ -2,7 +2,7 @@
 FROM node:24.22.1-alpine as node
 # The WhatsApp connector Sidekiq runs unless WHATSAPP_CONNECTOR_ENABLED=false (see
 # docker/entrypoints/helpers/whatsapp_connector.rb). Pinned, and moved by Dependabot.
-FROM ghcr.io/fazer-ai/whatsapp-connector:1.0.0 AS whatsapp-connector
+FROM ghcr.io/fazer-ai/whatsapp-connector:1.1.0 AS whatsapp-connector
 # The official enterprise/ for VERSION_CW, and the hash of its tree. The image never ships
 # that tree: the hash is what docker/entrypoints/helpers/enterprise.sh checks the copy it
 # downloads at boot against, and the tree itself only feeds the asset build below.

@@ -14,11 +14,13 @@ module Whatsapp::Session::Model::Content
   # `width`, `height` and `waveform` are the caller's to fill in: the connector does not
   # decode media, and the side building the send is the one holding the file. Absent is
   # absent all the way to the wire, where a zero would be a measurement of nothing.
-  class Media < Data.define(:kind, :mime, :filename, :caption, :voice_note, :size, :duration,
+  class Media < Data.define(:kind, :mime, :filename, :caption, :voice_note, :video_note, :size, :duration,
                             :width, :height, :waveform, :thumbnail, :ref)
     include Serializable
     wire_type 'media', embed: true
     coerce ref: MediaRef
+    # `video_note` has no default on purpose: the connector leaves it out unless it is true,
+    # and a false here would be written into every payload that round-trips the model.
     defaults voice_note: false
 
     KINDS = %w[image video audio document sticker].freeze

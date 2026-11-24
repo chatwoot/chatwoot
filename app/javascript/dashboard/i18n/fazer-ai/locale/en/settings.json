@@ -47,7 +47,10 @@
     },
     "MEDIA": {
       "AUDIO_UNAVAILABLE": "This audio is no longer available.",
-      "VIDEO_UNAVAILABLE": "This video is no longer available."
+      "VIDEO_UNAVAILABLE": "This video is no longer available.",
+      "PLAY_VIDEO_NOTE": "Play video message",
+      "PAUSE_VIDEO_NOTE": "Pause video message",
+      "OPEN_VIDEO_NOTE": "Open video message"
     }
   },
   "SIDEBAR": {

@@ -408,6 +408,15 @@ theirs, and the connector is always upgraded first.
   succeeds. `audio/ogg` with no codec named is read as opus, and so is a voice note nobody
   gave a type to. A client that wants the voice bubble records or converts to opus before
   it sends.
+- `video_note` marks a video recorded to play in a circle, WhatsApp's video message. It is
+  only ever set on a `video`, and it is left out rather than sent false, so a producer or
+  a client that predates it reads every frame the same. Inbound, a client that does not
+  know the flag has an ordinary video to render, which is what the file is. Outbound, it
+  is refused (`invalid_payload`) on any other kind and with a `caption`, which the circle
+  has nowhere to show. The connector does not transcode or crop: the file goes out as it
+  was given. Measured on a phone: the
+  file WhatsApp recorded, forwarded back, and a 1280x720 video sent with the flag both
+  played in the circle, the wider one cropped to it.
 - A media message published with no `ref` is followed by `media.download_failed`, and
   `recoverable` on it is what says whether that is the end. False is every reason the
   file is not coming back -- the key lapsed, the bytes did not check out, the file is
@@ -498,7 +507,7 @@ own to list; `call.start` is refused the same way on a session that does not car
 |---|---|
 | `session.connect`, `session.status` | `connection_state`, which also carries `reachout_time_lock` and `new_chat_cap` where a connector reports them. This one does not fill either: whatsmeow exposes no WhatsApp Business messaging limit to fill them with |
 | `admin.ping` | `{ "inst": string, "version": string, "sessions": integer }` |
-| `message.send`, `message.edit`, `message.react` | `{ "message_id": string, "timestamp": timestamp_ms, "client_ref": string\|null }`. `message.react` is refused with `unsupported` on a channel, which names a post by a server id the contract has no field for. A `message.edit` whose `text` names a media message this connector sent corrects its caption: the file goes out again as it was sent, from coordinates the connector keeps for an hour after the send, nothing fetched or uploaded. A voice note, an audio file or a sticker carries no caption and the edit is refused with `unsupported`; The correction goes to the chat the file was sent to, whichever address the edit names, and an empty `text` removes the caption. A media `message.send` whose coordinates the connector cannot keep fails and puts nothing on the wire, so a redelivery can send it again. A message the connector does not keep -- sent before this was built, from the phone, or longer than the hour ago -- is corrected as the text it names, and when that message is a file WhatsApp ignores the correction and keeps the caption it had, though the edit is acknowledged |
+| `message.send`, `message.edit`, `message.react` | `{ "message_id": string, "timestamp": timestamp_ms, "client_ref": string\|null }`. `message.react` is refused with `unsupported` on a channel, which names a post by a server id the contract has no field for. A `message.edit` whose `text` names a media message this connector sent corrects its caption: the file goes out again as it was sent, from coordinates the connector keeps for an hour after the send, nothing fetched or uploaded. A voice note, a video note, an audio file or a sticker carries no caption and the edit is refused with `unsupported`; The correction goes to the chat the file was sent to, whichever address the edit names, and an empty `text` removes the caption. A media `message.send` whose coordinates the connector cannot keep fails and puts nothing on the wire, so a redelivery can send it again. A message the connector does not keep -- sent before this was built, from the phone, or longer than the hour ago -- is corrected as the text it names, and when that message is a file WhatsApp ignores the correction and keeps the caption it had, though the edit is acknowledged |
 | `message.revoke` | `null`. Refused with `unsupported` on a channel: WhatsApp answers the deletion without an error and leaves the post up, so reporting success would tell the client a post is gone while every follower still sees it |
 | `history.request` | `null`. The phone answers later, as `history.sync` events, and may never answer at all: the reply says the request went out, not that history is coming |
 | `message.download_media` | `media_ref`, fetchable from `url` until `expires_at`. The connector answers with a `connector_blob`, the same shape its events carry: what it hands back is a blob it just wrote, instance-local and time-bounded like any other |

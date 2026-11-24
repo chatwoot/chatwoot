@@ -31,6 +31,7 @@ module Whatsapp::Session::Inbound::MediaAttachment
       file: { io: payload.io, filename: filename(media, payload, message), content_type: payload.mime || media.mime }
     )
     attachment.meta = { is_recorded_audio: true } if media.voice_note
+    attachment.meta = { is_video_note: true } if media.video_note
     attachment
   end
 

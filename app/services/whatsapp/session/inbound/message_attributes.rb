@@ -158,7 +158,8 @@ class Whatsapp::Session::Inbound::MessageAttributes
     return if media.nil? || media.ref.present?
 
     Whatsapp::Session::Model::Content::Media.new(
-      kind: media.kind, mime: media.mime, filename: media.filename, voice_note: media.voice_note
+      kind: media.kind, mime: media.mime, filename: media.filename, voice_note: media.voice_note,
+      video_note: media.video_note
     ).to_h
   end
 end

@@ -146,6 +146,11 @@ class Attachment < ApplicationRecord
     return { data_url: external_url, thumb_url: '' } unless file.attached?
 
     metadata = file_metadata
+    # WhatsApp plays a video note in a circle, and this is all the dashboard has to tell one
+    # from the ordinary video it also is.
+    # Only the boolean the session writer stores, on an incoming note or on the echo of one
+    # recorded on the connected phone. A string from an API upload's metadata does not count.
+    metadata[:is_video_note] = true if meta&.[]('is_video_note') == true
     return metadata if instagram_incoming_message?
 
     metadata.merge({ data_url: inline_storage_url })

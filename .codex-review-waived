@@ -210,3 +210,5 @@ app/javascript/dashboard/helper/actionCable.js: Preserve early lifecycle events 
 # job can start until it ends. Renewing the lease would need a token API on ImportSlots for that.
 app/jobs/whatsapp/session/history_media_job.rb: Keep downloads within the history-slot lease  # PR#939
 .bundler-audit.yml: Mitigate slow-client attacks before suppressing the advisories  # PR#991, user accepted the reachable DoS until the upstream sync
+app/models/attachment.rb: Reserve the video-note flag for provider-confirmed notes  # PR#1013 r2→r3: attachment metadata is caller-shaped by design in MessageBuilder; reading direction instead dropped the phone's own notes
+app/javascript/dashboard/components-next/message/bubbles/VideoNote.vue: Make video-note playback available before metadata loads  # PR#1013 r5: the same useLoadWithRetry gate upstream's Video bubble puts on every video in the dashboard

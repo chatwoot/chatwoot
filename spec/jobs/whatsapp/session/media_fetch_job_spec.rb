@@ -68,6 +68,23 @@ RSpec.describe Whatsapp::Session::MediaFetchJob do
     expect(message.reload.attachments.first).to have_attributes(file_type: 'image')
   end
 
+  # Off the frames the connector ships, not a hand-built model: a flag that arrived under
+  # another key would leave every video note an ordinary video and every example green.
+  # The native connector never downloads inline, so this job is where the mark is written.
+  it 'marks the file of a video note, and only of a video note, as one' do
+    note, plain = %w[message_received_video_note message_received_video].map do |name|
+      content = Whatsapp::SessionContract.fixture('events', name).dig('payload', 'message', 'content')
+      model::Content::Media.from_h(content.except('type'))
+    end
+    plain_message = create(:message, conversation: conversation, inbox: inbox, account: channel.account, source_id: '3EB0AAAA0009')
+
+    described_class.perform_now(message, note.to_h)
+    described_class.perform_now(plain_message, plain.to_h)
+
+    expect(message.reload.attachments.sole).to have_attributes(file_type: 'video', meta: { 'is_video_note' => true })
+    expect(plain_message.reload.attachments.sole).to have_attributes(file_type: 'video', meta: {})
+  end
+
   # ContactResolver stores the sender's LID as the contact identifier whenever it has
   # one, so a chat rebuilt from the contact addresses a refresh to a chat the message
   # does not live in, and the provider answers that it cannot find it.
