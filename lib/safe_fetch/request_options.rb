@@ -40,7 +40,7 @@ class SafeFetch::RequestOptions
   end
 
   def filename
-    @filename ||= File.basename(uri.path).presence || "download-#{Time.current.to_i}-#{SecureRandom.hex(4)}"
+    @filename ||= URI.decode_uri_component(File.basename(uri.path)).presence || "download-#{Time.current.to_i}-#{SecureRandom.hex(4)}"
   end
 
   def request_options
