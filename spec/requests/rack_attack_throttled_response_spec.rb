@@ -28,4 +28,19 @@ RSpec.describe 'Rack::Attack throttled response', type: :request do
     expect(response.headers['Retry-After']).to eq('180')
     expect(response.parsed_body).to eq('error' => 'Too many requests. Retry after 180 seconds.', 'retry_after' => 180)
   end
+
+  it 'counts verification attempts per user across alternate encodings of the same token' do
+    mfa_token = Mfa::TokenService.new(user: create(:user)).generate_token
+
+    travel_to(Time.zone.at(1_699_999_920)) do
+      10.times do |i|
+        post '/auth/sign_in', params: { mfa_token: "#{mfa_token}#{'=' * i}", otp_code: '000000' }, env: { 'REMOTE_ADDR' => "198.51.100.#{i + 1}" }
+        expect(response).not_to have_http_status(:too_many_requests)
+      end
+
+      post '/auth/sign_in', params: { mfa_token: "#{mfa_token}===", otp_code: '000000' }, env: { 'REMOTE_ADDR' => '198.51.100.99' }
+    end
+
+    expect(response).to have_http_status(:too_many_requests)
+  end
 end
