@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "Šis kontaktas sėkmingai atblokuotas",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Importuoti kontaktus CSV failo pagalba.",
-          "DOWNLOAD_LABEL": "Užkrauti csv. pavyzdį.",
-          "LABEL": "CSV failas:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Keisti",
-          "CANCEL": "Atšaukti",
-          "IMPORT": "Importuoti",
-          "SUCCESS_MESSAGE": "Jūs gausite pranešimą el. paštu, kai importas bus užbaigtas.",
-          "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Eksportuoti",
-          "SUCCESS_MESSAGE": "Vykdomas eksportavimas. Jums bus pranešta el. paštu, kai eksporto failas bus paruoštas įkelti.",
-          "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
-        },
         "SORT_BY": {
           "LABEL": "Rūšiuoti pagal",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Filtruoti kontaktus",
       "EDIT_SEGMENT": "Redaguoti segmentą",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"

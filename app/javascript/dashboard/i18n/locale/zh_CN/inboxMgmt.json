@@ -51,10 +51,13 @@
         "PICK_A_VALUE": "选择一个数值",
         "CREATE_INBOX": "新增收件箱",
         "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "STATUS_LINK": "View status updates"
+        "STATUS_LINK": "查看状态更新"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "在 Instagram 中继续",
+        "SELECT_ACCOUNT": "Choose an Instagram account",
+        "CONNECT_ACCOUNT": "Connect account",
+        "START_AGAIN": "Start again",
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "连接您的 Instagram 配置文件",
         "HELP": "若要将您的 Instagram 配置文件添加为通道，您需要点击「继续使用 Instagram」来验证您的 Instagram 配置文件。 ",
         "ERROR_MESSAGE": "连接到 Instagram 时出错，请重试",
@@ -202,6 +205,16 @@
           "ERROR_MESSAGE": "我们无法保存短信通道"
         },
         "BANDWIDTH": {
+          "CALLBACK_AUTH": {
+            "TITLE": "Callback credentials",
+            "DESCRIPTION": "Add these as the inbound and outbound callback credentials in your Bandwidth application. If several inboxes share one Bandwidth application, use the callback URL and credentials of one of them.",
+            "RESET_SUCCESS": "Callback password reset. Update it in your Bandwidth application.",
+            "RESET_ERROR": "Could not reset the callback password. Please try again.",
+            "USERNAME": "用户名",
+            "PASSWORD": "密码",
+            "ENFORCE": "Require callback credentials",
+            "ENFORCE_DESCRIPTION": "Reject callbacks that do not use these credentials. Turn this on after adding the credentials to your Bandwidth application."
+          },
           "ACCOUNT_ID": {
             "LABEL": "账号 ID",
             "PLACEHOLDER": "请输入您的 Bandwidth 应用ID",
@@ -239,6 +252,30 @@
           "API_CALLBACK": {
             "TITLE": "回调地址",
             "SUBTITLE": "您必须使用这里提到的URL来配置Bandwidth的消息回调URL。"
+          },
+          "CLIENT_ID": {
+            "LABEL": "Client ID",
+            "PLACEHOLDER": "Enter your Bandwidth Client ID",
+            "ERROR": "此字段是必填项"
+          },
+          "CLIENT_SECRET": {
+            "LABEL": "Client Secret",
+            "PLACEHOLDER": "Enter your Bandwidth Client Secret",
+            "ERROR": "此字段是必填项"
+          },
+          "OAUTH": {
+            "TITLE": "API credentials",
+            "MIGRATE": "Update credentials",
+            "READ_ONLY": "Read-only",
+            "SHOW_SECRET": "Show client secret",
+            "HIDE_SECRET": "Hide client secret",
+            "LEGACY_DESCRIPTION": "Update your Bandwidth credentials before December 2, 2026 to keep this inbox connected.",
+            "DESCRIPTION": "This inbox uses OAuth. Enter a new Client ID and Client Secret to replace its credentials.",
+            "SAVE": "Verify and save credentials",
+            "SUCCESS": "Bandwidth OAuth credentials saved.",
+            "LOAD_ERROR": "Unable to load Bandwidth credentials. Reload this page to try again.",
+            "ERROR": "Unable to save Bandwidth credentials. Please try again.",
+            "CALLBACK_DESCRIPTION": "Use this URL for inbound messages and delivery status callbacks in your Bandwidth application."
           }
         }
       },
@@ -291,6 +328,11 @@
           "PLACEHOLDER": "API 密钥",
           "ERROR": "请输入一个有效的值"
         },
+        "APP_SECRET": {
+          "LABEL": "App secret",
+          "PLACEHOLDER": "App secret of your Meta app",
+          "ERROR": "请输入一个有效的值"
+        },
         "API_CALLBACK": {
           "TITLE": "回调地址",
           "SUBTITLE": "您需要在Facebook开发者门户中使用下面显示的值配置Webhook URL和验证令牌。",
@@ -339,12 +381,15 @@
             "WARNING": "Meta shows the token only once. Copy it before closing the dialog."
           },
           "DETAILS": {
-            "WABA_LABEL": "WhatsApp Business Account ID",
-            "WABA_PLACEHOLDER": "Enter WABA ID",
-            "PHONE_ID_LABEL": "Phone Number ID",
-            "PHONE_ID_PLACEHOLDER": "Enter Phone Number ID",
+            "WABA_LABEL": "WhatsApp Business 账户 ID",
+            "WABA_PLACEHOLDER": "输入 WABA ID",
+            "PHONE_ID_LABEL": "电话号码 ID",
+            "PHONE_ID_PLACEHOLDER": "输入电话号码 ID",
             "TOKEN_LABEL": "Permanent access token",
-            "TOKEN_PLACEHOLDER": "Paste access token"
+            "TOKEN_PLACEHOLDER": "粘贴访问令牌",
+            "APP_SECRET_LABEL": "App secret",
+            "APP_SECRET_PLACEHOLDER": "Paste app secret",
+            "APP_SECRET_HELP": "Find it in your Meta app under App settings > Basic. It is used to verify incoming webhooks."
           },
           "REVIEW": {
             "TITLE": "Create your WhatsApp inbox",
@@ -352,8 +397,8 @@
             "VERIFIED": "Your Meta number and access token are valid.",
             "BUSINESS_NAME": "Business name",
             "PHONE_NUMBER": "电话号码",
-            "PHONE_ID": "Phone Number ID",
-            "WABA_ID": "WhatsApp Business Account ID",
+            "PHONE_ID": "电话号码 ID",
+            "WABA_ID": "WhatsApp Business 账户 ID",
             "INBOX_NAME": "收件箱名称",
             "INBOX_NAME_HELP": "We generated this name from your verified Meta business name. You can change it."
           },
@@ -366,7 +411,7 @@
             "SUBSCRIPTION": "Webhook subscription",
             "WEBHOOK_URL": "Webhook 网址",
             "COPY": "复制",
-            "COPY_SUCCESS": "Webhook URL copied to clipboard",
+            "COPY_SUCCESS": "Webhook URL 已复制到剪贴板",
             "COMPLETE": "已认证",
             "PENDING": "等待中",
             "SUCCESS": "Your WhatsApp number is connected and ready for agent assignment.",
@@ -377,7 +422,7 @@
             "BACK": "后退",
             "OPEN_META_APPS": "Open Meta Apps",
             "APP_READY": "My Meta app is ready",
-            "NEXT": "Next",
+            "NEXT": "下一页",
             "OPEN_BUSINESS_SETTINGS": "Open Meta Business Settings",
             "SHOW_TOKEN": "Show token",
             "HIDE_TOKEN": "Hide token",
@@ -388,7 +433,7 @@
           },
           "ERRORS": {
             "IDS_REQUIRED": "Enter the Phone Number ID and WhatsApp Business Account ID.",
-            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, and permanent access token.",
+            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, permanent access token, and app secret.",
             "INVALID_TOKEN": "This access token is invalid or expired. Generate a new permanent token and try again.",
             "GENERIC": "We could not complete the WhatsApp setup. Check your details and try again."
           }
@@ -440,7 +485,7 @@
         "API": {
           "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道",
           "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
-          "STATUS_LINK": "View status updates"
+          "STATUS_LINK": "查看状态更新"
         }
       },
       "VOICE": {
@@ -766,49 +811,111 @@
       "BOT_CONFIGURATION": "机器人配置",
       "ACCOUNT_HEALTH": "账户健康",
       "CSAT": "客户满意度",
-      "VOICE": "语音",
       "CALLS": "通话"
     },
-    "VOICE_CONFIGURATION": {
-      "ENABLE_VOICE": {
-        "LABEL": "启用语音通话",
-        "DESCRIPTION": "在此收件箱上启用语音通话。客服将能够拨打和接听电话。"
+    "CALL_SETTINGS": {
+      "SAVE": "保存更改",
+      "OPTIONAL": "（可选）",
+      "OFF": "Off",
+      "SECONDS": "{seconds} 秒",
+      "MINUTES": "{n} minute | {n} minutes",
+      "CALLING": {
+        "TITLE": "Calling",
+        "DESCRIPTION": "Whether voice calling is enabled for this inbox",
+        "TAKE_INCOMING": "Taking incoming calls",
+        "TAKE_INCOMING_HELP": "Turn off to stop calls ringing without disconnecting the number. Outgoing calls still work.",
+        "CREDENTIALS_HELP": "Calling needs an API key from your Twilio account, and the account's auth token to check Twilio's requests.",
+        "REPLACE_HELP": "Enter a new API key to replace the one this inbox uses.",
+        "CONNECT": "Turn on calling",
+        "CONNECTED": "已连接",
+        "TWILIO_ACCOUNT": "Twilio account {sid}",
+        "MANAGE_CONNECTION": "Manage connection",
+        "HIDE_CONNECTION": "Hide connection",
+        "UPDATE_CONNECTION": "Update connection",
+        "WHATSAPP_ENABLE": "Turn on WhatsApp calling",
+        "WHATSAPP_ENABLE_HELP": "Customers can call this number from WhatsApp. Agents answer in the browser, which needs microphone access.",
+        "META_ON": "Calling on at Meta",
+        "META_HELP": "Calls ring on this WhatsApp number",
+        "TURN_OFF": "Turn off calling"
       },
-      "CREDENTIALS": {
-        "DESCRIPTION": "语音通话需要 Account Auth Token 来验证 webhook，并需要 API 密钥凭据来进行通话。"
+      "INCOMING": {
+        "TITLE": "When a call comes in",
+        "DESCRIPTION": "What the caller hears and who rings.",
+        "GREETING": "Greeting",
+        "GREETING_PLACEHOLDER": "Thanks for calling. Connecting you to the team.",
+        "GREETING_HELP": "Played once to the caller while agents ring, followed by hold music. Leave empty for no greeting.",
+        "SIMULTANEOUS": "Ring everyone at once",
+        "SIMULTANEOUS_HELP": "All available agents ring together. The first to answer gets the call.",
+        "SEQUENTIAL": "Ring one agent at a time",
+        "SEQUENTIAL_HELP": "Starts with the longest-idle agent, then adds the next if nobody answers.",
+        "STEP": "Add another agent after",
+        "ASSIGNEE_FIRST": "Ring the conversation assignee first for returning callers",
+        "ASSIGNEE_FIRST_HELP": "Turn off for line-staffed teams on rotation.",
+        "ALWAYS": "Always:",
+        "ALWAYS_NOTE": "agents who are on a call, in wrap-up, or not taking calls are never rung. The caller waits, and the first agent who frees up rings.",
+        "ROUTING": "How calls are routed",
+        "WHATSAPP_DESCRIPTION": "Who rings, and in what order."
       },
-      "INBOUND": {
-        "LABEL": "允许来电",
-        "DESCRIPTION": "允许客户拨打此号码。关闭后，来电将被自动拒绝，客服不会收到通知，也不会创建对话；客服仍可拨打外呼电话。"
+      "UNANSWERED": {
+        "TITLE": "If nobody answers",
+        "DESCRIPTION": "Also used straight away when no agent is available.",
+        "WAIT": "Wait",
+        "THEN": "then play the message and hang up",
+        "MESSAGE": "Missed-call message",
+        "MESSAGE_HELP": "Read out to the caller.",
+        "WHATSAPP_DESCRIPTION": "When a call ends without being answered, including when no agent is available.",
+        "WHATSAPP_SEND": "Send a WhatsApp message",
+        "WHATSAPP_SEND_HELP": "Sent after each missed call, in the call's conversation, so the caller can reply there.",
+        "WHATSAPP_PLACEHOLDER": "Sorry we missed your call. Reply here and we'll get back to you as soon as we can.",
+        "WHATSAPP_MESSAGE_HELP": "Leave empty to send the text shown. Only sent within WhatsApp's 24-hour messaging window."
       },
-      "RECORDING": {
-        "LABEL": "Record calls",
-        "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
+      "OUT_OF_HOURS": {
+        "TITLE": "Outside business hours",
+        "DESCRIPTION": "Uses the inbox's hours from the Business hours tab.",
+        "APPLY": "Apply business hours to calls",
+        "APPLY_HELP": "When on, calls outside business hours follow the rule below.",
+        "HOURS_OFF": "Business hours are off for this inbox. Turn them on for the inbox first, then calls can follow them.",
+        "HOURS_OFF_APPLIED": "Business hours are off for this inbox, so calls will keep ringing as usual at all times. Turn business hours on for the inbox to apply this.",
+        "GO_TO_HOURS": "Go to Business hours",
+        "INBOX_HOURS": "Inbox hours:",
+        "ALL_DAY": "all day",
+        "ALWAYS_CLOSED": "Closed every day",
+        "EDIT_HOURS": "Edit hours",
+        "MESSAGE": "Out-of-hours message",
+        "SAME": "Same as the missed-call message",
+        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
+        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead.",
+        "WHATSAPP_HOURS_CHECKING": "Checking WhatsApp…",
+        "WHATSAPP_HOURS_APPLYING": "Applying on WhatsApp…",
+        "WHATSAPP_HOURS_APPLIED": "Applied on WhatsApp",
+        "WHATSAPP_HOURS_DIFFER": "WhatsApp is using different call hours from this inbox. Calls follow WhatsApp's hours until you apply the inbox hours.",
+        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours",
+        "WHATSAPP_HOURS_STILL_ON": "WhatsApp is still applying call hours, but this inbox doesn't. Calls outside those hours won't go through until you turn them off.",
+        "WHATSAPP_TURN_OFF_HOURS": "Turn off on WhatsApp"
       },
-      "TRANSCRIPTION": {
-        "LABEL": "Transcribe recordings",
-        "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
+      "AFTER_CALL": {
+        "TITLE": "After a call",
+        "DESCRIPTION": "Wrap-up and records.",
+        "WRAP_UP": "Wrap-up time",
+        "WRAP_UP_HELP": "Agents in wrap-up aren't rung; resolving the conversation also ends it.",
+        "RECORD": "Record calls",
+        "TRANSCRIBE": "Transcribe recordings",
+        "TRANSCRIBE_HELP": "Turned into text with Captain and shown with the call. Needs recording on.",
+        "RECORD_HELP": "The recording is attached to the conversation."
+      },
+      "PLAY": "Play",
+      "PLAY_AFTER_SAVE": "Save changes to record and play the new message",
+      "STOP": "Stop",
+      "CALLING_CUSTOMERS": {
+        "TITLE": "Calling customers",
+        "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
+        "PERMISSION_MESSAGE": "Permission request message",
+        "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
+        "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
       }
     },
     "WHATSAPP_CALLING": {
-      "ENABLE": {
-        "LABEL": "启用 WhatsApp 通话",
-        "DESCRIPTION": "允许客服在此收件箱上接听和拨打 WhatsApp Cloud 通话。客户可以直接从 WhatsApp 拨打此商业号码。"
-      },
-      "ENABLE_FAILED": "无法为此号码启用语音通话：该号码尚未加入 WhatsApp Business Calling API。请联系 Meta 或您的 WhatsApp Business Solution Provider 完成接入，然后重试。",
-      "PHONE_NUMBER": {
-        "LABEL": "商业电话号码",
-        "HELP_TEXT": "客户将拨打的 WhatsApp 号码。"
-      },
-      "HOW_IT_WORKS": {
-        "LABEL": "工作原理",
-        "DESCRIPTION": "通话通过客服浏览器与 Meta 之间的点对点连接进行，无需额外凭据。请确保客服浏览器已授予本站麦克风权限。"
-      },
-      "PERMISSION_REQUEST_BODY": {
-        "LABEL": "通话权限请求消息",
-        "HELP_TEXT": "当联系人尚未同意接听通话时显示。留空则使用默认消息。",
-        "PLACEHOLDER": "我们希望就您的对话联系您。"
-      }
+      "ENABLE_FAILED": "无法为此号码启用语音通话：该号码尚未加入 WhatsApp Business Calling API。请联系 Meta 或您的 WhatsApp Business Solution Provider 完成接入，然后重试。"
     },
     "CHANNEL_PREFERENCES": "频道偏好设置",
     "WIDGET_FEATURES": "小组件功能",
@@ -816,7 +923,7 @@
       "TITLE": "Manage your Twilio number",
       "DESCRIPTION": "Review the Twilio account, sender and webhooks backing this inbox. Anything Chatwoot cannot receive is flagged here",
       "GO_TO_SETTINGS": "Go to Twilio Console",
-      "NO_DATA": "Health data is not available",
+      "NO_DATA": "健康数据不可用",
       "LOADING": "Fetching health data from Twilio…",
       "ERROR_TITLE": "Could not reach Twilio",
       "STATUS": {
@@ -847,6 +954,22 @@
         "VOICE_CALLING": {
           "LABEL": "Voice calling",
           "TOOLTIP": "Whether calling is turned on for this inbox"
+        },
+        "SENDER_STATUS": {
+          "LABEL": "WhatsApp sender status",
+          "TOOLTIP": "The sender must be online to send and receive WhatsApp messages"
+        },
+        "DISPLAY_NAME": {
+          "LABEL": "WhatsApp 显示名称",
+          "TOOLTIP": "The business name shown to customers on WhatsApp"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "质量评级",
+          "TOOLTIP": "The WhatsApp sender quality rating reported by Twilio"
+        },
+        "MESSAGING_LIMIT": {
+          "LABEL": "Messaging limit",
+          "TOOLTIP": "The WhatsApp messaging limit reported by Twilio"
         }
       },
       "VALUES": {
@@ -865,10 +988,25 @@
         },
         "SENDER_TYPES": {
           "PHONE_NUMBER": "电话号码",
-          "MESSAGING_SERVICE": "Messaging service"
+          "MESSAGING_SERVICE": "Messaging service",
+          "WHATSAPP_SENDER": "WhatsApp sender"
         },
         "ENABLED": "已启用",
-        "DISABLED": "已禁用"
+        "DISABLED": "已禁用",
+        "SENDER_STATUSES": {
+          "ONLINE": "在线",
+          "OFFLINE": "离线",
+          "CREATING": "Creating",
+          "VERIFYING": "正在验证",
+          "UPDATING": "更新中",
+          "DELETING": "Deleting",
+          "UNKNOWN": "Unknown"
+        },
+        "QUALITY_RATINGS": {
+          "HIGH": "高",
+          "MEDIUM": "中",
+          "LOW": "低"
+        }
       },
       "WEBHOOKS": {
         "TITLE": "Webhooks",
@@ -880,13 +1018,13 @@
         "VOICE_APP": "Outbound calling (TwiML app)"
       },
       "WEBHOOK": {
-        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "CONFIGURED_SUCCESS": "Webhook 配置成功",
         "NOT_SET": "not set",
         "EXPECTED": "Expected",
         "CURRENT": "Currently set to",
         "REASONS": {
-          "NOT_SET": "Webhook not configured",
-          "URL_MISMATCH": "Webhook URL mismatch",
+          "NOT_SET": "Webhook 未配置",
+          "URL_MISMATCH": "Webhook URL 不匹配",
           "WRONG_HTTP_METHOD": "Webhook uses the wrong HTTP method",
           "OVERRIDDEN_BY_NUMBER": "Messaging service defers to the number",
           "OVERRIDDEN_BY_APPLICATION": "Overridden by a TwiML app",
@@ -936,7 +1074,7 @@
           "TOOLTIP": "Business address shown in the WhatsApp business profile"
         },
         "PROFILE_EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "电子邮件",
           "TOOLTIP": "Contact email shown in the WhatsApp business profile"
         },
         "PROFILE_WEBSITES": {
@@ -1086,6 +1224,7 @@
       }
     },
     "SETTINGS": "设置",
+    "VIEW_CONVERSATIONS": "View conversations",
     "FEATURES": {
       "LABEL": "特性",
       "DISPLAY_FILE_PICKER": "在小部件上显示文件选择器",
@@ -1160,6 +1299,10 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "更新API密钥",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "在此处输入新的API密钥",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
+      "WHATSAPP_APP_SECRET_TITLE": "App Secret",
+      "WHATSAPP_APP_SECRET_SUBHEADER": "Enter the app secret of your Meta app (App settings > Basic). It is used to verify that incoming webhooks come from Meta.",
+      "WHATSAPP_APP_SECRET_MISSING": "Incoming webhooks for this inbox are not verified yet. Add your Meta app secret to complete the setup.",
+      "WHATSAPP_APP_SECRET_PLACEHOLDER": "Enter the app secret here",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
@@ -1229,6 +1372,8 @@
           "DISPLAY_PHONE_NUMBER_HELP": "向客户显示的 WhatsApp 号码，迁移期间无法更改。",
           "ACCESS_TOKEN": "永久访问令牌或系统用户令牌",
           "ACCESS_TOKEN_PLACEHOLDER": "粘贴访问令牌",
+          "APP_SECRET": "App secret",
+          "APP_SECRET_PLACEHOLDER": "App secret from App settings > Basic in your Meta app",
           "TOKEN_HELP_PREFIX": "令牌必须包含",
           "TOKEN_HELP_MIDDLE": "和",
           "TOKEN_HELP_SUFFIX": "权限，以便同步和管理模板。",
@@ -1256,7 +1401,7 @@
           },
           "ACCESS_TOKEN": {
             "TITLE": "访问令牌",
-            "DESCRIPTION": "粘贴具有 WhatsApp 权限的永久访问令牌或系统用户令牌。"
+            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions, and the app secret of your Meta app."
           },
           "REVIEW_MIGRATION": {
             "TITLE": "检查迁移信息",
@@ -1311,7 +1456,10 @@
         "BALANCED": "均衡分配"
       },
       "UPGRADE_PROMPT": "自定义分配策略在商务计划中可用",
+      "SELF_HOSTED_PROMPT": "Custom assignment policies are available on the Premium plan",
+      "FEATURE_DISABLED_PROMPT": "Custom assignment policies are not enabled for this account.",
       "UPGRADE_TO_BUSINESS": "升级到商务版",
+      "UPGRADE_TO_PREMIUM": "Upgrade to Premium",
       "DEFAULT_POLICY_LINKED": "默认策略已关联",
       "DEFAULT_POLICY_DESCRIPTION": "关联自定义分配策略以自定义此收件箱中对话的分配方式。",
       "LINK_EXISTING_POLICY": "关联现有策略",

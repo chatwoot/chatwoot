@@ -107,7 +107,9 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
   };
 
   const onFileUpload = file => {
-    if (globalConfig.value.directUploadsEnabled) {
+    // The direct upload endpoint needs a conversation, so a file added before
+    // one exists is sent along with the message instead.
+    if (globalConfig.value.directUploadsEnabled && currentChat.value.id) {
       handleDirectFileUpload(file);
     } else {
       handleIndirectFileUpload(file);

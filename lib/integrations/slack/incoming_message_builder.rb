@@ -86,7 +86,18 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def integration_hook
-    @integration_hook ||= Integrations::Hook.find_by(reference_id: params[:event][:channel])
+    @integration_hook ||= begin
+      hooks = Integrations::Hook.where(app_id: 'slack', reference_id: params[:event][:channel]).order(:id).to_a
+      hook_owning_thread(hooks) || hooks.first
+    end
+  end
+
+  def hook_owning_thread(hooks)
+    thread_ts = params[:event][:thread_ts]
+    return if thread_ts.blank? || hooks.size < 2
+
+    account_ids = Conversation.where(identifier: thread_ts, account_id: hooks.map(&:account_id)).distinct.pluck(:account_id)
+    hooks.find { |hook| account_ids.include?(hook.account_id) }
   end
 
   def slack_client

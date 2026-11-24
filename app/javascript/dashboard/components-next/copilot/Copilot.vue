@@ -71,23 +71,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  canShowAvatar: {
-    type: Boolean,
-    default: false,
-  },
-  // Workflows is in a test with a few accounts, so the panel labels it beta and offers its starter prompts.
-  isWorkflowsEnabled: {
-    type: Boolean,
-    default: false,
-  },
   onSendMessage: {
     type: Function,
     required: true,
-  },
-  // The old Copilot answers each message on its own and cannot be stopped.
-  canStop: {
-    type: Boolean,
-    default: false,
   },
   onStop: {
     type: Function,
@@ -130,9 +116,7 @@ const supportsCaptainAvatar = () => {
 const CopilotAvatar = defineAsyncComponent(() => import('./CopilotAvatar.vue'));
 // The avatar emits unsupported when its graphics context is lost for good, so the logo comes back.
 const isAvatarSupported = ref(supportsCaptainAvatar());
-const showAvatar = computed(
-  () => props.canShowAvatar && isAvatarSupported.value
-);
+const showAvatar = computed(() => isAvatarSupported.value);
 
 const draft = ref('');
 const chatContainer = ref(null);
@@ -237,7 +221,7 @@ const hasLiveStep = (item, index) =>
 // Copilot answers one message at a time, so while it works the agent can stop it but not send another message. A new
 // chat has no messages, so there is nothing to stop.
 const isStoppable = computed(
-  () => props.canStop && props.messages.length > 0 && isCopilotWorking.value
+  () => props.messages.length > 0 && isCopilotWorking.value
 );
 
 const showLoader = computed(() => {
@@ -448,7 +432,7 @@ watch(
       @click="handleSidebarAction"
       @close="closeCopilotPanel"
     >
-      <template v-if="isWorkflowsEnabled" #titleBadge>
+      <template #titleBadge>
         <Label :label="t('GENERAL.BETA')" color="blue" compact />
       </template>
     </SidebarActionsHeader>
@@ -548,7 +532,6 @@ watch(
         class="max-w-3xl mx-auto"
         :has-assistants="hasAssistants"
         :can-suggest-reply="canSuggestReply"
-        :is-workflows-enabled="isWorkflowsEnabled"
         @use-suggestion="sendSuggestion"
       >
         <template v-if="showAvatar" #logo>

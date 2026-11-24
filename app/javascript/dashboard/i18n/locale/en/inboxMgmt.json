@@ -205,6 +205,16 @@
           "ERROR_MESSAGE": "We were not able to save the SMS channel"
         },
         "BANDWIDTH": {
+          "CALLBACK_AUTH": {
+            "TITLE": "Callback credentials",
+            "DESCRIPTION": "Add these as the inbound and outbound callback credentials in your Bandwidth application. If several inboxes share one Bandwidth application, use the callback URL and credentials of one of them.",
+            "RESET_SUCCESS": "Callback password reset. Update it in your Bandwidth application.",
+            "RESET_ERROR": "Could not reset the callback password. Please try again.",
+            "USERNAME": "Username",
+            "PASSWORD": "Password",
+            "ENFORCE": "Require callback credentials",
+            "ENFORCE_DESCRIPTION": "Reject callbacks that do not use these credentials. Turn this on after adding the credentials to your Bandwidth application."
+          },
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
@@ -803,20 +813,6 @@
       "CSAT": "CSAT",
       "CALLS": "Calls"
     },
-    "VOICE_CONFIGURATION": {
-      "INBOUND": {
-        "LABEL": "Allow incoming calls",
-        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
-      },
-      "RECORDING": {
-        "LABEL": "Record calls",
-        "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
-      },
-      "TRANSCRIPTION": {
-        "LABEL": "Transcribe recordings",
-        "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
-      }
-    },
     "CALL_SETTINGS": {
       "SAVE": "Save changes",
       "OPTIONAL": "(optional)",
@@ -835,7 +831,12 @@
         "TWILIO_ACCOUNT": "Twilio account {sid}",
         "MANAGE_CONNECTION": "Manage connection",
         "HIDE_CONNECTION": "Hide connection",
-        "UPDATE_CONNECTION": "Update connection"
+        "UPDATE_CONNECTION": "Update connection",
+        "WHATSAPP_ENABLE": "Turn on WhatsApp calling",
+        "WHATSAPP_ENABLE_HELP": "Customers can call this number from WhatsApp. Agents answer in the browser, which needs microphone access.",
+        "META_ON": "Calling on at Meta",
+        "META_HELP": "Calls ring on this WhatsApp number",
+        "TURN_OFF": "Turn off calling"
       },
       "INCOMING": {
         "TITLE": "When a call comes in",
@@ -852,7 +853,8 @@
         "ASSIGNEE_FIRST_HELP": "Turn off for line-staffed teams on rotation.",
         "ALWAYS": "Always:",
         "ALWAYS_NOTE": "agents who are on a call, in wrap-up, or not taking calls are never rung. The caller waits, and the first agent who frees up rings.",
-        "ROUTING": "How calls are routed"
+        "ROUTING": "How calls are routed",
+        "WHATSAPP_DESCRIPTION": "Who rings, and in what order."
       },
       "UNANSWERED": {
         "TITLE": "If nobody answers",
@@ -860,7 +862,12 @@
         "WAIT": "Wait",
         "THEN": "then play the message and hang up",
         "MESSAGE": "Missed-call message",
-        "MESSAGE_HELP": "Read out to the caller."
+        "MESSAGE_HELP": "Read out to the caller.",
+        "WHATSAPP_DESCRIPTION": "When a call ends without being answered, including when no agent is available.",
+        "WHATSAPP_SEND": "Send a WhatsApp message",
+        "WHATSAPP_SEND_HELP": "Sent after each missed call, in the call's conversation, so the caller can reply there.",
+        "WHATSAPP_PLACEHOLDER": "Sorry we missed your call. Reply here and we'll get back to you as soon as we can.",
+        "WHATSAPP_MESSAGE_HELP": "Leave empty to send the text shown. Only sent within WhatsApp's 24-hour messaging window."
       },
       "OUT_OF_HOURS": {
         "TITLE": "Outside business hours",
@@ -876,7 +883,15 @@
         "EDIT_HOURS": "Edit hours",
         "MESSAGE": "Out-of-hours message",
         "SAME": "Same as the missed-call message",
-        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends."
+        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
+        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead.",
+        "WHATSAPP_HOURS_CHECKING": "Checking WhatsApp…",
+        "WHATSAPP_HOURS_APPLYING": "Applying on WhatsApp…",
+        "WHATSAPP_HOURS_APPLIED": "Applied on WhatsApp",
+        "WHATSAPP_HOURS_DIFFER": "WhatsApp is using different call hours from this inbox. Calls follow WhatsApp's hours until you apply the inbox hours.",
+        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours",
+        "WHATSAPP_HOURS_STILL_ON": "WhatsApp is still applying call hours, but this inbox doesn't. Calls outside those hours won't go through until you turn them off.",
+        "WHATSAPP_TURN_OFF_HOURS": "Turn off on WhatsApp"
       },
       "AFTER_CALL": {
         "TITLE": "After a call",
@@ -890,27 +905,19 @@
       },
       "PLAY": "Play",
       "PLAY_AFTER_SAVE": "Save changes to record and play the new message",
-      "STOP": "Stop"
+      "STOP": "Stop",
+      "CALLING_CUSTOMERS": {
+        "TITLE": "Calling customers",
+        "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
+        "CALLBACK_PERMISSION": "Ask callers for permission to call back",
+        "CALLBACK_PERMISSION_HELP": "After a customer calls, WhatsApp asks if you can call them back. If they allow it, agents can call them without sending a permission request.",
+        "PERMISSION_MESSAGE": "Permission request message",
+        "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
+        "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
+      }
     },
     "WHATSAPP_CALLING": {
-      "ENABLE": {
-        "LABEL": "Enable WhatsApp Calling",
-        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
-      },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
-      "PHONE_NUMBER": {
-        "LABEL": "Business phone number",
-        "HELP_TEXT": "WhatsApp number that customers will call."
-      },
-      "HOW_IT_WORKS": {
-        "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
-      },
-      "PERMISSION_REQUEST_BODY": {
-        "LABEL": "Call permission request message",
-        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
-        "PLACEHOLDER": "We would like to call you regarding your conversation."
-      }
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again."
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
@@ -1216,6 +1223,35 @@
         "EXPECTED_URL": "Expected URL",
         "COPY_URL": "Copy webhook URL",
         "COPY_SUCCESS": "Webhook URL copied to clipboard"
+      },
+      "CALLING": {
+        "TITLE": "WhatsApp calling",
+        "DESCRIPTION": "Checks that Meta has this number set up to make and receive calls through this inbox.",
+        "UNVERIFIED_HINT": "Meta didn't return this check. Reload the page to try again.",
+        "STATUSES": {
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled",
+          "CONFIGURED": "Configured",
+          "MISSING": "Missing",
+          "ELIGIBLE": "No restrictions",
+          "RESTRICTED": "Restricted",
+          "UNVERIFIED": "Unable to verify"
+        },
+        "META_STATUS": {
+          "LABEL": "Calling at Meta",
+          "DISABLED_HINT": "Calling is turned off for this number at Meta, so customers can't call it and agents can't place calls.",
+          "FIX_BUTTON": "Enable calling at Meta"
+        },
+        "WEBHOOK_SUBSCRIPTION": {
+          "LABEL": "Call webhook subscription",
+          "APP_NOT_SUBSCRIBED": "The Meta app isn't subscribed to this WhatsApp Business Account, so no calls or messages reach this inbox. Register the webhook to subscribe it again.",
+          "CALLS_FIELD_MISSING": "The Meta app connected to this inbox isn't subscribed to the \"calls\" webhook field. Add \"calls\" under WhatsApp Business Account in the app's Webhooks settings in the Meta App Dashboard."
+        },
+        "ELIGIBILITY": {
+          "LABEL": "Calling eligibility",
+          "RESTRICTED_BUSINESS_INITIATED_CALLING": "Meta has paused outgoing calls and call permission requests until {date} because too many customers blocked or reported calls. It lifts on its own.",
+          "RESTRICTED_USER_INITIATED_CALLING": "Meta has paused incoming calls and hidden the call button until {date} because too many customers blocked or reported calls. It lifts on its own."
+        }
       }
     },
     "SETTINGS": "Settings",

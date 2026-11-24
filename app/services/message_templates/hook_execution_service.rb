@@ -31,11 +31,11 @@ class MessageTemplates::HookExecutionService
     # ensures better UX by not interrupting active conversations at the end of business hours
     return false if conversation.messages.outgoing.where(private: false).exists?(['created_at > ?', 5.minutes.ago])
 
-    inbox.out_of_office? && conversation.messages.today.template.empty? && inbox.out_of_office_message.present?
+    inbox.out_of_office? && conversation.messages.today.template.without_missed_call_messages.empty? && inbox.out_of_office_message.present?
   end
 
   def first_message_from_contact?
-    conversation.messages.outgoing.count.zero? && conversation.messages.template.count.zero?
+    conversation.messages.outgoing.count.zero? && conversation.messages.template.without_missed_call_messages.count.zero?
   end
 
   def should_send_greeting?

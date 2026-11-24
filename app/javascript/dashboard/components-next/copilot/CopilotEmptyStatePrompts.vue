@@ -26,19 +26,17 @@ const assistants = useMapGetter('captainAssistants/getRecords');
 const isFeatureEnabled = feature =>
   isFeatureEnabledonAccount.value(currentAccountId.value, feature);
 
-// Copilot needs Captain and an assistant to answer. The prompts here are the workflows ones, so the older Copilot
-// keeps this screen as it was. They float above the launcher, so they leave with it when the panel opens.
+// Copilot needs Captain and an assistant to answer. The prompts float above the launcher, so they leave with it when
+// the panel opens.
 const showPrompts = computed(
   () =>
     isEnterprise &&
     !uiSettings.value.is_copilot_panel_open &&
     isFeatureEnabled(FEATURE_FLAGS.CAPTAIN) &&
-    isFeatureEnabled(FEATURE_FLAGS.COPILOT_WORKFLOWS) &&
     assistants.value.length > 0
 );
 
 const { prompts, selectPrompt } = useCopilotPrompts({
-  isWorkflowsEnabled: true,
   canSuggestReply: false,
 });
 const { openCopilot } = useCopilotDot();

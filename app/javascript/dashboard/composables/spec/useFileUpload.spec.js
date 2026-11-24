@@ -112,6 +112,29 @@ describe('useFileUpload', () => {
     expect(mockAttachFile).toHaveBeenCalledWith({ file: mockFile });
   });
 
+  it('handles indirect file upload when no conversation is selected', () => {
+    useMapGetter.mockImplementation(getter => {
+      const getterMap = {
+        getCurrentAccountId: { value: '123' },
+        getSelectedChat: { value: {} },
+        'globalConfig/get': {
+          value: { directUploadsEnabled: true, maximumFileUploadSize: 40 },
+        },
+      };
+      return getterMap[getter];
+    });
+
+    const { onFileUpload } = useFileUpload({
+      inbox,
+      attachFile: mockAttachFile,
+    });
+
+    onFileUpload(mockFile);
+
+    expect(DirectUpload).not.toHaveBeenCalled();
+    expect(mockAttachFile).toHaveBeenCalledWith({ file: mockFile });
+  });
+
   it('shows alert when file size exceeds limit', () => {
     checkFileSizeLimit.mockReturnValue(false);
     mockTranslate.mockReturnValue('File size exceeds limit');

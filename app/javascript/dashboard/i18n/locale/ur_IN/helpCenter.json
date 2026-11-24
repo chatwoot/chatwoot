@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "{locale} حذف کریں?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "زبان پورٹل سے کامیابی سے ہٹا دی گئی",
           "ERROR_MESSAGE": "پورٹل سے لوکیل ہٹانے میں ناکامی۔ دوبارہ کوشش کریں۔."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "تمام مضامین",
-          "MINE": "میرے",
           "DRAFT": "مسودہ",
           "PUBLISHED": "شائع شدہ",
           "ARCHIVED": "محفوظ شدہ"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Me",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "تمام زمرے"
@@ -574,9 +585,9 @@
           "SUBTITLE": "ایک جامع مضمون لکھیں، شروع کرتے ہیں!",
           "BUTTON_LABEL": "نیا مضمون"
         },
-        "MINE": {
-          "TITLE": "آپ نے یہاں کوئی مضامین نہیں لکھے",
-          "SUBTITLE": "آپ کے تمام لکھے ہوئے مضامین یہاں جلد رسائی کے لیے ظاہر ہوں گے۔."
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "مسودات میں کوئی مضامین نہیں ہیں",
@@ -801,6 +812,8 @@
           "SAVED": "محفوظ ہو گیا"
         },
         "PREVIEW": "پیش نظارہ",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "شائع کریں",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
@@ -816,6 +829,11 @@
         "DRAFT": "مسودہ",
         "ARCHIVE": "محفوظ کریں",
         "BACK_TO_ARTICLES": "مضامین پر واپس جائیں"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "مضمون کی خصوصیات",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "مضامین تلاش کریں...",
+        "ORIGINAL_ARTICLE_EMPTY": "کوئی مضمون نہیں ملا",
         "META_DESCRIPTION": "میٹا تفصیل",
         "META_DESCRIPTION_PLACEHOLDER": "میٹا تفصیل شامل کریں",
         "META_TITLE": "میٹا عنوان",
         "META_TITLE_PLACEHOLDER": "میٹا عنوان شامل کریں",
         "META_TAGS": "میٹا ٹیگز",
         "META_TAGS_PLACEHOLDER": "میٹا ٹیگز شامل کریں",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "سلاگ",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "لوگو",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "تصویر اپ لوڈ نہیں ہو سکی! دوبارہ کوشش کریں",
           "IMAGE_UPLOAD_SUCCESS": "تصویر کامیابی سے شامل ہو گئی ہے۔ براہ کرم لوگو محفوظ کرنے کے لیے تبدیلیاں محفوظ کریں پر کلک کریں",
           "IMAGE_DELETE_SUCCESS": "لوگو کامیابی سے حذف کر دیا گیا",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "تبدیلیاں محفوظ کریں"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "انضمام",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "General",
         "DOMAIN": "ڈومین",
         "APPEARANCE": "Appearance",
+        "SEO": "SEO",
         "INTEGRATIONS": "انضمام"
       },
       "API": {
