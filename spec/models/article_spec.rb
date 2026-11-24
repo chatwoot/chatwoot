@@ -374,6 +374,22 @@ RSpec.describe Article do
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with('article.updated', any_args)
     end
 
+    it 'does not dispatch article.updated when only the staged draft changes' do
+      article.update!(draft_title: 'Draft title', draft_content: 'Draft body')
+
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with('article.updated', any_args)
+    end
+
+    it 'leaves the staged draft out of the article.updated changes' do
+      article.update!(draft_title: 'Draft title', draft_content: 'Draft body')
+      article.update!(status: :archived, draft_title: nil, draft_content: nil)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'article.updated', kind_of(Time),
+        article: article, changed_attributes: { 'status' => %w[published archived], 'updated_at' => [kind_of(Time), kind_of(Time)] }
+      )
+    end
+
     it 'dispatches article.deleted with the article payload' do
       article_data = article.webhook_data
       article.destroy!

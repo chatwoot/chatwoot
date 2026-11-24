@@ -36,9 +36,10 @@ module ArticleEventDispatcher
   end
 
   def dispatch_update_event
-    return if previous_changes.except('position', 'updated_at').empty?
+    changed_attributes = previous_changes.except('draft_title', 'draft_content')
+    return if changed_attributes.except('position', 'updated_at').empty?
 
-    Rails.configuration.dispatcher.dispatch(ARTICLE_UPDATED, Time.zone.now, article: self, changed_attributes: previous_changes)
+    Rails.configuration.dispatcher.dispatch(ARTICLE_UPDATED, Time.zone.now, article: self, changed_attributes: changed_attributes)
   end
 
   def dispatch_destroy_event

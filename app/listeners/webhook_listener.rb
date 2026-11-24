@@ -85,7 +85,7 @@ class WebhookListener < BaseListener
 
   def article_created(event)
     article, account = extract_article_and_account(event)
-    payload = article.webhook_data.merge(event: __method__.to_s)
+    payload = article.webhook_data.merge(event: 'article_created')
     deliver_account_webhooks(payload, account)
   end
 
@@ -94,7 +94,7 @@ class WebhookListener < BaseListener
     changed_attributes = extract_changed_attributes(event)
     return if changed_attributes.blank?
 
-    payload = article.webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
+    payload = article.webhook_data.merge(event: 'article_updated', changed_attributes: changed_attributes)
     deliver_account_webhooks(payload, account)
   end
 
@@ -103,7 +103,7 @@ class WebhookListener < BaseListener
     account = Account.find_by(id: article_data.dig(:account, :id))
     return if account.nil?
 
-    payload = article_data.merge(event: __method__.to_s)
+    payload = article_data.merge(event: 'article_deleted')
     deliver_account_webhooks(payload, account)
   end
 
