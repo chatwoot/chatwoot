@@ -821,7 +821,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_24_153923) do
     t.jsonb "additional_attributes", default: {}
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at", precision: nil
-    t.index "account_id, lower((name)::text)", name: "index_companies_on_account_id_and_lower_name"
     t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"
     t.index ["name", "account_id"], name: "index_companies_on_name_and_account_id"

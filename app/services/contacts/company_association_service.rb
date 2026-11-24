@@ -11,15 +11,14 @@ class Contacts::CompanyAssociationService
 
   def find_or_create_by_name_or_domain(account, name:, domain: nil)
     name = name&.strip.presence
-    domain = domain&.strip.presence
     companies = account.companies
 
-    if domain
+    if domain.present?
       companies.find_or_create_by!(domain: domain) do |company|
         company.name = name || company_name_from_domain(company.domain)
       end
     elsif name
-      companies.where(Company.arel_table[:name].lower.eq(name.downcase)).first_or_create!(name: name)
+      companies.where('LOWER(name) = ?', name.downcase).first_or_create!(name: name)
     end
   end
 
@@ -71,7 +70,7 @@ class Contacts::CompanyAssociationService
   end
 
   def company_name_from_domain(domain)
-    domain.split('.', 2).first.to_s.tr('-_', ' ').titleize
+    domain.partition('.').first.tr('-_', ' ').titleize
   end
 
   def contact_attributes_with_company_name(contact, company)
