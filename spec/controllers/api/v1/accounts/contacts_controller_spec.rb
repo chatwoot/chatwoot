@@ -706,7 +706,7 @@ RSpec.describe 'Contacts API', type: :request do
 
       it 'rejects an unrecognized country code without changing the contact', :aggregate_failures do
         contact.update!(country_code: 'IN', additional_attributes: { city: 'Bengaluru' })
-        original_attributes = contact.attributes
+        original_attributes = contact.reload.attributes
 
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
               headers: admin.create_new_auth_token,
