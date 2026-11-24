@@ -31,9 +31,9 @@ class SearchService
   end
 
   def filter_conversations
-    conversations_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
-                                         .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                                         .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
+    conversations_query = conversation_search_scope
+                          .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                          .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
                             ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search
                             OR conversations.additional_attributes->>'mail_subject' ILIKE :search", search: "%#{search_query}%")
 
@@ -45,6 +45,10 @@ class SearchService
     @conversations = conversations_query.order('conversations.created_at DESC')
                                         .page(params[:page])
                                         .per(15)
+  end
+
+  def conversation_search_scope
+    current_account.conversations.where(inbox_id: accessable_inbox_ids)
   end
 
   def filter_messages
