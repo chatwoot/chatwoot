@@ -35,6 +35,24 @@ RSpec.describe DataExports::ContactsJob do
     end
   end
 
+  context 'with a country selection' do
+    let(:options) do
+      { column_names: %w[email country_code], payload: [{ attribute_key: 'country_code', filter_operator: 'equal_to', values: ['GB'] }] }
+    end
+
+    it 'exports the same canonical country that matched the filter' do
+      contact = create(:contact, account: account, email: 'selected@example.com')
+      # Simulate a legacy row whose country was never normalized.
+      contact.update_columns(country_code: nil, additional_attributes: { country: 'United Kingdom' }) # rubocop:disable Rails/SkipsModelValidations
+      create(:contact, account: account, email: 'excluded@example.com', country_code: 'US')
+
+      described_class.perform_now(data_export, data_export.active_run_id)
+
+      contents = data_export.export_file.download.force_encoding('UTF-8').delete_prefix("\uFEFF")
+      expect(CSV.parse(contents, headers: true).map(&:fields)).to eq([['selected@example.com', 'GB']])
+    end
+  end
+
   it 'does not publish a file after the requesting user loses permission' do
     data_export
     account.account_users.find_by!(user: admin).update!(role: :agent)

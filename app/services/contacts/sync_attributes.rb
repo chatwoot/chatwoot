@@ -20,23 +20,26 @@ class Contacts::SyncAttributes
   def sync_country_code
     attributes = contact.additional_attributes
     previous_attributes = contact.additional_attributes_in_database || {}
-    changed_key = changed_country_key(attributes, previous_attributes)
-    root_changed = contact.will_save_change_to_country_code?
-    return unless root_changed || changed_key
+    return sync_root_country(attributes, previous_attributes) if contact.will_save_change_to_country_code?
 
-    code = if root_changed
-             CountryCodeNormalizer.normalize(contact.country_code)
-           else
-             CountryCodeNormalizer.normalize(attributes[changed_key])
-           end
+    changed_key = changed_country_key(attributes, previous_attributes)
+    return unless changed_key
+
+    code = CountryCodeNormalizer.normalize(attributes[changed_key])
     contact.country_code = code
+    return if code.nil? && attributes[changed_key].present?
+
+    sync_legacy_country(attributes, previous_attributes, code)
+  end
+
+  def sync_root_country(attributes, previous_attributes)
+    code = CountryCodeNormalizer.normalize(contact.country_code)
+    contact.country_code = code
+    return sync_legacy_country(attributes, previous_attributes, code) if code.nil?
 
     # Keep legacy readers and country-name sorting consistent during migration.
-    if root_changed && code.present?
-      attributes['country_code'] = code
-      attributes['country'] = CountryCodeNormalizer.name_for(code)
-    end
-    sync_legacy_country(attributes, previous_attributes, code, changed_key)
+    attributes['country_code'] = code
+    attributes['country'] = CountryCodeNormalizer.name_for(code)
   end
 
   def changed_country_key(attributes, previous_attributes)
@@ -44,9 +47,7 @@ class Contacts::SyncAttributes
     changed_keys.find { |key| attributes.key?(key) } || changed_keys.first
   end
 
-  def sync_legacy_country(attributes, previous_attributes, code, changed_key)
-    return if code.nil? && changed_key && attributes[changed_key].present?
-
+  def sync_legacy_country(attributes, previous_attributes, code)
     values = { 'country_code' => code, 'country' => CountryCodeNormalizer.name_for(code) }
     values.each do |key, value|
       attributes[key] = value if attributes.key?(key) || previous_attributes.key?(key)

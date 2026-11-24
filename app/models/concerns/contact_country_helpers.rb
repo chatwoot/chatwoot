@@ -1,6 +1,10 @@
 module ContactCountryHelpers
   extend ActiveSupport::Concern
 
+  included do
+    validate :validate_country_code, if: :will_save_change_to_country_code?
+  end
+
   def canonical_country_code
     attributes = additional_attributes || {}
 
@@ -22,5 +26,13 @@ module ContactCountryHelpers
       'country_code' => code,
       'country' => CountryCodeNormalizer.name_for(code)
     )
+  end
+
+  private
+
+  def validate_country_code
+    return if country_code.blank? || CountryCodeNormalizer.normalize(country_code)
+
+    errors.add(:country_code, :invalid)
   end
 end

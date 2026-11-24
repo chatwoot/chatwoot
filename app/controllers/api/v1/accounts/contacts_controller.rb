@@ -87,6 +87,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def create
     ActiveRecord::Base.transaction do
       @contact = Current.account.contacts.new(permitted_params.except(:avatar_url).merge(contact_type: :lead))
+      @contact.country_code_will_change! if params.key?(:country_code)
       @contact.save!
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
@@ -95,7 +96,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
-      @contact.country_code_will_change! if permitted_params.key?(:country_code)
+      @contact.country_code_will_change! if params.key?(:country_code)
       @contact.assign_attributes(contact_update_params)
       Contacts::CompanyAssociationService.new.associate_company_from_name(@contact) if params[:resolve_legacy_company].to_s == 'true'
       @contact.save!
@@ -178,6 +179,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def permitted_params
     permitted_params = params.permit(:name, :identifier, :email, :phone_number, :country_code, :avatar, :avatar_url, :blocked,
                                      additional_attributes: {}, custom_attributes: {})
+    raise ActionController::ParameterMissing, :country_code if params.key?(:country_code) && !permitted_params.key?(:country_code)
+
     return permitted_params unless Current.account.feature_enabled?('companies') && params.key?(:company_id)
 
     company_id = params[:company_id]
