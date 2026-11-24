@@ -3404,6 +3404,13 @@
             "type": "object",
             "description": "CSAT survey configuration.",
             "properties": {
+              "response_window_days": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 14,
+                "description": "Number of elapsed days after the survey is sent during which responses and changes are accepted. Applies to outstanding surveys too.",
+                "example": 1
+              },
               "display_type": {
                 "type": "string",
                 "description": "Display style for the CSAT survey.",
@@ -3574,6 +3581,13 @@
             "type": "object",
             "description": "CSAT survey configuration.",
             "properties": {
+              "response_window_days": {
+                "type": "integer",
+                "minimum": 1,
+                "default": 14,
+                "description": "Number of elapsed days after the survey is sent during which responses and changes are accepted. Applies to outstanding surveys too.",
+                "example": 1
+              },
               "display_type": {
                 "type": "string",
                 "description": "Display style for the CSAT survey.",

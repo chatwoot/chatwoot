@@ -1540,6 +1540,11 @@
       }
     },
     "CSAT": {
+      "RESPONSE_WINDOW": {
+        "LABEL": "Survey response window (days)",
+        "DESCRIPTION": "Customers can submit or change their rating within this many days after the survey is sent. Changes also apply to surveys already sent.",
+        "ERROR": "Enter a whole number of days greater than zero."
+      },
       "TITLE": "Enable CSAT",
       "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
       "DISPLAY_TYPE": {

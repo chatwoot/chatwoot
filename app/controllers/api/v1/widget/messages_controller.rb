@@ -58,7 +58,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def prevent_expired_csat_survey_update
     return unless @message.csat_survey_expired?
 
-    error = I18n.t('errors.csat_survey.expired', days: Message::CSAT_SURVEY_RESPONSE_WINDOW_DAYS)
+    error = I18n.t('errors.csat_survey.expired', count: @message.inbox.csat_response_window_days)
     render json: { error: error }, status: :unprocessable_entity
   end
 

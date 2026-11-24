@@ -38,6 +38,9 @@ const isAnyWhatsAppChannel = computed(
   () => isAWhatsAppChannel.value || isATwilioWhatsAppChannel.value
 );
 
+const DEFAULT_RESPONSE_WINDOW_DAYS = 14;
+const MIN_RESPONSE_WINDOW_DAYS = 1;
+
 const isUpdating = ref(false);
 const utilityAnalysisLoading = ref(false);
 const utilityAnalysisResult = ref(null);
@@ -46,12 +49,19 @@ const currentLabel = ref('');
 
 const state = reactive({
   csatSurveyEnabled: false,
+  responseWindowDays: DEFAULT_RESPONSE_WINDOW_DAYS,
   displayType: 'emoji',
   message: '',
   templateButtonText: 'Please rate us',
   surveyRuleOperator: 'contains',
   templateLanguage: 'en',
 });
+
+const isResponseWindowValid = computed(
+  () =>
+    Number.isInteger(state.responseWindowDays) &&
+    state.responseWindowDays >= MIN_RESPONSE_WINDOW_DAYS
+);
 
 const templateStatus = ref(null);
 const templateLoading = ref(false);
@@ -150,6 +160,7 @@ const initializeState = () => {
   if (!csat_config) return;
 
   const {
+    response_window_days: responseWindowDays = DEFAULT_RESPONSE_WINDOW_DAYS,
     display_type: displayType = CSAT_DISPLAY_TYPES.EMOJI,
     message = '',
     button_text: buttonText = 'Please rate us',
@@ -157,6 +168,7 @@ const initializeState = () => {
     survey_rules: surveyRules = {},
   } = csat_config;
 
+  state.responseWindowDays = responseWindowDays;
   state.displayType = displayType;
   state.message = message;
   state.templateButtonText = buttonText;
@@ -424,6 +436,7 @@ const performSave = async () => {
     }
 
     const csatConfig = {
+      response_window_days: state.responseWindowDays,
       display_type: state.displayType,
       message: state.message,
       button_text: state.templateButtonText,
@@ -477,6 +490,8 @@ const performSave = async () => {
 };
 
 const saveSettings = async () => {
+  if (!isResponseWindowValid.value) return;
+
   // Check if we need to show confirmation dialog for WhatsApp template changes
   // This applies to both WhatsApp Cloud and Twilio WhatsApp channels
   if (
@@ -507,6 +522,24 @@ const handleConfirmTemplateUpdate = async () => {
     >
       <template v-if="state.csatSurveyEnabled" #editor>
         <div class="grid gap-5">
+          <div class="flex flex-col gap-2">
+            <Input
+              id="csat-response-window-days"
+              v-model="state.responseWindowDays"
+              type="number"
+              :label="$t('INBOX_MGMT.CSAT.RESPONSE_WINDOW.LABEL')"
+              :message="
+                isResponseWindowValid
+                  ? ''
+                  : $t('INBOX_MGMT.CSAT.RESPONSE_WINDOW.ERROR')
+              "
+              :message-type="isResponseWindowValid ? 'info' : 'error'"
+              class="max-w-xs"
+            />
+            <p class="text-sm text-n-slate-11">
+              {{ $t('INBOX_MGMT.CSAT.RESPONSE_WINDOW.DESCRIPTION') }}
+            </p>
+          </div>
           <!-- Show display type only for non-WhatsApp channels -->
           <WithLabel
             v-if="!isAnyWhatsAppChannel"
@@ -733,6 +766,7 @@ const handleConfirmTemplateUpdate = async () => {
         type="submit"
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
         :is-loading="isUpdating"
+        :disabled="!isResponseWindowValid"
         @click="saveSettings"
       />
     </div>

@@ -44,7 +44,6 @@ class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
-  CSAT_SURVEY_RESPONSE_WINDOW_DAYS = 14
   BOT_SENDER_TYPES = %w[AgentBot Captain::Assistant].freeze
 
   TEMPLATE_PARAMS_SCHEMA = {
@@ -237,9 +236,9 @@ class Message < ApplicationRecord
     true
   end
 
-  # Compares calendar dates, so the survey closes at the end of the 14th day after it was sent.
+  # Use elapsed seconds so each configured day is 24 hours, including across daylight saving changes.
   def csat_survey_expired?
-    input_csat? && (Time.zone.now.to_date - created_at.to_date).to_i > CSAT_SURVEY_RESPONSE_WINDOW_DAYS
+    input_csat? && Time.current >= created_at + inbox.csat_response_window_days.days.in_seconds
   end
 
   def forwarded?

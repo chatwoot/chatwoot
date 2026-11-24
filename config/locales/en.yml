@@ -173,7 +173,10 @@ en:
       sso_not_enabled: SAML SSO is not enabled for this installation
       multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     csat_survey:
-      expired: 'You cannot update the CSAT survey after %{days} days'
+      expired:
+        one: 'You cannot update the CSAT survey after %{count} day'
+        other: 'You cannot update the CSAT survey after %{count} days'
+      invalid_response_window: 'Response window must be a positive whole number of days'
     conversations:
       anonymous_caller_reply: 'Messages cannot be sent because this caller’s phone number is unavailable.'
       resolved: Conversation is resolved and does not accept new messages

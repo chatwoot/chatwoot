@@ -922,15 +922,36 @@ RSpec.describe Message do
     let(:sent_at) { Time.zone.local(2026, 11, 1, 23, 0, 0) }
     let(:csat_message) { create(:message, content_type: 'input_csat', created_at: sent_at) }
 
-    it 'is false through the 14th calendar day after the survey was sent' do
-      travel_to(sent_at.to_date + 14.days + 23.hours) do
+    it 'accepts responses until exactly 14 elapsed days by default' do
+      travel_to(sent_at + 14.days - 1.second) do
+        expect(csat_message.csat_survey_expired?).to be(false)
+      end
+      travel_to(sent_at + 14.days) do
+        expect(csat_message.csat_survey_expired?).to be(true)
+      end
+    end
+
+    it 'uses the current inbox setting for outstanding surveys' do
+      csat_message.inbox.update!(csat_config: { response_window_days: 1 })
+
+      travel_to(sent_at + 24.hours) do
+        expect(csat_message.csat_survey_expired?).to be(true)
+        csat_message.inbox.update!(csat_config: { response_window_days: 2 })
         expect(csat_message.csat_survey_expired?).to be(false)
       end
     end
 
-    it 'is true from the 15th calendar day after the survey was sent' do
-      travel_to(sent_at.to_date + 15.days) do
-        expect(csat_message.csat_survey_expired?).to be(true)
+    it 'measures elapsed hours across daylight saving changes' do
+      Time.use_zone('America/New_York') do
+        csat_message.update!(created_at: Time.zone.local(2026, 3, 7, 12))
+        csat_message.inbox.update!(csat_config: { response_window_days: 1 })
+
+        travel_to(csat_message.created_at + 24.hours - 1.second) do
+          expect(csat_message.csat_survey_expired?).to be(false)
+        end
+        travel_to(csat_message.created_at + 24.hours) do
+          expect(csat_message.csat_survey_expired?).to be(true)
+        end
       end
     end
 
