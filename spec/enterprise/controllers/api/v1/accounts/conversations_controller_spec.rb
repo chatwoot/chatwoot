@@ -5,6 +5,8 @@ RSpec.describe 'Conversations API', type: :request do
   let(:administrator) { create(:user, account: account, role: :administrator) }
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/filter with verified indexing' do
+    include_context 'with conversation search queue'
+
     let(:conversation) { create(:conversation, account: account, status: :open) }
     let(:client) { instance_double(OpenSearch::Client) }
 

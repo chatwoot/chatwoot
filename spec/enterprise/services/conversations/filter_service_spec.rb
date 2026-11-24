@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Conversations::FilterService do
   subject(:result) { described_class.new(params, user, account).perform }
 
+  include_context 'with conversation search queue'
+
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account, role: :administrator) }
   let(:conversation) { create(:conversation, account: account, status: :open) }
