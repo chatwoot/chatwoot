@@ -19,6 +19,16 @@ module Concerns::WhatsappCallingActions
     render_could_not_create_error(e.message)
   end
 
+  def set_whatsapp_callback_permission
+    return unless ensure_whatsapp_calling_supported
+
+    @inbox.channel.update_callback_permission!(ActiveModel::Type::Boolean.new.cast(params[:enabled]))
+    @inbox.update_account_cache
+    head :ok
+  rescue StandardError => e
+    render_could_not_create_error(e.message)
+  end
+
   private
 
   def fetch_health_data

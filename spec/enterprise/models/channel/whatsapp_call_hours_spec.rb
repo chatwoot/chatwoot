@@ -158,6 +158,8 @@ RSpec.describe Channel::Whatsapp do
       allow(channel).to receive(:webhook_setup_service).and_return(instance_double(Whatsapp::WebhookSetupService, register_callback: true))
       stub_request(:post, settings_url).with { |request| JSON.parse(request.body).dig('calling', 'status') == 'ENABLED' }
                                        .to_return(status: 200, headers: headers, body: '{}')
+      stub_request(:post, settings_url).with(body: { calling: { callback_permission_status: 'ENABLED' } }.to_json)
+                                       .to_return(status: 200, headers: headers, body: '{}')
     end
 
     it 'turns call hours off at WhatsApp when business hours were turned off while calling was off' do
