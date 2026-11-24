@@ -24,10 +24,7 @@ class DataImports::Csv::ContactWriter
     apply_company_fields(contact)
     company_change = contact.company_id_change_to_be_saved
     contact = persist(contact)
-    if company_change
-      update_company_counts(*company_change)
-      roll_up_company_activity(contact)
-    end
+    update_company_counts(*company_change) if company_change
     apply_labels(contact, labels)
     [contact, outcome]
   end
@@ -83,12 +80,6 @@ class DataImports::Csv::ContactWriter
     Company.increment_counter(:contacts_count, company_id) if company_id
     Company.decrement_counter(:contacts_count, previous_company_id) if previous_company_id
     # rubocop:enable Rails/SkipsModelValidations
-  end
-
-  def roll_up_company_activity(contact)
-    return if contact.last_activity_at.blank?
-
-    @account.companies.find_by(id: contact.company_id)&.record_activity_at!(contact.last_activity_at)
   end
 
   def persist(contact)
