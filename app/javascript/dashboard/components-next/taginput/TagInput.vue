@@ -119,7 +119,7 @@ const updateValueAndFocus = value => {
   tagInputRef.value?.focus();
 };
 
-const addTag = async () => {
+const addTag = async keyEvent => {
   const trimmedTag = newTag.value?.trim();
   if (!trimmedTag) return;
 
@@ -143,6 +143,7 @@ const addTag = async () => {
       await v$.value.$validate();
       return;
     }
+    keyEvent?.preventDefault();
     emails.forEach(value => {
       emitDataOnAdd(value);
       updateValueAndFocus(value);
@@ -194,10 +195,14 @@ const handleFocus = () => {
 };
 
 const handleKeydown = event => {
-  if (event.key === ',' || (acceptsEmailLists.value && event.key === ';')) {
+  const isSeparator =
+    event.key === ',' || (acceptsEmailLists.value && event.key === ';');
+  if (!isSeparator) return;
+
+  if (!acceptsEmailLists.value || !newTag.value?.trim()) {
     event.preventDefault();
-    addTag();
   }
+  addTag(event);
 };
 
 const handlePaste = async event => {
@@ -272,7 +277,7 @@ const handleBlur = e => emit('blur', e);
         class="w-full"
         :focus-on-mount="focusOnMount"
         :custom-input-class="`w-full ${isNewTagInValidType ? '!text-n-ruby-9 dark:!text-n-ruby-9' : ''}`"
-        @enter-press="addTag"
+        @enter-press="addTag()"
         @focus="handleFocus"
         @input="handleInput"
         @blur="handleBlur"

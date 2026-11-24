@@ -97,6 +97,26 @@ describe('TagInput email lists', () => {
     expect(tagValues(wrapper)).toEqual(['first@example.com']);
   });
 
+  it.each([';', ','])(
+    'lets the browser insert %s when the recipient cannot be added',
+    async key => {
+      const wrapper = mountInput();
+      const input = wrapper.find('input');
+      await input.setValue('invalid');
+      const event = new KeyboardEvent('keydown', {
+        key,
+        bubbles: true,
+        cancelable: true,
+      });
+
+      input.element.dispatchEvent(event);
+      await flushPromises();
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(wrapper.emitted('add')).toBeUndefined();
+    }
+  );
+
   it('keeps invalid pasted addresses for correction without adding a partial list', async () => {
     const wrapper = mountInput();
 
