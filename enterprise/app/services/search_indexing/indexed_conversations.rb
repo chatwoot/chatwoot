@@ -1,5 +1,7 @@
 class SearchIndexing::IndexedConversations
   def initialize(account_id, filters: [])
+    raise ArgumentError, 'account_id is required' if account_id.nil?
+
     @account_id = account_id
     @filters = filters
   end
@@ -31,6 +33,6 @@ class SearchIndexing::IndexedConversations
   private
 
   def filters
-    @account_id ? @filters + [{ term: { account_id: @account_id } }] : @filters
+    @filters + [{ term: { account_id: @account_id } }]
   end
 end

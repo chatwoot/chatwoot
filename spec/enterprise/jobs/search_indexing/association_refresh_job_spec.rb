@@ -40,12 +40,21 @@ RSpec.describe SearchIndexing::AssociationRefreshJob do
 
   it 'captures direct user deletion' do
     user = create(:user, account: account)
-    expect { user.destroy! }.to have_enqueued_job(described_class).with('assignee_id', user.id)
+    conversation = create(:conversation, account: account, assignee: user)
+    expect { user.destroy! }.to have_enqueued_job(described_class).with('assignee_id', user.id, account.id)
+    expect(conversation.reload.assignee_id).to be_nil
   end
 
   it 'captures bot deletion' do
     bot = create(:agent_bot, account: account)
     expect { bot.destroy! }.to have_enqueued_job(described_class).with('assignee_agent_bot_id', bot.id, account.id)
+  end
+
+  it 'scopes global bot cleanup to accounts with assigned conversations' do
+    bot = create(:agent_bot, account: nil)
+    conversation = create(:conversation, account: account, ai_assignee: bot)
+    expect { bot.destroy! }.to have_enqueued_job(described_class).with('assignee_agent_bot_id', bot.id, account.id)
+    expect(conversation.reload.assignee_agent_bot_id).to be_nil
   end
 
   it 'captures Captain assistant deletion' do

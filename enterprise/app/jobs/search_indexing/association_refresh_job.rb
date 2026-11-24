@@ -3,7 +3,7 @@ class SearchIndexing::AssociationRefreshJob < ApplicationJob
 
   # Nullification bypasses conversation callbacks. Find the former references in
   # the index, then let Searchkick reload their current database state in batches.
-  def perform(field, id, account_id = nil)
+  def perform(field, id, account_id)
     return unless ChatwootApp.advanced_search_allowed? && Conversation.search_index.exists?
 
     Conversation.search_index.refresh
