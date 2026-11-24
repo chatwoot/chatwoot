@@ -185,6 +185,7 @@ en:
       csv:
         blank_format_marker: 'Record %{row_number} has a blank %{column} value. Keep %{version} in this column for every row. Import new contacts in a separate CSV without this column.'
     contact_identity:
+      invalid_token: Invalid identity token
       signing_key:
         limit_reached: 'An inbox can have at most %{limit} signing keys'
     contacts:

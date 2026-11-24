@@ -4,14 +4,14 @@ class ContactIdentity::Proof
   VERIFIED = :verified
   INVALID = :invalid
 
-  # identifier and attributes are set only when the proof itself carries them, as a signed token does.
+  # identifier is the one a verified proof covers. attributes are the contact details a signed token carries.
   attr_reader :status, :identifier, :attributes
 
   def self.none
     new(NONE)
   end
 
-  def self.verified(identifier: nil, attributes: {})
+  def self.verified(identifier:, attributes: {})
     new(VERIFIED, identifier: identifier, attributes: attributes)
   end
 

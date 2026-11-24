@@ -4,7 +4,8 @@ module VerifiableAttributes
   extend ActiveSupport::Concern
 
   VERIFIABLE_ATTRIBUTES = %w[name email phone_number].freeze
-  VERIFICATION_SOURCES = %w[jwt].freeze
+  SOURCE_JWT = 'jwt'.freeze
+  VERIFICATION_SOURCES = [SOURCE_JWT].freeze
 
   included do
     validate :verified_attributes_are_known, if: :will_save_change_to_verified_attributes?

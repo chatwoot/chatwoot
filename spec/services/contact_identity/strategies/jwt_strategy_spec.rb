@@ -45,6 +45,13 @@ RSpec.describe ContactIdentity::Strategies::JwtStrategy do
       expect(proof.attributes).to eq(details.deep_stringify_keys)
     end
 
+    it 'drops a claim that has the wrong type' do
+      proof = strategy_for(token_for(claims.merge(name: 42, email: ['priya@example.com'], custom_attributes: 'pro', avatar_url: { url: 'x' }))).verify
+
+      expect(proof.verified?).to be(true)
+      expect(proof.attributes).to eq({})
+    end
+
     it 'turns a numeric identifier into a string' do
       proof = strategy_for(token_for({ identifier: 42 })).verify
 

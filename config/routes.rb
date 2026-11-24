@@ -590,6 +590,7 @@ Rails.application.routes.draw do
           collection do
             post :destroy_custom_attributes
             patch :set_user
+            post :identify
           end
         end
         resources :inbox_members, only: [:index]
