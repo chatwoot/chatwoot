@@ -1,6 +1,7 @@
 class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   before_action :check_admin_authorization?
   before_action :inbox, only: [:reauthorize_page]
+  before_action :validate_page_access_token, only: [:register_facebook_page]
 
   def register_facebook_page
     user_access_token = params[:user_access_token]
@@ -73,6 +74,20 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       ChatwootExceptionTracker.new(e).capture_exception
       Rails.logger.error "Error in update_fb_page: #{e.message}"
     end
+  end
+
+  def validate_page_access_token
+    return if page_token_for_page?(params[:page_access_token], params[:page_id])
+
+    render_could_not_create_error('Page access token does not belong to the page')
+  end
+
+  def page_token_for_page?(page_access_token, page_id)
+    return false if page_access_token.blank? || page_id.blank?
+
+    Koala::Facebook::API.new(page_access_token).get_object('me', { fields: 'id' })&.dig('id') == page_id.to_s
+  rescue Koala::Facebook::APIError
+    false
   end
 
   def get_fb_page(fb_page_id)
