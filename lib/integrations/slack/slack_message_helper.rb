@@ -51,7 +51,8 @@ module Integrations::Slack::SlackMessageHelper
 
   def process_attachments(attachments)
     attachments.each do |attachment|
-      tempfile = Down::NetHttp.download(attachment[:url_private], headers: { 'Authorization' => "Bearer #{integration_hook.access_token}" })
+      tempfile = Integrations::Slack::FileDownloadService.new(url: attachment[:url_private], access_token: integration_hook.access_token).perform
+      next unless tempfile
 
       attachment_params = {
         file_type: file_type(attachment),
@@ -83,7 +84,7 @@ module Integrations::Slack::SlackMessageHelper
   end
 
   def conversation
-    @conversation ||= Conversation.where(identifier: params[:event][:thread_ts]).first
+    @conversation ||= Conversation.where(account_id: integration_hook.account_id, identifier: params[:event][:thread_ts]).first
   end
 
   def resolve_slack_sender
