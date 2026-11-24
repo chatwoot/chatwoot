@@ -122,6 +122,18 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(email.content_attributes.dig('email', 'html_content', 'reply')).to include('<p>Bonjour</p>').and include('<blockquote>')
   end
 
+  it 'translates a blockquote the agent wrote in an email along with the rest of the reply' do
+    email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
+    email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })
+    reply = "Here is our policy:\n\n> Returns accepted within 30 days.\n\nI have approved your refund."
+    email = create(:message, account: account, inbox: email_inbox, conversation: email_conversation, message_type: :outgoing, sender: user,
+                             content: reply, content_attributes: { translation_pending: true, email: { subject: 'Re: Commande' } })
+
+    described_class.new(message: email).perform
+
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(text: reply))
+  end
+
   it 'stores the rendered email html as plain strings so the update can be broadcast' do
     email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
     email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })
