@@ -189,7 +189,8 @@ RSpec.describe Account do
         feature_copilot_workflows: 1 << 14,
         feature_shopify_custom_apps: 1 << 15,
         feature_captain_mcp_servers: 1 << 16,
-        feature_last_message_sort: 1 << 17
+        feature_last_message_sort: 1 << 17,
+        feature_advanced_search_conversations: 1 << 18
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
