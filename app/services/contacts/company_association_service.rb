@@ -15,7 +15,9 @@ class Contacts::CompanyAssociationService
     companies = account.companies
 
     if domain
-      find_or_create_by_domain(companies, domain, name)
+      companies.find_or_create_by!(domain: domain) do |company|
+        company.name = name || company_name_from_domain(company.domain)
+      end
     elsif name
       companies.where(Company.arel_table[:name].lower.eq(name.downcase)).first_or_create!(name: name)
     end
@@ -37,21 +39,6 @@ class Contacts::CompanyAssociationService
   end
 
   private
-
-  def find_or_create_by_domain(companies, domain, name)
-    domain = Company.normalize_value_for(:domain, domain)
-    existing_company = companies.find_by(domain: domain) || find_legacy_domain(companies, domain)
-    return existing_company if existing_company
-
-    companies.find_or_create_by!(domain: domain) do |company|
-      company.name = name || company_name_from_domain(company.domain)
-    end
-  end
-
-  def find_legacy_domain(companies, domain)
-    column = Company.arel_table[:domain]
-    companies.where(column.not_eq(column.lower)).where(column.lower.eq(domain)).first
-  end
 
   def skip_association?(contact)
     return true if contact.company_id.present?
