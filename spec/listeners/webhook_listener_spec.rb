@@ -128,33 +128,24 @@ describe WebhookListener do
 
   describe '#message_updated' do
     let(:event_name) { :'message.updated' }
-    let!(:message_updated_event) do
-      Events::Base.new(event_name, Time.zone.now, message: message, previous_changes: { 'status' => %w[sent delivered] })
-    end
 
-    context 'when webhook is not configured' do
-      it 'does not trigger webhook' do
-        expect(WebhookJob).to receive(:perform_later).exactly(0).times
-        listener.message_updated(message_updated_event)
-      end
-    end
+    it 'includes the updated message status when a newer message exists' do
+      webhook = create(:webhook, subscriptions: ['message_updated'], inbox: inbox, account: account)
+      newer_message = create(:message, account: account, inbox: inbox, conversation: conversation)
 
-    context 'when webhook is configured and event is subscribed' do
-      it 'triggers the webhook event with the changed attributes' do
-        webhook = create(:webhook, subscriptions: ['message_updated'], inbox: inbox, account: account)
-        message.update!(status: :delivered)
-
-        expect(WebhookJob).to receive(:perform_later).with(
-          webhook.url,
-          message.webhook_data.merge(
-            event: 'message_updated',
-            changed_attributes: [{ 'status' => { previous_value: 'sent', current_value: 'delivered' } }]
-          ),
-          :account_webhook,
-          secret: webhook.secret, delivery_id: instance_of(String)
-        ).once
-        listener.message_updated(message_updated_event)
-      end
+      expect do
+        perform_enqueued_jobs(only: EventDispatcherJob) do
+          message.update!(status: :delivered)
+        end
+      end.to have_enqueued_job(WebhookJob).with(
+        webhook.url,
+        hash_including(
+          event: 'message_updated', id: message.id, status: 'delivered',
+          conversation: hash_including(messages: [hash_including(id: newer_message.id, status: 'sent')])
+        ),
+        :account_webhook,
+        secret: webhook.secret, delivery_id: instance_of(String)
+      ).exactly(:once)
     end
   end
 

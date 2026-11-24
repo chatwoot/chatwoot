@@ -38,10 +38,7 @@ class WebhookListener < BaseListener
 
     return unless message.webhook_sendable?
 
-    # The message model dispatches its `previous_changes`; expose them the same way the
-    # conversation, contact and inbox events expose `changed_attributes`.
-    changed_attributes = extract_changed_attributes(event, :previous_changes)
-    payload = message.webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
+    payload = message.webhook_data.merge(event: __method__.to_s)
     deliver_webhook_payloads(payload, inbox)
   end
 
