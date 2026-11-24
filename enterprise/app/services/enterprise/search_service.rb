@@ -20,7 +20,10 @@ module Enterprise::SearchService
   def conversation_search_scope
     scope = super
     ids = SearchIndexing::ConversationSearch.new(current_account, search_query, accessable_inbox_ids).ids
-    ids.nil? ? scope : scope.where(id: ids)
+    return scope if ids.nil?
+
+    # Contact details remain in PostgreSQL until contact search is indexed separately.
+    scope.where(id: ids).or(scope.where(contact_id: contact_search_scope.select(:id)))
   end
 
   def build_where_conditions

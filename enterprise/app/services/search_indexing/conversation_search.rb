@@ -1,6 +1,6 @@
 class SearchIndexing::ConversationSearch
   CANDIDATE_LIMIT = 1000
-  FIELDS = %w[display_id_text mail_subject contact.name contact.email contact.phone_number contact.identifier].freeze
+  FIELDS = %w[display_id_text mail_subject].freeze
   RECOVERABLE_ERRORS = [Faraday::Error, Searchkick::Error, OpenSearch::Transport::Transport::Errors::NotFound,
                         OpenSearch::Transport::Transport::Errors::TooManyRequests, OpenSearch::Transport::Transport::Errors::RequestTimeout,
                         OpenSearch::Transport::Transport::Errors::InternalServerError, OpenSearch::Transport::Transport::Errors::BadGateway,
