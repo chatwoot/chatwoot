@@ -12,7 +12,7 @@ import {
 } from 'dashboard/components-next/message/constants';
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
 import { useCallsStore } from 'dashboard/stores/calls';
-import { useMapGetter, useFunctionGetter } from 'dashboard/composables/store';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { dateFormat } from 'shared/helpers/timeHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -63,16 +63,14 @@ const isCallButtonLoading = computed(() =>
     : !!contactsUiFlags.value?.isInitiatingCall
 );
 
-const contact = useFunctionGetter(
-  'contacts/getContact',
-  computed(() => props.chat?.meta?.sender?.id)
-);
+const getContact = useMapGetter('contacts/getContact');
 
 // Saved from the customer's WhatsApp answer; with it, the call connects without a permission request
 const callbackPermission = computed(() => {
+  const sender = props.chat?.meta?.sender;
   const attributes =
-    contact.value?.additional_attributes ||
-    props.chat?.meta?.sender?.additional_attributes;
+    getContact.value?.(sender?.id)?.additional_attributes ||
+    sender?.additional_attributes;
   return attributes?.whatsapp_call_permissions?.[props.inbox?.id];
 });
 
