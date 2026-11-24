@@ -82,4 +82,32 @@ RSpec.describe 'Captain task conversation access', type: :request do
     expect(response).to have_http_status(:ok)
     expect(response.parsed_body).to eq('message' => nil, 'no_reply_reason' => 'You already answered.')
   end
+
+  describe 'reply_suggestion with the agent-draft flag' do
+    before { create(:inbox_member, inbox: conversation.inbox, user: agent) }
+
+    it 'queues the draft and answers with a request ID' do
+      account.enable_features!(Captain::ReplySuggestionService::AGENT_REPLY_FEATURE)
+      expect(Captain::ReplySuggestionService).not_to receive(:new)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/captain/tasks/reply_suggestion", params: params, headers: agent.create_new_auth_token, as: :json
+      end.to have_enqueued_job(Captain::ReplySuggestionJob).with(
+        account: account, user: agent, conversation_display_id: conversation.display_id, request_id: kind_of(String)
+      )
+      expect(response).to have_http_status(:accepted)
+      expect(response.parsed_body['request_id']).to be_present
+    end
+
+    it 'drafts in the request when the flag is off' do
+      service = instance_double(Captain::ReplySuggestionService, perform: { message: 'Draft' })
+      allow(Captain::ReplySuggestionService).to receive(:new).and_return(service)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/captain/tasks/reply_suggestion", params: params, headers: agent.create_new_auth_token, as: :json
+      end.not_to have_enqueued_job(Captain::ReplySuggestionJob)
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['message']).to eq('Draft')
+    end
+  end
 end

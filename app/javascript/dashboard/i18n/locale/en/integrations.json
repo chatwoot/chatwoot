@@ -347,7 +347,9 @@
         "CANCEL": "Cancel"
       },
       "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again",
-      "NO_REPLY_NEEDED": "No reply needed. {reason}"
+      "NO_REPLY_NEEDED": "No reply needed. {reason}",
+      "REPLY_SUGGESTION_TIMEOUT": "The reply suggestion is taking too long. Please try again.",
+      "REPLY_SUGGESTION_DISCONNECTED": "The connection was lost while writing the reply suggestion. Please try again."
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",

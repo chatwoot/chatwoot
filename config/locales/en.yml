@@ -574,6 +574,8 @@ en:
     upgrade: 'Upgrade your plan to enable Captain AI'
     disabled: 'Captain AI is disabled for this account.'
     api_key_missing: 'Captain AI API key is not configured.'
+    reply_suggestion:
+      failed: 'Could not write a reply suggestion. Please try again.'
     copilot:
       using_tool: 'Using tool %{function_name}'
       approval_superseded: 'The agent sent a new message instead of approving this change.'
