@@ -19,9 +19,10 @@ class Captain::Tools::SearchPastRepliesService < RubyLLM::Tool
   description 'Search replies that agents of this business sent to customers in other conversations'
   parameter :query, description: 'Words describing the customer question to look for in past agent replies', required: true
 
-  # The only call to the search index, kept apart so specs can run without OpenSearch.
+  # The only call to the search index, kept apart so specs can run without OpenSearch. Any word may match, ranked by
+  # relevance, because the model writes whole-sentence queries that rarely share every word with one reply.
   def self.candidate_message_ids(query, where:)
-    Message.search(query, fields: %w[content], where: where, limit: CANDIDATE_LIMIT, load: false).map { |hit| hit.id.to_i }
+    Message.search(query, fields: %w[content], where: where, operator: 'or', limit: CANDIDATE_LIMIT, load: false).map { |hit| hit.id.to_i }
   end
 
   def initialize(account:, user:, conversation:, source: :index)
@@ -64,14 +65,24 @@ class Captain::Tools::SearchPastRepliesService < RubyLLM::Tool
     candidate_ids.filter_map { |id| replies[id] }.first(MAX_RESULTS)
   end
 
+  # The same search window as the database path. Like the dashboard search, an agent who is not an administrator is
+  # limited to their own inboxes before the top candidates are taken, so other inboxes cannot crowd out their results.
   def index_filters
-    {
+    filters = {
       account_id: @account.id,
       message_type: 'outgoing',
       private: false,
       sender_type: 'User',
-      conversation_id: { not: @conversation.id }
+      conversation_id: { not: @conversation.id },
+      created_at: { gte: Limits.search_time_range_limit_days.days.ago }
     }
+    return filters if administrator?
+
+    filters.merge(inbox_id: @user.inboxes.where(account_id: @account.id).pluck(:id))
+  end
+
+  def administrator?
+    @account.account_users.find_by(user_id: @user.id)&.administrator?
   end
 
   # Like the dashboard's SQL message search: this account, the search window, newest first, every word present.

@@ -33,16 +33,28 @@ RSpec.describe Captain::Tools::SearchPastRepliesService do
     expect(result).to include('Agent reply: Open Contacts and click Export.')
   end
 
-  it 'searches the index with filters set by the server' do
+  it 'searches the index with filters set by the server, limited to the search window and the agent inboxes' do
     stub_index
 
-    tool.execute(query: 'export contacts')
+    freeze_time do
+      tool.execute(query: 'export contacts')
 
-    expect(described_class).to have_received(:candidate_message_ids).with(
-      'export contacts',
-      where: { account_id: account.id, message_type: 'outgoing', private: false, sender_type: 'User',
-               conversation_id: { not: current_conversation.id } }
-    )
+      expect(described_class).to have_received(:candidate_message_ids).with(
+        'export contacts',
+        where: { account_id: account.id, message_type: 'outgoing', private: false, sender_type: 'User',
+                 conversation_id: { not: current_conversation.id },
+                 created_at: { gte: Limits.search_time_range_limit_days.days.ago }, inbox_id: [inbox.id] }
+      )
+    end
+  end
+
+  it 'searches every inbox for an administrator' do
+    admin = create(:user, account: account, role: :administrator)
+    stub_index
+
+    described_class.new(account: account, user: admin, conversation: current_conversation).execute(query: 'export contacts')
+
+    expect(described_class).to have_received(:candidate_message_ids).with('export contacts', where: hash_excluding(:inbox_id))
   end
 
   it 'ignores scope arguments the model adds' do
