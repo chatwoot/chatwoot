@@ -17,6 +17,17 @@ RSpec.describe AccountUser do
     end
   end
 
+  describe 'work preferences' do
+    it 'allows turning off one of conversations or calls' do
+      expect(account_user.update(accepts_calls: false)).to be(true)
+    end
+
+    it 'rejects turning off both conversations and calls' do
+      expect(account_user.update(accepts_conversations: false, accepts_calls: false)).to be(false)
+      expect(account_user.errors[:base]).to include('Receive conversations or Receive voice calls must stay on')
+    end
+  end
+
   describe 'permissions' do
     it 'returns the right permissions' do
       expect(account_user.permissions).to eq(['agent'])
@@ -40,6 +51,13 @@ RSpec.describe AccountUser do
       end
 
       expect(user.assigned_conversations.count).to eq(0)
+    end
+  end
+
+  describe 'live update streams' do
+    it 'notifies the open streams of the user when removed from the account' do
+      expect { account_user.destroy! }
+        .to have_broadcasted_to(RoomChannel.account_user_stream(account_user.account_id, account_user.user_id))
     end
   end
 

@@ -81,11 +81,16 @@ def linear_create_issue(input_data: dict[str, Any], api_key: str) -> dict[str, s
 
 
 def reporter_login(advisory: dict[str, Any]) -> str:
-    for credit in advisory.get("credits") or []:
-        user = (credit or {}).get("user") or {}
+    detailed = [credit or {} for credit in advisory.get("credits_detailed") or []]
+    detailed.sort(key=lambda credit: credit.get("type") != "reporter")
+    for credit in detailed:
+        user = credit.get("user") or {}
         if user.get("login"):
             return user["login"]
-    return "unknown"
+    for credit in advisory.get("credits") or []:
+        if (credit or {}).get("login"):
+            return credit["login"]
+    return (advisory.get("author") or {}).get("login") or "unknown"
 
 
 def cvss_score(advisory: dict[str, Any]) -> str:
@@ -104,6 +109,19 @@ def build_description(adv: dict[str, Any]) -> str:
         f"---\n\n"
         f"{adv.get('description') or 'No description provided.'}"
     )
+
+
+def post_slack(adv: dict[str, Any], issue: dict[str, str], webhook_url: str) -> None:
+    severity = adv.get("severity") or "unknown"
+    title = f"[{adv['ghsa_id']}] {adv['summary']}"[:200]
+    text = (
+        f"*<{issue['url']}|{title}>*\n"
+        f"Linear: {issue['identifier']} · Severity: {severity} (CVSS {cvss_score(adv)}) · <{adv['html_url']}|advisory>"
+    )
+    try:
+        requests.post(webhook_url, json={"text": text}, timeout=10)
+    except requests.RequestException:
+        pass
 
 
 def post_discord(adv: dict[str, Any], issue: dict[str, str], webhook_url: str) -> None:
@@ -146,6 +164,7 @@ def main() -> int:
     project_id = required_env("LINEAR_PROJECT_ID")
     label_id = required_env("LINEAR_LABEL_ID")
     discord_webhook = os.environ.get("DISCORD_WEBHOOK_URL") or None
+    slack_webhook = os.environ.get("SLACK_WEBHOOK_URL") or None
 
     advisories = fetch_triage_advisories(repo, gh_token)
     print(f"Fetched {len(advisories)} triage advisories")
@@ -186,6 +205,8 @@ def main() -> int:
         created += 1
         if discord_webhook:
             post_discord(adv, issue, discord_webhook)
+        if slack_webhook:
+            post_slack(adv, issue, slack_webhook)
 
     print(f"Created {created}, skipped {skipped}, failed {failed}")
     return 1 if failed > 0 else 0

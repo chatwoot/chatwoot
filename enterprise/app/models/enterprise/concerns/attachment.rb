@@ -2,6 +2,8 @@ module Enterprise::Concerns::Attachment
   extend ActiveSupport::Concern
 
   included do
+    include ConversationMonitors::AttachmentTracking
+
     after_create_commit :enqueue_audio_transcription
     # Broadcast the message update so the FE bubble picks up the new audio
     # attachment immediately. Without this, the FE has to wait until Whisper
@@ -14,7 +16,12 @@ module Enterprise::Concerns::Attachment
 
   def enqueue_audio_transcription
     return unless file_type.to_sym == :audio
+    # This callback can run twice for one new attachment. When the incoming message updates its
+    # conversation, the conversation autosaves the message and commits the attachment again before
+    # ActiveStorage clears its pending upload. Two jobs would both call OpenAI and use two credits.
+    return if @audio_transcription_enqueued
 
+    @audio_transcription_enqueued = true
     # No file.attached? guard: the social-media ingest path saves the
     # Attachment before attaching the blob. AudioTranscriptionJob retries
     # on ActiveStorage::FileNotFoundError to ride out that race.

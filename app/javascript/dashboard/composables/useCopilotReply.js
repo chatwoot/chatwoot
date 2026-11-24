@@ -1,6 +1,9 @@
 import { ref, computed } from 'vue';
 import { useCaptain } from 'dashboard/composables/useCaptain';
-import { useUISettings } from 'dashboard/composables/useUISettings';
+import {
+  useCopilotDot,
+  COPILOT_OPEN_SOURCES,
+} from 'dashboard/composables/useCopilotDot';
 import { useTrack } from 'dashboard/composables';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import {
@@ -78,7 +81,7 @@ function trackGenerationFailure({
  */
 export function useCopilotReply() {
   const { processEvent, followUp, currentChat } = useCaptain();
-  const { updateUISettings } = useUISettings();
+  const { openCopilot } = useCopilotDot();
 
   const showEditor = ref(false);
   const isGenerating = ref(false);
@@ -155,10 +158,7 @@ export function useCopilotReply() {
    */
   async function execute(action, data) {
     if (action === 'ask_copilot') {
-      updateUISettings({
-        is_contact_sidebar_open: false,
-        is_copilot_panel_open: true,
-      });
+      openCopilot(COPILOT_OPEN_SOURCES.REPLY_EDITOR);
       return;
     }
 

@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "מופעל על ידי Chatwoot",
   "EMAIL_PLACEHOLDER": "הזן בבקשה את האימייל שלך",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "הצג מקור",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "הקלד הודעה",
   "TODAY": "היום",
   "YESTERDAY": "אתמול",
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "מאמרים פופולריים",
     "VIEW_ALL_ARTICLES": "הצג את כל המאמרים",
+    "IFRAME_ERROR": "כתובת ה-URL ריקה או לא חוקית. לא ניתן להציג תוכן.",
     "IFRAME_LOAD_ERROR": "אירעה שגיאה בטעינת המאמר, אנא רענן את הדף ונסה שוב."
   },
   "ATTACHMENTS": {

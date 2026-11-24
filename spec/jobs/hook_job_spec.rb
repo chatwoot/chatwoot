@@ -60,6 +60,7 @@ RSpec.describe HookJob do
     end
 
     it 'calls Conversations::DetectLanguageJob when its a google_translate intergation' do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
       hook = create(:integrations_hook, :google_translate, account: account)
       allow(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new).and_return(process_service)
       expect(Integrations::GoogleTranslate::DetectLanguageService).to receive(:new).with(hook: hook, message: event_data[:message])

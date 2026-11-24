@@ -8,6 +8,7 @@ import {
   stripUnsupportedFormatting,
 } from 'dashboard/helper/editorHelper';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { escapeHtml } from 'shared/helpers/HTMLSanitizer';
 import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
 
 const props = defineProps({
@@ -37,7 +38,8 @@ const HIGHLIGHT_CLASS = 'text-n-blue-text';
 
 const store = useStore();
 const { t } = useI18n();
-const { getPlainText, formatMessage, highlightContent } = useMessageFormatter();
+const { getPlainText, formatMessage, normalizeForSearch, highlightContent } =
+  useMessageFormatter();
 
 const cannedResponses = useMapGetter('getCannedResponses');
 const uiFlags = useMapGetter('getUIFlags');
@@ -45,19 +47,20 @@ const uiFlags = useMapGetter('getUIFlags');
 const searchQuery = ref(props.searchKey);
 
 const searchTerm = computed(() => searchQuery.value.trim());
+const normalizedTerm = computed(() => normalizeForSearch(searchTerm.value));
 
 // An empty term makes `highlightContent`'s regex match at every position, wrapping the
 // whole string in empty spans
 const highlightMatches = text =>
   searchTerm.value
     ? highlightContent(text, searchTerm.value, HIGHLIGHT_CLASS)
-    : text;
+    : escapeHtml(text);
 
 const buildSnippet = text => {
-  const term = searchTerm.value;
-  if (!term) return text;
+  const normalizedText = normalizeForSearch(text).toLowerCase();
+  if (normalizedText.length !== text.length) return text;
 
-  const index = text.toLowerCase().indexOf(term.toLowerCase());
+  const index = normalizedText.indexOf(normalizedTerm.value.toLowerCase());
   if (index <= SNIPPET_LEAD) return text;
 
   return `…${text.slice(index - SNIPPET_LEAD)}`;
@@ -72,15 +75,20 @@ const resolveContent = message =>
     props.schema
   );
 
+// Raw content, so the open conversation's contact never changes the results
 const records = computed(() =>
   cannedResponses.value.map(({ id, short_code: shortCode, content }) => {
-    const resolved = resolveContent(content);
+    const plainText = getPlainText(content)
+      .normalize('NFC')
+      .replace(/\s+/g, ' ')
+      .trim();
     return {
       id,
       content,
-      resolved,
       shortCode,
-      plainText: getPlainText(resolved).replace(/\s+/g, ' ').trim(),
+      plainText,
+      searchShortCode: normalizeForSearch(shortCode),
+      searchText: normalizeForSearch(plainText),
     };
   })
 );
@@ -88,9 +96,9 @@ const records = computed(() =>
 const filteredRecords = computed(() => {
   if (!searchTerm.value) return records.value;
 
-  return picoSearch(records.value, searchTerm.value, [
-    { name: 'shortCode', weight: 1 },
-    'plainText',
+  return picoSearch(records.value, normalizedTerm.value, [
+    { name: 'searchShortCode', weight: 1 },
+    'searchText',
   ]);
 });
 
@@ -98,7 +106,6 @@ const items = computed(() =>
   filteredRecords.value.map(record => ({
     id: record.id,
     content: record.content,
-    resolved: record.resolved,
     label: `/${record.shortCode}`,
     title: highlightMatches(`/${record.shortCode}`),
     subtitle: highlightMatches(buildSnippet(record.plainText)),
@@ -128,7 +135,7 @@ onMounted(() => store.dispatch('getCannedResponse'));
   >
     <template #preview="{ item }">
       <div
-        v-dompurify-html="formatMessage(item?.resolved || '')"
+        v-dompurify-html="formatMessage(resolveContent(item?.content || ''))"
         class="px-4 py-3 prose prose-bubble !max-w-none prose-a:text-n-brand"
       />
     </template>

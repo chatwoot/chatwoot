@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it';
 import mila from 'markdown-it-link-attributes';
 import mentionPlugin from './markdownIt/link';
+import linkifyHardBreakPlugin from './markdownIt/linkifyHardBreak';
 
 const setImageSizing = inlineToken => {
   const imgSrc = inlineToken.attrGet('src');
@@ -40,6 +41,20 @@ const imgResizeManager = md => {
   });
 };
 
+// Empty table cells collapse to zero height; fill them with an nbsp like the email renderer.
+const fillEmptyTableCells = md => {
+  md.core.ruler.after('inline', 'fill-empty-table-cells', state => {
+    state.tokens.forEach((token, index) => {
+      if (token.type !== 'th_open' && token.type !== 'td_open') return;
+      const inline = state.tokens[index + 1];
+      if (inline.children.length) return;
+      const nbsp = new state.Token('text', '', 0);
+      nbsp.content = '\u00a0';
+      inline.children.push(nbsp);
+    });
+  });
+};
+
 const createMarkdownInstance = (linkify = true) => {
   return MarkdownIt({
     html: false,
@@ -54,6 +69,8 @@ const createMarkdownInstance = (linkify = true) => {
     .disable(['lheading'])
     .use(mentionPlugin)
     .use(imgResizeManager)
+    .use(fillEmptyTableCells)
+    .use(linkifyHardBreakPlugin)
     .use(mila, {
       attrs: {
         class: 'link',

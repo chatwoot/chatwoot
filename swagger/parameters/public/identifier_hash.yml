@@ -1,0 +1,6 @@
+in: query
+name: identifier_hash
+schema:
+  type: string
+required: false
+description: HMAC-SHA256 of the contact identifier, signed with the inbox HMAC token. Required when the inbox enforces identity validation.

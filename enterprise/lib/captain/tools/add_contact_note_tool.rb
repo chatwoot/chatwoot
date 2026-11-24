@@ -1,6 +1,6 @@
 class Captain::Tools::AddContactNoteTool < Captain::Tools::BasePublicTool
   description 'Add a note to a contact profile'
-  param :note, type: 'string', desc: 'The note content to add to the contact'
+  parameter :note, type: 'string', description: 'The note content to add to the contact'
 
   def perform(tool_context, note:)
     contact = find_contact(tool_context.state)
@@ -18,9 +18,5 @@ class Captain::Tools::AddContactNoteTool < Captain::Tools::BasePublicTool
 
   def create_contact_note(contact, note)
     contact.notes.create!(content: note)
-  end
-
-  def permissions
-    %w[contact_manage]
   end
 end

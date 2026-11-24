@@ -5,6 +5,8 @@ json.payload do
 end
 
 json.meta do
-  json.total_count @custom_tools.count
-  json.page 1
+  json.total_count @custom_tools_count
+  json.page @current_page
+  json.installed_count @installed_count
+  json.custom_count @user_defined_count
 end

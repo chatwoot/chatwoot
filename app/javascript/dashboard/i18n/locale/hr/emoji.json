@@ -6,30 +6,30 @@
   },
   "EMOJI_ICON_PICKER": {
     "TABS": {
-      "ICONS": "Icons",
-      "EMOJIS": "Emojis"
+      "ICONS": "Ikone",
+      "EMOJIS": "Emotikoni"
     },
-    "SEARCH_EMOJI": "Search emoji…",
-    "SEARCH_ICON": "Search icons…",
-    "FREQUENTLY_USED": "Frequently used",
-    "NO_EMOJI": "No emoji match your search",
-    "NO_ICON": "No icons match your search",
+    "SEARCH_EMOJI": "Pretraži emotikone…",
+    "SEARCH_ICON": "Pretraži ikone…",
+    "FREQUENTLY_USED": "Često korišteno",
+    "NO_EMOJI": "Nema emojija koji odgovaraju vašoj pretrazi",
+    "NO_ICON": "Nijedna ikona ne odgovara vašoj pretrazi",
     "REMOVE": "Izbriši",
     "STYLE": {
-      "OUTLINE": "Outline icons",
-      "FILLED": "Filled icons"
+      "OUTLINE": "Konturne ikone",
+      "FILLED": "Ispunjene ikone"
     },
     "COLORS": {
-      "SLATE": "Slate",
-      "RED": "Red",
-      "ORANGE": "Orange",
-      "AMBER": "Amber",
-      "GREEN": "Green",
-      "TEAL": "Teal",
-      "BLUE": "Blue",
+      "SLATE": "Plavosiva",
+      "RED": "Crvena",
+      "ORANGE": "Narančasta",
+      "AMBER": "Jantarna",
+      "GREEN": "Zelena",
+      "TEAL": "Plavozelena",
+      "BLUE": "Plava",
       "INDIGO": "Indigo",
-      "VIOLET": "Violet",
-      "PINK": "Pink"
+      "VIOLET": "Ljubičasta",
+      "PINK": "Ružičasta"
     }
   }
 }

@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "由 Chatwoot 支援",
   "EMAIL_PLACEHOLDER": "請輸入您的電子信箱",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "檢視原文",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "輸入你的訊息",
   "TODAY": "今天",
   "YESTERDAY": "昨天",
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "熱門文章",
     "VIEW_ALL_ARTICLES": "查看所有文章",
+    "IFRAME_ERROR": "URL 為空或無效，無法顯示內容。",
     "IFRAME_LOAD_ERROR": "載入文章時出錯，請重新整理頁面並重試。"
   },
   "ATTACHMENTS": {

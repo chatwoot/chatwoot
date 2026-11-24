@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Toetab Chatwoot",
   "EMAIL_PLACEHOLDER": "Palun sisesta oma e-post",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "Vaata originaali",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Kirjuta oma sõnum",
   "TODAY": "Täna",
   "YESTERDAY": "Eile",
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populaarsed artiklid",
     "VIEW_ALL_ARTICLES": "Vaata kõiki artikleid",
+    "IFRAME_ERROR": "URL on tühi või vigane. Sisu kuvamine ei õnnestu.",
     "IFRAME_LOAD_ERROR": "Artikli laadimisel tekkis viga, palun värskenda lehte ja proovi uuesti."
   },
   "ATTACHMENTS": {

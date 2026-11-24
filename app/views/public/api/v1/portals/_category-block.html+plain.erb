@@ -48,7 +48,6 @@
       <div class="flex justify-between flex-row items-center">
          <div class="flex flex-row items-center gap-1">
            <%= render "public/api/v1/portals/authors", category: category, show_expanded: false %>
-           <span class="text-slate-600 dark:text-slate-400">•</span>
            <span class="text-sm font-medium text-slate-600 dark:text-slate-400"><%= render 'public/api/v1/portals/article_count', article_count: category.articles.published.order(position: :asc).size %></span>
          </div>
          <div>

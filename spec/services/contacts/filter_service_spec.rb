@@ -429,6 +429,25 @@ describe Contacts::FilterService do
         expect(result[:contacts].pluck(:id)).to include(el_contact.id)
       end
 
+      it 'filters timestamps by their calendar date in the saved timezone' do
+        account.contacts.each { |contact| contact.update!(created_at: Time.utc(2026, 9, 10)) }
+        en_contact.update!(created_at: Time.utc(2026, 9, 8, 0, 49))
+        el_contact.update!(created_at: Time.utc(2026, 9, 8, 3))
+        params[:payload] = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_less_than',
+            values: ['2026-09-08'],
+            timezone: 'America/Sao_Paulo',
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+
+        expect(result[:contacts]).to contain_exactly(en_contact)
+      end
+
       it 'binds custom date comparison values as dates' do
         date_value = '2024-01-01'
         params[:payload] = [

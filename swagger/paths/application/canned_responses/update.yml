@@ -4,6 +4,7 @@ operationId: update-canned-response-in-account
 summary: Update Canned Response in Account
 description: Update a Canned Response in Account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - in: path

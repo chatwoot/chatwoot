@@ -7,6 +7,7 @@
     "PLACEHOLDER": "Izvēlieties opciju...",
     "EMPTY_SEARCH_RESULTS": "Meklēšanas vienumam `{searchTerm}` netika atrasts neviens vienums",
     "EMPTY_STATE": "Nav atrasts.",
+    "LOADING": "Notiek ielāde...",
     "SEARCH_PLACEHOLDER": "Meklēt...",
     "MORE": "+{count} vairāk"
   },
@@ -39,6 +40,15 @@
   },
   "LABEL": {
     "TAG_BUTTON": "marķēt"
+  },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Sapratu",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Aizvērt"
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Uzzināt vairāk",

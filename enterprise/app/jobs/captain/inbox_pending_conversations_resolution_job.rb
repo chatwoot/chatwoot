@@ -1,6 +1,7 @@
 class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON = 'no outstanding questions'.freeze
-  CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON = 'pending clarification from customer'.freeze
+  CAPTAIN_INFERENCE_WAITING_ACTIVITY_REASON = 'no reply from customer'.freeze
+  CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON = 'needs a human agent'.freeze
   queue_as :low
 
   def perform(inbox)
@@ -41,8 +42,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       evaluation = evaluate_conversation(conversation, inbox)
       next unless still_resolvable_after_evaluation?(conversation)
 
-      if evaluation[:complete]
-        resolve_conversation(conversation, inbox, evaluation[:reason])
+      case evaluation[:outcome]
+      when 'complete'
+        resolve_conversation(conversation, CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON, "Auto-resolved: #{evaluation[:reason]}")
+      when 'waiting_on_customer'
+        resolve_conversation(conversation, CAPTAIN_INFERENCE_WAITING_ACTIVITY_REASON, "Auto-resolved, waiting on customer: #{evaluation[:reason]}",
+                             waiting_on_customer: true)
       else
         handoff_conversation(conversation, evaluation[:reason])
       end
@@ -93,11 +98,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     nil
   end
 
-  def resolve_conversation(conversation, _inbox, reason)
-    resolved = with_inference_activity_context(conversation, CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON) do
+  def resolve_conversation(conversation, activity_reason, note, waiting_on_customer: false)
+    resolved = with_inference_activity_context(conversation, activity_reason) do
       perform_locked_transition(conversation) do
+        conversation.mark_captain_waiting_close if waiting_on_customer
         conversation.resolved!
-        create_private_note(conversation, "Auto-resolved: #{reason}")
+        create_private_note(conversation, note)
         create_resolution_message(conversation)
       end
     end

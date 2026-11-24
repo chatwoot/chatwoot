@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Magpadala ng email na abiso kapag may bagong mensahe sa isang kalahok na pag-uusap",
         "SLA_MISSED_FIRST_RESPONSE": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa unang tugon na SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa susunod na tugon na SLA",
-        "SLA_MISSED_RESOLUTION": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa resolusyon na SLA"
+        "SLA_MISSED_RESOLUTION": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa resolusyon na SLA",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Mga kagustuhan sa abiso",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "May bagong mensahe sa isang kalahok na pag-uusap",
           "SLA_MISSED_FIRST_RESPONSE": "Hindi naabot ng pag-uusap ang unang tugon na SLA",
           "SLA_MISSED_NEXT_RESPONSE": "Hindi naabot ng pag-uusap ang susunod na tugon na SLA",
-          "SLA_MISSED_RESOLUTION": "Hindi naabot ng pag-uusap ang resolusyon na SLA"
+          "SLA_MISSED_RESOLUTION": "Hindi naabot ng pag-uusap ang resolusyon na SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Paganahin ang push notifications para sa iyong browser upang matanggap mo ang mga ito"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "I-enable ang push notifications",
         "SLA_MISSED_FIRST_RESPONSE": "Magpadala ng mga push na abiso kapag ang isang pag-uusap ay hindi nakasunod sa unang tugon na SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Magpadala ng mga push na abiso kapag ang isang pag-uusap ay hindi nakasunod sa susunod na tugon na SLA",
-        "SLA_MISSED_RESOLUTION": "Magpadala ng push notification kapag ang isang pag-uusap ay hindi naabot ang resolution SLA"
+        "SLA_MISSED_RESOLUTION": "Magpadala ng push notification kapag ang isang pag-uusap ay hindi naabot ang resolution SLA",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Larawan ng Profile"
@@ -253,6 +256,7 @@
     "SUPER_ADMIN_CONSOLE": "Konsol ng SuperAdmin",
     "DOCS": "Basahin ang dokumentasyon",
     "CHANGELOG": "Talaan ng mga pagbabago",
+    "CHANGELOG_DISMISS_ALL": "Dismiss all",
     "LOGOUT": "Mag-log out"
   },
   "APP_GLOBAL": {
@@ -262,6 +266,10 @@
     "EMAIL_VERIFICATION_PENDING": "Mukhang hindi mo pa na-verify ang iyong email address. Paki-check ang iyong inbox para sa verification email.",
     "RESEND_VERIFICATION_MAIL": "Muling ipadala ang email ng beripikasyon",
     "EMAIL_VERIFICATION_SENT": "Naipadala na ang email ng beripikasyon. Pakisuri ang iyong inbox.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Na-suspend ang Account",
       "MESSAGE": "Na-suspend ang iyong account. Mangyaring makipag-ugnayan sa support team para sa karagdagang impormasyon.",
@@ -278,7 +286,8 @@
     "CODE": {
       "BUTTON_TEXT": "Kopyahin",
       "CODEPEN": "Buksan sa CodePen",
-      "COPY_SUCCESSFUL": "Nakopya sa clipboard"
+      "COPY_SUCCESSFUL": "Nakopya sa clipboard",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Ipakita Pa",
@@ -331,6 +340,7 @@
     "CAPTAIN_DOCUMENTS": "Mga Dokumento",
     "CAPTAIN_RESPONSES": "Mga Madalas Itanong",
     "CAPTAIN_TOOLS": "Mga Kasangkapan",
+    "CAPTAIN_TOOLS_AND_MCP": "Tools & MCP",
     "CAPTAIN_SCENARIOS": "Mga Senaryo",
     "CAPTAIN_PLAYGROUND": "Palaruan",
     "CAPTAIN_INBOXES": "Mga Inbox",
@@ -391,6 +401,15 @@
       "SETTINGS": "Mga Setting"
     },
     "CHANNELS": "Mga Channel",
+    "ACCEPT_CONVERSATIONS": {
+      "TEXT": "Receive conversations",
+      "INFO_SHORT": "Get new conversations assigned to you automatically."
+    },
+    "ACCEPT_CALLS": {
+      "TEXT": "Receive voice calls",
+      "INFO_SHORT": "Receive incoming calls on web and mobile."
+    },
+    "WORK_PAUSED": "You won't get new conversations or calls until you're back Online.",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Awtomatikong itakda bilang offline",
       "INFO_TEXT": "Hayaan ang sistema na awtomatikong itakda kang offline kapag hindi mo ginagamit ang app o dashboard.",
@@ -418,16 +437,17 @@
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",
-    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
-    "LOADING": "Fetching imports",
+    "DESCRIPTION": "Bring in your customer data and manage contact exports.",
+    "LOADING": "Fetching imports and exports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Intercom import",
-      "FRESHDESK": "Freshdesk import"
+      "CSV": "Contacts Import - {date}",
+      "INTERCOM": "Intercom Import - {date}",
+      "FRESHDESK": "Freshdesk Import - {date}"
     },
     "TABS": {
-      "IMPORT": "I-import",
-      "EXPORT": "I-export"
+      "IMPORT": "Imports",
+      "EXPORT": "Exports"
     },
     "TYPES": {
       "CONTACTS": "Mga Kontak",
@@ -451,20 +471,43 @@
       "VALIDATING": "Validating access key...",
       "VALID_KEY": "Access key validated.",
       "INVALID_KEY": "Could not validate this access key.",
-      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "ACTIVE_IMPORT": "There is already an active import in this account. Wait for it to finish before starting another one.",
       "CANCEL": "Cancel",
       "IMPORT": "I-import"
     },
-    "EXPORT": {
-      "TITLE": "Exports are on the way",
-      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
-      "COMING_SOON": "Malapit nang ilabas"
+    "CSV": {
+      "ROW_ERRORS": "Row errors",
+      "SOURCE": "CSV file",
+      "FILE": "Contact CSV file",
+      "HELP": "Use the sample column names and existing labels. Up to 250,000 rows and 1 MiB per field.",
+      "SILENT_UPDATES": "Matching contacts are updated. Imports do not trigger contact automations or webhooks.",
+      "INVALID_FILE": "Choose a nonempty CSV file of 50 MiB or smaller.",
+      "SAMPLE": "Download sample CSV",
+      "UPLOADING": "Uploading {percent}%. Processing starts after the upload finishes.",
+      "OUTCOMES": "{created} created · {updated} updated · {failed} failed",
+      "PROCESSED": "of {total} processed",
+      "REJECTED_HELP": "Download the rejected rows, make corrections, and upload them as a new import. Files are available for 30 days.",
+      "DOWNLOAD_REJECTED": "Download rejected rows",
+      "EXPIRED": "The source and rejected-row files have expired. Upload a new file to import these contacts again.",
+      "FILE_REMOVED": "This file was removed after 30 days.",
+      "CHOOSE_FILE": "Click to upload or drag and drop",
+      "FILE_LIMIT": "CSV only · up to 50 MiB",
+      "REMOVE_FILE": "Remove file",
+      "PREVIEW_TITLE": "File preview",
+      "PREVIEW_DESCRIPTION": "Showing up to {count} rows. The file is uploaded when you start the import.",
+      "PREVIEW_LOADING": "Reading preview...",
+      "PREVIEW_ERROR": "We couldn't preview this CSV. You can still start the import to check the file.",
+      "PREVIEW_EMPTY": "No data rows found in this file.",
+      "REJECTED_TITLE": "Some rows need attention",
+      "CREATED": "Nilikha",
+      "UPDATED": "Updated",
+      "FAILED": "Nabigo"
     },
     "TABLE": {
       "TITLE": "Recent imports",
       "EMPTY": "No imports yet",
-      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
-      "NEW_IMPORT": "I-import",
+      "EMPTY_DESCRIPTION": "Import contacts from a CSV file or bring over customer history from another support tool.",
+      "NEW_IMPORT": "New import",
       "COUNT": "{count} imports",
       "UNNAMED": "Untitled import",
       "IMPORTED_COUNT": "{count} imported",
@@ -475,10 +518,11 @@
       "IMPORTED": "Imported",
       "CREATED": "Nilikha",
       "RETRY": "Retry",
+      "RESUME": "Resume",
       "ABANDON": "Abandon"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
+      "BACK": "Back to imports and exports",
       "ERRORS": "Errors",
       "SKIP_LOGS": "Skip logs",
       "SOURCE": "Source",
@@ -510,6 +554,7 @@
       "STAGES": {
         "unknown": "Waiting for update",
         "queued": "Queued",
+        "preparing": "Validating and preparing CSV",
         "contacts": "Importing contacts",
         "conversations": "Importing conversations",
         "finalizing": "Finalizing import",
@@ -520,11 +565,56 @@
       }
     },
     "ALERTS": {
+      "LOAD_FAILED": "Could not refresh imports and exports. Please try again.",
       "IMPORT_STARTED": "Import has started.",
       "IMPORT_RETRIED": "Import has been queued to resume.",
       "IMPORT_RETRY_FAILED": "Could not retry the import.",
       "IMPORT_ABANDONED": "Import has been abandoned.",
       "IMPORT_FAILED": "Could not start the import."
+    },
+    "STATUS": {
+      "PENDING": "Queued",
+      "PROCESSING": "In progress",
+      "COMPLETED": "Completed",
+      "COMPLETED_WITH_ERRORS": "Completed with errors",
+      "FAILED": "Nabigo",
+      "ABANDONED": "Abandoned"
+    }
+  },
+  "DATA_EXPORTS": {
+    "INITIATOR": "Started by {name} on {date}",
+    "TITLE": "Contact export",
+    "NEW": "I-export ang mga kontak",
+    "START": "Start export",
+    "EMPTY": "No exports yet",
+    "ALL_CONTACTS": "All contacts",
+    "FILTERED_CONTACTS": "Contacts matching the current filters",
+    "SCOPE": "Contacts to export: {scope}",
+    "DESCRIPTION": "Export the selected contacts to CSV. Data is captured when the export runs.",
+    "PROCESSED": "{count} contacts exported",
+    "ESTIMATE": "Estimated total: {count}. This can change while contacts are updated.",
+    "DOWNLOAD": "Download CSV",
+    "RERUN": "Run again",
+    "STALLED": "This export has stopped reporting progress. Run it again to create a new export.",
+    "EXPIRED": "This download has expired. Run the export again to create a new file.",
+    "RETENTION": "Export files are available for 30 days after completion.",
+    "ERROR": "Could not load or start this export. Please try again.",
+    "LOAD_ERROR": "Could not load this export. Please try again.",
+    "RETRY": "Retry",
+    "LOAD_OLDER": "Load older exports",
+    "LOAD_OLDER_ERROR": "Could not load older exports. Try again.",
+    "DOWNLOAD_ERROR": "This file is no longer available. Refresh the page to see its current status.",
+    "DRAFT_UNAVAILABLE": "The export selection is unavailable or expired. Return to Contacts and choose Export again. No export has been started.",
+    "EMPTY_DESCRIPTION": "Export your contacts to a CSV file. Your export history and downloads will appear here.",
+    "NOTIFICATION": "We’ll email you when your CSV is ready. You can also track progress and download it here.",
+    "FILE_FORMAT": "CSV file (.csv)",
+    "SELECTION": "Mga Kontak",
+    "PROGRESS": "Export progress",
+    "FILE_READY": "Your export is ready",
+    "IN_PROGRESS": "Preparing your CSV. You can leave this page while the export runs.",
+    "TABLE": {
+      "EXPORTED": "Exported",
+      "COUNT": "Showing {count} export | Showing {count} exports"
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -564,12 +654,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Pag-index ng Paghahanap sa Help Center",
         "DESCRIPTION": "Gamitin ang AI para sa kontekstuwal na paghahanap sa loob ng iyong mga artikulo sa help center."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Mungkahi ng Label",
-        "DESCRIPTION": "Awtomatikong magmungkahi ng mga kaugnay na label at tag para sa mga pag-uusap batay sa pagsusuri ng nilalaman at konteksto.",
-        "MODEL_TITLE": "Modelo ng Mungkahi ng Label",
-        "MODEL_DESCRIPTION": "Piliin ang AI na modelo na gagamitin para sa pagsusuri ng mga pag-uusap at pagmumungkahi ng angkop na mga label"
       }
     },
     "API": {
@@ -578,6 +662,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Pagsingil",
     "DESCRIPTION": "Pamahalaan ang iyong subscription dito, i-upgrade ang iyong plano at makakuha ng higit pa para sa iyong koponan.",
     "CURRENT_PLAN": {
@@ -585,6 +673,7 @@
       "PLAN_NOTE": "Kasulukuyan kang naka-subscribe sa planong **{plan}** na may **{quantity}** lisensya",
       "SEAT_COUNT": "Bilang ng mga upuan",
       "RENEWS_ON": "Magre-renew sa",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +707,38 @@
       "BUTTON_TXT": "Makipag-chat sa amin"
     },
     "NO_BILLING_USER": "Inaayos pa ang iyong billing account. Pakipag-refresh ang pahina at subukang muli.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Magre-renew sa",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Bumili ng karagdagang kredito",
       "MODAL_TITLE": "Bumili ng AI Credits",
@@ -648,12 +769,22 @@
     "DESCRIPTION": "Pamahalaan ang mga setting ng seguridad ng iyong account.",
     "LINK_TEXT": "Alamin pa tungkol sa SAML SSO",
     "SAML_DISABLED_MESSAGE": "Kasulukuyang naka-disable ang SAML SSO. Mangyaring kontakin ang iyong administrator upang paganahin ang tampok na ito.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "I-configure ang SAML single sign-on para sa iyong account. Magpapatunay ang mga user sa pamamagitan ng iyong identity provider sa halip na gumamit ng email/password.",
       "ACS_URL": {
         "LABEL": "ACS URL",
         "TOOLTIP": "Assertion Consumer Service URL - I-configure ang URL na ito sa iyong IdP bilang destinasyon para sa mga tugon ng SAML"
+      },
+      "SOURCE": {
+        "METADATA_URL": "Metadata URL",
+        "MANUAL": "Manual"
+      },
+      "METADATA_URL": {
+        "LABEL": "Metadata URL",
+        "HELP": "The SSO URL, Entity ID and signing certificate are read from this URL. They update automatically when your certificate is about to expire. If your identity provider changes them earlier, click Refresh metadata.",
+        "PLACEHOLDER": "https://sso.example.com/saml/metadata"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
@@ -681,14 +812,18 @@
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
       "UPDATE_BUTTON": "I-update ang Mga Setting ng SAML",
+      "REFRESH_BUTTON": "Refresh metadata",
       "API": {
         "SUCCESS": "Matagumpay na na-update ang mga setting ng SAML",
+        "REFRESH_SUCCESS": "Metadata refreshed from your identity provider",
+        "REFRESH_ERROR": "Failed to refresh metadata",
         "ERROR": "Nabigong i-update ang mga setting ng SAML",
         "ERROR_LOADING": "Nabigong i-load ang mga setting ng SAML",
         "DISABLED": "Matagumpay na na-disable ang mga setting ng SAML"
       },
       "VALIDATION": {
         "REQUIRED_FIELDS": "Kinakailangan ang SSO URL, Identity Provider Entity ID, at Sertipiko",
+        "METADATA_URL_ERROR": "Please enter a valid metadata URL",
         "SSO_URL_ERROR": "Mangyaring maglagay ng wastong SSO URL",
         "CERTIFICATE_ERROR": "Kinakailangan ang Sertipiko",
         "IDP_ENTITY_ID_ERROR": "Kinakailangan ang Identity Provider Entity ID"

@@ -1,6 +1,11 @@
 <script>
+import { provide } from 'vue';
 import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import {
+  CONTACT_CONVERSATION_NAVIGATION,
+  useContactConversationNavigation,
+} from 'dashboard/composables/useContactConversationNavigation';
 import { useAccount } from 'dashboard/composables/useAccount';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
@@ -57,6 +62,10 @@ export default {
     const { uiSettings, updateUISettings, isOnExpandedLayout } =
       useUISettings();
     const { accountId } = useAccount();
+    provide(
+      CONTACT_CONVERSATION_NAVIGATION,
+      useContactConversationNavigation()
+    );
 
     return {
       uiSettings,

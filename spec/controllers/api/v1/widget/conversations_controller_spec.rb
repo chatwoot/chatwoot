@@ -71,9 +71,9 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(response).to have_http_status(:success)
       json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
-      expect(json_response['contact']['email']).to eq 'contact-email@chatwoot.com'
-      expect(json_response['contact']['phone_number']).to eq '+919745313456'
-      expect(json_response['contact']['name']).to eq 'contact-name'
+      expect(json_response).not_to have_key('contact')
+      expect(json_response['messages'].first['sender']).to eq('type' => 'contact')
+      expect(contact.reload).to have_attributes(email: 'contact-email@chatwoot.com', phone_number: '+919745313456', name: 'contact-name')
     end
 
     it 'creates a conversation with correct message and custom attributes' do
@@ -106,9 +106,36 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(response).to have_http_status(:success)
       json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
-      expect(json_response['contact']['email']).to be_nil
-      expect(json_response['contact']['name']).to eq 'alphy'
+      expect(contact.reload).to have_attributes(email: nil, name: 'alphy')
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
+    end
+
+    it 'merges the visitor into the identified contact with the same email' do
+      identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com', name: 'Customer')
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: conversation_params,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(account.conversations.find_by(display_id: response.parsed_body['id']).contact_id).to eq identified_contact.id
+      expect(identified_contact.reload.name).to eq 'Customer'
+      expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it 'keeps the visitor apart from an identified contact on an inbox that requires identity validation' do
+      web_widget.update!(hmac_mandatory: true)
+      identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'contact-email@chatwoot.com')
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: conversation_params,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(account.conversations.find_by(display_id: response.parsed_body['id']).contact_id).to eq contact.id
+      expect(identified_contact.reload.conversations).to be_empty
     end
 
     it 'does not update the name if the contact already exist' do
@@ -133,9 +160,9 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(response).to have_http_status(:success)
       json_response = response.parsed_body
       expect(json_response['id']).not_to be_nil
-      expect(json_response['contact']['email']).to eq existing_contact.email
-      expect(json_response['contact']['name']).not_to eq 'contact-name'
-      expect(json_response['contact']['phone_number']).to eq '+919745313456'
+      expect(contact_inbox.reload.contact_id).to eq existing_contact.id
+      expect(existing_contact.reload.name).not_to eq 'contact-name'
+      expect(existing_contact.phone_number).to eq '+919745313456'
       expect(json_response['custom_attributes']['order_id']).to eq '12345'
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
@@ -204,8 +231,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
-      json_response = response.parsed_body
-      expect(json_response['contact']['phone_number']).to be_nil
+      expect(contact_inbox.reload.contact.phone_number).to be_nil
     end
   end
 
@@ -370,7 +396,8 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
              params: params,
              as: :json
 
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:no_content)
+        expect(response.body).to be_empty
         conversation.reload
         # conversation custom attributes should not have "product_name" key with value "Chatwoot"
         expect(conversation.custom_attributes).not_to include('product_name' => 'Chatwoot')

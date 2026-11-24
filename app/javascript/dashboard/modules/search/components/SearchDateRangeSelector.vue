@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { vOnClickOutside } from '@vueuse/components';
 import {
   subDays,
@@ -31,8 +32,12 @@ const customFrom = ref('');
 const customTo = ref('');
 const rangeType = ref(DATE_RANGE_TYPES.BETWEEN);
 
-// Calculate min date (90 days ago) for date inputs
-const minDate = computed(() => format(subDays(new Date(), 90), 'yyyy-MM-dd'));
+const { searchTimeRangeLimitDays } = useConfig();
+
+// Calculate min date (start of the search window) for date inputs
+const minDate = computed(() =>
+  format(subDays(new Date(), searchTimeRangeLimitDays), 'yyyy-MM-dd')
+);
 const maxDate = computed(() => format(new Date(), 'yyyy-MM-dd'));
 
 // Check if both custom date inputs have values
@@ -88,11 +93,13 @@ const selectedValue = computed(() => {
 });
 
 const menuItems = computed(() =>
-  PRESET_RANGES.value.map(item => ({
-    ...item,
-    action: DATE_FILTER_ACTIONS.PRESET,
-    isSelected: selectedValue.value === item.value,
-  }))
+  PRESET_RANGES.value
+    .filter(item => item.days <= searchTimeRangeLimitDays)
+    .map(item => ({
+      ...item,
+      action: DATE_FILTER_ACTIONS.PRESET,
+      isSelected: selectedValue.value === item.value,
+    }))
 );
 
 const applySelection = ({ type, from, to }) => {

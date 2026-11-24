@@ -6,7 +6,7 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
   let(:raw_response) { double }
   let(:user_object_rsponse) do
     OpenStruct.new(
-      body: '{"profile_background_color":"000000","profile_background_image_url":"http:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png"}',
+      body: { 'profile_image_url_https' => 'https://abs.twimg.com/profile.png' },
       status: 200,
       success?: true
     )

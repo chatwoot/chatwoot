@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "مدعوم بواسطة Chatwoot",
   "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "أكتب رسالتك",
   "TODAY": "اليوم",
   "YESTERDAY": "الأمس",
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "المقالات الشائعة",
     "VIEW_ALL_ARTICLES": "عرض جميع المقالات",
+    "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
     "IFRAME_LOAD_ERROR": "حدث خطأ أثناء جلب المقال، الرجاء تحديث الصفحة والمحاولة مرة أخرى."
   },
   "ATTACHMENTS": {

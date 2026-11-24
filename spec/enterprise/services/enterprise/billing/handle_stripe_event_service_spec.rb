@@ -39,7 +39,12 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
     allow(subscription).to receive(:[]).with('cancel_at').and_return(nil)
     allow(subscription).to receive(:[]).with('cancel_at_period_end').and_return(false)
+    allow(subscription).to receive(:[]).with('customer').and_return('cus_123')
     allow(subscription).to receive(:customer).and_return('cus_123')
+    allow(subscription).to receive(:id).and_return('sub_123')
+    allow(event).to receive(:api_version).and_return('2024-06-20')
+    allow(Stripe::Subscription).to receive(:retrieve).with('sub_123', { stripe_version: '2024-06-20' }).and_return(subscription)
+    allow(event).to receive(:id).and_return('evt_123')
     allow(event).to receive(:created).and_return(account.created_at.to_i + 1.day.to_i)
     allow(event).to receive(:type).and_return('customer.subscription.updated')
   end
@@ -70,20 +75,23 @@ describe Enterprise::Billing::HandleStripeEventService do
     it 'resets captain usage on billing period renewal' do
       # Prime the account with some usage
       5.times { account.increment_response_usage }
+      # The stored period ends before the subscription's current one, so the period has renewed
+      account.update!(custom_attributes: account.custom_attributes.merge(
+        'captain_responses_usage_alerted' => true, 'subscription_ends_on' => Time.zone.at(1_683_975_520)
+      ))
       expect(account.custom_attributes['captain_responses_usage']).to eq(5)
 
       # Setup for any plan
       allow(subscription).to receive(:[]).with('plan')
                                          .and_return({ 'id' => 'test', 'product' => 'plan_id_startups', 'name' => 'Startups' })
-      allow(subscription).to receive(:[]).with('current_period_start').and_return(1_686_567_520)
-
-      # Simulate billing period renewal with previous_attributes showing old period
-      allow(data).to receive(:previous_attributes).and_return({ 'current_period_start' => 1_683_975_520 })
 
       stripe_event_service.new.perform(event: event)
 
       # Verify usage was reset
-      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(0)
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 0,
+        'captain_responses_usage_alerted' => false
+      )
     end
   end
 
@@ -205,7 +213,7 @@ describe Enterprise::Billing::HandleStripeEventService do
         described_class::STARTUP_PLAN_FEATURES.each do |feature|
           account.enable_features(feature)
         end
-        account.enable_features('captain_integration_v2')
+        account.enable_features('captain_integration')
         account.enable_features(*described_class::BUSINESS_PLAN_FEATURES)
         account.enable_features(*described_class::ENTERPRISE_PLAN_FEATURES)
         account.save!
@@ -224,7 +232,7 @@ describe Enterprise::Billing::HandleStripeEventService do
         all_features.each do |feature|
           expect(account).not_to be_feature_enabled(feature)
         end
-        expect(account).not_to be_feature_enabled('captain_integration_v2')
+        expect(account).not_to be_feature_enabled('captain_integration')
       end
     end
 
@@ -257,7 +265,7 @@ describe Enterprise::Billing::HandleStripeEventService do
 
         stripe_event_service.new.perform(event: event)
 
-        expect(account.reload).to be_feature_enabled('captain_integration_v2')
+        expect(account.reload).to be_feature_enabled('captain_integration')
       end
 
       it 'enables Captain V2 for new paid cloud accounts during reconciliation' do
@@ -268,7 +276,7 @@ describe Enterprise::Billing::HandleStripeEventService do
 
         stripe_event_service.new.perform(event: event)
 
-        expect(new_account.reload).to be_feature_enabled('captain_integration_v2')
+        expect(new_account.reload).to be_feature_enabled('captain_integration')
       end
     end
 

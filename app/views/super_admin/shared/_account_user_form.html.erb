@@ -1,54 +1,29 @@
 <%#
 # Account User Form Partial
 
-This partial renders the account user creation form.
+Adds a user to an account from either side of the relationship.
 Used by both account and user show pages.
-
-## Local variables:
-
-- `page`: The Administrate page object (Account or User)
-- `namespace`: The current namespace (usually :super_admin)
-- `resource_type`: Either 'account' or 'user' to determine hidden field
 %>
+<%# locals: (page:, resource_type:) -%>
 
-<section class="main-content__body">
-  <% account_user_page = Administrate::Page::Form.new(AccountUserDashboard.new, AccountUser.new) %>
-  <%= form_for([namespace, account_user_page.resource], html: { class: "form" }) do |f| %>
-    <% if account_user_page.resource.errors.any? %>
-      <div id="error_explanation">
-        <h2>
-          <%= t(
-            "administrate.form.errors",
-            pluralized_errors: pluralize(
-              account_user_page.resource.errors.count,
-              t("administrate.form.error")
-            ),
-            resource_name: display_resource_name(account_user_page.resource_name)
-          ) %>
-        </h2>
+<% account_user_page = Administrate::Page::Form.new(AccountUserDashboard.new, AccountUser.new) %>
+<%= form_for([namespace, account_user_page.resource], html: { class: "rounded-xl border border-n-weak bg-n-solid-1" }) do |f| %>
+  <div class="flex min-h-11 items-center border-b border-n-weak px-4 py-2">
+    <h2 class="text-xs font-medium uppercase tracking-wider text-n-slate-10"><%= resource_type == 'account' ? t('super_admin.accounts.add_user') : t('super_admin.users.add_account') %></h2>
+  </div>
 
-        <ul>
-          <% account_user_page.resource.errors.full_messages.each do |message| %>
-            <li class="flash-error"><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <% account_user_page.attributes.each do |title, attributes| -%>
+  <%# The field rows stack their label over the control here so the form fits one line. %>
+  <div class="grid grid-cols-1 gap-4 p-4 sm:grid-cols-[minmax(0,1fr)_12rem_auto] sm:items-end [&_[data-field]]:block [&_[data-field]]:space-y-1.5 [&_[data-field]]:p-0">
+    <% account_user_page.attributes.each_value do |attributes| %>
       <% attributes.each do |attribute| %>
         <% if attribute.name == resource_type %>
           <%= f.hidden_field("#{resource_type}_id", value: page.resource.id) %>
         <% else %>
-          <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
-            <%= render_field attribute, f: f %>
-          </div>
+          <%= render_field attribute, f: f %>
         <% end %>
       <% end %>
-    <% end -%>
+    <% end %>
 
-    <div class="form-actions">
-      <%= f.submit %>
-    </div>
-  <% end %>
-</section>
+    <%= render "button", submit: f %>
+  </div>
+<% end %>

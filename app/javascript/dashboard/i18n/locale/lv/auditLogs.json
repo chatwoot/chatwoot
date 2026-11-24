@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "Lietotājs",
         "TIME": "Darbība",
-        "IP_ADDRESS": "IP adrese"
+        "IP_ADDRESS": "IP adrese",
+        "LOCATION": "Atrašanās vieta"
       }
     },
     "API": {

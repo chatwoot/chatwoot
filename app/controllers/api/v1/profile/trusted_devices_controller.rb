@@ -1,4 +1,8 @@
 class Api::V1::Profile::TrustedDevicesController < Api::BaseController
+  include MfaEnforcementGuard
+
+  before_action :check_user_mfa_enforcement, if: :authenticate_by_access_token?
+
   # Forgetting trusted devices bumps the trust version, invalidating every
   # device cookie issued so far; each device re-verifies on next sign-in.
   def destroy

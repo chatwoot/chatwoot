@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Chatwoot",
   "EMAIL_PLACEHOLDER": "Add meg az e-mailed",
+  "TRANSLATING": "Fordítás alatt",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "Fordítás megtekintése",
   "CHAT_PLACEHOLDER": "Gépeld be üzeneted",
   "TODAY": "Ma",
   "YESTERDAY": "Tegnap",
@@ -107,8 +110,8 @@
     "ARIA_LABEL": "Emoji picker"
   },
   "EMOJI_ICON_PICKER": {
-    "SEARCH_EMOJI": "Search emoji…",
-    "FREQUENTLY_USED": "Frequently used",
+    "SEARCH_EMOJI": "Emojik keresése…",
+    "FREQUENTLY_USED": "Gyakran használt",
     "NO_EMOJI": "Nem található emoji"
   },
   "CSAT": {
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Népszerű cikkek",
     "VIEW_ALL_ARTICLES": "Mutasd az összes bejegyzést",
+    "IFRAME_ERROR": "Az URL üres vagy érvénytelen. A tartalom megjelenítése nem lehetséges.",
     "IFRAME_LOAD_ERROR": "Hiba történt a cikk betöltése során, kérjük, frissítse az oldalt, és próbálja meg újra."
   },
   "ATTACHMENTS": {

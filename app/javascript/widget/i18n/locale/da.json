@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Drevet af Chatwoot",
   "EMAIL_PLACEHOLDER": "Indtast venligst din e-mail",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Skriv din besked",
   "TODAY": "I dag",
   "YESTERDAY": "I går",
@@ -107,8 +110,8 @@
     "ARIA_LABEL": "Emoji vælger"
   },
   "EMOJI_ICON_PICKER": {
-    "SEARCH_EMOJI": "Search emoji…",
-    "FREQUENTLY_USED": "Frequently used",
+    "SEARCH_EMOJI": "Søg emojis...",
+    "FREQUENTLY_USED": "Ofte anvendt",
     "NO_EMOJI": "Ingen emoji matcher din søgning"
   },
   "CSAT": {
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populære Artikler",
     "VIEW_ALL_ARTICLES": "Se alle artikler",
+    "IFRAME_ERROR": "URL er tom eller ugyldig. Kan ikke vise indholdet.",
     "IFRAME_LOAD_ERROR": "Der opstod en fejl under indlæsning af artiklen. Genindlæs venligst siden og prøv igen."
   },
   "ATTACHMENTS": {

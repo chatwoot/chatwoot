@@ -8,6 +8,12 @@ export const isEscape = e => {
   return e.key === 'Escape';
 };
 
+// IME users (Vietnamese, Chinese, Japanese, Korean) press Enter to finish a
+// word, not to send. keyCode 229 is the older way browsers report this.
+export const isComposing = e => {
+  return e.isComposing || e.keyCode === 229;
+};
+
 export const hasPressedShift = e => {
   return e.shiftKey;
 };

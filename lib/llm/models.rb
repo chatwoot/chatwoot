@@ -37,6 +37,13 @@ module Llm::Models
       model_config(model_name)&.dig('provider')
     end
 
+    # config/llm.yml can override the registry, which `rake ruby_llm:refresh_models` regenerates.
+    def temperature_for(model_name, temperature)
+      supported = model_config(model_name)&.dig('temperature')
+      supported = RubyLLM.models.find(model_name).metadata[:temperature] if supported.nil?
+      temperature unless supported == false
+    end
+
     def feature_config(feature_key)
       feature = features[feature_key.to_s]
       return nil unless feature

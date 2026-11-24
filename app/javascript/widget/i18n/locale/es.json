@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Desarrollado por Chatwoot",
   "EMAIL_PLACEHOLDER": "Por favor ingrese su email",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Escribe tu mensaje",
   "TODAY": "Hoy",
   "YESTERDAY": "Ayer",
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Artículos populares",
     "VIEW_ALL_ARTICLES": "Ver todos los artículos",
+    "IFRAME_ERROR": "La URL está vacía o no es válida. Imposible mostrar el contenido.",
     "IFRAME_LOAD_ERROR": "Se ha producido un error al cargar el artículo, por favor actualiza la página e inténtalo de nuevo."
   },
   "ATTACHMENTS": {

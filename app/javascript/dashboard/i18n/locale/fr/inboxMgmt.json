@@ -55,6 +55,9 @@
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continuer avec Instagram",
+        "SELECT_ACCOUNT": "Choose an Instagram account",
+        "CONNECT_ACCOUNT": "Connect account",
+        "START_AGAIN": "Start again",
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connectez votre profil Instagram",
         "HELP": "Pour ajouter votre profil Instagram en tant que canal, vous devez authentifier votre profil Instagram en cliquant sur 'Continuer avec Instagram' ",
         "ERROR_MESSAGE": "Une erreur est survenue lors de la connexion à Instagram, veuillez réessayer",
@@ -140,7 +143,6 @@
       },
       "TWILIO": {
         "TITLE": "Chaîne Twilio SMS/WhatsApp",
-        "DESC": "Intégrez Twilio et commencez à soutenir vos clients par SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID du compte",
           "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
@@ -182,13 +184,13 @@
           "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
           "ERROR": "Veuillez fournir un numéro de téléphone valide qui commence par un signe `+` et ne contient aucun espace."
         },
-        "API_CALLBACK": {
-          "TITLE": "URL de rappel (callback)",
-          "SUBTITLE": "Vous devez configurer l'URL de rappel (callback) du message dans Twilio avec l'URL mentionnée ici."
-        },
         "SUBMIT_BUTTON": "Créer le canal Twilio",
         "API": {
           "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants Twilio, veuillez réessayer"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de rappel (callback)",
+          "SUBTITLE": "Vous devez configurer l'URL de rappel (callback) du message dans Twilio avec l'URL mentionnée ici."
         }
       },
       "SMS": {
@@ -203,6 +205,16 @@
           "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal SMS"
         },
         "BANDWIDTH": {
+          "CALLBACK_AUTH": {
+            "TITLE": "Callback credentials",
+            "DESCRIPTION": "Add these as the inbound and outbound callback credentials in your Bandwidth application. If several inboxes share one Bandwidth application, use the callback URL and credentials of one of them.",
+            "RESET_SUCCESS": "Callback password reset. Update it in your Bandwidth application.",
+            "RESET_ERROR": "Could not reset the callback password. Please try again.",
+            "USERNAME": "Nom d'utilisateur",
+            "PASSWORD": "Mot de passe",
+            "ENFORCE": "Require callback credentials",
+            "ENFORCE_DESCRIPTION": "Reject callbacks that do not use these credentials. Turn this on after adding the credentials to your Bandwidth application."
+          },
           "ACCOUNT_ID": {
             "LABEL": "ID du compte client",
             "PLACEHOLDER": "Veuillez entrer l'ID de votre compte Bandwidth",
@@ -240,6 +252,30 @@
           "API_CALLBACK": {
             "TITLE": "URL de rappel (callback)",
             "SUBTITLE": "Vous devez configurer l'URL de rappel du message dans Bandwidth avec l'URL mentionnée ici."
+          },
+          "CLIENT_ID": {
+            "LABEL": "Client ID",
+            "PLACEHOLDER": "Enter your Bandwidth Client ID",
+            "ERROR": "Ce champ est requis"
+          },
+          "CLIENT_SECRET": {
+            "LABEL": "Client Secret",
+            "PLACEHOLDER": "Enter your Bandwidth Client Secret",
+            "ERROR": "Ce champ est requis"
+          },
+          "OAUTH": {
+            "TITLE": "API credentials",
+            "MIGRATE": "Update credentials",
+            "READ_ONLY": "Read-only",
+            "SHOW_SECRET": "Show client secret",
+            "HIDE_SECRET": "Hide client secret",
+            "LEGACY_DESCRIPTION": "Update your Bandwidth credentials before December 2, 2026 to keep this inbox connected.",
+            "DESCRIPTION": "This inbox uses OAuth. Enter a new Client ID and Client Secret to replace its credentials.",
+            "SAVE": "Verify and save credentials",
+            "SUCCESS": "Bandwidth OAuth credentials saved.",
+            "LOAD_ERROR": "Unable to load Bandwidth credentials. Reload this page to try again.",
+            "ERROR": "Unable to save Bandwidth credentials. Please try again.",
+            "CALLBACK_DESCRIPTION": "Use this URL for inbound messages and delivery status callbacks in your Bandwidth application."
           }
         }
       },
@@ -290,6 +326,11 @@
           "LABEL": "Clé de l'API",
           "SUBTITLE": "Configurer la clé API WhatsApp.",
           "PLACEHOLDER": "Clé de l'API",
+          "ERROR": "Veuillez saisir une adresse de courriel valide."
+        },
+        "APP_SECRET": {
+          "LABEL": "App secret",
+          "PLACEHOLDER": "App secret of your Meta app",
           "ERROR": "Veuillez saisir une adresse de courriel valide."
         },
         "API_CALLBACK": {
@@ -345,7 +386,10 @@
             "PHONE_ID_LABEL": "ID du numéro de téléphone",
             "PHONE_ID_PLACEHOLDER": "Entrez l'ID du numéro de téléphone",
             "TOKEN_LABEL": "Permanent access token",
-            "TOKEN_PLACEHOLDER": "Coller le jeton d'accès"
+            "TOKEN_PLACEHOLDER": "Coller le jeton d'accès",
+            "APP_SECRET_LABEL": "App secret",
+            "APP_SECRET_PLACEHOLDER": "Paste app secret",
+            "APP_SECRET_HELP": "Find it in your Meta app under App settings > Basic. It is used to verify incoming webhooks."
           },
           "REVIEW": {
             "TITLE": "Create your WhatsApp inbox",
@@ -389,7 +433,7 @@
           },
           "ERRORS": {
             "IDS_REQUIRED": "Enter the Phone Number ID and WhatsApp Business Account ID.",
-            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, and permanent access token.",
+            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, permanent access token, and app secret.",
             "INVALID_TOKEN": "This access token is invalid or expired. Generate a new permanent token and try again.",
             "GENERIC": "We could not complete the WhatsApp setup. Check your details and try again."
           }
@@ -426,9 +470,13 @@
           "MANUAL_LINK_TEXT": "flux de configuration manuelle",
           "ACCESS_REQUEST": {
             "TITLE": "Configuration rapide avec Meta",
-            "DESCRIPTION": "Connecte un nouveau numéro ou un numéro existant à partir de l'application WhatsApp Business sans configuration manuelle. Pour demander cette option, dites à notre équipe ce que fait votre entreprise, comment vous utiliserez WhatsApp, et quel compte Chatwoot a besoin d'accès.",
-            "FOOTNOTE": "Nous examinerons votre demande et vous informerons si cette option peut être activée. Vous pouvez également poursuivre la configuration manuelle ci-dessous.",
-            "BUTTON": "Demander l'accès"
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. Tell us what your business does and how you’ll use WhatsApp to enable this option.",
+            "BUTTON": "Demander l'accès",
+            "FORM_DESCRIPTION": "Tell us about your business and how you plan to use WhatsApp. Submit your use case to enable quick setup for your account.",
+            "USE_CASE_LABEL": "Business use case",
+            "USE_CASE_PLACEHOLDER": "For example, we sell home furnishings and use WhatsApp to answer product questions and help customers with their orders.",
+            "SUBMIT": "Envoyer",
+            "ERROR": "We couldn’t enable access. Please try again."
           },
           "RESTRICTED_WARNING": "L’inscription intégrée WhatsApp est temporairement indisponible en raison d’un problème lié à l’API chez Meta, et non à Chatwoot. Vous pouvez utiliser la configuration manuelle pour les numéros admissibles à l’API WhatsApp Cloud. Nous travaillons en étroite collaboration avec Meta pour résoudre ce problème au plus vite.",
           "STATUS_LINK": "Voir les mises à jour de statut",
@@ -676,6 +724,9 @@
       "MORE_SETTINGS": "Plus de paramètres",
       "WEBSITE_SUCCESS": "Vous avez terminé avec succès la création d'un canal Web. Copiez le code affiché ci-dessous et collez-le sur votre site web. La prochaine fois qu'un client utilisera le chat en direct, la conversation apparaîtra automatiquement dans votre boîte de réception.",
       "WHATSAPP_QR_INSTRUCTION": "Scannez le code QR ci-dessus pour tester rapidement votre boîte de réception WhatsApp",
+      "SMS_QR_INSTRUCTION": "Scan the QR code above to quickly test your SMS inbox",
+      "SMS_QR_ALT": "QR code to test the SMS inbox",
+      "TWILIO_CALLBACK_FALLBACK": "Webhooks are configured automatically. If incoming messages do not arrive, use this callback URL in Twilio.",
       "MESSENGER_QR_INSTRUCTION": "Scannez le code QR ci-dessus pour tester rapidement votre boîte de réception Facebook Messenger",
       "TELEGRAM_QR_INSTRUCTION": "Scannez le code QR ci-dessus pour tester rapidement votre boîte de réception Telegram"
     },
@@ -760,52 +811,237 @@
       "BOT_CONFIGURATION": "Configuration du bot",
       "ACCOUNT_HEALTH": "Santé du compte",
       "CSAT": "CSAT",
-      "VOICE": "Voix",
       "CALLS": "Appels"
     },
-    "VOICE_CONFIGURATION": {
-      "ENABLE_VOICE": {
-        "LABEL": "Activer les appels vocaux",
-        "DESCRIPTION": "Activer les appels vocaux sur cette boîte de réception. Les agents pourront passer et recevoir des appels téléphoniques."
+    "CALL_SETTINGS": {
+      "SAVE": "Enregistrer les modifications",
+      "OPTIONAL": "(optionnel)",
+      "OFF": "Off",
+      "SECONDS": "{seconds} secondes",
+      "MINUTES": "{n} minute | {n} minutes",
+      "CALLING": {
+        "TITLE": "Appel en cours",
+        "DESCRIPTION": "Whether voice calling is enabled for this inbox",
+        "TAKE_INCOMING": "Taking incoming calls",
+        "TAKE_INCOMING_HELP": "Turn off to stop calls ringing without disconnecting the number. Outgoing calls still work.",
+        "CREDENTIALS_HELP": "Calling needs an API key from your Twilio account, and the account's auth token to check Twilio's requests.",
+        "REPLACE_HELP": "Enter a new API key to replace the one this inbox uses.",
+        "CONNECT": "Turn on calling",
+        "CONNECTED": "Connecté",
+        "TWILIO_ACCOUNT": "Twilio account {sid}",
+        "MANAGE_CONNECTION": "Manage connection",
+        "HIDE_CONNECTION": "Hide connection",
+        "UPDATE_CONNECTION": "Update connection",
+        "WHATSAPP_ENABLE": "Turn on WhatsApp calling",
+        "WHATSAPP_ENABLE_HELP": "Customers can call this number from WhatsApp. Agents answer in the browser, which needs microphone access.",
+        "META_ON": "Calling on at Meta",
+        "META_HELP": "Calls ring on this WhatsApp number",
+        "TURN_OFF": "Turn off calling"
       },
-      "CREDENTIALS": {
-        "DESCRIPTION": "Les appels vocaux nécessitent des identifiants de clé API Twilio. Ils servent à générer les jetons utilisés pour les connexions vocales des agents."
+      "INCOMING": {
+        "TITLE": "When a call comes in",
+        "DESCRIPTION": "What the caller hears and who rings.",
+        "GREETING": "Greeting",
+        "GREETING_PLACEHOLDER": "Thanks for calling. Connecting you to the team.",
+        "GREETING_HELP": "Played once to the caller while agents ring, followed by hold music. Leave empty for no greeting.",
+        "SIMULTANEOUS": "Ring everyone at once",
+        "SIMULTANEOUS_HELP": "All available agents ring together. The first to answer gets the call.",
+        "SEQUENTIAL": "Ring one agent at a time",
+        "SEQUENTIAL_HELP": "Starts with the longest-idle agent, then adds the next if nobody answers.",
+        "STEP": "Add another agent after",
+        "ASSIGNEE_FIRST": "Ring the conversation assignee first for returning callers",
+        "ASSIGNEE_FIRST_HELP": "Turn off for line-staffed teams on rotation.",
+        "ALWAYS": "Always:",
+        "ALWAYS_NOTE": "agents who are on a call, in wrap-up, or not taking calls are never rung. The caller waits, and the first agent who frees up rings.",
+        "ROUTING": "How calls are routed",
+        "WHATSAPP_DESCRIPTION": "Who rings, and in what order."
       },
-      "INBOUND": {
-        "LABEL": "Autoriser les appels entrants",
-        "DESCRIPTION": "Autoriser les clients à appeler ce numéro. Lorsqu'il est désactivé, les appels entrants sont refusés automatiquement — les agents ne sont pas notifiés et aucune conversation n'est créée. Les agents peuvent toujours passer des appels sortants."
+      "UNANSWERED": {
+        "TITLE": "If nobody answers",
+        "DESCRIPTION": "Also used straight away when no agent is available.",
+        "WAIT": "Wait",
+        "THEN": "then play the message and hang up",
+        "MESSAGE": "Missed-call message",
+        "MESSAGE_HELP": "Read out to the caller.",
+        "WHATSAPP_DESCRIPTION": "When a call ends without being answered, including when no agent is available.",
+        "WHATSAPP_SEND": "Send a WhatsApp message",
+        "WHATSAPP_SEND_HELP": "Sent after each missed call, in the call's conversation, so the caller can reply there.",
+        "WHATSAPP_PLACEHOLDER": "Sorry we missed your call. Reply here and we'll get back to you as soon as we can.",
+        "WHATSAPP_MESSAGE_HELP": "Leave empty to send the text shown. Only sent within WhatsApp's 24-hour messaging window."
       },
-      "RECORDING": {
-        "LABEL": "Record calls",
-        "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
+      "OUT_OF_HOURS": {
+        "TITLE": "Outside business hours",
+        "DESCRIPTION": "Uses the inbox's hours from the Business hours tab.",
+        "APPLY": "Apply business hours to calls",
+        "APPLY_HELP": "When on, calls outside business hours follow the rule below.",
+        "HOURS_OFF": "Business hours are off for this inbox. Turn them on for the inbox first, then calls can follow them.",
+        "HOURS_OFF_APPLIED": "Business hours are off for this inbox, so calls will keep ringing as usual at all times. Turn business hours on for the inbox to apply this.",
+        "GO_TO_HOURS": "Go to Business hours",
+        "INBOX_HOURS": "Inbox hours:",
+        "ALL_DAY": "all day",
+        "ALWAYS_CLOSED": "Closed every day",
+        "EDIT_HOURS": "Edit hours",
+        "MESSAGE": "Out-of-hours message",
+        "SAME": "Same as the missed-call message",
+        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
+        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead.",
+        "WHATSAPP_HOURS_CHECKING": "Checking WhatsApp…",
+        "WHATSAPP_HOURS_APPLYING": "Applying on WhatsApp…",
+        "WHATSAPP_HOURS_APPLIED": "Applied on WhatsApp",
+        "WHATSAPP_HOURS_DIFFER": "WhatsApp is using different call hours from this inbox. Calls follow WhatsApp's hours until you apply the inbox hours.",
+        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours",
+        "WHATSAPP_HOURS_STILL_ON": "WhatsApp is still applying call hours, but this inbox doesn't. Calls outside those hours won't go through until you turn them off.",
+        "WHATSAPP_TURN_OFF_HOURS": "Turn off on WhatsApp"
       },
-      "TRANSCRIPTION": {
-        "LABEL": "Transcribe recordings",
-        "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
+      "AFTER_CALL": {
+        "TITLE": "After a call",
+        "DESCRIPTION": "Wrap-up and records.",
+        "WRAP_UP": "Wrap-up time",
+        "WRAP_UP_HELP": "Agents in wrap-up aren't rung; resolving the conversation also ends it.",
+        "RECORD": "Record calls",
+        "TRANSCRIBE": "Transcribe recordings",
+        "TRANSCRIBE_HELP": "Turned into text with Captain and shown with the call. Needs recording on.",
+        "RECORD_HELP": "The recording is attached to the conversation."
+      },
+      "PLAY": "Play",
+      "PLAY_AFTER_SAVE": "Save changes to record and play the new message",
+      "STOP": "Stop",
+      "CALLING_CUSTOMERS": {
+        "TITLE": "Calling customers",
+        "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
+        "PERMISSION_MESSAGE": "Permission request message",
+        "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
+        "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
       }
     },
     "WHATSAPP_CALLING": {
-      "ENABLE": {
-        "LABEL": "Activer les appels WhatsApp",
-        "DESCRIPTION": "Autorisez les agents à recevoir et à passer des appels WhatsApp Cloud dans cette boîte de réception. Les clients peuvent appeler ce numéro d’entreprise directement depuis WhatsApp."
-      },
-      "ENABLE_FAILED": "Les appels vocaux n’ont pas pu être activés pour ce numéro : il n’est pas encore inscrit à l’API WhatsApp Business Calling. Contactez Meta ou votre fournisseur de solutions WhatsApp Business pour l’inscrire, puis réessayez.",
-      "PHONE_NUMBER": {
-        "LABEL": "Numéro de téléphone professionnel",
-        "HELP_TEXT": "Numéro WhatsApp que les clients appelleront."
-      },
-      "HOW_IT_WORKS": {
-        "LABEL": "Comment ça marche",
-        "DESCRIPTION": "Les appels sont passés de pair à pair entre le navigateur de l’agent et Meta — aucun identifiant supplémentaire n’est requis. Assurez-vous que le navigateur de l’agent est autorisé à utiliser le microphone sur ce site."
-      },
-      "PERMISSION_REQUEST_BODY": {
-        "LABEL": "Message de demande de permission d'appel",
-        "HELP_TEXT": "Affiché au contact quand il n'a pas encore consenti à recevoir des appels. Laissez vide pour utiliser la valeur par défaut.",
-        "PLACEHOLDER": "Nous aimerions vous appeler au sujet de votre conversation."
-      }
+      "ENABLE_FAILED": "Les appels vocaux n’ont pas pu être activés pour ce numéro : il n’est pas encore inscrit à l’API WhatsApp Business Calling. Contactez Meta ou votre fournisseur de solutions WhatsApp Business pour l’inscrire, puis réessayez."
     },
     "CHANNEL_PREFERENCES": "Préférences du canal",
     "WIDGET_FEATURES": "Fonctionnalités du widget",
+    "TWILIO_HEALTH": {
+      "TITLE": "Manage your Twilio number",
+      "DESCRIPTION": "Review the Twilio account, sender and webhooks backing this inbox. Anything Chatwoot cannot receive is flagged here",
+      "GO_TO_SETTINGS": "Go to Twilio Console",
+      "NO_DATA": "Les données de santé ne sont pas disponibles",
+      "LOADING": "Fetching health data from Twilio…",
+      "ERROR_TITLE": "Could not reach Twilio",
+      "STATUS": {
+        "HEALTHY": "All checks passed",
+        "MISCONFIGURED": "Needs attention"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Twilio account",
+          "TOOLTIP": "The Twilio account these credentials belong to"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Account status",
+          "TOOLTIP": "A suspended or closed Twilio account cannot send or receive anything"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Account type",
+          "TOOLTIP": "Trial accounts can only message or call phone numbers you have verified with Twilio"
+        },
+        "SENDER": {
+          "LABEL": "Expéditeur",
+          "TOOLTIP": "The phone number or messaging service that carries this inbox"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Number capabilities",
+          "TOOLTIP": "Capabilities Twilio has enabled on this number. A capability this inbox needs but does not have will never work"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Voice calling",
+          "TOOLTIP": "Whether calling is turned on for this inbox"
+        },
+        "SENDER_STATUS": {
+          "LABEL": "WhatsApp sender status",
+          "TOOLTIP": "The sender must be online to send and receive WhatsApp messages"
+        },
+        "DISPLAY_NAME": {
+          "LABEL": "Nom d'affichage WhatsApp",
+          "TOOLTIP": "The business name shown to customers on WhatsApp"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Évaluation de qualité",
+          "TOOLTIP": "The WhatsApp sender quality rating reported by Twilio"
+        },
+        "MESSAGING_LIMIT": {
+          "LABEL": "Messaging limit",
+          "TOOLTIP": "The WhatsApp messaging limit reported by Twilio"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "Actif",
+          "SUSPENDED": "Suspended",
+          "CLOSED": "Closed"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Trial",
+          "FULL": "Full"
+        },
+        "CAPABILITIES": {
+          "SMS": "SMS",
+          "VOICE": "Voix"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "Numéro de téléphone",
+          "MESSAGING_SERVICE": "Messaging service",
+          "WHATSAPP_SENDER": "WhatsApp sender"
+        },
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé",
+        "SENDER_STATUSES": {
+          "ONLINE": "En ligne",
+          "OFFLINE": "Hors ligne",
+          "CREATING": "Creating",
+          "VERIFYING": "Vérification",
+          "UPDATING": "Mise à jour",
+          "DELETING": "Deleting",
+          "UNKNOWN": "Unknown"
+        },
+        "QUALITY_RATINGS": {
+          "HIGH": "Élevée",
+          "MEDIUM": "Moyenne",
+          "LOW": "Faible"
+        }
+      },
+      "WEBHOOKS": {
+        "TITLE": "Webhooks",
+        "DESCRIPTION": "Twilio calls these URLs when a message or call arrives. Register them again after changing your installation URL",
+        "REGISTER_ALL": "Register webhooks",
+        "MESSAGING": "Messaging webhook",
+        "VOICE": "Voice webhook",
+        "VOICE_STATUS": "Voice status callback",
+        "VOICE_APP": "Outbound calling (TwiML app)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Webhook configuré avec succès",
+        "NOT_SET": "not set",
+        "EXPECTED": "Expected",
+        "CURRENT": "Currently set to",
+        "REASONS": {
+          "NOT_SET": "Webhook non configuré",
+          "URL_MISMATCH": "L’URL du webhook ne correspond pas",
+          "WRONG_HTTP_METHOD": "Webhook uses the wrong HTTP method",
+          "OVERRIDDEN_BY_NUMBER": "Messaging service defers to the number",
+          "OVERRIDDEN_BY_APPLICATION": "Overridden by a TwiML app",
+          "OVERRIDDEN_BY_TRUNK": "Overridden by a SIP trunk",
+          "MISSING_TWIML_APP": "TwiML app not created"
+        },
+        "HINTS": {
+          "NOT_SET": "Twilio has no webhook on this sender, so nothing reaches Chatwoot.",
+          "URL_MISMATCH": "Twilio is calling a different URL, so traffic goes elsewhere.",
+          "WRONG_HTTP_METHOD": "The URL is right but Twilio calls it with {method} instead of POST, and Chatwoot only answers POST.",
+          "OVERRIDDEN_BY_NUMBER": "This messaging service has \"Use webhook on number\" turned on, so Twilio ignores the service webhook.",
+          "OVERRIDDEN_BY_APPLICATION": "A TwiML app is attached to this number, and Twilio uses the app's URLs instead of the number's. Detach it in the Twilio Console.",
+          "OVERRIDDEN_BY_TRUNK": "This number is attached to a SIP trunk, so Twilio routes calls to the trunk and ignores voice webhooks entirely. Detach the trunk in the Twilio Console.",
+          "MISSING_TWIML_APP": "Chatwoot has no TwiML app for this number, so outbound calls cannot be placed."
+        }
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "Gère ton compte WhatsApp",
       "DESCRIPTION": "Consultez l’état de votre numéro de téléphone WhatsApp, sa capacité de messagerie et les informations Meta Business associées.",
@@ -953,6 +1189,20 @@
         "MODES": {
           "SANDBOX": "Bac à sable",
           "LIVE": "En direct"
+        },
+        "QUALITY": {
+          "GREEN": "Vert",
+          "YELLOW": "Yellow",
+          "RED": "Rouge"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Tier 250",
+          "TIER_1000": "Tier 1K",
+          "TIER_1K": "Tier 1K",
+          "TIER_2K": "Tier 2K",
+          "TIER_10K": "Tier 10K",
+          "TIER_100K": "Tier 100K",
+          "TIER_UNLIMITED": "Unlimited"
         }
       },
       "BUSINESS_PROFILE": {
@@ -974,6 +1224,7 @@
       }
     },
     "SETTINGS": "Paramètres",
+    "VIEW_CONVERSATIONS": "View conversations",
     "FEATURES": {
       "LABEL": "Fonctionnalités",
       "DISPLAY_FILE_PICKER": "Afficher le sélecteur de fichiers sur le widget",
@@ -999,7 +1250,18 @@
         "SECRET_KEY": "Clé secrète",
         "VIEW_DOCS": "Voir la documentation",
         "REQUIRE_LABEL": "Exiger une validation d'identité pour toutes les conversations",
-        "REQUIRE_DESCRIPTION": "Lorsqu'il est activé, les utilisateurs doivent fournir un jeton d'identité valide pour démarrer les conversations. Les demandes sans jetons valides seront rejetées."
+        "REQUIRE_DESCRIPTION": "Lorsqu'il est activé, les utilisateurs doivent fournir un jeton d'identité valide pour démarrer les conversations. Les demandes sans jetons valides seront rejetées.",
+        "ROTATE": {
+          "BUTTON": "Rotate key",
+          "TITLE": "Rotate secret key?",
+          "WARNING": "The current key is revoked the instant you rotate it.",
+          "WARNING_DETAIL": "There is no overlap period and it cannot be restored.",
+          "IMPACT": "Your servers must sign users with the new key. Anyone still signed with the old one fails verification. If identity validation is required, they cannot start a conversation.",
+          "CONFIRM": "Rotate key",
+          "CANCEL": "Annuler",
+          "SUCCESS": "Secret key rotated successfully",
+          "ERROR": "Could not rotate the secret key, please try again"
+        }
       },
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Ajouter ou supprimer des agents de cette boîte de réception",
@@ -1037,6 +1299,10 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Mettre à jour la clé API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Entrez la nouvelle clé API ici",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Mettre à jour",
+      "WHATSAPP_APP_SECRET_TITLE": "App Secret",
+      "WHATSAPP_APP_SECRET_SUBHEADER": "Enter the app secret of your Meta app (App settings > Basic). It is used to verify that incoming webhooks come from Meta.",
+      "WHATSAPP_APP_SECRET_MISSING": "Incoming webhooks for this inbox are not verified yet. Add your Meta app secret to complete the setup.",
+      "WHATSAPP_APP_SECRET_PLACEHOLDER": "Enter the app secret here",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Ajouter un jeton de gestion d'entreprise",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Remplacer le jeton de gestion d'entreprise",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Jeton de gestion métier configuré",
@@ -1106,6 +1372,8 @@
           "DISPLAY_PHONE_NUMBER_HELP": "Le numéro WhatsApp face au client. Cela ne peut pas être modifié pendant la migration.",
           "ACCESS_TOKEN": "Jeton d'accès permanent ou jeton utilisateur système",
           "ACCESS_TOKEN_PLACEHOLDER": "Coller le jeton d'accès",
+          "APP_SECRET": "App secret",
+          "APP_SECRET_PLACEHOLDER": "App secret from App settings > Basic in your Meta app",
           "TOKEN_HELP_PREFIX": "Le jeton doit inclure",
           "TOKEN_HELP_MIDDLE": "Ajouter",
           "TOKEN_HELP_SUFFIX": "pour la synchronisation des modèles et la gestion des modèles.",
@@ -1133,7 +1401,7 @@
           },
           "ACCESS_TOKEN": {
             "TITLE": "Jeton d'accès",
-            "DESCRIPTION": "Collez un jeton d'accès permanent ou un jeton utilisateur système avec les autorisations WhatsApp."
+            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions, and the app secret of your Meta app."
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Examen de la migration",
@@ -1188,7 +1456,10 @@
         "BALANCED": "Affectation équilibrée"
       },
       "UPGRADE_PROMPT": "Les politiques d'affectation personnalisée sont disponibles avec le forfait Business",
+      "SELF_HOSTED_PROMPT": "Custom assignment policies are available on the Premium plan",
+      "FEATURE_DISABLED_PROMPT": "Custom assignment policies are not enabled for this account.",
       "UPGRADE_TO_BUSINESS": "Passer au forfait Business",
+      "UPGRADE_TO_PREMIUM": "Upgrade to Premium",
       "DEFAULT_POLICY_LINKED": "Politique par défaut liée",
       "DEFAULT_POLICY_DESCRIPTION": "Lier une politique d'affectation personnalisée pour personnaliser la façon dont les conversations sont assignées aux agents dans cette boîte de réception.",
       "LINK_EXISTING_POLICY": "Lier la politique existante",
@@ -1332,7 +1603,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Définir vos détails IMAP",
-      "NOTE_TEXT": "Pour activer le SMTP, veuillez configurer IMAP.",
+      "NOTE_TEXT": "Configure IMAP to receive emails directly from your mailbox. Leave it disabled if you use email forwarding.",
       "UPDATE": "Modifier les paramètres IMAP",
       "TOGGLE_AVAILABILITY": "Activer la configuration IMAP pour cette boîte de réception",
       "TOGGLE_HELP": "Activer IMAP aidera l'utilisateur à recevoir des e-mails",

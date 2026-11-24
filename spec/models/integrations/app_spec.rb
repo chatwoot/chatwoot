@@ -71,17 +71,13 @@ RSpec.describe Integrations::App do
       end
 
       it 'returns the App Store URL when both feature gates are enabled' do
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(true)
+        create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
 
         expect(app.action).to eq('https://apps.shopify.com/chatwoot')
       end
 
       it 'does not return an action when the installation switch is disabled' do
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(false)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
 
         expect(app.action).to be_nil
       end
@@ -103,9 +99,7 @@ RSpec.describe Integrations::App do
       let(:app_name) { 'shopify' }
 
       before do
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(true)
+        create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
       end
 
       it 'returns true if the shopify integration feature is enabled' do
@@ -127,9 +121,7 @@ RSpec.describe Integrations::App do
 
       it 'returns false if the installation switch is disabled' do
         account.enable_features('shopify_integration')
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(false)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
         allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return('client_id')
 
         expect(app.active?(account)).to be false

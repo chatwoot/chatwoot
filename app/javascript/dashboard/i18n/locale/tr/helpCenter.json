@@ -133,7 +133,7 @@
             "TITLE": "Portal Konfigürasyonları",
             "ITEMS": {
               "NAME": "İsim",
-              "DOMAIN": "Özel domain",
+              "DOMAIN": "Özel Alan Adı",
               "SLUG": "Slug",
               "TITLE": "Portal başlığı",
               "THEME": "Tema rengi",
@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Sil {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Yerel dil başarıyla portaldan kaldırıldı",
           "ERROR_MESSAGE": "Yerel dil portaldan kaldırılamadı. Lütfen tekrar deneyin."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "Tüm Makaleler",
-          "MINE": "Benim",
           "DRAFT": "Taslak",
           "PUBLISHED": "Yayınlandı",
           "ARCHIVED": "Arşivlendi"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Ben",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "Tüm Kategoriler"
@@ -574,9 +585,9 @@
           "SUBTITLE": "Detaylı bir makale yazın, haydi başlayalım!",
           "BUTTON_LABEL": "Yeni Makale"
         },
-        "MINE": {
-          "TITLE": "Burada herhangi bir makale yazmadınız",
-          "SUBTITLE": "Tarafınızdan yazılan tüm makaleler, hızlı erişim için burada görüntülenir."
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "Taslaklarda herhangi bir makale bulunmamaktadır",
@@ -801,12 +812,15 @@
           "SAVED": "Kaydedildi"
         },
         "PREVIEW": "Önizleme",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "Yayınla",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
         "PUBLISH_CHANGES_ERROR": "Could not publish changes",
         "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
         "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
+        "CREATE_IN_PROGRESS": "The article is still being created. Add files again in a moment.",
         "DISCARD_CHANGES": "Discard changes",
         "DISCARD_CHANGES_SUCCESS": "Changes discarded",
         "DISCARD_CHANGES_ERROR": "Could not discard changes",
@@ -815,6 +829,11 @@
         "DRAFT": "Taslak",
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Makalelere geri dön"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
@@ -828,18 +847,32 @@
         "TITLE_LABEL": "Başlık"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
+        "MORE_PROPERTIES": "Daha fazla özellik",
         "UNCATEGORIZED": "Kategorize Edilmemiş",
-        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
+        "EDITOR_PLACEHOLDER": "İçeriğinizi buraya yazın. Biçimlendirme seçenekleri için ‘/’ yazın."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Makaleleri Ara...",
+        "ORIGINAL_ARTICLE_EMPTY": "Hiçbir makale bulunamadı",
         "META_DESCRIPTION": "Meta Açıklama",
         "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
         "META_TITLE": "Meta Başlık",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta Etiketleri",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
+        "SLUG": "Slug",
+        "SLUG_PLACEHOLDER": "Add slug",
+        "SLUG_USE_TITLE": "Use title as slug",
+        "SLUG_WARNING": "The current URL will stop working, and existing links to it will break.",
+        "SLUG_UPDATE": "Güncelleme",
+        "SLUG_UPDATED": "Slug updated. The article is now available at the new URL.",
+        "SLUG_OPEN": "Open URL"
       },
       "API": {
         "ERROR": "Makale kaydedilirken hata oluştu"
@@ -874,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
           "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. Logoyu kaydetmek için lütfen 'Değişiklikleri Kaydet' butonuna tıklayın",
           "IMAGE_DELETE_SUCCESS": "Logo başarıyla silindi",
@@ -909,11 +945,11 @@
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
-          "HEADER": "Özel domain",
-          "LABEL": "Özel domain:",
+          "HEADER": "Özel Alan Adı",
+          "LABEL": "Özel Alan Adı:",
           "DESCRIPTION": "Portalınızı özel bir alan adında barındırabilirsiniz. Örneğin, web siteniz yourdomain.com ise ve portalınızın docs.yourdomain.com adresinde erişilebilir olmasını istiyorsanız, bu alanı buna göre doldurmanız yeterlidir.",
           "STATUS_DESCRIPTION": "Özel portalınız, doğrulandıktan sonra hemen çalışmaya başlayacaktır.",
-          "PLACEHOLDER": "Portal özel domain",
+          "PLACEHOLDER": "Portal özel alan adı",
           "EDIT_BUTTON": "Düzenle",
           "ADD_BUTTON": "Özel Alan Adı Ekle",
           "STATUS": {
@@ -926,8 +962,8 @@
             "EDIT_HEADER": "Edit custom domain",
             "ADD_CONFIRM_BUTTON_LABEL": "Alan Adı Ekle",
             "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Özel domain",
-            "PLACEHOLDER": "Portal özel domain",
+            "LABEL": "Özel Alan Adı",
+            "PLACEHOLDER": "Portal özel alan adı",
             "ERROR": "Custom domain is required",
             "FORMAT_ERROR": "Lütfen geçerli bir alan adı URL'si girin, örneğin docs.yourdomain.com"
           },
@@ -978,25 +1014,33 @@
         },
         "SAVE": "Değişiklikleri Kaydet"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Entegrasyonlar",
-        "DESCRIPTION": "Connect tools that extend what your help center can do.",
+        "DESCRIPTION": "Yardım merkezinizin işlevlerini genişleten araçları entegre edin.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
-          "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
+          "TITLE": "Chatwoot ile canlı sohbet",
+          "DESCRIPTION": "Ziyaretçilerin içerikleri okurken sizinle iletişime geçebilmesi için yardım merkezinizde canlı sohbet bileşenini gösterin.",
           "PLACEHOLDER": "Select live chat widget",
           "NONE_OPTION": "Widget yok"
         },
         "GTM": {
           "TITLE": "Google Tag Manager",
-          "DESCRIPTION": "Add analytics and marketing tags by connecting your Tag Manager container.",
+          "DESCRIPTION": "Tag Manager container'ınızı bağlayarak analiz ve pazarlama etiketleri ekleyin.",
           "PLACEHOLDER": "GTM-XXXXXXX",
-          "HELP": "Find this in your Google Tag Manager workspace. Leave empty to disable.",
+          "HELP": "Bunu Google Tag Manager çalışma alanınızda bulun. Devre dışı bırakmak için boş bırakın.",
           "INVALID": "Enter a valid container ID, for example GTM-XXXXXXX."
         },
         "GA4": {
           "TITLE": "Google Analytics 4",
-          "DESCRIPTION": "Measure traffic and visitor behavior on your help center with Google Analytics.",
+          "DESCRIPTION": "Google Analytics ile yardım merkezinizdeki trafik ve ziyaretçi davranışlarını ölçün.",
           "PLACEHOLDER": "G-XXXXXXXXXX",
           "HELP": "Find the measurement ID under Admin → Data streams in Google Analytics. Leave empty to disable.",
           "INVALID": "Enter a valid measurement ID, for example G-XXXXXXXXXX."
@@ -1040,8 +1084,9 @@
       },
       "NAV": {
         "GENERAL": "Genel",
-        "DOMAIN": "Alan",
+        "DOMAIN": "Alan Adı",
         "APPEARANCE": "Görünüm",
+        "SEO": "SEO",
         "INTEGRATIONS": "Entegrasyonlar"
       },
       "API": {

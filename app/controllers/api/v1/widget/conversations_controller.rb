@@ -11,15 +11,16 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
       process_update_contact
       @conversation = create_conversation
       conversation.messages.create!(message_params)
-      # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer
-      conversation.reload
     end
+    # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer
+    conversation.reload
   end
 
   def process_update_contact
     @contact = ContactIdentifyAction.new(
       contact: @contact,
       params: { email: contact_email, phone_number: contact_phone_number, name: contact_name, custom_attributes: contact_custom_attributes },
+      contact_inbox: @contact_inbox,
       retain_original_contact_name: true,
       discard_invalid_attrs: true
     ).perform
@@ -71,7 +72,6 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def destroy_custom_attributes
     conversation.custom_attributes = conversation.custom_attributes.excluding(params[:custom_attribute])
     conversation.save!
-    render json: conversation
   end
 
   private

@@ -78,7 +78,7 @@ class Inbox < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
 
-  enum sender_name_type: { friendly: 0, professional: 1 }
+  enum :sender_name_type, { friendly: 0, professional: 1 }
 
   before_destroy :capture_filtered_unread_count_user_ids, prepend: true
   after_destroy :delete_round_robin_agents
@@ -93,16 +93,16 @@ class Inbox < ApplicationRecord
   # @param user_ids [Array<Integer>] Array of user IDs to add as members
   # @return [void]
   def add_members(user_ids)
-    inbox_members.create!(user_ids.map { |user_id| { user_id: user_id } })
-    update_account_cache
+    created_members = inbox_members.create!(user_ids.map { |user_id| { user_id: user_id } })
+    update_account_cache if created_members.any?
   end
 
   # Removes multiple members from the inbox
   # @param user_ids [Array<Integer>] Array of user IDs to remove
   # @return [void]
   def remove_members(user_ids)
-    inbox_members.where(user_id: user_ids).destroy_all
-    update_account_cache
+    removed_members = inbox_members.where(user_id: user_ids).destroy_all
+    update_account_cache if removed_members.any?
   end
 
   # Sanitizes inbox name for balanced email provider compatibility

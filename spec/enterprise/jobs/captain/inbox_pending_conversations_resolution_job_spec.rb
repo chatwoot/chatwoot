@@ -80,7 +80,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
 
     it 'uses the assistant inactivity timer' do
-      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.account.enable_features!('captain_integration')
       captain_assistant.update!(config: captain_assistant.config.merge('auto_resolve_after' => 180))
 
       described_class.perform_now(inbox)
@@ -89,7 +89,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
 
     it 'resolves silently when the resolution message is disabled' do
-      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.account.enable_features!('captain_integration')
       captain_assistant.update!(config: captain_assistant.config.merge('send_inactivity_resolution_message' => false))
 
       described_class.perform_now(inbox)
@@ -110,7 +110,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
       # Mock the service to return complete for all conversations
       mock_service = instance_double(Captain::ConversationCompletionService)
-      allow(mock_service).to receive(:perform).and_return({ complete: true, reason: 'Test' })
+      allow(mock_service).to receive(:perform).and_return({ outcome: 'complete', reason: 'Test' })
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
 
       described_class.perform_now(inbox)
@@ -128,7 +128,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       mock_service = instance_double(Captain::ConversationCompletionService)
       allow(mock_service).to receive(:perform) do
         resolvable_pending_conversation.update!(last_activity_at: Time.current)
-        { complete: true, reason: 'Customer question was answered' }
+        { outcome: 'complete', reason: 'Customer question was answered' }
       end
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
 
@@ -164,7 +164,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
       allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       mock_service = instance_double(Captain::ConversationCompletionService)
-      allow(mock_service).to receive(:perform).and_return({ complete: true, reason: 'Customer question was answered' })
+      allow(mock_service).to receive(:perform).and_return({ outcome: 'complete', reason: 'Customer question was answered' })
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
     end
 
@@ -243,14 +243,52 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
   end
 
-  context 'when LLM evaluation returns incomplete' do
-    let(:handoff_reason) { 'Assistant asked for order number but customer did not respond' }
+  context 'when LLM evaluation returns waiting_on_customer' do
+    before do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform).and_return({ outcome: 'waiting_on_customer', reason: 'Captain asked for the order number' })
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+    end
+
+    it 'resolves the conversation and sends the closing message' do
+      expect(Captain::ConversationEvents).not_to receive(:handed_off)
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'inference', at: kind_of(Time))
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
+      expect(resolvable_pending_conversation.captain_waiting_close_without_reply?).to be(true)
+      expect(resolvable_pending_conversation.messages.where(private: true).last.content)
+        .to eq('Auto-resolved, waiting on customer: Captain asked for the order number')
+      expect(resolvable_pending_conversation.messages.where(private: false).outgoing.pluck(:content))
+        .to eq([I18n.t('conversations.activity.auto_resolution_message')])
+      expected_activity = I18n.t('conversations.activity.captain.resolved_with_reason', user_name: captain_assistant.name,
+                                                                                        reason: 'no reply from customer')
+      expect(Conversations::ActivityMessageJob)
+        .to have_been_enqueued.with(resolvable_pending_conversation, hash_including(content: expected_activity))
+    end
+
+    it 'returns the conversation to Captain when the customer replies after it was resolved' do
+      inbox.account.enable_features!('captain_integration')
+      described_class.perform_now(inbox)
+
+      create(:message, conversation: resolvable_pending_conversation.reload, message_type: :incoming, content: 'Here is my order number')
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+  end
+
+  context 'when LLM evaluation returns needs_human' do
+    let(:handoff_reason) { 'Customer asked for a refund that needs a human agent' }
 
     before do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
       allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       mock_service = instance_double(Captain::ConversationCompletionService)
-      allow(mock_service).to receive(:perform).and_return({ complete: false, reason: handoff_reason })
+      allow(mock_service).to receive(:perform).and_return({ outcome: 'needs_human', reason: handoff_reason })
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
     end
 
@@ -314,7 +352,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expected_content = I18n.t(
         'conversations.activity.captain.open_with_reason',
         user_name: captain_assistant.name,
-        reason: 'pending clarification from customer'
+        reason: 'needs a human agent'
       )
       expect(Conversations::ActivityMessageJob)
         .to have_been_enqueued.with(
@@ -351,13 +389,13 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   end
 
   context 'when handoff occurs outside business hours' do
-    let(:handoff_reason) { 'Customer has not responded to clarifying question' }
+    let(:handoff_reason) { 'Customer asked for a refund that needs a human agent' }
 
     before do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
       allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       mock_service = instance_double(Captain::ConversationCompletionService)
-      allow(mock_service).to receive(:perform).and_return({ complete: false, reason: handoff_reason })
+      allow(mock_service).to receive(:perform).and_return({ outcome: 'needs_human', reason: handoff_reason })
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
       inbox.update!(working_hours_enabled: true, out_of_office_message: 'We are currently unavailable.')
     end
@@ -400,7 +438,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
       allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       mock_service = instance_double(Captain::ConversationCompletionService)
-      allow(mock_service).to receive(:perform).and_return({ complete: false, reason: 'API Error' })
+      allow(mock_service).to receive(:perform).and_return({ outcome: 'needs_human', reason: 'API Error' })
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
     end
 
@@ -425,7 +463,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       allow(conversation).to receive(:resolved!).and_raise(StandardError, 'transition failed')
 
       expect do
-        job.send(:resolve_conversation, conversation, inbox, 'Customer question was answered')
+        job.send(:resolve_conversation, conversation, 'no outstanding questions', 'Customer question was answered')
       end.to raise_error(StandardError, 'transition failed')
 
       expect(conversation.reload).to be_pending

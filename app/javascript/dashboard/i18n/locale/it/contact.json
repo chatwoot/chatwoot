@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "Non Disponibile",
     "EMAIL_ADDRESS": "Indirizzo Email",
     "PHONE_NUMBER": "Numero di telefono",
-    "WHATSAPP_USERNAME": "WhatsApp username",
+    "WHATSAPP_USERNAME": "Nome utente WhatsApp",
     "IDENTIFIER": "Identificatore",
     "COPY_SUCCESSFUL": "Copiato negli appunti",
     "COMPANY": "Azienda",
@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Non ci sono precedenti conversazioni associate a questo contatto.",
-      "TITLE": "Conversazioni Precedenti"
+      "TITLE": "Conversazioni Precedenti",
+      "VIEW_ALL": "Vedi tutte le conversazioni"
     },
     "LABELS": {
       "CONTACT": {
@@ -319,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Impossibile bloccare il contatto. Riprova più tardi.",
         "UNBLOCK_SUCCESS_MESSAGE": "Questo contatto è stato sbloccato correttamente",
         "UNBLOCK_ERROR_MESSAGE": "Impossibile sbloccare il contatto. Riprova più tardi.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Importa contatti",
-          "DESCRIPTION": "Importa contatti da un file CSV.",
-          "DOWNLOAD_LABEL": "Scarica un csv di esempio.",
-          "LABEL": "File CSV:",
-          "CHOOSE_FILE": "Seleziona file",
-          "CHANGE": "Cambia",
-          "CANCEL": "Annulla",
-          "IMPORT": "Importa",
-          "SUCCESS_MESSAGE": "Riceverai una notifica via email quando l'importazione sarà completata.",
-          "ERROR_MESSAGE": "Si è verificato un errore, riprova"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Esporta contatti",
-          "DESCRIPTION": "Esporta rapidamente un file csv con i dettagli completi dei tuoi contatti",
-          "CONFIRM": "Esporta",
-          "SUCCESS_MESSAGE": "Esportazione in corso. Riceverai una notifica via email quando il file di esportazione sarà pronto per essere scaricato.",
-          "ERROR_MESSAGE": "Si è verificato un errore, riprova"
-        },
         "SORT_BY": {
           "LABEL": "Ordina per",
           "OPTIONS": {
@@ -404,6 +386,8 @@
       },
       "TITLE": "Filtra contatti",
       "EDIT_SEGMENT": "Modifica segmento",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Nome segmento",
         "INPUT_PLACEHOLDER": "Inserisci il nome del segmento"
@@ -463,7 +447,7 @@
             "PLACEHOLDER": "Aggiungi Instagram"
           },
           "WHATSAPP": {
-            "PLACEHOLDER": "Add WhatsApp"
+            "PLACEHOLDER": "Aggiungi WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Aggiungi Telegram"
@@ -617,7 +601,7 @@
       "ERROR_MESSAGE": "Non siamo riusciti a completare la ricerca. Riprova."
     },
     "CONTACT_CREATE": {
-      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
+      "ERROR_MESSAGE": "Non è stato possibile creare il contatto. Riprova."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Visualizza",

@@ -35,6 +35,39 @@ RSpec.describe 'Conversations API', type: :request do
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
       end
 
+      it 'lists a conversation whose assignee no longer exists as unassigned' do
+        assigned = create(:conversation, account: account, inbox: conversation.inbox, assignee: agent)
+        conversation.update_column(:assignee_id, User.maximum(:id) + 1000) # rubocop:disable Rails/SkipsModelValidations
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            params: { assignee_type: 'all' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        payload = JSON.parse(response.body, symbolize_names: true)[:data][:payload].index_by { |item| item[:id] }
+        expect(payload.keys).to contain_exactly(conversation.display_id, assigned.display_id)
+        expect(payload[conversation.display_id][:meta]).not_to include(:assignee, :assignee_type)
+        expect(payload[assigned.display_id][:meta][:assignee][:id]).to eq(agent.id)
+        expect(payload[assigned.display_id][:meta][:assignee_type]).to eq('User')
+      end
+
+      it 'lists a conversation whose contact no longer exists with an empty sender' do
+        with_contact = create(:conversation, account: account, inbox: conversation.inbox)
+        Contact.where(id: conversation.contact_id).delete_all
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            params: { assignee_type: 'all' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        payload = JSON.parse(response.body, symbolize_names: true)[:data][:payload].index_by { |item| item[:id] }
+        expect(payload.keys).to contain_exactly(conversation.display_id, with_contact.display_id)
+        expect(payload[conversation.display_id][:meta][:sender]).to eq({})
+        expect(payload[with_contact.display_id][:meta][:sender][:id]).to eq(with_contact.contact_id)
+      end
+
       it 'returns conversations with empty messages array for conversations with out messages' do
         get "/api/v1/accounts/#{account.id}/conversations",
             headers: agent.create_new_auth_token,
@@ -508,6 +541,36 @@ RSpec.describe 'Conversations API', type: :request do
                as: :json
         end
 
+        it 'does not trust client supplied hmac_verified param when creating the contact inbox' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          identified_contact = create(:contact, account: account, identifier: 'contact-identifier')
+
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: { contact_id: identified_contact.id, inbox_id: inbox.id, hmac_verified: true },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          conversation = account.conversations.find_by(display_id: JSON.parse(response.body, symbolize_names: true)[:id])
+          expect(conversation.contact_inbox.hmac_verified).to be(false)
+        end
+
+        it 'marks the contact inbox hmac verified with a valid identifier hash' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          identified_contact = create(:contact, account: account, identifier: 'contact-identifier')
+          identifier_hash = OpenSSL::HMAC.hexdigest('sha256', inbox.channel.hmac_token, identified_contact.identifier)
+
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: { contact_id: identified_contact.id, inbox_id: inbox.id, identifier: identified_contact.identifier,
+                         identifier_hash: identifier_hash },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          conversation = account.conversations.find_by(display_id: JSON.parse(response.body, symbolize_names: true)[:id])
+          expect(conversation.contact_inbox.hmac_verified).to be(true)
+        end
+
         it 'creates a new conversation with assignee and team' do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           post "/api/v1/accounts/#{account.id}/conversations",
@@ -519,6 +582,32 @@ RSpec.describe 'Conversations API', type: :request do
           response_data = JSON.parse(response.body, symbolize_names: true)
           expect(response_data[:meta][:assignee][:name]).to eq(agent.name)
           expect(response_data[:meta][:team][:name]).to eq(team.name)
+        end
+
+        it 'does not create a conversation with an assignee from another account' do
+          other_user = create(:user, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, assignee_id: other_user.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not create a conversation with a team from another account' do
+          other_team = create(:team, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, team_id: other_team.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end

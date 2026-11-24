@@ -3,6 +3,7 @@ tags:
 operationId: create-campaign
 summary: Create a campaign
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: >-
   Create a campaign. For a supported messaging inbox, provide scheduled_at to schedule a one-off campaign; omitting it makes the campaign eligible for the next scheduler run. Website campaigns use trigger_rules instead. Channel-specific campaign availability and requirements still apply.

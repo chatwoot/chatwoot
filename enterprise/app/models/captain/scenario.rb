@@ -101,7 +101,7 @@ class Captain::Scenario < ApplicationRecord
   end
 
   def agent_tools
-    resolved_tools.map { |tool| resolve_tool_instance(tool) }
+    resolved_tools.filter_map { |tool| resolve_tool_instance(tool) }
   end
 
   def resolved_instructions
@@ -121,8 +121,10 @@ class Captain::Scenario < ApplicationRecord
     tool_id = tool_metadata[:id]
 
     if tool_metadata[:custom]
-      custom_tool = Captain::CustomTool.find_by(slug: tool_id, account_id: account_id, enabled: true)
+      custom_tool = assistant.custom_tools.enabled.find_by(slug: tool_id)
       custom_tool&.tool(assistant)
+    elsif tool_metadata[:mcp]
+      assistant.mcp_agent_tools.tool(tool_id)
     else
       tool_class = self.class.resolve_tool_class(tool_id)
       tool_class&.new(assistant)

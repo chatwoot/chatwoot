@@ -25,7 +25,7 @@ const users = computed(() => {
       name: user.name,
       key: user.id,
       email: user.email,
-      avatarUrl: user.avatarUrl,
+      avatarUrl: user.avatarUrl || user.thumbnail,
     };
   });
 });

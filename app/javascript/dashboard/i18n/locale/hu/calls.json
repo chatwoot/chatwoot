@@ -1,46 +1,46 @@
 {
   "CALLS_PAGE": {
-    "HEADER": "Calls",
-    "ALL_CALLS": "All Calls",
-    "ALL_CALLS_COUNT": "All Calls ({count})",
-    "EMPTY_STATE": "No calls found",
+    "HEADER": "Hívások",
+    "ALL_CALLS": "Összes hívás",
+    "ALL_CALLS_COUNT": "Összes hívás ({count})",
+    "EMPTY_STATE": "Nem található hívás",
     "SETUP": {
-      "TITLE": "Make and receive calls in one place",
-      "SUBTITLE": "Set up a voice channel to start handling calls with your team. Every call, along with its recording, will appear here.",
-      "ACTION": "Set up voice channel"
+      "TITLE": "Hívások indítása és fogadása egy helyen",
+      "SUBTITLE": "Állítson be hangcsatornát, hogy csapatával kezelhesse a hívásokat. Minden hívás és annak felvétele itt jelenik meg.",
+      "ACTION": "Hangcsatorna beállítása"
     },
     "FILTERS": {
-      "MISSED": "Missed",
-      "NO_REPLY": "No reply",
-      "OTHER_ACTIVITY": "Other activity",
-      "INCOMING": "Incoming",
-      "OUTGOING": "Outgoing",
-      "IN_PROGRESS": "In progress",
+      "MISSED": "Nem fogadott",
+      "NO_REPLY": "Nem válaszolt",
+      "OTHER_ACTIVITY": "Egyéb tevékenység",
+      "INCOMING": "Bejövő",
+      "OUTGOING": "Kimenő",
+      "IN_PROGRESS": "Folyamatban",
       "ASSIGNEE": "Assignee",
-      "ALL_ASSIGNEES": "All assignees",
-      "MORE_FILTERS": "More filters",
+      "ALL_ASSIGNEES": "Összes felelős",
+      "MORE_FILTERS": "További szűrők",
       "INBOX": "Fiók",
-      "ALL_INBOXES": "All inboxes"
+      "ALL_INBOXES": "Összes bejövő"
     },
     "STATUS": {
       "ONGOING": "Folyamatban",
-      "INCOMING": "Incoming",
-      "OUTGOING": "Outgoing",
-      "MISSED": "Missed",
-      "NO_REPLY": "No reply",
+      "INCOMING": "Bejövő",
+      "OUTGOING": "Kimenő",
+      "MISSED": "Nem fogadott",
+      "NO_REPLY": "Nem válaszolt",
       "FAILED": "Failed"
     },
     "ROW": {
-      "PICKED_BY": "Picked by",
-      "DIALED_BY": "Dialed by",
-      "ANSWERED": "Answered",
-      "RINGING": "Ringing",
-      "IN_PROGRESS": "In progress",
-      "NO_AGENT": "No agent answered this call",
-      "NO_CONTACT_ANSWER": "Contact did not answer",
-      "FAILED": "This call could not be connected",
+      "PICKED_BY": "Felvette:",
+      "DIALED_BY": "Tárcsázta:",
+      "ANSWERED": "Fogadott",
+      "RINGING": "Csörög",
+      "IN_PROGRESS": "Folyamatban",
+      "NO_AGENT": "Egyik ügynök sem fogadta ezt a hívást",
+      "NO_CONTACT_ANSWER": "A hívott fél nem válaszolt",
+      "FAILED": "Nem sikerült kapcsolni ezt a hívást",
       "YESTERDAY": "Tegnap",
-      "DELETED_CONTACT": "Deleted contact"
+      "DELETED_CONTACT": "Törölt kontakt"
     }
   }
 }

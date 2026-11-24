@@ -8,9 +8,9 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     @copilot_threads = Current.account.copilot_threads
                               .where(user_id: Current.user.id)
                               .includes(:user, :assistant)
-                              .order(created_at: :desc)
+                              .order(created_at: :desc, id: :desc)
                               .page(permitted_params[:page] || 1)
-                              .per(5)
+                              .per(20)
   end
 
   def create
@@ -30,23 +30,38 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     end
   end
 
+  # Stops what Copilot is working on in the thread. The panel learns of the stop from the agent's message, which the stop
+  # marks.
+  def stop
+    Current.account.copilot_threads.find_by!(id: params[:id], user: Current.user).stop
+    head :ok
+  end
+
   private
 
+  # A reply suggestion runs its own job, not a workflow turn, so the Captain check that turns make does not cover it.
+  # Checking here covers both.
   def build_copilot_response(copilot_message)
-    if Current.account.usage_limits[:captain][:responses][:current_available].positive?
+    if !Current.account.feature_enabled?('captain_integration')
+      create_failed_response(copilot_message, I18n.t('captain.copilot_disabled'))
+    elsif Current.account.usage_limits[:captain][:responses][:current_available].positive?
       enqueue_copilot_response(copilot_message)
     else
-      copilot_message.copilot_thread.copilot_messages.create!(
-        message_type: :assistant,
-        message: { content: I18n.t('captain.copilot_limit') }
-      )
+      create_failed_response(copilot_message, I18n.t('captain.copilot_limit'))
     end
+  end
+
+  def create_failed_response(copilot_message, content)
+    copilot_message.copilot_thread.copilot_messages.create!(
+      message_type: :assistant,
+      message: { content: content, status: 'failed' }
+    )
   end
 
   def enqueue_copilot_response(copilot_message)
     return enqueue_reply_suggestion if reply_suggestion?
 
-    copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+    copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id])
   end
 
   def enqueue_reply_suggestion

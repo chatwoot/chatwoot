@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "提供：Chatwoot",
   "EMAIL_PLACEHOLDER": "メールアドレスを入力してください。",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "メッセージを入力してください。",
   "TODAY": "今日",
   "YESTERDAY": "昨日",
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "よくある質問",
     "VIEW_ALL_ARTICLES": "すべてのヘルプを表示",
+    "IFRAME_ERROR": "URLが空または無効です。コンテンツを表示できません。",
     "IFRAME_LOAD_ERROR": "記事の読み込み中にエラーが発生しました。ページを更新して再試行してください。"
   },
   "ATTACHMENTS": {

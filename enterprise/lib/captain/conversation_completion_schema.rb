@@ -1,4 +1,4 @@
-class Captain::ConversationCompletionSchema < RubyLLM::Schema
-  boolean :complete, description: 'Whether the conversation is complete and can be closed'
-  string :reason, description: 'Brief explanation of why the conversation is complete or incomplete'
+class Captain::ConversationCompletionSchema < Schematist::Schema
+  string :outcome, enum: %w[complete waiting_on_customer needs_human], description: 'What should happen to the inactive conversation next'
+  string :reason, description: 'Brief explanation of the chosen outcome'
 end

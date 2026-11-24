@@ -33,6 +33,8 @@
       "is_less_than": "より小さい",
       "days_before": "x日前",
       "starts_with": "で始まる",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "等しい",
       "notEqualTo": "等しくない",
       "contains": "含む",
@@ -73,6 +75,7 @@
       "VALUE_REQUIRED": "値は必須です。",
       "ATTRIBUTE_KEY_REQUIRED": "属性キーは必須です。",
       "FILTER_OPERATOR_REQUIRED": "フィルター演算子は必須です。",
+      "INVALID_FILTER_OPERATOR": "Select a valid operator for this attribute",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "値は1から998の間でなければなりません。"
     },
     "GROUPS": {

@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
-      "TITLE": "Conversas anteriores"
+      "TITLE": "Conversas anteriores",
+      "VIEW_ALL": "Ver todas as conversas"
     },
     "LABELS": {
       "CONTACT": {
@@ -319,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Não foi possível bloquear o contato. Tente novamente mais tarde.",
         "UNBLOCK_SUCCESS_MESSAGE": "Este contato foi desbloqueado com sucesso",
         "UNBLOCK_ERROR_MESSAGE": "Não foi possível desbloquear o contato. Tente novamente mais tarde.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Importar contatos",
-          "DESCRIPTION": "Importar contatos através de um arquivo CSV.",
-          "DOWNLOAD_LABEL": "Baixar um exemplo de csv.",
-          "LABEL": "Arquivo CSV:",
-          "CHOOSE_FILE": "Escolher arquivo",
-          "CHANGE": "Trocar",
-          "CANCEL": "Cancelar",
-          "IMPORT": "Importar",
-          "SUCCESS_MESSAGE": "Você será notificado por e-mail quando a importação estiver concluída.",
-          "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Exportar contatos",
-          "DESCRIPTION": "Exporte rapidamente um arquivo CSV com detalhes completos dos seus contatos",
-          "CONFIRM": "Exportar",
-          "SUCCESS_MESSAGE": "Exportando. Você será notificado por e-mail quando o arquivo estiver pronto para ser baixado.",
-          "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
-        },
         "SORT_BY": {
           "LABEL": "Classificar por",
           "OPTIONS": {
@@ -404,6 +386,8 @@
       },
       "TITLE": "Filtrar contatos",
       "EDIT_SEGMENT": "Alterar segmento",
+      "INVALID_SEGMENT": "Este segmento tem um filtro inválido. Edite o segmento para corrigi-lo.",
+      "LOAD_ERROR": "Não foi possível carregar os contatos filtrados. Tente novamente.",
       "SEGMENT": {
         "LABEL": "Nome do segmento",
         "INPUT_PLACEHOLDER": "Digite o nome do segmento"

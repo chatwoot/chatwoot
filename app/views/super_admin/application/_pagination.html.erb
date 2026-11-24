@@ -1,0 +1,5 @@
+<%# Kaminari renders the pager's markup, so its links are styled from this wrapper. %>
+<%# locals: (resources:, param_name: "_page") -%>
+<div class="text-body-main [&_.current]:bg-n-blue-3 [&_.current]:font-medium [&_.current]:text-n-blue-11 [&_.page]:tabular-nums [&_a:hover]:bg-n-alpha-2 [&_a:hover]:text-n-slate-12 [&_a]:px-2 [&_nav>span>*]:inline-flex [&_nav>span>*]:h-8 [&_nav>span>*]:min-w-8 [&_nav>span>*]:items-center [&_nav>span>*]:justify-center [&_nav>span>*]:rounded-md [&_nav>span]:inline-flex [&_nav>span]:h-8 [&_nav>span]:min-w-8 [&_nav>span]:items-center [&_nav>span]:justify-center [&_nav>span]:rounded-md [&_nav>span]:text-n-slate-11 [&_nav]:flex [&_nav]:flex-wrap [&_nav]:items-center [&_nav]:gap-1 touch:[&_nav>span>*]:h-10 touch:[&_nav>span>*]:min-w-10 touch:[&_nav>span]:h-10 touch:[&_nav>span]:min-w-10">
+  <%= paginate resources, param_name: param_name %>
+</div>

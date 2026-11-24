@@ -18,6 +18,7 @@ import { useCallsStore } from 'dashboard/stores/calls';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { formatDuration } from 'shared/helpers/timeHelper';
 import { useAlert } from 'dashboard/composables';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
@@ -112,6 +113,7 @@ const displayAgentName = computed(() => {
   return conversationAssignee.value?.name || null;
 });
 
+// Legacy WhatsApp recordings stay on the message until the backfill moves them to the call
 const audioAttachment = computed(() =>
   (attachments?.value || []).find(a => a.fileType === ATTACHMENT_TYPES.AUDIO)
 );
@@ -170,6 +172,12 @@ const subtext = computed(() => {
     if (isOutbound.value) {
       return t('CONVERSATION.VOICE_CALL.NO_ANSWER_OUTBOUND_SUBTEXT');
     }
+    if (endReason.value === VOICE_CALL_END_REASON.OUTSIDE_WORKING_HOURS) {
+      return t('CONVERSATION.VOICE_CALL.MISSED_CALL_OUTSIDE_HOURS');
+    }
+    if (endReason.value === VOICE_CALL_END_REASON.NO_AGENTS_AVAILABLE) {
+      return t('CONVERSATION.VOICE_CALL.MISSED_CALL_NOBODY_ONLINE');
+    }
     if (wasDeclinedByAgent.value && displayAgentName.value) {
       return t('CONVERSATION.VOICE_CALL.MISSED_CALL_DECLINED_BY', {
         agentName: displayAgentName.value,
@@ -227,7 +235,8 @@ const recordingAttachment = computed(() => {
   return {
     dataUrl: url,
     fileType: ATTACHMENT_TYPES.AUDIO,
-    extension: 'wav',
+    // The URL ends in the stored filename, e.g. .wav from Twilio or .ogg from WhatsApp
+    extension: new URL(url).pathname.split('.').pop(),
     transcribedText: call.value?.transcript || '',
   };
 });
@@ -263,6 +272,7 @@ const handleJoinCall = async () => {
 const canCallBack = computed(
   () =>
     isMissedInbound.value &&
+    (isWhatsapp.value || !!sender.value?.phoneNumber) &&
     !!inboxId.value &&
     !!conversationId.value &&
     !hasActiveCall.value &&
@@ -307,9 +317,16 @@ const handleCallBack = async () => {
       conversationId: response?.conversation_id ?? conversationId.value,
       inboxId: inboxId.value,
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+      provider: VOICE_CALL_PROVIDERS.TWILIO,
     });
   } catch (error) {
-    useAlert(error?.message || t('CONTACT_PANEL.CALL_FAILED'));
+    useAlert(
+      error instanceof ExceptionWithMessage
+        ? error.data
+        : error?.response?.data?.error ||
+            error?.message ||
+            t('CONTACT_PANEL.CALL_FAILED')
+    );
   }
 };
 </script>

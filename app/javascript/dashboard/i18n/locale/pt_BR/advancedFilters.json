@@ -33,6 +33,8 @@
       "is_less_than": "É menor que",
       "days_before": "É X dias antes",
       "starts_with": "Começa com",
+      "detects": "Detecta",
+      "does_not_detect": "Não detecta",
       "equalTo": "Igual a",
       "notEqualTo": "Diferente",
       "contains": "Contém",
@@ -73,6 +75,7 @@
       "VALUE_REQUIRED": "Valor obrigatório",
       "ATTRIBUTE_KEY_REQUIRED": "A chave do atributo é necessária",
       "FILTER_OPERATOR_REQUIRED": "Operador do filtro é necessário",
+      "INVALID_FILTER_OPERATOR": "Selecione um operador válido para este atributo",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "O valor deve ser entre 1 e 998"
     },
     "GROUPS": {

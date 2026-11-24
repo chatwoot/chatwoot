@@ -87,20 +87,20 @@
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
       "SESSIONS_SECTION": {
-        "TITLE": "Active Sessions",
-        "NOTE": "These are the devices currently logged in to your account.",
-        "CURRENT": "Current session",
-        "REVOKE": "Revoke",
-        "REVOKE_SUCCESS": "Session revoked successfully",
-        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
-        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
-        "LAST_ACTIVE": "Last active",
-        "UNKNOWN_DEVICE": "Unknown device"
+        "TITLE": "Aktív munkamenetek",
+        "NOTE": "Ezek az eszközök vannak jelenleg bejelentkezve a fiókjába.",
+        "CURRENT": "Jelenlegi munkamenet",
+        "REVOKE": "Visszavonás",
+        "REVOKE_SUCCESS": "A munkamenet visszavonása sikerült",
+        "REVOKE_ERROR": "Nem sikerült visszavonni a munkamenetet. Próbálja újra.",
+        "FETCH_ERROR": "Nem sikerült betölteni a munkameneteket. Próbálja újra.",
+        "LAST_ACTIVE": "Utolsó aktivitás",
+        "UNKNOWN_DEVICE": "Ismeretlen eszköz"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Hozzáférési kulcs",
         "NOTE": "Ez a kulcs akkor használható, ha API-alapú integrációt építesz",
-        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
+        "PAID_PLAN_NOTE": "API hozzáférési tokenek fizetős csomagokban érhetők el.",
         "COPY": "Másolás",
         "RESET": "Reset",
         "CONFIRM_RESET": "Are you sure?",
@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kapj e-mailt amikor egy üzenet létrejön egy hozzád rendelt beszélgetésben",
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA",
+        "VOICE_CALL_MISSED": "E-mailes értesítés küldése, ha nem fogad hívást"
       },
       "NOTIFICATIONS": {
         "TITLE": "Notification preferences",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
           "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA",
+          "VOICE_CALL_MISSED": "Nem fogadott hívása van"
         },
         "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Push üznetek engedélyezése",
         "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA",
+        "VOICE_CALL_MISSED": "Push értesítés küldése, ha nem fogad hívást"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilkép"
@@ -253,6 +256,7 @@
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
     "CHANGELOG": "Changelog",
+    "CHANGELOG_DISMISS_ALL": "Dismiss all",
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
@@ -262,10 +266,14 @@
     "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
     "RESEND_VERIFICATION_MAIL": "Resend verification email",
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "IMPERSONATION": {
+      "MESSAGE": "Ön {name} ({email}) nevében jár el. Minden művelet úgy jelenik meg, mintha ezt a felhasználó végezte volna.",
+      "STOP": "Felhasználó nevében végzett művelet befejezése"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Felfüggesztett Fiók",
       "MESSAGE": "A fiókod felfüggesztés alatt van. Bővebb információkért, kérlek, lépj kapcsolatba az ügfyélszolgálattal.",
-      "MANAGE_BILLING": "Manage billing"
+      "MANAGE_BILLING": "Számlázás kezelése"
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -278,7 +286,8 @@
     "CODE": {
       "BUTTON_TEXT": "Másolás",
       "CODEPEN": "Megnyitás CodePen-ben",
-      "COPY_SUCCESSFUL": "Vágólapra másolva"
+      "COPY_SUCCESSFUL": "Vágólapra másolva",
+      "COPY_ERROR": "Nem sikerült a vágólapra másolni. Próbálja újra."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Mutass többet",
@@ -325,12 +334,13 @@
     "COMPANIES": "Companies",
     "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
-    "CALLS": "Calls",
+    "CALLS": "Hívások",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_OVERVIEW": "Áttekintés",
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_TOOLS_AND_MCP": "Tools & MCP",
     "CAPTAIN_SCENARIOS": "Scenarios",
     "CAPTAIN_PLAYGROUND": "Playground",
     "CAPTAIN_INBOXES": "Fiókok",
@@ -340,11 +350,11 @@
     "AGENT_BOTS": "Botok",
     "AUDIT_LOGS": "Audit logok",
     "INBOXES": "Bejövők",
-    "WHATSAPP_TEMPLATES": "Templates",
+    "WHATSAPP_TEMPLATES": "Sablonok",
     "NOTIFICATIONS": "Értesítések",
     "CANNED_RESPONSES": "Mentett válaszok",
     "INTEGRATIONS": "Integrációk",
-    "DATA": "Data",
+    "DATA": "Adatok",
     "PROFILE_SETTINGS": "Profilbeállítások",
     "ACCOUNT_SETTINGS": "Fiókbeállítások",
     "APPLICATIONS": "Alkalmazások",
@@ -391,6 +401,15 @@
       "SETTINGS": "Beállítások"
     },
     "CHANNELS": "Csatornák",
+    "ACCEPT_CONVERSATIONS": {
+      "TEXT": "Receive conversations",
+      "INFO_SHORT": "Get new conversations assigned to you automatically."
+    },
+    "ACCEPT_CALLS": {
+      "TEXT": "Receive voice calls",
+      "INFO_SHORT": "Receive incoming calls on web and mobile."
+    },
+    "WORK_PAUSED": "You won't get new conversations or calls until you're back Online.",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Offline állapot automatikusan",
       "INFO_TEXT": "Hagyd, hogy a rendszer automatikusan offline módban jelöljön meg, amikor nem használod az alkalmazást vagy az irányítópultot.",
@@ -399,17 +418,17 @@
     "SORT_TOOLTIP": "Rendezés",
     "SORT_BY": "Rendezés",
     "SORT_GROUPS": {
-      "CREATED": "Sort by date of creation",
-      "ALPHABETICAL": "Sort in alphabetical order",
-      "UNREAD_COUNT": "Sort by unread count"
+      "CREATED": "Rendezés a létrehozás dátuma szerint",
+      "ALPHABETICAL": "Rendezés betűrendben",
+      "UNREAD_COUNT": "Rendezés az olvasatlanok száma szerint"
     },
     "SORT_OPTIONS": {
-      "CREATED_DESC": "Newest first",
-      "CREATED_ASC": "Oldest first",
-      "ALPHABETICAL_ASC": "Ascending (A - Z)",
-      "ALPHABETICAL_DESC": "Descending (Z - A)",
-      "UNREAD_COUNT_DESC": "Highest first",
-      "UNREAD_COUNT_ASC": "Lowest first"
+      "CREATED_DESC": "Legújabb elöl",
+      "CREATED_ASC": "Legrégebbi elöl",
+      "ALPHABETICAL_ASC": "Növekvő (A–Z)",
+      "ALPHABETICAL_DESC": "Csökkenő (Z–A)",
+      "UNREAD_COUNT_DESC": "Legtöbb olvasatlan elöl",
+      "UNREAD_COUNT_ASC": "Legkevesebb olvasatlan elöl"
     },
     "DOCS": "Dokumentum olvasása",
     "SECURITY": "Security",
@@ -417,17 +436,18 @@
     "CONVERSATION_WORKFLOW": "Conversation Workflow"
   },
   "DATA_IMPORTS": {
-    "HEADER": "Data",
-    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
-    "LOADING": "Fetching imports",
-    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "HEADER": "Adatok",
+    "DESCRIPTION": "Bring in your customer data and manage contact exports.",
+    "LOADING": "Fetching imports and exports",
+    "DEFAULT_IMPORT_NAME": "Intercom importálás",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Intercom import",
-      "FRESHDESK": "Freshdesk import"
+      "CSV": "Contacts Import - {date}",
+      "INTERCOM": "Intercom Import - {date}",
+      "FRESHDESK": "Freshdesk Import - {date}"
     },
     "TABS": {
-      "IMPORT": "Importálás",
-      "EXPORT": "Export"
+      "IMPORT": "Imports",
+      "EXPORT": "Exports"
     },
     "TYPES": {
       "CONTACTS": "Kontaktok",
@@ -435,96 +455,166 @@
       "MESSAGES": "Üzenetek"
     },
     "DRAWER": {
-      "TITLE": "New import",
-      "SOURCE": "Source",
-      "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July support migration",
-      "ACCESS_KEY": "Intercom access key",
-      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "INTERCOM_ACCESS_KEY": "Intercom access key",
-      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "FRESHDESK_API_KEY": "Freshdesk API key",
-      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
+      "TITLE": "Új importálás",
+      "SOURCE": "Forrás",
+      "NAME": "Importálás neve",
+      "NAME_PLACEHOLDER": "Júliusi ügyfélszolgálati migráció",
+      "ACCESS_KEY": "Intercom hozzáférési kulcs",
+      "ACCESS_KEY_PLACEHOLDER": "Illessze be az Intercom hozzáférési kulcsát",
+      "INTERCOM_ACCESS_KEY": "Intercom hozzáférési kulcs",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Illessze be az Intercom hozzáférési kulcsát",
+      "FRESHDESK_API_KEY": "Freshdesk API kulcs",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Illessze be a Freshdesk API kulcsát",
       "FRESHDESK_DOMAIN": "Freshdesk domain",
       "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
-      "DATA_TYPES": "Data to import",
-      "VALIDATING": "Validating access key...",
-      "VALID_KEY": "Access key validated.",
-      "INVALID_KEY": "Could not validate this access key.",
-      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "DATA_TYPES": "Importálandó adatok",
+      "VALIDATING": "Hozzáférési kulcs ellenőrzése…",
+      "VALID_KEY": "A hozzáférési kulcs ellenőrzése sikerült.",
+      "INVALID_KEY": "Nem sikerült ellenőrizni a hozzáférési kulcsot.",
+      "ACTIVE_IMPORT": "There is already an active import in this account. Wait for it to finish before starting another one.",
       "CANCEL": "Mégse",
       "IMPORT": "Importálás"
     },
-    "EXPORT": {
-      "TITLE": "Exports are on the way",
-      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
-      "COMING_SOON": "Coming soon"
+    "CSV": {
+      "ROW_ERRORS": "Row errors",
+      "SOURCE": "CSV file",
+      "FILE": "Contact CSV file",
+      "HELP": "Use the sample column names and existing labels. Up to 250,000 rows and 1 MiB per field.",
+      "SILENT_UPDATES": "Matching contacts are updated. Imports do not trigger contact automations or webhooks.",
+      "INVALID_FILE": "Choose a nonempty CSV file of 50 MiB or smaller.",
+      "SAMPLE": "Download sample CSV",
+      "UPLOADING": "Uploading {percent}%. Processing starts after the upload finishes.",
+      "OUTCOMES": "{created} created · {updated} updated · {failed} failed",
+      "PROCESSED": "of {total} processed",
+      "REJECTED_HELP": "Download the rejected rows, make corrections, and upload them as a new import. Files are available for 30 days.",
+      "DOWNLOAD_REJECTED": "Download rejected rows",
+      "EXPIRED": "The source and rejected-row files have expired. Upload a new file to import these contacts again.",
+      "FILE_REMOVED": "This file was removed after 30 days.",
+      "CHOOSE_FILE": "Click to upload or drag and drop",
+      "FILE_LIMIT": "CSV only · up to 50 MiB",
+      "REMOVE_FILE": "Remove file",
+      "PREVIEW_TITLE": "File preview",
+      "PREVIEW_DESCRIPTION": "Showing up to {count} rows. The file is uploaded when you start the import.",
+      "PREVIEW_LOADING": "Reading preview...",
+      "PREVIEW_ERROR": "We couldn't preview this CSV. You can still start the import to check the file.",
+      "PREVIEW_EMPTY": "No data rows found in this file.",
+      "REJECTED_TITLE": "Some rows need attention",
+      "CREATED": "Létrehozva",
+      "UPDATED": "Frissítve",
+      "FAILED": "Failed"
     },
     "TABLE": {
-      "TITLE": "Recent imports",
-      "EMPTY": "No imports yet",
-      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
-      "NEW_IMPORT": "Importálás",
-      "COUNT": "{count} imports",
-      "UNNAMED": "Untitled import",
-      "IMPORTED_COUNT": "{count} imported",
-      "VIEW": "View import",
+      "TITLE": "Legutóbbi importálások",
+      "EMPTY": "Még nincs importálás",
+      "EMPTY_DESCRIPTION": "Import contacts from a CSV file or bring over customer history from another support tool.",
+      "NEW_IMPORT": "Új importálás",
+      "COUNT": "{count} importálás",
+      "UNNAMED": "Névtelen importálás",
+      "IMPORTED_COUNT": "{count} importálva",
+      "VIEW": "Importálás megtekintése",
       "NAME": "Név",
       "TYPE": "Típus",
       "STATUS": "Státusz",
-      "IMPORTED": "Imported",
+      "IMPORTED": "Importálva",
       "CREATED": "Létrehozva",
-      "RETRY": "Retry",
-      "ABANDON": "Abandon"
+      "RETRY": "Újrapróbálás",
+      "RESUME": "Folytatás",
+      "ABANDON": "Megszakítás"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
-      "ERRORS": "Errors",
-      "SKIP_LOGS": "Skip logs",
-      "SOURCE": "Source",
-      "IMPORT_TYPES": "Import types",
+      "BACK": "Back to imports and exports",
+      "ERRORS": "Hibák",
+      "SKIP_LOGS": "Kihagyott elemek naplója",
+      "SOURCE": "Forrás",
+      "IMPORT_TYPES": "Importálás típusai",
       "CREATED": "Létrehozva",
       "DURATION": "Időszak",
-      "INITIATED_BY": "Started by",
-      "PROGRESS": "Import progress",
-      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
-      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
-      "PROGRESS_OF_TOTAL": "of {total} imported",
-      "PROGRESS_IMPORTED": "imported",
-      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
-      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
-      "DOWNLOAD_SKIP_LOGS": "Download CSV",
-      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "INITIATED_BY": "Indította",
+      "PROGRESS": "Importálás állapota",
+      "PROGRESS_WITH_TOTAL": "{imported}/{total} importálva",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} importálva",
+      "PROGRESS_OF_TOTAL": "/ {total} importálva",
+      "PROGRESS_IMPORTED": "importálva",
+      "LAST_UPDATED_TOOLTIP": "Utolsó frissítés: {time}",
+      "NO_SKIP_LOGS": "Nincs rögzített kihagyott vagy sikertelen rekord.",
+      "DOWNLOAD_SKIP_LOGS": "Kihagyási napló letöltése CSV formátumban",
+      "DOWNLOAD_ERROR_LOGS": "Hibanapló letöltése CSV formátumban",
       "ALL_SKIP_LOGS": "Mind",
-      "KIND": "Kind",
-      "NO_ERRORS": "No errors recorded.",
+      "KIND": "Típus",
+      "NO_ERRORS": "Nincs rögzített hiba.",
       "ERROR_CODE": "Code",
-      "SOURCE_OBJECT": "Source object",
+      "SOURCE_OBJECT": "Forrásobjektum",
       "MESSAGE": "Üzenet"
     },
     "MONITOR": {
-      "LIVE": "Live updates every {seconds}s",
-      "LAST_UPDATED": "Last updated {time}",
+      "LIVE": "Élő frissítés {seconds} másodpercenként",
+      "LAST_UPDATED": "Utolsó frissítés: {time}",
       "REFRESH": "Frissítés",
-      "REFRESHING": "Refreshing",
+      "REFRESHING": "Frissítés…",
       "STAGES": {
-        "unknown": "Waiting for update",
-        "queued": "Queued",
-        "contacts": "Importing contacts",
-        "conversations": "Importing conversations",
-        "finalizing": "Finalizing import",
+        "unknown": "Frissítésre vár",
+        "queued": "Várólistán",
+        "preparing": "Validating and preparing CSV",
+        "contacts": "Kontaktok importálása",
+        "conversations": "Beszélgetések importálása",
+        "finalizing": "Importálás véglegesítése",
         "completed": "Lezárt",
-        "completed_with_errors": "Completed with errors",
+        "completed_with_errors": "Hibákkal befejezve",
         "failed": "Failed",
-        "abandoned": "Abandoned"
+        "abandoned": "Megszakítva"
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Import has started.",
-      "IMPORT_RETRIED": "Import has been queued to resume.",
-      "IMPORT_RETRY_FAILED": "Could not retry the import.",
-      "IMPORT_ABANDONED": "Import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the import."
+      "LOAD_FAILED": "Could not refresh imports and exports. Please try again.",
+      "IMPORT_STARTED": "Az importálás elindult.",
+      "IMPORT_RETRIED": "Az importálás folytatásra várólistára került.",
+      "IMPORT_RETRY_FAILED": "Nem sikerült újrapróbálni az importálást.",
+      "IMPORT_ABANDONED": "Az importálás megszakítva.",
+      "IMPORT_FAILED": "Nem sikerült elindítani az importálást."
+    },
+    "STATUS": {
+      "PENDING": "Várólistán",
+      "PROCESSING": "Folyamatban",
+      "COMPLETED": "Lezárt",
+      "COMPLETED_WITH_ERRORS": "Hibákkal befejezve",
+      "FAILED": "Failed",
+      "ABANDONED": "Megszakítva"
+    }
+  },
+  "DATA_EXPORTS": {
+    "INITIATOR": "Started by {name} on {date}",
+    "TITLE": "Contact export",
+    "NEW": "Export contacts",
+    "START": "Start export",
+    "EMPTY": "No exports yet",
+    "ALL_CONTACTS": "All contacts",
+    "FILTERED_CONTACTS": "Contacts matching the current filters",
+    "SCOPE": "Contacts to export: {scope}",
+    "DESCRIPTION": "Export the selected contacts to CSV. Data is captured when the export runs.",
+    "PROCESSED": "{count} contacts exported",
+    "ESTIMATE": "Estimated total: {count}. This can change while contacts are updated.",
+    "DOWNLOAD": "Kihagyási napló letöltése CSV formátumban",
+    "RERUN": "Run again",
+    "STALLED": "This export has stopped reporting progress. Run it again to create a new export.",
+    "EXPIRED": "This download has expired. Run the export again to create a new file.",
+    "RETENTION": "Export files are available for 30 days after completion.",
+    "ERROR": "Could not load or start this export. Please try again.",
+    "LOAD_ERROR": "Could not load this export. Please try again.",
+    "RETRY": "Újrapróbálás",
+    "LOAD_OLDER": "Load older exports",
+    "LOAD_OLDER_ERROR": "Could not load older exports. Try again.",
+    "DOWNLOAD_ERROR": "This file is no longer available. Refresh the page to see its current status.",
+    "DRAFT_UNAVAILABLE": "The export selection is unavailable or expired. Return to Contacts and choose Export again. No export has been started.",
+    "EMPTY_DESCRIPTION": "Export your contacts to a CSV file. Your export history and downloads will appear here.",
+    "NOTIFICATION": "We’ll email you when your CSV is ready. You can also track progress and download it here.",
+    "FILE_FORMAT": "CSV file (.csv)",
+    "SELECTION": "Kontaktok",
+    "PROGRESS": "Export progress",
+    "FILE_READY": "Your export is ready",
+    "IN_PROGRESS": "Preparing your CSV. You can leave this page while the export runs.",
+    "TABLE": {
+      "EXPORTED": "Exported",
+      "COUNT": "Showing {count} export | Showing {count} exports"
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -558,18 +648,12 @@
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Audio Transcription",
         "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts.",
-        "MODEL_TITLE": "Audio Transcription Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
+        "MODEL_TITLE": "Hangátírási modell",
+        "MODEL_DESCRIPTION": "Válassza ki a hangüzenetek szöveges átiratához használt MI modellt."
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
@@ -578,6 +662,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Fizetése lejárt. Az előfizetés aktív állapotának megőrzéséhez frissítse a fizetési módot, vagy fizesse ki a fennálló számlát a számlázási felületen.",
+      "ACTION": "Fizetés rendezése"
+    },
     "TITLE": "Számlázás",
     "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
@@ -585,16 +673,17 @@
       "PLAN_NOTE": "Jelenleg előfizetett a **{plan}** csomagra **{quantity}** licensszel",
       "SEAT_COUNT": "Number of seats",
       "RENEWS_ON": "Renews on",
-      "CURRENCY": "Currency"
+      "CANCELS_ON": "Lemondás dátuma",
+      "CURRENCY": "Pénznem"
     },
     "CURRENCY": {
       "SELECT": {
-        "TITLE": "Choose your billing currency",
-        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+        "TITLE": "Számlázási pénznem kiválasztása",
+        "DESCRIPTION": "Válassza ki, milyen pénznemben szeretne fizetni. Az előfizetés létrehozása után ez már nem módosítható."
       },
       "OPTIONS": {
-        "USD": "US Dollar (USD)",
-        "BRL": "Brazilian Real (BRL)"
+        "USD": "Amerikai dollár (USD)",
+        "BRL": "Brazil real (BRL)"
       }
     },
     "VIEW_PRICING": "View Pricing",
@@ -618,6 +707,38 @@
       "BUTTON_TXT": "Chatelj velünk"
     },
     "NO_BILLING_USER": "Számlázási fiókod konfigurálás alatt áll. Kérjük, frissítsd az oldalt, és próbáld újra.",
+    "SHOPIFY": {
+      "TITLE": "Számlázás a Shopify felületén keresztül",
+      "DESCRIPTION": "A Chatwoot előfizetésének számlázása és kezelése biztonságosan a Shopify felületén történik.",
+      "UNAVAILABLE": "A Shopify számlázása jelenleg nem érhető el. Ha a probléma továbbra is fennáll, forduljon az ügyfélszolgálathoz.",
+      "LOADING": "Shopify előfizetésének ellenőrzése…",
+      "PLAN_TITLE": "Shopify előfizetés",
+      "PLAN_DESCRIPTION": "Válassza ki vagy kezelje Chatwoot csomagját biztonságosan a Shopify felületén.",
+      "CURRENT_PLAN": "Jelenlegi csomag",
+      "SUBSCRIPTION_STATUS": "Státusz",
+      "PRICE": "Ár",
+      "PER_MONTH": "{price} / hónap",
+      "PER_YEAR": "{price} / év",
+      "TRIAL_ENDS_ON": "Próbaidőszak vége",
+      "RENEWS_ON": "Renews on",
+      "ACCESS_UNTIL": "Hozzáférés eddig",
+      "LAST_VERIFIED": "Utolsó ellenőrzés",
+      "VIEW_PLANS": "Csomagok megtekintése a Shopify felületén",
+      "MANAGE_PLAN": "Kezelés a Shopify felületén",
+      "RETRY": "Újrapróbálás",
+      "ERROR_TITLE": "Nem sikerült ellenőrizni a Shopify előfizetését",
+      "ERROR_DESCRIPTION": "Próbálja újra kis idő múlva. Az utoljára ellenőrzött hozzáférés nem változott.",
+      "STALE_TITLE": "Az utoljára ellenőrzött előfizetés megjelenítése",
+      "STALE_DESCRIPTION": "A Shopify nem érhető el. A hozzáférése nem változott.",
+      "STATUS": {
+        "PENDING": "Függőben lévő",
+        "ACTIVE": "Aktív",
+        "TRIALING": "Próbaidőszak",
+        "CANCELLED": "Lemondás ütemezve",
+        "EXPIRED": "Lejárt",
+        "MISSING": "Nincs aktív csomag"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Buy more credits",
       "MODAL_TITLE": "Buy AI Credits",
@@ -631,7 +752,7 @@
       "PURCHASE": "Purchase Credits",
       "LOADING": "Loading options...",
       "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "RETRY": "Retry",
+      "RETRY": "Újrapróbálás",
       "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
@@ -648,12 +769,22 @@
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "NO_SETTINGS_AVAILABLE": "Ehhez a telepítéshez nem érhetők el biztonsági beállítások. A kétlépcsős hitelesítés kötelezővé tételéhez állítsa be az MFA titkosítási kulcsait.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
       "ACS_URL": {
         "LABEL": "ACS URL",
         "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SOURCE": {
+        "METADATA_URL": "Metaadat-URL",
+        "MANUAL": "Manuális"
+      },
+      "METADATA_URL": {
+        "LABEL": "Metaadat-URL",
+        "HELP": "Az SSO URL, az entitásazonosító és az aláíró tanúsítvány ebből az URL-ből töltődik be. Automatikusan frissülnek, amikor a tanúsítvány hamarosan lejár. Ha az identitásszolgáltató korábban módosítja ezeket, kattintson a Metaadatok frissítése gombra.",
+        "PLACEHOLDER": "https://sso.example.com/saml/metadata"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
@@ -681,14 +812,18 @@
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
       "UPDATE_BUTTON": "Update SAML Settings",
+      "REFRESH_BUTTON": "Metaadatok frissítése",
       "API": {
         "SUCCESS": "SAML settings updated successfully",
+        "REFRESH_SUCCESS": "Metaadatok frissítve az identitásszolgáltatótól",
+        "REFRESH_ERROR": "Nem sikerült frissíteni a metaadatokat",
         "ERROR": "Failed to update SAML settings",
         "ERROR_LOADING": "Failed to load SAML settings",
         "DISABLED": "SAML settings disabled successfully"
       },
       "VALIDATION": {
         "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "METADATA_URL_ERROR": "Adjon meg érvényes metaadat-URL-t",
         "SSO_URL_ERROR": "Please enter a valid SSO URL",
         "CERTIFICATE_ERROR": "Certificate is required",
         "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
@@ -934,8 +1069,8 @@
           "DURATION": "Conversations per agent in every"
         },
         "EXCLUDE_OLDER_THAN": {
-          "LABEL": "Skip stale conversations",
-          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
+          "LABEL": "Régi beszélgetések kihagyása",
+          "DESCRIPTION": "Hagyja ki az ennél régebbi, kiosztatlan beszélgetéseket. Alapértelmezés szerint 7 nap. A beállítás kikapcsolásához törölje az értéket."
         },
         "INBOXES": {
           "LABEL": "Added inboxes",

@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Darbināts ar Chatwoot",
   "EMAIL_PLACEHOLDER": "Lūdzu, ievadiet savu e-pastu",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "Skatīt oriģinālu",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Rakstiet savu ziņojumu",
   "TODAY": "Šodien",
   "YESTERDAY": "Vakar",
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populāri Raksti",
     "VIEW_ALL_ARTICLES": "Skatīt visus rakstus",
+    "IFRAME_ERROR": "URL ir tukšs vai nederīgs. Nevar parādīt saturu.",
     "IFRAME_LOAD_ERROR": "Ielādējot rakstu radās kļūda. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz."
   },
   "ATTACHMENTS": {

@@ -3,18 +3,45 @@ class Voice::CallStatus::Manager
 
   def process_status_update(status, duration: nil, timestamp: nil)
     return unless Call::STATUSES.include?(status)
-    return if call.status == status
-    # Don't overwrite a terminal status — Twilio's late `completed` events would
-    # otherwise clobber an agent-rejection reason.
-    return if Call::TERMINAL_STATUSES.include?(call.status)
 
-    apply_call_updates!(status, duration: duration, timestamp: timestamp)
-    call.conversation.update!(last_activity_at: Time.zone.now)
-    # Bump updated_at so the message.updated dispatcher rebroadcasts with the fresh Call embedded.
-    call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+    # Guards run on the locked row, not the caller's copy, so a callback racing an agent hangup can't overwrite its outcome.
+    call.with_lock do
+      status = 'no_answer' if caller_left_while_ringing?(status)
+
+      if late_answer?(status)
+        record_late_answer!(timestamp)
+      else
+        next if keep_current_status?(status)
+
+        apply_call_updates!(status, duration: duration, timestamp: timestamp)
+      end
+      call.conversation.update!(last_activity_at: Time.zone.now)
+      # Bump updated_at so the message.updated dispatcher rebroadcasts with the fresh Call embedded.
+      call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+    end
   end
 
   private
+
+  # A caller hangup before any agent claims the call arrives as completed, from its own leg or the conference end.
+  def caller_left_while_ringing?(status)
+    status == 'completed' && call.incoming? && call.ringing? && call.accepted_by_agent_id.nil?
+  end
+
+  # A delayed answer can correct a failed join's no-answer outcome.
+  def late_answer?(status) = status == 'in_progress' && call.unanswered_by_failed_join?
+
+  def record_late_answer!(timestamp)
+    started = timestamp || now_seconds
+    ended = call.ended_at&.to_i
+    call.update!(status: 'failed', started_at: Time.zone.at(started), duration_seconds: ended && [ended - started, 0].max)
+  end
+
+  def keep_current_status?(status)
+    call.status == status ||
+      Call::TERMINAL_STATUSES.include?(call.status) ||
+      (status == 'ringing' && call.in_progress?)
+  end
 
   def apply_call_updates!(status, duration:, timestamp:)
     attrs = { status: status }

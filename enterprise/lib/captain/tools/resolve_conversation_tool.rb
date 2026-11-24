@@ -1,6 +1,6 @@
 class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
   description 'Resolve a conversation when the issue has been addressed or the conversation should be closed'
-  param :reason, type: 'string', desc: 'Brief reason for resolving the conversation', required: true
+  parameter :reason, type: 'string', description: 'Brief reason for resolving the conversation', required: true
 
   def perform(tool_context, reason:)
     conversation = find_conversation(tool_context.state)
@@ -20,11 +20,5 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
                                          source: Captain::ConversationEvents::Sources::TOOL, at: Time.current)
 
     "Conversation ##{conversation.display_id} resolved#{" (Reason: #{reason})" if reason}"
-  end
-
-  private
-
-  def permissions
-    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
   end
 end

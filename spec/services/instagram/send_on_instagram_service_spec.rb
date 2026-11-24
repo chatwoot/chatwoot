@@ -50,6 +50,35 @@ describe Instagram::SendOnInstagramService do
   end
 
   describe '#perform' do
+    it 'sends Unified Login messages through the Instagram account on Facebook Graph' do
+      instagram_channel.update!(auth_type: 'unified_login', expires_at: nil)
+      message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+      request = stub_request(:post, 'https://graph.facebook.com/v22.0/instagram-message-id-123/messages')
+                .with(query: { access_token: instagram_channel.access_token })
+                .to_return(body: { message_id: 'unified-message' }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      described_class.new(message: message).perform
+
+      expect(request).to have_been_requested.once
+      expect(message.reload.source_id).to eq('unified-message')
+    end
+
+    it 'shows reconnect for an expired Unified Login token even when Meta returns a non-190 error' do
+      instagram_channel.update!(auth_type: 'unified_login', expires_at: 1.hour.from_now)
+      message = create(:message, message_type: :outgoing, inbox: instagram_inbox, account: account, conversation: conversation)
+      error = { error: { code: 2500, message: 'Authentication failed' } }
+      request = stub_request(:post, 'https://graph.facebook.com/v22.0/instagram-message-id-123/messages')
+                .with(query: hash_including('access_token' => /.*/))
+                .to_return(status: 400, body: error.to_json, headers: { 'Content-Type' => 'application/json' })
+      travel_to(2.hours.from_now) do
+        described_class.new(message: message).perform
+        expect(instagram_channel.reauthorization_required?).to be(true)
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('2500 - Authentication failed')
+      end
+      expect(request).to have_been_requested.once
+    end
+
     context 'with reply' do
       before do
         allow(HTTParty).to receive(:post).and_return(mock_response)
@@ -109,29 +138,39 @@ describe Instagram::SendOnInstagramService do
 
       context 'with message_tag HUMAN_AGENT' do
         before do
-          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+          InstallationConfig.where(name: 'ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+          GlobalConfig.clear_cache
+          create(:message, message_type: :incoming, inbox: instagram_inbox, account: account, conversation: conversation)
         end
 
-        it 'if message is sent from chatwoot and is outgoing' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+        it 'tags a human agent reply sent after the 24-hour window with HUMAN_AGENT' do
+          travel_to(25.hours.from_now) do
+            message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+            described_class.new(message: message).perform
+          end
 
-          allow(HTTParty).to receive(:post).with(
-            {
-              recipient: { id: contact.get_source_id(instagram_inbox.id) },
-              message: {
-                text: message.content
-              },
-              messaging_type: 'MESSAGE_TAG',
-              tag: 'HUMAN_AGENT'
-            }
-          ).and_return(
-            {
-              'message_id': 'random_message_id'
-            }
+          expect(HTTParty).to have_received(:post).with(
+            anything, hash_including(body: hash_including(messaging_type: 'MESSAGE_TAG', tag: 'HUMAN_AGENT'))
           )
+        end
 
+        it 'does not tag a human agent reply inside the 24-hour window' do
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
           described_class.new(message: message).perform
+
           expect(HTTParty).to have_received(:post)
+          expect(HTTParty).not_to have_received(:post).with(anything, hash_including(body: hash_including(:tag)))
+        end
+
+        it 'does not tag an agent bot reply sent after the 24-hour window' do
+          travel_to(25.hours.from_now) do
+            message = create(:message, message_type: 'outgoing', sender: create(:agent_bot, account: account),
+                                       inbox: instagram_inbox, account: account, conversation: conversation)
+            described_class.new(message: message).perform
+          end
+
+          expect(HTTParty).to have_received(:post)
+          expect(HTTParty).not_to have_received(:post).with(anything, hash_including(body: hash_including(:tag)))
         end
       end
 

@@ -7,7 +7,8 @@
 
 class ContactIdentifyAction
   include UrlHelper
-  pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
+  # contact_inbox is the session that sent the request. Its inbox decides whether details alone can merge contacts.
+  pattr_initialize [:contact!, :params!, :contact_inbox!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
 
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
@@ -72,7 +73,7 @@ class ContactIdentifyAction
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
 
-    return true if params[:identifier].blank?
+    return true if params[:identifier].blank? && anonymous_widget_visitor_on_open_inbox?
 
     # we want to prevent merging contacts with different identifiers
     if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
@@ -82,6 +83,17 @@ class ContactIdentifyAction
     end
 
     true
+  end
+
+  # An anonymous widget visitor can join an identified contact by entering its email or phone number.
+  # A contact that already has an identifier never joins a different one, and inboxes that require
+  # identity validation keep visitors apart until they pass it. A verified session never joins this way,
+  # because it would carry its verified flag to the matched contact. Client API responses return the
+  # contact's details to the session, so API inboxes never join an identified contact this way.
+  def anonymous_widget_visitor_on_open_inbox?
+    return false if contact_inbox.hmac_verified?
+
+    @contact.identifier.blank? && contact_inbox.inbox.web_widget? && !contact_inbox.inbox.channel.hmac_mandatory
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789
@@ -118,6 +130,7 @@ class ContactIdentifyAction
   def merge_contact(base_contact, merge_contact)
     return base_contact if base_contact.id == merge_contact.id
 
+    Rails.logger.info "[CONTACT_IDENTIFY] Merging contact #{merge_contact.id} into contact #{base_contact.id} in account #{account.id}"
     ContactMergeAction.new(
       account: account,
       base_contact: base_contact,

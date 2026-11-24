@@ -29,7 +29,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   def destroy_custom_attributes
     @contact.custom_attributes = @contact.custom_attributes.excluding(params[:custom_attributes])
     @contact.save!
-    render json: @contact
+    render :update
   end
 
   private
@@ -38,6 +38,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     contact_identify_action = ContactIdentifyAction.new(
       contact: contact,
       params: permitted_params.to_h.deep_symbolize_keys,
+      contact_inbox: @contact_inbox,
       discard_invalid_attrs: true
     )
     @contact = contact_identify_action.perform

@@ -9,8 +9,12 @@
 ############################################################
 
 class Seeders::AccountSeeder
+  def self.allowed?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?))
+  end
+
   def initialize(account:)
-    raise 'Account Seeding is not allowed.' unless ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)
+    raise 'Account Seeding is not allowed.' unless self.class.allowed?
 
     @account_data = ActiveSupport::HashWithIndifferentAccess.new(YAML.safe_load(Rails.root.join('lib/seeders/seed_data.yml').read))
     @account = account

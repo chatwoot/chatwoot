@@ -29,6 +29,7 @@ class Captain::Assistant < ApplicationRecord
   include Avatarable
   include Concerns::CaptainToolsHelpers
   include Concerns::Agentable
+  include Concerns::AssistantToolCatalog
 
   self.table_name = 'captain_assistants'
 
@@ -44,6 +45,9 @@ class Captain::Assistant < ApplicationRecord
            through: :captain_inboxes
   has_many :messages, as: :sender, dependent: :nullify
   has_many :copilot_threads, dependent: :destroy_async
+  has_many :custom_tools, class_name: 'Captain::CustomTool', dependent: :destroy_async
+  has_many :mcp_servers, class_name: 'Captain::McpServer', dependent: :destroy_async
+  has_many :mcp_tools, through: :mcp_servers, source: :tools
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
   has_many :conversation_outcomes, dependent: :destroy_async
@@ -112,34 +116,15 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def inactivity_threshold_minutes
-    return DEFAULT_INACTIVITY_THRESHOLD_MINUTES unless account.feature_enabled?('captain_integration_v2')
-
     (config['auto_resolve_after'] || DEFAULT_INACTIVITY_THRESHOLD_MINUTES).to_i
   end
 
   def send_inactivity_resolution_message
-    return true unless account.feature_enabled?('captain_integration_v2')
-
     config.fetch('send_inactivity_resolution_message', true)
   end
 
   def send_inactivity_resolution_message?
     send_inactivity_resolution_message
-  end
-
-  def available_agent_tools
-    tools = self.class.built_in_agent_tools.dup
-
-    custom_tools = account.captain_custom_tools.enabled.map(&:to_tool_metadata)
-    tools.concat(custom_tools)
-
-    tools
-  end
-
-  def available_tool_ids = available_agent_tools.pluck(:id)
-
-  def known_tool_ids
-    self.class.built_in_tool_ids + account.captain_custom_tools.pluck(:slug)
   end
 
   def push_event_data
@@ -211,7 +196,8 @@ class Captain::Assistant < ApplicationRecord
     [
       self.class.resolve_tool_class('faq_lookup').new(self),
       self.class.resolve_tool_class('handoff').new(self),
-      *account.captain_custom_tools.enabled.map { |custom_tool| custom_tool.tool(self) }
+      *custom_tools.enabled.map { |custom_tool| custom_tool.tool(self) },
+      *mcp_agent_tools.tools
     ]
   end
 

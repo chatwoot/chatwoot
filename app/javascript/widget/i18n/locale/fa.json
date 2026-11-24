@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "قدرت گرفته از چت ووت",
   "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "پیام خود را وارد کنید",
   "TODAY": "امروز",
   "YESTERDAY": "دیروز",
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "مقالات محبوب",
     "VIEW_ALL_ARTICLES": "مشاهده همه مقالات",
+    "IFRAME_ERROR": "آدرس URL خالی یا نامعتبر است. امکان نمایش محتوا وجود ندارد.",
     "IFRAME_LOAD_ERROR": "در لود مقاله خطایی رخ داده است، لطفا\" صفحه را رفرش و دوباره تلاش نمایید."
   },
   "ATTACHMENTS": {

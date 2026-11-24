@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { picoSearch } from '@chatwoot/pico-search';
@@ -211,8 +211,17 @@ onMounted(() => {
   store.dispatch('captainScenarios/get', {
     assistantId: assistantId.value,
   });
-  store.dispatch('captainTools/getTools');
 });
+
+watch(
+  assistantId,
+  id => {
+    store.dispatch('captainTools/getTools', {
+      assistantId: id,
+    });
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

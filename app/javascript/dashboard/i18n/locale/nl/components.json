@@ -7,6 +7,7 @@
     "PLACEHOLDER": "Select an option...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Geen resultaten gevonden.",
+    "LOADING": "Loading...",
     "SEARCH_PLACEHOLDER": "Search...",
     "MORE": "+{count} more"
   },
@@ -39,6 +40,15 @@
   },
   "LABEL": {
     "TAG_BUTTON": "tag"
+  },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Previous",
+    "NEXT": "Volgende",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Sluiten"
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Learn more",

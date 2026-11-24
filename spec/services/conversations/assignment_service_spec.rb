@@ -46,6 +46,18 @@ describe Conversations::AssignmentService do
         expect(conversation.status).to eq('open')
       end
 
+      it 'preserves an administrator takeover instead of running legacy auto-assignment' do
+        administrator = create(:user, account: account, role: :administrator)
+        account.disable_features!('assignment_v2')
+        conversation.inbox.update!(enable_auto_assignment: true)
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ agent.id.to_s => 'online' })
+
+        described_class.new(conversation: conversation, assignee_id: administrator.id).perform
+
+        expect(conversation.reload).to have_attributes(assignee_id: administrator.id, status: 'open', ai_assignee: nil)
+      end
+
       it 'starts the waiting clock when opening a bot-owned pending conversation' do
         conversation.update!(waiting_since: nil)
 

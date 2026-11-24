@@ -4,9 +4,9 @@ class Captain::Tools::Copilot::SearchContactsService < Captain::Tools::BaseTool
   end
 
   description 'Search contacts based on query parameters'
-  param :email, type: :string, desc: 'Filter contacts by email'
-  param :phone_number, type: :string, desc: 'Filter contacts by phone number'
-  param :name, type: :string, desc: 'Filter contacts by name (partial match)'
+  parameter :email, type: :string, description: 'Filter contacts by email'
+  parameter :phone_number, type: :string, description: 'Filter contacts by phone number'
+  parameter :name, type: :string, description: 'Filter contacts by name (partial match)'
 
   def execute(email: nil, phone_number: nil, name: nil)
     contacts = Contact.where(account_id: @assistant.account_id)

@@ -4,6 +4,8 @@ class MessageTemplates::HookExecutionService
   def perform
     return if conversation.last_incoming_message.blank?
     return if message.auto_reply_email?
+    # A call is not a chat message; greetings, out-of-office and bot replies would reach the caller as SMS.
+    return if message.voice_call?
 
     trigger_templates
   end
@@ -29,11 +31,11 @@ class MessageTemplates::HookExecutionService
     # ensures better UX by not interrupting active conversations at the end of business hours
     return false if conversation.messages.outgoing.where(private: false).exists?(['created_at > ?', 5.minutes.ago])
 
-    inbox.out_of_office? && conversation.messages.today.template.empty? && inbox.out_of_office_message.present?
+    inbox.out_of_office? && conversation.messages.today.template.without_missed_call_messages.empty? && inbox.out_of_office_message.present?
   end
 
   def first_message_from_contact?
-    conversation.messages.outgoing.count.zero? && conversation.messages.template.count.zero?
+    conversation.messages.outgoing.count.zero? && conversation.messages.template.without_missed_call_messages.count.zero?
   end
 
   def should_send_greeting?

@@ -36,7 +36,7 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
   end
 
   let(:recording_sid) { 'RE9999' }
-  let(:recording_url) { 'https://api.twilio.com/2010-04-01/Accounts/AC1/Recordings/RE9999' }
+  let(:recording_url) { "https://api.twilio.com/2010-04-01/Accounts/#{channel.account_sid}/Recordings/#{recording_sid}" }
   let(:recording_duration) { '47' }
 
   let(:downloaded_tempfile) do
@@ -60,7 +60,7 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
 
     allow(SafeFetch).to receive(:fetch)
-      .with(recording_url, http_basic_authentication: %w[AC_account_sid auth_token_value],
+      .with(recording_url, http_basic_authentication: [channel.api_key_sid, channel.api_key_secret],
                            allowed_content_type_prefixes: %w[audio/])
       .and_yield(safe_fetch_result)
   end

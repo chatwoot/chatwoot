@@ -668,6 +668,77 @@ describe Conversations::FilterService do
         expect(result[:conversations].length).to eq expected_count
       end
 
+      context 'with a saved timezone' do
+        let(:date_filter) do
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_less_than',
+            values: ['2026-09-08'],
+            query_operator: nil,
+            custom_attribute_type: '',
+            timezone: 'America/Sao_Paulo'
+          }.with_indifferent_access
+        end
+
+        before do
+          params[:payload] = [date_filter]
+        end
+
+        it 'compares the timestamp column to a UTC boundary without applying a SQL function' do
+          service = filter_service.new(params, user_1, account)
+          filters = service.instance_variable_get(:@filters)['conversations']
+          condition_query = service.send(:build_condition_query, filters, date_filter, 0)
+
+          expect(condition_query).to include('conversations.created_at < :value_0')
+          expect(condition_query).not_to include('::date', 'AT TIME ZONE')
+          expect(service.instance_variable_get(:@filter_values)['value_0']).to eq(Time.utc(2026, 9, 8, 3))
+        end
+
+        it 'moves greater-than comparisons to the start of the following local day' do
+          date_filter[:filter_operator] = 'is_greater_than'
+          service = filter_service.new(params, user_1, account)
+          filters = service.instance_variable_get(:@filters)['conversations']
+          condition_query = service.send(:build_condition_query, filters, date_filter, 0)
+
+          expect(condition_query).to include('conversations.created_at >= :value_0')
+          expect(service.instance_variable_get(:@filter_values)['value_0']).to eq(Time.utc(2026, 9, 9, 3))
+        end
+
+        it 'keeps timestamps from the selected local calendar day' do
+          travel_to Time.utc(2026, 9, 10, 12) do
+            account.conversations.each { |conversation| conversation.update!(created_at: Time.current) }
+            en_conversation_1.update!(created_at: Time.utc(2026, 9, 8, 0, 49))
+            en_conversation_2.update!(created_at: Time.utc(2026, 9, 8, 3))
+
+            result = filter_service.new(params, user_1, account).perform
+
+            expect(result[:conversations]).to contain_exactly(en_conversation_1)
+          end
+        end
+
+        it 'rejects an invalid timezone' do
+          date_filter[:timezone] = 'Invalid/Timezone'
+
+          expect { filter_service.new(params, user_1, account).perform }.to raise_error do |error|
+            expect(error.class.name).to eq('CustomExceptions::CustomFilter::InvalidValue')
+          end
+        end
+
+        it 'uses the local current date for days_before' do
+          travel_to Time.utc(2026, 9, 10, 0, 49) do
+            account.conversations.each { |conversation| conversation.update!(created_at: Time.current) }
+            en_conversation_1.update!(created_at: Time.utc(2026, 9, 8, 0, 49))
+            en_conversation_2.update!(created_at: Time.utc(2026, 9, 8, 3))
+            date_filter[:filter_operator] = 'days_before'
+            date_filter[:values] = [1]
+
+            result = filter_service.new(params, user_1, account).perform
+
+            expect(result[:conversations]).to contain_exactly(en_conversation_1)
+          end
+        end
+      end
+
       it 'binds created_at comparison values as dates' do
         date_value = '2024-01-01'
         params[:payload] = [

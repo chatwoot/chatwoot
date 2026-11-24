@@ -79,6 +79,23 @@ RSpec.describe ConversationReplyMailer do
         expect(cc_mail.cc.first).to eq(cc_message.content_attributes[:cc_emails])
         expect(cc_mail.bcc.first).to eq(cc_message.content_attributes[:bcc_emails])
       end
+
+      it 'renders the greeting and sender labels' do
+        create(:message, message_type: 'outgoing', account: account, conversation: conversation, sender: agent)
+
+        body = mail.body.decoded
+        expect(body).to include("Hi #{conversation.contact.name},")
+        expect(body).to include('You have new messages on your conversation.')
+        expect(body).to include('<b>You</b>')
+        expect(body).to include("<b>#{agent.available_name}</b>")
+      end
+
+      it 'renders the csat survey prompt as a link' do
+        create(:message, message_type: 'template', content_type: 'input_csat', account: account, conversation: conversation, sender: agent)
+
+        body = mail.body.decoded
+        expect(body).to include(%(Click <a target="_blank" href="#{conversation.csat_survey_link}">here</a> to rate the conversation.))
+      end
     end
 
     context 'without assignee' do
@@ -450,6 +467,74 @@ RSpec.describe ConversationReplyMailer do
         end
       end
 
+      context 'when the conversation has a subject' do
+        before do
+          conversation.update!(additional_attributes: { 'mail_subject': 'Mail Subject' })
+          create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                           content_attributes: { email: { subject: 'Mail Subject' } })
+        end
+
+        it 'replies with the conversation subject when the message has no subject' do
+          expect(mail.subject).to eq 'Re: Mail Subject'
+        end
+
+        it 'uses the subject of the message as is when it has one' do
+          message.update!(content_attributes: { email: { subject: 'Refund approved' } })
+
+          expect(mail.subject).to eq 'Refund approved'
+        end
+      end
+
+      context 'when forwarding an email' do
+        let(:forwarded_message) do
+          create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                           content_attributes: { email: { message_id: 'original@example.com' } })
+        end
+        let(:forward) do
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Forwarding this',
+                           content_attributes: { forwarded_message_id: forwarded_message.id, to_emails: ['vendor@example.com'] })
+        end
+        let(:mail) { described_class.email_reply(forward).deliver_now }
+
+        before do
+          conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
+          conversation.save!
+        end
+
+        it 'sends to the forward recipients with a forward subject and no threading headers' do
+          expect(mail.to).to eq ['vendor@example.com']
+          expect(mail.subject).to eq 'Fwd: Mail Subject'
+          expect(mail.in_reply_to).to be_nil
+          expect(mail.references).to be_nil
+        end
+
+        it 'uses the subject of the forwarded message when it has one' do
+          forwarded_message.update!(content_attributes: { email: { message_id: 'original@example.com', subject: 'Changed subject' } })
+
+          expect(mail.subject).to eq 'Fwd: Changed subject'
+        end
+
+        it 'uses the subject of the forwarded message when the conversation has none' do
+          conversation.update!(additional_attributes: {})
+          forwarded_message.update!(content_attributes: { email: { message_id: 'original@example.com', subject: 'Later subject' } })
+
+          expect(mail.subject).to eq 'Fwd: Later subject'
+        end
+
+        it 'keeps replies from the forward recipient out of the conversation' do
+          expect(mail.message_id).to start_with("forward/#{forward.id}@")
+          expect(mail.message_id).not_to include(conversation.uuid)
+          expect(mail.reply_to).to eq [email_channel.email]
+        end
+
+        it 'leaves the forward out of the conversation transcript' do
+          forward
+          transcript = described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now
+
+          expect(transcript.decoded).not_to include('Forwarding this')
+        end
+      end
+
       context 'with custom email content' do
         it 'uses custom HTML content when available and creates multipart email' do
           message_with_custom_content = create(:message,
@@ -717,6 +802,15 @@ RSpec.describe ConversationReplyMailer do
 
           expect(mail['from'].value).to eq "#{conversation.inbox.business_name} <#{smtp_channel.email}>"
         end
+
+        it 'quotes a business_name containing a comma so the sender parses to a single address' do
+          conversation.inbox.update(business_name: 'Care Team, Billing')
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "\"Care Team, Billing\" <#{smtp_channel.email}>"
+          expect(mail.smtp_envelope_from).to eq smtp_channel.email
+        end
       end
     end
 
@@ -890,6 +984,79 @@ RSpec.describe ConversationReplyMailer do
 
         expect(transcript.decoded).to include('Transcript Brand')
         expect(transcript.decoded).to include(message.content)
+      end
+    end
+
+    context 'with a conversation transcript for an email inbox' do
+      let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account) }
+      let(:transcript) { described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now.decoded }
+
+      context 'with an agent reply' do
+        let(:inbox) { email_channel.inbox }
+        let(:business_name) { inbox.sanitized_business_name }
+
+        before do
+          email_channel.update!(verified_for_sending: true)
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', sender: agent, content: 'It ships today.')
+        end
+
+        it 'shows the friendly sender instead of the agent email' do
+          expect(transcript).to include(CGI.escapeHTML("From: #{agent.available_name} from #{business_name} <#{email_channel.email}>"))
+          expect(transcript).not_to include(agent.email)
+        end
+
+        it 'shows only the business name when the inbox uses professional sender names' do
+          inbox.update!(sender_name_type: :professional)
+
+          expect(transcript).to include("<b>#{business_name}</b>")
+          expect(transcript).to include(CGI.escapeHTML("From: #{business_name} <#{email_channel.email}>"))
+          expect(transcript).not_to include(agent.available_name)
+        end
+      end
+
+      it 'leaves the quoted thread out of agent replies saved before the reply box flagged it' do
+        create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Where is my order?')
+        create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                         content: "It ships today.\n\n> On Monday customer wrote:\n>\n> Where is my order?")
+
+        expect(transcript).to include('It ships today.')
+        expect(transcript).not_to include('customer wrote:')
+        expect(transcript.scan('Where is my order?').size).to eq(1)
+      end
+
+      it 'leaves only the appended thread out when the agent also quoted an email' do
+        create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                         content_attributes: { email_quote_appended: true },
+                         content: "See the terms:\n\n> On Tuesday supplier wrote:\n>\n> Warranty covers 2 years.\n\n" \
+                                  "> On Monday customer wrote:\n>\n> Where is my order?")
+
+        expect(transcript).to include('Warranty covers 2 years.')
+        expect(transcript).not_to include('Where is my order?')
+      end
+
+      it 'keeps a quote the agent wrote when the reply box added no thread' do
+        create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                         content_attributes: { email_quote_appended: false },
+                         content: "See the terms:\n\n> On Tuesday supplier wrote:\n>\n> Warranty covers 2 years.")
+
+        expect(transcript).to include('supplier wrote:')
+        expect(transcript).to include('Warranty covers 2 years.')
+      end
+
+      it 'keeps blockquotes the agent wrote' do
+        create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                         content: "Here is our policy:\n\n> Returns accepted within 30 days.\n\nI have approved your refund.")
+
+        expect(transcript).to include('Returns accepted within 30 days.')
+        expect(transcript).to include('I have approved your refund.')
+      end
+
+      it 'keeps quoted lines in customer emails' do
+        create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                         content: "> Can you share the invoice?\n\nAttached it here.")
+
+        expect(transcript).to include('Can you share the invoice?')
+        expect(transcript).to include('Attached it here.')
       end
     end
   end

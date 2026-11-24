@@ -54,6 +54,13 @@ const createOption = computed(() => {
 const comboboxOptions = computed(() => {
   const list = [...options.value];
 
+  if (!props.modelValue && props.selectedName) {
+    list.unshift({
+      label: props.selectedName,
+      value: '',
+    });
+  }
+
   // Keep the linked company visible even when it is not in the loaded results.
   if (
     props.modelValue &&
@@ -123,7 +130,7 @@ const handleSelect = value => {
 
   const id = value ? Number(value) : '';
   const selected = comboboxOptions.value.find(option => option.value === id);
-  emit('select', { id, name: selected?.label || '' });
+  emit('select', { id, name: id ? selected?.label || '' : '' });
 };
 </script>
 
@@ -135,7 +142,7 @@ const handleSelect = value => {
     :placeholder="t('COMPANIES.SELECTOR.PLACEHOLDER')"
     :search-placeholder="t('COMPANIES.SEARCH_PLACEHOLDER')"
     use-api-results
-    class="[&>div>button]:h-8 [&>div>div_ul]:max-h-56"
+    class="[&>div>div_ul]:max-h-56"
     :class="{
       '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
         !isDetailsView,

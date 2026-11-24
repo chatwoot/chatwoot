@@ -43,20 +43,6 @@
       "DELETE": "Suprimeix",
       "CANCEL": "Cancel·la"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Afegeix una etiqueta a la conversa",
-        "MULTIPLE_SUGGESTION": "Seleccioneu aquesta etiqueta",
-        "DESELECT": "Desseleccioneu l'etiqueta",
-        "DISMISS": "Ignora el suggeriment"
-      },
-      "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Descartar",
-      "ADD_SELECTED_LABELS": "Afegeix les etiquetes seleccionades",
-      "ADD_SELECTED_LABEL": "Afegeix les etiquetes seleccionades",
-      "ADD_ALL_LABELS": "Afegiu totes les etiquetes",
-      "SUGGESTED_LABELS": "Suggested labels"
-    },
     "ADD": {
       "TITLE": "Afegeix etiqueta",
       "DESC": "Les etiquetes et permeten agrupar les converses.",

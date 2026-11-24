@@ -3,6 +3,7 @@ module Enterprise::DeviseOverrides::DeviceVerificationConcern
 
   def device_verification_intercepted?(user)
     return false unless DeviceVerification.enabled?
+    return false if DeviceVerification.exempt?(user)
     return false if trusted_device?(user)
 
     token = DeviceVerification::ChallengeService.new(user: user, request_meta: device_request_meta).issue!
@@ -32,7 +33,12 @@ module Enterprise::DeviseOverrides::DeviceVerificationConcern
     remember_device!(user) if remember_this_device?
     # Sign in before notifying: the code is already consumed, so a mailer failure
     # must not block authentication and strand the user with a spent code.
-    sign_in_mfa_user(user)
+    if user.mfa_enforcement_pending?
+      # Device is proven, but the account requires MFA enrolment before a session exists.
+      handle_mfa_setup_required(user)
+    else
+      sign_in_mfa_user(user)
+    end
     notify_new_device(user)
   end
 

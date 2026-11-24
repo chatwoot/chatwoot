@@ -56,6 +56,26 @@ RSpec.describe Mailbox::ConversationFinderStrategies::ReferencesStrategy do
       end
     end
 
+    context 'when references matches a forwarded email' do
+      before do
+        conversation.messages.create!(
+          source_id: 'forward/1@example.com',
+          account_id: account.id,
+          message_type: 'outgoing',
+          inbox_id: email_channel.inbox.id,
+          content: 'Forwarded message',
+          content_attributes: { forwarded_message_id: 1 }
+        )
+        mail.to = 'test@example.com'
+        mail.references = 'forward/1@example.com'
+      end
+
+      it 'returns nil so the reply starts a new conversation' do
+        strategy = described_class.new(mail)
+        expect(strategy.find).to be_nil
+      end
+    end
+
     context 'when references has multiple values' do
       before do
         conversation.update!(uuid: '12345678-1234-1234-1234-123456789012')

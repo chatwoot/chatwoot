@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Prosím, zadejte svůj e-mail",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "View original",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Zde začněte psát",
   "TODAY": "Dnes",
   "YESTERDAY": "Včera",
@@ -130,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populární články",
     "VIEW_ALL_ARTICLES": "Zobrazit všechny články",
+    "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
     "IFRAME_LOAD_ERROR": "Při načítání článku došlo k chybě, obnovte stránku a zkuste to znovu."
   },
   "ATTACHMENTS": {

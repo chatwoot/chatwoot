@@ -1,12 +1,11 @@
 class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseController
-  before_action :set_call, only: %i[show accept reject terminate upload_recording]
+  before_action :set_call, only: %i[show accept reject dismiss terminate upload_recording]
   before_action :set_call_context, only: :initiate
   before_action :ensure_calling_enabled, only: :initiate
   before_action :ensure_sdp_offer, only: :initiate
   before_action :ensure_call_recipient, only: :initiate
   before_action :ensure_recording_present, only: :upload_recording
   before_action :ensure_recording_enabled, only: :upload_recording
-  before_action :ensure_call_message, only: :upload_recording
 
   rescue_from Voice::CallErrors::NotRinging,
               Voice::CallErrors::CallFailed,
@@ -24,12 +23,22 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     call_service.reject
   end
 
+  def dismiss
+    Voice::RingDismissService.new(call: @call, user: Current.user).perform
+    head :ok
+  end
+
   def terminate
     call_service.terminate
   end
 
   def upload_recording
-    @upload_status = @call.message.with_lock { attach_recording_idempotently }
+    @upload_status = @call.with_lock { attach_recording_idempotently }
+    return unless @upload_status == 'uploaded'
+
+    # As for a Twilio recording: rebroadcast the call bubble with its recording_url, then transcribe
+    @call.message&.send_update_event
+    Voice::CallTranscriptionJob.perform_later(@call.id)
   end
 
   def initiate
@@ -49,7 +58,9 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   private
 
   def call_service
-    @call_service ||= Whatsapp::CallService.new(call: @call, agent: Current.user, sdp_answer: params[:sdp_answer])
+    @call_service ||= Whatsapp::CallService.new(
+      call: @call, agent: Current.user, sdp_answer: params[:sdp_answer], agent_client: RequestDeviceInfo.new(request).client_details
+    )
   end
 
   def provider_service
@@ -124,16 +135,10 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.recording_disabled'))
   end
 
-  def ensure_call_message
-    return if @call.message.present?
-
-    render_could_not_create_error(I18n.t('errors.whatsapp.calls.no_message'))
-  end
-
   def attach_recording_idempotently
-    return 'already_uploaded' if @call.message.attachments.exists?(file_type: :audio)
+    return 'already_uploaded' if @call.recording.attached?
 
-    @call.message.attachments.create!(account_id: @call.account_id, file_type: :audio, file: params[:recording])
+    @call.recording.attach(params[:recording])
     'uploaded'
   end
 
@@ -170,7 +175,8 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
       provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,
       provider_call_id: provider_call_id, direction: :outgoing, status: 'ringing',
       accepted_by_agent_id: Current.user.id,
-      meta: { 'sdp_offer' => params[:sdp_offer], 'ice_servers' => Call.default_ice_servers }
+      meta: { 'sdp_offer' => params[:sdp_offer], 'ice_servers' => Call.default_ice_servers,
+              'agent_client' => RequestDeviceInfo.new(request).client_details }.compact
     )
   rescue ActiveRecord::RecordNotUnique
     # A webhook inserted the row between the find_by above and this create; reconcile to it.
@@ -178,16 +184,35 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def render_permission_request
-    # Raised mid-dial, so a fresh contact has no thread yet — open one for the opt-in template to land in.
+    # The request is a free-form message, which Meta only delivers inside the 24h window. Outside it Meta
+    # accepts the send and fails it later, silently.
+    return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_window_closed')) unless permission_window_open?
+
+    # Raised mid-dial, so a fresh contact has no thread yet — open one for the permission request to land in.
     @conversation = open_conversation!
     status = Whatsapp::CallPermissionRequestService.new(conversation: @conversation, recipient: call_recipient).perform
 
     return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_request_failed')) if status == 'failed'
 
     # 422 (not 200) so any client treating 2xx as "call placed" can't mistake
-    # the permission-template path for a successful dial. The FE composable
+    # the permission-request path for a successful dial. The FE composable
     # detects this status and surfaces the banner instead of throwing.
     render json: { status: status, conversation_id: @conversation.display_id }, status: :unprocessable_entity
+  end
+
+  # Meta's window follows the recipient, not the thread, so check every thread for that recipient, resolved ones included.
+  # It opens on an inbound message or call (both stored as incoming messages) and on an answered outbound call.
+  def permission_window_open?
+    recipient_conversations = if params[:conversation_id].present?
+                                @conversation.contact_inbox.conversations
+                              else
+                                conversation_builder.contact_conversations
+                              end
+    conversation_ids = recipient_conversations.select(:id)
+    window_start = Conversations::MessageWindowService::MESSAGING_WINDOW_24_HOURS.ago
+
+    @inbox.messages.incoming.where(conversation_id: conversation_ids).exists?(created_at: window_start..) ||
+      Current.account.calls.whatsapp.outgoing.where(conversation_id: conversation_ids).exists?(started_at: window_start..)
   end
 
   def render_call_error(error)

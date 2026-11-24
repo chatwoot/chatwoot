@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "E-Mail-Benachrichtigungen senden, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
         "SLA_MISSED_FIRST_RESPONSE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die erste Antwort-SLA verpasst",
         "SLA_MISSED_NEXT_RESPONSE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die nächste Antwort-SLA verpasst",
-        "SLA_MISSED_RESOLUTION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die Lösung-SLA verpasst"
+        "SLA_MISSED_RESOLUTION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine Konversation die Lösung-SLA verpasst",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Benachrichtigungseinstellungen",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Eine neue Nachricht wurde in einer Konversation erstellt, an der Sie teilnehmen",
           "SLA_MISSED_FIRST_RESPONSE": "Eine Konversation verpasst die erste Antwort-SLA",
           "SLA_MISSED_NEXT_RESPONSE": "Eine Konversation verpasst die nächste Antwort-SLA",
-          "SLA_MISSED_RESOLUTION": "Eine Konversation verpasst die Lösungs-SLA"
+          "SLA_MISSED_RESOLUTION": "Eine Konversation verpasst die Lösungs-SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Aktivieren Sie Push-Benachrichtigungen für Ihren Browser, damit Sie diese empfangen können"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren",
         "SLA_MISSED_FIRST_RESPONSE": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die erste Antwort-SLA verpasst",
         "SLA_MISSED_NEXT_RESPONSE": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die nächste Antwort-SLA verpasst",
-        "SLA_MISSED_RESOLUTION": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die Lösungs-SLA verpasst"
+        "SLA_MISSED_RESOLUTION": "Senden Sie Push-Benachrichtigungen, wenn eine Konversation die Lösungs-SLA verpasst",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbild"
@@ -253,6 +256,7 @@
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
     "CHANGELOG": "Changelog",
+    "CHANGELOG_DISMISS_ALL": "Dismiss all",
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
@@ -262,6 +266,10 @@
     "EMAIL_VERIFICATION_PENDING": "Es scheint, dass Sie Ihre E-Mail-Adresse noch nicht verifiziert haben. Bitte überprüfen Sie Ihren Posteingang auf die Verifizierungs-E-Mail.",
     "RESEND_VERIFICATION_MAIL": "Verifizierungs-E-Mail erneut senden",
     "EMAIL_VERIFICATION_SENT": "Verifizierungs-E-Mail wurde versendet. Bitte überprüfen Sie Ihren Posteingang.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Konto gesperrt",
       "MESSAGE": "Dein Konto wurde aufgrund von Aktivitäten gesperrt, die möglicherweise gegen unsere Richtlinien verstoßen. Wenn du glaubst, dass dies ein Fehler ist, wende dich bitte an unser Support-Team.",
@@ -278,7 +286,8 @@
     "CODE": {
       "BUTTON_TEXT": "Kopieren",
       "CODEPEN": "In CodePen öffnen",
-      "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
+      "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Mehr zeigen",
@@ -331,6 +340,7 @@
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_TOOLS_AND_MCP": "Tools & MCP",
     "CAPTAIN_SCENARIOS": "Scenarios",
     "CAPTAIN_PLAYGROUND": "Playground",
     "CAPTAIN_INBOXES": "Posteingänge",
@@ -391,6 +401,15 @@
       "SETTINGS": "Einstellungen"
     },
     "CHANNELS": "Kanäle",
+    "ACCEPT_CONVERSATIONS": {
+      "TEXT": "Receive conversations",
+      "INFO_SHORT": "Get new conversations assigned to you automatically."
+    },
+    "ACCEPT_CALLS": {
+      "TEXT": "Receive voice calls",
+      "INFO_SHORT": "Receive incoming calls on web and mobile."
+    },
+    "WORK_PAUSED": "You won't get new conversations or calls until you're back Online.",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automatisch offline markieren",
       "INFO_TEXT": "Lassen Sie sich vom System automatisch als offline markieren, wenn Sie die App oder das Dashboard nicht verwenden.",
@@ -418,16 +437,17 @@
   },
   "DATA_IMPORTS": {
     "HEADER": "Daten",
-    "DESCRIPTION": "Übertrage deine vorhandenen Kontakte und bisherigen Unterhaltungen aus einem anderen Support-Tool in dieses Konto. Jeder Import läuft im Hintergrund. So kannst du währenddessen weiterarbeiten, den Fortschritt verfolgen und anschließend prüfen, welche Einträge übersprungen wurden.",
-    "LOADING": "Importe werden abgerufen",
+    "DESCRIPTION": "Bring in your customer data and manage contact exports.",
+    "LOADING": "Fetching imports and exports",
     "DEFAULT_IMPORT_NAME": "Intercom-Import",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Intercom-Import",
-      "FRESHDESK": "Freshdesk-Import"
+      "CSV": "Contacts Import - {date}",
+      "INTERCOM": "Intercom Import - {date}",
+      "FRESHDESK": "Freshdesk Import - {date}"
     },
     "TABS": {
-      "IMPORT": "Import",
-      "EXPORT": "Export"
+      "IMPORT": "Imports",
+      "EXPORT": "Exports"
     },
     "TYPES": {
       "CONTACTS": "Kontakte",
@@ -451,20 +471,43 @@
       "VALIDATING": "Zugriffsschlüssel wird überprüft...",
       "VALID_KEY": "Zugriffsschlüssel erfolgreich überprüft.",
       "INVALID_KEY": "Dieser Zugriffsschlüssel konnte nicht überprüft werden.",
-      "ACTIVE_IMPORT": "Warte, bis der aktive Import abgeschlossen ist, bevor du einen weiteren startest.",
+      "ACTIVE_IMPORT": "There is already an active import in this account. Wait for it to finish before starting another one.",
       "CANCEL": "Abbrechen",
       "IMPORT": "Importieren"
     },
-    "EXPORT": {
-      "TITLE": "Exporte sind bald verfügbar",
-      "DESCRIPTION": "Exportiere deine Kontakte und Unterhaltungen aus diesem Konto. Diese Funktion ist bald verfügbar.",
-      "COMING_SOON": "Coming soon"
+    "CSV": {
+      "ROW_ERRORS": "Row errors",
+      "SOURCE": "CSV file",
+      "FILE": "Contact CSV file",
+      "HELP": "Use the sample column names and existing labels. Up to 250,000 rows and 1 MiB per field.",
+      "SILENT_UPDATES": "Matching contacts are updated. Imports do not trigger contact automations or webhooks.",
+      "INVALID_FILE": "Choose a nonempty CSV file of 50 MiB or smaller.",
+      "SAMPLE": "Download sample CSV",
+      "UPLOADING": "Uploading {percent}%. Processing starts after the upload finishes.",
+      "OUTCOMES": "{created} created · {updated} updated · {failed} failed",
+      "PROCESSED": "of {total} processed",
+      "REJECTED_HELP": "Download the rejected rows, make corrections, and upload them as a new import. Files are available for 30 days.",
+      "DOWNLOAD_REJECTED": "Download rejected rows",
+      "EXPIRED": "The source and rejected-row files have expired. Upload a new file to import these contacts again.",
+      "FILE_REMOVED": "This file was removed after 30 days.",
+      "CHOOSE_FILE": "Click to upload or drag and drop",
+      "FILE_LIMIT": "CSV only · up to 50 MiB",
+      "REMOVE_FILE": "Remove file",
+      "PREVIEW_TITLE": "File preview",
+      "PREVIEW_DESCRIPTION": "Showing up to {count} rows. The file is uploaded when you start the import.",
+      "PREVIEW_LOADING": "Reading preview...",
+      "PREVIEW_ERROR": "We couldn't preview this CSV. You can still start the import to check the file.",
+      "PREVIEW_EMPTY": "No data rows found in this file.",
+      "REJECTED_TITLE": "Some rows need attention",
+      "CREATED": "Erstellt",
+      "UPDATED": "Aktualisiert",
+      "FAILED": "Failed"
     },
     "TABLE": {
       "TITLE": "Letzte Importe",
       "EMPTY": "Noch keine Importe",
-      "EMPTY_DESCRIPTION": "Starte einen Import, um deine bisherige Kundenhistorie in dieses Konto zu übertragen.",
-      "NEW_IMPORT": "Importieren",
+      "EMPTY_DESCRIPTION": "Import contacts from a CSV file or bring over customer history from another support tool.",
+      "NEW_IMPORT": "Neuer Import",
       "COUNT": "{count} Importe",
       "UNNAMED": "Unbenannter Import",
       "IMPORTED_COUNT": "{count} importiert",
@@ -475,10 +518,11 @@
       "IMPORTED": "Importiert",
       "CREATED": "Erstellt",
       "RETRY": "Erneut versuchen",
+      "RESUME": "Resume",
       "ABANDON": "Abbrechen"
     },
     "DETAIL": {
-      "BACK": "Zurück zu den Importen",
+      "BACK": "Back to imports and exports",
       "ERRORS": "Fehler",
       "SKIP_LOGS": "Protokolle übersprungener Einträge",
       "SOURCE": "Quelle",
@@ -510,6 +554,7 @@
       "STAGES": {
         "unknown": "Warten auf Aktualisierung",
         "queued": "In der Warteschlange",
+        "preparing": "Validating and preparing CSV",
         "contacts": "Kontakte werden importiert",
         "conversations": "Unterhaltungen werden importiert",
         "finalizing": "Import wird abgeschlossen",
@@ -520,11 +565,56 @@
       }
     },
     "ALERTS": {
+      "LOAD_FAILED": "Could not refresh imports and exports. Please try again.",
       "IMPORT_STARTED": "Der Import wurde gestartet.",
       "IMPORT_RETRIED": "Der Import wurde zur Fortsetzung in die Warteschlange gestellt.",
       "IMPORT_RETRY_FAILED": "Der Import konnte nicht erneut gestartet werden.",
       "IMPORT_ABANDONED": "Der Import wurde abgebrochen.",
       "IMPORT_FAILED": "Der Import konnte nicht gestartet werden."
+    },
+    "STATUS": {
+      "PENDING": "In der Warteschlange",
+      "PROCESSING": "Läuft",
+      "COMPLETED": "Erledigt",
+      "COMPLETED_WITH_ERRORS": "Mit Fehlern abgeschlossen",
+      "FAILED": "Failed",
+      "ABANDONED": "Abgebrochen"
+    }
+  },
+  "DATA_EXPORTS": {
+    "INITIATOR": "Started by {name} on {date}",
+    "TITLE": "Contact export",
+    "NEW": "Kontakte exportieren",
+    "START": "Start export",
+    "EMPTY": "No exports yet",
+    "ALL_CONTACTS": "All contacts",
+    "FILTERED_CONTACTS": "Contacts matching the current filters",
+    "SCOPE": "Contacts to export: {scope}",
+    "DESCRIPTION": "Export the selected contacts to CSV. Data is captured when the export runs.",
+    "PROCESSED": "{count} contacts exported",
+    "ESTIMATE": "Estimated total: {count}. This can change while contacts are updated.",
+    "DOWNLOAD": "CSV herunterladen",
+    "RERUN": "Run again",
+    "STALLED": "This export has stopped reporting progress. Run it again to create a new export.",
+    "EXPIRED": "This download has expired. Run the export again to create a new file.",
+    "RETENTION": "Export files are available for 30 days after completion.",
+    "ERROR": "Could not load or start this export. Please try again.",
+    "LOAD_ERROR": "Could not load this export. Please try again.",
+    "RETRY": "Erneut versuchen",
+    "LOAD_OLDER": "Load older exports",
+    "LOAD_OLDER_ERROR": "Could not load older exports. Try again.",
+    "DOWNLOAD_ERROR": "This file is no longer available. Refresh the page to see its current status.",
+    "DRAFT_UNAVAILABLE": "The export selection is unavailable or expired. Return to Contacts and choose Export again. No export has been started.",
+    "EMPTY_DESCRIPTION": "Export your contacts to a CSV file. Your export history and downloads will appear here.",
+    "NOTIFICATION": "We’ll email you when your CSV is ready. You can also track progress and download it here.",
+    "FILE_FORMAT": "CSV file (.csv)",
+    "SELECTION": "Kontakte",
+    "PROGRESS": "Export progress",
+    "FILE_READY": "Your export is ready",
+    "IN_PROGRESS": "Preparing your CSV. You can leave this page while the export runs.",
+    "TABLE": {
+      "EXPORTED": "Exported",
+      "COUNT": "Showing {count} export | Showing {count} exports"
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -564,12 +654,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
@@ -578,6 +662,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Rechnungen",
     "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
@@ -585,6 +673,7 @@
       "PLAN_NOTE": "Sie haben derzeit den Tarif **{plan}** mit **{quantity}** Lizenzen abonniert",
       "SEAT_COUNT": "Number of seats",
       "RENEWS_ON": "Renews on",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Währung"
     },
     "CURRENCY": {
@@ -618,6 +707,38 @@
       "BUTTON_TXT": "Chatten Sie mit uns"
     },
     "NO_BILLING_USER": "Ihr Rechnungskonto wird konfiguriert. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Renews on",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Ausstehend",
+        "ACTIVE": "Aktiv",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Abgelaufen",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Buy more credits",
       "MODAL_TITLE": "Buy AI Credits",
@@ -648,12 +769,22 @@
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
       "ACS_URL": {
         "LABEL": "ACS URL",
         "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SOURCE": {
+        "METADATA_URL": "Metadata URL",
+        "MANUAL": "Manual"
+      },
+      "METADATA_URL": {
+        "LABEL": "Metadata URL",
+        "HELP": "The SSO URL, Entity ID and signing certificate are read from this URL. They update automatically when your certificate is about to expire. If your identity provider changes them earlier, click Refresh metadata.",
+        "PLACEHOLDER": "https://sso.example.com/saml/metadata"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
@@ -681,14 +812,18 @@
         "PLACEHOLDER": "https://sso.example.com/saml"
       },
       "UPDATE_BUTTON": "Update SAML Settings",
+      "REFRESH_BUTTON": "Refresh metadata",
       "API": {
         "SUCCESS": "SAML settings updated successfully",
+        "REFRESH_SUCCESS": "Metadata refreshed from your identity provider",
+        "REFRESH_ERROR": "Failed to refresh metadata",
         "ERROR": "Failed to update SAML settings",
         "ERROR_LOADING": "Failed to load SAML settings",
         "DISABLED": "SAML settings disabled successfully"
       },
       "VALIDATION": {
         "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "METADATA_URL_ERROR": "Please enter a valid metadata URL",
         "SSO_URL_ERROR": "Please enter a valid SSO URL",
         "CERTIFICATE_ERROR": "Certificate is required",
         "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"

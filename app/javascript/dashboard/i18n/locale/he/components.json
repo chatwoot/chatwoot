@@ -7,6 +7,7 @@
     "PLACEHOLDER": "בחר אפשרות...",
     "EMPTY_SEARCH_RESULTS": "לא נמצאו פריטים עבור מונח החיפוש `{searchTerm}`",
     "EMPTY_STATE": "לא נמצאו תוצאות.",
+    "LOADING": "טוען...",
     "SEARCH_PLACEHOLDER": "חיפוש...",
     "MORE": "+{count} נוספים"
   },
@@ -39,6 +40,15 @@
   },
   "LABEL": {
     "TAG_BUTTON": "תג"
+  },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "סגור"
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "למד עוד",

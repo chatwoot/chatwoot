@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "Nem elérhető",
     "EMAIL_ADDRESS": "Email cím",
     "PHONE_NUMBER": "Telefonszám",
-    "WHATSAPP_USERNAME": "WhatsApp username",
+    "WHATSAPP_USERNAME": "WhatsApp felhasználónév",
     "IDENTIFIER": "Azonosító",
     "COPY_SUCCESSFUL": "Vágólapra másolva",
     "COMPANY": "Cég",
@@ -21,15 +21,16 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
-    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Hívási engedélykérést küldtünk a kontaktnak. Próbálja újra, miután elfogadta.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Nemrég már küldtünk hívási engedélykérést. Próbálja újra, miután a kontakt elfogadta.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nincs megelőző beszélgetés ezzel a kontakttal.",
-      "TITLE": "Korábbi beszélgetések"
+      "TITLE": "Korábbi beszélgetések",
+      "VIEW_ALL": "Összes beszélgetés megtekintése"
     },
     "LABELS": {
       "CONTACT": {
@@ -319,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Kontaktok importálása CSV fájlból.",
-          "DOWNLOAD_LABEL": "Minta CSV fájl letöltése.",
-          "LABEL": "CSV fájl:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Megváltoztatás",
-          "CANCEL": "Mégse",
-          "IMPORT": "Importálás",
-          "SUCCESS_MESSAGE": "Értesítjük emailben, amint a befogadás megtörtént.",
-          "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Export",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-          "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
-        },
         "SORT_BY": {
           "LABEL": "Rendezés",
           "OPTIONS": {
@@ -404,6 +386,8 @@
       },
       "TITLE": "Kontaktok szűrése",
       "EDIT_SEGMENT": "Szegmens szerkesztése",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
@@ -463,7 +447,7 @@
             "PLACEHOLDER": "Add Instagram"
           },
           "WHATSAPP": {
-            "PLACEHOLDER": "Add WhatsApp"
+            "PLACEHOLDER": "WhatsApp hozzáadása"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
@@ -590,11 +574,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Cimke hozzáadása",
-    "REMOVE_LABELS": "Remove Labels",
+    "REMOVE_LABELS": "Címkék eltávolítása",
     "ASSIGN_LABELS_SUCCESS": "Címkék hozzárendelése sikeres.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
-    "REMOVE_LABELS_FAILED": "Failed to remove labels",
+    "REMOVE_LABELS_SUCCESS": "A címkék eltávolítása sikerült.",
+    "REMOVE_LABELS_FAILED": "Nem sikerült eltávolítani a címkéket",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
@@ -617,7 +601,7 @@
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
     },
     "CONTACT_CREATE": {
-      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
+      "ERROR_MESSAGE": "Nem sikerült létrehozni a kontaktot. Próbálja újra."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Megtekintés",
