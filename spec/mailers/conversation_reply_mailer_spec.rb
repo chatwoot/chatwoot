@@ -991,6 +991,29 @@ RSpec.describe ConversationReplyMailer do
       let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account) }
       let(:transcript) { described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now.decoded }
 
+      context 'with an agent reply' do
+        let(:inbox) { email_channel.inbox }
+        let(:business_name) { inbox.sanitized_business_name }
+
+        before do
+          email_channel.update!(verified_for_sending: true)
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', sender: agent, content: 'It ships today.')
+        end
+
+        it 'shows the friendly sender instead of the agent email' do
+          expect(transcript).to include(CGI.escapeHTML("From: #{agent.available_name} from #{business_name} <#{email_channel.email}>"))
+          expect(transcript).not_to include(agent.email)
+        end
+
+        it 'shows only the business name when the inbox uses professional sender names' do
+          inbox.update!(sender_name_type: :professional)
+
+          expect(transcript).to include("<b>#{business_name}</b>")
+          expect(transcript).to include(CGI.escapeHTML("From: #{business_name} <#{email_channel.email}>"))
+          expect(transcript).not_to include(agent.available_name)
+        end
+      end
+
       it 'leaves the quoted thread out of agent replies saved before the reply box flagged it' do
         create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Where is my order?')
         create(:message, conversation: conversation, account: account, message_type: 'outgoing',
