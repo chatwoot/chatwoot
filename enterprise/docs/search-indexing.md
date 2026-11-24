@@ -5,7 +5,8 @@ Tracking: [CW-7523](https://linear.app/chatwoot/issue/CW-7523/opensearch-support
 ## Live indexing
 
 Run `bundle exec rails search:setup_conversations` to create the conversation index,
-then enable the default-off `advanced_search_conversations` account feature. Every
+with OpenSearch configured. The `advanced_search_conversations` feature is enabled
+by default for new accounts and enabled for existing accounts by migration. Every
 conversation document includes `account_id` and `contact_id`. Contact details are
 excluded; contact indexing is a separate feature. Activity timestamps remain available
 for the planned conversation-filter migration.
@@ -37,7 +38,7 @@ an account's writer flag has been disabled.
 Setup is explicit and never clears an existing index. The scheduled drain leaves
 IDs queued when the index is absent; normal application writes do not provision it.
 Do not delete/recreate an active index while jobs are running. Disable search reads,
-quiet indexing workers, provision/rebuild, and verify before restoring reads. Disable
+quiet indexing workers, provision/rebuild, and populate before restoring reads. Disable
 OpenSearch automatic index creation for the conversation index in production so
 already-enqueued bulk jobs cannot recreate an empty, incorrectly mapped index.
 
@@ -50,5 +51,6 @@ with a backfill/rebuild; a missing match cannot be recovered by SQL authorizatio
 
 Before a code rollback, disable producers and drain/cancel this feature's queued,
 scheduled and retry jobs while their classes are available. Retain the index until
-its retirement is explicitly scheduled. Deployment does not enable indexing or
-change user search behavior.
+its retirement is explicitly scheduled. Deployment enables live indexing when OpenSearch
+is configured; historical records require an explicit account reindex. Search reads
+remain on PostgreSQL until the later reader PRs are deployed.

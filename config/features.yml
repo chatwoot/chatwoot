@@ -335,6 +335,6 @@
   column: feature_flags_ext_1
 - name: advanced_search_conversations
   display_name: Advanced Conversation Search
-  enabled: false
+  enabled: true
   chatwoot_internal: true
   column: feature_flags_ext_1
