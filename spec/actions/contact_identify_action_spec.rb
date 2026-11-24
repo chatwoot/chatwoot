@@ -147,6 +147,17 @@ describe ContactIdentifyAction do
         expect(contact_inbox.reload.contact_id).to eq contact.id
         expect(identified_contact.reload).to be_present
       end
+
+      it 'does not merge a verified session whose contact has no identifier' do
+        contact_inbox.update!(hmac_verified: true)
+        identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com')
+
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: { email: 'customer@test.com' }).perform
+
+        expect(result.id).to eq contact.id
+        expect(contact_inbox.reload.contact_id).to eq contact.id
+        expect(identified_contact.reload).to be_present
+      end
     end
 
     context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do

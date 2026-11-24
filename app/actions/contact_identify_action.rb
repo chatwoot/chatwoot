@@ -87,9 +87,12 @@ class ContactIdentifyAction
 
   # An anonymous widget visitor can join an identified contact by entering its email or phone number.
   # A contact that already has an identifier never joins a different one, and inboxes that require
-  # identity validation keep visitors apart until they pass it. Client API responses return the
+  # identity validation keep visitors apart until they pass it. A verified session never joins this way,
+  # because it would carry its verified flag to the matched contact. Client API responses return the
   # contact's details to the session, so API inboxes never join an identified contact this way.
   def anonymous_widget_visitor_on_open_inbox?
+    return false if contact_inbox.hmac_verified?
+
     @contact.identifier.blank? && contact_inbox.inbox.web_widget? && !contact_inbox.inbox.channel.hmac_mandatory
   end
 
