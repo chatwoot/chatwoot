@@ -108,7 +108,8 @@ class SearchService
 
   def message_base_query
     query = current_account.messages.where('messages.created_at >= ?', search_window_start)
-    query = query.where(conversation_id: accessible_conversations.select(:id)) if permission_filter_required?
+    query = query.where(inbox_id: accessable_inbox_ids) unless should_skip_inbox_filtering?
+    query = query.where(conversation_id: accessible_conversations.select(:id)) if restricted_conversation_access?
     query
   end
 
@@ -126,6 +127,10 @@ class SearchService
 
   def permission_filter_required?
     !should_skip_inbox_filtering?
+  end
+
+  def restricted_conversation_access?
+    false
   end
 
   def apply_message_filters(query)
