@@ -4,6 +4,16 @@ RSpec.describe Contacts::CompanyAssociationService, type: :service do
   let(:account) { create(:account) }
   let(:service) { described_class.new }
 
+  describe '#find_or_create_by_name_or_domain' do
+    it 'only matches companies in the given account', :aggregate_failures do
+      create(:company, name: 'Acme', domain: 'acme.example')
+      company = create(:company, account: account, name: 'Acme', domain: 'acme.example')
+
+      expect(service.find_or_create_by_name_or_domain(account, name: 'acme')).to eq(company)
+      expect(service.find_or_create_by_name_or_domain(account, name: nil, domain: 'Acme.EXAMPLE')).to eq(company)
+    end
+  end
+
   describe '#associate_company_from_email' do
     context 'when contact has business email and no company' do
       it 'creates a new company and associates it' do
