@@ -6,7 +6,7 @@ module Enterprise::SearchIndexing::Conversation
     searchkick callbacks: false, batch_size: ::SearchIndexing::Conversations::BATCH_SIZE,
                index_name: -> { ::SearchIndexing::ConversationDocument.index_name },
                mappings: ::SearchIndexing::ConversationDocument.mappings, settings: ::SearchIndexing::ConversationDocument.settings
-    scope :search_import, -> { includes(:account, :contact) }
+    scope :search_import, -> { includes(:account) }
 
     after_commit :enqueue_conversation_search_document, on: [:create, :update]
     after_destroy_commit :remove_conversation_search_document
@@ -17,7 +17,7 @@ module Enterprise::SearchIndexing::Conversation
   end
 
   def should_index?
-    ::SearchIndexing::Conversations.enabled?(account) && contact.present?
+    ::SearchIndexing::Conversations.enabled?(account)
   end
 
   private

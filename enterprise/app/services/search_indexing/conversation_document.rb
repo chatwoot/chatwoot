@@ -1,5 +1,4 @@
 class SearchIndexing::ConversationDocument
-  CONTACT_FIELDS = %w[name email phone_number identifier].freeze
   INDEXED_ATTRIBUTES = %w[contact_id inbox_id display_id created_at last_activity_at].freeze
 
   def self.index_name
@@ -9,8 +8,7 @@ class SearchIndexing::ConversationDocument
   def self.serialize(conversation)
     conversation.attributes.slice(*INDEXED_ATTRIBUTES, 'id', 'account_id').merge(
       'display_id_text' => conversation.display_id.to_s,
-      'mail_subject' => conversation.additional_attributes['mail_subject'],
-      'contact' => conversation.contact.attributes.slice(*CONTACT_FIELDS)
+      'mail_subject' => conversation.additional_attributes['mail_subject']
     )
   end
 
@@ -18,8 +16,7 @@ class SearchIndexing::ConversationDocument
     { dynamic: false, properties: {
       id: { type: 'long' }, account_id: { type: 'long' }, contact_id: { type: 'long' }, inbox_id: { type: 'long' }, display_id: { type: 'long' },
       display_id_text: { type: 'text', analyzer: 'substring' }, mail_subject: { type: 'text', analyzer: 'substring' },
-      created_at: { type: 'date' }, last_activity_at: { type: 'date' },
-      contact: { properties: CONTACT_FIELDS.index_with { { type: 'text', analyzer: 'substring' } } }
+      created_at: { type: 'date' }, last_activity_at: { type: 'date' }
     } }
   end
 

@@ -15,13 +15,6 @@ module SearchIndexing::Conversations
     end
   end
 
-  def self.refresh_contact(contact, cleanup: false)
-    return unless ChatwootApp.advanced_search_allowed?
-    return unless cleanup || enabled?(contact.account)
-
-    SearchIndexing::ContactRefreshJob.perform_later(contact.account_id, contact.id)
-  end
-
   def self.setup!
     index = Conversation.search_index
     index.create(index.index_options) unless index.exists?

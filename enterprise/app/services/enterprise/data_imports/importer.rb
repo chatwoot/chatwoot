@@ -31,12 +31,6 @@ module Enterprise::DataImports::Importer
     end
   end
 
-  def update_existing_contact(contact, contact_payload)
-    super.tap do |updated_contact|
-      ActiveRecord.after_all_transactions_commit { ::SearchIndexing::Conversations.refresh_contact(updated_contact) }
-    end
-  end
-
   def create_conversation(...)
     super.tap { |conversation| ::SearchIndexing::Conversations.enqueue(conversation.account_id, [conversation.id]) }
   end

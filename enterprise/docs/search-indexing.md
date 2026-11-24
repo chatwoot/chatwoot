@@ -5,9 +5,10 @@ Tracking: [CW-7523](https://linear.app/chatwoot/issue/CW-7523/opensearch-support
 ## Live indexing
 
 Run `bundle exec rails search:setup_conversations` to create the conversation index,
-then enable the default-off `advanced_search_conversations` account feature. Contact search remains in SQL;
-contact identity is embedded only in conversation documents. Activity timestamps
-remain available for the planned conversation-filter migration.
+then enable the default-off `advanced_search_conversations` account feature. Every
+conversation document includes `account_id` and `contact_id`. Contact details are
+excluded; contact indexing is a separate feature. Activity timestamps remain available
+for the planned conversation-filter migration.
 
 Searchkick 5.5.2 owns the Redis ID queue and bulk jobs. Committed writes add IDs to
 `Conversation.search_index.reindex_queue`; a scheduled job invokes Searchkick's
@@ -20,8 +21,9 @@ Inspect pending IDs with `Conversation.search_index.reindex_queue.length`, and
 monitor normal Sidekiq queue latency, retries and dead jobs. There are no custom
 Redis leases, Lua scripts, throughput thresholds or external-version counters.
 Searchkick uses current primary records when jobs run and removes missing records.
-Contact changes use ordinary paginated jobs; CSV and historical imports explicitly
-capture changes that bypass model callbacks. Deletes still enqueue cleanup when
+Contact edits and CSV contact imports do not enqueue conversation indexing.
+Conversation contact-ID changes (including merges), message activity and historical
+conversation imports capture the corresponding conversation updates. Deletes still enqueue cleanup when
 an account's writer flag has been disabled.
 
 ## Lifecycle and recovery

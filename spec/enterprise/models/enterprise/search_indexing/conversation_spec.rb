@@ -69,22 +69,28 @@ RSpec.describe Enterprise::SearchIndexing::Conversation do
     expect(reindex_queue.reserve).to eq([conversation.id.to_s])
   end
 
-  it 'refreshes a contact dependency in ordinary paginated jobs' do
-    stub_const('SearchIndexing::Conversations::BATCH_SIZE', 2)
-    contact = create(:contact, account: account)
-    conversations = create_list(:conversation, 3, account: account, contact: contact)
-    reindex_queue.clear
-    perform_enqueued_jobs(only: SearchIndexing::ContactRefreshJob) { contact.update!(name: 'Updated') }
-    expect(reindex_queue.reserve).to match_array(conversations.map { |conversation| conversation.id.to_s })
-  end
-
-  it 'captures CSV contact updates that bypass model callbacks' do
+  it 'does not reindex conversations when contact details change' do
     conversation = create(:conversation, account: account)
     reindex_queue.clear
-    perform_enqueued_jobs(only: SearchIndexing::ContactRefreshJob) do
-      DataImports::Csv::ContactWriter.new(account, { 'email' => conversation.contact.email, 'name' => 'Imported name' }).perform
-    end
+    conversation.contact.update!(name: 'Updated')
+    expect(reindex_queue.length).to eq(0)
+  end
+
+  it 'does not reindex conversations for contact CSV updates' do
+    conversation = create(:conversation, account: account)
+    reindex_queue.clear
+    DataImports::Csv::ContactWriter.new(account, { 'email' => conversation.contact.email, 'name' => 'Imported name' }).perform
     expect(conversation.contact.reload.name).to eq('Imported name')
-    expect(reindex_queue.reserve).to eq([conversation.id.to_s])
+    expect(reindex_queue.length).to eq(0)
+  end
+
+  it 'reindexes the contact ID when contacts are merged' do
+    conversation = create(:conversation, account: account)
+    original_contact = conversation.contact
+    target_contact = create(:contact, account: account)
+    reindex_queue.clear
+    ContactMergeAction.new(account: account, base_contact: target_contact, mergee_contact: original_contact).perform
+    expect(conversation.reload.search_data['contact_id']).to eq(target_contact.id)
+    expect(reindex_queue.reserve).to include(conversation.id.to_s)
   end
 end
