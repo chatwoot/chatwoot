@@ -59,6 +59,8 @@ class Category < ApplicationRecord
   validates :slug, presence: true
   validates :name, presence: true
   validate :allowed_locales
+  validates :parent_category_id, same_portal: { association: :parent_category }, if: :will_save_change_to_parent_category_id?
+  validates :associated_category_id, same_portal: { association: :root_category }, if: :will_save_change_to_associated_category_id?
   validates :locale, uniqueness: { scope: %i[slug portal_id],
                                    message: I18n.t('errors.categories.locale.unique') }
   accepts_nested_attributes_for :related_categories

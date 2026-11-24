@@ -73,6 +73,7 @@ class Article < ApplicationRecord
   validate :noindex_must_be_boolean
   validate :cannot_reassociate_with_translations, if: :will_save_change_to_associated_article_id?
   validate :unique_locale_in_family
+  validates :category_id, same_portal: { association: :category }, if: :will_save_change_to_category_id?
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article

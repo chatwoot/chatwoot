@@ -96,6 +96,32 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         end
       end
 
+      it 'rejects a category from another account' do
+        foreign_category = create(:category, slug: 'foreign', locale: 'en', portal: create(:portal, account: create(:account)))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: { article: { category_id: foreign_category.id, title: 'MyTitle', content: 'My content', status: :published,
+                                    author_id: agent.id } },
+               headers: admin.create_new_auth_token
+        end.not_to(change(Article, :count))
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(foreign_category.articles).to be_empty
+      end
+
+      it 'rejects a translation link to an article from another account' do
+        foreign_article = create(:article, portal: create(:portal, account: create(:account)))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: { article: { title: 'MyTitle', content: 'My content', author_id: agent.id, associated_article_id: foreign_article.id } },
+               headers: admin.create_new_auth_token
+        end.not_to(change(Article, :count))
+
+        expect(response).to have_http_status(:not_found)
+      end
+
       it 'creates article even if category is not provided' do
         article_params = {
           article: {
@@ -274,6 +300,17 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
           'associated_article_id' => nil,
           'root_article' => nil
         )
+      end
+
+      it 'rejects moving an article to a category from another portal' do
+        other_category = create(:category, slug: 'other', locale: 'en', portal: create(:portal, account: account))
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { category_id: other_category.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(article.reload.category_id).to eq(category.id)
       end
 
       it 'ignores a cross-account author while updating other attributes' do
